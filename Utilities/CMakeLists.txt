@@ -10,3 +10,6 @@ IF(CMAKE_SYSTEM MATCHES "IRIX.*")
 ELSE(CMAKE_SYSTEM MATCHES "IRIX.*")
   MARK_AS_ADVANCED(ITK_USE_SYSTEM_STDLIB)
 ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
+
+# Install the UseITK.cmake file configured from the top-level.
+INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")

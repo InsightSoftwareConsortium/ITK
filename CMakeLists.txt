@@ -44,9 +44,6 @@ IF (BUILD_TESTING)
 FIND_PATH (ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 ENDIF (BUILD_TESTING)
 
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
-               ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY)
-
 # Build the Auxiliary subdirectory. It has its own 
 # checking for dependencies on third party libraries
 SUBDIRS(Auxiliary)
@@ -132,9 +129,94 @@ ENDIF(USE_VTK)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
 IF(USE_FLTK)
   INCLUDE (${CMAKE_ROOT}/Modules/FindFLTK.cmake)
+  INCLUDE (${CMAKE_ROOT}/Modules/FindGLU.cmake)
   IF(FLTK_VERSION_1.0.11)
     MESSAGE(SEND_ERROR "FLTK Version 1.0.11 is no longer supported in ITK. Please upgrade to FLTK version 1.1")
   ENDIF(FLTK_VERSION_1.0.11)
 ENDIF(USE_FLTK)
 
 INSTALL_FILES(/include/InsightToolkit ".h" "itkConfigure")
+
+#-----------------------------------------------------------------------------
+# Some common settings for UseITK.cmake file configuration.
+
+# The preprocessor definitions.
+IF(CMAKE_USE_PTHREADS)
+  SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-D_PTHREADS")
+ENDIF(CMAKE_USE_PTHREADS)
+IF(WIN32)
+  SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-DNOMINMAX")
+ENDIF(WIN32)
+IF(NOT ITK_USE_SYSTEM_STDLIB)
+  IF(CMAKE_COMPILER_IS_GNUCXX)
+    SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-D__STL_USE_NEW_IOSTREAMS")
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
+
+# Utility libraries.
+SET(ITK_zlib_LIB "itkzlib")
+SET(ITK_png_LIB "itkpng")
+IF(NOT ITK_USE_SYSTEM_STDLIB)
+  SET(ITK_stdlib_LIB "Cio")
+ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
+
+#-----------------------------------------------------------------------------
+# Configure UseITK.cmake for the build tree.
+
+# The include directories.
+SET(ITK_INCLUDE_DIRS
+  "${ITK_BINARY_DIR}"
+  "${ITK_BINARY_DIR}/Code/Numerics/vxl"
+  "${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl"
+  "${ITK_SOURCE_DIR}/Code/Algorithms"
+  "${ITK_SOURCE_DIR}/Code/BasicFilters"
+  "${ITK_SOURCE_DIR}/Code/Common"
+  "${ITK_SOURCE_DIR}/Code/IO"
+  "${ITK_SOURCE_DIR}/Code/Numerics/FEM"
+  "${ITK_SOURCE_DIR}/Code/Numerics"
+  "${ITK_SOURCE_DIR}/Code/Numerics/Statistics"
+  "${ITK_SOURCE_DIR}/Code/Numerics/vxl"
+  "${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl"
+  "${ITK_SOURCE_DIR}/Code/SpatialObject"
+  "${ITK_SOURCE_DIR}/Utilities/MetaIO"
+  "${ITK_SOURCE_DIR}/Utilities/png"
+  "${ITK_SOURCE_DIR}/Utilities/zlib"
+)
+IF(NOT ITK_USE_SYSTEM_STDLIB)
+  SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_SOURCE_DIR}/Utilities/stdlib")
+ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
+
+# Configure the UseITK.cmake file.
+SET(ITK_LIBRARY_DIRS "${ITK_LIBRARY_PATH}")
+CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
+               "${ITK_BINARY_DIR}/ITKConfig.cmake" IMMEDIATE @ONLY)
+
+#-----------------------------------------------------------------------------
+# Configure UseITK.cmake for the install tree.
+
+SET(ITK_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/InsightToolkit")
+SET(ITK_INCLUDE_DIRS
+  "${ITK_INSTALL_INCLUDE_DIR}"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl"
+  "${ITK_INSTALL_INCLUDE_DIR}/Algorithms"
+  "${ITK_INSTALL_INCLUDE_DIR}/BasicFilters"
+  "${ITK_INSTALL_INCLUDE_DIR}/Common"
+  "${ITK_INSTALL_INCLUDE_DIR}/IO"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/FEM"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/Statistics"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl"
+  "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl"
+  "${ITK_INSTALL_INCLUDE_DIR}/SpatialObject"
+  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO"
+  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/png"
+  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/zlib"
+)
+IF(NOT ITK_USE_SYSTEM_STDLIB)
+  SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_INSTALL_INCLUDE_DIR}/Utilities/stdlib")
+ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
+
+SET(ITK_LIBRARY_DIRS "${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit")
+CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
+               "${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake" IMMEDIATE @ONLY)
