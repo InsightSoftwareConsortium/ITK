@@ -31,6 +31,10 @@
 #elif defined(VCL_WIN32)
 # include "win32/vcl_complex_fwd.h"
 
+// ---------- Borland compiler for Win32
+#elif defined(VCL_BORLAND)
+# include "borland/vcl_complex_fwd.h"
+
 // ---------- SunPro compiler
 #elif defined(VCL_SUNPRO_CC)
 # include "sunpro/vcl_complex_fwd.h"

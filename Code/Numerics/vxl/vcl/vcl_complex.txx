@@ -18,6 +18,8 @@
 # include "sgi/vcl_complex.txx"
 #elif defined(VCL_WIN32)
 # include "win32/vcl_complex.txx"
+#elif defined(VCL_BORLAND)
+# include "borland/vcl_complex.txx"
 #else
 # include "iso/vcl_complex.txx"
 #endif
