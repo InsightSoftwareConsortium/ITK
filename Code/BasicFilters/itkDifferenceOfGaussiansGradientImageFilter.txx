@@ -78,13 +78,13 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
     // is the current index an acceptable distance from the edges
     // of the image?
-    bool isValidGrad = TRUE;
+    bool isValidGrad = true;
 
     for (int i = 0; i < NDimensions; ++i)
       {
       if( !( (outputIndex[i] < (size.m_Size[i] - m_Width) ) &&
         (outputIndex[i] >= m_Width) ) )
-        isValidGrad = FALSE;
+        isValidGrad = false;
       }
 
     if (isValidGrad)

@@ -69,7 +69,7 @@ BloxCoreAtomAnalyzer<NDimensions>
   if( bloxPixel->empty() )
   {
     std::cout << "No core atoms in blox\n";
-    return FALSE;
+    return false;
   }
 
   // The iterator for accessing linked list info
@@ -142,7 +142,7 @@ BloxCoreAtomAnalyzer<NDimensions>
     }
 
   delete pEigenSys;
-  return TRUE;
+  return true;
 }
 
 } // end namespace itk

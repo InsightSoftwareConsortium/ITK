@@ -267,7 +267,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     dimPosition = (long int) ( (physicalCoords[ii]/mySpacing[ii]) - myOrigin[ii]);
  
     if( (dimPosition < 0) || (dimPosition>=mySize[ii]) )
-      return FALSE;
+      return false;
     else
       dataCoords.m_Index[ii] = dimPosition;
     }

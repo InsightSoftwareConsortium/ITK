@@ -74,7 +74,7 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
 
-  m_IsAtEnd = FALSE;
+  m_IsAtEnd = false;
 };
 
 template<class TImage, class TFunction>
@@ -82,8 +82,8 @@ void
 FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
 ::DoFloodStep()
 {
-  m_FoundUncheckedNeighbor = FALSE;
-  m_IsValidIndex = TRUE;
+  m_FoundUncheckedNeighbor = false;
+  m_IsValidIndex = true;
 
   do
     {
@@ -114,13 +114,13 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
     // Now look at all of this pixel's neighbors
     // For an image in n-dimensions, there are 2n neighbors
     // We're only interested in the nearest neighbors along each axis
-    m_FoundUncheckedNeighbor = FALSE;
+    m_FoundUncheckedNeighbor = false;
 
     // i loop runs through all possible dimensions
     for(int i=0; i<NDimensions; i++)
       {
       IndexType tempIndex;
-      m_IsValidIndex = TRUE;
+      m_IsValidIndex = true;
 
       // The j loop establishes either left or right neighbor (+-1)
       for(int j=-1; j<=1; j+=2)
@@ -135,21 +135,21 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
             tempIndex.m_Index[k] = m_IndexStack.top().m_Index[k] + j;
             if( (tempIndex.m_Index[k] < 0) || (tempIndex.m_Index[k] >= m_ImageSize[k]) )
               {
-              m_IsValidIndex = FALSE;
+              m_IsValidIndex = false;
               continue;
               }
             }
           } // end build the index of a neighbor
 
         // If this isn't a valid index, loop to the next one
-        if(m_IsValidIndex==FALSE)
+        if(m_IsValidIndex==false)
           continue;
 
         // Now check the neighbor and see if it hasn't been examined yet
         if(tempPtr->GetPixel(tempIndex)==0) // if pixel hasn't been checked
           {
           // push it onto the stack, this is the next pixel we'll look at
-          m_FoundUncheckedNeighbor=TRUE;
+          m_FoundUncheckedNeighbor=true;
           m_IndexStack.push(tempIndex);
           continue;
           }
@@ -157,14 +157,14 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
         } // end left/right neighbor loop
 
       // If we've found an unchecked neighbor, force its evaluation
-      if(m_FoundUncheckedNeighbor==TRUE)
+      if(m_FoundUncheckedNeighbor==true)
         continue;
       
     } // end check all neighbors
 
     // If we made it this far - i.e. checked all neighbors - and none of them
     // were unexamined, it's time to go back to the pixel we were at before
-    if(m_FoundUncheckedNeighbor==FALSE)
+    if(m_FoundUncheckedNeighbor==false)
       {
       // Mark the pixel as finished
       if( tempPtr->GetPixel( m_IndexStack.top() )==2 )
@@ -177,7 +177,7 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
     } while(!(m_IndexStack.empty())); // loop while there are pixels left on the stack
 
   // if we made it this far, the stack is now empy
-  m_IsAtEnd = TRUE;
+  m_IsAtEnd = true;
 }
 
 template<class TImage, class TFunction>
