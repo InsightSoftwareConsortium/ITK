@@ -333,7 +333,6 @@ void
 itkObjectFactoryBase
 ::UnRegisterAllFactories()
 {
-  itkObjectFactoryBase* factory = 0; 
   for ( std::list<itkObjectFactoryBase*>::iterator i 
         = m_RegisteredFactories->begin();
       i != m_RegisteredFactories->end(); ++i )
