@@ -45,6 +45,7 @@ void RegisterTests()
   REGISTER_TEST(itkBilateralImageFilterTest2 );
   REGISTER_TEST(itkBilateralImageFilterTest3 );
   REGISTER_TEST(itkBinaryDilateImageFilterTest );
+  REGISTER_TEST(itkBinaryDilateImageFilterTest2 );
   REGISTER_TEST(itkBinaryErodeImageFilterTest );
   REGISTER_TEST(itkBinaryMagnitudeImageFilterTest );
   REGISTER_TEST(itkBinaryMaskToNarrowBandPointSetFilterTest);

@@ -28,6 +28,7 @@ ADD_TEST(itkBSplineResampleImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineRe
 ADD_TEST(itkBasicArchitectureTest ${BASIC_FILTERS_TESTS} itkBasicArchitectureTest)
 ADD_TEST(itkBilateralImageFilterTest ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest)
 ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest)
+ADD_TEST(itkBinaryDilateImageFilterTest2 ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest2)
 ADD_TEST(itkBinaryErodeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryErodeImageFilterTest)
 ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
 ADD_TEST(itkBinaryMaskToNarrowBandPointSetFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMaskToNarrowBandPointSetFilterTest)
@@ -406,6 +407,7 @@ itkBilateralImageFilterTest.cxx
 itkBilateralImageFilterTest2.cxx
 itkBilateralImageFilterTest3.cxx
 itkBinaryDilateImageFilterTest.cxx
+itkBinaryDilateImageFilterTest2.cxx
 itkBinaryErodeImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
 itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
