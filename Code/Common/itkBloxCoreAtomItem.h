@@ -112,10 +112,26 @@ public:
     return m_CenterPosition; }
 
   /**
-   * Calculate the position of the center of the core atome in physical
+   * Set the diameter
+   */
+  void SetDiameter(double diameter){
+    m_Diameter = diameter; }
+
+  /**
+   * Get the diameter
+   */
+  double GetDiameter(){
+    return m_Diameter; }
+
+  /**
+   * Calculate the position of the center of the core atom in physical
    * space (assumes that the two boundary points are initialized)
+   * Also calculates the core atom's diameter
+   * This function is not often used because center and diameter
+   * are usually initialized via set() functions when the core atom
+   * is created elsewhere
    * */
-  void CalcCenterPosition();
+  void CalcCenterAndDiameter();
   
   BloxCoreAtomItem();
   ~BloxCoreAtomItem();
@@ -126,6 +142,12 @@ private:
    * The position of the center of the core atom
    */
   TPositionType m_CenterPosition;
+
+  /**
+   * The diameter of the core atom
+   * This is the magnitude of the vector from boundary points A->B
+   */
+  double m_Diameter;
 
   /**
    * The first boundary point that's part of the core atom

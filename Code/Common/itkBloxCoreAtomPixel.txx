@@ -52,6 +52,8 @@ BloxCoreAtomPixel<NDimensions>
 {
   m_Eigenvalues.fill(0.0);
   m_Eigenvectors.fill(0.0);
+  
+  m_MeanCoreAtomDiameter = 0;
 }
 
 template <unsigned int NDimensions>
@@ -59,6 +61,42 @@ BloxCoreAtomPixel<NDimensions>
 ::~BloxCoreAtomPixel()
 {
   // The default destructor walks the pixel and deletes all bloxitems
+}
+
+template <unsigned int NDimensions>
+double 
+BloxCoreAtomPixel<NDimensions>
+::CalcMeanCoreAtomDiameter()
+{
+  // Returns a mean of 0 if there are no core atoms present
+  if( this->empty() )
+  {
+    return 0;
+  }
+
+  unsigned long int numCoreAtoms = 0;
+  m_MeanCoreAtomDiameter = 0;
+
+  // The iterator for accessing linked list info
+  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+  
+    // Walk through all of the items at the pixel
+  for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+    {
+    // Get the pointer of the core atom
+    TCoreAtomItemType* pCoreAtom = *bpiterator;
+
+    m_MeanCoreAtomDiameter += pCoreAtom->GetDiameter();
+    
+    numCoreAtoms++;
+    }
+
+  if(numCoreAtoms>0) // Check for /0 to be safe
+    m_MeanCoreAtomDiameter /= numCoreAtoms;
+  else
+    m_MeanCoreAtomDiameter = 0;
+
+  return m_MeanCoreAtomDiameter;
 }
 
 template <unsigned int NDimensions>
@@ -87,7 +125,7 @@ BloxCoreAtomPixel<NDimensions>
   // Walk through all of the items at the pixel
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
     {
-    // Get the pointer of the blox
+    // Get the pointer of the core atom
     TCoreAtomItemType* pCoreAtom = *bpiterator;
 
     // Get the boundary points
@@ -138,7 +176,6 @@ BloxCoreAtomPixel<NDimensions>
   
   // First the eigenvectors
   m_Eigenvectors = pEigenSys->V;
-
 
   // Now the eigenvalues (stored as a vector to save space)
   for(int i = 0; i < NDimensions; i++)

@@ -92,10 +92,43 @@ public:
    * */
   typedef vnl_vector_fixed<double, NDimensions> TVectorType;
 
+  /*
+   * Vector type used to store eigenvalues
+   * */
+  typedef vnl_vector_fixed<double, NDimensions> TEigenvalueType;
+
+  /*
+   * Matrix type used to store eigenvectors
+   * */
+  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> TEigenvectorType;
+
+  /**
+   * Calculate and store the mean of core atom diameters
+   * */
+  double CalcMeanCoreAtomDiameter();
+
   /**
    * Perform eigenanalysis on the population of core atoms stored in this pixel
-   */
+   * */
   bool DoCoreAtomEigenanalysis();
+
+  /**
+   * Get the mean core atom diameter
+   */
+  double GetMeanCoreAtomDiameter() {
+    return m_MeanCoreAtomDiameter; }
+
+  /**
+   * Get eigenvalues
+   */
+  TEigenvalueType GetEigenvalues() {
+    return m_Eigenvalues; }
+
+  /**
+   * Get eigenvectors
+   */
+  TEigenvectorType GetEigenvectors() {
+    return m_Eigenvectors; }
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
@@ -107,13 +140,18 @@ private:
    * These are stored in increasing order of value (not absolute value) from
    * indices 0 to n, where n is the number of dimensions in the source image
    */
-  vnl_vector_fixed<double, NDimensions> m_Eigenvalues;
+  TEigenvalueType m_Eigenvalues;
 
   /*
    * The eigenvectors of the core atom population in this pixel
    * Each eigenvector is a row? of this matrix
    */
-  vnl_matrix_fixed<double, NDimensions, NDimensions> m_Eigenvectors;
+  TEigenvectorType m_Eigenvectors;
+
+  /*
+   * Average (arithmetic mean) of core atom diameters stored in this pixel
+   */
+  double m_MeanCoreAtomDiameter;
 };
 
 

@@ -96,7 +96,8 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 
 template <class T, unsigned int VImageDimension>
 
-void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SetOrientations(vnl_matrix<VectorType> orientations)
+void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::SetOrientations(vnl_matrix<VectorType> orientations)
 {
   // Initialize orientation vectors.
   m_orientations = new VectorType * [VImageDimension];

@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include "itkImageRegionIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
+#include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
 namespace itk
@@ -98,6 +99,16 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
       }
 
     }
+
+  // Compute mean core atom diameter
+  itk::ImageRegionIterator<Self> bloxit = 
+    itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+
+  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+    {
+      ( &bloxit.Value() )->CalcMeanCoreAtomDiameter();
+    }
+
  
   std::cout << "Finished looking for core atoms\n";
   std::cout << "I found " << m_NumCoreAtoms << " core atoms\n";
@@ -214,13 +225,17 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           // Figure out the center of the core atom
           TPositionType coreAtomCenter = P1 + (P2 - P1) / 2;
 
+          // Figure out the diameter of the core atom
+          double coreAtomDiameter = (P2-P1).GetNorm();
+
           // Create a new core atom
           BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;
           
-          // Set its boundary points and center
+          // Set its boundary points, center, and diameter
           pCoreAtom->SetBoundaryPointA(pBPOne);
           pCoreAtom->SetBoundaryPointB(pBPTwo);
           pCoreAtom->SetCenterPosition(coreAtomCenter);
+          pCoreAtom->SetDiameter(coreAtomDiameter);
 
           // Figure out the data space coordinates of the center
           IndexType coreAtomPos;
@@ -291,12 +306,60 @@ void
 BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
 DoCoreAtomVoting()
 {
-  itk::ImageRegionIterator<Self> bloxit = 
-    itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+  // Iterator to access all pixels in the image
+  ImageRegionIterator<Self> bloxit = 
+    ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+
+  // Pointer for accessing pixels
+  BloxCoreAtomPixel<NDimensions>* pPixel = 0;
+
+  // Results of eigenanalysis from each pixel
+  BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::TEigenvectorType eigenvectors;
 
   for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
     {
-	// Core atom voting code goes here
+    // Get a pointer to the pixel
+    pPixel = &bloxit.Value();
+
+    // Get eigenanalysis results
+    eigenvalues = pPixel->GetEigenvalues();
+    eigenvectors = pPixel->GetEigenvectors();
+
+    // Ellipsoid axis length array
+    Point<double, NDimensions> axisLengthArray;
+
+    // Compute first length
+    axisLengthArray[0] = 0.5 * pPixel->GetMeanCoreAtomDiameter();
+
+    printf("Mean core atom diameter is %f\n", pPixel->GetMeanCoreAtomDiameter() );
+
+    // Precompute alphaOne
+    double alphaOne = 1 - eigenvalues[0];
+
+    // Watch out for /0 problems
+    if(alphaOne==0)
+      alphaOne = 0.001;
+
+    // Now compute the rest of the lengths
+    for(int i = 1; i < NDimensions; i++)
+      {
+      axisLengthArray[i] = ( (1 - eigenvalues[i]) / alphaOne) * axisLengthArray[0];
+      }
+
+    // Dump the axis length vector
+    for(int i = 0; i < NDimensions; i++)
+      {
+      printf("Axis length %i is %f\n", i, axisLengthArray[i]);
+      }
+
+    // Build the ellipsoid voting region
+    typedef EllipsoidInteriorExteriorSpatialFunction<double, NDimensions> TVoteFunctionType;
+
+    TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
+
+    ellipsoid->SetOrientations(eigenvectors);
+    ellipsoid->SetAxes(axisLengthArray);
     }
 }
 

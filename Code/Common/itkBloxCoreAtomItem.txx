@@ -63,13 +63,17 @@ BloxCoreAtomItem<VImageDimension>
 template <unsigned int VImageDimension>
 void
 BloxCoreAtomItem<VImageDimension>
-::CalcCenterPosition()
+::CalcCenterAndDiameter()
 {
+  // Get boundary points
   TPositionType P1 = m_BoundaryPointA->GetPosition();
-
   TPositionType P2 = m_BoundaryPointB->GetPosition();
 
+  // Calculate the center of the core atom  
   m_CenterPosition = P1 + (P2 - P1) / 2;
+
+ // Calculate the diameter of the core atom
+  m_Diameter = (P1-P2).GetNorm();
   
 }
 
