@@ -53,7 +53,6 @@ ImageToCooccurrenceListAdaptor< TImage >
   FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList;
   typename FaceCalculatorType::FaceListType::iterator fit;
-  ShapedNeighborhoodIteratorType it;
 
   typedef typename ShapedNeighborhoodIteratorType::ConstIterator ShapeNeighborhoodIterator;    
 
@@ -73,7 +72,7 @@ ImageToCooccurrenceListAdaptor< TImage >
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit) 
     {
 
-    it = ShapedNeighborhoodIteratorType( radius, this->GetImage(), *fit );
+    ShapedNeighborhoodIteratorType it(radius, this->GetImage(), *fit );
     it.OverrideBoundaryCondition(&boundaryCondition);
 
     OffsetIterator iter = m_OffsetTable.begin();
