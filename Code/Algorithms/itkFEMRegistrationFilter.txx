@@ -60,13 +60,14 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
   m_MinE=0;
   m_MinE=vnl_huge_val(m_MinE);  
 
+  m_CurrentLevel=0;
   m_DescentDirection=positive;
   m_E.resize(1);
   m_Gamma.resize(1);
+  m_Gamma[m_CurrentLevel]=1;
   m_Rho.resize(1);
   m_E[0]=1.; 
   m_Rho[0]=1.;
-  m_CurrentLevel=0;
   m_Maxiters.resize(1);
   m_Maxiters[m_CurrentLevel]=1;  
   m_dT=1;
