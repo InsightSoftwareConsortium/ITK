@@ -22,6 +22,8 @@ vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
   trace = false;
   verbose_ = false;
 
+  failure_code_ = ERROR_FAILURE;
+  
   reset();
 }
 
