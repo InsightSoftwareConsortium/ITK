@@ -43,6 +43,11 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
   // Compute moments and initialize center of rotaion and translation
   this->Superclass::InitializeTransform();
 
+  typedef typename FixedImageCalculatorType::MatrixType   FixedMatrixType;
+  typedef typename MovingImageCalculatorType::MatrixType  MovingMatrixType;
+  
+  FixedMatrixType   fixedInertia  = this->GetFixedCalculator()->GetSecondMoments(); 
+  MovingMatrixType  movingInertia = this->GetMovingCalculator()->GetSecondMoments(); 
   
 }
   
