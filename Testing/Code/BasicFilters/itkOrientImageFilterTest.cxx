@@ -83,13 +83,13 @@ int itkOrientImageFilterTest(int,char *[])
   ImageType::IndexType originalIndex, transformedIndex;
 
   for(originalIndex[2] = transformedIndex[2] = 0;
-      originalIndex[2] < originalSize[2]; originalIndex[2]++,transformedIndex[2]++)
+      originalIndex[2] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[2]); originalIndex[2]++,transformedIndex[2]++)
     {
     for(originalIndex[1] = transformedIndex[0] = 0; 
-        originalIndex[1] < originalSize[1]; originalIndex[1]++,transformedIndex[0]++)
+        originalIndex[1] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[1]); originalIndex[1]++,transformedIndex[0]++)
       {
       for(originalIndex[0] = transformedIndex[1] = 0; 
-          originalIndex[0] < originalSize[0]; originalIndex[0]++,transformedIndex[1]++)
+          originalIndex[0] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[0]); originalIndex[0]++,transformedIndex[1]++)
         {
         ImageType::PixelType orig = randimage->GetPixel(originalIndex);
         ImageType::PixelType xfrm = IRP->GetPixel(transformedIndex);
@@ -112,14 +112,14 @@ int itkOrientImageFilterTest(int,char *[])
   transformedSize = LIP->GetLargestPossibleRegion().GetSize();
   
   for(originalIndex[2] = transformedIndex[2] = 0; 
-      originalIndex[2] < originalSize[2]; originalIndex[2]++,transformedIndex[2]++)
+      originalIndex[2] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[2]); originalIndex[2]++,transformedIndex[2]++)
     {
     for(originalIndex[1] = transformedIndex[1] = 0; 
-        originalIndex[1] < originalSize[1]; originalIndex[1]++,transformedIndex[1]++)
+        originalIndex[1] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[1]); originalIndex[1]++,transformedIndex[1]++)
       {
       for(originalIndex[0] = 0, 
             transformedIndex[0] = transformedSize[0] - 1; 
-          originalIndex[0] < originalSize[0]; originalIndex[0]++,transformedIndex[0]--)
+          originalIndex[0] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[0]); originalIndex[0]++,transformedIndex[0]--)
         {
         ImageType::PixelType orig = randimage->GetPixel(originalIndex);
         ImageType::PixelType xfrm = LIP->GetPixel(transformedIndex);
