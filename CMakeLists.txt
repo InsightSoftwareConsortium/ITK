@@ -48,6 +48,7 @@ OPTION(ITK_WRAP_TCL "Build Tcl wrapper support (requires CABLE/GCC-XML)." OFF)
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
 OPTION(ITK_USE_SYSTEM_STDLIB
        "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
+SET(ITK_USE_SYSTEM_STDLIB ON)
 SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
 
 # Provide options to use system versions of third-party libraries.
@@ -107,8 +108,10 @@ IF("x${CMAKE_TEMPLATE_FLAGS}" MATCHES "^x.*[^ ]")
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${CMAKE_TEMPLATE_FLAGS}")
 ENDIF("x${CMAKE_TEMPLATE_FLAGS}" MATCHES "^x.*[^ ]")
 
-IF(CMAKE_USE_PTHREADS)
-  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
+IF(CMAKE_USE_PTHREADS) 
+  IF(CMAKE_SYSTEM MATCHES "SunOS.*")
+    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
+  ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
 ENDIF(CMAKE_USE_PTHREADS)
 IF(WIN32)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -DNOMINMAX")
