@@ -35,6 +35,7 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
   m_Upper = NumericTraits<InputImagePixelType>::max();
   m_Seed = IndexType::ZeroIndex;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_Radius.Fill(1);
 }
 
 /**
@@ -49,6 +50,7 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "Upper: " << m_Upper << std::endl;
   os << indent << "Lower: " << m_Lower << std::endl;
   os << indent << "ReplaceValue: " << m_ReplaceValue << std::endl;
+  os << indent << "Radius: " << m_Radius << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>

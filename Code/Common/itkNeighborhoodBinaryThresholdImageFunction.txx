@@ -43,6 +43,8 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
+
+  os << indent << "Radius: " << m_Radius << std::endl;
 }
 
 
