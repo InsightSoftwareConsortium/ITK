@@ -114,8 +114,6 @@ int main()
   testPosition[1] = center[1];
   testPosition[2] = center[2];
   functionValue = spatialFunc->Evaluate(testPosition);
-  std::cerr << "funVal = " << functionValue << std::endl;
-
   
   // Volume of ellipsoid using V=(4/3)*pi*a*b*c
   double volume = 4.18879013333*(axes[0]/2)*(axes[1]/2)*(axes[2]/2);  
