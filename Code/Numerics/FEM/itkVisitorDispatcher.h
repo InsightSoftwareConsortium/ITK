@@ -26,6 +26,14 @@
 namespace itk {
 namespace fem {
 
+template< class TVisitedClass,
+          class TVisitorBase>
+class VisitorDispatcherTemplateHelper
+{
+public:
+  typedef void (*FunctionPointerType )(typename TVisitedClass::ConstPointer, typename TVisitorBase::Pointer);
+};
+  
 
 
 
@@ -122,7 +130,7 @@ namespace fem {
  */
 template< class TVisitedClass,
           class TVisitorBase,
-          class TVisitFunctionPointerType=void (*)(typename TVisitedClass::ConstPointer, typename TVisitorBase::Pointer) >
+          class TVisitFunctionPointerType= ITK_TYPENAME VisitorDispatcherTemplateHelper<TVisitedClass, TVisitorBase>::FunctionPointerType >
 class VisitorDispatcher
 {
 public:
