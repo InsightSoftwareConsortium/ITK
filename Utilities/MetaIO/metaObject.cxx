@@ -455,7 +455,7 @@ Comment(const char * _comment)
 const char * MetaObject::
 ObjectTypeName(void) const
   {
-  return (char *)m_ObjectTypeName;
+  return m_ObjectTypeName;
   }
 
 void MetaObject::
