@@ -17,6 +17,13 @@
 #define _cableSourceRepresentation_h
 
 #include "cableReferenceCount.h"
+#include "cxxTypeSystem.h"
+
+/**
+ * We don't have to worry about name conflicts here, so alias the
+ * "_cxx_" namespace with "cxx".
+ */
+namespace cxx = _cxx_;
 
 #include <stdio.h>
 #include <string>
@@ -286,6 +293,11 @@ typedef NamespaceContainer::const_iterator  NamespacesIterator;
 typedef MethodContainer::const_iterator     MethodsIterator;
 typedef BaseClassContainer::const_iterator  BaseClassesIterator;
 
+/**
+ * A singe instance of the TypeSystem will be used to register all
+ * cxx type representations.
+ */
+extern cxx::TypeSystem typeSystem;
 
 /**
  * Store cv-qualifiers for a type.

@@ -23,6 +23,12 @@ namespace source
 {
 
 /**
+ * A singe instance of the TypeSystem will be used to register all
+ * cxx type representations.  This is it.
+ */
+cxx::TypeSystem typeSystem;
+
+/**
  * Convert the given string to a valid C identifier.
  */
 String GetValid_C_Identifier(const String& in_name)

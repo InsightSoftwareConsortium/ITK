@@ -4,6 +4,7 @@ ${CABLE_SOURCE_DIR}/Generators
 )
 
 LINK_LIBRARIES(
+CxxTypes
 Expat
 CableParsers
 CableGenerators
