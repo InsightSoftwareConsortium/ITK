@@ -18,6 +18,7 @@
 #define __itkColorTable_h
 
 #include <itkObject.h>
+#include <stdio.h>
 #include <itkRGBPixel.h>
 #include <itkObjectFactory.h>
 
