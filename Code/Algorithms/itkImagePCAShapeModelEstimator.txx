@@ -28,6 +28,10 @@ ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
 {
   m_EigenVectors.resize(0,0);
   m_EigenValues.resize(0);
+
+  m_NumberOfPrincipalComponentsRequired = 0;
+  this->SetNumberOfPrincipalComponentsRequired( 1 );
+
 }
 
 template<class TInputImage, class TOutputImage>
@@ -76,6 +80,12 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   itkDebugMacro(<< " ");
   itkDebugMacro(<< "+++++++++++++++++++++++++");
 
+  // Print out ivars
+  os << indent << "NumberOfPrincipalComponentsRequired: ";
+  os << m_NumberOfPrincipalComponentsRequired << std::endl;
+  os << indent << "NumberOfTrainingImages: ";
+  os << m_NumberOfTrainingImages << std::endl;
+
 
 }// end PrintSelf
 
@@ -99,7 +109,7 @@ ImagePCAShapeModelEstimator<TInputImage,TOutputImage>
   else
     {
     // pointer could not be cast to TOutputImage *
-    itkWarningMacro(<< "itk::NImageToNImageExampleFilter" <<
+    itkWarningMacro(<< "itk::ImagePCAShapeModelEstimator" <<
               "::EnlargeOutputRequestedRegion cannot cast "
               << typeid(output).name() << " to "
               << typeid(TOutputImage*).name() );
