@@ -66,7 +66,7 @@ public:
   /**
    * Function required by FEMObjectFactory to create objects.
    */
-  static Baseclass* New(void)
+  static Baseclass* NewLoadTest(void)
   { return new LoadTest; }
 
 };
@@ -76,7 +76,7 @@ public:
 // there are many templates, you may want to use just
 // "typeid(LoadTest<TClass>).name()" instead.
 template<class TClass>
-const int LoadTest<TClass>::CLID=FEMOF::Register( LoadTest::New, (std::string("LoadTest(")+typeid(TClass).name()+")").c_str() );
+const int LoadTest<TClass>::CLID=FEMOF::Register( LoadTest::NewLoadTest, (std::string("LoadTest(")+typeid(TClass).name()+")").c_str() );
 
 
 
