@@ -22,7 +22,9 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
-    ITK_WRAP_GROUP(itkRandomImageSource)
+    ITK_WRAP_GROUP(itkRandomImageSource),
+    ITK_WRAP_GROUP(itkRecursiveSeparableImageFilter),
+    ITK_WRAP_GROUP(itkRecursiveGaussianImageFilter)
   };
 }
 #endif
