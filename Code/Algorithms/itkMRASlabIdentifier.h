@@ -97,18 +97,15 @@ public:
   itkSetConstObjectMacro( Image, ImageType );
 
   /** Set the number of minimum intensity pixels per slice. */
-  void SetNumberOfMinimumsPerSlice(int no) ;
+  itkSetMacro(NumberOfMinimumsPerSlice,int);
 
   /** Get the number of minimum intensity pixels per slice. */
-  int GetNumberOfMinimumsPerSlice(void) 
-    {return m_NumberOfMinimumsPerSlice;}
+  itkGetMacro(NumberOfMinimumsPerSlice,int);
 
   /** Set/Get the direction of slicing/
    * 0 - x axis, 1 - y axis, 2 - z axis */
-  void SetSlicingDirection(int dimension)
-    { m_SlicingDirection = dimension ; }
-  int GetSlicingDirection()
-    { return m_SlicingDirection ; }
+  itkSetMacro(SlicingDirection,int);
+  itkGetMacro(SlicingDirection,int);
 
   /** Compute the average values of miminum intensity pixels for each slice and
    * compare the average values with overall averages. */
@@ -120,6 +117,7 @@ public:
 protected:
   MRASlabIdentifier() ;
   virtual ~MRASlabIdentifier() {} 
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   MRASlabIdentifier(const Self&); //purposely not implemented

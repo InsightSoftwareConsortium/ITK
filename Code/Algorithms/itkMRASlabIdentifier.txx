@@ -40,14 +40,6 @@ MRASlabIdentifier<TInputImage>
 template<class TInputImage>
 void 
 MRASlabIdentifier<TInputImage>
-::SetNumberOfMinimumsPerSlice(int no) 
-{
-  m_NumberOfMinimumsPerSlice = no ;
-}
-
-template<class TInputImage>
-void 
-MRASlabIdentifier<TInputImage>
 ::GenerateSlabRegions(void)
 {
   // this method only works with 3D MRI image
@@ -183,6 +175,18 @@ MRASlabIdentifier<TInputImage>
 ::GetSlabRegionVector(void)
 {
   return m_Slabs ;
+}
+
+template<class TInputImage>
+void
+MRASlabIdentifier<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Image: " << m_Image << std::endl;
+  os << indent << "NumberOfMinimumsPerSlice: " << m_NumberOfMinimumsPerSlice << std::endl;
+  os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
 }
 
 } // end namespace itk
