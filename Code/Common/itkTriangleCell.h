@@ -147,11 +147,18 @@ public:
   itkCellVisitMacro(TRIANGLE_CELL);
 
 protected:
+  TriangleCell() {}
+  ~TriangleCell() {}
+
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
   /** Triangle topology data. */
   static const int m_Edges[3][2];
+
+ private:
+  TriangleCell(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 

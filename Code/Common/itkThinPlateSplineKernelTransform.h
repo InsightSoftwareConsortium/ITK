@@ -99,11 +99,8 @@ public:
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
     
 protected:
-  /** Default constructor */
-  ThinPlateSplineKernelTransform();
-  
-  /** Destructor */
-  virtual ~ThinPlateSplineKernelTransform();
+  ThinPlateSplineKernelTransform() {}
+  virtual ~ThinPlateSplineKernelTransform() {}
   
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited. */
