@@ -77,6 +77,7 @@ ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToV
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
 ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterTest)
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleImageFilterTest)
+ADD_TEST(itkShiftScaleInPlaceImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleInPlaceImageFilterTest)
 ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS} itkShrinkImageTest)
 ADD_TEST(itkStatisticsImageFilterTest ${BASIC_FILTERS_TESTS} itkStatisticsImageFilterTest)
 ADD_TEST(itkConstantPadImageTest ${BASIC_FILTERS_TESTS} itkConstantPadImageTest)
@@ -257,6 +258,7 @@ itkRGBToVectorAdaptImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSigmoidImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
+itkShiftScaleInPlaceImageFilterTest.cxx
 itkShrinkImageTest.cxx
 itkSparseFieldLayerTest.cxx
 itkStatisticsImageFilterTest.cxx
