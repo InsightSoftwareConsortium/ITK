@@ -160,16 +160,48 @@ class ITK_EXPORT RelabelWatershedImageFilter;
  * \brief Produces a segmented, labeled image from a scalar-valued image
  * input.  The input is assumed to represent a height function.
  *
- * Two parameters control the output of the filter, Threshold and Level.
- * The units of both parameters are percentage points of the maximum height
- * value in the input.  Threshold is used to set the absolute minimum height
- * value used during processing. Raising this threshold percentage effectively
- * decreases the  number of local minima in the input. Level controls the depth
- * of flooding of the image.  Raising the Level influences the number of segments
- * in the basic segmentation that merge to produce the final output.  A level
- * of 1.0 is analogous to flooding the image up to a depth that is 100 percent
- * of the maximum value in the image.  A level of 0.0 produces the basic
- * segmentation. 
+ * Watershed segmentation gets its name from the manner in which the algorithm
+ * segments regions into catchment basins. If a function \f$ f \f$ is a continuous
+ * height function defined over an image domain, then a catchment basin is
+ * defined as the set of points whose paths of steepest descent terminate at
+ * the same local minimum of \f$ f \f$.
+ *
+ * The choice of height function depends on the application and the basic
+ * watershed algorithm is independent of the choice of height function. For
+ * intensity-based image data, you might typically use some sort of gradient
+ * magnitude calculation for the input to the algorithm
+ *
+ * The watershed algorithm proceeds in several steps. An initial classification
+ * of all points into catchment basin regions is first done by tracing points
+ * down to their local minimum, following the path of steepest descent. Next,
+ * an analysis of neighboring basins and the height of their common boundary
+ * points produces a tree of merges between those basins that occur at
+ * different flood level thresholds (henceforth referred to as the merge
+ * tree). Flood level is a value that reflects the amount of metaphorical
+ * precipitation that is rained into the catchment basins. It's minimum value
+ * is zero and its maximum value is the difference between the highest and
+ * lowest values in the input image (height function).
+ *
+ * Note that once the initial analysis and segmentation is done, it is fairly
+ * trivial to produce a labeled image that corresponds to any level in the
+ * merge tree. All you have to do is relabel the initial segmentation according
+ * to all the merges that have taken place. This filter, WatershedImageFilter,
+ * creates the initial segmentation and the merge tree.  It can be set to
+ * output a labeled image at a particular flood level threshold, and/or its
+ * output can be coupled to the input of RelabelWatershedImageFilter, which
+ * produces a labeled image at any flood level threshold simply by relabeling
+ * the initial segmentation.
+ *
+ * Two parameters control the output of this filter, Threshold and Level.  The
+ * units of both parameters are percentage points of the maximum height value
+ * in the input.  Threshold is used to set the absolute minimum height value
+ * used during processing. Raising this threshold percentage effectively
+ * decreases the number of local minima in the input. Level controls the depth
+ * of flooding of the image.  Raising the Level influences the number of
+ * segments in the basic segmentation that merge to produce the final output.
+ * A level of 1.0 is analogous to flooding the image up to a depth that is 100
+ * percent of the maximum value in the image.  A level of 0.0 produces the
+ * basic segmentation.
  *
  * \sa RelabelWatershedImageFilter
  */
