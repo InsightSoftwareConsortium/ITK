@@ -104,8 +104,7 @@ public:
         return;
         }
       std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      std::cout << optimizer->GetValue()  << std::endl;
     }
 };
 
@@ -260,6 +259,8 @@ int main( int argc, char *argv[] )
   ParametersType parameters( numberOfParameters );
 
   parameters.Fill( 0.0 );
+
+  transform->SetParameters( parameters );
   //  Software Guide : EndCodeSnippet
 
 
@@ -278,15 +279,18 @@ int main( int argc, char *argv[] )
   std::cout << "Intial Parameters = " << std::endl;
   std::cout << transform->GetParameters() << std::endl;
 
+  transform->Print( std::cout );
+
+
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales( numberOfParameters );
   
   optimizerScales.Fill( 1.0 ); // All parameters have the same dynamic range.
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 1.000  ); 
-  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetMaximumStepLength( 10.00  ); 
+  optimizer->SetMinimumStepLength(  0.01 );
 
   optimizer->SetNumberOfIterations( 200 );
 
@@ -312,6 +316,9 @@ int main( int argc, char *argv[] )
   OptimizerType::ParametersType finalParameters = 
                     registration->GetLastTransformParameters();
 
+  std::cout << "Last Transform Parameters" << std::endl;
+  std::cout << finalParameters << std::endl;
+
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -323,7 +330,6 @@ int main( int argc, char *argv[] )
   std::cout << "Result = " << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
 
   //  Software Guide : BeginLatex
   //  
@@ -347,13 +353,9 @@ int main( int argc, char *argv[] )
                             MovingImageType, 
                             FixedImageType >    ResampleFilterType;
 
-  TransformType::Pointer finalTransform = TransformType::New();
-
-  finalTransform->SetParameters( finalParameters );
-
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
+  resample->SetTransform( transform );
   resample->SetInput( movingImageReader->GetOutput() );
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -381,7 +383,19 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  writer->Update();
+
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & err ) 
+    { 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
+    return -1;
+    } 
+ 
 
 
   typedef itk::SquaredDifferenceImageFilter< 
@@ -402,7 +416,16 @@ int main( int argc, char *argv[] )
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
     writer2->SetFileName( argv[4] );
-    writer2->Update();
+    try
+      {
+      writer2->Update();
+      }
+    catch( itk::ExceptionObject & err ) 
+      { 
+      std::cerr << "ExceptionObject caught !" << std::endl; 
+      std::cerr << err << std::endl; 
+      return -1;
+      } 
     }
 
 
@@ -413,7 +436,16 @@ int main( int argc, char *argv[] )
     writer2->SetFileName( argv[5] );
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( movingImageReader->GetOutput() );
-    writer2->Update();
+    try
+      {
+      writer2->Update();
+      }
+    catch( itk::ExceptionObject & err ) 
+      { 
+      std::cerr << "ExceptionObject caught !" << std::endl; 
+      std::cerr << err << std::endl; 
+      return -1;
+      } 
     }
 
 
