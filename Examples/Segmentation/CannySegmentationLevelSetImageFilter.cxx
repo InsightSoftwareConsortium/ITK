@@ -199,7 +199,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  cannySegmentation->SetMaximumRMSError( 0.002 );
+  cannySegmentation->SetMaximumRMSError( 0.01 );
   cannySegmentation->SetMaximumIterations( ::atoi(argv[8]) );
   // Software Guide : EndCodeSnippet
   

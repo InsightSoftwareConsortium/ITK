@@ -9,6 +9,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(CannySegmentationLevelSetImageFilterTest);
 REGISTER_TEST(ConfidenceConnectedTest);
 REGISTER_TEST(ConnectedThresholdImageFilterTest);
 REGISTER_TEST(FastMarchingImageFilterTest);
@@ -20,6 +21,10 @@ REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
 REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
 REGISTER_TEST(WatershedSegmentation1Test);
 }
+
+#undef main
+#define main CannySegmentationLevelSetImageFilterTest
+#include "CannySegmentationLevelSetImageFilter.cxx"
 
 #undef main
 #define main ConfidenceConnectedTest

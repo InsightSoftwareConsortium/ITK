@@ -52,6 +52,16 @@ SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
+            ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
+  CannySegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
+        ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
+        7 0.1 10.0 127.5 10000
+)
+
 ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
             ${TEMP}/ConfidenceConnectedWhiteTest.png
