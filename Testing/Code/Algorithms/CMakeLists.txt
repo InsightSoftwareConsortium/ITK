@@ -18,6 +18,7 @@ itkCurvatureFlowTest
 itkExtractMeshConnectedRegionsTest
 itkFastMarchingTest
 itkGeodesicActiveContoursTest
+itkGradientAnisotropicDiffusionImageFilterTest
 itkHeaderTest
 itkImageMomentsTest
 itkInterpolateTest
