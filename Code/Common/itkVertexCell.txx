@@ -222,6 +222,62 @@ VertexCell< TCellInterface >
   return m_PointIds[0];
 }
 
+/** Evaluate the position of a given point */
+template <typename TCellInterface>
+bool
+VertexCell< TCellInterface >
+::EvaluatePosition(CoordRepType x[PointDimension],
+                                PointsContainer* points,
+                                CoordRepType closestPoint[PointDimension],
+                                CoordRepType pcoord[2],
+                                double* minDist2,
+                                InterpolationWeightType* weights)
+{
+  PointType X = points->GetElement(0);
+
+  if (closestPoint)
+    {
+    for(unsigned int i =0;i<PointDimension;i++)
+      {
+      closestPoint[i] = X[i];
+      }
+    }
+
+  double dist2 = 0;
+    {
+    for(unsigned int i=0;i<PointDimension;i++)
+      {
+      dist2 += (X[i]-x[i])*(X[i]*x[i]);
+      }
+    }
+  
+ if(minDist2)
+   {
+   *minDist2 = dist2;
+   }
+
+  if(weights)
+    {
+    weights[0] = 1.0;
+    }
+
+  if (dist2 == 0.0)
+    {
+    if(pcoord)
+      {
+      pcoord[0] = 0.0;
+      }
+    return true;
+    }
+  else
+    {
+    if(pcoord)
+      {
+      pcoord[0] = -10.0;
+      }
+    return 0;
+    }
+}
 
 } // end namespace itk
 

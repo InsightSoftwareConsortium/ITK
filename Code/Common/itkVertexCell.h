@@ -76,6 +76,13 @@ public:
   /** Cell visitor interface */
   itkCellVisitMacro(VERTEX_CELL);
 
+  /** Evaluate the position of a given point */
+  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+                                PointsContainer* ,
+                                CoordRepType [PointDimension],
+                                CoordRepType [],
+                                double *,
+                                InterpolationWeightType*);
 public:
   VertexCell() {}
   ~VertexCell() {}
