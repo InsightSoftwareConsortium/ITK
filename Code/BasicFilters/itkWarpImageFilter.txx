@@ -37,8 +37,8 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   this->SetNumberOfRequiredInputs( 2 );  
   
   // Setup default values
-  m_OutputSpacing.Fill(1.0);
-  m_OutputOrigin.Fill(0.0);
+  m_OutputSpacing.Fill( 1.0 );
+  m_OutputOrigin.Fill( 0.0 );
 
   m_EdgePaddingValue = NumericTraits<PixelType>::Zero;
 
@@ -62,13 +62,135 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
+  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
   os << indent << "EdgePaddingValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
      << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   
+}
+
+/**
+ * Set the output image spacing.
+ *
+ */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::SetOutputSpacing(
+  const SpacingType& spacing )
+{
+
+  unsigned int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( spacing[j] != m_OutputSpacing[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputSpacing[j] = spacing[j];
+      }
+    } 
+
+}
+
+/**
+ * Set the output image spacing.
+ *
+ */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::SetOutputSpacing(
+  const double spacing[ImageDimension] )
+{
+
+  unsigned int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( spacing[j] != m_OutputSpacing[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputSpacing[j] = spacing[j];
+      }
+    } 
+
+}
+
+
+/**
+ * Set the output image origin.
+ *
+ */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::SetOutputOrigin(
+  const double origin[ImageDimension] )
+{
+
+  unsigned int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( origin[j] != m_OutputOrigin[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputOrigin[j] = origin[j];
+      }
+    } 
+
+}
+
+
+/**
+ * Set the output image origin.
+ *
+ */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::SetOutputOrigin(
+  const PointType& origin )
+{
+
+  unsigned int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( origin[j] != m_OutputOrigin[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputOrigin[j] = origin[j];
+      }
+    } 
+
 }
 
 /**

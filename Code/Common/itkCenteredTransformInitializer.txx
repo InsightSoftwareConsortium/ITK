@@ -89,8 +89,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     {
     // Here use the geometrical center of each image.
 
-    const double * fixedSpacing = m_FixedImage->GetSpacing();
-    const double * fixedOrigin  = m_FixedImage->GetOrigin();
+    const typename FixedImageType::SpacingType& 
+      fixedSpacing = m_FixedImage->GetSpacing();
+    const typename FixedImageType::PointType&
+      fixedOrigin  = m_FixedImage->GetOrigin();
     
     typename FixedImageType::SizeType fixedSize = 
       m_FixedImage->GetLargestPossibleRegion().GetSize();
@@ -101,8 +103,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
 
 
-    const double * movingSpacing = m_MovingImage->GetSpacing();
-    const double * movingOrigin  = m_MovingImage->GetOrigin();
+    const typename MovingImageType::SpacingType&
+      movingSpacing = m_MovingImage->GetSpacing();
+    const typename MovingImageType::PointType&
+      movingOrigin  = m_MovingImage->GetOrigin();
     
     typename MovingImageType::SizeType movingSize = 
       m_MovingImage->GetLargestPossibleRegion().GetSize();

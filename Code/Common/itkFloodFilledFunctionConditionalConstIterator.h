@@ -202,10 +202,10 @@ protected: //made protected so other iterators can access
   std::vector<IndexType> m_StartIndices;
 
   /** The origin of the source image */
-  const double* m_ImageOrigin;
+  typename ImageType::PointType m_ImageOrigin;
   
   /** The spacing of the source image */
-  const double* m_ImageSpacing;
+  typename ImageType::SpacingType m_ImageSpacing;
 
   /** Region of the source image */
   RegionType   m_ImageRegion;

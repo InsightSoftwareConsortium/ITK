@@ -34,13 +34,6 @@ Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = PixelContainer::New();
-
-  unsigned int i;
-  for (i=0; i < VImageDimension; i++)
-    {
-    m_Spacing[i] = 1.0;
-    m_Origin[i] = 0.0;
-    }
 }
 
 
@@ -109,6 +102,30 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
+::SetSpacing(const SpacingType& spacing )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
 ::SetSpacing(const double spacing[VImageDimension] )
 {
   unsigned int i; 
@@ -125,8 +142,10 @@ Image<TPixel, VImageDimension>
       {
       m_Spacing[i] = spacing[i];
       }
+    this->Modified();
     }
 }
+
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
@@ -148,10 +167,35 @@ Image<TPixel, VImageDimension>
       {
       m_Spacing[i] = spacing[i];
       }
+    this->Modified();
     }
 }
 
 
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
+::SetOrigin(const PointType& origin )
+{
+  unsigned int i; 
+  for (i=0; i<VImageDimension; i++)
+    {
+    if ( origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < VImageDimension ) 
+    { 
+    for (i=0; i<VImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    this->Modified();
+    }
+}
 
 
 //----------------------------------------------------------------------------
@@ -174,6 +218,7 @@ Image<TPixel, VImageDimension>
       {
       m_Origin[i] = origin[i];
       }
+    this->Modified();
     }
 }
 
@@ -198,6 +243,7 @@ Image<TPixel, VImageDimension>
       {
       m_Origin[i] = origin[i];
       }
+    this->Modified();
     }
 }
 
@@ -243,20 +289,6 @@ Image<TPixel, VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
   
-  unsigned int i;
-  os << indent << "Origin: [";
-  for (i=0; i+1 < VImageDimension; i++)
-    {
-    os << m_Origin[i] << ", ";
-    }
-  os << m_Origin[i] << "]" << std::endl;
-  os << indent << "Spacing: [";
-  for (i=0; i+1 < VImageDimension; i++)
-    {
-    os << m_Spacing[i] << ", ";
-    }
-  os << m_Spacing[i] << "]" << std::endl;
-
   os << indent << "PixelContainer: " << m_Buffer << std::endl;
 }
 

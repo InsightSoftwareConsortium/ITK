@@ -54,6 +54,14 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
+  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+   * spacing is the geometric distance between image samples. */
+  typedef typename TOutputImage::SpacingType SpacingType;
+
+  /** Origin typedef support.  The origin is the geometric coordinates
+   * of the index (0,0). */
+  typedef typename TOutputImage::PointType PointType;
+  
   /** Dimensionality of the output image */
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
 
@@ -73,18 +81,20 @@ public:
   itkGetVectorMacro(Size,const unsigned long,NDimensions);
   
   /** Specify the spacing of the output image. */
+  virtual void SetSpacing( const SpacingType& values);
   virtual void SetSpacing( const float values[NDimensions]);
   virtual void SetSpacing( const double values[NDimensions]);
   
   /** Get the spacing of the output image. */
-  itkGetVectorMacro(Spacing,const double,NDimensions);
+  itkGetMacro(Spacing,const SpacingType);
 
   /** Specify the origin of the output image. */
+  virtual void SetOrigin( const PointType& values);
   virtual void SetOrigin( const float values[NDimensions]);
   virtual void SetOrigin( const double values[NDimensions]);
 
   /** Get the origin of the output image. */
-  itkGetVectorMacro(Origin,const double,NDimensions);
+  itkGetMacro(Origin,PointType);
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -109,8 +119,8 @@ private:
   void operator=(const GaussianImageSource&); //purposely not implemented
 
   unsigned long  m_Size[NDimensions];    //size of the output image
-  double         m_Spacing[NDimensions]; //spacing
-  double         m_Origin[NDimensions];  //origin
+  SpacingType    m_Spacing; //spacing
+  PointType      m_Origin;  //origin
 
   /** Parameters for the Gaussian. */
   

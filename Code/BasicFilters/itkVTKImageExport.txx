@@ -145,7 +145,7 @@ template <class TInputImage>
 float* VTKImageExport<TInputImage>::SpacingCallback()
 {
   InputImagePointer input = this->GetInput();
-  const double* spacing = input->GetSpacing();
+  const typename TInputImage::SpacingType& spacing = input->GetSpacing();
   
   unsigned int i=0;
   // Fill in the known portion of the spacing.
@@ -170,7 +170,7 @@ template <class TInputImage>
 float* VTKImageExport<TInputImage>::OriginCallback()
 {
   InputImagePointer input = this->GetInput();
-  const double* origin = input->GetOrigin();
+  const typename TInputImage::PointType& origin = input->GetOrigin();
 
   unsigned int i=0;
   // Fill in the known portion of the origin.

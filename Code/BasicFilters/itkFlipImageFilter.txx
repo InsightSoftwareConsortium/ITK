@@ -69,14 +69,14 @@ FlipImageFilter<TImage>
     const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
-  const double *inputSpacing = inputPtr->GetSpacing();
-  const double *inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
+  const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
-    
-  double outputOrigin[ImageDimension];
+
+  TImage::PointType outputOrigin;
 
   unsigned int j;
 

@@ -156,13 +156,14 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  const double *inputSpacing = inputPtr->GetSpacing();
+  const typename TInputImage::SpacingType&
+    inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
-  
-  float    outputSpacing[ TOutputImage::ImageDimension ];
+
+  typename TOutputImage::SpacingType outputSpacing;
   typedef typename TOutputImage::SizeType     SizeType;
   typedef typename TOutputImage::IndexType    IndexType;
   typedef typename SizeType::SizeValueType    SizeValueType;

@@ -120,13 +120,15 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   outputPtr->SetLargestPossibleRegion( region );
 
   // Copy spacing without modification.
-  const double * spacing = inputPtr->GetSpacing() ;
+  const typename InputImageType::SpacingType& 
+    spacing = inputPtr->GetSpacing() ;
   outputPtr->SetSpacing( spacing );
 
   // Correct origin of the extracted region.
   IndexType roiStart( m_RegionOfInterest.GetIndex() );
-  double outputOrigin[ ImageDimension ];
-  const double * inputOrigin = inputPtr->GetOrigin();
+  typename OutputImageType::PointType  outputOrigin;
+  const typename InputImageType::PointType&
+    inputOrigin = inputPtr->GetOrigin();
 
   for( unsigned int i=0; i<ImageDimension; i++)
     {

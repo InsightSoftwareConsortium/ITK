@@ -143,11 +143,13 @@ ExtractImageFilter<TInputImage,TOutputImage>
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
     unsigned int i;
-    const double *inputSpacing = inputPtr->GetSpacing();
-    const double *inputOrigin = inputPtr->GetOrigin();
+    const typename InputImageType::SpacingType& 
+      inputSpacing = inputPtr->GetSpacing();
+    const typename InputImageType::PointType&
+      inputOrigin = inputPtr->GetOrigin();
 
-    double outputSpacing[OutputImageDimension];
-    double outputOrigin[OutputImageDimension];
+    typename OutputImageType::SpacingType outputSpacing;
+    typename OutputImageType::PointType outputOrigin;
 
     if ( static_cast<unsigned int>(OutputImageDimension) > 
          static_cast<unsigned int>(InputImageDimension )    )

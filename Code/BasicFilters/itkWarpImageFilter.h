@@ -109,13 +109,11 @@ public:
   typedef typename OutputImageType::IndexType        IndexType;
   typedef typename OutputImageType::SizeType         SizeType;
   typedef typename OutputImageType::PixelType        PixelType;
+  typedef typename OutputImageType::SpacingType      SpacingType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension );
-
-  /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
 
   /** Deformation field typedef support. */
   typedef TDeformationField    DeformationFieldType;
@@ -144,14 +142,22 @@ public:
   /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /** Set/Get the output image spacing. */
-  itkSetMacro(OutputSpacing, ArrayType);
-  itkGetMacro(OutputSpacing, const ArrayType);
+  /** Set the output image spacing. */
+  virtual void SetOutputSpacing( const SpacingType& values );
+  virtual void SetOutputSpacing( const double values[ImageDimension] );
 
-  /** Set/Get the output image origin. */
-  itkSetMacro(OutputOrigin, ArrayType);
-  itkGetMacro(OutputOrigin, const ArrayType);
-  
+  /** Get the output image spacing. */
+  const SpacingType& GetOutputSpacing()
+  { return m_OutputSpacing; }
+
+  /** Set the output image origin. */
+  virtual void SetOutputOrigin( const PointType& values );
+  virtual void SetOutputOrigin( const double values[ImageDimension] );
+
+  /** Get the output image origin. */
+  const PointType& GetOutputOrigin()
+  { return m_OutputSpacing; }
+
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );
 
@@ -193,8 +199,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PixelType                  m_EdgePaddingValue;
-  ArrayType                  m_OutputSpacing;
-  ArrayType                  m_OutputOrigin;
+  SpacingType                m_OutputSpacing;
+  PointType                  m_OutputOrigin;
 
   InterpolatorPointer        m_Interpolator;
   

@@ -80,11 +80,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
     unsigned int i;
-    const double *inputSpacing = inputPtr->GetSpacing();
-    const double *inputOrigin = inputPtr->GetOrigin();
+    const typename InputImageType::SpacingType&
+      inputSpacing = inputPtr->GetSpacing();
+    const typename InputImageType::PointType&
+      inputOrigin = inputPtr->GetOrigin();
 
-    double outputSpacing[OutputImageDimension];
-    double outputOrigin[OutputImageDimension];
+    typename OutputImageType::SpacingType outputSpacing;
+    typename OutputImageType::PointType outputOrigin;
 
     // copy the input to the output and fill the rest of the
     // output with zeros.

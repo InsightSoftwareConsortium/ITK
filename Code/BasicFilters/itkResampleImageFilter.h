@@ -84,9 +84,6 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
-
   /** Transform typedef.
    *
    * \todo Check that input and output images have the same number of 
@@ -114,6 +111,9 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
+  /** Image spacing typedef */
+  typedef typename TOutputImage::SpacingType SpacingType;
+  
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
@@ -149,12 +149,20 @@ public:
   itkGetMacro(DefaultPixelValue,PixelType);
 
   /** Set the output image spacing. */
-  itkSetMacro(OutputSpacing, ArrayType);
-  itkGetMacro(OutputSpacing, const ArrayType);
+  virtual void SetOutputSpacing( const SpacingType& values );
+  virtual void SetOutputSpacing( const double values[ImageDimension] );
+
+  /** Get the output image spacing. */
+  const SpacingType& GetOutputSpacing()
+  { return m_OutputSpacing; }
 
   /** Set the output image origin. */
-  itkSetMacro(OutputOrigin, ArrayType);
-  itkGetMacro(OutputOrigin, const ArrayType);
+  virtual void SetOutputOrigin( const PointType& values );
+  virtual void SetOutputOrigin( const double values[ImageDimension] );
+
+  /** Get the output image origin. */
+  const PointType& GetOutputOrigin()
+  { return m_OutputSpacing; }
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
@@ -204,9 +212,8 @@ private:
   PixelType               m_DefaultPixelValue; 
   // default pixel value if the point 
   // is outside the image
-  ArrayType               m_OutputSpacing; // output image spacing
-  ArrayType               m_OutputOrigin;  // output image origin
-
+  SpacingType             m_OutputSpacing; // output image spacing
+  PointType               m_OutputOrigin;  // output image origin
 };
 
   

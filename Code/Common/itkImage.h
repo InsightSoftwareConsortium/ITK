@@ -115,23 +115,28 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
-
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
+  typedef typename Superclass::IndexType  IndexType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
-  typedef Offset<VImageDimension>  OffsetType;
+  typedef typename Superclass::OffsetType OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
+  typedef typename Superclass::SizeType  SizeType;
 
   /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<VImageDimension>  RegionType;
+  typedef typename Superclass::RegionType  RegionType;
+
+  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+   * spacing is the geometric distance between image samples. */
+  typedef typename Superclass::SpacingType SpacingType;
+
+  /** Origin typedef support.  The origin is the geometric coordinates
+   * of the index (0,0). */
+  typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -242,29 +247,17 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
+  virtual void SetSpacing( const SpacingType& spacing );
   virtual void SetSpacing( const double spacing[VImageDimension] );
   virtual void SetSpacing( const float spacing[VImageDimension] );
-  void SetSpacing( ArrayType spacing )
-    {
-      for (unsigned int i = 0; i < VImageDimension; i++)
-        {
-        m_Spacing[i] = spacing[i];
-        }
-    };
 
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
+  virtual void SetOrigin( const PointType& origin );
   virtual void SetOrigin( const double origin[VImageDimension] );
   virtual void SetOrigin( const float origin[VImageDimension] );
-  void SetOrigin ( ArrayType origin )
-    {
-      for (unsigned int i = 0; i < VImageDimension; i++)
-        {
-        m_Origin[i] = origin[i];
-        }
-    };
 
   /** \brief Get the continuous index from a physical point
    *

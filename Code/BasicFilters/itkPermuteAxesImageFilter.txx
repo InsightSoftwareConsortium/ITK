@@ -136,16 +136,16 @@ PermuteAxesImageFilter<TImage>
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
-  const double *inputSpacing = inputPtr->GetSpacing();
-  const double *inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
+  const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
     
 
-  double outputSpacing[ImageDimension];
-  double outputOrigin[ImageDimension];
+  typename TImage::SpacingType outputSpacing;
+  typename TImage::PointType outputOrigin;
   typename TImage::SizeType outputSize;
   typename TImage::IndexType outputStartIndex;
 

@@ -81,20 +81,28 @@ public:
   typedef   TAccessor   AccessorType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<itkGetStaticConstMacro(ImageDimension)>  IndexType;
+  typedef typename Superclass::IndexType  IndexType;
   typedef typename IndexType::IndexValueType    IndexValueType;
   
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<itkGetStaticConstMacro(ImageDimension)>   SizeType;
+  typedef typename Superclass::SizeType  SizeType;
   typedef typename SizeType::SizeValueType      SizeValueType;
     
   /** Offset typedef support. */
-  typedef Offset<itkGetStaticConstMacro(ImageDimension)> OffsetType;
+  typedef typename Superclass::OffsetType OffsetType;
   typedef typename OffsetType::OffsetValueType  OffsetValueType;
     
   /** Region typedef support. A region is used to specify a subset of
    *  an image. */
-  typedef ImageRegion<itkGetStaticConstMacro(ImageDimension)> RegionType;
+  typedef typename Superclass::RegionType RegionType;
+
+  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+   * spacing is the geometric distance between image samples. */
+  typedef typename Superclass::SpacingType SpacingType;
+
+  /** Origin typedef support.  The origin is the geometric coordinates
+   * of the index (0,0). */
+  typedef typename Superclass::PointType PointType;
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -195,22 +203,22 @@ public:
   void GetBufferPointer2( InternalPixelPointerType  & );
   
   /** Set the spacing (size of a pixel) of the image. */
+  virtual void SetSpacing( const SpacingType& values );
   virtual void SetSpacing( const double values[ImageDimension] );
   virtual void SetSpacing( const float values[ImageDimension] );
   
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
    * \sa SetSpacing() */
-  virtual const double* GetSpacing() const;
+  virtual const SpacingType& GetSpacing() const;
  
   /** Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  The value returned is
-   * a pointer to a double array.
+   * coordinates of the image origin.  
    * \sa SetOrigin() */
-  virtual const double * GetOrigin() const;
+  virtual const PointType& GetOrigin() const;
 
   /** Set the origin of the image. */
+  virtual void SetOrigin( const PointType & values);
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
   

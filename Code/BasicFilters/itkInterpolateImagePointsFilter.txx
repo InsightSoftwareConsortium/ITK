@@ -207,8 +207,8 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   // we need to compute the output spacing, the output image size, and the
   // output image start index.  This is all determined by the coordinate data
 
-
-  const double    *outputSpacing = xCoordPtr->GetSpacing();
+  const typename TOutputImage::SpacingType& 
+    outputSpacing = xCoordPtr->GetSpacing();
   const typename TOutputImage::SizeType&   outputSize
     = xCoordPtr->GetLargestPossibleRegion().GetSize();
   const typename TOutputImage::IndexType&  outputStartIndex

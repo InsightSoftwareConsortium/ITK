@@ -234,13 +234,14 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  const double              *inputSpacing = inputPtr->GetSpacing();
+  const typename TInputImage::SpacingType&
+    inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
-  
-  double                     outputSpacing[TOutputImage::ImageDimension];
+
+  typename TOutputImage::SpacingType      outputSpacing;
   typename TOutputImage::SizeType         outputSize;
   typename TOutputImage::IndexType        outputStartIndex;
   

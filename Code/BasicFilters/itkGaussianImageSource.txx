@@ -76,12 +76,7 @@ GaussianImageSource<TOutputImage>
     }
   os << "]" << std::endl;
 
-  os << indent << "Spacing: [";
-  for (i=0; i < NDimensions - 1; i++)
-    {
-    os << m_Spacing[i] << ", ";
-    }
-  os << "]" << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
 
   os << indent << "Gaussian sigma: [";
   for (i=0; i < NDimensions - 1; i++)
@@ -172,6 +167,29 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
+::SetSpacing(const SpacingType& spacing )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
 ::SetSpacing(const float spacing[NDimensions] )
 {
   unsigned int i; 
@@ -210,6 +228,29 @@ GaussianImageSource<TOutputImage>
     for (i=0; i<TOutputImage::ImageDimension; i++)
       {
       m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetOrigin(const PointType& origin)
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
       }
     this->Modified();
     }
