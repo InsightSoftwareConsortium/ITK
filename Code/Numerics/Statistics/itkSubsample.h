@@ -25,7 +25,6 @@ namespace itk{
 template< class TSample >
 class ITK_EXPORT Subsample : 
       public Sample< typename TSample::MeasurementVectorType >
-
 {
 public:
   /** Standard class typedefs */
@@ -62,10 +61,10 @@ public:
   typedef std::vector< InstanceIdentifier > InstanceIdentifierHolder ;
 
   /** Plug in the actual sample data */
-  void SetSample(SamplePointer sample)
+  void SetSample(TSample* sample)
   { m_Sample = sample ; }
 
-  SamplePointer GetSample()
+  TSample* GetSample()
   { return m_Sample ; } 
 
   void InitializeWithAllInstances()
@@ -74,16 +73,20 @@ public:
     typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin() ;
     typename TSample::Iterator iter = m_Sample->Begin() ;
     typename TSample::Iterator last = m_Sample->End() ;
-    
+    m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
     while (iter != last)
       {
         *idIter++ = iter.GetInstanceIdentifier() ;
+        m_TotalFrequency += iter.GetFrequency() ;
         ++iter ;
       }
   }
 
   void AddInstance(InstanceIdentifier id)
-  { m_IdHolder.push_back(id) ; }
+  { 
+    m_IdHolder.push_back(id) ; 
+    m_TotalFrequency += m_Sample->GetFrequency(id) ;
+  }
 
   /** returns SizeType object whose each element is the number of
    * elements in each dimension */
@@ -99,6 +102,12 @@ public:
 
   unsigned int GetNumberOfInstances() const ;
 
+  void Clear()
+  { 
+    m_IdHolder.clear() ;
+    m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  }
+
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
   MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id)
@@ -110,7 +119,7 @@ public:
   
   /** returns the total frequency for the 'd' dimension */
   FrequencyType GetTotalFrequency(const unsigned int &dimension) const
-  { return m_Sample->GetTotalFrequency(dimension) ; }
+  { return m_TotalFrequency ; }
   
   void Swap(int index1, int index2) ;
   
@@ -136,7 +145,8 @@ public:
   class Iterator
   {
   public:
-    Iterator(typename InstanceIdentifierHolder::iterator iter, Pointer classSample)
+    Iterator(typename InstanceIdentifierHolder::iterator iter, 
+             Self* classSample)
       :m_Iter(iter), m_Subsample(classSample),
        m_Sample(classSample->GetSample())
     {}
@@ -156,6 +166,15 @@ public:
       return *this ;
     }
     
+    Iterator& operator+()
+    { m_Iter += n; return *this ;}
+
+    Iterator& operator+(int n)
+    { m_Iter += n; return *this ;}
+    
+    Iterator& operator-(int n)
+    { m_Iter -= n; return *this ;}
+
     bool operator!=(const Iterator& it) 
     { return (m_Iter != it.m_Iter) ; }
     
@@ -180,8 +199,8 @@ public:
     // Iterator pointing to ImageToListAdaptor
     typename InstanceIdentifierHolder::iterator m_Iter ;  
     // Pointer to Subsample object
-    Pointer m_Subsample ;
-    SamplePointer m_Sample ;
+    Self* m_Subsample ;
+    TSample* m_Sample ;
   } ;
 
 protected:
@@ -193,9 +212,10 @@ private:
   Subsample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SamplePointer               m_Sample ;
+  TSample*               m_Sample ;
   InstanceIdentifierHolder    m_IdHolder ;
   unsigned int                m_ActiveDimension ;
+  FrequencyType m_TotalFrequency ;
 } ; // end of class
 
 
