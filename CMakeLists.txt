@@ -49,5 +49,20 @@ NightlyDashboardEnd:
 	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly DashboardEnd
 
 
+ExperimentalBuild:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Experimental Start Build
+
+ExperimentalTest:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Experimental Test
+
+ExperimentalCoverage:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Experimental Coverage
+
+ExperimentalSubmit:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Experimental Submit
+
+Experimental:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Experimental Start Build Test Submit
+
 END MAKE VERBATIM
 
