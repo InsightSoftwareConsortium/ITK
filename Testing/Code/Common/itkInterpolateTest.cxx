@@ -72,7 +72,7 @@ main(
     interp->SetInputImage(image);
 
     /* Test evaluation at integer coordinates */
-    IndexType idx = {10, 20,40};
+    IndexType idx = {{10, 20,40}};
     double value1 = interp->Evaluate(idx);
     std::cout << "Evaluate at integer coordinates: "
               << value1 << std::endl;
