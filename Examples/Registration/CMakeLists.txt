@@ -125,7 +125,7 @@ ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration3Test.png
             ${TEMP}/ImageRegistration3Test.png
   ImageRegistration3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration3Test.png
 )
