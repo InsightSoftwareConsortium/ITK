@@ -250,8 +250,8 @@ protected:
 //  void InitialStat(int dims[3]);
 
 //  void Execute();
-
-
+private:
+  typedef typename TInputImage::SizeType InputImageSizeType;
 };
 
 } // end namespace itk
