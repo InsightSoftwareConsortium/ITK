@@ -412,7 +412,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                      OutputImageType *output, const OutputScalarType
                      UNLABELED_PIXEL) 
 {
-  int i;
+  unsigned int i;
   Size<ImageDimension> hoodRadius;
   SegmentTableType::iterator segment_ptr;
   SegmentType temp_segment;
@@ -585,6 +585,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
                       const OutputScalarType UNLABELED_PIXEL)
 {
   OutputScalarType newLabel;
+  newLabel = UNLABELED_PIXEL;
   Offset<ImageDimension> moveIndex;
   Size<ImageDimension> hoodRadius;
   Size<ImageDimension> zeroRadius;
@@ -636,7 +637,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
               updateStack.push(labelIt.CenterPointer());
               minVal = *valueIt[0];
               moveIndex = mT[0];
-              for (int i= 1; i < hoodSize; ++i)
+              for (unsigned int i= 1; i < hoodSize; ++i)
                 {
                   if ( (i!=hoodCenter) && (*valueIt[i] < minVal) )
                     {

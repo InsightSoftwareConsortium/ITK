@@ -152,10 +152,10 @@ void NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
   unsigned int i;
   Iterator Nit;
   InternalPixelType * Iit;
-  Index<Dimension> loop;
+  SizeType loop;
+  for (i=0; i<Dimension; ++i) loop[i]=0;
   const SizeType size = this->GetSize();
   const unsigned long *OffsetTable = m_Image->GetOffsetTable();
-  loop.Fill(0);
   const SizeType radius = this->GetRadius();
   
   // Find first "upper-left-corner"  pixel address of neighborhood

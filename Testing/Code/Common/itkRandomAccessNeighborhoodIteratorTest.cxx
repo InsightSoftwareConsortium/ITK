@@ -101,8 +101,8 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
   const itk::Size<N> size = img->GetRequestedRegion().GetSize();
 
   unsigned int i;
-  IndexType loop;
-  loop.Fill(0);
+  itk::Size<N> loop;
+  for (i=0; i<N; ++i) loop[i] = 0;
   
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
   

@@ -262,7 +262,7 @@ public:
   {    this->ProcessObject::SetNthOutput(1, output);  }
 
 protected:
-  WatershedImageFilter() :  m_Level(0.0f), m_Threshold(0.0f)
+  WatershedImageFilter() :  m_Threshold(0.0f), m_Level(0.0f)
   {
     WatershedSegmentBasicOutput<InputImageType, OutputImageType>::Pointer
       output = WatershedSegmentBasicOutput<InputImageType, OutputImageType>::New();
