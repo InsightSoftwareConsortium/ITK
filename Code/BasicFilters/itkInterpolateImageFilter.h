@@ -58,6 +58,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImageFilter, ImageToImageFilter);
 
+  /** Inherit typedefs from Superclass */
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
   /** Number of dimensions. */
   enum {ImageDimension = TOutputImage::ImageDimension};
   enum {IntermediateImageDimension = ImageDimension + 1};
