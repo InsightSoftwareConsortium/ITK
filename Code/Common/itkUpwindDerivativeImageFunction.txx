@@ -49,7 +49,7 @@ namespace itk
 template <class TInputImage>
 void
 UpwindDerivativeImageFunction<TInputImage>
-::SetInputImage( InputImageType * ptr )
+::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
 

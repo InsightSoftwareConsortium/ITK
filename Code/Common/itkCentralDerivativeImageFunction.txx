@@ -65,7 +65,7 @@ CentralDerivativeImageFunction<TInputImage>
 template <class TInputImage>
 void
 CentralDerivativeImageFunction<TInputImage>
-::SetInputImage( InputImageType * ptr )
+::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
 

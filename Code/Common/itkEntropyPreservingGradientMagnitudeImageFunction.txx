@@ -50,7 +50,7 @@ namespace itk
 template <class TInputImage>
 void
 EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
-::SetInputImage( InputImageType * ptr )
+::SetInputImage( const InputImageType * ptr )
 {
   if( !ptr ) return;
 

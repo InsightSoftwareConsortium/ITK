@@ -55,7 +55,7 @@ namespace itk
 template<class TInputImage>
 void
 LinearInterpolateImageFunction<TInputImage>
-::SetInputImage( InputImageType *ptr )
+::SetInputImage( const InputImageType *ptr )
 {
   this->Superclass::SetInputImage( ptr );
 

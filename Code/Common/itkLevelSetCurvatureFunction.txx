@@ -50,7 +50,7 @@ namespace itk
 template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
-::SetInputImage( InputImageType * ptr )
+::SetInputImage( const InputImageType * ptr )
 {
   this->Superclass::SetInputImage( ptr );
 
