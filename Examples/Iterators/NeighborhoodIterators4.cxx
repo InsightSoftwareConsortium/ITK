@@ -36,7 +36,7 @@
 
 int main( int argc, char ** argv )
 {
-  if ( argc < 3 )
+  if ( argc < 4 )
     {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
@@ -90,7 +90,6 @@ int main( int argc, char ** argv )
     {
     gaussianOperator.SetDirection(i);
     gaussianOperator.CreateDirectional();
-    gaussianOperator.Print(std::cout);
     
     faceList = faceCalculator(input, output->GetRequestedRegion(),
                               gaussianOperator.GetRadius());
@@ -99,7 +98,6 @@ int main( int argc, char ** argv )
       {
       it = NeighborhoodIteratorType( gaussianOperator.GetRadius(),
                                      input, *fit );
-      std::cout << it << std::endl;
 
       out = IteratorType( output, *fit );
       
