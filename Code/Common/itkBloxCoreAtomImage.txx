@@ -56,9 +56,9 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   m_BoundaryPointImage = NULL;
 
   m_NumCoreAtoms = 0;
-  m_DistanceMin = 5;
-  m_DistanceMax = 10;
-  m_Epsilon = 0.1;
+  m_DistanceMin = 8;
+  m_DistanceMax = 12;
+  m_Epsilon = 0;
   m_Polarity = 0;
 }
 
@@ -186,6 +186,11 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
         // Form the two vectors between them
         TVectorType C12 = P2 - P1;
+
+        // If we don't meet distance criteria, move on
+        if(!( (C12.magnitude() > m_DistanceMin) && (C12.magnitude() < m_DistanceMax) ) )
+          continue;
+
         TVectorType C21 = P1 - P2;
 
         C12.normalize();
@@ -207,10 +212,12 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         //std::cout << "Face to faceness = " << faceToFaceness << "\n";
 
         // If face-to-faceness meets threshold criteria
-        if( faceToFaceness > (1-m_Epsilon) )
+        if( faceToFaceness > (1.0 - m_Epsilon) )
           {
+          //std::cout << "Passed, face to faceness = " << faceToFaceness << "\n";
+
           // Figure out the center of the core atom
-          TVectorType coreAtomCenter = (P2 - P1) / 2 + P1;
+          TVectorType coreAtomCenter = (P2 + P1) / 2;
 
           // Create a new core atom
           BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;

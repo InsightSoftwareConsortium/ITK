@@ -71,7 +71,7 @@ BloxCoreAtomItem<VImageDimension>
   TPositionType P2;
   m_BoundaryPointB->GetPosition(P2);
 
-  m_CenterPosition = (P2 - P1) / 2 + P1;
+  m_CenterPosition = (P2 + P1) / 2;
   
 }
 
