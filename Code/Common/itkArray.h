@@ -66,6 +66,18 @@ public:
   unsigned int GetNumberOfElements(void) const 
       { return static_cast<unsigned int>( this->size() ); }
 
+  /** Get one element */
+  TValueType & GetElement( unsigned int i )
+    { return this->operator[]( i ); }
+  const TValueType & GetElement( unsigned int i ) const
+    { return this->operator[]( i ); }
+
+  /** Set one element */
+  void SetElement( unsigned int i, const TValueType & value )
+    { this->operator[]( i ) = value; }
+
+
+
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array() {};
