@@ -45,7 +45,7 @@ namespace itk
  * \sa Path
  * \sa Index
  *
- * \ingroup Paths
+ * \ingroup PathObjects
  */
 class ITK_EXPORT ChainCodePath2D : public
 ChainCodePath<2>
@@ -102,7 +102,7 @@ public:
   itkNewMacro( Self );
   
   /** How many steps in the chaincode? */
-  inline unsigned int NumSteps() const { return m_Chain2D.size(); }
+  inline unsigned int NumberOfSteps() const { return m_Chain2D.size(); }
   
   
   /** Insert a new step into the chaincode at a specified position */

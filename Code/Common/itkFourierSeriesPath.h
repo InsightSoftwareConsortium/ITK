@@ -56,7 +56,7 @@ namespace itk
  * \sa Offset
  * \sa Vector
  *
- * \ingroup Paths
+ * \ingroup PathObjects
  */
 template <unsigned int VDimension>
 class ITK_EXPORT FourierSeriesPath : public

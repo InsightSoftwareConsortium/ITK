@@ -101,7 +101,7 @@ int itkPathFunctionsTest(int, char*[])
   inPath->AddVertex(v);
   
   itk::MakeChainCodeTracePath( *chainPath, *inPath );
-  std::cout << "New ChainCodePath has "<<chainPath->NumSteps()<<" steps."<<std::endl;
+  std::cout << "New ChainCodePath has "<<chainPath->NumberOfSteps()<<" steps."<<std::endl;
 
   itk::MakeFourierSeriesPathTraceChainCode( *path, *chainPath, 2 );
   

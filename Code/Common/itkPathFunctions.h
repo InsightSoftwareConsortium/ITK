@@ -87,8 +87,8 @@ void MakeChainCodeTracePath( TChainCodePath & chainPath,
  * numHarmonics is the number of harmonics (frequency coefficients, which
  * include the "DC" term) to compute.  If chainPath has too few steps to
  * calculate numHarmonics (due to the Nyquist criterion), then as many harmonics
- * as possible (chainPath->NumSteps()/2) will be calculated.  No fewer than 2
- * harmonics will be calcualted. */
+ * as possible (chainPath->NumberOfSteps()/2) will be calculated.  No fewer than
+ * 2 harmonics will be calcualted. */
 template <class TFourierSeriesPath, class TChainCodePath>
 void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
                              const TChainCodePath & chainPath,
@@ -109,7 +109,7 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
   VectorType  sinCoefficient;
   FSInputType theta;
   int         dimension =     OffsetType::GetOffsetDimension();
-  unsigned    numSteps  =     chainPath.NumSteps();
+  unsigned    numSteps  =     chainPath.NumberOfSteps();
   
   FSPath.Clear();
   

@@ -34,7 +34,7 @@ namespace itk
  * at an index, that index of the image will be visited twice.
  * 
  * \ingroup ImageIterators
- * \ingroup Paths
+ * \ingroup PathObjects
  *
  */
 template<class TImage, class TPath>

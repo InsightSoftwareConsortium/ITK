@@ -17,6 +17,12 @@
 */
 
 /**
+  \defgroup PathObjects  Path Representation Objects
+  \ingroup DataRepresentation
+  This category includes the objects required to represent paths in ITK.
+*/
+
+/**
   \defgroup Geometry Geometry Representation Objects
   \ingroup DataRepresentation
 

@@ -41,7 +41,7 @@ namespace itk
  * and for this reason it doesn't support the Set() method.
  * 
  * \ingroup ImageIterators
- * \ingroup Paths
+ * \ingroup PathObjects
  *
  */
 template<class TImage, class TPath>

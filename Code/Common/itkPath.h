@@ -44,7 +44,7 @@ namespace itk
  * \sa Point
  * \sa ContinuousIndex
  *
- * \ingroup Paths
+ * \ingroup PathObjects
  */
 template <class TInput, class TOutput, unsigned int VDimension>
 class ITK_EXPORT Path : public FunctionBase< TInput, TOutput >

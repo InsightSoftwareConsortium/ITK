@@ -43,7 +43,7 @@ namespace itk
  * \sa Index
  * \sa Offset
  *
- * \ingroup Paths
+ * \ingroup PathObjects
  */
 template <unsigned int VDimension>
 class ITK_EXPORT ChainCodePath : public
@@ -96,7 +96,7 @@ public:
   /** Where does the path end (what is the last valid input value)? */
   virtual inline InputType EndOfInput() const
     {
-    return NumSteps();  // 0 is before the first step, 1 is after it
+    return NumberOfSteps();  // 0 is before the first step, 1 is after it
     }
   
 
@@ -132,7 +132,7 @@ public:
     }
   
   /** How many steps in the chaincode? */
-  virtual inline unsigned int NumSteps() const
+  virtual inline unsigned int NumberOfSteps() const
     {
     return m_Chain.size();
     }

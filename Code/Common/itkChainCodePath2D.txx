@@ -54,7 +54,7 @@ ChainCodePath2D::OffsetType
 ChainCodePath2D
 ::IncrementInput( InputType & input ) const
 {
-  if( input < NumSteps() )
+  if( input < NumberOfSteps() )
     {
     return DecodeOffset( m_Chain2D[input++] );
     }

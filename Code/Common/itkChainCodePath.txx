@@ -81,7 +81,7 @@ typename ChainCodePath<VDimension>::OffsetType
 ChainCodePath<VDimension>
 ::IncrementInput(InputType & input ) const
 {
-  if( input < NumSteps() )
+  if( input < NumberOfSteps() )
     {
     return m_Chain[input++];
     }
@@ -100,7 +100,7 @@ template <unsigned int VDimension>
 ChainCodePath<VDimension>
 ::ChainCodePath()
 {
-  SetStart( m_ZeroIndex );
+  m_Start = m_ZeroIndex;
   this->Modified();
 }
 

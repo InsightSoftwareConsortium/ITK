@@ -45,7 +45,7 @@ int itkChainCodePathTest(int, char*[])
   offset[0]=-1; offset[1]=0;  path->InsertStep(6, offset);
   offset[0]=-1; offset[1]=1;  path->InsertStep(7, offset);
   
-  std::cout << "Path is " << path->NumSteps() << " steps" << std::endl;
+  std::cout << "Path is " << path->NumberOfSteps() << " steps" << std::endl;
 
   offset[0]=0; offset[1]=-1;
   path->InsertStep(3,offset); // insert new step 3
@@ -57,8 +57,8 @@ int itkChainCodePathTest(int, char*[])
   offset = path->Evaluate(4);
   std::cout <<"Changed step[4] to "<<offset<<std::endl;
   
-  std::cout << "Path is " << path->NumSteps() << " steps" << std::endl;
-  if( path->NumSteps() != 9 )
+  std::cout << "Path is " << path->NumberOfSteps() << " steps" << std::endl;
+  if( path->NumberOfSteps() != 9 )
     {
     passed = false;
     }
