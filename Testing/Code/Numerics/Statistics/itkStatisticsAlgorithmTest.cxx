@@ -35,7 +35,7 @@ void resetData(ImageType::Pointer image, std::vector<int> &refVector)
   ImageType::SizeType size ;
   size = image->GetLargestPossibleRegion().GetSize() ;
 
-  long x, y, z ;
+  unsigned long x, y, z ;
   PixelType temp ;
 
   // fill the image with random values
@@ -126,7 +126,6 @@ int itkStatisticsAlgorithmTest(int, char**)
   SubsampleType::Pointer subsample = SubsampleType::New() ;
   subsample->SetSample(sample) ;
 
-  int j ;
   PixelType temp ;
   
   // each algorithm test will be compared with the sorted 

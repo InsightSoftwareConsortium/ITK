@@ -55,7 +55,6 @@ int itkSubsampleTest(int, char**)
   SubsampleType::Pointer subsample = 
     SubsampleType::New() ;
 
-  unsigned int numberOfClasses = 5 ;
   subsample->SetSample(sample) ;
   
   // tests begin
