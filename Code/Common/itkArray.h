@@ -110,8 +110,19 @@ private:
   class ArrayCommaListCopier
   {
   public:
-    ArrayCommaListCopier(Iterator iter, const ValueType& elt);
-    ArrayCommaListCopier& operator,(const ValueType& elt);
+    /**
+     * Constructor takes an Iterator to beginning of array being assigned
+     * and the first element in the list of assignments.
+     */
+    ArrayCommaListCopier(Iterator iter, const ValueType& elt): m_Iterator(iter)
+      {*m_Iterator++ = elt;}
+
+    /**
+     * Each comma encountered increments the Iterator, and the next element
+     * is assigned to the value after the comma.
+     */
+    ArrayCommaListCopier& operator,(const ValueType& elt)
+      { *m_Iterator++ = elt; return *this; }
     
   private:
     /**
@@ -128,10 +139,10 @@ public:
   Array(const ValueType r[Length]);
   ~Array();
   
-  inline Array& operator= (const Array& r);
-  inline Array& operator= (const Reference& r);
-  inline Array& operator= (const ValueType r[Length]);
-  inline ArrayCommaListCopier operator= (const ValueType& r);
+  Array& operator= (const Array& r);
+  Array& operator= (const Reference& r);
+  Array& operator= (const ValueType r[Length]);
+  ArrayCommaListCopier operator= (const ValueType& r);
   
   /*@{
    * Allow the Array to be indexed normally.
@@ -139,30 +150,37 @@ public:
    * The separate versions are a work-around for an integer conversion
    * bug in Visual C++.
    */
-  inline       reference operator[](short index)                { return m_InternalArray[index]; }
-  inline const_reference operator[](short index) const          { return m_InternalArray[index]; }
-  inline       reference operator[](unsigned short index)       { return m_InternalArray[index]; }
-  inline const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-  inline       reference operator[](int index)                  { return m_InternalArray[index]; }
-  inline const_reference operator[](int index) const            { return m_InternalArray[index]; }
-  inline       reference operator[](unsigned int index)         { return m_InternalArray[index]; }
-  inline const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
-  inline       reference operator[](long index)                 { return m_InternalArray[index]; }
-  inline const_reference operator[](long index) const           { return m_InternalArray[index]; }
-  inline       reference operator[](unsigned long index)        { return m_InternalArray[index]; }
-  inline const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
+        reference operator[](short index)                { return m_InternalArray[index]; }
+  const_reference operator[](short index) const          { return m_InternalArray[index]; }
+        reference operator[](unsigned short index)       { return m_InternalArray[index]; }
+  const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
+        reference operator[](int index)                  { return m_InternalArray[index]; }
+  const_reference operator[](int index) const            { return m_InternalArray[index]; }
+        reference operator[](unsigned int index)         { return m_InternalArray[index]; }
+  const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
+        reference operator[](long index)                 { return m_InternalArray[index]; }
+  const_reference operator[](long index) const           { return m_InternalArray[index]; }
+        reference operator[](unsigned long index)        { return m_InternalArray[index]; }
+  const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
   //@}
 
-  inline operator ValueType* ();
-  inline operator const ValueType* () const;
-  inline Iterator      Begin();
-  inline ConstIterator Begin() const;
-  inline Iterator      End();
-  inline ConstIterator End() const;
-  inline SizeType      Size() const;
+  operator ValueType* () 
+    { return m_InternalArray; }
+  operator const ValueType* () const
+    { return m_InternalArray; }
+  Iterator      Begin();
+  ConstIterator Begin() const;
+  Iterator      End();
+  ConstIterator End() const;
+  SizeType      Size() const;
   
-  inline ::vnl_vector_ref<ValueType> Get_vnl_vector();
-  inline ::vnl_vector_ref<const ValueType> Get_vnl_vector() const;
+  /**
+   * Get a reference to the array that can be treated as a vnl vector.
+   */
+  ::vnl_vector_ref<ValueType> Get_vnl_vector()
+    {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
+  ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
+    {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
   
 private:
   /**
@@ -178,13 +196,47 @@ public:
   class Reference
   {
   public:
-    Reference(Array& r);
-    Reference(Reference& r);
-    Reference(ValueType r[Length]);
-    inline Reference& operator= (const Array& r);
-    inline Reference& operator= (const Reference& r);
-    inline Reference& operator= (const ValueType r[Length]);
-    inline ArrayCommaListCopier operator= (const ValueType& r);
+    /**
+     * Constructor copies only the array pointer since this is a reference type.
+     */
+    Reference(Array& r) : m_InternalArray(r.Begin()) {}
+    Reference(Reference& r) : m_InternalArray(r.Begin()) {}
+    Reference(ValueType r[Length]) : m_InternalArray(r) {}
+
+    /**
+     * Assignment operator copies all Array values.
+     * Values are copied individually instead of with a binary copy.  This
+     * allows the ValueType's assignment operator to be executed.
+     */
+    Reference& operator= (const Array& r)
+    {
+      if(r.Begin() == m_InternalArray) return *this;
+      ConstIterator input = r.Begin();
+      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+      return *this;
+    }
+      
+    Reference& operator= (const Reference& r)
+    {
+      if(r.Begin() == m_InternalArray) return *this;
+      ConstIterator input = r.Begin();
+      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+      return *this;
+    }
+    Reference& operator= (const ValueType r[Length])
+    {
+      if(r == m_InternalArray) return *this;
+      ConstIterator input = r;
+      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+      return *this;
+    }
+
+    /**
+     * Assignment operator to allow assignment via a comma-separated list.
+     * It is assumed that the list is of the appropriate length.
+     */
+    ArrayCommaListCopier operator= (const ValueType& r) 
+      { return ArrayCommaListCopier(this->Begin(), r); }
     
     /*@{
      * Allow the Array to be indexed normally.
@@ -192,30 +244,62 @@ public:
      * The separate versions are a work-around for an integer conversion
      * bug in Visual C++.
      */
-    inline       reference operator[](short index)                { return m_InternalArray[index]; }
-    inline const_reference operator[](short index) const          { return m_InternalArray[index]; }
-    inline       reference operator[](unsigned short index)       { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-    inline       reference operator[](int index)                  { return m_InternalArray[index]; }
-    inline const_reference operator[](int index) const            { return m_InternalArray[index]; }
-    inline       reference operator[](unsigned int index)         { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
-    inline       reference operator[](long index)                 { return m_InternalArray[index]; }
-    inline const_reference operator[](long index) const           { return m_InternalArray[index]; }
-    inline       reference operator[](unsigned long index)        { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
+          reference operator[](short index)                { return m_InternalArray[index]; }
+    const_reference operator[](short index) const          { return m_InternalArray[index]; }
+          reference operator[](unsigned short index)       { return m_InternalArray[index]; }
+    const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
+          reference operator[](int index)                  { return m_InternalArray[index]; }
+    const_reference operator[](int index) const            { return m_InternalArray[index]; }
+          reference operator[](unsigned int index)         { return m_InternalArray[index]; }
+    const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
+          reference operator[](long index)                 { return m_InternalArray[index]; }
+    const_reference operator[](long index) const           { return m_InternalArray[index]; }
+          reference operator[](unsigned long index)        { return m_InternalArray[index]; }
+    const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
     //@}
     
-    inline operator ValueType* () const;
-    inline operator const ValueType* () const;
-    inline Iterator      Begin();
-    inline ConstIterator Begin() const;
-    inline Iterator      End();
-    inline ConstIterator End() const;
-    inline SizeType      Size() const;
+    operator ValueType* () const
+      { return m_InternalArray; }
+    operator const ValueType* () const
+      { return m_InternalArray; }
 
-    inline ::vnl_vector_ref<ValueType> Get_vnl_vector();
-    inline ::vnl_vector_ref<const ValueType> Get_vnl_vector() const;
+    /**
+     * Get an Iterator for the beginning of the Array.
+     */
+    Iterator      Begin() 
+      {return (Iterator)m_InternalArray;}
+
+    /**
+     * Get a ConstIterator for the beginning of the Array.
+     */
+    ConstIterator Begin() const 
+      {return (ConstIterator)m_InternalArray;}
+
+    /**
+     * Get an Iterator for the end of the Array.
+     */
+    Iterator      End() 
+      {return (Iterator)(m_InternalArray+Length);}
+
+    /**
+     * Get a ConstIterator for the end of the Array.
+     */
+    ConstIterator End() const 
+      {return (ConstIterator)(m_InternalArray+Length);}
+
+    /**
+     * Get the size of the Array.
+     */
+    SizeType      Size() const 
+      {return Length;}
+
+    /**
+     * Get a reference to the array that can be treated as a vnl vector.
+     */
+    ::vnl_vector_ref<ValueType> Get_vnl_vector()
+      {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
+    ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
+      {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
     
   private:
     /**
@@ -232,10 +316,13 @@ public:
   class ConstReference
   {
   public:
-    ConstReference(const Array& r);
-    ConstReference(const Reference& r);
-    ConstReference(const ConstReference& r);
-    ConstReference(const ValueType r[Length]);
+    /**
+     * Constructor copies only the array pointer since this is a reference type.
+     */
+    ConstReference(const Array& r) : m_InternalArray(r.Begin()) {}
+    ConstReference(const Reference& r) : m_InternalArray(r.Begin()) {}
+    ConstReference(const ConstReference& r) : m_InternalArray(r.Begin()) {}
+    ConstReference(const ValueType r[Length]) : m_InternalArray(r) {}
     
     /*@{
      * Allow the Array to be indexed normally.
@@ -243,20 +330,37 @@ public:
      * The separate versions are a work-around for an integer conversion
      * bug in Visual C++.
      */
-    inline const_reference operator[](short index) const          { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-    inline const_reference operator[](int index) const            { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
-    inline const_reference operator[](long index) const           { return m_InternalArray[index]; }
-    inline const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
+    const_reference operator[](short index) const          { return m_InternalArray[index]; }
+    const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
+    const_reference operator[](int index) const            { return m_InternalArray[index]; }
+    const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
+    const_reference operator[](long index) const           { return m_InternalArray[index]; }
+    const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
     //@}
     
-    inline operator const ValueType* () const;
-    inline ConstIterator  Begin() const;
-    inline ConstIterator  End() const;
-    inline SizeType       Size() const;
+    operator const ValueType* () const
+      { return m_InternalArray; }
+    /**
+     * Get a ConstIterator for the beginning of the Array.
+     */
+    ConstIterator  Begin() const 
+      {return (ConstIterator)m_InternalArray;}
+    /**
+     * Get a ConstIterator for the end of the Array.
+     */
+    ConstIterator  End() const
+      {return (ConstIterator)(m_InternalArray+Length);}
+    /**
+     * Get the size of the Array.
+     */
+    SizeType       Size() const
+      {return Length;}
 
-    inline ::vnl_vector_ref<const ValueType> Get_vnl_vector() const;
+    /**
+     * Get a reference to the array that can be treated as a vnl vector.
+     */
+    ::vnl_vector_ref<const ValueType> Get_vnl_vector() const
+      {return ::vnl_vector_ref<const ValueType>(Length, m_InternalArray);}
     
   private:
     /**
