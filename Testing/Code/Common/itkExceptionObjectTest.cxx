@@ -7,10 +7,10 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 
@@ -31,29 +31,35 @@ class naked_mole_rat : public mammal{ public:  int GetType() { return 2; }};
 bool mammal::operator== (mammal &o)
 {
   if ( this->GetType() != o.GetType() )
-	{
-	  itkIncompatibleOperandsError e;
-	  e.SetLocation("bool mammal::operator==(mammal&, mammal&)");
-	  e.SetDescription("Cannot compare mammals of unequal type");
-	  throw e;
-	}
+    {
+    itkIncompatibleOperandsError e;
+    e.SetLocation("bool mammal::operator==(mammal&, mammal&)");
+    e.SetDescription("Cannot compare mammals of unequal type");
+    throw e;
+    }
   else
-	{
-	  if ( /* blah blah blah */ 1) return true;
-	  else return false;
-	}
+    {
+    if ( /* blah blah blah */ 1) 
+      {
+      return true;
+      }
+    else 
+      {
+      return false;
+      }
+    }
 }
 
 int lookup(const int& i)
 {
   static int table[5] = { 23,42,42,32,12 };
   if ( ! ( 0 <= i && i < 5 ) )
-	{
-	  itkRangeError e;
-	  e.SetLocation("int lookup(const int& )");
-	  e.SetDescription("Attempted to access out-of-bounds array element");
-	  throw e;
-	}
+    {
+    itkRangeError e;
+    e.SetLocation("int lookup(const int& )");
+    e.SetDescription("Attempted to access out-of-bounds array element");
+    throw e;
+    }
   return table[i];
 }
 
@@ -86,20 +92,27 @@ main()
   
   // ** BE SURE TO CATCH BY REFERENCE TO AVOID SLICING **
   try {
-	lookup(4);  // OK
-	lookup(12); // ERROR
-  }
-  catch (itkExceptionObject &e) { std::cout << e << std::endl; }
+    lookup(4);  // OK
+    lookup(12); // ERROR
+    }
+  catch (itkExceptionObject &e) 
+    { 
+    std::cout << e << std::endl; 
+    }
 
   try
-	{
-      human john, jane;
-	  naked_mole_rat hal;
-	  john == john;  // OK
-	  jane == john;  // OK
-   	  hal == john;   // ERROR
-	}
-  catch (itkIncompatibleOperandsError &e) { std::cout << e << std::endl; }
+    {
+    human john, jane;
+    naked_mole_rat hal;
+    john == john;  // OK
+    jane == john;  // OK
+    hal == john;   // ERROR
+    }
+  catch (itkIncompatibleOperandsError &e) 
+    { 
+    std::cout << e << std::endl; 
+    }
+
   /*
   // SAMPLE ERROR STUFF
   itkSampleError Se;

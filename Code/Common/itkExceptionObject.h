@@ -7,10 +7,10 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 
@@ -23,13 +23,6 @@ See COPYRIGHT.txt for copyright details.
 
 class itkExceptionObject
 {
-private:
-  /**
-   * Exception data.  Location of the error and description of the error.
-   */
-  std::string m_Location;
-  std::string m_Description;
- 
 public:
   /**
    * Constructor and copy constructor.  Note that these functions will be
@@ -38,8 +31,8 @@ public:
   itkExceptionObject() { };
   itkExceptionObject( const itkExceptionObject &orig )
   {
-	this->m_Location    = orig.m_Location;
-	this->m_Description = orig.m_Description;
+    this->m_Location    = orig.m_Location;
+    this->m_Description = orig.m_Description;
   }
   
   /**
@@ -47,18 +40,24 @@ public:
    */
   itkExceptionObject &operator= ( const itkExceptionObject &orig )
   {
-	this->m_Location    = orig.m_Location;
-	this->m_Description = orig.m_Description;
-	return *this;
+    this->m_Location    = orig.m_Location;
+    this->m_Description = orig.m_Description;
+    return *this;
   }
   
   virtual bool operator==( const itkExceptionObject &orig )
   {
     if ( this->m_Location    == orig.m_Location &&
-		 this->m_Description == orig.m_Description ) return true;
-	else return false;
+         this->m_Description == orig.m_Description ) 
+      {
+      return true;
+      }
+    else 
+      {
+      return false;
+      }
   }
-  	  
+          
   /**
    * Print exception information.  This method can be overridden by specific
    * exception subtypes.  The default is to print out the location where
@@ -79,11 +78,18 @@ public:
   virtual const char *GetLocation()    const { return m_Location.c_str();    }
   virtual const char *GetDescription() const { return m_Description.c_str(); }
   
-  /** 
-   * Run-time type information (and related methods).
+  /**
+   * Return the name of the class.
    */
-  itkTypeMacro(itkExceptionObject, );
+  static const char *GetClassName() {return "itkExceptionObject";}
   
+private:
+  /**
+   * Exception data.  Location of the error and description of the error.
+   */
+  std::string m_Location;
+  std::string m_Description;
+ 
 };
 
 /**
@@ -133,15 +139,15 @@ public:
   itkSampleError () : itkExceptionObject(), m_ExtraInfo(0) {}
   itkSampleError (const itkSampleError& orig) : itkExceptionObject(orig)
   {
-	this->m_ExtraInfo = orig.m_ExtraInfo;
+        this->m_ExtraInfo = orig.m_ExtraInfo;
   }
 
   // Assignment operator:  Be sure parent assignment operator is called.
   itkSampleError &operator= ( const itkSampleError &orig )
   { 
-	itkExceptionObject::operator= ( orig );
-	this->m_ExtraInfo = orig.m_ExtraInfo;
-	return *this;
+        itkExceptionObject::operator= ( orig );
+        this->m_ExtraInfo = orig.m_ExtraInfo;
+        return *this;
   }
 
   // Get and set methods for the new field.
@@ -152,8 +158,8 @@ public:
   // print function is used to print basic information.
   void Print(std::ostream& os)  const
   {
-	itkExceptionObject::Print( os );
-	os << std::endl << "\tExtra info: " << m_ExtraInfo;
+        itkExceptionObject::Print( os );
+        os << std::endl << "\tExtra info: " << m_ExtraInfo;
   }
 
   itkTypeMacro(itkSampleError, itkExceptionObject);
@@ -161,3 +167,4 @@ public:
 };
 */
 #endif
+
