@@ -26,6 +26,16 @@
 namespace itk {
 namespace Statistics {
 
+/** \class ImageToHistogramGenerator
+ *  \brief This class generates an histogram from an image.
+ *
+ *  The concept of Histogram in ITK is quite generic. It has been designed to
+ *  manage multiple components data. This class facilitates the computation of
+ *  an histogram from an image. Internally it creates a List that is feed into
+ *  the ListSampleToHistogramGenerator.
+ *
+ */
+ 
 template< class TImageType >
 class ImageToHistogramGenerator : public Object
 {
