@@ -50,12 +50,25 @@ namespace itk
 /** \class AsinImageFilter
  * \brief Computes the asin(x) pixel-wise
  *
+ * This filter is templated over the pixel type of the input image
+ * and the pixel type of the output image. 
+ *
+ * The filter will walk over all the pixels in the input image, and for
+ * each one of them it will do the following: 
+ *
+ * - cast the pixel value to \c double, 
+ * - apply the \c asin() function to the \c double value
+ * - cast the \c double value resulting from \c asin() to the pixel type of the output image 
+ * - store the casted value into the output image.
+ * 
+ * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
+ *
  * 
  * \ingroup IntensityImageFilters
  *
  */
 
-namespace Function {  
+namespace Functor {  
   
   template< class TInput, class TOutput>
   class Asin
@@ -65,7 +78,11 @@ namespace Function {
     ~Asin() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)asin((double)A);
+      return static_cast<TOutput>(
+          asin(
+            static_cast<double>(A)
+            )
+          );
     }
   }; 
 
@@ -77,7 +94,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AsinImageFilter :
     public
     UnaryImageFilter<TInputImage,TOutputImage, 
-    Function::Asin< 
+    Functor::Asin< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
 
@@ -93,7 +110,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef UnaryImageFilter<TInputImage,TOutputImage, 
-    Function::Asin< 
+    Functor::Asin< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;
