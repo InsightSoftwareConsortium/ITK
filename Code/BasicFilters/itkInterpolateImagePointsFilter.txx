@@ -122,7 +122,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
 
   // Setup an interator for each of the coordinate inputs.
   CoordImageIterator   coordIter[ImageDimension];
-  for (insigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; j++)
     {
     CoordImageIterator temp( this->GetInput(j+1), coordRegion );
 //    temp.GoToBegin();   //Not sure if this is needed or inappropriate for threading.
