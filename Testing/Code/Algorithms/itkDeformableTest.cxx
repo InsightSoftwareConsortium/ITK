@@ -5,7 +5,7 @@
 #include <itkSphereSource.h>
 #include <itkDeformableMesh3DFilter.h>
 #include <itkMesh.h>
-#include <time.h>
+//#include <time.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
 #include <itkCovariantVector.h>
 
@@ -26,7 +26,7 @@ int main()
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
+  typedef itk::Image<double, myDimension>           myImageType;
 
   // Declare the types of the output images
   typedef itk::Image<unsigned short, myDimension>  outImageType;
@@ -41,12 +41,12 @@ int main()
   typedef itk::ImageRegion<myDimension> myRegionType;
 
   // Declare the type of the Mesh
-  typedef itk::Mesh<float>   DMesh;
+  typedef itk::Mesh<double>   DMesh;
 
   typedef DMesh::PointType   OPointType;
 
   // Declare the type of the gradient image
-  typedef itk::CovariantVector<float, myDimension> myGradientType;
+  typedef itk::CovariantVector<double, myDimension> myGradientType;
   typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
 
 
@@ -119,13 +119,13 @@ int main()
 
   input = fopen(INFILE, "rb");
 
-  float ss;
+  double ss;
   int k=0;
   for (int i=0; i<DEPTH; i++) {
     fread(TestImage, 2, WIDTH*HEIGHT, input);
     k = 0;
     while( k < WIDTH*HEIGHT ) {    
-      ss=(float)TestImage[k];
+      ss=(double)TestImage[k];
       it.Set(ss);
       k++;
       ++it;
@@ -162,7 +162,7 @@ int main()
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
                                             myGradientImageType,
-                                            float       >  myFilterType;
+                                            double       >  myFilterType;
             
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
@@ -198,11 +198,11 @@ int main()
   fclose(grgoutput);
 
   k = 0;
-  float grad;
+  double grad;
   outit.GoToBegin();
   while( !outit.IsAtEnd() ) {
   if ((k >= WIDTH) && (k+WIDTH < WIDTH*HEIGHT)) { 
-    grad = 0.5*sqrt((float)((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
+    grad = 0.5*sqrt((double)((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
     (testImage[k-WIDTH]-testImage[k+WIDTH])*(testImage[k-WIDTH]-testImage[k+WIDTH])));
     outit.Set(grad);
   } else {
