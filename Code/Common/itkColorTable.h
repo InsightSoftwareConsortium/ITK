@@ -19,6 +19,7 @@
 
 #include <itkObject.h>
 #include <itkRGBPixel.h>
+#include <itkObjectFactory.h>
 
 namespace itk 
 {
