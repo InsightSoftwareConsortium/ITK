@@ -27,6 +27,8 @@ namespace _cable_
     typedef itk::BinaryBallStructuringElement<float, 3 >::Self itkBinaryBallStructuringElementF3;
     typedef itk::BinaryBallStructuringElement<unsigned char, 2 >::Self itkBinaryBallStructuringElementUC2;
     typedef itk::BinaryBallStructuringElement<unsigned char, 3 >::Self itkBinaryBallStructuringElementUC3;
+    typedef itk::BinaryBallStructuringElement<unsigned short, 2 >::Self itkBinaryBallStructuringElementUS2;
+    typedef itk::BinaryBallStructuringElement<unsigned short, 3 >::Self itkBinaryBallStructuringElementUS3;
   }
 }
 #endif
