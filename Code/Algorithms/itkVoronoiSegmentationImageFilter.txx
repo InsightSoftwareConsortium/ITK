@@ -457,34 +457,6 @@ BeforeNextStep(void){
   m_NumberOfSeeds += m_NumberOfSeedsToAdded;
 }
 
-template <class TInputImage, class TOutputImage>
-void
-VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
-MakeSegmentBoundary(void)
-{
-
-  RegionType region = m_InputImage->GetRequestedRegion();
-  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region);
-  oit.Begin();
-  while( !oit.IsAtEnd()) {    
-    oit.Set(0);
-    ++oit;
-  }
-  
-  NeighborIdIterator nit;
-  NeighborIdIterator nitend;
-  for(int i=0;i<m_NumberOfSeeds;i++){
-    if(m_Label[i] == 2){
-      nitend = m_WorkingVD->NeighborIdsEnd(i);
-	  for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
-	    if(((*nit)>i)&&(m_Label[*nit]==2)){
-		  drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
-		  i=i;
-	    }
-	  }
-    }
-  }
-}
 
 template <class TInputImage, class TOutputImage>
 void
@@ -715,7 +687,7 @@ drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color)
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 MakeSegmentBoundary(void)
 {
 
@@ -735,7 +707,6 @@ MakeSegmentBoundary(void)
 	    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
 	      if(((*nit)>i)&&(m_Label[*nit]==2)){
 		      drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
-		      i=i;
 	      }
 	    }
     }
@@ -744,7 +715,7 @@ MakeSegmentBoundary(void)
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 Reset(void)
 {
   m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
@@ -755,7 +726,7 @@ Reset(void)
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 MakeSegmentObject(void)
 {
   RegionType region = m_InputImage->GetRequestedRegion(); 
@@ -786,7 +757,7 @@ MakeSegmentObject(void)
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 FillPolygon(PointTypeDeque vertlist)
 {
   IndexType idx;
