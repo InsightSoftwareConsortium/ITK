@@ -61,6 +61,7 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  typedef MeasurementVectorType ValueType ;
 
   /** VMeasurementVectorSize template argument alias */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
