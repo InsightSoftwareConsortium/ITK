@@ -138,7 +138,7 @@ public:
    * must be be destroyed, and then a new matrix is created in the memory. All
    * elements in A must be set to zero. 
    *
-   * \param MatrixIndex index of matrix to initialize
+   * \param matrixIndex index of matrix to initialize
    */
   virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
 
@@ -151,7 +151,7 @@ public:
 
   /**
    * Free the memory from a matrix
-   * \param MatrixIndex index of matrix to destroy
+   * \param matrixIndex index of matrix to destroy
    */
   virtual void DestroyMatrix(unsigned int matrixIndex = 0) = 0;
 
@@ -172,7 +172,7 @@ public:
 
   /**
    * Free the memory from a vector
-   * \param VectorIndex index of vector to destroy
+   * \param vectorIndex index of vector to destroy
    */
   virtual void DestroyVector(unsigned int vectorIndex = 0) = 0;
 
@@ -180,7 +180,7 @@ public:
    * Initialization of a solution vector.  Existing memory must be destroyed
    * and the new solution vector is created in memory.  All values should
    * be set to zero.
-   * \param SolutionIndex index of solution vector to initialize
+   * \param solutionIndex index of solution vector to initialize
    */
   virtual void InitializeSolution(unsigned int solutionIndex = 0) = 0;
 
@@ -191,7 +191,7 @@ public:
   virtual bool IsSolutionInitialized(unsigned int solutionIndex = 0) = 0;
 
   /** Free teh mememory from a solution vector
-   * \param SolutionIndex index of solution vector to destroy
+   * \param solutionIndex index of solution vector to destroy
    */
   virtual void DestroySolution(unsigned int solutionIndex = 0) = 0;
 
@@ -199,7 +199,7 @@ public:
    * Virtual function to get a value of a specific element of a matrix.
    * \param i row of the element
    * \param j column of the element
-   * \param MatrixIndex index of matrix to get value from
+   * \param matrixIndex index of matrix to get value from
    */
   virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex = 0) const = 0;
 
@@ -208,7 +208,7 @@ public:
    * \param i row of the element
    * \param j column of the element
    * \param value new value of the element
-   * \param MatrixValue index of matrix to set value in
+   * \param matrixValue index of matrix to set value in
    */
   virtual void SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
 
@@ -217,7 +217,7 @@ public:
    * \param i row of the element
    * \param j column of the element
    * \param value value to add to the existing element
-   * \param MatrixIndex index of matrix to add value to
+   * \param matrixIndex index of matrix to add value to
    */
   virtual void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
 
@@ -228,17 +228,17 @@ public:
    * that the value of an element with returned column index may actually
    * be equal zero.
    * \param row Row number
-   * \param i Which element in that row. Can range from 0 to number of
+   * \param cols Which element in that row. Can range from 0 to number of
    *          elements allocated in a row. If this is out of range, the
    *          function returns -1.
-   * \param MatrixIndex Index of matrix (defaults to 0)
+   * \param matrixIndex Index of matrix (defaults to 0)
    */
   virtual void GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex = 0 );
 
   /**
    * Virtual function to get a value of a specific element of the B vector.
    * \param i row of the element
-   * \param VectorIndex index of vector to get value from
+   * \param vectorIndex index of vector to get value from
    */
   virtual Float GetVectorValue(unsigned int i, unsigned int vectorIndex = 0) const = 0;
 
@@ -246,7 +246,7 @@ public:
    * Virtual function to set a value of a specific element of the B vector.
    * \param i row of the element
    * \param value new value of the element
-   * \param VectorIndex index of vector to set value in
+   * \param vectorIndex index of vector to set value in
    */
   virtual void SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0) = 0;
 
@@ -254,7 +254,7 @@ public:
    * Virtual function to add a value to a specific element of the B vector.
    * \param i row of the element
    * \param value value to add to the existing element
-   * \param VectorIndex index of vector to add value to
+   * \param vectorIndex index of vector to add value to
    */
   virtual void AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0) = 0;
 
@@ -263,7 +263,7 @@ public:
    * vector.
    * \param i element Index in solution vector
    * \param value new value of the element
-   * \param SolutionIndex index of solution vector to set value in
+   * \param solutionIndex index of solution vector to set value in
    */
   virtual void SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex = 0) = 0;
 
@@ -287,22 +287,22 @@ public:
 
   /** 
    * Swaps access indices of any 2 matrices in the linear system
-   * \param MatrixIndex1 index of a matrix to swap
-   * \param MatrixIndex2 index of matrix to swap with
+   * \param matrixIndex1 index of a matrix to swap
+   * \param matrixIndex2 index of matrix to swap with
    */
   virtual void SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) = 0;
 
   /** 
    * Swaps access indices of any 2 vectors in the linear system
-   * \param VectorIndex1 index of a vector to swap
-   * \param VectorIndex2 index of vector to swap with
+   * \param vectorIndex1 index of a vector to swap
+   * \param vectorIndex2 index of vector to swap with
    */
   virtual void SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) = 0;
 
   /** 
    * Swaps access indices of any 2 solution vectors in the linear system
-   * \param SolutionIndex1 index of a solution vector to swap
-   * \param SolutionIndex2 index of solution vector to swap with
+   * \param solutionIndex1 index of a solution vector to swap
+   * \param solutionIndex2 index of solution vector to swap with
    */
   virtual void SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) = 0;
 
@@ -332,24 +332,24 @@ public:
 
   /**
    * Perform a matrix*matrix operation and store the result in the linear system
-   * \param LeftMatrixIndex index of left matrix
-   * \param RightMatrixIndex index of right matrix
-   * \param ResultMatrixIndex index of matrix where solution is stored
+   * \param leftMatrixIndex index of left matrix
+   * \param rightMatrixIndex index of right matrix
+   * \param resultMatrixIndex index of matrix where solution is stored
    */
   virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex) = 0;
 
   /**
    * Perform a matrix*vector operation and store the result in the linear system
-   * \param MatrixIndex index of matrix to multiply
-   * \param VectorIndex index of vector to multiply
-   * \param ResultVectorIndex index of vector where result is store
+   * \param matrixIndex index of matrix to multiply
+   * \param vectorIndex index of vector to multiply
+   * \param resultVectorIndex index of vector where result is store
    */
   void MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
   /**
    * Copy a solution vector to a vector
-   * \param SolutionIndex index of solution vector to copy
-   * \param VectorIndex index of vector to copy solution to
+   * \param solutionIndex index of solution vector to copy
+   * \param vectorIndex index of vector to copy solution to
    */
   virtual void CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex) = 0;
 
@@ -364,7 +364,7 @@ public:
   /**
    * Reorder the Degrees of Freedom in order to reduce bandwidth of matrix
    * \param matrixIndex index of matrix to examine
-   * \param newDOF vector of new degree of freedom ordering
+   * \param newNumbering vector of new degree of freedom ordering
    */
   void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
 

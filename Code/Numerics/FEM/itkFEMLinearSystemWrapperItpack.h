@@ -384,7 +384,6 @@ public:
 
   /**
    * set maximum number of entires in a matrix
-   * \param matrixIndex index of matrix
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
    */  

@@ -59,13 +59,13 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 {
 
   /* FIX ME: exceptions */
-  if (!m_Order || (matrixIndex >= m_NumberOfMatrices) ) throw;
+  if (!m_Order || (matrixIndex >= m_NumberOfMatrices) ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   // allocate if necessay
   if (m_Matrices == 0)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if (m_Matrices == NULL) throw;
+    if (m_Matrices == NULL) throw FEMException(__FILE__, __LINE__, "FEM error");
   }
 
   /* Set required variables */
@@ -92,13 +92,13 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 {
 
   /* FIX ME: exceptions */
-  if (!m_Order || !m_NumberOfVectors) throw;
+  if (!m_Order || !m_NumberOfVectors) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /* allocate if necessay */
   if (m_Vectors == 0)
   {
     m_Vectors = new VectorHolder(m_NumberOfVectors);
-    if (m_Vectors == NULL) throw;
+    if (m_Vectors == NULL) throw FEMException(__FILE__, __LINE__, "FEM error");
   }
   
   /* delete old vector */
@@ -109,7 +109,7 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal [m_Order];
-  if ( (*m_Vectors)[vectorIndex] == NULL) throw;
+  if ( (*m_Vectors)[vectorIndex] == NULL) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /* fill with zeros */
   for (unsigned int i=0; i<m_Order; i++)
@@ -135,7 +135,7 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 {
 
   /* FIX ME: exceptions */
-  if (!m_Order || !m_NumberOfSolutions) throw;
+  if (!m_Order || !m_NumberOfSolutions) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   // allocate if necessay
   if (m_Solutions == 0)
