@@ -13,7 +13,17 @@
 	<ul>
 	<xsl:for-each select="/Testing/Test">
 	<li>
-	<a><xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/> </a> <xsl:value-of select="@Status"/></li>
+	<a><xsl:attribute name="HREF">#<xsl:value-of select="generate-id()"/></xsl:attribute><xsl:value-of select="Name"/></a>
+	<xsl:choose>
+		<xsl:when test="contains('failed',@Status)">
+			<font color="#FF0000"> Failed</font>
+		</xsl:when>
+		<xsl:when test="contains('passed',@Status)">
+			<font color="#00AA00"> Passed</font>
+		</xsl:when>
+	</xsl:choose>
+	</li>
+
 	</xsl:for-each>
 	</ul>
 	<hr/>
