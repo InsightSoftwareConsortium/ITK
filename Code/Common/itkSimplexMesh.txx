@@ -72,6 +72,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
       }
     pointDataIterator++;
     }
+  // clear the map
+  geometryMap->Initialize();
   this->ReleaseCellsMemory();
 }
 
