@@ -172,6 +172,13 @@ public:
       m_Subsample = iter.m_Subsample ;
       m_Sample = iter.m_Sample ;
     }
+
+    Iterator(const Iterator& iter)
+    {
+      m_Iter = iter.m_Iter;
+      m_Subsample = iter.m_Subsample ;
+      m_Sample = iter.m_Sample ;
+    }
     
   private:
     // Iterator pointing to ImageToListAdaptor

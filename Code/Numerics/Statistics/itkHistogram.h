@@ -353,7 +353,13 @@ public:
       m_Histogram = it.m_Histogram ; 
       return *this ;
     }
-    
+
+    Iterator(const Iterator& it)
+    { 
+      m_Id        = it.m_Id;
+      m_Histogram = it.m_Histogram ; 
+    }
+   
   private:
     // Iterator pointing DenseFrequencyContainer
     InstanceIdentifier m_Id;

@@ -255,11 +255,17 @@ public:
     bool operator==(const Iterator &it)
     { return !(this != it);}
     
-    Iterator& operator = (Iterator &iter)
+    Iterator& operator = (const Iterator &iter)
     { 
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container ; 
       return iter ;
+    }
+
+    Iterator(const Iterator &iter)
+    { 
+      m_Id = iter.m_Id; 
+      m_Container = iter.m_Container ; 
     }
     
   private:

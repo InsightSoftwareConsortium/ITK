@@ -208,6 +208,13 @@ public:
       m_MembershipSample = it.m_MembershipSample ;
       m_Sample = it.m_Sample ;
     }
+
+    Iterator(const Iterator& it)
+    {
+      m_Id = it.m_Id;
+      m_MembershipSample = it.m_MembershipSample ;
+      m_Sample = it.m_Sample ;
+    }
     
   private:
     // identifier for the instance
