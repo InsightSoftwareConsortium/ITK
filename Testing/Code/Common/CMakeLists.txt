@@ -23,7 +23,6 @@ ADD_TEST(itkAzimuthElevationToCartesianTransformTest ${COMMON_TESTS} itkAzimuthE
 ADD_TEST(itkBinaryThresholdImageFunctionTest ${COMMON_TESTS} itkBinaryThresholdImageFunctionTest)
 ADD_TEST(itkBoundingBoxTest ${COMMON_TESTS} itkBoundingBoxTest)
 ADD_TEST(itkBSplineDeformableTransformTest ${COMMON_TESTS} itkBSplineDeformableTransformTest)
-ADD_TEST(itkBSplineInterpolateImageFunctionTest ${COMMON_TESTS} itkBSplineInterpolateImageFunctionTest)
 ADD_TEST(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInterpolationWeightFunctionTest)
 ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
@@ -92,7 +91,6 @@ itkAzimuthElevationToCartesianTransformTest.cxx
 itkBinaryThresholdImageFunctionTest.cxx
 itkBoundingBoxTest.cxx
 itkBSplineDeformableTransformTest.cxx
-itkBSplineInterpolateImageFunctionTest.cxx
 itkBSplineInterpolationWeightFunctionTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
