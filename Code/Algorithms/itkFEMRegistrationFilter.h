@@ -65,7 +65,7 @@ namespace fem {
      The choices and the associated direction of descent are : 
         Mean Squares (minimize), 
         Normalized Cross-Correlation (maximize)
-        Pattern Intensity  (maximize)
+        Mean Reciprocal Square Difference  (maximize)
         Mutual Information (maximize).
      Note that we have to set the direction (SetDescentDirection) when we choose a metric. 
      The forces driving the problem may also be given by user-supplied landmarks.  
@@ -341,7 +341,7 @@ public:
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
   
   /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
-      2=pattern intensity, 3 = mutual information. */
+      2=Mean Reciprocal Square Difference, 3 = mutual information. */
   void      ChooseMetric( float whichmetric); 
   
   /** This function allows one to set the element and its material externally. */

@@ -225,7 +225,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(float which)
     case 2:
       m_Metric=MetricType2::New();
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Pattern Intensity " << std::endl;
+      std::cout << " Mean Reciprocal Square Difference " << std::endl;
       break;
     case 3:
       m_Metric=MetricType3::New();
