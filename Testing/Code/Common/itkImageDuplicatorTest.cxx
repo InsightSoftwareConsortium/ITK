@@ -96,18 +96,42 @@ int itkImageDuplicatorTest(int, char* [] )
   shift->SetShift(1);
   shift->Update(); // need to update before duplicator
   duplicator->Update();
+  ImageCopy = duplicator->GetOutput();
   
-  it2.GoToBegin();
+  itk::ImageRegionIterator<ImageType> it2b(ImageCopy,ImageCopy->GetLargestPossibleRegion());
+  it2b.GoToBegin();
   i = 0;
-  while(!it2.IsAtEnd())
+  while(!it2b.IsAtEnd())
     {
-    if(it2.Get() != i+1)
+    if(it2b.Get() != i+1)
       {
-      std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i+1 << std::endl;
+      std::cout << "Error: Pixel value mismatched: " << it2b.Get() << " vs. " << i+1 << std::endl;
       return EXIT_FAILURE;
       }
     i++;
-    ++it2;
+    ++it2b;
+    }
+
+  std::cout << "[DONE]" << std::endl;
+
+  /** Test duplicator after modifying the bulk data of the input */
+  std::cout << "Rerunning duplicator with no changes: ";
+  shift->Update(); // need to update before duplicator
+  duplicator->Update();
+  ImageCopy = duplicator->GetOutput();
+  
+  itk::ImageRegionIterator<ImageType> it2c(ImageCopy,ImageCopy->GetLargestPossibleRegion());
+  it2c.GoToBegin();
+  i = 0;
+  while(!it2c.IsAtEnd())
+    {
+    if(it2c.Get() != i+1)
+      {
+      std::cout << "Error: Pixel value mismatched: " << it2c.Get() << " vs. " << i+1 << std::endl;
+      return EXIT_FAILURE;
+      }
+    i++;
+    ++it2c;
     }
 
   std::cout << "[DONE]" << std::endl;
