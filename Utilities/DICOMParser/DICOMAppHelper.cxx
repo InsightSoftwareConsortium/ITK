@@ -126,7 +126,7 @@ DICOMAppHelper::DICOMAppHelper()
 {
   this->BitsAllocated = 8;
   this->ByteSwapData = false;
-  this->PixelSpacing[0] = this->PixelSpacing[1] = 1.0;
+  this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0;
   this->Dimensions[0] = this->Dimensions[1] = 0;
   this->PhotometricInterpretation = NULL;
   this->TransferSyntaxUID = NULL;
@@ -981,9 +981,19 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
                                           doublebyte element,
                                           DICOMParser::VRTypes,
                                           unsigned char* val,
-                                          quadbyte) 
+                                          quadbyte len) 
 {
-  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+  float fval;
+
+  if (len > 0)
+    {
+    fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+    }
+  else
+    {
+    // NULL field, use a default of 1mm
+    fval = 1.0;
+    }
 
   if (group == 0x0028 && element == 0x0030)
     {
