@@ -85,29 +85,20 @@ public:
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
   
-  /** Get scale of an ScaleTransform.
-   * This method returns the value of the offset of the
-   * ScaleTransform. */
-  const ScaleType & GetScale( void ) const
-    { return m_Scale; }
-
   /** Set parameters.
    * This method sets the parameters for the transform
    * value specified by the user. */
   void SetParameters(const ParametersType & parameters);
 
   /** Get the parameters that uniquely define the transform
-   * This is typically used by optimizers.
-   * There are 4 parameters. The first one represents the
-   * rotation, the second one the scale and the last 
-   * two represent the offset. */
+   * This is typically used by optimizers.  */
   const ParametersType & GetParameters( void ) const;
 
   /** Get the Jacobian matrix. */
   const JacobianType & GetJacobian( const InputPointType & point ) const;
 
-  /** Set offset of an Scale Transform
-   * This method sets the offset of an ScaleTransform to a
+  /** Set the factors of an Scale Transform
+   * This method sets the factors of an ScaleTransform to a
    * value specified by the user. 
    * This method cannot be done with SetMacro because itk::Array has not
    * an operator== defined. */
@@ -160,6 +151,11 @@ public:
   itkSetMacro( Center, InputPointType );
   itkGetConstMacro( Center, InputPointType );
 
+
+  /** Get access to scale values */
+  itkGetConstMacro( Scale, ScaleType );
+
+
 protected:
   /** Construct an ScaleTransform object. */
   ScaleTransform();
@@ -170,6 +166,7 @@ protected:
   /** Print contents of an ScaleTransform */
   void PrintSelf(std::ostream &os, Indent indent) const;
 
+  
 private:
   ScaleTransform(const Self & other); //purposely not implemented
   const Self & operator=( const Self & ); //purposely not implemented
