@@ -179,10 +179,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MembershipSampleType::ClassSampleType::Pointer classSample = 
+  MembershipSampleType::ClassSampleType::ConstPointer classSample = 
                                   membershipSample->GetClassSample( 0 );
 
-  MembershipSampleType::ClassSampleType::Iterator c_iter = 
+  MembershipSampleType::ClassSampleType::ConstIterator c_iter = 
                                                     classSample->Begin();
 
   while ( c_iter != classSample->End() )
