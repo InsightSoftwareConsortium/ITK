@@ -22,7 +22,7 @@
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "itkNonLinearOptimizer.h"
-//#include "itkOnePlusOneEvolutionaryOptimizer.h"
+#include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
@@ -43,7 +43,7 @@ ITK_WRAP_OBJECT(LevenbergMarquardtOptimizer);
 ITK_WRAP_OBJECT(MultipleValuedNonLinearOptimizer);
 ITK_WRAP_OBJECT(MultipleValuedNonLinearVnlOptimizer);
 ITK_WRAP_OBJECT(NonLinearOptimizer);
-//ITK_WRAP_OBJECT(OnePlusOneEvolutionaryOptimizer);
+ITK_WRAP_OBJECT(OnePlusOneEvolutionaryOptimizer);
 ITK_WRAP_OBJECT(Optimizer);
 ITK_WRAP_OBJECT(QuaternionRigidTransformGradientDescentOptimizer);
 ITK_WRAP_OBJECT(RegularStepGradientDescentBaseOptimizer);
