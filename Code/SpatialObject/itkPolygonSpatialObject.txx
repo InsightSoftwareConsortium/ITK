@@ -458,7 +458,7 @@ PolygonSpatialObject<TDimension>
 ::IsInside( const PointType & point,unsigned int ,char * ) const
 {
   int numpoints = this->NumberOfPoints();
-  int X, Y;
+  int X, Y,Z;
   if(numpoints < 3)
     {
     return false;
@@ -466,17 +466,17 @@ PolygonSpatialObject<TDimension>
   switch(const_cast<Self *>(this)->Plane())
     {
     case Sagittal:
-      X = 1; Y = 2;
+      X = 1; Y = 2; Z = 0;
       break;
     case Axial:
-      X = 0; Y = 2;
+      X = 0; Y = 2; Z = 1;
       break;
     case Coronal:
-      X = 0; Y = 1;
+      X = 0; Y = 1; Z = 2;
       break;
     default:
       ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be read");
+      exception.SetDescription("non-planar polygon");
       throw exception;
     }
 
@@ -492,7 +492,7 @@ PolygonSpatialObject<TDimension>
     numpoints--;
     }
   bool oddNodes = false;
-  
+  double z;
   for(int i = 0; i < numpoints; i++)
     {
     PointType start = (*it).GetPosition();
@@ -507,6 +507,7 @@ PolygonSpatialObject<TDimension>
       end = (*it).GetPosition();
       }
     double x = point[X]; double y = point[Y];
+    z = point[Z];
     if((start[Y] < y && end[Y] >= y) ||
        (end[Y] < y && start[Y] >= y))
       {
@@ -517,7 +518,14 @@ PolygonSpatialObject<TDimension>
         }
       }
     }
-  return oddNodes;
+  if(oddNodes)
+    {
+    double distance = point[Z] - z;
+    if(distance < 0)
+      distance = -distance;
+    }
+
+  return false;
 }
 }
 #endif
