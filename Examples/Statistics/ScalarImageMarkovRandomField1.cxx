@@ -29,13 +29,35 @@
 // Software Guide : EndLatex 
 
 
+// Software Guide : BeginLatex
+//
+// The following headers are related to reading input images, writing the
+// output image, and making the necessary conversions between scalar and vector
+// images.
+//
+// Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
 #include "itkFixedArray.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScalarToArrayCastImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
+// The following headers are related to the statistical classification classes.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
 #include "itkMRFImageFilter.h"
+#include "itkDistanceToCentroidMembershipFunction.h"
+#include "itkMinimumDecisionRule.h"
+#include "itkImageClassifierBase.h"
 // Software Guide : EndCodeSnippet
 
 int main( int argc, char * argv [] )
@@ -195,10 +217,64 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
+// Software Guide : BeginLatex
+//
+// Given that the MRF filter need to continually relabel the pixels, it needs
+// access to a set of membership functions that will measure to what degree
+// every pixel belongs to a particular class.  The classification is performed
+// by the \doxygen{ImageClassifierBase} class, that is instantiated using the
+// type of the input vector image and the type of the labeled image.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  typedef itk::ImageClassifierBase< 
+                              ArrayImageType,
+                              LabelImageType >   SupervisedClassifierType;
+
+  SupervisedClassifierType::Pointer classifier = 
+                                         SupervisedClassifierType::New();
+// Software Guide : EndCodeSnippet
+
+
 
 // Software Guide : BeginLatex
 //
-// The output image profuced by the \doxygen{MRFImageFilter} has the same pixel
+// The classifier need a decision rule to be set by the user. Note that we must
+// use \code{GetPointer()} in the call of the \code{SetDecisionRule()} method
+// because we are passing a SmartPointer, and smart pointer cannot perform
+// polymorphism, we must then extract the raw pointer that is associated to the
+// smart pointer. This extraction is done with the GetPointer() method.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+
+  DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
+
+  classifier->SetDecisionRule( classifierDecisionRule.GetPointer() );
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// Finally, the classifier class is connected to the Markof Random Fields filter.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetClassifier( classifier );
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The output image produced by the \doxygen{MRFImageFilter} has the same pixel
 // type as the labeled input image. In the following lines we use the
 // \code{OutputImageType} in order to instantiate the type of a
 // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
