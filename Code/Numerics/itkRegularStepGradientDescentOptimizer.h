@@ -187,6 +187,7 @@ public:
   itkGetConstMacro( GradientMagnitudeTolerance, double );
   itkGetConstMacro( CurrentIteration, unsigned int );
   itkGetConstMacro( StopCondition, StopConditionType );
+  itkGetConstMacro( Value, MeasureType );
 
   void SetScale( const ParametersType & scale )
           { m_Scale = scale; this->Modified(); }
@@ -208,7 +209,7 @@ private:
 
   bool                          m_Stop;
   bool                          m_Maximize;
-  double                        m_Value;
+  MeasureType                   m_Value;
   double                        m_GradientMagnitudeTolerance;
   double                        m_MaximumStepLength;
   double                        m_MinimumStepLength;

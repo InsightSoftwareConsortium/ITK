@@ -210,6 +210,16 @@ public:
   itkGetConstMacro( CurrentIteration, unsigned int );
 
   /**
+   * Get the current value
+   */
+  itkGetConstMacro( Value, double );
+
+  /**
+   * Get Stop condition
+   */
+  itkGetConstMacro( StopCondition, StopConditionType );
+
+  /**
    * Set the scaling between parameters.
    * The default is 1.0 for all parameters.
    */
