@@ -26,9 +26,17 @@
 #include "itkPathToChainCodePathFilter.h"
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
+#include "itkImageFileWriter.h"
 
-int itkExtractOrthogonalSwath2DImageFilterTest(int, char*[])
+int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
 {
+  if( argc != 2)
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " outputImage " << std::endl;
+    return -1;
+    }
+
   typedef itk::Image<unsigned char, 2>         ImageType; 
   typedef itk::PolyLineParametricPath<2>       InPathType;
   typedef itk::ChainCodePath<2>                ChainPathType;
@@ -212,6 +220,14 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int, char*[])
   }
   std::cout << "[PASSED]" << std::endl;
 
+  itk::ImageFileWriter<ImageType>::Pointer writer
+    = itk::ImageFileWriter<ImageType>::New();
+  writer->SetInput( filter3->GetOutput() );
+  writer->SetFileName( argv[1] );
+  writer->Write();
+
+    
+  
   return EXIT_SUCCESS;
 }
 

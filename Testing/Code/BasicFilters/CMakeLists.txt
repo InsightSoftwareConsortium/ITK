@@ -56,7 +56,6 @@ ADD_TEST(itkExpImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpImageFilte
 ADD_TEST(itkExpNegativeImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpNegativeImageFilterAndAdaptorTest)
 ADD_TEST(itkExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkExpandImageFilterTest)
 ADD_TEST(itkExtractImageTest ${BASIC_FILTERS_TESTS} itkExtractImageTest)
-ADD_TEST(itkExtractOrthogonalSwath2DImageFilterTest ${BASIC_FILTERS_TESTS} itkExtractOrthogonalSwath2DImageFilterTest)
 ADD_TEST(itkFilterDispatchTest ${BASIC_FILTERS_TESTS} itkFilterDispatchTest)
 ADD_TEST(itkFlipImageFilterTest ${BASIC_FILTERS_TESTS} itkFlipImageFilterTest)
 ADD_TEST(itkFloodFillIteratorTest ${BASIC_FILTERS_TESTS} itkFloodFillIteratorTest)
@@ -302,6 +301,13 @@ ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
   itkNeighborhoodConnectedImageFilterTest
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png)
+
+ADD_TEST(itkExtractOrthogonalSwath2DImageFilterTest ${BASIC_FILTERS_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ExtractOrthogonalSwath2DImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
+  itkExtractOrthogonalSwath2DImageFilterTest 
+            ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
+)
 
 ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
