@@ -90,7 +90,7 @@ public:
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
-  typedef typename Image::PixelContainer PixelContainer;
+  typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
@@ -110,7 +110,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageRegionSimpleIterator(const TImage *ptr,
+  ImageRegionSimpleIterator(TImage *ptr,
                             const Region& region)
     : ImageIteratorWithIndex<TImage>(ptr, region) {}
 
