@@ -101,16 +101,16 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the input.
-  typename TOutputImage::Pointer input = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
 
-  m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
-  m_UpdateBuffer->SetRequestedRegion(input->GetRequestedRegion());
-  m_UpdateBuffer->SetBufferedRegion(input->GetBufferedRegion());
+  m_UpdateBuffer->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
+  m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
+  m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
   m_UpdateBuffer->Allocate();
   
-  m_UpdateBuffer1->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
-  m_UpdateBuffer1->SetRequestedRegion(input->GetRequestedRegion());
-  m_UpdateBuffer1->SetBufferedRegion(input->GetBufferedRegion());
+  m_UpdateBuffer1->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
+  m_UpdateBuffer1->SetRequestedRegion(output->GetRequestedRegion());
+  m_UpdateBuffer1->SetBufferedRegion(output->GetBufferedRegion());
   m_UpdateBuffer1->Allocate();
 }
 
@@ -554,13 +554,16 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   OutputImagePixelType directional[ImageDimension];
   OutputImagePixelType derivPos;
 
-  OutputImagePixelType gradMag = zero;
+  OutputImagePixelType gradMag;
 
   NeighborhoodInnerProduct<OutputImageType>  innerProduct;
 
   // Now Process the non-boundary region.
   while( ! nit.IsAtEnd() )
     {
+
+      gradMag = 0.0001;
+
       if ( threadId == 0 && !(ii % updateVisits ) )
         {
           this->UpdateProgress((float)ii++ / (float)totalPixels);
@@ -583,13 +586,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         {
 
           //First calculate the directional derivative
-          if ( gradMag != zero)
-            {
-//              gradMag = std::sqrt(gradMag);
-              directional[i] = dx[i]/gradMag;
-            }
-          else
-            directional[i] = zero;
+          gradMag = vnl_math_sqrt(gradMag);
+          directional[i] = dx[i]/gradMag;
 
           //calculate gradient of 2nd derivative
 
@@ -620,8 +618,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
       bit1.GoToBegin();
       it.GoToBegin();
 
+
+
       while ( ! bit.IsAtEnd() )
         {
+
+          gradMag = 0.0001;
+
           if ( threadId == 0 && !(ii % updateVisits ) )
             {
               this->UpdateProgress((float)ii++ / (float)totalPixels);
@@ -642,14 +645,9 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
             {
               
               //First calculate the directional derivative
-              if ( gradMag != zero)
-                {
-//                  gradMag = std::sqrt(gradMag);
-                  directional[i] = dx[i]/gradMag;
-                }
-              else
-                directional[i] = zero;
-                    
+              gradMag = std::sqrt(gradMag);
+              directional[i] = dx[i]/gradMag;
+                               
               //calculate gradient of 2nd derivative
               
               derivPos += dx1[i] * directional[i];
