@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -91,9 +91,9 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
     itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
-    {
+  {
     it.Set(32);
-    }
+  }
 
   //---------Put a sphere in the input image-----------
 
@@ -125,15 +125,15 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
 
   // Iterate through the entire image and set interior pixels to 255
   for( ; !( sfi.IsAtEnd() ); ++sfi)
-    {
+  {
     sfi.Set(255);
-    }
+  }
 
   printf("Spatial function iterator created, sphere drawn\n");
 
   //--------------------Do blurring and edge detection----------------
   typedef ImageType OutputType;
-  
+
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
   binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
@@ -153,7 +153,7 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
 
   // Create a differennce of gaussians gradient filter
   typedef itk::DifferenceOfGaussiansGradientImageFilter<OutputType,
-    double> DOGFilterType;
+  double> DOGFilterType;
   DOGFilterType::Pointer DOGFilter = DOGFilterType::New();
 
   // We're filtering the output of the binomial filter
@@ -205,13 +205,13 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
   // Initialize and set required parameters
   double setUniqueAxis = 10; // major axis of sampling region (ellipsoid)
   double setSymmetricAxes = 5; // minor axes of sampling region (ellipsoid)
-  unsigned int numberOfBins = setUniqueAxis; // lets make each bin 1 voxel wide
+  unsigned int numberOfBins = static_cast<unsigned int>(setUniqueAxis); // lets make each bin 1 voxel wide
   unsigned int splatMethod = 0; // method to weight voxel intensities
-                                // 0 - Gaussian, 1 - Triangular
+  // 0 - Gaussian, 1 - Triangular
   unsigned int spaceDimension = 4; // number of cost function parameters
 
   profileFilter->Initialize(setUniqueAxis, setSymmetricAxes, numberOfBins, 
-    splatMethod, spaceDimension);
+      splatMethod, spaceDimension);
   std::cerr << "Profile filter initialized" << std::endl;
 
   // Get the output of the profile filter
@@ -220,11 +220,11 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
   // Try and update profile filter if there are no exceptions
   try{profileFilter->Update();}
   catch( itk::ExceptionObject  & myException )
-    {
+  {
     std::cerr << "Exception caught in Update() method" << std::endl;
     std::cerr << myException << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //-------------------Pull boundary profiles out of the image----------------------
 
@@ -237,68 +237,65 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
 
   //profile iterator
   BloxIterator bloxIt = BloxIterator(bloxBoundaryProfileImage,
-                                     bloxBoundaryProfileImage->GetRequestedRegion() );
+      bloxBoundaryProfileImage->GetRequestedRegion() );
 
   // Used for obtaining the index of a pixel
   BloxProfileImageType::IndexType bloxindex;
 
-  // Used for obtaining position data from a BloxPoint
-  itk::Point<double, 3> position;
 
   // Position are we at in the list
-  int depth = 0;
-
-  double radius = 0;
   double averageRadius = 0;
   unsigned int profileCount = 1;
-
   for (bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
-    {
-    // The iterator for accessing linked list info from profile pixel
-    itk::BloxBoundaryProfilePixel<3>::iterator bpiterator;
-
+  {
     // What position are we at in the list?
-    depth = 0;
 
     // Get the index of the pixel
     bloxindex = bloxIt.GetIndex();
 
+    // The iterator for accessing linked list info from profile pixel
     // Walk through all of the elements at the pixel
-    for (bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
-      {
-      position = (*bpiterator)->GetOptimalBoundaryLocation();
-      depth++;
-    
+    for(itk::BloxBoundaryProfilePixel<3>::const_iterator bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
+    {
+      // Used for obtaining position data from a BloxPoint
+      const itk::Point<double, 3> position = (*bpiterator)->GetOptimalBoundaryLocation();
+
       // Find location of boundary profile on sphere
-      radius = sqrt( pow((position[0] - size/2), 2) + pow((position[1] - size/2), 2)
-        + pow((position[2] - size/2), 2) );
+      const double halfsize=static_cast<double>(size)/2.0;
+      const double radius = sqrt( pow((position[0] - halfsize), 2.0) + pow((position[1] - halfsize), 2.0) + pow((position[2] - halfsize), 2.0) );
 
       // Keep running sum of estimated radius to compute average radius
       averageRadius += radius;
-
       profileCount++;
-      } // end iterate
-    }
+    } // end iterate
+  }
 
   // Compute average radius estimated by boundary profiles
   averageRadius = averageRadius/profileCount;
 
-  std::cerr << "Sphere Radius = " << sphereRadius << "  Average Radius = " << averageRadius << std::endl;
+  std::cerr << "Sphere Radius = " << sphereRadius << "  Average Radius = " << averageRadius << " profileCount = " << profileCount << std::endl;
 
   // Report time to execute itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter
   endTime = clock();
   std::cerr << "Profile calculation time: " << (endTime - startTime)/CLOCKS_PER_SEC 
-            << " seconds" << std::endl;
+    << " seconds" << std::endl;
 
   // Test passes if estimated radius is within .1 voxel of sphere radius
-  if(fabs(averageRadius - sphereRadius) <= .1)
-    {
+  const double RadiusDifference=fabs(averageRadius - sphereRadius);
+  const double tolerance=0.1;
+  if(RadiusDifference <= tolerance)
+  {
     std::cerr << "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest Passed!!!" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
-    std::cerr << "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest Failed!!!" << std::endl;
+  {
+    std::cerr << "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest Failed! (TEST: (" 
+      << RadiusDifference
+      << " <= "
+      << tolerance
+      << ") Failed!"
+      << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }
