@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 
@@ -25,7 +25,7 @@
 
 typedef itk::Index<3>                              IndexType;
 typedef itk::Size<3>                               SizeType;
-typedef itk::Image<unsigned short, 3>              ImageType;
+typedef itk::PhysicalImage<unsigned short, 3>              ImageType;
 typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 
 int 
