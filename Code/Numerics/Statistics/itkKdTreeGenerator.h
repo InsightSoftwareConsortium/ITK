@@ -107,8 +107,8 @@ public:
   void SetBucketSize(int size) ;
 
   /** Returns the pointer to the generated k-d tree. */
-  OutputType* GetOutput()
-  { return m_Tree.GetPointer() ; }
+  OutputPointer GetOutput()
+  { return m_Tree ; }
 
   /** Runs this k-d tree construction algorithm. */
   void Update()
@@ -130,8 +130,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
   /** Returns the smart pointer to the internal Subsample object. */
-  SubsampleType* GetSubsample()
-  { return m_Subsample.GetPointer() ; }
+  SubsamplePointer GetSubsample()
+  { return m_Subsample ; }
 
   /** Nonterminal node generation routine */ 
   virtual KdTreeNodeType* GenerateNonterminalNode(int beginIndex,
