@@ -137,7 +137,7 @@ ENDIF(USE_VTK)
 
 
 # Look for OpenGL
-INCLUDE (${CMAKE_ROOT}/Modules/FindOpenGL.cmake)
+INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindOpenGL.cmake)
   
 # Look for GLUT and if found build the simple image viewer
 INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
