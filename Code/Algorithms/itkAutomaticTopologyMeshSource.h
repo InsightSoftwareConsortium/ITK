@@ -143,10 +143,6 @@ public:
   typedef typename PointType::CoordRepType   CoordinateType;
   typedef typename CellType::CellAutoPointer CellAutoPointer;
 
-  /** Useful Boundary aliases. */
-  typedef CellType                           BoundaryType;
-  typedef CellAutoPointer                    BoundaryAutoPointer;
-
   /** Different kinds of cells. */
   typedef VertexCell< CellType >             VertexCell;
   typedef LineCell< CellType >               LineCell;
@@ -154,14 +150,6 @@ public:
   typedef QuadrilateralCell< CellType >      QuadrilateralCell;
   typedef TetrahedronCell< CellType >        TetrahedronCell;
   typedef HexahedronCell< CellType >         HexahedronCell;
-
-  /** Different kinds of boundaries. */
-  typedef VertexBoundary< CellType >         VertexBoundary;
-  typedef LineBoundary< CellType >           LineBoundary;
-  typedef TriangleBoundary< CellType >       TriangleBoundary;
-  typedef QuadrilateralBoundary< CellType >  QuadrilateralBoundary;
-  typedef TetrahedronBoundary< CellType >    TetrahedronBoundary;
-  typedef HexahedronBoundary< CellType >     HexahedronBoundary;
 
   /** This class requires that the mesh being built use unsigned long
    * as the identifier type for all its elements. */
@@ -365,7 +353,6 @@ private:
 
   PointHashMap m_PointsHashTable;
   CellHashMap  m_CellsHashTable;
-  size_t       m_NumberOfBoundaries[4];
   MeshPointer  m_OutputMesh;   // Retained for convenience.
   
 };
