@@ -24,8 +24,12 @@ proc GetLog { File } \
 }
   
 # Do the update
-set UpdateStatus [catch { exec $cvs -n update -d -P -A >& update.tmp } ]
-puts $Out "\t<UpdateCommand>cvs -n update -d -P -A</UpdateCommand>"
+# Update to a particular time, but to do later.
+# clock format [clock scan today] -format "%Y-%m-%d 23:00 %Z" -gmt 1
+
+set UpdateCommand "$cvs update -d -P -A"
+set UpdateStatus [catch { exec $UpdateCommand >& update.tmp } ]
+puts $Out "\t<UpdateCommand>$UpdateCommand</UpdateCommand>"
 
 set Update [open update.tmp r]
 
