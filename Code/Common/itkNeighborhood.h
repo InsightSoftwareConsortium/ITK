@@ -121,6 +121,11 @@ public:
    * Standard "Self" typedef.
    */
   typedef Neighborhood Self;
+
+  /**
+   * Standard Superclass typedef
+   */
+  typedef NeighborhoodBase<TPixel, VDimension> Superclass;
   
   /** 
    * Run-time type information (and related methods).
@@ -135,18 +140,17 @@ public:
   /**
    * Assignment operator.
    */
-  Neighborhood &operator=( Neighborhood &orig )
+  Self &operator=( const Self &orig )
   {
-    NeighborhoodBase<TPixel, VDimension>::operator=(orig);
     this->resize(orig.size());
-    memcpy(this->begin(), orig.begin(), this->size() * sizeof(TPixel));
+    Superclass::operator=(orig);
     return *this;
   }
 
   /**
    * Sets all of the values in this neighborhood to a constant.
    */
-  Neighborhood &operator=( const TPixel &v )
+  Self &operator=( const TPixel &v )
   {
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
@@ -198,7 +202,7 @@ public:
    * Convolve returns a Neighborhood with radii equal to the sum
    * of its two operands' radii, respectively.
    */
-  Neighborhood Convolve(Neighborhood &B)
+  Self Convolve(Self &B)
   {
     return itk::Convolve<TPixel, VDimension>(*this, B, 0); 
   }
@@ -212,7 +216,7 @@ public:
    * Convolve returns a Neighborhood with radii equal to the radii
    * of the Neighborhood on which it is called.
    */
-  Neighborhood ConvolveToSize(Neighborhood &B)
+  Self ConvolveToSize(Self &B)
   {
     return itk::Convolve<TPixel, VDimension>(*this, B, 1); 
   }
@@ -221,7 +225,7 @@ public:
    * Returns a Neighborhood that is a mirror image of this Neighborhood across
    * all its axes.
    */
-  Neighborhood Mirror(void);
+  Self Mirror(void);
   
   /**
    * Returns the sum of all the pixel values in the Neighborhood.
@@ -241,13 +245,13 @@ public:
    * respective pixel values of the two operands.
    */
   template<class YPixel>
-  Neighborhood<TPixel, VDimension> operator+(const YPixel &) const;
+  Self operator+(const YPixel &) const;
 
   /**
    * Returns a Neighborhood whose pixel values are all raised to
    * a power.
    */
-  Neighborhood<TPixel, VDimension> pow(const double &) const;
+  Self pow(const double &) const;
   
 };
 
