@@ -213,9 +213,10 @@ void RawImageIO<TPixel,VImageDimension>
 
 template <class TPixel, unsigned int VImageDimension>
 bool RawImageIO<TPixel,VImageDimension>
-::CanWriteFile(const char*)
+::CanWriteFile(const char* fname)
 {
-  if ( m_FileName == "" )
+  std::string filename( fname );
+  if ( filename == "" )
     {
     return false;
     }
