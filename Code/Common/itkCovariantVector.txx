@@ -14,9 +14,6 @@
 ==========================================================================*/
 
 #include "itkCovariantVector.h" 
-#include <cmath>
-
-
 
 namespace itk
 {
