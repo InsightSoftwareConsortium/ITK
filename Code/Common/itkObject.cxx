@@ -48,13 +48,15 @@ class Observer
 {
 public:
   Observer(Command* c, 
-           unsigned long event,
+           const EventObject * event,
            unsigned long tag) :m_Command(c),
                                m_Event(event),
                                m_Tag(tag)
     { }
+  virtual ~Observer() 
+  { delete m_Event; }
   Command::Pointer m_Command;
-  unsigned long m_Event;
+  const EventObject * m_Event;
   unsigned long m_Tag;
 };
     
@@ -64,12 +66,12 @@ class SubjectImplementation
 public:
   SubjectImplementation() {m_Count = 0;}
   ~SubjectImplementation();
-  unsigned long AddObserver(unsigned long event, Command* cmd);
+  unsigned long AddObserver(const EventObject & event, Command* cmd);
   void RemoveObserver(unsigned long tag);
-  void InvokeEvent(unsigned long event, Object* self);
-  void InvokeEvent(unsigned long event, const Object* self);
+  void InvokeEvent( const EventObject & event, Object* self);
+  void InvokeEvent( const EventObject & event, const Object* self);
   Command *GetCommand(unsigned long tag);
-  bool HasObserver(unsigned long event) const;
+  bool HasObserver(const EventObject & event) const;
 private:
   std::list<Observer* > m_Observers;
   unsigned long m_Count;
@@ -88,10 +90,10 @@ SubjectImplementation::
 
 unsigned long 
 SubjectImplementation::
-AddObserver(unsigned long event,
+AddObserver(const EventObject & event,
 	    Command* cmd)
 {
-  Observer* ptr = new Observer(cmd, event, m_Count);
+  Observer* ptr = new Observer(cmd, event.New(), m_Count);
   m_Observers.push_back(ptr);
   m_Count++;
   return ptr->m_Tag;
@@ -117,14 +119,15 @@ RemoveObserver(unsigned long tag)
 
 void 
 SubjectImplementation::
-InvokeEvent(unsigned long event,
+InvokeEvent( const EventObject & event,
 	    Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
+    const EventObject * e =  (*i)->m_Event;
+    if(  typeid( *e ) == typeid( AnyEvent ) || 
+         typeid( *e ) == typeid(   event  )    )
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -133,14 +136,15 @@ InvokeEvent(unsigned long event,
 
 void 
 SubjectImplementation::
-InvokeEvent(unsigned long event,
+InvokeEvent( const EventObject & event,
 	    const Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
+    const EventObject * e =  (*i)->m_Event;
+    if( typeid( *e ) == typeid( AnyEvent ) || 
+        typeid( *e ) == typeid(   event  )     )
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -165,13 +169,14 @@ GetCommand(unsigned long tag)
 
 bool
 SubjectImplementation::
-HasObserver(unsigned long event) const
+HasObserver(const EventObject & event) const
 {
   for(std::list<Observer* >::const_iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    unsigned long e =  (*i)->m_Event;
-    if( e == Command::AnyEvent || e == event)
+    const EventObject * e =  (*i)->m_Event;
+    if( typeid( *e ) == typeid( AnyEvent ) || 
+        typeid( *e ) == typeid(   event  )     )
       {
       return true;
       }
@@ -258,7 +263,7 @@ Object
 ::Modified() const
 {
   m_MTime.Modified();
-  InvokeEvent( Command::ModifiedEvent );
+  InvokeEvent( ModifiedEvent() );
 }
 
 
@@ -293,7 +298,7 @@ Object
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent(Command::DeleteEvent);
+    this->InvokeEvent(DeleteEvent());
     }
 
   Superclass::UnRegister();
@@ -316,7 +321,7 @@ Object
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent(Command::DeleteEvent);
+    this->InvokeEvent(DeleteEvent());
     }
 
   Superclass::SetReferenceCount(ref);
@@ -347,7 +352,7 @@ Object
 
 unsigned long 
 Object
-::AddObserver(unsigned long event, Command *cmd)
+::AddObserver(const EventObject & event, Command *cmd)
 {
   if (!this->m_SubjectImplementation)
     {
@@ -358,9 +363,12 @@ Object
 
 unsigned long
 Object
-::AddObserver(const char *event,Command *cmd)
+::AddObserver(const char *eventname,Command *cmd)
 {
-  return this->AddObserver(Command::GetEventIdFromString(event), cmd);
+  const EventObject * event = 
+         EventObject::CreateEventFromString( eventname );
+  return this->AddObserver(*event, cmd);
+  delete event;
 }
 
 Command*
@@ -386,7 +394,7 @@ Object
 
 void 
 Object
-::InvokeEvent(unsigned long event)
+::InvokeEvent( const EventObject & event )
 {
   if (this->m_SubjectImplementation)
     {
@@ -397,7 +405,7 @@ Object
 
 void 
 Object
-::InvokeEvent(unsigned long event) const
+::InvokeEvent( const EventObject & event ) const
 {
   if (this->m_SubjectImplementation)
     {
@@ -407,21 +415,27 @@ Object
 
 void 
 Object
-::InvokeEvent(const char *event)
+::InvokeEvent(const char *eventname )
 {
-  this->InvokeEvent(Command::GetEventIdFromString(event));
+  const EventObject * event = 
+            EventObject::CreateEventFromString( eventname );
+  this->InvokeEvent( *event );
+  delete event; 
 }
 
 void 
 Object
-::InvokeEvent(const char *event) const
+::InvokeEvent(const char *eventname) const
 {
-  this->InvokeEvent(Command::GetEventIdFromString(event));
+  const EventObject * event = 
+            EventObject::CreateEventFromString( eventname );
+  this->InvokeEvent( *event );
+  delete event; 
 }
 
 bool
 Object
-::HasObserver(unsigned long event) const
+::HasObserver( const EventObject & event ) const
 {
   if (this->m_SubjectImplementation)
     {
@@ -432,9 +446,14 @@ Object
 
 bool
 Object
-::HasObserver(const char *event) const
+::HasObserver( const char *eventname ) const
 {
-  return this->HasObserver(Command::GetEventIdFromString(event));
+  const EventObject * event = 
+            EventObject::CreateEventFromString( eventname );
+
+  const bool result = this->HasObserver( *event );
+  
+  delete event; 
 }
 
 /**
@@ -472,7 +491,7 @@ Object
   os << indent << "Modified Time: " << this->GetMTime() << std::endl;
   os << indent << "Debug: " << (m_Debug ? "On\n" : "Off\n");
   os << indent << "Instance has ";
-  if ( this->HasObserver(Command::AnyEvent) )
+  if ( this->HasObserver( AnyEvent() ) )
     {
     os << "one or more observers\n";
     }
