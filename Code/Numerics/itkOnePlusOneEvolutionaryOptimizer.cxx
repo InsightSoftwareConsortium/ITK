@@ -152,7 +152,7 @@ OnePlusOneEvolutionaryOptimizer
                   << " child: "<< cvalue );
 
     double adjust = m_ShrinkFactor ;
-    if(m_Maximize)
+    if( m_Maximize )
       {
       if (cvalue > pvalue) 
         {
@@ -253,8 +253,9 @@ OnePlusOneEvolutionaryOptimizer
   os << indent << "Growth Fractor    " << m_GrowthFactor     << std::endl;
   os << indent << "Shrink Fractor    " << m_ShrinkFactor     << std::endl;
   os << indent << "Initialized       " << m_Initialized      << std::endl;
-  os << indent << "Current Cost      " << m_CurrentCost << std::endl;
+  os << indent << "Current Cost      " << m_CurrentCost      << std::endl;
   os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
+  os << indent << "Maximize On/Off   " << m_Maximize         << std::endl;
 
 }
 
