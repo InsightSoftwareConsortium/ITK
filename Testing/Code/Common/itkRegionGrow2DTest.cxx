@@ -89,57 +89,57 @@ int main()
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(03);++inIt; 
-  (*inIt).SetVector(03);++inIt;
-  (*inIt).SetVector(30);++inIt; 
-  (*inIt).SetVector(30);++inIt; 
-  (*inIt).SetVector(20);++inIt; 
-  (*inIt).SetVector(20);++inIt;
+  *inIt = 03; ++inIt; 
+  *inIt = 03; ++inIt;
+  *inIt = 30; ++inIt; 
+  *inIt = 30; ++inIt; 
+  *inIt = 20; ++inIt; 
+  *inIt = 20; ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(03);++inIt; 
-  (*inIt).SetVector(03);++inIt;
-  (*inIt).SetVector(30);++inIt; 
-  (*inIt).SetVector(30);++inIt; 
-  (*inIt).SetVector(20);++inIt; 
-  (*inIt).SetVector(20);++inIt;
+  *inIt = 03; ++inIt; 
+  *inIt = 03; ++inIt;
+  *inIt = 30; ++inIt; 
+  *inIt = 30; ++inIt; 
+  *inIt = 20; ++inIt; 
+  *inIt = 20; ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(04);++inIt; 
-  (*inIt).SetVector(04);++inIt;
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt;
+  *inIt = 04; ++inIt; 
+  *inIt = 04; ++inIt;
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(04);++inIt; 
-  (*inIt).SetVector(04);++inIt;
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt; 
-  (*inIt).SetVector(40);++inIt;
+  *inIt = 04; ++inIt; 
+  *inIt = 04; ++inIt;
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt; 
+  *inIt = 40; ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(03);++inIt; 
-  (*inIt).SetVector(03);++inIt;
-  (*inIt).SetVector(02);++inIt; 
-  (*inIt).SetVector(02);++inIt; 
-  (*inIt).SetVector(04);++inIt; 
-  (*inIt).SetVector(04);++inIt;
+  *inIt = 03; ++inIt; 
+  *inIt = 03; ++inIt;
+  *inIt = 02; ++inIt; 
+  *inIt = 02; ++inIt; 
+  *inIt = 04; ++inIt; 
+  *inIt = 04; ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  (*inIt).SetVector(03);++inIt; 
-  (*inIt).SetVector(03);++inIt;
-  (*inIt).SetVector(02);++inIt; 
-  (*inIt).SetVector(02);++inIt; 
-  (*inIt).SetVector(04);++inIt; 
-  (*inIt).SetVector(04);++inIt;
+  *inIt = 03; ++inIt; 
+  *inIt = 03; ++inIt;
+  *inIt = 02; ++inIt; 
+  *inIt = 02; ++inIt; 
+  *inIt = 04; ++inIt; 
+  *inIt = 04; ++inIt;
   //--------------------------------------------------------------------------
   // Test code for the Region Grow algorithm
   //----------------------------------------------------------------------

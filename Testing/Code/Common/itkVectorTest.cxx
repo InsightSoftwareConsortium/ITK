@@ -34,25 +34,25 @@ int main()
   int i = 4;
   float f = 2.1;
   
-  s = 3.0;
+  s.Fill(3.0);
   if (different(s[0], 3.0) || different(s[1], 3.0))
     {
     passed = false;
     }
 
-  s = 2;
+  s.Fill(2);
   if (different(s[0], 2.0) || different(s[1], 2.0))
     {
     passed = false;
     }
   
-  s = i;
+  s.Fill(i);
   if (different(s[0], i) || different(s[1], i))
     {
     passed = false;
     }
 
-  s = f;
+  s.Fill(f);
   if (different(s[0], f) || different(s[1], f))
     {
     passed = false;
@@ -65,13 +65,13 @@ int main()
     passed = false;
     }
   
-  s = (-t);
+  s = -t;
   if (different(s[0], -t[0]) || different(s[1], -t[1]))
     {
     passed = false; 
     }
   
-  s = 3.0;
+  s.Fill(3.0);
   s *= 2.5;
   if (different(s[0], 7.5) || different(s[1], 7.5))
     {
@@ -85,7 +85,7 @@ int main()
     }
  
 
-  s = 3.8;
+  s.Fill(3.8);
   s *= f;
   if (different(s[0], 7.98) || different(s[1], 7.98))
     {
@@ -168,6 +168,3 @@ int main()
     }
   
 }
-
-
-

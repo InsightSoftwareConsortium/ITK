@@ -58,7 +58,7 @@ int main()
   vecImage->Allocate();
 
   // setup the iterators
-  typedef VecImageType::PixelType VecPixelType;
+  typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
   typedef
@@ -67,84 +67,48 @@ int main()
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt = outIt.Begin();
 
-  //Set up the vector to store the image  data
-  typedef VecImageType::PixelType::VectorType DataVector;
-  DataVector   dblVec; 
-
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
   //Vector no. 1
-  dblVec[0] = 21; 
-  dblVec[1] = 19;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 21,19; ++outIt;
   //Vector no. 2
-  dblVec[0] = 20; 
-  dblVec[1] = 20;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 20,20; ++outIt;
   //Vector no. 3
-  dblVec[0] = 8; 
-  dblVec[1] = 11;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 8,11; ++outIt;
   //Vector no. 4
-  dblVec[0] = 10; 
-  dblVec[1] = 12;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 10,12; ++outIt;
 
   //Slice 2
   //Vector no. 1
-  dblVec[0] = 22; 
-  dblVec[1] = 21;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 22,21; ++outIt;
   //Vector no. 2
-  dblVec[0] = 21; 
-  dblVec[1] = 22;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 21,22; ++outIt;
   //Vector no. 3
-  dblVec[0] = 11; 
-  dblVec[1] = 12;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 11,12; ++outIt;
   //Vector no. 4
-  dblVec[0] = 9; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 9,10; ++outIt;
 
   //Slice 3
   //Vector no. 1 
-  dblVec[0] = 19; 
-  dblVec[1] = 20;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 19,20; ++outIt;
   //Vector no. 2
-  dblVec[0] = 19; 
-  dblVec[1] = 21;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 19,21; ++outIt;
   //Vector no. 3
-  dblVec[0] = 11; 
-  dblVec[1] = 11;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 11,11; ++outIt;
   //Vector no. 4
-  dblVec[0] = 11; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 11,10; ++outIt;
 
   //Slice 4
   //Vector no. 1
-  dblVec[0] = 18; 
-  dblVec[1] = 18;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 18,18; ++outIt;
   //Vector no. 2
-  dblVec[0] = 18; 
-  dblVec[1] = 20;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 18,20; ++outIt;
   //Vector no. 3
-  dblVec[0] = 12; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 12,10; ++outIt;
   //Vector no. 4
-  dblVec[0] = 14; 
-  dblVec[1] = 13;
-  (*outIt).SetVector(dblVec); ++outIt;
+  *outIt = 14,13; ++outIt;
 
   //---------------------------------------------------------------
   //Generate the training data

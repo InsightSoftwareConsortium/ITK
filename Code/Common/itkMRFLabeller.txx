@@ -18,24 +18,21 @@ namespace itk
 
 template<class TInputImage, class TClassifiedImage>
 MRFLabeller<TInputImage,TClassifiedImage>
-::MRFLabeller(void)
-{
-  m_InputImage      = NULL;
-  m_TrainingImage   = NULL;
-  m_LabelledImage   = NULL;
-  m_NumClasses      = NULL;
-  m_LabelStatus     = NULL;
-  m_ErrorCounter    = NULL;
-  m_MaxNumIter      = 50;
-
-  m_ClassifierPtr   = NULL;
-
+::MRFLabeller(void):
+  m_InputImage(NULL),
+  m_TrainingImage(NULL),
+  m_LabelledImage(NULL),
+  m_NumClasses(0),
+  m_LabelStatus(NULL),
+  m_ErrorCounter(0),
+  m_MaxNumIter(50),
+  m_ClassifierPtr(NULL),
   // Default values of the kernel size of the beta matrix
-  m_kWidth  = 3; 
-  m_kHeight = 3; 
-  m_kDepth  = 3; 
-  m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
-
+  m_kWidth(3),
+  m_kHeight(3),
+  m_kDepth(3),
+  m_KernelSize(m_kWidth*m_kHeight*m_kDepth)
+{
   SetBeta();
 }
 
@@ -162,7 +159,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
-  if( ( ptrToClassifier == NULL ) || (m_NumClasses <= NULL) )
+  if( (ptrToClassifier == NULL) || (m_NumClasses <= 0) )
     throw ExceptionObject();
 
   m_ClassifierPtr = ptrToClassifier;
@@ -203,7 +200,7 @@ void
 MRFLabeller<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  if( m_NumClasses <= NULL )
+  if( m_NumClasses <= 0 )
   {
     throw ExceptionObject();
   }
@@ -237,7 +234,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFLabeller<TInputImage, TClassifiedImage>
-::SetBeta( double* )
+::SetBeta( double* = 0)
 {
 
   // Set the beta matrix of a 3x3x3 kernel
@@ -425,7 +422,7 @@ MRFLabeller<TInputImage, TClassifiedImage>
         //Current status returns the best possible result with the
         //flag check suspended
 
-        inputPixelVec = ( *inputIt ).GetVector();
+        inputPixelVec = *inputIt;
         double *dist = m_ClassifierPtr->GetPixelDistance( inputPixelVec );
                       
         for( int index = 0; index <= m_NumClasses ;index++ ) 

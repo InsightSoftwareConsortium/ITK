@@ -27,7 +27,7 @@ main ()
   itk::Scalar<float> scalar;
   itk::Scalar<float>::ValueType s = scalar.GetScalar();
   itk::Vector<unsigned short> vector;
-  const itk::Vector<unsigned short>::VectorType v = vector.GetVector();
+  const itk::Vector<unsigned short>::VectorType v = vector;
   
   itk::Scalar<float>::ValueType scalarMin = min;
   itk::Vector<long>::ValueType vectorMax = fooLong;

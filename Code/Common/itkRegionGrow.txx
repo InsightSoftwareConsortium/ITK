@@ -18,11 +18,11 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 RegionGrow<TInputImage,TOutputImage>
-::RegionGrow(void)
+::RegionGrow(void):
+  m_MaxNumRegions(0),
+  m_RowGridSize(2),
+  m_ColGridSize(2)
 {
-  m_MaxNumRegions   = NULL;
-  m_RowGridSize     = 2;
-  m_ColGridSize     = 2;
 }
 
 template<class TInputImage, class TOutputImage>

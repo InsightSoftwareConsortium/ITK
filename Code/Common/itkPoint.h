@@ -41,8 +41,8 @@ namespace itk
  *
  */
 
-template<class T, unsigned int TPointDimension=3>
-class Point : public Array< T, TPointDimension > {
+template<class TCoordRep, unsigned int TPointDimension=3>
+class Point : public Array< TCoordRep, TPointDimension > {
  public:
   /**
    * Standard "Self" typedef.
@@ -53,8 +53,8 @@ class Point : public Array< T, TPointDimension > {
    * ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.  
    */
-  typedef T ValueType;
-
+  typedef TCoordRep ValueType;
+  typedef TCoordRep CoordRepType;
 
   /**
    * Dimension of the Space
@@ -64,8 +64,10 @@ class Point : public Array< T, TPointDimension > {
   /**
    * The Array type from which this Vector is derived.
    */
-  typedef Array<T, TPointDimension>                 BaseArray;
+  typedef Array<TCoordRep, TPointDimension>         BaseArray;
   typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
+  typedef typename BaseArray::Iterator              Iterator;
+  typedef typename BaseArray::ConstIterator         ConstIterator;
   
   /**
    * Get the dimension (size) of the point.
@@ -141,7 +143,7 @@ class Point : public Array< T, TPointDimension > {
   /**
    * Get a vnl_vector_ref referencing the same memory block
    */
-  vnl_vector_ref<T> Get_vnl_vector( void );
+  vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
 
 
  

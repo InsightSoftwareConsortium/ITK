@@ -16,22 +16,22 @@
 namespace itk
 {
 
+
 template<class TInputImage, class TOutputImage>
 RegionGrowKLM<TInputImage,TOutputImage>
-::RegionGrowKLM(void)
+::RegionGrowKLM(void):
+  m_MaxLambda(1000),
+  m_nBorders(0),
+  m_NumRegions(0),
+  m_pRegions(NULL),
+  m_pBorders(NULL),
+  m_InitRegionArea(0),
+  m_pBordersDynPtrs(NULL),
+  m_pBordersCandidateDynPtr(NULL),
+  m_pBorderCandidate(NULL)
 {
-  m_MaxLambda               = 1000;
-  m_nBorders                = NULL;
-  m_NumRegions              = NULL;
-  m_pRegions                = NULL;   
-  m_pBorders                = NULL;
-  m_InitRegionMean          = NULL;
-  m_InitRegionArea          = NULL;
-
-  m_pBordersDynPtrs         = NULL;
-  m_pBordersCandidateDynPtr = NULL;
-  m_pBorderCandidate        = NULL;
-  this->SetMaxNumRegions( 2 );
+  m_InitRegionMean = 0;
+ this->SetMaxNumRegions( 2 );
 } 
 
 //----------------------------------------------------------------------
@@ -215,7 +215,7 @@ RegionGrowKLM<TInputImage,TOutputImage>
         {
           offset      = nrow * m_imgWidth + ncol;
           tempImgIt   = outImgIt + offset;
-          (*tempImgIt).SetVector(outMeanValue);
+          *tempImgIt = outMeanValue;
          }
       }//end Loop through the region to fill approx image
                                                         
@@ -338,7 +338,7 @@ void
 RegionGrowKLM<TInputImage,TOutputImage>
 ::ApplyKLM()
 {
-  if( ( m_MaxLambda < NULL ) || ( this->GetMaxNumRegions() ) <= NULL )
+  if( ( m_MaxLambda < 0 ) || ( this->GetMaxNumRegions() <= 0 ) )
     throw ExceptionObject();
 
   initializeKLM();
@@ -512,8 +512,8 @@ RegionGrowKLM<TInputImage,TOutputImage>
   RGBorderKLM<TInputImage,TOutputImage> *pcurrentBorder;
 
   pcurrentBorder      = m_pBorders;
-  m_TotalBorderLength = NULL;
-  int borderCounter   = NULL;
+  m_TotalBorderLength = 0;
+  int borderCounter   = 0;
 
   for ( int r = nRowSquareBlocks - 1; r >= 1; r-- ) 
   {
@@ -696,7 +696,7 @@ RegionGrowKLM<TInputImage,TOutputImage>
   unsigned int image_nrow  = m_imgWidth;
   unsigned int image_ncol  = m_imgWidth;
 
-  m_InitRegionArea         = NULL;
+  m_InitRegionArea         = 0;
 
   //--------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the input image
@@ -727,7 +727,7 @@ RegionGrowKLM<TInputImage,TOutputImage>
     {
       int offset    = nrow * m_imgWidth + ncol;
       tempImgIt     = inImgIt + offset;
-      inputPixelVec = ( *tempImgIt ).GetVector();
+      inputPixelVec = *tempImgIt;
 
       for ( int j = 0; j < vecDim; j++ )
         m_InitRegionMean[j][0] += inputPixelVec[j];

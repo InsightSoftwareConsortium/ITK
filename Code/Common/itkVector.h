@@ -69,6 +69,8 @@ class Vector : public Array<T,TVectorDimension> {
    */
   enum { VectorDimension = TVectorDimension };
 
+  typedef Self VectorType;
+  
   /**
    * The Array type from which this Vector is derived.
    */

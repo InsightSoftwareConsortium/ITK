@@ -94,7 +94,7 @@ public:
   /**
    * Operator to get the scalar value as an rvalue.
    */
-  operator T () const
+  operator const T& () const
   { return m_Scalar; };
   
   /**

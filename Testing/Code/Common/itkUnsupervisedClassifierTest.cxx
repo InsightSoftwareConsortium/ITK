@@ -74,77 +74,42 @@ int main()
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt = outIt.Begin();
 
-  //Set up the vector to store the image  data
-  typedef VecImageType::PixelType::VectorType DataVector;
-  DataVector   dblVec; 
-
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
+
   //Vector no. 1
-  dblVec[0] = 21; 
-  dblVec[1] = 9;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 21,9; ++outIt;
   //Vector no. 2
-  dblVec[0] = 10; 
-  dblVec[1] = 20;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 10,20; ++outIt;
   //Vector no. 3
-  dblVec[0] = 8; 
-  dblVec[1] = 21;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 8,21; ++outIt;
   //Vector no. 4
-  dblVec[0] = 10; 
-  dblVec[1] = 23;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 10,23; ++outIt;
   //Vector no. 5
-  dblVec[0] = 12; 
-  dblVec[1] = 21;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 12,21; ++outIt;
   //Vector no. 6
-  dblVec[0] = 11; 
-  dblVec[1] = 12;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 11,12; ++outIt;
   //Vector no. 7
-  dblVec[0] = 15; 
-  dblVec[1] = 22;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 15,22; ++outIt;
   //Vector no. 8
-  dblVec[0] = 9; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 9,10; ++outIt;
   //Vector no. 9
-  dblVec[0] = 19; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 19,10; ++outIt;
   //Vector no. 10
-  dblVec[0] = 19; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 19,10; ++outIt;
   //Vector no. 11
-  dblVec[0] = 21; 
-  dblVec[1] = 21;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 21,21; ++outIt;
   //Vector no. 12
-  dblVec[0] = 11; 
-  dblVec[1] = 20;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 11,20; ++outIt;
   //Vector no. 13
-  dblVec[0] = 8; 
-  dblVec[1] = 18;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 8,18; ++outIt;
   //Vector no. 14
-  dblVec[0] = 18; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 18,10; ++outIt;
   //Vector no. 15
-  dblVec[0] = 22; 
-  dblVec[1] = 10;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 22,10; ++outIt;
   //Vector no. 16
-  dblVec[0] = 24; 
-  dblVec[1] = 23;
-  (*outIt).SetVector(dblVec); ++outIt;
+  (*outIt) = 24,23; ++outIt;
 
   //---------------------------------------------------------------
   //Input the codebook

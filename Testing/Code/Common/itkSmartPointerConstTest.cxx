@@ -19,7 +19,8 @@ See COPYRIGHT.txt for copyright details.
 
 int main(void)
 {
-  itk::LightObject::ConstPointer lo = itk::LightObject::New();
+//  itk::LightObject::ConstPointer lo = itk::LightObject::New();
+  itk::LightObject::ConstPointer lo = itk::LightObject::New().GetPointer();
   
   return 0;
 }

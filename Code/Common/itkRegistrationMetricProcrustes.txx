@@ -74,9 +74,11 @@ RegistrationMetricProcrustes<TTransform, NDimension>
     PointType transformedPoint = 
                         m_Mapper->Transform( referencePoint.Value() );
 
-    const CoordinatesType * transformed = transformedPoint.GetCoords();
-    const CoordinatesType * target      = targetPoint.Value().GetCoords();
-    
+    // TODO: This should be converted to using iterators through the
+    // coordinates of the point.
+    const CoordinatesType * transformed = transformedPoint;
+    const CoordinatesType * target      = targetPoint.Value();
+
     for(unsigned int i=0; i<NDimension; i++)
     {
       *similarityMeasure = transformed[i] - target[i];

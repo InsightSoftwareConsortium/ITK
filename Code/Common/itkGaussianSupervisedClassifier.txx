@@ -155,7 +155,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     if(classIndex > 0)
     {
       m_NumSamples[classIndex][0] +=1;
-      InputImageVectorType inImgVec = ( *inImgIt ).GetVector();
+      InputImageVectorType inImgVec = *inImgIt;
 
       for(int band_x = 0; band_x < m_VecDim; band_x++)
       {
@@ -327,7 +327,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   m_NumClasses = this->GetNumClasses();
   for ( ; inImgIt != inImgItEnd; ++inImgIt, ++classifiedIt ) 
   {
-    inImgVec = ( *inImgIt ).GetVector();
+    inImgVec = *inImgIt;
     int classifiedIndex = GetPixelClass( inImgVec );
          
     outClassified = ClassifiedImagePixelType ( classifiedIndex );

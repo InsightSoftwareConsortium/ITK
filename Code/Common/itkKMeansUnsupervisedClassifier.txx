@@ -439,7 +439,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     { 
       // find the best codeword 
       tempdistortion = 0.0;
-      inImgVec = (*tempImgIt).GetVector();
+      inImgVec = *tempImgIt;
 
       for ( int j = 0; j < m_VecDim; j++ ) 
       {
@@ -463,7 +463,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     m_CodewordDist[bestcodeword][0] += bestdistortion;
     *distortion += bestdistortion;
 
-    inImgVec = (*tempImgIt).GetVector(); 
+    inImgVec = *tempImgIt;
 
     for (int j = 0; j < m_VecDim; j++ ) 
       m_Centroid[bestcodeword][j] += inImgVec[j];

@@ -18,12 +18,12 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 RGRegion<TInputImage,TOutputImage>
-::RGRegion(void)
+::RGRegion(void):
+  m_RegionLabel(0),
+  m_UniqueLabel(0),
+  m_RegionArea(0)
 {
-  m_RegionLabel = NULL;
-  m_UniqueLabel = NULL;
-  m_RegionArea  = NULL;
-  m_MeanVec     = NULL; 
+  m_MeanVec     = 0;
 }
 
 template<class TInputImage, class TOutputImage>

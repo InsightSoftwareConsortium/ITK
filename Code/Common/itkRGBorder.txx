@@ -18,9 +18,9 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 RGBorder<TInputImage,TOutputImage>
-::RGBorder(void)
+::RGBorder(void):
+  m_BorderLength(0)
 {
-  m_BorderLength = NULL;
 }
 
 template<class TInputImage, class TOutputImage>
