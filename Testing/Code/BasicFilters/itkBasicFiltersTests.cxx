@@ -60,6 +60,8 @@ void RegisterTests()
   REGISTER_TEST(itkChangeInformationImageFilterTest );
   REGISTER_TEST(itkChainCodeToFourierSeriesPathFilterTest );
   REGISTER_TEST(itkComposeRGBImageFilterTest );
+  REGISTER_TEST(itkCompose2DCovariantVectorImageFilterTest );
+  REGISTER_TEST(itkCompose3DCovariantVectorImageFilterTest );
   REGISTER_TEST(itkCompose2DVectorImageFilterTest );
   REGISTER_TEST(itkCompose3DVectorImageFilterTest );
   REGISTER_TEST(itkConfidenceConnectedImageFilterTest  );
