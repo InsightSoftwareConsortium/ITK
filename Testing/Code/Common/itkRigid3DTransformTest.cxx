@@ -93,6 +93,10 @@ int main(int argc,char *argv[])
 
     translation->SetOffset( ioffset );
 
+    TransformType::Pointer translationInverse = translation->Inverse();
+    std::cout << "translation: " << translation;
+    std::cout << "translationInverse: " << translationInverse;
+
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
