@@ -4,7 +4,6 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/algo/vnl_svd.h>
-#include <vcl_ctime.h>
 #include <vnl/vnl_sample.h>
 
 
@@ -13,6 +12,7 @@
 void test_cholesky()
 {
   vnl_matrix<double> A(3,3);
+  vnl_sample_reseed(0x1234abcd);
   test_util_fill_random(A.begin(), A.end());
   A = A * A.transpose();
 
