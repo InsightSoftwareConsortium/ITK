@@ -12,7 +12,10 @@ int main(int ac, char** av)
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char, 3> myImage;
+  typedef unsigned short PixelType;
+  
+  typedef itk::Image<PixelType, 3> myImage;
+
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
@@ -39,7 +42,7 @@ int main(int ac, char** av)
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
-  unsigned char* data = image->GetPixelContainer()->GetBufferPointer();
+  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
 
   unsigned long numberOfPixels = region.GetNumberOfPixels(); 
   for(unsigned int i=0; i < numberOfPixels; i++ )

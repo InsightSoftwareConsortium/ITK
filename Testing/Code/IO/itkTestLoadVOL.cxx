@@ -54,7 +54,8 @@ int main(int ac, char** av)
   // VOL image file readers
   itk::VOLImageIOFactory::RegisterOneFactory();
 
-	typedef itk::Image<unsigned char, 4> myImage;
+  typedef unsigned char PixelType;
+	typedef itk::Image<PixelType, 4> myImage;
   itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 //	reader->DebugOn(); 
   reader->SetFileName(av[1]); 
@@ -70,7 +71,7 @@ int main(int ac, char** av)
 
 	myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
-  unsigned char* data = image->GetPixelContainer()->GetBufferPointer();
+  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 

@@ -20,7 +20,9 @@ int main(int ac, char** av)
   // Register one Factory of PNG readers
   itk::PNGImageIOFactory::RegisterOneFactory();
   
-  typedef itk::Image<unsigned char, 2> myImage;
+  typedef unsigned char PixelType;
+
+  typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer reader 
     = itk::ImageFileReader<myImage>::New();
   reader->DebugOn();
@@ -36,7 +38,7 @@ int main(int ac, char** av)
   
   myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
-  unsigned char* data = image->GetPixelContainer()->GetBufferPointer();
+  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
