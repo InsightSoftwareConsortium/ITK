@@ -160,24 +160,23 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   double countOfRegion = NumericTraits<double>::Zero;
 
   unsigned int i;
-  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImage1Type> nbc;
     
-  ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType> it;
+  ConstNeighborhoodIterator<InputImage1Type> bit;
     
-  typename  InputImageType::ConstPointer input  = this->GetInput();
+  typename  InputImage1Type::ConstPointer input  = this->GetInput();
     
   // Find the data-set boundary "faces"
-  typedef typename InputImageType::SizeType InputSizeType;
+  typedef typename InputImage1Type::SizeType InputSizeType;
   InputSizeType radius;
   radius.Fill(1);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImage1Type>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImage1Type> bC;
   faceList = bC(input, outputRegionForThread, radius);
     
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImage1Type>::FaceListType::iterator fit;
     
-  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef typename InputImage1Type::PixelType   InputPixelType;
 
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
@@ -189,7 +188,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstNeighborhoodIterator<InputImageType>(radius, input, *fit);
+    bit = ConstNeighborhoodIterator<InputImage1Type>(radius, input, *fit);
     unsigned int neighborhoodSize = bit.Size();
 
     bit.OverrideBoundaryCondition(&nbc);
@@ -227,7 +226,6 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
         }
         
       ++bit;
-      ++it;
       ++it2;
       progress.CompletedPixel();
       }
