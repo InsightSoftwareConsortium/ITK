@@ -22,6 +22,7 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkMesh.h"
+#include "itkEllipseSpatialObject.h"
 
 #include "itkAntiAliasBinaryImageFilter.h"
 #include "itkBalloonForceFilter.h"
@@ -46,7 +47,6 @@
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
-#include "itkHybridFilter.h"
 #include "itkImageClassifierBase.h"
 #include "itkImageGaussianModelEstimator.h"
 #include "itkImageKmeansModelEstimator.h"
@@ -220,15 +220,12 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::HistogramMatchingImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------HistogramMatchingImageFilter " << HistogramMatchingImageFilterObj;
 
-#if 0
-  itk::HybridFilter<InputType,OutputType>::Pointer HybridFilterObj =
-    itk::HybridFilter<InputType,OutputType>::New();
-  std:: cout << "-------------HybridFilter " << HybridFilterObj;
 
   itk::ImageClassifierBase<InputType,OutputType>::Pointer ImageClassifierBaseObj =
     itk::ImageClassifierBase<InputType,OutputType>::New();
   std:: cout << "-------------ImageClassifierBase " << ImageClassifierBaseObj;
 
+#if 0
   itk::ImageGaussianModelEstimator<InputType,OutputType>::Pointer ImageGaussianModelEstimatorObj =
     itk::ImageGaussianModelEstimator<InputType,OutputType>::New();
   std:: cout << "-------------ImageGaussianModelEstimator " << ImageGaussianModelEstimatorObj;
@@ -236,21 +233,25 @@ int itkAlgorithmsPrintTest(int , char* [])
   itk::ImageKmeansModelEstimator<InputType,OutputType>::Pointer ImageKmeansModelEstimatorObj =
     itk::ImageKmeansModelEstimator<InputType,OutputType>::New();
   std:: cout << "-------------ImageKmeansModelEstimator " << ImageKmeansModelEstimatorObj;
+#endif
 
   itk::ImageRegistrationMethod<InputType,OutputType>::Pointer ImageRegistrationMethodObj =
     itk::ImageRegistrationMethod<InputType,OutputType>::New();
   std:: cout << "-------------ImageRegistrationMethod " << ImageRegistrationMethodObj;
 
-  itk::ImageToSpatialObjectMetric<InputType,OutputType>::Pointer ImageToSpatialObjectMetricObj =
-    itk::ImageToSpatialObjectMetric<InputType,OutputType>::New();
+#if 0
+  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
+  itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::Pointer ImageToSpatialObjectMetricObj =
+    itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::New();
   std:: cout << "-------------ImageToSpatialObjectMetric " << ImageToSpatialObjectMetricObj;
 
-  itk::ImageToSpatialObjectRegistrationMethod<InputType,OutputType>::Pointer ImageToSpatialObjectRegistrationMethodObj =
-    itk::ImageToSpatialObjectRegistrationMethod<InputType,OutputType>::New();
+  itk::ImageToSpatialObjectRegistrationMethod<InputType,SpatialObjectType>::Pointer ImageToSpatialObjectRegistrationMethodObj =
+    itk::ImageToSpatialObjectRegistrationMethod<InputType,SpatialObjectType>::New();
   std:: cout << "-------------ImageToSpatialObjectRegistrationMethod " << ImageToSpatialObjectRegistrationMethodObj;
+#endif
 
-  itk::KLMRegionGrowImageFilter<InputType,OutputType>::Pointer KLMRegionGrowImageFilterObj =
-    itk::KLMRegionGrowImageFilter<InputType,OutputType>::New();
+  itk::KLMRegionGrowImageFilter<VectorImageType,VectorImageType>::Pointer KLMRegionGrowImageFilterObj =
+    itk::KLMRegionGrowImageFilter<VectorImageType,VectorImageType>::New();
   std:: cout << "-------------KLMRegionGrowImageFilter " << KLMRegionGrowImageFilterObj;
 
   itk::LaplacianSegmentationLevelSetFunction<InputType,OutputType>::Pointer LaplacianSegmentationLevelSetFunctionObj =
@@ -261,10 +262,11 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::LaplacianSegmentationLevelSetImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------LaplacianSegmentationLevelSetImageFilter " << LaplacianSegmentationLevelSetImageFilterObj;
 
-  itk::LevelSetNeighborhoodExtractor<InputType,OutputType>::Pointer LevelSetNeighborhoodExtractorObj =
-    itk::LevelSetNeighborhoodExtractor<InputType,OutputType>::New();
+  itk::LevelSetNeighborhoodExtractor<InputType>::Pointer LevelSetNeighborhoodExtractorObj =
+    itk::LevelSetNeighborhoodExtractor<InputType>::New();
   std:: cout << "-------------LevelSetNeighborhoodExtractor " << LevelSetNeighborhoodExtractorObj;
 
+#if 0
   itk::LevelSetVelocityNeighborhoodExtractor<InputType,OutputType>::Pointer LevelSetVelocityNeighborhoodExtractorObj =
     itk::LevelSetVelocityNeighborhoodExtractor<InputType,OutputType>::New();
   std:: cout << "-------------LevelSetVelocityNeighborhoodExtractor " << LevelSetVelocityNeighborhoodExtractorObj;
@@ -337,11 +339,10 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::PatternIntensityImageToImageMetric<InputType,OutputType>::New();
   std:: cout << "-------------PatternIntensityImageToImageMetric " << PatternIntensityImageToImageMetricObj;
 
-#if 0
   itk::PatternIntensityPointSetToImageMetric<InputType,OutputType>::Pointer PatternIntensityPointSetToImageMetricObj =
     itk::PatternIntensityPointSetToImageMetric<InputType,OutputType>::New();
   std:: cout << "-------------PatternIntensityPointSetToImageMetric " << PatternIntensityPointSetToImageMetricObj;
-#endif
+
   itk::RGBGibbsPriorFilter<InputType,OutputType>::Pointer RGBGibbsPriorFilterObj =
     itk::RGBGibbsPriorFilter<InputType,OutputType>::New();
   std:: cout << "-------------RGBGibbsPriorFilter " << RGBGibbsPriorFilterObj;
