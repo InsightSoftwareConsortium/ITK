@@ -81,9 +81,16 @@ void SerieHeader::SetDirectory(std::string const & dir)
    for( DirList::const_iterator it = filenames_list.begin(); 
         it != filenames_list.end(); ++it)
    {
-      //use string and not const char*:
+      //directly use string and not const char*:
       Header *header = new Header( *it ); 
-      CoherentGdcmFileList.push_back( header );
+      if( header->IsReadable() )
+      {
+         CoherentGdcmFileList.push_back( header );
+      }
+      else
+      {
+         delete header;
+      }
    }
 }
 
@@ -260,10 +267,11 @@ bool SerieHeader::ImageNumberOrdering()
 
       //else
       min = (min < pos) ? min : pos;
+      max = (max > pos) ? max : pos;
    }
 
    // Find out if sorting worked:
-   if( min == max || max == 0 ) return false;
+   if( min == max || max == 0 || max > (n+min)) return false;
 
    //bzeros(partition, n); //This function is deprecated, better use memset.
    partition = new unsigned char[n];
