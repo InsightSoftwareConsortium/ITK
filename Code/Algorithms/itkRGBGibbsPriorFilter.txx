@@ -567,7 +567,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   RegionEraser();
 
   std::cout<<"Region eraser finished! " <<std::endl; 
-/*
+
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int rowsize = m_ImageWidth;
 
@@ -584,7 +584,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       }
     m_Temp++;
     }
-*/
+
 }
 
 template<class TInputImage, class TClassifiedImage>
