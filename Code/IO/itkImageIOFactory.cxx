@@ -70,7 +70,7 @@ ImageIOFactory::RegisterBuiltInFactories()
 {
   static bool firstTime = true;
 
-  SimpleMutexLock mutex;
+  static SimpleMutexLock mutex;
   mutex.Lock();
 
   if( firstTime )
