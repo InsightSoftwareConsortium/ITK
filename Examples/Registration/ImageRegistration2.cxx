@@ -26,7 +26,7 @@
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
-// The following example illustrates in a minimal program how multple imaging
+// The following example illustrates in a minimal program how multiple imaging
 // modalities can be registered using Insight components. The first remarkable
 // difference is the use of \code{MutualInformationImageToImageMetric} as the
 // cost-function to be optimized. The following headers declare the basic
@@ -276,7 +276,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The optimial value of Mutual Information is $1.0$. Sub-optimal values
+  //  The optimal value of Mutual Information is $1.0$. Sub-optimal values
   //  will be in the interval $[0,1)$. In this regard the optimization methods
   //  becomes a maximization problem. By default the
   //  \code{RegularStepGradientDescentOptimizer} is set to minimize the value
@@ -339,14 +339,24 @@ int main( int argc, char **argv )
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
-  //  The second image is the result of intentionally translating the first
-  //  image by $(13,17)$ millimeters. Both images having unit-spacing. These
-  //  images are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
-  //  registration takes 18 iterations and produce as result the parameters:
+  //  \begin{figure}
+  //  \center
+  //  \includegraphics[width=6cm]{BrainT1SliceBorder20.eps}
+  //  \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
+  //  \caption{T1 MRI (fixed image) and Proton Density MRI (moving image)
+  //  provided as input to the registration method.}
+  //  \label{fig:FixedMovingImageRegistration1}
+  //  \end{figure}
+  // 
+  //  The second image is the result of intentionally translating the image
+  //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
+  //  images having unit-spacing. These images are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration2}. The registration takes ??
+  //  iterations and produce as result the parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 12.9903
-  //  Translation Y = 17.0001
+  //  Translation X = ??
+  //  Translation Y = ??
   //  \end{verbatim}
   // 
   //  As expected, these values match pretty well the initial miss-registration
@@ -359,14 +369,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  It is common, as a last step of a registration task, to use the resulting
-  //  transform to map the moving image into the fixed image space.  This is
-  //  easily done with the \code{itk::ResampleImageFilter}. Please refer to
-  //  section \ref{sec:ResampleImageFilter} for details on the use of this
-  //  filter.  First a \code{ResampleImageFilter} type is instantiated using
-  //  the image types. It is convenient to use the fixed image type as the
-  //  output type since probably the transformed moving image will be compared
-  //  with the fixed image.
+  //  Finally we can use the resulting transform to resample the moving image
+  //  and map it onto the fixed image space. This is done with the help of the
+  //  \code{ResampleImageFilter}.
   //
   //  Software Guide : EndLatex 
 
@@ -374,34 +379,11 @@ int main( int argc, char **argv )
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
                             FixedImageType >    ResampleFilterType;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
-  //  
-  //  A transform of the same type used in the registration process should be
-  //  created and initialized with the parameters resulting from the registration 
-  //  process. 
-  //
-  //  \index{itk::ImageRegistrationMethod!Resampling image}
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer finalTransform = TransformType::New();
 
   finalTransform->SetParameters( finalParameters );
-  // Software Guide : EndCodeSnippet
 
-  
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Then a resampling filter is created and the corresponding transform and
-  //  moving image connected as inputs.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform( finalTransform );
@@ -413,11 +395,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  As described in section \ref{sec:ResampleFilterType}, the
-  //  \code{ResampleImageFilter} requires additional parameters to be
-  //  specified. In particular the spacing, origin and size of the output
-  //  image. The default pixel value is also set to a distinct gray level in
-  //  order to make visible the regions that are outside of the mapped image. 
+  //  The geometric parameters of the resampling filters are set from the fixed
+  //  image. A distictly visible gray level is selected to fill the spaces
+  //  non-covered by the moving image.
   //
   //  Software Guide : EndLatex 
 
@@ -432,18 +412,6 @@ int main( int argc, char **argv )
 
 
 
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The output of the filter is passed to a writer that will store the image
-  //  in a file. A \code{CastImageFilter} is placed in between in order to
-  //  convert the pixel type of the resampled image to the final type used by
-  //  the writer. The types of the cast and writer filters are instantiated
-  //  below.
-  //
-  //  Software Guide : EndLatex 
-  
-  // Software Guide : BeginCodeSnippet
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
@@ -453,41 +421,29 @@ int main( int argc, char **argv )
                         OutputImageType > CastFilterType;
                     
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  // Software Guide : EndCodeSnippet
 
 
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The corresponding filters are created by invoking their \code{New()}
-  //  method.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
-  // Software Guide : EndCodeSnippet
 
 
 
   writer->SetFileName( argv[3] );
   
 
-
-  //  Software Guide : BeginLatex
-  //
-  //  The \code{Update()} method of the writer is invoked in order to trigger
-  //  the execution of the pipeline.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The result of the resampling the moving image is presented in Figure
+  //  \ref{fig:ImageRegistration2Output.eps}
+  //
+  //  Software Guide : EndLatex 
+
 
 
 
