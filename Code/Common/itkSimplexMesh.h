@@ -89,10 +89,6 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     typedef typename Superclass::CellType                       CellType;
 
     /** */
-    typedef typename Superclass::PointsContainerIterator        PointsContainerIterator;
-    typedef typename Superclass::PointsContainerConstIterator   PointsContainerConstIterator;
-    
-    /** */
     typedef typename CellType::CellAutoPointer                  CellAutoPointer;
     /** */
     typedef typename itk::LineCell<CellType>                    LineType;
@@ -119,6 +115,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     typedef typename MeshTraits::PointsContainer                 PointsContainer;
     typedef typename Superclass::PointsContainerPointer          PointsContainerPointer;
     typedef typename Superclass::PointsContainer::Iterator       PointsContainerIterator;
+    typedef typename Superclass::PointsContainerConstIterator    PointsContainerConstIterator;
 
 
     /** set the map of geometrydata to the new pointer */
