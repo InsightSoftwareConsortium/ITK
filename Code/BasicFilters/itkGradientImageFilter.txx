@@ -160,9 +160,9 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 
   while( ! nit.IsAtEnd() )
     {
-    if ( threadId == 0 && !(ii % updateVisits ) )
+    if ( threadId == 0 && !(++ii % updateVisits ) )
       {
-      this->UpdateProgress((float)ii++ / (float)totalPixels);
+      this->UpdateProgress((float)ii / (float)totalPixels);
       }
 
     for (i = 0; i < InputImageDimension; ++i)
@@ -178,9 +178,9 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   // the edge of the buffer.
   for (++fit; fit != faceList.end(); ++fit)
     { 
-    if ( threadId == 0 && !(ii % updateVisits ) )
+    if ( threadId == 0 && !(++ii % updateVisits ) )
       {
-      this->UpdateProgress((float)ii++ / (float)totalPixels);
+      this->UpdateProgress((float)ii / (float)totalPixels);
       }
 
     bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
