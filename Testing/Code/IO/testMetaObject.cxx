@@ -58,14 +58,14 @@ int testMetaObject(int argc, char *argv[])
   tObj.Read();
   tObj.PrintInfo();
 
-  const char* name = static_cast<const char*>(tObj.GetUserField("MyName"));
+  char* name = static_cast<char*>(tObj.GetUserField("MyName"));
   if(strcmp(name,"Julien"))
   {
     std::cout << "MyName: FAIL" << std::endl;
     return 0;
   }
 
-  const int* array = static_cast<const int*>(tObj.GetUserField("MyArray"));
+  int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
 
   for(i=0;i<3;i++)
   {
@@ -76,7 +76,7 @@ int testMetaObject(int argc, char *argv[])
     }
   }
 
-  const float* matrix = static_cast<const float*>(tObj.GetUserField("MyMatrix"));
+  float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
   {
     if(matrix[i] != i)
