@@ -13,10 +13,12 @@
 #ifndef __GLUT_MASTER_H__
 #define __GLUT_MASTER_H__
 
-#include <GL/glut.h>
-#include "itkGlutWindow.h"
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
+
+// ITK includes go first
+#include <GL/glut.h>
+#include "itkGlutWindow.h"
 
 
 #define MAX_NUMBER_OF_WINDOWS 256 
