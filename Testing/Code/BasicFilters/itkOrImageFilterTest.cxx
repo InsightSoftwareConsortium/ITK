@@ -105,7 +105,7 @@ int itkOrImageFilterTest(int, char* [] )
   std::cout << "First operand " << std::endl;
   while( !it1.IsAtEnd() ) 
   {
-    it1.Set( 2.0 );
+    it1.Set( 2 );
     std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it1.Get()) << std::endl;
     ++it1;
   }
@@ -118,7 +118,7 @@ int itkOrImageFilterTest(int, char* [] )
   std::cout << "Second operand " << std::endl;
   while( !it2.IsAtEnd() ) 
   {
-    it2.Set( 3.0 );
+    it2.Set( 3 );
     std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it2.Get()) << std::endl;
     ++it2;
   }
