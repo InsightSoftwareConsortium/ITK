@@ -97,7 +97,7 @@ namespace itk
     transform = InternalTransformType::New();\
     InternalTransformType::RegionType region;\
     InternalTransformType::SizeType size; \
-    for(unsigned int j=0;j<(int)(dimension);j++) {size[j] = metaTransform->GridRegionSize()[j];}\
+    for(unsigned int j=0;j<(int)(dimension);j++) {size[j] = (long unsigned int)metaTransform->GridRegionSize()[j];}\
     region.SetSize(size);\
     static_cast<InternalTransformType*>(transform.GetPointer())->SetGridRegion(region);\
     hasTransform = true;\
