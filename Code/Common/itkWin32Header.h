@@ -20,6 +20,8 @@
 #ifndef __itkWIN32Header_h
 #define __itkWIN32Header_h
 
+#include "itkConfigure.h"
+
 // add in the Windows variants
 
 #if defined(__CYGWIN__)
@@ -77,32 +79,18 @@
 #define ITK_TYPENAME typename
 #endif
 
-#if defined(_WIN32) || defined(WIN32)
-# ifndef ITKSTATIC
-#  ifdef ITKDLL
-#   define ITK_EXPORT __declspec( dllexport ) 
-#  else
-#   define ITK_EXPORT 
-#  endif
-# else
-#  define ITK_EXPORT
-# endif  // ITKSTATIC
-#else
-// Now for the UNIX stuff
-
+// ITK_EXPORT can not be used
 #define ITK_EXPORT
 
-#endif
-
-#if defined(_WIN32) || defined(WIN32) /* Win32 version */
-#ifdef ITKCommon_EXPORTS
+#if (defined(_WIN32) || defined(WIN32)) && !defined(ITKSTATIC) 
+# ifdef ITKCommon_EXPORTS
 #  define ITKCommon_EXPORT __declspec(dllexport)
-#else
+# else
 #  define ITKCommon_EXPORT __declspec(dllimport)
-#endif
+# endif  /* ITKCommon_EXPORT */
 #else
 /* unix needs nothing */
-#define ITKCommon_EXPORT
+#define ITKCommon_EXPORT 
 #endif
 
 

@@ -25,7 +25,7 @@
 #include "itkPathFunctions.h"
 #include "itkPathIterator.h"
 
-int itkPathFunctionsTest(int, char**)
+int itkPathFunctionsTest(int, char*[])
 {
   typedef  itk::Image<double, 2>                          ImageType;
   typedef  itk::PolyLineParametricPath<2>                 InPathType;

@@ -18,7 +18,7 @@
 #include <iostream.h>
 #include "itkChainCodePath.h"
 
-int itkChainCodePathTest(int, char**)
+int itkChainCodePathTest(int, char*[])
 {
   typedef  itk::ChainCodePath<2>      PathType;
   typedef  PathType::IndexType        IndexType;

@@ -30,6 +30,13 @@
 #define ITK_USE_WIN32_THREADS
 #endif
 
+#cmakedefine ITK_BUILD_SHARED_LIBS
+#ifdef ITK_BUILD_SHARED_LIBS
+#define ITKDLL
+#else
+#define ITKSTATIC
+#endif
+
 #cmakedefine CMAKE_NO_STD_NAMESPACE
 #cmakedefine CMAKE_NO_ANSI_STREAM_HEADERS
 #cmakedefine CMAKE_NO_ANSI_STRING_STREAM

@@ -18,7 +18,7 @@
 #include <iostream.h>
 #include "itkPolyLineParametricPath.h"
 
-int itkPolyLineParametricPathTest(int, char**)
+int itkPolyLineParametricPathTest(int, char* [])
 {
   typedef  itk::PolyLineParametricPath<2>  PathType;
   typedef  PathType::InputType             InputType;

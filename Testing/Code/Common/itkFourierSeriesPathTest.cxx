@@ -18,7 +18,7 @@
 #include <iostream.h>
 #include "itkFourierSeriesPath.h"
 
-int itkFourierSeriesPathTest(int, char**)
+int itkFourierSeriesPathTest(int, char*[])
 {
   typedef  itk::FourierSeriesPath<2>   PathType;
   typedef  PathType::InputType         InputType;

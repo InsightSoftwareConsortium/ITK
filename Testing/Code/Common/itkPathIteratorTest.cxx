@@ -22,7 +22,7 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkPathIterator.h"
 
-int itkPathIteratorTest(int, char**)
+int itkPathIteratorTest(int, char*[])
 {
   typedef  itk::Image<double, 2>                          ImageType;
   typedef  itk::PolyLineParametricPath<2>                 PathType;

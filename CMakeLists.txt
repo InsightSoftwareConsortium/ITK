@@ -50,6 +50,7 @@ LINK_DIRECTORIES(.)
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
 OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+SET(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
