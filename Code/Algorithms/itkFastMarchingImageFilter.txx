@@ -317,6 +317,9 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   unsigned long NumPoints = 0;
   unsigned long InvalidPoints = 0;
 
+  const unsigned long  iterationEventInterval = 10000L;
+  unsigned long counter = 0L;
+
   while ( !m_TrialHeap.empty() )
     {
     // get the node with the smallest value
@@ -363,6 +366,14 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     // update its neighbors
     this->UpdateNeighbors( node.GetIndex(), speedImage, output );
+
+    // Send events every certain number of points.
+    counter++;
+    if( counter % iterationEventInterval == 0 )
+      {
+      this->InvokeEvent( IterationEvent() );
+      counter = 0;
+      }
 
     }
   
