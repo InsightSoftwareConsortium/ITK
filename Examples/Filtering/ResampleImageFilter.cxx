@@ -23,12 +23,12 @@
 //  of \doxygen{Transform}s. The inputs expected by this filter are an image,
 //  a transform and an interpolator. The space coordinates of the image are
 //  mapped through the transform in order to generate a new image. The extent
-//  and spacing of the resulting image are selected by the user. Resampling is
-//  performed in space coordinates, not pixel/grid coordinates. It is quite
-//  important to ensure that image spacing is properly set on the images
-//  involved. The interpolator is required since the mapping from one space to
-//  the other will often require evaluation of the intensity of the image at
-//  non-grid positions. 
+//  and spacing of the resulting image are selected by the user. Resampling
+//  is performed in space coordinates, not pixel/grid coordinates. It is
+//  quite important to ensure that image spacing is properly set on the
+//  images involved. The interpolator is required since the mapping from one
+//  space to the other will often require evaluation of the intensity of the
+//  image at non-grid positions.
 //
 //  \index{itk::ResampleImageFilter|textbf}
 //
@@ -38,7 +38,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 
 //  Software Guide : BeginLatex
@@ -55,11 +54,9 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 //  Software Guide : BeginLatex
 //
-//  The header files corresponding to the transform and interpolator should
+//  The header files corresponding to the transform and interpolator must
 //  also be included.
 //
 //  \index{itk::AffineTransform!header}
@@ -74,12 +71,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -97,8 +90,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The dimension and pixel types for input and output image must be defined
-  //  and with them the image types can be instantiated.
+  //  The dimension and pixel types for input and output image must be
+  //  defined and with them the image types can be instantiated.
   //
   //  Software Guide : EndLatex 
 
@@ -106,7 +99,6 @@ int main( int argc, char * argv[] )
   const     unsigned int   Dimension = 2;
   typedef   unsigned char  InputPixelType;
   typedef   unsigned char  OutputPixelType;
-
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
   // Software Guide : EndCodeSnippet
@@ -122,11 +114,10 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  Using the image and transform types it is now possible to instantiate the
-  //  filter type and create the filter object. 
+  //  Using the image and transform types it is now possible to instantiate
+  //  the filter type and create the filter object.
   //
   //  \index{itk::ResampleImageFilter!instantiation}
   //  \index{itk::ResampleImageFilter!New()}
@@ -137,27 +128,23 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::ResampleImageFilter<
                   InputImageType, OutputImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The transform type is defined typically using the image dimension
+  //  The transform type is typically defined using the image dimension
   //  and the type used for representing space coordinates.
   //
   //  \index{itk::AffineTransform!instantiation}
   //
   //  Software Guide : EndLatex 
   
+
   // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension >  TransformType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -173,12 +160,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer transform = TransformType::New();
- 
   filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -196,13 +179,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  An instance of the interpolator object is instantiated and passed to the
-  //  resample filter.
+  //  An instance of the interpolator object is instantiated and passed to
+  //  the resample filter.
   //
   //  \index{itk::ResampleImageFilter!SetInterpolator()}
   //
@@ -211,10 +191,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
- 
   filter->SetInterpolator( interpolator );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -222,7 +200,7 @@ int main( int argc, char * argv[] )
   //  Given that some pixels of the output image may end up being mapped
   //  outside the extent of the input image it is necessary to decide what
   //  values to assign to them. This is done by invoking the
-  //  \code{SetDefaultPixelValue()} method.
+  //  SetDefaultPixelValue() method.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
@@ -258,12 +236,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The extent of the sampling grid on the output image is defined by a
-  //  \code{SizeType} and is set using the \code{SetSize()} method.
+  //  \code{SizeType} and is set using the SetSize() method.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
@@ -279,15 +255,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  The input to the filter can be taken from any other filter, for example a
-  //  reader. The output can be passed down the pipeline to other filters, for
-  //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the resampling filter.
+  //  The input to the filter can be taken from any other filter, for example
+  //  a reader. The output can be passed down the pipeline to other filters,
+  //  for example a writer. An update call on any downstream filter will
+  //  trigger the execution of the resampling filter.
   //
   //  \index{itk::ResampleImageFilter!SetInput()}
   //  \index{itk::ResampleImageFilter!GetOutput()}
@@ -302,16 +275,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   // 
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1.eps}
-  // \itkcaption[Effect of the Resample filter]{Effect of the Resample filter}
+  // \itkcaption[Effect of the Resample filter]{Effect of the resample filter.}
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
@@ -325,32 +295,31 @@ int main( int argc, char * argv[] )
   //
   //  Figure \ref{fig:ResampleImageFilterOutput1} illustrates the effect of
   //  this filter on a slice of MRI brain image using an affine transform
-  //  containing an identity transform. Note that any analysis of the behavior
-  //  of this filter must be done on the space coordinate system in
-  //  millimeters, not with respect to the sampling grid in pixels. The figure
-  //  shows the resulting image in the lower left quarter of the extent. This
-  //  may seem odd if analyzed in terms of the image grid but is quite clear
-  //  when seen with respect to space coordinates.  Figure
-  //  \ref{fig:ResampleImageFilterOutput1} is particularly missleading because
-  //  the images are rescaled to fit nicely on the text of this book.  Figure
-  //  \ref{fig:ResampleImageFilterOutput1Analysis} clarifies the situation. It
-  //  shows the two same images placed on a equally scaled coordinate system.
-  //  It becomes clear here that an identity transform is being used to map the
-  //  image data, and that simply, we has requested to resample additional
-  //  empty space around the image. The input image is $181 \times 217$ pixels
-  //  in size and we have requested an output of $300 \times 300$ pixels. In
-  //  this case, the input and output images both have spacing of $1mm \times
-  //  1mm$ and origin of $(0.0,0.0)$.
-  //
+  //  containing an identity transform. Note that any analysis of the
+  //  behavior of this filter must be done on the space coordinate system in
+  //  millimeters, not with respect to the sampling grid in pixels. The
+  //  figure shows the resulting image in the lower left quarter of the
+  //  extent. This may seem odd if analyzed in terms of the image grid but is
+  //  quite clear when seen with respect to space coordinates.  Figure
+  //  \ref{fig:ResampleImageFilterOutput1} is particularly misleading
+  //  because the images are rescaled to fit nicely on the text of this book.
+  //  Figure \ref{fig:ResampleImageFilterOutput1Analysis} clarifies the
+  //  situation. It shows the two same images placed on a equally scaled
+  //  coordinate system.  It becomes clear here that an identity transform is
+  //  being used to map the image data, and that simply, we has requested to
+  //  resample additional empty space around the image. The input image is
+  //  $181 \times 217$ pixels in size and we have requested an output of $300
+  //  \times 300$ pixels. In this case, the input and output images both have
+  //  spacing of $1mm \times 1mm$ and origin of $(0.0,0.0)$.
   //
   //  Software Guide : EndLatex 
 
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now set values on the transform. Note that the transform supplied
-  //  represents the mapping of points from the output space to the input space.
-  //  The following code sets up a translation.
+  //  Let's now set values on the transform. Note that the supplied transform
+  //  represents the mapping of points from the output space to the input
+  //  space.  The following code sets up a translation.
   //
   //  \index{itk::AffineTransform!Translate()}
   //
@@ -358,10 +327,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation;
-
   translation[0] = -30;  // X translation in millimeters
   translation[1] = -50;  // Y translation in millimeters
-
   transform->Translate( translation );
   // Software Guide : EndCodeSnippet
 
@@ -372,7 +339,6 @@ int main( int argc, char * argv[] )
     }
 
 
-
   //  Software Guide : BeginLatex
   //
   // \begin{figure}
@@ -380,7 +346,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2.eps}
   // \itkcaption[ResampleImageFilter with a translation by
-  // $(-30,-50)$]{ResampleImageFilter with a translation by $(-30,-50)$}
+  // $(-30,-50)$]{ResampleImageFilter with a translation by $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2}
   // \end{figure}
   //
@@ -394,34 +360,33 @@ int main( int argc, char * argv[] )
   // \end{figure}
   //
   // The output image resulting from the translation can be seen in Figure
-  // \ref{fig:ResampleImageFilterOutput2}. Again, it is better to interpret the
-  // result in a common coordinate system as illustrated in Figure
+  // \ref{fig:ResampleImageFilterOutput2}. Again, it is better to interpret
+  // the result in a common coordinate system as illustrated in Figure
   // \ref{fig:ResampleImageFilterOutput2Analysis}.
   //
   // Probably the most important thing to keep in mind when resampling images
-  // is that the transform is used to map points from the \textbf{output} image
-  // space into the \textbf{input} image space. In this case, Figure
-  // \ref{fig:ResampleImageFilterOutput2Analysis} shows that the translation is
-  // applied to every point of the output image and the resulting position is
-  // used to read the intensity from the input image. In this way, the gray
-  // level of the point $P$ in the output image is taken from the point $T(P)$
-  // in the input image. Where $T$ is the transformation. In the specific case
-  // of the Figure \ref{fig:ResampleImageFilterOutput2Analysis}, the value of
-  // point $(105,188)$ in the output image is taken from the point $(75,138)$
-  // of the input image because the transformation applied was a translation of
+  // is that the transform is used to map points from the \textbf{output}
+  // image space into the \textbf{input} image space. In this case, Figure
+  // \ref{fig:ResampleImageFilterOutput2Analysis} shows that the translation
+  // is applied to every point of the output image and the resulting position
+  // is used to read the intensity from the input image. In this way, the
+  // gray level of the point $P$ in the output image is taken from the point
+  // $T(P)$ in the input image. Where $T$ is the transformation. In the
+  // specific case of the Figure
+  // \ref{fig:ResampleImageFilterOutput2Analysis}, the value of point
+  // $(105,188)$ in the output image is taken from the point $(75,138)$ of
+  // the input image because the transformation applied was a translation of
   // $(-30,-50)$.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  It is sometimes useful to intentionaly set the default output value to a
-  //  distinct gray value in order to highlight the mapping of the image
-  //  borders. For example, the following code sets the default external value
-  //  of $100$.  The result is shown in the right side of Figure
+  //  It is sometimes useful to intentionally set the default output value to
+  //  a distinct gray value in order to highlight the mapping of the image
+  //  borders. For example, the following code sets the default external
+  //  value of $100$.  The result is shown in the right side of Figure
   //  \ref{fig:ResampleImageFilterOutput3Analysis}
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
@@ -431,7 +396,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetDefaultPixelValue( 100 );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -459,8 +423,6 @@ int main( int argc, char * argv[] )
     }
 
 
-
   return 0;
-
 }
 

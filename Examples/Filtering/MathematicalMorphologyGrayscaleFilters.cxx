@@ -18,12 +18,12 @@
 //  Software Guide : BeginLatex
 //
 //  The following section illustrates the use of filters for performing basic
-//  Mathematical Morphology operations on grayscale images. The
+//  mathematical morphology operations on grayscale images. The
 //  \doxygen{GrayscaleErodeImageFilter} and
 //  \doxygen{GrayscaleDilateImageFilter} are covered in this example. The
-//  filter names clearly specify the type of image on which they operate.  The
-//  header files required for a minimal example on the use of mathematical
-//  morphology filters are presented below.
+//  filter names clearly specify the type of image on which they operate.
+//  The header files required for a minimal example on the use of
+//  mathematical morphology filters are presented below.
 //
 //  \index{itk::GrayscaleDilateImageFilter!header|textbf}
 //  \index{itk::GrayscaleErodeImageFilter!header|textbf}
@@ -35,7 +35,6 @@
 #include "itkImageFileWriter.h"
 
 
-
 // Software Guide : BeginCodeSnippet
 #include "itkGrayscaleErodeImageFilter.h"
 #include "itkGrayscaleDilateImageFilter.h"
@@ -45,8 +44,6 @@
 
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -77,22 +74,21 @@ int main( int argc, char * argv[] )
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Mathematical morphology operations are based on the application of an
-  //  operator over a neighborhood of each input pixel. The combination of the
-  //  rule and the neighborhood is known as \emph{Structuring Element}. Altough
-  //  some rules have become the \emph{de facto} standard on image processing
-  //  there is a good deal of freedom as to what kind of algorithmic rule
-  //  should be applied on the neighborhood. The implementation on Insight
-  //  follows the typical rule of minimum for erosion and maximum for dilation. 
+  //  operator over a neighborhood of each input pixel. The combination of
+  //  the rule and the neighborhood is known as \emph{structuring
+  //  element}. Altough some rules have become the de facto standard in image
+  //  processing there is a good deal of freedom as to what kind of
+  //  algorithmic rule should be applied on the neighborhood. The
+  //  implementation in ITK follows the typical rule of minimum for
+  //  erosion and maximum for dilation.
   //
   //  The structuring element is implemented as a
   //  \doxygen{NeighborhoodOperator}. In particular, the default structuring
-  //  element is the \doxygen{BinaryBallStructuringElement} class. This class is
-  //  instantiated using the pixel type and dimension of the input image.
+  //  element is the \doxygen{BinaryBallStructuringElement} class. This class
+  //  is instantiated using the pixel type and dimension of the input image.
   //
   //  Software Guide : EndLatex 
 
@@ -131,7 +127,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The filters can now be created by invoking the \code{New()} method and
+  //  The filters can now be created by invoking the New() method and
   //  assigning the result to SmartPointers.
   //
   //  \index{itk::GrayscaleDilateImageFilter!New()}
@@ -148,14 +144,14 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element is not a reference counted class. It is then
-  //  created as a static C++ object instead of using \code{New()} and
+  //  The structuring element is not a reference counted class. Thus it is
+  //  created as a C++ stack object instead of using New() and
   //  SmartPointers. The radius of the neighborhood associated with the
-  //  structuring element is defined with the \code{SetRadius()} method and the
-  //  \code{CreateStructuringElement()} method is invoked in order to
-  //  initialize the operator.  The resulting structuring element is passed to
-  //  the mathematical morphology filter through the \code{SetKernel()} method,
-  //  as illustrated below.
+  //  structuring element is defined with the SetRadius() method and the
+  //  CreateStructuringElement() method is invoked in order to initialize the
+  //  operator.  The resulting structuring element is passed to the
+  //  mathematical morphology filter through the SetKernel() method, as
+  //  illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
   //  \index{itk::BinaryBallStructuringElement!CreateStructuringElement()}
@@ -201,12 +197,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The execution of the filter can be triggered by the invokation of the
-  //  \code{Update()} method on the filter or on other downstream filter, for
+  //  Update() method on the filter or on other downstream filter, for
   //  example a writer.
   //
   //  \index{itk::GrayscaleDilateImageFilter!Update()}
@@ -230,13 +224,13 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput.eps}
-  // \itkcaption[Effect of Erosion and Dilation in a grayscale image]{Effect of
-  // Erosion and Dilation in a grayscale image.}
+  // \itkcaption[Effect of erosion and dilation in a grayscale image]{Effect of
+  // erosion and dilation in a grayscale image.}
   // \label{fig:MathematicalMorphologyGrayscaleFilters}
   // \end{figure}
   //
   //  Figure \ref{fig:MathematicalMorphologyGrayscaleFilters} illustrates the
-  //  effect of the erosion and dilation filters on a bianry image from a MRI
+  //  effect of the erosion and dilation filters on a binary image from a MRI
   //  brain slice. The figure shows how these operations can be used to remove
   //  spurious details from segmented images.
   //
@@ -244,6 +238,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
 }
 

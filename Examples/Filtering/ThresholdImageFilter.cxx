@@ -56,8 +56,8 @@
 // remain unchanged. This is illustrated in figure
 // \ref{fig:ThresholdTransferFunctionBelow}.
 //
-// \item Second, the user can define a particular threshold , all the pixels
-// with values above this threshold will be replaced by the
+// \item Second, the user can define a particular threshold where all the
+// pixels with values above this threshold will be replaced by the
 // \code{OutsideValue}.  Pixels with values below the threshold remain
 // unchanged. This is illustrated in figure
 // \ref{fig:ThresholdTransferFunctionAbove}.
@@ -123,7 +123,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The image type is now defined using the pixel type and the dimension.
+  //  The image is defined using the pixel type and the dimension.
   //
   //  Software Guide : EndLatex 
 
@@ -132,19 +132,15 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The filter type can be instantiated using the image type defined above.
+  //  The filter can be instantiated using the image type defined above.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ThresholdImageFilter< ImageType >  FilterType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -160,8 +156,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  // An \doxygen{ImageFileWriter} is instantiated in order to write the output image to a
-  // file.
+  // An \doxygen{ImageFileWriter} is instantiated in order to write the
+  // output image to a file.
   //
   //  Software Guide : EndLatex 
 
@@ -173,7 +169,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Both the filter and the reader are created by invoking their \code{New()}
+  //  Both the filter and the reader are created by invoking their New()
   //  methods and assigning the result to SmartPointers.
   //
   //  Software Guide : EndLatex 
@@ -184,11 +180,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( filter->GetOutput() );
-
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
@@ -207,11 +200,9 @@ int main( int argc, char * argv[] )
 
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The method \code{SetOutsideValue()} defines the intensity value to be
+  //  The method SetOutsideValue() defines the intensity value to be
   //  assigned to those pixels whose intensities are outside the range defined
   //  by the lower and upper thresholds. 
   //  
@@ -225,12 +216,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The method \code{ThresholdBelow()} define the intensity value below which
-  //  pixels  of the input image will be transformed into the \code{OutsideValue}.
+  //  The method ThresholdBelow() define the intensity value below
+  //  which pixels of the input image will be transformed into the
+  //  \code{OutsideValue}.
   //  
   //  \index{itk::ThresholdImageFilter!ThresholdBelow()|textbf}
   //  Software Guide : EndLatex 
@@ -240,12 +230,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The execution of the filter is triggered by invoking the \code{Update()}
+  //  The execution of the filter is triggered by invoking the Update()
   //  method. If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any of the posterior filters in the
+  //  filters, the Update() call on any of the posterior filters in the
   //  pipeline will indirectly trigger the update of this filter too.
   //
   //  Software Guide : EndLatex 
@@ -253,7 +242,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->Update();
   // Software Guide : EndCodeSnippet
-
 
 
   writer->SetFileName( argv[2] );
@@ -264,7 +252,7 @@ int main( int argc, char * argv[] )
   //  
   //  The output of this process is shown on figure
   //  \ref{fig:ThresholdTransferFunctionBelow}.  The second mode of operation
-  //  of the filter is enabled by invoking the method \code{ThresholdAbove()}
+  //  of the filter is enabled by invoking the method ThresholdAbove()
   //  and then triggering the update of the filter.
   //
   //  Software Guide : EndLatex 
@@ -282,8 +270,8 @@ int main( int argc, char * argv[] )
   //  
   //  The output of this process is shown on figure
   //  \ref{fig:ThresholdTransferFunctionAbove}.  The third mode of operation
-  //  of the filter is enabled by invoking the method \code{ThresholdOutside()}
-  //  and then triggering the update of the filter.
+  //  of the filter is enabled by invoking the method
+  //  ThresholdOutside() and then triggering the update of the filter.
   //
   //  Software Guide : EndLatex 
 
@@ -299,12 +287,12 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of this process is shown on figure
-  //  \ref{fig:ThresholdTransferFunctionOutside}.  The examples in this section
-  //  also illustrate the limitations of this filter for performing
-  //  segmentation by itself. These limitations are particularly noticeable in
-  //  noisy images and in images lacking spatial uniformity as is the case of
-  //  MRI due to field bias.
+  //  The output of this process is shown in figure
+  //  \ref{fig:ThresholdTransferFunctionOutside}.  The examples in this
+  //  section also illustrate the limitations of this filter for performing
+  //  segmentation by itself. These limitations are particularly noticeable
+  //  in noisy images and in images lacking spatial uniformity as is the case
+  //  with MRI due to field bias.
   //
   //  \relatedClasses
   //  \begin{itemize}
@@ -314,9 +302,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-  
-
   return 0;
-
 }
 

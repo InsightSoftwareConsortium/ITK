@@ -18,11 +18,11 @@
 //  Software Guide : BeginLatex
 //
 //  The following section illustrates the use of filters for performing basic
-//  Mathematical Morphology operaions on binary images. The
-//  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter} are
-//  described here. The filter names clearly specify the type of image on which
-//  it operates.  The header files required for a minimal example on the use of
-//  mathematical morphology filters are presented below.
+//  mathematical morphology operations on binary images. The
+//  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter}
+//  are described here. The filter names clearly specify the type of image on
+//  which it operates.  The header files required for a minimal example on
+//  the use of mathematical morphology filters are presented below.
 //
 //  \index{itk::BinaryDilateImageFilter!header|textbf}
 //  \index{itk::BinaryErodeImageFilter!header|textbf}
@@ -32,7 +32,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 
 // Software Guide : BeginCodeSnippet
@@ -46,8 +45,6 @@
 
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -85,12 +82,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Mathematical morphology operations are based on the application of an
-  //  operator over a neighborhood of each input pixel. The combination of the
-  //  rule and the neighborhood is known as \emph{Structuring Element}. Altough
-  //  some rules have become the \emph{de facto} standard on image processing
-  //  there is a good deal of freedom as to what kind of algorithmic rule
-  //  should be applied on the neighborhood. The implementation on Insight
-  //  follows the typical rule of minimum for erosion and maximum for dilation. 
+  //  operator over a neighborhood of each input pixel. The combination of
+  //  the rule and the neighborhood is known as \emph{structuring
+  //  element}. Although some rules have become de facto standards for image
+  //  processing there is a good deal of freedom as to what kind of
+  //  algorithmic rule should be applied on the neighborhood. The
+  //  implementation in ITK follows the typical rule of minimum for
+  //  erosion and maximum for dilation.
   //
   //  The structuring element is implemented as a NeighborhoodOperator. In
   //  particular, the default structuring element is the
@@ -135,7 +133,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The filters can now be created by invoking the \code{New()} method and
+  //  The filters can now be created by invoking the New() method and
   //  assigning the result to \doxygen{SmartPointer}s.
   //
   //  \index{itk::BinaryDilateImageFilter!New()}
@@ -152,13 +150,13 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element is not a reference counted class. It is then
-  //  created as a static C++ object instead of using \code{New()} and
+  //  The structuring element is not a reference counted class. Thus it is
+  //  created as a C++ stack object instead of using New() and
   //  SmartPointers. The radius of the neighborhood associated with the
-  //  structuring element is defined with the \code{SetRadius()} method and the
-  //  \code{CreateStructuringElement()} method is invoked in order to
+  //  structuring element is defined with the SetRadius() method and the
+  //  CreateStructuringElement() method is invoked in order to
   //  initialize the operator.  The resulting structuring element is passed to
-  //  the mathematical morphology filter through the \code{SetKernel()} method,
+  //  the mathematical morphology filter through the SetKernel() method,
   //  as illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
@@ -224,8 +222,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  It is necessary to define what could be considered objects on the binary
-  //  images. This is specified with the methods \code{SetErodeValue()} and
-  //  \code{SetDilateValue()}. The value passed to these methods will be
+  //  images. This is specified with the methods SetErodeValue() and
+  //  SetDilateValue(). The value passed to these methods will be
   //  considered the value over which the dilation and erosion rules will
   //  apply.
   //
@@ -242,12 +240,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The execution of the filter can be triggered by the invokation of the
-  //  \code{Update()} method on the filter or on other downstream filter, for
+  //  Update() method on the filter or on other downstream filter, for
   //  example a writer.
   //
   //  \index{itk::BinaryDilateImageFilter!Update()}
@@ -271,13 +267,13 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryErosionOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryDilationOutput.eps}
-  // \itkcaption[Effect of Erosion and Dilation in a binary image]{Effect of
-  // Erosion and Dilation in a binary image.}
+  // \itkcaption[Effect of erosion and dilation in a binary image]{Effect of
+  // erosion and dilation in a binary image.}
   // \label{fig:MathematicalMorphologyBinaryFilters}
   // \end{figure}
   //
   //  Figure \ref{fig:MathematicalMorphologyBinaryFilters} illustrates the
-  //  effect of the erosion and dilation filters on a bianry image from a MRI
+  //  effect of the erosion and dilation filters on a binary image from a MRI
   //  brain slice. The figure shows how these operations can be used to remove
   //  spurious details from segmented images.
   //
@@ -285,6 +281,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
 }
 

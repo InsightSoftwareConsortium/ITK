@@ -20,12 +20,12 @@
 // This example illustrates the use of the
 // \doxygen{DanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map from the input image using the algorithm developed by
-// Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi partition
-// of the input elements is produced, as well as a vector image with the
-// components of the distance vector to the closest point. The input to the map
-// is assumed to be a set of points on the input image. Each point/pixel is
-// considered to be a separate entity even if they share the same graylevel
-// value.
+// Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi
+// partition of the input elements is produced, as well as a vector image
+// with the components of the distance vector to the closest point. The input
+// to the map is assumed to be a set of points on the input image. Each
+// point/pixel is considered to be a separate entity even if they share the
+// same graylevel value.
 //
 // \index{itk::DanielssonDistanceMapImageFilter!Instantiation|textbf}
 // \index{itk::DanielssonDistanceMapImageFilter!Header|textbf}
@@ -46,7 +46,6 @@
 
 int main( int argc, char * argv[] )
 {
-
   if( argc < 5 )
     {
     std::cerr << "Usage: " << argv[0];
@@ -71,7 +70,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char   InputPixelType;
   typedef  unsigned short  OutputPixelType;
-
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
@@ -80,7 +78,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter type can be instantiated using the input and output image
-  //  types defined above. A filter object is created with the \code{New()}
+  //  types defined above. A filter object is created with the New()
   //  method.
   //
   //  \index{itk::DanielssonDistanceMapImageFilter!instantiation}
@@ -92,14 +90,12 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::DanielssonDistanceMapImageFilter<
                InputImageType, OutputImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   typedef itk::RescaleIntensityImageFilter< 
                    OutputImageType, OutputImageType > RescalerType;
-
   RescalerType::Pointer scaler = RescalerType::New();
 
   //
@@ -138,8 +134,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The type of input image has to be specified. In this case, a binary image
-  //  is selected.
+  //  The type of input image has to be specified. In this case, a binary
+  //  image is selected.
   //
   //  \index{itk::DanielssonDistanceMapImageFilter!InputIsBinaryOn()}
   //
@@ -159,11 +155,11 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput2.eps}
   // \itkcaption[DanielssonDistanceMapImageFilter
   // output]{DanielssonDistanceMapImageFilter output. Set of pixels, distance
-  // map and Voronoi partition}
+  // map and Voronoi partition.}
   // \label{fig:DanielssonDistanceMapImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:DanielssonDistanceMapImageFilterInputOutput} illustrate
+  //  Figure \ref{fig:DanielssonDistanceMapImageFilterInputOutput} illustrates
   //  the effect of this filter on a binary image with a set of points. The
   //  input image is shown at left, the distance map at the center and the
   //  Voronoi partition at right. This filter computes distance maps in
@@ -177,18 +173,14 @@ int main( int argc, char * argv[] )
 
 
   writer->Update();
-
   const char * voronoiMapFileName = argv[3];
-
-
-
 
 
   //  Software Guide : BeginLatex
   //
-  //  The Voronoi map is obtained with the \code{GetVoronoiMap()} method. In
-  //  the lines below we connect this output to the intensity rescaler and save
-  //  the result in a file.
+  //  The Voronoi map is obtained with the GetVoronoiMap() method. In
+  //  the lines below we connect this output to the intensity rescaler and
+  //  save the result in a file.
   //
   //  \index{itk::DanielssonDistanceMapImageFilter!GetVoronoiMap()}
   //
@@ -201,13 +193,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  The distance filter also produces an image of \doxygen{Offset} pixels
   //  representing the vectorial distance to the closest object in the scene.
-  //  The type of this output image is defined by the \code{VectorImageType}
+  //  The type of this output image is defined by the VectorImageType
   //  trait of the filter type.
   //
   //  Software Guide : EndLatex 
@@ -217,17 +207,15 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  We can use this type for instantiatting an \doxygen{ImageFileWriter} type
+  //  We can use this type for instantiating an \doxygen{ImageFileWriter} type
   //  and creating an object of this class in the following lines.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< OffsetImageType >  WriterOffsetType;
-
   WriterOffsetType::Pointer offsetWriter = WriterOffsetType::New();
   // Software Guide : EndCodeSnippet
 
@@ -249,8 +237,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Execution of the writer is triggered by the invokation of the
-  //  \code{Update()} method. Since this method can potentially throw
+  //  Execution of the writer is triggered by the invocation of the
+  //  Update() method. Since this method can potentially throw
   //  exceptions it must be placed in a \code{try/catch} block.
   //
   //  Software Guide : EndLatex 
@@ -276,6 +264,5 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   return 0;
-
 }
 

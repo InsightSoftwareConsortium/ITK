@@ -27,10 +27,10 @@
 //
 //  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
-//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this filter
-//  to images of other, user-defined types as long as the appropriate typedefs
-//  and operator overloads are in place.  As a general rule, follow the example
-//  of \doxygen{Vector} in defining your data types.
+//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this
+//  filter to images of other, user-defined types as long as the appropriate
+//  typedefs and operator overloads are in place.  As a general rule, follow
+//  the example of \doxygen{Vector} in defining your data types.
 //
 //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter|textbf}
 //
@@ -47,7 +47,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!header}
 //
@@ -58,12 +58,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -76,33 +72,29 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
-  //  The image types are defined using the pixel type and the dimension.
+  //  Types should be selected based on required pixel type for the input and
+  //  output images.  The image types are defined using the pixel type and
+  //  the dimension.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
-
   typedef itk::CovariantVector<float,2>    VectorPixelType;
-
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< VectorPixelType, 2 >   VectorImageType;
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the \code{New()}
+  //  output image types. The filter object is created by the New()
   //  method.
   //
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!instantiation}
@@ -114,17 +106,13 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::VectorGradientAnisotropicDiffusionImageFilter<
                        VectorImageType, VectorImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   typedef itk::GradientRecursiveGaussianImageFilter< 
                        InputImageType, VectorImageType >   GradientFilterType;
-
   GradientFilterType::Pointer gradient = GradientFilterType::New();
-
-
 
 
   //  Software Guide : BeginLatex
@@ -142,9 +130,7 @@ int main( int argc, char * argv[] )
 
 
   const unsigned int numberOfIterations = atoi( argv[4] );
-
   const double       timeStep = atof( argv[5] );
-
 
 
   //  Software Guide : BeginLatex
@@ -152,8 +138,8 @@ int main( int argc, char * argv[] )
   //  This filter requires two parameters, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter
-  //  can be executed by invoking \code{Update()}.
+  //  SetNumberOfIterations() and SetTimeStep() respectively.  The filter can
+  //  be executed by invoking Update().
   //
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!SetTimeStep()}
@@ -166,76 +152,56 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
-  
   filter->Update();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
-  //  $3D$ images. The number of iterations can be usually around $5$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time.
+  //  Typical values for the time step are $0.125$ in $2D$ images and
+  //  $0.0625$ in $3D$ images. The number of iterations can be usually around
+  //  $5$, more iterations will result in further smoothing and will 
+  //  linearly increase the computing time.
   //
   //  Software Guide : EndLatex 
 
 
-
-  //
   //  If the output of this filter has been connected to other filters down the
   //  pipeline, updating any of the downstream filters would have triggered the
   //  execution of this one. For example, a writer filter could have been used
   //  after the curvatur flow filter.
   //
   typedef    float    OutputPixelType;
-
   typedef itk::Image< OutputPixelType,  2 >   OutputImageType;
-
   typedef itk::VectorIndexSelectionCastImageFilter< 
                   VectorImageType, OutputImageType > ComponentFilterType;
-
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
   // Select the component to extract.
   component->SetIndex( 0 );
 
-
-
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
-
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
-
   rescaler->SetInput( component->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
-
 
   // Save the component of the original gradient
   component->SetInput( gradient->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->Update();
 
-
   // Save the component of the smoothed gradient
   component->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
   writer->Update();
-
-  
 
 
   //  Software Guide : BeginLatex
@@ -245,7 +211,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterOutput.eps}
   // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect of
   // the VectorGradientAnisotropicDiffusionImageFilter on the $X$ component of
-  // the gradient from a MRI-PD brain image.}
+  // the gradient from a MRI proton density brain image.}
   // \label{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
@@ -257,8 +223,6 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
-
   return 0;
-
 }
 

@@ -20,12 +20,12 @@
 //  The \doxygen{MedianImageFilter} is commonly used as a robust approach for
 //  noise reduction. This filter is particularly efficient against
 //  \emph{salt-and-pepper} noise. Said in other words, it is robust to the
-//  presence of graylevel outliers. The filter computes the value of each
+//  presence of gray-level outliers. The filter computes the value of each
 //  output pixel by taking a neighborhood of the input pixel and finding the
-//  statistical median of the values in the neighborhood. The following figure
-//  illustrates the local effect of this filter in a $2D$ case. The statistical
-//  median of the neighborhood on the left is passed as the output value
-//  associated with the pixel at the center of the neighborhood.
+//  statistical median of the values in the neighborhood. The following
+//  figure illustrates the local effect of this filter in a $2D$ case. The
+//  statistical median of the neighborhood on the left is passed as the
+//  output value associated with the pixel at the center of the neighborhood.
 //
 //
 //  \begin{center}
@@ -45,10 +45,10 @@
 //  \end{center}
 //
 //
-//  This filter will work on images of any dimension thanks to the internal use
-//  of \doxygen{NeighborhoodIterator}s and \doxygen{NeighborhoodOperator}s. The
-//  size of the neighborhood over which the median is computed can be set by
-//  the user.
+//  This filter will work on images of any dimension thanks to the internal
+//  use of \doxygen{NeighborhoodIterator}s and
+//  \doxygen{NeighborhoodOperator}s. The size of the neighborhood over which
+//  the median is computed can be set by the user.
 //
 //  \index{itk::MedianImageFilter|textbf}
 //
@@ -58,7 +58,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 
 //  Software Guide : BeginLatex
@@ -75,12 +74,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -91,8 +86,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and with
-  //  them the image types can be instantiated.
+  //  Then the pixel types for input and output image must be defined and
+  //  with them the image types can be instantiated.
   //
   //  Software Guide : EndLatex 
 
@@ -117,7 +112,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Using the image types it is now possible to instantiate the filter type
-  //  and create the filter object. 
+  //  and create the filter object.
   //
   //  \index{itk::MedianImageFilter!instantiation}
   //  \index{itk::MedianImageFilter!New()}
@@ -135,10 +130,11 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The size of the neighborhood is defined along every dimension by passing
-  //  a \code{SizeType} object with the corresponding values. The value on each
-  //  dimension is used as the semi-size of a rectangular box. For example, in
-  //  $2D$ a size of \(1,2\) will result in a $3 \times 5$ neighborhood. 
+  //  The size of the neighborhood is defined along every dimension by
+  //  passing a \code{SizeType} object with the corresponding values. The
+  //  value on each dimension is used as the semi-size of a rectangular
+  //  box. For example, in $2D$ a size of \(1,2\) will result in a $3 \times
+  //  5$ neighborhood.
   //
   //  \index{itk::MedianImageFilter!Radius}
   //  \index{itk::MedianImageFilter!Neighborhood}
@@ -157,10 +153,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The input to the filter can be taken from any other filter, for example a
-  //  reader. The output can be passed down the pipeline to other filters, for
-  //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the median filter.
+  //  The input to the filter can be taken from any other filter, for example
+  //  a reader. The output can be passed down the pipeline to other filters,
+  //  for example a writer. An update call on any downstream filter will
+  //  trigger the execution of the median filter.
   //
   //  \index{itk::MedianImageFilter!SetInput()}
   //  \index{itk::MedianImageFilter!GetOutput()}
@@ -181,12 +177,12 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{MedianImageFilterOutput.eps}
-  // \itkcaption[Effect of the Median filter]{Effect of the Median filter on a
-  // slice from a MRI Proton Density brain image.}
+  // \itkcaption[Effect of the Median filter]{Effect of the MedianImageFilter on a
+  // slice from a MRI proton density brain image.}
   // \label{fig:MedianImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:MedianImageFilterOutput} illustrate the effect of this
+  //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of this
   //  filter on a slice of MRI brain image using a neighborhood radii of
   //  \(1,1\) which corresponds to a $ 3 \times 3 $ classical neighborhood.  It
   //  can be seen from this picture that the filter has a moderate tendency to
@@ -196,6 +192,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
 }
 

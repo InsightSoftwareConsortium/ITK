@@ -46,12 +46,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -111,9 +107,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The order of the derivative is selected with the \code{SetOrder()} method.
-  //  The direction along which the derivative will be computed is selected with
-  //  the \code{SetDirection()} method.
+  //  The order of the derivative is selected with the SetOrder()
+  //  method.  The direction along which the derivative will be computed is
+  //  selected with the SetDirection() method.
   //
   //  \index{itk::DerivativeImageFilter!SetOrder()}
   //  \index{itk::DerivativeImageFilter!SetDirection()}
@@ -128,10 +124,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The input to the filter can be taken from any other filter, for example a
-  //  reader. The output can be passed down the pipeline to other filters, for
-  //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the derivative filter.
+  //  The input to the filter can be taken from any other filter, for example
+  //  a reader. The output can be passed down the pipeline to other filters,
+  //  for example a writer. An update call on any downstream filter will
+  //  trigger the execution of the derivative filter.
   //
   //  \index{itk::DerivativeImageFilter!SetInput()}
   //  \index{itk::DerivativeImageFilter!GetOutput()}
@@ -153,13 +149,14 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{DerivativeImageFilterOutput.eps}
   // \itkcaption[Effect of the Derivative filter]{Effect of the Derivative filter
-  // on a slice from a MRI Proton Density brain image.}
+  // on a slice from a MRI proton density brain image.}
   // \label{fig:DerivativeImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:DerivativeImageFilterOutput} illustrate the effect of this
-  //  filter on a slice of MRI brain image. The derivative is taken along the X direction.
-  //  The sensibility to noise present in the image is evident from this result.
+  //  Figure \ref{fig:DerivativeImageFilterOutput} illustrates the effect of
+  //  this filter on a slice of MRI brain image. The derivative is taken
+  //  along the $x$-direction.  The sensibility to noise present in the image
+  //  is evident from this result.
   //
   //  Software Guide : EndLatex 
 
@@ -185,6 +182,5 @@ int main( int argc, char * argv[] )
   normalizedWriter->Update();
 
   return 0;
-
 }
 

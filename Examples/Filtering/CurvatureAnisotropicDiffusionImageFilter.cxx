@@ -22,17 +22,17 @@
 //
 //  MCDE does not exhibit the edge enhancing properties of classic anisotropic
 //  diffusion, which can under certain conditions undergo a ``negative''
-//  diffusion,which enhances the contrast of edges.  Equations of the form of
+//  diffusion, which enhances the contrast of edges.  Equations of the form of
 //  MCDE always undergo positive diffusion, with the conductance term only
 //  varying the strength of that diffusion.
 // 
 //  Qualitatively, MCDE compares well with other non-linear diffusion
 //  techniques.  It is less sensitive to contrast than classic Perona-Malik
-//  style diffusion, and preserves finer detailed structures in images.  There
-//  is a potential speed trade-off for using this function in place of
-//  itkGradientNDAnisotropicDiffusionFunction.  Each iteration of the solution
-//  takes roughly twice as long.  Fewer iterations, however, may be required to
-//  reach an acceptable solution.
+//  style diffusion, and preserves finer detailed structures in images.
+//  There is a potential speed trade-off for using this function in place of
+//  itkGradientNDAnisotropicDiffusionFunction.  Each iteration of the
+//  solution takes roughly twice as long.  Fewer iterations, however, may be
+//  required to reach an acceptable solution.
 //  
 //  The MCDE equation is given as:
 // 
@@ -70,12 +70,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -83,12 +79,12 @@ int main( int argc, char * argv[] )
     std::cerr << "numberOfIterations  timeStep  conductance" << std::endl;
     return 1;
     }
-
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
-  //  The image types are defined using the pixel type and the dimension.
+  //  Types should be selected based on the pixel types required for the
+  //  input and output images.  The image types are defined using the pixel
+  //  type and the dimension.
   //
   //  Software Guide : EndLatex 
 
@@ -101,16 +97,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the \code{New()}
+  //  output image types. The filter object is created by the New()
   //  method.
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!instantiation}
@@ -127,10 +120,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
@@ -146,12 +137,8 @@ int main( int argc, char * argv[] )
 
 
   const unsigned int numberOfIterations = atoi( argv[3] );
-
   const double       timeStep = atof( argv[4] );
-
   const double       conductance = atof( argv[5] );
-
-
 
 
   //  Software Guide : BeginLatex
@@ -159,9 +146,8 @@ int main( int argc, char * argv[] )
   //  This filter requires three parameters, the number of iterations to be
   //  performed, the time step used in the computation of the level set
   //  evolution and the value of conductance. These parameters are set using
-  //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
-  //  \code{SetConductance} respectively.  The filter can be executed by
-  //  invoking \code{Update()}.
+  //  the methods SetNumberOfIterations(), SetTimeStep() and SetConductance
+  //  respectively.  The filter can be executed by invoking Update().
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
@@ -177,7 +163,6 @@ int main( int argc, char * argv[] )
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
   filter->SetConductanceParameter( conductance );
-  
   filter->Update();
   // Software Guide : EndCodeSnippet
 
@@ -192,7 +177,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-
   //
   //  If the output of this filter has been connected to other filters down the
   //  pipeline, updating any of the downstream filters would have triggered the
@@ -201,31 +185,21 @@ int main( int argc, char * argv[] )
   //
 
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   
-
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
- 
-
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -241,9 +215,9 @@ int main( int argc, char * argv[] )
   //
   //  Figure \ref{fig:CurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. In this example the filter was run with a time step of $0.125$,
-  //  $5$ iterations and a conductance value of $3.0$.  The figure shows how
-  //  homogeneous regions are smoothed and edges are preserved.
+  //  the brain. In this example the filter was run with a time step of
+  //  $0.125$, $5$ iterations and a conductance value of $3.0$.  The figure
+  //  shows how homogeneous regions are smoothed and edges are preserved.
   //
   //  \relatedClasses
   //  \begin{itemize}
@@ -254,8 +228,6 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
-
   return 0;
-
 }
 

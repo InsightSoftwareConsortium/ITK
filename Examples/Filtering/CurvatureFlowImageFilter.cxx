@@ -20,7 +20,7 @@
 //  The \doxygen{CurvatureFlowImageFilter} performs edge-preserving smoothing
 //  in a similar fashion to the classical anisotropic diffusion. The filter
 //  uses a level set formulation where the iso-intensity contours in a image
-//  are view as level sets, where pixels of a particular intensity form one
+//  are viewed as level sets, where pixels of a particular intensity form one
 //  level set. The level set function is then evolved under the control of
 //  a diffusion equation where the speed is proportional to the 
 //  curvature of the contour:
@@ -31,13 +31,14 @@
 //
 //  where $ \kappa $ is the curvature.
 //
-//  Areas of high curvature will diffuse faster than areas of low curvature. 
-//  Hence, small jaggered noise artifacts will disappear quickly, while
-//  large scale interfaces will be slow to evolve, thereby preserving sharp
-//  boundaries between objects. However, it should be noted that although the 
-//  evolution at the boundary is slow, some diffusion still occur. Thus, continual
-//  application of this curvature flow scheme will eventually result is the removal
-//  of information as each contour shrinks to a point and disappears.
+//  Areas of high curvature will diffuse faster than areas of low curvature.
+//  Hence, small jaggered noise artifacts will disappear quickly, while large
+//  scale interfaces will be slow to evolve, thereby preserving sharp
+//  boundaries between objects. However, it should be noted that although the
+//  evolution at the boundary is slow, some diffusion still occur. Thus,
+//  continual application of this curvature flow scheme will eventually
+//  result is the removal of information as each contour shrinks to a point
+//  and disappears.
 //
 //  \index{itk::CurvatureFlowImageFilter|textbf}
 //
@@ -51,7 +52,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::CurvatureFlowImageFilter!header}
 //
@@ -62,12 +63,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 5 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -75,10 +72,10 @@ int main( int argc, char * argv[] )
     return 1;
     }
 
-  
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
+  //  Types should be selected based on the pixel types required for the
+  //  input and output images.
   //
   //  Software Guide : EndLatex 
 
@@ -86,8 +83,6 @@ int main( int argc, char * argv[] )
   typedef    float    InputPixelType;
   typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -102,10 +97,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
@@ -123,14 +115,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created by invoking the \code{New()} method and
+  //  A filter object is created by invoking the New() method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::CurvatureFlowImageFilter!New()}
@@ -141,8 +132,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -158,7 +147,6 @@ int main( int argc, char * argv[] )
 
 
   const unsigned int numberOfIterations = atoi( argv[3] );
-
   const double       timeStep = atof( argv[4] );
 
 
@@ -167,8 +155,8 @@ int main( int argc, char * argv[] )
   //  The CurvatureFlow filter requires two parameters, the number of
   //  iterations to be performed and the time step used in the computation of
   //  the level set evolution. These two parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
-  //  Then the filter can be executed by invoking \code{Update()}.
+  //  SetNumberOfIterations() and SetTimeStep() respectively.
+  //  Then the filter can be executed by invoking Update().
   //
   //  \index{itk::CurvatureFlowImageFilter!Update()}
   //  \index{itk::CurvatureFlowImageFilter!SetTimeStep()}
@@ -181,30 +169,28 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
-  
   filter->Update();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
-  //  $3D$ images. The number of iterations can be usually around $10$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time. The edge-preserving is not an absolute on this
-  //  filter, some degradation will occur on the edges and will accentuate as
-  //  the number of iterations is increased. 
+  //  Typical values for the time step are $0.125$ in $2D$ images and
+  //  $0.0625$ in $3D$ images. The number of iterations can be usually around
+  //  $10$, more iterations will result in further smoothing and will
+  //  increase linearly the computing time. Edge-preserving behavior is not
+  //  guaranteed by this filter, some degradation will occur on the edges and
+  //  will increase as the number of iterations is increased.
   //
   //  Software Guide : EndLatex 
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvatur flow filter.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters will
+  //  triggered the execution of this one. For example, a writer filter could
+  //  have been used after the curvatur flow filter.
   //
   //  Software Guide : EndLatex 
 
@@ -219,12 +205,9 @@ int main( int argc, char * argv[] )
 
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
  
   // Software Guide : BeginCodeSnippet
@@ -232,8 +215,6 @@ int main( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -243,7 +224,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{CurvatureFlowImageFilterOutput.eps}
   // \itkcaption[CurvatureFlowImageFilter output]{Effect of the
-  // CurvatureFlowImageFilter on a slice from a MRI Proton Density image  of
+  // CurvatureFlowImageFilter on a slice from a MRI proton density image  of
   // the brain.}
   // \label{fig:CurvatureFlowImageFilterInputOutput}
   // \end{figure}
@@ -263,8 +244,6 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
-
   return 0;
-
 }
 

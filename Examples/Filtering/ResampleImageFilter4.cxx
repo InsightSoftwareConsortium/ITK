@@ -17,9 +17,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following example illustrates how to rotate an image around its center.
-//  In this particular case an \doxygen{AffineTransform} is used to map the
-//  input space into the output space.
+//  The following example illustrates how to rotate an image around its
+//  center.  In this particular case an \doxygen{AffineTransform} is used to
+//  map the input space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
 //
@@ -35,7 +35,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The header of the Affine transform is included below.
+//  The header of the affine transform is included below.
 //
 //  Software Guide : EndLatex 
 
@@ -46,15 +46,12 @@
 
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees" << std::endl; 
     return 1;
     }
-
 
   const     unsigned int   Dimension = 2;
   typedef   unsigned char  InputPixelType;
@@ -81,12 +78,11 @@ int main( int argc, char * argv[] )
   FilterType::Pointer filter = FilterType::New();
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The transform type is instantiated using the coordinate representation
-  //  type and the space dimension. Then a transform object is constructed with
-  //  the \code{New()} method and passed to a \doxygen{SmartPointer}.
+  //  type and the space dimension. Then a transform object is constructed
+  //  with the New() method and passed to a \doxygen{SmartPointer}.
   //
   //  \index{itk::AffineTransform!instantiation}
   //  \index{itk::AffineTransform!New()}
@@ -96,7 +92,6 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension >  TransformType;
-
   TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
  
@@ -108,7 +103,6 @@ int main( int argc, char * argv[] )
   filter->SetInterpolator( interpolator );
 
   filter->SetDefaultPixelValue( 100 );
-
 
 
   //  Software Guide : BeginLatex
@@ -123,26 +117,21 @@ int main( int argc, char * argv[] )
   const double * origin  = reader->GetOutput()->GetOrigin();
   InputImageType::SizeType size = 
       reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-
   filter->SetOutputOrigin( origin );
   filter->SetOutputSpacing( spacing );
   filter->SetSize( size );
   // Software Guide : EndCodeSnippet
 
 
-
-
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Rotations are performed around the origin of physical coordinates --- not
-  //  the image origin nor the image center. Hence, the process of positioning
-  //  the output image frame as it is shown in Figure
+  //  Rotations are performed around the origin of physical coordinates---not
+  //  the image origin nor the image center. Hence, the process of
+  //  positioning the output image frame as it is shown in Figure
   //  \ref{fig:ResampleImageFilterOutput10} requires three steps.  First, the
   //  image origin must be moved to the origin of the coordinate system, this
   //  is done by applying a translation equal to the negative values of the
@@ -153,7 +142,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput10.eps}
   // \itkcaption[Effect of the Resample filter rotating an image]{Effect of the
-  // Resample filter rotating an image}
+  // resample filter rotating an image.}
   // \label{fig:ResampleImageFilterOutput10}
   // \end{figure}
   //
@@ -174,35 +163,32 @@ int main( int argc, char * argv[] )
   transform->Translate( translation1 );
   // Software Guide : EndCodeSnippet
 
-std::cout << "imageCenterX = " << imageCenterX << std::endl;
-std::cout << "imageCenterY = " << imageCenterY << std::endl;
+  std::cout << "imageCenterX = " << imageCenterX << std::endl;
+  std::cout << "imageCenterY = " << imageCenterY << std::endl;
 
 
   //  Software Guide : BeginLatex
   //
   //  In a second step, the rotation is specified using the method
-  //  \code{Rotate2D()}.
+  //  Rotate2D().
   //  
   //  \index{itk::AffineTransform!Rotate2D()}
   //
   //  Software Guide : EndLatex 
   
+
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
-
   transform->Rotate2D( angle, false );
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  The third and final step implies to translate the image origin back to
-  //  its previous location. This is be done by applying a translation equal to
-  //  the origin values. 
+  //  The third and final step requires translating the image origin back to
+  //  its previous location. This is be done by applying a translation equal
+  //  to the origin values.
   //
   //  \index{itk::AffineTransform!Translate()}
   //
@@ -210,15 +196,11 @@ std::cout << "imageCenterY = " << imageCenterY << std::endl;
   
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation2;
-
   translation2[0] =   imageCenterX;
   translation2[1] =   imageCenterY;
-  
   transform->Translate( translation2, false );
-
   filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
-
  
 
   //  Software Guide : BeginLatex
@@ -240,11 +222,6 @@ std::cout << "imageCenterY = " << imageCenterY << std::endl;
     }
   // Software Guide : EndCodeSnippet
 
-
- 
-
   return 0;
-
-
 }
 

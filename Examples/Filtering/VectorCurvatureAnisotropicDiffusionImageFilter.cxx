@@ -48,7 +48,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!header}
 //
@@ -59,12 +59,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -77,33 +73,29 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
-  //  The image types are defined using the pixel type and the dimension.
+  //  Types should be selected based on required pixel type for the input and
+  //  output images.  The image types are defined using the pixel type and
+  //  the dimension.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
-
   typedef itk::CovariantVector<float,2>    VectorPixelType;
-
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< VectorPixelType, 2 >   VectorImageType;
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the \code{New()}
+  //  output image types. The filter object is created by the New()
   //  method.
   //
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!instantiation}
@@ -115,7 +107,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::VectorCurvatureAnisotropicDiffusionImageFilter<
                        VectorImageType, VectorImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -124,8 +115,6 @@ int main( int argc, char * argv[] )
                        InputImageType, VectorImageType >   GradientFilterType;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
-
-
 
 
   //  Software Guide : BeginLatex
@@ -141,11 +130,8 @@ int main( int argc, char * argv[] )
   filter->SetInput( gradient->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-
   const unsigned int numberOfIterations = atoi( argv[4] );
-
   const double       timeStep = atof( argv[5] );
-
 
 
   //  Software Guide : BeginLatex
@@ -153,8 +139,8 @@ int main( int argc, char * argv[] )
   //  This filter requires two parameters, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter
-  //  can be executed by invoking \code{Update()}.
+  //  SetNumberOfIterations() and SetTimeStep() respectively.  The filter
+  //  can be executed by invoking Update().
   //
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
@@ -167,20 +153,18 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
-  
   filter->Update();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
-  //  $3D$ images. The number of iterations can be usually around $5$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time.
+  //  Typical values for the time step are $0.125$ in $2D$ images and
+  //  $0.0625$ in $3D$ images. The number of iterations can be usually around
+  //  $5$, more iterations will result in further smoothing and will increase
+  //  linearly the computing time.
   //
   //  Software Guide : EndLatex 
-
 
 
   //
@@ -190,40 +174,26 @@ int main( int argc, char * argv[] )
   //  after the curvatur flow filter.
   //
   typedef    float    OutputPixelType;
-
   typedef itk::Image< OutputPixelType,  2 >   OutputImageType;
-
   typedef itk::VectorIndexSelectionCastImageFilter< 
                   VectorImageType, OutputImageType > ComponentFilterType;
-
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
   // Select the component to extract.
   component->SetIndex( 0 );
 
-
-
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
-
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   
-
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
-
   rescaler->SetInput( component->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
-
 
   // Save the component of the original gradient
   component->SetInput( gradient->GetOutput() );
@@ -236,8 +206,6 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[3] );
   writer->Update();
 
-  
-
 
   //  Software Guide : BeginLatex
   //  
@@ -246,20 +214,19 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
   // \itkcaption[VectorCurvatureAnisotropicDiffusionImageFilter output] ]{Effect
   // of the VectorCurvatureAnisotropicDiffusionImageFilter on the $X$ component
-  // of the gradient from a MRI-PD brain image.}
+  // of the gradient from a MRIproton density brain image.}
   // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
+  //  Figure
+  //  \ref{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. The images show the $X$ component of the gradient before (left)
-  //  and after (right) the application of the filter. In this example the
-  //  filter was run with a time step of 0.25, and 5 iterations.  
+  //  the brain. The images show the $X$ component of the gradient before
+  //  (left) and after (right) the application of the filter. In this example
+  //  the filter was run with a time step of 0.25, and 5 iterations.
   //
   //  Software Guide : EndLatex 
 
-
   return 0;
-
 }
 

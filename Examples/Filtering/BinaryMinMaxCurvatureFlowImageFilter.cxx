@@ -109,7 +109,7 @@ int main( int argc, char * argv[] )
   //
   //  The BinaryMinMaxCurvatureFlow filter type is now instantiated using both the
   //  input image and the output image types. The filter is then created using
-  //  the \code{New()} method.
+  //  the New() method.
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!instantiation}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!New()}
@@ -157,8 +157,8 @@ int main( int argc, char * argv[] )
   //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} requires the same
   //  parameters of the MinMaxCurvatureFlowImageFilter plus the value of the
   //  threshold against which the neighborhood average will be compared. The
-  //  threshold is passed using the \code{SetThreshold()} method. Then the
-  //  filter can be executed by invoking \code{Update()}.
+  //  threshold is passed using the SetThreshold() method. Then the
+  //  filter can be executed by invoking Update().
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!SetTimeStep()}
@@ -230,7 +230,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinaryMinMaxCurvatureFlowImageFilterOutput.eps}
   // \itkcaption[BinaryMinMaxCurvatureFlowImageFilter output]{Effect of the
-  // BinaryMinMaxCurvatureFlowImageFilter on a slice from a MRI Proton Density
+  // BinaryMinMaxCurvatureFlowImageFilter on a slice from a MRI proton density
   // image  of the brain.}
   // \label{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput}
   // \end{figure}

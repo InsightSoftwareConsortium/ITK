@@ -46,7 +46,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::DiscreteGaussianImageFilter!header}
 //
@@ -57,12 +57,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 5 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -87,11 +83,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
@@ -113,17 +105,14 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The input image can be obtained from the output of another filter. Here,
-  //  an image reader is used as source.
+  //  The input image can be obtained from the output of another
+  //  filter. Here, an image reader is used as its input.
   //
   //  Software Guide : EndLatex 
 
@@ -133,15 +122,14 @@ int main( int argc, char * argv[] )
 
 
   const double gaussianVariance = atof( argv[3] );
-
   const unsigned int maxKernelWidth = atoi( argv[4] );
 
 
   //  Software Guide : BeginLatex
   //  
   //  The filters requires the user to provide a value for the variance
-  //  associated with the Gaussian kernel. The method \code{SetVariance()} is
-  //  used for this purpose. The Gaussian is dicretized over the pixels of a
+  //  associated with the Gaussian kernel. The method SetVariance() is
+  //  used for this purpose. The Gaussian is discretized over the pixels of a
   //  convolution kernel. The maximum value of the kernel size can be set by
   //  the user. Note that the combination of variance and kernel-size values
   //  may result in truncating the borders of the discretized Gaussian kernel.
@@ -151,18 +139,16 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
+
   // Software Guide : BeginCodeSnippet
   filter->SetVariance( gaussianVariance );
-
   filter->SetMaximumKernelWidth( maxKernelWidth );
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the \code{Update()} method.
+  //  Finally the filter is executed by invoking the Update() method.
   //
   //  \index{itk::DiscreteGaussianImageFilter!Update()}
   //
@@ -174,33 +160,26 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer could have been used after
-  //  the filter.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters would have
+  //  triggered the execution of this one. For example, a writer could have
+  //  been used after the filter.
   //
   //  Software Guide : EndLatex 
 
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
-
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
  
   // Software Guide : BeginCodeSnippet
@@ -208,8 +187,6 @@ int main( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -219,7 +196,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{DiscreteGaussianImageFilterOutput.eps}
   // \itkcaption[DiscreteGaussianImageFilter output]{Effect of the
-  // DiscreteGaussianImageFilter on a slice from a MRI Proton Density image  of
+  // DiscreteGaussianImageFilter on a slice from a MRI proton density image  of
   // the brain.}
   // \label{fig:DiscreteGaussianImageFilterInputOutput}
   // \end{figure}
@@ -229,15 +206,12 @@ int main( int argc, char * argv[] )
   //  
   //  Since this filter actually computes the convolution with the Gaussian
   //  kernel, it is not desirable to use large values of the variance since the
-  //  appropriate approximation will require large kernels and incurr in
+  //  appropriate approximation will require large kernels resulting in
   //  prohibitive computational times.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 

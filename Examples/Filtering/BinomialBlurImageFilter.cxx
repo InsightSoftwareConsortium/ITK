@@ -18,9 +18,9 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BinomialBlurImageFilter} computes a nearest neighbor average
-//  along each dimension. The process is repeated a number of times as selected
-//  by the user. In principle, after a large number of iterations the result
-//  will approach the convolution with a Gaussian. 
+//  along each dimension. The process is repeated the number of times as
+//  specified by the user. In principle, after a large number of iterations
+//  the result will approach the convolution with a Gaussian.
 //
 //  \index{itk::BinomialBlurImageFilter|textbf}
 //
@@ -34,7 +34,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::BinomialBlurImageFilter!header}
 //
@@ -45,12 +45,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -75,11 +71,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
@@ -96,27 +88,22 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::BinomialBlurImageFilter<
                  InputImageType, OutputImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
-
   const unsigned int repetitions = atoi( argv[3] );
-
 
 
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
   //  an image reader is used as source. The number of repetitions is set with
-  //  the \code{SetRepetitions()} method. Computation time will
+  //  the SetRepetitions() method. Computation time will
   //  increase linearly with the number of repetitions selected. Finally, the
-  //  filter can be executed by calling the \code{Update()} method.
+  //  filter can be executed by calling the Update() method.
   //
   //  \index{itk::BinomialBlurImageFilter!Update()}
   //  \index{itk::BinomialBlurImageFilter!SetInput()}
@@ -131,35 +118,24 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-  // 
   // This section connects the filter output to a writer 
   //
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );
- 
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -169,7 +145,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinomialBlurImageFilterOutput.eps}
   // \itkcaption[BinomialBlurImageFilter output]{Effect of the
-  // BinomialBlurImageFilter on a slice from a MRI Proton Density image  of the
+  // BinomialBlurImageFilter on a slice from a MRI proton density image of the
   // brain.}
   // \label{fig:BinomialBlurImageFilterInputOutput}
   // \end{figure}
@@ -177,16 +153,13 @@ int main( int argc, char * argv[] )
   //  Figure \ref{fig:BinomialBlurImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. 
   //  
-  //  Note that the sigma of the equivalent Gaussian is fixed. The effect of
+  //  Note that the $\sigma$ of the equivalent Gaussian is fixed. The effect of
   //  every iteration of this filter on the spatial spectrum will be to
   //  multiply it with a sinus cardinal function.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 

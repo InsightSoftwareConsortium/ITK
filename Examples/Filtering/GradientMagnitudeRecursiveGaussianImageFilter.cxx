@@ -17,29 +17,29 @@
 
 //  Software Guide : BeginLatex
 //
-//  Differentiation is an ill-defined operation over digital data. In practice
-//  it results convenient to define a scale over which the differentiation
-//  should be performed. This is usually done by preprocessing the data with a
-//  smoothing filter. It has been shown that a Gaussian kernel is the most
-//  convinient choice for performing such smoothing. By chossing a particular
-//  value for the sigma in the Gaussian, an associated scale is selected. This
-//  allows to neglect details with high frequency content that are commonly
-//  considered image noise.
+//  Differentiation is an ill-defined operation over digital data. In
+//  practice it is convenient to define a scale over which the
+//  differentiation should be performed. This is usually done by
+//  preprocessing the data with a smoothing filter. It has been shown that a
+//  Gaussian kernel is the most convinient choice for performing such
+//  smoothing. By chossing a particular value for the $\sigma$ in the
+//  Gaussian, an associated scale is selected. This allows to neglect details
+//  with high frequency content that are commonly considered image noise.
 //
 //  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} computes the
 //  magnitude of the image gradient at each pixel location.  The computational
 //  process is equivalent to first smoothing the image by convolving it with a
 //  Gaussian kernel and then applying a differential operator.  The user
-//  selects the value of sigma.
+//  selects the value of $\sigma$.
 //
 //  Internally this is done by applying a IIR \footnote{Infinite Impulsional
-//  Response} filter that approximates a convolution with the derivative of the
-//  Gaussian kernel. The advantage of this approach is that the performance is
-//  largely superior, in particular when large sigmas are selected for the
-//  Gaussian kernel \cite{Deriche1990,Deriche1993}.
+//  Response} filter that approximates a convolution with the derivative of
+//  the Gaussian kernel. The advantage of this approach is that the
+//  performance is largely superior, in particular when large $\sigma$s are
+//  selected for the Gaussian kernel \cite{Deriche1990,Deriche1993}.
 //
-//  This filter will work on images of any dimension by taking advantage of the
-//  natural separability of the Gaussian kernel and its derivatives. 
+//  This filter will work on images of any dimension by taking advantage of
+//  the natural separability of the Gaussian kernel and its derivatives.
 //
 //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter|textbf}
 //
@@ -53,7 +53,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header
+//  file.
 //
 //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!header}
 //
@@ -64,12 +65,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -80,7 +77,8 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
+  //  Types should be instantiated based on the pixels of the input and
+  //  output images.
   //
   //  Software Guide : EndLatex 
 
@@ -88,7 +86,6 @@ int main( int argc, char * argv[] )
   typedef    float    InputPixelType;
   typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -103,10 +100,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-  
 
 
   //  Software Guide : BeginLatex
@@ -124,14 +118,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created by invoking the \code{New()} method and
+  //  A filter object is created by invoking the New() method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!New()}
@@ -142,8 +135,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -175,11 +166,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the \code{Update()} method.
+  //  Finally the filter is executed by invoking the Update() method.
   //
   //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!Update()}
   //
@@ -191,13 +180,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a rescale filter followed by a writer
-  //  could have been used after the gradient magnitude.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters would have
+  //  triggered the execution of this one. For example, a rescale filter
+  //  followed by a writer could have been used after the gradient magnitude.
   //
   //  Software Guide : EndLatex 
 
@@ -227,7 +215,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
   
 
-
   //  Software Guide : BeginLatex
   //  
   // \begin{figure}
@@ -236,18 +223,19 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput5.eps}
   // \itkcaption[GradientMagnitudeRecursiveGaussianImageFilter output]{Effect of
   // the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // proton density image of the brain.}
   // \label{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
+  //  Figure
+  //  \ref{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain using a sigma value of $3$ (left) and a value of $5$ (right).
-  //  The figure shows how the sensitivity to noise can be regulated by
-  //  selecting an apropriate sigma.  This type of scale-tunable filter is
-  //  suitable for performing scale space analysis.
+  //  the brain using a $\sigma$ value of $3$ (left) and a value of $5$
+  //  (right).  The figure shows how the sensitivity to noise can be
+  //  regulated by selecting an apropriate $\sigma$.  This type of
+  //  scale-tunable filter is suitable for performing scale space analysis.
   //
-  //  Attention should be paid to the image type choosen for representing the
+  //  Attention should be paid to the image type selected for representing the
   //  input and output images since the dynamic range of gradient magnitudes is
   //  usually quite smaller than the dynamic range of the input image
   //  intensities. 
@@ -255,9 +243,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 

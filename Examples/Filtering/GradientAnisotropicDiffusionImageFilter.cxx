@@ -45,7 +45,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::GradientAnisotropicDiffusionImageFilter!header}
 //
@@ -56,12 +56,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 6 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -73,8 +69,9 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
-  //  The image types are defined using the pixel type and the dimension.
+  //  Types should be selected based on the pixel types required for the
+  //  input and output images.  The image types are defined using the pixel
+  //  type and the dimension.
   //
   //  Software Guide : EndLatex 
 
@@ -87,16 +84,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
   //
   //  The filter type is now instantiated using both the input image and the
-  //  output image types. The filter object is created by the \code{New()}
+  //  output image types. The filter object is created by the New()
   //  method.
   //
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!instantiation}
@@ -108,15 +102,12 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::GradientAnisotropicDiffusionImageFilter<
                InputImageType, OutputImageType >  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
@@ -143,9 +134,9 @@ int main( int argc, char * argv[] )
   //  This filter requires three parameters, the number of iterations to be
   //  performed, the time step and the conductance parameter used in the
   //  computation of the level set evolution. These parameters are set using
-  //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
-  //  \code{SetConductanceParameter()} respectively.  The filter can be
-  //  executed by invoking \code{Update()}.
+  //  the methods SetNumberOfIterations(), SetTimeStep() and
+  //  SetConductanceParameter() respectively.  The filter can be
+  //  executed by invoking Update().
   //
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetTimeStep()}
@@ -167,45 +158,35 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
-  //  $3D$ images. The number of iterations can be usually around $5$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time.
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$
+  //  in $3D$ images. The number of iterations is typically set to $5$; more
+  //  iterations result in further smoothing and will increase the computing
+  //  time linearly.
   //
   //  Software Guide : EndLatex 
-
 
 
   //
   //  The output of the filter is rescaled here and then sent to a writer.
   //
-
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
  
 
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -222,8 +203,8 @@ int main( int argc, char * argv[] )
   //  Figure \ref{fig:GradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
   //  the brain. In this example the filter was run with a time step of $0.25$,
-  //  and $5$ iterations.  The figure shows how homogeneous regions are smoothed
-  //  and edges are preserved.
+  //  and $5$ iterations.  The figure shows how homogeneous regions are 
+  // smoothed and edges are preserved.
   //
   //  \relatedClasses
   //  \begin{itemize}
@@ -236,6 +217,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
 }
 

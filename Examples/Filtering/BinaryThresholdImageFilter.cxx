@@ -25,13 +25,14 @@
 // This example illustrates the use of the \doxygen{BinaryThresholdImageFilter}.
 // This filter is used to transform an image into a binary image by changing
 // the pixel values according to the rule illustrated in figure
-// \ref{fig:BinaryThresholdTransferFunction}. The user defines two thresholds
-// ---Upper and Lower--- and two intensity values --- Inside and Outside. For
-// each pixel in the input image, the value of the pixel is compared with the
-// lower and upper thresholds. If the pixel value is inside the range defined
-// by $[Lower,Upper]$ the output pixel is assigned the InsideValue. Otherwise
-// the output pixels is assigned to the OutsideValue. Thresholding is commonly
-// applied as the last operation of a segmentation pipeline.
+// \ref{fig:BinaryThresholdTransferFunction}. The user defines two 
+// thresholds---Upper and Lower---and two intensity values---Inside 
+// and Outside. For each pixel in the input image, the value of the pixel 
+// is compared with the lower and upper thresholds. If the pixel value is 
+// inside the range defined by $[Lower,Upper]$ the output pixel is 
+// assigned the InsideValue. Otherwise the output pixels are assigned to 
+// the OutsideValue. Thresholding is commonly applied as the last operation 
+// of a segmentation pipeline.
 //
 // \index{itk::BinaryThresholdImageFilter!Instantiation|textbf}
 // \index{itk::BinaryThresholdImageFilter!Header|textbf}
@@ -50,7 +51,6 @@
 
 int main( int argc, char * argv[] )
 {
-
   if( argc < 7 )
     {
     std::cerr << "Usage: " << argv[0];
@@ -73,8 +73,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The input and output image types are now defined using their respective
@@ -86,8 +84,6 @@ int main( int argc, char * argv[] )
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -103,12 +99,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  An \doxygen{ImageFileReader} class is also instantiated in order to read
-  //  image data from a file. 
+  //  image data from a file. (See Section \ref{sec:IO} on page 
+  //  \pageref{sec:IO} for more information about reading
+  //  and writing data.) 
   //
   //  Software Guide : EndLatex 
 
@@ -130,11 +126,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Both the filter and the reader are created by invoking their \code{New()}
+  //  Both the filter and the reader are created by invoking their New()
   //  methods and assigning the result to \doxygen{SmartPointer}s.
   //
   //  Software Guide : EndLatex 
@@ -145,11 +139,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( filter->GetOutput() );
-
   reader->SetFileName( argv[1] );
-
 
 
   //  Software Guide : BeginLatex
@@ -167,14 +158,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The method \code{SetOutsideValue()} defines the intensity value to be
+  //  The method SetOutsideValue() defines the intensity value to be
   //  assigned to those pixels whose intensities are outside the range defined
-  //  by the lower and upper thresholds. The method \code{SetInsideValue()}
+  //  by the lower and upper thresholds. The method SetInsideValue()
   //  define the intensity value to be assigned to pixels with intensities
   //  falling inside the threshold range.
   //  
@@ -194,11 +182,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The methods \code{SetLowerThreshold()} and \code{SetUpperThreshold()}
+  //  The methods SetLowerThreshold() and SetUpperThreshold()
   //  define the range of the input image intensities that will be transformed
   //  into the \code{InsideValue}. Note that the lower and upper thresholds are
   //  values of the type of the input image pixels, while the inside and
@@ -215,12 +201,11 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The execution of the filter is triggered by invoking the \code{Update()}
+  //  The execution of the filter is triggered by invoking the Update()
   //  method. If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any of the posterior filters in the
+  //  filters, the Update() call on any of the posterior filters in the
   //  pipeline will indirectly trigger the update of this filter too.
   //
   //  Software Guide : EndLatex 
@@ -236,15 +221,15 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \itkcaption[BinaryThresholdImageFilter output]{Effect of the BinaryThresholdImageFilter on a slice from a MRI
-  // Proton Density image  of the brain.}
+  // proton density image  of the brain.}
   // \label{fig:BinaryThresholdImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:BinaryThresholdImageFilterInputOutput} illustrate the
+  //  Figure \ref{fig:BinaryThresholdImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. This
   //  figure shows the limitations of this filter for performing segmentation
   //  by itself. These limitations are particularly noticeable in noisy images
-  //  and in images lacking spatial uniformity as is the case of MRI due to
+  //  and in images lacking spatial uniformity as is the case with MRI due to
   //  field bias.
   //
   //  \relatedClasses
@@ -255,11 +240,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   writer->SetFileName( argv[2] );
-
   writer->Update();
 
-
   return 0;
-
 }
 

@@ -17,14 +17,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{MeanImageFilter} is commonly used as an approach for noise
-//  reduction. The filter computes the value of each output pixel by taking a
-//  neighborhood of the input pixel and finding the statistical mean of the
-//  values in the neighborhood. The following figure illustrates the local
-//  effect of this filter in a $2D$ case. The statistical mean of the
-//  neighborhood on the left is passed as the output value associated with the
-//  pixel at the center of the neighborhood.
-//
+//  The \doxygen{MeanImageFilter} is commonly used for noise reduction. The
+//  filter computes the value of each output pixel by taking a neighborhood
+//  of the input pixel and finding the statistical mean of the values in the
+//  neighborhood. The following figure illustrates the local effect of this
+//  filter in a $2D$ case. The statistical mean of the neighborhood on the
+//  left is passed as the output value associated with the pixel at the
+//  center of the neighborhood.
 //
 //  \begin{center}
 //  \begin{picture}(200,46)
@@ -75,12 +74,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -135,10 +130,11 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The size of the neighborhood is defined along every dimension by passing
-  //  a \code{SizeType} object with the corresponding values. The value on each
-  //  dimension is used as the semi-size of a rectangular box. For example, in
-  //  $2D$ a size of \(1,2\) will result in a $3 \times 5$ neighborhood. 
+  //  The size of the neighborhood is defined along every dimension by
+  //  passing a \code{SizeType} object with the corresponding values. The
+  //  value on each dimension is used as the semi-size of a rectangular
+  //  box. For example, in $2D$ a size of \(1,2\) will result in a $3 \times
+  //  5$ neighborhood.
   //
   //  \index{itk::MeanImageFilter!Radius}
   //  \index{itk::MeanImageFilter!Neighborhood}
@@ -157,10 +153,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The input to the filter can be taken from any other filter, for example a
-  //  reader. The output can be passed down the pipeline to other filters, for
-  //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the mean filter.
+  //  The input to the filter can be taken from any other filter, for example
+  //  a reader. The output can be passed down the pipeline to other filters,
+  //  for example a writer. An update call on any downstream filter will
+  //  trigger the execution of the mean filter.
   //
   //  \index{itk::MeanImageFilter!SetInput()}
   //  \index{itk::MeanImageFilter!GetOutput()}
@@ -181,21 +177,20 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{MeanImageFilterOutput.eps}
-  // \itkcaption[Effect of the Mean filter]{Effect of the Mean filter on a slice
-  // from a MRI Proton Density brain image.}
+  // \itkcaption[Effect of the MedianImageFilter]{Effect of the MeanImageFilter on a slice
+  // from a MRI proton density brain image.}
   // \label{fig:MeanImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:MeanImageFilterOutput} illustrate the effect of this
-  //  filter on a slice of MRI brain image using a neighborhood radii of
-  //  \(1,1\) which corresponds to a $ 3 \times 3 $ classical neighborhood.  It
-  //  can be seen from this picture that edges are rapidly degraded by the
+  //  Figure \ref{fig:MeanImageFilterOutput} illustrates the effect of this
+  //  filter on a slice of MRI brain image using neighborhood radii of
+  //  \(1,1\) which corresponds to a $ 3 \times 3 $ classical neighborhood.
+  //  It can be seen from this picture that edges are rapidly degraded by the
   //  diffusion of intensity values among neighbors.
   //
   //  Software Guide : EndLatex 
 
 
   return 0;
-
 }
 

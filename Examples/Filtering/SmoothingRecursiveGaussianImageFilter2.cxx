@@ -17,10 +17,11 @@
 
 //  Software Guide : BeginLatex
 //
-//  Setting up a pipeline of N filters in order to smooth an N-Dimensional
+//  Setting up a pipeline of $m$ filters in order to smooth an N-dimensional
 //  image may be a lot of work to do for achieving a simple goal. In order to
-//  avoid this inconvenience, a filter packaging this N filters internally
-//  is available. This filter is the \doxygen{SmoothingRecursiveGaussianImageFilter}.
+//  avoid this inconvenience, a filter packaging this $m$ filters internally
+//  is available. This filter is the
+//  \doxygen{SmoothingRecursiveGaussianImageFilter}.
 //
 //  \index{itk::SmoothingRecursiveGaussianImageFilter}
 //
@@ -34,7 +35,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  In order to use this filter the following header file must be included
+//  In order to use this filter the following header file must be included.
 //
 //  \index{itk::SmoothingRecursiveGaussianImageFilter!header}
 //
@@ -45,12 +46,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -61,7 +58,8 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
+  //  Appropriate pixel types must be selected to support input and output
+  //  images.
   //
   //  Software Guide : EndLatex 
 
@@ -69,7 +67,6 @@ int main( int argc, char * argv[] )
   typedef    float    InputPixelType;
   typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -84,10 +81,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-  
 
 
   //  Software Guide : BeginLatex
@@ -107,7 +101,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -115,7 +108,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Now a single filter is enough for smoothing the image along all the
-  //  dimensions.  The filter is created by invoking the \code{New()} method
+  //  dimensions.  The filter is created by invoking the New() method
   //  and assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!New()}
@@ -131,7 +124,7 @@ int main( int argc, char * argv[] )
   //
   //  As in the previous examples we should decide what type of normalization
   //  to use during the computation of the Gaussians. The method   
-  //  \code{SetNormalizeAcrossScale()} serves this purpose. 
+  //  SetNormalizeAcrossScale() serves this purpose. 
   //  \index{SmoothingRecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
   //  Software Guide : EndLatex 
@@ -156,10 +149,11 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  It is now time for selecting the sigma of the Gaussian to use for
-  //  smoothing the data. Note that sigma is considered to be in millimeters.
-  //  That is, at the moment of applying the smoothing process, the filter will
-  //  take into account the spacing values defined in the image.
+  //  It is now time for selecting the $\sigma$ of the Gaussian to use for
+  //  smoothing the data. Note that $\sigma$ is considered to be in
+  //  millimeters.  That is, at the moment of applying the smoothing process,
+  //  the filter will take into account the spacing values defined in the
+  //  image.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!SetSigma()}
   //  \index{SetSigma()!itk::SmoothingRecursiveGaussianImageFilter}
@@ -173,11 +167,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the pipeline is executed by invoking the \code{Update()} method.
+  //  Finally the pipeline is executed by invoking the Update() method.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Update()}
   //
@@ -189,7 +181,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef  unsigned char  WritePixelType;
   typedef itk::Image< WritePixelType, 2 >    WriteImageType;
 
@@ -197,21 +188,15 @@ int main( int argc, char * argv[] )
                    OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
- 
-
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-  
 
 
   //  Software Guide : BeginLatex
@@ -221,24 +206,20 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5.eps}
   // \itkcaption[SmoothingRecursiveGaussianImageFilter output]{Effect of the
-  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI Proton Density image
-  // of the brain.}
+  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton density image of the brain.}
   // \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
   //  Figure \ref{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain using a sigma value of $3$ (left) and a value of $5$ (right).
-  //  The figure shows how the attenuation of noise can be regulated by
-  //  selecting an apropriate sigma.  This type of scale-tunable filter is
-  //  suitable for performing Scale-Space analysis.
+  //  the brain using a $\sigma$ value of $3$ (left) and a value of $5$
+  //  (right).  The figure shows how the attenuation of noise can be
+  //  regulated by selecting an apropriate sigma.  This type of scale-tunable
+  //  filter is suitable for performing scale-space analysis.
   //
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 

@@ -33,7 +33,6 @@
 #include "itkLinearInterpolateImageFunction.h"
 
 
-
 //  Software Guide : BeginLatex
 //
 //  The header file of the transform is included below.
@@ -47,18 +46,14 @@
 // Software Guide : EndCodeSnippet
 
 
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees  scale" << std::endl; 
     return 1;
     }
-
 
   const     unsigned int   Dimension = 2;
   typedef   unsigned char  InputPixelType;
@@ -86,7 +81,6 @@ int main( int argc, char * argv[] )
   FilterType::Pointer filter = FilterType::New();
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The transform type is instantiated using the coordinate representation
@@ -101,11 +95,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  A transform object is constructed by calling \code{New()} and passing the
+  //  A transform object is constructed by calling New() and passing the
   //  result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::Similarity2DTransform!New()}
@@ -116,7 +108,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
-
  
 
   typedef itk::LinearInterpolateImageFunction< 
@@ -126,7 +117,6 @@ int main( int argc, char * argv[] )
   filter->SetInterpolator( interpolator );
 
   filter->SetDefaultPixelValue( 100 );
-
 
 
   //  Software Guide : BeginLatex
@@ -146,18 +136,15 @@ int main( int argc, char * argv[] )
   filter->SetSize( size );
 
 
-
-
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The \code{Similarity2DTransform} allows to select the center of rotation.
-  //  This center is used for both rotation and scaling operations.
+  //  The \doxygen{Similarity2DTransform} allows the user to select the
+  //  center of rotation.  This center is used for both rotation and scaling
+  //  operations.
   //
   //  \index{itk::Similarity2DTransform!SetRotationCenter()}
   //
@@ -165,18 +152,15 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::InputPointType rotationCenter;
-
   rotationCenter[0] = origin[0] + spacing[0] * size[0] / 2.0;
   rotationCenter[1] = origin[1] + spacing[1] * size[1] / 2.0;
-  
   transform->SetCenter( rotationCenter );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  The rotation is specified with the method \code{SetAngle()}
+  //  The rotation is specified with the method SetAngle()
   //  
   //  \index{itk::Similarity2DTransform!SetAngle()}
   //
@@ -185,14 +169,13 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
-
   transform->SetAngle( angle );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  The scale change is defined using the method \code{SetScale()}. 
+  //  The scale change is defined using the method SetScale(). 
   //  \index{itk::Similarity2DTransform!SetScale()}
   //
   //  Software Guide : EndLatex 
@@ -202,12 +185,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  A translation to be applied after the rotation and scaling can be
-  //  specified with the method \code{SetTranslation()}.
+  //  specified with the method SetTranslation().
   //
   //  \index{itk::AffineTransform!Translate()}
   //
@@ -225,8 +206,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Note that the order in which rotation, scaling and translation are
@@ -240,7 +219,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-  
   try 
     {
     writer->Update();
@@ -259,7 +237,7 @@ int main( int argc, char * argv[] )
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   //  \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput11.eps}
   //  \itkcaption[Effect of the Resample filter rotating and scaling an
-  //  image]{Effect of the Resample filter rotating and scaling an image}
+  //  image]{Effect of the resample filter rotating and scaling an image.}
   //  \label{fig:ResampleImageFilterOutput11}
   //  \end{figure}
   //
@@ -272,7 +250,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
-
 }
 

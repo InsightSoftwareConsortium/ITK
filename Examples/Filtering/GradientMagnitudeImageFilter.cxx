@@ -18,11 +18,12 @@
 //  Software Guide : BeginLatex
 //
 //  The magnitude of the image gradient is extensively used in image analysis
-//  mainly to help in the determination of object countours and the separation
-//  of homogeneous regions. The \doxygen{GradientMagnitudeImageFilter} computes
-//  the magnitude of the image gradient at each pixel location by a simple
-//  finite differences approach. For example, in the case of $2D$ the computation
-//  is equivalent to convolving the image with masks of type
+//  mainly to help in the determination of object countours and the
+//  separation of homogeneous regions. The
+//  \doxygen{GradientMagnitudeImageFilter} computes the magnitude of the
+//  image gradient at each pixel location by a simple finite differences
+//  approach. For example, in the case of $2D$ the computation is equivalent
+//  to convolving the image with masks of type
 //
 //  \begin{center}
 //  \begin{picture}(200,50)
@@ -52,7 +53,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required to use this filter is to include its header file.
 //
 //  \index{itk::GradientMagnitudeImageFilter!header}
 //
@@ -62,13 +63,8 @@
 #include "itkGradientMagnitudeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 3 ) 
     { 
     std::cerr << "Usage: " << std::endl;
@@ -89,8 +85,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  With them, the input and output image types can be instantiated.
@@ -103,10 +97,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-
-
 
 
   //  Software Guide : BeginLatex
@@ -124,14 +115,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
 
   //  Software Guide : BeginLatex
   //
-  //  A filter object is created by invoking the \code{New()} method and
+  //  A filter object is created by invoking the New() method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::GradientMagnitudeImageFilter!New()}
@@ -142,8 +132,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -158,10 +146,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the \code{Update()} method.
+  //  Finally the filter is executed by invoking the Update() method.
   //
   //  \index{itk::GradientMagnitudeImageFilter!Update()}
   //
@@ -171,7 +158,6 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->Update();
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -184,9 +170,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   typedef unsigned char WritePixelType;
-
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
                OutputImageType, WriteImageType > RescaleFilterType;
 
@@ -194,12 +178,9 @@ int main( int argc, char * argv[] )
 
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetFileName( argv[2] );
  
   // Software Guide : BeginCodeSnippet
@@ -207,8 +188,6 @@ int main( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -218,7 +197,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{GradientMagnitudeImageFilterOutput.eps}
   // \itkcaption[GradientMagnitudeImageFilter output]{Effect of the
-  // GradientMagnitudeImageFilter on a slice from a MRI Proton Density image
+  // GradientMagnitudeImageFilter on a slice from a MRI proton density image
   // of the brain.}
   // \label{fig:GradientMagnitudeImageFilterInputOutput}
   // \end{figure}
@@ -240,9 +219,6 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
-
-
   return 0;
-
 }
 

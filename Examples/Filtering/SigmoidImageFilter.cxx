@@ -78,12 +78,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main( int argc, char * argv[] )
 {
-
-
   if( argc < 7 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -91,7 +87,6 @@ int main( int argc, char * argv[] )
     std::cerr << " OutputMin OutputMax SigmoidAlpha SigmoidBeta" << std::endl;
     return 1;
     }
-
 
   //  Software Guide : BeginLatex
   //
@@ -119,8 +114,6 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Using the image types, we instantiate the filter type
@@ -140,13 +133,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The minimum and maximum values desired at the output are defined with the
-  //  methods \code{SetOutputMinimum()} and \code{SetOutputMaximum()}. 
+  //  methods SetOutputMinimum() and SetOutputMaximum(). 
   //
   //  \index{itk::SigmoidImageFilter!SetOutputMaximum()}
   //  \index{itk::SigmoidImageFilter!SetOutputMinimum()}
@@ -162,14 +152,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The coefficients $\alpha$ and $\beta$ are passed with the methods
-  //  \code{SetAlpha()} and \code{SetBeta()}.  Note that $\alpha$ is not
+  //  SetAlpha() and SetBeta().  Note that $\alpha$ is not
   //  exactly the width of the input intensity window but it is proportional to
   //  it. As a rule of thumb we may say that the actual window is the interval
   //  $[-3\alpha, 3\alpha]$, with the remark that the intensity window ends are
@@ -193,9 +179,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The input to the filter can be taken from any other filter, for example a
@@ -211,7 +194,6 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   sigmoidFilter->SetInput( reader->GetOutput() );
-  
   writer->SetInput( sigmoidFilter->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
@@ -224,7 +206,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{SigmoidImageFilterOutput.eps}
   // \itkcaption[Effect of the Sigmoid filter]{Effect of the Sigmoid filter on a
-  // slice from a MRI Proton Density brain image.}
+  // slice from a MRI proton density brain image.}
   // \label{fig:SigmoidImageFilterOutput}
   // \end{figure}
   //
@@ -238,7 +220,7 @@ int main( int argc, char * argv[] )
   //  \item $\beta$ = 170
   //  \end{itemize}
   //
-  //  As can be seen from the Figure, the intensities on the white matter
+  //  As can be seen from the figure, the intensities on the white matter
   //  became expanded in their dynamic range, while intensity values lower than
   //  $\beta - 3 \alpha$ and higher than $\beta + 3\alpha$ became progressively
   //  mapped to the minimum and maximum output values. This is the way in which
@@ -259,6 +241,5 @@ int main( int argc, char * argv[] )
 
 
   return 0;
-
 }
 
