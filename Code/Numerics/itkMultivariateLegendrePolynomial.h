@@ -25,7 +25,7 @@
  * In 2D, 
  * \f[
  *  f(x_vector, parameter_vector) 
- * = sum_i (sum_j (parameter_i_j * P_i(x) *P_j(y)) 
+ * = sum_i (sum_j (parameter_{ i j } * P_i(x) *P_j(y)) 
  * over j from 0 to l - i)) over i from 0 to l 
  * \f]
  * where P_i() denoting a Legendre polynomial of degree i
@@ -34,7 +34,7 @@
  * In 3D,
  * \f[
  * f(x_vector, parameter_vecter)
- * = sum_i (sum_j (sum_k (paramter_i_j_k * P_i(x) * P_j(y) * P_k(z)) 
+ * = sum_i (sum_j (sum_k (parameter_{i j k} * P_i(x) * P_j(y) * P_k(z)) 
  * over k from 0 to l - i - j) over j from 0 to l - i) over i from 0 to l
  * \f]
  *
