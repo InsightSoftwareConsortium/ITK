@@ -294,6 +294,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "MeasureMatches: " << (m_MeasureMatches ? "On" : "Off")  << std::endl;
+  os << indent << "NumberOfThreads: " << m_NumberOfThreads  << std::endl;
 }
 
 } // end namespace itk
