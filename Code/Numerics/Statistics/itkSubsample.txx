@@ -38,6 +38,14 @@ Subsample< TSample >
 }
 
 template< class TSample >
+inline typename Subsample< TSample >::FrequencyType
+Subsample< TSample >
+::GetFrequencyByIndex(int index)
+{
+  return m_Sample->GetFrequency(m_IdHolder[index]) ;
+}
+
+template< class TSample >
 inline typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
 ::GetInstanceIdentifier(int index)

@@ -118,7 +118,9 @@ public:
   void Swap(int index1, int index2) ;
   
   MeasurementVectorType GetMeasurementVectorByIndex(int index) ;
-  
+
+  FrequencyType GetFrequencyByIndex(int index) ;
+
   InstanceIdentifier GetInstanceIdentifier(int index) ;
 
   class Iterator;
