@@ -28,8 +28,6 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  unsigned int i;
-  
   os << indent << "m_MaximumRMSError = "  << m_MaximumRMSError  << std::endl;
   os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
   os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
