@@ -78,6 +78,10 @@ public:
       m_PixelsBeforeUpdate = m_PixelsPerUpdate;
       m_CurrentPixel += m_PixelsPerUpdate;
       m_Filter->UpdateProgress(m_CurrentPixel * m_InverseNumberOfPixels);
+      if( m_Filter->GetAbortGenerateData() )
+        {
+        throw ProcessAborted();
+        }
       }
     }
 protected:

@@ -32,14 +32,6 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
   if(m_ThreadId == 0)
     {
 
-    // Test if filter has not been aborted before start
-    if( filter->GetAbortGenerateData() )
-      {
-      // throw an exception to be catched outside the external 
-      // loop of GenerateData() and ThreadedGenerateData().
-      throw ProcessAborted();
-      }
-  
     float numPixels = numberOfPixels;
     float numUpdates = numberOfUpdates;
     
