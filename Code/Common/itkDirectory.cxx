@@ -84,7 +84,7 @@ bool itkDirectory::Load(const char* name)
   long srchHandle = _findfirst(buf, &data);
   if ( srchHandle == -1 )
     {
-    cerr << "can't open directory " << buf << endl;
+    std::cerr << "can't open directory " << buf << std::endl;
     m_NumberOfFiles = 0;
     return 0;
     }
