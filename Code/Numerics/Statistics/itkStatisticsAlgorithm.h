@@ -39,10 +39,26 @@ void FindSampleBound(typename TSample::Pointer sample,
                      typename TSample::MeasurementVectorType &max) ;
   
 template< class TSubsample >
+void FindSampleBoundAndMean(typename TSubsample::Pointer sample,
+                            int beginIndex,
+                            int endIndex,
+                            typename TSubsample::MeasurementVectorType &min,
+                            typename TSubsample::MeasurementVectorType &max,
+                            typename TSubsample::MeasurementVectorType &mean) ;
+
+template< class TSubsample >
 int Partition(typename TSubsample::Pointer sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex,
               const typename TSubsample::MeasurementType partitionValue) ;
+
+template< class TSubsample >
+typename TSubsample::MeasurementType 
+QuickSelect(typename TSubsample::Pointer sample,
+            unsigned int activeDimension,
+            int beginIndex, int endIndex,
+            int kth,
+            typename TSubsample::MeasurementType medianGuess) ;
 
 template< class TSubsample >
 typename TSubsample::MeasurementType 

@@ -18,6 +18,7 @@
 #define __itkStatisticsAlgorithm_txx
 
 #include "itkStatisticsAlgorithm.h"
+#include "itkNumericTraits.h"
 
 namespace itk{
 namespace Statistics{
@@ -47,7 +48,7 @@ inline int Partition(typename TSubsample::Pointer sample,
 {
   while (true) 
     {
-      while (sample->GetMeasurementVector(beginIndex)[activeDimension]
+      while (sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension]
              < partitionValue)
         {
           ++beginIndex;
@@ -55,21 +56,19 @@ inline int Partition(typename TSubsample::Pointer sample,
 
       --endIndex;
       while (partitionValue < 
-             sample->GetMeasurementVector(endIndex)[activeDimension])
+             sample->GetMeasurementVectorByIndex(endIndex)[activeDimension])
         {
           --endIndex;
         }
 
       if (!(beginIndex < endIndex))
         {
-          //std::cout << "begin = " << beginIndex << " end = " << endIndex
-          //                    << std::endl ;
           return beginIndex ;
         }
       
-    sample->Swap(beginIndex, endIndex);
-    ++beginIndex;
-  }
+      sample->Swap(beginIndex, endIndex);
+      ++beginIndex;
+    }
 } 
 
 template< class TValue >
@@ -143,7 +142,7 @@ inline void FindSampleBound(typename TSubsample::Pointer sample,
   unsigned int dimension ;
   typename TSubsample::MeasurementVectorType temp ;
 
-  min = max = temp = sample->GetMeasurementVector(beginIndex) ;
+  min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
   while (beginIndex < endIndex)
     {
       for (dimension= 0 ; dimension < Dimension ; dimension++) 
@@ -158,8 +157,57 @@ inline void FindSampleBound(typename TSubsample::Pointer sample,
             }
         }
       ++beginIndex ;
-      temp = sample->GetMeasurementVector(beginIndex) ;
+      temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
     } // end of while
+}
+
+/** The endIndex should points one point after the last elements. */
+template< class TSubsample >
+inline void 
+FindSampleBoundAndMean(typename TSubsample::Pointer sample,
+                       int beginIndex,
+                       int endIndex,
+                       typename TSubsample::MeasurementVectorType &min,
+                       typename TSubsample::MeasurementVectorType &max,
+                       typename TSubsample::MeasurementVectorType &mean)
+{    
+  typedef typename TSubsample::MeasurementType MeasurementType ;
+  typedef typename TSubsample::MeasurementVectorType MeasurementVectorType ;
+
+  enum { Dimension = TSubsample::MeasurementVectorSize } ;
+
+  FixedArray< double, Dimension > sum ;
+
+  unsigned int dimension ;
+  MeasurementVectorType temp ;
+
+  double numberOfInstances = endIndex - beginIndex ;
+
+  min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
+  sum.Fill(0.0) ;
+ 
+  while (beginIndex < endIndex)
+    {
+      for (dimension= 0 ; dimension < Dimension ; dimension++) 
+        {
+          if ( temp[dimension] < min[dimension]) 
+            {
+              min[dimension] = temp[dimension] ;
+            }
+          else if (temp[dimension] > max[dimension]) 
+            {
+              max[dimension] = temp[dimension] ;
+            }
+          sum[dimension] += temp[dimension] ;
+        }
+      ++beginIndex ;
+      temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
+    } // end of while
+
+  for (int i = 0 ; i < Dimension ; i++)
+    {
+      mean[i] = int(sum[i] / numberOfInstances) ;
+    }
 }
 
 /** The endIndex should point one point after the last elements. */
@@ -169,24 +217,42 @@ QuickSelect(typename TSubsample::Pointer sample,
             unsigned int activeDimension,
             int beginIndex,
             int endIndex,
-            int kth)
+            int kth,
+            typename TSubsample::MeasurementType medianGuess)
 {
   typedef typename TSubsample::MeasurementType MeasurementType ;
 
   int length = endIndex - beginIndex ;
   int begin = beginIndex ;
-  int end = endIndex ;
+  int end = endIndex - 1 ;
   int cut ;
+  MeasurementType tempMedian ;
+
+  if (medianGuess != NumericTraits< MeasurementType >::min())
+    {
+      tempMedian = medianGuess ;
+    }
+  else
+    {
+      tempMedian = 
+        MedianOfThree< MeasurementType >
+        (sample->
+         GetMeasurementVectorByIndex(begin)[activeDimension],
+         sample->
+         GetMeasurementVectorByIndex(end)[activeDimension],
+         sample->
+         GetMeasurementVectorByIndex(begin + length/2)[activeDimension]) ;
+    }
 
   while (length > 2)
     {
-      cut = Partition< TSubsample >(sample, activeDimension,
-              begin, end, 
-              MedianOfThree< MeasurementType >
-               (sample->GetMeasurementVector(begin)[activeDimension],
-               sample->GetMeasurementVector(begin + length/2)[activeDimension],
-               sample->GetMeasurementVector(end - 1)[activeDimension])) ;
-      
+      cut = Partition< TSubsample >(sample, activeDimension, 
+                                    begin, end, tempMedian) ;
+
+      if (begin == cut)
+        {
+          break ;
+        }
 
       if ( cut >= beginIndex + kth)
         {
@@ -198,17 +264,41 @@ QuickSelect(typename TSubsample::Pointer sample,
         }
 
       length = end - begin ;
-    }
-  
+
+      tempMedian = 
+        MedianOfThree< MeasurementType >
+        (sample->
+         GetMeasurementVectorByIndex(begin)[activeDimension],
+         sample->
+         GetMeasurementVectorByIndex(end)[activeDimension],
+         sample->
+         GetMeasurementVectorByIndex(begin + length/2)[activeDimension]) ;
+    } // end of while
+
   // current partition has only 1 or 2 elements
   if (length == 2 && 
-      sample->GetMeasurementVector(end)[activeDimension]
-      < sample->GetMeasurementVector(begin)[activeDimension])
+      sample->GetMeasurementVectorByIndex(end)[activeDimension]
+      < sample->GetMeasurementVectorByIndex(begin)[activeDimension])
     {
       sample->Swap(begin, end) ;
     }
 
-  return sample->GetMeasurementVector(begin)[activeDimension] ;
+  return sample->GetMeasurementVectorByIndex(begin)[activeDimension] ;
+}
+
+
+template< class TSubsample >
+inline typename TSubsample::MeasurementType 
+QuickSelect(typename TSubsample::Pointer sample,
+            unsigned int activeDimension,
+            int beginIndex,
+            int endIndex,
+            int kth)
+{
+  typedef typename TSubsample::MeasurementType MeasurementType ;
+  MeasurementType medianGuess = NumericTraits< MeasurementType >::min() ;
+  return QuickSelect< TSubsample >(sample, activeDimension, beginIndex, 
+                     endIndex, kth, medianGuess) ;
 }
 
 template< class TSubsample >
@@ -227,8 +317,8 @@ inline void InsertSort(typename TSubsample::Pointer sample,
       backwardIndex = backwardSearchBegin ;
       while (backwardIndex > beginIndex) 
         {
-          if (sample->GetMeasurementVector(backwardIndex)[activeDimension] < 
-              sample->GetMeasurementVector(backwardIndex - 1)[activeDimension])
+          if (sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension] < 
+              sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension])
             {
               sample->Swap(backwardIndex, backwardIndex - 1) ;
             }
@@ -252,7 +342,7 @@ inline void DownHeap(typename TSubsample::Pointer sample,
   int largerChild ;
   typedef typename TSubsample::MeasurementType MeasurementType ;
   MeasurementType currentNodeValue = 
-    sample->GetMeasurementVector(currentNode)[activeDimension] ;
+    sample->GetMeasurementVectorByIndex(currentNode)[activeDimension] ;
   MeasurementType leftChildValue ;
   MeasurementType rightChildValue ;
   MeasurementType largerChildValue ;
@@ -270,12 +360,12 @@ inline void DownHeap(typename TSubsample::Pointer sample,
         }
 
       largerChildValue = rightChildValue = leftChildValue = 
-        sample->GetMeasurementVector(leftChild)[activeDimension] ;
+        sample->GetMeasurementVectorByIndex(leftChild)[activeDimension] ;
 
       if (rightChild < endIndex)
         {
           rightChildValue = 
-            sample->GetMeasurementVector(rightChild)[activeDimension] ;
+            sample->GetMeasurementVectorByIndex(rightChild)[activeDimension] ;
         }
 
       if (leftChildValue < rightChildValue) 
@@ -346,11 +436,11 @@ inline void IntrospectiveSortLoop(typename TSubsample::Pointer sample,
           
       --depthLimit ;
       cut = Partition< TSubsample >(sample, activeDimension,
-         beginIndex, endIndex, 
-         MedianOfThree< MeasurementType >
-         (sample->GetMeasurementVector(beginIndex)[activeDimension],
-          sample->GetMeasurementVector(beginIndex + length/2)[activeDimension],
-          sample->GetMeasurementVector(endIndex - 1)[activeDimension])) ;
+                                    beginIndex, endIndex, 
+                                    MedianOfThree< MeasurementType >
+                                    (sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
+                                     sample->GetMeasurementVectorByIndex(beginIndex + length/2)[activeDimension],
+                                     sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension])) ;
       IntrospectiveSortLoop< TSubsample >(sample, activeDimension, 
                                           cut, endIndex, 
                                           depthLimit, sizeThreshold) ; 
@@ -368,7 +458,7 @@ inline void IntrospectiveSort(typename TSubsample::Pointer sample,
 {
   typedef typename TSubsample::MeasurementType MeasurementType ;
   IntrospectiveSortLoop< TSubsample >(sample, activeDimension, beginIndex, endIndex, 
-                        2 * FloorLog(endIndex - beginIndex), sizeThreshold) ; 
+                                      2 * FloorLog(endIndex - beginIndex), sizeThreshold) ; 
   InsertSort< TSubsample >(sample, activeDimension, beginIndex, endIndex) ; 
 }
 
