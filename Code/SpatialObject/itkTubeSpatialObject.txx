@@ -208,51 +208,65 @@ TubeSpatialObject< TDimension, PipelineDimension >
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
 
-  if( m_Points.size() == 0 )
+  if( m_Points->size() == 0 )
   {
     return false; 
-  }
+  }    
   
-  PointType point; 
-  VectorType t;
+  PointType x1, x3; 
+  vnl_vector< double > t(2);
   double l; 
-
-  t.Fill(0.0);
+  t.fill(0.0);
  
-  if( m_Points.size() == 1 ) 
+  if( m_Points->size() == 1 ) 
   { 
-    ( * m_Points.begin() ).SetTangent(t); 
+    ( * m_Points->begin() )->SetTangent(t); 
     return true; 
   } 
      
-  typename PointListType::iterator i, j, k, e; 
-  i = m_Points.begin(); 
-  i++; 
-  e = m_Points.end(); 
-  e--; 
-     
-  for(;i!=e; i++) 
-  { 
-    j = i; 
-    j++; 
-    k = i; 
-    k--; 
-    t = ((*j).GetPosition()) - ((*k).GetPosition()); 
-    t[1] /= 2; 
-    t[2] /= 2; 
-    t[3] /= 2; 
-    l = sqrt(t[1]*t[1] + t[2]*t[2] + t[3]*t[3]); 
-    t[1] /= l; 
-    t[2] /= l; 
-    t[3] /= l; 
-    (*i).SetTangent(t); 
-  } 
-     
-  (*e).SetTangent(t); 
-  i = m_Points.begin(); 
-  j = i; 
-  j++; 
-  (*i).SetTangent( (*j).GetTangent() ); 
+  PointListType::iterator it1,it2,it3; 
+  it1 = m_Points->begin(); 
+  it2 = m_Points->begin();
+  it2++;
+  it3 = m_Points->begin();
+  it3++;
+  it3++; 
+   
+  while(it3 !=m_Points->end())
+  {
+    x1 = (*it1)->GetPosition();
+    x3 = (*it3)->GetPosition();
+    l=0;
+    for(int i=0; i<TDimension; i++)
+    {
+      t[i] = (x3[i] - x1[i])/2.0;
+      l = l + t[i]*t[i];
+    }
+    
+    l = sqrt(l); 
+    for(int i=0; i<TDimension; i++)
+    {
+      t[i] /= l;
+    }
+
+    (*it2)->SetTangent(t);
+    it1++;
+    it2++;
+    it3++;
+  }
+
+  it1 = m_Points->begin();
+  it2 = it1;
+  it2++;
+  t = *(*it2)->GetTangent();
+  (*it1)->SetTangent(t);
+  it1 = m_Points->end();
+  it1--;
+  it2 = it1;
+  it2--;
+  t = *(*it2)->GetTangent();
+  (*it1)->SetTangent(t);
+
   return true; 
 } 
 
@@ -285,7 +299,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
       t = *(*it1)->GetTangent(); 
       n1(0) = -t(1);
       n1(1) = t(0);
-      (*it1)->SetV1(n1);
+      (*it1)->SetV1(n1); 
     }
 
     it1++;
