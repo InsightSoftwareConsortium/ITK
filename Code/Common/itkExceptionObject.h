@@ -136,6 +136,10 @@ public:
   virtual unsigned int GetLine() const 
     { return m_Line; }
   
+  /** Provide std::exception::what() implementation. */
+  virtual const char* what() const throw()
+    { return m_Description.c_str(); }
+  
 private:
   /** Exception data.  Location of the error and description of the error. */
   std::string  m_Location;
