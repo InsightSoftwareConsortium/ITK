@@ -542,26 +542,37 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
 
   if (m_ReadMeshFile)
   {
-  std::ifstream meshstream; 
-  meshstream.open(m_MeshFileName);
-  if (!meshstream)
-  {
-    std::cout<<"File "<<m_MeshFileName<<" not found!\n";
-    return;
-  }
+    std::ifstream meshstream; 
+    meshstream.open(m_MeshFileName);
+    if (!meshstream)
+    {
+      std::cout<<"File "<<m_MeshFileName<<" not found!\n";
+      return;
+    }
 
-  mySolver.Read(meshstream); 
-  itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
+    mySolver.Read(meshstream); 
+    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
     if (m) { 
-    m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
+      m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
       //m->A=1.0;     // Crossection area ///
       //m->h=1.0;     // Crossection area ///
       //m->I=1.0;    // Moment of inertia ///
       //m->nu=0.; //.0;    // poissons -- DONT CHOOSE 1.0!!///
       //m->RhoC=1.0;
     }   
+    // now scale the mesh to the current scale
+    Element::VectorType coord;  
+    for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
+    {
+      coord=(*node)->GetCoordinates();    
+      for (unsigned int ii=0; ii < ImageDimension; ii++)
+      { 
+        coord[ii] = coord[ii]/(float)m_ImageScaling[ii];
+      }
+      coord=(*node)->SetCoordinates(coord);  
+    }
   }
-  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
+   else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
   {
     m_Material->E=this->GetElasticity(m_CurrentLevel);
     Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDimension); 
