@@ -78,6 +78,12 @@ public:
    */
   typedef typename Superclass::DomainPointer DomainPointer;
 
+  /**
+   *  type for the Reference 
+   */
+  typedef typename Superclass::DomainType     DomainType;
+
+
 
   /**
    * Typedef of the exception
