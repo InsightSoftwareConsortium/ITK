@@ -107,7 +107,9 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 
   while( !it1.IsAtEnd() ) 
   {
-    *ot = function(*it1,*it2,*it3);
+    (*ot).GetScalar() = function( (*it1).GetScalar(),
+                                  (*it2).GetScalar(),
+                                  (*it3).GetScalar()  );
     ++it1;
     ++it2;
     ++it3;

@@ -90,7 +90,8 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 
   while( !it1.IsAtEnd() ) 
   {
-    *ot = function(*it1,*it2);
+    (*ot).GetScalar() = function( (*it1).GetScalar(),
+                                  (*it2).GetScalar()  );
     ++it1;
     ++it2;
     ++ot;

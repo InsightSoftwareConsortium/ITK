@@ -51,9 +51,9 @@ class ITK_EXPORT FilterImageMult :
     public
     FilterImageBinary<TInputImage1,TInputImage2,TOutputImage, 
     function::Mult< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType >   >
+              typename TInputImage1::PixelType::ValueType, 
+              typename TInputImage2::PixelType::ValueType,
+              typename TOutputImage::PixelType::ValueType >   >
 
 
 {
@@ -68,9 +68,10 @@ public:
    */
   typedef FilterImageBinary<TInputImage1,TInputImage2,TOutputImage, 
               function::Mult< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType >   > Superclass;
+              typename TInputImage1::PixelType::ValueType, 
+              typename TInputImage2::PixelType::ValueType,
+              typename TOutputImage::PixelType::ValueType >   
+                > Superclass;
 
   /** 
    * Smart pointer typedef support 

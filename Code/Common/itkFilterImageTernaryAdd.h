@@ -55,10 +55,10 @@ class ITK_EXPORT FilterImageTernaryAdd :
     FilterImageTernary<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
             function::Add3< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType >   >
+                      typename TInputImage1::PixelType::ValueType, 
+                      typename TInputImage2::PixelType::ValueType,
+                      typename TInputImage3::PixelType::ValueType,
+                      typename TOutputImage::PixelType::ValueType >   >
 
 
 {
@@ -74,10 +74,10 @@ public:
   typedef FilterImageTernary<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
                       function::Add3< 
-                      typename TInputImage1::PixelType, 
-                      typename TInputImage2::PixelType,
-                      typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType >   >  Superclass;
+                      typename TInputImage1::PixelType::ValueType, 
+                      typename TInputImage2::PixelType::ValueType,
+                      typename TInputImage3::PixelType::ValueType,
+                      typename TOutputImage::PixelType::ValueType >   >  Superclass;
 
   /** 
    * Smart pointer typedef support 
