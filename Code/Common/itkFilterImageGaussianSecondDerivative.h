@@ -21,7 +21,7 @@
 namespace itk
 {
 
-/** \class FilterImageGaussianFirstDerivative
+/** \class FilterImageGaussianSecondDerivative
  * \brief Convolve an image with a kernel approximating the
  *        first derivative of a Gaussian.
  *
