@@ -107,6 +107,7 @@ public:
    * Default constructor has nothing to do.
    */
   Vector() {}
+  Vector(const ValueType& r);
 
   /*@{
    * Pass-through constructor for the Array base class.

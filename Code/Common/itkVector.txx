@@ -18,10 +18,28 @@
 #include "itkVector.h" 
 #include <vnl/vnl_math.h>
 
-
+// Include implementation of vnl_vector and vnl_c_vector for when
+// doing instantiation.
+#include "vnl/vnl_vector.txx"
+#include "vnl/vnl_vector_fixed.txx"
+#include "vnl/vnl_c_vector.txx"
 
 namespace itk
 {
+
+
+/**
+ * Constructor to initialize entire vector to one value.
+ */
+template<class T, unsigned int TVectorDimension>
+Vector<T, TVectorDimension>
+::Vector(const ValueType& r)
+{
+  for(BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i)
+    {
+    *i = r;
+    }
+}
 
 
 template<class T, unsigned int TVectorDimension>
