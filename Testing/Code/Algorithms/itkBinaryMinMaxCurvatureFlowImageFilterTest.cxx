@@ -80,6 +80,10 @@ int itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char* [] )
   niter[0] = 100; niter[1] = 100;
   radii[0] = 1; radii[1] = 3;
   
+#if __CYGWIN__
+  vnl_sample_reseed(0x1234abcd);
+#endif
+  
   int err2D = testBinaryMinMaxCurvatureFlow( size2D, 127.5, radius, numberOfRuns,
     niter, radii );
 
@@ -133,7 +137,6 @@ int testBinaryMinMaxCurvatureFlow(
   circleImage->Allocate();
 
   IteratorType circleIter( circleImage, circleImage->GetBufferedRegion() );
-
 
   for ( ; !circleIter.IsAtEnd() ; ++circleIter )
     {
