@@ -183,8 +183,10 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     }
   else // a type conversion is necessary
     {
-    OutputImagePixelType* loadBuffer = 
-      new OutputImagePixelType[m_ImageIO->GetImageSizeInBytes()];
+    // note: char is used here because the buffer is read in bytes
+    // regardles of the actual type of the pixels.
+    char * loadBuffer = 
+      new char[m_ImageIO->GetImageSizeInBytes()];
     m_ImageIO->Read(loadBuffer);
     itkDebugMacro(<< "Buffer conversion required from: "
                  << m_ImageIO->GetPixelType().name()
