@@ -30,6 +30,11 @@ template <
   int VPointDimension = 3,
 
   /**
+   * Max topological dimension of a cell that can be inserted into this mesh.
+   */
+  int VMaxTopologicalDimension = 3,
+  
+  /**
    * Numerical type to store each coordinate value.
    */
   typename TCoordRep = double,
@@ -60,11 +65,6 @@ template <
   typename TCellFeatureId = unsigned long,
 
   /**
-   * Max topological dimension of a cell that can be inserted into this mesh.
-   */
-  int VMaxTopologicalDimension = 5,
-  
-  /**
    * The container for use in storing the cell identifiers of those cells
    * which use a point.  An instance of this container will exist for every
    * point for which cell links have been constructed.
@@ -79,12 +79,12 @@ struct itkMeshType
    * Just save all the template parameters.
    */
   enum { PointDimension = VPointDimension };
+  enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TCoordRep            	    CoordRep;
   typedef TCellIdentifier      	    CellIdentifier;
   typedef TPointIdentifier     	    PointIdentifier;
   typedef TBoundaryIdentifier  	    BoundaryIdentifier;
   typedef TCellFeatureId       	    CellFeatureId;
-  enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TPointCellLinksContainer  PointCellLinksContainer;
 };
 
