@@ -15,7 +15,6 @@ REGISTER_TEST(IsolatedConnectedImageFilterTest);
 REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
 REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
 REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
-REGISTER_TEST(WatershedSegmentation1Test);
 }
 
 #undef main
@@ -42,6 +41,3 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #define main ThresholdSegmentationLevelSetImageFilterTest
 #include "ThresholdSegmentationLevelSetImageFilter.cxx"
 
-#undef main
-#define main WatershedSegmentation1Test
-#include "WatershedSegmentation1.cxx"

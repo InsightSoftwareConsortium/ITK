@@ -10,8 +10,13 @@
 void RegisterTests()
 {
 REGISTER_TEST(GeodesicActiveContourShapePriorLevelSetImageFilterTest);
+REGISTER_TEST(WatershedSegmentation1Test);
 }
 
 #undef main
 #define main GeodesicActiveContourShapePriorLevelSetImageFilterTest
 #include "GeodesicActiveContourShapePriorLevelSetImageFilter.cxx"
+
+#undef main
+#define main WatershedSegmentation1Test
+#include "WatershedSegmentation1.cxx"

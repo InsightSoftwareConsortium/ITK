@@ -338,7 +338,7 @@ ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
         107 69 5 180 210
 )
 
-ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES2}
+ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES3}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png
   WatershedSegmentation1Test
@@ -347,7 +347,7 @@ ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES2}
         2.0 10 0.0 0.05 1
 )
 
-ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES2}
+ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES3}
   --compare ${BASELINE}/WatershedSegmentation1Test2.png
             ${TEMP}/WatershedSegmentation1Test2.png
   WatershedSegmentation1Test
