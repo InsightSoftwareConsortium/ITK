@@ -40,10 +40,10 @@ class VesselTubeSpatialObjectPoint
 
 public:
 
-  typedef VesselTubeSpatialObjectPoint              Self;
-  typedef SpatialObjectPoint<TPointDimension> Superclass;
-  typedef Point< double, TPointDimension >    PointType;
-  typedef Vector<double, TPointDimension >    VectorType;
+  typedef VesselTubeSpatialObjectPoint                 Self;
+  typedef TubeSpatialObjectPoint<TPointDimension>      Superclass;
+  typedef Point< double, TPointDimension >             PointType;
+  typedef Vector<double, TPointDimension >             VectorType;
   typedef CovariantVector<double, TPointDimension >    CovariantVectorType;
  
   /** Constructor. This one defines the # of dimensions in the 

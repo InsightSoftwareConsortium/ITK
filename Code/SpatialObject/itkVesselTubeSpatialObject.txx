@@ -29,7 +29,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TDimension >
 VesselTubeSpatialObject< TDimension > 
-::VesselTubeSpatialObject()  
+::VesselTubeSpatialObject() : Superclass()
 { 
   m_ParentPoint = -1;
   this->SetDimension(TDimension);

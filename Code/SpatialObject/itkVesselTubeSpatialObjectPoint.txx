@@ -25,7 +25,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TPointDimension >
 VesselTubeSpatialObjectPoint< TPointDimension >
-::VesselTubeSpatialObjectPoint( void ) 
+::VesselTubeSpatialObjectPoint( void ) : Superclass()
 { 
   m_Medialness = 0;
   m_Ridgeness = 0;
