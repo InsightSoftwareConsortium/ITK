@@ -37,6 +37,20 @@ AffineTransform():Superclass(SpaceDimension,ParametersDimension)
 }
 
 
+// Constructor with default arguments
+template<class TScalarType, unsigned int NDimensions>
+AffineTransform<TScalarType, NDimensions>::
+AffineTransform( unsigned int outputSpaceDimension, 
+                 unsigned int parametersDimension   ):
+       Superclass(outputSpaceDimension,parametersDimension)
+{
+  m_Matrix.SetIdentity();
+  m_Inverse.SetIdentity();
+  m_Offset.Fill( 0 );
+  m_Singular = false;
+}
+
+
 
 // Constructor with explicit arguments
 template<class TScalarType, unsigned int NDimensions>

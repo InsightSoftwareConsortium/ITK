@@ -393,6 +393,7 @@ protected:
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   **/
   AffineTransform(const MatrixType &matrix, const OutputVectorType &offset);
+  AffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   AffineTransform();      
   
   /** Destroy an AffineTransform object   **/
