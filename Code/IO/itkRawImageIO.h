@@ -122,7 +122,7 @@ public:
   /** Get the number of independent variables (dimensions) in the image
    * being read. */
   unsigned int GetNumberOfDimensions() const
-    {return VImageDimension};
+    {return VImageDimension;};
 
   /** Get the size of the header computed by this object. */
   unsigned long GetHeaderSize();
