@@ -22,15 +22,16 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of ImageAdaptors and PixelAccessors.  We
-// show here how an ImageAdaptor can be used to cast the pixel type of an
-// image.  In particular, an image of pixel type \code{unsigned char} is
-// \emph{adapted} to make it look as and image of pixel type \code{float}.  
+// This example illustrates the use of the classes \doxygen{ImageAdaptor} and
+// \doxygen{PixelAccessor}.  Here we show how ImageAdaptor can be used to
+// cast the pixel type of an image.  In particular, an image of pixel type
+// \code{unsigned char} is \emph{adapted} to make it look as and image of
+// pixel type \code{float}.
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
 //
-// The first step required for using image adaptors is to include the relevant
+// The first step required to use image adaptors is to include the relevant
 // headers.  
 //
 // Software Guide : EndLatex 
@@ -41,51 +42,45 @@
 // Software Guide : EndCodeSnippet
 
 
-
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileReader.h"
 
 
-
-
 //  Software Guide : BeginLatex
 //
-//  Then, a class should be defined for specifying the type of conversion to
-//  perform on every pixel. This class is called in general a
-//  \code{PixelAccessor}. Note that valid operations are those that only
-//  require the value of the input pixel. Neighborhood operations are not
-//  possible with the use of \code{PixelAccessors}. The PixelAccessor class
-//  must provide methods \code{Set()} and \code{Get()}, and define the types
-//  \code{InternalType} and \code{ExternalType}. The \code{InternalType}
-//  corresponds to the pixel type of the image to be adapted. In our current
-//  example \code{unsigned char}. The \code{ExternalType} corresponds to the
-//  pixel type we desire to emulate at the output of the ImageAdaptor, in this
-//  case, is \code{float}.
+//  Then, a class should be defined for specifying the pixel conversion.
+//  This class is called in general a \doxygen{PixelAccessor}. Note that
+//  valid operations are those that only require the value of the input
+//  pixel. Neighborhood operations are not possible with the use of
+//  PixelAccessors. The PixelAccessor class must provide methods \code{Set()}
+//  and \code{Get()}, and define the types \code{InternalType} and
+//  \code{ExternalType}. The \code{InternalType} corresponds to the pixel
+//  type of the image to be adapted (in the current example this is
+//  \code{unsigned char}). The \code{ExternalType} corresponds to the pixel
+//  type we desire to emulate with the ImageAdaptor (in this case this is
+//  \code{float}).
 //
 //  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
-    class CastPixelAccessor  
+class CastPixelAccessor  
+{
+public:
+  typedef unsigned char InternalType;
+  typedef float         ExternalType;
+
+  static void Set(InternalType & output, const ExternalType & input) 
     {
-    public:
-      typedef unsigned char InternalType;
-      typedef float         ExternalType;
+      output = static_cast<InternalType>( input );
+    }
 
-      static void Set(InternalType & output, const ExternalType & input) 
-        {
-        output = static_cast<InternalType>( input );
-        }
-
-      static ExternalType Get( const InternalType & input ) 
-        {
-        return static_cast<ExternalType>( input );
-        }
-    };
+  static ExternalType Get( const InternalType & input ) 
+    {
+      return static_cast<ExternalType>( input );
+    }
+};
 // Software Guide : EndCodeSnippet
-
-
-
 
 
 //-------------------------
@@ -96,8 +91,6 @@
 
 int main( int argc, char *argv[] ) 
 {
-
-
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
@@ -106,12 +99,11 @@ int main( int argc, char *argv[] )
     }
 
 
-
 //  Software Guide : BeginLatex
 //
-//  The \code{CastPixelAccessor} class defined above simply applies a
-//  \code{static\_cast} to the pixel values. We use now this pixel accessor for
-//  instantiating the image adaptor in the lines below.  
+//  The CastPixelAccessor class defined above simply applies a
+//  \code{static\_cast} to the pixel values. We use now this pixel accessor
+//  for instantiating the image adaptor in the lines below.
 //
 //  Software Guide : EndLatex 
 
@@ -125,14 +117,12 @@ int main( int argc, char *argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
 //  Software Guide : BeginLatex
 //
 //  An object of this type is now constructed using the standart \code{New()}
 //  method and assigning the result to a \code{SmartPointer}.
 //
 //  Software Guide : EndLatex 
-
 
 
 // Software Guide : BeginCodeSnippet
@@ -158,10 +148,9 @@ int main( int argc, char *argv[] )
   reader->Update();
 
 
-
 //  Software Guide : BeginLatex
 //
-//  and now connect the output of the reader as input of the image adaptor.
+//  and now connect the output of the reader as input to the image adaptor.
 //
 //  Software Guide : EndLatex 
 
@@ -169,21 +158,19 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginCodeSnippet
   adaptor->SetImage( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
-
  
 
 //  Software Guide : BeginLatex
 //
-//  Finally, we can visit the image using Iterators instantiated for the output
-//  image type of the adaptor. For example, the following code computes the sum
-//  of pixel values.
+//  Finally, we can visit the image using an iterator instantiated for the
+//  output image type of the adaptor. For example, the following code
+//  computes the sum of pixel values.
 //
 //  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  IteratorType;
-  
   IteratorType  it( adaptor, adaptor->GetBufferedRegion() );
 
   double sum = 0.0;
@@ -203,8 +190,8 @@ std::cout << "Sum of pixels is: " << sum << std::endl;
 //  Software Guide : BeginLatex
 //
 // In this case, the iterator is simply visiting all the pixels, reading their
-// values and accumulating them in the sum. The fact to be highlighted is that
-// the access to the pixel is performed as if it has type \code{float}. 
+// values and accumulating them in the sum. The key concept is that
+// access to pixels is performed as if the pixel type is \code{float}. 
 //
 // Note that the \code{adaptor} is used \emph{as if} it was an image, not as a
 // filter. ImageAdaptors provide the same API of the \doxygen{Image} class.
@@ -212,9 +199,7 @@ std::cout << "Sum of pixels is: " << sum << std::endl;
 //  Software Guide : EndLatex 
 
 
-
   return 0;
-
 }
 
 
