@@ -403,27 +403,30 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The SigmoidImageFilter class requires two parameters to define the
-  //  linear transformation to be applied to the sigmoid argument. These
-  //  parameters are passed using the \code{SetAlpha()} and \code{SetBeta()}
-  //  methods. In the context of this example, the parameters are used to
-  //  intensify the differences between regions of low and high values in the
-  //  speed image. In an ideal case, the speed value should be $1.0$ in the
-  //  homogeneous regions of anatomical structures and the value should decay
-  //  rapidly to $0.0$ around the edges of structures. The heuristic for
-  //  finding the values is the following. From the gradient magnitude image,
-  //  let's call $K1$ the minimum value along the contour of the anatomical
-  //  structure to be segmented. Then, let's call $K2$ an average value of
-  //  the gradient magnitude in the middle of the structure. These two values
-  //  indicate the dynamic range that we want to map to the interval $[0:1]$
-  //  in the speed image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$
-  //  to $1.0$. This mapping will produce a speed image such that the level
-  //  set will march rapidly on the homogeneous region and will definitely
-  //  stop on the contour. The suggested value for beta is $(K1+K2)/2$ while
-  //  the suggested value for alpha is $(K1-K2)/6$.  In our simple example
-  //  the values are provided by the user from the command line
-  //  arguments. The user can estimate these values by observing the gradient
-  //  magnitude image.
+  //  The SigmoidImageFilter class requires two parameters to define the linear
+  //  transformation to be applied to the sigmoid argument. These parameters
+  //  are passed using the \code{SetAlpha()} and \code{SetBeta()} methods. In
+  //  the context of this example, the parameters are used to intensify the
+  //  differences between regions of low and high values in the speed image. In
+  //  an ideal case, the speed value should be $1.0$ in the homogeneous regions
+  //  of anatomical structures and the value should decay rapidly to $0.0$
+  //  around the edges of structures. The heuristic for finding the values is
+  //  the following. From the gradient magnitude image, let's call $K1$ the
+  //  minimum value along the contour of the anatomical structure to be
+  //  segmented. Then, let's call $K2$ an average value of the gradient
+  //  magnitude in the middle of the structure. These two values indicate the
+  //  dynamic range that we want to map to the interval $[0:1]$ in the speed
+  //  image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$ to $1.0$. Given
+  //  that $K1$ is expected to be higher than $K2$ and we want to map those
+  //  values to $0.0$ and $1.0$ respectively, we want to select a negative
+  //  value for alpha so that the sigmoid function will also do an inverse
+  //  intensity mapping. This mapping will produce a speed image such that the
+  //  level set will march rapidly on the homogeneous region and will
+  //  definitely stop on the contour. The suggested value for beta is
+  //  $(K1+K2)/2$ while the suggested value for alpha is $(K2-K1)/6$, which
+  //  must be a negative number.  In our simple example the values are provided
+  //  by the user from the command line arguments. The user can estimate these
+  //  values by observing the gradient magnitude image.
   //
   //  Software Guide : EndLatex 
 
