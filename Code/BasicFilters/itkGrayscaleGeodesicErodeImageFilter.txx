@@ -117,7 +117,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     
     // get a copy of the marker image requested region (should equal
     // the output requested region)
-    typename MarkerImageRegionType markerRequestedRegion;
+    MarkerImageRegionType markerRequestedRegion;
     markerRequestedRegion = markerPtr->GetRequestedRegion();
 
     // pad the marker requested region by the elementary operator radius
@@ -261,7 +261,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 
   // Convert the output of singleIteration to an TOutputImage type
   // (could use a CastImageFilter here to thread the copy)
-  OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
