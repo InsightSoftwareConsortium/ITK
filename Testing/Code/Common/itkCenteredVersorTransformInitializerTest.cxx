@@ -59,7 +59,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   SizeType size;
   size[0] = 100;
   size[1] = 100;
-  size[2] =  60;
+  size[2] = 150;
   
   PointType fixedOrigin;
   fixedOrigin[0] = 0.0;
@@ -74,7 +74,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   SpacingType spacing;
   spacing[0] = 1.5;
   spacing[1] = 1.5;
-  spacing[2] = 2.5;
+  spacing[2] = 1.0;
 
   IndexType index;
   index[0] = 0;
