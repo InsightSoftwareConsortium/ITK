@@ -109,6 +109,8 @@ protected:
   Path();
   ~Path(){}
 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   itkGetConstMacro(ZeroOffset,OffsetType);
   itkGetConstMacro(ZeroIndex,IndexType);
 

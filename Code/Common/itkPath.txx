@@ -42,6 +42,17 @@ Path<TInput, TOutput, VDimension>
   m_ZeroIndex.Fill(0);
 }
 
+template <class TInput, class TOutput, unsigned int VDimension>
+void
+Path<TInput, TOutput, VDimension>
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os,indent);
+
+  os << indent << "ZeroOffset: " << m_ZeroOffset << std::endl;
+  os << indent << "ZeroIndex: " << m_ZeroIndex << std::endl;
+}
+
 } // end namespace itk
 
 #endif
