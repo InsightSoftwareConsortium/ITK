@@ -51,7 +51,7 @@ MeanCalculator< TSample >
 } 
 
 template< class TSample >
-void
+inline void
 MeanCalculator< TSample >
 ::GenerateData() 
 {
@@ -60,11 +60,12 @@ MeanCalculator< TSample >
   vnl_vector<double> mean(Dimension, 0.0) ;
   
   typename TSample::Iterator iter = m_Sample->Begin() ;
+  typename TSample::Iterator end = m_Sample->End() ;
   double totalFrequency = 0.0 ;
   double frequency = 0.0 ;
   unsigned int dim = 0 ;
   
-  while (iter != m_Sample->End())
+  while (iter != end)
     {
       frequency = iter.GetFrequency() ;
       totalFrequency += frequency ;
