@@ -84,10 +84,10 @@ namespace gdcm
 #define DICT_TS           "dicomTS.dic"
 #define DICT_VR           "dicomVR.dic"
 
-GDCM_EXPORT extern const std::string GDCM_UNFOUND   ; //= "gdcm::Unfound";
-GDCM_EXPORT extern const std::string GDCM_BINLOADED ; //= "gdcm::Binary data loaded";
-GDCM_EXPORT extern const std::string GDCM_NOTLOADED ; //= "gdcm::NotLoaded";
-GDCM_EXPORT extern const std::string GDCM_UNREAD    ; //= "gdcm::UnRead";
+GDCM_EXPORT extern const std::string GDCM_UNFOUND;
+GDCM_EXPORT extern const std::string GDCM_BINLOADED;
+GDCM_EXPORT extern const std::string GDCM_NOTLOADED;
+GDCM_EXPORT extern const std::string GDCM_UNREAD;
 
 
 /// \brief TagKey is made to hold an "universal" (as in URL, Universal
