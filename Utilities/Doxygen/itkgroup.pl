@@ -2,6 +2,9 @@
 # at next empty line add a //@}
 
 $ingroup = 0;
+$semicount =0;
+$endbracecount = 0;
+$endparencount = 0;
 while(<>)
 {
     chomp;
@@ -16,21 +19,51 @@ while(<>)
 	    }
 	    else
 	    {
+                $savebuffer = "$1" . "\n";
 		$ingroup = 1;
-		print "/**@\{" . $1 . "\n";
+                $semicount = 0;
+                $endbracecount = 0;
+                $endparencount = 0;
 	    }
 	}
 	else
 	{
-	    # non empty line that is not the start of a doxy comment
-	    print $_ . "\n";
+            if($ingroup)
+            {
+                $savebuffer = $savebuffer . $_ . "\n";
+            }
+            else
+            {
+                # non empty line that is not the start of a doxy comment
+                print $_ . "\n";
+            }
 	}
+        if($line =~ /;/ )
+        {
+            $semicount = $semicount + 1;
+        }
+        if($line =~ /\}/ )
+        {
+            $endbracecount = $endbracecount + 1;
+        }
+        if($line =~ /\)/ )
+        {
+            $endparencount = $endparencount + 1;
+        }
     }
     else
     {
 	if($ingroup)
 	{
-	    print "//@}\n";
+            if($endparencount > 1 && ($semicount > 1 || $endbracecount > 1))
+            {
+                print "/**@\{" . $savebuffer . "//@}\n\n";
+            }
+            else
+            {
+                print "/**" . $savebuffer . "\n";
+            }
+            $savebuffer = "";
 	    $ingroup = 0;
 	}
 	else
