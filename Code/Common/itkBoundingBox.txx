@@ -67,7 +67,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
  */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-const BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
+const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::GetPoints(void) const
 {
@@ -147,7 +147,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType  
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType  
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetCenter(void) const
 {
@@ -161,11 +161,11 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::AccumulateType 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::AccumulateType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetDiagonalLength2(void)
 {
-  NumericTraits<CoordRepType>::AccumulateType 
+  typename NumericTraits<CoordRepType>::AccumulateType
     dist2 = NumericTraits<CoordRepType>::Zero;
 
   if ( this->ComputeBoundingBox() )

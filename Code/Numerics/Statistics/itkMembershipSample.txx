@@ -37,7 +37,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-MembershipSample< TSample >::SamplePointer 
+typename MembershipSample< TSample >::SamplePointer 
 MembershipSample< TSample >
 ::GetSample()
 {
@@ -104,7 +104,7 @@ MembershipSample< TSample >
 
 
 template< class TSample >
-MembershipSample< TSample >::ClassSamplePointer
+typename MembershipSample< TSample >::ClassSamplePointer
 MembershipSample< TSample >
 ::GetClassSample(const unsigned int &classLabel)
 {
@@ -128,7 +128,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline MembershipSample< TSample >::MeasurementVectorType&
+inline typename MembershipSample< TSample >::MeasurementVectorType&
 MembershipSample< TSample >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
@@ -136,7 +136,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline MembershipSample< TSample >::MeasurementType&
+inline typename MembershipSample< TSample >::MeasurementType&
 MembershipSample< TSample >
 ::GetMeasurement(const InstanceIdentifier &id,
                  const unsigned int &dimension)
@@ -145,7 +145,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline MembershipSample< TSample >::FrequencyType
+inline typename MembershipSample< TSample >::FrequencyType
 MembershipSample< TSample >
 ::GetFrequency(const InstanceIdentifier &id) const
 {
@@ -153,7 +153,7 @@ MembershipSample< TSample >
 }
   
 template< class TSample >
-inline MembershipSample< TSample >::FrequencyType
+inline typename MembershipSample< TSample >::FrequencyType
 MembershipSample< TSample >
 ::GetTotalFrequency(const unsigned int &dimension) const
 {

@@ -83,7 +83,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-const ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
+const typename ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
 ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(void) 
 {
@@ -100,7 +100,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-const ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
+const typename ImageToImageFilter<TInputImage,TOutputImage>::InputImageType *
 ImageToImageFilter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {

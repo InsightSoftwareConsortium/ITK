@@ -172,7 +172,7 @@ public:
    * image has actually been allocated yet. */
   void SetPixel(const IndexType &index, const TPixel& value)
     {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
     }
   
@@ -182,7 +182,7 @@ public:
    * image has actually been allocated yet. */
   const TPixel& GetPixel(const IndexType &index) const
   {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
   }
 
@@ -192,7 +192,7 @@ public:
    * image has actually been allocated yet. */
   TPixel& GetPixel(const IndexType &index)
     {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
     }
     

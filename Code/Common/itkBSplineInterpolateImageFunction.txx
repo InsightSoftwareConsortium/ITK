@@ -362,7 +362,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
 
 template <class TImageType, class TCoordRep>
-BSplineInterpolateImageFunction<TImageType,TCoordRep>
+typename BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::OutputType
 BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::EvaluateAtContinuousIndex( const ContinuousIndexType & x ) const
@@ -424,7 +424,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
 
 template <class TImageType, class TCoordRep>
-BSplineInterpolateImageFunction<TImageType,TCoordRep>
+typename BSplineInterpolateImageFunction<TImageType,TCoordRep>
 :: CovariantVectorType
 BSplineInterpolateImageFunction<TImageType,TCoordRep>
 ::EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x ) const

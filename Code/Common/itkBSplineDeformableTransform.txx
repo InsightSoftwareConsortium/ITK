@@ -39,7 +39,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   // Instantiate an identity transform
   typedef IdentityTransform<ScalarType,SpaceDimension> IdentityTransformType;
-  IdentityTransformType::Pointer id = IdentityTransformType::New();
+  typename IdentityTransformType::Pointer id = IdentityTransformType::New();
   m_BulkTransform = id;
 
   // Default grid size is zero
@@ -242,7 +242,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Get the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 const 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::ParametersType &
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::GetParameters( void ) const
@@ -366,7 +366,7 @@ bool& inside ) const
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::OutputPointType
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::TransformPoint(const InputPointType &point) const 
@@ -387,7 +387,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 const 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::JacobianType & 
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::GetJacobian( const InputPointType & point ) const

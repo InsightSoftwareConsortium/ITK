@@ -37,7 +37,7 @@ SampleAlgorithmBase< TSample >
 } 
 
 template< class TSample >
-SampleAlgorithmBase< TSample >::SamplePointer
+typename SampleAlgorithmBase< TSample >::SamplePointer
 SampleAlgorithmBase< TSample >
 ::GetSample()
 {

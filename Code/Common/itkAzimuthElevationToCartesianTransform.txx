@@ -75,7 +75,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 
 
 template<class TScalarType, unsigned int NDimensions>
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -88,7 +88,7 @@ TransformPoint(const InputPointType &point) const
 
 // Transform a point, from azimuth-elevation to cartesian
 template<class TScalarType, unsigned int NDimensions>
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformAzElToCartesian(const InputPointType &point) const 
 {
@@ -112,7 +112,7 @@ TransformAzElToCartesian(const InputPointType &point) const
 
 // Back transform a point
 template<class TScalarType, unsigned int NDimensions>
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const 
 {
@@ -132,7 +132,7 @@ BackTransform(const OutputPointType &point) const
 
 // Back transform a point
 template<class TScalarType, unsigned int NDimensions>
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 BackTransformPoint(const OutputPointType &point) const 
 {
@@ -152,7 +152,7 @@ BackTransformPoint(const OutputPointType &point) const
 
 
 template<class TScalarType, unsigned int NDimensions>
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformCartesianToAzEl(const OutputPointType &point) const 
 {

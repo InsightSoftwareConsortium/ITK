@@ -32,7 +32,7 @@ namespace itk
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::Element&
+typename VectorContainer< TElementIdentifier , TElement >::Element&
 VectorContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
@@ -47,7 +47,7 @@ VectorContainer< TElementIdentifier , TElement >
  *
  */
 template <typename TElementIdentifier, typename TElement>
-const VectorContainer< TElementIdentifier , TElement >::Element&
+const typename VectorContainer< TElementIdentifier , TElement >::Element&
 VectorContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id) const
 {
@@ -65,7 +65,7 @@ VectorContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::Element&
+typename VectorContainer< TElementIdentifier , TElement >::Element&
 VectorContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
@@ -83,7 +83,7 @@ VectorContainer< TElementIdentifier , TElement >
  * It is assumed that the index exists.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::Element
+typename VectorContainer< TElementIdentifier , TElement >::Element
 VectorContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
@@ -211,7 +211,7 @@ VectorContainer< TElementIdentifier , TElement >
  * Get a begin const iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::ConstIterator
+typename VectorContainer< TElementIdentifier , TElement >::ConstIterator
 VectorContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
@@ -223,7 +223,7 @@ VectorContainer< TElementIdentifier , TElement >
  * Get an end const iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::ConstIterator
+typename VectorContainer< TElementIdentifier , TElement >::ConstIterator
 VectorContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
@@ -235,7 +235,7 @@ VectorContainer< TElementIdentifier , TElement >
  * Get a begin iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::Iterator
+typename VectorContainer< TElementIdentifier , TElement >::Iterator
 VectorContainer< TElementIdentifier , TElement >
 ::Begin(void) 
 {
@@ -247,7 +247,7 @@ VectorContainer< TElementIdentifier , TElement >
  * Get an end iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
-VectorContainer< TElementIdentifier , TElement >::Iterator
+typename VectorContainer< TElementIdentifier , TElement >::Iterator
 VectorContainer< TElementIdentifier , TElement >
 ::End(void) 
 {

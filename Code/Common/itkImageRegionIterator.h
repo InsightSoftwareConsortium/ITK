@@ -175,7 +175,7 @@ public:
       
       // Get the index of the last pixel on the span (row)
       typename ImageIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
+        ind = m_Image->ComputeIndex( static_cast<typename Superclass::OffsetValueType>(m_Offset) );
 
       const typename ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
@@ -188,10 +188,10 @@ public:
 
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
-      done = (++ind[0] == startIndex[0] + static_cast<IndexValueType>(size[0]));
+      done = (++ind[0] == startIndex[0] + static_cast<typename Superclass::IndexValueType>(size[0]));
       for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
         {
-        done = (ind[i] == startIndex[i] + static_cast<IndexValueType>(size[i]) - 1);
+        done = (ind[i] == startIndex[i] + static_cast<typename Superclass::IndexValueType>(size[i]) - 1);
         }
       
       // if the iterator is outside the region (but not past region end) then
@@ -200,7 +200,7 @@ public:
       if (!done)
         {
         while ( ( dim+1 < ImageIteratorDimension )
-          && (ind[dim] > startIndex[dim] +  static_cast<IndexValueType>(size[dim]) - 1) )
+          && (ind[dim] > startIndex[dim] +  static_cast<typename Superclass::IndexValueType>(size[dim]) - 1) )
           {
           ind[dim] = startIndex[dim];
           ind[++dim]++;
@@ -232,7 +232,7 @@ public:
       
       // Get the index of the first pixel on the span (row)
       typename ImageIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( static_cast<IndexValueType>(m_Offset) );
+        ind = m_Image->ComputeIndex( static_cast<typename Superclass::IndexValueType>(m_Offset) );
 
       const typename ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
@@ -259,7 +259,7 @@ public:
         while ( (dim < ImageIteratorDimension - 1)
                 && (ind[dim] < startIndex[dim]) )
           {
-          ind[dim] = startIndex[dim] + static_cast<IndexValueType>(size[dim]) - 1;
+          ind[dim] = startIndex[dim] + static_cast<typename Superclass::IndexValueType>(size[dim]) - 1;
           ind[++dim]--;
           }
         }
