@@ -328,7 +328,7 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 {
   // If we smooth the update buffer before applying it, then the are
   // approximating a viscuous problem as opposed to an elastic problem
-  if ( this->GetSmoothDeformationField() )
+  if ( this->GetSmoothUpdateField() )
     {
     this->SmoothUpdateField();
     }
