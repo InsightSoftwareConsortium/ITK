@@ -73,7 +73,7 @@ public:
   /** Compute the maximum value of intensity of the input image. */
   void ComputeMaximum(void);
 
-  /** Compute the minimum value of intensity of the input image. */
+  /** Compute the minimum and maximum values of intensity of the input image. */
   void Compute(void);
 
   /** Return the minimum intensity value. */
