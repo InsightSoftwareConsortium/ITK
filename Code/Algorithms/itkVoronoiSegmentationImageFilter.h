@@ -238,6 +238,7 @@ public:
    * Make the output binary result as boundary. 
    */
   void MakeSegmentBoundary(void);
+  void MakeSegmentObject(void);
 
   VoronoiPointer GetVoronoiDiagram(void){ return m_WorkingVD; };
 
@@ -258,6 +259,8 @@ public:
     unsigned char outcolor,unsigned char boundcolor);
 
 	void BeforeNextStep(void);
+
+  void Reset(void); //reset the segmentation, ready for taking aprior from itself
 
 protected:
   VoronoiSegmentationImageFilter();
@@ -304,6 +307,8 @@ private:
 
 	//used for drawing the intermedia Voronoi Diagram.
   void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color);
+
+  void FillPolygon(PointTypeDeque vertlist);
 };
 
 }//end namespace

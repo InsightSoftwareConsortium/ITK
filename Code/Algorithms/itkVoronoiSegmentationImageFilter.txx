@@ -713,6 +713,292 @@ drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color)
   }
 }
 
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+MakeSegmentBoundary(void)
+{
+
+  RegionType region = m_InputImage->GetRequestedRegion(); 
+  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  oit.Begin(); 
+  while( !oit.IsAtEnd()) {     
+  oit.Set(0); 
+  ++oit; 
+  }
+
+  NeighborIdIterator nit;
+  NeighborIdIterator nitend;
+  for(int i=0;i<m_NumberOfSeeds;i++){
+    if(m_Label[i] == 2){
+      nitend = m_WorkingVD->NeighborIdsEnd(i);
+	    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
+	      if(((*nit)>i)&&(m_Label[*nit]==2)){
+		      drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
+		      i=i;
+	      }
+	    }
+    }
+  }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+Reset(void)
+{
+  m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
+  m_StepsRuned = 0;
+  m_LastStepSeeds=m_NumberOfSeeds;
+  m_NumberOfSeedsToAdded=0;
+}
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+MakeSegmentObject(void)
+{
+  RegionType region = m_InputImage->GetRequestedRegion(); 
+  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  oit.Begin(); 
+  while( !oit.IsAtEnd()) {     
+  oit.Set(0); 
+  ++oit; 
+  }
+  CellPointer currCell; 
+  PointIdIterator currPit;
+  PointIdIterator currPitEnd;
+  PointType currP;
+  PointTypeDeque VertList;
+  for(int i=0;i<m_NumberOfSeeds;i++){
+    if(m_Label[i] == 1){
+      currCell = m_WorkingVD->GetCellId(i);
+      currPitEnd = currCell->PointIdsEnd();
+	  VertList.clear();
+	  for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit){
+	    m_WorkingVD->GetPointId((*currPit),&(currP));
+	    VertList.push_back(currP);
+	  }
+	  FillPolygon(VertList);
+    }
+  }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
+FillPolygon(PointTypeDeque vertlist)
+{
+  IndexType idx;
+
+  PointType currP;
+  PointType leftP;
+  PointType rightP;
+  currP = vertlist.front();
+  vertlist.pop_front();
+  leftP = vertlist.front();
+  while(currP[1] > leftP[1]){
+    vertlist.push_back(currP);
+    currP=vertlist.front();
+    vertlist.pop_front();
+    leftP=vertlist.front();
+  }
+  rightP=vertlist.back();
+  while(currP[1] > rightP[1]){
+    vertlist.push_front(currP);
+    currP=vertlist.back();
+    vertlist.pop_back();
+    rightP=vertlist.back();
+  }
+  leftP=vertlist.front();
+  PointTypeDeque tmpQ; 
+  tmpQ.clear();
+  if(leftP[0]>rightP[0]){
+    while(!(vertlist.empty())){
+      tmpQ.push_back(vertlist.front());
+      vertlist.pop_front(); 
+    }
+    while(!(tmpQ.empty())){
+      vertlist.push_front(tmpQ.front());
+      tmpQ.pop_front();
+    }
+  } 
+  tmpQ.clear();
+  leftP=vertlist.front();
+  rightP=vertlist.back();
+
+  double beginy=currP[1];
+  int intbeginy=(int)ceil(beginy); 
+  idx[1]=intbeginy;
+  double leftendy=leftP[1];
+  double rightendy=rightP[1];
+  double beginx=currP[0];
+  double endx=currP[0];
+  double leftDx,rightDx;
+  double offset;
+  double leftheadx=beginx;
+  double rightheadx=endx;
+  double leftheady=beginy;
+  double rightheady=beginy;
+
+  double endy;
+  bool RorL;
+  int i,j;
+  if(leftendy>rightendy){
+    RorL=1;
+    endy=rightendy;
+  }
+  else{
+    RorL=0;
+    endy=leftendy;
+  }
+  leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
+  rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+  int intendy=(int)floor(endy);
+  if(intbeginy>intendy){ //no scanline
+    if(RorL){
+      endx=rightP[0];
+      beginx+=leftDx*(rightP[1]-beginy);
+      beginy=rightP[1];
+    }
+    else{
+      beginx=leftP[0];
+      endx+=rightDx*(leftP[1]-beginy); 
+      beginy=leftP[1];
+    }
+  }
+  else if((intbeginy==intendy) && (intbeginy==0)){ //only one scanline at 0;
+    if(RorL) endx=rightP[0];
+    else beginx=leftP[0];
+    for(i=ceil(beginx);i<=floor(endx);i++){
+      idx[0]=i;
+      m_OutputImage->SetPixel(idx,1);  
+    }
+    idx[1]=idx[1]+1;
+  }
+  else{ //normal case some scanlines
+    offset=(double)intbeginy-beginy;
+    endx+=offset*rightDx;
+    beginx+=offset*leftDx;
+    while(idx[1]<=intendy){
+      for(i=ceil(beginx);i<=floor(endx);i++){
+        idx[0]=i;
+        m_OutputImage->SetPixel(idx,1);  
+      }
+      endx+=rightDx;
+      beginx+=leftDx;        
+      idx[1]=idx[1]+1;
+    }
+    beginy=endy;
+  }
+
+  int vsize=vertlist.size();
+  while(vsize>2){
+    vsize--;
+    if(RorL){
+      vertlist.pop_back();
+      currP=rightP;
+      rightheadx=currP[0];
+      rightheady=currP[1];
+      endx=currP[0];
+      beginx=leftheadx+leftDx*(beginy-leftheady); 
+      rightP=vertlist.back();
+      rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
+    }
+    else{
+      vertlist.pop_front();
+      currP=leftP;
+      leftheadx=currP[0];
+      leftheady=currP[1];
+      beginx=currP[0];
+      endx=rightheadx+rightDx*(beginy-rightheady);
+      leftP=vertlist.front();
+      leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+    }
+        
+    leftendy=leftP[1];
+    rightendy=rightP[1];
+    if(leftendy>rightendy){
+      RorL=1;
+      endy=rightendy;
+    }
+    else{
+      RorL=0;
+      endy=leftendy;
+    }
+
+    intendy=(int)floor(endy);
+    intbeginy=(int)ceil(beginy); 
+
+    if(intbeginy>intendy){ //no scanline
+      if(RorL){
+        endx=rightP[0];
+        beginx+=leftDx*(rightP[1]-beginy);
+        beginy=rightP[1];
+      }
+      else{
+        beginx=leftP[0];
+        endx+=rightDx*(leftP[1]-beginy); 
+        beginy=leftP[1];
+      }
+    }
+    else{ //normal case some scanlines
+      offset=(double)intbeginy-beginy;
+      endx+=offset*rightDx;
+      beginx+=offset*leftDx;
+      while(idx[1]<=intendy){
+        for(i=ceil(beginx);i<=floor(endx);i++){
+          idx[0]=i;
+          m_OutputImage->SetPixel(idx,1);  
+        }
+        endx+=rightDx;
+        beginx+=leftDx;        
+        idx[1]=idx[1]+1;
+      }
+      beginy=idx[1];
+    }
+  }
+
+
+  if(RorL){
+    beginy=rightP[1];
+    endy=leftP[1];
+  }
+  else{
+    beginy=leftP[1];
+    endy=rightP[1];
+  }
+  intbeginy=(int)ceil(beginy);
+  intendy=(int)floor(endy);
+  if(intbeginy<=intendy){
+    if(RorL){
+      rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      endx=rightP[0];
+      beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
+    }
+    else{
+      leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      beginx=leftP[0];
+      endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
+    }
+    offset=(double)intbeginy-beginy;
+    beginx+=offset*leftDx;
+    endx+=offset*rightDx;
+    while(idx[1]<=intendy){
+      for(i=ceil(beginx);i<=floor(endx);i++){
+        idx[0]=i;
+        m_OutputImage->SetPixel(idx,1);  
+      }
+      endx+=rightDx;
+      beginx+=leftDx;        
+      idx[1]=idx[1]+1;
+    }
+  }
+
+}
+
+
+
 } //end namespace
 
 #endif

@@ -212,6 +212,7 @@ public:
    * Make the output binary result as boundary. 
    */
   void MakeSegmentBoundary(void);
+  void MakeSegmentObject(void);
 
   /*
    * set the three channels to test the mean and var respectivley
@@ -247,6 +248,8 @@ public:
   unsigned char outcolor,unsigned char boundcolor); 
     
   void BeforeNextStep(void); 
+
+  void Reset(void); //reset the segmentation, ready for taking aprior from itself
     
 protected:
   VoronoiSegmentationRGBImageFilter();
@@ -291,6 +294,8 @@ private:
 
 	// compute the statistics of the pixels inside the polygon.
   void GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *num);
+
+  void FillPolygon(PointTypeDeque vertlist);
 
 	// draw a straight line to the output image.
   void drawLine(PointType p1,PointType p2);
