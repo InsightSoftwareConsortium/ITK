@@ -46,15 +46,14 @@ public:
   typedef const SmartPointer< const Self >            ConstPointer;
   typedef Point< double, TPointDimension >            PointType;
   typedef CovariantVector<double,TPointDimension>     VectorType;
-  typedef VectorType*                                 VectorPointer;
-  typedef FixedArray<VectorPointer,TPointDimension-1> NormalArrayType;
+  typedef FixedArray<VectorType,TPointDimension-1> NormalArrayType;
 
   itkNewMacro( LineSpatialObjectPoint );
 
   itkTypeMacro( LineSpatialObjectPoint, SpatialObjectPoint );
 
   /** Get Normal */
-  VectorPointer GetNormal( unsigned int index );
+  const VectorType & GetNormal( unsigned int index ) const;
 
   /** Set Normal */
   void SetNormal(VectorType & normal, unsigned int index);

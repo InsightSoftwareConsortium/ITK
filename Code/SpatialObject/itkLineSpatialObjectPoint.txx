@@ -40,9 +40,9 @@ LineSpatialObjectPoint< TPointDimension >
 
 /** Get the specified normal */
 template< unsigned int TPointDimension >
-LineSpatialObjectPoint< TPointDimension >::VectorPointer
+const LineSpatialObjectPoint< TPointDimension >::VectorType &
 LineSpatialObjectPoint< TPointDimension >
-::GetNormal(unsigned int index) 
+::GetNormal(unsigned int index) const
 {
   return m_NormalArray[index];
 }
@@ -57,7 +57,7 @@ LineSpatialObjectPoint< TPointDimension >
   os << indent << "LineSpatialObjectPoint(" << this << ")" << std::endl; 
   for(unsigned int i=0;i<TPointDimension-1;i++)
   {
-    os << indent <<   *m_NormalArray[i] << std::endl;
+    os << indent <<   m_NormalArray[i] << std::endl;
   }  
 }
 
@@ -67,8 +67,7 @@ void
 LineSpatialObjectPoint< TPointDimension >
 ::SetNormal(VectorType & normal , unsigned int index ) 
 {
-  m_NormalArray[index] = new VectorType;
-  *m_NormalArray[index] = normal;
+  m_NormalArray[index] = normal;
 }
 
 /** Copy a point to another */
