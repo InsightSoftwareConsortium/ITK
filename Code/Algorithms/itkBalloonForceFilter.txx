@@ -52,11 +52,10 @@ template <typename TInputMesh, typename TOutputMesh>
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::~BalloonForceFilter()
 {
-  unsigned int i;
 #if 0
   if (m_NewNodes)
     {
-    for (i = 0; i < m_NewNodeLimit; i++)
+    for (unsigned int i = 0; i < m_NewNodeLimit; i++)
       {
       if (m_NewNodes[i])
         {
@@ -1552,7 +1551,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   j = 0;
   for (; j < 1; j++)
     {
-    dis = 0;
+    //dis = 0;
     i = 0;
     s = locations.Value();
     while ( i < m_Resolution - 1 )
@@ -1560,7 +1559,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       v1 = locations.Value();
       ++locations;
       v2 = locations.Value();
-      dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+      //dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
       i++;
       }
     ++locations;
