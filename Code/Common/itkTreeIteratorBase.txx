@@ -171,7 +171,7 @@ TreeIteratorBase<TTreeType>::Add( TTreeType& subTree )
   
   if ( m_Root == NULL ) 
     {
-    m_Root = subTree.GetRoot();
+    m_Root = static_cast<const TreeNodeType*>(subTree.GetRoot());
     } 
   else 
     {
@@ -179,7 +179,7 @@ TreeIteratorBase<TTreeType>::Add( TTreeType& subTree )
       {
       return false;
       }
-    m_Position->AddChild( const_cast<TreeNodeType*>(subTree.GetRoot()) );
+    m_Position->AddChild( const_cast<TreeNodeType*>(static_cast<const TreeNodeType*>(subTree.GetRoot())) );
     }
   return true;
 }
