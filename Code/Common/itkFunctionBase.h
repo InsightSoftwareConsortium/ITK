@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkFunctionBase_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
@@ -80,6 +81,11 @@ public:
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(FunctionBase, Object);
 
   /**
    * Input type
