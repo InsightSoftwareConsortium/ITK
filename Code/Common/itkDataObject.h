@@ -61,6 +61,8 @@ class ProcessObject;
  * \sa ProcessObject
  * \sa ImageBase
  * \sa Mesh
+ * \ingroup DataRepresentation
+ * \ingroup ITKSystemObjects
  */
 class ITK_EXPORT DataObject : public Object
 {

@@ -71,6 +71,9 @@ namespace itk {
  *  \todo Write GenerateInputRequestedRegion method to ask for appropriately
  *        padded buffers to process streamed chunks
  *
+ * \ingroup ImageFilter
+ * \ingroup LevelSetSegmentation 
+ *
  */
 template <class TInputImage, class TOutputImage>
 class FiniteDifferenceImageFilter  

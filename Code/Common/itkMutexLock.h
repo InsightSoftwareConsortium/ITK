@@ -85,6 +85,8 @@ typedef int MutexType;
  * SimpleMutexLock allows the locking of variables which are accessed 
  * through different threads.  This header file also defines 
  * SimpleMutexLock which is not a subclass of Object.
+ * 
+ * \ingroup OSSystemObjects
  */
 class ITK_EXPORT SimpleMutexLock
 {
@@ -128,6 +130,8 @@ protected:
  * MutexLock allows the locking of variables which are accessed 
  * through different threads.  This header file also defines 
  * SimpleMutexLock which is not a subclass of itkObject.
+ * 
+ * \ingroup OSSystemObjects
  */
 class ITK_EXPORT MutexLock : public Object
 {

@@ -58,6 +58,8 @@ namespace itk
  *
  * \sa ImageAdaptor
  *
+ * \ingroup ImageAdaptors
+ *
  */
 
 template <class T>

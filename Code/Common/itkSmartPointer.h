@@ -60,6 +60,9 @@ namespace itk
  * Windows: cl SmartPointerTest.cxx; .\SmartPointerTest.exe
  * linux:   c++ SmartPointerTest.cxx ./a.out
  * other:   CCcompiler SmartPointerTest.cxx  ./a.out
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataAccess
  */
 template <class TObjectType>
 class ITK_EXPORT SmartPointer 

@@ -55,6 +55,9 @@ namespace itk
  * over the input image type.
  *
  * This function works for N-dimensional images.
+ *
+ * \ingroup ImageFunctions
+ * 
  * */
 template <class TInputImage >
 class ITK_EXPORT LinearInterpolateImageFunction : 

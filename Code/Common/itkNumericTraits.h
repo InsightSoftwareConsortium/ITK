@@ -62,7 +62,9 @@ namespace itk
  * NumericTraits is used to extend the traits associated with native types
  * such as float, char, int, and so on. These traits are extensions of the
  * standard <numeric_limits> defined by the C++ compilers. Some of the added
- * traits include minimum and maximum value; accumulation type; etc.  
+ * traits include minimum and maximum value; accumulation type; etc.
+ *
+ * \ingroup DataRepresentation
  */
 template <class T>
 class NumericTraits : public ITK_NUMERIC_LIMITS<T> {
@@ -100,6 +102,8 @@ public:
 
 /** \class NumericTraits<bool>
  * \brief Define traits for type bool.
+ * 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
@@ -138,6 +142,7 @@ public:
 
 /** \class NumericTraits<unsigned char>
  * \brief Define traits for type unsigned char.
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
@@ -176,6 +181,7 @@ public:
 
 /** \class NumericTraits<unsigned short>
  * \brief Define traits for type unsigned short.
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
@@ -214,6 +220,7 @@ public:
 
 /** \class NumericTraits<unsigned int>
  * \brief Define traits for type unsigned int.
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
@@ -233,6 +240,7 @@ public:
 
 /** \class NumericTraits<long>
  * \brief Define traits for type long.
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
@@ -252,6 +260,7 @@ public:
 
 /** \class NumericTraits<unsigned long>
  * \brief Define traits for type unsigned long.
+ * \ingroup DataRepresentation 
  */
 template <>
 class NumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
@@ -271,6 +280,7 @@ public:
 
 /** \class NumericTraits<float>
  * \brief Define traits for type float.
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
@@ -290,6 +300,7 @@ public:
 
 /** \class NumericTraits<double>
  * \brief Define traits for type double.
+ * \ingroup DataRepresentation 
  */
 template <>
 class NumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
@@ -309,6 +320,7 @@ public:
 
 /** \class NumericTraits<long double>
  * \brief Define traits for type long double.
+ * \ingroup DataRepresentation 
  */
 template <>
 class NumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {

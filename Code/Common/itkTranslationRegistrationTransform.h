@@ -54,6 +54,7 @@ namespace itk
  * \brief Generic Translation Transformation for a registration method
  *
  * This Class define the generic interface for an Translation Transformation 
+ * \ingroup Transforms
  *
  */
 

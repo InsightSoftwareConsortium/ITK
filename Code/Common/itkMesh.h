@@ -85,6 +85,8 @@ namespace itk
  *
  * TMeshTraits =
  *     Type information structure for the mesh.
+ *
+ * \ingroup MeshObjects
  */
   
 template <

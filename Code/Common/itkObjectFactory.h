@@ -60,6 +60,8 @@ namespace itk
  * (Run-Time Type Information) to create the name of the class it is to
  * instantiate. (The name may include template type parameters, depending
  * on the class definition.)
+ *
+ * \ingroup ITKSystemObjects
  */
 
 template <class T>

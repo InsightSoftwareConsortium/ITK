@@ -75,6 +75,8 @@ namespace itk
  * \sa Mesh
  * \sa Scalar
  * \sa Vector 
+ * \ingroup DataRepresentation
+ * 
  */
 
 template<class TScalar, class TVector, unsigned int TVectorDimension=3>

@@ -75,6 +75,8 @@ namespace itk
  * filters will have to provide another implmentation of this method. By
  * convention, such implementations should call the Superclass' method
  * first.
+ *
+ * \ingroup ImageFilters
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ImageToImageFilter : public ImageSource<TOutputImage>

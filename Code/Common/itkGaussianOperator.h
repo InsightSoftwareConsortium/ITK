@@ -78,6 +78,7 @@ namespace itk {
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  *
+ * \ingroup Operators
  */
 template<class TPixel,unsigned int VDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >

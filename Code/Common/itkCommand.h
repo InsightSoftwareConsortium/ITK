@@ -55,6 +55,8 @@ namespace itk
  * ITK. itkLightObject implements a Subject/Observer pattern. When a subject 
  * needs to notify a observer, it does so using a itkCommand.  The Execute 
  * method is called to run the command.
+ *
+ * \ingroup ITKSystemObjects
  */
   
 // The superclass that all commands should be subclasses of
@@ -159,6 +161,8 @@ public:
  *
  *  MemberCommand calls a pointer to a member function with the same
  *  arguments as Execute on Command.   
+ * 
+ * \ingroup ITKSystemObjects
  */
 template <class T>
 class MemberCommand : public Command
@@ -244,6 +248,8 @@ protected:
  *
  *  SimpleMemberCommand calls a pointer to a member function with no 
  *  arguments.   
+ *
+ * \ingroup ITKSystemObjects
  */
 template <class T>
 class SimpleMemberCommand : public Command
@@ -309,6 +315,8 @@ protected:
  *  arguments void func(LightObject *,void *clientdata)
  *  The clientdata is data that the command wants passed to itself
  *  each time.
+ * 
+ * \ingroup ITKSystemObjects
  */
 
 class CStyleCommand : public Command

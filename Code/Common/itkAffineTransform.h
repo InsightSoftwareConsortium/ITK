@@ -112,6 +112,8 @@ namespace itk
  * over the scalar type?  Perhaps it should always be double, unless
  * there's a compatibility problem with the Point class.
  *
+ * \ingroup Transforms
+ *
  **/
 
 template <

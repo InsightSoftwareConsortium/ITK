@@ -57,6 +57,8 @@ namespace Accessor {
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
  *
+ * \ingroup ImageAdaptors
+ *
  */
 
 template <class TInternalType, class TExternalType >
@@ -96,6 +98,8 @@ public:
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
+ * 
+ * \ingroup ImageAdaptors
  *
  */
 template <class TImage, class TOutputPixelType>

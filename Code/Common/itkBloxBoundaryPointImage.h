@@ -52,6 +52,7 @@ namespace itk
 /**
  * \class BloxBoundaryPointImage
  * \brief Templated n-dimensional image class used to store linked lists.
+ * \ingroup ImageObject
  *
  * */
 

@@ -58,6 +58,8 @@ namespace itk
  * only handles one output window per process.  If the window is destroyed,
  * the Object::GlobalWarningDisplayOff() function is called.  The
  * window is created the next time text is written to the window.
+ *
+ * \ingroup OSSystemObjects
  */
 
 class ITK_EXPORT Win32OutputWindow : public OutputWindow

@@ -60,6 +60,9 @@ namespace itk
  * itself. In all cases, however, an outstanding weak reference will not
  * keep an object from destructing.
  *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataAccess
+ *
  */
 template <class TObjectType>
 class ITK_EXPORT WeakPointer 

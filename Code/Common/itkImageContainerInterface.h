@@ -69,7 +69,9 @@ namespace itk
  *    It must have a < operator defined for ordering.
  *
  * TElement =
- *    The element type stored in the container.  
+ *    The element type stored in the container.
+ * 
+ * \ingroup ImageObjects
  */
 
 template <typename TElementIdentifier, typename TElement>

@@ -55,7 +55,9 @@ namespace itk {
  * i.e. F(x+1) - F(x) to calculate a "half" derivative useful, among
  * other things, in solving differential equations. It is a directional
  * NeighborhoodOperator that should be applied to a Neighborhood using the
- * inner product. 
+ * inner product.
+ *
+ * \ingroup Operators
  */
 template<class TPixel, unsigned int VDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >

@@ -57,6 +57,8 @@ namespace itk {
  * to support various types of neighborhoods as well as inner products with
  * slices of neighborhoods.
  *
+ * \ingroup Operators
+ *
  */
 template<class TImage>
 class NeighborhoodInnerProduct

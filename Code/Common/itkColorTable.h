@@ -49,6 +49,8 @@ namespace itk
 {
 /** \class ColorTable
  *  itkColorTable Class define a Color table for image visualisation
+ * 
+ * \ingroup DataRepresentation
  *
  */
 

@@ -34,6 +34,8 @@ namespace itk
  * of the transform are used. This is reflected by the fact that the number
  * of parameters is reduced.
  *
+ * \ingroup Transforms
+ *
  */
 
 template <class TScalarType, class TParameters>

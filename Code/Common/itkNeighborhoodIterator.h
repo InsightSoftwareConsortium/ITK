@@ -207,6 +207,7 @@ namespace itk {
  *
  *
  * \ingroup ImageIterators
+ * \ingroup Operators
  *
  *
  **/

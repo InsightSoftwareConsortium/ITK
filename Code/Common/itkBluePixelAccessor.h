@@ -57,6 +57,7 @@ namespace itk
  * of scalar type T, showing only the Blue component.
  *
  * \sa ImageAdaptor
+ * \ingroup ImageAdaptors
  *
  */
 

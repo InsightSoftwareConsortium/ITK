@@ -69,6 +69,7 @@ class PolygonCell: public CellInterface< TPixelType , TCellTraits >
  *
  * TCellTraits =
  *     Type information of mesh containing cell.
+ * \ingroup MeshObjects
  */
 
 public:

@@ -53,6 +53,8 @@ namespace itk {
  * The decision to create this allocator with the vnl_vector api (versus
  * using an STL allocator and wrapping the vnl_vector API) was made because
  * the STL allocator API is not guaranteed stable at this time.
+ *
+ * \ingroup Operators
  */
 template <class TPixel>
 class NeighborhoodAllocator

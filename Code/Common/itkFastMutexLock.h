@@ -88,6 +88,8 @@ typedef int FastMutexType;
  * SimpleFastMutexLock is used by FastMutexLock to perform mutex locking.
  * SimpleFastMutexLock is not a subclass of Object and is designed to be
  * allocated on the stack.
+ *
+ * \ingroup OSSystemObjects
  */
 
 // Critical Section object that is not a itkObject.
@@ -147,6 +149,8 @@ protected:
  * a very good reason to use MutexLock. If higher-performance equivalents
  * for non-Windows platforms (Irix, SunOS, etc) are discovered, they
  * should replace the implementations in this class
+ *
+ * \ingroup OSSystemObjects
  */
 class ITK_EXPORT FastMutexLock : public Object
 {

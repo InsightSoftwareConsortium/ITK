@@ -52,6 +52,9 @@ namespace itk
  * Object is the second-highest level base class for most itk objects.
  * It extends the base object functionality of LightObject by
  * implementing debug flags/methods and modification time tracking.
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataRepresentation
  */
 class ITK_EXPORT Object: public LightObject
 {

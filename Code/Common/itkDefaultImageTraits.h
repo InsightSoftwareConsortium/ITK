@@ -52,6 +52,7 @@ namespace itk
  * Default ImageTraits for any PixelType.
  *
  * \sa Image
+ * \ingroup ImageObjects
  */
 template <typename TPixelType,
           unsigned int VImageDimension,

@@ -56,6 +56,7 @@ namespace itk
  * They store pointers to the two boundary points and a vnl_vector_fixed
  * representing the "center" of the core atom (i.e. the midpoint along the
  * vector between the two boundary points).
+ * \ingroup ImageObject
  * */
 
 template <unsigned int VImageDimension>

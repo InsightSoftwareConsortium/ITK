@@ -57,6 +57,8 @@ namespace itk {
  * NeighborhoodOperator that should be applied to a Neighborhood using the
  * inner product. 
  *
+ * \ingroup Operators
+ *
  */
 template<class TPixel, unsigned int VDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >

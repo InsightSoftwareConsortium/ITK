@@ -57,6 +57,8 @@ namespace itk
  * This Abstract Class define the generic interface for a transformation. 
  * It contains a Transform method.
  *
+ * \ingroup Transforms
+ *
  */
 
 template <class TScalarType,unsigned int NDimensions>

@@ -61,6 +61,8 @@ namespace itk {
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator
  * \sa BackwardDifferenceOperator
+ * 
+ * \ingroup Operators
  */
 template<class TPixel, unsigned int VDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >

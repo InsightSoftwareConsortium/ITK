@@ -63,6 +63,8 @@ class Command;
  * It can be used as a lightweight base class in preference to Object.
  *
  * \sa Object
+ * \ingroup ITKSystemObjects
+ * \ingroup DataRepresentation
  */
 class ITK_EXPORT LightObject 
 {

@@ -72,6 +72,9 @@ namespace itk
  *
  * VPointDimension =
  *    Geometric dimension of space.
+ * 
+ * \ingroup DataRepresentation 
+ * \ingroup ImageObjects 
  */
   
 template <

@@ -60,6 +60,8 @@ namespace itk {
  * and and itk::NeighborhoodOperator.  The operator() method is overloaded
  * to support various types of neighborhoods as well as inner products with
  * slices of neighborhoods.
+ *
+ * \ingroup Operators
  * 
  *\todo DOCUMENT!
  */

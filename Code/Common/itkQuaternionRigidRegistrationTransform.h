@@ -37,6 +37,8 @@ namespace itk
  * normalized to have a magnitude of one. The normalized parameters are
  * then used to create the an internal quaternion to represent rotation
  * in 3D vector space.
+ * 
+ * \ingroup Transforms
  */
 
 template <class TScalarType, class TParameters>

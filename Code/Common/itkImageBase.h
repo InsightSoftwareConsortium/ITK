@@ -74,6 +74,9 @@ namespace itk
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
  *
+ * \ingroup ImageObjects
+ * \ingroup ITKSystemObjects
+ *
   */
 
 template<unsigned int VImageDimension=2>

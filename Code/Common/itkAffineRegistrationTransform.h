@@ -54,6 +54,7 @@ namespace itk
  * \brief Generic Affine Transformation for a registration method
  *
  * This Class define the generic interface for an Affine Transformation 
+ * \ingroup Transforms
  *
  */
 

@@ -59,6 +59,8 @@ namespace itk {
  *  iterations are defined in this object.  This class also implements
  *  threading of the calculations and the updates.
  *
+ * \ingroup ImageFilters
+ *
  */
 template <class TInputImage, class TOutputImage>
 class DenseFiniteDifferenceImageFilter  

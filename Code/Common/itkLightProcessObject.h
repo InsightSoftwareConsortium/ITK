@@ -88,6 +88,9 @@ namespace itk
  * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(), and
  * GenerateOutputRequestedRegion(). By overriding these methods, a filter
  * can deviate from the base assumptions of the pipeline execution model.
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataProcessing
  *       
  */
 class ITK_EXPORT LightProcessObject : public Object

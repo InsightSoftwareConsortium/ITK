@@ -54,6 +54,8 @@ namespace itk
  * Classes use this object to record modified and/or execution time.
  * There is built in support for the binary < and > comparison
  * operators between two TimeStamp objects. 
+ *
+ * \ingroup ITKSystemObjects
  */
 
 class ITK_EXPORT TimeStamp 

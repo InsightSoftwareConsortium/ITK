@@ -76,7 +76,10 @@ namespace itk
  *
  * \remark
  * Should there be an itkBoundedIndex to handle bounds checking? Or should
- * there be an API to perform bounded increments in the iterator.  
+ * there be an API to perform bounded increments in the iterator. 
+ *
+ * \ingroup ImageAccess
+ * \ingroup ImageObjects
  */
 
 

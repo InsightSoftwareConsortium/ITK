@@ -81,6 +81,8 @@ namespace itk
  *
  * DynamicLoader provides a portable interface to loading dynamic 
  * libraries or dll's into a process. 
+ *
+ * \ingroup OSSystemObjects 
  */
 
 

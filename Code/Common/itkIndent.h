@@ -55,6 +55,8 @@ namespace itk
  * This class works with the print methods defined in Object (i.e.,
  * the public method Print() and the protected methods PrintSelf(),
  * PrintHeader(), and PrintTrailer().
+ *
+ * \ingroup OSSystemObjects
  */
 
 class ITK_EXPORT Indent

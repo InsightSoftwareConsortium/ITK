@@ -55,6 +55,8 @@ namespace itk
  * The EBS "is based on a physical model of a homogeneous, isotropic,
  * three-dimensional elastic body. The model can approximate the way
  * that some physical objects deform".
+ *
+ * \ingroup Transforms
  */
 template <class TScalarType,         // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions

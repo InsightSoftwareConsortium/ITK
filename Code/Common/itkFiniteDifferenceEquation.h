@@ -54,6 +54,8 @@ namespace itk {
  * \warning  The Evaluate() methods are declared as const to enforce
  *  thread-safety during execution of FiniteDifferenceImageFilter
  *  algorithms.
+ * 
+ * \ingroup Operators
  */
 template<class TImageType>
 class FiniteDifferenceEquation : public LightObject

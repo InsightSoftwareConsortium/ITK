@@ -75,6 +75,8 @@ struct GetImageDimension
  * as static methods. These two will specify how data can be put
  * and get from parts of each pixel. It should define the types
  * ExternalType and InternalType too.
+ * 
+ * \ingroup ImageAdaptors
  *
  */
 template <class TImage, class TAccessor >

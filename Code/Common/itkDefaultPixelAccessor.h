@@ -68,6 +68,8 @@ namespace itk
  * \sa PixelAccessor
  * \sa Image
  *
+ * \ingroup ImageAdaptors
+ *
  */
 
 template <class TType>

@@ -59,6 +59,7 @@ namespace itk
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
+ * \ingroup ImageAdaptors
  */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT NthElementImageAdaptor : public

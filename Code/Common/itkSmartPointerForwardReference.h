@@ -62,6 +62,9 @@ namespace itk
  * of the class using it, and the .txx file is included in the .cxx/.txx file
  * of the class using it. (Make sure that SmartPointerForwardReference.txx is
  * included last in the .cxx/.txx list of includes.)
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataAccess
  */
 template <class T>
 class ITK_EXPORT SmartPointerForwardReference 

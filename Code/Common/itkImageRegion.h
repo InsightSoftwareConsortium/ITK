@@ -62,6 +62,8 @@ namespace itk
  * \sa Index
  * \sa Size
  * \sa MeshRegion
+ *
+ * \ingroup ImageObjects
  */
 
 template <unsigned int VImageDimension>

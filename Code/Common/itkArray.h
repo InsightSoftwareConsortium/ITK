@@ -71,6 +71,8 @@ public:
  * - TValueType = Element type stored at each location in the array.
  *
  * - VLength    = Length of the array.
+ *
+ * \ingroup DataRepresentation 
  */
 template <typename TValueType, unsigned long VLength>
 class Array

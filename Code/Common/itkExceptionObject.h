@@ -59,6 +59,8 @@ namespace itk
  * and description (both of which are strings). The location is the
  * point in the code where the exception was thrown; the description
  * is an error message that describes the exception.
+ *
+ * \ingroup ITKSystemObjects 
  */
 class ITK_EXPORT ExceptionObject
 {
@@ -159,6 +161,7 @@ inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
 
 /** \class RangeError
  * Exception thrown when accessing memory out of range.
+ * \ingroup ITKSystemObjects 
  */
 class RangeError : public ExceptionObject
 {
@@ -169,6 +172,7 @@ public:
 /** \class InvalidArgumentError
  * Exception thrown when invalid argument is given to a method
  * or function.
+ * \ingroup ITKSystemObjects 
  */
 class InvalidArgumentError : public ExceptionObject
 {
@@ -178,6 +182,7 @@ public:
 
 /** \class IncompatibleOperandsError
  * Exception thrown when two operands are incompatible.
+ * \ingroup ITKSystemObjects 
  */
 class IncompatibleOperandsError : public ExceptionObject
 {

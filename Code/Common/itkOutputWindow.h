@@ -50,6 +50,9 @@ namespace itk
  *
  * Text messages that the system should display to the user are sent to 
  * this object (or subclasses of this object).
+ *
+ * \ingroup OSSystemObjects
+ * 
  */
 
 class ITK_EXPORT OutputWindow : public Object

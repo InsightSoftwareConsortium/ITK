@@ -76,6 +76,8 @@ namespace itk
  * type in a SmartNeighborhoodIterator or any of the SmartNeighborhoodIterator
  * subclasses.
  * 
+ * \ingroup DataRepresentation
+ * \ingroup ImageObjects
  *
  */
 

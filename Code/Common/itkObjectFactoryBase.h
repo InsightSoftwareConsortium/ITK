@@ -61,7 +61,9 @@ namespace itk
  * the shared library. ITK_AUTOLOAD_PATH is an environment variable
  * containing a colon separated (semi-colon on win32) list of paths.
  *
- * This can be use to overide the creation of any object in ITK.  
+ * This can be use to overide the creation of any object in ITK. 
+ *
+ * \ingroup ITKSystemObjects
  */
 
 class OverRideMap;

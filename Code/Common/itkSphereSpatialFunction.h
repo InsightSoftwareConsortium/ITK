@@ -53,6 +53,8 @@ namespace itk
  *
  * Implements a function that returns 0 for points inside or on the surface
  * of a sphere, 1 for points outside the sphere
+ * 
+ * \ingroup SpatialFunctions
  *
  * */
 

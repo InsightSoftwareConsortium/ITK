@@ -61,6 +61,8 @@ namespace itk
  *
  * TCellTraits =
  *     Type information of mesh containing cell.
+ *
+ * \ingroup MeshObjects
  */
 
 template <
@@ -177,6 +179,9 @@ protected:
 
 /** \class LineBoundary
  * Create a boundary-wrapped version of the LineCell.
+ *
+ * \ingroup MeshObjects
+ *
  */
 template <typename TPixelType, typename TCellTraits>
 class LineBoundary:

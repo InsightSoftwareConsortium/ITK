@@ -63,6 +63,9 @@ namespace itk
  *
  * TElement =
  *    The element type stored in the container.
+ *
+ * \ingroup ImageObjects
+ * \ingroup DataRepresentation
  */
   
 template <

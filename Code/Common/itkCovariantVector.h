@@ -74,6 +74,7 @@ namespace itk
  *
  *
  * \ingroup Geometry
+ * \ingroup DataRepresentation
  * 
  * \sa Image
  * \sa Mesh

@@ -61,6 +61,8 @@ namespace itk
  * the standard assumption is that "inside" means "bounded by a closed surface",
  * alternative definitions are also fine. For example, inside might be one side
  * of a plane, outside the other side.
+ *
+ * \ingroup SpatialFunctions
  * */
 
 template <unsigned int VImageDimension=3>

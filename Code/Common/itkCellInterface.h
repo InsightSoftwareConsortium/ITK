@@ -76,6 +76,8 @@ namespace itk
  * TPixelType = The type stored with an entity (cell, point, or boundary).
  *
  * TCellTraits = Type information for cell.
+ *
+ * \ingroup MeshObjects
  */
   
 template <
@@ -153,6 +155,8 @@ public:
    * A visitor that can visit different cell types in a mesh.
    * CellInterfaceVisitor instances can be registered for each
    * type of cell that needs to be visited.
+   *
+   * \ingroup MeshAccess
    */
   class MultiVisitor : public LightObject
   { 
@@ -469,6 +473,8 @@ protected:
  * MakeCellTraitsMacro is a macro front-end to automatically fill in the 
  * template parameters for the CellTraitsInfo structure inside a mesh 
  * type structure definition.
+ *
+ * \ingroup MeshObjects
  */
 template <int VPointDimension, typename TCoordRep,
   typename TInterpolationWeight, typename TPointIdentifier,

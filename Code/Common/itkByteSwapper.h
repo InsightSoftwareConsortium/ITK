@@ -53,6 +53,9 @@ namespace itk
  * ByteSwapper is used by I/O classes to perform machine dependent byte
  * swapping. Byte swapping is often used when reading or writing binary 
  * files. Files can either be Big Endian (BE) or Little Endian (LE).
+ *
+ * \ingroup IOFilters
+ * \ingroup OSSystemObjects 
  */
 
 template <class T>

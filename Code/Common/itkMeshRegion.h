@@ -57,6 +57,8 @@ namespace itk
  *
  * \sa Region
  * \sa ImageRegion
+ *
+ * \ingroup MeshObjects
  */
 class ITK_EXPORT MeshRegion: public Region
 {

@@ -55,6 +55,8 @@ namespace itk
  * \brief A templated class holding a M x N size Matrix
  * This class contains a vnl_matrix_fixed in order 
  * to make all the vnl mathematical methods available.
+ *
+ * \ingroup DataRepresentation
  * 
  */
 

@@ -59,6 +59,8 @@ namespace itk
  * The input image is set via method SetInputImage().
  * The Evaluate() method evaluates the function at an index.
  *
+ * \ingroup ImageFunctions
+ *
  */
 template <
 class TInputImage, 

@@ -59,6 +59,7 @@ namespace itk
  * components in the point array. 
  *
  * \ingroup Geometry
+ * \ingroup DataRepresentation
  * 
  * \sa Image
  * \sa Mesh
@@ -332,6 +333,8 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
  *
  * The weights are expected to be stored in any array-like container
  * having a operator[i].
+ *
+ * \ingroup Geometry
  * 
  */
 template< class TPointContainer, class TWeightContainer >

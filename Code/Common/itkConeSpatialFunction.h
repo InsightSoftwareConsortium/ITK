@@ -53,6 +53,8 @@ namespace itk
  *
  * Returns 1 for points inside a cone, 0 for points outside a cone
  *
+ * \ingroup SpatialFunctions
+ *
  * */
 
 template <unsigned int VImageDimension=3>

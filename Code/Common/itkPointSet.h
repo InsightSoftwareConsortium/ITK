@@ -80,6 +80,9 @@ namespace itk
  *
  * TMeshTraits =
  *     Type information structure for the point set.
+ *
+ * \ingroup MeshObjects
+ * \ingroup DataRepresentation
  */
   
 template <

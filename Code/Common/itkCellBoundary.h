@@ -60,6 +60,8 @@ namespace itk
  * Template parameters for CellBoundary:
  *
  * TCell =  The type of cell we want to wrap.
+ *
+ * \ingroup MeshObjects
  */
 
 template <

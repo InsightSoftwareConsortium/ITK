@@ -97,6 +97,8 @@ namespace itk
  * with Index[0] = col, Index[1] = row, Index[2] = slice, ...
  *
  * \sa ImageContainerInterface
+ *
+ * \ingroup ImageObjects
  * */
 
 template <class TPixel, unsigned int VImageDimension=2,

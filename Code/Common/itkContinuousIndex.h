@@ -59,6 +59,9 @@ namespace itk
  * \sa Point
  * \sa Index
  *
+ * \ingroup ImageAccess
+ * \ingroup ImageObjects
+ *
  */
 
 template<class TCoordRep = double, unsigned int VIndexDimension=2>

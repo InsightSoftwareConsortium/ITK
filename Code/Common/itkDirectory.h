@@ -56,6 +56,7 @@ namespace itk
  * in a system directory.
  *
  * itkDirectory works with windows and unix only.
+ * \ingroup OSSystemObjects 
  */
 
 

@@ -72,6 +72,8 @@ namespace itk
  * operation. ImageIterators use the PixelAccessor defined by the image
  * in order to get and set the values of pixels.
  *
+ * \ingroup ImageAdaptors
+ *
  */
 
 template <class TInternalType, class TExternalType >

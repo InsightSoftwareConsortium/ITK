@@ -61,6 +61,8 @@ namespace itk
    * execution using sproc() on an SGI, or pthread_create on any platform
    * supporting POSIX threads.  This class can be used to execute a single
    * method on multiple threads, or to specify a method per thread.
+   *
+   * \ingroup OSSystemObejcts
    */
 
 

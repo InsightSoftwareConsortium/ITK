@@ -50,6 +50,7 @@ namespace itk
  *
  * This class is do-nothing virtual class, designed to avoid
  * the necessity of templating BloxPixel over item type
+ * \ingroup ImageObject
  * */
 
 class BloxItem

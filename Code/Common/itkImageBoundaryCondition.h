@@ -68,6 +68,9 @@ namespace itk
  * PixelPointerTypeNeighborhood      A neighborhood of PixelPointerTypes
  *                                   that points to the pixel values in
  *                                   an image neighborhood.
+ * 
+ * \ingroup DataRepresentation
+ * \ingroup ImageObjects
  */
 template <class TImageType>
 class ITK_EXPORT ImageBoundaryCondition

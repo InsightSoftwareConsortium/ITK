@@ -60,6 +60,8 @@ namespace itk
  *
  * TCellTraits =
  *     Type information of mesh containing cell.
+ *
+ * \ingroup MeshObjects
  */
 
 template <

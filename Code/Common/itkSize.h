@@ -68,6 +68,7 @@ namespace itk
  *    Size<3> size = {256, 256, 20};
  *
  * \sa Index
+ * \ingroup ImageObjects
  */
 
 

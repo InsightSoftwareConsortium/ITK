@@ -74,6 +74,8 @@ namespace itk
  *
  * TInterpolationWeight =
  *    Numerical type to store interpolation weights.
+ * 
+ * \ingroup MeshObjects
  */
   
 template <

@@ -68,6 +68,9 @@ namespace itk {
  *
  * \sa Neighborhood
  * \sa NeighborhoodIterator
+ * 
+ * \ingroup Operators
+ * \ingroup ImageIterators
  *
  */
 

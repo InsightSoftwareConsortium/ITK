@@ -58,6 +58,8 @@ namespace itk
  *
  * This transform applies a rotation and translation to the space
  *
+ * \ingroup Transforms
+ *
  **/
 
 template <

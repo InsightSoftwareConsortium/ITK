@@ -72,6 +72,9 @@ namespace itk
  *
  * 
  * \sa ImageBoundaryCondition
+ *
+ * \ingroup DataRepresentation
+ * \ingroup ImageObjects
  */
 template<class TImage>
 class ConstantBoundaryCondition

@@ -58,6 +58,8 @@ class CellInterface;
  * this class easier to use, the CellInterfaceVisitorImplementation is 
  * provided as a templated class to implement the pure virtual functions
  * of CellInterfaceVisitor.
+ *
+ * \ingroup MeshAccess 
  */
 template <
   typename TPixelType,
@@ -128,6 +130,8 @@ protected:
  *
  * UserVisitor = A user supplied class that implements the function
  *               Visit(int id, CellTopology*)
+ *
+ * \ingroup MeshAccess 
  */
 template<
 typename TPixelType,

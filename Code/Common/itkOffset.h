@@ -59,6 +59,7 @@ namespace itk
  * i.e. (i,j,k,...). Offset is templated over the dimension of the space.  
  *
  * \sa Index
+ * \ingroup ImageAccess
  */
 
 

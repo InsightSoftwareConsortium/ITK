@@ -72,6 +72,8 @@ namespace itk
  * face-to-faceness in the IEEE TMI paper. 
  *
  * Polarity, i.e. which direction along the gradient of BoundaryPoint1 you want to look.
+ * 
+ * \ingroup SpatialFunctions
  *
  * */
 

@@ -72,6 +72,7 @@ namespace itk
  *
  * \sa ImageRegion
  * \sa MeshRegion
+ * \ingroup DataRepresentation
  */
 class ITK_EXPORT Region
 {

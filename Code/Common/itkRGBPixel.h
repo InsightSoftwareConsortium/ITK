@@ -55,7 +55,8 @@ namespace itk
  * \brief Represent Red, Green and Blue component for color images
  *
  * This class is templated over the representation used for each
- * component
+ * component. 
+ * \ingroup ImageObjects
  *
  */
 

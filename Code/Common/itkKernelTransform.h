@@ -71,6 +71,9 @@ namespace itk
  *  Defines the mathematical framework used to compute all splines,
  *    so that subclasses need only provide a kernel specific to
  *    that spline
+ *
+ * \ingroup Transforms
+ *
  */
 template <class TScalarType,         // Only float and double make sense
           int NDimensions = 3>       // Number of dimensions

@@ -48,6 +48,8 @@ namespace itk
 
 /** \class CreateObjectFunctionBase
  * Define API for object creation callback functions.
+ *
+ * \ingroup ITKSystemObjects
  */
 class CreateObjectFunctionBase: public Object
 {
@@ -79,6 +81,8 @@ public:
 /** \class CreateObjectFunction
  * CreateObjectFunction is used to create callback functions that
  * create itkObjects for use with the itkObjectFactory.
+ * 
+ * \ingroup ITKSystemObjects
  */
 template <class T>
 class CreateObjectFunction : public CreateObjectFunctionBase

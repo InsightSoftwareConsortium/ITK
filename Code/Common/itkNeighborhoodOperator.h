@@ -82,6 +82,8 @@ namespace itk {
  * a scalar result.  This process effects convolution when applied to
  * successive neighborhoods across a region of interest in an image.
  *
+ * \ingroup Operators
+ *
  */
 template< class TPixel, unsigned int VDimension,
   class TAllocator = NeighborhoodAllocator<TPixel> >

@@ -61,7 +61,9 @@ namespace itk
  *
  * SpatialFunction is templated over function value type (the data type
  * returned by an evaluate() call) and dimensionality.
- * */
+ *
+ * \ingroup SpatialFunctions
+ */
 
 template <typename TFunctionValue, unsigned int VImageDimension=3>
 class ITK_EXPORT SpatialFunction : public Object

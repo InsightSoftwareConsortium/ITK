@@ -62,6 +62,7 @@ namespace itk
  *
  * Important note: classes derived from BloxImage should handle different
  * BloxItem types, *not* different BloxPixel types.
+ * \ingroup ImageObject
  *
  * */
 

@@ -57,6 +57,7 @@ namespace itk
  * \class BloxCoreAtomAnalyzer
  * \brief
  *
+ * \ingroup ImageFeatureExtraction
  * */
 
 template <unsigned int NDimensions>
