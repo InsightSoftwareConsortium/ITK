@@ -18,7 +18,7 @@
 #define __itkArray_h
 
 #include "itkMacro.h"
-#include "vnl/vnl_vector.h"
+#include "vnl/vnl_vector_ref.h"
 
 namespace itk
 {
@@ -27,7 +27,7 @@ namespace itk
 /** \class Array
  *  \brief Array class with size defined at construction time.
  * 
- * This class derives from the vnl_vector<> class. 
+ * This class derives from the vnl_vector_ref<> class. 
  * Its size is assigned at construction time (run time) and can 
  * not be changed afterwards except by using assignment to another
  * Array.
@@ -41,7 +41,7 @@ namespace itk
  * \ingroup DataRepresentation 
  */
 template <typename TValueType >
-class Array : public vnl_vector< TValueType >
+class Array : public vnl_vector_ref< TValueType >
 {
 public:
  
@@ -56,6 +56,10 @@ public:
 
   /** Constructor with size. Size can only be changed by assignment */
   Array(unsigned int dimension);
+
+  /** Constructor with size and pointer to the data. 
+   *  This constructor does not make a copy of the data */
+  Array(unsigned int dimension,TValueType* data);
 
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }

@@ -29,7 +29,7 @@ namespace itk
  */
 template < typename TValueType >
 Array<TValueType >
-::Array():vnl_vector<TValueType>()
+::Array():vnl_vector_ref<TValueType>(0,NULL)
 {
 }
 
@@ -39,8 +39,16 @@ Array<TValueType >
  */
 template < typename TValueType >
 Array<TValueType >
-::Array(unsigned int dimension):vnl_vector<TValueType>(dimension)
+::Array(unsigned int dimension):vnl_vector_ref<TValueType>(dimension,vnl_c_vector<TValueType>::allocate_T(dimension))
 {
+}
+
+/** Constructor with size and data */
+template < typename TValueType >
+Array<TValueType >
+::Array(unsigned int dimension,TValueType* data):vnl_vector_ref<TValueType>(dimension,data)
+{
+
 }
 
 template < typename TValueType >
