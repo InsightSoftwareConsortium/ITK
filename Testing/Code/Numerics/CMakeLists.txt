@@ -2,6 +2,7 @@ SUBDIRS(vxl)
 
 TESTS(
 itkConjugateGradientOptimizerTest
+itkGradientDescentOptimizerTest
 itkLevenbergMarquardtOptimizerTest
 itkNumericsHeaderTest
 itkNumericsTest
