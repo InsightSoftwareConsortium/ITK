@@ -392,7 +392,25 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << finalTranslationY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
+  
+  //Compute the rotation angle and scaling from SVD of the matrix
+  // \todo Find a way to figure out if the scales are along X or along Y.
+  // VNL returns the eigenvalues ordered from largest to smallest.
+  
+  vnl_matrix<double> p(2, 2);
+  p[0][0] = (double) finalParameters[0];
+  p[0][1] = (double) finalParameters[1];
+  p[1][0] = (double) finalParameters[2];
+  p[1][1] = (double) finalParameters[3];
+  vnl_svd<double> svd(p);
+  vnl_matrix<double> r(2, 2);
+  r = svd.U() * vnl_transpose(svd.V());
+  double angle = asin(r[1][0]);
+  
+  std::cout << " Scale 1         = " << svd.W(0)                 << std::endl;
+  std::cout << " Scale 2         = " << svd.W(1)                 << std::endl;
+  std::cout << " Angle (degrees) = " << angle * 45.0 / atan(1.0) << std::endl;
+  
 
   //  Software Guide : BeginLatex
   //  
