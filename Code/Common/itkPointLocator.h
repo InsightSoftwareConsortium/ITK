@@ -227,7 +227,7 @@ protected:
   PointLocator(const Self&) {}
   void operator=(const Self&) {}
 
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 #if 0
   // place points in appropriate buckets

@@ -110,7 +110,7 @@ protected:
   ~Directory() ;
   Directory(const Self&) {}
   void operator=(const Self&) {}
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   std::vector<std::string> m_Files; // Array of Files

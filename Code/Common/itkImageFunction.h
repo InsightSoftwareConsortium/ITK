@@ -162,7 +162,7 @@ protected:
   ImageFunction( const Self& ){};
   ~ImageFunction(){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent)
+  void PrintSelf(std::ostream& os, Indent indent) const
     { 
       this->Superclass::PrintSelf( os, indent );
       os << indent << "ImageFunction" << std::endl;

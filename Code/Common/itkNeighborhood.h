@@ -221,7 +221,7 @@ public:
   /**
    * Standard itk object method.
    */
-  void Print(std::ostream& os)
+  void Print(std::ostream& os) const
   { this->PrintSelf(os, Indent(0));  }
 
   /**

@@ -312,7 +312,7 @@ protected:
   ~ProcessObject();
   ProcessObject(const ProcessObject&) {};
   void operator=(const ProcessObject&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
    * Protected methods for setting inputs.

@@ -211,7 +211,7 @@ protected:
   ~DataObject();
   DataObject(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   // Was the update extent propagated down the pipeline
   bool m_LastRequestedRegionWasOutsideOfTheBufferedRegion;

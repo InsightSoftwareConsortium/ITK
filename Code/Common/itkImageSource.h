@@ -109,7 +109,7 @@ protected:
   virtual ~ImageSource() {}
   ImageSource(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 
    * What is the input requested region that is required to produce the

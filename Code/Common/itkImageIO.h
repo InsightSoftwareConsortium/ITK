@@ -73,6 +73,11 @@ public:
   virtual void ReadHeader(const std::string fileName="") = 0;
 
   /**
+   * Get the image position
+   */
+  virtual float* GetImagePosition() const =0;
+
+  /**
    * Default save; do whatever is appropriate for the filetype
    */
   virtual void Save(const std::string headerFile="", const std::string dataFile="") = 0;
@@ -189,7 +194,7 @@ protected:
   /**
    * Print info about myself
    */
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Return the object to an initialized state, ready to be used

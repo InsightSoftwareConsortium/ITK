@@ -167,7 +167,7 @@ protected:
   ~LightProcessObject();
   LightProcessObject(const LightProcessObject&) {};
   void operator=(const LightProcessObject&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
    * This method causes the filter to generate its output.

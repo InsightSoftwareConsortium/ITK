@@ -166,7 +166,7 @@ public:
 
 protected:
   SimpleMutexLock   m_SimpleMutexLock;
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 };
 
 

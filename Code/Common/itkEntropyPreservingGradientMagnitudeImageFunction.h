@@ -156,7 +156,7 @@ protected:
   EntropyPreservingGradientMagnitudeImageFunction( const Self& ){};
   ~EntropyPreservingGradientMagnitudeImageFunction(){};
   void operator=( const Self& ){};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   signed long             m_ImageSize[ImageDimension];

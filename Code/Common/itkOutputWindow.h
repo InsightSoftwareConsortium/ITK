@@ -115,7 +115,7 @@ protected:
   virtual ~OutputWindow();
   OutputWindow(const Self&) {}
   void operator=(const Self&) {}
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   bool m_PromptUser;

@@ -274,7 +274,7 @@ protected:
   ~ImageBase();
   ImageBase(const Self&) {}
   void operator=(const Self&) {}
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Calculate the offsets needed to move from one pixel to the next

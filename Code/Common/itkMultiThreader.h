@@ -238,7 +238,7 @@ protected:
   MultiThreader(const MultiThreader&) {};
   void operator=(const MultiThreader&) {};
 
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
  private:
   // The number of threads to use
