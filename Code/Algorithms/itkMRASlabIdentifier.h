@@ -135,7 +135,7 @@ private:
 
   /** The number of pixels per slice which will be included 
    * for average calculation. In a sense, it's sampling size per slice. */
-  int m_NumberOfSamples ;
+  unsigned int m_NumberOfSamples ;
   
   int m_SlicingDirection ;
   ImagePixelType m_BackgroundMinimumThreshold ;

@@ -360,6 +360,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     = m_OutputImage->GetRequestedRegion().GetSize();
   typename OutputImageType::IndexType startIndex
     = m_OutputImage->GetRequestedRegion().GetIndex();;
+  typedef typename OutputImageType::IndexType::IndexValueType StartIndexValueType;
   
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
@@ -370,10 +371,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       center_index = outputIt.GetIndex();
       statusIt.SetLocation( center_index );
       
-      for(unsigned int j = 0; j < static_cast<unsigned int>(ImageDimension); j++)
+      for(unsigned int j = 0; j < ImageDimension; j++)
         {
-        if ( center_index[j] <= startIndex[j] || center_index[j]
-             >= startIndex[j]+ regionSize[j]-1)
+        if((center_index[j] <= startIndex[j]) ||
+           (center_index[j] >= (startIndex[j] +
+                                static_cast<StartIndexValueType>(regionSize[j]-1))))
           {
           bounds_status = false;
           break;

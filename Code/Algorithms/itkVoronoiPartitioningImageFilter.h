@@ -57,6 +57,7 @@ public:
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::OutputPixelType OutputPixelType;
   typedef typename Superclass::PointType PointType;
   typedef typename Superclass::PointTypeDeque PointTypeDeque;
   typedef typename Superclass::PointIdIterator PointIdIterator;

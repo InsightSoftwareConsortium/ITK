@@ -209,6 +209,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
 
   
   typename TMoving::IndexType oindex;
+  typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
 
   unsigned int k;
   bool inimage=true;
@@ -222,7 +223,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
       return femVec;
     }
     else oindex[k]=(long) (Gpos[k]+0.5);
-    if (oindex[k] > m_FixedSize[k]-1 || oindex[k] < 0) inimage=false; 
+    if (oindex[k] > static_cast<OIndexValueType>(m_FixedSize[k]-1) || oindex[k] < 0) inimage=false; 
     // FIXME : resized images not same as vect field from expand image filter
     //  expandimagefilter does only dyadic size!!!
 

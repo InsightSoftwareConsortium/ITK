@@ -799,7 +799,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
      */
      if ( !m_LandmarkArray.empty())
      {
-     for(int lmind=0; lmind<m_LandmarkArray.size(); lmind++) 
+     for(unsigned int lmind=0; lmind<m_LandmarkArray.size(); lmind++) 
      {
      
          m_LandmarkArray[lmind]->el[0]=NULL;
@@ -1355,7 +1355,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ComputeJacobian( float sig
       difIndex[row][1]=rindex;
       ddrindex=rindex;
       ddlindex=rindex;
-      if (rindex[row] < m_FieldSize[row]-2) 
+      if (rindex[row] <
+          static_cast<typename ImageType::IndexType::IndexValueType>(m_FieldSize[row]-2) )
         {
         difIndex[row][0][row]=rindex[row]+posoff;
         ddrindex[row]=rindex[row]+posoff*2;
@@ -1489,7 +1490,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
            
      if(!m_LandmarkArray.empty())
      {
-     for(int lmind=0; lmind<m_LandmarkArray.size(); lmind++) 
+     for(unsigned int lmind=0; lmind<m_LandmarkArray.size(); lmind++) 
      {
        std::cout << " source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
     
@@ -1643,7 +1644,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::ExpandVectorField( ExpandFactor
   std::cout << " input field size " << m_Field->GetLargestPossibleRegion().GetSize()
     << " expand factors ";
   VectorType pad;
-  for (int i=0; i< ImageDimension; i++) 
+  for (unsigned int i=0; i< ImageDimension; i++) 
   {
     pad[i]=0.0;
     std::cout << expandFactors[i] << " ";
@@ -1729,7 +1730,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::PrintVectorField(unsigned 
     VectorType disp=m_FieldIter.Get();  
     //for (unsigned int i=0; i<ImageDimension; i++) disp[i]=-9.9;
     if ((ct % modnum) == 0)  std::cout << " field pix " << m_FieldIter.Get() << std::endl;
-    for (int i=0; i<ImageDimension;i++)
+    for (unsigned int i=0; i<ImageDimension;i++)
       if (fabs(disp[i]) > max ) max=fabs(disp[i]);
     ++m_FieldIter; 
     ct++;

@@ -146,7 +146,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   typename TInputImage::IndexType inputIndex;
   typename TInputImage::SizeType factorSize;
 
-  for (int i=0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
     {
     factorSize[i] = m_ShrinkFactors[i];
     }
@@ -194,7 +194,6 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
     }
 
   // we need to compute the input requested region (size and start index)
-  int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
@@ -203,7 +202,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   typename TInputImage::SizeType  inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
   
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i]
       = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
@@ -235,7 +234,6 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  int i;
   const double              *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
@@ -246,7 +244,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::SizeType         outputSize;
   typename TOutputImage::IndexType        outputStartIndex;
   
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactors[i];
     outputSize[i] = (unsigned int)
