@@ -27,11 +27,12 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+SpatialObject< TDimension >
 ::SpatialObject( void )
 {
-  m_Dimension = NDimensions;
+  strcpy(m_TypeName,"SpatialObject");
+  m_Dimension = TDimension;
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
@@ -48,20 +49,22 @@ SpatialObject< NDimensions, SpaceDimension>
   }
   
   SetParent(NULL);
+  m_Id = 0;
+  m_ParentId=-1; // by default
 }
 
 /** Destructor */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+SpatialObject< TDimension >
 ::~SpatialObject( void )
 {
   this->Clear();
 }
 
 /** Clear the spatial object by deleting all lists of children and subchildren */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::Clear(void)
 {
   // Call the Clear function of every child
@@ -81,9 +84,9 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Set the spacing of the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetSpacing(const double spacing[ObjectDimension] )
 {
   unsigned int i; 
@@ -105,9 +108,9 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Set the Scale of the spatial object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetScale(const double scale[ObjectDimension] )
 {
   unsigned int i; 
@@ -129,16 +132,16 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Return the Derivative at a point given the order of the derivative */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::DerivativeAt( const PointType & point, short unsigned int order,
                 OutputVectorType & value, unsigned int depth, char * name )
   {
   if( !IsEvaluableAt(point, depth, name) )
     {
     itk::ExceptionObject e("SpatialObject.txx");
-    e.SetLocation("SpatialObject< NDimensions, SpaceDimension>::DerivateAt(\
+    e.SetLocation("SpatialObject< TDimension >::DerivateAt(\
                    const PointType, unsigned short, OutputVectorType & )");
     e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
@@ -159,7 +162,7 @@ SpatialObject< NDimensions, SpaceDimension>
     typename OutputVectorType::Iterator it_v1 = v1.Begin();
     typename OutputVectorType::Iterator it_v2 = v2.Begin();
 
-    for( unsigned short i=0; i<NDimensions; i++, it++, it_v1++, it_v2++ )
+    for( unsigned short i=0; i<TDimension; i++, it++, it_v1++, it_v2++ )
       {
       p1=point;
       p2=point;
@@ -182,9 +185,9 @@ SpatialObject< NDimensions, SpaceDimension>
   }
 
 /** Return if a point is inside the object or its children */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::IsInside( const PointType &  point, unsigned int depth, char * name) const
 {
   if( depth > 0 )
@@ -206,9 +209,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Return if the object is evaluable at a point */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   if( depth > 0 )
@@ -230,9 +233,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Return the value of the object at a point */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {  
@@ -261,20 +264,12 @@ SpatialObject< NDimensions, SpaceDimension>
   return false;
 }
 
-/** Set the parent of the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >  
-void 
-SpatialObject< NDimensions, SpaceDimension>
-::SetParent( const Superclass * parent )
-{
-  m_Parent = parent;
-}
 
 
 /** Print self */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);
@@ -303,27 +298,27 @@ SpatialObject< NDimensions, SpaceDimension>
 }
   
 /** Set the bounds of the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetBoundingBox( BoundingBoxPointer bounds )
 { 
   m_Bounds = bounds; 
 }
 
 /** Get the bounds of the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-typename SpatialObject< NDimensions, SpaceDimension>::BoundingBoxType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::BoundingBoxType *
+SpatialObject< TDimension >
 ::GetBoundingBox( void ) const
 { 
   return m_Bounds.GetPointer();
 }
 
 /** Add a child to the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension> 
+SpatialObject< TDimension > 
 ::AddSpatialObject( Self * pointer )
 {
   pointer->Register(); // increase the reference count.
@@ -337,7 +332,6 @@ SpatialObject< NDimensions, SpaceDimension>
     pointer->SetParent( this );
     pointer->SetParentId( this->GetId() );
     m_Children.push_back( pointer );
-    m_NDimensionalChildrenList.push_back( pointer );
   }
   else
   { 
@@ -349,9 +343,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Remove a child to the object */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::RemoveSpatialObject( Self * pointer )
 {
   bool found = false;
@@ -375,27 +369,6 @@ SpatialObject< NDimensions, SpaceDimension>
     // which is not in the list of the children.
   }
 
-  // remove the child from the NDimensional list also
-  typename NDimensionalChildrenListType::iterator it_NDim;
-  it_NDim = std::find(m_NDimensionalChildrenList.begin(),
-                      m_NDimensionalChildrenList.end(), pointer);
-
-  if( it_NDim != m_NDimensionalChildrenList.end() )
-  {
-    if( *it_NDim == pointer )
-    {
-      (*it_NDim)->SetParent(NULL);
-      m_NDimensionalChildrenList.erase( it_NDim );
-      found = true;
-    }
-    this->Modified();
-  }
-  else
-  { 
-    //throw an exception object to let user know that he tried to remove an object
-    // which is not in the list of the children.
-  }
-
   if(found)
   {
     (pointer)->UnRegister();
@@ -404,9 +377,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Set the local to global transformation */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetTransform(TransformType * transform )
 {
   m_Transform = transform;
@@ -414,9 +387,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Compute the Global Transform */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::ComputeGlobalTransform( )
 {
 
@@ -424,9 +397,9 @@ SpatialObject< NDimensions, SpaceDimension>
   typename TransformType::OffsetType offset = m_Transform->GetOffset();
 
   // matrix is changed to include the scaling
-  for(unsigned int i=0;i<NDimensions;i++)
+  for(unsigned int i=0;i<TDimension;i++)
   {
-    for(unsigned int j=0;j<NDimensions;j++)
+    for(unsigned int j=0;j<TDimension;j++)
     {
       matrix.GetVnlMatrix().put(i,j,matrix.GetVnlMatrix().get(i,j)*m_Scale[i]);
     }
@@ -436,7 +409,7 @@ SpatialObject< NDimensions, SpaceDimension>
   PointType point;
   point = matrix*m_CenterOfRotation;
 
-  for(unsigned i=0;i<NDimensions;i++)
+  for(unsigned i=0;i<TDimension;i++)
   {
     offset[i] += m_Scale[i]*m_CenterOfRotation[i]-point[i];
   }
@@ -450,11 +423,11 @@ SpatialObject< NDimensions, SpaceDimension>
 
   if(m_Parent)
   {
-    for(unsigned int i=0;i<NDimensions;i++)
+    for(unsigned int i=0;i<TDimension;i++)
     {
-      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalScale()[i];
+      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalScale()[i];
     }
-    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalTransform(),false);
+    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalTransform(),false);
   }
 
   
@@ -470,18 +443,18 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Get the local transformation */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
 ::GetTransform( void )
 {
   return m_Transform.GetPointer();
 }
 
 /** Get the local transformation (const)*/
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-const typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+const typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
 ::GetTransform( void ) const
 {
   return m_Transform.GetPointer();
@@ -489,9 +462,9 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Set the global to local transformation */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetGlobalTransform(TransformType * transform )
 {
   m_GlobalTransform = transform;
@@ -500,69 +473,69 @@ SpatialObject< NDimensions, SpaceDimension>
 
 
 /** Compute the Transform when the global tranform as been set*/
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::ComputeTransform( )
 {
   m_Transform = m_GlobalTransform;
 
   if(m_Parent)
   {
-    m_Transform->Compose(dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
+    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension, SpaceDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
   }
 }
 
 
 /** Get the global transformation */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
 ::GetGlobalTransform( void )
 {
   return m_GlobalTransform.GetPointer();
 }
 
 /** Get the global transformation (const)*/
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-const typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+const typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
 ::GetGlobalTransform( void ) const
 {
   return m_GlobalTransform.GetPointer();
 }
 
 /** Get the Global to Local transformation list */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-typename SpatialObject< NDimensions, SpaceDimension>::TransformListType &
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformListType &
+SpatialObject< TDimension >
 ::GetGlobalTransformList( void )
 {
   return m_GlobalTransformList;
 }
 
 /** Transform a point to the local coordinate frame */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::TransformPointToLocalCoordinate( PointType & p ) const
 {
   p = m_GlobalTransform->Inverse()->TransformPoint(p);
 }
 
 /** Transform a point to the global coordinate frame */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::TransformPointToGlobalCoordinate( PointType & p ) const
 {
   p = m_GlobalTransform->TransformPoint(p);
 }
 
 /** Get the modification time  */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 unsigned long 
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::GetMTime( void ) const
 {
   unsigned long latestTime = Object::GetMTime();
@@ -608,9 +581,9 @@ SpatialObject< NDimensions, SpaceDimension>
  * still in an initial state.  The return value is mainly used by recursive
  * calls of this function.
  */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::ComputeBoundingBox( unsigned int depth, char * name )
   {
   itkDebugMacro( "Computing Bounding Box" );
@@ -668,9 +641,9 @@ SpatialObject< NDimensions, SpaceDimension>
 /** Get the children list.
  * User is responsible for freeing the list, but not the elements of
  * the list. */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
-typename SpatialObject< NDimensions, SpaceDimension>::ChildrenListType *
-SpatialObject< NDimensions, SpaceDimension>
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::ChildrenListType *
+SpatialObject< TDimension >
 ::GetChildren( unsigned int depth, 
                char * name) const
 {
@@ -698,9 +671,9 @@ SpatialObject< NDimensions, SpaceDimension>
 }
 
 /** Set children list*/
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::SetChildren( ChildrenListType & children )
 { 
   m_Children = children;
@@ -711,16 +684,15 @@ SpatialObject< NDimensions, SpaceDimension>
   while(it != itEnd)
   {
     (*it)->Register(); // increase the reference count
-    m_NDimensionalChildrenList.push_back(*it);
     (*it)->SetParent( this );  
     it++;
   }
 }
 
 /** Get the number of children */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 unsigned int
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::GetNumberOfChildren( unsigned int depth, char * name )
 {
   typename ChildrenListType::const_iterator it = m_Children.begin();
@@ -751,22 +723,299 @@ SpatialObject< NDimensions, SpaceDimension>
 } 
 
 /** Return the Modified time of the LocalToGlobalTransform */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 unsigned long
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::GetTransformMTime(void)
 {
   return m_Transform->GetMTime();
 }
 
 /** Return the Modified time of the GlobalToLocalTransform */
-template< unsigned int NDimensions, unsigned int SpaceDimension >
+template< unsigned int TDimension >
 unsigned long
-SpatialObject< NDimensions, SpaceDimension>
+SpatialObject< TDimension >
 ::GetGlobalTransformMTime(void)
 {
   return m_GlobalTransform->GetMTime();
 }
+
+
+
+
+/** Get the parent of the spatial object */
+template< unsigned int TDimension >
+const SpatialObject< TDimension > *
+SpatialObject< TDimension >
+::GetParent( void ) const
+{
+  return m_Parent;
+}
+
+/** Set the parent of the spatial object */
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetParent( const Self * parent )
+{
+  m_Parent = parent;
+}
+
+/** Return true if the spatial object has a parent */
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::HasParent( void ) const
+{
+  if( m_Parent )
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/** Set the largest possible region */
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetLargestPossibleRegion(const RegionType &region)
+{
+  if (m_LargestPossibleRegion != region)
+  {
+    m_LargestPossibleRegion = region;
+    this->Modified();
+  }
+}
+
+/** Update the Output information */
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::UpdateOutputInformation()
+{
+  if (this->GetSource())
+  {
+    this->GetSource()->UpdateOutputInformation();
+  }
+  // If we don't have a source, then let's make our Image
+  // span our buffer
+  else
+  {
+    m_LargestPossibleRegion = m_BufferedRegion;
+  }
+  
+  // Now we should know what our largest possible region is. If our 
+  // requested region was not set yet, (or has been set to something 
+  // invalid - with no data in it ) then set it to the largest possible
+  // region.
+  if ( ! m_RequestedRegionInitialized)
+  {
+    this->SetRequestedRegionToLargestPossibleRegion();
+    m_RequestedRegionInitialized = true;
+  }
+  
+  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
+}
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetRequestedRegionToLargestPossibleRegion()
+{
+  m_RequestedRegion = m_LargestPossibleRegion;
+  m_RequestedRegionInitialized = true;
+}
+
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::CopyInformation(const DataObject *data)
+{
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to an ImageBase
+  const SpatialObject *imgData;
+  
+  imgData = dynamic_cast<const SpatialObject*>(data);
+
+  if (imgData)
+    {
+    // Copy the meta data for this data type
+    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
+    }
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
+                   << typeid(data).name() << " to "
+                   << typeid(SpatialObject*).name() );
+    }
+}
+
+
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::RequestedRegionIsOutsideOfTheBufferedRegion()
+{
+  unsigned int i;
+  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+
+  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
+  const SizeType& bufferedRegionSize = m_BufferedRegion.GetSize();
+  
+  for (i=0; i< m_Dimension; i++)
+  {
+    if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
+         ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
+          > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetBufferedRegion(const RegionType &region)
+{
+  if (m_BufferedRegion != region)
+  {
+    m_BufferedRegion = region;
+    this->ComputeOffsetTable();
+    this->Modified();
+  }
+}
+
+
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::VerifyRequestedRegion()
+{
+  bool retval = true;
+  unsigned int i;
+
+  // Is the requested region within the LargestPossibleRegion?
+  // Note that the test is indeed against the largest possible region
+  // rather than the buffered region; see DataObject::VerifyRequestedRegion.
+  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const IndexType &largestPossibleRegionIndex
+    = m_LargestPossibleRegion.GetIndex();
+
+  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
+  const SizeType& largestPossibleRegionSize
+    = m_LargestPossibleRegion.GetSize();
+  
+  for (i=0; i< m_Dimension; i++)
+  {
+    if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
+         ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
+          > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
+    {
+      retval = false;
+    }
+  }
+
+  return retval;
+}
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetRequestedRegion(const RegionType &region)
+{
+  if (m_RequestedRegion != region)
+  {
+    m_RequestedRegion = region;
+    m_RequestedRegionInitialized = true;
+    this->Modified();
+  }
+}
+
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetRequestedRegion(DataObject *data)
+{
+  SpatialObject *imgData;
+  
+  imgData = dynamic_cast<SpatialObject*>(data);
+
+  if (imgData)
+  {
+    m_RequestedRegion = imgData->GetRequestedRegion();
+    m_RequestedRegionInitialized = true;
+  }
+  else
+  {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(SpatialObject*).name() );
+  }
+}
+
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::ComputeOffsetTable()
+{
+  double num=1;
+  const SizeType& bufferSize = m_BufferedRegion.GetSize();
+  
+  m_OffsetTable[0] = num;
+  for (unsigned int i=0; i < m_Dimension; i++)
+  {
+    num *= bufferSize[i];
+    m_OffsetTable[i+1] = num;
+  }
+}
+
+
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::PropertyType * 
+SpatialObject< TDimension >
+::GetProperty( void )
+{ 
+  return m_Property; 
+}
+
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetProperty( const PropertyType * property)
+{ 
+  m_Property = property; 
+}
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::Update(void)
+{
+  this->Modified();
+}
+
+
+
+
+
+
+
+
+
+
 
 } // end of namespace itk
 
