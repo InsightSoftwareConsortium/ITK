@@ -38,7 +38,7 @@ std::vector< NarrowBand<NodeType>::RegionType>
 NarrowBand<NodeType>
 ::SplitBand( unsigned int n)
 {
-  unsigned int i,j;
+  unsigned int i;
   std::vector<RegionType> regionList;
   if (n > m_NodeContainer.size())
     {

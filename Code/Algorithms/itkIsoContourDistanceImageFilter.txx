@@ -184,7 +184,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   IteratorType outIt (outputPtr,
                       outputRegionForThread); 
   
-  IndexType inputIndex;
+//  IndexType inputIndex;
   unsigned int n,ng;
  
  //Here Karl calls a kind of locator for his levelset. Maybe we can use

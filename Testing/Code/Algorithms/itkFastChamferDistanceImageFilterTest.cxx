@@ -166,6 +166,8 @@ int itkFastChamferDistanceImageFilterTest(int, char* [] )
   const float *outweights;
   filter->SetWeights(inweights);
   outweights =  filter->GetWeights();
+
+  std::cout << "outweights = " << outweights << std::endl;
   
   /* For debugging write the result
   typedef itk::ImageFileWriter< ImageType >  WriterType;

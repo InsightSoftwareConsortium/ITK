@@ -84,7 +84,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   //cout << this->GetOutput()->GetRequestedRegion() << std::endl;
 
   const unsigned int  center_voxel = it.Size()/2;
-  const int           num_neighbors = center_voxel; 
+  //const int           num_neighbors = center_voxel; 
   unsigned int        *neighbor_type; neighbor_type = new unsigned int[it.Size()];
   unsigned int        i,n;
   register float      val[ImageDimension];
@@ -114,7 +114,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   /** Scan the image */
   //cout << "Scanning "<< std::endl;
 
-  int j = 0;
+  //int j = 0;
   for (it.GoToBegin(); ! it.IsAtEnd(); ++it)
     {
 
@@ -186,7 +186,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
  
 
   /** Scan the image */
-  j = 0;
+  //j = 0;
   for (it.GoToEnd(), --it; ! it.IsAtBegin(); --it)
     {
 
