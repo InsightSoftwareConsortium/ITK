@@ -1216,7 +1216,9 @@ namespace itk
       }
 
     //NOTE: voidp is defined by zlib.h
-    const voidp p = static_cast<voidp>(buffer);
+    //NOTE: Need const_cast because voidp is "void*", so
+    //      "const voidp" is "void* const", not "const void*".
+    voidp p = const_cast<voidp>(buffer);
     const std::string ImageFileName = GetImageFileName( m_FileName );
     const std::string fileExt=GetExtension( m_FileName );
     // Check case where image is acually a compressed image
