@@ -124,6 +124,8 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case LONG:
     case FLOAT:
     case DOUBLE:
+    case RGB:
+    case RGBA:
       {
       itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
@@ -151,6 +153,8 @@ unsigned int PNGImageIO::GetComponentSize() const
     case LONG:
     case FLOAT:
     case DOUBLE:
+    case RGB:
+    case RGBA:
     case UNKNOWN:
       {
       itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
