@@ -365,9 +365,14 @@ void Solver::AssembleK() {
 
         /*
          * Here we finaly update the corresponding element
-         * in the master stiffness matrix.
+         * in the master stiffness matrix. We first check if 
+         * element in Ke is zero, to prevent zeros from being 
+         * allocated in sparse matrix.
          */
-        K( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN )+=Ke(j,k);
+        if ( Ke(j,k)!=Float(0.0) )
+        {
+          K( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN )+=Ke(j,k);
+        }
 
       }
 
