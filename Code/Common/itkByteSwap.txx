@@ -183,7 +183,7 @@ ByteSwap<T>
       return;
     default:  
       ByteSwapError e;
-      e.SetLocation("SwapRangeBE");
+      e.SetLocation("SwapRangeLE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
     }
@@ -213,7 +213,7 @@ static void SwapWriteRangeLE(T *p, int num, std::ostream *fp)
       return;
     default:  
       ByteSwapError e;
-      e.SetLocation("SwapWriteRangeBE");
+      e.SetLocation("SwapWriteRangeLE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
     }
