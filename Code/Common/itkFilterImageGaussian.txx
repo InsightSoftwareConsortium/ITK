@@ -270,38 +270,23 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
  
   bool needToAllocate = false;
 
-
-  const unsigned long * inputImageSize   = inputImage->GetImageSize();
-  const unsigned long * outputImageSize  = outputImage->GetImageSize();
-  const unsigned long * inputBufferSize  = inputImage->GetBufferSize();
-  const unsigned long * outputBufferSize = outputImage->GetImageSize();
-
-  unsigned int i = 0;
-
-  for( i=0; i < TInputImage::ImageDimension; i++ ) 
+  if( inputImage->GetLargestPossibleRegion().GetSize() != 
+      outputImage->GetLargestPossibleRegion().GetSize()    )
   {
-    if( inputImageSize[i] != outputImageSize[i] )
-    {
 	  needToAllocate = true;
-	  break;
-	}	
-
-	if( inputBufferSize[i] != outputBufferSize[i] )
-	{
-	  needToAllocate = true;
-	  break;
-	}	    
-
   }
 
+  if( inputImage->GetBufferedRegion().GetSize() != 
+      outputImage->GetBufferedRegion().GetSize()    )
+  {
+	  needToAllocate = true;
+  }
 
   if( needToAllocate )
   {       
-    outputImage->SetImageSize( inputImage->GetImageSize()  );
-    outputImage->SetBufferSize( inputImage->GetBufferSize() );
+    outputImage->SetLargestPossibleRegion( inputImage->GetLargestPossibleRegion()  );
+    outputImage->SetBufferedRegion( inputImage->GetBufferedRegion() );
     outputImage->Allocate();
-    outputImage->SetImageStartIndex( inputImage->GetImageStartIndex() );
-    outputImage->SetBufferStartIndex( inputImage->GetBufferStartIndex() );
   }
  
   const unsigned int imageDimension = inputImage->GetImageDimension();
@@ -318,19 +303,17 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
   SetUp();
   
   InputIteratorType inputIterator( inputImage,
-                          inputImage->GetImageStartIndex(),
-                          inputImage->GetBufferSize());
+                          inputImage->GetBufferedRegion() );
 
   OutputIteratorType outputIterator( outputImage,
-                           outputImage->GetImageStartIndex(),
-                           outputImage->GetBufferSize());
+                           outputImage->GetBufferedRegion());
 
 
   inputIterator.SetDirection(  this->m_Direction );
   outputIterator.SetDirection( this->m_Direction );
 
-  const unsigned long *imageSize = inputIterator.GetImageSize();
-  const unsigned int ln     = imageSize[ this->m_Direction ];
+  
+  const unsigned int ln = inputIterator.GetRegion().GetSize()[ this->m_Direction ];
 
   TComputation *inps = 0;
   TComputation *outs = 0;
