@@ -18,10 +18,7 @@
 #define __itkCannySegmentationLevelSetFunction_txx_
 
 #include "itkCannySegmentationLevelSetFunction.h"
-#include "itkCannyEdgeDetectionImageFilter.h"
-#include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkGradientImageFilter.h"
-#include "itkCastImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -30,17 +27,19 @@ namespace itk {
 
 template <class TImageType, class TFeatureImageType>
 void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::CalculateSpeedImage()
+{
+  // Create a distance transform to the canny edges
+  this->CalculateDistanceImage();
+
+  // This distance transform becomes the speed image
+  this->SetSpeedImage(m_Distance->GetOutput());
+}
+
+template <class TImageType, class TFeatureImageType>
+void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::CalculateAdvectionImage()
 {
-  typename CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer
-    canny = CannyEdgeDetectionImageFilter<ImageType, ImageType>::New();
-
-  typename DanielssonDistanceMapImageFilter<ImageType, ImageType>::Pointer
-    distance = DanielssonDistanceMapImageFilter<ImageType, ImageType>::New();
-  
-  typename CastImageFilter<FeatureImageType, ImageType>::Pointer
-    caster = CastImageFilter<FeatureImageType, ImageType>::New();
-
   typename GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::Pointer
     gradient = GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::New();
 
@@ -51,26 +50,19 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
     CovariantVectorImageType>::Pointer multiply =
     MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::New();
   
-  canny->SetThreshold(m_Threshold);
-  canny->SetVariance(m_Variance);
-  canny->SetMaximumError(0.01);
-  canny->SetOutsideValue(NumericTraits<ScalarValueType>::Zero);
-  
-  caster->SetInput(this->GetFeatureImage());
-  canny->SetInput(caster->GetOutput());
-  distance->SetInput(canny->GetOutput());
+  // Create a distance transform to the canny edges
+  this->CalculateDistanceImage();
 
-  gradient->SetInput(distance->GetOutput());
-
+  gradient->SetInput(m_Distance->GetOutput());
   gradient->Update();
 
   multiply->SetInput1(gradient->GetOutput());
-  multiply->SetInput2(distance->GetOutput());
+  multiply->SetInput2(m_Distance->GetOutput());
   
   //  multiply->GraftOutput(dynamic_cast<CovariantVectorImageType *>(this->GetAdvectionImage()));
   multiply->Update();  
 
-  // Copy output to Advection Image
+// Copy output to Advection Image
   ImageRegionIterator<VectorImageType> it(this->GetAdvectionImage(),
                                           this->GetAdvectionImage()->GetRequestedRegion());
   ImageRegionConstIterator<CovariantVectorImageType> it_a(multiply->GetOutput(),
@@ -80,19 +72,32 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
     {
     it.Set(it_a.Get());
     }
+}
 
-  // Copy the distance transform into the speed image.  This causes the level
-  // set to grow in zero gradient directions (i.e. expand along an isosurface).
-  ImageRegionIterator<ImageType> it_d(this->GetSpeedImage(),
-                                      this->GetSpeedImage()->GetRequestedRegion());
-  ImageRegionConstIterator<ImageType> it_da(distance->GetOutput(),
-                                            this->GetSpeedImage()->GetRequestedRegion());
-  
-  for (; ! it_d.IsAtEnd(); ++it_d, ++it_da)
+template <class TImageType, class TFeatureImageType>
+void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::CalculateDistanceImage()
+{
+
+  // Only cast if we need to
+  if ( typeid(TImageType) == typeid(TFeatureImageType))
     {
-    it_d.Set(it_da.Get());
+    m_Canny->SetInput(this->GetFeatureImage());
+    }
+  else
+    {
+    m_Caster->SetInput(this->GetFeatureImage());
+    m_Canny->SetInput(m_Caster->GetOutput());
     }
 
+  m_Canny->SetThreshold(m_Threshold);
+  m_Canny->SetVariance(m_Variance);
+  m_Canny->SetMaximumError(0.01);
+  m_Canny->SetOutsideValue(NumericTraits<ScalarValueType>::Zero);
+
+  m_Distance->SetInput(m_Canny->GetOutput());
+  m_Distance->GetOutput()->SetRequestedRegion(m_SpeedImage->GetRequestedRegion());
+  m_Distance->Update();
 }
 
 } // end namespace itk

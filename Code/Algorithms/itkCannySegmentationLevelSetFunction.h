@@ -18,6 +18,9 @@
 #define __itkCannySegmentationLevelSetFunction_h_
 
 #include "itkSegmentationLevelSetFunction.h"
+#include "itkCastImageFilter.h"
+#include "itkCannyEdgeDetectionImageFilter.h"
+#include "itkDanielssonDistanceMapImageFilter.h"
 
 namespace itk {
 
@@ -67,9 +70,17 @@ public:
   double GetVariance() const
   { return m_Variance; }
 
-  /** This method also fills in the Speed image, everything is done in one step
-      so that CalculateSpeedImage does not need to be implemented.*/
+  /** Compute the Speed Image. The Speed Image is the distance to the
+      canny edges. */
+  virtual void CalculateSpeedImage();
+
+  /** Compute the advection image. The Advection Image is the gradeint
+      image attenuated with the distance to the canny edges. */
   virtual void CalculateAdvectionImage();
+
+  /** Compute the distance image. This is the distance to the canny
+      edges. */
+  virtual void CalculateDistanceImage();
 
   virtual void Initialize(const RadiusType &r)
   {
@@ -80,11 +91,17 @@ public:
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
   }
 
+  ImageType *GetCannyImage()
+    { return m_Canny->GetOutput(); }
+
 protected:
   CannySegmentationLevelSetFunction()
   {
     m_Variance = 0.0;
     m_Threshold = NumericTraits<ScalarValueType>::Zero;
+    m_Caster = CastImageFilter<FeatureImageType,ImageType>::New();
+    m_Canny = CannyEdgeDetectionImageFilter<ImageType,ImageType>::New();
+    m_Distance = DanielssonDistanceMapImageFilter<ImageType,ImageType>::New();
   }
   virtual ~CannySegmentationLevelSetFunction() {}
 
@@ -94,6 +111,11 @@ protected:
 private:
   ScalarValueType m_Variance;
   double m_Threshold;
+  typename CannyEdgeDetectionImageFilter<ImageType,ImageType>::Pointer m_Canny;
+  typename DanielssonDistanceMapImageFilter<ImageType,ImageType>::Pointer m_Distance;
+  typename CastImageFilter<FeatureImageType, ImageType>::Pointer m_Caster;
+
+  
 };
   
 } // end namespace itk

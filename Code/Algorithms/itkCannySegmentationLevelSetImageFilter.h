@@ -168,6 +168,10 @@ public:
   double GetVariance() const
   { return this->m_CannyFunction->GetVariance(); }
 
+  /** Get the Canny image that was used to create the speed and
+      advection images */
+  OutputImageType *GetCannyImage(void)
+    { return this->m_CannyFunction->GetCannyImage(); }
 protected:
   ~CannySegmentationLevelSetImageFilter() {}
   CannySegmentationLevelSetImageFilter();
