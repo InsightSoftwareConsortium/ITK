@@ -23,137 +23,169 @@
 
 namespace itk
 {
-template <typename TPixelType>
-DeformableMesh<TPixelType>
+template <typename TPixelType/*, typename TMeshTraits*/>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::DeformableMesh()
 {
 }
 
-template <typename TPixelType>
+/**
+ * Set the resoluion of the model.
+ */
+template <typename TPixelType/*, typename TMeshTraits*/>
 void
-DeformableMesh<TPixelType>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::SetResolution(int a, int b)
 {
-  Resolution[0] = a;
-  Resolution[1] = b;
+  m_Resolution[0] = a;
+  m_Resolution[1] = b;
 }
 
-template <typename TPixelType>
+/**
+ * Set the scale of the model.
+ */
+template <typename TPixelType/*, typename TMeshTraits*/>
 void
-DeformableMesh<TPixelType>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::SetScale(float a, float b, float c)
 {
-  Scale[0] = a;
-  Scale[1] = b;
-  Scale[2] = c;
+  m_Scale[0] = a;
+  m_Scale[1] = b;
+  m_Scale[2] = c;
 }
 
-template <typename TPixelType>
+/**
+ * Set the center point of the model.
+ */
+template <typename TPixelType/*, typename TMeshTraits*/>
 void
-DeformableMesh<TPixelType>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::SetCenter(int a, int b, int c)
 {
-  Center[0] = a;
-  Center[1] = b;
-  Center[2] = c;
+  m_Center[0] = a;
+  m_Center[1] = b;
+  m_Center[2] = c;
 }
 
-template <typename TPixelType>
+/**
+ * Set the default value to the scale and resolution.
+ */
+template <typename TPixelType/*, typename TMeshTraits*/>
 void
-DeformableMesh<TPixelType>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::SetDefault()
 {
-  Scale[0] = 1.0;
-  Scale[1] = 1.0;
-  Scale[2] = 1.0;
-  Resolution[0] = 8;
-  Resolution[1] = 18;
+  m_Scale[0] = 1.0;
+  m_Scale[1] = 1.0;
+  m_Scale[2] = 1.0;
+  m_Resolution[0] = 8;
+  m_Resolution[1] = 18;
 }
 
-template <typename TPixelType>
+/**
+ * Calculate and insert the nodes into the pointscontainer.
+ * and store the connectness of the model into the cellscontainer.
+ * store the type of cells in the celldatacontainer, these will be used
+ * when calculate the local stiffness matrix of the model
+ */
+template <typename TPixelType/*, typename TMeshTraits*/>
 void
-DeformableMesh<TPixelType>
+DeformableMesh<TPixelType/*, TMeshTraits*/>
 ::Allocate()
 {
-//  CoordRepType PointCoords[38][3];
-
   unsigned long i, j, jn, p, numpts, numcells;
   float ustep, vstep, ubeg, vbeg, u, v; 
   int signu, signv; 
 
-  numpts = Resolution[0]*Resolution[1] + 2; 
-  numcells = 2 * (Resolution[0]-1) *Resolution[1] + 2*Resolution[1]; 
+// calculate the number os cells and points
+  numpts = m_Resolution[0]*m_Resolution[1] + 2; 
+  numcells = 2 * (m_Resolution[0]-1) *m_Resolution[1] + 2*m_Resolution[1]; 
 
-  ustep = vnl_math::pi / (Resolution[0]+1); 
-  vstep = 2.0*vnl_math::pi / Resolution[1]; 
+// calculate the steps using resolution
+  ustep = vnl_math::pi / (m_Resolution[0]+1); 
+  vstep = 2.0*vnl_math::pi / m_Resolution[1]; 
   ubeg = (-vnl_math::pi/2.0) + ustep; 
   vbeg = -vnl_math::pi; 
 
+///////////////////////////////////////////////////////////////////////////
+// nodes allocation
+
+// the temporary container of nodes' connectness
   unsigned long tripoints[3] = {0,1,2};
-//  const unsigned long *tp;
   
+// memory allocation for nodes
   this->GetPoints()->Reserve(numpts);
-//  this->GetCellData()->Reserve(numcells);
 
   PointsContainerPointer      myPoints = GetPoints();
   typename PointsContainer::Iterator   point    = myPoints->Begin();
-//  CellDataContainerPointer      myCellData = GetCellData();
-//  CellDataContainer::Iterator   celldata    = myCellData->Begin();
+
   PointType p1;
 
+// calculate all regular nodes
   while(  point != myPoints->End() ) { 
-	for (u=ubeg, i=0; i < Resolution[0]; u += ustep, i++) { 
-	  for (v=vbeg, j=0; j < Resolution[1]; v += vstep, j++) { 
+	for (u=ubeg, i=0; i < m_Resolution[0]; u += ustep, i++) { 
+	  for (v=vbeg, j=0; j < m_Resolution[1]; v += vstep, j++) { 
 		if (cos(u) > 0) {signu = 1;} else {signu = -1;}
 		if (cos(v) > 0) {signv = 1;} else {signv = -1;}
-		
-		p1[0] = (Scale[0]*signu*(pow(fabs(cos(u)),(float) 1.0))*signv* 
-			(pow(fabs(cos(v)),(float) 1.0)) + Center[0]); 
-	  
+
+		p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), 1.0))*signv* 
+			(pow((float)(fabs(cos(v))), 1.0)) + m_Center[0]; 
+
 		if (sin(v) > 0) {signv = 1;} else {signv = -1;}
-		p1[1] = (Scale[1]*signu*(pow(fabs(cos(u)),(float) 1.0))*signv* 
-			(pow(fabs(sin(v)),(float) 1.0)) + Center[1]); 
-	  
+
+		p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), 1.0))*signv* 
+			(pow((float)(fabs(sin(v))), 1.0)) + m_Center[1]; 
+				  
 		if (sin(u) > 0) {signu = 1;} else {signu = -1;}
-		p1[2] = (Scale[2]*signu*(pow(fabs(sin(u)),(float) 1.0)) + Center[2]);
+
+		p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))),1.0)) + 
+			m_Center[2];
 	  
 		point.Value() = p1;
 		++point;
-	  } 
-	}   
+	} 
+  }   
 
-	p1[0] = (Scale[0]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
-		(pow(fabs(cos(0.0)),1.0)) + Center[0]); 
-	p1[1] = (Scale[1]*(pow(fabs(cos(-vnl_math::pi/2)),1.0))* 
-		(pow(fabs(sin(0.0)),1.0)) + Center[1]); 
-	p1[2] = (Scale[2]*-1*(pow(fabs(sin(-vnl_math::pi/2)),1.0)) + Center[2]);
-	point.Value() = p1;
-	++point;
+// calculate the south pole node
+  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0))* 
+	  (pow((float)(fabs(cos(0.0))),1.0)) + m_Center[0]); 
+  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0))* 
+      (pow((float)(fabs(sin(0.0))),1.0)) + m_Center[1]); 
+  p1[2] = (m_Scale[2]*-1*(pow((float)(fabs(sin(-vnl_math::pi/2))),1.0)) 
+	  + m_Center[2]);
+  point.Value() = p1;
+  ++point;
 
-    p1[0] = (Scale[0]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
-		(pow(fabs(cos(0.0)),1.0)) + Center[0]); 
-	p1[1] = (Scale[1]*(pow(fabs(cos(vnl_math::pi/2)),1.0))* 
-		(pow(fabs(sin(0.0)),1.0)) + Center[1]); 
-	p1[2] = (Scale[2]*(pow(fabs(sin(vnl_math::pi/2)),1.0)) + Center[2]);
-	point.Value() = p1;
-	++point;
+// calculate the north pole node
+  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0))* 
+	  (pow(fabs(cos(0.0)),1.0)) + m_Center[0]); 
+  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0))* 
+	  (pow(fabs(sin(0.0)),1.0)) + m_Center[1]); 
+  p1[2] = (m_Scale[2]*(pow((float)(fabs(sin(vnl_math::pi/2))),1.0)) 
+	  + m_Center[2]);
+  point.Value() = p1;
+  ++point;
   }
+
+///////////////////////////////////////////////////////////////////////////
+// cells allocation
   p = 0;
   TriCellPointer testCell(TriCell::New());
 
-  for(int i=0; i < Resolution[0]-1 ; i++) {
-	for (int j=0; j<Resolution[1]; j++) {
-      jn = (j+1)%Resolution[1]; 
-      tripoints[0] = i*Resolution[1]+j; 
+// store all regular cells
+  for(int i=0; i < m_Resolution[0]-1 ; i++) {
+	for (int j=0; j<m_Resolution[1]; j++) {
+      jn = (j+1)%m_Resolution[1]; 
+      tripoints[0] = i*m_Resolution[1]+j; 
       tripoints[1] = tripoints[0]-j+jn; 
-      tripoints[2] = tripoints[0]+Resolution[1]; 
+      tripoints[2] = tripoints[0]+m_Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
 	  SetCellData(p, (PixelType)3.0);
 	  p++;
 	  testCell = TriCell::New();
       tripoints[0] = tripoints[1]; 
-      tripoints[1] = tripoints[0]+Resolution[1]; 
+      tripoints[1] = tripoints[0]+m_Resolution[1]; 
 	  testCell->SetPointIds(tripoints);
 	  SetCell(p, testCell);
 	  SetCellData(p, (PixelType)3.0);
@@ -162,30 +194,30 @@ DeformableMesh<TPixelType>
 	}
   }
  
-  for (int j=0; j<Resolution[1]; j++)
-	  {
-      jn = (j+1)%Resolution[1]; 
-      tripoints[0] = numpts-2; 
-      tripoints[1] = jn; 
-      tripoints[2] = j; 
-	  testCell->SetPointIds(tripoints);
-	  SetCell(p, testCell);
-	  SetCellData(p, (PixelType)1.0);
-	  p++;
-	  testCell = TriCell::New();
+// store cells containing the south pole nodes
+  for (int j=0; j<m_Resolution[1]; j++) {
+    jn = (j+1)%m_Resolution[1]; 
+    tripoints[0] = numpts-2; 
+    tripoints[1] = jn; 
+    tripoints[2] = j; 
+	testCell->SetPointIds(tripoints);
+	SetCell(p, testCell);
+	SetCellData(p, (PixelType)1.0);
+	p++;
+	testCell = TriCell::New();
   }
 
-  for (int j=0; j<Resolution[1]; j++)
-	  {
-      jn = (j+1)%Resolution[1]; 
-      tripoints[2] = (Resolution[0]-1)*Resolution[1]+j; 
-	  tripoints[1] = numpts-1; 
-      tripoints[0] = tripoints[2]-j+jn; 
-	  testCell->SetPointIds(tripoints);
-	  SetCell(p, testCell);
-	  SetCellData(p, (PixelType)2.0);
-	  p++;
-	  testCell = TriCell::New();
+// store cells containing the north pole nodes
+  for (int j=0; j<m_Resolution[1]; j++) {
+    jn = (j+1)%m_Resolution[1]; 
+    tripoints[2] = (m_Resolution[0]-1)*m_Resolution[1]+j; 
+	tripoints[1] = numpts-1; 
+    tripoints[0] = tripoints[2]-j+jn; 
+	testCell->SetPointIds(tripoints);
+	SetCell(p, testCell);
+	SetCellData(p, (PixelType)2.0);
+	p++;
+	testCell = TriCell::New();
   }
 }
 

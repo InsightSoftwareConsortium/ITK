@@ -5,19 +5,27 @@
 #include "itkMesh.h"
 #include "itkVector.h"
 #include "itkTriangleCell.h"
+#include "itkDefaultStaticMeshTraits.h"
 
 namespace itk
 {
 
-/** \class FilterMeshToMesh
+/** \class DeformableMesh
  * \brief 
  *
- * FilterMeshToMesh is the base class for all process objects that output
- * mesh data, and require mesh data as input. Specifically, this class
- * defines the SetInput() method for defining the input to a filter.
+ * DeformableMesh is a class that define a deformable model structure
+ * in the form of Mesh. It is based on the itkMesh structure.
+ * All nodes on the model will be calculated and stored in the 
+ * pointscontainer. User can change the parameters such as the 
+ * resolution and scale, etc to decide the initial forms and property
+ * of the model.
+ * The connectness of nodes ( the cells make up the surface of the model )
+ * is stored in the cellscontainer.
+ * The model have both global and local deforming ability.
  */
-template <class TPixelType>
-class ITK_EXPORT DeformableMesh : public Mesh<TPixelType>
+template <typename TPixelType/*, 
+	typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >*/>
+class ITK_EXPORT DeformableMesh : public Mesh<TPixelType/*, TMeshTraits*/>
 {
 public:
   /**
@@ -33,7 +41,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Mesh<PixelType> Superclass;
+  typedef Mesh<TPixelType/*, TMeshTraits*/> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -57,9 +65,8 @@ public:
   itkTypeMacro(DeformableMesh,Mesh);
 
 /**
- * Define a few cell types which uses a PixelType of "int".  Again,
- * use the defaults for the other parameters.  Note that a cell's template
- * parameters must match those of the mesh into which it is inserted.
+ * Define the triangular cell types which forms the surface of the model
+ * and will be used in FEM application.
  */
 
   typedef itk::TriangleCell<PixelType, CellTraits>	   TriCell;
@@ -67,8 +74,8 @@ public:
 
 
 /**
- * Typedef the generic cell type for the mesh.  It is an abstract class,
- * so we can only use information from it, like get its pointer type.
+ * All these parameter setting function are public temporarily to make
+ * the test easier
  */
 
   void SetResolution(int a, int b);
@@ -81,10 +88,16 @@ protected:
   DeformableMesh();
   ~DeformableMesh() {};
 
+// model center
+  int m_Center[3]; 
 
-  int Center[3]; 
-  int Resolution[2];
-  float Scale[3]; 
+// model resolutions
+  int m_Resolution[2];
+
+// model scales
+  float m_Scale[3];
+  
+// new parameters will be added when the class is stable
 
 };
 

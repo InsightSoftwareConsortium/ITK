@@ -23,12 +23,23 @@
 namespace itk
 {
 
-/** \class MeshToMeshFilter
+/** \class BalloonForceFilter
  * \brief 
  *
- * MeshToMeshFilter is the base class for all process objects that output
- * mesh data, and require mesh data as input. Specifically, this class
- * defines the SetInput() method for defining the input to a filter.
+ * BalloonForceFilter is used to apply balloon force and the potential
+ * force onto the deformable model.
+ * The balloon force is vertical to the surface of the model. The potential 
+ * force is given out by the estimated boundary points. These two will meet 
+ * a balance at the boundary, thus the deformable model will fit to the 
+ * boundary.
+ * Users should use deformable model as input using setInput and also provide
+ * the filter with a potential image which will provide the estimated bounday.
+ * The image should be a binary image with object and background labelled 
+ * differently. These image can be given by GibbsPriorFilter or any other
+ * segmentation filters.
+ * When the nodes on the model stopped at the estimated boundary, using the
+ * GapSearch method to add new nodes at region the object has a complicate
+ * shape.
  */
 template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT BalloonForceFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
@@ -105,14 +116,14 @@ protected:
   void operator=(const BalloonForceFilter&) {};
 //  void PrintSelf(std::ostream& os, Indent indent);
 
-  /** 
-   * These meshes are defined to hold the vectors as force, etc.
-   */
-  InputMeshPointer Forces; 
-  InputMeshPointer Normals;
-  InputMeshPointer Displacements;
-  InputMeshPointer Derives;
-  InputMeshPointer Locations;
+/** 
+ * These meshes are defined to hold the vectors as force, etc.
+ */
+  InputMeshPointer m_Forces; 
+  InputMeshPointer m_Normals;
+  InputMeshPointer m_Displacements;
+  InputMeshPointer m_Derives;
+  InputMeshPointer m_Locations;
   InputMeshPointer m_Input;
   InputMeshPointer m_Output;
 
@@ -124,18 +135,19 @@ protected:
   vnl_matrix_fixed<double, 4, 4> CStiffness;
   vnl_matrix_fixed<double, 4, 4> **K;
   
-  double Stiffness[2];
-  double TimeStep;
-  int Resolution[3];
-  int Center[3];
-  float m_MiniT;
-  int m_Step;
-  int m_NumNodes;
-  int m_NumCells;
-  int m_NumNewNodes;
-  float m_NewNodes[200][4];
+  double	m_Stiffness[2];
+  double	TimeStep;
+  int		m_Resolution[3];
+  IndexType	m_Center;
+  float		m_MiniT;
+  int		m_Step;
+  int		m_NumNodes;
+  int		m_NumCells;
+  int		m_NumNewNodes;
+  float		m_NewNodes[200][4];
 
-  ImagePointer Potential;
+  ImagePointer		m_Potential;
+  unsigned short	m_ObjectLabel;
   
 };
 
