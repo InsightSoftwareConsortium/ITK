@@ -34,7 +34,7 @@ namespace itk
  * first partition the image plane to voronoi regions, and testing each 
  * region by some homogeneity operators, which need to be implemented in the private 
  * method:  
- *      virtual bool TestHomogeneity(IndexList Plist); 
+ *      virtual bool TestHomogeneity(IndexList &Plist); 
  * after testing, all the regions are classified as either "internal" or "external" 
  * region and the "boundary" regions was defined as an "external" region that has at  
  * least one "internal" region as its neighbor. 
@@ -134,6 +134,12 @@ public:
   itkSetMacro(OutputBoundary, bool);
   itkGetMacro(OutputBoundary, bool);
 
+  /** Output the segmentation on every iteration.  Useful for iteractive
+      sessions. The setting of OutputBoundary determines the type of output. */
+  itkSetMacro(InteractiveSegmentation, bool);
+  itkGetMacro(InteractiveSegmentation, bool);
+  itkBooleanMacro(InteractiveSegmentation);
+  
   /** Set/Get the mean deviation. */
   itkSetMacro(MeanDeviation, double);
   itkGetMacro(MeanDeviation, double);
@@ -149,8 +155,8 @@ public:
   void RunSegmentOneStep(void);
 
   /** Create the output binary result for boundaries.  */
-  void MakeSegmentBoundary(void);
-  void MakeSegmentObject(void);
+  virtual void MakeSegmentBoundary(void);
+  virtual void MakeSegmentObject(void);
 
   /** Return the Voroni Diagram structure. */
   VoronoiPointer GetVoronoiDiagram(void)
@@ -202,7 +208,8 @@ protected:
   double m_MeanDeviation;
   bool m_UseBackgroundInAPrior;
   bool m_OutputBoundary; //if =1 then output the boundaries, if = 0 then output the object.
-
+  bool m_InteractiveSegmentation;
+  
   typename VoronoiDiagram::Pointer m_WorkingVD;
   typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
 
@@ -210,14 +217,14 @@ protected:
 
   // private methods:
   // Classify all the voronoi cells as interior , exterior or boundary.
-  void ClassifyDiagram(void);
+  virtual void ClassifyDiagram(void);
   
   // Generate the seeds to be added by dividing the boundary cells.
-  void GenerateAddingSeeds(void);
+  virtual void GenerateAddingSeeds(void);
   
   // Compute the statistics of the pixels inside the cell.
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
-  virtual bool TestHomogeneity(IndexList Plist){return 1;};
+  virtual bool TestHomogeneity(IndexList &Plist){return 1;};
   
   void FillPolygon(PointTypeDeque vertlist);
   

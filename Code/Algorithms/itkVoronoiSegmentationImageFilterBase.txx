@@ -34,8 +34,9 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_LastStepSeeds = 0;
   m_NumberOfSeeds = 200;
   m_MeanDeviation = 0.8;
-  m_UseBackgroundInAPrior = 0;
-  m_OutputBoundary = 0;
+  m_UseBackgroundInAPrior = false;
+  m_OutputBoundary = false;
+  m_InteractiveSegmentation = false;
   m_WorkingVD=VoronoiDiagram::New();
   m_VDGenerator=VoronoiDiagramGenerator::New();
 }
@@ -345,16 +346,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_NumberOfBoundary = 0;
   for(int i=0;i<m_NumberOfSeeds;i++)
     {
+    // if not homogeneous
     if(m_Label[i] == 0)
       {
       NeighborIdIterator itend = m_WorkingVD->NeighborIdsEnd(i);
       NeighborIdIterator it=m_WorkingVD->NeighborIdsBegin(i);
       bool bnd = 0;
+      // and any adjacent region is homogeneous
       while((it != itend) && (!bnd))
         {
         bnd = (m_Label[*it] == 1);
         ++it;
         }
+      // then this must be a boundary region
       if(bnd)
         {
         m_Label[i] = 2;
@@ -402,6 +406,18 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   this->ClassifyDiagram();
   this->GenerateAddingSeeds();
   m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
+
+  if (m_InteractiveSegmentation)
+    {
+    if(m_OutputBoundary)
+      {
+      this->MakeSegmentBoundary();
+      }
+    else
+      {
+      this->MakeSegmentObject();
+      }
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -412,26 +428,36 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   bool ok = 1;
   if(m_Steps == 0)
     {
-    RunSegmentOneStep();
+    unsigned long count=1;
+    this->RunSegmentOneStep();
+    // guess at a progress
+    this->UpdateProgress(static_cast<float>(count)
+                   / static_cast<float>(NumericTraits<unsigned long>::max()));
     if(m_NumberOfBoundary == 0)
       {
       ok=0;
       }
     while( (m_NumberOfSeedsToAdded != 0) && ok)
       {
+      count++;
       m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded,m_SeedsToAdded.begin());
       m_LastStepSeeds = m_NumberOfSeeds;
       m_NumberOfSeeds += m_NumberOfSeedsToAdded;
-      RunSegmentOneStep();
+      this->RunSegmentOneStep();
+      // guess at a progress
+      this->UpdateProgress(static_cast<float>(count)
+                    / static_cast<float>(NumericTraits<unsigned long>::max()));
       }
     }
   else if(m_Steps == 1)
     {
-    RunSegmentOneStep();
+    this->RunSegmentOneStep();
+    this->UpdateProgress(1.0);
     }
   else
     {
-    RunSegmentOneStep();
+    this->RunSegmentOneStep();
+    this->UpdateProgress(1.0/static_cast<float>(m_Steps));
     if(m_NumberOfBoundary == 0)
       {
       ok=0;
@@ -442,8 +468,9 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
       m_LastStepSeeds = m_NumberOfSeeds;
       m_NumberOfSeeds += m_NumberOfSeedsToAdded;
-      RunSegmentOneStep();
+      this->RunSegmentOneStep();
       i++;
+      this->UpdateProgress(static_cast<float>(i)/static_cast<float>(m_Steps));
       }
     }   
 }
@@ -476,6 +503,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     {
     this->MakeSegmentObject();
     }
+
 }
 
 template <class TInputImage, class TOutputImage>
