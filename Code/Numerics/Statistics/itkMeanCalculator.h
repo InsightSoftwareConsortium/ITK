@@ -32,7 +32,7 @@ namespace itk{
  * the GenerateData method to run the alogithm.
  *
  * The return value that the GetOutput method 
- * \f$ = \frac{1}{n}\sum^{n}_{i=1} \f$ where \f$n\f$ is the
+ * \f$ = \frac{1}{n}\sum^{n}_{i=1}x_{i}\f$ where \f$n\f$ is the
  * number of measurement vectors in the target 
  *
  */
