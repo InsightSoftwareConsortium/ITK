@@ -16,7 +16,7 @@
 =========================================================================*/
 #ifndef _itkHardConnectedComponentImageFilter_txx
 #define _itkHardConnectedComponentImageFilter_txx
-
+#include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk
