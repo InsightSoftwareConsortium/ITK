@@ -165,8 +165,8 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Finally, we connect the adaptor as the input to the rescaler and invoke the
-//  \code{Update()} method on the writer.
+//  Now we connect the adaptor as the input to the rescaler and set the
+//  parameters for the intensity rescaling.
 //
 //  Software Guide : EndLatex 
 
@@ -176,7 +176,27 @@ int main( int argc, char *argv[] )
 
   rescaler->SetInput( adaptor );
   writer->SetInput( rescaler->GetOutput() );
-  writer->Update();
+// Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//
+//  Finally, we invoke the \code{Update()} method on the writer and take
+//  precaucions for catching any exception that may eventually be thrown during
+//  the execution of the pipeline. 
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception caught " << excp << std::endl;
+    return 1;
+    }
 // Software Guide : EndCodeSnippet
 
 
