@@ -40,6 +40,11 @@ IF(UNIX)
   )
 ENDIF(UNIX)
 
+IF(FEM_VISUALIZATION)
+# Define the macro that includes all the required functions and include MFC support
+ADD_DEFINITIONS( -DFEM_BUILD_VISUALIZATION /D "_AFXDLL" )
+ENDIF(FEM_VISUALIZATION)
+
 #ADD_TEST(itkFEMElementTestMenu itkFEMTests itkFEMElementTestMenu)
 
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
