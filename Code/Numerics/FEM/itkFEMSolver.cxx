@@ -105,7 +105,7 @@ void Solver::Read(std::istream& f) {
   // arrays in solver object.
   ReadInfoType info(&this->node,&this->el,&this->mat);
 
-  FEMLightObject::Pointer o=0;
+  FEMLightObject::Pointer o;
   /* then we start reading objects from stream */
   do
   {

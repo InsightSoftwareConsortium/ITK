@@ -231,13 +231,13 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
   Float Glimit=100.0;
   Float Tiny=1.e-20;
   
-  Float ax=0.1, bx=1.0,cx=1.1;
+  Float ax, bx,cx;
   ax=0.0; bx=1.; cx=2.0;
   Float fc=0.0;
   Float fa=fabs(EvaluateResidual(ax));
   Float fb=fabs(EvaluateResidual(bx));
   
-  Float ulim=1.0,u=1.0,r=1.0,q=1.0,fu=1.0,dum=1.0;
+  Float ulim,u,r,q,fu,dum;
 
   if ( fb > fa ) 
   {
@@ -250,52 +250,57 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
 
   
   while (fb > fc  /*&& fabs(ax) < 3. && fabs(bx) < 3. && fabs(cx) < 3.*/)
-  {
+    {
     r=(bx-ax)*(fb-fc);
     q=(bx-cx)*(fb-fa);
-  Float denom=(2.0*GSSign(GSMax(fabs(q-r),Tiny),q-r));
+    Float denom=(2.0*GSSign(GSMax(fabs(q-r),Tiny),q-r));
     u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
-    {
+      {
       fu=fabs(EvaluateResidual(u));
       if (fu < fc)
-      {
+        {
         ax=bx;
         bx=u;
-        fa=fb;
-        fb=fu;
         *a=ax; *b=bx; *c=cx;
-    return;
-      } else if (fu > fb) {
+        return;
+        }
+      else if (fu > fb)
+        {
         cx=u;
-        fc=fu;
-    *a=ax; *b=bx; *c=cx;
-    return;
-      }
+        *a=ax; *b=bx; *c=cx;
+        return;
+        }
       
         u=cx+Gold*(cx-bx);
         fu=fabs(EvaluateResidual(u));
-      
-    } else if ( (cx-u)*(u-ulim) > 0.0) {
+        
+      }
+    else if ( (cx-u)*(u-ulim) > 0.0)
+      {
       fu=fabs(EvaluateResidual(u));
       if (fu < fc)
-      {
+        {
         bx=cx; cx=u; u=cx+Gold*(cx-bx);
         fb=fc; fc=fu; fu=fabs(EvaluateResidual(u));
+        }
+      
       }
-
-    } else if ( (u-ulim)*(ulim-cx) >= 0.0) {
+    else if ( (u-ulim)*(ulim-cx) >= 0.0)
+      {
       u=ulim;
       fu=fabs(EvaluateResidual(u));
-    } else {
+      }
+    else
+      {
       u=cx+Gold*(cx-bx);
       fu=fabs(EvaluateResidual(u));
-    }
+      }
     
-      ax=bx; bx=cx; cx=u;
-      fa=fb; fb=fc; fc=fu;
-
+    ax=bx; bx=cx; cx=u;
+    fa=fb; fb=fc; fc=fu;
+    
   }
 
   if ( fabs(ax) > 1.e3  || fabs(bx) > 1.e3 || fabs(cx) > 1.e3)
@@ -398,9 +403,9 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
 
 
   FindBracketingTriplet(&ax, &bx, &cx);
-  Float xmin=1.0,fmin=1.0;
+  Float xmin,fmin;
   //if (fb!=0.0)
-  Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0;
+  Float f,f2,x0,x1,x2,x3;
 
   Float R=0.6180339;
   Float C=(1.0-R);
@@ -445,19 +450,19 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
 void SolverCrankNicolson::SetEnergyToMin(Float xmin)
 {
   for (unsigned int j=0; j<NGFN; j++)
-  {
+    {
     Float SolVal=0.0;
-  Float FVal=0.0;
+    Float FVal=0.0;
 #ifdef LOCE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex)
-    +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);   
+      +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);   
   
-  FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex)
-    +(1.-xmin)*m_ls->GetVectorValue(j,ForceTMinus1Index);
+    FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex)
+      +(1.-xmin)*m_ls->GetVectorValue(j,ForceTMinus1Index);
 #endif
 #ifdef TOTE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex);// FOR TOT E
-  FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex);
+    FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex);
 #endif 
     m_ls->SetSolutionValue(j,SolVal,SolutionTIndex);
     m_ls->SetVectorValue(j,FVal,ForceTIndex);
@@ -471,30 +476,30 @@ Element::Float SolverCrankNicolson::GetDeformationEnergy(Float t)
   Float iSolVal=0.0,jSolVal=0.0;
 
   for (unsigned int i=0; i<NGFN; i++)
-  {
+    {
 // forming  U^T F
 #ifdef LOCE
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
-       +(1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
+      +(1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
 #endif
 #ifdef TOTE
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
-        +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
+      +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
 #endif
 // forming U^T K U
     Float TempRowVal=0.0;
     for (unsigned int j=0; j<NGFN; j++)
-    {
+      {
 #ifdef LOCE
       jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
-         +(1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
+        +(1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
 #endif
 #ifdef TOTE
       jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
-       +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
+        +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
 #endif
       TempRowVal+=m_ls->GetMatrixValue(i,j,SumMatrixIndex)*jSolVal;
-    }
+      }
     DeformationEnergy+=iSolVal*TempRowVal;
   }
   return DeformationEnergy;

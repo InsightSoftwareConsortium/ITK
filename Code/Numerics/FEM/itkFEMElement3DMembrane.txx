@@ -43,7 +43,7 @@ void
 Element3DMembrane<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
-  unsigned int p=0;
+  unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
   B.resize(9,3*Nn); //  note minor difference from 2D membrane
   
