@@ -27,3 +27,6 @@ TARGET_LINK_LIBRARIES(ImageAdaptor1 ITKCommon ITKIO)
 ADD_EXECUTABLE(ImageAdaptor2 ImageAdaptor2.cxx )
 TARGET_LINK_LIBRARIES(ImageAdaptor2 ITKCommon ITKIO)
 
+ADD_EXECUTABLE(ImageAdaptor3 ImageAdaptor3.cxx )
+TARGET_LINK_LIBRARIES(ImageAdaptor3 ITKCommon ITKIO)
+
