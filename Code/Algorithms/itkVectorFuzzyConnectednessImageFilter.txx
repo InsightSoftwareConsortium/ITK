@@ -206,8 +206,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   for(int i = 0;i<static_cast<int>(VectorDimension);i++)
     {sum[i] = 0;}
 
-  const InputImageType::RegionType RegionIN = m_InputImage->GetRequestedRegion();
-  ImageRegionConstIterator<TInputImage> it(this->m_InputImage, RegionIN);
+  ImageRegionConstIterator<TInputImage> it(m_InputImage, m_InputImage->GetRequestedRegion());
   it.GoToBegin();
   while(!it.IsAtEnd())
     {
@@ -237,7 +236,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   double count_obj,count_nonobj,result;
   itk::Vector<double,VectorDimension> sum_vector;
 
-  itk::ConstNeighborhoodIterator<InputImageType>::RadiusType radius;
+  typename itk::ConstNeighborhoodIterator<InputImageType>::RadiusType radius;
   radius.Fill(0); 
   radius[0] = 1; // radius along x
   radius[1] = 1; // radius along y
@@ -356,8 +355,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_FilterImage->SetSpacing(m_InputImage->GetSpacing());
   m_FilterImage->Allocate();
 
-  const InputImageType::RegionType RegionIN = m_InputImage->GetRequestedRegion();
-  ImageRegionConstIterator <InputImageType> it(m_InputImage,RegionIN);
+  ImageRegionConstIterator <InputImageType> it(m_InputImage,m_InputImage->GetRequestedRegion());
   ImageRegionIterator <TInputImage> itf(m_FilterImage,region);
 
   for(i = 0;i<MAX_SCALE;i++)
@@ -783,7 +781,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   while(!itS.IsAtEnd())
     {
       if(m_NumberOfObjects == 1)
-        {          
+        {
           if( fuzzyScene[0][j] >= (MAX_AFFINITY * m_Threshold))
             {itS.Set(scale);}
           else
