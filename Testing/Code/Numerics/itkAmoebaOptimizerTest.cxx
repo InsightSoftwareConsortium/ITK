@@ -20,7 +20,8 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-
+#include <vnl/vnl_math.h>
+#include <iostream>
 
 
 
@@ -89,6 +90,12 @@ public:
     std::cout << m_Gradient << std::endl;
     return m_Gradient;
   }
+  
+  const ParametersType & GetParameters(void) const 
+  { 
+    return m_Parameters;
+  }
+
 
 private:
   MatrixType        m_A;
@@ -128,15 +135,47 @@ int main()
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
 
-  initialValue[0] =  1;             // We start not so far from  | 2 -2 |
-  initialValue[1] = -1;
+  initialValue[0] =  100;             // We start not so far from  | 2 -2 |
+  initialValue[1] = -100;
 
-  itkOptimizer->SetInitialPosition( initialValue );
+  OptimizerType::ParametersType currentValue(2);
+
+  currentValue = initialValue;
+
+  itkOptimizer->SetInitialPosition( currentValue );
   itkOptimizer->StartOptimization();
 
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
 
-  return 0;
+  //
+  // check results to see if it is within range
+  //
+
+  OptimizerType::ParametersType finalPosition;
+  finalPosition = costFunction->GetParameters();
+
+  double trueParameters[2] = { 2, -2 };
+  bool pass = true;
+
+  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl; 
+  std::cout << "Final position = " << finalPosition     << std::endl;
+  
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      pass = false;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
+
+
 
 }
 
