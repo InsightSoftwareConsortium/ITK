@@ -122,9 +122,8 @@ if { $Model == "Nightly" } \
 
   set t [GetNightlySeconds]
 
-  set Date [clock format $t -format "-D %Y-%m-%d 3:00:00 EST"]
-  puts $Date
-  set UpdateCommand "$UpdateCommand $Date"
+  set Date [clock format $t -format "%Y-%m-%d 3:00:00 EST"]
+  set UpdateCommand "$UpdateCommand -D \"$Date\""
   
 }
   
