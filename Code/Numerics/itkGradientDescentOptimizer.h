@@ -52,12 +52,10 @@ namespace itk
  * GradientDescentOptimizer implements a simple gradient descent optimizer.
  * At each iteration the current position is updated according to
  *
- * p(n+1) = p(n) + learningRate * d f(p(n)) / d p(n)
- *
  * \f[ 
  *        p_{n+1} = p_n 
  *                + \mbox{learningRate} 
-                  * \frac{\partial f(p_n) }{\partial p_n} 
+                  \, \frac{\partial f(p_n) }{\partial p_n} 
  * \f]
  *
  * The learning rate is a fixed scalar defined via SetLearningRate().
@@ -160,9 +158,14 @@ public:
               { m_Maximize = true; }
 
   /**
+   * Get the Maximize flag
+   */
+  itkGetMacro( Maximize, bool );
+
+  /**
    * Advance one step following the gradient direction
    */
-  void    AdvanceOneStep( void );
+  virtual void AdvanceOneStep( void );
 
   /**
    * Start Optimization
@@ -222,16 +225,17 @@ protected:
   GradientDescentOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-private:
-
+  // made protected so subclass can access
   DerivativeType                m_Gradient; 
   ParametersType                m_Scale;
+  bool                          m_Maximize;
+  double                        m_LearningRate;
+
+private:
 
   bool                          m_Stop;
-  bool                          m_Maximize;
   double                        m_Value;
   StopConditionType             m_StopCondition;
-  double                        m_LearningRate;
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
 
