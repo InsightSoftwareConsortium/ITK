@@ -18,16 +18,34 @@
 
 #include "itkAffineTransform.h"
 #include "itkImage.h"
+#include "vnl/vnl_vector_fixed.h"
 
-int
+typedef  itk::Matrix<double,2,2>   MatrixType;
+typedef  itk::Vector<double,2>     VectorType;
+
+
+void PrintVector( const VectorType & v )
+{
+  for( unsigned int i=0; i<VectorType::VectorDimension; i++)
+  {
+    std::cout << v[i] << ", ";
+  }
+  std::cout << std::endl;
+}
+
+
 main(
     int argc,
     char *argv[])
 {
+
+
     int any = 0;       // Any errors detected in testing?
-    vnl_matrix_fixed<double,2,2> matrix2;
-    vnl_matrix_fixed<double,2,2> inverse2;
-    vnl_vector_fixed<double,2>   vector2;
+
+    MatrixType                   matrix2;
+    MatrixType                   inverse2;
+    VectorType                   vector2;
+
     int i, j;
 
     /* FIXME: This code exercises most of the methods but doesn't
@@ -43,8 +61,9 @@ main(
     std::cout << "Matrix from instantiating an identity transform:"
               << std::endl << matrix2;
     std::cout << "Vector from instantiating an identity transform:"
-              << std::endl << vector2 << std::endl;
-
+              << std::endl;
+    PrintVector( vector2 );
+    
     /* Create and show a simple 2D transform from given parameters */
     matrix2[0][0] = 1;
     matrix2[0][1] = 2;
@@ -83,7 +102,8 @@ main(
     std::cout << "Setting the matrix in an existing transform:"
               << std::endl << matrix2;
     std::cout << "Setting the offset in an existing  transform:"
-              << std::endl << vector2 << std::endl;
+              << std::endl;
+    PrintVector( vector2 );
 
     /* Try composition of two transformations */
     aff2.Compose(aff2);
@@ -91,7 +111,7 @@ main(
               << std::endl << aff2;
 
     /* Compose with a translation */
-    vnl_vector_fixed<double, 2> trans;
+    VectorType trans;
     trans[0] = 1;
     trans[1] = 2;
     aff2.Translate(trans);
@@ -104,7 +124,7 @@ main(
               << std::endl << aff2;
 
     /* Compose with an anisotropic scaling */
-    vnl_vector_fixed<double, 2> scale;
+    VectorType scale;
     scale[0] = .3;
     scale[1] = .2;
     aff2.Scale(scale);
@@ -182,7 +202,7 @@ main(
 
     /* Create a 3D transform and rotate in 3D */
     itk::AffineTransform<double,3> aff3;
-    vnl_vector_fixed<double,3> axis;
+    itk::Vector<double,3> axis;
     axis[0] = .707;
     axis[1] = .707;
     axis[2] = .707;
