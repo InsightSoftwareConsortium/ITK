@@ -101,6 +101,7 @@ ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterT
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
 ADD_TEST(itkSinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSinImageFilterAndAdaptorTest)
 ADD_TEST(itkSobelEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkSobelEdgeDetectionImageFilterTest)
+ADD_TEST(itkSmoothingRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkSmoothingRecursiveGaussianImageFilterTest)
 ADD_TEST(itkSparseFieldLayerTest ${BASIC_FILTERS_TESTS} itkSparseFieldLayerTest)
 ADD_TEST(itkSpatialFunctionImageEvaluatorFilterTest ${BASIC_FILTERS_TESTS} itkSpatialFunctionImageEvaluatorFilterTest)
 ADD_TEST(itkSqrtImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSqrtImageFilterAndAdaptorTest)
@@ -325,6 +326,7 @@ itkSigmoidImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
+itkSmoothingRecursiveGaussianImageFilterTest.cxx
 itkSparseFieldLayerTest.cxx
 itkSpatialFunctionImageEvaluatorFilterTest.cxx
 itkSqrtImageFilterAndAdaptorTest.cxx
