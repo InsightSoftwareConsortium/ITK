@@ -318,10 +318,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   IndexType extend = {0, 0, 0};
   double xs, ys, zs; 
   InputPointType x, y, z, f, n, extends;
-  InputPointType* y_pt;
-  InputPointType* z_pt;
-  y_pt = &y;
-  z_pt = &z;
 
   InputPointsContainerPointer      Points = m_Locations->GetPoints();
   InputPointsContainerIterator     points = Points->Begin();
@@ -337,8 +333,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointDataContainerPointer   myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator  pointstatus = myPointData->Begin();
-
-  int slicediv = this->m_YResolution; 
 
   i = 0;
   
@@ -393,10 +387,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   IndexType extend = {0, 0, 0};
   double max, fo, t, xs, ys, zs; 
   InputPointType x, y, z, f, n, extends;
-  InputPointType* y_pt;
-  InputPointType* z_pt;
-  y_pt = &y;
-  z_pt = &z;
 
   InputPointsContainerPointer  Points = m_Locations->GetPoints();
   InputPointsContainerIterator points = Points->Begin();
@@ -412,8 +402,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator pointstatus = myPointData->Begin();
-
-  int slicediv = this->m_YResolution; 
 
   i = 0;
   
@@ -510,17 +498,13 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
-  int i, p, l=0;
+  int i;
   unsigned short label; 
   IndexType coord = {0, 0, 0};
   IndexType extend = {0, 0, 0};
   double max, fo, t, xs, ys, zs; 
 
   InputPointType x, y, z, f, n, extends;
-  InputPointType* y_pt;
-  InputPointType* z_pt;
-  y_pt = &y;
-  z_pt = &z;
 
   InputPointsContainerPointer  Points = m_Locations->GetPoints();
   InputPointsContainerIterator points = Points->Begin();
@@ -536,8 +520,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator pointstatus = myPointData->Begin();
-
-  int slicediv = this->m_YResolution; 
 
   i = 0;
   
@@ -614,7 +596,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     extend[2] = (int) x[2];
 
     f = normals.Value();
-    p = -1;
     max = abs(f[0]);
 
   //---------------------------------------------------------------------
@@ -682,7 +663,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   int i; 
   const unsigned long *tp;
   typename TriCell::Pointer testCell = TriCell::New();
-  int npts = 3;
 
   InputCellsContainerPointer  myCells = m_Locations->GetCells();
   InputCellsContainerIterator cells = myCells->Begin();
@@ -796,11 +776,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
   InputPointType x, y, z, d;
-  InputPointType* x_pt;
-//  InputPointType* y_pt; 
-  x_pt = &x;
-//  const unsigned long *tp;
-
   unsigned long tripoints[3];
    
   InputPointsContainerPointer  myForces = m_Forces->GetPoints();
@@ -1256,16 +1231,9 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
-  int i, j, k, node, slice/*, xlowlimit, xhighlimit, ylowlimit, yhighlimit*/;
-  double dis;
   IndexType coord = {0, 0, 0};
 //  float grad[3];
   InputPointType v1, v2;
-  InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  v1_pt = &v1;
-  v2_pt = &v2;
-  int slicediv = this->m_YResolution; 
 
   typename TInputMesh::PointType s, d;
 
@@ -1284,13 +1252,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   s[0] = 0;
   s[1] = 0;
   s[2] = 0;
-
-  i = 0;
-  j = 0;
-  k = 0;
-  dis = 0;
-  node = 0;
-  slice = 0;
 
 /////////////////////
 // new gradient fit method testing
@@ -1420,16 +1381,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::NodesRearrange()
 {
   int i, j, k, new_node=1;
-  double dis, l1, l2, *d_ptr, d;
+  double dis, l1, l2, d;
   double* length;
   InputPointType v1, v2, v3, v4, v_southpole, v_northpole;
-  InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  InputPointType* v3_pt;
-  d_ptr = &d;
-  v1_pt = &v1;
-  v2_pt = &v2;
-  v3_pt = &v3;
 
   typename TInputMesh::PointType s, s1, d1, d2;
 

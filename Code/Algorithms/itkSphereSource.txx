@@ -71,13 +71,12 @@ void
 SphereSource<TOutputMesh>
 ::GenerateData()
 {
-  unsigned long i, j, jn, p, numpts, numcells;
+  unsigned long i, j, jn, p, numpts;
   double ustep, vstep, ubeg, vbeg, u, v; 
   int signu, signv; 
 
 // calculate the number os cells and points
   numpts = m_ResolutionX*m_ResolutionY + 2; 
-  numcells = 2 * (m_ResolutionX-1) *m_ResolutionY + 2*m_ResolutionY; 
 
 // calculate the steps using resolution
   ustep = vnl_math::pi / (m_ResolutionX+1); 
