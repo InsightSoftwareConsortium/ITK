@@ -93,7 +93,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  GetMapper()->GetTransformation()->SetParameters( parameters );
+  GetMapper()->GetTransform()->SetParameters( parameters );
 
   double sab = 0.0;
   double saa = 0.0;

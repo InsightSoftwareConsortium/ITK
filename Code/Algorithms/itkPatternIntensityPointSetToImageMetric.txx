@@ -103,7 +103,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
   unsigned int  count = 0;
 
   MapperPointer mapper = Superclass::GetMapper();
-  mapper->GetTransformation()->SetParameters( parameters );
+  mapper->GetTransform()->SetParameters( parameters );
 
   double sab = 0.0;
   double saa = 0.0;

@@ -55,7 +55,7 @@ namespace itk
  *
  */
 
-template <class TDomain, class TTransformation> 
+template <class TDomain, class TTransform> 
 class ITK_EXPORT RegistrationMapper : public Object 
 
 {
@@ -84,9 +84,9 @@ public:
 
 
   /**
-   *  Type of the Transformation
+   *  Type of the Transform
    */
-  typedef TTransformation       TransformationType;
+  typedef TTransform       TransformType;
   
 
   /**
@@ -102,9 +102,9 @@ public:
 
 
   /**
-   *  Pointer type for the Transformation
+   *  Pointer type for the Transform
    */
-  typedef typename TransformationType::Pointer TransformationPointer;
+  typedef typename TransformType::Pointer TransformPointer;
 
 
   /** 
@@ -131,14 +131,14 @@ public:
   itkGetConstObjectMacro( Domain, DomainType);
 
   /**
-   * Connect the Transformation
+   * Connect the Transform
    */
-  itkSetObjectMacro( Transformation,TransformationType);
+  itkSetObjectMacro( Transform,TransformType);
 
   /**
-   * Get the Transformation
+   * Get the Transform
    */
-  itkGetObjectMacro( Transformation,TransformationType);
+  itkGetObjectMacro( Transform,TransformType);
   
 
 
@@ -153,7 +153,7 @@ protected:
 private:
 
   DomainConstPointer       m_Domain;
-  TransformationPointer    m_Transformation;
+  TransformPointer         m_Transform;
 
 };
 

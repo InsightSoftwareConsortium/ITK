@@ -111,7 +111,7 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTa
   }
 
   typename TransformationType::Pointer transformation =
-            this->GetMetric()->GetMapper()->GetTransformation();
+            this->GetMetric()->GetMapper()->GetTransform();
 
 
   typename OptimizerType::Pointer optimizer;

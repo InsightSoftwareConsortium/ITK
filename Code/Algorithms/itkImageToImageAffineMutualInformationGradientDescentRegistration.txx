@@ -141,7 +141,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 ::StartRegistration( void )
 {
 
-  this->GetMetric()->GetMapper()->GetTransformation()->
+  this->GetMetric()->GetMapper()->GetTransform()->
    SetTranslationScale( m_TranslationScale );
 
   typename OptimizerType::Pointer optimizer;

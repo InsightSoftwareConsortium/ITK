@@ -49,12 +49,12 @@ namespace itk
 /**
  * Constructor
  */
-template <class TDomain, class TTransformation> 
-RegistrationMapper<TDomain,TTransformation>
+template <class TDomain, class TTransform> 
+RegistrationMapper<TDomain,TTransform>
 ::RegistrationMapper()
 {
   m_Domain         = DomainType::New();
-  m_Transformation = TransformationType::New();
+  m_Transform      = TransformType::New();
 }
 
 

@@ -91,7 +91,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  GetMapper()->GetTransformation()->SetParameters( parameters );
+  GetMapper()->GetTransform()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
   {

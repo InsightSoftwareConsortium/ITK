@@ -148,7 +148,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
     }
 
   // make sure the mapper has the current parameters
-  mapper->GetTransformation()->SetParameters( parameters );
+  mapper->GetTransform()->SetParameters( parameters );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -241,7 +241,7 @@ DerivativeType& derivative)
     }
 
   // make sure the mapper has the current parameters
-  mapper->GetTransformation()->SetParameters( parameters );
+  mapper->GetTransform()->SetParameters( parameters );
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( mapper->GetDomain() );
@@ -400,7 +400,7 @@ DerivativeType& derivatives )
   typename MapperType::Pointer mapper = GetMapper();
   typename ReferenceType::ConstPointer reference = mapper->GetDomain();
 
-  refPoint = mapper->GetTransformation()->Transform( point );
+  refPoint = mapper->GetTransform()->Transform( point );
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
@@ -414,7 +414,7 @@ DerivativeType& derivatives )
     imageDerivatives[j] = m_DerivativeCalculator->Evaluate( refIndex, j );
     }
 
-  derivatives.Set_vnl_vector( mapper->GetTransformation()->
+  derivatives.Set_vnl_vector( mapper->GetTransform()->
    GetJacobian( point ).GetTranspose() * imageDerivatives.Get_vnl_vector() );
 
 }

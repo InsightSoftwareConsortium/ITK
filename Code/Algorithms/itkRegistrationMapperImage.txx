@@ -70,7 +70,7 @@ RegistrationMapperImage<TImage,TTransformation>
 
   typename Superclass::TransformationType::Pointer transformation;
 
-  transformation = GetTransformation();
+  transformation = GetTransform();
 
   PointType mappedPoint = transformation->Transform( point );
 
