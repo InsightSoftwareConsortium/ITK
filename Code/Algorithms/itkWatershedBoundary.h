@@ -133,9 +133,9 @@ public:
     ScalarType value;
   };
   
-  /** The face data structure.  This is just an itk::Image of face pixel
+  /** The face data structure.  This is just an Image of face pixel
       types. */
-  typedef itk::Image<face_pixel_t, Dimension> face_t;
+  typedef Image<face_pixel_t, Dimension> face_t;
 
   /** A hash table holding flat region data structures.   */
   typedef itk::hash_map<unsigned long, flat_region_t,
@@ -239,7 +239,7 @@ protected:
   bool VerifyRequestedRegion() { return true; }
   void SetRequestedRegionToLargestPossibleRegion () {}
   bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
-  void SetRequestedRegion (itk::DataObject *) {}
+  void SetRequestedRegion (DataObject *) {}
 
 };
 }// end namespace watershed
