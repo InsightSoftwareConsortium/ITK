@@ -68,7 +68,10 @@ EllipseSpatialObject< TDimension >
     double r = 0;
     for(unsigned int i=0;i<TDimension;i++)
       {
-      r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
+      if(m_Radius[i]!=0.0)
+        {
+        r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
+        }
       }
   
     if(r<1)
