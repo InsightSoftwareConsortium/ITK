@@ -15,7 +15,7 @@
 #ifndef _itkLinearInterpolateImageFunction_txx
 #define _itkLinearInterpolateImageFunction_txx
 
-#include <iostream>          
+#include <iostream>
 
 #include "itkPixelTraits.h"
 #include "itkIndex.h"
@@ -69,7 +69,7 @@ const IndexType& index )
   /* Check if indices are within image; immediately return 0 if not */
   for( int j = 0; j < ImageDimension; j++ )
     {
-    if( (unsigned long)index[j] >= m_ImageSize[j] - 1 )
+    if( (unsigned long)index[j] >= m_ImageSize[j] )
       {
         return 0;
       }
@@ -93,12 +93,12 @@ double * dblIndex ) const
 
   /* Prepare coordinates; check whether inside image or not.  */
 
-  for (int j = 0; j < ImageDimension; j++) 
+  for (int j = 0; j < ImageDimension; j++)
   {
     m_Base[j]  = (long)floor(dblIndex[j]);
     m_Alpha[j] = dblIndex[j] - m_Base[j];
   }
-  
+
   return EvaluateFromBaseAndAlpha();
 
 }
@@ -117,12 +117,12 @@ const PointType & point ) const
   /* Prepare coordinates; check whether inside image or not. */
 
 
-  for (int j = 0; j < ImageDimension; j++) 
+  for (int j = 0; j < ImageDimension; j++)
   {
     m_Base[j]  = (long)floor(point[j]);
     m_Alpha[j] = point[j] - m_Base[j];
   }
-  
+
   return EvaluateFromBaseAndAlpha();
 
 }
@@ -169,7 +169,7 @@ LinearInterpolateImageFunction<TInputImage>
         if (upper & 1) {
           if ( m_Base[j] >= 0 &&
                (unsigned long)m_Base[j] > m_ImageSize[j] - 2 ) {
-            alf = 0.0; 
+            alf = 0.0;
             break; }
           else {
             neighIndex[j] += 1;
@@ -185,7 +185,7 @@ LinearInterpolateImageFunction<TInputImage>
         upper >>= 1;
       }
 
-      value += alf * (double)image->GetPixel( neighIndex ); 
+      value += alf * (double)image->GetPixel( neighIndex );
     }
   }
 
