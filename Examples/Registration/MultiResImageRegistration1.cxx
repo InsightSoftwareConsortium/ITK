@@ -52,15 +52,14 @@
 
 // Software Guide : BeginLatex
 //
-// \code{MultiResolutionImageRegistrationMethod} solves a registration
-// problem in a coarse to fine manner as illustrated in Figure
-// \ref{fig:MultiResRegistrationConcept}. The registration is first 
-// performed at the coarsest level using the images for the first
-// level of the fixed and moving image pyramids. The transform parameters
-// determined by the registration is then used to initialize registration
-// at the next finer level using images from the second level of the
-// pyramids. This process is repeated as we work down to the last level
-// of the pyramids.
+// \code{MultiResolutionImageRegistrationMethod} solves a registration problem
+// in a coarse to fine manner as illustrated in Figure
+// \ref{fig:MultiResRegistrationConcept}. The registration is first performed
+// at the coarsest level using the images for the first level of the fixed and
+// moving image pyramids. The transform parameters determined by the
+// registration are then used to initialize registration at the next finer
+// level using images from the second level of the pyramids. This process is
+// repeated as we work down to the last level of the pyramids.
 //
 // \begin{figure}
 // \center
@@ -74,29 +73,26 @@
 
 // Software Guide : BeginLatex
 //
-// In a typical registration scenario, a user will typically want
-// to tweak component settings or even swap out components between
-// multi-resolution levels. For example, when optimizing at a 
-// coarse, it may be possible to take more aggressive step sizes
-// and have a more relaxed convergence criterion. Another scheme,
-// may be use a simple translation transform for the initial
-// coarse registration and upgrade to an affine transform
-// at the finer levels.
+// In a typical registration scenario, a user will typically want to tweak
+// component settings or even swap out components between multi-resolution
+// levels. For example, when optimizing at a coarse, it may be possible to take
+// more aggressive step sizes and have a more relaxed convergence criterion.
+// Another scheme, may be to use a simple translation transform for the initial
+// coarse registration and upgrade to an affine transform at the finer levels.
 //
-// Tweaking of the components between resolution level can
-// be done using ITK's implementation of the \emph{Observer/Command}
-// pattern. Before beginning registration at each resolution level,
-// \code{MultiResolutionImageRegistrationMethod} invoke a 
-// \code{itk::IterationEvent}. The registration components can
-// be changed by implementing an \code{itk::Command} which is
-// registered to respond to the event. A brief description of 
-// event and commands was previously presented in section 
-// \ref{sec:MonitoringImageRegistration}.
+// Tweaking of the components between resolution levels can be done using ITK's
+// implementation of the \emph{Observer/Command} pattern. Before beginning
+// registration at each resolution level,
+// \code{MultiResolutionImageRegistrationMethod} invoke a
+// \code{itk::IterationEvent}. The registration components can be changed by
+// implementing an \code{itk::Command} which is registered to respond to the
+// event. A brief description of event and commands was previously presented in
+// section \ref{sec:MonitoringImageRegistration}.
 //
-// We will illustrate this mechanism in the example by changing
-// the parameters of the optimizer between each resolution level
-// by way of a simple interface command. First, the header file
-// of the \code{Command} class needs to be included.
+// We will illustrate this mechanism in the following example by changing the
+// parameters of the optimizer between each resolution level by way of a simple
+// interface command. First, the header file of the \code{Command} class needs
+// to be included.
 //
 // Software Guide : EndLatex 
 
@@ -180,23 +176,28 @@ public:
 // Software Guide : BeginLatex
 //
 // We then convert the input object pointer to a \code{RegistrationPointer}.
-// Note that no error checking is done here to check if the 
+// Note that no error checking is done here to verify if the 
 // \code{dynamic\_cast} was successful since we know the actual object
 // is a multi-resolution registration method. 
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
     RegistrationPointer registration =
-                        dynamic_cast<RegistrationPointer>( object );
+                            dynamic_cast<RegistrationPointer>( object );
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// If this the first resolution level we set the maximum step length
-// (representing the first step size) and the minimum step length
-// (representing the convergence criterion) to large values.
-// At each subsequent resolution level, we will reduce these step
-// length by a factor of 10.
+// If this is the first resolution level we set the maximum step length
+// (representing the first step size) and the minimum step length (representing
+// the convergence criterion) to large values.  At each subsequent resolution
+// level, we will reduce the minimum step length by a factor of 10 in order to
+// allow the optimizer to focus in progressively smaller regions. The maximum
+// step length is set up to the current step length. In this way, when the
+// optimizer is reinitialized at the beginning of the registration process for
+// the next level, the step length will simply start with the last value used
+// for the previous level. This will guarantee the continuity on the path
+// followed by the optimizer through the parameter space.
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
@@ -211,10 +212,10 @@ public:
     else
       {
       optimizer->SetMaximumStepLength( 
-          0.1 * optimizer->GetMaximumStepLength() );
+                optimizer->GetCurrentStepLength() );
 
       optimizer->SetMinimumStepLength(
-          0.1 * optimizer->GetMinimumStepLength() );
+                optimizer->GetMinimumStepLength() / 10.0 );
       }
 
   }
@@ -222,9 +223,9 @@ public:
 
 // Software Guide : BeginLatex
 //
-// Another version of \code{Execute()} accepting a \code{const} input object
-// is also require since is defined as a pure virtual in the base class.
-// This version simply returns without taking any action.
+// Another version of \code{Execute()} accepting a \code{const} input object is
+// also required since this method is defined as pure virtual in the base
+// class.  This version simply returns without taking any action.
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
@@ -295,9 +296,9 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The fixed and moving image type are defined as with previous examples.
-  //  Due to recursive nature of which the downsampled images are computed
-  //  by the image pyramids, the output images are required to have
-  //  real pixel types. We declare this internal image type to be:
+  //  Due to the recursive nature of the process by which the downsampled
+  //  images are computed by the image pyramids, the output images are required
+  //  to have real pixel types. We declare this internal image type to be:
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -329,11 +330,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  // In the multi-resolution framework, a \code{MultiResolutionPyramidImageFilter}
-  // is used to create a pyramid of downsampled images. The size of each downsample image
-  // is specified by a user in the form of schedule of shrink factors. A description of
-  // the filter and multi-resolution schedules are described in detail in section
-  // \ref{sec:ImagePyramids}. For this example, we will simply use the default schedule. 
+  // In the multi-resolution framework, a
+  // \code{MultiResolutionPyramidImageFilter} is used to create a pyramid of
+  // downsampled images. The size of each downsample image is specified by the
+  // user in the form of schedule of shrink factors. A description of the
+  // filter and multi-resolution schedules are described in detail in section
+  // \ref{sec:ImagePyramids}. For this example, we will simply use the default
+  // schedule. 
   // 
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -346,12 +349,11 @@ int main( int argc, char **argv )
  
   // Software Guide: EndCodeSnippet
 
-  //  Software Guide : BeginLatex
+
   //
   //  All the components are instantiated using their \code{New()} method
   //  and connected to the registration object as in previous example.  
   //
-  //  Software Guide : EndLatex 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
@@ -379,6 +381,8 @@ int main( int argc, char **argv )
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
+
+
 
   //  Software Guide : BeginLatex
   //  
@@ -442,7 +446,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  One all the registration components are in place we can create
+  //  Once all the registration components are in place we can create
   //  an instance of our interface command and connect it to the
   //  registration object using the \code{AddObserver()} method.
   //
@@ -457,8 +461,11 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  We set the number of multi-resolution to 3 and trigger the registration
-  //  process by calling \code{StartRegistration()}.
+  //  We set the number of multi-resolution levels to 3 and trigger the
+  //  registration process by calling \code{StartRegistration()}.
+  //
+  //  \index{itk::MultiResolutionImageRegistrationMethod!SetNumberOfLevels()}
+  //  \index{itk::MultiResolutionImageRegistrationMethod!StartRegistration()}
   //
   //  Software Guide : EndLatex 
 
@@ -572,10 +579,10 @@ int main( int argc, char **argv )
   // \label{fig:MultiResImageRegistration1Output}
   // \end{figure}
   //
-  //  The result of the resampling the moving image is presented in the left
-  //  side of Figure \ref{fig:MultiResImageRegistration1Output}. The center and right
-  //  parts of the figure present a checkerboard composite of the fixed and
-  //  moving images before and after registration.
+  //  The result of resampling the moving image is presented in the left side
+  //  of Figure \ref{fig:MultiResImageRegistration1Output}. The center and
+  //  right parts of the figure present a checkerboard composite of the fixed
+  //  and moving images before and after registration.
   //
   //  Software Guide : EndLatex 
 
@@ -595,9 +602,11 @@ int main( int argc, char **argv )
   //  metric values computed as the optimizer searched the parameter space.
   //  From the trace, we can see that with the more aggressive optimization
   //  parameters we get quite close to the optimal value within 4 iterations
-  //  with the remaining iterations just doing fine adjustments. This is compare
-  //  to the single resolution example where 24 iterations were required as
-  //  more conservative optimization parameters had to be used.
+  //  with the remaining iterations just doing fine adjustments. It is
+  //  intersting to compare this results with the ones of the single resolution
+  //  example in section \ref{sec:MultiModalityRegistrationMattes} where 24
+  //  iterations were required as more conservative optimization parameters had
+  //  to be used.
   //
   //  Software Guide : EndLatex 
 
