@@ -28,9 +28,15 @@ ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS} itkAnalyzeImageIOTest)
 ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
-ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest)
-ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3)
-ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4)
+ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
+                           ${TEMP}/raw1.raw ${TEMP}/raw2.raw
+)
+ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3
+                           ${TEMP}/raw1.raw ${TEMP}/raw2.raw
+)
+ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
+                           ${TEMP}/bigendian.raw ${TEMP}/littleendian.raw
+)
 
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)

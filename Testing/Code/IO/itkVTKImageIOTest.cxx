@@ -21,9 +21,16 @@
 #include "itkImageFileReader.h"
 #include "itkVTKImageIO.h"
 
-int itkVTKImageIOTest(int, char* [] )
+int itkVTKImageIOTest(int argc, char* argv[] )
 {
   typedef itk::Image<float,2> FloatImageType;
+
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "  output1 output2 " << std::endl;
+    return 1;
+    }
 
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
@@ -47,11 +54,11 @@ int itkVTKImageIOTest(int, char* [] )
   itk::ImageFileWriter<FloatImageType>::Pointer writer;
   writer = itk::ImageFileWriter<FloatImageType>::New();
   writer->SetInput(random->GetOutput());
-  writer->SetFileName("junk.vtk");
+  writer->SetFileName(argv[1]);
   writer->SetImageIO(vtkIO);
   writer->Write();
 
-  if ( !vtkIO->CanReadFile("junk.vtk") )
+  if ( !vtkIO->CanReadFile(argv[1]) )
     {
     return 1;
     }
@@ -60,11 +67,11 @@ int itkVTKImageIOTest(int, char* [] )
   itk::ImageFileReader<FloatImageType>::Pointer reader;
   reader = itk::ImageFileReader<FloatImageType>::New();
   reader->SetImageIO(vtkIO);
-  reader->SetFileName("junk.vtk");
+  reader->SetFileName(argv[1]);
   reader->Update();
 
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName("junk2.vtk");
+  writer->SetFileName(argv[2]);
   writer->Write();
 
   return EXIT_SUCCESS;

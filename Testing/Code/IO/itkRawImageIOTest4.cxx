@@ -109,7 +109,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
 
 
-int itkRawImageIOTest4(int, char*[])
+int itkRawImageIOTest4(int argc, char*argv[])
 {
 
   typedef unsigned short PixelType;
@@ -117,9 +117,6 @@ int itkRawImageIOTest4(int, char*[])
 
   typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-
-  char filenameBigEndian[]     = "testBinaryBigEndian.raw";
-  char filenameLittleEndian[]  = "testBinaryLittleEndian.raw";
 
   unsigned int dims[ImageDimension] = { 5, 5 };
 
@@ -129,15 +126,19 @@ int itkRawImageIOTest4(int, char*[])
   PixelType value = itk::NumericTraits< PixelType >::Zero;
   unsigned int numberOfPixels = dims[0] * dims[1];
 
-
+  if(argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
+    return EXIT_FAILURE;
+    }
 
 
   // Create the BigEndian binary file
   std::ofstream outputFile1;
 #ifdef _WIN32
-  outputFile1.open( filenameBigEndian , std::ios::out | std::ios::binary );
+  outputFile1.open( argv[1] , std::ios::out | std::ios::binary );
 #else
-  outputFile1.open( filenameBigEndian );
+  outputFile1.open( argv[1] );
 #endif
 
   if( outputFile1.fail() )
@@ -170,9 +171,9 @@ int itkRawImageIOTest4(int, char*[])
   // Create the LittleEndian binary file
   std::ofstream outputFile2;
 #ifdef _WIN32
-  outputFile2.open( filenameLittleEndian , std::ios::out | std::ios::binary );
+  outputFile2.open( argv[2] , std::ios::out | std::ios::binary );
 #else
-  outputFile2.open( filenameLittleEndian );
+  outputFile2.open( argv[2] );
 #endif
 
   if( outputFile2.fail() )
@@ -209,7 +210,7 @@ int itkRawImageIOTest4(int, char*[])
 
   std::cout << "Testing read of Big Endian File" << std::endl;
   bool fileIsBigEndian = true;
-  status = readTester.Read( filenameBigEndian, fileIsBigEndian, dims );
+  status = readTester.Read( argv[1], fileIsBigEndian, dims );
   if( status==EXIT_FAILURE )
     {
     std::cerr << "Reading Raw BigEndian FAILED !!" << std::endl;
@@ -222,7 +223,7 @@ int itkRawImageIOTest4(int, char*[])
 
   std::cout << "Testing read of Little Endian File" << std::endl;
   fileIsBigEndian = false;
-  status = readTester.Read( filenameLittleEndian, fileIsBigEndian, dims );
+  status = readTester.Read( argv[2], fileIsBigEndian, dims );
   if( status==EXIT_FAILURE )
     {
     std::cerr << "Reading Raw LittleEndian FAILED !!" << std::endl;

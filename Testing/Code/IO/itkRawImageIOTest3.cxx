@@ -22,7 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 
-int itkRawImageIOTest3(int, char*[])
+int itkRawImageIOTest3(int argc, char*argv[])
 {
   typedef itk::Image<unsigned short,2>    ImageType;
   typedef ImageType::PixelType            PixelType;
@@ -37,6 +37,12 @@ int itkRawImageIOTest3(int, char*[])
                           ImageType::ImageDimension> RawImageIOType;
 
 
+  if(argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
+    return EXIT_FAILURE;
+    }
+  
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
@@ -73,7 +79,7 @@ int itkRawImageIOTest3(int, char*[])
   itk::ImageFileWriter<ImageType>::Pointer writer;
   writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput( image );
-  writer->SetFileName("junk.raw");
+  writer->SetFileName(argv[1]);
   writer->SetImageIO(io);
   writer->Write();
 
@@ -81,7 +87,7 @@ int itkRawImageIOTest3(int, char*[])
   itk::ImageFileReader<ImageType>::Pointer reader;
   reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
-  reader->SetFileName("junk.raw");
+  reader->SetFileName(argv[1]);
   reader->Update();
 
   // Compare pixel by pixel in memory
@@ -112,7 +118,7 @@ int itkRawImageIOTest3(int, char*[])
     }
 
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName("junk2.raw");
+  writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());
   writer->Write();
 
