@@ -5,7 +5,7 @@ INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
 
 OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
 
-SOURCE_GROUP("XML Files" "\.xml$")
+SOURCE_GROUP("XML Files" "[.]xml$")
 
 # Include the include and link libraries
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
