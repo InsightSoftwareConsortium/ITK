@@ -119,8 +119,19 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::Eige
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenVector( void )
 {
-  return dynamic_cast<EigenVectorImageType *>(
+  EigenVectorImageType *eigenVector = dynamic_cast<EigenVectorImageType *>(
                     this->GetOutput( 2 ).GetPointer() );
+
+  if (eigenVector)
+    {
+    return eigenVector;
+    }
+  else
+    {
+    itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted." << std::endl << "Type name is: " << typeid( *this->GetOutput( 2 ).GetPointer()).name());
+    return  reinterpret_cast<EigenVectorImageType *>(
+                    this->GetOutput( 2 ).GetPointer() );
+    }
 }
 
 
