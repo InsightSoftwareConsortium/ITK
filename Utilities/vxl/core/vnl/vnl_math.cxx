@@ -23,10 +23,10 @@
 
 #elif VXL_C_MATH_HAS_FINITE
 # include <math.h>  // dont_vxl_filter: this is *not* supposed to be <cmath>
-# if !defined(__alpha__) && !defined(VXL_C_MATH_HAS_FINITEF)// on Alpha, finitef() must be used for float args instead of finite()
+# if !defined(__alpha__) && !(VXL_C_MATH_HAS_FINITEF)// on Alpha, finitef() must be used for float args instead of finite()
 #  define finitef finite
 # endif
-# if !defined(VXL_C_MATH_HAS_FINITEL)
+# if !(VXL_C_MATH_HAS_FINITEL)
 #  define finitel finite
 # endif
 
@@ -203,7 +203,7 @@ bool vnl_math_isinf(float x) { return !finitef(x) && !isnan(x); }
 //: Return true if x is inf
 bool vnl_math_isinf(double x) { return !finite(x) && !isnan(x); }
 //: Return true if x is inf
-bool vnl_math_isinf(long double x) { return !finite(x) && !isnan(x); }
+bool vnl_math_isinf(long double x) { return !finitel(x) && !isnan(x); }
 #else
 // Assume IEEE floating point number representation
 bool vnl_math_isinf(float x) {return(bMe(&x,0x7f800000L,sz_f)&&!bMp(&x,0x007fffffL,sz_f))||bMp(&x,0x7fffffffL,sz_f)==0x7f7fffffL;}
