@@ -69,7 +69,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char* argv[] )
   //initialParams[5] = 15 ;
 
   std::vector< double > standardDeviations ;
-  int maxIteration = 1000 ;
+  int maxIteration = 2000 ;
   int dataSize = 2000 ;
   double histogramOverlap = 0.75 ;
   double histogramExtent = 1.5 ;
@@ -165,16 +165,16 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char* argv[] )
       params[i] = initialParams[i] ;
     }
 
-  double initStepSize = 1.02 ;
-  double grow = 1.05 ;
+  double initStepSize = 1.05 ;
+  double grow = 1.1 ;
   double shrink = pow(grow, -0.25) ;
   OptimizerType::ScalesType scales(paramSize) ;
-  scales.Fill(0.2) ;
+  scales.Fill(1.0) ;
   for ( i = 0 ; i < paramSize ; i++)
     {
       if ( i % (NO_OF_DIMENSIONS + 1) == 2 )
         {
-          scales[i] = 1000.0 ;
+          scales[i] = 10000.0 ;
         }
     }
 
