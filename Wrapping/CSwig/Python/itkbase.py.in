@@ -57,3 +57,10 @@ def postimport(data):
     sys.setdlopenflags(data[1])
   except:
     pass
+
+# Default location for test output
+defaultTestRoot = @ITK_CSWIG_TEST_ROOT@
+
+# Default location for test input
+defaultDataRoot = @ITK_CSWIG_DATA_ROOT@
+

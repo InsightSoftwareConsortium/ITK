@@ -289,6 +289,8 @@ INSTALL_FILES(/lib/InsightToolkit/tcl FILES
 
 #-----------------------------------------------------------------------------
 # Configure python packages.
+SET(ITK_CSWIG_DATA_ROOT "'${ITK_DATA_ROOT}'")
+SET(ITK_CSWIG_TEST_ROOT "'${ITK_BINARY_DIR}/Testing'")
 IF(ITK_CSWIG_CONFIGURATION_TYPES)
   FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
     SET(ITK_CSWIG_PACKAGE_DIR "'${ITK_CSWIG_PACKAGE_DIR_BUILD}/${config}'")
@@ -419,6 +421,8 @@ IF(UNIX)
   ENDFOREACH(file)
   
   SET(ITK_CSWIG_PACKAGE_DIR "os.path.dirname(selfpath)")
+  SET(ITK_CSWIG_DATA_ROOT "os.path.join(os.path.dirname(selfpath),'Data')")
+  SET(ITK_CSWIG_TEST_ROOT "'<NO_DEFAULT>'")
   CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/itkbase.py.in"
                  "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py"
                  @ONLY IMMEDIATE)
