@@ -40,7 +40,8 @@ namespace itk {
  *    This filter requires two inputs.  The first input is a initial level set.
  *    The initial level set is a real image which contains the initial contour/surface
  *    as the zero level set. For example, a signed distance function from the initial
- *    contour/surface is typically used.
+ *    contour/surface is typically used. Note that for the algorithm the initial contour
+ *    has to be wholly within (or wholly outside) the structure to be segmented.
  *
  *    \par
  *    The second input is the feature image.  For this filter, this is the edge
@@ -60,8 +61,8 @@ namespace itk {
  *    for more information on Inputs.
  *
  *    \par
- *    The method SetUseNegatiiveFeatures() can be used to switch from propagating inwards (false)
- *    versus propagting outwards (true). 
+ *    The method SetUseNegatiiveFeatures() can be used to switch from propagating outwards (true)
+ *    versus propagting inwards (false). 
  *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
