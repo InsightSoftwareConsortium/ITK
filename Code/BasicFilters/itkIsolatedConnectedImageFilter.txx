@@ -20,6 +20,7 @@
 #include "itkIsolatedConnectedImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -97,7 +98,8 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
-  outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
+  OutputImageRegionType region = outputImage->GetRequestedRegion() ;
+  outputImage->SetBufferedRegion( region );
   outputImage->Allocate();
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
   
@@ -112,42 +114,63 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   InputImagePixelType guess = upper;
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
+  const unsigned int estimatedNumberOfIterations =
+                         log( ( upper - lower ) / m_IsolatedValueTolerance ) / 
+                         log ( 2.0 );
+
+  // Worst-case scenario for the estimation of time to be completed.
+  ProgressReporter progress( this, 0, region.GetNumberOfPixels() * 
+                                      estimatedNumberOfIterations );
+
   // do a binary search to find an upper threshold that separates the
   // two seeds.
   itkDebugMacro (<< "GetPixel(m_Seed1): " << inputImage->GetPixel(m_Seed1));
   itkDebugMacro (<< "GetPixel(m_Seed2): " << inputImage->GetPixel(m_Seed2));
-  while (lower + m_IsolatedValueTolerance < guess)
+  try
     {
-    itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
+    while (lower + m_IsolatedValueTolerance < guess)
+      {
+      itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
+      outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+      function->ThresholdBetween ( m_Lower, guess );
+      it.GoToBegin();
+      while( !it.IsAtEnd())
+        {
+        it.Set(m_ReplaceValue);
+        ++it;
+        progress.CompletedPixel(); // potential exception thrown here
+        }
+      if (outputImage->GetPixel(m_Seed2) == m_ReplaceValue)
+        {
+        upper = guess;
+        }
+      else
+        {
+        lower = guess;
+        }
+      guess = (upper + lower) /2;
+
+      }
+
+    // now rerun the algorithm with the threshold that separates the seeds.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-    function->ThresholdBetween ( m_Lower, guess );
+    function->ThresholdBetween ( m_Lower, lower);
     it.GoToBegin();
     while( !it.IsAtEnd())
       {
       it.Set(m_ReplaceValue);
       ++it;
+      progress.CompletedPixel(); // potential exception thrown here
       }
-    if (outputImage->GetPixel(m_Seed2) == m_ReplaceValue)
-      {
-      upper = guess;
-      }
-    else
-      {
-      lower = guess;
-      }
-    guess = (upper + lower) /2;
-    }
+    m_IsolatedValue = lower;
 
-  // now rerun the algorithm with the threshold that separates the seeds.
-  outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-  function->ThresholdBetween ( m_Lower, lower);
-  it.GoToBegin();
-  while( !it.IsAtEnd())
-    {
-    it.Set(m_ReplaceValue);
-    ++it;
     }
-  m_IsolatedValue = lower;
+  catch( ProcessAborted & excp )
+    {
+    this->InvokeEvent( AbortEvent() );
+    this->ResetPipeline();
+    throw ProcessAborted(__FILE__,__LINE__);
+    }
 }
 
 } // end namespace itk
