@@ -135,8 +135,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectFactoryBase.h"
 #include "itkOffset.h"
 #include "itkOutputWindow.h"
-#include "itkPhysicalImage.h"
-#include "itkPhysicalImageAdaptor.h"
 #include "itkPixelAccessor.h"
 #include "itkPoint.h"
 #include "itkPointLocator.h"
