@@ -672,8 +672,15 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   if((m_CellsContainer != 0) && m_CellsContainer->IndexExists(cellId))
     {
-    return m_CellsContainer->GetElement(cellId)->
-      GetBoundaryFeature(dimension, featureId);
+    boundary = m_CellsContainer->GetElement(cellId)
+                      ->GetBoundaryFeature(dimension, featureId);
+    // If a container for this dimension doesn't exist, create one.
+    if( ! m_BoundariesContainers[dimension] )
+      {
+      m_BoundariesContainers[dimension] = BoundariesContainer::New();
+      }
+    m_BoundariesContainers[dimension]->InsertElement( featureId, boundary );
+    return boundary;
     }
   
   /**
@@ -774,6 +781,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   boundary =
     m_CellsContainer->GetElement(cellId)->GetBoundaryFeature(dimension, featureId);
   
+
   /**
    * Now get the cell links for the first point.  Also allocate a second set
    * for temporary storage during set intersections below.
@@ -822,6 +830,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   delete tempCells;
   
+  /** delete the boundary feature added as a temporary auxiliar object */
+  delete boundary;
+
   /**
    * Now we have a set of all the cells which share all the points on the
    * boundary feature.  We simply need to copy this set to the output cell

@@ -279,8 +279,13 @@ protected:
    *  dimension of a boundary.  Individual cells are assigned boundary
    *  identifiers through the BoundaryAssignments vector.  These identifiers
    *  are used to access the container in this vector corresponding to the
-   *  topological dimension of the boundary.  */
-  BoundariesContainerVector  m_BoundariesContainers;
+   *  topological dimension of the boundary.  
+   *
+   *  This member is mutable because Boundaries can be created on the fly
+   *  when they are requested by the user. Only when a cell of a particular
+   *  dimension is invoked the container for this dimension is created.
+   */
+  mutable BoundariesContainerVector  m_BoundariesContainers;
 
   /** If any information is to be stored with boundaries, it is placed in a
    *  container in this vector.  The vector is indexed by the topological 
