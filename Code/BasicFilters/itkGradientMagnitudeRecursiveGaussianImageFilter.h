@@ -117,6 +117,13 @@ public:
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
+  /** GradientMagnitudeRecursiveSeparableImageFilter needs all of the input to produce an
+   * output. Therefore, GradientMagnitudeRecursiveSeparableImageFilter needs to provide
+   * an implementation for GenerateInputRequestedRegion in order to inform
+   * the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
 protected:
   GradientMagnitudeRecursiveGaussianImageFilter();
   virtual ~GradientMagnitudeRecursiveGaussianImageFilter() {};
@@ -124,6 +131,9 @@ protected:
   
   /** Generate Data */
   void GenerateData( void );
+
+  // Override since the filter produces the entire dataset
+  void EnlargeOutputRequestedRegion(DataObject *output);
 
   /** Compute progress by weighting the contributions of the internal filters */
   void ReportProgress(const Object * object, const EventObject & event );
