@@ -523,7 +523,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     {
       ExceptionObject e(__FILE__, __LINE__);
       OStringStream msg;
-      msg << (char *) this->GetNameOfClass()
+      msg << static_cast<const char *>(this->GetNameOfClass())
           << "::Initialize()";
       e.SetLocation(msg.str().c_str());
       e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");

@@ -142,7 +142,7 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     OStringStream msg;
-    msg << (char *)this->GetNameOfClass()
+    msg << (const char *)this->GetNameOfClass()
         << "::GenerateInputRequestedRegion()";
     e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
