@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkConicShellInteriorExteriorSpatialFunction_h
 
 #include "vnl/vnl_vector.h"
-#include "itkPoint.h"
 #include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk

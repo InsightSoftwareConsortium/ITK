@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkInteriorExteriorSpatialFunction_h
 
 #include "itkSpatialFunction.h"
-#include "vnl/vnl_vector_fixed.h"
 
 namespace itk
 {
