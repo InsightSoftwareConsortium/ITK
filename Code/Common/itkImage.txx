@@ -137,7 +137,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     } 
   if ( i < VImageDimension ) 
     { 
-    this->Modified(); 
     for (i=0; i<VImageDimension; i++)
       {
       m_Spacing[i] = spacing[i];
@@ -163,7 +162,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     } 
   if ( i < VImageDimension ) 
     { 
-    this->Modified(); 
     for (i=0; i<VImageDimension; i++)
       {
       m_Spacing[i] = spacing[i];
@@ -203,7 +201,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     } 
   if ( i < VImageDimension ) 
     { 
-    this->Modified(); 
     for (i=0; i<VImageDimension; i++)
       {
       m_Origin[i] = origin[i];
@@ -230,7 +227,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     } 
   if ( i < VImageDimension ) 
     { 
-    this->Modified(); 
     for (i=0; i<VImageDimension; i++)
       {
       m_Origin[i] = origin[i];
@@ -257,7 +253,6 @@ Image<TPixel, VImageDimension, TImageTraits>
     } 
   if ( i < VImageDimension ) 
     { 
-    this->Modified(); 
     for (i=0; i<VImageDimension; i++)
       {
       m_Origin[i] = origin[i];
@@ -315,10 +310,15 @@ Image<TPixel, VImageDimension, TImageTraits>
 
   // Create a new transform if one doesn't already exist
   if( !m_PhysicalToIndexTransform  )
+    {
     m_PhysicalToIndexTransform = AffineTransformType::New();
+    }
   
   m_PhysicalToIndexTransform->SetMatrix(matrix);
   m_PhysicalToIndexTransform->SetOffset(offset);
+
+  this->Modified();
+
 }
 
 
@@ -330,7 +330,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 {
   
   if ( !m_IndexToPhysicalTransform )
+    {
     RebuildTransforms();
+    }
       
   return m_IndexToPhysicalTransform;
 }
@@ -344,7 +346,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 {
 
   if ( !m_PhysicalToIndexTransform )
+    {
     RebuildTransforms();
+    }
 
   return m_PhysicalToIndexTransform;
 }
