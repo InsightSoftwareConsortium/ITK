@@ -18,6 +18,7 @@
 #define __itkDTITubeSpatialObjectPoint_txx
 
 #include "itkDTITubeSpatialObjectPoint.h"
+#include <itksys/SystemTools.hxx>
 
 namespace itk 
 {
@@ -83,7 +84,7 @@ void
 DTITubeSpatialObjectPoint< TPointDimension >
 ::AddField(const char* name,float value)
 {
-  FieldType field(name,value);
+  FieldType field(itksys::SystemTools::LowerCase(name),value);
   m_Fields.push_back(field);
 }
 
@@ -98,7 +99,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 
   if(charname.size() > 0)
     {
-    FieldType field(charname.c_str(),value);
+    FieldType field(itksys::SystemTools::LowerCase(charname).c_str(),value);
     m_Fields.push_back(field);
     }
   else
@@ -117,7 +118,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   FieldListType::const_iterator it = m_Fields.begin();
   while(it != m_Fields.end())
     {
-    if(!strcmp((*it).first.c_str(),name))
+    if(!strcmp((*it).first.c_str(),itksys::SystemTools::LowerCase(name).c_str()))
       {
       return (*it).second;
       }
@@ -135,7 +136,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   std::string charname = this->TranslateEnumToChar(name);
   if(charname.size() > 0)
     {
-    return this->GetField(charname.c_str());
+    return this->GetField(itksys::SystemTools::LowerCase(charname).c_str());
     }
   else
     {
