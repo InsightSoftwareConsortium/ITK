@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
-public: 
+public:
   typedef TextOutput              Self;
   typedef itk::SmartPointer<Self>  Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
@@ -88,11 +88,11 @@ int main()
   typedef float PixelType;
   enum { ImageDimension = 2 };
   typedef itk::Image<PixelType, ImageDimension> ImageType;
-  
+
   typedef itk::RandomImageSource<ImageType> SourceType;
 
   SourceType::Pointer source = SourceType::New();
-  
+
   unsigned long size[ImageDimension] = {64,64};
   source->SetSize( size );
   source->SetMin(0.0);
@@ -107,7 +107,7 @@ int main()
   denoiser->SetInput( source->GetOutput() );
   denoiser->SetTimeStep( 0.15 );
   denoiser->SetIterations( 8 );
-  denoiser->DebugOn();
+  //denoiser->DebugOn();
 
   ShowProgressObject progressWatch(denoiser);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -125,7 +125,7 @@ int main()
   writer->SetInput( denoiser->GetOutput() );
   writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
   writer->Write();
-  
+
   return EXIT_SUCCESS;
 
 }
