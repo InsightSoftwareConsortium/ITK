@@ -39,8 +39,7 @@ public:
   virtual const char* GetDescription() const;
   
   /** Method for class instantiation. */
-  static MetaImageIOFactory* New()
-    { return new MetaImageIOFactory; }
+  itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaImageIOFactory, ObjectFactoryBase);

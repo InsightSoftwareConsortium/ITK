@@ -65,7 +65,7 @@ public:
   typedef SmartPointer<Self>    Pointer;
     
   /** Methods from itk:LightObject. */
-  static Pointer New() { return new Self; }
+  itkFactorylessNewMacro(Self);
   LightObject::Pointer CreateObject() { return T::New().GetPointer(); }
   
 protected:

@@ -87,5 +87,8 @@ int main(int ac, char** av)
     ++it;
     ++rit;  
     }
+
+  itk::ObjectFactoryBase::UnRegisterAllFactories();
+
   return status;
 }

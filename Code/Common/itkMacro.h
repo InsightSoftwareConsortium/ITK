@@ -255,11 +255,28 @@ static Pointer New(void) \
   return smartPtr; \
 }
 
+/** Define the virtual constructor without object factory creation method.
+ *
+ * This routine assigns the raw pointer to a smart pointer and then calls
+ * UnRegister() on the rawPtr to compensate for LightObject's constructor
+ * initializing an object's reference count to 1 (needed for proper
+ * initialization of process objects and data objects cycles). */
+#define itkFactorylessNewMacro(x) \
+static Pointer New(void) \
+{ \
+  Pointer smartPtr; \
+  x *rawPtr = new x; \
+  smartPtr = rawPtr; \
+  rawPtr->UnRegister(); \
+  return smartPtr; \
+}
+
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass,superclass) \
     virtual const char *GetNameOfClass() const \
-        {return #thisClass;}
+        {return #thisClass;} 
+
 
 namespace itk
 {

@@ -42,8 +42,7 @@ public:
   virtual const char* GetDescription() const;
     
   /** Method for class instantiation. */
-  static VTKImageIOFactory* New()
-    { return new VTKImageIOFactory; }
+  itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageIOFactory, ObjectFactoryBase);

@@ -156,6 +156,9 @@ public:
   const char* GetITKSourceVersion();
   const char* GetDescription() const;
 
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
+
 protected:
   typedef RawImageIO<TPixel,VImageDimension> myProductType;
   const myProductType* m_MyProduct;

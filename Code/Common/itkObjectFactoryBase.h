@@ -154,11 +154,11 @@ protected:
   virtual LightObject::Pointer CreateObject(const char* itkclassname );
   
   ObjectFactoryBase();
-  ~ObjectFactoryBase();
-
-  OverRideMap* m_OverrideMap;
+  virtual ~ObjectFactoryBase();
 
 private:
+  OverRideMap* m_OverrideMap;
+
   ObjectFactoryBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

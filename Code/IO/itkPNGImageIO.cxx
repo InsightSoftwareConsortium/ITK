@@ -79,7 +79,7 @@ bool PNGImageIO::CanReadFile(const char* file)
     return false;
     }
   png_destroy_read_struct(&png_ptr, &info_ptr,
-                          (png_infopp)NULL);
+                          &end_info);
   
   return true;
 }
@@ -350,7 +350,7 @@ void PNGImageIO::ReadImageInformation()
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
   png_destroy_read_struct(&png_ptr, &info_ptr,
-                          (png_infopp)NULL);
+                          &end_info);
 
   m_Spacing[0] = 1.0;  // Is there any spacing information
   m_Spacing[1] = 1.0;  // in PNG ?

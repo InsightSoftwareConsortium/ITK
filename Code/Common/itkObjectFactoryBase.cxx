@@ -379,6 +379,8 @@ ObjectFactoryBase
 ::~ObjectFactoryBase()
 {
   DynamicLoader::CloseLibrary((LibHandle)m_LibraryHandle);
+  m_OverrideMap->erase(m_OverrideMap->begin(), m_OverrideMap->end());
+  delete m_OverrideMap;
 }
 
 

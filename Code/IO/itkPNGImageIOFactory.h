@@ -39,9 +39,8 @@ public:
   virtual const char* GetDescription() const;
     
   /** Method for class instantiation. */
-  static PNGImageIOFactory* New()
-    { return new PNGImageIOFactory; }
-
+  itkFactorylessNewMacro(Self);
+  
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
 
