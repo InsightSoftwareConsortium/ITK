@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOnePlusOneEvolutionaryOptimizer.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkOnePlusOneEvolutionaryOptimizer.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __ONEPLUSONEEVOLUTIONARYOPTIMIZER_TXX
@@ -73,18 +73,18 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
   
   if( m_CostFunction == 0 || !m_Initialized )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // m_Random Seed was originally getpid()
 
   if (m_RandomSeed == 0)
     {
-    m_RandomGenerator->Initialize((long) rand()); 
+      m_RandomGenerator->Initialize((long) rand()); 
     }
   else
     {
-    m_RandomGenerator->Initialize(m_RandomSeed); 
+      m_RandomGenerator->Initialize(m_RandomSeed); 
     }
   
   int minIteration = 0 ;
@@ -102,7 +102,7 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 
   for(unsigned int i = 0  ; i < spaceDimension ; i++) 
     {
-    A(i,i) = m_InitialRadius ;
+      A(i,i) = m_InitialRadius ;
     }
   //m_BiasField->SetCoefficients(parent) ;
 
@@ -110,7 +110,7 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
   ParametersType parentPosition( spaceDimension );
   for( unsigned int i=0; i<spaceDimension; i++)
     {
-    parentPosition[i] = parent[i];
+      parentPosition[i] = parent[i];
     }
 
   pvalue = m_CostFunction->GetValue(parentPosition);
@@ -118,68 +118,68 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
-    for (unsigned int i=0 ; i < spaceDimension ; i++) 
-      {
-      f_norm[i] = m_RandomGenerator->GetNormalVariate() ;
-      }
+      for (unsigned int i=0 ; i < spaceDimension ; i++) 
+        {
+          f_norm[i] = m_RandomGenerator->GetNormalVariate() ;
+        }
 
-    delta  = A * f_norm ;
-    child  = parent + delta ;
+      delta  = A * f_norm ;
+      child  = parent + delta ;
 
-    ParametersType childPosition( spaceDimension );
-    for( unsigned int i=0; i<spaceDimension; i++)
-      {
-      childPosition[i] = child[i];
-      }
-    cvalue = m_CostFunction->GetValue(childPosition);
-
-    itkDebugMacro(<< iter << ": parent: " << pvalue 
-    << " child: "<< cvalue );
-
-    if (cvalue < pvalue) 
-      {
-      minIteration = iter ;
-      pvalue = cvalue ;
-          
-      parent.swap(child) ;                  
-          
-      adjust = m_GrowthFactor ; 
+      ParametersType childPosition( spaceDimension );
       for( unsigned int i=0; i<spaceDimension; i++)
         {
-        parentPosition[i] = parent[i];
+          childPosition[i] = child[i];
         }
-      this->SetCurrentPosition(parentPosition) ;
-          
-      } 
-    else 
-      {
-      adjust = m_ShrinkFactor ;
-      }
-      
-    // convergence criterion: f-norm of A < epsilon_A
-    // Compute double precision sum of absolute values of 
-    // a single precision vector
-    if ( this->GetDebug() )
-      {
-      if (A.fro_norm() <= m_Epsilon) 
+      cvalue = m_CostFunction->GetValue(childPosition);
+
+      itkDebugMacro(<< iter << ": parent: " << pvalue 
+                    << " child: "<< cvalue );
+
+      if (cvalue < pvalue) 
         {
-        itkDebugMacro(<< "A f-norm:" << A.fro_norm());
-        break ;
+          minIteration = iter ;
+          pvalue = cvalue ;
+          
+          parent.swap(child) ;                  
+          
+          adjust = m_GrowthFactor ; 
+          for( unsigned int i=0; i<spaceDimension; i++)
+            {
+              parentPosition[i] = parent[i];
+            }
+          this->SetCurrentPosition(parentPosition) ;
+          
+        } 
+      else 
+        {
+          adjust = m_ShrinkFactor ;
         }
-      }
       
-    // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
-    // Blas_R1_Update(A, A * f_norm, f_norm, 
-    //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
-    // = DGER(Fortran)
-    //   performs the rank 1 operation
-    // A := alpha*x*y' + A,
-    // where y' = transpose(y)
-    // where alpha is a scalar, x is an m element vector, y is an n element
-    // vector and A is an m by n matrix.
-    // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
-    // f_norm, f_norm)
-    A = A + (adjust - 1.0) * A ;
+      // convergence criterion: f-norm of A < epsilon_A
+      // Compute double precision sum of absolute values of 
+      // a single precision vector
+      if ( this->GetDebug() )
+        {
+          if (A.fro_norm() <= m_Epsilon) 
+            {
+              itkDebugMacro(<< "A f-norm:" << A.fro_norm());
+              break ;
+            }
+        }
+      
+      // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
+      // Blas_R1_Update(A, A * f_norm, f_norm, 
+      //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
+      // = DGER(Fortran)
+      //   performs the rank 1 operation
+      // A := alpha*x*y' + A,
+      // where y' = transpose(y)
+      // where alpha is a scalar, x is an m element vector, y is an n element
+      // vector and A is an m by n matrix.
+      // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
+      // f_norm, f_norm)
+      A = A + (adjust - 1.0) * A ;
     }
 }
  
