@@ -75,10 +75,15 @@ class ITK_EXPORT ShapePriorSegmentationLevelSetImageFilter
                                             ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
+
+  /** Dimension of the input/level set image. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
   /** Standard class typedefs */
   typedef ShapePriorSegmentationLevelSetImageFilter Self;
   typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, 
-        Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
+        Image<TOutputPixelType, itkGetStaticConstMacro(ImageDimension)> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -92,10 +97,6 @@ public:
   
   /** Type of the output pixel. */
   typedef TOutputPixelType OutputPixelType;
-
-  /** Inherited constant from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
 
   /** The level set function with shape prior type */
   typedef ShapePriorSegmentationLevelSetFunction<OutputImageType, FeatureImageType>
