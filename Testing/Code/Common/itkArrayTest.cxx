@@ -16,7 +16,7 @@
 =========================================================================*/
 #include <iostream>
 
-#include "itkArray.h"
+#include "itkFixedArray.h"
 
 // Explicit instantiation to make sure all methods are compiled.
 template class itk::FixedArray<float, 3>;
