@@ -600,6 +600,7 @@ proc FindTests { Path } \
   {
     lappend TestList "[file join $Path $Test]"
   }
+
   foreach SubDir [GetCMakeVariable SUBDIRS] \
   {
     cd $SubDir
@@ -624,7 +625,8 @@ proc GetCMakeVariable { Variable } \
   # puts $C1
   regsub -all {\)} $C1 ")\n " C
   set Contents $C
-  
+
+  set variableValue ""  
   foreach Line [split $Contents "\n"] \
   {
     if { [string first $Variable $Line] != -1 } \
@@ -632,9 +634,9 @@ proc GetCMakeVariable { Variable } \
       set i [expr [string first "(" $Line] + 1]
       set l [string trim [string range $Line $i end]]
       set l [string trim $l "()"]
-      return $l
+      eval lappend variableValue $l
     }
   }
-  return ""
+  return $variableValue
 }
   
