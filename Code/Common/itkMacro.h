@@ -63,9 +63,9 @@ namespace itk
 {
 } // end namespace itk
 
-/** Error codes for exceptions */
 namespace itk
 {
+  /** Error codes for exceptions */
   const int BoundsError=10;
   const int InvalidDimension=11;
 } // end namespace itk
