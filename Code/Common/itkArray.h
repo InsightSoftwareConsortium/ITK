@@ -75,7 +75,8 @@ public:
 template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 {
-  const unsigned int last = arr.size()-1;
+  const unsigned int length = arr.size();
+  const unsigned int last   = length - 1;
   os << "[";
   for (unsigned int i=0; i < last; ++i)
     {
