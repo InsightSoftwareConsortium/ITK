@@ -145,30 +145,31 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddVertex( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
   // m_PointsHashTable[ foo ] is set to 0 if foo is not found, but I
   // want the initial identifier to be 0.  
-  IdentifierType& identifierPlusOne = m_CellsHashTable[ pointIDs ];
-  IdentifierType identifier;
+  IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
+  IdentifierType cellID;
   
-  if( identifierPlusOne != 0 )
+  if( cellIDPlusOne != 0 )
     {
-    identifier = identifierPlusOne - 1;
+    cellID = *cellIDPlusOne - 1;
     }
   else
     {
-    identifier = nextNewID;
 
-    // Set the value in the hash table 
-    identifierPlusOne = identifier + 1;
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
 
     CellAutoPointer cellPointer;
     cellPointer.TakeOwnership( new VertexCell );
     cellPointer->SetPointId( 0, pointIDs[0] );
-    m_OutputMesh->SetCell( identifier, cellPointer ); 
+    std::cout << cellPointer.GetPointer() << " created" << std::endl;
+    m_OutputMesh->SetCell( cellID, cellPointer ); 
     }
-  return identifier;
+  return cellID;
 }
 
 template<class TOutputMesh>
@@ -176,8 +177,8 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddLine( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
+  // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
 
@@ -188,10 +189,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
   else
     {
     const IdentifierType pointIdsEnd = 2;
-
-    // Choose the ID.
-    cellID = nextNewID;
-    *cellIDPlusOne = cellID + 1;
 
     // Create the cell.
     CellAutoPointer cellPointer;
@@ -206,6 +203,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
       vertexArray[i] = AddVertex( pointID );
       cellPointer->SetPointId( i, pointID );
       }
+
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
 
     // Put the cell in the mesh.
     m_OutputMesh->SetCell( cellID, cellPointer ); 
@@ -227,9 +229,8 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddTriangle( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
-  // Check to see if the cell is already referenced in the hashtable.
+  // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
 
@@ -245,10 +246,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
     const IdentifierType pointIdsEnd = 3;
     const IdentifierType lineIdsEnd = 3;
     IdentifierType i;
-
-    // Choose the ID.
-    cellID = nextNewID;
-    *cellIDPlusOne = cellID + 1;
 
     // Create the cell.
     CellAutoPointer cellPointer;
@@ -269,6 +266,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
       {
       lineArray[i] = AddLine( pointIDs[i], pointIDs[ (i+1) % pointIdsEnd ] );
       }
+
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
     
     // Put the cell in the mesh.
     m_OutputMesh->SetCell( cellID, cellPointer ); 
@@ -295,9 +297,8 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddQuadrilateral( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
-  // Check to see if the cell is already referenced in the hashtable.
+  // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
 
@@ -313,10 +314,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
     const IdentifierType pointIdsEnd = 4;
     const IdentifierType lineIdsEnd = 4;
     IdentifierType i;
-
-    // Choose the ID.
-    cellID = nextNewID;
-    *cellIDPlusOne = cellID + 1;
 
     // Create the cell.
     CellAutoPointer cellPointer;
@@ -337,6 +334,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
     lineArray[1] = AddLine( pointIDs[2], pointIDs[3] );
     lineArray[2] = AddLine( pointIDs[0], pointIDs[2] );
     lineArray[3] = AddLine( pointIDs[1], pointIDs[3] );
+
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
     
     // Put the cell in the mesh.
     m_OutputMesh->SetCell( cellID, cellPointer ); 
@@ -362,9 +364,8 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddTetrahedron( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
-  // Check to see if the cell is already referenced in the hashtable.
+  // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
 
@@ -381,10 +382,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
     const IdentifierType lineIdsEnd = 6;
     const IdentifierType faceIdsEnd = 4;
     IdentifierType i;
-
-    // Choose the ID.
-    cellID = nextNewID;
-    *cellIDPlusOne = cellID + 1;
 
     // Create the cell.
     CellAutoPointer cellPointer;
@@ -414,7 +411,12 @@ AutomaticTopologyMeshSource<TOutputMesh>
     faceArray[1] = AddTriangle( pointIDs[0], pointIDs[1], pointIDs[3] );
     faceArray[2] = AddTriangle( pointIDs[0], pointIDs[2], pointIDs[3] );
     faceArray[3] = AddTriangle( pointIDs[1], pointIDs[2], pointIDs[3] );
-    
+
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
+
     // Put the cell in the mesh.
     m_OutputMesh->SetCell( cellID, cellPointer ); 
 
@@ -445,9 +447,8 @@ typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddHexahedron( const IdentifierArrayType& pointIDs )
 {
-  IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
 
-  // Check to see if the cell is already referenced in the hashtable.
+  // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
 
@@ -464,10 +465,6 @@ AutomaticTopologyMeshSource<TOutputMesh>
     const IdentifierType lineIdsEnd = 12;
     const IdentifierType faceIdsEnd = 6;
     IdentifierType i;
-
-    // Choose the ID.
-    cellID = nextNewID;
-    *cellIDPlusOne = cellID + 1;
 
     // Create the cell.
     CellAutoPointer cellPointer;
@@ -505,7 +502,12 @@ AutomaticTopologyMeshSource<TOutputMesh>
     faceArray[3] = AddQuadrilateral( pointIDs[2], pointIDs[3], pointIDs[6], pointIDs[7] );
     faceArray[4] = AddQuadrilateral( pointIDs[0], pointIDs[2], pointIDs[4], pointIDs[6] );
     faceArray[5] = AddQuadrilateral( pointIDs[1], pointIDs[3], pointIDs[5], pointIDs[7] );
-    
+
+    // Choose the ID and store it in its place in the hash table.
+    IdentifierType nextNewID = m_OutputMesh->GetNumberOfCells();
+    cellID = nextNewID;
+    *cellIDPlusOne = cellID + 1;
+
     // Put the cell in the mesh.
     m_OutputMesh->SetCell( cellID, cellPointer ); 
 
