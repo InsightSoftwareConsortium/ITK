@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkOutputWindow.h"
 #include "itkRawImageIO.h"
 #include "itkFileIOToImageFilter.h"
+#include "itkRGBPixel.h"
 #include "itkImage.h"
 
 // this class is used to send output to stdout and not the itk window
