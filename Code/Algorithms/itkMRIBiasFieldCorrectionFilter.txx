@@ -71,12 +71,12 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 ::GetValue( const ParametersType & parameters ) const
 {
 
-  if (m_Image == 0 )
+  if ( m_Image.IsNull() )
     {
       itkExceptionMacro(<<"Image is null");
     }
 
-  if( m_InternalEnergyFunction == 0 )
+  if( !m_InternalEnergyFunction  )
     {
       itkExceptionMacro(<<"EnergyFunction is null");
     }
@@ -316,7 +316,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   bIter.Begin() ;
   iIter.GoToBegin() ;
 
-  if (m_OutputMask != 0)
+  if ( m_OutputMask.IsNotNull() )
     {
       itkDebugMacro(<< "Output mask is being used") ;
       ImageRegionIterator<ImageMaskType> mIter(m_OutputMask, region) ;
@@ -421,7 +421,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     }
 
   this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion()) ;
-  itkDebugMacro(<< "After adjustment, ther are " << m_Slabs.size() 
+  itkDebugMacro(<< "After adjustment, ther are " << static_cast<unsigned long>( m_Slabs.size() ) 
                 << " slabs.");
 
   SlabRegionVectorIteratorType iter = m_Slabs.begin();
