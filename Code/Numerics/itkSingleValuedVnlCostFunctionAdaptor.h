@@ -53,6 +53,8 @@ public:
   /** Derivatives of the SingleValuedCostFunction */
   typedef SingleValuedCostFunction::DerivativeType DerivativeType;
 
+  /** Scales typedef */
+  typedef Array<double>             ScalesType;
 
   /** Constructor with size */
   SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension);
@@ -76,25 +78,20 @@ public:
   virtual void compute(const InternalParametersType   & x,
                        InternalMeasureType      * f, 
                        InternalDerivativeType   * g   );
-
-  /**  Convert internal Parameters into external type.  */
-  static void ConvertInternalToExternalParameters( 
-    const InternalParametersType & input,
-    ParametersType         & output );
-
-  /**  Convert external Parameters into internal type  */
-  static void ConvertExternalToInternalParameters(
-    const  ParametersType         & input,
-    InternalParametersType & output );
     
   /**  Convert external derviative measures into internal type   */
   void ConvertExternalToInternalGradient(
     const DerivativeType         & input,
     InternalDerivativeType & output );
 
+  /** Set current parameters scaling. */
+  void SetScales(const ScalesType & scales);
+
 private:
 
   SingleValuedCostFunction::Pointer   m_CostFunction;
+  bool                    m_ScalesInitialized;
+  ScalesType              m_Scales;
 
 };  // end of Class CostFunction
 

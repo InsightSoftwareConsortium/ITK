@@ -27,9 +27,18 @@ SingleValuedVnlCostFunctionAdaptor
 ::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension):
   vnl_cost_function(spaceDimension) 
 { 
+  m_ScalesInitialized =false;
 }    
 
     
+/** Set current parameters scaling. */
+void
+SingleValuedVnlCostFunctionAdaptor
+::SetScales(const ScalesType & scales)
+{
+  m_Scales = scales;
+  m_ScalesInitialized = true;
+}   
 
 
 /**  Delegate computation of the value to the CostFunction. */
@@ -42,11 +51,21 @@ SingleValuedVnlCostFunctionAdaptor
     itkGenericExceptionMacro(<<"Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
     }
 
-  ParametersType parameters( inparameters.size() );
-  ConvertInternalToExternalParameters( inparameters, parameters );
-  const InternalMeasureType value = 
-    static_cast<InternalMeasureType>( m_CostFunction->GetValue( parameters ));
+  // Use scales if they are provided
+ ParametersType parameters(inparameters.size());
+  if(m_ScalesInitialized)
+    {
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = inparameters[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(inparameters.data_block()));
+    }
 
+  const InternalMeasureType value = static_cast<InternalMeasureType>( m_CostFunction->GetValue( parameters ));
   return value;
 }
   
@@ -63,9 +82,21 @@ SingleValuedVnlCostFunctionAdaptor
     itkGenericExceptionMacro("Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
     }
 
-  ParametersType parameters( inparameters.size() );
-  ConvertInternalToExternalParameters( inparameters, parameters );
-  DerivativeType externalGradient; 
+   // Use scales if they are provided
+  DerivativeType externalGradient;
+  ParametersType parameters(inparameters.size()); 
+  if(m_ScalesInitialized)
+    {
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = inparameters[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(inparameters.data_block()));
+    }
+    
   m_CostFunction->GetDerivative( parameters, externalGradient );
   ConvertExternalToInternalGradient( externalGradient, gradient);
 
@@ -81,48 +112,24 @@ SingleValuedVnlCostFunctionAdaptor
            InternalDerivativeType   * g   )
 {
   // delegate the computation to the CostFunction
-  ParametersType parameters( x.size() );
-  ConvertInternalToExternalParameters( x, parameters );
-
   DerivativeType externalGradient;
+  ParametersType parameters( x.size());
   double   measure;
+  if(m_ScalesInitialized)
+    {
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = x[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(x.data_block()));
+    }
   
   m_CostFunction->GetValueAndDerivative( parameters, measure, externalGradient );
-
   ConvertExternalToInternalGradient( externalGradient, *g );
-  *f = static_cast<InternalMeasureType>( measure );    
-}
-
-
-
-/**  Convert internal Parameters into external type.  */
-void 
-SingleValuedVnlCostFunctionAdaptor
-::ConvertInternalToExternalParameters( const InternalParametersType & input,
-                                       ParametersType         & output )
-{
-  const unsigned int size = input.size();
-  output = ParametersType(size);
-  for( unsigned int i=0; i<size; i++ )
-    {
-    output[i] = input[i]; 
-    }
-}
-
-
-
-
-/**  Convert external Parameters into internal type  */
-void 
-SingleValuedVnlCostFunctionAdaptor
-::ConvertExternalToInternalParameters( const  ParametersType         & input,
-                                       InternalParametersType & output )
-{
-  const unsigned int size = input.size();
-  for( unsigned int i=0; i<size; i++ ) 
-    {
-    output[i] = input[i];
-    }
+  *f = static_cast<InternalMeasureType>( measure );  
 }
   
 
