@@ -148,230 +148,230 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   // point.
 
   //---------Create and initialize a conic shell spatial function-----------
-  typedef typename ConicShellInteriorExteriorSpatialFunction<NDimensions> FunctionType;
+  typedef ConicShellInteriorExteriorSpatialFunction<NDimensions> FunctionType;
   typedef typename FunctionType::GradientType FunctionGradientType;
 
   typename  FunctionType::Pointer spatialFunc = FunctionType::New();
 
   for(int i=0;i<2;++i)
-  {
-  // Set the properties of the conic shell
-  spatialFunc->SetDistanceMin(m_DistanceMin);
-  spatialFunc->SetDistanceMax(m_DistanceMax);
-  spatialFunc->SetEpsilon(m_Epsilon);
-  spatialFunc->SetPolarity(m_Polarity);
-  if(i==1 && m_Polarity == true)m_Polarity = false;
-  else if(i==1 && m_Polarity == false)m_Polarity = true;
-  spatialFunc->SetPolarity(m_Polarity);
-
-  // Set the origin of the conic shell to the current boundary point location
-  PositionType spatialFunctionOrigin = pBPOne->GetOptimalBoundaryLocation();
-  spatialFunc->SetOrigin(spatialFunctionOrigin);
-
-  // Covert the origin position to a vector
-  //VectorType spatialFunctionOriginVector = spatialFunctionOrigin.GetVectorFromOrigin();
-
-  VectorType spatialFunctionOriginVector;
-  spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
-
-  // Set the gradient of the conic shell to the current boundary point gradient
-  FunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
-  spatialFunc->SetOriginGradient(spatialFunctionGradient);
-
-  // Create a seed position for the spatial function iterator we'll use shortly
-  typename BoundaryProfileImageType::IndexType seedIndex;
-
-  // Normalize the origin gradient
-  VectorType seedVector;
-  seedVector.Set_vnl_vector(spatialFunctionGradient.Get_vnl_vector());
-  seedVector = seedVector / seedVector.GetNorm();
-  
-  // If the polarity is 1, the seed position is in the direction
-  // opposite the gradient
-  if(m_Polarity == 1)
-    seedVector = seedVector * -1;
-  
-  // A "safe" seed position is the closest point in the conical region
-  // along the axis of the cone
-  PositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
-
-  // If the seed position is inside the image, go ahead and process it
-  if( m_BoundaryProfileImagePtr->TransformPhysicalPointToIndex(seedPos, seedIndex) )
     {
-    // Create and initialize a spatial function iterator
-    typedef FloodFilledSpatialFunctionConditionalConstIterator<BoundaryProfileImageType, FunctionType> SphereItType;
-    SphereItType sfi = SphereItType(m_BoundaryProfileImagePtr, spatialFunc, seedIndex);
+    // Set the properties of the conic shell
+    spatialFunc->SetDistanceMin(m_DistanceMin);
+    spatialFunc->SetDistanceMax(m_DistanceMax);
+    spatialFunc->SetEpsilon(m_Epsilon);
+    spatialFunc->SetPolarity(m_Polarity);
+    if(i==1 && m_Polarity == true)m_Polarity = false;
+    else if(i==1 && m_Polarity == false)m_Polarity = true;
+    spatialFunc->SetPolarity(m_Polarity);
 
-    // Walk the spatial function
-    for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
+    // Set the origin of the conic shell to the current boundary point location
+    PositionType spatialFunctionOrigin = pBPOne->GetOptimalBoundaryLocation();
+    spatialFunc->SetOrigin(spatialFunctionOrigin);
+
+    // Covert the origin position to a vector
+    //VectorType spatialFunctionOriginVector = spatialFunctionOrigin.GetVectorFromOrigin();
+
+    VectorType spatialFunctionOriginVector;
+    spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
+
+    // Set the gradient of the conic shell to the current boundary point gradient
+    FunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
+    spatialFunc->SetOriginGradient(spatialFunctionGradient);
+
+    // Create a seed position for the spatial function iterator we'll use shortly
+    typename BoundaryProfileImageType::IndexType seedIndex;
+
+    // Normalize the origin gradient
+    VectorType seedVector;
+    seedVector.Set_vnl_vector(spatialFunctionGradient.Get_vnl_vector());
+    seedVector = seedVector / seedVector.GetNorm();
+  
+    // If the polarity is 1, the seed position is in the direction
+    // opposite the gradient
+    if(m_Polarity == 1)
+      seedVector = seedVector * -1;
+  
+    // A "safe" seed position is the closest point in the conical region
+    // along the axis of the cone
+    PositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
+
+    // If the seed position is inside the image, go ahead and process it
+    if( m_BoundaryProfileImagePtr->TransformPhysicalPointToIndex(seedPos, seedIndex) )
       {
-      // The iterator for accessing linked list info
-      typename BloxBoundaryProfilePixel<NDimensions>::const_iterator bpiterator;
+      // Create and initialize a spatial function iterator
+      typedef FloodFilledSpatialFunctionConditionalConstIterator<BoundaryProfileImageType, FunctionType> SphereItType;
+      SphereItType sfi = SphereItType(m_BoundaryProfileImagePtr, spatialFunc, seedIndex);
 
-      // Walk through all of the elements at the pixel
-      for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)
+      // Walk the spatial function
+      for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
         {
-        // Get the pointer of the blox
-        BProfileItemType* pBPTwo = *bpiterator;
+        // The iterator for accessing linked list info
+        typename BloxBoundaryProfilePixel<NDimensions>::const_iterator bpiterator;
 
-        // Get the physical positions of the two boundary profiles
-        PositionType P1 = ( (BProfileItemType*)pBPOne )->GetOptimalBoundaryLocation();
-        PositionType P2 = ( (BProfileItemType*)pBPTwo )->GetOptimalBoundaryLocation();
-
-        // Form the two vectors between them
-        VectorType C12 = P2 - P1;
-
-        // If we don't meet distance criteria, move on
-        if(!( (C12.GetNorm() > m_DistanceMin) && (C12.GetNorm() < m_DistanceMax) ) )
-          continue;
-
-        VectorType C21 = P1 - P2;
-
-        C12 = C12 / C12.GetNorm();
-        C21 = C21 / C21.GetNorm();
-
-        // Get the gradients of the two boundary points
-        GradientType G1 = ( (BProfileItemType*)pBPOne )->GetGradient();
-        GradientType G2 = ( (BProfileItemType*)pBPTwo )->GetGradient();
-
-        G1 = G1 / G1.GetNorm();
-        G2 = G2 / G2.GetNorm();
-
-        // Calculate face-to-faceness
-        double faceness1 = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() );
-        double faceness2 = dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
-        double faceToFaceness = faceness1 * faceness2;
-
-        //std::cout << "faceToFaceness = " << faceToFaceness << std::endl;
-
-        // If face-to-faceness meets threshold criteria
-        if( faceToFaceness > (1.0 - m_Epsilon) )
-        {//std::cout << "0" << std::endl;
-          // Figure out the center of the core atom
-          PositionType coreAtomCenter = P1 + (P2 - P1) / 2;
-          SourceImageIndexType centerIndex;
-          SourceImageIndexType centerIndexTemp;
-          m_SourceImagePtr->TransformPhysicalPointToIndex(coreAtomCenter, centerIndex);
-          m_SourceImagePtr->TransformPhysicalPointToIndex(coreAtomCenter, centerIndexTemp);
-
-          // Get the average pixel intensity in the pixels surrounding the center of the core atom
-          float coreCenterIntensityAvg = (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-
-          centerIndexTemp[0] = centerIndex[0]+1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-          centerIndexTemp[0] = centerIndex[0]-1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-          centerIndexTemp[0] = centerIndex[0];
-          centerIndexTemp[1] = centerIndex[1]+1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-          centerIndexTemp[1] = centerIndex[1]-1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-          centerIndexTemp[1] = centerIndex[1];
-          centerIndexTemp[2] = centerIndex[2]+1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-          centerIndexTemp[2] = centerIndex[2]-1;
-          coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
-
-          coreCenterIntensityAvg /= 7;
-
-         // std::cout << "coreCenterIntensityAvg = " << coreCenterIntensityAvg << std::endl;
-
-          //homogeneous core profiles
-
-          if(faceness1 <= 0 && faceness2 <= 0)
-          {  //std::cout << "1";
-            float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
-            if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
-                (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
-                m_IntensityFlag = 1;
-            else m_IntensityFlag = 0;
-
-            if( fabs( (pBPOne->GetLowerIntensity() - pBPTwo->GetLowerIntensity()) ) <= m_IntensityThreshold
-                && m_IntensityFlag == true )
-              m_CreateCoreAtom = true;
-            else
-              m_CreateCoreAtom = false;
-          }
-          else if(faceness1 <= 0 && faceness2 > 0)
-          {//std::cout << "2";
-            float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
-            if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
-                (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
-                m_IntensityFlag = 1;
-            else m_IntensityFlag = 0;
-
-            if( fabs( (pBPOne->GetLowerIntensity() - pBPTwo->GetUpperIntensity()) ) <= m_IntensityThreshold
-                && m_IntensityFlag == true )
-              m_CreateCoreAtom = true;
-            else
-              m_CreateCoreAtom = false;
-          }
-          else if(faceness1 > 0 && faceness2 <= 0)
-          {//std::cout << "3";
-            float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
-            if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
-                (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
-                m_IntensityFlag = 1;
-            else m_IntensityFlag = 0;
-
-            if( fabs( (pBPOne->GetUpperIntensity() - pBPTwo->GetLowerIntensity()) ) <= m_IntensityThreshold
-                && m_IntensityFlag == true )
-              m_CreateCoreAtom = true;
-            else
-              m_CreateCoreAtom = false;
-          }
-          else if(faceness1 > 0 && faceness2 > 0)
-          {//std::cout << "4";
-            float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
-            if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
-                (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
-                m_IntensityFlag = 1;
-            else m_IntensityFlag = 0;
-
-            if( fabs( (pBPOne->GetUpperIntensity() - pBPTwo->GetUpperIntensity()) ) <= m_IntensityThreshold
-                && m_IntensityFlag == true )
-              m_CreateCoreAtom = true;
-            else
-              m_CreateCoreAtom = false;
-          }
-          else
+        // Walk through all of the elements at the pixel
+        for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)
           {
-            std::cerr << "BloxBoundaryProfileImageToBloxCoreAtomImageFilter::FindCoreAtomsAtBoundaryPoint: Invalid Homogeneous Condition" << std::endl;
-            m_CreateCoreAtom = false;
-          }
+          // Get the pointer of the blox
+          BProfileItemType* pBPTwo = *bpiterator;
 
-          //===== CREATE CORE ATOM =====
+          // Get the physical positions of the two boundary profiles
+          PositionType P1 = ( (BProfileItemType*)pBPOne )->GetOptimalBoundaryLocation();
+          PositionType P2 = ( (BProfileItemType*)pBPTwo )->GetOptimalBoundaryLocation();
 
-          if(m_CreateCoreAtom)
-          {
-            m_CoreAtomsCreated++;
+          // Form the two vectors between them
+          VectorType C12 = P2 - P1;
 
-            // Figure out the diameter of the core atom
-            double coreAtomDiameter = (P2-P1).GetNorm();
+          // If we don't meet distance criteria, move on
+          if(!( (C12.GetNorm() > m_DistanceMin) && (C12.GetNorm() < m_DistanceMax) ) )
+            continue;
 
-            // Create a new core atom
-            BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;
+          VectorType C21 = P1 - P2;
+
+          C12 = C12 / C12.GetNorm();
+          C21 = C21 / C21.GetNorm();
+
+          // Get the gradients of the two boundary points
+          GradientType G1 = ( (BProfileItemType*)pBPOne )->GetGradient();
+          GradientType G2 = ( (BProfileItemType*)pBPTwo )->GetGradient();
+
+          G1 = G1 / G1.GetNorm();
+          G2 = G2 / G2.GetNorm();
+
+          // Calculate face-to-faceness
+          double faceness1 = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() );
+          double faceness2 = dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
+          double faceToFaceness = faceness1 * faceness2;
+
+          //std::cout << "faceToFaceness = " << faceToFaceness << std::endl;
+
+          // If face-to-faceness meets threshold criteria
+          if( faceToFaceness > (1.0 - m_Epsilon) )
+            {//std::cout << "0" << std::endl;
+            // Figure out the center of the core atom
+            PositionType coreAtomCenter = P1 + (P2 - P1) / 2;
+            SourceImageIndexType centerIndex;
+            SourceImageIndexType centerIndexTemp;
+            m_SourceImagePtr->TransformPhysicalPointToIndex(coreAtomCenter, centerIndex);
+            m_SourceImagePtr->TransformPhysicalPointToIndex(coreAtomCenter, centerIndexTemp);
+
+            // Get the average pixel intensity in the pixels surrounding the center of the core atom
+            float coreCenterIntensityAvg = (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+
+            centerIndexTemp[0] = centerIndex[0]+1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+            centerIndexTemp[0] = centerIndex[0]-1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+            centerIndexTemp[0] = centerIndex[0];
+            centerIndexTemp[1] = centerIndex[1]+1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+            centerIndexTemp[1] = centerIndex[1]-1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+            centerIndexTemp[1] = centerIndex[1];
+            centerIndexTemp[2] = centerIndex[2]+1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+            centerIndexTemp[2] = centerIndex[2]-1;
+            coreCenterIntensityAvg += (float)m_SourceImagePtr->GetPixel(centerIndexTemp);
+
+            coreCenterIntensityAvg /= 7;
+
+            // std::cout << "coreCenterIntensityAvg = " << coreCenterIntensityAvg << std::endl;
+
+            //homogeneous core profiles
+
+            if(faceness1 <= 0 && faceness2 <= 0)
+              {  //std::cout << "1";
+              float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
+              if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
+                  (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
+                m_IntensityFlag = 1;
+              else m_IntensityFlag = 0;
+
+              if( fabs( (pBPOne->GetLowerIntensity() - pBPTwo->GetLowerIntensity()) ) <= m_IntensityThreshold
+                  && m_IntensityFlag == true )
+                m_CreateCoreAtom = true;
+              else
+                m_CreateCoreAtom = false;
+              }
+            else if(faceness1 <= 0 && faceness2 > 0)
+              {//std::cout << "2";
+              float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
+              if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
+                  (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
+                m_IntensityFlag = 1;
+              else m_IntensityFlag = 0;
+
+              if( fabs( (pBPOne->GetLowerIntensity() - pBPTwo->GetUpperIntensity()) ) <= m_IntensityThreshold
+                  && m_IntensityFlag == true )
+                m_CreateCoreAtom = true;
+              else
+                m_CreateCoreAtom = false;
+              }
+            else if(faceness1 > 0 && faceness2 <= 0)
+              {//std::cout << "3";
+              float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
+              if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
+                  (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
+                m_IntensityFlag = 1;
+              else m_IntensityFlag = 0;
+
+              if( fabs( (pBPOne->GetUpperIntensity() - pBPTwo->GetLowerIntensity()) ) <= m_IntensityThreshold
+                  && m_IntensityFlag == true )
+                m_CreateCoreAtom = true;
+              else
+                m_CreateCoreAtom = false;
+              }
+            else if(faceness1 > 0 && faceness2 > 0)
+              {//std::cout << "4";
+              float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
+              if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
+                  (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
+                m_IntensityFlag = 1;
+              else m_IntensityFlag = 0;
+
+              if( fabs( (pBPOne->GetUpperIntensity() - pBPTwo->GetUpperIntensity()) ) <= m_IntensityThreshold
+                  && m_IntensityFlag == true )
+                m_CreateCoreAtom = true;
+              else
+                m_CreateCoreAtom = false;
+              }
+            else
+              {
+              std::cerr << "BloxBoundaryProfileImageToBloxCoreAtomImageFilter::FindCoreAtomsAtBoundaryPoint: Invalid Homogeneous Condition" << std::endl;
+              m_CreateCoreAtom = false;
+              }
+
+            //===== CREATE CORE ATOM =====
+
+            if(m_CreateCoreAtom)
+              {
+              m_CoreAtomsCreated++;
+
+              // Figure out the diameter of the core atom
+              double coreAtomDiameter = (P2-P1).GetNorm();
+
+              // Create a new core atom
+              BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;
           
-            // Set its boundary points, center, and diameter
-            pCoreAtom->SetBoundaryPointA( (BPointItemType*)pBPOne );
-            pCoreAtom->SetBoundaryPointB( (BPointItemType*)pBPTwo );
-            pCoreAtom->SetCenterPosition(coreAtomCenter);
-            pCoreAtom->SetDiameter(coreAtomDiameter);
+              // Set its boundary points, center, and diameter
+              pCoreAtom->SetBoundaryPointA( (BPointItemType*)pBPOne );
+              pCoreAtom->SetBoundaryPointB( (BPointItemType*)pBPTwo );
+              pCoreAtom->SetCenterPosition(coreAtomCenter);
+              pCoreAtom->SetDiameter(coreAtomDiameter);
 
-            // Figure out the data space coordinates of the center
-            IndexType coreAtomPos;
+              // Figure out the data space coordinates of the center
+              IndexType coreAtomPos;
           
-            m_OutputPtr->TransformPhysicalPointToIndex(coreAtomCenter, coreAtomPos);
+              m_OutputPtr->TransformPhysicalPointToIndex(coreAtomCenter, coreAtomPos);
          
-            // Store the new core atom in the correct spot
-            m_OutputPtr->GetPixel(coreAtomPos).push_back(pCoreAtom);
-          }
+              // Store the new core atom in the correct spot
+              m_OutputPtr->GetPixel(coreAtomPos).push_back(pCoreAtom);
+              }
 
-          } // end if face-to-faceness meets criteria
-        } // end iterate through boundary points in pixel
-      } // end iterate through the conic shell
-    } // end if the seed position for the conic shell is in the image
-  }
+            } // end if face-to-faceness meets criteria
+          } // end iterate through boundary points in pixel
+        } // end iterate through the conic shell
+      } // end if the seed position for the conic shell is in the image
+    }
 }
 
 template< typename TSourceImage, unsigned int dim >
