@@ -29,7 +29,7 @@ itkMinimumMaximumConditionalImageCalculatorTest(int ,char *[] )
     typedef itk::Size<3>                                SizeType;
     typedef itk::Image<short, 3>                        ImageType;
 
-    typedef itk::Image<char, 3>                        MaskImageType;
+    typedef itk::Image<unsigned char, 3>                        MaskImageType;
 
     typedef itk::MinimumMaximumConditionalImageCalculator<
                            ImageType,MaskImageType>   MinMaxCalculatorType;
@@ -91,20 +91,15 @@ itkMinimumMaximumConditionalImageCalculatorTest(int ,char *[] )
     patchStart[2] = 4;
 
     MaskImageType::SizeType patchSize;
+    patchSize[0] = 8;
+    patchSize[1] = 8;
+    patchSize[2] = 8;
 
     MaskImageType::RegionType patchRegion;
     patchRegion.SetSize( patchSize );
     patchRegion.SetIndex( patchStart );
 
-    MaskImageType::PixelType maskValue = 255;
-
-    itk::ImageRegionIterator< MaskImageType >  it( mask, patchRegion );
-    it.GoToBegin();
-    while( !it.IsAtEnd() )
-      {
-      it.Set( maskValue );
-      ++it;
-      }
+    MaskImageType::PixelType maskValue = 127;
 
     // Set voxel (10,10,10) to maximum value
     ImageType::IndexType index;
@@ -112,6 +107,14 @@ itkMinimumMaximumConditionalImageCalculatorTest(int ,char *[] )
     index[1] = 10;
     index[2] = 10;
     image->SetPixel(index, maximum);
+    mask->SetPixel(index, maskValue);
+
+    // Set voxel (6,5,4) to minimum value
+    index[0] = 6;
+    index[1] = 5;
+    index[2] = 4;
+    image->SetPixel(index, minimum);
+    mask->SetPixel(index, maskValue);
 
     // Create and initialize the calculator
     MinMaxCalculatorType::Pointer calculator = MinMaxCalculatorType::New();
@@ -119,6 +122,8 @@ itkMinimumMaximumConditionalImageCalculatorTest(int ,char *[] )
     calculator->SetMaskImage( mask );
     calculator->SetMaskValue( maskValue );
     calculator->Compute();
+
+    calculator->Print(std::cout);
 
     // Return minimum of intensity
     short minimumResult = calculator->GetMinimum();
