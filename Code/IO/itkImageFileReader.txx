@@ -295,7 +295,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   m_ImageIO->SetIORegion(ioRegion);
 
   if ( m_ImageIO->GetComponentTypeInfo()
-       == typeid(typename PixelTraits<TOutputImage::PixelType>::ValueType)
+       == typeid(typename PixelTraits<typename TOutputImage::PixelType>::ValueType)
        && (m_ImageIO->GetNumberOfComponents()
            == ConvertPixelTraits::GetNumberOfComponents()))
     {
@@ -318,7 +318,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     itkDebugMacro(<< "Buffer conversion required from: "
                   << m_ImageIO->GetComponentTypeInfo().name()
                   << " to: "
-                  << typeid(PixelTraits<TOutputImage::PixelType>::ValueType).name());
+                  << typeid(typename PixelTraits<typename TOutputImage::PixelType>::ValueType).name());
 
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
