@@ -1,14 +1,15 @@
 #
 #  Example on the use of the GradientAnisotropicDiffusionImageFilter
 #
+package require InsightToolkit
 
-set reader [ itk::create ImageFileReaderUS2 ]
-set writer [ itk::create ImageFileWriterUS2 ]
+set reader [ itkImageFileReaderUS2_New ]
+set writer [ itkImageFileWriterUS2_New ]
 
-set inputCast  [ itk::create CastImageFilterUS2F2    ]
-set outputCast [ itk::create RescaleIntensityImageFilterF2US2 ]
+set inputCast  [ itkCastImageFilterUS2F2_New    ]
+set outputCast [ itkRescaleIntensityImageFilterF2US2_New ]
 
-set filter [ itk::create GradientAnisotropicDiffusionImageFilterF2 ]
+set filter [ itkGradientAnisotropicDiffusionImageFilterF2F2_New ]
 
 $inputCast  SetInput [ $reader     GetOutput ]
 $filter     SetInput [ $inputCast  GetOutput ]

@@ -1,6 +1,7 @@
 #
 #  Example on the use of the MeanImageFilter
 #
+package require InsightToolkit
 
 set reader [ itkImageFileReaderUS2_New ]
 set writer [ itkImageFileWriterUS2_New ]
