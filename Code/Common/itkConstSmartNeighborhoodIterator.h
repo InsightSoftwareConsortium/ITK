@@ -88,7 +88,7 @@ public:
    * dimension to walk a particular image and a particular region of
    * that image. */ 
   ConstSmartNeighborhoodIterator(const SizeType& radius,
-                                  ImageType *ptr,
+                                 const ImageType *ptr,
                                  const RegionType& region)
     : Superclass()
     { this->Initialize(radius, ptr, region);
