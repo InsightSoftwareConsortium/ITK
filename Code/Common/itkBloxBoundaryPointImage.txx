@@ -42,9 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxBoundaryPointImage_txx
 
 #include <iostream>
-#include "VNL/vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkScalarVector.h"
 #include "itkBloxBoundaryPointImage.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -100,7 +101,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   unsigned long int numBPadded = 0;
 
   // Get the index of the pixel
-  TSourceImage::IndexType sourceIndex;
+  typename TSourceImage::IndexType sourceIndex;
   IndexType bloxIndex;
   
   for ( sourceIt.Begin(); !sourceIt.IsAtEnd(); ++sourceIt)
