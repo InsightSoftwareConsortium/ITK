@@ -100,6 +100,11 @@ public:
     return m_Size;
   }
   
+  int GetStride(unsigned int i)
+  {
+    return m_StrideTable[i];
+  }
+  
   ParallelSparseFieldCityBlockNeighborList();
   
   ~ParallelSparseFieldCityBlockNeighborList()
@@ -116,6 +121,10 @@ private:
   RadiusType m_Radius;
   std::vector<unsigned int> m_ArrayIndex;
   std::vector<OffsetType>   m_NeighborhoodOffset;
+  
+  /** An internal table for keeping track of stride lengths in a neighborhood,
+   *  i.e. the memory offsets between pixels along each dimensional axis. */
+  unsigned int m_StrideTable[Dimension];
   char pad2[128];
 };
 
@@ -676,6 +685,12 @@ protected:
   /** Used to check if there are too few pixels remaining. If yes, then we can
    *  stop iterating. */
   bool m_Stop;
+  
+  /** This flag tells the solver whether or not to interpolate for the actual
+      surface location when calculating change at each active layer node.  By
+      default this is turned on. Subclasses which do not sample propagation
+      (speed), advection, or curvature terms should turn this flag off. */
+  bool m_InterpolateSurfaceLocation;
   
 private:
   

@@ -67,6 +67,11 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>
     m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
     m_NeighborhoodOffset[i][d] = 1;
     }
+  
+  for (i = 0; i < Dimension; ++i)
+    {
+    m_StrideTable[i] = it.GetStride(i);
+    }
 }
 
 template <class TNeighborhoodType>
@@ -131,6 +136,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_IsoSurfaceValue = m_ValueZero;
   m_NumberOfLayers = 1;
   m_RMSChange = m_ValueOne;
+  m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
 }
 
@@ -1282,13 +1288,17 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ThreadedCalculateChange(int ThreadId)
 {
   typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
-
+  typename FiniteDifferenceFunctionType::FloatOffsetType offset;
+  float norm_grad_phi_squared, dx_forward, dx_backward;
+  const float MIN_NORM = 1.0e-6;
+  
   ConstNeighborhoodIterator<OutputImageType> outputIt (df->GetRadius(), m_OutputImage,
                                                        m_OutputImage->GetRequestedRegion());
   if ( m_BoundsCheckingActive == false )
     {
     outputIt.NeedToUseBoundaryConditionOff();
     }
+  unsigned int i, center = outputIt.Size() /2;
   
   // Calculates the update values for the active layer indicies in this
   // iteration.  Iterates through the active layer index list, applying 
@@ -1301,7 +1311,47 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for ( ; layerIt != layerEnd; ++layerIt)
     {
     outputIt.SetLocation(layerIt->m_Index);
-    layerIt->m_Value = df->ComputeUpdate (outputIt, (void *) m_Data[ThreadId].globalData);
+    // Calculate the offset to the surface from the center of this
+    // neighborhood.  This is used by some level set functions in sampling a
+    // speed, advection, or curvature term.
+    if (this->m_InterpolateSurfaceLocation)
+      {
+      // Surface is at the zero crossing, so distance to surface is:
+      // phi(x) / norm(grad(phi)), where phi(x) is the center of the
+      // neighborhood.  The location is therefore
+      // (i,j,k) + ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
+      norm_grad_phi_squared = 0.0;
+      for (i = 0; i < ImageDimension; ++i)
+        {
+        dx_forward = outputIt.GetPixel(center + m_NeighborList.GetStride(i))
+          - outputIt.GetCenterPixel();
+        dx_backward = outputIt.GetCenterPixel()
+          - outputIt.GetPixel(center - m_NeighborList.GetStride(i));
+              
+        if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
+          {
+          offset[i] = dx_forward;
+          }
+        else
+          {
+          offset[i] = dx_backward;
+          }
+
+        norm_grad_phi_squared += offset[i] * offset[i];
+        }
+
+      for (i = 0; i < ImageDimension; ++i)
+        {
+        offset[i] = ( offset[i] * outputIt.GetCenterPixel() )
+          / (norm_grad_phi_squared + MIN_NORM);
+        }
+          
+      layerIt->m_Value = df->ComputeUpdate (outputIt, (void *) m_Data[ThreadId].globalData, offset);
+      }
+    else // Don't do interpolation
+      {
+      layerIt->m_Value = df->ComputeUpdate (outputIt, (void *) m_Data[ThreadId].globalData);
+      }
     }
   
   TimeStepType timeStep= df->ComputeGlobalTimeStep ((void*) m_Data[ThreadId].globalData);
