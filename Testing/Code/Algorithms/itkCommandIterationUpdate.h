@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkCommandIterationUpdate_h
 
 #include <itkCommand.h>
-
+#include "itkWeakPointer.h"
 
 namespace itk {
 
@@ -148,9 +148,9 @@ protected:
 private:
 
   /**
-   *  SmartPointer to the Optimizer
+   *  WeakPointer to the Optimizer
    */
-  typename OptimizerType::ConstPointer   m_Optimizer;
+  WeakPointer<OptimizerType>   m_Optimizer;
  
 
   
