@@ -374,14 +374,23 @@ public:
   void ReducedSystemSemiIteration() { m_Method = 6; }
 
 
+  /* -----------------------------------------------------------------
+   * 
+   * Redefine methods defined in LinearSystemWrapper 
+   *
+   * ----------------------------------------------------------------- 
+   */
+
   /**
    * set maximum number of entires in a matrix
-   * \param matrixID index of matrix
+   * \param matrixIndex index of matrix
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
    */  
-  void SetMaximumNonZeroValuesInMatrix(unsigned int matrixID, unsigned int maxNonZeroValues);
+  void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeroValues);
 
+
+  void ScaleMatrix(Float scale, unsigned int matrixIndex);
 
   /* -----------------------------------------------------------------
    * 

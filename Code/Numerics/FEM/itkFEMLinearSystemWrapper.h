@@ -16,7 +16,7 @@
 =========================================================================*/
 
 #ifndef __itkFEMLinearSystemWrapper_h
-#define __itkFEMLinearSystemWrapper_h
+#define __itkFEMLinearSystemWrapper_h 
 
 #include "itkFEMSolution.h"
 
@@ -61,8 +61,8 @@ public:
    * is required by derived class.
    */
   LinearSystemWrapper() 
-    : m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1),
-    m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0), m_PrimarySolutionSetupFunction(0) {}
+    : m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1) {}
+      /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0), m_PrimarySolutionSetupFunction(0) {} */
 
   /**
    * Virtual destructor should properly destroy the object and clean up any
@@ -87,6 +87,15 @@ public:
    * \param nMatrices Index of matrices used by system
    */
   void SetNumberOfMatrices(unsigned int nMatrices) { m_NumberOfMatrices = nMatrices; }
+
+  /**
+   * Set the maximum number of entries permitted in a matrix
+   * \param matrixIndex index of matrix to set value for
+   * \param maxNonZeros maximum number of entries allowed in matrix
+   * \note in general this function does nothing, however it may 
+   *       redefined by the derived wrapper if necessary
+   */
+  void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) {}
 
   /**
    * Get Index of matrices used by system
@@ -122,13 +131,13 @@ public:
    *
    * \param MatrixIndex index of matrix to initialize
    */
-  virtual void InitializeMatrix(unsigned int MatrixIndex = 0) = 0;
+  virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
 
   /**
    * Free the memory from a matrix
    * \param MatrixIndex index of matrix to destroy
    */
-  virtual void DestroyMatrix(unsigned int MatrixIndex = 0) = 0;
+  virtual void DestroyMatrix(unsigned int matrixIndex = 0) = 0;
 
   /**
    * Initialization of the a vector. First any existing data for vector B
@@ -136,13 +145,13 @@ public:
    * elements in B must be set to zero.
    *
    */
-  virtual void InitializeVector(unsigned int VectorIndex = 0) = 0;
+  virtual void InitializeVector(unsigned int vectorIndex = 0) = 0;
 
   /**
    * Free the memory from a vector
    * \param VectorIndex index of vector to destroy
    */
-  virtual void DestroyVector(unsigned int VectorIndex = 0) = 0;
+  virtual void DestroyVector(unsigned int vectorIndex = 0) = 0;
 
   /**
    * Initialization of a solution vector.  Existing memory must be destroyed
@@ -150,12 +159,12 @@ public:
    * be set to zero.
    * \param SolutionIndex index of solution vector to initialize
    */
-  virtual void InitializeSolution(unsigned int SolutionIndex = 0) = 0;
+  virtual void InitializeSolution(unsigned int solutionIndex = 0) = 0;
 
   /** Free teh mememory from a solution vector
    * \param SolutionIndex index of solution vector to destroy
    */
-  virtual void DestroySolution(unsigned int SolutionIndex = 0) = 0;
+  virtual void DestroySolution(unsigned int solutionIndex = 0) = 0;
 
   /**
    * Virtual function to get a value of a specific element of a matrix.
@@ -163,7 +172,7 @@ public:
    * \param j column of the element
    * \param MatrixIndex index of matrix to get value from
    */
-  virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int MatrixIndex = 0) const = 0;
+  virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex = 0) const = 0;
 
   /**
    * Virtual function to set a value of a specific element of the A matrix.
@@ -172,7 +181,7 @@ public:
    * \param value new value of the element
    * \param MatrixValue index of matrix to set value in
    */
-  virtual void SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex = 0) = 0;
+  virtual void SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
 
   /**
    * Virtual function to add a value to a specific element of the A matrix.
@@ -181,14 +190,14 @@ public:
    * \param value value to add to the existing element
    * \param MatrixIndex index of matrix to add value to
    */
-  virtual void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex = 0) = 0;
+  void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0);
 
   /**
    * Virtual function to get a value of a specific element of the B vector.
    * \param i row of the element
    * \param VectorIndex index of vector to get value from
    */
-  virtual Float GetVectorValue(unsigned int i, unsigned int VectorIndex = 0) const = 0;
+  virtual Float GetVectorValue(unsigned int i, unsigned int vectorIndex = 0) const = 0;
 
   /**
    * Virtual function to set a value of a specific element of the B vector.
@@ -196,7 +205,7 @@ public:
    * \param value new value of the element
    * \param VectorIndex index of vector to set value in
    */
-  virtual void SetVectorValue(unsigned int i, Float value, unsigned int VectorIndex = 0) = 0;
+  virtual void SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0) = 0;
 
   /**
    * Virtual function to add a value to a specific element of the B vector.
@@ -204,7 +213,7 @@ public:
    * \param value value to add to the existing element
    * \param VectorIndex index of vector to add value to
    */
-  virtual void AddVectorValue(unsigned int i, Float value, unsigned int VectorIndex = 0) = 0;
+  void AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex = 0);
 
   /**
    * Virtual function to set a value of specific element of the solution
@@ -213,7 +222,7 @@ public:
    * \param value new value of the element
    * \param SolutionIndex index of solution vector to set value in
    */
-  virtual void SetSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex = 0) = 0;
+  virtual void SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex = 0) = 0;
 
   /**
    * Virtual function to add a value of specific element of the solution
@@ -222,7 +231,7 @@ public:
    * \param value new value of the element
    * \param SolutionIndex index of solution vector to add value to
    */
-  virtual void AddSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex = 0) = 0;
+  virtual void AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex = 0) = 0;
 
   /**
    * Solves the linear system and creates the solution vector, which can later
@@ -238,21 +247,45 @@ public:
    * \param MatrixIndex1 index of a matrix to swap
    * \param MatrixIndex2 index of matrix to swap with
    */
-  virtual void SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2) = 0;
+  virtual void SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) = 0;
 
   /** 
    * Swaps access indices of any 2 vectors in the linear system
    * \param VectorIndex1 index of a vector to swap
    * \param VectorIndex2 index of vector to swap with
    */
-  virtual void SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2) = 0;
+  virtual void SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) = 0;
 
   /** 
    * Swaps access indices of any 2 solution vectors in the linear system
    * \param SolutionIndex1 index of a solution vector to swap
    * \param SolutionIndex2 index of solution vector to swap with
    */
-  virtual void SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2) = 0;
+  virtual void SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) = 0;
+
+
+  /**
+   * Multiplies all elements of a matrix by a scalar
+   * \param scale scalar to multiply all matrix values by
+   * \param matrixIndex index of matrix to modify
+   */
+  void ScaleMatrix(Float scale, unsigned int matrixIndex = 0);
+
+
+  /**
+   * Multiplies all elements of a vector by a scalar
+   * \param scale scalar to multiply all vector values by
+   * \param vectorIndex index of vector to modify
+   */
+  void ScaleVector(Float scale, unsigned int vectorIndex = 0);
+
+
+  /**
+   * Multiplies all elements of a solution by a scalar
+   * \param scale scalar to multiply all solution values by
+   * \param matrixIndex index of solution to modify
+   */
+  void ScaleSolution(Float scale, unsigned int solutionIndex = 0);
 
   /**
    * Perform a matrix*matrix operation and store the result in the linear system
@@ -260,7 +293,7 @@ public:
    * \param RightMatrixIndex index of right matrix
    * \param ResultMatrixIndex index of matrix where solution is stored
    */
-  virtual void MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex) = 0;
+  virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex) = 0;
 
   /**
    * Perform a matrix*vector operation and store the result in the linear system
@@ -268,45 +301,51 @@ public:
    * \param VectorIndex index of vector to multiply
    * \param ResultVectorIndex index of vector where result is store
    */
-  virtual void MultiplyMatrixVector(unsigned int ResultVectorIndex, unsigned int MatrixIndex, unsigned int VectorIndex) = 0;
+  void MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex);
 
   /**
    * Copy a solution vector to a vector
    * \param SolutionIndex index of solution vector to copy
    * \param VectorIndex index of vector to copy solution to
    */
-  virtual void CopySolution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex) = 0;
+  virtual void CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex) = 0;
 
-  /**
+  /*
    * Sets the function used to prepare the primary system matrix for numerical solving
    * \param SetupFunction pointer to function that stores the matrix to 
    * solve in the 0 matrix of the linear system
    */
+  /*
   void SetPrimaryMatrixSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
   { 
     m_PrimaryMatrixSetupFunction = SetupFunction; 
   }
+  */
 
 
-  /**
+  /*
    * Sets the function used to prepare the primary system vector for numerical solving
    * \param SetupFunction pointer to function that stores the vector to
    * solve in the 0 vector of the linear system
    */
+  /*
   void SetPrimaryVectorSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
   { 
     m_PrimaryVectorSetupFunction = SetupFunction; 
   }
+  */
 
-  /**
+  /*
    * Sets the function used to prepare the primary system solution for numerical solving
    * \param SetupFunction pointer to function that stores the solution 
    * in the 0 solution vector of the linear system
    */
+  /*
   void SetPrimarySolutionSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
   { 
     m_PrimarySolutionSetupFunction = SetupFunction; 
   }
+  */
 
 protected:
 
@@ -328,20 +367,20 @@ protected:
    */
   unsigned int m_NumberOfSolutions;
 
-  /** 
+  /*
    * Function used to prepare primary matrix for numerical solving 
    */
-  void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
+  //void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
 
-  /** 
+  /*
    * Function used to prepare primary vector for numerical solving 
    */
-  void (*m_PrimaryVectorSetupFunction)(LinearSystemWrapper *lsw);
+  /* void (*m_PrimaryVectorSetupFunction)(LinearSystemWrapper *lsw);*/
 
-  /** 
+  /*
    * Function used to prepare primary matrix for numerical solving 
    */
-  void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw);
+  /* void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw); */
 
 private:
 

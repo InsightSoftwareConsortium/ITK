@@ -50,6 +50,7 @@ ItpackLinearSystemWrapper::ItpackLinearSystemWrapper()
   m_MaximumNonZeroValues = 0;
   m_Matrices = 0;
   m_Vectors = 0;
+  m_Solutions = 0;
 
 }
 
@@ -79,6 +80,7 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
   }
 
   /* Set required variables */
+  (*m_Matrices)[matrixIndex].Clear();
   (*m_Matrices)[matrixIndex].SetOrder(m_Order);
   (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues[matrixIndex] );
 
@@ -94,6 +96,12 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
     m_Vectors = new VectorHolder(m_NumberOfVectors);
   }
   
+  /* delete old vector */
+  if ( (*m_Vectors)[vectorIndex] != 0 )
+  {
+    delete [] (*m_Vectors)[vectorIndex];
+  }
+
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal [m_Order];
 
@@ -113,6 +121,12 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new VectorHolder(m_NumberOfSolutions);
+  }
+
+  /* delete old vector */
+  if ( (*m_Solutions)[solutionIndex] != 0 )
+  {
+    delete [] (*m_Solutions)[solutionIndex];
   }
 
   /* insert new vector */
@@ -141,13 +155,15 @@ void ItpackLinearSystemWrapper::DestroyVector(unsigned int vectorIndex)
   // FIX ME: error checking
 
   //this->InitializeVector(vectorIndex);
-  if (m_Vectors == NULL)
+  if (m_Vectors == 0)
   {
     return;
   }
   
   /* insert new vector */
-  (*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal(0.0));
+  //(*m_Vectors)[vectorIndex] = VectorRepresentation(new doublereal(0.0));
+  delete [] (*m_Vectors)[vectorIndex];
+  (*m_Vectors)[vectorIndex] = 0;
 
 }
 
@@ -163,8 +179,10 @@ void ItpackLinearSystemWrapper::DestroySolution(unsigned int solutionIndex)
   }
   
   /* insert new vector */
-  (*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal(0.0));
-  
+  //(*m_Solutions)[solutionIndex] = VectorRepresentation(new doublereal(0.0));
+  delete [] (*m_Solutions)[solutionIndex];
+  (*m_Solutions)[solutionIndex] = 0;
+
 }
 
 
@@ -189,6 +207,19 @@ void ItpackLinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, F
   // FIX ME: error checking
 
   ((*m_Matrices)[matrixIndex]).Add(i,j,value);
+}
+
+void ItpackLinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
+{
+  // FIX ME: error checking
+
+  int i;
+  doublereal *values = (*m_Matrices)[matrixIndex].GetA();
+  for (i=0; i<m_MaximumNonZeroValues[matrixIndex]; i++) 
+  {
+    values[i] = values[i]*scale;
+  }
+  
 }
 
 
@@ -452,7 +483,7 @@ ItpackLinearSystemWrapper::~ItpackLinearSystemWrapper(void)
         delete [] (*m_Vectors)[i];
       }
     }
-    delete [] m_Vectors;
+    delete m_Vectors;
   }
 
   
@@ -465,7 +496,7 @@ ItpackLinearSystemWrapper::~ItpackLinearSystemWrapper(void)
         delete [] (*m_Solutions)[i];
       }
     }
-    delete [] m_Solutions;
+    delete m_Solutions;
   }
   
 
