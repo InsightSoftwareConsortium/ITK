@@ -324,7 +324,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     }
   else 
     {
-    if (radius == -1) 
+    if (radius == 0) 
       {
       return list;
       }
