@@ -124,7 +124,7 @@ public:
 
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &, GlobalDataStruct *gd = 0)  const
+                                    const FloatOffsetType &, GlobalDataStruct * = 0)  const
     { return m_ZeroVectorConstant; }
 
   /** Propagation speed.  This term controls surface expansion/contraction.
@@ -137,7 +137,7 @@ public:
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &, GlobalDataStruct *gd = 0
+                                         const FloatOffsetType &, GlobalDataStruct * = 0
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
@@ -145,7 +145,7 @@ public:
       effects of laplacian smoothing of the level set function */
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct *gd = 0) const
+    const FloatOffsetType &, GlobalDataStruct * = 0) const
     { return NumericTraits<ScalarValueType>::One; }
 
   /** Alpha.  Scales all advection term values.*/ 
