@@ -13,33 +13,33 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkAffineRegistrationTransform_h
-#define __itkAffineRegistrationTransform_h
+#ifndef __itkTranslationRegistrationTransform_h
+#define __itkTranslationRegistrationTransform_h
 
 #include "itkObject.h"
 #include "itkTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
-#include "itkAffineTransform.h"
+#include "itkTranslationTransform.h"
 
 namespace itk
 {
   
-/** \class AffineRegistrationTransform
- * \brief Generic Affine Transformation for a registration method
+/** \class TranslationRegistrationTransform
+ * \brief Generic Translation Transformation for a registration method
  *
- * This Class define the generic interface for an Affine Transformation 
+ * This Class define the generic interface for an Translation Transformation 
  *
  */
 
 template <class TScalarType,unsigned int NDimensions, class TParameters>
-class ITK_EXPORT  AffineRegistrationTransform : public Object
+class ITK_EXPORT  TranslationRegistrationTransform : public Object
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef AffineRegistrationTransform  Self;
+  typedef TranslationRegistrationTransform  Self;
 
 
   /**
@@ -72,21 +72,21 @@ public:
 
 
   /** 
-   * Affine Transform Type
+   * Translation Transform Type
    */
-  typedef  AffineTransform<TScalarType,NDimensions>    AffineTransformType;
+  typedef  TranslationTransform<TScalarType,NDimensions>    TranslationTransformType;
 
 
   /** 
    * Point Type
    */
-  typedef  typename AffineTransformType::PointType     PointType;
+  typedef  typename TranslationTransformType::PointType     PointType;
 
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(AffineRegistrationTransform, Transform);
+  itkTypeMacro(TranslationRegistrationTransform, Transform);
 
 
   /** 
@@ -103,7 +103,7 @@ public:
   
 
   /**
-   * Transform a Point using the Affine transformation
+   * Transform a Point using the Translation transformation
    */
   PointType Transform( const PointType & point ) const;
 
@@ -125,15 +125,15 @@ public:
 
 protected:
 
-  AffineRegistrationTransform();
-  virtual ~AffineRegistrationTransform() {};
-  AffineRegistrationTransform(const Self&);
+  TranslationRegistrationTransform();
+  virtual ~TranslationRegistrationTransform() {};
+  TranslationRegistrationTransform(const Self&);
   const Self & operator=(const Self&);
 
 
 private:
 
-  AffineTransformType                 m_AffineTransform;
+  TranslationTransformType                 m_TranslationTransform;
   ParametersType                      m_Parameters;
 
   mutable JacobianType                m_Jacobian;     
@@ -143,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineRegistrationTransform.txx"
+#include "itkTranslationRegistrationTransform.txx"
 #endif
 
 #endif

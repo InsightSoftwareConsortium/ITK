@@ -85,7 +85,7 @@ TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
   typename TranslationTransformType::VectorType  constant;
   
   // Transfer the constant part
-  unsgined int par = 0;
+  unsigned int par = 0;
   for(unsigned int i=0; i<NDimensions; i++) 
   {
     constant[i] = m_Parameters[par];
