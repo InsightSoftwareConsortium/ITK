@@ -59,7 +59,11 @@ public:
   void SetType(TypeKey typeKey, const CvQualifiedType&);
   void CreateResultCommand(const String& name, const Type* type) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
+  
   CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
+  bool InstanceExists(const String& name) const;
+  void* GetInstanceObject(const String& name) const;
+  CvQualifiedType GetInstanceType(const String& name) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
                                            const Type* to) const;
   

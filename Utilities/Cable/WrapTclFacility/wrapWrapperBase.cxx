@@ -222,6 +222,33 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
 
 
 /**
+ * Return whether an InstanceTable entry with the given name exists.
+ */
+bool WrapperBase::InstanceExists(const String& name) const
+{
+  return m_InstanceTable->Exists(name);
+}
+
+
+/**
+ * Get a pointer to the InstanceTable entry with the given name.
+ */
+void* WrapperBase::GetInstanceObject(const String& name) const
+{
+  return m_InstanceTable->GetObject(name);
+}
+
+
+/**
+ * Get the type of the InstanceTable entry with the given name.
+ */
+CvQualifiedType WrapperBase::GetInstanceType(const String& name) const
+{
+  return m_InstanceTable->GetType(name);
+}
+
+
+/**
  * Get the conversion function from the wrapper's ConversionTable for
  * the specified conversion.  The table will automatically try to add
  * cv-qualifiers to the "from" type to find a conversion.
