@@ -57,9 +57,23 @@ ListSampleToHistogramImporter< TListSample, THistogram >
 {
   typename TListSample::Iterator iter = m_List->Begin() ;
   typename TListSample::Iterator last = m_List->End() ;
+  typename THistogram::InstanceIdentifier id ;
+  typename THistogram::IndexType index ;
   while (iter != last)
     {
-      m_Histogram->IncreaseFrequency(iter.GetMeasurementVector(), 1) ;
+      try
+        {
+          // if the measurement vector is out of bound then
+          // the GetIndex method returns RangeError
+          // and doesn't increase the frequency
+          index = m_Histogram->GetIndex(iter.GetMeasurementVector()) ;
+          id = m_Histogram->GetInstanceIdentifier(index) ;
+          m_Histogram->IncreaseFrequency(id, 1) ;
+        }
+      catch (RangeError)
+        {
+        // do nothing 
+        }
       ++iter ;
     }
 }
