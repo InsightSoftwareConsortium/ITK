@@ -114,10 +114,10 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
       for(m = p; (m<=max_label) && (eq_tab[m]!=p); m++);
       if(m>max_label)
         {
-          for(m = p; eq_tab[m]<p; m++);
+          for(m = p; (m<=max_label) && (eq_tab[m]<p); m++);
           if(m<=max_label)
             {
-              for(i = m;i<max_label;i++)
+              for(i = m;i<=max_label;i++)
                 if(eq_tab[i] == m)
                   eq_tab[i] = p;
             }
