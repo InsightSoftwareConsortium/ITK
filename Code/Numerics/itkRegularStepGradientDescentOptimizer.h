@@ -102,7 +102,7 @@ public:
    * Codes of stopping conditions
    */
   typedef enum {
-    RegularStepGradientMagnitudeTolerance,
+    GradientMagnitudeTolerance,
     StepTooSmall,
     ImageNotAvailable,
     SamplesNotAvailable,
@@ -159,6 +159,7 @@ public:
   itkGetConstMacro( MaximumNumberOfIterations, unsigned long );
   itkGetConstMacro( GradientMagnitudeTolerance, double );
   itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
+  itkGetConstMacro( StopCondition, StopConditionType );
 
   void SetScale( const ParametersType & scale )
           { m_Scale = scale; this->Modified(); }

@@ -28,6 +28,12 @@ template <class TCostFunction>
 RegularStepGradientDescentOptimizer<TCostFunction>
 ::RegularStepGradientDescentOptimizer()
 {
+
+  m_MaximumStepLength = 1.0;
+  m_MinimumStepLength = 1e-3;
+  m_GradientMagnitudeTolerance = 1e-4;
+  m_MaximumNumberOfIterations = 100;
+
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
     m_Gradient[i] = 0;
@@ -147,7 +153,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
   {
-    m_StopCondition = RegularStepGradientMagnitudeTolerance;
+    m_StopCondition = GradientMagnitudeTolerance;
     StopOptimization();
     return;
   }
