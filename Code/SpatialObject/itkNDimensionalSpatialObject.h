@@ -60,7 +60,6 @@ public:
    * between indices. */
   typedef Offset<PipelineDimension>  OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef Index<PipelineDimension>   IndexType;
   typedef ImageRegion<PipelineDimension> RegionType;
   typedef Size<PipelineDimension>    SizeType; 
 
