@@ -9,17 +9,17 @@ INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
 SUBDIRS(Numerics Common BasicFilters IO Algorithms Executable)
 
 IF(LIBRARY_OUTPUT_PATH)
-  SET(ITK_TCL_PACKAGE_DIR ${LIBRARY_OUTPUT_PATH})
+  SET(ITK_TCL_PACKAGE_DIR_BUILD "${LIBRARY_OUTPUT_PATH}")
 ELSE(LIBRARY_OUTPUT_PATH)
-  SET(ITK_TCL_PACKAGE_DIR ${ITK_BINARY_DIR}/Wrapping/Tcl/$subdir)
+  SET(ITK_TCL_PACKAGE_DIR_BUILD "${ITK_BINARY_DIR}/Wrapping/Tcl/$subdir")
 ENDIF(LIBRARY_OUTPUT_PATH)
-
-SET(ITK_TCL_DATA_ROOT "${ITK_DATA_ROOT}")
-SET(ITK_TCL_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
-SET(ITK_TCL_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/Tcl")
 
 IF(UNIX)
   # Configure pkgIndex.tcl for the build tree.
+  SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}")
+  SET(ITK_TCL_DATA_ROOT "${ITK_DATA_ROOT}")
+  SET(ITK_TCL_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
+  SET(ITK_TCL_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/Tcl")
   SET(ITK_LIBNAME_PREFIX "lib")
   SET(ITK_MSDEV_CONFIG_DIR "")
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
@@ -33,14 +33,6 @@ IF(UNIX)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
                  ${ITK_BINARY_DIR}/Wrapping/Tcl/Install/Hide/pkgIndex.tcl IMMEDIATE)
 ELSE(UNIX)
-  # Configure pkgIndex.tcl for the build tree in each possible configuration.
-  SET(ITK_LIBNAME_PREFIX "")
-  FOREACH (config Debug Release RelWithDebInfo MinSizeRel)
-    SET(ITK_MSDEV_CONFIG_DIR ${config})
-    CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
-                   ${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl IMMEDIATE)
-  ENDFOREACH (config)
-
   # Configure pkgIndex.tcl for installation.  While installation doesn't
   # actually do anything on Windows, this generated file will be useful
   # to those creating binary distribution packages.
@@ -51,10 +43,22 @@ ELSE(UNIX)
   SET(ITK_MSDEV_CONFIG_DIR "")
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
                  ${ITK_BINARY_DIR}/Wrapping/Tcl/Install/Hide/pkgIndex.tcl IMMEDIATE)
+
+  # Configure pkgIndex.tcl for the build tree in each possible configuration.
+  SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}")
+  SET(ITK_TCL_DATA_ROOT "${ITK_DATA_ROOT}")
+  SET(ITK_TCL_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
+  SET(ITK_TCL_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/Tcl")
+  SET(ITK_LIBNAME_PREFIX "")
+  FOREACH (config Debug Release RelWithDebInfo MinSizeRel)
+    SET(ITK_MSDEV_CONFIG_DIR ${config})
+    CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                   ${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl IMMEDIATE)
+  ENDFOREACH (config)
 ENDIF(UNIX)
 
 INSTALL_PROGRAMS(/bin "itktcl")
-INSTALL_FILES(/lib/InsightToolkit ".tcl" itkinteraction itktesting itkutils)
+INSTALL_FILES(/lib/InsightToolkit ".tcl" itkdata itkinteraction itktesting itkutils)
 
 # Temporary check for CMake 1.5 or 1.6.
 IF (CMAKE_MAJOR_VERSION MATCHES "^1$")

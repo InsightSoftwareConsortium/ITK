@@ -18,32 +18,28 @@ namespace eval itk::testing {
   
   # Require the itk packages.
   package require InsightToolkit
+  package require itkdata
   
-  # Put the ITK_DATA_ROOT setting in the global namespace.  This
+  # Put the ITK_TEST_ROOT setting in the global namespace.  This
   # package is only used for testing, so this is okay.
   
-  # Look for the -D command line option.
-  if {! [info exists ::ITK_DATA_ROOT] && [info exists argc]} {
+  # Look for the -O command line option.
+  if {! [info exists ::ITK_TEST_ROOT] && [info exists argc]} {
     set argcm1 [expr $argc - 1]
     for {set i 0} {$i < $argcm1} {incr i} {
-      if {[lindex $argv $i] == "-D" && $i < $argcm1} {
-        set ::ITK_DATA_ROOT [lindex $argv [expr $i + 1]]
+      if {[lindex $argv $i] == "-O" && $i < $argcm1} {
+        set ::ITK_TEST_ROOT [lindex $argv [expr $i + 1]]
         break
       }
     }
-  } 
-  
-  # Check for the environment variable ::ITK_DATA_ROOT.
-  if {! [info exists ::ITK_DATA_ROOT] && [info exists env(::ITK_DATA_ROOT)]} {
-    set ::ITK_DATA_ROOT $env(::ITK_DATA_ROOT)
   }
   
-  # Use the default data root.
-  if {! [info exists ::ITK_DATA_ROOT]} {
-    set ::ITK_DATA_ROOT $::itk::testing::defaultDataRoot
+  # Check for the environment variable ::ITK_TEST_ROOT.
+  if {! [info exists ::ITK_TEST_ROOT] && [info exists env(ITK_TEST_ROOT)]} {
+    set ::ITK_TEST_ROOT $env(ITK_TEST_ROOT)
   }
   
-  # Use the default test root.
+  # Use the default output directory.
   if {! [info exists ::ITK_TEST_ROOT]} {
     set ::ITK_TEST_ROOT $::itk::testing::defaultTestRoot
   }

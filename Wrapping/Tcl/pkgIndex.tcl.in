@@ -88,16 +88,24 @@ namespace eval itk {
       else { package provide itkinteraction $version }
     "
 
+    package ifneeded itkdata $version "
+      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkdata.tcl\]
+      namespace eval itk::data {
+        set defaultDataRoot \"${ITK_TCL_DATA_ROOT}\"
+      }
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkdata $version }
+    "
+
     package ifneeded itktesting $version "
       set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itktesting.tcl\]
       namespace eval itk::testing {
-        set defaultDataRoot \"${ITK_TCL_DATA_ROOT}\"
         set defaultTestRoot \"${ITK_TCL_TEST_ROOT}\"
       }
       if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itktesting $version }
-    "
-  }
+    " 
+ }
   
   # Make sure the procedure can be called.
   namespace export ConfigureItkTclPackages
