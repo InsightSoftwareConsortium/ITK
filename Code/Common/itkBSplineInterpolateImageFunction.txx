@@ -470,8 +470,6 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
           tempValue *= weights[n1][ m_PointsToIndex[p][n1] ];          
           }
         }
-      double Value1;
-      Value1 = m_Coefficients->GetPixel(coefficientIndex);
       derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) * tempValue ;
       }
     }
