@@ -157,7 +157,7 @@ public:
   /**
    *  Perform the transformation
    */ 
-  PointType Transform( PointType &initial_point);
+  PointType TransformPoint( PointType &initial_point);
 
   /**
    *  Constructor
@@ -177,8 +177,8 @@ protected:
 private:
 	
   /**
-	 * Matrix = Linear[n*n] + Offset[n]
-	 */
+   * Matrix = Linear[n*n] + Offset[n]
+   */
   MatrixType   m_Matrix;       // Matrix of the transformation
   VectorType   m_Offset;       // Offset of the transformation
   LinearType   m_Linear;       // Linear of the transformation

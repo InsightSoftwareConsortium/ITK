@@ -320,7 +320,8 @@ void KernelTransform<TScalarType, NDimensions>::ComputeY()
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::PointType
-KernelTransform<TScalarType, NDimensions>::Transform(const PointType& thisPoint) const
+KernelTransform<TScalarType, NDimensions>
+::TransformPoint(const PointType& thisPoint) const
 {
   int numLandmarks = m_p->GetNumberOfPoints();
   int i, j;
@@ -364,7 +365,8 @@ KernelTransform<TScalarType, NDimensions>::Transform(const PointType& thisPoint)
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::VectorType
-KernelTransform<TScalarType, NDimensions>::Transform(const VectorType& thisVector) const
+KernelTransform<TScalarType, NDimensions>
+::TransformVector(const VectorType& thisVector) const
 {
   int numLandmarks = m_p->GetNumberOfPoints();
   int i, j;

@@ -49,524 +49,579 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-    // Constructor with default arguments
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::
-    AffineTransform()
+// Constructor with default arguments
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::
+AffineTransform()
+{
+  m_Matrix.SetIdentity();
+  m_Inverse.SetIdentity();
+  m_Offset.Fill( 0 );
+  m_Singular = false;
+}
+
+// Constructor with explicit arguments
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::
+AffineTransform(const MatrixType &matrix, const VectorType &offset)
+{
+  m_Matrix = matrix;
+  m_Offset = offset;
+  RecomputeInverse();
+}
+
+
+// Copy Constructor
+template <class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>
+::AffineTransform( const AffineTransform<ScalarType, NDimensions> & other )
+{
+  m_Matrix    = other.m_Matrix;
+  m_Offset    = other.m_Offset;
+  m_Inverse   = other.m_Inverse;
+  m_Singular  = other.m_Singular;
+}
+
+// Destructor
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::
+~AffineTransform()
+{
+  return;
+}
+
+
+// Assignment Operator
+template <class ScalarType, unsigned int NDimensions>
+const AffineTransform<ScalarType, NDimensions> &
+AffineTransform<ScalarType, NDimensions>
+::operator=( const Self & other )
+{
+  m_Matrix   = other.m_Matrix;
+  m_Offset   = other.m_Offset;
+  m_Inverse  = other.m_Inverse;
+  m_Singular = other.m_Singular;
+  return *this;
+}
+
+
+// Print self
+template<class ScalarType, unsigned int NDimensions>
+std::ostream &
+AffineTransform<ScalarType, NDimensions>::
+PrintSelf(std::ostream &s) const
+{
+  unsigned int i, j;
+  for (i = 0; i < NDimensions; i++) 
     {
-      m_Matrix.SetIdentity();
-      m_Inverse.SetIdentity();
-      m_Offset.Fill( 0 );
-      m_Singular = false;
+    for (j = 0; j < NDimensions; j++)
+      {
+      s << m_Matrix[i][j] << " ";
+      }
+    s << m_Offset[i] << std::endl;
     }
- 
-    // Constructor with explicit arguments
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::
-    AffineTransform(const MatrixType &matrix, const VectorType &offset)
+    return s;
+}
+
+
+// Compose with another affine transformation
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Compose(const Self &other, bool pre)
+{
+  if (pre) 
     {
-        m_Matrix = matrix;
-        m_Offset = offset;
-        RecomputeInverse();
+    m_Offset = m_Matrix * other.m_Offset + m_Offset;
+    m_Matrix = m_Matrix * other.m_Matrix;
     }
-
-    
-    // Copy Constructor
-    template <class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>
-    ::AffineTransform( const AffineTransform<ScalarType, NDimensions> & other )
+  else 
     {
-        m_Matrix    = other.m_Matrix;
-        m_Offset    = other.m_Offset;
-        m_Inverse   = other.m_Inverse;
-        m_Singular  = other.m_Singular;
+    m_Offset = other.m_Matrix * m_Offset + other.m_Offset;
+    m_Matrix = other.m_Matrix * m_Matrix;
     }
+  RecomputeInverse();
 
-    // Destructor
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::
-    ~AffineTransform()
+  return;
+}
+
+
+// Compose with a translation
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Translate(const VectorType &offset, bool pre)
+{
+  if (pre) 
     {
-        return;
+    m_Offset += m_Matrix * offset;
     }
-
-
-    // Assignment Operator
-    template <class ScalarType, unsigned int NDimensions>
-    const AffineTransform<ScalarType, NDimensions> &
-    AffineTransform<ScalarType, NDimensions>
-    ::operator=( const Self & other )
+  else 
     {
-        m_Matrix   = other.m_Matrix;
-        m_Offset   = other.m_Offset;
-        m_Inverse  = other.m_Inverse;
-        m_Singular = other.m_Singular;
-        return *this;
+    m_Offset += offset;
     }
+  RecomputeInverse();
+
+  return;
+}
 
 
-    // Print self
-    template<class ScalarType, unsigned int NDimensions>
-    std::ostream &
-    AffineTransform<ScalarType, NDimensions>::
-    PrintSelf(std::ostream &s) const
+// Compose with isotropic scaling
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Scale(const ScalarType &factor, bool pre) 
+{
+  if (pre) 
     {
-        unsigned int i, j;
-        for (i = 0; i < NDimensions; i++) {
-            for (j = 0; j < NDimensions; j++)
-                s << m_Matrix[i][j] << " ";
-            s << m_Offset[i] << std::endl;
-        }
-        return s;
+    m_Matrix *= factor;
     }
-
-
-    // Compose with another affine transformation
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Compose(const Self &other, bool pre)
+  else 
     {
-        if (pre) {
-            m_Offset = m_Matrix * other.m_Offset + m_Offset;
-            m_Matrix = m_Matrix * other.m_Matrix;
-        }
-        else {
-            m_Offset = other.m_Matrix * m_Offset + other.m_Offset;
-            m_Matrix = other.m_Matrix * m_Matrix;
-        }
-        RecomputeInverse();
-
-        return;
+    m_Matrix *= factor;
+    m_Offset *= factor;
     }
+  RecomputeInverse();
+  return;
+}
 
 
-    // Compose with a translation
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Translate(const VectorType &offset, bool pre)
+// Compose with anisotropic scaling
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Scale(const VectorType &factor, bool pre) 
+{
+  MatrixType trans;
+  unsigned int i, j;
+
+  for (i = 0; i < NDimensions; i++) 
     {
-        if (pre) {
-            m_Offset += m_Matrix * offset;
-        }
-        else {
-            m_Offset += offset;
-        }
-        RecomputeInverse();
-
-        return;
+    for (j = 0; j < NDimensions; j++) 
+      {
+      trans[i][j] = 0.0;
+      }
+    trans[i][i] = factor[i];
     }
-
-
-    // Compose with isotropic scaling
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Scale(const ScalarType &factor, bool pre) {
-        if (pre) {
-            m_Matrix *= factor;
-        }
-        else {
-            m_Matrix *= factor;
-            m_Offset *= factor;
-        }
-        RecomputeInverse();
-        return;
-    }
-
-
-    // Compose with anisotropic scaling
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Scale(const VectorType &factor, bool pre) {
-        MatrixType trans;
-        unsigned int i, j;
-
-        for (i = 0; i < NDimensions; i++) {
-            for (j = 0; j < NDimensions; j++) {
-                trans[i][j] = 0.0;
-            }
-            trans[i][i] = factor[i];
-        }
-        if (pre) {
-            m_Matrix = m_Matrix * trans;
-        }
-        else {
-            m_Matrix = trans * m_Matrix;
-            m_Offset = trans * m_Offset;
-        }
-        RecomputeInverse();
-        return;
-    }
-
-    // Compose with elementary rotation
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Rotate(int axis1, int axis2, double angle, bool pre) {
-        MatrixType trans;
-        unsigned int i, j;
-
-        for (i = 0; i < NDimensions; i++) {
-            for (j = 0; j < NDimensions; j++) {
-                trans[i][j] = 0.0;
-            }
-            trans[i][i] = 1.0;
-        }
-        trans[axis1][axis1] =  cos(angle);
-        trans[axis1][axis2] =  sin(angle);
-        trans[axis2][axis1] = -sin(angle);
-        trans[axis2][axis2] =  cos(angle);
-        if (pre) {
-            m_Matrix = m_Matrix * trans;
-        }
-        else {
-            m_Matrix = trans * m_Matrix;
-            m_Offset = trans * m_Offset;
-        }
-        RecomputeInverse();
-        return;
-    }
-
-
-    // Compose with 2D rotation
-    // FIXME: Find a way to generate a compile-time error
-    // is this is used with NDimensions != 2.
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Rotate2D(double angle, bool pre)
+  if (pre) 
     {
-        vnl_matrix_fixed<ScalarType, 2, 2> trans;
-
-        trans[0][0] =  cos(angle);
-        trans[0][1] =  sin(angle);
-        trans[1][0] = -sin(angle);
-        trans[1][1] =  cos(angle);
-        if (pre) {
-            m_Matrix = m_Matrix * trans;
-        }
-        else {
-            m_Matrix = trans * m_Matrix;
-            m_Offset = trans * m_Offset;
-        }
-        RecomputeInverse();
-        return;
+    m_Matrix = m_Matrix * trans;
     }
-
-
-    // Compose with 3D rotation
-    // FIXME: Find a way to generate a compile-time error
-    // is this is used with NDimensions != 3.
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Rotate3D(const VectorType &axis, double angle, bool pre)
+  else 
     {
-        MatrixType trans;
-        ScalarType r, x1, x2, x3;
-        ScalarType q0, q1, q2, q3;
-
-        // Convert the axis to a unit vector
-        r = sqrt(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
-        x1 = axis[0] / r;
-        x2 = axis[1] / r;
-        x3 = axis[2] / r;
-
-        // Compute quaternion elements
-        q0 = cos(angle/2.0);
-        q1 = x1 * sin(angle/2.0);
-        q2 = x2 * sin(angle/2.0);
-        q3 = x3 * sin(angle/2.0);
-        
-        // Compute elements of the rotation matrix
-        trans[0][0] = q0*q0 + q1*q1 - q2*q2 - q3*q3;
-        trans[0][1] = 2.0*(q1*q2 - q0*q3);
-        trans[0][2] = 2.0*(q1*q3 + q0*q2);
-        trans[1][0] = 2.0*(q1*q2 + q0*q3);
-        trans[1][1] = q0*q0 + q2*q2 - q1*q1 - q3*q3;
-        trans[1][2] = 2.0*(q2*q3 - q0*q1);
-        trans[2][0] = 2.0*(q1*q3 - q0*q2);
-        trans[2][1] = 2.0*(q2*q3 + q0*q1);
-        trans[2][2] = q0*q0 + q3*q3 - q1*q1 - q2*q2;
-
-        // Compose rotation matrix with the existing matrix
-        if (pre) {
-            m_Matrix = m_Matrix * trans;
-        }
-        else {
-            m_Matrix = trans * m_Matrix;
-            m_Offset = trans * m_Offset;
-        }
-        RecomputeInverse();
-        return;
+    m_Matrix = trans * m_Matrix;
+    m_Offset = trans * m_Offset;
     }
+  RecomputeInverse();
+  return;
+}
 
+// Compose with elementary rotation
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Rotate(int axis1, int axis2, double angle, bool pre) 
+{
+  MatrixType trans;
+  unsigned int i, j;
 
-    // Compose with elementary rotation
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    Shear(int axis1, int axis2, double coef, bool pre)
+  for (i = 0; i < NDimensions; i++) 
     {
-        MatrixType trans;
-        unsigned int i, j;
-
-        for (i = 0; i < NDimensions; i++) {
-            for (j = 0; j < NDimensions; j++) {
-                trans[i][j] = 0.0;
-            }
-            trans[i][i] = 1.0;
-        }
-        trans[axis1][axis2] =  coef;
-        if (pre) {
-            m_Matrix = m_Matrix * trans;
-        }
-        else {
-            m_Matrix = trans * m_Matrix;
-            m_Offset = trans * m_Offset;
-        }
-        RecomputeInverse();
-        return;
+    for (j = 0; j < NDimensions; j++) 
+      {
+      trans[i][j] = 0.0;
+      }
+    trans[i][i] = 1.0;
     }
-
-
-    // Transform a point
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::PointType
-    AffineTransform<ScalarType, NDimensions>::
-    Transform(const PointType &point) const {
-        return m_Matrix * point + m_Offset;
-    }
-
-
-    // Transform a vector
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VectorType
-    AffineTransform<ScalarType, NDimensions>::
-    Transform(const VectorType &vect) const {
-        return m_Matrix * vect;
-    }
-
-
-    // Transform a vnl_vector_fixed
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VnlVectorType
-    AffineTransform<ScalarType, NDimensions>::
-    Transform(const VnlVectorType &vect) const {
-        return m_Matrix * vect;
-    }
-
-
-   // Transform a CovariantVector
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::CovariantVectorType
-    AffineTransform<ScalarType, NDimensions>::
-    Transform(const CovariantVectorType &vec) const {
-        CovariantVectorType  result;    // Converted vector
-        
-        for (unsigned int i = 0; i < NDimensions; i++) {
-            result[i] = NumericTraits<ScalarType>::Zero;
-            for (unsigned int j = 0; j < NDimensions; j++) {
-                result[i] += m_Inverse[j][i]*vec[j]; // Inverse transposed
-            }
-        }
-        return result;
-    }
-
-
-
-
-    // Transform a given point which is represented as type VectorType
-    // FIXME: Deprecated on 2001-01-02
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VectorType
-    AffineTransform<ScalarType, NDimensions>::
-    TransformPoint(const VectorType &point) {
-        return m_Matrix * point + m_Offset;
-    }
-
-
-    // Transform a given point which is represented as type PointType
-    // FIXME: Deprecated on 2001-01-02
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::PointType
-    AffineTransform<ScalarType, NDimensions>::
-    TransformPoint(const PointType &point) {
-        return m_Matrix * point;
-    }
-
-
-
-    // Back transform a point
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::PointType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const PointType &point) const {
-        PointType result;       // Converted point
-        ScalarType temp[NDimensions];
-        unsigned int i, j;
-
-        for (j = 0; j < NDimensions; j++) {
-            temp[j] = point[j] - m_Offset[j];
-        }
-
-        for (i = 0; i < NDimensions; i++) {
-            result[i] = 0.0;
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Inverse[i][j]*temp[j];
-            }
-        }
-        return result;
-    }
-
-    // Back transform a vector
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VectorType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const VectorType &vect ) const {
-        return m_Inverse * vect;
-    }
-
-    // Back transform a vnl_vector
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VnlVectorType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const VnlVectorType &vect ) const {
-        return m_Inverse * vect;
-    }
-
-
-    // Back transform a given point which is represented as type VectorType
-    // FIXME: deprecated on 2001-01-02
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::VectorType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransformPoint(const VectorType &point) {
-        return m_Inverse * (point - m_Offset);
-    }
-
-
-    // Back Transform a CovariantVector
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::CovariantVectorType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransform(const CovariantVectorType &vec) const {
-
-        CovariantVectorType result;    // Converted vector
-        
-        for (unsigned int i = 0; i < NDimensions; i++) {
-            result[i] = NumericTraits<ScalarType>::Zero;
-            for (unsigned int j = 0; j < NDimensions; j++) {
-                result[i] += m_Matrix[j][i]*vec[j]; // Direct matrix transposed
-            }
-        }
-        return result;
-    }
-
-
-    // Back transform a given point which is represented as type PointType
-    // FIXME: deprecated on 2001-01-02
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>::PointType
-    AffineTransform<ScalarType, NDimensions>::
-    BackTransformPoint(const PointType &point) {
-        PointType result;       // Converted point
-        ScalarType temp[NDimensions];
-        unsigned int i, j;
-
-        for (j = 0; j < NDimensions; j++) {
-            temp[j] = point[j] - m_Offset[j];
-        }
-
-        for (i = 0; i < NDimensions; i++) {
-            res[i] = 0.0;
-            for (j = 0; j < NDimensions; j++) {
-                result[i] += m_Inverse[i][j]*temp[j];
-            }
-        }
-        return result;
-    }
-
-
-    // Create and return an inverse transformation
-    template<class ScalarType, unsigned int NDimensions>
-    AffineTransform<ScalarType, NDimensions>
-    AffineTransform<ScalarType, NDimensions>::
-    Inverse()
+  trans[axis1][axis1] =  cos(angle);
+  trans[axis1][axis2] =  sin(angle);
+  trans[axis2][axis1] = -sin(angle);
+  trans[axis2][axis2] =  cos(angle);
+  if (pre) 
     {
-        Self result;
-        result.m_Matrix   =   m_Inverse;
-        result.m_Inverse  =   m_Matrix;
-        result.m_Offset   = -(m_Inverse * m_Offset);
-        result.m_Singular =   false;
-        return result;
+    m_Matrix = m_Matrix * trans;
+    }
+  else 
+    {
+    m_Matrix = trans * m_Matrix;
+    m_Offset = trans * m_Offset;
+    }
+  RecomputeInverse();
+  return;
+}
+
+
+// Compose with 2D rotation
+// FIXME: Find a way to generate a compile-time error
+// is this is used with NDimensions != 2.
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Rotate2D(double angle, bool pre)
+{
+  vnl_matrix_fixed<ScalarType, 2, 2> trans;
+
+  trans[0][0] =  cos(angle);
+  trans[0][1] =  sin(angle);
+  trans[1][0] = -sin(angle);
+  trans[1][1] =  cos(angle);
+  if (pre) 
+    {
+    m_Matrix = m_Matrix * trans;
+    }
+  else 
+    {
+    m_Matrix = trans * m_Matrix;
+    m_Offset = trans * m_Offset;
+    }
+  RecomputeInverse();
+  return;
+}
+
+
+// Compose with 3D rotation
+// FIXME: Find a way to generate a compile-time error
+// is this is used with NDimensions != 3.
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Rotate3D(const VectorType &axis, double angle, bool pre)
+{
+  MatrixType trans;
+  ScalarType r, x1, x2, x3;
+  ScalarType q0, q1, q2, q3;
+
+  // Convert the axis to a unit vector
+  r = sqrt(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
+  x1 = axis[0] / r;
+  x2 = axis[1] / r;
+  x3 = axis[2] / r;
+
+  // Compute quaternion elements
+  q0 = cos(angle/2.0);
+  q1 = x1 * sin(angle/2.0);
+  q2 = x2 * sin(angle/2.0);
+  q3 = x3 * sin(angle/2.0);
+
+  // Compute elements of the rotation matrix
+  trans[0][0] = q0*q0 + q1*q1 - q2*q2 - q3*q3;
+  trans[0][1] = 2.0*(q1*q2 - q0*q3);
+  trans[0][2] = 2.0*(q1*q3 + q0*q2);
+  trans[1][0] = 2.0*(q1*q2 + q0*q3);
+  trans[1][1] = q0*q0 + q2*q2 - q1*q1 - q3*q3;
+  trans[1][2] = 2.0*(q2*q3 - q0*q1);
+  trans[2][0] = 2.0*(q1*q3 - q0*q2);
+  trans[2][1] = 2.0*(q2*q3 + q0*q1);
+  trans[2][2] = q0*q0 + q3*q3 - q1*q1 - q2*q2;
+
+  // Compose rotation matrix with the existing matrix
+  if (pre) 
+    {
+    m_Matrix = m_Matrix * trans;
+    }
+  else 
+    {
+    m_Matrix = trans * m_Matrix;
+    m_Offset = trans * m_Offset;
+    }
+  RecomputeInverse();
+  return;
+}
+
+
+// Compose with elementary rotation
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+Shear(int axis1, int axis2, double coef, bool pre)
+{
+  MatrixType trans;
+  unsigned int i, j;
+
+  for (i = 0; i < NDimensions; i++) 
+    {
+    for (j = 0; j < NDimensions; j++) 
+      {
+      trans[i][j] = 0.0;
+      }
+    trans[i][i] = 1.0;
+    }
+  trans[axis1][axis2] =  coef;
+  if (pre) 
+    {
+    m_Matrix = m_Matrix * trans;
+    }
+  else 
+    {
+    m_Matrix = trans * m_Matrix;
+    m_Offset = trans * m_Offset;
+    }
+  RecomputeInverse();
+  return;
+}
+
+
+// Transform a point
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::
+TransformPoint(const PointType &point) const 
+{
+  return m_Matrix * point + m_Offset;
+}
+
+
+// Transform a vector
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VectorType
+AffineTransform<ScalarType, NDimensions>::
+TransformVector(const VectorType &vect) const 
+{
+  return m_Matrix * vect;
+}
+
+
+// Transform a vnl_vector_fixed
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VnlVectorType
+AffineTransform<ScalarType, NDimensions>::
+TransformVector(const VnlVectorType &vect) const {
+  return m_Matrix * vect;
+}
+
+
+// Transform a CovariantVector
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::CovariantVectorType
+AffineTransform<ScalarType, NDimensions>::
+TransformVector(const CovariantVectorType &vec) const 
+{
+  CovariantVectorType  result;    // Converted vector
+
+  for (unsigned int i = 0; i < NDimensions; i++) 
+    {
+    result[i] = NumericTraits<ScalarType>::Zero;
+    for (unsigned int j = 0; j < NDimensions; j++) 
+      {
+      result[i] += m_Inverse[j][i]*vec[j]; // Inverse transposed
+      }
+    }
+  return result;
+}
+
+
+
+
+// Transform a given point which is represented as type VectorType
+// FIXME: Deprecated on 2001-01-02
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VectorType
+AffineTransform<ScalarType, NDimensions>::
+TransformVector(const VectorType &point) 
+{
+  return m_Matrix * point + m_Offset;
+}
+
+
+// Transform a given point which is represented as type PointType
+// FIXME: Deprecated on 2001-01-02
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::
+TransformPoint(const PointType &point) 
+{
+  return m_Matrix * point;
+}
+
+
+
+// Back transform a point
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::
+BackTransform(const PointType &point) const 
+{
+  PointType result;       // Converted point
+  ScalarType temp[NDimensions];
+  unsigned int i, j;
+
+  for (j = 0; j < NDimensions; j++) 
+    {
+    temp[j] = point[j] - m_Offset[j];
     }
 
-
-    // Compute a distance between two affine transforms
-    template<class ScalarType, unsigned int NDimensions>
-    double
-    AffineTransform<ScalarType, NDimensions>::
-    Metric(const Self &other) const
+  for (i = 0; i < NDimensions; i++) 
     {
-        double result = 0.0, term;
+    result[i] = 0.0;
+    for (j = 0; j < NDimensions; j++) 
+      {
+      result[i] += m_Inverse[i][j]*temp[j];
+      }
+    }
+  return result;
+}
 
-        for (unsigned int i = 0; i < NDimensions; i++) {
-            for (unsigned int j = 0; j < NDimensions; j++) {
-                term = m_Matrix[i][j] - other.m_Matrix[i][j];
-                result += term * term;
-            }
-            term = m_Offset[i] - other.m_Offset[i];
-            result += term * term;
-        }
-        return sqrt(result);
+// Back transform a vector
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VectorType
+AffineTransform<ScalarType, NDimensions>::
+BackTransform(const VectorType &vect ) const 
+{
+  return m_Inverse * vect;
+}
+
+// Back transform a vnl_vector
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VnlVectorType
+AffineTransform<ScalarType, NDimensions>::
+BackTransform(const VnlVectorType &vect ) const 
+{
+  return m_Inverse * vect;
+}
+
+
+// Back transform a given point which is represented as type VectorType
+// FIXME: deprecated on 2001-01-02
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::VectorType
+AffineTransform<ScalarType, NDimensions>::
+BackTransformPoint(const VectorType &point) 
+{
+  return m_Inverse * (point - m_Offset);
+}
+
+
+// Back Transform a CovariantVector
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::CovariantVectorType
+AffineTransform<ScalarType, NDimensions>::
+BackTransform(const CovariantVectorType &vec) const 
+{
+
+  CovariantVectorType result;    // Converted vector
+
+  for (unsigned int i = 0; i < NDimensions; i++) 
+    {
+    result[i] = NumericTraits<ScalarType>::Zero;
+    for (unsigned int j = 0; j < NDimensions; j++) 
+      {
+      result[i] += m_Matrix[j][i]*vec[j]; // Direct matrix transposed
+      }
+    }
+  return result;
+}
+
+
+// Back transform a given point which is represented as type PointType
+// FIXME: deprecated on 2001-01-02
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>::PointType
+AffineTransform<ScalarType, NDimensions>::
+BackTransformPoint(const PointType &point) 
+{
+  PointType result;       // Converted point
+  ScalarType temp[NDimensions];
+  unsigned int i, j;
+  
+  for (j = 0; j < NDimensions; j++) 
+    {
+    temp[j] = point[j] - m_Offset[j];
     }
 
-    // Compute a distance between self and the identity transform
-    template<class ScalarType, unsigned int NDimensions>
-    double
-    AffineTransform<ScalarType, NDimensions>::
-    Metric(void) const
+  for (i = 0; i < NDimensions; i++) 
     {
-        double result = 0.0, term;
-
-        for (unsigned int i = 0; i < NDimensions; i++) {
-            for (unsigned int j = 0; j < NDimensions; j++) {
-                if (i == j)
-                    term = m_Matrix[i][j] - 1.0;
-                else
-                    term = m_Matrix[i][j];
-                result += term * term;
-            }
-            term = m_Offset[i];
-            result += term * term;
-        }
-        return sqrt(result);
+    res[i] = 0.0;
+    for (j = 0; j < NDimensions; j++) 
+      {
+      result[i] += m_Inverse[i][j]*temp[j];
+      }
     }
+  return result;
+}
 
 
+// Create and return an inverse transformation
+template<class ScalarType, unsigned int NDimensions>
+AffineTransform<ScalarType, NDimensions>
+AffineTransform<ScalarType, NDimensions>::
+Inverse()
+{
+  Self result;
+  result.m_Matrix   =   m_Inverse;
+  result.m_Inverse  =   m_Matrix;
+  result.m_Offset   = -(m_Inverse * m_Offset);
+  result.m_Singular =   false;
+  return result;
+}
 
 
-    // Recompute the inverse matrix (internal)
-    template<class ScalarType, unsigned int NDimensions>
-    void
-    AffineTransform<ScalarType, NDimensions>::
-    RecomputeInverse()
+// Compute a distance between two affine transforms
+template<class ScalarType, unsigned int NDimensions>
+double
+AffineTransform<ScalarType, NDimensions>::
+Metric(const Self &other) const
+{
+  double result = 0.0, term;
+
+  for (unsigned int i = 0; i < NDimensions; i++) 
     {
-        m_Singular = false;
-        try {
-          m_Inverse  = m_Matrix.GetInverse();
-        }
-        catch(...) 
+    for (unsigned int j = 0; j < NDimensions; j++) 
+      {
+      term = m_Matrix[i][j] - other.m_Matrix[i][j];
+      result += term * term;
+      }
+    term = m_Offset[i] - other.m_Offset[i];
+    result += term * term;
+    }
+  return sqrt(result);
+}
+
+// Compute a distance between self and the identity transform
+template<class ScalarType, unsigned int NDimensions>
+double
+AffineTransform<ScalarType, NDimensions>::
+Metric(void) const
+{
+  double result = 0.0, term;
+
+  for (unsigned int i = 0; i < NDimensions; i++) 
+    {
+    for (unsigned int j = 0; j < NDimensions; j++) 
+      {
+      if (i == j)
         {
-          m_Singular = true;
+        term = m_Matrix[i][j] - 1.0;
         }
-        return;
+      else
+        {
+        term = m_Matrix[i][j];
+        }
+      result += term * term;
+      }
+    term = m_Offset[i];
+    result += term * term;
     }
 
+  return sqrt(result);
+}
+
+// Recompute the inverse matrix (internal)
+template<class ScalarType, unsigned int NDimensions>
+void
+AffineTransform<ScalarType, NDimensions>::
+RecomputeInverse()
+{
+  m_Singular = false;
+  try 
+    {
+    m_Inverse  = m_Matrix.GetInverse();
+    }
+  catch(...) 
+    {
+    m_Singular = true;
+    }
+  return;
+}
 
 } // namespace
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDynamicPolygonCell.h
+  Module:    itkPolygonCell.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

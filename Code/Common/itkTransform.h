@@ -68,61 +68,55 @@ public:
    */
   typedef Transform  Self;
 
-
   /**
    * Dimension of the domain space
    */
   enum { SpaceDimension     = NDimensions };
-
 
   /**
    * Standard vector type for this class
    */
   typedef Vector<TScalarType, SpaceDimension> VectorType;
 
-  
   /**
    * Standard covariant vector type for this class
    */
   typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
 
-  
   /**
    * Standard vnl_vector type for this class
    */
   typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
 
-  
   /**
    * Standard coordinate point type for this class
    */
   typedef Point<TScalarType, SpaceDimension> PointType;
 
-
   /**
    *  Method to transform a Point
    */
-  virtual PointType     Transform(const PointType  &point ) const
-                                                { return point; }
+  virtual PointType     TransformPoint(const PointType  &point ) const
+    { return point; }
 
   /**
    *  Method to transform a vector
    */
-  virtual VectorType    Transform(const VectorType &vector) const
-                                                { return vector; }
+  virtual VectorType    TransformVector(const VectorType &vector) const
+    { return vector; }
 
   /**
    *  Method to transform a vnl_vector
    */
-  virtual VnlVectorType Transform(const VnlVectorType &vector) const
-                                                { return vector; }
+  virtual VnlVectorType TransformVector(const VnlVectorType &vector) const
+    { return vector; }
 
   /**
    *  Method to transform a CovariantVector
    */
-  virtual CovariantVectorType Transform(
-                           const CovariantVectorType &vector) const
-                                                { return vector; }
+  virtual CovariantVectorType TransformVector(
+    const CovariantVectorType &vector) const
+    { return vector; }
 
   
   Transform();

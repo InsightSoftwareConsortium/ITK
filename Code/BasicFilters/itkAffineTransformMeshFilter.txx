@@ -111,7 +111,7 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
   {
 
     outputPoint.Value() = 
-	           m_AffineTransform.Transform( inputPoint.Value() );
+	           m_AffineTransform.TransformPoint( inputPoint.Value() );
 
     ++inputPoint;
     ++outputPoint;

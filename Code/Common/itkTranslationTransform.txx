@@ -130,7 +130,7 @@ Translate(const VectorType &offset, bool )
 template<class ScalarType, unsigned int NDimensions>
 TranslationTransform<ScalarType, NDimensions>::PointType
 TranslationTransform<ScalarType, NDimensions>::
-Transform(const PointType &point) const 
+TransformPoint(const PointType &point) const 
 {
   return point + m_Offset;
 }
@@ -140,7 +140,7 @@ Transform(const PointType &point) const
 template<class ScalarType, unsigned int NDimensions>
 TranslationTransform<ScalarType, NDimensions>::VectorType
 TranslationTransform<ScalarType, NDimensions>::
-Transform(const VectorType &vect) const 
+TransformVector(const VectorType &vect) const 
 {
   return  vect;
 }
@@ -150,7 +150,7 @@ Transform(const VectorType &vect) const
 template<class ScalarType, unsigned int NDimensions>
 TranslationTransform<ScalarType, NDimensions>::VnlVectorType
 TranslationTransform<ScalarType, NDimensions>::
-Transform(const VnlVectorType &vect) const 
+TransformVector(const VnlVectorType &vect) const 
 {
   return  vect;
 }
@@ -160,7 +160,7 @@ Transform(const VnlVectorType &vect) const
 template<class ScalarType, unsigned int NDimensions>
 TranslationTransform<ScalarType, NDimensions>::CovariantVectorType
 TranslationTransform<ScalarType, NDimensions>::
-Transform(const CovariantVectorType &vect) const 
+TransformVector(const CovariantVectorType &vect) const 
 {
   return  vect;
 }

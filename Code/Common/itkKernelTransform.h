@@ -138,11 +138,11 @@ public:
   /**
    * Compute the position of point in the new space
    */
-  virtual PointType Transform(const PointType& thisPoint) const;
+  virtual PointType TransformPoint(const PointType& thisPoint) const;
   /**
    * Compute the position of vector in the new space
    */
-  virtual VectorType Transform(const VectorType& thisVector) const;
+  virtual VectorType TransformVector(const VectorType& thisVector) const;
   /**
    * 'I' (identity) matrix typedef
    */

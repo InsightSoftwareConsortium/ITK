@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkLineCell.h"
 #include "itkMesh.h"
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkDynamicPolygonCell.h"
+#include "itkPolygonCell.h"
 #include <vector>
 
 #ifndef NULL
@@ -99,11 +99,11 @@ public:
    */
   itkTypeMacro(Voronoi2DDiagram, Mesh);
 
-	typedef DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> MeshTraits;
+  typedef DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> MeshTraits;
 
-	/**
-	 * typedefs from itkMesh
-	 */
+  /**
+   * typedefs from itkMesh
+   */
   typedef typename MeshTraits::PixelType                PixelType;  
   enum {PointDimension = MeshTraits::PointDimension};
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
@@ -140,7 +140,7 @@ public:
   typedef typename PointLocatorType::Pointer       PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
   
-	typedef typename
+  typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
           PointsContainer::Iterator             PointsContainerIterator;
@@ -163,8 +163,8 @@ public:
   
   typedef CellFeatureIdentifier  CellFeatureCount;
   
-  typedef DynamicPolygonCell<PixelType,CellTraits>  Cell;
-  typedef typename DynamicPolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
+  typedef PolygonCell<PixelType,CellTraits>  Cell;
+  typedef typename PolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
 
@@ -174,202 +174,202 @@ public:
   typedef typename Cell::MultiVisitor CellMultiVisitorType;
 
 
-	typedef std::vector<PointType> SeedsType;
-	typedef typename SeedsType::iterator SeedsIterator;
+  typedef std::vector<PointType> SeedsType;
+  typedef typename SeedsType::iterator SeedsIterator;
 
-	typedef LineBoundary <PixelType, CellTraits> Edge;
-	typedef typename Edge::Pointer EdgePointer;
+  typedef LineBoundary <PixelType, CellTraits> Edge;
+  typedef typename Edge::Pointer EdgePointer;
 
-	typedef std::list<PointType> PointList;
-	typedef std::vector<int> INTvector;
-	typedef typename INTvector::iterator NeighborIdIterator;
+  typedef std::list<PointType> PointList;
+  typedef std::vector<int> INTvector;
+  typedef typename INTvector::iterator NeighborIdIterator;
   typedef typename std::vector<PointType>::iterator VertexIterator;
-	typedef Point<int, 2> TwoINT;
+  typedef Point<int, 2> TwoINT;
 	
 
-	itkGetMacro(NumberOfSeeds,unsigned int);
+  itkGetMacro(NumberOfSeeds,unsigned int);
 	
-	/**
-	 * Input the seeds information, will overwrite if seeds already
-	 * exists.
-	 */
-	void SetSeeds (int num, SeedsIterator begin);
+  /**
+   * Input the seeds information, will overwrite if seeds already
+   * exists.
+   */
+  void SetSeeds (int num, SeedsIterator begin);
 
-	/**
-	 * Add more seeds at one time.
-	 */
-	void AddSeeds(int num,SeedsIterator begin);
+  /**
+   * Add more seeds at one time.
+   */
+  void AddSeeds(int num,SeedsIterator begin);
   void AddOneSeed(PointType);
 
-	void SortSeeds(void);
-	/**
-	 * Generate Voronoi Diagram based on the current list of seeds.
-	 */
-	void GenerateDiagram(void);
+  void SortSeeds(void);
+  /**
+   * Generate Voronoi Diagram based on the current list of seeds.
+   */
+  void GenerateDiagram(void);
 
-	/**
-	 * Update the Voronoi Diagram after adding seed(s).
-	 */
-	void UpdateDiagram(void);
+  /**
+   * Update the Voronoi Diagram after adding seed(s).
+   */
+  void UpdateDiagram(void);
 
-	/**
-	 * the boundary that enclose the whold voronoi diagram
-	 */
-	void SetBoundary(PointType vorsize);
-	void SetOrigin(PointType vorsize);
+  /**
+   * the boundary that enclose the whold voronoi diagram
+   */
+  void SetBoundary(PointType vorsize);
+  void SetOrigin(PointType vorsize);
 
-	/**
-	 * set the seeds points randomly.
-	 */
-	void SetRandomSeeds(int num);
+  /**
+   * set the seeds points randomly.
+   */
+  void SetRandomSeeds(int num);
 
- /**
-	* Iterators for the neiborhood cells around the given cell;
-	*/
+  /**
+   * Iterators for the neiborhood cells around the given cell;
+   */
   NeighborIdIterator NeighborIdsBegin(int seeds);
   NeighborIdIterator NeighborIdsEnd(int seeds);
   
-	/**
-	 * Iterators for all the vertices of the voronoi diagram
-	 */ 
-	VertexIterator VertexBegin(void);
-	VertexIterator VertexEnd(void);
+  /**
+   * Iterators for all the vertices of the voronoi diagram
+   */ 
+  VertexIterator VertexBegin(void);
+  VertexIterator VertexEnd(void);
 	
-	/**
-	 * return the given indexed seed.
-	 */
-	PointType getSeed(int SeedID);
+  /**
+   * return the given indexed seed.
+   */
+  PointType getSeed(int SeedID);
 
-	/**
-	 * return the required cell pointer
-	 */
+  /**
+   * return the required cell pointer
+   */
   CellPointer GetCellId(CellIdentifier cellId);
 
-	/**
-	 * return the given vertex of the voronoi Diagram 
-	 */ 
-	void GetPointId(int pId,PointType *answer);
+  /**
+   * return the given vertex of the voronoi Diagram 
+   */ 
+  void GetPointId(int pId,PointType *answer);
 
   /********************************************************/
   /** public Data structure needed for Fortune's Method****/
-	class FortuneEdgeInfo{
-		public:
-			PointType m_left;
-			PointType m_right;
-			int m_leftID;
-			int m_rightID;
-			int m_LineID;
-			FortuneEdgeInfo(){};
-			~FortuneEdgeInfo(){};
-	};
+  class FortuneEdgeInfo{
+  public:
+    PointType m_left;
+    PointType m_right;
+    int m_leftID;
+    int m_rightID;
+    int m_LineID;
+    FortuneEdgeInfo(){};
+    ~FortuneEdgeInfo(){};
+  };
 	
-	typedef typename std::vector<FortuneEdgeInfo>::iterator EdgeIterator;
-	/* the Iterator of all the edges for the Voronoi Diagram */
-	EdgeIterator EdgeBegin(void);
-	EdgeIterator EdgeEnd(void);
+  typedef typename std::vector<FortuneEdgeInfo>::iterator EdgeIterator;
+  /* the Iterator of all the edges for the Voronoi Diagram */
+  EdgeIterator EdgeBegin(void);
+  EdgeIterator EdgeEnd(void);
 
-	/* find the two seed point that around the given edge */
-	TwoINT GetSeedsIDAroundEdge(FortuneEdgeInfo *task);
+  /* find the two seed point that around the given edge */
+  TwoINT GetSeedsIDAroundEdge(FortuneEdgeInfo *task);
   /********************************************************/
 
 protected:
-	Voronoi2DDiagram();
-	~Voronoi2DDiagram();
+  Voronoi2DDiagram();
+  ~Voronoi2DDiagram();
 
 private:
-	SeedsType m_Seeds;
-	unsigned int m_NumberOfSeeds;
+  SeedsType m_Seeds;
+  unsigned int m_NumberOfSeeds;
   std::vector<CellPointer> VDregions;
-	PointType m_VorBoundary;
-	std::vector< std::vector<int> > m_CellNeighborsID;
+  PointType m_VorBoundary;
+  std::vector< std::vector<int> > m_CellNeighborsID;
 
-	static bool comp(PointType arg1,PointType arg2);
+  static bool comp(PointType arg1,PointType arg2);
 
 /**
  * small datastructures for Fortune's Method.
  * and some public variables/methods not for external access.
  */ 
-	class FortuneSite{
-		public:
-			PointType m_coord;
-			int m_sitenbr;
-			FortuneSite(){};
-			~FortuneSite(){};
-	};
+  class FortuneSite{
+  public:
+    PointType m_coord;
+    int m_sitenbr;
+    FortuneSite(){};
+    ~FortuneSite(){};
+  };
 
-	class FortuneEdge{
-		public:
-			float m_a, m_b, m_c;  // explicit line function: ax + by = c;
-			FortuneSite *m_ep[2];
-			FortuneSite *m_reg[2];
-			int m_edgenbr;
-			FortuneEdge(){};
-			~FortuneEdge(){};
-	};
+  class FortuneEdge{
+  public:
+    float m_a, m_b, m_c;  // explicit line function: ax + by = c;
+    FortuneSite *m_ep[2];
+    FortuneSite *m_reg[2];
+    int m_edgenbr;
+    FortuneEdge(){};
+    ~FortuneEdge(){};
+  };
 
-	class FortuneHalfEdge{
-		public:
-			FortuneHalfEdge *m_left;
-			FortuneHalfEdge *m_right;
-			FortuneEdge *m_edge;
-			bool m_RorL;
-			FortuneSite *m_vert;
-			double m_ystar;
-			FortuneHalfEdge *m_next;
-			FortuneHalfEdge(){};
-			~FortuneHalfEdge(){};
-	};
+  class FortuneHalfEdge{
+  public:
+    FortuneHalfEdge *m_left;
+    FortuneHalfEdge *m_right;
+    FortuneEdge *m_edge;
+    bool m_RorL;
+    FortuneSite *m_vert;
+    double m_ystar;
+    FortuneHalfEdge *m_next;
+    FortuneHalfEdge(){};
+    ~FortuneHalfEdge(){};
+  };
 
 	
-	std::vector<FortuneSite> f_SeedSites;
-	std::vector< Point<int,2> > f_LineList;
-	std::vector<PointType> f_VertList;
-	std::vector<FortuneEdgeInfo> f_EdgeList;
-	double f_pxmin;
-	double f_pxmax;
-	double f_pymin;
-	double f_pymax;
-	double f_deltax;
-	double f_deltay;
-	double f_sqrtNSites;
-	unsigned int f_PQcount;
-	int f_PQmin;
-	unsigned int f_PQhashsize;
-	unsigned int f_nedges;
-	unsigned int f_nvert;
-	FortuneSite *f_bottomSite;
-	std::vector<FortuneHalfEdge> f_PQHash;
-	unsigned int f_ELhashsize;
-	FortuneHalfEdge f_ELleftend;
-	FortuneHalfEdge f_ELrightend;
-	std::vector<FortuneHalfEdge *> f_ELHash;
-	FortuneEdge f_DELETED;
+  std::vector<FortuneSite> f_SeedSites;
+  std::vector< Point<int,2> > f_LineList;
+  std::vector<PointType> f_VertList;
+  std::vector<FortuneEdgeInfo> f_EdgeList;
+  double f_pxmin;
+  double f_pxmax;
+  double f_pymin;
+  double f_pymax;
+  double f_deltax;
+  double f_deltay;
+  double f_sqrtNSites;
+  unsigned int f_PQcount;
+  int f_PQmin;
+  unsigned int f_PQhashsize;
+  unsigned int f_nedges;
+  unsigned int f_nvert;
+  FortuneSite *f_bottomSite;
+  std::vector<FortuneHalfEdge> f_PQHash;
+  unsigned int f_ELhashsize;
+  FortuneHalfEdge f_ELleftend;
+  FortuneHalfEdge f_ELrightend;
+  std::vector<FortuneHalfEdge *> f_ELHash;
+  FortuneEdge f_DELETED;
 	
 
-	bool differentPoint(PointType p1,PointType p2);
-	bool almostsame(CoordRepType p1,CoordRepType p2);
+  bool differentPoint(PointType p1,PointType p2);
+  bool almostsame(CoordRepType p1,CoordRepType p2);
   unsigned char Pointonbnd(int VertID);
 
   void GenerateVDFortune(void);
   void ConstructDiagram(void);
 
-	void createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e,bool pm);
-	void PQshowMin(PointType *task);
+  void createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e,bool pm);
+  void PQshowMin(PointType *task);
   FortuneHalfEdge *findLeftHE(PointType *p);
   FortuneHalfEdge *ELgethash(int b);
-	bool right_of(FortuneHalfEdge *el, PointType *p);
-	FortuneSite *getRightReg(FortuneHalfEdge *he);
-	FortuneSite *getLeftReg(FortuneHalfEdge *he);
-	void bisect(FortuneEdge *, FortuneSite *s1,FortuneSite *s2);
-	void insertEdgeList(FortuneHalfEdge *lbase, FortuneHalfEdge *lnew);
-	void intersect(FortuneSite *task,FortuneHalfEdge *el1,FortuneHalfEdge *el2);
-	void deletePQ(FortuneHalfEdge *task);
-	void deleteEdgeList(FortuneHalfEdge *task);
-	int PQbucket(FortuneHalfEdge *task);
-	void clip_line(FortuneEdge *task);
-	void insertPQ(FortuneHalfEdge *he, FortuneSite *v, double offset);
+  bool right_of(FortuneHalfEdge *el, PointType *p);
+  FortuneSite *getRightReg(FortuneHalfEdge *he);
+  FortuneSite *getLeftReg(FortuneHalfEdge *he);
+  void bisect(FortuneEdge *, FortuneSite *s1,FortuneSite *s2);
+  void insertEdgeList(FortuneHalfEdge *lbase, FortuneHalfEdge *lnew);
+  void intersect(FortuneSite *task,FortuneHalfEdge *el1,FortuneHalfEdge *el2);
+  void deletePQ(FortuneHalfEdge *task);
+  void deleteEdgeList(FortuneHalfEdge *task);
+  int PQbucket(FortuneHalfEdge *task);
+  void clip_line(FortuneEdge *task);
+  void insertPQ(FortuneHalfEdge *he, FortuneSite *v, double offset);
   double dist(FortuneSite *s1,FortuneSite *s2);
-	FortuneHalfEdge *getPQmin(void);
+  FortuneHalfEdge *getPQmin(void);
   void makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends);
 
 };

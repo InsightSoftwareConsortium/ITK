@@ -22,7 +22,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkDeformableMesh.h"
-#include "itkDynamicPolygonCell.h"
+#include "itkPolygonCell.h"
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingImageFilter.h"

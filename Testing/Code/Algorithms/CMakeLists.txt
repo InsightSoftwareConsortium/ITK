@@ -92,7 +92,7 @@ itkClassifier
 itkConnectedRegionsMeshFilter
 itkCurvatureFlowImageFilter
 itkDeformableMesh
-itkDynamicPolygonCell
+itkPolygonCell
 itkExtensionVelocitiesImageFilter
 itkFastMarchingExtensionImageFilter
 itkFastMarchingImageFilter

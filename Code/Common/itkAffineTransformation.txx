@@ -140,7 +140,7 @@ AffineTransformation<TScalarType,NDimensions>
 template <class TScalarType,int NDimensions>
 AffineTransformation<TScalarType,NDimensions>::PointType
 AffineTransformation<TScalarType,NDimensions>
-::Transform( PointType &initial_point )
+::TransformPoint( PointType &initial_point )
 {
   //Matrix case
   PointType result;

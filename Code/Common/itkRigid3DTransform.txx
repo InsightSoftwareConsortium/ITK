@@ -182,7 +182,7 @@ Rotate(const VectorType & axis, ScalarType angle )
 template<class ScalarType, unsigned int NDimensions>
 Rigid3DTransform<ScalarType, NDimensions>::PointType
 Rigid3DTransform<ScalarType, NDimensions>::
-Transform(const PointType &point) const 
+TransformPoint(const PointType &point) const 
 {
   return m_DirectMatrix * point + m_Offset;
 }
@@ -192,7 +192,7 @@ Transform(const PointType &point) const
 template<class ScalarType, unsigned int NDimensions>
 Rigid3DTransform<ScalarType, NDimensions>::VectorType
 Rigid3DTransform<ScalarType, NDimensions>::
-Transform(const VectorType &vect) const 
+TransformVector(const VectorType &vect) const 
 {
   return  m_DirectMatrix * vect;
 }
@@ -202,7 +202,7 @@ Transform(const VectorType &vect) const
 template<class ScalarType, unsigned int NDimensions>
 Rigid3DTransform<ScalarType, NDimensions>::VnlVectorType
 Rigid3DTransform<ScalarType, NDimensions>::
-Transform(const VnlVectorType &vect) const 
+TransformVector(const VnlVectorType &vect) const 
 {
   return  m_DirectMatrix * vect;
 }
@@ -212,7 +212,7 @@ Transform(const VnlVectorType &vect) const
 template<class ScalarType, unsigned int NDimensions>
 Rigid3DTransform<ScalarType, NDimensions>::CovariantVectorType
 Rigid3DTransform<ScalarType, NDimensions>::
-Transform(const CovariantVectorType &vect) const 
+TransformVector(const CovariantVectorType &vect) const 
 {
   // Covariant vectors are transformed like contravariant
   // vectors under orthogonal transformations.
