@@ -77,7 +77,7 @@ public:
     typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixType;
 
     /// Standard image type within this class.
-    typedef Image<TPixel, VRank>::Pointer ImageType;
+    typedef typename Image<TPixel, VRank>::Pointer ImageType;
 
     /// Standard affine transform type for this class
     typedef AffineTransform<double, VRank> AffineTransformType;
