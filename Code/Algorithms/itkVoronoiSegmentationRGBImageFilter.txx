@@ -684,8 +684,9 @@ TakeAPrior(BinaryObjectImage* aprior)
   float bkgaddpp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
   RGBHCVPixel currp;
 
-ait.Begin();
+  ait.Begin();
   iit.Begin();
+  int k;
   for(i=0;i<miny;i++){
     for(j=0;j<m_Size[0];j++){
       ++ait;
@@ -698,19 +699,19 @@ ait.Begin();
       ++iit;
     }
     for(j=minx;j<=maxx;j++){
+      currp = iit.Get();
       if(ait.Get()){
-        currp=iit.Get();
 	    objnum++;
-	    for(i=0;i<6;i++){
-	      objaddp[i] += currp[i];
-	      objaddpp[i] += currp[i]*currp[i];
+	    for(k=0;k<6;k++){
+	      objaddp[k] += currp[k];
+	      objaddpp[k] += currp[k]*currp[k];
 	    }
+      }
       else{
-	    currp = iit.Get();
 	    bkgnum++;
-	    for(i=0;i<6;i++){
-	      bkgaddp[i] += currp[i];
-	      bkgaddpp[i] += currp[i]*currp[i];
+	    for(k=0;k<6;k++){
+	      bkgaddp[k] += currp[k];
+	      bkgaddpp[k] += currp[k]*currp[k];
 	    }
 	  }
       ++ait;++iit;
@@ -736,15 +737,13 @@ ait.Begin();
 	diffVar[i] = (b_Var[i]-m_Var[i])/m_Var[i];
 	if(diffVar[i] < 0) diffVar[i] = -diffVar[i];
     if(m_UseBackgroundInAPrior)
-      m_MeanTolerance[i] = diffMean[i]*m_MeanDeviation;
+      m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*m_MeanDeviation;
     else
       m_MeanTolerance[i] = m_Mean[i]*m_MeanPercentError[i];
   }
 
 /* stupid sorting...*/
-  unsigned int k;
   unsigned char tmp[6]={0,1,2,3,4,5};
-  unsigned int j;
   for(j=0;j<3;j++){
     k=0;
     for(i=1;i<6-j;i++){

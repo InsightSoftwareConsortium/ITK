@@ -168,10 +168,10 @@ public:
 
   itkGetMacro(NumberOfSeedsToAdded, int); 
 
-  void SetMeanPercentError(double x[6]){for(int i=0;i<6;i++) m_MeanPercentError[i]=x[i]};
-  void SetVarPercentError(double x[6]){for(int i=0;i<6;i++) m_VarPercentError[i]=x[i]};
-  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
-  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
+  void SetMeanPercentError(double x[6]);
+  void SetVarPercentError(double x[6]);
+//  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
+//  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
 
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
