@@ -16,13 +16,13 @@
 namespace itk
 {
 
-template<class TDataType, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension>
 void
-NeighborhoodOperator<TDataType, VDimension>
+NeighborhoodOperator<TPixel, VDimension>
 ::CreateDirectional()
 {
   unsigned long k[VDimension];
-  std::vector<TDataType> coefficients;
+  std::vector<TPixel> coefficients;
 
   coefficients = this->GenerateCoefficients();
   for (int i = 0; i<VDimension; ++i)
@@ -40,23 +40,23 @@ NeighborhoodOperator<TDataType, VDimension>
   this->Fill(coefficients);
 }
   
-template<class TDataType, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension>
 void
-NeighborhoodOperator<TDataType, VDimension>
-::CreateToRadius(const unsigned long *sz)
+NeighborhoodOperator<TPixel, VDimension>
+::CreateToRadius(const SizeType &sz)
 {
-  std::vector<TDataType> coefficients;
+  std::vector<TPixel> coefficients;
   coefficients = this->GenerateCoefficients();
   this->SetRadius(sz);
   this->Fill(coefficients);
 }
 
-template<class TDataType, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension>
 void
-NeighborhoodOperator<TDataType, VDimension>
-::CreateToRadius(const unsigned long &sz)
+NeighborhoodOperator<TPixel, VDimension>
+::CreateToRadius(const unsigned long sz)
 {
-  unsigned long k[VDimension];
+  SizeType k;
   for (int i = 0; i< VDimension; i++)
     {
       k[i] = sz;
@@ -64,16 +64,16 @@ NeighborhoodOperator<TDataType, VDimension>
   this->CreateToRadius(k);
 }
 
-template<class TDataType, unsigned int VDimension>
+template<class TPixel, unsigned int VDimension>
 void
-NeighborhoodOperator<TDataType, VDimension>
-::FillCenteredDirectional(const std::vector<TDataType> &coeff)
+NeighborhoodOperator<TPixel, VDimension>
+::FillCenteredDirectional(const std::vector<TPixel> &coeff)
 {
   int i;
   unsigned long start;
   unsigned long len;
   std::slice* temp_slice;
-  std::vector<float>::const_iterator it;
+  std::vector<TPixel>::const_iterator it;
 
   // Collect slice information
   const unsigned long stride = this->GetStride(m_Direction);
