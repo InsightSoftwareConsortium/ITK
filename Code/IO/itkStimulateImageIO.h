@@ -30,8 +30,19 @@ namespace itk
 /** \brief ImageIO class for reading SDT/SPR (Stimulate) images
  *  This format is similar to a MetaImageIO file:
  *  The user should specify the .spr file (not the data file : .sdt)
- *  This is based on the notes from: http://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html
- *  It has been tested on: ftp://ftp.cmrr.umn.edu/pub/stimulate/data/
+ *
+ *  This is based on the notes from: 
+ *
+ *      http://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html
+ *
+ *  It has been tested on:
+ *
+ *      ftp://ftp.cmrr.umn.edu/pub/stimulate/data/
+ *
+ *  This class was contributed by Mathieu Malaterre
+ *  member of the CREATIS team at INSA - Lyon
+ *
+ *    http://www.insa-lyon.fr/Laboratoires/creatis.html
  *
  * \ingroup IOFilters
  *
@@ -76,7 +87,12 @@ public:
    * that the IORegion has been set properly. */
   virtual void Write(const void* buffer);
 
-  //float* GetDisplayRange();
+  /** Two values used for applying intensity windowing to the data set. The pair
+   *  of numbers represent a low value and a hight value. Pixel values below the
+   *  low_value will be displayed as black and voxels with values above the
+   *  high_value will be displayed as white. Pixels with values within the display
+   *  range are displayed with a grey value that is scaled linearly between the
+   *  low_value and high_value. */
   itkGetVectorMacro( DisplayRange, const float, 2);
 
 protected:
@@ -89,18 +105,13 @@ protected:
   void InternalReadImageInformation(std::ifstream& file);
 
 private:
-  /*displayRange:
-  Two values giving the low_value and high_value. Voxel values below the
-  low_value will be displayed as black and voxels with values above the
-  high_value will be displayed as white. Voxels with values within the display
-  range are displayed with a grey value that is scaled linearly between the
-  low_value and high_value. */
-  float m_DisplayRange[2];
 
-  float m_DisplayThresh;
-  float m_Extent[4];
-  char m_FidName[256];
-  char m_SdtOrient[256];
+  float   m_DisplayRange[2];
+
+  float   m_DisplayThresh;
+  float   m_Extent[4];
+  char    m_FidName[256];
+  char    m_SdtOrient[256];
 
   StimulateImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
