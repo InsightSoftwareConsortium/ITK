@@ -22,7 +22,7 @@
 
 #include <iostream>
 #include <iomanip>
-
+#include <stdio.h>
 
 
 //#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
