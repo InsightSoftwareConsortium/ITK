@@ -27,6 +27,7 @@ public:
   FilterWatcher(itk::ProcessObject* o, char *comment="")
   {
     m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
+    m_Quiet = false;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
@@ -55,7 +56,10 @@ public:
 
   virtual void ShowProgress()
   {
-    std::cout << " | " << m_Process->GetProgress() << std::flush;
+    if (!m_Quiet)
+      {
+      std::cout << " | " << m_Process->GetProgress() << std::flush;
+      }
     m_Steps++;
   }
   virtual void ShowIteration()
@@ -71,7 +75,8 @@ public:
     std::cout << "-------- Start " << m_Process->GetNameOfClass()
               << " \"" << m_Comment << "\" "
               << m_Process
-              << "Progress " << std::flush;
+              << (m_Quiet ? "Progress Quiet " : "Progress ")
+              << std::flush;
     }
   const char *GetNameOfClass () {return m_Process->GetNameOfClass();}
   virtual void EndFilter()
@@ -89,11 +94,15 @@ public:
       itkExceptionMacro ("Filter does not have progress.");
       }
     }
+  
+  void QuietOn() {m_Quiet = true;};
+  void QuietOff() {m_Quiet = false;};
 protected:
   clock_t m_Start;
   clock_t m_End;
   int m_Steps;
   int m_Iterations;
+  bool m_Quiet;
   std::string m_Comment;
   itk::ProcessObject::Pointer m_Process;
 private:
