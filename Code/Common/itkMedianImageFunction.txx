@@ -53,7 +53,7 @@ MedianImageFunction<TInputImage,TCoordRep>
  *
  */
 template <class TInputImage, class TCoordRep>
-MedianImageFunction<TInputImage,TCoordRep>
+typename MedianImageFunction<TInputImage,TCoordRep>
 ::OutputType
 MedianImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
@@ -82,7 +82,7 @@ MedianImageFunction<TInputImage,TCoordRep>
 
   // We have to copy the pixels so we can run std::nth_element.
   std::vector<InputPixelType> pixels;
-  std::vector<InputPixelType>::iterator medianIterator;
+  typename std::vector<InputPixelType>::iterator medianIterator;
   
   // Walk the neighborhood
   for (i = 0; i < it.Size(); ++i)

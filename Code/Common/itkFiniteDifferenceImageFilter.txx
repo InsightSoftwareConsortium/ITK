@@ -97,7 +97,7 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  InputImagePointer  inputPtr  = 
+  typename Superclass::InputImagePointer  inputPtr  = 
     const_cast< TInputImage * >( this->GetInput());
 
   if ( !inputPtr )
