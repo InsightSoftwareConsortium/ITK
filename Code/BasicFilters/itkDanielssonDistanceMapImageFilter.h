@@ -41,7 +41,8 @@ namespace itk
 * - A vector map containing the component of the vector relating
 *   the current pixel with the closest point of the closest object
 *   to this pixel. Given that the components of the distance are
-*   computed in "pixels", the vector is represented by an itk::Offset
+*   computed in "pixels", the vector is represented by an
+*   itk::Offset.  That is, physical coordinates are not used.
 *
 * This filter is N-dimensional and known to be efficient
 * in computational time.  The algorithm is the N-dimensional version
