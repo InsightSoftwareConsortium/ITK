@@ -472,8 +472,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		m_HomogeneityMap[i] = (float) exp(-0.5*result);
 		m_ScaleMap[i] = (float) exp(-0.5*result/9.0);
 	}
-	printf("Homogeneity map computation is done! \n");
-	printf("Scale map computation is done! \n");
+//	printf("Homogeneity map computation is done! \n");
+//	printf("Scale map computation is done! \n");
 
 	/*     compute object-based affinity look-up table  */
 
@@ -527,7 +527,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 	        m_ObjectsMap[l][i] = exp(-0.5*result);
 	    }
-	printf("Object %d map computation is done!\n",l);
+//	printf("Object %d map computation is done!\n",l);
 
 	}
 
@@ -661,7 +661,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			}
 
 	m_ScaleMap.resize(0);
-	printf("Scale computation is done! \n");
+//	printf("Scale computation is done! \n");
 }
 
 
@@ -762,7 +762,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			index[0] = col;
 			m_FilterImage->SetPixel(index,mean);
 		}
-	printf("Filter computation is done! \n");
+//	printf("Filter computation is done! \n");
 }
 
 
@@ -1038,7 +1038,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 	m_Material.resize(0);
 
-	printf("Affinity computation is done! \n");
+//	printf("Affinity computation is done! \n");
 }
 
 
@@ -1408,3 +1408,4 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
+
