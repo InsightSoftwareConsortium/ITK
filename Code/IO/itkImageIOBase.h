@@ -303,6 +303,10 @@ protected:
   void WriteBufferAsASCII(std::ostream& os, void *buffer, IODataType ctype,
                           unsigned int numComp);
 
+  /** Convenient method to read a buffer as ASCII text. */
+  void ReadBufferAsASCII(std::istream& os, void *buffer, IODataType ctype,
+                         unsigned int numComp);
+
 private:
   ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

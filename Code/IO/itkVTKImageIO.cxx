@@ -34,8 +34,9 @@ VTKImageIO::~VTKImageIO()
 {
 }
 
-bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
-                             int openMode)
+bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os, 
+                                       const char* filename)
+                                       
 {
   // Make sure that we have a file to 
   if ( filename == "" )
@@ -54,6 +55,8 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
+  int openMode = std::ios::in;
+
 #ifdef _WIN32
   openMode |= std::ios::binary;
 #endif
@@ -64,7 +67,47 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
 #endif
   if ( os.fail() )
     {
-    itkExceptionMacro(<< "Could not open file: " << filename);
+    itkExceptionMacro(<< "Could not open file for reading: " << filename);
+    return false;
+    }
+
+  return true;
+}
+
+bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os, 
+                                       const char* filename)
+                                       
+{
+  // Make sure that we have a file to 
+  if ( filename == "" )
+    {
+    itkExceptionMacro(<<"A FileName must be specified.");
+    return false;
+    }
+
+  // Close file from any previous image
+  if ( os.is_open() )
+    {
+    os.close();
+    }
+  
+  // Open the new file for reading
+  itkDebugMacro(<< "Initialize: opening file " << filename);
+
+  // Actually open the file
+  int openMode = std::ios::out;
+
+#ifdef _WIN32
+  openMode |= std::ios::binary;
+#endif
+#if defined(__GNUC__) && __GNUC__ >= 3
+  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+#else
+  os.open(filename, openMode);
+#endif
+  if ( os.fail() )
+    {
+    itkExceptionMacro(<< "Could not open file for writing: " << filename);
     return false;
     }
 
@@ -74,27 +117,221 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
 
 bool VTKImageIO::CanReadFile(const char* filename) 
 { 
-  std::ofstream file;
+  std::ifstream file;
+  char buffer[256];
   std::string fname(filename);
 
-  if ( ! this->OpenVTKFile(file,m_FileName.c_str(),std::ios::in) )
+  if ( fname.find(".vtk") >= fname.length() )
+    {
+    return false;
+    }
+
+  if ( ! this->OpenVTKFileForReading(file, filename) )
     {
     return false;
     }
 
   // Check to see if its a vtk structured points file
-  if ( fname.find(".vtk") < fname.length() )
+  file.getline(buffer,255);
+  file.getline(buffer,255);
+  file.getline(buffer,255);
+  file.getline(buffer,255);
+
+  fname = buffer;
+
+  if ( fname.find("STRUCTURED_POINTS") < fname.length() ||
+       fname.find("structured_points") < fname.length() )
     {
+    return true;
     }
-  
-  return true;
+  else
+    {
+    return false;
+    }
 }
   
  
 void VTKImageIO::Read(void* buffer)
 {
-  // Read the header, make sure it is
+  std::ifstream file;
+  char line[255];
+  std::string text;
 
+  // Check the input
+  //
+  if ( ! this->OpenVTKFileForReading(file, m_FileName.c_str()) )
+    {
+    itkExceptionMacro(<< "Cannot read requested file");
+    }
+
+  file.getline(line,255);
+  file.getline(line,255);
+  file.getline(line,255);
+  text = line;
+  if ( text.find("ASCII") < text.length() || 
+       text.find("ascii") < text.length() )
+    {
+    this->SetFileTypeToASCII();
+    }
+  else if ( text.find("BINARY") < text.length() ||
+            text.find("binary") < text.length() )
+    {
+    this->SetFileTypeToBinary();
+    }
+  else
+    {
+    itkExceptionMacro(<< "Unrecognized type");
+    }
+  file.getline(line,255);
+  text = line;
+  if ( text.find("STRUCTURED_POINTS") >= text.length() &&
+       text.find("structured_points") >= text.length() )
+    {
+    itkExceptionMacro(<< "Not structured points, can't read");
+    }
+
+  //extract dimensions, spacing, origin
+  unsigned int dims[3];
+  float spacing[3];
+  float origin[3];
+  file.getline(line,255);
+  text = line;
+  int i;
+
+  if ( text.find("DIMENSIONS") < text.length() || 
+       text.find("dimensions") < text.length() )
+    {
+    sscanf(line, "%*s %d %d %d", dims, dims+1, dims+2);
+    if ( dims[2] <= 1 )
+      {
+      this->SetNumberOfDimensions(2);
+      }
+    else
+      {
+      this->SetNumberOfDimensions(3);
+      }
+    for ( i=0; i < m_NumberOfDimensions; i++ )
+      {
+      m_Dimensions[i] = dims[i];
+      }
+    }
+  else
+    {
+    itkExceptionMacro(<<"No dimensions defined");
+    }
+
+  file.getline(line,255);
+  text = line;
+  if ( text.find("SPACING") < text.length() || 
+       text.find("spacing") < text.length() )
+    {
+    sscanf(line, "%*s %f %f %f", spacing, spacing+1, spacing+2);
+    for ( i=0; i < m_NumberOfDimensions; i++ )
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    }
+  else
+    {
+    itkExceptionMacro(<<"No spacing defined");
+    }
+
+  file.getline(line,255);
+  text = line;
+  if ( text.find("ORIGIN") < text.length() || 
+       text.find("origin") < text.length() )
+    {
+    sscanf(line, "%*s %f %f %f", origin, origin+1, origin+2);
+    for ( i=0; i < m_NumberOfDimensions; i++ )
+      {
+      m_Origin[i] = origin[i];
+      }
+    }
+  else
+    {
+    itkExceptionMacro(<<"No origin defined");
+    }
+  
+  //Now grab the data; need to determine the pixel type
+  file.getline(line,255);
+  text = line;
+  while ( text.find("SCALARS") >= text.length() ||
+          text.find("scalars") >= text.length() )
+    {
+    file.getline(line,255);
+    text = line;
+    }
+  char pixelType[256];
+  sscanf(line, "%*s %*s %s", pixelType);
+  text = pixelType;
+  if ( text.find("float") < text.length() )
+    {
+    SetPixelType(FLOAT);
+    SetComponentType(FLOAT);
+    }
+  else if ( text.find("double") < text.length() )
+    {
+    SetPixelType(DOUBLE);
+    SetComponentType(DOUBLE);
+    }
+  else if ( text.find("unsigned_char") < text.length() )
+    {
+    SetPixelType(UCHAR);
+    SetComponentType(UCHAR);
+    }
+  else if ( text.find("char") < text.length() )
+    {
+    SetPixelType(CHAR);
+    SetComponentType(CHAR);
+    }
+  else if ( text.find("unsigned_short") < text.length() )
+    {
+    SetPixelType(USHORT);
+    SetComponentType(USHORT);
+    }
+  else if ( text.find("short") < text.length() )
+    {
+    SetPixelType(SHORT);
+    SetComponentType(SHORT);
+    }
+  else if ( text.find("unsigned_int") < text.length() )
+    {
+    SetPixelType(UINT);
+    SetComponentType(UINT);
+    }
+  else if ( text.find("int") < text.length() )
+    {
+    SetPixelType(INT);
+    SetComponentType(INT);
+    }
+  else if ( text.find("unsigned_long") < text.length() )
+    {
+    SetPixelType(ULONG);
+    SetComponentType(ULONG);
+    }
+  else if ( text.find("long") < text.length() )
+    {
+    SetPixelType(LONG);
+    SetComponentType(LONG);
+    }
+  else
+    {
+    itkExceptionMacro(<<"Unrecognized type");
+    }
+
+  // grab the trailing lookup table line
+  file.getline(line,255);
+  //We are positioned at the data. The data is read depending on whether 
+  //it is ASCII or binary.
+  if ( m_FileType == ASCII )
+    {
+    this->ReadBufferAsASCII(file, buffer, this->GetComponentType(),
+                            this->GetImageSizeInComponents());
+    }
+  else
+    {
+    file.read(static_cast<char*>(buffer), this->GetImageSizeInBytes());
+    }
 }
 
 void VTKImageIO::ReadImageInformation()
@@ -114,7 +351,7 @@ bool VTKImageIO::CanWriteFile(const char*)
 void VTKImageIO::Write(void* buffer)
 {
   std::ofstream file;
-  if ( ! this->OpenVTKFile(file,m_FileName.c_str(),std::ios::out) )
+  if ( ! this->OpenVTKFileForWriting(file,m_FileName.c_str()) )
     {
     return;
     }
@@ -140,31 +377,31 @@ void VTKImageIO::Write(void* buffer)
   if ( numDims == 2 )
     {
     file << "DIMENSIONS " << this->GetDimensions(0) << " "
-           << this->GetDimensions(1) << " 1\n";
+         << this->GetDimensions(1) << " 1\n";
     file << "SPACING " << m_Spacing[0] << " " << m_Spacing[1] << " 1.0\n";
     file << "ORIGIN " << m_Origin[0] << " " << m_Origin[1] << " 0.0\n";
     }
   else //numDims == 3
     {
     file << "DIMENSIONS " << this->GetDimensions(0) << " "
-           << this->GetDimensions(1) << this->GetDimensions(2) << "\n";
+         << this->GetDimensions(1) << " " << this->GetDimensions(2) << "\n";
     file << "SPACING " << m_Spacing[0] << " " 
-           << m_Spacing[1] << " " << m_Spacing[2] << "\n";
+         << m_Spacing[1] << " " << m_Spacing[2] << "\n";
     file << "ORIGIN " << m_Origin[0] << " "
-           << m_Origin[1] << " " << m_Origin[2] << "\n";
+         << m_Origin[1] << " " << m_Origin[2] << "\n";
     }
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
   file << "SCALARS scalars " 
-         << this->ReturnTypeAsString(this->GetComponentType()) << " "
-         << this->GetNumberOfComponents() << "\n";
+       << this->ReturnTypeAsString(this->GetComponentType()) << " "
+       << this->GetNumberOfComponents() << "\n";
   file << "LOOKUP_TABLE default\n";
 
   // Write the actual pixel data
   if ( m_FileType == ASCII )
     {
     this->WriteBufferAsASCII(file, buffer, this->GetComponentType(),
-                             this->GetImageSizeInComponents());
+                            this->GetImageSizeInComponents());
     }
   else //binary
     {

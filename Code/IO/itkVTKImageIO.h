@@ -67,7 +67,8 @@ protected:
   ~VTKImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  bool OpenVTKFile(std::ofstream& os, const char* filename, int openMode);
+  bool OpenVTKFileForReading(std::ifstream& os, const char* filename);
+  bool OpenVTKFileForWriting(std::ofstream& os, const char* filename);
 
 private:
   VTKImageIO(const Self&); //purposely not implemented

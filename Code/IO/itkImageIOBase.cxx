@@ -542,6 +542,97 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, void *buffer,
 }
 
 
+template <class TComponent>
+static void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
+{
+  TComponent *ptr = buffer;
+  for (unsigned int i=0; i < num; i++, ptr++)
+    {
+    is >> *ptr;
+    }
+}
+
+void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer, 
+                                    IODataType ctype, unsigned int numComp)
+{
+  switch (ctype)
+    {
+    case UCHAR:
+      {
+      unsigned char *buf = reinterpret_cast<unsigned char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+    case CHAR:
+      {
+      char *buf = reinterpret_cast<char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case USHORT:
+      {
+      unsigned short *buf = reinterpret_cast<unsigned short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case SHORT:
+      {
+      short *buf = reinterpret_cast<short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case UINT:
+      {
+      unsigned int *buf = reinterpret_cast<unsigned int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case INT:
+      {
+      int *buf = reinterpret_cast<int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case ULONG:
+      {
+      unsigned long *buf = reinterpret_cast<unsigned long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case LONG:
+      {
+      long *buf = reinterpret_cast<long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case FLOAT:
+      {
+      float *buf = reinterpret_cast<float*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case DOUBLE:
+      {
+      double *buf = reinterpret_cast<double*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    default:
+      ;
+    }
+
+}
+
+
 void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
