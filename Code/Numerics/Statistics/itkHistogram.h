@@ -133,13 +133,13 @@ public:
   InstanceIdentifier GetInstanceIdentifier(const IndexType &index) const ;
   
   /** Get the total number of instances in this container */
-  int GetNumberOfInstances() const ;
+  unsigned int GetNumberOfInstances() const ;
 
   /** Returns the number of instances (bins or cells) in this container */
-  int Size() const ;
+  unsigned int Size() const ;
 
   /** Returns the number of bins along the "dimension" */
-  int Size(const unsigned int &dimension) const 
+  unsigned int Size(const unsigned int &dimension) const 
   { return static_cast< int >(m_Size[dimension]) ; }
 
   /** Method to get m_Size */
