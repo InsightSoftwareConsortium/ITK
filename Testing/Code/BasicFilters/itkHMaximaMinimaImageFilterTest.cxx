@@ -82,11 +82,11 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   
   // Setup the hmaxima method
   hmaxima->SetInput(  reader->GetOutput() );
-  hmaxima->SetHeight( atof(argv[3]) );
+  hmaxima->SetHeight( static_cast<InputPixelType>(atof(argv[3])) );
 
   // Setup the hminima method
   hminima->SetInput(  hmaxima->GetOutput() );
-  hminima->SetHeight( atof(argv[3]) );
+  hminima->SetHeight( static_cast<InputPixelType>(atof(argv[3])) );
 
   // Run the filter
 //   rescaler->SetInput( hmaxima->GetOutput() );
