@@ -92,6 +92,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro(<<"FixedImageRegion is empty");
     }
 
+  // If the image is provided by a source, update the source.
+  if( m_MovingImage->GetSource() )
+    {
+    m_MovingImage->GetSource()->Update();
+    }
+
+  // If the image is provided by a source, update the source.
+  if( m_FixedImage->GetSource() )
+    {
+    m_FixedImage->GetSource()->Update();
+    }
+
   m_Interpolator->SetInputImage( m_MovingImage );
  
   if ( m_ComputeGradient )
