@@ -351,7 +351,7 @@ void
 ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 ::GenerateListSample()
 {
-  unsigned int i, j ;
+  unsigned int i ;
   int classIndex ;
   
   m_MeasurementsLowerBound.Fill(itk::NumericTraits< MeasurementType >::max()) ;
