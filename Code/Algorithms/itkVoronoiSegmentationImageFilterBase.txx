@@ -33,6 +33,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_Steps = 0;
   m_LastStepSeeds = 0;
   m_NumberOfSeeds = 200;
+  m_NumberOfSeedsToAdded = 0;
   m_MeanDeviation = 0.8;
   m_UseBackgroundInAPrior = false;
   m_OutputBoundary = false;
@@ -431,7 +432,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     this->RunSegmentOneStep();
     // guess at a progress
     this->UpdateProgress(static_cast<float>(count)
-                   / static_cast<float>(NumericTraits<unsigned long>::max()));
+                         / static_cast<float>(NumericTraits<unsigned long>::max()));
     if(m_NumberOfBoundary == 0)
       {
       ok=0;
@@ -445,7 +446,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       this->RunSegmentOneStep();
       // guess at a progress
       this->UpdateProgress(static_cast<float>(count)
-                    / static_cast<float>(NumericTraits<unsigned long>::max()));
+                           / static_cast<float>(NumericTraits<unsigned long>::max()));
       }
     }
   else if(m_Steps == 1)
@@ -1008,7 +1009,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   // set the input requested region to the LargestPossibleRegion
   {
   InputImagePointer input =
-            const_cast< InputImageType * >( this->GetInput() );
+    const_cast< InputImageType * >( this->GetInput() );
   input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
   }
 }
@@ -1031,5 +1032,3 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 } //end namespace
 
 #endif
-
-
