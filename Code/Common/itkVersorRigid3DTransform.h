@@ -121,7 +121,8 @@ protected:
   ~VersorRigid3DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  VersorRigid3DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  VersorRigid3DTransform(unsigned int outputSpaceDimension,
+                         unsigned int parametersDimension);
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrixAndOffset(void);

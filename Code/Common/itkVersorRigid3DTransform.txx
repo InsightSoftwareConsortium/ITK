@@ -31,7 +31,6 @@ VersorRigid3DTransform<TScalarType>
   m_Versor.SetIdentity();
   m_Translation.Fill( 0.0 );
   m_Center.Fill( 0.0 );
-  m_RotationMatrix.SetIdentity();
   this->ComputeMatrixAndOffset();
   m_Jacobian = JacobianType( SpaceDimension, ParametersDimension );
 }
@@ -50,7 +49,6 @@ VersorRigid3DTransform( unsigned int spaceDimension,
   m_Versor.SetIdentity();
   m_Translation.Fill( 0.0 );
   m_Center.Fill( 0.0 );
-  m_RotationMatrix.SetIdentity();
   this->ComputeMatrixAndOffset(); 
 }
  
@@ -63,6 +61,8 @@ VersorRigid3DTransform<TScalarType>
 {
   // call the superclass copy constructor
   m_Versor = other.m_Versor;
+  m_Translation = other.m_Translations;
+  m_Center = other.m_Center;
   this->ComputeMatrixAndOffset();
 }
 
@@ -287,17 +287,26 @@ GetJacobian( const InputPointType & p ) const
 
 
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz ) / vw;
-  m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) / vw;
-  m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) / vw;
+  m_Jacobian[0][0] = 2.0 * (                  (vyw+vxz) * py + (vzw-vxy) * pz )
+                         / vw;
+  m_Jacobian[1][0] = 2.0 * ( (vyw-vxz) * px   -2*vxw    * py + (vxx-vww) * pz ) 
+                         / vw;
+  m_Jacobian[2][0] = 2.0 * ( (vzw+vxy) * px + (vww-vxx) * py   -2*vxw    * pz ) 
+                         / vw;
 
-  m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) / vw;
-  m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) / vw;
-  m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) / vw;
+  m_Jacobian[0][1] = 2.0 * (  -2*vyw   * px + (vxw+vyz) * py + (vww-vyy) * pz ) 
+                         / vw;
+  m_Jacobian[1][1] = 2.0 * ( (vxw-vyz) * px                  + (vzw+vxy) * pz ) 
+                         / vw;
+  m_Jacobian[2][1] = 2.0 * ( (vyy-vww) * px + (vzw-vxy) * py   -2*vyw    * pz ) 
+                         / vw;
 
-  m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) / vw;
-  m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) / vw;
-  m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) / vw;
+  m_Jacobian[0][2] = 2.0 * (  -2*vzw   * px + (vzz-vww) * py + (vxw-vyz) * pz ) 
+                         / vw;
+  m_Jacobian[1][2] = 2.0 * ( (vww-vzz) * px   -2*vzw    * py + (vyw+vxz) * pz ) 
+                         / vw;
+  m_Jacobian[2][2] = 2.0 * ( (vxw+vyz) * px + (vyw-vxz) * py                  ) 
+                         / vw;
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 3;  
