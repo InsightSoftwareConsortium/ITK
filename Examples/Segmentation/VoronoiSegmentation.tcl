@@ -21,9 +21,10 @@ $filter     TakeAPrior [ $readerPrior  GetOutput ]
 $filter SetMeanPercentError [lindex $argv 3]
 $filter SetSTDPercentError  [lindex $argv 4]
 
-$writer     SetInput [ $filter  GetOutput ]
 
 set writer [ itkImageFileWriterUC2_New ]
+
+$writer SetInput [ $filter  GetOutput ]
 $writer SetFileName [lindex $argv 2]
 
 $writer Update
