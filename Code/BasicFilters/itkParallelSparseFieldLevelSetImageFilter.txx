@@ -955,18 +955,22 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if ( m_GlobalZHistogram != 0 )
     {
     delete [] m_GlobalZHistogram;
+    m_GlobalZHistogram = 0;
     }
   if ( m_ZCumulativeFrequency != 0 )
     {
     delete [] m_ZCumulativeFrequency;
+    m_ZCumulativeFrequency = 0;
     }
   if ( m_MapZToThreadNumber != 0 )
     {
     delete [] m_MapZToThreadNumber;
+    m_MapZToThreadNumber = 0;
     }
   if (m_Boundary != 0)
     {
     delete [] m_Boundary;
+    m_Boundary = 0;
     }
   
   // Deallocate the status image.
