@@ -117,8 +117,15 @@ public:
   typedef OneWayEquivalencyTable   OneWayEquivalencyTableType;
   typedef DataObject::Pointer      DataObjectPointer;
 
+  /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
+  typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
+  typedef typename OneWayEquivalencyTableType::Pointer
+    OneWayEquivalencyTableTypePointer;
+  typedef typename SegmentTreeType::Pointer SegmentTreeTypePointer;
+  
+
   /** Get/Set the input table of segments to process */
-  typename SegmentTableType::Pointer GetInputSegmentTable()
+  SegmentTableTypePointer GetInputSegmentTable()
     { return static_cast<SegmentTableType *>
         (this->ProcessObject::GetInput(0).GetPointer()); }
   typename EquivalencyTableType::Pointer GetInputEquivalencyTable()
@@ -134,7 +141,7 @@ public:
     { this->ProcessObject::SetNthInput(0, st); }
 
   /** Get/Set the output data */
-  typename SegmentTreeType::Pointer GetOutputSegmentTree()
+  SegmentTreeTypePointer GetOutputSegmentTree()
     { return static_cast<SegmentTreeType *>
         (this->ProcessObject::GetOutput(0).GetPointer()); }
 
@@ -171,16 +178,16 @@ public:
 
   /** Performs a merge of two segments in a SegmentTable according
    * to criteria specific to this algorithm.   */
-  void static MergeSegments(typename SegmentTableType::Pointer,
-                            typename OneWayEquivalencyTableType::Pointer,
+  void static MergeSegments(SegmentTableTypePointer,
+                            OneWayEquivalencyTableTypePointer,
                             const unsigned long,
                             const unsigned long);
 
   /** This method should not be used.  It will be removed in future versions
    * of this filter. */
-  void static PruneMergeSegments(typename SegmentTableType::Pointer,
-                            typename OneWayEquivalencyTableType::Pointer,
-                            const unsigned long,
+  void static PruneMergeSegments(SegmentTableTypePointer,
+                                 OneWayEquivalencyTableTypePointer,
+                                 const unsigned long,
                                  const unsigned long,
                                  ScalarType);
 
@@ -196,13 +203,11 @@ protected:
   
   /** Generates an initial list of all potentential merges in
    * the segment table.   */
-  void CompileMergeList(typename SegmentTableType::Pointer,
-                  typename SegmentTreeType::Pointer);
+  void CompileMergeList(SegmentTableTypePointer, SegmentTreeTypePointer);
 
   /** Compiles a list of all the actual segment merges up to the specified
    * flood level, recomputing new potential merges as it goes.   */
-  void ExtractMergeHierarchy(typename SegmentTableType::Pointer,
-                             typename SegmentTreeType::Pointer);
+  void ExtractMergeHierarchy(SegmentTableTypePointer, SegmentTreeTypePointer);
 
   void MergeEquivalencies();
 

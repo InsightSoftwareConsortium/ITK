@@ -120,9 +120,10 @@ template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
 ::MergeEquivalencies()
 {
-  SegmentTableType::Pointer     segTable = this->GetInputSegmentTable();
-  EquivalencyTableType::Pointer eqTable  = this->GetInputEquivalencyTable();
-  EquivalencyTableType::Iterator it;
+  typename SegmentTableType::Pointer segTable = this->GetInputSegmentTable();
+  typename EquivalencyTableType::Pointer eqTable  =
+    this->GetInputEquivalencyTable();
+  typename EquivalencyTableType::Iterator it;
   ScalarType threshold = m_FloodLevel * segTable->GetMaximumDepth();
 
   eqTable->Flatten();
@@ -148,8 +149,8 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::CompileMergeList(typename SegmentTableType::Pointer segments,
-                  typename SegmentTreeType::Pointer mergeList)
+::CompileMergeList(SegmentTableTypePointer segments,
+                   SegmentTreeTypePointer mergeList)
 {
   typename SegmentTreeType::merge_t tempMerge;
 
@@ -200,8 +201,8 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::ExtractMergeHierarchy(typename SegmentTableType::Pointer segments,
-                        typename SegmentTreeType::Pointer heap)
+::ExtractMergeHierarchy(SegmentTableTypePointer segments,
+                        SegmentTreeTypePointer heap)
 {
   typename SegmentTreeType::Pointer list = this->GetOutputSegmentTree();
 
@@ -300,19 +301,20 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::PruneMergeSegments(typename SegmentTableType::Pointer segments,
-                typename OneWayEquivalencyTableType::Pointer eqT,
+::PruneMergeSegments(SegmentTableTypePointer segments,
+                     OneWayEquivalencyTableTypePointer eqT,
                      const unsigned long FROM, const unsigned long TO,
                      ScalarType maxSaliency)
 {
-  SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi, edgeTEMPi;
+  typename SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi,
+    edgeTEMPi; 
   itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >
     seen_table;
   unsigned long labelTO, labelFROM;
 
   // Lookup both entries.
-  SegmentTableType::segment_t *from_seg = segments->Lookup(FROM);
-  SegmentTableType::segment_t *to_seg   = segments->Lookup(TO);
+  typename SegmentTableType::segment_t *from_seg = segments->Lookup(FROM);
+  typename SegmentTableType::segment_t *to_seg   = segments->Lookup(TO);
 
   if (from_seg == 0 || to_seg == 0)
     {
@@ -433,18 +435,19 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::MergeSegments(typename SegmentTableType::Pointer segments,
-                typename OneWayEquivalencyTableType::Pointer eqT,
+::MergeSegments(SegmentTableTypePointer segments,
+                OneWayEquivalencyTableTypePointer eqT,
                 const unsigned long FROM, const unsigned long TO)
 {
-  SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi, edgeTEMPi;
+  typename SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi,
+    edgeTEMPi;
   itk::hash_map<unsigned long, bool, itk::hash<unsigned long> >
     seen_table;
   unsigned long labelTO, labelFROM;
 
   // Lookup both entries.
-  SegmentTableType::segment_t *from_seg = segments->Lookup(FROM);
-  SegmentTableType::segment_t *to_seg   = segments->Lookup(TO);
+  typename SegmentTableType::segment_t *from_seg = segments->Lookup(FROM);
+  typename SegmentTableType::segment_t *to_seg   = segments->Lookup(TO);
 
   if (from_seg == 0 || to_seg == 0)
     {
