@@ -64,19 +64,20 @@ public:
   typedef TInputImage                                 InputImageType;
   typedef typename InputImageType::PixelType          InputPixelType;
   typedef typename InputImageType::IndexType IndexType;
-  typedef ContinuousIndex<TOutput,itkGetStaticConstMacro(ImageDimension)>
+
+  /** Dimension of the underlying image. */
+  itkStaticConstMacro(ImageDimension2, unsigned int,
+                      InputImageType::ImageDimension);
+  
+  typedef ContinuousIndex<TOutput,itkGetStaticConstMacro(ImageDimension2)>
           ContinuousIndexType;
 
 
-  /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-  
-  typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
+  typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension2)> NeighborhoodType;
 
-  typedef Vector<TOutput,itkGetStaticConstMacro(ImageDimension)>  VectorType;
+  typedef Vector<TOutput,itkGetStaticConstMacro(ImageDimension2)>  VectorType;
   typedef typename Superclass::OutputType  OutputType;
-  typedef FixedArray<NeighborhoodType,2*itkGetStaticConstMacro(ImageDimension)> OperatorArrayType;
+  typedef FixedArray<NeighborhoodType,2*itkGetStaticConstMacro(ImageDimension2)> OperatorArrayType;
   typedef NeighborhoodOperatorImageFunction<InputImageType,
                                              TOutput> OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
@@ -88,7 +89,7 @@ public:
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
   /** Point typedef support. */
-  typedef Point<TOutput,itkGetStaticConstMacro(ImageDimension)> PointType;
+  typedef Point<TOutput,itkGetStaticConstMacro(ImageDimension2)> PointType;
   
   /** Evalutate the  in the given dimension at specified point */
   virtual OutputType Evaluate(const PointType& point) const;
@@ -106,12 +107,12 @@ public:
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.*/
-  void SetSigma( const double sigma[itkGetStaticConstMacro(ImageDimension)] );
+  void SetSigma( const double sigma[itkGetStaticConstMacro(ImageDimension2)] );
   void SetSigma( const double sigma);
   const double* GetSigma() const {return m_Sigma;}
  
   /** Set the extent of the kernel */
-  void SetExtent( const double extent[itkGetStaticConstMacro(ImageDimension)] );
+  void SetExtent( const double extent[itkGetStaticConstMacro(ImageDimension2)] );
   void SetExtent( const double extent);
   const double* GetExtent() const {return m_Extent;}
 
@@ -134,12 +135,12 @@ protected:
 
   void RecomputeGaussianKernel();
   void RecomputeContinuousGaussianKernel(
-           const double offset[itkGetStaticConstMacro(ImageDimension)]) const;
+           const double offset[itkGetStaticConstMacro(ImageDimension2)]) const;
 
 
 private:
 
-  double                        m_Sigma[itkGetStaticConstMacro(ImageDimension)];
+  double                        m_Sigma[itkGetStaticConstMacro(ImageDimension2)];
 
   /** Array of 1D operators. Contains a derivative kernel and a gaussian kernel for
    *  each dimension */
@@ -148,7 +149,7 @@ private:
 
   /** OperatorImageFunction */
   OperatorImageFunctionPointer  m_OperatorImageFunction;
-  double m_Extent[itkGetStaticConstMacro(ImageDimension)];
+  double m_Extent[itkGetStaticConstMacro(ImageDimension2)];
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
