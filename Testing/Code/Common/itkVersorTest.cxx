@@ -137,7 +137,7 @@ int main()
 
     xa *= sin2a;
 
-    qa.Set( xa );
+    qa.Set( xa, angle );
         
     ValueType cos2a = cos( angle/2.0 );
 
