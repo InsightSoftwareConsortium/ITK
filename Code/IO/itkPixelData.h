@@ -7,7 +7,7 @@
  *      Include File Name:  PixelData.h
  \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2004-01-08 00:39:07 $
+ * $Revision$  $Date: 2004-08-06 23:45:01 $
  */
 /*@Synopsis Description of the PixelData header
  */
@@ -351,7 +351,7 @@ PixUpk;
    *      Include File Name:      phonebook
    \author David Carleton
    * Source
-   * $Revision$  $Date: 2004-01-08 00:39:07 $
+   * $Revision$  $Date: 2004-08-06 23:45:01 $
    */
 /*@Synopsis     Contains defaults and strings for the Phone Book feature.
    */
@@ -362,12 +362,6 @@ PixUpk;
 /* only do this once in any given compilation.*/
 #ifndef  PB_INCL
 #define  PB_INCL
-
-#ifndef lint
-/*
-    static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1988 GEMSBG";
-  */
-#endif
 
 /*============================================================================*/
 /* Defines for Phone Book.                                                    */
