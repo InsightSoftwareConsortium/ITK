@@ -120,9 +120,9 @@ int itkImageRegistrationMethodTest_7(int argc, char** argv)
   scales.Fill( 1.0 );
 
   
-  unsigned long   numberOfIterations =   50;
+  unsigned long   numberOfIterations =   20;
   double          translationScale   = 1e-7;
-  double          learningRate       = 1e-5;
+  double          learningRate       = 1e-4;
 
   if( argc > 1 )
     {
