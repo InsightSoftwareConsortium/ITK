@@ -289,7 +289,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // The coloration of muscular tissue makes it easy to distinguish them from
-  // the surrounding anatomical strucures. The optic vitrea on the other hand
+  // the surrounding anatomical structures. The optic vitrea on the other hand
   // has a coloration that is not very homogeneous inside the eyeball and
   // does not allow to generate a full segmentation based only on color.
   //

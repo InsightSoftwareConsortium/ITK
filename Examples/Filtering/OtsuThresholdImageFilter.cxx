@@ -171,8 +171,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The method \code{SetNumberOfHistogramBins()} defines the number of bins
-  //  to be used for computing the historgram. This histogram will be used
-  //  internatlly in order to compute the Otsu threshold.
+  //  to be used for computing the histogram. This histogram will be used
+  //  internally in order to compute the Otsu threshold.
   //
   //  Software Guide : EndLatex 
 

@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now it is time to create a simplie, linear data processing pipeline. A
+  //  Now it is time to create a simple, linear data processing pipeline. A
   //  file reader is added at the beginning of the pipeline and a cast
   //  filter and writer are added at the end. The cast filter is required
   //  to convert \code{float} pixel types to integer types since only a
@@ -200,7 +200,7 @@ int main( int argc, char *argv[] )
   //  in which intensity values must fall to be included in the
   //  region. Setting these two values too close will not allow enough
   //  flexibility for the region to grow. Setting them too far apart will
-  //  result in a region that engulfes the image.
+  //  result in a region that engulfs the image.
   //
   //  \index{itk::NeighborhoodConnectedImageFilter!SetLower()}
   //  \index{itk::NeighborhoodConnectedImageFilter!SetUppder()}
@@ -309,7 +309,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  As with the ConnectedThresholdImageFilter, several seeds could
-  //  beprovided to the filter by using the \code{AddSeed()} method.
+  //  be provided to the filter by using the \code{AddSeed()} method.
   //  Compare the output of Figure
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} with those of Figure
   //  \ref{fig:ConnectedThresholdOutput} produced by the

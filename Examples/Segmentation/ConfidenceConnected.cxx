@@ -257,7 +257,7 @@ int main( int argc, char *argv[] )
   //  The number of iterations is specified based on the homogeneity of the
   //  intensities of the anatomical structure to be segmented. Highly
   //  homogeneous regions may only require a couple of iterations. Regions
-  //  with ramp effects, like MRI images with inhomogenous fields, may
+  //  with ramp effects, like MRI images with inhomogeneous fields, may
   //  require more iterations. In practice, it seems to be more important to
   //  carefully select the multiplier factor than the number of iterations.
   //  However, keep in mind that there is no reason to assume that this

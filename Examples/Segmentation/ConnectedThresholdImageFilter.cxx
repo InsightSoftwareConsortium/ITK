@@ -229,7 +229,7 @@ int main( int argc, char *argv[])
   //  which intensity values should fall in order to be included in the
   //  region. Setting these two values too close will not allow enough
   //  flexibility for the region to grow. Setting them too far apart will
-  //  result in a region that engulfes the image.
+  //  result in a region that engulfs the image.
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetUpper()}
   //  \index{itk::ConnectedThresholdImageFilter!SetLower()}
