@@ -137,7 +137,7 @@ public:
 
   /** Subtract two indices. This method models a random access Index. */
   const OffsetType
-  operator-(const Self &vec)
+  operator-(const Self &vec) const
     {
     OffsetType result;
     for (unsigned int i=0; i < VIndexDimension; i++)
@@ -148,7 +148,7 @@ public:
   /** Multiply an index by a size (elementwise product). This method 
    * models a random access Index.  */
   const Self
-  operator*(const SizeType &vec)
+  operator*(const SizeType &vec) const
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
@@ -263,6 +263,7 @@ std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
   os << "]";
   return os;
 }
+
 
 
 } // end namespace itk
