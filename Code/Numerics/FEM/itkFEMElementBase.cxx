@@ -66,7 +66,7 @@ Element::Disp* Element::uDOF(int i) const
 
 
 
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 /** Global scale factor for drawing on the DC */
 double& Element::DC_Scale=Node::DC_Scale;
 #endif

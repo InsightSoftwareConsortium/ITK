@@ -57,3 +57,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMUtility.h"
 
 #include "itkFEMException.h"
+
+/**
+ * \namespace itk::fem
+ * \brief Contains finite element modeling (FEM) classes and support routines.
+ */

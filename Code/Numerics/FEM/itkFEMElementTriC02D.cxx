@@ -161,7 +161,7 @@ vnl_matrix<TriC02D::Float> TriC02D::Ke() const {
 /**
  * Draw the element on device context pDC.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 void TriC02D::Draw(CDC* pDC) const
 {
 

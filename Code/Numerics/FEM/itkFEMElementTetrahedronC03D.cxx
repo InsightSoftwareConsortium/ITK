@@ -176,7 +176,7 @@ vnl_matrix<TetrahedronC03D::Float> TetrahedronC03D::Ke() const
 /**
  * Draw the element on device context pDC.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 
 void TetrahedronC03D::Draw(CDC* pDC) const 
 {

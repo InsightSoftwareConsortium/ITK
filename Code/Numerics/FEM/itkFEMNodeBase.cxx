@@ -55,7 +55,7 @@ namespace fem {
 /** 
  * Windows MFC visualization routines
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 
   /**
    * global scale for drawing on the DC

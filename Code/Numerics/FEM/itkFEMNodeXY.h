@@ -76,7 +76,7 @@ public:
   /**
    * Windows visualization
    */
-  #ifdef _FEM_Build_Visualization_Routines_
+  #ifdef FEM_BUILD_VISUALIZATION
     /**
      * draws the node on the DC
      */

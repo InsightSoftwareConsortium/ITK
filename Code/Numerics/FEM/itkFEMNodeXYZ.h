@@ -73,7 +73,7 @@ public:
   void Read(  std::istream& f, void* info );
   void Write( std::ostream& f, int ofid ) const;
 
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
   /**
    * draws the node on the DC
    */

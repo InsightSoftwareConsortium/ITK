@@ -126,7 +126,7 @@ public:
   /**
    * Draws the element on the specified device context
    */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
   void Draw(CDC* pDC) const;
 #endif
 

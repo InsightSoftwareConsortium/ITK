@@ -187,7 +187,7 @@ vnl_matrix<QuadC02D::Float> QuadC02D::Ke() const
 /**
  * Draw the element on device context pDC.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 void QuadC02D::Draw(CDC* pDC) const 
 {
 

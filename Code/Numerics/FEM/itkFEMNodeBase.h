@@ -41,11 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMNodeBase_h
 #define __itkFEMNodeBase_h
 
-/* Windows visualization */
-#ifdef _FEM_Build_Visualization_Routines_
-#include <afxwin.h>      
-#endif
-
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
 #include <iostream>
@@ -126,7 +121,7 @@ public:
   virtual Displacement* uDOF(int i) const = 0;
 
   /* Windows visualization */
-  #ifdef _FEM_Build_Visualization_Routines_
+  #ifdef FEM_BUILD_VISUALIZATION
     /* draws the node on the DC */
     virtual void Draw(CDC* pDC) const {}
     /* global scale for drawing on the DC */

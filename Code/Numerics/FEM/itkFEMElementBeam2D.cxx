@@ -210,7 +210,7 @@ vnl_vector<Beam2D::Float> Beam2D::Fe(LoadElementPointer l) const {
 /**
  * Draw the element on the device context.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 void Beam2D::Draw(CDC* pDC) const {
 
   int x1=m_node1->X*DC_Scale+m_node1->uX.value*DC_Scale;

@@ -109,7 +109,7 @@ Float L=m_mat->E*m_mat->A/(sqrt(x*x+y*y)*(x*x+y*y));
 /**
  * Draw the element on the device context.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 void Bar2D::Draw(CDC* pDC) const {
 
   int x1=m_node1->X*DC_Scale+m_node1->uX.value*DC_Scale;

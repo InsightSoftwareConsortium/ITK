@@ -125,7 +125,7 @@ void NodeXY::Write( std::ostream& f, int ofid ) const
 /**
  * Windows visualization
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
   /**
    * draws the node on DC
    */

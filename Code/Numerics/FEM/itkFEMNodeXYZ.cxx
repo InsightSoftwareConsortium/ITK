@@ -137,7 +137,7 @@ void NodeXYZ::Write( std::ostream& f, int ofid ) const
 /**
  * Windows visualization
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
   /**
    * Draws the node on DC.
    * FIXME - implement the function to render in 3-space

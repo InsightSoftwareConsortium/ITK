@@ -42,10 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMElementBase_h
 #define __itkFEMElementBase_h
 
-#ifdef _FEM_Build_Visualization_Routines_
-#include <afxwin.h>        /** required to draw the element on device context */
-#endif
-
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
 #include "itkFEMNodeBase.h"
@@ -194,7 +190,7 @@ public:
       m_node(node_), m_mat(mat_) {}
   };
 
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
   /**
    * Draws the element on the DC
    */

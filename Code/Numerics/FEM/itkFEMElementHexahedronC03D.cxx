@@ -183,7 +183,7 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
 /**
  * Draw the element on device context pDC.
  */
-#ifdef _FEM_Build_Visualization_Routines_
+#ifdef FEM_BUILD_VISUALIZATION
 void HexahedronC03D::Draw(CDC* pDC) const 
 {
 }
