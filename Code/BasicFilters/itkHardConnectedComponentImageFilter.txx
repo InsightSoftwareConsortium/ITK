@@ -27,10 +27,11 @@ void
 HardConnectedComponentImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  int i,p,q,m;
+  unsigned int i;
+  int p,q,m;
 
-  unsigned short eq_tab[65535];
-  unsigned char flags[65535];
+  unsigned short eq_tab[vnl_numeric_limits<unsigned short>::max()];
+  unsigned char flags[vnl_numeric_limits<unsigned short>::max()];
   OutputPixelType    label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
@@ -57,7 +58,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   for(;!it.IsAtEnd(); ++it,++ot)
     if(it.Get() != 0)
       {
-      ot.Set(65535);
+      ot.Set(vnl_numeric_limits<unsigned short>::max());
       }
     else
       {
@@ -78,7 +79,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
               else
                 label = output->GetPixel(current);
               if(label)
-                if(ot.Get() == 65535)
+                if(ot.Get() == vnl_numeric_limits<unsigned short>::max())
                   ot.Set(label);
                 else if((ot.Get() != label) && (eq_tab[ot.Get()] != eq_tab[label]))
                    if(eq_tab[ot.Get()] > eq_tab[label])
@@ -96,12 +97,12 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
                            eq_tab[p] = eq_tab[ot.Get()];
                      }
             }
-          if(ot.Get() == 65535)
+          if(ot.Get() == vnl_numeric_limits<unsigned short>::max())
             {
               ++max_label;
               eq_tab[max_label] = max_label;
               ot.Set(max_label);
-              if(max_label == 65535)
+              if(max_label == vnl_numeric_limits<unsigned short>::max())
                 return;
             }
         }

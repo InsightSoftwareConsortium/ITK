@@ -219,7 +219,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
 
   unsigned int movingLevel, fixedLevel;
-  int idim;
+  unsigned int idim;
   unsigned int lastShrinkFactors[ImageDimension];
   unsigned int expandFactors[ImageDimension];
 

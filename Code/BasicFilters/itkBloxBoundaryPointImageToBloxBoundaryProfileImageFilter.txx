@@ -482,7 +482,7 @@ bool
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue)
 {      
-  if(binNumber >= 0 && binNumber < m_NumberOfBins)
+  if(binNumber >= 0 && static_cast<unsigned int>(binNumber) < m_NumberOfBins)
     {
     m_Accumulator[binNumber] += weight * sourcePixelValue;           
     m_Normalizer[binNumber]  += weight;

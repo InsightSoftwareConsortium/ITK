@@ -286,7 +286,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   typename Superclass::EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
   DerivImagePointer derivImages[SetDimension];
-  for ( int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     derivImages[j] = this->GetDerivativeImage(j);
     }

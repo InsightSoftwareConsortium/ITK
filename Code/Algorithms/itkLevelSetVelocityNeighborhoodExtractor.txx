@@ -149,7 +149,7 @@ Index& index)
  // of distance along the grid line to the zero set 
  // crossing.
 
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     neighNode = this->GetNodeUsedInCalculation(j);
     if( neighNode.GetValue() >= this->GetLargeValue() )

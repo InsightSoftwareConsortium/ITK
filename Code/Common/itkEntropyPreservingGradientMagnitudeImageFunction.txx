@@ -39,7 +39,7 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage,TCoordRep>
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
   
   m_ImageSizeOK = true;
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ImageSize[j] = (signed long) size[j];
     if( m_ImageSize[j] < 3 )
@@ -94,7 +94,7 @@ const IndexType& index ) const
 
   m_CenterValue = (double) image->GetPixel( index );
   
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     // calculate backward difference
     if( index[j] > 0 )

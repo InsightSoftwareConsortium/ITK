@@ -34,7 +34,7 @@ UpwindDerivativeImageFunction<TInputImage,TCoordRep>
   typename TInputImage::SizeType size =
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ImageSize[j] = (signed long) size[j];
     }  

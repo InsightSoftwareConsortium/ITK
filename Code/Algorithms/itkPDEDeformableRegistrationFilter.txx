@@ -43,7 +43,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
   m_NumberOfIterations = 10;
  
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     m_StandardDeviations[j] = 1.0;
@@ -119,7 +119,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 double value )
 {
 
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     if( value != m_StandardDeviations[j] )
@@ -150,7 +150,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   Superclass::PrintSelf(os, indent);
   os << indent << "No. of Iterations: " << m_NumberOfIterations << std::endl;
   os << indent << "Standard deviations: [";
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension - 1; j++ )
     {
     os << m_StandardDeviations[j] << ", ";
@@ -229,7 +229,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   else
     {
     typename Superclass::PixelType zeros;
-    for( int j = 0; j < ImageDimension; j++ )
+    for( unsigned int j = 0; j < ImageDimension; j++ )
       {
       zeros[j] = 0;
       }
@@ -381,7 +381,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   smoother->GraftOutput( field ); 
   swapPtr = m_TempField;
 
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     // smooth along this dimension
     oper->SetDirection( j );

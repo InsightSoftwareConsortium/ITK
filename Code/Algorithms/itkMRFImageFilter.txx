@@ -315,7 +315,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 {
   
   m_NeighborhoodSize = 1;
-  for( int i = 0; i < InputImageDimension; i++ )
+  for( unsigned int i = 0; i < InputImageDimension; i++ )
     {
     m_NeighborhoodSize *= (2*m_InputImageNeighborhoodRadius[i]+1);
     }
@@ -355,7 +355,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //Get the number of valid pixels in the output MRF image
   //---------------------------------------------------------------------    
   int tmp;
-  for( int i=0; i < InputImageDimension; i++ )
+  for( unsigned int i=0; i < InputImageDimension; i++ )
     {
     tmp = static_cast<int>(inputImageSize[i]);
 
@@ -405,7 +405,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   int totalNumberOfPixelsInInputImage = 1;
 
-  for( int i = 0; i < InputImageDimension; i++ )  
+  for( unsigned int i = 0; i < InputImageDimension; i++ )  
     {
     totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[ i ]) ;
     }

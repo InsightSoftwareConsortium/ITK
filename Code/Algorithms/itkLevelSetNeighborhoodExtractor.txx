@@ -116,7 +116,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   typename TLevelSet::SizeType size =
     m_InputLevelSet->GetBufferedRegion().GetSize();
 
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     m_ImageSize[j] = (signed long) size[j];
     }
@@ -278,7 +278,7 @@ IndexType& index)
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     neighNode.SetValue( m_LargeValue );
 
@@ -324,7 +324,7 @@ IndexType& index)
  // The final distance is given by the minimum distance to the plane
  // crossing formed by the zero set crossing points.
   distance = 0.0;
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     neighNode = m_NodesUsed[j];
 

@@ -113,7 +113,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   }
 
   
-  for(int i = 1;i < ImageDimension; i++)
+  for(unsigned int i = 1;i < ImageDimension; i++)
   {
     if(current[i] > 0)
   {

@@ -255,7 +255,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for( idim = 0; idim < ImageDimension; idim++ )
+    for( idim = 0; idim < static_cast<int>(ImageDimension); idim++ )
       {
       factors[idim] = m_Schedule[ilevel-1][idim] / m_Schedule[ilevel][idim];
 
@@ -296,7 +296,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for( idim = 0; idim < ImageDimension; idim++ )
+    for( idim = 0; idim < static_cast<int>(ImageDimension); idim++ )
       {
 
       factors[idim] = m_Schedule[ilevel][idim] / m_Schedule[ilevel+1][idim];

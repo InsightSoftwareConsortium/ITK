@@ -32,7 +32,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 {
 
   RadiusType r;
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     r[j] = 0;
@@ -120,7 +120,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 {
 
   PixelType update;
-  int j;
+  unsigned int j;
 
   IndexType index = it.GetIndex();
 
@@ -132,7 +132,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   fixedValue = (double) m_FixedImage->GetPixel( index );
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
     fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
@@ -196,7 +196,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 {
 
   PixelType update;
-  int  j;
+  unsigned int  j;
 
   for( j = 0; j < ImageDimension; j++ )
     {

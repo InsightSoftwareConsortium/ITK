@@ -225,7 +225,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
       // check if node index is within the output level set
       bool inRange = true;
-      for ( int j = 0; j < SetDimension; j++ )
+      for ( unsigned int j = 0; j < SetDimension; j++ )
         {
         if ( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
           {
@@ -266,7 +266,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
       // check if node index is within the output level set
       bool inRange = true;
-      for ( int j = 0; j < SetDimension; j++ )
+      for ( unsigned int j = 0; j < SetDimension; j++ )
       {
        if( node.GetIndex()[j] > (signed long) m_OutputSize[j] )
         {
@@ -383,7 +383,7 @@ LevelSetImageType * output )
 {
   IndexType neighIndex = index;
 
-  for ( int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
   {
     // update left neighbor
     if( index[j] > 0 )
@@ -430,7 +430,7 @@ LevelSetImageType * output )
   PixelType outputPixel;
   NodeType node;
 
-  for ( int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
   {
     node.SetValue( m_LargeValue );
 
@@ -489,7 +489,7 @@ LevelSetImageType * output )
 
   double discrim;
 
-  for ( int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
   {
     node = m_NodesUsed[j];
 

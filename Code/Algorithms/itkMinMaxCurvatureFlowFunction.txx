@@ -48,7 +48,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
   m_StencilRadius = vnl_math_max( value, 1 );
   RadiusType radius;
-  int j;
+  unsigned int j;
 
   for ( j = 0; j < ImageDimension; j++ )
     {
@@ -75,7 +75,7 @@ MinMaxCurvatureFlowFunction<TImage>
   m_StencilOperator.SetRadius( m_StencilRadius );
 
   RadiusValueType counter[ImageDimension];
-  int j;
+  unsigned int j;
   RadiusValueType span = 2 * m_StencilRadius + 1;
   RadiusValueType sqrRadius = m_StencilRadius * m_StencilRadius;
   for ( j = 0; j < ImageDimension; j++ )
@@ -149,7 +149,7 @@ MinMaxCurvatureFlowFunction<TImage>
   PixelType gradMagnitude;
   unsigned long stride;
   unsigned long center;
-  int j;
+  unsigned int j;
 
   center = it.Size()/2;
 
@@ -252,7 +252,7 @@ MinMaxCurvatureFlowFunction<TImage>
   PixelType gradMagnitude;
   unsigned long stride;
   unsigned long center;
-  int j;
+  unsigned int j;
 
   center = it.Size()/2;
 
@@ -359,7 +359,7 @@ MinMaxCurvatureFlowFunction<TImage>
   unsigned long stride;
   unsigned long center;
   unsigned long position[imageDimension];
-  int j;
+  unsigned int j;
 
   center = it.Size()/2;
 

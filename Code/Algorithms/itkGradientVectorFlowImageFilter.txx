@@ -31,7 +31,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   m_TimeStep = 0.001;
   m_NoiseLevel = 200;
   m_IterationNum = 2;
-  for (int i=0; i<ImageDimension; i++) m_Steps[i] = 1.0;
+  for (unsigned int i=0; i<ImageDimension; i++) m_Steps[i] = 1.0;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -66,7 +66,7 @@ void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::InitInterImage()
 {
-  int i;
+  unsigned int i;
   double b;
   PixelType c_vec, m_vec;
 
@@ -152,7 +152,7 @@ void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 ::UpdateInterImage()
 {
-  int i;
+  unsigned int i;
   InputImageIterator  intermediateIt(m_IntermediateImage, 
                                     m_IntermediateImage->GetBufferedRegion() );
 
@@ -191,8 +191,8 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   
   PixelType m_vec, c_vec;
 
-  int i;
-  int j;
+  unsigned int i;
+  unsigned int j;
 
   double b; 
   double r;

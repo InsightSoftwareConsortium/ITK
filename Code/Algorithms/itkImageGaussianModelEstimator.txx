@@ -109,7 +109,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
     trainingImageSize = trainingImage->GetBufferedRegion().GetSize();  
 
   // Check if size of the two inputs are same
-  for( int i = 0; i < TInputImage::ImageDimension; i++)
+  for( unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     if( inputImageSize[i] != trainingImageSize[i] ) throw ExceptionObject(__FILE__, __LINE__); 
     }
@@ -289,9 +289,9 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
     // Fill the rest of the covairance matrix and make it symmetric
     if(m_NumberOfSamples[classIndex][0] > 0)
       {
-      for(unsigned int band_x = 0; static_cast<int>(band_x) < (VectorDimension - 1); band_x++)
+      for(unsigned int band_x = 0; band_x < (VectorDimension - 1); band_x++)
         {
-        for(unsigned int band_y=band_x+1; static_cast<int>(band_y) < VectorDimension; band_y++)
+        for(unsigned int band_y=band_x+1; band_y < VectorDimension; band_y++)
           {  
           m_Covariance[classIndex][band_x][band_y] 
             = m_Covariance[classIndex][band_y][band_x];

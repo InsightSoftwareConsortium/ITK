@@ -210,7 +210,7 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char**)
 
   //verification
 
-  double rad = spatialFunc->GetRadius();
+  // double rad = spatialFunc->GetRadius();
 
   //-------------------Pull boundary profiles out of the image----------------------
 

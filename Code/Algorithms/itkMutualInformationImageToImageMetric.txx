@@ -428,7 +428,7 @@ DerivativeType& derivatives ) const
     }
 
   CovariantVector<double,MovingImageDimension> imageDerivatives;
-  for ( int j = 0; j < MovingImageDimension; j++ )
+  for ( unsigned int j = 0; j < MovingImageDimension; j++ )
     {
     imageDerivatives[j] = 
       m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );
@@ -442,7 +442,7 @@ DerivativeType& derivatives ) const
   for ( unsigned int k = 0; k < numberOfParameters; k++ )
     {
     derivatives[k] = 0.0;
-    for ( int j = 0; j < MovingImageDimension; j++ )
+    for ( unsigned int j = 0; j < MovingImageDimension; j++ )
       {
       derivatives[k] += jacobian[j][k] * imageDerivatives[j];
       }

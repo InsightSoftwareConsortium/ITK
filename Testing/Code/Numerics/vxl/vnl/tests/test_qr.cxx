@@ -153,6 +153,10 @@ void amithas_test()
   const vnl_matrix<ct>& Q = qr.Q();
   const vnl_matrix<ct>& R = qr.R();
   vnl_vector<ct> x = qr.solve(b);
+
+  vcl_cout << "Q = " << Q << vcl_endl;
+  vcl_cout << "R = " << R << vcl_endl;
+  vcl_cout << "x = " << x << vcl_endl;
 }
 
 //--------------------------------------------------------------------------------

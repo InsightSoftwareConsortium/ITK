@@ -609,7 +609,7 @@ void Segmenter<TInputImage>
       m_Connectivity.direction[i][d] = -1;
       i++;
     }
-  for (d = 0; d < ImageDimension; d++)
+  for (d = 0; d < static_cast<int>(ImageDimension); d++)
     {
       stride = it.GetStride(d);
       m_Connectivity.index[i] = nCenter + stride;

@@ -31,7 +31,7 @@ CurvatureFlowFunction<TImage>
 {
 
   RadiusType r;
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     r[j] = 1;
@@ -92,7 +92,7 @@ CurvatureFlowFunction<TImage>
   PixelType crossderiv[ImageDimension][ImageDimension];
   unsigned long center;
   unsigned long stride[ImageDimension];
-  int i,j;
+  unsigned int i,j;
 
 
   // get the center pixel position
@@ -192,7 +192,7 @@ CurvatureFlowFunction<TImage>
   PixelType crossderiv[ImageDimension][ImageDimension];
   unsigned long center;
   unsigned long stride[ImageDimension];
-  int i,j;
+  unsigned int i,j;
 
   // get the center pixel position
   center = it.Size() / 2;

@@ -55,7 +55,7 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
       m_ArrayIndex.push_back( nCenter - it.GetStride(d) );
       m_NeighborhoodOffset[i][d] = -1;
     }
-  for (d = 0; d < Dimension; ++d, ++i)
+  for (d = 0; d < static_cast<int>(Dimension); ++d, ++i)
     {
       m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
       m_NeighborhoodOffset[i][d] = 1;

@@ -37,7 +37,7 @@ LevelSetCurvatureFunction<TInputImage,TCoordRep>
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
   m_ImageSizeOK = true;
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     m_ImageSize[j] = (signed long) size[j];
     if( m_ImageSize[j] < 5 )
@@ -53,9 +53,9 @@ LevelSetCurvatureFunction<TInputImage,TCoordRep>
 
   m_EpsilonMagnitude = 1e-9;
 
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    for( int k = 0; k < ImageDimension; k++ )
+    for( unsigned int k = 0; k < ImageDimension; k++ )
       {
       m_Variable[j][k] = j + k;
       if( m_Variable[j][k] >= ImageDimension )
@@ -125,7 +125,7 @@ const IndexType& index ) const
 
   m_NeighIndex = index;
 
-  for( int j = 0; j < ImageDimension; j++ )
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( index[j] <= 1 || index[j] >= m_ImageSize[j] - 3 ) 
       { 
@@ -171,13 +171,13 @@ const IndexType& index ) const
   m_LeftIndex = index;
   m_RightIndex = index;
 
-  for( int j = 0; j < ImageDimension - 1; j++ )
+  for( unsigned int j = 0; j < ImageDimension - 1; j++ )
     {
     // calculate the mixed derivatives
     m_RightIndex[j] = index[j] + 1;
     m_LeftIndex[j] = index[j] - 1;
 
-    for( int k = j + 1; k < ImageDimension; k++ )
+    for( unsigned int k = j + 1; k < ImageDimension; k++ )
       {
       m_RightIndex[k] = index[k] + 1;
       m_LeftIndex[k] = index[k] + 1;
@@ -252,7 +252,7 @@ LevelSetCurvatureFunction<TInputImage,TCoordRep>
     return;
     }
 
-  for( int s = 0; s < ImageDimension; s++ )
+  for( unsigned int s = 0; s < ImageDimension; s++ )
     {
     m_Curvature += m_SecondDerivative[ m_Variable[0][s] ][ m_Variable[0][s] ] * 
        vnl_math_sqr( m_FirstDerivative[ m_Variable[1][s] ] );
@@ -280,7 +280,7 @@ LevelSetCurvatureFunction<TInputImage,TCoordRep>
     return;
     }
 
-  for( int s = 0; s < ImageDimension; s++ )
+  for( unsigned int s = 0; s < ImageDimension; s++ )
     {
     m_Curvature += ( 
       m_SecondDerivative[ m_Variable[0][s] ][ m_Variable[0][s] ] + 
