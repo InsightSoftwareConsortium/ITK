@@ -115,7 +115,7 @@ typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
-                const FloatOffsetType& itkNotUsed(offset)) const
+                const FloatOffsetType& itkNotUsed(offset))
 {
 
   PixelType update;

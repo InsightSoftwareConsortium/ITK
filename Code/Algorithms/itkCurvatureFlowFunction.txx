@@ -83,7 +83,7 @@ template<class TImage>
 typename CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(gd),
-                const FloatOffsetType& itkNotUsed(offset)) const
+                const FloatOffsetType& itkNotUsed(offset))
 {
   PixelType firstderiv[ImageDimension];
   PixelType secderiv[ImageDimension];

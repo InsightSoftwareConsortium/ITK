@@ -45,7 +45,7 @@ template<class TImage>
 typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
 BinaryMinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& offset)
 {
 
   typedef CurvatureFlowFunction<TImage> CurvatureFlowFunctionType;
