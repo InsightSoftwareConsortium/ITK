@@ -30,7 +30,6 @@ ENDIF(ITK_CSWIG_JAVA)
 
 
 MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
-   IF(NOT XML_COMMAND_ADDED)
      ADD_CUSTOM_COMMAND(
        SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
        COMMAND ${GCCXML}
@@ -39,7 +38,6 @@ MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
        TARGET ${LibName}
        OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml )
      SET(XML_COMMAND_ADDED 1)
-   ENDIF(NOT XML_COMMAND_ADDED)
    ADD_CUSTOM_COMMAND(
     SOURCE ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
     COMMAND ${CSWIG}
