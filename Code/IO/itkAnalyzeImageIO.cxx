@@ -1,18 +1,18 @@
 /*=========================================================================
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAnalyzeImageIO.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkAnalyzeImageIO.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
-  =========================================================================*/
+=========================================================================*/
 
 #include "itkAnalyzeImageIO.h"
 #include "itkExceptionObject.h"
@@ -23,67 +23,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//From uiig library "The University of Iowa Imaging Group-UIIG"
-
-
-/**
- * \enum ValidAnalyzeOrientationFlags
- * Valid values for the Analyze orient flag.
- */
-enum ValidAnalyzeOrientationFlags {
-  ITK_ANALYZE_TRANSVERSE=0,
-  ITK_ANALYZE_CORONAL   =1,
-  ITK_ANALYZE_SAGITTAL  =2,
-  ITK_ANALYZE_TRANSVERSE_FLIPPED=3,
-  ITK_ANALYZE_CORONAL_FLIPPED=4,
-  ITK_ANALYZE_SAGITTAL_FLIPPED=5
-};
-
-//Written by Hans J. Johnson
-//Copied from uiig ANALYZE file reader
-// Acceptable values for hdr.dime.datatype
-enum DataTypeKeyValues  {
-  ANALYZE_DT_UNKNOWN        =0,
-  ANALYZE_DT_BINARY         =1,
-  ANALYZE_DT_UNSIGNED_CHAR  =2,
-  ANALYZE_DT_SIGNED_SHORT   =4,
-  ANALYZE_DT_SIGNED_INT     =8,
-  ANALYZE_DT_FLOAT          =16,
-  ANALYZE_DT_COMPLEX        =32,
-  ANALYZE_DT_DOUBLE         =64,
-  ANALYZE_DT_RGB            =128,
-  ANALYZE_DT_ALL            =255,
-  ANALYZE_DT_UNSIGNED_SHORT =6,
-  ANALYZE_DT_UNSIGNED_INT   =12
-};
-
-enum DataTypeIndex  {
-  ANALYZE_DT_INDEX_UNKNOWN       =0,
-  ANALYZE_DT_INDEX_BINARY        =1,
-  ANALYZE_DT_INDEX_UNSIGNED_CHAR =2,
-  ANALYZE_DT_INDEX_SIGNED_SHORT  =3,
-  ANALYZE_DT_INDEX_SIGNED_INT    =4,
-  ANALYZE_DT_INDEX_FLOAT         =5,
-  ANALYZE_DT_INDEX_COMPLEX       =6,
-  ANALYZE_DT_INDEX_DOUBLE        =7,
-  ANALYZE_DT_INDEX_RGB           =8,
-  ANALYZE_DT_INDEX_ALL           =9,
-  ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
-  ANALYZE_DT_INDEX_UNSIGNED_INT  =11
-};
-
 //An array of the Analyze v7.5 known DataTypes
-static const char DataTypes[12][10]=  {
-  "UNKNOWN","BINARY","CHAR","SHORT",
-  "INT","FLOAT","COMPLEX","DOUBLE","RGB","ALL","USHORT","UINT"
+const char DataTypes[12][10]=  {
+  "UNKNOWN","BINARY","CHAR","SHORT", "INT","FLOAT",
+  "COMPLEX", "DOUBLE","RGB","ALL","USHORT","UINT"
 };
 
 //An array with the corresponding number of bits for each image type.
 //NOTE: the following two line should be equivalent.
-static const short int DataTypeSizes[12]={0,1,8,16,32,32,64,64,24,0,16,32};
+const short int DataTypeSizes[12]={0,1,8,16,32,32,64,64,24,0,16,32};
 
 //An array with Data type key sizes
-static const short int DataTypeKey[12]={0,1,2,4,8,16,32,64,128,255,6,12};
+const short int DataTypeKey[12]={
+  ANALYZE_DT_UNKNOWN,
+  ANALYZE_DT_BINARY,
+  ANALYZE_DT_UNSIGNED_CHAR,
+  ANALYZE_DT_SIGNED_SHORT,
+  ANALYZE_DT_SIGNED_INT,
+  ANALYZE_DT_FLOAT,
+  ANALYZE_DT_COMPLEX,
+  ANALYZE_DT_DOUBLE,
+  ANALYZE_DT_RGB,
+  ANALYZE_DT_ALL,
+  ANALYZE_DT_UNSIGNED_SHORT,
+  ANALYZE_DT_UNSIGNED_INT
+};
 
 
 //The following was inserted based on Bill Hoffman's CMake
@@ -120,53 +84,42 @@ GetExtension( const std::string& filename ) {
   // eg. "myimage.gif" has an extension of "gif"
   std::string fileExt( filename, it+1, filename.length() );
 
-  // For backwards compatiabity.  If a filename has no extension
-  // it assumes it is an Analyze file.  This is done for GEC's stuff
-  if( it == filename.max_size() || fileExt[0] == '/' )    
-    {
-      std::string fileExt( "" );
-      return( fileExt );
-    }
-
-  // Force the name to lower case
-  //this->correctCase( fileExt );
-
   return( fileExt );
 }
 
 
 //GetRootName from uiig library.
 static std::string
-GetRootName( const std::string& filename ) 
+GetRootName( const std::string& filename )
 {
   const std::string fileExt = GetExtension(filename);
 
   // Create a base filename
   // i.e Image.hdr --> Image
-  if( fileExt.length() > 0 ) 
-    {
-      const std::string::size_type it = filename.find_last_of( fileExt );
-      std::string baseName( filename, 0, it-fileExt.length() );
-      return( baseName );
-    } 
-  else 
-    {
-      // Case when the extension is nothing (Analyze)
-      return( filename );
-    }
+  if( fileExt.length() > 0 )
+  {
+    const std::string::size_type it = filename.find_last_of( fileExt );
+    std::string baseName( filename, 0, it-fileExt.length() );
+    return( baseName );
+  }
+  else
+  {
+    // Case when the extension is nothing (Analyze)
+    return( filename );
+  }
 }
 
 
 static std::string
-GetHeaderFileName( const std::string & filename ) 
+GetHeaderFileName( const std::string & filename )
 {
   std::string ImageFileName = GetRootName(filename);
   std::string fileExt = GetExtension(filename);
   //If file was named xxx.img.gz then remove both the gz and the img endings.
-  if(!fileExt.compare("gz"))    
-    {
-      ImageFileName=GetRootName(GetRootName(filename));
-    }
+  if(!fileExt.compare("gz"))
+  {
+    ImageFileName=GetRootName(GetRootName(filename));
+  }
   ImageFileName += ".hdr";
   return( ImageFileName );
 }
@@ -177,24 +130,24 @@ static std::string GetImageFileName( const std::string& filename )
   // Why do we add ".img" here?  Look in fileutils.h
   std::string fileExt = GetExtension(filename);
   std::string ImageFileName = GetRootName(filename);
-  if(!fileExt.compare("gz"))    
-    {
-      //First strip both extensions off
-      ImageFileName=GetRootName(GetRootName(filename));
-      ImageFileName += ".img.gz";
-    } 
-  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )    
-    {
-      ImageFileName += ".img";
-    } 
-  else    
-    {
-      //uiig::Reporter* reporter = uiig::Reporter::getReporter();
-      //std::string temp="Error, Can not determine compressed file image name. ";
-      //temp+=filename;
-      //reporter->setMessage( temp );
-      return ("");
-    }
+  if(!fileExt.compare("gz"))
+  {
+    //First strip both extensions off
+    ImageFileName=GetRootName(GetRootName(filename));
+    ImageFileName += ".img.gz";
+  }
+  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )
+  {
+    ImageFileName += ".img";
+  }
+  else
+  {
+    //uiig::Reporter* reporter = uiig::Reporter::getReporter();
+    //std::string temp="Error, Can not determine compressed file image name. ";
+    //temp+=filename;
+    //reporter->setMessage( temp );
+    return ("");
+  }
   return( ImageFileName );
 }
 
@@ -202,16 +155,16 @@ static std::string GetImageFileName( const std::string& filename )
 namespace itk
 {
   void
-  AnalyzeImageIO::SwapBytesIfNecessary( void* buffer, 
-                                        unsigned long numberOfPixels )
-  {
-    if ( m_ByteOrder == LittleEndian ) 
+    AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
+        unsigned long numberOfPixels )
+    {
+      if ( m_ByteOrder == LittleEndian )
       {
-        switch(m_PixelType) 
-          {
+        switch(m_PixelType)
+        {
           case CHAR:
             ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char*)buffer,
-                                                                 numberOfPixels );
+                numberOfPixels );
             break;
           case UCHAR:
             ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian
@@ -243,7 +196,7 @@ namespace itk
             break;
           case FLOAT:
             ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float*)buffer,
-                                                                  numberOfPixels );
+                numberOfPixels );
             break;
           case DOUBLE:
             ByteSwapper<double>::SwapRangeFromSystemToLittleEndian
@@ -253,15 +206,15 @@ namespace itk
             ExceptionObject exception(__FILE__, __LINE__);
             exception.SetDescription("Pixel Type Unknown");
             throw exception;
-          }
+        }
       }
-    else 
+      else
       {
-        switch(m_PixelType) 
-          {
+        switch(m_PixelType)
+        {
           case CHAR:
             ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer,
-                                                              numberOfPixels );
+                numberOfPixels );
             break;
           case UCHAR:
             ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian
@@ -303,55 +256,50 @@ namespace itk
             ExceptionObject exception(__FILE__, __LINE__);
             exception.SetDescription("Pixel Type Unknown");
             throw exception;
-          }
+        }
       }
-  }
+    }
 
   ImageIOBase::ByteOrder
-  AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
-  {
-    ImageIOBase::ByteOrder returnvalue;
-    // Machine and header endianess is same
+    AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
+    {
+      ImageIOBase::ByteOrder returnvalue;
+      // Machine and header endianess is same
 
-    //checking hk.extents only is NOT a good idea. Many programs do not set
-    //hk.extents correctly. Doing an additional check on hk.sizeof_hdr
-    //increases chance of correct result. --Juerg Tschirrin Univeristy of Iowa
-    //All properly constructed analyze images should have the extents feild
-    //set.  It is part of the file format standard.  While most headers of 
-    // analyze images are 348 bytes long, The Analyze file format allows the 
-    // header to have other lengths.
-    //This code will fail in the unlikely event that the extents feild is 
-    //not set (invalid anlyze file anyway) and the header is not the normal
-    //size. Other peices of code have used a heuristic on the image 
-    //dimensions.  If the Image dimensions is greater
-    //than 16000 then the image is almost certainly byte-swapped-- Hans
+      //checking hk.extents only is NOT a good idea. Many programs do not set
+      //hk.extents correctly. Doing an additional check on hk.sizeof_hdr
+      //increases chance of correct result. --Juerg Tschirrin Univeristy of Iowa
+      //All properly constructed analyze images should have the extents feild
+      //set.  It is part of the file format standard.  While most headers of
+      //analyze images are 348 bytes long, The Analyze file format allows the
+      //header to have other lengths.
+      //This code will fail in the unlikely event that the extents feild is
+      //not set (invalid anlyze file anyway) and the header is not the normal
+      //size.  Other peices of code have used a heuristic on the image
+      //dimensions.  If the Image dimensions is greater
+      //than 16000 then the image is almost certainly byte-swapped-- Hans
 
-    ImageIOBase::ByteOrder systemOrder;
-    if(ByteSwapper<int>::SystemIsBigEndian())
-      systemOrder = BigEndian;
-    else
-      systemOrder = LittleEndian;
+      const ImageIOBase::ByteOrder systemOrder= (ByteSwapper<int>::SystemIsBigEndian()) ? BigEndian : LittleEndian;
 
-    if((temphdr.hk.extents == 16384) ||
-       (temphdr.hk.sizeof_hdr == 348)) 
-      { 
+      if((temphdr.hk.extents == 16384) || (temphdr.hk.sizeof_hdr == 348))
+      {
         returnvalue = systemOrder;
       }
-    else 
-      { 
+      else
+      {
         // File does not match machine
-        returnvalue = systemOrder == BigEndian ? LittleEndian : BigEndian;
+        returnvalue = (systemOrder == BigEndian ) ? LittleEndian : BigEndian;
       }
-    return returnvalue;
-  }
+      return returnvalue;
+    }
 
   void
-  AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
-  {
-    if ( m_ByteOrder == LittleEndian ) 
+    AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
+    {
+      if ( m_ByteOrder == LittleEndian )
       {
-        // NOTE: If machine order is little endian, and the data needs to be 
-        // swapped, the SwapFromBigEndianToSystem is equivalent to 
+        // NOTE: If machine order is little endian, and the data needs to be
+        // swapped, the SwapFromBigEndianToSystem is equivalent to
         // SwapFromSystemToBigEndian.
         ByteSwapper<int>::SwapFromSystemToLittleEndian(&imageheader->hk.sizeof_hdr);
         //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( (&imageheader->hk.data_type[0]),10 );
@@ -400,10 +348,10 @@ namespace itk
         ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smax );
         ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smin );
       }
-    else if ( m_ByteOrder == BigEndian )      
+      else if ( m_ByteOrder == BigEndian )
       {
-        //NOTE: If machine order is little endian, and the data needs to be 
-        // swapped, the SwapFromBigEndianToSystem is equivalent to 
+        //NOTE: If machine order is little endian, and the data needs to be
+        // swapped, the SwapFromBigEndianToSystem is equivalent to
         // SwapFromSystemToLittleEndian.
         ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.sizeof_hdr );
         //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( (&imageheader->hk.data_type[0]),10 );
@@ -452,61 +400,15 @@ namespace itk
         ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smax );
         ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smin );
       }
-    else      
+      else
       {
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Machine Endian Type Unknown");
         throw exception;
       }
-  }
+    }
 
 
-  /**
-   * Analyze IMAGE FILE FORMAT -- As much information as I can determine from the Medical image
-   * formats web site, and the Analyze75.pdf file provided from the Mayo clinic.
-   *
-   * Analyze image file sets consist of at least 2 files:
-   * REQUIRED:
-   *    - an image file  ([basename].img or [basename].img.gz or [basename].img.Z)
-   *          This contains the binary represenation of the raw voxel values.
-   *          If the file is uncompressed, it should be of of size (sizeof(storagetype)*NX*NY*NZ(*NT).
-   *          The format of the image file is very simple; containing usually
-   *          uncompressed voxel data for the images in one of the several
-   *          possible voxel formats:
-   *             - 1 bit  packed binary (slices begin on byte boundaries)
-   *             - 8 bit  (unsigned char) gray scale unless .lkup file present
-   *             - 16 bit signed short
-   *             - 32 bit signed integers or float
-   *             - 24 bit RGB, 8 bits per channel
-   *    - a header file  ([basename].hdr)
-   *          This a 348 byte file 99.99% of all images that contains a binary represenation of the C-struct
-   *          defined in this file.  The analyze 7.5 header structure may, however, be extended beyond this minimal defintion
-   *          to encompase site specific information, and would have more than 348 bytes.  Given that the
-   *          ability to extend the header has rarely been used, this implementation of the Analyze 7.5
-   *          file will only read the first 348 bytes into the structure defined in this file, and all informaiton beyond the
-   *          348 bytes will be ignored.
-   * OPTIONAL:
-   *    - a color lookup file ([basename].lkup)
-   *      The .lkup file is a plain ASCII text file that contains 3 integer values between 0 and 255
-   *      on each line.  Each line of the lkup file represents one color table entry for the Red,
-   *      Green and Blue color components, respectively.  The total dynamic range of the image
-   *      is divided by the number of colors in color table to determine mapping of the image through
-   *      these colors.
-   *       For example, an 8-color 'rainbow colors' lookup table is represented as:
-   *       ===========================
-   *       255 0 0
-   *       255 128 0
-   *       255 255 0
-   *       128 255 0
-   *       0 255 0
-   *       0 0 255
-   *       128 0 255
-   *       255 0 255
-   *       ===========================
-   *    - an object file ([basename].obj)
-   *      A specially formated file with a mapping between object name and image code used to associate
-   *      image voxel locations with a label.  This file is run length encoded to save disk storage.
-   */
   AnalyzeImageIO::AnalyzeImageIO()
   {
     //by default, only have 3 dimensions
@@ -556,9 +458,9 @@ namespace itk
     this->m_hdr.dime.cal_units[0]='\0';
 
     this->m_hdr.dime.unused1=0;
-    // Acceptable data values are DT_NONE, DT_UNKOWN, DT_BINARY, 
+    // Acceptable data values are DT_NONE, DT_UNKOWN, DT_BINARY,
     // DT_UNSIGNED_CHAR
-    // DT_SIGNED_SHORT, DT_SIGNED_INT, DT_FLOAT, DT_COMPLEX, DT_DOUBLE, 
+    // DT_SIGNED_SHORT, DT_SIGNED_INT, DT_FLOAT, DT_COMPLEX, DT_DOUBLE,
     // DT_RGB, DT_ALL
     //this->m_hdr.dime.datatype=DataTypeKey[DT_INDEX_UNKNOWN];
 
@@ -569,15 +471,15 @@ namespace itk
     //A value of 0.0 for these fields implies that the value is unknown.
     //Change these values to what is appropriate for your data
     //or pass additional commathis->m_hdr.dime.dim[0] line arguments
-    this->m_hdr.dime.pixdim[0]=1.0;//x_dimension
-    this->m_hdr.dime.pixdim[1]=1.0;//y_dimension
-    this->m_hdr.dime.pixdim[2]=1.0;//z_dimension
-    this->m_hdr.dime.pixdim[3]=1.0;//t_dimension
-    this->m_hdr.dime.pixdim[4]=1.0;
+    this->m_hdr.dime.pixdim[0]=0.0;//Unused field
+    this->m_hdr.dime.pixdim[1]=1.0;//x_dimension
+    this->m_hdr.dime.pixdim[2]=1.0;//y_dimension
+    this->m_hdr.dime.pixdim[3]=1.0;//z_dimension
+    this->m_hdr.dime.pixdim[4]=1.0;//t_dimension
     this->m_hdr.dime.pixdim[5]=1.0;
     this->m_hdr.dime.pixdim[6]=1.0;
     this->m_hdr.dime.pixdim[7]=1.0;
-    // Assume zero offset in .img file, byte at which pixel data starts in 
+    // Assume zero offset in .img file, byte at which pixel data starts in
     // the HeaderObj file
     //byte offset in the HeaderObj file which voxels start
     this->m_hdr.dime.vox_offset=0.0;
@@ -587,7 +489,7 @@ namespace itk
     this->m_hdr.dime.funused2=0.0;
     this->m_hdr.dime.cal_max=0.0;  /*specify range of calibration values*/
     this->m_hdr.dime.cal_min=0.0;  /*specify range of calibration values*/
-    this->m_hdr.dime.compressed=0;
+    this->m_hdr.dime.compressed=0; /*specify that the data file with extension .img is not compressed*/
     this->m_hdr.dime.verified=0;
     this->m_hdr.dime.glmax=0;      /*max value for all of the data set*/
     this->m_hdr.dime.glmin=0;      /*min value for all of the data set*/
@@ -602,7 +504,7 @@ namespace itk
     /*3-transverse flipped*/
     /*4-coronal flipped*/
     /*5-sagittal flipped*/
-    this->m_hdr.hist.orient='\1'; // canonical orientation is coronal flipped
+    this->m_hdr.hist.orient=ITK_ANALYZE_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
 
     this->m_hdr.hist.originator[0]='\0';
     this->m_hdr.hist.generated[0]='\0';
@@ -636,22 +538,22 @@ namespace itk
   {
     m_FileName=FileNameToWrite;
     if(m_FileName != "" &&
-       // DataFile Name Given*/
-       (m_FileName.find(".img") < m_FileName.length() ||  
-        // HeaderFile Name Given
-        m_FileName.find(".hdr") < m_FileName.length() || 
-        //Compressed Images
-        m_FileName.find(".img.gz") < m_FileName.length())) 
-      {
-        return true;
-      }
+        // DataFile Name Given*/
+        (m_FileName.find(".img") < m_FileName.length() ||
+         // HeaderFile Name Given
+         m_FileName.find(".hdr") < m_FileName.length() ||
+         //Compressed Images
+         m_FileName.find(".img.gz") < m_FileName.length()))
+    {
+      return true;
+    }
     return false;
   }
 
   const std::type_info& AnalyzeImageIO::GetPixelType() const
   {
-    switch(m_PixelType) 
-      {
+    switch(m_PixelType)
+    {
       case CHAR:
         return typeid(char);
       case UCHAR:
@@ -676,13 +578,13 @@ namespace itk
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
         throw exception;
-      }
+    }
   }
 
   unsigned int AnalyzeImageIO::GetComponentSize() const
   {
-    switch(m_PixelType) 
-      {
+    switch(m_PixelType)
+    {
       case CHAR:
         return sizeof(char);
       case UCHAR:
@@ -707,7 +609,7 @@ namespace itk
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
         throw exception;
-      }
+    }
     return 1;
   }
 
@@ -729,8 +631,8 @@ namespace itk
   void  AnalyzeImageIO::DefineHeaderObjectDataType()
   {
     enum DataTypeIndex eNewType;
-    switch(m_PixelType) 
-      {
+    switch(m_PixelType)
+    {
       case CHAR:
       case UCHAR:
         eNewType=ANALYZE_DT_INDEX_UNSIGNED_CHAR;
@@ -768,12 +670,12 @@ namespace itk
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
         throw exception;
-      }
+    }
     m_hdr.dime.datatype=DataTypeKey[eNewType];
     m_hdr.dime.bitpix=DataTypeSizes[eNewType];
     strcpy(m_hdr.hk.data_type,DataTypes[eNewType]);
-    switch(m_hdr.dime.datatype) 
-      {
+    switch(m_hdr.dime.datatype)
+    {
       case ANALYZE_DT_INDEX_BINARY:
         m_hdr.dime.glmax=1;  /*max value for all of the data set*/
         m_hdr.dime.glmin=0;  /*min value for all of the data set*/
@@ -804,142 +706,8 @@ namespace itk
         m_hdr.dime.glmin=0;  /*min value for all of
                                the data set*/
         break;
-      }
+    }
   }
-
-#if defined(REORIENT_IMAGES)
-  void AnalyzeImageIO::GetAllDimensions(ipl_dimensions &dim) 
-  {
-    //
-    // strides -- how many bytes offset to the next
-    // slice, row, etc
-    dim.slicestride = this->GetSliceStride();
-    dim.rowstride = this->GetRowStride();
-    dim.componentstride = this->GetComponentStride();
-    dim.pixelsize = this->GetPixelSize();
-    //
-    // xsize,ysize,zsize == size in each direction in pixesls
-    dim.xsize = this->GetDimensions(0);
-    dim.ysize = this->GetDimensions(1);
-    dim.zsize = this->GetDimensions(2);
-  }
-
-  //Convert images into canonical Coronal view
-  //////////////////////////////////////////////////////////////////////////
-  // Programmer: Kent Williams
-  //       Date: 01/30/03
-  //   Function: ReorientIfNecessary
-  //  Algorithm: Brute Force array shuffle
-  // Func. Ret.: None
-  //     Output: Shuffled array
-  //      Input: Image array
-  //////////////////////////////////////////////////////////////////////////
-  void AnalyzeImageIO::ReorientIfNecessary(char *p) 
-  {
-    //
-    // CASE NOT YET HANDLED: RGB images, where R G and B
-    // volumes are sent sequentially
-    if(this->m_hdr.hist.orient == ITK_ANALYZE_CORONAL)
-      return;
-    //
-    // allocate a buffer to hold image temporarily
-    char *swapbuffer = new char[this->GetImageSizeInBytes()];
-
-    // copy data local, and then put back re-oriented
-    // data into the buffer
-    memcpy(swapbuffer, p, this->GetImageSizeInBytes());
-    // loop indices
-    unsigned int x,y,z;
-
-#define ComponentAddress(a,dims,z,y,x) \
-        ((a)+((z)*dims.slicestride)+\
-        ((y)*dims.rowstride)+((x)*dims.componentstride))
-
-    switch(this->m_hdr.hist.orient) 
-      {
-      case ITK_ANALYZE_TRANSVERSE:
-        for(z = 0; z < this->m_new_dim.zsize; z++) 
-          {
-            for(y = 0; y < this->m_new_dim.ysize; y++) 
-              {
-                for(x = 0; x < this->m_new_dim.xsize; x++) 
-                  {
-                    // swapbuffer[z][y][x] = p[y][z][x]
-                    memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
-                           ComponentAddress(swapbuffer,this->m_old_dim,y,z,x),
-                           this->m_new_dim.pixelsize);
-                  }
-              }
-          }
-        break;
-      case ITK_ANALYZE_SAGITTAL:
-        for(z = 0; z < this->m_new_dim.zsize; z++) 
-          {
-            for(y = 0; y < this->m_new_dim.ysize; y++) 
-              {
-                for(x = 0; x < this->m_new_dim.xsize; x++) 
-                  {
-                    // swapbuffer[z][y][x] = p[x][y][z]
-                    memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
-                           ComponentAddress(swapbuffer,this->m_old_dim,x,y,z),
-                           this->m_new_dim.pixelsize);
-                  }
-              }
-          }
-        break;
-      case ITK_ANALYZE_TRANSVERSE_FLIPPED:
-        for(z = 0; z < this->m_new_dim.zsize; z++) 
-          {
-            for(y = 0; y < this->m_new_dim.ysize; y++) 
-              {
-                for(x = 0; x < this->m_new_dim.xsize; x++) 
-                  {
-                    // swapbuffer[z][y][x] = p[y][z][x]
-                    memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
-                           ComponentAddress(swapbuffer,this->m_old_dim,y,
-                                            this->m_old_dim.zsize - 1 - z,x),
-                           this->m_new_dim.pixelsize);
-                  }
-              }
-          }
-        break;
-      case ITK_ANALYZE_CORONAL_FLIPPED:
-        for(z = 0; z < this->m_new_dim.zsize; z++) 
-          {
-            for(y = 0; y < this->m_new_dim.ysize; y++) 
-              {
-                for(x = 0; x < this->m_new_dim.xsize; x++) 
-                  {
-                    // swapbuffer[z][y][x] = p[y][z][x]
-                    memcpy(ComponentAddress(p,this->m_old_dim,z,y,x),
-                           ComponentAddress(swapbuffer,this->m_old_dim,
-                                            this->m_old_dim.zsize - 1 - z,y,x),
-                           this->m_new_dim.pixelsize);
-                  }
-              }
-          }
-        break;
-        break;
-      case ITK_ANALYZE_SAGITTAL_FLIPPED:
-        for(z = 0; z < this->m_new_dim.zsize; z++) 
-          {
-            for(y = 0; y < this->m_new_dim.ysize; y++) 
-              {
-                for(x = 0; x < this->m_new_dim.xsize; x++) 
-                  {
-                    // swapbuffer[z][y][x] = p[x][y][z]
-                    memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
-                           ComponentAddress(swapbuffer,this->m_old_dim,x,y,
-                                            this->m_old_dim.zsize - 1 - z),
-                           this->m_new_dim.pixelsize);
-                  }
-              }
-          }
-        break;
-      }
-    delete [] swapbuffer;
-  }
-#endif
 
   void AnalyzeImageIO::Read(void* buffer)
   {
@@ -947,71 +715,57 @@ namespace itk
     const unsigned int dimensions = this->GetNumberOfDimensions();
     unsigned int numberOfPixels = 1;
     for(dim=0; dim< dimensions; dim++ )
-      {
-        numberOfPixels *= m_Dimensions[ dim ];
-      }
+    {
+      numberOfPixels *= m_Dimensions[ dim ];
+    }
 
     char * const p = static_cast<char *>(buffer);
     //4 cases to handle
     //1: given .hdr and image is .img
     //2: given .img
     //3: given .img.gz
-    //4: given .hdr and image is .img.gz  
+    //4: given .hdr and image is .img.gz
     //   Special processing needed for this case onl
     // NOT NEEDED const std::string fileExt = GetExtension(m_FileName);
 
     /* Returns proper name for cases 1,2,3 */
-    std::string ImageFileName = GetImageFileName( m_FileName ); 
-    //NOTE: gzFile operations act just like FILE * operations when the files 
+    std::string ImageFileName = GetImageFileName( m_FileName );
+    //NOTE: gzFile operations act just like FILE * operations when the files
     // are not in gzip fromat.
-    // This greatly simplifies the following code, and gzFile types are used 
+    // This greatly simplifies the following code, and gzFile types are used
     // everywhere.
-    // In addition, it has the added benifit of reading gzip compressed image 
+    // In addition, it has the added benifit of reading gzip compressed image
     // files that do not have a .gz ending.
     gzFile file_p = ::gzopen( ImageFileName.c_str(), "rb" );
-    if( file_p == NULL ) 
+    if( file_p == NULL )
+    {
+      /* Do a separate check to take care of case #4 */
+      ImageFileName += ".gz";
+      file_p = ::gzopen( ImageFileName.c_str(), "rb" );
+      if( file_p == NULL )
       {
-        /* Do a separate check to take care of case #4 */
-        ImageFileName += ".gz";
-        file_p = ::gzopen( ImageFileName.c_str(), "rb" );
-        if( file_p == NULL ) 
-          {
-            ExceptionObject exception(__FILE__, __LINE__);
-            std::string message="Analyze Data File can not be read: The following files were attempted:\n ";
-            message += GetImageFileName( m_FileName );
-            message += '\n';
-            message += ImageFileName;
-            message += '\n';
-            exception.SetDescription(message.c_str());
-            throw exception;
-          }
+        ExceptionObject exception(__FILE__, __LINE__);
+        std::string message="Analyze Data File can not be read: The following files were attempted:\n ";
+        message += GetImageFileName( m_FileName );
+        message += '\n';
+        message += ImageFileName;
+        message += '\n';
+        exception.SetDescription(message.c_str());
+        throw exception;
       }
+    }
 
-    // Seek through the file to the correct position, This is only necessary 
+    // Seek through the file to the correct position, This is only necessary
     // when readin in sub-volumes
-    // const long int total_offset = static_cast<long int>(tempX * tempY * 
+    // const long int total_offset = static_cast<long int>(tempX * tempY *
     //                                start_slice * m_dataSize)
-    //    + static_cast<long int>(tempX * tempY * total_z * start_time * 
+    //    + static_cast<long int>(tempX * tempY * total_z * start_time *
     //          m_dataSize);
     // ::gzseek( file_p, total_offset, SEEK_SET );
 
     // read image in
     ::gzread( file_p, p, this->GetImageSizeInBytes());
     gzclose( file_p );
-#if 0
-    this->ReorientIfNecessary(p);
-    {
-      unsigned int i;
-      for(i = 0; i < this->GetImageSizeInBytes(); i++) 
-        {
-          if(i % 10 == 0)
-            fprintf(stderr,"\n");
-          if(i % 100 == 0)
-            fprintf(stderr,"\n");
-          fprintf(stderr,"%02x ",(unsigned int)((unsigned char)p[i]));
-        }
-    }
-#endif
     SwapBytesIfNecessary( buffer, numberOfPixels );
   }
 
@@ -1026,34 +780,42 @@ namespace itk
     //
     // only try to read HDR files
     std::string ext = GetExtension(HeaderFileName);
-    if(ext == std::string("gz")) 
-      {
-        ext = GetExtension(GetRootName(HeaderFileName));
-      }
+    if(ext == std::string("gz"))
+    {
+      ext = GetExtension(GetRootName(HeaderFileName));
+    }
     if(ext != std::string("hdr") && ext != std::string("img"))
+    {
       return false;
-      
+    }
+
     std::ifstream   local_InputStream;
     local_InputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
-    if( local_InputStream.fail() ) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("File cannot be read");
-        throw exception;
-      }
+    if( local_InputStream.fail() )
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File cannot be read");
+      throw exception;
+    }
     local_InputStream.read( (char *)&(this->m_hdr), sizeof(struct dsr) );
-    if( local_InputStream.eof() ) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Unexpected end of file");
-        throw exception;
-      }
+    if( local_InputStream.eof() )
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Unexpected end of file");
+      throw exception;
+    }
     local_InputStream.close();
 
     // if the machine and file endianess are different
     // perform the byte swapping on it
     this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_hdr);
     this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
+    //if(this->m_hdr->dime.compressed==1)
+    //{
+    //    ExceptionObject exception(__FILE__, __LINE__);
+    //    exception.SetDescription("Unix compress file is not supported.");
+    //    throw exception;
+    //}
     return true;
   }
 
@@ -1063,47 +825,33 @@ namespace itk
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ifstream   local_InputStream;
     local_InputStream.open(HeaderFileName.c_str(),
-                           std::ios::in | std::ios::binary);
-    if( local_InputStream.fail()) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("File cannot be read");
-        throw exception;
-      }
+        std::ios::in | std::ios::binary);
+    if( local_InputStream.fail())
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File cannot be read");
+      throw exception;
+    }
     local_InputStream.read( (char *)(&(this->m_hdr)), sizeof(struct dsr) );
-    if( local_InputStream.eof() ) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Unexpected end of file");
-        throw exception;
-      }
+    if( local_InputStream.eof() )
+    {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Unexpected end of file");
+      throw exception;
+    }
     local_InputStream.close();
 
     // if the machine and file endianess are different
     // perform the byte swapping on it
     this->m_ByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
-    if( this->m_MachineByteOrder != this->m_ByteOrder  ) 
-      {
-        this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
-      }
+    if( this->m_MachineByteOrder != this->m_ByteOrder  )
+    {
+      this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
+    }
 
     this->SetNumberOfDimensions(this->m_hdr.dime.dim[0]);
-#if 0
-    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) 
-      {
-        //NOTE: Analyze dim[0] are the number of dims, 
-        //and dim[1..7] are the actual dims.
-        m_Dimensions[ dim ] = this->m_hdr.dime.dim[dim+1];
-      }
-    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) 
-      {
-        m_Spacing[ dim ]    = this->m_hdr.dime.pixdim[dim+1];;
-      }
-    unsigned long elmentNumberOfBits;
-    elmentNumberOfBits= this->m_hdr.dime.bitpix;
-#endif
-    switch( this->m_hdr.dime.datatype ) 
-      {
+    switch( this->m_hdr.dime.datatype )
+    {
       case ANALYZE_DT_BINARY:
         m_ComponentType = CHAR;
         m_PixelType = CHAR;
@@ -1138,61 +886,34 @@ namespace itk
         break;
       default:
         break;
-      }
+    }
     //
     // set up the dimension stuff
-    for(dim = 0; dim < this->GetNumberOfDimensions(); dim++) 
-      {
-        this->SetDimensions(dim,this->m_hdr.dime.dim[dim+1]);
-        this->SetSpacing(dim,this->m_hdr.dime.pixdim[dim+1]);
-      }
+    for(dim = 0; dim < this->GetNumberOfDimensions(); dim++)
+    {
+      this->SetDimensions(dim,this->m_hdr.dime.dim[dim+1]);
+      this->SetSpacing(dim,this->m_hdr.dime.pixdim[dim+1]);
+    }
     //
     // figure out re-orientation required if not in Coronal
     this->ComputeStrides();
-#if defined(REORIENT_IMAGES)
-    this->GetAllDimensions(this->m_old_dim);
-    //
-    // flip the dimensions, then store the new stride stuff
-    // for use in this->Read()
-    switch(this->m_hdr.hist.orient) 
-      {
-      case ITK_ANALYZE_TRANSVERSE:
-      case ITK_ANALYZE_TRANSVERSE_FLIPPED:
-        this->SetDimensions(this->m_old_dim.ysize,0);
-        this->SetDimensions(this->m_old_dim.zsize,1);
-        this->SetDimensions(this->m_old_dim.xsize,2);
-        this->ComputeStrides();
-        this->GetAllDimensions(this->m_new_dim);
-        break;
-      case ITK_ANALYZE_SAGITTAL:
-      case ITK_ANALYZE_SAGITTAL_FLIPPED:
-        this->SetDimensions(this->m_old_dim.zsize,0);
-        this->SetDimensions(this->m_old_dim.ysize,1);
-        this->SetDimensions(this->m_old_dim.xsize,2);
-        this->ComputeStrides();
-        this->GetAllDimensions(this->m_new_dim);
-        break;
-      }
-#endif
     return;
   }
-
-
 
   /**
    *
    */
   void
-  AnalyzeImageIO
-  ::WriteImageInformation(void)
-  {
-    unsigned int dim;
-    
-    const std::string HeaderFileName = GetHeaderFileName( m_FileName );
-    std::ofstream   local_OutputStream;
-    local_OutputStream.open( HeaderFileName.c_str(), 
-                             std::ios::out | std::ios::binary );
-    if( local_OutputStream.fail() ) 
+    AnalyzeImageIO
+    ::WriteImageInformation(void)
+    {
+      unsigned int dim;
+
+      const std::string HeaderFileName = GetHeaderFileName( m_FileName );
+      std::ofstream   local_OutputStream;
+      local_OutputStream.open( HeaderFileName.c_str(),
+          std::ios::out | std::ios::binary );
+      if( local_OutputStream.fail() )
       {
         ExceptionObject exception(__FILE__, __LINE__);
         std::string ErrorMessage="File cannot be written";
@@ -1200,183 +921,182 @@ namespace itk
         exception.SetDescription(ErrorMessage.c_str());
         throw exception;
       }
-    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) 
+      for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
         //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
         this->m_hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
       }
-    //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
-    this->m_hdr.dime.dim[0]= 4;
-    for( dim=this->GetNumberOfDimensions();(int)dim < this->m_hdr.dime.dim[0]; 
-         dim++ ) 
+      //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
+      this->m_hdr.dime.dim[0]= 4;
+      for( dim=this->GetNumberOfDimensions();(int)dim < this->m_hdr.dime.dim[0];
+          dim++ )
       {
         //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
         this->m_hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
       }
-    for( dim=0; dim< this->GetNumberOfDimensions(); dim++ ) 
+      for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
         //NOTE: Analyze pixdim[0] is ignored, and the number of dims are taken from dims[0], and pixdim[1..7] are the actual pixdims.
         this->m_hdr.dime.pixdim[dim+1]= m_Spacing[ dim ];
       }
-    //The next funciton sets bitpix, and datatype, and data_type fields
-    //Along with gl_min and gl_max feilds.
-    this->DefineHeaderObjectDataType();
+      //The next funciton sets bitpix, and datatype, and data_type fields
+      //Along with gl_min and gl_max feilds.
+      this->DefineHeaderObjectDataType();
 
-    local_OutputStream.write( (const char *)&(this->m_hdr), 
-                              sizeof(struct dsr) );
-    if( local_OutputStream.eof() ) 
+      local_OutputStream.write( (const char *)&(this->m_hdr), sizeof(struct dsr) );
+      if( local_OutputStream.eof() )
       {
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Unexpected end of file");
         throw exception;
       }
-    local_OutputStream.close();
-    return;
-  }
+      local_OutputStream.close();
+      return;
+    }
 
 
   /**
    *
    */
   void
-  AnalyzeImageIO
-  ::Write( const void* buffer)
-  {
-    unsigned int dim;
-    
-    //Write the image Information before writing data
-    this->WriteImageInformation();
-    const unsigned int dimensions = this->GetNumberOfDimensions();
-    unsigned int numberOfPixels = 1;
-    for( dim=0; dim< dimensions; dim++ ) 
+    AnalyzeImageIO
+    ::Write( const void* buffer)
+    {
+      unsigned int dim;
+
+      //Write the image Information before writing data
+      this->WriteImageInformation();
+      const unsigned int dimensions = this->GetNumberOfDimensions();
+      unsigned int numberOfPixels = 1;
+      for( dim=0; dim< dimensions; dim++ )
       {
         numberOfPixels *= m_Dimensions[ dim ];
       }
 
-    //NOTE: voidp is defined by zlib.h
-    //NOTE: Need const_cast because voidp is "void*", so
-    //      "const voidp" is "void* const", not "const void*".
-    voidp p = const_cast<voidp>(buffer);
-    const std::string ImageFileName = GetImageFileName( m_FileName );
-    const std::string fileExt=GetExtension( m_FileName );
-    // Check case where image is acually a compressed image
-    if(!fileExt.compare( "gz" )) 
+      //NOTE: voidp is defined by zlib.h
+      //NOTE: Need const_cast because voidp is "void*", so
+      //      "const voidp" is "void* const", not "const void*".
+      voidp p = const_cast<voidp>(buffer);
+      const std::string ImageFileName = GetImageFileName( m_FileName );
+      const std::string fileExt=GetExtension( m_FileName );
+      // Check case where image is acually a compressed image
+      if(!fileExt.compare( "gz" ))
       {
         // Open the *.img.gz file for writing.
         gzFile  file_p = ::gzopen( ImageFileName.c_str(), "wb" );
-        if( file_p==NULL ) 
-          {
-            ExceptionObject exception(__FILE__, __LINE__);
-            std::string ErrorMessage="Error, Can not write compressed image file for ";
-            ErrorMessage+=m_FileName;
-            exception.SetDescription(ErrorMessage.c_str());
-            throw exception;
-          }
+        if( file_p==NULL )
+        {
+          ExceptionObject exception(__FILE__, __LINE__);
+          std::string ErrorMessage="Error, Can not write compressed image file for ";
+          ErrorMessage+=m_FileName;
+          exception.SetDescription(ErrorMessage.c_str());
+          throw exception;
+        }
 
 #ifdef __OMIT_UNTIL_RGB_IS_NEEEDED
         if ( image.getDataType() == uiig::DATA_RGBTRIPLE )
+        {
+          // Analyze RGB images are stored in channels, where all the red components are stored
+          // first, followed by the green and blue components for each plane of the volume.
+          // This is stored in an image of RGBTRIPLE data structures, which are in memory
+          // stored as (red,green,blue).  The triples need to be converted to channels for
+          // each plane when writing out the image.
+
+          // NOTE: Do NOT change this.  The math here is necessary for CImageStrided to
+          // read files correctly
+          for( register unsigned int l=0; l<tempT; l++ )
           {
-            // Analyze RGB images are stored in channels, where all the red components are stored
-            // first, followed by the green and blue components for each plane of the volume.
-            // This is stored in an image of RGBTRIPLE data structures, which are in memory
-            // stored as (red,green,blue).  The triples need to be converted to channels for
-            // each plane when writing out the image.
+            unsigned int volumeOffset = l*m_uiVolumeOffset;
+            for( register unsigned int k=0; k<tempZ; k++ )
+            {
+              unsigned int planeVolOffset = k*m_uiPlaneOffset + volumeOffset;
 
-            // NOTE: Do NOT change this.  The math here is necessary for CImageStrided to
-            // read files correctly
-            for( register unsigned int l=0; l<tempT; l++ ) 
+              // Reading the red channel
               {
-                unsigned int volumeOffset = l*m_uiVolumeOffset;
-                for( register unsigned int k=0; k<tempZ; k++ ) 
+                for( register unsigned int j=0; j<tempY; j++ )
+                {
+                  unsigned int rowOffset =    j*m_uiRowOffset;
+                  for ( register unsigned int i=0; i<tempX; i++ )
                   {
-                    unsigned int planeVolOffset = k*m_uiPlaneOffset + volumeOffset;
-
-                    // Reading the red channel
-                    {
-                      for( register unsigned int j=0; j<tempY; j++ ) 
-                        {
-                          unsigned int rowOffset =    j*m_uiRowOffset;
-                          for ( register unsigned int i=0; i<tempX; i++ ) 
-                            {
-                              //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
-                              //in bytes
-                              ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
-                            }
-                        }
-                    }
-
-                    // Reading the green channel
-                    {
-                      for( register unsigned int j=0; j<tempY; j++ ) 
-                        {
-                          unsigned int rowOffset =    j*m_uiRowOffset;
-                          for ( register unsigned int i=0; i<tempX; i++ )
-                            {
-                              //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
-                              //in bytes
-                              ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 1, sizeof(unsigned char) );
-                            }
-                        }
-                    }
-
-                    // Reading the blue channel
-                    {
-                      for( register unsigned int j=0; j<tempY; j++ ) 
-                        {
-                          unsigned int rowOffset =    j*m_uiRowOffset;
-                          for ( register unsigned int i=0; i<tempX; i++ ) 
-                            {
-                              //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
-                              //in bytes
-                              ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 2, sizeof(unsigned char) );
-                            }
-                        }
-                    }
-
+                    //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
+                    //in bytes
+                    ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
                   }
+                }
               }
-          } 
+
+              // Reading the green channel
+              {
+                for( register unsigned int j=0; j<tempY; j++ )
+                {
+                  unsigned int rowOffset =    j*m_uiRowOffset;
+                  for ( register unsigned int i=0; i<tempX; i++ )
+                  {
+                    //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
+                    //in bytes
+                    ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 1, sizeof(unsigned char) );
+                  }
+                }
+              }
+
+              // Reading the blue channel
+              {
+                for( register unsigned int j=0; j<tempY; j++ )
+                {
+                  unsigned int rowOffset =    j*m_uiRowOffset;
+                  for ( register unsigned int i=0; i<tempX; i++ )
+                  {
+                    //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
+                    //in bytes
+                    ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 2, sizeof(unsigned char) );
+                  }
+                }
+              }
+
+            }
+          }
+        }
         else
 #endif
-          {
-            ::gzwrite( file_p,p,this->GetImageSizeInBytes());
-          }
+        {
+          ::gzwrite( file_p,p,this->GetImageSizeInBytes());
+        }
         ::gzclose( file_p );
-        //RemoveFile FileNameToRead.img so that it does not get confused with 
+        //RemoveFile FileNameToRead.img so that it does not get confused with
         //FileNameToRead.img.gz
         //The following is a hack that can be used to remove ambiguity when an
         //uncompressed image is read, and then written as compressed.
-        //This results in one *.hdr file being assosiated with a *.img and a 
+        //This results in one *.hdr file being assosiated with a *.img and a
         // *.img.gz image file.
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img";
         RemoveFile(unusedbaseimgname.c_str());
       }
-    else 
+      else
       {
         //No compression
         std::ofstream   local_OutputStream;
         local_OutputStream.open( ImageFileName.c_str(), std::ios::out | std::ios::binary );
-        if( !local_OutputStream ) 
-          {
-            ExceptionObject exception(__FILE__, __LINE__);
-            std::string ErrorMessage="Error opening image data file for writing.";
-            ErrorMessage+=m_FileName;
-            exception.SetDescription(ErrorMessage.c_str());
-            throw exception;
-          }
+        if( !local_OutputStream )
+        {
+          ExceptionObject exception(__FILE__, __LINE__);
+          std::string ErrorMessage="Error opening image data file for writing.";
+          ErrorMessage+=m_FileName;
+          exception.SetDescription(ErrorMessage.c_str());
+          throw exception;
+        }
         local_OutputStream.write((const char *)p, this->GetImageSizeInBytes() );
         bool success = !local_OutputStream.bad();
         local_OutputStream.close();
-        if( !success ) 
-          {
-            ExceptionObject exception(__FILE__, __LINE__);
-            std::string ErrorMessage="Error writing image data.";
-            ErrorMessage+=m_FileName;
-            exception.SetDescription(ErrorMessage.c_str());
-            throw exception;
-          }
+        if( !success )
+        {
+          ExceptionObject exception(__FILE__, __LINE__);
+          std::string ErrorMessage="Error writing image data.";
+          ErrorMessage+=m_FileName;
+          exception.SetDescription(ErrorMessage.c_str());
+          throw exception;
+        }
         //RemoveFile FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
         //The following is a hack that can be used to remove ambiguity when an
         //uncompressed image is read, and then written as compressed.
@@ -1386,5 +1106,5 @@ namespace itk
         unusedbaseimgname+=".img.gz";
         RemoveFile(unusedbaseimgname.c_str());
       }
-  }
+    }
 } // end namespace itk
