@@ -31,6 +31,11 @@
           No Update information available!
         </xsl:otherwise>
       </xsl:choose>
+      <br/>
+      <a>
+        <xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/></xsl:attribute>
+        CVS Web
+      </a>
     </h3>
 
     <h3>
@@ -46,6 +51,11 @@
           No Doxygen information available!
         </xsl:otherwise>
       </xsl:choose>
+      <br/>
+      <a>
+        <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/></xsl:attribute>
+        Doxygen site
+      </a>
     </h3>
     
             
