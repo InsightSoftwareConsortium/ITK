@@ -17,7 +17,7 @@ namespace itk
 {
 
 template <class TPixel, unsigned int VDimension>
-std::vector<TPixel>
+typename DerivativeOperator<TPixel, VDimension>::CoefficientVector
 DerivativeOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
@@ -27,7 +27,7 @@ DerivativeOperator<TPixel, VDimension>
   ScalarValueType next;
   const unsigned int w = 2*((m_Order + 1)/2) + 1;
   std::vector<ScalarValueType> coeff(w);
-  std::vector<TPixel> coeffP(w);
+  CoefficientVector coeffP(w);
 
   coeff[w/2] = 1.0;
    for (i = 0; i < m_Order/2; i++)

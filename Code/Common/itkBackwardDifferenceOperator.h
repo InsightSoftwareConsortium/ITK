@@ -59,15 +59,17 @@ public:
   BackwardDifferenceOperator() {}
 
 protected:
+  typedef std::vector<TPixel> CoefficientVector;
+
   /**
    * Calculates operator coefficients.
    */
-  std::vector<TPixel> GenerateCoefficients();
+  CoefficientVector GenerateCoefficients();
 
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const std::vector<TPixel> &coeff)
+  void Fill(const CoefficientVector &coeff)
   {
     this->FillCenteredDirectional(coeff);
   }

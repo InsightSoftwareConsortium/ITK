@@ -17,15 +17,15 @@ namespace itk
 {
 
 template<unsigned int VDimension>
-std::vector<float>
+typename GaussianOperator<VDimension>::CoefficientVector
 GaussianOperator<VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<float> coeff;
+  CoefficientVector coeff;
   float sum;
   int i;
   int j;
-  std::vector<float>::iterator it;
+  CoefficientVector::iterator it;
 
   const float et           = exp(-m_Variance);
   const float cap          = 1.0 - m_MaximumError;

@@ -17,11 +17,11 @@ namespace itk
 {
 
 template <class TPixel, unsigned int VDimension>
-std::vector<TPixel>
+typename ForwardDifferenceOperator<TPixel, VDimension>::CoefficientVector
 ForwardDifferenceOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<TPixel> coeff(3);
+  CoefficientVector coeff(3);
 
   coeff[0] = NumericTraits<ScalarValueType>::Zero;
   coeff[1] = -1.0f *  NumericTraits<ScalarValueType>::One;

@@ -17,11 +17,11 @@ namespace itk
 {
 
 template <class TPixel, unsigned int VDimension>
-std::vector<TPixel>
+typename BackwardDifferenceOperator<TPixel, VDimension>::CoefficientVector
 BackwardDifferenceOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<TPixel> coeff(3);
+  CoefficientVector coeff(3);
   coeff[0] = -1.0f *  NumericTraits<ScalarValueType>::One;
   coeff[1] =  NumericTraits<ScalarValueType>::One;
   coeff[2] =  NumericTraits<ScalarValueType>::Zero;

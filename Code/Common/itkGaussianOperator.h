@@ -135,6 +135,8 @@ public:
   }
   
 protected:
+  typedef std::vector<float> CoefficientVector;
+
   /**
    * Returns the value of the modified Bessel function I0(x) at a point x >= 0.
    */
@@ -155,12 +157,12 @@ protected:
   /**
    * Calculates operator coefficients.
    */
-  std::vector<float> GenerateCoefficients();
+  CoefficientVector GenerateCoefficients();
 
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const std::vector<float> &coeff)
+  void Fill(const CoefficientVector& coeff)
   {
     this->FillCenteredDirectional(coeff);
   }

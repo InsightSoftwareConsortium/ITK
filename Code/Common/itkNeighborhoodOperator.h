@@ -160,17 +160,19 @@ public:
   }
 
 protected:
+  typedef std::vector<TPixel>  CoefficientVector;
+
   /**
    * A subclass-specific algorithm that computes the coefficients
    * of the operator.
    */
-  virtual std::vector<TPixel> GenerateCoefficients() = 0;
+  virtual CoefficientVector GenerateCoefficients() = 0;
 
   /**
    * A subclass-specific algorithm that positions the coefficients
    * spatially in the operator.
    */
-  virtual void Fill(const std::vector<TPixel> &) = 0;
+  virtual void Fill(const CoefficientVector &) = 0;
   
   /**
    * A pre-defined Fill function that can be called by a subclass
@@ -179,7 +181,7 @@ protected:
    * operators, or centering coefficients in an N-dimensional
    * neighborhood.
    */
-  virtual void FillCenteredDirectional(const std::vector<TPixel> &);
+  virtual void FillCenteredDirectional(const CoefficientVector &);
   
 private:
   /**

@@ -13,15 +13,11 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include <iostream>
-#include <string>
-
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkMesh.h"
 #include "itkConnectedRegionsMeshFilter.h"
+
+#include <iostream>
+#include <string>
 
 /**
  * Some typedefs to make things easier.

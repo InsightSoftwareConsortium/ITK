@@ -16,13 +16,13 @@
 namespace itk
 {
 
-template<class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension>
 void
 NeighborhoodOperator<TPixel, VDimension>
 ::CreateDirectional()
 {
   unsigned long k[VDimension];
-  std::vector<TPixel> coefficients;
+  CoefficientVector coefficients;
 
   coefficients = this->GenerateCoefficients();
   for (unsigned int i = 0; i<VDimension; ++i)
@@ -40,18 +40,18 @@ NeighborhoodOperator<TPixel, VDimension>
   this->Fill(coefficients);
 }
   
-template<class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension>
 void
 NeighborhoodOperator<TPixel, VDimension>
 ::CreateToRadius(const SizeType &sz)
 {
-  std::vector<TPixel> coefficients;
+  CoefficientVector coefficients;
   coefficients = this->GenerateCoefficients();
   this->SetRadius(sz);
   this->Fill(coefficients);
 }
 
-template<class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension>
 void
 NeighborhoodOperator<TPixel, VDimension>
 ::CreateToRadius(const unsigned long sz)
@@ -64,15 +64,15 @@ NeighborhoodOperator<TPixel, VDimension>
   this->CreateToRadius(k);
 }
 
-template<class TPixel, unsigned int VDimension>
+template <class TPixel, unsigned int VDimension>
 void
 NeighborhoodOperator<TPixel, VDimension>
-::FillCenteredDirectional(const std::vector<TPixel> &coeff)
+::FillCenteredDirectional(const CoefficientVector &coeff)
 {
   unsigned int i;
   unsigned long start;
   std::slice* temp_slice;
-  std::vector<TPixel>::const_iterator it;
+  CoefficientVector::const_iterator it;
 
   // Collect slice information
   const unsigned long stride = this->GetStride(m_Direction);

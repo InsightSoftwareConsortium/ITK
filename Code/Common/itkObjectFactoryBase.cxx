@@ -13,11 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// Disable warning for long symbol names in this file only
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
 #include "itkDirectory.h"
