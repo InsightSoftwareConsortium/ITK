@@ -1,0 +1,11 @@
+# This file is used to hard code the variables for Windows that would normally
+# be determined by configure.  This is not an elegant way to determine these
+# settings and will be replaced by facilities in CMake when they become
+# available.
+
+set @MAKECOMMAND@   {msdev.exe ITK.DSW /MAKE "All - Release" /REBUILD}
+set @CVSCOMMAND@    cvs
+set @TCLSHCOMMAND@  tclsh82
+set @SITE@          crd.ge.com
+set @BUILDNAME@     WinNT-4.0-VC++-6.0
+set @fullSrcDir@    d:/itkQuality/Insight
