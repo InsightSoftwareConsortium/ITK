@@ -16,11 +16,16 @@ TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itk
 ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
 TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
-ADD_EXECUTABLE(MathematicalMorphologyFilters MathematicalMorphologyFilters.cxx )
-TARGET_LINK_LIBRARIES(MathematicalMorphologyFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
-
 ADD_EXECUTABLE(MedianImageFilter MedianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(MedianImageFilter ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(MathematicalMorphologyBinaryFilters MathematicalMorphologyBinaryFilters.cxx )
+TARGET_LINK_LIBRARIES(MathematicalMorphologyBinaryFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(MathematicalMorphologyGrayscaleFilters MathematicalMorphologyGrayscaleFilters.cxx )
+TARGET_LINK_LIBRARIES(MathematicalMorphologyGrayscaleFilters ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+
 
 
 
