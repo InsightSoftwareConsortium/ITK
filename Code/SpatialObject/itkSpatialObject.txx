@@ -287,7 +287,6 @@ void
 SpatialObject< TDimension >
 ::RemoveSpatialObject( Self * pointer )
 {
-  bool found = false;
   typename ChildrenListType::iterator it;
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
 
@@ -297,7 +296,6 @@ SpatialObject< TDimension >
       {
       (*it)->SetParent(NULL);
       m_Children.erase( it );
-      found =true;
       }
     this->Modified();
     }
