@@ -30,7 +30,7 @@
 // closest mean among the k number of means. (i.e. update the membership of
 // each measurement vectors to the nearest of the k clusters)}  
 //   \item{calculate each cluster's mean from the newly assigned
-// measurement vectors. (updates the centeroid (mean) of k clusters)}
+// measurement vectors. (updates the centroid (mean) of k clusters)}
 //   \item{repeats the step 2 and step 3 until it meets the termination
 // criteria.}
 // \end{enumerate}
@@ -75,14 +75,14 @@
 // input, we include the \code{KdTree} class header file. As mentioned
 // above, we need a k-d tree with the vector sum and the number of
 // measurement vectors. Therefore we uses the
-// \subdoxygen{Statistics}{WeightedCenteroidKdTreeGenerator} instead of
+// \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} instead of
 // the \subdoxygen{Statistics}{KdTreeGenerator} that generate a k-d tree
 // without such additional information. 
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkKdTree.h"
-#include "itkWeightedCenteroidKdTreeGenerator.h"
+#include "itkWeightedCentroidKdTreeGenerator.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -191,7 +191,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedCenteroidKdTreeGenerator< SampleType > 
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
     TreeGeneratorType ;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New() ;
   
@@ -219,8 +219,8 @@ int main()
   // estimation process stops when the nubmer of iteration reaches the
   // maximum iteration value set by the \code{SetMaximumIteration(
   // unsigned int)}, or the distances between the newly calculated mean
-  // (centeroid) values and previous ones are within the threshold set
-  // by the \code{SetCenteroidPositionChangesThreshold( double )}. The
+  // (centroid) values and previous ones are within the threshold set
+  // by the \code{SetCentroidPositionChangesThreshold( double )}. The
   // final step is to call \code{StartOptimization()} method.
   //
   // The for loop will print out the mean estimates from the estimation
@@ -240,7 +240,7 @@ int main()
   estimator->SetParameters( initialMeans ) ;
   estimator->SetKdTree( treeGenerator->GetOutput() ) ;
   estimator->SetMaximumIteration( 200 ) ;
-  estimator->SetCenteroidPositionChangesThreshold(0.0) ;
+  estimator->SetCentroidPositionChangesThreshold(0.0) ;
   estimator->StartOptimization() ;
 
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters() ;
@@ -308,7 +308,7 @@ int main()
   //
   // In this example, the two clusters are modeled by two Euclidean
   // distance funtions. The distance function (model) has only one
-  // parameter, its mean (centeroid) set by the \code{SetOrigin}
+  // parameter, its mean (centroid) set by the \code{SetOrigin}
   // method. To plug-in two distance functions, we call the
   // \code{AddMembershipFunction} method. Then the \code{update()}
   // method call will do the classification.

@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::KdTree|textbf}
 // \index{itk::Statistics::KdTreeGenerator|textbf}
-// \index{itk::Statistics::WeightedCenteroidKdTreeGenerator|textbf}
+// \index{itk::Statistics::WeightedCentroidKdTreeGenerator|textbf}
 //
 // kd-tree is a tree that separates a $k$-dimension space
 // for the \code{std::vector} class that will be the container for
@@ -30,7 +30,7 @@
 #include "itkListSample.h"
 #include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
-#include "itkWeightedCenteroidKdTreeGenerator.h"
+#include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkEuclideanDistance.h"
 // Software Guide : EndCodeSnippet
 
@@ -63,11 +63,11 @@ int main()
   // objects. The first tree from the \code{treeGenerator} has smaller
   // set of information (partition dimension, partition value, and pointers
   // to the left and right child nodes). The second tree from the
-  // \code{centeroidTreeGenerator} has additional information such as
+  // \code{centroidTreeGenerator} has additional information such as
   // the number of children under each node and the vector sum of the
   // measurement vectors belong to every child nodes belong to a node.
   // 
-  // The \subdoxygen{Statistics}{WeightedCenteroidKdTreeGenerator} and
+  // The \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} and
   // the resulting k-d tree struction were implemented based on the
   // description in the paper by Kanungo et al \cite{Kanungo2000}.
   //
@@ -89,14 +89,14 @@ int main()
   treeGenerator->SetBucketSize( 16 ) ;
   treeGenerator->Update() ;
 
-  typedef itk::Statistics::WeightedCenteroidKdTreeGenerator< SampleType > 
-    CenteroidTreeGeneratorType ;
-  CenteroidTreeGeneratorType::Pointer centeroidTreeGenerator = 
-    CenteroidTreeGeneratorType::New() ;
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
+    CentroidTreeGeneratorType ;
+  CentroidTreeGeneratorType::Pointer centroidTreeGenerator = 
+    CentroidTreeGeneratorType::New() ;
 
-  centeroidTreeGenerator->SetSample( sample ) ;
-  centeroidTreeGenerator->SetBucketSize( 16 ) ;
-  centeroidTreeGenerator->Update() ;
+  centroidTreeGenerator->SetSample( sample ) ;
+  centroidTreeGenerator->SetBucketSize( 16 ) ;
+  centroidTreeGenerator->Update() ;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -118,7 +118,7 @@ int main()
   typedef TreeType::KdTreeNodeType NodeType ;
 
   TreeType::Pointer tree = treeGenerator->GetOutput() ;
-  TreeType::Pointer centeroidTree = centeroidTreeGenerator->GetOutput() ;
+  TreeType::Pointer centroidTree = centroidTreeGenerator->GetOutput() ;
 
   NodeType* root = tree->GetRoot() ;
 
@@ -145,14 +145,14 @@ int main()
   std::cout << "Address of the right chile of the root node = "
             << root->Right() << std::endl ;
 
-  root = centeroidTree->GetRoot() ;
+  root = centroidTree->GetRoot() ;
   std::cout << "Number of the measurement vectors under the root node"
             << " in the tree hierarchy = " << root->Size() << std::endl ;
 
-  NodeType::CenteroidType centeroid ;
-  root->GetWeightedCenteroid( centeroid ) ;
+  NodeType::CentroidType centroid ;
+  root->GetWeightedCentroid( centroid ) ;
   std::cout << "Sum of the measurement vectors under the root node = "
-            << centeroid << std::endl ;
+            << centroid << std::endl ;
 
   std::cout << "Number of the measurement vectors under the left child"
             << " of the root node = " << root->Left()->Size() << std::endl ;
@@ -193,16 +193,16 @@ int main()
               << distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }
 
-  centeroidTree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
-  std::cout << "weighted centeroid kd-tree knn search result:" << std::endl 
+  centroidTree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
+  std::cout << "weighted centroid kd-tree knn search result:" << std::endl 
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl ;
   std::cout << "measurement vector : distance" << std::endl ;
   for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
     {
-    std::cout << "[" << centeroidTree->GetMeasurementVector( neighbors[i] ) 
+    std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] ) 
               << "] : "  
-              << distanceMetric->Evaluate( centeroidTree->GetMeasurementVector( neighbors[i])) << std::endl ;
+              << distanceMetric->Evaluate( centroidTree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }
   // Software Guide : EndCodeSnippet
 
@@ -221,16 +221,16 @@ int main()
               << distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }    
 
-  centeroidTree->Search( queryPoint, radius, neighbors ) ; 
-  std::cout << "weighted centeroid kd-tree radius search result:" << std::endl
+  centroidTree->Search( queryPoint, radius, neighbors ) ; 
+  std::cout << "weighted centroid kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl ;
   std::cout << "measurement vector : distance" << std::endl ;
   for ( unsigned int i = 0 ; i < neighbors.size() ; ++i )
     {
-    std::cout << "[" << centeroidTree->GetMeasurementVector( neighbors[i] )
+    std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
               << "] : "  
-              << distanceMetric->Evaluate( centeroidTree->GetMeasurementVector( neighbors[i])) << std::endl ;
+              << distanceMetric->Evaluate( centroidTree->GetMeasurementVector( neighbors[i])) << std::endl ;
     }
 
   return 0 ;
