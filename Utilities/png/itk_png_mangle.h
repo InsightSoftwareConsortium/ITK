@@ -154,6 +154,12 @@ nm libitkpng.a |grep " T "
 #define png_memcpy_check itk_png_memcpy_check
 #define png_memset_check itk_png_memset_check
 #define png_mmx_support itk_png_mmx_support
+#define png_pass_dsp_mask itk_png_pass_dsp_mask
+#define png_pass_mask itk_png_pass_mask
+#define png_pass_yinc itk_png_pass_yinc
+#define png_pass_ystart itk_png_pass_ystart
+#define png_pass_inc itk_png_pass_inc
+#define png_pass_start itk_png_pass_start
 #define png_permit_empty_plte itk_png_permit_empty_plte
 #define png_process_IDAT_data itk_png_process_IDAT_data
 #define png_process_data itk_png_process_data
