@@ -62,7 +62,7 @@ struct ObjectIdentity
 {
   static To Convert(Anything in)
     {
-    return *static_cast<To*>(in.object);
+    return *reinterpret_cast<To*>(in.object);
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -79,7 +79,7 @@ struct ObjectDerivedToBase
 {
   static To Convert(Anything in)
     {
-    return static_cast<To>(*static_cast<From*>(in.object));
+    return static_cast<To>(*reinterpret_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -96,7 +96,7 @@ struct ConversionOperator
 {
   static To Convert(Anything in)
     {
-    return static_cast<From*>(in.object)->operator To();
+    return reinterpret_cast<From*>(in.object)->operator To();
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -113,7 +113,7 @@ struct ConversionByConstructor
 {
   static To Convert(Anything in)
     {
-    return To(*static_cast<From*>(in.object));
+    return To(*reinterpret_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -130,7 +130,7 @@ struct ObjectReinterpret
 {
   static To Convert(Anything in)
     {
-    return reinterpret_cast<To>(*static_cast<From*>(in.object));
+    return reinterpret_cast<To>(*reinterpret_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -185,7 +185,7 @@ struct PointerDerivedToBase
 {
   static To* Convert(Anything in)
     {
-    return static_cast<To*>(static_cast<From*>(in.object));
+    return static_cast<To*>(reinterpret_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -241,7 +241,7 @@ struct ReferenceDerivedToBase
 {
   static To& Convert(Anything in)
     {
-    return static_cast<To&>(*static_cast<From*>(in.object));
+    return static_cast<To&>(*reinterpret_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
