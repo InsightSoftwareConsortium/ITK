@@ -264,28 +264,34 @@ GetJacobian( const InputPointType & p ) const
 
   m_Jacobian.Fill(0.0);
 
+  const double px = p[0] - m_Center[0];
+  const double py = p[1] - m_Center[1];
+  const double pz = p[2] - m_Center[2];
+
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] = 2.0 * (  vx * p[0] + vy * p[1] + vz * p[2] );
-  m_Jacobian[0][1] = 2.0 * (- vy * p[0] + vx * p[1] + vw * p[2] );
-  m_Jacobian[0][2] = 2.0 * (- vz * p[0] - vw * p[1] + vx * p[2] );
-  m_Jacobian[0][3] = 2.0 * (  vw * p[0] - vz * p[1] + vy * p[2] );
+  m_Jacobian[0][0] = 2.0 * (  vx * px + vy * py + vz * pz );
+  m_Jacobian[0][1] = 2.0 * (- vy * px + vx * py + vw * pz );
+  m_Jacobian[0][2] = 2.0 * (- vz * px - vw * py + vx * pz );
 
   m_Jacobian[1][0] = - m_Jacobian[0][1];
   m_Jacobian[1][1] =   m_Jacobian[0][0];
-  m_Jacobian[1][2] = - m_Jacobian[0][3];
-  m_Jacobian[1][3] =   m_Jacobian[0][2];
+  m_Jacobian[1][2] = - 2.0 * (  vw * px - vz * py + vy * pz );
 
   m_Jacobian[2][0] = - m_Jacobian[0][2];
-  m_Jacobian[2][1] =   m_Jacobian[0][3];
+  m_Jacobian[2][1] = - m_Jacobian[1][2];
   m_Jacobian[2][2] =   m_Jacobian[0][0];
-  m_Jacobian[2][3] = - m_Jacobian[0][1];
 
 
   // compute derivatives for the rotation center 
   unsigned int blockOffset = 4;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    for(unsigned int j=0; j < SpaceDimension; j++ ) 
+      {
+      m_Jacobian[dim][j+blockOffset] = 
+                    -m_RotationMatrix[dim][j];
+      }
+    m_Jacobian[dim][dim+blockOffset] += 1.0;
     }
 
   // compute derivatives for the translation part
