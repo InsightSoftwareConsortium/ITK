@@ -49,7 +49,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 void
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::Initialize(SizeType size)
+::Initialize(const SizeType &size)
 {
   m_Size = size ;
   
@@ -82,13 +82,14 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
   // initialize the frequency container
   m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]) ;
+  this->SetFrequency(0.0f) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 void 
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::Initialize(SizeType size, MeasurementVectorType lowerBound,
+::Initialize(const SizeType &size, MeasurementVectorType lowerBound,
              MeasurementVectorType upperBound)
 {
   this->Initialize(size) ;
@@ -384,6 +385,22 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
 inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
+::SetFrequency(const FrequencyType value) 
+{
+  typename Self::Iterator iter = this->Begin() ;
+  typename Self::Iterator end = this->End() ;
+  
+  while ( iter != end )
+    {
+      iter.SetFrequency(value) ;
+      ++iter ;
+    }
+}
+
+template< class TMeasurement, unsigned int VMeasurementVectorSize, 
+          class TFrequencyContainer >
+inline void
+Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const IndexType &index, const FrequencyType value) 
 {
   this->SetFrequency(GetInstanceIdentifier(index), value) ;
@@ -475,15 +492,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetTotalFrequency(const unsigned int &dimension) const
 {
-  FrequencyType frequency = 0 ;
-  InstanceIdentifier n = 0 ;
-  const unsigned int size = this->Size(dimension) ;
-  while( n < size )
-    {
-      frequency += GetFrequency(n, dimension) ;
-      n++ ;
-    }
-  return frequency ;
+  return m_FrequencyContainer->GetTotalFrequency() ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 

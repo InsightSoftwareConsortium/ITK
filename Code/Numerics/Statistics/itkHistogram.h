@@ -113,7 +113,7 @@ public:
    * subclasses should call this method in their initialize() method
    * the overide methods have prepare the frequency container for
    * input and output. */
-  void Initialize(SizeType size) ;
+  void Initialize(const SizeType &size) ;
   
 
   /** Do the same thing as the above Initialize(SizeType) method do
@@ -121,7 +121,7 @@ public:
    * by lower and upper bound. If users want to assign bin's min and
    * max values along each dimension use SetBinMin() and SetBinMax()
    * functions*/
-  void Initialize(SizeType size, MeasurementVectorType lowerBound,
+  void Initialize(const SizeType &size, MeasurementVectorType lowerBound,
                   MeasurementVectorType upperBound) ;
 
   /** returns the index of histogram corresponding to measurement value */
@@ -227,6 +227,9 @@ public:
 
   /** returns frequency of a bin that is indexed by index */
   FrequencyType GetFrequency(const IndexType &index) const ;
+
+  /** Method to set the frequency of histogram */
+  void SetFrequency(const FrequencyType value) ;
 
   /** Method to set the frequency of histogram */
   void SetFrequency(const InstanceIdentifier &id, const FrequencyType value) 
