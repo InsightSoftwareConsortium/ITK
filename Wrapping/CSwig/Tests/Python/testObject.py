@@ -1,4 +1,3 @@
-from VXLNumericsPython import *
-from ITKCommonPython import *
+from InsightToolkit import *
 s = itkObject_New()
 
