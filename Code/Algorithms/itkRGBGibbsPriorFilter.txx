@@ -860,6 +860,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
      << m_CliqueWeight_3 << std::endl;
   os << indent << "CliqueWeight_4: "
      << m_CliqueWeight_4 << std::endl;
+  os << indent << "CliqueWeight_5: "
+     << m_CliqueWeight_5 << std::endl;
+  os << indent << "CliqueWeight_6: "
+     << m_CliqueWeight_6 << std::endl;
   os << indent << "ClusterSize: " 
      << m_ClusterSize << std::endl;
   os << indent << "ObjectLabel: " 
