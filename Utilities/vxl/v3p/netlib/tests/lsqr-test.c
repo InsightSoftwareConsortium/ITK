@@ -102,7 +102,9 @@ doublereal *rw;
 /*     work array W.  These are passed to APROD1 and APROD2 in order to   */
 /*     make the code readable.                                            */
 /*     ------------------------------------------------------------------ */
-
+  (void)leniw;
+  (void)lenrw;
+  (void)iw;
     if (*mode == 1)
         aprod1_(m, n, x, y, rw, &rw[*n], &rw[*n + *m], &rw[*n + *m + *n]);
     else

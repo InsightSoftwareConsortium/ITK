@@ -51,6 +51,7 @@ void lb1_(
   double *x, double *f, double *g, double *stp,
   int *finish /* logical*/)
 {
+  (void)m;
   --iprint;
 /* C*/
 /*IF (ITER.EQ.0)THEN*/

@@ -165,7 +165,7 @@ void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const 
 //  print_pointers(z, y, x, v, A, vcl_string("testE")+type+size);
 }
 
-int main(int argc, char *argv[])
+int main(int , char *[])
 {
   vcl_cout << "Range = 75%tile-25%tile\n";
   vnl_sample_reseed(12354);

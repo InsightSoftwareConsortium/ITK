@@ -30,7 +30,7 @@ doublereal *rdiag, *acnorm, *wa;
     static doublereal ajnorm;
     static integer jp1;
     static doublereal sum;
-
+    (void)lipvt;
 /*     ********** */
 
 /*     subroutine qrfac */

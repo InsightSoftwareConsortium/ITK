@@ -19,11 +19,13 @@
 
 #include <testlib/testlib_test.h>
 
+#if 0
 static void fsm_assert_(int lineno, bool pass, char const *expr) {
   vcl_cout << __FILE__ ":" << lineno << vcl_endl;
   testlib_test_assert(expr, pass);
 }
 #define fsm_assert(c) fsm_assert_(__LINE__, c, #c);
+#endif
 
 void test_matlab()
 {

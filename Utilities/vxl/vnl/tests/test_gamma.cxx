@@ -30,6 +30,8 @@ void test_gamma()
 
 MAIN( test_gamma )
 {
+  (void)argc;
+  (void)argv;
   START( "vnl_gamma functions" );
   test_gamma();
 

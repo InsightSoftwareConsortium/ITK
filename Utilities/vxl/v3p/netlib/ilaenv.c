@@ -13,7 +13,8 @@ const integer *n1, *n2, *n3, *n4;
     static char c1[1], c2[2], c3[3], c4[2];
     static integer ic, nb, iz, nx;
     static char subnam[6];
-
+    (void)opts;
+    (void)n3;
 
 /*  -- LAPACK auxiliary routine (version 2.0) -- */
 /*     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd., */
