@@ -497,6 +497,10 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       outputRegion.SetIndex( outputIndex );
       outputRegion.SetSize( outputSize );
 
+      // make sure the region is within the largest possible region
+      outputRegion.Crop( this->GetOutput( ilevel )->
+        GetLargestPossibleRegion() );
+      // set the requested region
       this->GetOutput( ilevel )->SetRequestedRegion( outputRegion );
     }
 

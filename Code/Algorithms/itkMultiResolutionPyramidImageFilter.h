@@ -273,10 +273,9 @@ protected:
 
   void GenerateData();
 
-private:
+  double          m_MaximumError; 
   unsigned int    m_NumberOfLevels;
   ScheduleType    m_Schedule;
-  double          m_MaximumError; 
 
 };
 
