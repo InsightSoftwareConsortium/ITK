@@ -18,6 +18,7 @@
 #define __itkConditionalIterator_h
 
 #include "itkIndex.h"
+#include "itkImage.h"
 
 namespace itk
 {
