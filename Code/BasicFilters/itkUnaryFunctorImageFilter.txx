@@ -139,12 +139,31 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-  while( !inputIt.IsAtEnd() ) 
+
+  try  // this try is intended to catch an eventual AbortException.
     {
-    outputIt.Set( m_Functor( inputIt.Get() ) );
-    ++inputIt;
-    ++outputIt;
-    progress.CompletedPixel();
+
+    while( !inputIt.IsAtEnd() ) 
+      {
+      outputIt.Set( m_Functor( inputIt.Get() ) );
+      ++inputIt;
+      ++outputIt;
+      progress.CompletedPixel();  // potential exception thrown here
+      }
+
+    }
+  catch( ProcessAborted  & except )
+    {
+    // User aborted filter excecution Here we catch an exception thrown by the
+    // progress reporter and rethrow it with the correct line number and file
+    // name. We also invoke AbortEvent in case some observer was interested on
+    // it.
+
+    this->InvokeEvent( AbortEvent() );
+
+    ProcessAborted abortException(__FILE__,__LINE__);
+    abortException.SetDescription("Filter execution was aborted by an external request");
+    throw abortException;
     }
 }
 
