@@ -21,7 +21,7 @@
 
 #include "dbh.h"
 #include <zlib.h>
-
+#include <stdio.h>
 #include <stdlib.h>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
@@ -1276,9 +1276,7 @@ namespace itk
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img";
-#if 0                           // problem under Borland C++
-        ::remove(unusedbaseimgname.c_str());
-#endif
+        std::remove(unusedbaseimgname.c_str());
       }
     else 
       {
@@ -1311,9 +1309,7 @@ namespace itk
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img.gz";
-#if 0                           // problem under Borland C++?
-        ::remove(unusedbaseimgname.c_str());
-#endif
+        std::remove(unusedbaseimgname.c_str());
       }
   }
 } // end namespace itk
