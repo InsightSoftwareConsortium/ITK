@@ -89,15 +89,20 @@ ImageConstIteratorWithIndex<TImage>
   m_Begin = m_Buffer + offs;
   
   // Compute the end offset
+  m_Remaining = false;
   IndexType pastEnd;
   for (unsigned int i=0; i < ImageDimension; ++i)
     {
-    m_EndIndex[i] = m_BeginIndex[i] + region.GetSize()[i];
-    pastEnd[i]    = m_BeginIndex[i] + region.GetSize()[i]-1;
+      unsigned int size = region.GetSize()[i];
+      if( size >= 0 )
+      {
+        m_Remaining = true;
+      }
+      m_EndIndex[i] = m_BeginIndex[i] + size;
+      pastEnd[i]    = m_BeginIndex[i] + size-1;
     }
   m_End = m_Buffer + m_Image->ComputeOffset( pastEnd );
   m_End++;
-  m_Remaining = true;
 
   m_DataAccessor = m_Image->GetDataAccessor();
 
