@@ -92,9 +92,10 @@ int main()
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
-    if ( iterator2.Get() != ((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
-                        + (region.GetSize()[0]
-                           * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
+    if ( iterator2.Get() != 
+         static_int<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+                          +(region.GetSize()[0]
+                          * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
       {
       passed = false;
       }
