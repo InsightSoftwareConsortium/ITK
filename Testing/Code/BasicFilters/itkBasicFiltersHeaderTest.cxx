@@ -36,6 +36,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRandomImageSource.h"
 #include "itkRawImageWriter.h"
 #include "itkRecursiveGaussianImageFilter.h"
+#include "itkRecursiveSeparableImageFilter.h"
 #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkSubtractImageFilter.h"
