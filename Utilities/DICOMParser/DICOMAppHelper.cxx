@@ -1,6 +1,7 @@
 
 #ifdef WIN32
 #pragma warning(disable:4786)
+#pragma warning(disable:4503)
 #endif
 
 
@@ -15,6 +16,15 @@
 #include <algorithm>
 
 //#define DEBUG_DICOM_APP_HELPER
+
+struct lt_pair_int_string
+{
+  bool operator()(const std::pair<int, std::string> s1, 
+                  const std::pair<int, std::string> s2) const
+  {
+    return s1.first < s2.first;
+  }
+};
 
 DICOMAppHelper::DICOMAppHelper()
 {
@@ -832,8 +842,7 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
        p.first = slice_number;
        v.push_back(p);
        }
-  std::sort(v.begin(), v.end());
-
+  std::sort(v.begin(), v.end(), lt_pair_int_string());
 }
 
 void DICOMAppHelper::ClearSliceNumberMap()
