@@ -334,18 +334,9 @@ void
 GoodnessOfFitComponentBase< TInputSample >
 ::Project(int projectionAxisIndex)
 {
-
-  //  std::cout << "DEBUG: projecting." << std::endl ;
-
-  //   std::cout << "DEBUG: projection axis " << projectionAxisIndex
-  //             << " vector = " << m_ProjectionAxes[projectionAxisIndex] ;
-
   m_Projector->SetMean(this->GetMean()) ;
   m_Projector->SetStandardDeviation(this->GetStandardDeviation()) ;
   m_Projector->SetProjectionAxis(&m_ProjectionAxes[projectionAxisIndex]) ;
-  //   std::cout << "DEBUG: projector mean  = " << (*m_Projector->GetMean())  
-  //             << " sigma = " << (*m_Projector->GetStandardDeviation())  
-  //             << " vector = " << (*m_Projector->GetProjectionAxis()) ; 
   m_Projector->Update() ;
 }
 
