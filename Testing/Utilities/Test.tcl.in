@@ -34,23 +34,52 @@ puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Sit
 puts $Out {<Testing>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
-# For the moment, walk the tree of directories and run the tests
 
-set Queue [glob [file join Testing *]]
-while { [llength $Queue] != 0 } \
+proc FindTests { Path } \
 {
-  # pop off first item
-  set Filename [lindex $Queue 0]
-  set Queue [lrange $Queue 1 end]
-
-  if { [file isdirectory $Filename] } \
+  global TestList
+  set Tests [GetCMakeVariable TESTS]
+  puts "Tests: $Tests"
+  foreach Test $Tests \
   {
-    catch { set Queue [concat $Queue [glob $Filename/*]] }
-    continue;
+    lappend TestList "[file join $Path $Test]"
   }
-  if { [file executable $Filename] } \
+  foreach SubDir [GetCMakeVariable SUBDIRS] \
   {
-    set Status [catch { exec $Filename } Result]
+    cd $SubDir
+    FindTests [file join $Path $SubDir]
+    cd ..
+  }
+}
+
+# Find the list of canidate tests
+set TestList ""
+set OldDir [pwd]
+cd $SourceDirectory
+FindTests .
+cd $OldDir
+
+
+# Write the list
+puts $Out "\t<TestList>"
+foreach Test $TestList \
+{
+  puts $Out "\t\t<Test>[XMLSafeString $Test]</Test>"
+}
+puts $Out "\t</TestList>"
+
+# For each test, cd to the directory, and run it.
+foreach Test $TestList \
+{
+  cd [file dirname $Test]
+
+  set Status notrun
+  set Result ""
+  set Filename [file tail $Test]
+  
+  if { [file exists $Filename] && [file executable $Filename] } \
+  {
+    set Status [catch { exec [file join . $Filename] } Result]
     if { $Status == 0 } \
     {
       set Status passed
@@ -59,16 +88,20 @@ while { [llength $Queue] != 0 } \
     {
       set Status failed
     }
-    puts $Out "\t<Test Status=\"$Status\">"
-    puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
-    puts $Out "\t\t<Results>"
-    puts $Out "\t\t\t<Measurement>"
-    puts $Out "\t\t\t\t<Value>[XMLSafeString $Result]</Value>"
-    puts $Out "\t\t\t</Measurement>"
-    puts $Out "\t\t</Results>"
-    puts $Out "\t</Test>"
-
   }
+  puts $Out "\t<Test Status=\"$Status\">"
+  puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
+  puts $Out "\t\t<Path>[XMLSafeString [file dirname $Test]]</Path>"
+  puts $Out "\t\t<FullName>[XMLSafeString $Test]</FullName>"
+  puts $Out "\t\t<Results>"
+  puts $Out "\t\t\t<Measurement>"
+  puts $Out "\t\t\t\t<Value>[XMLSafeString $Result]</Value>"
+  puts $Out "\t\t\t</Measurement>"
+  puts $Out "\t\t</Results>"
+  puts $Out "\t</Test>"
+
+  cd $OldDir
+
 }
 
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
