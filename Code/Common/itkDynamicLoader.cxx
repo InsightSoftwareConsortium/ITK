@@ -234,11 +234,11 @@ DynamicLoader
 		NULL 
 		);
   
-  // Free the buffer.
-  LocalFree( lpMsgBuf );
   static char* str = 0;
   delete [] str;
   str = strcpy(new char[strlen((char*)lpMsgBuf)+1], (char*)lpMsgBuf);
+  // Free the buffer.
+  LocalFree( lpMsgBuf );
   return str;
 }
 
