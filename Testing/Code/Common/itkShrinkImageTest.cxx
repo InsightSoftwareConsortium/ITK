@@ -21,14 +21,16 @@ See COPYRIGHT.txt for copyright details.
 
 void main()
 {
+  // typedefs to simplify the syntax
+  typedef itk::Image<itk::Scalar<short>, 2>   ShortImage;
+
   // Test the creation of an image with native type
-  itk::Image<itk::Scalar<short>,2>::Pointer
-    if2 = itk::Image<itk::Scalar<short>,2>::New();
+  ShortImage::Pointer if2 = ShortImage::New();
 
   // fill in an image
-  itk::Image<itk::Scalar<short>,2>::Index index = {0, 0};
-  itk::Image<itk::Scalar<short>,2>::Size size = {8, 12};
-  itk::Image<itk::Scalar<short>,2>::Region region;
+  ShortImage::Index  index = {0, 0};
+  ShortImage::Size   size = {8, 12};
+  ShortImage::Region region;
   region.SetSize( size );
   region.SetIndex( index );
   if2->SetLargestPossibleRegion( region );
@@ -44,8 +46,8 @@ void main()
     }
   
   // Create a filter
-  itk::ShrinkImage< itk::Image<itk::Scalar<short>,2>, itk::Image<itk::Scalar<short>,2> >::Pointer shrink;
-  shrink = itk::ShrinkImage< itk::Image<itk::Scalar<short>,2>, itk::Image<itk::Scalar<short>,2> >::New();
+  itk::ShrinkImage< ShortImage, ShortImage >::Pointer shrink;
+  shrink = itk::ShrinkImage< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
   shrink->SetShrinkFactor(2);
   shrink->Update();
@@ -54,7 +56,7 @@ void main()
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  itk::Image<itk::Scalar<short>, 2>::Region requestedRegion;
+  ShortImage::Region requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   
   itk::ImageRegionIterator<itk::Scalar<short>, 2>
