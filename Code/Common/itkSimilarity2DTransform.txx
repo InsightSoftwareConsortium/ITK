@@ -112,8 +112,11 @@ Similarity2DTransform<TScalarType>
   const double cx = cos(m_Angle);
   const double sx = sin(m_Angle);
 
-  m_RotationMatrix[0][0]=cx;m_RotationMatrix[0][1]=sx;
-  m_RotationMatrix[1][0]=-sx;m_RotationMatrix[1][1]=cx;
+  const double cxz = cx * m_Scale;
+  const double sxz = sx * m_Scale;
+
+  m_RotationMatrix[0][0] =  cxz;  m_RotationMatrix[0][1] = sxz;
+  m_RotationMatrix[1][0] = -sxz;  m_RotationMatrix[1][1] = cxz;
 
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
@@ -130,10 +133,18 @@ GetJacobian( const InputPointType & p ) const
   const double cx = cos(m_Angle);
   const double sx = sin(m_Angle);
 
+  const double cxz = cx * m_Scale;
+  const double sxz = sx * m_Scale;
+
   m_Jacobian.Fill(0.0);
 
-  m_Jacobian[0][0] = -sx; m_Jacobian[0][1] = cx;
-  m_Jacobian[1][0] = -cx; m_Jacobian[1][1] = -sx;
+  // derivatives with respect to the angle
+  m_Jacobian[0][0] = -sxz * p[0] + cxz * p[1]; 
+  m_Jacobian[1][0] = -cxz * p[0] - sxz * p[1];
+
+  // derivatives with respect to the scale
+  m_Jacobian[0][1] =  cx  * p[0] + sx  * p[1]; 
+  m_Jacobian[1][1] = -sx  * p[0] + cx  * p[1];
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 2;  
