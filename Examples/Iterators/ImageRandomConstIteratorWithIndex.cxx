@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \code{itk::ImageRandomConstIteratorWithIndex} was developed to randomly
+// \doxygen{ImageRandomConstIteratorWithIndex} was developed to randomly
 // sample pixel values.  When incremented or decremented, it jumps to a random
 // location in its image region.
 //
@@ -29,12 +29,12 @@
 // \code{true} when the current sample number equals the sample size.
 // \code{IsAtBegin()} returns \code{true} when the current sample number equals
 // zero.  Another important difference from other iterators is that
-// \code{itk::ImageRandomConstIteratorWithIndex} may visit the same pixel
+// \doxygen{ImageRandomConstIteratorWithIndex} may visit the same pixel
 // location more than once.
 //
 // \index{itk::ImageRandomConstIteratorWithIndex!example of using|(}
 // \index{itk::ImageRandomConstIteratorWithIndex!and statistics}
-// Let's use the random iterator to calculate some simple image statistics. The next
+// Let's use the random iterator to estimate some simple image statistics. The next
 // example calculates an estimate of the arithmetic mean of pixel values.
 //
 // First, include the appropriate header and declare pixel and image types.
@@ -127,6 +127,7 @@ int main( int argc, char ** argv )
 // \code{Insight/Examples/Data} with a range of sample sizes.
 //
 // \begin{table}
+// \begin{center}
 // \begin{tabular}[]{rc|c|c|c}
 // & \multicolumn{4}{c}{\emph{Sample Size}} \\
 // & \code{\textbf{10}} & \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\
@@ -139,6 +140,7 @@ int main( int argc, char ** argv )
 // \caption[Estimating mean image value with
 // ImageRandomConstIteratorWithIndex]{Estimates of mean image pixel value
 // using the ImageRandomConstIteratorWithIndex at different sample sizes.}
+// \end{center}
 // \end{table}
 //
 // \index{itk::ImageRandomConstIteratorWithIndex!example of using|)}
