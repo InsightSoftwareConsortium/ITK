@@ -1,0 +1,310 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkExpectationMaximizationMixtureModelEstimator.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkExpectationMaximizationMixtureModelEstimator_txx
+#define __itkExpectationMaximizationMixtureModelEstimator_txx
+
+#include "itkExpectationMaximizationMixtureModelEstimator.h"
+
+namespace itk{ 
+namespace Statistics{
+  
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::ExpectationMaximizationMixtureModelEstimator()
+{
+  m_TerminationCode = NOT_CONVERGED ;
+}
+ 
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent) ;
+}
+
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::SetMaximumIteration(int numberOfIterations) 
+{
+  m_MaxIteration = numberOfIterations ;
+}
+
+template< class TSample >
+int
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetMaximumIteration() 
+{
+  return m_MaxIteration ;
+}
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::SetInitialProportions(ProportionVectorType* proportions) 
+{
+  m_InitialProportions = proportions ;
+}
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetInitialProportions() 
+{
+  return m_InitialProportions ;
+}
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetProportions() 
+{
+  return &m_Proportions ;
+}
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::SetSample(SamplePointer sample) 
+{
+  m_Sample = sample ;
+}
+
+template< class TSample >
+int
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::AddComponent(ComponentPointer component)
+{
+  m_ComponentVector.push_back(component) ;
+  component->SetSample(m_Sample) ;
+}
+
+template< class TSample >
+int
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetNumberOfComponents()
+{
+  return m_ComponentVector.size() ;
+}
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::TERMINATION_CODE
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetTerminationCode()
+{
+  return m_TerminationCode ;
+}
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionPointer 
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetComponentMembershipFunction(int componentIndex)
+{
+  return (m_ComponentVector[componentIndex])->GetMembershipFunction() ;
+}
+
+
+template< class TSample >
+bool
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::CalculateDensities()
+{
+  bool componentModified  = false ;
+
+  for (int i = 0 ; i < m_ComponentVector.size() ; i++)
+    {
+      if ( (m_ComponentVector[i])->AreParametersModified() )
+        {
+          componentModified = true ;
+        }
+    }
+
+  if (!componentModified)
+    {
+      return false ;
+    }
+
+  long measurementVectorIndex ;
+  int componentIndex ;
+  double density ;
+  double densitySum ;
+  typename TSample::Iterator iter = m_Sample->Begin() ;
+  typename TSample::Iterator last = m_Sample->End() ;
+  measurementVectorIndex = 0 ;
+  double temp ;
+  int numberOfComponents = m_ComponentVector.size() ;
+
+  while (iter != last)
+    {
+      densitySum = 0.0 ;
+      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+           componentIndex++)
+        {
+          density = m_Proportions[componentIndex] *
+            m_ComponentVector[componentIndex]->Evaluate(iter.GetMeasurementVector()) ;
+          m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                       density) ;
+          densitySum += density ;
+        }
+      
+      for (componentIndex = 0 ; componentIndex < numberOfComponents ; 
+           componentIndex++)
+        {
+          temp = m_ComponentVector[componentIndex]->
+            GetWeight(measurementVectorIndex) ;
+          temp /= densitySum ;
+          m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
+                                                       temp) ; 
+        }
+
+      ++iter ;
+      ++measurementVectorIndex ;
+    }
+  
+  return true ;
+}
+
+template< class TSample >
+double
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::CalculateExpectation()
+{
+  int componentIndex, measurementVectorIndex ;
+  long size = m_Sample->Size() ;
+  double logProportion ;
+  double sum = 0.0 ;
+  double temp = 0.0 ;
+  for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
+       componentIndex++)
+    {
+      logProportion = log(m_Proportions[componentIndex]) ; 
+      for (measurementVectorIndex = 0 ; measurementVectorIndex < size ;
+           measurementVectorIndex++)
+        {
+          temp = m_ComponentVector[componentIndex]->
+            GetWeight(measurementVectorIndex) ;
+          sum += 
+            temp * ( logProportion + 
+                     log( m_ComponentVector[componentIndex]->
+                          GetWeight(measurementVectorIndex) ) ) ;
+        }
+    }
+  return sum ;
+}
+
+template< class TSample >
+bool
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::UpdateComponentParameters()
+{
+  int componentIndex ;
+  bool updated = false ;
+  ComponentPointer component ;
+
+  for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
+       componentIndex++)
+    {
+      component = m_ComponentVector[componentIndex] ;
+      component->Update() ;
+      if (component->AreParametersModified())
+        {
+          updated = true ;
+        }
+    }
+
+  return updated ;
+}
+
+template< class TSample >
+bool
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::UpdateProportions()
+{
+  int numberOfComponents = m_ComponentVector.size() ;
+  double sampleSize = m_Sample->Size() ;
+  long i, j ;
+  double tempSum ;
+  bool updated = false ;
+
+  for (i = 0 ; i < numberOfComponents ; i++)
+    {
+      tempSum = 0.0 ;
+      for (j = 0 ; j < sampleSize ; j++)
+        {
+          tempSum += m_ComponentVector[i]->GetWeight(j) ;
+        }
+
+      tempSum /= sampleSize ;
+
+      if (tempSum != m_Proportions[i])
+        {
+          m_Proportions[i] = tempSum ;
+          updated = true ;
+        }
+    }
+
+  return updated ;
+}
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GenerateData() 
+{
+  m_Proportions = *m_InitialProportions ;
+
+  int iteration = 0 ;
+
+  while (iteration < m_MaxIteration)
+    {
+      if (this->CalculateDensities())
+        {
+          this->UpdateComponentParameters() ;
+          this->UpdateProportions() ;
+        }
+      else
+        {
+          m_TerminationCode = CONVERGED ;
+          break ;
+        }
+      ++iteration ;
+    }
+  
+  m_TerminationCode = NOT_CONVERGED ;
+}
+
+template< class TSample >
+void 
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::Update()
+{
+  this->GenerateData() ;
+}
+ 
+} // end of namespace Statistics 
+} // end of namespace itk
+
+#endif
+
+
+
+
+
+
+

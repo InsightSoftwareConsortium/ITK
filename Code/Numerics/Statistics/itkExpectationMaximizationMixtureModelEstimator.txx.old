@@ -1,0 +1,302 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkExpectationMaximizationMixtureModelEstimator.txx.old
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkExpectationMaximizationMixtureModelEstimator_txx
+#define __itkExpectationMaximizationMixtureModelEstimator_txx
+
+#include "itkExpectationMaximizationMixtureModelEstimator.h"
+
+namespace itk{ 
+namespace Statistics{
+  
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::ExpectationMaximizationMixtureModelEstimator()
+{
+  m_TerminationCode = NOT_CONVERGED ;
+}
+ 
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent) ;
+}
+
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::SetSample(SamplePointer sample) 
+{
+  m_Sample = sample ;
+}
+
+template< class TSample >
+int
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::AddComponent(ComponentPointer component)
+{
+  m_ComponentVector.push_back(component) ;
+}
+
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::SetComponentParameterEstimator(int componentIndex, int parameterIndex, 
+                                 ComponentParameterEstimatorPointer 
+                                 estimator)
+{
+  if (m_Estimators.find(componentIndex) == m_Estimators.end())
+    {
+      ComponentEstimatorMap componentEstimatorMap ;
+      componentEstimatorMap[parameterIndex] = estimator ;
+      estimator->SetMixtureEstimator(this) ;
+      estimator->SetComponentIndex(componentIndex) ;
+      m_Estimators[componentIndex] = componentEstimatorMap ;
+    }
+  else 
+    {
+      estimator->SetMixtureEstimator(this) ;
+      estimator->SetComponentIndex(componentIndex) ;
+      (m_Estimators[componentIndex].second)[parameterIndex] = estimator ;
+    }
+}
+
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::TERMINATION_CODE
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetTerminationCode()
+{
+  return m_TerminationCode ;
+}
+
+template< class TSample >
+ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentPointer 
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetComponent(int componentIndex)
+{
+  return m_ComponentVector[componentIndex] ;
+}
+
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::CalculateDensities()
+{
+  long measurementVectorIndex ;
+  int componentIndex ;
+  double density ;
+  double densitySum ;
+  SampleType::Iterator iter = m_Sample->Begin() ;
+  SampleType::Iterator last = m_Sample->End() ;
+  measurementVectorIndex = 0 ;
+  m_ClassConditionalProbabilitySums.fill(0.0) ;
+  while (iter != last)
+    {
+      densitySum = 0 ;
+      for (componentIndex = 0 ; componentIndex < m_Components.size() ; 
+           componentIndex++)
+        {
+          density = 
+            m_ComponentVector[componentIndex]->Evaluate(iter.GetMeasurementVector()) ;
+          m_DensityMatrix.put(measurementVectorIndex, componentIndex,
+                              density) ; 
+          density *= m_Proportions[componentIndex] ;
+          m_ClassConditionalProbabilityMatrix.put(measurementVectorIndex, 
+                                                  componentIndex,
+                                                  density) ;
+          densitySum += density ;
+        }
+      
+      for (componentIndex = 0 ; componentIndex < m_Components.size() ; 
+           componentIndex++)
+        {
+          m_ClassConditionalProbabilityMatrix.put(measurementVectorIndex, 
+                                                  componentIndex, 
+           m_ClassConditionalProbabilityMatrix.get(measurementVectorIndex, 
+                                                   componentIndex) /
+                                                  densitySum) ; 
+          m_ClassConditionalProbabilitySums[componentIndex] += 
+            m_ClassConditionalProbabilityMatrix.get(measurementVectorIndex,
+                                                    componentIndex) ;
+        }
+
+      ++iter ;
+      ++measurementVectorIndex ;
+    }
+}
+
+template< class TSample >
+double
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetClassConditionalProbability(int componentIndex, 
+                                 int measurementVectorIndex)
+{
+  return m_ClassConditionalProbabilityMatrix.get(measurementVectorIndex,
+                                                 componentIndex) ;
+}
+
+template< class TSample >
+double
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetClassConditionalProbabilitySum(int componentIndex)
+{
+  return m_ClassConditionalProbabilitySums[componentIndex] ;
+}
+
+template< class TSample >
+double
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::CalculateExpectation()
+{
+  int componentIndex, measurementVectorIndex ;
+  long size = m_Sample->Size() ;
+  double logProportion ;
+  double sum = 0.0 ;
+  double temp = 0.0 ;
+  for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
+       componentIndex++)
+    {
+      logProportion = log(m_Proportions[componentIndex]) ; 
+      for (measurementVectorIndex = 0 ; measurementVectorIndex < size ;
+           measurementVectorIndex++)
+        {
+          temp = 
+            m_ClassConditionalProbabilityMatrix.get(measurementVectorIndex,
+                                                    componentIndex) ;
+          sum += temp * (logProportion + 
+            log(m_DensityMatrix.get(measurementVectorIndex, componentIndex))) ;
+        }
+    }
+  return sum ;
+}
+
+template< class TSample >
+bool
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::UpdateComponentParameters()
+{
+  int componentIndex ;
+  int parameterIndex ;
+  int numberOfParameters ;
+  vnl_vector< double > tempParameter ;
+  ComponentEstimatorPointer estimator ;
+  bool updated = false ;
+  for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
+       componentIndex++)
+    {
+      numberOfParameters = (m_ComponentVector[componentIndex])->
+        GetNumberOfParameters() ;
+      for (parameterIndex = 0 ; parameterIndex < numberOfParameters ;
+           parameterIndex++)
+        {
+          estimator = m_EstimatorMap[componentIndex][parameterIndex] ;
+          estimator->GenerateData() ;
+          tempParameter = estimator->GetOutput() ;
+          if (tempParameter != (m_ComponentVector[componentIndex])->
+              GetParameter(parameterIndex)) 
+            {
+              updated = true ;
+              (m_ComponentVector[componentIndex])->
+                SetParameter(parameterIndex, tempParameter) ;
+            }
+        }
+    }
+}
+
+template< class TSample >
+bool
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::UpdateProportions()
+{
+  int numberOfComponents = m_ComponentVector.size() ;
+  int sampleSize = m_Sample->Size() ;
+  long i, j, k ;
+  double tempSum ;
+  bool updated = false ;
+  for (i = 0 ; i < numberOfComponents ; i++)
+    {
+      tempSum = 0.0 ;
+      for (j = 0 ; j < sampleSize ; j++)
+        {
+          tempSum += m_ClassConditionalProbabilityMatrix.get(j, i) ;
+        }
+      tempSum /= double(sampleSize) ;
+      if (tempSum != m_Proportion[i])
+        {
+          m_Proportion[i] = tempSum / double(sampleSize) ;
+          updated = true ;
+        }
+    }
+}
+
+template< class TSample >
+void
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GenerateData() 
+{
+  m_DensityMatrix.resize(m_Sample->Size(), m_ComponentVector.size()) ;
+  m_ClassConditionalProbabilityMatrix(m_Sample->Size(), 
+                                      m_ComponentVector.size()) ;
+  m_Proportions.resize(m_ComponentVector.size()) ;
+  m_ClassConditionalProbabilitySums.resize(m_ComponentVector.size()) ;
+
+  bool proportionUpdated ;
+  bool componentParametersUpdated ;
+  int iteration = 0 ;
+  while (!proportionUpdated && !componentParametersUpdated && 
+         (iteration < m_MaxIteration))
+    {
+      this->CalculateDensities() ;
+      componentParametersUpdated = this->UpdateComponentParameters() ;
+      proportionUpdated = this->UpdateProportions() ;
+      ++iteration ;
+    }
+
+  if (!proprtionUpdated && !componentParametersUpdated)
+    {
+      m_TerminationCode = CONVERGED ;
+    }
+  else
+    {
+      m_TerminationCode = NOT_CONVERGED ;
+    }
+}
+
+template< class TSample >
+void 
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::Update()
+{
+  this->GenerateData() ;
+}
+ 
+} // end of namespace Statistics 
+} // end of namespace itk
+
+#endif
+
+
+
+
+
+
+
