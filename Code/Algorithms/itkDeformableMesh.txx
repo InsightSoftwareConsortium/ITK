@@ -131,17 +131,17 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
 		if (cos(u) > 0) {signu = 1;} else {signu = -1;}
 		if (cos(v) > 0) {signv = 1;} else {signv = -1;}
 
-		p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), 1.0))*signv* 
-			(pow((float)(fabs(cos(v))), 1.0)) + m_Center[0]; 
+		p1[0] = m_Scale[0]*signu*(pow((float)(fabs(cos(u))), 1.0f))*signv* 
+			(pow((float)(fabs(cos(v))), 1.0f)) + m_Center[0]; 
 
 		if (sin(v) > 0) {signv = 1;} else {signv = -1;}
 
-		p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), 1.0))*signv* 
-			(pow((float)(fabs(sin(v))), 1.0)) + m_Center[1]; 
+		p1[1] = m_Scale[1]*signu*(pow((float)(fabs(cos(u))), 1.0f))*signv* 
+			(pow((float)(fabs(sin(v))), 1.0f)) + m_Center[1]; 
 				  
 		if (sin(u) > 0) {signu = 1;} else {signu = -1;}
 
-		p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))),1.0)) + 
+		p1[2] = m_Scale[2]*signu*(pow((float)(fabs(sin(u))),1.0f)) + 
 			m_Center[2];
 	  
 		point.Value() = p1;
@@ -150,21 +150,21 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
   }   
 
 // calculate the south pole node
-  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0))* 
-	  (pow((float)(fabs(cos(0.0))),1.0)) + m_Center[0]); 
-  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0))* 
-      (pow((float)(fabs(sin(0.0))),1.0)) + m_Center[1]); 
-  p1[2] = (m_Scale[2]*-1*(pow((float)(fabs(sin(-vnl_math::pi/2))),1.0)) 
+  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0f))* 
+	  (pow((float)(fabs(cos(0.0))),1.0f)) + m_Center[0]); 
+  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(-vnl_math::pi/2))),1.0f))* 
+      (pow((float)(fabs(sin(0.0))),1.0f)) + m_Center[1]); 
+  p1[2] = (m_Scale[2]*-1*(pow((float)(fabs(sin(-vnl_math::pi/2))),1.0f)) 
 	  + m_Center[2]);
   point.Value() = p1;
   ++point;
 
 // calculate the north pole node
-  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0))* 
+  p1[0] = (m_Scale[0]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0f))* 
 	  (pow(fabs(cos(0.0)),1.0)) + m_Center[0]); 
-  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0))* 
+  p1[1] = (m_Scale[1]*(pow((float)(fabs(cos(vnl_math::pi/2))),1.0f))* 
 	  (pow(fabs(sin(0.0)),1.0)) + m_Center[1]); 
-  p1[2] = (m_Scale[2]*(pow((float)(fabs(sin(vnl_math::pi/2))),1.0)) 
+  p1[2] = (m_Scale[2]*(pow((float)(fabs(sin(vnl_math::pi/2))),1.0f)) 
 	  + m_Center[2]);
   point.Value() = p1;
   ++point;
