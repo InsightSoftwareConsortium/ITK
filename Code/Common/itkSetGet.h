@@ -25,6 +25,7 @@ See COPYRIGHT.txt for copyright details.
 
 #ifndef __itkSetGet_h
 #define __itkSetGet_h
+
 #include <string>
 #include "itkWin32Header.h"
 //
@@ -139,8 +140,8 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
              << this->GetClassName() << " (" << this << "): " x  \
              << "\n\n" << ends; \
       itkmsgbuff = itkmsg.str(); \
-      itkOutputWindowDisplayText(itkmsgbuff);\
-      itkmsg.rdbuf()->freeze(0);}
+      itkOutputWindowDisplayText(itkmsgbuff); \
+      itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
 

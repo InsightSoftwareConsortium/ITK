@@ -45,5 +45,13 @@ template <class TOutputImage>
 void itkRandomImageSource<TOutputImage>
 ::Execute()
 {
-  itkDebugMacro(<<"Actually executing");
+  TOutputImage *image=this->GetOutput(0);
+  TOutputImage::Index ind;
+  long index[2];
+
+  itkDebugMacro(<<"Generating random image");
+  
+  index[0] = 0;
+  index[1] = 0;
+  ind.SetIndex(index);
 }

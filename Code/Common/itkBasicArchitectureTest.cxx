@@ -17,7 +17,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
-#include "itkRandomImage.h"
+#include "itkRandomImageSource.h"
 #include "itkShrinkImage.h"
 #include "itkVTKImageWriter.h"
 #include "itkVTKImageReader.h"
@@ -120,8 +120,8 @@ int main()
   reader->SetFileName("junkInput.vtk");
 
   // Create a source
-  itkRandomImage< itkImage<itkScalar<float>,2> >::Pointer random;
-  random = itkRandomImage< itkImage<itkScalar<float>,2> >::New();
+  itkRandomImageSource< itkImage<itkScalar<float>,2> >::Pointer random;
+  random = itkRandomImageSource< itkImage<itkScalar<float>,2> >::New();
 
   // Create a filter
   itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;

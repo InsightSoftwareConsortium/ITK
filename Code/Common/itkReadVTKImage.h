@@ -33,6 +33,11 @@ public:
   typedef itkSmartPointer< itkVTKImageReader<TOutputImage> > Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkVTKImageReader,itkImageSource);
+
+  /** 
    * Create the source with one output initially.
    */
   static Pointer New();

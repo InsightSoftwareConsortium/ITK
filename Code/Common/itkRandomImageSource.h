@@ -35,7 +35,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  vtkTypeMacro(itkRandomImageSourceSource,itkImageSource);
+  itkTypeMacro(itkRandomImageSource,itkImageSource);
 
   /** 
    * Create the source with one output initially.
