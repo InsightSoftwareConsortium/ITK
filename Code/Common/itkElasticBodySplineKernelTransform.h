@@ -63,49 +63,98 @@ namespace itk
  */
 template <class TScalarType = double,   // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions
-class ElasticBodySplineKernelTransform : public KernelTransform<TScalarType, NDimensions,
-                                                  vnl_vector<TScalarType>,
-                                                  vnl_matrix<TScalarType> >
+class ElasticBodySplineKernelTransform : 
+          public KernelTransform<  TScalarType, 
+                                   NDimensions,
+                                   vnl_vector<TScalarType>,
+                                   vnl_matrix<TScalarType>   >
 {
 public:
+  
   /**
    * Standard Self typedef
    */
   typedef ElasticBodySplineKernelTransform<TScalarType, NDimensions> Self;
+
+
   /**
    * Standard Superclass typedef
    */
-  typedef KernelTransform< TScalarType, NDimensions,
-                           vnl_vector<TScalarType>, 
-                           vnl_matrix<TScalarType> > Superclass;
+  typedef KernelTransform<  TScalarType, 
+                            NDimensions,
+                            vnl_vector<TScalarType>, 
+                            vnl_matrix<TScalarType>      > Superclass;
+
+                            
+  /// Dimension of the domain space
+  enum { SpaceDimension = Superclass::SpaceDimension };
+
+
+  /** 
+   * Smart pointer typedef support 
+   */
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro( ThinPlateSplineKernelTransform, KernelTransform );
+
+
+  /** 
+   * New macro for creation of through a Smart Pointer
+   */
+  itkNewMacro( Self );
+
+
+
   /**
    * Set alpha
    */
-	void SetAlpha(const TScalarType newAlpha);
+	void SetAlpha(TScalarType newAlpha);
+  
+
   /**
    * Get alpha
    */
-  TScalarType GetAlpha() const;
+  TScalarType GetAlpha(void) const;
+  
+  
   /**
    * These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited
    */
-  typedef typename Superclass::VectorType VectorType;
+  typedef typename Superclass::InputPointType  InputPointType;
+  typedef typename Superclass::OutputPointType  OutputPointType;
+  typedef typename Superclass::InputVectorType InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  
+  
+protected:
+
+  
   /**
    * Default constructor
    */
   ElasticBodySplineKernelTransform();
+
+  
   /**
    * Destructor
    */
   virtual ~ElasticBodySplineKernelTransform();
 
-protected:
+  
   /**
    * These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited
    */
   typedef typename Superclass::GMatrixType GMatrixType;
+
 
   /**
    * Compute G(x)
@@ -116,11 +165,15 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * I = identity matrix
    */
-  GMatrixType ComputeG(const VectorType& x) const;
+  GMatrixType ComputeG(const InputVectorType& x) const;
+  
+
   /**
    * alpha, Poisson's ratio
    */
   TScalarType m_Alpha;
+
+  
 };
 
 } // namespace itk
