@@ -160,7 +160,7 @@ public:
    * \sa IsInside()
    *
    */
-   PixelType Evaluate( void ) const; 
+   double Evaluate( void ) const; 
 
    /**
     * Test whether the specified point is inside of
@@ -178,7 +178,7 @@ protected:
   IndexType                 m_Start;
   SizeType                  m_Size;
   InterpolatorPointer       m_Interpolator;
-  mutable IndexType         m_CurrentIndex;
+  mutable PointType         m_CurrentPoint;
 
   ImageMapper();
   ~ImageMapper(){};

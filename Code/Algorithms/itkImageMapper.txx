@@ -75,20 +75,20 @@ ImageMapper<TImage,TTransformation>
 
   for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
   {
-    m_CurrentIndex[j] =  mappedPoint[j] / m_Spacing[j] ;
+    m_CurrentPoint[j] =  mappedPoint[j] / m_Spacing[j] ;
   }
    
   bool value = true;
   for( unsigned int i = 0; i < TImage::ImageDimension; i++ )
   {
     
-    if( m_CurrentIndex[i] < m_Start[i] )
+    if( m_CurrentPoint[i] < m_Start[i] )
     { 
       value = false;
       break;
     }
     
-    if( m_CurrentIndex[i] >= m_Start[i] + m_Size[i] ) 
+    if( m_CurrentPoint[i] >= m_Start[i] + m_Size[i] ) 
     {
       value = false;
       break;
@@ -106,12 +106,12 @@ ImageMapper<TImage,TTransformation>
  * Evaluate the image at some point
  */
 template <class TImage, class TTransformation> 
-typename ImageMapper<TImage,TTransformation>::PixelType
+double
 ImageMapper<TImage,TTransformation>
 ::Evaluate( void ) const
 { 
 
-  const double value = m_Interpolator->Evaluate( m_CurrentIndex );
+  const double value = m_Interpolator->Evaluate( m_CurrentPoint );
 
   return value;
 
