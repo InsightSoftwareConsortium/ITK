@@ -69,20 +69,20 @@ public:
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::FixedImageType           FixedImageType;
   typedef typename Superclass::MovingImageType          MovingImageType;
-  typedef typename Superclass::FixedImagePointer        FixedImagePointer;
-  typedef typename Superclass::MovingImagePointer       MovingImagePointer;
+  typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
+  typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
 
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( const TransformParametersType & parameters,
-                            DerivativeType & derivative );
+                            DerivativeType & derivative ) const;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue( const TransformParametersType & parameters );
+  MeasureType GetValue( const TransformParametersType & parameters ) const;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative( const TransformParametersType & parameters,
-                              MeasureType& Value, DerivativeType& Derivative );
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
 protected:
   MeanSquaresImageToImageMetric();

@@ -63,11 +63,11 @@ public:
 
   /**  Type of the moving Image. */
   typedef TMovingImage                               MovingImageType;
-  typedef typename MovingImageType::ConstPointer     MovingImagePointer;
+  typedef typename MovingImageType::ConstPointer     MovingImageConstPointer;
 
   /**  Type of the fixed Image. */
   typedef TFixedImage                                FixedImageType;
-  typedef typename FixedImageType::ConstPointer      FixedImagePointer;
+  typedef typename FixedImageType::ConstPointer      FixedImageConstPointer;
 
 
   /**  Type of the Transform Base class */
@@ -121,17 +121,11 @@ public:
   /** Get a pointer to the Interpolator.  */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
-  /** Get the match measure value. */
-  itkGetMacro( MatchMeasure, MeasureType );
-
-  /** Get the derivatives of the match measure. */
-  itkGetMacro( MatchMeasureDerivatives, DerivativeType );
-
   /** Get the number of pixels considered in the computation. */
   itkGetMacro( NumberOfPixelsCounted, unsigned long );
 
   /** Set the parameters defining the Transform. */
-  void SetTransformParameters( const ParametersType & parameters );
+  void SetTransformParameters( const ParametersType & parameters ) const;
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 
@@ -146,15 +140,12 @@ protected:
   virtual ~ImageToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  mutable unsigned long       m_NumberOfPixelsCounted;
 
-  MeasureType                 m_MatchMeasure;
-  DerivativeType              m_MatchMeasureDerivatives;
-  unsigned long               m_NumberOfPixelsCounted;
+  FixedImageConstPointer      m_FixedImage;
+  MovingImageConstPointer     m_MovingImage;
 
-  FixedImagePointer           m_FixedImage;
-  MovingImagePointer          m_MovingImage;
-
-  TransformPointer            m_Transform;
+  mutable TransformPointer    m_Transform;
   InterpolatorPointer         m_Interpolator;
 
 private:

@@ -30,10 +30,6 @@ template <class TFixedImage, class TMovingImage>
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::MeanSquaresImageToImageMetric()
 {
-  m_MatchMeasure = NumericTraits<double>::Zero;
-  m_MatchMeasureDerivatives = 
-     DerivativeType(FixedImageType::ImageDimension);
-  m_MatchMeasureDerivatives.Fill( NumericTraits<double>::Zero );
 }
 
 /**
@@ -42,10 +38,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 template <class TFixedImage, class TMovingImage> 
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
-::GetValue( const TransformParametersType & parameters )
+::GetValue( const TransformParametersType & parameters ) const
 {
 
-  FixedImagePointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->GetFixedImage();
 
   if( !fixedImage ) 
     {
@@ -68,7 +64,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   typename FixedImageType::IndexType index;
 
-  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+  MeasureType measure = NumericTraits< MeasureType >::Zero;
 
   m_NumberOfPixelsCounted = 0;
 
@@ -90,13 +86,13 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       FixedValue     = ti.Get();
       m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue; 
-      m_MatchMeasure += diff * diff; 
+      measure += diff * diff; 
       }
 
     ++ti;
     }
 
-  return m_MatchMeasure;
+  return measure;
 
 }
 
@@ -111,13 +107,14 @@ template < class TFixedImage, class TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters,
-                       DerivativeType & derivative  )
+                       DerivativeType & derivative  ) const
 {
 
   const double delta = 0.00011;
   TransformParametersType testPoint;
   testPoint = parameters;
 
+  derivative = DerivativeType( this->GetNumberOfParameters() );
   const unsigned int dimension = FixedImageType::ImageDimension;
   for( unsigned int i=0; i<dimension; i++) 
     {
@@ -125,11 +122,9 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     const MeasureType valuep0 = this->GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = this->GetValue( testPoint );
-    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
+    derivative[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     testPoint[i] = parameters[i];
     }
-
-  derivative = m_MatchMeasureDerivatives;
 
 }
 
@@ -141,7 +136,7 @@ template <class TFixedImage, class TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters, 
-                        MeasureType & Value, DerivativeType  & Derivative)
+                        MeasureType & Value, DerivativeType  & Derivative) const
 {
   Value      = this->GetValue( parameters );
   this->GetDerivative( parameters, Derivative );

@@ -30,10 +30,6 @@ template <class TFixedImage, class TMovingImage>
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::NormalizedCorrelationImageToImageMetric()
 {
-  m_MatchMeasure = NumericTraits<double>::Zero;
-  m_MatchMeasureDerivatives = 
-     DerivativeType(FixedImageType::ImageDimension);
-  m_MatchMeasureDerivatives.Fill( NumericTraits<double>::Zero );
 }
 
 /**
@@ -42,10 +38,10 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 template <class TFixedImage, class TMovingImage> 
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValue( const TransformParametersType & parameters )
+::GetValue( const TransformParametersType & parameters ) const
 {
 
-  FixedImagePointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->GetFixedImage();
 
   if( !fixedImage ) 
     {
@@ -68,7 +64,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typename FixedImageType::IndexType index;
 
-  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+  MeasureType measure = NumericTraits< MeasureType >::Zero;
 
   m_NumberOfPixelsCounted = 0;
 
@@ -105,14 +101,14 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   if( m_NumberOfPixelsCounted )
     {
-    m_MatchMeasure = -sfm / sqrt( sff * smm );
+    measure = -sfm / sqrt( sff * smm );
     }
   else
     {
-    m_MatchMeasure = NumericTraits< MeasureType >::Zero;
+    measure = NumericTraits< MeasureType >::Zero;
     }
 
-  return m_MatchMeasure;
+  return measure;
 
 }
 
@@ -127,12 +123,15 @@ template < class TFixedImage, class TMovingImage>
 void
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters,
-                       DerivativeType & derivative )
+                       DerivativeType & derivative ) const
 {
 
   const double delta = 0.00011;
   TransformParametersType testPoint;
   testPoint = parameters;
+
+  derivative = DerivativeType( this->GetNumberOfParameters() );
+  derivative.Fill( NumericTraits< MeasureType >::Zero );
 
   const unsigned int dimension = FixedImageType::ImageDimension;
   for( unsigned int i=0; i<dimension; i++) 
@@ -141,11 +140,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     const MeasureType valuep0 = this->GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = this->GetValue( testPoint );
-    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
+    derivative[i] = (valuep1 - valuep0 ) / ( 2 * delta );
     testPoint[i] = parameters[i];
     }
-
-  derivative = m_MatchMeasureDerivatives;
 
 }
 
@@ -157,7 +154,7 @@ template <class TFixedImage, class TMovingImage>
 void
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters, 
-                        MeasureType & Value, DerivativeType  & Derivative)
+                        MeasureType & Value, DerivativeType  & Derivative) const
 {
   Value      = this->GetValue( parameters );
   this->GetDerivative( parameters, Derivative );

@@ -102,7 +102,7 @@ template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::SampleFixedImageDomain(
-SpatialSampleContainer& samples )
+SpatialSampleContainer& samples ) const
 {
 
   double range =
@@ -162,13 +162,12 @@ template < class TFixedImage, class TMovingImage  >
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MeasureType
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValue( const ParametersType& parameters )
+::GetValue( const ParametersType& parameters ) const
 {
 
   if( !m_FixedImage || !m_Interpolator || !m_Transform )
     {
-    m_MatchMeasure = 0;
-    return m_MatchMeasure;
+    return NumericTraits< MeasureType >::Zero;
     }
 
   // make sure the transform has the current parameters
@@ -235,11 +234,11 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     throw err;
     }
 
-  m_MatchMeasure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
-  m_MatchMeasure /= nsamp;
-  m_MatchMeasure += log( nsamp );
+  MeasureType measure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
+  measure /= nsamp;
+  measure += log( nsamp );
 
-  return m_MatchMeasure;
+  return measure;
 
 }
 
@@ -253,18 +252,17 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(
 const ParametersType& parameters,
 MeasureType& value,
-DerivativeType& derivative)
+DerivativeType& derivative) const
 {
 
-  // reset the derivatives all to zero
-  m_MatchMeasureDerivatives.Fill(0);
-  m_MatchMeasure = 0;
+
+  value = NumericTraits< MeasureType >::Zero;
+  derivative = DerivativeType( this->GetNumberOfParameters() );
+  derivative.Fill( NumericTraits< MeasureType >::Zero );
 
   // check if inputs are valid
   if( !m_FixedImage || !m_MovingImage || !m_Interpolator || !m_Transform )
     {
-    value = m_MatchMeasure;
-    derivative = m_MatchMeasureDerivatives;
     return;
     }
 
@@ -273,7 +271,7 @@ DerivativeType& derivative)
   unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
   DerivativeType temp( numberOfParameters );
   temp.Fill( 0 );
-  m_MatchMeasureDerivatives = temp;
+  derivative = temp;
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( m_MovingImage );
@@ -371,7 +369,7 @@ DerivativeType& derivative)
       weight = ( weightMoving - weightJoint );
       weight *= (*biter).MovingImageValue - (*aiter).MovingImageValue;
 
-      m_MatchMeasureDerivatives += ( derivB - (*aditer) ) * weight;
+      derivative += ( derivB - (*aditer) ) * weight;
 
       } // end of sample A loop
 
@@ -392,15 +390,13 @@ DerivativeType& derivative)
     throw err;
     }
 
-  m_MatchMeasure  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
-  m_MatchMeasure /= nsamp;
-  m_MatchMeasure += log( nsamp );
 
-  m_MatchMeasureDerivatives /= nsamp;
-  m_MatchMeasureDerivatives /= vnl_math_sqr( m_MovingImageStandardDeviation );
+  value  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
+  value /= nsamp;
+  value += log( nsamp );
 
-  value = m_MatchMeasure;
-  derivative =  m_MatchMeasureDerivatives;
+  derivative  /= nsamp;
+  derivative  /= vnl_math_sqr( m_MovingImageStandardDeviation );
 
 }
 
@@ -411,7 +407,7 @@ DerivativeType& derivative)
 template < class TFixedImage, class TMovingImage  >
 void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetDerivative( const ParametersType& parameters, DerivativeType & derivative )
+::GetDerivative( const ParametersType& parameters, DerivativeType & derivative ) const
 {
   MeasureType value;
   // call the combined version
@@ -434,7 +430,7 @@ void
 MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::CalculateDerivatives(
 const FixedImagePointType& point,
-DerivativeType& derivatives )
+DerivativeType& derivatives ) const
 {
 
   MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );

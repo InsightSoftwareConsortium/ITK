@@ -35,9 +35,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_MovingImage  = 0; // has to be provided by the user.
   m_Transform    = 0; // has to be provided by the user.
   m_Interpolator = 0; // has to be provided by the user.
-  m_MatchMeasure = NumericTraits< MeasureType >::Zero;
-  m_MatchMeasureDerivatives = DerivativeType(1);
-  m_MatchMeasureDerivatives.Fill( NumericTraits< MeasureType >::Zero );
 }
 
 
@@ -47,7 +44,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template <class TFixedImage, class TMovingImage> 
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SetTransformParameters( const ParametersType & parameters )
+::SetTransformParameters( const ParametersType & parameters ) const
 {
   if( !m_Transform )
     {
@@ -105,11 +102,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Fixed  Image: " << m_FixedImage.GetPointer()   << std::endl;
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-
-  os << indent << "MatchMeasure: " << m_MatchMeasure << std::endl;
-  os << indent << "MatchMeasureDerivatives: ";
-  os << m_MatchMeasureDerivatives << std::endl;
-
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
 
 }

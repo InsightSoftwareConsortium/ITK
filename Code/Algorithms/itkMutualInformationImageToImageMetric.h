@@ -115,8 +115,8 @@ public:
   typedef typename Superclass::ParametersType           ParametersType;
   typedef typename Superclass::FixedImageType           FixedImageType;
   typedef typename Superclass::MovingImageType          MovingImageType;
-  typedef typename Superclass::FixedImagePointer        FixedImagePointer;
-  typedef typename Superclass::MovingImagePointer       MovingImagePointer;
+  typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
+  typedef typename Superclass::MovingImageConstPointer  MovingImageCosntPointer;
 
   /** Index and Point typedef support. */
   typedef typename FixedImageType::IndexType            FixedImageIndexType;
@@ -131,14 +131,14 @@ public:
   /** Get the derivatives of the match measure. */
   void GetDerivative( 
     const ParametersType& parameters,
-    DerivativeType & Derivative );
+    DerivativeType & Derivative ) const;
 
   /**  Get the value. */
-  MeasureType GetValue( const ParametersType& parameters );
+  MeasureType GetValue( const ParametersType& parameters ) const;
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative( const ParametersType& parameters, 
-    MeasureType& Value, DerivativeType& Derivative );
+    MeasureType& Value, DerivativeType& Derivative ) const;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -200,11 +200,11 @@ private:
 
   /** Container to store sample set  A - used to approximate the probability
    * density function (pdf). */
-  SpatialSampleContainer              m_SampleA;
+  mutable SpatialSampleContainer      m_SampleA;
 
   /** Container to store sample set  B - used to approximate the mutual
    * information value. */
-  SpatialSampleContainer              m_SampleB;
+  mutable SpatialSampleContainer      m_SampleB;
 
   unsigned int                        m_NumberOfSpatialSamples;
   double                              m_MovingImageStandardDeviation;
@@ -213,12 +213,12 @@ private:
   double                              m_MinProbability;
 
   /** Uniformly select samples from the fixed image buffer. */
-  void SampleFixedImageDomain( SpatialSampleContainer& samples );
+  void SampleFixedImageDomain( SpatialSampleContainer& samples ) const;
 
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives( const FixedImagePointType& , DerivativeType& );
+  void CalculateDerivatives( const FixedImagePointType& , DerivativeType& ) const;
 
   typedef typename Superclass::CoordinateRepresentationType  
     CoordinateRepresentationType;
