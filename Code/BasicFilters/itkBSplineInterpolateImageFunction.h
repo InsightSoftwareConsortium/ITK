@@ -67,7 +67,7 @@ namespace itk
  */
 template <
   class TImageType, 
-  class TCoordRep = float,
+  class TCoordRep = double,
   class TCoefficientType = double >
 class ITK_EXPORT BSplineInterpolateImageFunction : 
     public InterpolateImageFunction<TImageType,TCoordRep> 

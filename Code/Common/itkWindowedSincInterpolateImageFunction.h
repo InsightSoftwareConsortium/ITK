@@ -228,7 +228,7 @@ template <
   unsigned int VRadius, 
   class TWindowFunction = Function::HammingWindowFunction<VRadius>,
   class TBoundaryCondition = ConstantBoundaryCondition<TInputImage>,
-  class TCoordRep=float >
+  class TCoordRep=double >
 class ITK_EXPORT WindowedSincInterpolateImageFunction : 
   public InterpolateImageFunction<TInputImage, TCoordRep>
 {
