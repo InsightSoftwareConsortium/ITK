@@ -68,9 +68,9 @@ WrapPadImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 int WrapPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextOutputRegion(long *regIndices, long *regLimit, 
-			   std::vector<long> indices[ImageDimension], 
-			   std::vector<long> sizes[ImageDimension],
-			   OutputImageRegionType& outputRegion)
+         std::vector<long> indices[ImageDimension], 
+         std::vector<long> sizes[ImageDimension],
+         OutputImageRegionType& outputRegion)
 {
     int ctr;
     int done = 0;
@@ -86,10 +86,10 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
       regIndices[ctr]++;
       done = 1;
       if (regIndices[ctr] >= regLimit[ctr]) 
-	{
-	  regIndices[ctr] = 0;
-	  done = 0;
-	}
+  {
+    regIndices[ctr] = 0;
+    done = 0;
+  }
       nextIndex[ctr] = indices[ctr][regIndices[ctr]];
       nextSize[ctr] = sizes[ctr][regIndices[ctr]];
     }
@@ -106,7 +106,7 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
   //
     for (ctr=0; ctr<ImageDimension; ctr++) {
       if (nextSize[ctr] == 0) {
-	return 0;
+  return 0;
       }
     }
     
@@ -121,9 +121,9 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 int WrapPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextInputRegion(long *regIndices, long *regLimit, 
-			  std::vector<long> indices[ImageDimension], 
-			  std::vector<long> sizes[ImageDimension],
-			  InputImageRegionType& inputRegion)
+        std::vector<long> indices[ImageDimension], 
+        std::vector<long> sizes[ImageDimension],
+        InputImageRegionType& inputRegion)
 {
   int ctr;
   int done = 0;
@@ -140,8 +140,8 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
     done = 1;
     if (regIndices[ctr] >= regLimit[ctr]) 
       {
-	regIndices[ctr] = 0;
-	done = 0;
+  regIndices[ctr] = 0;
+  done = 0;
       }
     nextIndex[ctr] = indices[ctr][regIndices[ctr]];
     nextSize[ctr] = sizes[ctr][regIndices[ctr]];
@@ -184,11 +184,11 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   if (regionsize > 0)  // Find out home many regions we have,
     {
       result = regionsize / size;
-	  result++;
+    result++;
       if (offset > 0)
-	{
-	  result = result - (offset/size);
-	}
+  {
+    result = result - (offset/size);
+  }
     }
   
   return result;
@@ -207,10 +207,10 @@ int
 WrapPadImageFilter<TInputImage,TOutputImage>
 ::BuildInterRegions(std::vector<long>& inputRegionStart, 
                     std::vector<long>& outputRegionStart,
-		    std::vector<long>& inputRegionSizes, 
+        std::vector<long>& inputRegionSizes, 
                     std::vector<long>& outputRegionSizes,
-		    long inputIndex, long outputIndex,
-		    long inputSize, long outputSize, 
+        long inputIndex, long outputIndex,
+        long inputSize, long outputSize, 
                     int numRegs, int & regCtr)
 {
   long sizeTemp;  // Holder for current size calculation.
@@ -262,10 +262,10 @@ int
 WrapPadImageFilter<TInputImage,TOutputImage>
 ::BuildPreRegions(std::vector<long>& inputRegionStart, 
                     std::vector<long>& outputRegionStart,
-		    std::vector<long>& inputRegionSizes, 
+        std::vector<long>& inputRegionSizes, 
                     std::vector<long>& outputRegionSizes,
-		    long inputIndex, long outputIndex,
-		    long inputSize, long outputSize, 
+        long inputIndex, long outputIndex,
+        long inputSize, long outputSize, 
                     int numRegs, int & regCtr)
 {
   long sizeTemp;  // Holder for current size calculation.
@@ -322,10 +322,10 @@ int
 WrapPadImageFilter<TInputImage,TOutputImage>
 ::BuildPostRegions(std::vector<long>& inputRegionStart, 
                     std::vector<long>& outputRegionStart,
-		    std::vector<long>& inputRegionSizes, 
+        std::vector<long>& inputRegionSizes, 
                     std::vector<long>& outputRegionSizes,
-		    long inputIndex, long outputIndex,
-		    long inputSize, long outputSize, 
+        long inputIndex, long outputIndex,
+        long inputSize, long outputSize, 
                     int numRegs, int & regCtr)
 {
   long sizeTemp;  // Holder for current size calculation.
@@ -426,16 +426,16 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     {
       numIn[dimCtr] = 1;  // Always assume exactly one inter region.
       numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
-	this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
-				static_cast<long>(inputSize[dimCtr]), 
-				inputIndex[dimCtr]-outputIndex[dimCtr]
-				- static_cast<long>(outputSize[dimCtr]));
+  this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
+        static_cast<long>(inputSize[dimCtr]), 
+        inputIndex[dimCtr]-outputIndex[dimCtr]
+        - static_cast<long>(outputSize[dimCtr]));
       numPost[dimCtr] =   // Count how many versions of input fit in post-pad
-	this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
-				outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
-				static_cast<long>(inputSize[dimCtr]),
-				outputIndex[dimCtr]-inputIndex[dimCtr]
-				- static_cast<long>(inputSize[dimCtr]));
+  this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
+        outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
+        static_cast<long>(inputSize[dimCtr]),
+        outputIndex[dimCtr]-inputIndex[dimCtr]
+        - static_cast<long>(inputSize[dimCtr]));
       inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
       inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
       outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
@@ -602,16 +602,16 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     {
       numIn[dimCtr] = 1;  // Always assume exactly one inter region.
       numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
-	this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
-				static_cast<long>(inputSize[dimCtr]), 
-				inputIndex[dimCtr]-outputIndex[dimCtr]
-				- static_cast<long>(outputSize[dimCtr]));
+  this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
+        static_cast<long>(inputSize[dimCtr]), 
+        inputIndex[dimCtr]-outputIndex[dimCtr]
+        - static_cast<long>(outputSize[dimCtr]));
       numPost[dimCtr] =   // Count how many versions of input fit in post-pad
-	this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
-				outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
-				static_cast<long>(inputSize[dimCtr]),
-				outputIndex[dimCtr]-inputIndex[dimCtr]
-				- static_cast<long>(inputSize[dimCtr]));
+  this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
+        outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
+        static_cast<long>(inputSize[dimCtr]),
+        outputIndex[dimCtr]-inputIndex[dimCtr]
+        - static_cast<long>(inputSize[dimCtr]));
       inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
       inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
       outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
@@ -681,7 +681,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   if ( threadId == 0 )
     {
       totalPixels = 
-	outputPtr->GetRequestedRegion().GetNumberOfPixels();
+  outputPtr->GetRequestedRegion().GetNumberOfPixels();
       updateVisits = totalPixels / 10;
       if( updateVisits < 1 ) updateVisits = 1;
     }

@@ -83,9 +83,9 @@ template <class TInputImage, class TOutputImage>
 int
 ConstantPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextRegion(long *regIndices, long *regLimit, 
-		     OutputImageIndexType *indices, 
-		     OutputImageSizeType *sizes, 
-		     OutputImageRegionType& outputRegion)
+         OutputImageIndexType *indices, 
+         OutputImageSizeType *sizes, 
+         OutputImageRegionType& outputRegion)
 {
   int ctr;
   int done = 0;
@@ -97,8 +97,8 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
     done = 1;
     if (regIndices[ctr] >= regLimit[ctr]) 
       {
-	regIndices[ctr] = 0;
-	done = 0;
+  regIndices[ctr] = 0;
+  done = 0;
       }
     nextIndex[ctr] = indices[regIndices[ctr]][ctr];
     nextSize[ctr] = sizes[regIndices[ctr]][ctr];
@@ -166,56 +166,56 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
       // the input region starting index, unless that would be
       // outside the bounds of the output image.
       if (inputIndex[dimCtr] > outputIndex[dimCtr]) 
-	{
-	  indices[0][dimCtr] = inputIndex[dimCtr];
-	}
+  {
+    indices[0][dimCtr] = inputIndex[dimCtr];
+  }
       else
-	{
-	  indices[0][dimCtr] = outputIndex[dimCtr];
-	}
+  {
+    indices[0][dimCtr] = outputIndex[dimCtr];
+  }
       // Region 1 is before, which is always the output starting index,
       // and Region 2 is after, which is either the end of the input 
       // image, or the start of the output image.
       indices[1][dimCtr] = outputIndex[dimCtr];
 
       if ((inputIndex[dimCtr]+ static_cast<long>(inputSize[dimCtr])) > outputIndex[dimCtr])
-	{
-	  indices[2][dimCtr] = inputIndex[dimCtr]+ static_cast<long>(inputSize[dimCtr]);
-	} 
+  {
+    indices[2][dimCtr] = inputIndex[dimCtr]+ static_cast<long>(inputSize[dimCtr]);
+  } 
       else
-	{
-	  indices[2][dimCtr] = outputIndex[dimCtr];
-	}
+  {
+    indices[2][dimCtr] = outputIndex[dimCtr];
+  }
 
       // Size 0 is the area from index 0 to the end of the input or the 
       // output, whichever comes first.
       if ((inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr])) 
-	  < (outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]))) 
-	{
-	  sizeTemp = inputIndex[dimCtr] + static_cast<long>(inputSize[dimCtr]) 
-	    - indices[0][dimCtr];
-	}
+    < (outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]))) 
+  {
+    sizeTemp = inputIndex[dimCtr] + static_cast<long>(inputSize[dimCtr]) 
+      - indices[0][dimCtr];
+  }
       else
-	{
-	  sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr]) 
-	    - indices[0][dimCtr];
-	}
-	sizes[0][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
+  {
+    sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr]) 
+      - indices[0][dimCtr];
+  }
+  sizes[0][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
       // Size 1 is all the output that preceeds the input, and Size 2 is
       // all the output that succeeds the input.
       if ((outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr])) > indices[0][dimCtr])
-	{
-	  sizeTemp = indices[0][dimCtr] - outputIndex[dimCtr];
-	}
+  {
+    sizeTemp = indices[0][dimCtr] - outputIndex[dimCtr];
+  }
       else
-	{
-	  sizeTemp = static_cast<long>(outputSize[dimCtr]);
-	}
-	sizes[1][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
+  {
+    sizeTemp = static_cast<long>(outputSize[dimCtr]);
+  }
+  sizes[1][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
         sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr])
-	- indices[2][dimCtr];
-	sizes[2][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
-	
+  - indices[2][dimCtr];
+  sizes[2][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
+  
     }
 
 
@@ -255,37 +255,37 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 
       // walk the output region, and sample the input image
       for (ctr=0; !outIt.IsAtEnd(); ++outIt, ++inIt, ctr++ )
-	{
-	  if ( threadId == 0 && !(ctr % updateVisits ) )
-	    {
-	      this->UpdateProgress((float)ctr / (float)totalPixels);
-	    }
-	  
-	  // copy the input pixel to the output
-	  outIt.Set( inIt.Get());
-	}
+  {
+    if ( threadId == 0 && !(ctr % updateVisits ) )
+      {
+        this->UpdateProgress((float)ctr / (float)totalPixels);
+      }
+    
+    // copy the input pixel to the output
+    outIt.Set( inIt.Get());
+  }
     } 
 
   // Now walk the remaining regions.
   for (regCtr=1; regCtr<numRegions; regCtr++)
     {
       if (GenerateNextRegion
-	  (regIndices, regLimit, indices, sizes, outputRegion))
-	{
-	  outIt = OutputIterator(outputPtr, outputRegion);
-	  
-	  // walk the output region, and sample the input image
-	  for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
-	    {
-	      if ( threadId == 0 && !(ctr % updateVisits ) )
-		{
-		  this->UpdateProgress((float)ctr / (float)totalPixels);
-		}
-	      
-	      // copy the input pixel to the output
-	      outIt.Set( m_Constant );
-	    }
-	} 
+    (regIndices, regLimit, indices, sizes, outputRegion))
+  {
+    outIt = OutputIterator(outputPtr, outputRegion);
+    
+    // walk the output region, and sample the input image
+    for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
+      {
+        if ( threadId == 0 && !(ctr % updateVisits ) )
+    {
+      this->UpdateProgress((float)ctr / (float)totalPixels);
+    }
+        
+        // copy the input pixel to the output
+        outIt.Set( m_Constant );
+      }
+  } 
     }
 }
 

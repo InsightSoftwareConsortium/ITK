@@ -142,26 +142,26 @@ PadImageFilter<TInputImage,TOutputImage>
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
       if (outputRequestedRegionStartIndex[i] <= inputWholeRegionStartIndex[i]) 
-	{
-	  inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-	}
+  {
+    inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
+  }
       else
-	{
-	  inputRequestedRegionStartIndex[i] = 
-	    outputRequestedRegionStartIndex[i];
-	}
+  {
+    inputRequestedRegionStartIndex[i] = 
+      outputRequestedRegionStartIndex[i];
+  }
 
       if ((inputWholeRegionStartIndex[i]+static_cast<long>(inputWholeRegionSize[i])) <= 
-	  (outputRequestedRegionStartIndex[i]+static_cast<long>(outputRequestedRegionSize[i])))
-	{
-	  sizeTemp = static_cast<long>(inputWholeRegionSize[i]) 
-	    + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-	}
+    (outputRequestedRegionStartIndex[i]+static_cast<long>(outputRequestedRegionSize[i])))
+  {
+    sizeTemp = static_cast<long>(inputWholeRegionSize[i]) 
+      + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
+  }
       else
-	{
-	  sizeTemp = static_cast<long>(outputRequestedRegionSize[i])
-	    + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-	}
+  {
+    sizeTemp = static_cast<long>(outputRequestedRegionSize[i])
+      + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
+  }
 
       //
       // The previous statements correctly handle overlapped regions where
@@ -171,12 +171,12 @@ PadImageFilter<TInputImage,TOutputImage>
       // as the start of the output region and zero for the size.
       // 
       if (sizeTemp < 0) 
-	{
-	  inputRequestedRegionSize[i] = 0;
-	  inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-	} else {
-	  inputRequestedRegionSize[i] = sizeTemp;
-	}
+  {
+    inputRequestedRegionSize[i] = 0;
+    inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
+  } else {
+    inputRequestedRegionSize[i] = sizeTemp;
+  }
 
     }
 
