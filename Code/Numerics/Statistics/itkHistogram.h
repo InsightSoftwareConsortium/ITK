@@ -380,11 +380,11 @@ private:
   Histogram(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  InstanceIdentifier  m_OffsetTable[MeasurementVectorSize + 1] ;
-  FrequencyContainerPointer m_FrequencyContainer ;
-  int m_NumberOfInstances ;
-  MeasurementVectorType m_TempMeasurementVector ;
-  IndexType m_TempIndex ;
+  InstanceIdentifier          m_OffsetTable[MeasurementVectorSize + 1] ;
+  FrequencyContainerPointer   m_FrequencyContainer ;
+  unsigned int                m_NumberOfInstances ;
+  MeasurementVectorType       m_TempMeasurementVector ;
+  IndexType                   m_TempIndex ;
 } ; // end of class
 
   } // end of namespace Statistics 

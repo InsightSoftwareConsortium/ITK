@@ -40,12 +40,12 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
-int
+unsigned int
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Size() const
 {
-  int size = 1 ;
-  for (int i = 0 ; i < MeasurementVectorSize ; i++)
+  unsigned int size = 1 ;
+  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
       size *= m_Size[i] ;
     }
@@ -210,7 +210,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
-int
+unsigned int
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetNumberOfInstances() const
 {
@@ -457,7 +457,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 {
   FrequencyType frequency = 0 ;
   InstanceIdentifier n = 0 ;
-  int size = this->Size(dimension) ;
+  const unsigned int size = this->Size(dimension) ;
   while( n < size )
     {
       frequency += GetFrequency(n, dimension) ;
@@ -473,7 +473,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::Quantile(const unsigned int dimension, const double &p)
 {
   InstanceIdentifier n ;
-  int size = this->Size(dimension) ;
+  const unsigned int size = this->Size(dimension) ;
   double p_n_prev ;
   double p_n ;
   double f_n ;
