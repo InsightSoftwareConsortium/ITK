@@ -18,6 +18,7 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAcosImageFilter.h"
+#include "itkAdd2ImageFilter.h"
 #include "itkAddImageFilter.h"
 #include "itkAnisotropicDiffusionEquation.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
