@@ -25,19 +25,21 @@
 namespace itk{ 
 
 /** \class MaximumDecisionRule
- *  \brief A Decision rule that choose the class that has maximum value
+ *  \brief A Decision rule that choose the class of which discriminant
+ *  score is the largest.
  */
  
 class ITKCommon_EXPORT MaximumDecisionRule : 
-      public DecisionRuleBase
+    public DecisionRuleBase
 {
 public:
- /** Standard class typedefs */ 
+  /** Standard class typedefs */ 
   typedef MaximumDecisionRule Self ;
   typedef DecisionRuleBase Superclass;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
- /** Run-time type information (and related methods) */
+  /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumDecisionRule, DecisionRuleBase);
 
   /** Standard New() method support */
@@ -59,11 +61,11 @@ inline unsigned int MaximumDecisionRule::Evaluate(std::vector< double >
   unsigned int i ;
   for (i = 1 ; i < discriminantScores.size() ; i++)
     {
-      if (discriminantScores[i] > max) 
-        {
-          max = discriminantScores[i] ;
-          maxIndex = i ;
-        }
+    if (discriminantScores[i] > max) 
+      {
+      max = discriminantScores[i] ;
+      maxIndex = i ;
+      }
     }
   return maxIndex ;
 }
