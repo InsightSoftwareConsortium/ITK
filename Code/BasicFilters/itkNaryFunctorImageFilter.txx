@@ -54,36 +54,55 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
 
-  // Clear the content of the output
-  outputIt.GoToBegin();
-  while( !outputIt.IsAtEnd() )
+  try  // this try is intended to catch an eventual AbortException.
     {
-      outputIt.Set( itk::NumericTraits< OutputImagePixelType >::Zero );
-      ++outputIt;
-    }
- 
-  // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-    
-  for(unsigned int inputNumber=0;
-      inputNumber < numberOfInputImages; inputNumber++ )
-    {
-    // We use dynamic_cast since inputs are stored as DataObjects.  
-    InputImagePointer inputPtr = 
-          dynamic_cast<TInputImage*>( ProcessObject::GetInput( inputNumber ) );
 
-    ImageRegionIterator<TInputImage> inputIt(inputPtr, outputRegionForThread);
-
-    inputIt.GoToBegin();
+    // Clear the content of the output
     outputIt.GoToBegin();
-    while( !inputIt.IsAtEnd() ) 
+    while( !outputIt.IsAtEnd() )
       {
-      outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
-      ++inputIt;
-      ++outputIt;
-      progress.CompletedPixel();
+        outputIt.Set( itk::NumericTraits< OutputImagePixelType >::Zero );
+        ++outputIt;
       }
+   
+    // support progress methods/callbacks
+    ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+      
+    for(unsigned int inputNumber=0;
+        inputNumber < numberOfInputImages; inputNumber++ )
+      {
+      // We use dynamic_cast since inputs are stored as DataObjects.  
+      InputImagePointer inputPtr = 
+            dynamic_cast<TInputImage*>( ProcessObject::GetInput( inputNumber ) );
+
+      ImageRegionIterator<TInputImage> inputIt(inputPtr, outputRegionForThread);
+
+      inputIt.GoToBegin();
+      outputIt.GoToBegin();
+      while( !inputIt.IsAtEnd() ) 
+        {
+        outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
+        ++inputIt;
+        ++outputIt;
+        progress.CompletedPixel();
+        }
+      }
+
     }
+  catch( ProcessAborted  & except )
+    {
+    // User aborted filter excecution Here we catch an exception thrown by the
+    // progress reporter and rethrow it with the correct line number and file
+    // name. We also invoke AbortEvent in case some observer was interested on
+    // it.
+
+    this->InvokeEvent( AbortEvent() );
+
+    ProcessAborted abortException(__FILE__,__LINE__);
+    abortException.SetDescription("Filter execution was aborted by an external request");
+    throw abortException;
+    }
+
 }
 
 } // end namespace itk

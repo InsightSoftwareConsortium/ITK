@@ -135,14 +135,32 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
   inputIt2.GoToBegin();
   inputIt3.GoToBegin();
   outputIt.GoToBegin();
-  while( !inputIt1.IsAtEnd() ) 
+
+
+  try  // this try is intended to catch an eventual AbortException.
     {
-    outputIt.Set( m_Functor(inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
-    ++inputIt1;
-    ++inputIt2;
-    ++inputIt3;
-    ++outputIt;
-    progress.CompletedPixel();
+    while( !inputIt1.IsAtEnd() ) 
+      {
+      outputIt.Set( m_Functor(inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
+      ++inputIt1;
+      ++inputIt2;
+      ++inputIt3;
+      ++outputIt;
+      progress.CompletedPixel(); // potential exception thrown here
+      }
+    }
+  catch( ProcessAborted  & except )
+    {
+    // User aborted filter excecution Here we catch an exception thrown by the
+    // progress reporter and rethrow it with the correct line number and file
+    // name. We also invoke AbortEvent in case some observer was interested on
+    // it.
+
+    this->InvokeEvent( AbortEvent() );
+
+    ProcessAborted abortException(__FILE__,__LINE__);
+    abortException.SetDescription("Filter execution was aborted by an external request");
+    throw abortException;
     }
 }
 
