@@ -274,11 +274,12 @@ M_Read(void)
 
     int i=0;
     double td;
+    int d;
     for(int j=0; j<m_NPoints; j++) 
     {
       LinePnt* pnt = new LinePnt(m_NDims);
       
-      for(int d=0; d<m_NDims; d++)
+      for(d=0; d<m_NDims; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         pnt->m_X[d] = (float)td;
@@ -286,14 +287,19 @@ M_Read(void)
 
       for(int l=0;l<m_NDims-1;l++)
       {
-
-        for(int d=0; d<m_NDims; d++)
+        for(d=0; d<m_NDims; d++)
         {
           MET_ValueToDouble(m_ElementType, _data, i++, &td);
           pnt->m_V[l][d] = (float)td;
-        }
-        //pnt.m_V[l] = n; 
+        }   
       }
+      
+      for(d=0; d<4; d++)
+      {
+        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        pnt->m_Color[d] = (float)td;
+      }
+
       m_PointList.push_back(pnt);
     }
     delete [] _data;
@@ -368,7 +374,6 @@ M_Write(void)
   }
 
   /** Then copy all points */
-  
   if(m_BinaryData)
   {
     PointListType::const_iterator it = m_PointList.begin();
@@ -401,8 +406,9 @@ M_Write(void)
       it++;
     }
 
-    m_WriteStream->write((char *)data,(m_NDims*m_NDims+4)*m_NPoints*elementSize); 
-    delete [] data;
+    m_WriteStream->write((char *)data,(m_NDims*m_NDims+4)*m_NPoints*elementSize);
+    m_WriteStream->write("\n",1);
+    delete data;
   }
   else
   {
