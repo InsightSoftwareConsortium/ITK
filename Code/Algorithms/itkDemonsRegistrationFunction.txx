@@ -56,6 +56,11 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_MovingImageInterpolator = static_cast<InterpolatorType*>(
     interp.GetPointer() );
 
+  m_Metric = NumericTraits<double>::max();
+  m_SumOfSquaredDifference = 0.0;
+  m_NumberOfPixelsProcessed = 0L;
+  m_RMSChange = NumericTraits<double>::max();
+  m_SumOfSquaredChange = 0.0;
 
 }
 
@@ -78,6 +83,17 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   os << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: ";
   os << m_IntensityDifferenceThreshold << std::endl;
+
+  os << indent << "Metric: ";
+  os << m_Metric << std::endl;
+  os << indent << "SumOfSquaredDifference: ";
+  os << m_SumOfSquaredDifference << std::endl;
+  os << indent << "NumberOfPixelsProcessed: ";
+  os << m_NumberOfPixelsProcessed << std::endl;
+  os << indent << "RMSChange: ";
+  os << m_RMSChange << std::endl;
+  os << indent << "SumOfSquaredChange: ";
+  os << m_SumOfSquaredChange << std::endl;
 
 }
 
@@ -114,17 +130,22 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
 
+  // initialize metric computation variables
+  m_SumOfSquaredDifference  = 0.0;
+  m_NumberOfPixelsProcessed = 0L;
+  m_SumOfSquaredChange      = 0.0;
+
 }
 
 
 /*
- * Compute update at a non boundary neighbourhood
+ * Compute update at a specify neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
+::ComputeUpdate(const NeighborhoodType &it, void * gd,
                 const FloatOffsetType& itkNotUsed(offset))
 {
 
@@ -182,6 +203,12 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
    * where K = mean square spacing to compensate for the mismatch in units.
    */
   double speedValue = fixedValue - movingValue;
+  
+  // update the metric
+  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  globalData->m_SumOfSquaredDifference += vnl_math_sqr( speedValue );
+  globalData->m_NumberOfPixelsProcessed += 1;
+
   double denominator = vnl_math_sqr( speedValue ) / m_Normalizer + 
     fixedGradientSquaredMagnitude;
 
@@ -198,11 +225,39 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for( j = 0; j < ImageDimension; j++ )
     {
     update[j] = speedValue * fixedGradient[j] / denominator;
+    globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );
     }
 
   return update;
 
 }
+
+/*
+ * Update the metric and release the per-thread-global data.
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::ReleaseGlobalDataPointer( void *gd ) const
+{
+  GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
+
+  m_MetricCalculationLock.Lock();
+  m_SumOfSquaredDifference  += globalData->m_SumOfSquaredDifference;
+  m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
+  m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
+  if ( m_NumberOfPixelsProcessed )
+    {
+    m_Metric = m_SumOfSquaredDifference / 
+               static_cast<double>( m_NumberOfPixelsProcessed ); 
+    m_RMSChange = vcl_sqrt( m_SumOfSquaredChange / 
+               static_cast<double>( m_NumberOfPixelsProcessed ) ); 
+    }
+  m_MetricCalculationLock.Unlock();
+
+  delete globalData;
+}
+
 
 
 } // end namespace itk

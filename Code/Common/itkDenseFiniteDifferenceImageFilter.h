@@ -106,6 +106,11 @@ protected:
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
   virtual void CopyInputToOutput();
+
+  /** This method applies changes from the m_UpdateBuffer to the output using
+   * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
+   * the time step to use for the update of each pixel. */
+  virtual void ApplyUpdate(TimeStepType dt);
   
 private:
   DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
@@ -128,11 +133,6 @@ private:
    * Superclass::GenerateData(). */
   virtual void AllocateUpdateBuffer();
   
-  /** This method applies changes from the m_UpdateBuffer to the output using
-   * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
-   * the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(TimeStepType dt);
-
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ThreadedApplyUpdate for processing. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );

@@ -30,14 +30,19 @@
 namespace{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
+template<typename TRegistration>
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
+  ShowProgressObject(TRegistration* o)
     {m_Process = o;}
   void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  itk::ProcessObject::Pointer m_Process;
+    {
+    std::cout << "Progress: " << m_Process->GetProgress() << "   ";
+    std::cout << "Metric: "   << m_Process->GetMetric()   << "   ";
+    std::cout << "RMSChange: " << m_Process->GetRMSChange() << "    ";
+    std::cout << std::endl;}
+  TRegistration::Pointer m_Process;
 };
 }
 
@@ -166,7 +171,6 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetNumberOfIterations( 150 );
   registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
-  registrator->Print( std::cout );
 
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr;
@@ -184,11 +188,12 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     }
   registrator->SetStandardDeviations( v );
 
-  ShowProgressObject progressWatch(registrator);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  typedef ShowProgressObject<RegistrationType> ProgressType;
+  ProgressType progressWatch(registrator);
+  itk::SimpleMemberCommand<ProgressType>::Pointer command;
+  command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
+                               &ProgressType::ShowProgress);
   registrator->AddObserver( itk::ProgressEvent(), command);
  
   // warp moving image
@@ -239,6 +244,8 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     std::cout << "Test failed - too many pixels different." << std::endl;
     return EXIT_FAILURE;
     }
+
+  registrator->Print( std::cout );
 
   // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";

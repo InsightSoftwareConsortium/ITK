@@ -77,6 +77,9 @@ public:
   itkTypeMacro( DemonsRegistrationFilter, 
                 PDEDeformableRegistrationFilter );
 
+  /** Inherit types from superclass. */
+  typedef typename Superclass::TimeStepType  TimeStepType;
+
   /** FixedImage image type. */
   typedef typename Superclass::FixedImageType   FixedImageType;
   typedef typename Superclass::FixedImagePointer  FixedImagePointer;
@@ -98,6 +101,13 @@ public:
   /** DemonsRegistrationFilterFunction type. */
   typedef DemonsRegistrationFunction<FixedImageType,MovingImageType,
                                      DeformationFieldType>  DemonsRegistrationFunctionType;
+  
+  /** Get the metric value. The metric value is the mean square difference 
+   * in intensity between the fixed image and transforming moving image 
+   * computed over the the overlapping region between the two images. 
+   * This is value is only available for the previous iteration and 
+   * NOT the current iteration. */
+  virtual double GetMetric() const;
 
 protected:
   DemonsRegistrationFilter();
@@ -107,6 +117,9 @@ protected:
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();
+
+  /** Apply update. */
+  virtual void ApplyUpdate(TimeStepType dt);
 
 private:
   DemonsRegistrationFilter(const Self&); //purposely not implemented

@@ -135,12 +135,14 @@ const
   virtual void *GetGlobalDataPointer() const
   {
     GlobalDataStruct *global = new GlobalDataStruct();
+    global->m_SumOfSquaredDifference  = 0.0;
+    global->m_NumberOfPixelsProcessed = 0L;
+    global->m_SumOfSquaredChange      = 0;
     return global;
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer( void *GlobalData ) const
-  { delete (GlobalDataStruct *) GlobalData;  }
+  virtual void ReleaseGlobalDataPointer( void *GlobalData ) const;
 
   /** Set the object's state before each iteration. */
   virtual void InitializeIteration();
@@ -152,6 +154,16 @@ const
                                    const FloatOffsetType &offset = 
 FloatOffsetType(0.0));
 
+  /** Get the metric value. The metric value is the mean square difference 
+   * in intensity between the fixed image and transforming moving image 
+   * computed over the the overlapping region between the two images. */
+  virtual double GetMetric() const
+    { return m_Metric; }
+
+  /** Get the rms change in deformation field. */
+  virtual double GetRMSChange() const
+    { return m_RMSChange; }
+
 protected:
   DemonsRegistrationFunction();
   ~DemonsRegistrationFunction() {}
@@ -162,10 +174,12 @@ protected:
 FixedImageNeighborhoodIteratorType;
 
   /** A global data type for this class of equation. Used to store
-   * iterators for the fixed image. */
+   * information for computing the metric. */
   struct GlobalDataStruct
   {
-    FixedImageNeighborhoodIteratorType   m_FixedImageIterator;
+    double          m_SumOfSquaredDifference;
+    unsigned long   m_NumberOfPixelsProcessed;
+    double          m_SumOfSquaredChange;
   };
 
 private:
@@ -191,6 +205,18 @@ private:
 
   /** Threshold below which two intensity value are assumed to match. */
   double                          m_IntensityDifferenceThreshold;
+
+  /** The metric value is the mean square difference in intensity between
+   * the fixed image and transforming moving image computed over the 
+   * the overlapping region between the two images. */
+  mutable double                  m_Metric;
+  mutable double                  m_SumOfSquaredDifference;
+  mutable unsigned long           m_NumberOfPixelsProcessed;
+  mutable double                  m_RMSChange;
+  mutable double                  m_SumOfSquaredChange;
+
+  /** Mutex lock to protect modification to metric. */
+  mutable SimpleFastMutexLock     m_MetricCalculationLock;
 
 };
 
