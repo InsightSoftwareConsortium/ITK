@@ -87,6 +87,9 @@ public:
     std::cout <<
       (dynamic_cast<SparseFieldLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType> *>(caller))->GetRMSChange()
               << std::endl;
+    std::cout <<
+      (dynamic_cast<SegmentationLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
+              << std::endl;
    
   }
   void Execute(const Object *caller, const EventObject &event)
@@ -148,9 +151,12 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
   filter->SetUpperThreshold(63);
   filter->SetLowerThreshold(50);
 
-  filter->SetMaximumRMSError(0.02);
+  filter->SetMaximumRMSError(0.05);
   filter->SetMaximumIterations(1000);
-
+  filter->SetUseNegativeFeaturesOn(); // Change the default behavior of the speed
+                                      // function so that negative values result in
+                                      // surface growth.
+  
   itk::RMSCommand::Pointer c = itk::RMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c); 
   filter->SetIsoSurfaceValue(0.5);  //<--- IMPORTANT!  Default is zero.
@@ -162,7 +168,11 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
     filter->SetMaximumIterations(900);
     filter->Update();
     std::cout << "Done second trial" << std::endl;
-
+    // Repeat once more just for fun
+    filter->SetMaximumIterations(800);
+    filter->Update();
+    std::cout << "Done third trial" << std::endl;
+    
     // Write the output for debugging purposes
     //    itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
     //      = itk::ImageFileWriter<TSIFTN::ImageType>::New();
@@ -171,21 +181,20 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
     //    io->SetFileDimensionality(3);
     //    io->SetByteOrderToLittleEndian();
     //    writer->SetImageIO(io);
-
-
+    
     //    itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
-    //    caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
+    //      caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
     //    caster->SetInput(seedImage);
     //    caster->Update();
-
-    //    writer->SetInput(caster->GetOutput());
-    //    writer->SetInput(filter->GetSpeedImage());
+    
+    // writer->SetInput(caster->GetOutput());
+    // writer->SetInput(filter->GetSpeedImage());
     //    writer->SetInput(filter->GetFeatureImage());
-    //    writer->SetInput(inputImage);
+    // writer->SetInput(inputImage);
     //    writer->SetInput(filter->GetOutput());
     //    writer->SetFileName("output.raw");
     //    writer->Write();
-    
+        
   }
   catch (itk::ExceptionObject &e)
     {
