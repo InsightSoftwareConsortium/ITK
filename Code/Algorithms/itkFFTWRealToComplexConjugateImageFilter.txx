@@ -124,6 +124,14 @@ GenerateData()
 }
 
 template <class TPixel, unsigned int Dimension>
+bool
+FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
+FullMatrix()
+{
+  return false;
+}
+
+template <class TPixel, unsigned int Dimension>
 void
 FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
 PrintSelf(std::ostream& os,Indent indent) const

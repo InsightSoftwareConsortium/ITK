@@ -140,6 +140,14 @@ GenerateData()
     }
 }
 
+template <class TPixel, unsigned int Dimension>
+bool
+FFTWComplexConjugateToRealImageFilter<TPixel,Dimension>::
+FullMatrix()
+{
+  return false;
+}
+
 
 template <class TPixel, unsigned int Dimension>
 void

@@ -41,10 +41,13 @@ public:
   //
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
-
+  virtual bool FullMatrix();
 protected:
   VnlFFTRealToComplexConjugateImageFilter() { }
   ~VnlFFTRealToComplexConjugateImageFilter() { }
+  ///** Method to check if an array dimension is legal for PFA FFT */
+  bool Legaldim(int n); 
+
 
 private:
   inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z) {

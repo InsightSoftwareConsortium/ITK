@@ -51,6 +51,7 @@ public:
   //
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
+  virtual bool FullMatrix();
 protected:
   FFTWComplexConjugateToRealImageFilter()  
   { 

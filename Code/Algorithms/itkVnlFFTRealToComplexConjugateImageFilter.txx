@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
+#include "itkExceptionObject.h"
 #include "vnl/algo/vnl_fft_base.txx"
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
@@ -27,10 +28,39 @@ PURPOSE.  See the above copyright notices for more information.
 
 VNL_FFT_BASE_INSTANTIATE(3,double);
 VNL_FFT_BASE_INSTANTIATE(3,float);
-#define DEBUG_PRINT(x) /* */
+//#define DEBUG_PRINT(x) /* */
 //#define DEBUG_PRINT(x) x
 namespace itk
 {
+
+  template <class TPixel, unsigned int Dimension>
+  bool
+  VnlFFTRealToComplexConjugateImageFilter<TPixel,Dimension>::
+  Legaldim(int n)
+  {
+    int k, ifac = 2;
+    for (int l = 1; l <= 3; l++) 
+      {
+      // Original code
+//       k = 0;
+//       L10:
+//       if (n % ifac != 0) goto L20;
+//       ++k;
+//       N /= ifac;
+//       goto L10;
+//       L20:
+//       pqr[l-1] = k;
+//       ifac += l;
+      k = 0;
+      for(; n % ifac == 0;)
+        {
+        ++k;
+        n /= ifac;
+        }
+      ifac += l;
+      }
+    return (n == 1); // return false if decomposition failed
+  }
 
   template <class TPixel, unsigned int Dimension>
   void
@@ -62,6 +92,13 @@ namespace itk
     unsigned int vec_size = 1;
     for(i = 0; i < num_dims; i++)
       {
+      //#if 0
+      if( !this->Legaldim(inputSize[i]) ) {
+        ExceptionObject exception(__FILE__, __LINE__);
+        exception.SetDescription("Illegal Array DIM for FFT");
+        throw exception;
+      }
+      //#endif
       vec_size *= inputSize[i];
       }
     vnl_vector< vcl_complex<TPixel> > signal(vec_size);
@@ -76,92 +113,35 @@ namespace itk
         {
         vnl_fft_1d<TPixel> v1d(vec_size);
         v1d.fwd_transform(signal);
-        for(i = 0; i < (vec_size / 2 + 1); i++)
-          {
-          out[i] = myConj(signal[i]);
-          }
         }
         break;
       case 2:
         {
         vnl_fft_2d<TPixel> v2d(inputSize[0],inputSize[1]);
         v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),+1);
-        for(i = 0; i < inputSize[1]; i++)
-          {
-          unsigned int yOffset = i * inputSize[0];
-          unsigned int yOffsetOut = i * (inputSize[0]/2 + 1);
-          for(j = 0; j < (inputSize[0] / 2 + 1); j++)
-            {
-            out[yOffsetOut + j] = myConj(signal[yOffset + j]);
-            }
-          }
         }
         break;
       case 3:
         {
-#if 1
         vnl_fft_3d<TPixel> v3d(inputSize[0],inputSize[1],inputSize[2]);
         v3d.vnl_fft_3d<TPixel>::base::transform(signal.data_block(),+1);
-#else
-        vnl_fft_2d<TPixel> v2d(inputSize[0],inputSize[1]);
-        for(i = 0; i < inputSize[2]; i++)
-          {
-          unsigned int ZOffset = i * inputSize[1] * inputSize[0];
-          v2d.vnl_fft_2d<TPixel>::base::transform((signal.data_block()+ZOffset),+1);
-          }
-        v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),+1);
-        
-        for(j = 0; j < inputSize[1]; j++)
-          {
-          unsigned int signalYStride = j * inputSize[0];
-          for(k = 0; k < inputSize[0]; k++)
-            {
-            vnl_vector< vcl_complex<TPixel> > ZRow(inputSize[2]);
-            for(i = 0; i < inputSize[2]; i++)
-              {
-              unsigned int signalZStride = i * inputSize[1] * inputSize[0];
-              ZRow[i] = signal[signalZStride + signalYStride + k];
-              }
-            vnl_fft_1d<TPixel> v1d(inputSize[2]);
-            v1d.fwd_transform(ZRow);
-            for(i = 0; i < inputSize[2]; i++)
-              {
-              unsigned int signalZStride = i * inputSize[1] * inputSize[0];
-              signal[signalZStride + signalYStride + k] = ZRow[i];
-              }
-            
-            }
-          }
-#endif
-        DEBUG_PRINT(std::cerr << "INSIDE VNLR2C" << std::endl;)
-        for(i = 0; i < inputSize[2]; i++)
-          {
-          unsigned int outZStride = i * inputSize[1] * (inputSize[0] / 2 + 1);
-          unsigned int signalZStride = i * inputSize[1] * inputSize[0];
-        
-          for(j = 0; j < inputSize[1]; j++)
-            {
-            unsigned int outYStride = j * (inputSize[0] / 2 + 1);
-            unsigned int signalYStride = j * inputSize[0];
-            for(k = 0; k < (inputSize[0]/2 + 1); k++)
-              {
-              out[k + outYStride + outZStride] =
-                myConj(signal[k + signalYStride + signalZStride]);
-              DEBUG_PRINT(std::cerr << out[k + outYStride + outZStride] << " ";)
-              }
-            for(; k < inputSize[0]; k++)
-              {
-              DEBUG_PRINT(std::cerr << signal[k + signalYStride + signalZStride] << " ";)
-              }
-            DEBUG_PRINT(std::cerr << std::endl;)
-            }
-          }
         }
-        DEBUG_PRINT(std::cerr << "LEAVING VNLR2C" << std::endl;)
         break;
       default:
         break;
       }
+    for(i = 0; i < vec_size; i++)
+      {
+      out[i] = signal[i];
+      }
+  }
+
+  template <class TPixel, unsigned int Dimension>
+  bool
+  VnlFFTRealToComplexConjugateImageFilter<TPixel,Dimension>::
+  FullMatrix()
+  {
+    return true;
   }
 
 }
