@@ -50,25 +50,25 @@ int main(int ac, char* av[])
     }
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef short InputPixelType;
 
   typedef itk::Image< InputPixelType, 2 > InputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( av[1] );
   
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO        ImageIOType;
 
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
   reader->SetImageIO( gdcmImageIO );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   try
     {

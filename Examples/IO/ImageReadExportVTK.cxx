@@ -58,7 +58,7 @@ int main( int argc, char ** argv )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile  outputImageFile " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -132,8 +132,6 @@ int main( int argc, char ** argv )
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
-  //  \index{SetFileName()!itk::ImageFileReader}
-  //  \index{SetFileName()!itk::ImageFileWriter}
   //
   //  Software Guide : EndLatex 
 
@@ -209,7 +207,7 @@ int main( int argc, char ** argv )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
   // Software Guide : EndCodeSnippet
 
@@ -225,12 +223,12 @@ int main( int argc, char ** argv )
   //  direct use of raw file is \textbf{strongly discouraged} in medical
   //  imaging.  It is always better to create a header for a raw file by
   //  using any of the file formats that combine a text header file and a raw
-  //  binary file, like \doxygen{MetaImgaIO}, \doxygen{GiplImageIO} and
-  //  VTKImageIO.
+  //  binary file, like \doxygen{MetaImageIO}, \doxygen{GiplImageIO} and
+  //  \doxygen{VTKImageIO}.
   // 
   //  Software Guide : EndLatex 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

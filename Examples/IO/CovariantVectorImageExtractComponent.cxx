@@ -56,7 +56,7 @@ int main( int argc, char ** argv )
     std::cerr << argv[0] << " inputVectorImageFile  outputScalarImageFile";
     std::cerr << " outupNormalizedScalarImageFile";
     std::cerr << " componentToExtract" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -133,7 +133,7 @@ int main( int argc, char ** argv )
     std::cerr << "You are requesting an index out of the range for the Vector dimension" << std::endl;
     std::cerr << "Vector dimension is = " << Dimension << std::endl;
     std::cerr << "but your requested index = " << indexOfComponentToExtract << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   //  Software Guide : BeginCodeSnippet
@@ -251,7 +251,7 @@ int main( int argc, char ** argv )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
   // Software Guide : EndCodeSnippet
 
@@ -265,7 +265,7 @@ int main( int argc, char ** argv )
   componentWriter->SetFileName( argv[2] );
   componentWriter->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
