@@ -69,12 +69,11 @@ void
 VersorRigid3DTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  VersorType versor;
-  OffsetType offset;
+
 
   // Transfer the versor part
   
-  VersorType::VectorType axis;
+  AxisType axis;
 
   axis[0] = parameters[0];
   axis[1] = parameters[1];
@@ -85,7 +84,11 @@ VersorRigid3DTransform<TScalarType>
   m_Versor.Set( axis, angle );
 
 
-  // Transfer the constant part
+  
+  
+  // Transfer the translation part
+  
+  OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
     offset[i] = parameters[i+3];
@@ -93,7 +96,6 @@ VersorRigid3DTransform<TScalarType>
 
   
   this->SetOffset( offset );
-  this->modified();
 
 }
 
@@ -113,8 +115,7 @@ VersorRigid3DTransform<TScalarType>
 template <class TScalarType>
 void
 VersorRigid3DTransform<TScalarType>
-::SetRotation( const VersorType::VectorType & axis,
-                     VersorType::ValueType    angle )
+::SetRotation( const AxisType & axis, AngleType  angle )
 {
     m_Versor.Set( axis, angle );
 }
@@ -127,7 +128,7 @@ VersorRigid3DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   
-  typedef VersorType::ValueType  ValueType;
+  typedef typename VersorType::ValueType  ValueType;
 
   // compute derivatives with respect to rotation
   const ValueType vx = m_Versor.GetX();

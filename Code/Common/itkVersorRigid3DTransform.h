@@ -105,6 +105,8 @@ public:
      * Versor Type
      */
     typedef typename Superclass::VersorType  VersorType;
+    typedef typename VersorType::VectorType  AxisType;
+    typedef typename VersorType::ValueType   AngleType;
 
     /**
      * Offset Type
@@ -172,8 +174,7 @@ public:
      * Set the rotational part of the transform
      **/
     void SetRotation( const VersorType & versor );
-    void SetRotation( const VersorType::VectorType & axis,
-                            VersorType::ValueType    angle );
+    void SetRotation( const AxisType & axis, AngleType angle );
 
 
     /**
