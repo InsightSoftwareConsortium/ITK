@@ -72,6 +72,8 @@ VoronoiSegmentationRGBImageFilter(){
   m_TestVar[0] = 0;
   m_TestVar[1] = 1;
   m_TestVar[2] = 2;
+  m_MeanDeviation = 0.8;
+  m_UseBackgroundInAPrior = 1;
 }
 
 /* destructor */
@@ -513,7 +515,6 @@ template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 ExcuteSegment(void){
-
   bool ok = 1;
   if(m_Steps == 0){
     ExcuteSegmentOneStep();
@@ -594,6 +595,12 @@ drawLine(PointType p1,PointType p2){
   int x2=(int)(p2[0]+0.5);
   int y1=(int)(p1[1]+0.5);
   int y2=(int)(p2[1]+0.5);
+  if(x1==m_Size[0]) x1--;  
+  if(x2==m_Size[0]) x2--;  
+  if(y1==m_Size[1]) y1--;  
+  if(y2==m_Size[1]) y2--;  
+
+
   int dx=x1-x2;
   int adx=(dx>0)?dx:-dx;
   int dy=y1-y2;
@@ -645,6 +652,29 @@ TakeAPrior(BinaryObjectImage* aprior)
   ait.Begin();
   iit.Begin();
 
+
+  int i,j;
+  int minx,miny,maxx,maxy;
+  bool status=0;
+  for(i=0;i<m_Size[1];i++){
+    for(j=0;j<m_Size[0];j++){
+       if( (status==0)&&(ait.Get()) ){
+         miny=i;
+         minx=j;
+         maxy=i;
+         maxx=j;
+         status=1;
+       } 
+       else if( (status==1)&&(ait.Get()) ){
+         maxy=i;
+         if(minx>j) minx=j;
+         if(maxx<j) maxx=j;
+       }  
+    ++ait;
+    }
+  }       
+
+
   int objnum = 0;
   int bkgnum = 0;
   
@@ -653,25 +683,42 @@ TakeAPrior(BinaryObjectImage* aprior)
   float bkgaddp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
   float bkgaddpp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
   RGBHCVPixel currp;
-  unsigned int i;
-  while( !iit.IsAtEnd()) {    
-	currp = iit.Get();
-    if(ait.Get()){
-	  objnum++;
-	  for(i=0;i<6;i++){
-	    objaddp[i] += currp[i];
-	    objaddpp[i] += currp[i]*currp[i];
+
+ait.Begin();
+  iit.Begin();
+  for(i=0;i<miny;i++){
+    for(j=0;j<m_Size[0];j++){
+      ++ait;
+      ++iit;
+    }
+  }
+  for(i=miny;i<=maxy;i++){
+    for(j=0;j<minx;j++){
+      ++ait;
+      ++iit;
+    }
+    for(j=minx;j<=maxx;j++){
+      if(ait.Get()){
+        currp=iit.Get();
+	    objnum++;
+	    for(i=0;i<6;i++){
+	      objaddp[i] += currp[i];
+	      objaddpp[i] += currp[i]*currp[i];
+	    }
+      else{
+	    currp = iit.Get();
+	    bkgnum++;
+	    for(i=0;i<6;i++){
+	      bkgaddp[i] += currp[i];
+	      bkgaddpp[i] += currp[i]*currp[i];
+	    }
 	  }
-	}
-	else{
-	  bkgnum++;
-	  for(i=0;i<6;i++){
-	    bkgaddp[i] += currp[i];
-	    bkgaddpp[i] += currp[i]*currp[i];
-	  }
-	}
-	++ait;
-    ++iit;
+      ++ait;++iit;
+    }
+    for(j=maxx+1;j<m_Size[0];j++){
+      ++ait;
+      ++iit;
+    }
   }
 
   double b_Mean[6];
@@ -681,7 +728,6 @@ TakeAPrior(BinaryObjectImage* aprior)
   for(i=0;i<6;i++){
     m_Mean[i] = objaddp[i]/objnum;
     m_Var[i] = sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
-    m_MeanTolerance[i] = m_Mean[i]*m_MeanPercentError[i];
     m_VarTolerance[i] = m_Var[i]*m_VarPercentError[i];
     b_Mean[i] = bkgaddp[i]/bkgnum;
     b_Var[i] = sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
@@ -689,6 +735,10 @@ TakeAPrior(BinaryObjectImage* aprior)
 	if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
 	diffVar[i] = (b_Var[i]-m_Var[i])/m_Var[i];
 	if(diffVar[i] < 0) diffVar[i] = -diffVar[i];
+    if(m_UseBackgroundInAPrior)
+      m_MeanTolerance[i] = diffMean[i]*m_MeanDeviation;
+    else
+      m_MeanTolerance[i] = m_Mean[i]*m_MeanPercentError[i];
   }
 
 /* stupid sorting...*/
@@ -762,6 +812,10 @@ drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color)
   int x2=(int)(p2[0]+0.5); 
   int y1=(int)(p1[1]+0.5); 
   int y2=(int)(p2[1]+0.5); 
+  if(x1==m_Size[0]) x1--;  
+  if(x2==m_Size[0]) x2--;  
+  if(y1==m_Size[1]) y1--;  
+  if(y2==m_Size[1]) y2--; 
   int dx=x1-x2; 
   int adx=(dx>0)?dx:-dx; 
   int dy=y1-y2; 

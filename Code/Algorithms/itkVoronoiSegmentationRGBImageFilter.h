@@ -168,10 +168,17 @@ public:
 
   itkGetMacro(NumberOfSeedsToAdded, int); 
 
-  void SetMeanPercentError(double x[6]);
-  void SetVarPercentError(double x[6]);
+  void SetMeanPercentError(double x[6]){for(int i=0;i<6;i++) m_MeanPercentError[i]=x[i]};
+  void SetVarPercentError(double x[6]){for(int i=0;i<6;i++) m_VarPercentError[i]=x[i]};
+  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i]};
+  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i]};
+
+  itkSetMacro(UseBackgroundInAPrior, bool);
+  itkGetMacro(UseBackgroundInAPrior, bool);
 
 
+  itkSetMacro(MeanDeviation, double);
+  itkGetMacro(MeanDeviation, double);
   /*
    * maximum value of the RGB, needed for color space coversions.
    * default as 8 bit per channel, if it is different, need to be
@@ -265,6 +272,8 @@ private:
   double m_MaxValueOfRGB;
   unsigned int m_TestMean[3];
   unsigned int m_TestVar[3];
+  double m_MeanDeviation;
+  bool m_UseBackgroundInAPrior;
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;
