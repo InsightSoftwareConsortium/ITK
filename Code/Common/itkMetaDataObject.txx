@@ -89,7 +89,7 @@ void
 itk::MetaDataObject<MetaDataObjectType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  itk::MetaDataObject<MetaDataObjectType>::Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 
   os << indent << this->m_MetaDataObjectValue << std::endl;
 }
