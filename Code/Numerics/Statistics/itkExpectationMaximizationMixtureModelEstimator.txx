@@ -149,9 +149,9 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   int componentIndex ;
 
-  typename TSample::FrequencyType frequency ;
-  typename TSample::FrequencyType zeroFrequency =
-    NumericTraits< typename TSample::FrequencyType >::Zero ;
+  typedef typename TSample::FrequencyType FrequencyType ;
+  FrequencyType frequency ;
+  FrequencyType zeroFrequency = NumericTraits< FrequencyType >::Zero ;
   typename TSample::MeasurementVectorType mvector ;
   double density ;
   double densitySum ;
