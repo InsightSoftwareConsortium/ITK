@@ -285,6 +285,18 @@ public:
   typedef typename TImage::PixelContainer        PixelContainer;
   typedef typename TImage::PixelContainerPointer PixelContainerPointer;
 
+  /**
+   * Return a pointer to the container.
+   */
+  PixelContainerPointer GetPixelContainer()
+    { return m_Image->GetPixelContainer(); };
+
+  /**
+   * Set the container to use. Note that this does not cause the
+   * DataObject to be modified.
+   */
+  void SetPixelContainer( PixelContainer *container );
+  
 
   /**
    * Return a pointer to the beginning of the buffer.  This is used by

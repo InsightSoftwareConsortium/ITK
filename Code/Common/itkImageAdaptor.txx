@@ -84,6 +84,17 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetPixelContainer(PixelContainer *container)
+{
+  if (this->GetPixelContainer() != container)
+    {
+    m_Image->SetPixelContainer( container );
+    this->Modified();
+    }
+}
 
 /**
  *
