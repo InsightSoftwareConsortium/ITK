@@ -125,12 +125,12 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   // Setup the fixed image pyramid
   m_FixedImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
   m_FixedImagePyramid->SetInput( m_FixedImage );
-  m_FixedImagePyramid->Update();
+  m_FixedImagePyramid->UpdateLargestPossibleRegion();
 
   // Setup the moving image pyramid
   m_MovingImagePyramid->SetNumberOfLevels( m_NumberOfLevels );
   m_MovingImagePyramid->SetInput( m_MovingImage );
-  m_MovingImagePyramid->Update();
+  m_MovingImagePyramid->UpdateLargestPossibleRegion();
 
   // Setup the metric
   m_Metric->SetMovingImage( m_MovingImagePyramid->GetOutput(m_CurrentLevel) );
