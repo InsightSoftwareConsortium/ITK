@@ -25,17 +25,16 @@
 namespace itk
 {
 /** \class NormalizedCorrelationImageToImageMetric
- * \brief Computes similarity between two objects to be registered
+ * \brief Computes similarity between two images to be registered
  *
- * This Class is templated over the type of the Images to be compared and
- * over the type of transformation and Iterpolator to be used.
- *
- * This metric computes the sum of squared differenced between pixels in
- * the moving image and pixels in the fixed image. The spatial correspondance 
- * between both images is established through a Transform. Pixel values are
- * taken from the Moving image. Their positions are mapped to the Fixed image
- * and result in general in non-grid position on it. Values at these non-grid
- * position of the Fixed image are interpolated using a user-selected Interpolator.
+ * This metric computes the correlation between pixels in the fixed image
+ * and pixels in the moving image. The spatial correspondance between 
+ * fixed and moving image is established through a Transform. Pixel values are
+ * taken from the fixed image, their positions are mapped to the moving
+ * image and result in general in non-grid position on it. Values at these
+ * non-grid position of the moving image are interpolated using a user-selected
+ * Interpolator. The correlation is normalized by the autocorrelations of both
+ * the fixed and moving images.
  *
  * \ingroup RegistrationMetrics
  */
