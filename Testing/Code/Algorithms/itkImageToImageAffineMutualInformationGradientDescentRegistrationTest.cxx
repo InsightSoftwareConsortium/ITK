@@ -158,16 +158,16 @@ int main()
 
   // do the registration
   // reduce learning rate as we go
-  registrationMethod->SetNumberOfIterations( 500 );
+  registrationMethod->SetNumberOfIterations( 300 );
+  registrationMethod->SetLearningRate( 5e-5 );
+  registrationMethod->StartRegistration();
+
+  registrationMethod->SetNumberOfIterations( 300 );
   registrationMethod->SetLearningRate( 1e-5 );
   registrationMethod->StartRegistration();
 
-  registrationMethod->SetNumberOfIterations( 250 );
-  registrationMethod->SetLearningRate( 1e-7 );
-  registrationMethod->StartRegistration();
-
-  registrationMethod->SetNumberOfIterations( 125 );
-  registrationMethod->SetLearningRate( 1e-8 );
+  registrationMethod->SetNumberOfIterations( 300 );
+  registrationMethod->SetLearningRate( 1e-6 );
   registrationMethod->StartRegistration();
 
 
