@@ -269,7 +269,8 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetCenter(const InputPointType & center)
-      { m_Center = center; this->ComputeOffset(); this->Modified(); return; }
+      { m_Center = center; this->ComputeTranslation();
+        this->Modified(); return; }
 
   /** Set translation of an AffineTransform
    *
