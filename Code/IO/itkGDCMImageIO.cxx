@@ -517,29 +517,29 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Dimensions[0];
   header->InsertValEntry( str.str(), 0x0028,0x0011); // Columns
 
-  str.str("");
+  str.seekp(0);
   str << m_Dimensions[1];
   header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
 
   if(m_Dimensions[2]>1)
   {
-     str.str("");
+     str.seekp(0);
      str << m_Dimensions[2];
      //header->Insert(str.str(),0x0028,0x0012); // Planes
      header->InsertValEntry(str.str(),0x0028,0x0008); // Number of Frames
   }
 
   // Handle pixel spacing:
-  str.str("");
+  str.seekp(0);
   str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
   str << m_Spacing[0] << "\\" << m_Spacing[1];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
-  str.str("");
+  str.seekp(0);
   str << m_Spacing[2];
   header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
  
   // Handle Origin = Image Position Patient
-  str.str("");
+  str.seekp(0);
   str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
   header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
 
