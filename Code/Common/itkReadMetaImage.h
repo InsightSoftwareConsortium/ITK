@@ -79,7 +79,6 @@ public:
    */
   itkGetStringMacro(FileName);
   
-  void GenerateData();
 protected:
   ReadMetaImage();
   ~ReadMetaImage() {};
@@ -87,6 +86,7 @@ protected:
   void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
   
+  void GenerateData();
 
 private:
   std::string m_FileName;

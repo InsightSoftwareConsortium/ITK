@@ -41,29 +41,29 @@ ReadMetaImage<TOutputImage>
 ::GenerateData()
 {
 
-  MetaImage   m_MetaImage;
+  MetaImage   metaImage;
   
-  m_MetaImage.OpenMetaFile(m_FileName.c_str(),true);
-  if( m_MetaImage.Error() ) 
-  {
+  metaImage.OpenMetaFile(m_FileName.c_str(),true);
+  if( metaImage.Error() ) 
+    {
     throw ExceptionObject();
-  }
+    }
 
-  if( m_MetaImage.NDims() != TOutputImage::ImageDimension )
-  {
+  if( metaImage.NDims() != TOutputImage::ImageDimension )
+    {
     throw ExceptionObject();
-  }
+    }
   
   typename TOutputImage::Pointer m_OutputImage( GetOutput() );
 
-  m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );
+  m_OutputImage->SetSpacing( metaImage.ElemSize() );
 
   Size dimSize;
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++) 
-  {
-    dimSize[i] = m_MetaImage.DimSize(i);
-  }
+    {
+    dimSize[i] = metaImage.DimSize(i);
+    }
 
   const long startPosition[] = { 0, 0, 0 };
   typename TOutputImage::Index start;
@@ -86,15 +86,15 @@ ReadMetaImage<TOutputImage>
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion() );
 
-  PixelType * source = (PixelType *)m_MetaImage.Get();
+  PixelType * source = (PixelType *)metaImage.Get();
 
   
   it.Begin();
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( *source++ );
     ++it;
-  }
+    }
 
 }
 
