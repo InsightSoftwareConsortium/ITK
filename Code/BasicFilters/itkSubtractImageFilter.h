@@ -23,8 +23,10 @@ namespace itk
 {
   
 /** \class SubtractImageFilter
- * \brief Implements an operator for pixel-wise substraction of two images.
+ * \brief Implements an operator for pixel-wise subtraction of two images.
  *
+ * Output = Input1 - Input2.
+ * 
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
