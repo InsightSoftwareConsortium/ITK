@@ -19,6 +19,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMagnitudeImageFilterTest );
   REGISTER_TEST(itkBinaryMedianImageFilterTest );
   REGISTER_TEST(itkBinaryThresholdImageFilterTest );
+  REGISTER_TEST(itkBSplineDecompositionImageFilterTest );
   REGISTER_TEST(itkBSplineInterpolateImageFunctionTest );
   REGISTER_TEST(itkBSplineResampleImageFilterTest );
   REGISTER_TEST(itkBSplineResampleImageFunctionTest );
