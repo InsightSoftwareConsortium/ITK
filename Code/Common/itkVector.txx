@@ -23,7 +23,7 @@ namespace itk
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>&
 Vector<T, TVectorDimension>
-::operator= (const BaseArray& r)
+::operator= (const Self& r)
 {
   BaseArray::operator=(r);
   return *this;
@@ -33,7 +33,7 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>&
 Vector<T, TVectorDimension>
-::operator= (const BaseArray::Reference& r)
+::operator= (const typename BaseArray::Reference& r)
 {
   BaseArray::operator=(r);
   return *this;
@@ -43,7 +43,7 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>&
 Vector<T, TVectorDimension>
-::operator= (const BaseArray::ConstReference& r)
+::operator= (const typename BaseArray::ConstReference& r)
 {
   BaseArray::operator=(r);
   return *this;

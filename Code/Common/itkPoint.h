@@ -85,18 +85,18 @@ class Point : public Array< T, TPointDimension > {
   /*@{
    * Pass-through constructor for the Array base class.
    */
-  Point(const BaseArray& r): BaseArray(r) {}
-  Point(const BaseArray::Reference& r): BaseArray(r) {}
-  Point(const BaseArray::ConstReference& r): BaseArray(r) {}
+  Point(const Self& r): BaseArray(r) {}
+  Point(const typename BaseArray::Reference& r): BaseArray(r) {}
+  Point(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   Point(const ValueType r[Length]): BaseArray(r) {}  
   //@}
   
   /*@{
    * Pass-through assignment operator for the Array base class.
    */
-  Point& operator= (const BaseArray& r);
-  Point& operator= (const BaseArray::Reference& r);
-  Point& operator= (const BaseArray::ConstReference& r);
+  Point& operator= (const Self& r);
+  Point& operator= (const typename BaseArray::Reference& r);
+  Point& operator= (const typename BaseArray::ConstReference& r);
   Point& operator= (const ValueType r[Length]);
   ArrayCommaListCopier operator= (const ValueType& r);
   //@}

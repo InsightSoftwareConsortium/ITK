@@ -87,16 +87,16 @@ class Vector : public Array<T,TVectorDimension> {
   /*@{
    * Pass-through constructor for the Array base class.
    */
-  Vector(const BaseArray& r): BaseArray(r) {}
-  Vector(const BaseArray::Reference& r): BaseArray(r) {}
-  Vector(const BaseArray::ConstReference& r): BaseArray(r) {}
+  Vector(const Self& r): BaseArray(r) {}
+  Vector(const typename BaseArray::Reference& r): BaseArray(r) {}
+  Vector(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   Vector(const ValueType r[Length]): BaseArray(r) {}  
   //@}
   
   /*@{
    * Pass-through assignment operator for the Array base class.
    */
-  Vector& operator= (const BaseArray& r);
+  Vector& operator= (const Self& r);
   Vector& operator= (const BaseArray::Reference& r);
   Vector& operator= (const BaseArray::ConstReference& r);
   Vector& operator= (const ValueType r[Length]);
