@@ -25,7 +25,7 @@ namespace itk {
  * \brief Virtual class that defines a common interface to all
  *        neighborhood operator subtypes.
  *
- * A NeighborhoodOperator is a set of values that can be applied to a
+ * A NeighborhoodOperator is a set of pixel values that can be applied to a
  * Neighborhood to perform a user-defined operation (i.e. convolution kernel,
  * morphological structuring element).  A NeighborhoodOperator is itself a
  * specialized Neighborhood, with functionality to generate its coefficients
@@ -36,11 +36,12 @@ namespace itk {
  * NeighborhoodOperator is a pure virtual object that must be
  * subclassed to be used.  A user's subclass must implement two methods:
  *
- * (1) GenerateCoefficients -- the algorithm that computes the coefficients
- *  of the operator.
+ * (1) GenerateScalarCoefficients -- the algorithm that computes the scalar
+ *   coefficients of the operator.
  *
- * (2) Fill -- the algorithm that places the coefficients into the memory
- *  buffer of the operator (arranges them spatially in the neighborhood).
+ * (2) ScalarFill -- the algorithm that places the scalar coefficients into
+ *   the memory buffer of the operator (arranges them spatially in the
+ *   neighborhood). 
  *
  * NeighborhoodOperator supports the concept of a "directional operator."
  * A directional operator is defined in this context to be an operator
@@ -55,14 +56,14 @@ namespace itk {
  * successive neighborhoods across a region of interest in an image.
  *
  */
-template< class TDataType, unsigned int VDimension >
-class NeighborhoodOperator : public Neighborhood<TDataType, VDimension>
+template< class TPixel, unsigned int VDimension >
+class NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
 {
 public:
   /**
    *  Neighborhood typedef support.
    */
-  typedef Neighborhood<TDataType, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> Neighborhood;
 
   /**
    *  Standard "Self" typedef.
@@ -108,7 +109,7 @@ public:
    * \sa CreateDirectional
    * \sa Fill
    */
-  virtual void CreateToRadius(const unsigned long *);
+  virtual void CreateToRadius(const SizeType &);
 
   /**
    * Creates the operator with a specified radius ("square", same length
@@ -117,7 +118,7 @@ public:
    * \sa CreateDirectional
    * \sa Fill
    */
-  virtual void CreateToRadius(const unsigned long &);
+  virtual void CreateToRadius(const unsigned long);
 
   /**
    * Prints some debugging information.
@@ -134,13 +135,13 @@ protected:
    * A subclass-specific algorithm that computes the coefficients
    * of the operator.
    */
-  virtual std::vector<TDataType> GenerateCoefficients() = 0;
+  virtual std::vector<TPixel> GenerateCoefficients() = 0;
 
   /**
    * A subclass-specific algorithm that positions the coefficients
    * spatially in the operator.
    */
-  virtual void Fill(const std::vector<TDataType> &) = 0;
+  virtual void Fill(const std::vector<TPixel> &) = 0;
   
   /**
    * A pre-defined Fill function that can be called by a subclass
@@ -149,7 +150,7 @@ protected:
    * operators, or centering coefficients in an N-dimensional
    * neighborhood.
    */
-  virtual void FillCenteredDirectional(const std::vector<TDataType> &);
+  virtual void FillCenteredDirectional(const std::vector<TPixel> &);
   
 private:
   /**
