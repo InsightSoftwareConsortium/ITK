@@ -87,6 +87,25 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 
 }
 
+template <class TInputImage, class TOutputImage>
+void
+BSplineDecompositionImageFilter<TInputImage, TOutputImage>
+::SetInput( unsigned int index, const TInputImage * inputData)
+{
+  Superclass::SetInput(index, inputData);
+
+  m_DataLength = inputData->GetLargestPossibleRegion().GetSize();
+  unsigned long maxLength = 0;
+  for ( int n = 0; n < ImageDimension; n++ )
+    {
+    if ( m_DataLength[n] > maxLength )
+      {
+      maxLength = m_DataLength[n];
+      }
+    }
+  m_Scratch.resize( maxLength );
+
+}
 
 
 template <class TInputImage, class TOutputImage>

@@ -102,6 +102,7 @@ public:
 
   /** Set the input image.  This must be set by the user. */
   virtual void SetInput(const TInputImage * inputData);
+  virtual void SetInput( unsigned int, const TInputImage * image);
 
   /** This filter requires all of the input image */
   void GenerateInputRequestedRegion();
