@@ -155,6 +155,35 @@ Versor<T>
 
 
 
+
+/**
+ * Comparision operator
+ */
+template<class T>
+bool
+Versor<T>
+::operator==( const Self & v) const
+{
+
+  // Evaluate the quaternion ratio between them
+  Self ratio = *this * v.GetReciprocal();
+  
+  const itk::NumericTraits< T >::AccumulateType 
+                        square = ratio.m_W * ratio.m_W;
+  
+  const double epsilon = 1e-30;
+
+  if( fabs( 1.0f - square ) < epsilon )
+    {
+    return true;
+    }
+
+  return false;  
+
+}
+
+
+
 /**
  * Get Conjugate
  */
