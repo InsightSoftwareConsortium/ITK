@@ -124,7 +124,7 @@ int itkHistogramTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed in" << whereFail << "." << std::endl;
+    std::cout << "Test failed in " << whereFail << "." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -189,21 +189,40 @@ int itkHistogramTest(int, char* [] )
     whereFail = "Sparse Histogram: GetBinMax(Dimension, nthBin)" ;
     }
 
+
   for (id = 0 ; 
        id < static_cast< SparseHistogramType::InstanceIdentifier >(totalSize) ;
        id++)
     {
-    sparseHistogram->SetFrequency(id, 1) ;
-    sparseHistogram->IncreaseFrequency(id, 1) ;
+    bool result = sparseHistogram->SetFrequency(id, 1) ;
+    if( !result )
+      {
+      pass = false ;
+      whereFail = 
+        "SetFrequency(InstanceIdentifier, 1) " ;
+      break;
+
+      }
+
+    result = sparseHistogram->IncreaseFrequency(id, 1) ;
+    if( !result )
+      {
+      pass = false ;
+      whereFail = 
+        "IncreaseFrequency(InstanceIdentifier, 1) " ;
+      break;
+      }
+
     if (sparseHistogram->GetFrequency(id) != 2)
       {
       pass = false ;
       whereFail = 
         "SetFrequency(InstanceIdentifier, 1) + IncreaseFrequency(InstanceIdentifier, 1) + GetFrequency(InstanceIdentifier)" ;
+      break;
       }
     }
 
-  if (sparseHistogram->Quantile(0, 0.5) != 512.0)
+  if (pass && (sparseHistogram->Quantile(0, 0.5) != 512.0))
     {
     pass = false ;
     whereFail = "Sparse Histogram: Quantile(Dimension, percent)" ;
@@ -211,7 +230,7 @@ int itkHistogramTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed in" << whereFail << "." << std::endl;
+    std::cout << "Test failed in " << whereFail << "." << std::endl;
     return EXIT_FAILURE;
     }
 
