@@ -256,7 +256,7 @@ public:
     {
       for (int dim = 0 ; dim < m_Dimension ; dim++)
         {
-          if (m_Index[dim] < (m_DomainSize[dim] - 1))
+          if (m_Index[dim] < static_cast<unsigned int>(m_DomainSize[dim] - 1))
             {
               m_Index[dim] += 1 ;
               return *this ;
