@@ -1176,8 +1176,10 @@ integer *iwhere, *iprint;
 logical *prjctd, *cnstnd, *boxed;
 {
     /* Format strings */
+/*
     static char fmt_1001[] = "(/,\002At X0 \002,i9,\002 variables are exactl\
 y at the bounds\002)";
+*/
 
     /* System generated locals */
     integer i__1;

@@ -62,6 +62,7 @@ LBFGSBOptimizer
   m_MaximumNumberOfEvaluations    = 500;
   m_MaximumNumberOfCorrections    = 5;
   m_Trace                         = false;
+  m_CurrentIteration              = 0;
 }
 
 
