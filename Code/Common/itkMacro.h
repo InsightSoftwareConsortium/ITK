@@ -188,7 +188,7 @@ namespace itk
  * Get"name"() (e.g., GetPoints()).
  */
 #define itkGetObjectMacro(name,type) \
-  virtual type::Pointer Get##name () \
+  virtual typename type::Pointer Get##name () \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " #name " address " << this->m_##name ); \
