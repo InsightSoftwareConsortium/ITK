@@ -22,7 +22,7 @@ itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>::New()
 {
   itkImage<T, TImageDimension>* ret = 
     itkObjectFactory<itkImage<T, TImageDimension> >::Create();
-  if(ret)
+  if ( ret )
     {
     return ret;
     }

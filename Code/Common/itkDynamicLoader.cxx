@@ -1,4 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkDynamicLoader.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 #include "itkDynamicLoader.h"
+
 // This file is actually 3 different implementations.
 // 1. HP machines which uses shl_load
 // 2. Power PC MAC which uses GetSharedLibrary
@@ -6,7 +22,6 @@
 // 4. Most unix systems which use dlopen (default )
 // Each part of the ifdef contains a complete implementation for
 // the static methods of itkDynamicLoader.  
-
 
 
 // ---------------------------------------------------------------

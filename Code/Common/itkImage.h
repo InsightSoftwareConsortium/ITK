@@ -88,7 +88,9 @@ public:
    */
   Iterator RegionEnd();
   
-  /** Create an empty image. */
+  /** 
+   * Create an empty image. 
+   */
   static Pointer New();
 
   /**
