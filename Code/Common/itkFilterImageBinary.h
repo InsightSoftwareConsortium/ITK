@@ -72,7 +72,7 @@ public:
   /**
    *  Region
    */
-  typedef typename TOutputImage::Region ImageRegion;
+  typedef typename TOutputImage::RegionType RegionType;
 
 
   /**

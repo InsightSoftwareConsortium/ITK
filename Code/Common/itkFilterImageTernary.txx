@@ -89,7 +89,7 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::GenerateData( void )
 {
 
-  ImageRegion region = this->m_OutputImage->GetRequestedRegion();
+  RegionType region = this->m_OutputImage->GetRequestedRegion();
 
   Image1Iterator it1( this->m_Image1, region );
   Image2Iterator it2( this->m_Image2, region );
