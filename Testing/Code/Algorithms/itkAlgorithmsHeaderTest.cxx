@@ -81,6 +81,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPatternIntensityImageToImageMetric.txx"
 #include "itkPatternIntensityPointSetToImageMetric.txx"
 #include "itkPointSetToImageMetric.txx"
+#include "itkPointSetToImageRegistrationMethod.txx"
 #include "itkRGBGibbsPriorFilter.txx"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
 #include "itkRegionGrowImageFilter.txx"
