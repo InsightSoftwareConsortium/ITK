@@ -100,6 +100,18 @@ public:
   itkGetConstMacro( OutputMinimum, OutputPixelType );
   itkGetConstMacro( OutputMaximum, OutputPixelType );
 
+  /** Get the Scale and Shift used for the linear transformation
+      of gray level values. 
+   \warning These Values are only valid after the filter has been updated */
+  itkGetConstMacro( Scale, RealType );
+  itkGetConstMacro( Shift, RealType );
+
+  /** Get the Minimum and Maximum values of the input image.
+   \warning These Values are only valid after the filter has been updated */
+  itkGetConstMacro( InputMinimum, InputPixelType );
+  itkGetConstMacro( InputMaximum, InputPixelType );
+
+
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);
 
@@ -113,6 +125,12 @@ protected:
 private:
   RescaleIntensityImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  RealType m_Scale;
+  RealType m_Shift;
+
+  InputPixelType        m_InputMinimum;
+  InputPixelType        m_InputMaximum;
 
   OutputPixelType       m_OutputMinimum;
   OutputPixelType       m_OutputMaximum;

@@ -35,6 +35,12 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
 {
   m_OutputMaximum   = NumericTraits<OutputPixelType>::Zero;
   m_OutputMinimum   = NumericTraits<OutputPixelType>::max();
+
+  m_InputMaximum   = NumericTraits<InputPixelType>::Zero;
+  m_InputMinimum   = NumericTraits<InputPixelType>::max();
+  
+  m_Scale = 1.0;
+  m_Shift = 0.0;
 }
 
 
@@ -79,22 +85,22 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
 
   calculator->Compute();
 
-  const InputPixelType minimum = calculator->GetMinimum();
-  const InputPixelType maximum = calculator->GetMaximum();
+  m_InputMinimum = calculator->GetMinimum();
+  m_InputMaximum = calculator->GetMaximum();
 
-  const RealType factor = 
+  m_Scale = 
           static_cast<RealType>( m_OutputMaximum - m_OutputMinimum ) /
-          static_cast<RealType>( maximum - minimum );
+          static_cast<RealType>( m_InputMaximum - m_InputMinimum );
 
-  const RealType offset =
+  m_Shift =
           static_cast<RealType>( m_OutputMinimum ) - 
-          static_cast<RealType>( minimum ) * factor;
+          static_cast<RealType>( m_InputMinimum ) * m_Scale;
   
   // set up the functor values
   this->GetFunctor().SetMinimum( m_OutputMinimum );
   this->GetFunctor().SetMaximum( m_OutputMaximum );
-  this->GetFunctor().SetFactor( factor );
-  this->GetFunctor().SetOffset( offset );
+  this->GetFunctor().SetFactor( m_Scale );
+  this->GetFunctor().SetOffset( m_Scale );
   
 }
 
