@@ -47,7 +47,7 @@ EuclideanDistance< TVector >
   
   for(unsigned int i = 0 ; i < VectorLength ; i++ )
     {
-    temp = m_Origin[i] - x[i] ;
+    temp = this->m_Origin[i] - x[i] ;
     distance += temp * temp ;
     }
   
@@ -73,7 +73,7 @@ EuclideanDistance< TVector >
   double temp ;
   for ( unsigned int i = VectorLength ; i > 0 ; --i )
     {
-    temp = this->Evaluate( m_Origin[i-1], x[i-1] ) ;
+    temp = this->Evaluate( this->m_Origin[i-1], x[i-1] ) ;
     sum += temp * temp ;
     if (sum > squaredRadius)
       {

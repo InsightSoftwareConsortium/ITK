@@ -33,9 +33,9 @@ const typename ScalarImageToListAdaptor< TImage >::MeasurementVectorType &
 ScalarImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id) const
 {
-  if( m_UseBuffer )
+  if( this->m_UseBuffer )
     {
-    m_TempVector[0] = (*m_PixelContainer)[id] ;
+    m_TempVector[0] = (*this->m_PixelContainer)[id] ;
     }
   else
     {

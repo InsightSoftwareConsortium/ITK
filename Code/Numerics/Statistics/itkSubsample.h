@@ -151,8 +151,8 @@ public:
       return *this ;
     }
     
-    Iterator& operator+()
-    { m_Iter += n; return *this ;}
+    //Iterator& operator+()
+    //{ m_Iter += n; return *this ;}
 
     Iterator& operator+(int n)
     { m_Iter += n; return *this ;}
@@ -215,8 +215,8 @@ public:
       return *this ;
     }
     
-    ConstIterator& operator+()
-    { m_Iter += n; return *this ;}
+    //ConstIterator& operator+()
+    //{ m_Iter += n; return *this ;}
 
     ConstIterator& operator+(int n)
     { m_Iter += n; return *this ;}

@@ -29,8 +29,8 @@ template< unsigned int TDimension >
 GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
-  m_TypeName = "GaussianSpatialObject";
-  m_Dimension = TDimension;
+  this->m_TypeName = "GaussianSpatialObject";
+  this->m_Dimension = TDimension;
   m_Radius = 1.0;
   m_Maximum = 1.0;
 } 
@@ -51,7 +51,7 @@ GaussianSpatialObject< TDimension >
 ::SquaredZScore( const PointType& point ) const
 {
   typename TransformType::Pointer inverse = TransformType::New();
-  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+  if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
     {
     return false;
     }
@@ -117,8 +117,8 @@ bool
 GaussianSpatialObject< TDimension >
 ::ComputeLocalBoundingBox() const
 { 
-  if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+  if( this->m_BoundingBoxChildrenName.empty() 
+        || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -130,8 +130,8 @@ GaussianSpatialObject< TDimension >
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
     pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-    m_Bounds->SetMinimum(pnt);
-    m_Bounds->SetMaximum(pnt2);
+    this->m_Bounds->SetMinimum(pnt);
+    this->m_Bounds->SetMaximum(pnt2);
     }
 
   return true;

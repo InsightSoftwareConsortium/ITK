@@ -39,7 +39,7 @@ template <unsigned int TDimension>
 bool 
 SpatialObjectTreeContainer<TDimension>::SetRoot(SpatialObjectPointer element)
 {
-  if(m_Root)
+  if(this->m_Root)
     {
     std::cout << "This tree has already a root" << std::endl;
     return false;
@@ -47,12 +47,12 @@ SpatialObjectTreeContainer<TDimension>::SetRoot(SpatialObjectPointer element)
   
   if(element->GetTreeNode())
     {
-    m_Root = element->GetTreeNode();
+    this->m_Root = element->GetTreeNode();
     }
   else
     {
-    m_Root = SpatialObjectTreeNode<TDimension>::New();
-    m_Root->Set(element);
+    this->m_Root = SpatialObjectTreeNode<TDimension>::New();
+    this->m_Root->Set(element);
     }
   return true;
 }

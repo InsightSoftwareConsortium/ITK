@@ -293,7 +293,7 @@ public:
   
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for (int i=VImageDimension-1; i > 0; i--)
+    for (int i=TDimension-1; i > 0; i--)
       {
       offset += (ind[i] - bufferedRegionIndex[i])*m_OffsetTable[i];
       }
@@ -309,7 +309,7 @@ public:
     IndexType index;
     const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
     
-    for (int i=VImageDimension-1; i > 0; i--)
+    for (int i=TDimension-1; i > 0; i--)
       {
       index[i] = static_cast<IndexValueType>(offset / m_OffsetTable[i]);
       offset -= (index[i] * m_OffsetTable[i]);

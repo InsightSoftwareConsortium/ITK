@@ -50,13 +50,13 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
       
     ratio = px / p ;
 
-    if ( ratio > m_Epsilon && px > 0 )
+    if ( ratio > this->m_Epsilon && px > 0 )
       {
       sum += px * log(ratio);
       }
     else
       {
-      sum += px * m_LogEpsilon ;
+      sum += px * this->m_LogEpsilon ;
       }
     ++e_iter ;
     ++o_iter ;

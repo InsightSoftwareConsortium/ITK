@@ -338,7 +338,7 @@ TubeSpatialObjectPoint< TPointDimension >
   os << indent << "R: " << m_R << std::endl;
   os << indent << "Medialness: " << m_Medialness << std::endl;
   os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
-  os << indent << "X: " << m_X << std::endl;
+  os << indent << "X: " << this->m_X << std::endl;
   os << indent << "T: " << m_T << std::endl;
   os << indent << "Normal1: " << m_Normal1 << std::endl;
   os << indent << "Normal2: " << m_Normal2 << std::endl;
@@ -354,21 +354,21 @@ typename TubeSpatialObjectPoint< TPointDimension >::Self &
 TubeSpatialObjectPoint< TPointDimension >
 ::operator=(const TubeSpatialObjectPoint & rhs) 
 {
-  m_ID = rhs.m_ID;
+  this->m_ID = rhs.m_ID;
   m_R = rhs.m_R;
   m_Medialness = rhs.m_Medialness;
   m_Ridgeness = rhs.m_Ridgeness;
   m_Branchness = rhs.m_Branchness;
   m_Mark = rhs.m_Mark;
   m_NumDimensions = rhs.m_NumDimensions;
-  m_X = rhs.m_X;
+  this->m_X = rhs.m_X;
   m_T = rhs.m_T;
   m_Normal1 = rhs.m_Normal1;
   m_Normal2 = rhs.m_Normal2;
   m_Alpha1 = rhs.m_Alpha1;
   m_Alpha2 = rhs.m_Alpha2;
   m_Alpha3 = rhs.m_Alpha3;
-  m_Color = rhs.m_Color;
+  this->m_Color = rhs.m_Color;
   return * this;
 }
 

@@ -73,14 +73,14 @@ SampleClassifierWithMask< TSample, TMaskSample >
 ::GenerateData()
 {
   unsigned int i ;
-  typename TSample::ConstIterator iter = GetSample()->Begin() ;
-  typename TSample::ConstIterator end = GetSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetSample()->Begin() ;
+  typename TSample::ConstIterator end = this->GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
 
   typename TMaskSample::Iterator m_iter = this->GetMask()->Begin() ;
 
   OutputType* output = this->GetOutput() ;
-  output->Resize(GetSample()->Size()) ;
+  output->Resize(this->GetSample()->Size()) ;
   std::vector< double > discriminantScores ;
   unsigned int numberOfClasses = this->GetNumberOfClasses() ;
   discriminantScores.resize(numberOfClasses) ;

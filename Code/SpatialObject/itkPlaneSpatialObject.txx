@@ -27,8 +27,8 @@ template< unsigned int TDimension >
 PlaneSpatialObject<TDimension >
 ::PlaneSpatialObject()
 {
-  m_TypeName = "PlaneSpatialObject";
-  m_Dimension = TDimension;
+  this->m_TypeName = "PlaneSpatialObject";
+  this->m_Dimension = TDimension;
   m_LowerPoint.Fill(0);
   m_UpperPoint.Fill(0);
 } 
@@ -51,7 +51,7 @@ PlaneSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
   typename TransformType::Pointer inverse = TransformType::New();
-  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+  if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
     {
     return false;
     }
@@ -111,8 +111,8 @@ PlaneSpatialObject<TDimension >
 { 
   itkDebugMacro( "Computing tube bounding box" );
 
-  if( m_BoundingBoxChildrenName.empty() 
-      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+  if( this->m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -127,8 +127,8 @@ PlaneSpatialObject<TDimension >
       pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
       pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-      m_Bounds->SetMinimum(pnt);
-      m_Bounds->SetMaximum(pnt2);
+      this->m_Bounds->SetMinimum(pnt);
+      this->m_Bounds->SetMaximum(pnt2);
     }
   return true;
 } 

@@ -53,7 +53,7 @@ namespace itk {
       
       typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
       NeighborhoodIteratorType neighborIt, maskNeighborIt;
-      neighborIt = NeighborhoodIteratorType(radius, m_Image, region);
+      neighborIt = NeighborhoodIteratorType(radius, this->m_Image, region);
       maskNeighborIt = NeighborhoodIteratorType(radius, m_ImageMask, region);
       
       for (neighborIt.GoToBegin(), maskNeighborIt.GoToBegin();
@@ -66,15 +66,15 @@ namespace itk {
           }
         
         const PixelType centerPixelIntensity = neighborIt.GetCenterPixel();
-        if (centerPixelIntensity < m_Min || 
-            centerPixelIntensity > m_Max)
+        if (centerPixelIntensity < this->m_Min || 
+            centerPixelIntensity > this->m_Max)
           {
           continue; // don't put a pixel in the histogram if the value
                     // is out-of-bounds.
           }
         
         typename OffsetVector::ConstIterator offsets;
-        for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
+        for(offsets = this->m_Offsets->Begin(); offsets != this->m_Offsets->End(); offsets++)
           {
           
           if (maskNeighborIt.GetPixel(offsets.Value()) != m_InsidePixelValue)
@@ -91,8 +91,8 @@ namespace itk {
             continue; // don't put a pixel in the histogram if it's out-of-bounds.
             }
           
-          if (pixelIntensity < m_Min || 
-              pixelIntensity > m_Max)
+          if (pixelIntensity < this->m_Min || 
+              pixelIntensity > this->m_Max)
             {
             continue; // don't put a pixel in the histogram if the value
                       // is out-of-bounds.
@@ -103,10 +103,10 @@ namespace itk {
           MeasurementVectorType cooccur;
           cooccur[0] = centerPixelIntensity;
           cooccur[1] = pixelIntensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
+          this->m_Histogram->IncreaseFrequency(cooccur, 1);
           cooccur[1] = centerPixelIntensity;
           cooccur[0] = pixelIntensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
+          this->m_Histogram->IncreaseFrequency(cooccur, 1);
           }
         }
       }

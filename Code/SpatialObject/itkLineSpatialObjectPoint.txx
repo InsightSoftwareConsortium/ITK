@@ -27,7 +27,7 @@ template< unsigned int TPointDimension >
 LineSpatialObjectPoint< TPointDimension >
 ::LineSpatialObjectPoint( void ) 
 { 
-  m_ID = 0;
+  this->m_ID = 0;
   for(unsigned int i=0;i<TPointDimension-1;i++)
     {
     VectorType normal;
@@ -81,8 +81,8 @@ typename LineSpatialObjectPoint< TPointDimension >::Self &
 LineSpatialObjectPoint< TPointDimension >
 ::operator=(const LineSpatialObjectPoint & rhs) 
 {
-  m_ID = rhs.m_ID;
-  m_X = rhs.m_X;
+  this->m_ID = rhs.m_ID;
+  this->m_X = rhs.m_X;
   return * this;
 }
 

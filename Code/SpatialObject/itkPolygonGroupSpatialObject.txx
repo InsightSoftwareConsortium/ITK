@@ -43,7 +43,7 @@ template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
 ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<TDimension> *replacement)
 {
-  TreeNodeChildrenListType & children = m_TreeNode->GetChildrenList();
+  TreeNodeChildrenListType & children = this->m_TreeNode->GetChildrenList();
   typename TreeNodeChildrenListType::iterator it = children.begin();
   typename TreeNodeChildrenListType::iterator itend = children.end();
   while(it != itend)
@@ -65,7 +65,7 @@ template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
 IsClosed()
 {
-  TreeNodeChildrenListType & children = m_TreeNode->GetChildrenList();
+  TreeNodeChildrenListType & children = this->m_TreeNode->GetChildrenList();
   typename TreeNodeChildrenListType::iterator it = children.begin();
   typename TreeNodeChildrenListType::iterator itend = children.end();
   while(it != itend) 
@@ -88,7 +88,7 @@ template <unsigned int TDimension >
 unsigned PolygonGroupSpatialObject<TDimension>::
 NumberOfStrands()
 {
-  return m_TreeNode->GetNumberOfChildren();
+  return this->m_TreeNode->GetNumberOfChildren();
 }
 
 template <unsigned int TDimension >

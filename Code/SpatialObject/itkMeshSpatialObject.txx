@@ -29,10 +29,10 @@ template <class TMesh>
 MeshSpatialObject< TMesh >
 ::MeshSpatialObject()
 {
-  m_TypeName = "MeshSpatialObject";
+  this->m_TypeName = "MeshSpatialObject";
   m_Mesh = MeshType::New();
-  ComputeBoundingBox();
-  m_PixelType = typeid(TMesh::PixelType).name();
+  this->ComputeBoundingBox();
+  m_PixelType = typeid(typename TMesh::PixelType).name();
 }
 
 /** Destructor */
@@ -59,14 +59,14 @@ bool
 MeshSpatialObject< TMesh >
 ::IsInside( const PointType & point) const
 {
-  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
     {
     return false;
     }
 
-  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);
 
-  if(m_Bounds->IsInside(transformedPoint))
+  if(this->m_Bounds->IsInside(transformedPoint))
     {     
     typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
@@ -148,8 +148,8 @@ bool
 MeshSpatialObject< TMesh >
 ::ComputeLocalBoundingBox() const
 {
-  if( m_BoundingBoxChildrenName.empty() 
-      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+  if( this->m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -163,8 +163,8 @@ MeshSpatialObject< TMesh >
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
     pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-    m_Bounds->SetMinimum(pnt);
-    m_Bounds->SetMaximum(pnt2);
+    this->m_Bounds->SetMinimum(pnt);
+    this->m_Bounds->SetMaximum(pnt2);
 
     }
   return true;
@@ -178,7 +178,7 @@ MeshSpatialObject< TMesh >
 {
   m_Mesh = mesh;
   m_Mesh->Modified();
-  ComputeBoundingBox();
+  this->ComputeBoundingBox();
 }
 
 /** Get the Mesh inside the spatial object */

@@ -86,7 +86,7 @@ SpatialObjectTreeNode<TDimension>
   m_NodeToParentNodeTransform->SetIdentity();
   m_NodeToWorldTransform = TransformType::New();
   m_NodeToWorldTransform->SetIdentity();
-  m_Parent = NULL;
+  this->m_Parent = NULL;
 }
 
   
@@ -125,9 +125,9 @@ SpatialObjectTreeNode<TDimension>
   ChildrenListType * children = new ChildrenListType;
 
   typename ChildrenListType::const_iterator childrenListIt = 
-    m_Children.begin();
+    this->m_Children.begin();
   typename ChildrenListType::const_iterator childrenListEnd = 
-    m_Children.end();
+    this->m_Children.end();
 
   while( childrenListIt != childrenListEnd )
     {

@@ -411,7 +411,7 @@ PolygonSpatialObject<TDimension>
     }
 
   typename TransformType::Pointer inverse = TransformType::New();
-  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+  if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
     {
     return false;
     }

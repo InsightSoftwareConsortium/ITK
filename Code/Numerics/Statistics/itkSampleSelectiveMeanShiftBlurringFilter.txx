@@ -64,8 +64,8 @@ SampleSelectiveMeanShiftBlurringFilter< TSample >
   MeasurementVectorType modePoint ;
   MeasurementVectorType finalPoint ;
 
-  typename InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
-  typename InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
+  typename Superclass::InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
+  typename Superclass::InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
 
   OutputType* output = this->GetOutput() ;
   output->Clear() ;

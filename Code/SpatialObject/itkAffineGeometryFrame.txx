@@ -101,7 +101,7 @@ template<class TScalarType, unsigned int NDimensions>
 typename AffineGeometryFrame<TScalarType, NDimensions>::Pointer
 AffineGeometryFrame<TScalarType, NDimensions>::Clone() const
 {
-  Self::Pointer newGeometry = Self::New();
+  typename Self::Pointer newGeometry = Self::New();
   newGeometry->Initialize();
   InitializeGeometry(newGeometry);
   return newGeometry;

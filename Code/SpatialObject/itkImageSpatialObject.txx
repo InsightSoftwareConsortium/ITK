@@ -30,7 +30,7 @@ template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
-  m_TypeName = "ImageSpatialObject";
+  this->m_TypeName = "ImageSpatialObject";
   m_Image = ImageType::New();
   m_SlicePosition = new int[TDimension];
   for(unsigned int i=0;i<TDimension;i++)
@@ -38,7 +38,7 @@ ImageSpatialObject< TDimension,  PixelType >
     m_SlicePosition[i]=0;
     }
 
-  ComputeBoundingBox();
+  this->ComputeBoundingBox();
   m_PixelType = typeid(PixelType).name();
 }
 
@@ -67,14 +67,14 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point) const
 {
-  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
     {
     return false;
     }
 
-  PointType p = m_InternalInverseTransform->TransformPoint(point);
+  PointType p = this->m_InternalInverseTransform->TransformPoint(point);
 
-  if(m_Bounds->IsInside( p))
+  if(this->m_Bounds->IsInside( p))
     {
     return true;
     }
@@ -120,7 +120,7 @@ ImageSpatialObject< TDimension,  PixelType >
   if( IsEvaluableAt( point, 0, name ) )
     {
     typename TransformType::Pointer inverse = TransformType::New();
-    if(!GetIndexToWorldTransform()->GetInverse(inverse))
+    if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
       {
       return false;
       }
@@ -161,8 +161,8 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
 {
-    if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    if( this->m_BoundingBoxChildrenName.empty() 
+        || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
       {
       typename ImageType::RegionType region =
         m_Image->GetLargestPossibleRegion();
@@ -178,9 +178,8 @@ ImageSpatialObject< TDimension,  PixelType >
       pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
       pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
 
-        m_Bounds->SetMinimum(pointLow);
-        m_Bounds->SetMaximum(pointHigh);
-   
+      this->m_Bounds->SetMinimum(pointLow);
+      this->m_Bounds->SetMaximum(pointHigh);
 
       return true;
       }

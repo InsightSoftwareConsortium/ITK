@@ -63,11 +63,11 @@ JointDomainImageToListAdaptor< TImage >
     m_TempVector[i] = m_TempPoint[i] / m_NormalizationFactors[i] ;
     }
   
-  if( m_UseBuffer )
+  if( this->m_UseBuffer )
     {
     m_TempRangeVector =  
       *(reinterpret_cast<const RangeDomainMeasurementVectorType* >
-        (&(*m_PixelContainer)[id]))  ;
+        (&(*this->m_PixelContainer)[id]))  ;
     }
   else
     {
@@ -106,15 +106,15 @@ JointDomainImageToListAdaptor< TImage >
 
   for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
     {
-    if ( beginIndex[i] < m_ImageBeginIndex[i] )
+    if ( beginIndex[i] < this->m_ImageBeginIndex[i] )
       {
-      beginIndex[i] = m_ImageBeginIndex[i] ;
-      size[i] -= (m_ImageBeginIndex[i] - beginIndex[i]) ;
+      beginIndex[i] = this->m_ImageBeginIndex[i] ;
+      size[i] -= (this->m_ImageBeginIndex[i] - beginIndex[i]) ;
       }
 
-    if ( static_cast<typename ImageIndexType::IndexValueType>(beginIndex[i] + size[i] - 1) > m_ImageEndIndex[i] )
+    if ( static_cast<typename ImageIndexType::IndexValueType>(beginIndex[i] + size[i] - 1) > this->m_ImageEndIndex[i] )
       {
-      size[i] = m_ImageEndIndex[i] - beginIndex[i] + 1 ;
+      size[i] = this->m_ImageEndIndex[i] - beginIndex[i] + 1 ;
       }
     }
   

@@ -33,12 +33,12 @@ template< unsigned int TDimension >
 BlobSpatialObject< TDimension > 
 ::BlobSpatialObject()  
 { 
-  m_Dimension = TDimension;
-  m_TypeName = "BlobSpatialObject";
-  m_Property->SetRed(1); 
-  m_Property->SetGreen(0); 
-  m_Property->SetBlue(0); 
-  m_Property->SetAlpha(1); 
+  this->m_Dimension = TDimension;
+  this->m_TypeName = "BlobSpatialObject";
+  this->m_Property->SetRed(1); 
+  this->m_Property->SetGreen(0); 
+  this->m_Property->SetBlue(0); 
+  this->m_Property->SetAlpha(1); 
 } 
 
 /** Destructor */ 
@@ -97,7 +97,7 @@ BlobSpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl; 
-  os << indent << "ID: " << m_Id << std::endl; 
+  os << indent << "ID: " << this->m_Id << std::endl; 
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() ) << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
@@ -110,7 +110,7 @@ BlobSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing blob bounding box" );
 
-  if( m_BoundingBoxChildrenName.empty() || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+  if( this->m_BoundingBoxChildrenName.empty() || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
     {
     typename PointListType::const_iterator it  = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end();
@@ -122,13 +122,13 @@ BlobSpatialObject< TDimension >
     else
       {
       PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
-      m_Bounds->SetMinimum(pt);
-      m_Bounds->SetMaximum(pt);
+      this->m_Bounds->SetMinimum(pt);
+      this->m_Bounds->SetMaximum(pt);
       it++;
       while(it!= end) 
         {  
         PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
-        m_Bounds->ConsiderPoint(pt);
+        this->m_Bounds->ConsiderPoint(pt);
         it++;
         }
       }
@@ -148,14 +148,14 @@ BlobSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
     {
     return false;
     }
 
-  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
+  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);
   
-  if( m_Bounds->IsInside(transformedPoint) )
+  if( this->m_Bounds->IsInside(transformedPoint) )
     {
     while(it != itEnd)
       {

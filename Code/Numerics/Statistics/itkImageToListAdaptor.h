@@ -142,8 +142,8 @@ public:
     Iterator& operator++()
     { ++m_Id ; return *this ;}
     
-    Iterator& operator+()
-    { m_Id += n; return *this ;}
+    /*Iterator& operator+()
+    { m_Id += n; return *this ;}*/
 
     Iterator& operator+(int n)
     { m_Id += n; return *this ;}
@@ -206,8 +206,8 @@ public:
     ConstIterator& operator++()
     { ++m_Id ; return *this ;}
     
-    ConstIterator& operator+()
-    { m_Id += n; return *this ;}
+    /*ConstIterator& operator+()
+    { m_Id += n; return *this ;}*/
 
     ConstIterator& operator+(int n)
     { m_Id += n; return *this ;}

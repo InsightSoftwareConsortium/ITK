@@ -63,8 +63,8 @@ ImageToCooccurrenceListAdaptor< TImage >
 
   typename SampleType::MeasurementVectorType coords;  
                                                                                                                       
-  faceList = faceCalculator( GetImage(),
-                             GetImage()->GetRequestedRegion(),
+  faceList = faceCalculator( this->GetImage(),
+                             this->GetImage()->GetRequestedRegion(),
                              radius );
 
   OffsetType center_offset ;
@@ -73,7 +73,7 @@ ImageToCooccurrenceListAdaptor< TImage >
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit) 
     {
 
-    it = ShapedNeighborhoodIteratorType( radius, GetImage(), *fit );
+    it = ShapedNeighborhoodIteratorType( radius, this->GetImage(), *fit );
     it.OverrideBoundaryCondition(&boundaryCondition);
 
     OffsetIterator iter = m_OffsetTable.begin();
