@@ -266,9 +266,9 @@ CreateFullPath(const char* path, const char* file)
   ret = path;
   if ( ret[ret.size()-1] != sep )
     {
-    ret.append(1, sep);
+    ret += sep;
     }
-  ret.append(file);
+  ret += file;
   return ret;
 }
 
@@ -305,7 +305,7 @@ void
 ObjectFactoryBase
 ::LoadLibrariesInPath(const char* path)
 {
-  Directory* dir = Directory::New();
+Directory::Pointer dir = Directory::New();
   if ( !dir->Load(path) )
     {
     return;
