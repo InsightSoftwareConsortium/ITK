@@ -45,6 +45,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkExpImageFilter.h"
 #include "itkExpandImageFilter.h"
+#include "itkExtractImageFilter.h"
 #include "itkFileIOToImageFilter.h"
 #include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
 #include "itkGradient2DAnisotropicDiffusionEquation.h"
