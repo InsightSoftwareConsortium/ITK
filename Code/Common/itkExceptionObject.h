@@ -181,6 +181,30 @@ inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
  * Specific exception types that are subclasses of ExceptionObject follow
  */
 
+/** \class MemoryAllocationError
+ * Exception thrown when image memory allocation fails.
+ * \ingroup ITKSystemObjects
+ */
+class MemoryAllocationError : public ExceptionObject
+{
+public:
+  /** Default constructor.  Needed to ensure the exception object can be
+   * copied. */
+  MemoryAllocationError() : ExceptionObject() {}
+
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  MemoryAllocationError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  MemoryAllocationError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~MemoryAllocationError() throw() {}
+
+  virtual const char* GetNameOfClass() const
+    { return "MemoryAllocationError"; }
+};
+
 /** \class RangeError
  * Exception thrown when accessing memory out of range.
  * \ingroup ITKSystemObjects 

@@ -58,7 +58,7 @@ ImportImageContainer< TElementIdentifier , TElement >
     {
     if (size > m_Capacity)
       {
-      TElement *temp = new TElement[size];
+      TElement* temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
       if (m_ImportPointer && m_ContainerManageMemory)
@@ -74,7 +74,7 @@ ImportImageContainer< TElementIdentifier , TElement >
     }
   else
     {
-    m_ImportPointer = new TElement[size];
+    m_ImportPointer = this->AllocateElements(size);
     m_Capacity = size;
     m_Size = size;
     m_ContainerManageMemory = true;
@@ -96,7 +96,7 @@ ImportImageContainer< TElementIdentifier , TElement >
     {
     if (m_Size < m_Capacity)
       {
-      TElement *temp = new TElement[m_Size];
+      TElement* temp = this->AllocateElements(m_Size);
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
       if (m_ContainerManageMemory)
         {
@@ -163,6 +163,32 @@ ImportImageContainer< TElementIdentifier , TElement >
   this->Modified();
 }
 
+template <typename TElementIdentifier, typename TElement>
+TElement* ImportImageContainer< TElementIdentifier , TElement >
+::AllocateElements(ElementIdentifier size) const
+{
+  // Encapsulate all image memory allocation here to throw an
+  // exception when memory allocation fails even when the compiler
+  // does not do this by default.
+  TElement* data;
+  try
+    {
+    data = new TElement[size];
+    }
+  catch(...)
+    {
+    data = 0;
+    }
+  if(!data)
+    {
+    // We cannot construct an error string here because we may be out
+    // of memory.  Do not use the exception macro.
+    throw MemoryAllocationError(__FILE__, __LINE__,
+                                "Failed to allocate memory for image.",
+                                "ImportImageContainer::AllocateElements");
+    }
+  return data;
+}
 
 template <typename TElementIdentifier, typename TElement>
 void
