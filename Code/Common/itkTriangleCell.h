@@ -87,6 +87,13 @@ public:
   virtual bool  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
   
+  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+                                PointsContainer* ,
+                                CoordRepType [PointDimension],
+                                CoordRepType [],
+                                double *,
+                                InterpolationWeightType*);
+
   /** Cell visitor interface. */
   itkCellVisitMacro(TRIANGLE_CELL);
 
@@ -101,6 +108,9 @@ public:
  private:
   TriangleCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  double DistanceToLine(PointType x, PointType p1, PointType p2, 
+                              double &t, PointType closestPoint);
 };
 
 

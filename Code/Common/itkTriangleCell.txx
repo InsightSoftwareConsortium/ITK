@@ -17,6 +17,7 @@
 #ifndef _itkTriangleCell_txx
 #define _itkTriangleCell_txx
 #include "itkTriangleCell.h"
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk
 {
@@ -300,6 +301,377 @@ TriangleCell< TCellInterface >
   edgePointer.TakeOwnership( edge );
   return true;
 }
+
+
+
+/** Compute distance to finite line. Returns parametric coordinate t 
+ *  and point location on line. */
+template <typename TCellInterface>
+double
+TriangleCell< TCellInterface >
+::DistanceToLine(PointType x, PointType p1, PointType p2, 
+                              double &t, PointType closestPoint)
+{
+  double denom, num;
+  PointType p21;
+  PointType closest;
+  double tolerance;
+  //
+  //   Determine appropriate vectors
+  // 
+  int i;
+  for(i=0;i<PointDimension;i++)
+    {
+    p21[i] = p2[i] - p1[i];
+    }
+
+  //
+  //   Get parametric location
+  //
+  num = 0;
+  denom = 0;
+  for(i=0;i<PointDimension;i++)
+    {
+    num += p21[i]*(x[i]-p1[i]);
+    denom += p21[i]*p21[i];
+    }
+
+  // trying to avoid an expensive fabs
+  tolerance = 1.e-05*num;
+  if (tolerance < 0.0)
+    {
+    tolerance = -tolerance;
+    }
+  if ( -tolerance < denom && denom < tolerance ) //numerically bad!
+    {
+    closest = p1; //arbitrary, point is (numerically) far away
+    }
+  //
+  // If parametric coordinate is within 0<=p<=1, then the point is closest to
+  // the line.  Otherwise, it's closest to a point at the end of the line.
+  //
+  else if ( (t=num/denom) < 0.0 )
+    {
+    closest = p1;
+    }
+  else if ( t > 1.0 )
+    {
+    closest = p2;
+    }
+  else
+    {
+    closest = p21;
+    for(i=0;i<PointDimension;i++)
+      {
+      p21[i] = p1[i] + t*p21[i];
+      }
+    }
+    
+  for(i=0;i<PointDimension;i++)
+    {
+    closestPoint[i] = closest[i]; 
+    }
+
+  double dist = 0;
+      
+  for(i=0;i<PointDimension;i++)
+    {
+    dist += closest[i]-x[i]*closest[i]-x[i];
+    }
+
+  return dist;
+}
+
+/** Evaluate the position of a given point inside the cell 
+ *  This only works in 3D since cross product is not defined for higher dimensions */
+template <typename TCellInterface>
+bool
+TriangleCell< TCellInterface >
+::EvaluatePosition(CoordRepType x[PointDimension],
+                                PointsContainer* points,
+                                CoordRepType closestPoint[PointDimension],
+                                CoordRepType pcoord[3],
+                                double* minDist2,
+                                InterpolationWeightType* weights)
+{
+ 
+  if(PointDimension != 3)
+    {
+    itkWarningMacro("TriangleCell::EvaluatePosition() only works with 3D points");
+    std::cout << "TriangleCell::EvaluatePosition() only works with 3D points" << std::endl;
+    return false;
+    }
+
+
+  int i, j;
+  double fabsn;
+  double rhs[2], c1[2], c2[2], n[3];
+  double det;
+  double maxComponent;
+  int idx=0, indices[2];
+  double dist2Point, dist2Line1, dist2Line2;
+  PointType closest; 
+  PointType closestPoint1, closestPoint2, cp;
+  CoordRepType pcoords[3];
+
+  if(!points)
+    {
+    return false;
+    }
+  
+  // Get normal for triangle, only the normal direction is needed, i.e. the
+  // normal need not be normalized (unit length)
+  //
+  PointType pt1 = points->GetElement(m_PointIds[0]);
+  PointType pt2 = points->GetElement(m_PointIds[1]);
+  PointType pt3 = points->GetElement(m_PointIds[2]);
+
+
+  // This is the solution for 3D points
+  double ax, ay, az, bx, by, bz;
+
+  // order is important!!! maintain consistency with triangle vertex order 
+  ax = pt3[0] - pt2[0]; ay = pt3[1] - pt2[1]; az = pt3[2] - pt2[2];
+  bx = pt1[0] - pt2[0]; by = pt1[1] - pt2[1]; bz = pt1[2] - pt2[2];
+
+  n[0] = (ay * bz - az * by);
+  n[1] = (az * bx - ax * bz);
+  n[2] = (ax * by - ay * bx);
+ 
+  // Project point to plane
+  double t, n2;
+  PointType xo;
+
+  for(i=0;i<PointDimension;i++)
+    {
+    xo[i] = x[i] - pt1[i];
+    }
+
+  t = 0;
+  n2 = 0;
+
+  for(i=0;i<PointDimension;i++)
+    {
+    t += n[i]*xo[i];
+    n2 += n[i]*n[i];
+    }
+
+  if (n2 != 0)
+    {
+    for(i=0;i<PointDimension;i++)
+      {
+      cp[i] = x[i] - t * n[i]/n2;
+      }
+    }
+  else
+    {
+    for(i=0;i<PointDimension;i++)
+      {
+      cp[i] = x[i];
+      }
+    }  
+
+  // Construct matrices.  Since we have over determined system, need to find
+  // which 2 out of 3 equations to use to develop equations. (Any 2 should 
+  // work since we've projected point to plane.)
+  //
+  for (maxComponent=0.0, i=0; i<3; i++)
+    {
+    // trying to avoid an expensive call to fabs()
+    if (n[i] < 0)
+      {
+      fabsn = -n[i];
+      }
+    else
+      {
+      fabsn = n[i];
+      }
+    if (fabsn > maxComponent)
+      {
+      maxComponent = fabsn;
+      idx = i;
+      }
+    }
+
+  for (j=0, i=0; i<3; i++)  
+    {
+    if ( i != idx )
+      {
+      indices[j++] = i;
+      }
+    }
+  
+  for (i=0; i<2; i++)
+    {
+    rhs[i] = cp[indices[i]] - pt3[indices[i]];
+    c1[i] = pt1[indices[i]] - pt3[indices[i]];
+    c2[i] = pt2[indices[i]] - pt3[indices[i]];
+    }
+
+  
+  if ( (det = c1[0]*c2[1] - c2[0]*c1[1]) == 0.0 )
+    {
+    pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
+    if(pcoord)
+      {
+      pcoord[0] = pcoords[0]; 
+      pcoord[1] = pcoords[1];
+      pcoord[2] = pcoords[2];
+      }
+    return false;
+    }
+
+  pcoords[0] = (rhs[0]*c2[1] - c2[0]*rhs[1]) / det;
+  pcoords[1] = (c1[0]*rhs[1] - rhs[0]*c1[1]) / det;
+  pcoords[2] = 1.0 - (pcoords[0] + pcoords[1]);
+
+  // Okay, now find closest point to element
+  //
+  if(weights)
+    {
+    weights[0] = pcoords[2];
+    weights[1] = pcoords[0];
+    weights[2] = pcoords[1];
+    }
+
+  if ( pcoords[0] >= 0.0 && pcoords[0] <= 1.0 &&
+       pcoords[1] >= 0.0 && pcoords[1] <= 1.0 &&
+       pcoords[2] >= 0.0 && pcoords[2] <= 1.0 )
+    {
+    //projection distance
+    if (closestPoint)
+      { // Compute the Distance 2 Between Points
+      *minDist2 = 0;
+      for(i=0;i<PointDimension;i++)
+        {
+        *minDist2 += (cp[i]-x[i])*(cp[i]-x[i]);
+        closestPoint[i] = cp[i];
+        }
+      }
+
+    if(pcoord)
+      {
+      pcoord[0] = pcoords[0]; 
+      pcoord[1] = pcoords[1];
+      pcoord[2] = pcoords[2];
+      }
+    return true;
+    }
+  else
+    {
+    double t;
+    if (closestPoint)
+      {
+      if ( pcoords[0] < 0.0 && pcoords[1] < 0.0 )
+        {
+        dist2Point = 0;
+        for(i=0;i<PointDimension;i++)
+          {
+          dist2Point += x[i]-pt3[i]*x[i]-pt3[i];
+          }
+        dist2Line1 = this->DistanceToLine(x,pt1,pt3,t,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt3,pt2,t,closestPoint2);
+        if (dist2Point < dist2Line1)
+          {
+          *minDist2 = dist2Point;
+          closest = pt3;
+          }
+        else
+          {
+          *minDist2 = dist2Line1;
+          closest = closestPoint1;
+          }
+        if (dist2Line2 < *minDist2)
+          {
+          *minDist2 = dist2Line2;
+          closest = closestPoint2;
+          }
+        for (i=0; i<3; i++)
+          {
+          closestPoint[i] = closest[i];
+          }
+        }
+      else if ( pcoords[1] < 0.0 && pcoords[2] < 0.0 )
+        {
+        dist2Point = 0;
+        for(i=0;i<PointDimension;i++)
+          {
+          dist2Point += x[i]-pt1[i]*x[i]-pt1[i];
+          }
+        dist2Line1 = this->DistanceToLine(x,pt1,pt3,t,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint2);
+        if (dist2Point < dist2Line1)
+          {
+          *minDist2 = dist2Point;
+          closest = pt1;
+          }
+        else
+          {
+          *minDist2 = dist2Line1;
+          closest = closestPoint1;
+          }
+        if (dist2Line2 < *minDist2)
+          {
+          *minDist2 = dist2Line2;
+          closest = closestPoint2;
+          }
+        for (i=0; i<3; i++)
+          {
+          closestPoint[i] = closest[i];
+          }
+        }
+      else if ( pcoords[0] < 0.0 && pcoords[2] < 0.0 )
+        {
+        dist2Point = 0;
+        for(i=0;i<PointDimension;i++)
+          {
+          dist2Point += (x[i]-pt2[i])*(x[i]-pt2[i]);
+          }
+        dist2Line1 = this->DistanceToLine(x,pt2,pt3,t,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint2);
+        if (dist2Point < dist2Line1)
+          {
+          *minDist2 = dist2Point;
+          closest = pt2;
+          }
+        else
+          {
+          *minDist2 = dist2Line1;
+          closest = closestPoint1;
+          }
+        if (dist2Line2 < *minDist2)
+          {
+          *minDist2 = dist2Line2;
+          closest = closestPoint2;
+          }
+        for (i=0; i<3; i++)
+          {
+          closestPoint[i] = closest[i];
+          }
+        }
+      else if ( pcoords[0] < 0.0 )
+        {
+        *minDist2 = this->DistanceToLine(x,pt2,pt3,t,closestPoint);
+        }
+      else if ( pcoords[1] < 0.0 )
+        {
+        *minDist2 = this->DistanceToLine(x,pt1,pt3,t,closestPoint);
+        }
+      else if ( pcoords[2] < 0.0 )
+        {
+        *minDist2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint);
+        }
+      }
+    if(pcoord)
+      {
+      pcoord[0] = pcoords[0]; 
+      pcoord[1] = pcoords[1];
+      pcoord[2] = pcoords[2];
+      }
+    return false;
+    }
+}
+
 
 } // end namespace itk
 
