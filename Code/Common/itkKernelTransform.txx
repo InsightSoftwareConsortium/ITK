@@ -421,7 +421,7 @@ KernelTransform<TScalarType, NDimensions>
 // Get the parameters
 // They are the components of all the landmarks in the source space
 template <class TScalarType, unsigned int NDimensions>
-const KernelTransform<TScalarType, NDimensions>::ParametersType &
+const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
 KernelTransform<TScalarType, NDimensions>
 ::GetParameters( void ) const
 {
