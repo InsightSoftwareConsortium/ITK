@@ -155,11 +155,11 @@
         </td>
         <td align="right">
           <xsl:choose>
-            <xsl:when test="sum(/Dashboard/BuildStamp/Testing/PassedCount) = 0">
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+            <xsl:when test="sum(/Dashboard/BuildStamp/Testing/PassedCount)">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
             </xsl:otherwise>
           </xsl:choose>
           <b><xsl:value-of select="sum(/Dashboard/BuildStamp/Testing/PassedCount)"/></b>
