@@ -101,13 +101,49 @@ public:
 
 /**
  * \class MultiResolutionMutualInformationRigidRegistration
- * \brief Multi-resolution version of the mutual information registration algorithm
+ * \brief Rigidly register two 3D volumes using a multi-resolution mutual information algorithm
  *
- * MultiResolutionMutualInformationRigidRegistration is a multi-resolution version
- * ImageToImageAffineMutualInformationGradientDescent algorithms.
+ * MultiResolutionMutualInformationRigidRegistration performs an
+ * rigid registration between a 3D target image and 3D reference image using 
+ * a multi-resolution version of 
+ * ImageToImageRigidMutualInformationGradientDescentRegistration.
+ * Refer to documentation of
+ * ImageToImageRigidMutualInformationGradientDescentRegistration for
+ * details on the underlying algorithm.
  *
- * This class illustrates the use of the multi-resolution framework.
+ * The two input images are defined via methods SetTarget()
+ * and SetReference(). The number of resolution levels is specified via
+ * SetNumberOfLevels(). GetReferencePyramid() and GetTargetPyramid() 
+ * respectively returns pointers to the reference and target pyramids.
+ * Refer to the documentation of MultiResolutionImagePyramid for details on
+ * how to set the multi-resolution downsampling schedule.
  *
+ * For each resolution level, the user must define the number of 
+ * iterations, the learning rate and translation scale to be used
+ * in the registration. These parameters are set via
+ * SetNumberOfIterations(), SetLearningRates(), SetTranslationScales.
+ * Refer to ImageToImageRigidMutualInformationGradientDescentRegistration
+ * for details on these parameters and how to set them.
+ *
+ * GetInternalRegistrationMethod() returns a pointer to the internal
+ * registration object. Initial transform parameters can be set via: 
+ *
+ * GetInternalRegistrationMethod()->SetParameters( params );
+ *
+ * The final transform parameters can be obtained via:
+ *
+ * GetInternalRegistrationMethod()->GetParameters();
+ *
+ *
+ * This class is templated over the reference image type and the
+ * the target image type.
+ *
+ * Caveat: this class only work for 3D reference and target images
+ *
+ * \sa ImageToImageRigidMutualInformationGradientDescentRegistration
+ * \sa MultiResolutionImagePyramid
+ *
+ * \ingroup RigidImageRegistration
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT
