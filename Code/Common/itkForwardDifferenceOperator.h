@@ -40,11 +40,6 @@ class ITK_EXPORT ForwardDifferenceOperator
 {
 public:
   /**
-   * Run-time type information
-   */
-  itkTypeMacro(ForwardDifferenceOperator, NeighborhoodOperator);
-
-  /**
    * Standard "Self" typedef support.
    */
   typedef ForwardDifferenceOperator Self;

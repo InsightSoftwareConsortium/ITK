@@ -73,12 +73,7 @@ public:
    */
   typedef typename Superclass::ScalarValueType ScalarValueType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(RandomAccessNeighborhoodIterator, RegionNeighborhoodIterator);
-  
-    /**
+  /**
    * Default constructor
    */
   RandomAccessNeighborhoodIterator() {};

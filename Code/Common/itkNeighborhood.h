@@ -106,11 +106,6 @@ public:
     return *this;
   }
   
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Neighborhood, );
-
   /**
    * Returns the radius of the neighborhood.
    */

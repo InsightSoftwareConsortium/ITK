@@ -130,11 +130,6 @@ public:
   typedef typename ScalarTraits<ExternalType>
   ::ScalarValueType ScalarValueType;
   
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(NeighborhoodIterator, Neighborhood);
-
   /**
    * Default constructor.
    */

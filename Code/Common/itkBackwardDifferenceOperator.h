@@ -41,11 +41,6 @@ class ITK_EXPORT BackwardDifferenceOperator
 {
 public:
   /**
-   * Run-time type information
-   */
-  itkTypeMacro(BackwardDifferenceOperator, NeighborhoodOperator);
-
-  /**
    * Standard "Self" typedef support.
    */
   typedef BackwardDifferenceOperator Self;

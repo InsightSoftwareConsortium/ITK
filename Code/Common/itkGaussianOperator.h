@@ -61,11 +61,6 @@ class ITK_EXPORT GaussianOperator
 {
 public:
   /**
-   * Run-time type information
-   */
-  itkTypeMacro(GaussianOperator, NeighborhoodOperator);
-
-  /**
    * Standard "Self" typedef support.
    */
   typedef GaussianOperator Self;

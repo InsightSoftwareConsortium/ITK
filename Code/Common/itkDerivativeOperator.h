@@ -46,11 +46,6 @@ class ITK_EXPORT DerivativeOperator
 
 public:
   /**
-   * Run-time type information
-   */
-  itkTypeMacro(DerivativeOperator, NeighborhoodOperator);
-
-  /**
    * Standard "Self" typedef support.
    */
   typedef DerivativeOperator Self;
