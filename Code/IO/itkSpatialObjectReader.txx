@@ -24,8 +24,8 @@
 namespace itk
 {
 
-template <unsigned int NDimensions, class PixelType>
-SpatialObjectReader<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 ::SpatialObjectReader()
 {
   m_FullFileName = "";
@@ -34,16 +34,16 @@ SpatialObjectReader<NDimensions,PixelType>
   m_Group = 0;
 }
 
-template <unsigned int NDimensions, class PixelType>
-SpatialObjectReader<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 ::~SpatialObjectReader()
 {
 }
 
 
-template <unsigned int NDimensions, class PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectReader<NDimensions,PixelType>
+SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 ::Update()
 { 
   if(m_FullFileName == "")

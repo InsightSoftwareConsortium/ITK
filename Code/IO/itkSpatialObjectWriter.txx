@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template <unsigned int NDimensions, class PixelType>
-SpatialObjectWriter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::SpatialObjectWriter()
 {
   m_FullFileName = "";
@@ -34,16 +34,16 @@ SpatialObjectWriter<NDimensions,PixelType>
   m_BinaryPoints = false;
 }
 
-template <unsigned int NDimensions, class PixelType>
-SpatialObjectWriter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::~SpatialObjectWriter()
 {
 }
 
 /** Set the precision at which the transform should be written */
-template <unsigned int NDimensions, class PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectWriter<NDimensions,PixelType>
+SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::SetTransformPrecision(unsigned int precision)
 {
   m_MetaToSpatialConverter.SetTransformPrecision(precision);
@@ -51,18 +51,18 @@ SpatialObjectWriter<NDimensions,PixelType>
 
 
 /** Get the precision at which the transform should be written */
-template <unsigned int NDimensions, class PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 unsigned int
-SpatialObjectWriter<NDimensions,PixelType>
+SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::GetTransformPrecision()
 {
   return m_MetaToSpatialConverter.GetTransformPrecision();
 }
 
 
-template <unsigned int NDimensions, class PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectWriter<NDimensions,PixelType>
+SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::Update()
 { 
   if(m_FileName != "")

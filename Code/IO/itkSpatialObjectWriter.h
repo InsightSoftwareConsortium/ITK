@@ -21,12 +21,15 @@
 #include "itkProcessObject.h"
 #include "itkSpatialObject.h"
 #include "itkSceneSpatialObject.h"
-
+#include <itkDefaultStaticMeshTraits.h>
 
 namespace itk
 {
 
-template <unsigned int NDimensions = 3, class PixelType = unsigned char>
+template <unsigned int NDimensions = 3, 
+          typename PixelType = unsigned char,
+          typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
+         >
 class SpatialObjectWriter : public Object
 {
 public:
@@ -81,7 +84,7 @@ private:
   SpatialObjectPointer m_SpatialObject;
   SceneType * m_Scene;
 
-  MetaSceneConverter<NDimensions,PixelType> m_MetaToSpatialConverter;
+  MetaSceneConverter<NDimensions,PixelType,TMeshTraits> m_MetaToSpatialConverter;
 };
 
 } // namespace itk

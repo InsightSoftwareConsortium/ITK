@@ -27,7 +27,10 @@
 namespace itk
 {
 
-template <unsigned int NDimensions = 3, class PixelType = unsigned char>
+template <unsigned int NDimensions = 3, 
+          typename PixelType = unsigned char,
+          typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
+         >
 class SpatialObjectReader : public Object
 {
 public:
@@ -82,7 +85,7 @@ private:
 
   ScenePointer m_Scene;
   GroupPointer m_Group;
-  MetaSceneConverter<NDimensions,PixelType> m_MetaToSpatialConverter;
+  MetaSceneConverter<NDimensions,PixelType,TMeshTraits> m_MetaToSpatialConverter;
 };
 
 } // namespace itk
