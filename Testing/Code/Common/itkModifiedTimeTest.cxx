@@ -1,5 +1,3 @@
-#include <cstdio>
-
 #include "itkPoint.h"
 #include "itkVectorContainer.h"
 #include "itkBoundingBox.h"
