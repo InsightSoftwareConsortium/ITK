@@ -20,6 +20,7 @@ SET(WRAP_SOURCES
     wrap_itkShapeDetectionLevelSetImageFilter
     wrap_itkCurvesLevelSetImageFilter
     wrap_itkNarrowBandCurvesLevelSetImageFilter
+    wrap_itkWatershedImageFilter
 )
 
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
