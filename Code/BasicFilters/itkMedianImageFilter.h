@@ -92,6 +92,7 @@ public:
 protected:
   MedianImageFilter();
   virtual ~MedianImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** MedianImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

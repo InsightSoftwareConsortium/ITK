@@ -192,6 +192,21 @@ MeanImageFilter< TInputImage, TOutputImage>
     }
 }
 
+/**
+ * Standard "PrintSelf" method
+ */
+template <class TInputImage, class TOutput>
+void
+MeanImageFilter<TInputImage, TOutput>
+::PrintSelf(
+std::ostream& os, 
+Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Radius: " << m_Radius << std::endl;
+
+}
+
 } // end namespace itk
 
 #endif

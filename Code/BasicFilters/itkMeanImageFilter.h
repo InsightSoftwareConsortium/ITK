@@ -90,6 +90,7 @@ public:
 protected:
   MeanImageFilter();
   virtual ~MeanImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** MeanImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
