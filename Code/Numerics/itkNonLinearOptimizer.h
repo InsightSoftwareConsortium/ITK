@@ -17,7 +17,6 @@
 #define __itkNonLinearOptimizer_h
 
 #include "itkOptimizer.h"
-#include "vnl/vnl_cost_function.h"
 
 namespace itk
 {
@@ -27,9 +26,7 @@ namespace itk
  *
  */
 
-template <class TMetric>
-class ITK_EXPORT NonLinearOptimizer : 
-    public Optimizer<TMetric> 
+class ITK_EXPORT NonLinearOptimizer : public Optimizer
 
 {
 public:
@@ -41,7 +38,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   Optimizer<TMetric> Superclass;
+  typedef   Optimizer Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -50,12 +47,10 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
 
-
  /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro( NonLinearOptimizer, 
-      Optimizer );
+  itkTypeMacro( NonLinearOptimizer, Optimizer );
 
 
   /**
@@ -64,64 +59,12 @@ public:
   itkNewMacro(Self);
   
 
-  /**
-   *  Type of the Reference
-   */
-  typedef TMetric             MetricType;
-
-  /**
-   *  Pointer type for the Metric 
-   */
-  typedef typename MetricType::Pointer    MetricPointer;
-
-  /**
-   * Method for setting the Metric
-   */
-  void SetMetric( TMetric * metric );
-  
-
-  /**
-   * Adapter for the Metric to be used as a cost function
-   */
-  class MetricCostFunction : public vnl_cost_function {
-  public:
-    MetricCostFunction() {};
-    virtual ~MetricCostFunction() {};
-    
-    virtual double f( const vnl_vector<double> & parameters ) {
-      return m_Metric->GetMatchMeasure( parameters );
-    }
-    
-    virtual void gradf(const vnl_vector<double> & parameters,
-                             vnl_vector<double> & gradient ) {
-      m_Metric->GetMatchMeasureDerivatives();
-    }
-    
-    virtual void compute(const vnl_vector<double> & x,
-                               double * f, 
-                               vnl_vector<double> * g ) {
-      // delegate the computation to the Metric
-      m_Metric->GetMatchMeasure( parameters );
-      m_Metric->GetMatchMeasureDerivatives();
-    }
-    
-    void SetMetric( TMetric * metric ) {
-      m_Metric = metric;
-    }
-    
-  private :
-      MetricPointer   m_Metric;
-      
-  };
-
 protected:
 
   NonLinearOptimizer();
   virtual ~NonLinearOptimizer() {};
   NonLinearOptimizer(const Self&) {}
   void operator=(const Self&) {}
-
-  MetricCostFunction          m_MetricCostFunction;
 
 };
 

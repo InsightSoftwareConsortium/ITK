@@ -21,39 +21,11 @@ namespace itk
 /**
  * Constructor
  */
-template <class TMetric>
-Optimizer<TMetric>
+template <class TCostFunction>
+Optimizer<TCostFunction>
 ::Optimizer()
 {
 }
-
-
-/**
- * Set Metric
- */
-template <class TMetric>
-void
-Optimizer<TMetric>
-::SetMetric( TMetric * metric ) 
-{
-  this->m_Metric = metric;
-}
-
-
-
-/**
- *  Start the optimization process
- */
-template <class TMetric>
-void
-Optimizer<TMetric>
-::StartOptimization( void )
-{
-
-
-
-}
-
 
 
 } // end namespace itk

@@ -79,9 +79,38 @@ public:
   class VnlCostFunction : public vnl_cost_function
   {
   public:
+      VnlCostFunction() { m_CostFunction=0; }    
+
       SetCostFunction( TCostFunction * ) 
         { m_CostFunction = costFunction; }
-      VnlCostFunction() { m_CostFunction=0; }    
+      
+
+      /** 
+       *  Delegate computation of the value to the CostFunction
+       */
+      virtual double f( const vnl_vector<double> & parameters ) {
+        return m_CostFunction->GetValue( parameters );
+      }
+      
+      /** 
+       *  Delegate computation of the gradient to the CostFunction
+       */
+      virtual void gradf(const vnl_vector<double> & parameters,
+                               vnl_vector<double> & gradient ) {
+        gradient = m_CostFunction->GetDerivative( parameters );
+      }
+      
+      /** 
+       *  Delegate computation of value and gradient to the CostFunction
+       */
+      virtual void compute(const vnl_vector<double> & x,
+                                 double * f, 
+                                 vnl_vector<double> * g ) {
+        // delegate the computation to the CostFunction
+        f = m_CostFunction->GetValue( parameters );
+        g = m_CostFunction->GetDerivative();
+      }
+ 
   private:
       TCostFunction   * m_CostFunction;
   };  // end of Class CostFunction
