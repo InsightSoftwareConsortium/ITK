@@ -31,7 +31,7 @@ namespace fem {
 
 
 
-
+// FIXME: Write better documentation
 /**
  * \class Element
  * \brief Abstract base element class.
@@ -66,7 +66,11 @@ namespace fem {
  */
 #define LOAD_FUNCTION() \
   virtual LoadVectorType Fe( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType>::Visit(this,l); }
+  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType>::Visit(this,l); } \
+  virtual VectorType GetLoadVector( LoadElementPointer l ) const \
+  { return VisitorDispatcher<Self,LoadElementType,VectorType>::Visit(this,l); }
+
+
 
 
 class Element : public FEMLightObject
@@ -74,7 +78,7 @@ class Element : public FEMLightObject
 FEM_CLASS_SP(Element,FEMLightObject)
 public:
   /**
-   * Float type used in Node and derived classes
+   * Floating point type used in all Element classes.
    */
   typedef Node::Float Float;
 
@@ -87,17 +91,46 @@ public:
    * Class used to store the element stiffness matrix
    */
   typedef vnl_matrix<Float> StiffnesMatrixType;
+  typedef vnl_matrix<Float> MatrixType;
 
   /**
    * Class to store the element load vector
    */
   typedef vnl_vector<Float> LoadVectorType;
+  typedef vnl_vector<Float> VectorType;
 
+  /**
+   * Easy and consistent access to LoadElement and LoadElement::Pointer type.
+   * This is a pointer to FEMLightObject to avoid cyclic references between
+   * LoadElement and Element classes.
+   * As a consequence whenever you need to use a pointer to LoadElement class
+   * within the element's declaration or definition, ALWAYS use this typedef
+   * instead.
+   * When calling the GetLoadVector(...) function from outside, you should
+   * ALWAYS first convert the argument to Element::LoadElementPointer. See
+   * code of function Solver::AssembleF(...) for more info.
+   */
+  typedef FEMLightObject LoadElementType;
+  typedef LoadElementType::Pointer LoadElementPointer;
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+  /*
+   * Old methods. FIXME: To be removed when the new base class is working.
+   */
 
   /**
    * Compute and return element stiffnes matrix in global coordinate system
    */
-  virtual StiffnesMatrixType Ke() const = 0;
+  virtual StiffnesMatrixType Ke() const
+  {
+    StiffnesMatrixType K;
+    this->GetStiffnessMatrix(K);
+    return K;
+  }
+
 
   /**
    * Compute and return element mass matrix in global coordinate system.
@@ -105,20 +138,6 @@ public:
    * need to be solved.
    */
   virtual vnl_matrix<Float> Me() const;
-
-  /**
-   * Easy access of LoadElement and LoadElement::Pointer type.
-   * This is a pointer to FEMLightObject to avoid cyclic references between
-   * LoadElement and Element classes.
-   * As a consequence whenever you need to use a pointer to LoadElement class
-   * within the element's declaration or definition, ALWAYS use this typedef
-   * instead.
-   * When calling the Fe(...) function from outside, you should ALWAYS first
-   * convert the argument to Element::LoadElementPointer. See code of function
-   * Solver::AssembleF(...) for more info.
-   */
-  typedef FEMLightObject LoadElementType;
-  typedef LoadElementType::Pointer LoadElementPointer;
 
   /**
    * Compute and return the element load vector for a given external load.
@@ -162,63 +181,291 @@ public:
 
 
 
+
 //////////////////////////////////////////////////////////////////////////
   /*
-   * Methods related to IO and drawing
+   * Methods related to the physics of the problem.
    */
 
   /**
-   * \class ReadInfoType
-   * \brief Additional information that is required when reading elements
-            from stream.
+   * Compute and return element stiffnes matrix (Ke) in global coordinate
+   * system.
+   * The base class provides a general implementation which only computes
    *
-   * When the element is to be read from the input stream, we must provide
-   * pointers to the array of nodes and materials. Construct this class and
-   * pass a pointer to it when calling the Element::Read virtual member
-   * function.
+   *     b   T
+   * int    B(x) D B(x) dx
+   *     a
+   *
+   * using the Gaussian numeric integration method. The function calls
+   * GetIntegrationPoint() / GetNumberOfIntegrationPoints() to obtain the
+   * integration points. It also calls the GetStrainDisplacementMatrix()
+   * and GetMaterialMatrix() member functions.
+   *
+   * \param Ke Reference to the resulting stiffnes matrix.
+   *
+   * \note This is a very generic implementation of the stiffness matrix
+   *       that is suitable for any problem/element definition. A specifc
+   *       element may override this implementation with its own simple one.
    */
-  class ReadInfoType {
-  public:
-    Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
-    Material::ArrayType::Pointer m_mat;  /**< Pointer to an array of materials. */
-    /** Constructor for simple object creation. */
-    ReadInfoType(Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
-      m_node(node_), m_mat(mat_) {}
-  };
+  virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
 
-#ifdef FEM_BUILD_VISUALIZATION
   /**
-   * Draws the element on the DC.
+   * Compute and return element mass matrix in global coordinate system.
+   * This is needed if dynamic problems (parabolic or hyperbolix d.e.)
+   * need to be solved.
    */
-  virtual void Draw(CDC* pDC, Solution::ConstPointer sol) const {}
-  /** global scale for drawing on the DC */
-  static double& DC_Scale;
-#endif
+  virtual void GetMassMatrix( MatrixType& Me ) const;
+
+  /**
+   * Compute and return the element load vector for a given external load.
+   * The class of load object determines the type of load acting on the
+   * elemnent. Basically this is the contribution of this element on the right
+   * side of the master matrix equation, due to the specified load. 
+   * Returned vector includes only nodal forces that correspond to the given
+   * Load object.
+   *
+   * Visitor design pattern is used in the loads implementation. This function
+   * only selects and calls the proper function based on the given class of
+   * load object. The code that performs the actual conversion to the
+   * corresponding nodal loads is defined elswhere.
+   *
+   * \note Each derived class must implement its own version of this function.
+   *       This is automated by calling the LOAD_FUNCTION() macro within the
+   *       class declaration (in the public: block).
+   *
+   * For example on how to define specific element load, see funtion
+   * LoadImplementationPoint_Bar2D.
+   *
+   * \note: Before a load can be applied to an element, the function that
+   *        implements a load must be registered with the VisitorDispactcher
+   *        class.
+   *
+   * \sa VisitorDispatcher
+   */
+  virtual VectorType GetLoadVector( LoadElementPointer l ) const = 0;
+
+  /**
+   * Compute the strain displacement matrix at local point.
+   *
+   * \param pt Point in local element coordinates.
+   * \param B Reference to a matrix object.
+   */
+  virtual void GetStrainDisplacementMatrix( VectorType pt, MatrixType& B ) const {}// = 0;
+
+  /**
+   * Compute the element material matrix.
+   *
+   * \param D Reference to a matrix object
+   */
+  virtual void GetMaterialMatrix( MatrixType& D ) const {}// = 0;
+
+  /**
+   * Return interpolated value of all unknown functions at
+   * given local point.
+   *
+   * \param pt Point in local element coordinates.
+   * \param sol Reference to the master solution object. This object
+   *            is created by the Solver object when the whole FEM problem
+   *            is solved and contains the values of unknown functions
+   *            at nodes (degrees of freedom).
+   */
+  virtual VectorType InterpolateSolution( VectorType pt, const Solution& sol ) const;
+
+  /**
+   * Return interpolated value of f-th unknown function at
+   * given local point.
+   *
+   * \param pt Point in local element coordinates.
+   * \param sol Reference to the master solution object. This object
+   *            is created by the Solver object when the whole FEM problem
+   *            is solved and contains the values of unknown functions
+   *            at nodes (degrees of freedom).
+   * \param f Number of unknown function to interpolate.
+   *          Must be 0 <= f < GetNumberOfDegreesOfFreedomPerNode().
+   */
+  virtual Float InterpolateSolution( VectorType pt, const Solution& sol, unsigned int f ) const;
 
 
 
 
 //////////////////////////////////////////////////////////////////////////
   /*
-   * Methods that define geometry of an element
-   * FIXME: These should be implemented in Cell/Mesh
+   * Methods related to numeric integration
+   */
+
+  /**
+   * Returns the vector representing the i-th integration point.
+   *
+   * \sa GetWeightAtIntegrationPoint()
+   * \sa GetNumberOfIntegrationPoints()
+   */
+  virtual VectorType GetIntegrationPoint( unsigned int i ) const { return VectorType(); }// = 0;
+
+  /**
+   * Returns the summation weight at i-th integration point.
+   *
+   * \sa GetIntegrationPoint()
+   */
+  virtual Float GetWeightAtIntegrationPoint( unsigned int i ) const { return 0.0; }// = 0;
+
+  /**
+   * Returns total number of integration points.
+   *
+   * \sa GetIntegrationPoint()
+   */
+  virtual unsigned int GetNumberOfIntegrationPoints( void ) const { return 0; }// = 0;
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+  /*
+   * Methods related to the geometry of an element
+   */
+
+  /*
+   * FIXME: The next four should be implemented in Cell/Mesh
    */
   typedef Node::ConstPointer PointIDType;
   virtual unsigned int GetNumberOfPoints(void) const = 0;
   virtual PointIDType GetPoint(unsigned int pt) const = 0;
   virtual void SetPoint(unsigned int pt, PointIDType node) = 0;
 
+  /**
+   * Return the total number of nodes in an elememnt. A node is a point in
+   * the element that stores one or more degrees of freedom.
+   *
+   * In linear elements nodes are typically colocated with geometrical points,
+   * so the number of nodes is equal to the number of points. This is also
+   * the default implementation here. If you need to define a more complex
+   * element which has additional nodes, you need to override this function
+   * in a derived class.
+   */
+  virtual unsigned int GetNumberOfNodes( void ) const = 0;
+
+  /**
+   * Return a vector of global coordinates of n-th node in an element.
+   *
+   * \param n Local number of node. Must be 0 <= n < this->GetNumberOfNodes().
+   */
+  virtual VectorType GetNodeCoordinates( unsigned int n ) const { return VectorType(); } // = 0;
+
+  /**
+   * Transforms the given local element coordinates into global.
+   *
+   * \param pt Point in local element coordinates.
+   */
+  virtual VectorType GetGlobalFromLocalCoordinates( VectorType pt ) const;
+
+  /**
+   * Transforms the given global element coordinates into local.
+   *
+   * \param pt Point in global (world) coordinates.
+   */
+  virtual VectorType GetLocalFromGlobalCoordinates( VectorType pt ) const { return VectorType(); } // = 0;
+
+  /**
+   * Returns a vector containing the values of all shape functions
+   * that define the geometry of a finite element at a given local point
+   * within an element.
+   *
+   * \param pt Point in local element coordinates.
+   */
+  virtual VectorType ShapeFunctions( VectorType pt ) const { return VectorType(); } // = 0;
+
+  /**
+   * Compute the matrix of values of the shape functions derivatives with
+   * respect to local coordinates of this element at a given point.
+   *
+   * A column in this matrix corresponds to a specific shape function,
+   * while a row corresponds to different local coordinates. E.g.
+   * element at row 2, col 3 contains derivative of shape function
+   * number 3 with respect to local coordinate number 2.
+   *
+   * \param pt Point in local element coordinates.
+   * \param shapeD Reference to a matrix object, which will be filled
+   *               with values of shape function derivatives.
+   *
+   * \sa ShapeFunctionGlobalDerivatives
+   */
+  virtual void ShapeFunctionDerivatives( VectorType pt, MatrixType& shapeD ) const {} // = 0;
+
+  /**
+   * Compute matrix of shape function derivatives with respect to
+   * global coordinates.
+   *
+   * A column in this matrix corresponds to a specific shape function,
+   * while a row corresponds to different global coordinates.
+   *
+   * \param pt Point in local element coordinates.
+   * \param shapeDgl Reference to a matrix object, which will be filled
+   *                 with values of shape function derivatives w.r.t. global
+   *                 (world) element coordinates.
+   * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
+   *           is set to 0, the Jacobian will be computed as necessary.
+   * \param pshapeD A pointer to derivatives of shape functions at point pt.
+   *                If this pointer is 0, derivatives will be computed as
+   *                necessary.
+   *
+   * \sa ShapeFunctionDerivatives
+   */
+  virtual void ShapeFunctionGlobalDerivatives( VectorType pt, MatrixType& shapeDgl, MatrixType* pJ=0, MatrixType* pshapeD=0 ) const;
+
+  /** 
+   * Compute the Jacobian matrix of the transformation from local
+   * to global coordinates at a given local point.
+   *
+   * A column in this matrix corresponds to a global coordinate,
+   * while a row corresponds to different local coordinates. E.g.
+   * element at row 2, col 3 contains derivative of the third global
+   * coordinate with respect to local coordinate number 2.
+   *
+   * In order to compute the Jacobian, we normally need the shape
+   * function derivatives. If they are known, you should pass a
+   * pointer to an object of MatrixType that contains the shape
+   * function derivatives. If they are not known, pass null pointer
+   * and they will be computed automatically.
+   *
+   * \param pt Point in local coordinates
+   * \param J referece to matrix object, which will contain the jacobian
+   * \param pshapeD A pointer to derivatives of shape functions at point pt.
+   *                If this pointer is 0, derivatives will be computed as
+   *                necessary.
+   */
+  virtual void Jacobian( VectorType pt, MatrixType& J, MatrixType* pshapeD = 0 ) const;
+
+  /**
+   * Compute the determinant of the Jacobian matrix
+   * at a given point with respect to the local
+   * coordinate system.
+   *
+   * \param pt Point in local element coordinates.
+   */
+  virtual Float JacobianDeterminant( VectorType pt ) const;
+
+  /**
+   * Compute the inverse of the Jacobian matrix
+   * at a given point with respect to the local
+   * coordinate system.
+   *
+   * \param pt Point in local element coordinates.
+   * \param invJ Reference to the object of MatrixType that will store the
+   *             computed inverse if Jacobian.
+   * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
+   *           is set to 0, the Jacobian will be computed as necessary.
+   */
+  virtual void JacobianInverse( VectorType pt, MatrixType& invJ, MatrixType* pJ ) const;
+
+
 
 
 //////////////////////////////////////////////////////////////////////////
   /*
-   * Methods and typedefs related to node management 
+   * Methods and typedefs related to degrees of freedom management
    */
 
   /**
-   * Type that stores global ID's of degrees of freedom. Default constructor
-   * must initialize this object to a value, which represents an invalid
-   * (not defined) degree of freedom. Sort of like a null pointer.
+   * Type that stores global ID's of degrees of freedom.
    *
    * Derived classes must provide static storage for an array of objects of
    * class DegreeOfFreedomIDType.
@@ -227,6 +474,12 @@ public:
    *        a DOF object, or something...
    */
   typedef unsigned int DegreeOfFreedomIDType;
+
+  /**
+   * Constant that represents an invalid DegreeOfFreedomID object.
+   * If a degree of freedom is assigned this value, this means that
+   * that no specific value was (yet) assigned to this DOF.
+   */ 
   enum{ InvalidDegreeOfFreedomID = 0xffffffff };
 
   /**
@@ -242,11 +495,13 @@ public:
    * Return the total number of degrees of freedom defined in a derived
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point. If a derived
-   * class has more advanced DOFs (for example DOFs associated with edges)
-   * this function must be overriden in derived class.
+   * class has more advanced DOFs (for example nodes and DOFs associated
+   * with edges) this function must be overriden in derived class.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedom( void ) const
-  { return this->GetNumberOfPoints() * this->GetNumberOfDegreesOfFreedomPerNode(); }
+  {
+    return this->GetNumberOfPoints() * this->GetNumberOfDegreesOfFreedomPerNode();
+  }
 
   /**
    * Method to get DOF ids. Returns the global id of the DOF with given
@@ -254,7 +509,7 @@ public:
    *
    * \param local_dof Number of DOF within an element (local id of DOF).
    *
-   * /note This function must be overriden in all derived classes.
+   * \note This function must be overriden in all derived classes.
    */
   virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const = 0;
 
@@ -265,38 +520,22 @@ public:
    * \param local_dof Number of DOF within an element (local id of DOF).
    * \param global_dof Global DOF id.
    *
-   * /note This function must be overriden in all derived classes.
+   * \note This function must be overriden in all derived classes.
    */
   virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof) = 0;
 
   /**
    * Releases all DOFs used by element. It sets all local DOF
-   * ids to invalid global id values (-1).
+   * ids to invalid global id values.
    */
-  virtual void ClearDegreesOfFreedom(void);
-
-
-  /**
-   * Return the total number of nodes in an elememnt. A node is a point in
-   * the element that stores one or more degrees of freedom.
-   *
-   * In linear elements nodes are typically colocated with geometrical points,
-   * so the number of nodes is equal to the number of points. This is also
-   * the default implementation here. If you need to define a more complex
-   * element which has additional nodes, you need to override this function
-   * in a derived class.
-   */
-  virtual unsigned int GetNumberOfNodes( void ) const
-  {
-    return this->GetNumberOfPoints();
-  }
+  virtual void ClearDegreesOfFreedom( void );
 
   /**
    * Return the number of degrees of freedom at each node. This is also
    * equal to number of unknowns that we want to solve for at each point
    * within an element.
    *
-   * /note This function must be overriden in all derived classes.
+   * \note This function must be overriden in all derived classes.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const = 0;
 
@@ -388,6 +627,42 @@ public:
 
 
 
+//////////////////////////////////////////////////////////////////////////
+  /*
+   * Methods and classes related to IO and drawing
+   */
+
+  /**
+   * \class ReadInfoType
+   * \brief Additional information that is required when reading elements
+            from stream.
+   *
+   * When the element is to be read from the input stream, we must provide
+   * pointers to the array of nodes and materials. Construct this class and
+   * pass a pointer to it when calling the Element::Read virtual member
+   * function.
+   */
+  class ReadInfoType {
+  public:
+    Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
+    Material::ArrayType::Pointer m_mat;  /**< Pointer to an array of materials. */
+    /** Constructor for simple object creation. */
+    ReadInfoType(Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
+      m_node(node_), m_mat(mat_) {}
+  };
+
+#ifdef FEM_BUILD_VISUALIZATION
+  /**
+   * Draws the element on the DC.
+   */
+  virtual void Draw(CDC* pDC, Solution::ConstPointer sol) const {}
+  /** global scale for drawing on the DC */
+  static double& DC_Scale;
+#endif
+
+
+
+
   /**
    * Create a new unique DOF id.
    * FIXME: This code is not multithread safe.
@@ -397,19 +672,28 @@ public:
     return ++m_DOFCounter;
   };
 
+  /**
+   * Reset the DOF id counter.
+   */
   static void ResetGlobalDOFCounter(void)
   {
     m_DOFCounter=InvalidDegreeOfFreedomID;
   };
 
+  /**
+   * Return the current value of DOF id counter.
+   */
   static DegreeOfFreedomIDType GetGlobalDOFCounter(void)
   {
     return m_DOFCounter;
   }
 
 private:
-  static DegreeOfFreedomIDType m_DOFCounter;
 
+  /**
+   * Storage for DOF id counter.
+   */
+  static DegreeOfFreedomIDType m_DOFCounter;
 
 };
 

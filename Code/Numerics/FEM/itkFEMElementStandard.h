@@ -118,8 +118,11 @@ public:
   }
 
   /*
-   * Methods and typedefs related to Node management 
+   * Methods and typedefs related to DOF management 
    */
+  virtual unsigned int GetNumberOfNodes( void ) const
+  { return NumberOfNodes; }
+
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
   { return NumberOfDegreesOfFreedomPerNode; }
 
@@ -135,9 +138,6 @@ public:
     this->m_dof[local_dof]=global_dof;
   }
 
-
-
-  
   /**
    * Array of pointers to node objects that define the element
    */

@@ -22,12 +22,11 @@
 
 #include "itkFEMSolverCrankNicolson.h"
 
-#include "FEM/itkFEMLoadNode.h"
-#include "FEM/itkFEMLoadElementBase.h"
-#include "FEM/itkFEMLoadBCMFC.h"
-
-#include "FEM/itkFEMUtility.h"
-#include "FEM/itkFEMObjectFactory.h"
+#include "itkFEMLoadNode.h"
+#include "itkFEMLoadElementBase.h"
+#include "itkFEMLoadBC.h"
+#include "itkFEMLoadBCMFC.h"
+#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {
@@ -239,28 +238,28 @@ void SolverCrankNicolson::AddToDisplacements()
     else if (temp > maxs )  maxs=temp;
   }  
   
-  std::cout << " min cur solution val " << mins2 << endl;
-  std::cout << " max cur solution val " << maxs2 << endl;
-  std::cout << " min tot solution val " << mins << endl;
-  std::cout << " max tot solution val " << maxs << endl;
+  std::cout << " min cur solution val " << mins2 << std::endl;
+  std::cout << " max cur solution val " << maxs2 << std::endl;
+  std::cout << " min tot solution val " << mins << std::endl;
+  std::cout << " max tot solution val " << maxs << std::endl;
 
 }
 
 void SolverCrankNicolson::PrintDisplacements() 
 {
-  cout <<  " printing current displacements " << endl;
+  std::cout <<  " printing current displacements " << std::endl;
   for(unsigned int i=0;i<NGFN;i++)
   {  
-    cout << m_ls->GetVectorValue(i,SolutionTMinus1Index) << endl;
+    std::cout << m_ls->GetVectorValue(i,SolutionTMinus1Index) << std::endl;
   }
 }
 
 void SolverCrankNicolson::PrintForce() 
 {
-  cout <<  " printing current forces " << endl;
+  std::cout <<  " printing current forces " << std::endl;
   for(unsigned int i=0;i<NGFN;i++)
   {  
-    cout << m_ls->GetVectorValue(i,ForceTIndex) << endl;
+    std::cout << m_ls->GetVectorValue(i,ForceTIndex) << std::endl;
   }
 }
 

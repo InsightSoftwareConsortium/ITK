@@ -29,8 +29,13 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementHexahedronC03D.cxx
   itkFEMElementC1IsoCurve2D.cxx
 
+  itkFEMElementStd.txx
+  itkFEMElement2DC0LinearQuadrilateral.txx
+  itkFEMElement2DC0LinearQuadrilateralStress.cxx
+
   itkFEMMaterialBase.cxx
   itkFEMMaterialStandard.cxx
+  itkFEMMaterialLinearElasticity.cxx
 
   itkFEMLoadBase.cxx
   itkFEMLoadBC.cxx
@@ -94,6 +99,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElements.h
   itkFEMElementBase.h
   itkFEMElementStandard.h
+  itkFEMElementStd.h
   itkFEMElementBar2D.h
   itkFEMElementBeam2D.h
   itkFEMElementTriC02D.h
@@ -103,9 +109,13 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementHexahedronC03D.h
   itkFEMElementC1IsoCurve2D.h
 
+  itkFEMElement2DC0LinearQuadrilateral.h
+  itkFEMElement2DC0LinearQuadrilateralStress.h
+
   itkFEMMaterials.h
   itkFEMMaterialBase.h
   itkFEMMaterialStandard.h
+  itkFEMMaterialLinearElasticity.h
 
   itkFEMLoads.h
   itkFEMLoadBase.h

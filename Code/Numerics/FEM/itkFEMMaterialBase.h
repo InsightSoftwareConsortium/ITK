@@ -20,7 +20,6 @@
 
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
-#include <iostream>
 
 namespace itk {
 namespace fem {

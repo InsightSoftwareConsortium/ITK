@@ -22,8 +22,8 @@
  * Include this file to make sure that all the necessary includes are 
  * in place when using FEM classes.
  */
-#include "itkFEMNodes.h"
 #include "itkFEMElements.h"
+#include "itkFEMNodes.h"
 #include "itkFEMLoads.h"
 #include "itkFEMMaterials.h"
 

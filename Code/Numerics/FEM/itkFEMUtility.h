@@ -18,7 +18,7 @@
 #define __itkFEMUtility_h
 
 #include <string>
-#include <iostream>
+#include <istream>
 
 namespace itk {
 namespace fem {

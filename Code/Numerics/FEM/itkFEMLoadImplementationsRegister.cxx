@@ -21,8 +21,21 @@
 #endif
 
 #include "itkVisitorDispatcher.h"
-#include "itkFEMElements.h"
-#include "itkFEMLoads.h"
+
+#include "itkFEMLoadPoint.h"
+#include "itkFEMLoadGrav.h"
+#include "itkFEMLoadEdge.h"
+#include "itkFEMLoadImagePairBase.h"
+
+#include "itkFEMElementBar2D.h"
+#include "itkFEMElementBeam2D.h"
+#include "itkFEMElementTriC02D.h"
+#include "itkFEMElementQuadC02D.h"
+#include "itkFEMElementMembraneC02D.h"
+#include "itkFEMElementC1IsoCurve2D.h"
+#include "itkFEMElementHexahedronC03D.h"
+#include "itkFEMElementTetrahedronC03D.h"
+#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 
 namespace itk {
 namespace fem {

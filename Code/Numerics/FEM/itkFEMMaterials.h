@@ -24,3 +24,4 @@
  */
 #include "itkFEMMaterialBase.h"
 #include "itkFEMMaterialStandard.h"
+#include "itkFEMMaterialLinearElasticity.h"

@@ -41,12 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkFEMLoadImagePairBase_h_
 
 
-#include <fstream>
-#include <iostream>
-#include <stdio.h>
-using namespace std;
-
-#include <itkImage.h>
+#include "itkImage.h"
 #include "itkTranslationTransform.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
@@ -57,9 +52,6 @@ using namespace std;
 #include "itkForwardDifferenceOperator.h"
 
 #include "vnl/vnl_math.h"
-#include "FEM/itkFEMMacro.h"
-#include "FEM/itkFEM.h"
-#include "FEM/itkFEMLoadGrav.h"
 #include "itkFEMLoadGrav.h"
 
 

@@ -20,6 +20,7 @@
 
 #include "itkFEMMacro.h"
 #include "itkFEMException.h"
+#include <iostream>
 
 namespace itk {
 namespace fem {

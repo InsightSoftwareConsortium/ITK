@@ -18,12 +18,11 @@
 #ifndef __itkFEMSolverCrankNicolson_h
 #define __itkFEMSolverCrankNicolson_h
 
-#include "FEM/itkFEM.h"
-#include "FEM/itkFEMSolver.h"
-#include "FEM/itkFEMElementBase.h"
-#include "FEM/itkFEMMaterialBase.h"
-#include "FEM/itkFEMLoadBase.h"
-#include "FEM/itkFEMLinearSystemWrapperVNL.h"
+#include "itkFEMSolver.h"
+#include "itkFEMElementBase.h"
+#include "itkFEMMaterialBase.h"
+#include "itkFEMLoadBase.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
 
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_matrix.h"

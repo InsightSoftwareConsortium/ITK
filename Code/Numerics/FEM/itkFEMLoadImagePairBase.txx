@@ -10,11 +10,10 @@
 #ifndef _itkFEMLoadImagePairBase_txx_
 #define _itkFEMLoadImagePairBase_txx_
 
-#include "itkFEMLoadImagePairBase.h"
-
-
 namespace itk {
 namespace fem {
+
+
 
 
 template<class TReference,class TTarget>
