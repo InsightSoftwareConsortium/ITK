@@ -116,7 +116,7 @@ public:
   virtual void SetParameters(const ParametersType &) {};
 
   /** Get the Transformation Parameters. */
-  const ParametersType& GetParameters() 
+  virtual const ParametersType& GetParameters(void) const
     { return m_Parameters; }
 
   /** Compute the Jacobian of the transformation
@@ -157,7 +157,7 @@ public:
 
   /** Return the number of parameters that completely define the Transfom  */
   unsigned int GetNumberOfParameters(void) const 
-                      { return m_Jacobian.cols(); }
+                      { return m_Parameters.Size(); }
 
 
 protected:
@@ -166,7 +166,7 @@ protected:
   virtual ~Transform() {};
 
 
-          ParametersType     m_Parameters;
+  mutable ParametersType     m_Parameters;
 
   mutable JacobianType       m_Jacobian;
 
