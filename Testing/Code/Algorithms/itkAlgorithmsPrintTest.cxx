@@ -111,27 +111,54 @@
 #include "itkWatershedSegmentTreeGenerator.h"
 #include "itkWatershedSegmenter.h"
 
+#include "itkDistanceToCentroidMembershipFunction.h"
+#include "itkMahalanobisDistanceMembershipFunction.h"
+#include "itkGroupSpatialObject.h"
+#include "itkRGBPixel.h"
+
 int itkAlgorithmsPrintTest(int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<float,2> InputType; 
   typedef itk::Image<float,2> OutputType;
+  typedef itk::Image<bool,2> BinaryImageType;
+  typedef itk::Image<unsigned short,2> UShortImageType;
+  typedef itk::Image<unsigned char,2> CharType;
+  
   typedef itk::Mesh<double>  MeshType;
-  typedef itk::Point<double,2> Mesh2DPixelType;
-  typedef itk::Mesh<double>  Mesh2DType;
+  
   typedef itk::Vector<float,2> VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
+  
+  // Used for NormalizedCorrelationPointSetToImageMetric
+  typedef itk::PointSet<float,2> PointSetType;
+  
+  // Used for GradientVectorFlowImageFilter
+  typedef itk::CovariantVector<double,2> GradientType;
+  typedef itk::Image<GradientType,2>   GradientImageType;
+
+  //Used for ImageKMeansModelEstimator
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
+  
+  // Used for ImageGaussianModelEstimator
+  typedef itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType> GaussianMemFuncType;
+  
+  // Used for ImageToSpatialObjectRegistrationMethod
+  typedef itk::GroupSpatialObject<2>   GroupType;
+
+  // Used for ImageToSpatialObjectMetric
+  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
+
 
   itk::AntiAliasBinaryImageFilter<InputType,OutputType>::Pointer AntiAliasBinaryImageFilterObj =
     itk::AntiAliasBinaryImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------AntiAliasBinaryImageFilter " << AntiAliasBinaryImageFilterObj;
 
-  itk::BalloonForceFilter<Mesh2DType,Mesh2DType>::Pointer BalloonForceFilterObj =
-    itk::BalloonForceFilter<Mesh2DType,Mesh2DType>::New();
+  itk::BalloonForceFilter<MeshType,MeshType>::Pointer BalloonForceFilterObj =
+    itk::BalloonForceFilter<MeshType,MeshType>::New();
   std:: cout << "-------------BalloonForceFilter " << BalloonForceFilterObj;
 
-  itk::BalloonForce3DFilter<Mesh2DType,Mesh2DType>::Pointer BalloonForce3DFilterObj =
-    itk::BalloonForce3DFilter<Mesh2DType,Mesh2DType>::New();
+  itk::BalloonForce3DFilter<MeshType,MeshType>::Pointer BalloonForce3DFilterObj =
+    itk::BalloonForce3DFilter<MeshType,MeshType>::New();
   std:: cout << "-------------BalloonForce3DFilter " << BalloonForce3DFilterObj;
 
   itk::BinaryMask3DMeshSource<MeshType>::Pointer BinaryMask3DMeshSourceObj =
@@ -166,16 +193,14 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::CurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------CurvatureFlowImageFilter " << CurvatureFlowImageFilterObj;
 
-#if 0
   itk::DeformableMesh3DFilter<MeshType,MeshType>::Pointer DeformableMesh3DFilterObj =
     itk::DeformableMesh3DFilter<MeshType,MeshType>::New();
   std:: cout << "-------------DeformableMesh3DFilter " << DeformableMesh3DFilterObj;
-
+#if 0
   itk::DeformableMeshFilter<MeshType,MeshType>::Pointer DeformableMeshFilterObj =
     itk::DeformableMeshFilter<MeshType,MeshType>::New();
   std:: cout << "-------------DeformableMeshFilter " << DeformableMeshFilterObj;
 #endif
-
   itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::Pointer DemonsRegistrationFilterObj =
     itk::DemonsRegistrationFilter<InputType,OutputType,VectorImageType>::New();
   std:: cout << "-------------DemonsRegistrationFilter " << DemonsRegistrationFilterObj;
@@ -188,11 +213,9 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::ExtensionVelocitiesImageFilter<InputType,float,1>::New();
   std:: cout << "-------------ExtensionVelocitiesImageFilter " << ExtensionVelocitiesImageFilterObj;
 
-#if 0
-  itk::FEMRegistrationFilter<InputType,OutputType>::Pointer FEMRegistrationFilterObj =
-    itk::FEMRegistrationFilter<InputType,OutputType>::New();
+  itk::fem::FEMRegistrationFilter<InputType,InputType>::Pointer FEMRegistrationFilterObj =
+    itk::fem::FEMRegistrationFilter<InputType,InputType>::New();
   std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
-#endif
 
   itk::FastMarchingExtensionImageFilter<InputType,float>::Pointer FastMarchingExtensionImageFilterObj =
     itk::FastMarchingExtensionImageFilter<InputType,float>::New();
@@ -210,8 +233,6 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::GeodesicActiveContourLevelSetImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------GeodesicActiveContourLevelSetImageFilter " << GeodesicActiveContourLevelSetImageFilterObj;
 
-  typedef itk::CovariantVector<double, 3> GradientType;
-  typedef itk::Image<GradientType, 2>   GradientImageType;
   itk::GradientVectorFlowImageFilter<GradientImageType,GradientImageType>::Pointer GradientVectorFlowImageFilterObj =
     itk::GradientVectorFlowImageFilter<GradientImageType,GradientImageType>::New();
   std:: cout << "-------------GradientVectorFlowImageFilter " << GradientVectorFlowImageFilterObj;
@@ -220,133 +241,127 @@ int itkAlgorithmsPrintTest(int , char* [])
     itk::HistogramMatchingImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------HistogramMatchingImageFilter " << HistogramMatchingImageFilterObj;
 
-
   itk::ImageClassifierBase<InputType,OutputType>::Pointer ImageClassifierBaseObj =
     itk::ImageClassifierBase<InputType,OutputType>::New();
   std:: cout << "-------------ImageClassifierBase " << ImageClassifierBaseObj;
 
-#if 0
-  itk::ImageGaussianModelEstimator<InputType,OutputType>::Pointer ImageGaussianModelEstimatorObj =
-    itk::ImageGaussianModelEstimator<InputType,OutputType>::New();
+  itk::ImageGaussianModelEstimator<VectorImageType,GaussianMemFuncType,UShortImageType>::Pointer ImageGaussianModelEstimatorObj =
+    itk::ImageGaussianModelEstimator<VectorImageType,GaussianMemFuncType,UShortImageType>::New();
   std:: cout << "-------------ImageGaussianModelEstimator " << ImageGaussianModelEstimatorObj;
-
-  itk::ImageKmeansModelEstimator<InputType,OutputType>::Pointer ImageKmeansModelEstimatorObj =
-    itk::ImageKmeansModelEstimator<InputType,OutputType>::New();
+  
+  itk::ImageKmeansModelEstimator<VectorImageType,KMeansMemFuncType>::Pointer ImageKmeansModelEstimatorObj =
+    itk::ImageKmeansModelEstimator<VectorImageType,KMeansMemFuncType>::New();
   std:: cout << "-------------ImageKmeansModelEstimator " << ImageKmeansModelEstimatorObj;
-#endif
 
-  itk::ImageRegistrationMethod<InputType,OutputType>::Pointer ImageRegistrationMethodObj =
-    itk::ImageRegistrationMethod<InputType,OutputType>::New();
+  itk::ImageRegistrationMethod<InputType,InputType>::Pointer ImageRegistrationMethodObj =
+    itk::ImageRegistrationMethod<InputType,InputType>::New();
   std:: cout << "-------------ImageRegistrationMethod " << ImageRegistrationMethodObj;
-
 #if 0
-  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
   itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::Pointer ImageToSpatialObjectMetricObj =
     itk::ImageToSpatialObjectMetric<InputType,SpatialObjectType>::New();
   std:: cout << "-------------ImageToSpatialObjectMetric " << ImageToSpatialObjectMetricObj;
-
-  itk::ImageToSpatialObjectRegistrationMethod<InputType,SpatialObjectType>::Pointer ImageToSpatialObjectRegistrationMethodObj =
-    itk::ImageToSpatialObjectRegistrationMethod<InputType,SpatialObjectType>::New();
-  std:: cout << "-------------ImageToSpatialObjectRegistrationMethod " << ImageToSpatialObjectRegistrationMethodObj;
 #endif
+  itk::ImageToSpatialObjectRegistrationMethod<InputType,GroupType>::Pointer ImageToSpatialObjectRegistrationMethodObj =
+    itk::ImageToSpatialObjectRegistrationMethod<InputType,GroupType>::New();
+  std:: cout << "-------------ImageToSpatialObjectRegistrationMethod " << ImageToSpatialObjectRegistrationMethodObj;
 
   itk::KLMRegionGrowImageFilter<VectorImageType,VectorImageType>::Pointer KLMRegionGrowImageFilterObj =
     itk::KLMRegionGrowImageFilter<VectorImageType,VectorImageType>::New();
   std:: cout << "-------------KLMRegionGrowImageFilter " << KLMRegionGrowImageFilterObj;
 
-  itk::LaplacianSegmentationLevelSetFunction<InputType,OutputType>::Pointer LaplacianSegmentationLevelSetFunctionObj =
-    itk::LaplacianSegmentationLevelSetFunction<InputType,OutputType>::New();
+  itk::LaplacianSegmentationLevelSetFunction<InputType,InputType>::Pointer LaplacianSegmentationLevelSetFunctionObj =
+    itk::LaplacianSegmentationLevelSetFunction<InputType,InputType>::New();
   std:: cout << "-------------LaplacianSegmentationLevelSetFunction " << LaplacianSegmentationLevelSetFunctionObj;
 
-  itk::LaplacianSegmentationLevelSetImageFilter<InputType,OutputType>::Pointer LaplacianSegmentationLevelSetImageFilterObj =
-    itk::LaplacianSegmentationLevelSetImageFilter<InputType,OutputType>::New();
+  itk::LaplacianSegmentationLevelSetImageFilter<InputType,InputType,float>::Pointer LaplacianSegmentationLevelSetImageFilterObj =
+    itk::LaplacianSegmentationLevelSetImageFilter<InputType,InputType,float>::New();
   std:: cout << "-------------LaplacianSegmentationLevelSetImageFilter " << LaplacianSegmentationLevelSetImageFilterObj;
 
   itk::LevelSetNeighborhoodExtractor<InputType>::Pointer LevelSetNeighborhoodExtractorObj =
     itk::LevelSetNeighborhoodExtractor<InputType>::New();
   std:: cout << "-------------LevelSetNeighborhoodExtractor " << LevelSetNeighborhoodExtractorObj;
 
-#if 0
-  itk::LevelSetVelocityNeighborhoodExtractor<InputType,OutputType>::Pointer LevelSetVelocityNeighborhoodExtractorObj =
-    itk::LevelSetVelocityNeighborhoodExtractor<InputType,OutputType>::New();
+  itk::LevelSetVelocityNeighborhoodExtractor<InputType,double>::Pointer LevelSetVelocityNeighborhoodExtractorObj =
+    itk::LevelSetVelocityNeighborhoodExtractor<InputType,double>::New();
+
   std:: cout << "-------------LevelSetVelocityNeighborhoodExtractor " << LevelSetVelocityNeighborhoodExtractorObj;
 
-  itk::MRASlabIdentifier<InputType,OutputType>::Pointer MRASlabIdentifierObj =
-    itk::MRASlabIdentifier<InputType,OutputType>::New();
+  itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
+    itk::MRASlabIdentifier<InputType>::New();
   std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;
 
-  itk::MRFImageFilter<InputType,OutputType>::Pointer MRFImageFilterObj =
-    itk::MRFImageFilter<InputType,OutputType>::New();
+  itk::MRFImageFilter<VectorImageType,UShortImageType>::Pointer MRFImageFilterObj =
+    itk::MRFImageFilter<VectorImageType,UShortImageType>::New();
   std:: cout << "-------------MRFImageFilter " << MRFImageFilterObj;
-
-  itk::MRIBiasFieldCorrectionFilter<InputType,OutputType>::Pointer MRIBiasFieldCorrectionFilterObj =
-    itk::MRIBiasFieldCorrectionFilter<InputType,OutputType>::New();
+#if 0
+  itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::Pointer MRIBiasFieldCorrectionFilterObj =
+    itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::New();
   std:: cout << "-------------MRIBiasFieldCorrectionFilter " << MRIBiasFieldCorrectionFilterObj;
-
-  itk::MattesMutualInformationImageToImageMetric<InputType,OutputType>::Pointer MattesMutualInformationImageToImageMetricObj =
-    itk::MattesMutualInformationImageToImageMetric<InputType,OutputType>::New();
+#endif
+  itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
+    itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------MattesMutualInformationImageToImageMetric " << MattesMutualInformationImageToImageMetricObj;
 
-  itk::MeanSquaresImageToImageMetric<InputType,OutputType>::Pointer MeanSquaresImageToImageMetricObj =
-    itk::MeanSquaresImageToImageMetric<InputType,OutputType>::New();
+  itk::MeanSquaresImageToImageMetric<InputType,InputType>::Pointer MeanSquaresImageToImageMetricObj =
+    itk::MeanSquaresImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------MeanSquaresImageToImageMetric " << MeanSquaresImageToImageMetricObj;
-
+#if 0
   itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::Pointer MeanSquaresPointSetToImageMetricObj =
     itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::New();
   std:: cout << "-------------MeanSquaresPointSetToImageMetric " << MeanSquaresPointSetToImageMetricObj;
-
-  itk::MinMaxCurvatureFlowFunction<InputType,OutputType>::Pointer MinMaxCurvatureFlowFunctionObj =
-    itk::MinMaxCurvatureFlowFunction<InputType,OutputType>::New();
+#endif
+  itk::MinMaxCurvatureFlowFunction<InputType>::Pointer MinMaxCurvatureFlowFunctionObj =
+    itk::MinMaxCurvatureFlowFunction<InputType>::New();
   std:: cout << "-------------MinMaxCurvatureFlowFunction " << MinMaxCurvatureFlowFunctionObj;
 
   itk::MinMaxCurvatureFlowImageFilter<InputType,OutputType>::Pointer MinMaxCurvatureFlowImageFilterObj =
     itk::MinMaxCurvatureFlowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------MinMaxCurvatureFlowImageFilter " << MinMaxCurvatureFlowImageFilterObj;
 
-  itk::MultiResolutionImageRegistrationMethod<InputType,OutputType>::Pointer MultiResolutionImageRegistrationMethodObj =
-    itk::MultiResolutionImageRegistrationMethod<InputType,OutputType>::New();
+  itk::MultiResolutionImageRegistrationMethod<InputType,InputType>::Pointer MultiResolutionImageRegistrationMethodObj =
+    itk::MultiResolutionImageRegistrationMethod<InputType,InputType>::New();
   std:: cout << "-------------MultiResolutionImageRegistrationMethod " << MultiResolutionImageRegistrationMethodObj;
 
-  itk::MultiResolutionPDEDeformableRegistration<InputType,OutputType>::Pointer MultiResolutionPDEDeformableRegistrationObj =
-    itk::MultiResolutionPDEDeformableRegistration<InputType,OutputType>::New();
+  itk::MultiResolutionPDEDeformableRegistration<InputType,OutputType,VectorImageType>::Pointer MultiResolutionPDEDeformableRegistrationObj =
+    itk::MultiResolutionPDEDeformableRegistration<InputType,OutputType,VectorImageType>::New();
   std:: cout << "-------------MultiResolutionPDEDeformableRegistration " << MultiResolutionPDEDeformableRegistrationObj;
 
   itk::MultiResolutionPyramidImageFilter<InputType,OutputType>::Pointer MultiResolutionPyramidImageFilterObj =
     itk::MultiResolutionPyramidImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------MultiResolutionPyramidImageFilter " << MultiResolutionPyramidImageFilterObj;
 
-  itk::MutualInformationImageToImageMetric<InputType,OutputType>::Pointer MutualInformationImageToImageMetricObj =
-    itk::MutualInformationImageToImageMetric<InputType,OutputType>::New();
+  itk::MutualInformationImageToImageMetric<InputType,InputType>::Pointer MutualInformationImageToImageMetricObj =
+    itk::MutualInformationImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------MutualInformationImageToImageMetric " << MutualInformationImageToImageMetricObj;
 
-  itk::NormalizedCorrelationImageToImageMetric<InputType,OutputType>::Pointer NormalizedCorrelationImageToImageMetricObj =
-    itk::NormalizedCorrelationImageToImageMetric<InputType,OutputType>::New();
+  itk::NormalizedCorrelationImageToImageMetric<InputType,InputType>::Pointer NormalizedCorrelationImageToImageMetricObj =
+    itk::NormalizedCorrelationImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------NormalizedCorrelationImageToImageMetric " << NormalizedCorrelationImageToImageMetricObj;
 
-  itk::NormalizedCorrelationPointSetToImageMetric<InputType,OutputType>::Pointer NormalizedCorrelationPointSetToImageMetricObj =
-    itk::NormalizedCorrelationPointSetToImageMetric<InputType,OutputType>::New();
+  itk::NormalizedCorrelationPointSetToImageMetric<PointSetType,InputType>::Pointer NormalizedCorrelationPointSetToImageMetricObj =
+    itk::NormalizedCorrelationPointSetToImageMetric<PointSetType,InputType>::New();
   std:: cout << "-------------NormalizedCorrelationPointSetToImageMetric " << NormalizedCorrelationPointSetToImageMetricObj;
 
-  itk::OtsuThresholdImageCalculator<InputType,OutputType>::Pointer OtsuThresholdImageCalculatorObj =
-    itk::OtsuThresholdImageCalculator<InputType,OutputType>::New();
+  itk::OtsuThresholdImageCalculator<InputType>::Pointer OtsuThresholdImageCalculatorObj =
+    itk::OtsuThresholdImageCalculator<InputType>::New();
   std:: cout << "-------------OtsuThresholdImageCalculator " << OtsuThresholdImageCalculatorObj;
 
-  itk::PDEDeformableRegistrationFilter<InputType,OutputType>::Pointer PDEDeformableRegistrationFilterObj =
-    itk::PDEDeformableRegistrationFilter<InputType,OutputType>::New();
+  itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::Pointer PDEDeformableRegistrationFilterObj =
+    itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::New();
   std:: cout << "-------------PDEDeformableRegistrationFilter " << PDEDeformableRegistrationFilterObj;
 
-  itk::PatternIntensityImageToImageMetric<InputType,OutputType>::Pointer PatternIntensityImageToImageMetricObj =
-    itk::PatternIntensityImageToImageMetric<InputType,OutputType>::New();
+  itk::PatternIntensityImageToImageMetric<InputType,InputType>::Pointer PatternIntensityImageToImageMetricObj =
+    itk::PatternIntensityImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------PatternIntensityImageToImageMetric " << PatternIntensityImageToImageMetricObj;
-
+#if 0
   itk::PatternIntensityPointSetToImageMetric<InputType,OutputType>::Pointer PatternIntensityPointSetToImageMetricObj =
     itk::PatternIntensityPointSetToImageMetric<InputType,OutputType>::New();
   std:: cout << "-------------PatternIntensityPointSetToImageMetric " << PatternIntensityPointSetToImageMetricObj;
-
-  itk::RGBGibbsPriorFilter<InputType,OutputType>::Pointer RGBGibbsPriorFilterObj =
-    itk::RGBGibbsPriorFilter<InputType,OutputType>::New();
+#endif
+  itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::Pointer RGBGibbsPriorFilterObj =
+    itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::New();
   std:: cout << "-------------RGBGibbsPriorFilter " << RGBGibbsPriorFilterObj;
-
+  
   itk::RecursiveMultiResolutionPyramidImageFilter<InputType,OutputType>::Pointer RecursiveMultiResolutionPyramidImageFilterObj =
     itk::RecursiveMultiResolutionPyramidImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------RecursiveMultiResolutionPyramidImageFilter " << RecursiveMultiResolutionPyramidImageFilterObj;
@@ -354,57 +369,57 @@ int itkAlgorithmsPrintTest(int , char* [])
   itk::RegionGrowImageFilter<InputType,OutputType>::Pointer RegionGrowImageFilterObj =
     itk::RegionGrowImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------RegionGrowImageFilter " << RegionGrowImageFilterObj;
-
+#if 0
   itk::RegistrationMethod<InputType,OutputType>::Pointer RegistrationMethodObj =
     itk::RegistrationMethod<InputType,OutputType>::New();
   std:: cout << "-------------RegistrationMethod " << RegistrationMethodObj;
-
-  itk::ReinitializeLevelSetImageFilter<InputType,OutputType>::Pointer ReinitializeLevelSetImageFilterObj =
-    itk::ReinitializeLevelSetImageFilter<InputType,OutputType>::New();
+#endif
+  itk::ReinitializeLevelSetImageFilter<InputType>::Pointer ReinitializeLevelSetImageFilterObj =
+    itk::ReinitializeLevelSetImageFilter<InputType>::New();
   std:: cout << "-------------ReinitializeLevelSetImageFilter " << ReinitializeLevelSetImageFilterObj;
 
-  itk::ShapeDetectionLevelSetFunction<InputType,OutputType>::Pointer ShapeDetectionLevelSetFunctionObj =
-    itk::ShapeDetectionLevelSetFunction<InputType,OutputType>::New();
+  itk::ShapeDetectionLevelSetFunction<InputType,InputType>::Pointer ShapeDetectionLevelSetFunctionObj =
+    itk::ShapeDetectionLevelSetFunction<InputType,InputType>::New();
   std:: cout << "-------------ShapeDetectionLevelSetFunction " << ShapeDetectionLevelSetFunctionObj;
 
-  itk::ShapeDetectionLevelSetImageFilter<InputType,OutputType>::Pointer ShapeDetectionLevelSetImageFilterObj =
-    itk::ShapeDetectionLevelSetImageFilter<InputType,OutputType>::New();
+  itk::ShapeDetectionLevelSetImageFilter<InputType,InputType,float>::Pointer ShapeDetectionLevelSetImageFilterObj =
+    itk::ShapeDetectionLevelSetImageFilter<InputType,InputType,float>::New();
   std:: cout << "-------------ShapeDetectionLevelSetImageFilter " << ShapeDetectionLevelSetImageFilterObj;
 
   itk::SimpleFuzzyConnectednessImageFilterBase<InputType,OutputType>::Pointer SimpleFuzzyConnectednessImageFilterBaseObj =
     itk::SimpleFuzzyConnectednessImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessImageFilterBase " << SimpleFuzzyConnectednessImageFilterBaseObj;
 
-  itk::SimpleFuzzyConnectednessRGBImageFilter<InputType,OutputType>::Pointer SimpleFuzzyConnectednessRGBImageFilterObj =
-    itk::SimpleFuzzyConnectednessRGBImageFilter<InputType,OutputType>::New();
+  itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,BinaryImageType>::Pointer SimpleFuzzyConnectednessRGBImageFilterObj =
+    itk::SimpleFuzzyConnectednessRGBImageFilter<VectorImageType,BinaryImageType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessRGBImageFilter " << SimpleFuzzyConnectednessRGBImageFilterObj;
 
-  itk::SimpleFuzzyConnectednessScalarImageFilter<InputType,OutputType>::Pointer SimpleFuzzyConnectednessScalarImageFilterObj =
-    itk::SimpleFuzzyConnectednessScalarImageFilter<InputType,OutputType>::New();
+  itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,BinaryImageType>::Pointer SimpleFuzzyConnectednessScalarImageFilterObj =
+    itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImageType,BinaryImageType>::New();
   std:: cout << "-------------SimpleFuzzyConnectednessScalarImageFilter " << SimpleFuzzyConnectednessScalarImageFilterObj;
 
-  itk::SphereMeshSource<InputType,OutputType>::Pointer SphereMeshSourceObj =
-    itk::SphereMeshSource<InputType,OutputType>::New();
+  itk::SphereMeshSource<MeshType>::Pointer SphereMeshSourceObj =
+    itk::SphereMeshSource<MeshType>::New();
   std:: cout << "-------------SphereMeshSource " << SphereMeshSourceObj;
 
-  itk::ThresholdSegmentationLevelSetFunction<InputType,OutputType>::Pointer ThresholdSegmentationLevelSetFunctionObj =
-    itk::ThresholdSegmentationLevelSetFunction<InputType,OutputType>::New();
+  itk::ThresholdSegmentationLevelSetFunction<InputType,InputType>::Pointer ThresholdSegmentationLevelSetFunctionObj =
+    itk::ThresholdSegmentationLevelSetFunction<InputType,InputType>::New();
   std:: cout << "-------------ThresholdSegmentationLevelSetFunction " << ThresholdSegmentationLevelSetFunctionObj;
 
-  itk::ThresholdSegmentationLevelSetImageFilter<InputType,OutputType>::Pointer ThresholdSegmentationLevelSetImageFilterObj =
-    itk::ThresholdSegmentationLevelSetImageFilter<InputType,OutputType>::New();
+  itk::ThresholdSegmentationLevelSetImageFilter<InputType,InputType,float>::Pointer ThresholdSegmentationLevelSetImageFilterObj =
+    itk::ThresholdSegmentationLevelSetImageFilter<InputType,InputType,float>::New();
   std:: cout << "-------------ThresholdSegmentationLevelSetImageFilter " << ThresholdSegmentationLevelSetImageFilterObj;
 
-  itk::VectorFuzzyConnectednessImageFilter<InputType,OutputType>::Pointer VectorFuzzyConnectednessImageFilterObj =
-    itk::VectorFuzzyConnectednessImageFilter<InputType,OutputType>::New();
+  itk::VectorFuzzyConnectednessImageFilter<VectorImageType,CharType>::Pointer VectorFuzzyConnectednessImageFilterObj =
+    itk::VectorFuzzyConnectednessImageFilter<VectorImageType,CharType>::New();
   std:: cout << "-------------VectorFuzzyConnectednessImageFilter " << VectorFuzzyConnectednessImageFilterObj;
 
-  itk::VoronoiDiagram2D<InputType,OutputType>::Pointer VoronoiDiagram2DObj =
-    itk::VoronoiDiagram2D<InputType,OutputType>::New();
+  itk::VoronoiDiagram2D<double>::Pointer VoronoiDiagram2DObj =
+    itk::VoronoiDiagram2D<double>::New();
   std:: cout << "-------------VoronoiDiagram2D " << VoronoiDiagram2DObj;
 
-  itk::VoronoiDiagram2DGenerator<InputType,OutputType>::Pointer VoronoiDiagram2DGeneratorObj =
-    itk::VoronoiDiagram2DGenerator<InputType,OutputType>::New();
+  itk::VoronoiDiagram2DGenerator<double>::Pointer VoronoiDiagram2DGeneratorObj =
+    itk::VoronoiDiagram2DGenerator<double>::New();
   std:: cout << "-------------VoronoiDiagram2DGenerator " << VoronoiDiagram2DGeneratorObj;
 
   itk::VoronoiPartitioningImageFilter<InputType,OutputType>::Pointer VoronoiPartitioningImageFilterObj =
@@ -418,59 +433,59 @@ int itkAlgorithmsPrintTest(int , char* [])
   itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::Pointer VoronoiSegmentationImageFilterBaseObj =
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
-
-  itk::VoronoiSegmentationRGBImageFilter<InputType,OutputType>::Pointer VoronoiSegmentationRGBImageFilterObj =
-    itk::VoronoiSegmentationRGBImageFilter<InputType,OutputType>::New();
+#if 0
+  itk::VoronoiSegmentationRGBImageFilter<VectorImageType,BinaryImageType>::Pointer VoronoiSegmentationRGBImageFilterObj =
+    itk::VoronoiSegmentationRGBImageFilter<VectorImageType,BinaryImageType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
-
-  itk::WatershedBoundary<InputType,OutputType>::Pointer WatershedBoundaryObj =
-    itk::WatershedBoundary<InputType,OutputType>::New();
+#endif
+  itk::watershed::Boundary<double,3>::Pointer WatershedBoundaryObj =
+    itk::watershed::Boundary<double,3>::New();
   std:: cout << "-------------WatershedBoundary " << WatershedBoundaryObj;
 
-  itk::WatershedBoundaryResolver<InputType,OutputType>::Pointer WatershedBoundaryResolverObj =
-    itk::WatershedBoundaryResolver<InputType,OutputType>::New();
+  itk::watershed::BoundaryResolver<double,3>::Pointer WatershedBoundaryResolverObj =
+    itk::watershed::BoundaryResolver<double,3>::New();
   std:: cout << "-------------WatershedBoundaryResolver " << WatershedBoundaryResolverObj;
 
-  itk::WatershedEquivalenceRelabeler<InputType,OutputType>::Pointer WatershedEquivalenceRelabelerObj =
-    itk::WatershedEquivalenceRelabeler<InputType,OutputType>::New();
+  itk::watershed::EquivalenceRelabeler<double,3>::Pointer WatershedEquivalenceRelabelerObj =
+    itk::watershed::EquivalenceRelabeler<double,3>::New();
   std:: cout << "-------------WatershedEquivalenceRelabeler " << WatershedEquivalenceRelabelerObj;
 
-  itk::WatershedEquivalencyTable<InputType,OutputType>::Pointer WatershedEquivalencyTableObj =
-    itk::WatershedEquivalencyTable<InputType,OutputType>::New();
+  itk::watershed::EquivalencyTable::Pointer WatershedEquivalencyTableObj =
+    itk::watershed::EquivalencyTable::New();
   std:: cout << "-------------WatershedEquivalencyTable " << WatershedEquivalencyTableObj;
 
-  itk::WatershedImageFilter<InputType,OutputType>::Pointer WatershedImageFilterObj =
-    itk::WatershedImageFilter<InputType,OutputType>::New();
+  itk::WatershedImageFilter<InputType>::Pointer WatershedImageFilterObj =
+    itk::WatershedImageFilter<InputType>::New();
   std:: cout << "-------------WatershedImageFilter " << WatershedImageFilterObj;
 
-  itk::WatershedMiniPipelineProgressCommand<InputType,OutputType>::Pointer WatershedMiniPipelineProgressCommandObj =
-    itk::WatershedMiniPipelineProgressCommand<InputType,OutputType>::New();
+  itk::WatershedMiniPipelineProgressCommand::Pointer WatershedMiniPipelineProgressCommandObj =
+    itk::WatershedMiniPipelineProgressCommand::New();
   std:: cout << "-------------WatershedMiniPipelineProgressCommand " << WatershedMiniPipelineProgressCommandObj;
 
-  itk::WatershedOneWayEquivalencyTable<InputType,OutputType>::Pointer WatershedOneWayEquivalencyTableObj =
-    itk::WatershedOneWayEquivalencyTable<InputType,OutputType>::New();
+  itk::watershed::OneWayEquivalencyTable::Pointer WatershedOneWayEquivalencyTableObj =
+    itk::watershed::OneWayEquivalencyTable::New();
   std:: cout << "-------------WatershedOneWayEquivalencyTable " << WatershedOneWayEquivalencyTableObj;
 
-  itk::WatershedRelabeler<InputType,OutputType>::Pointer WatershedRelabelerObj =
-    itk::WatershedRelabeler<InputType,OutputType>::New();
+  itk::watershed::Relabeler<double,3>::Pointer WatershedRelabelerObj =
+    itk::watershed::Relabeler<double,3>::New();
   std:: cout << "-------------WatershedRelabeler " << WatershedRelabelerObj;
 
-  itk::WatershedSegmentTable<InputType,OutputType>::Pointer WatershedSegmentTableObj =
-    itk::WatershedSegmentTable<InputType,OutputType>::New();
+  itk::watershed::SegmentTable<double>::Pointer WatershedSegmentTableObj =
+    itk::watershed::SegmentTable<double>::New();
   std:: cout << "-------------WatershedSegmentTable " << WatershedSegmentTableObj;
 
-  itk::WatershedSegmentTree<InputType,OutputType>::Pointer WatershedSegmentTreeObj =
-    itk::WatershedSegmentTree<InputType,OutputType>::New();
+  itk::watershed::SegmentTree<double>::Pointer WatershedSegmentTreeObj =
+    itk::watershed::SegmentTree<double>::New();
   std:: cout << "-------------WatershedSegmentTree " << WatershedSegmentTreeObj;
 
-  itk::WatershedSegmentTreeGenerator<InputType,OutputType>::Pointer WatershedSegmentTreeGeneratorObj =
-    itk::WatershedSegmentTreeGenerator<InputType,OutputType>::New();
+  itk::watershed::SegmentTreeGenerator<double>::Pointer WatershedSegmentTreeGeneratorObj =
+    itk::watershed::SegmentTreeGenerator<double>::New();
   std:: cout << "-------------WatershedSegmentTreeGenerator " << WatershedSegmentTreeGeneratorObj;
 
-  itk::WatershedSegmenter<InputType,OutputType>::Pointer WatershedSegmenterObj =
-    itk::WatershedSegmenter<InputType,OutputType>::New();
+  itk::watershed::Segmenter<InputType>::Pointer WatershedSegmenterObj =
+    itk::watershed::Segmenter<InputType>::New();
   std:: cout << "-------------WatershedSegmenter " << WatershedSegmenterObj;
-#endif
+
   return 0;
 
 }
