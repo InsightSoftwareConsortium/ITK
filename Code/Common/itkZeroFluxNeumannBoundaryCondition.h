@@ -54,9 +54,9 @@ namespace itk
  *
  */
 
-template<class TImage, class TNeighborhoodType
-    = Neighborhood<ITK_TYPENAME ImageTraits<TImage>::PixelType *,
-                             ImageTraits<TImage>::ImageDimension > >
+template<class TImage,
+         class TNeighborhoodType = Neighborhood<ITK_TYPENAME TImage::PixelType*,
+                                                TImage::ImageDimension > >
 class  ZeroFluxNeumannBoundaryCondition
   : public ImageBoundaryCondition<TImage, TNeighborhoodType>
 {

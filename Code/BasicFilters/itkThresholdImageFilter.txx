@@ -18,7 +18,6 @@
 
 #include "itkThresholdImageFilter.h"
 #include "itkNumericTraits.h"
-#include "itkImageTraits.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -31,7 +30,7 @@ template <class TImage>
 ThresholdImageFilter<TImage>
 ::ThresholdImageFilter()
 {
-  m_OutsideValue = NumericTraits<ImageTraits<TImage>::PixelType>::Zero;
+  m_OutsideValue = NumericTraits<TImage::PixelType>::Zero;
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
 

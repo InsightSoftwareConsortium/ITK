@@ -18,7 +18,6 @@
 
 #include "itkNeighborhoodOperator.h"
 #include "itkImage.h"
-#include "itkImageTraits.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
 

@@ -17,7 +17,6 @@
 #define __itkImageAdaptor_h
 
 #include "itkImage.h"
-#include "itkImageTraits.h"
 
 namespace itk
 {
@@ -42,7 +41,7 @@ namespace itk
  *
  */
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : public ImageBase<ImageTraits<TImage>::ImageDimension>
+class ITK_EXPORT ImageAdaptor : public ImageBase<TImage::ImageDimension>
 {
 public:
   /**

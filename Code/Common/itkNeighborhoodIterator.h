@@ -20,7 +20,6 @@
 #include <string.h>
 #include <iostream>
 #include "itkImage.h"
-#include "itkImageTraits.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkMacro.h"
@@ -92,21 +91,21 @@ namespace itk {
 
 template<class TImage,
          class TAllocator =
-            NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+            NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType *>,
          class TDerefAllocator =
-            NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::PixelType>
+            NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
         >
 class ITK_EXPORT NeighborhoodIterator
-  :  public Neighborhood<typename ImageTraits<TImage>::InternalPixelType *,
-                         ImageTraits<TImage>::ImageDimension, TAllocator >
+  :  public Neighborhood<typename TImage::InternalPixelType *,
+                         TImage::ImageDimension, TAllocator >
 {
 public:
   /**
    * Extract image type information.
    */
-  typedef typename ImageTraits<TImage>::InternalPixelType InternalPixelType;
-  typedef typename ImageTraits<TImage>::PixelType PixelType;
-  enum {Dimension = ImageTraits<TImage>::ImageDimension };
+  typedef typename TImage::InternalPixelType InternalPixelType;
+  typedef typename TImage::PixelType PixelType;
+  enum {Dimension = TImage::ImageDimension };
   
   /** 
    * Standard "Self" & Superclass typedef support.
@@ -119,8 +118,8 @@ public:
    */
   typedef typename Superclass::SizeType SizeType;
   typedef TImage ImageType;
-  typedef typename ImageTraits<TImage>::RegionType RegionType;
-  typedef typename ImageTraits<TImage>::IndexType  IndexType;
+  typedef typename TImage::RegionType RegionType;
+  typedef typename TImage::IndexType  IndexType;
   // NOTE: the STL Allocator::recast method would eliminate the need
   // for this second Allocator template parameter.
   typedef Neighborhood<PixelType, Dimension, TDerefAllocator> NeighborhoodType;

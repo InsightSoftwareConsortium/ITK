@@ -17,7 +17,6 @@
 #define __itkAnisotropicDiffusionImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImageTraits.h"
 
 namespace itk
 {
@@ -31,9 +30,9 @@ namespace itk
 template <class TImageType>
 struct ITK_EXPORT AvgGradMagSquared
 {
-  typedef typename ImageTraits<TImageType>::PixelType PixelType;
-  typedef typename ImageTraits<TImageType>::RegionType RegionType;
-  enum { ImageDimension = ImageTraits<TImageType>::ImageDimension };
+  typedef typename TImageType::PixelType PixelType;
+  typedef typename TImageType::RegionType RegionType;
+  enum { ImageDimension = TImageType::ImageDimension };
   AvgGradMagSquared() {}
   PixelType operator() (TImageType *, const RegionType &) const;
 };

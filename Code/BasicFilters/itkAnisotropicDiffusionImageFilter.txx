@@ -16,7 +16,6 @@
 #ifndef _itkAnisotropicDiffusionImageFilter_txx
 #define _itkAnisotropicDiffusionImageFilter_txx
 
-#include "itkImageTraits.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"

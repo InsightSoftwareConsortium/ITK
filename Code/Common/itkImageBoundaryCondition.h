@@ -18,7 +18,6 @@
 
 #include "itkImage.h"
 #include "itkNeighborhood.h"
-#include "itkImageTraits.h"
 
 namespace itk
 {
@@ -45,9 +44,8 @@ namespace itk
  *                                   an image neighborhood.
  */
 template <class TImageType,
-  class TNeighborhoodType
-    = Neighborhood<ITK_TYPENAME ImageTraits<TImageType>::PixelType *,
-                             ImageTraits<TImageType>::ImageDimension > >
+          class TNeighborhoodType = Neighborhood<ITK_TYPENAME TImageType::PixelType*,
+                                                 TImageType::ImageDimension > >
 class ITK_EXPORT ImageBoundaryCondition
 {
 public:

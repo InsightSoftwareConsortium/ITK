@@ -18,7 +18,6 @@
 
 #include "itkImageAdaptor.h"
 #include "itkPhysicalImage.h"
-#include "itkImageTraits.h"
 
 namespace itk
 {

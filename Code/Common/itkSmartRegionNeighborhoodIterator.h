@@ -43,13 +43,13 @@ namespace itk {
  */
 template<class TImage,
   class TAllocator =
-     NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *>,
+     NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType*>,
   class TBoundaryCondition = ConstantBoundaryCondition
-   <TImage, Neighborhood<ITK_TYPENAME ImageTraits<TImage>::InternalPixelType *,
-            ImageTraits<TImage>::ImageDimension,
-                                 TAllocator>  >,
+   <TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType*,
+                         TImage::ImageDimension,
+                         TAllocator>  >,
   class TDerefAllocator =
-    NeighborhoodAllocator<ITK_TYPENAME ImageTraits<TImage>::PixelType>
+    NeighborhoodAllocator<ITK_TYPENAME TImage::PixelType>
   >
 class ITK_EXPORT SmartRegionNeighborhoodIterator
   :  public NeighborhoodIterator<TImage, TAllocator, TDerefAllocator>
