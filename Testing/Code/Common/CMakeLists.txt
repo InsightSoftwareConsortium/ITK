@@ -1,5 +1,6 @@
 LINK_LIBRARIES (
 ITKCommon
+ITKNumerics
 )
 
 IF(ITK_WRAP_TCL)
