@@ -134,8 +134,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
-  GradientIteratorType gi( m_GradientImage, this->GetFixedImageRegion() );
-
   typename FixedImageType::IndexType index;
 
   m_NumberOfPixelsCounted = 0;
@@ -146,8 +144,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
+  typename MovingImageType::TransformPointer movingImageTransform = 
+                                 m_MovingImage->GetPhysicalToIndexTransform();
+
   ti.GoToBegin();
-  gi.GoToBegin();
 
   while(!ti.IsAtEnd())
     {
@@ -171,7 +171,20 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       m_NumberOfPixelsCounted++;
       const RealType diff = movingValue - fixedValue; 
 
-      const GradientPixelType & gradient = gi.Value(); 
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      OutputPointType tempPoint = 
+               movingImageTransform->TransformPoint( transformedPoint );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+                                m_GradientImage->GetPixel( mappedIndex );
+
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
@@ -184,7 +197,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       }
 
     ++ti;
-    ++gi;
     }
 
   if( !m_NumberOfPixelsCounted )
@@ -235,8 +247,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
-  GradientIteratorType gi( m_GradientImage, this->GetFixedImageRegion() );
-
   typename FixedImageType::IndexType index;
 
   MeasureType measure = NumericTraits< MeasureType >::Zero;
@@ -249,8 +259,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
+  typename MovingImageType::TransformPointer movingImageTransform = 
+                                 m_MovingImage->GetPhysicalToIndexTransform();
+
   ti.GoToBegin();
-  gi.GoToBegin();
 
   while(!ti.IsAtEnd())
     {
@@ -277,7 +289,20 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   
       measure += diff * diff;
 
-      const GradientPixelType & gradient = gi.Value(); 
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      OutputPointType tempPoint = 
+               movingImageTransform->TransformPoint( transformedPoint );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+                                  m_GradientImage->GetPixel( mappedIndex );
+
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
@@ -290,7 +315,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       }
 
     ++ti;
-    ++gi;
     }
 
   if( !m_NumberOfPixelsCounted )
