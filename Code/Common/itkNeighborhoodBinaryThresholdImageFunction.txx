@@ -57,7 +57,6 @@ bool
 NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  int i;
   
   if( !m_Image )
     {
@@ -81,7 +80,8 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
   PixelType lower = this->GetLower();
   PixelType upper = this->GetUpper();
   PixelType value;
-  for (i = 0; i < it.Size(); ++i)
+  const unsigned int size = it.Size();
+  for (unsigned int i = 0; i < size; ++i)
     {
     value = it.GetPixel(i);
     if (lower > value || value > upper)
