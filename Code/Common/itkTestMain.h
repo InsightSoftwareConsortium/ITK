@@ -97,7 +97,31 @@ int main(int ac, char** av)
   if(j != StringToTestFunctionMap.end())
     {
     MainFuncPointer f = j->second;
-    return (*f)(ac-1, av+1);
+    int result = -1;
+    try
+      {
+      // Invoke the test's "main" function.
+      result = (*f)(ac-1, av+1);
+      }
+    catch(const itk::ExceptionObject& e)
+      {
+      std::cerr << "ITK test driver caught an ITK exception:\n";
+      std::cerr << e.GetFile() << ":" << e.GetLine() << ":\n"
+                << e.GetDescription() << "\n";
+      result = -1;
+      }
+    catch(const std::exception& e)
+      {
+      std::cerr << "ITK test driver caught an exception:\n";
+      std::cerr << e.what() << "\n";
+      result = -1;
+      }
+    catch(...)
+      {
+      std::cerr << "ITK test driver caught an unknown exception!!!\n";
+      result = -1;
+      }
+    return result;
     }
   PrintAvailableTests();
   std::cerr << "Failed: " << testToRun << ": No test registered with name " << testToRun << "\n";
