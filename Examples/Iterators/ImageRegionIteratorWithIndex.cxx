@@ -143,7 +143,7 @@ int main( int argc, char *argv[] )
     {
       ImageType::IndexType idx = outputIt.GetIndex();
 
-      idx[0] =  requestedIndex[0] + requestedSize[0] - idx[0];
+      idx[0] =  requestedIndex[0] + requestedSize[0] - 1 - idx[0];
       
       outputIt.Set( inputImage->GetPixel(idx) );
     }
