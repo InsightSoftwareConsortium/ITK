@@ -118,36 +118,37 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 {
   // verify mean image
   if ( !m_MeanImage )
-    { itkExceptionMacro( << "MeanImage is not present." ); }
+    { 
+    itkExceptionMacro( << "MeanImage is not present." ); 
+    }
 
   // verify principal component images
-  if ( m_PrincipalComponentImages.size()==0 )
-    { itkExceptionMacro( << "PrincipalComponentImages are not present." ); }
+  if ( m_PrincipalComponentImages.size() < m_NumberOfPrincipalComponents )
+    {
+    itkExceptionMacro( << "PrincipalComponentsImages does not have at least " 
+                       << m_NumberOfPrincipalComponents
+                       << " number of elements." );
+    }
 
-  // verify image size 
-  typename ImageType::SizeType meanImageSize = 
-    m_MeanImage->GetBufferedRegion().GetSize();
-  typename ImageType::SizeType pcImageSize; 
+  // verify image buffered region
+  typename ImageType::RegionType meanImageRegion = 
+    m_MeanImage->GetBufferedRegion();
 
-  for (unsigned int i=0; i<m_PrincipalComponentImages.size(); i++)
+  for (unsigned int i=0; i< m_NumberOfPrincipalComponents; i++)
     {
     if ( !m_PrincipalComponentImages[i] )
       {
       itkExceptionMacro( << "PrincipalComponentImages[" 
-        << i << "] is not present." );
+                         << i << "] is not present." );
       }
 
-    pcImageSize=m_PrincipalComponentImages[i]->GetBufferedRegion().GetSize();
-    for (unsigned int j=0; i<ImageType::ImageDimension; i++)
+    if ( m_PrincipalComponentImages[i]->GetBufferedRegion() !=
+      meanImageRegion )
       {
-        if (pcImageSize[j] != meanImageSize[j])
-        {
-        itkExceptionMacro( << "The size of the PrincipalComponentImages[" 
-          << i << "] is different from the MeanImage." );
-        }
+      itkExceptionMacro( << "The buffered region of the PrincipalComponentImages[" 
+                         << i << "] is different from the MeanImage." );
       }
     }
-
 
   // set up the transform
   m_Transform->SetParameters(m_TransformParameters);

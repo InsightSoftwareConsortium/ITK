@@ -138,9 +138,6 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   // we must initialize the function before use
   shape->Initialize();
 
-  // exercise print methods
-  shape->Print( std::cout );
-
   // check pca shape calculation
   ShapeFunction::PointType  point;
   ImageType::IndexType      index;
@@ -190,7 +187,78 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
       return EXIT_FAILURE;
       }
     }
+ 
+ // Evaluate at a point outside the image domain
+ std::cout << "Evaluate at point outside image domain" << std::endl;
+ q.Fill( 5.0 );
+ output = shape->Evaluate( q );
+ std::cout << "f(" << q << ") = " << output << std::endl;
 
+ // Exercise other methods for test coverage
+ shape->Print( std::cout );
 
+ std::cout << "NumberOfPrincipalComponents: " 
+           << shape->GetNumberOfPrincipalComponents() << std::endl;
+ std::cout << "MeanImage: "
+           << shape->GetMeanImage() << std::endl;
+ std::cout << "PrincipalComponentStandardDeviations: "
+           << shape->GetPrincipalComponentStandardDeviations() << std::endl;
+ std::cout << "Transform: "
+           << shape->GetTransform() << std::endl;
+ std::cout << "Parameters: "
+           << shape->GetParameters() << std::endl;
+
+  // Excercise error testing
+  bool pass;
+
+#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
+  shape->Set##ComponentName( badComponent ); \
+  try \
+    { \
+    pass = false; \
+    shape->Initialize(); \
+    } \
+  catch( itk::ExceptionObject& err ) \
+    { \
+    std::cout << "Caught expected ExceptionObject" << std::endl; \
+    std::cout << err << std::endl; \
+    pass = true; \
+    } \
+  shape->Set##ComponentName( goodComponent ); \
+  \
+  if( !pass ) \
+    { \
+    std::cout << "Test failed." << std::endl; \
+    return EXIT_FAILURE; \
+    } 
+
+  // NULL MeanImage
+  TEST_INITIALIZATION_ERROR( MeanImage, NULL, meanImage );
+
+  // Wrong number of PC images
+  ShapeFunction::ImagePointerVector   badPCImages;
+  badPCImages.resize(1);
+  badPCImages[0] = NULL;
+
+  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+
+  // A NULL PC image
+  badPCImages = pcImages;
+  badPCImages[1] = NULL;
+
+  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+
+  // A PC image of the wrong size
+  ImageType::SizeType badSize;
+  badSize.Fill( 1 );
+  ImageType::RegionType badRegion( badSize );
+  badPCImages[1] = ImageType::New();
+  badPCImages[1]->SetRegions( badRegion );
+  badPCImages[1]->Allocate();
+  badPCImages[1]->FillBuffer( 0.0 );
+
+  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+
+  std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
 }
