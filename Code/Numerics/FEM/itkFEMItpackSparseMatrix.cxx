@@ -546,6 +546,8 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   buf << "Error: " << solverError << '\0';
 
   SetDescription(buf.str());
+  buf.freeze(false);
+  
   SetLocation(location);
 }
 
@@ -573,6 +575,8 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
   buf << "Error: " << solverError << '\0';
 
   SetDescription(buf.str());
+  buf.freeze(false);
+
   SetLocation(location);
 }
 

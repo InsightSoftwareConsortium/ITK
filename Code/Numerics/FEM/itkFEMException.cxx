@@ -67,6 +67,7 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigne
   buf.clear();
   buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!"<<'\0';
   SetDescription(buf.str());
+  buf.freeze(false);
 }
 
 

@@ -363,6 +363,8 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
   buf.clear();
   buf << "Index of " << moreDescription << " out of bounds (" << index1 << ")" << '\0';
   SetDescription(buf.str());
+  buf.freeze(false);
+
 }
 
 
@@ -373,6 +375,8 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
   buf.clear();
   buf << "Index out of bounds (" << index1 << "," << index2 << ")" << '\0';
   SetDescription(buf.str());
+  buf.freeze(false);
+
 }
 
 }}

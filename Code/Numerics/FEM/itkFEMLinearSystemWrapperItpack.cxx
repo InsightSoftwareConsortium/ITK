@@ -633,16 +633,16 @@ void LinearSystemWrapperItpack::Solve(void)
     }
   }
 
+  /* clean up */
+  delete [] IWKSP;
+  delete [] WKSP;
+
   /* check for itpack error code */
   if (IERR > 0)
   {
     throw FEMExceptionItpackSolver(__FILE__, __LINE__, "LinearSystemWrapperItpack::Solve", IERR);
   }
   
-  /* clean up */
-  delete [] IWKSP;
-  delete [] WKSP;
-
 }
 
 
