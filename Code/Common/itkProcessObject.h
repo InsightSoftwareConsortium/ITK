@@ -113,7 +113,7 @@ public:
    */
   DataObjectPointerArray GetInputs() 
     {return m_Inputs;}
-  int GetNumberOfInputs() const
+  unsigned int GetNumberOfInputs() const
     {return m_Inputs.size();}
 
   /** 
@@ -123,7 +123,7 @@ public:
    */
   DataObjectPointerArray GetOutputs()
     { return m_Outputs; }
-  int GetNumberOfOutputs() const
+  unsigned int GetNumberOfOutputs() const
     {return m_Outputs.size();}
     
   /** 

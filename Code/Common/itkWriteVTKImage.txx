@@ -40,7 +40,7 @@ void
 WriteVTKImage<TInputImage>
 ::WriteData()
 {
-  int i;
+  unsigned int i;
   std::ostream *fptr;
 
   itkDebugMacro(<<"Writing image in VTK format");

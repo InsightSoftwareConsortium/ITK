@@ -35,7 +35,7 @@ RandomImageSource<TOutputImage>
   m_Origin = new float [TOutputImage::GetImageDimension()];  
 
   //Initial image is 64 wide in each direction.
-  for (int i=0; i<TOutputImage::GetImageDimension(); i++)
+  for (unsigned int i=0; i<TOutputImage::GetImageDimension(); i++)
     {
     m_Size[i] = 64;
     m_Spacing[i] = 1.0;

@@ -47,7 +47,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   unsigned long siz[VDimension];
   Size<VDimension> hoodRadius;
   siz[0] = 2;
-  for (int i = 1; i < VDimension; ++i)
+  for (unsigned int i = 1; i < VDimension; ++i)
     {
       siz[i] = 1;
     }
@@ -57,7 +57,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   ImageRegion<VDimension> cropped;
   Size<VDimension> szc;
   Index<VDimension> idxc;
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       szc[i] = delta->GetRequestedRegion().GetSize()[i] - hoodRadius[i]*2;
       idxc[i]= delta->GetRequestedRegion().GetIndex()[i]+ hoodRadius[i];
@@ -71,7 +71,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
     bni(hoodRadius, output, delta->GetRequestedRegion());
   
-  for (int i=0; i< this->GetIterations(); ++i)
+  for (unsigned int i=0; i< this->GetIterations(); ++i)
     {
       rni.SetOutputBuffer(delta->GetBufferPointer()
                           +delta->ComputeOffset(idxc));

@@ -34,7 +34,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
   if ( m_Bounds )
     {
     os << indent << "Bounding Box: ( " ;
-    for (int i=0; i<PointDimension; i++)
+    for (unsigned int i=0; i<PointDimension; i++)
       {
       os << m_Bounds[2*i] << "," << m_Bounds[2*i+1] << " ";
       }
@@ -122,7 +122,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     
     //iterate over points determining min/max
     //start by initializing the values
-    for (int i=0; i < PointDimension; i++)
+    for (unsigned int i=0; i < PointDimension; i++)
       {
       m_Bounds[2*i] = NumericTraits<CoordRepType>::max();
       m_Bounds[2*i+1] = NumericTraits<CoordRepType>::min();
@@ -135,7 +135,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
           ci != m_PointsContainer->End(); ++ci )
       {
       point = ci->Value();     //point value
-    for (int i=0; i<PointDimension; i++)
+    for (unsigned int i=0; i<PointDimension; i++)
       {
     if ( point[i] < m_Bounds[2*i] )
       {
@@ -162,7 +162,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 {
   if ( this->ComputeBoundingBox() )
     {
-    for (int i=0; i<PointDimension; i++)
+    for (unsigned int i=0; i<PointDimension; i++)
       {
       bounds[2*i] = m_Bounds[2*i];
       bounds[2*i+1] = m_Bounds[2*i+1];
@@ -183,7 +183,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 {
   if ( this->ComputeBoundingBox() )
     {
-    for (int i=0; i<PointDimension; i++)
+    for (unsigned int i=0; i<PointDimension; i++)
       {
       center[i] = (m_Bounds[2*i] + m_Bounds[2*i+1]) / 2.0;
       }
@@ -206,7 +206,7 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
   if ( this->ComputeBoundingBox() )
     {
-    for (int i=0; i<PointDimension; i++)
+    for (unsigned int i=0; i<PointDimension; i++)
       {
       dist2 += (m_Bounds[2*i]-m_Bounds[2*i+1]) * (m_Bounds[2*i]-m_Bounds[2*i+1]);
       }

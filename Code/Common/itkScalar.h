@@ -73,15 +73,28 @@ public:
    * to satisfy the pixel manipulation API.
    */
   static unsigned int GetPixelDimension() 
-    { return 1; }
-  
+    { return 1; }  
+
+  /**
+   * Set the scalar value.
+   * \sa GetScalar()
+   */
+  void SetScalar(const T &val) { m_Scalar = val; }
+
   /**
    * Get the scalar value.
    * \sa SetScalar()
    */
   T& GetScalar()
   { return m_Scalar; }
-
+  
+  /**
+   * Get the scalar value.
+   * \sa SetScalar()
+   */
+  const T& GetScalar() const
+  { return m_Scalar; }
+  
   /**
    * Operator to get (cast) the scalar value. This version can be used as
    * an lvalue. Note that by returning a reference to T, the compiler now
@@ -100,12 +113,6 @@ public:
   { return m_Scalar; };
   
   /**
-   * Set the scalar value.
-   * \sa GetScalar()
-   */
-  void SetScalar(const T &val) { m_Scalar = val; }
-
-  /**
    * Operator to set the scalar value.
    */
   Self& operator= (const T &val) { m_Scalar = val; return *this;}
@@ -114,6 +121,18 @@ public:
 private:
   T m_Scalar;
 };
+
+  
+/**
+ * An output stream operator to write out the scalar through the real
+ * scalar's output stream operator.  This prevents implicit conversion
+ * ambiguities.
+ */
+template <typename T>
+ostream& operator << (ostream& os, const Scalar<T>& s)
+{
+  os << s.GetScalar();
+}
 
 } // end namespace itk
   

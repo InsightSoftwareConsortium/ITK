@@ -47,7 +47,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
   unsigned long siz[VDimension];
   Size<VDimension> hoodRadius;
   siz[0] = 2;
-  for (int i = 1; i < VDimension; ++i)
+  for (unsigned int i = 1; i < VDimension; ++i)
     {
       siz[i] = 1;
     }
@@ -57,7 +57,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
   ImageRegion<VDimension> cropped;
   Size<VDimension> szc;
   Index<VDimension> idxc;
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       szc[i] = delta->GetRequestedRegion().GetSize()[i] - hoodRadius[i]*2;
       idxc[i]= delta->GetRequestedRegion().GetIndex()[i]+ hoodRadius[i];
@@ -71,7 +71,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
   RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
     bni(hoodRadius, output, delta->GetRequestedRegion());
 
-  for (int i=0; i< this->GetIterations(); ++i)
+  for (unsigned int i=0; i< this->GetIterations(); ++i)
     {
       // Calculate average gradient magnitude as the average of the
       // image component's gradient magnitude's.
@@ -249,7 +249,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
    std::slice x_slice[VDimension];
    std::slice xa_slice[VDimension];
    std::slice xd_slice[VDimension];
-   for (int i = 0; i< VDimension; ++i)
+   for (unsigned int i = 0; i< VDimension; ++i)
      {
        stride[i]   = it.GetStride(i);
        x_slice[i]  = std::slice(center - stride[i], 3, stride[i]);
@@ -262,9 +262,9 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
   const TNeighborhoodIterator it_end = it.End();
   for (it = it.Begin(); it < it_end; ++it)
     {
-      for (int i = 0; i < VDimension; ++i) // Calculate all derivatives
+      for (unsigned int i = 0; i < VDimension; ++i) // Calculate all derivatives
         {
-          for (int j = 0; j<N; ++j)
+          for (unsigned int j = 0; j<N; ++j)
             {
               accessor.SetVisibleComponent(j);
               dx_forward[i][j]  = accessor.Get(it.GetPixel(center - stride[i]))
@@ -276,14 +276,14 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
               dx_dim[i][j]  = it.SlicedInnerProduct(xd_slice[i], dx_op, accessor);
             }
         }
-      for (int i = 0; i < VDimension; ++i) // Approx. grad magnitudes
+      for (unsigned int i = 0; i < VDimension; ++i) // Approx. grad magnitudes
         {
           GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
           GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
 
-          for (int j = 0; j < N; ++j)
+          for (unsigned int j = 0; j < N; ++j)
             {
-              for (int m = 0; m < VDimension; ++m)
+              for (unsigned int m = 0; m < VDimension; ++m)
                 {
                   if ( m != i)
                     {
@@ -298,18 +298,18 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
             }
         }
 
-      for (int i = 0; i < VDimension; ++i)  // Calculate conductance terms
+      for (unsigned int i = 0; i < VDimension; ++i)  // Calculate conductance terms
         {
           Cx[i] = std::exp( GradMag[i] / k );
           Cxd[i]= std::exp( GradMag_d[i] / k );
         }
       
-      for (int j = 0; j<N; ++j)            // Update values
+      for (unsigned int j = 0; j<N; ++j)            // Update values
         {
           delta[j] = NumericTraits<VectorValueType>::Zero;
           accessor.SetVisibleComponent(j);
           
-          for (int i = 0; i < VDimension; ++i)
+          for (unsigned int i = 0; i < VDimension; ++i)
             {
               dx_forward[i][j]  *= Cx[i];
               dx_backward[i][j] *= Cxd[i];

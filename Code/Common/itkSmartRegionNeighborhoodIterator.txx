@@ -21,7 +21,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::InBounds()
 {
   bool ans = true;
-  for (int i=0; i<VDimension; i++)
+  for (unsigned int i=0; i<VDimension; i++)
     {
       if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
         {
@@ -53,7 +53,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
     }
   else
     {
-      register int i;
+      register unsigned int i;
       int OverlapLow[VDimension];
       int OverlapHigh[VDimension];
       int temp[VDimension];
@@ -341,7 +341,7 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indicies where the iterator will begin to overlap the edge of the image
   // requested region.
-  for (int i=0; i<VDimension; ++i)
+  for (unsigned int i=0; i<VDimension; ++i)
     {
       m_Bound[i]          = m_StartIndex[i]+size[i];
       m_InnerBoundsHigh[i]= imageRRStart[i] + ( imageRRSize[i] - radius[i] );

@@ -185,8 +185,8 @@ public:
         size = m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
-      int done;
-      int dim;
+      bool done;
+      unsigned int dim;
 
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
