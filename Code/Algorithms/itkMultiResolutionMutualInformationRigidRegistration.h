@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkMultiResolutionMutualInformationRigidRegistration_h
 
 #include "itkImageToImageRigidMutualInformationGradientDescentRegistration.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkMultiResolutionRegistration.h"
 
 #include <vector>
@@ -86,13 +86,13 @@ public:
   /**
    * Type of the reference image pyramid
    */
-  typedef MultiResolutionPyramidImageFilter<
+  typedef RecursiveMultiResolutionPyramidImageFilter<
     ReferenceType, ReferenceType> ReferencePyramidType;
 
   /**
    * Type fo the target image pyramid
    */
-  typedef MultiResolutionPyramidImageFilter<
+  typedef RecursiveMultiResolutionPyramidImageFilter<
      TargetType, TargetType> TargetPyramidType;
 
 
