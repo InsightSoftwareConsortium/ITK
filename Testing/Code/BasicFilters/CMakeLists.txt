@@ -19,6 +19,7 @@ itkFilterDispatchTest
 itkFilterImageAddTest
 itkFilterImageGradientMagnitudeTest
 itkFilterImageSingleOperatorTest
+itkHeaderTest
 itkImageAdaptorPipeLineTest
 itkImportImageTest
 itkShrinkImageTest

@@ -1,4 +1,5 @@
 TESTS(
+itkHeaderTest
 itkNumericsTest
 )
 
