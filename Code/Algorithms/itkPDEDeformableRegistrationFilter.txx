@@ -313,25 +313,14 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
 
 /*
- * Copy one deformation field into the buffer or another field
+ * Release memory of internal buffers
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
-::CopyDeformationField(
-  DeformationFieldType * input,
-  DeformationFieldType * output
-  )
+::PostProcessOutput()
 {
-  typedef ImageRegionIterator<DeformationFieldType> Iterator;
-  Iterator inIter( input, output->GetBufferedRegion() );
-  Iterator outIter( output, output->GetBufferedRegion() );
-
-  for( ; !inIter.IsAtEnd(); ++inIter, ++outIter )
-    {
-    outIter.Set( inIter.Get() );
-    }
-
+  m_TempField->Initialize();
 }
 
 
@@ -355,8 +344,6 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     field->GetRequestedRegion() );
   m_TempField->SetBufferedRegion( field->GetBufferedRegion() );
   m_TempField->Allocate();
-
-  this->CopyDeformationField( field, m_TempField );
   
   typedef typename DeformationFieldType::PixelType VectorType;
   typedef typename VectorType::ValueType           ScalarType;
@@ -368,11 +355,12 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   OperatorType * oper = new OperatorType;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
-  DeformationFieldPointer swapPtr;
+  typedef typename DeformationFieldType::PixelContainerPointer 
+    PixelContainerPointer;
+  PixelContainerPointer swapPtr;
 
   // graft the output field onto the mini-pipeline
-  smoother->GraftOutput( field ); 
-  swapPtr = m_TempField;
+  smoother->GraftOutput( m_TempField );
 
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
@@ -385,19 +373,26 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
     // todo: make sure we only smooth within the buffered region
     smoother->SetOperator( *oper );
-    smoother->SetInput( swapPtr );
+    smoother->SetInput( field );
     smoother->Update();
 
-    swapPtr = smoother->GetOutput();
-    swapPtr->DisconnectPipeline();
+    if ( j < ImageDimension - 1 )
+      {
+      // swap the containers
+      swapPtr = smoother->GetOutput()->GetPixelContainer();
+      smoother->GraftOutput( field );
+      field->SetPixelContainer( swapPtr );
+      smoother->Modified();
+      }
 
     }
 
   // graft the output back to this filter
-  this->GraftOutput( swapPtr );
+  m_TempField->SetPixelContainer( field->GetPixelContainer() );
+  this->GraftOutput( smoother->GetOutput() );
 
   delete oper;
-  
+
 }
 
 

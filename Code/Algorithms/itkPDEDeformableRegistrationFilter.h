@@ -53,6 +53,11 @@ namespace itk {
  * of smoothing is governed by a set of user defined standard deviations
  * (one for each dimension).
  *
+ * In terms of memory, this filter keeps two internal buffers: one for storing
+ * the intermediate updates to the field and one for double-buffering when
+ * smoothing the deformation field. Both buffers are the same type and size as the
+ * output deformation field.
+ *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed using a PDEDeformableRegistrationFunction.
  *
@@ -165,10 +170,9 @@ protected:
    * by setting the StandardDeviations. */
   virtual void SmoothDeformationField();
 
-  /** Utitlity to copy one buffered region of one deformation field to
-   * another deformation field. For efficiency no region checking is done. */
-  virtual void CopyDeformationField( DeformationFieldType * input,
-                                     DeformationFieldType * output );
+  /** This method is called after the solution has been generated. In this case,
+   * the filter release the memory of the internal buffers. */
+  virtual void PostProcessOutput();
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
