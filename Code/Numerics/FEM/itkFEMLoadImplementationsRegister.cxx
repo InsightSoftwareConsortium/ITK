@@ -61,13 +61,17 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementation   );
 
   // Loads acting on TriC02D element
+#if !(defined(__SVR4) && defined(sun))
   REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementation    );
   REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementation    );
+#endif
   REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementation    );
 
   // Loads acting on QuadC02D element
+#if !(defined(__SVR4) && defined(sun))
   REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementation    );
   REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementation    );
+#endif
   REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementation    );
 
   // Loads acting on C1IsoCurve2D element
