@@ -1,5 +1,6 @@
 INCLUDE_DIRECTORIES(
     ${ITK_SOURCE_DIR}/Utilities/GlutMaster
+    ${GLUT_INCLUDE_DIR}
     )
 
 SET(ITKIO_SRCS
