@@ -51,7 +51,7 @@ MetaLandmarkConverter<NDimensions>
     spacing[i]=Landmark->ElementSpacing()[i];
   }
   landmark->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  landmark->GetProperty()->SetName((char*)Landmark->Name());
+  landmark->GetProperty()->SetName(Landmark->Name());
   landmark->SetId(Landmark->ID());
   landmark->SetParentId(Landmark->ParentID());
   landmark->GetProperty()->SetRed(Landmark->Color()[0]);

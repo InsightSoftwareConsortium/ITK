@@ -48,7 +48,7 @@ MetaTubeConverter<NDimensions>
   }
 
   tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tub->GetProperty()->SetName((char*)tube->Name());
+  tub->GetProperty()->SetName(tube->Name());
   tub->SetParentPoint(tube->ParentPoint());
   tub->SetId(tube->ID());
   tub->SetParentId(tube->ParentID());

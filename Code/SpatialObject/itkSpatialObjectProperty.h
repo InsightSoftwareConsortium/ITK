@@ -66,7 +66,7 @@ public:
   SpatialObjectProperty();
   virtual ~SpatialObjectProperty();
 
-  void SetName( char * name );
+  void SetName( const char * name );
   StringType GetName( void ) const;
 
   unsigned long GetMTime(void){return m_MTime;}

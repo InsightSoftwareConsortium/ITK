@@ -48,7 +48,7 @@ MetaLineConverter<NDimensions>
     spacing[i]=Line->ElementSpacing()[i];
   }
   line->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  line->GetProperty()->SetName((char*)Line->Name());
+  line->GetProperty()->SetName(Line->Name());
   line->SetId(Line->ID());
   line->SetParentId(Line->ParentID());
   line->GetProperty()->SetRed(Line->Color()[0]);

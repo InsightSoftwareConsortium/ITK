@@ -76,7 +76,7 @@ MetaImageConverter<NDimensions,PixelType>
   spatialObject->SetImage(myImage);
   spatialObject->SetId(image->ID());
   spatialObject->SetParentId(image->ParentID());
-  spatialObject->GetProperty()->SetName((char*)image->Name());
+  spatialObject->GetProperty()->SetName(image->Name());
 
   return spatialObject;
 }

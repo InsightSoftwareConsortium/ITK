@@ -50,7 +50,7 @@ MetaBlobConverter<NDimensions>
     spacing[i]=Blob->ElementSpacing()[i];
   }
   blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  blob->GetProperty()->SetName((char*)Blob->Name());
+  blob->GetProperty()->SetName(Blob->Name());
   blob->SetId(Blob->ID());
   blob->SetParentId(Blob->ParentID());
   blob->GetProperty()->SetRed(Blob->Color()[0]);

@@ -43,7 +43,7 @@ MetaGroupConverter<NDimensions>
     spacing[i] = group->ElementSpacing()[i];
     }
   spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  spatialObject->GetProperty()->SetName((char*)group->Name());
+  spatialObject->GetProperty()->SetName(group->Name());
   spatialObject->GetProperty()->SetRed(group->Color()[0]);
   spatialObject->GetProperty()->SetGreen(group->Color()[1]);
   spatialObject->GetProperty()->SetBlue(group->Color()[2]);

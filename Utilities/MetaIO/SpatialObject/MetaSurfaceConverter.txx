@@ -48,7 +48,7 @@ MetaSurfaceConverter<NDimensions>
     spacing[i]=Surface->ElementSpacing()[i];
   }
   surface->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  surface->GetProperty()->SetName((char*)Surface->Name());
+  surface->GetProperty()->SetName(Surface->Name());
   surface->SetId(Surface->ID());
   surface->SetParentId(Surface->ParentID());
   surface->GetProperty()->SetRed(Surface->Color()[0]);

@@ -130,7 +130,7 @@ SpatialObjectProperty< TComponentType >
 template< class TComponentType >
 void
 SpatialObjectProperty< TComponentType >
-::SetName( char * name )
+::SetName( const char * name )
 { 
   m_Name.assign( name ); 
   this->Modified();
