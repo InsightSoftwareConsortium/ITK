@@ -44,6 +44,7 @@ template<class TPixel, unsigned int VDimension, class TContainer>
 void Neighborhood<TPixel, VDimension, TContainer>
 ::ComputeNeighborhoodOffsetTable()
 {
+  m_OffsetTable.clear();
   m_OffsetTable.reserve(this->Size());
   OffsetType o;
   unsigned int i, j;
