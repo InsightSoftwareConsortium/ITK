@@ -29,6 +29,18 @@
 namespace itk{
 namespace Statistics{
 
+/**
+ * Due to a bug in MSVC, an enum value cannot be accessed out of a template
+ * parameter until the template class opens.  In order for templated classes
+ * to access the dimension of an image template parameter in defining their
+ * own dimension, this class is needed as a work-around.
+ */
+template <typename THistogram>
+struct GetHistogramDimension
+{
+  itkStaticConstMacro(HistogramDimension, unsigned int, THistogram::MeasurementVectorSize);
+}; 
+  
 /** \class Histogram 
  *  \brief This class stores measurement vectors in the context of n-dimensional
  *  histogram.
@@ -60,12 +72,18 @@ namespace Statistics{
  * SparseFrequencyContainer
  */
 
+
+
+  
 template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
            class TFrequencyContainer = DenseFrequencyContainer< float > > 
 class ITK_EXPORT Histogram 
   : public Sample < FixedArray< TMeasurement, VMeasurementVectorSize > >
 {
 public:
+
+
+
   /** Standard typedefs */
   typedef Histogram  Self ;
   typedef Sample< FixedArray< TMeasurement, VMeasurementVectorSize > > Superclass ;
@@ -82,6 +100,7 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       VMeasurementVectorSize);
  
+  
   /** type of an element of a measurement vector */
   typedef TMeasurement MeasurementType ;
 
