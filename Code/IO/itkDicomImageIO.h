@@ -93,15 +93,15 @@ private:
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
  
   /** This function build a list of tags required to read data in a dicom file*/
-  bool DicomImageIO::CheckTagTable(std::ifstream & inputStream, std::list <Tag> &TableOfTags) const;
+  bool CheckTagTable(std::ifstream & inputStream, std::list <Tag> &TableOfTags) const;
   /** This function put the cursor of the stream on the first byte after the last balise
-  /*  at the end of the header */
-  bool DicomImageIO::GoToTheEndOfHeader(std::ifstream & inputStream,long int& i,Tag & tagcurrent) const;
+   *  at the end of the header */
+  bool GoToTheEndOfHeader(std::ifstream & inputStream,long int& i,Tag & tagcurrent) const;
   /** This function put the cursor of the stream on the first byte after the given balise */
-  bool DicomImageIO::GoToTag(std::ifstream & inputStream,int balise1,int balise2,long int & i,
-                                                            long int & max,Tag & tagcurrent) const;
+  bool GoToTag(std::ifstream & inputStream,int balise1,int balise2,long int & i,
+                                                     long int & max,Tag & tagcurrent) const;
   /** return true if tag([0][1]) = tagvalue1 and tag([2][3]) = tagvalue2*/ 
-  bool DicomImageIO::IfEqual(unsigned char * tag, int tagvalue1, int tagvalue2) const;
+  bool IfEqual(unsigned char * tag, int tagvalue1, int tagvalue2) const;
   
   std::ifstream   m_Ifstream;
 
