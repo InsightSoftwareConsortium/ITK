@@ -81,7 +81,7 @@ namespace itk
  * TclStringStream can be hidden in a Tcl procedure:
  *
  *    proc itkTclResultStream {} {
- *      return [itk::TclStringStream [wrap::Interpreter]];
+ *      return [itk::TclStringStream [wrap::Interpreter]]
  *    }
  *
  *    $obj Print [itkTclResultStream]
