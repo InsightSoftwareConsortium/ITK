@@ -157,7 +157,11 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageRegionIterator() : ImageIterator<TImage>() { m_SpanEndOffset = 0; }
+  ImageRegionIterator() : ImageIterator<TImage>()
+  {
+    m_SpanBeginOffset = 0;
+    m_SpanEndOffset = 0;
+  }
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -166,7 +170,10 @@ public:
   ImageRegionIterator(ImageType *ptr,
                       const RegionType &region)
     : ImageIterator<TImage>(ptr, region)
-  { m_SpanEndOffset = m_BeginOffset + m_Region.GetSize()[0]; }
+  {
+    m_SpanBeginOffset = m_BeginOffset;
+    m_SpanEndOffset = m_BeginOffset + m_Region.GetSize()[0];
+  }
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -182,6 +189,7 @@ public:
     IndexType ind = this->GetIndex();
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
       - (ind[0] - m_Region.GetIndex()[0]);
+    m_SpanBeginOffset = m_SpanEndOffset - m_Region.GetSize()[0];
   }
 
 
@@ -193,7 +201,9 @@ public:
   void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
-      - (ind[0] - m_Region.GetIndex()[0]); }
+      - (ind[0] - m_Region.GetIndex()[0]);
+    m_SpanBeginOffset = m_SpanEndOffset - m_Region.GetSize()[0];
+  }
   
   /**
    * Increment (prefix) the fastest moving dimension of the iterator's index.
@@ -250,11 +260,72 @@ public:
         }
       m_Offset = m_Image->ComputeOffset( ind );
       m_SpanEndOffset = m_Offset + size[0];
+      m_SpanBeginOffset = m_Offset;
+      }
+    return *this;
+  }
+
+  /**
+   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+   * This operator will constrain the iterator within the region (i.e. the
+   * iterator will automatically wrap from the beginning of the row of the region
+   * to the end of the next row of the region) up until the iterator
+   * tries to moves past the first pixel of the region.  Here, the iterator
+   * will be set to be one pixel past the beginning of the region.
+   * \sa operator--(int)
+   */
+  Self & operator--()
+  {
+    if (--m_Offset < m_SpanBeginOffset)
+      {
+      // We have pasted the beginning of the span (row), need to wrap around.
+
+      // First move forward one pixel, because we are going to use a different
+      // algorithm to compute the next pixel
+      m_Offset++;
+      
+      // Get the index of the first pixel on the span (row)
+      ImageIterator<TImage>::IndexType
+        ind = m_Image->ComputeIndex( m_Offset );
+
+      const ImageIterator<TImage>::IndexType&
+        startIndex = m_Region.GetIndex();
+      const ImageIterator<TImage>::SizeType&
+        size = m_Region.GetSize();
+
+      // Deccrement along a row, then wrap at the beginning of the region row.
+      bool done;
+      unsigned int dim;
+
+      // Check to see if we are past the first pixel in the region
+      // Note that --ind[0] moves to the previous pixel along the row.
+      done = (--ind[0] == startIndex[0] - 1);
+      for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
+        {
+        done = (ind[i] == startIndex[i]);
+        }
+      
+      // if the iterator is outside the region (but not past region begin) then
+      // we need to wrap around the region
+      dim = 0;
+      if (!done)
+        {
+        while ( (dim < ImageIteratorDimension - 1)
+                && (ind[dim] < startIndex[dim]) )
+          {
+          ind[dim] = startIndex[dim] + size[dim] - 1;
+          ind[++dim]--;
+          }
+        }
+      m_Offset = m_Image->ComputeOffset( ind );
+      m_SpanEndOffset = m_Offset + 1;
+      m_SpanBeginOffset = m_SpanEndOffset - size[0];
       }
     return *this;
   }
 
 protected:
+  unsigned long m_SpanBeginOffset;  // one pixel before the beginning of the span (row)
   unsigned long m_SpanEndOffset;  // one pixel past the end of the span (row)
        
 };
