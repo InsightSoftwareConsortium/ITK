@@ -88,19 +88,15 @@ SampleClassifierWithMask< TSample, TMaskSample >
   unsigned int classLabel ;
   typename Superclass::DecisionRuleType::Pointer rule = 
     this->GetDecisionRule() ;
-  typename Superclass::MembershipFunctionPointerVector mfs =
-    this->GetMembershipFunctions() ;
   typename Superclass::ClassLabelVectorType classLabels = 
     this->GetMembershipFunctionClassLabels() ;
   
   if ( this->GetMask()->Size() != this->GetSample()->Size() )
     {
-    throw ExceptionObject
-      (__FILE__, __LINE__, 
-       "The sizes of the mask sample and the input sample do not match.") ;
+    itkExceptionMacro("The sizes of the mask sample and the input sample do not match.") ;
     }
 
-  if ( classLabels.size() != mfs.size() )
+  if ( classLabels.size() != this->GetNumberOfMembershipFunctions() )
     {
     while (iter != end)
       {
@@ -112,7 +108,8 @@ SampleClassifierWithMask< TSample, TMaskSample >
         {
         for (i = 0 ; i < numberOfClasses ; i++)
           {
-          discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+          discriminantScores[i] = 
+            (this->GetMembershipFunction(i))->Evaluate(measurements) ;
           }
         classLabel = rule->Evaluate(discriminantScores) ;
         }
@@ -137,7 +134,8 @@ SampleClassifierWithMask< TSample, TMaskSample >
         {
         for (i = 0 ; i < numberOfClasses ; i++)
           {
-          discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+          discriminantScores[i] =
+            (this->GetMembershipFunction(i))->Evaluate(measurements) ;
           }
         classLabel = rule->Evaluate(discriminantScores) ;
         output->AddInstance(classLabels[classLabel], 

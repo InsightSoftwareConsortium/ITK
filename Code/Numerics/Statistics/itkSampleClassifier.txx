@@ -33,6 +33,26 @@ SampleClassifier< TSample >
 template< class TSample >
 void
 SampleClassifier< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " ;
+  if ( m_Sample != 0 )
+    {
+    os << m_Sample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Output: " << m_Output << std::endl;
+}
+
+template< class TSample >
+void
+SampleClassifier< TSample >
 ::SetSample(TSample* sample)
 {
   if ( m_Sample != sample )
@@ -76,18 +96,16 @@ SampleClassifier< TSample >
   m_Output->SetNumberOfClasses(numberOfClasses) ;
   typename Superclass::DecisionRuleType::Pointer rule = 
     this->GetDecisionRule() ;
-  typename Superclass::MembershipFunctionPointerVector mfs =
-    this->GetMembershipFunctions() ;
-  
 
-  if ( m_ClassLabels.size() != mfs.size() )
+  if ( m_ClassLabels.size() != this->GetNumberOfMembershipFunctions() )
     {
     while (iter != end)
       {
       measurements = iter.GetMeasurementVector() ;
       for (i = 0 ; i < numberOfClasses ; i++)
         {
-        discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+        discriminantScores[i] =
+          (this->GetMembershipFunction(i))->Evaluate(measurements) ;
         }
       classLabel = rule->Evaluate(discriminantScores) ;
       m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
@@ -101,7 +119,8 @@ SampleClassifier< TSample >
       measurements = iter.GetMeasurementVector() ;
       for (i = 0 ; i < numberOfClasses ; i++)
         {
-        discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+        discriminantScores[i] = 
+          (this->GetMembershipFunction(i))->Evaluate(measurements) ;
         }
       classLabel = rule->Evaluate(discriminantScores) ;
       m_Output->AddInstance(m_ClassLabels[classLabel], 
@@ -119,16 +138,6 @@ SampleClassifier< TSample >
   return m_Output ;
 }
 
-template< class TSample >
-void
-SampleClassifier< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Sample: " << m_Sample << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
-}
 } // end of namespace Statistics 
 } // end of namespace itk
 
