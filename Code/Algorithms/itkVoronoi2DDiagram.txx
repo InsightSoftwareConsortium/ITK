@@ -1190,15 +1190,3 @@ GenerateVDFortune(void)
 }
 
 }//end namespace
-
-
-
-    
-
-
-
-
-    
-    
-    
-   
