@@ -220,7 +220,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
  
   m_LabelStatus = (unsigned int *) new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
   for( int index = 0; 
-       index <= ( m_imgWidth * m_imgHeight * m_imgDepth ); 
+       index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
        index++ ) 
   {
     m_LabelStatus[index]=1;
