@@ -234,7 +234,7 @@ Object
  */
 void 
 Object
-::PrintHeader(std::ostream& os, Indent indent)
+::PrintHeader(std::ostream& os, Indent indent) const
 {
   os << indent << this->GetClassName() << " (" << this << ")\n";
 }
@@ -245,7 +245,7 @@ Object
  */
 void 
 Object
-::PrintTrailer(std::ostream& os, Indent indent)
+::PrintTrailer(std::ostream& os, Indent indent) const
 {
   os << indent << std::endl;
 }
