@@ -48,11 +48,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  const unsigned int ImageDimension = FixedImageType::ImageDimension;
-
-  RealType MovingValue;
-  RealType FixedValue;
-
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
 
@@ -78,10 +73,10 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
-      FixedValue     = ti.Get();
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = ti.Get();
       m_NumberOfPixelsCounted++;
-      const RealType diff = MovingValue - FixedValue; 
+      const RealType diff = movingValue - fixedValue; 
       measure += diff * diff; 
       }
 
@@ -129,8 +124,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  RealType MovingValue;
-  RealType FixedValue;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
                                           FixedImageType> FixedIteratorType;
@@ -168,15 +161,15 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
 
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
 
       
-      FixedValue     = ti.Value();
+      const RealType fixedValue     = ti.Value();
       m_NumberOfPixelsCounted++;
-      const RealType diff = MovingValue - FixedValue; 
+      const RealType diff = movingValue - fixedValue; 
 
       const GradientPixelType & gradient = gi.Value(); 
       for(unsigned int par=0; par<ParametersDimension; par++)
@@ -233,9 +226,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  RealType MovingValue;
-  RealType FixedValue;
-
   typedef  itk::ImageRegionConstIteratorWithIndex<
                                           FixedImageType> FixedIteratorType;
 
@@ -274,16 +264,16 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
 
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
 
       
-      FixedValue     = ti.Value();
+      const RealType fixedValue     = ti.Value();
       m_NumberOfPixelsCounted++;
 
-      const RealType diff = MovingValue - FixedValue; 
+      const RealType diff = movingValue - fixedValue; 
   
       measure += diff * diff;
 
