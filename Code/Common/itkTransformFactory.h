@@ -38,10 +38,10 @@ public:
     // std::cout << "Registering: " << t->GetTransformTypeAsString() << std::endl;
     TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
     f->RegisterTransform ( t->GetTransformTypeAsString().c_str(),
-                          t->GetTransformTypeAsString().c_str(),
-                          t->GetTransformTypeAsString().c_str(),
-                          1,
-                          CreateObjectFunction<T>::New() );
+                           t->GetTransformTypeAsString().c_str(),
+                           t->GetTransformTypeAsString().c_str(),
+                           1,
+                           CreateObjectFunction<T>::New() );
     };
 };
 } // end namespace itk

@@ -326,6 +326,7 @@ const typename MatrixOffsetTransformBase<TScalarType,
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   ::GetFixedParameters(void) const
 {
+  this->m_FixedParameters.SetSize ( NInputDimensions );
   for ( unsigned int i = 0; i < NInputDimensions; i++ )
     {
     this->m_FixedParameters[i] = this->m_Center[i];

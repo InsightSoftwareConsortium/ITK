@@ -130,9 +130,25 @@ public:
     const InputCovariantVectorType &) const
     { return OutputCovariantVectorType(); } 
 
-  /** Set the transformation parameters and update internal transformation. */
+  /** Set the transformation parameters and update internal transformation.
+   * SetParameters gives the transform the option to set it's
+   * parameters by keeping a reference to the parameters, or by
+   * copying.  To force the transform to copy it's parameters call
+   * SetParametersByValue.
+   * \sa SetParametersByValue
+   */
   virtual void SetParameters( const ParametersType & ) 
     { itkExceptionMacro( << "Subclasses should override this method" ) };
+
+  /** Set the transformation parameters and update internal transformation. 
+   * This method forces the transform to copy the parameters.  The
+   * default implementation is to call SetParameters.  This call must
+   * be overridden if the transform normally implements SetParameters
+   * by keeping a reference to the parameters.
+   * \sa SetParameters
+   */
+  virtual void SetParametersByValue ( const ParametersType & p ) 
+    { this->SetParameters ( p ); };
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const

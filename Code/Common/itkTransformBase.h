@@ -66,6 +66,15 @@ public:
   /** Set the transformation parameters and update internal transformation. */
   virtual void SetParameters( const ParametersType & ) = 0;
 
+  /** Set the transformation by copying parameters and update internal transformation.
+   * This method forces the transform to copy the parameters.  The
+   * default implementation is to call SetParameters.  This call must
+   * be overridden if the transform normally implements SetParameters
+   * by keeping a reference to the parameters.
+   * \sa SetParameters
+   */
+  virtual void SetParametersByValue ( const ParametersType & p ) = 0;
+
   /** Set the fixed parameters. */
   virtual void SetFixedParameters( const ParametersType & ) = 0;
 

@@ -60,7 +60,14 @@ void TransformFileReader
 {  
   TransformPointer transform;
 
-  std::ifstream in ( m_FileName.c_str() );
+  std::ifstream in;
+  in.open ( m_FileName.c_str() );
+  if( in.fail() )
+    {
+    in.close();
+    itkExceptionMacro ( "The file could not be opened for read access "
+                        << std::endl << "Filename: \"" << m_FileName << "\"" );
+    }
 
   OStringStream InData;
 
@@ -113,11 +120,28 @@ void TransformFileReader
     if ( Name == "Transform" )
       {
       // Instantiate the transform
-      LightObject::Pointer i = ObjectFactoryBase::CreateInstance ( Value.c_str() );
+      itkDebugMacro ( "About to call ObjectFactory" );
+      LightObject::Pointer i;
+      i = ObjectFactoryBase::CreateInstance ( Value.c_str() );
+      itkDebugMacro ( "After call ObjectFactory");
       TransformType* ptr = dynamic_cast<TransformBase*> ( i.GetPointer() );
       if ( ptr == NULL )
         {
-        itkExceptionMacro ( "Could not create an instance of " << Value );
+        // itkExceptionMacro ( "Failed to create instance of" << Value );
+        OStringStream msg;
+        msg << "Could not create an instance of " << Value << std::endl
+            << "The usual cause of this error is not registering the "
+            << "transform with TransformFactory" << std::endl;
+        msg << "Currently registered Transforms: " << std::endl;
+        itkExceptionMacro ( << msg.str() );
+        std::list<std::string> names = TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
+        std::list<std::string>::iterator it;
+        for ( it = names.begin(); it != names.end(); it++ )
+          {
+          msg << "\t\"" << *it << "\"" << std::endl;
+          }
+        itkExceptionMacro ( << msg.str() );
+        return;
         }
       transform = ptr;
       transform->Register();
@@ -142,7 +166,7 @@ void TransformFileReader
           {
           itkExceptionMacro ( "Please set the transform before parameters" );
           }
-        transform->SetParameters ( TmpArray );
+        transform->SetParametersByValue ( TmpArray );
         itkDebugMacro ( "Parameters set Parameters" );
         }
       else if ( Name == "FixedParameters" )
