@@ -34,6 +34,11 @@ int itkObjectStoreTest( int , char * [] )
   store->SetGrowthStrategyToExponential();
   store->Reserve(40000);
 
+  // for increased code coverage
+  store->SetLinearGrowthSize( store->GetLinearGrowthSize() );
+  store->SetGrowthStrategy( store->GetGrowthStrategy() );
+  
+  
   for (j = 0; j< 2; j++)
     {
       std::cout << "_______________________" << std::endl;
