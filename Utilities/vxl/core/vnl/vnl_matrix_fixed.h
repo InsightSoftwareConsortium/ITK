@@ -464,7 +464,8 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
   //: Return mean of all matrix elements
-  T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
+  T mean() const { return vnl_c_vector<T>::mean(begin(), num_rows*num_cols /*size()*/); }
+  // size() call in this method causes an ICE for MSVC when instantating 1x1 matrix
 
   // predicates
 
