@@ -32,9 +32,9 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 5)
+  if(ac < 6)
     {
-    std::cerr << "Usage: " << av[0] << " InputInitialImage InputColorImage BaselineImage threshold\n";
+    std::cerr << "Usage: " << av[0] << " InputInitialImage InputColorImage BaselineImage threshold curvatureScaling\n";
     return -1;
     }
 
@@ -102,6 +102,10 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   const double threshold = atof( av[4] );
   
   filter->SetThreshold( threshold );
+
+  const double curvatureScaling = atof( av[5] );
+  
+  filter->SetCurvatureScaling( curvatureScaling );
 
   try
     {
