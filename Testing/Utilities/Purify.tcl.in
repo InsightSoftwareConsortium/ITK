@@ -147,7 +147,7 @@ foreach Test $TestList \
   {
     puts "\tRunning $NewFilename"
     set PurifyOptions "-max-threads=1 -chain-length=20 "
-    append PurifyOptions "-suppression-file-names=[file join $UtilitiesDirectory .purify] "
+    append PurifyOptions "-suppression-file-names=[file join SourceUtilitiesDirectory .purify] "
     set PLog $NewFilename.plog
     append PurifyOptions "-log-file=$PLog "
 
