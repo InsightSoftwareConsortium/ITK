@@ -86,7 +86,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   threader->SingleMethodExecute();
   
   // Test untested methods.
-  int val = 0;
+  int val = 1;
   threader->SetGlobalMaximumNumberOfThreads(val);
   threader->SetGlobalDefaultNumberOfThreads(val);
 
@@ -98,7 +98,8 @@ int itkSTLThreadTest(int argc, char* argv[])
   //threader->MultipleMethodExecute();
   int threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, results);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): " << threadId << std::endl;
-  threader->TerminateThread(threadId);
+  int threadId2 = 1;
+  threader->TerminateThread(threadId2);
 
 
 

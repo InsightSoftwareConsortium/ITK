@@ -63,6 +63,9 @@ int itkBinaryThresholdImageFunctionTest(int, char* [] )
   typedef itk::BinaryThresholdImageFunction<FloatImage> ImageFunction;
   ImageFunction::Pointer threshold = ImageFunction::New();
 
+  ImageFunction::PointType  point;
+  ImageFunction::ContinuousIndexType continuousIndex;
+
   threshold->SetInputImage(image);
 
   threshold->ThresholdBelow (100.0);
@@ -88,6 +91,17 @@ int itkBinaryThresholdImageFunctionTest(int, char* [] )
   if (threshold->EvaluateAtIndex(index)) failed++;
 
   std::cout << threshold;
+
+  // Test Evaluate
+  point[0] = 5; point[1] = 5; point[2] = 5;
+  threshold->Evaluate(point);
+
+  // Test EvaluateAtContinuousIndex
+  continuousIndex[0] = 9; 
+  continuousIndex[1] = 9; 
+  continuousIndex[2] = 9;
+  threshold->EvaluateAtContinuousIndex(continuousIndex);
+  
 
   if (failed)
     {
