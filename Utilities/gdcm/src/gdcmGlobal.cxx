@@ -21,6 +21,10 @@
 
 namespace gdcm 
 {
+const std::string GDCM_UNFOUND   = "gdcm::Unfound";
+const std::string GDCM_BINLOADED = "gdcm::Binary data loaded";
+const std::string GDCM_NOTLOADED = "gdcm::NotLoaded";
+const std::string GDCM_UNREAD    = "gdcm::UnRead";
 
 /**
  * \ingroup Globals
