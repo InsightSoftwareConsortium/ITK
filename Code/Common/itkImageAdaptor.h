@@ -230,6 +230,10 @@ public:
   const AccessorType & GetPixelAccessor( void ) const
     { return m_PixelAccessor; }
 
+  /** Sets the Data Accesor object */
+  void SetPixelAccessor( const AccessorType & accessor ) 
+    { m_PixelAccessor = accessor; }
+ 
   /** Return the Data Accesor object */
   virtual void Update();
   virtual void UpdateOutputInformation();
