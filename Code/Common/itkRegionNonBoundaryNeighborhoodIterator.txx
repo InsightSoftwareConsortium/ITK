@@ -23,7 +23,7 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
   ImageRegion<VDimension> cropped;
   Size<VDimension> szc;
   Index<VDimension> idxc;
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       szc[i] = ptr->GetRequestedRegion().GetSize()[i] - radius[i]*2;
       idxc[i]= ptr->GetRequestedRegion().GetIndex()[i]+ radius[i];
@@ -60,7 +60,7 @@ RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension>
   RegionNonBoundaryNeighborhoodIterator it( *this );
 
   // Calculate the end index
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
