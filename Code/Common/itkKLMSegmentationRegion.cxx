@@ -381,7 +381,12 @@ KLMSegmentationRegion
 
 } // end UpdateRegionBorderLambda
 
-
+void
+KLMSegmentationRegion
+::DeleteAllRegionBorders()
+{
+  m_RegionBorderVector.resize( 0 );
+}
 
 KLMSegmentationRegion::RegionBorderVectorIterator
 KLMSegmentationRegion
@@ -431,7 +436,7 @@ KLMSegmentationRegion
 
   this->DebugOff();
 
-  /*
+  
   std::cout << "------------------------------" << std::endl;
   std::cout << "Location   : " << this << std::endl;
   std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
@@ -455,7 +460,7 @@ KLMSegmentationRegion
     }// end while
 
   std::cout << "------------------------------" << std::endl;
-  */
+
 
 }//end PrintRegionInfo
 

@@ -165,6 +165,9 @@ public:
   void InsertRegionBorder(RegionBorderVectorIterator it,
                           KLMSegmentationBorder *pBorderCandidate);
 
+  /** Delete all region borders */
+  void DeleteAllRegionBorders();
+
   /** Reorder the region borders given a candidate border after region 
    * merging. */
   void ReorderRegionBorders(KLMSegmentationBorder *pBorderCandidate);

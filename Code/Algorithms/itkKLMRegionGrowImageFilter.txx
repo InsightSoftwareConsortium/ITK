@@ -689,6 +689,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // current minimum scale parameter is not less than the desired scale.
   //-----------------------------------------------------------------
 
+  unsigned int initialNumberOfRegions = m_NumRegions;
+
   while(( m_NumRegions   > this->GetMaximumNumberOfRegions() ) &&
         ( m_RegionLambda < m_MaxLambda))
     {
@@ -702,7 +704,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     itkDebugMacro( << "    Before merge   ");
     itkDebugMacro( << "-------------------");
 
-/*
+    /*
     std::cout << "-------------------" << std::endl;
     std::cout << "    Before merge   " << std::endl;
     std::cout << "-------------------" << std::endl;
@@ -711,8 +713,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       {
       m_RegionsPointer[k]->PrintRegionInfo(); 
       }
-    
-*/
+    */
+
     MergeRegions();
 
     /*
@@ -730,7 +732,17 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     itkDebugMacro( << "    +++++++++++    ");
     itkDebugMacro( << "-------------------");  
     */
-   
+
+    
+    std::cout << "-------------------" << std::endl;
+    std::cout << "    After merge   " << std::endl;
+    std::cout << "-------------------" << std::endl;
+
+    for( unsigned int k = 0; k < initialNumberOfRegions; k++ )
+      {
+      //m_RegionsPointer[k]->PrintRegionInfo(); 
+      }
+      
     // since the number of borders decreases or increases, possibly
     // many times with each iteration, it is reasonable to check
     // for an invalid value 
@@ -1018,6 +1030,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       }
     }
 
+  //COMMENT off
+  bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
+
   std::sort(m_BordersDynamicPointer.begin(), 
             (m_BordersDynamicPointer.end()), 
             std::greater < KLMDynamicBorderArray<BorderType> >());
@@ -1025,6 +1041,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
   m_RegionLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
 
+  //COMMENT off
+  //bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
   //Sorted border counter
   //For DEBUG purposes
@@ -1664,11 +1683,19 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Recompute the lambda's for all the borders of region1
   pRegion1->UpdateRegionBorderLambda();
 
+  
+  //COMMENT OFF
+  bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
+
   // Resort the border list based on the lambda values
   std::sort( &*(m_BordersDynamicPointer.begin()), 
              &(m_BordersDynamicPointer[m_NumberOfBorders]), 
              std::greater < KLMDynamicBorderArray<BorderType> >() );
-
+  
+  //COMMENT OFF
+  //bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
   // Sorted border counter
   // For DEBUG purposes
   if ( this->GetDebug() )
@@ -1717,14 +1744,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   poldRegion->SetRegionLabel( pnewRegion->GetRegionLabel() );
 
 
-
   // Ensure that all borders associated with the old region
   // are in the correct order 
   while( oldRegionBordersIt != endOfOldRegionBorders )
     {
     // make sure the neighbors now point to the new region, and
     // reorder the region borders of the neighbors since they are
-    // longer in ascending order 
+    // no longer in ascending order 
 
     //Ensure that region 1 label is less than  region 2 label 
     if( ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel() ==
@@ -1989,6 +2015,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     oldRegionBordersIt++;
 
     }//end while
+
+  //Do not need the old region borders anymore
+  poldRegion->DeleteAllRegionBorders();
 
 }// end localfn_union_borders
 

@@ -67,10 +67,37 @@ public:
   /** Greater than operators defined to work with both static objects
    * or pointer to objects. */
   bool operator> (const KLMDynamicBorderArray<TBorder>& rhs) const
-    { return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda()); }
+    {  
+    if( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() ) 
+      { 
+
+      unsigned int lhsArea = ( m_Pointer->GetRegion1()->GetRegionArea() + 
+        m_Pointer->GetRegion2()->GetRegionArea() );
+
+      unsigned int rhsArea = ( rhs.m_Pointer->GetRegion1()->GetRegionArea() + 
+        rhs.m_Pointer->GetRegion2()->GetRegionArea() );
+
+      // Compare the total areas of the two neighbors
+      if( lhsArea == rhsArea )
+        {
+        return ( m_Pointer > rhs.m_Pointer );
+        }
+      else
+        {
+        return ( lhsArea > rhsArea );
+        }
+      }
+    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() ); 
+    }
 
   bool operator> (const KLMDynamicBorderArray<TBorder>* rhs) const
-    { return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda()); }
+    { 
+    if( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() ) 
+      { 
+      return ( m_Pointer > rhs.m_Pointer );
+      }
+    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() ); 
+    }
 
   TBorder *m_Pointer;
 };
@@ -143,10 +170,14 @@ public:
   /** Greater than operators defined to work with both static objects
    * or pointer to objects. */
   bool operator> (const KLMSegmentationBorder& rhs) const
-    { return(m_Lambda > rhs.m_Lambda); }
+    { return( m_Lambda > rhs.m_Lambda ); }
+//    { if( m_Lambda == rhs.m_Lambda) { return ( this > &rhs ); }
+      
 
   bool operator> (const KLMSegmentationBorder* rhs) const
-    { return(m_Lambda > rhs->m_Lambda); }
+    { return( (m_Lambda > rhs->m_Lambda) ); }
+//    { if( m_Lambda == rhs->m_Lambda) { return ( this > rhs ); }
+      
 
 protected:
   /** Constructor. */
