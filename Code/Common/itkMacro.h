@@ -435,7 +435,7 @@ private:
   { \
   ::itk::OStringStream message; \
   message << "itk::ERROR: " x; \
-  ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str()); \
+  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str()); \
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 
