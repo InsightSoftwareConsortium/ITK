@@ -119,7 +119,7 @@ std::vector<SmartPointer<DataObject> >::size_type
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetNumberOfValidRequiredInputs() const
 {
-  std::vector<DataObjectPointer>::size_type num = 0;
+  typename std::vector<SmartPointer<DataObject> >::size_type num = 0;
 
   if (this->GetFixedImage())
     {
