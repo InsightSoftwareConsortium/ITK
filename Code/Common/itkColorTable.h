@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <itkObject.h>
 #include <itkRGBPixel.h>
+#include <itkObjectFactory.h>
 
 namespace itk 
 {
@@ -81,8 +82,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);
-  
+     itkNewMacro(Self);
 
   void    useDiscrete(void);
   void    useGray(int n=256);
