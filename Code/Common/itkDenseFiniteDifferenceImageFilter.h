@@ -49,19 +49,43 @@ namespace itk {
 /**
  * \class DenseFiniteDifferenceImageFilter
  *
- *  This layer of the finite diffence solver hierarchy implements
- *  the iterative algorithm for "dense" iteration, ie. iteration
- *  over all pixels in the input and output at each change calculation and
- *  update step.  This is in contrast to a "sparse" iteration over a subset of
- *  the pixels.
+ * This filter implements a layer of the finite difference solver hierarchy that
+ * performs ``dense'' iteration, ie. iteration over all pixels in the input and
+ * output at each change calculation and update step. Dense iteration is in
+ * contrast to a ``sparse'' iteration over a subset of the pixels.  See
+ * documenation for FiniteDifferenceImageFilter for an overview of the
+ * iterative finite difference algorithm:
  *
- *  The virtual methods CalculateChange() and ApplyUpdate() specific to dense
- *  iterations are defined in this object.  This class also implements
- *  threading of the calculations and the updates.
+ * \par
+ * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$ 
  *
+ * \par
+ * The generic code for performing iterations and updates at each time
+ * step is inherited from the parent class.  This class defines an update
+ * buffer for \f$ \Delta \f$ and the methods CalculateChange() and
+ * ApplyUpdate(). These methods are designed to automatically thread their
+ * execution.  \f$ \Delta \f$ is defined as an image of identical size and type 
+ * as the output image.
+ *
+ * \par
+ * As we descend through each layer in the hierarchy, we know more and more
+ * about the specific application of our filter.  At this level, we
+ * have committed to iteration over each pixel in an image. We take advantage
+ * of that knowledge to multithread the iteration and update methods. 
+ *  
+ * \par Inputs and Outputs
+ * This is an image to image filter.  The specific types of the images are not
+ * fixed at this level in the hierarchy.
+ *
+ * \par How to use this class
+ * This filter is only one layer in a branch the finite difference solver
+ * hierarchy.  It does not define the function used in the CalculateChange() and
+ * it does not define the stopping criteria (Halt method).  To use this class,
+ * subclass it to a specific instance that supplies a function and Halt()
+ * method.
+ * 
  * \ingroup ImageFilters
- *
- */
+ * \sa FiniteDifferenceImageFilter */
 template <class TInputImage, class TOutputImage>
 class DenseFiniteDifferenceImageFilter  
   : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
@@ -70,15 +94,10 @@ public:
   /** Standard class typedefs */
   typedef DenseFiniteDifferenceImageFilter Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter );
   
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Convenient typedefs */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;

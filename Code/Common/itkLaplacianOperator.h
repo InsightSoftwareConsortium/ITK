@@ -48,100 +48,76 @@ namespace itk {
 
 /**
  * \class LaplacianOperator
- * \brief A NeighborhoodOperator for calculating the laplacian at a pixel
- * 
- * LaplacianOperator's coefficients are a tightest-fitting convolution
- * kernel for calculating the laplacian value at a pixel.
- * LaplacianOperator is a non-directional NeighborhoodOperator that should be
- * applied to a Neighborhood or NeighborhoodPointer using the inner product
- * method. To create the operator, you need:
- *  call CreateOperator() 
- * Here We use the simpliest Laplacian Operator, i.e. for 2D, we use
- *             0   1   0  
- *             1  -4   1
- *             0   1   0
+ *
+ *  A NeighborhoodOperator for use in calculating the Laplacian at a pixel.
+ *  The LaplacianOperator's coefficients are a tightest-fitting convolution
+ *  kernel.
+ *
+ *  For example, the simplest Laplacian Operator for 2D has the form:
+ *  \code
+ *              0   1   0  
+ *              1  -4   1
+ *              0   1   0
+ *  \endcode
+ *              
+ *  \par
+ *  The LaplacianOperator is a non-directional NeighborhoodOperator that
+ *  should be applied to a Neighborhood or NeighborhoodIterator using an inner
+ *  product method (itkNeighborhoodInnerProduct).  To create the operator, you
+ *  need: call CreateOperator().
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
- * 
- * \ingroup Operators
- */
+ * \ingroup Operators */
 template<class TPixel, unsigned int VDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT LaplacianOperator
   : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
-
 public:
-  /**
-   * Standard "Self" typedef support.
-   */
+  /** Standard "Self" typedef support.   */
   typedef LaplacianOperator Self;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
+  /** Standard "Superclass" typedef.   */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
-
- /**
-  *   Default constructor
-  */
-
+ /**  Default constructor  */
   LaplacianOperator() {}
 
-  /**
-   * Copy constructor
-   */
-
+  /** Copy constructor   */
   LaplacianOperator(const Self& other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
   {  }
   
-  /** 
-   * This function is called to create the operator
-   */ 
+  /** This function is called to create the operator  */ 
   void CreateOperator();  
 
  
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator   */
   Self &operator=(const Self& other)
   {
     Superclass::operator=(other);
     return *this;
   }
-  /**
-   * Prints some debugging information
-   */
+  
+  /** Prints some debugging information   */
   virtual void PrintSelf(std::ostream &os, Indent i) const  
   { 
     os << i << "LaplacianOperator { this=" << this
        << "}" << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
-  
 protected:
-  /**
-   * Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++.
-   */
+  /** Typedef support for coefficient vector type.  Necessary to
+   * work around compiler bug on VC++.   */
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients.   */
   CoefficientVector GenerateCoefficients();
 
-  /**
-   * Arranges coefficients spatially in the memory buffer, default
-   * function was NOT used.
-   */
+  /** Arranges coefficients spatially in the memory buffer, default
+   * function was NOT used.   */
   void Fill(const CoefficientVector &);
-//  {   Superclass::FillCenteredDirectional(coeff);  }
- 
- 
 
 private:
 

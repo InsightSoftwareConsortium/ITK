@@ -51,15 +51,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
   
 /** \class Neighborhood
- * \brief A light-weight container object for storing an N-dimensional neighborhood
- * of values. 
+ * \brief A light-weight container object for storing an N-dimensional
+ * neighborhood of values. 
  *
  * This class serves as the base class for several other Itk objects such as
  * itk::NeighborhoodOperator and itk::NeighborhoodIterator.  Its purpose is to
  * store values and their relative spatial locations.
  *
  * A Neighborhood has an N-dimensional \em radius.  The radius is defined
- * separately for each dimension as the number of pixels the neighborhood
+ * separately for each dimension as the number of pixels that the neighborhood
  * extends outward from the center pixel.  For example, a 2D Neighborhood
  * object with a radius of 2x3 has sides of length 5x7.  Neighborhood objects
  * always have an unambiguous center because their side lengths are always odd.

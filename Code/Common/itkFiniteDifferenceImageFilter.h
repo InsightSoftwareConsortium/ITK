@@ -49,32 +49,99 @@ namespace itk {
 /**
  * \class FiniteDifferenceImageFilter
  *
- *  This class defines a high-level framework for solving partial differential
- *  equations using finite differences.  The input is an itkImage that
- *  represents the initial values and the output is an itkImage that
- *  represents the solution.
+ * \par The Finite Difference Solver Hierarchy
  *
- *  The high-level, iterative algorithm is implemented in this class (see the
- *  method GenerateData() ); 
+ * This is an overview of the finite difference solver (FDS) framework.  The
+ * FDS framework is a set of classes for creating filters to solve partial
+ * differential equations on images using an iterative, finite difference
+ * update scheme.
+ *
+ * \par
+ * The high-level algorithm implemented by the framework can be described by
+ * the following pseudocode.
+ *
  * \code
- *   WHILE NOT convergence:
+ *  WHILE NOT convergence:
  *     FOR ALL pixels i
  *        time_step = calculate_change(i)
  *        update(i, time_step)
- *  \endcode
+ * \endcode
  *
- *  The following equation describes update \f$n+1\f$ at pixel \f$i\f$ on
- *  discrete image \f$u\f$ : 
+ * \par
+ * The following equation describes update \f$n+1\f$ at pixel \f$i\f$ on
+ * discrete image \f$ u \f$ : 
  *
- *  \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$
+ * \par
+ * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$
  *
- *  \todo Write GenerateInputRequestedRegion method to ask for appropriately
- *        padded buffers to process streamed chunks
+ * \par Component objects
+ * The FDS hierarchy is comprised of two component object types, variations of
+ * which are designed to be plugged together to create filters for different
+ * applications.  At the process level are the ``solver'' objects, which are
+ * subclasses of FiniteDifferenceImageFilter.  Solver objects are filters that
+ * take image inputs and produce image outputs.  Solver objects require a
+ * ``finite difference function'' object to perform the calculation at each
+ * image pixel during iteration.  These specialized function objects are
+ * subclasses of FiniteDifferenceFunction. FiniteDifferenceFunctions take a
+ * neighborhood of pixels as input (in the form of an
+ * itk::NeighborhoodIterator) and produce a scalar valued result.
+ *
+ * \par
+ * Filters for different applications are created by defining a function object
+ * to handle the numerical calculations and choosing (or creating) a solver
+ * object that reflects the requirements and constraints of the application.
+ * For example, anisotropic diffusion filters are created by plugging
+ * anisotropic diffusion functions into the DenseFiniteDifferenceImageFilter.
+ * The separation between function object and solver object allows us to
+ * create, for example, sparse-field, dense-field, and narrow-band
+ * implementations of a level-set surface evolution filter can all be
+ * constructed by plugging the same function object into three different,
+ * specialized solvers.
+ *
+ * \par Creating new filters in this hierarchy
+ * The procedure for creating a filter within the FDS hierarchy is to identify
+ * all the virtual methods that need to be defined for your particular
+ * application.  In the simplest case, a filter needs only to instantiate a
+ * specific function object and define some halting criteria.  For more
+ * complicated applications, you may need to define a specialized type of
+ * iteration scheme or updating procedure in a higher-level solver object.
+ *
+ * \par
+ * Some simple examples are the specific subclasses of
+ * AnisotropicDiffusionImageFilter.  The leaves of the anisotropic diffusion
+ * filter tree only define the function object they use for their particular
+ * flavor of diffusion.  See CurvatureAnisotropicDiffusionImageFilter and
+ * GradientAnisotropicDiffusionImageFilter for details.    
+ *
+ * \par FiniteDifferenceImageFilter
+ * This class defines the generic solver API at the top level of the FDS
+ * framework. FiniteDifferenceImageFilter is an abstract class that implements
+ * the generic, high-level algorithm (described above). 
+ *
+ * \par Inputs and Outputs
+ * This filter is an Image to Image filter.  Depending on the specific
+ * subclass implementation, finite difference image filters may process a
+ * variety of image types.  The input to the filter is the initial
+ * value of \$f u \f$ and the output of the filter is the solution to the
+ * p.d.e.
+ *
+ * \par How to use this class
+ * GenerateData() relies on several virtual methods that must be defined by a
+ * subclass.  Specifically: \em AllocateUpdateBuffer \em ApplyUpdate
+ * \em CalculateChange and \em Halt.  To create a finite difference solver,
+ * implement a subclass to define these methods.
+ *
+ * \par
+ * Note that there is no fixed container type for the buffer used to hold
+ * the update \f$ \Delta \f$.  The container might be another image, or simply
+ * a list of values.  AllocateUpdateBuffer is responsible for creating the
+ * \f$ \Delta \f$ container.  CalculateChange populates this buffer and
+ * ApplyUpdate adds the buffer values to the output image (solution).  The
+ * boolean Halt() method returns a true value to stop iteration.
  *
  * \ingroup ImageFilter
- * \ingroup LevelSetSegmentation 
- *
- */
+ * \ingroup LevelSetSegmentation
+ * \sa DenseFiniteDifferenceImageFilter */
 template <class TInputImage, class TOutputImage>
 class FiniteDifferenceImageFilter  
   : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -83,15 +150,10 @@ public:
   /** Standard class typedefs. */
   typedef FiniteDifferenceImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceImageFilter, ImageToImageFilter );
   
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Input and output image types. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
@@ -157,9 +219,11 @@ protected:
    * an implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
    *
+   * \par
    * The filter will ask for a padded region to perform its neighborhood
-   * calculations.
-   *
+   * calculations.  If no such region is available, the boundaries will be
+   * handled as described in the FiniteDifferenceFunction defined by the
+   * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
   

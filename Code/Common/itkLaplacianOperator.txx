@@ -41,11 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkLaplacianOperator_txx
 #define _itkLaplacianOperator_txx
 
-
 namespace itk
 {
-
-  //Create the operator
+//Create the operator
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
 LaplacianOperator<TPixel, VDimension, TAllocator>
@@ -59,8 +57,7 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
   
 }
 
-
-  //This function fills the coefficients into the corresponding neighborhodd.
+//This function fills the coefficients into the corresponding neighborhodd.
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void  
 LaplacianOperator <TPixel, VDimension, TAllocator>
@@ -84,8 +81,6 @@ LaplacianOperator <TPixel, VDimension, TAllocator>
     }
 
 }
-
-
 
 template <class TPixel, unsigned int VDimension, class TAllocator>
 typename LaplacianOperator<TPixel, VDimension, TAllocator>
@@ -137,7 +132,6 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
     }
 
     return coeffP;
-    
 }
 
 } // namespace itk

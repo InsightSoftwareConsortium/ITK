@@ -52,15 +52,38 @@ namespace itk {
 /**
  * \class FiniteDifferenceFunction
  *
- * This class implements an abstract equation that plugs into finite difference
- * solver filters.
+ * This class is a component object of the finite difference solver hierarchy
+ * (see itkFiniteDifferenceImageFilter).  It defines a generic interface for a
+ * function object that computes a single scalar value from a neighborhood of
+ * values.  Examples of the application of this class are the various flavors
+ * of AnisotropicDiffusionFunctions and LevelSetFunction objects.
  *
- * \warning  The Evaluate() methods are declared as const to enforce
- *  thread-safety during execution of FiniteDifferenceImageFilter
- *  algorithms.
+ * These functions calculate the incremental change at a pixel in the solution
+ * image from one iteration of the p.d.e. solver to the next.
  * 
- * \ingroup Operators
- */
+ * \par
+ * Subclasses of FiniteDifferenceImageFilter (solvers) call the
+ * ComputeUpdate() method of this class to compute \f$ \Delta u^n_{\mathbf{i}}
+ * \f$ at each \f$ i \f$.  in \f$ u \f$.  Because the size of the time step for
+ * each iteration of the p.d.e. solution depends on the particular calculations
+ * done, this function object is also responsible for computing that time step
+ * (see ComputeGlobalTimeStep).
+ *
+ * \par How to use this class
+ * FiniteDifferenceFunction must be subclassed to add functionality for
+ * ComputeUpdate, ComputeGlobalTimeStep, and Get/ReleaseGlobalDataPointer.
+ *
+ * \par A note on thread safety.
+ * The ComputeUpdate() methods of this filter are declared as const to enforce
+ * thread-safety during execution of FiniteDifferenceImageFilter solver
+ * algorithms.  The InitializeIteration() method is intended to provide a safe
+ * way to modify the state of the object between threaded calculations of
+ * solvers.
+ *
+ * \todo Possibly subclass this object from Function.  Stumbling blocks here
+ * are the specialized api of FiniteDifferenceFunction.
+ *
+ * \ingroup Functions */
 template<class TImageType>
 class FiniteDifferenceFunction : public LightObject
 {
@@ -68,14 +91,9 @@ public:
   /** Standard class typedefs. */
   typedef FiniteDifferenceFunction Self;
   typedef LightObject Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro( FiniteDifferenceFunction, LightObject );
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
 
   /** Extract some parameters from the image type */
   typedef TImageType ImageType;
@@ -109,8 +127,8 @@ public:
   typedef Vector<float, ImageDimension> FloatOffsetType;
   
   /** This method allows the function to set its state before each iteration
-   * of the finite difference solver (image filter) that uses it.  This is
-   * the only thread-safe time to manipulate this object's state.
+   *  of the finite difference solver (image filter) that uses it.  This is
+   *  a thread-safe time to manipulate the object's state.
    *
    * An example of how this can be used: the Anisotropic diffusion class of
    * FiniteDifferenceFunctions use this method to pre-calculate an average
@@ -150,7 +168,6 @@ public:
    * needs to perform its calculations. */
   void SetRadius(const RadiusType &r)
     { m_Radius = r; }
-
 
   /** Returns the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
