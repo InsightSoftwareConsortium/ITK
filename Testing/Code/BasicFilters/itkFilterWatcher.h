@@ -49,14 +49,14 @@ public:
 
   virtual void ShowProgress()
     {
-    std::cout << " | " << m_Process->GetProgress();
+      std::cout << " | " << m_Process->GetProgress() << std::flush;
     }
   virtual void StartFilter()
     {
     m_Start = ::clock();
     std::cout << "-------- Start Filter " << m_Process->GetNameOfClass()
               << m_Process
-              << "Progress ";
+              << "Progress " << std::flush;
     }
   virtual void EndFilter()
     {
