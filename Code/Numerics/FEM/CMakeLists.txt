@@ -32,6 +32,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMElement2DC0LinearLine.cxx
   itkFEMElement2DC0LinearLineStress.cxx
+  itkFEMElement2DC1Beam.cxx
   itkFEMElement2DC0LinearQuadrilateral.cxx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
   itkFEMElement2DC0LinearTriangular.cxx
@@ -124,6 +125,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElement3DStrain.h
   itkFEMElement2DC0LinearLine.h
   itkFEMElement2DC0LinearLineStress.h
+  itkFEMElement2DC1Beam.h
   itkFEMElement2DC0LinearQuadrilateral.h
   itkFEMElement2DC0LinearQuadrilateralStress.h
   itkFEMElement2DC0LinearTriangular.h

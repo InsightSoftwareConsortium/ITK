@@ -51,14 +51,6 @@ void ElementNew::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const
   CPen pen(PS_SOLID, 0, (COLORREF) RGB(0,0,0) );
   CBrush brush( RGB(255,255,255) );
 
-  if(m_dof.size()>2)
-  {
-    // If there are more that 2 DOFs at this node, we
-    // draw a black circle.
-    pen.CreatePen(PS_SOLID, 0, (COLORREF) RGB(255,255,255) );
-    brush.CreateSolidBrush( RGB(0,0,0) );
-  }
-
   CPen* pOldpen=pDC->SelectObject(&pen);
   CBrush* pOldbrush=pDC->SelectObject(&brush);
 
