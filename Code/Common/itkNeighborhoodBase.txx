@@ -20,7 +20,7 @@ namespace itk {
 template<class TPixel, unsigned int VDimension>
 unsigned long
 NeighborhoodBase<TPixel, VDimension>
-::GetStride(const unsigned long& axis) const
+::GetStride(const unsigned long axis) const
 {
   unsigned long stride;
 
@@ -37,9 +37,9 @@ NeighborhoodBase<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 NeighborhoodBase<TPixel, VDimension>
-::SetRadius(const unsigned long &s)
+::SetRadius(const unsigned long s)
 {
-  unsigned long k[VDimension];
+  Size k;
   for (int i = 0; i< VDimension; i++)
     {
       k[i] = s;
@@ -50,9 +50,9 @@ NeighborhoodBase<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 NeighborhoodBase<TPixel, VDimension>
-::SetRadius(const unsigned long *r)
+::SetRadius(const Size &r)
 {
-  memcpy(m_Radius, r, sizeof(const unsigned long)*VDimension);
+  memcpy(m_Radius.m_Size, r.m_Size, sizeof(const unsigned long)*VDimension);
   this->SetSize();
 
   unsigned int cumul=1;

@@ -18,6 +18,7 @@
 
 #include "itkMacro.h"
 #include "itkSliceIterator.h"
+#include "itkSize.h"
 #include <valarray>
 
 namespace itk {
@@ -39,7 +40,6 @@ template<class TPixel, unsigned int VDimension = 2>
 class NeighborhoodBase : public std::valarray<TPixel>
 {
 public:
-
   /**
    * Standard "Self" typedef
    */
@@ -61,10 +61,15 @@ public:
   typedef const TPixel * ConstIterator;
 
   /**
-   * Slice iterator typedef support.
+   * Size object typedef support
    */
-  typedef SliceIterator<TPixel, Self, VDimension> SliceIterator;
-  
+  typedef Size<VDimension> Size;
+
+  /**
+   * Slice iterator typedef support
+   */
+  typedef SliceIterator<TPixel, Self> SliceIterator;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -73,7 +78,7 @@ public:
   /**
    * Returns the radius of the neighborhood.
    */
-  const unsigned long *GetRadius() const
+  const Size GetRadius() const
   {
     return m_Radius;
   }
@@ -82,7 +87,7 @@ public:
    * Returns the radius of the neighborhood along a specified
    * dimension.
    */
-  unsigned long GetRadius(const unsigned long &n) const
+  unsigned long GetRadius(const unsigned long n) const
   {
     return m_Radius[n];
   }
@@ -91,7 +96,7 @@ public:
    * Returns the size (total length) of the neighborhood along
    * a specified dimension.
    */
-  unsigned long GetSize(const unsigned long &n) const
+  unsigned long GetSize(const unsigned long n) const
   {
     return m_Size[n];
   }
@@ -99,7 +104,7 @@ public:
   /**
    * Returns the size (total length of sides) of the neighborhood.
    */
-  const unsigned long *GetSize() const
+  const Size GetSize() const
   {
     return m_Size;
   }
@@ -109,7 +114,7 @@ public:
    * length is the number of pixels between adjacent pixels along the
    * given dimension.
    */
-  unsigned long GetStride(const unsigned long &) const;
+  unsigned long GetStride(const unsigned long) const;
   
   /**
    * Limited STL-style iterator support, returns an iterator that
@@ -153,21 +158,44 @@ public:
    * Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage.
    */
-  void SetRadius(const unsigned long *);
+  void SetRadius(const Size &);
 
+  /**
+   * Sets the radius for the neighborhood. Overloaded to support an unsigned
+   * long array.
+   */
+  void SetRadius(const unsigned long *rad)
+  {
+    Size s;
+    memcpy(s.m_Size, rad, sizeof(unsigned long) * VDimension);
+    this->SetRadius(s);
+  }
+  
   /**
    * Overloads SetRadius to allow a single long integer argument
    * that is used as the radius of all the dimensions of the
    * Neighborhood (resulting in a "square" neighborhood).
    */
-  void SetRadius(const unsigned long &);
+  void SetRadius(const unsigned long);
    
   /**
    * Prints some information about the neighborhood for debugging
    * purposes.
    */
   virtual void Print();
-  
+
+  /**
+   * Standard operator= function.  Defined so we can call the superclasses
+   * default operator=
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    memcpy(m_Radius.m_Size, orig.m_Radius.m_Size,
+           sizeof(unsigned long) * VDimension);
+    memcpy(m_Size.m_Size, orig.m_Size.m_Size,
+           sizeof(unsigned long) * VDimension); 
+  }
 protected:
   /**
    * Sets the length along each dimension.
@@ -184,7 +212,7 @@ protected:
    * Allocates the neighborhood's memory buffer.
    *
    */
-  virtual void Allocate(const unsigned int &i)
+  virtual void Allocate(const unsigned int i)
   {
     this->resize(i);
   }
@@ -194,13 +222,13 @@ private:
    * Number of neighbors to include (symmetrically) along each axis.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
    */
-  unsigned long  m_Radius[VDimension];
+  Size m_Radius;
 
    /**
    * Actual length of each dimension, calculated from m_Radius.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
    */
-  unsigned long m_Size[VDimension];
+  Size m_Size;
 };
 
 } // namespace itk
