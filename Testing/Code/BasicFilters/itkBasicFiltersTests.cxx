@@ -55,6 +55,7 @@ void RegisterTests()
   REGISTER_TEST(itkBloxCoreAtomTest );
   REGISTER_TEST(itkCannyEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkChangeInformationImageFilterTest );
+  REGISTER_TEST(itkChainCodeToFourierSeriesPathFilterTest );
   REGISTER_TEST(itkComposeRGBImageFilterTest );
   REGISTER_TEST(itkConfidenceConnectedImageFilterTest  );
   REGISTER_TEST(itkConnectedComponentImageFilterTest );
