@@ -129,20 +129,22 @@ LevelSetFunction< TImageType >
 {
   ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
   
-  ScalarValueType gauss_curve = (2*(gd->m_dx[0]*gd->m_dx[1]*(gd->m_dxy[2][0]
-                           *gd->m_dxy[1][2]-gd->m_dxy[0][1]*gd->m_dxy[2][2]) +
-                                    gd->m_dx[1]*gd->m_dx[2]*(gd->m_dxy[2][0]
-                           *gd->m_dxy[0][1]-gd->m_dxy[1][2]*gd->m_dxy[0][0]) +
-                                    gd->m_dx[0]*gd->m_dx[2]*(gd->m_dxy[1][2]
-                       *gd->m_dxy[0][1]-gd->m_dxy[2][0]*gd->m_dxy[1][1])) +
-                                 gd->m_dx[0]*gd->m_dx[0]*(gd->m_dxy[1][1]
-                     *gd->m_dxy[2][2]-gd->m_dxy[1][2]*gd->m_dxy[1][2]) +
-                                 gd->m_dx[1]*gd->m_dx[1]*(gd->m_dxy[0][0]
-                    *gd->m_dxy[2][2]-gd->m_dxy[2][0]*gd->m_dxy[2][0]) +
-                                 gd->m_dx[2]*gd->m_dx[2]*(gd->m_dxy[1][1]
-                  *gd->m_dxy[0][0]-gd->m_dxy[0][1]*gd->m_dxy[0][1]))/
-    (gd->m_dx[0]*gd->m_dx[0] + gd->m_dx[1]*gd->m_dx[1] + gd->m_dx[2]*gd->m_dx[2]);
-
+  int i0 = 0, i1 = 1, i2 = 2;
+  ScalarValueType gauss_curve =
+    (2*(gd->m_dx[i0]*gd->m_dx[i1]*(gd->m_dxy[i2][i0]
+                                   *gd->m_dxy[i1][i2]-gd->m_dxy[i0][i1]*gd->m_dxy[i2][i2]) +
+        gd->m_dx[i1]*gd->m_dx[i2]*(gd->m_dxy[i2][i0]
+                                   *gd->m_dxy[i0][i1]-gd->m_dxy[i1][i2]*gd->m_dxy[i0][i0]) +
+        gd->m_dx[i0]*gd->m_dx[i2]*(gd->m_dxy[i1][i2]
+                                   *gd->m_dxy[i0][i1]-gd->m_dxy[i2][i0]*gd->m_dxy[i1][i1])) +
+     gd->m_dx[i0]*gd->m_dx[i0]*(gd->m_dxy[i1][i1]
+                                *gd->m_dxy[i2][i2]-gd->m_dxy[i1][i2]*gd->m_dxy[i1][i2]) +
+     gd->m_dx[i1]*gd->m_dx[i1]*(gd->m_dxy[i0][i0]
+                                *gd->m_dxy[i2][i2]-gd->m_dxy[i2][i0]*gd->m_dxy[i2][i0]) +
+     gd->m_dx[i2]*gd->m_dx[i2]*(gd->m_dxy[i1][i1]
+                                *gd->m_dxy[i0][i0]-gd->m_dxy[i0][i1]*gd->m_dxy[i0][i1]))/
+    (gd->m_dx[i0]*gd->m_dx[i0] + gd->m_dx[i1]*gd->m_dx[i1] + gd->m_dx[i2]*gd->m_dx[i2]);
+  
   ScalarValueType discriminant = mean_curve * mean_curve-gauss_curve;
   if (discriminant < 0.0)
     {
