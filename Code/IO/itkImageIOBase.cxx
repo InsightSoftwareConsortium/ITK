@@ -24,8 +24,6 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
-#include "itkNumericSeriesFileIterator.h"
-
 
 namespace itk
 {
@@ -726,11 +724,6 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
       ;
     }
 
-}
-
-FileIteratorBase* ImageIOBase::NewFileIterator()
-{
-  return NumericSeriesFileIterator::New();
 }
 
 void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const

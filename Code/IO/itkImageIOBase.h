@@ -26,8 +26,6 @@
 namespace itk
 {
 
-class FileIteratorBase;
-
 /** \brief Abstract superclass defines image IO interface.
  *
  * ImageIOBase is a class that reads and/or writes image data
@@ -226,12 +224,6 @@ public:
   virtual void Write( const void* buffer) = 0;
 
   /* --- Support reading and writing data as a series of files. --- */
-
-  /** The file iterator interfaces with the ImageSeriesReader
-   * and ImageSeriesWriter to read and write multiple files. The
-   * subclasses of ImageIOBase create and return the correct type 
-   * of file iterator to use. */
-  virtual FileIteratorBase* NewFileIterator();
 
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D
