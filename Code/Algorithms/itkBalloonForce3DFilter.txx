@@ -1113,7 +1113,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     ++forces;
 
     /* For the first node in the slice. */
-    i = j*m_YResolution;
     v2[0] = s[0];
     v2[1] = s[1];
     v2[2] = s[2];
