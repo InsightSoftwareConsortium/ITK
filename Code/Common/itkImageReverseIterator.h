@@ -230,11 +230,11 @@ public:
   {
     m_Image = it.GetImage();
     m_Region = it.GetRegion();
-    m_Buffer = m_Image.GetBufferPointer();
+    m_Buffer = m_Image->GetBufferPointer();
     
     IndexType ind = it.GetIndex();
 
-    m_Offset = m_Image.ComputeOffset( ind );
+    m_Offset = m_Image->ComputeOffset( ind );
 
     // Compute the end offset, one pixel before the first pixel
     m_EndOffset = m_Image->ComputeOffset( m_Region.GetIndex() ) - 1;
@@ -248,7 +248,7 @@ public:
       }
     m_BeginOffset = m_Image->ComputeOffset( regInd );
     
-    m_PixelAccessor = it.GetPixelAccessor();
+    m_PixelAccessor = m_Image->GetPixelAccessor();
   }
 
   /**
