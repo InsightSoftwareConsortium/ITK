@@ -70,7 +70,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
     if (*kernel_it > 0)
       {
       // if the pixel is the DilateValue, then we can exit early
-      if (*neigh_it == m_DilateValue)
+      if (**neigh_it == m_DilateValue)
         {
         return m_DilateValue;
         }

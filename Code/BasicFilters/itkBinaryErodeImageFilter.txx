@@ -76,14 +76,14 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
     if (*kernel_it > 0)
       {
       // if the image pixel is not the erode value, 
-      if (*neigh_it != m_ErodeValue)
+      if (**neigh_it != m_ErodeValue)
         {
         erode = true;
         
         // if the image pixel is less than current min
-        if (min > *neigh_it)
+        if (min > **neigh_it)
           {
-          min = *neigh_it;
+          min = **neigh_it;
           }
         }
       else
