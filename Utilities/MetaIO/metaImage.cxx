@@ -1081,7 +1081,8 @@ M_SetupWriteFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ElementDataFile", MET_STRING, strlen(m_ElementDataFileName),
+  MET_InitWriteField(mF, "ElementDataFile", MET_STRING, 
+                     strlen(m_ElementDataFileName),
                      m_ElementDataFileName);
   mF->terminateRead = true;
   m_Fields.push_back(mF);
@@ -1130,16 +1131,13 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   }
 
 bool MetaImage
-::Append(const char *_headName, const char *_dataName)
+::Append(const char *_headName)
   {
   if(META_DEBUG) std::cout << "MetaImage: Append" << std::endl;
 
-  if(_dataName == NULL)
+  if(strlen(m_ElementDataFileName)==0)
     {
-    if(strlen(m_ElementDataFileName)==0)
-      {
-      ElementDataFileName("LOCAL");
-      }
+    ElementDataFileName("LOCAL");
     }
 
   if(_headName != NULL)

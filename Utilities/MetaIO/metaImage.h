@@ -240,7 +240,7 @@ class MetaImage : public MetaObject
     virtual bool Write(const char *_headName=NULL, const char *_dataName=NULL,
                        bool _writeElements=true);
 
-    virtual bool Append(const char *_headName=NULL, const char *_dataName=NULL);
+    virtual bool Append(const char *_headName=NULL);
 
     bool ReadStream(int _nDims, std::ifstream * _stream);
 
