@@ -161,6 +161,18 @@ ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png)
 
+ADD_TEST(itkDoubleThresholdImageFilterTest ${BASIC_FILTERS_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png 
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png itkDoubleThresholdImageFilterTest 
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png 217 246 255 255)
+
+ADD_TEST(itkDoubleThresholdImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest2.png 
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest 
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)
+
 ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
@@ -168,7 +180,11 @@ ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
 
-ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png itkGrayscaleFillholeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png)
+ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png itkGrayscaleFillholeImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png )
 
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
@@ -273,6 +289,7 @@ itkDerivativeImageFilterTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
+itkDoubleThresholdImageFilterTest.cxx
 itkEdgePotentialImageFilterTest.cxx
 itkEigenAnalysis2DImageFilterTest.cxx
 itkExpImageFilterAndAdaptorTest.cxx

@@ -65,6 +65,7 @@ void RegisterTests()
   REGISTER_TEST(itkDifferenceOfGaussiansGradientTest );
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest );
   REGISTER_TEST(itkDivideImageFilterTest );
+  REGISTER_TEST(itkDoubleThresholdImageFilterTest );
   REGISTER_TEST(itkEdgePotentialImageFilterTest );
   REGISTER_TEST(itkEigenAnalysis2DImageFilterTest );
   REGISTER_TEST(itkExpImageFilterAndAdaptorTest );
