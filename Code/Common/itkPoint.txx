@@ -48,6 +48,9 @@ namespace itk
 {
 
 
+/*
+ * Assignment Operator
+ */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
 Point<T, TPointDimension>
@@ -58,6 +61,9 @@ Point<T, TPointDimension>
 }
 
 
+/*
+ * Assignment from a Base Array
+ */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
 Point<T, TPointDimension>
@@ -68,6 +74,9 @@ Point<T, TPointDimension>
 }
 
 
+/*
+ * Assignment from a Const Base Array
+ */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
 Point<T, TPointDimension>
@@ -78,6 +87,9 @@ Point<T, TPointDimension>
 }
 
 
+/*
+ * Assignemt from a plain array
+ */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
 Point<T, TPointDimension>
@@ -88,6 +100,9 @@ Point<T, TPointDimension>
 }
 
 
+/*
+ * Assignment from a const scalar value
+ */
 template<class T, unsigned int TPointDimension>
 typename Point<T, TPointDimension>::ArrayCommaListCopier
 Point<T, TPointDimension>
@@ -97,8 +112,8 @@ Point<T, TPointDimension>
 }
 
 
-/**
- *
+/*
+ * In place increment by a vector
  */
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
@@ -113,8 +128,8 @@ Point<T, TPointDimension>
 }
 
  
-/**
- *
+/*
+ * In place subtract a vector
  */
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
@@ -130,8 +145,8 @@ Point<T, TPointDimension>
 
  
 
-/**
- * Returns a temporary copy of a point
+/*
+ * Add operator with a vector
  */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
@@ -148,8 +163,8 @@ Point<T, TPointDimension>
 
 
 
-/**
- * Returns a temporary copy of a point
+/*
+ * Subtract a vector, return a point
  */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
@@ -166,7 +181,7 @@ Point<T, TPointDimension>
 
 
 
-/**
+/*
  * Difference between two points
  */
 template<class T, unsigned int TPointDimension>
@@ -183,7 +198,7 @@ Point<T, TPointDimension>
 }
 
 
-/**
+/*
  * Return a vnl_vector_ref
  */
 template<class T, unsigned int TPointDimension >
@@ -196,7 +211,7 @@ Point<T, TPointDimension>
 }
  
 
-/**
+/*
  * Returns Squared Euclidean distance between two points
  */
 template<class T, unsigned int TPointDimension>
@@ -215,7 +230,7 @@ Point<T, TPointDimension>
 
 
 
-/**
+/*
  * Returns Euclidean distance between two points
  */
 template<class T, unsigned int TPointDimension>
@@ -229,7 +244,7 @@ Point<T, TPointDimension>
 }
  
 
-/**
+/*
  * Print content to an ostream
  */
 template<class T, unsigned int TPointDimension>
@@ -244,7 +259,7 @@ operator<<(std::ostream& os,const Point<T,TPointDimension> & vct )
 }
 
 
-/**
+/*
  * Read content from an istream
  */
 template<class T, unsigned int TPointDimension>
