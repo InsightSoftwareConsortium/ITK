@@ -24,6 +24,16 @@ namespace gen
 
 using namespace configuration;
 
+
+/**
+ * Construct an instance of this generator and return it.
+ */
+GeneratorBase* CxxGenerator::GetInstance(const CableConfiguration* in_config)
+{
+  return new CxxGenerator(in_config);
+}
+
+
 /**
  * Generate C++ wrappers for all packages specified in the configuration.
  */

@@ -17,6 +17,7 @@
 #include "sourceParser.h"
 
 #include "genCxxGenerator.h"
+#include "genTclGenerator.h"
 
 #include <iostream>
 #include <fstream>
@@ -24,16 +25,6 @@
 typedef std::string             String;
 typedef configuration::CableConfiguration  CableConfiguration;
 typedef source::Namespace       Namespace;
-
-
-
-//extern void GenerateTcl(const Namespace* globalNamespace,
-//                        const Package*,
-//                        const char* outputDirectory);
-//extern void DisplayTree(const Namespace* globalNamespace,
-                        //const Package*,
-                        //const char* outputDirectory);
-
 
 /**
  * A structure to define a wrapper generator.
@@ -43,10 +34,8 @@ struct WrapperGenerator
   char* languageName;            // Name of wrapping language.
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
-  void (*generate)(const Namespace*,
-                   const CableConfiguration*,
-                   const char*); // Generation function.
-  char* outputDirectory;         // Name of subdirectory where wrappers go.
+  gen::GeneratorBase* (*get)(const CableConfiguration*,
+                             const Namespace*); // Get a generator.
 };
 
 
@@ -55,8 +44,7 @@ struct WrapperGenerator
  */
 WrapperGenerator wrapperGenerators[] =
 {
-//  { "TCL", "-tcl", false, GenerateTcl, "Tcl"},
-//  { "(display tree)", "-display", false, DisplayTree, ""},
+  { "Tcl", "-tcl", false, &gen::TclGenerator::GetInstance },
   { 0, 0, 0, 0 }
 };
 
@@ -64,13 +52,13 @@ WrapperGenerator wrapperGenerators[] =
 /**
  * The input stream to be used for configuration.
  */
-std::ifstream inputFile;
+std::ifstream configFile;
 
 /**
- * If the command line override's the configuration file's output name,
- * this is set to the new file name.
+ * The input stream to be used for XML source representation.
+ * This is specified with the -source option.
  */
-const char* outputName = NULL;
+std::ifstream sourceFile;
 
 bool processCommandLine(int argc, char* argv[]);
 
@@ -85,64 +73,58 @@ int main(int argc, char* argv[])
   configuration::Parser::Pointer configurationParser =
     configuration::Parser::New();
   
-  configurationParser->Parse(inputFile);
-
-  gen::CxxGenerator cxxGenerator(configurationParser->GetCableConfiguration());
+  configurationParser->Parse(configFile);
+  const CableConfiguration* cableConfiguration =
+    configurationParser->GetCableConfiguration();
   
-  cxxGenerator.Generate();
-  
-//  source::Parser::Pointer sourceParser = source::Parser::New();
-  
-//  sourceParser->Parse(inputFile);
-  
-#if 0
-  // If needed, override output file name.
-  if(outputName)
+  if(!sourceFile)
     {
-    configuration->SetOutputName(outputName);
+    gen::GeneratorBase* cxxGenerator =
+      gen::CxxGenerator::GetInstance(cableConfiguration);
+    
+    cxxGenerator->Generate();
+    
+    delete cxxGenerator;
     }
-  
-  // Parse the source XML input.
-  Namespace::Pointer globalNamespace =
-    ParseSourceXML(configuration->GetSourceXML());
-
-  // Make sure all the types requested were in the translation unit.
-  if(!configuration->FindTypes(globalNamespace))
+  else
     {
-    fprintf(stderr, "Not all types defined in source...these are missing:\n");
-    configuration->PrintMissingTypes(stderr);
-    exit(1);
-    }
-  
-  // Generate all wrappers requested.
-  for(WrapperGenerator* wrapperGenerator = wrapperGenerators;
-      wrapperGenerator->languageName;
-      ++wrapperGenerator)
-    {
-    if(wrapperGenerator->flag)
+    source::Parser::Pointer sourceParser = source::Parser::New();  
+    sourceParser->Parse(sourceFile);
+    
+    const Namespace* globalNamespace = sourceParser->GetGlobalNamespace();
+    
+    // Generate all wrappers requested.
+    for(WrapperGenerator* wrapperGenerator = wrapperGenerators;
+        wrapperGenerator->languageName; ++wrapperGenerator)
       {
-      fprintf(stderr, "Generating %s wrappers...\n",
-              wrapperGenerator->languageName);
-      wrapperGenerator->generate(globalNamespace, configuration,
-                                 wrapperGenerator->outputDirectory);
+      if(wrapperGenerator->flag)
+        {
+        std::cout << "Generating " << wrapperGenerator->languageName
+                  << " wrappers..." << std::endl;
+        gen::GeneratorBase* generator =
+          (wrapperGenerator->get)(cableConfiguration, globalNamespace);
+        generator->Generate();
+        delete generator;
+        }
       }
+    std::cout << "Done";
     }
-  fprintf(stderr, "Done.\n");
-#endif  
   }
   catch(String s)
     {
-    fprintf(stderr, "main(): Caught exception:\n%s\n", s.c_str());
+    std::cerr << "main(): Caught exception: " << std::endl
+              << s.c_str() << std::endl;
     return 1;
     }
   catch(char* s)
     {
-    fprintf(stderr, "main(): Caught exception:\n%s\n", s);
+    std::cerr << "main(): Caught exception: " << std::endl
+              << s << std::endl;
     return 1;
     }
   catch(...)
     {
-    fprintf(stderr, "main(): Caught unknown exception!\n");
+    std::cerr << "main(): Caught unknown exception!" << std::endl;
     return 1;
     }
   
@@ -152,7 +134,7 @@ return 0;
 
 /**
  * Loop through all the arguments.  Any unrecognized argument
- * is assumed to be an input file name.
+ * is assumed to be an config file name.
  */
 bool processCommandLine(int argc, char* argv[])
 {
@@ -177,29 +159,34 @@ bool processCommandLine(int argc, char* argv[])
         }
       }
 
-    if(strcmp("-o", argv[curArg]) == 0)
+    if(strcmp("-source", argv[curArg]) == 0)
       {
       found = true;
-      outputName = argv[++curArg];
+      sourceFile.open(argv[++curArg]);
+      if(!sourceFile)
+        {
+        std::cerr << "Error opening source file: " << argv[curArg] << std::endl;
+        return false;
+        }
       }
     
     /**
-     * Assume the option specifies input.
+     * Assume the option specifies config.
      */
     if(!found)
       {
-      inputFile.open(argv[curArg]);
-      if(!inputFile)
+      configFile.open(argv[curArg]);
+      if(!configFile)
         {
-        std::cerr << "Error opening input file: " << argv[curArg] << std::endl;
+        std::cerr << "Error opening config file: " << argv[curArg] << std::endl;
         return false;
         }
       }
     }
   
-  if(!inputFile)
+  if(!configFile)
     {
-    std::cerr << "No input file specified!" << std::endl;
+    std::cerr << "No config file specified!" << std::endl;
     return false;
     }
   

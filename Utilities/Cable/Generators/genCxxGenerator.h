@@ -21,6 +21,7 @@
 namespace gen
 {
 
+
 /**
  * Generation class for C++ wrappers.
  */
@@ -31,7 +32,9 @@ public:
     GeneratorBase(in_config) {}
   virtual ~CxxGenerator() {}
   
-  virtual void Generate();
+  static GeneratorBase* GetInstance(const configuration::CableConfiguration*);  
+  
+  virtual void Generate();  
 private:
   void GeneratePackage(const configuration::Package*);  
   void GenerateIncludes(std::ostream&, std::ostream&,
