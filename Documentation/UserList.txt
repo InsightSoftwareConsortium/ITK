@@ -61,3 +61,5 @@ pauly:Paul A. Yushkevich:pauly@cognitica.com
 drueckert:Daniel Rueckert:dr@doc.ic.ac.uk
 hipwell:John Hipwell:john.hipwell@kcl.ac.uk
 rchandra:Raghavendra Chandrashekara:rc3@doc.ic.ac.uk
+lgong:Lixin Gong:lgong@insightful.com
+suyash:Suyash Awate:suyash@cs.utah.edu
