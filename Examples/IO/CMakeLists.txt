@@ -51,8 +51,14 @@ IF(USE_GDCM)
   ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
   TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags ITKCommon ITKIO)
 
+  ADD_EXECUTABLE(DicomImageReadPrintTags DicomImageReadPrintTags.cxx )
+  TARGET_LINK_LIBRARIES(DicomImageReadPrintTags ITKCommon ITKIO)
+
   ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
   TARGET_LINK_LIBRARIES(DicomImageReadWrite ITKCommon ITKIO)
+
+  ADD_EXECUTABLE(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
+  TARGET_LINK_LIBRARIES(DicomImageReadChangeHeaderWrite ITKCommon ITKIO)
 
   ADD_EXECUTABLE(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
   TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite ITKCommon ITKIO)
