@@ -48,6 +48,8 @@ itkBoundingBox
 itkByteSwapper
 itkCellBoundary
 itkCellInterface
+itkCenteredAffineRegistrationTransform
+itkCentralDerivativeImageFunction
 itkCosImageAdaptor
 itkCovariantVector
 itkDerivativeOperator
@@ -148,5 +150,14 @@ CABLE_OPEN_NAMESPACE(itk)
     "$(iaFunc)ImageAdaptor<$ImageType, $PixelType>"
     "ImageToImageFilter<$ImageType, $ImageType >"
     "ImageToImageFilter<$PhysicalImageType, $PhysicalImageType >"
+    "CentralDerivativeImageFunction<$ImageType >"
+    "CentralDerivativeImageFunction<$PhysicalImageType >"
+    "EntropyPreservingGradientMagnitudeImageFunction<$ImageType >"
+    "EntropyPreservingGradientMagnitudeImageFunction<$PhysicalImageType >"
+    "LinearInterpolateImageFunction<$ImageType >"
+    "LinearInterpolateImageFunction<$PhysicalImageType >"
+    "UpwindDerivativeImageFunction<$ImageType >"
+    "UpwindDerivativeImageFunction<$PhysicalImageType >"
+    "CenteredAffineRegistrationTransform<$ScalarType, $Dimension, $PointType >"
   )
 CABLE_CLOSE_NAMESPACE(itk)
