@@ -102,9 +102,9 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
     dimSize[i] = m_IO->GetDimensions(i);
     }
 
-  const unsigned long startPosition[] = { 0, 0, 0 };
-  typename TOutputImage::IndexType start;
-  start.SetIndex( startPosition );
+  typedef typename TOutputImage::IndexType IndexType;
+
+  IndexType start = IndexType::ZeroIndex;
 
   Region region;
 
