@@ -42,7 +42,7 @@ vnl_matrix<D> solve_with_warning(vnl_matrix<D>const& M,
   vnl_svd<D> svd(M, 1e-8);
   // Check for rank-deficiency
   if (svd.singularities() > 1)
-    std::cerr << "Warning: Singular matrix, condition = " << svd.well_condition() << std::endl;
+    std::cout << "Warning: Singular matrix, condition = " << svd.well_condition() << std::endl;
   return svd.solve(B);
 }
 

@@ -133,12 +133,12 @@ void main()
   
   if (passed)
     {
-    std::cerr << "Scalar test passed." << std::endl;
+    std::cout << "Scalar test passed." << std::endl;
     exit(EXIT_SUCCESS);
     }
   else
     {
-    std::cerr << "Scalar test failed." << std::endl;
+    std::cout << "Scalar test failed." << std::endl;
     exit(EXIT_FAILURE);
     }
 }

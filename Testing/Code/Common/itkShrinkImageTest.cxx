@@ -65,7 +65,7 @@ void main()
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    std::cerr << "Pixel " << iterator2.GetIndex() << " = " << *iterator2 << std::endl;
+    std::cout << "Pixel " << iterator2.GetIndex() << " = " << *iterator2 << std::endl;
     if ( *iterator2 != (shrink->GetShrinkFactor() * iterator2.GetIndex()[0]
           + region.GetSize()[0]
           *shrink->GetShrinkFactor()*iterator2.GetIndex()[1]))
@@ -76,12 +76,12 @@ void main()
 
   if (passed)
     {
-    std::cerr << "ShrinkImage test passed." << std::endl;
+    std::cout << "ShrinkImage test passed." << std::endl;
     exit(EXIT_SUCCESS);
     }
   else
     {
-    std::cerr << "ShrinkImage test failed." << std::endl;
+    std::cout << "ShrinkImage test failed." << std::endl;
     exit(EXIT_FAILURE);
     }
 

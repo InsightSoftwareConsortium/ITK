@@ -221,12 +221,12 @@ void main()
 
   if (passed)
     {
-    std::cerr << "Vector test passed." << std::endl;
+    std::cout << "Vector test passed." << std::endl;
     exit(EXIT_SUCCESS);
     }
   else
     {
-    std::cerr << "Vector test failed." << std::endl;
+    std::cout << "Vector test failed." << std::endl;
     exit(EXIT_FAILURE);
     }
   
