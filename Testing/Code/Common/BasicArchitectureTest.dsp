@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GR /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I ../../../Code/Common /c
+# ADD CPP /nologo /W3 /vd0 /GR /GX /O2 /I "/vxl" /I ".\..\..\Code\Insight3DParty\vxl" /I ".\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /GR /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /I ../../../Code/Common /c
+# ADD CPP /nologo /MD /W3 /Gm /vd1 /GR /GX /ZI /Od /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /I ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -264,5 +264,17 @@ SOURCE=..\..\..\Code\Common\itkWriteVTKImage.h
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# Begin Source File
+
+SOURCE=..\..\..\Code\Insight3DParty\vxl\v3p\netlib\Debug\netlib.lib
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Insight3DParty\vxl\vcl\Debug\vcl.lib
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Insight3DParty\vxl\vnl\Debug\vnl.lib
+# End Source File
 # End Target
 # End Project
