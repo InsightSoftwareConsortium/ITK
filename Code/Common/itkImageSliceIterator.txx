@@ -119,7 +119,7 @@ void
 ImageSliceIterator<TImage>
 ::SetFirstDirection(unsigned int direction) 
 {
-  if( direction >= VImageDimension )
+  if( direction >= TImage::ImageDimension )
   {
     throw ExceptionObject();
   }
@@ -138,7 +138,7 @@ void
 ImageSliceIterator<TImage>
 ::SetSecondDirection(unsigned int direction) 
 {
-  if( direction >= VImageDimension )
+  if( direction >= TImage::ImageDimension )
   {
     throw ExceptionObject();
   }
