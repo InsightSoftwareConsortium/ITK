@@ -63,7 +63,7 @@ typename LevelSetFunctionWithRefitTerm <TImageType,
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>
 ::ComputeCurvature (const NeighborhoodType &neighborhood) const
 {
-  int j, k;
+  unsigned int j, k;
   unsigned int counterN, counterP;
   unsigned long positionN,  positionP,
     stride[ImageDimension], indicator[ImageDimension];

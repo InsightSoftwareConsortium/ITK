@@ -40,7 +40,7 @@ void
 NormalVectorDiffusionFunction <TSparseImageType>
 ::PrecomputeSparseUpdate (NeighborhoodType &it) const 
 {
-  int i, j, k;
+  unsigned int i, j, k;
   NodeValueType DotProduct;
   
   NodeType* CenterNode = it.GetCenterPixel();
@@ -159,7 +159,7 @@ NormalVectorDiffusionFunction <TSparseImageType>
 ::ComputeSparseUpdate (NeighborhoodType &it,
                        void*, const FloatOffsetType&) const
 {
-  int i;
+  unsigned int i;
   NormalVectorType change;
   NodeValueType DotProduct;
   const NodeType* CenterNode = it.GetCenterPixel();

@@ -24,7 +24,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
   m_UnsharpMaskingWeight = NumericTraits<NodeValueType>::Zero;
   
   // compute constants used in computations
-  int j;
+  unsigned int j;
   for( j = 0; j < ImageDimension; j++ )
     {
     m_Indicator[j] = 1 << j;
@@ -110,7 +110,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>
 ::InitializeNormalBandNode (NormalBandNodeType *node,
                             const InputImageIteratorType &it)
 {
-  int i, j, k;
+  unsigned int i, j, k;
   unsigned int counter;
   unsigned long position, center;
   unsigned long stride[ImageDimension];

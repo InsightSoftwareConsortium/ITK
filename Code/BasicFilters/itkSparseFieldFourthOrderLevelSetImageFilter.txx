@@ -80,7 +80,7 @@ typename SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 ::ComputeCurvatureFromSparseImageNeighborhood (SparseImageIteratorType &it) const
 {
-  int j, k;
+  unsigned int j, k;
   unsigned int counter;
   unsigned long position,  stride[ImageDimension], indicator[ImageDimension];
   const unsigned long center = it.Size() / 2;
@@ -143,7 +143,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   DistanceImageIteratorType
     distanceImageIterator (distanceImage,
                            distanceImage->GetRequestedRegion());
-  int j;
+  unsigned int j;
   typename SparseImageIteratorType::RadiusType radius;
   for( j = 0; j < ImageDimension; j++ )
     {
