@@ -601,7 +601,7 @@ void
 Neighborhood<TPixel, VDimension>
 ::PrintScalarData()
 {
-  int iDim, i, ArrayLength;
+  unsigned int iDim;
   Iterator iter;
   unsigned long loop[VDimension];
   memset(loop, 0, sizeof(unsigned long) * VDimension);
