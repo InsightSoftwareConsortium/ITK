@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkSize.h"
 #include "itkIndex.h"
-#include "itkExceptionObject.h"
 #include "itkSample.h"
 #include "itkDenseFrequencyContainer.h"
 #include "itkSparseFrequencyContainer.h"
@@ -109,7 +108,7 @@ public:
   /** Dimension of a measurement vector */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
  
-  /** type of an element of a measurement vector ; */
+  /** type of an element of a measurement vector */
   typedef TMeasurement MeasurementType ;
 
   /** Common sample class typedefs */
@@ -138,21 +137,24 @@ public:
    * subclasses should call this method in their initialize() method
    * the overide methods have prepare the frequency container for
    * input and output. */
-   void Initialize(SizeType size) ;
+  void Initialize(SizeType size) ;
 
   /** returns the index of histogram corresponding to measurement value */
-   IndexType GetIndex(const MeasurementVectorType measurement) 
-     throw (RangeError) ;
-
+  inline IndexType GetIndex(const MeasurementVectorType measurement)  ;
+  
   /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
    * This method uses ImageBase::ComputeIndex() method */
-  IndexType GetIndex(const InstanceIdentifier id)  ;
+  inline IndexType GetIndex(const InstanceIdentifier id)  ;
+
+  /** returns true if the given index is out of bound meaning one of index
+   * is not between [0, last index] */
+  inline bool IsIndexOutOfBound(const IndexType index) ;
 
   /** returns the instance identifier of the cell that is indexed by the 
    * index. The corresponding instance identifier is the offset of the index 
    * This method uses ImageBase::ComputeIndex() method */
-  InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
+  inline InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
   
   /** Method to get m_Size */
   SizeType GetSize() { return m_Size ; }

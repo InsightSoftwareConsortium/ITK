@@ -104,7 +104,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize,
           TFrequencyContainer>::IndexType
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetIndex(const MeasurementVectorType measurement) throw (RangeError)
+::GetIndex(const MeasurementVectorType measurement)
 {
   
   int dim, nbin, numBin ;  // dimension, bin number, number of bins
@@ -115,11 +115,13 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       numBin = m_Min[dim].size();
       if ( measurement[dim] < m_Min[dim][0] )
         {
-          throw RangeError(__FILE__, __LINE__) ;
+          index[0] = (long) m_Size[0] ;
+          return index ;
         }
       else if ( measurement[dim] >= m_Max[dim][numBin-1] )
         {
-          throw RangeError(__FILE__, __LINE__) ;
+          index[0] = (long) m_Size[0] ;
+          return index ;
         }
       else
         {
@@ -156,6 +158,22 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   index[0] = static_cast<IndexValueType>(id2);
   
   return index;
+}
+
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
+          class TFrequencyContainer >
+bool
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::IsIndexOutOfBound(const IndexType index)
+{
+  for (int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+    {
+      if (index[dim] < 0 || index[dim] >= m_Size[dim])
+        {
+          return true ;
+        }
+    }
+  return false ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
