@@ -248,7 +248,8 @@ ImageFileWriter<TInputImage>
     {
     os << m_ImageIO << "\n";
     }
-  
+
+  os << indent << "IO Region: " << m_IORegion << "\n";
 }
 
 } // end namespace itk
