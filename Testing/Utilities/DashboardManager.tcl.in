@@ -106,7 +106,7 @@ foreach Command $Commands \
       if { ![file exists [file join XML Build.xml]] } \
       {
 	puts stderr "Could not find file [file join $BuildStampDir XML Build.xml]"
-	exit 1
+	continue
       }
 
       foreach XML [list Build Test Coverage] \
@@ -289,17 +289,17 @@ foreach Command $Commands \
       {
 	puts "Working on $NightlyBuild"
 	puts $DashboardTargets $NightlyBuild
-	puts $DashboardFile "<BuildStamp>"
 	set CurrentDir [pwd]
 	cd [file join $Dir $NightlyBuild]
 
-	if { ![file exists [file join XML Build.xml]] } \
+	if { ![file exists [file join XML Build.xml]] && ![file exists [file join XML Test.xml]]} \
 	{
-	  puts stderr "Could not find file [file join $BuildStampDir XML Build.xml]"
-	  exit 1
+	  puts stderr "Could not find file [file join [pwd] XML Build.xml]"
+	  cd $CurrentDir
+	  continue
 	}
 
-	puts $DashboardFile "\t<BuildSubmissionDateTime>[clock format [file mtime [file join XML Build.xml]]]</BuildSubmissionDateTime>"
+	puts $DashboardFile "<BuildStamp>"
 	
 	foreach XML [list Build Test Coverage] \
 	{

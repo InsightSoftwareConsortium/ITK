@@ -152,10 +152,10 @@ proc GetLastBuildDirectory { {Model Experimental} } \
   set SiteDir [file join $HTMLDir TestingResults Sites $Site]
   set BuildNameDir [file join $SiteDir $BuildName]
 
-  set GlobString *
+  set GlobString 20*
   if { $Model == "Nightly" } \
   {
-    set GlobString *-Nightly
+    set GlobString 20*-Nightly
   }
   set BuildStampDirs ""
   set BuildStampDirs [glob -nocomplain -- [file join $BuildNameDir $GlobString]]
