@@ -303,7 +303,7 @@ private:
   static const unsigned int m_WindowSize;
 
   /** Neighborhood iterator used to access the pixels in the window */
-  IteratorType m_Neighborhood;
+  mutable IteratorType m_Neighborhood;
 
   /** The function object, used to compute window */
   TWindowFunction m_WindowFunction;

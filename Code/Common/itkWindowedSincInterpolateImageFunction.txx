@@ -109,11 +109,11 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
 ::~WindowedSincInterpolateImageFunction()
 {
   // Clear the offset table
-  delete m_OffsetTable;
+  delete [] m_OffsetTable;
 
   // Clear the weights tables
-  for(unsigned int dim=0;dim<ImageDimension;dim++)
-    delete m_WeightOffsetTable[dim];
+  for(unsigned int i=0; i < m_OffsetTableSize; i++)
+    delete [] m_WeightOffsetTable[i];
   delete[] m_WeightOffsetTable;
 }
 
@@ -232,17 +232,8 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // cout << "Sampling at index " << index << " discrete " << baseIndex << endl;
 
   // Position the neighborhood at the index of interest
-  //IteratorType *writable = (IteratorType *)(&m_Neighborhood);
-  //writable->SetLocation(baseIndex);
-
-  // Since this method has a const modifier, I can't call 
-  // m_Neighborhood->SetLocation(baseIndex). Instead, I make a copy
-  // of the neighborhood, which is more expensive...
-  IteratorType nhood(
-    m_Neighborhood.GetRadius(), m_Neighborhood.GetImagePointer(),
-    m_Neighborhood.GetRegion());
-  nhood.SetLocation(baseIndex);
-
+  m_Neighborhood.SetLocation( baseIndex );
+  
   // Compute the sinc function for each dimension
   double xWeight[ImageDimension][2 * VRadius];
   for( dim = 0; dim < ImageDimension; dim++ )
@@ -250,9 +241,9 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     // x is the offset, hence the parameter of the kernel
     double x = distance[dim] + VRadius;
 
-    // If x is zero, i.e. the index falls precisely on the
+    // If distance is zero, i.e. the index falls precisely on the
     // pixel boundary, the weights form a delta function.
-    if(x == 0.0)
+    if(distance[dim] == 0.0)
       {
       for( unsigned int i = 0; i < m_WindowSize; i++)
         xWeight[dim][i] = 
@@ -283,7 +274,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     unsigned int off = m_OffsetTable[j];
     
     // Get the intensity value at the pixel
-    double xVal = nhood.GetPixel(off);
+    double xVal = m_Neighborhood.GetPixel(off);
 
     // Multiply the intensity by each of the weights. Gotta hope
     // that the compiler will unwrap this loop and pipeline this!
