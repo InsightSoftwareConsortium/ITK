@@ -78,7 +78,14 @@ public:
   itkNewMacro(Self);
 
   /** Get/Set methods for the index */
-  void SetIndex(unsigned int i) { this->GetFunctor().SetIndex(i); }
+  void SetIndex(unsigned int i)
+    {
+      if (i != this->GetFunctor().GetIndex())
+        {
+        this->GetFunctor().SetIndex(i);
+        this->Modified();
+        }
+    }
   unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
 
 protected:
