@@ -122,7 +122,7 @@ int itkMeshTest(int, char**)
    mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
 
   /**
-   * Create the test cell. Note that testCell is a generici auto
+   * Create the test cell. Note that testCell is a generic auto
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
@@ -219,7 +219,6 @@ int itkMeshTest(int, char**)
   boundLine->SetPointId(1,1);
 
   mesh->SetBoundariesAllocationMethod(MeshType::BoundariesAllocatedDynamicallyCellByCell);
-  
   mesh->SetBoundary(1,            // Topological dimension of boundary.
         0,                        // Boundary identifier.
         boundLine);               // Pointer to explicit boundary.
@@ -228,6 +227,9 @@ int itkMeshTest(int, char**)
             1,                    // CellIdentifier
             0,                    // CellFeatureIdentifier
             0);                   // Boundary identifier.  
+  std::cout << "boundLine.IsOwner() = " << boundLine.IsOwner() << std::endl;
+  std::cout << "boundLine.GetPointer() = " << boundLine.GetPointer() << std::endl;
+  
   /**
    * Try getting the hexahedron's neighbor through its first edge.
    * This should be the test tetrahedron, except that we have done an
@@ -246,6 +248,7 @@ int itkMeshTest(int, char**)
     {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
+
     if( mesh->GetCell( *cell, cellPointer ) )
       {
       std::cout << cellPointer->GetNameOfClass();
@@ -272,6 +275,7 @@ int itkMeshTest(int, char**)
     {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
+
     if( mesh->GetCell(*cell, cellPointer) )
       {
       std::cout << cellPointer->GetNameOfClass();
@@ -296,13 +300,14 @@ int itkMeshTest(int, char**)
     {
     std::cout << "Id " << *cell << ": ";
     CellAutoPointer cellPointer;
+
     if( mesh->GetCell(*cell, cellPointer) )
       {
       std::cout << cellPointer->GetNameOfClass();
       }
     std::cout << std::endl;
     }
-  
+
   /**
    * Create a higher order  test cell.
    */
@@ -367,17 +372,29 @@ int itkMeshTest(int, char**)
   } // end of local scope for this part of the test. 
 
 
-
   /**
    * Create a higher order triangular test cell.
    */
   { // Create a local scope
+
+    // In this block, we overwrite a cell at a particular id.
+    // To avoid a memory leak, we must first grab ownership of the
+    // current cell at that id so that the memory for the original
+    // cell will be deleted when we leave this scope
+    CellAutoPointer cellToDelete;
+    mesh->GetCell(2, cellToDelete);
+    cellToDelete.TakeOwnership();
+    
+    // Now we can construct a new cell and overwrite the id
     testCell.TakeOwnership(new QuadraticTriangleCellType); // polymorphism;
     unsigned long quadraticTrianglePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticTrianglePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
+    std::cout << "QuadraticTriangleCell pointer = " << (void*)testCell.GetPointer() << std::endl;
+    std::cout << "QuadraticTriangleCell Owner   = " << testCell.IsOwner() << std::endl;
 
     CellAutoPointer quadraticdTriangleCell;
+
     if(  mesh->GetCell(2, quadraticdTriangleCell) )
       {
       std::cout << "Quadratic Triangle cell recovered" << std::endl;
@@ -389,6 +406,7 @@ int itkMeshTest(int, char**)
       std::cout << "Failure: QuadraticTriangle cell was not recovered" << std::endl;
       return EXIT_FAILURE;
       }
+
 
     CellAutoPointer vertexPointer;
 
@@ -404,7 +422,7 @@ int itkMeshTest(int, char**)
     std::cout << typeid( vertexPointer ).name() << std::endl;
     std::cout << typeid( vertexPointer.GetPointer() ).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
-    
+
     QuadraticTriangleCellType::VertexType * vertex = 0;
     try
       {
@@ -477,7 +495,6 @@ int itkMeshTest(int, char**)
       {
       std::cerr << "Edge of the QuadraticTriangle couldn't be extracted " << std::endl;
       }
-
   } // end of local scope for this part of the test.
 
 
