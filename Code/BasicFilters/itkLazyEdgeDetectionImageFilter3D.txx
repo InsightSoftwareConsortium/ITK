@@ -20,6 +20,7 @@
 #include "itkLazyEdgeDetectionImageFilter3D.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkImageRegion.h"
+#include "itkExtractImageFilter.h"
 
 namespace itk
 {
