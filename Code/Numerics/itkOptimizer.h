@@ -71,10 +71,10 @@ public:
   void SetScales(const ScalesType & scales);
 
   /** Get current parameters scaling. */
-  itkGetConstMacro( Scales, ScalesType );
+  itkGetConstReferenceMacro( Scales, ScalesType );
 
   /** Get current position of the optimization. */
-  itkGetConstMacro( CurrentPosition, ParametersType );
+  itkGetConstReferenceMacro( CurrentPosition, ParametersType );
 
   /** Start optimization. */
   virtual void StartOptimization() {};
