@@ -45,6 +45,54 @@
 // Software Guide : EndCodeSnippet
 
 
+
+
+
+//  The following section of code implements a Command observer
+//  that will monitor the evolution of the registration process.
+//
+  class CommandIterationUpdate : public itk::Command 
+  {
+  public:
+    typedef  CommandIterationUpdate   Self;
+    typedef  itk::Command             Superclass;
+    typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
+    itkNewMacro( CommandIterationUpdate );
+  protected:
+    CommandIterationUpdate() {};
+
+    typedef itk::Image< float, 2 > InternalImageType;
+    typedef itk::Vector< float, 2 >    VectorPixelType;
+    typedef itk::Image<  VectorPixelType, 2 > DeformationFieldType;
+
+    typedef itk::SymmetricForcesDemonsRegistrationFilter<
+                                InternalImageType,
+                                InternalImageType,
+                                DeformationFieldType>   RegistrationFilterType;
+
+  public:
+
+    void Execute(itk::Object *caller, const itk::EventObject & event)
+      {
+        Execute( (const itk::Object *)caller, event);
+      }
+
+    void Execute(const itk::Object * object, const itk::EventObject & event)
+      {
+         const RegistrationFilterType * filter = 
+          dynamic_cast< const RegistrationFilterType * >( object );
+        if( typeid( event ) != typeid( itk::IterationEvent ) )
+          {
+          return;
+          }
+        std::cout << filter->GetMetric() << std::endl;
+      }
+  };
+
+
+
+
+
 int main( int argc, char *argv[] )
 {
   if( argc < 4 )
@@ -196,6 +244,15 @@ int main( int argc, char *argv[] )
                                 DeformationFieldType>   RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
+
+
+
+  // Create the Command observer and register it with the registration filter.
+  //
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  filter->AddObserver( itk::IterationEvent(), observer );
+
+
 
 
   // Software Guide : BeginLatex
