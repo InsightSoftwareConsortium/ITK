@@ -54,7 +54,7 @@ ImageLinearIterator<TPixel, VImageDimension>
     }
     else 
     {
-      m_Position -= m_OffsetTable[ n+1 ] - m_OffsetTable[ n ];
+      m_Position -= m_OffsetTable[ n ] * ( m_Size[n]-1 );
       m_PositionIndex[ n ] = m_BeginIndex[ n ]; 
     }
   }
