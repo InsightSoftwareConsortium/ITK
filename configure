@@ -3632,7 +3632,7 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "CMakeSystemConfig.txt:CMake/CMakeSystemConfig.txt.in
+trap 'rm -fr `echo "CMakeSystemConfig.cmake:CMake/CMakeSystemConfig.cmake.in
 Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
@@ -3779,7 +3779,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"CMakeSystemConfig.txt:CMake/CMakeSystemConfig.txt.in
+CONFIG_FILES=\${CONFIG_FILES-"CMakeSystemConfig.cmake:CMake/CMakeSystemConfig.cmake.in
 Makefile:CMake/CMakeTopMakefileTemplate.in
 CMakeTargets.make:CMake/CMakeTargets.make.in 
 CMake/CMakeSimpleRules.make 
