@@ -572,7 +572,7 @@ template<class ScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 double
 AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
-Metric(const Self &other) const
+Metric(const Self * other) const
 {
   double result = 0.0, term;
 
@@ -580,10 +580,10 @@ Metric(const Self &other) const
     {
     for (unsigned int j = 0; j < NDimensions; j++) 
       {
-      term = m_Matrix[i][j] - other.m_Matrix[i][j];
+      term = m_Matrix[i][j] - other->m_Matrix[i][j];
       result += term * term;
       }
-    term = m_Offset[i] - other.m_Offset[i];
+    term = m_Offset[i] - other->m_Offset[i];
     result += term * term;
     }
   return sqrt(result);

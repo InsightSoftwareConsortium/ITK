@@ -495,7 +495,7 @@ public:
      * mathematical details.)
      *
      **/
-    double Metric(const Self &other) const;
+    double Metric(const Self * other) const;
 
 
 
