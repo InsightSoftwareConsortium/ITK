@@ -115,8 +115,7 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return ((!NumericTraits<ElementIdentifier>::is_signed
-	   || (NumericTraits<ElementIdentifier>::is_signed && (id >= 0)))
+  return (NumericTraits<ElementIdentifier>::IsNonnegative(id)
 	  && (id < this->VectorType::size()));
 }
 
@@ -132,9 +131,8 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
-  if((!NumericTraits<ElementIdentifier>::is_signed
-      || (NumericTraits<ElementIdentifier>::is_signed && (id >= 0)))
-     && (id < this->VectorType::size()))
+  if (NumericTraits<ElementIdentifier>::IsNonnegative(id)
+      && (id < this->VectorType::size()))
     {
     if(element)
       {
