@@ -122,7 +122,7 @@ public:
    * The information needed for a cell type is now defined, so we can
    * define the cell type.
    */
-  typedef MakeCellType                           CellType;
+  typedef MakeCellTypeMacro                           CellType;
   
   /**
    * The interface to cells to be used by the mesh.
