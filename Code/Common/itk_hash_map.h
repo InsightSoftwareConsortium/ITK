@@ -58,7 +58,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1))
+#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1)) && !defined(__INTEL_COMPILER)
 #include <ext/hash_map>
 
 namespace itk
@@ -78,6 +78,8 @@ namespace itk
 #if defined(__MWERKS__)
 #include "vcl_functional.h"
 #endif
+
+#include "vcl_compiler.h"
 
 
 namespace itk

@@ -54,7 +54,7 @@
 #ifndef itk_emulation_hash_set_h
 #define itk_emulation_hash_set_h
 
-#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1))
+#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1)) && !defined(__INTEL_COMPILER)
 #include <ext/hash_set>
 
 namespace itk
