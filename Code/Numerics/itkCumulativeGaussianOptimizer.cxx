@@ -37,8 +37,7 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_Verbose = 0;
   m_FitError = 0;
   m_FinalSampledArray = NULL;
-  m_CumulativeGaussianArray = NULL;
-
+  m_CumulativeGaussianArray = new MeasureType();
 }
 
 CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
@@ -226,7 +225,6 @@ void
 CumulativeGaussianOptimizer
 ::SetDataArray(MeasureType * cumGaussianArray)
 {
-  m_CumulativeGaussianArray = new MeasureType();
   m_CumulativeGaussianArray->resize(cumGaussianArray->GetNumberOfElements());
   m_CumulativeGaussianArray = cumGaussianArray;
 }
