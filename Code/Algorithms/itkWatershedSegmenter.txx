@@ -247,6 +247,7 @@ void Segmenter<TInputImage>::GenerateData()
   this->BuildRetainingWall( thresholdImage,
                               thresholdImage->GetBufferedRegion(),
                               m_Maximum + NumericTraits<InputPixelType>::One );
+
   //
   // Label all the local minima pixels in the image.  This function also
   // labels flat regions, defined as regions where connected pixels all have

@@ -1,0 +1,8 @@
+# Sources of non-templated classes.
+SOURCE_FILES(ITKAlgorithms_SRCS
+itkWatershedEquivalencyTable
+itkWatershedOneWayEquivalencyTable
+itkWatershedMiniPipelineProgressCommand
+)
+
+ADD_LIBRARY(ITKAlgorithms ITKAlgorithms_SRCS)

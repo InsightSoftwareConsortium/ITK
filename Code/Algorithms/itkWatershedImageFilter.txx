@@ -161,34 +161,6 @@ WatershedImageFilter<TInputImage>
   os << indent << "Level: " << m_Level << std::endl;
 }
 
-void WatershedMiniPipelineProgressCommand
-::Execute(Object *caller, const EventObject &event)
-{
-  ProcessObject *po = dynamic_cast<ProcessObject *>(caller);
-  if (! po) return;
-  
-  if( typeid(event) == typeid ( ProgressEvent)  )
-    {
-      m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
-                                  m_NumberOfFilters);
-      if (po->GetProgress() == 1.0) m_Count += 1.0;
-    }
-}
-
-void WatershedMiniPipelineProgressCommand
-::Execute(const Object *caller, const EventObject &event)
-{
-  ProcessObject *po = dynamic_cast<ProcessObject *>(const_cast<Object *>(caller));
-  if (! po) return;
-  
-  if( typeid(event) == typeid ( ProgressEvent)  )
-    {
-      m_Filter->UpdateProgress( (m_Count + po->GetProgress()) /
-                                  m_NumberOfFilters);
-      if (po->GetProgress() == 1.0) m_Count += 1.0;
-    }
-}
-
 } // end namespace itk
 
 #endif
