@@ -92,22 +92,22 @@ public:
 // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 
-  typedef TMoving MovingType;
-  typedef typename MovingType::ConstPointer  MovingConstPointer;
-  typedef MovingType*  MovingPointer;
-  typedef TFixed       FixedType;
-  typedef FixedType*  FixedPointer;
-  typedef typename FixedType::ConstPointer  FixedConstPointer;
+  typedef TMoving MovingImageType;
+  typedef typename MovingImageType::ConstPointer  MovingConstPointer;
+  typedef MovingImageType*  MovingPointer;
+  typedef TFixed       FixedImageType;
+  typedef FixedImageType*  FixedPointer;
+  typedef typename FixedImageType::ConstPointer  FixedConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      MovingType::ImageDimension);
+                      MovingImageType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex<MovingType> MovingRegionIteratorType; 
-  typedef ImageRegionIteratorWithIndex<FixedType>    FixedRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<MovingImageType> MovingRegionIteratorType; 
+  typedef ImageRegionIteratorWithIndex<FixedImageType>    FixedRegionIteratorType; 
   
 
-  typedef NeighborhoodIterator<MovingType> 
+  typedef NeighborhoodIterator<MovingImageType> 
                                      MovingNeighborhoodIteratorType; 
   typedef typename MovingNeighborhoodIteratorType::IndexType  
                                      MovingNeighborhoodIndexType;
@@ -115,7 +115,7 @@ public:
                                      MovingRadiusType;
   typedef typename MovingNeighborhoodIteratorType::RadiusType 
                                      RadiusType;
-  typedef NeighborhoodIterator<FixedType> 
+  typedef NeighborhoodIterator<FixedImageType> 
                                      FixedNeighborhoodIteratorType; 
   typedef typename FixedNeighborhoodIteratorType::IndexType  
                                      FixedNeighborhoodIndexType;
@@ -124,11 +124,10 @@ public:
 
 
 // IMAGE DATA
-  typedef   typename  MovingType::PixelType MovingPixelType;
-  typedef   typename  FixedType::PixelType    FixedPixelType;
+  typedef   typename  MovingImageType::PixelType   MovingPixelType;
+  typedef   typename  FixedImageType::PixelType    FixedPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
-  typedef   Image< MovingPixelType, itkGetStaticConstMacro(ImageDimension) >       MovingImageType;
   typedef   Image< FixedPixelType, itkGetStaticConstMacro(ImageDimension) >       FixedImageType;
   typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >            ImageType;
   typedef   itk::Vector<float,itkGetStaticConstMacro(ImageDimension)>             VectorType;
@@ -186,7 +185,7 @@ public:
 
 
  /** Define the reference (moving) image. */
-  void SetMovingImage(MovingType* R)
+  void SetMovingImage(MovingImageType* R)
   { 
     m_MovingImage = R; 
     m_MovingSize=m_MovingImage->GetLargestPossibleRegion().GetSize();
@@ -196,7 +195,7 @@ public:
 
 
   /** Define the target (fixed) image. */ 
-  void SetFixedImage(FixedType* T)
+  void SetFixedImage(FixedImageType* T)
   { 
      m_FixedImage=T; 
      m_FixedSize=T->GetLargestPossibleRegion().GetSize();
@@ -274,8 +273,8 @@ private:
   MovingPointer                                      m_MovingImage;
   FixedPointer                                       m_FixedImage;
   MovingRadiusType                                   m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
-  typename MovingType::SizeType                      m_MovingSize;
-  typename FixedType::SizeType                       m_FixedSize;
+  typename MovingImageType::SizeType                 m_MovingSize;
+  typename FixedImageType::SizeType                  m_FixedSize;
   unsigned int                                       m_NumberOfIntegrationPoints;
   unsigned int                                       m_SolutionIndex;
   unsigned int                                       m_SolutionIndex2;
