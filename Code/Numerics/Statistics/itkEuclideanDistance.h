@@ -24,6 +24,16 @@
 namespace itk{ 
 namespace Statistics{
 
+/** \class EuclideanDistance
+ * \brief Euclidean distance function.
+ *
+ * This class is derived from DistanceMetric class. In addition to the
+ * two Evaluate methods in the base class, this class has a method
+ * (Evaluate) to compute the coordinate distance between two vector
+ * component (not vectors), and a method to tell if a measurement
+ * vector is whithin the range (defined by a radius value) from the
+ * origin (set by SetOrigin mehtod).
+ */
 template< class TVector >
 class ITK_EXPORT EuclideanDistance : 
     public DistanceMetric< TVector >
