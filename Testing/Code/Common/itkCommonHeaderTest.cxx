@@ -101,6 +101,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFiniteDifferenceFunction.txx"
 #include "itkFiniteDifferenceImageFilter.txx"
 #include "itkFixedArray.txx"
+#include "itkFixedCenterOfRotationAffineTransform.txx"
 #include "itkFloodFilledFunctionConditionalConstIterator.txx"
 #include "itkFloodFilledFunctionConditionalIterator.txx"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.txx"
