@@ -46,7 +46,6 @@ float AvgGradMagSquaredVector<TImage>
 
   // process
   ans = 0.0f;
-  const RNI_type _end = it[0].End();
   for ( k = 0; k < VectorDimension; ++k )
     {
       IP.SetVisibleComponent(k);
@@ -54,7 +53,7 @@ float AvgGradMagSquaredVector<TImage>
       counter     = 0;
       for ( i = 0; i < ImageDimension; ++i ) it[i] = it[i].Begin();
 
-      for ( ; it[0] < _end; ++counter )
+      for ( ; !it[0].IsAtEnd(); ++counter )
         {
           for (i = 0; i < ImageDimension; ++i)
             {

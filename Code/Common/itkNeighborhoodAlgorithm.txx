@@ -308,9 +308,7 @@ void ApplyOperatorToEach<TOperation, TIterator>
   
   // Process image to output.
   it = it.Begin();
-  const TIterator _end = it.End();
-  
-  while( it != _end )
+  while( !it.IsAtEnd() )
     {
       *( it.GetOutputBuffer() ) = OP(it, o);
       ++it;
