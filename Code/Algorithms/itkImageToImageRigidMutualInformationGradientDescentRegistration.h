@@ -137,8 +137,9 @@ public:
  * parameter. The default is 1.0. The LearningRate is set via the method
  * SetLearningRate().
  *
- * In this algorithm, the rigid transformation is represent by a
- * quaternion (4 parameters) and 3 translations.
+ * In this algorithm, the rigid transformation is represent by a vector
+ * of 7 doubles. The first 4 parameters defines the 
+ * quaternion and the last 3 parameters the translation in each dimension.
  * Since the parameters of the rotation part is different in magnitude
  * to the parameters in the offset part, scaling is required
  * to improve convergence. The scaling can set via SetTranslationScale().
