@@ -373,7 +373,7 @@ nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
   /* finally, make sure that what we're returning isn't malformed somehow,
      except that we (probably stupidly) allow nrrd->data to be NULL, given
      the possibility of using nio->skipData */
-  if (_nrrdCheck(nrrd, AIR_FALSE)) {
+  if (_nrrdCheck(nrrd, AIR_FALSE, AIR_TRUE)) {
     sprintf(err, "%s: problem with nrrd after reading", me);
     biffAdd(NRRD, err); return 1;
   }

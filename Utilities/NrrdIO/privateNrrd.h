@@ -83,6 +83,11 @@ extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd,
 extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, 
                             Nrrd *nrrd, int listDim);
+extern void _nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX], 
+                               double scl, 
+                               const double vec[NRRD_SPACE_DIM_MAX]);
+extern double _nrrdSpaceVecNorm(int sdim,
+                                const double vec[NRRD_SPACE_DIM_MAX]);
 
 /* axis.c */
 extern int _nrrdKindAltered(int kindIn);

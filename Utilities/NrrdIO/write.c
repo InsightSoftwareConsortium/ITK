@@ -769,7 +769,7 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
              ? "not available in this teem build"
              : "array doesn\'t fit"));
     if (guessed) {
-      if (nrrdStateVerboseIO) {
+      if (1 <= nrrdStateVerboseIO) {
         fprintf(stderr, "(%s: %s --> saving to NRRD format)\n", me, mesg);
       }
       nio->format = nrrdFormatNRRD;

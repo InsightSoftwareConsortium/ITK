@@ -839,3 +839,74 @@ nrrdAxisInfoMinMaxSet(Nrrd *nrrd, int ax, int defCenter) {
   
   return;
 }
+
+/*
+******** nrrdSpacingCalculate
+**
+** Determine nrrdSpacingStatus, and whatever can be calculated about
+** spacing for a given axis.  Takes a nrrd, an axis, a double pointer
+** (for returning a scalar), a space vector, and an int pointer for
+** returning the known length of the space vector.
+**
+** The behavior of what has been set by the function is determined by
+** the return value, which takes values from the nrrdSpacingStatus*
+** enum, as follows:
+**
+** returned status value:            what is set:
+** ---------------------------------------------------------------------------
+** nrrdSpacingStatusUnknown          nothing set, because args were invalid
+**
+** nrrdSpacingStatusNone             nothing set, because there is no
+**                                   spacing info.
+**
+** nrrdSpacingStatusScalarNoSpace    *spacing set from axis->spacing (because
+**                                   there is no surrounding space).
+**
+** nrrdSpacingStatusScalarWithSpace  *spacing set from axis->spacing, but be
+**                                   warned that surrounding space info *is* 
+**                                   set, which this axis-aligned spacing is
+**                                   independent of.
+**
+** nrrdSpacingStatusVector           *spacing set from norm of
+**                                   axis->spaceDirection, *sdim set, and
+**                                   vector[0] through vector[*sdim-1] is
+**                                   normalized (unit-length)
+**                                   axis->spaceDirection.
+*/
+int
+nrrdSpacingCalculate(const Nrrd *nrrd, int ax,
+                     double *spacing,
+                     int *sdim, double vector[NRRD_SPACE_DIM_MAX]) {
+  int ret;
+  
+  if (!( nrrd && spacing && sdim && vector
+         && AIR_IN_CL(0, ax, nrrd->dim-1)
+         && !_nrrdCheck(nrrd, AIR_FALSE, AIR_FALSE) )) {
+    /* there's a problem with the arguments.  Note: the _nrrdCheck()
+       call does not check on non-NULL-ity of nrrd->data */
+    *spacing = AIR_NAN;
+    ret = nrrdSpacingStatusUnknown;
+  } else {
+    if (AIR_EXISTS(nrrd->axis[ax].spacing)) {
+      if (nrrd->spaceDim > 0) {
+        ret = nrrdSpacingStatusScalarWithSpace;
+      } else {
+        ret = nrrdSpacingStatusScalarNoSpace;
+      }
+      *spacing = nrrd->axis[ax].spacing;
+    } else {
+      if (nrrd->spaceDim > 0) {
+        ret = nrrdSpacingStatusVector;
+        *spacing = _nrrdSpaceVecNorm(nrrd->spaceDim, 
+                                     nrrd->axis[ax].spaceDirection);
+        *sdim = nrrd->spaceDim;
+        _nrrdSpaceVecScale(vector, 1.0/(*spacing),
+                           nrrd->axis[ax].spaceDirection);
+      } else {
+        ret = nrrdSpacingStatusNone;
+        *spacing = AIR_NAN;
+      }      
+    }
+  }
+  return ret;
+}
