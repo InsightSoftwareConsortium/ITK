@@ -20,11 +20,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{Similarity2DTransform}
+// This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
 // class for performing registration in $2D$. The of example code is for
 // the most part identical to the code presented in Section
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of \doxygen{Similarity2DTransform} here rather than the
+// use of \doxygen{CenteredSimilarity2DTransform} here rather than the
 // \doxygen{CenteredRigid2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
@@ -41,7 +41,7 @@
 // specific center. This center is use both for rotation and scaling.
 //
 //
-// \index{itk::Similarity2DTransform}
+// \index{itk::CenteredSimilarity2DTransform}
 //
 // Software Guide : EndLatex 
 
@@ -60,12 +60,12 @@
 //  In addition to the headers included in previous examples, here the
 //  following header must be included.
 //
-//  \index{itk::Similarity2DTransform!header}
+//  \index{itk::CenteredSimilarity2DTransform!header}
 // 
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkSimilarity2DTransform.h"
+#include "itkCenteredSimilarity2DTransform.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -139,12 +139,12 @@ int main( int argc, char *argv[] )
   //  template parameter of this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::Similarity2DTransform!Instantiation}
+  //  \index{itk::CenteredSimilarity2DTransform!Instantiation}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Similarity2DTransform< double > TransformType;
+  typedef itk::CenteredSimilarity2DTransform< double > TransformType;
   // Software Guide : EndCodeSnippet
 
 
@@ -171,8 +171,8 @@ int main( int argc, char *argv[] )
   //  The transform object is constructed below and passed to the registration
   //  method.
   //
-  //  \index{itk::Similarity2DTransform!New()}
-  //  \index{itk::Similarity2DTransform!Pointer}
+  //  \index{itk::CenteredSimilarity2DTransform!New()}
+  //  \index{itk::CenteredSimilarity2DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex 
@@ -229,8 +229,8 @@ int main( int argc, char *argv[] )
   //  
   //  The remaining parameters of the transform are initialized below.
   //
-  //  \index{itk::Similarity2DTransform!SetScale()}
-  //  \index{itk::Similarity2DTransform!SetAngle()}
+  //  \index{itk::CenteredSimilarity2DTransform!SetScale()}
+  //  \index{itk::CenteredSimilarity2DTransform!SetAngle()}
   //
   //  Software Guide : EndLatex 
 
@@ -392,7 +392,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
   // \itkcaption[Fixed and Moving image registered with
-  // Similarity2DTransform]{Fixed and Moving image provided as input to the
+  // CenteredSimilarity2DTransform]{Fixed and Moving image provided as input to the
   // registration method using the Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration7}
   // \end{figure}
@@ -403,7 +403,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps} 
-  // \itkcaption[Output of the Similarity2DTransform registration]{Resampled
+  // \itkcaption[Output of the CenteredSimilarity2DTransform registration]{Resampled
   // moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
@@ -419,7 +419,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps} 
-  // \itkcaption[Similarity2DTransform registration plots]{Plots of the Metric,
+  // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
   // rotation angle and translations during
   // the registration using 
   // Similarity2D transform.}
