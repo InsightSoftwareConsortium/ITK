@@ -40,7 +40,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-int itk2DDeformableTest(int, char**)
+int itk2DDeformableTest(int, char* [])
 {
 // change the image size to your test images
   int WIDTH = 100;
@@ -231,6 +231,7 @@ int itk2DDeformableTest(int, char**)
   m_dfilter->SetResolution(100);
   std::cout << "Deformable mesh fitting...";
   m_dfilter->Update();
+  std::cout << m_dfilter;
   
   DMesh::PointsContainerPointer     points;
   DMesh::CellsContainerPointer      cells;
