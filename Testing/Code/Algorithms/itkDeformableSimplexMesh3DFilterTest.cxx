@@ -28,27 +28,53 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkImage.h"
+#include "itkGradientAnisotropicDiffusionImageFilter.h"
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkSigmoidImageFilter.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
+#include "itkSimplexMeshVolumeCalculator.h"
 #include "itkTimeProbe.h"
 
 int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 {
   // Declare the type of the input and output mesh
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3,double,double> TriangleMeshTraits;
+ 
+  typedef itk::DefaultDynamicMeshTraits<double, 3, 3,double,double>  TriangleMeshTraits;
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double,double> SimplexMeshTraits;
-  typedef itk::Mesh<double,3, TriangleMeshTraits> TriangleMeshType;
-  typedef itk::SimplexMesh<double,3, SimplexMeshTraits> SimplexMeshType;
+  typedef itk::Mesh<double,3, TriangleMeshTraits>                    TriangleMeshType;
+  typedef itk::SimplexMesh<double,3, SimplexMeshTraits>              SimplexMeshType;
+
+  // declare the image class 
+  typedef itk::Image<float,3>                       OriginalImageType;
+  typedef OriginalImageType::PixelType              PixelType;
+  typedef OriginalImageType::IndexType              IndexType;
+  typedef OriginalImageType::SizeType               ImageSizeType;
+
+  // decale the deformation class
+  typedef itk::DeformableSimplexMesh3DFilter<SimplexMeshType,SimplexMeshType> DeformFilterType;
+  typedef DeformFilterType::GradientImageType                                 GradientImageType;
+
+  // declare all the filters for filtering the image
+  typedef itk::GradientAnisotropicDiffusionImageFilter < OriginalImageType, OriginalImageType >  GradientAnisotropicImageType;
+  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter < OriginalImageType, OriginalImageType >  GradientMagnitudeType;
+  typedef itk::SigmoidImageFilter< OriginalImageType, OriginalImageType > SigmoidImageType;
+  typedef itk::GradientRecursiveGaussianImageFilter<OriginalImageType,GradientImageType> GradientFilterType;
+
 
   // declare triangle mesh source
   typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
   typedef SphereMeshSourceType::PointType PointType;
   typedef SphereMeshSourceType::VectorType VectorType;
 
-  // declare the triangle to simplex mesh filter
+   // declare the triangle to simplex mesh filter
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
+  
+  
+  // decalre the simplex mesh volume calculator
+  typedef itk::SimplexMeshVolumeCalculator<SimplexMeshType> SimplexVolumeType;
 
+  // create the actual mesh, sphere 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center; 
   center.Fill(10);
@@ -61,33 +87,23 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
   std::cout << "Triangle mesh created. " << std::endl;
   
+  // send the sphere mesh ( triangle cells) to create a simplex mesh
   SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
   simplexFilter->Update();
   
   SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
-  
+
   std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
 
-
-  typedef itk::DeformableSimplexMesh3DFilter<SimplexMeshType,SimplexMeshType> DeformFilterType;
- 
-  
   std::cout << "Creating dummy image...";
-
-  typedef itk::Image<float,3>                       OriginalImageType;
-  typedef OriginalImageType::PixelType              PixelType;
-  typedef OriginalImageType::IndexType              IndexType;
-  typedef OriginalImageType::SizeType               ImageSizeType;
-
   OriginalImageType::Pointer originalImage = OriginalImageType::New();
 
   ImageSizeType imageSize;
   imageSize.Fill(20);
   originalImage->SetRegions( imageSize );
   originalImage->Allocate();
-
 
   IndexType index;
   for (int x = 0; x < 20; x++)
@@ -113,36 +129,63 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
       }
     }
   }
+  std::cout << "Creating dummy image done" << std::endl;
   
-  typedef itk::DanielssonDistanceMapImageFilter<OriginalImageType,OriginalImageType> DistanceMapFilterType;
-  DistanceMapFilterType::Pointer distanceMapFilter = DistanceMapFilterType::New();
-  distanceMapFilter->SetInput( originalImage );
+  std::cout << " starting to Filter Image" << std::endl;
+  GradientAnisotropicImageType::Pointer gradientanisotropicfilter = GradientAnisotropicImageType::New();
+  gradientanisotropicfilter->SetInput(originalImage);
+  gradientanisotropicfilter->SetNumberOfIterations(5);
+  gradientanisotropicfilter->SetTimeStep(0.0625);
+  gradientanisotropicfilter->SetConductanceParameter(3);
+  gradientanisotropicfilter->Update();
+  std::cout << "GradientAnisotropicDiffusion is DONE!" << std::endl;
 
+  GradientMagnitudeType::Pointer gradientmagnitudefilter = GradientMagnitudeType::New();
+  gradientmagnitudefilter->SetInput( gradientanisotropicfilter->GetOutput() );
+  gradientmagnitudefilter->SetSigma(1.0);
+  gradientmagnitudefilter->Update();
+  std::cout << "GradientMagnitude is DONE!" << std::endl;
+
+  SigmoidImageType::Pointer sigmoidimagefilter = SigmoidImageType::New();
+  sigmoidimagefilter->SetInput( gradientmagnitudefilter->GetOutput());
+  sigmoidimagefilter->SetOutputMinimum(0);
+  sigmoidimagefilter->SetOutputMaximum(1);
+  sigmoidimagefilter->SetAlpha(10);
+  sigmoidimagefilter->SetBeta(100);
+  sigmoidimagefilter->Update();
+  std::cout << "Sigmoid is DONE!" << std::endl;
+  
+  GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
+  gradientFilter->SetInput(sigmoidimagefilter->GetOutput());
+  gradientFilter->SetSigma(1.0);
+  gradientFilter->Update();
+  std::cout << "GradientMagnitude is DONE!" << std::endl;
 
   DeformFilterType::Pointer deformFilter = DeformFilterType::New();
-  typedef DeformFilterType::GradientImageType       GradientImageType;
-  typedef itk::GradientRecursiveGaussianImageFilter<OriginalImageType,GradientImageType> GradientFilterType;
+  
+  for (int i=0 ; i < 100; i++)
+    {
 
-  GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
-  gradientFilter->SetInput( distanceMapFilter->GetOutput() );
-  gradientFilter->SetSigma( 1.0 );
-  gradientFilter->Update();
-
-  std::cout << "done." << std::endl;
-
-  deformFilter->SetInput( simplexMesh );
-  deformFilter->SetGradient( gradientFilter->GetOutput() );
-  deformFilter->SetAlpha(0.1);
-  deformFilter->SetBeta(-0.1);
-  deformFilter->SetIterations(500); 
-  deformFilter->SetRigidity(0);
-  deformFilter->Update();
-
+  
+      // must disconnect the pipeline
+      simplexMesh->DisconnectPipeline();
+      deformFilter->SetInput( simplexMesh );
+      deformFilter->SetGradient( gradientFilter->GetOutput() );
+      deformFilter->SetAlpha(0.1);
+      deformFilter->SetBeta(-0.1);
+      deformFilter->SetIterations(5); 
+      deformFilter->SetRigidity(1);
+      deformFilter->Update();
+     
+    }
   SimplexMeshType::Pointer deformResult =  deformFilter->GetOutput();
-
-  std::cout << "Deformation Result: " << deformResult << std::endl;
-
-
+  
+  // calculate the volume of the mesh
+  SimplexVolumeType::Pointer volumecalculator = SimplexVolumeType::New();
+  volumecalculator->SetSimplexMesh(deformFilter->GetOutput()  );
+  volumecalculator->Compute();
+  
+  std::cout << "whole volume is " << volumecalculator->GetVolume() << std::endl;
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 }
