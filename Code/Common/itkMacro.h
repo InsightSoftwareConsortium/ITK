@@ -439,7 +439,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 #define itkNewMacro(x) \
 static Pointer New(void) \
 { \
-  x *ret = ObjectFactory<x>::Create(); \
+  x *ret = ::itk::ObjectFactory<x>::Create(); \
   if(ret != NULL) \
     { \
     return ret; \
