@@ -58,7 +58,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z) {
-    return std::complex<TPixel>(__z._M_re, -__z._M_im);
+    return std::complex<TPixel>(__z.real(), -__z.imag();
   }
 
 };
