@@ -243,7 +243,7 @@ int main( int argc, char **argv )
   //  for generating the binary object is finally preset with the method
   //  \code{SetThreshold()}.  Details on the influence that the mean and
   //  variance on the computation of the segmentation can be found in
-  //  \cite{Imielinska2000b}. 
+  //  \cite{Udupa1996}. 
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
@@ -301,10 +301,11 @@ int main( int argc, char **argv )
   //  
   //  The tolerance levels for testing the mean and standard deviation are set
   //  with the methods \code{SetMeanPercentError()} and
-  //  \code{SetSTDPercentError()}. Note that the \doxygen{FuzzySegmentationFilter}
-  //  uses \emph{variance} as parameter while the
-  //  \doxygen{VoronoiSegmentationImageFilter} uses the tolerance of the
-  //  \emph{standard deviation}.
+  //  \code{SetSTDPercentError()}. Note that the
+  //  \doxygen{FuzzySegmentationFilter} uses \emph{variance} as parameter while
+  //  the \doxygen{VoronoiSegmentationImageFilter} uses the tolerance of the
+  //  \emph{standard deviation}. Details on how these parameters should be
+  //  selected can be found in \cite{Imielinska2000b}.
   //  
   //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
   //  \index{itk::VoronoiSegmentationImageFilter!SetSTDPercentError()}
