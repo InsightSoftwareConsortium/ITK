@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkPointSet.h"
-#include "itkRigid3DPersectiveTransform.h"
+#include "itkRigid3DPerspectiveTransform.h"
 
 namespace itk
 {
