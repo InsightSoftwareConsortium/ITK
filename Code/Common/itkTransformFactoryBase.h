@@ -51,7 +51,7 @@ public:
   static void RegisterDefaultTransforms();
 
   /** Register this transform */
-  static TransformFactoryBase::Pointer GetFactory () 
+  static TransformFactoryBase* GetFactory () 
     {
     if ( m_Factory == 0 )
       {
@@ -61,8 +61,7 @@ public:
       ObjectFactoryBase::RegisterFactory ( p );
       p->RegisterDefaultTransforms ();
       }
-    TransformFactoryBase::Pointer ret = m_Factory;
-    return ret;
+    return m_Factory;
     }
 
   void RegisterTransform(const char* classOverride,
