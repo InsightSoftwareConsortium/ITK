@@ -38,8 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
-
 #ifndef __itkResampleImageFilter_h
 #define __itkResampleImageFilter_h
 
@@ -85,130 +83,80 @@ class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ResampleImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Number of dimensions
-   */
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);  
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
+
+  /** Number of dimensions. */
   enum {NDimensions = TOutputImage::ImageDimension};
 
-  /**
-   * Transform typedef
+  /** Transform typedef.
    *
    * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
-   * AffineTransform.
-   */
+   * AffineTransform. */
   typedef TTransform TransformType;
   typedef TransformType *TransformPointerType;
 
-  /**
-   * Interpolator typedef
-   */
+  /** Interpolator typedef. */
   typedef TInterpolator   InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
-  /**
-   * Image size typedef
-   */
+  /** Image size typedef. */
   typedef Size<NDimensions> SizeType;
 
-  /**
-   * Image index typedef
-   */
+  /** Image index typedef. */
   typedef typename TOutputImage::IndexType IndexType;
 
-  /**
-   * Image point typedef
-   */
+  /** Image point typedef. */
   typedef Point<double, TOutputImage::ImageDimension>    PointType;
 
-  /**
-   * Image pixel value typedef
-   */
+  /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType   PixelType;
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);  
-
-  /**
-   * Typedef to describe the output image region type.
-   */
+  /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
-
-  /**
-   * Set the coordinate transformation
-   *
+  /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
-   * NOT the input-to-output transform that you might naively expect.
-   */
-  void SetTransform(TransformPointerType transform) {
-    m_Transform = transform;
-  }
+   * NOT the input-to-output transform that you might naively expect. */
+  void SetTransform(TransformPointerType transform) 
+    { m_Transform = transform; }
 
-  /**
-   * Set the interpolator function
-   */
-  void SetInterpolator(InterpolatorPointerType interpolator) {
-    m_Interpolator = interpolator;
-  }
+  /** Set the interpolator function */
+  void SetInterpolator(InterpolatorPointerType interpolator) 
+    { m_Interpolator = interpolator; }
 
-  /**
-   * Set the size of the output image
-   */
-  void SetSize(SizeType &size) {
-    m_Size = size;
-  }
+  /** Set the size of the output image. */
+  void SetSize(SizeType &size) 
+    { m_Size = size; }
      
-  /**
-   * Set the pixel value when a transformed pixel is outside of the image
-   */
+  /** Set the pixel value when a transformed pixel is outside of the image */
   itkSetMacro(DefaultPixelValue,PixelType);
 
-  /**
-   * Get the pixel value when a transformed pixel is outside of the image
-   */
+  /** Get the pixel value when a transformed pixel is outside of the image */
   itkGetMacro(DefaultPixelValue,PixelType);
 
-  /**
-   * ResampleImageFilter produces an image which is a different size
+  /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
-   * below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton()
-   */
+   * below. \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * ResampleImageFilter needs a different input requested region than
+  /** ResampleImageFilter needs a different input requested region than
    * the output requested region.  As such, ResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
-   *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
@@ -217,18 +165,14 @@ protected:
   ~ResampleImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * ResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
+  /** ResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
    * automatically by the superclass prior to calling ThreadedGenerateData().
    * ThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
-   *
-   *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 

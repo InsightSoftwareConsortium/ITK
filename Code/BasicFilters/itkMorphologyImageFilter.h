@@ -51,8 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class MorphologyImageFilter 
+/** \class MorphologyImageFilter 
  * \brief Base class for the morphological operations such as erosion and dialation
  *
  * This class provides the infrastructure to support most
@@ -92,87 +91,57 @@ namespace itk {
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT MorphologyImageFilter : 
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard Self typedef
-   */
+  /** Standard Self typedef */
   typedef MorphologyImageFilter Self;
-
-  /**
-   * Standard Superclass typedef
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /**
-   * Standard smart pointer support
-   */ 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /**
-   * Runtime information support
-   */
+  /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, ImageToImageFilter);
   
-  /**
-   * Standard New method
-   */
+  /** Standard New method. */
   itkNewMacro(Self);  
 
-  /**
-   * Image related typedefs
-   */
+  /** Image related typedefs. */
   typedef typename TInputImage::RegionType RegionType ;
   typedef typename TInputImage::SizeType SizeType ;
   typedef typename TInputImage::IndexType IndexType ;
   typedef typename TInputImage::PixelType PixelType ;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   
+  /** Image related typedefs. */
   enum { ImageDimension = TInputImage::ImageDimension } ;
 
-  /**
-   * Neighborhood iterator type
-   */
+  /** Neighborhood iterator type. */
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     SmartNeighborhoodIteratorType ;
 
-  /**
-   * Kernel typedef
-   */
+  /** Kernel typedef. */
   typedef TKernel KernelType;
   
-  /**
-   * Kernel (structuring element) iterator
-   */
+  /** Kernel (structuring element) iterator. */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
   
-  /**
-   * n-dimensional Kernel radius
-   */
+  /** n-dimensional Kernel radius. */
   typedef typename KernelType::SizeType RadiusType ;
 
-  /**
-   * Set kernel (structuring element)
-   */
+  /** Set kernel (structuring element). */
   itkSetMacro(Kernel, KernelType);
 
-  /**
-   * Get the kernel (structuring element)
-   */
+  /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
   
-  /**
-   * MorphologyImageFilters need to make sure they request enough of an
+  /** MorphologyImageFilters need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
-   * the request is cropped by the LargestPossibleRegion.
-   */
+   * the request is cropped by the LargestPossibleRegion. */
   void GenerateInputRequestedRegion() ;
 
 protected:
@@ -180,28 +149,21 @@ protected:
   ~MorphologyImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Multi-thread version GenerateData
-   */
+  /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
                               int threadId) ;
 
-  /**
-   * Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value
-   */
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value. */
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
-
 
 private:
   MorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * kernel or structuring element to use
-   */
+  /** kernel or structuring element to use. */
   KernelType m_Kernel ;
 
 } ; // end of class

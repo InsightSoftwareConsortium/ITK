@@ -55,19 +55,16 @@ namespace itk
  * 
  * \ingroup IntensityImageFilters  Multithreaded
  */
-
 namespace Function {  
-  
+
   template< class TInput1, class TInput2, class TOutput>
   class Mult
   {
   public:
-    Mult() {};
-    ~Mult() {};
+    Mult() {}
+    ~Mult() {}
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-    {
-      return (TOutput)(A * B);
-    }
+      { return (TOutput)(A * B); }
   }; 
 }
 
@@ -81,30 +78,18 @@ class ITK_EXPORT MultiplyImageFilter :
               typename TOutputImage::PixelType>   >
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef MultiplyImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
               Function::Mult< 
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   
                 > Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

@@ -65,85 +65,55 @@ class ITK_EXPORT PadImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef PadImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /**
-   * Typedef to describe the output and input image region types.
-   */
+  /** Typedef to describe the output and input image region types. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
 
-  /**
-   * Typedef to describe the type of pixel.
-   */
+  /** Typedef to describe the type of pixel. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
   typedef typename TInputImage::PixelType InputImagePixelType;
 
-  /**
-   * Typedef to describe the output and input image index and size types.
-   */
+  /** Typedef to describe the output and input image index and size types. */
   typedef typename TOutputImage::IndexType OutputImageIndexType;
   typedef typename TInputImage::IndexType InputImageIndexType;
   typedef typename TOutputImage::SizeType OutputImageSizeType;
   typedef typename TInputImage::SizeType InputImageSizeType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(PadImageFilter, ImageToImageFilter);
 
-  /**
-   * ImageDimension enumeration
-   */
-
+  /** ImageDimension enumeration. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  /**
-   * Set/Get the output image padding.  Default is no padding (same as input).
-   */
+  /** Set/Get the output image padding.  Default is no padding 
+   *  (same as input). */
   itkSetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
   itkSetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
   itkGetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
   itkGetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
                  
-  /** 
-   * PadImageFilter produces an image which is a different resolution
+  /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
-   *
-   * \sa ProcessObject::GenerateOutputInformaton() 
-   */
+   * \sa ProcessObject::GenerateOutputInformaton()  */
   virtual void GenerateOutputInformation();
 
-  /** 
-   * PadImageFilter needs a smaller input requested region than
+  /** PadImageFilter needs a smaller input requested region than
    * output requested region.  As such, PadImageFilter needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion() 
-   */
+   * \sa ProcessObject::GenerateInputRequestedRegion()  */
   virtual void GenerateInputRequestedRegion();
 
 protected:

@@ -49,30 +49,20 @@ namespace itk
   
 /** \class Log10ImageFilter
  * \brief Computes the log10(x) pixel-wise
- *
- * 
  * \ingroup IntensityImageFilters  Multithreaded
- *
  */
-
 namespace Function {  
   
   template< class TInput, class TOutput>
   class Log10
   {
   public:
-    Log10() {};
-    ~Log10() {};
+    Log10() {}
+    ~Log10() {}
     inline TOutput operator()( const TInput & A )
-    {
-      return (TOutput)log10((double)A);
-    }
+      { return (TOutput)log10((double)A); }
   }; 
-
 }
-// Wrap: Log10ImageFilter<$Image,$Image,$Image,$Function>
-// Wrap: <XML code for Function....>
-// Wrap: Log10ImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT Log10ImageFilter :
     public
@@ -80,34 +70,17 @@ class ITK_EXPORT Log10ImageFilter :
     Function::Log10< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef Log10ImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Function::Log10< 
-              typename TInputImage::PixelType, 
-              typename TOutputImage::PixelType>   
-                >  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
+    Function::Log10< typename TInputImage::PixelType, 
+                     typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
 protected:

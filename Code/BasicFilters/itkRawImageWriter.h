@@ -63,56 +63,32 @@ template <class TInputImage>
 class ITK_EXPORT RawImageWriter : public ImageWriter<TInputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef RawImageWriter       Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageWriter<TInputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(RawImageWriter,ImageWriter);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Enums used to specify the byte order.
-   */
+  /** Enums used to specify the byte order. */
   typedef  enum {BigEndian,LittleEndian} ByteOrder;
   
-  /** 
-   * Set the ITK file type. The default is BigEndian.
-   */
+  /** Set the ITK file type. The default is BigEndian. */
   itkSetMacro(ByteOrder,ByteOrder);
   
-  /** 
-   * Get the byte order.
-   */
+  /** Get the byte order. */
   itkGetMacro(ByteOrder,ByteOrder);
                  
-  /** 
-   * Specify the byte order as big endian.
-   */
+  /** Specify the byte order as big endian. */
   void SetByteOrderToBigEndian() 
     {this->SetByteOrder(RawImageWriter::BigEndian);}
 
-  /** 
-   * Specify the byte order as little endian.
-   */
+  /** Specify the byte order as little endian. */
   void SetByteOrderToLittleEndian() 
     {this->SetByteOrder(RawImageWriter::LittleEndian);}
 

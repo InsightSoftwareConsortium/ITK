@@ -58,75 +58,51 @@ namespace itk
  * model.  In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
- *
  * 
  * \ingroup GeometricTransforms
- *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NonThreadedShrinkImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef NonThreadedShrinkImageFilter         Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(NonThreadedShrinkImageFilter, ImageToImageFilter);
 
-  /** 
-   * Set the shrink factor. The default value is 1.
-   */
+  /** Set the shrink factor. The default value is 1. */
   itkSetClampMacro(ShrinkFactor,unsigned int, 1,
                    NumericTraits<unsigned int>::max());
   
-  /** 
-   * Get the shrink factor.
-   */
+  /** Get the shrink factor. */
   itkGetMacro(ShrinkFactor,unsigned int);
                  
-  /**
-   * NonThreadedShrinkImageFilter produces an image which is a
+  /** NonThreadedShrinkImageFilter produces an image which is a
    * different resolution and with a different pixel spacing than its
    * input image.  As such, NonThreadedShrinkImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in
    * order to inform the pipeline execution model.  The original
    * documentation of this method is below.
-   *
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
-  /**
-   * NonThreadedShrinkImageFilter needs a larger input requested
+  /** NonThreadedShrinkImageFilter needs a larger input requested
    * region than the output requested region.  As such,
    * NonThreadedShrinkImageFilter needs to provide an implementation
    * for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion() */
+   * * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
- protected:
+protected:
   NonThreadedShrinkImageFilter();
   ~NonThreadedShrinkImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -139,7 +115,6 @@ private:
 
   unsigned int m_ShrinkFactor;
 };
-
   
 } // end namespace itk
   

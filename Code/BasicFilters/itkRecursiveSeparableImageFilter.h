@@ -57,105 +57,67 @@ namespace itk
  * Vol.12, No.1, January 1990, pp 78-87.
  * 
  * \ingroup ImageFilters
- *
  */
-
 template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT RecursiveSeparableImageFilter :
     public ImageToImageFilter<TInputImage,TOutputImage> 
-
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef RecursiveSeparableImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-
-  /**
-   * Type macro that defines a name for this class
-   */
-  itkTypeMacro( RecursiveSeparableImageFilter, ImageToImageFilter );
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /**
-   * Get the direction in which the filter is to be applied
-   */   
+  /** Type macro that defines a name for this class. */
+  itkTypeMacro( RecursiveSeparableImageFilter, ImageToImageFilter );
+
+  /** Smart pointer typedef support.  */
+  typedef typename TInputImage::Pointer  InputImagePointer;
+
+  /** Get the direction in which the filter is to be applied. */   
   itkGetMacro(Direction, unsigned int);
 
-  /**
-   * Set the direction in which the filter is to be applied
-   */   
+  /** Set the direction in which the filter is to be applied. */   
   itkSetMacro(Direction, unsigned int);
 
-  /**
-   * Set Input Image
-   */
+  /** Set Input Image. */
   void SetInputImage( InputImagePointer );
     
-  /**
-   * Get Input Image
-   */
-//  typename TInputImage::Pointer GetInputImage( void );
+  /** Get Input Image. */
   TInputImage * GetInputImage( void );
 
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {};
 
-  /**
-   * GenerateData (apply) the filter
-   */   
+  /** GenerateData (apply) the filter. */   
   void GenerateData(void);
 
-  /**
-   * Set up the coefficients of the filter to approximate a specific kernel.
+  /** Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
-   * derivatives.
-   */
+   * derivatives. */
   virtual void SetUp(void) = 0;
 
-  /**
-   * Apply the recursive filter along one of the dimensions of the image.
+  /** Apply the recursive filter along one of the dimensions of the image.
    * This allow to filter each one of the dimensions of an image separately.
    * Sigma is given in length units so the spacing between pixels is taken 
-   * into account. This is relevant for anisotropic images
-   */
+   * into account. This is relevant for anisotropic images. */
   void ApplyRecursiveFilter(unsigned int dimension);
 
-  /**
-   * Compute Recursive Filter Coefficients this method prepares the values of
+  /** Compute Recursive Filter Coefficients this method prepares the values of
    * the coefficients used for filtering the image. The symmetric flag is
    * used to enforce that the filter will be symmetric or antisymmetric. For
    * example, the Gaussian kernel is symmetric, while its first derivative is
-   * antisymmetric.
-   */
+   * antisymmetric. */
   virtual void ComputeFilterCoefficients(bool symmetric) = 0;
 
-  /**
-   * Apply the Recursive Filter in an array of data.  this method is called
+  /** Apply the Recursive Filter in an array of data.  this method is called
    * for each line of the volume from ApplyRecursiveFilter.
-   * \sa ApplyRecursiveFilter 
-   */
+   * \sa ApplyRecursiveFilter.  */
   void FilterDataArray(TComputation *outs,
                        const TComputation *data, unsigned int ln);
 
@@ -163,27 +125,18 @@ private:
   RecursiveSeparableImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**
-   * Direction in which the filter is to be applied
-   * this shoul in the range [0,ImageDimension-1]
-   */ 
+  /** Direction in which the filter is to be applied
+   * this shoul in the range [0,ImageDimension-1] */ 
   unsigned int m_Direction;
 
-
 protected:
-  /**
-   *  Normalization factor
-   */
+  /**  Normalization factor. */
   TComputation K;                       
 
-  /**
-   * Spacing along the direction of filtering
-   */   
+  /** Spacing along the direction of filtering. */   
   TComputation m_Spacing;
 
-  /**
-   *  Parameter of exponential series
-   */
+  /**  Parameter of exponential series. */
   TComputation a0;
   TComputation a1;
   TComputation b0;
@@ -193,25 +146,19 @@ protected:
   TComputation w0;
   TComputation w1; 
 
-  /**
-   * Causal coefficients
-   */
+  /** Causal coefficients. */
   TComputation n00;
   TComputation n11;
   TComputation n22;
   TComputation n33; 
   
-  /**
-   * Causal coefficients == Anticausal coefficients
-   */
+  /** Causal coefficients == Anticausal coefficients. */
   TComputation d11;
   TComputation d22;
   TComputation d33;
   TComputation d44; 
   
-  /**
-   * Anti-Causal coefficients (symmetric case)
-   */
+  /** Anti-Causal coefficients (symmetric case). */
   TComputation m11;
   TComputation m22;
   TComputation m33;

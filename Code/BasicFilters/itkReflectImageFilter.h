@@ -54,72 +54,46 @@ namespace itk
  * the type of the output image.  
  * 
  * \ingroup   IntensityImageFilters     Singlethreaded
- **/
-
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ReflectImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
-
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ReflectImageFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ReflectImageFilter, ImageToImageFilter);
 
-  /** 
-   * Some typedefs.
-   */
-
+  /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef typename    InputImageType::Pointer    InputImagePointer;
   typedef typename    InputImageType::RegionType InputImageRegionType; 
   typedef typename    InputImageType::PixelType  InputImagePixelType; 
-
   typedef TOutputImage OutputImageType;
   typedef typename     OutputImageType::Pointer    OutputImagePointer;
   typedef typename     OutputImageType::RegionType OutputImageRegionType;
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
 
-
+  /** Set the direction in which to reflect the data. */
   itkGetMacro( Direction, unsigned int );
   itkSetMacro( Direction, unsigned int );
   
-  void GenerateData(void);
-
 protected:
   ReflectImageFilter();
   virtual ~ReflectImageFilter() {};
 
-  /**
-   *
-   * This method implements the actual reflection of the image.
+  /** This method implements the actual reflection of the image.
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
-   */
-  //void GenerateData(void);
+   *     ImageToImageFilter::GenerateData()  */
+  void GenerateData(void);
 
 private:
   ReflectImageFilter(const Self&); //purposely not implemented

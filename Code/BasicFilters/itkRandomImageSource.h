@@ -59,96 +59,58 @@ template <typename TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef RandomImageSource   Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef ImageSource<TOutputImage>  Superclass;
-
-  /** 
-   * Smart pointer typedef support.
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /**
-   * Typedef for the output image PixelType
-   */
+  /** Typedef for the output image PixelType. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
-  /**
-   * Typedef to describe the output image region type.
-   */
+  /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(RandomImageSource,ImageSource);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Specify the size of the output image.
-   */
+  /** Specify the size of the output image. */
   itkSetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
 
-  /** 
-   * Get the size of the output image.
-   */
+  /** Get the size of the output image. */
   itkGetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
   
-  /** 
-   * Specify the spacing of the output image.
-   */
+  /** Specify the spacing of the output image. */
   itkSetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
 
-  /** 
-   * Get the spacing of the output image.
-   */
+  /** Get the spacing of the output image. */
   itkGetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
 
-  /** 
-   * Specify the origin of the output image.
-   */
+  /** Specify the origin of the output image. */
   itkSetVectorMacro(Origin,float,TOutputImage::ImageDimension);
 
-  /** 
-   * Get the origin of the output image.
-   */
+  /** Get the origin of the output image. */
   itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
   
-  /** 
-   * Set the minimum possible pixel value. By default, it is
-   * NumericTraits<TOutputImage::PixelType>::min().
-   */
+  /** Set the minimum possible pixel value. By default, it is
+   * NumericTraits<TOutputImage::PixelType>::min(). */
   itkSetClampMacro(Min, OutputImagePixelType,
                    NumericTraits<OutputImagePixelType>::min(),
                    NumericTraits<OutputImagePixelType>::max());
   
-  /** 
-   * Get the minimum possible pixel value.
-   */
+  /** Get the minimum possible pixel value. */
   itkGetMacro(Min, OutputImagePixelType);
 
-  /** 
-   * Set the maximum possible pixel value. By default, it is
-   * NumericTraits<TOutputImage::PixelType>::max().
-   */
+  /** Set the maximum possible pixel value. By default, it is
+   * NumericTraits<TOutputImage::PixelType>::max(). */
   itkSetClampMacro(Max, OutputImagePixelType,
                    NumericTraits<OutputImagePixelType>::min(),
                    NumericTraits<OutputImagePixelType>::max());
   
-  /** 
-   * Get the maximum possible pixel value.
-   */
+  /** Get the maximum possible pixel value. */
   itkGetMacro(Max, OutputImagePixelType);
 
 protected:

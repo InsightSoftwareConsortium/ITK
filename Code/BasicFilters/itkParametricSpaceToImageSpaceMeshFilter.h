@@ -66,54 +66,33 @@ namespace itk
  * for the PointDataType the PointType of the input mesh.
  * 
  * \ingroup MeshFilters
- *
  */
 template <class TInputMesh, class TOutputMesh >
 class ITK_EXPORT ParametricSpaceToImageSpaceMeshFilter : 
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
-  /**
-   * Standard class typedefs.
-   */
+  /** Standard class typedefs. */
   typedef ParametricSpaceToImageSpaceMeshFilter  Self;
-
-  /**
-   * Standard "Superclass" typedef.
-   */
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-
-  /** 
-   * Smart pointer typedef support 
-   */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Type for representing coordinates
-   */
+  /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricSpaceToImageSpaceMeshFilter,MeshToMeshFilter);
-
-
 
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
   ~ParametricSpaceToImageSpaceMeshFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** 
-   * Generate Requested Data
-   */
+  /** Generate requested data. */
   virtual void GenerateData( void );
 
 private:
