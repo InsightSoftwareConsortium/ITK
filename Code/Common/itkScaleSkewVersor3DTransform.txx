@@ -83,30 +83,22 @@ ScaleSkewVersor3DTransform<TScalarType>
 
   itkDebugMacro( <<"Versor is now " << versor );
   
-  InputPointType center;
-  // Transfer the center part
-  for(unsigned int i=0; i < SpaceDimension; i++) 
-    {
-    center[i] = parameters[i+SpaceDimension];
-    }
-  Superclass::SetCenter( center );
-
   OutputVectorType translation;
   // Transfer the translation part
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    translation[j] = parameters[j+2*SpaceDimension];
+    translation[j] = parameters[j+SpaceDimension];
     }
   Superclass::SetTranslation( translation );
   
   for(unsigned int k=0; k < SpaceDimension; k++) 
     {
-    m_Scale[k] = parameters[k+3*SpaceDimension];
+    m_Scale[k] = parameters[k+2*SpaceDimension];
     }
 
   for(unsigned int l=0; l < 6; l++) 
     {
-    m_Skew[l] = parameters[l+4*SpaceDimension];
+    m_Skew[l] = parameters[l+3*SpaceDimension];
     }
 
   this->ComputeMatrixAndOffset();
@@ -122,10 +114,9 @@ ScaleSkewVersor3DTransform<TScalarType>
 // Parameters are ordered as:
 //
 // p[0:2] = right part of the versor (axis times sin(t/2))
-// p[3:5} = center of rotation coordinates
-// p[6:8} = translation components
-// p[9:11} = Scale
-// p[12:17} = Skew {xy, xz, yx, yz, zx, zy}
+// p[3:5] = translation components
+// p[6:8] = Scale
+// p[9:14] = Skew {xy, xz, yx, yz, zx, zy}
 //
 
 template <class TScalarType>
@@ -143,26 +134,20 @@ ScaleSkewVersor3DTransform<TScalarType>
   m_Parameters[1] = versor.GetY();
   m_Parameters[2] = versor.GetZ();
 
-  // Transfer the center of rotation 
-  for(unsigned int i=0; i < SpaceDimension; i++) 
-    {
-    m_Parameters[i+SpaceDimension] = center[i];
-    }
-
   // Transfer the translation
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Parameters[j+2*SpaceDimension] = translation[j];
+    m_Parameters[j+SpaceDimension] = translation[j];
     }
 
   for(unsigned int k=0; k < SpaceDimension; k++) 
     {
-    m_Parameters[k+3*SpaceDimension] = m_Scale[k];
+    m_Parameters[k+2*SpaceDimension] = m_Scale[k];
     }
 
   for(unsigned int l=0; l < 6; l++) 
     {
-    m_Parameters[l+4*SpaceDimension] = m_Skew[l];  
+    m_Parameters[l+3*SpaceDimension] = m_Skew[l];  
     }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );

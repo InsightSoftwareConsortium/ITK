@@ -26,11 +26,12 @@ namespace itk
 
 /** \brief ScaleSkewVersor3DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a versor rotation and translation & scale/skew to the space
+ * This transform applies a versor rotation and translation & scale/skew
+ * to the space
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
+template < class TScalarType=double >  // Data type for scalars:float or double
 class ITK_EXPORT ScaleSkewVersor3DTransform : 
             public VersorRigid3DTransform< TScalarType > 
 {
@@ -49,7 +50,7 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 18);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 15);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -67,8 +68,10 @@ public:
   typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> ScaleVectorType;
-  typedef Vector<TScalarType, 6 >                                           SkewVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> 
+          ScaleVectorType;
+  typedef Vector<TScalarType, 6 >                                           
+          SkewVectorType;
 
   /** Versor type. */
   typedef typename Superclass::VersorType  VersorType;
@@ -87,8 +90,10 @@ public:
   typedef typename Superclass::OutputVectorType  OutputVectorType;
   
   /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType   
+          InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+          OutputCovariantVectorType;
   
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
@@ -96,12 +101,11 @@ public:
   
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
-   * There are 18 parameters:
-   *   1-3   versor
-   *   4-6   center of rotation
-   *   7-9   offset
-   *   10-12 Scale
-   *   13-18 Skew
+   * There are 15 parameters:
+   *   0-2   versor
+   *   3-5   offset
+   *   6-8   Scale
+   *   9-14  Skew
    **  */
   void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
@@ -119,7 +123,8 @@ protected:
   ~ScaleSkewVersor3DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  ScaleSkewVersor3DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  ScaleSkewVersor3DTransform(unsigned int outputSpaceDimension,
+                             unsigned int parametersDimension);
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrixAndOffset(void);
