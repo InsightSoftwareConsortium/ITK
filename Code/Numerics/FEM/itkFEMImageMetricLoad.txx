@@ -242,7 +242,16 @@ ImageMetricLoad<TReference , TTarget>::Fe
   MetricBaseType::MeasureType     measure;
   MetricBaseType::DerivativeType  derivative;
 
+  try
+  { 
   m_Metric->GetValueAndDerivative( parameters, measure, derivative );
+  }
+  catch( itk::ExceptionObject & e )
+  {
+  e=e;
+  //std::cerr << e << std::endl;
+  }
+ 
   for( unsigned int k = 0; k < ImageDimension; k++ )
   {
     OutVec[k]= m_Sign*derivative[k];
