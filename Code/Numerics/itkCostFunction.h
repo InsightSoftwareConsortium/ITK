@@ -41,8 +41,6 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CostFunction, Object);
