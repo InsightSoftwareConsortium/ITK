@@ -168,25 +168,24 @@ public:
   TransformListType & GetGlobalTransformList( void );
 
   /** 
-   * Compute an axis-aligned bounding box for the object and its selected
-   * children, down to a specified depth.  After computation, the
-   * resulting bounding box is stored in this->m_Bounds.  Once this
-   * function is called with a specific value of \p depth and \p name,
-   * future calls, irrespective of the parameters, will leave the
-   * bounding box unchanged until the spatial object is modified and the
-   * modification time updated.
+   * Compute an axis-aligned bounding box for the object and its
+   * selected children, down to a specified depth.  After computation,
+   * the resulting bounding box is stored in <tt>this->m_Bounds</tt>.
+   * Once this function is called with a specific value of \a depth
+   * and \a name, future calls, irrespective of the parameters, will
+   * leave the bounding box unchanged until the spatial object is
+   * modified (resulting in an update of the modification time).
    *
    * This function has to be implemented in the deriving class. 
    *
-   * \param depth Include children down to this depth.  If \p depth = 0,
+   * \param depth Include children down to this depth.  If \a depth = 0,
    * include only the object itself.
-   * \param name Include only objects whose type string contains \p
+   * \param name Include only objects whose type string contains \a
    * name.  
    * \return \c true if, after the function completes, the bounding box
    * reflects object information, and \c false if the bounding box is
-   * still in an initial state.  The return value is mainly used by recursive
-   * calls of this function.
-   *  every time one of the object component is changed.  
+   * still in an initial state.  The return value can be ignored; it
+   * is used internally when the function recurses.
    */ 
   virtual bool ComputeBoundingBox( unsigned int depth=0,
                                    char * name = NULL);
