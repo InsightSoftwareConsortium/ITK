@@ -202,8 +202,6 @@ void  SolverCrankNicolson::RecomputeForceVector(unsigned int index)
   Float utm1 = m_ls->GetVectorValue(index,DiffMatrixBySolutionTMinus1Index);
   Float f=m_deltaT*(m_alpha*ft+(1.-m_alpha)*ftm1)+utm1;
   m_ls->SetVectorValue(index , f, ForceTIndex);
-  m_ls->AddVectorValue(index , f, ForceTotalIndex);
-  m_ls->SetVectorValue(index ,ft,ForceTMinus1Index); // now set t minus one force vector correctly
 }
 
 
@@ -300,7 +298,7 @@ void SolverCrankNicolson::GoldenSection(Float tol)
   Float xmin=1.0;
   //if (fb!=0.0)
   {
-  Float f0=1.0,f1=1.0,f2=1.0,f3=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0,fmin=1.0;
+  Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0,fmin=1.0;
 
   Float R=0.6180339;
   Float C=(1.0-R);
@@ -320,10 +318,10 @@ void SolverCrankNicolson::GoldenSection(Float tol)
   {
     if (f2 < f1){
       x0=x1; x1=x2; x2=R*x2+C*x3;
-      f0=f1; f1=f2; f2=EvaluateResidual(x2);
+      f1=f2; f2=EvaluateResidual(x2);
     } else {
       x3=x2; x2=x1; x1=R*x2+C*x0;
-      f3=f2; f2=f1; f1=EvaluateResidual(x1);
+      f2=f1; f1=EvaluateResidual(x1);
     }
   }
   if (f1<f2){
@@ -337,14 +335,20 @@ void SolverCrankNicolson::GoldenSection(Float tol)
   for (unsigned int j=0; j<NGFN; j++)
   {
     Float SolVal=0.0;
+  Float FVal=0.0;
 #ifdef LOCE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex)
-    +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
+    +(1.-xmin)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);   
+  
+  FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex)
+    +(1.-xmin)*m_ls->GetVectorValue(j,ForceTMinus1Index);
 #endif
 #ifdef TOTE
     SolVal=xmin*m_ls->GetSolutionValue(j,SolutionTIndex);// FOR TOT E
+  FVal=xmin*m_ls->GetVectorValue(j,ForceTIndex);
 #endif 
     m_ls->SetSolutionValue(j,SolVal,SolutionTIndex);
+    m_ls->SetVectorValue(j,FVal,ForceTIndex);
   }
 }
 
@@ -363,12 +367,15 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
        +(1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
     FVal=m_ls->GetVectorValue(i,ForceTIndex);
+  FVal=t*FVal+(1.-t)*m_ls->GetVectorValue(i,ForceTMinus1Index);
+
     ForceEnergy+=iSolVal*FVal;
 #endif
 #ifdef TOTE
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
         +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
-    ForceEnergy+=iSolVal*m_ls->GetVectorValue(i,ForceTotalIndex);// FOR TOT E
+    ForceEnergy+=iSolVal*(m_ls->GetVectorValue(i,ForceTotalIndex)+
+    t*m_ls->GetVectorValue(i,ForceTIndex));// FOR TOT E
 #endif
 // forming U^T K U
     Float TempRowVal=0.0;
@@ -404,20 +411,28 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
   for(unsigned int i=0;i<NGFN;i++)
   {  
     
-    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
-      //+(1.-optimum)*m_ls->GetVectorValue(i,SolutionVectorTMinus1Index);
-    if (CurrentSolution < mins2 )  mins2=CurrentSolution;
-    else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
 //  note: set rather than add - i.e. last solution of system not total solution  
 #ifdef LOCE
+    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex)
+          +(1.-optimum)*m_ls->GetVectorValue(i,SolutionVectorTMinus1Index);
+    Float CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex)
+          +(1.-optimum)*m_ls->GetVectorValue(i,ForceTMinus1Index);
     m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index);   
-    m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  
+    m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);   
+    m_ls->SetVectorValue(i , CurrentForce, ForceTMinus1Index); // now set t minus one force vector correctly
 #endif
 #ifdef TOTE
+    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
+    Float CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
     m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
     m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
+    m_ls->AddVectorValue(i,CurrentForce,ForceTMinus1Index);
 #endif
+   
+    if (CurrentSolution < mins2 )  mins2=CurrentSolution;
+    else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
     m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
+    m_ls->AddVectorValue(i , CurrentForce, ForceTotalIndex);
     CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (CurrentSolution < mins )  mins=CurrentSolution;
     else if (CurrentSolution > maxs )  maxs=CurrentSolution;
