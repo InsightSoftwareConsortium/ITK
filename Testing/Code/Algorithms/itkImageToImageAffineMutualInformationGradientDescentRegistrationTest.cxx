@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkImageToImageAffineMutualInformationRegistrationTest.cxx
+  Module:    itkImageToImageAffineMutualInformationGradientDescentRegistrationTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,7 +16,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 
-#include "itkImageToImageAffineMutualInformationRegistration.h"
+#include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
 #include "vnl/vnl_math.h"
 
 #include <iostream>
@@ -103,7 +103,7 @@ int main()
 //-----------------------------------------------------------
 // Set up a the registrator
 //-----------------------------------------------------------
-  typedef itk::ImageToImageAffineMutualInformationRegistration<
+  typedef itk::ImageToImageAffineMutualInformationGradientDescentRegistration<
     ReferenceType,TargetType> RegistrationType;
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
