@@ -232,11 +232,22 @@ public:
 
    
   /**
-   * Set the versor using an vector and angle
+   * Set the versor using a vector and angle
    * the unit vector parallel to the given vector 
    * will be used. The angle is expected in radians
    */
   void Set( const VectorType & axis, ValueType angle );
+ 
+  
+  /**
+   * Set the versor using the right part.
+   * the magnitude of the vector given is assumed to 
+   * be equal to sin(angle/2)
+   * This method will compute internally the scalar
+   * part that preserve the Versor as a unit quaternion
+   *
+   */
+  void Set( const VectorType & axis );
  
 
   /**

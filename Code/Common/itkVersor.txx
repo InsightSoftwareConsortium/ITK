@@ -297,6 +297,38 @@ Versor<T>
  
 
 
+/**
+ * Set right Part (in radians)
+ */
+template<class T>
+void
+Versor<T>
+::Set( const VectorType & axis )
+{
+
+  const ValueType sinangle2 =  axis.GetNorm();
+
+  if( sinangle2 > 1.0 )
+   {
+   ExceptionObject exception;
+   exception.SetDescription("Trying to initializa a Versor with" \
+                    "a vector whose magnitude is greater than 1");
+   exception.SetLocation("itk::Versor::Set( const VectorType )");
+   throw exception;
+   }
+  
+  const ValueType cosangle2 =  sqrt( 1.0 - sinangle2 * sinangle2 );
+  
+  m_X = axis[0];
+  m_Y = axis[1];
+  m_Z = axis[2];
+  
+  m_W = cosangle2;
+
+}
+ 
+
+
 
 /**
  * Transform a Vector
