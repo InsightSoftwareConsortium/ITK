@@ -29,7 +29,7 @@ namespace itk
  * the sigmoid fuction. The resulting total transfrom is given by
  *
  * \f[
- * f(x) = \frac{1}{\left(1+e^{-(\alpha \cdot x + \beta)}\right)}
+ * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{-(\alpha \cdot x + \beta)}\right)} + Min
  * \f]
  *
  * Every output pixel is equal to f(x). Where x is the intensity of the
@@ -44,12 +44,19 @@ namespace Function {
   class Sigmoid
   {
   public:
-    Sigmoid() { m_Alpha = 1.0; m_Beta = 0.0; }
+    Sigmoid() { 
+      m_Alpha = 1.0; 
+      m_Beta =  0.0; 
+      m_OutputMinimum = NumericTraits< TOutput >::min();
+      m_OutputMaximum = NumericTraits< TOutput >::max();
+    }
     ~Sigmoid() {};
     inline TOutput operator()( const TInput & A )
     {
       const double x = m_Alpha * static_cast<double>(A) + m_Beta;
-      return static_cast<TOutput>( 1.0 / ( 1.0 + exp( -x  ) ) );
+      const double v = 
+        (m_OutputMaximum - m_OutputMinimum ) * x + m_OutputMinimum;
+      return static_cast<TOutput>( v );
     }
   void SetAlpha( double alpha ) {
     m_Alpha = alpha;
@@ -63,11 +70,28 @@ namespace Function {
   double GetBeta() const {
     return m_Beta;
     }
+  void SetOutputMinimum( TOutput min ) {
+    m_OutputMinimum = min;
+    }
+  void SetOutputMaximum( TOutput max ) {
+    m_OutputMaximum = max;
+    }
+  double GetOutputMinimum() const {
+    return m_OutputMinimum;
+    }
+  double GetOutputMaximum() const {
+    return m_OutputMaximum;
+    }
+
   private:
     double  m_Alpha;
     double  m_Beta;
+    TOutput m_OutputMinimum;
+    TOutput m_OutputMaximum;
   }; 
 }
+
+
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SigmoidImageFilter :
     public
@@ -84,6 +108,8 @@ public:
                    typename TOutputImage::PixelType> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,6 +133,27 @@ public:
     this->GetFunctor().SetBeta( beta );
     this->Modified();
     }
+
+  void SetOutputMinimum( OutputPixelType min )
+    {
+    if( min == this->GetFunctor().GetOutputMinimum() ) 
+      {
+      return;
+      }
+    this->GetFunctor().SetOutputMinimum( min );
+    this->Modified();
+    }
+
+  void SetOutputMaximum( OutputPixelType max )
+    {
+    if( max == this->GetFunctor().GetOutputMaximum() ) 
+      {
+      return;
+      }
+    this->GetFunctor().SetOutputMaximum( max );
+    this->Modified();
+    }
+
 protected:
   SigmoidImageFilter() {}
   virtual ~SigmoidImageFilter() {}
