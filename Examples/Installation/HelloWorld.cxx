@@ -23,3 +23,15 @@ int main()
 }
 
 // Software Guide : EndCodeSnippet
+
+
+//  Software Guide : BeginLatex
+//
+//  This code instantiates a $3D$ image \footnote{Also known as a
+//  \emph{Volume}} whose pixels are represented with type \code{unsigned
+//  short}. The image is then constructed and assigned to a
+//  \code{SmartPointer}.
+//
+//  Software Guide : EndLatex 
+
+
