@@ -21,6 +21,7 @@
 #define __itkGDCMImageIO_h
 
 #include "itkImageIOBase.h"
+#include "gdcmHeader.h"
 
 namespace itk
 {
@@ -92,6 +93,7 @@ protected:
 
   double m_RescaleSlope;
   double m_RescaleIntercept;
+  ::gdcmHeader *m_GdcmHeader;
 
 private:
   GDCMImageIO(const Self&); //purposely not implemented

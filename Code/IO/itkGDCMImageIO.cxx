@@ -32,10 +32,12 @@ GDCMImageIO::GDCMImageIO()
   m_FileType = Binary;  //default...always true
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
+  m_GdcmHeader = NULL;
 }
 
 GDCMImageIO::~GDCMImageIO()
 {
+  //delete m_GdcmHeader;
 }
 
 bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os, 
@@ -145,8 +147,9 @@ bool GDCMImageIO::CanReadFile(const char* filename)
 
   // Check to see if its a valid dicom file gdcm is able to parse:
   //We are parsing the header one time here:
-  gdcmHeaderHelper GdcmHeader(filename);
-  if (!GdcmHeader.IsReadable())
+
+  gdcmHeader GdcmHeader( filename );
+  if (!m_GdcmHeader->IsReadable())
     {
     itkExceptionMacro("Gdcm cannot parse file " << filename );
     return false;
@@ -182,11 +185,15 @@ void GDCMImageIO::Read(void* buffer)
                       << file.gcount() << " bytes.");
     }
 
+  m_GdcmHeader = new gdcmHeader( m_FileName.c_str() );
+
   gdcmFile GdcmFile(m_FileName);
   size_t size = GdcmFile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
   memcpy((void*)buffer, (void*)Source, size);
+  
+  foobar = GdcmFile.GetImageDataSize();
 
   //closing files:
   file.close();
@@ -200,14 +207,14 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcmHeaderHelper GdcmHeader(m_FileName.c_str());
+  gdcmHeaderHelper *GdcmHeader = new gdcmHeaderHelper(m_FileName.c_str());
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
   // since the reading of the file is done by gdcm.
   // But we do need to set up the data type for downstream filters:
 
-  std::string type = GdcmHeader.GetPixelType();
+  std::string type = GdcmHeader->GetPixelType();
   if( type == "8U")
     {
     SetPixelType(UCHAR);
@@ -251,25 +258,24 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // set values in case we don't find them
   this->SetNumberOfDimensions(2);
-  m_Dimensions[0] = GdcmHeader.GetXSize();
-  m_Dimensions[1] = GdcmHeader.GetYSize();
-  //m_Dimensions[2] = GdcmHeader.GetZSize();
+  m_Dimensions[0] = GdcmHeader->GetXSize();
+  m_Dimensions[1] = GdcmHeader->GetYSize();
+  //m_Dimensions[2] = GdcmHeader->GetZSize();
   m_Dimensions[2] = 0;
 
-  m_Spacing[0] = GdcmHeader.GetXSpacing();
-  m_Spacing[1] = GdcmHeader.GetYSpacing();
-  //  m_Spacing[2] = GdcmHeader.GetZSpacing();
+  m_Spacing[0] = GdcmHeader->GetXSpacing();
+  m_Spacing[1] = GdcmHeader->GetYSpacing();
+  //  m_Spacing[2] = GdcmHeader->GetZSpacing();
   m_Spacing[2] = 0;
 
-  m_Origin[0] = GdcmHeader.GetXOrigin();
-  m_Origin[1] = GdcmHeader.GetYOrigin();
-  m_Origin[2] = GdcmHeader.GetZOrigin();
-  m_Origin[2] = 0;
-  
+  m_Origin[0] = GdcmHeader->GetXOrigin();
+  m_Origin[1] = GdcmHeader->GetYOrigin();
+  m_Origin[2] = GdcmHeader->GetZOrigin();
+
   //For grayscale image :
-  m_RescaleSlope = GdcmHeader.GetRescaleSlope();
-  m_RescaleIntercept = GdcmHeader.GetRescaleIntercept();
-  
+  m_RescaleSlope = GdcmHeader->GetRescaleSlope();
+  m_RescaleIntercept = GdcmHeader->GetRescaleIntercept();
+
 }
 
 void GDCMImageIO::ReadImageInformation()
@@ -318,10 +324,13 @@ void GDCMImageIO::Write(const void* buffer)
     return;
     }
 
-  //gdcmFile GdcmFile();
-  //GdcmFile.WriteDcmExplVR(m_FileName);
-  //GdcmFile.WriteDcmImplVR(m_FileName);
-  //GdcmFile.WriteRawData(m_FileName);
+
+  const unsigned long numberOfBytes = this->GetImageSizeInBytes();
+
+  gdcmFile *GdcmFile = new gdcmFile( m_GdcmHeader );
+  GdcmFile->SetImageData((void*)buffer, numberOfBytes );
+  GdcmFile->WriteDcmExplVR(m_FileName);
+
   file.close();
 }
 
