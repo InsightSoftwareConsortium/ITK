@@ -15,20 +15,16 @@
 
 =========================================================================*/
 
-
-
-
 //  Software Guide : BeginLatex
 //
-//  RGB images are commonly used for representing data acquired from cryogenic
-//  sections, optical microscopy and endoscopy. This example illustrates how to
-//  read RGB color images from a file, perform a simple processing on them and
-//  write them down to a file. This requires the following headers
+//  RGB images are commonly used for representing data acquired from
+//  cryogenic sections, optical microscopy and endoscopy. This example
+//  illustrates how to read and write RGB color images to and from a file.
+//  This requires the following headers as shown.
 //
 //  \index{itk::RGBPixel!Image}
 //  \index{RGB!writing Image}
 //  \index{RGB!reading Image}
-//
 //
 //  Software Guide : EndLatex 
 
@@ -40,10 +36,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 3 )
     {
@@ -53,12 +47,11 @@ int main( int argc, char ** argv )
     }
 
 
-
   // Software Guide : BeginLatex
   //
-  // The \doxygen{RGBPixel} class is templated over the type used to represent
-  // each one of the Red, Green and Blue components. A typical instantiation of
-  // the RGB image class could be as follows.
+  // The \doxygen{RGBPixel} class is templated over the type used to
+  // represent each one of the red, green and Blue components. A typical
+  // instantiation of the RGB image class might be as follows.
   //
   //  \index{itk::RGBPixel!Instantiation}
   //
@@ -70,11 +63,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
-  // The image type can be used for instantiating the reader and writer types
-  // and then creating one object of each type.
+  // The image type is used as a template parameter to instantiate
+  // the reader and writer.
   //
   // \index{itk::ImageFileReader!RGB Image}
   // \index{itk::ImageFileWriter!RGB Image}
@@ -108,14 +100,13 @@ int main( int argc, char ** argv )
 
 
   ImageType::Pointer image = reader->GetOutput();
-  
   writer->SetInput( image );
 
 
   //  Software Guide : BeginLatex
   //
   //  Finally, execution of the pipeline can be triggered by invoking the
-  //  \code{Update()} method in the writer.
+  //  Update() method in the writer.
   //
   //  Software Guide : EndLatex 
 
@@ -128,15 +119,12 @@ int main( int argc, char ** argv )
   //  You may have noticed that apart from the declaraton of the
   //  \code{PixelType} there is nothing in this code that is specific for RGB
   //  images. All the actions required to support color images are implemented
-  //  internally in the \code{ImageIO} objects.
+  //  internally in the \doxygen{ImageIO} objects.
   //
   //  Software Guide : EndLatex 
 
 
-
   return 0;
-
-
 }
 
 

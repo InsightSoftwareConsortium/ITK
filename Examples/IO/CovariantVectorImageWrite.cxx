@@ -15,22 +15,21 @@
 
 =========================================================================*/
 
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to write an image whose pixel type is
 //  \code{CovariantVector}. For practical purposes all the content in this
-//  example is also applicable to images of pixel type \doxygen{Vector},
-//  \doxygen{Point} and \doxygen{FixedArray}. These pixel types have in common
-//  that they are all arrays of fixed size in which the components have the
-//  same representation type.
+//  example is applicable to images of pixel type \doxygen{Vector},
+//  \doxygen{Point} and \doxygen{FixedArray}. These pixel types are similar
+//  in that they are all arrays of fixed size in which the components have
+//  the same representational type.
 //
-//  In order to make this example a bit interesting we arrange a pipeline for
-//  reading an image, compute its gradient and write the gradient into a file.
+//  In order to make this example a bit more interesting we setup a pipeline
+//  to read an image, compute its gradient and write the gradient to a file.
 //  Gradients are represented with \doxygen{CovariantVector}s as opposed to
 //  \doxygen{Vector}s. In this way, gradients are transformed correctly under
-//  \doxygen{AffineTransform}s or in general, any transform having anisotropic
-//  scaling.
+//  \doxygen{AffineTransform}s or in general, any transform having
+//  anisotropic scaling.
 //
 //  Let's start by including the relevant header files.
 //
@@ -42,7 +41,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
-
 
 
 //  Software Guide : BeginLatex
@@ -60,14 +58,11 @@
 // Software Guide : EndCodeSnippet
 
 
-
 #include "itkImage.h"
-
 
 
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 3 )
     {
@@ -75,7 +70,6 @@ int main( int argc, char ** argv )
     std::cerr << argv[0] << " inputImageFile  outputVectorImageFile " << std::endl;
     return -1;
     }
-
 
 
   //  Software Guide : BeginLatex
@@ -88,11 +82,8 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   typedef signed short          InputPixelType;
-  
   typedef float                 ComponentType;
-
   const   unsigned int          Dimension = 2;
-
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      OutputPixelType;
 
@@ -103,8 +94,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
-  //  are instantiated using the image types.
+  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter} are
+  //  instantiated using the image types.
   //
   //  Software Guide : EndLatex 
 
@@ -114,12 +105,11 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  The \doxygen{GradientRecursiveGaussianImageFilter} type is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  the New() method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
@@ -127,16 +117,15 @@ int main( int argc, char ** argv )
   typedef itk::GradientRecursiveGaussianImageFilter< 
                                           InputImageType,
                                           OutputImageType    > FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
-  //  We select a value for the  sigma parameter of the
-  //  \doxygen{GradientRecursiveGaussianImageFilter}. Note that this sigma is
-  //  specified in millimeters. 
+  //  We select a value for the $\sigma$ parameter of the
+  //  \doxygen{GradientRecursiveGaussianImageFilter}. Note that this $\sigma$
+  //  is specified in millimeters.
   //
   //  Software Guide : EndLatex 
 
@@ -146,11 +135,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the \code{New()} method and
+  //  Below, we create the reader and writer  using the New() method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
@@ -166,8 +153,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //
   // Here we recover the file names from the command line arguments
   //
@@ -175,12 +160,10 @@ int main( int argc, char ** argv )
   const char * outputFilename = argv[2];
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  \code{SetFileName()} method. 
+  //  SetFileName() method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -204,18 +187,15 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
-
   writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  Finally we execute the pipeline by invoking \code{Update()} on the
-  //  writer. The call is placed in a \code{try/catch} block in case exceptions
-  //  are thrown.
+  //  Finally we execute the pipeline by invoking Update() on the writer. The
+  //  call is placed in a \code{try/catch} block in case exceptions are
+  //  thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -233,10 +213,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   return 0;
-
-
 }
 
 

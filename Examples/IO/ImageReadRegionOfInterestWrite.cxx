@@ -15,15 +15,16 @@
 
 =========================================================================*/
 
-
 //  Software Guide : BeginLatex
 //
-//  This example should arguably be placed in the Filtering section. However
-//  its usefulness for typical IO operations makes interesting to mention it
-//  here. The purpose of this example is to read and image, extract a subregion
-//  and write this subregion to a file. This is a common task when we want to
-//  apply first a computaionally intensive method to the region of interest of 
-//  an image.
+//  This example should arguably be placed in the previous filtering
+//  chapter. However its usefulness for typical IO operations makes it
+//  interesting to mention here. The purpose of this example is to read and
+//  image, extract a subregion and write this subregion to a file. This is a
+//  common task when we want to apply a computationally intensive method to
+//  the region of interest of an image.
+//
+// As usual with ITK IO, we begin by including the appropriate header files.
 //
 //  Software Guide : EndLatex 
 
@@ -31,7 +32,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
-
 
 
 //  Software Guide : BeginLatex
@@ -47,15 +47,11 @@
 #include "itkRegionOfInterestImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include "itkImage.h"
-
 
 
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 7 )
     {
@@ -64,7 +60,6 @@ int main( int argc, char ** argv )
     std::cerr << " startX startY sizeX sizeY" << std::endl;
     return -1;
     }
-
 
 
   //  Software Guide : BeginLatex
@@ -76,7 +71,6 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef signed short        InputPixelType;
   typedef signed short        OutputPixelType;
-
   const   unsigned int        Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
@@ -97,36 +91,35 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RegionOfInterestImageFilter} type is instantiated using the input and
-  //  output image types. A filter object is created with the \code{New()}
-  //  method and assigned to a \doxygen{SmartPointer}.
+  //  The \doxygen{RegionOfInterestImageFilter} type is instantiated using
+  //  the input and output image types. A filter object is created with the
+  //  New() method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegionOfInterestImageFilter< InputImageType, OutputImageType > FilterType;
-
+  typedef itk::RegionOfInterestImageFilter< InputImageType, 
+                                            OutputImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RegionOfInterestImageFilter} requires a region to be defined by the
-  //  user. The region is specified by an \doxygen{Index} indicating the pixel
-  //  where the region starts and an \doxygen{Size} indication how many pixels
-  //  the region has along each dimension. In this example, the specification
-  //  of the region is taken from the command line arguments.
+  //  The \doxygen{RegionOfInterestImageFilter} requires a region to be
+  //  defined by the user. The region is specified by an \doxygen{Index}
+  //  indicating the pixel where the region starts and an \doxygen{Size}
+  //  indication how many pixels the region has along each dimension. In this
+  //  example, the specification of the region is taken from the command line
+  //  arguments (this example assumes a 2D image is being processed).
   //
   //  Software Guide : EndLatex 
 
   
   // Software Guide : BeginCodeSnippet
   OutputImageType::IndexType start;
-
   start[0] = atoi( argv[3] );
   start[1] = atoi( argv[4] );
   // Software Guide : EndCodeSnippet
@@ -134,30 +127,29 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   OutputImageType::SizeType size;
-  
   size[0] = atoi( argv[5] );
   size[1] = atoi( argv[6] );
   // Software Guide : EndCodeSnippet
 
+
   //  Software Guide : BeginLatex
   //  
-  //  An \doxygen{ImageRegion} object is created and initialized with start and
-  //  size obtained from the command line.
+  //  An \doxygen{ImageRegion} object is created and initialized with start
+  //  and size obtained from the command line.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  OutputImageType::RegionType wantedRegion;
-
-  wantedRegion.SetSize(  size  );
-  wantedRegion.SetIndex( start );
+  OutputImageType::RegionType desiredRegion;
+  desiredRegion.SetSize(  size  );
+  desiredRegion.SetIndex( start );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
   //  Then the region is passed to the filter using the
-  //  \code{SetRegionOfInterest()} method.
+  //  SetRegionOfInterest() method.
   //
   //  \index{itk::RegionOfInterestImageFilter!SetRegionOfInterest()}
   //
@@ -165,13 +157,13 @@ int main( int argc, char ** argv )
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetRegionOfInterest( wantedRegion );
+  filter->SetRegionOfInterest( desiredRegion );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the \code{New()} method and
+  //  Below, we create the reader and writer using the New() method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
@@ -187,8 +179,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //
   // Here we recover the file names from the command line arguments
   //
@@ -196,12 +186,10 @@ int main( int argc, char ** argv )
   const char * outputFilename = argv[2];
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  \code{SetFileName()} method. 
+  //  SetFileName() method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -225,17 +213,15 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
-
   writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  Finally we execute the pipeline by invoking \code{Update()} on the
-  //  writer. The call is placed in a \code{try/catch} block in case exceptions
-  //  are thrown.
+  //  Finally we execute the pipeline by invoking Update() on the writer. The
+  //  call is placed in a \code{try/catch} block in case exceptions are
+  //  thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -253,10 +239,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   return 0;
-
-
 }
 
 

@@ -15,18 +15,16 @@
 
 =========================================================================*/
 
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read an image whose pixel type is
-//  \code{CovariantVector}, extract one of its components to form an scalar
-//  image and save this image into a file. 
+//  \code{CovariantVector}, extract one of its components to form a scalar
+//  image and finally save this image into a file.
 //
 //  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract the
-//  scalar component from the vector image. It is possible to perform and
-//  additional casting on the component type when using this filter, it is up
-//  to the user to make sure that the type castin will not incurr in
-//  information losses.
+//  a scalar from the vector image. It is also possible to cast the component
+//  type when using this filter. It is the user's responsibility to make sure
+//  that the cast will not result in information loss.
 //
 //  Let's start by including the relevant header files.
 //
@@ -43,15 +41,11 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImage.h"
-
 
 
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 4 )
     {
@@ -63,26 +57,20 @@ int main( int argc, char ** argv )
     }
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  We select to read an image of \doxygen{CovariantVector} pixels and
-  //  extract on of its components to generate a scalar image of a consistent
-  //  pixel type.  Then, we rescale the intensities of this scalar image and
-  //  write it as a image of \code{unsigned short}pixels.
+  //  We read an image of \doxygen{CovariantVector} pixels and extract on of
+  //  its components to generate a scalar image of a consistent pixel type.
+  //  Then, we rescale the intensities of this scalar image and write it as a
+  //  image of \code{unsigned short} pixels.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef float                 ComponentType;
-
   const   unsigned int          Dimension = 2;
-
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      InputPixelType;
-
   typedef unsigned short                              OutputPixelType;
   
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
@@ -91,11 +79,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
+  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
   //  are instantiated using the image types.
   //
   //  Software Guide : EndLatex 
@@ -106,12 +92,11 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{VectorIndexSelectionCastImageFilter} type is instantiated
+  //  The \doxygen{VectorIndexSelectionCastImageFilter} is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  the New() method and assigned to a \doxygen{SmartPointer}.
   //
   //  \index{VectorIndexSelectionCastImageFilter!Instantiation}
   //  \index{VectorIndexSelectionCastImageFilter!New()}
@@ -123,18 +108,15 @@ int main( int argc, char ** argv )
   typedef itk::VectorIndexSelectionCastImageFilter< 
                                           InputImageType,
                                           ComponentImageType    > FilterType;
-
   FilterType::Pointer componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
   //  
   //  The \doxygen{VectorIndexSelectionCastImageFilter} require us to specify
   //  which of the vector components is to be extracted from the vector image.
-  //  This is done with the \code{SetIndex()} method. In this example we obtain
+  //  This is done with the SetIndex() method. In this example we obtain
   //  this value from the command line arguments.
   //
   //  \index{VectorIndexSelectionCastImageFilter!SetIndex()}
@@ -148,13 +130,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndCodeSnippet 
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RescaleIntensityImageFilter} type is instantiated here and
-  //  one of its object is created.
+  //  The \doxygen{RescaleIntensityImageFilter} filter is instantiated here.
   //
   //  \index{RescaleIntensityImageFilter!Instantiation}
   //  \index{RescaleIntensityImageFilter!New()}
@@ -166,19 +144,17 @@ int main( int argc, char ** argv )
   typedef itk::RescaleIntensityImageFilter< 
                                   ComponentImageType, 
                                   OutputImageType >      RescaleFilterType; 
-
-  RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();                                  
+  RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet 
-
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  We set below the minumum and maximum values for the output image. Note
-  //  the use of the \doxygen{NumericTraits} class which allows to define a
-  //  number of type-related constant in a generic way. The use of traits is a
-  //  fundamental characteristic of Generic Programming.
+  //  The minumum and maximum values for the output image are specified in
+  //  the following. Note the use of the \doxygen{NumericTraits} class which
+  //  allows to define a number of type-related constant in a generic
+  //  way. The use of traits is a fundamental characteristic of generic
+  //  programming.
   //
   //  \index{RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{RescaleIntensityImageFilter!SetOutputMaximum()}
@@ -191,12 +167,10 @@ int main( int argc, char ** argv )
   //  Software Guide : EndCodeSnippet 
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  Below, we create the reader and writer using the New() method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -211,21 +185,16 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
-  //
   // Here we recover the file names from the command line arguments
   //
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[3];
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  \code{SetFileName()} method. 
+  //  SetFileName() method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -249,17 +218,14 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   componentExtractor->SetInput( reader->GetOutput() );
-  
   rescaler->SetInput( componentExtractor->GetOutput() );
-
   writer->SetInput( rescaler->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  Finally we execute the pipeline by invoking Update() on the
   //  writer. The call is placed in a \code{try/catch} block in case exceptions
   //  are thrown.
   //
@@ -279,22 +245,16 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-  //
-  // We add here another writer that will produce the non-normalized output file
+  // Here We add another writer that will produce the non-normalized output
+  // file
   //
   typedef itk::ImageFileWriter< ComponentImageType >  ComponentWriterType;
-
   ComponentWriterType::Pointer componentWriter = ComponentWriterType::New();
-
   componentWriter->SetInput( componentExtractor->GetOutput() );
   componentWriter->SetFileName( argv[3] );
   componentWriter->Update();
 
-
   return 0;
-
-
 }
 
 

@@ -15,21 +15,19 @@
 
 =========================================================================*/
 
-
 //  Software Guide : BeginLatex
 //
-//  Given that \href{http://www.itk.org}{ITK} is based on a Generic Programming
-//  paradigm, most of the types are defined at comipilation time. It is
-//  sometimes important to anticipate conversion from different types of
-//  images. The following example illustres the common case of reading an image
-//  of one pixel type and writing it on a different pixel type. This process
-//  not only involve casting but also rescaling the image intensity since the
-//  dynamic range of the input and output pixel types can be quite different.
-//  The \doxygen{RescaleIntensityImageFilter} is used here to linearly rescale
-//  the image values.
+//  Given that \href{http://www.itk.org}{ITK} is based on the Generic
+//  Programming paradigm, most of the types are defined at comipilation
+//  time. It is sometimes important to anticipate conversion from different
+//  types of images. The following example illustres the common case of
+//  reading an image of one pixel type and writing it on a different pixel
+//  type. This process not only involves casting but also rescaling the image
+//  intensity since the dynamic range of the input and output pixel types can
+//  be quite different.  The \doxygen{RescaleIntensityImageFilter} is used
+//  here to linearly rescale the image values.
 //
-//  The first step for performing reading and writing is to include the
-//  following headers.
+//  The first step in this example is to include the appropriate headers.
 //
 //  \index{itk::ImageFileReader!header}
 //  \index{itk::ImageFileWriter!header}
@@ -44,14 +42,11 @@
 // Software Guide : EndCodeSnippet
 
 
-
 #include "itkImage.h"
-
 
 
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 3 )
     {
@@ -61,27 +56,24 @@ int main( int argc, char ** argv )
     }
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  Then, as usual, a decision should be made about the type of pixel used to
-  //  represent the images. Note that, when reading an image, this pixel type
-  //  \textbf{is not necessarily} the pixel type of the image stored in the file.
-  //  Instead, it is the type that will be used to store the image as soon as
-  //  it is read into memory. 
+  //  Then, as usual, a decision should be made about the type of pixel
+  //  should be used to represent the images. Note that when reading an
+  //  image, this pixel type \textbf{is not necessarily} the pixel type of
+  //  the image stored in the file.  Instead, it is the type that will be
+  //  used to store the image as soon as it is read into memory.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef float               InputPixelType;
   typedef unsigned char       OutputPixelType;
-
   const   unsigned int        Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -105,7 +97,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  Below we instantiate the type of the
@@ -120,14 +111,12 @@ int main( int argc, char ** argv )
                                   OutputImageType >    FilterType;
   // Software Guide : EndCodeSnippet
 
-  
-
 
   //  Software Guide : BeginLatex
   //  
-  //  A filter object is constructed and the minimum and maximum values of the
-  //  output are selected using the \code{SetOutputMinimum()} and
-  //  \code{SetOutputMaximum()} methods.
+  //  A filter object is constructed and the minimum and maximum values of
+  //  the output are selected using the SetOutputMinimum() and
+  //  SetOutputMaximum() methods.
   //
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMaximum()}
@@ -136,7 +125,6 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
-
   filter->SetOutputMinimum(   0 );
   filter->SetOutputMaximum( 255 );
   // Software Guide : EndCodeSnippet
@@ -162,8 +150,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //
   // Here we recover the file names from the command line arguments
   //
@@ -171,12 +157,10 @@ int main( int argc, char ** argv )
   const char * outputFilename = argv[2];
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The name of the files to be read and written are passed with the
-  //  \code{SetFileName()} method. 
+  //  SetFileName() method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -191,11 +175,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the pipeline with the \code{Update()}
-  //  method on the writer. The output image will then be the scaled and casted
+  //  Finally we trigger the execution of the pipeline with the Update()
+  //  method on the writer. The output image will then be the scaled and cast
   //  version of the input image.
   //
   //  Software Guide : EndLatex 
@@ -215,11 +198,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   return 0;
-
-
 }
+
 
 
 

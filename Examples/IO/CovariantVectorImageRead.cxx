@@ -15,24 +15,22 @@
 
 =========================================================================*/
 
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read an image whose pixel type is
-//  \code{CovariantVector}. For practical purposes all the content in this
-//  example is also applicable to images of pixel type \doxygen{Vector},
-//  \doxygen{Point} and \doxygen{FixedArray}. These pixel types have in common
-//  that they are all arrays of fixed size in which the components have the
-//  same representation type.
+//  \code{CovariantVector}. For practical purposes this example is applicable
+//  to images of pixel type \doxygen{Vector}, \doxygen{Point} and
+//  \doxygen{FixedArray}. These pixel types are similar in that they are all
+//  arrays of fixed size in which the components have the same representation
+//  type.
 //
-//  As processing in this example we are reading an gradient image from a file
-//  and computing its magnitude using the
+//  In this example we are reading an gradient image from a file (written in
+//  the previous example) and computing its magnitude using the
 //  \doxygen{GradientToMagnitudeImageFilter}. Note that this filter is
 //  different from the \doxygen{GradientMagnitudeImageFilter} which actually
 //  takes a scalar image as input and compute the magnitude of its gradient.
-//  The \doxygen{GradientToMagnitudeImageFilter} take an image of vector pixel
-//  type as input and computes pixel-wise the magnitue of each vector.
-//
+//  The \doxygen{GradientToMagnitudeImageFilter} take an image of vector
+//  pixel type as input and computes pixel-wise the magnitue of each vector.
 //
 //  Let's start by including the relevant header files.
 //
@@ -49,15 +47,11 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImage.h"
-
 
 
 int main( int argc, char ** argv )
 {
-
   // Verify the number of parameters in the command line
   if( argc < 3 )
     {
@@ -67,31 +61,24 @@ int main( int argc, char ** argv )
     }
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  We select to read an image of \doxygen{CovariantVector} pixels and
-  //  compute its magnitudes to produce an image where each pixel is of type
-  //  \code{unsigned short}. The componets of the \doxygen{CovariantVector} are
-  //  selected to be \code{float} here. Notice that a renormalization is
-  //  required here in order to map the dynamic range of the magnitude values
-  //  into the range of the output pixel type.  The
-  //  \doxygen{RescaleIntensityImageFilter} is used to that end.
+  //  We read an image of \doxygen{CovariantVector} pixels and compute pixel
+  //  magnitude to produce an image where each pixel is of type
+  //  \code{unsigned short}. The componets of the \doxygen{CovariantVector}
+  //  are selected to be \code{float} here. Notice that a renormalization is
+  //  required in order to map the dynamic range of the magnitude values into
+  //  the range of the output pixel type.  The
+  //  \doxygen{RescaleIntensityImageFilter} is used to achieve this.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef float                 ComponentType;
-
   const   unsigned int          Dimension = 2;
-
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      InputPixelType;
-
   typedef float                                       MagnitudePixelType;
-
   typedef unsigned short                              OutputPixelType;
   
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
@@ -100,11 +87,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
+  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
   //  are instantiated using the image types.
   //
   //  Software Guide : EndLatex 
@@ -115,12 +100,11 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{GradientToMagnitudeImageFilter} type is instantiated
-  //  using the input and output image types. A filter object is created with
-  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  The \doxygen{GradientToMagnitudeImageFilter} is instantiated using the
+  //  input and output image types. A filter object is created with the
+  //  New() method and assigned to a \doxygen{SmartPointer}.
   //
   //  \index{GradientToMagnitudeImageFilter!Instantiation}
   //  \index{GradientToMagnitudeImageFilter!New()}
@@ -132,16 +116,13 @@ int main( int argc, char ** argv )
   typedef itk::GradientToMagnitudeImageFilter< 
                                           InputImageType,
                                           MagnitudeImageType    > FilterType;
-
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RescaleIntensityImageFilter} type is instantiated here and
-  //  one of its object is created.
+  //  The \doxygen{RescaleIntensityImageFilter} type is instantiated next.
   //
   //  \index{RescaleIntensityImageFilter!Instantiation}
   //  \index{RescaleIntensityImageFilter!New()}
@@ -153,19 +134,17 @@ int main( int argc, char ** argv )
   typedef itk::RescaleIntensityImageFilter< 
                                   MagnitudeImageType, 
                                   OutputImageType >      RescaleFilterType; 
-
-  RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();                                  
+  RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet 
-
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  We set below the minumum and maximum values for the output image. Note
-  //  the use of the \doxygen{NumericTraits} class which allows to define a
-  //  number of type-related constant in a generic way. The use of traits is a
-  //  fundamental characteristic of Generic Programming.
+  //  In the following the minumum and maximum values for the output image
+  //  are specified. Note the use of the \doxygen{NumericTraits} class which
+  //  allows to define a number of type-related constant in a generic
+  //  way. The use of traits is a fundamental characteristic of generic
+  //  programming.
   //
   //  \index{RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{RescaleIntensityImageFilter!SetOutputMaximum()}
@@ -178,12 +157,10 @@ int main( int argc, char ** argv )
   //  Software Guide : EndCodeSnippet 
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  Below, we create the reader and writer  using the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  Below, we create the reader and writer using the New() method and
+  //  assign the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -198,21 +175,16 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
-  //
   // Here we recover the file names from the command line arguments
   //
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  \code{SetFileName()} method. 
+  //  SetFileName() method. 
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
@@ -236,18 +208,14 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
-  
   rescaler->SetInput( filter->GetOutput() );
-
   writer->SetInput( rescaler->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  Finally we execute the pipeline by invoking Update() on the
   //  writer. The call is placed in a \code{try/catch} block in case exceptions
   //  are thrown.
   //
@@ -266,11 +234,7 @@ int main( int argc, char ** argv )
     } 
   // Software Guide : EndCodeSnippet
 
-
-
   return 0;
-
-
 }
 
 
