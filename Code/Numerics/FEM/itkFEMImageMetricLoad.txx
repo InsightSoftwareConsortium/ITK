@@ -88,7 +88,7 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad()
   m_SolutionIndex2=0;
   m_Sign=1.0;
 
-  for (int i=0; i<ImageDimension; i++)
+  for (unsigned int i=0; i<ImageDimension; i++)
   {
     m_MetricRadius[i] = 1;
   }
