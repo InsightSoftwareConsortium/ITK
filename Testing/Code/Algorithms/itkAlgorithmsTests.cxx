@@ -81,6 +81,7 @@ REGISTER_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkNewTest );
 REGISTER_TEST(itkNormalizedCorrelationImageMetricTest );
 REGISTER_TEST(itkNormalizedCorrelationPointSetToImageMetricTest );
+REGISTER_TEST(itkMeanSquaresPointSetToImageMetricTest );
 REGISTER_TEST(itkNormalizedMutualInformationHistogramImageToImageMetricTest );
 REGISTER_TEST(itkOtsuThresholdImageCalculatorTest );
 REGISTER_TEST(itkOrthogonalSwath2DPathFilterTest );
