@@ -178,7 +178,9 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
 
 /**
- * Compute the output for the region specified by outputRegionForThread.
+ * Setup state of filter before multi-threading.
+ * InterpolatorType::SetInputImage is not thread-safe and hence
+ * has to be setup before ThreadedGenerateData
  */
 template <class TInputImage,class TOutputImage,class TDeformationField>
 void
@@ -186,9 +188,9 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::BeforeThreadedGenerateData()
 {
 
-  if( !m_Interpolator || !this->GetInput() )
+  if( !m_Interpolator )
     {
-    itkErrorMacro(<< "Interpolator and/or Input not set");
+    itkErrorMacro(<< "Interpolator not set");
     throw ExceptionObject(__FILE__,__LINE__ );
     }
 
