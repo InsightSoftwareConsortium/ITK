@@ -19,6 +19,7 @@
 
 #include "itkImageSource.h"
 #include "itkFixedArray.h"
+#include "itkSize.h"
 
 namespace itk
 {
@@ -68,6 +69,9 @@ public:
   /** Type used to store gaussian parameters. */
   typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> ArrayType;
 
+  /** Size type matches that used for images */
+  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource,ImageSource);
 
@@ -76,6 +80,9 @@ public:
   
   /** Specify the size of the output image. */
   virtual void SetSize( const unsigned long values[NDimensions]);
+
+  /** Specify the size of the output image. */
+  virtual void SetSize( const SizeType values);
 
   /** Get the size of the output image. */
   itkGetVectorMacro(Size,const unsigned long,NDimensions);

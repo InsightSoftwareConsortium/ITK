@@ -325,6 +325,29 @@ GaussianImageSource<TOutputImage>
     }
 }
 
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetSize(const SizeType size )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( size[i] != m_Size[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Size[i] = size[i];
+      }
+    this->Modified();
+    }
+}
+
 
 } // end namespace itk
 
