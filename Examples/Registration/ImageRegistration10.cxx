@@ -53,7 +53,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << " outputImagefile [differenceImage]" << std::endl;
+    std::cerr << " [initialTx] [initialTy]" << std::endl;
     return 1;
     }
 
@@ -218,8 +219,17 @@ int main( int argc, char *argv[] )
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
-  initialParameters[0] = 0.0;  // Initial offset in mm along X
-  initialParameters[1] = 0.0;  // Initial offset in mm along Y
+  double tx = 0.0;
+  double ty = 0.0;
+
+  if( argc > 6 )
+    {
+    tx = atof( argv[5] );
+    ty = atof( argv[6] );
+    }
+
+  initialParameters[0] = tx;  // Initial offset in mm along X
+  initialParameters[1] = ty;  // Initial offset in mm along Y
   
   registration->SetInitialTransformParameters( initialParameters );
 
@@ -439,7 +449,7 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( difference->GetOutput() );  
 
-  if( argc >= 5 )
+  if( argc > 4 )
     {
     writer2->SetFileName( argv[4] );
     writer2->Update();
