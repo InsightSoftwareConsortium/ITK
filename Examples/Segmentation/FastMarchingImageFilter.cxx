@@ -17,28 +17,24 @@
 
 // Software Guide : BeginLatex
 //
+// \piccaption[Sigmoid Function Plot]{Plot of the Sigmoid function.\label{fig:SigmoidBase}}
+// \parpic(8cm,6cm)[r]{\includegraphics[width=7cm]{SigmoidBase.eps}}
+
+//
 // The following example illustrates the use of the
 // \doxygen{FastMarchingImageFilter}. This filter implements a Level Set
-// approach to segmentation. The object to be segmented is delimited by a
-// contour which is represented here as the \emph{zero set} of a function. It
-// can also be said that the contour is defined as an implicit function of the
-// form $f(\bf{X})=0$.  The contour is initialized by the user and then is made
-// evolve in order to make it fit to the form of an anatomical structure in the
-// image. The evolution of the \emph{zero set} is simulated by changing the $f$
-// function under the control of a differential equation.  The terms in the
-// equation basically represent a diffusion equation in which the speed term
-// can be customized by the user. In the case of the
-// \doxygen{FastMarchingImageFilter} the speed term is expected to be provided
-// by the user in the form of an image. This image is typically computed as a
-// function of the gradient magnitude. Several mappings are popular in the
-// literature. In the current example we decided to use a sigmoid function.
-// This choice makes that the propagation speed of the front will be very low
-// close to hight gradients while it will move rather fast in low gradient
-// areas. This arrangement will make the contour propagate until it reaches the
-// edges of anatomical structures in the image and then slow down in front of
-// those edges.  The output of this filter is a \emph{time-crossing map} that
-// indicates for each pixel, how much time would take for the front to arrive
-// to the pixel location.
+// approach to segmentation.  In this case, the the speed term used in the
+// differential equation is expected to be provided by the user in the form of
+// an image.  This image is typically computed as a function of the gradient
+// magnitude.  Several mappings are popular in the literature. In the current
+// example we decided to use a Sigmoid function as illustrated in
+// Figure~\ref{fig:SigmoidBase}.  This choice makes that the propagation speed
+// of the front will be very low close to high gradients while it will move
+// rather fast in low gradient areas. This arrangement will make the contour
+// propagate until it reaches the edges of anatomical structures in the image
+// and then slow down in front of those edges.  The output of this filter is a
+// \emph{time-crossing map} that indicates for each pixel, how much time would
+// take for the front to arrive to the pixel location.
 //
 // \begin{figure} \center
 // \includegraphics[width=14cm]{FastMarchingCollaborationDiagram1.eps}
