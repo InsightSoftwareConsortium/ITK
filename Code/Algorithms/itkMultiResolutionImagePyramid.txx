@@ -222,18 +222,18 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 
       if( lastValidFilter == -1 )
         {
-        // FIXME: skipped downsampling for now
+        // FIXME: skipped smoothing for now
         //smoother[j]->SetInput( this->GetInput() );
         downsampler[j]->SetInput( this->GetInput() );
         }
       else
         {
-        // FIXME: skipped downsampling for now
+        // FIXME: skipped smoothing for now
         //smoother[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
         downsampler[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
         }
 
-      // FIXME: skipped downsampling for now
+      // FIXME: skipped smoothing for now
       //downsampler[j]->SetInput( smoother[j]->GetOutput() );
 
       lastValidFilter = j;
@@ -253,19 +253,6 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 
   // update the pipeline
   downsampler[lastValidFilter]->Update();
-
-  // make sure the output has the same origin as the input
-  downsampler[lastValidFilter]->GetOutput()->SetOrigin(
-    this->GetInput()->GetOrigin() );
-
-  // update the spacing
-  double newSpacing[ImageDimension];
-  for( int j = 0; j < ImageDimension; j++ )
-    {
-    newSpacing[j] = this->GetInput()->GetSpacing()[j] * 
-      m_Schedule[m_CurrentLevel][j];
-    }
-  downsampler[lastValidFilter]->GetOutput()->SetSpacing( newSpacing );
 
   // connect it to the output of this filter
   this->SetOutput( downsampler[lastValidFilter]->GetOutput() );
