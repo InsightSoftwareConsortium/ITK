@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkFEMItpackSparseMatrix.h"
+#include "itpack.h"
 
 namespace itk {
 namespace fem {

@@ -19,8 +19,6 @@
 #define __itkItpackSparseMatrix_h
 
 #include "itkFEMException.h"
-#include <vector>
-#include "itpack.h"
 
 
 namespace itk {
@@ -39,6 +37,10 @@ class ItpackLinearSystemWrapper;
 class ItpackSparseMatrix
 {
 public:
+
+  /** typedefs from f2c.h  */
+  typedef int       integer;
+  typedef double    doublereal;
 
   /** Constructor */
   ItpackSparseMatrix();
@@ -248,6 +250,11 @@ private:
 class FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
 public:
+
+  /** typedefs from f2c.h  */
+  typedef int       integer;
+  typedef double    doublereal;
+
   /**
    * Constructor. In order to construct this exception object, five parameters
    * must be provided: file, lineNumber, location and a detailed description
@@ -272,6 +279,10 @@ public:
 class FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:
+  /** typedefs from f2c.h  */
+  typedef int       integer;
+  typedef double    doublereal;
+
   /**
    * Constructor. In order to construct this exception object, five parameters
    * must be provided: file, lineNumber, location and a detailed description
