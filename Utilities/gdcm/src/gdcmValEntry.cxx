@@ -189,7 +189,7 @@ void ValEntry::Write(std::ofstream* fp, FileType filetype)
    }
       
    std::string vr = GetVR();
-   int lgr = GetReadLength();
+   unsigned int lgr = GetReadLength();
    if (vr == "US" || vr == "SS")
    {
       // some 'Short integer' fields may be mulivaluated
