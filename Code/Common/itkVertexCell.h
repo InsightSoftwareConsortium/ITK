@@ -20,7 +20,7 @@
 #ifndef __itkVertexCell_h
 #define __itkVertexCell_h
 
-#include "itkCell.h"
+#include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 
 namespace itk
@@ -40,7 +40,7 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class VertexCell: public Cell< TPixelType , TCellType >
+class VertexCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
@@ -57,12 +57,6 @@ public:
   enum { PointDimension = CellType::PointDimension };
 
   /**
-   * Quick access to the base class type.
-   */
-  typedef Cell< TPixelType , TCellType >  Cell;
-  typedef Self::Cell::Pointer             CellPointer;
-  
-  /**
    * Vertex-specific topology numbers.
    */
   enum { NumberOfPoints = 1,
@@ -74,7 +68,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(const PointIdentifier *ptList);
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
@@ -92,7 +86,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(VertexCell, Cell);
+  itkTypeMacro(VertexCell, CellInterface);
 
 protected:
   /**

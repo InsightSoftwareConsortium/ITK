@@ -20,7 +20,7 @@
 #ifndef __itkHexahedronCell_h
 #define __itkHexahedronCell_h
 
-#include "itkCell.h"
+#include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkQuadrilateralCell.h"
 
@@ -41,7 +41,7 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class HexahedronCell: public Cell< TPixelType , TCellType >
+class HexahedronCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
@@ -57,12 +57,6 @@ public:
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
 
-  /**
-   * Quick access to the base class type.
-   */
-  typedef Cell< TPixelType , TCellType >  Cell;
-  typedef Self::Cell::Pointer             CellPointer;
-  
   /**
    * The type of cells for this hexahedron's vertices, edges, and faces.
    */
@@ -85,7 +79,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(const PointIdentifier *ptList);
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
@@ -124,7 +118,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(itkHexahedronCell, itkCell);
+  itkTypeMacro(HexahedronCell, CellInterface);
 
 protected:
   /**

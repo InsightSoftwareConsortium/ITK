@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCell.h
+  Module:    itkCellInterface.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,11 +14,11 @@
 
 =========================================================================*/
 /**
- * itkCell ....
+ * itkCellInterface ....
  */
 
-#ifndef __itkCell_h
-#define __itkCell_h
+#ifndef __itkCellInterface_h
+#define __itkCellInterface_h
 
 #include "itkSmartPointer.h"
 
@@ -38,13 +38,13 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class Cell
+class CellInterface
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef Cell                   Self;
+  typedef CellInterface          Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   /**
@@ -62,6 +62,11 @@ public:
   enum { PointDimension = CellType::PointDimension };
 
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
+
+  /**
+   * Give this and all derived classes quick access to the base cell type.
+   */
+  typedef CellInterface< PixelType , CellType >  Cell;
   
   /**
    * A useful rename.
@@ -145,7 +150,7 @@ protected:
   /**
    * Constructor to initialize internal data.
    */
-  Cell();
+  CellInterface();
   
   /**
    * Get the geometric position of a point.
@@ -191,7 +196,7 @@ public:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCell.cxx"
+#include "itkCellInterface.cxx"
 #endif
 
 #endif

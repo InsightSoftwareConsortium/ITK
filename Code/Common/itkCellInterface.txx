@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCell.cxx
+  Module:    itkCellInterface.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkCell.h"
+// #include "itkCellInterface.h"
 
 namespace itk
 {
@@ -23,7 +23,7 @@ namespace itk
  */
 template <typename TPixelType, typename TCellType>
 bool
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::IsBoundary(void)
 {
   return false;
@@ -35,7 +35,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::AddUsingCell(CellIdentifier)
 {
 }
@@ -46,7 +46,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::RemoveUsingCell(CellIdentifier)
 {
 }
@@ -57,7 +57,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 bool
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::IsUsingCell(CellIdentifier)
 {
   return false;
@@ -69,7 +69,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 int
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::GetNumUsingCells(void)
 {
   return 0;
@@ -80,8 +80,8 @@ Cell< TPixelType , TCellType >
  * This is only part of the boundary interface.  Just ignore the call.
  */
 template <typename TPixelType, typename TCellType>
-Cell< TPixelType , TCellType >::UsingCellsContainerIterator
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
+CellInterface< TPixelType , TCellType >
 ::UsingCellsBegin(void)
 {
   return UsingCellsContainerIterator();
@@ -92,8 +92,8 @@ Cell< TPixelType , TCellType >
  * This is only part of the boundary interface.  Just ignore the call.
  */
 template <typename TPixelType, typename TCellType>
-Cell< TPixelType , TCellType >::UsingCellsContainerIterator
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
+CellInterface< TPixelType , TCellType >
 ::UsingCellsEnd(void)
 {
   return UsingCellsContainerIterator();
@@ -105,7 +105,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::Register(void)
 {
   m_ReferenceCount++;
@@ -122,7 +122,7 @@ Cell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-Cell< TPixelType , TCellType >
+CellInterface< TPixelType , TCellType >
 ::UnRegister(void)
 {
   --m_ReferenceCount;
@@ -143,8 +143,8 @@ Cell< TPixelType , TCellType >
  * Just initialize the reference count.
  */
 template <typename TPixelType, typename TCellType>
-Cell< TPixelType , TCellType >
-::Cell(): m_ReferenceCount(0)
+CellInterface< TPixelType , TCellType >
+::CellInterface(): m_ReferenceCount(0)
 {
 }
 

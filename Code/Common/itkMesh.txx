@@ -433,7 +433,7 @@ Mesh< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 bool
 Mesh< TPixelType , TMeshType >
-::GetCell(CellIdentifier cellId, CellPointer* cell) const
+::GetCell(CellIdentifier cellId, Cell::Pointer* cell) const
 {
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
@@ -534,7 +534,7 @@ template <typename TPixelType, typename TMeshType>
 bool
 Mesh< TPixelType , TMeshType >
 ::GetBoundary(int dimension, BoundaryIdentifier boundaryId,
-	      BoundaryPointer* boundary) const
+	      Boundary::Pointer* boundary) const
 {
   /**
    * If the boundaries container doesn't exist, then the boundary
@@ -718,7 +718,7 @@ Mesh< TPixelType , TMeshType >
  * corresponding to the given feature identifier.
  */
 template <typename TPixelType, typename TMeshType>
-Mesh< TPixelType , TMeshType >::BoundaryPointer
+Mesh< TPixelType , TMeshType >::Boundary::Pointer
 Mesh< TPixelType , TMeshType >
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
 			 CellFeatureIdentifier featureId) const
@@ -726,7 +726,7 @@ Mesh< TPixelType , TMeshType >
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  BoundaryPointer boundary;
+  Boundary::Pointer boundary;
   if(GetAssignedBoundaryIfOneExists(dimension, cellId, featureId, &boundary))
     {
     return boundary;
@@ -744,7 +744,7 @@ Mesh< TPixelType , TMeshType >
   /**
    * The cell did not exist, so just give up.
    */
-  return CellPointer(NULL);
+  return Cell::Pointer(NULL);
 }
 
 
@@ -776,7 +776,7 @@ Mesh< TPixelType , TMeshType >
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  BoundaryPointer boundary;
+  Boundary::Pointer boundary;
   if(this->GetAssignedBoundaryIfOneExists(
     dimension, cellId, featureId, &boundary))
     {
@@ -922,7 +922,7 @@ bool
 Mesh< TPixelType , TMeshType >
 ::GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier cellId,
 				 CellFeatureIdentifier featureId,
-				 BoundaryPointer* boundary) const
+				 Boundary::Pointer* boundary) const
 {
   if((m_BoundaryAssignments[dimension] != NULL) &&
      (m_Boundaries[dimension] != NULL))
@@ -981,7 +981,7 @@ Mesh< TPixelType , TMeshType >
       cellItr != m_Cells->End() ; ++cellItr)
     {
     CellIdentifier cellId = (*cellItr).first;
-    CellPointer cell    = (*cellItr).second;
+    Cell::Pointer cell    = (*cellItr).second;
     
     /**
      * For each point, make sure the cell links container has its index,

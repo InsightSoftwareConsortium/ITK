@@ -48,7 +48,7 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 #include "itkPoint.h"
-#include "itkCell.h"
+#include "itkCellInterface.h"
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
 
@@ -142,10 +142,8 @@ public:
    * Define the base cell type for cells in this mesh.
    * It also happens that boundaries are also cells.
    */
-  typedef Cell< PixelType , CellType >  Cell;
-  typedef Cell                          Boundary;
-  typedef Self::Cell::Pointer           CellPointer;
-  typedef Self::Boundary::Pointer       BoundaryPointer;
+  typedef CellInterface< PixelType , CellType >  Cell;
+  typedef Cell                                   Boundary;
   
   /**
    * An explicit cell boundary assignment can be accessed through the cell
@@ -333,7 +331,7 @@ public:
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
-  bool GetCell(CellIdentifier, CellPointer*) const;
+  bool GetCell(CellIdentifier, Cell::Pointer*) const;
 
   /**
    * Access routines to fill the CellData container, and get information
@@ -347,7 +345,7 @@ public:
    * from it.
    */
   void SetBoundary(int dimension, BoundaryIdentifier, Boundary*);
-  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
+  bool GetBoundary(int dimension, BoundaryIdentifier, Boundary::Pointer*)
     const;
   
   /**
@@ -375,7 +373,7 @@ public:
    */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
 						   CellIdentifier) const;
-  BoundaryPointer GetCellBoundaryFeature(int dimension, CellIdentifier,
+  Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
 					 CellFeatureIdentifier) const;
   
 
@@ -389,7 +387,7 @@ public:
 
   bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
 				      CellFeatureIdentifier,
-				      BoundaryPointer*) const;
+				      Boundary::Pointer*) const;
 
   void BuildCellLinks(void);
   

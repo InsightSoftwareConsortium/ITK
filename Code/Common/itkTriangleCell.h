@@ -20,7 +20,7 @@
 #ifndef __itkTriangleCell_h
 #define __itkTriangleCell_h
 
-#include "itkCell.h"
+#include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
 
@@ -41,7 +41,7 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class TriangleCell: public Cell< TPixelType , TCellType >
+class TriangleCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
@@ -57,12 +57,6 @@ public:
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
 
-  /**
-   * Quick access to the base class type.
-   */
-  typedef Cell< TPixelType , TCellType >  Cell;
-  typedef Self::Cell::Pointer             CellPointer;
-  
   /**
    * The type of cells for this triangle's vertices and edges.
    */
@@ -83,7 +77,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(const PointIdentifier *ptList);
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
@@ -115,7 +109,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(TriangleCell, Cell);
+  itkTypeMacro(TriangleCell, CellInterface);
   
 protected:
   /**

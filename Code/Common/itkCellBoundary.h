@@ -21,7 +21,7 @@
 #ifndef __itkCellBoundary_h
 #define __itkCellBoundary_h
 
-#include "itkCell.h"
+#include "itkCellInterface.h"
 
 namespace itk
 {

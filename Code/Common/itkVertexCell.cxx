@@ -58,11 +58,11 @@ VertexCell< TPixelType , TCellType >
  * A vertex has no boundary entities.  Just return null.
  */
 template <typename TPixelType, typename TCellType>
-VertexCell< TPixelType , TCellType >::CellPointer
+VertexCell< TPixelType , TCellType >::Cell::Pointer
 VertexCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int, CellFeatureIdentifier)
 {
-  return CellPointer(NULL);
+  return Cell::Pointer(NULL);
 }
 
 

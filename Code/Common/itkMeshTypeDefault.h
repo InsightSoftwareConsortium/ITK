@@ -24,7 +24,7 @@
 #define __itkMeshTypeDefault_h
 
 #include <set>
-#include "itkCell.h"
+#include "itkCellInterface.h"
 #include "itkVectorContainer.h"
 
 namespace itk
@@ -102,14 +102,8 @@ public:
    * The information needed for a cell type is now defined, so we can
    * define the cell type.
    */
-  typedef MakeCellType                  CellType;
-  
-  /**
-   * Define the actual cell base type for this mesh type, and a corresponding
-   * pointer.  These two must remain as they are.
-   */
-  typedef Cell< PixelType , CellType >  Cell;
-  typedef Self::Cell::Pointer           CellPointer;
+  typedef MakeCellType                           CellType;
+  typedef CellInterface< PixelType , CellType >  Cell;
   
   /**
    * Define the container types that will be used to store:
@@ -118,7 +112,7 @@ public:
    * The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface.
    */
-  typedef VectorContainer< CellIdentifier , CellPointer >
+  typedef VectorContainer< CellIdentifier , Cell::Pointer >
   CellsContainer;
   typedef std::set< CellIdentifier >
   PointCellLinksContainer;
@@ -128,7 +122,7 @@ public:
   PointDataContainer;
   typedef VectorContainer< CellIdentifier , PixelType >
   CellDataContainer;
-  typedef VectorContainer< BoundaryIdentifier , CellPointer >
+  typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >
   BoundariesContainer;
   typedef VectorContainer< BoundaryIdentifier , PixelType >
   BoundaryDataContainer;
