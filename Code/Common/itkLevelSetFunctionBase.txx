@@ -17,6 +17,8 @@
 #ifndef __itkLevelSetFunctionBase_txx_
 #define __itkLevelSetFunctionBase_txx_
 
+#include "itkLevelSetFunctionBase.h"
+
 namespace itk {
   
 template <class TImageType>
