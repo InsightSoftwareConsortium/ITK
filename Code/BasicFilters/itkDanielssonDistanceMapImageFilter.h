@@ -51,8 +51,26 @@ namespace itk
 *
 * This class is parametrized over the type of the input image
 * and the type of the output image.
-* This class returns the distance map of the input image 
-* and the Voronoi map.
+*
+* This Filter computes the distance map of the input image 
+* as an approximation with pixel accuracy to the euclidean distance.
+*
+* The input is assumed to contain numeric codes defining objects.
+* The filter will produce as output the following images:
+*
+* - A voronoi partition using the same numeric codes as the input.
+* - A distance map with the aproximation to the euclidean distance.
+*   from a particular pixel to the nearest object to this pixel
+*   in the input image.
+* - A vector map containing the component of the vector relating
+*   the current pixel with the closest point of the closest object
+*   to this pixel. Given that the components of the distance are
+*   computed in "pixels", the vector is represented by an itk::Offset
+*
+* This filter is N-Dimensional and it is know to be efficient
+* in computational time.
+*
+* \todo Add the reference to the journal paper where this method was published
 *
 * \ingroup ImageFeatureExtraction 
 *
@@ -188,6 +206,17 @@ public:
    itkGetConstReferenceMacro( InputIsBinary, bool );
 
 
+  /**
+   * Set On/Off if the input is binary
+   */
+   itkBooleanMacro( InputIsBinary );
+
+   
+  /**
+   * Set On/Off if the distance is squared
+   */
+   itkBooleanMacro( SquaredDistance );
+
 
 
   /**
@@ -236,6 +265,7 @@ protected:
   virtual ~DanielssonDistanceMapImageFilter() {};
   DanielssonDistanceMapImageFilter(const Self&) {}
   void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 
   /**
