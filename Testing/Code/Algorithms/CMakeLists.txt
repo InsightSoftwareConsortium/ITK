@@ -7,6 +7,7 @@ IF(ITK_BINARY_DIR)
 ENDIF(ITK_BINARY_DIR)
 
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
+SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
 ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest)
@@ -105,10 +106,10 @@ ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
-ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
-ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS} itkVoronoiDiagram2DTest)
-ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS} itkVoronoiSegmentationImageFilterTest)
-ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS} itkWatershedImageFilterTest)
+ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
+ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
+ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
+ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
 
 
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -205,16 +206,19 @@ itkUnsharpMaskLevelSetImageFilterTest.cxx
 itkGibbsTest.cxx
 itkDeformableTest.cxx
 itk2DDeformableTest.cxx
-itkVectorFuzzyConnectednessImageFilterTest.cxx
-itkVoronoiDiagram2DTest.cxx
-itkVoronoiPartitioningImageFilterTest.cxx
-itkVoronoiSegmentationImageFilterTest.cxx
-itkWatershedImageFilterTest.cxx
 itkIsoContourDistanceImageFilterTest.cxx
 itkFastChamferDistanceImageFilterTest.cxx
 itkCurvesLevelSetImageFilterTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
+)
+
+SET(AlgorithmsTest2_SRCS
+itkVectorFuzzyConnectednessImageFilterTest.cxx
+itkVoronoiDiagram2DTest.cxx
+itkVoronoiPartitioningImageFilterTest.cxx
+itkVoronoiSegmentationImageFilterTest.cxx
+itkWatershedImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
@@ -224,17 +228,20 @@ ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
 
+ADD_EXECUTABLE(itkAlgorithmsTests2 itkAlgorithmsTests2.cxx ${AlgorithmsTest2_SRCS})
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+
 
 IF(ITK_DATA_ROOT)
 
-ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS}
+ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest1.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png 1)
 
-ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS}
+ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VoronoiPartioningImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
   itkVoronoiPartitioningImageFilterTest

@@ -101,9 +101,5 @@ REGISTER_TEST(itk2DDeformableTest );
 REGISTER_TEST(itkSphereMeshSourceTest );
 REGISTER_TEST(itkUnsharpMaskLevelSetImageFilterTest );
 REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
-REGISTER_TEST(itkVectorFuzzyConnectednessImageFilterTest );
-REGISTER_TEST(itkVoronoiDiagram2DTest );
-REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
-REGISTER_TEST(itkWatershedImageFilterTest );
 }
 
