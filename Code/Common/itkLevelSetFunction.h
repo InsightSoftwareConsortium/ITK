@@ -265,7 +265,9 @@ protected:
   bool m_UseMinimalCurvature;
 
   /** Hessian matrix */
-  vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> m_dxy;
+  vnl_matrix_fixed<ScalarValueType,
+                   itkGetStaticConstMacro(ImageDimension),
+                   itkGetStaticConstMacro(ImageDimension)> m_dxy;
 
   /** Array of first derivatives*/
   ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
