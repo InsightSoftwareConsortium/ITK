@@ -30,7 +30,7 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-int itkFEMExceptionTest(int ac, char* av[])
+int itkFEMExceptionTest()
 {
     try {
       throw FEMException(__FILE__,__LINE__, "itkFEMException");
