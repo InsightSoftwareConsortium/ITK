@@ -1022,59 +1022,59 @@ AnalyzeImageIO
   itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp);
   if (temp==std::string(typeid(char).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"BINARY",10);
+      strncpy(this->m_hdr.hk.data_type,"BINARY",10);
   }
   else if (temp==std::string(typeid(unsigned char).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"CHAR",10);
+      strncpy(this->m_hdr.hk.data_type,"CHAR",10);
   }
   else if (temp==std::string(typeid(short).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"SHORT",10);
+      strncpy(this->m_hdr.hk.data_type,"SHORT",10);
   }
   else if (temp==std::string(typeid(unsigned short).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"USHORT",10);
+      strncpy(this->m_hdr.hk.data_type,"USHORT",10);
   }
   else if (temp==std::string(typeid(long).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"INT",10);
+      strncpy(this->m_hdr.hk.data_type,"INT",10);
   }
   else if (temp==std::string(typeid(unsigned long).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"UINT",10);
+      strncpy(this->m_hdr.hk.data_type,"UINT",10);
   }
   else if (temp==std::string(typeid(float).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"FLOAT",10);
+      strncpy(this->m_hdr.hk.data_type,"FLOAT",10);
   }
   else if (temp==std::string(typeid(double).name()))
   {
-      memcpy(this->m_hdr.hk.data_type,"DOUBLE",10);
+      strncpy(this->m_hdr.hk.data_type,"DOUBLE",10);
   }
   else
   {
-      memcpy(this->m_hdr.hk.data_type,"UNKNOWN",10);
+      strncpy(this->m_hdr.hk.data_type,"UNKNOWN",10);
   }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp))
     {
-    memcpy(this->m_hdr.hk.data_type,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hk.data_type,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_ImageFileBaseName,temp))
     {
-    memcpy(this->m_hdr.hk.db_name,temp.c_str(),18);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hk.db_name,temp.c_str(),18);//Note this is necessary because the array is not necessarily null terminated.
     }
   //Important dime fields
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_VoxelUnits,temp))
     {
-    memcpy(this->m_hdr.dime.vox_units,temp.c_str(),4);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.dime.vox_units,temp.c_str(),4);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,temp))
     {
-    memcpy(this->m_hdr.dime.cal_units,temp.c_str(),8);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.dime.cal_units,temp.c_str(),8);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   itk::ExposeMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,this->m_hdr.dime.bitpix);
@@ -1086,12 +1086,12 @@ AnalyzeImageIO
   //Important hist fields
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileNotes,temp))
     {
-    memcpy(this->m_hdr.hist.descrip,temp.c_str(),80);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.descrip,temp.c_str(),80);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,temp))
     {
-    memcpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   {
@@ -1117,32 +1117,32 @@ AnalyzeImageIO
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
     {
-    memcpy(this->m_hdr.hist.originator,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.originator,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_OriginationDate,temp))
     {
-    memcpy(this->m_hdr.hist.generated,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.generated,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_ScanNumber,temp))
     {
-    memcpy(this->m_hdr.hist.scannum,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.scannum,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_PatientID,temp))
     {
-    memcpy(this->m_hdr.hist.patient_id,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.patient_id,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentDate,temp))
     {
-    memcpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentTime,temp))
     {
-    memcpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+    strncpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
     }
 
   itk::ExposeMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_hdr.hist.omax);
