@@ -31,8 +31,8 @@ namespace itk
 
   
 template <class TCostFunction>
-class ITK_EXPORT MultipleValuedNonLinearOptimizer : public NonLinearOptimizer 
-
+class ITK_EXPORT MultipleValuedNonLinearOptimizer : 
+      public NonLinearOptimizer< typename TCostFunction::ParametersType > 
 {
 public:
   /**
@@ -43,7 +43,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer Superclass;
+  typedef   NonLinearOptimizer<typename TCostFunction::ParametersType> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -79,87 +79,16 @@ public:
   itkNewMacro(Self);
   
 
-  /** \class VnlCostFunction
-   * \brief Adaptor between the CostFunction and the
-   * vnl_least_squares_function classes
-   *
-   */
-
-  class VnlCostFunctionAdaptor : public vnl_least_squares_function 
-  {
-  public:
-    VnlCostFunctionAdaptor():
-        vnl_least_squares_function(TCostFunction::SpaceDimension,
-                                   TCostFunction::RangeDimension) 
-      { m_CostFunction = 0; }    
-
-      void SetCostFunction( TCostFunction * costFunction ) 
-        { m_CostFunction = costFunction; }
-      
-
-      /** 
-       *  Delegate computation of the value to the CostFunction
-       */
-      virtual void f( const VectorType & parameters, VectorType & output ) {
-        if( !m_CostFunction )
-        {
-          throw ExceptionObject();
-        }
-        m_CostFunction->GetValue( parameters, output );
-      }
-      
-      /** 
-       *  Delegate computation of the gradient to the CostFunction
-       */
-      virtual void gradf(const VectorType & parameters,
-                               MatrixType & gradient ) {
-        if( !m_CostFunction )
-        {
-          throw ExceptionObject();
-        }
-      }
-      
-      /** 
-       *  Delegate computation of value and gradient to the CostFunction
-       */
-      virtual void compute(const VectorType & x,
-                                 VectorType * f, 
-                                 MatrixType * g ) {
-        // delegate the computation to the CostFunction
-        m_CostFunction->GetValue( x, *f );
-      }
- 
-  private:
-      TCostFunction   * m_CostFunction;
-  };  // end of Class CostFunction
-
-
-  /**
-   * Set the cost Function of type TCostFunction
-   */
-  void SetCostFunction( TCostFunction * costFunction ) 
-    { m_CostFunctionAdaptor.SetCostFunction( costFunction ); }
-    
-  
-
 protected:
 
-  MultipleValuedNonLinearOptimizer();
+  MultipleValuedNonLinearOptimizer() {};
   virtual ~MultipleValuedNonLinearOptimizer() {};
   MultipleValuedNonLinearOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-protected:
-
-  VnlCostFunctionAdaptor            m_CostFunctionAdaptor;
-
 };
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultipleValuedNonLinearOptimizer.txx"
-#endif
 
 #endif
 
