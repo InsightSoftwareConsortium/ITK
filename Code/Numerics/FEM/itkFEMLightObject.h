@@ -62,7 +62,7 @@ class LoadElement;
  */
 class FEMLightObject
 #ifdef FEM_USE_SMART_POINTERS
-: public ::itk::LightObject
+: public itk::LightObject
 #endif
 {
   /**
@@ -74,9 +74,9 @@ class FEMLightObject
   FEM_CLASS_SP(FEMLightObject,FEMLightObject)
 #else
   /**
-   * If we are using smart pointers, Superclass is ::itk::LightObject
+   * If we are using smart pointers, Superclass is itk::LightObject
    */
-  FEM_CLASS_SP(FEMLightObject,::itk::LightObject)
+  FEM_CLASS_SP(FEMLightObject,itk::LightObject)
 #endif
 
 public:

@@ -73,7 +73,7 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
     pos_node2=&dynamic_cast<const Node2DIsotropic&>(*pn2_);
     mat=&dynamic_cast<const MaterialStandard&>(*mat_);
   }
-  catch ( bad_cast )
+  catch ( std::bad_cast )
   {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"C1IsoCurve2D::C1IsoCurve2D()");
   }

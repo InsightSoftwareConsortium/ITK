@@ -79,7 +79,7 @@ QuadC02D::QuadC02D(  Node::ConstPointer n1_,
     m_node4=&dynamic_cast<const NodeXY&>(*n4_);
     m_mat=&dynamic_cast<const MaterialStandard&>(*p_);
   }
-  catch ( bad_cast )
+  catch ( std::bad_cast )
   {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"QuadC02D::QuadC02D()");
   }

@@ -74,7 +74,7 @@ Beam2D::Beam2D(  Node::ConstPointer n1_, Node::ConstPointer n2_, Material::Const
     m_node2=&dynamic_cast<const NodeXYrotZ&>(*n2_);
     m_mat=&dynamic_cast<const MaterialStandard&>(*mat_);
   }
-  catch ( bad_cast )
+  catch ( std::bad_cast )
   {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Beam2D::Beam2D()");
   }

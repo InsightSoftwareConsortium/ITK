@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMUtility.h"
 #include "itkFEMNode2DIsotropic.h"
 #include "itkFEMMaterialStandard.h"
-#include <math.h>
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {

@@ -50,19 +50,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <afxwin.h>        /** required to draw the element on device context */
 #endif
 
-/**
- * FEM classes need to use bad_cast exception and other typeinfo stuff.
- * For some reason bad_cast excepction doesn't work on MSVC compiler if
- * we include <typeinfo>, but does work when we include <typeinfo.h>.
- * However on some some systems (linux???) <typeinfo.h> doesn't exist, so
- * we must include <typeinfo> instead.
- */
-#ifdef _MSC_VER
-#include <typeinfo.h>
-#else
-#include <typeinfo>
-#endif
-
 #include "itkFEMObjectFactory.h"
 
 

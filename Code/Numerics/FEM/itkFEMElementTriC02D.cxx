@@ -77,7 +77,7 @@ TriC02D::TriC02D(  Node::ConstPointer n1_,
     m_node3=&dynamic_cast<const NodeXY&>(*n3_);
     m_mat=&dynamic_cast<const MaterialStandard&>(*p_);
   }
-  catch ( bad_cast )
+  catch ( std::bad_cast )
   {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"TriC02D::TriC02D()");
   }

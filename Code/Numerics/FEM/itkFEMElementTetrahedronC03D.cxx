@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
-#include <math.h>
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {
@@ -75,7 +75,7 @@ TetrahedronC03D::TetrahedronC03D(  Node::ConstPointer ns_[],
 
     m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
   }
-  catch ( bad_cast )
+  catch ( std::bad_cast )
   {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"TetrahedronC03D::TetrahedronC03D()");
   }
