@@ -218,9 +218,9 @@ public:
   void      SetRho(Float r) { m_Rho=r;} /** Mass matrix weight */  
   void      SetDescentDirectionMinimize() { m_DescentDirection=positive;} /** Tries to minimize energy */
   void      SetDescentDirectionMaximize() { m_DescentDirection=negative;} /** Tries to maximize energy */
-  void      DoLineSearch(bool b) { m_DoLineSearchOnImageEnergy=b; } /** Finds the minimum energy between the current and next solution by linear search.*/
+  void      DoLineSearch(unsigned int b) { m_DoLineSearchOnImageEnergy=b; } /** Finds the minimum energy between the current and next solution by linear search.*/
   void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
-  void      DoSearchForMinAtEachResolution(bool b) { m_SearchForMinAtEachLevel=b; } 
+  void      SetLineSearchFrequency(unsigned int b) { m_LineSearchFrequency=b; } 
   void      UseLandmarks(bool b) {m_UseLandmarks=b;}
   void      SetWriteDisplacements(bool b) {m_WriteDisplacementField=b;}
   bool      GetWriteDisplacements() {return m_WriteDisplacementField;}
@@ -257,6 +257,8 @@ private :
   const char*      m_LandmarkFileName;
   const char*      m_DisplacementsFileName;
 
+  unsigned int     m_DoLineSearchOnImageEnergy; 
+  unsigned int     m_LineSearchFrequency;  
   unsigned int     m_MeshResolution; // determines maximum resolution of regular mesh
   unsigned int     m_NumberOfIntegrationPoints;// resolution of integration
   unsigned int     m_MetricWidth;
@@ -278,12 +280,9 @@ private :
   Float     m_MinE;  // minimum recorded energy
   Float     m_Rho;   // mass matrix weight
   Float     m_Alpha; // difference parameter
-  Float     m_LineSearchStep;
 
-  bool  m_DoLineSearchOnImageEnergy;  
   bool  m_WriteDisplacementField;
   bool  m_DoMultiRes;
-  bool  m_SearchForMinAtEachLevel;
   bool  m_UseLandmarks;
   Sign  m_DescentDirection;
 

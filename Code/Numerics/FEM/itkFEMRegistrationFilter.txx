@@ -57,8 +57,7 @@ FEMRegistrationFilter<TReference,TTarget>::FEMRegistrationFilter( )
   m_NumberOfIntegrationPoints=4;
   m_MetricWidth=3;
   m_DoLineSearchOnImageEnergy=false;
-  m_SearchForMinAtEachLevel=false;
-  m_LineSearchStep=0.025;
+  m_LineSearchFrequency=1;
 
   m_NumLevels=1;
   m_MaxLevel=1;
@@ -212,8 +211,8 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> ibuf;
-    if (ibuf == 1) { this->DoLineSearch(true); }
-    else { this->DoLineSearch(false); }
+    this->DoLineSearch(ibuf); 
+    
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
@@ -310,8 +309,7 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 
       FEMLightObject::SkipWhiteSpace(f);
       f >> ibuf;
-      if (ibuf == 1) { this->DoSearchForMinAtEachResolution(true); }
-      else { this->DoSearchForMinAtEachResolution(true); }
+      m_LineSearchFrequency=ibuf;
 
       FEMLightObject::SkipWhiteSpace(f);
       f >> ibuf;
@@ -651,7 +649,6 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
 
   unsigned int minct=0,NumMins=2;
   if (!m_DoMultiRes) NumMins=1;
-  if (m_SearchForMinAtEachLevel) m_MinE=9.e9;
   m_MinE=10.e9;
   Float LastE=9.e9 , deltE=1.e9, ETol=1.e-5;
   // iterative solve  
@@ -672,13 +669,13 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0,ImageSimilarity=0.0;
-   if (m_DoLineSearchOnImageEnergy && iters > 0  /*&& (iters % 2) == 0*/) 
+   if (m_DoLineSearchOnImageEnergy > 0 && iters > 0  && (iters % m_LineSearchFrequency) == 0) 
    {
      std::cout << " line search ";
-//     mySolver.GoldenSection(1.e-1);
-     mySolver.BrentsMethod(1.e-1,1000);
+     if (m_DoLineSearchOnImageEnergy == 1 ) mySolver.GoldenSection(1.e-1);
+     else mySolver.BrentsMethod(1.e-1,200);
      std::cout << " line search done " << std::endl;
-   } else if (m_DoLineSearchOnImageEnergy && iters == 0) mint=0.05;
+   } else if (m_DoLineSearchOnImageEnergy >0 && iters == 0) mint=0.5;
 
    ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    LastE=mySolver.EvaluateResidual(mint);
