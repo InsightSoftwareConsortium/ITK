@@ -198,8 +198,8 @@ int main( int argc, char *argv[] )
 
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
-  optimizerScales[0] = 1.0 / 10.0 * size[0] * spacing[0];
-  optimizerScales[1] = 1.0 / 10.0 * size[1] * spacing[1];
+  optimizerScales[0] = 1.0 / ( 10.0 * size[0] * spacing[0] );
+  optimizerScales[1] = 1.0 / ( 10.0 * size[1] * spacing[1] );
 
   optimizer->SetScales( optimizerScales );
 
