@@ -287,6 +287,10 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     {
       initialPosition[i] = coefficients[i];
     }
+  
+  Array< double > scales(bias->GetNumberOfCoefficients()) ;
+  scales.Fill(1.0) ;
+  m_Optimizer->SetScales(scales) ;
   m_Optimizer->SetInitialPosition( initialPosition );
   m_Optimizer->StartOptimization();
   bias->SetCoefficients(m_Optimizer->GetCurrentPosition());
