@@ -50,25 +50,20 @@ public:
    typedef TTarget TargetType;
 
   /**
-   * Image Dimensions and Parameters Dimension
+   *  Type of the Transformation
    */
-   enum { ImageDimension = ReferenceType::ImageDimension };
+   typedef Rigid3DPerspectiveTransform< double > TransformationType;
 
+  /**
+   * Parameters Dimension
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+  
   /**
    *  Type of the parameters
    */
    typedef Point<double,ParametersDimension>   ParametersType;
 
-  /**
-   *  Type of the Transformation
-   */
-   typedef Rigid3DPerspectiveTransform< double > TransformationType;
-
-	/**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = TransformationType::ParametersDimension }; 
-  
   /**
    *  Type of the Mapper
    */

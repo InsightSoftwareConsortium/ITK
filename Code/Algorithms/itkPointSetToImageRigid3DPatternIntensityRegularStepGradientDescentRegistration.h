@@ -51,14 +51,9 @@ public:
    typedef TTarget TargetType;
 
   /**
-   * Image Dimensions and Parameters Dimension
+   * Image Dimensions
    */
-   enum { ImageDimension = ReferenceType::ImageDimension };
-
-  /**
-   *  Type of the parameters
-   */
-   typedef Point<double,ParametersDimension>   ParametersType;
+  enum { ImageDimension = ReferenceType::ImageDimension};
 
   /**
    *  Type of the Transformation
@@ -69,6 +64,11 @@ public:
    * Parameters Dimension
    */
    enum { ParametersDimension = TransformationType::ParametersDimension }; 
+
+  /**
+   *  Type of the parameters
+   */
+   typedef Point<double,ParametersDimension>   ParametersType;
 
   /**
    *  Type of the Mapper
@@ -185,8 +185,7 @@ public:
   /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension };
+  enum {ImageDimension = ReferenceType::ImageDimension};
 
   /** 
    * Run-time type information (and related methods).
