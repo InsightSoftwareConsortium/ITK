@@ -73,6 +73,8 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   filter->SetWindowMinimum( windowMinimum  );
   filter->SetWindowMaximum( windowMaximum  );
 
+  std::cout << "Window minimum:maximum = " << windowMinimum << ":" << windowMaximum << ", equivalent window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << std::endl;
+  
   try
     {
     filter->UpdateLargestPossibleRegion();
@@ -105,12 +107,50 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
 
   if( vnl_math_abs( obtainedMaximum - desiredMaximum ) > tolerance )
     {
-    std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMaximum  << std::endl;
-    std::cerr << "Obtained minimum = " << obtainedMaximum << std::endl;
+    std::cerr << "Error in maximum" << std::endl;
+    std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;
+    std::cerr << "Obtained maximum = " << obtainedMaximum << std::endl;
     return EXIT_FAILURE;
     }
 
+  const float  window = 50.0f;
+  const float  level =  50.0f;
+
+  filter->SetWindowLevel( window, level  );
+
+  std::cout << "Window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << ", equivalent window minimum:maximum = " << filter->GetWindowMinimum()  << ":" << filter->GetWindowMaximum() << std::endl;
+  
+  try
+    {
+    filter->UpdateLargestPossibleRegion();
+    }
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception detected: "  << e;
+    return -1;
+    }
+
+  calculator->Compute();
+
+  const double obtainedMinimum2 = calculator->GetMinimum();
+  const double obtainedMaximum2 = calculator->GetMaximum();
+
+  if( vnl_math_abs( obtainedMinimum2 - desiredMinimum ) > tolerance )
+    {
+    std::cerr << "Error in minimum" << std::endl;
+    std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
+    std::cerr << "Obtained minimum = " << obtainedMinimum2 << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( vnl_math_abs( obtainedMaximum2 - desiredMaximum ) > tolerance )
+    {
+    std::cerr << "Error in maximum" << std::endl;
+    std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;
+    std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;
+    return EXIT_FAILURE;
+    }
+  
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 

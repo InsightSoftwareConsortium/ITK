@@ -43,6 +43,58 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>
   m_Shift = 0.0;
 }
 
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+IntensityWindowingImageFilter<TInputImage, TOutputImage>
+::SetWindowLevel(const InputPixelType& window, const InputPixelType& level) 
+{
+  typedef NumericTraits<InputPixelType>::RealType InputRealType;
+  InputRealType tmp1, tmp2;
+
+  tmp1 = static_cast<InputRealType>(level)
+    - (static_cast<InputRealType>(window)/2.0);
+  if (tmp1 < NumericTraits<InputPixelType>::NonpositiveMin())
+    {
+    tmp1 = 0.0;
+    }
+
+  tmp2 = static_cast<InputRealType>(level)
+    + (static_cast<InputRealType>(window)/2.0);
+  if (tmp2 > NumericTraits<InputPixelType>::max())
+    {
+    tmp2 = NumericTraits<InputPixelType>::max();
+    }
+  
+  m_WindowMinimum = static_cast<InputPixelType>(tmp1);
+  m_WindowMaximum = static_cast<InputPixelType>(tmp2);
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+typename IntensityWindowingImageFilter<TInputImage, TOutputImage>::InputPixelType
+IntensityWindowingImageFilter<TInputImage, TOutputImage>
+::GetWindow() const
+{
+  return m_WindowMaximum - m_WindowMinimum;
+}
+
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
+typename IntensityWindowingImageFilter<TInputImage, TOutputImage>::InputPixelType
+IntensityWindowingImageFilter<TInputImage, TOutputImage>
+::GetLevel() const
+{
+  return (m_WindowMaximum + m_WindowMinimum) / 2;
+}
 
 /**
  *

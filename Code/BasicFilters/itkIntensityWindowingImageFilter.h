@@ -125,6 +125,15 @@ public:
   itkGetConstMacro( WindowMinimum, InputPixelType );
   itkGetConstMacro( WindowMaximum, InputPixelType );
 
+  /** Set/Get the window width and level.  This is an alternative API
+   * to using the SetWindowMinimum()/SetWindowMaximum(). The window
+   * minimum and maximum are set as [level-window/2,
+   * level+window/2]. */
+  void SetWindowLevel(const InputPixelType& window,
+                      const InputPixelType& level);
+  InputPixelType GetWindow() const;
+  InputPixelType GetLevel() const;
+  
   /** Get the Scale and Shift used for the linear transformation
       of gray level values. 
    \warning These Values are only valid after the filter has been updated */
