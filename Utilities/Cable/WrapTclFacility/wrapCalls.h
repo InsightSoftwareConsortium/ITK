@@ -234,9 +234,12 @@ struct ArgumentAsReferenceTo
     // A pointer to the conversion function.
     ConversionFunction cf = NULL;
     
-    // If the "to" type exactly references the "from" type, use the
-    // reference identity conversion function.
-    if(to->GetReferencedType() == from)
+    // If the "to" type exactly references the "from" type, or a more
+    // cv-qualified form, use the reference identity conversion function.
+    if((to->GetReferencedType() == from)
+       || (to->GetReferencedType() == from.GetMoreQualifiedType(true, false))
+       || (to->GetReferencedType() == from.GetMoreQualifiedType(false, true))
+       || (to->GetReferencedType() == from.GetMoreQualifiedType(true, true)))
       {
       cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
       }
