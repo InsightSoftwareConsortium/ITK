@@ -28,9 +28,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Solver
  * \brief Main FEM solver
@@ -180,6 +177,9 @@ public:
   {
     return NGFN;
   }
+
+  /** Get the total deformation energy using the chosen solution */
+  Float GetDeformationEnergy(unsigned int SolutionIndex=0);
 
 public:
   /**
