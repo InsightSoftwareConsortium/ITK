@@ -40,7 +40,6 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
 
-
 /**
  * Standard PrintSelf method.
  */
@@ -52,6 +51,7 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Upper: " << m_Upper << std::endl;
   os << indent << "Lower: " << m_Lower << std::endl;
+  os << indent << "ReplaceValue: " << m_ReplaceValue << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -65,7 +65,6 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
     this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
     }
 }
-
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -84,26 +83,15 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
   FunctionType::Pointer function = FunctionType::New();
-  function->SetInputImage ( inputImage );
-  function->ThresholdBetween ( m_Lower, m_Upper );
+    function->SetInputImage ( inputImage );
+    function->ThresholdBetween ( m_Lower, m_Upper );
   IteratorType it = IteratorType ( outputImage, function, m_Seed );
 
-//   while( !it.IsAtEnd())
-//     {
-//     // std::cout << "Iterating" << std::endl << it.GetIndex() << std::endl;
-//     it.Set(NumericTraits<OutputImagePixelType>::One);
-//     ++it;
-//     }
-
-  typedef ImageRegionIterator<OutputImageType> RegionIteratorType;
-  RegionIteratorType rit = RegionIteratorType ( outputImage, outputImage->GetRequestedRegion() );
-  while( !rit.IsAtEnd())
+  while( !it.IsAtEnd())
     {
-    // std::cout << "Iterating" << std::endl << it.GetIndex() << std::endl;
-    rit.Set(m_ReplaceValue);
+    it.Set(m_ReplaceValue);
     ++it;
     }
-  
 }
 
 

@@ -33,7 +33,7 @@ public:
   /** Standard class typedefs. */
   typedef ConnectedThresholdImageFilter Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer <Self> Pointer;
+  typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -43,16 +43,12 @@ public:
   itkTypeMacro(ConnectedThresholdImageFilter,
                ImageToImageFilter);
 
-  /** Region, size, and pixel types. */
-  // typedef typename Superclass::IndexType IndexType;
-  // typedef typename Superclass::SizeType SizeType;
-  // typedef typename Superclass::PixelType PixelType;
-
   typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
   typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::SizeType SizeType;
   
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
@@ -60,6 +56,7 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
   
   void PrintSelf ( std::ostream& os, Indent indent ) const;
+
   /** Set seed point. */
   void SetSeed(const IndexType & seed)
   {
@@ -78,7 +75,7 @@ public:
   itkSetMacro(Upper, InputImagePixelType);
   itkGetMacro(Upper, InputImagePixelType);
   
-  /** Set/Get the upper threshold */
+  /** Set/Get value to replace thresholded pixels */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetMacro(ReplaceValue, OutputImagePixelType);
 
