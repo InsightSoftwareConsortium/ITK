@@ -57,10 +57,19 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() && this->GetOutput() )
+  if ( this->GetInput() )
     {
     this->GetInput()->SetRequestedRegionToLargestPossibleRegion();
     }
+}
+
+template <class TInputImage, class TOutputImage>
+void 
+ConnectedThresholdImageFilter<TInputImage,TOutputImage>
+::EnlargeOutputRequestedRegion()
+{
+  Superclass::EnlargeOutputRequestedRegion();
+  this->GetOutput()->SetRequestedRegionToLargestPossible();
 }
 
 template <class TInputImage, class TOutputImage>

@@ -109,7 +109,12 @@ protected:
   ConfidenceConnectedImageFilter();
   ~ConfidenceConnectedImageFilter(){};
   
+  // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
+
+  // Override since the filter produces the entire dataset
+  void EnlargeOutputRequestedRegion();
+
   void GenerateData();
   
 private:
