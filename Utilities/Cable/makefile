@@ -8,6 +8,7 @@ PARSER_OBJS= parseSourceXML.o \
              parseConfigXML.o \
              parseUtils.o \
              internalRep.o \
+             configRep.o \
              $(EXPAT)/xmlparse/hashtable.o \
              $(EXPAT)/xmlparse/xmlparse.o \
              $(EXPAT)/xmltok/xmlrole.o \
@@ -22,6 +23,7 @@ all: generateWrappers
 
 -include generateWrappers.d
 -include internalRep.d
+-include configRep.d
 -include parseSourceXML.d
 -include parseConfigXML.d
 -include parseUtils.d

@@ -49,11 +49,20 @@ void processCommandLine(int argc, char* argv[]);
 int main(int argc, char* argv[]) try
 {
   processCommandLine(argc, argv);
+
+  // Store the configuration.
+  Configuration::Pointer configuration;
   
-  /**
-   * Parse the configuration XML input.
-   */
-  Configuration::Pointer configuration = ParseConfigXML(configFile);
+  if(configFile)
+    {
+    // Parse the configuration XML input.
+    configuration = ParseConfigXML(configFile);
+    }
+  else
+    {
+    // Use the default configuration.
+    configuration = Configuration::New();
+    }
   
   /**
    * Parse the source XML input.
