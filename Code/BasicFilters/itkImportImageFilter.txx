@@ -39,7 +39,7 @@ ImportImageFilter<TPixel, VImageDimension>
     }
 
   m_ImportPointer = 0;
-  m_ThisImportImageFilterWillOwnTheMemory = false;
+  m_FilterManageMemory = false;
   m_Size = 0;
 }
 
@@ -50,7 +50,7 @@ template <class TPixel, unsigned int VImageDimension>
 ImportImageFilter<TPixel, VImageDimension>
 ::~ImportImageFilter()
 {
-  if (m_ImportPointer && m_ThisImportImageFilterWillOwnTheMemory)
+  if (m_ImportPointer && m_FilterManageMemory)
     {
     delete [] m_ImportPointer;
     }
@@ -79,7 +79,7 @@ ImportImageFilter<TPixel, VImageDimension>
     }
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  os << indent << "Source manage memory: " << (m_ThisImportImageFilterWillOwnTheMemory ? "true" : "false") << std::endl;
+  os << indent << "Filter manages memory: " << (m_FilterManageMemory ? "true" : "false") << std::endl;
 
   os << indent << "Spacing: [";
   for (i=0; i < static_cast<int>(VImageDimension) - 1; i++)
@@ -103,18 +103,18 @@ ImportImageFilter<TPixel, VImageDimension>
 template <class TPixel, unsigned int VImageDimension>
 void 
 ImportImageFilter<TPixel, VImageDimension>
-::SetImportPointer(TPixel *ptr, unsigned long num, bool ImportImageFilterWillOwnTheMemory)
+::SetImportPointer(TPixel *ptr, unsigned long num, bool LetFilterManageMemory)
 {
   if (ptr != m_ImportPointer)
     {
-    if (m_ImportPointer && m_ThisImportImageFilterWillOwnTheMemory)
+    if (m_ImportPointer && m_FilterManageMemory)
       {
       delete [] m_ImportPointer;
       }
     m_ImportPointer = ptr;
     this->Modified();
     }
-  m_ThisImportImageFilterWillOwnTheMemory = ImportImageFilterWillOwnTheMemory;
+  m_FilterManageMemory = LetFilterManageMemory;
   m_Size = num;
 }
 
