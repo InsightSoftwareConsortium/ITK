@@ -171,6 +171,7 @@ protected:
    * by derived classes that instantiate an interface
    * to rotation computation. */
    MatrixType          m_RotationMatrix;
+   MatrixType          m_InverseMatrix;
 
 private:
   QuaternionRigidTransform(const Self&); //purposely not implemented
