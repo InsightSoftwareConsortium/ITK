@@ -88,7 +88,7 @@ const ContinuousIndexType& index) const
   OutputType output;
   output.Fill( 0.0 );
 
-  double totalOverlap = 0.0;
+  RealType totalOverlap = 0.0;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
@@ -123,7 +123,7 @@ const ContinuousIndexType& index) const
       input = m_Image->GetPixel( neighIndex );
       for( int k = 0; k < VectorDimension; k++ )
         {
-        output[k] += overlap * static_cast<double>( input[k] );
+        output[k] += overlap * static_cast<RealType>( input[k] );
         }
       totalOverlap += overlap;
       }

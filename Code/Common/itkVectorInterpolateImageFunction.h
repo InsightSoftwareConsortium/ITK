@@ -48,7 +48,8 @@ class TPixelType = typename TInputImage::PixelType
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
     TInputImage, 
-    Vector<double, TPixelType::VectorDimension>,
+    Vector< ITK_TYPENAME NumericTraits<typename TPixelType::ValueType>::RealType, 
+      TPixelType::VectorDimension>,
     TCoordRep > 
 {
 public:
@@ -66,6 +67,7 @@ public:
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename InputImageType::PixelType  PixelType;
   typedef typename PixelType::ValueType       ValueType;
+  typedef typename NumericTraits<ValueType>::RealType  RealType;
     
   /** Extract the vector dimension from the pixel template parameter. */
   enum { VectorDimension = PixelType::VectorDimension };
