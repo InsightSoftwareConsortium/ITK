@@ -72,7 +72,7 @@ int main( int argc, char * argv [] )
 
   histogramGenerator->SetInput(  reader->GetOutput() );
 
-  histogramGenerator->SetNumberOfBins( 20 );
+  histogramGenerator->SetNumberOfBins( 255 );
   histogramGenerator->SetMarginalScale( 10.0 );
   histogramGenerator->Compute();
 
