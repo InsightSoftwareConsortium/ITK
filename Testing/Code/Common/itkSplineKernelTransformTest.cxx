@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 /**
  * This tests the elastic body spline and thin plate spline 
  * transform classes by warping a unit cube into a cube with side length 3.
