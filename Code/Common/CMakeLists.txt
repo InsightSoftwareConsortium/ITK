@@ -12,8 +12,6 @@ SET(ITKCommon_SRCS
   itkFileOutputWindow.cxx 
   itkGaussianKernelFunction.cxx 
   itkHexahedronCellTopology.cxx
-  itkImageIO.cxx 
-  itkImageIOCommon.cxx 
   itkIndent.cxx  
   itkIterationReporter.cxx
   itkKLMSegmentationBorder.cxx 
