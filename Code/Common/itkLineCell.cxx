@@ -19,18 +19,6 @@ namespace itk
 {
 
 /**
- *
- */
-template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::Pointer
-LineCell< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCellType>

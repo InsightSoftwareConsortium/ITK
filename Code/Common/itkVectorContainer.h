@@ -27,7 +27,9 @@
 #include <vector>
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
+#include "itkSetGet.h"
 
 namespace itk
 {
@@ -92,6 +94,11 @@ protected:
 
 public:
   /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+  
+  /**
    * Define types needed for the interface.
    */
   typedef std::pair< const ElementIdentifier , Element >  ValueType;
@@ -125,7 +132,6 @@ public:
   /**
    * Declare the public interface routines.
    */
-  static Pointer New(void);
   Element& ElementAt(ElementIdentifier);
   Element& CreateElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;

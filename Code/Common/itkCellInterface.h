@@ -21,6 +21,9 @@
 #define __itkCellInterface_h
 
 #include "itkLightObject.h"
+#include "itkObject.h"
+#include "itkObjectFactory.h"
+#include "itkSetGet.h"
 #include "itkSmartPointer.h"
 
 namespace itk

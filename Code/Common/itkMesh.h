@@ -46,6 +46,7 @@
 #include <list>
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
 #include "itkPoint.h"
 #include "itkCellInterface.h"
@@ -282,7 +283,10 @@ protected:
    * with specific mesh operations.
    */
 public:
-  static Pointer New(void);  
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   /**
    * Define Set/Get access routines for each internal container.

@@ -30,16 +30,24 @@
 #include <strstream>
 #include "itkWin32Header.h"
 
-// Error codes for exceptions
+
+/**
+ * Error codes for exceptions
+ */
 const int itkBoundsError=10;
 const int itkInvalidDimension=11;
 
-// A convenience macro marks variables as not being used by a method,
-// avoiding compile-time errors.
+
+/**
+ * A convenience macro marks variables as not being used by a method,
+ * avoiding compile-time errors.
+ */
 #define itkNotUsed(x)
 
-// Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
-//
+
+/**
+ * Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
+ */
 #define itkSetMacro(name,type) \
   virtual void Set##name (type _arg) \
   { \
@@ -52,8 +60,10 @@ const int itkInvalidDimension=11;
       } \
   } 
 
-// Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
-//
+
+/**
+ * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+ */
 #define itkGetMacro(name,type) \
   virtual type Get##name () \
   { \
@@ -62,10 +72,12 @@ const int itkInvalidDimension=11;
     return this->m_##name; \
   }
 
-// Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
-// This is the "const" form of the itkGetMacro.  It should be used unless
-// the member can be changed through the "Get" access routine.
-//
+
+/**
+ * Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+ * This is the "const" form of the itkGetMacro.  It should be used unless
+ * the member can be changed through the "Get" access routine.
+ */
 #define itkGetConstMacro(name,type) \
   virtual const type Get##name () const \
   { \
@@ -74,9 +86,11 @@ const int itkInvalidDimension=11;
     return this->m_##name; \
   }
 
-// Set character string.  Creates member Set"name"() 
-// (e.g., SetFilename(char *));
-//
+
+/**
+ * Set character string.  Creates member Set"name"() 
+ * (e.g., SetFilename(char *));
+ */
 #define itkSetStringMacro(name) \
   virtual void Set##name (const char* _arg) \
   { \
@@ -92,19 +106,23 @@ const int itkInvalidDimension=11;
     this->Modified(); \
   } 
 
-// Get character string.  Creates member Get"name"() 
-// (e.g., char *GetFilename());
-//
+
+/**
+ * Get character string.  Creates member Get"name"() 
+ * (e.g., char *GetFilename());
+ */
 #define itkGetStringMacro(name) \
   virtual const char* Get##name () const \
   { \
     return this->m_##name.c_str(); \
   } 
 
-// Set built-in type where value is constrained between min/max limits.
-// Create member Set"name"() (e.q., SetRadius()). #defines are 
-// convienience for clamping open-ended values.
-//
+
+/**
+ * Set built-in type where value is constrained between min/max limits.
+ * Create member Set"name"() (e.q., SetRadius()). #defines are 
+ * convienience for clamping open-ended values.
+ */
 #define itkSetClampMacro(name,type,min,max) \
   virtual void Set##name (type _arg) \
   { \
@@ -117,9 +135,11 @@ const int itkInvalidDimension=11;
       } \
   } 
 
-// Set pointer to object; uses itkObject reference counting methodology.
-// Creates method Set"name"() (e.g., SetPoints()).
-//
+
+/**
+ * Set pointer to object; uses itkObject reference counting methodology.
+ * Creates method Set"name"() (e.g., SetPoints()).
+ */
 #define itkSetObjectMacro(name,type) \
   virtual void Set##name (type* _arg) \
   { \
@@ -134,8 +154,10 @@ const int itkInvalidDimension=11;
       } \
   } 
 
-// Get pointer to object.  Creates member Get"name" (e.g., GetPoints()).
-//
+
+/**
+ * Get pointer to object.  Creates member Get"name" (e.g., GetPoints()).
+ */
 #define itkGetObjectMacro(name,type) \
   virtual type *Get##name () \
   { \
@@ -144,19 +166,22 @@ const int itkInvalidDimension=11;
     return this->m_##name; \
   } 
 
-// Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
-// Set method must be defined to use this macro.
-//
+
+/**
+ * Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
+ * Set method must be defined to use this macro.
+ */
 #define itkBooleanMacro(name) \
   virtual void name##On () { this->Set##name(true);}; \
   virtual void name##Off () { this->Set##name(false);}
 
-// Following set macros for vectors define two members for each macro.  The
-// first allows setting of individual components (e.g,
-// SetColor(float,float,float)), the second allows setting from an array
-// (e.g., SetColor(float* rgb[3])).  The macros vary in the size of the
-// vector they deal with.
-//
+/**
+ * Following set macros for vectors define two members for each macro.  The
+ * first allows setting of individual components (e.g,
+ * SetColor(float,float,float)), the second allows setting from an array
+ * (e.g., SetColor(float* rgb[3])).  The macros vary in the size of the
+ * vector they deal with.
+ */
 #define itkSetVector2Macro(name,type) \
   virtual void Set##name (type _arg1, type _arg2) \
   { \
@@ -331,10 +356,11 @@ virtual type *Get##name () const \
     this->Get##name (_arg[0], _arg[1], _arg[2], _arg[3], _arg[4], _arg[5]); \
     } 
 
-// General set vector macro creates a single method that copies specified
-// number of values into object.
-// Examples: void SetColor(c,3)
-//
+/**
+ * General set vector macro creates a single method that copies specified
+ * number of values into object.
+ * Examples: void SetColor(c,3)
+ */
 #define itkSetVectorMacro(name,type,count) \
   virtual void Set##name(type data[]) \
   { \
@@ -347,27 +373,31 @@ virtual type *Get##name () const \
       } \
   }
 
-// Get vector macro defines two methods. One returns pointer to type 
-// (i.e., array of type). This is for efficiency. The second copies data
-// into user provided array. This is more object-oriented.
-// Examples: float *GetColor() and void GetColor(float c[count]).
-//
+/**
+ * Get vector macro defines two methods. One returns pointer to type 
+ * (i.e., array of type). This is for efficiency. The second copies data
+ * into user provided array. This is more object-oriented.
+ * Examples: float *GetColor() and void GetColor(float c[count]).
+ */
 #define itkGetVectorMacro(name,type,count) \
   virtual type *Get##name () const \
   { \
     return this->m_##name; \
   } 
 
-// Use a global function which actually calls:
-// itkOutputWindow::GetInstance()->DisplayText();
-// This is to avoid itkObject #include of itkOutputWindow
-// while itkOutputWindow #includes itkObject
+/**
+ * Use a global function which actually calls:
+ * itkOutputWindow::GetInstance()->DisplayText();
+ * This is to avoid itkObject #include of itkOutputWindow
+ * while itkOutputWindow #includes itkObject
+ */
 extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 
-// This macro is used to print debug (or other information). They are
-// also used to catch errors, etc. Example usage looks like:
-// itkDebugMacro(<< "this is debug info" << this->SomeVariable);
-//
+/**
+ * This macro is used to print debug (or other information). They are
+ * also used to catch errors, etc. Example usage looks like:
+ * itkDebugMacro(<< "this is debug info" << this->SomeVariable);
+ */
 #ifdef ITK_LEAN_AND_MEAN
 #define itkDebugMacro(x)
 #else
@@ -382,6 +412,26 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
+
+
+/**
+ * Define the standard object factory creation method.  This macro
+ * simply takes the type for which the New() method is being defined.
+ *
+ * This creation method first tries asking the object factory to create
+ * an instance, and then defaults to the standard "new" operator if the
+ * factory fails.
+ */
+#define itkNewMacro(x) \
+static Pointer New(void) \
+{ \
+  x *ret = itkObjectFactory<x>::Create(); \
+  if(ret != NULL) \
+    { \
+    return ret; \
+    } \
+  return new x; \
+}
 
 #define itkWarningMacro(x)
 

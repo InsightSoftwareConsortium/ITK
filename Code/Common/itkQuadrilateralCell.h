@@ -72,9 +72,13 @@ public:
          CellDimension    = 2 };
   
   /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+  
+  /**
    * Implement the standard cell API.
    */
-  static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);

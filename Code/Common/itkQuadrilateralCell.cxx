@@ -19,18 +19,6 @@ namespace itk
 {
 
 /**
- *
- */
-template <typename TPixelType, typename TCellType>
-QuadrilateralCell< TPixelType , TCellType >::Pointer
-QuadrilateralCell< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCellType>

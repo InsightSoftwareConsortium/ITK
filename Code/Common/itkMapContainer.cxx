@@ -19,18 +19,6 @@ namespace itk
 {
 
 /**
- *
- */
-template <typename TElementIdentifier, typename TElement>
-MapContainer< TElementIdentifier , TElement >::Pointer
-MapContainer< TElementIdentifier , TElement >
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * Get a reference to the element at the given index.
  * If the index does not exist, it is created automatically.
  *

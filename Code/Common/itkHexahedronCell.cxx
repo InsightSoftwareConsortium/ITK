@@ -19,18 +19,6 @@ namespace itk
 {
 
 /**
- *
- */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Pointer
-HexahedronCell< TPixelType , TCelltype >
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCelltype>

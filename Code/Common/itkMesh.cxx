@@ -21,18 +21,6 @@ namespace itk
 {
 
 /**
- * Object factory.
- */
-template <typename TPixelType, typename TMeshType>
-Mesh< TPixelType , TMeshType >::Pointer
-Mesh< TPixelType , TMeshType >
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * Access routine to set the points container.
  */
 template <typename TPixelType, typename TMeshType>

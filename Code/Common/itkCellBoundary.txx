@@ -4,18 +4,6 @@ namespace itk
 {
 
 /**
- * Object factory for the boundary.
- */
-template <typename TCell>
-CellBoundary<TCell>::Pointer
-CellBoundary<TCell>
-::New(void)
-{
-  return new Self;
-}
-
-
-/**
  * This is the boundary wrapper, so of course we are a boundary!
  */
 template <typename TCell>
