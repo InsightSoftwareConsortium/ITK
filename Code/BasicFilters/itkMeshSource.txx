@@ -34,7 +34,6 @@ MeshSource<TOutputMesh>
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
-  output->UnderConstructionOn();
 
   m_GenerateDataRegion = 0;
   m_GenerateDataNumberOfRegions = 0;

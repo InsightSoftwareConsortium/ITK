@@ -38,7 +38,6 @@ ThresholdImageFilter<TImage>
   typename TImage::Pointer output = TImage::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(2);
   this->ProcessObject::SetNthOutput(1, output.GetPointer());
-  output->UnderConstructionOn();
 }
 
 
