@@ -5,7 +5,7 @@
 #include "itkSpatialOrientation.h"
 #include "itkOrientImageFilter.h"
 #include "itkIOCommon.h"
-#include "time.h"
+#include <vnl/vnl_sample.h>
 
 typedef itk::Image<unsigned int,3> ImageType;
 
@@ -21,12 +21,11 @@ ImageType::Pointer CreateRandomImage()
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
-  srand( (unsigned)time( NULL) );
   itk::ImageRegionIterator<ImageType> ri(img,region);
   while(!ri.IsAtEnd())
     {
     unsigned int val = rand();
-    ri.Set(val);
+    ri.Set( (unsigned int) vnl_sample_uniform(0, 32767) );
     ++ri;
     }
   return img;
