@@ -32,7 +32,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   double sum;
   int i;
   int j;
-  CoefficientVector::iterator it;
+  typename CoefficientVector::iterator it;
 
   const double et           = ::exp(-m_Variance);
   const double cap          = 1.0 - m_MaximumError;
