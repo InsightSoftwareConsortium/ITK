@@ -52,6 +52,7 @@ public:
    * typename typedef for the output image PixelType
    */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -92,7 +93,6 @@ public:
    */
   itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
   
-  
 protected:
   RandomImageSource();
   ~RandomImageSource();
@@ -100,7 +100,9 @@ protected:
   void operator=(const RandomImageSource&) {};
   void PrintSelf(std::ostream& os, Indent indent);
   
-  virtual void GenerateData();
+  virtual void 
+  ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+                       int threadId );
   virtual void GenerateOutputInformation();
 
 private:

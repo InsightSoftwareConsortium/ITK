@@ -17,6 +17,8 @@
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
 #include "itkImageScalarRegionIterator.h"
+#include "vnl/vnl_sample.h"
+
  
 namespace itk
 {
@@ -32,6 +34,7 @@ RandomImageSource<TOutputImage>
   m_Spacing = new float [TOutputImage::GetImageDimension()];
   m_Origin = new float [TOutputImage::GetImageDimension()];  
 
+  //Initial image is 64 wide in each direction.
   for (int i=0; i<TOutputImage::GetImageDimension(); i++)
     {
     m_Size[i] = 64;
@@ -39,7 +42,6 @@ RandomImageSource<TOutputImage>
     m_Origin[i] = 0.0;
     }
 }
-
 
 template <class TOutputImage>
 RandomImageSource<TOutputImage>
@@ -49,7 +51,6 @@ RandomImageSource<TOutputImage>
   delete [] m_Spacing;
   delete [] m_Origin;
 }
-
 
 /**
  *
@@ -93,26 +94,25 @@ RandomImageSource<TOutputImage>
 template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
-::GenerateData()
+::ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
+                       int threadId )
 {
   typedef typename TOutputImage::ScalarValueType scalarType;
-
   typename TOutputImage::Pointer image=this->GetOutput(0);
 
   image->SetBufferedRegion( image->GetRequestedRegion() );
-  image->Allocate();
 
   scalarType min = NumericTraits<scalarType>::min();
   scalarType max = NumericTraits<scalarType>::max();
 
   ImageScalarRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
-    scalarIterator(image, image->GetRequestedRegion());
+    scalarIterator(image, outputRegionForThread);
 
   itkDebugMacro(<<"Generating a random image of scalars");
 
   for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
     {
-    *scalarIterator = (min + max) / 2.0;
+    *scalarIterator = (scalarType) vnl_sample_uniform((double)min,(double)max);
     }
 }
 
