@@ -50,6 +50,7 @@ namespace itk
 /** \class LBFGSOptimizer
  * \brief Wrap of the vnl_lbfgs minimizer to be adapted for Registration
  *
+ * \ingroup Numerics
  */
 
 template <class TCostFunction>

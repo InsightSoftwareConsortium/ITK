@@ -49,6 +49,8 @@ namespace itk
 /** \class RegularStepGradientDescentOptimizer
  * \brief Implement a gradient descent optimizer
  *
+ * \ingroup Numerics
+ *
  */
 
   

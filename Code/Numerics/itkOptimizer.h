@@ -51,6 +51,8 @@ namespace itk
   
 /** \class Optimizer
  * \brief Generic representation for an optimization method 
+ *
+ * \ingroup Numerics
  */
 template <class TCostFunction>
 class ITK_EXPORT Optimizer : public Object 

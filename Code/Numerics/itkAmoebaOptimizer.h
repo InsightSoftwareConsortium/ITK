@@ -55,6 +55,7 @@ namespace itk
 /** \class AmoebaOptimizer
  * \brief Wrap of the vnl_amoeba algorithm
  *
+ * \ingroup Numerics
  */
 
 template <class TCostFunction>

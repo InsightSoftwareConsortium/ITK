@@ -50,6 +50,7 @@ namespace itk
 /** \class ConjugateGradientOptimizer
  * \brief Wrap of the vnl_conjugate_gradient 
  *
+ * \ingroup Numerics
  */
 
   

@@ -52,6 +52,7 @@ namespace itk
  * \brief This class is a base for the Optimization methods that 
  * optimize a single valued function.
  *
+ * \ingroup Numerics
  */
 
   

@@ -54,6 +54,8 @@ namespace itk
  *
  * p(n+1) = p(n) + learningRate * d f(p(n)) / d p(n)
  *
+ * \$ p\{n+1} = p\n + learningRate * \frac{\partial f(p\n) }{\partial p\n} \$
+ *
  * The learning rate is a fixed scalar defined via SetLearningRate().
  * The optimizer steps through a user defined number of iterations;
  * no convergence checking is done.
@@ -62,6 +64,8 @@ namespace itk
  * but setting a scaling vector using method SetScale().
  *
  * \sa RegularStepGradientDescentOptimizer
+ * 
+ * \ingroup Numerics
  */  
 template <class TCostFunction>
 class ITK_EXPORT GradientDescentOptimizer : 
