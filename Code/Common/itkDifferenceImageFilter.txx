@@ -147,9 +147,9 @@ DifferenceImageFilter<TInputImage, TOutputImage>
           difference = -difference;
           }
         OutputPixelType d = static_cast<OutputPixelType>(difference);
-        if(difference < minimumDifference)
+        if(d < minimumDifference)
           {
-          minimumDifference = difference;
+          minimumDifference = d;
           }
         }
       
