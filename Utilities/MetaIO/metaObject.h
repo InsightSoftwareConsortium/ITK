@@ -43,7 +43,7 @@ class MetaObject
 
       float m_Color[4];             // "Color = "            1.0, 0.0, 0.0, 1.0
  
-      unsigned int   m_ID;          // "ID = "               0
+      int   m_ID;          // "ID = "               0
 
       int   m_ParentID;             // "ParentID = "         -1
 
@@ -178,8 +178,8 @@ class MetaObject
       //    ID(...)
       //       Optional Field
       //       ID number of the current metaObject
-      void                ID(unsigned int _id);
-      unsigned int  ID(void) const;
+      void ID(int _id);
+      int  ID(void) const;
 
       //    ParentID(...)
       //       Optional Field

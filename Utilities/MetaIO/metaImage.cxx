@@ -159,7 +159,8 @@ PrintInfo() const
     }
   std::cout << std::endl;
 
-  std::cout << "ElementSizeValid = " << (int)m_ElementSizeValid;
+  std::cout << "ElementSizeValid = " << (int)m_ElementSizeValid
+            << std::endl;
   std::cout << "ElementSize = ";
   for(i=0; i<m_NDims; i++)
     {
@@ -880,6 +881,8 @@ Clear(void)
   m_HeaderSize = 0;
 
   memset(m_SequenceID, 0, 4*sizeof(float));
+  memset(m_ElementSize, 0, 10*sizeof(float));
+  m_ElementSizeValid = false;
 
   m_Modality = MET_MOD_UNKNOWN;
 
@@ -889,12 +892,6 @@ Clear(void)
   m_Quantity = 0;
   m_SubQuantity[0] = 0;
   m_DimSize[0] = 0;
-  int i;
-  for(i=0; i<10; i++)
-    {
-    m_ElementSize[i] = 0;
-    }
-  m_ElementSizeValid = false;
 
   MetaObject::Clear();
 
@@ -1328,10 +1325,23 @@ M_Read(void)
       {
       m_ElementSize[i] = mF->value[i];
       }
+    mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
+    if(mF && !mF->defined)
+      {
+      for(i=0; i<m_NDims; i++)
+        {
+        m_ElementSpacing[i] = m_ElementSize[i];
+        }
+      }
     }
   else
     {
+    int i;
     m_ElementSizeValid = false;
+    for(i=0; i<m_NDims; i++)
+      {
+      m_ElementSize[i] = m_ElementSpacing[i];
+      }
     }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);

@@ -494,12 +494,12 @@ Color(const float * _color)
 
 
 void  MetaObject::
-ID(unsigned int _id)
+ID(int _id)
 {
   m_ID = _id;
 }
       
-unsigned int  MetaObject::
+int  MetaObject::
 ID(void) const
 {
   return m_ID;
@@ -550,12 +550,11 @@ Clear(void)
 
   memset(m_Position, 0, 10*sizeof(float));
   memset(m_Orientation, 0, 100*sizeof(float));
-  memset(m_ElementSpacing, 0, 10*sizeof(float));
   memset(m_Color, 0, 4*sizeof(float));
 
   strcpy(m_TransformName,"Affine");
 
-  m_ID = 0;
+  m_ID = -1;
   m_Color[0]=1.0;
   m_Color[1]=0.0;
   m_Color[2]=0.0;
@@ -572,7 +571,6 @@ Clear(void)
   for(i=0; i<10; i++)
     {
     m_ElementSpacing[i] = 1;
-    m_Orientation[i*m_NDims+i] = 1;
     m_AnatomicalOrientation[i] = MET_ORIENTATION_UNKNOWN;
     }
 
@@ -757,9 +755,12 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ID", MET_INT, m_ID);
-  m_Fields.push_back(mF);
+  if(m_ID >= 0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ID", MET_INT, m_ID);
+    m_Fields.push_back(mF);
+    }
 
   if(m_ParentID >= 0)
     {
@@ -813,7 +814,7 @@ M_SetupWriteFields(void)
   valSet = false;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
-    if(m_Position[i] != 0)
+    if(m_Orientation[i] != 0)
       {
       valSet = true;
       break;
@@ -831,26 +832,31 @@ M_SetupWriteFields(void)
     {
     const char * str = AnatomicalOrientationAcronym();
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "ElementSpacing", MET_STRING, strlen(str), str);
+    MET_InitWriteField(mF, "AnatomicalOrientation",
+                       MET_STRING, strlen(str), str);
     m_Fields.push_back(mF);
     }
 
   valSet = false;
   for(i=0; i<m_NDims; i++)
     {
-    if(m_ElementSpacing[i] != 0 && m_ElementSpacing[i] != 1)
+    if(m_ElementSpacing[i] != 0)
       {
       valSet = true;
       break;
       }
     }
-  if(valSet)
+  if(!valSet)
     {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
-                       m_ElementSpacing);
-    m_Fields.push_back(mF);
+    for(i=0; i<m_NDims; i++)
+      {
+      m_ElementSpacing[i] = 1;
+      }
     }
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
+                     m_ElementSpacing);
+  m_Fields.push_back(mF);
   }
 
 bool MetaObject::
