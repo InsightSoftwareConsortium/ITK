@@ -153,9 +153,6 @@ int main()
   vnlOptimizer.set_epsilon_function( Epsilon_Function );
   vnlOptimizer.set_max_function_evals( Max_Iterations );
 
-  vnlOptimizer.set_trace( true );   // activate print out per iteration
-  vnlOptimizer.set_verbose( true ); // activate verbose mode
-
   vnlOptimizer.set_check_derivatives( 3 );
     
   // We start not so far from  | 3 2 |
