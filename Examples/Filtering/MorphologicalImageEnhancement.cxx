@@ -95,7 +95,7 @@ int main( int argc, char * argv[] )
   typedef itk::ConstrainedValueDifferenceImageFilter<
                           ImageType,
               ImageType,
-              ImageType > SubstractionFilterType;
+              ImageType > SubtractionFilterType;
 
   // define rescaling filter
   typedef itk::RescaleIntensityImageFilter<
@@ -110,9 +110,9 @@ int main( int argc, char * argv[] )
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
 
   // Creation of the Top Hat, Bottom Hat, Internal Addition, and Image Enhacement Filters
-  SubstractionFilterType::Pointer  topHat           = SubstractionFilterType::New();
-  SubstractionFilterType::Pointer  bottomHat        = SubstractionFilterType::New();
-  SubstractionFilterType::Pointer  imageEnhancement = SubstractionFilterType::New();
+  SubtractionFilterType::Pointer  topHat           = SubtractionFilterType::New();
+  SubtractionFilterType::Pointer  bottomHat        = SubtractionFilterType::New();
+  SubtractionFilterType::Pointer  imageEnhancement = SubtractionFilterType::New();
   AdditionFilterType::Pointer      internalAddition = AdditionFilterType::New();
 
   // Create the opening closing filters
