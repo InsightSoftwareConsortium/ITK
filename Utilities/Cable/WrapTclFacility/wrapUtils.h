@@ -49,8 +49,8 @@
 #define _wrap_NO_WCHAR_T
 #endif
 
-// GCC won't let static_cast add a const qualifier.
-#ifdef __GNUC__
+// GCC and MipsPro won't let static_cast add a const qualifier.
+#if defined(__GNUC__) || defined(__sgi)
 #define _wrap_CONST_CAST_HACK
 #endif
 
