@@ -25,6 +25,53 @@ ${DL_LIBS}
 )
 
 
+# Add commands to generate configure file when no
+# autoconf is around
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/itkConfigure.h.in 
+${CMAKE_BINARY_DIR}/itkConfigure.h)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Code/Insight3DParty/vxl/vcl/vcl_config-vc60.h
+${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl/vcl/vcl_config.h)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Build.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Utility.conf)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Utility.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Utility.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/DashboardManager.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Test.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Submit.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/ftp.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/ftp.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/Doxygen.tcl)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Testing/Utilities/WindowsUtility.conf.in
+${CMAKE_BINARY_DIR}/Testing/Utilities/WindowsUtility.conf)
+
 
 BEGIN MAKE VERBATIM
 
