@@ -554,8 +554,15 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
         // Normalize the splat accumulator with the normalizer
         this->NormalizeSplatAccumulator();
 
-        // Fit the intensity profile to a Cumulative Gaussian
-        this->FitProfile();
+        // Fit the intensity profile to a Cumulative Gaussian with
+        // Levenberg-Marquardt Optimizer. Source of memory leaks?!?!?
+        //this->FitProfile();
+
+        m_FinalParameters[0] = FindAccumulatorMinimum();
+        m_FinalParameters[1] = FindAccumulatorMaximum() - FindAccumulatorMinimum();
+        m_FinalParameters[2] = 5;
+        m_FinalParameters[3] = 2;
+
 
         // Create a new boundary profile if within constraints of imaging modality
         if(m_FinalParameters[0] >= 0 && m_FinalParameters[0] <= 255 &&
