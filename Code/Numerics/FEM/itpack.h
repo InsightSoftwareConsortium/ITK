@@ -359,7 +359,7 @@ extern logical chgsme_(doublereal *oldnrm, integer *icnt);
 
 
 /**
- * overwrite double precision dy with double precision da*dx + dy
+ * Overwrite double precision dy with double precision da*dx + dy
  *  \param n length of da
  *  \param da array of da values
  *  \param dx array of dx values
@@ -371,7 +371,7 @@ extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, dou
 
 
 /**
- * copy dx to dy
+ * Copy dx to dy
  * \param n length of dx
  * \param dx array of values
  * \param incx increment size for dx array
@@ -382,7 +382,7 @@ extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, int
 
 
 /**
- * returns dot product of dx and dy
+ * Returns dot product of dx and dy
  * \param n length of dx
  * \param dx array of values
  * \param incx increment size for dx array
@@ -393,7 +393,7 @@ extern doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *d
 
 
 /**
- * subroutine that computes the determinant of a symmetric tridiagonal matrix
+ * Subroutine that computes the determinant of a symmetric tridiagonal matrix
  * given by tri. det(tri - xlmda*i) = 0
  * \param n order of tridiagonal system
  * \param tri symmetric tridiagonal matrix of order n
@@ -410,7 +410,7 @@ extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
 extern int dfault_(integer *iparm, doublereal *rparm);
 
 /**
- * this routine initializes the itpack common blocks from the information
+ * This routine initializes the itpack common blocks from the information
  * contained in IPARM and RPARM.  echall_ also prints the values of all the
  * parameters in IPARM and RPARM
  * \param nn Order of linear system
@@ -426,26 +426,8 @@ extern int dfault_(integer *iparm, doublereal *rparm);
 extern int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iparm, doublereal *rparm, integer *icall);
 
 
-/*     THIS ROUTINE INITIALIZES THE ITPACK COMMON BLOCKS FROM THE */
-/*     INFORMATION CONTAINED IN IPARM AND RPARM. */
-
-/* ... PARAMETER LIST: */
-
-/*          IPARM */
-/*           AND */
-/*          RPARM  ARRAYS OF PARAMETERS SPECIFYING OPTIONS AND */
-/*                    TOLERANCES */
-/*          IMTHD  INDICATOR OF METHOD */
-/*                    IMTHD = 1,  JCG */
-/*                    IMTHD = 2,  JSI */
-/*                    IMTHD = 3,  SOR */
-/*                    IMTHD = 4,  SSORCG */
-/*                    IMTHD = 5,  SSORSI */
-/*                    IMTHD = 6,  RSCG */
-/*                    IMTHD = 7,  RSSI */
-
 /**
- * this routine initiazes the itpack common blocks from IPARM and RPARM
+ * This routine initiazes the itpack common blocks from IPARM and RPARM
  * \param iparm integer array of parameters
  * \param rparm doublereal array of parameters
  * \param imthd indicator of method
@@ -461,7 +443,7 @@ extern int echout_(integer *iparm, doublereal *rparm, integer *imthd);
 
 
 /**
- * computes the largest eigenvalue of symmetric tridiagnoncal matrix 
+ * Computes the largest eigenvalue of symmetric tridiagnoncal matrix 
  * for conjugate gradient acceleration
  * \param n order of tridiagonal system
  * \param tri symmetric tridiagonal matrix of order n
@@ -473,7 +455,7 @@ extern doublereal eigvns_(integer *n, doublereal *tri, doublereal *d__, doublere
 
 
 /**
- * computes the largest eigenvalue of a symmetric tridiagonal matrix for conjugate gradient acceleration
+ * Computes the largest eigenvalue of a symmetric tridiagonal matrix for conjugate gradient acceleration
  * modified imsl routine zbrent is used
  * \param n order of tridiagonal system
  * \param tri symmetric tridiagonal matrix of order n
@@ -485,7 +467,7 @@ extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, double
 
 
 /**
- * smallest or largest m eigenvalue of a symmetric tridiagonal matrix
+ * Smallest or largest m eigenvalue of a symmetric tridiagonal matrix
  * \param d__ input vector of lenght n, contains diagonal elements of matrix
  *            the computed eigenvalues replace the first m components
  * \param e2 input vector of lenght n containing the squares of the off-diagonal elements of the matrix
@@ -498,7 +480,7 @@ extern int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, integer *m, int
 
 
 /** 
- * finds the smallest integer, ipstr, greater than 5 such that
+ * Finds the smallest integer, ipstr, greater than 5 such that
  * ipstr * (omega-1)**(ipstr-1) <= 0.5
  * \param omega relaxation factor for sor method
  */
@@ -506,7 +488,7 @@ extern integer ipstr_(doublereal *omega);
 
 
 /**
- * this routine produces teh iteration summary line at the end of each iteration
+ * This routine produces teh iteration summary line at the end of each iteration
  * if level = 5, the latest approx to the solution is printed
  * \param nn order of system
  * \param a iteration matrix
@@ -531,26 +513,130 @@ extern int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, int
  */
 extern int ivfill_(integer *n, integer *iv, integer *ival);
 
+
+/*
+ * FIXME: add doc
+ */
 extern int omeg_(doublereal *dnrm, integer *iflag);
+
+
+/*
+ * FIXME: add doc
+ */
 extern logical omgchg_(integer *ndummy);
+
+
+/*
+ * FIXME: add doc
+ */
 extern logical omgstr_(integer *ndummy);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int parcon_(doublereal *dtnrm, doublereal *c1, doublereal *c2, doublereal *c3, doublereal *c4, doublereal *gamold, doublereal *rhotmp, integer *ibmth);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int parsi_(doublereal *c1, doublereal *c2, doublereal *c3, integer *ibmth);
+
+
+/*
+ * FIXME: add doc
+ */
 extern doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *v, doublereal *w1, doublereal *w2);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pbsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p, integer *newia, integer *isym, integer *level, integer *nout, integer *ierr);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int perror_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *w, doublereal *digtt1, doublereal *digtt2, integer *idgtts);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pervec_(integer *n, doublereal *v, integer *p);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pfsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pfsor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pjac_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pmult_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *w);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int prbndx_(integer *nn, integer *nblack, integer *ia, integer *ja, integer *p, integer *ip, integer *level, integer *nout, integer *ier);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int prsblk_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a, doublereal *ur, doublereal *vb);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int prsred_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a, doublereal *ub, doublereal *vr);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pssor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs, doublereal *fr, doublereal *br);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int pstop_(integer *n, doublereal *u, doublereal *dnrm, doublereal *ccon, integer *iflag, logical *q1);
+
+
+/*
+ * FIXME: add doc
+ */
 extern doublereal pvtbv_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *v);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int qsort_(integer *nn, integer *key, doublereal *data, integer *error);
 
 
@@ -558,6 +644,11 @@ extern int qsort_(integer *nn, integer *key, doublereal *data, integer *error);
  * Convert compressed row matrix back to linked-list representation used for adding entires
  */
 extern int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork, integer *levell, integer *noutt, integer *ierr);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iw, doublereal *rw, doublereal *tol, integer *isym, integer *level, integer *nout, integer *ier);
 
 
@@ -604,13 +695,51 @@ extern int sbini_(integer *nn, integer *nz, integer *ia, integer *ja, doublereal
 extern int sbsij_(integer *nn, integer *nz, integer *ia, integer *ja, doublereal *a, integer *iwork, integer *ii, integer *jj, doublereal *vall, integer *mode, integer *levell, integer *noutt, integer *ierr);
 
 
+/*
+ * FIXME: add doc
+ */
 extern int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *d__, integer *level, integer *nout, integer *ier);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int sum3_(integer *n, doublereal *c1, doublereal *x1, doublereal *c2, doublereal *x2, doublereal *c3, doublereal *x3);
+
+
+/*
+ * FIXME: add doc
+ */
 extern doublereal tau_(integer *ii);
+
+
+/*
+ * FIXME: add doc
+ */
 extern E_f timer_(real *timdmy);
+
+
+/*
+ * FIXME: add doc
+ */
 extern logical tstchg_(integer *ibmth);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int unscal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *d__);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int vevmw_(integer *n, doublereal *v, doublereal *w);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int vevpw_(integer *n, doublereal *v, doublereal *w);
 
 
@@ -622,11 +751,23 @@ extern int vevpw_(integer *n, doublereal *v, doublereal *w);
  */ 
 extern int vfill_(integer *n, doublereal *v, doublereal *val);
 
+
+/*
+ * FIXME: add doc
+ */
 extern int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int wevmw_(integer *n, doublereal *v, doublereal *w);
+
+
+/*
+ * FIXME: add doc
+ */
 extern int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig, doublereal *aa, doublereal *bb, integer *maxfnn, integer *ier);
-
-
 
 
 }}} // end namespace itk::fem::itpack
