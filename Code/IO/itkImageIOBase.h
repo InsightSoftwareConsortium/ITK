@@ -190,6 +190,7 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer) = 0;
 
+
   /*-------- This part of the interfaces deals with writing data ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the

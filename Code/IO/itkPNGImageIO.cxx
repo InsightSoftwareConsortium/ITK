@@ -95,13 +95,21 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case USHORT:
       return typeid(unsigned short);
     case CHAR:
+      return typeid(char);
     case SHORT:
+      return typeid(short);
     case UINT:
+      return typeid(unsigned int);
     case INT:
+      return typeid(int);
     case ULONG:
+      return typeid(unsigned long);
     case LONG:
+      return typeid(long);
     case FLOAT:
+      return typeid(float);
     case DOUBLE:
+      return typeid(double);
     case RGB:
     case RGBA:
     default:
@@ -125,13 +133,21 @@ unsigned int PNGImageIO::GetComponentSize() const
     case USHORT:
       return sizeof(unsigned short);
     case CHAR:
+      return sizeof(char);
     case SHORT:
+      return sizeof(short);
     case UINT:
+      return sizeof(unsigned int);
     case INT:
+      return sizeof(int);
     case ULONG:
+      return sizeof(unsigned long);
     case LONG:
+      return sizeof(long);
     case FLOAT:
+      return sizeof(float);
     case DOUBLE:
+      return sizeof(double);
     case RGB:
     case RGBA:
     case UNKNOWN:
@@ -145,8 +161,15 @@ unsigned int PNGImageIO::GetComponentSize() const
 }
 
   
+void PNGImageIO::ReadVolume(void* buffer)
+{
+  
+}
+
+  
 void PNGImageIO::Read(void* buffer)
 {
+  std::cout << "Read: file dimensions = " << this->GetNumberOfDimensions() << std::endl;
   // use this class so return will call close
   PNGFileWrapper pngfp(this->GetFileName(),"rb"); 
   FILE* fp = pngfp.m_FilePointer;
@@ -398,7 +421,11 @@ void PNGImageIO::Write(const void* buffer)
   // loop over the z axis and write the slices
   std::string fileName;
   int numSlices = (numDims < 3 ? 1 : this->GetDimensions(2));
-  unsigned long sliceSize = this->GetDimensions(0)*this->GetDimensions(1);
+  unsigned long sliceSizeInBytes = 
+                  this->GetDimensions(0) * 
+                  this->GetDimensions(1) *
+                  this->GetNumberOfComponents() *
+                  this->GetComponentSize();
   
   for ( int fileNum=0; fileNum < numSlices; fileNum++ )
     {
@@ -413,7 +440,7 @@ void PNGImageIO::Write(const void* buffer)
       sprintf (fullName, "%s%03d.png", m_FilePrefix.c_str(), fileNum);
       fileName = fullName;
       }
-    this->WriteSlice(fileName,buffer,fileNum*sliceSize);
+    this->WriteSlice(fileName,buffer,fileNum * sliceSizeInBytes);
     }
 
 }
