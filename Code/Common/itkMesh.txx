@@ -741,6 +741,11 @@ Mesh< TPixelType , TMeshType >
  * feature.  Returns the number of neighbors found.  If cellSet is not
  * NULL, the set of cell pointers is filled in with identifiers of the
  * neighboring cells.
+ *
+ * NOTE: We would like to change this to use an "output iterator"
+ * (in STL fashion) instead of an actual container to return the neighbor
+ * identifiers.  This requires templated member support by the compiler,
+ * though, and we are not sure how wide-spread this support is.
  */
 template <typename TPixelType, typename TMeshType>
 unsigned long

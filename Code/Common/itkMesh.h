@@ -313,15 +313,16 @@ public:
   CellDataContainerPointer GetCellDataContainer(void);
 
   void SetBoundariesContainer(int dimension, BoundariesContainer*);
-  BoundariesContainerPointer GetBoundariesContainer(int);
+  BoundariesContainerPointer GetBoundariesContainer(int dimension);
 
   void SetBoundaryDataContainer(int dimension, BoundaryDataContainer*);
-  BoundaryDataContainerPointer GetBoundaryDataContainer(int);
+  BoundaryDataContainerPointer GetBoundaryDataContainer(int dimension);
   
   void SetBoundaryAssignmentsContainer(int dimension,
 				       BoundaryAssignmentsContainer*);
-  BoundaryAssignmentsContainerPointer GetBoundaryAssignmentsContainer(int);
-
+  BoundaryAssignmentsContainerPointer
+  GetBoundaryAssignmentsContainer(int dimension);
+  
   /**
    * Access routines to fill the Points container, and get information
    * from it.
