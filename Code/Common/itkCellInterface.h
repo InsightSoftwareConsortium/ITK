@@ -404,7 +404,7 @@ public:
   /**
    * Compute the square of the diagonal length of the bounding box.
    */
-  CoordRepType GetBoundingBoxDiagonalLength2(void) {return CoordRep();}
+  CoordRepType GetBoundingBoxDiagonalLength2(void) {return NULL;}
 
   /**
    * Intersect the given bounding box (bounds[PointDimension*2]) with a line
