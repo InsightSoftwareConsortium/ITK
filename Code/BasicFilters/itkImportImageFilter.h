@@ -224,6 +224,10 @@ private:
   RegionType  m_Region;
   double   m_Spacing[VImageDimension];
   double   m_Origin[VImageDimension];
+
+  TPixel*  m_ImportPointer;
+  bool     m_SourceManageMemory;
+  unsigned long m_Size;
 };
 
 } // end namespace itk

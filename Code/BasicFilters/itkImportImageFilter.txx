@@ -61,6 +61,10 @@ ImportImageFilter<TPixel, VImageDimension>
     m_Spacing[idx] = 1.0;
     m_Origin[idx] = 0.0;
     }
+
+  m_ImportPointer = 0;
+  m_SourceManageMemory = false;
+  m_Size = 0;
 }
 
 /**
@@ -70,6 +74,10 @@ template <class TPixel, unsigned int VImageDimension>
 ImportImageFilter<TPixel, VImageDimension>
 ::~ImportImageFilter()
 {
+  if (m_ImportPointer && m_SourceManageMemory)
+    {
+    delete [] m_ImportPointer;
+    }
 }
 
 
@@ -83,6 +91,16 @@ ImportImageFilter<TPixel, VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
 
+  if (m_ImportPointer)
+    {
+    os << indent << "Imported pointer: (" << m_ImportPointer  << ")" << std::endl;
+    }
+  else
+    {
+    os << indent << "Imported pointer: (None)" << std::endl;
+    }
+  os << indent << "Import buffer size: " << m_Size << std::endl;
+  os << indent << "Source manage memory: " << (m_SourceManageMemory ? "true" : "false") << std::endl;
 }
 
 
@@ -94,15 +112,17 @@ void
 ImportImageFilter<TPixel, VImageDimension>
 ::SetImportPointer(TPixel *ptr, unsigned long num, bool LetSourceManageMemory)
 {
-  OutputImagePointer outputPtr = this->GetOutput();
-
-  // check to see if this will cause the filter to be modified
-  if (ptr != outputPtr->GetPixelContainer()->GetImportPointer())
+  if (ptr != m_ImportPointer)
     {
-    outputPtr->GetPixelContainer()
-      ->SetImportPointer( ptr, num, LetSourceManageMemory );
+    if (m_ImportPointer && m_SourceManageMemory)
+      {
+      delete [] m_ImportPointer;
+      }
+    m_ImportPointer = ptr;
     this->Modified();
     }
+  m_SourceManageMemory = LetSourceManageMemory;
+  m_Size = num;
 }
 
 
@@ -114,9 +134,7 @@ TPixel *
 ImportImageFilter<TPixel, VImageDimension>
 ::GetImportPointer()
 {
-  OutputImagePointer outputPtr = this->GetOutput();
-
-  return outputPtr->GetPixelContainer()->GetImportPointer();
+  return m_ImportPointer;
 }
 
 
@@ -180,6 +198,14 @@ ImportImageFilter<TPixel, VImageDimension>
   // the output buffer size is set to the size specified by the user via the
   // SetRegion() method.
   outputPtr->SetBufferedRegion( outputPtr->GetLargestPossibleRegion() );
+
+  // pass the pointer down to the container during each Update() since
+  // a call to Initialize() causes the container to forget the
+  // pointer.  Note that we tell the container NOT to manage the
+  // memory itself.  This filter will properly manage the memory (as
+  // opposed to the container) if the user wants it to.
+  outputPtr->GetPixelContainer()->SetImportPointer( m_ImportPointer,
+                                                    m_Size, false );
 }
 
 
