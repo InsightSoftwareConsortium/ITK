@@ -37,7 +37,7 @@ int itkLineSpatialObjectTest(int, char* [])
   std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;
 
   LineType::PointListType list;
-  unsigned int i=0;
+  unsigned int i;
   for(i=0; i<10; i++)
   {
     LinePointType p;

@@ -36,7 +36,7 @@ int itkBlobSpatialObjectTest(int, char* [])
 
   BlobType::PointListType list;
  
-  unsigned int i=0;
+  unsigned int i;
   for( i=0; i<10; i++)
   {
     BlobPointType p;

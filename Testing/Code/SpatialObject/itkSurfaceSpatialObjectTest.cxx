@@ -40,7 +40,7 @@ int itkSurfaceSpatialObjectTest(int, char* [])
   std::cout<<"Testing SurfaceSpatialObject:"<<std::endl<<std::endl;
 
   SurfaceType::PointListType list;
-  unsigned int i = 0;
+  unsigned int i;
   for(i=0; i<10; i++)
   {
     SurfacePointType p;
