@@ -35,7 +35,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Points: " 
-     << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->Size() : 0) << std::endl;
+     << ((this->m_PointsContainer.GetPointer()) ?  this->m_PointsContainer->Size() : 0) << std::endl;
   os << indent << "Number Of Cell Links: " 
      << ((m_CellLinksContainer) ?  m_CellLinksContainer->Size() : 0) << std::endl;
   os << indent << "Number Of Cells: " 
@@ -47,11 +47,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   
   os << indent << "CellsAllocationMethod: " 
      << m_CellsAllocationMethod << std::endl;
-  os << indent << "Requested Number Of Regions: " 
-     << m_RequestedNumberOfRegions << std::endl;
-  os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
-  os << indent << "Maximum Number Of Regions: " 
-     << m_MaximumNumberOfRegions << std::endl;
 
 }
 
@@ -613,7 +608,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Sanity check on mesh status.
    */
-  if( !m_PointsContainer || !m_CellsContainer ||
+  if( !this->m_PointsContainer || !m_CellsContainer ||
       (!m_CellsContainer->IndexExists(cellId)) )
     {
     /**
@@ -665,7 +660,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     this->BuildCellLinks();
     }
-  else if((m_PointsContainer->GetMTime() > m_CellLinksContainer->GetMTime()) ||
+  else if((this->m_PointsContainer->GetMTime() > m_CellLinksContainer->GetMTime()) ||
           (m_CellsContainer->GetMTime()  > m_CellLinksContainer->GetMTime()))
     {
     this->BuildCellLinks();
@@ -778,7 +773,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Sanity check on mesh status.
    */
-  if( !m_PointsContainer || !m_CellsContainer ||
+  if( !this->m_PointsContainer || !m_CellsContainer ||
       (!m_CellsContainer->IndexExists(cellId)) )
     {
     /**
@@ -828,7 +823,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * requires that the CellLinks be built.
    */
   if( !m_CellLinksContainer ||
-      (m_PointsContainer->GetMTime() > m_CellLinksContainer->GetMTime()) ||
+      (this->m_PointsContainer->GetMTime() > m_CellLinksContainer->GetMTime()) ||
       (m_CellsContainer->GetMTime()  > m_CellLinksContainer->GetMTime()) )
     {
     this->BuildCellLinks();
@@ -990,7 +985,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Make sure we have a cells and a points container.
    */
-  if( !m_PointsContainer || !m_CellsContainer )
+  if( !this->m_PointsContainer || !m_CellsContainer )
     {
     /**
      * TODO: Throw EXCEPTION here?

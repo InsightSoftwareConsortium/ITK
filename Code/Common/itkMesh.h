@@ -429,11 +429,6 @@ public:
    *  information.  (Note, this follows the Visitor Design Pattern.) */
   virtual void Accept(CellMultiVisitorType* mv);
 
-  /** Get the maximum number of regions that this data can be
-   *  separated into. */
-  int GetMaximumNumberOfRegions() const
-    {return m_MaximumNumberOfRegions;}
-
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
