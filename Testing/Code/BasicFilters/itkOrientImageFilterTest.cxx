@@ -5,6 +5,7 @@
 #include "itkSpatialOrientation.h"
 #include "itkOrientImageFilter.h"
 #include "itkIOCommon.h"
+#include "time.h"
 
 typedef itk::Image<unsigned int,3> ImageType;
 
