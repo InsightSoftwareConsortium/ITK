@@ -79,8 +79,8 @@ RandomImageSource<TOutputImage>
 ::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::IndexType index = {0};
-  typename TOutputImage::SizeType size = {0};
+  typename TOutputImage::IndexType index = {{0}};
+  typename TOutputImage::SizeType size = {{0}};
   size.SetSize( m_Size );
   
   output = this->GetOutput(0);
