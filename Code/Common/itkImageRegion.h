@@ -63,6 +63,10 @@ public:
 
   /** Dimension of the image available at compile time. */
   enum { ImageDimension = VImageDimension };
+
+  /** Dimension one lower than the image unless the image is one dimensional
+   in which case the SliceDimension is also one dimensional. */
+  enum { SliceDimension = (VImageDimension - (VImageDimension > 1))};
   
   /** Dimension of the image available at run time. */
   static unsigned int GetImageDimension() 
@@ -75,7 +79,10 @@ public:
   /** Size typedef support. A size is used to define region bounds. */
   typedef Size<VImageDimension>  SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
-    
+
+  /** Slice region typedef. SliceRegion is one dimension less than Self. */
+  typedef ImageRegion<SliceDimension> SliceRegion;
+  
   /** Return the region type. Images are described with structured regions. */
   virtual typename Superclass::RegionType GetRegionType() const
     {return Superclass::ITK_STRUCTURED_REGION;}
@@ -92,6 +99,17 @@ public:
    * reference counted, so the copy constructor is public. */
   ImageRegion(const Self& region) : m_Index( region.m_Index ), m_Size( region.m_Size ) {};
 
+  /** Constructor that takes an index and size. ImageRegion is a lightweight
+   * object that is not reference counted, so this constructor is public. */
+  ImageRegion(const IndexType &index, const SizeType &size)
+    { m_Index = index; m_Size = size; };
+
+  /** Constructor that takes a size and assumes an index of zeros. ImageRegion
+   * is lightweight object that is not reference counted so this constructor
+   * is public. */
+  ImageRegion(const SizeType &size)
+    { m_Size = size; m_Index.Fill(0); } ;
+  
   /** operator=. ImageRegion is a lightweight object that is not reference
    * counted, so operator= is public. */
   void operator=(const Self& region) 
@@ -226,6 +244,11 @@ public:
    * region. Otherwise, this method returns true and the region is
    * modified to reflect the crop. */
   bool Crop(const Self& region);
+
+  /** Slice a region, producing a region that is one dimension lower
+   * than the current region. Parameter "dim" specifies which dimension
+   * to remove. */
+  SliceRegion Slice(const unsigned long dim) const;
                    
 protected:
   /** Methods invoked by Print() to print information about the object

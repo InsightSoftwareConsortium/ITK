@@ -31,11 +31,8 @@ template<unsigned int VImageDimension>
 ImageRegion<VImageDimension>
 ::ImageRegion()
 {
-  for(unsigned int i=0; i<VImageDimension; i++)
-  {
-    m_Index[i] = 0; 
-    m_Size[i]  = 0;
-  }
+  m_Index.Fill(0);
+  m_Size.Fill(0);
 }
 
 /**
@@ -170,6 +167,29 @@ ImageRegion<VImageDimension>
     }
 
   return cropPossible;
+}
+
+
+template<unsigned int VImageDimension>
+ImageRegion<VImageDimension>::SliceRegion
+ImageRegion<VImageDimension>
+::Slice(const unsigned long dim) const
+{
+  Index<SliceDimension> sliceIndex;
+  Size<SliceDimension> sliceSize;
+
+  unsigned int ii = 0;
+  for (unsigned int i=0; i < VImageDimension; i++)
+    {
+    if (i != dim)
+      {
+      sliceIndex[ii] = m_Index[i];
+      sliceSize[ii] = m_Size[i];
+      ++ii;
+      }
+    }
+
+  return ImageRegion<SliceDimension>(sliceIndex, sliceRegion);
 }
 
 
