@@ -161,8 +161,7 @@ public:
      * This method sets the rotation of an Rigid3DTransform to a
      * value specified by the user.
      **/
-    void SetRotation(const VnlQuaternionType &rotation)
-        { m_Rotation = rotation; return; }
+    void SetRotation(const VnlQuaternionType &rotation);
 
 
     /**

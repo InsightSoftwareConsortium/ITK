@@ -115,6 +115,17 @@ PrintSelf(std::ostream &s) const
   return s;
 }
 
+// Set rotation
+template<class ScalarType, unsigned int NDimensions>
+void
+Rigid3DTransform<ScalarType, NDimensions>::
+SetRotation(const VnlQuaternionType &rotation )
+{
+  m_Rotation      = rotation;
+  m_DirectMatrix  = m_Rotation.rotation_matrix();
+  m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  return;
+}
 
 // Compose with another affine transformation
 template<class ScalarType, unsigned int NDimensions>
