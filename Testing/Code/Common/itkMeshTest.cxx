@@ -13,7 +13,7 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itkMesh<int>             Mesh;
+typedef itk::Mesh<int>             Mesh;
 typedef Mesh::CellType           CellType;
 
 /**
@@ -21,9 +21,9 @@ typedef Mesh::CellType           CellType;
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itkLineBoundary<int, CellType>       LineBoundary;
-typedef itkTetrahedronCell<int, CellType>    TetraCell;
-typedef itkHexahedronCell<int, CellType>     HexaCell;
+typedef itk::LineBoundary<int, CellType>       LineBoundary;
+typedef itk::TetrahedronCell<int, CellType>    TetraCell;
+typedef itk::HexahedronCell<int, CellType>     HexaCell;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
