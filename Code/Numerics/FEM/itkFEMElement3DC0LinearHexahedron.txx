@@ -252,10 +252,10 @@ Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
 ::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
 {
 
-  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+//  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
+//        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  VectorType lpt(2);
+  VectorType lpt(3);
 
   // FIXME!
 
@@ -372,7 +372,7 @@ Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
   z8+=sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(2))*DC_Scale;
 
   // FIXME: this isn't the correct drawing scheme
-  pDC->MoveTo(x1,y1,z1);
+/*  pDC->MoveTo(x1,y1,z1);
   pDC->LineTo(x2,y2,z2);
   pDC->LineTo(x3,y3,z3);
   pDC->LineTo(x4,y4,z4);
@@ -380,6 +380,7 @@ Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
   pDC->LineTo(x6,y6,z6);
   pDC->LineTo(x7,y7,z7);
   pDC->LineTo(x8,y8,z8);
+  */
 
 }
 #endif

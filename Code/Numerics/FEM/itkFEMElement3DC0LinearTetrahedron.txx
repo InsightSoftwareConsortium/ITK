@@ -129,7 +129,7 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
 //   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
 //         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  VectorType lpt(2);
+  VectorType lpt(3);
 
   // FIXME!
 
@@ -214,13 +214,14 @@ Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
   z4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
 
   // FIXME: this may not be the correct drawing scheme
-  pDC->MoveTo(x1,y1,z1);
+/*  pDC->MoveTo(x1,y1,z1);
   pDC->LineTo(x2,y2,z2);
   pDC->LineTo(x3,y3,z3);
   pDC->LineTo(x4,y4,z4);
   pDC->LineTo(x1,y1,z1);
   pDC->MoveTo(x4,y4,z4);
   pDC->LineTo(x2,y2,z2);
+  */
 
 }
 #endif
