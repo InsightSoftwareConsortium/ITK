@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkNumericsPrintTest);
   REGISTER_TEST(itkAmoebaOptimizerTest);
   REGISTER_TEST(itkConjugateGradientOptimizerTest);
   REGISTER_TEST(itkGradientDescentOptimizerTest);

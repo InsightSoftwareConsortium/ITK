@@ -12,6 +12,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
 SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
 
+ADD_TEST(itkNumericsPrintTest ${NUMERICS_TESTS} itkNumericsPrintTest)
 ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
 ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
 ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
@@ -26,6 +27,7 @@ ADD_TEST(itkVersorTransformOptimizerTest ${NUMERICS_TESTS} itkVersorTransformOpt
 ADD_TEST(itkNumericsHeaderTest ${NUMERICS_HEADER_TEST})
 
 SET(Numerics_SRCS
+itkNumericsPrintTest.cxx
 itkAmoebaOptimizerTest.cxx
 itkConjugateGradientOptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
