@@ -74,6 +74,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkForwardDifferenceOperator.h"
+#include "itkFunctionBase.h"
 #include "itkGaussianOperator.h"
 #include "itkGreenPixelAccessor.h"
 #include "itkHexahedronCell.h"
