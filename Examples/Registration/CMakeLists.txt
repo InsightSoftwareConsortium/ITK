@@ -65,13 +65,13 @@ ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
-ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
 
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
@@ -169,26 +169,6 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration2Test.png  0
 )
-
-ADD_TEST(IterativeClosestPoint1Test ${REGISTRATION_EXAMPLES3}
-  IterativeClosestPoint1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
-)
-
-ADD_TEST(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES3}
-  IterativeClosestPoint2Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
-)
-
-ADD_TEST(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES3}
-  IterativeClosestPoint3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
-)
-
-
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
