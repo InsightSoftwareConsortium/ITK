@@ -30,7 +30,7 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  template <typename TPixel, unsigned int Dimension>
+  template <class TPixel, unsigned int Dimension>
   void
   VnlFFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
   GenerateData()

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template <typename TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int Dimension>
 void
 FFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
 GenerateOutputInformation()
@@ -91,7 +91,7 @@ GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template <typename TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int Dimension>
 void
 FFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
 GenerateInputRequestedRegion()

@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template <typename TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int Dimension>
 void
 FFTWComplexConjugateToRealImageFilter<TPixel,Dimension>::
 GenerateData()
@@ -141,7 +141,7 @@ GenerateData()
 }
 
 
-template <typename TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int Dimension>
 void
 FFTWComplexConjugateToRealImageFilter<TPixel,Dimension>::
 PrintSelf(std::ostream& os,Indent indent) const
