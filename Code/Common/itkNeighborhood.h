@@ -179,23 +179,6 @@ public:
   void PrintScalarData();
 
   /**
-   * Calculates the inner product with a valarray (and therefore also any
-   * NeighborhoodBase subclass) argument.  Returns a scalar value.
-   * The result of the inner product between two arrays of data of unequal
-   * size is undefined.  For efficiency, InnerProduct does no bounds checking.
-   * \sa SlicedInnerProduct
-   */
-  ScalarValueType InnerProduct(std::valarray<TPixel> &);
-
-  /**
-   * Slices the neighborhood and returns the slice's inner product with
-   * the valarray argument.
-   * \sa InnerProduct
-   */
-  ScalarValueType SlicedInnerProduct(const std::slice &,
-                                           std::valarray<TPixel> &);
-
-  /**
    * Returns the value of the center pixel in a Neighborhood.
    */
   TPixel Center() const

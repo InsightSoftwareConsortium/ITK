@@ -543,47 +543,6 @@ Convolve1D(Neighborhood<TPixel, VDimension> &A,
 }
 
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>::ScalarValueType
-Neighborhood<TPixel, VDimension>
-::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
-{
-  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
-  
-  TPixel *it;
-  typename Self::SliceIteratorType slice_it(this, s);
-
-  slice_it[0];
-  const TPixel *itEnd = &(v[v.size()]);
-  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
-    {
-      sum += *it * *slice_it;
-    }
-
-  return sum;
-}
-
-template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::ScalarValueType
-Neighborhood<TPixel, VDimension>
-::InnerProduct(std::valarray<TPixel> &v)
-{
-  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
-  
-  TPixel *it;
-  TPixel *this_it;
-
-  const TPixel *itEnd = &(v[v.size()]);
-  for (it = &(v[0]), this_it = this->Begin(); it < itEnd;
-       ++it, ++this_it)
-    {
-      sum += *it * *this_it;
-    }
-
-  return sum;
-  
-}
-
-template<class TPixel, unsigned int VDimension>
 void
 Neighborhood<TPixel, VDimension>
 ::PrintSelf()
@@ -593,7 +552,7 @@ Neighborhood<TPixel, VDimension>
   std::cout << "        this = " << this << std::endl;
   std::cout << "  this->size = " << this->size() << std::endl;
   
-   this->PrintScalarData();
+  //   this->PrintScalarData();
 }
 
 template<class TPixel, unsigned int VDimension>
