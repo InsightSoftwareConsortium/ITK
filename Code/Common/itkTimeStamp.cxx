@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkTimeStamp.h"
+#include "itkFastMutexLock.h"
 
 namespace itk
 {
@@ -28,6 +29,8 @@ TimeStamp
   return new Self;
 }
   
+/** Used for mutex locking */
+static SimpleFastMutexLock TimeStampMutex;
   
 /**
  * Make sure the new time stamp is greater than all others so far.
@@ -39,9 +42,11 @@ TimeStamp
   /**
    * Initialize static member
    */
-  unsigned long timeStampTime = 0;
+  static unsigned long itkTimeStampTime = 0;
   
-  m_ModifiedTime = ++timeStampTime;
+  TimeStampMutex.Lock();
+  m_ModifiedTime = ++itkTimeStampTime;
+  TimeStampMutex.Unlock();
 }
 
 } // end namespace itk
