@@ -20,6 +20,8 @@
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
 #include <vector>
+#include <queue>
+
 
 namespace itk
 {
@@ -104,7 +106,9 @@ public:
   typedef LineBoundary< TPixelType , TCellTraits >    Edge;
   typedef typename Edge::Pointer EdgePointer;
   typedef Point<int,2> EdgeInfo;
+  typedef std::deque<EdgeInfo> EdgeInfoDQ;
 
+   
   /**
    * Method for creation through the object factory.
    */
