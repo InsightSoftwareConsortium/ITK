@@ -35,8 +35,8 @@ namespace Functor {
    ~IntensityLinearTransform() {}
    void SetFactor( RealType a ) { m_Factor = a; }
    void SetOffset( RealType b ) { m_Offset = b; }
-   void SetMaximum( TOutput min ) { m_Minimum = min; }
-   void SetMinimum( TOutput max ) { m_Maximum = max; }
+   void SetMinimum( TOutput min ) { m_Minimum = min; }
+   void SetMaximum( TOutput max ) { m_Maximum = max; }
    inline TOutput operator()( const TInput & x )
    {
      RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;

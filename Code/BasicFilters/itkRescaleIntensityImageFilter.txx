@@ -73,7 +73,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
   
   CalculatorType::Pointer calculator = CalculatorType::New();
 
-//  calculator->SetImage( this->GetInput() );
+  calculator->SetImage( this->GetInput() );
 
   calculator->Compute();
 
@@ -86,7 +86,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
 
   const RealType offset =
           static_cast<RealType>( m_OutputMinimum ) - 
-          static_cast<RealType>( minimum );
+          static_cast<RealType>( minimum ) * factor;
   
   // set up the functor values
   this->GetFunctor().SetMinimum( m_OutputMinimum );
