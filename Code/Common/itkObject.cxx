@@ -285,7 +285,7 @@ Object
 ::UnRegister() const
 {
   // call the parent 
-  itkDebugMacro(<< this << "UnRegistered, "
+  itkDebugMacro(<< "UnRegistered, "
                 << "ReferenceCount = " << (m_ReferenceCount-1));
 
   if ( (m_ReferenceCount-1) <= 0)
