@@ -489,7 +489,7 @@ TreeIteratorBase<TTreeType>::Remove()
     m_Tree->Modified();
     }
 
-  m_Position = NULL;  // Smart pointer
+  m_Position = NULL;
   return true;
 }
 
