@@ -64,6 +64,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_GibbsPriorWeight(1),
     m_StartRadius(10),
     m_RecursiveNum(0),
+    m_CliqueWeight_2(-1.2),
     m_LabelStatus(0)
 {
   m_StartPoint[0] = 0;
@@ -226,8 +227,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int frame = m_ImageWidth * m_ImageHeight;
   int rowsize = m_ImageWidth;
 
-  float energy[2];
-  float difenergy;
+  double energy[2];
+  double difenergy;
   int label, originlabel, f[8], j, k, neighborcount=0;
 
   offsetIndex3D[2] = i / frame;
@@ -296,15 +297,15 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   else {
     if (changeflag) {
       difenergy = energy[label]-energy[1-label];
-      float rand_num = (float) (rand()/32768.0);
-      float energy_num = (float) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
+      double rand_num = (double) (rand()/32768.0);
+      double energy_num = (double) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
       if ( rand_num < energy_num ) m_LabelledImage->SetPixel(offsetIndex3D, 1-label);
     }
   }
 }
 
 template <typename TInputImage, typename TClassifiedImage>
-float
+double
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GibbsEnergy(int i, int k, int k1)
 {
@@ -314,7 +315,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int f[8];
   int j, neighborcount = 0, simnum = 0, difnum = 0, changenum = 0;
   bool changeflag;
-  float res = 0.0;
+  double res = 0.0;
 
   LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
   LabelledImagePixelType labelledPixel;
@@ -384,7 +385,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
    
   if (changenum < 3) 
     {
-    if ( (simnum==4)||(simnum==5) ) return res -= 1.2;
+    if ( (simnum==4)||(simnum==5) ) return res -= m_CliqueWeight_2;
     }
 
   return res;
