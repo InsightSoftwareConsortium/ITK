@@ -22,6 +22,7 @@
 #include "itkInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
 #include "itkExceptionObject.h"
+#include "itkGradientRecursiveGaussianImageFilter.h"
 
 namespace itk
 {
@@ -87,6 +88,16 @@ public:
                       MovingImageType,
                       CoordinateRepresentationType > InterpolatorType;
 
+  /** Gaussian filter to compute the gradrient of the Moving Image */
+  typedef GradientRecursiveGaussianImageFilter< 
+                                   FixedImageType >  GradientImageFilterType;  
+  typedef typename GradientImageFilterType::Pointer  GradientImageFilterPointer;
+  typedef typename GradientImageFilterType::OutputImageType  GradientImageType;
+  typedef typename GradientImageType::Pointer        GradientImagePointer;
+  typedef typename GradientImageType::PixelType      GradientPixelType;
+  typedef typename GradientImageFilterType::RealType RealType;
+
+
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /**  Type of the measure. */
@@ -142,6 +153,11 @@ public:
    *  are present and plugged together correctly     */
   void Initialize(void) throw ( ExceptionObject );
 
+  /** Set/Get the sigma value used for computing the 
+      gradient image with a derivative of a Gaussian filter */
+  itkSetMacro( ScaleGradient, RealType );
+  itkGetMacro( ScaleGradient, RealType );
+
 protected:
   ImageToImageMetric();
   virtual ~ImageToImageMetric() {};
@@ -155,11 +171,17 @@ protected:
   mutable TransformPointer    m_Transform;
   InterpolatorPointer         m_Interpolator;
 
+  GradientImagePointer        m_GradientImage;
+
 private:
   ImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   FixedImageRegionType        m_FixedImageRegion;  
+
+
+  // This is the Sigma value to be used by the Gradient Filter
+  RealType                    m_ScaleGradient;
 
 };
 

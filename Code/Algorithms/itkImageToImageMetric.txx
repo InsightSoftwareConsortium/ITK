@@ -31,10 +31,12 @@ template <class TFixedImage, class TMovingImage>
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::ImageToImageMetric()
 {
-  m_FixedImage   = 0; // has to be provided by the user.
-  m_MovingImage  = 0; // has to be provided by the user.
-  m_Transform    = 0; // has to be provided by the user.
-  m_Interpolator = 0; // has to be provided by the user.
+  m_FixedImage    = 0; // has to be provided by the user.
+  m_MovingImage   = 0; // has to be provided by the user.
+  m_Transform     = 0; // has to be provided by the user.
+  m_Interpolator  = 0; // has to be provided by the user.
+  m_GradientImage = 0; // will receive the output of the filter;
+  m_ScaleGradient = 1.0f; // Default value of sigma for the gradient
 }
 
 
@@ -91,6 +93,20 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   m_Interpolator->SetInputImage( m_MovingImage );
  
+  GradientImageFilterPointer gradientFilter
+                      = GradientImageFilterType::New();
+
+  gradientFilter->SetInput( m_FixedImage );
+
+  gradientFilter->SetSigma( m_ScaleGradient );  
+  gradientFilter->SetNormalizeAcrossScale( true );
+
+  gradientFilter->Update();
+
+  m_GradientImage = gradientFilter->GetOutput();
+
+  m_GradientImage->Print( std::cout );
+
 }
  
 
