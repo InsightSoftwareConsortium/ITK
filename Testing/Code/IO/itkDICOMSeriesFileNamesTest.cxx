@@ -33,39 +33,47 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
   fit->SetDirectory(av[1]);
   fit->SetFileNameSortingOrderToSortByImageNumber();
 
-  std::cout << "Files sorted by image number" << std::endl;
-  names = fit->GetFileNames();
-  for (nit = names.begin();
-       nit != names.end();
-       nit++)
-    {
-    std::cout << "File: " << (*nit).c_str() << std::endl;
-    }
-
-
-  fit->SetFileNameSortingOrderToSortBySliceLocation();
-
-  std::cout << "Files sorted by slice location" << std::endl;
-  names = fit->GetFileNames();
-  for (nit = names.begin();
-       nit != names.end();
-       nit++)
-    {
-    std::cout << "File: " << (*nit).c_str() << std::endl;
-    }
-
+  // Now look at each series in turn
+  std::vector<std::string> seriesUIDs;
+  seriesUIDs = fit->GetSeriesUIDs();
   
-  fit->SetFileNameSortingOrderToSortByImagePositionPatient();
-
-  std::cout << "Files sorted by ImagePositionPatient" << std::endl;
-  names = fit->GetFileNames();
-  for (nit = names.begin();
-       nit != names.end();
-       nit++)
+  std::vector<std::string>::iterator sit;
+  for (sit = seriesUIDs.begin(); sit != seriesUIDs.end(); ++sit)
     {
-    std::cout << "File: " << (*nit).c_str() << std::endl;
+    std::cout << "Series: " << *sit << std::endl;
+    std::cout << "\tFiles sorted by image number" << std::endl;
+    fit->SetFileNameSortingOrderToSortByImageNumber();
+    names = fit->GetFileNames( *sit );
+    for (nit = names.begin();
+         nit != names.end();
+         nit++)
+      {
+      std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
+      }
+    
+    
+    std::cout << "\tFiles sorted by slice location" << std::endl;
+    fit->SetFileNameSortingOrderToSortBySliceLocation();
+    names = fit->GetFileNames( *sit );
+    for (nit = names.begin();
+         nit != names.end();
+         nit++)
+      {
+      std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
+      }
+    
+    
+    std::cout << "\tFiles sorted by ImagePositionPatient" << std::endl;
+    fit->SetFileNameSortingOrderToSortByImagePositionPatient();
+    names = fit->GetFileNames( *sit );
+    for (nit = names.begin();
+         nit != names.end();
+         nit++)
+      {
+      std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
+      }
+
     }
-  
   return EXIT_SUCCESS;
 
 }
