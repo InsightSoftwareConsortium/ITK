@@ -16,8 +16,10 @@
 #ifndef __itkMutualInformationImageToImageMetric_h
 #define __itkMutualInformationImageToImageMetric_h
 
-#include "itkObject.h"
-#include "itkVectorContainer.h"
+#include "itkSimilarityRegistrationMetric.h"
+#include "itkCovariantVector.h"
+#include "itkPoint.h"
+
 #include "itkIndex.h"
 #include "itkKernelFunction.h"
 #include "itkCentralDerivativeImageFunction.h"
@@ -32,11 +34,9 @@ namespace itk
  * MutualInformationImageToImageMetric computes the mutual information
  * between a target and reference image to be registered.
  *
- * This class is templated over four types:
+ * This class is templated over two types:
  *    TTarget = the target image type,
  *    TMapper = the mapper type,
- *    TMeasure = type of the output metric value, and
- *    TDerivative = type of each of the individual metric derivatives
  *
  * For a given set of transform parameters, the mapper calculates the
  * transformed reference image value at a target domain point.
@@ -95,10 +95,12 @@ namespace itk
  */
 template <
 class TTarget,
-class TMapper,
-class TMeasure,
-class TDerivative >
-class ITK_EXPORT MutualInformationImageToImageMetric : public Object
+class TMapper >
+class ITK_EXPORT MutualInformationImageToImageMetric :
+  public SimilarityRegistrationMetric< 
+    typename TMapper::DomainType,
+    TTarget, TMapper, double,
+    CovariantVector< double, TMapper::SpaceDimension > >
 {
 public:
   /**
@@ -107,15 +109,25 @@ public:
   typedef MutualInformationImageToImageMetric  Self;
 
   /**
-   * Standard "Superclass" typedef.
-   */
-  typedef Object  Superclass;
-
-  /**
    * Smart pointer typedef support
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  /**
+   * Space dimension is the dimension of parameters space
+   */
+   enum { SpaceDimension = TMapper::SpaceDimension };
+
+  /**
+   *  Type of the match measure
+   */
+  typedef double  MeasureType;
+
+  /**
+   *  Type of the derivative of the match measure
+   */
+  typedef CovariantVector<MeasureType,SpaceDimension>  DerivativeType;
 
   /**
    *  Type of the Mapper
@@ -133,14 +145,16 @@ public:
   typedef TTarget TargetType;
 
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef SimilarityRegistrationMetric< 
+      ReferenceType, TargetType, MapperType, 
+      MeasureType, DerivativeType >  Superclass;
+
+  /**
    * TargetImageDimension enumeration
    */
   enum { TargetImageDimension = TargetType::ImageDimension };
-
-  /**
-   *  Type of the match measure
-   */
-  typedef TMeasure  MeasureType;
 
   /**
    * Type of the Transform
@@ -148,24 +162,9 @@ public:
   typedef typename MapperType::TransformationType TransformationType;
 
   /**
-   * Space dimension is the dimension of parameters space
-   */
-   enum { SpaceDimension = TMapper::SpaceDimension };
-
-  /**
    *  Parameters type
    */
-  typedef typename TransformationType::ParametersType ParametersType;
-
-  /**
-   *  Type of the derivative of the match measure
-   */
-  typedef Vector<TDerivative,SpaceDimension>  DerivativeType;
-
-  /**
-   * Type of the vector match measure
-   */
-  typedef Vector<TMeasure,SpaceDimension>  VectorMeasureType;
+  typedef typename MapperType::ParametersType ParametersType;
 
   /**
    *  Pointer type for the Reference
@@ -195,7 +194,7 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(MutualInformationImageToImageMetric, Object);
+  itkTypeMacro(MutualInformationImageToImageMetric, SimilarityRegistrationMetric);
 
   /**
    * Method for creation through the object factory.
@@ -203,46 +202,20 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Connect the Target
-   */
-  void SetTarget( TargetType * );
-
-  /**
-   * Connect the Mapper
-   */
-  void SetMapper( MapperType * );
-
-  /**
-   * Set the Transformation parameters
-   */
-  void SetParameters( const ParametersType& params )
-    { m_Parameters = params; }
-
-  /**
-   * Get Parameters
-   */
-  const ParametersType& GetParameters( void ) const
-    { return m_Parameters; }
-
-  /**
    * Get the Derivatives of the Match Measure
    */
-  DerivativeType& GetDerivative( void );
+  const DerivativeType& GetDerivative( const ParametersType& parameters );
 
   /**
-   *  Get the Value for SingleValue Optimizers
+   *  Get the Value
    */
-  MeasureType GetValue( void );
-
-  /**
-   *  Get the Value for MultipleValuedOptimizers
-   */
-  void GetValue( VectorMeasureType& );
+  MeasureType GetValue( const ParametersType& parameters );
 
   /**
    *  Get Value and Derivatives for SingleValuedOptimizers
    */
-  void GetValueAndDerivative(MeasureType& Value, DerivativeType& Derivative );
+  void GetValueAndDerivative( const ParametersType& parameters, 
+    MeasureType& Value, DerivativeType& Derivative );
 
   /**
    * Set the number of spatial samples. This is the number of image
@@ -304,14 +277,6 @@ public:
 
 protected:
 
-  ReferencePointer            m_Reference;
-  TargetPointer               m_Target;
-  MapperPointer               m_Mapper;
-  MeasureType                 m_MatchMeasure;
-  VectorMeasureType           m_VectorMatchMeasure;
-  DerivativeType              m_MatchMeasureDerivatives;
-  ParametersType              m_Parameters;
-
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {};
   MutualInformationImageToImageMetric(const Self&) {}
@@ -364,19 +329,14 @@ private:
   SpatialSampleContainer              m_SampleB;
 
   /**
-   * IntensityDerivative typedef support
+   * DerivativeContainer typedef support
    */
-  typedef Vector<double, SpaceDimension> IntensityDerivativeType;
-
-  /**
-   * IntensityDerivativeContainer typedef support
-   */
-  typedef std::vector<IntensityDerivativeType> IntensityDerivativeContainer;
+  typedef std::vector<DerivativeType> DerivativeContainer;
 
   /**
    * Container to store sample set A image derivatives
    */
-  IntensityDerivativeContainer      m_SampleADerivatives;
+  DerivativeContainer                 m_SampleADerivatives;
 
   unsigned int                        m_NumberOfSpatialSamples;
   double                              m_ReferenceStandardDeviation;
@@ -397,13 +357,13 @@ private:
   //
   // This is a temporary solution until it has been
   // implementation in the mappper.
-  // This solution only works any transform that has a
+  // This solution only works with a transform that has a
   // GetJacobian() API.
   //----------------------------------------------------------
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives(TargetPointType& , IntensityDerivativeType& );
+  void CalculateDerivatives(TargetPointType& , DerivativeType& );
 
   typedef CentralDerivativeImageFunction< ReferenceType >
     DerivativeFunctionType;
