@@ -65,6 +65,7 @@ public:
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
   typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::SizeType SizeType;
 
  /**  Default constructor  */
   LaplacianOperator()
