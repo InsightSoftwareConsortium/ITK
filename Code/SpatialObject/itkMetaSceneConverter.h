@@ -21,11 +21,15 @@
 #include "metaScene.h"
 #include "itkMetaEvent.h"
 #include "itkSceneSpatialObject.h"
+#include "itkDefaultStaticMeshTraits.h"
 
 namespace itk 
 {
 
-template <unsigned int NDimensions, class PixelType = unsigned char>
+template <unsigned int NDimensions, 
+          typename PixelType = unsigned char,
+          typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
+         >
 class MetaSceneConverter
 {
 

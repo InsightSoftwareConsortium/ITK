@@ -23,6 +23,7 @@
 #include "itkMetaGroupConverter.h"
 #include "itkMetaImageConverter.h"
 #include "itkMetaBlobConverter.h"
+#include "itkMetaMeshConverter.h"
 #include "itkMetaLandmarkConverter.h"
 #include "itkMetaLineConverter.h"
 #include "itkMetaSurfaceConverter.h"
@@ -38,6 +39,7 @@
 #include "itkLineSpatialObject.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkLandmarkSpatialObject.h"
+#include "itkMeshSpatialObject.h"
 
 #include <algorithm>
 
@@ -46,8 +48,8 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions, class PixelType>                                        
-MetaSceneConverter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>                                        
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::MetaSceneConverter()
 {
   // default behaviour of scene converter is not to save transform 
@@ -58,15 +60,15 @@ MetaSceneConverter<NDimensions,PixelType>
 }
 
 /** Destructor */ 
-template <unsigned int NDimensions, class PixelType>                                        
-MetaSceneConverter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>                                          
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::~MetaSceneConverter()
 {
 }
 
-template <unsigned int NDimensions, class PixelType> 
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>   
 void
-MetaSceneConverter<NDimensions,PixelType>
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::SetTransform(MetaObject* obj, TransformType* transform)
 {
   unsigned int offset = 
@@ -89,9 +91,9 @@ MetaSceneConverter<NDimensions,PixelType>
   obj->SetDoublePrecision(m_TransformPrecision);
 }
 
-template <unsigned int NDimensions, class PixelType> 
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>   
 void
-MetaSceneConverter<NDimensions,PixelType>
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::SetTransform(SpatialObjectType* so, MetaObject* meta)
 {
   typename SpatialObjectType::TransformType::Pointer transform = 
@@ -119,9 +121,9 @@ MetaSceneConverter<NDimensions,PixelType>
 
 /** Convert a metaScene into a Composite Spatial Object 
  *  Also Managed Composite Spatial Object to keep a hierarchy */
-template <unsigned int NDimensions, class PixelType> 
-typename MetaSceneConverter<NDimensions,PixelType>::ScenePointer
-MetaSceneConverter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>   
+typename MetaSceneConverter<NDimensions,PixelType,TMeshTraits>::ScenePointer
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::CreateSpatialObjectScene(MetaScene * mScene)
 {
   ScenePointer soScene = SceneType::New();
@@ -204,7 +206,16 @@ MetaSceneConverter<NDimensions,PixelType>
       this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( so);
     }
-
+  
+    if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
+    {
+      typedef itk::Mesh<PixelType,NDimensions,TMeshTraits> MeshType;
+      MetaMeshConverter<NDimensions,PixelType,TMeshTraits> meshConverter;
+      typename itk::MeshSpatialObject<MeshType>::Pointer so =
+          meshConverter.MetaMeshToMeshSpatialObject((MetaMesh*)*it);
+      this->SetTransform(so, *it) ;
+      soScene->AddSpatialObject( so);
+    }
 
     it++;
   }
@@ -217,9 +228,9 @@ MetaSceneConverter<NDimensions,PixelType>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions, class PixelType>   
-typename MetaSceneConverter<NDimensions,PixelType>::ScenePointer
-MetaSceneConverter<NDimensions,PixelType>
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>     
+typename MetaSceneConverter<NDimensions,PixelType,TMeshTraits>::ScenePointer
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::ReadMeta(const char* name)
 {
   MetaScene* mScene = new MetaScene;
@@ -235,9 +246,9 @@ MetaSceneConverter<NDimensions,PixelType>
 
 
 /** Write a meta file give the type */
-template <unsigned int NDimensions, class PixelType>    
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>      
 MetaScene *
-MetaSceneConverter<NDimensions,PixelType>
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::CreateMetaScene(SceneType * scene, unsigned int depth, char * name)
 {
   MetaScene * metaScene = new MetaScene(NDimensions);
@@ -377,6 +388,21 @@ MetaSceneConverter<NDimensions,PixelType>
       metaScene->AddObject(line);
       }
 
+    if(!strncmp((*it)->GetTypeName(),"MeshSpatialObject",17))
+      {
+      typedef itk::Mesh<PixelType,NDimensions,TMeshTraits> MeshType;
+      MetaMeshConverter<NDimensions,PixelType,TMeshTraits> converter;
+      MetaMesh* mesh = converter.MeshSpatialObjectToMetaMesh(
+          dynamic_cast<itk::MeshSpatialObject<MeshType>*>((*it).GetPointer()));
+      if((*it)->GetParent())
+        {
+        mesh->ParentID((*it)->GetParent()->GetId());
+        }
+      mesh->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(mesh, (*it)->GetObjectToParentTransform()) ;
+      metaScene->AddObject(mesh);
+      }
+
     it++;
     }
  
@@ -387,9 +413,9 @@ MetaSceneConverter<NDimensions,PixelType>
 
 
 /** Write a meta file give the type */
-template <unsigned int NDimensions, class PixelType>   
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>     
 bool
-MetaSceneConverter<NDimensions,PixelType>
+MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::WriteMeta(SceneType * scene, const char* fileName,
             unsigned int depth, char * soName)
 {
