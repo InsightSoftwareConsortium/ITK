@@ -174,18 +174,33 @@ int
 Wrapper< _wrap_WRAPPED_TYPE >
 ::ClassWrapperDispatchFunction(ClientData clientData, Tcl_Interp* interp,
                           int objc, Tcl_Obj* CONST objv[])
-{
+{  
   // Get the Wrapper instance for this interpreter.
   Wrapper* wrapper = Wrapper::GetForInterpreter(interp);
+    
+  try
+    {
+    // Call the Wrapper's dispatch function.
+    int result = wrapper->ClassWrapperDispatch(clientData, objc, objv);
+    
+    // Free any temporary objects that were used for the command.
+    wrapper->FreeTemporaries(objc, objv);
   
-  // Call the Wrapper's dispatch function.
-  int result = wrapper->ClassWrapperDispatch(clientData, objc, objv);
-  
-  // Free any temporary objects that were used for the command.
-  wrapper->FreeTemporaries(objc, objv);
-  
-  // Return the result code from the Wrapper to the interpreter.
-  return result;
+    // Return the result code from the Wrapper to the interpreter.
+    return result;
+    }
+  catch (TclException e)
+    {
+    wrapper->ReportErrorMessage(e.GetMessage());
+    return TCL_ERROR;
+    }
+  // We must catch any C++ exception to prevent it from unwinding the
+  // call stack back through the Tcl interpreter's C code.
+  catch (...)
+    {
+    wrapper->ReportErrorMessage("Caught unknown exception!!");
+    return TCL_ERROR;
+    }
 }
 
 

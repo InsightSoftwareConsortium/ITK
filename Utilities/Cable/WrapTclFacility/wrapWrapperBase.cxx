@@ -339,134 +339,6 @@ void WrapperBase::AddFunction(FunctionBase* function)
 
 
 /**
- * ObjectWrapperDispatch calls this to select the candidate function best
- * matching the given argument types.
- *
- * If no suitable candidate is found, NULL is returned.
- *
- * THIS IS A HACK VERSION!  It should be reimplemented to do full
- * overload resolution.  Perhaps it should be moved into its own class.
- */
-WrapperBase::FunctionBase*
-WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
-                             const CandidateFunctions& candidates) const
-{
-  // Construct a set of viable functions from the set of candidates.
-  CandidateFunctions viableFunctions;
-  
-  // 13.3.2 Viable Functions
-  for(CandidateFunctions::const_iterator i = candidates.begin();
-      i != candidates.end(); ++i)
-    {
-    // 13.3.2/2
-    // First, to be a viable function, a candidate function shall have enough
-    // parameters to agree in number with the arguments in the list.
-    if((*i)->GetNumberOfParameters() != argumentTypes.size())
-      {
-      continue;
-      }
-    
-    // 13.3.2/3
-    // Second, for F to be a viable function, there shall exist for each
-    // argument an implicit conversion sequence (13.3.3.1) that converts
-    // that argument to the corresponding parameter of F.
-    CvQualifiedTypes::const_iterator argument = argumentTypes.begin();
-    FunctionBase::ParameterTypes::const_iterator parameter = (*i)->ParametersBegin();
-    for(;argument != argumentTypes.end(); ++argument, ++parameter)
-      {
-      CvQualifiedType from = *argument;
-      const Type* to = *parameter;
-      // If the type is a reference, see if it can be bound.
-      if(to->IsReferenceType())
-        {
-        const ReferenceType* toRef = ReferenceType::SafeDownCast(to);
-        if(Conversions::ReferenceCanBindAsIdentity(from, toRef)
-           || Conversions::ReferenceCanBindAsDerivedToBase(from, toRef)
-           || (this->GetConversionFunction(from, to) != NULL))
-          {
-          // This conversion can be done, move on to the next
-          // argument/parameter pair.
-          continue;
-          }
-        // If the type references a const object (not volatile,
-        // though), a temporary is allowed.  See if a conversion to
-        // the referenced type is available.
-        CvQualifiedType toCvType = toRef->GetReferencedType();
-        if(toCvType.IsConst() && !toCvType.IsVolatile()
-           && this->GetConversionFunction(from, toCvType.GetType()))
-          {          
-          // This conversion can be done, move on to the next
-          // argument/parameter pair.
-          continue;
-          }
-        // This conversion cannot be done.
-        break;
-        }
-      // If the types are identical, the argument/parameter pair is valid.
-      else if(to->Id() == from.GetType()->Id())
-        {
-        // This conversion can be done, move on to the next
-        // argument/parameter pair.
-        continue;
-        }
-      else if((to->IsEitherPointerType() && from.GetType()->IsEitherPointerType())
-              && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
-                                                             PointerType::SafeDownCast(to)))
-        {
-        // This conversion can be done, move on to the next
-        // argument/parameter pair.
-        continue;
-        }
-      else if((to->IsArrayType() && from.GetType()->IsPointerType())
-              && Conversions::IsValidQualificationConversion(
-                PointerType::SafeDownCast(from.GetType()),
-                PointerType::SafeDownCast(TypeInfo
-                                          ::GetPointerType(ArrayType::SafeDownCast(to)->GetElementType(),
-                                                           false, false).GetType())))
-        {
-        // This conversion can be done, move on to the next
-        // argument/parameter pair.
-        continue;
-        }
-      else if(this->GetConversionFunction(from, to) == NULL)
-        {        
-        // If the "to" type is void and this is the first argument,
-        // assume that it matches.  THIS IS A HACK for static methods to match
-        // the implicit object parameter to any object (13.3.1/4).
-        if((argument == argumentTypes.begin()) && to->IsFundamentalType()
-           && FundamentalType::SafeDownCast(to)->IsVoid())
-          {
-          continue;
-          }
-        
-        // This conversion cannot be done.
-        break;
-        }
-      }
-    // See if we made it through all the argument/parameter pairs.
-    if(argument != argumentTypes.end())
-      {
-      // This conversion cannot be done.
-      continue;
-      }
-    
-    // The candidate is a viable function.
-    viableFunctions.push_back(*i);
-    }
-  
-  // If no viable functions remain, return NULL.
-  if(viableFunctions.empty())
-    {
-    return NULL;
-    }
-  
-  // Skip the rest of overload resolution.  Just take the first viable
-  // function.  
-  return viableFunctions[0];
-}
-
-
-/**
  * When a type name is given as a command with no arguments, no instance
  * name has been specified.  This is called to generate the error message.
  */
@@ -639,13 +511,6 @@ WrapperBase
     return TCL_ERROR;
     }  
   
-  // Determine the argument types of the constructor call.
-  CvQualifiedTypes argumentTypes;  
-  for(int i=2; i < objc; ++i)
-    {
-    argumentTypes.push_back(this->GetObjectType(objv[i]));
-    }
-  
   // See if any wrapper in our class hierarchy knows about a static method
   // with this name.
   String methodName = Tcl_GetStringFromObj(objv[1], NULL);
@@ -656,55 +521,36 @@ WrapperBase
     return wrapper->CallWrappedFunction(objc, objv, true);
     }
   
-  // See if this wrapper knows about a constructor.
-  if(m_FunctionMap.count(m_ConstructorName) > 0)
+  // We must select our own constructor.
+  FunctionSelector functionSelector(this, objc, objv);
+  
+  // Prepare the set of candidate functions.
+  CandidateFunctions candidates;    
+  FunctionMap::const_iterator first = m_FunctionMap.lower_bound(m_ConstructorName);
+  FunctionMap::const_iterator last = m_FunctionMap.upper_bound(m_ConstructorName);
+  for(FunctionMap::const_iterator i = first; i != last; ++i)
     {
-    // Prepare the set of candidate functions.
-    CandidateFunctions candidates;    
-    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(m_ConstructorName);
-    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(m_ConstructorName);
-    for(FunctionMap::const_iterator i = first; i != last; ++i)
-      {
-      candidates.push_back(i->second);
-      }
+    functionSelector.AddCandidateConstructor(i->second);
+    candidates.push_back(i->second);
+    }
     
-    // See if any candidates match the given arguments.
-    FunctionBase* constructor =
-      this->ResolveOverload(argumentTypes, candidates);
-    
-    // Make sure we have a matching candidate.
-    if(!constructor)
-      {
-      this->UnknownConstructor(m_ConstructorName, argumentTypes, candidates);
-      return TCL_ERROR;
-      }
-    
-    // Try to call the wrapped constructor.
-    try
-      {
-      constructor->Call(objc, objv);
-      Tcl_SetStringObj(Tcl_GetObjResult(m_Interpreter), "", -1);
-      }
-    catch (TclException e)
-      {
-      this->ReportErrorMessage(e.GetMessage());
-      return TCL_ERROR;
-      }
-    // We must catch any C++ exception to prevent it from unwinding the
-    // call stack back through the Tcl interpreter's C code.
-    catch (...)
-      {
-      this->ReportErrorMessage("Caught unknown exception!!");
-      return TCL_ERROR;
-      }
+  // See if any candidates match the given arguments.
+  FunctionBase* constructor = functionSelector.SelectConstructor();
+  
+  // Make sure we have a matching candidate.
+  if(constructor)
+    {
+    constructor->Call(objc, objv);
+    Tcl_SetStringObj(Tcl_GetObjResult(m_Interpreter), "", -1);  
+    return TCL_OK;
     }
   else
     {
-    // We don't have a constructor.
-    this->UnknownConstructor(m_ConstructorName, argumentTypes);
+    this->UnknownConstructor(m_ConstructorName,
+                             functionSelector.GetArgumentTypes(),
+                             candidates);
     return TCL_ERROR;
-    }  
-  return TCL_OK;
+    }
 }
 
 
@@ -800,42 +646,13 @@ bool WrapperBase::HasMethod(const String& name) const
 
 /**
  * This is called when this wrapper has been selected as knowing about
- * the method being invoked.  Here we determine the argument types,
- * use ResolveOverload to get the correct method wrapper, and call it.
+ * the method being invoked.  Here we use a FunctionSelector to get
+ * the correct method wrapper, and call it.
  */
 int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
                                      bool staticOnly) const
-{
-  CvQualifiedType objectType;
-  if(!staticOnly)
-    {
-    // Determine the type of the object.  This should be the wrapped
-    // type or a subclass of it, but possibly with cv-qualifiers added.
-    objectType = this->GetObjectType(objv[0]);
-    }
-  else
-    {
-    // If only static methods are allowed, use void as the implicit object
-    // argument type so that no non-static methods can be considered.
-    objectType = TypeInfo::GetFundamentalType(FundamentalType::Void, false, false);
-    }
-
-  // Determine the argument types of the method call.
-  CvQualifiedTypes argumentTypes;
-  // Add the implicit object argument.
-  if(objectType.IsPointerType())
-    {    
-    argumentTypes.push_back(PointerType::SafeDownCast(objectType.GetType())->GetPointedToType());
-    }
-  else
-    {
-    argumentTypes.push_back(objectType);
-    }
-  // Add the normal arguments.
-  for(int i=2; i < objc; ++i)
-    {
-    argumentTypes.push_back(this->GetObjectType(objv[i]));
-    }
+{  
+  FunctionSelector functionSelector(this, objc, objv);
   
   // Get the method name.
   String methodName = Tcl_GetStringFromObj(objv[1], NULL);
@@ -846,17 +663,19 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
   FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
   for(FunctionMap::const_iterator i = first; i != last; ++i)
     {
+    functionSelector.AddCandidateMethod(i->second);
     candidates.push_back(i->second);
     }
   
   // See if any candidates match the given arguments.
-  FunctionBase* method = this->ResolveOverload(argumentTypes, candidates);
+  FunctionBase* method = functionSelector.SelectMethod(staticOnly);
   
   // Make sure we have a matching candidate.  If not, we do not chain
   // up the class hierarchy because of name hiding.
   if(!method)
     {
-    this->UnknownMethod(methodName, argumentTypes, candidates);
+    this->UnknownMethod(methodName, functionSelector.GetArgumentTypes(),
+                        candidates);
     return TCL_ERROR;
     }
   
@@ -1059,65 +878,6 @@ void WrapperBase::Argument::SetToFunction(FunctionType f,
 
 
 /**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
- */
-WrapperBase::FunctionBase::FunctionBase(const String& name,
-                                        const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
-{
-}
-
-
-/**
- * Need a virtual destructor.
- */
-WrapperBase::FunctionBase::~FunctionBase()
-{
-}
-
-
-/**
- * Get the name of the wrapped method.
- */
-const String& WrapperBase::FunctionBase::GetName() const
-{
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long WrapperBase::FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-WrapperBase::FunctionBase::ParameterTypes::const_iterator
-WrapperBase::FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-WrapperBase::FunctionBase::ParameterTypes::const_iterator
-WrapperBase::FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
-}
-
-
-/**
  * The constructor passes the function name and pararmeter types down to
  * the FunctionBase.
  */
@@ -1169,7 +929,7 @@ void WrapperBase::Constructor::Call(int objc, Tcl_Obj*CONST objv[]) const
     }
   
   // Call the constructor wrapper.
-  void* object = m_ConstructorWrapper(m_Wrapper,arguments);
+  void* object = m_ConstructorWrapper(m_Wrapper, arguments);
   
   // TODO: Make sure object != NULL
   

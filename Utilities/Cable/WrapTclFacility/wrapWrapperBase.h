@@ -17,7 +17,9 @@
 #define _wrapWrapperBase_h
 
 #include "wrapUtils.h"
+#include "wrapFunctionBase.h"
 #include "wrapTypeInfo.h"
+#include "wrapFunctionSelector.h"
 #include "wrapConversionTable.h"
 #include "wrapPointer.h"
 #include "wrapReference.h"
@@ -84,14 +86,11 @@ public:
    * to instances, and pointers to instances of the type.
    */
   virtual WrapperFunction GetObjectWrapperFunction() const =0;
-  
-  class FunctionBase;
-  typedef std::vector<FunctionBase*> CandidateFunctions;
+
+  typedef FunctionSelector::CandidateFunctions CandidateFunctions;
   
 protected:
   void AddFunction(FunctionBase*);
-  FunctionBase* ResolveOverload(const CvQualifiedTypes& argumentTypes,
-                                const CandidateFunctions& candidates) const;
   void NoNameSpecified() const;
   void NoMethodSpecified() const;
   void UnknownConstructor(const String& methodName,
@@ -242,47 +241,10 @@ private:
 
 
 /**
- * Base class for all method wrappers.
- */
-class _wrap_EXPORT WrapperBase::FunctionBase
-{
-public:
-  typedef std::vector<const Type*> ParameterTypes;
-  FunctionBase(const String& name,
-               const ParameterTypes& parameterTypes);
-  virtual ~FunctionBase();
-
-  const String& GetName() const;
-  virtual String GetPrototype() const =0;
-  unsigned long GetNumberOfParameters() const;
-  ParameterTypes::const_iterator ParametersBegin() const;
-  ParameterTypes::const_iterator ParametersEnd() const;
-  
-  /**
-   * This is called by the overload resolution algorithm when this
-   * method wrapper has been selected.  It must be defined by
-   * a subclass to actually call a wrapped method.
-   */
-  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const =0;
-protected:
-  /**
-   * The name of the method.
-   */
-  String m_Name;
-  
-  /**
-   * The parameter types of the method.  These may be needed for
-   * overload resolution.
-   */
-  ParameterTypes m_ParameterTypes;
-};
-
-
-/**
- * The subclass of WrapperBase::FunctionBase which is used for constructor
+ * The subclass of FunctionBase which is used for constructor
  * wrappers.
  */
-class _wrap_EXPORT WrapperBase::Constructor: public WrapperBase::FunctionBase
+class _wrap_EXPORT WrapperBase::Constructor: public FunctionBase
 {
 public:
   // Pull a typedef out of the superclass.
@@ -301,10 +263,10 @@ private:
 
   
 /**
- * The subclass of WrapperBase::FunctionBase which is used for method
+ * The subclass of FunctionBase which is used for method
  * wrappers.
  */
-class _wrap_EXPORT WrapperBase::Method: public WrapperBase::FunctionBase
+class _wrap_EXPORT WrapperBase::Method: public FunctionBase
 {
 public:
   // Pull a typedef out of the superclass.
@@ -326,10 +288,10 @@ private:
 
 
 /**
- * The subclass of WrapperBase::FunctionBase which is used for static
+ * The subclass of FunctionBase which is used for static
  * method wrappers.
  */
-class _wrap_EXPORT WrapperBase::StaticMethod: public WrapperBase::FunctionBase
+class _wrap_EXPORT WrapperBase::StaticMethod: public FunctionBase
 {
 public:
   // Pull a typedef out of the superclass.
