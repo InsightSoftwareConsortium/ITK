@@ -201,6 +201,12 @@ public:
   /** Type definition for the input image pixel vector type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
+  /** Type definition for the input image index type. */
+  typedef typename TInputImage::IndexType       InputImageIndexType;
+
+  /** Type definition for the classified image offset type. */
+  typedef typename TInputImage::OffsetType      InputImageOffsetType;
+
   /** Type definition for the image iterators to be used. */
   typedef ImageRegionIterator< TInputImage > InputImageIterator;
 
