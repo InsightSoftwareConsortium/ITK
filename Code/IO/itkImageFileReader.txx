@@ -225,6 +225,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ITK_CONVERT_BUFFER_IF_BLOCK( short)
   ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
   ITK_CONVERT_BUFFER_IF_BLOCK( int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
+  ITK_CONVERT_BUFFER_IF_BLOCK( long)
   ITK_CONVERT_BUFFER_IF_BLOCK(float)
   ITK_CONVERT_BUFFER_IF_BLOCK( double)
   else
@@ -240,6 +242,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         << std::ends << "    " << typeid(short).name()
         << std::ends << "    " << typeid(unsigned int).name()
         << std::ends << "    " << typeid(int).name()
+        << std::ends << "    " << typeid(unsigned long).name()
+        << std::ends << "    " << typeid(long).name()
         << std::ends << "    " << typeid(float).name()
         << std::ends << "    " << typeid(double).name()
         << std::ends;
