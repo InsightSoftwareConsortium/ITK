@@ -20,6 +20,7 @@ SUBDIRS(expat)
 # Create the DICOMParse library for ITK
 SET(DICOMPARSER_NAMESPACE itkdicomparser)
 SET(DICOMPARSER_LIBRARY ITKDICOMParser)
+SET(DICOMPARSER_STANDALONE 0)
 SUBDIRS(DICOMParser)
 
 #------------------------------------------------------------------------------

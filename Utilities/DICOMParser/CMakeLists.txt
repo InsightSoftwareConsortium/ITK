@@ -56,7 +56,7 @@ CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/DICOMCMakeConfig.h.in
 
 ADD_LIBRARY(${DICOMPARSER_LIBRARY} DICOMSource.cxx DICOMBuffer.cxx DICOMFile.cxx DICOMParser.cxx DICOMAppHelper.cxx)
 
-INSTALL_TARGETS(/lib/InsightToolkit ${PROJECT_NAME})
+INSTALL_TARGETS(/lib/InsightToolkit ${DICOMPARSER_LIBRARY})
 INSTALL_FILES(/include/InsightToolkit "(\\.h|\\.txx)$")
 INSTALL_FILES(/include/InsightToolkit FILES
   ${PROJECT_BINARY_DIR}/DICOMCMakeConfig.h)
