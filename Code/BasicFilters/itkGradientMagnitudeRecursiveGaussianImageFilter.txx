@@ -44,6 +44,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
+    m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
   }
 
   m_DerivativeFilter = DerivativeFilterType::New();
