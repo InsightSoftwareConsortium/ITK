@@ -422,15 +422,25 @@ int main( int argc, char **argv )
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The value of the image metric corresponding to the last set of parameters
+  //  can be obtained with the \code{GetValue()} method of the optimizer.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  const double bestValue = optimizer->GetValue();
+  // Software Guide : EndCodeSnippet
 
   //
   // Print out results
   //
   std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX <<  std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY <<  std::endl;
-  
+  std::cout << " Translation X = " << TranslationAlongX  << std::endl;
+  std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
+  std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -506,8 +516,6 @@ int main( int argc, char **argv )
 
   
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  Then a resampling filter is created and the corresponding transform and
@@ -544,6 +552,20 @@ int main( int argc, char **argv )
   resample->SetDefaultPixelValue( 100 );
   // Software Guide : EndCodeSnippet
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=4.5cm]{ImageRegistration1Output.eps}
+  // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceBefore.eps}
+  // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceAfter.eps}
+  // \caption{Mapped moving image and its difference with the fixed image
+  // before and after registration} \label{fig:ImageRegistration1Output}
+  // \end{figure}
+  //
+  //  Software Guide : EndLatex 
 
 
 
@@ -606,10 +628,25 @@ int main( int argc, char **argv )
 
 
 
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=14cm]{ImageRegistration1Pipeline.eps}
+  // \caption{Pipeline structure of the registration example.}
+  // \label{fig:ImageRegistration1Pipeline}
+  // \end{figure}
+  //
+  //
+  //  Software Guide : EndLatex 
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \code{itk::SquaredDifferenceImageFilter}. This pixel-wise
+  //  using the \code{SquaredDifferenceImageFilter}. This pixel-wise
   //  filter computes the squared value of the difference between homologous
   //  pixels of its input images.
   //
@@ -621,8 +658,8 @@ int main( int argc, char **argv )
                                   FixedImageType, 
                                   OutputImageType > DifferenceFilterType;
 
-
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resample->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -644,6 +681,27 @@ int main( int argc, char **argv )
 
 
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The complete pipeline structure of the current example is presented in
+  //  Figure \ref{fig:ImageRegistration1Pipeline}, the components of the
+  //  registration method are exposed as well.  Figure
+  //  \ref{fig:ImageRegistration1Output} left shows the result of resampling
+  //  the moving image in order to map it onto the fixed image space. The top
+  //  and right borders of the image appear in the gray level selected with the
+  //  \code{SetDefaultPixelValue()} in the \code{ResampleImageFilter}. The
+  //  center image shows the squared differences between the fixed image and
+  //  the moving image. The right image shows the squared differences between
+  //  the fixed image and the transformed moving image.  Both difference images
+  //  are displayed negated in order to accentuate pixels where differences
+  //  exist. 
+  //
+  //  Software Guide : EndLatex 
+
+
+
+
+
   if( argc >= 5 )
     {
     writer2->SetFileName( argv[4] );
@@ -654,22 +712,21 @@ int main( int argc, char **argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=4cm]{ImageRegistration1Output.eps}
-  // \includegraphics[width=4cm]{ImageRegistration1DifferenceA.eps}
-  // \includegraphics[width=4cm]{ImageRegistration1DifferenceB.eps}
-  // \caption{Mapped moving image and its difference with the fixed image before and after registration}
-  // \label{fig:ImageRegistration1Output}
+  // \includegraphics[height=6cm]{ImageRegistration1TraceTranslations.eps}
+  // \includegraphics[height=6cm]{ImageRegistration1TraceMetric.eps}
+  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \label{fig:ImageRegistration1Trace}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration1Output} left shows the result of
-  //  resampling the moving image in order to map it onto the fixed image
-  //  space. The top and right borders of the image appear in the gray level
-  //  selected with the \code{SetDefaultPixelValue()} in the
-  //  \code{ResampleImageFilter}. The center image shows the squared
-  //  differences between the fixed image and the moving image. The right image
-  //  shows the squared differences between the fixed image and the transformed
-  //  moving image.  Both difference images are displayed negated in order to
-  //  accentuate pixels where differences exist. 
+  //  It is always useful to keep in mind that registration is essentially an
+  //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
+  //  reinforce this notion by showing the trace of translations and values of
+  //  the image metric at each iteration of the optimizer. It can be seen from
+  //  the left figure that the step length is progressively reduced as the
+  //  optimizer gets closer to the metric extrema. The right plot shows clearly
+  //  how the metric value is decreasing as the optimization advances. The log
+  //  plot helps to hightlight the normal oscilations of the optimizer around
+  //  the extrema value.
   //
   //  Software Guide : EndLatex 
 
