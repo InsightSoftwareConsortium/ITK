@@ -75,6 +75,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFileOutputWindow.h"
 #include "itkFiniteDifferenceFunction.h"
 #include "itkFiniteDifferenceImageFilter.h"
+#include "itkFixedArray.h"
 #include "itkFloodFilledFunctionConditionalIterator.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
