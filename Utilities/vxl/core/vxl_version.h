@@ -8,12 +8,12 @@
 // core libraries.
 
 //: Major version number.
-// This will only increase after major changes, or an large accumulation of 
+// This will only increase after major changes, or an large accumulation of
 // significant smaller ones.
 #define VXL_VERSION_MAJOR 1
 
 //: Minor version number.
-// This increments between versions. There is no 
+// This increments between versions. There is no
 // "even = release, odd = developement" pattern, or anything like that.
 #define VXL_VERSION_MINOR 0
 
@@ -24,15 +24,39 @@
 // in x.(y+1).0
 #define VXL_VERSION_PATCH 0
 
+//: Version date.  This is updated every day.
+// Formats are year=CCYY, month=MM, day=DD
+#define VXL_VERSION_DATE_YEAR 2003
+#define VXL_VERSION_DATE_MONTH 12
+#define VXL_VERSION_DATE_DAY 15
 
-#define VXL_VERSION_STRING "1.0.0"
-
-//: This is the date of the release.
-// If you have downloaded the latest version from the CVS repository,
-// you may wish to locally modify this number to reflect the download date.
-#define VXL_VERSION_DATE "2003-11-03"
+//: ITK Modification: Defined to indicate this vxl is in ITK.
+#define VXL_VERSION_ITK
 
 //: This can either be "RELEASE" or "CVS"
 #define VXL_SOURCE "CVS"
+
+//: Helper macros to create strings with the preprocessor.
+#define VXL_VERSION_TO_STRING(s) VXL_VERSION_TO_STRING0(s)
+#define VXL_VERSION_TO_STRING0(s) #s
+
+//: Version number as a string literal.
+// This is in the format "major.minor.patch".
+#define VXL_VERSION_STRING \
+  VXL_VERSION_TO_STRING(VXL_VERSION_MAJOR.VXL_VERSION_MINOR.VXL_VERSION_PATCH)
+
+//: Version date as a string literal.
+// This is in the format "CCYY-MM-DD".
+#define VXL_VERSION_DATE \
+  VXL_VERSION_TO_STRING(VXL_VERSION_DATE_YEAR-VXL_VERSION_DATE_MONTH-VXL_VERSION_DATE_DAY)
+
+//: Version date accessible from preprocessor.
+// This is an integer in the format CCYYMMDD.
+#define VXL_VERSION_DATE_FULL \
+  VXL_VERSION_DATE_FULL0(VXL_VERSION_DATE_YEAR, \
+                         VXL_VERSION_DATE_MONTH, \
+                         VXL_VERSION_DATE_DAY)
+#define VXL_VERSION_DATE_FULL0(y,m,d) VXL_VERSION_DATE_FULL1(y,m,d)
+#define VXL_VERSION_DATE_FULL1(y,m,d) y##m##d
 
 #endif // vxl_version_h_
