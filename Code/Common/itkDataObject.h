@@ -146,7 +146,7 @@ public:
 
   /** 
    * Release data back to system to conserve memory resource. Used during
-   * visualization network execution.  Releasing this data does not make
+   * pipeline execution.  Releasing this data does not make
    * down-stream data invalid, so it does not modify the MTime of this data
    * object.  
    */
@@ -227,7 +227,7 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  // Was the update extent propagated down the pipeline
+  // Was the update extent propagated down the pipeline?
   bool m_LastRequestedRegionWasOutsideOfTheBufferedRegion;
 
   // First update, the update region will be set to the largest possible
@@ -243,7 +243,7 @@ private:
   TimeStamp m_UpdateTime;  
 
   bool m_ReleaseDataFlag; //Data will release after use by a filter if on
-  bool m_DataReleased; //Keep track of data release during network execution
+  bool m_DataReleased; //Keep track of data release during pipeline execution
 
   // The Maximum MTime of all upstream filters and data objects.
   // This does not include the MTime of this data object.
