@@ -28,6 +28,7 @@
 #include "itkImageSeriesReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageSeriesWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 #include <vector>
@@ -95,7 +96,12 @@ int main( int argc, char* argv[] )
 
     return EXIT_FAILURE;
     }
-      
+
+
+
+  // For now you cannot create a new DICOM directory, so one of two test
+  // is disable
+#if  0
   // Ok saving as a known format worked now try to save as a serie of DICOM file
     
   typedef itk::Image<unsigned short,2>            Image2DType;
@@ -121,6 +127,46 @@ int main( int argc, char* argv[] )
     std::cerr << excp << std::endl;
     }
 
+
+#else
+  // Writting image afer downscaling to 8bits (unsigned char)
+  
+  typedef itk::Image< unsigned short, 3>            Image3DType;
+  typedef itk::Image< unsigned char,  3>            RescaleImageType;
+  typedef itk::Image< unsigned char,  2>            OutputImageType;
+  typedef itk::RescaleIntensityImageFilter<
+               Image3DType, RescaleImageType > RescaleFilterType;
+
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    rescaler->SetInput( reader->GetOutput() );
+    rescaler->SetOutputMinimum(   0 );
+    rescaler->SetOutputMaximum( 255 );
+
+  typedef itk::ImageSeriesWriter< RescaleImageType, OutputImageType > SeriesWriterRescaleType;
+
+  SeriesWriterRescaleType::Pointer swriter2 = SeriesWriterRescaleType::New();
+
+  it->SetOutputDirectory( argv[3] );
+  swriter2->SetInput( rescaler->GetOutput() );
+  swriter2->SetImageIO( gdcmIO );
+
+  swriter2->SetFileNames( it->GetOutputFileNames() );
+  swriter2->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
+
+  try
+    {
+    swriter2->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+#endif
+  
   return EXIT_SUCCESS;
 }
 
