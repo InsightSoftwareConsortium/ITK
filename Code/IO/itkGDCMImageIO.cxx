@@ -177,14 +177,6 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  if( !this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes()) )
-    {
-    itkExceptionMacro(<<"Read failed: Wanted " 
-                      << this->GetImageSizeInBytes()
-                      << " bytes, but read " 
-                      << file.gcount() << " bytes.");
-    }
-
   if( !m_GdcmHeader )
     {
     m_GdcmHeader = new gdcmHeader( m_FileName );

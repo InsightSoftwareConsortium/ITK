@@ -37,7 +37,7 @@ namespace itk
  *   2. If for some reason this information is not found or failed, another 
  *      strategy is used: the ordering is based on 'Image Number'
  *   3. If this strategy also failed, then the filenames are ordered by 
- *      lexicographical filenames.
+ *      lexicographical order.
  *
  * \ingroup IOFilters
  *
