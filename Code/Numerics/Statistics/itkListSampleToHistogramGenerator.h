@@ -24,7 +24,7 @@
 #include "itkDenseFrequencyContainer.h"
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 /** \class ListSampleToHistogramGenerator
  *  \brief Generates a Histogram using the data from the ListSample object
@@ -58,10 +58,11 @@ namespace itk{
  *
  * \sa Histogram, ListSampleBase, FindSampleBound 
  */
-template< class TListSample, class THistogramMeasurement = float,  
+template< class TListSample, 
+          class THistogramMeasurement,  
           class TFrequencyContainer = DenseFrequencyContainer< float > >
 class ITK_EXPORT ListSampleToHistogramGenerator :
-      public Object
+    public Object
 {
 public:
   /** Standard typedefs */
@@ -114,7 +115,7 @@ private:
 
 } ; // end of class
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
