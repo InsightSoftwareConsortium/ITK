@@ -1,4 +1,4 @@
-s/*=========================================================================
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMidsagittalPlaneExtractionImageFilter.txx
