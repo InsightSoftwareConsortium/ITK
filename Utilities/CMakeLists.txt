@@ -20,6 +20,10 @@ SUBDIRS(expat)
 SUBDIRS(gdcm)
 #------------------------------------------------------------------------------
 # log4cxx, an experimental Utility package
+
+# For testing, ignore this option
+SUBDIRS(log4cxx)
+
 OPTION(USE_LOG4CXX "Build log4cxx" OFF)
 MARK_AS_ADVANCED(USE_LOG4CXX)
 IF( USE_LOG4CXX )
