@@ -32,7 +32,7 @@ GroupSpatialObject< TDimension >
 ::GroupSpatialObject()  
 { 
   m_Dimension = TDimension;
-  strcpy(m_TypeName,"GroupSpatialObject");
+  m_TypeName = "GroupSpatialObject";
   m_Property->SetRed(1); 
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
