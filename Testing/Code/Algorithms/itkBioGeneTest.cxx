@@ -27,6 +27,9 @@ int itkBioGeneTest( int, char * [] )
    std::string name = "Citosin Kinase";
    cdk2.SetName( name );
  
+   // Testing SetName from char *
+   cdk2.SetName("Citosin Kinase");
+   
    std::string rname = cdk2.GetName();
    if( rname != name ) 
      {
@@ -39,7 +42,6 @@ int itkBioGeneTest( int, char * [] )
    itk::bio::Gene cdk4;
    cdk4.Copy( cdk2 );
  
-   
    // Testing method for adding a protein domain
    cdk2.AddProteinDomain( "SH2", 0.05 );
    cdk2.AddProteinDomain( "SH3", 0.08 );
@@ -61,6 +63,10 @@ int itkBioGeneTest( int, char * [] )
    // be silenced (or repressed) by proteins having affinity
    // for "Arm" domains.
 
+
+   // Test copy method when the source gene has domains 
+   // defined.
+   cdk4.Copy( cdk2 );
 
 
    std::cout << "Test Passed !" << std::endl;
