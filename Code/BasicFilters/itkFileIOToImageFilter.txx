@@ -25,8 +25,8 @@ namespace itk
 template <class TOutputImage>
 FileIOToImageFilter<TOutputImage>::FileIOToImageFilter(std::string fileName)
 {
-	m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(fileName.c_str()));
-	m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
+  m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(fileName.c_str()));
+  m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
   if (m_IO == NULL)
   {
     return;
@@ -40,7 +40,7 @@ template <class TOutputImage>
 FileIOToImageFilter<TOutputImage>::FileIOToImageFilter()
 {
   m_IO = NULL;
-	m_FileToLoad = "";
+  m_FileToLoad = "";
 }
 
 template <class TOutputImage>
@@ -51,13 +51,13 @@ FileIOToImageFilter<TOutputImage>::~FileIOToImageFilter()
 template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::LoadFile()
 {
-	if (m_FileToLoad == "")
-	{
-		throw FileIOException();
-	}
+  if (m_FileToLoad == "")
+  {
+    throw FileIOException();
+  }
 
-	m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(m_FileToLoad.c_str()));
-	m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
+  m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(m_FileToLoad.c_str()));
+  m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
 
   if ( m_IO == 0 )
   {
@@ -75,7 +75,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   Size dimSize;
 
-	LoadFile();
+  LoadFile();
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
   {
@@ -103,15 +103,12 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion());
 
-  char * source = static_cast<char *>( m_IO->GetFileData() );
-
-  const unsigned int pixelStride = m_IO->GetPixelStride();
+  OutputPixelType* source = (OutputPixelType*) m_IO->GetFileData();
 
   it.Begin();
-  while( !it.IsAtEnd() )
+  while(!it.IsAtEnd())
   {
-    it.Set( *source );
-    source += pixelStride;
+    it.Set(*source++);
     ++it;
   }
 }
