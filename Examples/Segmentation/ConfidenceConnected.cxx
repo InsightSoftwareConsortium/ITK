@@ -36,22 +36,22 @@
 // included in the region. A user-provided factor is used to multiply the
 // standard deviation and define a range around the mean. Neighbor pixels whose
 // intensity values fall inside the range are accepted to be included in the
-// region. When no more neighbor pixes are found that can satisfy the
-// criterion, the algorithm considered to have finished its first iteration. At
-// that point, the mean and standard deviation of intensity levels are
-// recomputed using all the pixels currently included in the region. These mean
+// region. When no more neighbor pixels are found that can satisfy the
+// criterion, the algorithm is considered to have finished its first iteration. At
+// that point, the mean and standard deviation of the intensity levels are
+// recomputed using all the pixels currently included in the region. This mean
 // and standard deviation define a new intensity range that is used for
 // visiting the current neighbors in search of pixels whose intensity falls
 // inside the range.  This iterative process is repeated a number of times as
 // defined by the user. The following equation illustrates the inclusion 
-// criterion used by this filter.
+// criterion used by this filter,
 //
 // \begin{equation}
 // I(\mathbf{X}) \in [ m - f \sigma , m + f \sigma ]
 // \end{equation}
 //
 // where $m$ and $\sigma$ are the mean and standard deviation of the  region
-// intensities, $f$ is a factor defined by the user. $I()$ is the image and
+// intensities, $f$ is a factor defined by the user, $I()$ is the image and
 // $\mathbf{X}$ is the position of the particular neighbor pixel being
 // considered for inclusion in the region.
 //
@@ -79,7 +79,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
-//  \doxygen{CurvatureFlowImageFilter}, henceforth we need to include its header
+//  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex 
@@ -112,7 +112,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
+  //  We now declare the image type using a pixel type and a particular
   //  dimension. In this case the \code{float} type is used for the pixels due
   //  to the requirements of the smoothing filter. 
   //
@@ -153,7 +153,7 @@ int main( int argc, char *argv[] )
   //  
   //  
   //  The smoothing filter type is instantiated using the image type as
-  //  template parameter.
+  //  a template parameter.
   //
   //  Software Guide : EndLatex 
 
@@ -182,7 +182,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the type of the region growing filter. In this case it is
+  //  We now declare the type of the region growing filter. In this case it is
   //  the \doxygen{ConfidenceConnectedImageFilter}. 
   //
   //  Software Guide : EndLatex 
@@ -195,7 +195,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  then, we  construct one filter of this class using the \code{New()} method. 
+  //  Then, we  construct one filter of this class using the \code{New()} method. 
   //
   //  Software Guide : EndLatex 
 
@@ -207,10 +207,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now is time for connecting the pipeline. This is pretty linear in our
+  //  Now it is time to connect the pipeline. This is pretty linear in our
   //  example. A file reader is added at the beginning of the pipeline and a
   //  caster filter and writer are added at the end. The caster filter is
-  //  required here to convert \code{float} pixel types to the integers types
+  //  required here to convert \code{float} pixel types to integer types
   //  since only a few image file formats support \code{float} types.
   //
   //  Software Guide : EndLatex 
@@ -229,7 +229,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameter to
+  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameters to
   //  be defined. The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
@@ -247,14 +247,16 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ConfidenceConnectedImageFilter} has two parameters to be
-  //  defined. First, the factor $f$ that the defines how large the range of
-  //  intensities will be. Small values of the multiplier will restrict the
-  //  inclusion of pixels to those having very similar intensities to those in
-  //  the current region. Larger values of the multiplier will relax the
-  //  accepting condition and will result in more generous growth of the
-  //  region. Too large values will make the region ingest neighbor regions in
-  //  the image that may actually belong to separate anatomical structures.
+  //  The \doxygen{ConfidenceConnectedImageFilter} has two parameters
+  //  to be defined. First, the factor $f$ that the defines how large
+  //  the range of intensities will be. Small values of the multiplier
+  //  will restrict the inclusion of pixels to those having very
+  //  similar intensities to those in the current region. Larger
+  //  values of the multiplier will relax the accepting condition and
+  //  will result in more generous growth of the region. Values that
+  //  are too large will make the region ingest neighbor regions in
+  //  the image that may actually belong to separate anatomical
+  //  structures.
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetMultiplier()}
   //
@@ -269,13 +271,13 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The number of iteration may be decided based on how homogeneous are the
-  //  intensities on the anatomical structure to be segmented. Very homogeneous
-  //  regions may require only a couple of iterations. Regions with ramp
-  //  effects, like for example MRI images with inhomogenous fields may require
+  //  The number of iterations may be decided based on the homogeneity of the
+  //  intensities of the anatomical structure to be segmented. Highly homogeneous
+  //  regions may only require a couple of iterations. Regions with ramp
+  //  effects, like MRI images with inhomogenous fields, may require
   //  more iterations. In practice, it seems to be more relevant to carefully
-  //  select the multiplier factor rather than the number of iterations.
-  //  However keep in mind that there is no reason to assume that this
+  //  select the multiplier factor than the number of iterations.
+  //  However, keep in mind that there is no reason to assume that this
   //  algorithm should converge to a stable region. It is possible that by
   //  letting the algorithm run for more iterations the region will end up
   //  engulfing the entire image.
@@ -351,9 +353,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  It is usually wise to put update calls in
-  //  \code{try/catch} block in case errors ocurr and exceptions are thrown.
+  //  The invocation of the \code{Update()} method on the writer triggers the
+  //  execution of the pipeline.  It is usually wise to put update calls in a
+  //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -375,7 +377,7 @@ int main( int argc, char *argv[] )
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seeds in the appropriate locations. For example
+  //  structures by providing seeds in the appropriate locations. For example,
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|}
@@ -396,7 +398,7 @@ int main( int argc, char *argv[] )
   // \label{fig:ConfidenceConnectedOutput}
   // \end{figure}
   //
-  //  It can be noticed that the gray matter is not being completly segmented.
+  //  It can be noticed that the gray matter is not being completely segmented.
   //  This illustrates the vulnerability of the region growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
   //  statistical distribution over the image space. You may want to experiment

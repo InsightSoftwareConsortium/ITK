@@ -64,7 +64,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in section \ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
-//  \doxygen{CurvatureFlowImageFilter}, henceforth we need to include its header
+//  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex 
@@ -138,7 +138,7 @@ int main( int argc, char *argv[])
   //  
   //  
   //  The smoothing filter type is instantiated using the image type as
-  //  template parameter.
+  //  a template parameter.
   //
   //  Software Guide : EndLatex 
 
@@ -167,7 +167,7 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the type of the region growing filter. In this case it is
+  //  We now declare the type of the region growing filter. In this case it is
   //  the \doxygen{ConnectedThresholdImageFilter}. 
   //
   //  Software Guide : EndLatex 
@@ -180,7 +180,7 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //  
-  //  then, we  construct one filter of this class using the \code{New()} method. 
+  //  Then, we  construct one filter of this class using the \code{New()} method. 
   //
   //  Software Guide : EndLatex 
 
@@ -192,10 +192,10 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //  
-  //  Now is time for connecting the pipeline. This is pretty linear in our
+  //  Now it is time to connect the pipeline. This is pretty linear in our
   //  example. A file reader is added at the beginning of the pipeline and a
   //  caster filter and writer are added at the end. The caster filter is
-  //  required here to convert \code{float} pixel types to the integers types
+  //  required here to convert \code{float} pixel types to integer types
   //  since only a few image file formats support \code{float} types.
   //
   //  Software Guide : EndLatex 
@@ -214,7 +214,7 @@ int main( int argc, char *argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameter to
+  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameters to
   //  be defined. The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
@@ -234,8 +234,8 @@ int main( int argc, char *argv[])
   //
   //  The \doxygen{ConnectedThresholdImageFilter} has two main parameters to be
   //  defined. They are the lower and upper thresholds of the interval in which
-  //  intensity values should be in order to be included in the region. Setting
-  //  these two values too close will not allow enough flexibility to the
+  //  intensity values should fall in order to be included in the region. Setting
+  //  these two values too close will not allow enough flexibility for the
   //  region to grow. Setting them too far apart will result in a region that
   //  engulfes the image. 
   //
@@ -297,8 +297,8 @@ int main( int argc, char *argv[])
   //  Software Guide : BeginLatex
   //  
   //  The invokation of the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  It is usually wise to put update calls in
-  //  \code{try/catch} block in case errors ocurr and exceptions are thrown.
+  //  execution of the pipeline.  It is usually wise to put update calls in a
+  //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -321,7 +321,7 @@ int main( int argc, char *argv[])
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations and defining
-  //  values for the lower and upper thresholds. For example
+  //  values for the lower and upper thresholds. For example,
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
@@ -342,7 +342,7 @@ int main( int argc, char *argv[])
   // \label{fig:ConnectedThresholdOutput}
   // \end{figure}
   //
-  //  It can be noticed that the gray matter is not being completly segmented.
+  //  It can be noticed that the gray matter is not being completely segmented.
   //  This illustrates the vulnerability of the region growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
   //  statistical distribution over the image space. You may want to experiment

@@ -28,10 +28,10 @@
 // the interval. The size of the neighborhood to be considered around each
 // pixel is defined by a user-provided integer radius. 
 //
-// The fact of considering the neighborhood intensities instead of only the
+// The reason for considering the neighborhood intensities instead of only the
 // current pixel intensity is that isolated pixels are less likely to be
 // accepted in the region. This can be seen as a preemptive mathematical
-// morphology operation that is probably equivalent to use the
+// morphology operation that is probably equivalent to using the
 // \doxygen{ConnectedThresholdImageFilter} and then apply a combination of
 // erosion and dilation with an structuring element of the same radius used for
 // the neighborhood provided to the \doxygen{NeighborhoodConnectedImageFilter}. 
@@ -55,7 +55,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureFlowImageFilter} is used here to smooth the image yet
+//  The \doxygen{CurvatureFlowImageFilter} is used here to smooth the image while
 //  preserving edges.
 //
 //  Software Guide : EndLatex 
@@ -88,7 +88,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
+  //  We now declare the image type using a pixel type and a particular
   //  dimension. In this case the \code{float} type is used for the pixels due
   //  to the requirements of the smoothing filter. 
   //
@@ -129,7 +129,7 @@ int main( int argc, char *argv[] )
   //  
   //  
   //  The smoothing filter type is instantiated using the image type as
-  //  template parameter.
+  //  a template parameter.
   //
   //  Software Guide : EndLatex 
 
@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the type of the region growing filter. In this case it is
+  //  We now declare the type of the region growing filter. In this case it is
   //  the \doxygen{NeighborhoodConnectedImageFilter}. 
   //
   //  Software Guide : EndLatex 
@@ -183,10 +183,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now is time for connecting the pipeline. This is pretty linear in our
+  //  Now it is time to connect the pipeline. This is pretty linear in our
   //  example. A file reader is added at the beginning of the pipeline and a
   //  caster filter and writer are added at the end. The caster filter is
-  //  required here to convert \code{float} pixel types to the integers types
+  //  required here to convert \code{float} pixel types to integer types
   //  since only a few image file formats support \code{float} types.
   //
   //  Software Guide : EndLatex 
@@ -205,7 +205,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameter to
+  //  The \doxygen{CurvatureFlowImageFilter} requires a couple of parameters to
   //  be defined. The following are typical values for $2D$ images. However
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
@@ -225,8 +225,8 @@ int main( int argc, char *argv[] )
   //
   //  The \doxygen{NeighborhoodConnectedImageFilter} has two main parameters to be
   //  defined. They are the lower and upper thresholds of the interval in which
-  //  intensity values should be in order to be included in the region. Setting
-  //  these two values too close will not allow enough flexibility to the
+  //  intensity values should fall in order to be included in the region. Setting
+  //  these two values too close will not allow enough flexibility for the
   //  region to grow. Setting them too far apart will result in a region that
   //  engulfes the image. 
   //
@@ -266,7 +266,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As in the \doxygen{ConnectedThresholdImageFilter} we must provide now the
+  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now provide the
   //  intensity value to be used for the output pixels accepted in the region
   //  and at least one seed point to define the initial region.
   //
@@ -290,9 +290,9 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  It is usually wise to put update calls in
-  //  \code{try/catch} block in case errors ocurr and exceptions are thrown.
+  //  The invocation of the \code{Update()} method on the writer triggers the
+  //  execution of the pipeline.  It is usually wise to put update calls in a
+  //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -315,7 +315,7 @@ int main( int argc, char *argv[] )
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations and defining
-  //  values for the lower and upper thresholds. For example
+  //  values for the lower and upper thresholds. For example,
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
@@ -336,14 +336,14 @@ int main( int argc, char *argv[] )
   // \label{fig:NeighborhoodConnectedImageFilterOutput}
   // \end{figure}
   //
-  //  As with the \doxygen{ConnectedThresholdImageFilter}, several seed could
+  //  As with the \doxygen{ConnectedThresholdImageFilter}, several seeds could
   //  have been provided to the filter by using the \code{AddSeed()} method.
   //  Compare the output of Figure
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} with those of Figure
   //  \ref{fig:ConnectedThresholdOutput} produced by the
   //  \doxygen{ConnectedThresholdImageFilter}. You may want to play with the
   //  value of the neighborhood radius and see how it affect the smoothness of
-  //  the segmented object borders, the size of the segmented region and who
+  //  the segmented object borders, the size of the segmented region and how
   //  much that costs in computing time. 
   //
   //  Software Guide : EndLatex 

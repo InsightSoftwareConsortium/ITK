@@ -26,7 +26,7 @@
 // upper threshold for the first seed. A binary search is used to find the
 // value that separates both seeds.
 //
-// The current code follows closely the previous examples. Only the releavant
+// The current code follows closely the previous examples. Only the relevant
 // pieces of code are hightlighted here. 
 //
 // Software Guide : EndLatex 
@@ -146,7 +146,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now is time for connecting the pipeline. 
+  //  Now it is time to connect the pipeline. 
   //
   //  Software Guide : EndLatex 
 
@@ -204,7 +204,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As in the \doxygen{ConnectedThresholdImageFilter} we must provide now the
+  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now provide the
   //  intensity value to be used for the output pixels accepted in the region
   //  and at least one seed point to define the initial region.
   //
@@ -221,7 +221,7 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
+  //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  
   //
   //  Software Guide : EndLatex 
@@ -245,7 +245,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The intensity value allowing to separate both regions can be recovered
+  //  The intensity value allowing us to separate both regions can be recovered
   //  with the method \code{GetIsolatedValue()}
   //
   //  \index{itk::IsolatedConnectedImageFilter!GetIsolatedValue()}
@@ -266,23 +266,25 @@ int main( int argc, char *argv[] )
   //
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seed pairs in the appropriate locations and
-  //  defining values for the lower threshold. It is important to keep in mind
-  //  in this and the previous examples that the segmentation is being
-  //  performed in the smoothed version of the image. The selection of
-  //  threshold values should henceforth be done in the smoothed image since
-  //  the distribution of intensities could be quite different from the one in
-  //  the input image.  As a remainder of this fact, Figure
-  //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left to right,
-  //  the input image and the result of smoothing with the
-  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
+  //  \code{Insight/Examples/Data}. We can easily segment the major
+  //  anatomical structures by providing seed pairs in the appropriate
+  //  locations and defining values for the lower threshold. It is
+  //  important to keep in mind in this and the previous examples that
+  //  the segmentation is being performed in the smoothed version of
+  //  the image. The selection of threshold values should henceforth
+  //  be done in the smoothed image since the distribution of
+  //  intensities could be quite different from that of the input
+  //  image.  As a reminder of this fact, Figure
+  //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left
+  //  to right, the input image and the result of smoothing with the
+  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation
+  //  results.
   //
   //  This filter is intended to be used in cases where adjacent anatomical
   //  structures are difficult to separate. Selecting one seed in one structure
   //  and the other seed in the adjacent structure creates the appropriate
   //  setup for computing the threshold that will separate both structures.
-  //  The following table presents the parameters used to obtaine the images
+  //  The following table presents the parameters used to obtain the images
   //  shown in Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
   //
   //  \begin{center}
@@ -290,7 +292,7 @@ int main( int argc, char *argv[] )
   //  \hline
   //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found & Output Image \\ \hline \\ \hline
   //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ & $183.31$ & 
-  //  third from left in Figure \ref{fig:IsolatedConnectedImageFilterOutput} \\ \hline
+  //  Third from left in Figure \ref{fig:IsolatedConnectedImageFilterOutput} \\ \hline
   //  \end{tabular}
   //  \end{center}
   //
