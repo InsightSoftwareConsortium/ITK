@@ -36,4 +36,5 @@ void RegisterTests()
   REGISTER_TEST(testMetaScene);
   REGISTER_TEST(testMetaSurface);
   REGISTER_TEST(testMetaTube);
+  REGISTER_TEST(testMetaGroup);
 }

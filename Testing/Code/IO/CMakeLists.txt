@@ -22,6 +22,7 @@ itkRawImageIOTest4.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkVOLImageIOTest.cxx
 itkVTKImageIOTest.cxx
+testMetaGroup.cxx
 testMetaUtils.cxx
 testMetaObject.cxx
 testMetaImage.cxx
@@ -37,6 +38,7 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
+ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup)
 ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils)
 ADD_TEST(testMetaObject ${IO_TESTS} testMetaObject)
 ADD_TEST(testMetaImage ${IO_TESTS} testMetaImage)
