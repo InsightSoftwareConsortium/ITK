@@ -96,10 +96,10 @@ public:
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& = m_ZeroOffset) const;
+                                  const FloatOffsetType& = FloatOffsetType(0.0)) const;
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void * globalData,
-                                  const FloatOffsetType& = m_ZeroOffset) const;
+                                  const FloatOffsetType& = FloatOffsetType(0.0)) const;
 
  /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on

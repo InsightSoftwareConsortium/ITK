@@ -131,7 +131,7 @@ public:
    * \sa ComputeGlobalTimeStep */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType &offset = m_ZeroOffset)
+                                   const FloatOffsetType &offset = FloatOffsetType(0.0))
     const = 0;
 
   /** This method is called by a finite difference solver image filter at
@@ -140,8 +140,8 @@ public:
    * See its overloaded counterpart for more information. */
   virtual PixelType  ComputeUpdate(const BoundaryNeighborhoodType
                                    &neighborhood, void *globalData,
-                              const FloatOffsetType &offset = m_ZeroOffset)
-                                  const = 0;
+                                   const FloatOffsetType &offset = FloatOffsetType(0.0))
+    const = 0;
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
@@ -188,18 +188,9 @@ protected:
 
   RadiusType m_Radius;
 
-  /** An internal constant to represent an n-dimensional floating-point
-   * grid offset of zero. */
-  static FloatOffsetType m_ZeroOffset;
-
 private:
   FiniteDifferenceFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Used internally for the sole purpose of initialization of the static
-   * variable m_ZeroOffset  */
-  static FloatOffsetType InitializeZeroOffset();
-
 };
   
 } // end namespace itk

@@ -101,11 +101,11 @@ public:
   /** Compute incremental update. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
                                   &neighborhood, void *globalData,
-                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
                                   ) const;
 
   /** This method is called prior to each iteration of the solver. */

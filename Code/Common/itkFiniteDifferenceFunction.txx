@@ -17,28 +17,8 @@
 #ifndef __itkFiniteDifferenceFunction_txx_
 #define __itkFiniteDifferenceFunction_txx_
 
-namespace itk {
-  
-template <class TImageType>
-typename FiniteDifferenceFunction<TImageType>::FloatOffsetType
-FiniteDifferenceFunction<TImageType>::m_ZeroOffset
-= FiniteDifferenceFunction<TImageType>::InitializeZeroOffset();
-
-template <class TImageType>
-typename FiniteDifferenceFunction<TImageType>::FloatOffsetType
-FiniteDifferenceFunction<TImageType>
-::InitializeZeroOffset()
+namespace itk
 {
-  FloatOffsetType ans;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-      ans[i] = 0.0f;
-    }
-
-  return ans;
-}
-  
-  
 } // end namespace itk
 
 
