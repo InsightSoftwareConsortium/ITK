@@ -44,7 +44,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
   progress->SetMiniPipelineFilter(this);
 
   // Create a histogram of the image intensities
-  typedef typename itk::Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
+  typedef itk::Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
   typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(  this->GetInput()  );
   histogramGenerator->SetNumberOfBins( m_NumberOfHistogramBins );
