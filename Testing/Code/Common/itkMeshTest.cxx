@@ -47,7 +47,7 @@ typedef MeshType::CellTraits  CellTraits;
  * parameters must match those of the mesh into which it is inserted.
  */
 typedef itk::CellInterface< int, CellTraits >           CellInterfaceType;
-typedef itk::LineBoundary<CellInterfaceType>            LineBoundaryType;
+typedef itk::LineCell<CellInterfaceType>                LineCellType;
 typedef itk::TetrahedronCell<CellInterfaceType>         TetraCellType;
 typedef itk::HexahedronCell<CellInterfaceType>          HexaCellType;
 typedef itk::QuadraticEdgeCell<CellInterfaceType>       QuadraticEdgeCellType;
@@ -60,9 +60,7 @@ typedef itk::QuadraticTriangleCell<CellInterfaceType>   QuadraticTriangleCellTyp
  * so we can only use information from it, like get its pointer type.
  */
 typedef MeshType::CellType              CellType;
-typedef CellType                        BoundaryType;
 typedef CellType::CellAutoPointer       CellAutoPointer;
-typedef BoundaryType::SelfAutoPointer   BoundaryAutoPointer;
 
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
@@ -83,12 +81,10 @@ class CountClass
 public:
   CountClass()
     {
-      m_LineBoundary = 0;
       m_Tetra =0;
       m_QuadraticEdgeCell =0;
       m_QuadraticTriangleCellType =0;
     }
-  int m_LineBoundary;
   int m_Tetra;
   int m_QuadraticEdgeCell;
   int m_QuadraticTriangleCellType;
@@ -104,11 +100,7 @@ public:
     {
       m_CountClass = c;
     }
-  
-  void Visit(unsigned long , LineBoundaryType*)
-    {
-      m_CountClass->m_LineBoundary++;
-    }
+
   void Visit(unsigned long , TetraCellType*)
     {
       m_CountClass->m_Tetra++;
@@ -128,12 +120,6 @@ public:
       m_CountClass = 0;
     };
 };
-
-// Create types for each of the visitors
-typedef itk::CellInterfaceVisitorImplementation<
-  int, MeshType::CellTraits,
-  LineBoundaryType,
-  VisitCells> LineBoundaryVisitor;
 
 typedef itk::CellInterfaceVisitorImplementation<
   int, MeshType::CellTraits,
@@ -280,10 +266,10 @@ int itkMeshTest(int, char* [] )
     }
   
   /**
-   * Allocate an explicity boundary line.
+   * Allocate an explicit boundary line.
    */
-  BoundaryAutoPointer boundLine; 
-  boundLine.TakeOwnership(  new LineBoundaryType ); // polymorphism
+  CellAutoPointer boundLine; 
+  boundLine.TakeOwnership(  new LineCellType );
   
   /**
    * We don't want the hexahedron to consider the tetrahedron a neighbor
@@ -293,15 +279,13 @@ int itkMeshTest(int, char* [] )
   boundLine->SetPointId(0,0);
   boundLine->SetPointId(1,1);
 
-  mesh->SetBoundariesAllocationMethod(MeshType::BoundariesAllocatedDynamicallyCellByCell);
-  mesh->SetBoundary(1,            // Topological dimension of boundary.
-        0,                        // Boundary identifier.
-        boundLine);               // Pointer to explicit boundary.
+  mesh->SetCell( 2,             // New ID for new cell
+                 boundLine);    // New cell being added
   
   mesh->SetBoundaryAssignment(1,  // Topological dimension.
             1,                    // CellIdentifier
             0,                    // CellFeatureIdentifier
-            0);                   // Boundary identifier.  
+            2);                   // Cell ID of boundary
   std::cout << "boundLine.IsOwner() = " << boundLine.IsOwner() << std::endl;
   std::cout << "boundLine.GetPointer() = " << boundLine.GetPointer() << std::endl;
   
@@ -619,15 +603,12 @@ int itkMeshTest(int, char* [] )
   /**
    * Create a visitor for each cell type and set the counts class for the visitor
    */
-  LineBoundaryVisitor::Pointer lv = LineBoundaryVisitor::New();
-  lv->SetCountClass(&counts);
   TetraCellVisitor::Pointer cv = TetraCellVisitor::New();
   cv->SetCountClass(&counts);
   QuadraticEdgeCellVisitor::Pointer ev = QuadraticEdgeCellVisitor::New();
   ev->SetCountClass(&counts);
   QuadraticTriangleCellVisitor::Pointer tv = QuadraticTriangleCellVisitor::New();
   tv->SetCountClass(&counts);
-  mv->AddVisitor(lv);
   mv->AddVisitor(cv);
   mv->AddVisitor(ev);
   mv->AddVisitor(tv);
@@ -637,7 +618,6 @@ int itkMeshTest(int, char* [] )
   // cell types of the visitors added to the MultiVisitor
   mesh->Accept(mv);
   // print the counts found
-  std::cout << "Number of LineBoundaryType " << counts.m_LineBoundary << "\n";
   std::cout << "Number of TetraCellType " << counts.m_Tetra << "\n";
   std::cout << "Number of QuadraticEdgeCellType " << counts.m_QuadraticEdgeCell << "\n";
   std::cout << "Number of QuadraticTriangleCellType " << counts.m_QuadraticTriangleCellType << "\n";
