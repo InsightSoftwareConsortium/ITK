@@ -43,7 +43,7 @@ void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetZeroOrder()
 {
-  m_Order = ZeroOrder;
+  this->SetOrder( ZeroOrder );
 }
 
 /**
@@ -54,7 +54,7 @@ void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetFirstOrder()
 {
-  m_Order = FirstOrder;
+  this->SetOrder( FirstOrder );
 }
 
 /**
@@ -65,7 +65,7 @@ void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSecondOrder()
 {
-  m_Order = SecondOrder;
+  this->SetOrder( SecondOrder );
 }
 
 
