@@ -51,9 +51,8 @@ namespace _wrap_
 
 /**
  * Holds an argument after extraction from a Tcl object, but before
- * passing to the final conversion function.  This is necessary because
- * the memory to which the argument refers may not be an InstanceTable
- * object.  It may be a pointer or a fundamental type.
+ * passing to the final conversion function.  This may hold a pointer
+ * to the actual object, or an instance of a fundamental type.
  */
 class _wrap_EXPORT Argument
 {

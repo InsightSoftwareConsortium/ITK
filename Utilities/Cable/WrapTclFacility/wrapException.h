@@ -57,10 +57,6 @@ private:
   String m_ExceptionMessage;
 };
 
-#define _wrap_UndefinedInstanceNameException(x) \
-  TclException("Undefined instance name", x)  
-#define _wrap_UndefinedObjectTypeException(x) \
-  TclException("Undefined object type", x)
 #define _wrap_UnknownConversionException(x, y) \
   TclException("Don't know how to convert "+String(x)+" to "+String(y))
 

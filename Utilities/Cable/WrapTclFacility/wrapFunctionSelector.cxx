@@ -127,15 +127,6 @@ void FunctionSelector::SetImplicitArgument(bool staticOnly)
 }
 
 
-void FunctionSelector::GuessArguments()
-{
-  for(int i=2; i < m_Objc; ++i)
-    {
-    m_Arguments.push_back(m_WrapperFacility->GetObjectArgument(m_Objv[i]));
-    }  
-}
-
-
 void FunctionSelector::AddCandidate(FunctionBase* candidate)
 {
   // 13.3.2/2
@@ -298,7 +289,7 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
  */
 ConstructorSelector::ConstructorSelector(const WrapperFacility* facility,
                                          int objc, Tcl_Obj*CONST objv[]):
-  FunctionSelector(facility, objc, objv, objc-2)
+  FunctionSelector(facility, objc, objv, objc-1)
 {
 }
 
@@ -334,6 +325,15 @@ Constructor* ConstructorSelector::Select()
     this->TryMagic(candidateIndex);
     }
   return dynamic_cast<Constructor*>(this->ResolveOverloadWithSeparateArguments());
+}
+
+
+void ConstructorSelector::GuessArguments()
+{
+  for(int i=1; i < m_Objc; ++i)
+    {
+    m_Arguments.push_back(m_WrapperFacility->GetObjectArgument(m_Objv[i]));
+    }  
 }
 
 
@@ -398,6 +398,15 @@ bool FunctionSelector::TryMagic(int candidateIndex)
     }
   return true;
 }
+
+void MethodSelector::GuessArguments()
+{
+  for(int i=2; i < m_Objc; ++i)
+    {
+    m_Arguments.push_back(m_WrapperFacility->GetObjectArgument(m_Objv[i]));
+    }  
+}
+
 
 bool FunctionSelector::TryMagic(int candidateIndex, int parameterIndex)
 {

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapPointer.h
+  Module:    wrapPointerToPointerMap.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,62 +38,79 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _wrapPointer_h
-#define _wrapPointer_h
+#include "wrapPointerToPointerMap.h"
 
-#include "wrapUtils.h"
+#include <map>
 
 namespace _wrap_
 {
 
-/** \class Pointer
- * Represent a pointer with its type.
- */
-class Pointer
-{
-public:
-  Pointer(): m_Object(NULL), m_Type(NULL) {}
-  Pointer(const Pointer& p):
-    m_Object(p.m_Object), m_Type(p.m_Type) {}
-  Pointer(const void* object, const CvQualifiedType& type):
-    m_Object(const_cast<void*>(object)), m_Type(type) {}
-  
-  /**
-   * Get the pointer to the object.
-   */
-  void* GetObject() const { return m_Object; }
-  
-  /**
-   * Get the type of the object.
-   */
-  const CvQualifiedType& GetPointedToType() const { return m_Type; }
-  
-  String GetStringRep() const;
-  bool SetFromStringRep(const String& ptrStr);
-  
-private:
-  /**
-   * The pointer to the object.
-   */
-  void* m_Object;
-  
-  /**
-   * The type of the object.
-   */
-  CvQualifiedType m_Type;
-};
+typedef std::map<const void*, void*> StlInternalMap;
 
 /**
- * Standard Tcl interface for its object types.
- * This one is for the Pointer object.
+ * This class hides the STL map used to implement the
+ * PointerToPointerMap so that it only appears here, in the .cxx file.
  */
-_wrap_EXPORT int Tcl_GetPointerFromObj(Tcl_Interp*, Tcl_Obj*, Pointer*);
-_wrap_EXPORT void Tcl_SetPointerObj(Tcl_Obj*, const Pointer&);
-_wrap_EXPORT Tcl_Obj* Tcl_NewPointerObj(const Pointer&);
+struct PointerToPointerMap::InternalMap: public StlInternalMap
+{
+  typedef StlInternalMap::value_type value_type;
+  typedef StlInternalMap::const_iterator const_iterator;
+};
 
-_wrap_EXPORT bool TclObjectTypeIsPointer(Tcl_Obj*);
-_wrap_EXPORT bool StringRepIsPointer(const String&);
+
+/**
+ * The constructor creates the internal representation of the map.
+ */
+PointerToPointerMap::PointerToPointerMap(): m_InternalMap(new InternalMap)
+{
+}
+
+
+/**
+ * The destructor destroys the internal representation of the map.
+ */
+PointerToPointerMap::~PointerToPointerMap()
+{
+  delete m_InternalMap;
+}
+
+
+/**
+ * Set the entry for the given key to the given value.
+ */
+void PointerToPointerMap::Set(const void* key, void* value)
+{
+  m_InternalMap->insert(InternalMap::value_type(key, value));
+}
+
+
+/**
+ * Return the pointer stored for the given key.  If no such key
+ * exists, a NULL pointer is returned.  Use
+ * PointerToPointerMap::Contains to disambiguate between a NULL
+ * pointer returned for this reason and a NULL pointer stored in the
+ * map.
+ */
+void* PointerToPointerMap::Get(const void* key) const
+{
+  InternalMap::const_iterator i = m_InternalMap->find(key);
+  if(i != m_InternalMap->end())
+    {
+    return i->second;
+    }
+  else
+    {
+    return 0;
+    }
+}
+
+
+/**
+ * Return whether the map contains an entry with the given key.
+ */
+bool PointerToPointerMap::Contains(const void* key) const
+{
+  return (m_InternalMap->find(key) != m_InternalMap->end());
+}
 
 } // namespace _wrap_
-
-#endif

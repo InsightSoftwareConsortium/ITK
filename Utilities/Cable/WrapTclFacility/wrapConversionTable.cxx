@@ -38,21 +38,50 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+#ifdef _MSC_VER
+// Get rid of warnings about bool conversions for the registered
+// fundamental type conversions defined below.
+#pragma warning (disable: 4800)
+#endif
+
 #include "wrapConversionTable.h"
 #include "wrapTypeInfo.h"
 #include "wrapConverters.h"
 #include "wrapException.h"
 
+#include <map>
+
 namespace _wrap_
 {
+
+typedef std::pair<CvQualifiedType, const Type*> ConversionKey;
+typedef std::map<ConversionKey, ConversionFunction> ConversionMapBase;
+
+///! Implementation of internal map class.
+struct ConversionTable::ConversionMap: public ConversionMapBase
+{
+  typedef ConversionMapBase::iterator iterator;
+  typedef ConversionMapBase::const_iterator const_iterator;
+  typedef ConversionMapBase::value_type value_type;  
+};
 
 
 /**
  * Constructor registers predefined conversions with the table.
  */
-ConversionTable::ConversionTable()
+ConversionTable::ConversionTable():
+  m_ConversionMap(new ConversionMap)
 {
   this->InitializePredefinedConversions();
+}
+
+
+/**
+ * Destructor frees the internal representation.
+ */
+ConversionTable::~ConversionTable()
+{
+  delete m_ConversionMap;
 }
 
 
@@ -73,7 +102,7 @@ void ConversionTable::SetConversion(const CvQualifiedType& from,
                                     const Type* to, ConversionFunction f)
 {
   ConversionKey conversionKey(from, to);
-  m_ConversionMap[conversionKey] = f;
+  m_ConversionMap->insert(ConversionMap::value_type(conversionKey, f));
 }
 
 
@@ -88,8 +117,8 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
 {
   // Try to find exact match for "from" type.
   ConversionKey conversionKey(from, to);
-  ConversionMap::const_iterator i = m_ConversionMap.find(conversionKey);
-  if(i != m_ConversionMap.end())
+  ConversionMap::const_iterator i = m_ConversionMap->find(conversionKey);
+  if(i != m_ConversionMap->end())
     {
     return i->second;
     }
@@ -101,20 +130,20 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     CvQualifiedType referencedType =
       ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
     conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, false)), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
     conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(false, true)), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
     conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, true)), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
@@ -125,22 +154,22 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     {
     // Try adding a const qualifier to the "from" type.
     conversionKey = ConversionKey(from.GetMoreQualifiedType(true, false), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
     // Try adding a volatile qualifier to the "from" type.
     conversionKey = ConversionKey(from.GetMoreQualifiedType(false, true), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
     // Try adding both const and volatile qualifiers to the "from" type.
     conversionKey = ConversionKey(from.GetMoreQualifiedType(true, true), to);
-    i = m_ConversionMap.find(conversionKey);
-    if(i != m_ConversionMap.end())
+    i = m_ConversionMap->find(conversionKey);
+    if(i != m_ConversionMap->end())
       {
       return i->second;
       }
@@ -171,15 +200,19 @@ this->SetConversion(CvPredefinedType<const T2>::type, \
  */
 void ConversionTable::InitializePredefinedConversions()
 {
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, char);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, short);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned char);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned short);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned char);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned short);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned long);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, char);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, short);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, float);

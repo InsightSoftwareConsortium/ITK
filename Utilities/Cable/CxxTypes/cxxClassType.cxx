@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cxxClassType.h"
 
 #include <queue>
+#include <set>
 
 namespace _cxx_
 {

@@ -70,7 +70,6 @@ public:
 protected:  
   typedef std::vector<FunctionBase*> CandidateFunctions;
   void SetImplicitArgument(bool staticOnly);
-  void GuessArguments();
   void AddCandidate(FunctionBase*);
   FunctionBase* ResolveOverload();
   FunctionBase* ResolveOverloadWithSeparateArguments();
@@ -102,6 +101,8 @@ public:
   
   void AddCandidate(Constructor*);
   Constructor* Select();
+protected:
+  void GuessArguments();  
 };
 
 class _wrap_EXPORT MethodSelector: public FunctionSelector
@@ -112,6 +113,8 @@ public:
   
   void AddCandidate(Method*);
   Method* Select(bool);
+protected:
+  void GuessArguments();  
 };
 
 

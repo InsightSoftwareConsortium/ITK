@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "wrapUtils.h"
 #include "wrapAnything.h"
-#include <map>
 
 namespace _wrap_
 {
@@ -62,6 +61,7 @@ class _wrap_EXPORT ConversionTable
 {
 public:  
   ConversionTable();
+  ~ConversionTable();
   bool Exists(const CvQualifiedType& from, const Type* to) const;
   void SetConversion(const CvQualifiedType& from,
                      const Type* to, ConversionFunction);
@@ -71,13 +71,10 @@ public:
 private:
   void InitializePredefinedConversions();
   
-  typedef std::pair<CvQualifiedType, const Type*> ConversionKey;
-  typedef std::map<ConversionKey, ConversionFunction> ConversionMap;
+  struct ConversionMap;
 
-  /**
-   * Map from type in/out pair to conversion function.
-   */
-  ConversionMap m_ConversionMap;
+  ///! Map from type in/out pair to conversion function.
+  ConversionMap* m_ConversionMap;
 };
 
 } // namespace _wrap_

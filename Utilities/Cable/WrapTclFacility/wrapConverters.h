@@ -46,29 +46,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace _wrap_
 {
 
-/**
- * Conversion functions are defined in the Converter namespace.
- */
 namespace Converter
 {
 
 // Conversion functions returning objects:
-
-/**
- * A conversion function for the identity conversion of an object.
- */
-template <typename To>
-struct ObjectIdentity
-{
-  static To Convert(Anything in)
-    {
-    return *reinterpret_cast<To*>(in.object);
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&ObjectIdentity::Convert);
-    }
-};
 
 
 /**
@@ -158,26 +139,6 @@ namespace CastHack
 // Conversion functions returning pointers:
 
 /**
- * A conversion function for pointer identity.
- */
-template <typename To>
-struct PointerIdentity
-{
-  static To* Convert(Anything in)
-    {
-    // This should be
-    // return static_cast<To*>(in.object);
-    // but GCC doesn't like static_cast to add a const qualifier.
-    return static_cast<To*>(CastHack::Caster<To>::Cast(in.object));
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&PointerIdentity::Convert);
-    }
-};
-
-
-/**
  * A conversion function for a derived-to-base pointer conversion.
  */
 template <typename From, typename To>
@@ -194,93 +155,16 @@ struct PointerDerivedToBase
 };
 
 
-/**
- * A conversion function for pointers to functions.
- */
-template <typename To>
-struct FunctionPointer
-{
-  static To Convert(Anything in)
-    {
-    return reinterpret_cast<To>(in.function);
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&FunctionPointer::Convert);
-    }
-};
-
-
-// Conversion functions returning references:
-
-/**
- * A conversion function for reference identity.
- */
-template <typename To>
-struct ReferenceIdentity
-{
-  static To& Convert(Anything in)
-    {
-    // This should be
-    // return *static_cast<To*>(in.object);
-    // but GCC doesn't like static_cast to add a const qualifier.
-    return *static_cast<To*>(CastHack::Caster<To>::Cast(in.object));
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&ReferenceIdentity::Convert);
-    }
-};
-
-
-/**
- * A conversion function for a derived-to-base reference conversion.
- */
-template <typename From, typename To>
-struct ReferenceDerivedToBase
-{
-  static To& Convert(Anything in)
-    {
-    return static_cast<To&>(*reinterpret_cast<From*>(in.object));
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&ReferenceDerivedToBase::Convert);
-    }
-};
-
+// Conversion functions returning references.  Since pointer and
+// reference casting are effectively the same, we use the pointer
+// implementations to save space.  The input is a void* anyway, the
+// reference implementations would just have an extra dereference.
+// Instead, we move this dereference to the ArgumentAsReferenceTo and
+// ArgumentAsReferenceTo_const implementations in wrapCalls.  For
+// clarity, we still want to use the reference names, though.
+#define ReferenceDerivedToBase PointerDerivedToBase
 
 } // namespace Converter
-
-
-/**
- * A function to actually call the given ConversionFunction on the given
- * object to produce the given output type.
- */
-template <class T>
-struct ConvertTo
-{
-  inline static T From(Anything anything, ConversionFunction cf)
-    {
-    return (reinterpret_cast<T(*)(Anything)>(cf))(anything);
-    }
-};
-
-
-/**
- * A function to actually call the given ConversionFunction on the given
- * object to produce the given output type.  This version handles conversion
- * functions that produce a temporary.
- * This returns a pointer to the temporary.
- */
-template <class T>
-struct ConvertToTemporaryOf
-{
-  inline static const T* From(Anything anything, ConversionFunction cf)
-    {
-    return new T(ConvertTo<T>::From(anything, cf));
-    }
-};
 
 } // namespace _wrap_
 

@@ -52,7 +52,7 @@ class WrapperBase;
 /**
  * Pointer to a function that implements a wrapped constructor.
  */
-typedef void* (*ConstructorWrapper)(const WrapperBase*, const Arguments&);
+typedef void (*ConstructorWrapper)(const WrapperBase*, const Arguments&);
 
 /**
  * The subclass of FunctionBase which is used for constructor
@@ -69,7 +69,7 @@ public:
               const String& name,
               const ParameterTypes& parameterTypes = ParameterTypes());
   virtual String GetPrototype() const;
-  void* Call(const Arguments&) const;
+  void Call(const Arguments&) const;
 private:
   const WrapperBase* m_Wrapper;
   ConstructorWrapper m_ConstructorWrapper;

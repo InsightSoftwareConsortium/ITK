@@ -45,10 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapConstructor.h"
 #include "wrapMethod.h"
 #include "wrapStaticMethod.h"
-#include "wrapPointer.h"
-#include "wrapReference.h"
+#include "wrapTclCxxObject.h"
 #include "wrapConversionTable.h"
-#include "wrapInstanceTable.h"
 #include "wrapWrapperFacility.h"
 #include "wrapConverters.h"
 #include "wrapException.h"
@@ -81,9 +79,9 @@ struct ReturnEnum;
 
 /**
  * When a method returns an object, the wrapper function calls this to
- * prepare the return.  This creates the temporary instance, sets the
- * Tcl object result, and creates the Tcl command in case of nested
- * command calls.
+ * prepare the return.  This creates the instance, sets the Tcl object
+ * result, and creates the Tcl command in case of nested command
+ * calls.
  */
 template <typename T>
 struct Return
@@ -92,20 +90,20 @@ struct Return
   static void From(const T& result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    
-    // Create a temporary instance, and set its value to the result object.
-    String name = wrapper->CreateTemporary(new NoCvT(result), CvType<T>::type);
-
-    // The return object to the Tcl interpreter is just a string which
-    // refers to an instance.
-    Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),
-                     const_cast<char*>(name.c_str()),
-                     name.length());
-    
-    // Create the command to allow methods to be invoked on the
-    // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
-                                 CvType<T>::type.GetType());
+    CxxObject* cxxObject =
+      CxxObject::GetObjectFor(Anything(new NoCvT(result)),
+                              CvType<T>::type.GetType(),
+                              wrapper->GetWrapperFacility());
+    Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
+    }
+  static void FromConstructor(T* result, const WrapperBase* wrapper)
+    {
+    Tcl_Interp* interp = wrapper->GetInterpreter();
+    CxxObject* cxxObject =
+      CxxObject::GetObjectFor(Anything(result),
+                              CvType<T>::type.GetType(),
+                              wrapper->GetWrapperFacility());
+    Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };
 
@@ -162,7 +160,7 @@ struct  Return<double>
   
 /**
  * When a method returns a pointer type, the wrapper function calls this to
- * prepare the return.  This creates the PointerType Tcl object for the
+ * prepare the return.  This creates the Pointer Tcl object for the
  * Tcl object result.
  */
 template <typename T>
@@ -171,16 +169,11 @@ struct ReturnPointerTo
   static void From(T* result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    
-    // Set the Tcl result to a PointerType object representing this
-    // pointer return value.
-    Tcl_SetPointerObj(Tcl_GetObjResult(interp),
-                      Pointer(result, CvType<T>::type));
-    
-    // Create the command to allow methods to be invoked on the
-    // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
-                                 CvType<T>::type.GetType());
+    CxxObject* cxxObject = 
+      CxxObject::GetObjectFor(Anything(result),
+                              CvType<T*>::type.GetType(),
+                              wrapper->GetWrapperFacility());
+    Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };
  
@@ -205,7 +198,7 @@ struct ReturnPointerTo<const char>
 
 /**
  * When a method returns a reference type, the wrapper function calls this to
- * prepare the return.  This creates the ReferenceType Tcl object for the
+ * prepare the return.  This creates the Reference Tcl object for the
  * Tcl object result.
  */
 template <typename T>
@@ -214,16 +207,11 @@ struct ReturnReferenceTo
   static void From(T& result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
-    
-    // Set the Tcl result to a ReferenceType object representing this
-    // reference return value.
-    Tcl_SetReferenceObj(Tcl_GetObjResult(interp),
-                        Reference(&result, CvType<T>::type));
-    
-    // Create the command to allow methods to be invoked on the
-    // resulting value.
-    wrapper->CreateResultCommand(Tcl_GetStringFromObj(Tcl_GetObjResult(interp), NULL),
-                                 CvType<T>::type.GetType());
+    CxxObject* cxxObject =
+      CxxObject::GetObjectFor(Anything(&result),
+                              CvType<T&>::type.GetType(),
+                              wrapper->GetWrapperFacility());
+    Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };
 
@@ -270,21 +258,149 @@ struct  ReturnReferenceTo<const double>
 //@}
 
 
+/**
+ * Base class for ArgumentAsInstanceOf to implement non-templated
+ * portion of the functor.
+ */
+class ArgumentAsInstanceBase
+{
+protected:
+  ArgumentAsInstanceBase(const WrapperBase* wrapper, const Type* type):
+    m_Wrapper(wrapper),
+    m_ConversionFunction(0),
+    m_To(type) {}
+
+  bool FindConversionFunction(const CvQualifiedType& from);
+  
+  ///! The Wrapper for which this is handling an argument.
+  const WrapperBase* m_Wrapper;
+  
+  ///! The target type to which a conversion is being performed.
+  const Type* m_To;
+  
+  ///! A pointer to the conversion function if it was found.
+  ConversionFunction m_ConversionFunction;
+};
+
+
+/**
+ * Base class for ArgumentAsPointerTo and ArgumentAsPointerToFunction
+ * to implement non-templated portion of the functors.
+ */
+class ArgumentAsPointerBase
+{
+protected:
+  ArgumentAsPointerBase(const WrapperBase* wrapper, const Type* type):
+    m_Wrapper(wrapper),
+    m_ConversionFunction(0),
+    m_To(PointerType::SafeDownCast(type)) {}
+
+  bool FindConversionFunction(const CvQualifiedType& from);
+  
+  ///! The Wrapper for which this is handling an argument.
+  const WrapperBase* m_Wrapper;
+  
+  ///! The target type to which a conversion is being performed.
+  const PointerType* m_To;
+  
+  ///! A pointer to the conversion function if it was found.
+  ConversionFunction m_ConversionFunction;
+};
+
+
+/**
+ * Base class for ArgumentAsPointerTo_array to implement non-templated
+ * portion of the functor.
+ */
+class ArgumentAsPointerBase_array
+{
+protected:
+  ArgumentAsPointerBase_array(const WrapperBase* wrapper, const Type* type,
+                              const CvQualifiedType& elementType):
+    m_Wrapper(wrapper),
+    m_ConversionFunction(0),
+    m_To(PointerType::SafeDownCast(type)),
+    m_ElementType(elementType),
+    m_NeedArray(false) {}
+
+  bool FindConversionFunction(const CvQualifiedType& from);
+  
+  ///! The Wrapper for which this is handling an argument.
+  const WrapperBase* m_Wrapper;
+  
+  ///! The target type to which a conversion is being performed.
+  const PointerType* m_To;
+  
+  ///! A pointer to the conversion function if it was found.
+  ConversionFunction m_ConversionFunction;
+  
+  ///! If a temporary array is needed, this is its element type.
+  CvQualifiedType m_ElementType;
+  
+  ///! Flag for whether a temporary array must be allocated.
+  bool m_NeedArray;
+};
+
+
+/**
+ * Base class for ArgumentAsReferenceTo to implement non-templated
+ * portion of the functor.
+ */
+class ArgumentAsReferenceBase
+{
+protected:
+  ArgumentAsReferenceBase(const WrapperBase* wrapper, const Type* type):
+    m_Wrapper(wrapper),
+    m_ConversionFunction(0),
+    m_To(ReferenceType::SafeDownCast(type)) {}
+
+  bool FindConversionFunction(const CvQualifiedType& from);
+  bool FindDirectConversionFunction(const CvQualifiedType& from);
+  
+  ///! The Wrapper for which this is handling an argument.
+  const WrapperBase* m_Wrapper;
+  
+  ///! The target type to which a conversion is being performed.
+  const ReferenceType* m_To;
+  
+  ///! A pointer to the conversion function if it was found.
+  ConversionFunction m_ConversionFunction;
+};
+
+
+/**
+ * Base class for ArgumentAsReferenceTo_const to implement
+ * non-templated portion of the functor.
+ */
+class ArgumentAsReferenceBase_const: public ArgumentAsReferenceBase
+{
+protected:
+  ArgumentAsReferenceBase_const(const WrapperBase* wrapper, const Type* type,
+                                const Type* tempType):
+    ArgumentAsReferenceBase(wrapper, type),
+    m_TempType(tempType),
+    m_NeedTemporary(false) {}
+
+  bool FindConversionFunction(const CvQualifiedType& from);
+
+  ///! The type of a temporary if it is allocated.
+  const Type* m_TempType;
+  
+  ///! Flag for whether a temporary is needed to do the conversion.
+  bool m_NeedTemporary;
+};
+
 
 /**
  * Functor to convert an Argument to an object of T.
  */
 template <typename T>
-class ArgumentAsInstanceOf
+class ArgumentAsInstanceOf: public ArgumentAsInstanceBase
 {
 public:
-  ArgumentAsInstanceOf(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  ArgumentAsInstanceOf(const WrapperBase* wrapper):
+    ArgumentAsInstanceBase(wrapper, CvType<T>::type.GetType()) {}
   T operator()(const Argument&);
-private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
 };
 
 
@@ -292,16 +408,12 @@ private:
  * Functor to convert an Argument to a pointer to T.
  */
 template <typename T>
-class ArgumentAsPointerTo
+class ArgumentAsPointerTo: public ArgumentAsPointerBase
 {
 public:
-  ArgumentAsPointerTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  ArgumentAsPointerTo(const WrapperBase* wrapper):
+    ArgumentAsPointerBase(wrapper, CvType<T*>::type.GetType()) {}
   T* operator()(const Argument&);
-private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
 };
 
 
@@ -310,43 +422,36 @@ private:
  * optionally point to an array of T.
  */
 template <typename T>
-class ArgumentAsPointerTo_array
+class ArgumentAsPointerTo_array: public ArgumentAsPointerBase_array
 {
 public:
   ArgumentAsPointerTo_array(const WrapperBase* wrapper):
-    m_Wrapper(wrapper), m_Array(NULL) {}
+    ArgumentAsPointerBase_array(wrapper,
+                                CvType<T*>::type.GetType(),
+                                CvType<T>::type),
+    m_Array(0) {}  
   ~ArgumentAsPointerTo_array() { if(m_Array) { delete [] m_Array; } }
   T* operator()(const Argument&);
-private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
-  
+private:  
   typedef typename CvType<T>::NoCv NoCvT;
   typedef typename CvType<T>::ArgumentFor ElementFor;
   
-  /**
-   * If the pointer is to an array, this holds it.
-   */
+  ///! If the pointer is to an array, this holds it.
   NoCvT* m_Array;
 };
+
 
 
 /**
  * Functor to convert an Argument to a pointer to function of type T.
  */
 template <typename T>
-class ArgumentAsPointerToFunction
+class ArgumentAsPointerToFunction: public ArgumentAsPointerBase
 {
 public:
-  ArgumentAsPointerToFunction(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  ArgumentAsPointerToFunction(const WrapperBase* wrapper):
+    ArgumentAsPointerBase(wrapper, CvType<T*>::type.GetType()) {}
   T* operator()(const Argument&);
-private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
 };
 
 
@@ -354,16 +459,12 @@ private:
  * Functor to convert an Argument to a reference to T.
  */
 template <typename T>
-class ArgumentAsReferenceTo
+class ArgumentAsReferenceTo: public ArgumentAsReferenceBase
 {
 public:
-  ArgumentAsReferenceTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
+  ArgumentAsReferenceTo(const WrapperBase* wrapper):
+    ArgumentAsReferenceBase(wrapper, CvType<T&>::type.GetType()) {}
   T& operator()(const Argument&);
-private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
 };
 
 
@@ -373,23 +474,19 @@ private:
  * may be constructed.
  */
 template <typename T>
-class ArgumentAsReferenceTo_const
+class ArgumentAsReferenceTo_const: public ArgumentAsReferenceBase_const
 {
 public:
   ArgumentAsReferenceTo_const(const WrapperBase* wrapper):
-    m_Wrapper(wrapper), m_Temporary(NULL) {}
+    ArgumentAsReferenceBase_const(wrapper,
+                                  CvType<const T&>::type.GetType(),
+                                  CvType<T>::type.GetType()),
+    m_Temporary(0) {}
   ~ArgumentAsReferenceTo_const()
     { if(m_Temporary) { delete const_cast<T*>(m_Temporary); } }  
   const T& operator()(const Argument&);
 private:
-  /**
-   * The Wrapper for which this is handling an argument.
-   */
-  const WrapperBase* m_Wrapper;
-  
-  /**
-   * If a temporary of type const T is needed, this will point to it.
-   */
+  ///! If a temporary of type const T is needed, this will point to it.
   const T* m_Temporary;
 };
  
@@ -398,5 +495,5 @@ private:
 #ifndef _wrap_MANUAL_INSTANTIATION
 #include "wrapCalls.txx"
 #endif
-
+ 
 #endif

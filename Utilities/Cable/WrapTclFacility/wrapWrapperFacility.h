@@ -48,24 +48,22 @@ namespace _wrap_
 {
 
 class ConversionTable;
-class InstanceTable;
 class WrapperBase;
 
 /**
  * An instance of this class is associated with each interpreter.  It
  * provides the basic wrapper facility commands in the "wrap::"
- * namespace.  It keeps track of the InstanceTable, ConversionTable,
- * and set of wrapper classes that have been setup for the
- * interpreter.
+ * namespace.  It keeps track of the ConversionTable and set of
+ * wrapper classes that have been setup for the interpreter.
  */
 class _wrap_EXPORT WrapperFacility
 {
 public:
+  typedef WrapperFacility Self;
   static WrapperFacility* GetForInterpreter(Tcl_Interp*);
 
   Tcl_Interp* GetInterpreter() const;
   ConversionTable* GetConversionTable() const;
-  InstanceTable* GetInstanceTable() const;
   
   bool WrapperExists(const Type* type) const;
   void SetWrapper(const Type*, WrapperBase*);
@@ -75,33 +73,80 @@ public:
   Argument GetObjectArgument(Tcl_Obj* obj) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
                                            const Type* to) const;
+  
+  void SetEnumerationConstant(const String&, void*, const Type*);
+  
+  ///! The type of a function that deletes an object.
+  typedef void (*DeleteFunction)(const void*);
+  void SetDeleteFunction(const Type*, DeleteFunction);
+  void DeleteObject(const void*, const Type*) const;
 private:
   WrapperFacility(Tcl_Interp*);
   ~WrapperFacility();
 
-  void Initialize();
   void InitializeForInterpreter();
   int ListMethodsCommand(int, Tcl_Obj*CONST[]) const;
   int TypeOfCommand(int, Tcl_Obj*CONST[]) const;
-  int DeleteCommand(int, Tcl_Obj*CONST[]) const;
   int InterpreterCommand(int, Tcl_Obj*CONST[]) const;
+  int DebugOnCommand(int, Tcl_Obj*CONST[]);
+  int DebugOffCommand(int, Tcl_Obj*CONST[]);
   static int ListMethodsCommandFunction(ClientData, Tcl_Interp*,
                                         int, Tcl_Obj*CONST[]);
   static int TypeOfCommandFunction(ClientData, Tcl_Interp*,
                                    int, Tcl_Obj*CONST[]);
-  static int DeleteCommandFunction(ClientData, Tcl_Interp*,
-                                   int, Tcl_Obj*CONST[]);
   static int InterpreterCommandFunction(ClientData, Tcl_Interp*,
                                         int, Tcl_Obj*CONST[]);
+  static int DebugOnCommandFunction(ClientData, Tcl_Interp*,
+                                    int, Tcl_Obj*CONST[]);
+  static int DebugOffCommandFunction(ClientData, Tcl_Interp*,
+                                     int, Tcl_Obj*CONST[]);
 
-  typedef std::map<const Type*, WrapperBase*>  WrapperMap;
-  /**
-   * Map from type to wrapper function.
-   */
-  WrapperMap m_WrapperMap;
+  ///! The Tcl interpreter to which this facility is attached.
   Tcl_Interp* m_Interpreter;
-  ConversionTable* m_ConversionTable;
-  InstanceTable* m_InstanceTable;
+  
+  ///! The conversion table setup for this facility.
+  ConversionTable* m_ConversionTable;  
+
+  struct EnumMap;
+  ///! The table of enumeration values that have been registered.
+  EnumMap* m_EnumMap;
+
+  struct WrapperMap;
+  ///! Map from type to wrapper function.
+  WrapperMap* m_WrapperMap;
+
+  struct DeleteFunctionMap;
+  ///! Table of registered delete functions.
+  DeleteFunctionMap* m_DeleteFunctionMap;  
+
+public:
+  static void ClassInitialize();
+private:
+  static void ClassFinalize();
+  static void TclExitCallBack(ClientData);
+  
+  // Include debugging-related code if debug support is on.
+#ifdef _wrap_DEBUG_SUPPORT
+private:
+  bool m_Debug;
+public:
+  bool DebugIsOn() const;
+  void OutputDebugText(const char*) const;
+#endif
+};
+
+
+/**
+ * A function to delete an object of any type.  Instantiations of this
+ * can be registered as delete functions with a WrapperFacility.
+ */
+template <typename T>
+struct OldObjectOf
+{
+  static void Delete(const void* object)
+    {
+    delete const_cast<T*>(static_cast<const T*>(object));
+    }
 };
 
 

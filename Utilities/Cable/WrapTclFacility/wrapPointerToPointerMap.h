@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapReference.h
+  Module:    wrapPointerToPointerMap.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,62 +38,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _wrapReference_h
-#define _wrapReference_h
+#ifndef _wrapPointerToPointerMap_h
+#define _wrapPointerToPointerMap_h
 
 #include "wrapUtils.h"
 
 namespace _wrap_
 {
 
-/** \class Reference
- * Represent a reference with its type.
+/**
+ * A class to map from one pointer type to another.  This is used to
+ * reduce template bloat by encapsulating a single instantiation of
+ * the stl map.
  */
-class Reference
+class _wrap_EXPORT PointerToPointerMap
 {
 public:
-  Reference(): m_Object(NULL), m_Type(NULL) {}
-  Reference(const Reference& r):
-    m_Object(r.m_Object), m_Type(r.m_Type) {}
-  Reference(const void* object, const CvQualifiedType& type):
-    m_Object(const_cast<void*>(object)), m_Type(type) {}
+  PointerToPointerMap();
+  ~PointerToPointerMap();
   
-  /**
-   * Get a pointer to the object.
-   */
-  void* GetObject() const { return m_Object; }
-  
-  /**
-   * Get the type of the object.
-   */
-  const CvQualifiedType& GetReferencedType() const { return m_Type; }
-
-  String GetStringRep() const;
-  bool SetFromStringRep(const String&);
-  
+  void Set(const void*, void*);
+  void* Get(const void*) const;
+  bool Contains(const void*) const;
 private:
-  /**
-   * The reference to the object.
-   */
-  void* m_Object;
+  PointerToPointerMap(const PointerToPointerMap&);
+  void operator=(const PointerToPointerMap&);
+
+  struct InternalMap;
   
-  /**
-   * The type of the object.
-   */
-  CvQualifiedType m_Type;
+  ///! Hide the real implementation in the .cxx file.
+  InternalMap* m_InternalMap;
 };
 
-
-// Standard Tcl interface for its object types.
-// This one is for the Reference object.
-_wrap_EXPORT int Tcl_GetReferenceFromObj(Tcl_Interp*, Tcl_Obj*, Reference*);
-_wrap_EXPORT void Tcl_SetReferenceObj(Tcl_Obj*, const Reference&);
-_wrap_EXPORT Tcl_Obj* Tcl_NewReferenceObj(const Reference&);
-
-// A couple useful utility functions for the type.
-_wrap_EXPORT bool TclObjectTypeIsReference(Tcl_Obj*);
-_wrap_EXPORT bool StringRepIsReference(const String&);
-  
 } // namespace _wrap_
 
 #endif

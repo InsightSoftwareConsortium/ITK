@@ -44,8 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Include all the type representations.
 #include "cxxTypes.h"
 
-#include <map>
-
 namespace _cxx_
 {
 
@@ -75,126 +73,40 @@ public:
   ~TypeSystem();
   
 private:
-  /**
-   * The key type for the ArrayTypeMap.
-   */
-  typedef std::pair<CvQualifiedType, unsigned long>  ArrayTypeKey;  
+  // Forward declare the map types used in the implementation of this
+  // class.  They need only be defined in the .cxx file.
+  struct ArrayTypeMap;
+  struct ClassTypeMap;
+  struct EnumerationTypeMap;
+  struct FunctionTypeMap;
+  struct FundamentalTypeMap;
+  struct PointerTypeMap;
+  struct PointerToMemberTypeMap;
+  struct ReferenceTypeMap;
+  
+  ///! Store all the ArrayType instances that have been allocated.
+  ArrayTypeMap* m_ArrayTypeMap;
+  
+  ///! Store all the ClassType instances that have been allocated.
+  ClassTypeMap* m_ClassTypeMap;
+  
+  ///! Store all the EnumerationType instances that have been allocated.
+  EnumerationTypeMap* m_EnumerationTypeMap;
 
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<ArrayTypeKey, ArrayType*>  ArrayTypeMap;
+  ///! Store all the FunctionType instances that have been allocated.
+  FunctionTypeMap* m_FunctionTypeMap;
   
-  /**
-   * Store all the ArrayType instances that have been allocated.
-   */
-  ArrayTypeMap m_ArrayTypeMap;
-  
-  /**
-   * The key type for the ClassTypeMap.
-   */
-  typedef String ClassTypeKey; 
-  
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<ClassTypeKey, ClassType*>  ClassTypeMap;
-  
-  /**
-   * Store all the ClassType instances that have been allocated.
-   */
-  ClassTypeMap m_ClassTypeMap;
-  
-  /**
-   * The key type for the EnumerationTypeMap.
-   */
-  typedef String EnumerationTypeKey; 
-  
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<EnumerationTypeKey, EnumerationType*>  EnumerationTypeMap;
-  
-  /**
-   * Store all the EnumerationType instances that have been allocated.
-   */
-  EnumerationTypeMap m_EnumerationTypeMap;
+  ///! Store all the FundamentalType instances that have been allocated.
+  FundamentalTypeMap* m_FundamentalTypeMap;
 
-  /**
-   * The key type for the FunctionTypeMap.
-   */
-  typedef std::pair<CvQualifiedType, CvQualifiedTypes>  FunctionTypeKey;
-  
-  /**
-   * Map from a function's return type and argument types to its
-   * FunctionType representation.
-   */
-  typedef std::map<FunctionTypeKey, FunctionType*> FunctionTypeMap;
+  ///! Store all the PointerType instances that have been allocated.
+  PointerTypeMap* m_PointerTypeMap;
 
-  /**
-   * Store all the FunctionType instances that have been allocated.
-   */
-  FunctionTypeMap m_FunctionTypeMap;
-  
-  /**
-   * The key type for the FundamentalTypeMap.
-   */
-  typedef FundamentalType::Id FundamentalTypeKey;
+  ///! Store all the PointerToMemberType instances that have been allocated.
+  PointerToMemberTypeMap* m_PointerToMemberTypeMap;  
 
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<FundamentalTypeKey, FundamentalType*>  FundamentalTypeMap;
-  
-  /**
-   * Store all the FundamentalType instances that have been allocated.
-   */
-  FundamentalTypeMap m_FundamentalTypeMap;
-
-  /**
-   * The key type for the PointerTypeMap.
-   */
-  typedef CvQualifiedType PointerTypeKey;
-  
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<PointerTypeKey, PointerType*>  PointerTypeMap;
-
-  /**
-   * Store all the PointerType instances that have been allocated.
-   */
-  PointerTypeMap m_PointerTypeMap;
-
-  /**
-   * The key type for the PointerToMemberTypeMap.
-   */
-  typedef std::pair<CvQualifiedType, const ClassType*>  PointerToMemberTypeKey;
-
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<PointerToMemberTypeKey, PointerToMemberType*>
-          PointerToMemberTypeMap;
-  /**
-   * Store all the PointerToMemberType instances that have been allocated.
-   */
-  PointerToMemberTypeMap m_PointerToMemberTypeMap;
-  
-  /**
-   * The key type for the ReferenceTypeMap.
-   */
-  typedef CvQualifiedType ReferenceTypeKey;
-  
-  /**
-   * Map from this type's identifying properties to the instance.
-   */
-  typedef std::map<ReferenceTypeKey, ReferenceType*>  ReferenceTypeMap;
-
-  /**
-   * Store all the ReferenceType instances that have been allocated.
-   */
-  ReferenceTypeMap m_ReferenceTypeMap;  
+  ///! Store all the ReferenceType instances that have been allocated.
+  ReferenceTypeMap* m_ReferenceTypeMap;  
 };
 
 } // namespace _cxx_

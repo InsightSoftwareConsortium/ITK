@@ -21,14 +21,14 @@ wrapArgument
 wrapCalls
 wrapConstructor
 wrapConversionTable
+wrapCxxObject
 wrapFunctionBase
 wrapFunctionSelector
 wrapInit
-wrapInstanceTable
 wrapMethod
-wrapPointer
-wrapReference
+wrapPointerToPointerMap
 wrapStaticMethod
+wrapTclCxxObject
 wrapTypeInfo
 wrapUtils
 wrapWrapperBase

@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace _wrap_
 {
 
+class WrapperFacility;
 
 /**
  * A class to maintain a single instance of TypeSystem.
@@ -53,8 +54,6 @@ namespace _wrap_
 class _wrap_EXPORT TypeInfo
 {
 public:
-  static void Initialize();
-
   static CvQualifiedType GetArrayType(const CvQualifiedType& elementType,
                                       unsigned long size);
   static CvQualifiedType GetClassType(const String& name,
@@ -76,6 +75,8 @@ public:
   static CvQualifiedType GetReferenceType(const CvQualifiedType& referencedType);
 private:
   static TypeSystem typeSystem;
+  static void ClassInitialize();
+  friend class WrapperFacility;
 };
 
 /**

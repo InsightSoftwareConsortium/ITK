@@ -45,7 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapArgument.h"
 
 #include <vector>
-#include <map>
 
 namespace _wrap_
 {
@@ -54,7 +53,6 @@ class FunctionBase;
 class Constructor;
 class Method;
 class StaticMethod;
-class InstanceTable;
 class WrapperFacility;
 
 /**
@@ -76,57 +74,38 @@ public:
   const Type* GetWrappedTypeRepresentation() const;
   
   Tcl_Interp* GetInterpreter() const;
+  WrapperFacility* GetWrapperFacility() const;
   
   void ListMethods() const;
   
-  void CreateResultCommand(const String& name, const Type* type) const;
-  void AddInstance(const String& name, void* object) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
                                            const Type* to) const;
-  String CreateTemporary(void* object, const CvQualifiedType&) const;  
   
-  /**
-   * The type of a wrapper function for a Tcl interpreter call-back.
-   */
+  ///! The type of a wrapper function for a Tcl interpreter call-back.
   typedef int (*WrapperFunction)(ClientData, Tcl_Interp*, int, Tcl_Obj* CONST[]);
-
-  /**
-   * Get the wrapper function for a Tcl interpreter call-back for commands
-   * referencing the name of the wrapped type.
-   *
-   * This function should handle instance creation and the calling of
-   * static member functions of the type.
-   */
-  virtual WrapperFunction GetClassWrapperFunction() const =0;
-  
-  /**
-   * Get the wrapper function for a Tcl interpreter call-back for commands
-   * referencing instances of the wrapped type.
-   *
-   * This function should handle method calls on instances, references
-   * to instances, and pointers to instances of the type.
-   */
-  virtual WrapperFunction GetObjectWrapperFunction() const =0;
+  WrapperFunction GetClassWrapperFunction() const;
+  WrapperFunction GetObjectWrapperFunction() const;
   
 protected:
   typedef std::vector<FunctionBase*> CandidateFunctions;
   void AddFunction(Method*);
   void AddFunction(Constructor*);
-  void NoNameSpecified() const;
   void NoMethodSpecified() const;
   void UnknownConstructor(const CvQualifiedTypes& argumentTypes) const;
   void UnknownMethod(const String& methodName,
                      const CvQualifiedTypes& argumentTypes,
                      const CandidateFunctions& = CandidateFunctions()) const;
-  void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
-  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
-  int ObjectWrapperDispatch(ClientData ,int, Tcl_Obj* CONST[]) const;
+  int ObjectWrapperDispatch(int, Tcl_Obj* CONST[]) const;
   const WrapperBase* FindMethodWrapper(const String& name) const;
   bool HasMethod(const String& name) const;
-  int ClassWrapperDispatch(ClientData, int, Tcl_Obj* CONST[]) const;
+  int ClassWrapperDispatch(int, Tcl_Obj* CONST[]) const;
   int CallWrappedFunction(int, Tcl_Obj* CONST[], bool) const;
-
+  
+  static int ClassWrapperDispatchFunction(ClientData, Tcl_Interp*,
+                                          int, Tcl_Obj*CONST[]);  
+  static int ObjectWrapperDispatchFunction(ClientData, Tcl_Interp*,
+                                           int, Tcl_Obj*CONST[]);
 protected:
   /**
    * The Tcl interpreter to which this wrapper is attached.
@@ -142,11 +121,6 @@ protected:
    * The wrapper facility for this wrapper's interpreter.
    */
   WrapperFacility* m_WrapperFacility;
-  
-  /**
-   * The table of object instances for this wrapper's interpreter.
-   */
-  InstanceTable* m_InstanceTable;  
   
   /**
    * The TypeSystem's representation for this wrapped type.
@@ -166,15 +140,14 @@ protected:
    */
   Constructors m_Constructors;
   
-  typedef std::multimap<String, Method*> MethodMap;
-  
+  struct MethodMap;
   /**
    * Map from method name to method wrapper.  Duplicate names are
    * allowed.  The method dispatch function needs to know about all
    * possible methods.  This is defined here, but must be filled in by
    * calls from a subclass to AddFunction.
    */
-  MethodMap m_MethodMap;
+  MethodMap* m_MethodMap;
 };
 
 } // namespace _wrap_

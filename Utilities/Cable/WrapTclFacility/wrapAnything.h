@@ -57,6 +57,10 @@ union Anything
   typedef void (*FunctionType)();
   ObjectType   object;
   FunctionType function;
+  
+  Anything() {}
+  Anything(const void* obj): object(const_cast<void*>(obj)) {}
+  Anything(FunctionType func): function(func) {}
 };
 
 

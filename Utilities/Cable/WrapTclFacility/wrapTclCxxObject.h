@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapConstructor.cxx
+  Module:    wrapTclCxxObject.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,61 +38,57 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+#ifndef _wrapTclCxxObject_h
+#define _wrapTclCxxObject_h
 
-#include "wrapConstructor.h"
-#include "wrapTypeInfo.h"
-#include "wrapWrapperBase.h"
+#include "wrapUtils.h"
+#include "wrapCxxObject.h"
 
 namespace _wrap_
 {
 
+class WrapperFacility;
 
 /**
- * The constructor passes the function name and pararmeter types down to
- * the FunctionBase.
+ * Implement the Tcl object type "CxxObject", which refers to an
+ * instance of the CxxObject class.  This will be used to pass Tcl
+ * command arguments and results that refer to C++ object.
  */
-Constructor::Constructor(WrapperBase* wrapper,
-                         ConstructorWrapper constructorWrapper,
-                         const String& name,
-                         const ParameterTypes& parameterTypes):
-  FunctionBase(name, parameterTypes),
-  m_Wrapper(wrapper),
-  m_ConstructorWrapper(constructorWrapper)
+class _wrap_EXPORT TclCxxObject
 {
-}
+public:  
+  typedef TclCxxObject Self;
+  static bool TclObjTypeMatches(Tcl_Obj*);
+  static Tcl_Obj* NewObj(CxxObject*);
+  static void SetObj(Tcl_Obj*, CxxObject*);
+  static int GetFromObj(Tcl_Interp*, Tcl_Obj*, CxxObject**);
+protected:
+  static void SetTclObj(Tcl_Obj*, CxxObject*);
+  static CxxObject* Cast(Tcl_Obj*);
+  static void DeleteOldRepresentation(Tcl_Obj*);
 
+  static void FreeInternalRep(Tcl_Obj*);
+  static void DupInternalRep(Tcl_Obj*, Tcl_Obj*);
+  static void UpdateString(Tcl_Obj*);
+  static int SetFromAny(Tcl_Interp*, Tcl_Obj*);
 
-/**
- * Get a string representation of the constructor's function prototype.
- */
-String Constructor::GetPrototype() const
-{
-  String prototype = m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  while(arg != m_ParameterTypes.end())
-    {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
-    }
-  prototype += ")";
+  static Tcl_ObjType TclObjTypeStruct;
   
-  return prototype;
-}
+private:
+  static void ClassInitialize();
+  friend class WrapperFacility;
+};  
 
-
-/**
- * Invokes a wrapped constructor.  This actually extracts the C++ objects
- * from the Tcl objects given as arguments and calls the constructor wrapper.
- *
- * If construction succeeds, this also adds the object to the Wrapper's
- * instance table.
- */
-void Constructor::Call(const Arguments& arguments) const
-{
-  // Call the constructor wrapper.
-  m_ConstructorWrapper(m_Wrapper, arguments);
-}
-
-
+// Standard Tcl interface for its object types.
+// This one is for the Pointer object.
+_wrap_EXPORT int Tcl_GetCxxObjectFromObj(Tcl_Interp*, Tcl_Obj*, CxxObject**);
+_wrap_EXPORT void Tcl_SetCxxObjectObj(Tcl_Obj*, CxxObject*);
+_wrap_EXPORT Tcl_Obj* Tcl_NewCxxObjectObj(CxxObject*);
+  
+// A couple useful utility functions for the type.
+_wrap_EXPORT bool TclObjectTypeIsCxxObject(Tcl_Obj*);
+_wrap_EXPORT bool StringRepIsCxxObject(const String&);
+  
 } // namespace _wrap_
+
+#endif

@@ -41,8 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Note: This header is inteded for multiple inclusion!  The include
 // blockers are missing on purpose.
 
-#include <set>
-#include <map>
+#include "wrapPointerToPointerMap.h"
 
 namespace _wrap_
 {
@@ -98,23 +97,14 @@ public:
   
   // A few methods common to every Wrapper.  These are implemented below.
   Wrapper(Tcl_Interp* interp);  
-  virtual WrapperFunction GetClassWrapperFunction() const;
-  virtual WrapperFunction GetObjectWrapperFunction() const;
   void InitializeForInterpreter();  
   static Wrapper* GetForInterpreter(Tcl_Interp*);
   
 private:
-  // A few methods common to every Wrapper.  These are implemented below.
-  static int ClassWrapperDispatchFunction(ClientData, Tcl_Interp*,
-                                          int, Tcl_Obj*CONST[]);  
-  static int ObjectWrapperDispatchFunction(ClientData, Tcl_Interp*,
-                                           int, Tcl_Obj*CONST[]);  
-  
   /**
    * Map from a Tcl interpreter to the Wrapper of _wrap_WRAPPED_TYPE for it.
    */
-  typedef std::map<const Tcl_Interp*, Wrapper*>  InterpreterWrapperMap;  
-  static InterpreterWrapperMap interpreterWrapperMap;  
+  static PointerToPointerMap interpreterWrapperMap;
   
 private:
   // Everything in the class below here must be implemented by the
@@ -150,31 +140,6 @@ Wrapper(Tcl_Interp* interp):
   this->InitializeForInterpreter();
 }
 
-
-/**
- * Get the wrapper dispatch function to assign to a Tcl command referring
- * to the wrapped type.
- */
-Wrapper< _wrap_WRAPPED_TYPE >::WrapperFunction
-Wrapper< _wrap_WRAPPED_TYPE >
-::GetClassWrapperFunction() const
-{
-  return &Wrapper::ClassWrapperDispatchFunction;
-}
-
-
-/**
- * Get the wrapper dispatch function to assign to a Tcl command referring
- * to an instance of the wrapped type or a pointer to it.
- */
-Wrapper< _wrap_WRAPPED_TYPE >::WrapperFunction
-Wrapper< _wrap_WRAPPED_TYPE >
-::GetObjectWrapperFunction() const
-{
-  return &Wrapper::ObjectWrapperDispatchFunction;
-}
-
-
 /**
  * Setup this wrapper to work with its interpreter.
  */
@@ -185,97 +150,17 @@ Wrapper< _wrap_WRAPPED_TYPE >
   m_WrapperFacility->SetWrapper(m_WrappedTypeRepresentation, this);
   Tcl_CreateObjCommand(m_Interpreter,
                        const_cast<char*>(m_WrappedTypeName.c_str()),
-                       this->GetClassWrapperFunction(), 0, 0);
+                       this->GetClassWrapperFunction(),
+                       static_cast<WrapperBase*>(this), 0);
 #ifdef _wrap_ALTERNATE_NAMES
   static char* alternateNames[] = { _wrap_ALTERNATE_NAMES, 0 };
   for(char** alternate = alternateNames; *alternate; ++alternate)
     {
     Tcl_CreateObjCommand(m_Interpreter, *alternate,
-                         this->GetClassWrapperFunction(), 0, 0);
+                         this->GetClassWrapperFunction(),
+                         static_cast<WrapperBase*>(this), 0);
     }
 #endif
-}
-
-
-/**
- * The function called back from a Tcl interpreter when a command
- * referring to the wrapped type is invoked.
- *
- * This dispatches the call to the Wrapper of this type for the interpreter
- * that made the call-back.
- */
-int
-Wrapper< _wrap_WRAPPED_TYPE >
-::ClassWrapperDispatchFunction(ClientData clientData, Tcl_Interp* interp,
-                          int objc, Tcl_Obj* CONST objv[])
-{  
-  // Get the Wrapper instance for this interpreter.
-  Wrapper* wrapper = Wrapper::GetForInterpreter(interp);
-    
-  try
-    {
-    // Call the Wrapper's dispatch function.
-    int result = wrapper->ClassWrapperDispatch(clientData, objc, objv);
-    
-    // Free any temporary objects that were used for the command.
-    wrapper->FreeTemporaries(objc, objv);
-  
-    // Return the result code from the Wrapper to the interpreter.
-    return result;
-    }
-  catch (TclException e)
-    {
-    wrapper->ReportErrorMessage(e.GetExceptionMessage());
-    return TCL_ERROR;
-    }
-  // We must catch any C++ exception to prevent it from unwinding the
-  // call stack back through the Tcl interpreter's C code.
-  catch (...)
-    {
-    wrapper->ReportErrorMessage("Caught unknown exception!!");
-    return TCL_ERROR;
-    }
-}
-
-
-/**
- * The function called back from a Tcl interpreter when a command
- * referring to an instance of or pointer to the wrapped type is invoked.
- *
- * This dispatches the call to the Wrapper of this type for the interpreter
- * that made the call-back.
- */
-int
-Wrapper< _wrap_WRAPPED_TYPE >
-::ObjectWrapperDispatchFunction(ClientData clientData, Tcl_Interp* interp,
-                                int objc, Tcl_Obj* CONST objv[])
-{
-  // Get the Wrapper instance for this interpreter.
-  Wrapper* wrapper = Wrapper::GetForInterpreter(interp);
-    
-  try
-    {
-    // Call the Wrapper's dispatch function.
-    int result = wrapper->ObjectWrapperDispatch(clientData, objc, objv);
-    
-    // Free any temporary objects that were used for the command.
-    wrapper->FreeTemporaries(objc, objv);
-  
-    // Return the result code from the Wrapper to the interpreter.
-    return result;
-    }
-  catch (TclException e)
-    {
-    wrapper->ReportErrorMessage(e.GetExceptionMessage());
-    return TCL_ERROR;
-    }
-  // We must catch any C++ exception to prevent it from unwinding the
-  // call stack back through the Tcl interpreter's C code.
-  catch (...)
-    {
-    wrapper->ReportErrorMessage("Caught unknown exception!!");
-    return TCL_ERROR;
-    }
 }
 
 
@@ -286,23 +171,23 @@ Wrapper< _wrap_WRAPPED_TYPE >
 Wrapper< _wrap_WRAPPED_TYPE >*
 Wrapper< _wrap_WRAPPED_TYPE >::GetForInterpreter(Tcl_Interp* interp)
 {
-  // See if a Wrapper exists for the given interpreter.
-  if(interpreterWrapperMap.count(interp) == 0)
+  if(interpreterWrapperMap.Contains(interp))
     {
-    // No, we must create a new Wrapper for this interpreter.
-    interpreterWrapperMap[interp] = new Wrapper(interp);
+    return static_cast<Wrapper*>(interpreterWrapperMap.Get(interp));
     }
-  
-  // Return the Wrapper.
-  return interpreterWrapperMap[interp];
+  else
+    {
+    Wrapper* newWrapper = new Wrapper(interp);
+    interpreterWrapperMap.Set(interp, newWrapper);
+    return newWrapper;
+    }
 }
 
 
 /**
  * Map from a Tcl interpreter to the Wrapper of _wrap_WRAPPED_TYPE for it.
  */
-Wrapper< _wrap_WRAPPED_TYPE >::InterpreterWrapperMap
-Wrapper< _wrap_WRAPPED_TYPE >::interpreterWrapperMap;
+PointerToPointerMap Wrapper< _wrap_WRAPPED_TYPE >::interpreterWrapperMap;
 
 // We only want the Initialization functions once per file that
 // includes this header.
@@ -322,16 +207,23 @@ void InitializeTypeRepresentations();
 void InitializeConversions(Tcl_Interp* interp);
 
 /**
- * Makes sure that InitializeTypeRepresentations is called exactly once.
+ * This is called by InitializeGroupForInterpreter() to initialize the
+ * non-interpreter-specific parts of the wrapper module.
  */
 void InitializeGroup()
 {
+  // Make sure this is only executed once.
   static bool initialized = false;
   if(initialized) { return; }
+  
+  // Make sure the wrapper facility has been initialized.
+  WrapperFacility::ClassInitialize();
+  
+  // Initialize this module's type representations.
   InitializeTypeRepresentations();
+  
   initialized = true;
 }
-
 
 /**
  * Makes sure that InitializeConversions is called exactly once per
@@ -339,12 +231,16 @@ void InitializeGroup()
  */
 void InitializeGroupForInterpreter(Tcl_Interp* interp)
 {
+  // Make sure the global group stuff has been initialized.
   InitializeGroup();
-  static std::set<Tcl_Interp*> interpreters;
-  if(interpreters.find(interp) == interpreters.end())
+
+  // Use a map even though we only need a set to prevent the extra
+  // instantiation.
+  static PointerToPointerMap interpreters;
+  if(!interpreters.Contains(interp))
     {
     InitializeConversions(interp);
-    interpreters.insert(interp);
+    interpreters.Set(interp, 0);
     }
 }
 

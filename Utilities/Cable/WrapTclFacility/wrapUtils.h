@@ -46,6 +46,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cxxTypeSystem.h"
 #include "cxxConversions.h"
 
+// Force debug support on for now.
+#define _wrap_DEBUG_SUPPORT
+
 /**
  * Setup a few utilities used by almost all source files.  There are some
  * differences between UNIX and Win32 platforms that are addressed here.
@@ -136,8 +139,21 @@ struct VoidPointerCompare
             < reinterpret_cast<unsigned long>(r));
     }
 };
-
+  
 } // namespace _wrap_
 
+
+// Setup debug support if it is on.
+#ifdef _wrap_DEBUG_SUPPORT
+#  include <strstream>
+#  define _wrap_DEBUG_OUTPUT(wf, x)             \
+  { if(wf->DebugIsOn())                         \
+      { std::ostrstream msg;                    \
+        msg << x << std::ends;                  \
+        wf->OutputDebugText(msg.str());         \
+        msg.rdbuf()->freeze(0); } }
+#else
+#  define _wrap_DEBUG_OUTPUT(wf, x)
+#endif
 
 #endif

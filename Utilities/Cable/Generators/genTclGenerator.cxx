@@ -151,8 +151,7 @@ void TclGenerator::GenerateWrappers()
     "void InitializeConversions(Tcl_Interp* interp)\n"
     "{\n"
     "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n"
-    "  ConversionTable* conversionTable = wrapperFacility->GetConversionTable();\n"
-    "  InstanceTable* instanceTable = wrapperFacility->GetInstanceTable();\n";
+    "  ConversionTable* conversionTable = wrapperFacility->GetConversionTable();\n";
   this->WriteConversionInititialization();
   m_Output <<
     "}\n"
@@ -451,15 +450,16 @@ TclGenerator
     else if(methods[m]->IsConstructor())
       {
       m_Output <<
-        "void*\n"
+        "void\n"
         "Wrapper< " << cName.c_str() << " >\n"
         "::Constructor_" << m << "(const WrapperBase* wrapper, const Arguments& arguments)\n"
         "{\n"
-          "  return new " << cName.c_str() << "(";
+        "  Return< " << cName.c_str() << " >::FromConstructor(\n"
+        "    new " << cName.c_str() << "(";
       
       this->WriteArgumentList(methods[m]->GetArguments(), 0, methods[m].GetArgumentCount());
       
-      m_Output << ");\n"
+      m_Output << "), wrapper);\n"
         "}\n"
         "\n";
       }
@@ -552,9 +552,9 @@ TclGenerator
       {
       String value = prefix+"::"+*v;
       m_Output <<
-        "  m_WrapperFacility->GetInstanceTable()->SetObject(\n" <<
+        "  m_WrapperFacility->SetEnumerationConstant(\n" <<
         "    \"" << value.c_str() << "\", new " << typeName.c_str() << "(" << value.c_str() << "),\n"
-        "    CvType< " << typeName.c_str() << " >::type);\n";
+        "    CvType< " << typeName.c_str() << " >::type.GetType());\n";
       }
     }
 }
@@ -705,7 +705,7 @@ TclGenerator
       else if(methods[m]->IsConstructor())
         {
         m_Output <<
-          "  static void* Constructor_" << m << "(const WrapperBase*, const Arguments&)";
+          "  static void Constructor_" << m << "(const WrapperBase*, const Arguments&)";
         }
       if(++m != methods.size())
         {
@@ -958,7 +958,7 @@ void TclGenerator::WriteConversionInititialization() const
     {
     const cxx::ClassType* curClass = *c;    
     m_Output <<
-      "  instanceTable->SetDeleteFunction(CvType< " << curClass->Name().c_str() <<
+      "  wrapperFacility->SetDeleteFunction(CvType< " << curClass->Name().c_str() <<
       " >::type.GetType(), &OldObjectOf< " << curClass->Name().c_str() << " >::Delete);\n";
     }
   for(EnumTypesThatNeedValues::const_iterator
@@ -968,7 +968,7 @@ void TclGenerator::WriteConversionInititialization() const
     const source::Enumeration* enumeration = *e;
     String typeName = enumeration->GetQualifiedName();
     m_Output <<
-      "  instanceTable->SetDeleteFunction(CvType< " << typeName.c_str() <<
+      "  wrapperFacility->SetDeleteFunction(CvType< " << typeName.c_str() <<
       " >::type.GetType(), &OldObjectOf< " << typeName.c_str() << " >::Delete);\n";
     }
 }
@@ -1008,8 +1008,8 @@ void TclGenerator::WriteReturnEnumClasses() const
       }
     m_Output <<
       "      }\n"
-      "    Tcl_SetStringObj(Tcl_GetObjResult(wrapper->GetInterpreter()),\n"
-      "                     const_cast<char*>(name), -1);\n"
+      "    Tcl_SetObjResult(wrapper->GetInterpreter(),\n"
+      "                     Tcl_NewStringObj(const_cast<char*>(name), -1));\n"
       "    }\n"
       "};\n";    
     }

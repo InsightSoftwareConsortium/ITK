@@ -85,64 +85,6 @@ CvQualifiedType CvPredefinedType<Tcl_Interp>::type;
 CvQualifiedType CvPredefinedType<Tcl_Interp*>::type;
 //@}
   
-/**
- * There is exactly one TypeSystem in the wrapper facility.
- * This is it.
- */
-TypeSystem TypeInfo::typeSystem;
-
-  
-// A macro to generate all cv-qualifier combinations for generating a
-// fundamental type's CvPredefinedType<> specialization.
-#define _wrap_GENERATE_FUNDAMENTAL_CVTYPES(T, ID) \
-CvPredefinedType<T>::type = GetFundamentalType(FundamentalType::ID, false, false); \
-CvPredefinedType<const T>::type = GetFundamentalType(FundamentalType::ID, true, false); \
-CvPredefinedType<volatile T>::type = GetFundamentalType(FundamentalType::ID, false, true); \
-CvPredefinedType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, true)
-
-/**
- * Setup the type representations of the predefined, fundamental types.
- */
-void TypeInfo::Initialize()
-{
-  static bool initialized = false;
-  
-  if(initialized)
-    {
-    return;
-    }
-  
-#ifdef _wrap_NO_CV_VOID
-  CvPredefinedType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
-#else
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(void, Void);
-#endif
-#ifndef _wrap_NO_WCHAR_T
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(wchar_t, WChar_t);
-#endif
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(bool, Bool);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(char, Char);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(signed char, SignedChar);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned char, UnsignedChar);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(short, ShortInt);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned short, UnsignedShortInt);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(int, Int);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned int, UnsignedInt);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long, LongInt);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned long, UnsignedLongInt);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(float, Float);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(double, Double);
-  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long double, LongDouble);
-  CvPredefinedType<Tcl_Interp>::type  = GetClassType("Tcl_Interp", false, false);
-  CvPredefinedType<Tcl_Interp*>::type  = GetPointerType(CvPredefinedType<Tcl_Interp>::type, false, false);
-  CvPredefinedType<char*>::type  = GetPointerType(CvPredefinedType<char>::type, false, false);
-  CvPredefinedType<const char*>::type  = GetPointerType(CvPredefinedType<const char>::type, false, false);
-  CvPredefinedType<volatile char*>::type  = GetPointerType(CvPredefinedType<volatile char>::type, false, false);
-  CvPredefinedType<const volatile char*>::type  = GetPointerType(CvPredefinedType<const volatile char>::type, false, false);
-  
-  initialized = true;
-}
-
 
 /**
  * Register an ArrayType having the given element type and size.
@@ -248,5 +190,55 @@ TypeInfo::GetReferenceType(const CvQualifiedType& referencedType)
     ->GetCvQualifiedType(false, false);
 }
 
+
+/**
+ * There is exactly one TypeSystem in the wrapper facility.
+ * This is it.
+ */
+TypeSystem TypeInfo::typeSystem;
+
+  
+// A macro to generate all cv-qualifier combinations for generating a
+// fundamental type's CvPredefinedType<> specialization.
+#define _wrap_GENERATE_FUNDAMENTAL_CVTYPES(T, ID) \
+CvPredefinedType<T>::type = GetFundamentalType(FundamentalType::ID, false, false); \
+CvPredefinedType<const T>::type = GetFundamentalType(FundamentalType::ID, true, false); \
+CvPredefinedType<volatile T>::type = GetFundamentalType(FundamentalType::ID, false, true); \
+CvPredefinedType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, true)
+
+/**
+ * Initialization function for TypeInfo class.
+ * This will be called exactly once by WrapperFacility::ClassInitialize().
+ */
+void TypeInfo::ClassInitialize()
+{
+#ifdef _wrap_NO_CV_VOID
+  CvPredefinedType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
+#else
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(void, Void);
+#endif
+#ifndef _wrap_NO_WCHAR_T
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(wchar_t, WChar_t);
+#endif
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(bool, Bool);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(char, Char);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(signed char, SignedChar);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned char, UnsignedChar);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(short, ShortInt);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned short, UnsignedShortInt);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(int, Int);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned int, UnsignedInt);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long, LongInt);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(unsigned long, UnsignedLongInt);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(float, Float);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(double, Double);
+  _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long double, LongDouble);
+  CvPredefinedType<Tcl_Interp>::type  = GetClassType("Tcl_Interp", false, false);
+  CvPredefinedType<Tcl_Interp*>::type  = GetPointerType(CvPredefinedType<Tcl_Interp>::type, false, false);
+  CvPredefinedType<char*>::type  = GetPointerType(CvPredefinedType<char>::type, false, false);
+  CvPredefinedType<const char*>::type  = GetPointerType(CvPredefinedType<const char>::type, false, false);
+  CvPredefinedType<volatile char*>::type  = GetPointerType(CvPredefinedType<volatile char>::type, false, false);
+  CvPredefinedType<const volatile char*>::type  = GetPointerType(CvPredefinedType<const volatile char>::type, false, false);
+}
 
 } // namespace _wrap_

@@ -40,9 +40,40 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "cxxTypeSystem.h"
 
+#include <map>
+
 namespace _cxx_
 {
 
+// A macro to define the class definitions for the classes that wrap
+// around stl map instantiations to hide them inside this file.
+#define _cxx_DEFINE_MAP_CLASS(type)                                     \
+struct TypeSystem::type##Map: public std::map<type##Key, type*>         \
+{                                                                       \
+  typedef std::map<type##Key, type*>::iterator iterator;                \
+  typedef std::map<type##Key, type*>::const_iterator const_iterator;    \
+  typedef std::map<type##Key, type*>::value_type value_type;            \
+}
+
+// Define the key types for the maps.
+typedef std::pair<CvQualifiedType, unsigned long>  ArrayTypeKey;
+typedef String ClassTypeKey;
+typedef String EnumerationTypeKey;
+typedef std::pair<CvQualifiedType, CvQualifiedTypes>  FunctionTypeKey;
+typedef FundamentalType::Id FundamentalTypeKey;
+typedef CvQualifiedType PointerTypeKey;
+typedef std::pair<CvQualifiedType, const ClassType*>  PointerToMemberTypeKey;
+typedef CvQualifiedType ReferenceTypeKey;
+
+// The map definitions.
+_cxx_DEFINE_MAP_CLASS(ArrayType);
+_cxx_DEFINE_MAP_CLASS(ClassType);
+_cxx_DEFINE_MAP_CLASS(EnumerationType);
+_cxx_DEFINE_MAP_CLASS(FunctionType);
+_cxx_DEFINE_MAP_CLASS(FundamentalType);
+_cxx_DEFINE_MAP_CLASS(PointerType);
+_cxx_DEFINE_MAP_CLASS(PointerToMemberType);
+_cxx_DEFINE_MAP_CLASS(ReferenceType);
 
 /**
  * Get the type representation for an ArrayType with the given element type
@@ -57,9 +88,9 @@ TypeSystem
   ArrayTypeKey key(in_elementType, in_length);
   
   // Look for an existing copy of this type.
-  ArrayTypeMap::const_iterator i = m_ArrayTypeMap.find(key);
+  ArrayTypeMap::const_iterator i = m_ArrayTypeMap->find(key);
   
-  if(i != m_ArrayTypeMap.end())
+  if(i != m_ArrayTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -68,7 +99,7 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     ArrayType* newArrayType = new ArrayType(in_elementType, in_length);
-    m_ArrayTypeMap[key] = newArrayType;
+    m_ArrayTypeMap->insert(ArrayTypeMap::value_type(key,newArrayType));
     return newArrayType;
     }
 }
@@ -86,9 +117,9 @@ TypeSystem
 ::GetClassType(const String& name, bool isAbstract, const ClassTypes& parents)
 {
   // Look for an existing copy of this type.
-  ClassTypeMap::const_iterator i = m_ClassTypeMap.find(name);
+  ClassTypeMap::const_iterator i = m_ClassTypeMap->find(name);
   
-  if(i != m_ClassTypeMap.end())
+  if(i != m_ClassTypeMap->end())
     {
     // An existing copy was found.  Merge in the new information we have
     // and return it.
@@ -99,7 +130,7 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     ClassType* newClassType = new ClassType(name, isAbstract, parents);
-    m_ClassTypeMap[name] = newClassType;
+    m_ClassTypeMap->insert(ClassTypeMap::value_type(name, newClassType));
     return newClassType;
     }
 }
@@ -114,9 +145,9 @@ TypeSystem
 ::GetEnumerationType(const String& name)
 {
   // Look for an existing copy of this type.
-  EnumerationTypeMap::const_iterator i = m_EnumerationTypeMap.find(name);
+  EnumerationTypeMap::const_iterator i = m_EnumerationTypeMap->find(name);
   
-  if(i != m_EnumerationTypeMap.end())
+  if(i != m_EnumerationTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -125,7 +156,7 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     EnumerationType* newEnumerationType = new EnumerationType(name);
-    m_EnumerationTypeMap[name] = newEnumerationType;
+    m_EnumerationTypeMap->insert(EnumerationTypeMap::value_type(name, newEnumerationType));
     return newEnumerationType;
     }
 }
@@ -144,9 +175,9 @@ TypeSystem
   FunctionTypeKey key(returnType, arguments);
   
   // Look for an existing copy of this type.
-  FunctionTypeMap::const_iterator i = m_FunctionTypeMap.find(key);
+  FunctionTypeMap::const_iterator i = m_FunctionTypeMap->find(key);
   
-  if(i != m_FunctionTypeMap.end())
+  if(i != m_FunctionTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -156,7 +187,7 @@ TypeSystem
     // This is a new type.  Generate an entry and return it.
     FunctionType* newFunctionType =
       new FunctionType(returnType, arguments);
-    m_FunctionTypeMap[key] = newFunctionType;
+    m_FunctionTypeMap->insert(FunctionTypeMap::value_type(key, newFunctionType));
     return newFunctionType;
     }  
 }
@@ -171,9 +202,9 @@ TypeSystem
 ::GetFundamentalType(FundamentalType::Id in_id)
 {
   // Look for an existing copy of this type.
-  FundamentalTypeMap::const_iterator i = m_FundamentalTypeMap.find(in_id);
+  FundamentalTypeMap::const_iterator i = m_FundamentalTypeMap->find(in_id);
   
-  if(i != m_FundamentalTypeMap.end())
+  if(i != m_FundamentalTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -182,7 +213,7 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     FundamentalType* newFundamentalType = new FundamentalType(in_id);
-    m_FundamentalTypeMap[in_id] = newFundamentalType;
+    m_FundamentalTypeMap->insert(FundamentalTypeMap::value_type(in_id, newFundamentalType));
     return newFundamentalType;
     }
 }
@@ -197,9 +228,9 @@ TypeSystem
 ::GetPointerType(const CvQualifiedType& in_type)
 {
   // Look for an existing copy of this type.
-  PointerTypeMap::const_iterator i = m_PointerTypeMap.find(in_type);
+  PointerTypeMap::const_iterator i = m_PointerTypeMap->find(in_type);
   
-  if(i != m_PointerTypeMap.end())
+  if(i != m_PointerTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -208,7 +239,7 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     PointerType* newPointerType = new PointerType(in_type);
-    m_PointerTypeMap[in_type] = newPointerType;
+    m_PointerTypeMap->insert(PointerTypeMap::value_type(in_type, newPointerType));
     return newPointerType;
     }
 }
@@ -228,9 +259,9 @@ TypeSystem
   
   // Look for an existing copy of this type.
   PointerToMemberTypeMap::const_iterator i =
-    m_PointerToMemberTypeMap.find(key);
+    m_PointerToMemberTypeMap->find(key);
   
-  if(i != m_PointerToMemberTypeMap.end())
+  if(i != m_PointerToMemberTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -240,7 +271,7 @@ TypeSystem
     // This is a new type.  Generate an entry and return it.
     PointerToMemberType* newPointerToMemberType =
       new PointerToMemberType(in_type, in_class);
-    m_PointerToMemberTypeMap[key] = newPointerToMemberType;
+    m_PointerToMemberTypeMap->insert(PointerToMemberTypeMap::value_type(key, newPointerToMemberType));
     return newPointerToMemberType;
     }
 }
@@ -255,9 +286,9 @@ TypeSystem
 ::GetReferenceType(const CvQualifiedType& in_type)
 {
   // Look for an existing copy of this type.
-  ReferenceTypeMap::const_iterator i = m_ReferenceTypeMap.find(in_type);
+  ReferenceTypeMap::const_iterator i = m_ReferenceTypeMap->find(in_type);
   
-  if(i != m_ReferenceTypeMap.end())
+  if(i != m_ReferenceTypeMap->end())
     {
     // An existing copy was found, return it.
     return i->second;
@@ -266,63 +297,83 @@ TypeSystem
     {
     // This is a new type.  Generate an entry and return it.
     ReferenceType* newReferenceType = new ReferenceType(in_type);
-    m_ReferenceTypeMap[in_type] = newReferenceType;
+    m_ReferenceTypeMap->insert(ReferenceTypeMap::value_type(in_type, newReferenceType));
     return newReferenceType;
     }
 }
 
 
 /**
- * Constructor.
+ * Constructor creates the internal representation maps.
  */
 TypeSystem
-::TypeSystem()
+::TypeSystem():
+  m_ArrayTypeMap(new ArrayTypeMap),
+  m_ClassTypeMap(new ClassTypeMap),
+  m_EnumerationTypeMap(new EnumerationTypeMap),
+  m_FunctionTypeMap(new FunctionTypeMap),
+  m_FundamentalTypeMap(new FundamentalTypeMap),
+  m_PointerTypeMap(new PointerTypeMap),
+  m_PointerToMemberTypeMap(new PointerToMemberTypeMap),
+  m_ReferenceTypeMap(new ReferenceTypeMap)
 {
 }
 
 
 /**
- * Destructor frees all existing type representations allocated by this
- * TypeSystem.
+ * Destructor frees all existing type representations allocated by
+ * this TypeSystem.  It then destroys the internal representation
+ * maps.
  */
 TypeSystem
 ::~TypeSystem()
 {
-  for(ArrayTypeMap::iterator i = m_ArrayTypeMap.begin();
-      i != m_ArrayTypeMap.end(); ++i)
+  // First free all type representations in the maps.
+  for(ArrayTypeMap::iterator i = m_ArrayTypeMap->begin();
+      i != m_ArrayTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(ClassTypeMap::iterator i = m_ClassTypeMap.begin();
-      i != m_ClassTypeMap.end(); ++i)
+  for(ClassTypeMap::iterator i = m_ClassTypeMap->begin();
+      i != m_ClassTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(FunctionTypeMap::iterator i = m_FunctionTypeMap.begin();
-      i != m_FunctionTypeMap.end(); ++i)
+  for(FunctionTypeMap::iterator i = m_FunctionTypeMap->begin();
+      i != m_FunctionTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(FundamentalTypeMap::iterator i = m_FundamentalTypeMap.begin();
-      i != m_FundamentalTypeMap.end(); ++i)
+  for(FundamentalTypeMap::iterator i = m_FundamentalTypeMap->begin();
+      i != m_FundamentalTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(PointerTypeMap::iterator i = m_PointerTypeMap.begin();
-      i != m_PointerTypeMap.end(); ++i)
+  for(PointerTypeMap::iterator i = m_PointerTypeMap->begin();
+      i != m_PointerTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(PointerToMemberTypeMap::iterator i = m_PointerToMemberTypeMap.begin();
-      i != m_PointerToMemberTypeMap.end(); ++i)
+  for(PointerToMemberTypeMap::iterator i = m_PointerToMemberTypeMap->begin();
+      i != m_PointerToMemberTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(ReferenceTypeMap::iterator i = m_ReferenceTypeMap.begin();
-      i != m_ReferenceTypeMap.end(); ++i)
+  for(ReferenceTypeMap::iterator i = m_ReferenceTypeMap->begin();
+      i != m_ReferenceTypeMap->end(); ++i)
     {
     delete i->second;
     }
+  
+  // Now delete the maps themselves.
+  delete m_ArrayTypeMap;
+  delete m_ClassTypeMap;
+  delete m_EnumerationTypeMap;
+  delete m_FunctionTypeMap;
+  delete m_FundamentalTypeMap;
+  delete m_PointerTypeMap;
+  delete m_PointerToMemberTypeMap;
+  delete m_ReferenceTypeMap;
 }
 
 

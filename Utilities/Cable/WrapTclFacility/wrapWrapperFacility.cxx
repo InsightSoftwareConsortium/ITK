@@ -39,20 +39,79 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "wrapWrapperFacility.h"
-#include "wrapPointer.h"
-#include "wrapReference.h"
+#include "wrapTclCxxObject.h"
 #include "wrapConversionTable.h"
-#include "wrapInstanceTable.h"
 #include "wrapTypeInfo.h"
 #include "wrapWrapperBase.h"
 
 #include <map>
+#include <set>
 #include <queue>
 #include <stack>
+
+
+// A macro to define the static method that will be registered with a
+// Tcl interpreter to pass through a call to the instance of the
+// facility associated with that interpreter.
+#define _wrap_DEFINE_COMMAND_FUNCTION(command)                          \
+int WrapperFacility                                                     \
+::command##CommandFunction(ClientData clientData, Tcl_Interp* interp,   \
+                           int objc, Tcl_Obj* CONST objv[])             \
+{                                                                       \
+  return WrapperFacility::GetForInterpreter(interp)                     \
+    ->command##Command(objc, objv);                                     \
+}
+
 
 namespace _wrap_
 {
 
+// Map from type to the wrapper class for it.
+typedef std::map<const Type*, WrapperBase*>  WrapperMapBase;
+struct WrapperFacility::WrapperMap: public WrapperMapBase
+{
+  typedef WrapperMapBase::iterator iterator;
+  typedef WrapperMapBase::const_iterator const_iterator;
+  typedef WrapperMapBase::value_type value_type;
+};
+
+///! Internal class used to store an enumeration value instance.
+struct EnumEntry
+{
+  EnumEntry(): m_Object(0), m_Type(0) {}
+  EnumEntry(void* object, const Type* type): m_Object(object), m_Type(type) {}
+  EnumEntry(const EnumEntry& r): m_Object(r.m_Object), m_Type(r.m_Type) {}
+  void* m_Object;
+  const Type* m_Type;
+};  
+
+// Map from enumeration value name to an EnumEntry referring to it.
+typedef std::map<String, EnumEntry> EnumMapBase;
+struct WrapperFacility::EnumMap: public EnumMapBase
+{
+  typedef EnumMapBase::iterator iterator;
+  typedef EnumMapBase::const_iterator const_iterator;
+  typedef EnumMapBase::value_type value_type;
+};
+
+// Map from type to delete function.
+typedef std::map<const Type*,
+                 WrapperFacility::DeleteFunction>  DeleteFunctionMapBase;
+struct WrapperFacility::DeleteFunctionMap: public DeleteFunctionMapBase
+{
+  typedef DeleteFunctionMapBase::iterator iterator;
+  typedef DeleteFunctionMapBase::const_iterator const_iterator;
+  typedef DeleteFunctionMapBase::value_type value_type;
+};
+
+///! Map from Tcl interpreter to the corresponding WrapperFacility.
+typedef std::map<const Tcl_Interp*,
+                 WrapperFacility*> InterpreterWrapperFacilityMap;
+namespace
+{
+///! The instance of the map from interpreter to wrapper facility.
+InterpreterWrapperFacilityMap interpreterWrapperFacilityMap;
+}
 
 /**
  * Get a WrapperFacility object set up to deal with the given Tcl
@@ -61,9 +120,6 @@ namespace _wrap_
  */
 WrapperFacility* WrapperFacility::GetForInterpreter(Tcl_Interp* interp)
 {
-  static std::map<const Tcl_Interp*, WrapperFacility*>
-    interpreterWrapperFacilityMap;
-  
   // See if an WrapperFacility exists for the given interpreter.
   if(interpreterWrapperFacilityMap.count(interp) == 0)
     {
@@ -75,71 +131,83 @@ WrapperFacility* WrapperFacility::GetForInterpreter(Tcl_Interp* interp)
   return interpreterWrapperFacilityMap[interp];  
 }
 
+  
+/**
+ * Get the Tcl interpreter for which this WrapperFacility has been
+ * configured.
+ */
 Tcl_Interp* WrapperFacility::GetInterpreter() const
 {
   return m_Interpreter;
 }
 
+
+/**
+ * Get the conversion table for this WrapperFacility.
+ */
 ConversionTable* WrapperFacility::GetConversionTable() const
 {
   return m_ConversionTable;
 }
 
-InstanceTable* WrapperFacility::GetInstanceTable() const
-{
-  return m_InstanceTable;
-}
 
-
-
+/**
+ * The constructor initializes the facility to work with the given
+ * interpreter.
+ */
 WrapperFacility::WrapperFacility(Tcl_Interp* interp):
-  m_Interpreter(interp)
+  m_Interpreter(interp),
+  m_EnumMap(new EnumMap),
+  m_WrapperMap(new WrapperMap),
+  m_DeleteFunctionMap(new DeleteFunctionMap)
 {
-  this->Initialize();
+  // Make sure the class has been initialized globally.
+  WrapperFacility::ClassInitialize();
+  
   this->InitializeForInterpreter();
+#ifdef _wrap_DEBUG_SUPPORT
+  m_Debug = false;
+#endif
 }
 
+
+/**
+ * The destructor frees all enumeration values that have been
+ * registered and deletes the facility's conversion table.
+ */
 WrapperFacility::~WrapperFacility()
 {
-}
-
-extern Tcl_ObjType TclPointerType;
-extern Tcl_ObjType TclReferenceType;
-
-void WrapperFacility::Initialize()
-{
-  static bool initialized = false;
-  
-  if(initialized)
+  for(EnumMap::const_iterator e = m_EnumMap->begin();
+      e != m_EnumMap->end(); ++e)
     {
-    return;
+    this->DeleteObject(e->second.m_Object, e->second.m_Type);
     }
   
-  // Initialize predefined type information.  This only executes once,
-  // no matter how many interpreters are using it.
-  _wrap_::TypeInfo::Initialize();
-  
-  // Register the Tcl object types we need.
-  Tcl_RegisterObjType(&_wrap_::TclPointerType);
-  Tcl_RegisterObjType(&_wrap_::TclReferenceType);
-  
-  initialized = true;
+  if(m_ConversionTable) { delete m_ConversionTable; }
+  delete m_WrapperMap;
+  delete m_EnumMap;
+  delete m_DeleteFunctionMap;
 }
 
 
+/**
+ * Called by the constructor to initialize the facility for its
+ * interpreter.
+ */
 void WrapperFacility::InitializeForInterpreter()
 {
   m_ConversionTable = new ConversionTable();
-  m_InstanceTable = new InstanceTable(m_Interpreter);
   
   Tcl_CreateObjCommand(m_Interpreter, "wrap::ListMethods",
                        &ListMethodsCommandFunction, 0, 0);
   Tcl_CreateObjCommand(m_Interpreter, "wrap::TypeOf",
                        &TypeOfCommandFunction, 0, 0);
-  Tcl_CreateObjCommand(m_Interpreter, "wrap::Delete",
-                       &DeleteCommandFunction, 0, 0);
   Tcl_CreateObjCommand(m_Interpreter, "wrap::Interpreter",
                        &InterpreterCommandFunction, 0, 0);
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::DebugOn",
+                       &DebugOnCommandFunction, 0, 0);
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::DebugOff",
+                       &DebugOffCommandFunction, 0, 0);
   
   Tcl_PkgProvide(m_Interpreter, "WrapTclFacility", "1.0");
 }
@@ -149,42 +217,34 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
 {
   static const char usage[] =
     "Usage: ListMethods <id>\n"
-    "  Where <id> is an object name, pointer, or reference.";
+    "  Where <id> is a C++ class type object, pointer, or reference.";
   
   const Type* type = NULL;
   
   if(objc > 1)
     {
-    Pointer p;
-    Reference r;
-    
-    if(TclObjectTypeIsPointer(objv[1]))
+    if(TclObjectTypeIsCxxObject(objv[1]))
       {
-      Tcl_GetPointerFromObj(m_Interpreter, objv[1], &p);
-      type = p.GetPointedToType().GetType();
-      }
-    else if(TclObjectTypeIsReference(objv[1]))
-      {
-      Tcl_GetReferenceFromObj(m_Interpreter, objv[1], &r);
-      type = r.GetReferencedType().GetType();
+      CxxObject* cxxObject=0;
+      Tcl_GetCxxObjectFromObj(m_Interpreter, objv[1], &cxxObject);
+      type = cxxObject->GetType();
       }
     else
       {
-      String objectName = Tcl_GetStringFromObj(objv[1], NULL);
-      if(m_InstanceTable->Exists(objectName))
+      CxxObject* cxxObject=0;
+      if(StringRepIsCxxObject(Tcl_GetStringFromObj(objv[1], NULL))
+         && (Tcl_GetCxxObjectFromObj(m_Interpreter, objv[1], &cxxObject) == TCL_OK))
         {
-        type = m_InstanceTable->GetType(objectName).GetType();
+        type = cxxObject->GetType();
         }
-      else if(StringRepIsPointer(objectName)
-              && (Tcl_GetPointerFromObj(m_Interpreter, objv[1], &p) == TCL_OK))
-        {
-        type = p.GetPointedToType().GetType();
-        }
-      else if(StringRepIsReference(objectName)
-              && (Tcl_GetReferenceFromObj(m_Interpreter, objv[1], &r) == TCL_OK))
-        {
-        type = r.GetReferencedType().GetType();
-        }
+      }
+    if(type->IsPointerType())
+      {
+      type = PointerType::SafeDownCast(type)->GetPointedToType().GetType();
+      }
+    else if(type->IsReferenceType())
+      {
+      type = ReferenceType::SafeDownCast(type)->GetReferencedType().GetType();
       }
     }
   
@@ -270,35 +330,6 @@ int WrapperFacility::TypeOfCommand(int objc, Tcl_Obj* CONST objv[]) const
 }
 
 
-int WrapperFacility::DeleteCommand(int objc, Tcl_Obj* CONST objv[]) const
-{
-  static const char usage[] =
-    "Usage: Delete <name-of-object>";
-  
-  Tcl_ResetResult(m_Interpreter);
-  if(objc > 1)
-    {
-    String objectName = Tcl_GetStringFromObj(objv[1], NULL);
-    if(m_InstanceTable->Exists(objectName))
-      {
-      m_InstanceTable->DeleteObject(objectName);
-      return TCL_OK;
-      }
-    else
-      {
-      Tcl_AppendResult(m_Interpreter, "Don't know about object with name \"",
-                       const_cast<char*>(objectName.c_str()), "\"", NULL);
-      return TCL_ERROR;
-      }
-    }
-  else
-    {
-    Tcl_AppendResult(m_Interpreter, usage, NULL);
-    return TCL_ERROR;
-    }
-}
-
-
 /**
  * This implements the wrapper facility command "wrap::Interpreter".
  * It returns a pointer to the Tcl interpreter itself that can be
@@ -307,49 +338,59 @@ int WrapperFacility::DeleteCommand(int objc, Tcl_Obj* CONST objv[]) const
  */
 int WrapperFacility::InterpreterCommand(int, Tcl_Obj* CONST[]) const
 {
-  Tcl_SetPointerObj(Tcl_GetObjResult(m_Interpreter),
-                    Pointer(m_Interpreter, CvPredefinedType<Tcl_Interp>::type));
+  CxxObject* cxxObject =
+    CxxObject::GetObjectFor(Anything(m_Interpreter),
+                            CvPredefinedType<Tcl_Interp*>::type.GetType(),
+                            this);
+  Tcl_SetObjResult(m_Interpreter, Tcl_NewCxxObjectObj(cxxObject));
+  return TCL_OK;
 }
 
 
-int WrapperFacility
-::ListMethodsCommandFunction(ClientData clientData, Tcl_Interp* interp,
-                             int objc, Tcl_Obj* CONST objv[])
+/**
+ * Command to turn on debug output.  This is defined whether or not
+ * debug support is compiled in.  It will report that debug support is
+ * not available if it is called.
+ */
+int WrapperFacility::DebugOnCommand(int, Tcl_Obj* CONST[])
 {
-  WrapperFacility* wrapperFacility =
-    WrapperFacility::GetForInterpreter(interp);
-  return wrapperFacility->ListMethodsCommand(objc, objv);
+#ifdef _wrap_DEBUG_SUPPORT
+  Tcl_SetObjResult(m_Interpreter,
+                   Tcl_NewStringObj("Debug output on.", -1));
+  m_Debug = true;
+  return TCL_OK;
+#else
+  Tcl_ResetResult(m_Interpreter);
+  Tcl_AppendResult(m_Interpreter, "Debug output support not compiled in!", 0);
+  return TCL_ERROR;  
+#endif  
 }
 
-int WrapperFacility
-::TypeOfCommandFunction(ClientData clientData, Tcl_Interp* interp,
-                         int objc, Tcl_Obj* CONST objv[])
+
+/**
+ * Command to turn off debug output.  This is defined whether or not
+ * debug support is compiled in.  It will report that debug support is
+ * not available if it is called.
+ */
+int WrapperFacility::DebugOffCommand(int, Tcl_Obj* CONST[])
 {
-  WrapperFacility* wrapperFacility =
-    WrapperFacility::GetForInterpreter(interp);
-  return wrapperFacility->TypeOfCommand(objc, objv);
+#ifdef _wrap_DEBUG_SUPPORT
+  Tcl_SetObjResult(m_Interpreter,
+                   Tcl_NewStringObj("Debug output off.", -1));
+  m_Debug = false;
+  return TCL_OK;
+#else
+  Tcl_ResetResult(m_Interpreter);
+  Tcl_AppendResult(m_Interpreter, "Debug output support not compiled in!", 0);
+  return TCL_ERROR;
+#endif  
 }
 
-
-int WrapperFacility
-::DeleteCommandFunction(ClientData clientData, Tcl_Interp* interp,
-                        int objc, Tcl_Obj* CONST objv[])
-{
-  WrapperFacility* wrapperFacility =
-    WrapperFacility::GetForInterpreter(interp);
-  return wrapperFacility->DeleteCommand(objc, objv);
-}
-
-
-int WrapperFacility
-::InterpreterCommandFunction(ClientData clientData, Tcl_Interp* interp,
-                             int objc, Tcl_Obj* CONST objv[])
-{
-  WrapperFacility* wrapperFacility =
-    WrapperFacility::GetForInterpreter(interp);
-  return wrapperFacility->InterpreterCommand(objc, objv);
-}
-
+_wrap_DEFINE_COMMAND_FUNCTION(DebugOn)
+_wrap_DEFINE_COMMAND_FUNCTION(DebugOff)
+_wrap_DEFINE_COMMAND_FUNCTION(ListMethods)
+_wrap_DEFINE_COMMAND_FUNCTION(TypeOf)
+_wrap_DEFINE_COMMAND_FUNCTION(Interpreter)
 
 /**
  * Try to figure out the name of the type of the given Tcl object.
@@ -359,17 +400,11 @@ int WrapperFacility
 CvQualifiedType WrapperFacility::GetObjectType(Tcl_Obj* obj) const
 {
   // First try to use type information from Tcl.
-  if(TclObjectTypeIsPointer(obj))
+  if(TclObjectTypeIsCxxObject(obj))
     {
-    Pointer p;
-    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
-    return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
-    }
-  else if(TclObjectTypeIsReference(obj))
-    {
-    Reference r;
-    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
-    return TypeInfo::GetReferenceType(r.GetReferencedType());
+    CxxObject* cxxObject=0;
+    Tcl_GetCxxObjectFromObj(m_Interpreter, obj, &cxxObject);
+    return cxxObject->GetType()->GetCvQualifiedType(false, false);
     }
   else if(TclObjectTypeIsBoolean(obj))
     {
@@ -390,25 +425,21 @@ CvQualifiedType WrapperFacility::GetObjectType(Tcl_Obj* obj) const
   // No Tcl type information.  Try converting from string representation.
   else
     {
-    String objectName = Tcl_GetStringFromObj(obj, NULL);
-    if(m_InstanceTable->Exists(objectName))
+    String stringRep = Tcl_GetStringFromObj(obj, 0);
+    // First check if the string names an enumeration constant, then
+    // try to convert the string representation to various object
+    // types.
+    EnumMap::const_iterator e = m_EnumMap->find(stringRep);
+    if(e != m_EnumMap->end())
       {
-      return m_InstanceTable->GetType(objectName);
-      }
-    else if(StringRepIsPointer(objectName))
+      return e->second.m_Type->GetCvQualifiedType(false, false);
+      }    
+    else if(StringRepIsCxxObject(stringRep))
       {
-      Pointer p;
-      if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
+      CxxObject* cxxObject=0;
+      if(Tcl_GetCxxObjectFromObj(m_Interpreter, obj, &cxxObject) == TCL_OK)
         {
-        return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
-        }
-      }
-    else if(StringRepIsReference(objectName))
-      {
-      Reference r;
-      if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
-        {
-        return TypeInfo::GetReferenceType(r.GetReferencedType());
+        return cxxObject->GetType()->GetCvQualifiedType(false, false);
         }
       }
     else
@@ -444,19 +475,26 @@ Argument WrapperFacility::GetObjectArgument(Tcl_Obj* obj) const
   Argument argument;
   
   // First, see if Tcl has given us the type information.
-  if(TclObjectTypeIsPointer(obj))
+  if(TclObjectTypeIsCxxObject(obj))
     {
-    Pointer p;
-    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
-    argument.SetToPointer(p.GetObject(),
-                          TypeInfo::GetPointerType(p.GetPointedToType(),
-                                                   false, false));
-    }
-  else if(TclObjectTypeIsReference(obj))
-    {
-    Reference r;
-    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
-    argument.SetToObject(r.GetObject(), r.GetReferencedType());
+    CxxObject* cxxObject=0;
+    Tcl_GetCxxObjectFromObj(m_Interpreter, obj, &cxxObject);
+    const Type* type = cxxObject->GetType();
+    if(type->IsPointerType())
+      {
+      argument.SetToPointer(cxxObject->GetObject(),
+                            type->GetCvQualifiedType(false, false));
+      }
+    else if(type->IsReferenceType())
+      {
+      argument.SetToObject(cxxObject->GetObject(),
+                           ReferenceType::SafeDownCast(type)->GetReferencedType());
+      }
+    else
+      {
+      argument.SetToObject(cxxObject->GetObject(),
+                           type->GetCvQualifiedType(false, false));
+      }
     }
   else if(TclObjectTypeIsBoolean(obj))
     {
@@ -486,28 +524,40 @@ Argument WrapperFacility::GetObjectArgument(Tcl_Obj* obj) const
   else
     {
     // Tcl has not given us the type information.  Try converting from
-    // string representation.
-    Pointer p;
-    Reference r;
-
+    // string representation.    
+    CxxObject* cxxObject=0;
+      
     // See if it the name of an instance.
-    String objectName = Tcl_GetStringFromObj(obj, NULL);
-    if(m_InstanceTable->Exists(objectName))
-      {        
-      argument.SetToObject(m_InstanceTable->GetObject(objectName),
-                           m_InstanceTable->GetType(objectName));
-      }
-    else if(StringRepIsPointer(objectName)
-            && (Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK))
+    String stringRep = Tcl_GetStringFromObj(obj, NULL);
+
+    // First check if the string names an enumeration constant, then
+    // try to convert the string representation to various object
+    // types.
+    EnumMap::const_iterator e = m_EnumMap->find(stringRep);
+    if(e != m_EnumMap->end())
       {
-      argument.SetToPointer(p.GetObject(),
-                            TypeInfo::GetPointerType(p.GetPointedToType(),
-                                                     false, false));
-      }
-    else if(StringRepIsReference(objectName)
-            && (Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK))
+      argument.SetToObject(e->second.m_Object,
+                           e->second.m_Type->GetCvQualifiedType(false, false));
+      }    
+    else if(StringRepIsCxxObject(stringRep)
+            && (Tcl_GetCxxObjectFromObj(m_Interpreter, obj, &cxxObject) == TCL_OK))
       {
-      argument.SetToObject(r.GetObject(), r.GetReferencedType());
+      const Type* type = cxxObject->GetType();
+      if(type->IsPointerType())
+        {
+        argument.SetToPointer(cxxObject->GetObject(),
+                              type->GetCvQualifiedType(false, false));
+        }
+      else if(type->IsReferenceType())
+        {
+        argument.SetToObject(cxxObject->GetObject(),
+                             ReferenceType::SafeDownCast(type)->GetReferencedType());
+        }
+      else
+        {
+        argument.SetToObject(cxxObject->GetObject(),
+                             type->GetCvQualifiedType(false, false));
+        }
       }
     else
       {
@@ -554,7 +604,7 @@ WrapperFacility::GetConversionFunction(const CvQualifiedType& from,
  */
 bool WrapperFacility::WrapperExists(const Type* type) const
 {
-  return (m_WrapperMap.count(type) > 0);
+  return (m_WrapperMap->count(type) > 0);
 }
   
 
@@ -563,7 +613,7 @@ bool WrapperFacility::WrapperExists(const Type* type) const
  */
 void WrapperFacility::SetWrapper(const Type* type, WrapperBase* wrapper)
 {
-  m_WrapperMap[type] = wrapper;
+  m_WrapperMap->insert(WrapperMap::value_type(type, wrapper));
 }
   
  
@@ -574,13 +624,136 @@ void WrapperFacility::SetWrapper(const Type* type, WrapperBase* wrapper)
 WrapperBase*
 WrapperFacility::GetWrapper(const Type* type) const
 {
-  WrapperMap::const_iterator i = m_WrapperMap.find(type);
-  if(i != m_WrapperMap.end())
+  WrapperMap::const_iterator i = m_WrapperMap->find(type);
+  if(i != m_WrapperMap->end())
     {
     return i->second;
     }
   return NULL;
 }
 
+
+/**
+ * Setup an enumeration constant so that it can be referenced by name.
+ * This deletes any instance of a value already having the given name.
+ */
+void WrapperFacility::SetEnumerationConstant(const String& name,
+                                             void* object,
+                                             const Type* type)
+{
+  EnumMap::const_iterator e = m_EnumMap->find(name);
+  if(e != m_EnumMap->end())
+    {
+    this->DeleteObject(e->second.m_Object, e->second.m_Type);
+    }
+  m_EnumMap->insert(EnumMap::value_type(name, EnumEntry(object, type)));
+}  
+
+
+/**
+ * Set the delete function to be used for deleting objects of the
+ * given type.
+ */
+void WrapperFacility::SetDeleteFunction(const Type* type, DeleteFunction func)
+{
+  m_DeleteFunctionMap->insert(DeleteFunctionMap::value_type(type, func));
+}
+
+
+/**
+ * Delete an object at the given address with the given type.  This
+ * assumes that a delete function has been registered for the given
+ * type.
+ */
+void WrapperFacility::DeleteObject(const void* object, const Type* type) const
+{
+  DeleteFunctionMap::const_iterator df = m_DeleteFunctionMap->find(type);
+  if(df != m_DeleteFunctionMap->end())
+    {
+    (df->second)(object);
+    }
+  else
+    {
+    // Uh oh!
+    }
+}
+
+
+/**
+ * This is called by the constructor of WrapperFacility to make sure
+ * that the facility has been initialized.
+ */
+void WrapperFacility::ClassInitialize()
+{
+  // Make sure this function is only executed once.
+  static bool initialized = false;
+  if(initialized) { return; }
+  
+  // Call other class' initialization functions in a safe order.
+  TypeInfo::ClassInitialize();
+  TclCxxObject::ClassInitialize();
+
+  // Register a call-back with Tcl to make sure
+  // WrapperFacility::ClassFinalize is called when the program ends.
+  Tcl_CreateExitHandler(&Self::TclExitCallBack, 0);
+  
+  initialized = true;
+}
+
+
+/**
+ * This function is called when the program ends or the shared library
+ * is unloaded.  It will destroy all instances of the WrapperFacility.
+ */
+void WrapperFacility::ClassFinalize()
+{  
+  // Call other class' finalization functions in a safe order.
+  CxxObject::ClassFinalize();
+
+  // Now do our own cleanup.
+  // Delete all the WrapperFacility instances.
+  for(InterpreterWrapperFacilityMap::const_iterator i =
+        interpreterWrapperFacilityMap.begin();
+      i != interpreterWrapperFacilityMap.end(); ++i)
+    {
+    delete i->second;
+    }
+}
+
+
+/**
+ * This function is registered with Tcl to be called when the program
+ * ends.
+ */
+void WrapperFacility::TclExitCallBack(ClientData)
+{
+  WrapperFacility::ClassFinalize();
+}
+
 } // namespace _wrap_
+
+#ifdef _wrap_DEBUG_SUPPORT
+#include <iostream>
+namespace _wrap_
+{
+
+/**
+ * Test whether the debug output flag is currently on.
+ */
+bool WrapperFacility::DebugIsOn() const
+{
+  return m_Debug;
+}
+
+
+/**
+ * Write the given text to the debug output buffer.
+ */
+void WrapperFacility::OutputDebugText(const char* text) const
+{
+  std::cout << text;
+}
+
+} // namespace _wrap_
+#endif
 
