@@ -72,7 +72,7 @@ int main()
   it1.Begin();
   while( !it1.IsAtEnd() ) 
   {
-    *it1 = 2.0;
+    it1.Set( 2.0 );
     ++it1;
   }
 
@@ -83,7 +83,7 @@ int main()
   it2.Begin();
   while( !it2.IsAtEnd() ) 
   {
-    *it2 = 3.0;
+    it2.Set( 3.0 );
     ++it2;
   }
 
@@ -124,7 +124,7 @@ int main()
   it3.Begin();
   while( !it3.IsAtEnd() ) 
   {
-    std::cout << *it3 << std::endl;
+    std::cout << it3.Get() << std::endl;
     ++it3;
   }
 
