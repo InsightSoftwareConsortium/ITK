@@ -3,8 +3,8 @@ AC_INIT()
 
 AC_CONFIG_HEADER(itkConfigure.h)
 
-ITK_OBJ=`pwd`
-AC_SUBST(ITK_OBJ)
+CMAKE_OBJ_DIR=`pwd`
+AC_SUBST(CMAKE_OBJ_DIR)
 
 #
 # check for some programs we use
@@ -184,6 +184,9 @@ case $system in
 		ITK_SHLIB_LINK_FLAGS=""])
 	fi
 	;;
+    CYGWIN_NT-4.0*)
+        DL_LIBS="-lgdi32"
+        ;;
     MP-RAS-02*)
 	SHLIB_CFLAGS="-K PIC"
 	SHLIB_LD_LIBS=""
@@ -327,7 +330,7 @@ else
     SHLIB_LD_LIBS=""
     ITK_SHLIB_CFLAGS=""
     ITK_LD_SEARCH_FLAGS=""
-    TOOLKIT_DEPENDS="\${ITK_OBJ}/Code/libITKCommon.a"
+    TOOLKIT_DEPENDS="\${CMAKE_OBJ_DIR}/Code/libITKCommon.a"
 fi
 export ITK_LIB_EXT
 
@@ -479,14 +482,14 @@ if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
   SHLIB_CFLAGS="-fPIC"
 fi
 
-if test -f $ITK_OBJ/local.make.in; then
-   echo "create local.make"
+if test -f $CMAKE_OBJ_DIR/CMakeLocal.make.in; then
+   echo "create CMakeLocal.make from $CMAKE_OBJ_DIR/CMakeLocal.make.in"
    rm -f local.make
-   cp $ITK_OBJ/local.make.in local.make
+   cp $CMAKE_OBJ_DIR/local.make.in local.make
 else
-   echo "no $ITK_OBJ/local.make.in creating an empty one"
-   rm -f local.make
-   touch local.make
+   echo "no $CMAKE_OBJ_DIR/CMakeLocal.make.in creating an empty CMakeLocal.make file"
+   rm -f CMakeLocal.make
+   touch CMakeLocal.make
 fi
 
 AC_SUBST(EXTRA_GCC_FLAG)
@@ -501,30 +504,32 @@ AC_CONFIG_SUBDIRS(Code/Insight3DParty/vxl/vcl)
 # must be created in that directory for non-gmake make programs that
 # abort when they can not find an included makefile part
 AC_OUTPUT(
-Makefile
-Code/Makefile
-Code/targets.make:Code/config/dummy.in 
-Code/tools/Makefile
-Code/config/system.make 
-Code/config/Insight.make 
-Code/config/InsightRules.make 
-Code/config/build.rules
-Code/Insight3DParty/mkdir:Code/config/dummy.in
-Code/Insight3DParty/vxl/Makefile
-Code/Insight3DParty/vxl/targets.make:Code/config/dummy.in 
-Code/Common/Makefile
-Code/Common/targets.make:Code/config/dummy.in 
-Testing/mkdir:Code/config/dummy.in
-Testing/Code/mkdir:Code/config/dummy.in
-Testing/Code/Insight3DParty/mkdir:Code/config/dummy.in
-Testing/Code/Insight3DParty/vxl/mkdir:Code/config/dummy.in
-Testing/Code/Insight3DParty/vxl/vnl/mkdir:Code/config/dummy.in
-Testing/Code/Insight3DParty/vxl/vnl/tests/Makefile
-Testing/Code/Common/Makefile
-Testing/Code/Common/targets.make:Code/config/dummy.in 
+Makefile:CMake/MakefileTemplate.in
+Code/Makefile:CMake/MakefileTemplate.in
+CMakeTargets.make:CMake/dummy.in 
+CMake/CMakeMaster.make 
+CMake/CMakeVariables.make
+CMake/CMakeRules.make 
+CMake/Source/CMakeTargets.make:CMake/dummy.in 
+CMake/Source/Makefile
+Code/Insight3DParty/mkdir:CMake/dummy.in
+Code/Insight3DParty/vxl/Makefile:CMake/MakefileTemplate.in
+Code/Insight3DParty/vxl/CMakeTargets.make:CMake/dummy.in 
+Code/Common/Makefile:CMake/MakefileTemplate.in
+Code/Common/CMakeTargets.make:CMake/dummy.in 
+Testing/mkdir:CMake/dummy.in
+Testing/Code/mkdir:CMake/dummy.in
+Testing/Code/Insight3DParty/mkdir:CMake/dummy.in
+Testing/Code/Insight3DParty/vxl/mkdir:CMake/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/mkdir:CMake/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/tests/CMakeTargets.make:CMake/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/tests/Makefile:CMake/MakefileTemplate.in
+Testing/Code/Common/Makefile:CMake/MakefileTemplate.in
+Testing/Code/Common/CMakeTargets.make:CMake/dummy.in 
 )
 
-# force a rebuild of rulesgen which will rebuild targets.make
-# this has to be done because configure generates empty targets.make files
+# force a rebuild of rulesgen which will rebuild CMakeTargets.make
+# this has to be done because configure generates empty CMakeTargets.make files
 # for makes other than gnu.
-rm -f Code/tools/rulesgen
+rm -f CMake/Source/CMakeBuildTargets
+rm -f CMake/Source/CMakeBuildTargets.exe
