@@ -164,6 +164,8 @@ protected:
   /** Destructor. */
   virtual ~KernelTransform();
 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  
   /** 'G' matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
   

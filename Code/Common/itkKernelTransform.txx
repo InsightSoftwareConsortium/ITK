@@ -316,21 +316,26 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   return result;
 }
 
-
-
-
-/**
- *
- */
-template<class TScalarType, int NDimensions, class TParameters, class TJacobianType>
-inline
-std::ostream&
-operator<< ( std::ostream &s,
-             const KernelTransform<TScalarType, NDimensions, 
-                                  TParameters, TJacobianType>& transform )
+template <class TScalarType, int NDimensions,
+          class TParameters, class TJacobianType>
+void
+KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+PrintSelf(std::ostream& os, Indent indent) const
 {
-  return transform.PrintSelf(s);
-}
+  Superclass::PrintSelf(os,indent);
+  if (m_SourceLandmarks)
+    {
+    os << indent << "SourceLandmarks: " << m_SourceLandmarks << std::endl;
+    }
+  if (m_TargetLandmarks)
+    {
+    os << indent << "TargetLandmarks: " << m_TargetLandmarks << std::endl;
+    }
+  if (m_Displacements)
+    {
+    os << indent << "Displacements: " << m_Displacements << std::endl;
+    }
 
+}
 } // namespace itk
 

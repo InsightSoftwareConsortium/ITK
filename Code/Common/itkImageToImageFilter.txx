@@ -108,18 +108,6 @@ ImageToImageFilter<TInputImage,TOutputImage>
                      (this->ProcessObject::GetInput(idx).GetPointer());
 }
 
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-ImageToImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-
 //-----------------------------------------------------------------------
 //
 template<class TInputImage, class TOutputImage>

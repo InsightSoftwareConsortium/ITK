@@ -105,6 +105,20 @@ FrustumSpatialFunction<VImageDimension,TInput>
   
 }
 
+template <unsigned int VImageDimension,typename TInput>
+void
+FrustumSpatialFunction<VImageDimension,TInput>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Apex: " << m_Apex << std::endl;
+  os << indent << "AngleZ: " << m_AngleZ << std::endl;
+  os << indent << "ApertureAngleX: " << m_ApertureAngleX << std::endl;
+  os << indent << "ApertureAngleY: " << m_ApertureAngleY << std::endl;
+  os << indent << "TopPlane: " << m_TopPlane << std::endl;
+  os << indent << "BottomPlane: " << m_BottomPlane << std::endl;
+}
 } // end namespace itk
 
 #endif

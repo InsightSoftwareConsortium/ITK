@@ -121,10 +121,8 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lenghts of Ellipsoid Axes: ";
-  os << m_Axes << std::endl;
-  os << indent << "Origin of Ellipsoid: ";
-  os << m_Center << std::endl;
+  os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
+  os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
 }
 
 } // end namespace itk

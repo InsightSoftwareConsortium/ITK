@@ -154,7 +154,6 @@ public:
 protected:
   ImageSource();
   virtual ~ImageSource() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
