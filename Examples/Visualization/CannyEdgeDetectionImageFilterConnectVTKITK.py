@@ -3,8 +3,8 @@
 # Data is loaded in with VTK, processed with ITK and written back to disc
 # with VTK. 
 #
-# Note that this will only work if your ITK was compiled with
-# ITK_CSWIG_CONNECTVTKITK set to ON
+# For this to work, you have to build InsightApplications/ConnectVTKITK
+# as well.
 #
 # It also demonstrates the use of the python-specific itkPyCommand object.
 #
@@ -13,6 +13,7 @@
 import os
 import sys
 import InsightToolkit as itk
+import ConnectVTKITKPython as CVIPy
 import vtk
 
 # VTK will read the PNG image for us
@@ -38,7 +39,7 @@ itkImporter = itk.itkVTKImageImportF2_New()
 
 # Call the magic function that connects the two.  This will only be 
 # available if you built ITK with ITK_CSWIG_CONNECTVTKITK set to ON.
-itk.ConnectVTKToITKF2(vtkExporter, itkImporter.GetPointer())
+CVIPy.ConnectVTKToITKF2(vtkExporter, itkImporter.GetPointer())
 
 # perform a canny edge detection and rescale the output
 canny  = itk.itkCannyEdgeDetectionImageFilterF2F2_New()
@@ -65,7 +66,7 @@ itkExporter.SetInput(rescaler.GetOutput())
 vtkImporter = vtk.vtkImageImport()
 # do the magic connection call (once again: only available if you built
 # ITK with ITK_CSWIG_CONNECTVTKITK set to ON)
-itk.ConnectITKUS2ToVTK(itkExporter.GetPointer(), vtkImporter)
+CVIPy.ConnectITKUS2ToVTK(itkExporter.GetPointer(), vtkImporter)
 
 # finally write the image to disk using VTK
 writer = vtk.vtkPNGWriter()
