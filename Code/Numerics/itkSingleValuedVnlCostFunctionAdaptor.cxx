@@ -84,14 +84,13 @@ SingleValuedVnlCostFunctionAdaptor
   ParametersType parameters( x.size() );
   ConvertInternalToExternalParameters( x, parameters );
 
-  *f = static_cast<InternalMeasureType>(
-                      m_CostFunction->GetValue( parameters ) );
-
   DerivativeType externalGradient;
+  double   measure;
   
-  m_CostFunction->GetDerivative( parameters, externalGradient );
+  m_CostFunction->GetValueAndDerivative( parameters, measure, externalGradient );
 
-  ConvertExternalToInternalGradient( externalGradient, *g );    
+  ConvertExternalToInternalGradient( externalGradient, *g );
+  *f = static_cast<InternalMeasureType>( measure );    
 }
 
 
