@@ -215,42 +215,42 @@ void GDCMImageIO::Read(void* buffer)
       {
       unsigned char *ucbuffer = (unsigned char*)buffer;
       unsigned char *ucsource = (unsigned char*)source;
-      this->RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case CHAR:
       {
       char *cbuffer = (char*)buffer;
       char *csource = (char*)source;
-      this->RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case USHORT:
       {
       unsigned short *usbuffer = (unsigned short*)buffer;
       unsigned short *ussource = (unsigned short*)source;
-      this->RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case SHORT:
       {
       short *sbuffer = (short*)buffer;
       short *ssource = (short*)source;
-      this->RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case UINT:
       {
       unsigned int *uibuffer = (unsigned int*)buffer;
       unsigned int *uisource = (unsigned int*)source;
-      this->RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case INT:
       {
       int *ibuffer = (int*)buffer;
       int *isource = (int*)source;
-      this->RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case FLOAT:
@@ -258,14 +258,14 @@ void GDCMImageIO::Read(void* buffer)
       // Particular case for PET image that need to be return as FLOAT image
       float *fbuffer = (float*)buffer;
       unsigned short *fsource = (unsigned short*)source;
-      this->RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     case DOUBLE:
       {
       double *dbuffer = (double*)buffer;
       double *dsource = (double*)source;
-      this->RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
+      RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
       }
       break;
     }
