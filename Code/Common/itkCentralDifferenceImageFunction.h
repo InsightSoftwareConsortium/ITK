@@ -18,6 +18,7 @@
 #define _itkCentralDifferenceImageFunction_h
 
 #include "itkImageFunction.h"
+#include "itkCovariantVector.h"
 
 namespace itk
 {
@@ -34,14 +35,17 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage, class TCoordRep = float >
+template <
+  class TInputImage, 
+  class TCoordRep = float,
+  class TOutputType = CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 class ITK_EXPORT CentralDifferenceImageFunction :
-  public ImageFunction< TInputImage, double, TCoordRep >
+  public ImageFunction< TInputImage, TOutputType, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
-  typedef ImageFunction<TInputImage, double, TCoordRep> Superclass;
+  typedef ImageFunction<TInputImage, TOutputType, TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -70,37 +74,34 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
-  /** Evalulate the function at specified index.
+  /** Evalulate the image derivative by central differencing at specified index.
    *
    *  No bounds checking is done.
    *  The point is assume to lie within the image buffer.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateAtIndex( const IndexType& index ) const
-    { return ( this->EvaluateAtIndex( index, 0 ) ); }
-  virtual double EvaluateAtIndex( const IndexType& index, 
-    unsigned int dim ) const;
+  virtual OutputType EvaluateAtIndex( const IndexType& index ) const;
   
-  /** Evalulate the function at non-integer positions.
+  /** Evalulate the image derivative by central differencing at non-integer positions.
    *
    *  No bounds checking is done.
    *  The point is assume to lie within the image buffer.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-   virtual double Evaluate( const PointType& point ) const
+   virtual OutputType Evaluate( const PointType& point ) const
     { 
       IndexType index;
       this->ConvertPointToNearestIndex( point, index );
-      return this->EvaluateAtIndex( index, 0 ); 
+      return this->EvaluateAtIndex( index ); 
     }
-  virtual double EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
       IndexType index;
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
-      return this->EvaluateAtIndex( index, 0 ) ; 
+      return this->EvaluateAtIndex( index ) ; 
     }
   
 protected:

@@ -1006,25 +1006,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     // For all generic interpolator use central differencing.
-    typedef typename MovingImagePointType::CoordRepType CoordRepType;
-    typedef ContinuousIndex<CoordRepType,MovingImageDimension> 
-      MovingImageContinuousIndexType;
-
-    MovingImageContinuousIndexType tempIndex;
-
-    m_MovingImage->TransformPhysicalPointToContinuousIndex( mappedPoint, tempIndex );
-
-    MovingImageIndexType mappedIndex;
-    for( unsigned int j = 0; j < MovingImageDimension; ++j )
-      {
-      mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
-      }
-
-    for( unsigned int j = 0; j < MovingImageDimension; ++j )
-      {
-      gradient[j] = 
-        m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );
-      }
+   gradient = m_DerivativeCalculator->Evaluate( mappedPoint );
     }
 
 }

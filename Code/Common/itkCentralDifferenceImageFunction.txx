@@ -25,8 +25,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TInputImage, class TCoordRep>
-CentralDifferenceImageFunction<TInputImage,TCoordRep>
+template <class TInputImage, class TCoordRep, class TOutputType>
+CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
 ::CentralDifferenceImageFunction()
 {
 }
@@ -35,9 +35,9 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
 /**
  *
  */
-template <class TInputImage, class TCoordRep>
+template <class TInputImage, class TCoordRep, class TOutputType>
 void
-CentralDifferenceImageFunction<TInputImage,TCoordRep>
+CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -47,20 +47,15 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
 /**
  *
  */
-template <class TInputImage, class TCoordRep>
-double
-CentralDifferenceImageFunction<TInputImage,TCoordRep>
-::EvaluateAtIndex(
-  const IndexType& index,
-  unsigned int dim ) const
+template <class TInputImage, class TCoordRep, class TOutputType>
+CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+::OutputType
+CentralDifferenceImageFunction<TInputImage,TCoordRep,TOutputType>
+::EvaluateAtIndex( const IndexType& index ) const
 {
   
-  double derivative = 0.0;
-
-  if( dim > ImageDimension - 1 )
-    {
-    return ( derivative );
-    }
+  OutputType derivative;
+  derivative.Fill( 0.0 );
   
   IndexType neighIndex = index;
 
@@ -69,22 +64,26 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
   const typename InputImageType::IndexType& start =
     m_Image->GetBufferedRegion().GetIndex();
 
-  // bounds checking
-  if( index[dim] < static_cast<long>(start[dim]) + 1 ||
-      index[dim] > (start[dim] + static_cast<long>(size[dim]) - 2 ) )
+  for ( unsigned int dim = 0; dim < TInputImage::ImageDimension; dim++ )
     {
-    return ( derivative );
-    }
-  
-  // compute derivative
-  neighIndex[dim] += 1;
-  derivative = m_Image->GetPixel( neighIndex );
+    // bounds checking
+    if( index[dim] < static_cast<long>(start[dim]) + 1 ||
+        index[dim] > (start[dim] + static_cast<long>(size[dim]) - 2 ) )
+      {
+      derivative[dim] = 0.0;
+      continue;
+      }
+    
+    // compute derivative
+    neighIndex[dim] += 1;
+    derivative[dim] = m_Image->GetPixel( neighIndex );
 
-  neighIndex[dim] -= 2;
-  derivative -= m_Image->GetPixel( neighIndex );
+    neighIndex[dim] -= 2;
+    derivative[dim] -= m_Image->GetPixel( neighIndex );
 
-  derivative *= 0.5 / m_Image->GetSpacing()[dim];
-
+    derivative[dim] *= 0.5 / m_Image->GetSpacing()[dim];
+    neighIndex[dim] += 1;
+  }
 
   return ( derivative );
 

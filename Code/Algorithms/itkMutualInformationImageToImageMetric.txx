@@ -423,24 +423,16 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );
   
-  typedef typename MovingImagePointType::CoordRepType CoordRepType;
-  typedef ContinuousIndex<CoordRepType,MovingImageDimension>
-    MovingImageContinuousIndexType;
-
-  MovingImageContinuousIndexType tempIndex;
-  m_MovingImage->TransformPhysicalPointToContinuousIndex( mappedPoint, tempIndex );
-
-  MovingImageIndexType mappedIndex; 
-  for( unsigned int j = 0; j < MovingImageDimension; j++ )
-    {
-    mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
-    }
-
   CovariantVector<double,MovingImageDimension> imageDerivatives;
-  for ( unsigned int j = 0; j < MovingImageDimension; j++ )
+
+  if ( m_DerivativeCalculator->IsInsideBuffer( mappedPoint ) )
     {
-    imageDerivatives[j] = 
-      m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );
+    imageDerivatives = m_DerivativeCalculator->Evaluate( mappedPoint );
+    }
+  else
+    {
+    derivatives.Fill( 0.0 );
+    return;
     }
 
   typedef typename TransformType::JacobianType JacobianType;

@@ -131,9 +131,9 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
     fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
     } 
 

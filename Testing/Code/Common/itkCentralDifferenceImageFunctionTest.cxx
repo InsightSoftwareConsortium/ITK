@@ -56,9 +56,8 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 
   // pick an index inside the image
   index.Fill( 8 );
-  std::cout << "Index: " << index << " Derivative: [ ";
-  std::cout << function->EvaluateAtIndex( index ) << ", ";
-  std::cout << function->EvaluateAtIndex( index, 1 ) << " ]" << std::endl;
+  std::cout << "Index: " << index << " Derivative: ";
+  std::cout << function->EvaluateAtIndex( index ) << std::endl;
 
   if ( function->IsInsideBuffer( index ) )
     {
@@ -67,11 +66,35 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 
   FunctionType::ContinuousIndexType cindex;
   cindex.Fill( 8.0 );
-  function->EvaluateAtContinuousIndex( cindex );
+  std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
+  std::cout << function->EvaluateAtContinuousIndex( cindex ) << std::endl;
   
   FunctionType::PointType point;
   point.Fill( 8.0 );
-  function->Evaluate( point );
+  std::cout << "Point: " << cindex << " Derivative: ";
+  std::cout << function->Evaluate( point ) << std::endl;
+
+  // pick an index on the image edge
+  index.Fill( 8 );
+  index[0] = 15;
+  std::cout << "Index: " << index << " Derivative: ";
+  std::cout << function->EvaluateAtIndex( index ) << std::endl;
+
+  if ( function->IsInsideBuffer( index ) )
+    {
+    std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
+    }
+
+  cindex.Fill( 8.0 );
+  cindex[0] = 15.0;
+  std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
+  std::cout << function->EvaluateAtContinuousIndex( cindex ) << std::endl;
+  
+  point.Fill( 8.0 );
+  point[0] = 15.0;
+  std::cout << "Point: " << cindex << " Derivative: ";
+  std::cout << function->Evaluate( point ) << std::endl;
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
