@@ -12,6 +12,7 @@ SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest)
 ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest2)
 ADD_TEST(itkAlgorithmsPrintTest3 ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest3)
+ADD_TEST(itkAnisotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkAnisotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopologyMeshSourceTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
@@ -55,6 +56,7 @@ ADD_TEST(itkImageRegistrationMethodTest_15 ${ALGORITHMS_TESTS} itkImageRegistrat
 ADD_TEST(itkImageRegistrationMethodTest_16 ${ALGORITHMS_TESTS} itkImageRegistrationMethodTest_16)
 ADD_TEST(itkInterpolateTest ${ALGORITHMS_TESTS} itkInterpolateTest)
 ADD_TEST(itkIsoContourDistanceImageFilterTest ${ALGORITHMS_TESTS} itkIsoContourDistanceImageFilterTest)
+ADD_TEST(itkIsotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkIsotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
@@ -98,6 +100,7 @@ ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
+ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS} itkVoronoiSegmentationImageFilterTest)
@@ -112,6 +115,7 @@ SET(AlgorithmsTest_SRCS
 itkAlgorithmsPrintTest.cxx
 itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
+itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
 itkAntiAliasBinaryImageFilterTest.cxx
 itkAutomaticTopologyMeshSourceTest.cxx
 itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
@@ -154,6 +158,7 @@ itkImageRegistrationMethodTest_14.cxx
 itkImageRegistrationMethodTest_15.cxx
 itkImageRegistrationMethodTest_16.cxx
 itkInterpolateTest.cxx
+itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkKmeansModelEstimatorTest.cxx
 itkLaplacianSegmentationLevelSetImageFilterTest.cxx
@@ -188,6 +193,7 @@ itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkSwathChainCodePathFilterTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx
+itkUnsharpMaskLevelSetImageFilterTest.cxx
 itkGibbsTest.cxx
 itkDeformableTest.cxx
 itk2DDeformableTest.cxx
