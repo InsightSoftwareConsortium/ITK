@@ -15,20 +15,29 @@
 
 =========================================================================*/
 #include <iostream>
+#include "itksys/SystemTools.hxx"
 #include "itkRandomImageSource.h"
 #include "itkNumericSeriesFileIterator.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkImage.h"
 
-int itkImageSeriesIOTest(int , char * [])
+int itkImageSeriesIOTest(int argc, char * argv[])
 {
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(argc > 1) {
+    char *testdir = *++argv;
+    --argc;
+    itksys::SystemTools::ChangeDirectory(testdir);
+  }
+
   // Create a typedef to make the code more digestable
   //
   typedef itk::Image<unsigned char,3> Image3DType;
 
   unsigned long size[3];
-  size[0]=32; size[1]=64; size[2]=128;
+  size[0]=32; size[1]=64; size[2]=12 ;
   
   // Create an image consisting of random numbers.
   itk::RandomImageSource<Image3DType>::Pointer random = 

@@ -40,6 +40,7 @@ ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob)
 ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
 ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
+ADD_TEST(itkImageSeriesIOTest ${IO_TESTS} itkImageSeriesIOTest ${TEMP})
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
