@@ -85,9 +85,6 @@ public:
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,
                 AnisotropicDiffusionFunction);
   
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
 protected:
