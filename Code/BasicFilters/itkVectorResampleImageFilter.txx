@@ -37,11 +37,9 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
-  for (unsigned int i = 0; i < ImageDimension; i++)
-    {
-    m_Size[i] = 0;
-    }
-  
+  m_Size.Fill( 0 );
+  m_OutputStartIndex.Fill( 0 );
+
   m_Transform = IdentityTransform<double, ImageDimension>::New();
   m_Interpolator = VectorLinearInterpolateImageFunction<InputImageType, double>::New();
   m_DefaultPixelValue.Fill(0);
@@ -59,19 +57,12 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  unsigned int j;
   
   os << indent << "DefaultPixelValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
      << std::endl;
-  os << indent << "Size: [";
-  for( j = 0; j < ImageDimension - 1; j++ )
-    {
-    os << m_Size[j] << ", ";
-    }
-  os << m_Size[j] << "]" << std::endl;
-
+  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
@@ -255,6 +246,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   // Set the size of the output region
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( m_Size );
+  outputLargestPossibleRegion.SetIndex( m_OutputStartIndex );
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 
   // Set spacing and origin

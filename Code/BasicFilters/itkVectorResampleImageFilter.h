@@ -164,6 +164,13 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro( OutputOrigin, PointType );
 
+  /** Set the start index of the output largest possible region. 
+   * The default is an index of all zeros. */
+  itkSetMacro( OutputStartIndex, IndexType );
+
+  /** Get the start index of the output largest possible region. */
+  itkGetConstReferenceMacro( OutputStartIndex, IndexType );
+
   /** VectorResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
@@ -214,6 +221,7 @@ private:
   // is outside the image
   SpacingType             m_OutputSpacing; // output image spacing
   PointType               m_OutputOrigin;  // output image origin
+  IndexType               m_OutputStartIndex; // output start index
 };
 
   
