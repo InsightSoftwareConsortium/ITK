@@ -165,7 +165,7 @@ MetaDTITubeConverter<NDimensions>
 
     if((*it2)->GetField("id") != -1)
       {
-      pnt.SetID((*it2)->GetField("id"));
+      pnt.SetID((int)((*it2)->GetField("id")));
       }
 
     tub->GetPoints().push_back(pnt);
