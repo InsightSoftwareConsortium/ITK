@@ -42,6 +42,8 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
+  std::cout << "GetValue( " << parameters << " ) = ";
+
   typename TargetType::PointType point;  
 
   double ReferenceValue;
