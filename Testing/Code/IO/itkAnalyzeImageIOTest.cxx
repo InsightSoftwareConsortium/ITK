@@ -375,6 +375,11 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         }
       rval += TestByteSwap();
     }
+  //Tests added to increase code coverage.
+      {
+      itk::AnalyzeImageIOFactory::Pointer MyFactoryTest=itk::AnalyzeImageIOFactory::New();
+      //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
+      }
   return rval;
 }
 
