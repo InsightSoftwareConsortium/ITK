@@ -100,7 +100,7 @@ protected:
   void GenerateInputRequestedRegion();
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion();
+  void EnlargeOutputRequestedRegion(DataObject *output);
 
   void GenerateData();
   

@@ -66,10 +66,10 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 ConnectedThresholdImageFilter<TInputImage,TOutputImage>
-::EnlargeOutputRequestedRegion()
+::EnlargeOutputRequestedRegion(DataObject *output)
 {
-  Superclass::EnlargeOutputRequestedRegion();
-  this->GetOutput()->SetRequestedRegionToLargestPossible();
+  Superclass::EnlargeOutputRequestedRegion(output);
+  output->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template <class TInputImage, class TOutputImage>
