@@ -47,7 +47,6 @@ public:
   void RegisterDeleteFunction(const Type*, DeleteFunction);
   
 private:
-
   /**
    * The Tcl interpreter to which this InstanceTable object is attached.
    */

@@ -21,7 +21,7 @@ namespace _wrap_
 
 
 /**
- * Constructor takes interpreter to which the instance table will be
+ * Constructor takes interpreter to which the InstanceTable will be
  * attached.  It also initializes the temporary object number to zero.
  */
 InstanceTable::InstanceTable(Tcl_Interp* interp):
@@ -189,7 +189,7 @@ InstanceTable* InstanceTable::GetInterpreterInstanceTable(Tcl_Interp* interp)
     interpreterInstanceTableMap[interp] = new InstanceTable(interp);
     }
   
-  // Return the existing copy.
+  // Return the InstanceTable.
   return interpreterInstanceTableMap[interp];  
 }
 
