@@ -330,6 +330,23 @@ Vector<T, TVectorDimension>
  
 
 /**
+ * Return a vnl_vector const
+ */
+template<class T, unsigned int TVectorDimension>
+vnl_vector< T >
+Vector<T, TVectorDimension>
+::Get_vnl_vector( void ) const 
+{
+  vnl_vector< T > result(TVectorDimension);
+  for(unsigned int i=0; i<TVectorDimension; i++)
+  {
+    result[i] = (*this)[i];
+  }
+  return result;
+}
+ 
+
+/**
  * Print content to an ostream
  */
 template<class T, unsigned int TVectorDimension>
