@@ -1024,7 +1024,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   // 3) the user allocated the Cells on a cell-by-cell basis
   //    so every cell has to be deleted using   "delete cell"
   //
-  if( m_CellsContainer && m_CellsContainer->GetReferenceCount()==1 ) 
+  if( m_CellsContainer && m_CellsContainer->GetReferenceCount()==0 ) 
     {
     switch( m_CellsAllocationMethod )
     {
@@ -1111,7 +1111,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   while( bcp != end )
     {
     BoundariesContainerPointer boundariesContainer = *bcp;
-    if( boundariesContainer && boundariesContainer->GetReferenceCount()==1 ) 
+    if( boundariesContainer && boundariesContainer->GetReferenceCount()==0 ) 
       {
       switch( m_BoundariesAllocationMethod )
       {
