@@ -119,7 +119,7 @@ private:
   void inverse ( unsigned char *tp );
   void InitializeLUT();
   void AddCells( unsigned char celltype, unsigned char celltran, int index );
-  void AddNodes( int index, unsigned char * nodesid, unsigned long *globalnodesid );
+  void AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp );
   void CellTransfer( unsigned char *nodesid, unsigned char celltran );
   unsigned long SearchThroughLastRow( int index, int start, int end );
   unsigned long SearchThroughLastFrame( int index, int start, int end );

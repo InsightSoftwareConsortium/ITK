@@ -1047,6 +1047,20 @@ BinaryMask3DMeshSource<TOutputMesh>
 ::AddCells( unsigned char celltype, unsigned char celltran, int index )
 {
   int i;  
+  unsigned long **currentrowtmp;
+  unsigned long **currentframetmp;
+  currentrowtmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
+  for ( i=0; i<4; i++ ) {
+    currentrowtmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    currentrowtmp[i][0] = 0;
+    currentrowtmp[i][1] = 0;
+  } 
+  currentframetmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
+  for ( i=0; i<4; i++ ) {
+    currentframetmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    currentframetmp[i][0] = 0;
+    currentframetmp[i][1] = 0;
+  } 
 
 //  if (m_NumberOfCells > 1365)
 //    std::cout << "stop" << std::endl;
@@ -1158,7 +1172,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1173,7 +1187,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 9;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1186,7 +1200,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 2;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1201,7 +1215,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1214,7 +1228,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 3;
     tp[2] = 11;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1229,7 +1243,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1242,7 +1256,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 11;
     tp[2] = 7;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1257,7 +1271,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1270,7 +1284,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 9;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1283,7 +1297,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 8;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1296,7 +1310,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 6;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1309,7 +1323,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 8;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1324,7 +1338,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 2;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1337,7 +1351,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 9;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1350,7 +1364,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 11;
     tp[2] = 7;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1365,7 +1379,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 10;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1378,7 +1392,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 11;
     tp[2] = 7;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1391,7 +1405,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 4;
     tp[2] = 12;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1406,7 +1420,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 6;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1419,7 +1433,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 8;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1432,7 +1446,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 8;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1445,7 +1459,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 4;
     tp[2] = 2;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1460,7 +1474,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1473,7 +1487,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1486,7 +1500,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 7;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1499,7 +1513,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 12;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1512,7 +1526,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 4;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1525,7 +1539,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1540,7 +1554,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 3;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1553,7 +1567,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 12;
     tp[2] = 3;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1566,7 +1580,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 7;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1579,7 +1593,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 11;
     tp[2] = 7;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1594,7 +1608,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1607,7 +1621,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 11;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1620,7 +1634,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 11;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1633,7 +1647,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 8;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1646,7 +1660,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 8;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1659,7 +1673,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1674,7 +1688,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1687,7 +1701,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 9;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1700,7 +1714,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 8;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1713,7 +1727,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 2;
     tp[2] = 6;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1726,7 +1740,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 8;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1739,7 +1753,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 4;
     tp[2] = 12;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1754,7 +1768,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 9;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1767,7 +1781,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 6;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1780,7 +1794,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 3;
     tp[2] = 11;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1793,7 +1807,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 7;
     tp[2] = 12;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1808,7 +1822,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1821,7 +1835,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1834,7 +1848,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 7;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1847,7 +1861,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 12;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1860,7 +1874,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 4;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1873,7 +1887,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1886,7 +1900,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 3;
     tp[2] = 11;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1901,7 +1915,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 10;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1914,7 +1928,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 10;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1927,7 +1941,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 3;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1940,7 +1954,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 12;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1953,7 +1967,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 12;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1966,7 +1980,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1981,7 +1995,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 1;
     tp[2] = 5;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -1994,7 +2008,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2007,7 +2021,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 6;
     tp[2] = 2;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2020,7 +2034,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 3;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2033,7 +2047,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 12;
     tp[2] = 13;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2046,7 +2060,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 12;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2059,7 +2073,7 @@ BinaryMask3DMeshSource<TOutputMesh>
     tp[1] = 13;
     tp[2] = 4;
     CellTransfer( tp, celltran ); 
-    AddNodes(index, tp, tpl);
+    AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
     tripoints[0] = tpl[0];
     tripoints[1] = tpl[2];
     tripoints[2] = tpl[1];
@@ -2071,6 +2085,40 @@ BinaryMask3DMeshSource<TOutputMesh>
     break; 
   }
 
+  i = 0;
+  int j;
+  while (i < 4) {
+    if ( currentrowtmp[i][0] != 0 ) {
+      m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
+      m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
+      if ( m_CurrentRowIndex == m_CurrentRowNum ) {
+        m_CurrentRowNum += 100;
+        m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
+        for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+      }
+    }
+
+//    if ( (m_CurrentRowIndex > 2) && (m_CurrentRow[m_CurrentRowIndex-1][0] < m_CurrentRow[m_CurrentRowIndex-2][0]) )
+//      std::cout << "disorder" << std::endl;
+
+    if ( currentframetmp[i][0] != 0 ) {
+      m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
+      m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
+      if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
+        m_CurrentFrameNum += 1000;
+        m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
+        for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
+      }
+    }
+
+    i++;
+  }
+ 
+  for ( i=0; i<4; i++ ) free (currentrowtmp[i]); 
+  free (currentrowtmp);
+  for ( i=0; i<4; i++ ) free (currentframetmp[i]);
+  free (currentframetmp);
+
   m_LastVoxel[4] = m_CurrentVoxel[2]; 
   m_LastVoxel[9] = m_CurrentVoxel[10];
   m_LastVoxel[8] = m_CurrentVoxel[6];
@@ -2081,26 +2129,26 @@ BinaryMask3DMeshSource<TOutputMesh>
 template<class TOutputMesh>
 void
 BinaryMask3DMeshSource<TOutputMesh>
-::AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid )
+::AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp )
 {
   int i = 0, j;
   OPointType new_p;
-  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
-  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
+//  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
+//  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 
   unsigned char test[3];
 
   for ( i=0; i<3; i++ ) {
     m_PointFound = 0;
-   test[i] = 0;
+    test[i] = 0;
 
     if ( m_AvailableNodes[nodesid[i]] != 0 ) {
       m_PointFound = 1;
       test[i] = 1;
 
-      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth ) + 0.5;
-      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageHeight ) + 0.5;
-      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) ) + 0.5;
+      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
+      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageHeight );
+      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
       this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
       switch ( nodesid[i] ) {
@@ -2241,7 +2289,7 @@ BinaryMask3DMeshSource<TOutputMesh>
 
 //  if ((globalnodesid[0] > 10000) || (globalnodesid[1] > 10000) || (globalnodesid[2] > 10000))
 //    std::cout << " abnormal " << std::endl;
-
+/*
   i = 0;
   while (i < 4) {
     if ( currentrowtmp[i][0] != 0 ) {
@@ -2269,6 +2317,7 @@ BinaryMask3DMeshSource<TOutputMesh>
 
     i++;
   }
+*/
 }
 
 template<class TOutputMesh>
