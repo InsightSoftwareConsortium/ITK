@@ -104,25 +104,64 @@ int main()
     ++ti;
   }
 
-  
+  const double translationScale = 1e4; // about half the extent of the image
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
-  registrationMethod->SetTranslationScale( 1e4 );
+  registrationMethod->SetTranslationScale( translationScale );
 
   registrationMethod->GetOptimizer()->SetLearningRate(5e-12);
   registrationMethod->GetOptimizer()->SetNumberOfIterations(100);
 
   registrationMethod->StartRegistration();
 
+  // get the results
+  RegistrationType::ParametersType solution = 
+    registrationMethod->GetOptimizer()->GetCurrentPosition();
 
-  std::cout << "The correct answer should be : " << std::endl;
-  std::cout << " 1.0    0.0    0.0    1.0  ";
-  std::cout << -displacement << std::endl;
-  
+  std::cout << "Solution is: " << solution << std::endl;
 
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[6] = { 1, 0, 0, 1, -7, -3 };
+  for( unsigned int j = 0; j < 4; j++ )
+    {
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+      {
+      std::cout << j << " ";
+      std::cout << solution[j] << " ";
+      std::cout << trueParameters[j] << " ";
+      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
+      std::cout << std::endl;
+      pass = false;
+      }
+    }
+  for( unsigned int j = 4; j < 6; j++ )
+    {
+    if( vnl_math_abs( solution[j] * translationScale - trueParameters[j] ) > 1.0 )
+      {
+      std::cout << j << " ";
+      std::cout << solution[j] << " ";
+      std::cout << trueParameters[j] << " ";
+      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
+      std::cout << std::endl;
+      pass = false;
+      }
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
+
+
 
 }
