@@ -56,7 +56,6 @@ GradientDescentOptimizer<TCostFunction>
 {
    m_LearningRate = 1.0;
    m_NumberOfIterations = 100;
-   m_Scale.Fill( 1.0 );
    m_CurrentIteration = 0;
 }
 
@@ -174,8 +173,10 @@ GradientDescentOptimizer<TCostFunction>
 
   for(unsigned int j=0; j<SpaceDimension; j++)
   {
+    DerivativeType transformedGradient = 
+            GetTransform()->TransformCovariantVector( m_Gradient );
     newPosition[j] = currentPosition[j] + 
-      direction * m_LearningRate * m_Scale[j] * m_Gradient[j];
+      direction * m_LearningRate * transformedGradient[j];
   }
 
   SetCurrentPosition( newPosition );

@@ -220,12 +220,8 @@ public:
   itkGetConstMacro( StopCondition, StopConditionType );
 
   /**
-   * Set the scaling between parameters.
-   * The default is 1.0 for all parameters.
+   * Set the cost function
    */
-  void SetScale( const ParametersType & scale )
-          { m_Scale = scale; this->Modified(); }
-
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
@@ -237,7 +233,6 @@ protected:
 
   // made protected so subclass can access
   DerivativeType                m_Gradient; 
-  ParametersType                m_Scale;
   bool                          m_Maximize;
   double                        m_LearningRate;
 
