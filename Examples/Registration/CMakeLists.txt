@@ -181,7 +181,7 @@ ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES7}
             ${TEMP}/ImageRegistration14Test.png
   ImageRegistration14Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X14Y17.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration14Test.png
 )
 
