@@ -3,8 +3,13 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx
   Language:  C++
+<<<<<<< itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.txx
   Date:      $Date$
   Version:   $Revision$
+=======
+  Date:      $Date$
+  Version:   $Revision$
+>>>>>>> 1.3
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -20,7 +25,6 @@
 
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
@@ -217,6 +221,8 @@ private:
   unsigned int m_RangeDimension;  
 };
 
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //============================================================================//
 //============================================================================//
@@ -264,7 +270,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   // Pinters to the source image, the boundary point image, and the output image
 
   // Get the input and output pointers
-
   BoundaryPointImagePointer bpPtr
     = dynamic_cast<BoundaryPointImageType*>(ProcessObject::GetInput(0));
   SourceImagePointer sourcePtr
@@ -288,20 +293,21 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   for ( bpIt.GoToBegin(); !bpIt.IsAtEnd(); ++bpIt)
     {
     // The iterator for accessing linked list info
-    BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
+    itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bpIt.Value().begin(); bpiterator != bpIt.Value().end(); ++bpiterator)
       {
 
       // Find boundary profiles at this index of the iterator
+
       // When constructing boundary profiles at a boundary point, we want to sample
       // the voxels within an ellipsoidal region
 
       //---------Create and initialize a sampling spatial function-----------
 
       // Symmetric Ellipsoid spatial function typedef
-      typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
+      typedef itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
   
       // Point position typedef
       typedef TFunctionType::InputType TSymEllipsoidFunctionVectorType;
@@ -319,9 +325,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
       // Set the orientation of the ellipsoid to the current boundary point gradient
-      Vector<double, NDimensions> orientation;
-      
-      CovariantVector<double, NDimensions> gradientNormalized;
+      itk::Vector<double, NDimensions> orientation;
+
+      itk::CovariantVector<double, NDimensions> gradientNormalized;
       double gradientNorm = (*bpiterator)->GetGradient().GetNorm();
 
       gradientNormalized = (*bpiterator)->GetGradient()/gradientNorm;
@@ -335,22 +341,27 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
       // Set the properties of the spatial function
       spatialFunc->SetOrientation(orientation, m_UniqueAxis, m_SymmetricAxes);
-  
+
       // Create a seed position for the spatial function iterator we'll use shortly
       typename TSourceImage::IndexType seedIndex;
 
+      TSourceImage::IndexValueType position[NDimensions] = {NULL};
+
       for(unsigned int i=0; i< NDimensions; i++)
-        seedIndex[i] = spatialFunctionOrigin[i];
+        position[i] = spatialFunctionOrigin[i];
+
+      seedIndex.SetIndex(position);
 
       // Create and initialize a spatial function iterator
-      typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
+      typedef itk::FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
       TIteratorType sfi = TIteratorType(sourcePtr, spatialFunc, seedIndex);
 
       // The index of the pixel
+    
       TVectorType indexPosition;
 
       for(int i = 0; i < m_NumberOfBins; ++i)
-        {
+        { 
         m_Accumulator[i] = 0;
         m_Normalizer[i] = 0;
         }
@@ -389,23 +400,23 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
         // Gaussian Splat
         if(m_SplatMethod == 0)
-          {
+          {         
           double a = 2;
           double b = .6; // for weight .5
 
           AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*exp(-.5*(pow((binJitter+1)/b, 2)))),
-                          sourcePixelValue);
+                         sourcePixelValue);
           AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*exp(-.5*(pow((binJitter  )/b, 2)))),
-                          sourcePixelValue);
+                         sourcePixelValue);
           AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*exp(-.5*(pow((binJitter-1)/b, 2)))),
-                          sourcePixelValue);
+                         sourcePixelValue);
           AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*exp(-.5*(pow((binJitter-2)/b, 2)))),
-                          sourcePixelValue);
+                         sourcePixelValue);
           }
         
         // Triangle splat
         else if(m_SplatMethod == 1)
-          {
+          {         
           AddSplatToAccumulatorAndNormalizer(binNumber-1, 1-binJitter, sourcePixelValue);
           AddSplatToAccumulatorAndNormalizer(binNumber,   2-binJitter, sourcePixelValue);
           AddSplatToAccumulatorAndNormalizer(binNumber+1, 1+binJitter, sourcePixelValue);
@@ -415,7 +426,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           std::cerr << "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method" << std::endl;
         }
 
-      // Normalize the splat accumulator with the normalizer 
+        // Normalize the splat accumulator with the normalizer 
         NormalizeSplatAccumulator();
 
         // Fit the intensity profile to a cumulative Gaussian
@@ -435,7 +446,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           boundaryProfile->SetMeanNormalized();    
           boundaryProfile->SetStandardDeviationNormalized();
           boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
-                  
+          
+          //set gradient of profile to be equal to the gradient of the bp
+          boundaryProfile->SetGradient((*bpiterator)->GetGradient());
+
           TPositionType optimalBoundaryLocation;
           for(unsigned int i = 0; i < NDimensions; i++)
             optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i]; 
@@ -456,7 +470,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     }
 
   std::cout << "bpCount = " << bpCount << std::endl
-            << "NumBoundaryProfiles = " << m_NumBoundaryProfiles << std::endl;
+    << "NumBoundaryProfiles = " << m_NumBoundaryProfiles << std::endl;
 
   itkDebugMacro(<< "Finished constructing for boundary profiles\n"
                 << "I made " << m_NumBoundaryProfiles << " boundary profiles\n");
@@ -536,7 +550,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 {
   m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
 
-  typedef LevenbergMarquardtOptimizer OptimizerType;
+  typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
   
@@ -559,7 +573,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
   Optimizer->SetCostFunction( costFunction.GetPointer() );
     }
-  catch( ExceptionObject & e )
+  catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -600,7 +614,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
     Optimizer->StartOptimization();
     }
-  catch( ExceptionObject & e )
+  catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -651,6 +665,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_FinalParameters[2] = finalPosition[2];
   m_FinalParameters[3] = finalPosition[3];
 
+ /* std::cerr << std::endl << "m_FinalParameters = " 
+    << "   " << m_FinalParameters[0] 
+    << "   " << m_FinalParameters[1] 
+    << "   " << m_FinalParameters[2] 
+    << "   " << m_FinalParameters[3] << std::endl;
+*/
   return EXIT_SUCCESS;
 
 }

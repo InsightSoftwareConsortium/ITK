@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(BloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
+  itkTypeMacro(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
   enum {NDimensions = TSourceImage::ImageDimension};
@@ -97,10 +97,10 @@ public:
   typedef typename TPositionType::VectorType TVectorType;
 
   /** Set the blurred original image */
-   void SetInput1( const SourceImageType * image1 );
+  void SetInput1( const SourceImageType * image1 );
 
   /** Set the boundary point image */
-   void SetInput2( const BoundaryPointImageType * image2 );
+  void SetInput2( const BoundaryPointImageType * image2 );
 
   /** Find maximum in accumulator */
   double FindAccumulatorMaximum();
@@ -146,10 +146,10 @@ protected:
   void GenerateData();
 
 private:
-  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
+  BloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // typename BoundaryPointImagePointer m_BoundaryPointImage;
+  typename BoundaryPointImagePointer m_BoundaryPointImage;
   const double* m_BPImageOrigin;
   const double* m_BPImageSpacing;
     
