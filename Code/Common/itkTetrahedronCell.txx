@@ -17,6 +17,8 @@
 #ifndef _itkTetrahedronCell_txx
 #define _itkTetrahedronCell_txx
 #include "itkTetrahedronCell.h"
+#include "itkTriangleCell.h"
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk
 {
@@ -75,6 +77,145 @@ TetrahedronCell< TCellInterface >
     case 1: return GetNumberOfEdges();
     case 2: return GetNumberOfFaces();
     default: return 0;
+    }
+}
+
+
+template <typename TCellInterface>
+bool
+TetrahedronCell< TCellInterface >
+::EvaluatePosition(CoordRepType x[PointDimension],
+                                PointsContainer* points,
+                                CoordRepType closestPoint[PointDimension],
+                                CoordRepType pcoord[3],
+                                double* minDist2,
+                                InterpolationWeightType* weights)
+{
+  int i;
+  double rhs[PointDimension], c1[PointDimension], c2[PointDimension], c3[PointDimension];
+  double det, p4;
+
+  CoordRepType pcoords[3];
+  pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
+
+  if(!points)
+    {
+    return false;
+    }
+
+  PointType pt1 = points->GetElement(0);
+  PointType pt2 = points->GetElement(1);
+  PointType pt3 = points->GetElement(2);
+  PointType pt4 = points->GetElement(3);
+
+  for (i=0; i<PointDimension; i++)
+    {
+    rhs[i] = x[i] - pt4[i];
+    c1[i] = pt1[i] - pt4[i];
+    c2[i] = pt2[i] - pt4[i];
+    c3[i] = pt3[i] - pt4[i];
+    }
+
+  // Create a vnl_matrix so that the determinant can be computed 
+  // for any PointDimension
+  vnl_matrix_fixed<CoordRepType,3,PointDimension> mat;
+  for(i=0;i<PointDimension;i++)
+    {
+    mat.put(0,i,c1[i]);
+    mat.put(1,i,c2[i]);
+    mat.put(2,i,c3[i]);
+    }
+
+  if ( (det = vnl_determinant(mat)) == 0.0 )
+    {
+    return false;
+    }
+
+  
+  for(i=0;i<PointDimension;i++)
+    {
+    mat.put(0,i,rhs[i]);
+    mat.put(1,i,c2[i]);
+    mat.put(2,i,c3[i]);
+    }
+
+  pcoords[0] = vnl_determinant(mat) / det;
+
+  for(i=0;i<PointDimension;i++)
+    {
+    mat.put(0,i,c1[i]);
+    mat.put(1,i,rhs[i]);
+    mat.put(2,i,c3[i]);
+    }
+
+  pcoords[1] = vnl_determinant(mat) / det;
+  
+  for(i=0;i<PointDimension;i++)
+    {
+    mat.put(0,i,c1[i]);
+    mat.put(1,i,c2[i]);
+    mat.put(2,i,rhs[i]);
+    }
+
+  pcoords[2] = vnl_determinant(mat) / det;
+
+  p4 = 1.0 - pcoords[0] - pcoords[1] - pcoords[2];
+
+  if(weights)
+    {
+    weights[0] = p4;
+    weights[1] = pcoords[0];
+    weights[2] = pcoords[1];
+    weights[3] = pcoords[2];
+    }
+
+  if(pcoord)
+    {
+    pcoord[0] = pcoords[0]; 
+    pcoord[1] = pcoords[1];
+    pcoord[2] = pcoords[2];
+    }
+
+  if ( pcoords[0] >= -0.001 && pcoords[0] <= 1.001 &&
+  pcoords[1] >= -0.001 && pcoords[1] <= 1.001 &&
+  pcoords[2] >= -0.001 && pcoords[2] <= 1.001 && p4 >= -0.001 && p4 <= 1.001 )
+    {
+    if (closestPoint)
+      {
+      for(unsigned int i=0;i <PointDimension;i++)
+        {
+        closestPoint[i] = x[i]; 
+        }
+      if(minDist2)
+        {
+        *minDist2 = 0.0; //inside tetra
+        }
+      }
+    return true; 
+    }
+  else
+    { //could easily be sped up using parametric localization - next release
+    double dist2;
+    CoordRepType  closest[PointDimension], pc[3];
+
+    if (closestPoint)
+      {
+      FaceAutoPointer triangle;
+      for (*minDist2=99999999999,i=0; i<4; i++)
+        {
+        this->GetFace (i,triangle);
+        triangle->EvaluatePosition(x,points,closest,pc,&dist2,NULL);
+        
+        if ( dist2 < *minDist2 )
+          {
+          closestPoint[0] = closest[0]; 
+          closestPoint[1] = closest[1]; 
+          closestPoint[2] = closest[2];
+          *minDist2 = dist2;
+          }
+        }
+      }
+    return false;
     }
 }
 

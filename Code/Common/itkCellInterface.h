@@ -307,10 +307,11 @@ public:
    *  - Get the interpolation weights for the cell
    *     (Returns through pointer to array: weights[NumberOfPoints]). */
   virtual bool EvaluatePosition(CoordRepType [PointDimension],
+                                PointsContainer* ,
                                 CoordRepType [PointDimension],
                                 CoordRepType [],
-                                CoordRepType* ,
-                                InterpolationWeightType []) 
+                                double* ,
+                                InterpolationWeightType*) 
     {return bool();}
   
   /** Given the parametric coordinates of a point in the cell

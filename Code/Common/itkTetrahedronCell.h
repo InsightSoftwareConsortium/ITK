@@ -96,6 +96,13 @@ public:
   /** Visitor interface. */
   itkCellVisitMacro(TETRAHEDRON_CELL);
   
+  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+                                PointsContainer* ,
+                                CoordRepType [PointDimension],
+                                CoordRepType [],
+                                double *,
+                                InterpolationWeightType*);
+
  public:
   TetrahedronCell() {}
   ~TetrahedronCell() {}
