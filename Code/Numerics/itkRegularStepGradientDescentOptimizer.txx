@@ -57,7 +57,8 @@ RegularStepGradientDescentOptimizer<TCostFunction>
   m_MaximumStepLength = 1.0;
   m_MinimumStepLength = 1e-3;
   m_GradientMagnitudeTolerance = 1e-4;
-  m_MaximumNumberOfIterations = 100;
+  m_NumberOfIterations = 100;
+  m_CurrentIteration   =   0;
 
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
@@ -79,7 +80,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 {
 
   m_CurrentStepLength         = m_MaximumStepLength;
-  m_CurrentNumberOfIterations   = 0;
+  m_CurrentIteration          = 0;
 
   this->SetCurrentPosition( GetInitialPosition() );
   this->ResumeOptimization();
@@ -128,9 +129,9 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
     AdvanceOneStep();
 
-    m_CurrentNumberOfIterations++;
+    m_CurrentIteration++;
 
-    if( m_CurrentNumberOfIterations == m_MaximumNumberOfIterations )
+    if( m_CurrentIteration == m_NumberOfIterations )
     {
        m_StopCondition = MaximumNumberOfIterations;
        StopOptimization();

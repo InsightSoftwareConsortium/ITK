@@ -177,15 +177,15 @@ public:
 
   itkSetMacro( MaximumStepLength, double );
   itkSetMacro( MinimumStepLength, double );
-  itkSetMacro( MaximumNumberOfIterations, unsigned long );
+  itkSetMacro( NumberOfIterations, unsigned long );
   itkSetMacro( GradientMagnitudeTolerance, double );
 
   itkGetConstMacro( CurrentStepLength, double);
   itkGetConstMacro( MaximumStepLength, double );
   itkGetConstMacro( MinimumStepLength, double );
-  itkGetConstMacro( MaximumNumberOfIterations, unsigned long );
+  itkGetConstMacro( NumberOfIterations, unsigned long );
   itkGetConstMacro( GradientMagnitudeTolerance, double );
-  itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
+  itkGetConstMacro( CurrentIteration, unsigned int );
   itkGetConstMacro( StopCondition, StopConditionType );
 
   void SetScale( const ParametersType & scale )
@@ -214,8 +214,8 @@ private:
   double                        m_MinimumStepLength;
   double                        m_CurrentStepLength;
   StopConditionType             m_StopCondition;
-  unsigned long                 m_MaximumNumberOfIterations;
-  unsigned long                 m_CurrentNumberOfIterations;
+  unsigned long                 m_NumberOfIterations;
+  unsigned long                 m_CurrentIteration;
 
   CostFunctionPointer           m_CostFunction;
 
