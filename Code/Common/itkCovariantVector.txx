@@ -255,6 +255,20 @@ CovariantVector<T, TCovariantVectorDimension>
 }
 
 
+/**
+ * Set a vnl_vector
+ */
+template<class T, unsigned int TVectorDimension>
+void
+CovariantVector<T, TVectorDimension>
+::Set_vnl_vector( const vnl_vector<T> & v)
+{
+  for(unsigned int i=0;i<v.size();i++) 
+  {
+    (*this)[i] = v(i);
+  } 
+}
+ 
 
 /**
  * Return a vnl_vector_ref

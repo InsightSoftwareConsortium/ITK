@@ -97,6 +97,12 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
     { return TCovariantVectorDimension; }  
 
   /**
+   * Set a vnl_vector_ref referencing the same memory block
+   */
+  void Set_vnl_vector( const vnl_vector<T> & );
+
+
+  /**
    * Get a vnl_vector_ref referencing the same memory block
    */
   vnl_vector_ref<T> Get_vnl_vector( void );
