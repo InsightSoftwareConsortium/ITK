@@ -183,7 +183,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We declare now the type of the region growing filter. In this case it is
-  //  the \doxygen{ConfidenceConnectedImageFilter}. 
+  //  the \doxygen{ConnectedThresholdImageFilter}. 
   //
   //  Software Guide : EndLatex 
 
@@ -200,7 +200,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer connectedThreshold = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -218,9 +218,9 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
 
-  confidenceConnected->SetInput( smoothing->GetOutput() );
+  connectedThreshold->SetInput( smoothing->GetOutput() );
 
-  caster->SetInput( confidenceConnected->GetOutput() );
+  caster->SetInput( connectedThreshold->GetOutput() );
 
   writer->SetInput( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -254,7 +254,8 @@ int main( int argc, char **argv )
   //  region to grow. Setting them too far apart will result in a region that
   //  engulfes the image. 
   //
-  //  \index{itk::ConnectedThresholdImageFilter!SetMultiplier()}
+  //  \index{itk::ConnectedThresholdImageFilter!SetUpper()}
+  //  \index{itk::ConnectedThresholdImageFilter!SetLower()}
   //
   //  Software Guide : EndLatex 
 
@@ -262,8 +263,8 @@ int main( int argc, char **argv )
   const InternalPixelType upperThreshold = atof( argv[6] );
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetLower(  lowerThreshold  );
-  confidenceConnected->SetUpper(  upperThreshold  );
+  connectedThreshold->SetLower(  lowerThreshold  );
+  connectedThreshold->SetUpper(  upperThreshold  );
   // Software Guide : EndCodeSnippet
 
 
@@ -279,7 +280,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetReplaceValue( 255 );
+  connectedThreshold->SetReplaceValue( 255 );
   // Software Guide : EndCodeSnippet
 
 
@@ -303,7 +304,7 @@ int main( int argc, char **argv )
 
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetSeed( index );
+  connectedThreshold->SetSeed( index );
   // Software Guide : EndCodeSnippet
  
 
@@ -362,8 +363,15 @@ int main( int argc, char **argv )
   //  This illustrates the vulnerability of the region growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
   //  statistical distribution over the image space. You may want to experiment
-  //  with differnt numbers of iterations to verify how the accepted region
-  //  will extend.
+  //  with different values of the lower and upper thresholds  in order to
+  //  verify how the accepted region will extend.
+  //
+  //  Another option for completing regions is to take advantage of the
+  //  functionality provided by the \doxygen{ConnectedThresholdImageFilter} for
+  //  managing multiple seeds. The seeds can be passed one by one to the filter
+  //  using the \code{AddSeed()} method. You could imagine a User Interface in
+  //  which an operator clicks on multiple points of the object to be segmented
+  //  and each selected point is passed as a seed to this filter.
   //
   //  Software Guide : EndLatex 
 
