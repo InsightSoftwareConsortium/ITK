@@ -51,7 +51,7 @@ BilateralImageFilter<TInputImage,TOutputImage>
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*m_DomainSigma[i]);
+      (typename TInputImage::SizeType::SizeValueType) ceil(mu*m_DomainSigma[i]);
     }
 
   // get a copy of the input requested region (should equal the output
@@ -88,27 +88,22 @@ BilateralImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 template< class TInputImage, class TOutputImage >
 void
 BilateralImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId) 
+::BeforeThreadedGenerateData()
 {
-  typename TInputImage::ConstPointer input = this->GetInput();
-  typename TOutputImage::Pointer output = this->GetOutput();
-  
   // Build a small image of the N-dimensional Gaussian used for domain filter
   //
   // Gaussian image size will be (2*ceil(2.5*sigma)+1) x (2*ceil(2.5*sigma)+1)
   unsigned int i;
   const double mu = 2.5;
   typename TInputImage::SizeType radius, domainKernelSize;
-  
+
   for (i = 0; i < ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*m_DomainSigma[i]);
+      (typename TInputImage::SizeType::SizeValueType) ceil(mu*m_DomainSigma[i]);
     domainKernelSize[i] = 2*radius[i] + 1;
     }
 
@@ -134,19 +129,30 @@ BilateralImageFilter<TInputImage, TOutputImage>
   gaussianImage->Update();
 
   // copy this small Gaussian image into a neighborhood
-  KernelType gaussianKernel;
-  gaussianKernel.SetRadius(radius);
-  
+  m_GaussianKernel.SetRadius(radius);
+
   KernelIteratorType kernel_it;
   ImageRegionIterator<GaussianImageType> git
     = ImageRegionIterator<GaussianImageType>(gaussianImage->GetOutput(),
                                              gaussianImage->GetOutput()
                                                      ->GetBufferedRegion() );
-  for (git.GoToBegin(), kernel_it = gaussianKernel.Begin(); !git.IsAtEnd();
+  for (git.GoToBegin(), kernel_it = m_GaussianKernel.Begin(); !git.IsAtEnd();
        ++git, ++kernel_it)
     {
     *kernel_it = git.Get();
     }
+}
+
+  
+template< class TInputImage, class TOutputImage >
+void
+BilateralImageFilter<TInputImage, TOutputImage>
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                       int threadId) 
+{
+  typename TInputImage::ConstPointer input = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
+  unsigned long i;
 
   // Now we are ready to bilateral filter!
   //
@@ -171,84 +177,30 @@ BilateralImageFilter<TInputImage, TOutputImage>
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   faceList = fC(this->GetInput(), outputRegionForThread,
-                gaussianKernel.GetRadius());
+                m_GaussianKernel.GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
 
-  // Process the non-boundary face
-  //
-  NeighborhoodIteratorType n_iter
-    = NeighborhoodIteratorType(gaussianKernel.GetRadius(),
-                               this->GetInput(), *fit);
-  ImageRegionIterator<TOutputImage> o_iter(this->GetOutput(), *fit);
-
-  KernelIteratorType k_it;
-  const KernelConstIteratorType kernelEnd = gaussianKernel.End();
-  
   OutputPixelRealType centerPixel;
   OutputPixelRealType val, normFactor, rangeGaussian, rangeDistanceSq;
   double rangeGaussianDenom;
 
-  
   // denominator (normalization factor) for Gaussian used for range
   rangeGaussianDenom = sqrt(2.0*3.1415927*m_RangeSigma);
 
-  // walk the interior face and the corresponding section of the output
-  n_iter.GoToBegin();
-  o_iter.GoToBegin();
-
-  while ( ! n_iter.IsAtEnd() )
-    {
-    if ( threadId == 0 && !(++ii % updateVisits ) )
-      {
-      this->UpdateProgress((float)ii / (float)totalPixels);
-      }
-
-    // Setup
-    centerPixel = static_cast<OutputPixelRealType>(n_iter.GetCenterPixel());
-    val = 0.0;
-    normFactor = 0.0;
-    
-    // Walk the neighborhood of the input pixel and the kernel
-    for (i=0, k_it = gaussianKernel.Begin(); k_it < kernelEnd;
-         ++k_it, ++i)
-      {
-      // distance squared between neighborhood pixel and neighborhood center
-      rangeDistanceSq
-        = (static_cast<OutputPixelRealType>(n_iter.GetPixel(i)) - centerPixel)
-        * (static_cast<OutputPixelRealType>(n_iter.GetPixel(i)) - centerPixel);
-        
-      // range Gaussian value
-      rangeGaussian = exp(-0.5*rangeDistanceSq / (m_RangeSigma * m_RangeSigma))
-        / rangeGaussianDenom;
-
-      // normalization factor so filter integrates to one
-      normFactor += (*k_it) * rangeGaussian;
-      
-      // Input Image * Domain Gaussian * Range Gaussian 
-      val += n_iter.GetPixel(i) * (*k_it) * rangeGaussian;
-      }
-    // normalize the final value
-    val /= normFactor;
-
-    // store the filtered value
-    o_iter.Set( static_cast<OutputPixelType>(val) );
-    
-    ++n_iter ;
-    ++o_iter ;
-    }
- 
-  // Process the boundary faces, these are N-d regions which border the
-  // edge of the buffer
+  // Process all the faces, the SmartNeighborhoodIterator will deteremine
+  // whether a specified region needs to use the boundary conditions or
+  // not.
   SmartNeighborhoodIteratorType b_iter;
-  for (++fit; fit != faceList.end(); ++fit)
+  ImageRegionIterator<OutputImageType> o_iter;
+  KernelConstIteratorType k_it;
+  KernelConstIteratorType kernelEnd = m_GaussianKernel.End();
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     // walk the boundary face and the corresponding section of the output
-    b_iter = SmartNeighborhoodIteratorType(gaussianKernel.GetRadius(),
+    b_iter = SmartNeighborhoodIteratorType(m_GaussianKernel.GetRadius(),
                                            this->GetInput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);
-    b_iter.GoToBegin();
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
     
     while ( ! b_iter.IsAtEnd() )
@@ -264,7 +216,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
       normFactor = 0.0;
     
       // Walk the neighborhood of the input and the kernel
-      for (i=0, k_it = gaussianKernel.Begin(); k_it < kernelEnd;
+      for (i=0, k_it = m_GaussianKernel.Begin(); k_it < kernelEnd;
            ++k_it, ++i)
         {
         // distance squared between neighborhood pixel and neighborhood center

@@ -169,6 +169,9 @@ protected:
   virtual ~BilateralImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** Do some setup before the ThreadedGenerateData */
+  void BeforeThreadedGenerateData();
+  
   /** Standard pipeline method. This filter is implemented as a multi-threaded
    * filter. */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
@@ -190,7 +193,8 @@ private:
   /** Number of dimensions to process. Default is all dimensions */
   unsigned int m_FilterDimensionality;
 
-  
+  /** Gaussian kernel used for smoothing in the spatial domain */
+  KernelType m_GaussianKernel;
 };
   
 } // end namespace itk
