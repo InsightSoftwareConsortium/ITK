@@ -111,7 +111,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     }
 
   // apply the gain 
-  for (int n = 0; n < m_DataLength[m_IteratorDirection]; n++)
+  for (unsigned int n = 0; n < m_DataLength[m_IteratorDirection]; n++)
     {
     m_Scratch[n] *= c0;
     }
@@ -122,7 +122,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     // causal initialization 
     this->SetInitialCausalCoefficient(m_SplinePoles[k]);
     // causal recursion 
-    for (int n = 1; n < m_DataLength[m_IteratorDirection]; n++)
+    for (unsigned int n = 1; n < m_DataLength[m_IteratorDirection]; n++)
       {
       m_Scratch[n] += m_SplinePoles[k] * m_Scratch[n - 1];
       }
@@ -130,7 +130,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     // anticausal initialization 
     this->SetInitialAntiCausalCoefficient(m_SplinePoles[k]);
     // anticausal recursion 
-    for (int n = m_DataLength[m_IteratorDirection] - 2; 0 <= n; n--)
+    for (unsigned int n = m_DataLength[m_IteratorDirection] - 2; 0 <= n; n--)
       {
       m_Scratch[n] = m_SplinePoles[k] * (m_Scratch[n + 1] - m_Scratch[n]);
       }
@@ -141,7 +141,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 template <class TImageType, class TCoordRep>
 void 
 BSplineInterpolateImageFunction<TImageType,TCoordRep>
-::SetSplineOrder(int SplineOrder)
+::SetSplineOrder(unsigned int SplineOrder)
 {
   if (SplineOrder == m_SplineOrder)
     {
@@ -212,7 +212,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   /* See Unser, 1999, Box 2 for explaination */
 
   double  sum, zn, z2n, iz;
-  long  horizon;
+  unsigned int  horizon;
 
   /* this initialization corresponds to mirror boundaries */
   horizon = m_DataLength[m_IteratorDirection];
@@ -225,7 +225,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     {
     /* accelerated loop */
     sum = m_Scratch[0];   // verify this
-    for (int n = 1; n < horizon; n++) 
+    for (unsigned int n = 1; n < horizon; n++) 
       {
       sum += zn * m_Scratch[n];
       zn *= z;
@@ -238,7 +238,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     z2n = pow(z, (double)(m_DataLength[m_IteratorDirection] - 1L));
     sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
-    for (int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); n++) {
+    for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); n++) {
       sum += (zn + z2n) * m_Scratch[n];
       zn *= z;
       z2n *= iz;
@@ -373,7 +373,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     if (m_SplineOrder & 1)     // Use this index calculation for odd splineOrder
       {
       indx = (long)floor(x[n]) - m_SplineOrder / 2;
-      for (int k = 0; k <= m_SplineOrder; k++)
+      for (unsigned int k = 0; k <= m_SplineOrder; k++)
         {
         EvaluateIndex[n][k] = indx++;
         }
@@ -381,7 +381,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     else                       // Use this index calculation for even splineOrder
       { 
       indx = (long)floor(x[n] + 0.5) - m_SplineOrder / 2;
-      for (int k = 0; k <= m_SplineOrder; k++)
+      for (unsigned int k = 0; k <= m_SplineOrder; k++)
         {
         EvaluateIndex[n][k] = indx++;
         }
@@ -394,25 +394,25 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
   for (int n = 0; n < ImageDimension; n++)
     {
-    int dataLength2 = 2 * m_DataLength[n] - 2;
+    long dataLength2 = 2 * m_DataLength[n] - 2;
 
     /* apply the mirror boundary conditions */
     // TODO:  We could implement other boundary options beside mirror
     if (m_DataLength[n] == 1)
       {
-      for (int k = 0; k <= m_SplineOrder; k++)
+      for (unsigned int k = 0; k <= m_SplineOrder; k++)
         {
         EvaluateIndex[n][k] = 0;
         }
       }
     else
       {
-        for (int k = 0; k <= m_SplineOrder; k++)
+        for (unsigned int k = 0; k <= m_SplineOrder; k++)
         {
         // btw - Think about this couldn't this be replaced with a more elagent modulus method?
         EvaluateIndex[n][k] = (EvaluateIndex[n][k] < 0L) ? (-EvaluateIndex[n][k] - dataLength2 * ((-EvaluateIndex[n][k]) / dataLength2))
           : (EvaluateIndex[n][k] - dataLength2 * (EvaluateIndex[n][k] / dataLength2));
-        if (m_DataLength[n] <= EvaluateIndex[n][k])
+        if ((long) m_DataLength[n] <= EvaluateIndex[n][k])
           {
           EvaluateIndex[n][k] = dataLength2 - EvaluateIndex[n][k];
           }
@@ -426,13 +426,13 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     double interpolated = 0.0;
     IndexType coefficientIndex;
     // Step through eachpoint in the N-dimensional interpolation cube.
-    for (int p = 0; p < m_MaxNumberInterpolationPoints; p++)
+    for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
       {
       // translate each step into the N-dimensional index.
 //      IndexType pointIndex = PointToIndex( p );
 
       double w = 1.0;
-      for (int n = 0; n < ImageDimension; n++ )
+      for (unsigned int n = 0; n < ImageDimension; n++ )
         {
         w *= weights[n][ m_PointsToIndex[p][n] ];
         coefficientIndex[n] = EvaluateIndex[n][m_PointsToIndex[p][n]];  // Build up ND index for coefficients.
@@ -442,7 +442,6 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
         interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
       }
     
-   int jj = 0;   
   return(interpolated);
     
 }
@@ -540,7 +539,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   // m_PointsToIndex is used to convert a sequential location to an N-dimension
   // index vector.  This is precomputed to save time during the interpolation routine.
   m_PointsToIndex.resize(m_MaxNumberInterpolationPoints);
-    for (int p = 0; p < m_MaxNumberInterpolationPoints; p++)
+    for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
       {
       int pp = p;
     unsigned long indexFactor[ImageDimension];

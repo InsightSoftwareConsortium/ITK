@@ -103,7 +103,7 @@ public:
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
-  void SetSplineOrder(int SplineOrder);
+  void SetSplineOrder(unsigned int SplineOrder);
   itkGetMacro(SplineOrder, int);
 
 
@@ -152,7 +152,7 @@ private:
 protected:
   std::vector<double>    m_Scratch;        // temp storage for processing of Coefficients
   typename TImageType::SizeType      m_DataLength;  // Image size
-  int                       m_SplineOrder; // User specified spline order (3rd or cubic is the default)
+  unsigned int                       m_SplineOrder; // User specified spline order (3rd or cubic is the default)
   double                    m_SplinePoles[3];  // Poles calculated for a given spline order
   int                       m_NumberOfPoles;   // number of poles
   double                    m_Tolerance;   // Tolerance used for determining initial causal coefficient
