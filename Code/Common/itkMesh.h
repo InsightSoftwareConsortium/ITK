@@ -243,29 +243,30 @@ public:
   /**
    * Define Set/Get access routines for each internal container.
    */
-  virtual void SetPointsContainer(PointsContainer*);
-  virtual PointsContainerPointer GetPointsContainer(void);
+  void SetPointsContainer(PointsContainer*);
+  PointsContainerPointer GetPointsContainer(void);
 
-  virtual void SetPointDataContainer(PointDataContainer*);
-  virtual PointDataContainerPointer GetPointDataContainer(void);
+  void SetPointDataContainer(PointDataContainer*);
+  PointDataContainerPointer GetPointDataContainer(void);
 
-  virtual void SetCellLinksContainer(CellLinksContainer*);
-  virtual CellLinksContainerPointer GetCellLinksContainer(void);
+  void SetCellLinksContainer(CellLinksContainer*);
+  CellLinksContainerPointer GetCellLinksContainer(void);
 
-  virtual void SetCellsContainer(CellsContainer*);
-  virtual CellsContainerPointer GetCellsContainer(void);
+  void SetCellsContainer(CellsContainer*);
+  CellsContainerPointer GetCellsContainer(void);
 
-  virtual void SetCellDataContainer(CellDataContainer*);
-  virtual CellDataContainerPointer GetCellDataContainer(void);
+  void SetCellDataContainer(CellDataContainer*);
+  CellDataContainerPointer GetCellDataContainer(void);
 
-  virtual void SetBoundariesContainer(int dimension, BoundariesContainer*);
-  virtual BoundariesContainerPointer GetBoundariesContainer(int);
+  void SetBoundariesContainer(int dimension, BoundariesContainer*);
+  BoundariesContainerPointer GetBoundariesContainer(int);
 
-  virtual void SetBoundaryDataContainer(int dimension, BoundaryDataContainer*);
-  virtual BoundaryDataContainerPointer GetBoundaryDataContainer(int);
+  void SetBoundaryDataContainer(int dimension, BoundaryDataContainer*);
+  BoundaryDataContainerPointer GetBoundaryDataContainer(int);
   
-  virtual void SetBoundaryAssignmentsContainer(int dimension, BoundaryAssignmentsContainer*);
-  virtual BoundaryAssignmentsContainerPointer GetBoundaryAssignmentsContainer(int);
+  void SetBoundaryAssignmentsContainer(int dimension,
+				       BoundaryAssignmentsContainer*);
+  BoundaryAssignmentsContainerPointer GetBoundaryAssignmentsContainer(int);
 
   /**
    * Access routines to fill the Points container, and get information
@@ -337,7 +338,7 @@ public:
 
   unsigned long GetBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
-    list<CellIdentifier>* cellList);
+    std::list<CellIdentifier>* cellList);
 
   bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
 				      CellFeatureIdentifier,

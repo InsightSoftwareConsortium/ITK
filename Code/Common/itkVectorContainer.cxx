@@ -137,3 +137,41 @@ itkVectorContainer< TElementIdentifier , TElement >
   this->Vector::operator[](id) = Element();
   this->Modified();
 }
+
+
+/**
+ * Pass through calls for begin/end iterator requests to underlying
+ * container.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::Iterator
+itkVectorContainer< TElementIdentifier , TElement >
+::Begin(void)
+{
+  return this->Vector::begin();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::ConstIterator
+itkVectorContainer< TElementIdentifier , TElement >
+::Begin(void) const
+{
+  return this->Vector::begin();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::Iterator
+itkVectorContainer< TElementIdentifier , TElement >
+::End(void)
+{
+  return this->Vector::end();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkVectorContainer< TElementIdentifier , TElement >::ConstIterator
+itkVectorContainer< TElementIdentifier , TElement >
+::End(void) const
+{
+  return this->Vector::end();
+}
+

@@ -70,8 +70,15 @@ public:
   
   /**
    * Support iteration operations through container.
+   *
+   * Dereferencing the iterator must produce just the stored value, not
+   * a pair of the value with its key.  As a result, special iterators
+   * may need to be defined for class wrappers like std::map<>.
    */
-  
+  // typedef UnderlyingContainer::iterator        Iterator;
+  // typedef UnderlyingContainer::const_iterator  ConstIterator; 
+  // Iterator Begin(), ConstIterator Begin()
+  // Iterator End(), ConstIterator End()
 };
 
 #endif

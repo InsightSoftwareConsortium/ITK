@@ -116,3 +116,41 @@ itkMapContainer< TElementIdentifier , TElement >
   this->Map::erase(id);
   this->Modified();
 }
+
+
+/**
+ * Pass through calls for begin/end iterator requests to underlying
+ * container, and construct our own iterator type from the results.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::Iterator
+itkMapContainer< TElementIdentifier , TElement >
+::Begin(void)
+{
+  return Iterator(this->Map::begin());
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::ConstIterator
+itkMapContainer< TElementIdentifier , TElement >
+::Begin(void) const
+{
+  return ConstIterator(this->Map::begin());
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::Iterator
+itkMapContainer< TElementIdentifier , TElement >
+::End(void)
+{
+  return Iterator(this->Map::end());
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkMapContainer< TElementIdentifier , TElement >::ConstIterator
+itkMapContainer< TElementIdentifier , TElement >
+::End(void) const
+{
+  return ConstIterator(this->Map::end());
+}
+

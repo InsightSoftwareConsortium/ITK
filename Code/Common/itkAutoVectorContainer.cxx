@@ -142,3 +142,40 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
   this->Modified();
 }
 
+
+/**
+ * Pass through calls for begin/end iterator requests to underlying
+ * container.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::Iterator
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::Begin(void)
+{
+  return this->Vector::begin();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::ConstIterator
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::Begin(void) const
+{
+  return this->Vector::begin();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::Iterator
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::End(void)
+{
+  return this->Vector::end();
+}
+
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::ConstIterator
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::End(void) const
+{
+  return this->Vector::end();
+}
+

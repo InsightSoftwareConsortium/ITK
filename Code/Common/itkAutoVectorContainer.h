@@ -16,8 +16,10 @@
 #ifndef __itkAutoVectorContainer_h
 #define __itkAutoVectorContainer_h
 
-#include "itkIndexedContainer.h"
 #include <vector>
+
+#include "itkObject.h"
+#include "itkSmartPointer.h"
 
 /**
  * itkAutoVectorContainer
@@ -38,7 +40,7 @@ template <
   typename TElement
   >
 class itkAutoVectorContainer:
-  public itkIndexedContainer< TElementIdentifier , TElement >,
+  public itkObject,
   public std::vector<TElement>
 {
 public:
@@ -54,13 +56,13 @@ public:
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;
   
-private:
+protected:
+
   /**
    * Quick access to the STL vector type that was inherited.
    */
   typedef std::vector<Element>  Vector;
   
-protected:
   /**
    * Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
@@ -84,15 +86,25 @@ protected:
 
 public:
   /**
+   * Define types needed for the interface.
+   */
+  typedef Vector::iterator        Iterator;
+  typedef Vector::const_iterator  ConstIterator;
+  
+  /**
    * Declare the public interface routines.
    */
   static Pointer New(void);
-  virtual Element GetElement(ElementIdentifier) const;
-  virtual void SetElement(ElementIdentifier, Element);
-  virtual bool IndexExists(ElementIdentifier) const;
-  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
-  virtual void CreateIndex(ElementIdentifier);
-  virtual void DeleteIndex(ElementIdentifier);
+  Element GetElement(ElementIdentifier) const;
+  void SetElement(ElementIdentifier, Element);
+  bool IndexExists(ElementIdentifier) const;
+  bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
+  void CreateIndex(ElementIdentifier);
+  void DeleteIndex(ElementIdentifier);  
+  Iterator      Begin(void);
+  ConstIterator Begin(void) const;
+  Iterator      End(void);
+  ConstIterator End(void) const;  
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -16,7 +16,7 @@
 // #include "itkMesh.h"
 
 /**
- *
+ * Object factory.
  */
 template <typename TPixelType, typename TMeshType>
 itkMesh< TPixelType , TMeshType >::Pointer
@@ -753,7 +753,7 @@ unsigned long
 itkMesh< TPixelType , TMeshType >
 ::GetBoundaryFeatureNeighbors(int dimension, CellIdentifier cellId,
 			      CellFeatureIdentifier featureId,
-			      list<CellIdentifier>* cellList)
+			      std::list<CellIdentifier>* cellList)
 {
   /**
    * Sanity check on mesh status.

@@ -16,8 +16,10 @@
 #ifndef __itkMapContainer_h
 #define __itkMapContainer_h
 
-#include "itkIndexedContainer.h"
 #include <map>
+
+#include "itkObject.h"
+#include "itkSmartPointer.h"
 
 /**
  * itkMapContainer
@@ -27,7 +29,7 @@
  */
 template <typename TElementIdentifier, typename TElement>
 class itkMapContainer:
-  public itkIndexedContainer< TElementIdentifier , TElement >,
+  public itkObject,
   public std::map< TElementIdentifier , TElement >
 {
 public:
@@ -75,15 +77,58 @@ protected:
   
 public:
   /**
+   * Define types needed for the interface.
+   */
+  class Iterator
+  {
+  public:
+    typedef Iterator Self;
+
+    Iterator(const Map::iterator& r): iter(r) {}
+    Iterator(const Self& r): iter(r.iter) {}
+    Iterator& operator=(const Self& r) { iter = r.iter; }
+    Element&  operator* () { return iter->second; }
+    Iterator& operator++()    { ++iter; return *this; }
+    Iterator  operator++(int) { Self tmp = *this;  ++iter;  return tmp; }
+    Iterator& operator--()    { --iter; return *this; }
+    Iterator  operator--(int) { Self tmp = *this;  --iter;  return tmp; }
+    
+  private:
+    Map::iterator iter;
+  };
+  class ConstIterator
+  {
+  public:
+    typedef ConstIterator Self;
+
+    ConstIterator(const Map::const_iterator& r): iter(r) {}
+    ConstIterator(const Self& r): iter(r.iter) {}
+    const ConstIterator& operator=(const Self& r) { iter = r.iter; }
+    const Element&  operator* () const { return iter->second; }
+    ConstIterator& operator++()    { ++iter; return *this; }
+    ConstIterator  operator++(int) { Self tmp = *this;  ++iter;  return tmp; }
+    ConstIterator& operator--()    { --iter; return *this; }
+    ConstIterator  operator--(int) { Self tmp = *this;  --iter;  return tmp; }
+    
+  private:
+    Map::const_iterator iter;
+  };
+
+  
+  /**
    * Declare the public interface routines.
    */
   static Pointer New(void);
-  virtual Element GetElement(ElementIdentifier) const;
-  virtual void SetElement(ElementIdentifier, Element);
-  virtual bool IndexExists(ElementIdentifier) const;
-  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
-  virtual void CreateIndex(ElementIdentifier);
-  virtual void DeleteIndex(ElementIdentifier);
+  Element GetElement(ElementIdentifier) const;
+  void SetElement(ElementIdentifier, Element);
+  bool IndexExists(ElementIdentifier) const;
+  bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
+  void CreateIndex(ElementIdentifier);
+  void DeleteIndex(ElementIdentifier);
+  Iterator      Begin(void);
+  ConstIterator Begin(void) const;
+  Iterator      End(void);
+  ConstIterator End(void) const;  
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

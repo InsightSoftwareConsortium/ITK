@@ -16,8 +16,10 @@
 #ifndef __itkVectorContainer_h
 #define __itkVectorContainer_h
 
-#include "itkIndexedContainer.h"
 #include <vector>
+
+#include "itkObject.h"
+#include "itkSmartPointer.h"
 
 /**
  * itkVectorContainer
@@ -35,8 +37,8 @@ template <
    */
   typename TElement
   >
-class itkVectorContainer:
-  public itkIndexedContainer< TElementIdentifier , TElement >,
+class itkVectorContainer: 
+  public itkObject,
   public std::vector<TElement>
 {
 public:
@@ -82,15 +84,25 @@ protected:
 
 public:
   /**
+   * Define types needed for the interface.
+   */
+  typedef Vector::iterator        Iterator;
+  typedef Vector::const_iterator  ConstIterator;
+  
+  /**
    * Declare the public interface routines.
    */
   static Pointer New(void);
-  virtual Element GetElement(ElementIdentifier) const;
-  virtual void SetElement(ElementIdentifier, Element);
-  virtual bool IndexExists(ElementIdentifier) const;
-  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
-  virtual void CreateIndex(ElementIdentifier);
-  virtual void DeleteIndex(ElementIdentifier);
+  Element GetElement(ElementIdentifier) const;
+  void SetElement(ElementIdentifier, Element);
+  bool IndexExists(ElementIdentifier) const;
+  bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
+  void CreateIndex(ElementIdentifier);
+  void DeleteIndex(ElementIdentifier);
+  Iterator      Begin(void);
+  ConstIterator Begin(void) const;
+  Iterator      End(void);
+  ConstIterator End(void) const;  
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
