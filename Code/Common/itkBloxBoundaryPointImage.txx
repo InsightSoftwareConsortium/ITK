@@ -173,7 +173,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   for (int ii = 0; ii < NDimensions; ++ii)
     {
     dimPosition = (long int) ( (physicalCoords[ii]/mySpacing[ii]) - myOrigin[ii]);
-    if( (dimPosition < 0)||(dimPosition>=mySize[ii]) )
+    if( (dimPosition < 0)||(dimPosition>=static_cast<long>(mySize[ii])) )
       return false;
     else
       dataCoords.m_Index[ii] = dimPosition;
