@@ -12,7 +12,8 @@ TARGET_LINK_LIBRARIES(itkwish
   ITKBasicFiltersBTcl
   ITKIOTcl
   ITKNumericsTcl
-  ITKCommonTcl
+  ITKCommonATcl
+  ITKCommonBTcl
   VXLNumericsTcl
   SwigRuntimeTcl
   ${TCL_LIBRARY}

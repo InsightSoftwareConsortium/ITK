@@ -2,15 +2,9 @@
 SET(WRAP_SOURCES
   wrap_ITKCommonBase
   wrap_ITKInterpolators
-  wrap_ITKKernelDeformableTransforms
   wrap_ITKRegions
-  wrap_ITKRigidTransforms
-  wrap_ITKSimilarityTransforms
   wrap_SwigExtras
   wrap_itkArray
-  wrap_itkAffineTransform
-  wrap_itkAzimuthElevationToCartesianTransform
-  wrap_itkBSplineDeformableTransform
   wrap_itkBinaryBallStructuringElement
   wrap_itkContinuousIndex
   wrap_itkDenseFiniteDifferenceImageFilter
@@ -20,7 +14,6 @@ SET(WRAP_SOURCES
   wrap_itkFiniteDifferenceImageFilter
   wrap_itkFixedArray
   wrap_itkFunctionBase
-  wrap_itkIdentityTransform
   wrap_itkImage_2D
   wrap_itkImage_3D
   wrap_itkImageFunction
@@ -32,25 +25,20 @@ SET(WRAP_SOURCES
   wrap_itkImageToImageFilter_3D
   wrap_itkInPlaceImageFilter
   wrap_itkIndex
-  wrap_itkMatrixOffsetTransformBase
   wrap_itkLevelSet
   wrap_itkNeighborhood
   wrap_itkPoint
   wrap_itkSize
-  wrap_itkScaleTransform
-  wrap_itkTransform
-  wrap_itkTranslationTransform
   wrap_itkVector
-  wrap_itkVersorTransform
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
-                       "${WrapITK_BINARY_DIR}/Common/ITKCommon.mdx"
+                       "${WrapITK_BINARY_DIR}/CommonA/ITKCommonA.mdx"
 )
-SET(ITK_SWIG_FILE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)
-SET(ITK_SWIG_FILE_CXX ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrap)
+SET(ITK_SWIG_FILE ${ITK_TOP}/Wrapping/CSwig/CommonA/SwigExtras.i)
+SET(ITK_SWIG_FILE_CXX ${WrapITK_BINARY_DIR}/CommonA/SwigExtras_wrap)
 SET(ITK_EXTRA_TCL_SOURCES itkTclCommand.cxx)
 SET(ITK_EXTRA_PYTHON_SOURCES itkPyCommand.cxx)
 SET(ITK_EXTRA_PYTHON_WRAP wrap_ITKPyUtils )
@@ -60,5 +48,5 @@ IF(PYTHON_NUMARRAY_FOUND)
 ENDIF(PYTHON_NUMARRAY_FOUND)
 
 SET(ITK_EXTRA_TCL_WRAP wrap_ITKUtils)
-ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKCommon Common "VXLNumerics" itkStringStream.cxx "")
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKCommonA CommonA "VXLNumerics" itkStringStream.cxx "ITKCommon")
 

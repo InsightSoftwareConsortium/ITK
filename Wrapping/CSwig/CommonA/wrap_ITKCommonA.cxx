@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKCommon.cxx
+  Module:    wrap_ITKCommonA.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -23,14 +23,8 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(ITKCommonBase),
     ITK_WRAP_GROUP(ITKInterpolators),
-    ITK_WRAP_GROUP(ITKKernelDeformableTransforms),
     ITK_WRAP_GROUP(ITKRegions),
-    ITK_WRAP_GROUP(ITKRigidTransforms),
-    ITK_WRAP_GROUP(ITKSimilarityTransforms),
-    ITK_WRAP_GROUP(itkAffineTransform),
     ITK_WRAP_GROUP(itkArray),
-    ITK_WRAP_GROUP(itkAzimuthElevationToCartesianTransform),
-    ITK_WRAP_GROUP(itkBSplineDeformableTransform),
     ITK_WRAP_GROUP(itkBinaryBallStructuringElement),
     ITK_WRAP_GROUP(itkContinuousIndex),
     ITK_WRAP_GROUP(itkDifferenceImageFilter),
@@ -40,7 +34,6 @@ namespace _cable_
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkFixedArray),
     ITK_WRAP_GROUP(itkFunctionBase),
-    ITK_WRAP_GROUP(itkIdentityTransform),
     ITK_WRAP_GROUP(itkImage_2D),
     ITK_WRAP_GROUP(itkImage_3D),
     ITK_WRAP_GROUP(itkImageSource),
@@ -56,10 +49,6 @@ namespace _cable_
     ITK_WRAP_GROUP(itkNeighborhood),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
-    ITK_WRAP_GROUP(itkScaleTransform),
-    ITK_WRAP_GROUP(itkTranslationTransform),
-    ITK_WRAP_GROUP(itkTransform),
-    ITK_WRAP_GROUP(itkMatrixOffsetTransformBase),
 #ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(ITKUtils),
 #endif
@@ -70,8 +59,7 @@ namespace _cable_
 #endif
 #endif
     "SwigExtras",
-    ITK_WRAP_GROUP(itkVector),
-    ITK_WRAP_GROUP(itkVersorTransformGroup)
+    ITK_WRAP_GROUP(itkVector)
   };
 }
 #endif

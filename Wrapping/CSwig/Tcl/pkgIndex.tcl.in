@@ -29,7 +29,8 @@ namespace eval itk {
     # Configure ITK Tcl packages.
     ConfigureTclPackage VXLNumericsTcl     $version
     ConfigureTclPackage ITKNumericsTcl     $version
-    ConfigureTclPackage ITKCommonTcl       $version
+    ConfigureTclPackage ITKCommonATcl       $version
+    ConfigureTclPackage ITKCommonBTcl       $version
     ConfigureTclPackage ITKIOTcl           $version
     ConfigureTclPackage ITKBasicFiltersATcl $version
     ConfigureTclPackage ITKBasicFiltersBTcl $version

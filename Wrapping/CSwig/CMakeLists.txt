@@ -283,7 +283,8 @@ SET(SWIG_INC
   ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
   ${ITK_INCLUDE_DIRS_SYSTEM}
   ${ITK_TOP}/Wrapping/CSwig
-  ${ITK_TOP}/Wrapping/CSwig/Common
+  ${ITK_TOP}/Wrapping/CSwig/CommonA
+  ${ITK_TOP}/Wrapping/CSwig/CommonB
   ${ITK_TOP}/Wrapping/CSwig/VXLNumerics
   ${ITK_TOP}/Wrapping/CSwig/Numerics
   ${ITK_TOP}/Wrapping/CSwig/BasicFiltersA
@@ -293,7 +294,7 @@ SET(SWIG_INC
   )
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
-SET(ITK_KITS VXLNumerics Common Numerics
+SET(ITK_KITS VXLNumerics CommonA CommonB Numerics
   BasicFiltersA BasicFiltersB IO Algorithms
   )
 SUBDIRS(SwigRuntime ${ITK_KITS} Tests)

@@ -69,7 +69,8 @@ extern "C"
 {
   int Vxlnumericstcl_Init(Tcl_Interp*);
   int Itknumericstcl_Init(Tcl_Interp*);
-  int Itkcommontcl_Init(Tcl_Interp*);
+  int Itkcommonatcl_Init(Tcl_Interp*);
+  int Itkcommonbtcl_Init(Tcl_Interp*);
   int Itkiotcl_Init(Tcl_Interp*);
   int Itkbasicfiltersatcl_Init(Tcl_Interp*);
   int Itkbasicfiltersbtcl_Init(Tcl_Interp*);
@@ -112,7 +113,8 @@ int itkTclAppInit(Tcl_Interp* interp)
   // Initialize the built-in packages.
   if(Vxlnumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itknumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
-  if(Itkcommontcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkcommonatcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkcommonbtcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkiotcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkbasicfiltersatcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkbasicfiltersbtcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
