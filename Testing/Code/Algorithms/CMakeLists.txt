@@ -229,6 +229,7 @@ itkAlgorithmsPrintTest3.cxx
 itkMIRegistrationFunctionTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
+itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
@@ -271,6 +272,16 @@ ADD_TEST(itkVoronoiPartitioningImageFilterTest2 ${ALGORITHMS_TESTS2}
   itkVoronoiPartitioningImageFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png 0)
+
+ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2}
+  --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
+  itkVectorThresholdSegmentationLevelSetImageFilterTest
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 
+            )
+
 
 ENDIF(ITK_DATA_ROOT)
 

@@ -101,6 +101,7 @@ REGISTER_TEST(itk2DDeformableTest );
 REGISTER_TEST(itkSphereMeshSourceTest );
 REGISTER_TEST(itkUnsharpMaskLevelSetImageFilterTest );
 REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
+REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
 }
 
 // WARNING: Do not add any more tests to this program. Add new tests
