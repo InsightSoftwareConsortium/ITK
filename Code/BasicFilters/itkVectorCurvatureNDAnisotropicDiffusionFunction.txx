@@ -136,8 +136,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
       }
     }
 
-  double grad_mag_sq_tmp = 0.0f;
-  double grad_mag_sq_d_tmp = 0.0f;
+  double grad_mag_sq_tmp = 0.0;
+  double grad_mag_sq_d_tmp = 0.0;
 
   for (k = 0; k < VectorDimension; k++)
     {
