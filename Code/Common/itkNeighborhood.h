@@ -23,6 +23,8 @@
 #include "itkIndent.h"
 #include "itkSliceIterator.h"
 #include "vnl/vnl_vector.h"
+#include "itkOffset.h"
+#include <vector>
 
 namespace itk {
   
@@ -77,33 +79,24 @@ public:
   /** Radius typedef support. */
   typedef Size<VDimension> RadiusType;
 
+  /** Offset type used to reference locations in the neighborhood */
+  typedef Offset<VDimension>  OffsetType;
+
   /** External slice iterator type typedef support. */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
   
   /** Default constructor. */
-  Neighborhood() { m_Radius.Fill(0); m_Size.Fill(0);  }
+  Neighborhood() { m_Radius.Fill(0); m_Size.Fill(0); }
 
   /** Default destructor. */
   virtual ~Neighborhood() {}
     
   /** Copy constructor. */
-  Neighborhood(const Self& other)
-  {
-    m_Radius     = other.m_Radius;
-    m_Size       = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-  }
+  Neighborhood(const Self& other);
 
   /** Assignment operator. */
-  Self &operator=(const Self& other)
-  {
-    m_Radius     = other.m_Radius;
-    m_Size       = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-    return *this;
-  }
+  Self &operator=(const Self& other);
 
-  /** Comparison operator. */
   /** Comparison operator. */
   bool
   operator==(const Self& other) const
@@ -142,7 +135,8 @@ public:
   /** Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
-  unsigned long GetStride(const unsigned long) const;
+  unsigned GetStride(const unsigned long axis) const
+  { return m_StrideTable[axis]; }
   
   /** STL-style iterator support. */
   Iterator End()
@@ -164,6 +158,12 @@ public:
   const TPixel &operator[](unsigned int i) const
   { return m_DataBuffer[i]; }
 
+  /** Get pixel value by offset */
+  TPixel &operator[](const OffsetType &o)
+  { return this->operator[](this->GetNeighborhoodIndex(o)); }
+  const TPixel &operator[](const OffsetType &o) const
+  { return this->operator[](this->GetNeighborhoodIndex(o)); }
+  
   /** Returns the element at the center of the neighborhood. */
   TPixel GetCenterValue() const
   {    return (this->operator[]((this->Size())>>1)); }
@@ -195,6 +195,18 @@ public:
     { return m_DataBuffer; }
   const AllocatorType &GetBufferReference() const
     { return m_DataBuffer; }
+
+  /** Returns the itk::Offset from the center of the Neighborhood to
+      the requested neighbor index. */
+  virtual OffsetType GetOffset(unsigned int i) const
+  {    return m_OffsetTable[i];  }
+
+  virtual unsigned int GetNeighborhoodIndex(const OffsetType &) const;
+
+  unsigned int GetCenterNeighborhoodIndex() const
+  { return  static_cast<unsigned int>(this->Size()/2); }
+  
+  std::slice GetSlice(unsigned int) const;
   
 protected:
   /** Sets the length along each dimension. */
@@ -210,6 +222,13 @@ protected:
 
   /** Standard itk object method. */
   virtual void PrintSelf(std::ostream&, Indent) const;
+
+  /** Computes the entries to the stride table.  Called once on initialization. */
+  virtual void ComputeNeighborhoodStrideTable();
+
+  /** Fills entries into the offset lookup table. Called once on
+      initialization. */
+  virtual void ComputeNeighborhoodOffsetTable();
   
 private:
   /** Number of neighbors to include (symmetrically) along each axis.
@@ -222,6 +241,14 @@ private:
 
   /** The buffer in which data is stored. */
   AllocatorType m_DataBuffer;
+
+  /** A lookup table for keeping track of stride lengths in a neighborhood,
+      i.e. the memory offsets between pixels along each dimensional axis. */
+  unsigned m_StrideTable[VDimension];
+
+  /** */
+  std::vector<OffsetType> m_OffsetTable;
+  
 };
 
 template <class TPixel, unsigned int VDimension, class TContainer>
@@ -231,7 +258,9 @@ std::ostream & operator<<(std::ostream &os, const Neighborhood<TPixel,VDimension
   os << "    Radius:" << neighborhood.GetRadius() << std::endl;
   os << "    Size:" << neighborhood.GetSize() << std::endl;
   os << "    DataBuffer:" << neighborhood.GetBufferReference() << std::endl;
-
+  os << "    m_StrideTable: ";
+  for (unsigned i =0; i < VDimension; ++i) os << neighborhood.GetStride(i) << " ";
+  os << std::endl;
   return os;
 }
 
