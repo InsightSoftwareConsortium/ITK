@@ -74,7 +74,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
     {
     marcher->Update();
     }
-  catch ( itk::ExceptionObject err )
+  catch ( itk::ExceptionObject & err )
     {
     passed = true;
     std::cout << err << std::endl;
@@ -94,7 +94,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
     {
     marcher->Update();
     }
-  catch ( itk::ExceptionObject err )
+  catch ( itk::ExceptionObject & err )
     {
     passed = true;
     std::cout << err << std::endl;
@@ -113,7 +113,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
     {
     marcher->Update();
     }
-  catch ( itk::ExceptionObject err )
+  catch ( itk::ExceptionObject & err )
     {
     passed = false;
     std::cout << err << std::endl;
