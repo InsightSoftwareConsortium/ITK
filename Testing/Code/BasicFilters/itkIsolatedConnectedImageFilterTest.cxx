@@ -18,6 +18,7 @@
 #include "itkIsolatedConnectedImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkImageRegionIterator.h"
 
 int main(int ac, char** av)
 {
