@@ -22,6 +22,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkProcessObject.h"
 #include "itkSceneSpatialObject.h"
+#include "itkMetaEvent.h"
 
 namespace itk
 {
@@ -65,6 +66,10 @@ public:
   /** Get the output */
   ScenePointer GetScene(void) {return m_Scene;}
   GroupPointer GetGroup(void) {return m_Group;}
+
+  /** Set/GetEvent */
+  const MetaEvent* GetEvent() {return m_MetaToSpatialConverter.GetEvent()};
+  void SetEvent(MetaEvent* event) {m_MetaToSpatialConverter.SetEvent(event);} 
 
 protected:
   std::string m_FullFileName;

@@ -19,6 +19,7 @@
 
 #include "itkSpatialObject.h"
 #include "metaScene.h"
+#include "itkMetaEvent.h"
 #include "itkSceneSpatialObject.h"
 
 namespace itk 
@@ -44,6 +45,10 @@ public:
                  unsigned int depth=MaximumDepth,
                  char * spatialObjectTypeName=NULL);
 
+
+  const MetaEvent* GetEvent() const {return m_Event;}
+  void  SetEvent(MetaEvent* event) {m_Event = event;}
+
 private:
 
   typedef itk::SpatialObject<NDimensions> SpatialObjectType;
@@ -64,6 +69,8 @@ private:
   float m_Orientation[100] ;
   float m_Position[10] ;
   float m_CenterOfRotation[10] ;
+
+  MetaEvent* m_Event;
 
 };
 

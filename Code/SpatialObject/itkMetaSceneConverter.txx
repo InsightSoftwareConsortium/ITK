@@ -52,6 +52,7 @@ MetaSceneConverter<NDimensions,PixelType>
 {
   // default behaviour of scene converter is not to save transform 
   // with each spatial object.
+  m_Event = NULL;
 }
 
 /** Destructor */ 
@@ -219,6 +220,10 @@ MetaSceneConverter<NDimensions,PixelType>
 ::ReadMeta(const char* name)
 {
   MetaScene* mScene = new MetaScene;
+  if(m_Event)
+    {
+    mScene->SetEvent(m_Event);
+    }
   mScene->Read(name);
   ScenePointer soScene = CreateSpatialObjectScene(mScene);
   delete mScene;
