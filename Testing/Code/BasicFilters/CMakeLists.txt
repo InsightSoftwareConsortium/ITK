@@ -697,23 +697,29 @@ IF(ITK_CSWIG_PYTHON)
 ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA)
-  ADD_CUSTOM_TARGET(MeanImageFilter.class ALL echo )
-
   SET(JAVACLASSPATH $ENV{CLASSPATH} )
 
+  FOREACH( javatestfile 
+     MeanImageFilter
+     CurvatureFlowImageFilter
+     )
+
+  ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class)
+
   ADD_CUSTOM_COMMAND(
-    OUTPUT  ${ITK_BINARY_DIR}/Examples/Filtering/MeanImageFilter.class
-    DEPENDS ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.java
+    OUTPUT  ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class
+    DEPENDS ${ITK_SOURCE_DIR}/Examples/Filtering/${javatestfile}.java
     COMMAND ${JAVA_COMPILE}
     ARGS -classpath "${JAVACLASSPATH}" -d"${ITK_BINARY_DIR}/Examples/Filtering"
-    ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.java
+    ${ITK_SOURCE_DIR}/Examples/Filtering/${javatestfile}.java
     COMMENT "Java Class")
 
-  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
-           MeanImageFilter
+  ADD_TEST(${javatestfile}Java ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           ${javatestfile}
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png )
+           ${ITK_TEST_OUTPUT_DIR}/${javatestfile}JavaTest.png )
 
+  ENDFOREACH( javatestfile )
 ENDIF(ITK_CSWIG_JAVA)
 
 
