@@ -201,6 +201,16 @@ ADD_TEST(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 1.0 -0.3 2.0 200 250        
 )
 
+ADD_TEST(FuzzyConnectednessImageFilter ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/FuzzyConnectednessVWEyeTest.png
+            ${TEMP}/FuzzyConnectednessVWEyeTest.png
+  FuzzyConnectednessImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/FuzzyConnectednessVWEyeBinaryTest.png
+        ${TEMP}/FuzzyConnectednessVWEyeTest.png
+        60 116 3.0
+)
+
 ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourLeftVentricleTest.png
             ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
