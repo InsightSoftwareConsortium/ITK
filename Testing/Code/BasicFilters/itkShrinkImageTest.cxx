@@ -28,8 +28,8 @@ int main()
   ShortImage::Pointer if2 = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = {0, 0};
-  ShortImage::SizeType   size = {8, 12};
+  ShortImage::IndexType  index = {{0, 0}};
+  ShortImage::SizeType   size = {{8, 12}};
   ShortImage::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
