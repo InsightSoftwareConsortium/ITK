@@ -172,7 +172,7 @@ public:
     }
 
   /** Get the Speed Constant. */
-  itkGetMacro( SpeedConstant, double );
+  itkGetConstMacro( SpeedConstant, double );
 
   /** Set the normalization factor for the speed image.
       the speed taken from the pixels of the speed image 
@@ -187,7 +187,7 @@ public:
   itkSetMacro( StoppingValue, double );
 
   /** Get the Fast Marching algorithm Stopping Value. */
-  itkGetMacro( StoppingValue, double );
+  itkGetConstMacro( StoppingValue, double );
 
   /** Set the Collect Points flag. Instrument the algorithm to collect
    * a container of all nodes which it has visited. Useful for
@@ -195,8 +195,8 @@ public:
    * narrow banding. */
   itkSetMacro( CollectPoints, bool );
 
-  /** Get the Collect Points flag. */
-  itkGetMacro( CollectPoints, double );
+  /** Get thConste Collect Points flag. */
+  itkGetConstMacro( CollectPoints, bool );
   itkBooleanMacro( CollectPoints );
 
   /** Get the container of Processed Points. If the CollectPoints flag
@@ -215,6 +215,13 @@ public:
   const typename LevelSetImageType::SizeType & GetOutputSize() const
     { return m_OutputSize; }
 
+  /** Set/Get Large value. This value is an optinal entry. It is used to 
+      represent the concept of infinity for the time assigned to pixels that
+      have not been visited yet. This value is set by default to half the 
+      max() of the pixel type used to represent the time-crossing map. */
+  itkSetMacro( LargeValue, PixelType );
+  itkGetConstMacro( LargeValue, PixelType );
+
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){};
@@ -226,8 +233,6 @@ protected:
   virtual double UpdateValue( const IndexType& index, 
     const SpeedImageType *, LevelSetImageType * );
 
-  typename LevelSetImageType::PixelType GetLargeValue() const
-    { return m_LargeValue; }
 
   const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
     { return m_NodesUsed[idx]; }
