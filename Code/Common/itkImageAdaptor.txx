@@ -64,7 +64,7 @@ void
 ImageAdaptor<TImage , TAccessor>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
-  Superclass::PrintSelf(os,indent);
+  //Superclass::PrintSelf(os,indent);
   
   os << indent << "ImageAdaptor " << std::endl;
   os << std::endl;
@@ -121,6 +121,16 @@ ImageAdaptor<TImage , TAccessor>
 
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::Update()
+{
+  m_Image->Update();
+}
+
+
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -130,6 +140,9 @@ ImageAdaptor<TImage , TAccessor>
 {
   m_Image->UpdateOutputInformation();
 }
+
+
+
 
 
 
@@ -199,8 +212,12 @@ typename TAccessor::InternalType  *
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer()
 {
+  std::cout << "Buffer Pointer = " << m_Image->GetBufferPointer() <<
+  std::endl;
   return m_Image->GetBufferPointer();
 }
+
+
 
 
 
@@ -213,6 +230,30 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->GetOffsetTable();
 }
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+unsigned long 
+ImageAdaptor<TImage , TAccessor>
+::ComputeOffset(const IndexType &ind) const
+{
+  return m_Image->ComputeOffset( ind );
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+ImageAdaptor<TImage , TAccessor>::IndexType
+ImageAdaptor<TImage , TAccessor>
+::ComputeIndex(unsigned long offset) const
+{
+  return m_Image->ComputeIndex( offset );
+}
+
+
 
 
 //----------------------------------------------------------------------------
@@ -234,6 +275,75 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->GetMTime();
 }
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void
+ImageAdaptor<TImage , TAccessor>
+::SetBufferedRegion(const RegionType &region)
+{
+  m_Image->SetBufferedRegion( region );
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void
+ImageAdaptor<TImage , TAccessor>
+::SetLargestPossibleRegion(const RegionType &region)
+{
+  m_Image->SetLargestPossibleRegion( region );
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void
+ImageAdaptor<TImage , TAccessor>
+::SetRequestedRegion(const RegionType &region)
+{
+  m_Image->SetRequestedRegion( region );
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage , TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetBufferedRegion()
+{
+  return m_Image->GetBufferedRegion();
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage , TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetLargestPossibleRegion()
+{
+  return m_Image->GetLargestPossibleRegion();
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const ImageAdaptor<TImage , TAccessor>::RegionType &
+ImageAdaptor<TImage , TAccessor>
+::GetRequestedRegion()
+{
+  return m_Image->GetRequestedRegion();
+}
+
 
 
 
