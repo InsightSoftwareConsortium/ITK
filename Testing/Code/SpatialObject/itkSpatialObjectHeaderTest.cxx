@@ -28,6 +28,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLandmarkSpatialObject.txx"
 #include "itkLineSpatialObject.txx"
 #include "itkLineSpatialObjectPoint.txx"
+#include "itkMeshSpatialObject.txx"
 #include "itkMetaBlobConverter.txx"
 #include "itkMetaEllipseConverter.txx"
 #include "itkMetaGroupConverter.txx"

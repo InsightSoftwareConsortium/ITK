@@ -25,6 +25,7 @@
 #include "itkLandmarkSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkLineSpatialObjectPoint.h"
+#include "itkMeshSpatialObject.h"
 #include "itkPlaneSpatialObject.h"
 #include "itkPolygonGroupOrientation.h"
 #include "itkPolygonGroupSpatialObject.h"
@@ -70,6 +71,10 @@ int itkSpatialObjectPrintTest(int , char* [])
   std::cout << "----------LineSpatialObjectPoint " << LineSpatialObjectPointObj;
   delete LineSpatialObjectPointObj;
   
+  itk::MeshSpatialObject<>::Pointer MeshSpatialObjectObj =
+    itk::MeshSpatialObject<>::New();
+  std::cout << "----------MeshSpatialObject " << MeshSpatialObjectObj;
+
   itk::PlaneSpatialObject<3>::Pointer PlaneSpatialObjectObj =
     itk::PlaneSpatialObject<3>::New();
   std::cout << "----------PlaneSpatialObject " << PlaneSpatialObjectObj;
