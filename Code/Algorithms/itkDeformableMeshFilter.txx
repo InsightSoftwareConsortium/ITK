@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/**
+/*
  * standard 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -36,7 +36,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
 
-/**
+/*
  * standard 
  *
 template <typename TInputMesh, typename TOutputMesh>
@@ -50,7 +50,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 //  m_Locations->Delete();
 }*/
 
-/**
+/*
  * PrintSelf
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -64,7 +64,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }// end PrintSelf
 
-/**
+/*
  * set the stiffness parameter which would help 
  * to build the stiffness matrix
  */
@@ -77,7 +77,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Stiffness[1] = b; 
 }
 
-/**
+/*
  * set the center point which would help 
  * to identify the interested object
  */
@@ -91,7 +91,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Center[2] = c;
 }
 
-/**
+/*
  * set the input binary image 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -102,7 +102,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Potential = potential; 
 }
 
-/**
+/*
  * set the input gradient image 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -113,7 +113,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Gradient = gradient; 
 }
 
-/**
+/*
  * set the output model region image 
  *
 template <typename TInputMesh, typename TOutputMesh>
@@ -133,7 +133,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   return m_ImageOutput; 
 }*/
 
-/**
+/*
  * set the resolutions of the model, resolution[0] is the number of slices
  * resolution[1] is the number of nodes in each slices 
  */
@@ -147,7 +147,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_Resolution[2] = c;
 }
 
-/**
+/*
  * set default value of parameters and initialize local data container such as forces,
  * displacements and displacement derivatives
  */
@@ -279,7 +279,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   }
 } 
 
-/**
+/*
  * set the stiffness matrix 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -390,7 +390,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 } 
 
-/**
+/*
  * compute the model start points
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -507,7 +507,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
+/*
  * compute the shrink force when the model is shrink to fit to the objects.
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -639,7 +639,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   }
 }
 
-/**
+/*
  * compute the balloon force when the model is expand from inside of the model.
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -815,7 +815,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * compute the derivatives using d'- Kd = f 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -930,7 +930,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
    
 }
 
-/**
+/*
  * When there is new nodes added, must do a reset to reallocate
  * the memory and redistribute the nodes and reconstruct the cells,
  * now the mthod is only suitable for 2D models, it will be a much
@@ -1072,7 +1072,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 */ 
 }
 
-/**
+/*
  * update the displacements using d_{new} = d_{old} + timestep*d' 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1141,7 +1141,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * copy the content of m_Location into output 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1197,7 +1197,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * copy the content of m_Location into output 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1225,7 +1225,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
     }
 }
 
-/**
+/*
  * when almost all the nodes is at the estimated boundary, use
  * gapsearch to fit the model to more complicated shapes
  */
@@ -1237,7 +1237,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
         
 }
 
-/**
+/*
  * add new nodes into the model 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1248,7 +1248,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   m_NewNode = true;
 }
 
-/**
+/*
  * add a new slice into the model 
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1436,7 +1436,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 }
 
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1524,7 +1524,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>
@@ -1617,7 +1617,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 
 }
 
-/**
+/*
  * fit the model to the gradient information
  */
 template <typename TInputMesh, typename TOutputMesh>

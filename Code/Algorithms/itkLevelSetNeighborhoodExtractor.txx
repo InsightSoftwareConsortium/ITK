@@ -28,7 +28,7 @@
 namespace itk
 {
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -53,7 +53,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
     }
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -72,7 +72,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   os << m_InputNarrowBand.GetPointer() << std::endl;
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -89,7 +89,7 @@ NodeContainer * ptr )
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -101,7 +101,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -123,7 +123,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -157,7 +157,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 }
 
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -194,7 +194,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>
@@ -243,7 +243,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
 }
 
-/**
+/*
  *
  */
 template <class TLevelSet>

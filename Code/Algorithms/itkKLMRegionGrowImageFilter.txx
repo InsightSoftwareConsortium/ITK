@@ -49,7 +49,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------
 
-/**
+/*
  * PrintSelf
  */
 template <class TInputImage, class TOutputImage>
@@ -67,7 +67,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
 //----------------------------------------------------------------------
 
-/**
+/*
  * GenerateInputRequestedRegion method.
  */
 template<class TInputImage, class TOutputImage>
@@ -83,7 +83,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 }
 
 //----------------------------------------------------------------------
-/**
+/*
  * EnlargeOutputRequestedRegion method.
  */
 template<class TInputImage, class TOutputImage>
@@ -101,7 +101,7 @@ DataObject *output )
 }
 
 //----------------------------------------------------------------------
-/**
+/*
  * GenerateOutputInformation method.
  */
 template<class TInputImage, class TOutputImage>
