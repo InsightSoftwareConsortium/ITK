@@ -88,8 +88,6 @@ OnePlusOneEvolutionaryOptimizer
   this->InvokeEvent( StartEvent() );
   m_Stop = false ;
 
-  double adjust = 0.0 ;
-
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   vnl_matrix<double> A(spaceDimension, spaceDimension, 0);
