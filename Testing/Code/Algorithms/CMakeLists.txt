@@ -31,4 +31,6 @@ itkRegionGrow2DTest
 itkSupervisedClassifierTest
 itkTraitsTest
 itkUnsupervisedClassifierTest
+itkGibbsTest
+itkDeformableTest
 )
