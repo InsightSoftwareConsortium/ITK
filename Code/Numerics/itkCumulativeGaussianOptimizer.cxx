@@ -227,6 +227,7 @@ CumulativeGaussianOptimizer
 ::SetDataArray(MeasureType * cumGaussianArray)
 {
   m_CumulativeGaussianArray = new MeasureType();
+  m_CumulativeGaussianArray->resize(cumGaussianArray->GetNumberOfElements());
   m_CumulativeGaussianArray = cumGaussianArray;
 }
 
