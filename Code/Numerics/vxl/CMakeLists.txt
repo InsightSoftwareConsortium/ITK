@@ -279,4 +279,6 @@ IF(UNIX)
 ENDIF(UNIX)
 
 INSTALL_TARGETS(/lib/InsightToolkit VXLNumerics)
+INSTALL_FILES(/include/InsightToolkit/Numerics/vxl/vcl ".h" "vxl_config")
+
 SUBDIRS(vcl vnl)
