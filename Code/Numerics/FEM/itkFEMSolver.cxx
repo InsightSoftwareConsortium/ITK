@@ -3,14 +3,14 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkFEMSolver.cxx
   Language:  C++
-  Date:      $Date$
+  Date:  $Date$
   Version:   $Revision$
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -70,7 +70,7 @@ void Solver::Clear( void )
  * system of equations.
  */
 void Solver::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
-{ 
+{
   m_ls=ls; // update the pointer to LinearSystemWrapper object
 
   this->InitializeLinearSystemWrapper();
@@ -80,7 +80,7 @@ void Solver::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
 
 
 void Solver::InitializeLinearSystemWrapper(void)
-{ 
+{
   // set the maximum number of matrices and vectors that
   // we will need to store inside.
   m_ls->SetNumberOfMatrices(1);
@@ -173,7 +173,7 @@ void Solver::Write( std::ostream& f ) {
     (*i)->Write(f);
   }
   f<<"\n<END>  % End of nodes\n\n";
-  
+
   for(MaterialArray::iterator i=mat.begin(); i!=mat.end(); i++) {
     (*i)->Write(f);
   }
@@ -236,11 +236,11 @@ void Solver::GenerateGFN() {
     {
       for(unsigned int dof=0; dof<(*e)->GetNumberOfDegreesOfFreedomPerNode(); dof++)
       {
-        if( (*e)->GetNode(n)->GetDegreeOfFreedom(dof)==Element::InvalidDegreeOfFreedomID )
-        {
-          (*e)->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
-          NGFN++;
-        }
+  if( (*e)->GetNode(n)->GetDegreeOfFreedom(dof)==Element::InvalidDegreeOfFreedomID )
+  {
+    (*e)->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
+    NGFN++;
+  }
       }
     }
   } // end for e
@@ -255,7 +255,7 @@ void Solver::GenerateGFN() {
 
 /*
  * Assemble the master stiffness matrix (also apply the MFCs to K)
- */  
+ */
 void Solver::AssembleK()
 {
 
@@ -305,7 +305,8 @@ void Solver::AssembleK()
    */
   for(LoadArray::iterator l2=load.begin(); l2!=load.end(); l2++) {
     if ( LoadLandmark::Pointer l3=dynamic_cast<LoadLandmark*>( &(*(*l2))) ) {
-      Element::Pointer ep = const_cast<Element*>( l3->el[0] );
+  l3->AssignToElement(&el);
+  Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       this->AssembleLandmarkContribution( ep , l3->eta );
     }
   }
@@ -338,24 +339,24 @@ void Solver::AssembleLandmarkContribution(Element::Pointer e, float eta)
   for(int j=0; j<Ne; j++)
   {
     // step over all columns in element matrix
-    for(int k=0; k<Ne; k++) 
+    for(int k=0; k<Ne; k++)
     {
       // error checking. all GFN should be =>0 and <NGFN
       if ( e->GetDegreeOfFreedom(j) >= NGFN ||
-           e->GetDegreeOfFreedom(k) >= NGFN  )
+     e->GetDegreeOfFreedom(k) >= NGFN  )
       {
-        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleLandmarkContribution()","Illegal GFN!");
+  throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleLandmarkContribution()","Illegal GFN!");
       }
 
       /*
        * Here we finaly update the corresponding element
-       * in the master stiffness matrix. We first check if 
-       * element in Le is zero, to prevent zeros from being 
+       * in the master stiffness matrix. We first check if
+       * element in Le is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
       if ( Le[j][k]!=Float(0.0) )
       {
-        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Le[j][k] );
+  this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Le[j][k] );
       }
     }
   }
@@ -376,24 +377,24 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
   for(int j=0; j<Ne; j++)
   {
     // step over all columns in element matrix
-    for(int k=0; k<Ne; k++) 
+    for(int k=0; k<Ne; k++)
     {
       // error checking. all GFN should be =>0 and <NGFN
       if ( e->GetDegreeOfFreedom(j) >= NGFN ||
-           e->GetDegreeOfFreedom(k) >= NGFN  )
+     e->GetDegreeOfFreedom(k) >= NGFN  )
       {
-        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
+  throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
       }
 
       /*
        * Here we finaly update the corresponding element
-       * in the master stiffness matrix. We first check if 
-       * element in Ke is zero, to prevent zeros from being 
+       * in the master stiffness matrix. We first check if
+       * element in Ke is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
       if ( Ke[j][k]!=Float(0.0) )
       {
-        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k] );
+  this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k] );
       }
 
     }
@@ -411,7 +412,7 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
 void Solver::AssembleF(int dim) {
 
   // Vector that stores element nodal loads
-  Element::VectorType Fe; 
+  Element::VectorType Fe;
 
   // Type that stores IDs of fixed DOF together with the values to
   // which they were fixed.
@@ -420,7 +421,7 @@ void Solver::AssembleF(int dim) {
 
   /* if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
-  
+
   /* Initialize the master force vector */
   m_ls->InitializeVector();
 
@@ -450,30 +451,30 @@ void Solver::AssembleF(int dim) {
       // size of a force vector in load must match number of DOFs in node
       if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerNode())!=0 )
       {
-        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
+  throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
       }
 
       // we simply copy the load to the force vector
       for(unsigned int d=0; d < (l1->m_element->GetNumberOfDegreesOfFreedomPerNode()); d++)
       {
-        Element::DegreeOfFreedomIDType dof=l1->m_element->GetNode(l1->m_pt)->GetDegreeOfFreedom(d);
-        // error checking
-        if ( dof >= NGFN )
-        {
-          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
-        }
+  Element::DegreeOfFreedomIDType dof=l1->m_element->GetNode(l1->m_pt)->GetDegreeOfFreedom(d);
+  // error checking
+  if ( dof >= NGFN )
+  {
+    throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+  }
 
-        /*
-         * If using the extra dim parameter, we can apply the force to different isotropic dimension.
-         *
-         * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
-         * number of dimensions.
-         */
-        m_ls->AddVectorValue(dof , l1->F[d+l1->m_element->GetNumberOfDegreesOfFreedomPerNode()*dim]);
+  /*
+   * If using the extra dim parameter, we can apply the force to different isotropic dimension.
+   *
+   * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
+   * number of dimensions.
+   */
+  m_ls->AddVectorValue(dof , l1->F[d+l1->m_element->GetNumberOfDegreesOfFreedomPerNode()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array
-      continue;  
+      continue;
     }
 
 
@@ -485,55 +486,55 @@ void Solver::AssembleF(int dim) {
 
       if ( !(l1->el.empty()) )
       {
-        /*
-         * If array of element pointers is not empty,
-         * we apply the load to all elements in that array
-         */
-        for(LoadElement::ElementPointersVectorType::const_iterator i=l1->el.begin(); i!=l1->el.end(); i++)
-        {
+  /*
+   * If array of element pointers is not empty,
+   * we apply the load to all elements in that array
+   */
+  for(LoadElement::ElementPointersVectorType::const_iterator i=l1->el.begin(); i!=l1->el.end(); i++)
+  {
 
-          const Element* el0=(*i);
-          // Call the Fe() function of the element that we are applying the load to.
-          // We pass a pointer to the load object as a paramater and a reference to the nodal loads vector.
-          el0->GetLoadVector(Element::LoadPointer(l1),Fe);
-          unsigned int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
-          for(unsigned int j=0; j<Ne; j++)    // step over all DOF
-          {
-            // error checking
-            if ( el0->GetDegreeOfFreedom(j) >= NGFN )
-            {
-              throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
-            }
+    const Element* el0=(*i);
+    // Call the Fe() function of the element that we are applying the load to.
+    // We pass a pointer to the load object as a paramater and a reference to the nodal loads vector.
+    el0->GetLoadVector(Element::LoadPointer(l1),Fe);
+    unsigned int Ne=el0->GetNumberOfDegreesOfFreedom();    // ... element's number of DOF
+    for(unsigned int j=0; j<Ne; j++)    // step over all DOF
+    {
+      // error checking
+      if ( el0->GetDegreeOfFreedom(j) >= NGFN )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+      }
 
-            // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddVectorValue(el0->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
-          }
-        }
-      
+      // update the master force vector (take care of the correct isotropic dimensions)
+      m_ls->AddVectorValue(el0->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
+    }
+  }
+
       } else {
-        
-        /*
-         * If the list of element pointers in load object is empty,
-         * we apply the load to all elements in a system.
-         */
-        for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
-        {
-          (*e)->GetLoadVector(Element::LoadPointer(l1),Fe);  // ... element's force vector
-          unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
-          for(unsigned int j=0; j<Ne; j++)        // step over all DOF
-          {
-            if ( (*e)->GetDegreeOfFreedom(j) >= NGFN )
-            {
-              throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
-            }
+  /*
+   * If the list of element pointers in load object is empty,
+   * we apply the load to all elements in a system.
+   */
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
+  {
+    (*e)->GetLoadVector(Element::LoadPointer(l1),Fe);  // ... element's force vector
+    unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();    // ... element's number of DOF
 
-            // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddVectorValue((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
+    for(unsigned int j=0; j<Ne; j++)  // step over all DOF
+    {
+      if ( (*e)->GetDegreeOfFreedom(j) >= NGFN )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+      }
 
-          }
+      // update the master force vector (take care of the correct isotropic dimensions)
+      m_ls->AddVectorValue((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
 
-        }
+    }
+
+  }
 
       }
 
@@ -602,7 +603,7 @@ void Solver::AssembleF(int dim) {
 
 /*
  * Decompose matrix using svd, qr, whatever ... if needed
- */  
+ */
 void Solver::DecomposeK()
 {
 }
@@ -612,7 +613,7 @@ void Solver::DecomposeK()
 
 /*
  * Solve for the displacement vector u
- */  
+ */
 void Solver::Solve()
 {
   // Check if master stiffness matrix and master force vector were
@@ -637,7 +638,7 @@ void Solver::Solve()
 /*
  * Copy solution vector u to the corresponding nodal values, which are
  * stored in node objects). This is standard post processing of the solution.
- */  
+ */
 void Solver::UpdateDisplacements()
 {
 
@@ -695,19 +696,19 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
     {
       /* step over all DOFs in MFC */
       for(LoadBCMFC::LhsType::iterator q=c->lhs.begin(); q!=c->lhs.end(); q++) {
-      
-        /* obtain the GFN of DOF that is in the MFC */
-        Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
 
-        /* error checking. all GFN should be =>0 and <NGFN */
-        if ( gfn>=NGFN )
-        {
-          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::ApplyBC()","Illegal GFN!");
-        }
+  /* obtain the GFN of DOF that is in the MFC */
+  Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
 
-        /* set the proper values in matster stiffnes matrix */
-        this->m_ls->SetMatrixValue(gfn, NGFN+c->Index, q->value, matrix);
-        this->m_ls->SetMatrixValue(NGFN+c->Index, gfn, q->value, matrix);  // this is a symetric matrix...
+  /* error checking. all GFN should be =>0 and <NGFN */
+  if ( gfn>=NGFN )
+  {
+    throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::ApplyBC()","Illegal GFN!");
+  }
+
+  /* set the proper values in matster stiffnes matrix */
+  this->m_ls->SetMatrixValue(gfn, NGFN+c->Index, q->value, matrix);
+  this->m_ls->SetMatrixValue(NGFN+c->Index, gfn, q->value, matrix);  // this is a symetric matrix...
 
       }
 
@@ -740,32 +741,32 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
       // Force vector needs updating only if DOF was not fixed to 0.0.
       if( fixedvalue!=0.0 )
       {
-        // Initialize the master force correction vector as required
-        if ( !this->m_ls->IsVectorInitialized(1) )
-        {
-          this->m_ls->InitializeVector(1);
-        }
+  // Initialize the master force correction vector as required
+  if ( !this->m_ls->IsVectorInitialized(1) )
+  {
+    this->m_ls->InitializeVector(1);
+  }
 
-        // Step over each nonzero matrix element in a row
-        for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
-        {
-          // Get value from the stiffness matrix
-          Float d=this->m_ls->GetMatrixValue(fdof, *c, matrix);
+  // Step over each nonzero matrix element in a row
+  for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
+  {
+    // Get value from the stiffness matrix
+    Float d=this->m_ls->GetMatrixValue(fdof, *c, matrix);
 
-          // Store the appropriate value in bc correction vector (-K12*u2)
-          //
-          // See http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
-          // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more info.
-          this->m_ls->AddVectorValue(*c,-d*fixedvalue,1);
-        }
+    // Store the appropriate value in bc correction vector (-K12*u2)
+    //
+    // See http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
+    // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more info.
+    this->m_ls->AddVectorValue(*c,-d*fixedvalue,1);
+  }
       }
 
 
       // Clear that row and column in master matrix
       for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
       {
-        this->m_ls->SetMatrixValue(fdof,*c, 0.0, matrix);
-        this->m_ls->SetMatrixValue(*c,fdof, 0.0, matrix); // this is a symetric matrix
+  this->m_ls->SetMatrixValue(fdof,*c, 0.0, matrix);
+  this->m_ls->SetMatrixValue(*c,fdof, 0.0, matrix); // this is a symetric matrix
       }
       this->m_ls->SetMatrixValue(fdof,fdof, 1.0, matrix); // Set the diagonal element to one
 
@@ -796,7 +797,7 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
   // from the given vectors, so that physical point of v1 is (0,0,0) and
   // phisical point v2 is (size[0],size[1],size[2]).
   InterpolationGridType::SizeType image_size={{1,1,1}};
-  for(unsigned int i=0;i<size.size();i++) 
+  for(unsigned int i=0;i<size.size();i++)
   {
     image_size[i] = static_cast<InterpolationGridType::SizeType::SizeValueType>( size[i] );
   }
@@ -806,7 +807,7 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
     image_origin[i]=bb1[i];
   }
   Float image_spacing[MaxGridDimensions]={1.0,1.0,1.0};
-  for(unsigned int i=0;i<size.size();i++) 
+  for(unsigned int i=0;i<size.size();i++)
   {
     image_spacing[i]=(bb2[i]-bb1[i])/(image_size[i]-1);
   }
@@ -838,32 +839,32 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
       const VectorType& v=(*e)->GetNodeCoordinates(n);
       for(unsigned int d=0; d < NumberOfDimensions; d++ )
       {
-        if( v[d] < v1[d] )
-        {
-          v1[d]=v[d];
-        }
-        if( v[d] > v2[d] ) 
-        {
-          v2[d]=v[d];
-        }
+  if( v[d] < v1[d] )
+  {
+    v1[d]=v[d];
+  }
+  if( v[d] > v2[d] )
+  {
+    v2[d]=v[d];
+  }
       }
     }
 
     // Convert boundary box corner points into discrete image indexes.
     InterpolationGridType::IndexType vi1,vi2;
-    
+
     Point<Float,MaxGridDimensions> vp1,vp2,pt;
     for(unsigned int i=0;i<MaxGridDimensions;i++)
     {
-      if ( i < NumberOfDimensions ) 
+      if ( i < NumberOfDimensions )
       {
-        vp1[i]=v1[i];
-        vp2[i]=v2[i];
+  vp1[i]=v1[i];
+  vp2[i]=v2[i];
       }
-      else 
+      else
       {
-        vp1[i]=0.0;
-        vp2[i]=0.0;
+  vp1[i]=0.0;
+  vp2[i]=0.0;
       }
     }
 
@@ -873,7 +874,7 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
     if(!m_InterpolationGrid->TransformPhysicalPointToIndex(vp2,vi2)) continue;
 
     InterpolationGridType::SizeType region_size;
-    for( unsigned int i=0; i<MaxGridDimensions; i++ ) 
+    for( unsigned int i=0; i<MaxGridDimensions; i++ )
     {
       region_size[i] = vi2[i]-vi1[i]+1;
     }
@@ -900,14 +901,14 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
       m_InterpolationGrid->TransformIndexToPhysicalPoint(iter.GetIndex(),pt);
       for(unsigned int d=0; d<NumberOfDimensions; d++)
       {
-        global_point[d]=pt[d];
+  global_point[d]=pt[d];
       }
 
       // If the point is within the element, we update the pointer at
       // this point in the interpolation grid image.
       if( (*e)->GetLocalFromGlobalCoordinates(global_point,local_point) )
       {
-        iter.Set(*e);
+  iter.Set(*e);
       }
     } // next point in region
 
@@ -925,11 +926,11 @@ Solver::GetElementAtPoint(const VectorType& pt) const
   Point<Float,MaxGridDimensions> pp;
   for(unsigned int i=0;i<MaxGridDimensions;i++)
   {
-    if ( i < pt.size() ) 
+    if ( i < pt.size() )
     {
-      pp[i]=pt[i]; 
+      pp[i]=pt[i];
     }
-    else 
+    else
     {
       pp[i]=0.0;
     }
