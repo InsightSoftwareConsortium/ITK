@@ -43,7 +43,9 @@ namespace itk {
  * A. C. Palmer, IEEE Trans. on Medical Imaging, 13(4) pp 716-724,1994
  *
  *
- * This filter requires all of its input images. It behaves as filter with
+ * This filter requires the largest possible region of the first image
+ * and the same corresponding region in the second image. 
+ * It behaves as filter with
  * two input and one output. Thus it can be inserted in a pipeline with 
  * other filters. The filter passes the first input through unmodified.
  *

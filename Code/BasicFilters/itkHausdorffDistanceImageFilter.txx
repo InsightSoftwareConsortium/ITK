@@ -66,18 +66,23 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 {
   Superclass::GenerateInputRequestedRegion();
 
-  // this filter requires all of both input images
+  // this filter requires:
+  // - the largeset possible region of the first image
+  // - the corresponding region of the second image
   if ( this->GetInput1() )
     {
     InputImage1Pointer image =
         const_cast< InputImage1Type * >( this->GetInput1() );
     image->SetRequestedRegionToLargestPossibleRegion();
-    }
-  if ( this->GetInput2() )
-    {
-    InputImage2Pointer image =
-        const_cast< InputImage2Type * >( this->GetInput2() );
-    image->SetRequestedRegionToLargestPossibleRegion();
+
+    if ( this->GetInput2() )
+      {
+      InputImage2Pointer image =
+          const_cast< InputImage2Type * >( this->GetInput2() );
+      image->SetRequestedRegion( 
+        this->GetInput1()->GetRequestedRegion() );
+      }
+
     }
 }
 

@@ -44,7 +44,9 @@ namespace itk {
  *
  * Use HausdorffDistanceImageFilter to compute the full Hausdorff distance.
  *
- * This filter requires all of its input images. It behaves as filter with
+ * This filter requires the largest possible region of the first image
+ * and the same corresponding region in the second image. 
+ * It behaves as filter with
  * two input and one output. Thus it can be inserted in a pipeline with 
  * other filters. The filter passes the first input through unmodified.
  *

@@ -50,29 +50,35 @@ int itkSimilarityIndexImageFilterTest(int, char**)
   itk::ImageRegionIterator<Image2Type> it2( image2, image2->GetBufferedRegion() );
   unsigned long count = 0;
 
-  while( !it1.IsAtEnd() )
+  while( !it1.IsAtEnd() || !it2.IsAtEnd() )
     {
 
-    if ( lower1 <= count && count <= upper1 )
+    if ( !it1.IsAtEnd() )
       {
-      it1.Set( 5 );
-      }
-    else
-      {
-      it1.Set( 0 );
-      }
-
-    if ( lower2 <= count && count <= upper2 )
-      {
-      it2.Set( 7.2 );
-      }
-    else
-      {
-      it2.Set( 0 );
+      if ( lower1 <= count && count <= upper1 )
+        {
+        it1.Set( 5 );
+        }
+      else
+        {
+        it1.Set( 0 );
+        }
+      ++it1;
       }
 
-    ++it1;
-    ++it2;
+    if ( !it2.IsAtEnd() )
+      {
+      if ( lower2 <= count && count <= upper2 )
+        {
+        it2.Set( 7.2 );
+        }
+      else
+        {
+        it2.Set( 0 );
+        }
+      ++it2;
+      }
+
     ++count;
 
     }
@@ -83,7 +89,17 @@ int itkSimilarityIndexImageFilterTest(int, char**)
   filter->SetInput1( image1 );
   filter->SetInput2( image2 );
   
-  filter->Update();
+  try
+    {
+    filter->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an unexpected exception" << std::endl;
+    std::cout << err;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   filter->Print(std::cout);
 
