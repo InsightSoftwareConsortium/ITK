@@ -99,18 +99,12 @@ namespace itk
 
     if( this->GetMTime() > m_BoundsMTime )
     {
-      PointContainerPointer points;
       PointType pointLow, pointHigh; 
       PointType tempPointLow, tempPointHigh;
-      PointListType::iterator it = m_Points->begin();
+      PointListType::iterator it  = m_Points->begin();
       PointListType::iterator end = m_Points->end();
 
-      if( !(points = m_Bounds->GetPoints()) ) 
-        {  
-        points = PointContainerType::New();
-        m_Bounds->SetPoints(points);
-        }
-
+      PointContainerPointer points = PointContainerType::New();
       points->Initialize();
 
       for(unsigned int i=0; it!= end; it++, i++ ) 
@@ -118,6 +112,7 @@ namespace itk
         points->InsertElement(i,(*it)->GetCenterLinePoint());
         } 
 
+      m_Bounds->SetPoints(points);
       m_Bounds->ComputeBoundingBox();
       m_BoundsMTime.Modified();
     }

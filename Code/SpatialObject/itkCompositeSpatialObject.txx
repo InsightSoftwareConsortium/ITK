@@ -170,26 +170,18 @@ namespace itk
     ChildrenListType::iterator it = m_Children.begin();
     ChildrenListType::iterator end = m_Children.end();
     PointType pointLow,pointHigh;
-    BoundingBoxType::PointsContainerPointer points, childrenPoints;
-    BoundingBoxType::PointsContainerIterator childrenPointsIt;
-    BoundingBoxType::PointsContainerIterator childrenPointsEnd;
+    BoundingBoxType::PointsContainerPointer points = BoundingBoxType::PointsContainer::New() ;
 
     if( this->GetMTime() > m_BoundsMTime )
       {
-
-      if( !(points = m_Bounds->GetPoints()) )
-        {
-        points = BoundingBoxType::PointsContainer::New();
-        m_Bounds->SetPoints(points);
-        }
 
       unsigned int i = 0;
 
       for(; it!=end; it++)
         {
-        childrenPoints = (*it)->GetBounds()->GetPoints();
-        childrenPointsIt = childrenPoints->Begin();
-        childrenPointsEnd = childrenPoints->End();
+        BoundingBoxType::PointsContainerConstPointer  childrenPoints    = (*it)->GetBounds()->GetPoints();
+        BoundingBoxType::PointsContainerConstIterator childrenPointsIt  = childrenPoints->Begin();
+        BoundingBoxType::PointsContainerConstIterator childrenPointsEnd = childrenPoints->End();
 
         for(; childrenPointsIt != childrenPointsEnd; childrenPointsIt++,i++ )
           {
@@ -198,6 +190,7 @@ namespace itk
         }
 
       points->Modified();
+      m_Bounds->SetPoints(points);
       m_Bounds->ComputeBoundingBox();
       m_BoundsMTime.Modified();
     }
