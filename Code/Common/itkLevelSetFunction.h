@@ -268,10 +268,10 @@ protected:
   vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> m_dxy;
 
   /** Array of first derivatives*/
-  ScalarValueType m_dx[ImageDimension];
+  ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
 
-  ScalarValueType m_dx_forward[ImageDimension];
-  ScalarValueType m_dx_backward[ImageDimension];
+  ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
+  ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
 
   ScalarValueType m_GradMagSqr;
   
