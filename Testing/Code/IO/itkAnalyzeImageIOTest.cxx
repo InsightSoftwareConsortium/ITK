@@ -31,23 +31,22 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPNGImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
-
+#include <stdio.h>
 
 const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
 const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-typedef itk::Image<unsigned char, 3> ImageType ;
-typedef itk::ImageFileReader< ImageType > ImageReaderType ;
 
-static int makeImage(const char *filename,  
-                     ImageType::Pointer &img)
+template <typename T> int MakeImage()
 {
-
+  typedef itk::Image<T, 3> ImageType ;
+  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  const char *filename = "test.hdr";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
-
+  ImageType::Pointer img;
   const ImageType::SizeType size = {{10,10,10}};
   const ImageType::IndexType index = {{0,0,0}};
   ImageType::RegionType region;
@@ -61,11 +60,19 @@ static int makeImage(const char *filename,
   img->Allocate();
 
   { //Fill in entire image 
-      itk::ImageRegionIterator<ImageType> ri(img,region);
-      while(!ri.IsAtEnd())
+    itk::ImageRegionIterator<ImageType> ri(img,region);
+    try
       {
-          ri.Set( RPI );
-          ++ri;
+        while(!ri.IsAtEnd())
+          {
+            ri.Set( RPI );
+            ++ri;
+          }
+      }
+    catch ( itk::ExceptionObject & ex )
+      {
+        cerr << "Error filling array" << ex.GetDescription() << endl;
+        return -1;
       }
   }
   { //Fill in left half
@@ -77,7 +84,7 @@ static int makeImage(const char *filename,
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
       while(!RPIiterator.IsAtEnd())
       {
-          RPIiterator.Set( RPIiterator.Get()|LEFT );
+          RPIiterator.Set( RPIiterator.Get() + LEFT );
           ++RPIiterator;
       }
   }
@@ -90,7 +97,7 @@ static int makeImage(const char *filename,
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
       while(!RPIiterator.IsAtEnd())
       {
-          RPIiterator.Set( RPIiterator.Get()|ANTERIOR );
+          RPIiterator.Set( RPIiterator.Get() + ANTERIOR );
           ++RPIiterator;
       }
   }
@@ -103,13 +110,10 @@ static int makeImage(const char *filename,
       itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
       while(!RPIiterator.IsAtEnd())
       {
-          RPIiterator.Set( RPIiterator.Get()|SUPERIOR );
+          RPIiterator.Set( RPIiterator.Get() + SUPERIOR );
           ++RPIiterator;
       }
   }
-
-  //itk::AnalyzeImageIOFactory::RegisterOneFactory();
-
   typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
   itk::ImageFileWriter< ImageType >::Pointer ImageWriterPointer = 
     ImageWriterType::New();
@@ -134,35 +138,86 @@ static int makeImage(const char *filename,
         message += "\n";
         message += ex.GetDescription();
         std::cerr << message << std::endl;
+        std::remove(filename);
         return -1;
     }
 
-  return 0;
-}
-
-int itkAnalyzeImageIOTest(int ac, char** av)
-{
-  const char fname[] = "test.hdr";
-  ImageType::Pointer img;
-  ImageType::Pointer input;
-
-  if(makeImage(fname,img) != 0)
-    return -1;
-
   //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  ImageType::Pointer input;
   itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
   try
     {
-      imageReader->SetFileName(fname) ;
+      imageReader->SetFileName(filename) ;
       imageReader->Update() ;
       input = imageReader->GetOutput() ;
     }
   catch (itk::ExceptionObject e)
     {
       e.Print(std::cerr) ;
+      std::remove(filename);
       return -1;
     }
-  
+  std::remove(filename);
   return 0;
+}
+
+//template int MakeImage<char>();
+
+int itkAnalyzeImageIOTest(int ac, char** av)
+{
+  int rval,cur_return;
+  cur_return = MakeImage<char>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type char" << endl;
+    }
+  else
+    rval += cur_return;
+  cur_return = MakeImage<unsigned char>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type unsigned char" << endl;
+    } 
+  else
+    rval += cur_return;
+  cur_return = MakeImage<short>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type short" << endl;
+    }
+  else
+    rval += cur_return;
+  cur_return = MakeImage<unsigned short>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type unsigned short" << endl;
+    } 
+  else
+    rval += cur_return;
+  cur_return = MakeImage<int>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type int" << endl;
+    } 
+  else
+    rval += cur_return;
+  cur_return = MakeImage<float>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type float" << endl;
+    } 
+  else
+    rval += cur_return;
+#if 0
+  // awaiting a double precision byte swapper
+  cur_return = MakeImage<double>();
+  if(cur_return != 0) 
+    {
+      cerr << "Error writing Analyze file type double" << endl;
+    } 
+  else
+    rval += cur_return;
+#endif
+  return rval;
 }
