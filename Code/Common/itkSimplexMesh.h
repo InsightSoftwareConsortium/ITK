@@ -165,12 +165,12 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /** 
     * Get the three direct neighbors of a point 
     */  
-    IndexArray GetNeighbors(unsigned long pointId);
+    IndexArray GetNeighbors(unsigned long pointId) const;
 
     /** 
     * Get all neighbor points with a specified radius  
     */  
-    NeighborListType* GetNeighbors(unsigned long pointId, unsigned int radius, NeighborListType* list = NULL);
+    NeighborListType* GetNeighbors(unsigned long pointId, unsigned int radius, NeighborListType* list = NULL) const;
 
     /** 
     * Add a neighbor to a point. 
@@ -202,7 +202,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     * Set the barycentric coordinates for a specified point
     */
-    PointType GetBarycentricCoordinates(unsigned long idx);
+    PointType GetBarycentricCoordinates(unsigned long idx) const;
 
     /**
     * Set the reference metrics for a specified point
@@ -212,7 +212,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     *  Return the reference metrics for the specified point
     */
-    PointType GetReferenceMetrics(unsigned long idx);
+    PointType GetReferenceMetrics(unsigned long idx) const;
 
     /**
     * Set the simplex angle for the specified point
@@ -222,7 +222,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     * Get the simplex angle for the specified point
     */
-    double GetPhi(unsigned long idx);
+    double GetPhi(unsigned long idx) const;
 
     /**
     * Set the mean curvature for the specified point
@@ -232,7 +232,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     * Get the mean curvature for the specified point
     */
-    double GetMeanCurvature(unsigned long idx);
+    double GetMeanCurvature(unsigned long idx) const;
 
     /**
     * Set the circum circles radius for the specified point
@@ -242,7 +242,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     * Get the circum circles radius for the specified point
     */
-    double GetRadius(unsigned long idx);
+    double GetRadius(unsigned long idx) const;
 
     /**
     * Set the distance to the foot point for the specified point
@@ -252,10 +252,10 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     /**
     * Get the distance to the foot point for the specified point
     */
-    double GetDistance(unsigned long idx);
+    double GetDistance(unsigned long idx) const;
 
     /** compute the normal vector in the specified mesh point */
-    PointType ComputeNormal(unsigned long idx );
+    PointType ComputeNormal(unsigned long idx ) const;
 
   protected:
     //  /** Constructor for use by New() method. */

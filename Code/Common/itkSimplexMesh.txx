@@ -115,7 +115,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetBarycentricCoordinates(unsigned long idx)
+::GetBarycentricCoordinates(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->eps;
 }
@@ -133,7 +133,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetReferenceMetrics(unsigned long idx)
+::GetReferenceMetrics(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->referenceMetrics;
 }
@@ -151,7 +151,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 double
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetPhi(unsigned long idx)
+::GetPhi(unsigned long idx) const
 {
   SimplexMeshGeometry* geometry = m_GeometryData->GetElement(idx);
   PointType test;
@@ -173,7 +173,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 double 
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetMeanCurvature(unsigned long idx)
+::GetMeanCurvature(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->meanCurvature;
 }
@@ -191,7 +191,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 double
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetRadius(unsigned long idx)
+::GetRadius(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->circleRadius = value;
 }
@@ -208,7 +208,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 double
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetDistance(unsigned long idx)
+::GetDistance(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->distance = value;
 }
@@ -311,7 +311,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::IndexArray 
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetNeighbors(unsigned long idx)
+::GetNeighbors(unsigned long idx) const
 {
   return m_GeometryData->GetElement(idx)->neighborIndices;
 }
@@ -319,7 +319,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::NeighborListType*  
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::GetNeighbors(unsigned long idx, unsigned int radius, NeighborListType* list )
+::GetNeighbors(unsigned long idx, unsigned int radius, NeighborListType* list ) const
 {
   if (list == NULL)
     {
@@ -438,7 +438,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType 
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
-::ComputeNormal(unsigned long idx )
+::ComputeNormal(unsigned long idx ) const
 {
   PointType p,n1,n2,n3;
 
