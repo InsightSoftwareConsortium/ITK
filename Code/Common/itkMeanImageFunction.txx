@@ -69,7 +69,7 @@ MeanImageFunction<TInputImage>
     }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  InputImageType::SizeType kernelSize;
+  typename InputImageType::SizeType kernelSize;
   kernelSize.Fill( 1 );
   
   ConstSmartNeighborhoodIterator<InputImageType>

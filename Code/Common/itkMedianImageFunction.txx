@@ -60,16 +60,16 @@ MedianImageFunction<TInputImage>
   
   if( !m_Image )
     {
-    return ( NumericTraits<RealType>::max() );
+    return ( NumericTraits<OutputType>::max() );
     }
   
   if ( !this->IsInsideBuffer( index ) )
     {
-    return ( NumericTraits<RealType>::max() );
+    return ( NumericTraits<OutputType>::max() );
     }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  InputImageType::SizeType kernelSize;
+  typename InputImageType::SizeType kernelSize;
   kernelSize.Fill( 1 );
   
   ConstSmartNeighborhoodIterator<InputImageType>

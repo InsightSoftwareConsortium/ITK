@@ -39,12 +39,12 @@ namespace itk
  */
 template <class TInputImage >
 class ITK_EXPORT MeanImageFunction :
-  public ImageFunction< TInputImage, ITK_TYPENAME NumericTraits<TInputImage::PixelType>::RealType >
+  public ImageFunction< TInputImage, ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType >
 {
 public:
   /** Standard class typedefs. */
   typedef MeanImageFunction Self;
-  typedef ImageFunction<TInputImage, NumericTraits<TInputImage::PixelType>::RealType > Superclass;
+  typedef ImageFunction<TInputImage, ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -73,7 +73,7 @@ public:
   enum { ImageDimension = InputImageType::ImageDimension };
 
   /** Datatype used for the mean */
-  typedef typename NumericTraits<InputImageType::PixelType>::RealType
+  typedef typename NumericTraits<typename InputImageType::PixelType>::RealType
       RealType;
 
   /** Evalulate the function at specified index */

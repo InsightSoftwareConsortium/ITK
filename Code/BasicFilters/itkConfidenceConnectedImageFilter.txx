@@ -74,7 +74,7 @@ void
 ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  typedef NumericTraits<InputImageType::PixelType>::RealType InputRealType;
+  typedef typename NumericTraits<typename InputImageType::PixelType>::RealType InputRealType;
   typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef BinaryThresholdImageFunction<OutputImageType> SecondFunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
@@ -133,7 +133,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     secondFunction->SetInputImage ( outputImage );
     secondFunction->ThresholdBetween( m_ReplaceValue, m_ReplaceValue );
 
-    NumericTraits<InputImageType::PixelType>::RealType sum, sumOfSquares;
+    typename NumericTraits<typename InputImageType::PixelType>::RealType sum, sumOfSquares;
     sum = NumericTraits<InputRealType>::Zero;
     sumOfSquares = NumericTraits<InputRealType>::Zero;
     num = 0;

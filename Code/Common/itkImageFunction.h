@@ -72,7 +72,7 @@ public:
   typedef TInputImage InputImageType;
 
   /** InputPixel typedef support */
-  typedef typename InputImageType::PixelType PixelType;
+  typedef typename InputImageType::PixelType InputPixelType;
 
   /** InputImagePointer typedef support */ 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;

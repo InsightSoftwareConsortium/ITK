@@ -44,7 +44,7 @@ class ITK_EXPORT MedianImageFunction :
 public:
   /** Standard class typedefs. */
   typedef MedianImageFunction Self;
-  typedef ImageFunction<TInputImage, typename TInputImage::PixelType> Superclass;
+  typedef ImageFunction<TInputImage, ITK_TYPENAME TInputImage::PixelType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -56,8 +56,9 @@ public:
 
   /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
+  typedef typename Superclass::InputPixelType InputPixelType;
 
-  /** OutputType typdef support. */
+  /** OutputType typedef support. */
   typedef typename Superclass::OutputType OutputType;
 
   /** Index typedef support. */
@@ -71,9 +72,6 @@ public:
 
   /** Dimension of the underlying image. */
   enum { ImageDimension = InputImageType::ImageDimension };
-
-  /** Datatype used for the mean */
-  typedef typename InputImageType::PixelType OutputType;
 
   /** Evalulate the function at specified index */
   virtual OutputType EvaluateAtIndex( const IndexType& index ) const;
