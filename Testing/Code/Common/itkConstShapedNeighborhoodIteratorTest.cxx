@@ -311,7 +311,17 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
   off[0] = 0; off[1] = 1; off[2] = 0; off[3] = 0;
   it.ActivateOffset(off);
   PrintShapedNeighborhood(it);
-  
+
+
+
+  println("Testing operator=");
+  itk::ConstShapedNeighborhoodIterator<TestImageType> oeIt;
+  oeIt = it;
+  PrintShapedNeighborhood(it);
+  PrintShapedNeighborhood(oeIt);
+
+  it.Print(std::cout);
+  oeIt.Print(std::cout);
       
   
   return 0;
