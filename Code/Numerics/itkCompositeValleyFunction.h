@@ -33,7 +33,7 @@ namespace itk {
  * 
  * The plotting of the function return shows multiple lowest points at each
  * mean[i] position. There are two more important shape parameters for this
- * function, higher-bound and lower-bound. Higher-bound will be highest mean
+ * function, higher-bound and lower-bound. Upper-bound will be highest mean
  * value among target classes' means + its sigma value * 9, and lower-bound
  * will be lowest mean value among target classes' means - its sigma value * 9
  * 
@@ -110,7 +110,7 @@ public:
   virtual ~CompositeValleyFunction() {}
 
   /** Get energy table's higher bound. */
-  double GetHigherBound() { return m_HigherBound ; }
+  double GetUpperBound() { return m_UpperBound ; }
 
   /** Get energy table's lower bound. */
   double GetLowerBound() { return m_LowerBound ; }
@@ -119,27 +119,13 @@ public:
    * and its corresponding bias. */
   MeasureType operator() (MeasureType x)
   {
-    if (x > m_HigherBound || x < m_LowerBound) { return 1; }
+    if (x > m_UpperBound || x < m_LowerBound) { return 1; }
 
     if (!this->IsCacheAvailable()) 
       { return this->Evaluate(x); } 
     else 
       { return GetCachedValue(x); }
   }
-
-  /** Get an energy value for the valley. */
-  inline MeasureType valley(MeasureType d) 
-    { return 1 - 1 / (1+d*d/3); }
-
-protected:
-  void AddNewClass(double mean, double sigma)
-  {
-    TargetClass aClass(mean, sigma) ;
-    m_Targets.push_back(aClass) ;
-  }
-
-  /** calculate and save energy values  */
-  void Initialize() ;
 
   /** Evalaute the function at point x.  */
   inline MeasureType Evaluate(MeasureType x) 
@@ -155,13 +141,27 @@ protected:
     return res;
   }  
 
+  /** Get an energy value for the valley. */
+  inline MeasureType valley(MeasureType d) 
+    { return 1 - 1 / (1+d*d/3); }
+
+protected:
+  void AddNewClass(double mean, double sigma)
+  {
+    TargetClass aClass(mean, sigma) ;
+    m_Targets.push_back(aClass) ;
+  }
+
+  /** calculate and save energy values  */
+  void Initialize() ;
+
 private:
   /** Storage for tissue classes' statistics. */
   std::vector<TargetClass> m_Targets;  
 
   /** The highest mean value + the sigma of the tissue class 
    * which has the highest mean value * 9. */
-  double m_HigherBound ;
+  double m_UpperBound ;
 
   /** The lowest mean value - the sigma of the tissue class 
    * which has the lowest mean value * 9. */

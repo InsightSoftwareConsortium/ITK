@@ -70,10 +70,10 @@ void CompositeValleyFunction
   
   m_LowerBound = m_Targets[low].GetMean() - 
     9 * m_Targets[low].GetSigma() ;
-  m_HigherBound = m_Targets[high].GetMean() + 
+  m_UpperBound = m_Targets[high].GetMean() + 
     9 * m_Targets[high].GetSigma() ;
 
-  CreateCache(m_LowerBound, m_HigherBound, 1000000) ;
+  CreateCache(m_LowerBound, m_UpperBound, 1000000) ;
 }
 
 } // end of namespace itk
