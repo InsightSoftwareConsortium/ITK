@@ -134,7 +134,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVertexCell.h"
 #include "itkWin32Header.h"
 #include "itkWin32OutputWindow.h"
-#include "itkWindows.h"
 
 int main ( int argc, char* argv )
 {
