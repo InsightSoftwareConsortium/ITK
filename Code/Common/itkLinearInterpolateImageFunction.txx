@@ -76,8 +76,7 @@ const IndexType& index )
     }
 
   /* Otherwise return the appropriate pixel value */
-  value = (double) ScalarTraits<PixelType>::
-    GetScalar( this->GetInputImage()->GetPixel( index ) );
+  value = (double)this->GetInputImage()->GetPixel( index );
   return ( value );
 }
 
@@ -142,8 +141,7 @@ double * dblIndex )
         upper >>= 1;
       }
 
-      value += alf * (double) ScalarTraits<PixelType>::
-          GetScalar( image->GetPixel( neighIndex ) );
+      value += alf * (double)image->GetPixel( neighIndex ); 
     }
   }
 
@@ -165,8 +163,7 @@ double * dblIndex )
         upper >>= 1;
       }
 
-      value += alf * (double) ScalarTraits<PixelType>::
-          GetScalar( image->GetPixel( neighIndex ) );
+      value += alf * (double) image->GetPixel( neighIndex );
     }
   }
 
