@@ -153,6 +153,8 @@ public:
     { return m_DataBuffer.size(); }
   
   /** Pass-through data access methods to the buffer. */
+  TPixel & GetElement(unsigned int i)
+    { return m_DataBuffer[i]; }
   TPixel &operator[](unsigned int i)
     { return m_DataBuffer[i]; }
   const TPixel &operator[](unsigned int i) const
