@@ -181,12 +181,22 @@ int itkBloxCoreAtomTest(int, char* [] )
   BloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
 
   caFilter->Update();
+  
+  // Test the macros in the image
+  bloxCoreAtomImage->GetMedialNodeCount();
+  bloxCoreAtomImage->GetNodePointerList();
 
   //--------------------Analyze core atom population---------------------
 
   std::cout << "Performing Eigenanalysis\n";
   
   bloxCoreAtomImage->DoEigenanalysis();
+  
+  //--------------------------Run voting test-----------------------------
+  
+  std::cout << "Doing core atom voting\n";
+  
+  bloxCoreAtomImage->DoCoreAtomVoting();
 
   return EXIT_SUCCESS;
 }

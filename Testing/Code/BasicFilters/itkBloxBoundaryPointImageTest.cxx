@@ -164,10 +164,17 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
   TBPFilter::Pointer bpFilter= TBPFilter::New();
   bpFilter->SetInput( DOGFilter->GetOutput() );
+  
+  // Test the macros in the filter
+  bpFilter->SetThreshold(128.0);
+  
+  if(bpFilter->GetThreshold() != 128.0)
+    return EXIT_FAILURE;
 
   BloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
   bpFilter->Update();
+  
 
   //-------------------Pull boundary points out of the image----------------------
 
@@ -196,6 +203,9 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
     // Get the index of the pixel
     bloxindex = bloxIt.GetIndex();
+    
+    // Get the number of items in the pixel to exercise the GetSize function
+    unsigned long int numItems = bloxIt.Value().GetSize();
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
