@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkThresholdImageFilter_txx
 
 #include "itkThresholdImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 
