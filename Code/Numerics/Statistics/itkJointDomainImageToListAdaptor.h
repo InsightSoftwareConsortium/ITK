@@ -117,6 +117,7 @@ public:
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
   typedef typename TImage::IndexType ImageIndexType ;
+  typedef typename TImage::IndexType::IndexValueType ImageIndexValueType ;
   typedef typename TImage::SizeType ImageSizeType ;
   typedef typename TImage::RegionType ImageRegionType ;
   typedef ImageRegionIteratorWithIndex< TImage > ImageIteratorType ;

@@ -124,14 +124,14 @@ JointDomainImageToListAdaptor< TImage >
 
   for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
     {
-    beginIndex[i] = mv[i] * m_NormalizationFactors[i] 
-      - m_NormalizationFactors[i] * radius ;
+    beginIndex[i] = (ImageIndexValueType) (mv[i] * m_NormalizationFactors[i]
+      - m_NormalizationFactors[i] * radius) ;
     if ( beginIndex[i] < m_ImageBeginIndex[i] )
       {
       beginIndex[i] = m_ImageBeginIndex[i] ;
       }
-    endIndex[i] = mv[i] * m_NormalizationFactors[i] 
-      + m_NormalizationFactors[i] * radius ;
+    endIndex[i] = (ImageIndexValueType) (mv[i] * m_NormalizationFactors[i] 
+      + m_NormalizationFactors[i] * radius) ;
     if ( endIndex[i] > m_ImageEndIndex[i] )
       {
       endIndex[i] = m_ImageEndIndex[i] ;
