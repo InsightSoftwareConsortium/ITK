@@ -50,7 +50,7 @@ VarianceImageFunction<TInputImage,TCoordRep>
  *
  */
 template <class TInputImage, class TCoordRep>
-VarianceImageFunction<TInputImage,TCoordRep>
+typename VarianceImageFunction<TInputImage,TCoordRep>
 ::RealType
 VarianceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const

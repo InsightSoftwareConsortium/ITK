@@ -200,12 +200,12 @@ public:
       m_Offset++;
       
       // Get the index of the first pixel on the span (row)
-      ImageIterator<TImage>::IndexType
+      typename ImageIterator<TImage>::IndexType
         ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
 
-      const ImageIterator<TImage>::IndexType&
+      const typename ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
-      const ImageIterator<TImage>::SizeType&
+      const typename ImageIterator<TImage>::SizeType&
         size = m_Region.GetSize();
 
       // Deccrement along a row, then wrap at the beginning of the region row.
@@ -258,12 +258,12 @@ public:
       --m_Offset;
       
       // Get the index of the last pixel on the span (row)
-      ImageIterator<TImage>::IndexType
+      typename ImageIterator<TImage>::IndexType
         ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
 
-      const ImageIterator<TImage>::IndexType&
+      const typename ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
-      const ImageIterator<TImage>::SizeType&
+      const typename ImageIterator<TImage>::SizeType&
         size = m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.

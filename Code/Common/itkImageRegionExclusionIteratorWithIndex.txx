@@ -39,7 +39,7 @@ ImageRegionExclusionIteratorWithIndex<TImage>
     }
   m_ExclusionRegion      = region;
   m_ExclusionBegin       = m_ExclusionRegion.GetIndex();
-  SizeType exclusionSize = m_ExclusionRegion.GetSize();
+  typename Superclass::SizeType exclusionSize = m_ExclusionRegion.GetSize();
   
   for(unsigned int i=0; i<TImage::ImageDimension; ++i)
     {
