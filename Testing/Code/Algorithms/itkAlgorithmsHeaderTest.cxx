@@ -96,7 +96,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRegistrationMethod.h"
 #include "itkRegistrationTransform.h"
 #include "itkReinitializeLevelSetImageFilter.h"
-#include "itkRelabelWatershedImageFilter.h"
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
 #include "itkShapeDetectionLevelSetFilter.h"

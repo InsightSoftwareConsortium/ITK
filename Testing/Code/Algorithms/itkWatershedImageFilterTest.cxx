@@ -41,9 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkWatershedImageFilter.h"
-#include "itkRandomImageSource.h"
-#include "itkGradientMagnitudeImageFilter.h"
-#include "itkRelabelWatershedImageFilter.h"
 
 inline void println(char *s) { std::cout << s << std::endl; }
 
@@ -82,25 +79,18 @@ int main()
     }
 
   println("Creating the watershed filter");
-  itk::WatershedImageFilter<ImageType2D, ImageType2D>::Pointer ws_filter =
-                  itk::WatershedImageFilter<ImageType2D, ImageType2D>::New();
+  itk::WatershedImageFilter<ImageType2D>::Pointer ws_filter =
+                  itk::WatershedImageFilter<ImageType2D>::New();
   ws_filter->SetInput(image2D);
   ws_filter->SetThreshold(.05f);
   ws_filter->SetLevel(1.0f);
 
-  println("Creating the output relabeler");
-  itk::RelabelWatershedImageFilter<ImageType2D, ImageType2D>::Pointer
-    ws_merger = itk::RelabelWatershedImageFilter<ImageType2D,
-    ImageType2D>::New();
-  ws_merger->SetLevel(0.5f);
-  ws_merger->SetInput(ws_filter->GetBasicOutput());
-  
   println("Executing the filter");
   try {
-  ws_merger->Update();
+  ws_filter->Update();
   }
   catch (...) {
-  std::cout << "WatershedImageFilter exception thrown" << std::endl;
+  std::cerr << "WatershedImageFilter exception thrown" << std::endl;
   return 1;
   }
 
