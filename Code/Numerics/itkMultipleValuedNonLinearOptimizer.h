@@ -43,7 +43,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer Superclass;
+  typedef   NonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
