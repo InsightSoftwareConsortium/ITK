@@ -20,6 +20,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMNodeXYZ.cxx
   
   itkFEMElementBase.cxx
+  itkFEMElementNewBase.cxx
   itkFEMElementBar2D.cxx
   itkFEMElementBeam2D.cxx
   itkFEMElementTriC02D.cxx
@@ -98,6 +99,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMElements.h
   itkFEMElementBase.h
+  itkFEMElementNewBase.h
   itkFEMElementStandard.h
   itkFEMElementStd.h
   itkFEMElementBar2D.h

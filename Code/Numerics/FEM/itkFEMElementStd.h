@@ -18,7 +18,7 @@
 #ifndef __itkFEMElementStd_h
 #define __itkFEMElementStd_h
 
-#include "itkFEMElementBase.h"
+#include "itkFEMElementNewBase.h"
 
 namespace itk {
 namespace fem {
@@ -59,7 +59,7 @@ namespace fem {
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element class.
  */
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass=Element>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass=ElementNew>
 class ElementStd : public TBaseClass
 {
 FEM_CLASS_SP(ElementStd,TBaseClass)
