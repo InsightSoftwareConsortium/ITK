@@ -16,7 +16,6 @@
 =========================================================================*/
 
 #include <itkConjugateGradientOptimizer.h>
-#include <itkPoint.h>
 
 
 /** 
@@ -47,12 +46,12 @@ public:
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
-  typedef itk::Point<double,SpaceDimension> ParametersType;
-  typedef itk::Point<double,SpaceDimension> DerivativeType;
+  typedef itk::Array<double> ParametersType;
+  typedef itk::Array<double> DerivativeType;
   typedef double MeasureType ;
 
 
-  CostFunction() 
+  CostFunction():m_Parameters(SpaceDimension) 
   {
   }
 
@@ -90,7 +89,7 @@ public:
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
-    DerivativeType grad;
+    DerivativeType grad(SpaceDimension);
     grad[0] = 3*x + 2*y -2;
     grad[1] = 2*x + 6*y +8;
     std::cout << "(" ; 
@@ -147,8 +146,8 @@ int main()
   vnlOptimizer.set_check_derivatives( 3 );
       
   const unsigned int SpaceDimension = 2;
-  typedef itk::Point<double,SpaceDimension> ParametersType;
-  ParametersType initialValue;
+  typedef itk::Array<double> ParametersType;
+  ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |
   initialValue[0] =  100;
@@ -162,7 +161,7 @@ int main()
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
 
-  ParametersType finalPosition;
+  ParametersType finalPosition(SpaceDimension);
   finalPosition = costFunction->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
