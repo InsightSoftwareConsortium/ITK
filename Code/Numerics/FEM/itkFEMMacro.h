@@ -94,7 +94,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** 
  * This must be included before itk includes windows.h, otherwise nobody
  * can ever use MFC again. Including it here also ensures that all
- * classes which require MFC, automatically get it, as long as they
+ * FEM classes that require MFC, automatically get it, as long as they
  * include this file.
  */
 #ifdef FEM_BUILD_VISUALIZATION
