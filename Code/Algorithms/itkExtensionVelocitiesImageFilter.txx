@@ -61,7 +61,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   this->ProcessObject::SetNumberOfRequiredInputs(VAuxDimension + 1);
   this->ProcessObject::SetNumberOfRequiredOutputs(VAuxDimension + 1);
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = AuxImageType::New();
