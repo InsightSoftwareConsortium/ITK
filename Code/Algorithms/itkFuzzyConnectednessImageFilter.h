@@ -157,10 +157,6 @@ protected:
   FuzzyConnectednessImageFilter();
   ~FuzzyConnectednessImageFilter();
 
-private:
-  FuzzyConnectednessImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   double m_Mean; 
   double m_Var; //estimation of the Variance.
   double m_Diff_Mean;
@@ -169,6 +165,11 @@ private:
   SizeType m_Size;
 
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
+
+private:
+  FuzzyConnectednessImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 
