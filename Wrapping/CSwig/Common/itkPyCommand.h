@@ -17,9 +17,11 @@
 #ifndef _itkPyCommand_h
 #define _itkPyCommand_h
 
-#include "itkCommand.h"
-
+// The python header must be included first because it defines
+// _POSIX_C_SOURCE without a preceding #undef.
 #include <Python.h>
+
+#include "itkCommand.h"
 
 namespace itk
 {
