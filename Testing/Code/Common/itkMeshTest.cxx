@@ -104,7 +104,7 @@ int main(void)
     1,    // CellIdentifier.
     0);   // CellFeatureIdentifier
 
-  cout << testCell->GetClassName() << endl;
+  std::cout << testCell->GetClassName() << std::endl;
 
   /**
    * Try getting the hexahedron's neighbor through its first edge.
@@ -117,16 +117,16 @@ int main(void)
     0,              // CellFeatureIdentifier
     &neighborList); // Where to put result.
 
-  cout << "Neighbors:" << endl;
+  std::cout << "Neighbors:" << std::endl;
   for(std::list<Mesh::CellIdentifier>::iterator cell = neighborList.begin() ;
       cell != neighborList.end() ; ++cell)
     {
-    cout << "Id " << *cell << ": ";
+    std::cout << "Id " << *cell << ": ";
     if(mesh->GetCell(*cell, &testCell))
       {
-      cout << testCell->GetClassName();
+      std::cout << testCell->GetClassName();
       }
-    cout << endl;
+    std::cout << std::endl;
     }
   
   return 0;  
