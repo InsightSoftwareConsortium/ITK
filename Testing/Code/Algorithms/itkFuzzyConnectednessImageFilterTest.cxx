@@ -89,7 +89,7 @@ const unsigned short TestingImage [400]={
 
 
 int main(){
-        int i, j;
+  int i, j;
 	typedef itk::Image<bool,2> BinaryImage2D;
 	typedef itk::Image<unsigned short,2> UShortImage2D;
 	typedef itk::FuzzyConnectednessImageFilter<UShortImage2D,BinaryImage2D> FuzzyUShort;
@@ -116,6 +116,7 @@ int main(){
 	 all pre-generated on a Windows Based PC using rand()
 	*/
 
+
 	itk::ImageRegionIteratorWithIndex <UShortImage2D> it(inputimg, region);
 	it.Begin();
 	int k=0;
@@ -123,7 +124,7 @@ int main(){
 		it.Set(TestingImage[k]);
 		k++;
 		++it;
-		}
+  }
 
 
 /* print the input image */	
@@ -133,9 +134,9 @@ int main(){
 		for (j = 0; j < WIDTH; j++){
 		std::cout << std::setw(4) << it.Get()<<" ";
 			++it;
-			}
-		std::cout<<std::endl;
 		}
+		std::cout<<std::endl;
+	}
 
 
 /* execute the segmentation subroutine*/
@@ -147,22 +148,32 @@ int main(){
 
 /* set the parameters */
 	testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
-	testFuzzy->SetThreshold(0.8);
-	
-	testFuzzy->ExcuteSegment();
+	testFuzzy->SetThreshold(0.5);
+	testFuzzy->GenerateData();
 
 /* printout the segmentation result */
 	std::cout<<"Segmentation Result"<<std::endl;
 	itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
-
 	ot.Begin();
 	for(i = 0;i < HEIGHT; i++){
 		for (j = 0; j < WIDTH; j++){
 			std::cout<<ot.Get();
 			++ot;
-			}
-		std::cout<<std::endl;
 		}
+		std::cout<<std::endl;
+	}
+
+
+  testFuzzy->UpdateThreshold(0.8);
+	std::cout<<std::endl<<"Update threshold"<<std::endl;
+	ot.Begin();
+	for(i = 0;i < HEIGHT; i++){
+		for (j = 0; j < WIDTH; j++){
+			std::cout<<ot.Get();
+			++ot;
+		}
+		std::cout<<std::endl;
+	}
 
 	return 0;
 }
