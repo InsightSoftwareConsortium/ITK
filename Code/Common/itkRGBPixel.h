@@ -84,17 +84,17 @@ public:
   /**
    * Get the Red component
    */
-  inline ComponentType GetRed( void ) const;
+  inline const ComponentType & GetRed( void ) const;
   
   /**
    * Get the Green component
    */
-  inline ComponentType GetGreen( void ) const;
+  inline const ComponentType & GetGreen( void ) const;
   
   /**
    * Get the Blue component
    */
-  inline ComponentType GetBlue( void ) const;
+  inline const ComponentType & GetBlue( void ) const;
 
 private:
   /**

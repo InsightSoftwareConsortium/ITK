@@ -129,7 +129,7 @@ RGBPixel< TComponent >
  *  Get Red
  */
 template < typename TComponent >
-TComponent 
+const TComponent &
 RGBPixel< TComponent >
 ::GetRed( void ) const
 {
@@ -142,7 +142,7 @@ RGBPixel< TComponent >
  *  Get Green
  */
 template < typename TComponent >
-TComponent 
+const TComponent &
 RGBPixel< TComponent >
 ::GetGreen( void ) const
 {
@@ -155,7 +155,7 @@ RGBPixel< TComponent >
  *  Get Blue
  */
 template < typename TComponent >
-TComponent 
+const TComponent &
 RGBPixel< TComponent >
 ::GetBlue( void ) const
 {
