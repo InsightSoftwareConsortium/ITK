@@ -22,6 +22,21 @@
 namespace itk
 {
 
+template <typename TImageType>
+ConditionalIterator<TImageType>
+::ConditionalIterator()
+{
+}
+
+
+template <typename TImageType>
+ConditionalIterator<TImageType>
+::~ConditionalIterator()
+{
+}
+
+
+
 
 } // end namespace itk
 

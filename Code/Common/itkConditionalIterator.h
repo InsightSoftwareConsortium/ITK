@@ -91,6 +91,12 @@ public:
   /** Walk forward one index. */
   virtual void operator++() = 0;
   
+  /** Constructor */
+  ConditionalIterator();
+
+  /** Destructor */
+  virtual ~ConditionalIterator();
+
 protected: //made protected so other iterators can access 
   /** Smart pointer to the source image. */
   SmartPointer<ImageType> m_Image;
