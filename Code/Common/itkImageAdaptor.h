@@ -187,19 +187,19 @@ public:
    * Set a pixel.
    */
   void SetPixel(const IndexType &index, const PixelType & value)
-  { TAccessor::Set( m_Image->GetPixel(index), value ); }
+  { m_DataAccessor.Set( m_Image->GetPixel(index), value ); }
   
   /**
    * Get a pixel (read only version) 
    */
   PixelType GetPixel(const IndexType &index) const
-  { return TAccessor::Get( m_Image->GetPixel(index) ); }
+  { return m_DataAccessor.Get( m_Image->GetPixel(index) ); }
 
   /**
    * Access a pixel. This version can only be an rvalue.
    */
   PixelType operator[](const IndexType &index) const
-  { return TAccessor::Get( m_Image->GetPixel(index) ); }
+  { return m_DataAccessor.Get( m_Image->GetPixel(index) ); }
 
 
 
