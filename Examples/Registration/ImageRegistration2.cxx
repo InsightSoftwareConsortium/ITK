@@ -125,8 +125,8 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The rest of the image registration components are instantiated as
-  //  illustrated in section \ref{sec:ImageRegistration1} but considering the
-  //  new \code{InternalImageType}.
+  //  illustrated in section \ref{sec:IntroductionImageRegistration} but
+  //  considering the new \code{InternalImageType}.
   //
   //  Software Guide : EndLatex 
 
@@ -355,7 +355,7 @@ int main( int argc, char **argv )
   //  \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
   //  \caption{T1 MRI (fixed image) and Proton Density MRI (moving image)
   //  provided as input to the registration method.}
-  //  \label{fig:FixedMovingImageRegistration1}
+  //  \label{fig:FixedMovingImageRegistration2}
   //  \end{figure}
   // 
   //  The second image is the result of intentionally translating the image
@@ -447,9 +447,21 @@ int main( int argc, char **argv )
 
 
   //  Software Guide : BeginLatex
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=5cm]{ImageRegistration2Output.eps}
+  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardBefore.eps}
+  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardAfter.eps}
+  // \caption{Mapped moving image (left) and composition of fixed and moving
+  // images before (center) and after (right) registration.}
+  // \label{fig:ImageRegistration2Output}
+  // \end{figure}
   //
-  //  The result of the resampling the moving image is presented in Figure
-  //  \ref{fig:ImageRegistration2Output}
+  //  The result of the resampling the moving image is presented in the left
+  //  side of Figure \ref{fig:ImageRegistration2Output}. The center and right
+  //  parts of the figure present a checkerboard composite of the fixed and
+  //  moving images before and after registration.
   //
   //  Software Guide : EndLatex 
 
@@ -485,16 +497,16 @@ int main( int argc, char **argv )
   // \label{fig:ImageRegistration2TraceMetric}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration2TraceTranslations} shows the sequence
-  //  of metric values computed as the optimizer searched the parameter space.
-  //  The left plot shows iterations $0$ to $200$ while the right figure zooms
-  //  into iterations $100$ to $200$. It can be seen that after a certain
-  //  number of iterations the metric value oscilates without further
-  //  convergence. This may indicate the the images used are too noisy and
-  //  undcertainty is leaking to the computation of the metric. Possible
-  //  solutions could be to smooth the images using any of the smoothing
-  //  filters described in section \ref{sec:SmoothingFilters} or to increase
-  //  the number of sample points taken by the
+  //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
+  //  metric values computed as the optimizer searched the parameter space.
+  //  The left plot shows values when iterations are extended from $0$ to $300$
+  //  while the right figure zooms into iterations $100$ to $200$. It can be
+  //  seen that after a certain number of iterations the metric value oscilates
+  //  without further convergence. This may indicate the the images used are
+  //  too noisy and undcertainty is leaking to the computation of the metric.
+  //  Possible solutions could be to smooth the images using any of the
+  //  smoothing filters described in section \ref{sec:SmoothingFilters} or to
+  //  increase the number of sample points taken by the
   //  \code{MutualInformationImageToImageMetric}. In the first case, you will
   //  have to keep in mind that the registration will no longer be that of the
   //  fixed and moving images but that of thir smoothed versions.
