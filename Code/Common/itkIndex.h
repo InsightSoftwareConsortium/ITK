@@ -38,10 +38,14 @@ namespace itk
  * efficient bitwise copies.
  *
  * Index is an "aggregate" class.  Its data is public (m_Index)
- * allowing for fast and convienent instantiations/assignments.
+ * allowing for fast and convenient instantiations/assignments.
  *
  * The following syntax for assigning an index is allowed/suggested:
- *    Index<3> index = {5, 2, 7};
+ *
+ *    Index<3> index = {{5, 2, 7}};
+ *
+ * The double braces {{ and }} are needed to prevent a compiler warning
+ * about a partly bracketed initializer.
  *
  * \remark
  * Should there be an itkBoundedIndex to handle bounds checking? Or should
