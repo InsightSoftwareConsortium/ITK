@@ -17,37 +17,40 @@
 
 // Software Guide : BeginLatex
 //
-// This is an example of using the multi-resolution registration framework.
+//  This example illustrates the use of more complex components of the
+//  registration framework. In particular, it introduces the use of the
+//  \code{itk::AffineTransform} and the importance of fine tunning the scale
+//  parameters of the optimizer.
 //
-// \index{itk::ImageRegistrationMethod!Multi-Resolution|textbf}
-// \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
+// \index{itk::ImageRegistrationMethod!AffineTransform}
+// \index{itk::ImageRegistrationMethod!Scaling parameter space}
+// \index{itk::AffineTransform!Image Registration|textbf}
 //
-// \begin{figure}
-// \center
-// \includegraphics[width=14cm]{MultiResRegistrationComponents.eps}
-// \caption{Components of the Multi-Resolution registration framework.}
-// \label{fig:MultiResRegistrationComponents}
-// \end{figure}
+// The AffineTransform is a linear transformation that maps lines into lines. It
+// can be used to represent translations, rotations, anisotropic scaling,
+// shearing or any combination of them. Details about the affine transform can be
+// seen in section~\ref{sec:AffineTransform}.
 //
-// Figure \ref{fig:MultiResRegistrationComponents} illustrates the main
-// components of the multi-resolution registration framework implemented in
-// ITK.
+// In order to use the \code{AffineTransform} class the following header should
+// be included.
 //
-// The following headers declare the basic components of 
-// the registration method.
+// \index{itk::AffineTransform!Header}
+//
 //
 // Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkAffineTransform.h"
+// Software Guide : EndCodeSnippet
+
+
+#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -96,6 +99,62 @@ public:
 
 
 
+//
+//  The following section of code implements a Command observer
+//  that will control the modification of optimizer parameters
+//  at every change of resolution level.
+//
+template <typename TRegistration>
+class RegistrationInterfaceCommand : public itk::Command 
+{
+public:
+  typedef  RegistrationInterfaceCommand   Self;
+  typedef  itk::Command                   Superclass;
+  typedef  itk::SmartPointer<Self>        Pointer;
+  itkNewMacro( Self );
+protected:
+  RegistrationInterfaceCommand() {};
+public:
+  typedef   TRegistration                              RegistrationType;
+  typedef   RegistrationType *                         RegistrationPointer;
+  typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
+  typedef   OptimizerType *                            OptimizerPointer;
+  void Execute(itk::Object * object, const itk::EventObject & event)
+  {
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    RegistrationPointer registration =
+                        dynamic_cast<RegistrationPointer>( object );
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
+                       registration->GetOptimizer() );
+
+    if ( registration->GetCurrentLevel() == 0 )
+      {
+      optimizer->SetMaximumStepLength( 16.00 );  
+      optimizer->SetMinimumStepLength( 2.5 );
+      }
+    else
+      {
+      optimizer->SetMaximumStepLength( 
+                optimizer->GetCurrentStepLength() );
+
+      optimizer->SetMinimumStepLength(
+                optimizer->GetMinimumStepLength() / 10.0 );
+      }
+
+  }
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    { return; }
+
+};
+
+
+
+
+
+
 int main( int argc, char **argv )
 {
 
@@ -115,21 +174,30 @@ int main( int argc, char **argv )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
+  typedef   float     InternalPixelType;
+
+  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+
+
+
   //  Software Guide : BeginLatex
   //  
-  //  Floating point internal image type required for
-  //  the image pyramids.
+  //  The configuration of the registration method in this example follows
+  //  closely the one of the previous section. The main changes involve the
+  //  construction and initialization of the transform. The instantiation of the
+  //  transform type requires only the dimension of the space and the type used
+  //  for representing space coordinates.
+  //  
+  //  \index{itk::AffineTransform!Instantiation}
   //
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  typedef   float     InternalPixelType;
-
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  typedef itk::AffineTransform< double, Dimension > TransformType;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::AffineTransform< double, Dimension > TransformType;
+
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
                                     InternalImageType,
@@ -141,25 +209,10 @@ int main( int argc, char **argv )
   typedef OptimizerType::ScalesType       OptimizerScalesType;
 
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Talk about MultiResolutionImageRegistrationMethod.
-  //
-  //  Software Guide : EndLatex 
-  //
-  // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionImageRegistrationMethod< 
                                     InternalImageType, 
                                     InternalImageType    > RegistrationType;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Talk about the image pyramids
-  //
-  //  Software Guide : EndLatex 
-  //
-  // Software Guide : BeginCodeSnippet 
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<
                                     InternalImageType,
                                     InternalImageType  >    FixedImagePyramidType;
@@ -169,33 +222,45 @@ int main( int argc, char **argv )
                                     InternalImageType,
                                     InternalImageType  >   MovingImagePyramidType;
 
-  // Software Guide: EndCodeSnippet
 
-  TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
   MetricType::Pointer         metric        = MetricType::New();
 
   registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
   registration->SetMetric( metric  );
   
 
+
+
   //  Software Guide : BeginLatex
-  //  
-  //  Pyramid created and connected to multi-resolution registration
+  //
+  //  The transform is constructed using the standard \code{New()} method and
+  //  assigning it to a \code{SmartPointer}.
+  //
+  //  \index{itk::AffineTransform!New()}
+  //  \index{itk::AffineTransform!Pointer}
+  //  \index{itk::MultiResolutionImageRegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  TransformType::Pointer   transform  = TransformType::New();
+
+  registration->SetTransform( transform );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
   FixedImagePyramidType::Pointer fixedImagePyramid = 
       FixedImagePyramidType::New();
 
   MovingImagePyramidType::Pointer movingImagePyramid =
       MovingImagePyramidType::New();
-  // Software Guide : EndCodeSnippet
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -207,13 +272,6 @@ int main( int argc, char **argv )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Need to cast input image to the internal image type.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter< 
                         FixedImageType, InternalImageType > FixedCastFilterType;
   
@@ -223,23 +281,12 @@ int main( int argc, char **argv )
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
 
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
-  //  
-  //  The output of the readers is connected as input to the cast
-  //  filters. The inputs to the registration method are taken from the
-  //  cast filters. 
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   fixedCaster->SetInput(  fixedImageReader->GetOutput() );
   movingCaster->SetInput( movingImageReader->GetOutput() );
 
   registration->SetFixedImage(    fixedCaster->GetOutput()    );
   registration->SetMovingImage(   movingCaster->GetOutput()   );
-  // Software Guide : EndCodeSnippet
 
 
   fixedCaster->Update();
@@ -250,19 +297,17 @@ int main( int argc, char **argv )
 
 
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  One of the easiest ways of preparing a consitent set of parameters for
-  //  the transform is to use the transform itself.  Taking advantage of the
-  //  additional convinience methods that most transforms have we can simplify
-  //  the task of initialization. In this case we simply force the transform to
-  //  be initialized as an identity transform. The method \code{SetIdentity()}
-  //  is used to that end. Once the transform is initialized we can invoke its
-  //  \code{GetParameters()} method to extract the array of parameters. Finally
-  //  the array is passed to the registration method using its
-  //  \code{SetInitialTransformParameters()}.
+  //  the transform is to use the transform itself.  We can simplify the task
+  //  of initialization by taking advantage of the additional convenience
+  //  methods that most transforms have. In this case, we simply force the
+  //  transform to be initialized as an identity transform. The method
+  //  \code{SetIdentity()} is used to that end. Once the transform is
+  //  initialized we can invoke its \code{GetParameters()} method to extract
+  //  the array of parameters. Finally the array is passed to the registration
+  //  method using its \code{SetInitialTransformParameters()}.
   //
   //  Software Guide : EndLatex 
 
@@ -278,28 +323,25 @@ int main( int argc, char **argv )
   //  
   //  The set of parameters in the AffineTransform have different dynamic
   //  ranges. Typically the parameters associated with the matrix have values
-  //  around $\[-1:1\]$ altought they are not restricted to this interval.
+  //  around $[-1:1]$ altought they are not restricted to this interval.
   //  Parameters associated with translations, on the other hand, tend to have
   //  much higher values, typically in the order of $10.0$ to $100.0$. This
   //  difference in dynamic range affects negatively the performance of
   //  gradient descent optimizers. ITK provides a mechanism to compensate for
-  //  such differences in values among the parameters when they are passes to
+  //  such differences in values among the parameters when they are passed to
   //  the optimizer. The mechanism consist in providing an array of scale
-  //  factors to the optimizer. These factors are used to renormalize the
-  //  gradients before they are used to compute the step of the optimizer at
-  //  each iteration. In our particular case, a common choice for the scale
-  //  parameters is to set to $1.0$ all those associated with the matrix
+  //  factors to the optimizer. These factors renormalize the gradient
+  //  components before they are used to compute the step of the optimizer at
+  //  the current iteration. In our particular case, a common choice for the
+  //  scale parameters is to set to $1.0$ all those associated with the matrix
   //  coeffients.  That is, the first $N \times N$ factors. Then, set the
-  //  remaining scale factors to the value of the image physical extent along
-  //  this dimension. This number acts as an estimation of the expected
-  //  translation to be applied at the end of the registration process. The
-  //  following code sets up the scale coefficients.
+  //  remaining scale factors to a small value. The following code sets up the
+  //  scale coefficients.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  OptimizerScalesType optimizerScales( 
-                        transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   optimizerScales[0] = 1.0; // scale for M11
   optimizerScales[1] = 1.0; // scale for M12
@@ -312,8 +354,52 @@ int main( int argc, char **argv )
 
 
   //  Software Guide : BeginLatex
+  //
+  //  where the affine transform can be represented by the matrix $\bf{M}$ and
+  //  the vector $\bf{T}$. The transformation of a point $\bf{P}$ into $\bf{P'}$ being expressed as
+  //
+  //  \begin{equation}
+  //  \left[ 
+  //  \begin{array}{c}
+  //  {P'}_x  \\  
+  //  {P'}_y  \\    
+  //  \end{array} 
+  //  \right]
+  //  =
+  //  \left[ 
+  //  \begin{array}{cc}
+  //  M_{11} & M_{12} \\ 
+  //  M_{21} & M_{22} \\  
+  //  \end{array}
+  //  \right]
+  //  \cdot 
+  //  \left[ 
+  //  \begin{array}{c}
+  //  P_x  \\ 
+  //  P_y  \\  
+  //  \end{array} 
+  //  \right]
+  //  +
+  //  \left[ 
+  //  \begin{array}{c}
+  //  T_x  \\ 
+  //  T_y  \\  
+  //  \end{array} 
+  //  \right] 
+  //  \end{equation}
+  //
+  //
+  //  Software Guide : EndLatex 
+
+
+
+
+  //  Software Guide : BeginLatex
   //  
-  //  The array of scale is then passed to the optimizer.
+  //  The array of scale is then passed to the optimizer using the
+  //  \code{SetScales()} method.
+  //
+  //  \index{itk::Optimizer!SetScales()}
   //
   //  Software Guide : EndLatex 
 
@@ -352,6 +438,18 @@ int main( int argc, char **argv )
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
+
+
+
+  //
+  // Create the Command interface observer and register it with the optimizer.
+  //
+  typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
+
+  CommandType::Pointer command = CommandType::New();
+  registration->AddObserver( itk::IterationEvent(), command );
+
+
 
   //  Software Guide : BeginLatex
   //  
@@ -469,16 +567,16 @@ int main( int argc, char **argv )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{MultiResImageRegistration1Output.eps}
-  // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardBefore.eps}
-  // \includegraphics[width=5cm]{MultiResImageRegistration1CheckerboardAfter.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration2Output.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration2CheckerboardBefore.eps}
+  // \includegraphics[width=5cm]{MultiResImageRegistration2CheckerboardAfter.eps}
   // \caption{Mapped moving image (left) and composition of fixed and moving
-  // images before (center) and after (right) registration.}
-  // \label{fig:MultiResImageRegistration1Output}
+  // images before (center) and after (right) multi-resolution registration with AffineTransform.}
+  // \label{fig:MultiResImageRegistration2Output}
   // \end{figure}
   //
   //  The result of the resampling the moving image is presented in the left
-  //  side of Figure \ref{fig:MultiResImageRegistration1Output}. The center and right
+  //  side of Figure \ref{fig:MultiResImageRegistration2Output}. The center and right
   //  parts of the figure present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
@@ -488,13 +586,14 @@ int main( int argc, char **argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{MultiResImageRegistration1TraceTranslations.eps}
-  // \includegraphics[height=6cm]{MultiResImageRegistration1TraceMetric.eps}
-  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
-  // \label{fig:MultiResImageRegistration1Trace}
+  // \includegraphics[height=6cm]{MultiResImageRegistration2TraceTranslations.eps}
+  // \includegraphics[height=6cm]{MultiResImageRegistration2TraceMetric.eps}
+  // \caption{Sequence of translations and metric values at each iteration of
+  // the optimizer for Multi-resolution with AffineTransform.}
+  // \label{fig:MultiResImageRegistration2Trace}
   // \end{figure}
   //
-  //  Figure \ref{fig:MultiResImageRegistration1Trace} (left) presents the
+  //  Figure \ref{fig:MultiResImageRegistration2Trace} (left) presents the
   //  sequence of translations followed by the optimizer as it searched the
   //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
