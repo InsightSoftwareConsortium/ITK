@@ -241,14 +241,7 @@
 
 
   <xsl:template name="BuildStamp">
-    <xsl:choose>
-      <xsl:when test="count(Build/SiteName)">
-        <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Build/SiteName"/>/<xsl:value-of select="Build/BuildName"/>/<xsl:value-of select="Build/BuildStamp"/></xsl:variable>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Testing/SiteName"/>/<xsl:value-of select="Testing/BuildName"/>/<xsl:value-of select="Testing/BuildStamp"/></xsl:variable>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Build/SiteName"/>/<xsl:value-of select="Build/BuildName"/>/<xsl:value-of select="Build/BuildStamp"/></xsl:variable>
 
     <tr>
       <td align="left">
