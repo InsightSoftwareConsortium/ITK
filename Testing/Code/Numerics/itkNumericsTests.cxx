@@ -11,6 +11,7 @@ void RegisterTests()
   REGISTER_TEST(itkGradientDescentOptimizerTest);
   REGISTER_TEST(itkLevenbergMarquardtOptimizerTest);
   REGISTER_TEST(itkLBFGSOptimizerTest);
+  REGISTER_TEST(itkMultivariateLegendrePolynomialTest);
   REGISTER_TEST(itkNumericsTest);
   REGISTER_TEST(itkOptimizersHierarchyTest);
   REGISTER_TEST(itkRegularStepGradientDescentOptimizerTest);
