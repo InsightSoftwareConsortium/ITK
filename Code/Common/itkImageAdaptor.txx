@@ -149,6 +149,37 @@ ImageAdaptor<TImage , TAccessor>
 
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::UpdateOutputData()
+{
+  // call the superclass' method first, then delegate
+  Superclass::UpdateOutputData();
+
+  // delegation to internal image
+  m_Image->UpdateOutputData();
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::PropagateRequestedRegion() throw (InvalidRequestedRegionError)
+{
+  // call the superclass' method first, then delegate
+  Superclass::PropagateRequestedRegion();
+
+  // delegation to internal image
+  m_Image->PropagateRequestedRegion();
+}
+
+
+
 
 
 
@@ -412,6 +443,19 @@ ImageAdaptor<TImage, TAccessor>
 
   // delegation to internal image
   m_Image->SetRequestedRegion( data );
+}
+
+//----------------------------------------------------------------------------
+template<class TImage, class TAccessor>
+bool 
+ImageAdaptor<TImage, TAccessor>
+::VerifyRequestedRegion()
+{
+  // call the superclass' method first, then delegate
+  Superclass::VerifyRequestedRegion();
+
+  // delegation to internal image
+  return m_Image->VerifyRequestedRegion();
 }
 
 //----------------------------------------------------------------------------

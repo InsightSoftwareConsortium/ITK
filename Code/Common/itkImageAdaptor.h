@@ -245,10 +245,16 @@ public:
  
   /** Return the Data Accesor object */
   virtual void Update();
+  virtual void CopyInformation(const DataObject *data);
+
+  /** Methods to update the pipeline. Called internally by the
+   * pipeline mechanism. */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(const DataObject *data);
-   
+  virtual void PropagateRequestedRegion() throw (InvalidRequestedRegionError);
+  virtual void UpdateOutputData();
+  virtual bool VerifyRequestedRegion();
+ 
 protected:
   ImageAdaptor();
   virtual ~ImageAdaptor();
