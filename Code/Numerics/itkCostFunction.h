@@ -57,30 +57,16 @@ public:
   virtual unsigned int GetNumberOfParameters(void) const  = 0;
 
 
-  /** Return the parameters used in the last call to GetValue or GetDerivative. 
-   *  This is done by the awkward reason that vnl_optimizers do not return the
-   *  optimal parameters of a search so the only way to have access to the 
-   *  solution of an optimization problem is to keep track of the evaluation 
-   *  in the cost function itself.                                          */
-  itkGetConstMacro( Parameters, ParametersType );
- 
 protected:
   CostFunction() {};
   virtual ~CostFunction() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /** Store the parameters in ivars because optimizers do not keep track
-   *  of the optimal values   */
-  void SetParameters( const ParametersType & parameters ) const
-     { itkDebugMacro("setting parameters to " << parameters); 
-        m_Parameters = parameters;  }
 
 
 private:
   CostFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  mutable   ParametersType      m_Parameters;
 
 };
 

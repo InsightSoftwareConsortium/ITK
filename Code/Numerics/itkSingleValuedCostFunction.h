@@ -63,7 +63,8 @@ public:
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
-  virtual DerivativeType GetDerivative( const ParametersType & parameters ) = 0;
+  virtual void GetDerivative( const ParametersType & parameters,
+                                    DerivativeType & derivative ) = 0;
 
   /** This method returns the value and derivative of the cost function corresponding
     * to the specified parameters    */ 
@@ -72,7 +73,7 @@ public:
                                             DerivativeType & derivative )
     {
      value = this->GetValue( parameters );
-     derivative = this->GetDerivative( parameters );
+     this->GetDerivative( parameters, derivative );
     };
   
 protected:

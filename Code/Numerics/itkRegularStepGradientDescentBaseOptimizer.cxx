@@ -100,7 +100,7 @@ RegularStepGradientDescentBaseOptimizer
     }
 
     m_PreviousGradient = m_Gradient;
-    m_Gradient         = m_CostFunction->GetDerivative( currentPosition );
+    m_CostFunction->GetDerivative( currentPosition, m_Gradient );
 
     if( m_Stop )
     {

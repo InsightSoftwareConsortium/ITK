@@ -23,7 +23,6 @@ CostFunction
 ::PrintSelf(std::ostream& os, Indent indent) const
 { 
   Superclass::PrintSelf(os,indent);
-  os << indent << "Parameters: " << m_Parameters << std::endl;
 }
 
 } // end namespace itk

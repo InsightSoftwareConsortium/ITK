@@ -71,20 +71,15 @@ public:
   /** This method returns the value of the cost function corresponding
     * to the specified parameters     
     * This method MUST be overloaded by derived classes   */
-  virtual MeasureType GetValue( const ParametersType & parameters ) const
-      { MeasureType value( this->GetNumberOfValues() );
-        value.Fill( NumericTraits< double >::Zero );
-        return value;    
-      }
+  virtual MeasureType GetValue( const ParametersType & parameters ) const = 0;
+
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters     
     * This method MUST be overloaded by derived classes   */
-  virtual DerivativeType GetDerivative( const ParametersType & parameters ) const
-      { DerivativeType derivative( parameters.Size(), this->GetNumberOfValues() );
-        derivative.Fill( NumericTraits< double >::Zero );
-        return derivative;  
-      }
+  virtual void GetDerivative( const ParametersType & parameters,
+                                    DerivativeType & derivative ) const = 0;
+      
 
   
 protected:

@@ -75,8 +75,8 @@ MultipleValuedVnlCostFunctionAdaptor
 
   ParametersType parameters( inparameters.size() );
   ConvertInternalToExternalParameters( inparameters, parameters );
-  DerivativeType externalGradient = 
-                      m_CostFunction->GetDerivative( parameters );
+  DerivativeType externalGradient;
+  m_CostFunction->GetDerivative( parameters, externalGradient );
   ConvertExternalToInternalGradient( externalGradient, gradient);
 
 }
@@ -97,8 +97,8 @@ MultipleValuedVnlCostFunctionAdaptor
   *f = static_cast<InternalMeasureType>(
                       m_CostFunction->GetValue( parameters ) );
 
-  DerivativeType externalGradient = 
-                        m_CostFunction->GetDerivative( parameters );
+  DerivativeType externalGradient;
+  m_CostFunction->GetDerivative( parameters, externalGradient );
 
   ConvertExternalToInternalGradient( externalGradient, *g );    
 }

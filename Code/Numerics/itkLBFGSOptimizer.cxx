@@ -95,14 +95,18 @@ LBFGSOptimizer
   CostFunctionAdaptorType::ConvertExternalToInternalParameters( 
                                             GetInitialPosition(), 
                                             parameters     );
-
+  
+  // vnl optimizers return the solution by reference 
+  // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
+  
+  ParametersType solution;
 
-  ParametersType solution =
-   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
-
+  CostFunctionAdaptorType::ConvertInternalToExternalParameters( 
+                                            parameters,
+                                            solution     );
   this->SetCurrentPosition( solution );
-      
+         
 
 }
 
