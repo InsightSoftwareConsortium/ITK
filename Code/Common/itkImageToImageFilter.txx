@@ -132,7 +132,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
       // dimension, the input a higher dimension than the output, and the
       // input a lower dimension than the output.
       InputImageRegionType inputRegion;
-      this->CallCopyRegion(inputRegion, this->GetOutput()->GetRequestedRegion());
+      this->CallCopyOutputRegionToInputRegion(inputRegion, this->GetOutput()->GetRequestedRegion());
       input->SetRequestedRegion( inputRegion );
       }
     }  
@@ -141,10 +141,21 @@ ImageToImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ImageToImageFilter<TInputImage,TOutputImage>
-::CallCopyRegion(InputImageRegionType &destRegion,
-                 const OutputImageRegionType &srcRegion)
+::CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
+                                    const OutputImageRegionType &srcRegion)
 {
-  RegionCopierType regionCopier;
+  OutputToInputRegionCopierType regionCopier;
+  regionCopier(destRegion, srcRegion);
+}
+
+
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
+::CallCopyInputRegionToOutputRegion(OutputImageRegionType &destRegion,
+                                    const InputImageRegionType &srcRegion)
+{
+  InputToOutputRegionCopierType regionCopier;
   regionCopier(destRegion, srcRegion);
 }
 

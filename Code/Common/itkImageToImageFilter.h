@@ -119,23 +119,30 @@ public:
   virtual void GenerateInputRequestedRegion();
 
 
-  /** Typedef for the region copier function object. */
-  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(InputImageDimension),
-                                                      itkGetStaticConstMacro(OutputImageDimension)> RegionCopierType;
+  /** Typedef for the region copier function object that converts an
+   * input region to an output region. */
+  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(OutputImageDimension),
+                    itkGetStaticConstMacro(InputImageDimension)> InputToOutputRegionCopierType;
 
-  /** This function calls the actual region copier to do the mapping from
-   * output image space to input image space.  It uses a 
-   * Function object used for dispatching to various routines to
-   * copy an output region (start index and size) to an input region.
-   * For most filters, this is a trivial copy because most filters
-   * require the input dimension to match the output dimension.
-   * However, some filters like itk::ExtractImageFilter can
-   * support output images of a lower dimension that the input.
+  /** Typedef for the region copier function object that converts an
+   * output region to an input region. */
+  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(InputImageDimension),
+                    itkGetStaticConstMacro(OutputImageDimension)> OutputToInputRegionCopierType;
+
+  /** This function calls the actual region copier to do the mapping
+   * from output image space to input image space.  It uses a Function
+   * object used for dispatching to various routines to copy an output
+   * region (start index and size) to an input region.  For most
+   * filters, this is a trivial copy because most filters require the
+   * input dimension to match the output dimension.  However, some
+   * filters like itk::ExtractImageFilter can support output images of
+   * a lower dimension that the input.
    *
-   * This function object is used by the default implementation of
-   * GenerateInputRequestedRegion(). It can also be used in routines
-   * like ThreadedGenerateData() where a filter may need to map the
-   * the output region for a particular thread to an input region.
+   * This function object can be used by GenerateOutputInformation()
+   * to copy the input LargestPossibleRegion to the output
+   * LargestPossibleRegion and can also be used in GenerateData or
+   * ThreadedGenerateData() where a filter may need to map an
+   * output region to an input region.
    *
    * The default copier uses a "dispatch pattern" to call one of three
    * overloaded functions depending on whether the input and output
@@ -151,17 +158,48 @@ public:
    * input region is a lower dimension than the output, the first
    * portion of the output region is copied to the input region.
    *
-   * If a filter needs a different default behavior, it can call the
-   * SetRegionCopier() method passing in a subclass of the
-   * ImageToImageDetail::RegionCopier function object. This would
-   * typically be done in the constructor of the filter. The
-   * ExtractImageFilter overrides this function object so that if the
-   * input image is a higher dimension than the output image, the
-   * filter can control "where" in the input image the output subimage
-   * is extracted (as opposed to mapping to first few dimensions of
-   * the input). */
-  virtual void CallCopyRegion(InputImageRegionType &destRegion,
+   * If a filter needs a different default behavior, it can override
+   * this method. The ExtractImageFilter overrides this function
+   * object so that if the input image is a higher dimension than the
+   * output image, the filter can control "where" in the input image
+   * the output subimage is extracted (as opposed to mapping to first
+   * few dimensions of the input). */
+  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
                               const OutputImageRegionType &srcRegion);
+
+  /** This function calls the actual region copier to do the mapping
+   * from input image space to output image space.  It uses a Function
+   * object used for dispatching to various routines to copy an input
+   * region (start index and size) to an output region.  For most
+   * filters, this is a trivial copy because most filters require the
+   * input dimension to match the output dimension.  However, some
+   * filters like itk::UnaryFunctorImageFilter can support output
+   * images of a higher dimension that the input.
+   *
+   * This function object is used by the default implementation of
+   * GenerateOutputInformation(). It can also be used in routines
+   * like ThreadedGenerateData() where a filter may need to map an
+   * input region to an output region.
+   *
+   * The default copier uses a "dispatch pattern" to call one of three
+   * overloaded functions depending on whether the input and output
+   * images are the same dimension, the input is a higher dimension
+   * that the output, or the input is of a lower dimension than the
+   * output. The use of an overloaded function is required for proper
+   * compilation of the various cases.
+   * 
+   * For the latter two cases, trivial implementations are used.  If
+   * the input image is a higher dimension than the output, the first
+   * portion of the input region is copied to the output region.  If
+   * the input region is a lower dimension than the output, the input
+   * region information is copied into the first portion of the output
+   * region and the rest of the output region is set to zero.
+   *
+   * If a filter needs a different default behavior, it can override
+   * this method. */
+  virtual void CallCopyInputRegionToOutputRegion(OutputImageRegionType &destRegion,
+                              const InputImageRegionType &srcRegion);
+  
 
 private:
   ImageToImageFilter(const Self&); //purposely not implemented

@@ -257,11 +257,11 @@ namespace ImageToImageFilterDetail
       destIndex[dim] = srcIndex[dim];
       destSize[dim] = srcSize[dim];
       }
-    // fill in the rest of the dimensions with zero
+    // fill in the rest of the dimensions with zero/one
     for (; dim < D1; ++dim)
       {
       destIndex[dim] = 0;
-      destSize[dim] = 0;
+      destSize[dim] = 1;
       }
     
     destRegion.SetIndex(destIndex);
@@ -300,16 +300,10 @@ namespace ImageToImageFilterDetail
    * destination, the first portion of the source region is copied to
    * the destination region.
    *
-   * ImageToImageFilter has an ivar which is a ImageRegionCopier.  If a
-   * filter needs a different default behavior, it can call the
-   * ImageToImageFilter::SetRegionCopier() method passing in a
-   * subclass of the ImageToImageFilterDetail::RegionCopier function
-   * object. This would typically be done in the constructor of the
-   * filter. The ExtractImageFilter overrides this function object so
-   * that if the input image is a higher dimension than the output
-   * image, the filter can control "where" in the input image the
-   * output subimage is extracted (as opposed to mapping to first few
-   * dimensions of the input).
+   * If a filter needs a different behavior is will need to override
+   * the CallCopyOutputRegionToInputRegion() method or the 
+   * CallCopyInputRegionToOutputRegion() method and delegate to the
+   * appropriate RegionCopier class. 
    */
   template <unsigned int D1, unsigned int D2>
     class ITK_EXPORT ImageRegionCopier 
