@@ -24,7 +24,8 @@ class MetaObject
       typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
       FieldsContainerType m_Fields;
-
+      FieldsContainerType m_UserDefinedWriteFields;
+      FieldsContainerType m_UserDefinedReadFields;
       char  m_FileName[255];
 
       char  m_Comment[255];         // "Comment = "          ""
@@ -215,6 +216,31 @@ class MetaObject
       void ClearFields(void);
 
       bool InitializeEssential(int m_NDims);
+
+      //
+      //
+      // User's field definitions 
+      bool AddUserField(const char* _fieldName,MET_ValueEnumType _type,int _length=0,
+                        bool _required=true,int _dependsOn=-1);
+      // Add a user's field
+      template <class T>
+      bool AddUserField(const char* _fieldName,MET_ValueEnumType _type, int _length,
+                        T *_v,bool _required=true,int _dependsOn=-1 )
+      {
+        MET_FieldRecordType* mFw = new MET_FieldRecordType;
+        MET_InitWriteField(mFw, _fieldName, _type, _length,_v);
+        m_UserDefinedWriteFields.push_back(mFw);
+
+        MET_FieldRecordType* mFr = new MET_FieldRecordType;
+        MET_InitReadField(mFr,_fieldName, _type, _required,_dependsOn,_length);
+        m_UserDefinedReadFields.push_back(mFr);
+      }
+
+      // Clear UserFields
+      void ClearUserFields();
+
+      // Get the user field
+      void* GetUserField(const char* _name);
 
   };
 

@@ -64,7 +64,7 @@ MetaObject::
   }
   
   m_Fields.clear();
-
+  this->ClearUserFields();
 }
 
 
@@ -160,7 +160,7 @@ Read(const char *_fileName)
   bool result = M_Read();
 
   m_ReadStream->close();
-
+  m_ReadStream->clear();
   return result;
   }
 
@@ -265,7 +265,7 @@ PrintInfo(void) const
   for(i=0; i<m_NDims; i++)
     {
     for(j=0; j<m_NDims; j++)
-      {
+      { 
       std::cout << m_Rotation[i*m_NDims+j] << " ";
       }
     std::cout << std::endl;
@@ -285,6 +285,79 @@ PrintInfo(void) const
     std::cout << m_ElementSpacing[i] << " ";
     }
   std::cout << std::endl;
+
+
+  // Print User's fields : 
+  FieldsContainerType::const_iterator  itw = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::const_iterator  itr  = m_UserDefinedReadFields.begin();
+  FieldsContainerType::const_iterator  endw = m_UserDefinedWriteFields.end();
+  FieldsContainerType::const_iterator it;
+   while( itw != endw )
+   { 
+
+     if((*itw)->defined)
+     {
+       it=itw;
+     }
+     else
+     {
+       it=itr; 
+     }
+     
+     printf("%s: ",(*it)->name);
+
+     if((*it)->type == MET_STRING)
+     {
+       printf("%s",(*it)->value);
+     }
+     else if(
+       (*it)->type == MET_ASCII_CHAR ||
+       (*it)->type == MET_CHAR ||
+       (*it)->type == MET_UCHAR ||
+       (*it)->type == MET_SHORT ||
+       (*it)->type == MET_USHORT ||
+       (*it)->type == MET_INT ||
+       (*it)->type == MET_UINT ||
+       (*it)->type == MET_FLOAT ||
+       (*it)->type == MET_DOUBLE
+     )
+     {
+       printf("%s : %f\n",(*it)->name,(*it)->value[0]);
+     }
+     else if(
+       (*it)->type ==MET_CHAR_ARRAY || 
+       (*it)->type ==MET_UCHAR_ARRAY ||
+       (*it)->type ==MET_SHORT_ARRAY ||
+       (*it)->type ==MET_USHORT_ARRAY ||
+       (*it)->type ==MET_INT_ARRAY ||
+       (*it)->type ==MET_UINT_ARRAY ||
+       (*it)->type ==MET_FLOAT_ARRAY ||
+       (*it)->type ==MET_DOUBLE_ARRAY
+     )
+     {
+        for(i=0; i<(*it)->length; i++)
+        {
+          printf("%f ",(*it)->value[i]);
+        }    
+     }
+     else if((*it)->type == MET_FLOAT_MATRIX)
+     {
+       std::cout << std::endl;
+       for(i=0; i<(*it)->length*(*it)->length; i++)
+       {
+         printf("%f ",(*it)->value[i]);
+         if(i==(*it)->length-1)
+         {
+           std::cout << std::endl;
+         }
+       }
+     }
+
+     std::cout << std::endl;
+     
+     itw++;
+     itr++;
+   }
 
   }
 
@@ -878,7 +951,18 @@ M_SetupReadFields(void)
                      nDimsRecordNumber);
   mF->required = false;
   m_Fields.push_back(mF);
+
+  // Add User's field
+  FieldsContainerType::iterator  it  = m_UserDefinedReadFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedReadFields.end();
+  while( it != end )
+  {
+    m_Fields.push_back(*it); 
+    it++;
   }
+
+
+ }
 
 
 void MetaObject::
@@ -1081,6 +1165,16 @@ M_SetupWriteFields(void)
                        m_ElementSpacing);
     m_Fields.push_back(mF);
     }
+
+   // Add User's field
+   FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+   while( it != end )
+   {
+     std::cout << "Adding " << (*it)->name << std::endl;
+     m_Fields.push_back(*it); 
+     it++;
+   }
   }
 
 bool MetaObject::
@@ -1275,6 +1369,16 @@ M_Read(void)
       }
     }
 
+   // Set the read record field in the m_UserDefinedWriteFields
+   FieldsContainerType::iterator  it  = m_UserDefinedReadFields.begin();
+   FieldsContainerType::iterator  end = m_UserDefinedReadFields.end();
+   while( it != end )
+   {
+     mF = MET_GetFieldRecord((*it)->name, &m_Fields);
+     m_UserDefinedWriteFields.push_back(mF);
+     it++;
+   }
+  
   return true;
   }
 
@@ -1318,4 +1422,82 @@ bool MetaObject
   m_WriteStream->close();
   return true;
 
+}
+
+
+// Clear UserFields
+void MetaObject
+::ClearUserFields()
+{
+   // Clear write field
+   FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+   while( it != end )
+   {
+     MET_FieldRecordType* field = *it;
+     it++;
+     delete field;
+   }
+   
+   m_UserDefinedWriteFields.clear();
+
+   // Clear read field
+   it  = m_UserDefinedReadFields.begin();
+   end = m_UserDefinedReadFields.end();
+   while( it != end )
+   {
+     MET_FieldRecordType* field = *it;
+     it++;
+     delete field;
+   }
+   m_UserDefinedReadFields.clear();  
+}
+
+// Get the user field
+void* MetaObject
+::GetUserField(const char* _name)
+{ 
+  FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+  while( it != end )
+  {
+    int eSize;
+    MET_SizeOfType((*it)->type, &eSize);
+    void * out = calloc((*it)->length, eSize);
+    if(!strcmp((*it)->name,_name))
+    {
+      if((*it)->type == MET_STRING)
+      {
+         memcpy(out,(*it)->value,(*it)->length*eSize);
+      }
+      else if((*it)->type == MET_FLOAT_MATRIX)
+      {
+        for(unsigned int i=0;i<(*it)->length*(*it)->length;i++)
+        {
+          MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
+        }
+      }
+      else
+      {
+        for(unsigned int i=0;i<(*it)->length;i++)
+        {
+          MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
+        }
+      }
+      return out;
+    }
+    it++;
+  }
+  return NULL;
+}
+
+
+bool MetaObject
+::AddUserField(const char* _fieldName,MET_ValueEnumType _type,int _length,
+                        bool _required,int _dependsOn)
+{
+  MET_FieldRecordType* mFr = new MET_FieldRecordType;
+  MET_InitReadField(mFr,_fieldName, _type, _required,_dependsOn,_length);
+  m_UserDefinedReadFields.push_back(mFr);
+  return 1;
 }
