@@ -28,8 +28,8 @@ namespace itk
  * This Class define the generic interface for a registration method.
  * The basic elements of a registration method are defined in a Traits
  * class
- *
- * \ingroup RegistrationFilters
+ * \deprecated This class has been replaced by the less templated ImageRegistrationMethod class
+ * \ingroup RegistrationFilters  Deprecated
  */
 template <class TTraits>
 class ITK_EXPORT RegistrationMethod : public ProcessObject 
