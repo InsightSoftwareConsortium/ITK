@@ -21,8 +21,8 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
-#include "itkAffineTransformation.h"
-
+//#include "itkAffineTransformation.h"
+#include "itkAffineTransform.h"
 
 namespace itk
 {
@@ -44,6 +44,16 @@ public:
    * Standard "Self" typedef.
    */
   typedef AffineRegistrationTransform  Self;
+
+
+  /**
+   * Integer constants
+   */
+  enum 
+  { 
+    SpaceDimension = NDimensions,
+    ParametersDimension = NDimensions * (NDimensions + 1)
+  };
 
 
   /**
@@ -74,8 +84,8 @@ public:
   /** 
    * Affine Transform Type
    */
-  typedef  AffineTransformation<TScalarType,NDimensions>      AffineTransformType;
-
+//typedef  AffineTransformation<TScalarType,NDimensions>      AffineTransformType;
+  typedef  AffineTransform<TScalarType,NDimensions>           AffineTransformType;
 
   /** 
    * Point Type
@@ -87,6 +97,13 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro(AffineRegistrationTransform, Transform);
+
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  typedef Matrix<TScalarType, SpaceDimension, 
+                              ParametersDimension > JacobianType;
 
 
   /**
@@ -106,8 +123,15 @@ public:
    */
   void SetParameters(const ParametersPointer &);
 
-  enum { ParametersDimension = NDimensions * (NDimensions + 1)};
 
+  /**
+   * Compute the Jacobian of the transformation
+   *
+   * This method computes the Jacobian matrix of the transformation.
+   * given point or vector, returning the transformed point or
+   * vector.
+   **/
+  const JacobianType & GetJacobian(const PointType  &point ) const;
 
 protected:
 
@@ -119,8 +143,10 @@ protected:
 
 private:
 
-  AffineTransformType      m_AffineTransform;
-  typename ParametersType::Pointer       m_Parameters;
+  AffineTransformType                 m_AffineTransform;
+  typename ParametersType::Pointer    m_Parameters;
+
+  mutable JacobianType                m_Jacobian;     
 
 };
 

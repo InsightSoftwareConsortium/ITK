@@ -98,7 +98,7 @@ AffineRegistrationTransform<TScalarType,NDimensions>
   }
 
   
-  typename AffineTransformType::LinearType linear;
+  typename AffineTransformType::MatrixType linear;
   typename AffineTransformType::VectorType constant;
   
   ParametersType::ConstIterator pit = m_Parameters->Begin();
@@ -108,7 +108,7 @@ AffineRegistrationTransform<TScalarType,NDimensions>
   {
     for(unsigned int col=0; col<NDimensions; col++) 
     {
-      linear(row,col) = pit.Value();
+      linear[row][col] = pit.Value();
       ++pit;
     }
   }
@@ -120,10 +120,50 @@ AffineRegistrationTransform<TScalarType,NDimensions>
     ++pit;
   }
 
-  m_AffineTransform.SetLinear( linear );
+  m_AffineTransform.SetMatrix( linear );
   m_AffineTransform.SetOffset( constant );
 
 }
+
+
+// Compute the Jacobian of the transformation
+// It follows the same order of Parameters vector 
+template<class ScalarType, int NDimensions>
+const AffineRegistrationTransform<ScalarType, NDimensions>::JacobianType &
+AffineRegistrationTransform<ScalarType, NDimensions>::
+GetJacobian( const PointType & p ) const
+{
+  
+  // The Jacobian of the affine transform is composed of
+  // subblocks of diagonal matrices, each one of them having
+  // a constant value in the diagonal.
+
+  m_Jacobian.Fill( 0.0 );
+
+  unsigned int blockOffset = 0;
+  
+  for(unsigned int block=0; block < SpaceDimension; block++) 
+  {
+    ScalarType diagonalValue = p[block];
+
+    for(unsigned int dim=0; dim < SpaceDimension; dim ) 
+    {
+       m_Jacobian[ blockOffset + dim ][ dim ] = diagonalValue;
+    }
+
+    blockOffset += SpaceDimension;
+
+  }
+
+  for(unsigned int dim=0; dim < SpaceDimension; dim ) 
+  {
+     m_Jacobian[ blockOffset + dim ][ dim ] = 1.0;
+  }
+
+  return m_Jacobian;
+
+}
+
 
 
 } // end namespace itk
