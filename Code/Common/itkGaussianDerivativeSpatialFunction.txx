@@ -102,21 +102,8 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
 {
   Superclass::PrintSelf(os,indent);
 
-  unsigned int i;
-  os << indent << "Sigma: [";
-  for (i=0; i+1 < VImageDimension ; i++)
-    {
-    os << m_Sigma[i] << ", ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Mean: [";
-  for (i=0; i+1 < VImageDimension ; i++)
-    {
-    os << m_Mean[i] << ", ";
-    }
-  os << "]" << std::endl;
-
+  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Mean: " <<  m_Mean << std::endl;
   os << indent << "Scale: " << m_Scale << std::endl;
   os << indent << "Normalized?: " << m_Normalized << std::endl;
   os << indent << "Direction: " << m_Direction << std::endl;
