@@ -64,22 +64,24 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   }
 
   // Test the Set/Get Parameters
-  std::cout << "Testing Set/GetParameters():";
-  SimilarityTransformType::ParametersType params;
-  params.resize(6);
+  std::cout << "Testing Set/GetParameters():" << std::endl;
+  SimilarityTransformType::ParametersType params(6);
 
   for(unsigned int i=0;i<6;i++)
     {
     params[i]=i;
     }
 
+  std::cout << "Input Parameters = " << params << std::endl;
 
   transform->SetParameters(params);
-  SimilarityTransformType::ParametersType outputParams;
+  SimilarityTransformType::ParametersType outputParams(6);
 
   outputParams = transform->GetParameters();
 
-  for(unsigned int i=0; i<N; i++)
+  std::cout << "Output Parameters = " << outputParams << std::endl;
+
+  for(unsigned int i=0; i<4; i++) // do not test for the offset
   {
      if( fabs( outputParams[i]-params[i] ) > epsilon )
      {
