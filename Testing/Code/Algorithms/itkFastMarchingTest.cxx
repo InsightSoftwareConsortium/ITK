@@ -32,11 +32,11 @@ int itkFastMarchingTest(int, char* [] )
 
   FloatFMType::Pointer marcher = FloatFMType::New();
   
-  // setup trial points
   typedef FloatFMType::NodeType NodeType;
   typedef FloatFMType::NodeContainer NodeContainer;
 
-  NodeContainer::Pointer trialPoints = NodeContainer::New();
+  // setup alive points
+  NodeContainer::Pointer alivePoints = NodeContainer::New();
 
   NodeType node;
 
@@ -47,8 +47,48 @@ int itkFastMarchingTest(int, char* [] )
 
   node.SetValue( 0.0 );
   node.SetIndex( index + offset0 );
-  trialPoints->InsertElement(0, node);
+  alivePoints->InsertElement(0, node);
+
+  node.SetValue( 42.0 );
+  index.Fill( 200 );
+  node.SetIndex( index ); // this node is out of range
+  alivePoints->InsertElement(1, node);
   
+  marcher->SetAlivePoints( alivePoints );
+
+
+  // setup trial points
+  NodeContainer::Pointer trialPoints = NodeContainer::New();
+
+  node.SetValue( 1.0 );
+
+  index.Fill(0);
+  index += offset0;
+
+  index[0] += 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(0, node);
+
+  index[0] -= 1;
+  index[1] += 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(1, node);
+
+  index[0] -= 1;
+  index[1] -= 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(2, node);
+
+  index[0] += 1;
+  index[1] -= 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(3, node);
+
+  node.SetValue( 42.0 );
+  index.Fill( 300 ); // this node is out of ranage
+  node.SetIndex( index );
+  trialPoints->InsertElement(4, node);
+
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
@@ -122,6 +162,10 @@ int itkFastMarchingTest(int, char* [] )
   std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << std::endl;
   std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
   std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
+
+  marcher->SetNormalizationFactor( 2.0 );
+  std::cout << "NormalizationFactor: " << marcher->GetNormalizationFactor();
+  std::cout << std::endl;
 
   std::cout << "SpeedImage: " << marcher->GetInput();
   std::cout << std::endl;

@@ -175,12 +175,12 @@ public:
   /** Get the Speed Constant. */
   itkGetConstMacro( SpeedConstant, double );
 
-  /** Set the normalization factor for the speed image.
-      the speed taken from the pixels of the speed image 
-      is dividided by this factor. This allows to use
-      images of integer pixel type for representing the 
-      speed */
+  /** Set/Get the Normalization Factor for the Speed Image.
+      The values in the Speed Image is divided by this
+      factor. This allows the use of images with
+      integer pixel types to represent the speed. */
   itkSetMacro( NormalizationFactor, double );
+  itkGetMacro( NormalizationFactor, double );
 
   /** Set the Fast Marching algorithm Stopping Value. The Fast Marching
    * algorithm is terminated when the value of the smallest trial point
@@ -237,9 +237,9 @@ protected:
   virtual void GenerateOutputInformation();
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-  /** Get Large value. This value is an optinal entry. It is used to 
+  /** Get Large Value. This value is used to 
       represent the concept of infinity for the time assigned to pixels that
-      have not been visited yet. This value is set by default to half the 
+      have not been visited. This value is set by default to half the 
       max() of the pixel type used to represent the time-crossing map. */
   itkGetConstMacro( LargeValue, PixelType );
 
