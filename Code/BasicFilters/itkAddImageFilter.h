@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkAddImageFilter_h
 #define __itkAddImageFilter_h
 
-#include "itkBinaryImageFilter.h"
+#include "itkNaryImageFilter.h"
 #include "itkNumericTraits.h"
 
 
@@ -80,14 +80,14 @@ namespace itk
 
 namespace Functor {  
   
-  template< class TInput1, class TInput2, class TOutput >
-  class Add2
+  template< class TInput, class TOutput >
+  class Add1
   {
   public:
-    typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
-    Add2() {};
-    ~Add2() {};
-    inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+    typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
+    Add1() {};
+    ~Add1() {};
+    inline TOutput operator()( const TOutput & A, const TInput & B)
     {
       const AccumulatorType sum = A;
       return static_cast<TOutput>( sum + B );
@@ -98,14 +98,12 @@ namespace Functor {
 // Wrap: AddImageFilter<$Image,$Image,$Image,$Function>
 // Wrap: <XML code for Function....>
 // Wrap: AddImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
-template <class TInputImage1, class TInputImage2, class TOutputImage>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT AddImageFilter :
     public
-    BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Add2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
-              typename TOutputImage::PixelType>   >
+    NaryImageFilter<TInputImage,TOutputImage, 
+    Functor::Add1<  typename TInputImage::PixelType, 
+                    typename TOutputImage::PixelType>   >
 
 
 {
@@ -118,10 +116,9 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-    Functor::Add2< 
-              typename TInputImage1::PixelType, 
-              typename TInputImage2::PixelType,
+  typedef NaryImageFilter<TInputImage,TOutputImage, 
+    Functor::Add1< 
+              typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;
 
