@@ -1,6 +1,10 @@
 #ifndef __Brains2_HEADERBASE_H__
 #define __Brains2_HEADERBASE_H__
 
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 #include <string>
 #include <list>
 #include <fstream>
