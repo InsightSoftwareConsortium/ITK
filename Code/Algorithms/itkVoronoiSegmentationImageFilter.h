@@ -119,7 +119,7 @@ private:
   double m_MeanTolerance;
   double m_STDTolerance;
   double m_MeanPercentError;
-  double m_VarPercentError;
+  double m_STDPercentError;
 
   virtual bool TestHomogeneity(IndexList Plist);
 
