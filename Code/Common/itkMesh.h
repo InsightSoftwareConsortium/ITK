@@ -19,7 +19,7 @@
 #include <vector>
 #include <set>
 
-#include "itkObject.h"
+#include "itkDataObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
 #include "itkPoint.h"
@@ -69,7 +69,7 @@ template <
   typename TPixelType,
   typename TMeshType = MeshTypeDefault< TPixelType >
   >
-class Mesh: public Object
+class Mesh: public DataObject
 {
 public:
   /**
