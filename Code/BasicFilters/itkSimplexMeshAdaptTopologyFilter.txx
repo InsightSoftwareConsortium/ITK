@@ -114,7 +114,7 @@ namespace itk
         pointIds++;
         unsigned long lineOneSecondIdx = *pointIds;
 
-        short cnt = 0;
+        unsigned short cnt = 0;
 
         while (cnt < poly->GetNumberOfPoints()/2 - 1)
           {

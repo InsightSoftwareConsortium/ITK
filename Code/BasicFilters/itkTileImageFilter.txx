@@ -93,7 +93,7 @@ void
 TileImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  for (int i = 0; i < this->GetNumberOfInputs(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfInputs(); i++)
     {
     const_cast<TInputImage *>(this->GetInput(i))->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -182,7 +182,7 @@ TileImageFilter<TInputImage, TOutputImage>
   ImageRegionIteratorWithIndex<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
 
   it.GoToBegin();
-  int input = 0;
+  unsigned int input = 0;
   TileInfo info;
   while( !it.IsAtEnd() ) 
     {
