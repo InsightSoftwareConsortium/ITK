@@ -404,7 +404,7 @@ double IPLCommonImageIO
 }
 
 int IPLCommonImageIO
-::AddElementToList(char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
+::AddElementToList(char const * const filename, const float sliceLocation, const int itkNotUsed(offset), const int XDim, const int YDim, const int Key1, const int Key2 )
 {
   if(m_fnlist->NumFiles() == 0)
     {
