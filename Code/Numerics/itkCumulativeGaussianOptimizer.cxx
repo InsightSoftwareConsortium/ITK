@@ -341,6 +341,8 @@ CumulativeGaussianOptimizer
     << "Verbose = " << m_Verbose
     << "Fit Error = " << m_FitError
     << std::endl;
+
+  os << indent << "FinalSampledArray = " << m_FinalSampledArray << std::endl;
 }
 
 
