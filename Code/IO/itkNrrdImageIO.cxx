@@ -115,7 +115,7 @@ void NrrdImageIO::ReadImageInformation()
    int i;
    char *key = NULL;
    char *val = NULL;
-   char *err = NULL;
+   char *err;
    NrrdIoState *nio;
    Nrrd *nrrd;
 
