@@ -167,7 +167,7 @@ DataObject
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Source address " << m_Source );
-  return m_Source;
+  return m_Source.GetPointer();
 }
 
 unsigned int
