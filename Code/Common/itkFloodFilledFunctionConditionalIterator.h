@@ -106,11 +106,11 @@ public:
 
   /** Get the pixel value */
   PixelType & Get(void)
-    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ); }
+    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.front() ); }
 
   /** Set the pixel value */
   void Set( const PixelType & value)
-    { const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ) = value; }
+    { const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.front() ) = value; }
 
 };
 

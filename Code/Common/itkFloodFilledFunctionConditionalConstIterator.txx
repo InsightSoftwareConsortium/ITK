@@ -91,7 +91,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   tempPtr->Allocate();
   tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
 
-  // Initialize the stack by adding the start index assuming one of
+  // Initialize the queue by adding the start index assuming one of
   // the m_StartIndices is "inside" This might not be true, in which
   // case it's up to the programmer to specify a correct starting
   // position later (using FindSeedPixel).  Must make sure that the
@@ -102,7 +102,6 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     if ( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) )
       {
       m_IndexStack.push(m_StartIndices[i]);
-      tempPtr->SetPixel(m_StartIndices[i], 2);
       m_IsAtEnd = false;
       }
     }
@@ -167,112 +166,75 @@ void
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::DoFloodStep()
 {
-  m_FoundUncheckedNeighbor = false;
-  m_IsValidIndex = true;
+  // The index in the front of the queue should always be
+  // valid and be inside since this is what the iterator
+  // uses in the Set/Get methods. This is ensured by the
+  // GoToBegin() method.
+ 
 
-  do
+  // Take the index in the front of the queue  
+  const IndexType & topIndex = m_IndexStack.front();
+  
+  // Iterate through all possible dimensions
+  // NOTE: Replace this with a ShapeNeighborhoodIterator
+  for(unsigned int i=0; i<NDimensions; i++)
     {
-    // There are two cases for arriving at a pixel
-    // 1) We were "referred" to this pixel by another pixel in a neighborhood check
-    // 2) We're coming back to this pixel after checking its neighbors' neighbors
-    // If we haven't yet visited this pixel, see if it's inside the function
-    const IndexType topIndex = m_IndexStack.top();
-    if( tempPtr->GetPixel( topIndex ) == 0)
+    // The j loop establishes either left or right neighbor (+-1)
+    for(int j=-1; j<=1; j+=2)
       {
-      // Is this pixel inside the function?
-      if ( this->IsPixelIncluded( topIndex ) )
-        {
-        // if it is, mark as inside
-        tempPtr->SetPixel( topIndex, 2);
-        // kick out of this function, since we found a new pixel
-        return;
-        }
-      else
-        {
-        // pixel is not inside the function, mark it
-        tempPtr->SetPixel( topIndex, 1);
-        // pop off this pixel
-        m_IndexStack.pop();
-        continue;
-        }
-    } // end if we haven't visited the pixel
+      IndexType tempIndex;
+      m_IsValidIndex = true;
 
-    // Now look at all of this pixel's neighbors
-    // For an image in n-dimensions, there are 2n neighbors
-    // We're only interested in the nearest neighbors along each axis
-    m_FoundUncheckedNeighbor = false;
-
-    // i loop runs through all possible dimensions
-    for(unsigned int i=0; i<NDimensions; i++)
-      {
-      // The j loop establishes either left or right neighbor (+-1)
-      for(int j=-1; j<=1; j+=2)
+      // build the index of a neighbor
+      for(unsigned int k=0; k<NDimensions; k++)
         {
-        IndexType tempIndex;
-        m_IsValidIndex = true;
-
-        // build the index of a neighbor
-        for(unsigned int k=0; k<NDimensions; k++)
+        if( i!=k )
           {
-          const IndexType & topIndex = m_IndexStack.top();
-          if( i!=k )
-            {
-            tempIndex.m_Index[k] = topIndex[k];
-            }
-          else
-            {
-            tempIndex.m_Index[k] = topIndex[k] + j;
-            if( (tempIndex.m_Index[k] < 0) || 
-                (tempIndex.m_Index[k] >= static_cast<long int>(m_ImageSize[k])) )
-              {
-              m_IsValidIndex = false;
-              continue;
-              }
-            }
-          } // end build the index of a neighbor
-
-        // If this isn't a valid index, loop to the next one
-        if(m_IsValidIndex==false)
-          continue;
-
-        // Now check the neighbor and see if it hasn't been examined yet
-        if(tempPtr->GetPixel(tempIndex)==0 &&
-           this->IsPixelIncluded(tempIndex)) // if pixel hasn't been checked and is inside
-          {
-          // push it onto the stack, this is the next pixel we'll look at
-          m_FoundUncheckedNeighbor=true;
-          m_IndexStack.push(tempIndex);
-          continue;
+          tempIndex.m_Index[k] = topIndex[k];
           }
+        else
+          {
+          tempIndex.m_Index[k] = topIndex[k] + j;
+          if( (tempIndex.m_Index[k] < 0) || 
+              (tempIndex.m_Index[k] >= static_cast<long int>(m_ImageSize[k])) )
+            {
+            m_IsValidIndex = false;
+            continue;
+            }
+          }
+        } // end build the index of a neighbor
 
-        } // end left/right neighbor loop
-
-      // If we've found an unchecked neighbor, force its evaluation
-      if(m_FoundUncheckedNeighbor==true)
-        continue;
-      
-    } // end check all neighbors
-
-    // If we made it this far - i.e. checked all neighbors - and none of them
-    // were unexamined, it's time to go back to the pixel we were at before
-    if(m_FoundUncheckedNeighbor==false)
-      {
-      // Mark the pixel as finished
-      const IndexType & topIndex = m_IndexStack.top();
-      if( tempPtr->GetPixel( topIndex  )==2 )
+      // If this is a valid index and have not been tested,
+      // then test it.
+      if( m_IsValidIndex && tempPtr->GetPixel( tempIndex )==0 )
         {
-        tempPtr->SetPixel( topIndex, 3);
+        // if it is inside, push it into the queue  
+        if(  this->IsPixelIncluded( tempIndex ) )
+          {
+          m_IndexStack.push( tempIndex );
+          tempPtr->SetPixel( tempIndex, 2); 
+          }
+        else  // If the pixel is outside
+          {
+          // Mark the pixel as outside and remove it from the queue.
+          tempPtr->SetPixel( tempIndex, 1);
+          }
         }
-      
-      // Move the stack up
-      m_IndexStack.pop();
-      }
+      } // end left/right neighbor loop
+    } // end check all neighbors
+  
+  // Now that all the potential neighbors have been 
+  // inserted we can get rid of the pixel in the front
+  m_IndexStack.pop();
+    
+  if( m_IndexStack.empty() )
+    {
+    m_IsAtEnd = true;
+    }
 
-    } while(!(m_IndexStack.empty())); // loop while there are pixels left on the stack
 
-  // if we made it this far, the stack is now empy
-  m_IsAtEnd = true;
 }
+
 
 } // end namespace itk
 

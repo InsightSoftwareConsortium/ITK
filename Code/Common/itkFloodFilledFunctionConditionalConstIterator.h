@@ -17,7 +17,7 @@
 #ifndef __itkFloodFilledFunctionConditionalConstIterator_h
 #define __itkFloodFilledFunctionConditionalConstIterator_h
 
-#include <stack>
+#include <queue>
 #include <vector>
 
 #include "itkIndex.h"
@@ -127,11 +127,11 @@ public:
    * therefore an expensive operation.
    * \sa SetIndex */
   const IndexType GetIndex()
-    { return m_IndexStack.top();}
+    { return m_IndexStack.front();}
 
   /** Get the pixel value */
   const PixelType & Get(void) const
-    { return m_Image->GetPixel(m_IndexStack.top() ); }
+    { return m_Image->GetPixel(m_IndexStack.front() ); }
  
   /** Is the iterator at the end of the region? */
   bool IsAtEnd()
@@ -153,26 +153,26 @@ public:
   * defined as the first pixel in the region. */
   void GoToBegin()
     {
-    // Clear the stack
+    // Clear the queue
     while (!m_IndexStack.empty())
       {
       m_IndexStack.pop();
       }
 
     m_IsAtEnd = true;
+    // Initialize the temporary image
+    tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
+    
     for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
       {
       if( m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) &&
           this->IsPixelIncluded(m_StartIndices[i]) )
         {
-        // Push the seed onto the stack
+        // Push the seed onto the queue
         m_IndexStack.push(m_StartIndices[i]);
         
         // Obviously, we're at the beginning
         m_IsAtEnd = false;
-        
-        // Initialize the temporary image
-        tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
         
         // Mark the start index in the temp image as inside the function, neighbor check incomplete
         tempPtr->SetPixel(m_StartIndices[i], 2);
@@ -211,7 +211,7 @@ protected: //made protected so other iterators can access
   const unsigned long int* m_ImageSize;
 
   /** Stack used to hold the path of the iterator through the image */
-  std::stack<IndexType> m_IndexStack;
+  std::queue<IndexType> m_IndexStack;
 
   /** Location vector used in the flood algorithm */
   FunctionInputType m_LocationVector;
