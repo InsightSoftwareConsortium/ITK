@@ -48,7 +48,7 @@ ListSampleToHistogramFilter< TListSample, THistogram >
         (typename THistogram::MeasurementType) lvector[i] ;
       }
 
-    index = m_Histogram->GetIndex(hvector) ;
+    m_Histogram->GetIndex(hvector,index);
     if (!m_Histogram->IsIndexOutOfBounds(index))
       {
       // if the measurement vector is out of bound then
