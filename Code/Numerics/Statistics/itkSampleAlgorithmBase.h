@@ -38,29 +38,35 @@ namespace itk{
  *
  */
 
-template< class TSample >
-class SampleAlgorithmBase :
-      public Object
+template< class TInputSample >
+class ITK_EXPORT SampleAlgorithmBase : public Object
 {
 public:
   /**Standard class typedefs. */
   typedef SampleAlgorithmBase Self;
   typedef Object Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer< Self > Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(SampleAlgorithmBase, Object);
   itkNewMacro(Self) ;
   
   /** Sample typedefs alias */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
+  typedef TInputSample InputSampleType ;
 
   /** Stores the sample pointer */
-  void SetSample(SamplePointer sample) ;
+  void SetInputSample(TInputSample* sample) 
+  {
+    if ( m_InputSample != sample )
+      {
+        m_InputSample = sample ;
+        this->Modified() ;
+      }
+  }
 
-  /** Returns the sample pointer */
-  SamplePointer GetSample() ;
+  TInputSample* GetInputSample()
+  { return m_InputSample ; }
 
   /** dummy function that calls the GenerateData() function to generate
    * output. It exists for future compatibility with ProcessObject 
@@ -78,7 +84,7 @@ protected:
 
 private:
   /** Target sample data pointer */
-  SamplePointer m_Sample ;
+  TInputSample* m_InputSample ;
 } ; // end of class
     
   } // end of namespace Statistics 

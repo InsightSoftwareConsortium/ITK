@@ -22,46 +22,31 @@
 namespace itk{ 
 namespace Statistics{
 
-template< class TSample >
-SampleAlgorithmBase< TSample >
+template< class TInputSample >
+SampleAlgorithmBase< TInputSample >
 ::SampleAlgorithmBase()
 {
 }
 
-template< class TSample >
+template< class TInputSample >
 void
-SampleAlgorithmBase< TSample >
-::SetSample(SamplePointer sample)
-{
-  m_Sample = sample ;
-} 
-
-template< class TSample >
-typename SampleAlgorithmBase< TSample >::SamplePointer
-SampleAlgorithmBase< TSample >
-::GetSample()
-{
-  return m_Sample ;
-} 
-
-template< class TSample >
-inline void
-SampleAlgorithmBase< TSample >
+SampleAlgorithmBase< TInputSample >
 ::GenerateData() 
 {
   // subclasses should override this function.
 }
 
-template< class TSample >
+template< class TInputSample >
 void
-SampleAlgorithmBase< TSample >
+SampleAlgorithmBase< TInputSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " << m_Sample << std::endl;
+  os << indent << "Input Sample: " << m_InputSample << std::endl;
 }
-  } // end of namespace Statistics 
+
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
