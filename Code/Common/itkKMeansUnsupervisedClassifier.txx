@@ -151,18 +151,18 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   if( oldSize < newSize )
   {
     for( int r = 0; r < oldSize; r++ )
-      for( int c = 0; c < m_VecDim; c++ )
+      for( unsigned int c = 0; c < m_VecDim; c++ )
         m_Codebook[r][c] = tmpCodebook[r][c]; 
       
     for( int r = oldSize; r < newSize; r++ )
-      for(int c = 0; c < m_VecDim; c++ )
+      for(unsigned int c = 0; c < m_VecDim; c++ )
         m_Codebook[r][c] = 0; 
 
   } // if oldsize is smaller than the new size
   else
   {
     for( int r = 0; r < newSize; r++ )
-      for( int c = 0; c < m_VecDim; c++ )
+      for( unsigned int c = 0; c < m_VecDim; c++ )
         m_Codebook[r][c] = tmpCodebook[r][c]; 
 
   }// else oldsize is greater than the new size
@@ -270,7 +270,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
     // find number of empty cells
     emptycells = 0;
-    for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+    for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
     {
       if ( m_CodewordHist[i][0] == 0 ) 
       {
@@ -294,7 +294,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     // no empty cells, find new centroids and reinitialize for next pass 
     if ( emptycells == 0 ) 
     {
-      for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+      for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
         for( int j = 0; j < m_VecDim; j++ ) 
           m_Codebook[i][j] = m_Centroid[i][j];
 
@@ -325,11 +325,11 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       // faster sort algorithm, but this event should be very unlikely
 
 
-      for ( int n = 0; n < m_CurrentNcodewords - emptycells; n++ ) 
+      for ( unsigned int n = 0; n < m_CurrentNcodewords - emptycells; n++ ) 
       {
         tempdistortion = 0.0;
         bestcodeword = 0;
-        for ( int i = 0; i < m_Ncodewords; i++ ) 
+        for ( unsigned int i = 0; i < m_Ncodewords; i++ ) 
         {
           if ( ( m_CodewordDist[i][0] >= tempdistortion ) &&
                ( m_CodewordHist[i][0] > 0) ) 
@@ -379,7 +379,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   double *centroidVecTemp = ( double * ) new double[m_VecDim];
 
   // initialize codeword histogram and distortion 
-  for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
   {
     m_CodewordHist[i][0] = 0;
     m_CodewordDist[i][0] = 0.0;
@@ -426,7 +426,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   InVectorType   inImgVec; 
 
-  for (int n = 0; n < totalNumVecsInInput; n++) {
+  for (unsigned int n = 0; n < totalNumVecsInInput; n++) {
 
     // make tempvector point to one vector 
     tempImgIt = inImgIt + n;
@@ -435,13 +435,13 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     bestdistortion = m_DoubleMax;
     bestcodeword = 0;    
         
-    for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+    for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
     { 
       // find the best codeword 
       tempdistortion = 0.0;
       inImgVec = *tempImgIt;
 
-      for ( int j = 0; j < m_VecDim; j++ ) 
+      for ( unsigned int j = 0; j < m_VecDim; j++ ) 
       {
         diff = ( double ) ( inImgVec[j] - m_Codebook[i][j] ); 
         tempdistortion += diff*diff;
@@ -465,13 +465,13 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
     inImgVec = *tempImgIt;
 
-    for (int j = 0; j < m_VecDim; j++ ) 
+    for (unsigned int j = 0; j < m_VecDim; j++ ) 
       m_Centroid[bestcodeword][j] += inImgVec[j];
 
   } // all training vectors have been encoded 
 
   // compute table frequency and distortion 
-  for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
   {
     if ( m_CodewordHist[i][0] > 0 ) {
       m_CodewordDist[i][0] /= (double) m_CodewordHist[i][0];
@@ -479,11 +479,11 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   }
 
   // compute centroid 
-  for ( int i = 0; i < m_CurrentNcodewords; i++ ) 
+  for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
   {
     if ( m_CodewordHist[i][0] > 0 ) 
     {
-      for ( int j = 0; j < m_VecDim; j++ ) 
+      for ( unsigned int j = 0; j < m_VecDim; j++ ) 
         m_Centroid[i][j] /= (double) m_CodewordHist[i][0];
     }
   }
@@ -543,7 +543,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   addoffset = m_OffsetAdd / pow( 2.0, ( double ) scale );
   muloffset = m_OffsetMul / pow( 2.0, ( double ) scale );
 
-  for ( i = 0; i < m_VecDim; i++ ) 
+  for ( unsigned i = 0; i < m_VecDim; i++ ) 
   {
     srand( (unsigned)time( NULL ) );
     rand_num = (rand())/((double)RAND_MAX);
@@ -593,7 +593,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   m_OutDist = m_DoubleMax;
 
   // Apply the generalize Lloyd algorithm on all codebook sizes 
-  for ( tmp_ncodewords = 1; tmp_ncodewords < m_Ncodewords; ) 
+  for ( unsigned tmp_ncodewords = 1; tmp_ncodewords < m_Ncodewords; ) 
   {
     // run the GLA for codebook of size i 
     // run gla 
