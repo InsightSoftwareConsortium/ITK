@@ -807,12 +807,13 @@ namespace itk
     // perform the byte swapping on it
     this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_hdr);
     this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
-    //if(this->m_hdr->dime.compressed==1)
-    //{
+    if(this->m_hdr.dime.compressed==1)
+    {
+      return false;
     //    ExceptionObject exception(__FILE__, __LINE__);
     //    exception.SetDescription("Unix compress file is not supported.");
     //    throw exception;
-    //}
+    }
     return true;
   }
 
