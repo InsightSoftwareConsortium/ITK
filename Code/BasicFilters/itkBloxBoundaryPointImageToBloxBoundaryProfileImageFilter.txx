@@ -408,7 +408,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
             boundaryProfile->SetStandardDeviationNormalized();
             boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
             boundaryProfile->SetBoundaryPoint( (*bpiterator) );
-            boundaryProfile->SetGradient(&(*bpiterator)->GetGradient());
+            boundaryProfile->SetGradient2((*bpiterator)->GetGradient());
 
             PositionType optimalBoundaryLocation;
             for(unsigned int i = 0; i < NDimensions; i++)
