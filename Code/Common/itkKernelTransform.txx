@@ -56,6 +56,42 @@ KernelTransform<TScalarType, NDimensions>::
 }
 
 
+/**
+ *
+ */
+template <class TScalarType, unsigned int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>::
+SetSourceLandmarks(PointSetType * landmarks)
+{
+  itkDebugMacro("setting SourceLandmarks to " << landmarks ); 
+  if (this->m_SourceLandmarks != landmarks) 
+    { 
+    this->m_SourceLandmarks = landmarks; 
+    this->UpdateParameters();
+    this->Modified(); 
+    } 
+}
+
+
+/**
+ *
+ */
+template <class TScalarType, unsigned int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>::
+SetTargetLandmarks(PointSetType * landmarks)
+{
+  itkDebugMacro("setting TargetLandmarks to " << landmarks ); 
+  if (this->m_TargetLandmarks != landmarks) 
+    { 
+    this->m_TargetLandmarks = landmarks; 
+    this->UpdateParameters();
+    this->Modified(); 
+    } 
+}
+
+
 
 /**
  *
@@ -443,16 +479,13 @@ SetParameters( const ParametersType & parameters )
 }
 
 
-
-
-// Get the parameters
+// Update parameters array
 // They are the components of all the landmarks in the source space
 template <class TScalarType, unsigned int NDimensions>
-const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
+void
 KernelTransform<TScalarType, NDimensions>::
-GetParameters( void ) const
+UpdateParameters( void ) const
 {
-
   m_Parameters = ParametersType( m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
 
   PointsIterator itr = m_SourceLandmarks->GetPoints()->Begin();
@@ -469,7 +502,19 @@ GetParameters( void ) const
       }  
     itr++;
     }
+}
 
+
+
+
+// Get the parameters
+// They are the components of all the landmarks in the source space
+template <class TScalarType, unsigned int NDimensions>
+const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
+KernelTransform<TScalarType, NDimensions>::
+GetParameters( void ) const
+{
+  this->UpdateParameters();
   return m_Parameters;
 
 }

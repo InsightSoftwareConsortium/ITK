@@ -117,13 +117,13 @@ public:
   itkGetObjectMacro( SourceLandmarks, PointSetType );
   
   /** Set the source landmarks list. */
-  itkSetObjectMacro( SourceLandmarks, PointSetType );
+  virtual void SetSourceLandmarks(PointSetType *);
   
   /** Get the target landmarks list, which we will denote  \f$ q \f$. */
   itkGetObjectMacro( TargetLandmarks, PointSetType );
   
   /** Set the target landmarks list. */
-  itkSetObjectMacro( TargetLandmarks, PointSetType );
+  virtual void SetTargetLandmarks(PointSetType *);
   
   /** Get the displacements list, which we will denote \f$ d \f$,
    * where \f$ d_i = q_i - p_i \f$. */
@@ -147,6 +147,9 @@ public:
    * by NDimensions doubles. All the landmarks are concatenated to form one flat
    * Array<double>. */
   virtual void SetParameters(const ParametersType &);
+
+  /** Update the Parameters array from the landmarks corrdinates. */
+  virtual void UpdateParameters(void) const;
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;
