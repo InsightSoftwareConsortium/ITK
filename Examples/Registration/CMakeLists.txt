@@ -42,3 +42,15 @@ TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
+SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
+SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
+
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
+ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+

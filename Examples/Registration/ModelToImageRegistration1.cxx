@@ -405,7 +405,7 @@ private:
 //  Software Guide : EndLatex 
 
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
 
 
@@ -1051,7 +1051,7 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
-
+  return 0;
 
 }
 
