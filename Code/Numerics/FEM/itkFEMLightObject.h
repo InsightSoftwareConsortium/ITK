@@ -87,9 +87,10 @@ public:
 
   /**
    * Duplicates the currect object. This function must be implemented
-   * by every derived class to create an exact copy of an object.
+   * by every derived class to create an exact copy of an object. The
+   * function returns a pointer to a base class.
    */
-  virtual FEMLightObject::Pointer Clone() const = 0;
+  virtual Baseclass::Pointer Clone() const = 0;
 
   /**
    * Read an object data from input stream. Call this member to

@@ -83,11 +83,11 @@ void FindNode(  Node::ArrayType::ConstPointer nodes, const Node::Displacement *d
  */
 class GaussIntegrate {
 public:
-  static const double GaussIntegrate::zero;
-  static const double GaussIntegrate::one;
-  static const double GaussIntegrate::two;
-  static const double GaussIntegrate::z[110];
-  static const double GaussIntegrate::w[110];
+  static const double zero;
+  static const double one;
+  static const double two;
+  static const double z[110];
+  static const double w[110];
   double Integrate(double (*f)(double), double a, double b, int n=3);
 };
 

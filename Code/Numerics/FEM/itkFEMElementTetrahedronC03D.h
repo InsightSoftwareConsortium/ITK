@@ -82,7 +82,7 @@ public:
   /** 
    * Element force vector 
    */
-  vnl_vector<Float> TetrahedronC03D::Fe(LoadElementPointer l) const;
+  vnl_vector<Float> Fe(LoadElementPointer l) const;
 
   /**
    * Pointers to DOF displacements, which are stored
