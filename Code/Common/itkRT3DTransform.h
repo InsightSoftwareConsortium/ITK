@@ -166,7 +166,10 @@ public:
      **/
     void PrintSelf(std::ostream &s, Indent indent) const;
     
-
+		void SetForwardIsIndexToPhysical();
+		void SetForwardIsPhysicalToIndex();
+		OutputPointType TransformAzElToCartesian(const InputPointType &point) const; 
+		OutputPointType TransformCartesianToAzEl(const OutputPointType &point) const;
 
 protected:
 
@@ -192,7 +195,7 @@ private:
 			double m_Blanking;
 			double m_TransducerOffset;
 
-
+			bool		m_ForwardIsIndexToPhysical;
 }; //class RT3DTransform
 
 
