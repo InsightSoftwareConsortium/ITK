@@ -27,7 +27,7 @@ namespace itk
  * \brief N-dimensional spatial function class
  *
  * itk::SpatialFunction provides the ability to define functions that can
- * be evluated at an arbitrary point in space (physical or otherwise). The return
+ * be evaluated at an arbitrary point in space (physical or otherwise). The return
  * type is specified by the derived class, and the input to the function
  * is an n-dimensional itk::Point.
  *

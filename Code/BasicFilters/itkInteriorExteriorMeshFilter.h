@@ -25,8 +25,8 @@ namespace itk
 /** \class InteriorExteriorMeshFilter
  * \brief 
  *
- * InteriorExteriorMeshFilter takes an itk::Mesh and extract from it a Sub-Mesh
- * such that all its points Evaluate > 0 in a itk::SpatialFunction provided 
+ * InteriorExteriorMeshFilter takes an itk::Mesh and extracts from it a Sub-Mesh
+ * such that all its points Evaluate > 0 in an itk::SpatialFunction provided 
  * by the user. 
  *
  * This filter is templated over the Input Mesh type, the Output Mesh type
@@ -37,7 +37,7 @@ namespace itk
  * The additional content of the mesh is passed untouched. Including the 
  * connectivity and the additional information contained on cells and points.
  * However, attention should be paid to the cells because some of their points
- * could not exist in the output mesh, if they did not satisfay the criterion
+ * could not exist in the output mesh, if they did not satisfy the criterion
  * imposed by the spatial function.
  * 
  * \ingroup MeshFilters

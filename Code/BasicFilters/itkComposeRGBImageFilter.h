@@ -23,10 +23,10 @@
 /** \class ComposeRGBImageFilter
  * \brief Implements pixel-wise composition of an RGB pixel from three scalar images.
  *
- * This filter receives three scalar images as input. Each image containting
+ * This filter receives three scalar images as input. Each image containing
  * one of the RGB components of a color image. The filter produces as output an
  * RGB image in which the three components have been unified. The Component
- * type is preseverd from the PixelType of the input images.
+ * type is preserved from the PixelType of the input images.
  *
  * \ingroup IntensityImageFilters
  */

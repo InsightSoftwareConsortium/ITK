@@ -26,7 +26,7 @@ namespace itk
 /** \class NthElementImageAdaptor
  * \brief Presents an image as being composed of the N-th element of its pixels
  *
- * iIt assumes that the pixels are of container type and have in their API
+ * It assumes that the pixels are of container type and have in their API
  * an operator[]( unsigned int ) defined.
  *
  * Additional casting is performed according to the input and output image

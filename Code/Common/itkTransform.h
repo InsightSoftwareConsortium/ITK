@@ -44,7 +44,7 @@ namespace itk
  * methods are implemented in derived classes where appropriate.
  * 
  * \par Registration Framework Support
- * Typically a Transform class have several methods for setting its 
+ * Typically a Transform class has several methods for setting its 
  * parameters. For use in the registration framework, the parameters must
  * also be represented by an array of doubles to allow communication
  * with generic optimizers. The Array of transformation parameters is set using

@@ -52,11 +52,11 @@ namespace itk
    *
    * The behavior of the MetaDataObject<Type>::Print() function has many plausible
    * application dependant implementations.  The default implementation prints the
-   * a string "[UNKNOWN PRINT CHARACTERISTICS]" that is works for all possible
+   * string "[UNKNOWN PRINT CHARACTERISTICS]" that works for all possible
    * MetaDataObject types.
    *
    * The application developer may overload the default implementation to provide
-   * a specialized Print() characteristics to produce results desirable for their applicaiton.
+   * a specialized Print() characteristics to produce results desirable for their application.
    * A set of very crude Macros {NATIVE_TYPE_METADATAPRINT, ITK_OBJECT_TYPE_METADATAPRINT_1COMMA, ITK_IMAGE_TYPE_METADATAPRINT  }
    * are provided to facilitate a very simple implementation, and as an example.
 

@@ -33,7 +33,7 @@ namespace itk
  * This function works for N-dimensional images.
  *
  * \warning This function work only for Vector images. For
- * sclar images use LinearInterpolateImageFunction.
+ * scalar images use LinearInterpolateImageFunction.
  *
  * \ingroup ImageFunctions
  * 

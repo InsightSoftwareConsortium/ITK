@@ -27,7 +27,7 @@ namespace itk
  * \brief Take an image of vectors as input and produce an image with the
  *  magnitude of those vectors.
  *
- * The filter expect the input image pixel type to be a vector and 
+ * The filter expects the input image pixel type to be a vector and 
  * the output image pixel type to be a scalar.
  *
  * This filter assumes that the PixelType of the input image is a VectorType
