@@ -495,8 +495,8 @@ namespace itk
     averageAbsoluteGradient /= static_cast<double>(numberOfGradientEstimates);
   
     /** Set a in order to make the first steps approximately have an initialStepSize */
-    this->Seta( initialStepSize * pow(m_A + 1.0, m_Alpha) /
-    averageAbsoluteGradient.max_value() );
+    this->Seta( initialStepSize * vcl_pow(m_A + 1.0, m_Alpha) /
+                averageAbsoluteGradient.max_value() );
   
   } //end GuessParameters
 
