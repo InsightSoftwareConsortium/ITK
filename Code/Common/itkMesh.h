@@ -144,6 +144,8 @@ public:
    */
   typedef Cell< PixelType , CellType >  Cell;
   typedef Cell                          Boundary;
+  typedef Self::Cell::Pointer           CellPointer;
+  typedef Self::Boundary::Pointer       BoundaryPointer;
   
   /**
    * An explicit cell boundary assignment can be accessed through the cell
@@ -331,7 +333,7 @@ public:
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
-  bool GetCell(CellIdentifier, Cell::Pointer*) const;
+  bool GetCell(CellIdentifier, CellPointer*) const;
 
   /**
    * Access routines to fill the CellData container, and get information
@@ -345,7 +347,7 @@ public:
    * from it.
    */
   void SetBoundary(int dimension, BoundaryIdentifier, Boundary*);
-  bool GetBoundary(int dimension, BoundaryIdentifier, Boundary::Pointer*)
+  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
     const;
   
   /**
@@ -373,8 +375,8 @@ public:
    */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
 						   CellIdentifier) const;
-  Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
-					   CellFeatureIdentifier) const;
+  BoundaryPointer GetCellBoundaryFeature(int dimension, CellIdentifier,
+					 CellFeatureIdentifier) const;
   
 
   /**
@@ -387,7 +389,7 @@ public:
 
   bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
 				      CellFeatureIdentifier,
-				      Boundary::Pointer*) const;
+				      BoundaryPointer*) const;
 
   void BuildCellLinks(void);
   

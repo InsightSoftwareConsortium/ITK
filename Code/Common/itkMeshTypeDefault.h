@@ -53,6 +53,11 @@ class MeshTypeDefault
 {
 public:
   /**
+   * Standard definition.
+   */
+  typedef MeshTypeDefault  Self;
+  
+  /**
    * Just save all the template parameters.
    */
   typedef TPixelType  PixelType;
@@ -98,7 +103,13 @@ public:
    * define the cell type.
    */
   typedef MakeCellType                  CellType;
+  
+  /**
+   * Define the actual cell base type for this mesh type, and a corresponding
+   * pointer.  These two must remain as they are.
+   */
   typedef Cell< PixelType , CellType >  Cell;
+  typedef Self::Cell::Pointer           CellPointer;
   
   /**
    * Define the container types that will be used to store:
@@ -107,19 +118,19 @@ public:
    * The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface.
    */
-  typedef VectorContainer< CellIdentifier , Cell::Pointer >  
+  typedef VectorContainer< CellIdentifier , CellPointer >
   CellsContainer;
-  typedef std::set< CellIdentifier >                                      
+  typedef std::set< CellIdentifier >
   PointCellLinksContainer;
-  typedef VectorContainer< PointIdentifier , PointCellLinksContainer > 
+  typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
   CellLinksContainer;
-  typedef VectorContainer< PointIdentifier , PixelType >              
+  typedef VectorContainer< PointIdentifier , PixelType >
   PointDataContainer;
-  typedef VectorContainer< CellIdentifier , PixelType >                
+  typedef VectorContainer< CellIdentifier , PixelType >
   CellDataContainer;
-  typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >        
+  typedef VectorContainer< BoundaryIdentifier , CellPointer >
   BoundariesContainer;
-  typedef VectorContainer< BoundaryIdentifier , PixelType >          
+  typedef VectorContainer< BoundaryIdentifier , PixelType >
   BoundaryDataContainer;
 };
 

@@ -63,14 +63,14 @@ LineCell< TPixelType , TCellType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::Cell::Pointer
+LineCell< TPixelType , TCellType >::CellPointer
 LineCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetCellVertex(featureId));
+    default: return CellPointer(NULL);
     }
 }
 

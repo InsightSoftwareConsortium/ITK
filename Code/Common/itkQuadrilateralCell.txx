@@ -64,15 +64,15 @@ QuadrilateralCell< TPixelType , TCellType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-QuadrilateralCell< TPixelType , TCellType >::Cell::Pointer
+QuadrilateralCell< TPixelType , TCellType >::CellPointer
 QuadrilateralCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId));
-    case 1: return Cell::Pointer(GetCellEdge(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetCellVertex(featureId));
+    case 1: return CellPointer(GetCellEdge(featureId));
+    default: return CellPointer(NULL);
     }
 }
 

@@ -65,16 +65,16 @@ TetrahedronCell< TPixelType , TCellType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-TetrahedronCell< TPixelType , TCellType >::Cell::Pointer
+TetrahedronCell< TPixelType , TCellType >::CellPointer
 TetrahedronCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId));
-    case 1: return Cell::Pointer(GetCellEdge(featureId));
-    case 2: return Cell::Pointer(GetCellFace(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetCellVertex(featureId));
+    case 1: return CellPointer(GetCellEdge(featureId));
+    case 2: return CellPointer(GetCellFace(featureId));
+    default: return CellPointer(NULL);
     }
 }
 

@@ -61,6 +61,7 @@ public:
    * Quick access to the base class type.
    */
   typedef Cell< TPixelType , TCellType >  Cell;
+  typedef Self::Cell::Pointer             CellPointer;
   
   /**
    * The type of cells for this tetrahedron's vertices, edges, and faces.
@@ -84,7 +85,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(const PointIdentifier *ptList);
   virtual void SetCellPoints(const PointIdentifier* first,
 			     const PointIdentifier* last);
