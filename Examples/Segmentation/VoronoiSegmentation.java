@@ -5,7 +5,7 @@
 
 import InsightToolkit.*;
 
-public class VoronoiSegmentationImageFilter
+public class VoronoiSegmentation
 {
   public static void main( String argv[] )
   {
@@ -29,7 +29,7 @@ public class VoronoiSegmentationImageFilter
     filter.SetMeanPercentError( Integer.parseInt( argv[3] ) );
     filter.SetSTDPercentError(  Integer.parseInt( argv[4] ) );
 
-    itkImageFileWriterUC2_Pointer writer = itkImageFileWriterUS2.itkImageFileWriterUS2_New();
+    itkImageFileWriterUC2_Pointer writer = itkImageFileWriterUC2.itkImageFileWriterUC2_New();
 
     writer.SetInput( filter.GetOutput() );
     writer.SetFileName( argv[2] );
