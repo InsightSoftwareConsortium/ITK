@@ -265,9 +265,9 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   VersorType initialRotation;
   initialRotation.Set( axis, angle );
   
-  const unsigned int spaceDimensions = costFunction->GetNumberOfParameters();
+  const unsigned int parametersDimensions = costFunction->GetNumberOfParameters();
 
-  ParametersType  initialPosition( spaceDimensions );
+  ParametersType  initialPosition( parametersDimensions );
   initialPosition[0] = initialRotation.GetX();
   initialPosition[1] = initialRotation.GetY();
   initialPosition[2] = initialRotation.GetZ();
@@ -275,7 +275,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   initialPosition[4] = 0.0;
   initialPosition[5] = 0.0;
 
-  ScalesType    parametersScale( spaceDimensions );
+  ScalesType    parametersScale( parametersDimensions );
   const double translationScaleFactor = 50.0;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
@@ -311,15 +311,16 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
 
 
 
-  ParametersType finalPosition( spaceDimensions );
+  ParametersType finalPosition( parametersDimensions );
   finalPosition = itkOptimizer->GetCurrentPosition();
 
+  const unsigned int spaceDimensions = 3;
 
   VersorType finalRotation;
   VersorType::VectorType finalRightPart;
   for(unsigned int i=0; i< spaceDimensions; i++)
     {
-    finalRightPart[i] = finalPosition[i];
+    finalRightPart[ i ] = finalPosition[ i ];
     }
   finalRotation.Set( finalRightPart );
   std::cout << std::endl;
@@ -328,7 +329,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   VersorType::VectorType finalTranslation;
   for(unsigned int j=0; j< spaceDimensions; j++)
     {
-    finalTranslation[j] = finalPosition[j+3];
+    finalTranslation[ j ] = finalPosition[ j + spaceDimensions ];
     }
   std::cout << "Solution vector  = (" << finalTranslation << ")" << std::endl;  
 
@@ -348,7 +349,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
     
-  ParametersType trueParameters( spaceDimensions );
+  ParametersType trueParameters( parametersDimensions );
   trueParameters[0] = trueRotation.GetX();
   trueParameters[1] = trueRotation.GetY();
   trueParameters[2] = trueRotation.GetZ();
