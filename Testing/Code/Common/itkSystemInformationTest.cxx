@@ -37,7 +37,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
     }
 
 #ifdef _WIN32
-  std::ifstream fin(name, std::ios::in | std::ios::binary);
+  std::ifstream fin(name, std::ios::in);
 #else
   std::ifstream fin(name, std::ios::in);
 #endif
@@ -69,7 +69,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
     }
 }
 
-int itkSystemInformationTest(int,char *[])
+int itkSystemInformationTest(int,char *argv[])
 {
   const char* files[] =
     {
@@ -83,11 +83,26 @@ int itkSystemInformationTest(int,char *[])
     };
 
   const char** f;
+
+  std::ofstream outf(argv[1], std::ios::out);
+  outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
+  outf << "<Site BuildName=\"CMakeCache\"  Name=\"crd\">" << std::endl;
+  outf << "<BuildNameNotes>" << std::endl;
+  outf << "<Note>" << std::endl;
+  outf << "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>" << std::endl;
+  outf << "<Text>" << std::endl;
+ 
+  
   for(f = files; *f; ++f)
     {
-    itkSystemInformationPrintFile(*f, std::cout);
+    itkSystemInformationPrintFile(*f, outf);
     }
   
+  outf << "</Text>" << std::endl;
+  outf << "</Note>" << std::endl;
+  outf << "</BuildNameNotes>" << std::endl;
+  outf << "</Site>" << std::endl;
+
   return 0;
 } 
 

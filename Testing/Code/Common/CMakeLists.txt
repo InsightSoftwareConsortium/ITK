@@ -90,7 +90,7 @@ ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
-ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest)
+ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest "${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml")
 
 SET(BasicTests_SRCS
 itkModifiedTimeTest.cxx
