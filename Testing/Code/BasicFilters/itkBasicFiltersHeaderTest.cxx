@@ -85,6 +85,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGradientNDAnisotropicDiffusionFunction.txx"
 #include "itkGradientRecursiveGaussianImageFilter.txx"
 #include "itkGradientToMagnitudeImageFilter.h"
+#include "itkGrayscaleConnectedClosingImageFilter.txx"
+#include "itkGrayscaleConnectedOpeningImageFilter.txx"
 #include "itkGrayscaleDilateImageFilter.txx"
 #include "itkGrayscaleErodeImageFilter.txx"
 #include "itkGrayscaleFillholeImageFilter.txx"
