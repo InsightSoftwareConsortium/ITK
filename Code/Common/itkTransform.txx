@@ -50,8 +50,13 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-Transform<TScalarType,NDimensions>
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions,
+           class TParameters,
+           class TJacobianType>
+Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType>
 ::Transform()
 {
  
@@ -61,8 +66,13 @@ Transform<TScalarType,NDimensions>
 /**
  * Constructor
  */
-template <class TScalarType,unsigned int NDimensions>
-Transform<TScalarType,NDimensions>
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions,
+           class TParameters,
+           class TJacobianType>
+Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType>
 ::Transform( const Self & other )
 {
 }
@@ -71,14 +81,63 @@ Transform<TScalarType,NDimensions>
 /**
  * Assignment Operator
  */
-template <class TScalarType,unsigned int NDimensions>
-const Transform<TScalarType,NDimensions> &
-Transform<TScalarType,NDimensions>
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions,
+           class TParameters,
+           class TJacobianType>
+const 
+Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType> &
+Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType>
 ::operator=( const Self & other )
 {
   return *this;
 }
 
+
+// Compute the Jacobian of the transformation
+// It follows the same order of Parameters vector 
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions,
+           class TParameters,
+           class TJacobianType>
+const Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType>::JacobianType &
+Transform< TScalarType,NInputDimensions,NOutputDimensions,
+           TParameters,TJacobianType>
+::GetJacobian( const InputPointType & p ) const
+{
+  
+  // The Jacobian of the affine transform is composed of
+  // subblocks of diagonal matrices, each one of them having
+  // a constant value in the diagonal.
+
+  m_Jacobian.Fill( 0.0 );
+
+  unsigned int blockOffset = 0;
+  
+  for(unsigned int block=0; block < SpaceDimension; block++) 
+  {
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+    {
+       m_Jacobian[ block ][ blockOffset + dim ] = p[dim];
+    }
+
+    blockOffset += SpaceDimension;
+
+  }
+
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+  {
+     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
+  }
+
+  return m_Jacobian;
+
+}
 
 
 } // end namespace itk

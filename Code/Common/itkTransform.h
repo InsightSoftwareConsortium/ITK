@@ -41,11 +41,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkTransform_h
 #define __itkTransform_h
 
-#include "itkObject.h"
+#include "itkLightObject.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
+
+#include "itkObjectFactory.h"
 
 
 namespace itk
@@ -54,15 +56,26 @@ namespace itk
 /** \class Transform
  * \brief Generic concept of transformation methods
  *
- * This Abstract Class define the generic interface for a transformation. 
- * It contains a Transform method.
+ * This Abstract Class define the generic interface for a geometrical 
+ * transformation from one space to another. The class provides methods
+ * for mapping points from the input space to the output space, it also
+ * maps vectors and covariant vectors. 
+ *
+ * Given that transformation are not necesarily invertible, this basic
+ * class provide the methods for back transfromation. Derived classes that
+ * implement non-invertible transformation should throw exceptions when
+ * appropriate.
  *
  * \ingroup Transforms
  *
  */
 
-template <class TScalarType,unsigned int NDimensions>
-class ITK_EXPORT  Transform 
+template <class TScalarType,
+          unsigned int NInputDimensions, 
+          unsigned int NOutputDimensions,
+          class TParameters,
+          class TJacobianType >
+class ITK_EXPORT  Transform  : public LightObject
 {
 public:
   /**
@@ -73,58 +86,163 @@ public:
   /**
    * Dimension of the domain space
    */
-  enum { SpaceDimension     = NDimensions };
+  enum { InputSpaceDimension     = NInputDimensions,
+         OutputSpaceDimension    = NOutputDimensions   };
+
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef LightObject Superclass;
+
+
+  /** 
+   * Smart pointer typedef support 
+   */
+  typedef SmartPointer< Self >   Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
+
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro( Transform, LightObject );
+
+
+  /** 
+   * New method for creating an object using a factory
+   */
+  itkNewMacro(Self);
+
+
+
+  /** 
+   * Type of the input parameters
+   */
+  typedef  TParameters     ParametersType;
+
+
+  /** 
+   * Type of the Jacobian Matrix
+   */
+  typedef  TJacobianType JacobianType;
+
 
   /**
    * Standard vector type for this class
    */
-  typedef Vector<TScalarType, SpaceDimension> VectorType;
+  typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
+  typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+
 
   /**
    * Standard covariant vector type for this class
    */
-  typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
+  typedef CovariantVector<TScalarType, InputSpaceDimension>  InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
+
 
   /**
    * Standard vnl_vector type for this class
    */
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
+
 
   /**
    * Standard coordinate point type for this class
    */
-  typedef Point<TScalarType, SpaceDimension> PointType;
+  typedef Point<TScalarType, InputSpaceDimension> InputPointType;
+  typedef Point<TScalarType, InputSpaceDimension> OutputPointType;
+
 
   /**
    *  Method to transform a Point
    */
-  virtual PointType     TransformPoint(const PointType  &point ) const
-    { return point; }
+  virtual OutputPointType TransformPoint(const InputPointType  &point ) const
+    { OutputPointType result; return result; }
 
   /**
    *  Method to transform a vector
    */
-  virtual VectorType    TransformVector(const VectorType &vector) const
-    { return vector; }
+  virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
+    { OutputVectorType result; return result; }
 
   /**
    *  Method to transform a vnl_vector
    */
-  virtual VnlVectorType TransformVector(const VnlVectorType &vector) const
-    { return vector; }
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
+    { OutputVnlVectorType result; return result; }
 
   /**
    *  Method to transform a CovariantVector
    */
-  virtual CovariantVectorType TransformVector(
-    const CovariantVectorType &vector) const
-    { return vector; }
+  virtual OutputCovariantVectorType TransformCovariantVector(
+    const InputCovariantVectorType &vector) const
+    { OutputCovariantVectorType result; return result; }
 
+  /**
+   * Set the Transformation Parameters
+   * and update the internal transformation
+   */
+  void SetParameters(const ParametersType &);
+
+
+  /**
+   * Compute the Jacobian of the transformation
+   *
+   * This method computes the Jacobian matrix of the transformation.
+   * given point or vector, returning the transformed point or
+   * vector. The rank of the Jacobian will also indicate if the transform
+   * is invertible at this point.
+   *
+   * The Jacobian can be expressed as a set of partial derivatives of the
+   * output point components with respect to the parameters that defined
+   * the transform:
+   *
+   * \f[
+   *
+
+      J=\left[ \begin{array}{cccc}
+      \frac{\partial x_{1}}{\partial p_{1}} & \\
+      \frac{\partial x_{2}}{\partial p_{1}} & \\
+      \cdots  & \frac{\partial x_{n}}{\partial p_{1}}\\
+      \frac{\partial x_{1}}{\partial p_{2}} & \\
+      \frac{\partial x_{2}}{\partial p_{2}} & \\
+      \cdots  & \frac{\partial x_{n}}{\partial p_{2}}\\
+      \vdots  & \vdots  & \ddots  & \vdots \\
+      \frac{\partial x_{1}}{\partial p_{m}} & \\
+      \frac{\partial x_{2}}{\partial p_{m}} & \\
+      \cdots  & \frac{\partial x_{n}}{\partial p_{m}}
+      \end{array}\right] 
+      
+   *
+   * \f]
+   *
+   **/
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
+
+
+
+protected:
   
   Transform();
   virtual ~Transform() {};
   Transform(const Self&);
   const Self & operator=(const Self&);
+
+private:
+
+  /**
+   *  List of parameters that unambiguosly define the transformation
+   */  
+  ParametersType                      m_Parameters;
+
+  /**
+   * Jacobian matrix of the transformation. It is used to compute
+   * derivatives by using the chain rule.
+   */
+  mutable JacobianType                m_Jacobian;     
+
 
 };
 
