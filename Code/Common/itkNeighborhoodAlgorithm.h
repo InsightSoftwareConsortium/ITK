@@ -277,7 +277,7 @@ struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
  *  Neighborhood::Convolve function so that convolution is automatically
  *  specialized for the dimensionality of the neighborhood. 
  */
-template<class TPixel, int VDimension, class TAllocator>
+template<class TPixel, unsigned int VDimension, class TAllocator>
 Neighborhood<TPixel, VDimension, TAllocator>
 ConvolveND(Neighborhood<TPixel, VDimension, TAllocator>&,
          Neighborhood<TPixel, VDimension, TAllocator>&, int);  

@@ -321,43 +321,45 @@ void CalculateOutputWrapOffsetModifiers<TImage>
 
 
 
-template<class TPixel, int VDimension, class TAllocator>
+template<class TPixel, unsigned int VDimension, class TAllocator>
 Neighborhood<TPixel, VDimension, TAllocator>
 ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
          Neighborhood<TPixel, VDimension, TAllocator> &B, int Mode)
 {
   typedef Neighborhood<TPixel, VDimension, TAllocator> NeighborhoodType;
+
+  const int Dimension = static_cast<int>(VDimension);
   
   int iDim;
-  unsigned long BOffset[VDimension];
-  int iLoop[VDimension];
-  int jLoop[VDimension];
-  int overlap[VDimension];
-  int overlapStart[VDimension];
-  int End[VDimension];
-  int Start[VDimension];
-  int dist[VDimension];
-  const int C = VDimension-1;
+  unsigned long BOffset[Dimension];
+  int iLoop[Dimension];
+  int jLoop[Dimension];
+  int overlap[Dimension];
+  int overlapStart[Dimension];
+  int End[Dimension];
+  int Start[Dimension];
+  int dist[Dimension];
+  const int C = Dimension-1;
   bool iLoopNotDone;
   bool jLoopNotDone;
   int ChangedIdx;
   
   NeighborhoodType N;
   typename NeighborhoodType::Iterator Np;
-  typename NeighborhoodType::Iterator Ap[VDimension];
-  typename NeighborhoodType::Iterator Bp[VDimension];
-  unsigned long radius[VDimension];
+  typename NeighborhoodType::Iterator Ap[Dimension];
+  typename NeighborhoodType::Iterator Bp[Dimension];
+  unsigned long radius[Dimension];
   
-  int ARadius[VDimension];
-  int BRadius[VDimension];
-  int ASize[VDimension];
-  int BSize[VDimension];
-  unsigned long AStride[VDimension];
-  unsigned long BStride[VDimension];
+  int ARadius[Dimension];
+  int BRadius[Dimension];
+  int ASize[Dimension];
+  int BSize[Dimension];
+  unsigned long AStride[Dimension];
+  unsigned long BStride[Dimension];
   const typename NeighborhoodType::Iterator ApBegin = A.Begin();
   const typename NeighborhoodType::Iterator BpEnd = B.End() - 1;
 
-  for (iDim = 0; iDim < VDimension; ++iDim)
+  for (iDim = 0; iDim < Dimension; ++iDim)
     {
       ARadius[iDim] = (int) A.GetRadius()[iDim];
       BRadius[iDim] = (int) B.GetRadius()[iDim];
@@ -370,7 +372,7 @@ ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
 
   if (Mode==0) // Result radius is increased over A::Radius by B::Radius
     {
-      for (iDim = 0; iDim < VDimension; ++iDim)
+      for (iDim = 0; iDim < Dimension; ++iDim)
         {
           radius[iDim]       = ARadius[iDim] + BRadius[iDim];
           Start[iDim]        = -BSize[iDim] + 1;
@@ -383,7 +385,7 @@ ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
     }
   else  // Constrain result radius to A::Radius
     {
-      for (iDim = 0; iDim < VDimension; ++iDim)
+      for (iDim = 0; iDim < Dimension; ++iDim)
         {
           Start[iDim]        = -BRadius[iDim];
           iLoop[iDim]        = Start[iDim]; // Initialize iLoop indicies
@@ -434,7 +436,7 @@ ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
       
       // Convolve
       // Initialize jLoop indicies
-      memset(jLoop, 0, sizeof(int)*VDimension);
+      memset(jLoop, 0, sizeof(int)*Dimension);
             
       jLoopNotDone = true;
       while( jLoopNotDone )
@@ -449,7 +451,7 @@ ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
           Bp[0] -= BOffset[0];
           
           // Increment higher jLoop indicies.
-          for (iDim = 1; iDim < VDimension; ++iDim)
+          for (iDim = 1; iDim < Dimension; ++iDim)
             {
               ++jLoop[iDim];
               if ( jLoop[iDim] == overlap[iDim] )
@@ -468,7 +470,7 @@ ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
         }       
       
       // Increment iLoop indicies.
-      for (iDim = 0, ChangedIdx = 0; iDim < VDimension; ++iDim)
+      for (iDim = 0, ChangedIdx = 0; iDim < Dimension; ++iDim)
         {
           ++iLoop[iDim];
           if ( iLoop[iDim] == End[iDim] )
