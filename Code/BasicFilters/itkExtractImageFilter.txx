@@ -165,11 +165,16 @@ ExtractImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      // copy the first part of the input spacing and origing to the output
-      for (i=0; i < OutputImageDimension; ++i)
+      // copy the non-collapsed part of the input spacing and origing to the output
+      int nonZeroCount = 0;
+      for (i=0; i < InputImageDimension; ++i)
         {
-        outputSpacing[i] = inputSpacing[i];
-        outputOrigin[i] = inputOrigin[i];
+        if (m_ExtractionRegion.GetSize[i])
+          {
+          outputSpacing[nonZeroCount] = inputSpacing[i];
+          outputOrigin[nonZeroCount] = inputOrigin[i];
+          nonZeroCount++;
+          }
         }
       }
 
