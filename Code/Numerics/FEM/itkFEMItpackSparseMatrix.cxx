@@ -17,6 +17,7 @@
 #include "itpack.h"
 #include "itpack_f2c.h"
 #include "itkFEMItpackSparseMatrix.h"
+#include "itkFEMException.h"
 
 namespace itk {
 namespace fem {
@@ -88,7 +89,7 @@ void ItpackSparseMatrix::Initialize()
   if ( (m_N <= 0) || (m_NZ <= 0) ) 
   { 
     /* FIX ME: error handling */
-    throw ;
+    throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Initialize");
   }
 
   /* initialize itpack variables */
@@ -132,7 +133,7 @@ void ItpackSparseMatrix::Initialize()
   m_MatrixInitialized = 1;
   m_MatrixFinalized = 0;
 
-  /* Do this to avoid itpack stupidness (only it's somehow my stupidness) */
+  /* Do this to avoid itpack ignorance (unless it's somehow my ignorance) */
   for (i=0; i<m_N; i++)
   {
     this->Set(i,i,0.0);
@@ -183,9 +184,7 @@ void ItpackSparseMatrix::Finalize()
   /* check */
   if ( (m_MatrixFinalized != 0) || (m_MatrixInitialized == 0) ) 
   {
-    /* FIX ME: error handling */
-
-    return;
+    throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Finalize");
   }
 
   //std::cout << "sbend_ ... " << std::endl;
@@ -210,9 +209,7 @@ void ItpackSparseMatrix::UnFinalize()
   /* check if this op makes sense*/
   if ( (m_MatrixFinalized == 0) || (m_MatrixInitialized == 0) )
   {
-    /* FIX ME: error handling */
-
-    return;
+    throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::UnFinalize");
   }
 
   integer IER = 0;
@@ -241,9 +238,7 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
     /* initialize if prepared */
     if ( (m_N <= 0) || (m_NZ <= 0) )
     {
-      /* FIX ME: error handling */
-
-      throw FEMException(__FILE__, __LINE__, "FEM error");
+      throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Set");
     }
     else 
     {
@@ -289,11 +284,9 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   {
 
     /* initialize if prepared */
-    if ( (m_N == 0) || (m_NZ == 0) )
+    if ( (m_N <= 0) || (m_NZ <= 0) )
     {
-      /* FIX ME: error handling */
-
-      return;
+      throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Add");
     }
     else 
     {
@@ -333,7 +326,6 @@ itpack::doublereal ItpackSparseMatrix::Get(integer i, integer j)
   /* check for readiness */
   if (m_MatrixInitialized != 0)
   {  
-
 
     /* ensure matrix is in readable form */
     if (m_MatrixFinalized == 0)
@@ -428,7 +420,8 @@ void ItpackSparseMatrix::mult(doublereal* vector, doublereal* result)
 
 void ItpackSparseMatrix::mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatrix* resultMatrix)
 {
-  /* ensure appropriate matrix sizes */
+
+    /* ensure appropriate matrix sizes */
   if (m_N != rightMatrix->GetOrder())
   {
     return;

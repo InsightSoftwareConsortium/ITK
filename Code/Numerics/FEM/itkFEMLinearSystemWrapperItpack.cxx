@@ -780,7 +780,6 @@ void LinearSystemWrapperItpack::MultiplyMatrixMatrix(unsigned int resultMatrixIn
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixMatrix", "m_Matrices", rightMatrixIndex);
   }
 
-
   (*m_Matrices)[leftMatrixIndex].mult( &((*m_Matrices)[rightMatrixIndex]), &((*m_Matrices)[resultMatrixIndex]) );
 
 }
