@@ -22,6 +22,8 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkConvertPixelBuffer.txx"
+#include "itkDICOMImageIO2.h"
+#include "itkDICOMImageIO2Factory.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkDicomImageIO.h"
 #include "itkDicomImageIOFactory.h"
