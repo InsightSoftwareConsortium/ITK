@@ -87,6 +87,8 @@ unsigned int dim )
   m_Derivative -= ScalarTraits<PixelType>::GetScalar(
     m_Image->GetPixel( neighIndex ) );
 
+  m_Derivative *= 0.5;
+
   return ( m_Derivative );
 
 }

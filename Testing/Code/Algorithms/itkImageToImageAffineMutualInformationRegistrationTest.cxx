@@ -124,7 +124,7 @@ int main()
 
   // set optimization related parameters
   registrationMethod->SetNumberOfIterations( 250 );
-  registrationMethod->SetLearningRate( 0.1 );
+  registrationMethod->SetLearningRate( 0.2 );
 
   //
   // only allow translation - since the metric will allow any
