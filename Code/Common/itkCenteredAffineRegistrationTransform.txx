@@ -55,6 +55,7 @@ template <class TScalarType,unsigned int NDimensions, class TParameters>
 CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::CenteredAffineRegistrationTransform()
 {
+  m_TranslationScale = 1.0;
   m_DomainTransformationCenter.Fill( 0 );
   m_RangeTransformationCenter.Fill( 0 );
 }
@@ -68,6 +69,7 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::CenteredAffineRegistrationTransform( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
+  m_TranslationScale = other.m_TranslationScale;
   m_DomainTransformationCenter = other.m_DomainTransformationCenter;
   m_RangeTransformationCenter = other.m_RangeTransformationCenter;
 }
@@ -83,6 +85,7 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
   m_AffineTransform = other.m_AffineTransform;
+  m_TranslationScale = other.m_TranslationScale;
   m_DomainTransformationCenter = other.m_DomainTransformationCenter;
   m_RangeTransformationCenter = other.m_RangeTransformationCenter;
   return *this;
@@ -135,7 +138,7 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++)
   {
-    constant[i] = m_Parameters[par] +
+    constant[i] = m_Parameters[par] * m_TranslationScale +
       m_RangeTransformationCenter[i] - temp[i];
     ++par;
   }
@@ -178,7 +181,7 @@ CenteredAffineRegistrationTransform<TScalarType, NDimensions,TParameters>
 
   for(unsigned int dim=0; dim < SpaceDimension; dim++ )
   {
-     m_Jacobian[ dim ][ blockOffset + dim ] = 1;
+     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
   }
 
   return m_Jacobian;
