@@ -41,10 +41,13 @@ public:
  * returns.
  *
  * Template parameters for class FixedArray:
- *
  * - TValueType = Element type stored at each location in the array.
- *
  * - VLength    = Length of the array.
+ *
+ * The length of the array is fixed at compile time. If you wish to
+ * specify the length of the array at run-time, use the class itk::Array.
+ * If you wish to change to change the length of the array at run-time,
+ * you're best off using std::vector<>.
  *
  * \ingroup DataRepresentation 
  */
