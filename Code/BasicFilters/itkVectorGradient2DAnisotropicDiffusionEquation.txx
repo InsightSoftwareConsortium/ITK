@@ -71,7 +71,8 @@ VectorGradient2DAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 VectorGradient2DAnisotropicDiffusionEquation<TImage>::PixelType
 VectorGradient2DAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const NeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const NeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
   unsigned int j;
   double Cx, Cy, Cxd, Cyd;
@@ -132,7 +133,8 @@ VectorGradient2DAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 VectorGradient2DAnisotropicDiffusionEquation<TImage>::PixelType
 VectorGradient2DAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
   unsigned int j;
   double Cx, Cy, Cxd, Cyd;

@@ -75,7 +75,9 @@ public:
   typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType
+  BoundaryNeighborhoodType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
   enum { VectorDimension= Superclass::VectorDimension };
   /** 
@@ -99,13 +101,17 @@ public:
    *
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                       TimeStepType &dt) const;
+                                  void * globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
   /**
    *
    */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-  &neighborhood, TimeStepType &dt) const;
+                                  &neighborhood, void * globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
 
   /**

@@ -51,10 +51,22 @@ namespace itk {
 /**
  * \class Gradient2DAnisotropicDiffusionEquation
  *  
- * \ingroup Operators
+ * This class implements an anisotropic equation with a conductance term that
+ * varies spatially according to the gradient magnitude of the image.  See
+ * AnisotropicDiffusionEquation for more information on anisotropic diffusion
+ * equations.
+ * The conductance term of the equation has the following form:
  *
- * \todo Convert this class to ND and write a 2DGradientAnis....Equation
- */ 
+ * \f[C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}\f].
+ *
+ * Edge features tend to be preserved in the processed image.
+ *
+ * This class implements a special case where the image has is two dimensional.
+ *
+ * \sa AnisotropicDiffusionEquation
+ * \sa GradientNDAnisotropicDiffusionEquation
+ * \ingroup Operators
+ */
 template <class TImage>
 class Gradient2DAnisotropicDiffusionEquation :
     public ScalarAnisotropicDiffusionEquation<TImage>
@@ -74,7 +86,9 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType
+  BoundaryNeighborhoodType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
   /** 
    * Smart pointer support for this class.
@@ -97,13 +111,17 @@ public:
    *
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                       TimeStepType &dt) const;
+                                  void *globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
   /**
    *
    */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-  &neighborhood, TimeStepType &dt) const;
+                                  &neighborhood, void *globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
 
   /**

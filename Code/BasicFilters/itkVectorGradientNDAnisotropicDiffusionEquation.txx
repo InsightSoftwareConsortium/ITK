@@ -50,7 +50,10 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   unsigned int i;
   RadiusType r;
   r[0] = 2;
-  r[1] = 1;
+  for (i = 0; i < ImageDimension; ++i)
+    {
+      r[i] = 1;
+    }
   this->SetRadius(r);
   
   // Dummy neighborhood
@@ -77,7 +80,8 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 VectorGradientNDAnisotropicDiffusionEquation<TImage>::PixelType
 VectorGradientNDAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const NeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const NeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
   unsigned int j;
   PixelType delta;
@@ -159,9 +163,10 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 VectorGradientNDAnisotropicDiffusionEquation<TImage>::PixelType
 VectorGradientNDAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
-    unsigned int j;
+  unsigned int j;
   PixelType delta;
 
   ScalarValueType GradMag[ImageDimension];

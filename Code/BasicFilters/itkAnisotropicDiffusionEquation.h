@@ -52,8 +52,8 @@ namespace itk {
  * \brief Base class for anisotropic diffusion equation objects.
  *
  * Anisotropic diffusion methods are a tools for calculating multi-scale
- * descriptions of images. Embed an image \f$U(/mathbf{x})\f$ in a higher
- * dimensional function of derived images, \f$U(/mathbf{x}, t)\f$.  This higher
+ * descriptions of images. Embed an image \f$U(\mathbf{x})\f$ in a higher
+ * dimensional function of derived images, \f$U(\mathbf{x}, t)\f$.  This higher
  * dimensional function represents the solution of the heat diffusion equation,
  *
  * \f[\frac{d U(\mathbf{x})}{d t} = \nabla \cdot c \nabla U(\mathbf{x})\f]
@@ -84,12 +84,11 @@ namespace itk {
  * \sa CurvatureAnisotropicDiffusionEquation
  * \sa VectorGradientAnisotropicDiffusionEquation
  * 
- * \reference
- * \reference
  *
  * \ingroup Operators
  *
- * \todo Documentation, references */
+ * \todo Documentation, references
+ */
 template <class TImage>
 class AnisotropicDiffusionEquation :
     public FiniteDifferenceEquation<TImage>
@@ -110,8 +109,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
-
-  //  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
 
   /** 
@@ -140,31 +138,74 @@ public:
   /**
    * Required by FiniteDifferenceImageFilter to set the initial value
    * of the time step for an iteration.
+   * \deprecated
    */
-  virtual TimeStepType GetInitialTimeStep() const
-  {    return this->GetTimeStep();  }
+  //  virtual TimeStepType GetInitialTimeStep() const
+  //  {    return this->GetTimeStep();  }
 
+  /**
+   *
+   */
   void SetTimeStep(const TimeStepType &t)
     { m_TimeStep = t; }
+
+  /**
+   *
+   */
   const TimeStepType &GetTimeStep() const
     { return m_TimeStep; }
+
+  /**
+   *
+   */
   void SetConductanceParameter(const double &c)
     { m_ConductanceParameter = c; }
+
+  /**
+   *
+   */
   const double &GetConductanceParameter() const
     { return m_ConductanceParameter; }
 
+  /**
+   *
+   */
   const double &GetAverageGradientMagnitudeSquared() const
     { return m_AverageGradientMagnitudeSquared;  }
 
+  /**
+   *
+   */
   void SetAverageGradientMagnitudeSquared(const double &c)
     { m_AverageGradientMagnitudeSquared = c; }
 
+  /**
+   * Returns the time step supplied by the user.  We don't need to use the
+   * global data supplied since we are returning a fixed value.
+   */
+  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
+    { return this->GetTimeStep(); }
+
+  /**
+   * The anisotropic diffusion classes don't use this particular parameter
+   * so it's safe to return a null value.
+   */
+  virtual void *GetGlobalDataPointer() const
+    {  return 0; }
+
+  /**
+   * Does nothing.  No global data is used in this class of equations.
+   */
+  virtual void ReleaseGlobalDataPointer(void *GlobalData) const
+    { /* do nothing */ }
+
+  
 protected:
   AnisotropicDiffusionEquation()
     {
       m_AverageGradientMagnitudeSquared = 0.0;
-      m_ConductanceParameter     = 0.0;
-      m_TimeStep                 = 0.125f;
+      m_ConductanceParameter     = 1.0;     // default value
+      m_TimeStep                 = 0.125f;  // default value
     }
   ~AnisotropicDiffusionEquation() {}
   AnisotropicDiffusionEquation(const Self&) {}

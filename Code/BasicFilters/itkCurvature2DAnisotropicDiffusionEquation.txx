@@ -71,7 +71,8 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 Curvature2DAnisotropicDiffusionEquation<TImage>::PixelType
 Curvature2DAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const NeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const NeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
   const PixelType Zero = NumericTraits<PixelType>::Zero;
   const PixelType One  = NumericTraits<PixelType>::One;
@@ -143,7 +144,8 @@ Curvature2DAnisotropicDiffusionEquation<TImage>
 template<class TImage>
 Curvature2DAnisotropicDiffusionEquation<TImage>::PixelType
 Curvature2DAnisotropicDiffusionEquation<TImage>
-::ComputeUpdate(const BoundaryNeighborhoodType &it, TimeStepType &dt) const
+::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
+                const FloatOffsetType& offset) const
 {
   const PixelType Zero = NumericTraits<PixelType>::Zero;
   const PixelType One  = NumericTraits<PixelType>::One;

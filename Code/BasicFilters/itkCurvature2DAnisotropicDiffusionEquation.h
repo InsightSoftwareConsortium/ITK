@@ -53,7 +53,16 @@ namespace itk {
  *  
  * \ingroup Operators 
  *
- * \todo Convert this class to ND and write a 2DCurvatureAnis....Equation
+ * This is a class of AnisotropicDiffusionEquation whose conductance
+ * term varies inversely with curvature in the image.  Areas with high
+ * curvature undergo less diffusion.
+ *
+ *
+ *
+ *
+ *
+ *
+ * 
  */ 
 template <class TImage>
 class Curvature2DAnisotropicDiffusionEquation :
@@ -76,6 +85,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   enum { ImageDimension = Superclass::ImageDimension };
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   /** 
    * Smart pointer support for this class.
    */
@@ -97,13 +107,16 @@ public:
    *
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                       TimeStepType &dt) const;
+                                  void * globalData,
+                             const FloatOffsetType& offset = m_ZeroOffset) const;
 
   /**
    *
    */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-  &neighborhood, TimeStepType &dt) const;
+                                  &neighborhood, void * globalData, const
+                                  FloatOffsetType& offset = m_ZeroOffset)
+    const;
 
 
   /**

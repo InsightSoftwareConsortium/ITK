@@ -58,9 +58,9 @@ namespace itk {
  *                 Since we are talking about vector anisotropic diffusion,
  *                 this is the type of an element of the vector (float, etc.)
  *
- *  \ingroup Operators
+ *
  * 
- * \todo Convert this class to ND and write a 2DGradientAnis....Equation
+ *  \ingroup Operators
  */ 
 template <class TImage>
 class VectorGradient2DAnisotropicDiffusionEquation :
@@ -81,7 +81,9 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType
+  BoundaryNeighborhoodType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
   enum { VectorDimension= Superclass::VectorDimension };
 
@@ -112,13 +114,17 @@ public:
    *
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                       TimeStepType &dt) const;
+                                  void * globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
   /**
    *
    */
   virtual PixelType ComputeUpdate(const BoundaryNeighborhoodType
-  &neighborhood, TimeStepType &dt) const;
+                                  &neighborhood, void * globalData,
+                                  const FloatOffsetType& offset = m_ZeroOffset
+                                  ) const;
 
 
   /**
