@@ -151,6 +151,10 @@ public:
     typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
     typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
 
+    /// Standard vnl vector type for this class
+    typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension>  OutputVnlVectorType;
+
     /// Standard coordinate point type for this class
     typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
     typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
