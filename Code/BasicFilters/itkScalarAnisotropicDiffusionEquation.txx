@@ -141,7 +141,7 @@ ScalarAnisotropicDiffusionEquation<TImage>
   m_AverageGradientMagnitudeSquared =( (PixelType) (accumulator / counter) );
 
   //DEBUG
-  std::cout << m_AverageGradientMagnitudeSquared << std::endl;
+  //  std::cout << m_AverageGradientMagnitudeSquared << std::endl;
   // end DEBUG
 }
 
