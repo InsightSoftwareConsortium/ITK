@@ -63,6 +63,8 @@ class ITK_EXPORT RegistrationMapperProcrustes :
 public:
   /** Standard class typedefs. */
   typedef RegistrationMapperProcrustes  Self;
+  typedef VectorContainer< unsigned long, 
+                           Point<double,NDimension> >    DomainType;
   typedef RegistrationMapper< DomainType, TTransformation > Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -72,10 +74,6 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegistrationMapperProcrustes, RegistrationMapper);
-
-  /**  Type of the domain. */
-  typedef VectorContainer< unsigned long, 
-                           Point<double,NDimension> >    DomainType;
 
   /**  Type of the transformation. */
   typedef TTransformation       TransformationType;
