@@ -65,11 +65,21 @@ fi
 ITKTCL_LIBDIR=`cd "${ITKTCL_SELFDIR}/../lib/InsightToolkit"; pwd`
 
 # Setup environment.
-if [ -z "$LD_LIBRARY_PATH" ]; then
-  export LD_LIBRARY_PATH="$ITKTCL_LIBDIR"
-else
-  export LD_LIBRARY_PATH="$ITKTCL_LIBDIR:$LD_LIBRARY_PATH"
-fi
+case "`uname`" in
+Darwin)
+  if [ -z "$DYLD_LIBRARY_PATH" ]; then
+    export DYLD_LIBRARY_PATH="$ITKTCL_LIBDIR"
+  else
+    export DYLD_LIBRARY_PATH="$ITKTCL_LIBDIR:$DYLD_LIBRARY_PATH"
+  fi
+  ;;
+*)
+  if [ -z "$LD_LIBRARY_PATH" ]; then
+    export LD_LIBRARY_PATH="$ITKTCL_LIBDIR"
+  else
+    export LD_LIBRARY_PATH="$ITKTCL_LIBDIR:$LD_LIBRARY_PATH"
+  fi
+esac
 
 if [ -z "$TCLLIBPATH" ]; then
   export TCLLIBPATH="\"$ITKTCL_LIBDIR\""
