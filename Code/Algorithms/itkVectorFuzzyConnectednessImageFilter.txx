@@ -23,6 +23,15 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::VectorFuzzyConnectednessImageFilter()
+  : m_SpherePointsNum(0),
+    m_SpherePointsLoc(0),
+    m_ObjectsMean(0),
+    m_ObjectsSeed(0),
+    m_ObjectsCovMatrix(0),
+    m_ObjectsMap(0),
+    m_ObjectsMaxDiff(0),
+    m_Objects(1),
+    m_SelectedObject(0)
 {
 }
 
@@ -33,6 +42,41 @@ template <class TInputImage, class TOutputImage>
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::~VectorFuzzyConnectednessImageFilter()
 {
+  if (m_SpherePointsNum)
+    {
+    delete [] m_SpherePointsNum;
+    m_SpherePointsNum = 0;
+    }
+  if (m_SpherePointsLoc)
+    {
+    delete [] m_SpherePointsLoc;
+    m_SpherePointsLoc = 0;
+    }
+  if (m_ObjectsMean)
+    {
+    delete [] m_ObjectsMean;
+    m_ObjectsMean = 0;
+    }
+  if (m_ObjectsSeed)
+    {
+    delete [] m_ObjectsSeed;
+    m_ObjectsSeed = 0;
+    }
+  if (m_ObjectsCovMatrix)
+    {
+    delete [] m_ObjectsCovMatrix;
+    m_ObjectsCovMatrix = 0;
+    }
+  if (m_ObjectsMap)
+    {
+    delete [] m_ObjectsMap;
+    m_ObjectsMap = 0;
+    }
+  if (m_ObjectsMaxDiff)
+    {
+    delete [] m_ObjectsMaxDiff;
+    m_ObjectsMaxDiff = 0;
+    }
 }
 
 /**
@@ -77,7 +121,6 @@ void
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::Initialization()
 {
-  
   m_SpherePointsNum = new int[8+1];
   m_SpherePointsLoc = new OffsetType[8+1];
 
@@ -86,7 +129,6 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_ObjectsCovMatrix = new MatrixType[m_Objects];
   m_ObjectsMap = new FloatType[m_Objects];
   m_ObjectsMaxDiff = new VDVector[m_Objects];
-
 }
 
 
@@ -516,7 +558,10 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     }
 
   for(i = 0;i<VectorDimension;i++)
+    {
     Histogram[i].resize(0);
+    }
+  delete [] Histogram;
 }
 
 template <class TInputImage, class TOutputImage>
