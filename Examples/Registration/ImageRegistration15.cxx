@@ -80,6 +80,7 @@ public:
         { 
         std::cout << optimizer->GetCurrentIteration() << "   ";
         std::cout << currentValue << "   ";
+        std::cout << optimizer->GetFrobeniusNorm() << "   ";
         std::cout << optimizer->GetCurrentPosition() << std::endl;
         m_LastMetricValue = currentValue;
         }
@@ -97,7 +98,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
-    std::cerr << "[initialRadius] [epsilon]" << std::endl;
+    std::cerr << "[initialRadius] [epsilon] [initialTx] [initialTy]" << std::endl;
     return 1;
     }
   
@@ -184,10 +185,23 @@ int main( int argc, char *argv[] )
 
   transform->SetIdentity();
 
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  typedef RegistrationType::ParametersType ParametersType;
+  
+  ParametersType initialParameters =  transform->GetParameters();
+
+  initialParameters[0] = 0.0;
+  initialParameters[1] = 0.0;
+
+  if( argc > 8 )
+    {
+    initialParameters[0] = atof( argv[7] );
+    initialParameters[1] = atof( argv[8] );
+    }
+  
+  registration->SetInitialTransformParameters( initialParameters  );
 
   std::cout << "Initial transform parameters = ";
-  std::cout << transform->GetParameters() << std::endl;
+  std::cout << initialParameters << std::endl;
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
@@ -250,7 +264,6 @@ int main( int argc, char *argv[] )
     return -1;
     } 
 
-  typedef RegistrationType::ParametersType ParametersType;
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
   
