@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageBase.cxx
+  Module:    itkImageRegionIterator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,48 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageBase.h"
+
+// #include "itkImageRegionIterator.h"
 
 ITK_NAMESPACE_BEGIN
-  
-/**
- *
- */
-ImageBase
-::ImageBase()
-{
-}
-
-
-/**
- *
- */
-ImageBase
-::~ImageBase()
-{
-  this->Initialize();
-}
-
-
-/**
- *
- */
-void 
-ImageBase
-::Initialize()
-{
-  this->DataObject::Initialize();
-}
-
-
-/**
- *
- */
-void 
-ImageBase
-::PrintSelf(std::ostream& os, Indent indent)
-{
-  DataObject::PrintSelf(os,indent);
-}
 
 ITK_NAMESPACE_END

@@ -58,45 +58,6 @@ public:
    */
   void Initialize();
 
-  /** 
-   * Overload DataObject method.
-   */
-  virtual void SetDimension(unsigned int dim);
-
-  /** 
-   * Set the size of the image. This method assumes that
-   * the dimension of the data has been set. This method
-   * allocates memory for the image (hence the virtual).
-   */
-  virtual void SetSize(unsigned long *size);
-
-  /** 
-   * Get the size of the image. 
-   */
-  const unsigned long *GetSize() const {return m_Size;} ;
-  
-  /** 
-   * Set the spacing of the image. This method assumes that
-   * the dimension of the data has been set. 
-   */
-  void SetSpacing(float *spacing);
-
-  /** 
-   * Get the size of the image. 
-   */
-  const float *GetSpacing() const {return m_Spacing;} ;
-  
-  /** 
-   * Set the origin of the image. This method assumes that
-   * the dimension of the data has been set. 
-   */
-  void SetOrigin(float *origin);
-
-  /** 
-   * Get the origin of the image. 
-   */
-  const float *GetOrigin() const {return m_Origin;} ;
-  
 protected:
   ImageBase();
   ~ImageBase();
@@ -105,10 +66,6 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  unsigned long *m_Size;
-  float         *m_Spacing;
-  float         *m_Origin;
-  
 };
 
 ITK_NAMESPACE_END

@@ -23,22 +23,30 @@
 
 ITK_NAMESPACE_BEGIN
 
-/** \class Index
+/** 
+ * \class Index
  * \brief Represent a n-dimensional index in a n-dimensional image.
  *
- * Index is a templated class to represent a multi-dimensional index.  
- * Index is templated over the dimension of the index.
+ * Index is a templated class to represent a multi-dimensional
+ * index, i.e. (i,j,k). Index is templated over the dimension of the index.
+ * itk assumes the first element of an index is the fastest moving index.
  *
  * For efficiency sake, Index does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * Should there be an BoundedIndex to handle bounds checking? Or should
+ * Index is an "aggregate" class.  Its data is public (m_Index)
+ * allowing for fast and convienent instantiations/assignments.
+ *
+ * The following syntax for assigning an index is allowed/suggested:
+ *    Index<3> index = {5, 2, 7};
+ *
+ * Should there be an itkBoundedIndex to handle bounds checking? Or should
  * there be an API to perform bounded increments in the iterator.
  */
 
 
-template<unsigned int TIndexDimension=2>
+template<unsigned int VIndexDimension=2>
 class Index {
 public:
   /**
@@ -49,7 +57,7 @@ public:
   /**
    * Get the dimension (size) of the index.
    */
-  static unsigned int GetIndexDimension() { return TIndexDimension; }
+  static unsigned int GetIndexDimension() { return VIndexDimension; }
 
   /**
    * Add two indices. This method models a random access Index.
@@ -58,7 +66,7 @@ public:
   operator+(const Self &vec)
     {
     Self result;
-    for (unsigned int i=0; i < TIndexDimension; i++)
+    for (unsigned int i=0; i < VIndexDimension; i++)
       { result[i] = m_Index[i] + vec.m_Index[i]; }
     return result;
     }
@@ -69,7 +77,7 @@ public:
   const Self &
   operator+=(const Self &vec)
     {
-    for (unsigned int i=0; i < TIndexDimension; i++)
+    for (unsigned int i=0; i < VIndexDimension; i++)
       { m_Index[i] += vec.m_Index[i]; }
     return *this;
     }
@@ -81,7 +89,7 @@ public:
   operator-(const Self &vec)
     {
     Self result;
-    for (unsigned int i=0; i < TIndexDimension; i++)
+    for (unsigned int i=0; i < VIndexDimension; i++)
       { result[i] = m_Index[i] - vec.m_Index[i]; }
     return result;
     }
@@ -92,24 +100,43 @@ public:
   const Self &
   operator-=(const Self &vec)
     {
-    for (unsigned int i=0; i < TIndexDimension; i++)
+    for (unsigned int i=0; i < VIndexDimension; i++)
       { m_Index[i] -= vec.m_Index[i]; }
     return *this;
     }
 
   /**
-   * Access an element of the index. Elements are numbered
-   * 0, ..., TIndexDimension-1. No bounds checking is performed.
+   * Compare two indices.
    */
-  unsigned long & operator[](unsigned int dim)
+  bool
+  operator==(const Self &vec)
+    {
+    bool same=1;
+    for (unsigned int i=0; i < VIndexDimension && same; i++)
+      { same = (m_Index[i] == vec.m_Index[i]); }
+    return same;
+    }
+
+  /**
+   * Access an element of the index. Elements are numbered
+   * 0, ..., VIndexDimension-1. No bounds checking is performed.
+   */
+  long & operator[](unsigned int dim)
     { return m_Index[dim]; }
-  
+
+  /**
+   * Access an element of the index. Elements are numbered
+   * 0, ..., VIndexDimension-1. This version can only be an rvalue.
+   * No bounds checking is performed.
+   */
+  long operator[](unsigned int dim) const
+    { return m_Index[dim]; }
 
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const unsigned long *GetIndex() const { return m_Index; };
+  const long *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
@@ -117,54 +144,47 @@ public:
    * memory that is the appropriate size.
    * \sa GetIndex
    */
-  void SetIndex(const long val[TIndexDimension])
-    { memcpy(m_Index, val, sizeof(long)*TIndexDimension); }
+  void SetIndex(const long val[VIndexDimension])
+    { memcpy(m_Index, val, sizeof(long)*VIndexDimension); }
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
-   * values of "dim" are 0, ..., TIndexDimension-1.
+   * values of "dim" are 0, ..., VIndexDimension-1.
    *
    * This routine will throw an exception (InvalidDimension) if
    * "dim" > dimension of the index.
    */
   static Self GetBasisIndex(unsigned int dim); 
 
+  /**
+   * Index is an "aggregate" class.  Its data is public (m_Index)
+   * allowing for fast and convienent instantiations/assignments.
+   *
+   * The following syntax for assigning an index is allowed/suggested:
+   *    Index<3> index = {5, 2, 7};
+   */
+  long m_Index[VIndexDimension];
+  
 public:
-  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  unsigned long m_Index[TIndexDimension];
 };
 
-template<unsigned int TIndexDimension>
-void 
-Index<TIndexDimension>
-::PrintSelf(std::ostream& os, Indent indent)
-{
-  unsigned int i;
-  
-  os << "[";
-  for (i=0; i < TIndexDimension - 1; i++)
-    {
-    os << m_Index[i] << ", ";
-    }
-  os << m_Index[i] << "] ";
-}
 
-template<unsigned int TIndexDimension>
-Index<TIndexDimension> 
-Index<TIndexDimension>
+template<unsigned int VIndexDimension>
+Index<VIndexDimension> 
+Index<VIndexDimension>
 ::GetBasisIndex(unsigned int dim)
 {
-  if (dim >= TIndexDimension)
+  if (dim >= VIndexDimension)
     {
     throw InvalidDimension;
     }
   
   Self ind;
   
-  memset(ind.m_Index, 0, sizeof(long)*TIndexDimension);
+  memset(ind.m_Index, 0, sizeof(long)*VIndexDimension);
   ind.m_Index[dim] = 1;
   return ind;
 }

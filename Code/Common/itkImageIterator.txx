@@ -18,119 +18,42 @@
 
 ITK_NAMESPACE_BEGIN
 
-/**
- * Add two indices and perform a bounds check. This method models a
- * random access ImageIterator. If the iterator would be outside of the
- * bounds, an exception (BoundsError) is thrown.
- * \sa ClampedImageIterator
- */
-template<class TPixel, unsigned int TImageDimension>
-const ImageIterator<TPixel, TImageDimension>
-ImageIterator<TPixel, TImageDimension>
-::Add(const Index &vec)
+//----------------------------------------------------------------------------
+// Begin() is the first pixel in the region.
+template<class TPixel, unsigned int VImageDimension>
+ImageIterator<TPixel, VImageDimension>
+ImageIterator<TPixel, VImageDimension>
+::Begin()
 {
-  ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
-  result.m_Index = m_Index + vec;
+  // Copy the current iterator
+  Self it( *this );
 
-  const long *tmpIndex = result.m_Index.GetIndex();
-  for (unsigned int i=0; i < TImageDimension; i++)
-    {
-    if (tmpIndex[i] < m_RegionIndexOrigin[i])
-      {
-      throw BoundsError;
-      }
-    else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
-      {
-      throw BoundsError;
-      }
-    }
-  result.ComputeOffset();
-  return result;
-}
-
-/**
-   * Increment an index by an index and perform a bounds check.
-   * This method models a random access ImageIterator. If the iterator would
-   * be outside of the bounds, and exception (BoundsError) is thrown.
-   */
-template<class TPixel, unsigned int TImageDimension>
-const ImageIterator<TPixel, TImageDimension> &
-ImageIterator<TPixel, TImageDimension>
-::Increment(const Index &vec)
-{
-  m_Index += vec;
-
-  const long *tmpIndex = m_Index.GetIndex();
-  for (unsigned int i=0; i < TImageDimension; i++)
-    {
-    if (tmpIndex[i] < m_RegionIndexOrigin[i])
-      {
-      throw BoundsError;
-      }
-    else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
-      {
-      throw BoundsError;
-      }
-    }
-  this->ComputeOffset();
-  return *this;
-}
-
-/**
-   * Subtract two indices and perform a bounds check. This method models a
-   * random access ImageIterator. If the iterator would be outside the bounds,
-   * an exception (BoundsError) is thrown.
-   */
-template<class TPixel, unsigned int TImageDimension>
-const ImageIterator<TPixel, TImageDimension>
-ImageIterator<TPixel, TImageDimension>
-::Subtract(const Index &vec)
-{
-  ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
-  result.m_Index = m_Index - vec;
+  // Set the offset to the m_BeginOffset. 
+  it.m_Offset = m_BeginOffset;
   
-  const long *tmpIndex = result.m_Index.GetIndex();
-  for (unsigned int i=0; i < TImageDimension; i++)
-    {
-    if (tmpIndex[i] < m_RegionIndexOrigin[i])
-      {
-      throw BoundsError;
-      }
-    else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
-      {
-      throw BoundsError;
-      }
-    }
-  result.ComputeOffset();
-  return result;
+  return it;
 }
 
-/**
-   * Decrement an index by an index and perform a bounds check.  This method
-   * models a random access ImageIterator. If the iterator would be outside
-   * the bounds, an exception (BoundsError) is thrown.
-   */
-template<class TPixel, unsigned int TImageDimension>
-const ImageIterator<TPixel, TImageDimension> &
-ImageIterator<TPixel, TImageDimension>
-::Decrement(const Index &vec)
+//----------------------------------------------------------------------------
+// End() is one pixel past the last pixel in the current region.
+// The index of this pixel is
+//          [m_StartIndex[0] + m_Size[0],
+//           m_StartIndex[1] + m_Size[1]-1, ...,
+//           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
+//           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
+//
+template<class TPixel, unsigned int VImageDimension>
+ImageIterator<TPixel, VImageDimension>
+ImageIterator<TPixel, VImageDimension>
+::End()
 {
-  m_Index -= vec;
+  // Copy the current iterator
+  Self it( *this );
 
-  const long *tmpIndex = m_Index.GetIndex();
-  for (unsigned int i=0; i < TImageDimension; i++)
-    {
-    if (tmpIndex[i] < m_RegionIndexOrigin[i])
-      {
-      throw BoundsError;
-      }
-    else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
-      {
-      throw BoundsError;
-      }
-    }
-  this->ComputeOffset();
-  return *this;
+  // Set the offset to the m_EndOffset. 
+  it.m_Offset = m_EndOffset;
+  
+  return it;
 }
 
 ITK_NAMESPACE_END
