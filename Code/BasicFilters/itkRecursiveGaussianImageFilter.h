@@ -51,10 +51,8 @@ public:
   /** Type macro that defines a name for this class */
   itkTypeMacro( RecursiveGaussianImageFilter, RecursiveSeparableImageFilter );
 
-  /** Get the Sigma of the Gaussian kernel. */   
+  /** Set/Get the Sigma of the Gaussian kernel. */   
   itkGetMacro( Sigma, TComputation );
-
-  /** Set the Sigma of the Gaussian kernel. */   
   itkSetMacro( Sigma, TComputation );
 
 protected:
@@ -74,12 +72,33 @@ protected:
    * antisymmetric. */
   void ComputeFilterCoefficients(bool symmetric);
 
+  /** Set/Get the flag for normalizing the gaussian over scale Space
+      When this flag is ON the filter will be normalized in such a way 
+      that larger sigmas will not result in the image fading away.
+
+      \f[    
+            \frac{ 1 }{ \sigma  sqrt{ 2 \pi } };
+      \f]
+
+      When the flag is OFF the normalization will conserve contant the 
+      integral of the image intensity. 
+      \f[    
+            \frac{ 1 }{ \sigma^2  sqrt{ 2 \pi } };
+      \f]
+      For analyzing an image across Scale Space you want to enable this flag.  */
+  itkSetMacro( NormalizeAcrossScale, bool );
+  itkGetMacro( NormalizeAcrossScale, bool );
+
+  
 private:  
   RecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** Sigma of the gaussian kernel. */   
   TComputation m_Sigma;
+
+  /** Normalize the image across scale space */
+  bool m_NormalizeAcrossScale; 
 
 };
 

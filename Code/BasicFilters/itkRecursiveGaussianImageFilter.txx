@@ -31,6 +31,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 ::RecursiveGaussianImageFilter()
 {
   m_Sigma = 1.0;
+  m_NormalizeAcrossScale = false;
 }
 
 
@@ -57,8 +58,14 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
   
   const TComputation sigmad = m_Sigma/m_Spacing;
 
-//  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan(1.0f) )));
-  m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+  if( this->GetNormalizeAcrossScale() )
+    {
+    m_K = 1.0 / (         sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    }
+  else
+    {
+    m_K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    }
   
   const bool symmetric = true;
   ComputeFilterCoefficients(symmetric);
