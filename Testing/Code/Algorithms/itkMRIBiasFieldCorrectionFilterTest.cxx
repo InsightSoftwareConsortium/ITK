@@ -164,7 +164,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   // To see the debug output for each iteration, uncomment the
   // following line. 
-  filter->DebugOn() ;
+  //filter->DebugOn() ;
 
   filter->SetInput( imageWithBias ) ;
   filter->IsBiasFieldMultiplicative( true ) ;
