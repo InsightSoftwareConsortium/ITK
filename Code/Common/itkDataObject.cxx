@@ -141,20 +141,21 @@ InvalidRequestedRegionError
 
 //----------------------------------------------------------------------------
 DataObject::
-DataObject()
+DataObject() : m_UpdateTime()
 {
   m_Source = 0;
   m_SourceOutputIndex = 0;
+  m_ReleaseDataFlag = false;
 
   // We have to assume that if a user is creating the data on their own,
   // then they will fill it with valid data.
   m_DataReleased = false;
 
-  m_ReleaseDataFlag = false;
-
   m_PipelineMTime = 0;
-  
+  m_EstimatedWholeMemorySize = 0;  
+
   m_RequestedRegionInitialized = false;
+  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = false;
 }
 
 //----------------------------------------------------------------------------
