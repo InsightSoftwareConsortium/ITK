@@ -65,11 +65,39 @@ int itkNeighborhoodOperatorTest(int, char* [] )
   a.CreateOperator();
   a.Print(std::cout);
 
+  int i;
+  
   println("Testing SobelOperator2D");
   itk::SobelOperator<float, 2, vnl_vector<float> > c;
   c.SetDirection(0);
   c.CreateDirectional();
   c.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < c.Size(); ++i)
+    {
+    std::cout << c[i];
+    if (i < c.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+  
+  c.SetDirection(1);
+  c.CreateDirectional();
+  c.Print(std::cout);
+  
+  std::cout << "    Operator = [ ";
+  for (i=0; i < c.Size(); ++i)
+    {
+    std::cout << c[i];
+    if (i < c.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
 
   println("Testing SobelOperator3D");
   itk::SobelOperator<float, 3, vnl_vector<float> > c2;
@@ -77,5 +105,46 @@ int itkNeighborhoodOperatorTest(int, char* [] )
   c2.CreateDirectional();
   c2.Print(std::cout);
 
+  std::cout << "    Operator = [ ";
+  for (i=0; i < c2.Size(); ++i)
+    {
+    std::cout << c2[i];
+    if (i < c2.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+
+  c2.SetDirection(1);
+  c2.CreateDirectional();
+  c2.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < c2.Size(); ++i)
+    {
+    std::cout << c2[i];
+    if (i < c2.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+
+  c2.SetDirection(2);
+  c2.CreateDirectional();
+  c2.Print(std::cout);
+
+  std::cout << "    Operator = [ ";
+  for (i=0; i < c2.Size(); ++i)
+    {
+    std::cout << c2[i];
+    if (i < c2.Size() - 1)
+      {
+      std::cout << ", ";
+      }
+    }
+  std::cout << "]" << std::endl << std::endl;
+  
   return 0;
 }
