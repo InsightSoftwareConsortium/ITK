@@ -42,6 +42,7 @@ REGISTER_TEST(itkMeshFstreamTest );
 REGISTER_TEST(itkNeighborhoodTest );
 REGISTER_TEST(itkNeighborhoodIteratorTest );
 REGISTER_TEST(itkNeighborhoodOperatorTest );
+REGISTER_TEST(itkObjectStoreTest );
 REGISTER_TEST(itkPixelAccessTest );
 REGISTER_TEST(itkPointGeometryTest );
 REGISTER_TEST(itkPointSetTest );

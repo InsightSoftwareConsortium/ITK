@@ -49,6 +49,7 @@ ADD_TEST(itkMeshFstreamTest itkCommonTests itkMeshFstreamTest)
 ADD_TEST(itkNeighborhoodTest itkCommonTests itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest itkCommonTests itkNeighborhoodIteratorTest)
 ADD_TEST(itkNeighborhoodOperatorTest itkCommonTests itkNeighborhoodOperatorTest)
+ADD_TEST(itkObjectStoreTest itkCommonTests itkObjectStoreTest)
 ADD_TEST(itkPixelAccessTest itkCommonTests itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest itkCommonTests itkPointGeometryTest)
 ADD_TEST(itkPointSetTest itkCommonTests itkPointSetTest)
@@ -110,6 +111,7 @@ itkMeshFstreamTest
 itkNeighborhoodTest 
 itkNeighborhoodIteratorTest 
 itkNeighborhoodOperatorTest 
+itkObjectStoreTest
 itkPixelAccessTest 
 itkPointGeometryTest 
 itkPointSetTest 
