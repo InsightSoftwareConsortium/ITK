@@ -50,9 +50,17 @@ namespace itk {
 
 /**
  * \class RandomAccessNeighborhoodIterator
- * \brief
+ * \brief Extends the bi-directional NeighborhoodIterator to a random access
+ * iterator.
  *
- */
+ * This class adds several methods to NeighborhoodIterator to allow arbitrary,
+ * N-dimensional movement of the iterator through an image.  This iterator can
+ * be incremented or decremented by an itk::Offset.  Subtracting two
+ * RandomAccessNeighborhoodIterator objects returns an itk::Offset representing
+ * the distance between them.
+ *
+ *
+ * /sa NeighborhoodIterator /sa Offset */
 template<class TImage>
 class ITK_EXPORT RandomAccessNeighborhoodIterator
   :  public ConstRandomAccessNeighborhoodIterator<TImage>

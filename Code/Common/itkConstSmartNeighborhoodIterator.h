@@ -48,22 +48,18 @@ namespace itk {
 
 /**
  * \class ConstSmartNeighborhoodIterator
- * \brief Subclass of NeighborhoodIterator designed for iteration
- * over an itk::Image region of interest that performs bounds
- * checking and resolves boundary conditions.
  *
- * ConstSmartNeighborhoodIterator is a subclass of ConstNeighborhoodIterator
- * that has the ability to detect when it is overlapping region of interest
- * boundaries.  This iterator will not attempt to dereference memory outside
- * the region of interest.  Pixel values outside the region of interest
- * are defined by the boundary condition.
+ * \brief Const version of SmartNeighborhoodIterator, defining iteration of a
+ * local N-dimensional neighborhood of pixels across an itk::Image.
  *
- * Bounds checking is performed and boundary conditions are resolved on
- * dereferencing.
+ * ConstSmartNeighborhoodIterator implements the read-only methods of
+ * SmartNeighborhoodIterator.  It serves as a base class from which other
+ * iterators are derived. See SmartNeighborhoodIterator for more complete
+ * information.
  *
- * \sa NeighborhoodIterator
- * \sa Neighborhood
- */
+ * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
+ * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
+ **/
 template<class TImage, class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage>  >
 class ITK_EXPORT ConstSmartNeighborhoodIterator

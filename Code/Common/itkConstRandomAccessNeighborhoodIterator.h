@@ -47,8 +47,18 @@ namespace itk {
 
 /**
  * \class ConstRandomAccessNeighborhoodIterator
- */
-
+ *
+ * \brief Const version of RandomAccessNeighborhoodIterator, defining iteration
+ * of a local N-dimensional neighborhood of pixels across an itk::Image.
+ *
+ * ConstRandomAccessNeighborhoodIterator implements the read-only methods of
+ * RandomAccessNeighborhoodIterator.  It serves as a base class from which
+ * other iterators are derived. See RandomAccessNeighborhoodIterator for more
+ * complete information.
+ *
+ * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
+ * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
+ * */
 template<class TImage>
 class ITK_EXPORT ConstRandomAccessNeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>
