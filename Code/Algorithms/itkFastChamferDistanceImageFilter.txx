@@ -59,7 +59,7 @@ FastChamferDistanceImageFilter<TInputImage,TOutputImage>
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
       for(i=1;i<=ImageDimension;i++)
         {
-          m_Weights[i-1] = sqrt(i);
+          m_Weights[i-1] = sqrt((float)i);
         }
     }
 
