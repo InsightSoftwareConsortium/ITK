@@ -173,6 +173,11 @@ public:
   SizeValueType GetElement( unsigned long element )
     { return m_Size[ element ]; }
 
+  /** Set one value for the index in all dimensions.  Useful for initializing
+   * an offset to zero. */
+  void Fill(SizeValueType value)
+    { for(unsigned int i=0;i < VDimension; ++i) m_Size[i] = value; }
+
   /** Size is an "aggregate" class.  Its data is public (m_Size)
    * allowing for fast and convenient instantiations/assignments.
    *
