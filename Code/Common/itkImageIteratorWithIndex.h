@@ -213,15 +213,9 @@ public:
       m_PositionIndex = ind;  }
 
   /**
-   * Get the size of the image.
-   */
-  const unsigned long *GetImageSize() const
-  { return m_Image->GetImageSize(); };
-
-  /**
    * Get the "array index" of the first pixel to iterate over.
-   * ImageIteratorWithIndexs know the beginning and end of the region of the image
-   * to iterate over.
+   * ImageIteratorWithIndexs know the beginning and end of the 
+   * region of the image to iterate over.
    */
   const Index &GetStartIndex() const  {return m_BeginIndex;} ;
 
