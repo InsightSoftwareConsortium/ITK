@@ -39,7 +39,6 @@ void
 ReadMetaImage<TOutputImage>
 ::Execute()
 {
-
   
   m_MetaImage.OpenMetaFile(m_FileName.c_str(),true);
   if( m_MetaImage.Error() ) 
@@ -51,7 +50,7 @@ ReadMetaImage<TOutputImage>
   {
     throw ExceptionObject();
   }
-     
+  
   typename TOutputImage::Pointer m_OutputImage( GetOutput() );
 
   m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );

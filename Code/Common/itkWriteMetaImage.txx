@@ -58,12 +58,12 @@ WriteMetaImage<TInputImage>
 ::WriteData(void)
 {
   
-	const unsigned int BitsPerPixel = 0; // use default value for MET_UCHAR
-	float * PixelSize = 0;               // instruct to ignore pixel size
+  const unsigned int BitsPerPixel = 0; // use default value for MET_UCHAR
+  float * PixelSize = 0;               // instruct to ignore pixel size
 
   const unsigned int dimension = TInputImage::ImageDimension;
 
-  TInputImage::Pointer m_InputImage( GetInput() );
+  typename TInputImage::Pointer m_InputImage( GetInput() );
 
   int dimSize[ dimension ];
   const unsigned long *size    = m_InputImage->GetBufferSize();
@@ -77,11 +77,11 @@ WriteMetaImage<TInputImage>
     dimSize[i] = size[i];
   }
 
-  typedef TInputImage::PixelType PixelType;
+  typedef typename TInputImage::PixelType PixelType;
   
   PixelType *yetAnotherBuffer = new PixelType[ bufferSize ];
 
-  typedef itk::ImageRegionSimpleIterator<TInputImage::PixelType,
+  typedef itk::ImageRegionSimpleIterator<typename TInputImage::PixelType,
                   TInputImage::ImageDimension> IteratorType;
   
   IteratorType it(m_InputImage,
@@ -97,23 +97,23 @@ WriteMetaImage<TInputImage>
     ++it;
   }
 
-	MetaImage saver(  dimension,
+  MetaImage saver(  dimension,
                     dimSize,
-                    MET_UCHAR,
+                    MET_SHORT,
                     spacing,
                     BitsPerPixel,
                     MET_SYSTEM_BYTE_ORDER_MSB,
                     yetAnotherBuffer);
 
 
-	saver.Save( this->m_FileName.c_str(),0,1);
+  saver.Save( this->m_FileName.c_str(),0,1);
 
   delete [] yetAnotherBuffer;
 
-	if(saver.Error())  {
+  if(saver.Error())  {
     std::cerr << "Unable to open file:" << m_FileName << std::endl;
-		return;
-		}
+    return;
+  }
 
 }
 

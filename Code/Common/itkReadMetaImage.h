@@ -65,15 +65,14 @@ public:
    */
   itkGetStringMacro(FileName);
   
-
+  void Execute();
 protected:
   ReadMetaImage();
   ~ReadMetaImage() {};
-  ReadMetaImage(const Self&) {}
-  void operator=(const Self&) {}
+  ReadMetaImage(const Self&) {}; 
+  void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
   
-  void Execute();
 
 private:
   std::string m_FileName;
