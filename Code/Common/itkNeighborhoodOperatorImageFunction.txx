@@ -48,7 +48,7 @@ TOutput
 NeighborhoodOperatorImageFunction<TInputImage,TOutput>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  NeighborhoodInnerProduct<InputImageType> smartInnerProduct;
+  NeighborhoodInnerProduct<InputImageType,TOutput,TOutput> smartInnerProduct;
   ConstNeighborhoodIterator<InputImageType> bit;
   bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),m_Image,m_Image->GetRequestedRegion());
   bit.SetLocation(index);
