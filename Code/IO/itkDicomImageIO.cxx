@@ -464,7 +464,7 @@ void DicomImageIO::ReadImageInformation()
         rows += c << (i * 8);
       }
       m_Dimensions[1]=rows;
-      std::cout << m_Dimensions[1] << endl;
+      std::cout << m_Dimensions[1] << std::endl;
     }
     else
     {
