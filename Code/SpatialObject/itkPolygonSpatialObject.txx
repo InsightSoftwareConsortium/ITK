@@ -123,14 +123,6 @@ double
 PolygonSpatialObject<TDimension>
 ::MeasureArea()
 {
-  // int i;
-  // double area = 0.0;
-  // if (n < 3)
-  // return 0.0;
-  // for (i = 0; i < n; i++)
-  // area += (double)(p[i].x * p[j].y - p[i].y * p[j].x);
-  // area *= 0.5;
-  // return area < 0.0 ? -area : area;
   //To find the area of a planar polygon not in the x-y plane, use:
   //2 A(P) = abs(N . (sum_{i=0}^{n-1} (v_i x v_{i+1})))
   //where N is a unit vector normal to the plane. The `.' represents the
@@ -206,26 +198,6 @@ PolygonSpatialObject<TDimension>
     {
     return 0;
     }
-#if 0
-  int X, Y;
-  switch(this->Plane())
-    {
-    case Sagittal:
-      X = 1; Y = 2;
-      break;
-    case Axial:
-      X = 0; Y = 2;
-      break;
-    case Coronal:
-      X = 0; Y = 1;
-      break;
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be read");
-      throw exception;
-    }
-#endif
-
   PointListType &points = this->GetPoints();
   typename PointListType::iterator it = points.begin();
   PointType start = (*it).GetPosition();
@@ -409,48 +381,6 @@ PolygonSpatialObject<TDimension>
   points.erase(first,last);
   return true;
 }
-
-// Determine if a point is inside a polygon
-// Globals which should be set before calling this function:
-//
-// int    polySides  =  how many corners the polygon has
-// float  polyX[]    =  horizontal coordinates of corners
-// float  polyY[]    =  vertical coordinates of corners
-// float  x, y       =  point to be tested
-//
-// (Globals are used in this example for purposes of speed.
-// Change as desired.)
-//
-// The function will return TRUE if the point x,y is inside the
-// polygon, or FALSE if it is not. If the point x,y is exactly on
-// the edge of the polygon, then the function may return TRUE or
-// FALSE.
-//
-// Note that division by zero is avoided because the division is
-// protected by the "if" clause which surrounds it.
-//
-//   boolean pointInPolygon() 
-//   {
-//     int      i, j=0         ;
-//     boolean  oddNODES=FALSE ;
-//
-//     for (i=0; i<polySides; i++) 
-//       {
-//      j++; if (j==polySides) j=0;
-//      if (polyY[i]<y && polyY[j]>=y
-//          ||  polyY[j]<y && polyY[i]>=y) 
-//        {
-//          if (polyX[i]+(y-polyY[i])/(polyY[j]-polyY[i])*
-//              (polyX[j]-polyX[i])<x) 
-//            {
-//              oddNODES=!oddNODES; 
-//            }
-//        }
-//       }
-//
-//     return oddNODES; 
-//   }
-
 
 template <unsigned int TDimension >
 bool 
