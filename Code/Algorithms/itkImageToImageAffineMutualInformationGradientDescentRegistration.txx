@@ -88,8 +88,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 
   PointType center;
   center.Fill( 0 );
-  this->SetTargetTransformationCenter( center );
-  this->SetReferenceTransformationCenter( center );
 
 }
 
@@ -104,8 +102,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 {
   m_Parameters = other.m_Parameters;
   m_TranslationScale = other.m_TranslationScale;
-  m_TargetTransformationCenter = other.TargetTransformationCenter;
-  m_ReferenceTransformationCenter = other.ReferenceTransformationCenter;
 }
 
 
@@ -132,49 +128,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTar
   Superclass::operator=( other );
   m_Parameters = other.m_Parameters;
   m_TranslationScale = other.m_TranslationScale;
-  m_TargetTransformationCenter = other.TargetTransformationCenter;
-  m_ReferenceTransformationCenter = other.ReferenceTransformationCenter;
   return *this;
-}
-
-
-
-
-/**
- * Set Target transformation center
- */
-template <class TReference, class TTarget>
-void
-ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
-::SetTargetTransformationCenter( const PointType& center )
-{
-  m_TargetTransformationCenter = center;
-
-  typename TransformationType::Pointer transformation =
-            this->GetMetric()->GetMapper()->GetTransformation();
-
-  transformation->SetDomainTransformationCenter(
-                           m_TargetTransformationCenter );
-
-}
-
-
-/**
- * Set Reference transformation center
- */
-template <class TReference, class TTarget>
-void
-ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
-::SetReferenceTransformationCenter( const PointType& center )
-{
-  m_ReferenceTransformationCenter = center;
-
-  typename TransformationType::Pointer transformation =
-            this->GetMetric()->GetMapper()->GetTransformation();
-
-  transformation->SetRangeTransformationCenter(
-                           m_ReferenceTransformationCenter );
-
 }
 
 

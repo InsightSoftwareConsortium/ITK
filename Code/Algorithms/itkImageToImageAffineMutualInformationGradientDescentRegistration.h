@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
-#include "itkCenteredAffineRegistrationTransform.h"
+#include "itkAffineRegistrationTransform.h"
 #include "itkPoint.h"
 
 namespace itk
@@ -87,7 +87,7 @@ public:
    *  Type of the Transformation
    */
 
-   typedef CenteredAffineRegistrationTransform<
+   typedef AffineRegistrationTransform<
                 double, 
                 ImageDimension, 
                 ParametersType >  TransformationType;
@@ -153,11 +153,8 @@ public:
  *
  * TranslationScale = sqrt( lambda_T / lambda_R );
  *
- * Optimization performance can be improved by setting the transformation
- * centers to center of mass of the image. The transformation centers
- * can be specify via methods SetTargetTransformationCenter() and
- * SetReferenceTransformationCenter(). The default is the origin for
- * both centers.
+ * Optimization performance can be improved by setting the image
+ * origin to center of mass of the image.
  *
  * Implementaton of this class is based on:
  * Viola, P. and Wells III, W. (1997).
@@ -308,28 +305,6 @@ public:
     { return m_Parameters; }
 
   /**
-   * Set the target image transformation center
-   */
-   void SetTargetTransformationCenter( const PointType& center );
-
-  /**
-   * Get the target image transformation center
-   */
-   PointType& GetTargetTransformationCenter( void ) const
-    { return m_TargetTransformationCenter; }
-
-  /**
-   * Set the reference image transformation center
-   */
-   void SetReferenceTransformationCenter( const PointType& center );
-
-  /**
-   * Get the reference image transformation center
-   */
-   PointType& GetReferenceTransformationCenter( void ) const
-    { return m_ReferenceTransformationCenter; }
-
-  /**
    * Set the translation scale
    */
   itkSetMacro( TranslationScale, double );
@@ -374,9 +349,6 @@ protected:
 private:
 
   ParametersType             m_Parameters;
-
-  PointType                  m_TargetTransformationCenter;
-  PointType                  m_ReferenceTransformationCenter;
 
   // -------------------------------
   // Optimization related variables
