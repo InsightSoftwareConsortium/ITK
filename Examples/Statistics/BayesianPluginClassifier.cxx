@@ -278,7 +278,7 @@ int main()
   //
   // In this example, we can think the two clusters are modeled by two
   // Euclidean distance funtions. The distance function (model) has only
-  // one parameter, its mean (centeroid) set by the \code{SetOrigin}
+  // one parameter, its mean (centroid) set by the \code{SetOrigin}
   // method. To plug-in two distance functions, we call the
   // \code{AddMembershipFunction} method. Then the \code{update()}
   // method call will do the classification.
