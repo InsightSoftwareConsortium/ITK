@@ -124,7 +124,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
     {
       offset[2] = this->GetStride(direction) + this->GetStride(direction -1);
       offset[3] = this->GetStride(direction) - this->GetStride(direction -1) ;
-      offset[4] = this->GetStride(direction) - this->GetStride(direction -1);
+      offset[4] = - this->GetStride(direction) - this->GetStride(direction -1);
       offset[5] = - this->GetStride(direction) + this->GetStride(direction -1) ;
     }
 
@@ -137,7 +137,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
 
   for ( i = 0; i < w; i ++)
     {
-      coeffP[i] = coeff[i]/4.0f;
+      coeffP[i] = coeff[i]/8.0f;
     }
 
  
