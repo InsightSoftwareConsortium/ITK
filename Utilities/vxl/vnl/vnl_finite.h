@@ -243,12 +243,14 @@ class vnl_finite_int
     return z.pow(r);
   }
 
+  
   //: Calculate the greatest common divisor of l and N.
-  static inline unsigned int gcd(unsigned int l, unsigned int n=N) {
+  static inline unsigned int gcd(unsigned int l, unsigned int n) {
     unsigned int l1 = n;
     while (l!=0) { unsigned int t = l; l = l1 % l; l1 = t; }
     return l1;
   }
+  static inline unsigned int gcd(unsigned int l) { return gcd(l, N);}
 
  private:
   //: private function to set cached value of lp1_ when available
