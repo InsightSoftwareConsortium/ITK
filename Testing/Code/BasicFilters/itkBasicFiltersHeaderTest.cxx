@@ -164,6 +164,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSparseFieldLevelSetImageFilter.txx"
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
 #include "itkSpatialObjectToImageFilter.txx"
+#include "itkSpatialObjectToImageStatisticsCalculator.txx"
 #include "itkSqrtImageFilter.h"
 #include "itkSquareImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"

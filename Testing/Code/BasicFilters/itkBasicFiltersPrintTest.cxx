@@ -138,6 +138,7 @@
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 #include "itkSpatialObjectToImageFilter.h"
+#include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkSqrtImageFilter.h"
 #include "itkSquareImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
