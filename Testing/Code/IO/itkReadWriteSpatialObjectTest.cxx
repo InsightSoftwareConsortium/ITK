@@ -19,6 +19,8 @@
 #endif
 #include "itkSpatialObject.h"
 #include "itkTubeSpatialObject.h"
+#include "itkDTITubeSpatialObject.h"
+#include "itkVesselTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
@@ -27,40 +29,44 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 {
   
   typedef itk::TubeSpatialObject<3>        TubeType;
-  typedef TubeType::Pointer       TubePointer;
+  typedef TubeType::Pointer                TubePointer;
   typedef itk::EllipseSpatialObject<3>     EllipseType;
-  typedef EllipseType::Pointer    EllipsePointer;
+  typedef EllipseType::Pointer             EllipsePointer;
   typedef itk::BlobSpatialObject<3>        BlobType;
-  typedef BlobType::Pointer       BlobPointer;
+  typedef BlobType::Pointer                BlobPointer;
   typedef itk::SurfaceSpatialObject<3>     SurfaceType;
-  typedef SurfaceType::Pointer    SurfacePointer;
+  typedef SurfaceType::Pointer             SurfacePointer;
   typedef itk::LineSpatialObject<3>        LineType;
-  typedef LineType::Pointer       LinePointer;
+  typedef LineType::Pointer                LinePointer;
   typedef itk::GroupSpatialObject<3>       GroupType;
-  typedef GroupType::Pointer      GroupPointer;
+  typedef GroupType::Pointer               GroupPointer;
   typedef itk::LandmarkSpatialObject<3>    LandmarkType;
-  typedef LandmarkType::Pointer   LandmarkPointer;
+  typedef LandmarkType::Pointer            LandmarkPointer;
+  typedef itk::VesselTubeSpatialObject<3>  VesselTubeType;
+  typedef itk::DTITubeSpatialObject<3>     DTITubeType;
 
   typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
 
   typedef itk::SpatialObjectWriter<3,unsigned short> WriterType;
   typedef itk::SpatialObjectReader<3,unsigned short> ReaderType;
 
-  typedef itk::TubeSpatialObjectPoint<3>      TubePointType;
-  typedef itk::SpatialObjectPoint<3>          BlobPointType;
-  typedef itk::SurfaceSpatialObjectPoint<3>   SurfacePointType;
-  typedef itk::LineSpatialObjectPoint<3>      LinePointType;
+  typedef itk::TubeSpatialObjectPoint<3>        TubePointType;
+  typedef itk::VesselTubeSpatialObjectPoint<3>  VesselTubePointType;
+  typedef itk::DTITubeSpatialObjectPoint<3>     DTITubePointType;
+  typedef itk::SpatialObjectPoint<3>            BlobPointType;
+  typedef itk::SurfaceSpatialObjectPoint<3>     SurfacePointType;
+  typedef itk::LineSpatialObjectPoint<3>        LinePointType;
 
   // Tubes
   std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
 
-  TubeType::PointListType list;
-  TubeType::PointListType list2;
-  TubeType::PointListType list3;
-  BlobType::PointListType    list4;
-  SurfaceType::PointListType list5;
-  LineType::PointListType    list6;
-  LandmarkType::PointListType    list7;
+  TubeType::PointListType       list;
+  VesselTubeType::PointListType list2;
+  DTITubeType::PointListType    list3;
+  BlobType::PointListType       list4;
+  SurfaceType::PointListType    list5;
+  LineType::PointListType       list6;
+  LandmarkType::PointListType   list7;
 
   for( unsigned int i=0; i<10; i++)
     {
@@ -76,7 +82,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
  
   for( unsigned int i=0; i<5; i++)
     {
-    TubePointType p;
+    VesselTubePointType p;
     p.SetPosition(i*2,i*2,i*2);
     p.SetRadius(i);
     p.SetRed(i);
@@ -87,18 +93,57 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
+    p.SetRidgeness(i*1);
+    p.SetMedialness(i*2);
+    p.SetBranchness(i*3);
+    p.SetMark(true);
+    p.SetAlpha1(i*1);
+    p.SetAlpha2(i*2);
+    p.SetAlpha3(i*3);
     list2.push_back(p);
     }
 
   for( unsigned int i=0; i<7; i++)
     {
-    TubePointType p;
+    DTITubePointType p;
     p.SetPosition(i*3,i*3,i*3);
     p.SetRadius(i);
     p.SetRed(i);
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
+    p.SetFA(i);
+    p.SetADC(2*i);
+    p.SetGA(3*i);
+    p.SetLambda1(4*i);
+    p.SetLambda2(5*i);
+    p.SetLambda3(6*i);
+    float* v = new float[3];
+    v[0] = i;
+    v[1] = 2*i;
+    v[2] = 3*i;
+    p.SetMinEigenValue(v);
+    p.SetMedEigenValue(v);
+    p.SetMaxEigenValue(v);
+    delete v;
+    v = new float[5];
+    for(unsigned int j=0;j<5;j++)
+      {
+      v[j] = j;
+      }
+    p.SetMRI(v);
+    delete v;
+    v = new float[6];
+    // this is only for testing
+    // the tensor matrix should be definite positive
+    // in the real case
+    for(unsigned int k=0;k<6;k++)
+      {
+      v[k] = k;
+      }
+    p.SetTensorMatrix(v);
+    delete v;
+    p.SetInterpolation(1);
     list3.push_back(p);
     }
   
@@ -170,13 +215,13 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tube1->SetPoints(list);
   tube1->ComputeBoundingBox();
 
-  TubePointer tube2 = TubeType::New();
+  VesselTubeType::Pointer tube2 = VesselTubeType::New();
   tube2->GetProperty()->SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list2);
   tube2->ComputeBoundingBox();
 
-  TubePointer tube3 = TubeType::New();
+  DTITubeType::Pointer tube3 = DTITubeType::New();
   tube3->GetProperty()->SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list3);
@@ -378,6 +423,237 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   std::cout<<" [PASSED]"<<std::endl;
 
+ 
+  // Testing VesselTubeSO
+  bool found = false;
+  std::cout << "Testing VesselTubeSpatialObject: ";
+  VesselTubeType::PointListType::const_iterator jv;
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+    {
+    if(!strcmp((*obj)->GetTypeName(),"VesselTubeSpatialObject"))
+      {
+      found = true;
+      unsigned int value=0; 
+      for(jv = dynamic_cast<VesselTubeType*>((*obj).GetPointer())->GetPoints().begin(); 
+          jv != dynamic_cast<VesselTubeType*>((*obj).GetPointer())->GetPoints().end(); 
+          jv++)
+        {
+        for(unsigned int d=0;d<3;d++)
+          {
+          if((*jv).GetPosition()[d]!=value * (*obj)->GetId())
+            {
+            std::cout<<" [FAILED] (Position is: " << (*jv).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+          // Testing the color of the tube points
+        if( (*jv).GetRed() != value)
+          {
+          std::cout<<" [FAILED] : Red : found " << ( *jv).GetRed() << " instead of " << value <<std::endl;
+          return EXIT_FAILURE;
+          }
+      
+        if((*jv).GetGreen()!=value+1)
+          {
+          std::cout<<" [FAILED] : Green : found " << ( *jv).GetGreen() << " instead of " << value+1 <<std::endl;
+          return EXIT_FAILURE;
+          }
+      
+        if((*jv).GetBlue()!=value+2)
+          {
+          std::cout<<"[FAILED] : Blue : found " << ( *jv).GetBlue() << " instead of " << value+2 <<std::endl;
+          return EXIT_FAILURE;
+          }
+    
+        if((*jv).GetAlpha()!=value+3)
+          {
+          std::cout<<" [FAILED] : Alpha : found " << ( *jv).GetAlpha() << " instead of " << value+3 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetRidgeness()!=value*1)
+          {
+          std::cout<<" [FAILED] : Ridgeness : found " << ( *jv).GetRidgeness() << " instead of " << value*1 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetMedialness()!=value*2)
+          {
+          std::cout<<" [FAILED] : Medialness : found " << ( *jv).GetMedialness() << " instead of " << value*2 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetBranchness()!=value*3)
+          {
+          std::cout<<" [FAILED] : Branchness : found " << ( *jv).GetBranchness() << " instead of " << value*3 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if(!(*jv).GetMark())
+          {
+          std::cout<<" [FAILED] : GetMark is set to false" << std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetAlpha1()!=value*1)
+          {
+          std::cout<<" [FAILED] : Alpha1 : found " << ( *jv).GetAlpha1() << " instead of " << value*1 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetAlpha2()!=value*2)
+          {
+          std::cout<<" [FAILED] : Alpha2 : found " << ( *jv).GetAlpha2() << " instead of " << value*2 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jv).GetAlpha3()!=value*3)
+          {
+          std::cout<<" [FAILED] : Alpha3 : found " << ( *jv).GetAlpha3() << " instead of " << value*3 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        value++;
+        }
+      }
+    }
+
+  if(found)
+    {
+    std::cout<<" [PASSED]"<<std::endl;
+    }
+  else
+    {
+    std::cout << " [FAILED] : Cannot found VesselSpatialObject" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Testing DTITubeSO
+  found = false;
+  std::cout << "Testing DTITubeSpatialObject: ";
+  DTITubeType::PointListType::const_iterator jdti;
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+    {
+    if(!strcmp((*obj)->GetTypeName(),"DTITubeSpatialObject"))
+      {
+      found = true;
+      unsigned int value=0; 
+      for(jdti = dynamic_cast<DTITubeType*>((*obj).GetPointer())->GetPoints().begin(); 
+          jdti != dynamic_cast<DTITubeType*>((*obj).GetPointer())->GetPoints().end(); 
+          jdti++)
+        {
+        for(unsigned int d=0;d<3;d++)
+          {
+          if((*jdti).GetPosition()[d]!=value * (*obj)->GetId())
+            {
+            std::cout<<" [FAILED] (Position is: " << (*jdti).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+          // Testing the color of the tube points
+        if( (*jdti).GetRed() != value)
+          {
+          std::cout<<" [FAILED] : Red : found " << ( *jdti).GetRed() << " instead of " << value <<std::endl;
+          return EXIT_FAILURE;
+          }
+      
+        if((*jdti).GetGreen()!=value+1)
+          {
+          std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
+          return EXIT_FAILURE;
+          }
+      
+        if((*jdti).GetBlue()!=value+2)
+          {
+          std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
+          return EXIT_FAILURE;
+          }
+    
+        if((*jdti).GetAlpha()!=value+3)
+          {
+          std::cout<<" [FAILED] : Alpha : found " << ( *jdti).GetAlpha() << " instead of " << value+3 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        
+        if((*jdti).GetFA()!=value)
+          {
+          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetFA() << " instead of " << value <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jdti).GetADC()!=value*2)
+          {
+          std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetADC() << " instead of " << value*2 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jdti).GetGA()!=value*3)
+          {
+          std::cout<<" [FAILED] : GA : found " << ( *jdti).GetADC() << " instead of " << value*3 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jdti).GetLambda1()!=value*4)
+          {
+          std::cout<<" [FAILED] : GetLambda1 : found " << ( *jdti).GetLambda1() << " instead of " << value*4 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jdti).GetLambda2()!=value*5)
+          {
+          std::cout<<" [FAILED] : GetLambda2 : found " << ( *jdti).GetLambda2() << " instead of " << value*5 <<std::endl;
+          return EXIT_FAILURE;
+          }
+        if((*jdti).GetLambda3()!=value*6)
+          {
+          std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetLambda3() << " instead of " << value*6 <<std::endl;
+          return EXIT_FAILURE;
+          }    
+        if((*jdti).GetInterpolation()!=1)
+          {
+          std::cout<<" [FAILED] : GetInterpolation : found " << ( *jdti).GetInterpolation() << " instead of " << 1 <<std::endl;
+          return EXIT_FAILURE;
+          }
+    
+        int ind;
+        for(ind = 0;ind<3;ind++)
+          {
+          if((*jdti).GetMinEigenValue()[ind]!=value*(ind+1))
+            {
+            std::cout<<" [FAILED] : GetMinEigenValue : found " << ( *jdti).GetMinEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            return EXIT_FAILURE;
+            }
+          if((*jdti).GetMedEigenValue()[ind]!=value*(ind+1))
+            {
+            std::cout<<" [FAILED] : GetMedEigenValue : found " << ( *jdti).GetMedEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            return EXIT_FAILURE;
+            }
+          if((*jdti).GetMaxEigenValue()[ind]!=value*(ind+1))
+            {
+            std::cout<<" [FAILED] : GetMaxEigenValue : found " << ( *jdti).GetMaxEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        for(ind=0;ind<5;ind++)
+          {
+          if((*jdti).GetMRI()[ind] != ind)
+            {
+            std::cout<<" [FAILED] : GetMRI : found " << (*jdti).GetMRI()[ind] << " instead of " << ind <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        for(ind=0;ind<6;ind++)
+          {
+          if((*jdti).GetTensorMatrix()[ind]!=ind)
+            {
+            std::cout<<" [FAILED] : GetTensorMatrix : found " << ( *jdti).GetTensorMatrix()[ind] << " instead of " << ind <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        value++;
+        }
+      }
+    }
+
+  if(found)
+    {
+    std::cout<<" [PASSED]"<<std::endl;
+    }
+  else
+    {
+    std::cout << " [FAILED] : Cannot found VesselSpatialObject" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   std::cout<<"Testing Ellipse parameters:";
   bool gotEllipse = false;
@@ -404,8 +680,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     return EXIT_FAILURE;
     }
 
-  std::cout<<" [PASSED]"<<std::endl; 
-  
+  std::cout<<" [PASSED]"<<std::endl;
 
  std::cout<<"Testing Image data validity:";
 
