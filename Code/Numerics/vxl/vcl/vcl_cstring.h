@@ -3,7 +3,7 @@
 
 #include "vcl_compiler.h"
 
-#if defined(VCL_SGI_CC_720)
+#if !VCL_CXX_HAS_HEADER_CSTRING
 # include <string.h>
 # define vcl_generic_cstring_STD /* */
 # include "generic/vcl_cstring.h"

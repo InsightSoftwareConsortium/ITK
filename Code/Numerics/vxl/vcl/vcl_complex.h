@@ -33,6 +33,10 @@
 #elif defined(VCL_SUNPRO_CC)
 # include "sunpro/vcl_complex.h"
 
+// ---------- SGI 730
+#elif defined(VCL_SGI_CC_730)
+#include  "sgi/vcl_complex.h"
+
 // ---------- ISO
 #else
 # include "iso/vcl_complex.h"

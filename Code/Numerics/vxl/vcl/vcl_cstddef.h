@@ -7,8 +7,9 @@
 #include "vcl_compiler.h"
 
 /* This should define: sizeof(), size_t, and ptrdiff_t */
-
-#if defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
+#if !VCL_CXX_HAS_HEADER_CSTDDEF
+# include <stddef.h>
+#elif defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
 # include <stddef.h>
 #elif defined(VCL_SGI_CC_720)
 # include <stddef.h>
@@ -18,6 +19,7 @@
 #define vcl_size_t size_t
 #endif
 #else
+
 # include "iso/vcl_cstddef.h"
 using std::size_t;
 using std::ptrdiff_t;

@@ -9,7 +9,7 @@
 
 #include "vcl_compiler.h"
 
-#if defined(VCL_SGI_CC_720)
+#if !VCL_CXX_HAS_HEADER_CSTDIO
 # include <stdio.h>
 # define vcl_generic_cstdio_STD /* */
 # include "generic/vcl_cstdio.h"

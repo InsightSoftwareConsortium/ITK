@@ -145,9 +145,10 @@ bool vnl_symmetric_eigensystem<float>::compute(vnl_matrix<float> const & A,
   
   return f;
 }
+VCL_UNINSTANTIATE_SPECIALIZATION(bool vnl_symmetric_eigensystem<float>::compute(vnl_matrix<float> const &, vnl_matrix<float> &, vnl_vector<float> &));
 
 template class vnl_symmetric_eigensystem<float>;
 template class vnl_symmetric_eigensystem<double>;
 
-VCL_UNINSTANTIATE_SPECIALIZATION(bool vnl_symmetric_eigensystem<float>::compute(vnl_matrix<float> const &, vnl_matrix<float> &, vnl_vector<float> &));
+
 

@@ -19,7 +19,7 @@
 //   #endif
 // If the system/compiler version works, use that instead.
 
-#if defined(VCL_SGI_CC_720)
+#if !VCL_CXX_HAS_HEADER_CASSERT
 # include <assert.h>
 #else
 # include "iso/vcl_cassert.h"
