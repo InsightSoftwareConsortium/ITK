@@ -130,7 +130,11 @@ public:
    * pipeline. */
   virtual void Update()
   {this->Write();}
-  
+
+  /** Set the compression On or Off */
+  void CompressionOn() {m_UseCompression = true; this->Modified();}
+  void CompressionOff() {m_UseCompression = false; this->Modified();}
+
 protected:
   ImageFileWriter();
   ~ImageFileWriter();
@@ -150,7 +154,7 @@ private:
   
   ImageIORegion m_IORegion;
   bool m_UserSpecifiedIORegion; //track whether the region is user specified
-  
+  bool m_UseCompression;
 };
 
   

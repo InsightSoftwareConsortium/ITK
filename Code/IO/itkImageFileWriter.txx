@@ -33,6 +33,7 @@ ImageFileWriter<TInputImage>
   m_ImageIO(0), m_UserSpecifiedImageIO(false),
   m_UserSpecifiedIORegion(false)
 {
+  m_UseCompression = false;
 }
 
 
@@ -185,6 +186,7 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
     }
+  m_ImageIO->SetUseCompression(m_UseCompression);
   m_ImageIO->SetIORegion(m_IORegion);
   m_ImageIO->SetMetaDataDictionary(input->GetMetaDataDictionary());
   // Notify start event observers
@@ -255,6 +257,16 @@ ImageFileWriter<TInputImage>
     }
 
   os << indent << "IO Region: " << m_IORegion << "\n";
+
+
+  if (m_UseCompression)
+    {
+    os << indent << "Compression: On\n";
+    }
+  else
+    {
+    os << indent << "Compression: Off\n";
+    }
 }
 
 } // end namespace itk
