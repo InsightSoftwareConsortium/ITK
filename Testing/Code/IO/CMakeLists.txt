@@ -230,7 +230,9 @@ ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/ramp.tif
   itkTIFFImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.tif
-            ${ITK_TEST_OUTPUT_DIR}/ramp.tif)
+            ${ITK_TEST_OUTPUT_DIR}/ramp.tif
+			3
+			)
 
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
