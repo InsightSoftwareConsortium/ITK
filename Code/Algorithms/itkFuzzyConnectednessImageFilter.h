@@ -103,11 +103,11 @@ public:
 
   /** Set the Estimation of the variance of the difference between pixels for
    *  the object. */
-  itkSetMacro(Diff_Var, double);
+  itkSetMacro(Diff_Variance, double);
 
   /** Get the Estimation of the variance of the difference between pixels for
    *  the object. */
-  itkGetMacro(Diff_Var, double);
+  itkGetMacro(Diff_Variance, double);
   
   /** Set the Estimation of the mean difference between neighbor pixels for
    *  the object. */
@@ -119,11 +119,11 @@ public:
 
   /** Set the Estimation of the variance of the difference between pixels for
    *  the object. */
-  itkSetMacro(Var, double);
+  itkSetMacro(Variance, double);
 
   /** Get the Estimation of the variance of the difference between pixels for
    *  the object. */
-  itkGetMacro(Var, double);
+  itkGetMacro(Variance, double);
 
   /** Setting the parameters for segmentation. */
   void SetParameters(const double inmean,const double invar, 
@@ -134,11 +134,9 @@ protected:
   ~FuzzyConnectednessImageFilter();
 
   double m_Mean; 
-  double m_Var; //estimation of the Variance.
+  double m_Variance; //estimation of the Variance.
   double m_Diff_Mean;
-  double m_Diff_Var;
-  IndexType m_Seed;
-  SizeType m_Size;
+  double m_Diff_Variance;
 
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2);
 
