@@ -273,7 +273,7 @@ namespace itk
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
-  const SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
+  SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetLocalToGlobalTransformList( void )
   {
@@ -281,7 +281,7 @@ namespace itk
   }
 
   template< unsigned int NDimensions, class TransformType, class OutputType >
-  const SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
+  SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetGlobalToLocalTransformList( void )
   {

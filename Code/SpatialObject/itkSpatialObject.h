@@ -202,12 +202,12 @@ public:
   /**
   * Returns the list of local to global transforms.
   */
-  const TransformListPointer GetLocalToGlobalTransformList( void );
+  TransformListPointer GetLocalToGlobalTransformList( void );
 
   /**
   * Returns the list of global to local transforms.
   */
-  const TransformListPointer GetGlobalToLocalTransformList( void );
+  TransformListPointer GetGlobalToLocalTransformList( void );
 
   /** 
   * This function has to be implemented in the deriving class. 
