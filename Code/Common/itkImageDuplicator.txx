@@ -45,14 +45,19 @@ ImageDuplicator<TInputImage>
     return;
     }
 
-  // Update only if the input image  has been modified
-  if((m_InputImage->GetMTime() == m_InternalImageTime)) 
+  // Update only if the input image has been modified
+  unsigned long t, t1, t2;
+  t1 = m_InputImage->GetPipelineMTime();
+  t2 = m_InputImage->GetMTime();
+  t = (t1 > t2 ? t1 : t2);
+
+  if(t == m_InternalImageTime) 
     {
-    // this seems to be due to a bug in the pipeline...
-    itkWarningMacro(<<"Input image has not been modified");
+    return; // No need to update
     }
-  
-  m_InternalImageTime = m_InputImage->GetMTime();
+
+  // Cache the timestamp
+  m_InternalImageTime = t;
 
   // Allocate the image
   m_Output = ImageType::New();
