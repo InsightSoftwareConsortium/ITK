@@ -197,9 +197,7 @@ public:
   /** Set offset (origin) of an Affine Transform.
    *
    * This method sets the offset of an AffineTransform to a
-   * value specified by the user.  The offset is the origin
-   * of the transform.  That is, a scaling, rotation or shearing
-   * map the origin to itself. 
+   * value specified by the user.  The offset is ...?
    */
   void SetOffset(const OffsetType &offset)
       { m_Offset = offset; return; }
