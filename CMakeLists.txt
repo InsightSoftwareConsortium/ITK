@@ -127,5 +127,6 @@ Experimental:
 END MAKE VERBATIM
 
 # Find the CABLE utility.
-UTILITY_SOURCE(CABLE cable Utilities/Cable/Generators)
+UTILITY_SOURCE(CABLE cable Utilities/Cable/Executables)
 FIND_PROGRAM(CABLE cable)
+
