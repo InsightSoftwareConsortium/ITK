@@ -26,11 +26,29 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 VersorRigid3DTransform<TScalarType>
-::VersorRigid3DTransform()
+::VersorRigid3DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
 {
   m_Versor.SetIdentity();
+  m_Translation.Fill( 0.0 );
+  m_Center.Fill( 0.0 );
   this->ComputeMatrixAndOffset();
 }
+
+
+// Constructor with arguments
+template<class TScalarType>
+VersorRigid3DTransform<TScalarType>::
+VersorRigid3DTransform( unsigned int spaceDimension, 
+                        unsigned int parametersDimension):
+Superclass(spaceDimension,parametersDimension)
+{
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset(); 
+}
+ 
+
 
 // Copy Constructor
 template <class TScalarType>
@@ -66,16 +84,20 @@ VersorRigid3DTransform<TScalarType>
   itkDebugMacro( <<"Versor is now " << m_Versor );
   
   
-  // Transfer the translation part
-  
-  OffsetType offset;
+  // Transfer the center part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    offset[i] = parameters[i+3];
+    m_Center[i] = parameters[i+3];
     }
 
-  
-  this->SetOffset( offset );
+   
+  // Transfer the translation part
+  for(unsigned int j=0; j < SpaceDimension; j++) 
+    {
+    m_Translation[j] = parameters[j+6];
+    }
+
+ 
 
   this->ComputeMatrixAndOffset();
 
