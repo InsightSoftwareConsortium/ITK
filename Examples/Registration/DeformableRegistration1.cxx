@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
 //  Software Guide : BeginLatex
 //  
-//  The \subdoxygen{ImageMetricLoad} must be registered before it
+//  The \doxygen{fem::ImageMetricLoad} must be registered before it
 //  can be used correctly with a particular element type.  An example
 //  of this is shown below for ElementType.  Similar
 //  definitions are required for all other defined element types.
@@ -180,8 +180,8 @@ int main(int argc, char *argv[])
 // 
 //  Next, we call \code{X->SetConfigFileName()} to read the parameter
 //  file containing information we need to set up the registration
-//  filter.  A sample parameter file is shown at the end of this
-//  section, and the individual components are labeled.
+//  filter (image files, image sizes, etc.).  A sample parameter file is shown at the end of this
+//  section, and the individual components are labeled.  
 //
 //  Software Guide : EndLatex
 
