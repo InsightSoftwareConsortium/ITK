@@ -34,6 +34,7 @@ GradientDescentOptimizer
    m_LearningRate = 1.0;
    m_NumberOfIterations = 100;
    m_CurrentIteration = 0;
+   m_Maximize = false;
 }
 
 
