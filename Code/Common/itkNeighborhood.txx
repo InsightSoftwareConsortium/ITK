@@ -141,12 +141,7 @@ ConvolveND(Neighborhood<TPixel, VDimension> &A,
           for (jLoop[0] = 0; jLoop[0] < overlap[0]; ++jLoop[0], --Bp[0],
                  ++Ap[0])
             {
-              // *Np += *Ap[0] * *Bp[0];
-                        ScalarTraits<TPixel>::SetScalar(*Np,
-                                 ScalarTraits<TPixel>::GetScalar(*Np) +
-                                (ScalarTraits<TPixel>::GetScalar(*Ap[0]) *
-                                 ScalarTraits<TPixel>::GetScalar(*Bp[0]) )
-                                          );
+               *Np += *Ap[0] * *Bp[0];
             }
           Ap[0] += AStride[1] - overlap[0];
           Bp[0] -= BOffset[0];
@@ -353,12 +348,7 @@ Convolve3D(Neighborhood<TPixel, VDimension> &A,
                     {
                       for (ic = 0; ic < overlapC; ++ic, --Bp, ++Ap)
                         {
-                          // *Np += *Ap * *Bp;
-                          ScalarTraits<TPixel>::SetScalar(*Np,
-                                 ScalarTraits<TPixel>::GetScalar(*Np) +
-                                (ScalarTraits<TPixel>::GetScalar(*Ap) *
-                                 ScalarTraits<TPixel>::GetScalar(*Bp) )
-                                          );
+                          *Np += *Ap * *Bp;
                         }
                       Ap += AStrideR - overlapC;
                       Bp -= BOffsetC;
@@ -483,12 +473,7 @@ Convolve2D(Neighborhood<TPixel, VDimension> &A,
             {
               for (ic = 0; ic < overlapC; ++ic, --Bp, ++Ap)
                 {
-                  // *Np += *Ap * *Bp;
-                  ScalarTraits<TPixel>::SetScalar(*Np,
-                            ScalarTraits<TPixel>::GetScalar(*Np) +
-                           (ScalarTraits<TPixel>::GetScalar(*Ap) *
-                            ScalarTraits<TPixel>::GetScalar(*Bp) )
-                                          );
+                   *Np += *Ap * *Bp;
                 }
               Ap += AStride - overlapC;
               Bp -= BOffset;;
@@ -549,12 +534,7 @@ Convolve1D(Neighborhood<TPixel, VDimension> &A,
       
       for (j = 0; j < overlap; ++j, ++Ap, --Bp)
         {
-          //*Np += *Ap * *Bp;
-          ScalarTraits<TPixel>::SetScalar(*Np,
-                                 ScalarTraits<TPixel>::GetScalar(*Np) +
-                                (ScalarTraits<TPixel>::GetScalar(*Ap) *
-                                 ScalarTraits<TPixel>::GetScalar(*Bp) )
-                                          );
+         *Np += *Ap * *Bp;
         }
     }
 
@@ -562,21 +542,18 @@ Convolve1D(Neighborhood<TPixel, VDimension> &A,
   return N;
 }
 
-  template<class TPixel, unsigned int VDimension>
-  template<class YPixel>
-  Neighborhood<TPixel, VDimension>
-  Neighborhood<TPixel, VDimension>
-  ::operator+(const YPixel &n) const
-  {
-    Neighborhood<TPixel, VDimension> ans(*this);
-    for (Iterator it = ans.Begin(); it < ans.End(); ++it)
-      {
-        //*it += (TPixel) n;
-       ScalarTraits<TPixel>::SetScalar(*it, ScalarTraits<TPixel>::GetScalar(*it)
-                    + (ScalarValueType) n);
-      }
-    return ans;
-  }
+template<class TPixel, unsigned int VDimension>
+Neighborhood<TPixel, VDimension>
+Neighborhood<TPixel, VDimension>
+::operator+(const TPixelScalarValueType &n) const
+{
+  Neighborhood<TPixel, VDimension> ans(*this);
+  for (Iterator it = ans.Begin(); it < ans.End(); ++it)
+    {
+      *it += (TPixel) n;
+    }
+  return ans;
+}
 
 template<class TPixel, unsigned int VDimension>
 Neighborhood<TPixel, VDimension>
@@ -586,10 +563,7 @@ Neighborhood<TPixel, VDimension>
   Neighborhood<TPixel, VDimension> ans(*this);
   for (Iterator it = ans.Begin(); it < ans.End(); ++it)
     {
-      // *it = (TPixel) std::pow((double)*it, n);
-         ScalarTraits<TPixel>::SetScalar(*it, (ScalarValueType)
-                 std::pow((double)ScalarTraits<TPixel>::GetScalar(*it), n) );
-      
+       *it = (TPixel) std::pow((double)*it, n);
     }
   return ans;
 }
@@ -629,9 +603,7 @@ Neighborhood<TPixel, VDimension>
   const TPixel *itEnd = &(v[v.size()]);
   for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
-      //sum += *it * *slice_it;
-      sum += ScalarTraits<TPixel>::GetScalar(*it) *
-        ScalarTraits<TPixel>::GetScalar(*slice_it);
+      sum += *it * *slice_it;
     }
 
   return sum;
@@ -675,9 +647,7 @@ Neighborhood<TPixel, VDimension>
   for (it = &(v[0]), this_it = this->Begin(); it < itEnd;
        ++it, ++this_it)
     {
-      // sum += *it * *this_it;
-      sum += ScalarTraits<TPixel>::GetScalar(*it) *
-        ScalarTraits<TPixel>::GetScalar(*this_it);
+      sum += *it * *this_it;
     }
 
   return sum;
@@ -714,8 +684,8 @@ Neighborhood<TPixel, VDimension>
   std::cout << "Neighborhood" << std::endl;
   std::cout << "        this = " << this << std::endl;
   std::cout << "  this->size = " << this->size() << std::endl;
-
-  //   this->PrintScalarData();
+  
+   this->PrintScalarData();
 }
 
 template<class TPixel, unsigned int VDimension>
@@ -727,10 +697,10 @@ Neighborhood<TPixel, VDimension>
   Iterator iter;
   unsigned long loop[VDimension];
   memset(loop, 0, sizeof(unsigned long) * VDimension);
-
+  
   for (iter = Begin(); iter < End(); ++iter)
     {
-      std::cout << ScalarTraits<TPixel>::GetScalar(*iter) << " ";
+      std::cout << *iter << " ";
       for (iDim = 0; iDim < VDimension; ++iDim)
         {
           loop[iDim]++;
