@@ -1,4 +1,5 @@
 package require itk
+package require itkinteraction
 
 wm title . "Curvature Flow Example"
 wm geometry . 1024x500

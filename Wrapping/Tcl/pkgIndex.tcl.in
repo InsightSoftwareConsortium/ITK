@@ -82,6 +82,18 @@ namespace eval itk {
       else { package provide itkutils $version }
     "
 
+    package ifneeded itkinteraction $version "
+      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itkinteraction.tcl]
+      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkinteraction $version }
+    "
+
+    package ifneeded itktesting $version "
+      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itktesting.tcl]
+      namespace eval itk::testing { set defaultDataRoot ${ITK_DATA_ROOT} }
+      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itktesting $version }
+    "
   }
   
   # Make sure the procedure can be called.

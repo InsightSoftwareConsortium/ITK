@@ -1,5 +1,6 @@
 # Require ITK package.
 package require itk
+package require itkinteraction
 
 # Initial sigma value.
 set sigma 1
