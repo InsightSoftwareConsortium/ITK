@@ -99,14 +99,14 @@ class MetaTube : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaTube * _tube);
+    virtual void CopyInfo(const MetaTube * _tube);
 
     //
     //
     //
     bool Read(const char *_headerName=NULL);
 
-    bool Write(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Write(const char *_headName=NULL);
 
 
     //    NPoints(...)
@@ -140,7 +140,7 @@ class MetaTube : public MetaObject
 
     bool ReadStream(int ndims, std::ifstream * stream);
 
-    bool Append(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Append(const char *_headName=NULL);
   ////
   //
   // PROTECTED

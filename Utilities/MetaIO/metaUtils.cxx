@@ -42,7 +42,7 @@ int
 MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType *>& _fields)
   {
   int i;
-  for(i=0; i<_fields.size(); i++)
+  for(i=0; i<(int)_fields.size(); i++)
     {
     if(!strcmp(_fields[i]->name, _fieldName))
       {
@@ -271,7 +271,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
       (((float *)_toData)[_index]) = (float)tf;
       return true;
     case MET_STRING:
-      sprintf(&(((char *)_toData)[_index]), "%lf", tf);
+      sprintf(&(((char *)_toData)[_index]), "%f", tf);
       return true;
     default:
       return false;

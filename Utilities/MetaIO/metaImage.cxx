@@ -773,7 +773,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
 
   if(_writeElements)
     {
@@ -1095,7 +1095,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   {
   if(DEBUG) std::cout << "MetaImage: M_ReadElements" << std::endl;
 
-  if(m_HeaderSize>0)
+  if(m_HeaderSize>(int)0)
     {
     _fstream->seekg(m_HeaderSize, std::ios::cur);
     if(_fstream->gcount() != m_HeaderSize)
@@ -1131,7 +1131,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
 
 bool MetaImage
 ::Append(const char *_headName, const char *_dataName)
-{
+  {
   if(DEBUG) std::cout << "MetaImage: Append" << std::endl;
 
   if(_dataName == NULL)
@@ -1143,9 +1143,9 @@ bool MetaImage
     }
 
   if(_headName != NULL)
-  {
+    {
     FileName(_headName);
-  }
+    }
 
   //m_NPoints = m_PointList.size();
 
@@ -1153,39 +1153,39 @@ bool MetaImage
 
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app );
   if(!m_WriteStream->is_open())
-  {
+    {
     return false;
-  }
+    }
 
-  bool result = M_Write();
+  M_Write();
       
   int elementSize;
   MET_SizeOfType(m_ElementType, &elementSize);
   int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
   if(!strcmp(m_ElementDataFileName, "LOCAL"))
-  {
+    {
     m_WriteStream->write((char *)m_ElementData,
                         m_Quantity*elementNumberOfBytes); 
     m_WriteStream->close();
     return true;
-  }
+    }
   else
-  {
+    {
     char pathName[255];
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     std::ofstream* writeStreamTemp = new std::ofstream;
     m_WriteStream->close();
     char dataFileName[255];
     if(usePath)
-    {
+      {
       sprintf(dataFileName, "%s%s", pathName, m_ElementDataFileName);
-    }
+      }
     else
-    {
+      {
       strcpy(dataFileName, m_ElementDataFileName);
-    }
+      }
     if(strstr(dataFileName, "%"))
-    {
+      {
       int i;
       char fName[255];
       int sliceNumberOfBytes = m_SubQuantity[m_NDims-1]*elementNumberOfBytes;
@@ -1199,17 +1199,17 @@ bool MetaImage
         }
       }
     else
-    {
+      {
       writeStreamTemp->open(dataFileName, std::ios::binary);
       writeStreamTemp->write((char *)m_ElementData,
            m_Quantity*m_ElementNumberOfChannels*elementNumberOfBytes);
       writeStreamTemp->close();
       return true;
+      }
     }
-  }
   return true;
 
-}
+  }
 
 bool MetaImage::
 M_Read(void)

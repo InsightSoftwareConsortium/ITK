@@ -50,7 +50,7 @@ class MetaScene : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaScene * _scene);
+    virtual void CopyInfo(const MetaScene * _scene);
 
     void AddObject(MetaObject* object);
 
@@ -60,9 +60,9 @@ class MetaScene : public MetaObject
     // This function only reads registered tubes
     bool Read(const char *_headerName=NULL);
 
-    bool Write(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Write(const char *_headName=NULL);
 
-    bool Append(const char *_headName=NULL, const char *_dataName=NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
+    bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
 
     void  Clear(void);
 

@@ -168,7 +168,7 @@ Read(const char *_headerName)
 //
 //
 bool MetaSurface::
-Write(const char *_headName, const char *_dataName)
+Write(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaSurface: Write" << std::endl;
 
@@ -196,7 +196,7 @@ Write(const char *_headName, const char *_dataName)
   
 
 bool MetaSurface
-::Append(const char *_headName, const char *_dataName)
+::Append(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaSurface: Append" << std::endl;
 
@@ -357,10 +357,6 @@ M_Read(void)
   {
     posDim[i] = -1;
   }
-
-  int posV1x = -1;
-  int posV1y = -1;
-  int posV1z = -1;
 
   int pntDim;
   char** pntVal = NULL;

@@ -128,7 +128,7 @@ class MetaImage : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaImage * _im);
+    virtual void CopyInfo(const MetaImage * _im);
 
     int  HeaderSize(void) const;
     void HeaderSize(int _headerSize);
@@ -234,23 +234,25 @@ class MetaImage : public MetaObject
     //
     //
     //
-    bool Read(const char *_headerName=NULL, bool _readElements=true, void * _buffer=NULL);
+    virtual bool Read(const char *_headerName=NULL, bool _readElements=true,
+                      void * _buffer=NULL);
 
-    bool Write(const char *_headName=NULL, const char *_dataName=NULL, bool _writeElements=true);
+    virtual bool Write(const char *_headName=NULL, const char *_dataName=NULL,
+                       bool _writeElements=true);
 
-    bool Append(const char *_headName=NULL, const char *_dataName=NULL);
+    virtual bool Append(const char *_headName=NULL, const char *_dataName=NULL);
 
     bool ReadStream(int _nDims, std::ifstream * _stream);
 
     void Clear(void);
 
-    bool InitializeEssential(int _nDims, 
-                             const int * _dimSize,
-                             const float * _elementSpacing,
-                             MET_ValueEnumType _elementType,
-                             const int _elementNumberOfChannels=1,
-                             void *_elementData=NULL,
-                             bool _allocElementMemory=true);
+    virtual bool InitializeEssential(int _nDims, 
+                                     const int * _dimSize,
+                                     const float * _elementSpacing,
+                                     MET_ValueEnumType _elementType,
+                                     const int _elementNumberOfChannels=1,
+                                     void *_elementData=NULL,
+                                     bool _allocElementMemory=true);
 
   };
 

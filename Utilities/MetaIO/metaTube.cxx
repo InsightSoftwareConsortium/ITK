@@ -194,18 +194,10 @@ Read(const char *_headerName)
 //
 //
 bool MetaTube::
-Write(const char *_headName, const char *_dataName)
+Write(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaTube: Write" << std::endl;
 
- /* if(_dataName == NULL)
-    {
-    if(strlen(m_ElementDataFileName)==0)
-      {
-      ElementDataFileName("LOCAL");
-      }
-    }
-  */
   if(_headName != NULL)
     {
     FileName(_headName);
@@ -221,7 +213,7 @@ Write(const char *_headName, const char *_dataName)
     return false;
     }
 
-  bool result = M_Write();
+  M_Write();
       
   m_WriteStream->close();
 
@@ -230,18 +222,10 @@ Write(const char *_headName, const char *_dataName)
   
 
 bool MetaTube
-::Append(const char *_headName, const char *_dataName)
+::Append(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaTube: Append" << std::endl;
 
- /* if(_dataName == NULL)
-    {
-    if(strlen(m_ElementDataFileName)==0)
-      {
-      ElementDataFileName("LOCAL");
-      }
-    }
-  */
   if(_headName != NULL)
   {
     FileName(_headName);
@@ -257,7 +241,7 @@ bool MetaTube
     return false;
   }
 
-  bool result = M_Write();
+  M_Write();
       
   return true;
 
@@ -295,7 +279,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  // int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ParentPoint", MET_INT, false);
@@ -396,7 +380,7 @@ M_Read(void)
 
 
   int* posDim= new int[m_NDims];
-  for(unsigned int i= 0; i < m_NDims; i++)
+  for(int i= 0; i < m_NDims; i++)
   {
     posDim[i] = -1;
   }
@@ -423,7 +407,7 @@ M_Read(void)
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
  
     
-  unsigned int j;
+  int j;
   for(j = 0; j < pntDim; j++) 
   {
     if(!strcmp(pntVal[j], "x") || !strcmp(pntVal[j], "X"))
@@ -525,14 +509,14 @@ M_Read(void)
   {
     pnt = new TubePnt(m_NDims);
 
-    for(unsigned int k=0; k<pntDim; k++)
+    for(int k=0; k<pntDim; k++)
     {
       *m_ReadStream >> v[k];
       char c = m_ReadStream->get();
     }
 
     float* x = new float[m_NDims];
-    for(unsigned int d=0; d<m_NDims; d++)
+    for(int d=0; d<m_NDims; d++)
     {
       x[d] = v[posDim[d]];
     }
@@ -541,17 +525,17 @@ M_Read(void)
 
     pnt->m_R = v[posR];
 
-    if(posMn >= 0 && posMn < pntDim)
+    if(posMn >= (int)0 && posMn < pntDim)
     {
      pnt->m_Medialness = v[posMn];
     }
 
-      if(posRn >= 0 && posRn < pntDim)
+      if(posRn >= (int)0 && posRn < pntDim)
     {
      pnt->m_Ridgeness = v[posRn];
     }
 
-    if(posBn >= 0 && posBn < pntDim)
+    if(posBn >= (int)0 && posBn < pntDim)
     {
      pnt->m_Branchness = v[posBn];
     }
@@ -621,7 +605,7 @@ M_Write(void)
   /** Then copy all tubes points */
   PointListType::const_iterator it = m_PointList.begin();
   
-  unsigned int d;
+  int d;
   while(it != m_PointList.end())
   {
     for(d = 0; d < m_NDims; d++)

@@ -48,21 +48,21 @@ class MetaEllipse : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaEllipse * _ellipse);
+    virtual void CopyInfo(const MetaEllipse * _ellipse);
 
     //
     //
     //
     bool Read(const char *_headerName=NULL);
 
-    bool Write(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Write(const char *_headName=NULL);
 
 
     void  Clear(void);
 
     bool ReadStream(int ndims, std::ifstream * stream);
 
-    bool Append(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Append(const char *_headName=NULL);
  
     void  Radius(const float* radius);
     void  Radius(float radius);

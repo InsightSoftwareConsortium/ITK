@@ -81,14 +81,14 @@ class MetaSurface : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaSurface * _tube);
+    virtual void CopyInfo(const MetaSurface * _tube);
 
     //
     //
     //
     bool Read(const char *_headerName=NULL);
 
-    bool Write(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Write(const char *_headName=NULL);
 
 
     //    NPoints(...)
@@ -110,7 +110,7 @@ class MetaSurface : public MetaObject
 
     bool ReadStream(int ndims, std::ifstream * stream);
 
-    bool Append(const char *_headName=NULL, const char *_dataName=NULL);
+    bool Append(const char *_headName=NULL);
 
     MET_ValueEnumType ElementType(void) const;
     void  ElementType(MET_ValueEnumType _elementType);

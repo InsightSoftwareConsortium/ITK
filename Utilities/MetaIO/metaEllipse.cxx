@@ -173,18 +173,10 @@ Read(const char *_headerName)
 //
 //
 bool MetaEllipse::
-Write(const char *_headName, const char *_dataName)
+Write(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaEllipse: Write" << std::endl;
 
-/*  if(_dataName == NULL)
-    {
-    if(strlen(m_ElementDataFileName)==0)
-      {
-      ElementDataFileName("LOCAL");
-      }
-    }
- */ 
   if(_headName != NULL)
     {
     FileName(_headName);
@@ -206,18 +198,10 @@ Write(const char *_headName, const char *_dataName)
 }
 
 bool MetaEllipse::
-Append(const char *_headName, const char *_dataName)
+Append(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaEllipse: Append" << std::endl;
 
- /* if(_dataName == NULL)
-    {
-    if(strlen(m_ElementDataFileName)==0)
-      {
-      ElementDataFileName("LOCAL");
-      }
-    }
-  */
   if(_headName != NULL)
   {
     FileName(_headName);

@@ -168,7 +168,7 @@ Read(const char *_headerName)
 //
 //
 bool MetaBlob::
-Write(const char *_headName, const char *_dataName)
+Write(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaBlob: Write" << std::endl;
 
@@ -196,7 +196,7 @@ Write(const char *_headName, const char *_dataName)
   
 
 bool MetaBlob
-::Append(const char *_headName, const char *_dataName)
+::Append(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaBlob: Append" << std::endl;
 
@@ -360,13 +360,6 @@ M_Read(void)
   {
     posDim[i] = -1;
   }
-
-  int posV1x = -1;
-  int posV1y = -1;
-  int posV1z = -1;
-  int posV2x = -1;
-  int posV2y = -1;
-  int posV2z = -1;
 
   int pntDim;
   char** pntVal = NULL;

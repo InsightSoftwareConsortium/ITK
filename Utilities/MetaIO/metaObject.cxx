@@ -425,7 +425,7 @@ ID(unsigned int _id)
   m_ID = _id;
 }
       
-const unsigned int  MetaObject::
+unsigned int  MetaObject::
 ID(void) const
 {
   return m_ID;

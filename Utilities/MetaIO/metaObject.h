@@ -76,7 +76,7 @@ class MetaObject
       MetaObject(const char * _fileName);
       MetaObject(unsigned int dim);
 
-      ~MetaObject(void);
+      virtual ~MetaObject(void);
 
       void  FileName(const char *_fileName);
       const char  * FileName(void) const;
@@ -89,8 +89,7 @@ class MetaObject
 
       virtual bool  Write(const char * _fileName=NULL);
 
-      
-      virtual bool Append(const char *_headName=NULL, const char *_dataName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
+      virtual bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
 
       ////
       //
@@ -167,7 +166,7 @@ class MetaObject
       //       Optional Field
       //       ID number of the current metaObject
       void                ID(unsigned int _id);
-      const unsigned int  ID(void) const;
+      unsigned int  ID(void) const;
 
       //    ParentID(...)
       //       Optional Field

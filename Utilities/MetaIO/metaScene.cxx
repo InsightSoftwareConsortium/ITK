@@ -180,7 +180,7 @@ Read(const char *_headerName)
 //
 //
 bool MetaScene::
-Write(const char *_headName, const char *_dataName)
+Write(const char *_headName)
 {
   if(DEBUG) std::cout << "MetaScene: Write" << std::endl;
 
@@ -209,7 +209,7 @@ Write(const char *_headName, const char *_dataName)
   ObjectListType::const_iterator it = m_ObjectList.begin();
   while(it != m_ObjectList.end())
   {
-    (*it)->Append(_headName,_dataName);
+    (*it)->Append(_headName);
     it++;
   }
 
