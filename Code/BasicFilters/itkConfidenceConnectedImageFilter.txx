@@ -193,9 +193,9 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       = SecondIteratorType ( inputImage, secondFunction, m_Seed );
     while( !sit.IsAtEnd())
       {
-      sum += static_cast<InputRealType>(sit.Get());
-      sumOfSquares += (static_cast<InputRealType>(sit.Get())
-                       * static_cast<InputRealType>(sit.Get()));
+      const InputRealType value = static_cast<InputRealType>(sit.Get());
+      sum += value;
+      sumOfSquares += value * value;
       ++num;
       ++sit;
       }
