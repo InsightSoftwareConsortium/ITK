@@ -71,6 +71,7 @@ struct ScalarOperation
 template<class TContainer>
 struct InnerProduct : public ScalarOperation<TContainer>
 {
+  typedef typename TContainer::ScalarValueType ScalarType;
   virtual ScalarType operator()(TContainer &,
                                      std::valarray<ScalarType>& ) const;
   virtual ScalarType operator()(std::slice &, TContainer &,
@@ -89,6 +90,7 @@ template<class TContainer>
 struct VectorComponentInnerProduct
   : public ScalarOperation<TContainer>
 {
+  typedef typename TContainer::ScalarValueType ScalarType;
   typedef typename TContainer::PixelType VectorType;
   enum { VectorDimension = VectorType::VectorDimension };
 
@@ -128,6 +130,7 @@ struct VectorComponentInnerProduct
 template<class TIterator>
 struct IteratorInnerProduct : public ScalarOperation<TIterator>
 {
+  typedef typename TIterator::ScalarValueType ScalarType;
   virtual ScalarType operator()(TIterator &,
                                      std::valarray<ScalarType>& ) const;
   virtual ScalarType operator()(std::slice &, TIterator &,
@@ -156,6 +159,7 @@ template<class TIterator>
 struct BoundsCheckingIteratorInnerProduct
   : public ScalarOperation<TIterator>
 {
+  typedef typename TIterator::ScalarValueType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType PixelType;
   enum { Dimension = ImageType::ImageDimension };
@@ -165,7 +169,6 @@ struct BoundsCheckingIteratorInnerProduct
   virtual ScalarType operator()(std::slice &, TIterator &,
                                      std::valarray<ScalarType>&)  const;
 };
-
 
 /**
  * \class VectorComponentIteratorInnerProduct
@@ -184,6 +187,7 @@ template<class TIterator>
 struct VectorComponentIteratorInnerProduct
   : public ScalarOperation<TIterator>
 {
+  typedef typename TIterator::ScalarValueType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType VectorType;
   enum { VectorDimension = VectorType::VectorDimension };
@@ -224,6 +228,8 @@ template<class TIterator>
 struct BoundsCheckingVectorComponentIteratorInnerProduct
   : public VectorComponentIteratorInnerProduct<TIterator>
 {
+  typedef typename TIterator::ScalarValueType ScalarType;
+  typedef typename TIterator::ImageType ImageType;
   enum { Dimension = ImageType::ImageDimension };
 
   virtual ScalarType operator()(TIterator &,
@@ -240,10 +246,10 @@ struct BoundsCheckingVectorComponentIteratorInnerProduct
  * Templated over operation (method of applying the coefficients) and iterator
  * type. 
  */
-
 template<class TOperation, class TIterator>
 struct ApplyOperatorToEach
 {
+  typedef typename TIterator::ScalarValueType ScalarType;
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType PixelType;
   typedef typename ImageType::ScalarValueType ScalarValueType;
