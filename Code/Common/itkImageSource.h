@@ -177,6 +177,14 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+
+  /** This method is intentionally left blank. ImageSource's need not
+   * Initialize their containers. The Image::Allocate() method (called
+   * from GenerateData()) will resize the container if more memory is
+   * needed.  Otherwise, the memory can be reused.
+   */
+  virtual void PrepareOutputs() {};
+
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to iverride this default
    * behavior. Foer example, a filter may have multiple outptus with
