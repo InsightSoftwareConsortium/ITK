@@ -17,23 +17,20 @@
 #ifndef __itkFEMException_h
 #define __itkFEMException_h
 
-#include "itkExceptionObject.h"
+
+#include "itkMacro.h"
+
 #include <typeinfo>
 #include <string>
 
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \file itkFEMException.h
  * \brief Declaration of several exception classes that are used
-    within the FEM code.
+ *  within the FEM code.
  */
-
-
 
 
 /**
@@ -53,10 +50,12 @@ public:
    */
   FEMException(const char *file, unsigned int lineNumber, std::string location="Unknown");
 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMException() throw() {}
+
+  /** Type related information. */
+  itkTypeMacro(FEMException, ExceptionObject);
 };
-
-
-
 
 /**
  * \class FEMExceptionIO
@@ -74,9 +73,12 @@ public:
    */
   FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionIO() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionIO,FEMException);
 };
-
-
 
 
 /**
@@ -101,9 +103,12 @@ class FEMExceptionWrongClass : public FEMException
 public:
   FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location);
 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionWrongClass() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionWrongClass,FEMException);
 };
-
-
 
 
 /**
@@ -118,6 +123,12 @@ class FEMExceptionObjectNotFound : public FEMException
 public:
   FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName, int GN);
 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionObjectNotFound() throw() {}
+
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionObjectNotFound,FEMException);
+
   /**
    * Base class of the searched object.
    */
@@ -125,8 +136,6 @@ public:
   int m_GN;
 
 };
-
-
 
 
 /**
@@ -146,6 +155,12 @@ public:
    */
   FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
  
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionSolution() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionSolution,FEMException);
+  
 };
 
 

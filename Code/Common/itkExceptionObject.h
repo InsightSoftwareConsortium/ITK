@@ -23,13 +23,6 @@
 #include "itkWin32Header.h"
 
 
-/** Macro used to add standard methods to all classes, mainly type
- * information. */
-#define itkTypeMacro2(thisClass,superclass) \
-    virtual const char *GetNameOfClass() const \
-        {return #thisClass;} 
-
-
 namespace itk
 {
 
@@ -189,7 +182,8 @@ public:
    */
   RangeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(RangeError, ExceptionObject);
+  virtual const char *GetNameOfClass() const 
+    {return "RangeError";}
 };
 
 /** \class InvalidArgumentError
@@ -216,7 +210,8 @@ public:
    */
   InvalidArgumentError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(InvalidArgumentError, ExceptionObject);
+  virtual const char *GetNameOfClass() const 
+    {return "InvalidArgumentError";}
 };
 
 /** \class IncompatibleOperandsError
@@ -242,7 +237,8 @@ public:
    */
   IncompatibleOperandsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
 
-  itkTypeMacro2(IncompatibleOperandsError, ExceptionObject);
+  virtual const char *GetNameOfClass() const 
+    {return "IncompatibleOperandsError";}
 };
 
 

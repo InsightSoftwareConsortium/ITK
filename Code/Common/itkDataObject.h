@@ -39,16 +39,19 @@ public:
    * copied. */
   DataObjectError();
   
+  /** Destructor. Need to specify empty throw() to avoid warnings. */
+  virtual ~DataObjectError() throw() {}
+  
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const std::string& file, unsigned int lineNumber);
 
-  /** Copy constructor.  Needed to ensure the exception object can be copied. */
+  /** Copy constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const DataObjectError &orig);
 
-  /** Operator=.  Needed to ensure the exception object can be copied. */
+  /** Operator=. Needed to ensure the exception object can be copied. */
   DataObjectError& operator=( const DataObjectError& orig);
 
   /** Standard type macro */
@@ -81,13 +84,16 @@ class ITK_EXPORT InvalidRequestedRegionError : public DataObjectError
   /** Default constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError();
   
+  /** Destructor. Need to specify empty throw() to avoid warnings. */
+  virtual ~InvalidRequestedRegionError() throw() {}
+  
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const std::string& file, unsigned int lineNumber);
 
-  /** Copy constructor.  Needed to ensure the exception object can be copied. */
+  /** Copy constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const InvalidRequestedRegionError &orig);
 
   /** Operator=.  Needed to ensure the exception object can be copied. */
