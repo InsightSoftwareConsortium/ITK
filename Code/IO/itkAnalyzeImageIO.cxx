@@ -725,10 +725,22 @@ void AnalyzeImageIO::Read(void* buffer)
 bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
 {
   std::string filename(FileNameToRead);
+
+  // we check that the correction extension is given by the user
+  std::string filenameext = GetExtension(filename);
+  if(filenameext != std::string("hdr") 
+    && filenameext != std::string("img.gz")
+    && filenameext != std::string("img")
+    )
+    {
+    return false;
+    }
+
   const std::string HeaderFileName = GetHeaderFileName(filename);
   //
   // only try to read HDR files
   std::string ext = GetExtension(HeaderFileName);
+
   if(ext == std::string("gz"))
     {
     ext = GetExtension(GetRootName(HeaderFileName));
