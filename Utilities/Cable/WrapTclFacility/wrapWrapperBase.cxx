@@ -664,6 +664,7 @@ WrapperBase
     try
       {
       constructor->Call(objc, objv);
+      Tcl_SetStringObj(Tcl_GetObjResult(m_Interpreter), "", -1);
       }
     catch (TclException e)
       {
