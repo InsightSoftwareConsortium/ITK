@@ -122,6 +122,13 @@ public:
     const InputCovariantVectorType &vector) const
     { return vector; }
 
+  /** Set the transformation to an Identity
+   *
+   * This is a NULL operation in the case of this particular transform.
+     The method is provided only to comply with the interface of other transforms. */
+  void SetIdentity( void ) { }
+
+
   /** Set the Transformation Parameters
    * and update the internal transformation. */
   virtual void SetParameters(const ParametersType &) {};
