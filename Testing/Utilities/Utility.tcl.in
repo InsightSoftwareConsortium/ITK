@@ -1,4 +1,18 @@
-
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Utility.tcl.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
 
 
 proc MakeDateTimeStamp {} \
@@ -16,19 +30,19 @@ proc NeedToRemake { File } \
   set XML [file join XML $File.xml]
   if { ![file exists $File.html] } \
   {
-    puts "Remake 1"
+    # puts "Remake 1"
     return 1
   }
   
   if { [file exists $XML] } \
   {
-    puts "Remake: [expr [file mtime $File.html] <= [file mtime $XML]]"
+    # puts "Remake: [expr [file mtime $File.html] <= [file mtime $XML]]"
     return [expr [file mtime $File.html] <= [file mtime $XML]]
   }
 
   if { [file exists $File.xml] } \
   {
-    puts "Remake: [expr [file mtime $File.html] <= [file mtime $File.xml]]"
+    # puts "Remake: [expr [file mtime $File.html] <= [file mtime $File.xml]]"
     return [expr [file mtime $File.html] <= [file mtime $File.xml]]
   }
   return 1
