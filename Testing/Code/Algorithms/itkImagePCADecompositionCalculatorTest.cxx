@@ -49,8 +49,6 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   const unsigned int  IMGWIDTH         =  2;
   const unsigned int  IMGHEIGHT        =  2;
   const unsigned int  NDIMENSION       =  2;
-  const unsigned int  NUMTRAINIMAGES   =  3;
-  const unsigned int  NUMLARGESTPC     =  2;
 
 
   //------------------------------------------------------
