@@ -26,8 +26,6 @@
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"
 
-#include <windows.h>
-
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
