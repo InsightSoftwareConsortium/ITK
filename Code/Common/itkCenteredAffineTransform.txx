@@ -252,6 +252,29 @@ GetJacobian( const InputPointType & p ) const
 
 
  
+template<class TScalarType, unsigned int NDimensions>
+void
+CenteredAffineTransform<TScalarType, NDimensions>::
+SetCenter( const InputPointType & center )
+{
+  m_Center = center;
+  this->ComputeOffset();
+}
+
+
+
+
+template<class TScalarType, unsigned int NDimensions>
+void
+CenteredAffineTransform<TScalarType, NDimensions>::
+SetTranslation( const OutputVectorType & translation )
+{
+  m_Translation = translation;
+  this->ComputeOffset();
+}
+
+
+
 
 // Get parameters
 template<class TScalarType, unsigned int NDimensions>
