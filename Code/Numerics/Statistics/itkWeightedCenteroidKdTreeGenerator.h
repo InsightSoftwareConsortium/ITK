@@ -53,6 +53,7 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::SubsampleType SubsampleType ;
   typedef typename Superclass::SubsamplePointer SubsamplePointer ;
+  typedef typename Superclass::KdTreeType KdTreeType ;
   typedef typename Superclass::KdTreeNodeType KdTreeNodeType ;
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
