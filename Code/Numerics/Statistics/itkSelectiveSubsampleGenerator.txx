@@ -71,7 +71,6 @@ void
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
-  unsigned int classLabel ;
   m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
