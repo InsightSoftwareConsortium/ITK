@@ -1,0 +1,117 @@
+CABLE_CLASS_SET(Float float)
+CABLE_CLASS_SET(Double double)
+CABLE_CLASS_SET(ULong "unsigned long")
+CABLE_CLASS_SET(Dimension 2)
+CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
+CABLE_CLASS_SET(Image3D "itkImage_float_3:itk::Image<float, 3>")
+CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
+CABLE_CLASS_SET(Mesh "itk::Mesh<$Float>")
+CABLE_CLASS_SET(DefMesh "itk::DeformableMesh<$Float>")
+CABLE_CLASS_SET(RGBPix "itk::RGBPixel<$Float>")
+CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
+CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Float>")
+CABLE_CLASS_SET(VecPix "itk::Vector<$Float>")
+CABLE_CLASS_SET(VecImage "itk::Image<$VecPix,$Dimension>")
+CABLE_CLASS_SET(BloxPix "itk::BloxPixel<$Float>")
+CABLE_CLASS_SET(BloxPixImage "itk::Image<$BloxPix, $Dimension>")
+CABLE_CLASS_SET(ComponentAccessor
+                "itk::BluePixelAccessor<$Float>"
+                "itk::GreenPixelAccessor<$Float>"
+                "itk::RedPixelAccessor<$Float>")
+CABLE_CLASS_SET(HexCell
+                "itk::HexahedronCell<$Float, $(Mesh)::CellTraits>")
+CABLE_CLASS_SET(EllipsoidFunc
+                "itk::EllipsoidInteriorExteriorSpatialFunction<$Float>")
+CABLE_CLASS_SET(Kernel "itk::Neighborhood<$Float, $Dimension>")
+CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
+CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
+CABLE_CLASS_SET(Transform "itk::AffineTransform<$Float>")
+
+ADD_LIBRARY(ITKAlgorithmsTestTcl)
+
+CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
+  "itk::BalloonForceFilter<$Mesh,$Mesh>"
+  "itk::Classifier<$Image, $Image>"
+#  "itk::ConnectedRegionsMeshFilter<$Mesh,$Mesh>"
+  "itk::CurvatureFlowImageFilter<$Image,$Image>"
+  "itk::DeformableMesh<$Float>"
+  "itk::MultiResolutionMutualInformationRigidRegistration<$Image3D, $Image3D>"
+  "itk::ExtensionVelocitiesImageFilter<$Image>"
+  "itk::FastMarchingExtensionImageFilter<$Image, $Float>"
+  "itk::FastMarchingImageFilter<$Image>"
+#  "itk::FuzzyConnectednessImageFilter<$Image,$Image>"
+#  "itk::FuzzyConnectednessRGBImageFilter<$RGBImage,$RGBImage>"
+#  "itk::GaussianSupervisedClassifier<$VecImage,$Image>"
+  "itk::GeodesicActiveContourImageFilter<$Image,$Image,$Image>"
+#  "itk::GibbsPriorFilter<$Image,$Image>"
+#  "itk::HybridFilter<$Image,$Image,$Mesh,$Mesh>"
+#  "itk::ImageMapper<$Image, $Transform>"
+#  "itkImageMomentsCalculator<$Image>"
+  "itk::ImageToImageAffineMeanSquaresGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageAffineMutualInformationGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::MRIBiasFieldCorrectionFilter<$Image,$Image>"
+#  "itk::SimpleFuzzyConnectednessImageFilterBase<$Image,$Image>"
+  "itk::ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
+#  "itk::ImageToImageMomentsAlignmentCalculator<$Image3D,$Image3D>"
+  "itk::ImageToImageTranslationMeanSquaresGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::ImageToImageRigidMutualInformationGradientDescentRegistration<$Image3D,$Image3D>"
+  "itk::KLMRegionGrowImageFilter<$VecImage,$VecImage>"
+#  "itk::KmeansUnsupervisedClassifier<$VecImage,$VecImage>"
+#  "itk::SphereMeshSource<$Mesh>"
+#  "itk::KalmanLinearEstimator<$Float,$Dimension>"
+  "itk::LevelSetImageFilter<$Image>"
+  "itk::LevelSetNeighborhoodExtractor<$Image>"
+  "itk::LevelSetVelocityNeighborhoodExtractor<$Image,$Float>"
+  "itk::MRFImageFilter<$Image,$Image>"
+#"itk::PointSetToImageTranslationMeanSquaresGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<$Mesh,$Image3D>"
+#"itk::PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration<$Mesh,$Image3D>"
+#  "itk::RGBGibbsPriorFilter<$Image,$Image>"
+  "itk::MultiResolutionMutualInformationAffineRegistration<$Image3D,$Image3D>"
+  "itk::CurvatureFlowFunction<$Image>"
+  "itk::RegionGrowImageFilter<$Image,$Image>"
+  "itk::RegistrationMapper<$Image,$Transform>"
+#  "itk::RegistrationMapperImage<$Image,$Transform>"
+#  "itk::RegistrationMapperProcrustes<$Transform,$Dimension>"
+##  itkRegistrationMethod
+  "itk::ReinitializeLevelSetImageFilter<$Image>"
+  "itk::ShapeDetectionLevelSetFilter<$Image,$Image>"
+  "itk::SupervisedClassifier<$Image,$Image>"
+  "itk::UnsupervisedClassifier<$VecImage,$VecImage>"
+#  "itk::VectorFuzzyConnectednessImageFilter<$VecImage,$VecImage>"
+  "itk::VoronoiDiagram2D<$Float>"
+#  "itk::VoronoiSegmentationImageFilter<$Image,$Image>"
+#  "itk::VoronoiSegmentationRGBImageFilter<$RGBImage,$RGBImage>"
+  "itk::WatershedImageFilter<$Image>"
+  "itk::MinimumMaximumImageCalculator<$Image>"
+  "itk::BalloonForce3DFilter<$Mesh,$Mesh>"
+  "itk::LevelSet2DFunction<$Image>"
+#  "itk::LevelSetFunction<$Image>"
+  "itk::MRASlabIdentifier<$Image>"
+#  "itk::SphereSource<$Mesh>"
+  "itk::VoronoiSegmentationImageFilterBase<$Image,$Image>"
+  "itk::VoronoiDiagram2DGenerator<$Float>"
+  "itk::MultiResolutionPyramidImageFilter<$Image,$Image>"
+  "itk::RecursiveMultiResolutionPyramidImageFilter<$Image,$Image>"
+#  "itk::DeformableMeshFilter<$DefMesh,$DefMesh>"
+#  "itk::DeformableMesh3DFilter<$DefMesh,$DefMesh>"
+)
+
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl
+ITKCommon
+ITKBasicFilters
+ITKIO
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)

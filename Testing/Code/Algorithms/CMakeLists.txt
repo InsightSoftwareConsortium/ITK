@@ -16,6 +16,11 @@ ITKCommon
 VXLNumerics
 )
 
+IF(ITK_WRAP_TCL)
+  INCLUDE(${ITK_SOURCE_DIR}/Testing/Code/Algorithms/CMakeListsTcl.txt)
+ENDIF(ITK_WRAP_TCL)
+
+
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
