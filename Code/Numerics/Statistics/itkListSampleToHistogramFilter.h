@@ -58,6 +58,10 @@ public:
   { m_Histogram = histogram ;  }
 
   /** starts import procedure */
+  void Update()
+  { this->Run() ; } 
+
+  /** starts import procedure */
   void Run() ;
 
 protected:
