@@ -123,7 +123,7 @@ CellInterface< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 int
 CellInterface< TPixelType , TCellTraits >
-::GetNumUsingCells(void)
+::GetNumberOfUsingCells(void)
 {
   return 0;
 }

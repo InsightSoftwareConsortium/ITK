@@ -120,7 +120,7 @@ public:
   virtual void AddUsingCell(CellIdentifier cellId);
   virtual void RemoveUsingCell(CellIdentifier cellId);
   virtual bool IsUsingCell(CellIdentifier cellId);
-  virtual int GetNumUsingCells(void);
+  virtual int GetNumberOfUsingCells(void);
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
   

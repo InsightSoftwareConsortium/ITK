@@ -438,7 +438,7 @@ public:
   virtual void AddUsingCell(CellIdentifier);
   virtual void RemoveUsingCell(CellIdentifier);
   virtual bool IsUsingCell(CellIdentifier);
-  virtual int GetNumUsingCells(void);
+  virtual int GetNumberOfUsingCells(void);
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
   

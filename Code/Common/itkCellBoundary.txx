@@ -99,7 +99,7 @@ CellBoundary<TCell>
 template <typename TCell>
 int
 CellBoundary<TCell>
-::GetNumUsingCells(void)
+::GetNumberOfUsingCells(void)
 {
   return m_UsingCells.size();
 }
