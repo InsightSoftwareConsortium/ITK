@@ -245,24 +245,6 @@ public:
   const AllocatorType &GetBufferReference() const
   { return m_DataBuffer; }
 
-  /**
-   * Begin and end methods to be used internally to access data buffers.
-   * These are needed internally by iterators that subclass the neighborhood
-   * container to distinguish from their own End() and Begin() methods which
-   * have a different function.
-   */
-  Iterator end()
-  { return m_DataBuffer.end(); }
-
-  Iterator begin()
-  { return m_DataBuffer.begin(); }
-  
-  const ConstIterator end() const
-  { return m_DataBuffer.end(); }
-
-  const ConstIterator begin() const
-  { return m_DataBuffer.begin(); }
-  
 protected:
   /**
    * Sets the length along each dimension.
