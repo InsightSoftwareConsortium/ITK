@@ -209,7 +209,7 @@ public:
   long GetRandomSeed() { return m_RandomSeed ;} 
 
   /**
-   *
+   * print out each iteration's result
    */
   void SetVerboseMode(bool flag) ;
   
