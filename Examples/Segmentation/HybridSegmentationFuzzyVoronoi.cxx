@@ -85,7 +85,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   bool      BinaryPixelType;
+  typedef unsigned char      BinaryPixelType;
   typedef itk::Image< BinaryPixelType, Dimension >      BinaryImageType;
   // Software Guide : EndCodeSnippet
 
@@ -98,8 +98,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::SimpleFuzzyConnectednessScalarImageFilter< InputImageType, 
-                 BinaryImageType >  FuzzySegmentationFilterType;
+  typedef   itk::SimpleFuzzyConnectednessScalarImageFilter< 
+                                               InputImageType, 
+                                               BinaryImageType 
+                                                  >  FuzzySegmentationFilterType;
   // Software Guide : EndCodeSnippet
 
 
@@ -149,8 +151,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::VoronoiSegmentationImageFilter<InputImageType, OutputImageType>
-    VoronoiSegmentationFilterType;
+  typedef  itk::VoronoiSegmentationImageFilter<
+                                      InputImageType, 
+                                      OutputImageType,
+                                      BinaryImageType>
+                                           VoronoiSegmentationFilterType;
+
   VoronoiSegmentationFilterType::Pointer voronoisegmenter = 
                                      VoronoiSegmentationFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -223,7 +229,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The parameters of the fuzzy segmentation filter are defined here. A seed
-  //  point is provided with the method \code{SetObjectsSeed()} in order to
+  //  point is provided with the method \code{SetObjectSeed()} in order to
   //  initialize the region to be grown.  Estimated values for the mean and
   //  variance of the object intensities are also provided with the methods
   //  \code{SetMean()} and \code{SetVariance()}, respectively. A threshold
@@ -232,7 +238,7 @@ int main( int argc, char *argv[] )
   //  variance on the computation of the segmentation, please see
   //  \cite{Udupa1996}. 
   //
-  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetObjectsSeed()}
+  //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetObjectSeed()}
   //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetMean()}
   //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetVariance()}
   //  \index{itk::Simple\-Fuzzy\-Connectedness\-Scalar\-Image\-Filter!SetThreshold()}
@@ -240,7 +246,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  fuzzysegmenter->SetObjectsSeed( index );
+  fuzzysegmenter->SetObjectSeed( index );
   fuzzysegmenter->SetMean( mean );
   fuzzysegmenter->SetVariance( variance );
   fuzzysegmenter->SetThreshold( 0.5 );
@@ -271,7 +277,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   voronoisegmenter->SetInput( reader->GetOutput() );
-  voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
+  voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
