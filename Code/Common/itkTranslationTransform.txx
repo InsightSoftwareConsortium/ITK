@@ -18,7 +18,6 @@ and partly by itkImageMomentsTest.cxx.
 #ifndef _itkTranslationTransform_txx
 #define _itkTranslationTransform_txx
 
-#include "itkNumericTraits.h"
 #include "itkTranslationTransform.h"
 
 
