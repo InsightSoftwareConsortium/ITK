@@ -25,15 +25,14 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int NDimensions, class PixelType, 
-        unsigned int SpaceDimension >
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+template< unsigned int TDimension, class PixelType >
+ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
   strcpy(m_TypeName,"ImageSpatialObject");
   m_Image = ImageType::New();
-  m_SlicePosition = new int[NDimensions];
-  for(unsigned int i=0;i<NDimensions;i++)
+  m_SlicePosition = new int[TDimension];
+  for(unsigned int i=0;i<TDimension;i++)
   {
     m_SlicePosition[i]=0;
   }
@@ -42,29 +41,26 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 }
 
 /** Destructor */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+template< unsigned int TDimension, class PixelType >
+ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
   delete m_SlicePosition;
 }
 
 /** Return true if the given point is inside the image */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 bool
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   return IsInside(point, depth, name);
 }
 
 /** Return true if the given point is inside the image */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 bool
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
@@ -82,10 +78,9 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 
 /** Return the value of the image at a specified point 
  *  The value returned is always of type double */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 bool 
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {
@@ -94,7 +89,7 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
     PointType p = point;
     TransformPointToLocalCoordinate(p);
     IndexType index;
-    for(unsigned int i=0; i<NDimensions; i++)
+    for(unsigned int i=0; i<TDimension; i++)
       {
       index[i] = (int)p[i];
       }
@@ -118,10 +113,9 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 }
 
 /** Compute the bounds of the image */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 bool
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::ComputeBoundingBox( unsigned int depth, char * name )
 {
 
@@ -133,10 +127,10 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
       {
       typename ImageType::RegionType region =
                m_Image->GetLargestPossibleRegion();
-      itk::Size<NDimensions> size = region.GetSize();
+      itk::Size<TDimension> size = region.GetSize();
       PointType pointLow,pointHigh;
   
-      for( unsigned int i=0; i<NDimensions; i++ )
+      for( unsigned int i=0; i<TDimension; i++ )
         {
         pointLow[i] = 0;
         pointHigh[i] = size[i];
@@ -165,12 +159,10 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 }
 
 /** Set the image in the spatial object */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 void
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
-::SetImage( ImageSpatialObject< NDimensions,  PixelType,
-                                SpaceDimension >::ImageType * image )
+ImageSpatialObject< TDimension,  PixelType >
+::SetImage( ImageSpatialObject< TDimension,  PixelType >::ImageType * image )
 {
   m_Image = image;
   m_Image->Modified();
@@ -178,20 +170,19 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 }
 
 /** Get the image inside the spatial object */
-template< unsigned int NDimensions, class PixelType, 
+template< unsigned int TDimension, class PixelType, 
           unsigned int SpaceDimension >
-typename ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >::ImageType *
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
+ImageSpatialObject< TDimension,  PixelType >
 ::GetImage( void )
 {
   return m_Image.GetPointer();
 }
 
 /** Print the object */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 void
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -200,10 +191,9 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 }
 
 /** Get the modification time */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 unsigned long 
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::GetMTime( void ) const
 {
   unsigned long latestMTime = Superclass::GetMTime();
@@ -219,10 +209,9 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 
 
 /** Set the slice position */
-template< unsigned int NDimensions, class PixelType, 
-          unsigned int SpaceDimension >
+template< unsigned int TDimension, class PixelType >
 void
-ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
+ImageSpatialObject< TDimension,  PixelType >
 ::SetSlicePosition(unsigned int dimension, int position) 
 {
   m_SlicePosition[dimension]=position;

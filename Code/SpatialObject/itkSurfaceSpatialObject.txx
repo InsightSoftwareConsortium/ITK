@@ -27,8 +27,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-SurfaceSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+SurfaceSpatialObject< TDimension > 
 ::SurfaceSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -41,16 +41,16 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Destructor */ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
-SurfaceSpatialObject< TDimension, SpaceDimension >  
+template< unsigned int TDimension >
+SurfaceSpatialObject< TDimension >  
 ::~SurfaceSpatialObject()
 { 
 } 
  
 /** Get the list of points composing the surface */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-typename SurfaceSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-SurfaceSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+typename SurfaceSpatialObject< TDimension > ::PointListType &  
+SurfaceSpatialObject< TDimension > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting SurfacePoint list" );
@@ -58,9 +58,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 } 
  
 /** Set the list of points composing the surface */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-SurfaceSpatialObject< TDimension, SpaceDimension >  
+SurfaceSpatialObject< TDimension >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -80,9 +80,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 }
  
 /** Print the surface object */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-SurfaceSpatialObject< TDimension, SpaceDimension >  
+SurfaceSpatialObject< TDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl; 
@@ -92,9 +92,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Compute the bounds of the surface */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-SurfaceSpatialObject< TDimension, SpaceDimension >  
+SurfaceSpatialObject< TDimension >  
 ::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing surface bounding box" );
@@ -137,9 +137,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Return true is the given point is on the surface */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-SurfaceSpatialObject< TDimension, SpaceDimension >  
+SurfaceSpatialObject< TDimension >  
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is on the surface" );
@@ -169,9 +169,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Return true if the surface is evaluable at a specified point */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SurfaceSpatialObject< TDimension, SpaceDimension > 
+SurfaceSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the surface is evaluable at " << point );
@@ -179,9 +179,9 @@ SurfaceSpatialObject< TDimension, SpaceDimension >
 }
 
 /** Return 1 if the point is on the surface */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-SurfaceSpatialObject< TDimension, SpaceDimension > 
+SurfaceSpatialObject< TDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {

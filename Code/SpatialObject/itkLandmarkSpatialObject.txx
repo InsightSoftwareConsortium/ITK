@@ -29,8 +29,8 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-LandmarkSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+LandmarkSpatialObject< TDimension > 
 ::LandmarkSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -42,16 +42,16 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Destructor */ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
-LandmarkSpatialObject< TDimension, SpaceDimension >  
+template< unsigned int TDimension >
+LandmarkSpatialObject< TDimension >  
 ::~LandmarkSpatialObject()
 { 
 } 
  
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-typename LandmarkSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-LandmarkSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+typename LandmarkSpatialObject< TDimension > ::PointListType &  
+LandmarkSpatialObject< TDimension > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting LandmarkPoint list" );
@@ -59,9 +59,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-const typename LandmarkSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-LandmarkSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+const typename LandmarkSpatialObject< TDimension > ::PointListType &  
+LandmarkSpatialObject< TDimension > 
 ::GetPoints() const
 { 
   itkDebugMacro( "Getting LandmarkPoint list" );
@@ -69,9 +69,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Set the points which are defining the Landmark structure */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-LandmarkSpatialObject< TDimension, SpaceDimension >  
+LandmarkSpatialObject< TDimension >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -91,9 +91,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 } 
  
 /** Print the blob spatial object */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-LandmarkSpatialObject< TDimension, SpaceDimension >  
+LandmarkSpatialObject< TDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "LandmarkSpatialObject(" << this << ")" << std::endl; 
@@ -103,9 +103,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 } 
   
 /** Compute the bounds of the blob */ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-LandmarkSpatialObject< TDimension, SpaceDimension >  
+LandmarkSpatialObject< TDimension >  
 ::ComputeBoundingBox( unsigned int depth, char * name )
 { 
   itkDebugMacro( "Computing blob bounding box" );
@@ -149,9 +149,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-LandmarkSpatialObject< TDimension, SpaceDimension >  
+LandmarkSpatialObject< TDimension >  
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
@@ -182,9 +182,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 
 /** Return true if the blob is evaluable at a given point 
  *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-LandmarkSpatialObject< TDimension, SpaceDimension > 
+LandmarkSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
    itkDebugMacro( "Checking if the blob is evaluable at " << point );
@@ -193,9 +193,9 @@ LandmarkSpatialObject< TDimension, SpaceDimension >
 
 
 /** Return 1 if the point is in the points list */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-LandmarkSpatialObject< TDimension, SpaceDimension > 
+LandmarkSpatialObject< TDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {

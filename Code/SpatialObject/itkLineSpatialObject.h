@@ -35,19 +35,15 @@ namespace itk
 * \also LineSpatialObjectPoint 
 */
 
-template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
+template < unsigned int TDimension = 3 >
 class LineSpatialObject 
-:public SpatialObject<  TDimension, 
-                        SpaceDimension
-                     >
+:public SpatialObject<  TDimension >
 {
 
 public:
 
   typedef LineSpatialObject                           Self;
-  typedef SpatialObject< TDimension, 
-                         SpaceDimension
-                         >                            Superclass;
+  typedef SpatialObject< TDimension >                 Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;

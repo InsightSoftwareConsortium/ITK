@@ -23,27 +23,27 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
-EllipseSpatialObject<NDimensions, SpaceDimension >
+template< unsigned int TDimension >
+EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
   strcpy(m_TypeName,"EllipseSpatialObject");
   m_Radius.Fill(1.0);
-  m_Dimension = NDimensions;
+  m_Dimension = TDimension;
 } 
 
 /** Destructor */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
-EllipseSpatialObject<NDimensions, SpaceDimension >
+template< unsigned int TDimension >
+EllipseSpatialObject< TDimension >
 ::~EllipseSpatialObject()  
 {
   
 }
 
 /** Set all radii to the same radius value */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void
-EllipseSpatialObject<NDimensions, SpaceDimension >
+EllipseSpatialObject< TDimension >
 ::SetRadius(double radius)
 {
   for(unsigned int i=0;i<NumberOfDimension;i++)
@@ -53,9 +53,9 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 }
 
 /** Test if the given point is inside the ellipse */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-EllipseSpatialObject< NDimensions, SpaceDimension > 
+EllipseSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
@@ -66,7 +66,7 @@ EllipseSpatialObject< NDimensions, SpaceDimension >
     TransformPointToLocalCoordinate(transformedPoint);
   
     double r = 0;
-    for(unsigned int i=0;i<NDimensions;i++)
+    for(unsigned int i=0;i<TDimension;i++)
       {
       r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
       }
@@ -81,9 +81,9 @@ EllipseSpatialObject< NDimensions, SpaceDimension >
 } 
 
 /** Compute the bounds of the ellipse */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-EllipseSpatialObject<NDimensions, SpaceDimension >
+EllipseSpatialObject< TDimension >
 ::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
@@ -96,7 +96,7 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
       {
       PointType pnt;
       PointType pnt2;
-      for(unsigned int i=0; i<NDimensions;i++) 
+      for(unsigned int i=0; i<TDimension;i++) 
         {   
         if(m_Radius[i]>0)
           {
@@ -130,9 +130,9 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 
 
 /** Returns if the ellipse os evaluable at one point */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-EllipseSpatialObject<NDimensions, SpaceDimension >
+EllipseSpatialObject< TDimension >
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
@@ -140,9 +140,9 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 }
 
 /** Returns the value at one point */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-EllipseSpatialObject<NDimensions, SpaceDimension >
+EllipseSpatialObject< TDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {
@@ -169,9 +169,9 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 }
 
 /** Print Self function */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-EllipseSpatialObject< NDimensions, SpaceDimension >
+EllipseSpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
 

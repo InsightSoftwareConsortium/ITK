@@ -27,8 +27,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-LineSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+LineSpatialObject< TDimension > 
 ::LineSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -41,16 +41,16 @@ LineSpatialObject< TDimension, SpaceDimension >
 } 
  
 /** Destructor */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-LineSpatialObject< TDimension, SpaceDimension >  
+template< unsigned int TDimension >
+LineSpatialObject< TDimension >  
 ::~LineSpatialObject()
 { 
 } 
  
 /** Returns a reference to the list of the Line points.*/ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
-typename LineSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-LineSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+typename LineSpatialObject< TDimension > ::PointListType &  
+LineSpatialObject< TDimension > 
 ::GetPoints()
 { 
   itkDebugMacro( "Getting LinePoint list" );
@@ -58,9 +58,9 @@ LineSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Set the list of Line points. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-LineSpatialObject< TDimension, SpaceDimension >  
+LineSpatialObject< TDimension >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -80,9 +80,9 @@ LineSpatialObject< TDimension, SpaceDimension >
 }
  
 /** Print the object. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-LineSpatialObject< TDimension, SpaceDimension >  
+LineSpatialObject< TDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "LineSpatialObject(" << this << ")" << std::endl; 
@@ -92,9 +92,9 @@ LineSpatialObject< TDimension, SpaceDimension >
 } 
    
 /** Compute the boundaries of the line.*/
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-LineSpatialObject< TDimension, SpaceDimension >  
+LineSpatialObject< TDimension >  
 ::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
@@ -138,9 +138,9 @@ LineSpatialObject< TDimension, SpaceDimension >
 
 /** Check if a given point is inside a line
  *  return True only if the point is in the point list */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-LineSpatialObject< TDimension, SpaceDimension >  
+LineSpatialObject< TDimension >  
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is on the Line" );
@@ -171,9 +171,9 @@ LineSpatialObject< TDimension, SpaceDimension >
 
 /** Returns true if the line is evaluable at the requested point, 
  *  false otherwise. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-LineSpatialObject< TDimension, SpaceDimension > 
+LineSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
@@ -184,9 +184,9 @@ LineSpatialObject< TDimension, SpaceDimension >
  * Currently this function returns a binary value,
  * but it might want to return a degree of membership
  * in case of fuzzy Lines. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-LineSpatialObject< TDimension, SpaceDimension > 
+LineSpatialObject< TDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {

@@ -38,15 +38,15 @@ namespace itk
 * \also TubeSpatialObjectPoint 
 */
 
-template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
+template < unsigned int TDimension = 3 >
 class TubeSpatialObject 
-:public SpatialObject< TDimension, SpaceDimension >
+:public SpatialObject< TDimension >
 {
 
 public:
 
   typedef TubeSpatialObject                            Self;
-  typedef SpatialObject< TDimension,SpaceDimension> Superclass;
+  typedef SpatialObject< TDimension >                  Superclass;
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;

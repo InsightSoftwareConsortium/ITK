@@ -35,24 +35,20 @@ namespace itk
 * \also SpatialObjectPoint
 */
 
-template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
+template < unsigned int TDimension = 3 >
 class LandmarkSpatialObject 
-:public SpatialObject<  TDimension,  
-                        SpaceDimension
-                     >
+:public SpatialObject<  TDimension >
 {
 
 public:
 
-  typedef LandmarkSpatialObject                          Self;
-  typedef SpatialObject< TDimension,
-                         SpaceDimension
-                       >                              Superclass;
+  typedef LandmarkSpatialObject                       Self;
+  typedef SpatialObject< TDimension>                  Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef SpatialObjectPoint< TDimension >            LandmarkPointType; 
-  typedef std::list < LandmarkPointType >                 PointListType;
+  typedef std::list < LandmarkPointType >             PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;

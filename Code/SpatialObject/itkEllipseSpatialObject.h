@@ -30,9 +30,9 @@ namespace itk
  * \brief 
  */
 
-template < unsigned int NDimensions = 3 , unsigned int SpaceDimension = 3  >
+template < unsigned int TDimension = 3 >
 class EllipseSpatialObject 
-: public SpatialObject< NDimensions, SpaceDimension >
+: public SpatialObject< TDimension >
 {
 
 public:
@@ -41,15 +41,15 @@ public:
   typedef double ScalarType;
   typedef SmartPointer < Self > Pointer;
   typedef SmartPointer < const Self > ConstPointer;
-  typedef SpatialObject< NDimensions, SpaceDimension > Superclass;
+  typedef SpatialObject< TDimension > Superclass;
   typedef SmartPointer<Superclass> SuperclassPointer;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
-  typedef FixedArray<double,NDimensions> ArrayType;
+  typedef FixedArray<double,TDimension> ArrayType;
   itkStaticConstMacro(NumberOfDimension, unsigned int,
-                      NDimensions);
+                      TDimension);
 
   itkNewMacro( Self );
   itkTypeMacro( Self, Superclass );

@@ -35,23 +35,22 @@ namespace itk
  * \also SpatialObject CompositeSpatialObject
  */
 
-template < unsigned int NDimensions = 3,
-           class PixelType = RGBPixel< char > ,
-           unsigned int SpaceDimension = 3
+template < unsigned int TDimension = 3,
+           class PixelType = RGBPixel< char >
          >
 class ImageSpatialObject 
-: public SpatialObject< NDimensions , SpaceDimension >
+: public SpatialObject< TDimension >
 {
 
 public:
  
   typedef double ScalarType; 
-  typedef ImageSpatialObject< NDimensions, PixelType , SpaceDimension > Self;
-  typedef SpatialObject< NDimensions > Superclass;
+  typedef ImageSpatialObject< TDimension, PixelType > Self;
+  typedef SpatialObject< TDimension > Superclass;
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  typedef Image< PixelType, NDimensions > ImageType;
+  typedef Image< PixelType, TDimension > ImageType;
   typedef typename ImageType::Pointer ImagePointer;
   typedef typename ImageType::IndexType IndexType;
   typedef typename ImageType::RegionType RegionType;

@@ -23,26 +23,26 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
-PlaneSpatialObject<NDimensions, SpaceDimension >
+template< unsigned int TDimension >
+PlaneSpatialObject<TDimension >
 ::PlaneSpatialObject()
 {
   strcpy(m_TypeName,"PlaneSpatialObject");
-  m_Dimension = NDimensions;
+  m_Dimension = TDimension;
 } 
 
 /** Destructor */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
-PlaneSpatialObject<NDimensions, SpaceDimension >
+template< unsigned int TDimension >
+PlaneSpatialObject<TDimension >
 ::~PlaneSpatialObject()  
 {
   
 }
 
 /** Test if the given point is inside the blob */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-PlaneSpatialObject< NDimensions, SpaceDimension > 
+PlaneSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the plane" );
@@ -53,7 +53,7 @@ PlaneSpatialObject< NDimensions, SpaceDimension >
     TransformPointToLocalCoordinate(transformedPoint);
   
     bool inside = true;
-    for(unsigned int i=0;i<NDimensions;i++)
+    for(unsigned int i=0;i<TDimension;i++)
       {
       if((transformedPoint[i] > m_UpperPoint[i] ) 
          || (transformedPoint[i] < m_LowerPoint[i] ))
@@ -73,9 +73,9 @@ PlaneSpatialObject< NDimensions, SpaceDimension >
 } 
 
 /** Compute the bounds of the Plane */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-PlaneSpatialObject<NDimensions, SpaceDimension >
+PlaneSpatialObject<TDimension >
 ::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
@@ -91,7 +91,7 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
       PointType pnt2;
       pnt.Fill(0);
       pnt2.Fill(0);  
-      for(unsigned int i=0; i<NDimensions;i++) 
+      for(unsigned int i=0; i<TDimension;i++) 
         {   
         pnt[i]=m_LowerPoint[i];
         pnt2[i]=m_UpperPoint[i];
@@ -117,9 +117,9 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
 
 
 /** Returns if the Plane os evaluable at one point */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-PlaneSpatialObject<NDimensions, SpaceDimension >
+PlaneSpatialObject<TDimension >
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the Plane is evaluable at " << point );
@@ -127,9 +127,9 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
 }
 
 /** Returns the value at one point */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-PlaneSpatialObject<NDimensions, SpaceDimension >
+PlaneSpatialObject<TDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth, 
            char * name ) const
 {
@@ -156,9 +156,9 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
 }
 
 /** Print Self function */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void 
-PlaneSpatialObject< NDimensions, SpaceDimension >
+PlaneSpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);

@@ -29,8 +29,8 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-BlobSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+BlobSpatialObject< TDimension > 
 ::BlobSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -42,16 +42,16 @@ BlobSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Destructor */ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
-BlobSpatialObject< TDimension, SpaceDimension >  
+template< unsigned int TDimension >
+BlobSpatialObject< TDimension > 
 ::~BlobSpatialObject()
 { 
 } 
  
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-typename BlobSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-BlobSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+typename BlobSpatialObject< TDimension > ::PointListType &  
+BlobSpatialObject< TDimension > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting BlobPoint list" );
@@ -59,9 +59,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int SpaceDimension >
-const typename BlobSpatialObject< TDimension, SpaceDimension > ::PointListType &  
-BlobSpatialObject< TDimension, SpaceDimension > 
+template< unsigned int TDimension >
+const typename BlobSpatialObject< TDimension > ::PointListType &  
+BlobSpatialObject< TDimension > 
 ::GetPoints() const
 { 
   itkDebugMacro( "Getting BlobPoint list" );
@@ -69,9 +69,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 } 
 
 /** Set the points which are defining the Blob structure */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-BlobSpatialObject< TDimension, SpaceDimension >  
+BlobSpatialObject< TDimension > 
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -91,9 +91,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 } 
  
 /** Print the blob spatial object */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 void  
-BlobSpatialObject< TDimension, SpaceDimension >  
+BlobSpatialObject< TDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl; 
@@ -103,9 +103,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 } 
   
 /** Compute the bounds of the blob */ 
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-BlobSpatialObject< TDimension, SpaceDimension >  
+BlobSpatialObject< TDimension > 
 ::ComputeBoundingBox( unsigned int depth, char * name )
 { 
   itkDebugMacro( "Computing blob bounding box" );
@@ -149,9 +149,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool 
-BlobSpatialObject< TDimension, SpaceDimension >  
+BlobSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
@@ -182,9 +182,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 
 /** Return true if the blob is evaluable at a given point 
  *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-BlobSpatialObject< TDimension, SpaceDimension > 
+BlobSpatialObject< TDimension > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
    itkDebugMacro( "Checking if the blob is evaluable at " << point );
@@ -193,9 +193,9 @@ BlobSpatialObject< TDimension, SpaceDimension >
 
 
 /** Return 1 if the point is in the points list */
-template< unsigned int TDimension , unsigned int SpaceDimension >
+template< unsigned int TDimension >
 bool
-BlobSpatialObject< TDimension, SpaceDimension > 
+BlobSpatialObject< TDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {
@@ -216,12 +216,8 @@ BlobSpatialObject< TDimension, SpaceDimension >
       {
       value = 0;
       return false;
-/*      itk::ExceptionObject e("BlobSpatialObject.txx");
-      e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
-      e.SetDescription("this object cannot provide a value at the point");
-      throw e;
- */     }
     }
+  }
 }
 
 } // end namespace itk 
