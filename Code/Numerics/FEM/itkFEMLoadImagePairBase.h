@@ -146,8 +146,8 @@ protected:
  
   typedef typename CovariantVectorImageType::Pointer  m_DerivativeImage;
   
-  typedef ReferencePointer                            m_RefImage;
-  typedef TargetPointer                               m_TarImage;
+  ReferencePointer                                    m_RefImage;
+  TargetPointer                                       m_TarImage;
   ReferenceRadiusType                                 m_RefRadius; /** used by the neighborhood iterator */
   TargetRadiusType                                    m_TarRadius; /** used by the metric to set region size for fixed image*/ 
   typename ReferenceType::SizeType                    m_RefSize;
