@@ -325,9 +325,17 @@ VTKImageImport<TOutputImage>
     }
   if (m_PipelineModifiedCallback)
     {
+  if (m_FloatSpacingCallback)
+    {
+    os << "FloatSpacingCallback: " << m_FloatSpacingCallback << std::endl;
+    }
     os << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
     }
   if (m_NumberOfComponentsCallback)
+    }
+  if (m_FloatOriginCallback)
+    {
+    os << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
     {
     os << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
     }
