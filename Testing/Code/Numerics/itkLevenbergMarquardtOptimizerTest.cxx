@@ -208,7 +208,11 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
     }
   
   // this following call is equivalent to invoke: costFunction->SetUseGradient( useGradient );
+  Optimizer->GetUseCostFunctionGradient();
+  Optimizer->UseCostFunctionGradientOn();
+  Optimizer->UseCostFunctionGradientOff();
   Optimizer->SetUseCostFunctionGradient( useGradient );
+
 
   vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
 
@@ -382,6 +386,11 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
   
+
+
+ 
+
+
 
   return EXIT_SUCCESS; 
 }
