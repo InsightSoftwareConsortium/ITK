@@ -1,19 +1,3 @@
-/*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarImageTextureCalculatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -98,18 +82,16 @@ int itkScalarImageTextureCalculatorTest(int, char* [] )
   means = texCalc->GetFeatureMeans();
   stds = texCalc->GetFeatureStandardDeviations();
   
-  double expectedMeans[6] = {0.238227, 3.15834, 0.394845, 3416.24, -731.492, 271393};
-  double expectedDeviations[6] = {0.213011, 1.93978, 0.421773, 3415.98, 775.869, 272258};
-
+  double expectedMeans[6] = {0.513889, 0.979574, 0.625, 0.75, -0.14814825, 0.2962975};
+  double expectedDeviations[6] = {0.024056454, 0.03537887, 0.216506351, 0.433012702, 
+    0.256600296, 0.513202324};
+  
   bool passed = true;
   TextureCalcType::FeatureValueVector::ConstIterator mIt, sIt;
   int counter;
   for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
     {
-    if ( vnl_math_abs(1 - expectedMeans[counter] / mIt.Value()) > 0.0001 ) 
-      // strange form of float comparison because large dynamic range of the means
-      // makes a fixed "subtraction epsilon" infeasable. So we take a ratio epsilon
-      // instead.
+    if ( vnl_math_abs(expectedMeans[counter] - mIt.Value()) > 0.0001 ) 
       {
       std::cout << "Error. Mean for feature " << counter << " is " << mIt.Value() <<
       ", expected " << expectedMeans[counter] << "." << std::endl;
@@ -119,7 +101,7 @@ int itkScalarImageTextureCalculatorTest(int, char* [] )
 
   for (counter = 0, sIt = stds->Begin(); sIt != stds->End(); ++sIt, counter ++)
     {
-    if ( vnl_math_abs(1 - expectedDeviations[counter] / sIt.Value()) > 0.0001 )
+    if ( vnl_math_abs(expectedDeviations[counter] - sIt.Value()) > 0.0001 )
       {
       std::cout << "Error. Deiviation for feature " << counter << " is " << sIt.Value() <<
       ", expected " << expectedDeviations[counter] << "." << std::endl;
