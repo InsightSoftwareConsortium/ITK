@@ -132,7 +132,7 @@ int main()
   // modify image data values.
   //
   // Remember that both \code{SetPixel()} and \code{GetPixel()} are inefficient
-  // and should only be used for debugging or for supporing interactions like
+  // and should only be used for debugging or for supporting interactions like
   // querying pixel values by clicking with the mouse.
   //
   // Software Guide : EndLatex 

@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{Mesh} class supports the representation of formal topologies. In
-//  particular the concept of \emph{K-Complex} can be correctly reprented in
+//  particular the concept of \emph{K-Complex} can be correctly represented in
 //  the Mesh. An informal definition of K-Complex may be as follows: a
 //  K-Complex is a topological structure in which for every cell of dimension
 //  $N$, its boundary faces which are cells of dimension $N-1$ also belong to
@@ -97,7 +97,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The mesh is created and the points associated with the vertices are
-  //  inserted.  Note that there is an important distintion between the
+  //  inserted.  Note that there is an important distinction between the
   //  points in the mesh and the \doxygen{VertexCell} concept. A VertexCell
   //  is a cell of dimension zero. Its main difference as compared to a point
   //  is that the cell can be aware of neighborhood relationships with other
@@ -167,7 +167,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //  
-  //  Four trianglular faces are created and associated with the mesh now.
+  //  Four triangular faces are created and associated with the mesh now.
   //  The first triangle connects points {0,1,2}.
   //
   //  \index{itk::TriangleCell!Instantiation}
@@ -303,7 +303,7 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-  // Print out the number of points and the nuber of cells.
+  // Print out the number of points and the number of cells.
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
 
@@ -413,7 +413,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the point-identifier is obtained from the interator using the
+  //  Note that the point-identifier is obtained from the iterator using the
   //  more traditional \code{*iterator} notation instead the \code{Value()}
   //  notation used by cell-iterators.
   //
@@ -424,11 +424,11 @@ int main()
   //
   //  Up to here, the topology of the K-Complex is not completely defined since
   //  we have only introduced the cells. ITK allows the user to define
-  //  explicitly the neigborhood relationships between cells. It is clear that
+  //  explicitly the neighborhood relationships between cells. It is clear that
   //  a clever exploration of the point identifiers could have allowed a user
   //  to figure out the neighborhood relationships. For example, two triangle
   //  cells sharing the same two point identifiers will probably be neighbor
-  //  cells. Some of the drawbacks on this implicit discovery of neigborhood
+  //  cells. Some of the drawbacks on this implicit discovery of neighborhood
   //  relationships is that it takes computing time and that some applications
   //  may not accept the same assumptions. A specific case is surgery
   //  simulation. This application typically simulates bistoury cuts

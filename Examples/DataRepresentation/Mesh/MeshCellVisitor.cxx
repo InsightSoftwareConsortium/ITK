@@ -75,7 +75,7 @@
   //  for which this visitor is intended. Nothing prevents a visitor class from
   //  providing \code{Visit()} methods for several different cell types.  The
   //  multiple methods will be differentiated by the natural C++ mechanism of
-  //  function overload. The following code illustrates a minimal cell vistor
+  //  function overload. The following code illustrates a minimal cell visitor
   //  class.
   //
   //  \index{itk::Mesh!CellInterfaceVisitor}
@@ -251,8 +251,8 @@ int main()
   //  templated over the PixelType, the CellTraits, the CellType to be visited
   //  and the Visitor class that defines with will be done with the cell. 
   //
-  //  A vistor implementation class can now be created using the normal
-  //  invokation to its \code{New()} method and assigning the result to a
+  //  A visitor implementation class can now be created using the normal
+  //  invocation to its \code{New()} method and assigning the result to a
   //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
@@ -267,7 +267,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  Many different visitors can be configured in this way. The set of all
-  //  visitors can be registererd with the MultiVisitor class provided for the
+  //  visitors can be registered with the MultiVisitor class provided for the
   //  mesh. A multivisitor class will walk through the cells and delegate
   //  action to every registered visitor when the appropriate cell type is
   //  encountered.
@@ -312,7 +312,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The \code{Accept()} method will iterate over all the cells and for each
-  //  one will invite the MultiVistor to attempt an action on the cell. If no
+  //  one will invite the MultiVisitor to attempt an action on the cell. If no
   //  visitor is interested on the current cell type the cell is just ignored
   //  and skipped.
   //

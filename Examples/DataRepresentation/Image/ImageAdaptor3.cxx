@@ -164,7 +164,7 @@ int main( int argc, char *argv[] )
 //
 //  The index of the component to be extracted is specified
 //  from the command line. In the following, we create the accessor,
-//  set the index and connect the accessor to the image adapator using
+//  set the index and connect the accessor to the image adaptor using
 //  the \code{SetPixelAccessor()} method.
 //
 //  Software Guide : EndLatex 

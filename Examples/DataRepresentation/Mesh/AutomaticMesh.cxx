@@ -103,7 +103,7 @@ main()
   //
   //  Now let us generate the tetrahedron.  The following line of code
   //  generates all the vertices, edges, and faces, along with the
-  //  tetrahedal solid, and adds them to the mesh along with the
+  //  tetrahedral solid, and adds them to the mesh along with the
   //  connectivity information.
   // 
   //  Software Guide : EndLatex

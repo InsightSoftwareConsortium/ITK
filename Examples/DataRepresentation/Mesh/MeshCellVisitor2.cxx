@@ -360,7 +360,7 @@ int main()
   //  and the Visitor class defining what to do with the cell. 
   //
   //  A visitor implementation class can now be created using the normal
-  //  invokation to its \code{New()} method and assigning the result to a
+  //  invocation to its \code{New()} method and assigning the result to a
   //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
@@ -407,7 +407,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The set of visitors should now be registererd with the MultiVisitor class
+  //  The set of visitors should now be registered with the MultiVisitor class
   //  that will walk through the cells and delegate action to every registered
   //  visitor when the appropriate cell type is encountered. The following
   //  lines create a MultiVisitor object.
@@ -461,7 +461,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The \code{Accept()} method will iterate over all the cells and for each
-  //  one will invite the MultiVistor to attempt an action on the cell. If no
+  //  one will invite the MultiVisitor to attempt an action on the cell. If no
   //  visitor is interested on the current cell type, the cell is just ignored
   //  and skipped.
   //

@@ -181,7 +181,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Note that \doxygen{Vector} is not the appropiate class for
+  //  Note that \doxygen{Vector} is not the appropriate class for
   //  representing normals to surfaces and gradients of functions. This is due
   //  to the way in which vectors behave under affine transforms. ITK has a
   //  specific class for representing normals and function gradients. This is

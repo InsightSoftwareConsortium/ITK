@@ -57,7 +57,7 @@ int main()
   //  Data can be inserted into the PointSet using the \code{SetPointData()}
   //  method. This method requires the user to provide an identifier. The data
   //  in question will be associated to the point holding the same identifier.
-  //  It is the user's responsibility to verify the appropiate matching between
+  //  It is the user's responsibility to verify the appropriate matching between
   //  inserted data and inserted points. The following line illustrates the use
   //  of the \code{SetPointData()} method.
   //
@@ -104,7 +104,7 @@ int main()
   //  most efficient way to get access to point data. It is far more efficient
   //  to use the Iterators provided by the \code{PointDataContainer}. 
   //
-  //  Data associated with points is internaly stored in
+  //  Data associated with points is internally stored in
   //  \code{PointDataContainer}s.  In the same way as with points, the actual
   //  container type used depend on whether the style of the PointSet is static
   //  or dynamic. Static point sets will use an \doxygen{VectorContainer} while

@@ -150,7 +150,7 @@ int main()
   // position of the first pixel of the image with respect to an arbitrary
   // reference system in physical space. It is the user's responsibility to
   // make sure that multiple images used in the same application are using a
-  // consistent reference system. This is extremly important in image
+  // consistent reference system. This is extremely important in image
   // registration applications.
   // 
   // The following code illustrates the creation and assignment of a variable

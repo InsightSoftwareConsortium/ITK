@@ -249,7 +249,7 @@ int main()
   //  In order to perform different actions on different cell types a
   //  \code{switch} statement can be used with cases for every cell type.
   //  The following code illustrates an iteration over the cells and the
-  //  invokation of different methods on each cell type.
+  //  invocation of different methods on each cell type.
   //
   //  Software Guide : EndLatex 
 

@@ -232,7 +232,7 @@ int main(int argc, char ** argv)
   //  \code{new()} operator.  Memory allocated with other memory
   //  allocation mechanisms, such as C \code{malloc} or \code{calloc}, will not
   //  be deleted properly by the \doxygen{ImportImageFilter}.  In
-  //  other words, it is the application programmer's responsiblility
+  //  other words, it is the application programmer's responsibility
   //  to ensure that \doxygen{ImportImageFilter} is only given
   //  permission to delete the C++ \code{new} operator-allocated memory.
   //  Software Guide : EndLatex

@@ -136,7 +136,7 @@ int main()
   //
   // Having defined the starting index and the image size, these two
   // parameters are used to create an ImageRegion object which basically
-  // encapsulates both concepts. The region is initalized with the
+  // encapsulates both concepts. The region is initialized with the
   // starting index and size of the image.
   //
   // \index{itk::Image!itk::ImageRegion}

@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  It is common to represent geometic object by using points on their surfaces
+//  It is common to represent geometric object by using points on their surfaces
 //  and normals associated with those points.  This structure can be easily 
 //  instantiated with the \doxygen{PointSet} class.
 //

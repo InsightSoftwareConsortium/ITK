@@ -1,4 +1,4 @@
-/*=========================================================================
+a/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    Mesh2.cxx
@@ -293,7 +293,7 @@ int main()
   //  pointers to the generic CellType. These pointers have to be down-casted
   //  in order to be used as actual LineCell types. Safe down-casting is
   //  performed with the \code{dynamic\_cast} operator which will throw an
-  //  exception if the convertion cannot be safely performed.
+  //  exception if the conversion cannot be safely performed.
   //
   //  \index{down casting}
   //  \index{CellIterator!Value()}

@@ -24,7 +24,7 @@
 //
 //  The toolkit has been designed to offer flexibility while keeping the
 //  complexity of the code to a moderate level. This is achieved in the Mesh by
-//  hidding most of its parameters and defining reasonable defaults for them.
+//  hiding most of its parameters and defining reasonable defaults for them.
 // 
 //  The generic concept of a mesh integrates many different elements. It is
 //  possible in principle to use independent types for every one of such
@@ -202,7 +202,7 @@ int main()
   //  identifier and the value to be inserted. The identifier should match one
   //  of the inserted cells. In this simple example, the square of the cell
   //  identifier is used as cell data. Note the use of \code{static\_cast} to
-  //  \code{PixelType} in the assignent.
+  //  \code{PixelType} in the assignment.
   //
   //  Software Guide : EndLatex 
 

@@ -143,7 +143,7 @@ int main()
   //  identifier and the value to be inserted. The identifier should match one
   //  of the inserted cells. In this simple example, the square of the cell
   //  identifier is used as cell data. Note the use of \code{static\_cast} to
-  //  \code{PixelType} in the assignent.
+  //  \code{PixelType} in the assignment.
   //
   //  Software Guide : EndLatex 
 
