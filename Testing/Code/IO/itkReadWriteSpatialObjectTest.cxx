@@ -63,7 +63,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   LandmarkType::PointListType    list7;
 
   for( unsigned int i=0; i<10; i++)
-  {
+    {
     TubePointType p;
     p.SetPosition(i,i,i);
     p.SetRadius(i);
@@ -72,10 +72,10 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     list.push_back(p);
-  }
+    }
  
   for( unsigned int i=0; i<5; i++)
-  {
+    {
     TubePointType p;
     p.SetPosition(i*2,i*2,i*2);
     p.SetRadius(i);
@@ -88,10 +88,10 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     list2.push_back(p);
-  }
+    }
 
-   for( unsigned int i=0; i<7; i++)
-  {
+  for( unsigned int i=0; i<7; i++)
+    {
     TubePointType p;
     p.SetPosition(i*3,i*3,i*3);
     p.SetRadius(i);
@@ -100,11 +100,11 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     list3.push_back(p);
-  }
-
+    }
+  
   // Blob point list
   for( unsigned int i=0; i<3; i++)
-  {
+    {
     BlobPointType p;
     p.SetPosition(i,i,i);
     p.SetRed(i);
@@ -112,30 +112,30 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     list4.push_back(p);
-  }
+    }
 
 
   // Surface point list
   for( unsigned int i=0; i<3; i++)
-  {
+    {
     SurfacePointType p;
     p.SetPosition(i,i,i);
     SurfacePointType::VectorType normal;
     for(unsigned int j=0;j<3;j++)
-    {
+      {
       normal[j]=j;
-    }
+      }
     p.SetNormal(normal);
     p.SetRed(i);
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     list5.push_back(p);
-  }
+    }
    
   // Line point list
   for( unsigned int i=0; i<3; i++)
-  {
+    {
     LinePointType p;
     p.SetPosition(i,i,i);
     p.SetRed(i);
@@ -145,23 +145,23 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     LinePointType::VectorType normal1;
     LinePointType::VectorType normal2;
     for(unsigned int j=0;j<3;j++)
-    {
+      {
       normal1[j]=j;
       normal2[j]=2*j;
-    }
+      }
     p.SetNormal(normal1,0);
     p.SetNormal(normal2,1);
     list6.push_back(p);
-  }
-
+    }
+  
   // Landmark point list
   for( unsigned int i=0; i<3; i++)
-  {
+    {
     LinePointType p;
     p.SetPosition(i,i,i);
     p.SetColor(1,0,0,1);
     list7.push_back(p);
-  }
+    }
 
   /** Create a Tube  composed of 3 tubes */
   TubePointer tube1 = TubeType::New();
@@ -228,10 +228,10 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   double spacing[3];
 
   for(unsigned int i=0;i<dim;i++)
-  {
+    {
     size[i] = 10;
     spacing[i] = i;
-  }
+    }
 
   RegionType region;
   region.SetSize(size);
@@ -246,9 +246,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   itk::ImageRegionIteratorWithIndex< itkImageType > it(itkImage, region);
   for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
-  {
+    {
     it.Set(i);
-  }
+    }
 
 
   ImageType::Pointer image = ImageType::New();
@@ -267,14 +267,14 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   std::cout<<"Testing Number of children: ";
   
   if( tubeN1->GetNumberOfChildren() != 7 )
-  {
+    {
     std::cout<< tubeN1->GetNumberOfChildren()  << "[FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout<<"[PASSED]"<<std::endl;
-  }
+    }
 
   std::cout<<"Testing Writing SceneSpatialObject: ";
 
@@ -295,26 +295,26 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   ReaderType::ScenePointer myScene = reader->GetScene();
 
   if(!myScene)
-  {
+    {
     std::cout<<"No Scene : [FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout<<" [PASSED]"<<std::endl;
-  }
+    }
 
   std::cout<<"Testing Number of children:";
   if(myScene->GetNumberOfObjects(1) != 8)
-  {
+    {
     std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 8" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  }
+    }
   else
-  {
+    {
     std::cout<<" [PASSED]"<<std::endl;
-  }
+    }
 
   std::cout<<"Testing CenterLine Position:";
 
@@ -322,300 +322,299 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   ReaderType::SceneType::ObjectListType * mySceneChildren =
         myScene->GetObjects(999999);
-  ReaderType::SceneType::ObjectListType::const_iterator i;
+  ReaderType::SceneType::ObjectListType::const_iterator obj;
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    if(!strcmp((*i)->GetTypeName(),"TubeSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      unsigned int value=0; 
-      for(j = dynamic_cast<TubeType*>((*i).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<TubeType*>((*i).GetPointer())->GetPoints().end(); 
-          j++)
+    if(!strcmp((*obj)->GetTypeName(),"TubeSpatialObject"))
       {
-        for(unsigned int d=0;d<3;d++)
+      unsigned int value=0; 
+      for(j = dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().end(); 
+          j++)
         {
-          if((*j).GetPosition()[d]!=value * (*i)->GetId())
+        for(unsigned int d=0;d<3;d++)
           {
-            std::cout<<" [FAILED] (Position is: " << (*j).GetPosition()[d] << " expected : "<< value * (*i)->GetId()<< " ) " <<std::endl;
+          if((*j).GetPosition()[d]!=value * (*obj)->GetId())
+            {
+            std::cout<<" [FAILED] (Position is: " << (*j).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
             return EXIT_FAILURE;
+            }
           }
-        }
           // Testing the color of the tube points
         if( (*j).GetRed() != value)
-        {
+          {
           std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
-        }
+          }
       
         if((*j).GetGreen()!=value+1)
-        {
+          {
           std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
           return EXIT_FAILURE;
-        }
+          }
       
         if((*j).GetBlue()!=value+2)
-        {
+          {
           std::cout<<"[FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
           return EXIT_FAILURE;
-        }
+          }
     
         if((*j).GetAlpha()!=value+3)
-        {
+          {
           std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
           return EXIT_FAILURE;
-        }
+          }
         value++;
+        }
       }
     }
-  }
 
   std::cout<<" [PASSED]"<<std::endl;
 
 
   std::cout<<"Testing Ellipse parameters:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    if(!strcmp((*i)->GetTypeName(),"EllipseSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      for(unsigned int j=0;j<3;j++)
+    if(!strcmp((*obj)->GetTypeName(),"EllipseSpatialObject"))
       {
-        if (dynamic_cast<EllipseType*>((*i).GetPointer())->GetRadius()[j] != 9)
+      for(unsigned int j=0;j<3;j++)
         {
+        if (dynamic_cast<EllipseType*>((*obj).GetPointer())->GetRadius()[j] != 9)
+          {
           std::cout<<" [FAILED]"<<std::endl; 
           return EXIT_FAILURE;
+          }
         }
       }
     }
-  }
 
   std::cout<<" [PASSED]"<<std::endl; 
-
+  
 
  std::cout<<"Testing Image data validity:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    if(!strcmp((*i)->GetTypeName(),"ImageSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      itkImageType::ConstPointer image = dynamic_cast<const ImageType*>((*i).GetPointer())->GetImage();
+    if(!strcmp((*obj)->GetTypeName(),"ImageSpatialObject"))
+      {
+      itkImageType::ConstPointer image = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
       itk::ImageRegionConstIteratorWithIndex< itkImageType > it(image, image->GetLargestPossibleRegion());
       for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
-      {
-        if(it.Get() != i)
         {
-          std::cout << "Expeted " << i << " , found " << it.Get() << std::endl;
+        if(it.Get() != i)
+          {
+          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
           std::cout<<" [FAILED]"<<std::endl; 
           return EXIT_FAILURE;
+          }
         }
       }
-
     }
-  }
 
   std::cout<<" [PASSED]"<<std::endl; 
 
   std::cout<<"Testing Blob validity:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    BlobType::PointListType::const_iterator j;
-    if(!strcmp((*i)->GetTypeName(),"BlobSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      unsigned int value = 0;
-      for(j = dynamic_cast<BlobType*>((*i).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<BlobType*>((*i).GetPointer())->GetPoints().end(); 
-          j++)
+    BlobType::PointListType::const_iterator j;
+    if(!strcmp((*obj)->GetTypeName(),"BlobSpatialObject"))
       {
-        for(unsigned int d=0;d<3;d++)
+      unsigned int value = 0;
+      for(j = dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().end(); 
+          j++)
         {
-          if((*j).GetPosition()[d]!=value)
+        for(unsigned int d=0;d<3;d++)
           {
+          if((*j).GetPosition()[d]!=value)
+            {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
           // Testing the color of the tube points
-      if( (*j).GetRed() != value)
-      {
-        std::cout<<" [FAILED] : Red : found " << (*j).GetRed() << " instead of " << value <<std::endl;
-        return EXIT_FAILURE;
-      }
+          if( (*j).GetRed() != value)
+            {
+            std::cout<<" [FAILED] : Red : found " << (*j).GetRed() << " instead of " << value <<std::endl;
+            return EXIT_FAILURE;
+            }
       
-      if((*j).GetGreen()!=value+1)
-      {
-        std::cout<<" [FAILED] : Green : found " << (*j).GetGreen() << " instead of " << value+1 <<std::endl;
-        return EXIT_FAILURE;
-      }
-      
-      if((*j).GetBlue()!=value+2)
-      {
-        std::cout<<" [FAILED] : Blue : found " << (*j).GetBlue() << " instead of " << value+2 <<std::endl;
-        return EXIT_FAILURE;
-      }
-    
-      if((*j).GetAlpha()!=value+3)
-      {
-        std::cout<<" [FAILED] : Alpha : found " << (*j).GetAlpha() << " instead of " << value+3 <<std::endl;
-        return EXIT_FAILURE;
-      }
-        }
+          if((*j).GetGreen()!=value+1)
+            {
+            std::cout<<" [FAILED] : Green : found " << (*j).GetGreen() << " instead of " << value+1 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*j).GetBlue()!=value+2)
+            {
+            std::cout<<" [FAILED] : Blue : found " << (*j).GetBlue() << " instead of " << value+2 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*j).GetAlpha()!=value+3)
+            {
+            std::cout<<" [FAILED] : Alpha : found " << (*j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
         value++;
+        }
       }
     }
-  }
 
   std::cout<<" [PASSED]"<<std::endl; 
 
 
   std::cout<<"Testing Surface validity:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    SurfaceType::PointListType::const_iterator j;
-    if(!strcmp((*i)->GetTypeName(),"SurfaceSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      unsigned int value = 0;
-      for(j = dynamic_cast<SurfaceType*>((*i).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<SurfaceType*>((*i).GetPointer())->GetPoints().end(); 
-          j++)
+    SurfaceType::PointListType::const_iterator j;
+    if(!strcmp((*obj)->GetTypeName(),"SurfaceSpatialObject"))
       {
-        for(unsigned int d=0;d<3;d++)
+      unsigned int value = 0;
+      for(j = dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().end(); 
+          j++)
         {
-          if((*j).GetPosition()[d]!=value)
+        for(unsigned int d=0;d<3;d++)
           {
+          if((*j).GetPosition()[d]!=value)
+            {
             std::cout << (*j).GetPosition()[d] << "!=" << value << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
 
           if((*j).GetNormal()[d]!= d)
-          {
+            {
             std::cout << "Normal : " << (*j).GetNormal()[d] << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
 
           // Testing the color of the tube points
-      if( (*j).GetRed() != value)
-      {
-        std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
-        return EXIT_FAILURE;
-      }
+          if( (*j).GetRed() != value)
+            {
+            std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*j).GetGreen()!=value+1)
+            {
+            std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+            return EXIT_FAILURE;
+            }
       
-      if((*j).GetGreen()!=value+1)
-      {
-        std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
-        return EXIT_FAILURE;
-      }
-      
-      if((*j).GetBlue()!=value+2)
-      {
-        std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
-        return EXIT_FAILURE;
-      }
+          if((*j).GetBlue()!=value+2)
+            {
+            std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+            return EXIT_FAILURE;
+            }
     
-      if((*j).GetAlpha()!=value+3)
-      {
-        std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
-        return EXIT_FAILURE;
-      }
-        }
+          if((*j).GetAlpha()!=value+3)
+            {
+            std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
         value++;
+        }
       }
     }
-  }
-
+  
   std::cout<<" [PASSED]"<<std::endl; 
 
   std::cout<<"Testing Line validity:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    LineType::PointListType::const_iterator j;
-    if(!strcmp((*i)->GetTypeName(),"LineSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      unsigned int value = 0;
-      for(j = dynamic_cast<LineType*>((*i).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<LineType*>((*i).GetPointer())->GetPoints().end(); 
-          j++)
+    LineType::PointListType::const_iterator j;
+    if(!strcmp((*obj)->GetTypeName(),"LineSpatialObject"))
       {
-        for(unsigned int d=0;d<3;d++)
+      unsigned int value = 0;
+      for(j = dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().end(); 
+          j++)
         {
-          if((*j).GetPosition()[d]!=value)
+        for(unsigned int d=0;d<3;d++)
           {
+          if((*j).GetPosition()[d]!=value)
+            {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
 
           if(((*j).GetNormal(0))[d]!= d)
-          {
+            {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
 
           if(((*j).GetNormal(1))[d]!= 2*d)
-          {
+            {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
-          }
+            }
 
           // Testing the color of the tube points
-      if( (*j).GetRed() != value)
-      {
-        std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
-        return EXIT_FAILURE;
-      }
+          if( (*j).GetRed() != value)
+            {
+            std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*j).GetGreen()!=value+1)
+            {
+            std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+            return EXIT_FAILURE;
+            }
       
-      if((*j).GetGreen()!=value+1)
-      {
-        std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
-        return EXIT_FAILURE;
-      }
-      
-      if((*j).GetBlue()!=value+2)
-      {
-        std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
-        return EXIT_FAILURE;
-      }
+          if((*j).GetBlue()!=value+2)
+            {
+            std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+            return EXIT_FAILURE;
+            }
     
-      if((*j).GetAlpha()!=value+3)
-      {
-        std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
-        return EXIT_FAILURE;
-      }
-        }
+          if((*j).GetAlpha()!=value+3)
+            {
+            std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
         value++;
+        }
       }
     }
-  }
-
+  
   std::cout<<" [PASSED]"<<std::endl; 
 
   std::cout<<"Testing Landmark validity:";
 
-  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
-  {
-    LandmarkType::PointListType::const_iterator j;
-    if(!strcmp((*i)->GetTypeName(),"LandmarkSpatialObject"))
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-      unsigned int value = 0;
-      for(j = dynamic_cast<LandmarkType*>((*i).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<LandmarkType*>((*i).GetPointer())->GetPoints().end(); 
-          j++)
+    LandmarkType::PointListType::const_iterator j;
+    if(!strcmp((*obj)->GetTypeName(),"LandmarkSpatialObject"))
       {
-        for(unsigned int d=0;d<3;d++)
+      unsigned int value = 0;
+      for(j = dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().end(); 
+          j++)
         {
-          if((*j).GetPosition()[d]!=value)
+        for(unsigned int d=0;d<3;d++)
           {
+          if((*j).GetPosition()[d]!=value)
+            {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
+            }
           }
-        }
         value++;
+        }
       }
     }
-  }
   delete mySceneChildren;
   std::cout<<" [PASSED]"<<std::endl; 
 
@@ -651,6 +650,6 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   std::cout<<" [PASSED]"<<std::endl; 
 */
   std::cout << " [TEST DONE]" << std::endl;
-
+  
   return EXIT_SUCCESS;
 }
