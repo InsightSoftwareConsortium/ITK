@@ -105,7 +105,7 @@ public:
 {                                                           \
    if( Debug::GetDebugFlag() )                              \
    {                                                        \
-   std::ostringstream osmacro;                              \
+   itksys_ios::ostringstream osmacro;                              \
    osmacro << "Debug: In " __FILE__ ", line " << __LINE__   \
            << ", function " << GDCM_FUNCTION << '\n'        \
            << "Last system error was: " << strerror(errno)  \
@@ -129,7 +129,7 @@ public:
 {                                                           \
    if( Debug::GetDebugFlag() )                              \
    {                                                        \
-   std::ostringstream osmacro;                              \
+   itksys_ios::ostringstream osmacro;                              \
    osmacro << "Warning: In " __FILE__ ", line " << __LINE__ \
            << ", function " << GDCM_FUNCTION << "\n"        \
            << msg << "\n\n";                                \
@@ -150,7 +150,7 @@ public:
 #else
 #define gdcmErrorMacro(msg)                                 \
 {                                                           \
-   std::ostringstream osmacro;                              \
+   itksys_ios::ostringstream osmacro;                              \
    osmacro << "Error: In " __FILE__ ", line " << __LINE__   \
            << ", function " << GDCM_FUNCTION << '\n'        \
            << msg << "\n\n";                                \
@@ -174,7 +174,7 @@ public:
 {                                                           \
    if( !(arg) )                                             \
    {                                                        \
-   std::ostringstream osmacro;                              \
+   itksys_ios::ostringstream osmacro;                              \
    osmacro << "Assert: In " __FILE__ ", line " << __LINE__  \
            << ", function " << GDCM_FUNCTION                \
            << "\n\n";                                       \
