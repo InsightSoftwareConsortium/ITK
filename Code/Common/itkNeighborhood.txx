@@ -20,7 +20,7 @@ namespace itk {
 
 template<class TPixel, unsigned int VDimension>
 Neighborhood<TPixel, VDimension>
-Convolve(Neighborhood<TPixel, VDimension> &A,
+ConvolveND(Neighborhood<TPixel, VDimension> &A,
          Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   typedef Neighborhood<TPixel, VDimension> Neighborhood;
@@ -75,7 +75,7 @@ Convolve(Neighborhood<TPixel, VDimension> &A,
           iLoop[iDim]        = Start[iDim]; // Initialize iLoop indicies
           overlapStart[iDim] = 0;
           End[iDim]          = ASize[iDim];
-          overlap[iDim] = overlapStart[iDim];
+          overlap[iDim]      = overlapStart[iDim];
         }
       N.SetRadius(radius);
     }
@@ -189,11 +189,12 @@ Convolve(Neighborhood<TPixel, VDimension> &A,
 }
 
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 3>
-Convolve(Neighborhood<TPixel, 3> &A, Neighborhood<TPixel, 3> &B, int Mode)
+Neighborhood<TPixel, VDimension>
+Convolve3D(Neighborhood<TPixel, VDimension> &A,
+           Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   enum {COL, ROW, SLI};
-   typedef itk::Neighborhood<TPixel, 3> Neighborhood;
+  typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
   
   register unsigned int is;
   register unsigned int ir;
@@ -362,11 +363,12 @@ Convolve(Neighborhood<TPixel, 3> &A, Neighborhood<TPixel, 3> &B, int Mode)
 }
 
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 2>
-Convolve(Neighborhood<TPixel, 2> &A, Neighborhood<TPixel, 2> &B, int Mode)
+Neighborhood<TPixel, VDimension>
+Convolve2D(Neighborhood<TPixel, VDimension> &A,
+           Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   enum {COL, ROW};
-  typedef Neighborhood<TPixel, 2> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> Neighborhood;
   
   register unsigned int ir;
   register unsigned int ic;
@@ -483,10 +485,11 @@ Convolve(Neighborhood<TPixel, 2> &A, Neighborhood<TPixel, 2> &B, int Mode)
 }
 
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, 1>
-Convolve(Neighborhood<TPixel, 1> &A, Neighborhood<TPixel, 1> &B, int Mode)
+Neighborhood<TPixel, VDimension>
+Convolve1D(Neighborhood<TPixel, VDimension> &A,
+           Neighborhood<TPixel, VDimension> &B, int Mode)
 {
-  typedef Neighborhood<TPixel, 1> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> Neighborhood;
   
   Neighborhood N;
   Neighborhood::Iterator Ap;
@@ -591,12 +594,14 @@ TPixel
 Neighborhood<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
-  TPixel sum = 0;
+  typename NumericTraits<TPixel>::AccumulateType sum
+    = NumericTraits<TPixel>::Zero;
   TPixel *it;
-  Self::SliceIterator slice_it(this, s);
+  typename Self::SliceIteratorType slice_it(this, s);
 
   slice_it[0];
-  for (it = &(v[0]); it < &(v[v.size()]); ++it, ++slice_it)
+  const TPixel *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
       sum += *it * *slice_it; 
     }
@@ -610,11 +615,13 @@ TPixel
 Neighborhood<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-  TPixel sum = 0;
+  typename NumericTraits<TPixel>::AccumulateType sum
+    = NumericTraits<TPixel>::Zero;
   TPixel *it;
   TPixel *this_it;
-  
-  for (it = &(v[0]), this_it = Begin(); it < &(v[v.size()]);
+
+  const TPixel *itEnd = &(v[v.size()]);
+  for (it = &(v[0]), this_it = Begin(); it < itEnd;
        ++it, ++this_it)
     {
       sum += *it * *this_it; 
