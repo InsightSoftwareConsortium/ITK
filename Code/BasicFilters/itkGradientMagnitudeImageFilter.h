@@ -105,6 +105,11 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Superclass typedefs.
+   */
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
+  /**
    * GradientMagnitudeImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel
    * size to calculate derivatives).  As such,

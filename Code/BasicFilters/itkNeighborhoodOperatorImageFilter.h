@@ -118,6 +118,11 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Superclass typedefs.
+   */
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
+  /**
    * Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline).
