@@ -139,7 +139,7 @@ test_fft(unsigned int *dims)
     ++ri2;
     }
   std::cerr << std::endl << std::endl;
-  counter = 0;
+
   ri = ri.Begin();
   ri2 = ri2.Begin();
   while(!ri.IsAtEnd())
@@ -156,7 +156,6 @@ test_fft(unsigned int *dims)
       std::cerr << "Diff found " << val << " " << val2 << " diff " << diff << std::endl;
       return -1;
       }
-    counter++;
     ++ri;
     ++ri2;
     }
@@ -169,64 +168,64 @@ int itkVnlFFTTest(int, char *[])
 {
   unsigned int dims1[] = { 4,4,4 };
   unsigned int dims2[] = { 3,5,4 };
-  int rval;
+  int rval = 0;
   std::cerr << "Vnl float,1 (4,4,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl float,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl float,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl double,1 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,1> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl double,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,2> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl double,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,3> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "Vnl float,1 (3,5,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "Vnl float,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "Vnl float,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,3> >(dims2)) != 0)
     rval++;;
   std::cerr << "Vnl double,1 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,1> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "Vnl double,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,2> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "Vnl double,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,3> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
@@ -238,64 +237,64 @@ int itkFFTWFFTTest(int, char *[])
 {
   unsigned int dims1[] = { 4,4,4 };
   unsigned int dims2[] = { 3,5,4 };
-  int rval;
+  int rval = 0;
   std::cerr << "FFTW:float,1 (4,4,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:float,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:float,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:double,1 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:double,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:double,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "FFTW:float,1 (3,5,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "FFTW:float,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "FFTW:float,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,3> >(dims2)) != 0)
     rval++;;
   std::cerr << "FFTW:double,1 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "FFTW:double,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "FFTW:double,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
@@ -308,64 +307,64 @@ int itkSCSLFFTTest(int, char *[])
 {
   unsigned int dims1[] = { 4,4,4 };
   unsigned int dims2[] = { 3,5,4 };
-  int rval;
+  int rval = 0;
   std::cerr << "SCSL:float,1 (4,4,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::SCSLRealToComplexConjugateImageFilter<float,1> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:float,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::SCSLRealToComplexConjugateImageFilter<float,2> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:float,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::SCSLRealToComplexConjugateImageFilter<float,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:double,1 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::SCSLRealToComplexConjugateImageFilter<double,1> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,1> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:double,2 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::SCSLRealToComplexConjugateImageFilter<double,2> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,2> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:double,3 (4,4,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::SCSLRealToComplexConjugateImageFilter<double,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,3> >(dims1)) != 0)
     rval++;;
   std::cerr << "SCSL:float,1 (3,5,4)" << std::endl;
-  if((rval = test_fft<float,1,
+  if((test_fft<float,1,
       itk::SCSLRealToComplexConjugateImageFilter<float,1> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "SCSL:float,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,2,
+  if((test_fft<float,2,
       itk::SCSLRealToComplexConjugateImageFilter<float,2> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "SCSL:float,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<float,3,
+  if((test_fft<float,3,
       itk::SCSLRealToComplexConjugateImageFilter<float,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<float,3> >(dims2)) != 0)
     rval++;;
   std::cerr << "SCSL:double,1 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,1,
+  if((test_fft<double,1,
       itk::SCSLRealToComplexConjugateImageFilter<double,1> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,1> >(dims2)) != 0)
     rval++;;
   std::cerr << "SCSL:double,2 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,2,
+  if((test_fft<double,2,
       itk::SCSLRealToComplexConjugateImageFilter<double,2> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,2> >(dims2)) != 0)
     rval++;;
   std::cerr << "SCSL:double,3 (3,5,4)"<< std::endl;
-  if((rval = test_fft<double,3,
+  if((test_fft<double,3,
       itk::SCSLRealToComplexConjugateImageFilter<double,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
