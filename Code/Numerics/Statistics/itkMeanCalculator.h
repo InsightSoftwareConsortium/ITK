@@ -54,10 +54,6 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
   
-  /** Sample typedefs alias */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
-
   /** Typedef for the mean output */
   typedef Vector< double,
                   itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
@@ -74,9 +70,6 @@ protected:
   void GenerateData() ;
 
 private:
-  /** Target sample data pointer */
-  SamplePointer m_Sample ;
-
   /** Internal mean value storage */
   OutputType m_Output ;
 } ; // end of class
