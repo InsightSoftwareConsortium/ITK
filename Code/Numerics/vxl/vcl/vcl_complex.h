@@ -26,7 +26,7 @@
 # include "emulation/vcl_complex.h"
 
 // ---------- native WIN32
-#elif defined(VCL_WIN32)
+#elif defined(VCL_VC)
 # include "win32/vcl_complex.h"
 
 // ---------- SunPro compiler
