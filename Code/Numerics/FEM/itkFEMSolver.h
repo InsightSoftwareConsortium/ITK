@@ -194,12 +194,6 @@ public:
 private:
 
   /**
-   * Read any object from stream. This function is only called by the Read
-   * member function inthe Solver class.
-   */
-  FEMLightObject::Pointer ReadAnyObjectFromStream(std::istream& f);
-
-  /**
    * LinearSystemWrapperVNL object that is used by default in Solver class.
    */
   LinearSystemWrapperVNL m_lsVNL;

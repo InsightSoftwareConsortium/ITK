@@ -36,17 +36,6 @@ namespace fem {
 
 
 /**
- * Function that skips all the whitespace and comments in an input stream.
- */
-void SkipWhiteSpace(std::istream& f);
-
-/**
- * Const string of all whitespace characters. This string is used by
- * #SkipWhiteSpace function.
- */
-static const std::string whitespaces=" \t\n\r";
-
-/**
  * \class GaussIntegrate
  * \brief Use the Gauss-Legendre formula to perform integration
  *

@@ -18,7 +18,7 @@
 #ifndef __itkFEMElementStd_txx
 #define __itkFEMElementStd_txx
 
-#include "itkFEMUtility.h"
+#include "itkFEMElementStd.h"
 
 namespace itk {
 namespace fem {

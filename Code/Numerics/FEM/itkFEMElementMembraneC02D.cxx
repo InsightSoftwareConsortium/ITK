@@ -24,7 +24,6 @@
 #include "FEM/itkFEMLoadGrav.h"
 #include "FEM/itkFEMLoadEdge.h"
 #include "FEM/itkFEMObjectFactory.h"
-#include "FEM/itkFEMUtility.h"
 #include "vnl/vnl_math.h"
 
 namespace itk {

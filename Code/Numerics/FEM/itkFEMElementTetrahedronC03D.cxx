@@ -23,7 +23,6 @@
 #include "itkFEMElementTetrahedronC03D.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
-#include "itkFEMUtility.h"
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_determinant.h"
 

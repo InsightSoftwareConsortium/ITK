@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMMaterialLinearElasticity.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

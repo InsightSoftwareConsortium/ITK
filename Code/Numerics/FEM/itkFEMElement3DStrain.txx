@@ -19,7 +19,6 @@
 #define __itkFEMElement3DStrain_txx
 
 #include "itkFEMElement3DStrain.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

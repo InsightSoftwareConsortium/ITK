@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

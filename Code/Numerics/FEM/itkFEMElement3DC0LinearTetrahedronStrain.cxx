@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
-#include "itkFEMUtility.h"
 #include "vnl/vnl_math.h"
 
 namespace itk {

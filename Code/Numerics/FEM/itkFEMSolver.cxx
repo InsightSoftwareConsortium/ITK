@@ -28,9 +28,6 @@
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 
-#include "itkFEMUtility.h"
-#include "itkFEMObjectFactory.h"
-
 #include <algorithm>
 
 namespace itk {
@@ -69,121 +66,30 @@ void Solver::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
 
 
 
-/*
- * Read any object from stream
- */
-FEMLightObject::Pointer Solver::ReadAnyObjectFromStream(std::istream& f)
-{
-
-/* local variables */
-std::streampos l;
-char buf[256];
-std::string s;
-std::string::size_type b,e;
-int clID;
-FEMLightObject::Pointer a=0;
-
-  // Initialize the pointers to arrays in ReadInfoType object to the
-  // arrays in solver object.
-  ReadInfoType info(&this->node,&this->el,&this->mat);
-
-start:
-#ifndef __sgi
-  l=f.tellg();    // remember the stream position
-#endif
-  SkipWhiteSpace(f);      // skip comments and whitespaces
-  if ( f.eof() ) return 0; // end of stream. all was good
-
-  if ( f.get()!='<' ) goto out; // we expect a token
-  f.getline(buf,256,'>');  // read up to 256 characters until '>' is reached. we read and discard the '>'
-  s=std::string(buf);
-
-  // get rid of the whitespaces in front of and the back of token
-  b=s.find_first_not_of(whitespaces);                // end of whitespaces in the beginning 
-  if ( (e=s.find_first_of(whitespaces,b))==std::string::npos )  // beginning of whitespaces at the end
-    e=s.size();
-
-  s=s.substr(b,e-b);
-  if ( s=="END" )
-  {
-    /*
-     * We can ignore this token. Start again by reading the next object.
-     */
-    goto start;
-  }
-  clID=FEMObjectFactory<FEMLightObject>::ClassName2ID(s);  // obtain the class ID from FEMObjectFactory
-  if (clID<0) goto out;  // class not found
-
-  // create a new object of the correct class
-  a=FEMObjectFactory<FEMLightObject>::Create(clID);
-  if (!a) goto out;    // error creating new object of the derived class
-
-  /*
-   * Now we have to read additional data, which is
-   * specific to the class of object we just created
-   */
-  try
-  {
-    a->Read(f,&info);
-  }
-  /*
-   * Catch possible exceptions while 
-   * reading object's data from stream
-   */
-  catch (...) {
-    #ifndef FEM_USE_SMART_POINTERS
-    delete a;  // if something went wrong, we need to destroy the already created object
-    #endif
-    a=0;
-    throw;     // rethrow the same exception
-  }
-
-  /*
-   * Return a pointer to a newly created object if all was OK
-   * Technically everithing should be fine here (a!=0), but we
-   * check again, just in case.
-   */
-  if (a) { return a; }
-
-out:
-
-  /*
-   * Something went wrong.
-   * Reset the stream position to where it was before reading the object.
-   */
-#ifndef __sgi
-  f.seekg(l);
-#endif
-  
-  /*
-   * Throw an IO exception
-   */
-  throw FEMExceptionIO(__FILE__,__LINE__,"Solver::ReadAnyObjectFromStream()","Error reading FEM problem stream!");
-
-}
-
-
-
-
 /**
  * Reads the whole system (nodes, materials and elements) from input stream
  */
 void Solver::Read(std::istream& f) {
 
-  /* clear all arrays */
+  // clear all arrays
   el.clear();
   node.clear();
   mat.clear();
   load.clear();
 
+  // Initialize the pointers to arrays in ReadInfoType object to the
+  // arrays in solver object.
+  ReadInfoType info(&this->node,&this->el,&this->mat);
+
   FEMLightObject::Pointer o=0;
   /* then we start reading objects from stream */
   do
   {
-    o=ReadAnyObjectFromStream(f);
+    o=FEMLightObject::CreateFromStream(f,&info);
     /*
-     * If ReadAnyObjectFromStream returned 0, we're ok.
-     * Just continue reading... and exit the do loop.
+     * If CreateFromStream returned 0, we're ok. That was the signal
+     * for the end of stream. Just continue reading... and consequently
+     * exit the do loop.
      */
     if (!o) { continue; }
 
@@ -213,16 +119,16 @@ void Solver::Read(std::istream& f) {
     }
 
     /*
-     * If we got here something strange was in the file...
+     * If we got here, something strange was in the file...
      */
 
-    /* first we delete the allocated object */
+    // first we delete the allocated object
     #ifndef FEM_USE_SMART_POINTERS
     delete o;
     #endif
     o=0;
 
-    /* then we throw an exception */
+    // then we throw an exception
     throw FEMExceptionIO(__FILE__,__LINE__,"Solver::Read()","Error reading FEM problem stream!");
 
   } while ( o );

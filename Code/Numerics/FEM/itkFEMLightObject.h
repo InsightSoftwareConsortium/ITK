@@ -26,7 +26,7 @@ namespace itk {
 namespace fem {
 
 
-class LoadElement;
+
 
 /**
  * \class FEMLightObject
@@ -112,9 +112,32 @@ public:
    */
   virtual void Write( std::ostream& f ) const;
 
+  /**
+   * Read object of any derived type from stream.
+   *
+   * This static function creates an object of a class, which is derived
+   * from FEMLightObject. The class of object is first determined from the
+   * stream, then the object of that class is constructed using the
+   * FEMObjectFactory. Finally the data for this object is read from the
+   * stream, by calling the Read() member function.
+   */
+  static FEMLightObject::Pointer CreateFromStream( std::istream& f, void *info );
+
+  /**
+   * Helper function that skips all the whitespace and comments in
+   * an input stream.
+   */
+  static void SkipWhiteSpace( std::istream& f );
+
+  /**
+   * Const string of all whitespace characters. This string is used by
+   * #SkipWhiteSpace function.
+   */
+  static const std::string whitespaces;
+
 
 #ifdef FEM_USE_SMART_POINTERS
-protected:  /** If we're using smart pointers, constructors and destructors should be protected. */
+protected:  // If we're using smart pointers, constructors and destructors should be protected.
 #endif
   /**
    * Default constructor

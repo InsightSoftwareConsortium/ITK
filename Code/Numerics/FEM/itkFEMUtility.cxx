@@ -21,22 +21,9 @@
 #endif
 
 #include "itkFEMUtility.h"
-#include "itkNumericTraits.h"
 
 namespace itk {
 namespace fem {
-
-
-
-
-/**
- * helper function to skip all whitespaces in input stream
- */
-void SkipWhiteSpace(std::istream& f) 
-{
-while(f && !f.eof() && (std::ws(f).peek())=='%' )
-  f.ignore(NumericTraits<int>::max(), '\n');
-}
 
 
 

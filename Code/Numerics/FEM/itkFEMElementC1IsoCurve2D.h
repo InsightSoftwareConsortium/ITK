@@ -23,7 +23,6 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
-#include "itkFEMUtility.h"
 #include "itkFEMMaterialStandard.h"
 #include "vnl/vnl_math.h"
 

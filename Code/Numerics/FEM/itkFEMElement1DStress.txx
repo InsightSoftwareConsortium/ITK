@@ -19,7 +19,6 @@
 #define __itkFEMElement1DStress_txx
 
 #include "itkFEMElement1DStress.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

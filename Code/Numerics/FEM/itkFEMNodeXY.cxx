@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMNodeXY.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

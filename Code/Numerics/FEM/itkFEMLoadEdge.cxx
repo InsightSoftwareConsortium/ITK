@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMLoadEdge.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

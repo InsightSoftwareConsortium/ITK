@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMMaterialStandard.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

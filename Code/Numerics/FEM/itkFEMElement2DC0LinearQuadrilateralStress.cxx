@@ -21,7 +21,6 @@
 #endif
 
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

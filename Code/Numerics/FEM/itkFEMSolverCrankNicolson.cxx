@@ -26,7 +26,6 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {

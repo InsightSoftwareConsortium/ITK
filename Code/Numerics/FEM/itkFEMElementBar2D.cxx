@@ -23,7 +23,6 @@
 #include "itkFEMElementBar2D.h"
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
-#include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_math.h"

@@ -23,7 +23,6 @@
 #include "itkFEMElementNewBase.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMLoadGrav.h"
-#include "itkFEMUtility.h"
 
 namespace itk {
 namespace fem {
