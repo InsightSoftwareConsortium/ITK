@@ -44,8 +44,12 @@ ${ITK_SOURCE_DIR}/itkConfigure.h.in
 ${ITK_BINARY_DIR}/itkConfigure.h)
 
 CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/doxygen.config.in
+${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
 ${ITK_BINARY_DIR}/doxygen.config)
+
+CONFIGURE_FILE(
+${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
+${ITK_BINARY_DIR}/itkdoxygen.pl)
 
 # make directories in the binary tree
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
