@@ -143,6 +143,7 @@ ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSe
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
 ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToPointSetRegistrationTest)
 ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToSpatialObjectDemonsRegistrationTest)
+ADD_TEST(itkActiveShapeModelCalculatorTest ${ALGORITHMS_TESTS2} itkActiveShapeModelCalculatorTest)
 
 
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
@@ -244,6 +245,7 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest2_SRCS
+itkActiveShapeModelCalculatorTest.cxx
 itkCompareHistogramImageToImageMetricTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
@@ -304,6 +306,11 @@ IF(USE_SCSL)
 ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
+ADD_TEST(itkActiveShapeModelCalculatorTest ${ALGORITHMS_TESTS2}
+  itkActiveShapeModelCalculatorTest
+             ${ITK_DATA_ROOT}/Input/model.mha
+             ${ITK_DATA_ROOT}/Input/foot.mha
+             )
 
 ADD_TEST(itkIsolatedWatershedImageFilterTest ${ALGORITHMS_TESTS2}
    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png
