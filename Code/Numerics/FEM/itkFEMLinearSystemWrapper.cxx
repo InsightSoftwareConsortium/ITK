@@ -92,6 +92,11 @@ void LinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, Float v
   this->SetMatrixValue(i, j, value+this->GetMatrixValue(i, j, matrixIndex), matrixIndex);
 }
 
+void LinearSystemWrapper::AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex)
+{
+  this->SetSolutionValue(i, value+this->GetSolutionValue(i, solutionIndex), solutionIndex);
+}
+
 
 void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsigned int matrixIndex, unsigned int vectorIndex)
 {
