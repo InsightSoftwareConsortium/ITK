@@ -91,6 +91,7 @@ ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToV
 ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersTest)
 ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterTest)
 ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS}  itkReflectiveImageRegionIteratorTest )
+ADD_TEST(itkRegionOfInterestImageFilterTest ${BASIC_FILTERS_TESTS}  itkRegionOfInterestImageFilterTest )
 ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS} itkResampleImageTest)
 ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS} itkRescaleIntensityImageFilterTest)
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleImageFilterTest)
@@ -292,6 +293,7 @@ itkRGBToVectorAdaptImageFilterTest.cxx
 itkRecursiveGaussianImageFiltersTest.cxx
 itkReflectImageFilterTest.cxx
 itkReflectiveImageRegionIteratorTest.cxx
+itkRegionOfInterestImageFilterTest.cxx
 itkResampleImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
