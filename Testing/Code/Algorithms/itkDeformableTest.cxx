@@ -36,7 +36,9 @@ int SEEDY = 25;
 int SEEDZ = 25;
 
 
-long btime, etime;
+time_t btime; 
+time_t etime;
+
 int main() 
 {
 
