@@ -112,7 +112,7 @@ int TestByteSwap(void)
     imageReader->Update() ;
     big = imageReader->GetOutput();
     std::cout << "Printing Dictionary" << std::endl;
-    big->GetMetaDataDictionary().PrintSelf(std::cout , 4);
+    big->GetMetaDataDictionary().Print(std::cout);
   }
   catch (itk::ExceptionObject e)
     {
