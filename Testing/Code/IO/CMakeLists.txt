@@ -419,7 +419,7 @@ IF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
   ENDFOREACH(cfgtype)
 
   FOREACH( javatestfile 
-     DicomSeries
+     DicomSliceRead
      )
 
   ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/IO/${javatestfile}.class)
