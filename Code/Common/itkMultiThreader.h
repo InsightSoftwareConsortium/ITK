@@ -269,6 +269,13 @@ protected:
   // statics
   static int                  m_GlobalMaximumNumberOfThreads;
   static int                  m_GlobalDefaultNumberOfThreads;
+
+  /**
+   * Friends of Multithreader.
+   * ProcessObject is a friend so that it can call PrintSelf() on its
+   * Multithreader.
+   */
+  friend class ProcessObject;
 };
 
 }  // end namespace itk

@@ -96,13 +96,13 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
   // Check if the training and input image dimensions are same
   if( (int)(TInputImage::ImageDimension) != (int)(TClassifiedImage::ImageDimension) )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   // Check if size of the two inputs are same
   for( int i = 0; i < TInputImage::ImageDimension; i++)
   {
-    if( inputImageSize[i] != trainingImageSize[i] ) throw ExceptionObject();   
+    if( inputImageSize[i] != trainingImageSize[i] ) throw ExceptionObject(__FILE__, __LINE__);   
   } 
    
   this->Allocate();

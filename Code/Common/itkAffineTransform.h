@@ -275,7 +275,7 @@ public:
     const MatrixType & GetInverse() const
         { if( m_Singular )
           { 
-            throw ExceptionObject();
+            throw ExceptionObject(__FILE__, __LINE__);
           }
           return m_Inverse; }
 

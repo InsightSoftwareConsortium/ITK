@@ -126,7 +126,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     //Check the validity of the n
     if( this->GetNumClasses() <= 0)
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     m_Ncodewords      = this->GetNumClasses();
@@ -293,7 +293,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( olddistortion < distortion ) 
     {
       std::cout <<"Distortion is increasing, not decreasing" <<std::endl;
-      throw ExceptionObject(); // GLA_NOT_CONVERGED;
+      throw ExceptionObject(__FILE__, __LINE__); // GLA_NOT_CONVERGED;
     }
 
     // find number of empty cells
@@ -388,7 +388,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     } // end else
   } while ( pass <= m_MaxSplitAttempts );
   std::cout<<"Fatal error"<<std::endl;
-  throw ExceptionObject(); //return GLA_NOT_CONVERGED;
+  throw ExceptionObject(__FILE__, __LINE__); //return GLA_NOT_CONVERGED;
 
 }// end localfn_GLA
 
@@ -522,7 +522,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   if ( *distortion < 0.0 ) 
   {
     std::cout<<"Computational overflow"<<std::endl;
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   //std::cout<<"Done nearest_neighbor_search_basic()"<<std::endl;

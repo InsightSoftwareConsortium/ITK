@@ -240,7 +240,7 @@ std::ostream & operator<<(std::ostream &os, const Size<VDimension> &size)
     {
     os << size[VDimension-1];
     }
-  os << "]" << std::endl;
+  os << "]";
   return os;
 }
 

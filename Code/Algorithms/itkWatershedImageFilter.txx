@@ -156,7 +156,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   
   if (m_MergeHeap.empty()) // Unexpected error, sanity check.
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
   Self::ExtractMergeHeirarchy(m_BaseSegmentTable, m_MergeHeap,
@@ -893,7 +893,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
     {
       if ( ((a = regions.find((*it).first)) == regions.end())
            || ((b = regions.find((*it).second)) == regions.end()) )
-        throw ExceptionObject();
+        throw ExceptionObject(__FILE__, __LINE__);
       if ((*a).second.BoundaryMinValue < (*b).second.BoundaryMinValue)
         {
           (*b).second.BoundaryMinValue = (*a).second.BoundaryMinValue;

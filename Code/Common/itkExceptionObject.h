@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkExceptionObject_h
 
 #include "itkObject.h"
+#include "itkIndent.h"
 #include <string>
 
 namespace itk
@@ -69,7 +70,21 @@ public:
    * Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated.
    */
-  ExceptionObject() {m_Location = ""; m_Description = ""; };
+  ExceptionObject(const char *file = "Unknown", unsigned int lineNumber=0)
+  {
+    m_Location = "";
+    m_Description = "";
+    m_File = file;
+    m_Line = lineNumber;
+  };
+
+  ExceptionObject(const std::string& file, unsigned int lineNumber)
+  {
+    m_Location = "";
+    m_Description = "";
+    m_File = file;
+    m_Line = lineNumber;
+  };
 
   /**
    * Virtual destructor needed 
@@ -80,6 +95,8 @@ public:
   {
     m_Location    = orig.m_Location;
     m_Description = orig.m_Description;
+    m_File = orig.m_File;
+    m_Line = orig.m_Line;
   }
   
   /**
@@ -89,13 +106,17 @@ public:
   {
     m_Location    = orig.m_Location;
     m_Description = orig.m_Description;
+    m_File = orig.m_File;
+    m_Line = orig.m_Line;
     return *this;
   }
   
   virtual bool operator==( const ExceptionObject &orig )
   {
     if ( m_Location    == orig.m_Location &&
-         m_Description == orig.m_Description ) 
+         m_Description == orig.m_Description &&
+         m_File == orig.m_File &&
+         m_Line == orig.m_Line) 
       {
       return true;
       }
@@ -130,11 +151,34 @@ public:
     { return m_Location.c_str();    }
   virtual const char *GetDescription() const 
     { return m_Description.c_str(); }
+
+  /**
+   * What file did the exception occur in?
+   */
+  virtual const char *GetFile()    const 
+    { return m_File.c_str();    }
+
+  /**
+   * What line did the exception occur in?
+   */
+  virtual const unsigned int GetLine() const 
+    { return m_Line; }
   
   /**
    * Return the name of the class.
    */
-  static const char *GetNameOfClass() {return "ExceptionObject";}
+  itkTypeMacro(ExceptionObject, None);
+
+protected:
+  /** 
+   * Methods invoked by Print() to print information about the object
+   * including superclasses. Typically not called by the user (use Print()
+   * instead) but used in the hierarchical print process to combine the
+   * output of several classes. 
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintHeader(std::ostream& os, Indent indent) const;
+  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
   
 private:
   /**
@@ -142,6 +186,8 @@ private:
    */
   std::string m_Location;
   std::string m_Description;
+  std::string m_File;
+  unsigned int m_Line;
  
 };
 
@@ -166,6 +212,22 @@ inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
 class RangeError : public ExceptionObject
 {
 public:
+  /**
+   * Default constructor.  Needed to ensure the exception object can be
+   * copied.
+   */
+  RangeError() : ExceptionObject() {}
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  RangeError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  RangeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+
   itkTypeMacro(RangeError, ExceptionObject);
 };
 
@@ -177,6 +239,22 @@ public:
 class InvalidArgumentError : public ExceptionObject
 {
 public:
+  /**
+   * Default constructor.  Needed to ensure the exception object can be
+   * copied.
+   */
+  InvalidArgumentError() : ExceptionObject() {}
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidArgumentError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidArgumentError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+
   itkTypeMacro(InvalidArgumentError, ExceptionObject);
 };
 
@@ -187,6 +265,22 @@ public:
 class IncompatibleOperandsError : public ExceptionObject
 {
 public:
+  /**
+   * Default constructor.  Needed to ensure the exception object can be
+   * copied.
+   */
+  IncompatibleOperandsError() : ExceptionObject() {}
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  IncompatibleOperandsError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  IncompatibleOperandsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+
   itkTypeMacro(IncompatibleOperandsError, ExceptionObject);
 };
 

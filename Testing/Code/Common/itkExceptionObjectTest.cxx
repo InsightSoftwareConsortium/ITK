@@ -57,7 +57,7 @@ bool mammal::operator== (mammal &o)
 {
   if ( this->GetType() != o.GetType() )
     {
-    itk::IncompatibleOperandsError e;
+    itk::IncompatibleOperandsError e(__FILE__, __LINE__);
     e.SetLocation("bool mammal::operator==(mammal&, mammal&)");
     e.SetDescription("Cannot compare mammals of unequal type");
     throw e;
@@ -80,7 +80,7 @@ int lookup(const int& i)
   static int table[5] = { 23,42,42,32,12 };
   if ( ! ( 0 <= i && i < 5 ) )
     {
-    itk::RangeError e;
+    itk::RangeError e(__FILE__, __LINE__);
     e.SetLocation("int lookup(const int& )");
     e.SetDescription("Attempted to access out-of-bounds array element");
     throw e;

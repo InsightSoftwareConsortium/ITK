@@ -219,7 +219,7 @@ public:
     {
     if( direction >= TImage::ImageDimension )
       {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
       }
     m_Direction = direction;
     m_Jump = m_OffsetTable[ m_Direction ];

@@ -73,7 +73,7 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
 
   if( m_Reference->Size() != m_Target->Size() )
   {
-    ExceptionObject wrongSize;
+    ExceptionObject wrongSize(__FILE__, __LINE__);
     wrongSize.SetLocation( "ProcrustesRegistrationMetric Compute" );
     wrongSize.SetDescription( 
                 "Reference and Target have different number of points");

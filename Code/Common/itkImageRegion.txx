@@ -83,6 +83,17 @@ ImageRegion<VImageDimension>
   return numPixels;
 }
 
+template<unsigned int VImageDimension>
+void
+ImageRegion<VImageDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  
+  os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
+  os << indent << "Index: " << this->GetIndex() << std::endl;
+  os << indent << "Size: " << this->GetSize() << std::endl;
+}
 
 } // end namespace itk
 

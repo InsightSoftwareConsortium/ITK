@@ -192,7 +192,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   
   if (!flag)
     {  // no values!
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // find minimum value

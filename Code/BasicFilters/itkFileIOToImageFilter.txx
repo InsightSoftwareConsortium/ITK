@@ -62,7 +62,7 @@ void FileIOToImageFilter<TOutputImage>::Update()
 {
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    throw FileIOException();
+    throw FileIOException(__FILE__, __LINE__);
     }
 
   if ( m_IO == 0 ) //try creating via factory
@@ -74,7 +74,7 @@ void FileIOToImageFilter<TOutputImage>::Update()
 
   if ( m_IO == 0 )
     {
-    throw FileIOException();
+    throw FileIOException(__FILE__, __LINE__);
     }
 
   m_IO->SetFileName(m_FileName.c_str());

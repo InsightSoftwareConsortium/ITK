@@ -63,10 +63,10 @@ namespace itk {
     throw (InvalidInputError)
   {
     if (dataSet->size() < K)
-      throw InvalidInputError() ;
+      throw InvalidInputError(__FILE__, __LINE__) ;
       
     if (queryPoint->size() <= 0)
-      throw InvalidInputError() ;
+      throw InvalidInputError(__FILE__, __LINE__) ;
     
     if (K != m_K) 
       m_InputsModified = true ;
@@ -89,7 +89,7 @@ namespace itk {
   ::GetOutput() throw (InvalidInputError) 
   {
     if (!m_ValidInputs)
-      throw InvalidInputError() ;
+      throw InvalidInputError(__FILE__, __LINE__) ;
 
     if (m_InputsModified)
       UpdateOutputData() ;

@@ -59,7 +59,12 @@ class ImageFileReaderException : public ExceptionObject
 public:
   itkTypeMacro( ImageFileReaderException, ExceptionObject );
 
-  ImageFileReaderException(const char* message = "Error in IO") 
+  ImageFileReaderException(char *file, unsigned int line, const char* message = "Error in IO") : ExceptionObject(file, line)
+  {
+    SetDescription(message);
+  }
+
+  ImageFileReaderException(const std::string &file, unsigned int line, const char* message = "Error in IO") : ExceptionObject(file, line)
   {
     SetDescription(message);
   }

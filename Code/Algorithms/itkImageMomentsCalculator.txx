@@ -25,10 +25,23 @@ namespace itk
 { 
 
 
-template<class TImage>
-const char * ImageMomentsCalculator<TImage>::notvalid = "No valid image moments are available.";
+class ITK_EXPORT InvalidImageMomentsError : public ExceptionObject
+{
+ public:
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidImageMomentsError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}
 
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidImageMomentsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}  
+  
+  itkTypeMacro(InvalidImageMomentsError, ExceptionObject);
+};
 
+  
 //----------------------------------------------------------------------
 // Construct without computing moments
 template<class TImage>
@@ -118,7 +131,7 @@ ComputeMoments( ImageType * image )
 
   // Throw an error if the total mass is zero
   if ( m_m0 == 0.0 )
-      Error("Total mass is zero; cg and central moments are undefined.");
+    throw InvalidImageMomentsError(__FILE__, __LINE__);
 
   // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
@@ -180,7 +193,7 @@ ImageMomentsCalculator<TImage>::ScalarType
 ImageMomentsCalculator<TImage>::
 GetTotalMass()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_m0;
 }
 
@@ -191,7 +204,7 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetFirstMoments()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_m1;
 }
 
@@ -202,7 +215,7 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetSecondMoments()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_m2;
 }
 
@@ -213,7 +226,7 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetCenterOfGravity()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_cg;
 }
 
@@ -224,7 +237,7 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetCentralMoments()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_cm;
 }
 
@@ -235,7 +248,7 @@ ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetPrincipalMoments()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_pm;
 }
 
@@ -248,7 +261,7 @@ ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxes()
 {
-  if (!m_valid)    Error(notvalid);
+  if (!m_valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_pa;
 }
 
@@ -306,25 +319,6 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
 
     return result->Inverse();
 }
-
-//--------------------------------------------------------------------
-/**
- * This private and interim method reports a error by printing
- * a given char string to standard error and aborting.  This
- * is a purely temporary method used as a placeholder until
- * the right implementation of error handling in itk is designed.
- */
-template<class TImage>
-void
-ImageMomentsCalculator<TImage>::
-Error (const char *string) {
-   std::cerr << string << "\n";
-   ExceptionObject problem;
-   problem.SetLocation("ImageMomentsCalculator");
-   problem.SetDescription( string );
-   throw problem;
-}
-
 
 } // end namespace itk
 

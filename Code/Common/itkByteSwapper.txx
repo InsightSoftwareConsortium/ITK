@@ -55,6 +55,22 @@ namespace itk
 class ByteSwapperError : public ExceptionObject
 {
 public:
+  /**
+   * Default constructor.  Needed to ensure the exception object can be
+   * copied.
+   */
+  ByteSwapperError() : ExceptionObject() {}
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  ByteSwapperError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  ByteSwapperError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+  
   itkTypeMacro(ByteSwapperError, ExceptionObject);
 };
 
@@ -101,7 +117,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap4((void *)p);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapBE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
@@ -131,7 +147,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap4Range((void *)p,num);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapRangeBE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
@@ -165,7 +181,7 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapWriteRangeBE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
@@ -192,7 +208,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap4((void *)p);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapLE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
@@ -223,7 +239,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap4Range((void *)p,num);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapRangeLE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;
@@ -253,7 +269,7 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
       return;
     default:  
-      ByteSwapperError e;
+      ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapWriteRangeLE");
       e.SetDescription("Cannot swap number of bytes requested");
       throw e;

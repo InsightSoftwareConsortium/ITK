@@ -100,7 +100,7 @@ const IndexType& index ) const
 
   if( !m_Image )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   if( !m_ImageSizeOK )

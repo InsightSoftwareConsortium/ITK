@@ -159,7 +159,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
 
   if (n<2)
 	{
-      throw ExceptionObject();  // placeholder
+      throw ExceptionObject(__FILE__, __LINE__);  // placeholder
 	}
   if (y==0.0) return 0.0;
   else

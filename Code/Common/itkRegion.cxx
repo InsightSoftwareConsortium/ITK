@@ -43,5 +43,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+void
+Region
+::Print(std::ostream& os) const
+{
+  Indent indent;
+
+  this->PrintHeader(os,0); 
+  this->PrintSelf(os, indent.GetNextIndent());
+  this->PrintTrailer(os,0);
+}  
+
+void
+Region
+::PrintHeader(std::ostream& os, Indent indent) const
+{
+  os << indent << this->GetNameOfClass() << " (" << this << ")\n";
+}
+
+void
+Region
+::PrintTrailer(std::ostream& os, Indent indent) const
+{
+  os << indent << std::endl;
+}
+
+void 
+Region
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+}
+
 } // end namespace itk
 

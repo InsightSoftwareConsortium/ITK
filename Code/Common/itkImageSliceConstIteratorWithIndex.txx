@@ -240,7 +240,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   if( direction >= TImage::ImageDimension )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
   m_Direction_A = direction;
   m_Jump_A = m_OffsetTable[ m_Direction_A ];
@@ -259,7 +259,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   if( direction >= TImage::ImageDimension )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
   m_Direction_B = direction;
   m_Jump_B = m_OffsetTable[ m_Direction_B ];

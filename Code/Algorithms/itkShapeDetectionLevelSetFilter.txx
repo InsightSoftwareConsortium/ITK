@@ -144,13 +144,13 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 {
   if ( !m_EdgeImage )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   LevelSetPointer inputPtr = this->GetInput();
   if ( !inputPtr )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   this->AllocateOutput();

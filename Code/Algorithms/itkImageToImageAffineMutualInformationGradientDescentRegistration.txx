@@ -157,7 +157,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
       m_Parameters = optimizer->GetCurrentPosition();
 
       // Pass exception to caller
-      throw;
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
 

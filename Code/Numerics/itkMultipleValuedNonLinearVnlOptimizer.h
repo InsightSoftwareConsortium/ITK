@@ -166,7 +166,7 @@ public:
       {
         if( !m_CostFunction )
         {
-          throw ExceptionObject();
+          throw ExceptionObject(__FILE__, __LINE__);
         }
 
         ParametersType externalParameters;
@@ -183,7 +183,7 @@ public:
       {
         if( !m_CostFunction )
         {
-          throw ExceptionObject();
+          throw ExceptionObject(__FILE__, __LINE__);
         }
 
        ParametersType externalParameters; 

@@ -86,14 +86,34 @@ public:
    * Enums used to describe the extent types.
    */
   enum RegionType {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION};
-  
+
+  /** 
+   * Standard part of all itk objects.
+   */
+  itkTypeMacro(Region, None);
+
   /**
    * Subclasses must return a region type describing whether the region
    * is structured or unstructured.
    */
   virtual RegionType GetRegionType() const = 0;
 
+  /**
+   * Print the region.
+   */
+  virtual void Print(std::ostream& os) const;
+  
 protected:
+  /** 
+   * Methods invoked by Print() to print information about the object
+   * including superclasses. Typically not called by the user (use Print()
+   * instead) but used in the hierarchical print process to combine the
+   * output of several classes. 
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintHeader(std::ostream& os, Indent indent) const;
+  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
+
 
 private:
 

@@ -154,7 +154,7 @@ public:
       virtual InternalMeasureType f( const InternalParametersType & inparameters ) {
         if( !m_CostFunction )
         {
-          throw ExceptionObject();
+          throw ExceptionObject(__FILE__, __LINE__);
         }
         ParametersType parameters;
         ConvertInternalToExternalParameters( inparameters, parameters );
@@ -170,7 +170,7 @@ public:
                                InternalDerivativeType   & gradient ) {
         if( !m_CostFunction )
         {
-          throw ExceptionObject();
+          throw ExceptionObject(__FILE__, __LINE__);
         }
         ParametersType parameters;
         ConvertInternalToExternalParameters( inparameters, parameters );

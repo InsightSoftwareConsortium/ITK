@@ -255,10 +255,6 @@ private:
     VectorType m_pm;                   // Principal moments (physical)
     MatrixType m_pa;                   // Principal axes (physical)
 
-    static const char* notvalid;     // Error message when m_valid == 0
-
-    void Error(const char *message);  // Report an error message and abort
-
 };  // class ImageMomentsCalculator
 
 } // end namespace itk

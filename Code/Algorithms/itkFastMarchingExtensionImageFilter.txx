@@ -153,24 +153,24 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   if( this->GetAlivePoints() && !m_AuxAliveValues )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }  
 
   if( m_AuxAliveValues &&
       m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size() )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   if( this->GetTrialPoints() && !m_AuxTrialValues )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     } 
 
   if( m_AuxTrialValues &&
       m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size() )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     } 
   
   // set all alive points to alive

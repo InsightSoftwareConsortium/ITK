@@ -90,7 +90,7 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
       if (flag) *(this->operator[](n)) = v ;
       else
         { // Attempt to write out of bounds
-          throw RangeError();
+          throw RangeError(__FILE__, __LINE__);
         };
     } 
 }

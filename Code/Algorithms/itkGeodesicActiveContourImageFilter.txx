@@ -139,7 +139,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     {
     if ( !m_DerivImages[j] )
       {
-        throw ExceptionObject();
+        throw ExceptionObject(__FILE__, __LINE__);
       }
     }
 
@@ -301,7 +301,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
     {
     if ( !m_DerivImages[j] )
       {
-        throw ExceptionObject();
+        throw ExceptionObject(__FILE__, __LINE__);
       }
     }
 

@@ -148,7 +148,7 @@ OnePlusOneEvolutionaryOptimizer<TCostFunction, TNormalRandomVariateGenerator>
 {
   if (m_CostFunction == 0 || !m_Initialized)
     {
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
     }
 
   // m_Random Seed was originally getpid()

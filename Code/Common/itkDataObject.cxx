@@ -52,6 +52,32 @@ namespace itk
 // after use by filter
 bool DataObject::m_GlobalReleaseDataFlag = false;
 
+void
+DataObjectError
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  ExceptionObject::PrintSelf( os, indent );
+    
+  os << indent << "Data object: ";
+  if (m_DataObject)
+    {
+    os << std::endl;
+    m_DataObject->PrintSelf(os, indent.GetNextIndent());
+    }
+  else
+    {
+    os << "(None)" << std::endl;
+    }
+}
+
+void
+InvalidRequestedRegionError
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  DataObjectError::PrintSelf( os, indent );
+}
+
+
 //----------------------------------------------------------------------------
 DataObject::
 DataObject()
@@ -202,7 +228,7 @@ DataObject
 
   if ( m_Source )
     {
-    os << indent << "Source: " << m_Source << "\n";
+    os << indent << "Source: (" << m_Source.GetPointer() << ") \n";
     os << indent << "Source output index: " << m_SourceOutputIndex << "\n";
     }
   else
@@ -240,6 +266,25 @@ DataObject
   this->UpdateOutputData();
 }
 
+
+void
+DataObject
+::ResetPipeline()
+{
+  this->PropagateResetPipeline();
+}
+
+void
+DataObject
+::PropagateResetPipeline()
+{
+  if (m_Source)
+    {
+    m_Source->PropagateResetPipeline();
+    }
+}
+
+
 //----------------------------------------------------------------------------
 void 
 DataObject
@@ -266,10 +311,18 @@ DataObject
   // Check that the requested region lies within the largest possible region
   if ( ! this->VerifyRequestedRegion() )
     {
-    // invalid requested region - this should not occur!
-    return;
+    // invalid requested region, throw an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg << (char *)this->GetNameOfClass()
+        << "::PropagateRequestedRegion()" << std::ends;
+    e.SetLocation(msg.str());
+    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
+    e.SetDataObject(this);
+    
+    throw e;
+    // return;
     }
-
 }
 
 //----------------------------------------------------------------------------

@@ -136,7 +136,7 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
       m_Parameters = optimizer->GetCurrentPosition();
 
       // Pass exception to caller
-      throw;
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // get the results

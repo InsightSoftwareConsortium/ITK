@@ -167,7 +167,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 
   if( pBorderCandidate == NULL )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the
@@ -182,7 +182,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 
   if(index > m_RegionBorderVec.size())
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   // Iterator set to the first element of the region border element
@@ -212,7 +212,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   // First delete the border from the region border list
@@ -284,7 +284,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the

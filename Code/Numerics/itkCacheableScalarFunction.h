@@ -135,7 +135,7 @@ public:
   {
     if (x > m_CacheHigherBound || x < m_CacheLowerBound)
       {
-        throw ExceptionObject() ;
+        throw ExceptionObject(__FILE__, __LINE__) ;
       }
 
     // access table

@@ -246,7 +246,7 @@ std::ostream & operator<<(std::ostream &os, const Offset<VOffsetDimension> &ind)
     {
     os << ind[VOffsetDimension-1];
     }
-  os << "]" << std::endl;
+  os << "]";
   return os;
 }
 

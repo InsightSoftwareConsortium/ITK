@@ -281,7 +281,7 @@ public:
     {
       if ( this->GetCenterPointer() > m_End )
         {std::cout << "PAST END!!!!!" <<  std::endl;
-        throw ExceptionObject(); }
+        throw ExceptionObject(__FILE__, __LINE__); }
       return ( this->GetCenterPointer() == m_End );   }
   
   /**

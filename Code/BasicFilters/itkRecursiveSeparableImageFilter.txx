@@ -113,7 +113,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     }
   catch( std::bad_alloc &) 
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
 
@@ -125,7 +125,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     {
     delete [] s1; 
     s1=0; 
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
   
   /**
@@ -220,7 +220,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
   if( this->m_Direction >= imageDimension )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   outputImage->SetLargestPossibleRegion( 
@@ -259,7 +259,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
     }
   catch( std::bad_alloc & ) 
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   try 
@@ -268,7 +268,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
   }
   catch( std::bad_alloc & ) 
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
 

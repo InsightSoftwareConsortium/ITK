@@ -165,12 +165,18 @@ public:
    */
   itkTypeMacro(ImportImageContainer, Object);
 
+  /**
+   * PrintSelf routine. Normally this is a protected internal method. It is
+   * made public here so that Image can call this method.  Users should not
+   * call this method but should call Print() instead.
+   */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 protected:
   ImportImageContainer();
   virtual ~ImportImageContainer();
   ImportImageContainer(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   TElement            *m_ImportPointer;

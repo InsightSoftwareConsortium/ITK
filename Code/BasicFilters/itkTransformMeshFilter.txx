@@ -90,12 +90,12 @@ TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
   
   if( !inputMesh )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   if( !outputMesh )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();

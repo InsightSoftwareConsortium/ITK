@@ -200,7 +200,7 @@ namespace itk
     if (this->CheckMaskImage(inputMask))
       m_InputMask = inputMask ;
     else
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
   }
 
   template<class TInputImage, class TOutputImage>
@@ -211,7 +211,7 @@ namespace itk
     if (this->CheckMaskImage(outputMask))
       m_OutputMask = outputMask ;
     else
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
   }
 
   template<class TInputImage, class TOutputImage>
@@ -241,7 +241,7 @@ namespace itk
 
     // initialize the energy function
     if (m_TissueClassMeans.size() < 1) 
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
 
     if (!m_EnergyFunction)
       {
@@ -518,10 +518,10 @@ namespace itk
     size_t sigmaSize = sigmas.size() ;
     
     if (meanSize == 0 || sigmaSize == 0)
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
 
     if (meanSize != sigmaSize )
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
 
     m_TissueClassMeans = means ;
     m_TissueClassSigmas = sigmas ;
@@ -535,7 +535,7 @@ namespace itk
   ::CheckMaskImage(ImageMaskPointer mask)
   {
     if (this->GetNumberOfOutputs() != 1)
-      throw ExceptionObject() ;
+      throw ExceptionObject(__FILE__, __LINE__) ;
 
     InputImageRegionType region =
       this->GetInput()->GetBufferedRegion() ;

@@ -48,7 +48,7 @@ CompositeValleyFunction
   int length = classMeans.size() ;
 
   if (length != classSigmas.size() || length == 0)
-    throw ExceptionObject() ;
+    throw ExceptionObject(__FILE__, __LINE__) ;
   
   for (int i = 0 ; i < length ; i++) 
     {

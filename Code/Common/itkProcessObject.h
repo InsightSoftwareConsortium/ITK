@@ -310,6 +310,13 @@ public:
    */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
+  /**
+   * Reset the pipeline. If an exception is thrown during an Update(),
+   * the pipeline may be in an inconsistent state.  This method clears
+   * the internal state of the pipeline so Update() can be called.
+   */
+  virtual void ResetPipeline();
+  
   /** 
    * Turn on/off the flags to control whether the data belonging to the
    * outputs of this ProcessObject are released after being used by a
@@ -390,6 +397,12 @@ protected:
    * unmodified from the input to the output.
    */
   virtual void GenerateOutputInformation();
+
+  /**
+   * Propagate a call to ResetPipeline() up the pipeline. Called only from
+   * DataObject.
+   */
+  virtual void PropagateResetPipeline();
 
   /**
    * These ivars are made protected so filters like itkStreamingImageFilter

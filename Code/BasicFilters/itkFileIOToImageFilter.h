@@ -59,7 +59,12 @@ class FileIOException : public ExceptionObject
 public:
   itkTypeMacro( FileIOException, ExceptionObject );
 
-  FileIOException() 
+  FileIOException(const char *file, unsigned int line) : ExceptionObject(file, line)
+  {
+    SetDescription("Problem during File IO");
+  }
+
+  FileIOException(const std::string &file, unsigned int line) : ExceptionObject(file, line)
   {
     SetDescription("Problem during File IO");
   }

@@ -333,7 +333,8 @@ Image<TPixel, VImageDimension, TImageTraits>
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Data: " << m_Buffer << std::endl;
+  os << indent << "Data: " << std::endl;
+  m_Buffer->PrintSelf(os, indent.GetNextIndent());
 }
 
 

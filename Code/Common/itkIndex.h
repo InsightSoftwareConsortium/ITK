@@ -312,7 +312,7 @@ std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
     {
     os << ind[VIndexDimension-1];
     }
-  os << "]" << std::endl;
+  os << "]";
   return os;
 }
 

@@ -44,11 +44,141 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkObject.h"
 #include "itkSmartPointerForwardReference.h"
 #include "itkWeakPointer.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
 
 class ProcessObject;
+class DataObject;
+
+  
+/**
+ * Exception object for DataObject exceptions
+ */
+class ITK_EXPORT DataObjectError : public ExceptionObject
+{
+ public:
+  /**
+   * Default constructor.  Needed to ensure the exception object can be
+   * copied.
+   */
+  DataObjectError() : ExceptionObject(), m_DataObject(0) {}
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  DataObjectError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber), m_DataObject(0) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  DataObjectError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber), m_DataObject(0) {}  
+
+  /**
+   * Copy constructor.  Needed to ensure the exception object can be copied.
+   */
+  DataObjectError(const DataObjectError &orig)
+    : ExceptionObject( orig )
+  {
+    m_DataObject = orig.m_DataObject;
+  }
+
+  /**
+   * Operator=.  Needed to ensure the exception object can be copied.
+   */
+  DataObjectError& operator=( const DataObjectError& orig)
+  {
+    ExceptionObject::operator= (orig);
+    m_DataObject = orig.m_DataObject;
+    return *this;
+  }
+
+  /**
+   * Standard type macro
+   */
+  itkTypeMacro(DataObjectError, ExceptionObject);
+
+  /**
+   * Set the data object that is throwing this exception.
+   */
+  void SetDataObject(DataObject *dobj) {m_DataObject = dobj;};
+
+  /**
+   * Get the data object that is throwing this exception.
+   */
+  SmartPointer<DataObject> GetDataObject() { return m_DataObject;};
+
+ protected:
+  /**
+   * Print exception information.  This method can be overridden by
+   * specific exception subtypes.  The default is to print out the
+   * location where the exception was first thrown and any description
+   * provided by the ``thrower''.  
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  
+    
+ private:
+  SmartPointer<DataObject> m_DataObject;
+};
+
+  
+/**
+ * Exception object for invalid requested region
+ */
+class ITK_EXPORT InvalidRequestedRegionError : public DataObjectError
+{
+ public:
+  /**
+   * Default constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidRequestedRegionError() : DataObjectError() {}
+
+  
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidRequestedRegionError(const char *file, unsigned int lineNumber) : DataObjectError(file, lineNumber) {}
+
+  /**
+   * Constructor. Needed to ensure the exception object can be copied.
+   */
+  InvalidRequestedRegionError(const std::string& file, unsigned int lineNumber) : DataObjectError(file, lineNumber) {}  
+
+  /**
+   * Copy constructor.  Needed to ensure the exception object can be copied.
+   */
+  InvalidRequestedRegionError(const InvalidRequestedRegionError &orig)
+    : DataObjectError( orig ) {}
+
+  /**
+   * Operator=.  Needed to ensure the exception object can be copied.
+   */
+  InvalidRequestedRegionError& operator=( const InvalidRequestedRegionError& orig)
+  {
+    DataObjectError::operator= (orig);
+    return *this;
+  }
+
+  /**
+   * Standard type macro
+   */
+  itkTypeMacro(InvalidRequestedRegionError, DataObjectError);
+
+ protected:
+  /**
+   * Print exception information.  This method can be overridden by
+   * specific exception subtypes.  The default is to print out the
+   * location where the exception was first thrown and any description
+   * provided by the ``thrower''.  
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  
+    
+ private:
+};
+  
 
 /** \class DataObject
  * This is the base class for all data objects in the Insight
@@ -68,7 +198,7 @@ class ITK_EXPORT DataObject : public Object
 {
 public:
   /** 
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef DataObject          Self;
 
@@ -165,11 +295,16 @@ public:
     {return m_DataReleased;}
   
   /**
-   * Provides opportunity for the data object to insure internal 
-   * consistency before access. Also causes owning source/filter 
-   * (if any) to update itself. The Update() method is composed of 
-   * UpdateOutputInformation(), PropagateRequestedRegion(), and 
-   * UpdateOutputData().
+   * Provides opportunity for the data object to insure internal
+   * consistency before access. Also causes owning source/filter (if
+   * any) to update itself. The Update() method is composed of
+   * UpdateOutputInformation(), PropagateRequestedRegion(), and
+   * UpdateOutputData(). This method may call methods that throw an
+   * InvalidRequestedRegionError exception. This exception will leave
+   * the pipeline in an inconsistent state.  You will need to call
+   * ResetPipeline() on the last ProcessObject in your pipeline in
+   * order to restore the pipeline to a state where you can call
+   * Update() again.
    */
   virtual void Update();
 
@@ -177,8 +312,15 @@ public:
    * Methods to update the pipeline.
    */
   virtual void UpdateOutputInformation() = 0;
-  virtual void PropagateRequestedRegion();
+  virtual void PropagateRequestedRegion() throw (InvalidRequestedRegionError);
   virtual void UpdateOutputData();
+
+  /**
+   * Reset the pipeline. If an exception is thrown during an Update(),
+   * the pipeline may be in an inconsistent state.  This method clears
+   * the internal state of the pipeline so Update() can be called.
+   */
+  virtual void ResetPipeline();
 
   /**
    * More internal methods to update the pipeline.
@@ -218,6 +360,7 @@ public:
    * implemented in the concrete subclasses of DataObject.
    */
   virtual void SetRequestedRegion(DataObject *data) = 0;
+
   
   
 protected:
@@ -227,6 +370,11 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /**
+   * Propagate a call to ResetPipeline(). Called only from ProcessObject.
+   */
+  virtual void PropagateResetPipeline();
+  
   // Was the update extent propagated down the pipeline?
   bool m_LastRequestedRegionWasOutsideOfTheBufferedRegion;
 
@@ -275,7 +423,7 @@ private:
    * Friends of DataObject
    */
   friend class ProcessObject;
-
+  friend class DataObjectError;
 };
 
 } // end namespace itk

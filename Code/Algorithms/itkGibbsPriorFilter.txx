@@ -143,7 +143,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   if( m_NumClasses <= 0 )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
 
   InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
@@ -151,7 +151,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   //Ensure that the data provided is three dimensional data set
   if(TInputImage::ImageDimension <= 2 )
   {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }
   
   //---------------------------------------------------------------------
@@ -346,7 +346,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
   if( ( ptrToClassifier == 0 ) || (m_NumClasses <= 0) )
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
 
   m_ClassifierPtr = ptrToClassifier;
   m_ClassifierPtr->SetNumClasses( m_NumClasses );

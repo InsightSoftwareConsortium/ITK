@@ -376,10 +376,15 @@ ImageBase<VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "LargestPossibleRegion: " << m_LargestPossibleRegion
-     << std::endl;
-  os << indent << "BufferedRegion: " << m_BufferedRegion << std::endl;
-  os << indent << "RequestedRegion: " << m_RequestedRegion << std::endl;
+  os << indent << "LargestPossibleRegion: " << std::endl;
+  m_LargestPossibleRegion.PrintSelf(os, indent.GetNextIndent());
+
+  os << indent << "BufferedRegion: " << std::endl;
+  m_BufferedRegion.PrintSelf(os, indent.GetNextIndent());
+
+  os << indent << "RequestedRegion: " << std::endl;
+  m_RequestedRegion.PrintSelf(os, indent.GetNextIndent());
+
 }
 
 } // end namespace itk

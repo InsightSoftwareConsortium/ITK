@@ -81,7 +81,7 @@ namespace itk
     // this method only works with 3D MRI image
     if (ImageType::ImageDimension != 3)
       {
-        throw ExceptionObject() ;
+        throw ExceptionObject(__FILE__, __LINE__) ;
       }
 
     ImageSizeType size ;

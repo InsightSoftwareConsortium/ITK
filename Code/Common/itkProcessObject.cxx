@@ -432,7 +432,7 @@ ProcessObject
     std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
-      os << indent << "Input " << idx << ": (" << m_Inputs[idx] << ")\n";
+      os << indent << "Input " << idx << ": (" << m_Inputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -444,7 +444,7 @@ ProcessObject
     std::vector<DataObjectPointer>::size_type idx;
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
-      os << indent << "Output " << idx << ": (" << m_Outputs[idx] << ")\n";
+      os << indent << "Output " << idx << ": (" << m_Outputs[idx].GetPointer() << ")\n";
       }
     }
   else
@@ -455,7 +455,8 @@ ProcessObject
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
   os << indent << "Progress: " << m_Progress << "\n";
 
-  os << indent << "Multithreader: " << m_Threader << std::endl;
+  os << indent << "Multithreader: " << std::endl;
+  m_Threader->PrintSelf(os, indent.GetNextIndent());
 }
 
 
@@ -476,6 +477,45 @@ ProcessObject
   if (this->GetOutput(0))
     {
     this->GetOutput(0)->Update();
+    }
+}
+
+void
+ProcessObject
+::ResetPipeline()
+{
+  if (this->GetOutput(0))
+    {
+    this->GetOutput(0)->ResetPipeline();
+    }
+}
+
+void
+ProcessObject
+::PropagateResetPipeline()
+{
+  // 
+  // Reset this object.
+  //
+  // Clear the updating flag.
+  m_Updating = 0;
+
+  //
+  // Loop through the inputs
+  //
+  unsigned int idx;
+  DataObject::Pointer input;
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
+    {
+    if (m_Inputs[idx])
+      {
+      input = m_Inputs[idx];
+
+      /**
+       * Propagate the ResetPipeline call
+       */
+      input->PropagateResetPipeline();
+      }
     }
 }
 

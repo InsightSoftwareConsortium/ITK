@@ -193,6 +193,25 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(ValarrayImageContainer, Object);
+
+ public:
+  /**
+   * PrintSelf routine. Normally this is a protected internal method. It is
+   * made public here so that Image can call this method.  Users should not
+   * call this method but should call Print() instead. 
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Object::PrintSelf(os, indent);
+    // Print out the pointer to bulk data memory. We use const_cast<> to
+    // cast away the constness so we can call GetBufferPointer()
+    os << indent << "Pointer: "
+       << const_cast<ValarrayImageContainer*>(this)->GetBufferPointer()
+       << std::endl;
+    
+    os << indent << "Size: " << this->Size() << std::endl;
+  };
+  
 };
 
 } // end namespace itk

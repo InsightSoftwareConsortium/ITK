@@ -84,7 +84,7 @@ void ImageFileReader<TOutputImage>::GenerateData()
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    throw FileIOException();
+    throw FileIOException(__FILE__, __LINE__);
     }
 
   if ( m_ImageIO == 0 ) //try creating via factory
@@ -99,7 +99,7 @@ void ImageFileReader<TOutputImage>::GenerateData()
   
   if ( m_ImageIO == 0 )
     {
-    throw FileIOException();
+    throw FileIOException(__FILE__, __LINE__);
     return;
     }
 

@@ -364,7 +364,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 {
   if( this->GetMaxNumRegions() <= 0 )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
   initializeKLM();
 
@@ -432,7 +432,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Sanity check for the parameters
   if ( ( m_imgWidth < this->GetRowGridSize() ) ||
      ( m_imgHeight < this->GetColGridSize() ) )
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
  
   //---------------------------------------------------------------------
   //Determine the regions first and intiaize them
@@ -663,7 +663,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
          ( nColSquareBlocks - 1 ) * nRowSquareBlocks * rowGridSize ) ) 
   {
     std::cout << "Initialization is incorrect" << std::endl;
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }// end if
   else
   {
@@ -795,7 +795,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   else
   {
     std::cout << "Inappropriate region labelling. " << std::endl;
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
   }// end else
   
   //---------------------------------------------------------------
@@ -928,7 +928,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     if( ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel() ==
         ( *oldRegionBordersIt )->GetRegion2()->GetRegionLabel() )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     // unused: int tmpReg1Label = ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel();
@@ -1026,20 +1026,20 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     if( ( *newRegionBordersIt )->GetRegion1() ==
         ( *newRegionBordersIt )->GetRegion2() )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     // Ensure that there are no common borders in the old region 
     if( ( *oldRegionBordersIt )->GetRegion1() ==
         ( *oldRegionBordersIt )->GetRegion2() )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     // Ensure that there are no common borders in the old region 
     if( ( *newRegionBordersIt ) == ( *oldRegionBordersIt ) )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     // The two borders point to the same regions, they must be merged
@@ -1084,7 +1084,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       else 
       {
          std::cout << "Invalid border"  << std::endl;
-         throw ExceptionObject();
+         throw ExceptionObject(__FILE__, __LINE__);
       }// end else
 
       // remove the old region border by pointing to next region
@@ -1207,7 +1207,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     // Bounds checking 
     if( nequivBlock > numBlocks || nequivBlock == 0 )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     // unresolved chain 
@@ -1224,7 +1224,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         // bounds checking 
         if( nequivBlock > numBlocks || nequivBlock == 0 )
         {
-          throw ExceptionObject();
+          throw ExceptionObject(__FILE__, __LINE__);
         }
 
       } // end of chain is ncurrBlock (while loop)

@@ -107,7 +107,7 @@ LevelSet2DEquation< TImageType>
   // SANITY CHECK !
   if (dxx_op.Size() != 3)
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
   
   //

@@ -42,19 +42,58 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-  
-void ExceptionObject::Print(std::ostream& os) const
+
+void
+ExceptionObject
+::Print(std::ostream& os) const
 {
-  os << "itk: Exception detected ";
+  Indent indent;
+
+  this->PrintHeader(os,0); 
+  this->PrintSelf(os, indent.GetNextIndent());
+  this->PrintTrailer(os,0);
+}  
+  
+/**
+ * Define a default print header for all objects.
+ */
+void 
+ExceptionObject
+::PrintHeader(std::ostream& os, Indent indent) const
+{
+  os << std::endl;
+  os << indent << "itk::" << this->GetNameOfClass() << " (" << this << ")\n";
+}
+
+
+/**
+ * Define a default print trailer for all objects.
+ */
+void 
+ExceptionObject
+::PrintTrailer(std::ostream& os, Indent indent) const
+{
+  os << indent << std::endl;
+}
+
+void
+ExceptionObject
+::PrintSelf(std::ostream& os, Indent indent) const
+{
   if (! m_Location.empty()) 
     {
-    os << "in \"" << m_Location << "\" ";
+    os << indent << "Location: \"" << m_Location << "\" " << std::endl;
     }
   
-  os << "of type \"" << this->GetNameOfClass() << "\" ";
+  if (! m_File.empty()) 
+    {
+    os << indent << "File: " << m_File << std::endl;
+    os << indent << "Line: " << m_Line << std::endl;
+    }
+  
   if (! m_Description.empty()) 
     {
-    os << std::endl << "\t" << m_Description;  
+    os << indent << "Description: " << m_Description << std::endl;  
     }
 }
 

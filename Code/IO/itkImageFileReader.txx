@@ -89,7 +89,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    throw ImageFileReaderException("Bad File Name");
+    throw ImageFileReaderException(__FILE__, __LINE__, "Bad File Name");
     }
 
   if ( m_ImageIO == 0 ) //try creating via factory
@@ -104,7 +104,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   
   if ( m_ImageIO == 0 )
     {
-    throw ImageFileReaderException("Could not create IO object for file name");
+    throw ImageFileReaderException(__FILE__, __LINE__, "Could not create IO object for file name");
     return;
     }
 

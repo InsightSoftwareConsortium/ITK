@@ -40,12 +40,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 #include "itkImage.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
+#include "itkFileOutputWindow.h"
+
 
 int main()
 {
+  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
+  fow->SetInstance(fow);
+
+  std::cout << "Shrink an image by (2,3)" << std::endl;
+  
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
@@ -95,7 +101,7 @@ int main()
 
 
   //
-  // The rest of this code determines whether the shrink code produced
+  // This code determines whether the shrink code produced
   // the image we expected.
   //
   ShortImage::RegionType requestedRegion;
@@ -105,6 +111,7 @@ int main()
     iterator2(shrink->GetOutput(), requestedRegion);
 
   bool passed = true;
+  std::cout << "Output image" << std::endl;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
@@ -121,9 +128,41 @@ int main()
     }
 
   // Now test shrinking by 2x2
+  std::cout << "Shrink the image by (2,2) instead." << std::endl;
+  
   factors[1] = 2;
   shrink->SetShrinkFactors(factors);
-  shrink->UpdateLargestPossibleRegion();
+
+  // ask for an invalid requested region to force an exception
+  std::cout << "Assign an invalid requested region which should throw an exception." << std::endl;
+  itk::Index<2> foo;
+  unsigned long fooindex[] = {100, 100};
+  foo.SetIndex(fooindex);
+  itk::ImageRegion<2> fooregion;
+  fooregion = shrink->GetOutput()->GetRequestedRegion();
+  fooregion.SetIndex(foo);
+  shrink->GetOutput()->SetRequestedRegion( fooregion );
+  
+  try
+    {
+    // this should fail due to a bad requested region
+    shrink->Update();
+    }
+  catch (itk::InvalidRequestedRegionError & e)
+    {
+    std::cout << e << std::endl;
+    std::cout << std::endl << std::endl
+              << "Exception caught, updating largest possible region instead."
+              << std::endl;
+    shrink->ResetPipeline();
+    shrink->UpdateLargestPossibleRegion();
+    }
+  catch (...)
+    {
+    std::cout << "Exception missed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << std::endl << std::endl;
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
             << if2->GetSpacing()[1] << std::endl;
@@ -132,10 +171,15 @@ int main()
             << shrink->GetOutput()->GetSpacing()[1] << std::endl;
   std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
   std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
+
+  std::cout << shrink << std::endl;
+  std::cout << "Input" << std::endl << shrink->GetInput() << std::endl;
+  std::cout << "Output" << std::endl << shrink->GetOutput() << std::endl;
   
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   iterator2 = itk::ImageRegionIterator<ShortImage>(shrink->GetOutput(), requestedRegion);
 
+  std::cout << "Output image" << std::endl;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
@@ -152,8 +196,10 @@ int main()
     }
   
 
+  std::cout << std::endl;
   if (passed)
     {
+    std::cout << "Recovered from the exception." << std::endl;
     std::cout << "ShrinkImageFilter test passed." << std::endl;
     return EXIT_SUCCESS;
     }

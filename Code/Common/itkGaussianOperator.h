@@ -138,7 +138,7 @@ public:
   {
     if (max_error >= 1 || max_error <= 0)
       {
-        throw ExceptionObject();
+        throw ExceptionObject(__FILE__, __LINE__);
       }
     
     m_MaximumError = max_error;

@@ -179,7 +179,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     //Ensure that the training data is labelled appropriately 
     if( classIndex > m_NumClasses )
     {
-      throw ExceptionObject();
+      throw ExceptionObject(__FILE__, __LINE__);
     }
 
     if(classIndex > 0)

@@ -170,7 +170,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if( !m_InputLevelSet ) 
     { 
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   this->Initialize();
@@ -228,7 +228,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if( !m_InputNarrowBand )
     {
-    throw ExceptionObject();
+    throw ExceptionObject(__FILE__, __LINE__);
     }
 
   typename NodeContainer::ConstIterator pointsIter;

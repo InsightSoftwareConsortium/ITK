@@ -509,7 +509,7 @@ IndexType& index )
       if( discrim < 0.0 )
       {
         // discriminant zero
-        throw ExceptionObject();
+        throw ExceptionObject(__FILE__, __LINE__);
       }
     
       solution = ( vnl_math_sqrt( discrim ) + bb ) / aa;

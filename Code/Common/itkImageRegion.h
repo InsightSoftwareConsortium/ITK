@@ -48,7 +48,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
+// Forward declaration of ImageBase so it can be declared a friend
+// (needed for PrintSelf mechanism)  
+template <unsigned int VImageDimension> class ImageBase;
 
+  
 /** \class ImageRegion
  * \brief An image region represents a structured region of data.
  *
@@ -214,21 +218,29 @@ public:
   unsigned long GetNumberOfPixels() const;
 
 protected:
+  /** 
+   * Methods invoked by Print() to print information about the object
+   * including superclasses. Typically not called by the user (use Print()
+   * instead) but used in the hierarchical print process to combine the
+   * output of several classes. 
+   */
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   IndexType           m_Index;
   SizeType            m_Size;
 
+  /**
+   * Friends of ImageRegion
+   */
+  friend class ImageBase<VImageDimension>;
 };
 
 
 template<unsigned int VImageDimension>
 std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &region)
 {
-  os << "Dimension: " << region.GetImageDimension() << std::endl;
-  os << "Index: " << region.GetIndex();
-  os << "Size: " << region.GetSize();
-
+  region.Print(os);
   return os;
 }
 

@@ -149,7 +149,7 @@ bool outputOnly)
  
   if( !inputPtr )
     { 
-    throw ExceptionObject();  
+    throw ExceptionObject(__FILE__, __LINE__);  
     }
 
   if( !m_InputBuffer && !outputOnly) 
@@ -211,7 +211,7 @@ LevelSetImageFilter<TLevelSet>
 
   if( !inputPtr )
     { 
-    throw ExceptionObject();  
+    throw ExceptionObject(__FILE__, __LINE__);  
     }
 
   // Define iterators
@@ -249,7 +249,7 @@ LevelSetImageFilter<TLevelSet>
 
   if( !outputPtr )
     { 
-    throw ExceptionObject();  
+    throw ExceptionObject(__FILE__, __LINE__);  
     }
 
   // Define iterators

@@ -157,7 +157,7 @@ SpatialSampleContainer& samples )
   if( allOutside )
     {
     // if all the samples mapped to the outside throw an exception
-    ExceptionObject err;
+    ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "MutualInformationImageToImageMetric" );
     err.SetDescription( "All the sampled point mapped to outside of the reference image" );
     throw err;
@@ -242,7 +242,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    ExceptionObject err;
+    ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "MutualInformationImageToImageMetric" );
     err.SetDescription( "Standard deviation is too small" );
     throw err;
@@ -394,7 +394,7 @@ DerivativeType& derivative)
     {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    ExceptionObject err;
+    ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "MutualInformationImageToImageMetric" );
     err.SetDescription( "Standard deviation is too small" );
     throw err;
