@@ -69,7 +69,8 @@ public:
   enum {SpaceDimension = 4};
 
   /** Not necessary for this optimizer. */
-  void GetDerivative( const ParametersType & parameters, DerivativeType & derivative) const {};
+  void GetDerivative( const ParametersType & itkNotUsed(parameters), 
+                      DerivativeType & itkNotUsed(derivative)) const {};
 
   /** Return the values evaluated for the given parameters. */
   MeasureType GetValue( const ParametersType & parameters ) const;
