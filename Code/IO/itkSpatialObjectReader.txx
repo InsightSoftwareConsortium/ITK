@@ -58,12 +58,12 @@ SpatialObjectReader<NDimensions,PixelType>
     typename SceneType::ObjectListType::iterator it = list->begin();
     if(!strncmp((*it)->GetTypeName(), "Group", 5))
       {
-      m_Group = static_cast<GroupType *>(*it);
+      m_Group = static_cast<GroupType *>((*it).GetPointer());
       }
     else
       {
       m_Group = GroupType::New();
-      m_Group->AddSpatialObject(static_cast<SpatialObjectType *>(*it));
+      m_Group->AddSpatialObject(static_cast<SpatialObjectType *>((*it).GetPointer()));
       }
     delete list;
     }

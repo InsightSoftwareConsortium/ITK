@@ -307,7 +307,7 @@ WriteFile()
     WriteStartElement("POLYGON",output);
     output << std::endl;
     PolygonSpatialObjectType *curstrand =
-      dynamic_cast<PolygonSpatialObjectType *>((*it));
+      dynamic_cast<PolygonSpatialObjectType*>((*it).GetPointer());
     PolygonSpatialObjectType::PointListType &points =
       curstrand->GetPoints();
     PolygonSpatialObjectType::PointListType::iterator pointIt = points.begin();

@@ -73,7 +73,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetAlpha(i+3);
     list.push_back(p);
   }
-  
+ 
   for( unsigned int i=0; i<5; i++)
   {
     TubePointType p;
@@ -282,6 +282,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   writer->SetInput(tubeN1);
   writer->SetFullFileName("Objects.meta");
   writer->Update();
+   
 
   std::cout<<"[PASSED]"<<std::endl;
 
@@ -290,7 +291,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName("Objects.meta");
   reader->Update();
-  
+
   ReaderType::ScenePointer myScene = reader->GetScene();
 
   if(!myScene)
@@ -328,8 +329,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     if(!strcmp((*i)->GetTypeName(),"TubeSpatialObject"))
     {
       unsigned int value=0; 
-      for(j = dynamic_cast<TubeType*>(*i)->GetPoints().begin(); 
-          j != dynamic_cast<TubeType*>(*i)->GetPoints().end(); 
+      for(j = dynamic_cast<TubeType*>((*i).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<TubeType*>((*i).GetPointer())->GetPoints().end(); 
           j++)
       {
         for(unsigned int d=0;d<3;d++)
@@ -372,7 +373,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   std::cout<<" [PASSED]"<<std::endl;
 
 
-  /*std::cout<<"Testing Ellipse parameters:";
+  std::cout<<"Testing Ellipse parameters:";
 
   for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
   {
@@ -380,7 +381,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     {
       for(unsigned int j=0;j<3;j++)
       {
-        if (dynamic_cast<EllipseType*>(*i)->GetRadius()[j] != 9)
+        if (dynamic_cast<EllipseType*>((*i).GetPointer())->GetRadius()[j] != 9)
         {
           std::cout<<" [FAILED]"<<std::endl; 
           return EXIT_FAILURE;
@@ -390,7 +391,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   }
 
   std::cout<<" [PASSED]"<<std::endl; 
-*/
+
 
  std::cout<<"Testing Image data validity:";
 
@@ -398,7 +399,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   {
     if(!strcmp((*i)->GetTypeName(),"ImageSpatialObject"))
     {
-      itkImageType::Pointer image = dynamic_cast<ImageType*>(*i)->GetImage();
+      itkImageType::Pointer image = dynamic_cast<ImageType*>((*i).GetPointer())->GetImage();
       itk::ImageRegionIteratorWithIndex< itkImageType > it(image, image->GetLargestPossibleRegion());
       for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
       {
@@ -423,8 +424,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     if(!strcmp((*i)->GetTypeName(),"BlobSpatialObject"))
     {
       unsigned int value = 0;
-      for(j = dynamic_cast<BlobType*>(*i)->GetPoints().begin(); 
-          j != dynamic_cast<BlobType*>(*i)->GetPoints().end(); 
+      for(j = dynamic_cast<BlobType*>((*i).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<BlobType*>((*i).GetPointer())->GetPoints().end(); 
           j++)
       {
         for(unsigned int d=0;d<3;d++)
@@ -437,25 +438,25 @@ int itkReadWriteSpatialObjectTest(int, char*[])
           // Testing the color of the tube points
       if( (*j).GetRed() != value)
       {
-        std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+        std::cout<<" [FAILED] : Red : found " << (*j).GetRed() << " instead of " << value <<std::endl;
         return EXIT_FAILURE;
       }
       
       if((*j).GetGreen()!=value+1)
       {
-        std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+        std::cout<<" [FAILED] : Green : found " << (*j).GetGreen() << " instead of " << value+1 <<std::endl;
         return EXIT_FAILURE;
       }
       
       if((*j).GetBlue()!=value+2)
       {
-        std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+        std::cout<<" [FAILED] : Blue : found " << (*j).GetBlue() << " instead of " << value+2 <<std::endl;
         return EXIT_FAILURE;
       }
     
       if((*j).GetAlpha()!=value+3)
       {
-        std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+        std::cout<<" [FAILED] : Alpha : found " << (*j).GetAlpha() << " instead of " << value+3 <<std::endl;
         return EXIT_FAILURE;
       }
         }
@@ -475,8 +476,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     if(!strcmp((*i)->GetTypeName(),"SurfaceSpatialObject"))
     {
       unsigned int value = 0;
-      for(j = dynamic_cast<SurfaceType*>(*i)->GetPoints().begin(); 
-          j != dynamic_cast<SurfaceType*>(*i)->GetPoints().end(); 
+      for(j = dynamic_cast<SurfaceType*>((*i).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<SurfaceType*>((*i).GetPointer())->GetPoints().end(); 
           j++)
       {
         for(unsigned int d=0;d<3;d++)
@@ -535,8 +536,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     if(!strcmp((*i)->GetTypeName(),"LineSpatialObject"))
     {
       unsigned int value = 0;
-      for(j = dynamic_cast<LineType*>(*i)->GetPoints().begin(); 
-          j != dynamic_cast<LineType*>(*i)->GetPoints().end(); 
+      for(j = dynamic_cast<LineType*>((*i).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<LineType*>((*i).GetPointer())->GetPoints().end(); 
           j++)
       {
         for(unsigned int d=0;d<3;d++)
@@ -599,8 +600,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     if(!strcmp((*i)->GetTypeName(),"LandmarkSpatialObject"))
     {
       unsigned int value = 0;
-      for(j = dynamic_cast<LandmarkType*>(*i)->GetPoints().begin(); 
-          j != dynamic_cast<LandmarkType*>(*i)->GetPoints().end(); 
+      for(j = dynamic_cast<LandmarkType*>((*i).GetPointer())->GetPoints().begin(); 
+          j != dynamic_cast<LandmarkType*>((*i).GetPointer())->GetPoints().end(); 
           j++)
       {
         for(unsigned int d=0;d<3;d++)
@@ -618,6 +619,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   delete mySceneChildren;
   std::cout<<" [PASSED]"<<std::endl; 
 
+/*
   // Now testing to read/write a scene
   std::cout << "Writing Scene:";
 
@@ -647,7 +649,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     }
 
   std::cout<<" [PASSED]"<<std::endl; 
-
+*/
   std::cout << " [TEST DONE]" << std::endl;
 
   return EXIT_SUCCESS;

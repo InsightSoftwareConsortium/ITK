@@ -48,7 +48,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   typedef itk::SmartPointer< GroupType >              GroupPointer;
   typedef TubeType::TubePointType                     TubePointType;
   typedef TubeType::PointListType                     TubePointListType;
-  typedef std::list< itk::SpatialObject<3> * >        ChildrenListType;
+  typedef std::list< itk::SpatialObject<3>::Pointer > ChildrenListType;
   typedef ChildrenListType *                          ChildrenListPointer;
 
   Vector axis, translation;

@@ -255,7 +255,7 @@ MetaSceneConverter<NDimensions,PixelType>
       {
       MetaGroupConverter<NDimensions> converter;
       MetaGroup* group = converter.GroupSpatialObjectToMetaGroup(
-          dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
+          dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it).GetPointer()));
       if((*it)->GetParent())
         {
         group->ParentID((*it)->GetParent()->GetId());
@@ -268,7 +268,7 @@ MetaSceneConverter<NDimensions,PixelType>
       {
       MetaTubeConverter<NDimensions> converter;
       MetaTube* tube = converter.TubeSpatialObjectToMetaTube(
-          dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it)));
+          dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it).GetPointer()));
       if((*it)->GetParent())
         {
         tube->ParentID((*it)->GetParent()->GetId());
@@ -282,7 +282,7 @@ MetaSceneConverter<NDimensions,PixelType>
       {
       MetaEllipseConverter<NDimensions> converter;
       MetaEllipse* ellipse = converter.EllipseSpatialObjectToMetaEllipse(
-          dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it)));
+          dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it).GetPointer()));
       
       if((*it)->GetParent())
         {
@@ -298,7 +298,7 @@ MetaSceneConverter<NDimensions,PixelType>
       MetaImageConverter<NDimensions,PixelType> converter;
       MetaImage* image = converter.ImageSpatialObjectToMetaImage(
           dynamic_cast<itk::ImageSpatialObject<NDimensions, PixelType>*>(
-            (*it)));
+            (*it).GetPointer()));
       if((*it)->GetParent())
         {
         image->ParentID((*it)->GetParent()->GetId());
@@ -313,7 +313,7 @@ MetaSceneConverter<NDimensions,PixelType>
       MetaBlobConverter<NDimensions> converter;
       MetaBlob* blob = converter.BlobSpatialObjectToMetaBlob(
           dynamic_cast<itk::BlobSpatialObject<NDimensions >*>(
-            (*it)));
+            (*it).GetPointer()));
       if((*it)->GetParent())
         {
         blob->ParentID((*it)->GetParent()->GetId());
@@ -329,7 +329,7 @@ MetaSceneConverter<NDimensions,PixelType>
       MetaLandmarkConverter<NDimensions> converter;
       MetaLandmark* landmark = converter.LandmarkSpatialObjectToMetaLandmark(
           dynamic_cast<itk::LandmarkSpatialObject<NDimensions >*>(
-            (*it)));
+            (*it).GetPointer()));
       if((*it)->GetParent())
         {
         landmark->ParentID((*it)->GetParent()->GetId());
@@ -343,7 +343,7 @@ MetaSceneConverter<NDimensions,PixelType>
       {
       MetaSurfaceConverter<NDimensions> converter;
       MetaSurface* surface = converter.SurfaceSpatialObjectToMetaSurface(
-          dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it)));
+          dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it).GetPointer()));
       if((*it)->GetParent())
         {
         surface->ParentID((*it)->GetParent()->GetId());
@@ -357,7 +357,7 @@ MetaSceneConverter<NDimensions,PixelType>
       {
       MetaLineConverter<NDimensions> converter;
       MetaLine* line = converter.LineSpatialObjectToMetaLine(
-          dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it)));
+          dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it).GetPointer()));
       if((*it)->GetParent())
         {
         line->ParentID((*it)->GetParent()->GetId());

@@ -98,9 +98,9 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     if(it2 == end2) // premature end of list
       return -1;
     Polygon3DType *curstrand1 =
-      dynamic_cast<Polygon3DType *>((*it1));
+      dynamic_cast<Polygon3DType *>((*it1).GetPointer());
     Polygon3DType *curstrand2 =
-      dynamic_cast<Polygon3DType *>((*it2));
+      dynamic_cast<Polygon3DType *>((*it2).GetPointer());
 
     Polygon3DType::PointListType &points1 =
       curstrand1->GetPoints();

@@ -36,6 +36,7 @@ public:
   typedef SmartPointer<Self> Pointer;
 
   typedef SpatialObject<NDimensions> SpatialObjectType; 
+  typedef typename SpatialObjectType::Pointer SpatialObjectPointer; 
   typedef SceneSpatialObject<NDimensions> SceneType; 
 
   /** Method for creation through the object factory */
@@ -71,7 +72,7 @@ protected:
 
 private:
 
-  SpatialObjectType * m_SpatialObject;
+  SpatialObjectPointer m_SpatialObject;
   SceneType * m_Scene;
 
   MetaSceneConverter<NDimensions,PixelType> m_MetaToSpatialConverter;

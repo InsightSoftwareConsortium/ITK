@@ -69,7 +69,7 @@ IsClosed()
   while(it != itend) 
     {
     PolygonSpatialObject<TDimension> *curstrand =
-      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
+      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it).GetPointer());
     if(curstrand != 0)
       {
       if (!curstrand->IsClosed())
@@ -100,7 +100,7 @@ Volume()
   while(it != itend)
     {
     PolygonSpatialObject<TDimension> *curstrand =
-      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it));
+      dynamic_cast<PolygonSpatialObject<TDimension> *>((*it).GetPointer());
     volume += curstrand->MeasureVolume();
     it++;
     }
