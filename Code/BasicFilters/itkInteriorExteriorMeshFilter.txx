@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkInteriorExteriorMeshFilter.h"
 #include "itkExceptionObject.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
