@@ -68,9 +68,7 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef Rigid3DTransform<
-                double, 
-                ParametersType > TransformationType;
+   typedef Rigid3DTransform< double > TransformationType;
 	  
   /**
    *  Type of the Mapper

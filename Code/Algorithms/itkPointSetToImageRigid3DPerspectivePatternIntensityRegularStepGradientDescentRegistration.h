@@ -68,9 +68,7 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef Rigid3DPerspectiveTransform<
-                double, 
-                ParametersType > TransformationType;
+   typedef Rigid3DPerspectiveTransform< double > TransformationType;
 	  
   /**
    *  Type of the Mapper
