@@ -73,7 +73,7 @@ ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImage
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
-ADD_TEST(itkSphereSourceTest ${ALGORITHMS_TESTS} itkSphereSourceTest)
+ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS} itkVoronoiSegmentationImageFilterTest)
@@ -96,7 +96,7 @@ itkGradientVectorFlowImageFilterTest.cxx
 itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkHistogramMatchingImageFilterTest.cxx
 itkImageMomentsTest.cxx
-itkSphereSourceTest.cxx
+itkSphereMeshSourceTest.cxx
 itkImageRegistrationMethodTest.cxx
 itkImageRegistrationMethodTest_1.cxx
 itkImageRegistrationMethodTest_2.cxx

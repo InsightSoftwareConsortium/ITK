@@ -90,7 +90,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSimpleFuzzyConnectednessRGBImageFilter.txx"
 #include "itkSimpleFuzzyConnectednessScalarImageFilter.txx"
 #include "itkSphereMeshSource.txx"
-#include "itkSphereSource.txx"
 #include "itkThresholdSegmentationLevelSetFunction.txx"
 #include "itkThresholdSegmentationLevelSetImageFilter.txx"
 #include "itkVectorFuzzyConnectednessImageFilter.txx"

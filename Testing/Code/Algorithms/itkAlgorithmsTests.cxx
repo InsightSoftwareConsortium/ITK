@@ -63,7 +63,7 @@ REGISTER_TEST(itkRegionGrow2DTest );
 REGISTER_TEST(itkSupervisedImageClassifierTest);
 REGISTER_TEST(itkGibbsTest );
 REGISTER_TEST(itkDeformableTest );
-REGISTER_TEST(itkSphereSourceTest );
+REGISTER_TEST(itkSphereMeshSourceTest );
 REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkVectorFuzzyConnectednessImageFilterTest );
 REGISTER_TEST(itkVoronoiDiagram2DTest );

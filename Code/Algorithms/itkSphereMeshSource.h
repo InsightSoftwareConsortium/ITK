@@ -27,17 +27,15 @@
 namespace itk
 {
 
-/** \class itkSphereMesh Source
+/** \class itkSphere Source
  * \brief 
  *
- * Input parameters are:
- * (1) The Center of the SphereMesh
- * (2) The resolutions of the spatial sampling on the SphereMesh surface in both 
- *     verizon and horizon directions.
- * The cell surface is triangulated. 
- * The scale in the x, y, z directions can be reset.
- * Squearness1 and Squearness2 control the shape of the SphereMesh, 
- * when considered as a quadric surface. */
+ * Input the center and resolutions in 2 direction(verizon and horizon)
+ * to create a sphere-like deformable model. The cell on the surface is
+ * in the shape of triangular. 
+ * More parameters are added to make the sphere mesh has global and local
+ * deform ability.
+ */
 template <class TOutputMesh>
 class ITK_EXPORT SphereMeshSource : public MeshSource<TOutputMesh>
 {
@@ -65,17 +63,16 @@ public:
   typedef typename OutputMeshType::CellTraits CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer   PointsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer CellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainer   CellsContainer;
-  typedef typename OutputMeshType::CellDataContainerPointer CellDataContainerPointer;
-  typedef typename OutputMeshType::CellDataContainer   CellDataContainer;
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
   typedef TriangleCell<CellInterfaceType>         TriCellType;
-  typedef typename TriCellType::CellAutoPointer   TriCellPointer;
+  typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
+  typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
 
+  /** All these parameter setting function are public temporarily to make the
+   * test easier */
   itkSetMacro(ResolutionX, unsigned int);
   itkSetMacro(ResolutionY, unsigned int);
 
@@ -87,30 +84,28 @@ public:
 
 protected:
   SphereMeshSource();
-  ~SphereMeshSource() {};
+  ~SphereMeshSource() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 
-private:
-  SphereMeshSource(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  /** model center. */
+  /** model center */
   OPointType m_Center; 
 
-  /** model resolutions. */
+  /** model resolutions */
   unsigned int m_ResolutionX;
-
   unsigned int m_ResolutionY;
 
-  /** model scales. */
+  /** model scales */
   OPointType m_Scale;
   
-  /** model squareness. */
+  /** model squareness */
   double m_Squareness1;
   double m_Squareness2;
 
+private:
+  SphereMeshSource(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

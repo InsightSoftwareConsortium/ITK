@@ -27,7 +27,7 @@
 #include "itkBalloonForce3DFilter.h"
 #include "itkMesh.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkSphereSource.h"
+#include "itkSphereMeshSource.h"
 
 
 int itkBallonForce3DFilterTest(int, char**)
@@ -46,7 +46,7 @@ int itkBallonForce3DFilterTest(int, char**)
   typedef itk::CovariantVector<double, myDimension> myGradientType;
   typedef itk::Image<myGradientType, myDimension>   myGradientImageType;
   typedef itk::BalloonForce3DFilter<MeshType, MeshType>  BallonForceFilterType;
-  typedef itk::SphereSource< MeshType >                  MeshSourceType;
+  typedef itk::SphereMeshSource< MeshType >                  MeshSourceType;
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
 
   typedef itk::GradientRecursiveGaussianImageFilter< myImageType, 
@@ -129,7 +129,7 @@ int itkBallonForce3DFilterTest(int, char**)
     }
   catch( itk::ExceptionObject & exp )
     {
-    std::cerr << "ITK Exception thrown while updating SphereSource"  << std::endl;
+    std::cerr << "ITK Exception thrown while updating SphereMeshSource"  << std::endl;
     std::cerr << exp << std::endl;
     }
 

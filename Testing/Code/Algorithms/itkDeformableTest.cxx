@@ -26,7 +26,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkMesh.h"
 #include "itkDeformableMesh3DFilter.h"
-#include "itkSphereSource.h"
+#include "itkSphereMeshSource.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 
 
@@ -61,7 +61,7 @@ int itkDeformableTest(int, char**)
                                   
   typedef MeshFilterType::GradientImageType         GradientImageType;
 
-  typedef itk::SphereSource< MeshType >             SphereSourceType;
+  typedef itk::SphereMeshSource< MeshType >         SphereMeshSourceType;
 
   typedef itk::GradientRecursiveGaussianImageFilter< 
                               ImageType,
@@ -137,7 +137,7 @@ int itkDeformableTest(int, char**)
     return EXIT_FAILURE;
     }
 
-  SphereSourceType::Pointer sphereSource = SphereSourceType::New();
+  SphereMeshSourceType::Pointer sphereSource = SphereMeshSourceType::New();
   
   typedef itk::Point<float,3>  FloatPointType;
   
