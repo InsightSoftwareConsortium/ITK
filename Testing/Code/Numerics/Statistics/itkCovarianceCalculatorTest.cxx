@@ -48,6 +48,20 @@ int itkCovarianceCalculatorTest(int, char* [] )
   image->SetBufferedRegion(region) ;
   image->Allocate() ;
 
+  typedef itk::ImageRegionIterator< ImageType > ImageIterator ;
+  ImageIterator iter(image, region) ;
+
+  unsigned int count = 0 ;
+  MeasurementVectorType temp ;
+  // fill the image
+  while (!iter.IsAtEnd())
+    {
+    temp[0] = count ;
+    iter.Set(temp) ;
+    ++iter ;
+    ++count ;
+    }
+
   // creates an ImageToListAdaptor object
   typedef  itk::Statistics::ImageToListAdaptor< ImageType >
     ImageToListAdaptorType ;
@@ -62,16 +76,14 @@ int itkCovarianceCalculatorTest(int, char* [] )
   meanCalculator->Update() ;
   MeanCalculatorType::OutputType* mean = meanCalculator->GetOutput() ;
   // calculates variance
-  double count = 0.0 ;
+  count = 0 ;
   double variance = 0.0 ;
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator ;
-  ImageIterator iter(image, region) ;
   iter.GoToBegin() ;
   while (!iter.IsAtEnd())
     {
     double diff = iter.Get()[0] - float((*mean)[0]) ;
     variance += diff * diff ; 
-    count++ ; 
+    ++count ; 
     ++iter ;
     }
   variance /= static_cast< double>(count - 1) ;
