@@ -94,6 +94,7 @@ void RegisterTests()
   REGISTER_TEST(itkGradientAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 );
   REGISTER_TEST(itkGradientMagnitudeImageFilterTest );
+  REGISTER_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest );
   REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
   REGISTER_TEST(itkGradientImageFilterTest );
   REGISTER_TEST(itkGradientRecursiveGaussianFilterTest );
