@@ -144,9 +144,9 @@ BloxCoreAtomPixel<NDimensions>
     cVector.normalize();
 
     // Now, add to the cMatrix
-    for(int r = 0; r < NDimensions; r++) // row loop
+    for(unsigned int r = 0; r < NDimensions; r++) // row loop
       {
-      for(int c = 0; c < NDimensions; c++) // column loop
+      for(unsigned int c = 0; c < NDimensions; c++) // column loop
         {
         cMatrix(r,c) += cVector[c]*cVector[r];
         } // end column loop
@@ -164,7 +164,7 @@ BloxCoreAtomPixel<NDimensions>
   identMatrix.fill(0);
 
   // Set the diagonal to 1
-  for(int n = 0; n < NDimensions; n++) // row loop
+  for(unsigned int n = 0; n < NDimensions; n++) // row loop
     {
     identMatrix(n,n) = 1.0;
     } // end row loop
@@ -178,7 +178,7 @@ BloxCoreAtomPixel<NDimensions>
   m_Eigenvectors = pEigenSys->V;
 
   // Now the eigenvalues (stored as a vector to save space)
-  for(int i = 0; i < NDimensions; i++)
+  for(unsigned int i = 0; i < NDimensions; i++)
     {
     m_Eigenvalues[i] = pEigenSys->D(i,i);
     // Print the eigen values
