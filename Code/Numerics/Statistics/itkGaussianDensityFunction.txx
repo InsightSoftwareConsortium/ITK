@@ -27,6 +27,8 @@ GaussianDensityFunction< TMeasurementVector >
 ::GaussianDensityFunction()
 {
   m_Mean = 0 ;
+  m_Covariance = 0 ;
+  m_PreFactor = 0.0 ;
 }
 
 template < class TMeasurementVector >
@@ -36,12 +38,25 @@ GaussianDensityFunction< TMeasurementVector >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Mean: " << (*m_Mean) << std::endl ;
+  os << indent << "Mean: "  ;
+  if ( m_Mean != 0 )
+    {
+    os << (*m_Mean) << std::endl ;
+    }
+  else
+    {
+    os << " not set." << std::endl ;
+    }
+  
   os << indent << "Covariance: " << std::endl ;
-  os << indent << m_Covariance->GetVnlMatrix() ;
-  os << indent << "InverseCovariance: " << std::endl ;
-  os << indent << m_InverseCovariance.GetVnlMatrix() ;
-  os << indent << "Prefactor: " << m_PreFactor << std::endl;
+  if ( m_Covariance != 0 )
+    {
+    os << m_Covariance->GetVnlMatrix() ;
+    os << indent << "InverseCovariance: " << std::endl ;
+    os << indent << m_InverseCovariance.GetVnlMatrix() ;
+    os << indent << "Prefactor: " << m_PreFactor << std::endl;
+    }
+  os << indent << " not set." << std::endl ;
 }
 
 template < class TMeasurementVector >
