@@ -389,7 +389,8 @@ double * pixDistance )
     m_tmpMat= m_tmpVec * m_InvCovariance[classIndex];
 
     // Compute |y - mean | * inverse(cov) * |y - mean|^T 
-    tmp = (m_tmpMat * (m_tmpVec.transpose()))[0][0];
+    //tmp = (m_tmpMat * (m_tmpVec.transpose()))[0][0];
+    tmp = dot_product( m_tmpMat, m_tmpVec ); 
     
     pixDistance[classIndex] = tmp;
     }
