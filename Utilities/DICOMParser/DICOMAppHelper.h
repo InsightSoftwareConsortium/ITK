@@ -20,6 +20,14 @@ struct ltstr
   }
 };
 
+struct ltstdstr
+{
+  bool operator()(const std::string s1, const std::string s2) const
+  {
+    return s1 < s2;
+  }
+};
+
 struct DICOMTagInfo
 {
   doublebyte group;
@@ -236,9 +244,11 @@ class DICOMAppHelper
   char* FileName;
   
   // map from series UID to vector of files in the series 
-  std::map<char*, std::vector<char*>, ltstr > SeriesUIDMap;  
-  std::map<char*, int, ltstr> SliceNumberMap;  
-  
+  // std::map<char*, std::vector<char*>, ltstr > SeriesUIDMap;  
+  // std::map<char*, int, ltstr> SliceNumberMap;  
+  std::map<std::string, std::vector<std::string>, ltstdstr> SeriesUIDMap;
+  std::map<std::string, int, ltstdstr> SliceNumberMap;
+
   typedef std::map<std::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   TagMapType TagMap;
 

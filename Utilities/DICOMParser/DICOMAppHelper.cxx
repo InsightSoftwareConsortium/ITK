@@ -98,10 +98,10 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   this->Parser = parser;
 
   SeriesUIDCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
-  // parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
+  parser->AddDICOMTagCallback(0x0020, 0x000e, DICOMParser::VR_UI, SeriesUIDCB);
 
   SliceNumberCB->SetCallbackFunction(this, &DICOMAppHelper::SliceNumberCallback);
-  // parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
+  parser->AddDICOMTagCallback(0x0020, 0x0013, DICOMParser::VR_IS, SliceNumberCB);
 
   TransferSyntaxCB->SetCallbackFunction(this, &DICOMAppHelper::TransferSyntaxCallback);
   parser->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, TransferSyntaxCB);
@@ -204,26 +204,24 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
                                        quadbyte) 
 {
   char* newString = (char*) val;
-  std::map<char*, std::vector<char*>, ltstr >::iterator iter = this->SeriesUIDMap.find(newString);
+  std::string newStdString(newString);
+  // std::map<char*, std::vector<char*>, ltstr >::iterator iter = this->SeriesUIDMap.find(newString);
+  std::map<std::string, std::vector<std::string>, ltstdstr>::iterator iter = this->SeriesUIDMap.find(newStdString);
   if ( iter == this->SeriesUIDMap.end())
     {
-    std::vector<char*>* newVector = new std::vector<char*>;
-   
-    ::size_t len = strlen(this->FileName);
-    char* filename = new char[len + 1];
-    strcpy(filename, this->FileName);
+    std::vector<std::string>* newVector = new std::vector<std::string>;
+
+    std::string filename(this->FileName);
 
     newVector->push_back(filename);
-    this->SeriesUIDMap.insert(std::pair<char*, std::vector<char*> > (newString, *newVector));
+    // this->SeriesUIDMap.insert(std::pair<char*, std::vector<char*> > (newString, *newVector));
+    this->SeriesUIDMap.insert(std::pair<std::string, std::vector<std::string> > (newStdString, *newVector));
     }
   else
     {
-    ::size_t len = strlen(this->FileName);
-    char* filename = new char[len + 1];
-    strcpy(filename, this->FileName);
-
+    std::string filename(this->FileName);
     (*iter).second.push_back(filename);
-    delete [] newString;
+    // delete [] newString;
     }
 } 
 
@@ -231,18 +229,31 @@ void DICOMAppHelper::OutputSeries()
 {
   std::cout << std::endl << std::endl;
         
+  /*
   for (std::map<char*, std::vector<char*>, ltstr >::iterator iter = this->SeriesUIDMap.begin();
+       iter != this->SeriesUIDMap.end();
+       iter++)
+  */
+  for (std::map<std::string, std::vector<std::string>, ltstdstr >::iterator iter = this->SeriesUIDMap.begin();
        iter != this->SeriesUIDMap.end();
        iter++)
     {
     std::cout << "SERIES: " << (*iter).first << std::endl;
-    std::vector<char*>& v_ref = (*iter).second;
-                
+    //std::vector<char*>& v_ref = (*iter).second;
+    std::vector<std::string>& v_ref = (*iter).second;
+             
+    /*
     for (std::vector<char*>::iterator v_iter = v_ref.begin();
          v_iter != v_ref.end();
          v_iter++)
+    */
+    for (std::vector<std::string>::iterator v_iter = v_ref.begin();
+         v_iter != v_ref.end();
+         v_iter++)
       {
-      std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
+      // std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
+      std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*v_iter);
+
       int slice = -1;
       if (sn_iter != SliceNumberMap.end())
         {
@@ -834,18 +845,26 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
 {
   v.clear();
 
-  std::map<char*, std::vector<char*>, ltstr >::iterator miter  = this->SeriesUIDMap.begin();
+  // std::map<char*, std::vector<char*>, ltstr >::iterator miter  = this->SeriesUIDMap.begin();
+  std::map<std::string, std::vector<std::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.begin();
 
-  std::vector<char*> files = (*miter).second;
+  // std::vector<char*> files = (*miter).second;
+  std::vector<std::string> files = (*miter).second;
 
+  /*
   for (std::vector<char*>::iterator fileIter = files.begin();
+       fileIter != files.end();
+       fileIter++)
+       */
+  for (std::vector<std::string>::iterator fileIter = files.begin();
        fileIter != files.end();
        fileIter++)
        {
        std::pair<int, std::string> p;
        p.second = std::string(*fileIter);
        int slice_number = -1;
-       std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
+       // std::map<char*, int, ltstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
+       std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
        if (sn_iter != SliceNumberMap.end())
         {
         slice_number = (*sn_iter).second;
@@ -859,30 +878,37 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
 
 void DICOMAppHelper::ClearSliceNumberMap()
 { 
-  std::map<char*, int, ltstr>::iterator sn_iter;
-  
+  // std::map<char*, int, ltstr>::iterator sn_iter;
+  std::map<std::string, int, ltstdstr>::iterator sn_iter;
+
   for (sn_iter = this->SliceNumberMap.begin();
        sn_iter != this->SliceNumberMap.end();
        sn_iter++)
        {
-       delete [] (*sn_iter).first;
+       // delete [] (*sn_iter).first;
        }
   this->SliceNumberMap.clear();
 }
 
 void DICOMAppHelper::ClearSeriesUIDMap()
 {
-  std::map<char*, std::vector<char*>, ltstr >::iterator iter;
+  // std::map<char*, std::vector<char*>, ltstr >::iterator iter;
+  std::map<std::string, std::vector<std::string>, ltstdstr >::iterator iter;
   for (iter = this->SeriesUIDMap.begin();
        iter != this->SeriesUIDMap.end();
        iter++)
        {
-       delete [] (*iter).first;
+       //delete [] (*iter).first;
+       /*
        for (std::vector<char*>::iterator viter = (*iter).second.begin();
             viter != (*iter).second.end();
             viter++)
+       */
+       for (std::vector<std::string>::iterator viter = (*iter).second.begin();
+            viter != (*iter).second.end();
+            viter++)
             {
-            delete [] (*viter);
+            // delete [] (*viter);
             }
        // delete [] &(*iter).second;
        }
