@@ -26,6 +26,9 @@
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
+#include "vnl/vnl_matrix.h"
+//#include "vnl_vector.h"
+
 namespace itk
 {
 
@@ -33,7 +36,8 @@ template <unsigned int dim>
 BloxCoreAtomImage<dim>
 ::BloxCoreAtomImage()
 {
-
+  m_MedialNodeCount = 0;
+  m_NodePointerList = new std::vector<BloxCoreAtomPixel<NDimensions>*>();
 }
 
 template <unsigned int dim>
@@ -62,6 +66,8 @@ void
 BloxCoreAtomImage<dim>
 ::DoCoreAtomVoting()
 {
+  //cerr << "BloxCoreAtomImage::DoCoreAtomVoting()" << endl;
+  
   // Iterator to access all pixels in the image
   ImageRegionIterator<Self> bloxIt = 
     ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
@@ -73,7 +79,6 @@ BloxCoreAtomImage<dim>
   typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
   typename BloxCoreAtomPixel<NDimensions>::EigenvectorType eigenvectors;
 
-  //TESTING
   // Results of eigenanalysis from each pixel
   typename BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
   typename BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
@@ -88,7 +93,11 @@ BloxCoreAtomImage<dim>
     if( pPixel->empty() )
       continue;
 
+    //populate the NodePointerList
+    m_NodePointerList->push_back(pPixel);
+
     voterCount++;
+
     // Get eigenanalysis results
     eigenvalues = pPixel->GetEigenvalues();
     eigenvectors = pPixel->GetEigenvectors();
@@ -192,14 +201,14 @@ BloxCoreAtomImage<dim>
 
       de = sqrt(de);
 
-      printf("De = %f\n", de);
+      //printf("De = %f\n", de);
 
       double weight_factor = exp(-1.0*de*de);
 
       // vote strength
       double voteStrength = pPixel->size()*weight_factor;
-      printf("Vote strength = %f\n", voteStrength);
-      printf("weight_factor = %f\n", weight_factor);
+      //printf("Vote strength = %f\n", voteStrength);
+      //printf("weight_factor = %f\n", weight_factor);
 
       // Get eigenanalysis results
       sf_eigenvalues = sfi.Get().GetEigenvalues();
@@ -211,7 +220,7 @@ BloxCoreAtomImage<dim>
           axisLengthArray[i] ), 2);
         }
 
-      printf("sf_de = %f\n", sqrt(sf_de_sqr));
+      //printf("sf_de = %f\n", sqrt(sf_de_sqr));
 
       //CALCULATE WEIGHT FACTOR FOR INDEX OF SPATIAL FUNCTION ITERATION
       double sf_weight_factor = exp(-1.0*sf_de_sqr);
@@ -237,16 +246,10 @@ BloxCoreAtomImage<dim>
     (&bloxIt.Value())->NormalizeVotedCMatrix();
     (&bloxIt.Value())->DoVotedEigenanalysis();
     }
+
+    m_MedialNodeCount = voterCount;
+    //cerr << "MedialNodeCount = " << m_MedialNodeCount << endl;
 }
-/*
-template <unsigned int dim>
-ImageRegionIterator<Self>
-BloxCoreAtomImage<dim>
-::ReturnIterator()
-{
-  // Iterator to access all pixels in the image
-  return ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
-}*/
 
 template <unsigned int dim>
 void

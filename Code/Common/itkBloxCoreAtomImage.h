@@ -18,6 +18,7 @@
 #define __itkBloxCoreAtomImage_h
 
 #include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_vector.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
@@ -68,7 +69,7 @@ public:
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxCoreAtomPixel<dim> PixelType;
+  typedef BloxCoreAtomPixel<dim > PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -88,6 +89,15 @@ public:
 
   /** How we represent gradients. */
   typedef CovariantVector<double, dim> GradientType;
+
+  /** get macro for m_MedialNodeCount. */
+  itkGetMacro(MedialNodeCount, int);
+
+  typedef std::vector<PixelType*> NodePointerListType;
+  typedef std::vector<PixelType*> * NodePointerListPointer;
+
+  /** get macro for m_NodePointerList. */
+  itkGetMacro(NodePointerList, NodePointerListPointer);
 
   /** Convenient typedefs obtained from Superclass.
    * Note: Unlike "normal" images BloxCoreAtomImages support neither Scalar nor
@@ -121,6 +131,10 @@ protected:
 private:
   BloxCoreAtomImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  int m_MedialNodeCount;
+
+  NodePointerListPointer m_NodePointerList;
 
 };
 
