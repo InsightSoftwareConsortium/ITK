@@ -56,6 +56,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNumericSeriesFileIterator.h"
 #include "itkPNGImageIO.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkPixelData.h"
 #include "itkRawImageIO.txx"
 #include "itkRawImageWriter.txx"
 #include "itkSiemensVisionImageIO.h"
@@ -67,7 +68,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkWriter.h"
-#include "itkPixeldata.h"
 
 int main ( int , char*  )
 {
