@@ -17,12 +17,11 @@
 #define __itkImageToImageAffineMutualInformationRegistration_h
 
 #include "itkObject.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkImage.h"
+#include "itkGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
 #include "itkCenteredAffineRegistrationTransform.h"
-#include "itkVectorContainer.h"
+#include "itkPoint.h"
 
 namespace itk
 {
@@ -143,6 +142,16 @@ public:
                              TargetType, MapperType>  MetricType;
 
   /**
+   *  Type of the Optimizer 
+   */
+   typedef GradientDescentOptimizer<MetricType>  OptimizerType;
+
+  /**
+   *  Pointer type for the optimizer 
+   */
+   typedef typename OptimizerType::Pointer  OptimizerPointer;
+
+  /**
    *  Pointer type for the Reference
    */
    typedef typename ReferenceType::Pointer ReferencePointer;
@@ -166,11 +175,6 @@ public:
    *  Pointer type for the mapper
    */
    typedef typename MapperType::Pointer  MapperPointer;
-
-  /**
-   * Type of the scaling weights
-   */
-   typedef Vector<double,ParametersDimension> ScalingWeightsType;
 
   /**
    * Run-time type information (and related methods).
@@ -217,6 +221,13 @@ public:
    */
    itkGetMacro( Metric, MetricPointer );
 
+
+  /**
+   * Get the Optimizer
+   */
+   itkGetMacro( Optimizer, OptimizerPointer );
+
+
   /**
    * Set the transform parameters
    */
@@ -251,20 +262,16 @@ public:
    PointType& GetReferenceTransformationCenter( void ) const
     { return m_ReferenceTransformationCenter; }
 
-
-  // -------------------------------
-  // Optimization related methods
-  // -------------------------------
   /**
    * Set the scaling weights
    */
-  void SetScalingWeights( const ScalingWeightsType& weights )
+  void SetScalingWeights( const ParametersType& weights )
    { m_ScalingWeights = weights; }
 
   /**
    * Get the scaling weights
    */
-  const ScalingWeightsType& GetScalingWeights( void ) const
+  const ParametersType& GetScalingWeights( void ) const
    { return m_ScalingWegihts; }
 
   /**
@@ -292,12 +299,6 @@ public:
    */
   itkGetMacro( NumberOfIterations, unsigned int );
 
-  /**
-   * Turn screen dump on and off. Default is on.
-   */
-  itkSetMacro( ScreenDump, bool );
-  itkBooleanMacro( ScreenDump );
-
 protected:
 
   ImageToImageAffineMutualInformationRegistration();
@@ -312,6 +313,7 @@ private:
   TransformationPointer      m_Transformation;
   MapperPointer              m_Mapper;
   MetricPointer              m_Metric;
+  OptimizerPointer           m_Optimizer;
   ParametersType             m_Parameters;
 
   PointType                  m_TargetTransformationCenter;
@@ -320,10 +322,10 @@ private:
   // -------------------------------
   // Optimization related variables
   // -------------------------------
-  ScalingWeightsType         m_ScalingWeights;
+  ParametersType             m_ScalingWeights;
   double                     m_LearningRate;
   unsigned int               m_NumberOfIterations;
-  bool                       m_ScreenDump;
+
 
 };
 

@@ -125,13 +125,12 @@ int main()
   // set optimization related parameters
   registrationMethod->SetNumberOfIterations( 250 );
   registrationMethod->SetLearningRate( 0.1 );
-  registrationMethod->ScreenDumpOn();
 
   //
   // only allow translation - since the metric will allow any
   // rotation without penalty as image is circular
   //
-  RegistrationType::ScalingWeightsType weights;
+  RegistrationType::ParametersType weights;
 
   for( unsigned int j = 0; j < 4; j++ )
     {
@@ -149,7 +148,14 @@ int main()
   registrationMethod->GetMetric()->SetReferenceStandardDeviation( 20.0 );
   registrationMethod->GetMetric()->SetNumberOfSpatialSamples( 50 );
 
+  // start registration
   registrationMethod->StartRegistration();
+
+  // get the results
+  RegistrationType::ParametersType solution = 
+    registrationMethod->GetParameters();
+
+  std::cout << "Solution is: " << solution << std::endl;
 
   //
   // check results to see if it is within range
@@ -158,14 +164,12 @@ int main()
   double trueParameters[6] = { 1, 0, 0, 1, -5, 0 };
   for( unsigned int j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs(
-      registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.01 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.01 )
       pass = false;
     }
   for( unsigned int j = 4; j < 6; j++ )
     {
-    if( vnl_math_abs(
-      registrationMethod->GetParameters()[j] - trueParameters[j] ) > 0.5 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.5 )
       pass = false;
     }
 

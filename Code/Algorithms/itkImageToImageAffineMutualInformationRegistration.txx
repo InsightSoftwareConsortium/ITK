@@ -32,10 +32,11 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
   m_Metric = MetricType::New();
   m_Mapper = MapperType::New();
   m_Transformation = TransformationType::New();
+  m_Optimizer = OptimizerType::New();
 
   // initialize the parameter to be the identity transform
   typename ParametersType::Iterator pit = m_Parameters.Begin();
-  typename ScalingWeightsType::Iterator sit = m_ScalingWeights.Begin();
+  typename ParametersType::Iterator sit = m_ScalingWeights.Begin();
 
   // initialize the linear part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
@@ -66,7 +67,6 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
-  m_ScreenDump = true;
 
 }
 
@@ -182,45 +182,20 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   m_Mapper->SetTransformation(m_Transformation);
   m_Metric->SetMapper(m_Mapper);
+  m_Optimizer->SetCostFunction( m_Metric );
 
-  //
-  // Maximize the mutual information using a stochastic ascent method
-  //
-  // FIXME: should separate this part out into an itkOptimizer
-  //
-  double MIValue;
+  // setup the optimizer
+  m_Optimizer->SetMaximize();
+  m_Optimizer->SetScale( m_ScalingWeights );
+  m_Optimizer->SetNumberOfIterations( m_NumberOfIterations );
+  m_Optimizer->SetInitialPosition( m_Parameters );
 
-  typedef MetricType::DerivativeType  DerivativeType;
-  DerivativeType MIDerivatives;
-  vnl_vector<double> increment;
+  // do the optimization
+  m_Optimizer->StartOptimization();
 
-  for( unsigned int k = 0; k < m_NumberOfIterations; k++ )
-    {
-    // compute mutual information and derivative
-    m_Metric->GetValueAndDerivative( m_Parameters, MIValue, MIDerivatives );
-
-    // compute the next set of parameters to visit
-    increment = m_LearningRate * element_product<double>(
-        m_ScalingWeights.Get_vnl_vector(), MIDerivatives.Get_vnl_vector() );
-
-    for( unsigned int j = 0; j < ParametersDimension; j++ )
-      {
-      m_Parameters[j] += increment[j];
-      }
-
-    if( m_ScreenDump )
-      {
-      std::cout << k << " " << MIValue << std::endl;
-      }
-
-    }
-
-  if( m_ScreenDump )
-    {
-    std::cout << "Last set of parameter visited: ";
-    std::cout  << m_Parameters << std::endl;
-    }
-
+  // get the results
+  m_Parameters = m_Optimizer->GetCurrentPosition();
+  
   return 0;
 
 }
