@@ -121,7 +121,6 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
 bool GDCMImageIO::CanReadFile(const char* filename) 
 { 
   std::ifstream file;
-  char buffer[256];
   std::string fname(filename);
 
   if(  fname == "" )
