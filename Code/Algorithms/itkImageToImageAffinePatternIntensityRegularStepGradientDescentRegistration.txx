@@ -138,7 +138,7 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
   for(unsigned int trans=ImageDimension*ImageDimension; 
       trans<ImageDimension*(ImageDimension+1); trans++)
   {
-    parametersScale[trans] = 1.0;   // put here the scale for translations
+    parametersScale[trans] = m_TranslationScale;
   }
 
   typename OptimizerType::Pointer optimizer;
@@ -147,23 +147,9 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
   optimizer->SetCostFunction( this->GetMetric() );
   optimizer->SetMinimize();
   optimizer->GetTransform()->SetScale( parametersScale );
-  optimizer->SetGradientMagnitudeTolerance( 1e-9 );
-  optimizer->SetMaximumStepLength( 1e-3  );
-  optimizer->SetMinimumStepLength( 1e-6 );
-  optimizer->SetNumberOfIterations( 100 );
 
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
-
-  std::cout << "The Solution is : " ;
-  m_Parameters = optimizer->GetCurrentPosition();
-  const unsigned int offsetStart = ImageDimension * ImageDimension;
-  for(unsigned int k=0; k<ImageDimension; k++)
-  {
-    m_Parameters[ offsetStart + k ] *= m_TranslationScale;
-  }
-  std::cout << m_Parameters << std::endl;
-  std::cout << std::endl;
 
 
 }

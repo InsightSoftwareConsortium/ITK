@@ -138,7 +138,7 @@ ImageToImageAffinePatternIntensityGradientDescentRegistration<TReference, TTarge
   for(unsigned int trans=ImageDimension*ImageDimension; 
       trans<ImageDimension*(ImageDimension+1); trans++)
   {
-    parametersScale[trans] = 1.0;   // put here the scale for translations
+    parametersScale[trans] = m_TranslationScale;
   }
 
   typename OptimizerType::Pointer optimizer;
@@ -150,17 +150,6 @@ ImageToImageAffinePatternIntensityGradientDescentRegistration<TReference, TTarge
 
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
-
-  std::cout << "The Solution is : " ;
-  m_Parameters = optimizer->GetCurrentPosition();
-  const unsigned int offsetStart = ImageDimension * ImageDimension;
-  for(unsigned int k=0; k<ImageDimension; k++)
-  {
-    m_Parameters[ offsetStart + k ] *= m_TranslationScale;
-  }
-  std::cout << m_Parameters << std::endl;
-  std::cout << std::endl;
-
 
 }
 
