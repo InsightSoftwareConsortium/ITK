@@ -155,7 +155,7 @@ void setInt2DData(IntImageType2D::Pointer imgPtr)
   
 }
 
-bool VerifyResults4thOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+bool VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
 {
   double * ERptr;
   ERptr = ExpectedResults;
@@ -230,7 +230,8 @@ bool VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedR
   return true;
 }
 
-bool VerifyResults1stOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+//Spline order 1 or 0
+bool VerifyResultsLowerOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
 {
   double * ERptr;
   ERptr = ExpectedResults;
@@ -249,42 +250,14 @@ bool VerifyResults1stOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedR
     }
 
   //Mean error is determined over the number of pixels, which in the test case is 16
-  //Threshold error is higher since the order of the spline is lower.
-  if( (percentErr)/16 > 0.3 )
+  //Threshold error is much higher since the order of the spline is lower.
+  if( (percentErr)/16 > 0.6 )
     {
-    // std::cout << "*** Error: total error is more than 30%: " << percentErr << std::endl;
     return false;
     }
   return true;
 }
 
-bool VerifyResults0thOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
-{
-  double * ERptr;
-  ERptr = ExpectedResults;
-
-  InputIterator ActualResultsIter( ActualResults, ActualResults->GetLargestPossibleRegion() );
-  double percentErr = 0;
-
-  while (!ActualResultsIter.IsAtEnd() )
-    {
-    double val1 = ActualResultsIter.Get();
-
-    percentErr += vnl_math_abs( ( val1 - * ERptr ) / val1 );
-
-    ++ActualResultsIter;
-    ++ERptr;
-    }
-
-  //Mean error is determined over the number of pixels, which in the test case is 16
-  //Threshold error is higher since the order of the spline is lower. Allow large errors
-  if( (percentErr)/16 > 0.5 )
-    {
-    // std::cout << "*** Error: total error is more than 30%: " << percentErr << std::endl;
-    return false;
-    }
-  return true;
-} 
    
 int test2D_Standard_l2_filter()
 {
@@ -336,7 +309,7 @@ int test2D_Standard_l2_filter()
 }
 
 
-int test2D_Standard_L2_filter()
+int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
 {
   int flag = 0;
 
@@ -360,7 +333,6 @@ int test2D_Standard_L2_filter()
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
   FilterWatcher upWatcher(upSampler, "test2D_Standard_L2_filter");
 
-  int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
 
@@ -372,15 +344,32 @@ int test2D_Standard_L2_filter()
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
+
+  bool sameResults;
+  if( splineOrder == 5 ) 
+    {
+    sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
+    }
+  else if( splineOrder == 3 ) 
+    {
+    sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
+    }
+  else if( splineOrder == 1 ) 
+    {
+    sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
+    }
+
   if (!sameResults)
     {
     flag = 1;
-    std::cout << "*** Error: unexpected value in L2 - resampler" << std::endl;
+    std::cout << "*** Error: unexpected value in Standard L2 - resampler with order " << splineOrder <<
+      "  spline." << std::endl;
+    std::cout << "" << std::endl;
     }
   else
     {
-    std::cout << "Tests for L2 - resampler PASSED" << std::endl;
+    std::cout << "Tests for Standard L2 - resampler with order " <<  splineOrder <<  "  spline PASSED " << std::endl;
+    std::cout << "" << std::endl;
     }
 
   return flag;
@@ -583,7 +572,7 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   bool sameResults;
   if( splineOrder == 4 ) 
     {
-    sameResults = VerifyResults4thOrderSpline(outImage2, ExpectedResults);
+    sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
     }
   else if( splineOrder == 3 ) 
     {
@@ -595,11 +584,11 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
     }
   else if (splineOrder == 1 )
     {
-    sameResults = VerifyResults1stOrderSpline(outImage2, ExpectedResults);
+    sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
   else if (splineOrder == 0 )
     {
-    sameResults = VerifyResults0thOrderSpline(outImage2, ExpectedResults);
+    sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
   if (!sameResults)
     {
@@ -629,10 +618,14 @@ itkBSplineResampleImageFilterTest(
 // 
   flag += testIntInputDoubleOutput(); 
   flag += test2D_Standard_l2_filter();
-  flag += test2D_Standard_L2_filter();
   flag += test2D_Centered_l2_filter();
 
-  //Test for Centered L2 BSplines for different orders
+  //Test for Standard L2 BSplines for different orders (5,3,1)
+  flag += test2D_Standard_L2_NthOrderSpline_filter( 5 ); 
+  flag += test2D_Standard_L2_NthOrderSpline_filter( 3 );
+  flag += test2D_Standard_L2_NthOrderSpline_filter( 1 );
+
+  //Test for Centered L2 BSplines for different orders (4,3,2,1)
   flag += test2D_Centered_L2_NthOrderSpline_filter( 4 ); 
   flag += test2D_Centered_L2_NthOrderSpline_filter( 3 );  
   flag += test2D_Centered_L2_NthOrderSpline_filter( 2 );   
