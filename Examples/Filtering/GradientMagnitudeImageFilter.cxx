@@ -21,8 +21,8 @@
 //  mainly to help in the determination of object countours and the separation
 //  of homogeneous regions. The \code{itk::GradientMagnitudeImageFilter}
 //  computes the magnitude of the image gradient at each pixel location by a
-//  simple finite differences approach. In the case of 2D, the computation is
-//  equivalent to convolving the image with masks of type
+//  simple finite differences approach. For example, in the case of 2D the
+//  computation is equivalent to convolving the image with masks of type
 //
 //  \begin{center}
 //  \begin{picture}(200,50)
@@ -48,7 +48,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 //  Software Guide : BeginLatex
 //
@@ -82,8 +81,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef float                              InputPixelType;
-  typedef float                              OutputPixelType;
+  typedef    float    InputPixelType;
+  typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
 
 
@@ -185,10 +184,24 @@ int main( int argc, char ** argv )
   writer->SetInput( filter->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
+  
 
 
 
   //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=6cm]{GradientMagnitudeImageFilterOutput.eps}
+  // \caption{Effect of the GradientMagnitudeImageFilter on a slice from a MRI
+  // Proton Density image  of the brain.}
+  // \label{fig:GradientMagnitudeImageFilterInputOutput}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:GradientMagnitudeImageFilterInputOutput} illustrates the
+  //  effect of this filter on a MRI proton density image of the brain. The
+  //  figure shows the sensitivity of this filter to noisy data.
   //
   //  Attention should be paid to the image type choosen for representing the
   //  output image since the dynamic range of gradient magnitudes is usually
