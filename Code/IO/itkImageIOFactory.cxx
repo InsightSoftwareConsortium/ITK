@@ -29,7 +29,7 @@ namespace itk
 
   
 ImageIOBase::Pointer 
-ImageIOFactory::CreateImageIO(const char* path)
+ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
 {
 
   RegisterBuiltInFactories();
@@ -55,9 +55,20 @@ ImageIOFactory::CreateImageIO(const char* path)
   for(std::list<ImageIOBase::Pointer>::iterator k = possibleImageIO.begin();
       k != possibleImageIO.end(); ++k)
     { 
-    if((*k)->CanReadFile(path))
+    if( mode == ReadMode )
       {
-      return *k;
+      if((*k)->CanReadFile(path))
+        {
+        return *k;
+        }
+      }
+    else if( mode == WriteMode )
+      {
+      if((*k)->CanWriteFile(path))
+        {
+        return *k;
+        }
+
       }
     }
   return 0;

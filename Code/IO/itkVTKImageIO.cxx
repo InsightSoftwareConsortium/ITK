@@ -349,10 +349,11 @@ void VTKImageIO::ReadImageInformation()
   this->InternalReadImageInformation(file);
 }
 
-bool VTKImageIO::CanWriteFile(const char*)
+bool VTKImageIO::CanWriteFile( const char* name )
 {
-  if ( m_FileName != "" &&
-       m_FileName.find(".vtk") < m_FileName.length() )
+  std::string filename = name;
+  if ( filename != "" &&
+       filename.find(".vtk") < filename.length() )
     {
     return true;
     }

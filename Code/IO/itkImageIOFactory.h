@@ -42,8 +42,11 @@ public:
   /** Convenient typedefs. */
   typedef ::itk::ImageIOBase::Pointer ImageIOBasePointer;
 
+  /** Mode in which the files is intended to be used */
+  typedef enum { ReadMode, WriteMode } FileModeType;
+  
   /** Create the appropriate ImageIO depending on the particulars of the file. */
-  static ImageIOBasePointer CreateImageIO(const char* path);
+  static ImageIOBasePointer CreateImageIO(const char* path, FileModeType mode);
 
   /** Register Built-in factories */
   static void RegisterBuiltInFactories();

@@ -117,9 +117,16 @@ bool GiplImageIO::CanReadFile( const char* filename )
   
 
 
-bool GiplImageIO::CanWriteFile(const char*)
+bool GiplImageIO::CanWriteFile( const char * name )
 {
-  return true;
+  std::string filename = name;
+  if(  filename != ""  && 
+       filename.find(".gipl") < filename.length() )
+    {
+    return true;
+    }
+  return false;
+
 }
 
 

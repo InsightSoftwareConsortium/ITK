@@ -235,9 +235,20 @@ MetaImage * MetaImageIO::GetMetaImagePointer(void)
   return & m_MetaImage;
   }
 
-bool MetaImageIO::CanWriteFile(const char*)
+
+bool MetaImageIO::CanWriteFile( const char * name )
   {
-  return true;
+  std::string filename = name;
+  if(  filename == "" )
+    {
+    return false;
+    }
+  if( filename.find(".mha") < filename.length() || 
+      filename.find(".mhd") < filename.length()    )
+    {
+    return true;
+    }
+  return false;
   }
 
   

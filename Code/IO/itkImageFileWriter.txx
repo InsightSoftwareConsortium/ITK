@@ -101,7 +101,8 @@ ImageFileWriter<TInputImage>
 
   if ( m_ImageIO == 0 ) //try creating via factory
     {
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
+    itkDebugMacro(<<"Attempting creation of ImageIO with a factory for file " << m_FileName);
+    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
     }
 
   if ( m_ImageIO == 0 )
@@ -190,6 +191,37 @@ void
 ImageFileWriter<TInputImage>
 ::GenerateOutputInformation(void)
 {
+
+  itkDebugMacro(<<"Entering GenerateOutputInformation()" << m_FileName);
+
+  // Check to see if we can write the file given the name or prefix
+  //
+  if ( m_FileName == "" && m_FilePrefix == "" )
+    {
+    throw ImageFileWriterException(__FILE__, __LINE__, "One of FileName or FilePrefix must be non-empty");
+    }
+
+  if ( m_ImageIO == 0 ) //try creating via factory
+    {
+    m_UserSpecifiedImageIO = false;
+    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
+    }
+  else
+    {
+    m_UserSpecifiedImageIO = true;
+    }
+  
+  if ( m_ImageIO == 0 )
+    {
+    ImageFileWriterException e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg << " Could not create IO object for file "
+        << m_FileName.c_str();
+    e.SetDescription(msg.str().c_str());
+    throw e;
+    return;
+    }
+
 
 }
 

@@ -397,10 +397,11 @@ void PNGImageIO::ReadImageInformation()
   return;
 }
 
-bool PNGImageIO::CanWriteFile(const char*)
+bool PNGImageIO::CanWriteFile( const char * name )
 {
-  if ( m_FileName != "" &&
-       m_FileName.find(".png") < m_FileName.length() )
+  std::string filename = name;
+  if ( filename != "" &&
+       filename.find(".png") < filename.length() )
     {
     return true;
     }
