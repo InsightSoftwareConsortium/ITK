@@ -189,7 +189,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     m_ImageAdaptor->SelectNthElement( dim );
 
     typename RealImageType::Pointer derivativeImage = 
-                                    m_DerivativeFilter->GetOutput(); 
+                                      lastFilter->GetOutput(); 
 
     ImageRegionIteratorWithIndex< RealImageType > it( 
                                       derivativeImage, 
