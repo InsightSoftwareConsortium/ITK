@@ -72,6 +72,38 @@ ComputeG( const InputVectorType & vect ) const
 
 
 
+
+/**
+ * Default implementation of the the method. This can be overloaded
+ * in transforms whose kernel produce diagonal G matrices.
+ */
+template <class TScalarType, int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>::
+ComputeDeformationContribution( const InputPointType  & thisPoint,
+                                      OutputPointType & result     ) const
+{
+
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+
+  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
+
+  for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
+    {
+    const GMatrixType & Gmatrix = ComputeG( thisPoint - sp->Value() );
+    for(unsigned int dim=0; dim < NDimensions; dim++ )
+      {
+      for(unsigned int odim=0; odim < NDimensions; odim++ )
+        {
+        result[ odim ] += Gmatrix(dim, odim ) * m_DMatrix(dim,lnd);
+        }
+      }
+    ++sp;
+    }
+
+}
+
+
 /**
  *
  */
@@ -294,7 +326,6 @@ KernelTransform<TScalarType, NDimensions>::OutputPointType
 KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
-  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   OutputPointType result;
 
@@ -302,20 +333,7 @@ KernelTransform<TScalarType, NDimensions>
 
   result.Fill( NumericTraits< ValueType >::Zero );
 
-  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
-
-  for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
-    {
-    const GMatrixType & Gmatrix = ComputeG( thisPoint - sp->Value() );
-    for(unsigned int dim=0; dim < NDimensions; dim++ )
-      {
-      for(unsigned int odim=0; odim < NDimensions; odim++ )
-        {
-        result[ odim ] += Gmatrix(dim, odim ) * m_DMatrix(dim,lnd);
-        }
-      }
-    ++sp;
-    }
+  this->ComputeDeformationContribution( thisPoint, result );
 
   // Add the rotational part of the Affine component
   for(unsigned int j=0; j < NDimensions; j++ )

@@ -38,5 +38,31 @@ ComputeG(const InputVectorType & x) const
 
 
 
+template <class TScalarType, int NDimensions>
+void
+ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
+ComputeDeformationContribution( const InputPointType  & thisPoint,
+                                      OutputPointType & result     ) const
+{
+
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+
+  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
+
+  for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
+    {
+    InputVectorType position = thisPoint - sp->Value();
+    const TScalarType r = position.GetNorm();
+
+    for(unsigned int odim=0; odim < NDimensions; odim++ )
+      {
+      result[ odim ] += r * m_DMatrix(odim,lnd);
+      }
+    ++sp;
+    }
+
+}
+
+
 } // namespace itk
 #endif

@@ -37,7 +37,7 @@ namespace itk
  * Intended to be a base class for elastic body spline and thin plate spline.
  * This is implemented in as straightforward a manner as possible from the
  * IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
- * Vol. 16 No. 3 June 1997
+ ; Vol. 16 No. 3 June 1997
  * Notation closely follows their paper, so if you have it in front of you,
  * this code will make a lot more sense.
  *
@@ -180,6 +180,11 @@ protected:
    *    Volume spline */
   virtual const GMatrixType & ComputeG(const InputVectorType & landmarkVector) const;
   
+  /** Compute the contribution of the landmarks weighted by the kernel funcion
+      to the global deformation of the space  */
+  virtual void ComputeDeformationContribution( const InputPointType & inputPoint,
+                                                     OutputPointType & result ) const;
+
   /** Compute K matrix. */
   void ComputeK();
   
