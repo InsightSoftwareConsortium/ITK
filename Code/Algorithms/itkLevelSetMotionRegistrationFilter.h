@@ -166,10 +166,10 @@ public:
    * method. The method in PDEDeformableRegistrationFilter is for
    * setting the smoothing parameters for regularizing the deformation
    * field between interations.  Those smoothing parameters are set in
-   * pixel units not physical units. Deformation field smoothing is not
-   * done in LevelSetMotionRegistration. This smoothing parameter is
-   * to condition the gradient calculation and parameter is specified
-   * in physical units. */
+   * pixel units not physical units. Deformation field smoothing is
+   * not done by default in LevelSetMotionRegistration. This smoothing
+   * parameter is to condition the gradient calculation and parameter
+   * is specified in physical units. */
   virtual void SetGradientSmoothingStandardDeviations( double sigma );
   virtual double GetGradientSmoothingStandardDeviations() const;
   
@@ -189,13 +189,6 @@ protected:
    * calls the superclass' version but also Halts if the RMSChange is zero.
    */
   virtual bool Halt();
-
-  /** Disable the smoothing of the deformation field between
-   * iterations. While smoothing of the deformation field is used in
-   * demons to regularized the PDE, it is not used in the levelset
-   * motion approach.
-   */
-  virtual void SmoothDeformationField() {};
 
 private:
   LevelSetMotionRegistrationFilter(const Self&); //purposely not implemented

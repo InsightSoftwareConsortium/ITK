@@ -34,6 +34,10 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
                                  drfp.GetPointer() ) );
 
+  // By default, no regularization of the deformation field is
+  // performed in LevelSetMotionRegistration
+  this->SmoothDeformationFieldOff();
+  this->SmoothUpdateFieldOff();
 }
 
 
@@ -76,9 +80,12 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
    }
    
   /*
-   * Unlike demons, we do not smooth the deformation field
+   * Smooth the deformation field
    */
-//  this->SmoothDeformationField();
+  if ( this->GetSmoothDeformationField() )
+    {
+    this->SmoothDeformationField();
+    }
   
 }
 
@@ -319,6 +326,13 @@ void
 LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::ApplyUpdate(TimeStepType dt)
 {
+  // If we smooth the update buffer before applying it, then the are
+  // approximating a viscuous problem as opposed to an elastic problem
+  if ( this->GetSmoothDeformationField() )
+    {
+    this->SmoothUpdateField();
+    }
+  
   this->Superclass::ApplyUpdate(dt);
 
   LevelSetMotionFunctionType *drfp = 

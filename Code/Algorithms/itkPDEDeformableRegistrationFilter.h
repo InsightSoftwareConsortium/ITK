@@ -142,14 +142,46 @@ public:
    */
   virtual std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const;
 
-  /** Set the Gaussian smoothing standard deviations. The
-   * values are set with respect to pixel coordinates. */
+  /** Set/Get whether the deformation field is smoothed 
+   * (regularized). Smoothing the deformation yields a solution
+   * elastic in nature. If SmoothDeformationField is on, then the
+   * deformation field is smoothed with a Gaussian whose standard
+   * deviations are specified with SetStandardDeviations() */
+  itkSetMacro( SmoothDeformationField, bool );
+  itkGetMacro( SmoothDeformationField, bool );
+  itkBooleanMacro( SmoothDeformationField );
+  
+  /** Set the Gaussian smoothing standard deviations for the
+   * deformation field. The values are set with respect to pixel
+   * coordinates. */
   itkSetVectorMacro( StandardDeviations, double, ImageDimension );
   virtual void SetStandardDeviations( double value );
 
-  /** Get the Gaussian smoothing standard deviations. */
+  /** Get the Gaussian smoothing standard deviations use for smoothing
+   * the deformation field. */
   const double * GetStandardDeviations(void) 
-  { return (double *) m_StandardDeviations; }
+    { return (double *) m_StandardDeviations; }
+
+  /** Set/Get whether the update field is smoothed 
+   * (regularized). Smoothing the update field yields a solution
+   * viscous in nature. If SmoothUpdateField is on, then the
+   * update field is smoothed with a Gaussian whose standard
+   * deviations are specified with SetUpdateFieldStandardDeviations() */
+  itkSetMacro( SmoothUpdateField, bool );
+  itkGetMacro( SmoothUpdateField, bool );
+  itkBooleanMacro( SmoothUpdateField );
+  
+  /** Set the Gaussian smoothing standard deviations for the update
+   * field. The values are set with respect to pixel coordinates. */
+  itkSetVectorMacro( UpdateFieldStandardDeviations, double, ImageDimension );
+  virtual void SetUpdateFieldStandardDeviations( double value );
+
+  /** Get the Gaussian smoothing standard deviations used for
+   * smoothing the update field. */
+  const double * GetUpdateFieldStandardDeviations(void) 
+    { return (double *) m_UpdateFieldStandardDeviations; }
+  
+  
 
   /** Stop the registration after the current iteration. */
   virtual void StopRegistration()
@@ -197,6 +229,11 @@ protected:
    * by setting the StandardDeviations. */
   virtual void SmoothDeformationField();
 
+  /** Utility to smooth the UpdateBuffer using a Gaussian operator.
+   * The amount of smoothing can be specified by setting the
+   * UpdateFieldStandardDeviations. */
+  virtual void SmoothUpdateField();
+  
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
   virtual void PostProcessOutput();
@@ -224,11 +261,18 @@ private:
   
   /** Standard deviation for Gaussian smoothing */
   double                   m_StandardDeviations[ImageDimension];
+  double                   m_UpdateFieldStandardDeviations[ImageDimension];
 
+  /** Modes to control smoothing of the update and deformation fields */
+  bool m_SmoothDeformationField;
+  bool m_SmoothUpdateField;
+  
+  
   /** Temporary deformation field use for smoothing the
    * the deformation field. */
   DeformationFieldPointer   m_TempField;
 
+private:
   /** Maximum error for Gaussian operator approximation. */
   double                    m_MaximumError;
 

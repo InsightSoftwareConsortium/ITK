@@ -47,6 +47,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   for( j = 0; j < ImageDimension; j++ )
     {
     m_StandardDeviations[j] = 1.0;
+    m_UpdateFieldStandardDeviations[j] = 1.0;
     }
 
   m_TempField = DeformationFieldType::New();
@@ -54,6 +55,8 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   m_MaximumKernelWidth = 30;
   m_StopRegistrationFlag = false;
 
+  m_SmoothDeformationField = true;
+  m_SmoothUpdateField = false;
 }
 
 
@@ -164,6 +167,35 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
 }
 
+/*
+ * Set the standard deviations.
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SetUpdateFieldStandardDeviations(
+  double value )
+{
+
+  unsigned int j;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    if( value != m_UpdateFieldStandardDeviations[j] )
+      {
+      break;
+      }
+    }
+  if( j < ImageDimension )
+    {
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_UpdateFieldStandardDeviations[j] = value;
+      }
+    }
+
+}
+
 
 /*
  * Standard PrintSelf method.
@@ -174,6 +206,8 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Smooth deformation field: "
+     << (m_SmoothDeformationField ? "on" : "off") << std::endl;
   os << indent << "Standard deviations: [";
   unsigned int j;
   for( j = 0; j < ImageDimension - 1; j++ )
@@ -181,6 +215,14 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     os << m_StandardDeviations[j] << ", ";
     }
   os << m_StandardDeviations[j] << "]" << std::endl;
+  os << indent << "Smooth update field: "
+     << (m_SmoothUpdateField ? "on" : "off") << std::endl;
+  os << indent << "Update field standard deviations: [";
+  for( j = 0; j < ImageDimension - 1; j++ )
+    {
+    os << m_UpdateFieldStandardDeviations[j] << ", ";
+    }
+  os << m_UpdateFieldStandardDeviations[j] << "]" << std::endl;
   os << indent << "StopRegistrationFlag: ";
   os << m_StopRegistrationFlag << std::endl;
   os << indent << "MaximumError: ";
@@ -435,6 +477,64 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
 }
 
+/*
+ * Smooth deformation using a separable Gaussian kernel
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SmoothUpdateField()
+{
+  // The update buffer will be overwritten with new data.
+  DeformationFieldPointer field = this->GetUpdateBuffer();
+
+  typedef typename DeformationFieldType::PixelType VectorType;
+  typedef typename VectorType::ValueType           ScalarType;
+  typedef GaussianOperator<ScalarType,ImageDimension> OperatorType;
+  typedef VectorNeighborhoodOperatorImageFilter<
+    DeformationFieldType,
+    DeformationFieldType> SmootherType;
+  
+  OperatorType opers[ImageDimension];
+  typename SmootherType::Pointer smoothers[ImageDimension];
+
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    // smooth along this dimension
+    opers[j].SetDirection( j );
+    // double variance = vnl_math_sqr( this->GetStandardDeviations()[j] );
+    double variance = vnl_math_sqr( 1.0 );
+    opers[j].SetVariance( variance );
+    opers[j].SetMaximumError( this->GetMaximumError() );
+    opers[j].SetMaximumKernelWidth( this->GetMaximumKernelWidth() );
+    opers[j].CreateDirectional();
+
+    smoothers[j] = SmootherType::New();
+    smoothers[j]->SetOperator( opers[j] );
+    smoothers[j]->ReleaseDataFlagOn();
+
+    if (j > 0)
+      {
+      smoothers[j]->SetInput( smoothers[j-1]->GetOutput() );
+      }
+    }
+  smoothers[0]->SetInput( field );
+  smoothers[ImageDimension-1]->GetOutput()
+    ->SetRequestedRegion( field->GetBufferedRegion() );
+
+  smoothers[ImageDimension-1]->Update();
+  
+  // field to contain the final smoothed data, do the equivalent of a graft
+  field->SetPixelContainer( smoothers[ImageDimension-1]->GetOutput()
+                            ->GetPixelContainer() );
+  field->SetRequestedRegion( smoothers[ImageDimension-1]->GetOutput()
+                             ->GetRequestedRegion() );
+  field->SetBufferedRegion( smoothers[ImageDimension-1]->GetOutput()
+                            ->GetBufferedRegion() );
+  field->SetLargestPossibleRegion( smoothers[ImageDimension-1]->GetOutput()
+                                   ->GetLargestPossibleRegion() );
+  field->CopyInformation( smoothers[ImageDimension-1]->GetOutput() );
+}
 
 
 } // end namespace itk

@@ -67,7 +67,10 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationFie
   /*
    * Smooth the deformation field
    */
-  this->SmoothDeformationField();
+  if ( this->GetSmoothDeformationField() )
+    {
+    this->SmoothDeformationField();
+    }
 
 }
 
@@ -173,6 +176,13 @@ void
 SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::ApplyUpdate(TimeStepType dt)
 {
+  // If we smooth the update buffer before applying it, then the are
+  // approximating a viscuous problem as opposed to an elastic problem
+  if ( this->GetSmoothDeformationField() )
+    {
+    this->SmoothUpdateField();
+    }
+  
   this->Superclass::ApplyUpdate(dt);
 
   DemonsRegistrationFunctionType *drfp = 
