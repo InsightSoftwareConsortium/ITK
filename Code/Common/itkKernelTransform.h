@@ -74,24 +74,31 @@ public:
   /**
    * Get the source landmarks list, which we will denote p
    */
-  itkGetMacro(p, PointListType*);
+  //itkGetMacro(p, PointListType*);
+	PointListType* Getp();
   /**
    * Get the target landmarks list, which we will denote q
    */
-  itkGetMacro(q, PointListType*);
+  //itkGetMacro(q, PointListType*);
+	PointListType* Getq();
   /**
    * Get the displacements list, which we will denote d,
    * where d_i = q_i - p_i
    */
-  itkGetMacro(d, VectorListType*);
+  //itkGetMacro(d, VectorListType*);
+	VectorListType* Getd();
+  /**
+   * Compute W matrix
+   */
+  void ComputeW();
   /**
    * Compute the position of point in the new space
    */
-  virtual PointType Transform(PointType& thisPoint);
+  virtual PointType Transform(const PointType& thisPoint) const;
   /**
    * Compute the position of vector in the new space
    */
-  virtual VectorType Transform(VectorType& thisVector);
+  virtual VectorType Transform(const VectorType& thisVector) const;
   /**
    * 'I' (identity) matrix typedef
    */
@@ -167,7 +174,7 @@ protected:
   /**
    * Compute W matrix
    */
-  void ComputeW();
+  //void ComputeW();
   /**
    * Compute displacements q_i - p_i
    */

@@ -79,6 +79,37 @@ KernelTransform<TScalarType, NDimensions>::~KernelTransform()
  *
  */
 template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::PointListType*
+KernelTransform<TScalarType, NDimensions>::Getp()
+{
+	return m_p;
+}
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::PointListType*
+KernelTransform<TScalarType, NDimensions>::Getq()
+{
+	return m_q;
+}
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::VectorListType*
+KernelTransform<TScalarType, NDimensions>::Getd()
+{
+	return m_d;
+}
+
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeD()
 {
   int numLandmarks = m_p->size();
@@ -114,6 +145,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
   m_WMatrix = new WMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
   svd = new vnl_svd<TScalarType>(*m_LMatrix, 1e-8);
   *m_WMatrix = svd->solve(*m_YMatrix);
+cout << *m_WMatrix << endl;
 }
 
 /**
@@ -230,7 +262,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeY()
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::PointType
-KernelTransform<TScalarType, NDimensions>::Transform(PointType& thisPoint)
+KernelTransform<TScalarType, NDimensions>::Transform(const PointType& thisPoint) const
 {
   int numLandmarks = m_p->size();
   int i, j;
@@ -239,11 +271,11 @@ KernelTransform<TScalarType, NDimensions>::Transform(PointType& thisPoint)
   PointType result;
   VectorType argumentG;
 
-  if (!m_WMatrixComputed)
+/*  if (!m_WMatrixComputed)
   {
     ComputeW();
     m_WMatrixComputed = true;
-  }
+  }*/
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
   {
@@ -277,7 +309,7 @@ KernelTransform<TScalarType, NDimensions>::Transform(PointType& thisPoint)
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::VectorType
-KernelTransform<TScalarType, NDimensions>::Transform(VectorType& thisVector)
+KernelTransform<TScalarType, NDimensions>::Transform(const VectorType& thisVector) const
 {
   int numLandmarks = m_p->size();
   int i, j;
@@ -285,19 +317,20 @@ KernelTransform<TScalarType, NDimensions>::Transform(VectorType& thisVector)
   VectorType result;
   VectorType GArgument;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
+	VectorType thisVectorCopy = thisVector;
 
-  if (!m_WMatrixComputed)
+/*  if (!m_WMatrixComputed)
   {
     ComputeW();
     m_WMatrixComputed = true;
-  }
+  }*/
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
   {
     c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     for (j = 0; j < NDimensions; j++)
     {
-      GArgument[j] = thisVector.Get_vnl_vector()[j] -
+      GArgument[j] = thisVectorCopy.Get_vnl_vector()[j] -
                      (*m_p)[i]->Get_vnl_vector()[j];
     }
     d = d + ComputeG(GArgument) * c;
