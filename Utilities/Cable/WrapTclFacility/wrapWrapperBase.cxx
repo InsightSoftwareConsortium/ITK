@@ -378,9 +378,22 @@ WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
       // If the type is a reference, see if it can be bound.
       if(to->IsReferenceType())
         {
-        if(Conversions::ReferenceCanBindAsIdentity(from, ReferenceType::SafeDownCast(to))
+        const ReferenceType* toRef = ReferenceType::SafeDownCast(to);
+        if(Conversions::ReferenceCanBindAsIdentity(from, toRef)
+           || Conversions::ReferenceCanBindAsDerivedToBase(from, toRef)
            || (this->GetConversionFunction(from, to) != NULL))
           {
+          // This conversion can be done, move on to the next
+          // argument/parameter pair.
+          continue;
+          }
+        // If the type references a const object (not volatile,
+        // though), a temporary is allowed.  See if a conversion to
+        // the referenced type is available.
+        CvQualifiedType toCvType = toRef->GetReferencedType();
+        if(toCvType.IsConst() && !toCvType.IsVolatile()
+           && this->GetConversionFunction(from, toCvType.GetType()))
+          {          
           // This conversion can be done, move on to the next
           // argument/parameter pair.
           continue;

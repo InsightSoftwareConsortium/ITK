@@ -65,27 +65,34 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     {
     return i->second;
     }
-  // Try adding a const qualifier to the "from" type.
-  conversionKey = ConversionKey(from.GetMoreQualifiedType(true, false), to);
-  i = m_ConversionMap.find(conversionKey);
-  if(i != m_ConversionMap.end())
+  
+  // If the "from" type is not a reference type, we can try adding qualifiers
+  // to it.
+  if(!from.GetType()->IsReferenceType())
     {
+    // Try adding a const qualifier to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(true, false), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
     return i->second;
+      }
+    // Try adding a volatile qualifier to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(false, true), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
+      return i->second;
+      }
+    // Try adding both const and volatile qualifiers to the "from" type.
+    conversionKey = ConversionKey(from.GetMoreQualifiedType(true, true), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
+      return i->second;
+      }
     }
-  // Try adding a volatile qualifier to the "from" type.
-  conversionKey = ConversionKey(from.GetMoreQualifiedType(false, true), to);
-  i = m_ConversionMap.find(conversionKey);
-  if(i != m_ConversionMap.end())
-    {
-    return i->second;
-    }
-  // Try adding both const and volatile qualifiers to the "from" type.
-  conversionKey = ConversionKey(from.GetMoreQualifiedType(true, true), to);
-  i = m_ConversionMap.find(conversionKey);
-  if(i != m_ConversionMap.end())
-    {
-    return i->second;
-    }
+  
   // Couldn't find a conversion.
   return NULL;
 }

@@ -178,7 +178,7 @@ template <typename T>
 struct ArgumentAs
 {
   static T Get(const WrapperBase::Argument& argument,
-                      const WrapperBase* wrapper)
+               const WrapperBase* wrapper)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -220,7 +220,7 @@ template <typename T>
 struct ArgumentAsPointerTo
 {
   static T* Get(const WrapperBase::Argument& argument,
-               const WrapperBase* wrapper)
+                const WrapperBase* wrapper)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -264,8 +264,9 @@ struct ArgumentAsPointerTo
  * Convert the given Argument to a reference to T.
  */
 template <typename T>
-struct ArgumentAsReferenceTo
+class ArgumentAsReferenceTo
 {
+public:
   static T& Get(const WrapperBase::Argument& argument,
                 const WrapperBase* wrapper)
     {
@@ -277,30 +278,128 @@ struct ArgumentAsReferenceTo
     // Get the argument's type from which we must convert.
     CvQualifiedType from = argument.GetType();
     
+    // If the "from" type is a ReferenceType, dereference it.
+    if(from.GetType()->IsReferenceType())
+      {
+      from = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+      }
+    
     // A pointer to the conversion function.
     ConversionFunction cf = NULL;
-    
+
     // If the "to" type is a reference to the "from" type use the
     // reference identity conversion function.
     if(Conversions::ReferenceCanBindAsIdentity(from, to))
       {
       cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
       }
+    // See if there is a derived-to-base conversion.
+    else if(Conversions::ReferenceCanBindAsDerivedToBase(from, to))
+      {
+      // TODO: Handle different cv-qualifications.
+      cf = wrapper->GetConversionFunction(from, to);
+      }
     else
       {
       // We don't have a trivial conversion.  Try to lookup the
       // conversion function.
       cf = wrapper->GetConversionFunction(from, to);
-      // If not, we don't know how to do the conversion.
-      if(!cf)
-        {
-        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-        }
+      }
+    // Make sure we know how to do the conversion.
+    if(!cf)
+      {
+      throw _wrap_UnknownConversionException(from.GetName(), to->Name());
       }
     
     // Perform the conversion and return the result.
     return ConvertTo<T&>::From(argument.GetValue(), cf);
+    } 
+};
+
+
+/**
+ * A function object to convert an Argument to a reference to const T.
+ * In this case, a temporary may be constructed that must persist throughout
+ * the call to a wrapped function.
+ */
+template <typename T>
+class GetArgumentAsReferenceTo_const
+{
+public:
+  GetArgumentAsReferenceTo_const(const WrapperBase* wrapper):
+    m_Wrapper(wrapper), m_Temporary(NULL) {}
+  ~GetArgumentAsReferenceTo_const()
+    { if(m_Temporary) { delete m_Temporary; } }
+  
+  const T& operator()(const WrapperBase::Argument& argument)
+    {
+    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
+    // conversions.  They only affect the parameter inside the function body.
+    const ReferenceType* to =
+      ReferenceType::SafeDownCast(CvType<const T&>::type.GetType());
+    
+    // Get the argument's type from which we must convert.
+    CvQualifiedType from = argument.GetType();
+    
+    // If the "from" type is a ReferenceType, dereference it.
+    if(from.GetType()->IsReferenceType())
+      {
+      from = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+      }
+    
+    // A pointer to the conversion function.
+    ConversionFunction cf = NULL;
+
+    // If the "to" type is a reference to the "from" type use the
+    // reference identity conversion function.
+    if(Conversions::ReferenceCanBindAsIdentity(from, to))
+      {
+      cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
+      }
+    // See if there is a derived-to-base conversion.
+    else if(Conversions::ReferenceCanBindAsDerivedToBase(from, to))
+      {
+      // TODO: Handle different cv-qualifications.
+      cf = m_Wrapper->GetConversionFunction(from, to);
+      }
+    else
+      {
+      // We don't have a trivial conversion.  Try to lookup the
+      // conversion function.
+      cf = m_Wrapper->GetConversionFunction(from, to);
+      if(!cf)
+        {
+        // There is no direct conversion function.  Try to lookup one
+        // that uses a temporary.
+        const Type* toType = CvType<T>::type.GetType();
+        cf = m_Wrapper->GetConversionFunction(from, toType);
+        if(cf)
+          {
+          m_Temporary = ConvertToTemporaryOf<T>::From(argument.GetValue(), cf);
+          return *m_Temporary;
+          }
+        }
+      }
+    // Make sure we know how to do the conversion.
+    if(!cf)
+      {
+      throw _wrap_UnknownConversionException(from.GetName(), to->Name());
+      }
+    
+    // Perform the conversion and return the result.
+    return ConvertTo<const T&>::From(argument.GetValue(), cf);
     }
+  
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
+  
+  /**
+   * If a temporary of type const T is needed, this will point to it.
+   */
+  const T* m_Temporary;
 };
 
 

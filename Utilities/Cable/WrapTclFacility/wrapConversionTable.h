@@ -291,6 +291,22 @@ struct ConvertTo
 };
 
 
+/**
+ * A function to actually call the given ConversionFunction on the given
+ * object to produce the given output type.  This version handles conversion
+ * functions that produce a temporary.
+ * This returns a pointer to the temporary.
+ */
+template <class T>
+struct ConvertToTemporaryOf
+{
+  inline static const T* From(Anything anything, ConversionFunction cf)
+    {
+    return new T(ConvertTo<T>::From(anything, cf));
+    }
+};
+
+
 } // namespace _wrap_
 
 #endif
