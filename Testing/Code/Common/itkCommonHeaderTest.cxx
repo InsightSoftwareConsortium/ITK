@@ -89,7 +89,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMutexLock.h"
 #include "itkNeighborhood.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkNeighborhoodBase.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkNumericTraits.h"

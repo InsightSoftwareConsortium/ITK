@@ -146,8 +146,6 @@ int main()
       itk::SliceIterator<int, itk::Neighborhood<int,2> > vnsi(&temp, vslice);
       itk::Neighborhood<int, 2> op;
       op.SetRadius(hoodRadius);
-      op = 2;
-      op.PrintSelf();
       
       itk::Index<2> idx;
       idx[0]=idx[1]=0;
@@ -166,7 +164,7 @@ int main()
       for (it = it.Begin(); !it.IsAtEnd(); ++it)
         {
           temp = it.GetNeighborhood();
-          temp.PrintSelf();
+          temp.Print(std::cout);
           PrintSlice(hnsi);
           PrintSlice(vnsi);
         }

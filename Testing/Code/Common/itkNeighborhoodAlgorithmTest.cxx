@@ -147,41 +147,48 @@ int main()
 
   println("A");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 2> > ipi2D;
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 2>,
+    itk::Neighborhood<float, 2> > ipi2D;
   ipi2D(rni2Dd, d2D);
 
   println("B");
   itk::NeighborhoodAlgorithm
-    ::InnerProduct<itk::Neighborhood<float, 2> > ipn2D;
+    ::InnerProduct<itk::Neighborhood<float, 2>, itk::Neighborhood<float,2> >
+    ipn2D;
   n2 = rni2Dd.GetNeighborhood();
   ipn2D(n2, d2D);
 
   println("C");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 3> > ipi3D;
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 3>,
+    itk::Neighborhood<float, 3> > ipi3D;
   ipi3D(rni3Dd, d3D);
 
   println("D");
   itk::NeighborhoodAlgorithm
-    ::InnerProduct<itk::Neighborhood<float, 3> > ipn3D;
+    ::InnerProduct<itk::Neighborhood<float, 3>,
+    itk::Neighborhood<float, 3> > ipn3D;
   n3 = rni3Dd.GetNeighborhood();
   ipn3D(n3, d3D);
 
   println("E");
   itk::NeighborhoodAlgorithm
-    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 4> > ipiND;
+    ::IteratorInnerProduct<itk::NeighborhoodIterator<float, 4>,
+    itk::Neighborhood<float, 4> > ipiND;
   ipiND(rniNDd, dND);
 
   println("F");
   itk::NeighborhoodAlgorithm
-    ::InnerProduct<itk::Neighborhood<float, 4> > ipnND;
+    ::InnerProduct<itk::Neighborhood<float, 4>,
+    itk::Neighborhood<float, 4> > ipnND;
   nN = rniNDd.GetNeighborhood();
   ipnND(nN, dND);
   
   println("G");
   itk::NeighborhoodAlgorithm
     ::BoundsCheckingIteratorInnerProduct<itk::
-                         SmartRegionNeighborhoodIterator<float, 4> > ipibND;
+    SmartRegionNeighborhoodIterator<float, 4>,
+    itk::Neighborhood<float, 4> > ipibND;
   ipibND(rniNDd, dND);
 
   return 0;
