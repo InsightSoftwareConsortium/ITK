@@ -65,7 +65,9 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
    ENDIF(CABLE_SWIG_DEPEND)
    IF(CABLE_SWIG_DEPEND_REGENERATE)
      SET(CABLE_SWIG_DEPEND ${Bin}/${Output}.depend)
-     WRITE_FILE(${Bin}/${Output}.depend "")
+     CONFIGURE_FILE(
+       ${ITK_SOURCE_DIR}/Wrapping/CSwig/empty.depend.in
+       ${Bin}/${Output}.depend @ONLY IMMEDIATE)
    ENDIF(CABLE_SWIG_DEPEND_REGENERATE)
 
    ADD_CUSTOM_COMMAND(
