@@ -51,6 +51,7 @@ ADD_EXECUTABLE(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter
 TARGET_LINK_LIBRARIES(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
 
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
+SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -227,7 +228,7 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 0.5 -0.3 2.0 10.0
 )
 
-ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/HoughTransformTwoLinesTest.png
             ${TEMP}/HoughTransformTwoLinesTest.png
   HoughTransform2DLinesImageFilterTest
@@ -236,7 +237,7 @@ ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES}
         2 5 10
 )
 
-ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
   ShapeDetectionLevelSetFilterTest
@@ -245,7 +246,7 @@ ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES}
         81 114 5.0 1.0 -0.5 3.0 0.05
 )
 
-ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
   ShapeDetectionLevelSetFilterTest
@@ -254,7 +255,7 @@ ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES}
         99 114 5.0 1.0 -0.5 3.0 0.05
 )
 
-ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
   ShapeDetectionLevelSetFilterTest
@@ -263,7 +264,7 @@ ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
         56 92 5.0 1.0 -0.3 2.0 0.05
 )
 
-ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
   ShapeDetectionLevelSetFilterTest
@@ -272,7 +273,7 @@ ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 0.5 -0.3 2.0 0.05
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
             ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -281,7 +282,7 @@ ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES}
         81 112 5 210 250
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -290,7 +291,7 @@ ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
         60 116 5 150 180 10.0
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
+ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -299,7 +300,7 @@ ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
         107 69 5 180 210
 )
 
-ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES}
+ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png
   WatershedSegmentation1Test
@@ -308,7 +309,7 @@ ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES}
         2.0 10 0.0 0.05 1
 )
 
-ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES}
+ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/WatershedSegmentation1Test2.png
             ${TEMP}/WatershedSegmentation1Test2.png
   WatershedSegmentation1Test
@@ -319,3 +320,6 @@ ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES}
 
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples2 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)

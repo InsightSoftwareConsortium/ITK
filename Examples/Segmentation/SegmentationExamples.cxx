@@ -15,12 +15,6 @@ REGISTER_TEST(ConnectedThresholdImageFilterTest);
 REGISTER_TEST(FastMarchingImageFilterTest);
 REGISTER_TEST(GeodesicActiveContourImageFilterTest);
 REGISTER_TEST(GibbsPriorImageFilter1Test);
-REGISTER_TEST(HoughTransform2DLinesImageFilterTest);
-REGISTER_TEST(IsolatedConnectedImageFilterTest);
-REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
-REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
-REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
-REGISTER_TEST(WatershedSegmentation1Test);
 }
 
 #undef main
@@ -46,27 +40,3 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #undef main
 #define main GibbsPriorImageFilter1Test
 #include "GibbsPriorImageFilter1.cxx"
-
-#undef main
-#define main HoughTransform2DLinesImageFilterTest
-#include "HoughTransform2DLinesImageFilter.cxx"
-
-#undef main
-#define main IsolatedConnectedImageFilterTest
-#include "IsolatedConnectedImageFilter.cxx"
-
-#undef main
-#define main NeighborhoodConnectedImageFilterTest
-#include "NeighborhoodConnectedImageFilter.cxx"
-
-#undef main
-#define main ShapeDetectionLevelSetFilterTest
-#include "ShapeDetectionLevelSetFilter.cxx"
-
-#undef main
-#define main ThresholdSegmentationLevelSetImageFilterTest
-#include "ThresholdSegmentationLevelSetImageFilter.cxx"
-
-#undef main
-#define main WatershedSegmentation1Test
-#include "WatershedSegmentation1.cxx"
