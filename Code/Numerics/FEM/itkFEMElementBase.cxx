@@ -44,7 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMLoadElementBase.h"
 #include "itkFEMElementBase.h"
 
 namespace itk {

@@ -41,9 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMLoadBase_h
 #define __itkFEMLoadBase_h
 
-#include "itkFEMPArray.h"
 #include "itkFEMElementBase.h"
 #include "itkFEMNodeBase.h"
+#include "itkFEMPArray.h"
 
 namespace itk {
 namespace fem {
