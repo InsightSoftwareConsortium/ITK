@@ -158,7 +158,7 @@ Rotate(const VnlQuaternionType &rotation, bool pre)
 template<class ScalarType, unsigned int NDimensions>
 void
 Rigid3DTransform<ScalarType, NDimensions>::
-Rotate(const VectorType & axis, TScalarType angle )
+Rotate(const VectorType & axis, ScalarType angle )
 {
   m_Rotation      = VnlQuaternionType( axis.Get_vnl_vector(), angle );
   m_DirectMatrix  = m_Rotation.rotation_matrix();
