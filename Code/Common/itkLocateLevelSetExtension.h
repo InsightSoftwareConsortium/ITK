@@ -89,7 +89,7 @@ public:
   /**
    * Index typedef support
    */
-  typedef itk::Index<SetDimension> Index;
+  typedef Index<SetDimension> Index;
 
   /**
    * AuxVarType typedef support.

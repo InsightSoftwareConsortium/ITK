@@ -16,6 +16,7 @@
 #define _itkLocateLevelSet_h
 
 #include "itkLevelSet.h"
+#include "itkIndex.h"
 
 namespace itk
 {
@@ -92,7 +93,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef itk::Index<SetDimension> IndexType;
+  typedef Index<SetDimension> IndexType;
 
   /**
    * Set the input level set.

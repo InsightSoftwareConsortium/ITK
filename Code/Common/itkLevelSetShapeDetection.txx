@@ -196,7 +196,7 @@ LevelSetShapeDetection<TLevelSet,TEdgeImage>
     SpeedIteratorType speedIt = SpeedIteratorType( extVelPtr, 
       extVelPtr->GetBufferedRegion() );
 
-    typedef itk::Index<TLevelSet::ImageDimension> IndexType;
+    typedef Index<TLevelSet::ImageDimension> IndexType;
 
     IndexType index;
     double curvature;
