@@ -78,16 +78,6 @@ public:
   GaussianOperator() : m_Variance(1), m_MaximumError(.01) { }
 
   /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *New() const { return new Self; }
-
-  /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *Copy() const { return new Self(*this); }
-  
-  /**
    * Sets the desired variance of the Gaussian kernel.
    */
   void SetVariance(const float &variance)
