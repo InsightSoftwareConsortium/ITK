@@ -52,6 +52,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToImageMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
+#include "itkLaplacianSegmentationLevelSetFunction.txx"
+#include "itkLaplacianSegmentationLevelSetImageFilter.txx"
 #include "itkLevelSetImageFilter.txx"
 #include "itkLevelSetNeighborhoodExtractor.txx"
 #include "itkLevelSetVelocityNeighborhoodExtractor.txx"
