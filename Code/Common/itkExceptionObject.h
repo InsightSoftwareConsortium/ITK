@@ -35,7 +35,7 @@ namespace itk
  * point in the code where the exception was thrown; the description
  * is an error message that describes the exception.
  */
-class ExceptionObject
+class ITK_EXPORT ExceptionObject
 {
 public:
   /**
