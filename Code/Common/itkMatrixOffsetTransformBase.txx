@@ -36,6 +36,8 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   m_MatrixMTime.Modified();
   m_Offset.Fill( 0 );
   m_Center.Fill( 0 );
+  // Cause m_FixedParameters to be filled
+  this->SetCenter ( m_Center );
   m_Translation.Fill( 0 );
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
@@ -323,13 +325,8 @@ const typename MatrixOffsetTransformBase<TScalarType,
                                      NInputDimensions,
                                      NOutputDimensions>::ParametersType &
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
-  ::GetFixedParameters(void)
+  ::GetFixedParameters(void) const
 {
-  this->m_FixedParameters.SetSize ( NInputDimensions );
-  for ( unsigned int i = 0; i < NInputDimensions; i++ )
-    {
-    this->m_FixedParameters[i] = this->m_Center[i];
-    }
   return this->m_FixedParameters;
 }
 

@@ -144,7 +144,7 @@ public:
     { itkExceptionMacro( << "Subclasses should override this method" ) };
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType& GetFixedParameters(void) 
+  virtual const ParametersType& GetFixedParameters(void) const
     { itkExceptionMacro( << "Subclasses should override this method" );
       return m_Parameters; };
 
@@ -198,7 +198,7 @@ protected:
 
 
   mutable ParametersType     m_Parameters;
-  ParametersType     m_FixedParameters;
+  mutable ParametersType     m_FixedParameters;
   mutable JacobianType       m_Jacobian;
 
 private:

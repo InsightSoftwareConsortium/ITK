@@ -196,7 +196,12 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetOffset(const OutputVectorType &offset)
-      { m_Offset = offset; this->ComputeTranslation(); 
+      { m_Offset = offset; this->ComputeTranslation();
+        this->m_FixedParameters.SetSize ( NInputDimensions );
+        for ( unsigned int i = 0; i < NInputDimensions; i++ )
+          {
+          this->m_FixedParameters[i] = this->m_Center[i];
+          }
         this->Modified(); return; }
 
   /** Get offset of an MatrixOffsetTransformBase
@@ -274,7 +279,7 @@ public:
   virtual void SetFixedParameters( const ParametersType & );
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType& GetFixedParameters(void);
+  virtual const ParametersType& GetFixedParameters(void) const;
 
 
   /** Compose with another MatrixOffsetTransformBase
