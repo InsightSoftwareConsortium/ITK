@@ -119,7 +119,8 @@ int itkSplineKernelTransformTest(int , char* [] )
 
  
   std::cout << "EBRS 2D Test:" << std::endl;
-  // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
+  ebrs2D->SetSourceLandmarks( sourceLandmarks2D );
+  ebrs2D->SetTargetLandmarks( targetLandmarks2D );
   ebrs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebrs2D->ComputeWMatrix();
 
@@ -146,6 +147,9 @@ int itkSplineKernelTransformTest(int , char* [] )
 
  
   std::cout << "TPS 2D Test:" << std::endl;
+  tps2D->SetSourceLandmarks( sourceLandmarks2D );
+  tps2D->SetTargetLandmarks( targetLandmarks2D );
+
   tps2D->ComputeWMatrix();
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
@@ -402,6 +406,8 @@ int itkSplineKernelTransformTest(int , char* [] )
   std::cout << std::endl;
 
   std::cout << ebs2D << std::endl;
+
+  std::cout << "TEST DONE" << std::endl;
 
   return EXIT_SUCCESS;
 
