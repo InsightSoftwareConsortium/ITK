@@ -68,7 +68,7 @@ public:
   TreeContainer( TreeContainer<TValueType>& tree );
 
   /** Set the root as an element */
-  virtual bool SetRoot( const TValueType element);
+  virtual bool SetRoot( TValueType element);
 
   /** The the root as an iterator position */
   bool SetRoot( IteratorType& pos );
@@ -98,7 +98,7 @@ public:
   bool Swap( IteratorType& v, IteratorType& w );
 
   /** Get the root */
-  const TreeNodeType* GetRoot() const {return m_Root;}
+  const TreeNodeType* GetRoot() const {return m_Root.GetPointer();}
 
   /** Add a child to a given parent using values*/
   bool Add(const TValueType child, const TValueType parent);

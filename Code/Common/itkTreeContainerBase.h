@@ -48,7 +48,7 @@ public:
 
   /** Set the root element. 
    * A new node is created and the element is added to the node */
-  virtual bool SetRoot( const TValueType element ) = 0;
+  virtual bool SetRoot( TValueType element ) = 0;
 
   /** Set the root has a node */
   virtual bool SetRoot( TreeNode<TValueType>* node) = 0;
@@ -86,6 +86,5 @@ protected:
 
 } // namespace itk
 
-
-
 #endif
+

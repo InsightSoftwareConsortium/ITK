@@ -60,7 +60,7 @@ TreeContainer<TValueType>::~TreeContainer()
 /** Set the root of the tree */
 template <class TValueType>
 bool 
-TreeContainer<TValueType>::SetRoot(const TValueType element)  
+TreeContainer<TValueType>::SetRoot( TValueType element)  
 {
   if (m_Root)
     {

@@ -60,7 +60,7 @@ public:
   const TValueType& Get() const;
 
   /** Set the current value of the node */
-  TValueType Set( TValueType data);
+  TValueType Set(const TValueType data);
 
   /** Get the child node */
   TreeNode<TValueType>* GetChild( int number ) const;

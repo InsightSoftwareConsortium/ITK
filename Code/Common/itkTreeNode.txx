@@ -74,7 +74,7 @@ TreeNode<TValueType>
 
 /** Set the value of a node */
 template <class TValueType>
-TValueType TreeNode<TValueType>::Set(TValueType data)
+TValueType TreeNode<TValueType>::Set(const TValueType data)
 {
   TValueType help = m_Data;
   m_Data = data;
