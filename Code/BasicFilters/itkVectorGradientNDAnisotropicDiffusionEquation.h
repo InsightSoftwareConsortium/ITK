@@ -72,7 +72,6 @@ public:
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
@@ -85,6 +84,11 @@ public:
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+
+   /**
+   * Type of a value in a vector (double, float, etc.)
+   */
+  typedef typename PixelType::ValueType  ScalarValueType;
 
   /**
    * Run-time type information (and related methods)
@@ -150,7 +154,7 @@ protected:
   /**
    * Derivative operators.
    */
-  DerivativeOperator<ScalarValueType, 2> dx_op;
+  DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
 
   /**
    * Modified global average gradient magnitude term.

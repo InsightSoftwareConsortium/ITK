@@ -83,7 +83,7 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {
-  unsigned int j;
+  unsigned int i,j;
   PixelType delta;
 
   ScalarValueType GradMag[ImageDimension];
@@ -99,11 +99,11 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   PixelType dx_aug[ImageDimension];
   PixelType dx_dim[ImageDimension];
 
-  Cx_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cxd_gradmag = NumericTraits<ScalarValueType>::Zero;
-
   for (i = 0; i < ImageDimension; i++)
     {
+      Cx_gradmag[i]  = NumericTraits<ScalarValueType>::Zero;
+      Cxd_gradmag[i] = NumericTraits<ScalarValueType>::Zero;
+      
       dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
         - (it.GetPixel(m_Center));
       dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
@@ -166,7 +166,7 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {
-  unsigned int j;
+  unsigned int i,j;
   PixelType delta;
 
   ScalarValueType GradMag[ImageDimension];
@@ -182,11 +182,12 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   PixelType dx_aug[ImageDimension];
   PixelType dx_dim[ImageDimension];
 
-  Cx_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cxd_gradmag = NumericTraits<ScalarValueType>::Zero;
 
   for (i = 0; i < ImageDimension; i++)
     {
+      Cx_gradmag[i]  = NumericTraits<ScalarValueType>::Zero;
+      Cxd_gradmag[i] = NumericTraits<ScalarValueType>::Zero;
+
       dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
         - (it.GetPixel(m_Center));
       dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
