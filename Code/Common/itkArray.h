@@ -540,6 +540,22 @@ public:
   static Array Filled(const ValueType&);
 };
   
+template <typename TValueType, unsigned long VLength>
+std::ostream & operator<<(std::ostream &os, const Array<TValueType,VLength> &arr)
+{
+  os << "[";
+  for (unsigned int i=0; i < VLength - 1; ++i)
+    {
+    os << arr[i] << ", ";
+    }
+  if (VLength >= 1)
+    {
+    os << arr[VLength-1];
+    }
+  os << "]" << std::endl;
+  return os;
+}
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
