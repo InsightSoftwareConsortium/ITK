@@ -223,8 +223,8 @@ int main( int argc, char ** argv )
   //  For historical reasons, the \doxygen{ImageFileWriter} also has a
   //  \code{Write()} method which performs the exact same action than the
   //  \code{Update()} method. You could in principle use any of them but
-  //  \code{Update()} is the recommended one since \code{Write() will likely be
-  //  deprecated in the future.. 
+  //  \code{Update()} is the recommended one since \code{Write()} will likely
+  //  be deprecated in the future. 
   //
   //  Software Guide : EndLatex 
 
