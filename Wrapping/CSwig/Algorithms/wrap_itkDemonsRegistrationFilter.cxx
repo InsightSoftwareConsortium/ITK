@@ -16,6 +16,7 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkDemonsRegistrationFilter.h"
+#include "itkVector.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

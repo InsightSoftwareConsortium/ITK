@@ -16,6 +16,7 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkFiniteDifferenceImageFilter.h"
+#include "itkVector.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigImages.h"

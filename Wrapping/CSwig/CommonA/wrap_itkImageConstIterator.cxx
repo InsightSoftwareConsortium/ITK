@@ -16,6 +16,8 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkImageConstIterator.h"
+#include "itkVector.h"
+#include "itkCovariantVector.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigImages.h"

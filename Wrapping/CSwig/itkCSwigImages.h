@@ -1,7 +1,7 @@
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkCovariantVector.h"
-
+// Define useful short names to aid wrapper configuration.  Only
+// define names for types that have been included by the wrapper
+// configuration file that includes this file.
+#if defined(__itkImage_h)
 namespace image
 {
   //typedef itk::Image<bool, 2> B2;
@@ -31,6 +31,7 @@ namespace image
   typedef itk::Image<signed long   , 3> SL3;
 }
 
+# if defined(__itkVector_h)
 namespace itkvector
 {
   typedef itk::Vector< float,  2>  F2;
@@ -38,7 +39,18 @@ namespace itkvector
   typedef itk::Vector< double, 2>  D2;
   typedef itk::Vector< double, 3>  D3;
 }
+namespace image
+{
+  typedef itk::Image< itkvector::F2, 2 > VF2;
+  typedef itk::Image< itkvector::F3, 3 > VF3;
+  typedef itk::Image< itkvector::F2, 2 > VD2;
+  typedef itk::Image< itkvector::F3, 3 > VD3;
+  typedef itk::Image< itkvector::F2, 2 > V2F2;
+  typedef itk::Image< itkvector::F2, 3 > V2F3;
+}
+# endif
 
+# if defined(__itkCovariantVector_h)
 namespace covariantvector
 {
   typedef itk::CovariantVector< float,  2>  F2;
@@ -49,16 +61,10 @@ namespace covariantvector
 
 namespace image
 {
-  typedef itk::Image< itkvector::F2, 2 > VF2;
-  typedef itk::Image< itkvector::F3, 3 > VF3;
-  typedef itk::Image< itkvector::F2, 2 > VD2;
-  typedef itk::Image< itkvector::F3, 3 > VD3;
-  typedef itk::Image< itkvector::F2, 2 > V2F2;
-  typedef itk::Image< itkvector::F2, 3 > V2F3;
-
   typedef itk::Image< covariantvector::F2, 2 > CVF2;
   typedef itk::Image< covariantvector::F3, 3 > CVF3;
   typedef itk::Image< covariantvector::D2, 2 > CVD2;
   typedef itk::Image< covariantvector::D3, 3 > CVD3;
-
 }
+# endif
+#endif
