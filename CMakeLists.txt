@@ -87,3 +87,17 @@ OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
 IF(ITK_WRAP_TCL)
   SUBDIRS(Wrapping)
 ENDIF(ITK_WRAP_TCL)
+
+# Add an option to use or not use VTK
+OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some examples need this)" 0)
+IF(USE_VTK)
+  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindVTK.cmake)
+ENDIF(USE_VTK)
+
+# Add an option to use or not use FLTK (http://www.fltk.org)
+OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
+IF(USE_FLTK)
+  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindFLTK.cmake)
+ENDIF(USE_FLTK)
+
+
