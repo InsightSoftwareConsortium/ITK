@@ -13,9 +13,21 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * ProcessObject is the base class for all process objects (source,
- * filters, mappers) in the Insight data processing pipeline.
+#ifndef __itkProcessObject_h
+#define __itkProcessObject_h
+
+#include "itkObject.h"
+#include "itkObjectFactory.h"
+
+namespace itk
+{
+
+class DataObject;
+
+/** \class ProcessObject
+ * \brief ProcessObject is the base class for all process objects (source,
+          filters, mappers) in the Insight data processing pipeline.
+ *
  * ProcessObject is an abstract object that specifies behavior and
  * interface of visualization network process objects (sources, filters,
  * mappers). Source objects are creators of visualization data; filters
@@ -48,18 +60,6 @@
  * deletion of the output data once the downstream process object finishes
  * processing the data (please see text).  
  */
-
-#ifndef __itkProcessObject_h
-#define __itkProcessObject_h
-
-#include "itkObject.h"
-#include "itkObjectFactory.h"
-
-namespace itk
-{
-
-class DataObject;
-
 class ITK_EXPORT ProcessObject : public Object
 {
 public:
@@ -129,19 +129,34 @@ public:
   void SetEndMethodArgDelete(void (*f)(void *));
 
   /** 
-   * Set/Get the AbortExecute flag for the process object. Process objects
+   * Set the AbortExecute flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
   itkSetMacro(AbortExecute,bool);
+
+  /** 
+   * Get the AbortExecute flag for the process object. Process objects
+   *  may handle premature termination of execution in different ways. 
+   */
   itkGetMacro(AbortExecute,bool);
+  
+  /**
+   * Turn on and off the AbortExecute flag.
+   */
   itkBooleanMacro(AbortExecute); 
   
   /** 
-   * Set/Get the execution progress of a process object. The progress is
+   * Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution.
    */
   itkSetClampMacro(Progress,float,0.0,1.0);
+
+  /** 
+   * Get the execution progress of a process object. The progress is
+   * a floating number between (0,1), 0 meaning no progress; 1 meaning
+   * the filter has completed execution.
+   */
   itkGetMacro(Progress,float);
 
   /** 

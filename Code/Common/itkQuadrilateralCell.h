@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * QuadrilateralCell represents a quadrilateral for Mesh
- */
-
 #ifndef __itkQuadrilateralCell_h
 #define __itkQuadrilateralCell_h
 
@@ -27,12 +23,17 @@
 namespace itk
 {
 
-/**
+/** \class QuadrilateralCell
+ * QuadrilateralCell represents a quadrilateral for a Mesh.
+ *
+ * The CellBoundary wrapper for this cell is QuadrilateralBoundary.
+ *
  * Template parameters for QuadrilateralCell:
  *
  * TPixelType =
  *     The type associated with a point, cell, or boundary for use in storing
  *     its data.
+ *
  * TCellType =
  *     Type information of mesh containing cell.
  */
@@ -45,12 +46,16 @@ class QuadrilateralCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef QuadrilateralCell   Self;
-  typedef SmartPointer<Self>  Pointer;
   
   /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** \typedef
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -58,12 +63,16 @@ public:
   enum { PointDimension = CellType::PointDimension };
 
   /**
-   * The type of cells for this quadrilateral's vertices and edges.
+   * The type of boundary for this quadrilateral's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
+
+  /**
+   * The type of boundary for this quadrilateral's edges.
+   */
   typedef LineBoundary< TPixelType , TCellType >    Edge;
   
-  /**
+  /** \enum
    * Quadrilateral-specific topology numbers.
    */
   enum { NumberOfPoints   = 4,
@@ -77,7 +86,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Implement the standard cell API.
+   * Implement the standard CellInterface.
    */
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
@@ -97,27 +106,17 @@ public:
   
   virtual CellFeatureCount GetNumberOfVertices(void);
   virtual CellFeatureCount GetNumberOfEdges(void);
-
-  /**
-   * Get the cell vertex corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfVertices()-1.
-   */  
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
-
-  /**
-   * Get the cell edge corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfEdges()-1.
-   */  
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
-   * Standard part of Object class.  Used for debugging output.
+   * Standard part of Object class.
    */
   itkTypeMacro(QuadrilateralCell, CellInterface);
   
 protected:
   /**
-   * Allocate number of points needed for this cell type.
+   * Store the number of points needed for a quadrilateral.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
 
@@ -128,15 +127,22 @@ protected:
 };
 
 
-/**
- * Create the boundary-wrapped version of this cell type.
+/** \class QuadrilateralBoundary
+ * Create a boundary-wrapped version of the QuadrilateralCell.
  */
 template <typename TPixelType, typename TCellType>
 class QuadrilateralBoundary:
   public CellBoundary< QuadrilateralCell< TPixelType , TCellType > >
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef QuadrilateralBoundary  Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>     Pointer;
   
   /**
@@ -144,6 +150,9 @@ public:
    */
   itkNewMacro(Self);
   
+  /**
+   * Standard part of Object class.
+   */
   itkTypeMacro(QuadrilateralBoundary, CellBoundary);
 };
 

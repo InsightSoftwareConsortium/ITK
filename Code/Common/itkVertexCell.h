@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * VertexCell represents a single vertex for Mesh.
- */
-
 #ifndef __itkVertexCell_h
 #define __itkVertexCell_h
 
@@ -26,12 +22,17 @@
 namespace itk
 {
 
-/**
+/** \class VertexCell
+ * VertexCell represents a single vertex for a Mesh.
+ *
+ * The CellBoundary wrapper for this cell is VertexBoundary.
+ *
  * Template parameters for VertexCell:
  *
  * TPixelType =
  *     The type associated with a point, cell, or boundary for use in storing
  *     its data.
+ *
  * TCellType =
  *     Type information of mesh containing cell.
  */
@@ -44,19 +45,23 @@ class VertexCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef VertexCell          Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
+  /** \typedef
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
 
-  /**
+  /** \enum
    * Vertex-specific topology numbers.
    */
   enum { NumberOfPoints = 1,
@@ -68,7 +73,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Implement the standard cell API.
+   * Implement the standard CellInterface.
    */
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
@@ -88,27 +93,34 @@ public:
   virtual PointIdentifier GetCellPoint(void);
 
   /**
-   * Standard part of Object class.  Used for debugging output.
+   * Standard part of Object class.
    */
   itkTypeMacro(VertexCell, CellInterface);
 
 protected:
   /**
-   * Allocate number of points needed for this cell type.
+   * Store the number of points needed for a vertex.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
 };
 
 
-/**
- * Create the boundary-wrapped version of this cell type.
+/** \class VertexBoundary
+ * Create a boundary-wrapped version of the VertexCell.
  */
 template <typename TPixelType, typename TCellType>
 class VertexBoundary:
   public CellBoundary< VertexCell< TPixelType , TCellType > >
 {
 public:
+  /**
+   * Standard "Self" typdef.
+   */
   typedef VertexBoundary      Self;
+  
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
@@ -116,6 +128,9 @@ public:
    */
   itkNewMacro(Self);  
   
+  /**
+   * Standard part of Object class.
+   */
   itkTypeMacro(VertexBoundary, CellBoundary);
 };
 

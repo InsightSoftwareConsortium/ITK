@@ -19,6 +19,7 @@ namespace itk
 {
 
 /**
+ * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCelltype>
@@ -31,6 +32,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
+ * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TCelltype>
@@ -49,8 +51,10 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
+ * Standard CellInterface:
  * Get the boundary feature of the given dimension specified by the given
  * cell feature Id.
+ * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Cell::Pointer
@@ -68,7 +72,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCelltype>
@@ -82,7 +86,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -102,7 +106,8 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Use this to set an individual point identifier in the cell.
+ * Standard CellInterface:
+ * Set an individual point identifier in the cell.
  */
 template <typename TPixelType, typename TCelltype>
 void
@@ -114,8 +119,8 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Provide iterator begin and end for the point identifier array.  These
- * are just pointers to the beginning and one past the end.
+ * Standard CellInterface:
+ * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::PointIterator
@@ -125,6 +130,12 @@ HexahedronCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const begin iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::PointConstIterator
 HexahedronCell< TPixelType , TCelltype >
@@ -133,6 +144,11 @@ HexahedronCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get an end iterator to the list of point identifiers used by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::PointIterator
 HexahedronCell< TPixelType , TCelltype >
@@ -141,6 +157,12 @@ HexahedronCell< TPixelType , TCelltype >
   return &m_PointIds[NumberOfPoints];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const end iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::PointConstIterator
 HexahedronCell< TPixelType , TCelltype >
@@ -192,6 +214,7 @@ HexahedronCell< TPixelType , TCelltype >
 /**
  * Hexahedron-specific:
  * Get the vertex specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Vertex::Pointer
@@ -208,6 +231,7 @@ HexahedronCell< TPixelType , TCelltype >
 /**
  * Hexahedron-specific:
  * Get the edge specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Edge::Pointer
@@ -226,6 +250,7 @@ HexahedronCell< TPixelType , TCelltype >
 /**
  * Hexahedron-specific:
  * Get the face specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfFaces()-1.
  */
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Face::Pointer
@@ -242,7 +267,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Define the hexahedron's topology data.
+ * The hexahedron's topology data: Edges.
  */
 template <typename TPixelType, typename TCelltype>
 const int
@@ -251,6 +276,9 @@ HexahedronCell< TPixelType , TCelltype >
                      {4,5}, {5,6}, {7,6}, {4,7},
                      {0,4}, {1,5}, {3,7}, {2,6} };
 
+/**
+ * The hexahedron's topology data: Faces.
+ */
 template <typename TPixelType, typename TCelltype>
 const int
 HexahedronCell< TPixelType , TCelltype >

@@ -13,12 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Object is the second-highest level base class for most itk objects.
- * It extends the base object functionality of LightObject by
- * implementing debug flags/methods and modification time tracking.
- */
-
 #ifndef __itkObject_h
 #define __itkObject_h
 
@@ -33,6 +27,11 @@
 namespace itk
 {
 
+/** \class Object
+ * Object is the second-highest level base class for most itk objects.
+ * It extends the base object functionality of LightObject by
+ * implementing debug flags/methods and modification time tracking.
+ */
 class ITK_EXPORT Object: public LightObject
 {
 public:

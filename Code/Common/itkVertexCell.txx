@@ -19,6 +19,7 @@ namespace itk
 {
   
 /**
+ * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCellType>
@@ -31,6 +32,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
+ * Standard CellInterface:
  * A vertex has no boundary entities of any dimension.
  */
 template <typename TPixelType, typename TCellType>
@@ -43,6 +45,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
+ * Standard CellInterface:
  * A vertex has no boundary entities.  Just return null.
  */
 template <typename TPixelType, typename TCellType>
@@ -55,7 +58,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCellType>
@@ -69,7 +72,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -89,7 +92,8 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Use this to set an individual point identifier in the cell.
+ * Standard CellInterface:
+ * Set an individual point identifier in the cell.
  */
 template <typename TPixelType, typename TCellType>
 void
@@ -101,8 +105,8 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Provide iterator begin and end for the point identifier array.  These
- * are just pointers to the beginning and one past the end.
+ * Standard CellInterface:
+ * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
 VertexCell< TPixelType , TCelltype >::PointIterator
@@ -112,6 +116,12 @@ VertexCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const begin iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 VertexCell< TPixelType , TCelltype >::PointConstIterator
 VertexCell< TPixelType , TCelltype >
@@ -120,6 +130,11 @@ VertexCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get an end iterator to the list of point identifiers used by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 VertexCell< TPixelType , TCelltype >::PointIterator
 VertexCell< TPixelType , TCelltype >
@@ -128,6 +143,12 @@ VertexCell< TPixelType , TCelltype >
   return &m_PointIds[NumberOfPoints];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const end iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 VertexCell< TPixelType , TCelltype >::PointConstIterator
 VertexCell< TPixelType , TCelltype >

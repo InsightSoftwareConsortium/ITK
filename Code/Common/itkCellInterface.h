@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * itkCellInterface ....
- */
-
 #ifndef __itkCellInterface_h
 #define __itkCellInterface_h
 
@@ -28,13 +24,18 @@
 namespace itk
 {
 
-/**
+/** \class CellInterface
+ * Define an abstract interface for cells.  Actual cell types derive from
+ * this class.
+ *
+ * Extra information in cells that are actually boundaries between other
+ * cells is provided in the CellBoundary wrapper.
+ *
  * Template parameters for Cell:
  *
- * TPixelType = 
- *     The type stored with an entity (cell, point, or boundary).
- * TCellType = 
- *     Type information for cell.
+ * TPixelType = The type stored with an entity (cell, point, or boundary).
+ *
+ * TCellType = Type information for cell.
  */
   
 template <
@@ -44,17 +45,29 @@ template <
 class CellInterface: public LightObject
 {
 public:
-  /** 
-   * Smart pointer typedef support.
+  /**
+   * Standard "Self" typedef.
    */
   typedef CellInterface       Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
-   * Save type information for this cell.
+   * Save the PixelType template parameter.
    */
   typedef TPixelType                                PixelType;
+  
+  /**
+   * Save the CellType template parameter.
+   */
   typedef TCellType                                 CellType;
+
+  /** \typedef
+   * Save type information for this cell.
+   */
   typedef typename CellType::CoordRep               CoordRep;
   typedef typename CellType::PointIdentifier        PointIdentifier;
   typedef typename CellType::CellIdentifier         CellIdentifier;
@@ -64,6 +77,9 @@ public:
   typedef typename CellType::UsingCellsContainer    UsingCellsContainer;
   enum { PointDimension = CellType::PointDimension };
 
+  /** \typedef
+   * An iterator through the UsingCellsContainer.
+   */
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
 
   /**
@@ -117,13 +133,35 @@ public:
   virtual void SetCellPoint(int localId, PointIdentifier)=0;
   
   /**
-   * Provide an interface to allow iteration over the point ID list.
+   * Allow iteration over the point ID list.
    */
   typedef PointIdentifier*  PointIterator;
+  
+  /**
+   * Allow const iteration over the point ID list.
+   */
   typedef const PointIdentifier*  PointConstIterator;
+  
+  /**
+   * Get a begin iterator to the list of point identifiers used by the cell.
+   */
   virtual PointIterator      PointIdsBegin(void)=0;
+
+  /**
+   * Get a const begin iterator to the list of point identifiers used
+   * by the cell.
+   */
   virtual PointConstIterator PointIdsBegin(void) const =0;
+
+  /**
+   * Get an end iterator to the list of point identifiers used by the cell.
+   */
   virtual PointIterator      PointIdsEnd(void)=0;
+
+  /**
+   * Get a const end iterator to the list of point identifiers used
+   * by the cell.
+   */
   virtual PointConstIterator PointIdsEnd(void) const =0;
   
   /**
@@ -139,7 +177,7 @@ public:
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
   
   /**
-   * ITK standard routines.
+   * Standard part of Object class.
    */
   itkTypeMacro(CellInterface, LightObject);
 
@@ -149,11 +187,6 @@ protected:
    */
 
   /**
-   * Constructor to initialize internal data.
-   */
-  CellInterface();
-  
-  /**
    * Get the geometric position of a point.
    */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
@@ -161,13 +194,19 @@ protected:
 
 
 /**
- * Define a simple utility to define the cell type inside a mesh type
+ * A simple utility class to define the cell type inside a mesh type
  * structure definition.  This just makes a copy of existing type information
  * that is needed for a cell type template parameter.
  *
  * During a mesh type definition, after the appropriate types and values
  * have been defined, just have the line:
- *   typedef MakeCellType  CellType;
+ \verbatim
+ typedef MakeCellType  CellType;
+ \endverbatim
+ *
+ * MakeCellType is a macro front-end to automatically fill in the template
+ * parameters for the CellTypeInfo structure inside a mesh type structure
+ * definition.
  */
 template <int VPointDimension,typename TCoordRep,
   typename TPointIdentifier,typename TCellIdentifier,

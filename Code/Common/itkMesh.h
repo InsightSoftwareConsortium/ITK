@@ -13,8 +13,26 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef __itkMesh_h
+#define __itkMesh_h
 
-/**
+#include <vector>
+#include <list>
+
+#include "itkObject.h"
+#include "itkObjectFactory.h"
+#include "itkSmartPointer.h"
+#include "itkPoint.h"
+#include "itkCellInterface.h"
+#include "itkMeshTypeDefault.h"
+#include "itkMapContainer.h"
+
+namespace itk
+{
+
+/** \class Mesh
+ * \brief Implements the N-dimensional mesh structure.
+ *
  * Mesh implements the N-dimensional mesh structure for ITK.  It provides
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
@@ -37,26 +55,7 @@
  * "MeshType" structure definitions, and is also a member of them.  Any
  * cell which is to be inserted to a mesh should have MeshType::CellType
  * as its second template parameter.
- */
-
-#ifndef __itkMesh_h
-#define __itkMesh_h
-
-#include <vector>
-#include <list>
-
-#include "itkObject.h"
-#include "itkObjectFactory.h"
-#include "itkSmartPointer.h"
-#include "itkPoint.h"
-#include "itkCellInterface.h"
-#include "itkMeshTypeDefault.h"
-#include "itkMapContainer.h"
-
-namespace itk
-{
-
-/**
+ *
  * Template parameters for Mesh:
  *
  * TPixelType =
@@ -73,12 +72,16 @@ class Mesh: public Object
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef Mesh                Self;
-  typedef SmartPointer<Self>  Pointer;
   
   /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** \typedef
    * Hold on to the type information specified by the template parameters.
    */
   typedef TMeshType   MeshType;
@@ -101,7 +104,7 @@ public:
   typedef typename MeshType::BoundariesContainer      BoundariesContainer;
   typedef typename MeshType::BoundaryDataContainer    BoundaryDataContainer;
 
-  /**
+  /** \typedef
    * Create types that are pointers to each of the container types.
    */
   typedef typename PointsContainer::Pointer        PointsContainerPointer;
@@ -113,7 +116,7 @@ public:
   typedef typename
           BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
 
-  /**
+  /** \typedef
    * Create types that are iterators for each of the container types.
    */
   typedef typename
@@ -140,12 +143,16 @@ public:
   typedef CellFeatureIdentifier  CellFeatureCount;
   
   /**
-   * Define the base cell type for cells in this mesh.
-   * It also happens that boundaries are also cells.
+   * The base cell type for cells in this mesh.
    */
   typedef CellInterface< PixelType , CellType >  Cell;
+
+  /**
+   * It happens that boundaries are also cells.
+   */
   typedef Cell                                   Boundary;
   
+protected:
   /**
    * An explicit cell boundary assignment can be accessed through the cell
    * identifier to which the assignment is made, and the feature Id of the
@@ -199,7 +206,6 @@ public:
       }
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
-protected:
   /**
    * An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers.
@@ -259,6 +265,10 @@ protected:
         BoundaryDataContainerVector;
   BoundaryDataContainerVector  m_BoundaryData;
 
+  typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
+        BoundaryAssignmentsContainer;
+  typedef BoundaryAssignmentsContainer::Pointer
+        BoundaryAssignmentsContainerPointer;
   /**
    * A vector of objects containing explicit cell boundary assignments.
    * The vector is indexed by the topological dimension of the cell boundary.
@@ -270,10 +280,6 @@ protected:
    * to access the data stored by a particular boundary through the
    * containers in the BoundaryData vector.
    */
-  typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
-        BoundaryAssignmentsContainer;
-  typedef BoundaryAssignmentsContainer::Pointer
-        BoundaryAssignmentsContainerPointer;
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
   BoundaryAssignmentsContainerVector  m_BoundaryAssignments;

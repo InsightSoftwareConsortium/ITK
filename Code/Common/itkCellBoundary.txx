@@ -16,7 +16,7 @@ CellBoundary<TCell>
 
 
 /**
- * Add a cell to the UsingCells set.
+ * Add a cell to the UsingCellsContainer.
  */
 template <typename TCell>
 void
@@ -28,7 +28,7 @@ CellBoundary<TCell>
 
 
 /**
- * Remove a cell from the UsingCells set.
+ * Remove a cell from the UsingCellsContainer.
  */
 template <typename TCell>
 void
@@ -40,7 +40,7 @@ CellBoundary<TCell>
 
 
 /**
- * Test if a cell is in the UsingCells set.
+ * Test if a cell is in the UsingCellsContainer.
  */
 template <typename TCell>
 bool
@@ -52,7 +52,7 @@ CellBoundary<TCell>
 
 
 /**
- * Get the number of using cells.
+ * Get the number of cells in the UsingCellsContainer.
  */
 template <typename TCell>
 int
@@ -64,7 +64,7 @@ CellBoundary<TCell>
 
 
 /**
- * Get a begin iterator for the UsingCells set.
+ * Get a begin iterator for the UsingCellsContainer.
  */
 template <typename TCell>
 CellBoundary<TCell>::UsingCellsContainerIterator
@@ -76,7 +76,7 @@ CellBoundary<TCell>
 
 
 /**
- * Get an end iterator for the UsingCells set.
+ * Get an end iterator for the UsingCellsContainer.
  */
 template <typename TCell>
 CellBoundary<TCell>::UsingCellsContainerIterator

@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * CreateObjectFunction is used to create callback functions that
- * create itkObjects for use with the itkObjectFactory.
- */
 #ifndef __itkCreaetObjectFunction_h
 #define __itkCreaetObjectFunction_h
 
@@ -33,6 +29,11 @@ public:
   virtual LightObject* CreateObject() = 0;
 };
 
+
+/** \class CreateObjectFunction
+ * CreateObjectFunction is used to create callback functions that
+ * create itkObjects for use with the itkObjectFactory.
+ */
 template <class T>
 class CreateObjectFunction : public CreateObjectFunctionBase
 {

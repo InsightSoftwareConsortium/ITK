@@ -19,6 +19,7 @@ namespace itk
 {
 
 /**
+ * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCellType>
@@ -31,6 +32,7 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
+ * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TCellType>
@@ -49,8 +51,10 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
+ * Standard CellInterface:
  * Get the boundary feature of the given dimension specified by the given
  * cell feature Id.
+ * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCellType>
 TetrahedronCell< TPixelType , TCellType >::Cell::Pointer
@@ -68,7 +72,7 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCellType>
@@ -82,7 +86,7 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Standard CellInterface API:
+ * Standard CellInterface:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -102,7 +106,8 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Use this to set an individual point identifier in the cell.
+ * Standard CellInterface:
+ * Set an individual point identifier in the cell.
  */
 template <typename TPixelType, typename TCellType>
 void
@@ -114,8 +119,8 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Provide iterator begin and end for the point identifier array.  These
- * are just pointers to the beginning and one past the end.
+ * Standard CellInterface:
+ * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
 TetrahedronCell< TPixelType , TCelltype >::PointIterator
@@ -125,6 +130,12 @@ TetrahedronCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const begin iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 TetrahedronCell< TPixelType , TCelltype >::PointConstIterator
 TetrahedronCell< TPixelType , TCelltype >
@@ -133,6 +144,11 @@ TetrahedronCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get an end iterator to the list of point identifiers used by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 TetrahedronCell< TPixelType , TCelltype >::PointIterator
 TetrahedronCell< TPixelType , TCelltype >
@@ -141,6 +157,12 @@ TetrahedronCell< TPixelType , TCelltype >
   return &m_PointIds[NumberOfPoints];
 }
 
+
+/**
+ * Standard CellInterface:
+ * Get a const end iterator to the list of point identifiers used
+ * by the cell.
+ */
 template <typename TPixelType, typename TCelltype>
 TetrahedronCell< TPixelType , TCelltype >::PointConstIterator
 TetrahedronCell< TPixelType , TCelltype >
@@ -192,6 +214,7 @@ TetrahedronCell< TPixelType , TCellType >
 /**
  * Tetrahedron-specific:
  * Get the vertex specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCellType>
 TetrahedronCell< TPixelType , TCellType >::Vertex::Pointer
@@ -208,6 +231,7 @@ TetrahedronCell< TPixelType , TCellType >
 /**
  * Tetrahedron-specific:
  * Get the edge specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TPixelType, typename TCellType>
 TetrahedronCell< TPixelType , TCellType >::Edge::Pointer
@@ -226,6 +250,7 @@ TetrahedronCell< TPixelType , TCellType >
 /**
  * Tetrahedron-specific:
  * Get the face specified by the given cell feature Id.
+ * The Id can range from 0 to GetNumberOfFaces()-1.
  */
 template <typename TPixelType, typename TCellType>
 TetrahedronCell< TPixelType , TCellType >::Face::Pointer
@@ -242,13 +267,16 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Define the tetrahedron's topology data.
+ * The tetrahedron's topology data: Edges
  */
 template <typename TPixelType, typename TCellType>
 const int
 TetrahedronCell< TPixelType , TCellType >
 ::m_Edges[6][2] = { {0,1}, {1,2}, {2,0}, {0,3}, {1,3}, {2,3} };
 
+/**
+ * The tetrahedron's topology data: Faces
+ */
 template <typename TPixelType, typename TCellType>
 const int
 TetrahedronCell< TPixelType , TCellType >

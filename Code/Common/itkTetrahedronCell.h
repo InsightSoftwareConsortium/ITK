@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * TetrahedronCell represents a tetrahedron for Mesh
- */
-
 #ifndef __itkTetrahedronCell_h
 #define __itkTetrahedronCell_h
 
@@ -27,12 +23,17 @@
 namespace itk
 {
 
-/**
+/** \class TetrahedronCell
+ * TetrahedronCell represents a tetrahedron for a Mesh.
+ *
+ * The CellBoundary wrapper for this cell is TetrahedronBoundary.
+ *
  * Template parameters for TetrahedronCell:
  *
  * TPixelType =
  *     The type associated with a point, cell, or boundary for use in storing
  *     its data.
+ *
  * TCellType =
  *     Type information of mesh containing cell.
  */
@@ -45,12 +46,16 @@ class TetrahedronCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef TetrahedronCell     Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
+  /** \typedef
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -58,13 +63,21 @@ public:
   enum { PointDimension = CellType::PointDimension };
 
   /**
-   * The type of cells for this tetrahedron's vertices, edges, and faces.
+   * The type of boundary for this tetrahedron's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >    Vertex;
+
+  /**
+   * The type of boundary for this tetrahedron's edges.
+   */
   typedef LineBoundary< TPixelType , TCellType >      Edge;
+
+  /**
+   * The type of boundary for this tetrahedron's faces.
+   */
   typedef TriangleBoundary< TPixelType , TCellType >  Face;
   
-  /**
+  /** \enum
    * Tetrahedron-specific topology numbers.
    */
   enum { NumberOfPoints   = 4,
@@ -79,7 +92,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Implement the standard cell API.
+   * Implement the standard CellInterface.
    */
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
@@ -100,23 +113,8 @@ public:
   virtual CellFeatureCount GetNumberOfVertices(void);
   virtual CellFeatureCount GetNumberOfEdges(void);
   virtual CellFeatureCount GetNumberOfFaces(void);
-
-  /**
-   * Get the cell vertex corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfVertices()-1.
-   */  
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
-
-  /**
-   * Get the cell edge corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfEdges()-1.
-   */  
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);  
-
-  /**
-   * Get the cell face corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfFaces()-1.
-   */  
   virtual Face::Pointer GetCellFace(CellFeatureIdentifier);  
 
   /**
@@ -126,7 +124,7 @@ public:
 
 protected:
   /**
-   * Allocate number of points needed for this cell type.
+   * Store the number of points needed for a tetrahedron.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
   
@@ -138,15 +136,22 @@ protected:
 };
 
 
-/**
- * Create the boundary-wrapped version of this cell type.
+/** \class TetrahedronBoundary
+ * Create a boundary-wrapped version of the TetrahedronCell.
  */
 template <typename TPixelType, typename TCellType>
 class TetrahedronBoundary:
   public CellBoundary< TetrahedronCell< TPixelType , TCellType > >
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef TetrahedronBoundary  Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>   Pointer;
   
   /**
@@ -154,6 +159,9 @@ public:
    */
   itkNewMacro(Self);
   
+  /**
+   * Standard part of Object class.
+   */
   itkTypeMacro(TetrahedronBoundary, CellBoundary);
 };
 

@@ -13,11 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * CellBoundary wraps any ITK Cell type with it's corresponding boundary
- * interface definitions.
- */
-
 #ifndef __itkCellBoundary_h
 #define __itkCellBoundary_h
 
@@ -27,9 +22,13 @@ namespace itk
 {
   
 /**
+ * CellBoundary wraps any ITK Cell type with it's corresponding boundary
+ * interface definitions.  It re-implements the boundary interface methods
+ * that were defined in CellInterface to actually do something.
+ *
  * Template parameters for CellBoundary:
- * TCell =
- *     The type of cell we want to wrap.
+ *
+ * TCell =  The type of cell we want to wrap.
  */
 
 template <
@@ -39,18 +38,36 @@ class CellBoundary: public TCell
 {
 public:
   /**
+   * Standard "Self" typedef.
+   */
+  typedef CellBoundary  Self;
+  
+  /**
    * Smart pointer typedef support.
    */
-  typedef CellBoundary         Self;
   typedef SmartPointer<Self>   Pointer;
   
   /**
-   * Save template parameter information.
+   * The type of the cell that is wrapped with the additional boundary
+   * functionality.
    */
   typedef TCell  Cell;
+  
+  /**
+   * The type of container to store the cells using this boundary.
+   */
   typedef typename Cell::UsingCellsContainer      UsingCellsContainer;
-  typedef typename Cell::CellIdentifier           CellIdentifier;
+  
+  /**
+   * An iterator through the UsingCellsContainer.
+   */
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
+  
+  /**
+   * The type stored in the UsingCellsContainer.  This should always be
+   * the Cell's CellIdentifier type.
+   */
+  typedef typename Cell::CellIdentifier           CellIdentifier;
   
   /**
    * Method for creation through the object factory.
@@ -69,7 +86,7 @@ public:
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
   
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(CellBoundary, Cell);
   

@@ -13,13 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * MeshTypeDefault is a simple structure that holds type information
- * for a mesh and its cells.  It is used to avoid the passing of many
- * template parameters while still enjoying the benefits of generic
- * programming.
- */
-
 #ifndef __itkMeshTypeDefault_h
 #define __itkMeshTypeDefault_h
 
@@ -30,15 +23,23 @@
 namespace itk
 {
 
-/**
- * Template parameters for MeshTypeDefault
+/** \class MeshTypeDefault
+ * MeshTypeDefault is a simple structure that holds type information
+ * for a mesh and its cells.  It is used to avoid the passing of many
+ * template parameters while still enjoying the benefits of generic
+ * programming.
+ *
+ * Template parameters for MeshTypeDefault:
  *
  * TPixelType =
  *    The type stored as data for an entity (cell, point, or boundary).
+ *
  * VPointDimension =
  *    Geometric dimension of space.
+ *
  * VMaxTopologicalDimension =
- *    Max topological dimension of a cell that can be inserted into this mesh
+ *    Max topological dimension of a cell that can be inserted into this mesh.
+ *
  * TCoordRep =
  *    Numerical type to store each coordinate value.
  */
@@ -53,11 +54,11 @@ class MeshTypeDefault
 {
 public:
   /**
-   * Standard definition.
+   * Standard "Self" typedef.
    */
   typedef MeshTypeDefault  Self;
   
-  /**
+  /** \typedef
    * Just save all the template parameters.
    */
   typedef TPixelType  PixelType;
@@ -66,12 +67,21 @@ public:
   typedef TCoordRep  CoordRep;
   
   /**
-   * The types to be used for identification of points, cells, and
-   * boundaries.  If a corresponding container type is provided, it must
-   * be indexed by this identifier type.
+   * The type to be used to identify a point.  This should be the index type
+   * to the PointsContainer.
    */
   typedef unsigned long  PointIdentifier;
+
+  /**
+   * The type to be used to identify a cell.  This should be the index type
+   * to the CellsContainer.
+   */
   typedef unsigned long  CellIdentifier;
+
+  /**
+   * The type to be used to identify a boundary.  This should be the index type
+   * to the BoundariesContainer.
+   */
   typedef unsigned long  BoundaryIdentifier;
 
   /**
@@ -81,19 +91,19 @@ public:
    */
   typedef unsigned long  CellFeatureIdentifier;
   
-  /**
+  /** \typedef
    * The type of point used by the mesh.  This should never change from
    * this setting, regardless of the mesh type.
    */
   typedef Point< PointDimension , CoordRep >  Point;
 
   /**
-   * Define the container type that will be used to store points.
+   * The container type for use in storing points.
    */
   typedef VectorContainer< PointIdentifier , Point >  PointsContainer;
 
   /**
-   * Define the container type that will be used to store boundary links
+   * The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface.
    */
   typedef std::set< CellIdentifier >            UsingCellsContainer;
@@ -103,27 +113,55 @@ public:
    * define the cell type.
    */
   typedef MakeCellType                           CellType;
+  
+  /** \typedef
+   * The interface to cells to be used by the mesh.
+   * This should not be changed.
+   */
   typedef CellInterface< PixelType , CellType >  Cell;
   
   /**
-   * Define the container types that will be used to store:
-   * Cells, CellLinks, PointData, CellData, Boundaries, and BoundaryData.
-   *
-   * The CellLinks container should be a container of PointCellLinksContainer,
-   * which should be a container conforming to the STL "set" interface.
+   * The container type for use in storing cells.
    */
   typedef VectorContainer< CellIdentifier , Cell::Pointer >
         CellsContainer;
+  
+  /**
+   * The CellLinks container should be a container of PointCellLinksContainer,
+   * which should be a container conforming to the STL "set" interface.
+   */
   typedef std::set< CellIdentifier >
         PointCellLinksContainer;
+
+  /**
+   * The container type for use in storing point links back to cells.
+   */
   typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
+
+  /**
+   * The container type for use in storing point data.
+   */
   typedef VectorContainer< PointIdentifier , PixelType >
         PointDataContainer;
+
+  /**
+   * The container type for use in storing cell data.
+   */
   typedef VectorContainer< CellIdentifier , PixelType >
         CellDataContainer;
+
+  /**
+   * The container type for use in storing explicitly created
+   * boundaries.
+   */
   typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >
         BoundariesContainer;
+
+  /**
+   * The container type for use in storing data for explicitly
+   * created boundaries.
+   */
   typedef VectorContainer< BoundaryIdentifier , PixelType >
         BoundaryDataContainer;
 };

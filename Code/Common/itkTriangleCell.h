@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * TriangleCell represents a triangle for Mesh
- */
-
 #ifndef __itkTriangleCell_h
 #define __itkTriangleCell_h
 
@@ -27,12 +23,17 @@
 namespace itk
 {
 
-/**
+/** \class TriangleCell
+ * TriangleCell represents a triangle for a Mesh.
+ *
+ * The CellBoundary wrapper for this cell is TriangleBoundary.
+ *
  * Template parameters for TriangleCell:
  *
  * TPixelType =
  *     The type associated with a point, cell, or boundary for use in storing
  *     its data.
+ *
  * TCellType =
  *     Type information of mesh containing cell.
  */
@@ -45,12 +46,16 @@ class TriangleCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef TriangleCell        Self;
-  typedef SmartPointer<Self>  Pointer;
   
   /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** \typedef
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -58,12 +63,16 @@ public:
   enum { PointDimension = CellType::PointDimension };
 
   /**
-   * The type of cells for this triangle's vertices and edges.
+   * The type of boundary for this triangle's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
+
+  /**
+   * The type of boundary for this triangle's edges.
+   */
   typedef LineBoundary< TPixelType , TCellType >    Edge;
   
-  /**
+  /** \enum
    * Triangle-specific topology numbers.
    */
   enum { NumberOfPoints   = 3,
@@ -77,7 +86,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Implement the standard cell API.
+   * Implement the standard CellInterface.
    */
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
@@ -97,27 +106,17 @@ public:
   
   virtual CellFeatureCount GetNumberOfVertices(void);
   virtual CellFeatureCount GetNumberOfEdges(void);
-
-  /**
-   * Get the cell vertex corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfVertices()-1.
-   */  
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
-
-  /**
-   * Get the cell edge corresponding to the given Id.
-   * The Id can range from 0 to GetNumberOfEdges()-1.
-   */  
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
-   * Standard part of Object class.  Used for debugging output.
+   * Standard part of Object class.
    */
   itkTypeMacro(TriangleCell, CellInterface);
   
 protected:
   /**
-   * Allocate number of points needed for this cell type.
+   * Store the number of points needed for a triangle.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
 
@@ -128,15 +127,22 @@ protected:
 };
 
 
-/**
- * Create the boundary-wrapped version of this cell type.
+/** \class TriangleBoundary
+ * Create a boundary-wrapped version of the TriangleCell.
  */
 template <typename TPixelType, typename TCellType>
 class TriangleBoundary:
   public CellBoundary< TriangleCell< TPixelType , TCellType > >
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef TriangleBoundary    Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
@@ -144,6 +150,9 @@ public:
    */
   itkNewMacro(Self);
   
+  /**
+   * Standard part of Object class.
+   */
   itkTypeMacro(TriangleBoundary, CellBoundary);
 };
 

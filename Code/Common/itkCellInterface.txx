@@ -31,7 +31,7 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * This is only part of the boundary interface.  Just ignore the call.
+ * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellType>
 void
@@ -42,7 +42,7 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * This is only part of the boundary interface.  Just ignore the call.
+ * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellType>
 void
@@ -54,6 +54,7 @@ CellInterface< TPixelType , TCellType >
 
 /**
  * By default, the cell is not a boundary, so it has no using cells.
+ * This will always return false for a cell.
  */
 template <typename TPixelType, typename TCellType>
 bool
@@ -65,7 +66,7 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * This is only part of the boundary interface.  Just ignore the call.
+ * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellType>
 int
@@ -77,7 +78,7 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * This is only part of the boundary interface.  Just ignore the call.
+ * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellType>
 CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
@@ -89,7 +90,7 @@ CellInterface< TPixelType , TCellType >
 
 
 /**
- * This is only part of the boundary interface.  Just ignore the call.
+ * This is only part of the boundary interface.  The call is ignored.
  */
 template <typename TPixelType, typename TCellType>
 CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
@@ -97,16 +98,6 @@ CellInterface< TPixelType , TCellType >
 ::UsingCellsEnd(void)
 {
   return UsingCellsContainerIterator();
-}
-
-
-/**
- * Constructor:  Useless for now.
- */
-template <typename TPixelType, typename TCellType>
-CellInterface< TPixelType , TCellType >
-::CellInterface()
-{
 }
 
 } // namespace itk

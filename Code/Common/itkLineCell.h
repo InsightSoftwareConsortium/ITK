@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * LineCell represents a line segment for Mesh
- */
-
 #ifndef __itkLineCell_h
 #define __itkLineCell_h
 
@@ -27,12 +23,17 @@
 namespace itk
 {
 
-/**
+/** \class LineCell
+ * LineCell represents a line segment for a Mesh.
+ *
+ * The CellBoundary wrapper for this cell is LineBoundary.
+ *
  * Template parameters for LineCell:
  *
  * TPixelType =
  *     The type associated with a point, cell, or boundary for use in storing
  *     its data.
+ *
  * TCellType =
  *     Type information of mesh containing cell.
  */
@@ -45,12 +46,16 @@ class LineCell: public CellInterface< TPixelType , TCellType >
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef LineCell            Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
+  /** \typedef
    * Save some template parameter information.
    */
   typedef typename CellType::CoordRep         CoordRep;
@@ -58,11 +63,11 @@ public:
   enum { PointDimension = CellType::PointDimension };
   
   /**
-   * The type of cells for this lines's vertices.
+   * The type of boundary for this lines's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
   
-  /**
+  /** \enum
    * Line-specific topology numbers.
    */
   enum { NumberOfPoints   = 2,
@@ -75,7 +80,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Implement the standard cell API.
+   * Implement the standard CellInterface.
    */
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
@@ -96,27 +101,34 @@ public:
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
 
   /**
-   * Standard part of Object class.  Used for debugging output.
+   * Standard part of Object class.
    */
   itkTypeMacro(LineCell, CellInterface);
 
 protected:
   /**
-   * Allocate number of points needed for this cell type.
+   * Store number of points needed for a line segment.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
 };
 
 
-/**
- * Create the boundary-wrapped version of this cell type.
+/** \class LineBoundary
+ * Create a boundary-wrapped version of the LineCell.
  */
 template <typename TPixelType, typename TCellType>
 class LineBoundary:
   public CellBoundary< LineCell< TPixelType , TCellType > >
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef LineBoundary        Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
   
   /**
@@ -124,6 +136,9 @@ public:
    */
   itkNewMacro(Self);
   
+  /**
+   * Standard part of Object class.
+   */
   itkTypeMacro(LineBoundary, CellBoundary);
 };
 

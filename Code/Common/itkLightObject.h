@@ -13,11 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * LightObject is the highest level base class for most itk objects. It
- * implements reference counting, call-backs, and API for object printing.
- */
-
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
@@ -29,16 +24,27 @@
 #include "itkIndent.h"
 #include "itkMacro.h"
 
+/** \namespace itk
+ * \brief The "itk" namespace contains all classes defined for Insight.
+ */
 namespace itk
 {
 
+/** \class LightObject
+ * LightObject is the highest level base class for most itk objects. It
+ * implements reference counting, call-backs, and API for object printing.
+ */
 class ITK_EXPORT LightObject 
 {
 public:
-  /** 
-   * Smart pointer typedef support.
+  /**
+   * Standard "Self" typedef.
    */
   typedef LightObject         Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
 
   /**
