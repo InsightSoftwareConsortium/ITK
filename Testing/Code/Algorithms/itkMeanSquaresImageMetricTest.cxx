@@ -18,7 +18,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkMeanSquaresImageToImageMetric2.h"
+#include "itkMeanSquaresImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 
 #include <iostream>
@@ -41,9 +41,11 @@ int main()
 
   const unsigned int ImageDimension = 2;
 
+  typedef unsigned char            PixelType;
+
   //Allocate Images
-  typedef itk::Image<unsigned char,ImageDimension>     MovingImageType;
-  typedef itk::Image<unsigned char,ImageDimension>     FixedImageType;
+  typedef itk::Image<PixelType,ImageDimension>         MovingImageType;
+  typedef itk::Image<PixelType,ImageDimension>         FixedImageType;
 
   // Declare Gaussian Sources
   typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
@@ -127,7 +129,7 @@ int main()
 //------------------------------------------------------------
 // Set up transform parameters
 //------------------------------------------------------------
-  ParametersType parameters( transform.GetNumberOfParameters() );
+  ParametersType parameters( transform->GetNumberOfParameters() );
 
   // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
@@ -169,12 +171,37 @@ int main()
 //-------------------------------------------------------
   std::cout << "Check case when Target is NULL" << std::endl;
   metric->SetFixedImage( NULL );
-  std::cout << "Value = " << metric->GetValue( parameters );
-  std::cout << std::endl;
+  try 
+    {
+    std::cout << "Value = " << metric->GetValue( parameters );
+    std::cout << "If you are reading this message the Metric " << std::endl;
+    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & e )
+    { 
+    std::cout << "Exception received (as expected) "    << std::endl;
+    std::cout << "Description : " << e.GetDescription() << std::endl;
+    std::cout << "Location    : " << e.GetLocation()    << std::endl;
+    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    }
   
-  metric->GetValueAndDerivative( parameters, measure, derivative );
-  std::cout << "Value = " << measure << std::endl;
-
+  try 
+    {
+    metric->GetValueAndDerivative( parameters, measure, derivative );
+    std::cout << "Value = " << measure << std::endl;
+    std::cout << "If you are reading this message the Metric " << std::endl;
+    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & e )
+    { 
+    std::cout << "Exception received (as expected) "    << std::endl;
+    std::cout << "Description : " << e.GetDescription() << std::endl;
+    std::cout << "Location    : " << e.GetLocation()    << std::endl;
+    std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
+    }
+ 
 
   return EXIT_SUCCESS;
 
