@@ -21,6 +21,7 @@ ADD_TEST(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunc
 ADD_TEST(itkCumulativeGaussianOptimizerTest ${NUMERICS_TESTS} itkCumulativeGaussianOptimizerTest)
 ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
 ADD_TEST(itkLevenbergMarquardtOptimizerTest ${NUMERICS_TESTS} itkLevenbergMarquardtOptimizerTest)
+ADD_TEST(itkLBFGSBOptimizerTest ${NUMERICS_TESTS} itkLBFGSBOptimizerTest)
 ADD_TEST(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
 ADD_TEST(itkMultivariateLegendrePolynomialTest ${NUMERICS_TESTS} itkMultivariateLegendrePolynomialTest)
 ADD_TEST(itkNumericsTest ${NUMERICS_TESTS} itkNumericsTest)
@@ -39,6 +40,7 @@ itkCompositeValleyFunctionTest.cxx
 itkCumulativeGaussianOptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
 itkLevenbergMarquardtOptimizerTest.cxx
+itkLBFGSBOptimizerTest.cxx
 itkLBFGSOptimizerTest.cxx
 itkMultivariateLegendrePolynomialTest.cxx
 itkNumericsTest.cxx

@@ -8,7 +8,7 @@ ADD_LIBRARY(ITKNumerics
   itkCostFunction.cxx
   itkGradientDescentOptimizer.cxx
   itkLBFGSOptimizer.cxx
-#  itkLBFGSBOptimizer.cxx
+  itkLBFGSBOptimizer.cxx
   lbfgsb.c
   itkLevenbergMarquardtOptimizer.cxx
   itkMultipleValuedNonLinearOptimizer.cxx
