@@ -20,6 +20,7 @@
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
+#include "itkImageRegionExclusionIteratorWithIndex.h"
 
 
 namespace itk
@@ -350,19 +351,21 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     offset[ dim ] = 0;
     }
 
-  region.SetIndex( start );
-  region.SetSize ( size  );
+  
+  typename InputImageType::RegionType internalRegion;  
+  internalRegion.SetIndex( start );
+  internalRegion.SetSize ( size  );
 
-  itkDebugMacro (<< "Region to process: " << region);
+  itkDebugMacro (<< "Region to process: " << internalRegion);
 
   ReflectiveImageRegionIterator< VectorImageType > 
-                                it( distanceComponents, region );
+                                it( distanceComponents, internalRegion );
 
   it.GoToBegin();
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0, i=0;
-  updateVisits = region.GetNumberOfPixels()/10;
+  updateVisits = internalRegion.GetNumberOfPixels()/10;
   if ( updateVisits < 1 ) 
     {
     updateVisits = 1;
@@ -400,6 +403,20 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       }
   
   itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
+
+  OffsetType zeroOffset;
+  zeroOffset.Fill( 0 );
+
+  ImageRegionExclusionIteratorWithIndex< VectorImageType >  eit( distanceComponents,
+                                                                 region );
+  eit.SetExclusionRegion( internalRegion );
+  eit.GoToBegin();
+  while( !eit.IsAtEnd() )
+    {
+    eit.Set( zeroOffset );
+    ++eit;
+    }
+  
   this->ComputeVoronoiMap();
 
 } // end GenerateData()
