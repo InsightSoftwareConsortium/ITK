@@ -72,7 +72,7 @@ ADD_TEST(itkNewTest ${ALGORITHMS_TESTS} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationImageMetricTest)
 ADD_TEST(itkNormalizedCorrelationPointSetToImageMetricTest ${ALGORITHMS_TESTS} itkNormalizedCorrelationPointSetToImageMetricTest)
 ADD_TEST(itkOtsuThresholdImageCalculatorTest ${ALGORITHMS_TESTS} itkOtsuThresholdImageCalculatorTest)
-ADD_TEST(itkPatternIntensityImageMetricTest ${ALGORITHMS_TESTS}  itkPatternIntensityImageMetricTest)
+ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS}  itkMeanReciprocalSquareDifferenceImageMetricTest)
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkReinitializeLevelSetImageFilterTest)
@@ -156,7 +156,7 @@ itkNewTest.cxx
 itkNormalizedCorrelationImageMetricTest.cxx
 itkNormalizedCorrelationPointSetToImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
-itkPatternIntensityImageMetricTest.cxx
+itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
 itkRegionGrow2DTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx

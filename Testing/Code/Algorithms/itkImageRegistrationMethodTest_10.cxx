@@ -17,7 +17,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkAffineTransform.h"
-#include "itkPatternIntensityImageToImageMetric.h"
+#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkCommandIterationUpdate.h"
@@ -60,7 +60,7 @@ int itkImageRegistrationMethodTest_10(int argc, char* argv[] )
   typedef itk::RegularStepGradientDescentOptimizer                  OptimizerType;
 
   // Metric Type
-  typedef itk::PatternIntensityImageToImageMetric< 
+  typedef itk::MeanReciprocalSquareDifferenceImageToImageMetric< 
                                     FixedImageType, 
                                     MovingImageType >    MetricType;
 
