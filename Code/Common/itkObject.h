@@ -120,6 +120,9 @@ public:
   /** Remove the observer with this tag value. */
   void RemoveObserver(unsigned long tag);
 
+  /** Remove all observers . */
+  void RemoveAllObservers();
+
   /** Return true if an observer is registered for this event. */
   bool HasObserver( const EventObject & event ) const;
 

@@ -52,6 +52,7 @@ public:
   ~SubjectImplementation();
   unsigned long AddObserver(const EventObject & event, Command* cmd);
   void RemoveObserver(unsigned long tag);
+  void RemoveAllObservers();
   void InvokeEvent( const EventObject & event, Object* self);
   void InvokeEvent( const EventObject & event, const Object* self);
   Command *GetCommand(unsigned long tag);
@@ -99,6 +100,19 @@ RemoveObserver(unsigned long tag)
       return;
       }
     }
+}
+
+
+void
+SubjectImplementation::
+RemoveAllObservers()
+{
+  for(std::list<Observer* >::iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    delete (*i);
+    }
+  m_Observers.clear();
 }
 
 
@@ -381,6 +395,17 @@ Object
     this->m_SubjectImplementation->RemoveObserver(tag);
     }
 }
+
+void 
+Object
+::RemoveAllObservers()
+{
+  if (this->m_SubjectImplementation)
+    {
+    this->m_SubjectImplementation->RemoveAllObservers();
+    }
+}
+
 
 void 
 Object
