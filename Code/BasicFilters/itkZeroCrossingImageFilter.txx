@@ -195,11 +195,11 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
       center = bit.Size()/2;
       while ( ! bit.IsAtEnd() )
         {
-          this_one = nit.GetPixel(center);
+          this_one = bit.GetPixel(center);
           it.Set(m_BackgroundValue);
           for( i = 0; i< ImageDimension * 2; i++)
             {
-              that = nit.GetPixel(center + offset[i]);
+              that = bit.GetPixel(center + offset[i]);
               if( ((this_one < zero) && (that > zero))
                   || ((this_one > zero) && (that < zero)) 
                   || ((this_one == zero) && (that != zero))
