@@ -9,7 +9,7 @@ ${ITK_BINARY_DIR}/Code/BasicFilters
 )
 
 LINK_LIBRARIES (
-ITKBasicFilters 
+ITKBasicFilters
 ITKCommon
 VXLNumerics
 )
@@ -31,7 +31,6 @@ itkInterpolateTest
 itkLevelSetShapeDetectionTest
 itkMRFLabellerTest
 itkMutualInformationMetricTest
-itkMutualInformationTest
 itkNewTest
 itkRegionGrow2DTest
 itkSupervisedClassifierTest
@@ -42,5 +41,7 @@ itkDeformableTest
 itkVoronoi2DDiagramTest
 itkVoronoiSegmentationImageFilterTest
 )
+
+
 
 
