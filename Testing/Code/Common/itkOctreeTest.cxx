@@ -49,14 +49,14 @@ int itkOctreeTest(int, char *[])
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
-  std::srand( (unsigned)time( NULL) );
+  srand( (unsigned)time( NULL) );
   itk::ImageRegionIterator<ImageType> ri(img,region);
   try
     {
     unsigned int counter = 0;
     while(!ri.IsAtEnd())
       {
-      unsigned int val = std::rand() % 16384;
+      unsigned int val = rand() % 16384;
       if(counter & counter % 8 == 0)
         std::cerr << val << std::endl;
       else
