@@ -138,6 +138,57 @@ int itkConstNeighborhoodIteratorTest(int, char**)
 
   println("Testing GetBoundingBoxAsImageRegion");
   std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
+
+
+  
+  println("Testing random access iteration");
+
+  TestImageType::Pointer ra_img = GetTestImage(10, 10, 5, 3);
+  loc[0] = 4; loc[1] = 4; loc[2] = 2; loc[3] = 1;
+
+  radius[0] = radius[1] = radius[2] = radius[3] = 1;
+
+  println("Creating ConstNeighborhoodIterator");
+  itk::ConstNeighborhoodIterator<TestImageType>
+     ra_it(radius, ra_img, ra_img->GetRequestedRegion());
+
+  println("Testing random access");
+  ra_it.Begin();
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+  println("Adding [1, 1, 1, 1]");
+  OffsetType a_off;
+  a_off.Fill(1);
+  ra_it += a_off;
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+  println("Subtracting [1, 1, 1, 1]");
+  ra_it -= a_off;
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+  println("Adding [0 0 0 2]");
+  a_off.Fill(0);
+  a_off[3] = 2;
+  ra_it += a_off;
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+  println("Adding [0 8 0 0]");
+  a_off.Fill(0);
+  a_off[1] = 8;
+  ra_it += a_off;
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+  println("Adding [5 -3 2 -1]");
+  a_off[0] = 5;
+  a_off[1] = -3;
+  a_off[2] = 2;
+  a_off[3] = -1;
+  ra_it += a_off;
+  printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
+
+
+  
+
   
   return 0;
   
