@@ -47,7 +47,7 @@ namespace itk
  *    The element type stored in the container.
  */
 template <typename TElementIdentifier, typename TElement>
-class IndexedContainer: public itkObject
+class IndexedContainer: public Object
 {
 public:
   /**
