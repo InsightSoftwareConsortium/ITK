@@ -78,9 +78,9 @@ public:
 
   /** Computes and returns appropriate out-of-bounds values from
    * neighborhood iterator data. */
-  virtual PixelType operator()(const OffsetType& point_index,
-                               const OffsetType& boundary_offset,
-                               const NeighborhoodType *data) const
+  virtual PixelType operator()(const OffsetType&,
+                               const OffsetType&,
+                               const NeighborhoodType *) const
     { return m_Constant; }
 
   /** Set the value of the constant. */

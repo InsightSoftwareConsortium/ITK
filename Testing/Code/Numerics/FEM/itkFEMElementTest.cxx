@@ -46,12 +46,12 @@ int itkFEMElementTest(int ac, char** av)
   char** filelist; 
   char buffer[80] = {'\0'};
   int numfiles = 0;
-  char *fname = NULL;
+  char *fname;
 
   // Solvers being tested
   int numsolvers = 3;
-  int currsolver = -1;
-  int s = 0;
+  int currsolver;
+  int s;
 
   // Output comments
   char comment;
