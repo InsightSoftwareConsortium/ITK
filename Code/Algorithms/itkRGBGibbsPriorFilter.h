@@ -173,30 +173,31 @@ private:
   void operator=(const Self&); 
   
   typedef typename TInputImage::SizeType InputImageSizeType;
-  typename ClassifierType::Pointer m_ClassifierPtr;
 
   InputImageType      m_InputImage;    /** the input */
-  InputImageType      m_MediumImage;   /** the medium image to store intermedium result */
   TrainingImageType   m_TrainingImage; /** image to train the filter. */
   LabelledImageType   m_LabelledImage; /** output */
-
+  unsigned int m_NumberOfClasses; /** the number of class need to be classified. */
+  unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
+  typename ClassifierType::Pointer m_ClassifierPtr;
+  int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
   float m_BoundaryWt; /** weight for H_1 */
   float m_GibbsPriorWt; /** weight for H_2 */
   int   m_StartRadius;  /** define the start region of the object. */
-  int   m_Temp;         /** for SA algo. */
-  IndexType m_StartPoint; /** the seed of object */
-  int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
   int m_RecursiveNum;     /** number of SA iterations. */
   unsigned int      *m_LabelStatus; /** array for the state of each pixel. */
+
+  InputImageType      m_MediumImage;   /** the medium image to store intermedium result */
+
+  int   m_Temp;         /** for SA algo. */
+  IndexType m_StartPoint; /** the seed of object */
 
   int         m_imgWidth; /** image size. */
   int         m_imgHeight;
   int         m_imgDepth;
-  int         m_ClusterSize; /** region size smaller than the threshold will be erased. */
-  int         m_ObjectLabel; /** the label for object region. */
+  unsigned int m_ClusterSize; /** region size smaller than the threshold will be erased. */
+  unsigned int m_ObjectLabel; /** the label for object region. */
   int         m_VecDim;      /** the channel number in the image. */
-  int         m_NumberOfClasses; /** the number of class need to be classified. */
-  unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
   InputPixelType    m_LowPoint;  /** the point give lowest value of H-1 in neighbor. */
 
   unsigned short    *m_Region;   /** for region erase. */

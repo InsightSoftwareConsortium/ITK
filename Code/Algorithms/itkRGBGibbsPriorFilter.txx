@@ -459,14 +459,8 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::ApplyGPImageFilter()
 {
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int rowsize = m_imgWidth;
-
-  int numIter = 0;
-
  /** Minimize f_1 and f_3. */
   MinimizeFunctional(); 
-
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -527,7 +521,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImagePixelType outLabelledPix;
 
   /** Set a variable to store the offset index. */
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   double * dist = new double[m_NumberOfClasses];
 
@@ -662,7 +656,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int frame = m_imgWidth * m_imgHeight;
   int rowsize = m_imgWidth;
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0 };
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
   m_Region[i] = l;
 
   offsetIndex3D[2] = i / frame;
