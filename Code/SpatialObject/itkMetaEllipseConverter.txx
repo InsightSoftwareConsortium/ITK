@@ -47,6 +47,11 @@ MetaEllipseConverter<NDimensions>
   spatialObject->GetProperty()->SetName(ellipse->Name());
   spatialObject->SetId(ellipse->ID());
   spatialObject->SetParentId(ellipse->ParentID());
+  spatialObject->GetProperty()->SetRed(ellipse->Color()[0]);
+  spatialObject->GetProperty()->SetGreen(ellipse->Color()[1]);
+  spatialObject->GetProperty()->SetBlue(ellipse->Color()[2]);
+  spatialObject->GetProperty()->SetAlpha(ellipse->Color()[3]);
+
   return spatialObject;
 }
 
