@@ -253,14 +253,13 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //   The most
-  //   straightforward method of initializing the transform parameters is to configure the transform and then get its
-  //   parameters with the method \code{GetParameters()}. Here we initialize
-  //   the transform by passing the center of the fixed image as the rotation
-  //   center with the \code{SetRotationCenter()} method. Then the
-  //   translation is set as the vector relating the center of moving image
-  //   to the center of the fixed image. This last definition is passed with
-  //   the method \code{SetTranslation()}.
+  //   The most straightforward method of initializing the transform parameters
+  //   is to configure the transform and then get its parameters with the
+  //   method \code{GetParameters()}. Here we initialize the transform by
+  //   passing the center of the fixed image as the rotation center with the
+  //   \code{SetCenter()} method. Then the translation is set as the vector
+  //   relating the center of moving image to the center of the fixed image.
+  //   This last definition is passed with the method \code{SetTranslation()}.
   //
   //  Software Guide : EndLatex 
 
