@@ -344,6 +344,8 @@ int itk2DDeformableTest(int, char**)
 
   std::cout << "Mesh Source: " << m_bmmeshsource;
 
+  delete [] ImageBuffer;
+
 // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 
