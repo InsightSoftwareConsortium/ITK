@@ -23,7 +23,9 @@ SET(WRAP_SOURCES
   wrap_itkImage_2D
   wrap_itkImage_3D
   wrap_itkImageFunction
+  wrap_itkImageConstIterator
   wrap_itkImageRegionIterator
+  wrap_itkImageRegionConstIterator
   wrap_itkImageSource
   wrap_itkImageToImageFilter_2D
   wrap_itkImageToImageFilter_3D
