@@ -15,7 +15,7 @@
 
 =========================================================================*/
 
-#include <iostream.h>
+#include <iostream>
 #include "itkPolyLineParametricPath.h"
 
 int itkPolyLineParametricPathTest(int, char* [])

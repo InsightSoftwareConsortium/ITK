@@ -15,7 +15,7 @@
 
 =========================================================================*/
 
-#include <iostream.h>
+#include <iostream>
 #include "itkChainCodePath.h"
 
 int itkChainCodePathTest(int, char*[])
