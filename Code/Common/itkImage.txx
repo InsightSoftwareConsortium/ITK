@@ -116,6 +116,15 @@ Image<TPixel, VImageDimension>
     memcpy( m_ImageSize, m_BufferSize, VImageDimension*sizeof(unsigned long) );
     }
   
+  // Now we should know what our whole extent is. If our update extent
+  // was not set yet, (or has been set to something invalid - with no 
+  // data in it ) then set it to the whole extent.
+  if ( ! m_UpdateExtentInitialized)
+    {
+    this->SetUpdateExtentToWholeExtent();
+    m_UpdateExtentInitialized = true;
+    }
+  
   m_LastUpdateExtentWasOutsideOfTheExtent = 0;
 }
 

@@ -37,6 +37,9 @@ DataObject()
   m_ReleaseDataFlag = false;
 
   m_PipelineMTime = 0;
+  
+  m_UpdateExtentInitialized = false;
+  
 }
 
 //----------------------------------------------------------------------------

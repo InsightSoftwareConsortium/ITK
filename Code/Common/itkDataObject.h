@@ -176,6 +176,9 @@ protected:
   // Was the update extent propagated down the pipeline
   bool m_LastUpdateExtentWasOutsideOfTheExtent;
 
+  // First update, the update extent will be set to the whole extent.
+  bool m_UpdateExtentInitialized;  
+
 private:
   ProcessObject *m_Source; ///Who generated this data as output?
 
@@ -195,7 +198,6 @@ private:
   // How many upstream filters are local to the process.
   // This supports distributed processing (i.e., asynchronous updates).
   float m_Locality;  
-
 
   
   /**

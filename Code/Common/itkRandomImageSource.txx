@@ -68,9 +68,23 @@ RandomImageSource<TOutputImage>
  */
 
 //----------------------------------------------------------------------------
-/**
- *
- */
+template <typename TOutputImage>
+void 
+RandomImageSource<TOutputImage>
+::ExecuteInformation()
+{
+  TOutputImage *output;
+  TOutputImage::Index index = {0};
+  
+  output = this->GetOutput(0);
+  
+  output->SetImageSize( m_Size );
+  output->SetImageStartIndex( index );
+  output->SetSpacing(m_Spacing);
+  output->SetOrigin(m_Origin);
+}
+
+//----------------------------------------------------------------------------
 template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
@@ -79,8 +93,8 @@ RandomImageSource<TOutputImage>
   typedef typename TOutputImage::ScalarValueType scalarType;
 
   TOutputImage *image=this->GetOutput(0);
-//  image->SetImageSize(this->GetSize());
-  image->SetBufferSize(this->GetSize());
+  image->SetBufferSize(image->GetRegionSize());
+  image->SetBufferStartIndex( image->GetRegionStartIndex() );
   image->Allocate();
 
   scalarType min = NumericTraits<scalarType>::min();
