@@ -23,7 +23,7 @@ namespace itk {
 
 /**
  * \class BinaryErodeImageFilter
- * \brief binary dilation of an image
+ * \brief Binary erosion of an image
  *
  * Erode an image using binary morphology. Gray scale images can be
  * processed as binary images by selecting a "ErodeValue".  Pixel values
