@@ -88,7 +88,7 @@ public:
   typedef typename Superclass::SampleType SampleType ;
   typedef typename Superclass::SamplePointer SamplePointer ;
   typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::MeasurementVectorType measurementVectorType ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
 
   enum { MeasurementVectorSize = Superclass::MeasurementVectorSize } ;
 
