@@ -290,10 +290,9 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::UpdateLocalDistance( 
- DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>::VectorImagePointer & components,\
-          const IndexType  & here,
-          const OffsetType & offset )
+::UpdateLocalDistance( VectorImagePointer & components,
+                       const IndexType  & here,
+                       const OffsetType & offset )
 {
 
   IndexType  there            = here + offset;
