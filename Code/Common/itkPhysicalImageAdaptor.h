@@ -67,6 +67,7 @@ public:
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
+  enum { ImageDimension = TImage::ImageDimension };
   typedef Index<ImageDimension>  IndexType;
 
   /** 
