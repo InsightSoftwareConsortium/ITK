@@ -31,7 +31,7 @@ using namespace itk;
 using namespace fem;
 
 //
-int itkFEMLandmarkLoadImplementationTest()
+int itkFEMLandmarkLoadImplementationTest(int, char*[])
 {
     Solver S;
     S.InitializeLinearSystemWrapper();
