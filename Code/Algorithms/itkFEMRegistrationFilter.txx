@@ -580,7 +580,7 @@ int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementField(unsi
 
 
 template<class TMovingImage,class TFixedImage>
-void FEMRegistrationFilter<TMovingImage,TFixedImage>::WarpImage(typename TMovingImage::Pointer ImageToWarp)
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::WarpImage( const ImageType * ImageToWarp)
 {
   // -------------------------------------------------------
   std::cout << "Warping image" << std::endl;

@@ -180,7 +180,7 @@ public:
   void      MultiResSolve();
 
   /** Applies the warp to the input image. */
-  void      WarpImage(typename ImageType::Pointer R);      
+  void      WarpImage(const ImageType * R);      
 
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
