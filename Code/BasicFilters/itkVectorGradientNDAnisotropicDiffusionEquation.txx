@@ -44,37 +44,53 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage>
+double VectorGradientNDAnisotropicDiffusionEquation<TImage>
+::m_MIN_NORM = 1.0e-10;
+  
+template<class TImage>
 VectorGradientNDAnisotropicDiffusionEquation<TImage>
 ::VectorGradientNDAnisotropicDiffusionEquation()
 {
-  unsigned int i;
+  unsigned int i, j;
   RadiusType r;
-  r[0] = 2;
+
   for (i = 0; i < ImageDimension; ++i)
     {
       r[i] = 1;
     }
   this->SetRadius(r);
-  
-  // Dummy neighborhood
+
+  // Dummy neighborhood used to set up the slices.
   Neighborhood<PixelType, ImageDimension> it;
   it.SetRadius(r);
+  
+ // Slice the neighborhood
+  m_Center =  it.Size() / 2;
 
-  // Set up neighborhood slicing
-  m_Center = it.Size()/2;
-  for (int i = 0; i< ImageDimension; i++)
+  for (i = 0; i< ImageDimension; ++i)
+    { m_Stride[i] = it.GetStride(i); }
+
+  for (i = 0; i< ImageDimension; ++i)
+    { x_slice[i]  = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]); }
+  
+  for (i = 0; i< ImageDimension; ++i)
     {
-      m_Stride[i]   = it.GetStride(i);
-      x_slice[i]  = std::slice(m_Center - m_Stride[i], 3, m_Stride[i]);
-      xa_slice[i] = std::slice((m_Center+1)-m_Stride[i], 3, m_Stride[i]);
-      xd_slice[i] = std::slice((m_Center-1)-m_Stride[i], 3, m_Stride[i]);
+      for (j = 0; j < ImageDimension; ++j)
+        {
+          // For taking derivatives in the i direction that are offset one
+          // pixel in the j direction.
+          xa_slice[i][j]
+            = std::slice((m_Center + m_Stride[j])-m_Stride[i], 3, m_Stride[i]); 
+          xd_slice[i][j]
+            = std::slice((m_Center - m_Stride[j])-m_Stride[i], 3, m_Stride[i]);
+        }
     }
- 
-  // Allocate the derivative operator
-  dx_op.SetDirection(0);
+  
+  // Allocate the derivative operator.
+  dx_op.SetDirection(0); // Not relelevant, we'll apply in a slice-based
+                         // fashion 
   dx_op.SetOrder(1);
   dx_op.CreateDirectional();
-  
 }
 
 template<class TImage>
@@ -83,72 +99,69 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {
-  unsigned int i,j;
+  unsigned int i, j, k;
   PixelType delta;
 
-  ScalarValueType GradMag[ImageDimension];
-  ScalarValueType GradMag_d[ImageDimension];  
-  ScalarValueType Cx[ImageDimension];
-  ScalarValueType Cxd[ImageDimension];
-  
+  double GradMag;
+  double GradMag_d;
+  double Cx[ImageDimension];
+  double Cxd[ImageDimension];
+
+  // Remember: PixelType is a Vector of length VectorDimension.
   PixelType dx_forward[ImageDimension];
   PixelType dx_backward[ImageDimension];
   PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  PixelType dx_aug;
+  PixelType dx_dim;
 
+  // Calculate the directional and centralized derivatives.
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
-        - (it.GetPixel(m_Center));
-      dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
-        - (it.GetPixel(m_Center));
-
-      dx[i]      = m_InnerProduct(x_slice[i]  , it, dx_op);
-      dx_aug[i]  = m_InnerProduct(xa_slice[i] , it, dx_op);
-      dx_dim[i]  = m_InnerProduct(xd_slice[i] , it, dx_op);
+      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
+        - it.GetPixel(m_Center);
+      dx_backward[i]=  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);
+      dx[i]      = m_InnerProduct(x_slice[i], it, dx_op);
     }
 
-  // Calculate approximate gradient magnitude values
+  // Calculate the conductance term for each dimension.
   for (i = 0; i < ImageDimension; i++)
     {
-      GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
-      GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
-
-      for (j = 0; j < VectorDimension; j++)
+      // Calculate gradient magnitude approximation in this
+      // dimension linked (summed) across the vector components.
+      GradMag   = 0.0;
+      GradMag_d = 0.0;
+      for (k =0; k < VectorDimension; k++)
         {
-          for (unsigned int m = 0; m < ImageDimension; m++)
+          GradMag   +=  vnl_math_sqr( dx_forward[i][k] );
+          GradMag_d +=  vnl_math_sqr( dx_backward[i][k] );
+
+          for (j = 0; j < ImageDimension; j++)
             {
-              if ( m != i)
+              if ( j != i)
                 {
-                  GradMag[i]   += 0.25f * (dx[m][j]+dx_aug[m][j]) *
-                    (dx[m][j] + dx_aug[m][j]);
-                  GradMag_d[i] += 0.25f * (dx[m][j]+dx_dim[m][j]) *
-                    (dx[m][j] + dx_dim[m][j] );
+                  dx_aug  = m_InnerProduct(xa_slice[j][i], it, dx_op);
+                  dx_dim  = m_InnerProduct(xd_slice[j][i], it, dx_op);
+                  GradMag   += 0.25f * vnl_math_sqr( dx[j][k]+dx_aug[k] );
+                  GradMag_d += 0.25f * vnl_math_sqr( dx[j][k]+dx_dim[k] );
                 }
             }
-          GradMag[i]   +=  dx_forward[i][j] *  dx_forward[i][j];
-          GradMag_d[i] += dx_backward[i][j] * dx_backward[i][j];
         }
-    }
-
-  // Calculate conductance terms
-  for (i = 0; i < ImageDimension; ++i)
-    {
-      Cx[i] = exp( GradMag[i]    / m_k );
-      Cxd[i]= exp( GradMag_d[i] / m_k );
+      
+      Cx[i]  = ::exp( GradMag   / m_k );
+      Cxd[i] = ::exp( GradMag_d / m_k ); 
     }
 
   // Compute update value  
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (k = 0; k < VectorDimension; k++)
     {
-      delta[j] = NumericTraits<ScalarValueType>::Zero;
+      delta[k] = NumericTraits<ScalarValueType>::Zero;
       
-      for (unsigned int i = 0; i < ImageDimension; ++i)
+      for (i = 0; i < ImageDimension; ++i)
         {
-          dx_forward[i][j]  *= Cx[i];
-          dx_backward[i][j] *= Cxd[i];
-          delta[j] += dx_forward[i][j] + dx_backward[i][j];
+          dx_forward[i][k]  *= Cx[i];
+          dx_backward[i][k] *= Cxd[i];
+          delta[k] += dx_forward[i][k] - dx_backward[i][k];
         }
     }
       
@@ -161,73 +174,69 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {
-  unsigned int i,j;
+  unsigned int i, j, k;
   PixelType delta;
-
-  ScalarValueType GradMag[ImageDimension];
-  ScalarValueType GradMag_d[ImageDimension];  
-  ScalarValueType Cx[ImageDimension];
-  ScalarValueType Cxd[ImageDimension];
   
+  double GradMag;
+  double GradMag_d;
+  double Cx[ImageDimension];
+  double Cxd[ImageDimension];
+
+  // Remember: PixelType is a Vector of length VectorDimension.
   PixelType dx_forward[ImageDimension];
   PixelType dx_backward[ImageDimension];
   PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  PixelType dx_aug;
+  PixelType dx_dim;
 
-
+  // Calculate the directional and centralized derivatives.
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
-        - (it.GetPixel(m_Center));
-      dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
-        - (it.GetPixel(m_Center));
-
-      dx[i]      = m_SmartInnerProduct(x_slice[i]  , it, dx_op);
-      dx_aug[i]  = m_SmartInnerProduct(xa_slice[i] , it, dx_op);
-      dx_dim[i]  = m_SmartInnerProduct(xd_slice[i] , it, dx_op);
+      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
+        - it.GetPixel(m_Center);
+      dx_backward[i]=  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);
+      dx[i]      = m_SmartInnerProduct(x_slice[i], it, dx_op);
     }
 
-  // Calculate approximate gradient magnitude values
+  // Calculate the conductance term for each dimension.
   for (i = 0; i < ImageDimension; i++)
     {
-      GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
-      GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
-
-      for (j = 0; j < VectorDimension; j++)
+      // Calculate gradient magnitude approximation in this
+      // dimension linked (summed) across the vector components.
+      GradMag   = 0.0;
+      GradMag_d = 0.0;
+      for (k =0; k < VectorDimension; k++)
         {
-          for (unsigned int m = 0; m < ImageDimension; m++)
+          GradMag   +=  vnl_math_sqr( dx_forward[i][k] );
+          GradMag_d +=  vnl_math_sqr( dx_backward[i][k] );
+
+          for (j = 0; j < ImageDimension; j++)
             {
-              if ( m != i)
+              if ( j != i)
                 {
-                  GradMag[i]   += 0.25f * (dx[m][j]+dx_aug[m][j]) *
-                    (dx[m][j] + dx_aug[m][j]);
-                  GradMag_d[i] += 0.25f * (dx[m][j]+dx_dim[m][j]) *
-                    (dx[m][j] + dx_dim[m][j] );
+                  dx_aug  = m_SmartInnerProduct(xa_slice[j][i], it, dx_op);
+                  dx_dim  = m_SmartInnerProduct(xd_slice[j][i], it, dx_op);
+                  GradMag   += 0.25f * vnl_math_sqr( dx[j][k]+dx_aug[k] );
+                  GradMag_d += 0.25f * vnl_math_sqr( dx[j][k]+dx_dim[k] );
                 }
             }
-          GradMag[i]   +=  dx_forward[i][j] *  dx_forward[i][j];
-          GradMag_d[i] += dx_backward[i][j] * dx_backward[i][j];
         }
-    }
-
-  // Calculate conductance terms
-  for (i = 0; i < ImageDimension; ++i)
-    {
-      Cx[i] = exp( GradMag[i]    / m_k );
-      Cxd[i]= exp( GradMag_d[i] / m_k );
+      
+      Cx[i]  = ::exp( GradMag   / m_k );
+      Cxd[i] = ::exp( GradMag_d / m_k ); 
     }
 
   // Compute update value  
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (k = 0; k < VectorDimension; k++)
     {
-      delta[j] = NumericTraits<ScalarValueType>::Zero;
+      delta[k] = NumericTraits<ScalarValueType>::Zero;
       
-      for (unsigned int i = 0; i < ImageDimension; ++i)
+      for (i = 0; i < ImageDimension; ++i)
         {
-          dx_forward[i][j]  *= Cx[i];
-          dx_backward[i][j] *= Cxd[i];
-          delta[j] += dx_forward[i][j] + dx_backward[i][j];
+          dx_forward[i][k]  *= Cx[i];
+          dx_backward[i][k] *= Cxd[i];
+          delta[k] += dx_forward[i][k] - dx_backward[i][k];
         }
     }
       
