@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkSize.h"
+#include "itkFilterWatcher.h"
 
 typedef itk::Size<3>                                  SizeType;
 typedef itk::Image<float, 3>                  ImageType;
@@ -73,8 +74,11 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
     index[2] = 10;
     image->SetPixel(index, maximum);
 
+
     // Create and initialize the filter
     MinMaxFilterType::Pointer filter = MinMaxFilterType::New();
+    FilterWatcher watcher(filter);
+
     filter->SetInput(image);
     filter->Update();
 
