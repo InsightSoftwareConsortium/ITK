@@ -81,7 +81,6 @@ itkMultiResolutionImageRegistrationMethodTest_1  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS}   
 itkMultiResolutionImageRegistrationMethodTest_2  )
 ADD_TEST(itkMutualInformationMetricTest ${ALGORITHMS_TESTS} itkMutualInformationMetricTest)
-ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS} itkMIRegistrationFunctionTest)
 ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkNarrowBandCurvesLevelSetImageFilterTest)
 ADD_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkNarrowBandThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkNewTest ${ALGORITHMS_TESTS} itkNewTest)
@@ -107,6 +106,7 @@ ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
+ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
@@ -185,7 +185,6 @@ itkMultiResolutionImageRegistrationMethodTest_1.cxx
 itkMultiResolutionImageRegistrationMethodTest_2.cxx
 itkMutualInformationHistogramImageToImageMetricTest.cxx
 itkMutualInformationMetricTest.cxx
-itkMIRegistrationFunctionTest.cxx
 itkNewTest.cxx
 itkNormalizedCorrelationImageMetricTest.cxx
 itkNormalizedCorrelationPointSetToImageMetricTest.cxx
@@ -216,6 +215,7 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest2_SRCS
+itkMIRegistrationFunctionTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
