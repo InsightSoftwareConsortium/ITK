@@ -155,6 +155,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
 
+  typename MovingImageType::TransformPointer movingImageTransform = 
+                                 m_MovingImage->GetPhysicalToIndexTransform();
+
   ti.GoToBegin();
   gi.GoToBegin();
 
@@ -178,13 +181,26 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
 
-      const GradientPixelType & gradient = gi.Value(); 
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      OutputPointType tempPoint = 
+               movingImageTransform->TransformPoint( transformedPoint );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+                                m_GradientImage->GetPixel( mappedIndex );
+
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
         for(unsigned int dim=0; dim<dimension; dim++)
           {
-          sum += movingValue * jacobian( dim, par ) * gradient[dim];
+          sum += fixedValue * jacobian( dim, par ) * gradient[dim];
           }
         derivative[par] += sum;
         }
@@ -263,6 +279,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<typename DerivativeType::ValueType>::Zero );
 
+  typename MovingImageType::TransformPointer movingImageTransform = 
+                                 m_MovingImage->GetPhysicalToIndexTransform();
+
   ti.GoToBegin();
   gi.GoToBegin();
 
@@ -287,28 +306,34 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
 
-      const GradientPixelType & gradient = gi.Value(); 
-std::cout << " jacobian " << jacobian << std::endl;
-std::cout << " gradient " << gradient << std::endl;
-std::cout << " movingValue " << movingValue << std::endl;
-std::cout << " dimension " << dimension << std::endl;
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      OutputPointType tempPoint = 
+               movingImageTransform->TransformPoint( transformedPoint );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempPoint[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+                                m_GradientImage->GetPixel( mappedIndex );
+
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
         for(unsigned int dim=0; dim<dimension; dim++)
           {
-          sum += movingValue * jacobian( dim, par ) * gradient[dim];
+          sum += fixedValue * jacobian( dim, par ) * gradient[dim];
           }
         derivative[par] += sum;
-std::cout <<  "derivative[ " << par << " ]" << derivative << " += sum " << sum << std::endl;
         }
       m_NumberOfPixelsCounted++;
       }
 
     ++ti;
     }
-std::cout << "m_NumberOfPixelsCounted = " << m_NumberOfPixelsCounted << std::endl;
-std::cout << "derivative              = " << derivative << std::endl;
   if( m_NumberOfPixelsCounted )
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
