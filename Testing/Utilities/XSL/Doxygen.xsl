@@ -37,7 +37,7 @@
       <br/>
       <xsl:call-template name="FormatContext"/>
     </xsl:for-each>
-
+    
     <hr/>
     <a name="Warning">
       <h2>Warnings</h2>

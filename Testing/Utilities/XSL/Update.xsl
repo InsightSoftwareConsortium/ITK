@@ -155,19 +155,6 @@
   </xsl:if>
   <br/>
 
-  <a>
-    <xsl:attribute name="href">
-      <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?annotate=<xsl:value-of select="Revision"/>
-    </xsl:attribute>
-    Annotated
-  </a><xsl:text>  </xsl:text>
-  <a>
-    <xsl:attribute name="href">
-      <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup
-    </xsl:attribute>
-    Plain Source
-  </a>
-
   <pre>
     <xsl:value-of select="Log"/>
   </pre>

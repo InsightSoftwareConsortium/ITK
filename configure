@@ -3607,9 +3607,9 @@ CMake/Source/Makefile
 $SUBDIR_MAKEFILES
 $SUBDIR_CMAKE_TARGETS
 Testing/Utilities/Build.tcl
+Testing/Utilities/Doxygen.tcl
 Testing/Utilities/Utility.conf
 Testing/Utilities/Utility.tcl
-Testing/Utilities/Doxygen.tcl
 Testing/Utilities/DashboardManager.tcl
 Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl
@@ -3750,9 +3750,9 @@ CMake/Source/Makefile
 $SUBDIR_MAKEFILES
 $SUBDIR_CMAKE_TARGETS
 Testing/Utilities/Build.tcl
+Testing/Utilities/Doxygen.tcl
 Testing/Utilities/Utility.conf
 Testing/Utilities/Utility.tcl
-Testing/Utilities/Doxygen.tcl
 Testing/Utilities/DashboardManager.tcl
 Testing/Utilities/Test.tcl
 Testing/Utilities/Submit.tcl

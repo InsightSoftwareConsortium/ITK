@@ -109,31 +109,16 @@ foreach Command $Commands \
 	exit 1
       }
 
-      foreach XML [list Error Warning] \
-      {
-	set Result ""
-	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type $XML} Result]"
-	puts $Result
-      }
-      set XML Build
-      puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
-      puts $Result
-      
-      foreach XML [list Test Coverage] \
+      foreach XML [list Build Test Coverage] \
       {
 	if { ![file exists [file join XML $XML.xml]] } \
 	{
 	  puts stderr "Could not find file [file join $BuildStampDir XML $XML.xml]"
-	  exit 1
+	  continue
 	}
-	set Result ""
-	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]} Result]"
-	puts $Result
-	puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
+	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir $BuildStampDir } Result]"
 	puts $Result
       }
-      # puts "Xalan on BuildLog.txt: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT BuildLog.txt -XSL [file join $XSLDir BuildLog.xsl]} Result]"
-      # TransformBuildLog BuildLog.txt
     }
     DashboardStart \
     {
@@ -153,7 +138,6 @@ foreach Command $Commands \
       puts "Making $DashboardDir"
       file mkdir $DashboardDir
       set Dir [pwd]
-      cd $SourceDirectory
 
       if { ![info exists [file join $DashboardDir Doxygen.xml]] } \
       {
@@ -164,6 +148,7 @@ foreach Command $Commands \
 	# 	puts $f "<Doxygen></Doxygen>"
 	# 	close $f
       }
+      cd $SourceDirectory
       
       # If we don't have an existing update, make one
       if { ![info exists [file join $Dir $DashboardDir Update.xml]] } \
@@ -253,7 +238,7 @@ foreach Command $Commands \
 	}
       }
 	  
-
+      puts "Found $NightlyBuilds"
       set Dir [pwd]
       cd $DashboardDir
 
@@ -262,8 +247,6 @@ foreach Command $Commands \
       # Build the DoxygenSummary
       catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] } Result
 
-      puts $Result
-      
       set DashboardTargets [open DashboardTargets.txt w]
       set DashboardFile [open Dashboard.xml w]
 
@@ -285,6 +268,7 @@ foreach Command $Commands \
       set DashboardStamp [file tail $DashboardDir]
       foreach NightlyBuild $NightlyBuilds \
       {
+	puts "Working on $NightlyBuild"
 	puts $DashboardTargets $NightlyBuild
 	puts $DashboardFile "<BuildStamp>"
 	set CurrentDir [pwd]
@@ -298,17 +282,7 @@ foreach Command $Commands \
 
 	puts $DashboardFile "\t<BuildSubmissionDateTime>[clock format [file mtime [file join XML Build.xml]]]</BuildSubmissionDateTime>"
 	
-	foreach XML [list Error Warning] \
-	{
-	  set Result ""
-	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\" } Result]"
-	  puts $Result
-	}
-	set XML Build
-	puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
-	puts $Result
-      
-	foreach XML [list Test Coverage] \
+	foreach XML [list Build Test Coverage] \
 	{
 	  if { ![file exists [file join XML $XML.xml]] } \
 	  {
@@ -316,18 +290,12 @@ foreach Command $Commands \
 	  }
 	  puts $DashboardFile "\t<${XML}SubmissionDateTime>[clock format [file mtime [file join XML $XML.xml]]]</${XML}SubmissionDateTime>"
 
-	  set XalanCmd " $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardStamp \"string('$DashboardStamp')\""
-	  puts "Xalan on $XML: [catch { eval exec $XalanCmd } Result]"
-	  puts $XalanCmd
-	  puts $Result
-	  puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
-	  puts $Result
+	  puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]"
+	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/] } Result]"
+
 	}
 	
 	cd $CurrentDir
-
-	# puts "Xalan on BuildLog.txt: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT BuildLog.txt -XSL [file join $XSLDir BuildLog.xsl]} Result]"
-	# TransformBuildLog BuildLog.txt
 
 	foreach Summary [list BuildSummary TestSummary CoverageSummary] \
 	{

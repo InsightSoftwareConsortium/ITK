@@ -60,7 +60,7 @@
     
 
     <xsl:choose>
-      <xsl:when test="count(Build/BuildStamp[contains(node(),'Nightly')])">
+      <xsl:when test="count(BuildStamp/Build/BuildStamp[not(contains(node(),'Nightly'))])">
         <h2>Experimental Builds</h2>
         <table border="2">
           <xsl:call-template name="BuildTableHeader"/>
@@ -85,7 +85,8 @@
                       <th align="center" bgcolor="#eeeeee">Site</th>
                       <th align="center" bgcolor="#eeeeee">Build Name</th>
                       <th align="center" bgcolor="#eeeeee" width="80">Percentage</th>
-                      <th align="center" bgcolor="#eeeeee">Files Covered</th>
+                      <th align="center" bgcolor="#eeeeee">Passed</th>
+                      <th align="center" bgcolor="#eeeeee">Failed</th>
                       <th align="center" bgcolor="#eeeeee">Date</th>
                       <th align="center" bgcolor="#eeeeee">Submission Date</th>
                     </tr>
@@ -112,12 +113,15 @@
                             </a>
                           </td>
                           <td align="center">
-                            <xsl:value-of select="Coverage/Passed"/> Passed, <xsl:value-of select="Coverage/Failed"/> Failed
-                        </td>
-                        <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
-                        <td align="center"><xsl:value-of select="CoverageSubmissionDateTime"/></td>
-                      </tr>
-                    </xsl:if>
+                            <xsl:value-of select="Coverage/Passed"/>
+                          </td>
+                          <td align="center">
+                            <xsl:value-of select="Coverage/Failed"/>
+                          </td>
+                          <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
+                          <td align="center"><xsl:value-of select="CoverageSubmissionDateTime"/></td>
+                        </tr>
+                      </xsl:if>
                     </xsl:for-each>
                   </table>
                 </xsl:when>

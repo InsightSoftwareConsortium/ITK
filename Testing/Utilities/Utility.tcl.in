@@ -31,6 +31,7 @@ proc IsBuildStampInDay { NightlyDateStamp BuildStamp } \
   set End [expr $Start + 24 * 60 * 60]
   
   set BSTS [ExpandStamp $BuildStamp]
+
   if { $BSTS >= $Start && $BSTS < $End } \
   {
     return 1

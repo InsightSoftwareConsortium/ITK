@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE xsl:stylesheet>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0"
+    xmlns:lxslt="http://xml.apache.org/xslt"
+    xmlns:redirect="org.apache.xalan.lib.Redirect"
+    extension-element-prefixes="redirect">
 
   <!--
        Use DashboardStamp as a parameter, default to most recent
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
+  <xsl:param name="TestDocDir">.</xsl:param>
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
   <xsl:include href="Insight.xsl"/>
 
 
   <xsl:template match="/">
+    <xsl:call-template name="Summary"/>
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
@@ -25,7 +30,7 @@
         <td>
           <xsl:choose>
             <xsl:when test="Site/Coverage/PercentCoverage &lt; 50">
-              <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+              <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
@@ -72,10 +77,10 @@
         <tr>
           <xsl:choose>
             <xsl:when test="PercentCoverage &gt;= 70.0">
-              <xsl:attribute name="bgcolor">#00aa00</xsl:attribute>
+              <xsl:attribute name="bgcolor">#00FF7f</xsl:attribute>
             </xsl:when>
             <xsl:when test="PercentCoverage &lt;= 50.0">
-              <xsl:attribute name="bgcolor">#ff0000</xsl:attribute>
+              <xsl:attribute name="bgcolor">#FF7F50</xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="bgcolor">#aaaa00</xsl:attribute>
@@ -93,5 +98,24 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+
+<xsl:template name="Summary">
+  <redirect:write select="concat(string('{$TestDocDir}'), '/CoverageSummary.xml' )">
+
+    <Coverage>
+      <SiteName><xsl:value-of select="Site/@Name"/></SiteName>
+      <BuildName><xsl:value-of select="Site/@BuildName"/></BuildName>
+      <BuildStamp><xsl:value-of select="Site/@BuildStamp"/></BuildStamp>
+      <StartDateTime><xsl:value-of select="Site/Coverage/StartDateTime"/></StartDateTime>
+      <PercentCoverage><xsl:value-of select="Site/Coverage/PercentCoverage"/></PercentCoverage>
+      <LOCTested><xsl:value-of select="Site/Coverage/LOCTested"/></LOCTested>
+      <LOCUntested><xsl:value-of select="Site/Coverage/LOCUntested"/></LOCUntested>
+      <LOC><xsl:value-of select="Site/Coverage/LOC"/></LOC>
+      <Passed><xsl:value-of select="count(Site/Coverage/File/PercentCoverage[node() &gt;= 70])"/></Passed>
+      <Failed><xsl:value-of select="count(Site/Coverage/File/PercentCoverage[node() &lt; 70])"/></Failed>
+      <EndDateTime><xsl:value-of select="Site/Coverage/EndDateTime"/></EndDateTime>
+    </Coverage>
+  </redirect:write>
+</xsl:template>
 
 </xsl:stylesheet>

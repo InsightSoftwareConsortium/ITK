@@ -1,4 +1,4 @@
-The Insight testing environment contians three concepts:
+The Insight testing environment contains three concepts:
 
 Site - A testing site, currently a domain name such as crd.ge.com
 BuildName - A combination of OS, OS revision and compiler
@@ -8,7 +8,10 @@ The Site and BuildName directories live under
 Insight/Testing/HTML/TestingResults, and are created at configure
 time.  The BuildStamp directory is created during a build.
 
-BuildStamp creation:
+BuildStamp's are created using the Tcl script DashboardManager.tcl.
+DashboardManager has two modes of operation, Experimental and
+Nightly.  Experimental build/test combinations are done by a developer 
+in an ad hoc manner.  Nightly builds are built against a 
 
 tclsh Testing/Utilities/Build.tcl
 tclsh Testing/Utilities/Test.tcl
