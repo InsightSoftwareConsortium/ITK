@@ -81,8 +81,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   if (m_Touched || ((this->GetElapsedIterations() >0)
                     && (this->m_Step == m_ReinitializationFrequency )))
     {
-    // Do we need to call ClearNarrowBand?
-    
     //Reinitialize the narrowband properly
     CreateNarrowBand();
 
