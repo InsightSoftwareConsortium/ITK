@@ -2152,15 +2152,10 @@ BinaryMask3DMeshSource<TOutputMesh>
 //  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 //  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 
-  unsigned char test[3];
-
   for ( i=0; i<3; i++ ) {
     m_PointFound = 0;
-    test[i] = 0;
-
     if ( m_AvailableNodes[nodesid[i]] != 0 ) {
       m_PointFound = 1;
-      test[i] = 1;
 
       new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
       new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
@@ -2265,19 +2260,17 @@ BinaryMask3DMeshSource<TOutputMesh>
       if ( m_CurrentVoxel[ nodesid[i] ] != 0 ) {
         globalnodesid[i] = m_CurrentVoxel[ nodesid[i] ];
         m_PointFound = 1;
-        test[i] = 2;
 
         continue;
       }
       if ( m_LastVoxel[ nodesid[i] ] != 0 ) {
         globalnodesid[i] = m_LastVoxel[ nodesid[i] ];
         m_PointFound = 1;
-        test[i] = 3;
 
         continue;
       }
       if ( (m_LastRowNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 5) || (nodesid[i] == 9) || (nodesid[i] == 10) ) ) {
-        test[i] = 4;
+
         globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+nodesid[i], 0, m_LastRowNum-1);
         if ( m_PointFound != 0 ) continue;
         else {
@@ -2287,7 +2280,7 @@ BinaryMask3DMeshSource<TOutputMesh>
         }
       }
       if ( (m_LastFrameNum != 0) && ( (nodesid[i] == 1) || (nodesid[i] == 2) || (nodesid[i] == 3) || (nodesid[i] == 4) ) ) {
-        test[i] = 5;
+
         globalnodesid[i] = this->SearchThroughLastFrame((index % (m_ImageWidth*m_ImageHeight))*13+nodesid[i], 0, m_LastFrameNum-1);
         if ( m_PointFound != 0 ) continue;
         else {

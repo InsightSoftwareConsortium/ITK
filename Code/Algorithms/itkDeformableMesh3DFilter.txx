@@ -467,7 +467,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   ImageIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
   InputPointType v1, v2;
-  PixelType mag, num_for;
+  PixelType mag;
 
   typename TInputMesh::PointType vec_nor, vec_loc, vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
 
@@ -487,7 +487,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   while( forces != myForces->End() ) {
     vec_loc = locations.Value();
     vec_nor = normals.Value();
-    num_for = 1/forcedata.Value();
 
     coord[0] = static_cast<IndexValueType>(vec_loc[0]);
     coord[1] = static_cast<IndexValueType>(vec_loc[1]);
@@ -535,9 +534,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     }
 
     mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
-    vec_for[0] = mag*vec_nor[0]/*num_for*/;
-    vec_for[1] = mag*vec_nor[1]/*num_for*/; 
-    vec_for[2] = mag*vec_nor[2]/*num_for*/; 
+    vec_for[0] = mag*vec_nor[0];
+    vec_for[1] = mag*vec_nor[1];
+    vec_for[2] = mag*vec_nor[2];
 
     mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
     if (mag > 0.5) 
