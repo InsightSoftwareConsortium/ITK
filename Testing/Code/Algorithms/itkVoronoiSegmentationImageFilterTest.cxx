@@ -60,6 +60,7 @@ int main(void){
   region.SetSize(size);
   region.SetIndex(index);
 
+  std::cout << "Allocating image" << std::endl;
   inputIMG->SetLargestPossibleRegion( region );
   inputIMG->SetBufferedRegion( region );
   inputIMG->SetRequestedRegion( region );
@@ -69,12 +70,14 @@ int main(void){
   itk::ImageRegionIteratorWithIndex <UShortImage> it(inputIMG, region);
 
   // background: random field with mean: 500, std: 50
+  std::cout << "Setting background random pattern image" << std::endl;
   while( !it.IsAtEnd()) {    
     it.Set((unsigned short)(vnl_sample_uniform(450,550)) );
     ++it;
   }
 
   //object (2): random field with mean: 520, std: 20;
+  std::cout << "Defining object #2" << std::endl;
   unsigned int i;
   unsigned int j;
   for(i = 30; i < 94; i++){
@@ -104,9 +107,13 @@ int main(void){
   testVorseg->SetNumberOfSeeds(400);
   testVorseg->SetSteps(5);
 
+  std::cout << "Initializing segmentation" << std::endl;
   testVorseg->InitializeSegment();
+
+  std::cout << "Running algorithm" << std::endl;
   testVorseg->Update();
 
+  std::cout << "Walking output" << std::endl;
   itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
 
   k=0;

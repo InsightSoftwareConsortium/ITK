@@ -147,11 +147,6 @@ public:
   void SetMeanPercentError(double x);
   void SetVarPercentError(double x);
 
-	/**
-	 * stuff need to be take care of before segmentation
-	 */
-  void InitializeSegment(void);
-
   /**
    * take a prior from other segmentation node, should be an
    * binary object.

@@ -88,19 +88,6 @@ template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
 InitializeSegment(void){
-  m_InputImage = this->GetInput();
-  m_OutputImage = this->GetOutput(); 
-
-  m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
-  IndexType index = IndexType::ZeroIndex;
-  RegionType region;
-  region.SetSize(m_Size);
-  region.SetIndex(index);
-  m_OutputImage->SetLargestPossibleRegion( region );
-  m_OutputImage->SetBufferedRegion( region );
-  m_OutputImage->SetRequestedRegion( region );
-  m_OutputImage->Allocate();  
-
   m_WorkingVD=VoronoiDiagram::New();
   m_VDGenerator=VoronoiDiagramGenerator::New();
  
@@ -443,13 +430,23 @@ RunSegment(void){
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-GenerateData(void){ 
-  RunSegment();
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::GenerateData(void)
+{
+  // Allocate the output
+  this->GetOutput()
+    ->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
+  this->GetOutput()->Allocate();
+  
+  this->RunSegment();
   if(m_OutputBoundary)
-    MakeSegmentBoundary();
+    {
+    this->MakeSegmentBoundary();
+    }
   else
-    MakeSegmentObject();
+    {
+    this->MakeSegmentObject();
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -874,6 +871,34 @@ drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color)
     } 
   } 
 } 
+
+template <class TInputImage, class TOutputImage> 
+void 
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass's method
+  Superclass::GenerateInputRequestedRegion();
+
+  // set the input requested region to the LargestPossibleRegion
+  this->GetInput()
+    ->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+}
+
+template <class TInputImage, class TOutputImage> 
+void 
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  // call the superclass's method
+  Superclass::EnlargeOutputRequestedRegion(output);
+
+  // set the output requested region to the LargestPossibleRegion
+  this->GetOutput()
+    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+}
+
+
 
 } //end namespace
 

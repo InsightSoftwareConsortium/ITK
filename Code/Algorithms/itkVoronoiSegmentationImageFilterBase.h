@@ -221,6 +221,20 @@ public:
 
   virtual void Reset(void){}; //reset the segmentation, ready for taking aprior from itself
 
+  /**
+   * This filter does not stream and needs the entire image as input
+   * 
+   * \sa ProcessObject::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+  
+  /**
+   * This filter does not stream and needs to produce the entire output.
+   *
+   * \sa ProcessObject::EnlargeOutputRequestedRegion()
+   */
+  virtual void EnlargeOutputRequestedRegion(DataObject *output);  
+
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
@@ -252,24 +266,26 @@ protected:
 
   std::vector<PointType> m_SeedsToAdded;
 
-	// private methods:
-	// classify all the voronoi cells as interior or exterior or boundary
+  // private methods:
+  // classify all the voronoi cells as interior or exterior or boundary
   void ClassifyDiagram(void);
-
-	// generate the seeds to be added. (by divide the boundary cells)
+  
+  // generate the seeds to be added. (by divide the boundary cells)
   void GenerateAddingSeeds(void);
-
-	// compute the statistics of the pixels inside the polygon.
-	void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
+  
+  // compute the statistics of the pixels inside the polygon.
+  void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
   virtual bool TestHomogeneity(IndexList Plist){return 1;};
-
+  
   void FillPolygon(PointTypeDeque vertlist);
-
-	// draw a straight line to the output image.
+  
+  // draw a straight line to the output image.
   void drawLine(PointType p1,PointType p2);
-
+  
   //used for drawing the intermedia Voronoi Diagram. 
-  void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color); 
+  void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color);
+  
+  
 };
 
 }//end namespace

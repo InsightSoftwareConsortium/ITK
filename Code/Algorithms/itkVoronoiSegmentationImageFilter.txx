@@ -53,6 +53,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 VoronoiSegmentationImageFilter(){
   m_MeanPercentError = 0.10;
   m_VarPercentError = 1.5;
+  m_Mean = m_Var = m_MeanTolerance = m_VarTolerance = 0.0;
 }
 
 /* destructor */
@@ -113,34 +114,7 @@ TestHomogeneity(IndexList Plist)
 	return 0;
 }
 
-/* initialization for the segmentation */
-template <class TInputImage, class TOutputImage>
-void
-VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
-InitializeSegment(void){
-  m_InputImage = this->GetInput();
-  m_OutputImage = this->GetOutput(); 
 
-  m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
-  IndexType index = IndexType::ZeroIndex;
-  RegionType region;
-  region.SetSize(m_Size);
-  region.SetIndex(index);
-  m_OutputImage->SetLargestPossibleRegion( region );
-  m_OutputImage->SetBufferedRegion( region );
-  m_OutputImage->SetRequestedRegion( region );
-  m_OutputImage->Allocate();  
-
-  m_WorkingVD=VoronoiDiagram::New();
-  m_VDGenerator=VoronoiDiagramGenerator::New();
-
-  VoronoiDiagram::PointType VDsize;
-  VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
-  VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
-  m_VDGenerator->SetBoundary(VDsize);
-  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
-}
 
 
 template <class TInputImage, class TOutputImage>
