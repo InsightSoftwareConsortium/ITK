@@ -60,6 +60,16 @@ public:
   itkTypeMacro(RegionNonBoundaryNeighborhoodIterator, RegionNeighborhoodIterator);
   
   /**
+   * Size object typedef support
+   */
+  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
+
+  /**
+   * Image typedef support.
+   */
+  typedef Image<TPixel, VDimension> ImageType;
+
+  /**
    * Default constructor
    */
   RegionNonBoundaryNeighborhoodIterator() {};
