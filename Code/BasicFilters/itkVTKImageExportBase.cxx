@@ -44,6 +44,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+/**
+ * Constructor sets up information for the image-type indepenedent
+ * callbacks implemented in this superclass.
+ */
 VTKImageExportBase::VTKImageExportBase()
 {
   m_LastPipelineMTime = 0;
@@ -131,11 +135,23 @@ VTKImageExportBase::GetBufferPointerCallback() const
 
 
 //----------------------------------------------------------------------------
+
+/**
+ * Implements the UpdateInformationCallback.  This sends
+ * UpdateOutputInformation() through the ITK pipeline, which is the
+ * equivalent to VTK's UpdateInformation().
+ */
 void VTKImageExportBase::UpdateInformationCallback()
 {
   this->UpdateOutputInformation();
 }
 
+
+/**
+ * Implements the PipelineModifiedCallback.  This returns 1 if the
+ * ITK pipeline has been modified since the last time this callback was
+ * invoked.  If the pipeline has not been modified, this returns 0.
+ */
 int VTKImageExportBase::PipelineModifiedCallback()
 {
   DataObjectPointer input = this->GetInput(0);
@@ -151,6 +167,11 @@ int VTKImageExportBase::PipelineModifiedCallback()
     }
 }
 
+
+/**
+ * Implements the UpdateDataCallback.  This sends and Update() call
+ * through the ITK pipeline.
+ */
 void VTKImageExportBase::UpdateDataCallback()
 {
   // Get the input.

@@ -47,9 +47,14 @@ namespace itk
 {
 
 /** \class VTKImageExportBase
- * \brief Connect the end of an ITK image pipeline to a VTK pipeline.
+ * \brief Superclass for VTKImageExport instantiations.
  *
+ * VTKImageExportBase provides the functions that serve as callbacks
+ * given to vtkImageImport to connect the end of an ITK pipeline to
+ * the beginning of a VTK pipeline.
+ * 
  * \ingroup IOFilters
+ * \sa VTKImageExport
  */
 class ITK_EXPORT VTKImageExportBase: public ProcessObject
 {
@@ -67,9 +72,12 @@ public:
   ///! Run-time type information (and related methods).
   itkTypeMacro(VTKImageExportBase,ProcessObject);
 
-  ///! Returns the user data to set for the VTK import callbacks.
+  ///! Returns the user data to set for the vtkImageImport callbacks.
   void* GetCallbackUserData();
-  
+
+  /*@{
+   * The function pointer type expected for a callback.
+   */
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
@@ -80,8 +88,12 @@ public:
   typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
   typedef void (*UpdateDataCallbackType)(void*);
   typedef int* (*DataExtentCallbackType)(void*);
-  typedef void* (*BufferPointerCallbackType)(void*);  
+  typedef void* (*BufferPointerCallbackType)(void*);
+  //@}
   
+  /*@{
+   * Get a pointer to function to set as a callback in vtkImageImport.
+   */
   UpdateInformationCallbackType     GetUpdateInformationCallback() const;
   PipelineModifiedCallbackType      GetPipelineModifiedCallback() const;
   WholeExtentCallbackType           GetWholeExtentCallback() const;
@@ -93,6 +105,7 @@ public:
   UpdateDataCallbackType            GetUpdateDataCallback() const;
   DataExtentCallbackType            GetDataExtentCallback() const;
   BufferPointerCallbackType         GetBufferPointerCallback() const;
+  //@}
   
 protected:
   VTKImageExportBase();
@@ -107,6 +120,10 @@ protected:
   virtual int PipelineModifiedCallback();
   virtual void UpdateDataCallback();  
   
+  /*@{
+   * These callbacks are image-type specific, and are implemented
+   * in VTKImageExport.
+   */
   virtual int* WholeExtentCallback()=0;
   virtual float* SpacingCallback()=0;
   virtual float* OriginCallback()=0;
@@ -115,7 +132,13 @@ protected:
   virtual void PropagateUpdateExtentCallback(int*)=0;
   virtual int* DataExtentCallback()=0;
   virtual void* BufferPointerCallback()=0;
+  //@}
 private:
+  /*@{
+   * Actual function sent to VTK as a callback.  Casts the user data
+   * to a VTKImageExportBase pointer and invokes the corresponding
+   * virtual method in that instance.
+   */
   static void UpdateInformationCallbackFunction(void*);
   static int PipelineModifiedCallbackFunction(void*);
   static int* WholeExtentCallbackFunction(void*);
@@ -127,7 +150,9 @@ private:
   static void UpdateDataCallbackFunction(void*);
   static int* DataExtentCallbackFunction(void*);
   static void* BufferPointerCallbackFunction(void*);
+  //@}
 private:
+  ///! PipelineMTime from the last call to PipelineModifiedCallback.
   unsigned long m_LastPipelineMTime;
 };
 

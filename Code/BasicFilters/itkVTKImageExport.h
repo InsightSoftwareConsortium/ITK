@@ -49,7 +49,28 @@ namespace itk
 /** \class VTKImageExport
  * \brief Connect the end of an ITK image pipeline to a VTK pipeline.
  *
+ * VTKImageExport can be used at the end of an ITK image pipeline to
+ * connect with a VTK pipeline that begins with vtkImageImport.
+ * Callbacks provided by VTKImageExport are registered with
+ * vtkImageImport to connect the pipeline execution together.  Once
+ * connected, update requests coming through the VTK pipeline are
+ * automatically propagated to the ITK pipeline.
+ *
+ * While VTKImageExportBase provides the pipeline functionality
+ * independent of image type, instances must be created through
+ * VTKImageExport.  This class provides the implementations for
+ * callbacks that depend on the image type.
+ *
+ * Note that not all image types will work correctly.  VTK will only
+ * support images of 1, 2, or 3 dimensions.  Scalar value types can be
+ * one of: float, double, char, unsigned char, short, unsigned short,
+ * int, unsigned int, long, unsigned long.
+ *
+ * Currently VTKImageExport does not support pixel types with multiple
+ * components (like RGBPixel).
+ *
  * \ingroup IOFilters
+ * \sa VTKImageExportBase
  */
 template <class TInputImage>
 class ITK_EXPORT VTKImageExport: public VTKImageExportBase
