@@ -24,7 +24,7 @@ template<class TImage, class TBoundaryCondition>
 void
 SmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SetPixel(const unsigned long n, const PixelType& v)
-{
+{ // NOTE: This method needs overhaul for efficiency-- jc 4/22/02
   register unsigned int i;
   OffsetType OverlapLow, OverlapHigh, temp, offset;
   bool flag;
@@ -40,7 +40,8 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
           OverlapHigh[i]=
-            static_cast<OffsetValueType>(this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i]) );
+            static_cast<OffsetValueType>(this->GetSize(i)
+                                         - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i]) );
         }
 
       flag = true;
@@ -65,14 +66,60 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
             }
         }
 
-      if (flag) *(this->operator[](n)) = v ;
+      if (flag)
+        {
+          *(this->operator[](n)) = v;
+        }
       else
         { // Attempt to write out of bounds
           throw RangeError(__FILE__, __LINE__);
         };
     } 
 }
+
+template<class TImage, class TBoundaryCondition>
+void
+SmartNeighborhoodIterator<TImage, TBoundaryCondition>
+::SetPixel(const unsigned long n, const PixelType& v, bool &status)
+{
+  register unsigned int i;
+  OffsetType temp;
+
+  typename OffsetType::OffsetValueType OverlapLow, OverlapHigh;
   
+  // Is this whole neighborhood in bounds?
+  if (this->InBounds())
+    {
+      *(this->operator[](n)) = v;
+      status = true;
+      return;
+    }
+  else
+    {
+      temp = this->ComputeInternalIndex(n);
+      
+      // Calculate overlap
+      for (i=0; i<Dimension; i++)
+        {
+          if (! m_InBounds[i]) // Part of dimension spills out of bounds
+            {
+              OverlapLow = m_InnerBoundsLow[i] - m_Loop[i];
+              OverlapHigh=
+                static_cast<OffsetValueType>(this->GetSize(i)
+                                             - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i]) );
+              if (temp[i] < OverlapLow || OverlapHigh < temp[i])
+                {
+                  status = false;
+                  return;
+                }
+            }
+        }
+      
+      *(this->operator[](n)) = v ;
+      status = true;
+    }
+}
+    
 template<class TImage, class TBoundaryCondition>
 void
 SmartNeighborhoodIterator<TImage, TBoundaryCondition>
@@ -135,6 +182,7 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
       
     }
 }
+
 
 template<class TImage, class TBoundaryCondition>
 void SmartNeighborhoodIterator<TImage, TBoundaryCondition>

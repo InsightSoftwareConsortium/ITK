@@ -157,8 +157,14 @@ public:
    * contained in a Neighborhood. */
   virtual void SetNeighborhood(NeighborhoodType &);
 
-  /** Set the pixel value at the ith location. */
+  /** Set the pixel value at the ith location.  Out-of-bounds attempts will
+   *  generate and exception.*/
   virtual void SetPixel(const unsigned long i, const PixelType &v);
+
+  /** Special SetPixel method which quietly ignores out-of-bounds attempts.
+   *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
+  virtual void SetPixel(const unsigned long i, const PixelType &v, bool &status);
+
 };
 
 } // namespace itk
