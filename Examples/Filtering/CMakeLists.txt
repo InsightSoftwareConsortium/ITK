@@ -124,6 +124,9 @@ TARGET_LINK_LIBRARIES(SubsampleVolume ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(IsoSurfaceExtraction IsoSurfaceExtraction.cxx )
+TARGET_LINK_LIBRARIES(IsoSurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
+
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 
