@@ -256,6 +256,18 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
 
 )
 
+ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
+            ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
+  GeodesicActiveContourShapePriorLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+        ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
+        120 85 60 102 88 83 6 1.0 0.5 0.02
+        ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMeanShape.mha 3 
+        ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha 10 0
+
+)
+
 ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/HoughTransformTwoLinesTest.png
             ${TEMP}/HoughTransformTwoLinesTest.png
@@ -359,4 +371,10 @@ ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples2 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(SegmentationExamples2 
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
