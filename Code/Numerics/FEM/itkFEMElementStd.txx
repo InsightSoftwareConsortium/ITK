@@ -26,40 +26,37 @@ namespace fem {
 
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass>
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TPointClass, TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TBaseClass>
 ::ElementStd()
 {
-  // Clear the DOF id when the element is being constructed.
-  this->ClearDegreesOfFreedom();
-
-  // Set all point ids to 0 (undefined).
-  for(int i=0; i<NumberOfPoints; i++)
+  // Set all node ids to 0 (undefined).
+  for(int i=0; i<NumberOfNodes; i++)
   {
-    this->m_point[i]=0;
+    this->m_node[i]=0;
   }
 }
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TBaseClass>
 void
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TPointClass, TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TBaseClass>
 ::Read( std::istream& f, void* info )
 {
   int n;
   // Convert the info pointer to a usable object
-  Node::ArrayType::Pointer points=static_cast<ReadInfoType*>(info)->m_node;
+  Node::ArrayType::Pointer nodes=static_cast<ReadInfoType*>(info)->m_node;
 
   // First call the parent's read function
   Superclass::Read(f,info);
 
   try
   {
-    // Read and set each of the expected global point numbers
-    for(unsigned int p=0; p<NumberOfPoints; p++)
+    // Read and set each of the expected global node numbers
+    for(unsigned int p=0; p<NumberOfNodes; p++)
     {
       SkipWhiteSpace(f); f>>n; if(!f) goto out;
-      m_point[p]=dynamic_cast<const PointClass*>( &*points->Find(n));
+      m_node[p]=dynamic_cast<const Node*>( &*nodes->Find(n));
     }
 
   }
@@ -79,9 +76,9 @@ out:
 }
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TBaseClass>
 void
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TPointClass, TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TBaseClass>
 ::Write( std::ostream& f, int ofid ) const
 {
 
@@ -95,11 +92,11 @@ ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TPointClass, TBase
   // First call the parent's write function
   Superclass::Write(f,ofid);
 
-  // ... then write the actual data (point ids)
+  // ... then write the actual data (node ids)
   // We also add some comments in the output file
-  for(unsigned int p=0; p<NumberOfPoints; p++)
+  for(unsigned int p=0; p<NumberOfNodes; p++)
   {
-    f<<"\t"<<m_point[p]->GN<<"\t% Point #"<<(p+1)<<" ID\n";
+    f<<"\t"<<m_node[p]->GN<<"\t% Node #"<<(p+1)<<" ID\n";
   }
 
   // check for errors

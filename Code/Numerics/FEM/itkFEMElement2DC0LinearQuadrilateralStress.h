@@ -36,7 +36,7 @@ class Element2DC0LinearQuadrilateralStress : public Element2DC0LinearQuadrilater
 FEM_CLASS(Element2DC0LinearQuadrilateralStress,Element2DC0LinearQuadrilateral<2>)
 public:
 
-  LOAD_FUNCTION();
+  HANDLE_ELEMENT_LOADS();
 
   /**
    * Read data for this class from input stream
@@ -58,10 +58,10 @@ public:
    * 4 points and a material.
    */
   Element2DC0LinearQuadrilateralStress(
-      PointIDType n1_, 
-      PointIDType n2_,
-      PointIDType n3_,
-      PointIDType n4_,
+      NodeIDType n1_, 
+      NodeIDType n2_,
+      NodeIDType n3_,
+      NodeIDType n4_,
       Material::ConstPointer p_ );
 
 

@@ -40,7 +40,7 @@ namespace fem {
  *
  * You must specify three or four template parameters:
  *
- *   VNumberOfPoints - Number of points that define the element
+ *   VNumberOfNodes - Number of nodes that define the element
  *                    (e.g. four for quadrilateral)
  * 
  *   VNumberOfDegreesOfFreedomPerNode - Number of degrees of freedom at each
@@ -51,15 +51,12 @@ namespace fem {
  *                    functions. Therefore the abstract geometrical elements
  *                    are normally templated over this number.
  *
- *   TPointClass - Class of Point objects that the element uses. TPointClass
- *                 must be derived from the Point (old Node) base class.
- *
  *   TBaseClass - Class from which ElementStd is derived. TBaseClass must
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element class.
  */
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, class TPointClass, class TBaseClass=ElementNew>
+template<unsigned int VNumberOfNodes, unsigned int VNumberOfDegreesOfFreedomPerNode, class TBaseClass=ElementNew>
 class ElementStd : public TBaseClass
 {
 FEM_CLASS_SP(ElementStd,TBaseClass)
@@ -73,35 +70,22 @@ public:
   typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::LoadElementType LoadElementType;
   typedef typename Superclass::LoadElementPointer LoadElementPointer;
-  typedef typename Superclass::PointIDType PointIDType;
+  typedef typename Superclass::NodeIDType NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::NodeDefinitionType NodeDefinitionType;
   typedef typename Superclass::ReadInfoType ReadInfoType;
   enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
   /**
-   * Number of geometrical points that define the element
+   * Number of nodes that define the element.
    */
-  enum { NumberOfPoints=VNumberOfPoints };
-
-  /**
-   * Number of nodes (points that hold degrees of freedom)
-   * that define the element. In linear element number of
-   * nodes is always equal to  number of points.
-   */
-  enum { NumberOfNodes=NumberOfPoints };
+  enum { NumberOfNodes=VNumberOfNodes };
 
   /**
    * Number of unknown variables that exist at every point
-   * within an element.
+   * within an element. Also equal to number of degrees of
+   * freedon at each node.
    */
   enum { NumberOfDegreesOfFreedomPerNode=VNumberOfDegreesOfFreedomPerNode };
-
-  /**
-   * Node class that is used to specify points that define
-   * the geometry of the element.
-   */
-  typedef TPointClass PointClass;
 
   /**
    * Total number of degrees of freedom in an element
@@ -121,34 +105,6 @@ public:
 //////////////////////////////////////////////////////////////////////////
   /*
    * Methods that define the geometry of an element
-   * FIXME: These should be implemented in Cell/Mesh
-   */
-  virtual unsigned int GetNumberOfPoints(void) const
-  { return NumberOfPoints; }
-
-  virtual PointIDType GetPoint(unsigned int pt) const
-  {
-    if(pt>=NumberOfPoints)
-    {
-      return 0;
-    }
-    return this->m_point[pt];
-  }
-
-  virtual void SetPoint(unsigned int pt, PointIDType point)
-  {
-    if(pt>=NumberOfPoints) { return; }
-    if( (this->m_point[pt]=dynamic_cast<const PointClass*>(&*point)) == 0 )
-    {
-      throw FEMExceptionWrongClass(__FILE__,__LINE__,"ElementStd::ElementStd()");
-    }
-  }
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
-   * Methods and typedefs related to DOF management 
    */
   virtual unsigned int GetNumberOfNodes( void ) const
   { return NumberOfNodes; }
@@ -156,16 +112,24 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
   { return NumberOfDegreesOfFreedomPerNode; }
 
-  virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
+  virtual NodeIDType GetNode(unsigned int n) const
   {
-    if(local_dof>NDOF) { return static_cast<DegreeOfFreedomIDType>(InvalidDegreeOfFreedomID); } // error checking
-    return this->m_dof[local_dof];
+    if(n>=NumberOfNodes)
+    {
+      return 0;
+    }
+    return this->m_node[n];
   }
 
-  virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof)
+  virtual void SetNode(unsigned int n, NodeIDType node)
   {
-    if (local_dof>NDOF) return; // error checking
-    this->m_dof[local_dof]=global_dof;
+    if(n>=NumberOfNodes) { return; }
+    this->m_node[n]=node;
+  }
+
+  virtual const VectorType& GetNodeCoordinates( unsigned int n ) const
+  {
+    return m_node[n]->GetCoordinates();
   }
 
 
@@ -194,14 +158,7 @@ protected:
   /**
    * Array of pointers to point objects that define the element
    */
-  typename PointClass::ConstPointer m_point[NumberOfPoints];
-
-private:
-
-  /**
-   * Array that stores DOF ids for the element class.
-   */
-  DegreeOfFreedomIDType m_dof[NDOF];
+  typename NodeIDType m_node[NumberOfNodes];
 
 };
 

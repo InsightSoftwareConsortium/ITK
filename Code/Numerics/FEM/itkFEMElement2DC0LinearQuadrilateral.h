@@ -32,12 +32,13 @@ namespace fem {
  * \brief 4-noded, linear, C0 continuous finite element in 2D space.
  *
  * This class is templated over number of unknowns per point. This
- * constant must be defined in derived classes.
+ * constant must be defined in derived classes, when te physics of
+ * the problem is known.
  */
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-class Element2DC0LinearQuadrilateral : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode,NodeXY>
+class Element2DC0LinearQuadrilateral : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode>
 {
-typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode,NodeXY> TemplatedParentClass;
+typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode> TemplatedParentClass;
 FEM_CLASS_SP( Element2DC0LinearQuadrilateral, TemplatedParentClass )
 public:
 
@@ -48,17 +49,13 @@ public:
   typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::LoadElementType LoadElementType;
   typedef typename Superclass::LoadElementPointer LoadElementPointer;
-  typedef typename Superclass::PointIDType PointIDType;
+  typedef typename Superclass::NodeIDType NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::NodeDefinitionType NodeDefinitionType;
   typedef typename Superclass::ReadInfoType ReadInfoType;
-  typedef typename Superclass::PointClass PointClass;
   enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
-  enum{ NumberOfPoints=Superclass::NumberOfPoints };
   enum{ NumberOfNodes=Superclass::NumberOfNodes };
   enum{ NumberOfDegreesOfFreedomPerNode=Superclass::NumberOfDegreesOfFreedomPerNode };
   enum{ NDOF=Superclass::NDOF };
-
 
 //////////////////////////////////////////////////////////////////////////
   /*
@@ -81,8 +78,6 @@ public:
   virtual VectorType ShapeFunctions( const VectorType& pt ) const;
 
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
-
-  virtual VectorType GetNodalCoordinates( unsigned int n ) const;
 
   virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const;
 

@@ -24,6 +24,7 @@
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"
+#include "itkFEMElementNewBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 
@@ -321,6 +322,23 @@ void Solver::GenerateGFN() {
   // Step over all elements
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
+
+    // Handle DOFs in new elements
+    // FIXME:
+    if(ElementNew::Pointer elem=dynamic_cast<ElementNew*>(&**e))
+    {
+      for(unsigned int n=0; n<elem->GetNumberOfNodes(); n++)
+      {
+        for(unsigned int dof=0; dof<elem->GetNumberOfDegreesOfFreedomPerNode(); dof++)
+        {
+          if( elem->GetNode(n)->GetDegreeOfFreedom(dof)==ElementNew::InvalidDegreeOfFreedomID )
+          {
+            elem->GetNode(n)->SetDegreeOfFreedom(dof,Element::CreateNewGlobalDOF());
+          }
+        }
+      }
+      continue;
+    }
 
     // FIXME: Write a code that checks if two elements are compatible, when they share a node.
 

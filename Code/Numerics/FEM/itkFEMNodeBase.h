@@ -78,7 +78,7 @@ public:
    * Obtain DOFs associated with this node from element objects
    * defined in m_elements.
    */
-  unsigned int GetDegreeOfFreedom(unsigned int i) const;
+  virtual unsigned int GetDegreeOfFreedom(unsigned int i) const;
 
   /**
    * List of pointers to elements that use this node. External code is

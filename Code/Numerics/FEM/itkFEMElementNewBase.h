@@ -21,10 +21,14 @@
 #include "itkFEMLightObject.h"
 #include "itkFEMPArray.h"
 #include "itkFEMNodeBase.h"
+#include "itkFEMElementBase.h"
 #include "itkFEMMaterialBase.h"
+#include "itkFEMSolution.h"
 #include "itkVisitorDispatcher.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+#include <set>
+#include <vector>
 
 namespace itk {
 namespace fem {
@@ -58,29 +62,51 @@ namespace fem {
 
 
 /**
- * \def LOAD_FUNCTION()
- * \brief Macro that simplifies the the Fe function definitions.
+ * \def HANDLE_ELEMENT_LOADS()
+ * \brief Macro that simplifies the the GetLoadVector function definitions.
  *
  * NOTE: This macro must be called in declaration of ALL
  *       derived Element classes.
  */
-#define LOAD_FUNCTION() \
-  virtual LoadVectorType Fe( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,LoadVectorType>::Visit(this,l); } \
+#define HANDLE_ELEMENT_LOADS() \
   virtual VectorType GetLoadVector( LoadElementPointer l ) const \
   { return VisitorDispatcher<Self,LoadElementType,VectorType>::Visit(this,l); }
 
 
 
 
-class ElementNew : public FEMLightObject
+class ElementNew : public Element
 {
-FEM_CLASS_SP(ElementNew,FEMLightObject)
+FEM_CLASS_SP(ElementNew,Element)
 public:
+
+  /*
+   * Define functions required by parent class
+   * FIXME: Remove, once this is the base class.
+   */
+  virtual LoadVectorType Fe(LoadElementPointer l) const { return this->GetLoadVector(l); }
+  virtual unsigned int GetNumberOfPoints(void) const { return 0; }
+  virtual PointIDType GetPoint(unsigned int pt) const { return PointIDType(); }
+  virtual void SetPoint(unsigned int pt, PointIDType node) {}
+  virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int dof ) const
+  {
+    if(dof>this->GetNumberOfDegreesOfFreedom()) { return InvalidDegreeOfFreedomID; }
+    return this->GetNode(dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(dof%this->GetNumberOfDegreesOfFreedomPerNode());
+  }
+  virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof) {}
+  virtual void ClearDegreesOfFreedom( void )
+  {
+    for(unsigned int n=0; n<this->GetNumberOfNodes(); n++)
+    {
+      this->GetNode(n)->ClearDegreesOfFreedom();
+    }
+  }
+
+
   /**
    * Floating point type used in all Element classes.
    */
-  typedef Node::Float Float;
+  typedef double Float;
 
   /**
    * Array class that holds special pointers to the Element objects
@@ -90,13 +116,11 @@ public:
   /**
    * Class used to store the element stiffness matrix
    */
-  typedef vnl_matrix<Float> StiffnesMatrixType;
   typedef vnl_matrix<Float> MatrixType;
 
   /**
    * Class to store the element load vector
    */
-  typedef vnl_vector<Float> LoadVectorType;
   typedef vnl_vector<Float> VectorType;
 
   /**
@@ -113,71 +137,126 @@ public:
   typedef FEMLightObject LoadElementType;
   typedef LoadElementType::Pointer LoadElementPointer;
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
-   * Old methods. FIXME: To be removed when the new base class is working.
+  /**
+   * Type that stores global ID's of degrees of freedom.
    */
+  typedef unsigned int DegreeOfFreedomIDType;
 
   /**
-   * Compute and return element stiffnes matrix in global coordinate system
+   * Constant that represents an invalid DegreeOfFreedomID object.
+   * If a degree of freedom is assigned this value, this means that
+   * that no specific value was (yet) assigned to this DOF.
+   */ 
+  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
+
+  /**
+   * \class ElementNew::Node
+   * \brief Class that stores information required to define a node.
+   *
+   * A node can define a point in space and can hold an arbitrary number 
+   * of coordinates and the DOFs. Since the only classes that use nodes
+   * are the elements, the node class is defined within an element base class.
    */
-  virtual StiffnesMatrixType Ke() const
+  class Node : public ::itk::fem::Node
   {
-    StiffnesMatrixType K;
-    this->GetStiffnessMatrix(K);
-    return K;
-  }
+  FEM_CLASS(Node,::itk::fem::Node)
+  public:
+
+    /**
+     * Floating point precision type.
+     */
+    typedef double Float;
+
+    /**
+     * Array class that holds special pointers to the nodes.
+     */
+    typedef FEMPArray<Self> ArrayType;
 
 
-  /**
-   * Compute and return element mass matrix in global coordinate system.
-   * This is needed if dynamic problems (parabolic or hyperbolix d.e.)
-   * need to be solved.
-   */
-  virtual vnl_matrix<Float> Me() const;
+    /* Windows visualization */
+  #ifdef FEM_BUILD_VISUALIZATION
+    /** Draws the node on the DC */
+    void Draw(CDC* pDC, Solution::ConstPointer sol) const;
+    /** Global scale for drawing on the DC */
+    static double& DC_Scale;
+  #endif
 
-  /**
-   * Compute and return the element load vector for a given external load.
-   * The class of load object determines the type of load acting on the
-   * elemnent. Basically this is the contribution of this element on the right
-   * side of the master matrix equation, due to the specified load. 
-   * Returned vector includes only nodal forces that correspond to the given
-   * Load object.
-   *
-   * Visitor design pattern is used in the loads implementation. This function
-   * only selects and calls the proper function based on the given class of
-   * load object. The code that performs the actual conversion to the
-   * corresponding nodal loads is defined elswhere.
-   *
-   * \note Each deriver class must implement its own version of this function.
-   *       This is automated by calling the LOAD_FUNCTION() macro within the
-   *       class declaration (in the public: block).
-   *
-   * For example on how to define specific element load, see funtion
-   * LoadImplementationPoint_Bar2D.
-   *
-   * \note: Before a load can be applied to an element, the function that
-   *        implements a load must be registered with the VisitorDispactcher
-   *        class.
-   *
-   * \sa VisitorDispatcher
-   */
-  virtual LoadVectorType Fe(LoadElementPointer l) const = 0;
+    /**
+     * Default constructor
+     */
+    Node() {}
 
-  /**
-   * Interpolate the known solution at a given point in local co-ordinates.
-   * Returns zero, if either pt or dof_at_pt parameter is out of range.
-   *
-   * \param LocalCoords  - vector containing the local coordinates.
-   * \param which_dof  - which of the degrees of freedom to interpolate.
-   */
-  virtual Float InterpolateSolutionAtLocalCoordinate(vnl_vector<Float> LocalCoords, unsigned int which_dof ) const
-  {
-    return 0.0;
-  }
+    /**
+     * Create 2D node.
+     */
+    Node(Float x, Float y) : m_coordinates(VectorType(2))
+    { m_coordinates[0]=x; m_coordinates[1]=y; }
+
+    /**
+     * Create 3D node.
+     */
+    Node(Float x, Float y, Float z) : m_coordinates(VectorType(x,y,z)) {}
+
+    /**
+     * Return a reference to a vector that contains coordinates
+     * of this node.
+     */
+    const VectorType& GetCoordinates( void ) const
+    { return m_coordinates; }
+
+    /**
+     * Set coordinates of a node.
+     */
+    void SetCoordinates( const VectorType& coords )
+    { m_coordinates=coords; }
+
+    /**
+     * Get DOF IDs associated with this node.
+     */
+    DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int i) const
+    {
+      if( i>=m_dof.size() ) { return InvalidDegreeOfFreedomID; }
+      return m_dof[i];
+    }
+
+    /**
+     * Set DOF IDs associated with this node.
+     */
+    void SetDegreeOfFreedom(unsigned int i, DegreeOfFreedomIDType dof) const
+    {
+      if( i>=m_dof.size() ) { m_dof.resize(i+1, InvalidDegreeOfFreedomID); }
+      m_dof[i]=dof;
+    }
+
+    virtual void ClearDegreesOfFreedom( void ) const
+    {
+      m_dof.clear();
+    }
+
+    virtual void Read(  std::istream& f, void* info );
+    virtual void Write( std::ostream& f, int ofid=-1 ) const;
+
+  public:
+    /**
+     * List of pointers to elements that use this node. External code is
+     * responsible for maintaining the list.
+     */
+    typedef std::set<ElementNew*> SetOfElements;
+    mutable SetOfElements m_elements;
+
+  private:
+    /**
+     * Vector object that holds node coordinates.
+     */
+    VectorType m_coordinates;
+
+    /**
+     * Array that holds IDs of degrees of freedom that are
+     * defined at this node.
+     */
+    mutable std::vector<DegreeOfFreedomIDType> m_dof;
+
+  }; // end class Node
 
 
 
@@ -251,14 +330,14 @@ public:
    * \param shapeDgl Matrix that contains derivatives of shape functions
    *                 w.r.t. global coordinates.
    */
-  virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const {}// = 0;
+  virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const = 0;
 
   /**
    * Compute the element material matrix.
    *
    * \param D Reference to a matrix object
    */
-  virtual void GetMaterialMatrix( MatrixType& D ) const {}// = 0;
+  virtual void GetMaterialMatrix( MatrixType& D ) const = 0;
 
   /**
    * Return interpolated value of all unknown functions at
@@ -300,21 +379,21 @@ public:
    * \sa GetWeightAtIntegrationPoint()
    * \sa GetNumberOfIntegrationPoints()
    */
-  virtual VectorType GetIntegrationPoint( unsigned int i ) const { return VectorType(); }// = 0;
+  virtual VectorType GetIntegrationPoint( unsigned int i ) const = 0;
 
   /**
    * Returns the summation weight at i-th integration point.
    *
    * \sa GetIntegrationPoint()
    */
-  virtual Float GetWeightAtIntegrationPoint( unsigned int i ) const { return 0.0; }// = 0;
+  virtual Float GetWeightAtIntegrationPoint( unsigned int i ) const = 0;
 
   /**
    * Returns total number of integration points.
    *
    * \sa GetIntegrationPoint()
    */
-  virtual unsigned int GetNumberOfIntegrationPoints( void ) const { return 0; }// = 0;
+  virtual unsigned int GetNumberOfIntegrationPoints( void ) const = 0;
 
 
 
@@ -324,32 +403,33 @@ public:
    * Methods related to the geometry of an element
    */
 
-  /*
-   * FIXME: The next four should be implemented in Cell/Mesh
+  /**
+   * Type that is used to store IDs of a node. It is a
+   * pointer to Node objects.
    */
-  typedef Node::ConstPointer PointIDType;
-  virtual unsigned int GetNumberOfPoints(void) const = 0;
-  virtual PointIDType GetPoint(unsigned int pt) const = 0;
-  virtual void SetPoint(unsigned int pt, PointIDType node) = 0;
+  typedef Node::ConstPointer NodeIDType;
 
   /**
-   * Return the total number of nodes in an elememnt. A node is a point in
-   * the element that stores one or more degrees of freedom.
-   *
-   * In linear elements nodes are typically colocated with geometrical points,
-   * so the number of nodes is equal to the number of points. This is also
-   * the default implementation here. If you need to define a more complex
-   * element which has additional nodes, you need to override this function
-   * in a derived class.
+   * Return the total number of nodes in an elememnt.
    */
   virtual unsigned int GetNumberOfNodes( void ) const = 0;
+
+  /**
+   * Returns the ID (pointer) of n-th node in an element.
+   */
+  virtual NodeIDType GetNode(unsigned int n) const = 0;
+
+  /**
+   * Sets the pointe of n-th node in an element to node.
+   */
+  virtual void SetNode(unsigned int n, NodeIDType node) = 0;
 
   /**
    * Return a vector of global coordinates of n-th node in an element.
    *
    * \param n Local number of node. Must be 0 <= n < this->GetNumberOfNodes().
    */
-  virtual VectorType GetNodalCoordinates( unsigned int n ) const { return VectorType(); } // = 0;
+  virtual const VectorType& GetNodeCoordinates( unsigned int n ) const = 0;
 
   /**
    * Transforms the given local element coordinates into global.
@@ -363,7 +443,7 @@ public:
    *
    * \param pt Point in global (world) coordinates.
    */
-  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const { return VectorType(); } // = 0;
+  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const = 0;
 
   /**
    * Returns a vector containing the values of all shape functions
@@ -372,7 +452,7 @@ public:
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType ShapeFunctions( const VectorType& pt ) const { return VectorType(); } // = 0;
+  virtual VectorType ShapeFunctions( const VectorType& pt ) const = 0;
 
   /**
    * Compute the matrix of values of the shape functions derivatives with
@@ -389,7 +469,7 @@ public:
    *
    * \sa ShapeFunctionGlobalDerivatives
    */
-  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const {} // = 0;
+  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const = 0;
 
   /**
    * Compute matrix of shape function derivatives with respect to
@@ -459,79 +539,15 @@ public:
    */
   virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
-   * Methods and typedefs related to degrees of freedom management
-   */
-
-  /**
-   * Type that stores global ID's of degrees of freedom.
-   *
-   * Derived classes must provide static storage for an array of objects of
-   * class DegreeOfFreedomIDType.
-   *
-   * FIXME: This can be something else than an int. Maybe a pointer to
-   *        a DOF object, or something...
-   */
-  typedef unsigned int DegreeOfFreedomIDType;
-
-  /**
-   * Constant that represents an invalid DegreeOfFreedomID object.
-   * If a degree of freedom is assigned this value, this means that
-   * that no specific value was (yet) assigned to this DOF.
-   */ 
-  enum{ InvalidDegreeOfFreedomID = 0xffffffff };
-
-  /**
-   * Type used to store an array of global point IDs that define a node.
-   *
-   * \sa GetNodeDefinition
-   */
-  typedef std::vector<PointIDType> NodeDefinitionType;
-
-
-
   /**
    * Return the total number of degrees of freedom defined in a derived
    * element class. By default this is equal to number of points in a cell
-   * multiplied by number of degrees of freedom at each point. If a derived
-   * class has more advanced DOFs (for example nodes and DOFs associated
-   * with edges) this function must be overriden in derived class.
+   * multiplied by number of degrees of freedom at each point.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedom( void ) const
   {
-    return this->GetNumberOfPoints() * this->GetNumberOfDegreesOfFreedomPerNode();
+    return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
   }
-
-  /**
-   * Method to get DOF ids. Returns the global id of the DOF with given
-   * local id. If id is out of range the function returns invalid DOF id.
-   *
-   * \param local_dof Number of DOF within an element (local id of DOF).
-   *
-   * \note This function must be overriden in all derived classes.
-   */
-  virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const = 0;
-
-  /**
-   * Method to set DOF ids. Sets local DOF with given id to the global id,
-   * which is provided in dof parameter.
-   *
-   * \param local_dof Number of DOF within an element (local id of DOF).
-   * \param global_dof Global DOF id.
-   *
-   * \note This function must be overriden in all derived classes.
-   */
-  virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof) = 0;
-
-  /**
-   * Releases all DOFs used by element. It sets all local DOF
-   * ids to invalid global id values.
-   */
-  virtual void ClearDegreesOfFreedom( void );
 
   /**
    * Return the number of degrees of freedom at each node. This is also
@@ -541,91 +557,6 @@ public:
    * \note This function must be overriden in all derived classes.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const = 0;
-
-  /**
-   * Returns a global DOF id that is associated with given node in an element.
-   * Since there are in general many DOFs present at each node, you can
-   * specify which one, by providing the dof parameter.
-   *
-   * Function returns InvalidDegreeOfFreedomID, if any of the parameters is
-   * out of range. This functionality must be preserved when overriding the
-   * function.
-   *
-   * Typically, local DOF ids in all elements are numbered
-   * starting from 0 for first DOF at first node, then 1 for second DOF at
-   * first node, and so on. If more complex DOFs exist in a cell, this
-   * function should be overriden.
-   *
-   * \param nd Local index of a node within an element (0 - number_of_nodes-1).
-   * \param dof_at_nd Number of DOF present at point pt (0 - number_of_dofs_at_node-1).
-   */
-  virtual DegreeOfFreedomIDType GetDegreeOfFreedomAtNode( unsigned int nd, unsigned int dof_at_nd ) const
-  {
-    if (dof_at_nd>=this->GetNumberOfDegreesOfFreedomPerNode() || nd>=this->GetNumberOfNodes())
-    {
-      return InvalidDegreeOfFreedomID;
-    }
-    return this->GetDegreeOfFreedom(nd*this->GetNumberOfDegreesOfFreedomPerNode()+dof_at_nd);
-  }
-
-  /**
-   * Sets a global DOF id that is associated with given node in an element.
-   *
-   * If either nd or dof_at_nd parameter is out of range, this function
-   * does nothing. This functionality must be preserved when overriding the
-   * function.
-   *
-   * \sa GetDegreeOfFreedomAtNode
-   */
-  virtual void SetDegreeOfFreedomAtNode( unsigned int nd, unsigned int dof_at_nd, DegreeOfFreedomIDType global_dof )
-  {
-    if (dof_at_nd>=this->GetNumberOfDegreesOfFreedomPerNode() || nd>=this->GetNumberOfNodes())
-    {
-      return;
-    }
-    this->SetDegreeOfFreedom(nd*this->GetNumberOfDegreesOfFreedomPerNode()+dof_at_nd, global_dof);
-  }
-
-  /**
-   * Return a set of global point IDs, that define the n-th node in an 
-   * element.
-   *
-   * Each node in an element must be somehow uniquely associated with a set
-   * of geometrical points. This is required to determine if two nodes
-   * in different elements correspond to the same point in space, and must
-   * therefore also share its DOFs.
-   *
-   * In a linear elements each node is only associated with the geometrical
-   * point at which it is defined. So the set contains only one global point
-   * id. This is the default implementation provided in this class.
-   *
-   * If an element has additional nodes, you must override this function and
-   * provide proper mapping from node number to set of global point id.
-   *
-   * Example: In quadratic elements, a node is typically located at a middle
-   * point on an edge. An edge is defined with two points. So this node is
-   * also uniquely defined with two global point ids that define that
-   * edge. And this is exactly what this function should return.
-   *
-   * \sa NodeDefinitionType
-   *
-   * \note This function is only used to determine which nodes are shared
-   *       between elements in a mesh. It does not store the actual
-   *       coordinates of a node. The node coordinates must be calculated
-   *       manually where they are required in a derived class from the
-   *       given coordinates of geometrical points.
-   *
-   * \param n Node number within the element.
-   *          Must be 0 <= n < GetNumberOfNodes().
-   * \param def A reference to the multiset object which will return the
-   *            global point ids of the n-th node.
-   */
-  virtual void GetNodeDefinition(unsigned int n, NodeDefinitionType& def) const
-  {
-    def.clear();
-    if( n>=this->GetNumberOfPoints() ) { return; }
-    def.insert(def.end(),this->GetPoint(n));
-  }
 
 
 
@@ -663,42 +594,13 @@ public:
   static double& DC_Scale;
 #endif
 
-
-
-
-  /**
-   * Create a new unique DOF id.
-   * FIXME: This code is not multithread safe.
-   */
-  static DegreeOfFreedomIDType CreateNewGlobalDOF(void)
-  {
-    return ++m_DOFCounter;
-  };
-
-  /**
-   * Reset the DOF id counter.
-   */
-  static void ResetGlobalDOFCounter(void)
-  {
-    m_DOFCounter=InvalidDegreeOfFreedomID;
-  };
-
-  /**
-   * Return the current value of DOF id counter.
-   */
-  static DegreeOfFreedomIDType GetGlobalDOFCounter(void)
-  {
-    return m_DOFCounter;
-  }
-
-private:
-
-  /**
-   * Storage for DOF id counter.
-   */
-  static DegreeOfFreedomIDType m_DOFCounter;
-
 };
+
+// Make sure that Element::Node class is registered with the object factory.
+static INITClass Initializer_ElementNewNode(ElementNew::Node::OFID);
+
+// Alias for Node class
+typedef ElementNew::Node NodeNew;
 
 
 

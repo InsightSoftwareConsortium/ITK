@@ -88,18 +88,6 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
 
 
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetNodalCoordinates( unsigned int n ) const
-{
-  vnl_vector<Float> p(2);
-  p[0]=m_point[n]->X;
-  p[1]=m_point[n]->Y;
-  return p;
-}
-
-
 
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
@@ -181,10 +169,10 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
   VectorType lpt(2);
 
-  x1 = m_point[0]->X;   y1 = m_point[0]->Y;
-  x2 = m_point[1]->X;   y2 = m_point[1]->Y;
-  x3 = m_point[2]->X;   y3 = m_point[2]->Y;
-  x4 = m_point[3]->X;   y4 = m_point[3]->Y;
+  x1 = m_node[0]->GetCoordinates()[0];   y1 = m_node[0]->GetCoordinates()[1];
+  x2 = m_node[1]->GetCoordinates()[0];   y2 = m_node[1]->GetCoordinates()[1];
+  x3 = m_node[2]->GetCoordinates()[0];   y3 = m_node[2]->GetCoordinates()[1];
+  x4 = m_node[3]->GetCoordinates()[0];   y4 = m_node[3]->GetCoordinates()[1];
 
   xb = x1 - x2 + x3 - x4;
   yb = y1 - y2 + y3 - y4;
@@ -229,26 +217,26 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 ::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
 
-  int x1=m_point[0]->X*DC_Scale;
-  int y1=m_point[0]->Y*DC_Scale;
+  int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
+  int y1=m_node[0]->GetCoordinates()[1]*DC_Scale;
   
-  int x2=m_point[1]->X*DC_Scale;
-  int y2=m_point[1]->Y*DC_Scale;
+  int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
+  int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
   
-  int x3=m_point[2]->X*DC_Scale;
-  int y3=m_point[2]->Y*DC_Scale;
+  int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
+  int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
   
-  int x4=m_point[3]->X*DC_Scale;
-  int y4=m_point[3]->Y*DC_Scale;
+  int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
+  int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
 
-  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(2))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->GetDegreeOfFreedom(3))*DC_Scale;
-  x3+=sol->GetSolutionValue(this->GetDegreeOfFreedom(4))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->GetDegreeOfFreedom(5))*DC_Scale;
-  x4+=sol->GetSolutionValue(this->GetDegreeOfFreedom(6))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->GetDegreeOfFreedom(7))*DC_Scale;
+  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);

@@ -21,6 +21,7 @@
 #endif
 
 #include "itkFEMElementNewBase.h"
+#include "itkFEMUtility.h"
 #include "vnl/algo/vnl_svd.h"
 
 namespace itk {
@@ -30,9 +31,126 @@ namespace fem {
 
 
 #ifdef FEM_BUILD_VISUALIZATION
+
 /** Global scale factor for drawing on the DC */
-double& ElementNew::DC_Scale=Node::DC_Scale;
+double& ElementNew::Node::DC_Scale=itk::fem::Node::DC_Scale;
+
+/** Global scale factor for drawing on the DC */
+double& ElementNew::DC_Scale=ElementNew::Node::DC_Scale;
+
+/**
+ * draws the node on DC
+ */
+void ElementNew::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+{
+  // We can only draw 2D nodes here
+  if(m_coordinates.size()!=2) { return; }
+
+  
+  // Normally we draw a white circle.
+  CPen pen(PS_SOLID, 0, (COLORREF) RGB(0,0,0) );
+  CBrush brush( RGB(255,255,255) );
+
+  if(m_dof.size()>2)
+  {
+    // If there are more that 2 DOFs at this node, we
+    // draw a black circle.
+    pen.CreatePen(PS_SOLID, 0, (COLORREF) RGB(255,255,255) );
+    brush.CreateSolidBrush( RGB(0,0,0) );
+  }
+
+  CPen* pOldpen=pDC->SelectObject(&pen);
+  CBrush* pOldbrush=pDC->SelectObject(&brush);
+
+  int x1=m_coordinates[0]*DC_Scale;
+  int y1=m_coordinates[1]*DC_Scale;
+  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
+  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
+
+  CPoint r1=CPoint(0,0);
+  CPoint r=CPoint(5,5);
+
+  pDC->DPtoLP(&r1);
+  pDC->DPtoLP(&r);
+  r=r-r1;
+
+  pDC->Ellipse(x1-r.x, y1-r.y, x1+r.x, y1+r.y);
+
+  pDC->SelectObject(pOldbrush);
+  pDC->SelectObject(pOldpen);
+
+}
+
 #endif
+
+
+
+
+/*
+ * Read the Node from the input stream
+ */
+void ElementNew::Node::Read(  std::istream& f, void* info )
+{
+  unsigned int n;
+
+  /*
+   * First call the parent's read function
+   */
+  Self::Superclass::Read(f,info);
+
+  /*
+   * Read and set node coordinates
+   */
+  SkipWhiteSpace(f); f>>n; if(!f) goto out;
+  this->m_coordinates.resize(n);
+  SkipWhiteSpace(f); f>>this->m_coordinates; if(!f) goto out;
+
+out:
+
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"ElementNew::Node::Read()","Error reading FEM node!");
+  }
+
+}
+
+
+
+
+/*
+ * Write the Node to the output stream
+ */
+void ElementNew::Node::Write( std::ostream& f, int ofid ) const 
+{
+
+  /*
+   * If not set already, se set the ofid
+   */
+  if (ofid<0) 
+  {
+    ofid=OFID;
+  }
+
+  /**
+   * First call the parent's write function
+   */
+  Self::Superclass::Write(f,ofid);
+
+  /**
+   * Write actual data (node, and properties numbers)
+   */
+  
+  /* write the value of dof */
+  f<<"\t"<<this->m_coordinates.size();
+  f<<" "<<this->m_coordinates<<"\t% Node coordinates"<<"\n";
+
+  /** check for errors */
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"ElementNew::Node::Write()","Error writing FEM node!");
+  }
+
+}
 
 
 
@@ -108,19 +226,6 @@ void ElementNew::GetMassMatrix( MatrixType& Me ) const
 
 
 
-ElementNew::MatrixType
-ElementNew::Me() const
-{
-  /*
-   * If the function is not overiden, we return 0 matrix. This means that
-   * by default the elements are static.
-   */
-  return MatrixType( this->GetNumberOfDegreesOfFreedom(), this->GetNumberOfDegreesOfFreedom(), 0.0 );
-}
-
-
-
-
 ElementNew::VectorType
 ElementNew::InterpolateSolution( const VectorType& pt, const Solution& sol ) const
 {
@@ -138,7 +243,7 @@ ElementNew::InterpolateSolution( const VectorType& pt, const Solution& sol ) con
 
     for(unsigned int n=0; n<Nnodes; n++)
     {
-      value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f) );
+      value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f) );
     }
 
     vec[f]=value;
@@ -162,7 +267,7 @@ ElementNew::InterpolateSolution( const VectorType& pt, const Solution& sol, unsi
   unsigned int Nnodes=this->GetNumberOfNodes();
   for(unsigned int n=0; n<Nnodes; n++)
   {
-    value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f) );
+    value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f) );
   }
   return value;
 
@@ -198,7 +303,7 @@ ElementNew::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* psh
 
   for( unsigned int n=0; n<Nn; n++ )
   {
-    VectorType p=this->GetNodalCoordinates(n);
+    VectorType p=this->GetNodeCoordinates(n);
     coords.set_row(n,p);
   }
 
@@ -307,7 +412,7 @@ ElementNew::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
   unsigned int Nnodes=this->GetNumberOfNodes();
   for(unsigned int n=0; n<Nnodes; n++)
   {
-    nc.set_column( n,this->GetNodalCoordinates(n) );
+    nc.set_column( n,this->GetNodeCoordinates(n) );
   }
   
   VectorType shapeF = ShapeFunctions(pt);
@@ -319,21 +424,14 @@ ElementNew::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 
 
 
-//////////////////////////////////////////////////////////////////////////
-/*
- * DOF management
- */
 
-void ElementNew::ClearDegreesOfFreedom(void)
-{
-  for(unsigned int i=0;i<GetNumberOfDegreesOfFreedom();i++)
-  {
-    SetDegreeOfFreedom(i,InvalidDegreeOfFreedomID);
-  }
-
-}
-
-ElementNew::DegreeOfFreedomIDType ElementNew::m_DOFCounter;
+#ifndef FEM_USE_SMART_POINTERS
+namespace { static ElementNew::Node::Baseclass::Pointer NewNodeObect() { return new ElementNew::Node; } }
+const int ElementNew::Node::OFID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
+#else
+namespace { static ElementNew::Node::Baseclass::Pointer NewNodeObect() { return ElementNew::Node::New(); } }
+const int ElementNew::Node::OFID=FEMObjectFactory<ElementNew::Node::Baseclass>::Register( NewNodeObect, "Node" );
+#endif
 
 
 

@@ -32,17 +32,17 @@ Element2DC0LinearQuadrilateralStress
 
 Element2DC0LinearQuadrilateralStress
 ::Element2DC0LinearQuadrilateralStress(
-      PointIDType n1_,
-      PointIDType n2_,
-      PointIDType n3_,
-      PointIDType n4_,
+      NodeIDType n1_,
+      NodeIDType n2_,
+      NodeIDType n3_,
+      NodeIDType n4_,
       Material::ConstPointer m_)
 {
   // Set the geometrical points
-  this->SetPoint( 0, n1_ );
-  this->SetPoint( 1, n2_ );
-  this->SetPoint( 2, n3_ );
-  this->SetPoint( 3, n4_ );
+  this->SetNode( 0, n1_ );
+  this->SetNode( 1, n2_ );
+  this->SetNode( 2, n3_ );
+  this->SetNode( 3, n4_ );
 
   /*
    * Initialize the pointer to material object and check that
