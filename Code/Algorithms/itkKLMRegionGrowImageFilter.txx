@@ -689,7 +689,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // current minimum scale parameter is not less than the desired scale.
   //-----------------------------------------------------------------
 
-  unsigned int initialNumberOfRegions = m_NumRegions;
 
   while(( m_NumRegions   > this->GetMaximumNumberOfRegions() ) &&
         ( m_RegionLambda < m_MaxLambda))
@@ -734,6 +733,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     */
 
     /*
+    unsigned int initialNumberOfRegions = m_NumRegions;
     std::cout << "-------------------" << std::endl;
     std::cout << "    After merge   " << std::endl;
     std::cout << "-------------------" << std::endl;
@@ -1044,7 +1044,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     }
 
   //COMMENT off
-  bool smartPointerUseFlag = true;
+  //bool smartPointerUseFlag = true;
   //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
   std::sort(m_BordersDynamicPointer.begin(), 
@@ -2051,9 +2051,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   BordersDynamicPointerIterator 
     bordersDynamicPointerIt = m_BordersDynamicPointer.begin();
 
+/* 
   BordersDynamicPointerIterator 
     bordersDynamicPointerItEnd = m_BordersDynamicPointer.end();
-/* 
   while( bordersDynamicPointerIt != bordersDynamicPointerItEnd )
     {
     if( ( *(bordersDynamicPointerIt)->GetRegion1() == NULL ) ||
