@@ -190,10 +190,10 @@ int main()
     for (unsigned int i=0; i < index.GetIndexDimension(); i++)
       {
       if (index[i] != rindex[i])
-	{
-	std::cout << index[i] << " != " << rindex[i] << std::endl;
-	status = 1;
-	}
+  {
+  std::cout << index[i] << " != " << rindex[i] << std::endl;
+  status = 1;
+  }
       }  
     }
   if (status == 0)

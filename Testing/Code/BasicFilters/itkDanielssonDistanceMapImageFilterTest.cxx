@@ -85,7 +85,7 @@ int main()
 
   // Set the image to 0
   while( !it2D1.IsAtEnd() ) 
-  {	
+  { 
     it2D1.Set( 0 );
     ++it2D1;
   }

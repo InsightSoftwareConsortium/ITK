@@ -171,14 +171,14 @@ int main(void)
   boundLine->SetPointId(0,0);
   boundLine->SetPointId(1,1);
   
-  mesh->SetBoundary(1,   	 // Topological dimension of boundary.
-		    0,     	 // Boundary identifier.
-		    boundLine);  // Pointer to explicit boundary.
+  mesh->SetBoundary(1,     // Topological dimension of boundary.
+        0,       // Boundary identifier.
+        boundLine);  // Pointer to explicit boundary.
   
   mesh->SetBoundaryAssignment(1,   // Topologoical dimension.
-			      1,   // CellIdentifier
-			      0,   // CellFeatureIdentifier
-			      0);  // Boundary identifier.  
+            1,   // CellIdentifier
+            0,   // CellFeatureIdentifier
+            0);  // Boundary identifier.  
   /**
    * Try getting the hexahedron's neighbor through its first edge.
    * This should be the test tetrahedron, except that we have done an

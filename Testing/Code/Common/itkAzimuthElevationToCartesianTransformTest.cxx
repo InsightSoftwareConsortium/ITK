@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkRT3DTransform.h"
 
-typedef	 itk::Point<double,3>		PointType;
+typedef  itk::Point<double,3>   PointType;
 
 
 
@@ -90,7 +90,7 @@ int main(
     PointType reverseDirectionAnswerBackwards = transform->TransformPoint(reverseDirectionAnswer);
     PrintPoint(reverseDirectionAnswerBackwards);
 
-		
+    
 
     bool same=true;
     for (unsigned int i=0; i < p.PointDimension && same; i++)

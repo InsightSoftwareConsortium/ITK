@@ -199,7 +199,7 @@ int main()
       requestedRegion = stream->GetOutput()->GetRequestedRegion();
       
       itk::ImageRegionIterator<ShortImage>
-	iteratorIn2(stream->GetOutput(), requestedRegion);
+  iteratorIn2(stream->GetOutput(), requestedRegion);
       
       nextVal = 0;
       passed = true; 

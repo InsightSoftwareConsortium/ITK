@@ -163,7 +163,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
         << std::endl;
     throw std::string(err.str());
     }
-}	 
+}  
 
 
 /**

@@ -79,14 +79,14 @@ OutputType trueValue )
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
-		{
+    {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
     }
 
   if( isInside )
-		{
-		OutputType value = interp->Evaluate( point );
+    {
+    OutputType value = interp->Evaluate( point );
     std::cout << " Value: ";
     for( k = 0; k < VectorDimension - 1; k++ )
       {
@@ -97,9 +97,9 @@ OutputType trueValue )
     for( k = 0; k < VectorDimension; k++ )
       {
       if( vnl_math_abs( value[k] - trueValue[k] ) > 1e-9 )
-			  {
+        {
         break;
-			  }
+        }
       }
  
     if( k != VectorDimension )
@@ -112,7 +112,7 @@ OutputType trueValue )
       std::cout << trueValue[k] << std::endl;
       }
 
-		}
+    }
 
   std::cout << std::endl;
   return true;
@@ -139,14 +139,14 @@ OutputType trueValue )
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
-		{
+    {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
     }
 
   if( isInside )
-		{
-		OutputType value = interp->EvaluateAtContinuousIndex( index );
+    {
+    OutputType value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: ";
     for( k = 0; k < VectorDimension - 1; k++ )
       {
@@ -157,9 +157,9 @@ OutputType trueValue )
     for( k = 0; k < VectorDimension; k++ )
       {
       if( vnl_math_abs( value[k] - trueValue[k] ) > 1e-9 )
-			  {
+        {
         break;
-			  }
+        }
       }
  
     if( k != VectorDimension )
@@ -172,7 +172,7 @@ OutputType trueValue )
       std::cout << trueValue[k] << std::endl;
       }
 
-		}
+    }
 
   std::cout << std::endl;
   return true;

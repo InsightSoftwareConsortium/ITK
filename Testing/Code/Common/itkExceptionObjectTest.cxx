@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //
 //  TO COMPILE:
-//	$(CC) -I ../../../Code/Common -LANG:std -o itkExceptionObjectTest
-//	   itkExceptionObjectTest.cxx $../../../Code/Common/itkExceptionObject.cxx 
+//  $(CC) -I ../../../Code/Common -LANG:std -o itkExceptionObjectTest
+//     itkExceptionObjectTest.cxx $../../../Code/Common/itkExceptionObject.cxx 
 //
 
 #include "itkExceptionObject.h"
@@ -150,12 +150,12 @@ int main()
   
 
   try
-	{
-	  itk::SampleError E;
-	  E.SetLocation("djibouti");
-	  E.SetDescription("sample error");
-	  throw E;
-	}
+  {
+    itk::SampleError E;
+    E.SetLocation("djibouti");
+    E.SetDescription("sample error");
+    throw E;
+  }
   catch (itk::ExceptionObject &e) { std::cout << e << std::endl; }
   */
 

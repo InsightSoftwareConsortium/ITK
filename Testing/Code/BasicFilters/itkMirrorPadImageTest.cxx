@@ -60,13 +60,13 @@ int VerifyPixel(int row, int col, int val)
   colVal = col;
   
   if (row < 0)
-  {		  
+  {     
       row += 8;
-	  rowVal = 7 - row;
+    rowVal = 7 - row;
   }
   if (row < 0) 
   {
-	  row += 8;
+    row += 8;
       rowVal=row;
   }
   if (row > 7) 
@@ -188,15 +188,15 @@ int main()
     
     for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
       {
-	row = iteratorIn1.GetIndex()[0];
-	column = iteratorIn1.GetIndex()[1];
-	if (!VerifyPixel(row, column, iteratorIn1.Get()))
-	  {
-	    std::cout << "Error: (" << row << ", " << column 
-		      << "), got " 
-		      << iteratorIn1.Get() << std::endl;
-	    passed = false;
-	  }
+  row = iteratorIn1.GetIndex()[0];
+  column = iteratorIn1.GetIndex()[1];
+  if (!VerifyPixel(row, column, iteratorIn1.Get()))
+    {
+      std::cout << "Error: (" << row << ", " << column 
+          << "), got " 
+          << iteratorIn1.Get() << std::endl;
+      passed = false;
+    }
       }
   }
   
@@ -230,29 +230,29 @@ int main()
       requestedRegion = mirrorPad->GetOutput()->GetRequestedRegion();
       
       itk::ImageRegionIterator<ShortImage>
-	iteratorIn2(mirrorPad->GetOutput(), requestedRegion);
+  iteratorIn2(mirrorPad->GetOutput(), requestedRegion);
       
       passed = true; 
       size = requestedRegion.GetSize();
       index = requestedRegion.GetIndex();
       if ((index[0] != (0 - (long) lowerfactors[0])) 
-	  || (index[1] != (0 - (long) lowerfactors[1]))
-	  || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
-	  || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
-	passed = false;
+    || (index[1] != (0 - (long) lowerfactors[1]))
+    || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
+    || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
+  passed = false;
       } else {
-	for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
-	  {
-	    row = iteratorIn2.GetIndex()[0];
-	    column = iteratorIn2.GetIndex()[1];
-	    if (!VerifyPixel(row, column, iteratorIn2.Get()))
-	      { 
-		std::cout << "Error: (" << row << ", " << column 
-			  << "), got " 
-			  << iteratorIn2.Get() << std::endl;
-		passed = false;
-	      }
-	  }
+  for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
+    {
+      row = iteratorIn2.GetIndex()[0];
+      column = iteratorIn2.GetIndex()[1];
+      if (!VerifyPixel(row, column, iteratorIn2.Get()))
+        { 
+    std::cout << "Error: (" << row << ", " << column 
+        << "), got " 
+        << iteratorIn2.Get() << std::endl;
+    passed = false;
+        }
+    }
       }
 
     }
@@ -299,23 +299,23 @@ int main()
       size = requestedRegion.GetSize();
       index = requestedRegion.GetIndex();
       if ((index[0] != (0 - (long) lowerfactors[0])) 
-	  || (index[1] != (0 - (long) lowerfactors[1]))
-	  || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
-	  || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
-	passed = false;
+    || (index[1] != (0 - (long) lowerfactors[1]))
+    || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
+    || (size[1] != (12 + lowerfactors[1] + upperfactors[1]))) {
+  passed = false;
       } else {
-	for (; !iteratorIn3.IsAtEnd(); ++iteratorIn3)
-	  {
-	    row = iteratorIn3.GetIndex()[0];
-	    column = iteratorIn3.GetIndex()[1];
-	    if (!VerifyPixel(row, column, iteratorIn3.Get()))
-	      { 
-		std::cout << "Error: (" << row << ", " << column 
-			  << "), got " 
-			  << iteratorIn3.Get() << std::endl;
-		passed = false;
-	      }
-	  }
+  for (; !iteratorIn3.IsAtEnd(); ++iteratorIn3)
+    {
+      row = iteratorIn3.GetIndex()[0];
+      column = iteratorIn3.GetIndex()[1];
+      if (!VerifyPixel(row, column, iteratorIn3.Get()))
+        { 
+    std::cout << "Error: (" << row << ", " << column 
+        << "), got " 
+        << iteratorIn3.Get() << std::endl;
+    passed = false;
+        }
+    }
       }
     }
   
