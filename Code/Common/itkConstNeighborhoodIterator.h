@@ -398,7 +398,7 @@ protected:
   /** Default method for setting the coordinate location of the iterator.
    * Loop indicies correspond to the actual Image region index. */
   virtual void SetLoop( const IndexType& p )
-    {  m_Loop = p; }
+    {  m_Loop = p; m_IsInBoundsValid = false;}
   
   /** Virtual method for setting internal loop boundaries.  This
    * method must be defined in each subclass because
@@ -463,6 +463,14 @@ protected:
    /** Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries. */
   mutable bool m_InBounds[Dimension];
+
+  /** Denotes if iterator is entirely within bounds */
+  mutable bool m_IsInBounds;
+  
+  /** Is the m_InBounds and m_IsInBounds variables up to date? Set to
+   * false whenever the iterator is repositioned.  Set to true within
+   * InBounds(). */
+  mutable bool m_IsInBoundsValid;
   
   /** Lower threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsLow;

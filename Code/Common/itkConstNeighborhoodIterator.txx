@@ -24,6 +24,11 @@ bool
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 ::InBounds() const
 { 
+  if (m_IsInBoundsValid)
+    {
+    return m_IsInBounds;
+    }
+
   bool ans = true;
   for (unsigned int i=0; i<Dimension; i++)
     {
@@ -36,6 +41,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
       m_InBounds[i] = true;
       }
     }
+  m_IsInBounds = ans;
+  m_IsInBoundsValid = true;
   return ans;
 }
 
@@ -168,6 +175,9 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     { m_InBounds[i] = false; }
 
   this->ResetBoundaryCondition();
+
+  m_IsInBounds = false;
+  m_IsInBoundsValid = false;
 }
 
 template<class TImage, class TBoundaryCondition>
@@ -191,6 +201,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     {
     m_InBounds[i] = orig.m_InBounds[i];
     }
+  m_IsInBoundsValid = orig.m_IsInBoundsValid;
+  m_IsInBounds = orig.m_IsInBounds;
 
   m_InnerBoundsLow  = orig.m_InnerBoundsLow;
   m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
@@ -365,6 +377,9 @@ void ConstNeighborhoodIterator<TImage, TBoundaryCondition>
       break;
       }
     }
+
+  m_IsInBoundsValid = false;
+  m_IsInBounds = false;
 }
 
 template<class TImage, class TBoundaryCondition>
@@ -394,6 +409,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     {
     m_InBounds[i] = orig.m_InBounds[i];
     }
+  m_IsInBoundsValid = orig.m_IsInBoundsValid;
+  m_IsInBounds = orig.m_IsInBounds;
 
   // Check to see if the default boundary conditions
   // have been overridden.
@@ -416,6 +433,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   Iterator it;
   const Iterator _end = Superclass::End();
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  m_IsInBoundsValid = false;
+  
   // Increment pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
     {
@@ -447,6 +468,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   unsigned int i;
   Iterator it;
   const Iterator _end = Superclass::End();
+  
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  m_IsInBoundsValid = false;
   
   // Decrement pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
@@ -495,6 +520,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   for (i=0; i < Dimension; ++i) os << m_Loop[i] << " ";
   os << "}, m_Bound = { ";
   for (i=0; i < Dimension; ++i) os << m_Bound[i] << " ";
+  os << "}, m_IsInBounds = {" << m_IsInBounds;
+  os << "}, m_IsInBoundsValid = {" << m_IsInBoundsValid;
   os << "}, m_WrapOffset = { ";
   for (i=0; i < Dimension; ++i) os << m_WrapOffset[i] << " ";
   os << ", m_Begin = " << m_Begin;
@@ -588,6 +615,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   OffsetValueType accumulator = 0;
   const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  m_IsInBoundsValid = false;
+  
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];
   
@@ -624,6 +655,10 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   OffsetValueType accumulator = 0;
   const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  m_IsInBoundsValid = false;
+  
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];
   

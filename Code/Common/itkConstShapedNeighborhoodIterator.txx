@@ -110,6 +110,10 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   unsigned int i;
   IndexListType::const_iterator it;
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  this->m_IsInBoundsValid = false;
+  
   // Center pointer must be updated whether or not it is active.
   if (! m_CenterIsActive) 
     { 
@@ -146,6 +150,10 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   unsigned int i;
   IndexListType::const_iterator it;
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  this->m_IsInBoundsValid = false;
+  
   // Center pointer must be updated whether or not it is active.
   if (! m_CenterIsActive) { this->GetElement(this->GetCenterNeighborhoodIndex())--; }
 
@@ -183,6 +191,10 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   OffsetValueType accumulator = 0;
   const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  this->m_IsInBoundsValid = false;
+  
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];
   
@@ -220,6 +232,10 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   OffsetValueType accumulator = 0;
   const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
+  // Repositioning neighborhood, previous bounds check on neighborhood
+  // location is invalid.
+  this->m_IsInBoundsValid = false;
+  
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];
   
