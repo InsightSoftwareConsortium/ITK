@@ -400,6 +400,52 @@ void GDCMImageIO::Write(const void* buffer)
      ++itr;
      }
 
+  // Handle the bitDepth:
+  std::string bitsAllocated;
+  std::string bitsStored;
+  std::string highBit;
+  std::string pixelRep;
+  switch (this->GetComponentType())
+    {
+    case CHAR:
+      bitsAllocated = "8"; // Bits Allocated
+      bitsStored    = "8"; // Bits Stored
+      highBit       = "7"; // High Bit
+      // 8bits DICOM cannot be signed
+      pixelRep      = "0"; //Pixel Representation
+      break;
+
+    case UCHAR:
+      bitsAllocated = "8"; // Bits Allocated
+      bitsStored    = "8"; // Bits Stored
+      highBit       = "7"; // High Bit
+      pixelRep      = "0"; //Pixel Representation
+      break;
+
+    case SHORT:
+      bitsAllocated = "16"; // Bits Allocated
+      bitsStored    = "16"; // Bits Stored
+      highBit       = "15"; // High Bit
+      pixelRep      = "1"; //Pixel Representation
+      break;    
+
+    case USHORT:
+      bitsAllocated = "16"; // Bits Allocated
+      bitsStored    = "16"; // Bits Stored
+      highBit       = "15"; // High Bit
+      pixelRep      = "0"; //Pixel Representation
+      break;
+
+    default:
+      itkExceptionMacro(<<"DICOM does not support this component type");
+    }
+
+  // Write component specific information in the header:
+  m_GdcmHeader->ReplaceOrCreateByNumber( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
+  m_GdcmHeader->ReplaceOrCreateByNumber( bitsStored, 0x0028, 0x0101 ); //Bits Stored
+  m_GdcmHeader->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
+  m_GdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+
   //copy data from buffer to DICOM buffer
   memcpy(imageData,buffer,numberOfBytes); 
   m_GdcmHeader->SetImageDataSize(numberOfBytes); //update data size

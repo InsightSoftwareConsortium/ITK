@@ -136,13 +136,6 @@ int main(int ac, char* av[])
   writer3->SetInput( rescaler->GetOutput() );
   itk::MetaDataDictionary &d = gdcmImageIO->GetMetaDataDictionary();
 
-  // Changing a 16 bits to 8bits image:
-  itk::EncapsulateMetaData<std::string>(d, "Bits Allocated", "8");
-  itk::EncapsulateMetaData<std::string>(d, "Bits Stored",    "8");
-  itk::EncapsulateMetaData<std::string>(d, "High Bit",       "7");
-  // 8bits cannot be signed
-  itk::EncapsulateMetaData<std::string>(d, "Pixel Representation", "0");
-
   writer3->UseInputMetaDataDictionaryOff ();
   writer3->SetImageIO( gdcmImageIO );
 

@@ -81,9 +81,6 @@ int main( int argc, char* argv[] )
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
-  //std::cout  << "Writing the image as " << std::endl << std::endl;
-  //std::cout  << argv[2] << std::endl << std::endl;
-
   writer->SetFileName( argv[2] );
   writer->SetInput( reader->GetOutput() );
 
