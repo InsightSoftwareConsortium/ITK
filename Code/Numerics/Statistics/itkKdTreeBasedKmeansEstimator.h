@@ -24,8 +24,29 @@ namespace itk {
 namespace Statistics {
 
 /** \class KdTreeBasedKmeansEstimator
- * \brief 
+ * \brief fast k-means algorithm implementation using k-d tree structure
  *
+ * It returns k mean vectors that are centeroids of k-clusters 
+ * using pre-generated k-d tree. k-d tree generation is done by 
+ * the WeightedCenteroidKdTreeGenerator. The tree construction needs 
+ * to be done only once. The resulting k-d tree's non-terminal nodes 
+ * that have their children nodes have vector sums of measurement vectors 
+ * that belong to the nodes and the number of measurement vectors 
+ * in addition to the typical node boundary information and pointers to 
+ * children nodes. Instead of reassigning every measurement vector to 
+ * the nearest cluster centeroid and recalculating centeroid, it maintain 
+ * a set of cluster centeroid candidates and using pruning algorithm that 
+ * utilizes k-d tree, it updates the means of only relevant candidates at 
+ * each iterations. It would be faster than traditional implementation 
+ * of k-means algorithm. However, the k-d tree consumes a large amount 
+ * of memory. The tree construction time and pruning algorithm's performance 
+ * are important factors to the whole process's performance. If users 
+ * want to use k-d tree for some purpose other than k-means estimation, 
+ * they can use the KdTreeGenerator instead of the 
+ * WeightedCenteroidKdTreeGenerator. It will save the tree construction
+ * time and memory usage.
+ *
+ * \sa WeightedCenteroidKdTreeGenerator, KdTree
  */
 
 template< class TKdTree >
@@ -99,6 +120,7 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** vector of k-means candidates */
   class CandidateVector
   {
   public:
@@ -113,9 +135,12 @@ protected:
 
     virtual ~CandidateVector() {} 
 
+    /** returns the number of candidate = k */
     int Size()
     { return m_Candidates.size() ; }
 
+    /** Initialize the centeroids with the argument.
+     * At each iteration, this should be called before filtering*/
     void SetCenteroids(ParametersType& centeroids)
     {
       m_Candidates.resize(centeroids.size()) ;
@@ -129,6 +154,7 @@ protected:
         }
     }
 
+    /** gets the centeroids (k-means) */
     void GetCenteroids(ParametersType& centeroids)
     {
       int i, j ;
@@ -139,6 +165,8 @@ protected:
         }
     }
 
+    /** updates the centeroids using the vector sum of measurement vectors
+     * that belongs to each centeroid and the number of measurement vectors */
     void UpdateCenteroids()
     {
       int i, j ;
@@ -156,32 +184,46 @@ protected:
         }
     }
 
+    /** gets the index-th candidates */
     Candidate& operator[](int index)
     { return m_Candidates[index] ; }
     
 
   private:
+    /** internal storage for the candidates */
     std::vector< Candidate > m_Candidates ;
   } ; // end of class
 
+  /** gets the sum of squared difference between the previous position
+   * and current postion of all centeroid. This is the primary termination
+   * condition for this algorithm. If the return value is less than
+   * the value that was set by the SetCenteroidPositionChangesThreshold 
+   * method.*/
   double GetSumOfSquaredPositionChanges(ParametersType &previous, 
                                         ParametersType &current) ;
 
+  /** get the index of the closest candidate to the "measurements" 
+   * measurement vector */
   int GetClosestCandidate(ParameterType &measurements, 
                           std::vector< int > &validIndexes) ;
 
+  /** returns true if the "pointA is farther than pointB to the boundary */
   bool IsFarther(ParameterType &pointA,
                  ParameterType &pointB,
                  MeasurementVectorType &lowerBound,
                  MeasurementVectorType &upperBound) ;
 
+  /** recursive pruning algorithm. the "validIndexes" vector contains
+   * only the indexes of the surviving candidates for the "node" */  
   void Filter(KdTreeNodeType* node, 
               std::vector< int > validIndexes,
               MeasurementVectorType &lowerBound, 
               MeasurementVectorType &upperBound) ;
 
+  /** copies the source parameters (k-means) to the target */
   void CopyParameters(ParametersType &source, ParametersType &target) ;
 
+  /** imports the "measurements" measurement vector data to the "point" */ 
   void GetPoint(ParameterType &point, 
                 MeasurementVectorType &measurements)
   {
@@ -202,14 +244,23 @@ protected:
   }
 
 private:
+  /** current number of iteration */
   int m_CurrentIteration ;
+  /** maximum number of iteration. termination criterion */  
   int m_MaximumIteration ;
+  /** sum of squared centeroid position changes at the current iteration */ 
   double m_CenteroidPositionChanges ;
+  /** threshold for the sum of squared centeroid position changes.
+   * termination criterion */
   double m_CenteroidPositionChangesThreshold ;
+  /** pointer to the k-d tree */
   KdTreePointer m_KdTree ;
+  /** pointer to the euclidean distance funtion */
   typename EuclideanDistance< ParameterType >::Pointer m_DistanceMetric ;
 
+  /** initial k-means */
   ParametersType m_InitialPosition ;
+  /** k-means at the current iteration */
   ParametersType m_CurrentPosition ;
   CandidateVector m_CandidateVector ;
   
