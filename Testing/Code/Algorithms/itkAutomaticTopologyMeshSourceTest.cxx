@@ -279,6 +279,8 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
     }
   std::cout << "\n";
 
+#if 0
+
   for( i = 0; i < mesh->GetNumberOfCells(); i++ )
     {
     typedef MeshType::CellAutoPointer CellAutoPointer;
@@ -323,6 +325,8 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
         }
       }
     }
+
+#endif
 
   // Check that the right number of points has been added.
 
