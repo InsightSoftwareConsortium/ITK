@@ -20,6 +20,8 @@
 #include "itkRegistrationTransformation.h"
 #include "itkPoint.h"
 #include "itkVector.h"
+#include "itkVectorContainer.h"
+#include "itkAffineTransform.h"
 
 
 namespace itk
@@ -34,9 +36,10 @@ namespace itk
  *
  */
 
-template <class TParameters,unsigned int NDimensions>
+template <unsigned int NDimensions>
 class ITK_EXPORT  RegistrationTransformationAffine : 
-        public RegistrationTransformation<TParameters>
+        public RegistrationTransformation<
+                  VectorContainer<unsigned int,double> >
 
 {
 public:
@@ -45,10 +48,12 @@ public:
    */
   typedef RegistrationTransformationAffine  Self;
 
+
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object  Superclass;
+  typedef RegistrationTransformation< 
+                       VectorContainer< unsigned int, double> > Superclass;
 
 
   /** 
@@ -60,7 +65,7 @@ public:
   /** 
    * Type of the input parameters
    */
-  typedef    TParameters      ParametersType;
+  typedef    VectorContainer<unsigned int, double>   ParametersType;
 
 
  /** 
@@ -70,15 +75,21 @@ public:
 
 
  /** 
+   * Affine Transform Type
+   */
+  typedef  AffineTransform<NDimensions>      AffineTransformationType;
+
+
+ /** 
    * Point Type
    */
-  typedef    Point<NDimensions,double>      PointType;
+  typedef  typename AffineTransformationType::PointType     PointType;
 
 
  /** 
    * Vector Type
    */
-  typedef    Vector<double,NDimensions>     VectorType;
+  typedef  typename AffineTransformationType::VectorType   VectorType;
 
 
  /** 
@@ -117,6 +128,12 @@ public:
    VectorType InverseTransform( const VectorType & point );
 
 
+  /**
+   * Set the Transformation Parameters
+   * and update the internal transformation
+   */
+   void SetParameters(const ParametersType *);
+
 
 
 protected:
@@ -129,6 +146,8 @@ protected:
 
 private:
 
+  AffineTransformationType      m_AffineTransform;
+  ParametersType::Pointer       m_Parameters;
 
 };
 
