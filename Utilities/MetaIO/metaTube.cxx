@@ -428,6 +428,7 @@ M_Read(void)
     }
   }
 
+  delete [] pntVal;
   float v[30];
   
 
