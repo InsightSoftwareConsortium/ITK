@@ -66,7 +66,7 @@ SetRotationMatrix(const MatrixType & matrix )
   itkDebugMacro("setting  m_RotationMatrix  to " << matrix ); 
   // The matrix must be orthogonal otherwise it is not
   // representing a valid rotaion in 2D space
-  MatrixType::InternalMatrixType test = 
+  typename MatrixType::InternalMatrixType test = 
                   matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   const double tolerance = 1e-10;
@@ -119,7 +119,7 @@ Translate(const OffsetType &offset, bool pre)
 
 // Transform a point
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::OutputPointType
+typename Rigid2DTransform<TScalarType>::OutputPointType
 Rigid2DTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -129,7 +129,7 @@ TransformPoint(const InputPointType &point) const
 
 // Transform a vector
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::OutputVectorType
+typename Rigid2DTransform<TScalarType>::OutputVectorType
 Rigid2DTransform<TScalarType>::
 TransformVector(const InputVectorType &vect) const 
 {
@@ -139,7 +139,7 @@ TransformVector(const InputVectorType &vect) const
 
 // Transform a vnl_vector_fixed
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::OutputVnlVectorType
+typename Rigid2DTransform<TScalarType>::OutputVnlVectorType
 Rigid2DTransform<TScalarType>::
 TransformVector(const InputVnlVectorType &vect) const 
 {
@@ -149,7 +149,7 @@ TransformVector(const InputVnlVectorType &vect) const
 
 // Transform a CovariantVector
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::OutputCovariantVectorType
+typename Rigid2DTransform<TScalarType>::OutputCovariantVectorType
 Rigid2DTransform<TScalarType>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
@@ -162,7 +162,7 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 // Back transform a point
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::InputPointType
+typename Rigid2DTransform<TScalarType>::InputPointType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
@@ -171,7 +171,7 @@ BackTransform(const OutputPointType &point) const
 
 // Back transform a vector
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::InputVectorType
+typename Rigid2DTransform<TScalarType>::InputVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
@@ -180,7 +180,7 @@ BackTransform(const OutputVectorType &vect ) const
 
 // Back transform a vnl_vector
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::InputVnlVectorType
+typename Rigid2DTransform<TScalarType>::InputVnlVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
@@ -190,7 +190,7 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 // Back Transform a CovariantVector
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::InputCovariantVectorType
+typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
@@ -201,7 +201,7 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 // Create and return an inverse transformation
 template<class TScalarType>
-Rigid2DTransform<TScalarType>::Pointer
+typename Rigid2DTransform<TScalarType>::Pointer
 Rigid2DTransform<TScalarType>::
 Inverse( void ) const
 {
@@ -229,7 +229,7 @@ SetIdentity( void )
   
 // Compute the Jacobian in one position 
 template<class TScalarType >
-const Rigid2DTransform<TScalarType>::JacobianType & 
+const typename Rigid2DTransform<TScalarType>::JacobianType & 
 Rigid2DTransform< TScalarType >::
 GetJacobian( const InputPointType & p ) const
 {

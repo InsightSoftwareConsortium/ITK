@@ -59,7 +59,7 @@ KernelTransform<TScalarType, NDimensions>::
  *
  */
 template <class TScalarType, unsigned int NDimensions>
-const KernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & vect ) const
 {
@@ -118,7 +118,7 @@ void KernelTransform<TScalarType, NDimensions>
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
 
   m_Displacements->Reserve( numberOfLandmarks );
-  VectorSetType::Iterator vt = m_Displacements->Begin();
+  typename VectorSetType::Iterator vt = m_Displacements->Begin();
 
   while( sp != end )
   {
@@ -253,7 +253,8 @@ ComputeY(void)
 {
   unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
-  VectorSetType::ConstIterator displacement = m_Displacements->Begin();
+  typename VectorSetType::ConstIterator displacement =
+    m_Displacements->Begin();
 
   m_YMatrix.resize( NDimensions*(numberOfLandmarks+NDimensions+1), 1);
 
@@ -322,7 +323,7 @@ KernelTransform<TScalarType, NDimensions>
  *
  */
 template <class TScalarType, unsigned int NDimensions>
-KernelTransform<TScalarType, NDimensions>::OutputPointType
+typename KernelTransform<TScalarType, NDimensions>::OutputPointType
 KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
@@ -361,7 +362,7 @@ KernelTransform<TScalarType, NDimensions>
 
 // Compute the Jacobian in one position 
 template <class TScalarType, unsigned int NDimensions>
-const KernelTransform<TScalarType,NDimensions>::JacobianType & 
+const typename KernelTransform<TScalarType,NDimensions>::JacobianType & 
 KernelTransform< TScalarType,NDimensions>::
 GetJacobian( const InputPointType & p ) const
 {
@@ -421,7 +422,7 @@ SetParameters( const ParametersType & parameters )
 // Get the parameters
 // They are the components of all the landmarks in the source space
 template <class TScalarType, unsigned int NDimensions>
-const KernelTransform<TScalarType, NDimensions>::ParametersType &
+const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
 KernelTransform<TScalarType, NDimensions>::
 GetParameters( void ) const
 {

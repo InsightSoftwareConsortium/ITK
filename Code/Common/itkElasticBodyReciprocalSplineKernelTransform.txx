@@ -35,7 +35,7 @@ ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::
 }
 
 template <class TScalarType, unsigned int NDimensions>
-const ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
 ::ComputeG(const InputVectorType & x) const
 {

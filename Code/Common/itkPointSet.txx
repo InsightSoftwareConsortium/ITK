@@ -67,7 +67,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the points container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
+typename PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void)
 {
@@ -84,7 +84,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the points container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
+const typename PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void) const
 {
@@ -114,7 +114,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the point data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
+typename PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(void)
 {
@@ -129,7 +129,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the point data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
+const typename PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(void) const
 {
@@ -268,7 +268,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
  * Get the bounding box of the entire mesh.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxType * 
+const typename PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxType * 
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetBoundingBox(void) const
 {

@@ -200,7 +200,8 @@ public:
           }
         else
           {
-          std::map<int, ITK_TYPENAME VisitorType::Pointer>:: iterator pos = m_UserDefined.find(id);
+          typename std::map<int, ITK_TYPENAME VisitorType::Pointer>::iterator
+            pos = m_UserDefined.find(id);
           if(pos != m_UserDefined.end())
             {
             return (*pos).second;
