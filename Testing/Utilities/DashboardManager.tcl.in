@@ -251,12 +251,16 @@ foreach Command $Commands \
       {
 	puts -nonewline "\tBuilding Update.html "
       
-	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp }]
+	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp } Result]
+	set Result [string trim $Result]
+	if { $Result != "" } { puts "\t$Result" }
       }
       if { [NeedToRemake Doxygen] } \
       {
 	puts -nonewline "\tBuilding Doxygen.html "
-	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT Doxygen.html -XSL [file join $XSLDir Doxygen.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd] -PARAM DashboardStamp $DashboardStamp }]
+	puts [catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT Doxygen.html -XSL [file join $XSLDir Doxygen.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd] -PARAM DashboardStamp $DashboardStamp } Result]
+	set Result [string trim $Result]
+	if { $Result != "" } { puts "\t$Result" }
       }
 
       
@@ -306,7 +310,9 @@ foreach Command $Commands \
 	  if { [NeedToRemake $XML] } \
 	  {
 	    puts -nonewline "\t\tBuilding $XML.html "
-	    puts [catch { exec $JavaCommand -Xmx128m -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]   -PARAM DashboardStamp $DashboardStamp -PARAM DashboardDate $DashboardDate }]
+	    puts [catch { exec $JavaCommand -Xmx128m -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]   -PARAM DashboardStamp $DashboardStamp -PARAM DashboardDate $DashboardDate } Result]
+	    set Result [string trim $Result]
+	    if { $Result != "" } { puts "\t$Result" }
 	  }
 	}
 	
@@ -331,7 +337,9 @@ foreach Command $Commands \
 	if { [NeedToRemake $XML] } \
 	{
 	  puts -nonewline "\tBuilding $XML.html "
-	  puts [catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] }]
+	  puts [catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] } Result]
+	  set Result [string trim $Result]
+	  if { $Result != "" } { puts "\t$Result" }
 	} \
 	else \
 	{
