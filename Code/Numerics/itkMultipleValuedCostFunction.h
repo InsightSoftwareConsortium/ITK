@@ -29,7 +29,7 @@ namespace itk
   
 /** \class MultipleValuedCostFunction
  * \brief This class is a base for the CostFunctions returning a 
- * single value
+ * multiple values
  *
  * \ingroup Numerics Optimizers
  */
