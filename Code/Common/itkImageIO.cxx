@@ -76,26 +76,19 @@ ImageIO::~ImageIO()
   Reset();
 }
 
-void ImageIO::Print(std::ostream& os)
-{
-  Indent newIndent;
-
-  ImageIO::PrintSelf(os, newIndent);
-}
-
 void ImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  indent = indent.GetNextIndent();
+
   os << indent << "Filename: " << m_FullFileName << std::endl;
   os << indent << "# Components/Pixel: " << m_ComponentsPerPixel;
   os << ", PixelType: " << AtomicPixelTypeToString(m_PixelType) << std::endl;
-  os << indent << "Dimensions: ";
+  os << indent << "Dimensions: ( ";
   for (unsigned int i=0; i < m_NumberOfDimensions; i++)
     {
     os << m_Dimensions[i] << " ";
     }
-  os << std::endl;
+  os << ")" << std::endl;
 }
 
 void ImageIO::Resize(const unsigned int numDimensions,

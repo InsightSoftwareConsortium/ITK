@@ -113,9 +113,9 @@ public:
   virtual void ReadHeader(const std::string fileName="") = 0;
 
   /**
-   * Get the image position.
+   * Get the image origin.
    */
-  virtual float* GetImagePosition() const =0;
+  virtual float* GetImageOrigin() const =0;
 
   /**
    * Get the image spacing.
@@ -152,11 +152,6 @@ public:
    * Get the filename.
    */
   itkGetStringMacro(FullFileName);
-
-  /**
-   * Display information about an instance of this class.
-   */
-  virtual void Print(std::ostream& os);
 
   /**
    * Return the size in x, y, z, etc. dimension.
