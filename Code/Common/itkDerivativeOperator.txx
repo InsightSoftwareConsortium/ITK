@@ -21,12 +21,12 @@ std::vector<TPixel>
 DerivativeOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  int i;
-  int j;
+  unsigned int i;
+  unsigned int j;
   int h;
   ScalarValueType previous;
   ScalarValueType next;
-  const int w = 2*((m_Order + 1)/2) + 1;
+  const unsigned int w = 2*((m_Order + 1)/2) + 1;
   std::vector<ScalarValueType> coeff(w);
   std::vector<TPixel> coeffP(w);
 
