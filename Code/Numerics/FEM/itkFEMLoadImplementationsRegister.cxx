@@ -75,6 +75,13 @@ void LoadImplementationsRegister(void)
   // Loads acting on C1IsoCurve2D element
   REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementationC1IsoCurve2D );
 
+  // Loads acting on HexahedronC03D element
+  REGISTER_LOAD( HexahedronC03D, LoadGrav,       LoadGravImplementationHexahedronC03D );
+  REGISTER_LOAD( HexahedronC03D, LoadGravConst,  LoadGravImplementationHexahedronC03D );
+
+  // Loads acting on HexahedronC03D element
+  REGISTER_LOAD( TetrahedronC03D, LoadGrav,      LoadGravImplementationTetrahedronC03D );  
+  REGISTER_LOAD( TetrahedronC03D, LoadGravConst, LoadGravImplementationTetrahedronC03D );
 
   // Add any additional loads here in a similar fashion...
   // Make sure that the pointer to the visit function is the correct one!!!
