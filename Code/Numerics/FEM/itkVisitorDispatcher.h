@@ -173,6 +173,7 @@ public:
    *        pointers.
    */
   typedef std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
+  typedef typename VisitorsArrayType::value_type VisitorsArray_value_type;
 
   /**
    * Adds function visitor_function to the VisitorDispatcher class and
@@ -209,7 +210,7 @@ public:
     typedef TVisitorClass VisitorClass;
     bool status;
     Instance().m_MutexLock.Lock();
-    status=Instance().visitors.insert(typename VisitorsArrayType::value_type(VisitorClass::CLID(),visitor_function)).second;
+    status=Instance().visitors.insert(VisitorsArray_value_type(VisitorClass::CLID(),visitor_function)).second;
     Instance().m_MutexLock.Unlock();
     if ( status )
     {
