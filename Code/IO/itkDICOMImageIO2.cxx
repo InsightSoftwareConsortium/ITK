@@ -55,7 +55,7 @@ DICOMImageIO2::~DICOMImageIO2()
 
 bool DICOMImageIO2::CanReadFile( const char* filename ) 
 { 
-  bool open = Parser->OpenFile(static_cast<const char*>( filename ));
+  bool open = Parser->OpenFile( filename);
   if (!open)
     {
     std::cerr << "Couldn't open file: " << filename << std::endl;
@@ -81,7 +81,6 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
     {
     imageBytes = len;
     }
-  std::cerr << "DICOMImageIO2::ReadDataCallback " << imageBytes << " bytes." << std::endl;
   memcpy(this->ImageDataBuffer, val, imageBytes);
 }
 
@@ -92,7 +91,7 @@ void DICOMImageIO2::Read(void* buffer)
 
   AppHelper->SetFileName(m_FileName.c_str());
     
-  bool open = Parser->OpenFile(static_cast<const char*>( m_FileName.c_str()));
+  bool open = Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
@@ -103,7 +102,6 @@ void DICOMImageIO2::Read(void* buffer)
 
   AppHelper->RegisterPixelDataCallback();
   
-  std::cout << "DICOMImageIO2::Read" << std::endl;
   Parser->ReadHeader();
 
   void* newData;
@@ -127,7 +125,7 @@ void DICOMImageIO2::ReadImageInformation()
 
     AppHelper->SetFileName(m_FileName.c_str());
     
-    bool open = Parser->OpenFile(static_cast<const char*>( m_FileName.c_str()));
+    bool open = Parser->OpenFile(m_FileName.c_str());
     if (!open)
       {
       std::cerr << "Couldn't open file: " << m_FileName << std::endl;
@@ -151,16 +149,17 @@ void DICOMImageIO2::ReadImageInformation()
       }
 
     int numBits = AppHelper->GetBitsAllocated();
-    int sign = AppHelper->GetPixelRepresentation();
+    bool sign = AppHelper->RescaledImageDataIsSigned();
+
     bool isFloat = AppHelper->RescaledImageDataIsFloat();
     int num_comp = AppHelper->GetNumberOfComponents();
       
-    if (isFloat)
+    if (isFloat)  // Float
       {
       this->SetPixelType(ImageIOBase::FLOAT);
       this->SetComponentType(ImageIOBase::FLOAT);
       }
-    else if (num_comp == 3)
+    else if (num_comp == 3) //RGB
       {
       if (numBits == 8)
         {
@@ -173,7 +172,7 @@ void DICOMImageIO2::ReadImageInformation()
         this->SetPixelType(ImageIOBase::USHORT);
         }
       }
-    else
+    else // Everything else
       {
       if (numBits == 8)
         {
