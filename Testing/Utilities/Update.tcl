@@ -70,6 +70,7 @@ proc LoadCVSInformation { File } \
   set i 0
   set LastReported $FileStatus($File,Head)
   set HaveOne 0
+  
   foreach SubLog $Logs \
   {
     set SplitLog [split $SubLog "\n"]
