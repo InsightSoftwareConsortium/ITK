@@ -41,12 +41,17 @@ public:
 
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;
-  typedef ImageToSpatialObjectMetric  Superclass;
+  typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>  
+                                                                     Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef Point<double,2>   PointType;
   typedef std::list<PointType> PointListType;
+  typedef TMovingSpatialObject MovingSpatialObjectType;
+  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::DerivativeType DerivativeType;
+  typedef typename Superclass::MeasureType    MeasureType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
