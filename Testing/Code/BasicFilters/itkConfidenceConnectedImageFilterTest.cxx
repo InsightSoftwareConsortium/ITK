@@ -96,5 +96,11 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
     writer->SetFileName( av[2] );
     writer->Update();
 
+
+
+  // Exercise AddSeed() method
+  filter->AddSeed( seed );
+
+
     return 0;
 }
