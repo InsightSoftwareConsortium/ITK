@@ -53,7 +53,13 @@ namespace itk {
     {
       int numOffsets = m_Offsets->size();
       int numFeatures = m_RequestedFeatures->size();
-      double features[numOffsets][numFeatures];
+      double **features;
+
+      features = new double *[numOffsets];
+      for (unsigned int i = 0; i < numOffsets; i++)
+        {
+        features[i] = new double [numFeatures];
+        }
       
       // For each offset, calculate each feature
       typename OffsetVector::ConstIterator offsetIt;
@@ -79,8 +85,8 @@ namespace itk {
       // Now get the mean and deviaton of each feature across the offsets.
       m_FeatureMeans->clear();
       m_FeatureStandardDeviations->clear();
-      double tempFeatureMeans[numFeatures];
-      double tempFeatureDevs[numFeatures];
+      double *tempFeatureMeans = new double [numFeatures];
+      double *tempFeatureDevs = new double [numFeatures];
       
       /*Compute incremental mean and SD, a la Knuth, "The  Art of Computer 
         Programming, Volume 2: Seminumerical Algorithms",  section 4.2.2. 
@@ -122,6 +128,13 @@ namespace itk {
         m_FeatureMeans->push_back(tempFeatureMeans[featureNum]);
         m_FeatureStandardDeviations->push_back(tempFeatureDevs[featureNum]);
         }
+      delete [] tempFeatureMeans;
+      delete [] tempFeatureDevs;
+      for(unsigned int i=0; i < numOffsets; i++)
+        {
+        delete [] features;
+        }
+      delete[] features;
     }
     
     template< class TImage >

@@ -96,7 +96,7 @@ namespace itk {
       
       // Initialize everything
       typename HistogramType::SizeValueType binsPerAxis = m_Histogram->GetSize(0);
-      double marginalSums[binsPerAxis];
+      double *marginalSums = new double[binsPerAxis];
       for (double *ms_It = marginalSums; 
            ms_It < marginalSums + binsPerAxis; ms_It++)
         {
@@ -150,6 +150,7 @@ namespace itk {
         IndexType index = m_Histogram->GetIndex(hit.GetInstanceIdentifier());
         pixelVariance += (index[0] - pixelMean) * (index[0] - pixelMean) * frequency;
         }      
+      delete [] marginalSums;
       }
     
     template< class THistogram >
