@@ -26,6 +26,7 @@ template< class TInputSample >
 SampleAlgorithmBase< TInputSample >
 ::SampleAlgorithmBase()
 {
+  m_InputSample = 0;
 }
 
 template< class TInputSample >
