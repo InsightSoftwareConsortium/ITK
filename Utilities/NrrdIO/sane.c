@@ -45,7 +45,7 @@ airSanity(void) {
   char endian;
   unsigned char uc0, uc1;
   static int _airSanity=0;
-  
+
   if (_airSanity) {
     return airInsane_not;
   }
