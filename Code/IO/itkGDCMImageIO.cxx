@@ -513,7 +513,7 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Handle the dimension of image:
-  std::ostringstream str;
+  itksys_ios::ostringstream str;
   str << m_Dimensions[0];
   header->InsertValEntry( str.str(), 0x0028,0x0011); // Columns
 
@@ -531,6 +531,7 @@ void GDCMImageIO::Write(const void* buffer)
 
   // Handle pixel spacing:
   str.str("");
+  str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
   str << m_Spacing[0] << "\\" << m_Spacing[1];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
   str.str("");
@@ -542,6 +543,7 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
   header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
 
+  str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
   std::string bitsAllocated;
   std::string bitsStored;
