@@ -87,71 +87,51 @@ namespace itk {
  *
  * \ingroup Statistics
  */
-  class ITK_EXPORT FastRandomUnitNormalVariateGenerator : public LightObject
-  {
-  public:
-    /**
-     * Standard "Self" typedef.
-     */
-    typedef FastRandomUnitNormalVariateGenerator Self ;
+class ITK_EXPORT FastRandomUnitNormalVariateGenerator : public LightObject
+{
+public:
+  /** Standard class typedefs. */
+  typedef FastRandomUnitNormalVariateGenerator Self ;
+  typedef LightObject Superclass;
+  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-    /**
-     * Standard "Superclass" typedef.
-     */
-    typedef LightObject Superclass;
-    
-    /** 
-     * Smart pointer typedef support 
-     */
-    typedef SmartPointer<Self>   Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
-
-    /** 
-     * Run-time type information (and related methods).
-     */
-    itkTypeMacro(FastRandomUnitNormalVariateGenerator, LightObject );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastRandomUnitNormalVariateGenerator, LightObject );
  
-    /**
-     * Method for creation through the object factory.
-     */
-    itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
     
-    /**
-     * generate random number table
-     */
-    void Initialize(int randomSeed) ;
+  /** generate random number table */
+  void Initialize(int randomSeed) ;
 
-    /**
-     * get a variate using FastNorm function
-     */
-    double GetNormalVariate() ;
+  /** get a variate using FastNorm function */
+  double GetNormalVariate() ;
     
-  protected:
-    FastRandomUnitNormalVariateGenerator() ;
-    virtual ~FastRandomUnitNormalVariateGenerator() ; 
+protected:
+  FastRandomUnitNormalVariateGenerator() ;
+  virtual ~FastRandomUnitNormalVariateGenerator() ; 
     
-    /**
-     * get a variate
-     */
-    double FastNorm (void) ;
+  /** get a variate */
+  double FastNorm (void) ;
     
-  private:
-    double Scale ;
-    double Rscale ;
-    double Rcons ;
-    int ELEN ;
-    int LEN ;
-    int LMASK ;
-    int TLEN ;
+private:
+  double Scale ;
+  double Rscale ;
+  double Rcons ;
+  int ELEN ;
+  int LEN ;
+  int LMASK ;
+  int TLEN ;
     
-    int gaussfaze, *gausssave;
-    double GScale;
+  int gaussfaze, *gausssave;
+  double GScale;
     
-    int* vec1 ;
-    int nslew;
-    int irs, lseed;
-    double chic1, chic2, actualRSD;
-  } ;  // end of class
+  int* vec1 ;
+  int nslew;
+  int irs, lseed;
+  double chic1, chic2, actualRSD;
+} ;  // end of class
   
 } // end of namespace itk
 #endif
