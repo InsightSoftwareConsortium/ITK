@@ -11,6 +11,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementBar2D.cxx
   itkFEMElementBeam2D.cxx
   itkFEMElementTriC02D.cxx
+  itkFEMElementMembraneC02D.cxx
   itkFEMElementQuadC02D.cxx
   itkFEMElementTetrahedronC03D.cxx
   itkFEMElementHexahedronC03D.cxx
@@ -30,6 +31,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGrav_Bar2D.cxx
   itkFEMLoadImplementationGrav_Beam2D.cxx
+  itkFEMLoadImplementationGrav_MembraneC02D.cxx
   itkFEMLoadImplementationGrav_QuadC02D.cxx
   itkFEMLoadImplementationGrav_TriC02D.cxx
 
@@ -73,6 +75,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementBeam2D.h
   itkFEMElementTriC02D.h
   itkFEMElementQuadC02D.h
+  itkFEMElementMembraneC02D.h
   itkFEMElementTetrahedronC03D.h
   itkFEMElementHexahedronC03D.h
   itkFEMElementC1IsoCurve2D.h
