@@ -376,7 +376,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   unsigned int it2 = 1;
   unsigned int it3 = 2;
    
-  while(it3 < length)
+  while(it3 < (unsigned int)length)
     {
     x1 = this->GetPoint(it1)->GetPosition();
     x3 = this->GetPoint(it3)->GetPosition();
@@ -423,7 +423,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   CovariantVectorType n2; 
     
   it1 = 0;
-  while(it1 < length)
+  while(it1 < (unsigned int)length)
     {
     t = ((TubePointType*)(this->GetPoint(it1)))->GetTangent(); 
  
