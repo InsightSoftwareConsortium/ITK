@@ -30,7 +30,7 @@ class ITK_EXPORT VOLImageIOFactory : public ObjectFactoryBase
 public:
   /** Standard class typedefs. */
   typedef VOLImageIOFactory   Self;
-  typedef Object  Superclass;
+  typedef ObjectFactoryBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
