@@ -69,7 +69,7 @@ namespace itk
  * different data type.)
  * 
  * CovariantVector is the type that should be used for representing normals
- * to surfaces and gradients of functions. Affine Transforms transform
+ * to surfaces and gradients of functions. AffineTransform transform
  * covariant vectors different than vectors.
  *
  * \sa Image
