@@ -84,12 +84,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationRegion,Object);
 
-  /** Type definition for the input image. */
-//  typedef typename TInputImage::Pointer   InputImageType;
-
-  /** Type definition for the input image pixel type. */
-//  typedef typename TInputImage::PixelType InputImagePixelType;
-
   /** Type definition for an double vector. */
   typedef vnl_matrix<double> VecDblType;
 
@@ -135,13 +129,6 @@ private:
 
 
 } // namespace itk
-
-/*
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSegmentationRegion.txx"
-#endif
-*/
-
 
 
 #endif
