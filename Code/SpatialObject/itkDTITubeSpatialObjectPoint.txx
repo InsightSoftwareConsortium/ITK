@@ -34,7 +34,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   m_Lambda2 = 0;
   m_Lambda3 = 0;
 
-  unsigned int i=0;
+  unsigned int i;
   for(i=0;i<3;i++)
     {
     m_MinEV[i] = 0;
@@ -90,7 +90,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   m_Lambda2 = rhs.m_Lambda2;
   m_Lambda3 = rhs.m_Lambda3;
 
-  unsigned int i=0;
+  unsigned int i;
   for(i=0;i<3;i++)
     {
     m_MinEV[i] = rhs.m_MinEV[i];
