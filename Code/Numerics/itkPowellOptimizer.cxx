@@ -59,7 +59,7 @@ PowellOptimizer
 {
   m_LineOrigin = origin;
   m_LineDirection = direction;
-  for(int i=0; i<m_SpaceDimension; i++)
+  for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
     m_LineDirection[i] = m_LineDirection[i] / this->GetScales()[i];
     }
@@ -70,7 +70,7 @@ PowellOptimizer
 ::GetLineValue(double x) const
 {
   PowellOptimizer::ParametersType xCoord( m_SpaceDimension );
-  for(int i=0; i<m_SpaceDimension; i++)
+  for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
     xCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
     }
@@ -89,7 +89,7 @@ PowellOptimizer
 ::SetCurrentLinePoint(double x, double fx) 
 {
   PowellOptimizer::ParametersType xCoord( m_SpaceDimension );
-  for(int i=0; i<m_SpaceDimension; i++)
+  for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
     xCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
     }
@@ -361,7 +361,7 @@ PowellOptimizer
   p = this->GetInitialPosition();
   pt = p;
 
-  int ibig;
+  unsigned int ibig;
   double fp, del, fptt;
   double ax, xx, bx;
   double fa, fx, fb;
@@ -378,9 +378,9 @@ PowellOptimizer
     ibig = 0;
     del = 0.0;
 
-    for (int i = 0; i < m_SpaceDimension; i++)
+    for (unsigned int i = 0; i < m_SpaceDimension; i++)
       {
-      for (int j = 0; j < m_SpaceDimension; ++j)
+      for (unsigned int j = 0; j < m_SpaceDimension; ++j)
         {
         xit[j] = xi[j][i];
         }
@@ -410,7 +410,7 @@ PowellOptimizer
       return;
       }
 
-    for (int j = 0; j < m_SpaceDimension; ++j)
+    for (unsigned int j = 0; j < m_SpaceDimension; ++j)
       {
       ptt[j] = 2.0*p[j] - pt[j];
       xit[j] = p[j] - pt[j];
@@ -436,7 +436,7 @@ PowellOptimizer
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();
 
-        for (int j = 0; j < m_SpaceDimension; j++) 
+        for (unsigned int j = 0; j < m_SpaceDimension; j++) 
           {
           xi[j][ibig] = xx * xit[j];
           }
