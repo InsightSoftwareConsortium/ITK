@@ -175,6 +175,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   Superclass::PrintSelf(os,indent);
   
+  os << indent << "Parameters: " << m_Parameters << std::endl;
   os << indent << "Euler's angles: AngleX=" << m_AngleX  
      << " AngleY=" << m_AngleY  
      << " AngleZ=" << m_AngleZ  

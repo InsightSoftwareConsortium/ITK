@@ -44,6 +44,7 @@ PrintSelf(std::ostream &os, Indent indent ) const
   os << indent << "Offset: " << m_Offset   << std::endl;
   os << indent << "Rotation: " << m_Rotation << std::endl;
   os << indent << "DirectMatrix: " << m_RotationMatrix   << std::endl;
+  os << indent << "Parameters: " << m_Parameters   << std::endl;
 }
 
 
