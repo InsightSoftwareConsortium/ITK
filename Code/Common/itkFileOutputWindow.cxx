@@ -71,8 +71,8 @@ FileOutputWindow
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "FileName: " << m_FileName << std::endl;
   os << indent << "Stream: " << m_Stream << std::endl;
-
   os << indent << "Append: " << (m_Append ? "On\n" : "Off\n") << std::endl;
   os << indent << "Flush: " << (m_Flush ? "On\n" : "Off\n") << std::endl;
 }

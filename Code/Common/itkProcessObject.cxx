@@ -451,6 +451,12 @@ ProcessObject
   os << indent << "Number Of Required Inputs: "
      << m_NumberOfRequiredInputs << std::endl;
 
+  os << indent << "Number Of Required Outputs: "
+     << m_NumberOfRequiredOutputs << std::endl;
+
+  os << indent << "Number Of Threads: "
+     << m_NumberOfThreads << std::endl;
+
   if ( m_Inputs.size())
     {
     std::vector<DataObjectPointer>::size_type idx;

@@ -81,6 +81,8 @@ void ImageIO::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Filename: " << m_FileName << std::endl;
+  os << indent << "FilePrefix: " << m_FilePrefix << std::endl;
+  os << indent << "FilePattern: " << m_FilePattern << std::endl;
   os << indent << "# Components/Pixel: " << m_NumberOfComponents;
   os << ", PixelType: " << AtomicPixelTypeToString(m_PixelType) << std::endl;
   os << indent << "Dimensions: ( ";
