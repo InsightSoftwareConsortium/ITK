@@ -26,22 +26,22 @@
 #include <itkCovariantVector.h>
 
 
-int WIDTH = 50;
-int HEIGHT = 50;
-int DEPTH = 50;
-
-/* seed point */
-int SEEDX = 25;
-int SEEDY = 25;
-int SEEDZ = 25;
-
-
-time_t btime; 
-time_t etime;
 
 int itkDeformableTest(int, char**) 
 {
+  int WIDTH = 50;
+  int HEIGHT = 50;
+  int DEPTH = 50;
 
+  /* seed point */
+  int SEEDX = 25;
+  int SEEDY = 25;
+  int SEEDZ = 25;
+
+  time_t btime; 
+  time_t etime;
+
+  
   // Define the dimension of the images
   const unsigned int myDimension = 3;
 
