@@ -300,6 +300,25 @@ int itkEuler3DTransformTest(int,char *[] )
     }
   std::cout << " [ PASSED ] " << std::endl;
 
+  std::cout << "Testing Angle from matrix (ZYX) : ";
+  eulerTransform->SetIdentity();
+  eulerTransform->ComputeZYX(true);
+  eulerTransform->SetRotation(0.2,0.1,0.3);
+  
+  t2->SetIdentity();
+  t2->ComputeZYX(true);
+  t2->Compose(eulerTransform);
+  
+  if( (fabs(t2->GetParameters()[0]-0.2)>0.0001)
+    || (fabs(t2->GetParameters()[1]-0.1)>0.0001)
+    || (fabs(t2->GetParameters()[2]-0.3)>0.0001) 
+    )
+    {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   return EXIT_SUCCESS;
 

@@ -139,24 +139,48 @@ void
 Euler3DTransform<TScalarType>
 ::ComputeAnglesFromMatrix(void)
 {
-  m_AngleX = asin(m_RotationMatrix[2][1]);
-  double A = cos(m_AngleX);
-  if(fabs(A)>0.00005)
+  if(m_ComputeZYX)
     {
-    double x = m_RotationMatrix[2][2] / A;
-    double y = -m_RotationMatrix[2][0] / A;
-    m_AngleY = atan2(y,x);
-
-    x = m_RotationMatrix[1][1] / A;
-    y = -m_RotationMatrix[0][1] / A;
-    m_AngleZ = atan2(y,x);
+    m_AngleY = -asin(m_RotationMatrix[2][0]);
+    double C = cos(m_AngleY);
+    if(fabs(C)>0.00005)
+      {
+      double x = m_RotationMatrix[2][2] / C;
+      double y = m_RotationMatrix[2][1] / C;
+      m_AngleX = atan2(y,x);
+      x = m_RotationMatrix[0][0] / C;
+      y = m_RotationMatrix[1][0] / C;
+      m_AngleZ = atan2(y,x);
+      }
+    else
+      {
+      m_AngleX = 0;
+      double x = m_RotationMatrix[1][1];
+      double y = -m_RotationMatrix[0][1];
+      m_AngleZ = atan2(y,x);
+      }
     }
   else
     {
-    m_AngleZ = 0;
-    double x = m_RotationMatrix[0][0];
-    double y = m_RotationMatrix[1][0];
-    m_AngleY = atan2(y,x);
+    m_AngleX = asin(m_RotationMatrix[2][1]);
+    double A = cos(m_AngleX);
+    if(fabs(A)>0.00005)
+      {
+      double x = m_RotationMatrix[2][2] / A;
+      double y = -m_RotationMatrix[2][0] / A;
+      m_AngleY = atan2(y,x);
+
+      x = m_RotationMatrix[1][1] / A;
+      y = -m_RotationMatrix[0][1] / A;
+      m_AngleZ = atan2(y,x);
+      }
+    else
+      {
+      m_AngleZ = 0;
+      double x = m_RotationMatrix[0][0];
+      double y = m_RotationMatrix[1][0];
+      m_AngleY = atan2(y,x);
+      }
     }
 }
 
