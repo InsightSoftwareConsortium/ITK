@@ -28,8 +28,8 @@
 //
 //  Let's start by including the relevant header files.
 //
-//  \index{ImageFileRead!Vector images}
-//  \index{VectorIndexSelectionCastImageFilter!header}
+//  \index{itk::ImageFileRead!Vector images}
+//  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -98,9 +98,9 @@ int main( int argc, char ** argv )
   //  using the input and output image types. A filter object is created with
   //  the New() method and assigned to a \doxygen{SmartPointer}.
   //
-  //  \index{VectorIndexSelectionCastImageFilter!Instantiation}
-  //  \index{VectorIndexSelectionCastImageFilter!New()}
-  //  \index{VectorIndexSelectionCastImageFilter!Pointer}
+  //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!Instantiation}
+  //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!New()}
+  //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -119,7 +119,7 @@ int main( int argc, char ** argv )
   //  This is done with the SetIndex() method. In this example we obtain
   //  this value from the command line arguments.
   //
-  //  \index{VectorIndexSelectionCastImageFilter!SetIndex()}
+  //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!SetIndex()}
   //
   //  Software Guide : EndLatex 
 
