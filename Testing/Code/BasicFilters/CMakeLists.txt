@@ -20,6 +20,7 @@ ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS2} itkBasicFiltersPrintT
 
 ADD_TEST(itkAcosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAcosImageFilterAndAdaptorTest)
 ADD_TEST(itkAbsImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAbsImageFilterAndAdaptorTest)
+ADD_TEST(itkAbsoluteValueDifferenceImageFilterTest ${BASIC_FILTERS_TESTS} itkAbsoluteValueDifferenceImageFilterTest)
 ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
 ADD_TEST(itkAdaptImageFilterTest2 ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest2)
 ADD_TEST(itkAddImageFilterTest ${BASIC_FILTERS_TESTS} itkAddImageFilterTest)
@@ -485,6 +486,7 @@ ENDIF(ITK_DATA_ROOT)
 SET(BasicFilters_SRCS
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
+itkAbsoluteValueDifferenceImageFilterTest.cxx
 itkAdaptImageFilterTest.cxx
 itkAdaptImageFilterTest2.cxx
 itkAdaptiveHistogramEqualizationImageFilterTest.cxx

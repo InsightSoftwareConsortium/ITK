@@ -27,6 +27,7 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkAbsImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkAbsoluteValueDifferenceImageFilterTest );
   REGISTER_TEST(itkAcosImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAdaptImageFilterTest );
   REGISTER_TEST(itkAdaptImageFilterTest2 );
