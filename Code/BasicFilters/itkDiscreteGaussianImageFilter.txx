@@ -153,6 +153,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
 }
 
 } // end namespace itk
