@@ -38,7 +38,7 @@ VersorTransformOptimizer
 { 
 
 
-  const ParametersType & currentPosition = GetCurrentPosition();
+  const ParametersType & currentPosition = this->GetCurrentPosition();
 
   // The parameters are assumed to be the right part of the versor
   // 
