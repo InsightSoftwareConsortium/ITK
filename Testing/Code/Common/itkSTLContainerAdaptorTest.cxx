@@ -223,11 +223,11 @@ int itkSTLContainerAdaptorTest(int, char**)
       
       // Test of index access
       std::cout << "Testing index access... "; 
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int j = 0; j < containerSize; j++)
         {
-        if( mapSource[i] != mapContainer->GetElement(i) )
+        if( mapSource[j] != mapContainer->GetElement(j) )
           {
-          std::cerr << "Error, comparing element # " << i << std::endl;
+          std::cerr << "Error, comparing element # " << j << std::endl;
           return EXIT_FAILURE;
           }
         }
@@ -278,11 +278,11 @@ int itkSTLContainerAdaptorTest(int, char**)
       
       // Test of index access
       std::cout << "Testing index access... "; 
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int j = 0; j < containerSize; j++)
         {
-        if( destination[i] != mapContainer->GetElement(i) )
+        if( destination[j] != mapContainer->GetElement(j) )
           {
-          std::cerr << "Error, comparing element # " << i << std::endl;
+          std::cerr << "Error, comparing element # " << j << std::endl;
           return EXIT_FAILURE;
           }
         }
