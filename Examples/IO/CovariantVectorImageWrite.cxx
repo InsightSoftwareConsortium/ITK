@@ -49,7 +49,7 @@
 //  compute the image gradient. The output of this filter is an image whose
 //  pixels are \doxygen{CovariantVector}s.
 //
-//  \index{itk::GradientRecursiveGaussianImageFilter!header}
+//  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
