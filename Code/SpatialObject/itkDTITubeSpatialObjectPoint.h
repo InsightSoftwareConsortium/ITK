@@ -44,78 +44,19 @@ public:
   typedef Point< double, TPointDimension >    PointType;
   typedef Vector<double, TPointDimension >    VectorType;
   typedef CovariantVector<double, TPointDimension >    CovariantVectorType;
- 
+  typedef std::pair<std::string,float>  FieldType;
+  typedef std::vector<FieldType>        FieldListType;
+
+  // If you add a type here you need to modify the TranslateEnumToChar
+  // to translate the enum to a string
+  typedef enum {FA,ADC,GA} FieldEnumType;
+
   /** Constructor. This one defines the # of dimensions in the 
    * DTITubeSpatialObjectPoint */
   DTITubeSpatialObjectPoint( void );
 
   /** Default destructor. */
   virtual ~DTITubeSpatialObjectPoint( void );
-
-  /** Set/Get FA */
-  void  SetFA(const float fa) {m_FA = fa;}
-  float GetFA() const {return m_FA;}
- 
-  /** Set/Get ADC */
-  void  SetADC(const float adc) {m_ADC = adc;}
-  float GetADC() const {return m_ADC;}
-  
-  /** Set/Get GA */
-  void  SetGA(const float ga) {m_GA = ga;}
-  float GetGA() const {return m_GA;}
-
-  /** Set/Get Lambda1 */
-  void  SetLambda1(const float lambda1) {m_Lambda1 = lambda1;}
-  float GetLambda1() const {return m_Lambda1;}
-
-  /** Set/Get Lambda1 */
-  void  SetLambda2(const float lambda2) {m_Lambda2 = lambda2;}
-  float GetLambda2() const {return m_Lambda2;}
-
-  /** Set/Get Lambda1 */
-  void  SetLambda3(const float lambda3) {m_Lambda3 = lambda3;}
-  float GetLambda3() const {return m_Lambda3;}
-
-  /** Set/Get the minimum eigen value */
-  void SetMinEigenVector(float* val)
-    {
-    for(unsigned int i=0;i<3;i++)
-      {
-      m_MinEV[i] = val[i];
-      }
-    }
-  const float* GetMinEigenVector() const {return m_MinEV;}
-
-  /** Set/Get the medium eigen value */
-  void SetMedEigenVector(float* val)
-    {
-    for(unsigned int i=0;i<3;i++)
-      {
-      m_MedEV[i] = val[i];
-      }
-    }
-  const float* GetMedEigenVector() const {return m_MedEV;}
-
-  /** Set/Get the maximum eigen value */
-  void SetMaxEigenVector(float* val)
-    {
-    for(unsigned int i=0;i<3;i++)
-      {
-      m_MaxEV[i] = val[i];
-      }
-    }
-  const float* GetMaxEigenVector() const {return m_MaxEV;}
-
-  /** Set/Get the MRI field */
-  void SetMRI(float* mri)
-    {
-    for(unsigned int i=0;i<5;i++)
-      {
-      m_MRI[i] = mri[i];
-      }
-    }
-
-  const float* GetMRI() const {return m_MRI;}
 
   /** Set/Get the tensor matrix */
   void SetTensorMatrix(float* matrix)
@@ -128,34 +69,36 @@ public:
 
   const float* GetTensorMatrix() const {return m_TensorMatrix;}
 
-  /** Set/Get Interpolation */
-  void  SetInterpolation(const int interp) {m_Interpolation = interp;}
-  int GetInterpolation() const {return m_Interpolation;}
-
   /** Copy one DTITubeSpatialObjectPoint to another */
   Self & operator=(const DTITubeSpatialObjectPoint & rhs);
 
+  /** Add a field to the point list*/
+  void AddField(const char* name,float value);
+
+  /** Add a field to the point list*/
+  void AddField(FieldEnumType name,float value);
+
+  /** Return the list of extra fields */
+  const FieldListType & GetFields() const {return m_Fields;}
+
+  /** Return the value of the specific fiedls */
+  float GetField(const char* name) const;
+  float GetField(FieldEnumType name) const;
+
+
 protected:
 
-  float m_FA;
-  float m_ADC;
-  float m_GA;
-  float m_Lambda1;
-  float m_Lambda2;
-  float m_Lambda3;
-  float m_MinEV[3];
-  float m_MedEV[3];
-  float m_MaxEV[3];
-  float m_MRI[5];
   float m_TensorMatrix[6];
-  int   m_Interpolation;
-
+  FieldListType m_Fields;
 
   /** # of dimensions */
   unsigned short int m_NumDimensions;
 
   /** Print the object */
   void PrintSelf( std::ostream & os, Indent indent) const;
+
+  /** Translate the enum to char */
+  std::string TranslateEnumToChar(FieldEnumType name) const;
 };
 
 } // end of namespace itk

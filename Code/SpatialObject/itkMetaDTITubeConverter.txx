@@ -79,45 +79,16 @@ MetaDTITubeConverter<NDimensions>
       point[i]=(*it2)->m_X[i];
     }
 
+    // Get the fields from the metaIO
+    const DTITubePnt::FieldListType & metaFields = (*it2)->GetExtraFields();
+    DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
+    while(extraIt != metaFields.end())
+      {
+      pnt.AddField((*extraIt).first.c_str(),(*extraIt).second);
+      extraIt++;
+      }
+
     pnt.SetPosition(point);
-    pnt.SetRadius((*it2)->m_R);
-    pnt.SetFA((*it2)->m_FA);
-    pnt.SetADC((*it2)->m_ADC);
-    pnt.SetGA((*it2)->m_GA);
-    pnt.SetInterpolation((*it2)->m_Interpolation);
-    pnt.SetLambda1((*it2)->m_Lambda1);
-    pnt.SetLambda2((*it2)->m_Lambda2);
-    pnt.SetLambda3((*it2)->m_Lambda3);
-
-    float* ev = new float[3];
-    for(unsigned int i=0;i<3;i++)
-      {
-      ev[i]=(*it2)->m_MinEV[i];
-      }
-    pnt.SetMinEigenVector(ev);
-
-    for(unsigned int i=0;i<3;i++)
-      {
-      ev[i]=(*it2)->m_MedEV[i];
-      }
-    pnt.SetMedEigenVector(ev);
-
-    for(unsigned int i=0;i<3;i++)
-      {
-      ev[i]=(*it2)->m_MaxEV[i];
-      }
-    pnt.SetMaxEigenVector(ev);
-
-    delete ev;
-    
-    float* mri = new float[5];
-    for(unsigned int i=0;i<5;i++)
-      {
-      mri[i]=(*it2)->m_MRI[i];
-      }
-    pnt.SetMRI(mri);
-
-    delete mri;
 
     float* tensor = new float[6];
 
@@ -129,30 +100,73 @@ MetaDTITubeConverter<NDimensions>
 
     delete tensor;
 
-    for(unsigned int i=0;i<ndims;i++)
-      {
-      v[i]=(*it2)->m_V1[i];
-      }
-    pnt.SetNormal1(v);
 
-    for(unsigned int i=0;i<ndims;i++)
-      {
-      v[i]=(*it2)->m_V2[i];
-      }
-    pnt.SetNormal2(v);
+   // This attribute are optional
 
-    for(unsigned int i=0;i<ndims;i++)
+    if((*it2)->GetField("r") != -1)
       {
-      t[i]=(*it2)->m_T[i];
+      pnt.SetRadius((*it2)->GetField("r"));
       }
-    pnt.SetTangent(t);
+
+    if((*it2)->GetField("v1x") != -1)
+      {
+      v[0]= (*it2)->GetField("v1x");
+      v[1]= (*it2)->GetField("v1y");
+      if(ndims == 3)
+        {
+        v[2]= (*it2)->GetField("v1z");
+        } 
+      pnt.SetNormal1(v);     
+      }
+   
     
-    pnt.SetRed((*it2)->m_Color[0]);
-    pnt.SetGreen((*it2)->m_Color[1]);
-    pnt.SetBlue((*it2)->m_Color[2]);
-    pnt.SetAlpha((*it2)->m_Color[3]);
+    if((*it2)->GetField("v2x") != -1)
+      {
+      v[0]= (*it2)->GetField("v2x");
+      v[1]= (*it2)->GetField("v2y");
+      if(ndims == 3)
+        {
+        v[2]= (*it2)->GetField("v2z");
+        } 
+      pnt.SetNormal1(v);     
+      }
+  
+    if((*it2)->GetField("tx") != -1)
+      {
+      t[0]= (*it2)->GetField("tx");
+      t[1]= (*it2)->GetField("ty");
+      if(ndims == 3)
+        {
+        t[2]= (*it2)->GetField("tz");
+        }   
+      pnt.SetTangent(t);
+      }
 
-    pnt.SetID((*it2)->m_ID);
+
+    if((*it2)->GetField("red") != -1)
+      {
+      pnt.SetRed((*it2)->GetField("red"));
+      }
+    
+    if((*it2)->GetField("green") != -1)
+      {
+      pnt.SetGreen((*it2)->GetField("green"));
+      }
+   
+    if((*it2)->GetField("blue") != -1)
+      {
+      pnt.SetBlue((*it2)->GetField("blue"));
+      }
+
+    if((*it2)->GetField("alpha") != -1)
+      {
+      pnt.SetAlpha((*it2)->GetField("alpha"));
+      }
+
+    if((*it2)->GetField("id") != -1)
+      {
+      pnt.SetID((*it2)->GetField("id"));
+      }
 
     tub->GetPoints().push_back(pnt);
 
@@ -169,41 +183,81 @@ MetaDTITubeConverter<NDimensions>
 { 
   MetaDTITube* tube = new MetaDTITube(NDimensions);
 
-  // fill in the tube information
-   
+  // Check what are the fields to be written
+  bool writeNormal1 = false;
+  bool writeNormal2 = false;
+  bool writeTangent = false;
+  bool writeRadius = false;
+  bool writeColor = false;
+  bool writeAlpha = false;
+  bool writeID = false;
+
   typename SpatialObjectType::PointListType::const_iterator i;
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); 
       i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end();
       i++)
-  {
+    {
+    // Optional fields (written only if not default values)
+    if((*i).GetID() != -1)
+      {
+      writeID = true;
+      }
+
+    if((*i).GetRadius() != 0)
+      {
+      writeRadius = true;
+      }
+
+    unsigned int d;
+    for(d=0;d<NDimensions;d++)
+     {
+     if((*i).GetNormal1()[d] != 0)
+       {
+       writeNormal1 = true;
+       }
+     if((*i).GetNormal2()[d] != 0)
+       {
+       writeNormal2 = true;
+       }
+     if((*i).GetTangent()[d] != 0)
+       {
+       writeTangent = true;
+       }
+     }
+
+    // write the color if changed
+    if( ((*i).GetRed() != 1.0)
+      || ((*i).GetGreen() != 0.0)
+      || ((*i).GetBlue() != 0.0)
+      )
+      {
+      writeColor = true;
+      }
+      
+    if((*i).GetAlpha() != 1.0)
+      {
+      writeAlpha = true;
+      }
+    }
+
+  // fill in the tube information
+  for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); 
+      i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end();
+      i++)
+    {
     DTITubePnt* pnt = new DTITubePnt(NDimensions);
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_X[d] = (*i).GetPosition()[d];
-    }
-      
-    pnt->m_ID = (*i).GetID();
-    pnt->m_R=(*i).GetRadius();
- 
-    pnt->m_FA = (*i).GetFA();
-    pnt->m_ADC = (*i).GetADC();
-    pnt->m_GA = (*i).GetGA();
-    pnt->m_Interpolation = (*i).GetInterpolation();
-
-    pnt->m_Lambda1 = (*i).GetLambda1();
-    pnt->m_Lambda2 = (*i).GetLambda2();
-    pnt->m_Lambda3 = (*i).GetLambda3();
-
-    for(unsigned int d=0;d<3;d++)
-      {
-      pnt->m_MinEV[d]=(*i).GetMinEigenVector()[d];
-      pnt->m_MedEV[d]=(*i).GetMedEigenVector()[d];
-      pnt->m_MaxEV[d]=(*i).GetMaxEigenVector()[d];  
       }
-    for(unsigned int d=0;d<5;d++)
+      
+    const DTITubePnt::FieldListType & metaFields = (*i).GetFields();
+    DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
+    while(extraIt != metaFields.end())
       {
-      pnt->m_MRI[d]=(*i).GetMRI()[d];
+      pnt->AddField((*extraIt).first.c_str(),(*extraIt).second);
+      extraIt++;
       }
 
     for(unsigned int d=0;d<6;d++)
@@ -211,31 +265,65 @@ MetaDTITubeConverter<NDimensions>
       pnt->m_TensorMatrix[d]=(*i).GetTensorMatrix()[d];
       }
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    // Optional fields (written only if not default values)
+
+    if(writeID)
       {
-      pnt->m_V1[d]=(*i).GetNormal1()[d];
+      pnt->AddField("id",(*i).GetID());
       }
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    if(writeRadius)
       {
-      pnt->m_V2[d]=(*i).GetNormal2()[d];
+      pnt->AddField("r",(*i).GetRadius());
       }
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    if(writeNormal1)
       {
-      pnt->m_T[d]=(*i).GetTangent()[d];
+      pnt->AddField("v1x",(*i).GetNormal1()[0]);
+      pnt->AddField("v1y",(*i).GetNormal1()[1]);
+      if(NDimensions == 3)
+        {
+        pnt->AddField("v1z",(*i).GetNormal1()[2]);
+        }
       }
-              
-    pnt->m_Color[0] = (*i).GetRed();
-    pnt->m_Color[1] = (*i).GetGreen();
-    pnt->m_Color[2] = (*i).GetBlue();
-    pnt->m_Color[3] = (*i).GetAlpha();
+
+    if(writeNormal2)
+      {
+      pnt->AddField("v2x",(*i).GetNormal2()[0]);
+      pnt->AddField("v2y",(*i).GetNormal2()[1]);
+      if(NDimensions == 3)
+        {
+        pnt->AddField("v2z",(*i).GetNormal2()[2]);
+        }
+      }
+
+   if(writeTangent)
+      {
+      pnt->AddField("tx",(*i).GetTangent()[0]);
+      pnt->AddField("ty",(*i).GetTangent()[1]);
+      if(NDimensions == 3)
+        {
+        pnt->AddField("tz",(*i).GetTangent()[2]);
+        }
+      }  
+
+    // write the color if changed
+    if(writeColor)
+      {
+      pnt->AddField("red",(*i).GetRed());
+      pnt->AddField("green",(*i).GetGreen());     
+      pnt->AddField("blue",(*i).GetBlue());      
+      }
+      
+    if(writeAlpha)
+      {
+      pnt->AddField("alpha",(*i).GetAlpha());
+      }
 
     tube->GetPoints().push_back(pnt); 
-  }
+    }
    
-  tube->PointDim("x y z fa adc ga i l1 l2 l3 xevmin yevmin zevmin xevmed yevmed zevmed xevmax yevmax zevmax mri1 mri2 mri3 mri4 mri5 tensor1 tensor2 tensor3 tensor4 tensor5 tensor6 v1x v1y v1z v2x v2y v2z tx ty tz r red green blue alpha id");
-
+  tube->PointDim("x y z tensor1 tensor2 tensor3 tensor4 tensor5 tensor6");
 
   float color[4];
   for(unsigned int i=0;i<4;i++)

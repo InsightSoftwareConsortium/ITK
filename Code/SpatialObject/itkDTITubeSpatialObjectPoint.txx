@@ -27,36 +27,14 @@ template< unsigned int TPointDimension >
 DTITubeSpatialObjectPoint< TPointDimension >
 ::DTITubeSpatialObjectPoint( void ) 
 { 
-  m_FA = 0;
-  m_ADC = 0;
-  m_GA = 0;
-  m_Lambda1 = 0;
-  m_Lambda2 = 0;
-  m_Lambda3 = 0;
-
-  unsigned int i;
-  for(i=0;i<3;i++)
-    {
-    m_MinEV[i] = 0;
-    m_MedEV[i] = 0;
-    m_MaxEV[i] = 0;
-    }
-
-  for(i=0;i<5;i++)
-    {
-    m_MRI[i] = 0;
-    }
-
   // Initialize the tensor matrix to identity
-  for(i=0;i<6;i++)
+  for(unsigned int i=0;i<6;i++)
     {
     m_TensorMatrix[i] = 0;
     }
-
   m_TensorMatrix[0] = 1;
   m_TensorMatrix[3] = 1;
   m_TensorMatrix[5] = 1;
-  m_Interpolation = 0;
 }
 
 /** Destructor */
@@ -75,40 +53,119 @@ DTITubeSpatialObjectPoint< TPointDimension >
   Superclass::PrintSelf(os,indent);
 }
 
+/** Translate the enumerated types to a string */
+template< unsigned int TPointDimension >
+std::string 
+DTITubeSpatialObjectPoint< TPointDimension >
+::TranslateEnumToChar(FieldEnumType name) const
+{
+  // Do the translation
+  switch(name)
+    {
+    case 0:
+      return "FA";
+      break;
+    case 1:
+      return "ADC";
+      break;
+    case 2:
+      return "GA";
+      break;
+    default:
+      return "";
+    }
+  return "";
+}
+
+/** Add a field to the point list*/
+template< unsigned int TPointDimension >
+void
+DTITubeSpatialObjectPoint< TPointDimension >
+::AddField(const char* name,float value)
+{
+  FieldType field(name,value);
+  m_Fields.push_back(field);
+}
+
+
+/** Add a field to the point list*/
+template< unsigned int TPointDimension >
+void
+DTITubeSpatialObjectPoint< TPointDimension >
+::AddField(FieldEnumType name,float value)
+{
+  std::string charname = this->TranslateEnumToChar(name);
+
+  if(charname.size() > 0)
+    {
+    FieldType field(charname.c_str(),value);
+    m_Fields.push_back(field);
+    }
+  else
+    {
+    std::cout << "DTITubeSpatialObjectPoint::AddField() : enum not defined" << std::endl;
+    }
+
+}
+
+/** Return the value of the given field */
+template< unsigned int TPointDimension >
+float
+DTITubeSpatialObjectPoint< TPointDimension >
+::GetField(const char* name) const
+{
+  FieldListType::const_iterator it = m_Fields.begin();
+  while(it != m_Fields.end())
+    {
+    if(!strcmp((*it).first.c_str(),name))
+      {
+      return (*it).second;
+      }
+    it++;
+    }
+  return -1;
+}
+
+/** Add a field to the point list*/
+template< unsigned int TPointDimension >
+float
+DTITubeSpatialObjectPoint< TPointDimension >
+::GetField(FieldEnumType name) const
+{
+  std::string charname = this->TranslateEnumToChar(name);
+  if(charname.size() > 0)
+    {
+    return this->GetField(charname.c_str());
+    }
+  else
+    {
+    std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined" << std::endl;
+    return -1;
+    }
+
+  return -1;
+}
 
 template< unsigned int TPointDimension >
 typename DTITubeSpatialObjectPoint< TPointDimension >::Self & 
 DTITubeSpatialObjectPoint< TPointDimension >
 ::operator=(const DTITubeSpatialObjectPoint & rhs) 
 {
+  // Copy the extra fields
+  const FieldListType & fields = rhs.GetFields();
+  FieldListType::const_iterator it = fields.begin();
+  while(it != fields.end())
+    {
+    this->AddField((*it).first.c_str(),(*it).second);
+    }
+
   this->m_ID = rhs.m_ID;
-  this->m_R = rhs.m_R;
-  m_FA = rhs.m_FA;
-  m_ADC = rhs.m_ADC;
-  m_GA = rhs.m_GA;
-  m_Lambda1 = rhs.m_Lambda1;
-  m_Lambda2 = rhs.m_Lambda2;
-  m_Lambda3 = rhs.m_Lambda3;
 
-  unsigned int i;
-  for(i=0;i<3;i++)
-    {
-    m_MinEV[i] = rhs.m_MinEV[i];
-    m_MedEV[i] = rhs.m_MedEV[i];
-    m_MaxEV[i] = rhs.m_MaxEV[i];
-    }
-
-  for(i=0;i<5;i++)
-    {
-    m_MRI[i] = rhs.m_MRI[i];
-    }
-
-  for(i=0;i<6;i++)
+  for(unsigned int i=0;i<6;i++)
     {
     m_TensorMatrix[i] = rhs.m_TensorMatrix[i];
     }
 
-  m_Interpolation = rhs.m_Interpolation;
   m_NumDimensions = rhs.m_NumDimensions;
   this->m_X = rhs.m_X;
   this->m_T = rhs.m_T;
