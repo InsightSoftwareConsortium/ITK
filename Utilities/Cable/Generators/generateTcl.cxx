@@ -181,7 +181,7 @@ void OutputFileHeader(FILE* outFile,
       c != classes.end(); ++c)
     {
     fprintf(outFile,
-            "std::map<String, void (*)(%s&, Tcl_Interp*, int, Tcl_Obj*CONST*)>\n"
+            "static std::map<String, void (*)(%s&, Tcl_Interp*, int, Tcl_Obj*CONST*)>\n"
             "methodMap_%s;\n"
             "\n",
             (*c)->GetQualifiedName().c_str(),
@@ -374,7 +374,7 @@ void wrapMethodGroup(FILE* outFile, const Class* aClass,
           aClass->GetQualifiedName().c_str(),
           func->GetCallName().c_str());
   fprintf(outFile,
-          "void Method_%s__%s(\n"
+          "static void Method_%s__%s(\n"
           "  %s& instance, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[])\n"
           "{\n",
           GetWrapName(aClass).c_str(),
@@ -439,7 +439,7 @@ void OutputMethodWrapper(FILE* outFile,const Class* aClass)
           " */\n",
           aClass->GetQualifiedName().c_str());
   fprintf(outFile,
-          "int WrapperFor_%s(\n"
+          "static int WrapperFor_%s(\n"
           "  ClientData clientData, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[])\n"
           "{\n",
           GetWrapName(aClass).c_str());
@@ -527,12 +527,16 @@ void WrapClass(FILE* outFile, const WrapType* wrapType)
   if(createFunction)
     {
     createFunction->PrintFunction(outFile, wrapType->GetName());
+    fprintf(outFile,
+            "\n");
     }
 
   const Delete* deleteFunction = wrapType->GetDelete();
   if(deleteFunction)
     {
     deleteFunction->PrintFunction(outFile, wrapType->GetName());
+    fprintf(outFile,
+            "\n");
     }
   
   /**
