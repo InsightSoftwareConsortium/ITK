@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConeSpatialFunction_txx
 #define __itkConeSpatialFunction_txx
 
-#include "vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include <math.h>
 #include "itkConeSpatialFunction.h"
 
@@ -63,7 +63,7 @@ ConeSpatialFunction<VImageDimension>::~ConeSpatialFunction()
 
 // Evaluate cone equation.
 template <unsigned int VImageDimension>
-bool
+ConeSpatialFunction<VImageDimension>::TFunctionValueType
 ConeSpatialFunction<VImageDimension>
 ::Evaluate(TVectorType* position)
 {

@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkSphereSpatialFunction_txx
 #define __itkSphereSpatialFunction_txx
 
-#include "vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkSphereSpatialFunction.h"
 
 namespace itk
@@ -61,7 +61,8 @@ SphereSpatialFunction<VImageDimension>::~SphereSpatialFunction()
 }
 
 template <unsigned int VImageDimension>
-bool SphereSpatialFunction<VImageDimension>
+SphereSpatialFunction<VImageDimension>::TFunctionValueType
+SphereSpatialFunction<VImageDimension>
 ::Evaluate(TVectorType* position)
 {
   double acc = 0;
