@@ -42,7 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "itkVector.h"
+#include "itkPoint.h"
+#include "itkCovariantVector.h"
 #include "vnl/vnl_quaternion.h"
+#include "vnl/vnl_vector_fixed.h"
 
 
 namespace itk
@@ -93,7 +96,25 @@ public:
    */
   typedef  Vector<T,3>   VectorType;
 
-  
+
+  /**
+   * Point type 
+   */
+  typedef  Point<T,3>   PointType;
+
+ 
+  /**
+   * CovariantVector type 
+   */
+  typedef  CovariantVector<T,3>   CovariantVectorType;
+
+ 
+  /**
+   * Vnl Vector type 
+   */
+  typedef  vnl_vector_fixed<T,3>   VnlVectorType;
+
+       
 
   /**
    * Get a vnl_quaternion with a copy of the internal memory block
@@ -208,6 +229,7 @@ public:
    */
    VectorType GetRight( void ) const;
 
+   
   /**
    * Set the versor using an vector and angle
    * the unit vector parallel to the given vector 
@@ -215,6 +237,32 @@ public:
    */
   void Set( const VectorType & axis, ValueType angle );
  
+
+  /**
+   * Transform a Vector
+   */
+   VectorType Transform( const VectorType & v ) const;
+
+
+  /**
+   * Transform a Covariant Vector
+   */
+   CovariantVectorType Transform( const CovariantVectorType & v ) const;
+
+
+  /**
+   * Transform a Point
+   */
+   PointType Transform( const PointType & v ) const;
+
+
+  /**
+   * Transform a vnl_vector
+   */
+   VnlVectorType Transform( const VnlVectorType & v ) const;
+
+
+
 private:
 
    /** 
