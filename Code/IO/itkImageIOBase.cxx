@@ -134,13 +134,13 @@ const std::type_info& ImageIOBase::GetPixelType() const
     case DOUBLE:
       return typeid(double);
     case RGB:
-      return typeid(RGBPixel);
+      return typeid(RGBPixel<unsigned char>);
     case RGBA:
-      return typeid(RGBAPixel);
+      return typeid(RGBAPixel<unsigned char>);
     default:
       itkErrorMacro (<< "Invalid type: " << m_PixelType );
-      return typeid(ImageIOBase::UnknownType);
     }
+  return typeid(ImageIOBase::UnknownType);
 }
 
 void ImageIOBase::SetPixelType(const IODataType ctype)
@@ -320,13 +320,13 @@ ImageIOBase::ConvertToTypeInfo(IODataType t ) const
     case DOUBLE:
       return typeid(double);
     case RGB:
-      return typeid(RGBPixel);
+      return typeid(RGBPixel<unsigned char>);
     case RGBA:
-      return typeid(RGBAPixel);
+      return typeid(RGBAPixel<unsgined char>);
     default:
       itkErrorMacro (<< "Invalid type: " << m_PixelType );
-      return typeid(ImageIOBase::UnknownType);
     }
+  return typeid(ImageIOBase::UnknownType);
 }
 
 unsigned int 
