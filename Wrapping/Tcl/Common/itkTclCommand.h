@@ -74,4 +74,5 @@ private:
 
 } // namespace itk
 
-#endif _itkTclCommand_h
+#endif // _itkTclCommand_h
+
