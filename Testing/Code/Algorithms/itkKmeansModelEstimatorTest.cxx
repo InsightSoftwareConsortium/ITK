@@ -236,9 +236,8 @@ int itkKmeansModelEstimatorTest(int, char**)
 
   error =0;
   meanCDBKvalue = 0;
-  int test = membershipFunctions.size();
-  for(unsigned int classIndex=0; classIndex < membershipFunctions.size(); 
-    classIndex++ )
+  const unsigned int test = membershipFunctions.size();
+  for(unsigned int classIndex=0; classIndex < test; classIndex++ )
     {
     kmeansResultForClass = membershipFunctions[classIndex]->GetCentroid();
     referenceCodebookForClass = inCDBK.get_row( classIndex);
