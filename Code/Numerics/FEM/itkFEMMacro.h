@@ -172,6 +172,9 @@ private:  // everything that follows from here is private by default (like in th
     /** Object creation in an itk compatible way */ \
     static Pointer New()                     \
       { return new Self(); }                 \
+    /** Same as New() but returns pointer to base class */ \
+    static Baseclass::Pointer NewB()         \
+      { return New(); }                      \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
   #define FEM_CLASS(thisClass,parentClass)   \
@@ -190,6 +193,9 @@ private:  // everything that follows from here is private by default (like in th
       { return CLID; }                       \
     /** Object creation through itk's objectfactory  */ \
     itkNewMacro(Self)                        \
+    /** Same as New() but returns pointer to base class */ \
+    static Baseclass::Pointer NewB()         \
+      { return New(); }                      \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #endif
 
@@ -211,15 +217,9 @@ private:  // everything that follows from here is private by default (like in th
  * \note Call this macro after the class definition is complete in .cxx
  *       file but still within itk::fem namespace.
  */
-#ifndef FEM_USE_SMART_POINTERS
-  #define FEM_CLASS_REGISTER(thisClass) \
-  namespace { static thisClass::Baseclass::Pointer New##thisClass() { return new thisClass; } }\
-  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
-#else
-  #define FEM_CLASS_REGISTER(thisClass) \
-  namespace { static thisClass::Baseclass::Pointer New##thisClass() { return thisClass::New(); } }\
-  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( New##thisClass, #thisClass);
-#endif
+#define FEM_CLASS_REGISTER(thisClass) \
+  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( thisClass::NewB, #thisClass);
+
 
 
 

@@ -60,12 +60,6 @@ public:
     Superclass::Write(f);
   }
 
-  /**
-   * Function required by FEMObjectFactory to create objects.
-   */
-  static Baseclass* NewLoadTest(void)
-  { return new LoadTest; }
-
 };
 
 // Register the class with ObjectFactory and initialize the CLID
@@ -73,7 +67,7 @@ public:
 // there are many templates, you may want to use just
 // "typeid(LoadTest<TClass>).name()" instead.
 template<class TClass>
-const int LoadTest<TClass>::CLID=FEMOF::Register( LoadTest::NewLoadTest, (std::string("LoadTest(")+typeid(TClass).name()+")").c_str() );
+const int LoadTest<TClass>::CLID=FEMOF::Register( LoadTest::NewB, (std::string("LoadTest(")+typeid(TClass).name()+")").c_str() );
 
 
 

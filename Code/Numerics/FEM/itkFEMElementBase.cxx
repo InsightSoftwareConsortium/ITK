@@ -483,13 +483,7 @@ const Element::Float Element::gaussWeight[gaussMaxOrder+1][gaussMaxOrder]=
 
 
 // Register Node class with FEMObjectFactory
-#ifndef FEM_USE_SMART_POINTERS
-namespace { static Element::Node::Baseclass::Pointer NewNodeObect() { return new Element::Node; } }
-const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( NewNodeObect, "Node" );
-#else
-namespace { static Element::Node::Baseclass::Pointer NewNodeObect() { return Element::Node::New(); } }
-const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( NewNodeObect, "Node" );
-#endif
+const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( Element::Node::NewB, "Node" );
 
 
 

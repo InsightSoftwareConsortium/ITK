@@ -297,7 +297,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 
 template<class TReference,class TTarget> 
 const int ImageMetricLoad<TReference,TTarget>::CLID=
-FEMOF::Register( ImageMetricLoad::NewImageMetricLoad,(std::string("ImageMetricLoad(")
+FEMOF::Register( ImageMetricLoad::NewB,(std::string("ImageMetricLoad(")
                 +typeid(TReference).name()+typeid(TTarget).name()+")").c_str());
 
 
