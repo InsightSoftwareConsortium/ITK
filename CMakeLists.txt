@@ -85,7 +85,7 @@ OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 # Java support is not complete and the option should not be used
 # until it has been completed.
-#OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
+OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
 
 #-----------------------------------------------------------------------------
 # Find wrapping language API libraries.
@@ -211,6 +211,9 @@ ENDIF(ITK_CSWIG_TCL)
 IF(ITK_CSWIG_PYTHON)
   SET(ITK_CSWIG_DIR 1)
 ENDIF(ITK_CSWIG_PYTHON)
+IF(ITK_CSWIG_JAVA)
+  SET(ITK_CSWIG_DIR 1)
+ENDIF(ITK_CSWIG_JAVA)
 
 IF(ITK_CSWIG_DIR)
   SUBDIRS(Wrapping/CSwig)
