@@ -63,8 +63,22 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     ++outputIt;
     }
    
-  // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  // support progress methods/callbacks.
+  // count the number of inputs that are non-null
+  unsigned int numberOfValidInputImages = 0;
+  for (unsigned int i=0; i < numberOfInputImages; ++i)
+    {
+    InputImagePointer inputPtr =
+      dynamic_cast<TInputImage*>( ProcessObject::GetInput( i ) );
+
+    if (inputPtr)
+      {
+      numberOfValidInputImages++;
+      }
+    }
+  ProgressReporter progress(this, threadId,
+                            numberOfValidInputImages
+                            *outputRegionForThread.GetNumberOfPixels());
       
   for(unsigned int inputNumber=0;
       inputNumber < numberOfInputImages; inputNumber++ )
@@ -72,17 +86,20 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     // We use dynamic_cast since inputs are stored as DataObjects.  
     InputImagePointer inputPtr = 
       dynamic_cast<TInputImage*>( ProcessObject::GetInput( inputNumber ) );
-    
-    ImageRegionIterator<TInputImage> inputIt(inputPtr, outputRegionForThread);
 
-    inputIt.GoToBegin();
-    outputIt.GoToBegin();
-    while( !inputIt.IsAtEnd() ) 
+    if (inputPtr)
       {
-      outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
-      ++inputIt;
-      ++outputIt;
-      progress.CompletedPixel();
+      ImageRegionIterator<TInputImage> inputIt(inputPtr,outputRegionForThread);
+      
+      inputIt.GoToBegin();
+      outputIt.GoToBegin();
+      while( !inputIt.IsAtEnd() ) 
+        {
+        outputIt.Set( m_Functor( outputIt.Get(), inputIt.Get() ) );
+        ++inputIt;
+        ++outputIt;
+        progress.CompletedPixel();
+        }
       }
     }
 }
