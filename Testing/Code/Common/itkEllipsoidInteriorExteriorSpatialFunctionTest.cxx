@@ -125,6 +125,12 @@ int main()
   // This should actually be some function of the image/ellipsoid size.
   if(volumeError <= 5 || functionValue == 1)
     {
+    
+    // With testing settings, results should yield:
+    // calculated ellipsoid volume = 12566.4 pixels
+    // measured ellipsoid volume = 12428 pixels
+    // volume error = 1.10907%
+    // function value = 1
     std::cout << "calculated ellipsoid volume = " << volume << std::endl
               << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
               << "volume error = " << volumeError << "%" << std::endl
