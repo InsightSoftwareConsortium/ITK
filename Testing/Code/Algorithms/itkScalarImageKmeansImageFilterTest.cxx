@@ -21,6 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScalarImageKmeansImageFilter.h"
+#include "itkRelabelComponentImageFilter.h"
 
 
 int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
@@ -101,11 +102,23 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   typedef KMeansFilterType::OutputImageType  OutputImageType;
 
+  typedef itk::RelabelComponentImageFilter< 
+                                OutputImageType,
+                                OutputImageType > RelabelFilterType;
+                        
+    
+  RelabelFilterType::Pointer relabeler = RelabelFilterType::New();
+
+  relabeler->SetInput( kmeansFilter->GetOutput() );
+
+
+
+
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
   
-  writer->SetInput( kmeansFilter->GetOutput() );
+  writer->SetInput( relabeler->GetOutput() );
 
   writer->SetFileName( argv[2] );
 
@@ -122,6 +135,22 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
 
+  typedef std::vector< unsigned long > SizesType;
+  
+  const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
+
+  SizesType::const_iterator sizeItr = sizes.begin();
+  SizesType::const_iterator sizeEnd = sizes.end();
+
+  std::cout << "Number of pixels per class " << std::endl;
+  unsigned int kclass = 0;
+  while( sizeItr != sizeEnd )
+    {
+    std::cout << "Class " << kclass << " = " << *sizeItr << std::endl;
+    ++kclass;
+    ++sizeItr;
+    }
+  
   return EXIT_SUCCESS;
 }
 
