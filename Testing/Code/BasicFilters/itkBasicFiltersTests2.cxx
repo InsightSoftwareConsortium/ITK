@@ -47,6 +47,7 @@ void RegisterTests()
   REGISTER_TEST(itkVectorResampleImageFilterTest );
   REGISTER_TEST(itkVectorRescaleIntensityImageFilterTest );
   REGISTER_TEST(itkWarpImageFilterTest );
+  REGISTER_TEST(itkWarpMeshFilterTest );
   REGISTER_TEST(itkWeightedAddImageFilterTest);
   REGISTER_TEST(itkWarpVectorImageFilterTest );
   REGISTER_TEST(itkWrapPadImageTest );
