@@ -685,9 +685,6 @@ CellularAggregate<NSpaceDimension>
   typename SubstrateType::IndexType index;
   typedef typename SubstrateType::IndexType::IndexValueType IndexValueType;
 
-  typename SubstrateType::SizeType  substrateSize = 
-                    substrate->GetBufferedRegion().GetSize();
-
   substrate->TransformPhysicalPointToIndex( cellPosition, index );
 
   SubstrateValueType  value = 0;
