@@ -148,21 +148,6 @@ int main(int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
-  //
-  //  The Fourier Transform type can now be used for constructing one of such
-  //  filters. Note that this is a VNL class and does not follows ITK notation
-  //  for construction and assignment to SmartPointers.
-  //
-  //  Software Guide : EndLatex 
-
-
-  // Software Guide : BeginCodeSnippet
-  FFTCalculator  fftCalculator( numberOfPoints );
-  // Software Guide : EndCodeSnippet
-
-
    
   //  Software Guide : BeginLatex
   //
@@ -194,6 +179,23 @@ int main(int argc, char * argv[] )
                                           log( (double)(2.0)));
 
   const unsigned int spectrumSize = 1 << powerOfTwo;
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The Fourier Transform type can now be used for constructing one of such
+  //  filters. Note that this is a VNL class and does not follows ITK notation
+  //  for construction and assignment to SmartPointers.
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  FFTCalculator  fftCalculator( spectrumSize );
+  // Software Guide : EndCodeSnippet
+
+
 
   FFTSpectrumType signal( spectrumSize );  
 
