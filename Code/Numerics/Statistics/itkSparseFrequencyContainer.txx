@@ -58,10 +58,8 @@ bool
 SparseFrequencyContainer< TFrequencyValue >
 ::SetFrequency(const InstanceIdentifier id, const FrequencyType value)
 { 
-  if( id >= m_FrequencyContainer.size() )
-    {
-    return false;
-    }
+  // No need to test for bounds because in a map container the
+  // element is allocated if the key doesn't exist yet
   FrequencyType frequency = this->GetFrequency(id) ;
   m_FrequencyContainer[id] = value ; 
   m_TotalFrequency += (value - frequency) ;
@@ -90,10 +88,8 @@ bool
 SparseFrequencyContainer< TFrequencyValue >
 ::IncreaseFrequency(const InstanceIdentifier id, const FrequencyType value)
 {
-  if( id >= m_FrequencyContainer.size() )
-    {
-    return false;
-    }
+  // No need to test for bounds because in a map container the
+  // element is allocated if the key doesn't exist yet
   FrequencyType frequency = this->GetFrequency(id) ;
   m_FrequencyContainer[id] = frequency + value ; 
   m_TotalFrequency += value ;
