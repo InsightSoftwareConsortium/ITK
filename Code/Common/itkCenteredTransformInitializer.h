@@ -113,6 +113,11 @@ public:
   /** Initialize the transform using data from the images */
   void InitializeTransform() const;
 
+  /** Select between using the geometrical center of the images or 
+      using the center of mass given by the image intensities. */
+  void GeometryOn() { m_UseMoments = false; }
+  void MomentsOn()  { m_UseMoments = true; }
+
 
 protected:
   CenteredTransformInitializer() {};
@@ -129,6 +134,8 @@ private:
   FixedImagePointer   m_FixedImage;
 
   MovingImagePointer  m_MovingImage;
+
+  bool                m_UseMoments;
 
 }; //class CenteredTransformInitializer
 

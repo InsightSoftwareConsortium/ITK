@@ -53,28 +53,68 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     m_MovingImage->GetSource()->Update();
     }
 
-  typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
-  typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
 
-  FixedImageCalculatorType    fixedCalculator;
-  MovingImageCalculatorType   movingCalculator;
+  InputPointType    rotationCenter;
+  OutputVectorType  translationVector;
 
-  fixedCalculator.ComputeMoments(  m_FixedImage );
-  movingCalculator.ComputeMoments( m_MovingImage );
-  
-  typename FixedImageCalculatorType::VectorType fixedCenter =
-                        fixedCalculator.GetCenterOfGravity();
 
-  typename MovingImageCalculatorType::VectorType movingCenter =
-                        movingCalculator.GetCenterOfGravity();
-
-  InputPointType rotationCenter;
-  OutputVectorType translationVector;
-
-  for( unsigned int i=0; i<InputSpaceDimension; i++)
+  if( m_UseMoments )
     {
-    rotationCenter[i]    = movingCenter[i];
-    translationVector[i] = movingCenter[i] - fixedCenter[i];
+    // Here use the center of mass for each image.
+    typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
+    typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
+
+    FixedImageCalculatorType    fixedCalculator;
+    MovingImageCalculatorType   movingCalculator;
+
+    fixedCalculator.ComputeMoments(  m_FixedImage );
+    movingCalculator.ComputeMoments( m_MovingImage );
+    
+    typename FixedImageCalculatorType::VectorType fixedCenter =
+                          fixedCalculator.GetCenterOfGravity();
+
+    typename MovingImageCalculatorType::VectorType movingCenter =
+                          movingCalculator.GetCenterOfGravity();
+
+    for( unsigned int i=0; i<InputSpaceDimension; i++)
+      {
+      rotationCenter[i]    = movingCenter[i];
+      translationVector[i] = movingCenter[i] - fixedCenter[i];
+      }
+    }
+  else 
+    {
+    // Here use the geometrical center of each image.
+
+    const double * fixedSpacing = m_FixedImage->GetSpacing();
+    const double * fixedOrigin  = m_FixedImage->GetOrigin();
+    
+    typename FixedImageType::SizeType fixedSize = 
+              m_FixedImage->GetLargestPossibleRegion().GetSize();
+    
+    typename TransformType::InputPointType centerFixed;
+    
+    centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
+    centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
+
+
+    const double * movingSpacing = m_MovingImage->GetSpacing();
+    const double * movingOrigin  = m_MovingImage->GetOrigin();
+    
+    typename MovingImageType::SizeType movingSize = 
+              m_MovingImage->GetLargestPossibleRegion().GetSize();
+    
+    typename TransformType::InputPointType centerMoving;
+    
+    centerMoving[0] = movingOrigin[0] + movingSpacing[0] * movingSize[0] / 2.0;
+    centerMoving[1] = movingOrigin[1] + movingSpacing[1] * movingSize[1] / 2.0;
+
+    for( unsigned int i=0; i<InputSpaceDimension; i++)
+      {
+      rotationCenter[i]    = centerMoving[i];
+      translationVector[i] = centerMoving[i] - centerFixed[i];
+      }
+
     }
 
   m_Transform->SetCenterOfRotation( rotationCenter );
