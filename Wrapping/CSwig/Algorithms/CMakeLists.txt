@@ -21,6 +21,7 @@ SET(WRAP_SOURCES
     wrap_itkNarrowBandLevelSetImageFilter
     wrap_itkPDEDeformableRegistrationFilter
     wrap_itkNarrowBandCurvesLevelSetImageFilter
+    wrap_itkVoronoiSegmentationImageFilter
     wrap_itkWatershedImageFilter
 )
 

@@ -42,6 +42,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkMattesMutualInformationImageToImageMetric),
     ITK_WRAP_GROUP(itkPDEDeformableRegistrationFilter),
     ITK_WRAP_GROUP(itkRecursiveMultiResolutionPyramidImageFilter),
+    ITK_WRAP_GROUP(itkVoronoiSegmentationImageFilter),
     ITK_WRAP_GROUP(itkWatershedImageFilter)
   };
 }
