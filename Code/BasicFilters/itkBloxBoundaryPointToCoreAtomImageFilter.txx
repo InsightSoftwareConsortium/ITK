@@ -62,9 +62,8 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   // Allocate the output
   m_OutputPtr->SetBufferedRegion( m_OutputPtr->GetRequestedRegion() );
   m_OutputPtr->Allocate();
-
+  
   // To avoid appending data, empty the output image
-  printf("BloxBoundaryPointToCoreAtomImageFilter prior to emptying m_OutputPtr\n");
   m_OutputPtr->EmptyImage();
 
   this->FindCoreAtoms();

@@ -50,17 +50,12 @@ void
 BloxImage<TBloxPixelType, VImageDimension>
 ::EmptyImage()
 {
-  printf("In BloxImage::EmptyImage()\n");
-  // Create an iterator to walk this image
-  typedef ImageRegionIterator<Self> TImageIterator;
+  const unsigned long numberOfPixels =
+    this->GetBufferedRegion().GetNumberOfPixels();
 
-  TImageIterator imageIt ( this,
-                           this->GetLargestPossibleRegion() );
-
-  // Iterate through the entire image and delete the contents of each pixel
-  for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
+  for(unsigned int i=0; i<numberOfPixels; i++) 
     {
-    ( imageIt.Get() ).DeleteListEntries();
+    this->GetBufferPointer()[i].DeleteListEntries();
     }
 }
 
