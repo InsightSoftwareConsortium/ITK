@@ -20,6 +20,10 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
+#if defined(_MSC_VER) && (_MSC_VER >= 1300)
+#pragma function(exp)
+#endif
+
 namespace itk
 {
   
