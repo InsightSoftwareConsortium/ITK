@@ -34,7 +34,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   IndexType          index,current;
   SizeType           size;
   ListType::iterator  iter;
-  TOutputImage::RegionType region;
+  RegionType region;
 
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::Pointer input = this->GetInput();

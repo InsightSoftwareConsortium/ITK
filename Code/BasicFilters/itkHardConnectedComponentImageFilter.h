@@ -75,6 +75,7 @@ public:
   typedef TOutputImage OutputImageType;
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
+  typedef   typename TOutputImage::RegionType     RegionType;
   typedef   std::list<IndexType>                  ListType;
   /** 
    * Smart pointer typedef support 
