@@ -569,7 +569,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
       { 
         coord[ii] = coord[ii]/(float)m_ImageScaling[ii];
       }
-      coord=(*node)->SetCoordinates(coord);  
+      (*node)->SetCoordinates(coord);  
     }
   }
    else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
