@@ -79,7 +79,7 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD( HexahedronC03D, LoadGrav,       LoadGravImplementationHexahedronC03D );
   REGISTER_LOAD( HexahedronC03D, LoadGravConst,  LoadGravImplementationHexahedronC03D );
 
-  // Loads acting on HexahedronC03D element
+  // Loads acting on TetrahedronC03D element
   REGISTER_LOAD( TetrahedronC03D, LoadGrav,      LoadGravImplementationTetrahedronC03D );  
   REGISTER_LOAD( TetrahedronC03D, LoadGravConst, LoadGravImplementationTetrahedronC03D );
 

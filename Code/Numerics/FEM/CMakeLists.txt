@@ -49,6 +49,8 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImplementationGravMembraneC02D.cxx
   itkFEMLoadImplementationGravQuadC02D.cxx
   itkFEMLoadImplementationGravTriC02D.cxx
+  itkFEMLoadImplementationGravTetrahedronC03D.cxx
+  itkFEMLoadImplementationGravHexahedronC03D.cxx
 
   itkFEMLoadImplementationEdgeTriC02D.cxx
   itkFEMLoadImplementationEdgeQuadC02D.cxx
@@ -62,6 +64,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMSolver.cxx
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
+  itkFEMLinearSystemWrapperDenseVNL.cxx
   itkFEMItpackLinearSystemWrapper.cxx
   itkFEMItpackSparseMatrix.cxx
 
@@ -120,6 +123,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
+  itkFEMLinearSystemWrapperDenseVNL.h
   itkFEMItpackLinearSystemWrapper.h
   itkFEMItpackSparseMatrix.h
   

@@ -108,7 +108,7 @@ public:
    */
   vnl_matrix<Float> ComputeShapeFunctionDerivativesAt(Float[]) const;
 
-private:
+//private:
   /**
    * Compute the determinant of the Jacobian Matrix
    * at a given point
