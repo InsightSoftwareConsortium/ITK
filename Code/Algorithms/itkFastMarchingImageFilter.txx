@@ -92,7 +92,13 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Fast Marching" << std::endl;
+  os << indent << "Alive points: " << m_AlivePoints.GetPointer() << std::endl;
+  os << indent << "Trial points: " << m_TrialPoints.GetPointer() << std::endl;
+  os << indent << "Speed image: " << m_SpeedImage.GetPointer() << std::endl;
+  os << indent << "Speed constant: " << m_SpeedConstant << std::endl;
+  os << indent << "Stopping value: " << m_StoppingValue << std::endl;
+  os << indent << "Collect points: " << m_CollectPoints << std::endl;
+  os << indent << "Output size: " << m_OutputSize << std::endl;
 }
 
 

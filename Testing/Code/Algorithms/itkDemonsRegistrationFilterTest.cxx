@@ -236,6 +236,8 @@ int main()
   warper->SetOutputSpacing( target->GetSpacing() );
   warper->SetOutputOrigin( target->GetOrigin() );
 
+  warper->Print( std::cout );
+
   warper->Update();
  
   // ---------------------------------------------------------

@@ -158,6 +158,8 @@ int main()
   std::cout << "Running narrow-band version" << std::endl;
   detector->Update();
   
+  // Exercise various member variables
+  detector->Print( std::cout );
 
   return EXIT_SUCCESS;
 

@@ -76,8 +76,11 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Edge image: " << m_EdgeImage.GetPointer() << std::endl;
+  os << indent << "Length penalty strength: ";
+  os << m_LengthPenaltyStrength << std::endl;
+  os << indent << "Propagate outwards: " << m_PropagateOutwards << std::endl;
 
-  os << indent << "Level set shape detection" << std::endl;
 }
 
 

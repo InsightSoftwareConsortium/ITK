@@ -95,8 +95,17 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Level set value: " << m_LevelSetValue << std::endl;
+  os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
+  os << indent << "Input narrow bandwidth: " << m_InputNarrowBandwidth;
+  os << std::endl;
+  os << indent << "Output narrow bandwidth: " << m_OutputNarrowBandwidth;
+  os << std::endl;
+  os << indent << "Input narrow band: " << m_InputNarrowBand.GetPointer();
+  os << std::endl;
+  os << indent << "Output narrow band: " << m_OutputNarrowBand.GetPointer();
+  os << std::endl;
 
-  os << indent << "Reinitialize level set:" << std::endl;
 }
 
 

@@ -213,11 +213,12 @@ MultiResolutionRegistration<TRegistrationMethod>
   Superclass::PrintSelf(os,indent);
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
   os << indent << "Internal registration method: ";
-  os << m_InternalRegistrationMethod << std::endl;
-  os << indent << "Target pyramid: " << m_TargetPyramid;
+  os << m_InternalRegistrationMethod.GetPointer() << std::endl;
+  os << indent << "Target pyramid: " << m_TargetPyramid.GetPointer();
   os << std::endl;
-  os << indent << "Reference pyramid: " << m_ReferencePyramid;
+  os << indent << "Reference pyramid: " << m_ReferencePyramid.GetPointer();
   os << std::endl;
+  os << indent << "Current level: " << m_CurrentLevel << std::endl;
 
 }
 

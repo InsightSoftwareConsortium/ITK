@@ -104,7 +104,9 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   os << m_OutputOrigin[j] << "]" << std::endl;
 
   os << indent << "EdgePaddingValue: ";
-  os << m_EdgePaddingValue << std::endl;
+  os << (double) m_EdgePaddingValue << std::endl;
+
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   
 }
 

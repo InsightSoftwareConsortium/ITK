@@ -79,6 +79,15 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Inflation strength: " << m_InflationStrength;
+  os << std::endl;
+  os << indent << "Edge image derivatives: [";
+  int j;
+  for ( j = 0; j < SetDimension - 1; j++ )
+    {
+    os << m_DerivImages[j].GetPointer() << ", ";
+    }
+  os << m_DerivImages[j].GetPointer() << "]" << std::endl;
 
 }
 

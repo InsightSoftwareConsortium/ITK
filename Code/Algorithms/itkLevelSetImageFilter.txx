@@ -76,10 +76,11 @@ LevelSetImageFilter<TLevelSet>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Evolve level set:" << std::endl;
-  os << indent << "Time step size:" << m_TimeStepSize << std::endl;
+  os << indent << "Time step size: " << m_TimeStepSize << std::endl;
   os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
+  os << indent << "Narrow bandwidth: " << m_NarrowBandwidth << std::endl;
+  os << indent << "Input narrow band: " << m_InputNarrowBand.GetPointer() << std::endl;
+  os << indent << "No. iterations: " << m_NumberOfIterations << std::endl;  
 }
 
 /**

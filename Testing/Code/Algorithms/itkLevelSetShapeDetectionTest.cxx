@@ -137,6 +137,9 @@ int main()
   detector->SetNarrowBandwidth( 10.0 );
   detector->Update();
 
+  // Exercise various member variables
+  detector->Print( std::cout );
+
   return EXIT_SUCCESS;
 
 }

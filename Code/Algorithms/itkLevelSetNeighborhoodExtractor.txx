@@ -78,7 +78,12 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Locate level set " << m_LevelSetValue << std::endl;
+  os << indent << "Level set value: " << m_LevelSetValue << std::endl;
+  os << indent << "Narrow bandwidth: " << m_NarrowBandwidth;
+  os << std::endl;
+  os << indent << "Narrowbanding: " << m_NarrowBanding;
+  os << indent << "Input narrow band: ";
+  os << m_InputNarrowBand.GetPointer() << std::endl;
 }
 
 /**
