@@ -118,7 +118,7 @@ class Matrix {
    * Matrix by scalar multiplication. 
    */
   void operator*=(const T & value)
-                    { m_Matrix * value; }
+                    { m_Matrix *= value; }
  
 
   /**
