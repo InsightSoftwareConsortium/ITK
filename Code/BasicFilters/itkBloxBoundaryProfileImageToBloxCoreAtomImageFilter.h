@@ -55,7 +55,8 @@ public:
   itkTypeMacro( itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter, ImageToImageFilter );
 
   /** Number of dimensions */
-  enum {NDimensions = dim};
+  itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   typedef BloxCoreAtomImage<dim>                  TOutputImage;
   typedef BloxCoreAtomImage<dim>                  OutputImageType;
@@ -77,7 +78,7 @@ public:
   typedef typename SourceImageType::IndexType           SourceImageIndexType;
 
   /** Image size typedef */
-  typedef Size<TOutputImage::ImageDimension> SizeType;
+  typedef Size<itkGetStaticConstMacro(ImageDimension)> SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
@@ -89,13 +90,13 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, NDimensions> GradientType;
+  typedef CovariantVector<double, itkGetStaticConstMacro(NDimensions)> GradientType;
 
   /** Walk the input image, find core atoms, store them.  */
   void FindCoreAtoms();

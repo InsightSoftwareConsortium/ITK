@@ -90,7 +90,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "GetAverageSliceImageFilter.txx"
+#include "itkGetAverageSliceImageFilter.txx"
 #endif
 
 #endif

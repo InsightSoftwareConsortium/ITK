@@ -111,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "MSP.txx"
+#include "itkMidsagittalPlaneExtractionImageFilter.txx"
 #endif
 
 #endif

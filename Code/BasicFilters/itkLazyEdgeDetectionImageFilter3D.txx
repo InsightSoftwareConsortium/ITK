@@ -17,7 +17,7 @@
 #ifndef _itkLazyEdgeDetectionImageFilter3D_txx
 #define _itkLazyEdgeDetectionImageFilter3D_txx
 
-
+#include "itkLazyEdgeDetectionImageFilter3D.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 
 

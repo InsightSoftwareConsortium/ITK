@@ -29,8 +29,7 @@
 #include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
-#include "MSP_utils.h"
-#include "itkLazyEdgeDetectionImageFiilter3D.h"
+#include "itkLazyEdgeDetectionImageFilter3D.h"
 
 namespace itk
 {

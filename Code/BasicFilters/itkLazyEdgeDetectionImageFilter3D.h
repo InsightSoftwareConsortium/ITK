@@ -88,7 +88,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "lazyEdgeDetector3D.txx"
+#include "itkLazyEdgeDetectionImageFilter3D.txx"
 #endif
 
 #endif
