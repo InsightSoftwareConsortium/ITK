@@ -21,15 +21,11 @@
 #include "DICOMParser.h"
 #include "DICOMCallback.h"
 
-/*
-  #ifdef WIN32
-  #define WORDS_LITTLEENDIAN
-  #endif
-*/
 
 // Define DEBUG_DICOM to get debug messages sent to std::cerr
 // #define DEBUG_DICOM
-// #define DUMP_ALL_DICOM_TAGS
+
+#define DICOMPARSER_IGNORE_MAGIC_NUMBER
 
 #ifdef DEBUG_DICOM
 #define DICOM_DBG_MSG(x) {std::cout x}
@@ -45,16 +41,7 @@ static const int   OPTIONAL_SKIP = 128;
 //    GetSection and PutSection.  
 DICOMParser::DICOMParser() :  DebugFile() 
 {
-  /*
-  // Image data on disk is stored in LITTLEENDIAN format
-  #ifdef WORDS_LITTLEENDIAN
-  ByteSwap = false;
-  ByteSwapData = false;
-  #else
-  ByteSwap = true;
-  ByteSwapData = true;
-  #endif
-  */
+  DataFile = NULL;
   this->InitTypeMap();
 }
 
@@ -62,17 +49,6 @@ bool DICOMParser::OpenFile(char* filename)
 {
   DataFile = new DICOMFile();
   bool val = DataFile->Open(filename);
-
-#ifdef  DUMP_ALL_DICOM_TAGS
-  char debug_filename[4096];
-  sprintf(debug_filename, "%s.txt", filename);
-  DebugFile.open(debug_filename);
-
-  if (!DebugFile.is_open())
-    {
-    std::cerr << "Couldn't open debug file!" << endl;
-    }
-#endif
   return val;
 }
 
@@ -97,7 +73,16 @@ bool DICOMParser::ReadHeader() {
       {
       std::cerr << "Error, DICOMParser magic number is incorrect: "
                 << Header.magic_num << std::endl;
+#ifndef DICOMPARSER_IGNORE_MAGIC_NUMBER
       return false;
+#else
+    //
+    // Try it anyways...
+    //
+    std::cerr << "Ignoring bad magic number and restarting";
+    std::cerr << " parsing at start of file." << std::endl;
+    DataFile->SkipToPos(0);
+#endif
       }
     }
 
@@ -111,10 +96,10 @@ bool DICOMParser::ReadHeader() {
   // Now, really parse the header.
   //
   // DataFile->SkipToPos(startHeaderPos);
+  
   do 
     {
     this->ReadNextRecord(group, element);
-
     } while (DataFile->Tell() < DataFile->GetSize());
 
   DebugFile.close();
@@ -231,10 +216,18 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
   group = DataFile->ReadDoubleByte();
   element = DataFile->ReadDoubleByte();
 
-  doublebyte representation = DataFile->ReadDoubleByte();
+  doublebyte representation = DataFile->ReadDoubleByteNoSwap();
   quadbyte length = 0;
   VRTypes mytype = VR_UNKNOWN;
   this->IsValidRepresentation(representation, length, mytype);
+  // this->ParseExplicitRecord(group, element, length, mytype);
+
+  /*
+  if (group == 0x7FE0 && element == 0x0010) 
+    {
+    std::cout << "*** Length: " << length << " bytes." << std::endl;
+    }
+  */
 
   DICOMParserMap::iterator iter = 
     Map.find(DICOMMapKey(group,element));
@@ -246,8 +239,10 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     //
     unsigned char* tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
 
-    // this->DumpTag(group, element, VRTypes::VR_UNKNOWN, tempdata, length);
-        
+#ifdef DEBUG_DICOM
+    this->DumpTag(group, element, mytype, tempdata, length);
+#endif
+
     DICOMMapKey ge = (*iter).first;
     VRTypes valType = VRTypes(((*iter).second.first));
 
@@ -276,10 +271,13 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     //
     if (length > 0) 
       {
+      //std::cout << "Skipping: " << length << std::endl;
       DataFile->Skip(length);
       }
-    //this->DumpTag(group, element, VRTypes::VR_UNKNOWN, (unsigned char*) "NULL", length);
-    }
+#ifdef DEBUG_DICOM
+    this->DumpTag(group, element, mytype, (unsigned char*) "NULL", length);
+#endif
+  }
 
 
 }
@@ -358,7 +356,7 @@ void DICOMParser::SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRT
 }
 
 
-int DICOMParser::CheckMagic(char* magic_number) 
+bool DICOMParser::CheckMagic(char* magic_number) 
 {
   return (
           (magic_number[0] == DICOM_MAGIC[0]) &&
@@ -368,24 +366,33 @@ int DICOMParser::CheckMagic(char* magic_number)
           );
 }
 
-void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes, unsigned char* tempdata, quadbyte length)
+void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length)
 {
+
+  int t2 = int((0x0000FF00 & vrtype) >> 8);
+  int t1 = int((0x000000FF & vrtype));
+
+  char ct2(t2);
+  char ct1(t1);
+  
   if (group == 0x7FE0 && element == 0x0010)
     {
-    std::cout << std::cout.fill('0');
-    std::cout << "(" << std::hex << std::cout.width(4) << group << ", " << std::hex << std::cout.width(4) << element << ")  : ";
+    std::cout << "(0x" << std::hex << group << ", 0x" << std::hex << element << ")  : ";
     std::cout << "Image data not printed.";
     std::cout << std::dec;
-    std::cout << " [" << length << " bytes] " << std::endl;
+    std::cout << " [" << length << " bytes] " << ct1 << ct2 << std::endl;
     }
   else
     {
-    std::cout << std::cout.fill('0');
-    std::cout << "(" << std::hex << std::cout.width(4) << group << ", " << std::hex << std::cout.width(4) << element << ")  : ";
+    std::cout << "(0x" << std::hex << group << ", 0x" << std::hex << element << ")  : ";
     std::cout << (tempdata ? (char*) tempdata : "NULL");
     std::cout << std::dec;
-    std::cout << " [" << length << " bytes] " << std::endl;
+    std::cout << " [" << length << " bytes] " << ct1 << ct2 << std::endl;
     }
+
+  std::cout << std::dec;
+  return;
+
 }
 
 void DICOMParser::ModalityTag(doublebyte, doublebyte, VRTypes, unsigned char* tempdata, quadbyte)

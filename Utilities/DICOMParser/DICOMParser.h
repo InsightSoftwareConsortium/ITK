@@ -61,10 +61,19 @@ class DICOMParser
   //
   static bool IsDICOMFile(DICOMFile* file);
 
+  bool IsDICOMFile()
+    {
+    if (!this->DataFile)
+      {
+      return false;
+      }
+    return DICOMParser::IsDICOMFile(this->DataFile);
+    }
+
   //
   // Static method that checks the DICOM magic number.
   //
-  static int CheckMagic(char* magic_number);
+  static bool CheckMagic(char* magic_number);
 
   //
   // Defined DICOM types.
@@ -112,9 +121,15 @@ class DICOMParser
   void AddDICOMTagCallbackToAllTags(DICOMCallback* cb);
 
   DICOMFile* GetDICOMFile()
-  {
+    {
     return this->DataFile;
-  }
+    }
+
+  void ClearAllDICOMTagCallbacks()
+    {
+    Map.clear();
+    }
+
 
  protected:
 
