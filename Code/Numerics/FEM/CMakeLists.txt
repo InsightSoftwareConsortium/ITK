@@ -62,6 +62,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImplementationGravTriC02D.cxx
   itkFEMLoadImplementationGravTetrahedronC03D.cxx
   itkFEMLoadImplementationGravHexahedronC03D.cxx
+  itkFEMLoadImplementationGenericBodyLoad.cxx
 
   itkFEMLoadImplementationEdgeTriC02D.cxx
   itkFEMLoadImplementationEdgeQuadC02D.cxx

@@ -56,7 +56,7 @@ namespace fem {
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element class.
  */
-template<unsigned int VNumberOfNodes, unsigned int VNumberOfDegreesOfFreedomPerNode, class TBaseClass=ElementNew>
+template<unsigned int VNumberOfNodes, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass=ElementNew>
 class ElementStd : public TBaseClass
 {
 FEM_CLASS_SP(ElementStd,TBaseClass)
@@ -92,6 +92,11 @@ public:
    * Total number of degrees of freedom in an element
    */
   enum { NDOF=NumberOfNodes*NumberOfDegreesOfFreedomPerNode };
+
+  /**
+   * Number of dimensions of space in which element can exist.
+   */
+  enum { NumberOfSpatialDimensions=VNumberOfSpatialDimensions };
 
 
 
@@ -131,6 +136,11 @@ public:
   virtual const VectorType& GetNodeCoordinates( unsigned int n ) const
   {
     return m_node[n]->GetCoordinates();
+  }
+
+  virtual unsigned int GetNumberOfSpatialDimensions() const
+  {
+    return NumberOfSpatialDimensions;
   }
 
 

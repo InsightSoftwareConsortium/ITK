@@ -36,9 +36,9 @@ namespace fem {
  * the problem is known.
  */
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-class Element2DC0LinearQuadrilateral : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode>
+class Element2DC0LinearQuadrilateral : public ElementStd<4,VNumberOfDegreesOfFreedomPerNode,2>
 {
-typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode> TemplatedParentClass;
+typedef ElementStd<4,VNumberOfDegreesOfFreedomPerNode,2> TemplatedParentClass;
 FEM_CLASS_SP( Element2DC0LinearQuadrilateral, TemplatedParentClass )
 public:
 

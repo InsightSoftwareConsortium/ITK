@@ -407,9 +407,8 @@ void ElementNew::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixTyp
 ElementNew::VectorType
 ElementNew::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 {
-  MatrixType nc;
-
   unsigned int Nnodes=this->GetNumberOfNodes();
+  MatrixType nc(this->GetNumberOfSpatialDimensions(),Nnodes);
   for(unsigned int n=0; n<Nnodes; n++)
   {
     nc.set_column( n,this->GetNodeCoordinates(n) );

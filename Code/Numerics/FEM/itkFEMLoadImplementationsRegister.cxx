@@ -35,7 +35,10 @@
 #include "itkFEMElementC1IsoCurve2D.h"
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMElementTetrahedronC03D.h"
+
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
+#include "itkFEMElement3DC0LinearTetrahedronStrain.h"
+#include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
 namespace itk {
 namespace fem {
@@ -43,10 +46,49 @@ namespace fem {
 
 
 
+/**
+ * \class GenericBodyLoad
+ * \brief Templated class that holds a generic body load implementation.
+ *
+ * The only useful part of this class is a static function HandleLoad
+ * This function is declared within a class only to avoid problems with
+ * MS compiler. The real gravyty load implementation is in function
+ * LoadImplementationGenericBodyLoad.
+ *
+ * \sa LoadImplementationGenericBodyLoad()
+ */
+extern ElementNew::VectorType LoadImplementationGenericBodyLoad(ElementNew::ConstPointer, LoadGrav::Pointer);
+namespace {
+template<class TElementClass>
+class GenericBodyLoad
+{
+public:
+  static ElementNew::VectorType HandleBodyLoad(TElementClass::ConstPointer e, ElementNew::LoadElementPointer l)
+  {
+    LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
+    if ( !l0 )
+    {
+      // Passed load object was not of class LoadGrav!
+      throw FEMException(__FILE__, __LINE__, "FEM error");
+    }
+    ElementNew::ConstPointer e0=e;
+
+    return LoadImplementationGenericBodyLoad(e0,l0);
+  }
+
+};
+} // end namespace
+
+
+
 /* This macro makes registering Load implementations easier. */
+#define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
+  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
+/* Use this macro to also automatically declare load implementation function. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
   extern ElementClass::LoadVectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \
-  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
+  REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName)
+
 
 
 
@@ -58,43 +100,42 @@ void LoadImplementationsRegister(void)
 {
 
   // Loads acting on Bar2D element
-  REGISTER_LOAD( Bar2D,        LoadGrav,         LoadGravImplementationBar2D    );
   REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementationBar2D    );
   REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementationBar2D   );
 
   // Loads acting on Beam2D element
-  REGISTER_LOAD( Beam2D,       LoadGrav,         LoadGravImplementationBeam2D   );
   REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementationBeam2D   );
   REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementationBeam2D  );
 
   // Loads acting on TriC02D element
-  REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementationTriC02D  );
   REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementationTriC02D  );
   REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementationTriC02D  );
 
   // Loads acting on QuadC02D element
-  REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementationQuadC02D );
   REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementationQuadC02D );
   REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementationQuadC02D );
 
   // Loads acting on MembraneC02D element
   REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementationMembraneC02D );
   
-/*  typedef Image< unsigned char, 2 > ImageType;
-  VisitorDispatcher<MembraneC02D, LoadElement, Element::LoadVectorType>
-    ::RegisterVisitor( (LoadImagePairBase<ImageType,ImageType>*)0, 
-                       &LoadGravImplementationMembraneC02D ); */
-
   // Loads acting on C1IsoCurve2D element
   REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementationC1IsoCurve2D );
 
   // Loads acting on HexahedronC03D element
-  REGISTER_LOAD( HexahedronC03D, LoadGrav,       LoadGravImplementationHexahedronC03D );
   REGISTER_LOAD( HexahedronC03D, LoadGravConst,  LoadGravImplementationHexahedronC03D );
 
   // Loads acting on TetrahedronC03D element
-  REGISTER_LOAD( TetrahedronC03D, LoadGrav,      LoadGravImplementationTetrahedronC03D );  
   REGISTER_LOAD( TetrahedronC03D, LoadGravConst, LoadGravImplementationTetrahedronC03D );
+
+  // Loads acting on QuadrilateralStress element
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearQuadrilateralStress>::HandleBodyLoad);
+
+  // Loads acting on HexahedronStrain element
+  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearHexahedronStrain>::HandleBodyLoad);
+
+  // Loads acting on TetrahedronStrain element
+  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearTetrahedronStrain>::HandleBodyLoad);
+
 
   // Add any additional loads here in a similar fashion...
   // Make sure that the pointer to the visit function is the correct one!!!

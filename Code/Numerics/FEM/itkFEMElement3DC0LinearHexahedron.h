@@ -36,9 +36,9 @@ namespace fem {
  * the problem is known.
  */
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-class Element3DC0LinearHexahedron : public ElementStd<8,VNumberOfDegreesOfFreedomPerNode>
+class Element3DC0LinearHexahedron : public ElementStd<8,VNumberOfDegreesOfFreedomPerNode,3>
 {
-typedef ElementStd<8,VNumberOfDegreesOfFreedomPerNode> TemplatedParentClass;
+typedef ElementStd<8,VNumberOfDegreesOfFreedomPerNode,3> TemplatedParentClass;
 FEM_CLASS_SP( Element3DC0LinearHexahedron, TemplatedParentClass )
 public:
 

@@ -499,6 +499,13 @@ public:
   virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const = 0;
 
   /**
+   * Returns the number of dimensions of space in which the element is
+   * defined. e.g. 2 for 2D elements, 3 for 3D... This is also equal
+   * to the size vector containing nodal coordinates.
+   */
+  virtual unsigned int GetNumberOfSpatialDimensions() const = 0;
+
+  /**
    * Returns a vector containing the values of all shape functions
    * that define the geometry of a finite element at a given local point
    * within an element.
