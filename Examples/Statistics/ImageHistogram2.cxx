@@ -83,7 +83,8 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram size " << histogramSize << std::endl;
 
-  for( unsigned int bin=0; bin < histogramSize; bin++ )
+  unsigned int bin;
+  for( bin=0; bin < histogramSize; bin++ )
     {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
@@ -100,7 +101,7 @@ int main( int argc, char * argv [] )
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
  
-  unsigned int bin = 0;
+  bin = 0;
   while( itr != end )
     {
     std::cout << "bin = " << bin << " frequency = ";

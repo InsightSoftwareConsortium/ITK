@@ -42,6 +42,8 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex 
 
+  unsigned int i;
+
 // Software Guide : BeginCodeSnippet
   typedef itk::TubeSpatialObject<3>            TubeType;
   typedef TubeType::Pointer                    TubePointer;
@@ -76,7 +78,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   TubeType::PointListType list;
-  for( unsigned int i=0; i<5; i++)
+  for( i=0; i<5; i++)
     {
     TubePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -150,7 +152,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   TubeType::PointListType::const_iterator it = tube->GetPoints().begin();
-  unsigned int i=0;
+  i=0;
   while(it != tube->GetPoints().end())
     {
     std::cout << std::endl;
