@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-/** disable debug warnings in MS compiler */
+// disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
 #endif

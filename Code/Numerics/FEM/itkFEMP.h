@@ -49,19 +49,22 @@ namespace fem {
 
 /**
  * \class FEMP
- * \brief Pointer used to store polymorphic elements in STL arrays
+ * \brief Pointer used to store polymorphic elements in STL arrays.
  *
- * FEMP holds a pointer to objects of class T and its derived classes. it behaves like 
- * a special kind of pointer. special pointers to object can be used to store 
- * polymorphic arrays in STL. the basic idea of the special pointer is:
- *    whatever you do to the pointer (object of class FEMP), is reflected
- *    on the object within (pointed to by data member).
+ * FEMP holds a pointer to objects of class T and its derived classes. it
+ * behaves like a special kind of pointer. Special pointers to object can
+ * be used to store polymorphic arrays in STL. The basic idea of the special
+ * pointer is: whatever you do to the pointer (object of class FEMP), is
+ * also reflected on the object within (pointed to by m_Data member). For
+ * example: if you copy the special pointer, an object within is also copied.
  *
- * for example: if you copy the pointer, an object within is also copied
+ * Class T should have a member Clone() which produces a copy of an object.
+ * This is important in polymorphic classes, where object of the derived
+ * class should be created when copying an existing object.
  *
- * the class T should have a member Clone() which produces a copy of an object. this is
- * important in polymorphic classes, where object of the derived class should be created when
- * copying an existing object.
+ * Class T should also include typedefs T::Pointer and T::ConstPointer that
+ * define standard pointers to the class. Note that these could be
+ * SmartPointer classes.
  */
 template<class T>
 class FEMP
@@ -69,93 +72,111 @@ class FEMP
 public:
 
   /**
-   * default constructor makes sure that data is 0, to prevent problems when deleting data object on destruction
+   * Default constructor makes sure that m_Data is 0,
+   * to prevent problems when deleting m_Data object
+   * on destruction.
    */
-  FEMP() : data(0){}      
-
-  /**
-   * copy constructor. we call the Clone() method to duplicate the existing object
-   */  
-  FEMP(const FEMP& x) 
-  {      
-    if (x.data) { data=static_cast<T*>(&*x.data->Clone()); }
-    else { data=0; }
+  FEMP() : m_Data(0)
+  {
   }
 
   /**
-   * conversion constructor from T* to FEMP<T>. the object T* must exist. we take ownership of object T*
-   * if you want create a copy of object and take ownership of that, use: FEMP(x->Clone()) instead of FEMP(x).
-   */  
-  explicit FEMP(typename T::Pointer x) : data(x) {}
+   * Copy constructor. Clone() method is called
+   * to duplicate the existing object.
+   */
+  FEMP(const FEMP& x)
+  {      
+    if (x.m_Data) { m_Data=static_cast<T*>(&*x.m_Data->Clone()); }
+    else { m_Data=0; }
+  }
 
   /**
-   * destructor of a special pointer class also destroys the actual object
+   * Conversion constructor from T::Pointer to FEMP<T>.
+   * The object T* must exist and we take ownership of object T*
+   * If you want create a copy of object and take ownership of that,
+   * use: FEMP(x->Clone()) instead of FEMP(x).
+   */
+  explicit FEMP(typename T::Pointer x) : m_Data(x)
+  {
+  }
+
+  /**
+   * Destructor of a special pointer class also destroys the actual object.
    */
   ~FEMP()
   {
     #ifndef FEM_USE_SMART_POINTERS
-    delete data;
+    delete m_Data;
     #endif
   }
 
   /**
-   * asignment operator
+   * Asignment operator
    */  
   const FEMP& operator=(const FEMP &rhs);
 
   /**
-   * for easy access of object members
+   * Easy access to members of stored object
    */
-  typename T::Pointer operator-> () const { return data; }
+  typename T::Pointer operator-> () const { return m_Data; }
   
   /**
-   * dereferencing operator provides automatic conversion from special to standard pointer to object
+   * Dereferencing operator provides automatic conversion from 
+   * special to standard pointer to object
    */  
-  operator T * () const { return data; }  
+  operator T * () const
+  {
+    return m_Data;
+  }
   
   /**
-   * returns true if special pointer actually points to a valid object and false otherwise
-   */  
-  bool IsNULL() const {          
-    return (data==0); 
+   * Return true if special pointer actually points
+   * to a valid object and false otherwise.
+   */
+  bool IsNULL() const
+  {
+    return (m_Data==0);
   }
 
 private:
 
   /**
-   * pointer to actual object
+   * Pointer to actual object. Note that this could be a SmartPointer.
    */
-  typename T::Pointer data;
+  typename T::Pointer m_Data;
 
 };
 
+
+/**
+ * Asignment operator
+ */
 template<class T>
 const FEMP<T>& FEMP<T>::operator=(const FEMP<T> &rhs) 
-  {
+{
 
-  /**
-   * self assignments don't make sense
-   */
+  /** Self assignments don't make sense. */
   if (&rhs!=this) 
   {      
     /**
-     * first destroy the existing object on the left hand side
+     * First destroy the existing object on the left hand side
      */
     #ifndef FEM_USE_SMART_POINTERS
-    delete data;
+    delete m_Data;
     #else
-    data=0;
+    m_Data=0;
     #endif
 
     /**
-     * then clone the one on the right hand side of the expression (if not NULL)
+     * Then clone the one on the right hand side
+     * of the expression (if not NULL).
      */
-    if (rhs.data) { data=static_cast<T*>(&*rhs.data->Clone()); }
-    else { data=0; }
+    if (rhs.m_Data) { m_Data=static_cast<T*>(&*rhs.m_Data->Clone()); }
+    else { m_Data=0; }
 
   }
   return *this;
-  }
+}
 
 
 

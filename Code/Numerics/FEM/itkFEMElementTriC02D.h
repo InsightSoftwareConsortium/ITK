@@ -56,8 +56,8 @@ namespace fem {
 
 
 /**
- * \class QuadC02D
- * \brief QuadC02D: 3-noded, C0, element in 2D space
+ * \class TriC02D
+ * \brief 3-noded, C0, element in 2D space
  */
 class TriC02D : public Element
 {
