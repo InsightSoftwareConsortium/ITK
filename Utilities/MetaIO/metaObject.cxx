@@ -1520,14 +1520,14 @@ void* MetaObject
       {
       if((*it)->type == MET_STRING)
         {
-        out = calloc( itLength+1, eSize );
+        out = (void*) (new char[(itLength+1)*eSize] );
         memcpy( out, (*it)->value, itLength * eSize );
         static_cast<char*>(out)[itLength]=0;
         }
       else if((*it)->type == MET_FLOAT_MATRIX)
         {
         const unsigned int numMatrixElements = itLength * itLength;
-        out = calloc( numMatrixElements, eSize );
+        out = (void*) (new char[numMatrixElements*eSize] );
         for( unsigned int i=0; i < numMatrixElements; i++ )
           {
           MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
@@ -1535,7 +1535,7 @@ void* MetaObject
         }
       else
         {
-        out = calloc( itLength, eSize );
+        out = (void*) (new char[itLength*eSize] );
         for( unsigned int i=0; i < itLength; i++ )
           {
           MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
