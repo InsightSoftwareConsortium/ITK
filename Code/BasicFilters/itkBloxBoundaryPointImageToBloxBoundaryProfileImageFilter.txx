@@ -146,11 +146,11 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   double differenceTolerance = 1e-20;
 
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
-  typedef itk::CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
+  typedef CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
   CumulativeGaussianOptimizerType::Pointer optimizer = CumulativeGaussianOptimizerType::New();
 
   // Typedef and initialization for the Cumulative Gaussian Cost Function.
-  typedef itk::CumulativeGaussianCostFunction CostFunctionType;
+  typedef CumulativeGaussianCostFunction CostFunctionType;
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
   // Declare and initialize the data array.
@@ -407,7 +407,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
             boundaryProfile->SetStandardDeviationNormalized();
             boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
             boundaryProfile->SetBoundaryPoint( (*bpiterator) );
-            boundaryProfile->SetGradient(&(*bpiterator)->GetGradient());
+            boundaryProfile->SetGradient((*bpiterator)->GetGradient());
 
             PositionType optimalBoundaryLocation;
             for(unsigned int i = 0; i < NDimensions; i++)
