@@ -83,6 +83,12 @@ template <class TImage, class TAccessor >
 class ITK_EXPORT ImageAdaptor : public ImageBase<GetImageDimension<TImage>::ImageDimension>
 {
 public:
+  /** Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image. */
+  enum { ImageDimension = TImage::ImageDimension };
+
   /** Standard class typedefs. */
   typedef ImageAdaptor  Self;
   typedef ImageBase<ImageDimension> Superclass;
@@ -94,12 +100,6 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
-
-  /** Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image. */
-  enum { ImageDimension = TImage::ImageDimension };
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
