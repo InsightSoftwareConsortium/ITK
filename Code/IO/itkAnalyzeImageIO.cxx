@@ -903,69 +903,57 @@ namespace itk
     {
       char temp[348];
       //Important hk fields.
+      itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
       strncpy(temp,this->m_hdr.hk.data_type,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_OnDiskStorageTypeName"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OnDiskStorageTypeName",temp);
       strncpy(temp,this->m_hdr.hk.db_name,18);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_ImageFileBaseName"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[18]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_ImageFileBaseName",temp);
       //Important dime fields
       strncpy(temp,this->m_hdr.dime.vox_units,4);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_VoxelUnits"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[4]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_VoxelUnits",temp);
       strncpy(temp,this->m_hdr.dime.cal_units,8);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_CalibrationUnits"]=
-        new itk::MetaDataObject<std::string>(temp);
-      //this->GetMetaDataDictionary()["ITK_OnDiskStorageType"]=
-      //  new itk::MetaDataObject<>(temp);
-      this->GetMetaDataDictionary()["ITK_OnDiskBitPerPixel"]=
-        new itk::MetaDataObject<short int>(this->m_hdr.dime.bitpix);
-      this->GetMetaDataDictionary()["SPM_ROI_SCALE"]=
-        new itk::MetaDataObject<float>(this->m_hdr.dime.roi_scale);
-      this->GetMetaDataDictionary()["ANALYZE_CAL_MAX"]=
-        new itk::MetaDataObject<float>(this->m_hdr.dime.cal_max);
-      this->GetMetaDataDictionary()["ANALYZE_CAL_MIN"]=
-        new itk::MetaDataObject<float>(this->m_hdr.dime.cal_min);
-      this->GetMetaDataDictionary()["ANALYZE_GLMAX"]=
-        new itk::MetaDataObject<float>(this->m_hdr.dime.glmax);
-      this->GetMetaDataDictionary()["ANALYZE_GLMIN"]=
-        new itk::MetaDataObject<float>(this->m_hdr.dime.glmin);
+      temp[8]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"Analyze_CalibrationUnits",temp);
+      itk::EncapsulateMetaData<short int>(thisDic,"ITK_OnDiskBitPerPixel",this->m_hdr.dime.bitpix);
+      itk::EncapsulateMetaData<float>(thisDic,"SPM_ROI_SCALE",this->m_hdr.dime.roi_scale);
+      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_CAL_MAX",this->m_hdr.dime.cal_max);
+      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_CAL_MIN",this->m_hdr.dime.cal_min);
+      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_GLMAX",this->m_hdr.dime.glmax);
+      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_GLMIN",this->m_hdr.dime.glmin);
       //Important hist fields
       strncpy(temp,this->m_hdr.hist.descrip,80);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_FileNotes"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[80]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileNotes",temp);
       strncpy(temp,this->m_hdr.hist.aux_file,24);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ANALYZE_AUX_FILE_NAME"]=
-        new itk::MetaDataObject<std::string>(temp);
-      this->GetMetaDataDictionary()["ITK_Orientation"]=
-        new itk::MetaDataObject<itk::IOCommon::ValidOrientationFlags>(static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient));
+      temp[24]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",temp);
+      itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation",
+          static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient));
       strncpy(temp,this->m_hdr.hist.originator,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_FileOriginator"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileOriginator",temp);
       strncpy(temp,this->m_hdr.hist.generated,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ITK_OriginationData"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OriginationDate",temp);
       strncpy(temp,this->m_hdr.hist.scannum,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ANALYZE_ScanNumber"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ScanNumber",temp);
       strncpy(temp,this->m_hdr.hist.patient_id,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ANALYZE_PatientID"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_PatientID",temp);
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ANALYZE_ExperimentDate"]=
-        new itk::MetaDataObject<std::string>(temp);
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentDate",temp);
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
-      this->GetMetaDataDictionary()["ANALYZE_ExperimentTime"]=
-        new itk::MetaDataObject<std::string>(temp);
-      this->GetMetaDataDictionary()["ANALYZE_O_MAX"]=
-        new itk::MetaDataObject<int>(this->m_hdr.hist.omax);
-      this->GetMetaDataDictionary()["ANALYZE_O_MIN"]=
-        new itk::MetaDataObject<int>(this->m_hdr.hist.omin);
-      this->GetMetaDataDictionary()["ANALYZE_S_MAX"]=
-        new itk::MetaDataObject<int>(this->m_hdr.hist.smax);
-      this->GetMetaDataDictionary()["ANALYZE_S_MIN"]=
-        new itk::MetaDataObject<int>(this->m_hdr.hist.smin);
-
+      temp[10]='\0';
+      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentTime",temp);
+      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MAX",this->m_hdr.hist.omax);
+      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MIN",this->m_hdr.hist.omin);
+      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_S_MAX",this->m_hdr.hist.smax);
+      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_S_MIN",this->m_hdr.hist.smin);
     }
     return;
   }

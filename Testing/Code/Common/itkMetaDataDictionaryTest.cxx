@@ -123,99 +123,82 @@ int itkMetaDataDictionaryTest(int argc, char * argv[])
 
   //------------------------Testing of native types
   //-------Floats
-  MyDictionary["ASimpleFloatInitalized"]=new itk::MetaDataObject<float>(1.234560F);
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(MyDictionary["ASimpleFloatInitalized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-
-  MyDictionary["ASimpleConstFloatInitalized"]=new itk::MetaDataObject<const float>(-1000.234560F);
-  std::cout << dynamic_cast<itk::MetaDataObject<const float> *>(MyDictionary["ASimpleConstFloatInitalized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-
-  MyDictionary["ASimpleFloatUnitialized"]=new itk::MetaDataObject<float>;
-  dynamic_cast<itk::MetaDataObject<float> *>(MyDictionary["ASimpleFloatUnitialized"].GetPointer())->SetMetaDataObjectValue(2.2);
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(MyDictionary["ASimpleFloatUnitialized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-
-  MyDictionary["ASimpleFloatInitializedAndChanged"]=new itk::MetaDataObject<float>(1.234560F);
-  dynamic_cast<itk::MetaDataObject<float> *>(MyDictionary["ASimpleFloatInitializedAndChanged"].GetPointer())->SetMetaDataObjectValue(3.3);
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(MyDictionary["ASimpleFloatInitializedAndChanged"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-
-
-  //-------Char pointers --  These can be tricky, so be careful!
-  MyDictionary["char const *"]=new itk::MetaDataObject<char const *>("Value Never Seen");
-  dynamic_cast<itk::MetaDataObject<char const * > *>(MyDictionary["char const *"].GetPointer())->SetMetaDataObjectValue("Value That Is Seen");
-  //This is OK because the pointer can be changed, but the value of the pointer can not. NOTE: no the char array is not copied, just the pointer to the array.
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const *> *>(MyDictionary["char const *"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-
-  MyDictionary["char const * const =\"Initial Value\""]=new itk::MetaDataObject<char const * const>("Initial Value");
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const =\"Initial Value\""].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  //The data can not be changed, and the pointer can not be changed.
-  //Compiler Error: assignment of read-only data-member
-  //dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const =\"Initial Value\""])->SetMetaDataObjectValue("Compiler Error");
-
-  const char tempvar[60]="Setting value from const variable";
-  MyDictionary["char const * const = tempvar"]=new itk::MetaDataObject<char const * const>(tempvar);
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const = tempvar"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  //Compiler Error: assignment of read-only data-member
-  //dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const = tempvar"])->SetMetaDataObjectValue("Compiler Error");
-
-  //NOTE: Default value will be a pointer to NULL, or even worse to some unknown place.
-  //gcc 2.96 will create this useless entry, but the SGI MipsPro compiler recognizes
-  //That this is uninitialized, and causes a compiler error.
-  //MyDictionary["char const * const = tempvar2"]=new itk::MetaDataObject<char const * const>;
-  //
-  //const char tempvar2[60]="Setting value from const variable";
-  //Compiler Error: assignment of read-only data-member
-  //dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const = tempvar2"])->SetMetaDataObjectValue(tempvar2);
-  //Runtime Error:  Trying to print a character string that points to NULL.
-  //std::cout << (dynamic_cast<itk::MetaDataObject<char const * const> *>(MyDictionary["char const * const = tempvar2"])->GetMetaDataObjectValue()) << std::endl;
-
-  //Other gotchas with the Dictionary
-  char * StrandedMemeory=new char[2345];
-  strcpy(StrandedMemeory,"This is stranded memory that will not be released when the Dictionary is cleaned up");
-  //NOTE: Only the pointer is copied, not the data withing the pointer!
-  MyDictionary["StrandedMemoryExample"]=new itk::MetaDataObject<char *>(StrandedMemeory);
-  std::cout << (dynamic_cast<itk::MetaDataObject<char *> *>(MyDictionary["StrandedMemoryExample"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  strcpy(StrandedMemeory,"This this was changed outside the class, and may cause all types of errors.");
-  std::cout << (dynamic_cast<itk::MetaDataObject<char *> *>(MyDictionary["StrandedMemoryExample"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-
-  //-------Classes that can be initialized.
-  MyDictionary["AnSTLString"]=new itk::MetaDataObject<std::string>("This is a std::string That is never Seen");
-  dynamic_cast<itk::MetaDataObject<std::string> *>(MyDictionary["AnSTLString"].GetPointer())->SetMetaDataObjectValue("This is a std::string");
-  std::cout << dynamic_cast<itk::MetaDataObject<std::string> *>(MyDictionary["AnSTLString"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-
-  //------- An ITK  Image
-  MyDictionary["AnITKImage"]=new itk::MetaDataObject<itk::Image<float,3> *>(itk::Image<float,3>::New());
-
-  std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
-  for(it=MyDictionary.begin();
-      it != MyDictionary.end();
-      it++)
+  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatInitalized",static_cast<float>(1.234560F));
   {
-    std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeName() << std::endl;
+    float tempfloat;
+    const bool IsValidReturn=itk::ExposeMetaData<float>(MyDictionary,"ASimpleFloatInitalized",tempfloat);
+    if(IsValidReturn == true)
+    {
+      std::cout << tempfloat << std::endl;
+    }
+    else
+    {
+     std::cout << "Invalid key, or invalid type specified." << std::endl;
+    }
   }
 
+  itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatChanged",static_cast<const float>(-1000.234560F));
+  itk::EncapsulateMetaData<double>(MyDictionary,"ASimpleFloatChanged",static_cast<const float>(-0.000000001F));
+
+  //-------Char pointers --  These can be tricky, so be careful!
+  itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*","Value String");
+  const char * value="Value String";
+  itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*2",value);
+  itk::EncapsulateMetaData<std::string>(MyDictionary,"srtringfromcharconst*","Value Never Seen");
+
+  //Other gotchas with the Dictionary
+  char * StrandedMemory=new char[2345];
+  strcpy(StrandedMemory,"XXXXXXXXXXXXThis is stranded memory that will not be released when the Dictionary is cleaned up");
+  //NOTE: Only the pointer is copied, not the data withing the pointer!
+  itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
+  {
+    char * temp;
+    itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
+    std::cout << "Memory Before Change: "<<temp <<std::endl;
+  }
+  strcpy(StrandedMemory,"------------This this was changed outside the class, and may cause all types of errors.");
+  {
+    char * temp;
+    itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
+    std::cout << "Memory After Change: "<<temp <<std::endl;
+  }
+
+  //------- An ITK  Image
+  itk::EncapsulateMetaData<itk::Image<float,3> * >(MyDictionary,"AnITKImage",itk::Image<float,3>::New());
+
+  {
+    std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
+    for(it=MyDictionary.begin();
+        it != MyDictionary.end();
+        it++)
+    {
+      std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeName() << std::endl;
+    }
+  }
+  //
   //------Test copying of Dictionary
   //itk::MetaDataDictionary NewDictionary(MyDictionary);
   itk::MetaDataDictionary NewDictionary;
   NewDictionary=MyDictionary;
 
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(NewDictionary["ASimpleFloatInitalized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-  std::cout << dynamic_cast<itk::MetaDataObject<const float> *>(NewDictionary["ASimpleConstFloatInitalized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(NewDictionary["ASimpleFloatUnitialized"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-  std::cout << dynamic_cast<itk::MetaDataObject<float> *>(NewDictionary["ASimpleFloatInitializedAndChanged"].GetPointer())->GetMetaDataObjectValue() << std::endl;
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const *> *>(NewDictionary["char const *"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const * const> *>(NewDictionary["char const * const =\"Initial Value\""].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  std::cout << (dynamic_cast<itk::MetaDataObject<char const * const> *>(NewDictionary["char const * const = tempvar"].GetPointer())->GetMetaDataObjectValue()) << std::endl;
-  std::cout << dynamic_cast<itk::MetaDataObject<std::string> *>(NewDictionary["AnSTLString"].GetPointer())->GetMetaDataObjectValue() << std::endl;
 
-  for(it=NewDictionary.begin();
-      it != NewDictionary.end();
-      it++)
   {
-    std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeInfo().name() << std::endl;
+    std::map<std::string, itk::MetaDataObjectBase::Pointer>::iterator it;
+    for(it=NewDictionary.begin();
+        it != NewDictionary.end();
+        it++)
+    {
+      std::cout << "Type name for "<<it->first <<" is " << it->second->GetMetaDataObjectTypeInfo().name() << std::endl;
+    }
   }
 
   //Print functionality Test
   std::cout << "===========================================================" << std::endl;
   std::cout << "Printing Dictionary" << std::endl;
   NewDictionary.Print(std::cout);
+
+
+  //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
+  delete [] StrandedMemory;
   return 0;
 }
