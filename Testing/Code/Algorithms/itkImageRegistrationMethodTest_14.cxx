@@ -351,6 +351,9 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // exerise other methods
+  transform->SetParameters( trueParameters );
+  trueParameters = transform->GetParameters();
 
   /*************************************************
    * Check for parzen window exception

@@ -169,6 +169,25 @@ int itkWarpImageFilterTest(int, char* [] )
   warper->AddObserver(itk::ProgressEvent(), command);
 
   warper->Print( std::cout );
+
+  // exercise Get methods
+  std::cout << "Interpolator: " << warper->GetInterpolator() << std::endl;
+  std::cout << "DeformationField: " << warper->GetDeformationField() << std::endl;
+  std::cout << "EdgePaddingValue: " << warper->GetEdgePaddingValue() << std::endl;
+
+  // exercise Set methods
+  itk::FixedArray<double,ImageDimension> array;
+  array.Fill( 2.0 );
+  warper->SetOutputSpacing( array.GetDataPointer() );
+  array.Fill( 1.0 );
+  warper->SetOutputSpacing( array.GetDataPointer() );
+
+  array.Fill( -10.0 );
+  warper->SetOutputOrigin( array.GetDataPointer() );
+  array.Fill( 0.0 );
+  warper->SetOutputOrigin( array.GetDataPointer() );
+ 
+  // Update the filter
   warper->Update();
 
   //=============================================================
@@ -266,15 +285,38 @@ int itkWarpImageFilterTest(int, char* [] )
     }
   
 
-  if ( testPassed )
-    {
-    std::cout << "Test passed." << std::endl;
-    return EXIT_SUCCESS;
-    }
-  else 
+  if ( !testPassed )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Exercise error handling
+  
+  typedef WarperType::InterpolatorType InterpolatorType;
+  InterpolatorType::Pointer interp = warper->GetInterpolator();
+ 
+  try
+    {
+    std::cout << "Setting interpolator to NULL" << std::endl;
+    testPassed = false;
+    warper->SetInterpolator( NULL );
+    warper->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    testPassed = true;
+    warper->ResetPipeline();
+    warper->SetInterpolator( interp );
+    }
+
+  if (!testPassed) {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+ std::cout << "Test passed." << std::endl;
+ return EXIT_SUCCESS;
 
 }

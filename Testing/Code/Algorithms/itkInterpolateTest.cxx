@@ -183,6 +183,15 @@ itkInterpolateTest(
     passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
+
+    image->TransformPhysicalPointToIndex( point, index );
+    if ( interp->EvaluateAtIndex( index ) != 70 )
+      {
+      std::cout << "Index: " << index;
+      std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
+      std::cout << "Error: true value should be 70" << std::endl;
+      flag = 1;
+      }
     
     // position at the image border
     double darray2[3] = {0, 20, 40};

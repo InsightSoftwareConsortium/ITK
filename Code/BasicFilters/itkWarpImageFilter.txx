@@ -194,7 +194,6 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   if( !m_Interpolator )
     {
     itkExceptionMacro(<< "Interpolator not set");
-    throw ExceptionObject(__FILE__,__LINE__ );
     }
 
   // Connect input image to interpolator

@@ -170,7 +170,7 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   // optional: set bulk transform parameters
 
   transform->SetBulkTransform( bulkTransform );
-
+  std::cout << "BulkTransform: " << transform->GetBulkTransform() << std::endl;
 
   /**
    * Transform some points
@@ -229,6 +229,8 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
+  // set bulk transform to NULL
+  transform->SetBulkTransform( NULL );
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType WeightsType;
@@ -397,6 +399,30 @@ int itkBSplineDeformableTransformTest(int, char * [] )
 
   }
 
+  {
+
+    bool pass = false;
+    try
+      {
+      ParametersType temp( transform->GetNumberOfParameters() - 1 );
+      temp.Fill( 4.0 );
+      transform->SetParameters( temp );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if ( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  }
+
   /**
    * Exercise other methods
    */
@@ -404,6 +430,10 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << transform->GetGridSpacing() << std::endl;
   std::cout << transform->GetGridOrigin() << std::endl;
   std::cout << transform->GetValidRegion() << std::endl;
+
+  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
+    EvenOrderTransformType;
+  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
  
   /**
    * Parameters should remain even when the transform has been destroyed
