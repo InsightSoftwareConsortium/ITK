@@ -110,7 +110,7 @@ public:
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
 
   /** Type of DataObjects to use for scalar inputs */
-  typedef typename SimpleDataObjectDecorator<InputPixelType> InputPixelObjectType;
+  typedef SimpleDataObjectDecorator<InputPixelType> InputPixelObjectType;
   
   /** Set the "outside" pixel value. The default value 
    * NumericTraits<OutputPixelType>::Zero. */
