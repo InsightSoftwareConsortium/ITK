@@ -35,6 +35,7 @@ your version of this file under either the MPL or the GPL.
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #ifndef MAP_FILE
 #define MAP_FILE 0

@@ -73,7 +73,7 @@ void reportError(XML_Parser parser, const XML_Char *filename)
   int code = XML_GetErrorCode(parser);
   const XML_Char *message = XML_ErrorString(code);
   if (message)
-    ftprintf(stdout, T("%s:%d:%ld: %s\n"),
+    ftprintf(stdout, T("%s:%d:%d: %s\n"),
 	     filename,
 	     XML_GetErrorLineNumber(parser),
 	     XML_GetErrorColumnNumber(parser),
@@ -98,11 +98,13 @@ void processFile(const void *data,
     *retPtr = 1;
 }
 
+#ifdef WIN32
 static
 int isAsciiLetter(XML_Char c)
 {
   return (T('a') <= c && c <= T('z')) || (T('A') <= c && c <= T('Z'));
 }
+#endif
 
 static
 const XML_Char *resolveSystemId(const XML_Char *base, const XML_Char *systemId, XML_Char **toFree)
