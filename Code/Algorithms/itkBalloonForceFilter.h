@@ -74,18 +74,36 @@ public:
    * Some typedefs.
    */
   typedef TInputMesh InputMeshType;
+  typedef typename InputMeshType::PointsContainerPointer
+      InputPointsContainerPointer;
+  typedef typename typename InputMeshType::PointsContainer::Iterator
+      InputPointsContainerIterator;
+  typedef typename InputMeshType::PointDataContainerPointer
+      InputPointDataContainerPointer;
+  typedef typename typename InputMeshType::PointDataContainer::Iterator
+      InputPointDataContainerIterator;
+  typedef typename InputMeshType::CellsContainerPointer
+      InputCellsContainerPointer;
+  typedef typename typename InputMeshType::CellsContainer::Iterator
+      InputCellsContainerIterator;
+  typedef typename InputMeshType::CellDataContainerPointer
+      InputCellDataContainerPointer;
+  typedef typename typename InputMeshType::CellDataContainer::Iterator
+      InputCellDataContainerIterator;
+
   typedef itk::Image<unsigned short, 3> ImageType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename ImageType::Pointer ImagePointer;
   typedef typename ImageType::IndexType IndexType;
 
-  typedef itk::Vector<float, 3> FloatVector;
-  typedef itk::Vector<int, 3> IntVector;
-  typedef typename TInputMesh::Cell  Cell;
-  typedef typename TInputMesh::CellTraits  CellTraits;
-  typedef itk::TriangleCell<float, CellTraits>	   TriCell;
-  typedef typename TInputMesh::PointType  IPT;
-  typedef typename TInputMesh::PixelType  PT;
+  typedef itk::Vector<float, 3>				FloatVector;
+  typedef itk::Vector<int, 3>				IntVector;
+
+  typedef typename InputMeshType::Cell			Cell;
+  typedef typename InputMeshType::CellTraits	CellTraits;
+  typedef itk::TriangleCell<float, CellTraits>	TriCell;
+  typedef typename InputMeshType::PointType		IPT;
+  typedef typename InputMeshType::PixelType		PT;
 
   /** 
    * Some functions.
