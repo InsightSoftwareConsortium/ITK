@@ -22,11 +22,11 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TPixelType, typename TCelltype>
-QuadrilateralCell< TPixelType , TCelltype >::Cell::Pointer
+QuadrilateralCell< TPixelType , TCelltype >::CellPointer
 QuadrilateralCell< TPixelType , TCelltype >
 ::MakeCopy(void)
 {
-  Cell::Pointer newCell(Self::New());
+  CellPointer newCell(Self::New());
   newCell->SetPointIds(this->GetPointIds());
   return newCell;
 }
@@ -83,15 +83,15 @@ QuadrilateralCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCellType>
-QuadrilateralCell< TPixelType , TCellType >::Cell::Pointer
+QuadrilateralCell< TPixelType , TCellType >::CellPointer
 QuadrilateralCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetVertex(featureId));
-    case 1: return Cell::Pointer(GetEdge(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetVertex(featureId));
+    case 1: return CellPointer(GetEdge(featureId));
+    default: return CellPointer(NULL);
     }
 }
 
@@ -233,11 +233,11 @@ QuadrilateralCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCellType>
-QuadrilateralCell< TPixelType , TCellType >::Vertex::Pointer
+QuadrilateralCell< TPixelType , TCellType >::VertexPointer
 QuadrilateralCell< TPixelType , TCellType >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
-  Vertex::Pointer vert(Vertex::New());
+  VertexPointer vert(Vertex::New());
   vert->SetPointId(0, m_PointIds[vertexId]);
   
   return vert;
@@ -249,11 +249,11 @@ QuadrilateralCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TPixelType, typename TCellType>
-QuadrilateralCell< TPixelType , TCellType >::Edge::Pointer
+QuadrilateralCell< TPixelType , TCellType >::EdgePointer
 QuadrilateralCell< TPixelType , TCellType >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
-  Edge::Pointer edge(Edge::New());
+  EdgePointer edge(Edge::New());
 
   for(int i=0; i < Edge::NumberOfPoints; ++i)
     {

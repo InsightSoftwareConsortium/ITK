@@ -60,6 +60,7 @@ public:
   typedef typename CellType::CoordRep         CoordRep;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
+  typedef typename Cell::Pointer CellPointer;
 
   /** \enum
    * Vertex-specific topology numbers.
@@ -75,11 +76,11 @@ public:
   /**
    * Implement the standard CellInterface.
    */
-  virtual Cell::Pointer MakeCopy(void);
+  virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void);
   virtual int GetNumberOfPoints(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
 			   PointIdConstIterator last);

@@ -22,11 +22,11 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::Cell::Pointer
+VertexCell< TPixelType , TCelltype >::CellPointer
 VertexCell< TPixelType , TCelltype >
 ::MakeCopy(void)
 {
-  Cell::Pointer newCell(Self::New());
+  CellPointer newCell(Self::New());
   newCell->SetPointIds(this->GetPointIds());
   return newCell;
 }
@@ -76,11 +76,11 @@ VertexCell< TPixelType , TCellType >
  * A vertex has no boundary entities.  Just return null.
  */
 template <typename TPixelType, typename TCellType>
-VertexCell< TPixelType , TCellType >::Cell::Pointer
+VertexCell< TPixelType , TCellType >::CellPointer
 VertexCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int, CellFeatureIdentifier)
 {
-  return Cell::Pointer(NULL);
+  return CellPointer(NULL);
 }
 
 

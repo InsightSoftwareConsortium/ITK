@@ -61,11 +61,13 @@ public:
   typedef typename CellType::CoordRep         CoordRep;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
+  typedef typename Cell::Pointer CellPointer;
   
   /**
    * The type of boundary for this lines's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef typename Vertex::Pointer VertexPointer;
   
   /** \enum
    * Line-specific topology numbers.
@@ -82,11 +84,11 @@ public:
   /**
    * Implement the standard CellInterface.
    */
-  virtual Cell::Pointer MakeCopy(void);
+  virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void);
   virtual int GetNumberOfPoints(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
 			   PointIdConstIterator last);
@@ -100,16 +102,18 @@ public:
    * Line-specific interface.
    */
   virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual Vertex::Pointer GetVertex(CellFeatureIdentifier);
+  virtual VertexPointer GetVertex(CellFeatureIdentifier);
 
   /**
    * Standard part of every itk Object.
    */
   itkTypeMacro(LineCell, CellInterface);
+
   /**
    * Visitor interface
    */
   itkCellVisitMacro(LINE_CELL);
+
 protected:
   /**
    * Store number of points needed for a line segment.

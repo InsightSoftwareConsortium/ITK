@@ -61,16 +61,19 @@ public:
   typedef typename CellType::CoordRep         CoordRep;
   typedef typename CellType::PointIdentifier  PointIdentifier;
   enum { PointDimension = CellType::PointDimension };
+  typedef typename Cell::Pointer CellPointer;
 
   /**
    * The type of boundary for this quadrilateral's vertices.
    */
   typedef VertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef typename Vertex::Pointer VertexPointer;
 
   /**
    * The type of boundary for this quadrilateral's edges.
    */
   typedef LineBoundary< TPixelType , TCellType >    Edge;
+  typedef typename Edge::Pointer EdgePointer;
   
   /** \enum
    * Quadrilateral-specific topology numbers.
@@ -88,11 +91,11 @@ public:
   /**
    * Implement the standard CellInterface.
    */
-  virtual Cell::Pointer MakeCopy(void);
+  virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void);
   virtual int GetNumberOfPoints(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
+  virtual CellPointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
 			   PointIdConstIterator last);
@@ -107,8 +110,8 @@ public:
    */
   virtual CellFeatureCount GetNumberOfVertices(void);
   virtual CellFeatureCount GetNumberOfEdges(void);
-  virtual Vertex::Pointer GetVertex(CellFeatureIdentifier);
-  virtual Edge::Pointer GetEdge(CellFeatureIdentifier);
+  virtual VertexPointer GetVertex(CellFeatureIdentifier);
+  virtual EdgePointer GetEdge(CellFeatureIdentifier);
 
   /**
    * Standard part of every itk Object.

@@ -173,7 +173,7 @@ public:
   {
   public:
     ConstIterator() {}
-    ConstIterator(size_type d, const Vector::const_iterator& i): m_Pos(d), m_Iter(i) {}
+    ConstIterator(size_type d, const VectorConstIterator& i): m_Pos(d), m_Iter(i) {}
     ConstIterator(const Iterator& r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; }
     
     ConstIterator& operator* ()    { return *this; }

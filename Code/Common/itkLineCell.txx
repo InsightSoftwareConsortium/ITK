@@ -22,11 +22,11 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::Cell::Pointer
+LineCell< TPixelType , TCelltype >::CellPointer
 LineCell< TPixelType , TCelltype >
 ::MakeCopy(void)
 {
-  Cell::Pointer newCell(Self::New());
+  CellPointer newCell(Self::New());
   newCell->SetPointIds(this->GetPointIds());
   return newCell;
 }
@@ -82,14 +82,14 @@ LineCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::Cell::Pointer
+LineCell< TPixelType , TCellType >::CellPointer
 LineCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetVertex(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetVertex(featureId));
+    default: return CellPointer(NULL);
     }
 }
 
@@ -219,11 +219,11 @@ LineCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::Vertex::Pointer
+LineCell< TPixelType , TCellType >::VertexPointer
 LineCell< TPixelType , TCellType >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
-  Vertex::Pointer vert(Vertex::New());
+  VertexPointer vert(Vertex::New());
   vert->SetPointId(0, m_PointIds[vertexId]);
   
   return vert;  

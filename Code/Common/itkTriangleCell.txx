@@ -22,11 +22,11 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::Cell::Pointer
+TriangleCell< TPixelType , TCelltype >::CellPointer
 TriangleCell< TPixelType , TCelltype >
 ::MakeCopy(void)
 {
-  Cell::Pointer newCell(Self::New());
+  CellPointer newCell(Self::New());
   newCell->SetPointIds(this->GetPointIds());
   return newCell;
 }
@@ -83,15 +83,15 @@ TriangleCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::Cell::Pointer
+TriangleCell< TPixelType , TCellType >::CellPointer
 TriangleCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetVertex(featureId));
-    case 1: return Cell::Pointer(GetEdge(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetVertex(featureId));
+    case 1: return CellPointer(GetEdge(featureId));
+    default: return CellPointer(NULL);
     }
 }
 
@@ -235,11 +235,11 @@ TriangleCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::Vertex::Pointer
+TriangleCell< TPixelType , TCellType >::VertexPointer
 TriangleCell< TPixelType , TCellType >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
-  Vertex::Pointer vert(Vertex::New());
+  VertexPointer vert(Vertex::New());
   vert->SetPointId(0, m_PointIds[vertexId]);
   
   return vert;
@@ -251,11 +251,11 @@ TriangleCell< TPixelType , TCellType >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::Edge::Pointer
+TriangleCell< TPixelType , TCellType >::EdgePointer
 TriangleCell< TPixelType , TCellType >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
-  Edge::Pointer edge(Edge::New());
+  EdgePointer edge(Edge::New());
   
   for(int i=0; i < Edge::NumberOfPoints; ++i)
     {
