@@ -203,19 +203,19 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
   else if ( ptype == typeid(Offset<2>) )
     {
     this->SetNumberOfComponents(2);
-    this->SetPixelType(ImageIOBase::LONG);
+    this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
     }
   else if ( ptype == typeid(Offset<3>) )
     {
     this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::LONG);
+    this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
     }
   else if ( ptype == typeid(Offset<4>) )
     {
     this->SetNumberOfComponents(4);
-    this->SetPixelType(ImageIOBase::LONG);
+    this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
     }
   else
