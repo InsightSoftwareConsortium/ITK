@@ -140,7 +140,7 @@ public:
    *  Type of the Metric
    */
    typedef MutualInformationImageToImageMetric<
-    TargetType, MapperType, double, double>    MetricType;
+                             TargetType, MapperType>  MetricType;
 
   /**
    *  Pointer type for the Reference

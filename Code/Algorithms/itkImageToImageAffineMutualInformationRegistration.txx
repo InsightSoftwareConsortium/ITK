@@ -196,11 +196,8 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   for( unsigned int k = 0; k < m_NumberOfIterations; k++ )
     {
-    // set the affine parameters
-    m_Metric->SetParameters( m_Parameters );
-
     // compute mutual information and derivative
-    m_Metric->GetValueAndDerivative( MIValue, MIDerivatives );
+    m_Metric->GetValueAndDerivative( m_Parameters, MIValue, MIDerivatives );
 
     // compute the next set of parameters to visit
     increment = m_LearningRate * element_product<double>(
