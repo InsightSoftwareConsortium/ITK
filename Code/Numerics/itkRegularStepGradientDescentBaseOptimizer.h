@@ -47,11 +47,11 @@ public:
 
   /** Codes of stopping conditions. */
   typedef enum {
-    GradientMagnitudeTolerance=1,
-    StepTooSmall,
-    ImageNotAvailable,
-    SamplesNotAvailable,
-    MaximumNumberOfIterations
+    GradientMagnitudeTolerance = 1,
+    StepTooSmall = 2,
+    ImageNotAvailable = 3,
+    SamplesNotAvailable = 4,
+    MaximumNumberOfIterations = 5
   } StopConditionType;
 
   /** Specify whether to minimize or maximize the cost function. */
