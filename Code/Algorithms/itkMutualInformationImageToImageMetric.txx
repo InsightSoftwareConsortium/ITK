@@ -85,11 +85,12 @@ SpatialSampleContainer& samples )
       {
       (*iter).TargetPointValue[j] = index[j];
       }
-    try
+
+    if( mapper->IsInside( (*iter).TargetPointValue ) )
       {
-      (*iter).ReferenceValue = mapper->Evaluate( (*iter).TargetPointValue );
+      (*iter).ReferenceValue = mapper->Evaluate();
       }
-    catch ( MapperException )
+    else
       {
       (*iter).ReferenceValue = 0;
       }
