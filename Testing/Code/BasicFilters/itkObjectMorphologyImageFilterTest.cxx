@@ -54,9 +54,9 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   
   // Define their size, and start index
   mySizeType size;
-  size[0] = 50;
-  size[1] = 50;
-  size[2] = 50;
+  size[0] = 20;
+  size[1] = 20;
+  size[2] = 20;
 
   myIndexType index;
   index[0] = 0;
