@@ -193,6 +193,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPointSet.txx"
 #include "itkPolygonCell.txx"
 #include "itkProcessObject.h"
+#include "itkQuadraticEdgeCell.txx"
+#include "itkQuadraticTriangleCell.txx"
 #include "itkQuadrilateralCell.txx"
 #include "itkQuaternionRigidTransform.txx"
 #include "itkRGBAPixel.txx"
