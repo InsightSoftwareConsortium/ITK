@@ -151,7 +151,6 @@ VectorNearestNeighborInterpolateImageFunction< TInputImage, TCoordRep >
         {
         output[k] = static_cast<RealType>( input[k] );
         }
-      currentMaxOverlap = overlap;
       }
     }
 
