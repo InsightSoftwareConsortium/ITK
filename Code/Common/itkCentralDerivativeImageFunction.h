@@ -68,7 +68,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Set the input image.
@@ -78,39 +78,14 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index )
-  {
-    return ( this->Evaluate( index, 0 ) );
-  }
-  virtual double Evaluate( const IndexType& index, unsigned int dim = 0 );
-
-  /**
-   * Evaluate the function at a non-integer position
-   */
-  virtual double Evaluate( double coord[] )
-  {
-    return ( this->Evaluate( coord, 0 ) );
-  }
-
-  /**
-   * Evaluate the function at a non-integer position
-   */
-  virtual double Evaluate( double coord[], unsigned int dim = 0 )
+  virtual double Evaluate( const IndexType& index ) const
     {
-      IndexType index;
-      for( int j = 0; j < ImageDimension; j++ )
-        {
-          index[j] = vnl_math_rnd( coord[j] );
-        }
-      return ( this->Evaluate( index, dim ) );
-    };
+    return ( this->Evaluate( index, 0 ) );
+    }
 
+  virtual double Evaluate( const IndexType& index, 
+                           unsigned int dim = 0 ) const;
 
-  /**
-   * Get the derivative from last evaluation
-   */
-  virtual double GetDerivative() const
-  { return m_Derivative; }
 
 protected:
   CentralDerivativeImageFunction(){};
@@ -120,8 +95,6 @@ protected:
 
   void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent);
-
-  double                  m_Derivative;
 
 private:
   Size<ImageDimension>    m_ImageSize;

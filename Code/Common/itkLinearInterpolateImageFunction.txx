@@ -62,7 +62,7 @@ template<class TInputImage>
 double
 LinearInterpolateImageFunction<TInputImage>
 ::Evaluate(
-const IndexType& index )
+const IndexType& index ) const
 {
   double value = 0.0;    // Value of interpolated pixel
 
@@ -78,29 +78,6 @@ const IndexType& index )
   /* Otherwise return the appropriate pixel value */
   value = (double)this->GetInputImage()->GetPixel( index );
   return ( value );
-}
-
-
-/**
- *
- */
-template<class TInputImage>
-double
-LinearInterpolateImageFunction<TInputImage>
-::Evaluate(
-double * dblIndex ) const
-{
-
-  /* Prepare coordinates; check whether inside image or not.  */
-
-  for (int j = 0; j < ImageDimension; j++)
-  {
-    m_Base[j]  = (long)floor(dblIndex[j]);
-    m_Alpha[j] = dblIndex[j] - m_Base[j];
-  }
-
-  return EvaluateFromBaseAndAlpha();
-
 }
 
 

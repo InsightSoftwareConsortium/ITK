@@ -16,6 +16,7 @@
 #define _itkLinearInterpolateImageFunction_h
 
 #include "itkImageFunction.h"
+#include "itkPoint.h"
 #include "itkSize.h"
 
 namespace itk
@@ -70,14 +71,12 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
-
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Point typedef support.
    */
-  typedef Point<double,ImageDimension> PointType;
-
+  typedef Point<double,ImageDimension>  PointType;
 
   /** 
    * Set the input image.
@@ -97,18 +96,7 @@ public:
    *
    * This method is believed to be thread safe.
    */
-  virtual double Evaluate( const IndexType& index );
-
-  /**
-   * Evaluate the function at non-integer coordinates.
-   *
-   * Returns the linearly interpolated image intensity at a specified
-   * coordinate position, which need not be integer-valued.  Pixels
-   * outside the image are considered to be zero.
-   *
-   * This method is believed to be thread safe.
-   */
-  virtual double Evaluate( double * dblIndex ) const;
+  virtual double Evaluate( const IndexType& index ) const;
 
   /**
    * Evaluate the function at a Point position

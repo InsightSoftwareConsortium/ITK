@@ -82,7 +82,7 @@ template<class TInputImage>
 double
 LevelSetCurvatureFunction<TInputImage>
 ::Evaluate(
-const IndexType& index )
+const IndexType& index ) const
 { 
   if( !m_Image )
     {
@@ -107,17 +107,16 @@ template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
 ::CalculateDerivatives( 
-const IndexType& index )
+const IndexType& index ) const
 {
 
-  typename InputImageType::Pointer image = this->GetInputImage();
+  InputImageConstPointer image = this->GetInputImage();
 
   m_Magnitude = 0.0;
   m_BorderPixel = false;
 
   // get the center value
-  m_CenterValue = (double) 
-    ScalarTraits<PixelType>::GetScalar( image->GetPixel( index ) );
+  m_CenterValue = (double) image->GetPixel( index );
 
   m_NeighIndex = index;
 
@@ -131,24 +130,20 @@ const IndexType& index )
     
     // calculate the first order derivative
     m_NeighIndex[j] = index[j] + 1;
-    m_DiffValue = (double) 
-      ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_NeighIndex ) );
+    m_DiffValue = (double) image->GetPixel( m_NeighIndex );
 
     m_NeighIndex[j] = index[j] - 1;
-    m_DiffValue -= (double) 
-      ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_NeighIndex ) );
+    m_DiffValue -= (double) image->GetPixel( m_NeighIndex );
 
     m_FirstDerivative[j] = m_DiffValue / 2.0;
     m_Magnitude += vnl_math_sqr( m_FirstDerivative[j] );
 
     // calculate the second order derivatives
     m_NeighIndex[j] = index[j] + 2;
-    m_DiffValue = (double) 
-      ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_NeighIndex ) );
+    m_DiffValue = (double) image->GetPixel( m_NeighIndex );
 
     m_NeighIndex[j] = index[j] - 2;
-    m_DiffValue += (double) 
-      ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_NeighIndex ) );
+    m_DiffValue += (double) image->GetPixel( m_NeighIndex );
 
     m_SecondDerivative[j][j] = ( m_DiffValue - m_CenterValue * 2.0 ) / 4.0;
 
@@ -182,20 +177,16 @@ const IndexType& index )
       m_RightIndex[k] = index[k] + 1;
       m_LeftIndex[k] = index[k] + 1;
 
-      m_DiffValue = (double) 
-        ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_RightIndex ) );
+      m_DiffValue = (double) image->GetPixel( m_RightIndex );
 
-      m_DiffValue -= (double) 
-        ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_LeftIndex ) );
+      m_DiffValue -= (double) image->GetPixel( m_LeftIndex );
 
       m_RightIndex[k] = index[k] - 1;
       m_LeftIndex[k] = index[k] - 1;
 
-      m_DiffValue -= (double) 
-        ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_RightIndex ) );
+      m_DiffValue -= (double) image->GetPixel( m_RightIndex );
 
-      m_DiffValue += (double) 
-        ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_LeftIndex ) );
+      m_DiffValue += (double) image->GetPixel( m_LeftIndex );
 
       m_SecondDerivative[j][k] = m_DiffValue / 4.0;
       m_SecondDerivative[k][j] = m_SecondDerivative[j][k];
@@ -221,7 +212,7 @@ const IndexType& index )
 template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
-::CalculateCurvature( )
+::CalculateCurvature( ) const
 {
 
   switch( ImageDimension )
@@ -246,7 +237,7 @@ LevelSetCurvatureFunction<TInputImage>
 template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
-::CalculateCurvature2D( )
+::CalculateCurvature2D( ) const
 {
 
   m_Curvature = 0.0;
@@ -274,7 +265,7 @@ LevelSetCurvatureFunction<TInputImage>
 template<class TInputImage>
 void
 LevelSetCurvatureFunction<TInputImage>
-::CalculateCurvature3D( )
+::CalculateCurvature3D( ) const
 {
 
   m_Curvature = 0;

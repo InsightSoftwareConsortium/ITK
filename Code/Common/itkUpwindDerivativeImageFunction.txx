@@ -58,7 +58,7 @@ double
 UpwindDerivativeImageFunction<TInputImage>
 ::Evaluate(
 const IndexType& index,
-unsigned int dim )
+unsigned int dim ) const
 {
   
   if( !m_Image || dim > ImageDimension - 1 )
@@ -69,24 +69,20 @@ unsigned int dim )
   m_Derivative = 0.0;
   m_NeighIndex = index ;
 
-  m_CenterValue = (double) 
-    ScalarTraits<PixelType>::GetScalar( m_Image->GetPixel( index ) );
+  m_CenterValue = (double) m_Image->GetPixel( index );
   
   // calculate backward difference
   if( m_Speed > 0 && index[dim] > 0 )
     {
     m_NeighIndex[dim] = index[dim] - 1;
-    m_Derivative = m_CenterValue - (double) 
-      ScalarTraits<PixelType>::GetScalar( m_Image->GetPixel( m_NeighIndex ) );
+    m_Derivative = m_CenterValue - (double) m_Image->GetPixel( m_NeighIndex );
     }
 
   // calculate forward difference
   if( m_Speed <= 0 && index[dim] < m_ImageSize[dim] - 1 )
     {
     m_NeighIndex[dim] = index[dim] + 1;
-    m_Derivative = (double) 
-      ScalarTraits<PixelType>::GetScalar( m_Image->GetPixel( m_NeighIndex )) 
-        - m_CenterValue;
+    m_Derivative = (double) m_Image->GetPixel( m_NeighIndex ) - m_CenterValue;
     }
 
   return ( m_Derivative );

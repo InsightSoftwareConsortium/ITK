@@ -68,7 +68,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Smart pointer typedef support.
@@ -104,15 +104,7 @@ public:
   /**
    * Evaluate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index );
-
-  /**
-   * Evaluate the function at an non-integer position
-   */
-  virtual double Evaluate( double coord[] )
-  {
-    return Superclass::Evaluate( coord );
-  }
+  virtual double Evaluate( const IndexType& index ) const;
 
   /**
    * Get the curvature from last evaluation
@@ -140,28 +132,28 @@ private:
   Size<ImageDimension>                                      m_ImageSize;
   bool                                                      m_ImageSizeOK;
 
-  double                                                    m_Curvature;
-  double                                                    m_Magnitude;
+  mutable double                                            m_Curvature;
+  mutable double                                            m_Magnitude;
   double                                                    m_EpsilonMagnitude;
-  bool                                                      m_BorderPixel;
+  mutable bool                                              m_BorderPixel;
 
-  vnl_vector_fixed<double,ImageDimension>                   m_FirstDerivative;
-  vnl_matrix_fixed<double,ImageDimension,ImageDimension>
+  mutable vnl_vector_fixed<double,ImageDimension>           m_FirstDerivative;
+  mutable vnl_matrix_fixed<double,ImageDimension,ImageDimension>
                                                             m_SecondDerivative;
 
-  IndexType                                                 m_NeighIndex;
-  IndexType                                                 m_RightIndex;
-  IndexType                                                 m_LeftIndex;
-  double                                                    m_CenterValue;
-  double                                                    m_DiffValue;
+  mutable IndexType                                         m_NeighIndex;
+  mutable IndexType                                         m_RightIndex;
+  mutable IndexType                                         m_LeftIndex;
+  mutable double                                            m_CenterValue;
+  mutable double                                            m_DiffValue;
 
-  vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
+  mutable vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
                                                             m_Variable;
 
-  void CalculateDerivatives( const IndexType& index );
-  void CalculateCurvature();
-  void CalculateCurvature2D();
-  void CalculateCurvature3D();
+  void CalculateDerivatives( const IndexType& index ) const;
+  void CalculateCurvature() const;
+  void CalculateCurvature2D() const;
+  void CalculateCurvature3D() const;
 
 };
 

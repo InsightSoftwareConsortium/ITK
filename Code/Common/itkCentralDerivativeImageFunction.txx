@@ -55,7 +55,7 @@ double
 CentralDerivativeImageFunction<TInputImage>
 ::Evaluate(
 const IndexType& index,
-unsigned int dim )
+unsigned int dim ) const
 {
   
   if( !m_Image || dim > ImageDimension - 1 )
@@ -70,26 +70,24 @@ unsigned int dim )
     }
 
 
-  m_Derivative = 0.0;
+  double derivative = 0.0;
   IndexType neighIndex = index ;
 
   if( index[dim] < 1 || index[dim] > m_ImageSize[dim] - 2 )
     {
     // index out of range; return immediately
-    return( m_Derivative );
+    return( derivative );
     }
 
   neighIndex[dim] += 1;
-  m_Derivative = ScalarTraits<PixelType>::GetScalar(
-    m_Image->GetPixel( neighIndex ) );
+  derivative = m_Image->GetPixel( neighIndex );
 
   neighIndex[dim] -= 2;
-  m_Derivative -= ScalarTraits<PixelType>::GetScalar(
-    m_Image->GetPixel( neighIndex ) );
+  derivative -= m_Image->GetPixel( neighIndex );
 
-  m_Derivative *= 0.5;
+  derivative *= 0.5;
 
-  return ( m_Derivative );
+  return ( derivative );
 
 }
 

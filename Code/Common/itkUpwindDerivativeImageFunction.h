@@ -80,8 +80,8 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
-
+  typedef typename Superclass::IndexType IndexType;
+ 
   /**
    * Set the input image.
    */
@@ -102,7 +102,7 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index )
+  virtual double Evaluate( const IndexType& index ) const
   {
     return ( this->Evaluate( index, 0 ) );
   }
@@ -110,28 +110,8 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index, unsigned int dim = 0 );
-
-  /**
-   * Evaluate the function at a non-integer position
-   */
-  virtual double Evaluate( double coord[] )
-  {
-    return ( this->Evaluate( coord, 0 ) );
-  }
-
-  /**
-   * Evaluate the function at a non-integer position
-   */
-  virtual double Evaluate( double coord[], unsigned int dim = 0 )
-    {
-      IndexType index;
-      for( int j = 0; j < ImageDimension; j++ )
-        {
-          index[j] = vnl_math_rnd( coord[j] );
-        }
-      return ( this->Evaluate( index, dim ) );
-    };
+  virtual double Evaluate( const IndexType& index, 
+                           unsigned int dim = 0 ) const;
 
   /**
    * Get the derivative from last evaluation
@@ -149,15 +129,15 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
   double                  m_Speed;
-  double                  m_Derivative;
+  mutable double          m_Derivative;
 
 private:
   Size<ImageDimension>    m_ImageSize;
   bool                    m_ImageSizeOK;
 
-  IndexType               m_NeighIndex;
-  double                  m_CenterValue;
-  double                  m_DiffValue;
+  mutable IndexType       m_NeighIndex;
+  mutable double          m_CenterValue;
+  mutable double          m_DiffValue;
 
 };
 

@@ -69,7 +69,7 @@ template <class TInputImage>
 double
 EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
 ::Evaluate(
-const IndexType& index )
+const IndexType& index ) const
 {
 
   if( !m_Image )
@@ -85,10 +85,9 @@ const IndexType& index )
   m_Magnitude = 0.0;
   m_NeighIndex = index ;
 
-  typename InputImageType::Pointer image = this->GetInputImage();
+  InputImageConstPointer image = this->GetInputImage();
 
-  m_CenterValue = (double) 
-    ScalarTraits<PixelType>::GetScalar( image->GetPixel( index ) );
+  m_CenterValue = (double) image->GetPixel( index );
   
   for( int j = 0; j < ImageDimension; j++ )
     {
@@ -96,8 +95,7 @@ const IndexType& index )
     if( index[j] > 0 )
       {
       m_NeighIndex[j] = index[j] - 1;
-      m_DiffValue = m_CenterValue - (double) 
-        ScalarTraits<PixelType>::GetScalar( image->GetPixel( m_NeighIndex ) );
+      m_DiffValue = m_CenterValue - (double) image->GetPixel( m_NeighIndex );
 
       if( ( m_Speed > 0 && m_DiffValue > 0 ) ||
           ( m_Speed < 0 && m_DiffValue < 0 ) )
@@ -111,9 +109,7 @@ const IndexType& index )
     if( index[j] < m_ImageSize[j] - 1 )
       {
       m_NeighIndex[j] = index[j] + 1;
-      m_DiffValue = (double) 
-        ScalarTraits<PixelType>::GetScalar(image->GetPixel( m_NeighIndex )) 
-          - m_CenterValue;
+      m_DiffValue = (double) image->GetPixel( m_NeighIndex ) - m_CenterValue;
 
       if( ( m_Speed > 0 && m_DiffValue < 0 ) ||
           ( m_Speed < 0 && m_DiffValue > 0 ) )

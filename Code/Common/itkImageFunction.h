@@ -31,8 +31,7 @@ namespace itk
  * the input image type and the type of the function output.
  *
  * The input image is set via method SetInputImage().
- * The Evaluate() method evaluates the function at an index or
- * at a non-integer position.
+ * The Evaluate() method evaluates the function at an index.
  *
  */
 template <
@@ -67,8 +66,10 @@ public:
    * OutputType typedef support.
    */
   typedef TOutput OutputType;
-  
-  typedef typename InputImageType::Pointer InputImagePointer;
+
+  /**
+   * InputImagePointer typedef support
+   */ 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /**
@@ -100,45 +101,22 @@ public:
   /**
    * Get the input image.
    */
-  InputImagePointer GetInputImage() 
-    { return m_Image; }
-
-  /**
-   * Get the input image.
-   */
   InputImageConstPointer GetInputImage() const
     { return m_Image.GetPointer(); }
-
 
   /**
    * Evaluate the function at specified index
    */
-  virtual TOutput Evaluate( const IndexType& index ) = 0;
-
-  /** 
-   * Evaluate the function at a non-integer position
-   */
-  virtual TOutput Evaluate( double coord[] )
-    {
-      IndexType index;
-      for( int j = 0; j < ImageDimension; j++ )
-        {
-          index[j] = vnl_math_rnd( coord[j] );
-        }
-      return ( this->Evaluate( index ) );
-    };
+  virtual TOutput Evaluate( const IndexType& index ) const = 0;
 
 protected:
 
   ImageFunction() 
-    { m_Image = NULL; }
+  { m_Image = NULL; }
 
   ImageFunction( const Self& ){};
-
   ~ImageFunction(){};
-
   void operator=(const Self&) {};
-
   void PrintSelf(std::ostream& os, Indent indent)
     { 
       this->Superclass::PrintSelf( os, indent );
@@ -146,7 +124,7 @@ protected:
     }
 
   // made protected so subclass can access
-  InputImagePointer m_Image;
+  InputImageConstPointer  m_Image;
 
 };
 

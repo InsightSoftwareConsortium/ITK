@@ -89,7 +89,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * Set the input image.
@@ -111,15 +111,7 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index );
-
-  /**
-   * Evalulate the function at specified coordinate
-   */
-  virtual double Evaluate( double coord[] )
-  {
-    return Superclass::Evaluate( coord ); 
-  }
+  virtual double Evaluate( const IndexType& index ) const;
 
   /**
    * Get the magnitude from last evaluation
@@ -130,9 +122,7 @@ public:
 protected:
   EntropyPreservingGradientMagnitudeImageFunction(){};
   EntropyPreservingGradientMagnitudeImageFunction( const Self& ){};
-
   ~EntropyPreservingGradientMagnitudeImageFunction(){};
-
   void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -141,11 +131,11 @@ private:
   bool                    m_ImageSizeOK;
 
   double                  m_Speed;
-  double                  m_Magnitude;
+  mutable double          m_Magnitude;
 
-  IndexType               m_NeighIndex;
-  double                  m_CenterValue;
-  double                  m_DiffValue;
+  mutable IndexType       m_NeighIndex;
+  mutable double          m_CenterValue;
+  mutable double          m_DiffValue;
 
 };
 
