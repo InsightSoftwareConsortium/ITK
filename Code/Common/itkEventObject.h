@@ -59,45 +59,25 @@ public:
   /** Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated. */
   EventObject() {}
-
+  
   /** Virtual destructor needed  */
   virtual ~EventObject() {}
-
-  /** Copy Constructor */
-  EventObject( const EventObject &orig ) {}
   
-  /** Assignment and equivalence operators. */
-  EventObject &operator= ( const EventObject &orig )
-    { return *this; }
+  /**  Create an Event of this type This method work as a Factory for
+   *  creating events of each particular type. */
+  virtual EventObject* MakeObject() const=0;  
   
-  /**  Create an Event of this type
-   *  This method work as a Factory for creating
-   *  events of each particular type. */
-  virtual  EventObject * MakeObject(void) const
-    { return new EventObject; }
-  
-  /** Compare if two Events are of the same type.
-   * Given that events do not have ivars, two of
-   * them are considered equal when the actual type
-   * is the same. */ 
-  virtual bool operator==( const EventObject &orig ) const;
-  virtual bool IsA( const EventObject &orig ) const;
-           
-  /** Return the name of the class. */
-  itkTypeMacro(EventObject, None);
-
-   /** Print Event information.  This method can be overridden by
-   * specific Event subtypes.  The default is to print out the
-   * type of the event. */
+  /** Print Event information.  This method can be overridden by
+   * specific Event subtypes.  The default is to print out the type of
+   * the event. */
   virtual void Print(std::ostream& os) const;
-
-  /** Return the StringName associated with the event */
-  virtual const char * GetEventName(void) const;
-
-  /** Create an event of the specific type associated with
-   * the string */
-  static EventObject * CreateEventFromString(const char *);
-
+  
+  /** Return the StringName associated with the event. */
+  virtual const char * GetEventName(void) const=0;
+  
+  /** Check if given event matches or derives from this event. */
+  virtual bool CheckEvent(const EventObject*) const=0;
+  
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
@@ -109,10 +89,9 @@ protected:
    
 private:
   typedef  EventObject * EventFactoryFunction();
- 
+  EventObject(const EventObject&);
+  void operator=(const EventObject&);
 };
-
-
 
 
 /** Generic inserter operator for EventObject and its subclasses. */
@@ -131,13 +110,18 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
 #define itkEventMacro( classname , super ) \
  class classname : public super { \
    public: \
+     typedef classname Self; \
      typedef super Superclass; \
      classname() {} \
      virtual ~classname() {} \
-     virtual const char * GetName(void) { \
-      return "classname"; } \
-     virtual ::itk::EventObject * MakeObject(void) const { \
-        return new classname; } \
+     virtual const char * GetEventName() const { return #classname; } \
+     virtual bool CheckEvent(const ::itk::EventObject* e) const \
+       { return dynamic_cast<const Self*>(e); } \
+     virtual ::itk::EventObject* MakeObject() const \
+       { return new Self; } \
+   private: \
+     classname(const Self&); \
+     void operator=(const Self&); \
  }
 
 

@@ -51,6 +51,7 @@ public:
   void InvokeEvent( const EventObject & event, const Object* self);
   Command *GetCommand(unsigned long tag);
   bool HasObserver(const EventObject & event) const;
+  bool PrintObservers(std::ostream& os, Indent indent) const;
 private:
   std::list<Observer* > m_Observers;
   unsigned long m_Count;
@@ -105,7 +106,7 @@ InvokeEvent( const EventObject & event,
       i != m_Observers.end(); ++i)
     {
     const EventObject * e =  (*i)->m_Event;
-    if( typeid( *e ) == typeid( event ) ) 
+    if(e->CheckEvent(&event))
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -121,7 +122,7 @@ InvokeEvent( const EventObject & event,
       i != m_Observers.end(); ++i)
     {
     const EventObject * e =  (*i)->m_Event;
-    if( typeid( *e ) ==  typeid( event ) )
+    if(e->CheckEvent(&event))
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -151,13 +152,32 @@ HasObserver(const EventObject & event) const
   for(std::list<Observer* >::const_iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    const EventObject * e =  (*i)->m_Event;
-    if( typeid( *e ) == typeid( event ) )
+    const EventObject * e =  (*i)->m_Event; 
+    if(e->CheckEvent(&event))
       {
       return true;
       }
     }
   return false;
+}
+
+bool
+SubjectImplementation::
+PrintObservers(std::ostream& os, Indent indent) const
+{
+  if(m_Observers.empty())
+    {
+    return false;
+    }
+    
+  for(std::list<Observer* >::const_iterator i = m_Observers.begin();
+      i != m_Observers.end(); ++i)
+    {
+    const EventObject * e =  (*i)->m_Event;
+    const Command* c = (*i)->m_Command;
+    os << indent << e->GetEventName() << "(" << c->GetNameOfClass() << ")\n";
+    }
+  return true;
 }
 
 Object::Pointer
@@ -394,6 +414,19 @@ Object
 
 
 
+bool
+Object
+::PrintObservers(std::ostream& os, Indent indent) const
+{
+  if (this->m_SubjectImplementation)
+    {
+    return this->m_SubjectImplementation->PrintObservers(os, indent);
+    }
+  return false;
+}
+
+
+
 /**
  * Create an object with Debug turned off and modified time initialized 
  * to the most recently modified object.
@@ -428,14 +461,10 @@ Object
 
   os << indent << "Modified Time: " << this->GetMTime() << std::endl;
   os << indent << "Debug: " << (m_Debug ? "On\n" : "Off\n");
-  os << indent << "Instance has ";
-  if ( this->HasObserver( AnyEvent() ) )
+  os << indent << "Observers: \n";
+  if(!this->PrintObservers(os, indent.GetNextIndent()))
     {
-    os << "one or more observers\n";
-    }
-  else
-    {
-    os << "no observers\n";
+    os << indent.GetNextIndent() << "none\n";
     }
 }
 

@@ -121,7 +121,7 @@ public:
 
   /** Return true if an observer is registered for this event. */
   bool HasObserver( const EventObject & event ) const;
-
+  
 protected:
   Object(); 
   virtual ~Object(); 
@@ -131,6 +131,8 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  bool PrintObservers(std::ostream& os, Indent indent) const;
 
 private:
   Object(const Self&); //purposely not implemented
