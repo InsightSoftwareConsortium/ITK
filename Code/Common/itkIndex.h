@@ -127,7 +127,7 @@ public:
   operator*=(const Self &vec)
     {
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] *-= vec.m_Index[i]; }
+      { m_Index[i] *= vec.m_Index[i]; }
     return *this;
     }
 
