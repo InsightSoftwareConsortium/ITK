@@ -16,10 +16,10 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{Statistics!Bayesian plugin classifier|textbf}
-// \index{itk::Statistics::SampleClassifier|textbf}
-// \index{itk::Statistics::GaussianDensityFunction|textbf}
-// \index{itk::Statistics::NormalVariateGenerator|textbf}
+// \index{Statistics!Bayesian plugin classifier}
+// \index{itk::Statistics::SampleClassifier}
+// \index{itk::Statistics::GaussianDensityFunction}
+// \index{itk::Statistics::NormalVariateGenerator}
 //
 // In this example, we present a classifier system that classifies measurement
 // vectors into two Gaussian classes. The figure

@@ -17,10 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::MeanCalculator|textbf}
-// \index{itk::Statistics::CovarianceCalculator!|textbf}
-// \index{Statistics!Mean|textbf}
-// \index{Statistics!Covariance|textbf}
+// \index{itk::Statistics::MeanCalculator}
+// \index{itk::Statistics::CovarianceCalculator}
+// \index{Statistics!Mean}
+// \index{Statistics!Covariance}
 //
 // We include the header file for the \doxygen{Vector} class that will
 // be our measurement vector template in this example. 

@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Sampling mesurement vectors using radius|textbf}
-// \index{itk::Statistics::NeighborhoodSampler|textbf}
+// \index{Statistics!Sampling mesurement vectors using radius}
+// \index{itk::Statistics::NeighborhoodSampler}
 //
 // When we want to create an \subdoxygen{Statistics}{Subsample} object that
 // includes only the measurement vectors within a radius from a center in a

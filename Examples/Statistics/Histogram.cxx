@@ -19,7 +19,7 @@
 // This example shows how to create an \subdoxygen{Statistics}{Histogram}
 // object and use it.
 //
-// \index{itk::Sample!Histogram|textbf}
+// \index{itk::Sample!Histogram}
 //
 // We call an instance in a \code{Histogram} object a \emph{bin}.  The
 // Histogram differs from the

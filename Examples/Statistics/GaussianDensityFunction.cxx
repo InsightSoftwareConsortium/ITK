@@ -17,9 +17,9 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Guassian (normal) probability density function|textbf}
+// \index{Statistics!Guassian (normal) probability density function}
 //
-// \index{itk::Statistics::GaussianDensityFunction|textbf}
+// \index{itk::Statistics::GaussianDensityFunction}
 //
 // The Gaussian probability density function
 // (\subdoxygen{Statistics}{GaussianDensityFunction} requires two

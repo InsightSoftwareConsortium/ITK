@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::MembershipSample|textbf}
+// \index{itk::Statistics::MembershipSample}
 //
 // The \subdoxygen{Statistics}{MembershipSample} is derived from the class
 // \subdoxygen{Statistics}{Sample} that associates a class label with each

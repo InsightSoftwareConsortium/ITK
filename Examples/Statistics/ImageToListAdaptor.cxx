@@ -21,9 +21,9 @@
 // \subdoxygen{Statistics}{ImageToListAdaptor} object and plug-in an 
 // \doxygen{Image} object as the data source for the adaptor.
 //
-// \index{itk::Statistics::ImageToListAdaptor|textbf}
-// \index{itk::Statistics::ScalarImageToListAdaptor|textbf}
-// \index{itk::Statistics::JointDomainImageToListAdaptor|textbf}
+// \index{itk::Statistics::Image\-To\-List\-Adaptor}
+// \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor|}
+// \index{itk::Statistics::Joint\-Domain\-Image\-To\-List\-Adaptor}
 //
 // In this example, we use the ImageToListAdaptor class that requires the
 // input type of Image as the template argument. To users of the

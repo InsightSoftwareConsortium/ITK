@@ -17,18 +17,18 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Order statistics|textbf}
-// \index{Statistics!Sorting|textbf}
-// \index{Statistics!Insert sort|textbf}
-// \index{Statistics!Heap sort|textbf}
-// \index{Statistics!Introspective sort|textbf}
-// \index{Statistics!Quick select|textbf}
+// \index{Statistics!Order statistics}
+// \index{Statistics!Sorting}
+// \index{Statistics!Insert sort}
+// \index{Statistics!Heap sort}
+// \index{Statistics!Introspective sort}
+// \index{Statistics!Quick select}
 //
-// \index{itk::Statistics::Subsample|textbf}
-// \index{itk::Statistics::InsertSort|textbf}
-// \index{itk::Statistics::HeapSort|textbf}
-// \index{itk::Statistics::IntrospectiveSort|textbf}
-// \index{itk::Statistics::QuickSelect|textbf}
+// \index{itk::Statistics::Subsample}
+// \index{itk::Statistics::InsertSort}
+// \index{itk::Statistics::HeapSort}
+// \index{itk::Statistics::IntrospectiveSort}
+// \index{itk::Statistics::QuickSelect}
 //
 // Sometimes, we want to sort the measurement vectors in a sample. The sorted
 // sample might reveal some characteristics of the sample.  The \emph{insert

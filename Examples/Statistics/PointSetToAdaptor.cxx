@@ -20,7 +20,7 @@
 // We will decribe how to use \doxygen{PointSet} as a \code{Sample} 
 // using an adaptor in this example.
 //
-// \index{itk::Sample!PointSetToListAdaptor|textbf}
+// \index{itk::Sample!PointSetToListAdaptor}
 //
 // \subdoxygen{Statistics}{PointSetToListAdaptor} class requires the type 
 // of input \doxygen{PointSet} object. The \doxygen{PointSet} class is an

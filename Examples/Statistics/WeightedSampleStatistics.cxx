@@ -17,10 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::WeightedMeanCalculator|textbf}
-// \index{itk::Statistics::WeightedCovarianceCalculator|textbf}
-// \index{Statistics!Weighted mean|textbf}
-// \index{Statistics!Weighted covariance|textbf}
+// \index{itk::Statistics::WeightedMeanCalculator}
+// \index{itk::Statistics::WeightedCovarianceCalculator}
+// \index{Statistics!Weighted mean}
+// \index{Statistics!Weighted covariance}
 //
 // We include the header file for the \doxygen{Vector} class that will
 // be our measurement vector template in this example. 

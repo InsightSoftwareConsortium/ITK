@@ -16,7 +16,7 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::EuclideanDistance|textbf}
+// \index{itk::Statistics::EuclideanDistance}
 //
 // The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDinstance}
 // requires as template parameter the type of the measurement vector. We can

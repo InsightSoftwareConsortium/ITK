@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::Subsample|textbf}
+// \index{itk::Statistics::Subsample}
 //
 // The \subdoxygen{Statistics}{Subsample} is a derived sample. In other
 // words, it requires another \subdoxygen{Statistics}{Sample} object for

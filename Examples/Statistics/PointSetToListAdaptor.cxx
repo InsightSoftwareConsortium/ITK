@@ -20,7 +20,7 @@
 // We will decribe how to use \doxygen{PointSet} as a
 // \subdoxygen{Statistics}{Sample} using an adaptor in this example.
 //
-// \index{itk::Statistics::PointSetToListAdaptor|textbf}
+// \index{itk::Statistics::PointSetToListAdaptor}
 //
 // The \subdoxygen{Statistics}{PointSetToListAdaptor} class requires a
 // PointSet as input. The PointSet class is an associative data

@@ -16,7 +16,7 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::MinimumDecisionRule|textbf}
+// \index{itk::Statistics::MinimumDecisionRule}
 //
 // The \code{Eavaluate()} method of the \doxygen{MinimumDecisionRule}
 // returns the index of the smallest disciminant score among the

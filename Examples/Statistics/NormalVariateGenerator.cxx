@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::NormalVariateGenerator|textbf}
-// \index{Statistics!Random number generation!Normal (Gaussian) distribution|textbf}
+// \index{itk::Statistics::NormalVariateGenerator}
+// \index{Statistics!Random number generation!Normal (Gaussian) distribution}
 //
 // The \subdoxygen{Statistics}{NormalVariateGenerator} generates random
 // variables according to the standard normal distribution (mean = 0,

@@ -20,8 +20,8 @@
 // This example illustrates the common interface of the \code{Sample} class
 // in Insight.
 //
-// \index{itk::Sample!Interfaces|textbf}
-// \index{itk::Statistics::ListSample|textbf}
+// \index{itk::Sample!Interfaces}
+// \index{itk::Statistics::ListSample}
 //
 // Different subclasses of \subdoxygen{Statistics}{Sample} expect different
 // sets of template arguments. In this example, we use the

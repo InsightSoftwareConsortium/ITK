@@ -16,7 +16,7 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::MaximumDecisionRule|textbf}
+// \index{itk::Statistics::MaximumDecisionRule}
 //
 // The \doxygen{MaximumDecisionRule} returns the index of the largest
 // disciminant score among the discriminant scores in the vector of

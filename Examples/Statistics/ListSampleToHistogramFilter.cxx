@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Importing ListSample to Histogram|textbf}
-// \index{itk::Statistics::ListSampleToHistogramFilter|textbf}
+// \index{Statistics!Importing ListSample to Histogram}
+// \index{itk::Statistics::ListSampleToHistogramFilter}
 //
 // Sometimes we want to work with a histogram instead of a list of
 // measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
