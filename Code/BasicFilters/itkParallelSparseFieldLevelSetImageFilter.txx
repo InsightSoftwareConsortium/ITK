@@ -1096,7 +1096,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::ThreadedInitializeIteration (unsigned int ThreadId)
+::ThreadedInitializeIteration (unsigned int itkNotUsed(ThreadId))
 {
   // If child classes need an entry point to the start of every iteration step
   // they can override this method.
