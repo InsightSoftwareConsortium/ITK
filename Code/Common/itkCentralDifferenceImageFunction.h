@@ -45,10 +45,14 @@ class ITK_EXPORT CentralDifferenceImageFunction :
                         TCoordRep >
 {
 public:
+  /** Dimension underlying input image. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
   typedef ImageFunction<TInputImage,
-                        CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
+                        CovariantVector<double, itkGetStaticConstMacro(ImageDimension)>,
                         TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -73,10 +77,6 @@ public:
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
-
-  /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
 
   /** Evalulate the image derivative by central differencing at specified index.
    *
