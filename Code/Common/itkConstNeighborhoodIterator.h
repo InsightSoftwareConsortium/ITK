@@ -87,7 +87,7 @@ public:
   
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition<ImageType> const * const ImageBoundaryConditionConstPointerType;
+  typedef ImageBoundaryCondition<ImageType> const *ImageBoundaryConditionConstPointerType;
 
   /** Default constructor */
   ConstNeighborhoodIterator();
