@@ -8,7 +8,7 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
-SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
+SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
