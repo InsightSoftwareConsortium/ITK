@@ -72,7 +72,7 @@ public:
   itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  enum {NDimensions = TOutputImage::ImageDimension};
+  enum {ImageDimension = TOutputImage::ImageDimension};
 
   /** Transform typedef.
    *
@@ -80,20 +80,20 @@ public:
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
   typedef TTransform TransformType;
-  typedef TransformType *TransformPointerType;
+  typedef typename TransformType::Pointer TransformPointerType;
 
   /** Interpolator typedef. */
   typedef TInterpolator   InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /** Image size typedef. */
-  typedef Size<NDimensions> SizeType;
+  typedef Size<ImageDimension> SizeType;
 
   /** Image index typedef. */
   typedef typename TOutputImage::IndexType IndexType;
 
   /** Image point typedef. */
-  typedef Point<double, TOutputImage::ImageDimension>    PointType;
+  typedef typename InterpolatorType::PointType    PointType;
 
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType   PixelType;
@@ -108,19 +108,44 @@ public:
   void SetTransform(TransformPointerType transform) 
     { m_Transform = transform; }
 
+  /** Get a pointer to the coordinate transform. */
+  itkGetObjectMacro( Transform, TransformType );
+
   /** Set the interpolator function */
   void SetInterpolator(InterpolatorPointerType interpolator) 
     { m_Interpolator = interpolator; }
 
+  /** Get a pointer to the interpolator function. */
+  itkGetObjectMacro( Interpolator, InterpolatorType );
+
   /** Set the size of the output image. */
-  void SetSize(SizeType &size) 
+  void SetSize(const SizeType &size) 
     { m_Size = size; }
+
+  /** Get the size of the output image. */
+  const SizeType& GetSize()
+    { return m_Size; }
      
   /** Set the pixel value when a transformed pixel is outside of the image */
   itkSetMacro(DefaultPixelValue,PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
   itkGetMacro(DefaultPixelValue,PixelType);
+
+  /** Set the output image spacing. */
+  virtual void SetOutputSpacing( const double values[ImageDimension] );
+
+  /** Get the output image spacing. */
+  const double * GetOutputSpacing()
+    { return m_OutputSpacing; }
+
+  /** Set the output image origin. */
+  virtual void SetOutputOrigin( const double values[ImageDimension] );
+
+  /** Get the output image origin. */
+  const double * GetOutputOrigin()
+    { return m_OutputSpacing; }
+
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
@@ -135,6 +160,11 @@ public:
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
+
+  /** This method is used to set the state of the filter before 
+   * multi-threading. */
+  virtual void BeforeThreadedGenerateData();
+
 
 protected:
   ResampleImageFilter();
@@ -163,6 +193,9 @@ private:
   PixelType               m_DefaultPixelValue; 
                                         // default pixel value if the point 
                                         // is outside the image
+  double                  m_OutputSpacing[ImageDimension]; // output image spacing
+  double                  m_OutputOrigin[ImageDimension];  // output image origin
+
 };
 
   

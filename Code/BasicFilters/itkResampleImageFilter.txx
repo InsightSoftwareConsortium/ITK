@@ -26,17 +26,22 @@ namespace itk
 {
 
 /**
- * Initialize new instance to obviously undefined state
+ * Initialize new instance
  */
 template <class TInputImage, class TOutputImage, class TTransform,
     class TInterpolator>
 ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 ::ResampleImageFilter()
 {
-  for (int i = 0; i < NDimensions; i++)
+  for (int i = 0; i < ImageDimension; i++)
+    {
     m_Size[i] = 0;
-  m_Transform = 0;
-  m_Interpolator = 0;
+    m_OutputSpacing[i] = 1.0;
+    m_OutputOrigin[i] = 0.0;
+    }
+
+  m_Transform = TransformType::New();
+  m_Interpolator = InterpolatorType::New();
   m_DefaultPixelValue = 0;
 }
 
@@ -53,9 +58,123 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+  int j;
   
-  std::cout << "DefaultPixelValue: " << m_DefaultPixelValue << std::endl;
+  os << indent << "DefaultPixelValue: " << m_DefaultPixelValue << std::endl;
+
+  os << indent << "Size: [";
+  for( j = 0; j < ImageDimension - 1; j++ )
+    {
+    os << m_Size[j] << ", ";
+    }
+  os << m_Size[j] << "]" << std::endl;
+
+  os << indent << "OutputSpacing: [";
+  for( j = 0; j < ImageDimension - 1; j++ )
+    {
+    os << m_OutputSpacing[j] << ", ";
+    }
+  os << m_OutputSpacing[j] << "]" << std::endl;
+
+  os << indent << "OutputOrigin: [";
+  for( j = 0; j < ImageDimension - 1; j++ )
+    {
+    os << m_OutputOrigin[j] << ", ";
+    }
+  os << m_OutputOrigin[j] << "]" << std::endl;
+
+  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+
   return;
+}
+
+
+/**
+ * Set the output image spacing.
+ */
+template <class TInputImage, class TOutputImage, class TTransform,
+    class TInterpolator>
+void 
+ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+::SetOutputSpacing(
+const double spacing[ImageDimension] )
+{
+
+  int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( spacing[j] != m_OutputSpacing[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputSpacing[j] = spacing[j];
+      }
+    } 
+
+}
+
+
+/**
+ * Set the output image origin.
+ */
+template <class TInputImage, class TOutputImage, class TTransform,
+    class TInterpolator>
+void 
+ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+::SetOutputOrigin(
+const double origin[ImageDimension] )
+{
+
+  int j; 
+  for ( j = 0; j < ImageDimension; j++)
+    {
+    if ( origin[j] != m_OutputOrigin[j] )
+      {
+      break;
+      }
+    } 
+  if ( j < ImageDimension ) 
+    { 
+    this->Modified(); 
+    for ( j = 0; j < ImageDimension; j++)
+      {
+      m_OutputOrigin[j] = origin[j];
+      }
+    } 
+
+}
+
+
+
+/**
+ * Setup state of filter before multi-threading.
+ * InterpolatorType::SetInputImage is not thread-safe and hence
+ * has to be setup before ThreadedGenerateData
+ */
+template <class TInputImage, class TOutputImage, class TTransform,
+    class TInterpolator>
+void 
+ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
+::BeforeThreadedGenerateData()
+{
+
+  if( !m_Interpolator )
+    {
+    itkErrorMacro(<< "Interpolator not set");
+    throw ExceptionObject(__FILE__,__LINE__ );
+    }
+
+  // Connect input image to interpolator
+  m_Interpolator->SetInputImage( this->GetInput() );
+
 }
 
 
@@ -90,9 +209,6 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  // Configure the interpolator
-  m_Interpolator->SetInputImage(this->GetInput());
-
   // Estimate total work for progress methods/callbacks
   unsigned long updateVisits = 0;
   if ( threadId == 0 )
@@ -113,8 +229,11 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
     
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
-    for (int ii = 0; ii < NDimensions; ++ii)
-      outputPoint[ii] = outputIndex[ii];
+    for (int ii = 0; ii < ImageDimension; ++ii)
+      {
+      outputPoint[ii] = (double) outputIndex[ii] * m_OutputSpacing[ii] + 
+        m_OutputOrigin[ii];
+      }
 
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
@@ -192,6 +311,10 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( m_Size );
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+
+  // Set spacing and origin
+  outputPtr->SetSpacing( m_OutputSpacing );
+  outputPtr->SetOrigin( m_OutputOrigin );
 
   return;
 }
