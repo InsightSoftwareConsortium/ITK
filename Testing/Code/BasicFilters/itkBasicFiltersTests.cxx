@@ -12,6 +12,7 @@ void RegisterTests()
   REGISTER_TEST(itkAdaptImageFilterTest );
   REGISTER_TEST(itkAdaptImageFilterTest2 );
   REGISTER_TEST(itkBasicArchitectureTest );
+  REGISTER_TEST(itkBilateralImageFilterTest );
   REGISTER_TEST(itkBinaryDilateImageFilterTest );
   REGISTER_TEST(itkBinaryMagnitudeImageFilterTest );
   REGISTER_TEST(itkBinaryMedianImageFilterTest );
