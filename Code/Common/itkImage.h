@@ -158,6 +158,11 @@ public:
   typedef Index<VImageDimension>  IndexType;
 
   /** 
+   * Offset typedef support. An offset is used to access pixel values.
+   */
+  typedef Offset<VImageDimension>  OffsetType;
+
+  /** 
    * Size typedef support. A size is used to define region bounds.
    */
   typedef Size<VImageDimension>  SizeType;
