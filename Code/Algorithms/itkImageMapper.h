@@ -66,6 +66,17 @@ public:
    */
    typedef typename TTransformation::PointType   PointType;
 
+  /**
+   * Typedef of the exception
+   */
+   typedef MapperException   ExceptionType;
+
+
+  /**
+   * Typedef of the Image type
+   */
+   typedef  TImage   ImageType;
+
 
   /**
    * Typedef of the Pixel type
@@ -95,7 +106,7 @@ public:
   /**
    * Type of the interpolation function
    */
-   typedef typename LinearInterpolateImageFunction<TImage>  InterpolatorType;
+   typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 
   /** 
    * Run-time type information (and related methods).

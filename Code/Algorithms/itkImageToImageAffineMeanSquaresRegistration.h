@@ -76,7 +76,7 @@ public:
    typedef TReference  ReferenceType;
 
   /**
-   *  Type of the Metric
+   *  Type of the Target
    */
    typedef TTarget TargetType;
 
@@ -131,37 +131,37 @@ public:
   /**
    *  Pointer type for the Reference 
    */
-   typedef ReferenceType::Pointer ReferencePointer;
+   typedef typename ReferenceType::Pointer ReferencePointer;
 
   
   /**
    *  Pointer type for the Target 
    */
-   typedef TargetType::Pointer TargetPointer;
+   typedef typename TargetType::Pointer TargetPointer;
 
 
   /**
    *  Pointer type for the Transformation
    */
-   typedef  TransformationType::Pointer TransformationPointer;
+   typedef  typename TransformationType::Pointer TransformationPointer;
 
 
   /**
    *  Pointer type for the metric
    */
-   typedef  MetricType::Pointer        MetricPointer;
+   typedef  typename MetricType::Pointer        MetricPointer;
 
 
   /**
    *  Pointer type for the mapper
    */
-   typedef MapperType::Pointer        MapperPointer;
+   typedef typename MapperType::Pointer        MapperPointer;
 
 
   /**
    * Interpolation type
    */
-   typedef itk::LinearInterpolateImageFunction<TargetType>  InterpolatorType;
+   typedef LinearInterpolateImageFunction<TargetType>  InterpolatorType;
 
   /** 
    * Run-time type information (and related methods).
