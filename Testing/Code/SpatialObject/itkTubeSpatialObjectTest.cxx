@@ -28,7 +28,6 @@
 #include "itkTubeSpatialObject.h"
 #include "itkTubeNetworkSpatialObject.h"
 
-#include <cmath>
 #include <vnl/vnl_math.h>
 
 int itkTubeSpatialObjectTest(int, char **) 
