@@ -17,9 +17,11 @@
 #ifndef __itkSymmetricEigenSystem_h
 #define __itkSymmetricEigenSystem_h
 
+#include "itkObject.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "itkFixedArray.h"
 #include "itkMatrix.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
