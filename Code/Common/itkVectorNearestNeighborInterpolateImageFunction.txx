@@ -94,7 +94,6 @@ VectorNearestNeighborInterpolateImageFunction< TInputImage, TCoordRep >
   OutputType output;
   output.Fill( 0.0 );
 
-  RealType totalOverlap = 0.0;
   double uniformOverlap = (1/(static_cast <double> (m_Neighbors)));
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
