@@ -70,13 +70,13 @@
 
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
-#if !defined(CABLE_CONFIGURATION)
-#define ITK_TYPENAME
+# if !defined(CABLE_CONFIGURATION) || (_MSC_VER >= 1310)
+#  define ITK_TYPENAME
+# else
+#  define ITK_TYPENAME typename
+# endif
 #else
-#define ITK_TYPENAME typename
-#endif
-#else
-#define ITK_TYPENAME typename
+# define ITK_TYPENAME typename
 #endif
 
 // ITK_EXPORT can not be used
