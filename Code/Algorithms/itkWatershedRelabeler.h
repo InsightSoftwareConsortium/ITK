@@ -61,7 +61,7 @@ namespace watershed
  * \sa itk::watershed::EquivalencyTable
  * \sa itk::watershed::SegmentTree  */
 template <class TScalarType, unsigned int TImageDimension>
-class Relabeler
+class ITK_EXPORT Relabeler
   : public ProcessObject
 {
 public:

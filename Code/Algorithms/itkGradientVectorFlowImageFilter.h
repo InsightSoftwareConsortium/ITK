@@ -24,7 +24,7 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ImageSegmentation */
 template <class TInputImage, class TOutputImage>
-class GradientVectorFlowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT GradientVectorFlowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard "Self" typedef. */

@@ -1648,6 +1648,15 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     }
 }
 
+template <class TInputImage, class TOutputImage>
+void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Objects = "  << m_Objects  << std::endl;
+  os << indent << "Selected Object = "  << m_SelectedObject  << std::endl;
+}
+
 } // end namespace itk
 
 #endif

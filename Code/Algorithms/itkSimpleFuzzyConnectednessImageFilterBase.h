@@ -54,7 +54,7 @@ namespace itk{
  * \ingroup FuzzyConnectednessSegmentation  */
 
 template <class TInputImage, class TOutputImage>
-class SimpleFuzzyConnectednessImageFilterBase:
+class ITK_EXPORT SimpleFuzzyConnectednessImageFilterBase:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:

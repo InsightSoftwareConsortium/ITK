@@ -48,7 +48,7 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation */
 template <class TInputMesh, class TOutputMesh>
-class DeformableMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+class ITK_EXPORT DeformableMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard "Self" typedef. */
@@ -190,7 +190,7 @@ private:
   int3DVector       m_Resolution;
   ImageIndexType    m_Center;
   double3DVector    m_Scale;
-  int       m_Step;          /** Nnumber of iterations */
+  int       m_Step;          /** Number of iterations */
   int       m_NumberOfNodes;
   int       m_NumberOfCells;
   int       m_ImageWidth;      /** Image size */

@@ -154,7 +154,7 @@ namespace itk{
  *     Medical Imaging 4322, 2001, 1455-1465.  
  */
 template <class TInputImage, class TOutputImage>
-class VectorFuzzyConnectednessImageFilter:
+class ITK_EXPORT VectorFuzzyConnectednessImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
@@ -221,6 +221,7 @@ public:
 protected:
   VectorFuzzyConnectednessImageFilter();
   ~VectorFuzzyConnectednessImageFilter();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Standard pipeline method. */
   void GenerateData();

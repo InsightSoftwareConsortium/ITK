@@ -73,7 +73,7 @@ namespace itk
  * \ingroup DeformableImageRegistration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-class MultiResolutionPDEDeformableRegistration :
+class ITK_EXPORT MultiResolutionPDEDeformableRegistration :
   public ImageToImageFilter <TDeformationField, TDeformationField>
 {
 public:

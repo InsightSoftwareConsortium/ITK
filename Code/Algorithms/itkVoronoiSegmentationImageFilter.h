@@ -52,7 +52,7 @@ namespace itk
  * \ingroup HybridSegmentation 
  */
 template <class TInputImage, class TOutputImage>
-class VoronoiSegmentationImageFilter:
+class ITK_EXPORT VoronoiSegmentationImageFilter:
 public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 public:
@@ -112,6 +112,7 @@ public:
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   double m_Mean;

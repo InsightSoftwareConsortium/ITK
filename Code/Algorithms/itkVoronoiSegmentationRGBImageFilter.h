@@ -52,7 +52,7 @@ namespace itk
  * \ingroup HybridSegmentation 
  */
 template <class TInputImage, class TOutputImage>
-class VoronoiSegmentationRGBImageFilter:
+class ITK_EXPORT VoronoiSegmentationRGBImageFilter:
 public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 

@@ -85,7 +85,7 @@ namespace itk {
   *  TOutputImage's pixel type must be a real number type.
   */
 template <class TInputImage, class TOutputImage>
-class CurvatureFlowImageFilter
+class ITK_EXPORT CurvatureFlowImageFilter
   : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:

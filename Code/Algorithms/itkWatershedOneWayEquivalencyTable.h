@@ -44,7 +44,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  *
  * \sa EquivalencyTable  */
-class OneWayEquivalencyTable : public DataObject
+class ITK_EXPORT OneWayEquivalencyTable : public DataObject
 {
 public:
   /**  Standard typedefs and smart pointer declarations.   */

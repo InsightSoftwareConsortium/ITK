@@ -22,6 +22,7 @@
 #endif
 
 #include "itkDeformableMesh3DFilter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -45,8 +46,26 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Deformable Mesh 3D Filter" << std::endl;
+  os << indent << "NormalUpdate = "
+     << static_cast<typename NumericTraits<char>::PrintType>(m_NormalUpdate)
+     << std::endl;
+  os << indent << "Stiffness = " << m_Stiffness;
+  os << indent << "PotentialMagnitude = "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_PotentialMagnitude)
+      << std::endl;
+  os << indent << "GradientMagnitude = "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_GradientMagnitude)
+     << std::endl;
+  os << indent << "Scale = " << m_Scale;
+  os << indent << "Resolution = " << m_Resolution;
+  os << indent << "TimeStep = " << m_TimeStep << std::endl;
+  os << indent << "PotentialOn = " << m_PotentialOn << std::endl;
+  os << indent << "Center = " << m_Center << std::endl;
+  os << indent << "ObjectLabel = "
+     << static_cast<typename NumericTraits<unsigned char>::PrintType>(m_ObjectLabel)
+      << std::endl;
+  os << indent << "StepThreshold = " << m_StepThreshold << std::endl;
+  os << indent << "Gradient = " << m_Gradient << std::endl;
 
 }/* End PrintSelf. */
 

@@ -56,7 +56,7 @@ namespace itk
  * \todo It's not yet clear how multi-echo images should be handled here.
  */
 template < class TImage >
-class ImageMomentsCalculator
+class ITK_EXPORT ImageMomentsCalculator
 {
 public:
   /** Standard class typedefs. */

@@ -214,6 +214,21 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   m_STDTolerance = m_STD*m_STDPercentError;
 }
 
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Mean = " << m_Mean << std::endl;
+  os << indent << "MeanTolerance = " << m_MeanTolerance << std::endl;
+  os << indent << "MeanPercentError = " << m_MeanPercentError << std::endl;
+  os << indent << "STD = " << m_STD << std::endl;
+  os << indent << "STDTolerance = " << m_STDTolerance << std::endl;
+  os << indent << "STDPercentError = " << m_STDPercentError << std::endl;
+}
+
 } //end namespace
 
 #endif

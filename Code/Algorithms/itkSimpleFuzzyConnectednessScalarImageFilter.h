@@ -70,7 +70,7 @@ namespace itk{
  * \ingroup FuzzyConnectednessSegmentation */
 
 template <class TInputImage, class TOutputImage>
-class SimpleFuzzyConnectednessScalarImageFilter:
+class ITK_EXPORT SimpleFuzzyConnectednessScalarImageFilter:
   public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:

@@ -72,7 +72,7 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation */
 template <class TInputMesh, class TOutputMesh>
-class BalloonForce3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+class ITK_EXPORT BalloonForce3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
 

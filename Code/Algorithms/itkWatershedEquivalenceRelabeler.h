@@ -49,7 +49,7 @@ namespace watershed
  * \sa itk::WatershedImageFilter
  * \sa EquivalencyTable */
 template <class TScalarType, unsigned int TImageDimension>
-class EquivalenceRelabeler
+class ITK_EXPORT EquivalenceRelabeler
   : public ProcessObject
 {
 public:

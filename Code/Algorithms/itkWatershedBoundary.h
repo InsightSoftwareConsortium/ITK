@@ -53,7 +53,7 @@ namespace watershed
  * \sa WatershedBoundaryResolver
  * \ingroup WatershedSegmentation */
 template <class TScalarType, unsigned int TDimension>
-class Boundary : public DataObject
+class ITK_EXPORT Boundary : public DataObject
 {
 public:
   /** The dimensionality of this boundary.  For example, if the boundary

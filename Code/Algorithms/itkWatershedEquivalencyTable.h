@@ -45,7 +45,7 @@ namespace watershed
  * itk::watershed::Relabeler.
  * \ingroup WatershedSegmentation
  */
-class EquivalencyTable : public DataObject
+class ITK_EXPORT EquivalencyTable : public DataObject
 {
 public:
   /** Standard smart pointer declarations */

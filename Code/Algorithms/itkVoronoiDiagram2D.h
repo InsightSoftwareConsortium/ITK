@@ -52,7 +52,7 @@ namespace itk
  * \ingroup MeshObjects 
  */
 template <typename TCoordType>
-class VoronoiDiagram2D:
+class ITK_EXPORT VoronoiDiagram2D:
     public Mesh <TCoordType, 2,
                  DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
 {

@@ -47,7 +47,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \sa itk::WatershedImageFilter */
 template <class TScalarType> 
-class SegmentTable : public DataObject
+class ITK_EXPORT SegmentTable : public DataObject
 {
 public:
   /** Define smart pointers for this object */

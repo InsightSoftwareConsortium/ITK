@@ -62,6 +62,13 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 
   os << indent << "Number Of Steps to Run: (0 means runs until no region to split) " 
      << m_Steps << std::endl;
+
+  os << indent << "UseBackgroundInAPrior = " << m_UseBackgroundInAPrior << std::endl;
+  os << indent << "OutputBoundary = " << m_OutputBoundary << std::endl;
+  os << indent << "MeanDeviation = " << m_MeanDeviation << std::endl;
+  os << indent << "LastStepSeeds = " << m_LastStepSeeds << std::endl;
+  os << indent << "InteractiveSegmentation = " << m_InteractiveSegmentation << std::endl;
+  os << indent << "NumberOfSeedsToAdded = " << m_NumberOfSeedsToAdded << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>

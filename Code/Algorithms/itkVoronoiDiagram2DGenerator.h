@@ -51,7 +51,7 @@ namespace itk
  *  resulting vertices.
  */
 template <typename TCoordType>
-class VoronoiDiagram2DGenerator:
+class ITK_EXPORT VoronoiDiagram2DGenerator:
     public MeshSource <VoronoiDiagram2D<TCoordType> >
 {
 public:

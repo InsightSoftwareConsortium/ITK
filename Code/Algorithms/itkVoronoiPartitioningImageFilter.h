@@ -32,7 +32,7 @@ namespace itk
  * \ingroup HybridSegmentation
  */
 template <class TInputImage, class TOutputImage>
-class VoronoiPartitioningImageFilter:
+class ITK_EXPORT VoronoiPartitioningImageFilter:
 public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
 {
 public:
