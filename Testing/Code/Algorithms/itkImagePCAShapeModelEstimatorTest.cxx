@@ -162,8 +162,21 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 
   applyPCAShapeEstimator->Update();
 
+  //Test the printself function to increase coverage
+  applyPCAShapeEstimator->Print(std::cout);
+
+  //Print out the number of training images and the number of principal 
+  //components
+  std::cout << "The number of training images are: " <<
+    applyPCAShapeEstimator->GetNumberOfTrainingImages() << std::endl;
+
+  std::cout << "The number of principal components desired are: " <<
+    applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << std::endl;
+
   //Print the eigen vectors
-  std::cout << "The " << NUMLARGESTPC << " largest eigen values are:" << std::endl;
+  std::cout << "The " << 
+    applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << 
+    " largest eigen values are:" << std::endl;
 
   vnl_vector<double> eigenValues = 
     applyPCAShapeEstimator->GetEigenValues();
