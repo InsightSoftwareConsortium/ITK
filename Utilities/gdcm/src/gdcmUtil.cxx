@@ -415,7 +415,8 @@ int GetMacAddrSys ( unsigned char *addr )
    m_Query(ASN_RFC1157_GETNEXTREQUEST, &varBindList, &errorStatus,
                  &errorIndex);
 //   printf("# of adapters in this system : %i\n",
-//          varBind[0].value.asnValue.number); varBindList.len = 2;
+//          varBind[0].value.asnValue.number);
+   varBindList.len = 2;
 
    // Copy in the OID of ifType, the type of interface
    SNMP_oidcpy(&varBind[0].name, &MIB_ifEntryType);
