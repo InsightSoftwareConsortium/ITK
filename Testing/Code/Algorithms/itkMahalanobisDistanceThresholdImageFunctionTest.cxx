@@ -65,8 +65,8 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   function->SetThreshold( threshold ); 
 
 
-  vnl_matrix<double> Covariance(3,3);
-  vnl_vector<double> Mean;
+  vnl_matrix<double> Covariance( Dimension, Dimension );
+  vnl_vector<double> Mean( Dimension );
 
   Mean[0] = 10.0;
   Mean[1] = 20.0;
