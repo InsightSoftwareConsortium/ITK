@@ -36,10 +36,6 @@ template <class TImage, class TAccessor >
 ImageAdaptor<TImage , TAccessor>
 ::~ImageAdaptor()
 {
-  if( m_Image )
-  {
-    m_Image->UnRegister();
-  }
 }
 
 
@@ -225,7 +221,6 @@ ImageAdaptor<TImage , TAccessor>
 ::SetImage( TImage * image )
 {
   m_Image = image;
-  m_Image->Register();
   Superclass::SetLargestPossibleRegion( m_Image->GetLargestPossibleRegion() );
   Superclass::SetBufferedRegion( m_Image->GetBufferedRegion() );
   Superclass::SetRequestedRegion( m_Image->GetRequestedRegion() );
