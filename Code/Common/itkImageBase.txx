@@ -291,7 +291,9 @@ ImageBase<VImageDimension>
   bool retval = true;
   unsigned int i;
 
-  // Is the region within the image?
+  // Is the requested region within the LargestPossibleRegion?
+  // Note that the test is indeed against the largest possible region
+  // rather than the buffered region; see DataObject::VerifyRequestedRegion.
   const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
   const IndexType &largestPossibleRegionIndex
     = m_LargestPossibleRegion.GetIndex();

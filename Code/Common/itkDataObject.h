@@ -376,15 +376,16 @@ public:
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() = 0;
 
   /**
-   * Verify that the RequestedRegion is within the
-   * LargestPossibleRegion.  If the RequestedRegion is not within the
-   * LargestPossibleRegion, then the filter cannot possible satisfy
-   * the request. This method returns true if the request can be
-   * satisfied and returns fails if the request cannot. This method is
+   * Verify that the RequestedRegion is within the LargestPossibleRegion.  
+   *
+   * If the RequestedRegion is not within the LargestPossibleRegion,
+   * then the filter cannot possibly satisfy the request. This method
+   * returns true if the request can be satisfied (even if it will be
+   * necessary to read or generate data outside the current
+   * RequestedRegion) and returns false otherwise.  This method is
    * used by PropagateRequestedRegion().  PropagateRequestedRegion()
-   * throws a InvalidRequestedRegionError exception is the requested
-   * region is not within the LargestPossibleRegion.
-   */
+   * throws a InvalidRequestedRegionError exception if the requested
+   * region is not within the LargestPossibleRegion.  */
   virtual bool VerifyRequestedRegion() = 0;
 
   /**
