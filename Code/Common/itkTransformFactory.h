@@ -29,7 +29,7 @@ namespace itk
  */
 
 template <class T>
-class ITKCommon_EXPORT TransformFactory : public TransformFactoryBase
+class TransformFactory : public TransformFactoryBase
 {
 public:  
   static void RegisterTransform ()
