@@ -94,8 +94,8 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    m_Derivative[0] = 3*x + 2*y -2;
-    m_Derivative[1] = 2*x + 6*y +8;
+    m_Derivative[0] = 3 * x + 2 * y -2;
+    m_Derivative[1] = 2 * x + 6 * y +8;
 
     std::cout << m_Derivative << std::endl;
 
@@ -133,21 +133,23 @@ int main()
   itkOptimizer->SetCostFunction( &costFunction );
 
   
-  const double F_Tolerance      = 1e-3;  // Function value tolerance
-  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
-  const double X_Tolerance      = 1e-8;  // Search space tolerance
-  const double Epsilon_Function = 1e-10; // Step
-  const int    Max_Iterations   =   100; // Maximum number of iterations
-
-
-  itkOptimizer->SetMaximumNumberOfIterations( Max_Iterations );
-
-  typedef CostFunction::ParametersType    ParametersType;
+   typedef CostFunction::ParametersType    ParametersType;
 
   // We start not so far from  | 2 -2 |
   ParametersType  initialPosition;
-  initialPosition =  100;
-  initialPosition = -100;
+  initialPosition[0] =  100;
+  initialPosition[1] = -100;
+  
+  ParametersType  parametersScale;
+  parametersScale[0] = 1.0;
+  parametersScale[1] = 1.0;
+
+  itkOptimizer->SetMinimize();
+  itkOptimizer->SetScale( parametersScale );
+  itkOptimizer->SetGradientMagnitudeTolerance( 1e-6 );
+  itkOptimizer->SetMaximumStepLength( 30.0 );
+  itkOptimizer->SetMinimumStepLength( 1e-6 );
+  itkOptimizer->SetMaximumNumberOfIterations( 900 );
 
   itkOptimizer->SetInitialPosition( initialPosition );
   itkOptimizer->StartOptimization();
