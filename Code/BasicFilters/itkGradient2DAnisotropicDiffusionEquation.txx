@@ -78,8 +78,8 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   PixelType dx_forward, dx_backward, dy_forward, dy_backward;
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
    
-  dx_forward = it.GetPixel(6)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(8)  - it.GetPixel(7);
+  dx_forward = it.GetPixel(8)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(6)  - it.GetPixel(7);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
   dy_backward= it.GetPixel(2)  - it.GetPixel(7);
   
@@ -120,8 +120,8 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
   PixelType dx_forward, dx_backward, dy_forward, dy_backward;
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
    
-  dx_forward = it.GetPixel(6)  - it.GetPixel(7);
-  dx_backward= it.GetPixel(8)  - it.GetPixel(7);
+  dx_forward = it.GetPixel(8)  - it.GetPixel(7);
+  dx_backward= it.GetPixel(6)  - it.GetPixel(7);
   dy_forward = it.GetPixel(12) - it.GetPixel(7);
   dy_backward= it.GetPixel(2)  - it.GetPixel(7);
   

@@ -98,9 +98,9 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i] = it.GetPixel(m_Center - m_Stride[i])
+      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]= it.GetPixel(m_Center + m_Stride[i])
+      dx_backward[i]= it.GetPixel(m_Center - m_Stride[i])
         - it.GetPixel(m_Center);
 
       dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
@@ -152,9 +152,9 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i] = it.GetPixel(m_Center - m_Stride[i])
+      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]= it.GetPixel(m_Center + m_Stride[i])
+      dx_backward[i]= it.GetPixel(m_Center - m_Stride[i])
         - it.GetPixel(m_Center);
 
       dx[i]         = m_SmartInnerProduct(x_slice[i], it, dx_op);
