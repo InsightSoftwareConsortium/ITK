@@ -34,8 +34,6 @@ int main(int argc, char** argv)
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
-  const float variance = 2.0;
-  
   typedef unsigned char    CharPixelType;  //IO
   typedef double          RealPixelType;  //Operations
 
