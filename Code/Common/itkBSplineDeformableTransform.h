@@ -228,6 +228,7 @@ public:
   /** This method specifies the region over which the grid resides. */
   virtual void SetGridRegion( const RegionType& region );
   itkGetMacro( GridRegion, RegionType );
+  itkGetConstMacro( GridRegion, RegionType );
 
   /** This method specifies the grid spacing or resolution. */
   virtual void SetGridSpacing( const SpacingType& spacing );
