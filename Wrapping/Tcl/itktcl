@@ -1,0 +1,92 @@
+#!/bin/sh
+#-----------------------------------------------------------------------------
+# Program:   Insight Segmentation & Registration Toolkit
+# Module:    itktcl
+# Language:  C++
+# Date:      $Date$
+# Version:   $Revision$
+#
+# Copyright (c) 2002 Insight Consortium. All rights reserved.
+# See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+#
+# Portions of this code are covered under the VTK copyright.
+# See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+#
+#    This software is distributed WITHOUT ANY WARRANTY; without even 
+#    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+#    PURPOSE.  See the above copyright notices for more information.
+#-----------------------------------------------------------------------------
+
+#
+# This is a shell script driving the ITK Tcl wrapper executable.  It
+# sets up the environment and then executes the real executable.
+# Alternatively, if the first command line argument is "--run", the rest
+# of the command line will be invoked as a command in the proper
+# environment.
+#
+# The real executable is located relative to this script in
+#   ../lib/InsightToolkit
+#
+
+ITKTCL_Usage()
+{
+  echo "Insight Segmentation & Registration Toolkit (http://www.itk.org)"
+  echo "This is the Tcl wrapper executable driver."
+  echo ""
+  echo "Usage:"
+  echo "  itktcl           = Run itktcl interactively as a Tcl interpreter."
+  echo "  itktcl foo.tcl   = Run \"foo.tcl\" in the ITK Tcl interpreter."
+  echo "  itktcl --run ... = Run command \"...\" in the itktcl environment."
+  echo ""
+  echo "Example commands:"
+  echo "  \"itktcl\""
+  echo "    Provides a tcl prompt "%" from which ITK scripts can be written"
+  echo "    interactively."
+  echo ""
+  echo "  \"itktcl myITKScript.tcl\""
+  echo "    Runs the myITKScript.tcl script in the ITK Tcl interpreter.."
+  echo ""
+  echo "  \"itktcl --run wish\""
+  echo "    Runs wish in an environment in which the ITK packages can be"
+  echo "    loaded with \"package require InsightToolkit\"."
+}
+
+ITKTCL_SELFDIR=`cd \`echo "$0" | sed -n '/\//{s/\/[^\/]*$//;p;}'\`;pwd`
+
+if [ -d "${ITKTCL_SELFDIR}/../lib/InsightToolkit" ]; then : ; else
+  ITKTCL_Usage
+  echo ""
+  echo "Error:"
+  echo "  This script is meant to be used from an itk installation directory."
+  echo "  It will not run from the itk source tree."
+  exit 1
+fi
+
+ITKTCL_LIBDIR=`cd "${ITKTCL_SELFDIR}/../lib/InsightToolkit"; pwd`
+
+# Setup environment.
+if [ -z "$LD_LIBRARY_PATH" ]; then
+  export LD_LIBRARY_PATH="$ITKTCL_LIBDIR"
+else
+  export LD_LIBRARY_PATH="$ITKTCL_LIBDIR:$LD_LIBRARY_PATH"
+fi
+
+if [ -z "$TCLLIBPATH" ]; then
+  export TCLLIBPATH="\"$ITKTCL_LIBDIR\""
+else
+  export TCLLIBPATH="\"$ITKTCL_LIBDIR\" $TCLLIBPATH"
+fi
+
+if [ "$1" = "--help" ]; then
+  # Display usage.
+  ITKTCL_Usage
+  exit
+elif [ "$1" = "--run" ]; then
+  # Skip the "--run" argument.
+  shift
+  # Run exact command line given after "--run" in this environment.
+  exec "$@"
+else
+  # Run real itktcl executable in this environment.
+  exec "${ITKTCL_LIBDIR}/itktcl" "$@"
+fi

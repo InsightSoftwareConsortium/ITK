@@ -26,7 +26,7 @@ namespace eval itk {
     set libFile [file join $libPath "$libPrefix$libName$libExt"]
     
     package ifneeded $package $version "
-      if {\[catch { load $libFile } errorMessage \]} { puts \$errorMessage }
+      if {\[catch { load \"$libFile\" } errorMessage \]} { puts \$errorMessage }
     "
   }
   
@@ -40,14 +40,14 @@ namespace eval itk {
     ConfigureTclPackage ITKBasicFiltersTcl $version BasicFilters
     ConfigureTclPackage ITKAlgorithmsTcl   $version Algorithms
     
-    package ifneeded itk $version "
+    package ifneeded InsightToolkit $version "
       package require itknumerics $version
       package require itkcommon $version
       package require itkio $version
       package require itkbasicfilters $version
       package require itkalgorithms $version
       package require itkutils $version
-      package provide itk $version
+      package provide InsightToolkit $version
     "
 
     package ifneeded itknumerics $version "
@@ -77,24 +77,24 @@ namespace eval itk {
     "
 
     package ifneeded itkutils $version "
-      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itkutils.tcl]
-      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkutils.tcl\]
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itkutils $version }
     "
 
     package ifneeded itkinteraction $version "
-      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itkinteraction.tcl]
-      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkinteraction.tcl\]
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itkinteraction $version }
     "
 
     package ifneeded itktesting $version "
-      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itktesting.tcl]
+      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itktesting.tcl\]
       namespace eval itk::testing {
-        set defaultDataRoot {${ITK_DATA_ROOT}}
-        set defaultTestRoot {${ITK_BINARY_DIR}/Testing}
+        set defaultDataRoot \"${ITK_TCL_DATA_ROOT}\"
+        set defaultTestRoot \"${ITK_TCL_TEST_ROOT}\"
       }
-      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itktesting $version }
     "
   }

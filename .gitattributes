@@ -8,6 +8,7 @@
 configure        crlf=input
 cvsrmvend        crlf=input
 install-sh       crlf=input
+itktcl           crlf=input
 time_fastops.mk  crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input

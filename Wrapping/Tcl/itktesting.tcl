@@ -17,7 +17,7 @@
 namespace eval itk::testing {
   
   # Require the itk packages.
-  package require itk
+  package require InsightToolkit
   
   # Put the ITK_DATA_ROOT setting in the global namespace.  This
   # package is only used for testing, so this is okay.

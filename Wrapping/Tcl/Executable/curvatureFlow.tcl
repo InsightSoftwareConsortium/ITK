@@ -1,4 +1,4 @@
-package require itk
+package require InsightToolkit
 package require itkinteraction
 
 wm title . "Curvature Flow Example"
