@@ -314,7 +314,7 @@ int main( int argc, char **argv )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "Caught expected ExceptionObject" << std::endl; 
+    std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
     return -1;
     } 
