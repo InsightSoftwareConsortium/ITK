@@ -213,12 +213,6 @@ int itkExtractImageTest(int, char**)
     }
 
 
-  // Try extracting a single row
-  itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
-  lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
-  lineExtract->SetInput( if2 );
-  lineExtract->Update();
-
   // need to put in code to check whether the proper region was extracted.
   //
   
@@ -232,5 +226,21 @@ int itkExtractImageTest(int, char**)
       return EXIT_FAILURE;
     }
 
+  // Try extracting a single row
+  itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
+  lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
+  lineExtract->SetInput( if2 );
+
+  LineImage::IndexType lineIndex = {{2}};
+  LineImage::SizeType lineSize = {{3}};
+  LineImage::RegionType lineRegion;
+  lineRegion.SetIndex( lineIndex );
+  lineRegion.SetSize( lineSize );
+
+  lineExtract->SetExtractionRegion( lineRegion );
+  lineExtract->UpdateLargestPossibleRegion();
+
+  std::cout << "After 1D extraction. " << std::endl;
+  
   return EXIT_SUCCESS;
 }
