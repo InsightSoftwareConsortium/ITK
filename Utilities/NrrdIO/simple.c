@@ -124,7 +124,7 @@ _nrrdContentSet_nva (Nrrd *nout, const char *func,
        + 1, sizeof(char));      /* '\0' */
   if (!nout->content) {
     sprintf(err, "%s: couln't alloc output content!", me);
-    biffAdd(NRRD, err); buff = airFree(buff); return 1;
+    biffAdd(NRRD, err); airFree(buff); return 1;
   }
   sprintf(nout->content, "%s(%s%s%s)", func, content,
     airStrlen(buff) ? "," : "", buff);
