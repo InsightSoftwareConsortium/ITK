@@ -35,6 +35,16 @@ namespace _cable_
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::SS3, image::SS3, itkImageToImageFilterSS3SS3);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::SI3, image::SI3, itkImageToImageFilterSI3SI3);
 
+    // 2D-->3D
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2, image::F3, itkImageToImageFilterF2F3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::D2, image::D3, itkImageToImageFilterD2D3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC2, image::UC3, itkImageToImageFilterUC2UC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::US3, itkImageToImageFilterUS2US3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UI2, image::UI3, itkImageToImageFilterUI2UI3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::SC2, image::SC3, itkImageToImageFilterSC2SC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::SS2, image::SS3, itkImageToImageFilterSS2SS3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::SI2, image::SI3, itkImageToImageFilterSI2SI3);
+
     //Double to/from float 3D
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3, image::D3, itkImageToImageFilterF3D3);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::D3, image::F3, itkImageToImageFilterD3F3);
@@ -68,6 +78,12 @@ namespace _cable_
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3 , image::CVF3 ,itkImageToImageFilterF3CVF3 );
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::CVF3, itkImageToImageFilterUS3CVF3);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::V2F3, image::V2F3, itkImageToImageFilterV2F3V2F3);
+
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3 , image::VF2 ,itkImageToImageFilterF3VF2 );
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::VF2, itkImageToImageFilterUS3VF2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3 , image::CVF2 ,itkImageToImageFilterF3CVF2 );
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::CVF2, itkImageToImageFilterUS3CVF2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::V2F3, image::V2F2, itkImageToImageFilterV2F3V2F2);
   }
 }
 #endif
