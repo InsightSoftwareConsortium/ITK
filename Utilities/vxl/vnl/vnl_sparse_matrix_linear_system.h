@@ -49,6 +49,7 @@ class vnl_sparse_matrix_linear_system : public vnl_linear_system
   vnl_vector<double> jacobi_precond_;
 };
 
+#ifdef VCL_BORLAND
 VCL_DEFINE_SPECIALIZATION
 void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const;
 VCL_DEFINE_SPECIALIZATION
@@ -61,5 +62,6 @@ VCL_DEFINE_SPECIALIZATION
 void vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
 VCL_DEFINE_SPECIALIZATION
 void vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
+#endif
 
 #endif // vnl_sparse_matrix_linear_system_h_
