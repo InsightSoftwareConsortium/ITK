@@ -36,6 +36,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineInterpolateImageFunction.txx"
 #include "itkBSplineL2ResampleImageFilterBase.txx"
 #include "itkBSplineResampleImageFilterBase.txx"
+#include "itkBSplineResampleImageFunction.h"
 #include "itkBSplineUpsampleImageFilter.txx"
 #include "itkBilateralImageFilter.txx"
 #include "itkBinaryDilateImageFilter.txx"
