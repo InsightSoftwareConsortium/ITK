@@ -256,7 +256,11 @@ LevelSetFunction<TImageType>
       dt = 0.0;
       }
     }
-
+  
+  // reset the values  
+  d->m_MaxAdvectionChange  = 0;
+  d->m_MaxPropagationChange= 0;
+  
   return dt;
 }
  
