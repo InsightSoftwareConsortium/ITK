@@ -14,16 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkAffineTransform.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
-#include "itkBSplineDeformableTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
-#include "itkIdentityTransform.h"
 #include "itkKernelTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
-#include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 
 #ifdef CABLE_CONFIGURATION
@@ -43,17 +39,12 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(ITKTransforms);
   namespace wrappers
   {
-    ITK_WRAP_TRANSFORM_1(VersorTransform);
-    ITK_WRAP_TRANSFORM_2(AffineTransform, 2);
-    ITK_WRAP_TRANSFORM_2(AffineTransform, 3);
     ITK_WRAP_TRANSFORM_2(AzimuthElevationToCartesianTransform, 2);
     ITK_WRAP_TRANSFORM_2(AzimuthElevationToCartesianTransform, 3);
     ITK_WRAP_TRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(ElasticBodyReciprocalSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(ElasticBodySplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(ElasticBodySplineKernelTransform, 3);
-    ITK_WRAP_TRANSFORM_2(IdentityTransform, 2);
-    ITK_WRAP_TRANSFORM_2(IdentityTransform, 3);
     ITK_WRAP_TRANSFORM_2(KernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(KernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(ThinPlateR2LogRSplineKernelTransform, 2);
@@ -62,8 +53,6 @@ namespace _cable_
     ITK_WRAP_TRANSFORM_2(ThinPlateSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(VolumeSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(VolumeSplineKernelTransform, 3);
-    ITK_WRAP_TRANSFORM_3(BSplineDeformableTransform, 2, 3);
-    ITK_WRAP_TRANSFORM_3(BSplineDeformableTransform, 3, 3);
   }
 }
 #endif

@@ -28,13 +28,16 @@ namespace _cable_
     ITK_WRAP_GROUP(ITKRigidTransforms),
     ITK_WRAP_GROUP(ITKSimilarityTransforms),
     ITK_WRAP_GROUP(ITKTransforms),
+    ITK_WRAP_GROUP(itkAffineTransform),
     ITK_WRAP_GROUP(itkArray),
+    ITK_WRAP_GROUP(itkBSplineDeformableTransform),
     ITK_WRAP_GROUP(itkContinuousIndex),
     ITK_WRAP_GROUP(itkDifferenceImageFilter),
     ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkEventObjectGroup),
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkFixedArray),
+    ITK_WRAP_GROUP(itkIdentityTransform),
     ITK_WRAP_GROUP(itkImage),
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
@@ -47,6 +50,7 @@ namespace _cable_
 #endif
     "SwigExtras",
     ITK_WRAP_GROUP(itkVector)
+    ITK_WRAP_GROUP(itkVersorTransform)
   };
 }
 #endif

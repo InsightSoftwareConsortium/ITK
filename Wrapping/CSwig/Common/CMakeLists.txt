@@ -8,12 +8,15 @@ SET(WRAP_SOURCES
   wrap_ITKSimilarityTransforms
   wrap_ITKTransforms
   wrap_itkArray
+  wrap_itkAffineTransform
+  wrap_itkBSplineDeformableTransform
   wrap_itkContinuousIndex
   wrap_itkDenseFiniteDifferenceImageFilter
   wrap_itkDifferenceImageFilter
   wrap_itkEventObject
   wrap_itkFiniteDifferenceImageFilter
   wrap_itkFixedArray
+  wrap_itkIdentityTransform
   wrap_itkImage
   wrap_itkIndex
   wrap_itkPoint
@@ -22,6 +25,7 @@ SET(WRAP_SOURCES
   wrap_itkTransform
   wrap_itkTranslationTransform
   wrap_itkVector
+  wrap_itkVersorTransform
 )
 
 SET(INDEX_FILE_CONTENT "")
