@@ -22,7 +22,7 @@
 #include <iostream>
 #include <algorithm>
 
-#if defined(_MSC_VER) || defined (__CYGWIN__)
+#if defined(_MSC_VER) || defined (__CYGWIN__) || defined(__BORLANDC__)
    #include <windows.h> 
 #ifdef _MSC_VER
    #include <direct.h>
@@ -91,7 +91,7 @@ int DirList::Explore(std::string const & dirpath, bool recursive)
    int numberOfFiles = 0;
    std::string fileName;
    std::string dirName = Util::NormalizePath(dirpath);
-#if defined(_MSC_VER) || defined(__CYGWIN__)
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__BORLANDC__)
    WIN32_FIND_DATA fileData; 
    HANDLE hFile=FindFirstFile((dirName+"*").c_str(),&fileData);
    int found = true;

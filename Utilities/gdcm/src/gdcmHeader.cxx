@@ -22,6 +22,7 @@
 #include "gdcmDebug.h"
 #include "gdcmTS.h"
 #include "gdcmValEntry.h"
+#include <stdio.h> //sscanf
 
 #include <vector>
 

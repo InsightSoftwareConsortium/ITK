@@ -34,7 +34,7 @@
 #include <algorithm>
 #include <sys/types.h>
 
-#ifdef _MSC_VER 
+#if defined( _MSC_VER) || defined(__BORLANDC__)
    #include <direct.h>
 #else
    #include <unistd.h>

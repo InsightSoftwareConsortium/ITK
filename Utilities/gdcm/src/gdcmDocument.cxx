@@ -28,7 +28,7 @@
 #include <iomanip>
 
 // For nthos:
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__BORLANDC__)
    #include <winsock.h>
 #else
    #include <netinet/in.h>
@@ -71,7 +71,7 @@ static const char *TransferSyntaxStrings[] =  {
 
 //-----------------------------------------------------------------------------
 // Refer to Document::CheckSwap()
-const unsigned int Document::HEADER_LENGTH_TO_READ = 256;
+//const unsigned int Document::HEADER_LENGTH_TO_READ = 256;
 
 // Refer to Document::SetMaxSizeLoadEntry()
 const unsigned int Document::MAX_SIZE_LOAD_ELEMENT_VALUE = 0xfff; // 4096
@@ -2388,7 +2388,7 @@ bool Document::CheckSwap()
    uint32_t  s32;
    uint16_t  s16;
        
-   char deb[HEADER_LENGTH_TO_READ];
+   char deb[256];
     
    // First, compare HostByteOrder and NetworkByteOrder in order to
    // determine if we shall need to swap bytes (i.e. the Endian type).
@@ -2403,7 +2403,7 @@ bool Document::CheckSwap()
          
    // The easiest case is the one of a DICOM header, since it possesses a
    // file preamble where it suffice to look for the string "DICM".
-   Fp->read(deb, HEADER_LENGTH_TO_READ);
+   Fp->read(deb, 256);
    
    char *entCur = deb + 128;
    if( memcmp(entCur, "DICM", (size_t)4) == 0 )

@@ -57,7 +57,7 @@ typedef  unsigned int   uint32_t;
 #endif //HAVE_NO_STDINT_H
 #endif
 
-#ifdef _MSC_VER || __BORLANDC__
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 typedef    signed char   int8_t;
 typedef  unsigned char  uint8_t;
 typedef  unsigned short uint16_t;
