@@ -143,6 +143,10 @@ public:
   itkSetMacro(OutsideValue, OutputImagePixelType);
   itkGetMacro(OutsideValue, OutputImagePixelType);
   
+    /* Set the value to be assigned to the detected edges. */
+  itkSetMacro(OutputEdgeValue, OutputImagePixelType);
+  itkGetMacro(OutputEdgeValue, OutputImagePixelType);
+  
   /** CannyEdgeDetectionImageFilter needs a larger input requested
    * region than the output requested region ( derivative operators, etc).  
    * As such, CannyEdgeDetectionImageFilter needs to provide an implementation
@@ -240,6 +244,9 @@ private:
 
   /** "Background" value for use in thresholding. */
   OutputImagePixelType m_OutsideValue;
+
+  /** Value to assign to the edges. */
+  OutputImagePixelType m_OutputEdgeValue;
 
   /** Update buffers used during calculation of multiple steps */
   typename OutputImageType::Pointer  m_UpdateBuffer;

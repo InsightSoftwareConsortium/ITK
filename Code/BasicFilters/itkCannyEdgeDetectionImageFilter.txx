@@ -42,6 +42,7 @@ CannyEdgeDetectionImageFilter()
     }
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
   m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
+  m_OutputEdgeValue = static_cast<OutputImagePixelType>( 1.0 );
   m_UpdateBuffer = OutputImageType::New();
   m_UpdateBuffer1 = OutputImageType::New();
 
@@ -484,7 +485,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
             }
           
           //it.Value() = derivPos;
-          it.Value() = ((derivPos <= zero) && (gradMag > m_Threshold)) ;
+          if( (derivPos <= zero) && (gradMag > m_Threshold) ) ;
+            {
+            it.Set( m_OutputEdgeValue );
+            }
           ++bit;
           ++bit1;
           ++it;
@@ -555,6 +559,9 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
      << std::endl;
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)
+     << std::endl;
+  os << indent << "OutputEdgeValue: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputEdgeValue)
      << std::endl;
   os << "Center: "
             << m_Center << std::endl;
