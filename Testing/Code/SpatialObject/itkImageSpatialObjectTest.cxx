@@ -41,13 +41,11 @@ int itkImageSpatialObjectTest(int, char**)
   #define NDimensions 3
   typedef double ScalarType;
   typedef unsigned short Pixel;
-  typedef itk::AffineTransform<ScalarType, NDimensions> Transform;
   typedef itk::Image<Pixel,NDimensions> Image;
   typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
   typedef ImageSpatialObject::BoundingBoxType BoundingBox;
   typedef itk::ImageRegionIterator<Image> Iterator;
   typedef itk::Point<ScalarType,NDimensions> Point;
-  typedef Transform::OutputVectorType Vector;
 
   Image::Pointer image = Image::New();
   Image::SizeType size = {{ 10, 10, 10 }};
@@ -71,17 +69,13 @@ int itkImageSpatialObjectTest(int, char**)
   it.GoToBegin();
 
   ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
-  Transform::Pointer transform = Transform::New();
-  Transform::Pointer inverseTransform = Transform::New();
-  Vector translation;
  
   imageSO->SetImage(image);
-  imageSO->SetLocalToGlobalTransform(transform);
-  imageSO->SetGlobalToLocalTransform(inverseTransform);
+  ImageSpatialObject::TransformType::OffsetType offset;
+  offset.Fill(10);
 
-  translation.Fill(10);
-  transform->Translate(translation);
-  inverseTransform->Translate(-translation);
+  imageSO->GetTransform()->SetOffset(offset);
+  imageSO->ComputeGlobalTransform();
 
   Point q,r; 
   double returnedValue,expectedValue;

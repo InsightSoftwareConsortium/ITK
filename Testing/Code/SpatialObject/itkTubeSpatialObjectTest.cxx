@@ -18,7 +18,7 @@
 /*
 * itkTubeSpatialObject, and itkTubeNetworkSpatialObject test file.
 * This test file test also the basic functions of the CompositeSpatialObject class,
-* like Add/RemoveSpatialObjecT(...), Get/SetChildren(...), etc...
+* like Add/RemoveSpatialObject(...), Get/SetChildren(...), etc...
 */
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
@@ -48,8 +48,6 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::TubeNetworkSpatialObject<3>            TubeNetType;
   typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
   typedef TubeType::PointListType                     TubePointListType;
-  typedef itk::AffineTransform< ScalarType, 3 >       AffineTransformType;
-  typedef itk::SmartPointer<AffineTransformType>      AffineTransformPointer;
   typedef std::list< itk::SpatialObject<3> * >        ChildrenListType;
 
   Vector axis, translation;
@@ -65,13 +63,12 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"Testing SpatialObject:"<<std::endl<<std::endl;
 
   TubePointer tube1 = TubeType::New();
-  AffineTransformPointer tube1Transform = AffineTransformType::New();
-  AffineTransformPointer tube1InverseTransform = AffineTransformType::New();
   TubePointListType list;
 
-  translation.Fill(10);
-  tube1Transform->Translate(translation);
-  tube1InverseTransform->Translate(-translation);
+  TubeType::TransformType::OffsetType offset;
+  offset.Fill(10);
+  tube1->GetTransform()->SetOffset(offset);
+  tube1->ComputeGlobalTransform();
 
   for( unsigned int i=0; i<10; i++)
     {
@@ -83,8 +80,6 @@ int itkTubeSpatialObjectTest(int, char **)
 
   tube1->GetProperty()->SetName("Tube 1");
   tube1->SetId(1);
-  tube1->SetLocalToGlobalTransform(tube1Transform);
-  tube1->SetGlobalToLocalTransform(tube1InverseTransform);
   tube1->SetPoints(list);
   tube1->ComputeBounds();
 
@@ -297,36 +292,21 @@ int itkTubeSpatialObjectTest(int, char **)
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  AffineTransformPointer tube2Transform = AffineTransformType::New();
-  AffineTransformPointer tube2InverseTransform = AffineTransformType::New();
-  tube2->SetLocalToGlobalTransform(tube2Transform);
-  tube2->SetGlobalToLocalTransform(tube2InverseTransform);
-
-  AffineTransformPointer tube3Transform = AffineTransformType::New();
-  AffineTransformPointer tube3InverseTransform = AffineTransformType::New();
-  tube3->SetLocalToGlobalTransform(tube3Transform);
-  tube3->SetGlobalToLocalTransform(tube3InverseTransform);
-
-  AffineTransformPointer tubeNet1Transform = AffineTransformType::New();
-  AffineTransformPointer tubeNet1InverseTransform = AffineTransformType::New();
-  tubeNet1->SetLocalToGlobalTransform(tubeNet1Transform);
-  tubeNet1->SetGlobalToLocalTransform(tubeNet1InverseTransform);
 
   translation.Fill(10);
-
-  tubeNet1Transform->Translate(translation,false);
-  tubeNet1InverseTransform->Translate(-translation,false);
+  tubeNet1->GetTransform()->Translate(translation,false);
+  tubeNet1->ComputeGlobalTransform();
 
   axis.Fill(0);
   axis[1] = 1;
 
   angle = vnl_math::pi_over_2;
-  tube2Transform->Rotate3D(axis,angle);
-  tube2InverseTransform->Rotate3D(axis,-angle);
+  tube2->GetTransform()->Rotate3D(axis,angle);
+  tube2->ComputeGlobalTransform();
 
   angle = -vnl_math::pi_over_2;
-  tube3Transform->Rotate3D(axis,angle);
-  tube3InverseTransform->Rotate3D(axis,-angle);
+  tube3->GetTransform()->Rotate3D(axis,angle);
+  tube3->ComputeGlobalTransform();
 
   in.Fill(25);
   out.Fill(15);
