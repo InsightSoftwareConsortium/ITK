@@ -44,7 +44,9 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   std::cout << "GetValue( " << parameters << " ) = ";
 
-  typename TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
+  TargetPointer target = Superclass::GetTarget();
+
+  typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
 
   double ReferenceValue;
@@ -53,7 +55,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   typedef  itk::SimpleImageRegionIterator<TTarget> TargetIteratorType;
 
 
-  TargetIteratorType ti(m_Target,m_Target_region);
+  TargetIteratorType ti( target, targetRegion );
   ti.Begin();
 
   typename TTarget::IndexType index;
@@ -64,7 +66,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  m_Mapper->GetTransformation()->SetParameters( parameters );
+  GetMapper()->GetTransformation()->SetParameters( parameters );
 
   while(!ti.IsAtEnd())
   {
@@ -77,7 +79,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
     insidePoint = true;
 
     try {
-     ReferenceValue = m_Mapper->Evaluate( Point );
+     ReferenceValue = GetMapper()->Evaluate( Point );
     }
 
     //If the Mapped Voxel is outside the image
