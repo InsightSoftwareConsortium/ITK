@@ -3018,6 +3018,10 @@ Code/Common/Makefile
 Code/Common/targets.make:Code/config/dummy.in 
 Testing/mkdir:Code/config/dummy.in
 Testing/Code/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/tests/Makefile
 Testing/Code/Common/Makefile
 Testing/Code/Common/targets.make:Code/config/dummy.in 
 " | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
@@ -3144,6 +3148,10 @@ Code/Common/Makefile
 Code/Common/targets.make:Code/config/dummy.in 
 Testing/mkdir:Code/config/dummy.in
 Testing/Code/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/mkdir:Code/config/dummy.in
+Testing/Code/Insight3DParty/vxl/vnl/tests/Makefile
 Testing/Code/Common/Makefile
 Testing/Code/Common/targets.make:Code/config/dummy.in 
 "}
