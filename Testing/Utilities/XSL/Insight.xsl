@@ -70,7 +70,7 @@
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
     <xsl:text disable-output-escaping="yes">TestOverview.html">&lt;img src="</xsl:text>
-    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
+    <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestsIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
