@@ -64,6 +64,15 @@ itkFilterImageToImage<TInputImage,TOutputImage>
   return (TInputImage *)(this->GetInput(0));
 }
 
+  
+template <class TInputImage, class TOutputImage>
+TInputImage *
+itkFilterImageToImage<TInputImage,TOutputImage>
+::GetInput(unsigned int idx)
+{
+  return static_cast<TInputImage *>(this->itkProcessObject::GetInput(idx));
+}
+
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void 

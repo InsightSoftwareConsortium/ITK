@@ -51,8 +51,7 @@ public:
    * Get the image input of this process object. 
    */
   TInputImage *GetInput();
-  TInputImage *GetInput(int idx)
-    {return (TInputImage *) this->itkProcessObject::GetInput(idx);}
+  TInputImage *GetInput(unsigned int idx);
 
 protected:
   itkFilterImageToImage();

@@ -227,7 +227,7 @@ itkProcessObject
 // Set an Input of this filter. 
 void 
 itkProcessObject
-::SetNthInput(int idx, itkDataObject *input)
+::SetNthInput(unsigned int idx, itkDataObject *input)
 {
   if (idx < 0)
     {
@@ -306,7 +306,7 @@ itkProcessObject
 // them consistent.
 void 
 itkProcessObject
-::SetNthOutput(int idx, itkDataObject *newOutput)
+::SetNthOutput(unsigned int idx, itkDataObject *newOutput)
 {
   itkDataObject *oldOutput;
   
@@ -431,7 +431,7 @@ itkProcessObject
 //----------------------------------------------------------------------------
 itkDataObject *
 itkProcessObject
-::GetOutput(int i)
+::GetOutput(unsigned int i)
 {
   if (m_NumberOfOutputs < i+1)
     {
@@ -444,7 +444,7 @@ itkProcessObject
 //----------------------------------------------------------------------------
 itkDataObject *
 itkProcessObject
-::GetInput(int i)
+::GetInput(unsigned int i)
 {
   if (m_NumberOfInputs < i+1)
     {

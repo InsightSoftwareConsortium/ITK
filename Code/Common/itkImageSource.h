@@ -45,8 +45,7 @@ public:
    * Get the image output of this process object. 
    */
   TOutputImage *GetOutput();
-  TOutputImage *GetOutput(int idx)
-    {return (TOutputImage *) this->itkProcessObject::GetOutput(idx);}
+  TOutputImage *GetOutput(int idx);
 
   /** 
    * Set the image output of this process object. 

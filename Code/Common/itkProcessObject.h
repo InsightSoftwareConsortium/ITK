@@ -252,7 +252,7 @@ protected:
   void PrintSelf(std::ostream& os, itkIndent indent);
   
   // protected methods for setting inputs.
-  virtual void SetNthInput(int num, itkDataObject *input);
+  virtual void SetNthInput(unsigned int num, itkDataObject *input);
   virtual void AddInput(itkDataObject *input);
   virtual void RemoveInput(itkDataObject *input);
   void SetNumberOfRequiredInputs(unsigned int num)
@@ -261,7 +261,7 @@ protected:
     {itkGetMacro(m_NumberOfRequiredInputs);}
 
   // protected methods for setting outputs.
-  virtual void SetNthOutput(int num, itkDataObject *output);
+  virtual void SetNthOutput(unsigned int num, itkDataObject *output);
   virtual void AddOutput(itkDataObject *output);
   virtual void RemoveOutput(itkDataObject *output);
   void SetNumberOfRequiredOutputs(unsigned int num)
@@ -276,13 +276,13 @@ protected:
   void SetNumberOfInputs(int num);
 
   // method used internally for getting an input.
-  itkDataObject *GetInput(int idx);
+  itkDataObject *GetInput(unsigned int idx);
 
   // Called to allocate the output array.  Copies old outputs.
   void SetNumberOfOutputs(int num);
 
   // method used internally for getting an output.
-  itkDataObject *GetOutput(int idx);
+  itkDataObject *GetOutput(unsigned int idx);
 
   // By default, UpdateInformation calls this method to copy information
   // unmodified from the input to the output.
