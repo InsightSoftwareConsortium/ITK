@@ -5,7 +5,11 @@ CABLE_CLASS_SET(Dimension 2)
 CABLE_CLASS_SET(Image "itk::Image<$Scalar,$Dimension>")
 CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Scalar>")
 
-ADD_LIBRARY(ITKCommonTcl SHARED itkTclCommand)
+ADD_LIBRARY(ITKCommonTcl SHARED
+  itkTclCommand
+  itkTclStringStream
+)
+
 CABLE_CLASS_SET(ItkCommonBase
   itk::Command
   itk::DataObject
@@ -24,6 +28,7 @@ CABLE_WRAP_TCL(ITKCommonTcl
   $ItkCommonBase
   itk::MeshRegion
   itk::Region
+  itk::TclStringStream
   itk::TimeStamp
   "itkSmartPointer_:itk::SmartPointer<$ItkCommonBase >"
 
