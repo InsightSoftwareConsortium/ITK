@@ -29,6 +29,8 @@
 #include "itkImageFileWriter.h"
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 
+#include <stdio.h>
+
 
 int main( int argc, char * argv[] )
 {
