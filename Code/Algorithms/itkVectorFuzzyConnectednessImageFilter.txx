@@ -1086,9 +1086,6 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       for(iter = m_ObjectsSeed[m_SelectedObject-1].begin();iter!=m_ObjectsSeed[m_SelectedObject-1].end();iter++)
         {
           current = *iter;
-          int x = current[0];
-          int y = current[1];
-          int z = current[2];
           m_ObjectFuzzyScene->SetPixel(current,4096);
           chash[4096].push_front(current);
         }
@@ -1182,10 +1179,6 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
               for(iter = m_ObjectsSeed[i].begin();iter!=m_ObjectsSeed[i].end();iter++)
                 {
                   current = *iter;
-                  int x = current[0];
-                  int y = current[1];
-                  int z = current[2];
-
                   m_BackgroundFuzzyScene->SetPixel(current,4096);
                   chash[4096].push_front(current);
                 }
