@@ -59,7 +59,7 @@ namespace itk
 #endif
 
 #ifdef ITK_USE_WIN32_THREADS
-#define ITK_MAX_THREADS              8
+#define ITK_MAX_THREADS              32
 #endif
 
 #ifndef ITK_MAX_THREADS
