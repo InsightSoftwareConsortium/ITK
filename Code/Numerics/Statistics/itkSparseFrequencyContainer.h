@@ -54,11 +54,10 @@ public:
 
   /** Histogram typedef support */
   typedef std::map< InstanceIdentifier, FrequencyType > 
-  FrequencyContainerType ;
+  FrequencyContainerType ;  
 
-  /** Iterator typedef support */
-  typedef typename FrequencyContainerType::iterator 
-  FrequencyContainerIterator ;   
+  typedef typename FrequencyContainerType::const_iterator 
+  FrequencyContainerConstIterator ;   
 
   /** prepares the frequency container */
   void Initialize(unsigned long length) ;

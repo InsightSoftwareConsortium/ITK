@@ -31,15 +31,15 @@ MembershipSample< TSample >
 template< class TSample >
 void 
 MembershipSample< TSample >
-::SetSample(TSample* sample)
+::SetSample(const TSample* sample)
 {
   m_Sample = sample ; 
 }
 
 template< class TSample >
-TSample*
+const TSample*
 MembershipSample< TSample >
-::GetSample()
+::GetSample() const
 {
   return m_Sample ; 
 } 
@@ -121,9 +121,9 @@ MembershipSample< TSample >
 
 
 template< class TSample >
-typename MembershipSample< TSample >::ClassSampleType*
+const typename MembershipSample< TSample >::ClassSampleType*
 MembershipSample< TSample >
-::GetClassSample(const unsigned int &classLabel)
+::GetClassSample(const unsigned int &classLabel) const
 {
   int classIndex = this->GetInternalClassLabel(classLabel) ;
   return m_ClassSamples[classIndex] ; 

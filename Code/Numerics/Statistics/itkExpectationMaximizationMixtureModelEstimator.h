@@ -79,10 +79,10 @@ public:
   typedef Array< double > ProportionVectorType ;
 
   /** Sets the target data that will be classified by this */
-  void SetSample(TSample* sample) ;
+  void SetSample(const TSample* sample) ;
 
   /** Returns the target data */
-  TSample* GetSample() ;
+  const TSample* GetSample() const;
 
   /** Set/Gets the initial proportion values. The size of proportion
    * vector should be same as the number of component (or classes) */
@@ -137,7 +137,7 @@ protected:
 
 private:
   /** Target data sample pointer*/
-  TSample* m_Sample ;
+  const TSample* m_Sample ;
 
   int m_MaxIteration ;
   int m_CurrentIteration ;

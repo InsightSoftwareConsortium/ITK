@@ -53,7 +53,7 @@ SampleClassifier< TSample >
 template< class TSample >
 void
 SampleClassifier< TSample >
-::SetSample(TSample* sample)
+::SetSample(const TSample* sample)
 {
   if ( m_Sample != sample )
     {
@@ -63,9 +63,9 @@ SampleClassifier< TSample >
 }
 
 template< class TSample >
-TSample*
+const TSample*
 SampleClassifier< TSample >
-::GetSample()
+::GetSample() const
 {
   return m_Sample ;
 }
@@ -84,11 +84,11 @@ SampleClassifier< TSample >
 ::GenerateData()
 {
   unsigned int i ;
-  typename TSample::Iterator iter = GetSample()->Begin() ;
-  typename TSample::Iterator end = GetSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetSample()->Begin() ;
+  typename TSample::ConstIterator end  = this->GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
 
-  m_Output->Resize(GetSample()->Size()) ;
+  m_Output->Resize( this->GetSample()->Size() ) ;
   std::vector< double > discriminantScores ;
   unsigned int numberOfClasses = this->GetNumberOfClasses() ;
   discriminantScores.resize(numberOfClasses) ;

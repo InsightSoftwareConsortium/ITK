@@ -106,7 +106,8 @@ public:
 
   /** Histogram type that will be used for observed and expected histogram*/
   typedef Histogram< float, 1 > HistogramType ;
-  typedef typename HistogramType::Pointer HistogramPointer ;
+  typedef typename HistogramType::Pointer         HistogramPointer ;
+  typedef typename HistogramType::ConstPointer    HistogramConstPointer ;
 
   /** Type of the array of component parameters */
   typedef Array< double > ParametersType ;
@@ -128,8 +129,8 @@ public:
   typedef double StandardDeviationType ;
 
   /** Set/Gets the input sample */
-  virtual void SetInputSample(TInputSample* sample) ;
-  TInputSample* GetInputSample() ;
+  virtual void SetInputSample(const TInputSample* sample) ;
+  const TInputSample* GetInputSample() const;
 
   /** Gets the total number of parameters for this component */
   virtual unsigned int GetNumberOfParameters() const = 0 ;
@@ -220,10 +221,10 @@ public:
   { return m_Proportion ; }
 
   /** Gets the observed historm */
-  HistogramPointer GetObservedHistogram() ;
+  HistogramType *  GetObservedHistogram();
   
   /** Gets the expected historm */
-  HistogramPointer GetExpectedHistogram() ;
+  HistogramType *  GetExpectedHistogram();
 
   /** Prints component parameters. For debugging */
   virtual void PrintParameters(std::ostream &os) const = 0 ;
@@ -264,7 +265,7 @@ protected:
   virtual void CreateEquiProbableBins() ;
 
 private:
-  TInputSample* m_InputSample ;
+  const TInputSample* m_InputSample ;
   ParametersType m_Parameters ;
 
   /** helper classes */

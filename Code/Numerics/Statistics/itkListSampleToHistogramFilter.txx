@@ -17,6 +17,8 @@
 #ifndef __itkListSampleToHistogramFilter_txx
 #define __itkListSampleToHistogramFilter_txx
 
+#include "itkListSampleToHistogramFilter.h"
+
 namespace itk{
 namespace Statistics{
 
@@ -31,8 +33,8 @@ void
 ListSampleToHistogramFilter< TListSample, THistogram >
 ::Run()
 {
-  typename TListSample::Iterator iter = m_List->Begin() ;
-  typename TListSample::Iterator last = m_List->End() ;
+  typename TListSample::ConstIterator iter = m_List->Begin() ;
+  typename TListSample::ConstIterator last = m_List->End() ;
   typename THistogram::IndexType index ;
   typename TListSample::MeasurementVectorType lvector ;
   typename THistogram::MeasurementVectorType hvector ;

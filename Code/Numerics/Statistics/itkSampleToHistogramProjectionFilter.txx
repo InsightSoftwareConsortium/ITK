@@ -269,9 +269,8 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 
   MeasurementVectorType tempMeasurementVector ;
 
-  typename TInputSample::Iterator s_iter = 
-    this->GetInputSample()->Begin() ;
-  typename TInputSample::Iterator s_last = this->GetInputSample()->End() ;
+  typename TInputSample::ConstIterator s_iter = this->GetInputSample()->Begin();
+  typename TInputSample::ConstIterator s_last = this->GetInputSample()->End();
 
   unsigned long numberOfBins = (unsigned long) m_Histogram->Size() ;
   double extent = 

@@ -62,7 +62,7 @@ public:
 
   
   inline void Search(MeasurementVectorType center, double radius, 
-                     SearchResultVectorType& result)
+                     SearchResultVectorType& result) const
   {
     if (radius == 0.0)
       {

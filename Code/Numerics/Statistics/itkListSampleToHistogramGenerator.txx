@@ -79,8 +79,8 @@ ListSampleToHistogramGenerator< TListSample,
   // the upper and lower bound from the FindSampleBound function
   m_Histogram->Initialize(m_Sizes, h_lower, h_upper) ;
 
-  typename TListSample::Iterator iter = m_List->Begin() ;
-  typename TListSample::Iterator last = m_List->End() ;
+  typename TListSample::ConstIterator iter = m_List->Begin() ;
+  typename TListSample::ConstIterator last = m_List->End() ;
   typename HistogramType::IndexType index ;
   typename TListSample::MeasurementVectorType lvector ;
   typename HistogramType::MeasurementVectorType hvector ;

@@ -88,7 +88,7 @@ public:
   typedef typename HistogramType::SizeType HistogramSizeType ;
 
   /** plug in the ListSample object */
-  void SetListSample(TListSample* list)
+  void SetListSample(const TListSample* list)
   { m_List = list ; }
 
   void SetMarginalScale(float scale)
@@ -109,7 +109,7 @@ protected:
   void GenerateData() ;
 
 private:
-  TListSample* m_List ;
+  const TListSample* m_List ;
   typename HistogramType::Pointer m_Histogram ;
   HistogramSizeType m_Sizes ;
   float m_MarginalScale ;

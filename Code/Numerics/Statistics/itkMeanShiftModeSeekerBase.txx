@@ -68,7 +68,7 @@ MeanShiftModeSeekerBase< TSample >
 template< class TSample >
 void
 MeanShiftModeSeekerBase< TSample >
-::SetInputSample(TSample* sample)
+::SetInputSample(const TSample* sample)
 {
   if ( m_InputSample != sample )
     {

@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self) ;
 
   /** plug in the ListSample object */
-  void SetListSample(TListSample* list)
+  void SetListSample(const TListSample* list)
   { m_List = list ; }
 
   /** plug in the Histogram object */
@@ -69,7 +69,7 @@ protected:
   ListSampleToHistogramFilter() ;
   virtual ~ListSampleToHistogramFilter() {}
 private:
-  TListSample* m_List ;
+  const TListSample* m_List ;
   THistogram* m_Histogram ;
 } ; // end of class
 

@@ -92,8 +92,8 @@ NeighborhoodSampler< TSample >
   squaredRadius = (*m_Radius) * (*m_Radius) ;
 
   m_Subsample->Clear() ;
-  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
-  typename TSample::Iterator last = this->GetInputSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::ConstIterator last = this->GetInputSample()->End() ;
   while (iter != last)
     {
     distance = 0.0 ;

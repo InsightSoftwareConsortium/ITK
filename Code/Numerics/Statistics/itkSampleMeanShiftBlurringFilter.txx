@@ -69,8 +69,8 @@ inline void
 SampleMeanShiftBlurringFilter< TSample >
 ::GenerateData() 
 {
-  typename InputSampleType::Iterator iter = this->GetInputSample()->Begin() ;
-  typename InputSampleType::Iterator end = this->GetInputSample()->End() ;
+  typename InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
+  typename InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
 
   m_Output->Clear() ;
   MeasurementVectorType finalPoint ;

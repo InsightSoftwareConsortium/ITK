@@ -101,24 +101,7 @@ public:
   /** returns the size of this container */
   FrequencyType GetTotalFrequency() const ;
 
-  /** iterator support */
-  class Iterator;
-  friend class Iterator;
-  
-  /** returns an iterator that points to the beginning of the container */
-  Iterator Begin()
-  { 
-    Iterator iter(m_PointsContainer->Begin());
-    return iter; 
-  }
-  
-  /** returns an iterator that points to the end of the container */
-  Iterator End()        
-  {
-    Iterator iter(m_PointsContainer->End()); 
-    return iter; 
-  }
-  
+ 
   class Iterator
   {
   public:
@@ -162,6 +145,79 @@ public:
   private:
     PointsContainerIterator m_Iter ;
   } ;
+   
+ 
+  class ConstIterator
+  {
+  public:
+    
+    ConstIterator(){}
+    
+    ConstIterator(PointsContainerIterator iter)
+      :m_Iter(iter)
+    {}
+    
+    FrequencyType GetFrequency() const
+    { return 1 ;}
+
+    const MeasurementVectorType & GetMeasurementVector() const
+    { return (MeasurementVectorType&) m_Iter.Value() ;} 
+
+    InstanceIdentifier GetInstanceIdentifier() const
+    { return m_Iter.Index() ;}
+
+    ConstIterator& operator++()
+    { ++m_Iter ; return *this ;}
+    
+    ConstIterator& operator--()
+    { --m_Iter ; return *this ;}
+
+    bool operator!=(const ConstIterator &it)
+    { return (m_Iter != it.m_Iter) ;}
+    
+    bool operator==(const ConstIterator &it)
+    { return (m_Iter == it.m_Iter) ;}
+    
+    ConstIterator& operator = (const ConstIterator &iter)
+    { 
+      m_Iter = iter.m_Iter; 
+      return iter ;
+    }
+
+    ConstIterator(const ConstIterator &iter)
+    { m_Iter = iter.m_Iter; }
+    
+  private:
+    PointsContainerIterator m_Iter ;
+  } ;
+   
+  /** returns an iterator that points to the beginning of the container */
+  Iterator Begin()
+  { 
+    Iterator iter(m_PointsContainer->Begin());
+    return iter; 
+  }
+  
+  /** returns an iterator that points to the end of the container */
+  Iterator End()        
+  {
+    Iterator iter(m_PointsContainer->End()); 
+    return iter; 
+  }
+   
+  /** returns a const iterator that points to the beginning of the container */
+  ConstIterator Begin() const
+  { 
+    ConstIterator iter(m_PointsContainer->Begin());
+    return iter; 
+  }
+  
+  /** returns an iterator that points to the end of the container */
+  ConstIterator End() const
+  {
+    ConstIterator iter(m_PointsContainer->End()); 
+    return iter; 
+  }
   
 protected:
   PointSetToListAdaptor() ;

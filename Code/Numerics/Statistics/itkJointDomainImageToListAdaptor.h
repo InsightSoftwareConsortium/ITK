@@ -159,14 +159,14 @@ public:
    * defined by the mv (center) and the radius. */
   inline void ComputeRegion(const MeasurementVectorType& mv, 
                             const double radius,
-                            ImageRegionType& region) ;
+                            ImageRegionType& region) const;
 
   /** Fills he result id vectors with instances that fall within a
    * ball specified by the mv (center) and radius. This method utilizes
    * the ComputRegion */
   inline void Search(const MeasurementVectorType& mv, 
                      const double radius, 
-                     InstanceIdentifierVectorType& result) ;
+                     InstanceIdentifierVectorType& result) const;
 
 protected:
   JointDomainImageToListAdaptor() ;

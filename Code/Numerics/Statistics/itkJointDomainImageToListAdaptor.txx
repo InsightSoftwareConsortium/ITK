@@ -90,7 +90,7 @@ inline void
 JointDomainImageToListAdaptor< TImage >
 ::ComputeRegion(const MeasurementVectorType& mv, 
                 const double radius,
-                ImageRegionType& region)
+                ImageRegionType& region) const
 {
   ImageIndexType beginIndex ;
   ImageSizeType size ;
@@ -127,7 +127,7 @@ inline void
 JointDomainImageToListAdaptor< TImage >
 ::Search(const MeasurementVectorType& mv, 
          const double radius, 
-         InstanceIdentifierVectorType& result)
+         InstanceIdentifierVectorType& result) const
 {
   ImageRegionType region ;
   this->ComputeRegion( mv, radius, region ) ;

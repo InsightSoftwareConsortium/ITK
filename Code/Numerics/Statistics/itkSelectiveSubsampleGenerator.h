@@ -77,10 +77,10 @@ public:
   TInputSample* GetInput() ;
 
   /** Stores the class mask sample */
-  void SetClassMask(TClassMaskSample* classMask) ;
+  void SetClassMask(const TClassMaskSample* classMask) ;
 
   /** Returns the class mask sample pointer*/
-  TClassMaskSample* GetClassMask() ;
+  const TClassMaskSample* GetClassMask() const;
 
   void SetSelectedClassLabels( const ClassLabelVectorType& classLabels )
   { m_SelectedClassLabels = classLabels ; }
@@ -99,7 +99,7 @@ protected:
 
 private:
   TInputSample* m_Input ;
-  TClassMaskSample* m_ClassMask ;
+  const TClassMaskSample* m_ClassMask ;
   ClassLabelVectorType m_SelectedClassLabels ;
   OutputPointer m_Output ;
 } ; // end of class

@@ -62,7 +62,7 @@ GaussianDensityFunction< TMeasurementVector >
 template < class TMeasurementVector >
 void 
 GaussianDensityFunction< TMeasurementVector >
-::SetCovariance(CovarianceType* cov)
+::SetCovariance(const CovarianceType* cov)
 {
   m_Covariance = cov;
 
@@ -84,7 +84,7 @@ GaussianDensityFunction< TMeasurementVector >
 }
 
 template < class TMeasurementVector >
-typename GaussianDensityFunction< TMeasurementVector >::CovarianceType*
+const typename GaussianDensityFunction< TMeasurementVector >::CovarianceType*
 GaussianDensityFunction< TMeasurementVector >
 ::GetCovariance() const
 {

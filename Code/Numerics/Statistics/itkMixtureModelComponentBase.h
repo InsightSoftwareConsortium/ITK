@@ -76,10 +76,10 @@ public:
   typedef Array< double > ParametersType ;
 
   /** stores the sample pointer */
-  virtual void SetSample(TSample* sample) ;
+  virtual void SetSample(const TSample* sample) ;
   
   /** returns the sample pointer */
-  TSample* GetSample() ;
+  const TSample* GetSample() const;
 
   /** returns the pointer to the membership function object.
    * Subclasses of this class are responsible for creating the
@@ -138,7 +138,7 @@ protected:
 
 private:
   /** target sample data pointer */
-  TSample* m_Sample ;
+  const TSample* m_Sample ;
 
   double m_MinimalParametersChange ;
 

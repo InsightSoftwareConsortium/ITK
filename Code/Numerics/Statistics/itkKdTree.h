@@ -76,7 +76,7 @@ struct KdTreeNode
 
   /** Returns true if the node is a terminal node, that is a node that
    * doesn't have any child. */
-  virtual bool IsTerminal() = 0 ;
+  virtual bool IsTerminal() const = 0 ;
 
   /** Fills the partitionDimension (the dimension that was chosen to
    * split the measurement vectors belong to this node to the left and the
@@ -84,13 +84,15 @@ struct KdTreeNode
    * measurement value on the partitionDimension divides the left and the
    * right child */
   virtual void GetParameters(unsigned int &partitionDimension, 
-                             MeasurementType &partitionValue) = 0 ;  
+                             MeasurementType &partitionValue) const = 0 ;  
 
   /** Returns the pointer to the left child of this node */
-  virtual Self* Left() = 0 ;
+  virtual       Self* Left()       = 0 ;
+  virtual const Self* Left() const = 0 ;
 
   /** Returns the pointer to the right child of this node */
-  virtual Self* Right() = 0 ;
+  virtual       Self* Right()       = 0 ;
+  virtual const Self* Right() const = 0 ;
 
   /** Returs the number of measurement vectors under this node including
    * its children */
@@ -138,16 +140,22 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
 
   virtual ~KdTreeNonterminalNode() {}
   
-  virtual bool IsTerminal()
+  virtual bool IsTerminal() const
   { return false ; }
 
   void GetParameters(unsigned int &partitionDimension, 
-                     MeasurementType &partitionValue) ;
+                     MeasurementType &partitionValue) const;
 
   Superclass* Left() 
   { return m_Left ; }
 
-  Superclass* Right()
+  Superclass* Right() 
+  { return m_Right ; }
+
+  const Superclass* Left() const
+  { return m_Left ; }
+
+  const Superclass* Right() const
   { return m_Right ; }
 
   unsigned int Size() const
@@ -201,16 +209,23 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
                                          unsigned int size) ;
   virtual ~KdTreeWeightedCentroidNonterminalNode() {}
 
-  virtual bool IsTerminal()
+  virtual bool IsTerminal() const
   { return false ; }
 
   void GetParameters(unsigned int &partitionDimension, 
-                     MeasurementType &partitionValue) ;
+                     MeasurementType &partitionValue) const ;
 
   Superclass* Left() 
   { return m_Left ; }
 
-  Superclass* Right()
+  Superclass* Right() 
+  { return m_Right ; }
+
+
+  const Superclass* Left() const
+  { return m_Left ; }
+
+  const Superclass* Right() const
   { return m_Right ; }
 
   unsigned int Size() const
@@ -261,16 +276,23 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
 
   virtual ~KdTreeTerminalNode() {}
 
-  bool IsTerminal()
+  bool IsTerminal() const
   { return true ; }
 
   void GetParameters(unsigned int &, 
-                     MeasurementType &) {}
+                     MeasurementType &) const {}
 
   Superclass* Left() 
   { return 0 ; }
 
-  Superclass* Right()
+  Superclass* Right() 
+  { return 0 ; }
+
+
+  const Superclass* Left() const
+  { return 0 ; }
+
+  const Superclass* Right() const
   { return 0 ; }
 
   unsigned int Size() const
@@ -440,10 +462,10 @@ public:
 
   /** Sets the input sample that provides the measurement vectors to the k-d
    * tree */
-  void SetSample(TSample* sample) ;
+  void SetSample(const TSample* sample) ;
 
   /** Returns the pointer to the input sample */
-  TSample* GetSample()
+  const TSample* GetSample() const
   { return m_Sample ; }
 
   unsigned long Size() const
@@ -472,7 +494,7 @@ public:
 
   /** Returns the frequency of the measurement vector identified by 
    * the instance identifier */
-  FrequencyType GetFrequency(InstanceIdentifier id)
+  FrequencyType GetFrequency(InstanceIdentifier id) const
   { return m_Sample->GetFrequency( id ) ; }
 
   /** Get the pointer to the distance metric. */
@@ -482,16 +504,16 @@ public:
   /** Searches the k-nearest neighbors */
   void Search(MeasurementVectorType &query, 
               unsigned int k,
-              InstanceIdentifierVectorType& result) ;
+              InstanceIdentifierVectorType& result) const;
 
   /** Searches the neighbors fallen into a hypersphere */
   void Search(MeasurementVectorType &query,
               double radius, 
-              InstanceIdentifierVectorType& result) ;
+              InstanceIdentifierVectorType& result) const;
 
   /** Returns the number of measurement vectors that have been visited
    * to find the k-nearest neighbors. */
-  int GetNumberOfVisits()
+  int GetNumberOfVisits() const
   { return m_NumberOfVisits ; }
 
   /** Returns true if the intermediate k-nearest neighbors exist within
@@ -502,7 +524,7 @@ public:
   bool BallWithinBounds(MeasurementVectorType &query, 
                         MeasurementVectorType &lowerBound,
                         MeasurementVectorType &upperBound,
-                        double radius) ;
+                        double radius) const ;
 
   /** Returns true if the ball defined by the distance between the query
    * point and the farthest neighbor overlaps with the bounding box
@@ -510,7 +532,7 @@ public:
   bool BoundsOverlapBall(MeasurementVectorType &query, 
                          MeasurementVectorType &lowerBound,
                          MeasurementVectorType &upperBound,
-                         double radius) ;
+                         double radius) const ;
 
   /** Deletes the node recursively */
   void DeleteNode(KdTreeNodeType *node) ;
@@ -520,10 +542,11 @@ public:
                  unsigned int activeDimension) ;
 
   typedef typename TSample::Iterator Iterator ;
+  typedef typename TSample::ConstIterator ConstIterator ;
 
   Iterator Begin()
   {
-    typename TSample::Iterator iter = m_Sample->Begin() ;
+    typename TSample::ConstIterator iter = m_Sample->Begin() ;
     return iter; 
   }
 
@@ -532,6 +555,19 @@ public:
     Iterator iter = m_Sample->End() ;
     return iter; 
   }
+
+  ConstIterator Begin() const
+  {
+    typename TSample::ConstIterator iter = m_Sample->Begin() ;
+    return iter; 
+  }
+
+  ConstIterator End() const
+  {
+    ConstIterator iter = m_Sample->End() ;
+    return iter; 
+  }
+
 
 protected:
   /** Constructor */
@@ -543,21 +579,21 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
   /** search loop */ 
-  int NearestNeighborSearchLoop(KdTreeNodeType* node,
+  int NearestNeighborSearchLoop(const KdTreeNodeType* node,
                                 MeasurementVectorType &query,
                                 MeasurementVectorType &lowerBound,
-                                MeasurementVectorType &upperBound) ;
+                                MeasurementVectorType &upperBound) const;
 
   /** search loop */ 
-  int SearchLoop(KdTreeNodeType* node, MeasurementVectorType &query,
+  int SearchLoop(const KdTreeNodeType* node, MeasurementVectorType &query,
                  MeasurementVectorType &lowerBound,
-                 MeasurementVectorType &upperBound) ;
+                 MeasurementVectorType &upperBound) const ;
 private:
   KdTree(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
   /** Pointer to the input sample */
-  TSample* m_Sample ;
+  const TSample* m_Sample ;
   
   /** Number of measurement vectors can be stored in a terminal node. */
   int m_BucketSize ;
@@ -571,29 +607,29 @@ private:
   /** Distance metric smart pointer */
   typename DistanceMetricType::Pointer m_DistanceMetric ;
 
-  bool m_IsNearestNeighborSearch ;
+  mutable bool m_IsNearestNeighborSearch ;
  
-  double m_SearchRadius ;
+  mutable double m_SearchRadius ;
 
-  InstanceIdentifierVectorType m_Neighbors ;
+  mutable InstanceIdentifierVectorType m_Neighbors ;
 
   /** k-nearest neighbors */
-  NearestNeighbors m_NearestNeighbors ;
+  mutable NearestNeighbors m_NearestNeighbors ;
 
   /** Temporary lower bound in the SearchLoop. */
-  MeasurementVectorType m_LowerBound ;
+  mutable MeasurementVectorType m_LowerBound ;
 
   /** Temporary upper bound in the SearchLoop. */
-  MeasurementVectorType m_UpperBound ;
+  mutable MeasurementVectorType m_UpperBound ;
 
   /** Number of measurment vectors to find k-nearest neighbors. */ 
-  int m_NumberOfVisits ;
+  mutable int m_NumberOfVisits ;
 
   /** Flag to stop the SearchLoop. */
-  bool m_StopSearch ;
+  mutable bool m_StopSearch ;
 
   /** Temporary neighbor */
-  NeighborType m_TempNeighbor ;
+  mutable NeighborType m_TempNeighbor ;
 } ; // end of class
 
 } // end of namespace Statistics

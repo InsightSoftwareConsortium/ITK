@@ -62,15 +62,15 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::SetInput(TInputSample* sample)
+::SetInput(const TInputSample* sample)
 {
   m_Input = sample ;
 }
   
 template< class TInputSample, class TClassMaskSample >
-TInputSample*
+const TInputSample*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::GetInput()
+::GetInput() const
 {
   return m_Input ;
 }
@@ -78,15 +78,15 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::SetClassMask(TClassMaskSample* classMask)
+::SetClassMask(const TClassMaskSample* classMask)
 {
   m_ClassMask = classMask ;
 }
 
 template< class TInputSample, class TClassMaskSample >
-TClassMaskSample*
+const TClassMaskSample*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::GetClassMask()
+::GetClassMask() const
 {
   return m_ClassMask ;
 }
@@ -124,7 +124,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   unsigned int classLabel ;
   m_Output->SetSample(m_Input) ;
   m_Output->SetNumberOfClasses(m_NumberOfClasses) ;
-  typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
+  typename TClassMaskSample::ConstIterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
     classLabel = iter.GetMeasurementVector()[0] ;

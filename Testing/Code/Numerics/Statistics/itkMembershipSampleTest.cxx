@@ -125,7 +125,7 @@ int itkMembershipSampleTest(int, char* [] )
   ImageIterator i_iter(sample->GetImage(),
                        sample->GetImage()->GetLargestPossibleRegion()) ;
 
-  MembershipSampleType::Iterator s_iter = membershipSample->Begin() ;
+  MembershipSampleType::ConstIterator s_iter = membershipSample->Begin() ;
 
   while (!i_iter.IsAtEnd())
     {

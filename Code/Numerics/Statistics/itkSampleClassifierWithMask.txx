@@ -73,8 +73,8 @@ SampleClassifierWithMask< TSample, TMaskSample >
 ::GenerateData()
 {
   unsigned int i ;
-  typename TSample::Iterator iter = GetSample()->Begin() ;
-  typename TSample::Iterator end = GetSample()->End() ;
+  typename TSample::ConstIterator iter = GetSample()->Begin() ;
+  typename TSample::ConstIterator end = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
 
   typename TMaskSample::Iterator m_iter = this->GetMask()->Begin() ;

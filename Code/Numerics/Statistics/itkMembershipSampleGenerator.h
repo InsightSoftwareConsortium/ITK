@@ -70,16 +70,16 @@ public:
   typedef typename OutputType::Pointer OutputPointer ;
 
   /** Stores the input sample */
-  void SetInput(TInputSample* sample) ;
+  void SetInput(const TInputSample* sample) ;
   
   /** Returns the input sample pointer */
-  TInputSample* GetInput() ;
+  const TInputSample* GetInput() const;
 
   /** Stores the class mask sample */
-  void SetClassMask(TClassMaskSample* classMask) ;
+  void SetClassMask(const TClassMaskSample* classMask) ;
 
   /** Returns the class mask sample pointer*/
-  TClassMaskSample* GetClassMask() ;
+  const TClassMaskSample* GetClassMask() const;
 
   void SetNumberOfClasses(int numberOfClasses) ;
 
@@ -98,8 +98,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  typename TInputSample::Pointer m_Input ;
-  typename TClassMaskSample::Pointer m_ClassMask ;
+  typename TInputSample::ConstPointer m_Input ;
+  typename TClassMaskSample::ConstPointer m_ClassMask ;
   int m_NumberOfClasses ;
   OutputPointer m_Output ;
 } ; // end of class

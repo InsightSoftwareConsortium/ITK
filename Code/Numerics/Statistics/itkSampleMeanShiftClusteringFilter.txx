@@ -53,7 +53,7 @@ void
 SampleMeanShiftClusteringFilter< TSample >
 ::GenerateData()
 {
-  TSample* inputSample = this->GetInputSample() ;
+  const TSample* inputSample = this->GetInputSample() ;
   m_Output.clear() ;
   m_Output.resize( inputSample->Size(), 0 ) ;
   int currentLabel = 1 ;
@@ -71,8 +71,8 @@ SampleMeanShiftClusteringFilter< TSample >
   typename SearchResultVectorType::iterator cp_end ; 
   typename SearchResultVectorType::iterator sr_iter ;
   typename SearchResultVectorType::iterator sr_end ;
-  typename TSample::Iterator iter = inputSample->Begin() ;
-  typename TSample::Iterator end = inputSample->End() ;
+  typename TSample::ConstIterator iter = inputSample->Begin() ;
+  typename TSample::ConstIterator end = inputSample->End() ;
 
   while ( iter != end )
     {

@@ -78,7 +78,7 @@ public:
   typedef typename CovarianceEstimatorType::OutputType CovarianceType ;
 
   /** Sets the input sample */
-  void SetSample(TSample* sample) ;
+  void SetSample(const TSample* sample) ;
 
   /** Sets the component's distribution parameters. */
   void SetParameters(const ParametersType &parameters) ;

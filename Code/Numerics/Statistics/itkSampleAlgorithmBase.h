@@ -58,7 +58,7 @@ public:
   typedef TInputSample InputSampleType ;
 
   /** Stores the sample pointer */
-  void SetInputSample(TInputSample* sample) 
+  void SetInputSample( const TInputSample * sample ) 
   {
     if ( m_InputSample != sample )
       {
@@ -67,7 +67,7 @@ public:
       }
   }
 
-  TInputSample* GetInputSample()
+  const TInputSample * GetInputSample() const
   { return m_InputSample.GetPointer() ; }
 
   /** dummy function that calls the GenerateData() function to generate
@@ -86,7 +86,7 @@ protected:
 
 private:
   /** Target sample data pointer */
-  typename TInputSample::Pointer m_InputSample ;
+  typename TInputSample::ConstPointer m_InputSample ;
 } ; // end of class
     
   } // end of namespace Statistics 

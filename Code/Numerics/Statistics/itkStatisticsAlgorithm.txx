@@ -99,9 +99,9 @@ inline TValue MedianOfThree(const TValue a,
 }
 
 template< class TSample >
-inline void FindSampleBound(TSample* ,
-                            typename TSample::Iterator begin,
-                            typename TSample::Iterator end,
+inline void FindSampleBound(const TSample* ,
+                            typename TSample::ConstIterator begin,
+                            typename TSample::ConstIterator end,
                             typename TSample::MeasurementVectorType &min,
                             typename TSample::MeasurementVectorType &max)
 {    
@@ -135,7 +135,7 @@ inline void FindSampleBound(TSample* ,
 
 /** The endIndex should points one point after the last elements. */
 template< class TSubsample >
-inline void FindSampleBound(TSubsample* sample,
+inline void FindSampleBound(const TSubsample* sample,
                             int beginIndex,
                             int endIndex,
                             typename TSubsample::MeasurementVectorType &min,
@@ -172,7 +172,7 @@ inline void FindSampleBound(TSubsample* sample,
 /** The endIndex should points one point after the last elements. */
 template< class TSubsample >
 inline void 
-FindSampleBoundAndMean(TSubsample* sample,
+FindSampleBoundAndMean(const TSubsample* sample,
                        int beginIndex,
                        int endIndex,
                        typename TSubsample::MeasurementVectorType &min,

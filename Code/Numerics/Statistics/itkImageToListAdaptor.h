@@ -118,22 +118,8 @@ public:
   inline FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   FrequencyType GetTotalFrequency() const ;
-
-  class Iterator;
-  friend class Iterator;
   
-  Iterator Begin()
-  { 
-    Iterator iter(0, this);
-    return iter; 
-  }
-  
-  Iterator End()        
-  {
-    Iterator iter(this->Size(), this); 
-    return iter; 
-  }
-  
+ 
   class Iterator
   {
   public:
@@ -196,7 +182,97 @@ public:
     InstanceIdentifier m_Id;  // Current id 
     Pointer m_Container ;
   } ;
+
+
+  class ConstIterator
+  {
+  public:
+    
+    ConstIterator(){}
+    
+    ConstIterator(InstanceIdentifier id, ConstPointer pContainer)
+      :m_Id(id),m_Container(pContainer)
+    {}
+    
+    FrequencyType GetFrequency() const
+    { return 1 ;}
+
+    const MeasurementVectorType & GetMeasurementVector() const
+    { return m_Container->GetMeasurementVector(m_Id) ;} 
+
+    InstanceIdentifier GetInstanceIdentifier() const
+    { return m_Id ;}
+
+    ConstIterator& operator++()
+    { ++m_Id ; return *this ;}
+    
+    ConstIterator& operator+()
+    { m_Id += n; return *this ;}
+
+    ConstIterator& operator+(int n)
+    { m_Id += n; return *this ;}
+    
+    ConstIterator& operator-(int n)
+    { m_Id -= n; return *this ;}
+
+    bool operator!=(const ConstIterator &it)
+    {
+      if (m_Id != it.m_Id)
+        {return true ;}
+
+      if (m_Container != it.m_Container)
+        { return true ;}
+
+      return false ;
+    }
+    
+    bool operator==(const ConstIterator &it)
+    { return !(*this != it);}
+    
+    ConstIterator& operator = (const ConstIterator &iter)
+    { 
+      m_Id = iter.m_Id; 
+      m_Container = iter.m_Container ; 
+      return *this ;
+    }
+
+    ConstIterator(const ConstIterator &iter)
+    { 
+      m_Id = iter.m_Id; 
+      m_Container = iter.m_Container ; 
+    }
+    
+  private:
+    InstanceIdentifier m_Id;  // Current id 
+    ConstPointer m_Container ;
+  } ;
+
+
+
+  Iterator Begin()
+  { 
+    Iterator iter(0, this);
+    return iter; 
+  }
   
+  Iterator End()        
+  {
+    Iterator iter(this->Size(), this); 
+    return iter; 
+  }
+
+  ConstIterator Begin() const
+  { 
+    ConstIterator iter(0, this);
+    return iter; 
+  }
+  
+  ConstIterator End() const
+  {
+    ConstIterator iter(this->Size(), this); 
+    return iter; 
+  }
+ 
 protected:
   ImageToListAdaptor() ;
   virtual ~ImageToListAdaptor() {}

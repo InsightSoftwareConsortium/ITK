@@ -94,10 +94,10 @@ public:
   typedef unsigned int ClassLabelType ;
   typedef std::vector< ClassLabelType > ClassLabelVectorType ;
   /** Sets the target data that will be classified by this */
-  void SetSample(TSample* sample) ;
+  void SetSample(const TSample* sample) ;
 
   /** Returns the target data */
-  TSample* GetSample() ;
+  const TSample* GetSample() const;
 
   /** Sets the user given class labels for membership functions.
    * If users do not provide class labels for membership functions by calling
@@ -123,7 +123,7 @@ protected:
 
 private:
   /** Target data sample pointer*/
-  TSample* m_Sample ;
+  const TSample* m_Sample ;
 
   /** Output pointer (MembershipSample) */
   typename OutputType::Pointer m_Output ;

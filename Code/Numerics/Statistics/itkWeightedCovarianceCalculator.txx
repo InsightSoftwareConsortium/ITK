@@ -125,8 +125,8 @@ WeightedCovarianceCalculator< TSample >
   
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetInputSample()->Begin() ; 
-  typename TSample::Iterator end = this->GetInputSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ; 
+  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   int measurementVectorIndex = 0 ;
@@ -209,8 +209,8 @@ WeightedCovarianceCalculator< TSample >
   
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetInputSample()->Begin() ; 
-  typename TSample::Iterator end = this->GetInputSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ; 
+  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   int measurementVectorIndex = 0 ;

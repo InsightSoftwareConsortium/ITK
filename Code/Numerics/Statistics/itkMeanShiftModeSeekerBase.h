@@ -76,9 +76,9 @@ public:
   typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
   typedef MeanShiftModeCacheMethod< MeasurementVectorType > CacheMethodType ;
 
-  void SetInputSample(TSample* sample) ;
+  void SetInputSample(const TSample* sample) ;
 
-  TSample* GetInputSample()
+  const TSample* GetInputSample() const
   { return m_InputSample.GetPointer() ; }
 
   void SetMaximumIteration(unsigned int number)
@@ -105,7 +105,7 @@ protected:
 
   
 private:
-  typename TSample::Pointer m_InputSample ;
+  typename TSample::ConstPointer m_InputSample ;
   unsigned int m_MaximumIteration ;
   typename CacheMethodType::Pointer m_CacheMethod ;
 } ; // end of class

@@ -88,16 +88,16 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetSample(TSample* sample)
+::SetSample(const TSample* sample)
 {
   m_Sample = sample ;
   this->CreateWeightArray() ;
 } 
 
 template< class TSample >
-TSample*
+const TSample*
 MixtureModelComponentBase< TSample >
-::GetSample()
+::GetSample() const
 {
   return m_Sample ;
 } 

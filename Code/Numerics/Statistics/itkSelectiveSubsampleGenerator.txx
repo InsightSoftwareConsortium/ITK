@@ -17,6 +17,8 @@
 #ifndef __itkSelectiveSubsampleGenerator_txx
 #define __itkSelectiveSubsampleGenerator_txx
 
+#include "itkSelectiveSubsampleGenerator.h"
+
 namespace itk{
 namespace Statistics{
 
@@ -84,15 +86,15 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
-::SetClassMask(TClassMaskSample* classMask)
+::SetClassMask( const TClassMaskSample* classMask )
 {
   m_ClassMask = classMask ;
 }
 
 template< class TInputSample, class TClassMaskSample >
-TClassMaskSample*
+const TClassMaskSample*
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
-::GetClassMask()
+::GetClassMask() const 
 {
   return m_ClassMask ;
 }
@@ -111,7 +113,7 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
   m_Output->SetSample(m_Input) ;
-  typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
+  typename TClassMaskSample::ConstIterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
     if ( std::find(m_SelectedClassLabels.begin(), 

@@ -96,11 +96,11 @@ CovarianceCalculator< TSample >
 } 
 
 template< class TSample >
-typename CovarianceCalculator< TSample >::OutputType*
+const typename CovarianceCalculator< TSample >::OutputType*
 CovarianceCalculator< TSample >
-::GetOutput()
+::GetOutput() const
 {
-  return &m_Output ;
+  return & m_Output ;
 } 
 
 template< class TSample >
@@ -114,8 +114,8 @@ CovarianceCalculator< TSample >
 
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
-  typename TSample::Iterator end = this->GetInputSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   // fills the lower triangle and the diagonal cells in the covariance matrix
@@ -163,8 +163,8 @@ CovarianceCalculator< TSample >
 
   unsigned int row, col ;
   unsigned int i ;
-  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
-  typename TSample::Iterator end = this->GetInputSample()->End() ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   MeanType diff ;
   typename TSample::MeasurementVectorType measurements ;
   // fills the lower triangle and the diagonal cells in the covariance matrix

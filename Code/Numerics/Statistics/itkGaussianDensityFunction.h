@@ -72,7 +72,7 @@ public:
                   itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
 
   /** Sets the mean */
-  void SetMean(MeanType* mean)
+  void SetMean( const MeanType * mean )
   {
     if ( m_Mean != mean) 
       {
@@ -82,16 +82,16 @@ public:
   }
   
   /** Gets the mean */
-  MeanType* GetMean() const
+  const MeanType * GetMean() const
   { return m_Mean ; }
 
   /** Sets the covariance matrix.
    * Also, this function calculates inverse covariance and pre factor of 
    * Gaussian Distribution to speed up GetProbability */
-  void SetCovariance(CovarianceType* cov); 
+  void SetCovariance(const CovarianceType* cov); 
   
   /** Gets the covariance matrix */
-  CovarianceType* GetCovariance() const ;
+  const CovarianceType* GetCovariance() const ;
 
   /** Gets the probability density of a measurement vector. */
   double Evaluate(const MeasurementVectorType &measurement) const ;
@@ -102,8 +102,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  MeanType* m_Mean;              // mean
-  CovarianceType* m_Covariance;         // covariance matrix
+  const MeanType        * m_Mean;           // mean
+  const CovarianceType  * m_Covariance;     // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 
   // when covariace matirx is set.  This speed up the GetProbability()

@@ -86,12 +86,14 @@ public:
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
   typedef Subsample< TSample > ClassSampleType ;
+  typedef typename ClassSampleType::Pointer         ClassSamplePointer;
+  typedef typename ClassSampleType::ConstPointer    ClassSampleConstPointer;
   
   /** Plug in the actual sample data */
-  void SetSample(TSample* sample) ;
+  void SetSample(const TSample* sample) ;
 
   /** Returns the source sample pointer */
-  TSample* GetSample() ;
+  const TSample* GetSample() const;
   
   /** Sets the number of classes (class labels) */
   void SetNumberOfClasses(unsigned int numberOfClasses) ;
@@ -118,7 +120,7 @@ public:
 
   /** Gets the Subsample that includes only the instances that belongs
    *   to the classLabel */
-  ClassSampleType* GetClassSample(const unsigned int &classLabel) ;
+  const ClassSampleType* GetClassSample(const unsigned int &classLabel) const ;
   
   /** Gets the class labels that corresponding to the each instance in
    *   this container. */
@@ -148,25 +150,11 @@ public:
     m_ClassLabelHolder.resize(n) ;
   }
 
-  class Iterator;
-  friend class Iterator;
-  
-  Iterator Begin()
-  { 
-    Iterator iter(0, this) ;
-    return iter; 
-  }
-  
-  Iterator  End()        
-  {
-    Iterator iter(this->Size(), this) ; 
-    return iter; 
-  }
-  
-  class Iterator
+ 
+  class ConstIterator
   {
   public:
-    Iterator(InstanceIdentifier id, Self* membershipSample)
+    ConstIterator(InstanceIdentifier id, const Self* membershipSample)
       :m_Id(id), m_MembershipSample(membershipSample),
        m_Sample(membershipSample->GetSample())
     {}
@@ -186,13 +174,13 @@ public:
     unsigned int GetClassLabel() const
     { return m_MembershipSample->GetClassLabel(m_Id) ; }
 
-    Iterator& operator++() 
+    ConstIterator& operator++() 
     { 
       ++m_Id ;
       return *this ;
     }
     
-    bool operator!=(const Iterator& it) 
+    bool operator!=(const ConstIterator& it) 
     { 
       if (m_Id != it.m_Id || 
           m_MembershipSample != it.m_MembershipSample ||
@@ -206,7 +194,7 @@ public:
         }
     }
 
-    bool operator==(const Iterator& it) 
+    bool operator==(const ConstIterator& it) 
     { 
       if (m_Id == it.m_Id && 
           m_MembershipSample == it.m_MembershipSample &&
@@ -220,7 +208,7 @@ public:
         }
     }
     
-    Iterator& operator=(const Iterator& it)
+    ConstIterator& operator=(const ConstIterator& it)
     {
       m_Id = it.m_Id;
       m_MembershipSample = it.m_MembershipSample ;
@@ -228,7 +216,7 @@ public:
       return *this ;
     }
 
-    Iterator(const Iterator& it)
+    ConstIterator(const ConstIterator& it)
     {
       m_Id = it.m_Id;
       m_MembershipSample = it.m_MembershipSample ;
@@ -239,10 +227,22 @@ public:
     // identifier for the instance
     InstanceIdentifier m_Id ;  
     // Pointer to MemebershipSample object
-    Self* m_MembershipSample ;
-    TSample* m_Sample ;
+    const Self* m_MembershipSample ;
+    const TSample* m_Sample ;
   } ;
 
+  ConstIterator Begin() const
+  { 
+    ConstIterator iter(0, this) ;
+    return iter; 
+  }
+  
+  ConstIterator  End() const        
+  {
+    ConstIterator iter(this->Size(), this) ; 
+    return iter; 
+  }
+ 
 protected:
   MembershipSample() ;
   virtual ~MembershipSample() {}
@@ -252,13 +252,13 @@ private:
   MembershipSample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  TSample*                        m_Sample ;
+  const TSample*                  m_Sample ;
   unsigned int                    m_CurrentClassLabel ;
   UniqueClassLabelsType           m_UniqueClassLabels ;
   ClassLabelHolderType            m_ClassLabelHolder ;
   unsigned int                    m_NumberOfClasses ;
   std::vector< unsigned int >     m_ClassSampleSizes ;
-  std::vector< typename ClassSampleType::Pointer > m_ClassSamples ;
+  std::vector< ClassSamplePointer > m_ClassSamples ;
 } ; // end of class
 
 

@@ -82,10 +82,19 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::SetSample(TSample* sample) 
+::SetSample(const TSample* sample) 
 {
   m_Sample = sample ;
 }
+
+template< class TSample >
+const TSample *
+ExpectationMaximizationMixtureModelEstimator< TSample >
+::GetSample() const 
+{
+  return m_Sample ;
+}
+
 
 template< class TSample >
 int
@@ -145,8 +154,8 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   int numberOfComponents = static_cast<int>( m_ComponentVector.size() );
   std::vector< double > tempWeights(numberOfComponents) ;
 
-  typename TSample::Iterator iter = m_Sample->Begin() ;
-  typename TSample::Iterator last = m_Sample->End() ;
+  typename TSample::ConstIterator iter = m_Sample->Begin() ;
+  typename TSample::ConstIterator last = m_Sample->End() ;
 
   int componentIndex ;
 

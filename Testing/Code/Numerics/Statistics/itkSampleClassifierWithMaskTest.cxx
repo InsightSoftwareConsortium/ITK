@@ -154,9 +154,9 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
   /* evaluate the classification result */
   ClassifierType::OutputType* membershipSample =
     classifier->GetOutput() ;
-  ClassifierType::OutputType::Iterator m_iter =
+  ClassifierType::OutputType::ConstIterator m_iter =
     membershipSample->Begin() ;
-  ClassifierType::OutputType::Iterator m_last =
+  ClassifierType::OutputType::ConstIterator m_last =
     membershipSample->End() ;
 
   unsigned int index = 0 ;

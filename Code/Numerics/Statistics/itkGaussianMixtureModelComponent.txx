@@ -57,7 +57,7 @@ GaussianMixtureModelComponent< TSample >
 template< class TSample >
 void
 GaussianMixtureModelComponent< TSample >
-::SetSample(TSample* sample)
+::SetSample(const TSample* sample)
 {
   Superclass::SetSample(sample) ;
 

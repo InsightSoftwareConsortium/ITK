@@ -70,7 +70,7 @@ public:
   MeanType* GetMean() ;
 
   /** Returns the covariance matrix of the target sample data */ 
-  OutputType* GetOutput() ;
+  const OutputType * GetOutput() const;
 
 protected:
   CovarianceCalculator() ;

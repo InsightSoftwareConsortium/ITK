@@ -17,6 +17,7 @@
 #ifndef __itkKdTree_txx
 #define __itkKdTree_txx
 
+#include "itkKdTree.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -38,7 +39,7 @@ template< class TSample >
 void
 KdTreeNonterminalNode< TSample >
 ::GetParameters(unsigned int &partitionDimension, 
-                MeasurementType &partitionValue)
+                MeasurementType &partitionValue) const
 {
   partitionDimension = m_PartitionDimension ;
   partitionValue = m_PartitionValue ;
@@ -71,7 +72,7 @@ template< class TSample >
 void
 KdTreeWeightedCentroidNonterminalNode< TSample >
 ::GetParameters(unsigned int &partitionDimension, 
-                MeasurementType &partitionValue)
+                MeasurementType &partitionValue) const
 {
   partitionDimension = m_PartitionDimension ;
   partitionValue = m_PartitionValue ;
@@ -96,7 +97,7 @@ KdTree< TSample >
 {
   if ( m_Root != 0 )
     {
-    DeleteNode(m_Root) ;
+    this->DeleteNode(m_Root) ;
     }
   
   delete m_EmptyTerminalNode ;
@@ -151,12 +152,12 @@ KdTree< TSample >
   // non-terminal node
   if ( node->Left() != 0 )
     {
-    DeleteNode(node->Left()) ;
+    this->DeleteNode( node->Left() ) ;
     }
 
   if ( node->Right() != 0 )
     {
-    DeleteNode(node->Right()) ;
+    this->DeleteNode( node->Right() ) ;
     }
 
   delete node ;
@@ -165,7 +166,7 @@ KdTree< TSample >
 template< class TSample >
 void
 KdTree< TSample >
-::SetSample(TSample* sample)
+::SetSample(const TSample* sample)
 {
   m_Sample = sample ;
 }
@@ -183,7 +184,7 @@ template< class TSample >
 void
 KdTree< TSample >
 ::Search(MeasurementVectorType &query, unsigned int k,
-         InstanceIdentifierVectorType& result)
+         InstanceIdentifierVectorType& result) const
 {
   if (k > this->Size())
     {
@@ -213,10 +214,10 @@ KdTree< TSample >
 template< class TSample >
 inline int
 KdTree< TSample >
-::NearestNeighborSearchLoop(KdTreeNodeType* node, 
+::NearestNeighborSearchLoop( const KdTreeNodeType* node, 
                             MeasurementVectorType &query, 
                             MeasurementVectorType &lowerBound,
-                            MeasurementVectorType &upperBound)
+                            MeasurementVectorType &upperBound) const
 {
   unsigned int i ;
   InstanceIdentifier tempId ;
@@ -244,7 +245,7 @@ KdTree< TSample >
         }
       }
 
-    if ( BallWithinBounds(query, lowerBound, upperBound, 
+    if ( this->BallWithinBounds(query, lowerBound, upperBound, 
                           m_NearestNeighbors.GetLargestDistance()) )
       {
       return 1 ;
@@ -273,7 +274,7 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = lowerBound[partitionDimension] ;
     lowerBound[partitionDimension] = partitionValue ;
-    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+    if ( this->BoundsOverlapBall(query, lowerBound, upperBound, 
                            m_NearestNeighbors.GetLargestDistance()) )
       {
       NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound) ;
@@ -294,7 +295,7 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = upperBound[partitionDimension] ;
     upperBound[partitionDimension] = partitionValue ;
-    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+    if ( this->BoundsOverlapBall(query, lowerBound, upperBound, 
                            m_NearestNeighbors.GetLargestDistance()) )
       {
       NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound) ;
@@ -303,7 +304,7 @@ KdTree< TSample >
     }
 
   // stop or continue search
-  if ( BallWithinBounds(query, lowerBound, upperBound, 
+  if ( this->BallWithinBounds(query, lowerBound, upperBound, 
                         m_NearestNeighbors.GetLargestDistance()) )
     {
     return 1 ;
@@ -316,7 +317,7 @@ template< class TSample >
 void
 KdTree< TSample >
 ::Search(MeasurementVectorType &query, double radius,
-         InstanceIdentifierVectorType& result)
+         InstanceIdentifierVectorType& result) const
 {
   MeasurementVectorType lowerBound ;
   MeasurementVectorType upperBound ;
@@ -339,10 +340,10 @@ KdTree< TSample >
 template< class TSample >
 inline int
 KdTree< TSample >
-::SearchLoop(KdTreeNodeType* node, 
+::SearchLoop(const KdTreeNodeType* node, 
              MeasurementVectorType &query, 
              MeasurementVectorType &lowerBound,
-             MeasurementVectorType &upperBound)
+             MeasurementVectorType &upperBound) const
 {
   unsigned int i ;
   InstanceIdentifier tempId ;
@@ -370,7 +371,7 @@ KdTree< TSample >
         }
       }
 
-    if ( BallWithinBounds(query, lowerBound, upperBound, 
+    if ( this->BallWithinBounds(query, lowerBound, upperBound, 
                           m_SearchRadius) )
       {
       return 1 ;
@@ -399,7 +400,7 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = lowerBound[partitionDimension] ;
     lowerBound[partitionDimension] = partitionValue ;
-    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+    if ( this->BoundsOverlapBall(query, lowerBound, upperBound, 
                            m_SearchRadius) )
       {
       SearchLoop(node->Right(), query, lowerBound, upperBound) ;
@@ -420,7 +421,7 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = upperBound[partitionDimension] ;
     upperBound[partitionDimension] = partitionValue ;
-    if ( BoundsOverlapBall(query, lowerBound, upperBound, 
+    if ( this->BoundsOverlapBall(query, lowerBound, upperBound, 
                            m_SearchRadius) )
       {
       SearchLoop(node->Left(), query, lowerBound, upperBound) ;
@@ -429,7 +430,7 @@ KdTree< TSample >
     }
 
   // stop or continue search
-  if ( BallWithinBounds(query, lowerBound, upperBound, 
+  if ( this->BallWithinBounds(query, lowerBound, upperBound, 
                         m_SearchRadius) )
     {
     return 1 ;
@@ -444,7 +445,7 @@ KdTree< TSample >
 ::BallWithinBounds(MeasurementVectorType &query, 
                    MeasurementVectorType &lowerBound,
                    MeasurementVectorType &upperBound,
-                   double radius)
+                   double radius) const
 {
   unsigned int dimension ;
   for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
@@ -468,7 +469,7 @@ KdTree< TSample >
 ::BoundsOverlapBall(MeasurementVectorType &query, 
                     MeasurementVectorType &lowerBound,
                     MeasurementVectorType &upperBound,
-                    double radius)
+                    double radius) const
 {
   double sum = NumericTraits< double >::Zero ;
   double temp ;

@@ -56,7 +56,7 @@ Subsample< TSample >
 template< class TSample >
 inline typename Subsample< TSample >::MeasurementVectorType
 Subsample< TSample >
-::GetMeasurementVectorByIndex(int index)
+::GetMeasurementVectorByIndex(int index) const
 {
   return m_Sample->GetMeasurementVector(m_IdHolder[index]) ;
 }
@@ -64,7 +64,7 @@ Subsample< TSample >
 template< class TSample >
 inline typename Subsample< TSample >::FrequencyType
 Subsample< TSample >
-::GetFrequencyByIndex(int index)
+::GetFrequencyByIndex(int index) const
 {
   return m_Sample->GetFrequency(m_IdHolder[index]) ;
 }

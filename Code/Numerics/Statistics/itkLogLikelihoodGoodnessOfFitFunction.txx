@@ -35,14 +35,14 @@ void
 LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 ::GenerateData()
 {
-  TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
-  TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
+  const TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
+  const TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
 
   float p, px, sum = 0.0f ;
   double ratio;
-  typename TInputHistogram::Iterator e_iter = expectedHistogram->Begin() ;
-  typename TInputHistogram::Iterator e_last = expectedHistogram->End() ;
-  typename TInputHistogram::Iterator o_iter = observedHistogram->Begin() ;
+  typename TInputHistogram::ConstIterator e_iter = expectedHistogram->Begin() ;
+  typename TInputHistogram::ConstIterator e_last = expectedHistogram->End() ;
+  typename TInputHistogram::ConstIterator o_iter = observedHistogram->Begin() ;
   while ( e_iter != e_last )
     {
     p = e_iter.GetFrequency() ;

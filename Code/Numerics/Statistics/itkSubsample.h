@@ -63,18 +63,19 @@ public:
   typedef std::vector< InstanceIdentifier > InstanceIdentifierHolder ;
 
   /** Plug in the actual sample data */
-  void SetSample(TSample* sample)
+  void SetSample(const TSample* sample)
   { m_Sample = sample ; }
 
-  TSample* GetSample()
+  const TSample* GetSample() const
   { return m_Sample ; } 
+
 
   void InitializeWithAllInstances()
   {
     m_IdHolder.resize(m_Sample->Size()) ;
     typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin() ;
-    typename TSample::Iterator iter = m_Sample->Begin() ;
-    typename TSample::Iterator last = m_Sample->End() ;
+    typename TSample::ConstIterator iter = m_Sample->Begin() ;
+    typename TSample::ConstIterator last = m_Sample->End() ;
     m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
     while (iter != last)
       {
@@ -118,27 +119,14 @@ public:
   
   void Swap(int index1, int index2) ;
   
-  MeasurementVectorType GetMeasurementVectorByIndex(int index) ;
+  MeasurementVectorType GetMeasurementVectorByIndex(int index) const ;
 
-  FrequencyType GetFrequencyByIndex(int index) ;
+  FrequencyType GetFrequencyByIndex(int index) const;
 
   InstanceIdentifier GetInstanceIdentifier(int index) const;
 
-  class Iterator;
-  friend class Iterator;
   
-  Iterator Begin()
-  { 
-    Iterator iter(m_IdHolder.begin(), this) ;
-    return iter; 
-  }
-  
-  Iterator  End()        
-  {
-    Iterator iter(m_IdHolder.end(), this) ; 
-    return iter; 
-  }
-  
+ 
   class Iterator
   {
   public:
@@ -198,9 +186,99 @@ public:
     typename InstanceIdentifierHolder::iterator m_Iter ;  
     // Pointer to Subsample object
     Self* m_Subsample ;
-    TSample* m_Sample ;
+    const TSample* m_Sample ;
   } ;
 
+
+ 
+  class ConstIterator
+  {
+  public:
+    ConstIterator(typename InstanceIdentifierHolder::const_iterator iter, 
+             const Self* classSample)
+      :m_Iter(iter), m_Subsample(classSample),
+       m_Sample(classSample->GetSample())
+    {}
+    
+    FrequencyType GetFrequency() const
+    { return  m_Sample->GetFrequency(*m_Iter) ; }
+    
+    const MeasurementVectorType & GetMeasurementVector() const
+    { return m_Sample->GetMeasurementVector(*m_Iter) ; } 
+    
+    InstanceIdentifier GetInstanceIdentifier() const   
+    { return *m_Iter ; }
+    
+    ConstIterator& operator++() 
+    { 
+      ++m_Iter ;
+      return *this ;
+    }
+    
+    ConstIterator& operator+()
+    { m_Iter += n; return *this ;}
+
+    ConstIterator& operator+(int n)
+    { m_Iter += n; return *this ;}
+    
+    ConstIterator& operator-(int n)
+    { m_Iter -= n; return *this ;}
+
+    bool operator!=(const ConstIterator& it) 
+    { return (m_Iter != it.m_Iter) ; }
+    
+    bool operator==(const ConstIterator& it) 
+    { return (m_Iter == it.m_Iter) ; }
+    
+    ConstIterator& operator=(const ConstIterator& iter)
+    {
+      m_Iter = iter.m_Iter;
+      m_Subsample = iter.m_Subsample ;
+      m_Sample = iter.m_Sample ;
+      return *this ;
+    }
+
+    ConstIterator(const ConstIterator& iter)
+    {
+      m_Iter = iter.m_Iter;
+      m_Subsample = iter.m_Subsample ;
+      m_Sample = iter.m_Sample ;
+    }
+    
+  private:
+    // ConstIterator pointing to ImageToListAdaptor
+    typename InstanceIdentifierHolder::const_iterator m_Iter ;  
+    // Pointer to Subsample object
+    const Self* m_Subsample ;
+    const TSample* m_Sample ;
+  } ;
+
+
+
+  Iterator Begin()
+  { 
+    Iterator iter(m_IdHolder.begin(), this) ;
+    return iter; 
+  }
+  
+  Iterator  End()        
+  {
+    Iterator iter(m_IdHolder.end(), this) ; 
+    return iter; 
+  }
+
+  ConstIterator Begin() const
+  { 
+    ConstIterator iter(m_IdHolder.begin(), this) ;
+    return iter; 
+  }
+  
+  ConstIterator  End()  const
+  {
+    ConstIterator iter(m_IdHolder.end(), this) ; 
+    return iter; 
+  }
+ 
 protected:
   Subsample() ;
   virtual ~Subsample() {}
@@ -210,7 +288,7 @@ private:
   Subsample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  TSample*               m_Sample ;
+  const TSample*              m_Sample ;
   InstanceIdentifierHolder    m_IdHolder ;
   unsigned int                m_ActiveDimension ;
   FrequencyType m_TotalFrequency ;

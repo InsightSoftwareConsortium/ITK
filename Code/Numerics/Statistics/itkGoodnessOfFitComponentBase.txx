@@ -121,7 +121,7 @@ GoodnessOfFitComponentBase< TInputSample >
 template< class TInputSample >
 void
 GoodnessOfFitComponentBase< TInputSample >
-::SetInputSample(TInputSample* sample)
+::SetInputSample(const TInputSample* sample)
 {
   if ( m_InputSample != sample )
     {
@@ -132,9 +132,9 @@ GoodnessOfFitComponentBase< TInputSample >
 }
 
 template< class TInputSample >
-TInputSample*
+const TInputSample*
 GoodnessOfFitComponentBase< TInputSample >
-::GetInputSample()
+::GetInputSample() const
 {
   return m_InputSample ;
 }
@@ -385,17 +385,17 @@ GoodnessOfFitComponentBase< TInputHistogram >
 }
 
 template< class TInputSample >
-typename GoodnessOfFitComponentBase< TInputSample >::HistogramPointer
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramType *
 GoodnessOfFitComponentBase< TInputSample >
-::GetObservedHistogram()
+::GetObservedHistogram() 
 {
   return m_ObservedHistogram ;
 }
 
 template< class TInputSample >
-typename GoodnessOfFitComponentBase< TInputSample >::HistogramPointer
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramType *
 GoodnessOfFitComponentBase< TInputSample >
-::GetExpectedHistogram()
+::GetExpectedHistogram() 
 {
   return m_ExpectedHistogram ;
 }
