@@ -38,7 +38,6 @@ template <class TTransform, unsigned int NDimension>
 class ITK_EXPORT ProcrustesRegistrationMetric : 
       public SimilarityRegistrationMetric<
         VectorContainer< unsigned long, Point<double,NDimension> >,
-        VectorContainer< unsigned long, Point<double,NDimension> >,
         RegistrationMapperProcrustes<TTransform,NDimension>,
         vnl_vector_fixed< double, NDimension >,
         vnl_matrix_fixed< double, NDimension, NDimension > > 
@@ -54,7 +53,6 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef SimilarityRegistrationMetric<
-        VectorContainer< unsigned long, Point<double,NDimension> >,
         VectorContainer< unsigned long, Point<double,NDimension> >,
         RegistrationMapperProcrustes<TTransform,NDimension>,
         vnl_vector< double >,
