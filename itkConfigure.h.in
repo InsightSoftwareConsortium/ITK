@@ -25,3 +25,8 @@
 #define ITK_HP_PTHREADS
 #endif
 
+#cmakedefine CMAKE_USE_WIN32_THREADS
+#ifdef CMAKE_USE_WIN32_THREADS
+#define ITK_USE_WIN32_THREADS
+#endif
+
