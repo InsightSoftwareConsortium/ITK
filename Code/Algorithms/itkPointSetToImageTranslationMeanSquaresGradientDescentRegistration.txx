@@ -127,11 +127,6 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTa
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
 
-  std::cout << "The Solution is : " ;
-  m_Parameters = optimizer->GetCurrentPosition();
-  std::cout << m_Parameters << std::endl;
-  std::cout << std::endl;
-
 
 }
 
