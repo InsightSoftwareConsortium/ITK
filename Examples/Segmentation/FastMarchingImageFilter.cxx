@@ -738,10 +738,10 @@ int main( int argc, char **argv )
   //  \hline
   //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Output Image \\
   //  \hline
-  //  Left Ventricle  & $(81,114)$ & 1.0 & -2.0 & 3.0  & 150 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 1.0 & -2.0 & 3.0  & 150 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 1.0 & -2.0 & 2.0  & 400 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 0.5 & -2.0 & 4.0  & 600 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
