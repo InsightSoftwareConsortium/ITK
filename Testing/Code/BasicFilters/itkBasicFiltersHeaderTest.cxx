@@ -29,6 +29,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryErodeImageFilter.txx"
 #include "itkBinaryFunctorImageFilter.txx"
 #include "itkBinaryMagnitudeImageFilter.h"
+#include "itkBinaryThresholdImageFilter.txx"
 #include "itkBinomialBlurImageFilter.txx"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.txx"
 #include "itkCannyEdgeDetectionImageFilter.txx"
