@@ -773,13 +773,11 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Curvature Scaling & Output Image \\
-  //  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 0.05 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 0.05 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  \hline
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Curvature Scaling & Output Image \\ \hline  \\ \hline
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 0.05 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 0.05 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
   //  \end{tabular}
   //  \end{center}
   //

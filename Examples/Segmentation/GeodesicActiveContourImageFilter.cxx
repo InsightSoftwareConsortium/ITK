@@ -575,13 +575,11 @@ int main( int argc, char *argv[] )
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
   //  \hline
   //  Structure    & Seed Index &  Distance   &   $\sigma$  &     
-  //  $\alpha$     &  $\beta$   & Propagation Scaling & Output Image \\   
-  //  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 10.0 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 10.0 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  \hline
+  //  $\alpha$     &  $\beta$   & Propagation Scaling & Output Image \\  \hline \\ \hline
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2}  \\  \hline
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2}  \\  \hline
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 10.0 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\  \hline
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 10.0 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\  \hline
   //  \end{tabular}
   //  \end{center}
   //

@@ -738,13 +738,11 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Stopping & Output Image \\
-  //  \hline
-  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & 100 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & 100 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
-  //  \hline
+  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Stopping & Output Image \\ \hline \\ \hline
+  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
+  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline 
+  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & 100 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
+  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & 100 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
   //  \end{tabular}
   //  \end{center}
   //

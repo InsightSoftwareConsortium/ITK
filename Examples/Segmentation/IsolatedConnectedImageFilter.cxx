@@ -288,11 +288,9 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
   //  \hline
-  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found & Output Image \\
-  //  \hline
+  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found & Output Image \\ \hline \\ \hline
   //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ & $183.31$ & 
-  //  third from left in Figure \ref{fig:IsolatedConnectedImageFilterOutput} \\ 
-  //  \hline
+  //  third from left in Figure \ref{fig:IsolatedConnectedImageFilterOutput} \\ \hline
   //  \end{tabular}
   //  \end{center}
   //
