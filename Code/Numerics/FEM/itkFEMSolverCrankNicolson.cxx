@@ -275,7 +275,7 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
   Float Tiny=1.e-20;
   
   Float ax, bx,cx;
-  ax=0.0; bx=1.; cx;
+  ax=0.0; bx=1.;
   Float fc;
   Float fa=fabs(EvaluateResidual(ax));
   Float fb=fabs(EvaluateResidual(bx));
