@@ -410,20 +410,6 @@ TransformVector(const CovariantVectorType &vec) const
 }
 
 
-
-
-// Transform a given point which is represented as type VectorType
-// FIXME: Deprecated on 2001-01-02
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VectorType
-AffineTransform<ScalarType, NDimensions>::
-TransformVector(const VectorType &point) 
-{
-  return m_Matrix * point + m_Offset;
-}
-
-
-
 // Back transform a point
 template<class ScalarType, unsigned int NDimensions>
 AffineTransform<ScalarType, NDimensions>::InputPointType
@@ -470,11 +456,10 @@ BackTransform(const VnlVectorType &vect ) const
 
 
 // Back transform a given point which is represented as type VectorType
-// FIXME: deprecated on 2001-01-02
 template<class ScalarType, unsigned int NDimensions>
 AffineTransform<ScalarType, NDimensions>::VectorType
 AffineTransform<ScalarType, NDimensions>::
-BackTransformPoint(const VectorType &point) 
+BackTransformPoint(const VectorType &point) const
 {
   return m_Inverse * (point - m_Offset);
 }
@@ -502,11 +487,10 @@ BackTransform(const CovariantVectorType &vec) const
 
 
 // Back transform a given point which is represented as type PointType
-// FIXME: deprecated on 2001-01-02
 template<class ScalarType, unsigned int NDimensions>
 AffineTransform<ScalarType, NDimensions>::InputPointType
 AffineTransform<ScalarType, NDimensions>::
-BackTransformPoint(const OutputPointType &point) 
+BackTransformPoint(const OutputPointType &point) const
 {
   InputPointType result;       // Converted point
   ScalarType temp[NDimensions];

@@ -73,10 +73,7 @@ namespace itk
  * The AffineTransform class determines whether to transform an object
  * as a point or a vector by examining its type.  An object of type
  * Point transforms as a point; an object of type Vector transforms as
- * a vector.  (Prior to 2001-01-02, there were distinct methods for
- * transforming as a point and as a vector, independent of the Insight
- * or vnl data type used to represent them.  This usage is still
- * supported but is deprecated.)
+ * a vector.
  *
  * One common use of affine transformations is to define coordinate
  * conversions in two- and three-dimensional space.  In this
@@ -343,9 +340,11 @@ public:
      *
      * This method applies the affine transform given by self to a
      * given point or vector, returning the transformed point or
-     * vector.
+     * vector.  The TransformPoint method transforms its argument as
+     * an affine point, whereas the TransformVector method transforms
+     * its argument as a vector.
      **/
-    OutputPointType  TransformPoint(const InputPointType  &point ) const;
+    OutputPointType  TransformPoint (const InputPointType  &point ) const;
     VectorType       TransformVector(const VectorType &vector) const;
     VnlVectorType    TransformVector(const VnlVectorType &vector) const;
 
@@ -370,46 +369,15 @@ public:
     // many points or vectors at once?
 
     /**
-     * Back transform a point by an affine transform (deprecated)
+     * Back transform a point by an affine transform
      *
      * This method finds the point that maps to a given point under
      * the affine transformation defined by self.  If no such point
      * exists, an exception is thrown.  The returned value is (a
      * pointer to) a brand new point created with new.
-     *
-     * The BackTransformPoint method was deprecated on 2001-01-02
-     * but will be retained a little while for compatibility.
      **/
-    InputPointType  BackTransformPoint(const OutputPointType  &point);
-    VectorType BackTransformPoint(const VectorType &point);
-
-    /**
-     * Transform a vector by an affine transformation (deprecated)
-     *
-     * This method applies the affine transform given by self to a
-     * given vector or difference of two points, returning the
-     * transformed vector.
-     *
-     * The TransformVector method is deprecated (as of 2001-01-02)
-     * but will be retained a little while for compatibility.
-     **/
-    OutputPointType  TransformVector(const InputPointType  &point);
-    VectorType TransformVector(const VectorType &point);
-
-    /**
-     * Back transform a vector by an affine transform (deprecated)
-     *
-     * This method finds the vector that maps to a given vector under
-     * the affine transformation defined by self.  If no such vector
-     * exists, an exception is thrown.
-     *
-     * The BackTransformVector method is deprecated (as of 2001-01-02)
-     * but will be retained a little while for compatibility.
-     **/
-    InputPointType  BackTransformVector(const OutputPointType  &point);
-    VectorType BackTransformVector(const VectorType &point);
-
-    // FIXME: Add transformation of a matrix?
+    InputPointType  BackTransformPoint(const OutputPointType  &point) const;
+    VectorType      BackTransformPoint(const VectorType       &point) const;
 
     /**
      * Find inverse of an affine transformation
