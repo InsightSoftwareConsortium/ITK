@@ -90,14 +90,19 @@ public:
   virtual void SetFeatureImage(const FeatureImageType *f)
   {    m_FeatureImage = f;  }
   
-  /** Get the image used as the speed function in the level set equation */
+  /** Get/Set the image used as the speed function in the level set equation */
   virtual ImageType *GetSpeedImage() 
   { return m_SpeedImage.GetPointer(); }
-
-  /** Get the image used as the advection field in the level set equation */
+  void SetSpeedImage( ImageType *s )
+  { m_SpeedImage = s; }
+  
+  /** Get/Set the image used as the advection field in the level set equation */
   virtual VectorImageType *GetAdvectionImage() const
   { return m_AdvectionImage.GetPointer(); } 
+  void SetAdvectionImage( VectorImageType *s )
+  { m_AdvectionImage = s; }
 
+  
   /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
    * necessary for performing the level-set calculations. */

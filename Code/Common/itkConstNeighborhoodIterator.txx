@@ -481,7 +481,6 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   for (i=0; i < Dimension; ++i) os << m_Bound[i] << " ";
   os << "}, m_WrapOffset = { ";
   for (i=0; i < Dimension; ++i) os << m_WrapOffset[i] << " ";
-
   os << ", m_Begin = " << m_Begin;
   os << ", m_End = " << m_End;
   os << "}"  << std::endl;

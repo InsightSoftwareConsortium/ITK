@@ -29,25 +29,31 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  // Allocate the output image
-  typename TOutputImage::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
+  if (this->GetState() == UNINITIALIZED)
+    {
+    // Allocate the output image
+    typename TOutputImage::Pointer output = this->GetOutput();
+    output->SetBufferedRegion(output->GetRequestedRegion());
+    output->Allocate();
 
-  // Copy the input image to the output image.  Algorithms will operate
-  // directly on the output image and the update buffer.
-  this->CopyInputToOutput();
+    // Copy the input image to the output image.  Algorithms will operate
+    // directly on the output image and the update buffer.
+    this->CopyInputToOutput();
 
-  // Perform any other necessary pre-iteration initialization.
-  this->Initialize();
+    // Perform any other necessary pre-iteration initialization.
+    this->Initialize();
+    
+    // Allocate the internal update buffer.  This takes place entirely within
+    // the subclass, since this class cannot define an update buffer type.
+    this->AllocateUpdateBuffer();
 
-  // Allocate the internal update buffer.  This takes place entirely within
-  // the subclass, since this class cannot define an update buffer type.
-  this->AllocateUpdateBuffer();
-
+    this->SetStateToInitialized();
+    m_ElapsedIterations = 0;
+    }
+    
   // Iterative algorithm
   TimeStepType dt;
-  m_ElapsedIterations = 0;
+
   while ( ! this->Halt() )
     {
     this->InitializeIteration(); // An optional method for precalculating
@@ -67,6 +73,11 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
       }
     }
 
+  if (m_ManualReinitialization == false)
+    {
+    this->SetStateToUninitialized(); // Reset the state once execution is
+                                     // completed
+    }
   // Any further processing of the solution can be done here.
   this->PostProcessOutput();
 }
@@ -172,13 +183,45 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
+bool
+FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+::Halt()
+{
+  this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
+                        static_cast<float>( m_NumberOfIterations ) );
+
+  if (this->GetElapsedIterations() >= m_NumberOfIterations)
+    {
+    return true;
+    }
+  else if ( this->GetElapsedIterations() == 0)
+    {
+    return false; 
+    }
+  else if ( this->GetMaximumRMSError() > m_RMSChange )
+    {
+    return true;
+    }
+  else
+    { 
+    return false; 
+    }
+}
+
+
+template <class TInputImage, class TOutputImage>
 void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ElapsedIterations: " << m_ElapsedIterations;
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
+  os << indent << "State: " << m_State << std::endl;
+  os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
+  os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
+  os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << std::endl;
   if (m_DifferenceFunction)
     {

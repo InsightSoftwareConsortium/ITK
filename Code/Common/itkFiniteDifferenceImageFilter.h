@@ -148,7 +148,9 @@ public:
    * a scalar value. */
   typedef FiniteDifferenceFunction<TOutputImage> FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
-    
+
+  typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
+  
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstMacro(ElapsedIterations, unsigned int);
 
@@ -163,8 +165,54 @@ public:
    * \returns A FiniteDifferenceObject pointer. */
   itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType );
 
+
+ /** Set/Get the number of iterations that the filter will run. */
+  itkSetMacro(NumberOfIterations, unsigned int);
+  itkGetMacro(NumberOfIterations, unsigned int);
+
+  /** Set/Get the maximum error allowed in the solution.  This may not be
+      defined for all solvers and its meaning may change with the application. */
+  itkSetMacro(MaximumRMSError, double);
+  itkGetMacro(MaximumRMSError, double);
+
+  /** Set/Get the root mean squared change of the previous iteration. May not
+      be used by all solvers. */
+  itkSetMacro(RMSChange, double);
+  itkGetMacro(RMSChange, double);
+
+  /** Set the state of the filter to INITIALIZED */
+  void SetStateToInitialized()
+  {
+    this->SetState(INITIALIZED);
+  }
+
+  /** Set the state of the filter to UNINITIALIZED */
+  void SetStateToUninitialized()
+  {
+    this->SetState(UNINITIALIZED);
+  }
+  
+  /** Set/Get the state of the filter. */
+  itkSetMacro(State, FilterStateType);
+  itkGetMacro(State, FilterStateType);
+
+  /** Require the filter to be manually reinitialized (by calling
+      SetStateToUninitialized() */
+  itkSetMacro(ManualReinitialization, bool);
+  itkGetMacro(ManualReinitialization, bool);
+  itkBooleanMacro(ManualReinitialization);
+  
 protected:
-  FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {m_DifferenceFunction = 0;}
+  FiniteDifferenceImageFilter()
+  {
+    m_ElapsedIterations  = 0;
+    m_DifferenceFunction = 0;
+    m_NumberOfIterations = NumericTraits<unsigned int>::max();
+    m_MaximumRMSError = 0.0;
+    m_RMSChange = 0.0;
+    m_State = UNINITIALIZED;
+    m_ManualReinitialization = false;
+  }
   ~FiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -208,7 +256,7 @@ protected:
   
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
-  virtual bool Halt() = 0;
+  virtual bool Halt();
   /** This method is optionally defined by a subclass and is called before
    * the loop of iterations of calculate_change & upate. It does the global
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize 
@@ -247,7 +295,13 @@ protected:
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output.*/
   virtual void PostProcessOutput() {}
-  
+
+  /** The maximum number of iterations this filter will run */
+  unsigned int  m_NumberOfIterations;
+
+  double m_RMSChange;  
+  double m_MaximumRMSError;
+
 private:
   FiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -256,8 +310,15 @@ private:
       iterations during filtering. */
   unsigned int m_ElapsedIterations;
 
+  /** Indicates whether the filter automatically resets to UNINITIALIZED state
+      after completing, or whether filter must be manually reset */
+  bool m_ManualReinitialization;
+  
   /** The function that will be used in calculating updates for each pixel. */
   typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction;
+
+  /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
+  FilterStateType m_State;
 };
   
 }// end namespace itk
