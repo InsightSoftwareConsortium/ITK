@@ -91,14 +91,6 @@ public:
     this->Modified();
   }
   
-  /**
-   * Because FilterImageSingleOperator works on pixel neighborhoods, it will
-   * try to get enough information from the input to avoid using artificial
-   * boundary conditions. We must overload GenerateInputRequestedRegion to
-   * manipulate the input region size. 
-   */
-  //  virtual void GenerateInputRequestedRegion();
-
   void GenerateData();
 
 protected:
