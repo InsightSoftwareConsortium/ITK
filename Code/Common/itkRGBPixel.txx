@@ -25,6 +25,9 @@ template < typename TComponent >
 RGBPixel< TComponent >
 ::RGBPixel()
 {
+  m_Red = NumericTraits<TComponent>::Zero;
+  m_Green = NumericTraits<TComponent>::Zero;
+  m_Blue = NumericTraits<TComponent>::Zero;
 }
 
 
