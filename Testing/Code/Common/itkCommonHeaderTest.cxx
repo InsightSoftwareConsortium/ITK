@@ -44,6 +44,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDataObject.h"
 #include "itkDefaultDataAccessor.h"
 #include "itkDefaultDynamicMeshTraits.h"
+#include "itkDefaultImageTraits.h"
 #include "itkDefaultStaticMeshTraits.h"
 #include "itkDerivativeOperator.h"
 #include "itkDirectory.h"
