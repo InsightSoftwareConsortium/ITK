@@ -52,6 +52,9 @@ TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
 ADD_EXECUTABLE(LandmarkWarping2 LandmarkWarping2.cxx )
 TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(BSplineWarping1 BSplineWarping1.cxx )
+TARGET_LINK_LIBRARIES(BSplineWarping1 ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
