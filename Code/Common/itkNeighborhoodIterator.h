@@ -53,48 +53,157 @@ namespace itk {
  * \brief  Defines iteration of a local N-dimensional neighborhood of pixels
  * across an itk::Image.
  *
-
- I. What NeighborhoodIterators are.
-
- II. What NeighborhoodIterators can be used for.
-
- III. How NeighborhoodIterators are used.
-
- IV. How NeighborhoodIterators are implemented.
-
- V. Examples?
-
- I. What are NeighborhoodIterators?
+ * This class is a loose extension of the Standard Template Library (STL)
+ * bi-directional iterator concept to \em masks of pixel neighborhoods within
+ * itk::Image objects.  This NeighborhoodIterator base class defines simple
+ * forward and reverse iteration of an N-dimensional neighborhood mask
+ * across an image.  Elements within the mask can be accessed like elements
+ * within an array.
+ *
+ * NeighborhoodIterators are designed to encapsulate some of the complexity of
+ * working with image neighborhoods, complexity that would otherwise have to be
+ * managed at the algorithmic level.  Use NeighborhoodIterators to simplify
+ * writing algorithms that perform geometrically localized operations on images
+ * (for example, convolution and morphological operations).
+ *
+ * To motivate the discussion of NeighborhoodIterators and their use in
+ * Itk, consider the following code that takes directional derivatives at each
+ * point in an image.  \sa DerivativeOperator \sa NeighborhoodInnerProduct
+ *
+ * \code
+ * itk::NeighborhoodInnerProduct<ImageType> IP;
+ *
+ * itk::DerivativeOperator<ImageType> operator;
+ *  operator->SetOrder(1);
+ *  operator->SetDirection(0);
+ *  operator->CreateDirectional();
+ *
+ * itk::NeighborhoodIterator<ImageType>
+ *   iterator(operator->GetRadius(), myImage, myImage->GetRequestedRegion());
+ *
+ * iterator.SetToBegin();
+ * while ( ! iterator.IsAtEnd() )
+ * {
+ *   std::cout << "Derivative at index " << iterator.GetIndex() << is <<
+ *     IP(iterator, operator) << std::endl;
+ *   ++iterator;
+ * } 
+ * \endcode
+ *
+ * Most of the work for the programmer in the code above is in setting up for
+ * the iteration.  There are three steps.  First an inner product function
+ * object is created which will be used to effect convolution with the
+ * derivative kernel.  Setting up the derivative kernel, DerivativeOperator,
+ * involves setting the order and direction of the derivative.  Finally, we
+ * create an iterator over the RequestedRegion of the itk::Image (see Image)
+ * using the radius of the derivative kernel as the size.
+ *
+ * Itk iterators only loosely follow STL conventions.  Notice that instead of
+ * asking myImage for myImage.begin() and myImage.end(), iterator.SetToBegin()
+ * and iterator.IsAtEnd() are called.  Itk iterators are typically more complex
+ * objects than traditional, pointer-style STL iterators, and the increased
+ * overhead required to conform to the complete STL API is not always
+ * justified.
+ *
+ * The API for creating and manipulating a NeighborhoodIterator mimics
+ * that of the itk::ImageIterators.  Like the itk::ImageIterator, a
+ * ConstNeighborhoodIterator is defined on a region of interest in an itk::Image.
+ * Iteration is constrained within that region of interest.
+ *
+ * A NeighborhoodIterator is constructed as a container of pointers (offsets)
+ * to a geometric neighborhood of image pixels.  As the central pixel position
+ * in the mask is moved around the image, the neighboring pixel pointers
+ * (offsets) are moved accordingly.
+ *
+ * A /em pixel /em neighborhood is defined as a central pixel location and an
+ * N-dimensional radius extending outward from that location.
  
- This class is an extension of the Standard Template Library bi-directional
- iterator concept to neighborhoods of pixels within itk::Image objects.  The
- class allows simple forward and reverse iteration of a N-dimensional 
- neighborhood "mask" across an image.  A pixel neighborhood is defined as
- a central pixel location and an N-dimensional radius extending from that
- location.  For iteration, a neighborhood mask is
- constructed as a container of pointers to a neighborhood of image pixels.  As
- the central pixel position in the mask is moved around the image, the
- neighboring pixel pointers are moved accordingly. 
- 
- NeighborhoodIterators are "bidirectional iterators". They move only in two
- directions through the data set.  These directions correspond to the layout of
- the image data in memory and not to the spatial directions of the
- N-dimensional itk::Image.  Iteration always proceeds along the
- fastest increasing dimension (as defined by the layout of the image data) .
- For itk::Image this is the first dimension specified (i.e. for 3-dimensional
- (x,y,z) NeighborhoodIterator proceeds along the x-dimension)  
-
- For true, random access iteration within an itk::Image, use
- RandomAccessNeighborhoodIterator. 
-
- II. What are NeighborhoodIterators used for?
-
- NeighborhoodIterators can be used to simplify writing algorithms that
- perform local image processing.  Convolution filtering and morphological
- operations on images are two typical use cases.  
- 
-
-*/
+ * Pixels in a neighborhood can be accessed through a NeighborhoodIterator
+ * like elements in an array.  For example, a 2D neighborhood with radius 1x2
+ * has indices:
+ *
+ * \code
+ *
+ * 0  1  2  3  4
+ * 5  6  7  8  9
+ * 10 11 12 13 14
+ *
+ * \endcode
+ *
+ * Now suppose a NeighborhoodIterator with the above dimensions is constructed
+ * and positioned over a neighborhood of values in an Image:
+ *
+ * \code
+ *
+ * 1.2 1.3 1.8 1.4 1.1
+ * 1.8 1.1 0.7 1.0 1.0
+ * 2.1 1.9 1.7 1.4 2.0
+ *
+ * \code
+ *
+ * Shown below is some sample pixel access code and the values that it returns.
+ *
+ * \code
+ *
+ * ::size_t c = (::size_t) (iterator.Size() / 2); // get offset of center pixel
+ * ::size_t s = iterator.GetStride(1);            // y-dimension step size
+ *
+ * std::cout << iterator.GetPixel(7)      << std::endl;
+ * std::cout << iterator.GetCenterPixel() << std::endl;
+ * std::cout << iterator.GetPixel(c)      << std::endl;
+ * std::cout << iterator.GetPixel(c-1)    << std::endl;
+ * std::cout << iterator.GetPixel(c-s)    << std::endl;
+ * std::cout << iterator.GetPixel(c-s-1)  << std::endl; 
+ * std::cout << *iterator[c]              << std::endl;
+ *
+ * \endcode
+ *
+ * Results:
+ *
+ * \code
+ * 0.7
+ * 0.7
+ * 0.7
+ * 1.1
+ * 1.8
+ * 1.3
+ * 0.7
+ * \endcode
+ *
+ * Use of GetPixel() is preferred over the *iterator[] form, and can be used
+ * without loss of efficiency in most cases. Some variations (subclasses) of
+ * NeighborhoodIterators may exist which do not support the latter
+ * API. Corresponding SetPixel() methods exist to modify pixel values in
+ * non-const NeighborhoodIterators.
+ *
+ * NeighborhoodIterators are "bidirectional iterators". They move only in two
+ * directions through the data set.  These directions correspond to the layout
+ * of the image data in memory and not to spatial directions of the
+ * N-dimensional itk::Image.  Iteration always proceeds along the fastest
+ * increasing dimension (as defined by the layout of the image data) .  For
+ * itk::Image this is the first dimension specified (i.e. for 3-dimensional
+ * (x,y,z) NeighborhoodIterator proceeds along the x-dimension) (For random
+ * access iteration through N-dimensional indicies, use
+ * RandomAccessNeighborhoodIterator.)
+ *
+ * Each subclass of a ConstNeighborhoodIterator may also define its own
+ * mechanism for iteration through an image.  In general, the Iterator does not
+ * directly keep track of its spatial location in the image, but uses a set of
+ * internal loop variables and offsets to trigger wraps at itk::Image region
+ * boundaries, and to identify the end of the itk::Image region.
+ *
+ * NeighborhoodIterator does not perform bounds checking before dereferencing
+ * it pixels.  It is up to the user to make sure the iteration region is
+ * sufficiently padded for the neighborhood radius.  See
+ * SmartNeighborhoodIterator for a way to automatically handle bounds
+ * conditions.
+ * 
+ * \todo Better support for regions with negative indicies.
+ * \todo Add Begin() and End() methods?
+ *
+ * \sa Image \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
+ * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
+ **/
 template<class TImage>
 class ITK_EXPORT NeighborhoodIterator
   :  public ConstNeighborhoodIterator<TImage>

@@ -55,46 +55,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
- * \class ConstNeighborhoodIterator
- * \brief A container that that maintains a neighborhood of pointers to
- * itk::Image pixels which can be iterated through an image region.
+/** \class ConstNeighborhoodIterator
  *
- * A ConstNeighborhoodIterator is a neighborhood of pointers to
- *  itk::Image pixels 
- * that can be moved sequentially across the image.  A ConstNeighborhoodIterator
- * can be "dereferenced" in various ways to obtain a Neighborhood of values or
- * single pixel values. ConstNeighborhoodIterator provides read-only access to
- * image pixels.
+ * \brief Const version of NeighborhoodIterator, defining iteration of a local
+ * N-dimensional neighborhood of pixels across an itk::Image.
  *
- * Dereferencing may be handled differently by a ConstNeighborhoodIterator subclass.
- * SmartConstNeighborhoodIterator's, for example, perform bounds checking
- * and handle boundary conditions during dereferencing.
+ * ConstNeighborhoodIterator implements the read-only methods of
+ * NeighborhoodIterator.  It serves as a base class from which other iterators
+ * are derived. See NeighborhoodIterator for more complete information.
  *
- * The API for creating and manipulating a ConstNeighborhoodIterator mimics
- * that of the itk::ImageIterators.  Like the itk::ImageIterator, a
- * ConstNeighborhoodIterator is defined on a region of interest in an itk::Image.
- * Iteration is constrained within that region of interest.
-  *
- * Each subclass of a ConstNeighborhoodIterator may also define its own mechanism for
- * iteration through an image.  In general, the Iterator does not directly
- * keep track of its spatial location in the image, but uses a set of
- * internal loop variables and offsets to trigger wraps at itk::Image region
- * boundaries, and to identify the end of the itk::Image region.
- *
- *
- * \todo Add support for regions with negative indicies.
- * 
- * \sa Image
- * \sa Neighborhood
- * \sa ImageIterator
- * \sa NeighborhoodIterator
- * \sa ConstSmartNeighborhoodIterator
- * \sa SmartNeighborhoodIterator
- * \sa ConstRandomAccessNeighborhoodIterator
- * \sa RandomAccessNeighborhoodIterator
- */
-
+ * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
+ * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
+ **/
 template<class TImage>
 class ITK_EXPORT ConstNeighborhoodIterator
   :  public Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
@@ -439,8 +411,6 @@ protected:
   /**
    * Default method for setting the coordinate location of the iterator.
    * Loop indicies correspond to the actual Image region index.
-   * This correspondence is a coincidental feature that will not
-   * necessarily be supported.
    */
   virtual void SetLoop( const IndexType& p )
     {  m_Loop = p; }
