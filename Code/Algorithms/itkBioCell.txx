@@ -53,6 +53,11 @@ template<unsigned int NSpaceDimension>
 Cell<NSpaceDimension>
 ::~Cell()
 {
+  if( m_Genome )
+    {
+    delete m_Genome;
+    m_Genome = NULL;
+    }
 }
 
 
@@ -66,50 +71,43 @@ void
 Cell<NSpaceDimension>
 ::Mitosis(void) 
 {
+  // Create the two daughters.
+  Cell * siblingA = new Cell;
+  Cell * siblingB = new Cell;
 
-  Cell * siblingA = this->CreateNew();
-  Cell * siblingB = this->CreateNew();
-
+  // Broad compensation for Volume distribution among daugthers.
+  // The type of root should depend on the Dimension...
   siblingA->m_Radius   = m_Radius / sqrt( 2.0f );
   siblingB->m_Radius   = m_Radius / sqrt( 2.0f );
 
-  siblingA->m_Generation = m_Generation + 1;
+  // Update Teleomeres
+  siblingA->m_Generation = m_Generation + 1; 
   siblingB->m_Generation = m_Generation + 1;
+
+  // Prepare to separate them by a specific distance.
+  // This helps to avoid infinite interaction forces 
+  // just after cellular division.
+  const double perturbationLength = m_Radius * 0.75;
+
+  // Register the parent
+  siblingA->m_ParentIdentifier = m_SelfIdentifier;
+  siblingB->m_ParentIdentifier = m_SelfIdentifier;
 
   // Pass the genome to each daughter cell
   siblingA->m_Genome = m_Genome;
   siblingB->m_Genome = m_GenomeCopy;
 
-  const double perturbationLength = m_Radius * 0.75;
+  // Mark that the genome pointer is not owned by this cell anymore.
+  m_Genome     = NULL;
+  m_GenomeCopy = NULL;
 
-  CellularAggregateBase * aggregate = GetCellularAggregate();
-
-  siblingA->m_ParentIdentifier = m_SelfIdentifier;
-  siblingB->m_ParentIdentifier = m_SelfIdentifier;
-
+  // Register both daughter cells with the CellularAggregate.
+  CellularAggregateBase * aggregate = this->GetCellularAggregate();
   aggregate->Add( siblingA, siblingB, perturbationLength );
 
+  // Mark this cell for being removed from the Aggregate and deleted.
   this->MarkForRemoval();
 
-}
-
-
-
-
-/**
- *    Create a New cell
- *    this method behave like a factory, it is 
- *    intended to be overloaded in any class 
- *    deriving from Cell.
- */ 
-template<unsigned int NSpaceDimension>
-Cell<NSpaceDimension> *
-Cell<NSpaceDimension>
-::CreateNew(void) 
-{
-  Cell * cell = new Cell;
-  cell->m_ParentIdentifier = m_SelfIdentifier;
-  return cell;
 }
 
 
@@ -268,7 +266,6 @@ void
 Cell<NSpaceDimension>
 ::AdvanceTimeStep(void) 
 {
-
   // get input from the environment
   this->ReceptorsReading(); 
 

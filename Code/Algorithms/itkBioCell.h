@@ -45,8 +45,9 @@ public:
   typedef   itk::Vector<double,NSpaceDimension>  VectorType;
   typedef   itk::Point<double,NSpaceDimension>   PointType;
 
+  friend class CellularAggregateBase; // need to give access to the constructor.
+
 public:
-  Cell(); // Users should create cell with the CreateEgg() method
   virtual ~Cell();
   virtual void ClearForce(void);
   virtual void AddForce(const VectorType & force);
@@ -68,7 +69,7 @@ public:
                               { return NSpaceDimension; }
 
 protected:
-  virtual Cell * CreateNew(void);
+  Cell(); // Users should create cell with the CreateEgg() method
 
 public:
 
