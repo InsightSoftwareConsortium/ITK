@@ -104,16 +104,6 @@ public:
   typedef ImageRegion<ImageDimension>  RegionType;
 
   /** 
-   * Typedef for associated AffineTransform
-   *
-   * This is used specifically as the type of the index-to-physical and
-   * physical-to-index transforms associated with the origin and spacing
-   * for the image, and more generally as any affine transformation of
-   * the image.
-   */
-  typedef AffineTransform<double, ImageDimension> AffineTransformType;
-
-  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(ImageAdaptor, ImageBase);
@@ -212,33 +202,6 @@ public:
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
 
 
-  /** 
-   * Set the spacing (size of a pixel) of the image.
-   */
-  virtual void SetSpacing( const double values[TImage::ImageDimension] );
-  virtual void SetSpacing( const float values[TImage::ImageDimension] );
-
-  /** 
-   * Get the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
-   * \sa SetSpacing()
-   */
-  virtual const double* GetSpacing() const;
- 
-  /** 
-   * Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  The value returned is
-   * a pointer to a double array.
-   * \sa SetOrigin()
-   */
-  virtual const double * GetOrigin() const;
-
-  /** 
-   * Set the origin of the image.
-   */
-  virtual void SetOrigin( const double values[TImage::ImageDimension] );
-  virtual void SetOrigin( const float values[TImage::ImageDimension] );
 
 
   /**

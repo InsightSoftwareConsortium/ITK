@@ -84,82 +84,6 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const double * 
-ImageAdaptor<TImage , TAccessor>
-::GetSpacing( void ) const
-{
-  return m_Image->GetSpacing();
-
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const double spacing[TImage::ImageDimension] )
-{
-  // call the superclass' method first, then delegate
-  Superclass::SetSpacing(spacing);
-
-  // delegation to internal image
-  m_Image->SetSpacing( spacing );
-}
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const float spacing[TImage::ImageDimension] )
-{
-  // call the superclass' method first, then delegate
-  Superclass::SetSpacing(spacing);
-
-  // delegation to internal image
-  m_Image->SetSpacing( spacing );
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const double origin[TImage::ImageDimension] )
-{
-  // call the superclass' method first, then delegate
-  Superclass::SetOrigin(origin);
-
-  // delegation to internal image
-  m_Image->SetOrigin( origin );
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const float origin[TImage::ImageDimension] )
-{
-  // call the superclass' method first, then delegate
-  Superclass::SetOrigin(origin);
-
-  // delegation to internal image
-  m_Image->SetOrigin( origin );
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-const double * 
-ImageAdaptor<TImage , TAccessor>
-::GetOrigin( void ) const
-{
-  return m_Image->GetOrigin();
-}
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
 ::Update()
@@ -230,8 +154,6 @@ ImageAdaptor<TImage , TAccessor>
   Superclass::SetLargestPossibleRegion( m_Image->GetLargestPossibleRegion() );
   Superclass::SetBufferedRegion( m_Image->GetBufferedRegion() );
   Superclass::SetRequestedRegion( m_Image->GetRequestedRegion() );
-  Superclass::SetOrigin( m_Image->GetOrigin() );
-  Superclass::SetSpacing( m_Image->GetSpacing() );
 }
 
 
