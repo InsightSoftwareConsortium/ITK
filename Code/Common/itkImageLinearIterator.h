@@ -97,7 +97,6 @@ namespace itk
  *
  * \example  Common/itkImageLinearIteratorTest.cxx
  *
- * \todo Implement operator-- for reverse iteration
  *
  */
 template<typename TImage>
@@ -174,17 +173,40 @@ public:
    * Go to the next line inside the defined region
    * and be positioned at the starting point on this line
    * \sa operator++
+   * \sa operator--
+   * \sa PreviousLine
    * \sa EndOfLine
    * \sa End
    */
   void NextLine(void);
 
   /**
+   * Go to the previous line inside the defined region
+   * and be positioned at the last point on this line
+   * \sa operator++
+   * \sa operator--
+   * \sa NextLine
+   * \sa EndOfLine
+   * \sa End
+   */
+  void PreviousLine(void);
+
+
+  /**
    * Test if the index is at the end of line on the predefined region
    */
   inline bool IsAtEndOfLine(void) 
     {
-    return m_PositionIndex[m_Direction] >= m_Region.GetSize()[m_Direction];
+    return m_PositionIndex[m_Direction] >= m_EndIndex[m_Direction];
+    }
+
+
+  /**
+   * Test if the index is at the begin of line on the predefined region
+   */
+  inline bool IsAtBeginOfLine(void) 
+    {
+    return m_PositionIndex[m_Direction] < m_BeginIndex[m_Direction];
     }
 
   /**
@@ -200,12 +222,24 @@ public:
     m_Jump = m_OffsetTable[ m_Direction ];
     }
 
+
   /**
    * Increment (prefix) the selected dimension.
    * No bounds checking is performed. 
    * \sa GetIndex
+   * \sa operator--
    */
   Self & operator++();
+
+
+  /**
+   * Decrement (prefix) the selected dimension.
+   * No bounds checking is performed. 
+   * \sa GetIndex
+   * \sa operator++
+   */
+  Self & operator--();
+
 
 
 private:
@@ -220,3 +254,6 @@ private:
 #endif
 
 #endif 
+
+
+

@@ -97,8 +97,6 @@ namespace itk
  *
  * \example  Common/itkImageLinearIteratorTest.cxx
  *
- * \todo Implement operator-- for reverse iteration
- *
  *
  *
  */
@@ -175,15 +173,34 @@ public:
   /**
    * Go to the next line
    * \sa operator++
+   * \sa operator--
    * \sa EndOfLine
+   * \sa PreviousLine
    * \sa End
    */
   inline void NextLine(void);
 
   /**
+   * Go to the previous line
+   * \sa operator++
+   * \sa operator--
+   * \sa EndOfLine
+   * \sa NextLine
+   * \sa End
+   */
+  inline void PreviousLine(void);
+
+
+  /**
    * Test if the index is at the end of line
    */
   inline bool IsAtEndOfLine(void);
+
+
+  /**
+   * Test if the index is at the begin of line
+   */
+  inline bool IsAtBeginOfLine(void);
 
 
   /**
@@ -196,8 +213,19 @@ public:
    * Increment (prefix) the selected dimension.
    * No bounds checking is performed. 
    * \sa GetIndex
+   * \sa operator--
    */
   Self & operator++();
+
+
+  /**
+   * Decrement (prefix) the selected dimension.
+   * No bounds checking is performed. 
+   * \sa GetIndex
+   * \sa operator++
+   */
+  Self & operator--();
+
 
 
 private:

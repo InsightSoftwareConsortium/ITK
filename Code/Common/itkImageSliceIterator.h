@@ -78,8 +78,6 @@ namespace itk
  *
  * \example  Common/itkImageSliceIterator.cxx
  *
- * \todo Implement operator-- for reverse iteration
- *
  *
  * 
  *
@@ -162,6 +160,8 @@ public:
   /**
    * Go to the next line
    * \sa operator++
+   * \sa operator--
+   * \sa PreviousLine
    * \sa EndOfLine
    * \sa End
    * \sa NextSlice
@@ -172,10 +172,37 @@ public:
   /**
    * Go to the next slice
    * \sa operator++
+   * \sa operator--
+   * \sa PreviousSlice
    * \sa EndOfLine
    * \sa End
    */
   void NextSlice(void);
+
+
+
+  /**
+   * Go to the previous line
+   * \sa operator++
+   * \sa operator--
+   * \sa NextLine
+   * \sa EndOfLine
+   * \sa End
+   * \sa NextSlice
+   */
+  void PreviousLine(void);
+
+  
+  /**
+   * Go to the previous slice
+   * \sa operator++
+   * \sa operator--
+   * \sa NextSlice
+   * \sa EndOfLine
+   * \sa End
+   */
+  void PreviousSlice(void);
+
 
 
   /**
@@ -188,6 +215,18 @@ public:
    * Test if the index is at the end of the slice
    */
   bool IsAtEndOfSlice(void);
+
+  /**
+   * Test if the index is at the begining of line
+   */
+  bool IsAtBeginOfLine(void);
+
+
+   /**
+   * Test if the index is at the begining of the slice
+   */
+  bool IsAtBeginOfSlice(void);
+
 
 
   /**
@@ -206,8 +245,18 @@ public:
    * Increment (prefix) the selected dimension.
    * No bounds checking is performed. 
    * \sa GetIndex
+   * \sa operator--
    */
   Self & operator++();
+
+
+  /**
+   * Decrement (prefix) the selected dimension.
+   * No bounds checking is performed. 
+   * \sa GetIndex
+   * \sa operator++
+   */
+  Self & operator--();
 
 
 private:

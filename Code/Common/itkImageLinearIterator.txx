@@ -50,7 +50,7 @@ namespace itk
 
 
 //----------------------------------------------------------------------
-//  Constructor
+//  Pass to the first pixel on the next line
 //----------------------------------------------------------------------
 template<class TImage>
 void 
@@ -73,7 +73,7 @@ ImageLinearIterator<TImage>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] <  m_Region.GetSize()[n] )
+    if( m_PositionIndex[n] <  m_EndIndex[ n ] )
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -87,6 +87,49 @@ ImageLinearIterator<TImage>
   }
 }
 
+
+
+//----------------------------------------------------------------------
+//  Pass to the last pixel on the previous line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageLinearIterator<TImage>
+::PreviousLine(void)
+{
+
+  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction]-1;   
+  m_Position += m_OffsetTable[ m_Direction+1 ]; 
+  
+
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+  {
+
+    m_Remaining = false;
+    
+    if( n == m_Direction ) 
+    {
+      continue;
+    }
+    
+    m_PositionIndex[ n  ]--;
+    if( m_PositionIndex[ n ] >=  m_BeginIndex[ n ] )
+    {
+      m_Position -= m_OffsetTable[ n ];
+      m_Remaining = true;
+      break;
+    }
+    else 
+    {
+      m_Position += m_OffsetTable[ n ] * ( m_Region.GetSize()[n]-1 );
+      m_PositionIndex[ n ] = m_EndIndex[ n ] - 1; 
+    }
+  }
+}
+
+
+
+
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
@@ -99,6 +142,21 @@ ImageLinearIterator<TImage>
   m_Position += m_Jump;
   return *this;
 }
+
+
+//----------------------------------------------------------------------
+//  Advance along the line
+//----------------------------------------------------------------------
+template<class TImage>
+ImageLinearIterator<TImage>  & 
+ImageLinearIterator<TImage>
+::operator--()
+{
+  m_PositionIndex[m_Direction]--;
+  m_Position -= m_Jump;
+  return *this;
+}
+
 
 
 

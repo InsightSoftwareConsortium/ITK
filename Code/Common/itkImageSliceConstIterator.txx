@@ -66,6 +66,28 @@ ImageSliceConstIterator<TImage>
 
 
 //----------------------------------------------------------------------
+//  Advance to Previous Line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageSliceConstIterator<TImage>
+::PreviousLine(void)
+{
+  // Move to previous line
+  m_PositionIndex[ m_Direction_B ]--;
+  m_Position -= m_Jump_B;
+
+  // Move to end of line
+  m_PositionIndex[ m_Direction_A ] = m_EndIndex[ m_Direction_A ]-1;   
+  m_Position += m_OffsetTable[ m_Direction_A + 1 ]; 
+}
+
+
+
+
+
+
+//----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
 template<class TImage>
@@ -107,6 +129,47 @@ ImageSliceConstIterator<TImage>
 
 
 
+//----------------------------------------------------------------------
+//  Go Back to previous slice
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageSliceConstIterator<TImage>
+::PreviousSlice(void)
+{
+
+  // Move to end of Slice
+  m_PositionIndex[m_Direction_B] = m_EndIndex[m_Direction_B] - 1;   
+  m_Position += m_OffsetTable[ m_Direction_B + 1 ]; 
+  
+
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+  {
+
+    m_Remaining = false;
+    
+    if( n == m_Direction_B || n == m_Direction_A ) 
+    {
+      continue;
+    }
+    
+    m_PositionIndex[ n  ]--;
+    if( m_PositionIndex[n] >= m_BeginIndex[n] )
+    {
+      m_Position -= m_OffsetTable[ n ];
+      m_Remaining = true;
+      break;
+    }
+    else 
+    {
+      m_Position += m_OffsetTable[ n+1 ] - m_OffsetTable[ n ];
+      m_PositionIndex[ n ] = m_EndIndex[ n ] - 1; 
+    }
+  }
+}
+
+
+
 
 
 //----------------------------------------------------------------------
@@ -133,6 +196,35 @@ ImageSliceConstIterator<TImage>
 {
   return m_PositionIndex[m_Direction_B] >= m_EndIndex[m_Direction_B];
 }
+
+
+
+
+//----------------------------------------------------------------------
+//  Test for begin of line
+//----------------------------------------------------------------------
+template<class TImage>
+bool 
+ImageSliceConstIterator<TImage>
+::IsAtBeginOfLine(void) 
+{
+  return m_PositionIndex[m_Direction_A] < m_BeginIndex[m_Direction_A];
+}
+
+
+
+
+//----------------------------------------------------------------------
+//  Test for begin of slice
+//----------------------------------------------------------------------
+template<class TImage>
+bool
+ImageSliceConstIterator<TImage>
+::IsAtBeginOfSlice(void) 
+{
+  return m_PositionIndex[m_Direction_B] < m_BeginIndex[m_Direction_B];
+}
+
 
 
 
@@ -187,6 +279,23 @@ ImageSliceConstIterator<TImage>
   m_Position += m_Jump_A;
   return *this;
 }
+
+
+
+//----------------------------------------------------------------------
+//  Go back along a line
+//----------------------------------------------------------------------
+template<class TImage>
+ImageSliceConstIterator<TImage> &
+ImageSliceConstIterator<TImage>
+::operator--()
+{
+  m_PositionIndex[ m_Direction_A ]--;
+  m_Position -= m_Jump_A;
+  return *this;
+}
+
+
 
 
 

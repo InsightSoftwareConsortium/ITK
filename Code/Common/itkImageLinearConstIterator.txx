@@ -73,7 +73,7 @@ ImageLinearConstIterator<TImage>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] <  m_Region.GetSize()[n] )
+    if( m_PositionIndex[n] <  m_EndIndex[n] )
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -89,6 +89,47 @@ ImageLinearConstIterator<TImage>
 
 
 
+//----------------------------------------------------------------------
+//  Pass to the last pixel on the previous line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageLinearConstIterator<TImage>
+::PreviousLine(void)
+{
+
+  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction]-1;   
+  m_Position += m_OffsetTable[ m_Direction+1 ]; 
+  
+
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+  {
+
+    m_Remaining = false;
+    
+    if( n == m_Direction ) 
+    {
+      continue;
+    }
+    
+    m_PositionIndex[ n  ]--;
+    if( m_PositionIndex[ n ] >=  m_BeginIndex[ n ] )
+    {
+      m_Position -= m_OffsetTable[ n ];
+      m_Remaining = true;
+      break;
+    }
+    else 
+    {
+      m_Position += m_OffsetTable[ n ] * ( m_Region.GetSize()[n]-1 );
+      m_PositionIndex[ n ] = m_EndIndex[ n ] - 1; 
+    }
+  }
+}
+
+
+
+
 
 //----------------------------------------------------------------------
 //  Test for end of line
@@ -98,7 +139,21 @@ bool
 ImageLinearConstIterator<TImage>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] >= m_Region.GetSize()[m_Direction];
+  return m_PositionIndex[m_Direction] >= m_EndIndex[m_Direction];
+}
+
+
+
+
+//----------------------------------------------------------------------
+//  Test for begin of line
+//----------------------------------------------------------------------
+template<class TImage>
+bool 
+ImageLinearConstIterator<TImage>
+::IsAtBeginOfLine(void) 
+{
+  return m_PositionIndex[m_Direction] < m_BeginIndex[m_Direction];
 }
 
 
@@ -133,6 +188,22 @@ ImageLinearConstIterator<TImage>
 {
   m_PositionIndex[m_Direction]++;
   m_Position += m_Jump;
+  return *this;
+}
+
+
+
+
+//----------------------------------------------------------------------
+//  Advance along the line backwards
+//----------------------------------------------------------------------
+template<class TImage>
+ImageLinearConstIterator<TImage>  & 
+ImageLinearConstIterator<TImage>
+::operator--()
+{
+  m_PositionIndex[m_Direction]--;
+  m_Position -= m_Jump;
   return *this;
 }
 
