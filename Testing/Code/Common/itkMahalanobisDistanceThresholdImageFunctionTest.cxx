@@ -118,6 +118,12 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+
+  // Exercise GetMean() and GetCovariance()
+  Mean       = function->GetMean();
+  Covariance = function->GetCovariance();
+  
+
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
