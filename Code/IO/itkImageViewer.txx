@@ -60,9 +60,10 @@ ImageViewer<TInputImage>
                                     initialPositionY,
                                     title );
 
-  typedef SimpleMemberCommand< Self > CommandType;
+  typedef SimpleMemberCommand< Self >     CommandType;
+  typedef typename CommandType::Pointer   CommandPointer;
 
-  CommandType::Pointer keyPressedCommand = CommandType::New();
+  CommandPointer keyPressedCommand = CommandType::New();
 
   keyPressedCommand->SetCallbackFunction( this, & Self::KeyPressedCallback );
     
@@ -71,7 +72,7 @@ ImageViewer<TInputImage>
 
 
 
-  CommandType::Pointer mouseCommand = CommandType::New();
+  CommandPointer mouseCommand = CommandType::New();
 
   mouseCommand->SetCallbackFunction( this, & Self::MouseCallback );
     

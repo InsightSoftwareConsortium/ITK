@@ -112,7 +112,8 @@ private:
   unsigned int         m_Direction;
   unsigned int         m_SliceNumber;
   
-  CalculatorType::Pointer  m_Calculator;
+  typename CalculatorType::Pointer  m_Calculator;
+  
   PixelType                m_Minimum;
   PixelType                m_Maximum;
   unsigned long            m_LastImageModifiedTime;
