@@ -203,7 +203,7 @@ ImageMetricLoad<TReference , TTarget>::Fe
 //------------------------------------------------------------
 // Set up transform parameters
 //------------------------------------------------------------
-  int temp=1;
+//  int temp=1;
   ParametersType parameters( m_Transform->GetNumberOfParameters() );
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;
@@ -214,8 +214,8 @@ ImageMetricLoad<TReference , TTarget>::Fe
   { 
   //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
-    tindex[k] =Gpos[k]+Gsol[k];  // where the piece of reference image currently lines up under the above translation
-    rindex[k]= Gpos[k];  // position in reference image
+    tindex[k] =(long)(Gpos[k]+Gsol[k]);  // where the piece of reference image currently lines up under the above translation
+    rindex[k]= (long)(Gpos[k]);  // position in reference image
   }
 
 // Set the associated region
@@ -272,8 +272,8 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   { 
   //Set the size of the image region
     parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
-    tindex[k] =InVec[k]+InVec[k+ImageDimension];  // where the piece of reference image currently lines up under the above translation
-    rindex[k]= InVec[k];  // position in reference image
+    tindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]);  // where the piece of reference image currently lines up under the above translation
+    rindex[k]= (long)(InVec[k]);  // position in reference image
   }
 
 // Set the associated region
