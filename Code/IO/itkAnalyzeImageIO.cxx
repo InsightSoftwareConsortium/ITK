@@ -834,6 +834,7 @@ namespace itk
     // perform the byte swapping on it
     this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_hdr);
     this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
+#ifdef OMIT_THIS_CODE //It is OK for this flag to be set because the zlib will support the Unix compress files
     if(this->m_hdr.dime.compressed==1)
     {
       return false;
@@ -841,6 +842,7 @@ namespace itk
       //    exception.SetDescription("Unix compress file is not supported.");
       //    throw exception;
     }
+#endif
     return true;
   }
 
