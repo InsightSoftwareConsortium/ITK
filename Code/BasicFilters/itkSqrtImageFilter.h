@@ -51,7 +51,7 @@ namespace itk
  * \brief Computes the sqrt(x) pixel-wise
  *
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup IntensityImageFilters  Multithreaded
  *
  */
 

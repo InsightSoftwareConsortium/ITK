@@ -51,7 +51,7 @@ namespace itk
  * \brief Computes the log10(x) pixel-wise
  *
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup IntensityImageFilters  Multithreaded
  *
  */
 

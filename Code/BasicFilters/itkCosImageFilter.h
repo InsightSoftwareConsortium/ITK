@@ -65,7 +65,7 @@ namespace itk
  *
  **
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup IntensityImageFilters  Multithreaded
  *
  */
 
