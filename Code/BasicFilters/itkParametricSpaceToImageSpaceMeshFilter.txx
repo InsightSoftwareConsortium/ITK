@@ -19,6 +19,7 @@
 
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkExceptionObject.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
