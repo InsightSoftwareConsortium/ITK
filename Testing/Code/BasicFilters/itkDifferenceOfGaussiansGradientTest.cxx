@@ -111,7 +111,7 @@ int main()
   //---------Create and initialize a spatial function-----------
 
   typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::TPositionType TFunctionPositionType;
+  typedef TFunctionType::InputType TFunctionPositionType;
 
   // Create and initialize a new sphere function
 
