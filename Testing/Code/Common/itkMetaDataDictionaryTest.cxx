@@ -116,7 +116,7 @@ ITK_IMAGE_TYPE_METADATAPRINT(std::complex<double>)
 //================================================================================
 #endif
 
-int itkMetaDataDictionaryTest(int , char * )
+int itkMetaDataDictionaryTest(int , char * [])
 {
   //This is a demo program to show how to put data into a dictionary.
   itk::MetaDataDictionary MyDictionary;
