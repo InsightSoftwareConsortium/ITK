@@ -539,7 +539,9 @@ namespace itk
 
   bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   {
-    m_FileName=FileNameToWrite;
+
+    //m_FileName=FileNameToWrite;
+    this->SetFileName(FileNameToWrite);
     if(  m_FileName == "" )
       {
       return false;
@@ -797,7 +799,8 @@ namespace itk
   // a StateMachine could provide a better implementation
   bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   {
-    m_FileName=FileNameToRead;
+    //m_FileName=FileNameToRead;
+    this->SetFileName(FileNameToRead);
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     //
     // only try to read HDR files
@@ -926,70 +929,70 @@ namespace itk
 
       strncpy(temp,this->m_hdr.hk.data_type,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0'; //NOTE: Need to encapsulate for string because the Borland compiler can't figure it out.
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OnDiskStorageTypeName",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(temp));
 
       strncpy(temp,this->m_hdr.hk.db_name,18);//Note this is necessary because the array is not necessarily null terminated.
       temp[18]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_ImageFileBaseName",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_ImageFileBaseName,std::string(temp));
 
       //Important dime fields
       strncpy(temp,this->m_hdr.dime.vox_units,4);//Note this is necessary because the array is not necessarily null terminated.
       temp[4]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_VoxelUnits",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_VoxelUnits,std::string(temp));
 
       strncpy(temp,this->m_hdr.dime.cal_units,8);//Note this is necessary because the array is not necessarily null terminated.
       temp[8]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"Analyze_CalibrationUnits",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,std::string(temp));
 
-      itk::EncapsulateMetaData<short int>(thisDic,"ITK_OnDiskBitPerPixel",this->m_hdr.dime.bitpix);
-      itk::EncapsulateMetaData<float>(thisDic,"SPM_ROI_SCALE",this->m_hdr.dime.roi_scale);
-      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_CAL_MAX",this->m_hdr.dime.cal_max);
-      itk::EncapsulateMetaData<float>(thisDic,"ANALYZE_CAL_MIN",this->m_hdr.dime.cal_min);
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_GLMAX",this->m_hdr.dime.glmax);
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_GLMIN",this->m_hdr.dime.glmin);
+      itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,this->m_hdr.dime.bitpix);
+      itk::EncapsulateMetaData<float>(thisDic,SPM_ROI_SCALE,this->m_hdr.dime.roi_scale);
+      itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MAX,this->m_hdr.dime.cal_max);
+      itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_hdr.dime.cal_min);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_hdr.dime.glmax);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_hdr.dime.glmin);
 
       //Important hist fields
       strncpy(temp,this->m_hdr.hist.descrip,80);//Note this is necessary because the array is not necessarily null terminated.
       temp[80]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileNotes",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.aux_file,24);//Note this is necessary because the array is not necessarily null terminated.
       temp[24]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,std::string(temp));
 
       {
         itk::IOCommon::ValidOrientationFlags temporient= static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient);
-        itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation", temporient);
+        itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient);
       }
 
       strncpy(temp,this->m_hdr.hist.originator,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_FileOriginator",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.generated,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ITK_OriginationDate",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.scannum,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ScanNumber",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_ScanNumber,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.patient_id,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_PatientID",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentDate",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(temp));
 
       strncpy(temp,this->m_hdr.hist.exp_date,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0';
-      itk::EncapsulateMetaData<std::string>(thisDic,"ANALYZE_ExperimentTime",std::string(temp));
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentTime,std::string(temp));
 
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MAX",this->m_hdr.hist.omax);
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_O_MIN",this->m_hdr.hist.omin);
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_S_MAX",this->m_hdr.hist.smax);
-      itk::EncapsulateMetaData<int>(thisDic,"ANALYZE_S_MIN",this->m_hdr.hist.smin);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_hdr.hist.omax);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_O_MIN,this->m_hdr.hist.omin);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_S_MAX,this->m_hdr.hist.smax);
+      itk::EncapsulateMetaData<int>(thisDic,ANALYZE_S_MIN,this->m_hdr.hist.smin);
     }
     return;
   }
@@ -1020,83 +1023,83 @@ namespace itk
         //Important hk fields.
         itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_OnDiskStorageTypeName",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp))
         {
           strncpy(this->m_hdr.hk.data_type,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_ImageFileBaseName",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_ImageFileBaseName,temp))
         {
           strncpy(this->m_hdr.hk.db_name,temp.c_str(),18);//Note this is necessary because the array is not necessarily null terminated.
         }
         //Important dime fields
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_VoxelUnits",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_VoxelUnits,temp))
         {
           strncpy(this->m_hdr.dime.vox_units,temp.c_str(),4);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"Analyze_CalibrationUnits",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,temp))
         {
           strncpy(this->m_hdr.dime.cal_units,temp.c_str(),8);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        itk::ExposeMetaData<short int>(thisDic,"ITK_OnDiskBitPerPixel",this->m_hdr.dime.bitpix);
-        itk::ExposeMetaData<float>(thisDic,"SPM_ROI_SCALE",this->m_hdr.dime.roi_scale);
-        itk::ExposeMetaData<float>(thisDic,"ANALYZE_CAL_MAX",this->m_hdr.dime.cal_max);
-        itk::ExposeMetaData<float>(thisDic,"ANALYZE_CAL_MIN",this->m_hdr.dime.cal_min);
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_GLMAX",this->m_hdr.dime.glmax);
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_GLMIN",this->m_hdr.dime.glmin);
+        itk::ExposeMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,this->m_hdr.dime.bitpix);
+        itk::ExposeMetaData<float>(thisDic,SPM_ROI_SCALE,this->m_hdr.dime.roi_scale);
+        itk::ExposeMetaData<float>(thisDic,ANALYZE_CAL_MAX,this->m_hdr.dime.cal_max);
+        itk::ExposeMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_hdr.dime.cal_min);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_hdr.dime.glmax);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_hdr.dime.glmin);
         //Important hist fields
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_FileNotes",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileNotes,temp))
         {
           strncpy(this->m_hdr.hist.descrip,temp.c_str(),80);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ANALYZE_AUX_FILE_NAME",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,temp))
         {
           strncpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
         }
 
         {
           itk::IOCommon::ValidOrientationFlags temporient;
-          itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,"ITK_Orientation", temporient);
+          itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient);
           this->m_hdr.hist.orient=static_cast<itk::IOCommon::ValidOrientationFlags>(temporient);
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_FileOriginator",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
         {
           strncpy(this->m_hdr.hist.originator,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ITK_OriginationDate",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_OriginationDate,temp))
         {
           strncpy(this->m_hdr.hist.generated,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ANALYZE_ScanNumber",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_ScanNumber,temp))
         {
           strncpy(this->m_hdr.hist.scannum,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ANALYZE_PatientID",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_PatientID,temp))
         {
           strncpy(this->m_hdr.hist.patient_id,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ANALYZE_ExperimentDate",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentDate,temp))
         {
           strncpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        if(itk::ExposeMetaData<std::string>(thisDic,"ANALYZE_ExperimentTime",temp))
+        if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentTime,temp))
         {
           strncpy(this->m_hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
         }
 
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_O_MAX",this->m_hdr.hist.omax);
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_O_MIN",this->m_hdr.hist.omin);
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_S_MAX",this->m_hdr.hist.smax);
-        itk::ExposeMetaData<int>(thisDic,"ANALYZE_S_MIN",this->m_hdr.hist.smin);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_hdr.hist.omax);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_O_MIN,this->m_hdr.hist.omin);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MAX,this->m_hdr.hist.smax);
+        itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MIN,this->m_hdr.hist.smin);
       }
       for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {

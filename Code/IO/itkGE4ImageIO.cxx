@@ -41,10 +41,11 @@ namespace itk
     
   }
 
+
   bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   {
     char tmpStr[64];
-    this->SetFileName(FileNameToRead);
+    //this->SetFileName(FileNameToRead);
     std::ifstream f(FileNameToRead,std::ifstream::binary);
     if(!f.is_open())
       return false;

@@ -55,7 +55,7 @@ namespace itk
     short matrixX;
     short matrixY;
     int varHdrSize;
-    this->SetFileName(FileNameToRead);
+    //this->SetFileName(FileNameToRead);
     //
     // Can you open it?
     std::ifstream f(FileNameToRead,std::ifstream::binary);

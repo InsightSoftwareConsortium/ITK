@@ -105,7 +105,7 @@ static const char GE_PROD_STR[]="SIGNA";
 
   bool GE5ImageIO::CanReadFile( const char* FileNameToRead )
   {
-    this->SetFileName(FileNameToRead);
+    //this->SetFileName(FileNameToRead);
     return checkGe5xImages(FileNameToRead) == 0 ? true : false;
   }
 

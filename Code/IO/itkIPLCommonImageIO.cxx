@@ -13,12 +13,14 @@
   PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
+#include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
 #include "idbm_hdr_def.h"
 #include "itkDirectory.h"
+#include "itkMetaDataObject.h"
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -42,11 +44,13 @@ namespace itk
     m_system_byteOrder = ByteSwapper<int>::SystemIsBigEndian() ? ImageIOBase::BigEndian :
       ImageIOBase::LittleEndian;
     memset(&m_fnlist,0,sizeof(m_fnlist));
+    m_ImageHeader = 0;
   }
 
   IPLCommonImageIO::~IPLCommonImageIO()
   {
-    delete m_ImageHeader;
+    if(m_ImageHeader != 0)
+      delete m_ImageHeader;
   }
 
   void IPLCommonImageIO::PrintSelf(std::ostream& os, Indent indent) const
@@ -129,7 +133,34 @@ namespace itk
          m_ImageHeader->seriesNumber,
          m_ImageHeader->echoNumber);
     
-     
+    // Add header info to metadictionary
+    
+    itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+    itk::EncapsulateMetaData<std::string>(thisDic,
+                                         ITK_OnDiskStorageTypeName,
+                                         std::string("SHORT"));
+    itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
+    
+    
+    itk::IOCommon::ValidOrientationFlags orient;
+    switch(m_ImageHeader->imagePlane)
+      {
+      case GE_AXIAL:
+        orient = IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE;
+        break;
+      case GE_SAGITTAL:
+        orient = IOCommon::ITK_ORIENTATION_IRP_SAGITTAL  ;
+        break;
+      case GE_CORONAL:
+        // fall thru
+      default:
+        orient = IOCommon::ITK_ORIENTATION_IRP_CORONAL   ;
+      }
+    itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation,orient);
+    itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
+    itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
+
+
     //
     // GE images are stored in separate files per slice.
     char imagePath[IOCommon::ITK_MAXPATHLEN+1];
