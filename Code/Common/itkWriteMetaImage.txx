@@ -69,11 +69,8 @@ WriteMetaImage<TInputImage>
   typename TInputImage::Pointer m_InputImage( GetInput() );
 
   int dimSize[ dimension ];
-  const TInputImage::Size& size    = m_InputImage->GetBufferSize();
-  const float         *spacing = m_InputImage->GetSpacing();
-  
-  const TInputImage::Size& bufferSize = 
-                  m_InputImage->GetOffsetTable()[dimension];
+  const TInputImage::Size& size    = m_InputImage->GetBufferedRegion().GetSize();
+  const float         *spacing = m_InputImage->GetSpacing();                
 
   for(unsigned int i=0; i<dimension; i++) 
   {
@@ -82,14 +79,14 @@ WriteMetaImage<TInputImage>
 
   typedef typename TInputImage::PixelType PixelType;
   
-  PixelType *yetAnotherBuffer = new PixelType[ bufferSize ];
+  PixelType *yetAnotherBuffer = new PixelType[ 
+		m_InputImage->GetOffsetTable()[dimension] ];
 
   typedef itk::ImageRegionSimpleIterator<PixelType,
                   TInputImage::ImageDimension> IteratorType;
   
-  IteratorType it(m_InputImage,
-                  m_InputImage->GetBufferStartIndex(),
-                  m_InputImage->GetBufferSize() );
+  IteratorType it(	m_InputImage, 
+					m_InputImage->GetBufferedRegion() );
 
   
   PixelType * destination = yetAnotherBuffer;
