@@ -58,7 +58,7 @@ typename MedianImageFunction<TInputImage,TCoordRep>
 MedianImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  int i;
+  unsigned int i;
   
   if( !m_Image )
     {
