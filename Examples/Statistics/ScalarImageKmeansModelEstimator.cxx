@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example shows how to compute the KMeans model of an Scalar Image.
@@ -59,7 +63,6 @@ int main( int argc, char * argv [] )
     return -1;
     }
 
-// Software Guide : BeginCodeSnippet
 
   typedef unsigned char       PixelType;
   const unsigned int          Dimension = 2;
@@ -85,6 +88,8 @@ int main( int argc, char * argv [] )
 
 
 
+  // Software Guide : BeginCodeSnippet
+  
   // Create a List from the scalar image
   typedef itk::Statistics::ScalarImageToListAdaptor< ImageType >   AdaptorType;
 
@@ -119,9 +124,9 @@ int main( int argc, char * argv [] )
   const unsigned int numberOfClasses = 3;
 
   EstimatorType::ParametersType initialMeans( numberOfClasses );
-  initialMeans[0] = 20.0;   // real one is 30
-  initialMeans[1] = 100.0;  // real one is 125
-  initialMeans[1] = 200.0;  // real one is 220
+  initialMeans[0] = 25.0;   
+  initialMeans[1] = 125.0;  
+  initialMeans[2] = 250.0;  
 
   estimator->SetParameters( initialMeans );
   
@@ -140,7 +145,22 @@ int main( int argc, char * argv [] )
 
 // Software Guide : EndCodeSnippet
 
-  return 0;
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure} \center
+  // \includegraphics[width=0.44\textwidth]{BrainT1Slice.eps}
+  // \itkcaption[Output of the ScalarImageKmeansModelEstimator]{Test image for the
+  // KMeans model estimator.}
+  // \label{fig:ScalarImageKmeansModelEstimatorTestImage}
+  // \end{figure}
+  //
+  //  The example produces means of 14.8, 91.6, 134.9 on 
+  // Figure \ref{fig:ScalarImageKmeansModelEstimatorTestImage}
+  //
+  //  Software Guide : EndLatex 
+
+
+  return EXIT_SUCCESS;
   
 }
 

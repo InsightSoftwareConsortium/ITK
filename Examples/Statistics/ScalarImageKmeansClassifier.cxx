@@ -18,6 +18,17 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {BrainT1Slice_labelled.png}
+//    0 3 14.8 91.6 134.9
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {BrainT1Slice_labelled_noncontiguous.png}
+//    1 3  14.8 91.6 134.9
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example shows how to use the KMeans model for classifying the pixel of a scalar image.
@@ -79,8 +90,7 @@ int main( int argc, char * argv [] )
 //
 // With the \code{ImageType} we instantiate the type of the
 // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means model
-// and then classify the image pixels. From the command line arguments we read
-// the number of classes to be used by the K-Means algorithms.
+// and then classify the image pixels. 
 //
 // Software Guide : EndLatex 
 
@@ -228,17 +238,22 @@ int main( int argc, char * argv [] )
 
 // Software Guide : EndCodeSnippet
 
-
-
-// Software Guide : BeginLatex
+//  Software Guide : BeginLatex
+//  
+// \begin{figure} \center
+// \includegraphics[width=0.44\textwidth]{BrainT1Slice_labelled_noncontiguous.eps}
+// \itkcaption[Output of the KMeans classifier]{Effect of the
+// KMeans classifier on a T1 slice of the brain.}
+// \label{fig:ScalarImageKMeansClassifierOutput}
+// \end{figure}
 //
-// The execution of this example in one the input image ####, produces the
-// result illustrated in figure ####
+//  Figure \ref{fig:ScalarImageKMeansClassifierOutput}
+//  illustrates the effect of this filter with three classes.
+//  The means were estimated by ScalarImageKmeansModelEstimator.cxx.
 //
-// Software Guide : EndLatex 
+//  Software Guide : EndLatex 
 
-
-  return 0;
+  return EXIT_SUCCESS;
   
 }
 
