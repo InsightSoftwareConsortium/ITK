@@ -38,6 +38,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIOBase.h"
 #include "itkImageIOFactory.h"
 #include "itkImageIORegion.h"
+#include "itkImageSeriesReader.txx"
 #include "itkImageSeriesWriter.txx"
 #include "itkImageWriter.txx"
 #include "itkMetaImageIO.h"
