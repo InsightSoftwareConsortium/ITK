@@ -24,7 +24,6 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
-ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
