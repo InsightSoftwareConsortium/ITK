@@ -1,8 +1,10 @@
 # create the ITKIOTcl libraries
 SET(WRAP_SOURCES
     wrap_IOBase
-    wrap_itkImageFileReader
-    wrap_itkImageFileWriter
+    wrap_itkImageFileReader_2D
+    wrap_itkImageFileReader_3D
+    wrap_itkImageFileWriter_2D
+    wrap_itkImageFileWriter_3D
     wrap_itkImageSeriesReader
     wrap_itkImageSeriesWriter
 )

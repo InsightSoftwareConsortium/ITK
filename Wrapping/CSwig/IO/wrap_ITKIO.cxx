@@ -23,11 +23,13 @@ namespace _cable_
   const char* const groups[] =
   {
     ITK_WRAP_GROUP(IOBase),
-    ITK_WRAP_GROUP(itkImageFileReader),
+    ITK_WRAP_GROUP(itkImageFileReader_2D),
+    ITK_WRAP_GROUP(itkImageFileReader_3D),
 #ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(itkTkImageViewer2D),
 #endif
-    ITK_WRAP_GROUP(itkImageFileWriter),
+    ITK_WRAP_GROUP(itkImageFileWriter_2D),
+    ITK_WRAP_GROUP(itkImageFileWriter_3D),
     ITK_WRAP_GROUP(itkImageSeriesReader),
     ITK_WRAP_GROUP(itkImageSeriesWriter)
   };
