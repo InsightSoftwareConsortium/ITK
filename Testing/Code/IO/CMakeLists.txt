@@ -13,6 +13,7 @@ ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
 
 SOURCE_FILES(IOTest_SRCS
 itkConvertBufferTest
+itkDicomImageIOTest
 itkMetaImageIOTest
 itkPNGImageIOTest
 itkVOLImageIOTest
