@@ -36,9 +36,9 @@ class MetaObject
 
       int   m_NDims;                  // "NDims = "            required
 
-      float m_Offset[10];             // "Offset = "         0,0,0
-      float m_Rotation[100];          // "Rotation = "      1,0,0, 0,1,0, 0,0,1
-      float m_CenterOfRotation[10];   // CenterOfRotation
+      double m_Offset[10];             // "Offset = "         0,0,0
+      double m_Rotation[100];          // "Rotation = "      1,0,0, 0,1,0, 0,0,1
+      double m_CenterOfRotation[10];   // CenterOfRotation
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
@@ -75,6 +75,8 @@ class MetaObject
       metaEvent*     m_Event;
       //MET_FieldRecordType * M_GetFieldRecord(const char * _fieldName);
       //int   M_GetFieldRecordNumber(const char * _fieldName);
+
+      unsigned int m_DoublePrecision;
 
   /////
   //
@@ -135,38 +137,38 @@ class MetaObject
       //       Optional Field
       //       Physical location (in millimeters and wrt machine coordinate
       //         system or the patient) of the first element in the image
-      const float * Offset(void) const;
-      float Offset(int _i) const;
-      void  Offset(const float * _position);
-      void  Offset(int _i, float _value);
-      const float * Position(void) const;
-      float Position(int _i) const;
-      void  Position(const float * _position);
-      void  Position(int _i, float _value);
-      const float * Origin(void) const;
-      float Origin(int _i) const;
-      void  Origin(const float * _position);
-      void  Origin(int _i, float _value);
+      const double * Offset(void) const;
+      double Offset(int _i) const;
+      void  Offset(const double * _position);
+      void  Offset(int _i, double _value);
+      const double * Position(void) const;
+      double Position(int _i) const;
+      void  Position(const double * _position);
+      void  Position(int _i, double _value);
+      const double * Origin(void) const;
+      double Origin(int _i) const;
+      void  Origin(const double * _position);
+      void  Origin(int _i, double _value);
 
       //    Rotation(...)
       //       Optional Field
       //       Physical orientation of the object as an NDims x NDims matrix
-      const float * Rotation(void) const;
-      float Rotation(int _i, int _j) const;
-      void  Rotation(const float * _orientation);
-      void  Rotation(int _i, int _j, float _value);
-      const float * Orientation(void) const;
-      float Orientation(int _i, int _j) const;
-      void  Orientation(const float * _orientation);
-      void  Orientation(int _i, int _j, float _value);
+      const double * Rotation(void) const;
+      double Rotation(int _i, int _j) const;
+      void  Rotation(const double * _orientation);
+      void  Rotation(int _i, int _j, double _value);
+      const double * Orientation(void) const;
+      double Orientation(int _i, int _j) const;
+      void  Orientation(const double * _orientation);
+      void  Orientation(int _i, int _j, double _value);
 
       //
       //
       //
-      const float * CenterOfRotation(void) const;
-      float CenterOfRotation(int _i) const;
-      void  CenterOfRotation(const float * _position);
-      void  CenterOfRotation(int _i, float _value);
+      const double * CenterOfRotation(void) const;
+      double CenterOfRotation(int _i) const;
+      void  CenterOfRotation(const double * _position);
+      void  CenterOfRotation(int _i, double _value);
 
       const char * AnatomicalOrientationAcronym(void) const;
       const MET_OrientationEnumType * AnatomicalOrientation(void) const;
@@ -257,6 +259,10 @@ class MetaObject
       // Get the user field
       void* GetUserField(const char* _name);
       void SetEvent(metaEvent* event) {m_Event = event;}
+
+      // Set the double precision for writing
+      void SetDoublePrecision(unsigned int precision) {m_DoublePrecision = precision;}
+      unsigned int GetDoublePrecision() {return m_DoublePrecision;}
 
   };
 

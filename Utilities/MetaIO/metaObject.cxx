@@ -24,6 +24,7 @@ MetaObject(void)
   m_WriteStream = NULL;
   m_FileName[0] = '\0';
   m_Event = NULL;
+  m_DoublePrecision = 6;
   }
 
 MetaObject::
@@ -37,6 +38,7 @@ MetaObject(const char * _fileName)
   m_WriteStream = NULL;
   this->Read(_fileName);
   m_Event = NULL;
+  m_DoublePrecision = 6;
   }
 
 MetaObject::
@@ -51,6 +53,7 @@ MetaObject(unsigned int dim)
   m_FileName[0] = '\0';
   InitializeEssential(dim);
   m_Event = NULL;
+  m_DoublePrecision = 6;
   }
 
 
@@ -215,7 +218,6 @@ bool MetaObject::
 Read(const char *_fileName)
   {
   if(META_DEBUG)  std::cout << "MetaObject: Read" << std::endl;
-
   if(_fileName != NULL)
     {
     strcpy(m_FileName, _fileName);
@@ -227,6 +229,9 @@ Read(const char *_fileName)
 
   M_SetupReadFields();
   M_PrepareNewReadStream();
+ 
+ // m_ReadStream->precision(30);
+
 
   m_ReadStream->open(m_FileName);
   if(!m_ReadStream->is_open())
@@ -495,20 +500,20 @@ NDims(void) const
   return m_NDims;
   }
 
-const float * MetaObject::
+const double * MetaObject::
 Offset(void) const
   {
   return m_Offset;
   }
 
-float MetaObject::
+double MetaObject::
 Offset(int _i) const
   {
   return m_Offset[_i];
   }
 
 void MetaObject::
-Offset(const float * _position)
+Offset(const double * _position)
   {
   int i;
   for(i=0; i<m_NDims; i++)
@@ -518,26 +523,26 @@ Offset(const float * _position)
   }
 
 void MetaObject::
-Offset(int _i, float _value)
+Offset(int _i, double _value)
   {
   m_Offset[_i] = _value;
   }
 
 
-const float * MetaObject::
+const double * MetaObject::
 Position(void) const
   {
   return m_Offset;
   }
 
-float MetaObject::
+double MetaObject::
 Position(int _i) const
   {
   return m_Offset[_i];
   }
 
 void MetaObject::
-Position(const float * _position)
+Position(const double * _position)
   {
   int i;
   for(i=0; i<m_NDims; i++)
@@ -547,25 +552,25 @@ Position(const float * _position)
   }
 
 void MetaObject::
-Position(int _i, float _value)
+Position(int _i, double _value)
   {
   m_Offset[_i] = _value;
   }
 
-const float * MetaObject::
+const double * MetaObject::
 Origin(void) const
   {
   return m_Offset;
   }
 
-float MetaObject::
+double MetaObject::
 Origin(int _i) const
   {
   return m_Offset[_i];
   }
 
 void MetaObject::
-Origin(const float * _position)
+Origin(const double * _position)
   {
   int i;
   for(i=0; i<m_NDims; i++)
@@ -575,27 +580,27 @@ Origin(const float * _position)
   }
 
 void MetaObject::
-Origin(int _i, float _value)
+Origin(int _i, double _value)
   {
   m_Offset[_i] = _value;
   }
 
 //
 //
-const float * MetaObject::
+const double * MetaObject::
 Rotation(void) const
   {
   return m_Rotation;
   }
 
-float MetaObject::
+double MetaObject::
 Rotation(int _i, int _j) const
   {
   return m_Rotation[_i*m_NDims+_j];
   }
 
 void MetaObject::
-Rotation(const float * _orientation)
+Rotation(const double * _orientation)
   {
   int i;
   for(i=0; i<m_NDims*m_NDims; i++)
@@ -605,26 +610,26 @@ Rotation(const float * _orientation)
   }
 
 void MetaObject::
-Rotation(int _i, int _j, float _value)
+Rotation(int _i, int _j, double _value)
   {
   m_Rotation[_i*m_NDims+_j] = _value;
   }
 
 //
-const float * MetaObject::
+const double * MetaObject::
 Orientation(void) const
   {
   return m_Rotation;
   }
 
-float MetaObject::
+double MetaObject::
 Orientation(int _i, int _j) const
   {
   return m_Rotation[_i*m_NDims+_j];
   }
 
 void MetaObject::
-Orientation(const float * _orientation)
+Orientation(const double * _orientation)
   {
   int i;
   for(i=0; i<m_NDims*m_NDims; i++)
@@ -634,27 +639,27 @@ Orientation(const float * _orientation)
   }
 
 void MetaObject::
-Orientation(int _i, int _j, float _value)
+Orientation(int _i, int _j, double _value)
   {
   m_Rotation[_i*m_NDims+_j] = _value;
   }
 
 //
 //
-const float * MetaObject::
+const double * MetaObject::
 CenterOfRotation(void) const
   {
   return m_CenterOfRotation;
   }
 
-float MetaObject::
+double MetaObject::
 CenterOfRotation(int _i) const
   {
   return m_CenterOfRotation[_i];
   }
 
 void MetaObject::
-CenterOfRotation(const float * _position)
+CenterOfRotation(const double * _position)
   {
   int i;
   for(i=0; i<m_NDims; i++)
@@ -664,7 +669,7 @@ CenterOfRotation(const float * _position)
   }
 
 void MetaObject::
-CenterOfRotation(int _i, float _value)
+CenterOfRotation(int _i, double _value)
   {
   m_CenterOfRotation[_i] = _value;
   }
@@ -1440,7 +1445,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = static_cast<float>( mF->value[i] );
+      m_Offset[i] = static_cast<double>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Offset", &m_Fields);
@@ -1448,7 +1453,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = static_cast<float>( mF->value[i] );
+      m_Offset[i] = static_cast<double>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Origin", &m_Fields);
@@ -1456,7 +1461,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = static_cast<float>( mF->value[i] );
+      m_Offset[i] = static_cast<double>( mF->value[i] );
       }
     }
 
@@ -1468,7 +1473,7 @@ M_Read(void)
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = static_cast<float>( mF->value[i] );
+      m_Rotation[i] = static_cast<double>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Rotation", &m_Fields);
@@ -1478,7 +1483,7 @@ M_Read(void)
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = static_cast<float>( mF->value[i] );
+      m_Rotation[i] = static_cast<double>( mF->value[i] );
       }
     }
   if(!rotationDefined)
@@ -1533,6 +1538,8 @@ M_Read(void)
 bool MetaObject::
 M_Write(void)
   {
+  m_WriteStream->precision(m_DoublePrecision);
+
   if(!MET_Write(*m_WriteStream, & m_Fields))
     {
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
