@@ -28,22 +28,9 @@ template <class TDomain, class TTransformation>
 RegistrationMapper<TDomain,TTransformation>
 ::RegistrationMapper()
 {
-  m_Domain = DomainType::New();
+  m_Domain         = DomainType::New();
   m_Transformation = TransformationType::New();
 }
-
-/**
- * Set the Domain
- */
-template <class TDomain, class TTransformation> 
-void
-RegistrationMapper<TDomain,TTransformation>
-::SetDomain(DomainPointer & domain)
-{
-  m_Domain = domain;
-}
-
-
 
 
 

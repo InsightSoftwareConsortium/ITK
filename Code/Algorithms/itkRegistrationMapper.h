@@ -97,10 +97,12 @@ public:
    */
   itkNewMacro(Self);
   
+
   /**
    * Connect the Domain
    */
-  virtual void SetDomain(DomainPointer &);
+  itkSetObjectMacro( Domain, DomainType );
+
 
   /**
    * Get the Domain
@@ -117,16 +119,20 @@ public:
    */
   itkGetObjectMacro( Transformation,TransformationType);
   
+
+
 protected:
-
-  DomainPointer            m_Domain;
-  TransformationPointer    m_Transformation;
-
+  
   RegistrationMapper();
   virtual ~RegistrationMapper() {};
   RegistrationMapper(const Self&) {}
   void operator=(const Self&) {}
 
+
+private:
+
+  DomainPointer            m_Domain;
+  TransformationPointer    m_Transformation;
 
 };
 
