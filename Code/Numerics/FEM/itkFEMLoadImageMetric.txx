@@ -78,6 +78,55 @@ void LoadImageMetric<TReference , TTarget>::InitializeMetric()
 
 
 template<class TReference,class TTarget>
+LoadImageMetric<TReference , TTarget>::Float 
+LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
+{
+  Float energy=0.0; 
+
+  vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // solution at the local point
+  vnl_vector_fixed<Float,ImageDimension> Gpt(0.0);  // global position given by local point
+  Float Pos[ImageDimension];  // solution at the point
+  
+  for (int j=0; j<ImageDimension; j++) Pos[j]=0.0;
+
+  Element::ArrayType::iterator elt=el->begin();
+  int ndof=(*elt)->GetNumberOfDegreesOfFreedom();
+  
+  vnl_vector<Float> shapeF;
+  vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
+   
+  for( elt=el->begin(); elt!=el->end(); elt++) 
+  {
+  
+    shapeF=(*elt)->ComputeShapeFunctionsAt(Pos);
+
+    for (unsigned int ii=0; ii < ImageDimension; ii++)
+    {  
+      for (unsigned int jj=0; jj<shapeF.size(); jj++)
+      {
+         Sol[ii] += shapeF[jj]* GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
+        //Gpt[ii] += shapeF[jj]*(*elt)->GetPoint(0)->X; //FIXME GET COORDINATE AT NODE
+         Gpt[ii]=0.0;
+      }
+      
+      InVec[ii]=Gpt[ii];
+      InVec[ii+ImageDimension]=Sol[ii];
+    }
+
+    std::cout << " Gpt " << Gpt << " sol " <<  Sol << endl;
+
+    energy+=GetMetric(InVec);
+  }
+   
+
+  std::cout << " the energy is " << energy << std::endl;
+
+  return energy;
+
+}
+
+
+template<class TReference,class TTarget>
 LoadImageMetric<TReference , TTarget>::VectorType 
 LoadImageMetric<TReference , TTarget>::Fg
 (LoadImageMetric<TReference , TTarget>::VectorType  InVec) 
@@ -125,12 +174,65 @@ LoadImageMetric<TReference , TTarget>::Fg
   m_Metric->GetValueAndDerivative( parameters, measure, derivative );
   for( unsigned int k = 0; k < ImageDimension; k++ )
   {
-    OutVec[k]=derivative[k];
+    OutVec[k]= 1.*derivative[k];
   }
  
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
  
   return OutVec;
+}
+
+
+template<class TReference,class TTarget>
+LoadImageMetric<TReference , TTarget>::Float 
+LoadImageMetric<TReference , TTarget>::GetMetric
+(LoadImageMetric<TReference , TTarget>::VectorType  InVec) 
+{
+// We assume the vector input is of size 2*ImageDimension.
+// The 0 to ImageDimension-1 elements contain the position, p,
+// in the reference image.  The next ImageDimension to 2*ImageDimension-1
+// elements contain the value of the vector field at that point, v(p).
+//
+// Thus, we evaluate the derivative at the point p+v(p) with respect to
+// some region of the target (fixed) image by calling the metric with 
+// the translation parameters as provided by the vector field at p.
+//------------------------------------------------------------
+// Set up transform parameters
+//------------------------------------------------------------
+  ParametersType parameters( m_Transform->GetNumberOfParameters() );
+  typename TargetType::RegionType requestedRegion;
+  typename TargetType::IndexType tindex;
+  typename ReferenceType::IndexType rindex;
+  VectorType OutVec(ImageDimension,0.0); // gradient direction
+  //std::cout << " pos   translation " << InVec  << endl;
+   // initialize the offset/vector part
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+  { 
+  //Set the size of the image region
+    parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
+    tindex[k] =InVec[k]+InVec[k+ImageDimension];  // where the piece of reference image currently lines up under the above translation
+    rindex[k]= InVec[k];  // position in reference image
+  }
+
+// Set the associated region
+
+  requestedRegion.SetSize(m_TarRadius);
+  requestedRegion.SetIndex(tindex);
+
+  m_TarImage->SetRequestedRegion(requestedRegion);  
+  m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+
+//--------------------------------------------------------
+// Get metric values
+
+  MetricBaseType::MeasureType     measure;
+  MetricBaseType::DerivativeType  derivative;
+
+  m_Metric->GetValueAndDerivative( parameters, measure, derivative );
+ 
+  //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
+ 
+  return (Float) measure;
 }
 
 

@@ -111,9 +111,9 @@ public:
   typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
 
 //  typedef typename MutualInformationMetricType             DefaultMetricType;
-  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
+//  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
 //  typedef typename PatternIntensityMetricType             DefaultMetricType;
-//  typedef typename MeanSquaresMetricType             DefaultMetricType;
+  typedef typename MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 
@@ -133,12 +133,19 @@ public:
   /** Implements the LoadGrav Fg function using the selected image metric. */
   VectorType Fg(VectorType);
 
+  void SetSolution(Solution::Pointer ptr) {  m_Solution2=ptr; }
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
 
+  /**
+   *  This method returns the total metric evaluated over the image with respect to the current solution.
+   */
+  Float EvaluateMetricGivenSolution( Element::ArrayType* el, Float step);
+  Float GetMetric (VectorType  InVec);
+  
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
-  Float GetSolution(unsigned int i){  return m_Solution->GetSolutionValue(i,1); }
-
+  Float GetSolution(unsigned int i,unsigned int which){  return m_Solution2->GetSolutionValue(i,which); }
+  
   LoadImageMetric(); // cannot be private until we always use smart pointers
   
   virtual Baseclass::Pointer Clone() const 
@@ -147,12 +154,13 @@ public:
 protected:
 
 private:
+  Solution::Pointer   m_Solution2;
   Solution::ConstPointer   m_Solution;
   typename MetricBaseTypePointer                         m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer               m_Interpolator;
-public:
 
+public:
 //  LoadImageMetric(const Self&);  FIXME NEED COPY CONSTRUCTOR   //purposely not implemented
   void operator=(const Self&); //purposely not implemented  
 };
