@@ -18,6 +18,7 @@
 #define __itkFiniteDifferenceImageFilter_txx_
 
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
 
 namespace itk {
@@ -27,10 +28,10 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::CopyInputToOutput()
 {
-  typename TInputImage::Pointer  input  = this->GetInput();
-  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TInputImage::ConstPointer  input  = this->GetInput().GetPointer();
+  typename TOutputImage::Pointer      output = this->GetOutput();
   
-  ImageRegionIterator<TInputImage>  in(input, output->GetRequestedRegion());
+  ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
   ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
 
   while( ! out.IsAtEnd() )
