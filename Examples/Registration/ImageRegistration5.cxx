@@ -212,8 +212,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  const double * fixedSpacing = fixedImage->GetSpacing();
-  const double * fixedOrigin  = fixedImage->GetOrigin();
+  const FixedImageType::SpacingType& 
+    fixedSpacing = fixedImage->GetSpacing();
+  const FixedImageType::PointType&
+    fixedOrigin  = fixedImage->GetOrigin();
   
   FixedImageType::SizeType fixedSize  = 
           fixedImage->GetLargestPossibleRegion().GetSize();
@@ -234,8 +236,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
-  const double * movingSpacing = movingImage->GetSpacing();
-  const double * movingOrigin  = movingImage->GetOrigin();
+  const MovingImageType::SpacingType&
+    movingSpacing = movingImage->GetSpacing();
+  const MovingImageType::PointType&
+    movingOrigin = movingImage->GetOrigin();
   
   MovingImageType::SizeType movingSize = 
             movingImage->GetLargestPossibleRegion().GetSize();

@@ -42,8 +42,14 @@ int itkFlipImageFilterTest(int, char* [] )
   region.SetSize( size );
   region.SetIndex( index );
 
-  double spacing[ImageDimension] = { 1.1, 1.2, 1.3 };
-  double origin[ImageDimension] = { 0.5, 0.4, 0.3 };
+  ImageType::SpacingType spacing;
+  spacing[0] = 1.1;
+  spacing[1] = 1.2;
+  spacing[2] = 1.3;
+  ImageType::PointType origin;
+  origin[0] = 0.5;
+  origin[1] = 0.4;
+  origin[2] = 0.3;
 
   ImageType::Pointer inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion( region );
@@ -82,10 +88,10 @@ int itkFlipImageFilterTest(int, char* [] )
   // check the output
   ImageType::Pointer outputImage = flipper->GetOutput();
 
-  const double * inputSpacing  = inputImage->GetSpacing();
-  const double * inputOrigin   = inputImage->GetOrigin();
-  const double * outputSpacing = outputImage->GetSpacing();
-  const double * outputOrigin  = outputImage->GetOrigin();
+  const ImageType::SpacingType& inputSpacing  = inputImage->GetSpacing();
+  const ImageType::PointType&   inputOrigin   = inputImage->GetOrigin();
+  const ImageType::SpacingType& outputSpacing = outputImage->GetSpacing();
+  const ImageType::PointType&   outputOrigin  = outputImage->GetOrigin();
 
   inputImage->Print( std::cout );
   outputImage->Print( std::cout );

@@ -162,8 +162,8 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( outputRegion );
-  const double * spacing = reader->GetOutput()->GetSpacing();
-  const double * inputOrigin = reader->GetOutput()->GetOrigin();
+  const ImageType::SpacingType& spacing = reader->GetOutput()->GetSpacing();
+  const ImageType::PointType& inputOrigin = reader->GetOutput()->GetOrigin();
   double   outputOrigin[ Dimension ];
 
   for(unsigned int i=0; i< Dimension; i++)

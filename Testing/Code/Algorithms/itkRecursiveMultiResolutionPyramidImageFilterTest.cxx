@@ -250,16 +250,16 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
   // check the output image information
   InputImageType::SizeType inputSize =
     pyramid->GetInput()->GetLargestPossibleRegion().GetSize();
-  const double * inputOrigin =
+  const InputImageType::PointType& inputOrigin =
     pyramid->GetInput()->GetOrigin();
-  const double * inputSpacing =
+  const InputImageType::SpacingType& inputSpacing =
     pyramid->GetInput()->GetSpacing();
 
   OutputImageType::SizeType outputSize =
     pyramid->GetOutput( testLevel )->GetLargestPossibleRegion().GetSize();
-  const double * outputOrigin =
+  const OutputImageType::PointType& outputOrigin =
     pyramid->GetOutput( testLevel )->GetOrigin();
-  const double * outputSpacing =
+  const OutputImageType::SpacingType& outputSpacing =
     pyramid->GetOutput( testLevel )->GetSpacing();
 
   for( j = 0; j < ImageDimension; j++ )
