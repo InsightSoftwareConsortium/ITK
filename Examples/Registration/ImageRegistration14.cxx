@@ -93,12 +93,13 @@ private:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile [numberOfHistogramBins] ";
+    std::cerr << "[initialRadius] [epsilon]" << std::endl;
     return 1;
     }
   
@@ -140,10 +141,15 @@ int main( int argc, char *argv[] )
   registration->SetMetric( metric  );
 
 
-  unsigned int numberOfBins = 32;
+  unsigned int numberOfHistogramBins = 32;
+  if( argc > 4 )
+    {
+    numberOfHistogramBins = atoi( argv[4] );
+    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
+    }
   MetricType::HistogramType::SizeType histogramSize;
-  histogramSize[0] = numberOfBins;
-  histogramSize[1] = numberOfBins;
+  histogramSize[0] = numberOfHistogramBins;
+  histogramSize[1] = numberOfHistogramBins;
   metric->SetHistogramSize( histogramSize );
  
 
@@ -171,9 +177,11 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
   fixedImageReader->Update();
+  movingImageReader->Update();
 
-  registration->SetFixedImageRegion( 
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
+  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+
+  registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
 
   typedef itk::CenteredTransformInitializer< 
@@ -199,13 +207,20 @@ int main( int argc, char *argv[] )
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 100.0;
+  FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
 
-  optimizerScales[0] = 1.0;
-  optimizerScales[1] = translationScale;
-  optimizerScales[2] = translationScale;
-  optimizerScales[3] = translationScale;
-  optimizerScales[4] = translationScale;
+  FixedImageType::SizeType size = region.GetSize();
+
+  FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
+
+  optimizerScales[0] = 1.0 / 0.1;  // make angle move slowly
+  optimizerScales[1] = 10000.0;    // prevent the center from moving
+  optimizerScales[2] = 10000.0;    // prevent the center from moving
+  optimizerScales[3] = 1.0 / ( 0.1 * size[0] * spacing[0] );
+  optimizerScales[4] = 1.0 / ( 0.1 * size[1] * spacing[1] );
+
+  std::cout << "optimizerScales = " << optimizerScales << std::endl;
+    
   optimizer->SetScales( optimizerScales );
 
 
@@ -218,11 +233,25 @@ int main( int argc, char *argv[] )
 
   optimizer->SetNormalVariateGenerator( generator );
 
-  const double initialRadius = 0.05;
+  double initialRadius = 0.05;
 
+  if( argc > 5 )
+    {
+    initialRadius = atof( argv[5] );
+    std::cout << "Using initial radius = " << initialRadius << std::endl;
+    }
   optimizer->Initialize( initialRadius );
-  optimizer->SetEpsilon( 0.001 );
-  optimizer->SetMaximumIteration( 500 );
+
+  double epsilon = 0.001;
+
+  if( argc > 6 )
+    {
+    epsilon = atof( argv[6] );
+    std::cout << "Using epsilon = " << epsilon << std::endl;
+    }
+  optimizer->SetEpsilon( epsilon );
+
+  optimizer->SetMaximumIteration( 2000 );
 
 
   // Create the Command observer and register it with the optimizer.
@@ -285,8 +314,6 @@ int main( int argc, char *argv[] )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
