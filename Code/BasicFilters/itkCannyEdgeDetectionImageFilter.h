@@ -147,14 +147,30 @@ public:
       filter in this algorithm */
   void SetVariance(const typename ArrayType::ValueType v)
   {
-    m_Variance.Fill(v);
+    for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
+      {
+      if (m_Variance[i] != v)
+        {
+        m_Variance.Fill(v);
+        this->Modified();
+        break;
+        }
+      }
   }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
   void SetMaximumError(const typename ArrayType::ValueType v)
   {
-    m_MaximumError.Fill(v);
+    for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
+      {
+      if (m_Variance[i] != v)
+        {
+        m_MaximumError.Fill(v);
+        this->Modified();
+        break;
+        }
+      }
   }
   
   /* Set the Threshold value for detected edges. */
