@@ -18,7 +18,6 @@
 #define __itkNeighborhoodAlgorithm_h
 
 #include "itkNeighborhoodOperator.h"
-#include "itkNeighborhoodOperatorList.h"
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkImage.h"
