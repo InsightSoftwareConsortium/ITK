@@ -135,9 +135,9 @@ public:
    */
   void UpdateDisplacements();
 
-  Float GetSolution(unsigned int i)
+  Float GetSolution(unsigned int i,unsigned int which=0)
   {
-    return m_ls->GetSolutionValue(i);
+    return m_ls->GetSolutionValue(i,which);
   }
 
 protected:
