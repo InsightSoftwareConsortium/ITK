@@ -523,6 +523,8 @@ int main( int argc, char *argv[] )
 
   TransformType::Pointer finalTransform = TransformType::New();
 
+  finalTransform->SetCenter( transform->GetCenter() );
+
   finalTransform->SetParameters( finalParameters );
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
