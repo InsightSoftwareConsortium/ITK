@@ -28,7 +28,7 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef typename itkSmartPointer< itkWriteImage<TInputImage> > Pointer;
+  typedef itkSmartPointer< itkWriteImage<TInputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).

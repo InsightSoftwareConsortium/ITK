@@ -35,13 +35,13 @@ template <class T>
 class itkNumericTraits : public ITK_NUMERIC_LIMITS<T> {
 public:
   /* Return the type of this native type */
-  typedef typename T ValueType; 
+  typedef T ValueType; 
 
   /* Return value of abs() */
-  typedef typename T AbsType; 
+  typedef T AbsType; 
 
   /* Accumulation of addition and multiplication */
-  typedef typename double AccumulateType; 
+  typedef double AccumulateType; 
 
   /* Additive identity */
   static const T Zero;

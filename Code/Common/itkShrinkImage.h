@@ -29,7 +29,7 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef typename itkSmartPointer< itkShrinkImage<TInputImage,TOutputImage> > Pointer;
+  typedef itkSmartPointer< itkShrinkImage<TInputImage,TOutputImage> > Pointer;
 
   /** 
    * Create the source with one output initially.

@@ -29,7 +29,7 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef typename itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
+  typedef itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).
@@ -44,7 +44,7 @@ public:
   /**
    * Enums used to specify VTK file types.
    */
-  typedef typename enum {VTK_ASCII,VTK_BINARY} VTKFileType;
+  typedef  enum {VTK_ASCII,VTK_BINARY} VTKFileType;
   
   /** 
    * Set the VTK file type. The default is VTK_ASCII.

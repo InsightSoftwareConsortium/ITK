@@ -29,7 +29,7 @@ public:
     }
   void UnRegister()
     {
-    std::cout << "UnRegister " << *this << " count:" 
+    std::cout << "UnRegister " << this << " count:" 
               << (m_ReferenceCount-1) << "  " << std::endl;
       
     m_ReferenceCount--;
@@ -38,14 +38,14 @@ public:
       delete this;
       }
     }
-  inline friend std::ostream &operator << (std::ostream &os, 
-                                           itkTestObject const& o) 
+    inline friend std::ostream &operator << (std::ostream &os, 
+                                             itkTestObject const& o) 
     {
-    os << "itkTestObject " << (void*)&o << " " << o.m_ReferenceCount; 
-    return os;
+      os << "itkTestObject " << (void*)&o << " " << o.m_ReferenceCount; 
+      return os;
     }
   
-  std::ostream Print(std::ostream& os) const
+  std::ostream& Print(std::ostream& os) const
     {
     os << "itkTestObject " << (void*)this << " " << this->m_ReferenceCount; 
     return os;
@@ -105,7 +105,6 @@ int main()
   itkTestObject::Pointer o1 = itkTestObject::New();
   }
   std::cout <<"end first test" << std::endl << std::endl;
-  
   return 0;
 }
 

@@ -33,15 +33,20 @@ public:
    * Dereference the iterator, returns a reference to the pixel. Used to set
    * or get the value referenced by the index.
    */
-  TPixel::ScalarType& operator*()
+   typename TPixel::ScalarType& operator*()
     { 
     return itkScalarTraits<TPixel>::GetScalar(*( m_Image + m_Offset )); 
+    }
+  bool
+  operator!=(const itkImageScalarIterator<TPixel,TImageDimension> &it) const
+    {
+    return m_Offset != it.m_Offset;
     }
   
   /**
    * Define operator= for native types.
    */
-  void operator=(const TPixel::ScalarType v)
+  void operator=(const typename TPixel::ScalarType v)
     { 
     }
   

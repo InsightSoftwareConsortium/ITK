@@ -119,9 +119,8 @@ public:
   static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
 public:
-  template<unsigned int TIndexDim> friend 
-    std::ostream& operator<<(std::ostream& os,
-			     const itkIndex<TIndexDim> &ind);
+friend  std::ostream& operator<<(std::ostream& os,
+			     const itkIndex<TIndexDimension> &ind);
 private:
   long m_Index[TIndexDimension];
 };

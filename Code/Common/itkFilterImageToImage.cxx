@@ -28,7 +28,7 @@ itkFilterImageToImage<TInputImage,TOutputImage>
     {
     return ret;
     }
-  return new itkFilterImageToImage<TInputImage, TOutputImage>);
+  return new itkFilterImageToImage<TInputImage, TOutputImage>();
 }
 
 //----------------------------------------------------------------------------

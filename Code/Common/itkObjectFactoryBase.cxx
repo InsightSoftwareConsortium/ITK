@@ -32,9 +32,9 @@
 // Also, so a forward reference can be put in itkObjectFactoryBase.h
 // and a pointer member can be used.  This avoids other
 // classes including <map> and getting long symbol warnings.
+typedef std::multimap<std::string, itkObjectFactoryBase::OverrideInformation> itkStringOverMap;
 
-class itkOverRideMap : public std::multimap<std::string, 
-		       itkObjectFactoryBase::OverrideInformation>
+class itkOverRideMap : public itkStringOverMap
 {
 public:
 };

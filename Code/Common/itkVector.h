@@ -49,7 +49,7 @@ class itkVector {
    * ValueType can be used to declare a variable that is the same type
    * as the data held in an itkVector.  
    */
-  typedef typename T ValueType;
+  typedef T ValueType;
 
   /**
    * Get the dimension (size) of the vector.

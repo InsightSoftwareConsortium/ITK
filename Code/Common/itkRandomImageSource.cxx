@@ -61,15 +61,15 @@ void
 itkRandomImageSource<TOutputImage>
 ::Execute()
 {
-  typedef TOutputImage::ScalarValueType scalarType;
+  typedef typename TOutputImage::ScalarValueType scalarType;
 
   TOutputImage *image=this->GetOutput(0);
   unsigned int N = image->GetImageDimension();
 
   scalarType min = itkNumericTraits<scalarType>::min();
   scalarType max = itkNumericTraits<scalarType>::max();
-  TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
-  TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
+  typename TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
+  typename TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
 
   itkDebugMacro(<<"Generating a random image of scalars");
   

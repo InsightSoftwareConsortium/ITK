@@ -40,7 +40,7 @@ public:
   /** 
    * Index typedef support 
    */
-  typedef typename itkIndex<TImageDimension> Index;
+  typedef itkIndex<TImageDimension> Index;
 
   /**
    * Get the dimension (size) of the index.
@@ -65,7 +65,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension>
   operator+(const Index &vec)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all the ivars
+    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index = m_Index + vec;  
     result.ComputeOffset();
     return result;
@@ -90,7 +90,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension>
   operator-(const Index &vec)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all the ivars
+    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index = m_Index - vec;
     result.ComputeOffset();
     return result;
@@ -117,7 +117,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension>
   operator+(long delta)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all the ivars
+    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index[TImageDimension-1] += delta;
     result.m_Offset += delta;
     return result;
@@ -146,7 +146,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension>
   operator-(long delta)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all the ivars
+    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index[TImageDimension-1] -= delta;
     result.m_Offset -= delta;
     return result;
@@ -191,7 +191,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension> 
   operator++(int)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all ivars
+    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all ivars
     m_Index[TImageDimension-1]++;
     m_Offset++;
     return result;
@@ -222,7 +222,7 @@ public:
   const itkImageIterator<TPixel, TImageDimension> 
   operator--(int)
     {
-    itkImageIterator<TPixel TImageDimension> result( *this ); // copy all ivars
+    itkImageIterator<TPixel,  TImageDimension> result( *this ); // copy all ivars
     m_Index[TImageDimension-1]--;
     m_Offset--;
     return result;

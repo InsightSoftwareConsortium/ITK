@@ -37,7 +37,7 @@ itkImageSource<TOutputImage>
 ::itkImageSource()
 {
   // Create the output
-  TOutputImage::Pointer output = TOutputImage::New();
+  typename TOutputImage::Pointer output = TOutputImage::New();
   this->itkProcessObject::SetNumberOfRequiredOutputs(1);
   this->itkProcessObject::SetNthOutput(0, output.GetPointer());
 

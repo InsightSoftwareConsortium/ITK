@@ -47,13 +47,13 @@ public:
    * ValueType can be used to declare a variable that is the same type
    * as the data held in an itkScalar.
    */
-  typedef typename T ValueType;
+  typedef T ValueType;
 
   /**
    * ScalarType can be used to declare a variable that is the same type
    * as the data held in an itkScalar.
    */
-  typedef typename T ScalarType;
+  typedef T ScalarType;
 
   /**
    * Get the dimension (size) of this scalar. The method is necessary
