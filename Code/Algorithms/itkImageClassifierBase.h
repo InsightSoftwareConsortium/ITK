@@ -103,7 +103,7 @@ public:
     MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
-  typedef Superclass::DecisionRuleType DecisionRuleType;
+  typedef typename Superclass::DecisionRuleType DecisionRuleType;
 
   /** Set the input image. */
   itkSetMacro(InputImage,InputImagePointer);

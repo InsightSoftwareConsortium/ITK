@@ -84,7 +84,7 @@ public:
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
 
-  typedef typename std::vector< MembershipFunctionPointer > 
+  typedef std::vector< MembershipFunctionPointer > 
     MembershipFunctionPointerVector;
 
   /** Type definitions for the training image. */
