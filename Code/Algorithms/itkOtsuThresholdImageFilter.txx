@@ -39,7 +39,7 @@ void
 OtsuThresholdImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Otsu Threshold for the input image
@@ -50,7 +50,7 @@ OtsuThresholdImageFilter<TInputImage, TOutputImage>
   otsu->Compute();
   m_Threshold = otsu->GetThreshold();
 
-  BinaryThresholdImageFilter<TInputImage,TOutputImage>::Pointer threshold =
+  typename BinaryThresholdImageFilter<TInputImage,TOutputImage>::Pointer threshold =
     BinaryThresholdImageFilter<TInputImage,TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold,.5f);
