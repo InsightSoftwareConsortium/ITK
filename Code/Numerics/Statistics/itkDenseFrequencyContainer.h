@@ -23,14 +23,17 @@
 #include "itkValarrayImageContainer.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class DenseFrequencyContainer 
- *  \brief his class is a container for an histogram.
+ *  \brief his class is a container for frequencies of bins in an histogram.
  *
- *  This class uses an map to store histogram. If your histogram is dense
- *  use DenseFrequencyContainer.  You should access each bin 
+ * This class uses the ValarrayImageContainer class to store
+ * frequencies. If the histogram has many zero frequency bins. 
+ * use SparseFrequencyContainer.  You should access each bin 
  * by (InstanceIdentifier)index or measurement vector.
+ *
+ * \sa Histogram, SparseFrequencyContainer
  */
     
 template< class TFrequencyValue = float >
@@ -49,25 +52,26 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** instance idenfitifer alias */
+  /** InstanceIdenfitifer type alias */
   typedef unsigned long InstanceIdentifier ;
 
-  /** frequency type alias */
+  /** Frequency type alias */
   typedef TFrequencyValue FrequencyType ;
 
-  /** Histogram typedef support */
+  /** Internal storage class typedefs */
   typedef ValarrayImageContainer< InstanceIdentifier, FrequencyType > 
   FrequencyContainerType ;
   typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer ;
 
-  /** calls the Initialize method of superclass to generate the offset table
+  /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */
   void Initialize(unsigned long length) ;
 
-  /** Method to set the frequency of histogram using instance identifier */
+  /** Sets the frequency of histogram using instance identifier */
   void SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
 
-  /** Method to increase the frequency by one.  This function is convinient
+  /** Increases the frequency of a bin specified by the
+   * InstanceIdentifier by one.  This function is convinient
    * to create histogram. */
   void IncreaseFrequency(const InstanceIdentifier id, 
                          const FrequencyType value);
@@ -75,6 +79,7 @@ public:
   /** Method to get the frequency of a bin from the histogram */
   FrequencyType GetFrequency(const InstanceIdentifier id) const ;
 
+  /** Gets the sum of the frequencies */
   FrequencyType GetTotalFrequency()
   { return m_TotalFrequency ; }
 
@@ -87,12 +92,12 @@ private:
   DenseFrequencyContainer(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  // Container of histogram
+  /** Internal storage */
   FrequencyContainerPointer m_FrequencyContainer ;
   FrequencyType  m_TotalFrequency ;
 } ; // end of class
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATIONy
