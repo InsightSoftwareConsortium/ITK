@@ -72,7 +72,7 @@ DataObjectError
   m_DataObject = dobj;
 }
 
-SmartPointer<DataObject>
+DataObject*
 DataObjectError
 ::GetDataObject()
 {

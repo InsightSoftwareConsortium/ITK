@@ -61,7 +61,7 @@ public:
   void SetDataObject(DataObject *dobj);
 
   /** Get the data object that is throwing this exception. */
-  SmartPointer<DataObject> GetDataObject();
+  DataObject* GetDataObject();
 
 protected:
   /** Print exception information.  This method can be overridden by
@@ -71,7 +71,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
     
 private:
-  SmartPointer<DataObject> m_DataObject;
+  DataObject* m_DataObject;
 };
 
   
