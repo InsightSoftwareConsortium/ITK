@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkFileOutputWindow.h"
+#include "itkStreamingImageFilter.h"
 
 int main()
 {
@@ -166,6 +167,13 @@ int main()
   upperfactors[1] = 15;
   constantPad->SetPadLowerBound(lowerfactors);
   constantPad->SetPadUpperBound(upperfactors);
+
+  // Create a stream
+  itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream;
+  stream = itk::StreamingImageFilter< ShortImage, ShortImage >::New();
+  stream->SetInput( constantPad->GetOutput() );
+  stream->SetNumberOfStreamDivisions(2);
+  
   
   if ((constantPad->GetPadUpperBound()[0] != upperfactors[0]) 
       || (constantPad->GetPadUpperBound()[1] != upperfactors[1])
@@ -176,11 +184,11 @@ int main()
     } 
   else 
     {
-      constantPad->UpdateLargestPossibleRegion();
-      requestedRegion = constantPad->GetOutput()->GetRequestedRegion();
+      stream->UpdateLargestPossibleRegion();
+      requestedRegion = stream->GetOutput()->GetRequestedRegion();
       
       itk::ImageRegionIterator<ShortImage>
-	iteratorIn2(constantPad->GetOutput(), requestedRegion);
+	iteratorIn2(stream->GetOutput(), requestedRegion);
       
       nextVal = 0;
       passed = true; 
