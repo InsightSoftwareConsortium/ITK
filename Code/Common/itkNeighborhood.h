@@ -20,7 +20,6 @@
 #include <valarray>
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
-#include "itkVectorComponentDataAccessor.h"
 
 namespace itk {
 
@@ -158,9 +157,9 @@ public:
   }
 
   /**
-   * Sets all of the scalar values in this neighborhood to a scalar constant.
+   * Sets all of the scalar values in this neighborhood to a pixel value..
    */
-  Self &operator=( const ScalarValueType v )
+  Self &operator=( const TPixel v )
   {
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
@@ -189,26 +188,12 @@ public:
   ScalarValueType InnerProduct(std::valarray<TPixel> &);
 
   /**
-   *
-   */
-  ScalarValueType InnerProduct(std::valarray<ScalarValueType> &, 
-              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
-
-  
-  /**
    * Slices the neighborhood and returns the slice's inner product with
    * the valarray argument.
    * \sa InnerProduct
    */
   ScalarValueType SlicedInnerProduct(const std::slice &,
                                            std::valarray<TPixel> &);
-
-  /**
-   *
-   */
-  ScalarValueType SlicedInnerProduct(const std::slice &,
-                                           std::valarray<ScalarValueType> &,
-              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
 
   /**
    * Returns the value of the center pixel in a Neighborhood.
@@ -277,40 +262,6 @@ public:
       }
   }
    
-  /**
-   * Returns a Neighborhood that is a mirror image of this Neighborhood across
-   * all its axes.
-   */
-  Self Mirror(void);
-  
-  /**
-   * Returns the sum of all the scalar pixel values in the Neighborhood.
-   */
-  ScalarValueType Sum()
-  {
-    // typename NumericTraits<TPixel>::AccumulateType accum
-    //      = NumericTraits<TPixel>::Zero;
-    ScalarValueType accum = NumericTraits<ScalarValueType>::Zero;
-    
-    for (Iterator it = this->Begin(); it < this->End(); ++it)
-      {
-        accum += *it;
-      }
-    return accum;
-  }
-
-  /**
-   * Returns a Neighborhood  whose scalar pixel values are incremented
-   * by a single scalar constant.
-   */
-  Self operator+(const ScalarValueType &) const;
-
-  /**
-   * Returns a Neighborhood whose scalar pixel values are all raised to
-   * a power.
-   */
-  Self pow(const double &) const;
-  
 };
 
   
