@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkNthElementImageAdaptor.h
+  Module:    itkNthElementImageAdaptor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

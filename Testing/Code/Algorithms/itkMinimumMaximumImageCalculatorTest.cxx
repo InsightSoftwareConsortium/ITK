@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: 
+  Module:    itkMinimumMaximumImageCalculatorTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

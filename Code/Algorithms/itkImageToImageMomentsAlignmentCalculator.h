@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSFile: $
+  Module:    itkImageToImageMomentsAlignmentCalculator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSFile: itkTranslationTransform.h.v $
+  Module:    itkTranslationTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

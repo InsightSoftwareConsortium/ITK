@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkRedPixelAccessor.h
+  Module:    itkRedPixelAccessor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkAcosImageAdaptor.h
+  Module:    itkFiniteDifferenceEquation.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

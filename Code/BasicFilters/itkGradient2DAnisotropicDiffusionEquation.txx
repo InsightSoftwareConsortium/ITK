@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkAcosImageAdaptor.h
+  Module:    itkGradient2DAnisotropicDiffusionEquation.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

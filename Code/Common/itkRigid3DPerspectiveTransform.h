@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSFile: itkRigid3DPerspectiveTransform.h.v $
+  Module:    itkRigid3DPerspectiveTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
