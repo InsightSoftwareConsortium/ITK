@@ -62,6 +62,7 @@ public:
  *  can be registered (even at run time) without having to modify the
  *  code in this class. (todo: how to use the pluggable)
  *
+ *  \deprecated Use itk::ImageFileFilter instead
  *  \ingroup IOFilters
  */
 template <class TOutputImage>
