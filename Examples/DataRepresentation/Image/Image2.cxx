@@ -28,7 +28,7 @@
 #include "itkImageFileReader.h"
 // Software Guide : EndCodeSnippet
 
-int main( int , char **  )
+int main( int , char ** argv)
 {
   // Software Guide : BeginLatex
   //
