@@ -4,11 +4,11 @@ library is intended to be shared among many projects.
 
 How to use KWSys from ITK:
 
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 
 bool MyIsDirectory(const char* fname)
 {
-  return itkkwsys::SystemTools::FileIsDirectory(fname);
+  return itksys::SystemTools::FileIsDirectory(fname);
 }
 
 How to modify KWSys:

@@ -15,7 +15,7 @@
   =========================================================================*/
 #include "itkGEAdwImageIO.h"
 #include "itkIOCommon.h"
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
@@ -82,7 +82,7 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
 
   std::cout << "foo6" << std::endl;
-  if ( imageSize != itkkwsys::SystemTools::FileLength(FileNameToRead) )
+  if ( imageSize != itksys::SystemTools::FileLength(FileNameToRead) )
     {
     return false;
     }

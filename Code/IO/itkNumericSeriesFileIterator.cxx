@@ -21,7 +21,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 #include "itkNumericSeriesFileIterator.h"
 //#include "itkIOCommon.h"
 #include <stdio.h>
@@ -83,7 +83,7 @@ const std::string& NumericSeriesFileIterator::Begin()
     for (idx=m_StartIndex; idx < m_EndIndex; idx++ )
       {
       this->ProduceNextFileName( idx );
-      if ( ! itkkwsys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
+      if ( ! itksys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
         {
         if ( m_ThrowExceptionOnMissingFile )
           {
@@ -129,7 +129,7 @@ const std::string& NumericSeriesFileIterator::operator++()
           idx++ )
       {
       this->ProduceNextFileName( idx );
-      if ( ! itkkwsys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
+      if ( ! itksys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
         {
         if ( m_ThrowExceptionOnMissingFile )
           {
@@ -186,7 +186,7 @@ const std::string& NumericSeriesFileIterator::operator--()
           idx >= m_StartIndex; idx-- )
       {
       this->ProduceNextFileName( idx );
-      if ( ! itkkwsys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
+      if ( ! itksys::SystemTools::FileExists(m_CurrentFileName.c_str()) )
         {
         if ( m_ThrowExceptionOnMissingFile )
           {

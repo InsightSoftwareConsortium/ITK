@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageFileReader.h"
 #include "itkImage.h"
 
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 #include "itkImageRegionIterator.h"
 #include <iostream>
 #include <fstream>
@@ -282,7 +282,7 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
   if(ac > 1) {
     char *testdir = *++av;
     --ac;
-    itkkwsys::SystemTools::ChangeDirectory(testdir);
+    itksys::SystemTools::ChangeDirectory(testdir);
   }
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
     {
@@ -385,7 +385,7 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
   if(ac > 1) {
     char *testdir = *++av;
     --ac;
-    itkkwsys::SystemTools::ChangeDirectory(testdir);
+    itksys::SystemTools::ChangeDirectory(testdir);
   }
   if(ac != 3)
     return 1;

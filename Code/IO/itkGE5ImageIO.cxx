@@ -17,7 +17,7 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkDirectory.h"
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -52,13 +52,13 @@ int GE5ImageIO
 {
   //
   // Does it exist?
-  if(!itkkwsys::SystemTools::FileExists(imageFileTemplate))
+  if(!itksys::SystemTools::FileExists(imageFileTemplate))
     {
     return -1;
     }
   //
   // is it at least 5000 bytes?
-  if(itkkwsys::SystemTools::FileLength(imageFileTemplate) < 5000)
+  if(itksys::SystemTools::FileLength(imageFileTemplate) < 5000)
     {
     return -1;
     }
@@ -316,7 +316,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       }
     else
       {
-      curImage->offset = itkkwsys::SystemTools::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
+      curImage->offset = itksys::SystemTools::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
       }
 
   strncpy (curImage->filename,FileNameToRead, IOCommon::ITK_MAXPATHLEN+1);

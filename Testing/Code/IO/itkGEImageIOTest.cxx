@@ -6,7 +6,7 @@
 #include "itkExceptionObject.h"
 #include "itkImageFileReader.h"
 #include "itkImage.h"
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 
 typedef itk::Image<signed short, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;
@@ -19,7 +19,7 @@ int itkGEImageIOTest(int ac, char * av[])
   if(ac > 1) {
     char *testdir = *++av;
     --ac;
-    itkkwsys::SystemTools::ChangeDirectory(testdir);
+    itksys::SystemTools::ChangeDirectory(testdir);
   }
   if(ac != 4)
     return 1;

@@ -17,7 +17,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkkwsys/SystemTools.hxx>
+#include <itksys/SystemTools.hxx>
 #include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
 #include "itkExceptionObject.h"
@@ -177,7 +177,7 @@ void IPLCommonImageIO::ReadImageInformation()
   char imageMask[IOCommon::ITK_MAXPATHLEN+1];
   char imagePath[IOCommon::ITK_MAXPATHLEN+1];
   std::string _imagePath =
-    itkkwsys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+    itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
 
   if(_imagePath == "")
     RAISE_EXCEPTION();

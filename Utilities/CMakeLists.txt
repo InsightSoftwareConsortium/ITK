@@ -14,8 +14,11 @@ ENDIF (NOT ITK_USE_SYSTEM_STDLIB)
 # Install the UseITK.cmake file configured from the top-level.
 INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")
 
-# Build the KWSys library in the itkkwsys namespace.
-SET(KWSYS_NAMESPACE itkkwsys)
+#-----------------------------------------------------------------------------
+# Create the kwsys library for ITK.
+SET(KWSYS_NAMESPACE itksys)
+SET(KWSYS_USE_SystemTools 1)
+SET(KWSYS_HEADER_ROOT ${ITK_BINARY_DIR}/Utilities)
 SET(KWSYS_LIBRARY_INSTALL_DIR /lib/InsightToolkit)
 SET(KWSYS_INCLUDE_INSTALL_DIR /include/InsightToolkit/Utilities)
 SUBDIRS(kwsys)
