@@ -242,8 +242,8 @@ private:
  std::ostream &
  operator<< (std::ostream &s, Rigid3DPerspectiveTransform<ScalarType> &transf)
  {
-     s << transf.m_Offset << std::endl;
-     s << transf.m_Rotation << std::endl;
+     s << transf.GetOffset() << std::endl;
+     s << transf.GetRotation() << std::endl;
      return s;
  }
 
