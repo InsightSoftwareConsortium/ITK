@@ -50,15 +50,15 @@ namespace itk
 
 /**
  * \class RecursiveMultiResolutionPyramidImageFilter
- * \brief Create multi-resolutin pyramid using a recursive implementation.
+ * \brief Creates a multi-resolutin pyramid using a recursive implementation.
  *
  * RecursiveMultiResolutionPyramidImageFilter creates an
- * image pryamid according to a users defined 
+ * image pryamid according to a user defined 
  * multi-resolution schedule.
  *
- * If a schedule is downward divisible are fast recursive implementation
- * is used to generate the outputs. If the schedule is not downward
- * divisible the superclass MultiResolutionPyramidImageFilter implementation
+ * If a schedule is downward divisible, a fast recursive implementation
+ * is used to generate the output images. If the schedule is not downward
+ * divisible the superclass (MultiResolutionPyramidImageFilter) implementation
  * is used instead. A schedule is downward divisible if at every level,
  * the shrink factors are divisible by the shrink factors at the
  * next level for the same dimension.
@@ -74,6 +74,8 @@ namespace itk
  * This filter supports streaming.
  *
  * \sa MultiResolutionPyramidImageFilter
+ *
+ * \ingroup PyramidImageFilter
  *
  */
 template <
@@ -92,7 +94,8 @@ public:
   /**
    * Standard "Superclass" typedef
    */
-  typedef MultiResolutionPyramidImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef MultiResolutionPyramidImageFilter<TInputImage,TOutputImage>  
+    Superclass;
 
   /**
    * SmartPointer typedef support
@@ -108,7 +111,8 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, MultiResolutionPyramidImageFilter);
+  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, 
+    MultiResolutionPyramidImageFilter);
 
   /**
    * ImageDimension enumeration
@@ -124,8 +128,9 @@ public:
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
   /**
-   * Given one output whose requested region has been set, set
-   * the requtested region for the remaining objects.
+   * Given one output whose requested region has been set, 
+   * this method sets the requtested region for the remaining
+   * output images.
    * The original documentation of this method is below.
    *
    * \sa ProcessObject::GenerateOutputRequestedRegion();
@@ -133,10 +138,12 @@ public:
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
   /**
-   * MultiResolutionPyramid requires all of the input to be in the
-   * buffer. As such, MultiResolutionPyramid needs to provide an
-   * implemenation for GenerateInputRequestedRegion().
-   * The original documenation of this method is below.
+   * RecursiveMultiResolutionPyramidImageFilter requires a larger input 
+   * requested region than the output requested regions to accomdate the 
+   * shrinkage and smoothing operations. 
+   * As such, MultiResolutionPyramidImageFilter
+   * needs to provide an implementation for GenerateInputRequestedRegion().
+   * The original documentation of this method is below.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
@@ -149,6 +156,9 @@ protected:
   void operator=(const Self&) {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
+  /**
+   * Generate the output data.
+   */
   void GenerateData();
 
 };

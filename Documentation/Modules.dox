@@ -148,8 +148,14 @@ For a detailed description of iterators rationale see \ref ImageIteratorsPage
  Geometric transformation Filters transform the coordinates of an image in various ways. 
  Examples of geometric transformation Filters available in ITK are: image shrinking, and 
  affine transformation.
-*/  
+*/ 
 
+/**
+ \defgroup PyramidImageFilter Image Pyramid Filters
+ \ingroup GeometricTransforms
+ Image pyramid filters generate a set of downsampled versions of an image according
+ to a user defined multi-resolution schedule.
+*/ 
 
 /**
  \defgroup ImageSegmentation Image Segmentation Filters

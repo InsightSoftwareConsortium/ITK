@@ -54,7 +54,7 @@ namespace itk
  * pyramid.
  *
  * MultiResolutionPyramidImageFilter provides a generic framework to
- * to create a image pryamid according to a users defined 
+ * to create a image pryamid according to a user defined 
  * multi-resolution schedule.
  * 
  * The multi-resolution schedule is specified in terms for
@@ -106,14 +106,15 @@ namespace itk
  * 2 2 1
  * 1 1 1
  *
- * When this filter is updated, NumberOfLevel outputs are produced.
- * The n'th output correspond to the n'th level of the pyramid.
+ * When this filter is updated, NumberOfLevels outputs are produced.
+ * The N'th output correspond to the N'th level of the pyramid.
  * 
- * To generate each output image, Gaussian smoothing is first performed using
- * a DiscreteGaussianImageFilter with variance (shrink factor / 2)^2. 
+ * To generate each output image, Gaussian smoothing is first performed 
+ * using a DiscreteGaussianImageFilter with variance (shrink factor / 2)^2. 
  * The smoothed image is then downsampled using a ShrinkImageFiter.
  *
- * This class is templated over the input image type and the output image type.
+ * This class is templated over the input image type and the output image 
+ * type.
  *
  * This filter uses multithreaded filters to perform the smoothing and
  * downsampling.
@@ -123,7 +124,7 @@ namespace itk
  * \sa DiscreteGaussianImageFilter
  * \sa ShrinkImageFilter
  *
- * \ingroup ImageRegistration
+ * \ingroup PyramidImageFilter
  *
  */
 template <
@@ -234,9 +235,9 @@ public:
   static bool IsScheduleDownwardDivisible( const ScheduleType& schedule );
 
   /**
-   * MultiResolutionPyramid produces an image which is a different
-   * resolution and with a different pixel spacing than its input
-   * image.  As such, MultiResolutionPyramid needs to provide an
+   * MultiResolutionPyramidImageFilter produces images which are of 
+   * different resolution and different pixel spacing than its input
+   * image.  As such, MultiResolutionPyramidImageFilter needs to provide an
    * implementation for GenerateOutputInformation() in order to inform
    * the pipeline execution model.  The original documentation of this
    * method is below.
@@ -246,8 +247,9 @@ public:
   virtual void GenerateOutputInformation();
 
   /**
-   * Given one output whose requested region has been set, set
-   * the requtested region for the remaining objects.
+   * Given one output whose requested region has been set, 
+   * this method sets the requtested region for the remaining
+   * output images.
    * The original documentation of this method is below.
    *
    * \sa ProcessObject::GenerateOutputRequestedRegion();
@@ -255,10 +257,11 @@ public:
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
   /**
-   * MultiResolutionPyramid requires all of the input to be in the
-   * buffer. As such, MultiResolutionPyramid needs to provide an
-   * implemenation for GenerateInputRequestedRegion().
-   * The original documenation of this method is below.
+   * MultiResolutionPyramidImageFilter requires a larger input requested
+   * region than the output requested regions to accomdate the shrinkage
+   * and smoothing operations. As such, MultiResolutionPyramidImageFilter
+   * needs to provide an implementation for GenerateInputRequestedRegion().
+   * The original documentation of this method is below.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    */
@@ -271,6 +274,9 @@ protected:
   void operator=(const Self&) {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
+  /** 
+   * Generate the output data.
+   */
   void GenerateData();
 
   double          m_MaximumError; 
