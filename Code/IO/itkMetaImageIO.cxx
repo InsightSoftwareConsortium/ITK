@@ -293,6 +293,10 @@ MetaImageIO
   m_MetaImage.BinaryData(binaryData);
 
   m_MetaImage.Write(m_FileName.c_str());
+
+  delete dSize;
+  delete eSpacing;
+  delete eOrigin;
   } 
 
 
