@@ -85,7 +85,7 @@ int main(int ac, char** av)
   renderer->AddActor(actor);
   // interact with data
   renWin->Render();
-  char c; cin >> c;
+  char c; std::cin >> c;
   iren->Start();
 #endif
   return 0;
