@@ -31,7 +31,7 @@
 //
 // The following example illustrates the use of
 // \doxygen{ImageRegionIteratorWithIndex}.  This algorithm mirrors
-// a 2D image across its $x$-axis (see \doxygen{FlipImageAxis} for an ND
+// a 2D image across its $x$-axis (see \doxygen{FlipImageFilter} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
 // method.
 //
