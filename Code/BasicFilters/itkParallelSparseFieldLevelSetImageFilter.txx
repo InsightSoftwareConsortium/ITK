@@ -1371,7 +1371,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
   typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;
-  float norm_grad_phi_squared, dx_forward, dx_backward;
+  ValueType norm_grad_phi_squared, dx_forward, dx_backward;
+  ValueType centerValue, forwardValue, backwardValue;
   const float MIN_NORM = 1.0e-6;
   
   ConstNeighborhoodIterator<OutputImageType> outputIt (df->GetRadius(), m_OutputImage,
@@ -1396,32 +1397,57 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     // Calculate the offset to the surface from the center of this
     // neighborhood.  This is used by some level set functions in sampling a
     // speed, advection, or curvature term.
-    if (this->m_InterpolateSurfaceLocation)
+    if (this->m_InterpolateSurfaceLocation &&
+        (centerValue=outputIt.GetCenterPixel()) != NumericTraits<ValueType>::Zero)
       {
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the
       // neighborhood.  The location is therefore
-      // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
+      // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2
       norm_grad_phi_squared = 0.0;
+      
       for (i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
         {
-        dx_forward = outputIt.GetPixel(center + m_NeighborList.GetStride(i))
-          - outputIt.GetCenterPixel();
-        dx_backward = outputIt.GetCenterPixel()
-          - outputIt.GetPixel(center - m_NeighborList.GetStride(i));
-              
-        if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
+        forwardValue = outputIt.GetPixel(center + m_NeighborList.GetStride(i));
+        backwardValue= outputIt.GetPixel(center - m_NeighborList.GetStride(i));
+        
+        if (forwardValue * backwardValue >= 0)
           {
-          offset[i] = dx_forward;
+            // 1. both neighbors have the same sign OR at least one of them is ZERO
+            dx_forward = forwardValue - centerValue;
+            dx_backward= centerValue - backwardValue;
+            
+            // take the one-sided derivative with the larger magnitude
+            if (vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward))
+              {
+                offset[i]= dx_forward;
+              }
+            else if (vnl_math_abs(dx_forward) < vnl_math_abs(dx_backward))
+              {
+                offset[i]= dx_backward;
+              }
+            else
+              {
+                offset[i]= (dx_forward + dx_backward) / 2.0;
+              }
           }
         else
           {
-          offset[i] = dx_backward;
+            // 2. neighbors have opposite sign
+            // take the one-sided derivative using the neighbor that has the opposite sign w.r.t. oneself
+            if (centerValue * forwardValue < 0)
+              {
+                offset[i]= forwardValue - centerValue;
+              }
+            else
+              {
+                offset[i]= centerValue - backwardValue;
+              }
           }
-
+        
         norm_grad_phi_squared += offset[i] * offset[i];
         }
-
+      
       for (i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
         {
         offset[i] = ( offset[i] * outputIt.GetCenterPixel() )
