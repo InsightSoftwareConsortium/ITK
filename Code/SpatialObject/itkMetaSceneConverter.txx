@@ -129,16 +129,6 @@ MetaSceneConverter<NDimensions,PixelType>
   while(it != itEnd)
   {
     /** New object goes here */
-    if(!strncmp((*it)->ObjectTypeName(),"Landmark",8))
-    {
-      MetaLandmarkConverter<NDimensions> landmarkConverter;
-      typename itk::LandmarkSpatialObject<NDimensions>::Pointer so =
-          landmarkConverter.MetaLandmarkToLandmarkSpatialObject
-        ((MetaLandmark*)*it);
-      this->SetTransform(so, *it) ;
-      soScene->AddSpatialObject( so );
-    }
-
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
       MetaTubeConverter<NDimensions> tubeConverter;
