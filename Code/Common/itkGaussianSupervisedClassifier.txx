@@ -168,25 +168,25 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
   //Loop through the classes to calculate the means and
 
-  for( int classIndex = 0; classIndex < m_NumClasses; classIndex++ )
+  for( unsigned int classIndex = 0; classIndex < m_NumClasses; classIndex++ )
   {
     if( m_NumSamples[classIndex][0] != 0 )
     {
-      for(int i=0; i<m_VecDim;i++)
+      for(unsigned int i=0; i<m_VecDim;i++)
       m_Means[classIndex][i] /= m_NumSamples[classIndex][0];
     }// end if
        
     else 
     {
-      for(int i=0; i<m_VecDim;i++) 
+      for(unsigned int i=0; i<m_VecDim;i++) 
         m_Means[classIndex][i] = 0;
     }// end else
     
     if( ( m_NumSamples[classIndex][0] - 1 ) != 0 )
     {
-      for( int band_x = 0; band_x < m_VecDim; band_x++ )
+      for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
       {
-        for( int band_y=0; band_y <= band_x; band_y++ )
+        for( unsigned int band_y=0; band_y <= band_x; band_y++ )
         {
           m_Covariance[classIndex][band_x][band_y] 
             /= (m_NumSamples[classIndex][0]-1);
@@ -196,8 +196,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
         
      else
      {
-       for( int band_x = 0; band_x < m_VecDim; band_x++ )
-         for( int band_y = 0; band_y <= band_x; band_y++ )
+       for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
+         for( unsigned int band_y = 0; band_y <= band_x; band_y++ )
            m_Covariance[classIndex][band_x][band_y] = 0;
      }// end else
 
@@ -205,9 +205,9 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     tempMeanSq.resize( m_VecDim, m_VecDim );
     tempMeanSq.fill(NULL);
 
-    for( int band_x = 0; band_x < m_VecDim; band_x++)
+    for( unsigned int band_x = 0; band_x < m_VecDim; band_x++)
     {
-      for(int band_y=0; band_y<=band_x; band_y++)
+      for(unsigned int band_y=0; band_y<=band_x; band_y++)
       {
         tempMeanSq[band_x][band_y] = 
           m_Means[classIndex][band_x] * m_Means[classIndex][band_y];
@@ -224,9 +224,9 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     // Fill the rest of the covairance matrix and make it symmetric
     if(m_NumSamples[classIndex][0] > 0)
     {
-      for(int band_x = 0; band_x < (m_VecDim-1); band_x++)
+      for(unsigned int band_x = 0; band_x < (m_VecDim-1); band_x++)
       {
-        for(int band_y=band_x+1; band_y< m_VecDim; band_y++)
+        for(unsigned int band_y=band_x+1; band_y< m_VecDim; band_y++)
         {  
           m_Covariance[classIndex][band_x][band_y] 
             = m_Covariance[classIndex][band_y][band_x];

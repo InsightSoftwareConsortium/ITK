@@ -73,10 +73,10 @@ void NeighborhoodBase<TPixel, VDimension>
   std::cout << "        this = " << this << std::endl;
   std::cout << "  VDimension = " << VDimension << std::endl;
   std::cout << "    m_Radius = { ";
-  for (int i = 0; i<VDimension; i++) std::cout << m_Radius[i] << " ";
+  for (unsigned int i = 0; i<VDimension; i++) std::cout << m_Radius[i] << " ";
   std::cout << "}" << std::endl;
   std::cout << "    m_Size   = { ";
-  for (int i = 0; i<VDimension; i++) std::cout << m_Size[i] << " ";
+  for (unsigned int i = 0; i<VDimension; i++) std::cout << m_Size[i] << " ";
   std::cout << "}" << std::endl;
 }
 
