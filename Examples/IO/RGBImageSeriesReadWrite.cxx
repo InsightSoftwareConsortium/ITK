@@ -34,16 +34,17 @@
 #include "itkImageSeriesReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNumericSeriesFileNames.h"
+#include "itkPNGImageIO.h"
 // Software Guide : EndCodeSnippet
 
 
 int main( int argc, char ** argv )
 {
   // Verify the number of parameters in the command line
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputRGBImageFile  outputRGBImageFile " << std::endl;
+    std::cerr << argv[0] << "first last  outputRGBImageFile " << std::endl;
     return -1;
     }
 
@@ -59,8 +60,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >   PixelType;
-  typedef itk::Image< PixelType, 2 >       ImageType;
+  typedef itk::RGBPixel< unsigned char >        PixelType;
+  const unsigned int Dimension = 3;
+
+  typedef itk::Image< PixelType, Dimension >    ImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -83,20 +86,37 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-  const char * inputFilename  = argv[1];
-  const char * outputFilename = argv[2];
+  const unsigned int first = atoi( argv[1] );
+  const unsigned int last  = atoi( argv[2] );
 
+  const char * outputFilename = argv[3];
 
   // Software Guide : BeginCodeSnippet
   typedef itk::NumericSeriesFileNames    NameGeneratorType;
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
    
-  nameGenerator->SetStartIndex( 0 );
-  nameGenerator->SetEndIndex( 100 );
+  nameGenerator->SetStartIndex( first );
+  nameGenerator->SetEndIndex( last );
   nameGenerator->SetIncrementIndex( 1 );
-  nameGenerator->SetSeriesFormat("file%4d.png");
+
+  nameGenerator->SetSeriesFormat( "vwe%04d.png" );
   // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The ImageIO object that actually performs the read process
+  //  is now connected to the ImageSeriesReader.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  reader->SetImageIO( itk::PNGImageIO::New() );
+  // Software Guide : EndCodeSnippet
+
+
 
 
   //  Software Guide : BeginLatex
@@ -108,9 +128,19 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   reader->SetFileNames( nameGenerator->GetFileNames()  );
+
   writer->SetFileName( outputFilename );
   // Software Guide : EndCodeSnippet
 
+  try
+    { 
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error reading the series " << std::endl;
+    std::cerr << excp << std::endl;
+    }
 
   ImageType::Pointer image = reader->GetOutput();
   writer->SetInput( image );
