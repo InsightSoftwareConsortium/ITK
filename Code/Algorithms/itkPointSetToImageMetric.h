@@ -148,6 +148,16 @@ public:
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters ) const;
 
+  /** Set/Get the flag for computing the image gradient. 
+   *  When ON the metric derivative is computed using the Jacobian of the
+   *  transformation and the image gradient. When OFF the metric derivative
+   *  is computed by finite differences. Mode ON results in higher speed 
+   *  at the price of large memory footprint. Mode OFF results in small
+   *  memory footprint at the price of large computation time
+   */
+  itkSetMacro(      ComputeGradient, bool );
+  itkGetConstMacro( ComputeGradient, bool );
+
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 
   { return m_Transform->GetNumberOfParameters(); }
