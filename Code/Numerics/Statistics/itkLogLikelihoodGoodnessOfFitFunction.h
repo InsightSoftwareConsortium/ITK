@@ -57,7 +57,8 @@ public:
   itkNewMacro(Self) ;
 
   /** typedefs from InputHistogram */
-  enum { MeasurementVectorSize = TInputHistogram::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
+                      TInputHistogram::MeasurementVectorSize) ;
   typedef typename TInputHistogram::MeasurementType MeasurementType ;
   typedef typename TInputHistogram::MeasurementVectorType MeasurementVectorType ;
 

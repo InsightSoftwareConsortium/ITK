@@ -89,7 +89,8 @@ public:
   itkNewMacro(Self) ;
 
   typedef TInputSample InputSampleType ;
-  enum { MeasurementVectorSize = TInputSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
+                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 

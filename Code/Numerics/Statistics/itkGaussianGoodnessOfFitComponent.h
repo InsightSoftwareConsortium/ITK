@@ -59,8 +59,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
-  /** typedefs from Superclass */
-  enum { MeasurementVectorSize = TInputSample::MeasurementVectorSize } ;
+  /** typedefs from input sample */
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 
@@ -86,13 +87,13 @@ public:
   CovarianceCalculatorType ;
 
   /** Default projection axis calculator type*/
-  typedef SymmetricEigenSystem< double, MeasurementVectorSize > 
+  typedef SymmetricEigenSystem< double, itkGetStaticConstMacro(MeasurementVectorSize) > 
   ProjectionAxisCalculatorType ;
 
   /** Gets the size of parameters which consists of mean
    * and standard deviation */
   unsigned int GetNumberOfParameters() const
-  { return (unsigned int)(MeasurementVectorSize + 1) ; }
+  { return (unsigned int)(itkGetStaticConstMacro(MeasurementVectorSize) + 1) ; }
 
   /** Sets the component distribution parameters */
   void SetParameters(const ParametersType &parameter) ;

@@ -61,7 +61,8 @@ public:
   itkNewMacro(Self) ;
 
   /** Enums and typedefs from the TInputSample */
-  enum { MeasurementVectorSize = TInputSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
+                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::FrequencyType FrequencyType ;
@@ -71,10 +72,12 @@ public:
   typedef typename Superclass::InputSampleType InputSampleType ;
 
   /** 1D array typedef */
-  typedef FixedArray< double, MeasurementVectorSize > ArrayType ;
+  typedef FixedArray< double, 
+                      itkGetStaticConstMacro(MeasurementVectorSize) > ArrayType ;
 
   /** The center of the histogram */
-  typedef Vector< double, MeasurementVectorSize > MeanType ;
+  typedef Vector< double, 
+                  itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
 
   /** Type of the output object */
   typedef Histogram< THistogramMeasurement, 1 > HistogramType ;

@@ -230,7 +230,8 @@ public:
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
 
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
+                      TSample::MeasurementVectorSize) ;
 
   typedef EuclideanDistance< MeasurementVectorType > DistanceMetricType ;
   typedef typename DistanceMetricType::Pointer DistanceMetricPointer ;

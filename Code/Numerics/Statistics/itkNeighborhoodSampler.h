@@ -57,7 +57,8 @@ public:
   typedef TSample SampleType ;
 
   /** Enums and typedefs from the TSample */
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
+                      TSample::MeasurementVectorSize) ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::FrequencyType FrequencyType ;

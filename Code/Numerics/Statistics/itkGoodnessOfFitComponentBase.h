@@ -91,7 +91,8 @@ public:
   itkTypeMacro(GoodnessOfFitComponentBase, Object) ;
   
   typedef TInputSample InputSampleType ;
-  enum { MeasurementVectorSize = TInputSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 
@@ -104,8 +105,9 @@ public:
 
   typedef Array< double > ParametersType ;
 
-  typedef FixedArray< double, MeasurementVectorSize > CenterType ;
-  typedef Vector< double, MeasurementVectorSize > MeanType ;
+  typedef FixedArray< double, 
+                      itkGetStaticConstMacro(MeasurementVectorSize) > CenterType ;
+  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
   typedef double RadiusType ;
   typedef double StandardDeviationType ;
 
@@ -201,8 +203,11 @@ protected:
   /** projection axis array type. The type of output from 
    * CalculateProjectionAxis(). The number of projection axis are fixed 
    * equal to the number of components of a measurement vector*/
-  typedef FixedArray< double, MeasurementVectorSize > ProjectionAxisType ;
-  typedef FixedArray< ProjectionAxisType, MeasurementVectorSize > 
+  typedef FixedArray< double, 
+                      itkGetStaticConstMacro(MeasurementVectorSize) > 
+  ProjectionAxisType ;
+  typedef FixedArray< ProjectionAxisType, 
+                      itkGetStaticConstMacro(MeasurementVectorSize) > 
   ProjectionAxisArrayType;
 
   ProjectionAxisArrayType* GetProjectionAxes()
