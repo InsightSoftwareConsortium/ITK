@@ -27,46 +27,56 @@
 
 /** \class HistogramToImageFilter
  *  \brief This class takes a histogram as an input and returns an image of
- *  unsigned long. 
+ *  type specified by the functor. 
  *
  *  The dimension of the image is equal to the size of each measurement
  *  vector of the histogram. The size in the image along each dimension will be 
  *  equal to the number of bins along each dimension of the histogram.
  *
  *  The filter may be used in registration methods to plot the joint histogram
- *  after every iteration.
+ *  after every iteration. A functor is used since it is customary to plot
+ *  p log p    where p is the probability of each measurement vector 
+ *  p is given by Number of occurances of the measurement vector / total number 
+ *  of occurances of all measurement vectors.
+ *
+ *  \sa HistogramToProbabilityImageFilter, HistogramToLogProbabilityImageFilter,
+ *  HistogramToIntensityImageFilter, HistogramToEntropyImageFilter
  *
  */
 
 namespace itk
 {
 
-template <class THistogram>
+template <class THistogram, class TFunction>
 class ITK_EXPORT HistogramToImageFilter :
-  public ImageSource<Image<unsigned long, 
+  public ImageSource<Image< typename TFunction::OutputPixelType , 
   ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
 {
 public:
 
   /** Standard class typedefs. */
+  typedef TFunction                            FunctorType;
+  typedef typename FunctorType::OutputPixelType           OutputPixelType;
   typedef HistogramToImageFilter               Self;
-  typedef ImageSource< Image<unsigned long, 
-  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
-                                                                    Superclass;
+  typedef ImageSource< Image<OutputPixelType, 
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >           
+                                                                       Superclass;
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>             ConstPointer;
   
-  typedef Image<unsigned long, 
-  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> 
-                                                                OutputImageType; 
+  typedef Image<OutputPixelType, 
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension >           
+    OutputImageType; 
   typedef typename Superclass::Pointer    OutputImagePointer;
   typedef typename OutputImageType::SpacingType SpacingType;
   typedef typename OutputImageType::PointType PointType;
+
+  typedef typename TFunction::OutputPixelType OutputPixelType;
   
   // Define an iterator to iterate through the image
-  typedef itk::ImageRegionIteratorWithIndex< Image<unsigned long, 
-  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
-                                                              ImageIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< Image<OutputPixelType, 
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >           
+                                                             ImageIteratorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,7 +99,7 @@ public:
   
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension  );
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension );
   
   /** Set/Get the input of this process object.  */
   virtual void SetInput( const HistogramType *histogram);
@@ -118,17 +128,43 @@ public:
   /** Get the size of the histogram. */
   itkGetMacro(Size,HistogramSizeType);
 
+
+  /** Set the functor object.  This replaces the current Functor with a
+   * copy of the specified Functor. This allows the user to specify a
+   * functor that has ivars set differently than the default functor.
+   * This method requires an operator!=() be defined on the functor
+   * (or the compiler's default implementation of operator!=() being
+   * appropriate). */
+  void SetFunctor(const FunctorType& functor)
+  {
+    m_Functor = functor;
+    this->Modified();
+  }
+  /** Get the functor object.  The functor is returned by reference.
+   * (Functors do not have to derive from itk::LightObject, so they do
+   * not necessarily have a reference count. So we cannot return a
+   * SmartPointer.) */
+  FunctorType& GetFunctor() { return m_Functor; };
+  const FunctorType& GetFunctor() const { return m_Functor; };
+  
+  void SetTotalFrequency( unsigned long n );
+  
+
+  
 protected:
   HistogramToImageFilter();
   ~HistogramToImageFilter();
 
   virtual void GenerateOutputInformation(){}; // do nothing
   virtual void GenerateData();
-
+  
+  FunctorType m_Functor;
+  
   SizeType        m_Size;
   SpacingType     m_Spacing;
   PointType       m_Origin;
 
+  
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
