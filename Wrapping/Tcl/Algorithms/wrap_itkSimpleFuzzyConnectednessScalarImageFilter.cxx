@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKAlgorithms.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(SimpleFuzzyConnectednessScalarImageFilter);
+#define ITK_WRAP_SFCSIF(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(SimpleFuzzyConnectednessScalarImageFilter, x)
+
+ITK_WRAP_CONFIG_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_SFCSIF(F2);
+ITK_WRAP_SFCSIF(F3);
+ITK_WRAP_SFCSIF(US2);
+ITK_WRAP_SFCSIF(US3);
 
 #endif

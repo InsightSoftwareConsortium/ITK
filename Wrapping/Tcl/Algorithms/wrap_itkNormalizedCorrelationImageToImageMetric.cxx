@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKAlgorithms.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(NormalizedCorrelationImageToImageMetric);
+#define ITK_WRAP_NCITIM(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(NormalizedCorrelationImageToImageMetric, x)
+
+ITK_WRAP_CONFIG_GROUP(itkNormalizedCorrelationImageToImageMetric);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_NCITIM(F2);
+ITK_WRAP_NCITIM(F3);
+ITK_WRAP_NCITIM(US2);
+ITK_WRAP_NCITIM(US3);
 
 #endif

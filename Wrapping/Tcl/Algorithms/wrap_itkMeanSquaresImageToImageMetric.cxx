@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKAlgorithms.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(MeanSquaresImageToImageMetric);
+#define ITK_WRAP_MSITIM(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(MeanSquaresImageToImageMetric, x)
+
+ITK_WRAP_CONFIG_GROUP(itkMeanSquaresImageToImageMetric);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_MSITIM(F2);
+ITK_WRAP_MSITIM(F3);
+ITK_WRAP_MSITIM(US2);
+ITK_WRAP_MSITIM(US3);
 
 #endif

@@ -23,91 +23,142 @@
 // Useful group reference macro.
 #define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE "_" #x
 
-// Helper to wrap a non-templated class.
-#define ITK_WRAP_OBJECT_TYPEDEF(x) \
-  typedef ::itk::x x; \
-  typedef ::itk::x::Pointer x##_Pointer
+// Wrapper configuration namespace helpers.
+#define ITK_WRAP_NAMESPACE_OPEN \
+  namespace _cable_ { namespace wrappers { namespace itk {  
+#define ITK_WRAP_NAMESPACE_CLOSE } } }
+#define ITK_WRAP_NAMESPACE_USING using namespace _cable_::wrappers::itk;
 
-// Helper to wrap a non-templated class.
-#define ITK_WRAP_OBJECT_SIZEOF(x) \
-  sizeof(x); \
-  sizeof(x##_Pointer)
-
-// Wrap a class that takes one image argument.
-#define ITK_WRAP_IMAGE_SINK(s) ITK_WRAP_IMAGE_SOURCE(s)
-#define ITK_WRAP_IMAGE_SOURCE(s) \
+// Configure the group setting for a group of wrappers.
+#define ITK_WRAP_CONFIG_GROUP(g) \
   namespace _cable_ \
   { \
-    const char* const group = ITK_WRAP_GROUP(itk##s); \
+    const char* const group = ITK_WRAP_GROUP(g); \
+  }
+
+// Define the image typedefs needed for other image wrappers.
+#define ITK_WRAP_DEFINE_IMAGE_TYPES() \
+  namespace _cable_ \
+  { \
     typedef ::itk::Image<float, 2> ImageF2; \
     typedef ::itk::Image<float, 3> ImageF3; \
     typedef ::itk::Image<unsigned short, 2> ImageUS2; \
     typedef ::itk::Image<unsigned short, 3> ImageUS3; \
-    namespace wrappers \
-    { \
-      namespace itk \
-      { \
-        ITK_WRAP_IMAGE_SOURCE_TYPEDEF(s, F2); \
-        ITK_WRAP_IMAGE_SOURCE_TYPEDEF(s, F3); \
-        ITK_WRAP_IMAGE_SOURCE_TYPEDEF(s, US2); \
-        ITK_WRAP_IMAGE_SOURCE_TYPEDEF(s, US3); \
-      } \
-    } \
-  } \
-  void force_instantiate() \
-  { \
-    using namespace _cable_::wrappers::itk; \
-    ITK_WRAP_IMAGE_SOURCE_SIZEOF(s, F2); \
-    ITK_WRAP_IMAGE_SOURCE_SIZEOF(s, F3); \
-    ITK_WRAP_IMAGE_SOURCE_SIZEOF(s, US2); \
-    ITK_WRAP_IMAGE_SOURCE_SIZEOF(s, US3); \
   }
 
-#define ITK_WRAP_IMAGE_SOURCE_TYPEDEF(s, x) \
-  typedef ::itk::s< Image##x > \
-          s##x; \
-  typedef s##x::Pointer s##x##_Pointer
-
-#define ITK_WRAP_IMAGE_SOURCE_SIZEOF(s, x) \
-  sizeof(s##x); \
-  sizeof(s##x##_Pointer)
-
-// Wrap a class that takes two image arguments.
-#define ITK_WRAP_IMAGE_TO_IMAGE(f) \
-  namespace _cable_ \
-  { \
-    const char* const group = ITK_WRAP_GROUP(itk##f); \
-    typedef ::itk::Image<float, 2> ImageF2; \
-    typedef ::itk::Image<float, 3> ImageF3; \
-    typedef ::itk::Image<unsigned short, 2> ImageUS2; \
-    typedef ::itk::Image<unsigned short, 3> ImageUS3; \
-    namespace wrappers \
-    { \
-      namespace itk \
-      { \
-        ITK_WRAP_IMAGE_TO_IMAGE_TYPEDEF(f, F2); \
-        ITK_WRAP_IMAGE_TO_IMAGE_TYPEDEF(f, F3); \
-        ITK_WRAP_IMAGE_TO_IMAGE_TYPEDEF(f, US2); \
-        ITK_WRAP_IMAGE_TO_IMAGE_TYPEDEF(f, US3); \
-      } \
-    } \
-  } \
-  void force_instantiate() \
-  { \
-    using namespace _cable_::wrappers::itk; \
-    ITK_WRAP_IMAGE_TO_IMAGE_SIZEOF(f, F2); \
-    ITK_WRAP_IMAGE_TO_IMAGE_SIZEOF(f, F3); \
-    ITK_WRAP_IMAGE_TO_IMAGE_SIZEOF(f, US2); \
-    ITK_WRAP_IMAGE_TO_IMAGE_SIZEOF(f, US3); \
+// Wrap a non-templated class that is not part of main hierarchy.
+#define ITK_WRAP_CLASS(x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::x x; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
   }
 
-#define ITK_WRAP_IMAGE_TO_IMAGE_TYPEDEF(f, x) \
-  typedef ::itk::f< Image##x , Image##x > \
-          f##x; \
-  typedef f##x::Pointer f##x##_Pointer
+// Wrap a class with one template argument that is not part of main hierarchy.
+#define ITK_WRAP_CLASS_TEMPLATE_1(x, c1) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::c1 x; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+  }
 
-#define ITK_WRAP_IMAGE_TO_IMAGE_SIZEOF(f, x) \
-  sizeof(f##x); \
-  sizeof(f##x##_Pointer)
+// Wrap a class with two template arguments that is not part of main hierarchy.
+#define ITK_WRAP_CLASS_TEMPLATE_2(x, c1,c2) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::c1,c2 x; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+  }
+
+// Wrap a non-templated subclass of itk::LightObject.
+#define ITK_WRAP_OBJECT(x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::x x; \
+    typedef ::itk::x::Pointer x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+    sizeof(x##_Pointer); \
+  }
+
+// Wrap a subclass of itk::LightObject with one template argument.
+#define ITK_WRAP_OBJECT_TEMPLATE_1(x, c1) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::c1 x; \
+    typedef x::Pointer x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+    sizeof(x##_Pointer); \
+  }
+
+// Wrap a subclass of itk::LightObject with two template arguments.
+#define ITK_WRAP_OBJECT_TEMPLATE_2(x, c1,c2) \
+  ITK_WRAP_NAMESPACE_OPEN \
+      typedef ::itk::c1,c2 x; \
+      typedef x::Pointer x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+    sizeof(x##_Pointer); \
+  }
+
+// Wrap a class taking two image type arguments.
+#define ITK_WRAP_IMAGE_TO_IMAGE(f, x, y) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##y > f##x##y; \
+    typedef f##x##y::Pointer f##x##y##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x##y() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x##y); \
+    sizeof(f##x##y##_Pointer); \
+  }
+
+// Wrap the superclass of a class taking two image type arguments.
+#define ITK_WRAP_IMAGE_TO_IMAGE_SUPERCLASS(f, x, y) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##y >::Superclass \
+              f##x##y##_Superclass; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x##y##_Superclass() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x##y##_Superclass); \
+  }
+
+// Wrap a class one image type argument.
+#define ITK_WRAP_IMAGE_TO_DEFAULT_IMAGE(f, x) ITK_WRAP_IMAGE_SOURCE(f, x)
+#define ITK_WRAP_IMAGE_SINK(f, x) ITK_WRAP_IMAGE_SOURCE(f, x)
+#define ITK_WRAP_IMAGE_SOURCE(f, x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x > f##x; \
+    typedef f##x::Pointer f##x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x); \
+    sizeof(f##x##_Pointer); \
+  }
+
+// Wrap a class taking two of the same image type arguments.
+#define ITK_WRAP_IMAGE_TO_SAME_IMAGE(f, x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##x > f##x; \
+    typedef f##x::Pointer f##x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x); \
+    sizeof(f##x##_Pointer); \
+  }
 
 #endif

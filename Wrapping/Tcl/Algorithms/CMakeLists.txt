@@ -13,6 +13,7 @@ ITK_WRAP_TCL(ITKAlgorithmsTcl
   wrap_itkPatternIntensityImageToImageMetric.cxx
   wrap_itkSimpleFuzzyConnectednessImageFilterBase.cxx
   wrap_itkSimpleFuzzyConnectednessScalarImageFilter.cxx
+  wrap_itkCurvatureFlowImageFilter.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl

@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKIO.h"
 
-ITK_WRAP_IMAGE_SINK(ImageFileWriter);
+#define ITK_WRAP_IFW(x) ITK_WRAP_IMAGE_SINK(ImageFileWriter, x)
+
+ITK_WRAP_CONFIG_GROUP(itkImageFileWriter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_IFW(F2);
+ITK_WRAP_IFW(F3);
+ITK_WRAP_IFW(US2);
+ITK_WRAP_IFW(US3);
+
 
 #endif

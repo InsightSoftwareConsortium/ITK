@@ -20,6 +20,19 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKBasicFilters.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(RescaleIntensityImageFilter);
+#define ITK_WRAP_RIIF(x, y) \
+  ITK_WRAP_IMAGE_TO_IMAGE(RescaleIntensityImageFilter, x, y)
+
+ITK_WRAP_CONFIG_GROUP(itkRescaleIntensityImageFilter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_RIIF(F2, F2);
+ITK_WRAP_RIIF(F2, US2);
+ITK_WRAP_RIIF(US2, F2);
+ITK_WRAP_RIIF(US2, US2);
+ITK_WRAP_RIIF(F3, F3);
+ITK_WRAP_RIIF(F3, US3);
+ITK_WRAP_RIIF(US3, F3);
+ITK_WRAP_RIIF(US3, US3);
 
 #endif

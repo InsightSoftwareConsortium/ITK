@@ -28,7 +28,8 @@ namespace _cable_
     ITK_WRAP_GROUP(itkNormalizedCorrelationImageToImageMetric),
     ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric),
     ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessImageFilterBase),
-    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter)
+    ITK_WRAP_GROUP(itkSimpleFuzzyConnectednessScalarImageFilter),
+    ITK_WRAP_GROUP(itkCurvatureFlowImageFilter)
   };
 }
 #endif

@@ -13,6 +13,8 @@ ITK_WRAP_TCL(ITKCommonTcl
   wrap_ITKRegions.cxx
   wrap_itkEventObject.cxx
   wrap_itkImage.cxx
+  wrap_itkFiniteDifferenceImageFilter.cxx
+  wrap_itkDenseFiniteDifferenceImageFilter.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKCommonTcl

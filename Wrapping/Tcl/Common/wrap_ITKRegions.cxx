@@ -23,36 +23,14 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
 
-namespace _cable_
-{
-  const char* const group = ITK_WRAP_GROUP(ITKRegions);
-  namespace wrappers
-  {
-    namespace itk
-    {
-      typedef ::itk::Region         Region;
-      typedef ::itk::MeshRegion     MeshRegion;
-      typedef ::itk::ImageRegion<2> ImageRegion2;
-      typedef ::itk::ImageRegion<3> ImageRegion3;
-      typedef ::itk::Index<2>       Index2;
-      typedef ::itk::Index<3>       Index3;
-      typedef ::itk::Size<2>        Size2;
-      typedef ::itk::Size<3>        Size3;
-    }
-  }
-}
-
-void force_instantiate()
-{
-  using namespace _cable_::wrappers::itk;
-  sizeof(Region);
-  sizeof(MeshRegion);
-  sizeof(ImageRegion2);
-  sizeof(ImageRegion3);
-  sizeof(Index2);
-  sizeof(Index3);
-  sizeof(Size2);
-  sizeof(Size3);
-}
+ITK_WRAP_CONFIG_GROUP(ITKRegions);
+ITK_WRAP_CLASS(Region);
+ITK_WRAP_CLASS(MeshRegion);
+ITK_WRAP_CLASS_TEMPLATE_1(ImageRegion2, ImageRegion<2>);
+ITK_WRAP_CLASS_TEMPLATE_1(ImageRegion3, ImageRegion<3>);
+ITK_WRAP_CLASS_TEMPLATE_1(Index2, Index<2>);
+ITK_WRAP_CLASS_TEMPLATE_1(Index3, Index<3>);
+ITK_WRAP_CLASS_TEMPLATE_1(Size2, Size<2>);
+ITK_WRAP_CLASS_TEMPLATE_1(Size3, Size<3>);
 
 #endif

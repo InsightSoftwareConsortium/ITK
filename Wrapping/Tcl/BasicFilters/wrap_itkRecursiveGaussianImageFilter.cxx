@@ -20,6 +20,16 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKBasicFilters.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(RecursiveGaussianImageFilter);
+
+#define ITK_WRAP_RGIF(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(RecursiveGaussianImageFilter, x);
+
+ITK_WRAP_CONFIG_GROUP(itkRecursiveGaussianImageFilter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_RGIF(F2);
+ITK_WRAP_RGIF(F3);
+ITK_WRAP_RGIF(US2);
+ITK_WRAP_RGIF(US3);
 
 #endif

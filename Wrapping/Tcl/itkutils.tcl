@@ -63,6 +63,14 @@ namespace eval itk {
     $viewer SetImageName $i
     $viewer SetCanvasName $name.xy.canvas
     return $viewer
+  }
+  
+  # Create a Tcl callback event.
+  proc createTclCommand { cmd } {
+    set command [itk::create TclCommand]
+    $command SetInterpreter [cable::Interpreter]
+    $command SetCommandString $cmd
+    return $command
   } 
 
   namespace export create result createImageViewer2D

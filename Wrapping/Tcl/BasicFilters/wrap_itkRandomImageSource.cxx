@@ -20,6 +20,14 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKBasicFilters.h"
 
-ITK_WRAP_IMAGE_SOURCE(RandomImageSource);
+#define ITK_WRAP_RIS(x) ITK_WRAP_IMAGE_SOURCE(RandomImageSource, x)
+
+ITK_WRAP_CONFIG_GROUP(itkRandomImageSource);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_RIS(F2);
+ITK_WRAP_RIS(F3);
+ITK_WRAP_RIS(US2);
+ITK_WRAP_RIS(US3);
 
 #endif

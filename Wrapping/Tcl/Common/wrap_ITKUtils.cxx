@@ -20,24 +20,8 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
 
-namespace _cable_
-{
-  const char* const group = ITK_WRAP_GROUP(ITKUtils);
-  namespace wrappers
-  {
-    namespace itk
-    {
-      ITK_WRAP_OBJECT_TYPEDEF(TclCommand);
-      typedef ::itk::TclStringStream TclStringStream;
-    }
-  }
-}
-
-void force_instantiate()
-{
-  using namespace _cable_::wrappers::itk;
-  ITK_WRAP_OBJECT_SIZEOF(TclCommand);
-  sizeof(TclStringStream);
-}
+ITK_WRAP_CONFIG_GROUP(ITKUtils);
+ITK_WRAP_OBJECT(TclCommand);
+ITK_WRAP_CLASS(TclStringStream);
 
 #endif

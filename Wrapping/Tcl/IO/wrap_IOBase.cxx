@@ -14,33 +14,20 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkMetaImageIOFactory.h"
-#include "itkPNGImageIOFactory.h"
+#include "itkRawImageIO.h"
 #include "itkPNGImageIO.h"
+#include "itkMetaImageIO.h"
+#include "itkPNGImageIOFactory.h"
+#include "itkMetaImageIOFactory.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKIO.h"
 
-namespace _cable_
-{
-  const char* const group = ITK_WRAP_GROUP(IOBase);
-  namespace wrappers
-  {
-    namespace itk
-    {
-      ITK_WRAP_OBJECT_TYPEDEF(PNGImageIO);
-      ITK_WRAP_OBJECT_TYPEDEF(MetaImageIOFactory);
-      ITK_WRAP_OBJECT_TYPEDEF(PNGImageIOFactory);
-    }
-  }
-}
-
-void force_instantiate()
-{
-  using namespace _cable_::wrappers::itk;
-  ITK_WRAP_OBJECT_SIZEOF(PNGImageIO);
-  ITK_WRAP_OBJECT_SIZEOF(MetaImageIOFactory);
-  ITK_WRAP_OBJECT_SIZEOF(PNGImageIOFactory);
-}
+ITK_WRAP_CONFIG_GROUP(IOBase);
+ITK_WRAP_OBJECT(PNGImageIO);
+ITK_WRAP_OBJECT(MetaImageIO);
+ITK_WRAP_OBJECT(PNGImageIOFactory);
+ITK_WRAP_OBJECT(MetaImageIOFactory);
+ITK_WRAP_OBJECT_TEMPLATE_2(RawImageIOF2, RawImageIO<float, 2>);
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKCommon.cxx
+  Module:    wrap_itkDenseFiniteDifferenceImageFilter.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,20 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkImage.h"
+#include "itkDenseFiniteDifferenceImageFilter.h"
+
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
-namespace _cable_
-{
-  const char* const package = ITK_WRAP_PACKAGE;
-  const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
-  const char* const groups[] =
-  {
-    ITK_WRAP_GROUP(ITKUtils),
-    ITK_WRAP_GROUP(ITKBase),
-    ITK_WRAP_GROUP(ITKFilterBase),
-    ITK_WRAP_GROUP(ITKRegions),
-    ITK_WRAP_GROUP(itkEventObject),
-    ITK_WRAP_GROUP(itkImage),
-    ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
-    ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter)
-  };
-}
+
+#define ITK_WRAP_DFDIF(x, y) \
+  ITK_WRAP_IMAGE_TO_IMAGE(DenseFiniteDifferenceImageFilter, x, y)
+
+ITK_WRAP_CONFIG_GROUP(itkDenseFiniteDifferenceImageFilter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+ITK_WRAP_DFDIF(F2, F2);
+ITK_WRAP_DFDIF(US2, F2);
+ITK_WRAP_DFDIF(F3, F3);
+ITK_WRAP_DFDIF(US3, F3);
+
 #endif

@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKAlgorithms.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(PatternIntensityImageToImageMetric);
+#define ITK_WRAP_PIITIM(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(PatternIntensityImageToImageMetric, x)
+
+ITK_WRAP_CONFIG_GROUP(itkPatternIntensityImageToImageMetric);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_PIITIM(F2);
+ITK_WRAP_PIITIM(F3);
+ITK_WRAP_PIITIM(US2);
+ITK_WRAP_PIITIM(US3);
 
 #endif

@@ -9,6 +9,7 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_itkRecursiveSeparableImageFilter.cxx
   wrap_itkRecursiveGaussianImageFilter.cxx
   wrap_itkRescaleIntensityImageFilter.cxx
+  wrap_itkBinaryThresholdImageFilter.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl

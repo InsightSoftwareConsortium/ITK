@@ -20,6 +20,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKBasicFilters.h"
 
-ITK_WRAP_IMAGE_TO_IMAGE(RecursiveSeparableImageFilter);
+#define ITK_WRAP_RSIF(x) \
+  ITK_WRAP_IMAGE_TO_SAME_IMAGE(RecursiveSeparableImageFilter, x);
+
+ITK_WRAP_CONFIG_GROUP(itkRecursiveSeparableImageFilter);
+ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+ITK_WRAP_RSIF(F2);
+ITK_WRAP_RSIF(F3);
+ITK_WRAP_RSIF(US2);
+ITK_WRAP_RSIF(US3);
 
 #endif

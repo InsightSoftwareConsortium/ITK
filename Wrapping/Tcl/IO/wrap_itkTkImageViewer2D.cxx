@@ -19,24 +19,7 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKIO.h"
 
-namespace _cable_
-{
-  const char* const group = ITK_WRAP_GROUP(itkTkImageViewer2D);
-  namespace wrappers
-  {
-    namespace itk
-    {
-      typedef ::itk::TkImageViewer2D TkImageViewer2D;
-      typedef TkImageViewer2D::Pointer TkImageViewer2D_Pointer;
-    }
-  }
-}
-
-void force_instantiate()
-{
-  using namespace _cable_::wrappers::itk;
-  sizeof(TkImageViewer2D);
-  sizeof(TkImageViewer2D_Pointer);
-}
+ITK_WRAP_CONFIG_GROUP(itkTkImageViewer2D);
+ITK_WRAP_OBJECT(TkImageViewer2D);
 
 #endif
