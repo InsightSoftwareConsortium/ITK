@@ -178,7 +178,7 @@ ChangeInformationImageFilter<TInputImage>
   // Shift the output's buffer region
   typename TInputImage::RegionType region;
   region.SetSize(this->GetInput()->GetBufferedRegion().GetSize());
-  region.SetIndex(this->GetOutput()->GetBufferedRegion().GetIndex() + m_Shift);
+  region.SetIndex(this->GetInput()->GetBufferedRegion().GetIndex() + m_Shift);
 
   output->SetBufferedRegion(region);
 }
