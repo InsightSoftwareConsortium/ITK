@@ -104,7 +104,7 @@ public:
   typedef GoodnessOfFitComponentBase< TInputSample > ComponentType ;
   typedef std::vector< ComponentType* > ComponentVectorType ;
 
-  typedef GoodnessOfFitFunctionBase< ComponentType::HistogramType > 
+  typedef GoodnessOfFitFunctionBase< typename ComponentType::HistogramType > 
   FunctionType ;
 
   /** aceesing methods for the sample manipulator */ 
