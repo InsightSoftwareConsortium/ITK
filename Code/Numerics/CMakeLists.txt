@@ -1,4 +1,4 @@
-SUBDIRS(vxl Statistics FEM)
+SUBDIRS(vxl Statistics)
 # Sources of non-templated classes.
 SOURCE_FILES(ITKNumerics_SRCS
 itkCacheableScalarFunction
@@ -26,6 +26,15 @@ itkVersorTransformOptimizer
 LINK_LIBRARIES (
 VXLNumerics
 )
+
+SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
+OPTION(BUILD_FEM_CODE "Build the FEM Code" ON)
+IF(BUILD_FEM_CODE)
+  SUBDIRS( FEM )
+  SET(HAS_FEM 1 CACHE INTERNAL "Support for FEM")
+ENDIF(BUILD_FEM_CODE)
+
+
 
 ADD_LIBRARY(ITKNumerics ITKNumerics_SRCS)
 
