@@ -459,7 +459,7 @@ DerivativeType& derivatives )
   typename MapperType::Pointer mapper = GetMapper();
   typename ReferenceType::ConstPointer reference = mapper->GetDomain();
 
-  refPoint = mapper->GetTransform()->Transform( point );
+  refPoint = mapper->GetTransform()->TransformPoint( point );
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
