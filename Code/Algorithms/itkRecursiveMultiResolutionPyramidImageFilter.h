@@ -75,7 +75,7 @@ namespace itk
  *
  * \sa MultiResolutionPyramidImageFilter
  *
- * \ingroup PyramidImageFilter
+ * \ingroup PyramidImageFilter Multithreaded Streamed
  *
  */
 template <

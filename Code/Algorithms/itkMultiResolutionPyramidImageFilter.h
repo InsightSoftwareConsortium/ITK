@@ -124,7 +124,7 @@ namespace itk
  * \sa DiscreteGaussianImageFilter
  * \sa ShrinkImageFilter
  *
- * \ingroup PyramidImageFilter
+ * \ingroup PyramidImageFilter Multithreaded Streamed
  *
  */
 template <

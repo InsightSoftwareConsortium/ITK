@@ -85,7 +85,7 @@ namespace itk {
   * \sa DenseFiniteDifferenceImageFilter
   * \sa CurvatureFlowEquation
   *
-  * \ingroup ImageEnhancement 
+  * \ingroup ImageEnhancement Multithreaded Streamed
   *
   */
 template <class TInputImage, class TOutputImage>
