@@ -21,7 +21,7 @@
 
 #include "itkImage.h"
 #include "itkPixelTraits.h"
-#include "itkListSample.h"
+#include "itkListSampleBase.h"
 #include "itkSmartPointer.h"
 #include "itkImageRegionIterator.h"
 
@@ -29,7 +29,7 @@ namespace itk{
 namespace Statistics{
 
 /** \class ImageToListAdaptor
- *  \brief This class provides ListSample interfaces to ITK Image
+ *  \brief This class provides ListSampleBase interfaces to ITK Image
  *
  * After calling SetImage(Image::Pointer) method to plug in the image object,
  * users can use Sample interfaces to access Image data.
@@ -54,21 +54,21 @@ namespace Statistics{
  * template argument. If you have pixel type is vector one and supports
  * [] operator, then replace third argument with VectorAccessor
  *
- * \sa Sample, ListSample
+ * \sa Sample, ListSampleBase
  */
 
 template < class TImage >
 class ITK_EXPORT ImageToListAdaptor : 
-    public ListSample< typename TImage::PixelType >
+    public ListSampleBase< typename TImage::PixelType >
 {
 public:
   /** Standard class typedefs */
   typedef ImageToListAdaptor Self;
-  typedef ListSample< typename TImage::PixelType > Superclass;
+  typedef ListSampleBase< typename TImage::PixelType > Superclass;
   typedef SmartPointer< Self > Pointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToListAdaptor, ListSample) ;
+  itkTypeMacro(ImageToListAdaptor, ListSampleBase) ;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
