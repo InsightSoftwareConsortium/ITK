@@ -373,13 +373,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 
   DeformationFieldPointer field = this->GetOutput();
 
-  // cache largest possible region
-  typename TDeformationField::RegionType largestPossibleRegion =
-    field->GetLargestPossibleRegion();
-
-  // disconnect from source temporarily
-  field->DisconnectPipeline();
-
+  // copy field to TempField
   m_TempField->SetLargestPossibleRegion( 
     field->GetLargestPossibleRegion() );
   m_TempField->SetRequestedRegion(
@@ -387,60 +381,47 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
   m_TempField->SetBufferedRegion( field->GetBufferedRegion() );
   m_TempField->Allocate();
 
+  this->CopyDeformationField( field, m_TempField );
+  
   typedef typename DeformationFieldType::PixelType VectorType;
   typedef typename VectorType::ValueType           ScalarType;
-  typedef GaussianOperator<ScalarType,ImageDimension>
-    OperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter<DeformationFieldType,
+  typedef GaussianOperator<ScalarType,ImageDimension> OperatorType;
+  typedef VectorNeighborhoodOperatorImageFilter<
+    DeformationFieldType,
     DeformationFieldType> SmootherType;
 
-  DeformationFieldPointer ptrA, ptrB, ptrC;
+  OperatorType * oper = new OperatorType;
+  SmootherType::Pointer smoother = SmootherType::New();
 
-  if( (ImageDimension %2) != 0 )
-    {
-    // copy field to temp
-    this->CopyDeformationField( field, m_TempField );
-    ptrA = m_TempField;
-    ptrB = field;
-    }
-  else
-    {
-    ptrA = field;
-    ptrB = m_TempField;
-    }
+  DeformationFieldPointer swapPtr;
 
+  // graft the output field onto the mini-pipeline
+  smoother->GraftOutput( field ); 
+  swapPtr = m_TempField;
 
   for( int j = 0; j < ImageDimension; j++ )
     {
-    
-    OperatorType * oper = new OperatorType;
+    // smooth along this dimension
     oper->SetDirection( j );
     double variance = vnl_math_sqr( m_StandardDeviations[j] );
     oper->SetVariance( variance );
     oper->SetMaximumError( m_MaximumError );
     oper->CreateDirectional();
 
-    SmootherType::Pointer smoother = SmootherType::New();
-    smoother->SetOperator(*oper);
-    smoother->SetInput( ptrA );
-    smoother->SetOutput( ptrB );
+    // todo: make sure we only smooth within the buffered region
+    smoother->SetOperator( *oper );
+    smoother->SetInput( swapPtr );
     smoother->Update();
 
-    // todo: make sure we only smooth within the buffered region
-
-    delete oper;
-
-    ptrB->DisconnectPipeline();
-
-    ptrC = ptrA;
-    ptrA = ptrB;
-    ptrB = ptrC;
+    swapPtr = smoother->GetOutput();
+    swapPtr->DisconnectPipeline();
 
     }
 
-   // reconnect to this filter as the source
-   field->SetLargestPossibleRegion( largestPossibleRegion );
-   this->SetOutput( field );
+  // graft the output back to this filter
+  this->GraftOutput( swapPtr );
+
+  delete oper;
   
 }
 

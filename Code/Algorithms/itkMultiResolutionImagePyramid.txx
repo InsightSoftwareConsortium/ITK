@@ -257,6 +257,11 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
   typename TOutputImage::IndexType reqIndex = reqRegion.GetIndex(); 
   RegionType outputRegion = outputPtr->GetRequestedRegion();
 
+  typename SmootherType::Pointer smoother = SmootherType::New();
+  typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
+  typename CasterType::Pointer caster = CasterType::New();
+  OperatorType *oper = new OperatorType;
+
   OutputImagePointer tempImagePtr;  // Pointer to the temporary solution  
   bool firstFilter = true;
  
@@ -280,19 +285,14 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
     tempFactors[j] = shrinkFactors[j];
     variance = vnl_math_sqr( 0.5 * (double) shrinkFactors[j] );
 
-    OperatorType *oper = new OperatorType;
     oper->SetDirection( j );
     oper->SetVariance( variance );
     oper->SetMaximumError( m_MaximumError ); // need not be too accurate
     oper->CreateDirectional();
 
-    typename SmootherType::Pointer smoother = SmootherType::New();
     smoother->SetOperator( *oper );
 
-    typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
     shrinker->SetShrinkFactors( tempFactors.Begin() );
-
-    typename CasterType::Pointer caster;
 
     /**
      *
@@ -307,7 +307,6 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
      */
     if( firstFilter )
       {
-      caster = CasterType::New();
       caster->SetInput( inputPtr );
       smoother->SetInput( caster->GetOutput() );
       firstFilter = false;
@@ -323,69 +322,38 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
     shrinker->UpdateOutputInformation();
     shrinker->GetOutput()->SetRequestedRegion( reqRegion );
     shrinker->GetOutput()->PropagateRequestedRegion();
-    shrinker->GetOutput()->UpdateOutputData();
 
+    if( j < ImageDimension - 1 )
+      {
+      
+      shrinker->GetOutput()->UpdateOutputData();
 
-    tempImagePtr = shrinker->GetOutput();
-    tempImagePtr->DisconnectPipeline();
+      tempImagePtr = shrinker->GetOutput();
+      tempImagePtr->DisconnectPipeline();
+
+      }
+    else
+      {
+
+      shrinker->GraftOutput( outputPtr );
+      shrinker->GetOutput()->UpdateOutputData();
+      this->GraftOutput( shrinker->GetOutput() );
+
+      }
+
+    }
 
     delete oper;
 
-    }
-
-  // Copy to the solution to the output buffer
-  if( firstFilter )
+   if( firstFilter )
     {
-    Self::ImageRegionCopy( inputPtr, outputPtr );
-    }
-  else
-    {
-    Self::ImageRegionCopy2( tempImagePtr, outputPtr );
-    }
+    // all shrink factors were ones - just cast the input
+    // image to the right output type
+    caster->SetInput( inputPtr );
+    caster->GraftOutput( outputPtr );
+    caster->Update();
+    this->GraftOutput( caster->GetOutput() );
 
-}
-
-/**
- * Copies the input image region to output image region.
- * Useful for copying the output for the mini-pipeline to the
- * actual output of this filter
- */
-template< class TInputImage, class TOutputImage >
-void
-MultiResolutionImagePyramid< TInputImage, TOutputImage >
-::ImageRegionCopy(InputImageType *input, OutputImageType *output)
-{
-  ImageRegionIterator<TInputImage> in_it( input,
-      output->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage> out_it( output,
-      output->GetRequestedRegion());
-
-  for (; !in_it.IsAtEnd(); ++in_it, ++out_it)
-    {
-    out_it.Set( in_it.Get() );
-    }
-
-}
-
-
-/**
- * Copies the input image region to output image region.
- * Useful for copying the output for the mini-pipeline to the
- * actual output of this filter
- */
-template< class TInputImage, class TOutputImage >
-void
-MultiResolutionImagePyramid< TInputImage, TOutputImage >
-::ImageRegionCopy2(OutputImageType *input, OutputImageType *output)
-{
-  ImageRegionIterator<TOutputImage> in_it( input,
-      output->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage> out_it( output,
-      output->GetRequestedRegion());
-
-  for (; !in_it.IsAtEnd(); ++in_it, ++out_it)
-    {
-    out_it.Set( in_it.Get() );
     }
 
 }

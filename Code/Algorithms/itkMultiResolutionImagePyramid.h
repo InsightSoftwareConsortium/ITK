@@ -263,14 +263,6 @@ private:
   ScheduleType    m_Schedule;
   double          m_MaximumError; 
 
-  /**
-   * Copies the input image region to output image region.
-   * Useful for copying the output of the internal mini-pipeline to the
-   * actual output of this filter
-   */
-  static void ImageRegionCopy(InputImageType *, OutputImageType *);
-  static void ImageRegionCopy2(OutputImageType *, OutputImageType * );
-
 };
 
 

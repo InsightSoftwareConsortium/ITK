@@ -317,11 +317,6 @@ protected:
    */
   virtual void EnlargeOutputRequestedRegion( DataObject *ptr );
 
-  /**
-   * Copy to image content to this filter's output
-   */
-  void CopyToOutput( DeformationFieldType * ptr );
-
 private:
 
   RegistrationPointer        m_RegistrationFilter;

@@ -187,13 +187,31 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
 }
 
-
+/**
+ * Perform a the deformable registration using a multiresolution scheme
+ * using an internal mini-pipeline
+ *
+ *  ref_pyramid ->  registrator  ->  field_expander --|| tempField
+ * test_pyramid ->           |                              |
+ *                           |                              |
+ *                           --------------------------------    
+ *
+ * A tempField image is used to break the cycle between the
+ * registrator and field_expander.
+ *
+ */                              
 template <class TReference, class TTarget, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 ::GenerateData()
 {
 
+  // allocate memory for the results
+  DeformationFieldPointer outputPtr = this->GetOutput();
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->Allocate();
+
+  // get a pointer to the reference and test images
   ReferencePointer reference = this->GetReference();
   TargetPointer target = this->GetTarget();
 
@@ -225,11 +243,12 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
    */
   //DeformationFieldPointer initialField = this->GetInput();
 
-
   unsigned int ilevel, refLevel, targetLevel;
   int idim;
   unsigned int lastShrinkFactors[ImageDimension];
   unsigned int expandFactors[ImageDimension];
+
+  DeformationFieldPointer tempField = DeformationFieldType::New();
 
   for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
     {
@@ -255,12 +274,14 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
           }  
         }
 
-      // upsample the deformation field
-      DeformationFieldPointer tempField = DeformationFieldType::New();      
+      // graft a temporary image as the output of the expander
+      // this is used to break the loop between the registrator
+      // and expander
+      m_FieldExpander->GraftOutput( tempField );
       m_FieldExpander->SetExpandFactors( expandFactors ); 
-      m_FieldExpander->SetOutput( tempField );
       m_FieldExpander->UpdateLargestPossibleRegion();
 
+      tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
       m_RegistrationFilter->SetInitialDeformationField( tempField );
 
@@ -273,9 +294,6 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
     m_RegistrationFilter->SetNumberOfIterations(
       m_NumberOfIterations[ilevel] );
 
-    // compute new deformation field
-    m_RegistrationFilter->UpdateLargestPossibleRegion();
-
     // cache shrink factors for computing the next expand factors.
     for( idim = 0; idim < ImageDimension; idim++ )
       {
@@ -283,30 +301,48 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
         m_TargetPyramid->GetSchedule()[targetLevel][idim];
       }
 
-    }
+    if( ilevel < m_NumberOfLevels - 1)
+      {
 
-  // allocate memory for the results
-  DeformationFieldPointer outputPtr = this->GetOutput();
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  outputPtr->Allocate();
+      // compute new deformation field
+      m_RegistrationFilter->UpdateLargestPossibleRegion();
 
-  // check if last shrink factors are all ones
-  for( idim = 0; idim < ImageDimension; idim++ )
-    {
-    if ( lastShrinkFactors[idim] > 1 ) { break; }
-    }
-  if( idim < ImageDimension )
-    {
-    DeformationFieldPointer tempField = DeformationFieldType::New();
-    m_FieldExpander->SetExpandFactors( lastShrinkFactors );
-    m_FieldExpander->SetOutput( tempField );
-    m_FieldExpander->UpdateLargestPossibleRegion();
-    this->CopyToOutput( m_FieldExpander->GetOutput() );
-    }
-  else
-    {
-    this->CopyToOutput( m_RegistrationFilter->GetOutput() );
-    }
+      }
+    else
+      {
+
+      // this is the last level
+      for( idim = 0; idim < ImageDimension; idim++ )
+        {
+        if ( lastShrinkFactors[idim] > 1 ) { break; }
+        }
+      if( idim < ImageDimension )
+        {
+
+        // some of the last shrink factors are not one
+        // graft the output of the expander filter to
+        // to output of this filter
+        m_FieldExpander->GraftOutput( outputPtr );
+        m_FieldExpander->SetExpandFactors( lastShrinkFactors );
+        m_FieldExpander->UpdateLargestPossibleRegion();
+        this->GraftOutput( m_FieldExpander->GetOutput() );
+
+        }
+      else
+        {
+
+        // all the last shrink factors are all ones
+        // graft the output of registration filter to
+        // to output of this filter
+        m_RegistrationFilter->GraftOutput( outputPtr );
+        m_RegistrationFilter->UpdateLargestPossibleRegion();
+        this->GraftOutput( m_RegistrationFilter->GetOutput() );
+
+        }
+      
+      } // end if ilevel
+    } // end ilevel loop
+
 
 }
 
@@ -394,26 +430,6 @@ DataObject * ptr )
   if( outputPtr )
     {
     outputPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
-
-}
-
-
-template <class TReference, class TTarget, class TDeformationField>
-void
-MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
-::CopyToOutput(
-DeformationFieldType * inputPtr )
-{
-
-  DeformationFieldPointer outputPtr = this->GetOutput();
-  typedef ImageRegionIterator<DeformationFieldType> Iterator;
-  Iterator inIter( inputPtr, outputPtr->GetBufferedRegion() );
-  Iterator outIter( outputPtr, outputPtr->GetBufferedRegion() );
-
-  for( ; !outIter.IsAtEnd(); ++inIter, ++outIter )
-    {
-    outIter.Set( inIter.Get() );
     }
 
 }
