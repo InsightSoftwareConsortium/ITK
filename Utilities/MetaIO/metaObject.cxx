@@ -17,7 +17,7 @@ MetaObject::
 MetaObject(void)
   {
   m_NDims = 0;
-  m_Fields.clear();
+  this->ClearFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -27,7 +27,7 @@ MetaObject::
 MetaObject(const char * _fileName)
   {
   m_NDims = 0;
-  m_Fields.clear();
+  this->ClearFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -38,7 +38,7 @@ MetaObject::
 MetaObject(unsigned int dim)
   {
   m_NDims = 0;
-  m_Fields.clear();
+  this->ClearFields();
   MetaObject::Clear();
   m_ReadStream = NULL;
   m_WriteStream = NULL;
@@ -63,9 +63,25 @@ MetaObject::
   }
   
 
+  this->ClearFields();
+}
+
+
+//
+//
+void MetaObject::
+ClearFields()
+{
+  FieldsContainerType::iterator  it  = m_Fields.begin();
+  FieldsContainerType::iterator  end = m_Fields.end();
+  while( it != end )
+    {
+    delete *it;
+    }
   m_Fields.clear();
 }
 
+ 
 //
 //
 void MetaObject::
@@ -608,7 +624,7 @@ Clear(void)
     delete * fieldIter;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
-  m_Fields.clear();
+  this->ClearFields();
   }
 
 bool MetaObject::
@@ -652,7 +668,7 @@ M_Destroy(void)
 void MetaObject::
 M_SetupReadFields(void)
   {
-  m_Fields.clear();
+  this->ClearFields();
   if(META_DEBUG) std::cout << "MetaObject: M_SetupReadFields" << std::endl;
 
   MET_FieldRecordType * mF;
@@ -734,7 +750,7 @@ void MetaObject::
 M_SetupWriteFields(void)
   {
 
-  m_Fields.clear();
+  this->ClearFields();
 
   MET_FieldRecordType * mF;
 

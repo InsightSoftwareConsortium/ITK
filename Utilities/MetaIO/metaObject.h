@@ -21,7 +21,9 @@ class MetaObject
       std::ifstream* m_ReadStream;
       std::ofstream* m_WriteStream;
 
-      std::vector<MET_FieldRecordType *> m_Fields;
+      typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
+
+      FieldsContainerType m_Fields;
 
       char  m_FileName[255];
 
@@ -197,6 +199,8 @@ class MetaObject
       bool  BinaryDataByteOrderMSB(void) const;
 
       virtual void Clear(void);
+
+      void ClearFields(void);
 
       bool InitializeEssential(int m_NDims);
 
