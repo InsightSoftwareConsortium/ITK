@@ -22,7 +22,6 @@
 #include "itkImageToImageMetric.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 
-
 namespace itk
 {
 
@@ -133,6 +132,9 @@ protected:
   ImageRegistrationMethod() {};
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Initialize by setting the interconnects between the components. */
+  void Initialize() throw (ExceptionObject);
 
 private:
   ImageRegistrationMethod(const Self&); //purposely not implemented

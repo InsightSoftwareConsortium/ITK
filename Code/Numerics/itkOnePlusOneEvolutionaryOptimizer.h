@@ -19,7 +19,6 @@
 
 
 #include <itkSingleValuedNonLinearOptimizer.h>
-#include <itkSingleValuedCostFunction.h>
 
 namespace itk
 {
@@ -105,9 +104,6 @@ public:
   itkSetMacro( RandomSeed, long );
   itkGetConstMacro( RandomSeed, long );
 
-  /** Set the cost function. */
-  itkSetObjectMacro( CostFunction, CostFunctionType );
-
   /** Initializes the optimizer.
    * Before running this optimizer, this function should have been called.
    *
@@ -127,9 +123,6 @@ protected:
 
 private:
   
-  /** Smart pointer to the cost function. */
-  CostFunctionPointer           m_CostFunction;
-
   /** Smart pointer to the normal random variate generator. */
   NormalRandomVariateGeneratorPointerType m_RandomGenerator ;
 

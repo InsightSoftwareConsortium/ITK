@@ -18,7 +18,7 @@
 #define __itkSingleValuedNonLinearOptimizer_h
 
 #include "itkNonLinearOptimizer.h"
-
+#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -51,17 +51,27 @@ public:
    *  It defines a position in the optimization search space. */
   typedef Superclass::ParametersType ParametersType;
 
+  /** Type of the Cost Function   */
+  typedef  SingleValuedCostFunction         CostFunctionType;
+  typedef  CostFunctionType::Pointer        CostFunctionPointer;
+
   /**  Measure type.
    *  It defines a type used to return the cost function value.  */
-  typedef double                    MeasureType;
+  typedef CostFunctionType::MeasureType   MeasureType;
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative. */
-  typedef Array<double>             DerivativeType;
+  typedef CostFunctionType::DerivativeType DerivativeType;
+
+  /** Set the cost function. */
+  itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
   SingleValuedNonLinearOptimizer();
   virtual ~SingleValuedNonLinearOptimizer() {}
+
+  CostFunctionPointer           m_CostFunction;
+
 
 private: 
   SingleValuedNonLinearOptimizer(const Self&); //purposely not implemented

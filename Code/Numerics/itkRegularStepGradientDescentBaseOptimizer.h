@@ -18,7 +18,6 @@
 #define __itkRegularStepGradientDescentBaseOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
-#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -44,10 +43,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( RegularStepGradientDescentBaseOptimizer, 
                               SingleValuedNonLinearOptimizer );
-
-  /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction         CostFunctionType;
-  typedef  CostFunctionType::Pointer        CostFunctionPointer;
   
 
   /** Codes of stopping conditions. */
@@ -100,8 +95,6 @@ public:
   itkGetConstMacro( StopCondition, StopConditionType );
   itkGetConstMacro( Value, MeasureType );
   
-  /** Set/Get the cost function to optimize over. */
-  itkSetObjectMacro( CostFunction, CostFunctionType );
   
 protected:
   RegularStepGradientDescentBaseOptimizer();
@@ -147,8 +140,6 @@ protected:
   StopConditionType             m_StopCondition;
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
-
-  CostFunctionPointer           m_CostFunction;
 
 
 };

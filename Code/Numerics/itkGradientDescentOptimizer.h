@@ -18,7 +18,6 @@
 #define __itkGradientDescentOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
-#include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
@@ -62,9 +61,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( GradientDescentOptimizer, SingleValuedNonLinearOptimizer );
 
-  /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction         CostFunctionType;
-  typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Codes of stopping conditions */
   typedef enum {
@@ -120,8 +116,6 @@ public:
   /** Get Stop condition. */
   itkGetConstMacro( StopCondition, StopConditionType );
 
-  /** Set the cost function. */
-  itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
   GradientDescentOptimizer();
@@ -144,7 +138,6 @@ private:
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
 
-  CostFunctionPointer           m_CostFunction;
 
 
 };
