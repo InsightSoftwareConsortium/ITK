@@ -24,7 +24,12 @@ namespace itk
 {
 
 /** \class SphereSignedDistanceFunction
- * \brief Compute the signed distance from a N-dimensional sphere
+ * \brief Compute the signed distance from a N-dimensional sphere.
+ *
+ * A instance of sphere is defined by a set parameters. The first parameter 
+ * is the radius and the next SpaceDimension parameters represent the center.
+ * The first parameter forms the set of ShapeParameters and the remaining
+ * parameters the set of PoseParameters.
  *
  * This class is templated over the coordinate representation type 
  * (e.g. float or double) and the space dimension.

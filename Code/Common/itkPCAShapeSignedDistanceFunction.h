@@ -28,12 +28,36 @@ namespace itk
 
 
 /** \class PCAShapeSignedDistanceFunction
- * \brief Compute the signed distance from a N-dimensional PCAShape
+ * \brief Compute the signed distance from a N-dimensional PCA Shape.
+ *
+ * This class computes the signed distance from a N-dimensional shape defined
+ * by:
+ * (1) a mean signed distance image \f$ M(x) \f$, 
+ * (2) the first \f$ q \f$ principal components images 
+ * \f$ P_i(x) \f$ and 
+ * (3) a transform \f$ T(x) \f$ to define the pose 
+ * (i.e. position or orientation of the shape).
+ *
+ * A particular instance of the shape is defined by a set of parameters \f$ p \f$. 
+ * The first \f$ q \f$ parameters defines the weights applied to each principal components 
+ * and the remaining parameters is used to define the transform. The user
+ * should refer to the documentation of the particular Transform class being used.
+ * The first set of parameters are called the ShapeParameters and the remaining
+ * parameters the PoseParameters.
+ *
+ * The method Evaluate( point x ) returns the approximate signed to the 
+ * shape at point x such that:
+ *
+ * \f[ s = M(T(x)) + \sum_i^{q} p[i] * \sigma[i] * P_i(T(x)) \f]
+ * 
+ * Where \sigma[i] are the square root of the eigenvalues. These are defined using
+ * method SetPrincipalComponentStandardDeviations().
  *
  * This class is templated over the coordinate representation type 
  * (e.g. float or double) and the space dimension.
  *
  * \sa ShapeSignedDistanceFunction
+ * \sa Transform
  * \ingroup ImageFunctions
  * 
  * */
@@ -120,7 +144,8 @@ public:
 //  ImagePointerVector & GetPrincipalComponentImages()
 //    { return m_PrincipalComponentImages; }
 
-  /** Set/Get the principal component standard deviations. */
+  /** Set/Get the principal component standard deviations. These values corresponds
+   * to the square root of the eigenvalues of the principal components. */
   itkSetMacro(PrincipalComponentStandardDeviations, ParametersType);
   itkGetMacro(PrincipalComponentStandardDeviations, ParametersType);
 

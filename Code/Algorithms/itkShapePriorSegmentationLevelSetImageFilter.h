@@ -133,7 +133,10 @@ public:
   itkSetObjectMacro( Optimizer, OptimizerType );
   itkGetObjectMacro( Optimizer, OptimizerType );
 
- /** Set/Get the initial parameters. */
+ /** Set/Get the initial parameters. These are the initial parameters applied
+  * to the ShapeFunction. The user should refer to the documentation of
+  * the particular type of ShapeSignedDistanceFunction used to determine
+  * the meaning of the parameters.*/
  itkSetMacro( InitialParameters, ParametersType );
  itkGetMacro( InitialParameters, ParametersType );
 
