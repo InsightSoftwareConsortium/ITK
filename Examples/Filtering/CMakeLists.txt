@@ -67,6 +67,9 @@ TARGET_LINK_LIBRARIES(DanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters
 ADD_EXECUTABLE(BilateralImageFilter BilateralImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BilateralImageFilter ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
+
 
 
 
