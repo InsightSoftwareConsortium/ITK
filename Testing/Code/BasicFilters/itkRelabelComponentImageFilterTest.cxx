@@ -25,6 +25,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
+#include "itkLabelStatisticsImageFilter.h"
 
 int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 {
@@ -37,12 +38,12 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     }
 
   typedef   unsigned short  InternalPixelType;
-  typedef   unsigned char   OutputPixelType;
+  typedef   unsigned long   LabelPixelType;
   typedef   unsigned char   WritePixelType;
   const     unsigned int    Dimension = 2;
   
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  typedef itk::Image< LabelPixelType, Dimension>   LabelImageType;
   typedef itk::Image<WritePixelType, Dimension> WriteImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
@@ -51,10 +52,10 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 
   typedef itk::ChangeInformationImageFilter<InternalImageType> ChangeFilterType;
   typedef itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType > ThresholdFilterType;
-  typedef itk::ConnectedComponentImageFilter< InternalImageType, InternalImageType > ConnectedComponentType;
-  typedef itk::RelabelComponentImageFilter< InternalImageType, OutputImageType > RelabelComponentType;
-  typedef itk::BinaryThresholdImageFilter<OutputImageType, WriteImageType> FinalThresholdFilterType;
-
+  typedef itk::ConnectedComponentImageFilter< InternalImageType, LabelImageType > ConnectedComponentType;
+  typedef itk::RelabelComponentImageFilter< LabelImageType, LabelImageType > RelabelComponentType;
+  typedef itk::BinaryThresholdImageFilter<LabelImageType, WriteImageType> FinalThresholdFilterType;
+  typedef itk::LabelStatisticsImageFilter< InternalImageType, LabelImageType> StatisticsFilterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -63,9 +64,10 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   ConnectedComponentType::Pointer connected = ConnectedComponentType::New();
   RelabelComponentType::Pointer relabel = RelabelComponentType::New();
   FinalThresholdFilterType::Pointer finalThreshold = FinalThresholdFilterType::New();
-
+  StatisticsFilterType::Pointer statistics = StatisticsFilterType::New();
   
   FilterWatcher watcher(relabel);
+  FilterWatcher statswatcher(statistics);
 
   reader->SetFileName( argv[1] );
 
@@ -122,5 +124,57 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << excep << std::endl;
     }
 
+
+  try
+    {
+    statistics->SetInput( change->GetOutput() );
+    statistics->SetLabelInput( relabel->GetOutput() );
+    statistics->Update();
+    }
+  catch( itk::ExceptionObject & excep )
+    {
+    std::cerr << "Exception caught during statistics calculation!"
+              << std::endl;
+    std::cerr << excep << std::endl;
+    }
+  try
+    {
+    unsigned long printNum = statistics->GetNumberOfLabels();
+    if (printNum > 10)
+      {
+      printNum = 10;
+      }
+    for (unsigned int ii=0; ii < printNum; ++ii)
+      {
+      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << std::endl;
+      std::cout << "\tCount = " << statistics->GetCount(ii) << std::endl;
+      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << std::endl;
+      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << std::endl;
+      std::cout << "\tMean = " << statistics->GetMean(ii) << std::endl;
+      std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
+      std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
+      std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
+      }
+
+    printNum = 2;
+    for (unsigned int ii=statistics->GetNumberOfObjects();
+           ii < statistics->GetNumberOfObjects()+printNum; ++ii)
+      {
+      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << std::endl;
+      std::cout << "\tCount = " << statistics->GetCount(ii) << std::endl;
+      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << std::endl;
+      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << std::endl;
+      std::cout << "\tMean = " << statistics->GetMean(ii) << std::endl;
+      std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
+      std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
+      std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
+      }
+      
+    }
+  catch (...)
+    {
+    std::cerr << "Exception caught while printing statistics" << std::endl;
+    }
+  
   return 0;
 }
