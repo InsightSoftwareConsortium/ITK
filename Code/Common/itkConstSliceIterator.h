@@ -64,6 +64,9 @@ namespace itk {
  * Modeled after a slice iterator proposed by Bjarne Stroustrup
  * in C++ Programming Language, Third Edition. Bjarne Stroustrup.  Addison
  * Wesley, Reading, MA. 1997.
+ *
+ * \ingroup Iterators
+ *
  */
 template<class TPixel, class TContainer>
 class ITK_EXPORT ConstSliceIterator

@@ -76,6 +76,9 @@ namespace itk
  * were [][][][slice][row][col] with Index[0] = col, Index[1] = row,
  * Index[2] = slice, etc.
  *
+ *
+ * \ingroup ImageIterators
+ *
  *  */
 template<typename TImage>
 class ImageIteratorWithIndex {

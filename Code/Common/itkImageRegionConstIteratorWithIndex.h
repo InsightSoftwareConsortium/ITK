@@ -111,6 +111,9 @@ namespace itk
  * \endcode
  *
  *
+ * \ingroup ImageIterators
+ *
+ *
  */
 template<typename TImage>
 class ImageRegionConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>

@@ -55,6 +55,12 @@ namespace itk
  * ImageIterator that invokes the GetScalar() method. GetScalar() is
  * used when you want to write a filter that processes only the scalar
  * portion of a pixel.  
+ *
+ *
+ *
+ * \ingroup ImageIterators
+ *
+ *
  */
 
 template<class TImage>

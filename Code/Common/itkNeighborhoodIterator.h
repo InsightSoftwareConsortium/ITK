@@ -204,6 +204,11 @@ namespace itk {
  * \sa DerivativeOperator \sa NeighborhoodInnerProduct
  * \sa Image \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
+ *
+ *
+ * \ingroup ImageIterators
+ *
+ *
  **/
 template<class TImage>
 class ITK_EXPORT NeighborhoodIterator

@@ -60,6 +60,9 @@ namespace itk {
  * the distance between them.
  *
  *
+ *
+ * \ingroup ImageIterators
+ *
  * \sa NeighborhoodIterator \sa Offset
  */
 template<class TImage>

@@ -79,11 +79,20 @@ namespace itk
  * pixel in the row that is part of the region. This allows for simple
  * processing loops of the form:
  *
+ * \code
+ *
  *      it = it.Begin();
  *      for (; !it.IsAtEnd(); ++it)
  *         {
  *         *it += 100.0;
  *         }
+ *
+ *  \endcode
+ *
+ *
+ * \ingroup ImageIterators
+ *
+ *
  * */
 template<typename TImage>
 class ImageRegionReverseIterator : public ImageReverseIterator<TImage>

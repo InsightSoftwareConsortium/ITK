@@ -64,6 +64,9 @@ namespace itk {
  * NeighborhoodIterator.  It serves as a base class from which other iterators
  * are derived. See NeighborhoodIterator for more complete information.
  *
+ *
+ * \ingroup ImageIterators
+ *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  **/

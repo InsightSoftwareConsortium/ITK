@@ -74,6 +74,9 @@ namespace itk
  * the data is arranged in a 1D array as if it were [][][][slice][row][col]
  * with Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
+ *
+ * \ingroup ImageIterators
+ *
  * 
  */
 template<typename TImage>

@@ -53,6 +53,9 @@ namespace itk
 /**
  * \class FloodFilledSpatialFunctionConditionalIterator
  * \brief Iterates over a flood-filled spatial function. 
+ *
+ * \ingroup ImageIterators
+ *
  */
 template<class TImage, class TFunction>
 class FloodFilledSpatialFunctionConditionalIterator: public ConditionalIterator<TImage>

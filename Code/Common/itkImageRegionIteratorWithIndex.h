@@ -110,6 +110,9 @@ namespace itk
  * \endcode
  *
  *
+ * \ingroup ImageIterators
+ *
+ *
  * */
 template<typename TImage>
 class ImageRegionIteratorWithIndex : public ImageIteratorWithIndex<TImage>

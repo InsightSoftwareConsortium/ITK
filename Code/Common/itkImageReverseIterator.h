@@ -79,6 +79,11 @@ namespace itk
  * Index[2] = slice, etc.
  *
  *
+ *
+ * \ingroup ImageIterators
+ *
+ *
+ *
  */
 template<typename TImage>
 class ImageReverseIterator {

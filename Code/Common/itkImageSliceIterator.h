@@ -79,6 +79,9 @@ namespace itk
  * \example  Common/itkImageSliceIterator.cxx
  *
  *
+ *
+ * \ingroup ImageIterators
+ *
  * 
  *
  */

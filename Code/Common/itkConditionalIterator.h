@@ -52,6 +52,9 @@ namespace itk
  * property, calculation, etc. For example, a threshold iterator might
  * walk a region and return only those pixels which meet a minimum
  * intensity condition.
+ *
+ * \ingroup ImageIterators
+ *
  */
 
 template<class TImage>

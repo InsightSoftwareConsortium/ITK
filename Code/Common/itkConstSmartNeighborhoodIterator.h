@@ -57,6 +57,9 @@ namespace itk {
  * iterators are derived. See SmartNeighborhoodIterator for more complete
  * information.
  *
+ *
+ * \ingroup ImageIterators
+ *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  **/

@@ -99,6 +99,9 @@ namespace itk
  *
  *
  *
+ * \ingroup ImageIterators
+ *
+ *
  */
 template<typename TImage>
 class ImageLinearConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>

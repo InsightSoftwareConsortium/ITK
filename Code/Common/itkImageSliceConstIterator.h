@@ -79,6 +79,9 @@ namespace itk
  *
  *
  *
+ * \ingroup ImageIterators
+ *
+ *
  */
 template<typename TImage>
 class ImageSliceConstIterator : public ImageConstIterator<TImage>
