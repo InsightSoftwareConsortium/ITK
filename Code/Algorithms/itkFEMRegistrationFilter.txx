@@ -25,8 +25,6 @@
 #pragma warning(disable: 4786)
 #endif
  
-#ifdef FEMRegistrationFilterFIXED
-
 #include "itkFEMRegistrationFilter.h"
 #include "itkFEMElements.h"
 #include "itkFEMLoadBC.h"
@@ -2080,7 +2078,6 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
 }} // end namespace itk::fem
 
 
-#endif
  
 #endif
 
