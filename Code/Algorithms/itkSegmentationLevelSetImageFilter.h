@@ -216,7 +216,6 @@ public:
     this->SetPropagationScaling(v);
     this->SetAdvectionScaling(v);
   }
-  //  itkGetMacro(FeatureScaling, ValueType);
 
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
