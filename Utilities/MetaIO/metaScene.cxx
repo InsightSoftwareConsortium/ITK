@@ -20,6 +20,8 @@
 #include <metaSurface.h>
 #include <metaLandmark.h>
 #include <metaMesh.h>
+#include <metaArrow.h>
+
 //
 // MetaScene Constructors
 //
@@ -191,6 +193,14 @@ Read(const char *_headerName)
       ellipse->SetEvent(m_Event);
       ellipse->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(ellipse);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Arrow",5))
+    {
+      MetaArrow* arrow = new MetaArrow();
+      arrow->SetEvent(m_Event);
+      arrow->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(arrow);
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Gaussian",8) ||
