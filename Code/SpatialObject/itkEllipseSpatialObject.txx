@@ -60,6 +60,12 @@ bool
 EllipseSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
+  this->ComputeLocalBoundingBox();
+  if( !this->GetBounds()->IsInside(point) )
+    {
+    return false;
+    }
+    
   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
@@ -130,23 +136,24 @@ EllipseSpatialObject< TDimension >
     PointType pnt2;
     for(unsigned int i=0; i<TDimension;i++) 
       {   
-      if(m_Radius[i]>0)
-        {
-        pnt[i]=-m_Radius[i];
-        pnt2[i]=m_Radius[i];
-        }
-      else
-        {
-        pnt[i]=m_Radius[i];
-        pnt2[i]=-m_Radius[i];
-        }
+      pnt[i]=-m_Radius[i];
+      pnt2[i]=m_Radius[i];
       } 
+    
+    // we need to set the minimum and maximum of the bounding box
+    // the center is always inside the bounding box.
+    PointType center;
+    center.Fill(0);
+    center = this->GetIndexToWorldTransform()->TransformPoint(center);
+    
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(center);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(center);
      
-      pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-      pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
+    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);
+    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt2);
     }
   return true;
 } 
