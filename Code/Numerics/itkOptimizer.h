@@ -68,12 +68,12 @@ public:
    */
   typedef   TParameters    ParametersType;
 
+  typedef typename ParametersType::Pointer ParametersTypePointer;
 
   /**
    * Set the vector of parameters
    */
   itkSetObjectMacro( Parameters, ParametersType );
-
 
   /**
    * Get the vector of parameters
@@ -90,7 +90,7 @@ protected:
 
 private:
 
-  typename ParametersType::Pointer     m_Parameters;
+  ParametersTypePointer     m_Parameters;
 
 };
 
