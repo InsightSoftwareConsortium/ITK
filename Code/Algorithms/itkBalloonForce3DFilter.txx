@@ -960,7 +960,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::NodesRearrange()
 {
   int i, j, k, new_node=1;
-  double dis, l1, l2, d;
+  double dis, l1, l2;
   double* length;
   InputPointType v1, v2, v3, v4, v_southpole, v_northpole;
 
