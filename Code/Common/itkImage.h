@@ -134,7 +134,7 @@ public:
    * the ScalarValueType for a PixelType that only has a vector may be
    * defined to match the vector value type.
    */
-  typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
+  //typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
 
   /** 
    * Pixel (vector) value typedef support. The vector value is the native
@@ -146,7 +146,7 @@ public:
    * instance, the VectorValueType for a PixelType that only has a scalar may
    * be defined to match the vector value type.
    */
-  typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
+  //typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
 
   /**
    * Dimension of the image.  This enum is used by functions that are
@@ -222,7 +222,7 @@ public:
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
    */
-  const RegionType& GetLargestPossibleRegion()
+  const RegionType& GetLargestPossibleRegion() const
     { return m_LargestPossibleRegion;};
 
   /**
@@ -237,7 +237,7 @@ public:
    * of the region of the image currently loaded in memory. 
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
    */
-  const RegionType& GetBufferedRegion()
+  const RegionType& GetBufferedRegion() const
   { return m_BufferedRegion;};
   
   /**
@@ -254,7 +254,7 @@ public:
    * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
    */
-  const RegionType& GetRequestedRegion()
+  const RegionType& GetRequestedRegion() const
   { return m_RequestedRegion;};
 
   /**
