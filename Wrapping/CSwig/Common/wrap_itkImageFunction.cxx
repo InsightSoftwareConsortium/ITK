@@ -27,10 +27,15 @@ namespace _cable_
   namespace wrappers
   {
     // wrap ImageFunction 
-    ITK_WRAP_OBJECT2(ImageFunction, image::F2, double, itkImageFunctionF2D);
-    ITK_WRAP_OBJECT2(ImageFunction, image::F3, double, itkImageFunctionF3D);
-    ITK_WRAP_OBJECT2(ImageFunction, image::US2, double, itkImageFunctionUS2D);
-    ITK_WRAP_OBJECT2(ImageFunction, image::US3, double, itkImageFunctionUS3D);
+    ITK_WRAP_OBJECT3(ImageFunction, image::F2, double, float, itkImageFunctionF2DF);
+    ITK_WRAP_OBJECT3(ImageFunction, image::F3, double, float, itkImageFunctionF3DF);
+    ITK_WRAP_OBJECT3(ImageFunction, image::US2, double, float, itkImageFunctionUS2DF);
+    ITK_WRAP_OBJECT3(ImageFunction, image::US3, double, float, itkImageFunctionUS3DF);
+
+    ITK_WRAP_OBJECT3(ImageFunction, image::F2, double, double, itkImageFunctionF2DD);
+    ITK_WRAP_OBJECT3(ImageFunction, image::F3, double, double, itkImageFunctionF3DD);
+    ITK_WRAP_OBJECT3(ImageFunction, image::US2, double, double, itkImageFunctionUS2DD);
+    ITK_WRAP_OBJECT3(ImageFunction, image::US3, double, double, itkImageFunctionUS3DD);
   }
 }
 
