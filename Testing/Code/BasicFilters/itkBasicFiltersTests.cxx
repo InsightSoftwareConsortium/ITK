@@ -199,6 +199,7 @@ void RegisterTests()
   REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
   REGISTER_TEST(itkVectorResampleImageFilterTest );
   REGISTER_TEST(itkWarpImageFilterTest );
+  REGISTER_TEST(itkWarpVectorImageFilterTest );
   REGISTER_TEST(itkWrapPadImageTest );
   REGISTER_TEST(itkXorImageFilterTest );
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
