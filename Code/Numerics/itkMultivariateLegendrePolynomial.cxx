@@ -176,7 +176,7 @@ void MultivariateLegendrePolynomial
           for (int lz = 0, offset = 0; lz <= m_Degree-lx-ly; 
                zcoefp += ((m_Degree+1-lz)*(m_Degree+2-lz)/2) - lx, lz++) 
             m_CachedZCoef[lz] = *zcoefp;
-          *ycoefp = LegendreSum(norm_z, m_Degree-lx-ly, m_CachedZCoef);	
+          *ycoefp = LegendreSum(norm_z, m_Degree-lx-ly, m_CachedZCoef); 
           ycoefp++;
         }
     }
