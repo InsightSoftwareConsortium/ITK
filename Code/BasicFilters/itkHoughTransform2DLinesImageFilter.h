@@ -87,12 +87,6 @@ public:
   /** Standard "Superclass" typedef. */
   typedef ImageToImageFilter<InputImageType, OutputImageType>  Superclass;
 
-  /** Number of dimensions */
-  itkStaticConstMacro(NDimension, unsigned int,InputImageType::ImageDimension);
-
-  /** Image size typedef */
-  typedef Size<InputImageType::ImageDimension> SizeType;
-
   /** Image index typedef */
   typedef typename InputImageType::IndexType IndexType;
 
