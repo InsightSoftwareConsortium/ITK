@@ -20,6 +20,12 @@
 
 #include "itkPathAndImageToPathFilter.h"
 #include "itkOrthogonallyCorrected2DParametricPath.h"
+// Filters used internally
+#include "itkExtractOrthogonalSwath2DImageFilter.h"
+#include "itkWrapPadImageFilter.h"
+#include "itkDiscreteGaussianImageFilter.h"
+#include "itkDerivativeImageFilter.h"
+
 
 namespace itk
 {
@@ -27,32 +33,29 @@ namespace itk
 /** \class OrthogonalSwath2DPathFilter
  * \brief Filter that optimizes a 2D path relative to an image.
  *
- * OrthogonalSwath2DPathFilter produces a chain code representation of a path
- * that is optimal with respect to an image and an original Fourier series path
- * (sometimes referred to as an "initial contour").  A rectangular "swath" image
- * is extracted from the input image by interpolating image pixels orthogonal to
- * the initial contour while walking along the initial contour.  The swath image
- * is then processed by a filter of the user's choosing before dynamic
- * programming is used to find the "optimal" path through the image, where
- * "optimal" is defined by a user-specified "index metrit" function (not to be
- * confused with registration metrics):
- *
- * merit of including an index in a path = f(processed swath image, the index)
+ * OrthogonalSwath2DPathFilter produces an OrthogonallyCorrected2DParametricPath
+ * representation of a path that is optimal with respect to an image and an
+ * original Fourier series path (sometimes referred to as an "initial contour"). 
+ * A rectangular "swath" image is extracted from the input image by interpolating
+ * image pixels orthogonal to the initial contour while walking along the initial
+ * contour.  The swath image is then processed by a merit filter of the user's
+ * choosing before dynamic programming is used to find the "optimal" path through
+ * the image, where the optimality of an index along a path is the value of the
+ * swath image at that pixel after the swath has been processed by the user's
+ * filter.  The vertical (y-axis) partial derivative is often a good choice for
+ * a merit filter.
  * 
-
-2D Swath will use merit of location and direction of current step in input path
-
  * \ingroup PathFilters
  */
-template <class TParametricPath, class TImage>
+template <class TFourierSeriesPath, class TImage>
 class ITK_EXPORT OrthogonalSwath2DPathFilter : public
-PathAndImageToPathFilter< TParametricPath, TImage,
+PathAndImageToPathFilter< TFourierSeriesPath, TImage,
                           OrthogonallyCorrected2DParametricPath >
 {
 public:
   /** Standard class typedefs. */
   typedef OrthogonalSwath2DPathFilter                         Self;
-  typedef PathAndImageToPathFilter< TParametricPath, TImage,
+  typedef PathAndImageToPathFilter< TFourierSeriesPath, TImage,
                       OrthogonallyCorrected2DParametricPath > Superclass;
   typedef SmartPointer<Self>                                  Pointer;
   typedef SmartPointer<const Self>                            ConstPointer;
@@ -64,18 +67,35 @@ public:
   itkTypeMacro(OrthogonalSwath2DPathFilter, PathAndImageToPathFilter);
 
   /** Some convenient typedefs. */
-  typedef TParametricPath                       InputPathType;
+  typedef TFourierSeriesPath                    InputPathType;
   typedef typename InputPathType::Pointer       InputPathPointer;
   typedef typename InputPathType::InputType     InputPathInputType;
+  
+  typedef TImage                                ImageType;
+  typedef typename ImageType::Pointer           ImagePointer;
+  
   typedef OrthogonallyCorrected2DParametricPath OutputPathType;
   typedef typename OutputPathType::Pointer      OutputPathPointer;
   typedef typename OutputPathType::InputType    OutputPathInputType;
+  typedef typename OutputPathType::OrthogonalCorrectionTableType
+                                                OrthogonalCorrectionTableType;
+  typedef typename OutputPathType::OrthogonalCorrectionTablePointer
+                                                OrthogonalCorrectionTablePointer;
+  
   typedef typename InputPathType::IndexType     IndexType;
   typedef typename InputPathType::OffsetType    OffsetType;
+  typedef typename ImageType::SizeType          SizeType;
+
+  typedef Image<double, 2>                                  FloatImageType; 
+  typedef typename FloatImageType::Pointer                  FloatImagePointer;
+  typedef ExtractOrthogonalSwath2DImageFilter<ImageType>          Filter1Type;    
+  typedef WrapPadImageFilter<ImageType, ImageType>                Filter2Type;    
+  typedef DiscreteGaussianImageFilter<ImageType,FloatImageType>   Filter3Type;
+  typedef DerivativeImageFilter<FloatImageType,FloatImageType>    Filter4Type;
   
 protected:
   OrthogonalSwath2DPathFilter();
-  virtual ~OrthogonalSwath2DPathFilter() {};
+  virtual ~OrthogonalSwath2DPathFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData(void);
@@ -83,6 +103,38 @@ protected:
 private:
   OrthogonalSwath2DPathFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  
+  typename Filter1Type::Pointer m_Filter1;
+  typename Filter2Type::Pointer m_Filter2;
+  typename Filter3Type::Pointer m_Filter3;
+  typename Filter4Type::Pointer m_Filter4;
+  
+  SizeType m_SwathSize;
+  
+  // Find the "L" for the maximum merit over the range L-1 to L+1 at F & x.
+  // This value is both returned and stored in m_StepValues.
+  // The merits for F & x at L-1 to L+1 must have already been calculated.
+  unsigned int FindAndStoreBestErrorStep(unsigned int x, unsigned int F,
+                                                         unsigned int L);
+  
+  // m_StepValues & m_MeritValues are stored as datatype[x][F][L] which requres
+  // cols*rows*rows bytes of storage where rows and cols are the dimensions of
+  // the processed image.
+  // 
+  // This ordering of elements is most efficient when L is incremented in the
+  // inner-most loop and x is incremented in the outer-most loop.
+  // 
+  // m_StepValues & m_MeritValues should always be accessed using the StepValue()
+  // and MeritValue() access functions.  StepValue() and MeritValue() can each be
+  // used on both the left and right hand of assignments for reads & writes, ex: 
+  // StepValue(1,1,1) = 2+MeritValue(0,0,3);
+  inline int &StepValue(int   f, int l, int x);
+  inline double &MeritValue(int  f, int l, int x);
+  int *m_StepValues; // best y=error coordinate @ x of image for (0,F) -> (x+1,L)
+  double *m_MeritValues;
+  
+  int *m_OptimumStepsValues;  // best step (e value) sequence for a closed path
+  OrthogonalCorrectionTablePointer m_FinalOffsetValues;
 };
 
 } // end namespace itk
