@@ -17,24 +17,23 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{PointSet} is a basic class intended to represent geometry.  It
-//  is the base class for the \doxygen{Mesh} and provide the support for
+//  The \code{itk::PointSet} is a basic class intended to represent geometry.
+//  It is the base class for the \code{itk::Mesh} and provide the support for
 //  manipulating sets of points in $N-Dimensional$ space. Points can have
-//  values associated with them. The type of such values is defined by a
-//  template parameter of the \doxygen{PointSet} class. Two basic styles of
-//  PointSets are available in ITK. They are referred to as \emph{Static} and
-//  \emph{Dynamic}. The first one is used when the number of points in the set
-//  can be known in advance and it is not expected to change as a consecuence
-//  of the manipulations performed on the set. The dynamic style, on the other
-//  hand, is intended to support insertion and removal of points in an
-//  efficient manner. The reason for making the distinction between both styles
-//  is to facilitate the fine tunning of its behavior with the aim of
-//  optimizing performance and memory management.
+//  values associated with them. The type of such values is defined by
+//  a template parameter of the \code{itk::PointSet} class. Two basic styles of 
+//  PointSets are available in ITK. They are referred to as \emph{Static}
+//  and \emph{Dynamic}. The first one is used when the number of points
+//  in the set can be known in advance and it is not expected to change
+//  as a consecuence of the manipulations performed on the set. The dynamic
+//  style, on the other hand, is intended to support insertion and removal
+//  of points in an efficient manner. The reason for making the distinction
+//  between both styles is to facilitate the fine tunning of its behavior
+//  with the aim of optimizing performance and memory management.
 //
 //  \index{itk::PointSet}
 //  \index{itk::PointSet!Static}
 //  \index{itk::PointSet!Dynamic}
-//  \index{itk::PointSet!header}
 //
 //  In order to use the PointSet class, its header file should be included.
 //
@@ -51,7 +50,7 @@ int main()
   //
   //  Then we must decide what type of value should be associated with the
   //  points. This is called in general the \code{PixelType} in order to make a 
-  //  terminology consistent with the \doxygen{Image} class. The PointSet is also 
+  //  terminology consistent with the \code{itk::Image}. The PointSet is also 
   //  templated over the dimension of the space in which the points are
   //  represented. The following declaration illustrates a typical
   //  instantiation of the PointSet class.
@@ -69,7 +68,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  PointSet objects are created by invoking the \code{New()} method on its
-  //  type.  The resulting object must be assigned to an \doxygen{SmartPointer}.
+  //  type.  The resulting object must be assigned to a \code{SmartPointer}.
   //  The PointSet is then reference counted and can be shared by multiple
   //  SmartPointers. The memory allocated for the PointSet will be released
   //  when the number of references to the object are reduced to zero. This
@@ -92,15 +91,14 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Following the principles of
-  //  \href{http://www.boost.org/more/generic_programming.html}{Generic
-  //  Programming}, the PointSet class has a set of associated types defined to
-  //  ensure that interacting objects can be declared with compatible types.
-  //  This set of type definitionas are commonly known as \emph{Traits}.  Among
-  //  them we can find for example the \code{PointType} type.  This is the type
-  //  used by the point set to represent points in space.  The following
-  //  declaration is taking the point type as defined in the PointSet traits
-  //  and renaming it to be conveniently used in the global namespace.
+  //  Following the principles of Generic Programming the PointSet class has a
+  //  set of associated defined types to ensure that interacting objects can be
+  //  declared with compatible types. This set of type definitionas are
+  //  commonly known as \emph{traits}.  Among them we can find for example the
+  //  \code{PointType} type.  This is the type used by the point set to
+  //  represent points in space.  The following declaration is taking the point
+  //  type as defined in the PointSet traits and renaming it to be conveniently
+  //  used in the global namespace.
   //
   //  \index{itk::PointSet!PointType}
   //
@@ -119,7 +117,7 @@ int main()
   //  inserted in the PointSet. Points are fairly small objects and henceforth
   //  it is not convenient to manage them with reference counting and smart
   //  pointers. They are simply instantiated as typical C++ classes. The Point
-  //  class inheriths the \code{[]} operator from the \doxygen{FixedArray} class.
+  //  class inheriths the \code{[]} operator from the \code{itk::Array} class.
   //  This makes possible to access its components using index notation. For
   //  efficiency sake no bound-testing is performed during index access. It is
   //  the user's responsibility to ensure that the index used is in the range
@@ -205,7 +203,7 @@ int main()
 
   bool pointExists =  pointsSet->GetPoint( 1, & pp );
 
-  if( pointsSet ) {
+  if( pointExists ) {
     std::cout << "Point is = " << pp << std::endl;
     }
   // Software Guide : EndCodeSnippet
@@ -218,7 +216,7 @@ int main()
   //
   // \code{GetPoint()} and \code{SetPoint()} are not the most efficient methods
   // to access points in the PointSet. It is prefereable to get direct access
-  // to the internal point container defined by the \emph{Traits} and use
+  // to the internal point container defined by the \emph{traits} and use
   // Iterators to walk sequentially over the list of points.
   //
   //  Software Guide : EndLatex 
