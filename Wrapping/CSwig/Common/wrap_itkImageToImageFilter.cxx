@@ -38,6 +38,11 @@ namespace _cable_
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::F3, itkImageToImageFilterUS3F3);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::UC3, itkImageToImageFilterUS3UC3);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::US3, itkImageToImageFilterUS3US3);
+
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC3, image::UC3, itkImageToImageFilterUC3UC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC3, image::F3, itkImageToImageFilterUC3F3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC3, image::SS3, itkImageToImageFilterUC3SS3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC3, image::US3, itkImageToImageFilterUC3US3);
   }
 }
 #endif
