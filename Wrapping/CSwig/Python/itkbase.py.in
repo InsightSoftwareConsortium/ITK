@@ -1,3 +1,20 @@
+# Add the ITK Python module locations to the module search path.
 import sys
 sys.path.insert(1, @ITK_CSWIG_PACKAGE_DIR@)
 sys.path.insert(1, @ITK_CSWIG_SCRIPT_DIR@)
+
+# Python "help(sys.setdlopenflags)" states:
+#
+# setdlopenflags(...)
+#     setdlopenflags(n) -> None
+#     
+#     Set the flags that will be used for dlopen() calls. Among other
+#     things, this will enable a lazy resolving of symbols when
+#     importing a module, if called as sys.setdlopenflags(0) To share
+#     symbols across extension modules, call as
+#
+#     sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
+#
+# Due to implicit template instantiation, we need this support in ITK.
+import dl
+sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
