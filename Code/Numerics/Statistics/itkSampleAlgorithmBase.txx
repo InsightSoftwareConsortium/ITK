@@ -32,19 +32,28 @@ SampleAlgorithmBase< TInputSample >
 template< class TInputSample >
 void
 SampleAlgorithmBase< TInputSample >
-::GenerateData() 
-{
-  // subclasses should override this function.
-}
-
-template< class TInputSample >
-void
-SampleAlgorithmBase< TInputSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input Sample: " << m_InputSample << std::endl;
+  os << indent << "Input Sample: " ;
+  if ( m_InputSample != 0 )
+    {
+    os << m_InputSample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+}
+
+
+template< class TInputSample >
+void
+SampleAlgorithmBase< TInputSample >
+::GenerateData() 
+{
+  // subclasses should override this function.
 }
 
 } // end of namespace Statistics 
