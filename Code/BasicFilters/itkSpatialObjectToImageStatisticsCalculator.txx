@@ -129,13 +129,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
   covarianceAlgorithm->Update();
   
-  for(unsigned int i=0;i<itkGetStaticConstMacro(SampleDimension);i++)
-  {
-    for(unsigned int j=0;j<itkGetStaticConstMacro(SampleDimension);j++)
-    {
-      m_CovarianceMatrix[i][j] = (*(covarianceAlgorithm->GetOutput())).GetVnlMatrix()(i,j);
-    }
-  }
+  m_CovarianceMatrix = *(covarianceAlgorithm->GetOutput());
 }
 
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
