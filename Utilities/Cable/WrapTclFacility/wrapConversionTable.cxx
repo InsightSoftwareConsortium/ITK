@@ -75,7 +75,7 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     i = m_ConversionMap.find(conversionKey);
     if(i != m_ConversionMap.end())
       {
-    return i->second;
+      return i->second;
       }
     // Try adding a volatile qualifier to the "from" type.
     conversionKey = ConversionKey(from.GetMoreQualifiedType(false, true), to);
