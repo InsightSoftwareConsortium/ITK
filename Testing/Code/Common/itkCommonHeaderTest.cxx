@@ -201,6 +201,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSmartPointer.h"
 #include "itkSmartPointerForwardReference.txx"
 #include "itkSobelOperator.txx"
+#include "itkSparseFieldLevelSetImageFilter.txx"
 #include "itkSpatialFunction.txx"
 #include "itkSphereSpatialFunction.txx"
 #include "itkSqrtImageAdaptor.h"
