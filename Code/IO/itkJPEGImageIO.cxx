@@ -269,7 +269,6 @@ void JPEGImageIO::Read(void* buffer)
     jpeg_destroy_decompress(&cinfo);
     itkExceptionMacro("libjpeg could not read file: "
                             << this->GetFileName());
-    fclose(fp);
     // this is not a valid jpeg file
     return;
     }
@@ -312,7 +311,6 @@ void JPEGImageIO::Read(void* buffer)
   jpeg_destroy_decompress(&cinfo);
 
   delete [] row_pointers;
-  fclose(fp);
 }
 
 
@@ -375,7 +373,6 @@ void JPEGImageIO::ReadImageInformation()
     // this is not a valid jpeg file 
     itkExceptionMacro("Error JPEGImageIO could not open file: " 
                       << this->GetFileName());
-    fclose(fp);
     return;
     }
   jpeg_create_decompress(&cinfo);
@@ -401,7 +398,6 @@ void JPEGImageIO::ReadImageInformation()
 
   // close the file
   jpeg_destroy_decompress(&cinfo);
-  fclose(fp);
 
   return;
 }
@@ -491,7 +487,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
     default:
       itkExceptionMacro(<<"JPEG supports unsigned char and unsigned short");
-      ;
     }
 
   // Call the correct templated function for the output
@@ -518,13 +513,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   // set the destination file
   //struct jpeg_destination_mgr compressionDestination;
-  fp = fopen(this->GetFileName(), "wb");
-  if (!fp)
-    {
-    itkExceptionMacro("Error JPEGImageIO could not open file: " 
-                      << this->GetFileName());
-    return;
-    }
   jpeg_stdio_dest(&cinfo, fp);
   
   // set the information about image
@@ -572,7 +560,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   if (fflush(fp) == EOF)
     {
     itkExceptionMacro(<<"JPEG : Out of disk space"); 
-    fclose(fp);
     return;
     }
 
@@ -582,7 +569,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   // clean up and close the file
   delete [] row_pointers;
   jpeg_destroy_compress(&cinfo); 
-  fclose(fp);
 }
 
 
