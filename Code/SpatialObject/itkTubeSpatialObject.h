@@ -44,17 +44,20 @@ class ITK_EXPORT TubeSpatialObject
 
 public:
 
-    typedef TubeSpatialObject Self;
-    typedef SpatialObject< 3, AffineTransform<double, 3>, bool > Superclass;
-    typedef SmartPointer < Self > Pointer;
-    typedef SmartPointer < const Self > ConstPointer;
-    typedef double ScalarType;
-    typedef bool OutputType;
-    typedef unsigned int IdentifierType;
-    typedef std::list < itk::TubePoint * > PointListType;
-    typedef PointListType * PointListPointer;
-    typedef VectorContainer<unsigned long,PointType> PointContainerType;
-    typedef SmartPointer<PointContainerType> PointContainerPointer;
+    typedef TubeSpatialObject                           Self;
+    typedef SpatialObject<  3, 
+                            AffineTransform<double, 3>, 
+                            bool >                      Superclass;
+    typedef SmartPointer < Self >                       Pointer;
+    typedef SmartPointer < const Self >                 ConstPointer;
+    typedef double                                      ScalarType;
+    typedef bool                                        OutputType;
+    typedef unsigned int                                IdentifierType;
+    typedef TubePoint<3>                                TubePointType;
+    typedef std::list < TubePointType::Pointer >        PointListType;
+    typedef PointListType *                             PointListPointer;
+    typedef VectorContainer<unsigned long,PointType>    PointContainerType;
+    typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
     /** 
     * Method for creation through the object factory. 

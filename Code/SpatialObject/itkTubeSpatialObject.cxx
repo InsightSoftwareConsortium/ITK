@@ -49,20 +49,34 @@ namespace itk
   ::GetPoints() const 
   { 
     itkDebugMacro( "Getting TubePoint list" );
+    
     return m_Points;
   } 
  
   void  
   TubeSpatialObject 
-  ::SetPoints( TubeSpatialObject::PointListPointer points )  
+  ::SetPoints( PointListPointer points )  
   {
+    // in this function, passing a null pointer as argument will
+    // just clear the list...
+
     itkDebugMacro( "Setting TubePoint list to " << points );
-    
-    if( points != m_Points )
+
+    m_Points->clear();
+         
+    if( points )
+    {
+      PointListType::iterator it,end;
+      it = points->begin();    
+      end = points->end();
+
+      for(; it != end; it++ )
       {
-      m_Points = points;
-      this->Modified();
+        m_Points->push_back(*it);
       }
+    }  
+      
+    this->Modified();
   } 
  
   unsigned int  

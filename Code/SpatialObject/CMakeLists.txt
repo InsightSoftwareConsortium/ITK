@@ -6,9 +6,7 @@ INCLUDE_DIRECTORIES(
 SOURCE_FILES(
   ITKSpatialObject_SRCS 
   itkTubeSpatialObject 
-  itkTubePoint 
   itkTubeNetworkSpatialObject
-  itkImageSpatialObject
 )
 
 ADD_LIBRARY(

@@ -19,8 +19,9 @@
 
 namespace itk 
 {
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::CommonConstruction() 
   {
     m_ID = 0;
@@ -34,154 +35,175 @@ namespace itk
     m_Alpha3 = 0;
   }
 
-  TubePoint
-  ::TubePoint(const unsigned short int numDimensions) 
-  {
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >
+  ::TubePoint( void ) 
+  { 
     CommonConstruction();
-    m_NumDimensions = numDimensions;
+    m_NumDimensions = TPointDimension;
     m_T = new VectorType(m_NumDimensions);
     m_V1 = new VectorType(m_NumDimensions);
     m_V2 = new VectorType(m_NumDimensions);
   }
 
-  TubePoint
-  ::~TubePoint() 
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >
+  ::~TubePoint( void ) 
   {
     delete m_T;
     delete m_V1;
     delete m_V2;
   }
 
-  TubePoint::Self & 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::Self & 
+  TubePoint< TPointDimension >
   ::GetReference( void )
   {
     return *this;
   }
 
-  TubePoint::Pointer 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::Pointer 
+  TubePoint< TPointDimension >
   ::GetPointer( void )
   {
     return this;
   }
     
-  TubePoint::ConstPointer 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::ConstPointer 
+  TubePoint< TPointDimension >
   ::GetConstPointer( void )
   {
     return this;
   }
 
+  template< unsigned int TPointDimension >
   unsigned int 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetId( void ) 
   {
     return m_ID;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetId( const unsigned int newID ) 
   {
     m_ID = newID;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetRadius( void ) const 
   {
     return m_R;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetRadius( const float newR ) 
   {
     m_R = newR;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetMedialness( void ) const 
   {
     return m_Medialness;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetMedialness( const float newMedialness ) 
   {
     m_Medialness = newMedialness;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetRidgeness( void ) const
   {
     return m_Ridgeness;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetRidgeness( const float newRidgeness ) 
   {
     m_Ridgeness = newRidgeness;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetBranchness( void ) const
   {
     return m_Branchness;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetBranchness( const float newBranchness ) 
   {
     m_Branchness = newBranchness;
   }
 
+  template< unsigned int TPointDimension >
   bool 
-  TubePoint::
-  GetMark( void ) const
+  TubePoint< TPointDimension >
+  ::GetMark( void ) const
   {
     return m_Mark;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetMark( const bool newMark ) 
   {
     m_Mark = newMark;
   }
 
+  template< unsigned int TPointDimension >
   unsigned short int 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetNumDimensions( void ) const
   {
     return m_NumDimensions;
   }
 
-  TubePoint::PointType 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::PointType 
+  TubePoint< TPointDimension >
   ::GetCenterLinePoint( void ) const
   {
     return m_X;
   }
 
   // n-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetCenterLinePoint( const PointType & newX ) 
   {
     m_X = newX;
   }
 
   // 3-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetCenterLinePoint( const double x0, const double x1, const double x2 ) 
   {
     m_X[0] = x0;
@@ -190,32 +212,36 @@ namespace itk
   }
 
   // 2-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetCenterLinePoint( const double x0, const double x1 ) 
   {
     m_X[0] = x0;
     m_X[1] = x1;
   }
 
-  TubePoint::VectorType * 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::VectorPointer 
+  TubePoint< TPointDimension >
   ::GetTangent( void ) 
   {
     return m_T;
   }
 
   // n-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetTangent( const VectorType & newT ) 
   {
     *m_T = newT;
   }
 
   // 3-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetTangent( const double t0, const double t1, const double t2 ) 
   {
     (* m_T) (0) = t0;
@@ -224,23 +250,27 @@ namespace itk
   }
 
   // 2-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetTangent( const double t0, const double t1 ) 
   {
     (* m_T) (0) = t0;
     (* m_T) (1) = t1;
   }
 
-  TubePoint::VectorType * 
-  TubePoint::GetV1() 
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::VectorPointer
+  TubePoint< TPointDimension >
+  ::GetV1() 
   {
     return m_V1;
   }
 
   // n-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   //::SetV1( const TubePoint::VectorType & newV1 ) 
   ::SetV1( const VectorType & newV1 ) 
   {
@@ -248,8 +278,9 @@ namespace itk
   }
 
   // 3-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetV1( const double v10, const double v11, const double v12 ) 
   {
     (* m_V1) (0) = v10;
@@ -258,32 +289,36 @@ namespace itk
   }
 
   // 2-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetV1( const double v10, const double v11 ) 
   {
     (* m_V1) (0) = v10;
     (* m_V1) (1) = v11;
   }
 
-  TubePoint::VectorType * 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::VectorPointer 
+  TubePoint< TPointDimension >
   ::GetV2() 
   {
     return m_V2;
   }
 
   // n-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetV2( const VectorType & newV2 ) 
   {
     *m_V2 = newV2;
   }
 
   // 3-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetV2( const double v20, const double v21, const double v22 ) 
   {
     (* m_V2) (0) = v20;
@@ -292,59 +327,68 @@ namespace itk
   }
 
   // 2-D case
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetV2( const double v20, const double v21 ) 
   {
     (* m_V2) (0) = v20;
     (* m_V2) (1) = v21;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetAlpha1( void ) const
   {
     return m_Alpha1;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetAlpha1( const float newAlpha ) 
   {
     m_Alpha1 = newAlpha;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetAlpha2( void ) const
   {
     return m_Alpha2;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetAlpha2( const float newAlpha ) 
   {
     m_Alpha2 = newAlpha;
   }
 
+  template< unsigned int TPointDimension >
   float 
-  TubePoint
+  TubePoint< TPointDimension >
   ::GetAlpha3( void ) const
   {
     return m_Alpha3;
   }
 
+  template< unsigned int TPointDimension >
   void 
-  TubePoint
+  TubePoint< TPointDimension >
   ::SetAlpha3( const float newAlpha ) 
   {
     m_Alpha3 = newAlpha;
   }
 
   /*
-  std::ostream & 
-  operator <<( std::ostream & os, TubePoint & tubePoint ) 
+  template< unsigned int TPointDimension >
+  void
+  TubePoint< TPointDimension >
+  ::PrintSelf( std::ostream & os, Indent indent) const
   {
     os << "ID: " << tubePoint.m_ID << " ";
     os << "#Dims: " << tubePoint.m_NumDimensions << " ";
@@ -359,8 +403,9 @@ namespace itk
   }
   */
 
-  TubePoint::Self & 
-  TubePoint
+  template< unsigned int TPointDimension >
+  TubePoint< TPointDimension >::Self & 
+  TubePoint< TPointDimension >
   ::operator=(const TubePoint & rhs) 
   {
     m_ID = rhs.m_ID;

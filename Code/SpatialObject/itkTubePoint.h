@@ -19,6 +19,7 @@
 #define __itkTubePoint_h
 
 #include "itkPoint.h"
+#include "itkLightObject.h"
 #include "vnl/vnl_vector_fixed.h"
 
 namespace itk 
@@ -32,23 +33,25 @@ namespace itk
 *
 * \also TubeSpatialObject TubeNetworkSpatialObject
 */ 
-
+template < unsigned int TPointDimension = 3 >
 class ITK_EXPORT TubePoint 
+: public LightObject
 {
 
 public:
 
-  /** Constructor. This one defines the # of dimensions in the TubePoint */
-  TubePoint(const unsigned short int numDimensions = 3);
+  typedef TubePoint                         Self;
+  typedef LightObject                       Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef const SmartPointer< const Self >  ConstPointer;
+  typedef Point< double, 3 >                PointType;
+  typedef vnl_vector< double >              VectorType;
+  typedef VectorType *                      VectorPointer;
 
-  /** Default destructor. */
-  ~TubePoint( void );
 
-  typedef TubePoint Self;
-  typedef Self * Pointer;
-  typedef const Self * ConstPointer;
-  typedef Point< double, 3 > PointType;
-  typedef vnl_vector < double > VectorType;
+  itkNewMacro( TubePoint );
+
+  itkTypeMacro( TubePoint, LightObject );
 
   /** 
   * Get the tubePoint Id. 
@@ -90,7 +93,7 @@ public:
   /** 
   * Get T 
   */
-  VectorType * GetTangent( void );
+  VectorPointer GetTangent( void );
 
   /** Set T. Couldn't use macros for these methods */
   void SetTangent(const VectorType & newT);
@@ -98,7 +101,7 @@ public:
   void SetTangent(const double t0, const double t1, const double t2);
 
   /** Get V1 */
-  VectorType * GetV1( void );
+  VectorPointer GetV1( void );
 
   /** Set V1 */
   void SetV1(const VectorType & newV1);
@@ -106,7 +109,7 @@ public:
   void SetV1(const double v10, const double v11, const double v12);
 
   /** Get V2 */
-  VectorType * GetV2( void );
+  VectorPointer GetV2( void );
 
   /** Set V2 */
   void SetV2(const VectorType & newV2);
@@ -171,6 +174,13 @@ public:
   Self & operator=(const TubePoint & rhs);
 
 protected:
+
+  /** Constructor. This one defines the # of dimensions in the TubePoint */
+  TubePoint( void );
+
+  /** Default destructor. */
+  ~TubePoint( void );
+
   /** A unique ID assigned to this tubepoint */
   unsigned int m_ID;
 
@@ -211,5 +221,9 @@ protected:
 };
 
 } // end of namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+  #include "itkTubePoint.txx"
+#endif
 
 #endif // __itkTubePoint_h
