@@ -33,7 +33,7 @@
 //  in the Perona-Malik paper \cite{Perona1990}, but uses a more robust technique
 //  for gradient magnitude estimation and has been generalized to $N$-dimensions.
 //
-//  \index{itk::GradientAnisotropicDiffusionImageFilter}
+//  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -47,7 +47,7 @@
 //
 //  The first step required to use this filter is to include its header file.
 //
-//  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!header}
+//  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -93,9 +93,9 @@ int main( int argc, char * argv[] )
   //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!instantiation}
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!New()}
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!Pointer}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!instantiation}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!New()}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -138,12 +138,12 @@ int main( int argc, char * argv[] )
   //  \code{SetConductanceParameter()} respectively.  The filter can be
   //  executed by invoking Update().
   //
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!Update()}
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!SetTimeStep()}
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!SetConductanceParameter()}
-  //  \index{itk::Gradient-Anisotropic-Diffusion-Image-Filter!SetNumberOfIterations()}
-  //  \index{SetTimeStep()!itk::Gradient-Anisotropic-Diffusion-Image-Filter}
-  //  \index{SetNumberOfIterations()!itk::Gradient-Anisotropic-Diffusion-Image-Filter}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetConductanceParameter()}
+  //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetNumberOfIterations()}
+  //  \index{SetTimeStep()!itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
+  //  \index{SetNumberOfIterations()!itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 

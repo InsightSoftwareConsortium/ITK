@@ -41,7 +41,7 @@
 //  This filter will work on images of any dimension by taking advantage of
 //  the natural separability of the Gaussian kernel and its derivatives.
 //
-//  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter}
+//  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -56,7 +56,7 @@
 //  The first step required to use this filter is to include its header
 //  file.
 //
-//  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!header}
+//  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -108,7 +108,7 @@ int main( int argc, char * argv[] )
   //  The filter type is now instantiated using both the input image and the
   //  output image types.
   //
-  //  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!Instantiation}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -127,8 +127,8 @@ int main( int argc, char * argv[] )
   //  A filter object is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
-  //  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!New()}
-  //  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!Pointer}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!New()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -154,8 +154,8 @@ int main( int argc, char * argv[] )
   //  It is now time for selecting the sigma of the Gaussian to use for
   //  smoothing the data prior to te differentiation.
   //
-  //  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!SetSigma()}
-  //  \index{SetSigma()!itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
+  //  \index{SetSigma()!itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
   const double sigma = atof( argv[3] );
@@ -170,7 +170,7 @@ int main( int argc, char * argv[] )
   //
   //  Finally the filter is executed by invoking the \code{Update()} method.
   //
-  //  \index{itk::Gradient-Magnitude-Recursive-Gaussian-Image-Filter!Update()}
+  //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!Update()}
   //
   //  Software Guide : EndLatex 
 
