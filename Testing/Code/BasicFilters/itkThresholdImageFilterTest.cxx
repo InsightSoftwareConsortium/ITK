@@ -89,7 +89,6 @@ int main()
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;
-  os = new std::ostrstream();
 
   threshold->GetOutput(0)->DebugOn();
   threshold->DebugOn();
@@ -118,7 +117,6 @@ int main()
   itk::OutputWindow::GetInstance()->DisplayText( os->str() );
   os->rdbuf()->freeze(0);
   delete os;
-  os = new std::ostrstream();
 
   threshold->GetOutput(0)->DebugOn();
   threshold->DebugOn();
