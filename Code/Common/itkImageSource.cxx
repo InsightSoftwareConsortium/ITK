@@ -63,7 +63,7 @@ itkImageSource<TOutputImage>
 template<class TOutputImage>
 TOutputImage *
 itkImageSource<TOutputImage>
-::GetOutput(int idx)
+::GetOutput(unsigned int idx)
 {
   return static_cast<TOutputImage *>(this->itkProcessObject::GetOutput(idx));
 }

@@ -29,7 +29,7 @@
 #ifndef __itkIndex_h
 #define __itkIndex_h
 
-#include <memory.h>
+#include <memory>
 
 template<unsigned int TIndexDimension=2>
 class itkIndex {

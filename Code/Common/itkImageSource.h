@@ -45,7 +45,7 @@ public:
    * Get the image output of this process object. 
    */
   TOutputImage *GetOutput();
-  TOutputImage *GetOutput(int idx);
+  TOutputImage *GetOutput(unsigned int idx);
 
   /** 
    * Set the image output of this process object. 

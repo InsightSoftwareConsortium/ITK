@@ -65,7 +65,7 @@ itkRandomImageSource<TOutputImage>
   index[1] = 0;
   ind.SetIndex(index);
   
-  TOutputImage::PixelType pixel;
+  typename TOutputImage::PixelType pixel;
   unsigned int pixelDimension = pixel.GetPixelDimension();
 
  // for (int j=0; j<imageSize; j++)

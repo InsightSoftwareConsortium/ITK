@@ -23,6 +23,8 @@
 #define __itkObject_h
 
 #include <iostream>
+#include <typeinfo>
+
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
