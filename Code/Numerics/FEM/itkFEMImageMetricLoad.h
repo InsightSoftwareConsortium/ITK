@@ -101,8 +101,11 @@ public:
   typedef ReferenceType*  ReferencePointer;
   typedef TTarget       TargetType;
   typedef TargetType*  TargetPointer;
-  /* Inherit some enums and typedefs from template */
-  enum{ ImageDimension = TReference::ImageDimension };
+
+  /** Dimensionality of input and output data is assumed to be the same. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      ReferenceType::ImageDimension);
+
   typedef ImageRegionIteratorWithIndex<ReferenceType> RefRegionIteratorType; 
   typedef ImageRegionIteratorWithIndex<TargetType>    TarRegionIteratorType; 
   
