@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkRegionGrowImageFilter.h"
 #include "itkKLMSegmentationRegion.h"
 #include "itkKLMSegmentationBorder.h"
+#include "itkImageRegionIterator.h"
 #include <algorithm>
 #include <functional>
 
