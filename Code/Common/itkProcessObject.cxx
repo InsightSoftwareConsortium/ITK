@@ -296,7 +296,7 @@ ProcessObject
   
   for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
-    if (m_Outputs[idx] == 0)
+    if ( m_Outputs[idx].IsNull() )
       {
       m_Outputs[idx] = output;
 
