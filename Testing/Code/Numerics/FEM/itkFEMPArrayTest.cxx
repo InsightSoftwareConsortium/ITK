@@ -71,15 +71,54 @@ int itkFEMPArrayTest(int, char*[])
     std::cout << "Nodes\n";
 
 
+    NodeType::Pointer node; 
+
     try 
       { 
-      NodeType::Pointer node = &*array.Find(0);
+      node = &*array.Find(0);
+      node = &*array.Find(1);
+      node = &*array.Find(2);
+      node = &*array.Find(3);
       }
     catch ( itk::ExceptionObject &e) 
       {
       std::cout << "Exception caught: " << e << std::endl;
       return EXIT_FAILURE;
       }
+
+
+    // try an element with GN larger than the array size
+    n1=NodeType::New();
+    pt[0]=0.;
+    pt[1]=3.;
+    n1->SetCoordinates(pt);
+    n1->GN = 200;
+    array.push_back( FEMPointer(&*n1));
+
+
+    try 
+      { 
+      node = &*array.Find(200);
+      }
+    catch ( itk::ExceptionObject &e) 
+      {
+      std::cout << "Exception caught: " << e << std::endl;
+      return EXIT_FAILURE;
+      }
+
+
+    try 
+      { 
+      // Intentionally fail, by asking for a non-existing element
+      node = &*array.Find(1000);
+      std::cout << "Error: exception should have been thrown here... " << std::endl;
+      return EXIT_FAILURE;
+      }
+    catch ( itk::ExceptionObject &e) 
+      {
+      std::cout << "Passed Exception test: " << e << std::endl;
+      }
+
 
     std::cout << "Test PASSED!\n";
     return EXIT_SUCCESS;
