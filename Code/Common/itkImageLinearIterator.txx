@@ -46,7 +46,7 @@ ImageLinearIterator<TImage>
     }
     
     m_PositionIndex[ n  ]++;
-    if( m_PositionIndex[n] < (int)( m_Region.GetSize()[n] ))
+    if( m_PositionIndex[n] <  m_Region.GetSize()[n] )
     {
       m_Position += m_OffsetTable[ n ];
       m_Remaining = true;
@@ -71,7 +71,7 @@ bool
 ImageLinearIterator<TImage>
 ::IsAtEndOfLine(void) 
 {
-  return m_PositionIndex[m_Direction] >= (int)m_Region.GetSize()[m_Direction];
+  return m_PositionIndex[m_Direction] >= m_Region.GetSize()[m_Direction];
 }
 
 
