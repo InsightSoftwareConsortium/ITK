@@ -676,13 +676,13 @@ Neighborhood<TPixel, VDimension>
   std::cout << "        this = " << this << std::endl;
   std::cout << "  this->size = " << this->size() << std::endl;
 
-  this->PrintData();
+  this->PrintScalarData();
 }
 
 template<class TPixel, unsigned int VDimension>
 void
 Neighborhood<TPixel, VDimension>
-::PrintData()
+::PrintScalarData()
 {
   int iDim, i, ArrayLength;
   Iterator iter;
@@ -691,7 +691,7 @@ Neighborhood<TPixel, VDimension>
 
   for (iter = Begin(); iter < End(); ++iter)
     {
-      std::std::cout << *iter << " ";
+      std::cout << ScalarTraits<TPixel>::GetScalar(*iter) << " ";
 
       for (iDim = 0; iDim < VDimension; ++iDim)
         {
