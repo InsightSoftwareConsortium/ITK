@@ -222,10 +222,13 @@ struct ReturnReferenceTo
  * If none exists, an exception is thrown.
  */
 template <typename T>
-struct ArgumentAs
+class ArgumentAsInstanceOf
 {
-  static T Get(const Argument& argument,
-               const WrapperBase* wrapper)
+public:
+  ArgumentAsInstanceOf(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
+  ~ArgumentAsInstanceOf() {}
+  
+  T operator()(const Argument& argument)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -246,7 +249,7 @@ struct ArgumentAs
       {
       // We don't have a trivial conversion.  Try to lookup the
       // conversion function.
-      cf = wrapper->GetConversionFunction(from, to);
+      cf = m_Wrapper->GetConversionFunction(from, to);
       // If not, we don't know how to do the conversion.
       if(!cf)
         {
@@ -257,6 +260,11 @@ struct ArgumentAs
     // Perform the conversion and return the result.
     return ConvertTo<T>::From(argument.GetValue(), cf);
     }
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
 };
 
 
@@ -264,10 +272,13 @@ struct ArgumentAs
  * Convert the given Argument to a pointer to T.
  */
 template <typename T>
-struct ArgumentAsPointerTo
+class ArgumentAsPointerTo
 {
-  static T* Get(const Argument& argument,
-                const WrapperBase* wrapper)
+public:
+  ArgumentAsPointerTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
+  ~ArgumentAsPointerTo() {}
+  
+  T* operator()(const Argument& argument)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -293,7 +304,7 @@ struct ArgumentAsPointerTo
       {
       // We don't have a trivial conversion.  Try to lookup the
       // conversion function.
-      cf = wrapper->GetConversionFunction(from, to);
+      cf = m_Wrapper->GetConversionFunction(from, to);
       // If not, we don't know how to do the conversion.
       if(!cf)
         {
@@ -304,6 +315,11 @@ struct ArgumentAsPointerTo
     // Perform the conversion and return the result.
     return ConvertTo<T*>::From(argument.GetValue(), cf);
     }
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
 };
 
 
@@ -311,10 +327,13 @@ struct ArgumentAsPointerTo
  * Convert the given Argument to a pointer to function T.
  */
 template <typename T>
-struct ArgumentAsPointerToFunction
+class ArgumentAsPointerToFunction
 {
-  static T Get(const Argument& argument,
-                const WrapperBase* wrapper)
+public:
+  ArgumentAsPointerToFunction(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
+  ~ArgumentAsPointerToFunction() {}
+  
+  T* operator()(const Argument& argument)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -334,13 +353,13 @@ struct ArgumentAsPointerToFunction
        && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
                                                       PointerType::SafeDownCast(to)))
       {
-      cf = Converter::FunctionPointer<T>::GetConversionFunction();
+      cf = Converter::FunctionPointer<T*>::GetConversionFunction();
       }
     else
       {
       // We don't have a trivial conversion.  Try to lookup the
       // conversion function.
-      cf = wrapper->GetConversionFunction(from, to);
+      cf = m_Wrapper->GetConversionFunction(from, to);
       // If not, we don't know how to do the conversion.
       if(!cf)
         {
@@ -349,8 +368,13 @@ struct ArgumentAsPointerToFunction
       }
     
     // Perform the conversion and return the result.
-    return ConvertTo<T>::From(argument.GetValue(), cf);
+    return ConvertTo<T*>::From(argument.GetValue(), cf);
     }
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
 };
 
 
@@ -361,8 +385,10 @@ template <typename T>
 class ArgumentAsReferenceTo
 {
 public:
-  static T& Get(const Argument& argument,
-                const WrapperBase* wrapper)
+  ArgumentAsReferenceTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
+  ~ArgumentAsReferenceTo() {}
+  
+  T& operator()(const Argument& argument)
     {
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
@@ -391,13 +417,13 @@ public:
     else if(Conversions::ReferenceCanBindAsDerivedToBase(from, to))
       {
       // TODO: Handle different cv-qualifications.
-      cf = wrapper->GetConversionFunction(from, to);
+      cf = m_Wrapper->GetConversionFunction(from, to);
       }
     else
       {
       // We don't have a trivial conversion.  Try to lookup the
       // conversion function.
-      cf = wrapper->GetConversionFunction(from, to);
+      cf = m_Wrapper->GetConversionFunction(from, to);
       }
     // Make sure we know how to do the conversion.
     if(!cf)
@@ -407,7 +433,12 @@ public:
     
     // Perform the conversion and return the result.
     return ConvertTo<T&>::From(argument.GetValue(), cf);
-    } 
+    }
+private:
+  /**
+   * The Wrapper for which this is handling an argument.
+   */
+  const WrapperBase* m_Wrapper;
 };
 
 
@@ -417,12 +448,12 @@ public:
  * the call to a wrapped function.
  */
 template <typename T>
-class GetArgumentAsReferenceTo_const
+class ArgumentAsReferenceTo_const
 {
 public:
-  GetArgumentAsReferenceTo_const(const WrapperBase* wrapper):
+  ArgumentAsReferenceTo_const(const WrapperBase* wrapper):
     m_Wrapper(wrapper), m_Temporary(NULL) {}
-  ~GetArgumentAsReferenceTo_const()
+  ~ArgumentAsReferenceTo_const()
     { if(m_Temporary) { delete const_cast<T*>(m_Temporary); } }
   
   const T& operator()(const Argument& argument)
