@@ -69,6 +69,7 @@ ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS} itkMemoryLeakTest)
 ADD_TEST(itkMeshTest ${COMMON_TESTS} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
 ADD_TEST(itkMinimumDecisionRuleTest ${COMMON_TESTS} itkMinimumDecisionRuleTest)
+ADD_TEST(itkNearestNeighborExtrapolateImageFunctionTest ${COMMON_TESTS} itkNearestNeighborExtrapolateImageFunctionTest)
 ADD_TEST(itkNeighborhoodTest ${COMMON_TESTS} itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS} itkNeighborhoodIteratorTest)
 ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS} itkNeighborhoodOperatorImageFunctionTest)
@@ -214,6 +215,7 @@ itkMemoryLeakTest.cxx
 itkMeshTest.cxx
 itkMeshFstreamTest.cxx
 itkMinimumDecisionRuleTest.cxx
+itkNearestNeighborExtrapolateImageFunctionTest.cxx
 itkNeighborhoodTest.cxx
 itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx

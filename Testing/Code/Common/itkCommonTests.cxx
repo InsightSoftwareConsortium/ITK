@@ -67,6 +67,7 @@ REGISTER_TEST(itkMemoryLeakTest );
 REGISTER_TEST(itkMeshTest );
 REGISTER_TEST(itkMeshFstreamTest );
 REGISTER_TEST(itkMinimumDecisionRuleTest );
+REGISTER_TEST(itkNearestNeighborExtrapolateImageFunctionTest );
 REGISTER_TEST(itkNeighborhoodTest );
 REGISTER_TEST(itkNeighborhoodIteratorTest );
 REGISTER_TEST(itkNeighborhoodOperatorImageFunctionTest);
