@@ -84,6 +84,7 @@
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkHausdorffDistanceImageFilter.h"
+#include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkHoughTransform2DLinesImageFilter.h"
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkImportImageFilter.h"
