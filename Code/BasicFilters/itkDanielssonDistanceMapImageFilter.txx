@@ -44,7 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
-#include "itkRegionNeighborhoodIterator.h"
 
 
 namespace itk
