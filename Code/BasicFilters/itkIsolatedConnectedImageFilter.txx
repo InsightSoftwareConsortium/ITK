@@ -60,6 +60,9 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "IsolatedValue: "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
      << std::endl;
+  os << indent << "IsolatedValueTolerance: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance)
+     << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>

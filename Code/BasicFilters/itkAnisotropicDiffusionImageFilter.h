@@ -126,74 +126,16 @@ public:
   itkGetMacro(FixedAverageGradientMagnitude, double);
   
 protected:
-  AnisotropicDiffusionImageFilter()
-    {
-      m_NumberOfIterations = 0;
-      m_ConductanceParameter = 1.0;
-      m_TimeStep = 0.125f;
-      m_FixedAverageGradientMagnitude = 0.0;
-      m_GradientMagnitudeIsFixed = false;
-    }
+  AnisotropicDiffusionImageFilter();
   ~AnisotropicDiffusionImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os, indent.GetNextIndent());
-      os << indent << "TimeStep: " << m_TimeStep << std::endl;
-      os << indent << "ConductanceParameter: "
-         << m_ConductanceParameter << std::endl;
-      os << indent << "ConductanceScalingParameter: "
-         << m_ConductanceScalingParameter << std::endl;
-      os << indent << "NumberOfIterations: " << m_NumberOfIterations
-         << std::endl;
-      os << indent << "ConductanceScalingUpdateInterval: "
-         << m_ConductanceScalingUpdateInterval << std::endl;
-      os << indent << "FixedAverageGradientMagnitude: "
-         << m_FixedAverageGradientMagnitude << std::endl;
-    }
-  
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  virtual bool Halt()
-    {
-      if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
-      else return false;
-    }
+  virtual bool Halt();
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration()
-    {
-      AnisotropicDiffusionFunction<UpdateBufferType> *f = 
-        dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
-        (this->GetDifferenceFunction().GetPointer());
-      if (! f)
-        {  throw ExceptionObject(__FILE__, __LINE__);    }
-      
-      f->SetConductanceParameter(m_ConductanceParameter);
-      f->SetTimeStep(m_TimeStep);
-
-      if ( m_TimeStep >  1.0 / pow(2.0, static_cast<double>(ImageDimension))  )
-        {
-          f->SetTimeStep(1.0 / pow(2.0, static_cast<double>(ImageDimension))); 
-          itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which will introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() << ", which is the maximum value for which the solution is theoretically stable.");
-        }
-      
-      if (m_GradientMagnitudeIsFixed == false)
-        {
-          f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
-        }
-      else
-        {
-          f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
-                                                *
-                                                m_FixedAverageGradientMagnitude);
-        }
-      f->InitializeIteration();
-
-      if (m_NumberOfIterations != 0)
-          this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                               /((float)(m_NumberOfIterations)));
-      else this->UpdateProgress(0);
-    }
+  virtual void InitializeIteration();
 
   bool m_GradientMagnitudeIsFixed;
   
@@ -212,5 +154,9 @@ private:
 };
 
 } // end namspace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkAnisotropicDiffusionImageFilter.txx"
+#endif
 
 #endif

@@ -73,10 +73,6 @@ protected:
       this->SetDifferenceFunction(q);
     }
   ~CurvatureAnisotropicDiffusionImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os,indent);
-    }
 
 private:
   CurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
