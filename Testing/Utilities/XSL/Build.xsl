@@ -75,7 +75,7 @@
           <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="SourceFile"/>?annotate=HEAD
         </xsl:attribute>
         CVS Access
-      </a>
+      </a><xsl:text>   </xsl:text>
       <xsl:if test="SourceFileTail != ''">
         <a>
           <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/><xsl:value-of select="translate ( SourceFileTail, '.', '_' )"/>-source.html</xsl:attribute>
