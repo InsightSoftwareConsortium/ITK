@@ -30,6 +30,7 @@ ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Code/Algorithms)
 ENDIF (TCL_TCLSH)
 
+ADD_TEST(itkAntiAliasBinaryImageFilterTest itkAlgorithmsTests itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest itkAlgorithmsTests itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkCurvatureFlowTest itkAlgorithmsTests itkCurvatureFlowTest)
 ADD_TEST(itkDemonsRegistrationFilterTest itkAlgorithmsTests itkDemonsRegistrationFilterTest)
@@ -92,6 +93,7 @@ ADD_TEST(itkVoronoiSegmentationImageFilterTest itkAlgorithmsTests itkVoronoiSegm
 ADD_TEST(itkWatershedImageFilterTest itkAlgorithmsTests itkWatershedImageFilterTest)
 
 SOURCE_FILES(AlgorithmsTest_SRCS
+itkAntiAliasBinaryImageFilterTest
 itkBinaryMinMaxCurvatureFlowImageFilterTest 
 itkCurvatureFlowTest
 itkDemonsRegistrationFilterTest
