@@ -8,6 +8,33 @@ proc MakeDateStamp {} \
   return [clock format [clock seconds] -format %Y%m%d]
 }
 
+proc FileMap { Queue PatternList Map } \
+{
+  while { [llength $Queue] != 0 } \
+  {
+    set Filename [lindex $Queue 0]
+    set Queue [lrange $Queue 1 end]
+
+    if { [file isdirectory $Filename] } \
+    {
+      if { [file tail $Filename] == "CVS" } \
+      {
+	continue
+      }
+      catch { set Queue [concat $Queue [glob $Filename/*]] }
+      continue;
+    }
+    foreach Pattern $PatternList \
+    {
+      if { [string match $Pattern [file tail $Filename]] } \
+      {
+	catch { eval $Map $Filename }
+      }
+    }
+  }
+}
+
+
 proc GetLastBuildDirectory {} \
 {
   global Site BuildName

@@ -150,5 +150,8 @@ puts $Out "</Site>"
 
 close $BuildLog
 close $Out
+
+# Clean up any da files from previous coverage
+FileMap [list .] [list *.da] "file delete -force -- "
 exit
 

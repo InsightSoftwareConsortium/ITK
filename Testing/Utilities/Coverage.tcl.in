@@ -141,7 +141,7 @@ while { [llength $Queue] != 0 } \
 
 proc PercentCoverage { t ut } \
 {
-  if { $ut != 0 && $t != 0 } \
+  if { ( $ut + $t ) != 0 } \
   {
     return [format "%.2f" [expr 100.0 * $t / double ( $ut + $t )]]
   }
