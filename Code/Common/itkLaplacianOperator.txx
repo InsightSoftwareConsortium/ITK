@@ -20,6 +20,19 @@
 
 namespace itk
 {
+
+template<class TPixel, unsigned int VDimension, class TAllocator>
+void
+LaplacianOperator<TPixel, VDimension, TAllocator>
+::SetDerivativeScalings( const double *s )
+{
+  for (unsigned int i = 0; i < VDimension; ++i)
+    {
+    m_DerivativeScalings[i] = s[i];
+    }
+}
+
+
 //Create the operator
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
@@ -65,9 +78,10 @@ typename LaplacianOperator<TPixel, VDimension, TAllocator>
 LaplacianOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
-  unsigned int i;
+  unsigned int i, d;
   unsigned int w = 1;
 
+  // Create a vector of the correct size to hold the coefficients.
   for(i = 0; i < VDimension; i ++)
     {
       w = w*3;
@@ -77,38 +91,46 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
   CoefficientVector coeffP(w);
   int offset[2 * VDimension];
 
+  // Initialize coeff to 0.0
+  for (i = 0; i < w; i++)
+    {
+    coeff[i] = 0.0;
+    }
+  
   // Here we set the radius to 1's, here the
   // operator is 3x3 for 2D, 3x3x3 for 3D.
 
   unsigned long k[VDimension];
 
-  for (unsigned int i = 0; i<VDimension; ++i)
+  for (i = 0; i<VDimension; ++i)
     {
-      k[i] = 1;
+    k[i] = 1;
     }
 
   this->SetRadius(k);
   
   for ( i = 0 ; i < 2 * VDimension; i+= 2)
     {
-      offset[i] = - static_cast<long>( this->GetStride(i/2) );
-      offset[i+1] = static_cast<long>( this->GetStride(i/2) );
+    offset[i]   = - static_cast<long>( this->GetStride(i/2) );
+    offset[i+1] =   static_cast<long>( this->GetStride(i/2) );
     }
-
-  //Set the coefficients 
-  coeff[w/2] = -2.0 * VDimension;
   
+  //Set the coefficients 
   for (i = 0 ; i < 2 * VDimension; i++)
     {
-      coeff[w/2 + offset[i]] = 1.0;
+    coeff[w/2 + offset[i]] = 1.0 / m_DerivativeScalings[ i / 2];
     } 
 
+  double sum = 0.0;
   for ( i = 0; i < w; i ++)
     {
-      coeffP[i] = coeff[i]/(2.0 *VDimension) ;
+    coeffP[i] = coeff[i] / (2.0 * static_cast<double>(VDimension) ) ;
+    sum += coeffP[i];
     }
-
-    return coeffP;
+  
+  coeffP[w/2] = - sum;
+  
+  return coeffP;
 }
 
 } // namespace itk
