@@ -96,6 +96,11 @@ public:
   typedef typename Superclass::IndexType IndexType;
 
   /**
+   * Point typedef support.
+   */
+  typedef typename Superclass::PointType PointType;
+
+  /**
    * Dimension of the underlying image.
    */
   enum { ImageDimension = InputImageType::ImageDimension };
