@@ -1,4 +1,4 @@
-aborning
+aborning:Andrea Borning:aborning@insightful.com
 alyassin
 anonymous
 avants
@@ -23,7 +23,7 @@ jrgold
 kellyae
 king
 lawcc:Charles Law:charles.law@kitware.com
-lng
+lng:Lydia Ng:lng@insightful.com
 lorensen
 martink:Ken Martin:ken.martin@kitware.com
 millerjv
@@ -33,12 +33,12 @@ rondot
 Rystrom
 siqueira
 sisler
-spathak
+spathak:Sayan Pathak:spathak@insightful.com
 stetten
 tamburo
 tpan
 turek
-vikram
+vikram:Vikram Chalana:vikram@insightful.com
 volpe
 whitaker
 will:Will Schroeder:will.schroeder@kitware.com
