@@ -168,7 +168,7 @@ void
 BloxCoreAtomPixel<NDimensions>
 ::CollectVote(MatrixType* pMatrix, double strength, double count)
 {
-  m_VotedCMatrix = m_VotedCMatrix + (*pMatrix)*strength;
+  m_VotedCMatrix += (*pMatrix)*strength;
   m_ConstituencySize += count;
 }
 
@@ -177,7 +177,7 @@ void
 BloxCoreAtomPixel<NDimensions>
 ::NormalizeVotedCMatrix()
 {
-  if(this->size() != 0)
+  if(m_ConstituencySize != 0)
     m_VotedCMatrix /= m_ConstituencySize;
 }
 
@@ -211,6 +211,20 @@ BloxCoreAtomPixel<NDimensions>
     }
 
   delete pEigenSys;
+
+  printf("VotedCMatrix\n");
+  for(int i = 0; i < 3; i++)
+  {
+    printf("%f %f %f\n", m_VotedCMatrix(i,0), m_VotedCMatrix(i,1), m_VotedCMatrix(i,2) );
+  }
+  printf("\n");
+
+  printf("Voted eigenvectors\n");
+  for(int i = 0; i < 3; i++)
+  {
+    printf("%f %f %f\n", m_VotedEigenvectors(i,0), m_VotedEigenvectors(i,1), m_VotedEigenvectors(i,2) );
+  }
+  printf("\n");
 }
 
 } // end namespace itk
