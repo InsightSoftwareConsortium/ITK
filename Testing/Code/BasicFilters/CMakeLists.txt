@@ -40,4 +40,5 @@ itkTanImageFilterAndAdaptorTest
 itkTernaryMagnitudeImageFilterTest
 itkThresholdImageFilterTest
 itkVectorAnisotropicDiffusionImageFilterTest
+itkGradientAnisotropicDiffusionImageFilterTest
 )
