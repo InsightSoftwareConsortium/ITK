@@ -92,7 +92,7 @@ ADD_TEST(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkShapedNeighborhood
 ADD_TEST(itkSimilarity2DTransformTest ${COMMON_TESTS} itkSimilarity2DTransformTest)
 ADD_TEST(itkSliceIteratorTest ${COMMON_TESTS} itkSliceIteratorTest)
 ADD_TEST(itkSpatialFunctionTest ${COMMON_TESTS} itkSpatialFunctionTest)
-ADD_TEST(itkSphereSignedDistanceFunctionTest ${COMMON_TESTS} itkSphereSignedDistanceTest)
+ADD_TEST(itkSphereSignedDistanceFunctionTest ${COMMON_TESTS} itkSphereSignedDistanceFunctionTest)
 ADD_TEST(itkSmartPointerTest ${COMMON_TESTS} itkSmartPointerTest)
 ADD_TEST(itkSTLContainerAdaptorTest ${COMMON_TESTS} itkSTLContainerAdaptorTest)
 ADD_TEST(itkTimeProbesTest ${COMMON_TESTS} itkTimeProbesTest)
