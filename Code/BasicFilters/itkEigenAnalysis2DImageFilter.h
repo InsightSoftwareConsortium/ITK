@@ -91,7 +91,7 @@ public:
   /** 
    * Typedef for the vector type representing the eigen vectors
    */
-	typedef typename TEigenVectorImage::PixelType     EigenVectorType;
+  typedef typename TEigenVectorImage::PixelType     EigenVectorType;
   typedef typename EigenVectorType::ValueType   VectorComponentType;
 
   /** 

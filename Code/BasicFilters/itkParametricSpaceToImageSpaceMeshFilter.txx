@@ -129,7 +129,7 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   if( !inPoints )
     {
     return;
-	}
+  }
 
   typename InputPointsContainer::ConstIterator    inputPoint   = inPoints->Begin();
   typename InputPointDataContainer::ConstIterator inputData    = inData->Begin();

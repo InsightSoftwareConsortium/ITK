@@ -190,7 +190,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
   delete [] s1;  
   delete [] s2;  
-	
+  
 }
 
 

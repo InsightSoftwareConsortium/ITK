@@ -122,7 +122,7 @@ public:
    * Get the shrink factors.
    */
   const unsigned int * GetShrinkFactors() const
-		{ return m_ShrinkFactors; }
+    { return m_ShrinkFactors; }
                  
   /**
    * ShrinkImageFilter produces an image which is a different

@@ -288,7 +288,7 @@ VTKImageImport<TOutputImage>
                     << importSize << " v. " << bufferSize);
       }
     memcpy(bufferPointer, importPointer,
-	   dataSize*sizeof(OutputPixelType));
+     dataSize*sizeof(OutputPixelType));
     }
 }
 

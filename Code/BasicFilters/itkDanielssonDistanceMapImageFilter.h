@@ -85,7 +85,7 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef   DanielssonDistanceMapImageFilter 	  Self;
+  typedef   DanielssonDistanceMapImageFilter    Self;
 
   /**
    * Standard "Superclass" typedef.

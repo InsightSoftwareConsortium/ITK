@@ -80,7 +80,7 @@ ReflectiveImageRegionIterator<TImage>
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
   {    
     if( m_IsFirstPass[ in ] ) 
-	{
+  {
       m_PositionIndex[ in  ]++;
       if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
       {
@@ -91,30 +91,30 @@ ReflectiveImageRegionIterator<TImage>
       else 
       {
         m_PositionIndex[ in ] = m_EndIndex[ in ]-1; 
-		m_IsFirstPass[ in ] = false;
-		m_Remaining = true;
-		break;
+    m_IsFirstPass[ in ] = false;
+    m_Remaining = true;
+    break;
       }
-	}
-	else 
-	{
+  }
+  else 
+  {
       
       if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
       {
-	    m_PositionIndex[ in  ]--;
+      m_PositionIndex[ in  ]--;
         m_Position -= m_OffsetTable[in];
         m_Remaining = true;
         break;
       }
       else 
       {
-	    m_PositionIndex[ in  ]--;
+      m_PositionIndex[ in  ]--;
         m_Position -= m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
         m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
-		m_IsFirstPass[ in ] = true;
+    m_IsFirstPass[ in ] = true;
       }
 
-	}
+  }
   }
 
   if( !m_Remaining ) // It will not advance here otherwise

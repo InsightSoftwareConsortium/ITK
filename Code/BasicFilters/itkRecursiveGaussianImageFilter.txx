@@ -107,9 +107,9 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
   n11  = exp(-b1/sigmad)*(c1*sin(w1/sigmad)-(c0+2*a0)*cos(w1/sigmad)); 
   n11 += exp(-b0/sigmad)*(a1*sin(w0/sigmad)-(a0+2*c0)*cos(w0/sigmad)); 
   n22  = ((a0+c0)*cos(w1/sigmad)*cos(w0/sigmad));
-  n22	-= (a1*cos(w1/sigmad)*sin(w0/sigmad)+c1*cos(w0/sigmad)*sin(w1/sigmad));
-  n22	*= 2*exp(-(b0+b1)/sigmad);
-  n22	+= c0*exp(-2*b0/sigmad) + a0*exp(-2*b1/sigmad);
+  n22 -= (a1*cos(w1/sigmad)*sin(w0/sigmad)+c1*cos(w0/sigmad)*sin(w1/sigmad));
+  n22 *= 2*exp(-(b0+b1)/sigmad);
+  n22 += c0*exp(-2*b0/sigmad) + a0*exp(-2*b1/sigmad);
   n33  = exp(-(b1+2*b0)/sigmad)*(c1*sin(w1/sigmad)-c0*cos(w1/sigmad));
   n33 += exp(-(b0+2*b1)/sigmad)*(a1*sin(w0/sigmad)-a0*cos(w0/sigmad));
   
@@ -119,7 +119,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
   d22  =  4*cos(w1/sigmad)*cos(w0/sigmad)*exp(-(b0+b1)/sigmad);
   d22 +=  exp(-2*b1/sigmad)+exp(-2*b0/sigmad);
   d11  =  -2*exp(-b1/sigmad)*cos(w1/sigmad)-2*exp(-b0/sigmad)*cos(w0/sigmad);
-	
+  
   if( symmetric )
     {
     m11 = n11 - d11 * n00;

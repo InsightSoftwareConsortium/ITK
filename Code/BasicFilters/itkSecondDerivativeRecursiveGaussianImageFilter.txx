@@ -68,7 +68,7 @@ SecondDerivativeRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputat
   K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
   
   const bool symmetric = true;
-	ComputeFilterCoefficients(symmetric);	
+  ComputeFilterCoefficients(symmetric); 
 }
 
 } // end namespace itk

@@ -269,11 +269,11 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     outputIt3.Set( eigenVector );
 
     const VectorComponentType norm = eigenVector.GetNorm();
-		if( norm > 1e-30 ) 
+    if( norm > 1e-30 ) 
       {
       outputIt3.Set( eigenVector / norm  );
-			}
-		else
+      }
+    else
       {
       outputIt3.Set( nullVector );
       }

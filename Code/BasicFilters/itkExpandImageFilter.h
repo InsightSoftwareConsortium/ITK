@@ -174,7 +174,7 @@ public:
    * Get the expand factors.
    */
   virtual const unsigned int * GetExpandFactors() const
-		{ return m_ExpandFactors; }
+    { return m_ExpandFactors; }
 
   /**
    * Set the edge padding value. The default is zero.

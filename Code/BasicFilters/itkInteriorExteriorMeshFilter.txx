@@ -118,14 +118,14 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
 
   bool inputDataExists = false;
   if( inData )
-	{
-	inputDataExists = true;
-	}
+  {
+  inputDataExists = true;
+  }
 
   if( inputDataExists )
     {
     inputData = inData->Begin();
-	}
+  }
   
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
