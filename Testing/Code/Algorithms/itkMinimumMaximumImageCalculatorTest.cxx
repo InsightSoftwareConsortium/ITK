@@ -102,6 +102,8 @@ main(int argc,char *argv[])
 
     calculator->Compute();
 
+    std::cout << "calculator: " << calculator;
+
     /* Return minimum of intensity */
     short minimumResult = calculator->GetMinimum();
     std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
