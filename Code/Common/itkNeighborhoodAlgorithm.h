@@ -42,7 +42,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator
   typedef typename TImage::SizeType   SizeType;
   typedef typename SizeType::SizeValueType  SizeValueType;
   typedef std::list<RegionType> FaceListType;
-  enum {ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   FaceListType operator()(const TImage *, RegionType, RadiusType);
 };
@@ -57,7 +57,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator
 template<class TImage>
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers
 {
-  typedef Offset<TImage::ImageDimension> OffsetType;
+  typedef Offset< ::itk::GetImageDimension<TImage>::ImageDimension> OffsetType;
   OffsetType operator()(TImage *, TImage *) const;
 };
   

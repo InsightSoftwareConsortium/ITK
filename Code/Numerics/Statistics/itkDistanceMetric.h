@@ -45,8 +45,10 @@ public:
   /** Standard typedefs */
   typedef DistanceMetric Self;
   typedef MembershipFunctionBase< TVector > Superclass;
+
+  /** Length constant */
+  itkStaticConstMacro(VectorLength, unsigned int, TVector::Length);
   
-  enum { VectorLength = TVector::Length } ;
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 

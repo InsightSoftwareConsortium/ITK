@@ -62,11 +62,12 @@ public:
   itkTypeMacro(ImageRegion, Region);
 
   /** Dimension of the image available at compile time. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Dimension one lower than the image unless the image is one dimensional
-   in which case the SliceDimension is also one dimensional. */
-  enum { SliceDimension = (VImageDimension - (VImageDimension > 1))};
+      in which case the SliceDimension is also one dimensional. */
+  itkStaticConstMacro(SliceDimension, unsigned int,
+                      (VImageDimension - (VImageDimension > 1)));
   
   /** Dimension of the image available at run time. */
   static unsigned int GetImageDimension() 
@@ -81,7 +82,7 @@ public:
   typedef typename SizeType::SizeValueType SizeValueType;
 
   /** Slice region typedef. SliceRegion is one dimension less than Self. */
-  typedef ImageRegion<SliceDimension> SliceRegion;
+  typedef ImageRegion<itkGetStaticConstMacro(SliceDimension)> SliceRegion;
   
   /** Return the region type. Images are described with structured regions. */
   virtual typename Superclass::RegionType GetRegionType() const
@@ -186,7 +187,7 @@ public:
   /** Test if an index is inside */
   template <typename TCoordRepType>
   bool
-  IsInside(const ContinuousIndex<TCoordRepType,ImageDimension> &index) const
+  IsInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
     {
       for(unsigned int i=0; i<ImageDimension; i++)
         {

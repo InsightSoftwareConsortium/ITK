@@ -66,13 +66,13 @@ public:
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
-                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};;
+                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
-                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {};;
+                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {}
 
   /** Get the pixel value */
   PixelType & Get(void)

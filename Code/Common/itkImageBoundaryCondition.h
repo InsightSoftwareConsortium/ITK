@@ -53,16 +53,21 @@ class ITK_EXPORT ImageBoundaryCondition
 {
 public:
   /** Extract information from the image type */
-  enum { ImageDimension = TImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TImageType::ImageDimension);
+
+  /** Standard typedefs. */
+  typedef ImageBoundaryCondition           Self;
 
   /** Extract information from the image type */
   typedef typename TImageType::PixelType PixelType;
   typedef typename TImageType::InternalPixelType *PixelPointerType;
-  typedef Index<ImageDimension> IndexType;
-  typedef Offset<ImageDimension> OffsetType;
+  typedef Index<itkGetStaticConstMacro(ImageDimension)> IndexType;
+  typedef Offset<itkGetStaticConstMacro(ImageDimension)> OffsetType;
   
   /** Type of the data container passed to this function object. */
-  typedef Neighborhood<PixelPointerType, ImageDimension> NeighborhoodType;
+  typedef Neighborhood<PixelPointerType,
+                      itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
 
   /** Default constructor. */
   ImageBoundaryCondition() {}

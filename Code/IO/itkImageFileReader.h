@@ -88,10 +88,10 @@ public:
   itkTypeMacro(ImageFileReader, ImageSource);
 
   /** The size of the output image. */
-  typedef Size<TOutputImage::ImageDimension>  SizeType;
+  typedef typename TOutputImage::SizeType  SizeType;
 
   /** The region of the output image. */
-  typedef ImageRegion<TOutputImage::ImageDimension>  ImageRegionType;
+  typedef typename TOutputImage::RegionType  ImageRegionType;
 
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;

@@ -67,7 +67,7 @@ namespace itk
 template <
   typename TPixelType,
   unsigned int VDimension = 3,
-  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType, VDimension >
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType, VDimension, VDimension >
   >
 class PointSet: public DataObject
 {
@@ -96,13 +96,14 @@ public:
   typedef typename MeshTraits::PointDataContainer       PointDataContainer;
   
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
-  enum {PointDimension = MeshTraits::PointDimension};
+  itkStaticConstMacro(PointDimension, unsigned int,
+                      TMeshTraits::PointDimension);
 
   /** Used to support geometric operations on PointSet's such as locating
    * points quickly, and intersecting a point with a ray. */
-  typedef PointLocator<PointIdentifier,PointDimension,
+  typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                        CoordRepType,PointsContainer>  PointLocatorType;
-  typedef BoundingBox<PointIdentifier,PointDimension,
+  typedef BoundingBox<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                       CoordRepType,PointsContainer>   BoundingBoxType;
   
   /** Create types that are pointers to each of the container types. */

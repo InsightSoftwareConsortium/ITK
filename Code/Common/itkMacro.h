@@ -77,6 +77,44 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
+/** Macro to initialize static constants.  This is used frequently to replace
+ * the use of enum's within a class.  Some compilers do not allow an enum of
+ * one class to be passed as template argument to another class. Other
+ * uses of this macro as possible.
+ *
+ * This is based (verbatim) on the BOOST_STATIC_CONSTANT macro. The original
+ * Boost documentation is below.
+ *
+ * BOOST_STATIC_CONSTANT workaround --------------------------------------- //
+ * On compilers which don't allow in-class initialization of static integral
+ * constant members, we must use enums as a workaround if we want the constants
+ * to be available at compile-time. This macro gives us a convenient way to
+ * declare such constants.
+ */
+#if defined(_MSC_VER) && (_MSC_VER <= 1300) 
+#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#endif
+#if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x520)
+#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#endif
+
+#if defined(_MSC_VER) && (_MSC_VER <= 1300) 
+#define ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
+#endif
+
+#ifdef ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#   define itkStaticConstMacro(name,type,value) enum { name = value }
+#else
+#   define itkStaticConstMacro(name,type,value) static const type name = value
+#endif
+
+#ifdef ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
+#   define itkGetStaticConstMacro(name) name
+#else
+#   define itkGetStaticConstMacro(name) (Self::name)
+#endif
+
+
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name,type) \
   virtual void Set##name (const type _arg) \

@@ -85,9 +85,11 @@ public:
   typedef typename InputImageType::RegionType     InputImageRegionType; 
   typedef typename InputImageType::PixelType      InputImagePixelType; 
   
-  /** ImageDimension enumeration */
-  enum { InputImageDimension = TInputImage::ImageDimension };
-  enum { OutputImageDimension = TOutputImage::ImageDimension };
+  /** ImageDimension constants */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
   virtual void SetInput( const InputImageType *image);
@@ -120,9 +122,8 @@ public:
 
 
   /** Typedef for the region copier function object. */
-  typedef
-     ImageToImageFilterDetail::ImageRegionCopier<InputImageDimension,
-                                        OutputImageDimension> RegionCopierType;
+  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(InputImageDimension),
+                                                      itkGetStaticConstMacro(OutputImageDimension)> RegionCopierType;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a 
@@ -161,8 +162,8 @@ public:
    * filter can control "where" in the input image the output subimage
    * is extracted (as opposed to mapping to first few dimensions of
    * the input). */
-  virtual void CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
-                              const ImageRegion<OutputImageDimension> &srcRegion);
+  virtual void CallCopyRegion(InputImageRegionType &destRegion,
+                              const OutputImageRegionType &srcRegion);
 
 private:
   ImageToImageFilter(const Self&); //purposely not implemented

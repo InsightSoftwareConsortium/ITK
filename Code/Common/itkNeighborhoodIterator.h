@@ -211,9 +211,6 @@ public:
   typedef typename Superclass::ImageBoundaryConditionPointerType
    ImageBoundaryConditionPointerType;
     
-  /** Extract enums from superclass. */
-  enum {Dimension = Superclass::Dimension };
-
   /** Default constructor. */
   NeighborhoodIterator(): Superclass() {}
   

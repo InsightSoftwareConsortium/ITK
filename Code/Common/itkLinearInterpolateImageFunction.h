@@ -66,7 +66,7 @@ public:
   typedef typename Superclass::RealType RealType;
 
   /** Dimension underlying input image. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;

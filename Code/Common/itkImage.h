@@ -103,26 +103,26 @@ public:
    *  representations.  */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
-  /** Dimension of the image.  This enum is used by functions that are
+  /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
    * the image. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
   
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<ImageDimension>  IndexType;
+  typedef Index<VImageDimension>  IndexType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
-  typedef Offset<ImageDimension>  OffsetType;
+  typedef Offset<VImageDimension>  OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<ImageDimension>  SizeType;
+  typedef Size<VImageDimension>  SizeType;
 
   /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<ImageDimension>  RegionType;
+  typedef ImageRegion<VImageDimension>  RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -237,15 +237,15 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const double values[ImageDimension] );
-  virtual void SetSpacing( const float values[ImageDimension] );
+  virtual void SetSpacing( const double spacing[VImageDimension] );
+  virtual void SetSpacing( const float spacing[VImageDimension] );
   
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const double values[ImageDimension] );
-  virtual void SetOrigin( const float values[ImageDimension] );
+  virtual void SetOrigin( const double origin[VImageDimension] );
+  virtual void SetOrigin( const float origin[VImageDimension] );
   
   /** Get the index-to-physical coordinate transformation
    *

@@ -62,10 +62,11 @@ public:
   typedef typename Superclass::ValueType      ValueType;
     
   /** Grab the vector dimension from the superclass. */
-  enum { VectorDimension = Superclass::VectorDimension };
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                       Superclass::VectorDimension);
 
   /** Dimension underlying input image. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;

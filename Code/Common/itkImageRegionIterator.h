@@ -70,14 +70,16 @@ public:
   typedef ImageRegionIterator Self;
   typedef ImageIterator<TImage>  Superclass;
   
-  /** Dimension of the image the iterator walks.  This enum is needed so that
+  /** Dimension of the image the iterator walks.  This constant is needed so 
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
-  enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
+  itkStaticConstMacro(ImageIteratorDimension, unsigned int,
+                      Superclass::ImageIteratorDimension);
 
   /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
   typedef typename Superclass::IndexType IndexType;
 
   /** Size typedef support. While this was already typdef'ed in the superclass

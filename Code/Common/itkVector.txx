@@ -58,26 +58,6 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>&
 Vector<T, TVectorDimension>
-::operator= (const typename BaseArray::Reference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-template<class T, unsigned int TVectorDimension>
-Vector<T, TVectorDimension>&
-Vector<T, TVectorDimension>
-::operator= (const typename BaseArray::ConstReference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-template<class T, unsigned int TVectorDimension>
-Vector<T, TVectorDimension>&
-Vector<T, TVectorDimension>
 ::operator= (const ValueType r[VectorDimension])
 {
   BaseArray::operator=(r);

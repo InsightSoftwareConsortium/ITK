@@ -150,15 +150,6 @@ SpatialObjectPoint< TPointDimension >
   return this;
 }
     
-/** Return a const pointer to the point */
-template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >::ConstPointer 
-SpatialObjectPoint< TPointDimension >
-::GetConstPointer( void )
-{
-  return this;
-}
-
 /** Set the Identification number of a point */
 template< unsigned int TPointDimension >
 void 

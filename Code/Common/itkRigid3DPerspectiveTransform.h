@@ -43,21 +43,18 @@ class ITK_EXPORT Rigid3DPerspectiveTransform :
 {
 public:
   /** Dimension of the domain space. */
-  enum 
-  { 
-    InputSpaceDimension      = 3,
-    OutputSpaceDimension     = 2
-  };
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
 
   /** Dimension of parameters. */
-  enum { SpaceDimension = 3, 
-         ParametersDimension = 6 };
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Standard class typedefs. */ 
   typedef Rigid3DPerspectiveTransform Self;
   typedef Transform<  TScalarType, 
-                      InputSpaceDimension,
-                      OutputSpaceDimension > Superclass;
+                      itkGetStaticConstMacro(InputSpaceDimension),
+                      itkGetStaticConstMacro(OutputSpaceDimension)> Superclass;
 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -78,18 +75,18 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Standard matrix type for this class. */
-  typedef Matrix<TScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
+  typedef Matrix<TScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
-  typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
   
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
-  typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>    InputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)>    OutputPointType;
   
   /** Standard vnl_quaternion type. */
   typedef vnl_quaternion<TScalarType>           VnlQuaternionType;

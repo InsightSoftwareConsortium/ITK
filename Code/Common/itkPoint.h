@@ -52,7 +52,7 @@ public:
   typedef TCoordRep CoordRepType;
   
   /** Dimension of the Space */
-  enum { PointDimension = NPointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int, NPointDimension);
 
   /** The Array type from which this Vector is derived. */
   typedef FixedArray<TCoordRep, NPointDimension>         BaseArray;
@@ -71,14 +71,10 @@ public:
 
   /** Pass-through constructor for the Array base class. */
   Point(const Self& r): BaseArray(r) {}
-  Point(const typename BaseArray::Reference& r): BaseArray(r) {}
-  Point(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   Point(const ValueType r[PointDimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   Point& operator= (const Self& r);
-  Point& operator= (const typename BaseArray::Reference& r);
-  Point& operator= (const typename BaseArray::ConstReference& r);
   Point& operator= (const ValueType r[PointDimension]);
     
   /** Compare two points for equality. */

@@ -59,7 +59,7 @@ public:
   typedef TAllocator AllocatorType;
 
   /** External support for dimensionality. */
-  enum { NeighborhoodDimension = VDimension };
+  itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
   
   /** External support for pixel type. */
   typedef TPixel PixelType;

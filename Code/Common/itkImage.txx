@@ -126,7 +126,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetSpacing(const double spacing[ImageDimension] )
+::SetSpacing(const double spacing[VImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<VImageDimension; i++)
@@ -150,7 +150,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetSpacing(const float spacing[ImageDimension] )
+::SetSpacing(const float spacing[VImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<VImageDimension; i++)
@@ -177,7 +177,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetOrigin(const double origin[ImageDimension] )
+::SetOrigin(const double origin[VImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<VImageDimension; i++)
@@ -202,7 +202,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::SetOrigin(const float origin[ImageDimension] )
+::SetOrigin(const float origin[VImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<VImageDimension; i++)

@@ -47,7 +47,7 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 typename ImageSource<TOutputImage>::DataObjectPointer
 ImageSource<TOutputImage>
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int)
 {
   return static_cast<DataObject*>(TOutputImage::New().GetPointer());
 }
@@ -248,8 +248,8 @@ ImageSource<TOutputImage>
 template <class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId )
+::ThreadedGenerateData(const OutputImageRegionType&,
+                       int)
 {
   itkExceptionMacro("subclass should override this method!!!");
 }

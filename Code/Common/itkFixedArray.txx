@@ -46,41 +46,13 @@ FixedArray<TValueType, VLength>
 }
 
 /**
- * Copy constructor copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned long VLength>
-FixedArray<TValueType, VLength>
-::FixedArray(const Reference& r)
-{
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-}
-
-
-/**
- * Copy constructor copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned long VLength>
-FixedArray<TValueType, VLength>
-::FixedArray(const ConstReference& r)
-{
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-}
-
-
-/**
  * Constructor assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
 FixedArray<TValueType, VLength>
-::FixedArray(const ValueType r[Length])
+::FixedArray(const ValueType r[VLength])
 {
   ConstIterator input = r;
   for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
@@ -115,40 +87,6 @@ FixedArray<TValueType, VLength>
 
 
 /**
- * Assignment operator copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned long VLength>
-FixedArray<TValueType, VLength>&
-FixedArray<TValueType, VLength>
-::operator= (const Reference& r)
-{
-  if(r.Begin() == m_InternalArray) return *this;
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-  return *this;
-}
-
-
-/**
- * Assignment operator copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned long VLength>
-FixedArray<TValueType, VLength>&
-FixedArray<TValueType, VLength>
-::operator= (const ConstReference& r)
-{
-  if(r.Begin() == m_InternalArray) return *this;
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-  return *this;
-}
-
-
-/**
  * Assignment operator assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
@@ -156,7 +94,7 @@ FixedArray<TValueType, VLength>
 template <typename TValueType, unsigned long VLength>
 FixedArray<TValueType, VLength>&
 FixedArray<TValueType, VLength>
-::operator= (const ValueType r[Length])
+::operator= (const ValueType r[VLength])
 {
   if(r == m_InternalArray) return *this;
   ConstIterator input = r;
@@ -172,38 +110,6 @@ template <typename TValueType, unsigned long VLength>
 bool
 FixedArray<TValueType, VLength>
 ::operator== (const FixedArray& r) const
-{
-  ConstIterator i = this->Begin();
-  ConstIterator j = r.Begin();
-  
-  for( ; i != this->End(); ++i, ++j )
-    {
-    if ( *i != *j ) {return false;}
-    }
-
-  return true;
-}
-
-template <typename TValueType, unsigned long VLength>
-bool
-FixedArray<TValueType, VLength>
-::operator== (const Reference& r) const
-{
-  ConstIterator i = this->Begin();
-  ConstIterator j = r.Begin();
-  
-  for( ; i != this->End(); ++i, ++j )
-    {
-    if ( *i != *j ) {return false;}
-    }
-
-  return true;
-}
-
-template <typename TValueType, unsigned long VLength>
-bool
-FixedArray<TValueType, VLength>
-::operator== (const ConstReference& r) const
 {
   ConstIterator i = this->Begin();
   ConstIterator j = r.Begin();
@@ -248,7 +154,7 @@ typename FixedArray<TValueType, VLength>::Iterator
 FixedArray<TValueType, VLength>
 ::End()
 {
-  return Iterator(m_InternalArray+Length);
+  return Iterator(m_InternalArray+VLength);
 }
 
 
@@ -260,7 +166,7 @@ typename FixedArray<TValueType, VLength>::ConstIterator
 FixedArray<TValueType, VLength>
 ::End() const
 {
-  return ConstIterator(m_InternalArray+Length);
+  return ConstIterator(m_InternalArray+VLength);
 }
 
 
@@ -272,7 +178,7 @@ typename FixedArray<TValueType, VLength>::ReverseIterator
 FixedArray<TValueType, VLength>
 ::rBegin() 
 {
-  return ReverseIterator(m_InternalArray+Length);
+  return ReverseIterator(m_InternalArray+VLength);
 }
 
 
@@ -284,7 +190,7 @@ typename FixedArray<TValueType, VLength>::ConstReverseIterator
 FixedArray<TValueType, VLength>
 ::rBegin() const
 {
-  return ConstReverseIterator(m_InternalArray+Length);
+  return ConstReverseIterator(m_InternalArray+VLength);
 }
 
 
@@ -320,7 +226,7 @@ typename FixedArray<TValueType, VLength>::SizeType
 FixedArray<TValueType, VLength>
 ::Size() const
 {
-  return Length; 
+  return VLength; 
 }
 
 
@@ -344,7 +250,7 @@ FixedArray<TValueType, VLength>
 FixedArray<TValueType, VLength>
 ::Filled(const ValueType& value)
 {
-  FixedArray<ValueType, Length> array;
+  FixedArray<ValueType, VLength> array;
   array.Fill(value);
   return array;
 }

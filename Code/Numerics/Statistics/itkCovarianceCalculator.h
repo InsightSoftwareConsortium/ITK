@@ -50,11 +50,12 @@ public:
   itkTypeMacro(CovarianceCalculator, Object);
   itkNewMacro(Self) ;
   
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize) ;
 
   /** Typedef for the mean output */
-  typedef Vector< double, MeasurementVectorSize > MeanType ;
-  typedef Matrix< double, MeasurementVectorSize, MeasurementVectorSize > OutputType ;
+  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
+  typedef Matrix< double, itkGetStaticConstMacro(MeasurementVectorSize), itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
 
   /** Stores the sample pointer */
   void SetMean(MeanType* mean) ;

@@ -73,7 +73,7 @@ public:
   itkTypeMacro(ImageRegionMultidimensionalSplitter,ImageRegionSplitter);
 
   /** Dimension of the image available at compile time. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
   
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<VImageDimension>  IndexType;

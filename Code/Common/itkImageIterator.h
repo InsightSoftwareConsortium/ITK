@@ -58,11 +58,12 @@ public:
   /** Standard class typedefs. */
   typedef ImageIterator Self;
   
-  /** Dimension of the image the iterator walks.  This enum is needed so that
+  /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
-  enum { ImageIteratorDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageIteratorDimension, unsigned int,
+                      TImage::ImageDimension);
 
   /** Index typedef support. */
   typedef typename TImage::IndexType  IndexType;

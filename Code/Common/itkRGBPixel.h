@@ -67,14 +67,10 @@ public:
   
   /** Pass-through constructor for the Array base class. */
   RGBPixel(const Self& r): BaseArray(r) {}
-  RGBPixel(const typename BaseArray::Reference& r): BaseArray(r) {}
-  RGBPixel(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   RGBPixel(const ComponentType  r[3]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   RGBPixel& operator= (const Self& r);
-  RGBPixel& operator= (const typename BaseArray::Reference& r);
-  RGBPixel& operator= (const typename BaseArray::ConstReference& r);
   RGBPixel& operator= (const ComponentType r[3]);
   
   /** Return the number of components. */

@@ -78,7 +78,8 @@ public:
   itkNewMacro(Self) ;
 
   /** Dimension of a measurement vector */
-  enum { MeasurementVectorSize = VMeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      VMeasurementVectorSize);
  
   /** type of an element of a measurement vector */
   typedef TMeasurement MeasurementType ;
@@ -305,7 +306,7 @@ public:
            
   Iterator  End()        
   {
-    return Iterator(m_OffsetTable[MeasurementVectorSize], this) ;
+    return Iterator(m_OffsetTable[VMeasurementVectorSize], this) ;
   }
   
 
@@ -393,7 +394,7 @@ private:
   Histogram(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  InstanceIdentifier          m_OffsetTable[MeasurementVectorSize + 1] ;
+  InstanceIdentifier          m_OffsetTable[VMeasurementVectorSize + 1] ;
   FrequencyContainerPointer   m_FrequencyContainer ;
   unsigned int                m_NumberOfInstances ;
   MeasurementVectorType       m_TempMeasurementVector ;

@@ -29,7 +29,7 @@ typedef itk::Statistics::ImageToListAdaptor< ImageType > SampleType ;
 typedef itk::Statistics::Subsample< SampleType > SubsampleType ;
 const unsigned int activeDimension = 1 ;
 
-void resetData(ImageType::Pointer image, std::vector<int> &refVector)
+void resetData(::itk::Image<PixelType, 3>::Pointer image,  std::vector<int> &refVector)
 {
   ImageType::IndexType index ;
   ImageType::SizeType size ;
@@ -76,7 +76,7 @@ void resetData(ImageType::Pointer image, std::vector<int> &refVector)
 }
 
 bool isSortedOrderCorrect(std::vector<int> &ref,
-                          SubsampleType::Pointer subsample)
+                          ::itk::Statistics::Subsample<SampleType>::Pointer subsample)
 {
   bool ret = true ;
   std::vector<int>::iterator viter = ref.begin() ;
@@ -191,11 +191,4 @@ int itkStatisticsAlgorithmTest(int, char**)
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
 

@@ -69,24 +69,24 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
- typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
- Iterator it( image, image->GetBufferedRegion() );
- it.Begin();
+  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  Iterator it( image, image->GetBufferedRegion() );
+  it.Begin();
     
- typename TImage::IndexType index;
- double rad2 = vnl_math_sqr( radius );
+  typename TImage::IndexType index;
+  double r2 = vnl_math_sqr( radius );
 
- for( ; !it.IsAtEnd(); ++it )
-  {
+  for( ; !it.IsAtEnd(); ++it )
+    {
     index = it.GetIndex();
     double distance = 0;
     for( int j = 0; j < TImage::ImageDimension; j++ )
       {
       distance += vnl_math_sqr((double) index[j] - center[j]);
       }
-    if( distance <= rad2 ) it.Set( foregnd );
+    if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd ); 
-  }
+    }
 
 }
 

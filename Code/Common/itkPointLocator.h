@@ -72,7 +72,7 @@ public:
   itkTypeMacro(PointLocator, Object);
 
   /** Capture template parameter information. */
-  enum { PointDimension = VPointDimension };
+  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
 
   /** Hold on to the type information specified by the template parameters.
    * PointIdentifier is the type that the point handles are represented by. */
@@ -80,16 +80,16 @@ public:
   typedef TCoordRep   CoordRepType;
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
-  typedef Point< CoordRepType, PointDimension >  PointType;
+  typedef Point< CoordRepType, VPointDimension >  PointType;
   
   /** Some convenience typedefs. */
-  typedef BoundingBox<PointIdentifier,PointDimension,
+  typedef BoundingBox<PointIdentifier,VPointDimension,
                       CoordRepType,PointsContainer>      BoundingBoxType;
   typedef typename BoundingBoxType::Pointer              BoundingBoxPointer;
   
   /** Set the number of divisions in each axis direction. */
-  itkSetVectorMacro(Divisions,unsigned long,PointDimension);
-  itkGetVectorMacro(Divisions,unsigned long,PointDimension);
+  itkSetVectorMacro(Divisions,unsigned long,VPointDimension);
+  itkGetVectorMacro(Divisions,unsigned long,VPointDimension);
   
   /** Specify the average number of points in each bucket. */
   itkSetClampMacro(NumberOfPointsPerBucket,

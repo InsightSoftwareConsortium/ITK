@@ -30,7 +30,18 @@
 namespace itk
 {
 
-
+/**
+ * Due to a bug in MSVC, an enum value cannot be accessed out of a template
+ * parameter until the template class opens.  In order for templated classes
+ * to access the dimension of an image template parameter in defining their
+ * own dimension, this class is needed as a work-around.
+ */
+template <typename TImage>
+struct GetImageDimension
+{
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+}; 
+  
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
@@ -75,11 +86,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageBase, DataObject);
 
-  /** Dimension of the image.  This enum is used by functions that are
+  /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension );
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<VImageDimension>  IndexType;
@@ -270,8 +281,8 @@ protected:
 
 protected:
   /** Origin and spacing of physical coordinates. */
-  double                m_Spacing[ImageDimension];
-  double                m_Origin[ImageDimension];
+  double                m_Spacing[VImageDimension];
+  double                m_Origin[VImageDimension];
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -282,18 +293,6 @@ private:
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
 };
-
-
-
-
-/** Helper class used as a workaround for VC++ deficiency in 
-  * extracting integer members of template parameters    */
-template < typename TImageType, unsigned int V = TImageType::ImageDimension>
-struct ExtractImageDimension
-{
-  enum { ImageDimension = V };
-};
-
 
 
 } // end namespace itk

@@ -43,49 +43,61 @@ namespace itk {
 template<class TImage>
 class VectorNeighborhoodInnerProduct
 {
-public:
+ public:
+  /** Standard typedefs */
+  typedef VectorNeighborhoodInnerProduct Self;
+  
   /** Extract the pixel type and scalar type from the image template parameter. */
   typedef typename TImage::PixelType PixelType; // Pixel type is a now a vector
   typedef typename PixelType::ValueType ScalarValueType;
   
   /** Extract the image and vector dimension from the image template parameter. */
-  enum {VectorDimension = PixelType::VectorDimension };
-  enum {ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      PixelType::VectorDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   
+  /** Operator typedef */
+  typedef Neighborhood<ScalarValueType,
+                      itkGetStaticConstMacro(ImageDimension)> OperatorType;
+
   /** Conversion operator. */
   PixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<ScalarValueType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
 
   /** Conversion operator. */
   PixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<ScalarValueType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
 };
 
 template<class TImage>
 class SmartVectorNeighborhoodInnerProduct
 {
 public:
+  /** Standard typedefs */
+  typedef SmartVectorNeighborhoodInnerProduct Self;
+
   /** Extract the pixel type and scalar type from the image template parameter. */
   typedef typename TImage::PixelType PixelType;
   typedef typename PixelType::ValueType ScalarValueType;
   
   /** Extract the image and vector dimension from the image template parameter. */
-  enum {VectorDimension = PixelType::VectorDimension };
-  enum {ImageDimension = TImage::ImageDimension};
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      PixelType::VectorDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   
+  /** Operator typedef */
+  typedef Neighborhood<ScalarValueType,
+                      itkGetStaticConstMacro(ImageDimension)> OperatorType;
+
   /** Conversion operator. */
   PixelType operator()(const std::slice &s,
                        const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<ScalarValueType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
 
   /** Conversion operator. */
   PixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<ScalarValueType, ImageDimension>
-                       &op) const
+                       const OperatorType &op) const
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }

@@ -74,10 +74,11 @@ public:
   typedef typename TKdTree::MeasurementVectorType MeasurementVectorType ;
   typedef typename TKdTree::SampleType SampleType ;
   typedef typename KdTreeNodeType::CenteroidType CenteroidType ;
-  enum { MeasurementVectorSize = TKdTree::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TKdTree::MeasurementVectorSize);
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef FixedArray< double, MeasurementVectorSize > ParameterType ;
+  typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
   typedef std::vector< ParameterType >        ParametersType;
 
   /**  Set the position to initialize the optimization. */

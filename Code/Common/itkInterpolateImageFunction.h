@@ -60,7 +60,8 @@ public:
   typedef typename Superclass::InputImageType InputImageType;
   
   /** Dimension underlying input image. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      Superclass::ImageDimension);
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;

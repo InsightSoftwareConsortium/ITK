@@ -55,10 +55,11 @@ public:
   typedef TMeasurementVector MeasurementVectorType ;
 
   /** Dimension of the each individual pixel vector. */
-  enum{ VectorDimension = TMeasurementVector::Length } ;
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      TMeasurementVector::Length);
 
-  typedef Vector< double, VectorDimension > MeanType ;
-  typedef Matrix< double, VectorDimension, VectorDimension > CovarianceType ;
+  typedef Vector< double, itkGetStaticConstMacro(VectorDimension) > MeanType ;
+  typedef Matrix< double, itkGetStaticConstMacro(VectorDimension), itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
   /** Method to set mean */
   void SetMean(MeanType* mean) ;
   

@@ -73,7 +73,8 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /** Dimension of the underlying image. */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** SizeType of the input image */
   typedef typename InputImageType::SizeType InputSizeType;

@@ -79,7 +79,7 @@ public:
   itkTypeMacro(ImageRegionSplitter,Object);
 
   /** Dimension of the image available at compile time. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
   
   /** Dimension of the image available at run time. */
   static unsigned int GetImageDimension() 

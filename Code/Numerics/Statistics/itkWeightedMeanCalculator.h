@@ -52,7 +52,8 @@ public:
   itkTypeMacro(WeightedMeanCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
-  enum {MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   /** Sample typedefs alias */
   typedef typename Superclass::SampleType SampleType ;
@@ -60,7 +61,7 @@ public:
   
   typedef Array< double > WeightArrayType ;
   /** Typedef for the mean output */
-  typedef Vector< double, MeasurementVectorSize > OutputType ;
+  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
   
   void SetWeights(WeightArrayType* array) ;
   WeightArrayType* GetWeights() ;

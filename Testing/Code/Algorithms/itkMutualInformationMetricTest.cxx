@@ -197,15 +197,16 @@ int itkMutualInformationMetricTest(int, char**)
   MetricType::MeasureType measure;
   MetricType::DerivativeType derivative( numberOfParameters );
 
-  printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" );
-
+  //printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" );
+  std::cout << "param[4]\tMI\tdMI/dparam[4]" << std::endl;
+  
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
     parameters[4] = trans;
     metric->GetValueAndDerivative( parameters, measure, derivative );
 
-    printf( "%f\t%f\t%f\n", trans, measure,
-      derivative[4] );
+    //printf( "%f\t%f\t%f\n", trans, measure, derivative[4] );
+    std::cout << trans << "\t" << measure << "\t" << derivative[4] <<std::endl;
 
     // exercise the other functions
     metric->GetValue( parameters );

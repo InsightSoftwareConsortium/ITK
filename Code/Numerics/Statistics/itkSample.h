@@ -88,7 +88,8 @@ public:
   typedef typename TMeasurementVector::ValueType MeasurementType ;
 
   /** Alias for the number of measurement vector components */
-  enum { MeasurementVectorSize = TMeasurementVector::Length } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TMeasurementVector::Length);
 
   /** frequency value typedef*/
   typedef float FrequencyType ;

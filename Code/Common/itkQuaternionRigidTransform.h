@@ -63,18 +63,20 @@ public:
   typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
   /** Dimension of parameters   */
-  enum { SpaceDimension = 3,
-         ParametersDimension = 7 };
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 7);
 
   /** Dimension of the domain space. */
-  enum { InputSpaceDimension = Superclass::InputSpaceDimension,
-         OutputSpaceDimension = Superclass::OutputSpaceDimension };
+  itkStaticConstMacro(InputSpaceDimension, unsigned int,
+                      Superclass::InputSpaceDimension);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int,
+                      Superclass::OutputSpaceDimension);
 
   /** Standard matrix type for this class. */
-  typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
+  typedef Matrix<ScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
 
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType    InputPointType;

@@ -55,7 +55,7 @@ public:
   typedef TCoordRep CoordRepType;
   
   /** Dimension of the Space */
-  enum { IndexDimension = VIndexDimension };
+  itkStaticConstMacro(IndexDimension, unsigned int, VIndexDimension);
 
   /** Corresponding discrete index type */
   typedef Index<VIndexDimension> IndexType;
@@ -71,8 +71,6 @@ public:
   /** Pass-through constructor to the Point base class. */
   ContinuousIndex(const Self& r): Superclass(r) {}
 //  ContinuousIndex(const Superclass& r) : Superclass(r) {}
-  ContinuousIndex(const typename BaseArray::Reference& r): Superclass(r) {}
-  ContinuousIndex(const typename BaseArray::ConstReference& r): Superclass(r) {}
   ContinuousIndex(const ValueType r[IndexDimension]): Superclass(r) {}  
   
   /** Construct from discrete index type */

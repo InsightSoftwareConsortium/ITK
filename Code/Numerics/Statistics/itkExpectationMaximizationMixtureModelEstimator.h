@@ -71,7 +71,9 @@ public:
                Object);
   itkNewMacro(Self) ;
 
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  /** Length constant */
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   /** TSample template argument related typedefs */
   typedef TSample SampleType ;

@@ -89,7 +89,7 @@ typename TImage::PixelType backgnd )
  it.Begin();
     
  typename TImage::IndexType index;
- double rad2 = vnl_math_sqr( radius );
+ double r2 = vnl_math_sqr( radius );
 
  for( ; !it.IsAtEnd(); ++it )
   {
@@ -99,7 +99,7 @@ typename TImage::PixelType backgnd )
       {
       distance += vnl_math_sqr((double) index[j] - center[j]);
       }
-    if( distance <= rad2 ) it.Set( foregnd );
+    if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd ); 
   }
 

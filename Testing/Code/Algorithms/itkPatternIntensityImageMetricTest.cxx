@@ -235,7 +235,6 @@ int itkPatternIntensityImageMetricTest(int, char**)
     std::cout << "Location    : " << e.GetLocation()    << std::endl;
     std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
     }
- 
 
   return EXIT_SUCCESS;
 

@@ -59,7 +59,7 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension = Superclass::SpaceDimension };
+  itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
                               
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */

@@ -23,6 +23,19 @@
 namespace itk
 {
 
+/**
+ * Due to a bug in MSVC, an enum value cannot be accessed out of a template
+ * parameter until the template class opens.  In order for templated classes
+ * to access the dimension of a template parameter in defining their
+ * own dimension, this class is needed as a work-around.
+ */
+template <typename T>
+struct GetVectorDimension
+{
+  itkStaticConstMacro(VectorDimension, int, T::VectorDimension);
+}; 
+
+  
 /** \class VectorInterpolateImageFunction
  * \brief Base class for all vector image interpolaters.
  *
@@ -49,14 +62,22 @@ class ITK_EXPORT VectorInterpolateImageFunction :
   public ImageFunction<
     TInputImage, 
     Vector< ITK_TYPENAME NumericTraits<typename TPixelType::ValueType>::RealType, 
-      TPixelType::VectorDimension>,
+      ::itk::GetVectorDimension<TPixelType>::VectorDimension>,
     TCoordRep > 
 {
 public:
+  /** Extract the vector dimension from the pixel template parameter. */
+  itkStaticConstMacro(VectorDimension, unsigned int,
+                      TPixelType::VectorDimension);
+  
+  /** Dimension underlying input image. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
   /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
   typedef ImageFunction<TInputImage,
-    Vector<double, TPixelType::VectorDimension>, TCoordRep > Superclass;
+    Vector<double, itkGetStaticConstMacro(VectorDimension)>, TCoordRep > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -69,11 +90,6 @@ public:
   typedef typename PixelType::ValueType       ValueType;
   typedef typename NumericTraits<ValueType>::RealType  RealType;
     
-  /** Extract the vector dimension from the pixel template parameter. */
-  enum { VectorDimension = PixelType::VectorDimension };
-  
-  /** Dimension underlying input image. */
-  enum { ImageDimension = Superclass::ImageDimension };
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;

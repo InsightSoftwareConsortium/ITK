@@ -72,7 +72,8 @@ class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
   typedef T ValueType;
 
   /** Dimension of the Space */
-  enum { CovariantVectorDimension = NCovariantVectorDimension };
+  itkStaticConstMacro(CovariantVectorDimension, unsigned int,
+                      NCovariantVectorDimension);
 
   /** I am a covariant vector. */
   typedef Self CovariantVectorType;
@@ -98,14 +99,10 @@ class CovariantVector : public FixedArray<T,NCovariantVectorDimension> {
 
   /** Pass-through constructor for the Array base class. */
   CovariantVector(const Self& r): BaseArray(r) {}
-  CovariantVector(const typename BaseArray::Reference& r): BaseArray(r) {}
-  CovariantVector(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   CovariantVector(const ValueType r[CovariantVectorDimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   CovariantVector& operator= (const Self& r);
-  CovariantVector& operator= (const typename BaseArray::Reference& r);
-  CovariantVector& operator= (const typename BaseArray::ConstReference& r);
   CovariantVector& operator= (const ValueType r[CovariantVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */

@@ -23,18 +23,6 @@ namespace itk
 {
 
 /**
- * Due to a bug in MSVC, an enum value cannot be accessed out of a template
- * parameter until the template class opens.  In order for ImageAdaptor
- * to access the dimension of an image for inheriting from ImageBase of
- * that dimension, this class is needed as a work-around.
- */
-template <typename TImage>
-struct GetImageDimension
-{
-  enum { ImageDimension = TImage::ImageDimension };
-}; 
-  
-/**
  * \class ImageAdaptor
  * \brief Give access to partial aspects of voxels from an Image
  *
@@ -56,24 +44,27 @@ struct GetImageDimension
  *
  */
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : public ImageBase<GetImageDimension<TImage>::ImageDimension>
+class ITK_EXPORT ImageAdaptor : public ImageBase< ::itk::GetImageDimension<TImage>::ImageDimension>
 {
 public:
-  /** Dimension of the image.  This enum is used by functions that are
+  /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  enum { ImageDimension = TImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Standard class typedefs. */
   typedef ImageAdaptor  Self;
-  typedef ImageBase<ImageDimension> Superclass;
+  typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageAdaptor, ImageBase);
 
+  /** Typedef of unadapted image */
+  typedef TImage InternalImageType;
+  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
@@ -90,19 +81,20 @@ public:
   typedef   TAccessor   AccessorType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<ImageDimension>                 IndexType;
+  typedef Index<itkGetStaticConstMacro(ImageDimension)>  IndexType;
   typedef typename IndexType::IndexValueType    IndexValueType;
   
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<ImageDimension>                  SizeType;
+  typedef Size<itkGetStaticConstMacro(ImageDimension)>   SizeType;
   typedef typename SizeType::SizeValueType      SizeValueType;
     
   /** Offset typedef support. */
-  typedef Offset<ImageDimension>                OffsetType;
+  typedef Offset<itkGetStaticConstMacro(ImageDimension)> OffsetType;
   typedef typename OffsetType::OffsetValueType  OffsetValueType;
     
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<ImageDimension>           RegionType;
+  /** Region typedef support. A region is used to specify a subset of
+   *  an image. */
+  typedef ImageRegion<itkGetStaticConstMacro(ImageDimension)> RegionType;
 
   /** Typedef for associated AffineTransform
    *
@@ -110,7 +102,7 @@ public:
    * physical-to-index transforms associated with the origin and spacing
    * for the image, and more generally as any affine transformation of
    * the image. */
-  typedef AffineTransform<double, ImageDimension> AffineTransformType;
+  typedef AffineTransform<double, itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
 
   /** Definition of the Point type used for settin the origin */
   typedef typename AffineTransformType::OffsetType OriginOffsetType;

@@ -96,7 +96,6 @@ double trueValue )
   if( isInside )
     {
     double value = interp->Evaluate( point );
-    printf(" %.9f\n",value);
     std::cout << " Value: " << value;
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )

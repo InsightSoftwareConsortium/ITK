@@ -47,7 +47,7 @@ public:
   itkTypeMacro( LevelSetFunctionBase,  FiniteDifferenceFunction );
 
   /** The image dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Extract some parameters from the image type. */
   typedef double TimeStepType;
@@ -61,7 +61,8 @@ public:
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   
   /** The vector type that will be used in the calculations. */
-  typedef Vector<ScalarValueType, ImageDimension> VectorType;
+  typedef
+    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
 
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &neighborhood,

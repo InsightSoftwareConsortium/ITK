@@ -34,7 +34,7 @@ public:
   typedef DistanceMetric< TVector > Superclass;
   typedef SmartPointer< Self > Pointer ; 
 
-  enum { VectorLength = TVector::Length } ; 
+  itkStaticConstMacro(VectorLength, unsigned int, TVector::Length); 
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanDistance, DistanceMetric);

@@ -51,9 +51,9 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the space. */
-  enum  { InputSpaceDimension  = 3 };
-  enum  { OutputSpaceDimension = 3 };
-  enum  { ParametersDimension  = 6 };
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -65,26 +65,26 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /// Standard matrix type for this class
-  typedef Matrix<ScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
+  typedef Matrix<ScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
 
   /// Standard vector type for this class
-  typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
 
   /// Standard vector type for this class
-  typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
-  typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /// Standard covariant vector type for this class
-  typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
 
   /// Standard vnl_vector type for this class
-  typedef vnl_vector_fixed<TScalarType, InputSpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
 
   /// Standard coordinate point type for this class
-  typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
-  typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>    InputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)>    OutputPointType;
 
   /// Standard vnl_quaternion type
   typedef vnl_quaternion<TScalarType>           VnlQuaternionType;

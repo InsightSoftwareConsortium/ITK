@@ -84,6 +84,7 @@
 #include <algorithm>
 #include <iterator>
 
+
 namespace itk
 {
 template <class Key> struct hash { };
@@ -162,7 +163,7 @@ struct hashtable_node
   Value val;
 };  
 
-template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey , VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::alloc)>
+template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey ,  VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::allocator<char>)>
 class hashtable;
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
@@ -1034,7 +1035,7 @@ void hashtable_base<Value, Alloc>::copy_from(const hashtable_base<Value, Alloc>&
 
 // A few compatability fixes.  Placed here for automatic include in
 // both the hash_set and the hash_map sources.
-# if defined(VCL_SUNPRO_CC) || defined (_MSC_VER)
+# if defined(VCL_SUNPRO_CC) || defined (_MSC_VER) || defined(__BORLANDC__)
 namespace std 
 {
 template <class T>

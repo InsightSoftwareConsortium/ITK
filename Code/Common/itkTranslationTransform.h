@@ -56,8 +56,8 @@ public:
   itkTypeMacro( TranslationTransform, Transform );
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension      = NDimensions,
-         ParametersDimension = NDimensions };
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
   /** Standard scalar type for this class. */
   typedef typename Superclass::ScalarType ScalarType;
@@ -69,20 +69,20 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, SpaceDimension> InputVectorType;
-  typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, SpaceDimension> InputPointType;
-  typedef Point<TScalarType, SpaceDimension> OutputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
+  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
   
   /** This method returns the value of the offset of the
    * TranslationTransform. */

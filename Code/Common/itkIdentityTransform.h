@@ -69,9 +69,9 @@ public:
   itkTypeMacro( IdentityTransform, Transform );
 
   /** Dimension of the domain space. */
-  enum { InputSpaceDimension     = NDimensions,
-         OutputSpaceDimension    = NDimensions };
-
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
+  
   /** Type of the input parameters. */
   typedef  TScalarType     ScalarType;
 
@@ -82,27 +82,35 @@ public:
   typedef  typename Superclass::JacobianType                   JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
-  typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType,
+                itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
+  typedef Vector<TScalarType,
+                itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
   
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalarType, InputSpaceDimension>  InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
+  typedef CovariantVector<TScalarType,
+                          itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(InputSpaceDimension)>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType,
+                           itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class */
-  typedef Point<TScalarType, InputSpaceDimension> InputPointType;
-  typedef Point<TScalarType, OutputSpaceDimension> OutputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
+  typedef Point<TScalarType,
+                itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const
     { return point; }
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
+  virtual OutputVectorType TransformVector(const InputVectorType &vector) const
     { return vector; }
 
   /**  Method to transform a vnl_vector. */

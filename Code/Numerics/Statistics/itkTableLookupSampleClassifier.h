@@ -90,11 +90,12 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
 
-  enum { MeasurementVectorSize = Superclass::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      Superclass::MeasurementVectorSize);
 
   /** Lookup table related typedefs */
-  typedef Index< MeasurementVectorSize > CachedMeasurementVectorType ;
-  typedef Image< MeasurementType, MeasurementVectorSize > LookupTableType ;
+  typedef Index< itkGetStaticConstMacro(MeasurementVectorSize) > CachedMeasurementVectorType ;
+  typedef Image< MeasurementType, itkGetStaticConstMacro(MeasurementVectorSize) > LookupTableType ;
   typedef typename LookupTableType::Pointer LookupTablePointer ;
   typedef ImageRegionIteratorWithIndex< LookupTableType > LookupTableIteratorType ;
   typedef typename LookupTableType::RegionType RegionType ;

@@ -56,7 +56,8 @@ public:
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
   /** VMeasurementVectorSize template argument alias */
-  enum { MeasurementVectorSize = TMeasurementVector::Length } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TMeasurementVector::Length);
 
 protected:
   ListSample() ;

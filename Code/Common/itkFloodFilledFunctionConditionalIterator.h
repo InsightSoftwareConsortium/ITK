@@ -64,11 +64,11 @@ public:
   /** External Pixel Type */
   typedef typename Superclass::PixelType   PixelType;
 
-  /** Dimension of the image the iterator walks.  This enum is needed so that
+  /** Dimension of the image the iterator walks.  This constant is needed so 
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
-  enum { NDimensions = TImage::ImageDimension };
+  itkStaticConstMacro(NDimensions, unsigned int, TImage::ImageDimension);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses

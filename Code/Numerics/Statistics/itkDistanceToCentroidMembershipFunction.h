@@ -85,8 +85,8 @@ private:
   // Number of samples defining this density
   int m_NumberOfSamples;
 
-  enum{ VectorDimension = TVector::VectorDimension };
-  typedef vnl_matrix_fixed<double,1,VectorDimension> ColumnVectorType;
+  itkStaticConstMacro(VectorDimension, unsigned int, TVector::VectorDimension);
+  typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
 
   mutable ColumnVectorType      m_TempVec;
   mutable ColumnVectorType      m_TempMat;

@@ -45,13 +45,17 @@ public:
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   /** Typedef for the mean output */
-  typedef Matrix< double, MeasurementVectorSize, MeasurementVectorSize > 
-  OutputType ;
+  typedef Matrix< double,
+                  itkGetStaticConstMacro(MeasurementVectorSize),
+                  itkGetStaticConstMacro(MeasurementVectorSize) > 
+          OutputType ;
 
-  typedef Vector< double, MeasurementVectorSize > MeanType ;
+  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) >
+          MeanType ;
 
   typedef Array< double > WeightArrayType ;
 

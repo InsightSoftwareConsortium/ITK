@@ -51,13 +51,16 @@ public:
   itkTypeMacro(MeanCalculator, Object);
   itkNewMacro(Self) ;
   
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
+  
   /** Sample typedefs alias */
   typedef TSample SampleType ;
   typedef typename TSample::Pointer SamplePointer ;
 
   /** Typedef for the mean output */
-  typedef Vector< double, MeasurementVectorSize > OutputType ;
+  typedef Vector< double,
+                  itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
 
   /** Returns the mean vector */
   OutputType* GetOutput() ;

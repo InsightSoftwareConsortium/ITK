@@ -65,7 +65,7 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension = Superclass::SpaceDimension };
+  itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
 
   /** Set alpha */
   itkSetMacro( Alpha, TScalarType );

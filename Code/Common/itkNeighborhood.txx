@@ -71,11 +71,11 @@ void Neighborhood<TPixel, VDimension, TContainer>
 {
   unsigned int i;
 
-  os << "m_Size: [ ";
+  os << indent << "m_Size: [ ";
   for (i=0; i<VDimension; ++i) os << m_Size[i] << " ";
   os << "]" << std::endl;
   
-  os << "m_Radius: [ ";
+  os << indent << "m_Radius: [ ";
   for (i=0; i<VDimension; ++i) os << m_Radius[i] << " ";
   os << "]" << std::endl;  
 }

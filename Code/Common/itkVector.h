@@ -65,7 +65,7 @@ public:
   typedef T ValueType;
 
   /** Dimension of the vector space. */
-  enum { VectorDimension = NVectorDimension };
+  itkStaticConstMacro(VectorDimension, unsigned int, NVectorDimension);
 
   /** I am a vector type. */
   typedef Self VectorType;
@@ -92,14 +92,10 @@ public:
   
   /** Pass-through constructor for the Array base class. */
   Vector(const Self& r): BaseArray(r) {}
-  Vector(const typename BaseArray::Reference& r): BaseArray(r) {}
-  Vector(const typename BaseArray::ConstReference& r): BaseArray(r) {}
   Vector(const ValueType r[VectorDimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   Vector& operator= (const Self& r);
-  Vector& operator= (const typename BaseArray::Reference& r);
-  Vector& operator= (const typename BaseArray::ConstReference& r);
   Vector& operator= (const ValueType r[VectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */

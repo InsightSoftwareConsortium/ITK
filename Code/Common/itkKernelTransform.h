@@ -70,7 +70,7 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the domain space. */
-  enum { SpaceDimension = NDimensions };
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;

@@ -25,6 +25,7 @@
 namespace itk
 {
 
+
 /** \class ImageFunction
  * \brief Evaluates a function of an image at specified position.
  *
@@ -56,14 +57,20 @@ class TOutput,
 class TCoordRep = float 
 >
 class ITK_EXPORT ImageFunction : 
-  public FunctionBase< Point<TCoordRep,TInputImage::ImageDimension>, 
+    public FunctionBase< Point<TCoordRep,
+                               ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
                        TOutput > 
 {
 public:
+  /** Dimension underlying input image. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
   /** Standard class typedefs. */
   typedef ImageFunction Self;
-  typedef FunctionBase< Point<TCoordRep,TInputImage::ImageDimension>,
-            TOutput > Superclass;
+  typedef FunctionBase< Point<TCoordRep,
+                              itkGetStaticConstMacro(ImageDimension)>,
+                        TOutput > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -79,9 +86,6 @@ public:
   /** InputImagePointer typedef support */ 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
-  /** Dimension underlying input image. */
-  enum { ImageDimension = InputImageType::ImageDimension };
-
   /** OutputType typedef support. */
   typedef TOutput OutputType;
 
@@ -92,10 +96,11 @@ public:
   typedef typename InputImageType::IndexType IndexType;
 
   /** ContinuousIndex Type. */
-  typedef ContinuousIndex<TCoordRep,ImageDimension> ContinuousIndexType;
+  typedef ContinuousIndex<TCoordRep,itkGetStaticConstMacro(ImageDimension)>
+          ContinuousIndexType;
 
   /** Point Type. */
-  typedef Point<TCoordRep,ImageDimension> PointType;
+  typedef Point<TCoordRep,itkGetStaticConstMacro(ImageDimension)> PointType;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

@@ -25,7 +25,7 @@ int itkDiscreteGaussianImageFilterTest(int argc, char **argv)
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
+      typedef itk::Image<float, 3> ImageType;
       
       // Set up filter
       itk::DiscreteGaussianImageFilter<ImageType, ImageType>::Pointer 
@@ -35,9 +35,10 @@ int itkDiscreteGaussianImageFilterTest(int argc, char **argv)
       filter->SetMaximumError(.01f);
       
       // Run Test
-      itk::Size<2> sz;
+      itk::Size<3> sz;
       sz[0] = 100 ; //atoi(argv[1]);
       sz[1] = 100 ; // atoi(argv[2]);
+      sz[2] = 1;
       //      sz[2] = 10;//atoi(argv[3]);
       //      sz[3] = 5;//atoi(argv[4]);
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;

@@ -66,7 +66,7 @@ public:
   Pointer GetPointer( void );
   
   /** Returns a const pointer to self. */
-  ConstPointer GetConstPointer( void );
+  ConstPointer GetConstPointer( void ) {return this;}
 
   /** Return a pointer to the point object.*/
   PointType GetPosition( void ) const;

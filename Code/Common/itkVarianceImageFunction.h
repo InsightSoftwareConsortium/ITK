@@ -73,7 +73,8 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** Dimension of the underlying image. */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** Datatype used for the variance */
   typedef typename NumericTraits<typename InputImageType::PixelType>::RealType

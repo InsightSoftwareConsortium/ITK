@@ -73,7 +73,8 @@ public:
   //    typedef typename TSample::SizeValueType SizeValueType ;
   
   /** MeasurementVectorSize enum from super class */
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
   
   /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;

@@ -36,7 +36,7 @@ class PixelTraits
 {
 public:
   /** Dimension of the pixel (range). */
-  enum {Dimension = TPixelType::Length};
+  itkStaticConstMacro(Dimension, unsigned int, TPixelType::Length);
   
   /** Type of a single component of a pixel. */
   typedef typename TPixelType::ValueType ValueType;
@@ -47,7 +47,7 @@ template <>
 class PixelTraits<bool>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef bool ValueType;
 };
 
@@ -55,7 +55,7 @@ template <>
 class PixelTraits<char>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef char ValueType;
 };
 
@@ -63,7 +63,7 @@ template <>
 class PixelTraits<unsigned char>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned char ValueType;
 };
 
@@ -71,7 +71,7 @@ template <>
 class PixelTraits<short>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef short ValueType;
 };
 
@@ -79,7 +79,7 @@ template <>
 class PixelTraits<unsigned short>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned short ValueType;
 };
 
@@ -87,7 +87,7 @@ template <>
 class PixelTraits<int>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef int ValueType;
 };
 
@@ -95,7 +95,7 @@ template <>
 class PixelTraits<unsigned int>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned int ValueType;
 };
 
@@ -103,7 +103,7 @@ template <>
 class PixelTraits<long>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef long ValueType;
 };
 
@@ -111,7 +111,7 @@ template <>
 class PixelTraits<unsigned long>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned long ValueType;
 };
 
@@ -119,7 +119,7 @@ template <>
 class PixelTraits<float>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef float ValueType;
 };
 
@@ -127,7 +127,7 @@ template <>
 class PixelTraits<double>
 {
 public:
-  enum {Dimension=1};
+  itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef double ValueType;
 };
 

@@ -52,7 +52,7 @@ public:
   typedef typename Superclass::PixelType PixelType;
     
   /** Save the dimension of the image. */
-  enum { Dimension = Superclass::Dimension };
+  itkStaticConstMacro(Dimension, unsigned int,Superclass::Dimension);
 
   /** Some common itk object typedefs */
   typedef typename Superclass::ImageType ImageType;

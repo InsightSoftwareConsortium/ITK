@@ -64,11 +64,11 @@ public:
   typedef typename FaceType::SelfAutoPointer          FaceAutoPointer;
  
   /** Tetrahedron-specific topology numbers. */
-  enum { NumberOfPoints   = 4,
-         NumberOfVertices = 4,
-         NumberOfEdges    = 6,
-         NumberOfFaces    = 4,
-         CellDimension    = 3 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
+  itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
+  itkStaticConstMacro(NumberOfEdges, unsigned int, 6);
+  itkStaticConstMacro(NumberOfFaces, unsigned int, 4);
+  itkStaticConstMacro(CellDimension, unsigned int, 3);
 
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

@@ -57,9 +57,9 @@ public:
   typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
     
   /** QuadraticEdge-specific topology numbers. */
-  enum { NumberOfPoints   = 3,
-         NumberOfVertices = 2,
-         CellDimension    = 1 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 3);
+  itkStaticConstMacro(NumberOfVertices, unsigned int, 2);
+  itkStaticConstMacro(CellDimension, unsigned int, 1);
   
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

@@ -40,32 +40,6 @@ Point<T, TPointDimension>
 
 
 /*
- * Assignment from a Base Array
- */
-template<class T, unsigned int TPointDimension>
-Point<T, TPointDimension>&
-Point<T, TPointDimension>
-::operator= (const typename BaseArray::Reference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-/*
- * Assignment from a Const Base Array
- */
-template<class T, unsigned int TPointDimension>
-Point<T, TPointDimension>&
-Point<T, TPointDimension>
-::operator= (const typename BaseArray::ConstReference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-/*
  * Assignemt from a plain array
  */
 template<class T, unsigned int TPointDimension>

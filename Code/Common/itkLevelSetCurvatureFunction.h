@@ -62,7 +62,8 @@ public:
   typedef TInputImage InputImageType;
 
   /** Dimension of the underlying image. */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      InputImageType::ImageDimension);
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
@@ -131,9 +132,10 @@ private:
   double                                      m_EpsilonMagnitude;
   mutable bool                                m_BorderPixel;
 
-  mutable vnl_vector_fixed<double,ImageDimension>           
+  mutable vnl_vector_fixed<double,itkGetStaticConstMacro(ImageDimension)>     
                                               m_FirstDerivative;
-  mutable vnl_matrix_fixed<double,ImageDimension,ImageDimension>
+  mutable vnl_matrix_fixed<double,itkGetStaticConstMacro(ImageDimension),
+                           itkGetStaticConstMacro(ImageDimension)>
                                               m_SecondDerivative;
 
   mutable IndexType                           m_NeighIndex;
@@ -142,7 +144,8 @@ private:
   mutable double                              m_CenterValue;
   mutable double                              m_DiffValue;
 
-  mutable vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
+  mutable vnl_matrix_fixed<unsigned int,itkGetStaticConstMacro(ImageDimension),
+                           itkGetStaticConstMacro(ImageDimension)>
                                                             m_Variable;
 
   void CalculateDerivatives( const IndexType& index ) const;

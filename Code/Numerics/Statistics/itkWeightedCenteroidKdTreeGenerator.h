@@ -54,7 +54,8 @@ public:
   typedef typename Superclass::SubsampleType SubsampleType ;
   typedef typename Superclass::SubsamplePointer SubsamplePointer ;
   typedef typename Superclass::KdTreeNodeType KdTreeNodeType ;
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
 protected:
   WeightedCenteroidKdTreeGenerator() ;

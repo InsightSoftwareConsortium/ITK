@@ -56,7 +56,8 @@ public:
   itkNewMacro(Self) ;
   
   /** the number of components in a measurement vector */
-  enum { MeasurementVectorSize = TPointSet::PointDimension } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TPointSet::PointDimension);
 
   /** PointSet typedefs */
   typedef TPointSet PointSetType;

@@ -56,7 +56,8 @@ public:
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   typedef KdTree< SourceSampleType > KdTreeType ;
   typedef KdTreeType OutputType ;

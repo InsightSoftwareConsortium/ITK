@@ -73,7 +73,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   
   /** Extract information from the image type. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
   
   /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() {}

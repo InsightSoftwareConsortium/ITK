@@ -25,10 +25,9 @@ template<class TImage>
 typename VectorNeighborhoodInnerProduct<TImage>::PixelType
 VectorNeighborhoodInnerProduct<TImage>
 ::operator()(const ConstNeighborhoodIterator<TImage> &n,
-             const Neighborhood<ScalarValueType, ImageDimension> &op) const
+             const OperatorType &op) const
 {
   typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<ScalarValueType, ImageDimension> Operator_t;
   PixelType sum;
   unsigned int i;
   
@@ -36,10 +35,10 @@ VectorNeighborhoodInnerProduct<TImage>
     { sum[i] = NumericTraits<ScalarValueType>::Zero; }
   
   typename Neighborhood_t::ConstIterator n_it;
-  typename Operator_t::ConstIterator o_it;
+  typename OperatorType::ConstIterator o_it;
   
   n_it = n.Begin();
-  const typename Operator_t::ConstIterator op_end = op.End();
+  const typename OperatorType::ConstIterator op_end = op.End();
   for (o_it = op.Begin(); o_it < op_end; ++o_it, ++n_it)
     {
       for (i = 0; i < VectorDimension; ++i)
@@ -53,10 +52,9 @@ typename VectorNeighborhoodInnerProduct<TImage>::PixelType
 VectorNeighborhoodInnerProduct<TImage>
 ::operator()(const std::slice &s,
              const ConstNeighborhoodIterator<TImage> &n,
-             const Neighborhood<ScalarValueType, ImageDimension> &op) const
+             const OperatorType &op) const
 {
   typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<ScalarValueType, ImageDimension> Operator_t;
   PixelType sum;
   unsigned int i;
 
@@ -64,10 +62,10 @@ VectorNeighborhoodInnerProduct<TImage>
     { sum[i] = NumericTraits<ScalarValueType>::Zero; }
   
   ConstSliceIterator<PixelType *, Neighborhood_t> s_it(&n, s);
-  typename Operator_t::ConstIterator o_it;
+  typename OperatorType::ConstIterator o_it;
 
   s_it = s_it.Begin();
-  const typename Operator_t::ConstIterator op_end = op.End();
+  const typename OperatorType::ConstIterator op_end = op.End();
   for (o_it = op.Begin(); o_it < op_end; ++o_it, ++s_it)
     {
       for (i = 0; i < VectorDimension; ++i)
@@ -83,22 +81,20 @@ SmartVectorNeighborhoodInnerProduct<TImage>
 ::operator()(const std::slice &s,
              /*           const ImageBoundaryCondition<TImage> *,*/
              const ConstSmartNeighborhoodIterator<TImage> &it,
-             const Neighborhood<ScalarValueType, ImageDimension>
-             &op) const
+             const OperatorType &op) const
 {
   typedef ConstSmartNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<ScalarValueType, ImageDimension> Operator_t;
 
   PixelType sum;
   unsigned int j;
   
-  typename Operator_t::ConstIterator o_it;
+  typename OperatorType::ConstIterator o_it;
 
   for (j = 0; j < VectorDimension; ++j)
     { sum[j] = NumericTraits<ScalarValueType>::Zero; }
   
   o_it = op.Begin();
-  const typename Operator_t::ConstIterator op_end = op.End();
+  const typename OperatorType::ConstIterator op_end = op.End();
 
   for ( unsigned int i = s.start(); o_it < op_end; i+=s.stride(), ++o_it )
     {

@@ -42,45 +42,55 @@ namespace itk {
 template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class NeighborhoodInnerProduct
 {
-public:
+ public:
+  /** Standard typedefs */
+  typedef NeighborhoodInnerProduct Self;
+  
   /** Capture some typedefs from the template parameters. */
   typedef typename TImage::PixelType ImagePixelType;
   typedef TOperator OperatorPixelType;
   typedef TComputation OutputPixelType;
     
   /** Capture some typedefs from the template parameters. */
-  enum {ImageDimension = TImage::ImageDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
+  /** Operator typedef */
+  typedef Neighborhood<OperatorPixelType,
+                      itkGetStaticConstMacro(ImageDimension)> OperatorType;
+  
   /** Reference oeprator. */
   OutputPixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<OperatorPixelType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
   OutputPixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<OperatorPixelType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
   };
 
 template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class SmartNeighborhoodInnerProduct
 {
 public:
+  /** Standard typedefs */
+  typedef SmartNeighborhoodInnerProduct Self;
+
   /** Capture some typedefs from the template parameters. */
   typedef typename TImage::PixelType ImagePixelType;
   typedef TOperator OperatorPixelType;
   typedef TComputation OutputPixelType;
   
   /** Capture some typedefs from the template parameters. */
-  enum {ImageDimension = TImage::ImageDimension};
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+
+  /** Operator typedef */
+  typedef Neighborhood<OperatorPixelType,
+                      itkGetStaticConstMacro(ImageDimension)> OperatorType;
 
   /** Reference oeprator. */
   OutputPixelType operator()(const std::slice &s,
                        const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<OperatorPixelType, ImageDimension>
-                       &op) const;
+                       const OperatorType &op) const;
   OutputPixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<OperatorPixelType, ImageDimension>
-                       &op) const
+                       const OperatorType &op) const
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }

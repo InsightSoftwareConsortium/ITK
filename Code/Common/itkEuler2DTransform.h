@@ -49,8 +49,8 @@ public:
   itkTypeMacro( Euler2DTransform, Rigid2DTransform );
 
   /** Dimension of parameters. */
-  enum { SpaceDimension = 2, 
-         ParametersDimension = 3 };
+  itkStaticConstMacro(SpaceDimension, unsigned int, 2);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 3);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;

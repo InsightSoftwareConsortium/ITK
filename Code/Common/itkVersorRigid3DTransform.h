@@ -48,8 +48,8 @@ public:
   itkTypeMacro( VersorRigid3DTransform, Rigid3DTransform );
 
   /** Dimension of parameters. */
-  enum { SpaceDimension = 3, 
-         ParametersDimension = 6 };
+  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;

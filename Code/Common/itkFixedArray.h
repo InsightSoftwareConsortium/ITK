@@ -45,20 +45,14 @@ template <typename TValueType, unsigned long VLength=3>
 class FixedArray
 {
 public:
-  /** A class which behaves as a reference to this FixedArray type. */
-  class Reference;
-
-  /** A class which behaves as a const reference to this FixedArray type. */
-  class ConstReference;
+  /** Length constant */
+  itkStaticConstMacro(Length, unsigned long, VLength);
   
   /** The element type stored at each location in the FixedArray. */
   typedef TValueType  ValueType;
   
-  /** The number of elements in the FixedArray. */
-  enum { Length = VLength };
-
   /** A type representing the C-array version of this FixedArray. */
-  typedef ValueType         CArray[Length];
+  typedef ValueType         CArray[VLength];
   
   /** An iterator through the array. */
   typedef ValueType*        Iterator;
@@ -111,11 +105,10 @@ public:
   typedef unsigned long   SizeType;
   
 public:
+  /** Constructors */
   FixedArray();
   FixedArray(const FixedArray& r);
-  FixedArray(const Reference& r);
-  FixedArray(const ConstReference& r);
-  FixedArray(const ValueType r[Length]);
+  FixedArray(const ValueType r[VLength]);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -123,21 +116,13 @@ public:
   
   /** Operator= defined for a variety of types. */
   FixedArray& operator= (const FixedArray& r);
-  FixedArray& operator= (const Reference& r);
-  FixedArray& operator= (const ConstReference& r);
-  FixedArray& operator= (const ValueType r[Length]);
+  FixedArray& operator= (const ValueType r[VLength]);
     
   /** Operators == and != are used to compare whether two arrays are equal.
    * Note that arrays are equal when the number of components (size) is the
    * same, and each component value is equal. */
   bool operator==(const FixedArray& r ) const;
-  bool operator==(const Reference& r ) const;
-  bool operator==(const ConstReference& r ) const;
   bool operator!=(const FixedArray& r ) const
-    { return !operator==(r); }
-  bool operator!=(const Reference& r ) const
-    { return !operator==(r); }
-  bool operator!=(const ConstReference& r ) const
     { return !operator==(r); }
   
   /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
@@ -177,170 +162,7 @@ private:
   CArray  m_InternalArray;
   
 public:
-  /** \brief Provide reference semantics for the array.
-   *
-   * Identical to FixedArray class, but uses reference semantics.  This can
-   * reference either an FixedArray, or a C-style array. */
-  class Reference
-  {
-  public:
-    /** Constructor copies only the array pointer since this is a reference
-     *  type.  */
-    Reference(FixedArray& r) : m_InternalArray(r.Begin()) {}
-    Reference(const Reference& r) : m_InternalArray(r.m_InternalArray) {}
-    Reference(ValueType r[Length]) : m_InternalArray(r) {}
-    
-    /** Assignment operator copies all FixedArray values.
-     * Values are copied individually instead of with a binary copy.  This
-     * allows the ValueType's assignment operator to be executed.   */
-    Reference& operator= (const FixedArray& r)
-      {
-      if(r.Begin() == m_InternalArray) return *this;
-      ConstIterator input = r.Begin();
-      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-      return *this;
-      }
-    Reference& operator= (const Reference& r)
-      {
-      if(r.Begin() == m_InternalArray) return *this;
-      ConstIterator input = r.Begin();
-      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-      return *this;
-      }
-    Reference& operator= (const ConstReference& r)
-      {
-      if(r.Begin() == m_InternalArray) return *this;
-      ConstIterator input = r.Begin();
-      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-      return *this;
-      }
-    Reference& operator= (const ValueType r[Length])
-      {
-      if(r == m_InternalArray) return *this;
-      ConstIterator input = r;
-      for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
-      return *this;
-      }    
-    
-    /** Allow the FixedArray to be indexed normally.
-     * No bounds checking is done.
-     * The separate versions are a work-around for an integer conversion
-     * bug in Visual C++. */
-          reference operator[](short index)                { return m_InternalArray[index]; }
-    const_reference operator[](short index) const          { return m_InternalArray[index]; }
-          reference operator[](unsigned short index)       { return m_InternalArray[index]; }
-    const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-          reference operator[](int index)                  { return m_InternalArray[index]; }
-    const_reference operator[](int index) const            { return m_InternalArray[index]; }
-          reference operator[](unsigned int index)         { return m_InternalArray[index]; }
-    const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
-          reference operator[](long index)                 { return m_InternalArray[index]; }
-    const_reference operator[](long index) const           { return m_InternalArray[index]; }
-          reference operator[](unsigned long index)        { return m_InternalArray[index]; }
-    const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
-        
-    /** Return a pointer to the data. */
-    ValueType* GetDataPointer() { return m_InternalArray; }
-    const ValueType* GetDataPointer() const { return m_InternalArray; }
-    
-    /** Get an Iterator for the beginning of the FixedArray.   */
-    Iterator Begin()
-      { return Iterator(m_InternalArray); }
-
-    /** Get a ConstIterator for the beginning of the FixedArray.   */
-    ConstIterator Begin() const
-      { return ConstIterator(m_InternalArray); }
-
-    /** Get an Iterator for the end of the FixedArray.   */
-    Iterator End()
-      { return Iterator(m_InternalArray+Length); }
-
-    /** Get a ConstIterator for the end of the FixedArray.   */
-    ConstIterator End() const
-      { return ConstIterator(m_InternalArray+Length); }
-
-    /** Get a begin ReverseIterator.   */
-    ReverseIterator rBegin()
-      { return ReverseIterator(m_InternalArray+Length); }
-
-    /** Get a begin ConstReverseIterator.   */
-    ConstReverseIterator rBegin() const
-      { return ConstReverseIterator(m_InternalArray+Length); }
-
-    /** Get an end ReverseIterator.   */
-    ReverseIterator rEnd()
-      { return ReverseIterator(m_InternalArray); }
-
-    /** Get an end ConstReverseIterator.   */
-    ConstReverseIterator rEnd() const 
-      { return ConstReverseIterator(m_InternalArray); }
-
-    /** Get the size of the FixedArray.   */
-    SizeType      Size() const 
-      { return Length; }
-
-    /** Fill all elements of the array with the given value.   */
-    void Fill(const ValueType& value)
-      { for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value; }
-    
-  private:
-    /** Store a pointer to the real memory.   */
-    ValueType * const m_InternalArray;
-  };
-  
-  /** \brief Provide const reference to an array.
-   *
-   * Identical to FixedArray<TValueType, VLength>::Reference class, but serves
-   * as a const reference. */
-  class ConstReference
-  {
-  public:
-    /** Constructor copies only the array pointer since this is a reference
-     *  type.  */
-    ConstReference(const FixedArray& r) : m_InternalArray(r.Begin()) {}
-    ConstReference(const Reference& r) : m_InternalArray(r.Begin()) {}
-    ConstReference(const ConstReference& r) : m_InternalArray(r.Begin()) {}
-    ConstReference(const ValueType r[Length]) : m_InternalArray(r) {}
-        
-    /** Allow the FixedArray to be indexed normally.
-     * No bounds checking is done.
-     * The separate versions are a work-around for an integer conversion
-     * bug in Visual C++. */
-    const_reference operator[](short index) const          { return m_InternalArray[index]; }
-    const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-    const_reference operator[](int index) const            { return m_InternalArray[index]; }
-    const_reference operator[](unsigned int index) const   { return m_InternalArray[index]; }
-    const_reference operator[](long index) const           { return m_InternalArray[index]; }
-    const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
-        
-    /** Return a pointer to the data. */
-    const ValueType* GetDataPointer() const { return m_InternalArray; }
-    
-    /** Get a ConstIterator for the beginning of the FixedArray.   */
-    ConstIterator  Begin() const 
-      { return ConstIterator(m_InternalArray); }
-    
-    /** Get a ConstIterator for the end of the FixedArray.   */
-    ConstIterator  End() const
-      { return ConstIterator(m_InternalArray+Length); }
-    
-    /** Get a begin ConstReverseIterator.   */
-    ConstReverseIterator  rBegin() const 
-      { return ConstReverseIterator(m_InternalArray+Length); }
-    
-    /** Get an end ConstReverseIterator.   */
-    ConstReverseIterator  rEnd() const
-      { return ConstReverseIterator(m_InternalArray); }
-    
-    /** Get the size of the FixedArray.   */
-    SizeType       Size() const
-      { return Length; }
-
-  private:
-    /** Store a pointer to the real memory.   */
-    const ValueType * const m_InternalArray;
-  };
-  
+ 
   static FixedArray Filled(const ValueType&);
 };
   

@@ -119,7 +119,8 @@ public:
   typedef typename Superclass::Iterator Iterator;
     
   /** Extract some type information from the superclass. */
-  enum { Dimension = Superclass::Dimension };
+  itkStaticConstMacro(Dimension, unsigned int,
+                      Superclass::Dimension);
 
   /** Default constructor. */
   SmartNeighborhoodIterator()

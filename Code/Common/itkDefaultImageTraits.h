@@ -40,22 +40,22 @@ public:
   typedef TPixelType PixelType;
 
   /** The dimension of the image. */
-  enum { ImageDimension = VImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
   
   /** The container of Pixels for the image. */
   typedef TPixelContainer PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<ImageDimension>  IndexType;
+  typedef Index<VImageDimension>  IndexType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
-  typedef Offset<ImageDimension>  OffsetType;
+  typedef Offset<VImageDimension>  OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<ImageDimension>  SizeType;
+  typedef Size<VImageDimension>  SizeType;
 
   /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<ImageDimension>  RegionType;
+  typedef ImageRegion<VImageDimension>  RegionType;
 };
 
 

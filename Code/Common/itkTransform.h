@@ -66,8 +66,8 @@ public:
   itkTypeMacro( Transform, Object );
 
   /** Dimension of the domain space. */
-  enum { InputSpaceDimension     = NInputDimensions,
-         OutputSpaceDimension    = NOutputDimensions };
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
 
   /** Type of the input parameters. */
   typedef  TScalarType     ScalarType;
@@ -79,36 +79,36 @@ public:
   typedef  Array2D< double >                           JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
-  typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
+  typedef Vector<TScalarType, NInputDimensions>  InputVectorType;
+  typedef Vector<TScalarType, NOutputDimensions> OutputVectorType;
   
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalarType, InputSpaceDimension>  InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NInputDimensions>  InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NOutputDimensions> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NInputDimensions>  InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NOutputDimensions> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class */
-  typedef Point<TScalarType, InputSpaceDimension> InputPointType;
-  typedef Point<TScalarType, OutputSpaceDimension> OutputPointType;
+  typedef Point<TScalarType, NInputDimensions> InputPointType;
+  typedef Point<TScalarType, NOutputDimensions> OutputPointType;
   
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  &point ) const
+  virtual OutputPointType TransformPoint(const InputPointType  & ) const
     { return OutputPointType(); } 
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
+  virtual OutputVectorType    TransformVector(const InputVectorType &) const
     { return OutputVectorType(); }
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
     { return OutputVnlVectorType(); }
 
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &vector) const
+    const InputCovariantVectorType &) const
     { return OutputCovariantVectorType(); } 
 
   /** Set the Transformation Parameters
@@ -147,7 +147,7 @@ public:
    *
    * \f]
    * **/
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const
+  virtual const JacobianType & GetJacobian(const InputPointType  &) const
     { 
     std::cout << "This message should never show up" << std::endl;
     m_Jacobian = JacobianType(NInputDimensions,1); 

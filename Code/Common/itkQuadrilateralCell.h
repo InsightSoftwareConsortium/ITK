@@ -62,10 +62,10 @@ public:
   typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
  
   /** Quadrilateral-specific topology numbers. */
-  enum { NumberOfPoints   = 4,
-         NumberOfVertices = 4,
-         NumberOfEdges    = 4,
-         CellDimension    = 2 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
+  itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
+  itkStaticConstMacro(NumberOfEdges, unsigned int, 4);
+  itkStaticConstMacro(CellDimension, unsigned int, 2);
   
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

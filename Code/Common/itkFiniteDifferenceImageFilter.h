@@ -135,7 +135,8 @@ public:
   typedef TOutputImage OutputImageType;
   
   /** Dimensionality of input and output data is assumed to be the same. */
-  enum { ImageDimension = OutputImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      OutputImageType::ImageDimension);
 
   /** The pixel type of the output image will be used in computations. */
   typedef typename TOutputImage::PixelType PixelType;

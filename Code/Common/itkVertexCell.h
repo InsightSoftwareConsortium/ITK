@@ -52,8 +52,8 @@ public:
   itkTypeMacro(VertexCell, CellInterface);
  
   /** Vertex-specific topology numbers. */
-  enum { NumberOfPoints = 1,
-         CellDimension  = 0 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 1);
+  itkStaticConstMacro(CellDimension, unsigned int, 0);
   
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

@@ -51,8 +51,10 @@ public:
   /**Standard Macros */
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
   itkNewMacro(Self) ;
-  
-  enum {MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+
+  /** Measurement length constant */
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType ;

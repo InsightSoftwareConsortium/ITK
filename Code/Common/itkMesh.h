@@ -96,7 +96,7 @@ namespace itk
 template <
   typename TPixelType,
   unsigned int VDimension = 3,
-  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension >
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension, VDimension >
   >
 class Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
@@ -118,9 +118,11 @@ public:
   typedef typename MeshTraits::PixelType                PixelType;  
   typedef typename MeshTraits::CellPixelType            CellPixelType;  
   
-  /** Convenient enums obtained from TMeshTraits template parameter. */
-  enum {PointDimension = MeshTraits::PointDimension};
-  enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
+  /** Convenient constants obtained from TMeshTraits template parameter. */
+  itkStaticConstMacro(PointDimension, unsigned int,
+                      TMeshTraits::PointDimension);
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
+                      TMeshTraits::MaxTopologicalDimension);
   
   /** Enum defining the possible methods used to allocate memory for the Cells */
   typedef  enum {     CellsAllocationMethodUndefined,
@@ -155,9 +157,9 @@ public:
   typedef typename MeshTraits::BoundaryDataContainer   BoundaryDataContainer;
   
   /** Used to support geometric operations on the toolkit. */
-  typedef PointLocator<PointIdentifier,PointDimension,
+  typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                        CoordRepType,PointsContainer>  PointLocatorType;
-  typedef BoundingBox<PointIdentifier,PointDimension,
+  typedef BoundingBox<PointIdentifier,itkGetStaticConstMacro(PointDimension),
                       CoordRepType,PointsContainer>   BoundingBoxType;
   
   /** Create types that are pointers to each of the container types. */

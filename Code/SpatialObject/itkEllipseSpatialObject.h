@@ -48,7 +48,8 @@ public:
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
   typedef FixedArray<double,NDimensions> ArrayType;
-  enum{ NumberOfDimension = NDimensions };
+  itkStaticConstMacro(NumberOfDimension, unsigned int,
+                      NDimensions);
 
   itkNewMacro( Self );
   itkTypeMacro( Self, Superclass );

@@ -62,10 +62,10 @@ public:
   typedef typename EdgeType::SelfAutoPointer          EdgeAutoPointer;
     
   /** Triangle-specific topology numbers. */
-  enum { NumberOfPoints   = 6,
-         NumberOfVertices = 3,
-         NumberOfEdges    = 3,
-         CellDimension    = 2 };
+  itkStaticConstMacro(NumberOfPoints, unsigned int, 6);
+  itkStaticConstMacro(NumberOfVertices, unsigned int, 3);
+  itkStaticConstMacro(NumberOfEdges, unsigned int, 3);
+  itkStaticConstMacro(CellDimension, unsigned int, 2);
   
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 

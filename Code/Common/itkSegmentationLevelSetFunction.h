@@ -50,7 +50,7 @@ public:
 
   
   /** Extract some parameters from the superclass. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Set/Get the image which will be used to calculate the speed function. */
   virtual FeatureImageType *GetFeatureImage() const

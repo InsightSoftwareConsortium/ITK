@@ -38,26 +38,6 @@ CovariantVector<T, TCovariantVectorDimension>
 template<class T, unsigned int TCovariantVectorDimension>
 CovariantVector<T, TCovariantVectorDimension>&
 CovariantVector<T, TCovariantVectorDimension>
-::operator= (const typename BaseArray::Reference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-template<class T, unsigned int TCovariantVectorDimension>
-CovariantVector<T, TCovariantVectorDimension>&
-CovariantVector<T, TCovariantVectorDimension>
-::operator= (const typename BaseArray::ConstReference& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-template<class T, unsigned int TCovariantVectorDimension>
-CovariantVector<T, TCovariantVectorDimension>&
-CovariantVector<T, TCovariantVectorDimension>
 ::operator= (const ValueType r[CovariantVectorDimension])
 {
   BaseArray::operator=(r);

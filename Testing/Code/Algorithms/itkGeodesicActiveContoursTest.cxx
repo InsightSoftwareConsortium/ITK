@@ -34,8 +34,8 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-
 }
+
 
 int itkGeodesicActiveContoursTest(int, char**)
 {

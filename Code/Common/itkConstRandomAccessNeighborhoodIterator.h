@@ -58,7 +58,7 @@ public:
   typedef typename Superclass::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  enum {Dimension = Superclass::Dimension };
+  itkStaticConstMacro(Dimension, unsigned int, Superclass::Dimension);
   typedef typename Superclass::Iterator      Iterator;
   typedef typename Superclass::ConstIterator ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType

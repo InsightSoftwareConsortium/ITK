@@ -70,7 +70,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
     
   /** Save the image dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Default constructor. */
   ConstantBoundaryCondition()

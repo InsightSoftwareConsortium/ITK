@@ -60,7 +60,7 @@ public:
   typedef typename Superclass::ImageType ImageType;
 
   /** Extract some parameters from the superclass. */
-  enum { ImageDimension = Superclass::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Convenient typedefs. */
   typedef typename Superclass::PixelType        PixelType;

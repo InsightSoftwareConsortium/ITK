@@ -87,7 +87,8 @@ public:
   typedef PixelTraits< typename TImage::PixelType > PixelTraitsType ;
 
   /** the number of components in a measurement vector */
-  enum { MeasurementVectorSize = PixelTraitsType::Dimension } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      PixelTraitsType::Dimension);
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */

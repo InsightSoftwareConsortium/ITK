@@ -48,7 +48,7 @@ public:
   typedef ConstRandomAccessNeighborhoodIterator<TImage> Superclass;
   
   /** Extract typedefs from superclass. */
-  enum {Dimension = Superclass::Dimension };
+  itkStaticConstMacro(Dimension, unsigned int, Superclass::Dimension);
 
   /** Extract typedefs from superclass */
   typedef typename Superclass::InternalPixelType InternalPixelType;

@@ -56,8 +56,8 @@ namespace itk
  */
 template <
   typename TPixelType,
-  int VPointDimension = 3,
-  int VMaxTopologicalDimension = VPointDimension,
+  unsigned int VPointDimension = 3,
+  unsigned int VMaxTopologicalDimension = VPointDimension,
   typename TCoordRep = float,
   typename TInterpolationWeight = float,
   typename TCellPixelType = TPixelType
@@ -75,8 +75,9 @@ public:
   typedef TInterpolationWeight  InterpolationWeightType;
     
   /** Just save all the template parameters. */
-  enum { PointDimension = VPointDimension };
-  enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
+  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
+                      VMaxTopologicalDimension);  
   
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
@@ -97,7 +98,7 @@ public:
   
   /** The type of point used by the mesh.  This should never change from
    * this setting, regardless of the mesh type. */
-  typedef Point< CoordRepType, PointDimension >  PointType;
+  typedef Point< CoordRepType, VPointDimension >  PointType;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainerInterface. */

@@ -46,8 +46,8 @@ public:
 
 
     /// Dimension of parameters
-    enum { SpaceDimension = 3, 
-           ParametersDimension = 3 };
+    itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+    itkStaticConstMacro(ParametersDimension, unsigned int, 3);
 
     /**
      * Standard "Superclass" typedef.

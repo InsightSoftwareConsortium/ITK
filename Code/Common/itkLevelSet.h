@@ -51,10 +51,10 @@ public:
   typedef TPixel PixelType;
 
   /** Level set dimension. */
-  enum { SetDimension = VSetDimension };
+  itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
 
   /** Index typedef. */
-  typedef Index<SetDimension> IndexType;
+  typedef Index<VSetDimension> IndexType;
 
   /** Operator >. A LevelSetNode is sorted by its value field. */
   bool operator> ( const Self& node ) const
@@ -125,12 +125,14 @@ private:
 template<class TLevelSet>
 class ITK_EXPORT LevelSetTypeDefault
 {
-public:
+ public:
   /** LevelSetType typedef support. */
+  typedef LevelSetTypeDefault Self;
   typedef TLevelSet LevelSetImageType;
-
+  
+  
   /** SetDimension enumeration. */
-  enum{ SetDimension = TLevelSet::ImageDimension };
+  itkStaticConstMacro(SetDimension, unsigned int, TLevelSet::ImageDimension);
 
   /** LevelSetPointer typedef support. */
   typedef typename TLevelSet::Pointer LevelSetPointer;
@@ -140,7 +142,8 @@ public:
   typedef typename TLevelSet::PixelType PixelType;
   
   /** Node typdef support. */
-  typedef LevelSetNode<PixelType, SetDimension> NodeType;
+  typedef
+      LevelSetNode<PixelType, itkGetStaticConstMacro(SetDimension)> NodeType;
 
   /** NodeContainer typedef support. */
   typedef VectorContainer<unsigned int,NodeType> NodeContainer;
@@ -172,15 +175,18 @@ unsigned int VSetDimension = 2
 >
 class ITK_EXPORT AuxVarTypeDefault
 {
-public:
+ public:
+  /** Standard typedefs */
+  typedef AuxVarTypeDefault Self;
+  
   /** PixelType typedef support. */ 
   typedef TPixel AuxValueType;
 
   /** Auxiliary variable dimension. */
-  enum { AuxDimension = VAuxDimension };
+  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
 
   /** Level set dimension. */
-  enum { SetDimension = VSetDimension };
+  itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
 
   /** AuxVector typedef support. */
   typedef Vector<TPixel,VAuxDimension> AuxValueVectorType;

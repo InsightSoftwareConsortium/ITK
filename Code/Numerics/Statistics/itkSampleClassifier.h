@@ -88,7 +88,8 @@ public:
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
-  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
+                      TSample::MeasurementVectorSize);
 
   /** typedefs from Superclass */
   typedef typename Superclass::MembershipFunctionPointerVector 

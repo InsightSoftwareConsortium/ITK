@@ -141,8 +141,8 @@ ImageToImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ImageToImageFilter<TInputImage,TOutputImage>
-::CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
-                 const ImageRegion<OutputImageDimension> &srcRegion)
+::CallCopyRegion(InputImageRegionType &destRegion,
+                 const OutputImageRegionType &srcRegion)
 {
   RegionCopierType regionCopier;
   regionCopier(destRegion, srcRegion);

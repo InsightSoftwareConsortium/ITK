@@ -79,7 +79,7 @@ public:
   typedef typename ImageType::PixelType       PixelType;
   
   /** Save image dimension. */
-  enum { ImageDimension = ImageType::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Define the TimeStepType to always be double. */
   typedef double  TimeStepType;
@@ -103,7 +103,7 @@ public:
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
-  typedef Vector<float, ImageDimension> FloatOffsetType;
+  typedef Vector<float,itkGetStaticConstMacro(ImageDimension)> FloatOffsetType;
   
   /** This method allows the function to set its state before each iteration
    *  of the finite difference solver (image filter) that uses it.  This is
