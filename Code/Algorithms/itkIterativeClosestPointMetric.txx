@@ -165,6 +165,14 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
+  if(m_ComputeSquaredDistance)
+    {
+    os << indent << "m_ComputeSquaredDistance: True"<< std::endl;
+    }
+  else
+    {
+    os << indent << "m_ComputeSquaredDistance: False"<< std::endl;
+    }
 }
 
 } // end namespace itk
