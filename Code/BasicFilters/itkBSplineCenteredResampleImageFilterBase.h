@@ -21,6 +21,7 @@
 #ifndef __itkBSplineCenteredResampleImageFilterBase_h
 #define __itkBSplineCenteredResampleImageFilterBase_h
 
+#include "itkBSplineResampleImageFilterBase.h"
 #include <vector>
 
 
