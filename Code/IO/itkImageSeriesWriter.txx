@@ -336,7 +336,10 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       }
 
     typename WriterType::Pointer writer = WriterType::New();
+    
+    writer->UseInputMetaDataDictionaryOff(); // use the dictionary from the ImageIO class
     writer->SetInput(outputImage);
+
     if (m_ImageIO)
       {
       writer->SetImageIO(m_ImageIO);
