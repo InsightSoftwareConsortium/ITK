@@ -156,8 +156,8 @@ int main(int argc, char * argv [] )
   gc->SetDirection( 2 );
 
   ga->SetZeroOrder();
-  gb->SetSecondOrder();
-  gc->SetSecondOrder();
+  gb->SetFirstOrder();
+  gc->SetFirstOrder();
 
   gc->Update();
   duplicator->Update();
@@ -175,8 +175,8 @@ int main(int argc, char * argv [] )
   gc->SetDirection( 2 );
 
   ga->SetZeroOrder();
-  gb->SetSecondOrder();
-  gc->SetSecondOrder();
+  gb->SetFirstOrder();
+  gc->SetFirstOrder();
 
   gc->Update();
   duplicator->Update();
@@ -193,8 +193,8 @@ int main(int argc, char * argv [] )
   gc->SetDirection( 1 );
 
   ga->SetZeroOrder();
-  gb->SetSecondOrder();
-  gc->SetSecondOrder();
+  gb->SetFirstOrder();
+  gc->SetFirstOrder();
 
   gc->Update();
   duplicator->Update();
