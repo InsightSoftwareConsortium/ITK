@@ -33,7 +33,7 @@ vnl_vector<Float> LoadImagePairBase<TReference , TTarget>::Fg(vnl_vector<Float> 
 template<class TReference,class TTarget>
 LoadImagePairBase<TReference , TTarget>::LoadImagePairBase()
 {
-  m_transform = TransformType::New();
+  
   for (int i=0; i<ImageDimension; i++)
   {
     m_RefRadius[i] = 1;
