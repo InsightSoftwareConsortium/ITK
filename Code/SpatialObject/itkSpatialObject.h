@@ -415,6 +415,7 @@ public:
 
   /** Returns a pointer to the property object applied to this class. */
   PropertyType * GetProperty( void );
+  const PropertyType * GetProperty( void ) const {return m_Property;}
 
   /** Set the property applied to the object. */
   void SetProperty( const PropertyType * property ); 
