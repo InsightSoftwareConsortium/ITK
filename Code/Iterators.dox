@@ -2,39 +2,42 @@
 
   \page  ImageIterators Image Iterators
  
+  \section Introduction Introduction
+
   Image Iterator are the mechanism used in ITK for walking through the image
   data. 
 
   You have probably learn image processing with the classical access to the
-  image date using for loops like:
+  image data using <b>"for loops"<\b> like:
+  
 
   \code
 
-  Image im(100,100);
+  ImageType image(100,100);
   
-  for(int x=0; x<nx; x++) 
+  for(int x=0; x<nx; x++) // Columns
   {
-    for(int y=0; y<ny; y++) 
+    for(int y=0; y<ny; y++) // Rows
     {
-      im(x,y) = 10;
+      image(x,y) = 10;
     }
   }
 
   \endcode
 
 
-  When what you mean is:
+  When what you \em really mean is:
 
   \code
 
-  ForAllThePixel p in im
-  do   p = 100
+  ForAllThePixels  p   in   image
+       do   p = 100
 
   \endcode
 
-  ImageIterators helps to get close to the algorithmic abstraction. Thanks to
-  that they don't attach the user code to the particular implementation of the
-  image class
+  ImageIterators helps you to get closer to the algorithmic abstraction.
+  They don't attach the user's code to a particular implementation of the
+  image class.
   
   Here is how an image iterator is used in ITK:
 
@@ -54,4 +57,43 @@
 
   \endcode
   
+  One important advantage of ImageIterators is that they provide support for
+  the N-Dimensional images in ITK. Otherwise it would be impossible (or at 
+  least very hard) to write algorithms that work independent of the image
+  dimension.
+
+  Iterators know a lot about the internal composition of the image, and that
+  reliefs the user from the need of taking care about those details. Your
+  algorithm can go through all the pixels without even knowing what the
+  dimension of the image is.
+
+  \section IteratorTypes  Types of Iterators
+
+  The order in which the image pixels are visited can be quite important for
+  some image processing algorithms, others may not care about the order of on
+  which pixels are accessed and just want to do it as fast as possible. 
+  
+  In order to better match these variety of requirements ITK implements a set 
+  of different ImageIterators, always following the "C" philosophy of :
+  
+  "You only pay for what you use"
+  
+  Here is a list of the different ImageIterators implemented in ITK:
+
+  - ImageRegionItertor
+  - SimpleImageRegionIterator
+  - ImageLinearIterator
+  - ImageSliceIterator 
+  
+  There is also a group of specialized iterators that support the concept
+  of a moving neighborhood, this is quite common in image processing, one
+  of the classical uses is when you write a 3x3 pixels filter that will compute
+  the mean value of the pixels in that neighborhood of 9 pixels. These group
+  of iterator is described in detail on the page \ref NeighborhoodIterators.
+
+  \subsection ImageRegionIterator
+  \subsection SimpleImageRegionIterator
+  \subsection ImageLinearIterator
+  \subsection ImageSliceIterator
+
 */
