@@ -119,16 +119,32 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+# if the make program is not an IDE then include
+# the depend file in a way that will make cmake 
+# re-run if it changes
+   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
+        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
+     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     INCLUDE(${Bin}/${OutputTclCxx}.depend)
+   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+# for IDE generators like MS dev only include the depend files
+# if they exist.   This is to prevent ecessive reloading of
+# workspaces
+     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
+   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG}
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} 
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${OutputTclCxx}.depend
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG}
+     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${CABLE_SWIG_DEPEND}
      )
+#     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
 MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
@@ -136,16 +152,31 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+# if the make program is not an IDE then include
+# the depend file in a way that will make cmake 
+# re-run if it changes
+   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
+        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
+     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     INCLUDE(${Bin}/${OutputTclCxx}.depend)
+   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+# for IDE generators like MS dev only include the depend files
+# if they exist.   This is to prevent ecessive reloading of
+# workspaces
+     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
+   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -c ${CINDEX} ${IGNORE_WARNINGS}
+     ARGS -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${OutputTclCxx}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} ${CABLE_SWIG_DEPEND}
      )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
 
@@ -155,6 +186,21 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+# if the make program is not an IDE then include
+# the depend file in a way that will make cmake 
+# re-run if it changes
+   IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+     IF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     ELSE(EXISTS ${Bin}/${OutputTclCxx}.depend)
+        WRITE_FILE(${Bin}/${OutputTclCxx}.depend "")
+     ENDIF(EXISTS ${Bin}/${OutputTclCxx}.depend)
+     INCLUDE(${Bin}/${OutputTclCxx}.depend)
+   ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+# for IDE generators like MS dev only include the depend files
+# if they exist.   This is to prevent ecessive reloading of
+# workspaces
+     INCLUDE(${Bin}/${OutputTclCxx}.depend OPTIONAL)
+   ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
@@ -164,7 +210,7 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
           -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}  ${CABLE_SWIG_DEPEND}
      )
 ENDMACRO(CSWIG_CREATE_JAVA_CXX_FILE)
 
