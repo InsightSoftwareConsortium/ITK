@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImage.h"
 #include "itkImageLinearIterator.h"
+#include "itkImageLinearConstIterator.h"
 
 
 
@@ -73,10 +74,12 @@ int main()
 
   typedef itk::ImageLinearIterator< ImageType > IteratorType;
 
+  typedef itk::ImageLinearConstIterator< ImageType > ConstIteratorType;
+
   IteratorType it( myImage, region );
 
 
-  it.Begin();
+  it.GoToBegin();
   it.SetDirection( 0 ); // 0=x, 1=y, 2=z
 
   ImageType::IndexType index;
@@ -98,9 +101,11 @@ int main()
   // Verification 
   IteratorType ot( myImage, region );
 
-  ot.Begin();
+  ot.GoToBegin();
   ot.SetDirection( 0 ); // 0=x, 1=y, 2=z
  
+  std::cout << "Verifying iterator... ";
+
   while( !ot.IsAtEnd() )
   {
     while( !ot.IsAtEndOfLine() )
@@ -119,6 +124,37 @@ int main()
     }
     ot.NextLine();
   }
+  std::cout << "   Done ! " << std::endl;
+
+  
+  // Verification 
+  ConstIteratorType cot( myImage, region );
+
+  cot.GoToBegin();
+  cot.SetDirection( 0 ); // 0=x, 1=y, 2=z
+ 
+  std::cout << "Verifying const iterator... ";
+
+  while( !cot.IsAtEnd() )
+  {
+    while( !cot.IsAtEndOfLine() )
+    {
+      index = cot.GetIndex();
+      value = index[0] + index[1] + index[2];
+      if( cot.Get() != value )
+      {
+        std::cerr << "Values don't correspond to what was stored "
+          << std::endl;
+        std::cerr << "Test failed at index ";
+        std::cerr << index << std::endl;
+        return EXIT_FAILURE;
+      }
+      ++cot;
+    }
+    cot.NextLine();
+  }
+  std::cout << "   Done ! " << std::endl;
+
 
   std::cout << "Test passed" << std::endl;
 
