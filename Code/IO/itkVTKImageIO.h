@@ -69,6 +69,7 @@ protected:
 
   bool OpenVTKFileForReading(std::ifstream& os, const char* filename);
   bool OpenVTKFileForWriting(std::ofstream& os, const char* filename);
+  void InternalReadImageInformation(std::ifstream& file);
 
 private:
   VTKImageIO(const Self&); //purposely not implemented

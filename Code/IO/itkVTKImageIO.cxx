@@ -18,7 +18,7 @@
 
 =========================================================================*/
 #include "itkVTKImageIO.h"
-#include <stdio.h>
+#include <cstdio>
 
 namespace itk
 {
@@ -152,14 +152,11 @@ bool VTKImageIO::CanReadFile(const char* filename)
 }
   
  
-void VTKImageIO::Read(void* buffer)
+void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
 {
-  std::ifstream file;
   char line[255];
   std::string text;
 
-  // Check the input
-  //
   if ( ! this->OpenVTKFileForReading(file, m_FileName.c_str()) )
     {
     itkExceptionMacro(<< "Cannot read requested file");
@@ -197,7 +194,7 @@ void VTKImageIO::Read(void* buffer)
   float origin[3];
   file.getline(line,255);
   text = line;
-  unsigned int i;
+  int i;
 
   if ( text.find("DIMENSIONS") < text.length() || 
        text.find("dimensions") < text.length() )
@@ -221,107 +218,115 @@ void VTKImageIO::Read(void* buffer)
     itkExceptionMacro(<<"No dimensions defined");
     }
 
-  file.getline(line,255);
-  text = line;
-  if ( text.find("SPACING") < text.length() || 
-       text.find("spacing") < text.length() )
-    {
-    sscanf(line, "%*s %f %f %f", spacing, spacing+1, spacing+2);
-    for ( i=0; i < m_NumberOfDimensions; i++ )
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    }
-  else
-    {
-    itkExceptionMacro(<<"No spacing defined");
-    }
+  // set values in case we don't find them
+  m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+  m_Spacing[2] = 1.0;
+
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
+  m_Origin[2] = 0.0;
 
   file.getline(line,255);
   text = line;
-  if ( text.find("ORIGIN") < text.length() || 
-       text.find("origin") < text.length() )
+
+  for ( bool readScalars=false; !readScalars; )
     {
-    sscanf(line, "%*s %f %f %f", origin, origin+1, origin+2);
-    for ( i=0; i < m_NumberOfDimensions; i++ )
+    if ( text.find("SPACING") < text.length() || 
+         text.find("spacing") < text.length() )
       {
-      m_Origin[i] = origin[i];
+      sscanf(line, "%*s %f %f %f", spacing, spacing+1, spacing+2);
+      for ( i=0; i < m_NumberOfDimensions; i++ )
+        {
+        m_Spacing[i] = spacing[i];
+        }
       }
-    }
-  else
-    {
-    itkExceptionMacro(<<"No origin defined");
-    }
+
+    else if ( text.find("ORIGIN") < text.length() || 
+              text.find("origin") < text.length() )
+      {
+      sscanf(line, "%*s %f %f %f", origin, origin+1, origin+2);
+      for ( i=0; i < m_NumberOfDimensions; i++ )
+        {
+        m_Origin[i] = origin[i];
+        }
+      }
   
-  //Now grab the data; need to determine the pixel type
-  file.getline(line,255);
-  text = line;
-  while ( text.find("SCALARS") >= text.length() ||
-          text.find("scalars") >= text.length() )
-    {
-    file.getline(line,255);
-    text = line;
-    }
-  char pixelType[256];
-  sscanf(line, "%*s %*s %s", pixelType);
-  text = pixelType;
-  if ( text.find("float") < text.length() )
-    {
-    SetPixelType(FLOAT);
-    SetComponentType(FLOAT);
-    }
-  else if ( text.find("double") < text.length() )
-    {
-    SetPixelType(DOUBLE);
-    SetComponentType(DOUBLE);
-    }
-  else if ( text.find("unsigned_char") < text.length() )
-    {
-    SetPixelType(UCHAR);
-    SetComponentType(UCHAR);
-    }
-  else if ( text.find("char") < text.length() )
-    {
-    SetPixelType(CHAR);
-    SetComponentType(CHAR);
-    }
-  else if ( text.find("unsigned_short") < text.length() )
-    {
-    SetPixelType(USHORT);
-    SetComponentType(USHORT);
-    }
-  else if ( text.find("short") < text.length() )
-    {
-    SetPixelType(SHORT);
-    SetComponentType(SHORT);
-    }
-  else if ( text.find("unsigned_int") < text.length() )
-    {
-    SetPixelType(UINT);
-    SetComponentType(UINT);
-    }
-  else if ( text.find("int") < text.length() )
-    {
-    SetPixelType(INT);
-    SetComponentType(INT);
-    }
-  else if ( text.find("unsigned_long") < text.length() )
-    {
-    SetPixelType(ULONG);
-    SetComponentType(ULONG);
-    }
-  else if ( text.find("long") < text.length() )
-    {
-    SetPixelType(LONG);
-    SetComponentType(LONG);
-    }
-  else
-    {
-    itkExceptionMacro(<<"Unrecognized type");
-    }
+    else if ( text.find("SCALARS") < text.length() || 
+              text.find("scalars") < text.length() )
+      {
+      readScalars = true;
 
-  // grab the trailing lookup table line
-  file.getline(line,255);
+      char pixelType[256];
+      sscanf(line, "%*s %*s %s", pixelType);
+      text = pixelType;
+      if ( text.find("float") < text.length() )
+        {
+        SetPixelType(FLOAT);
+        SetComponentType(FLOAT);
+        }
+      else if ( text.find("double") < text.length() )
+        {
+        SetPixelType(DOUBLE);
+        SetComponentType(DOUBLE);
+        }
+      else if ( text.find("unsigned_char") < text.length() )
+        {
+        SetPixelType(UCHAR);
+        SetComponentType(UCHAR);
+        }
+      else if ( text.find("char") < text.length() )
+        {
+        SetPixelType(CHAR);
+        SetComponentType(CHAR);
+        }
+      else if ( text.find("unsigned_short") < text.length() )
+        {
+        SetPixelType(USHORT);
+        SetComponentType(USHORT);
+        }
+      else if ( text.find("short") < text.length() )
+        {
+        SetPixelType(SHORT);
+        SetComponentType(SHORT);
+        }
+      else if ( text.find("unsigned_int") < text.length() )
+        {
+        SetPixelType(UINT);
+        SetComponentType(UINT);
+        }
+      else if ( text.find("int") < text.length() )
+        {
+        SetPixelType(INT);
+        SetComponentType(INT);
+        }
+      else if ( text.find("unsigned_long") < text.length() )
+        {
+        SetPixelType(ULONG);
+        SetComponentType(ULONG);
+        }
+      else if ( text.find("long") < text.length() )
+        {
+        SetPixelType(LONG);
+        SetComponentType(LONG);
+        }
+      else
+        {
+        itkExceptionMacro(<<"Unrecognized type");
+        }
+      }//found scalars
+    
+      file.getline(line,255);
+      text = line;
+      }
+}
+
+void VTKImageIO::Read(void* buffer)
+{
+  std::ifstream file;
+
+  this->InternalReadImageInformation(file);
+  
   //We are positioned at the data. The data is read depending on whether 
   //it is ASCII or binary.
   if ( m_FileType == ASCII )
@@ -337,6 +342,8 @@ void VTKImageIO::Read(void* buffer)
 
 void VTKImageIO::ReadImageInformation()
 {
+  std::ifstream file;
+  this->InternalReadImageInformation(file);
 }
 
 bool VTKImageIO::CanWriteFile(const char*)

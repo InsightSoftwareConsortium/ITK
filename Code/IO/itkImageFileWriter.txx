@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFileWriter_txx
-#define _itkImageFileWriter_txx
 #include "itkImageFileWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
@@ -84,10 +82,18 @@ ImageFileWriter<TInputImage>
 ::Write()
 {
   InputImagePointer input = this->GetInput();
-  if ( input == 0 ) {return;}
-
-  // make sure the data is up-to-date
+  if ( input == 0 )
+    {
+    itkExceptionMacro(<<"No input to writer!");
+    return;
+    }
   input->Update();
+
+  if ( m_ImageIO == 0 )
+    {
+    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
+    return;
+    }
 
   // Make sure region is within the image, crop if necessary
   ImageIORegion ioRegion(TInputImage::ImageDimension);
@@ -124,27 +130,17 @@ ImageFileWriter<TInputImage>
     return;
     }
 
+  if ( m_ImageIO == 0 )
+    {
+    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
+    return;
+    }
+
   // Check to see if we can write the file given the name or prefix
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
     itkExceptionMacro(<<"No filename or file prefix specified");
-    return;
-    }
-
-  if ( m_ImageIO == 0 ) //try creating via factory if not set
-    {
-    m_UserSpecifiedImageIO = false;
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
-    }
-  else
-    {
-    m_UserSpecifiedImageIO = true;
-    }
-  
-  if ( m_ImageIO == 0 )
-    {
-    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
     return;
     }
 
@@ -227,4 +223,3 @@ ImageFileWriter<TInputImage>
 }
 
 } // end namespace itk
-#endif
