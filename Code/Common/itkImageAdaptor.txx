@@ -78,7 +78,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const float spacing[TImage::ImageDimension] )
+::SetSpacing(const double spacing[TImage::ImageDimension] )
 {
   m_Image->SetSpacing( spacing );
 }
@@ -87,7 +87,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const float *
+const double *
 ImageAdaptor<TImage , TAccessor>
 ::GetSpacing() const
 {
@@ -101,7 +101,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const float origin[TImage::ImageDimension] )
+::SetOrigin(const double origin[TImage::ImageDimension] )
 {
   m_Image->SetOrigin( origin );
 }
@@ -110,7 +110,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const float *
+const double *
 ImageAdaptor<TImage , TAccessor>
 ::GetOrigin() const
 {
