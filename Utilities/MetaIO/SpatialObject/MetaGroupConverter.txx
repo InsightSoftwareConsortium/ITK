@@ -42,14 +42,14 @@ MetaGroupConverter<NDimensions>
     {
     spacing[i] = group->ElementSpacing()[i];
     }
-  spatialObject->SetSpacing(spacing);
+  spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   spatialObject->GetProperty()->SetName((char*)group->Name());
   spatialObject->GetProperty()->SetRed(group->Color()[0]);
   spatialObject->GetProperty()->SetGreen(group->Color()[1]);
   spatialObject->GetProperty()->SetBlue(group->Color()[2]);
   spatialObject->GetProperty()->SetAlpha(group->Color()[3]);
-  spatialObject->SetParentId(group->ParentID());
   spatialObject->SetId(group->ID());
+  spatialObject->SetParentId(group->ParentID());
   return spatialObject;
 }
 
@@ -70,10 +70,13 @@ MetaGroupConverter<NDimensions>
 
   for(unsigned int i=0;i<NDimensions;i++)
     {
-    group->ElementSpacing(i,spatialObject->GetSpacing()[i]);
+    group->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
     }
 
-  group->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    group->ParentID(spatialObject->GetParent()->GetId());
+  }
   group->ID(spatialObject->GetId());
 
   return group;

@@ -50,10 +50,10 @@ MetaLandmarkConverter<NDimensions>
   {
     spacing[i]=Landmark->ElementSpacing()[i];
   }
-  landmark->SetSpacing(spacing);
+  landmark->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   landmark->GetProperty()->SetName((char*)Landmark->Name());
-  landmark->SetParentId(Landmark->ParentID());
   landmark->SetId(Landmark->ID());
+  landmark->SetParentId(Landmark->ParentID());
   landmark->GetProperty()->SetRed(Landmark->Color()[0]);
   landmark->GetProperty()->SetGreen(Landmark->Color()[1]);
   landmark->GetProperty()->SetBlue(Landmark->Color()[2]);
@@ -138,7 +138,10 @@ MetaLandmarkConverter<NDimensions>
 
   Landmark->Color(color);
   Landmark->ID( spatialObject->GetId());
-  Landmark->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    Landmark->ParentID(spatialObject->GetParent()->GetId());
+  }
   Landmark->NPoints(Landmark->GetPoints().size());
 
   return Landmark;

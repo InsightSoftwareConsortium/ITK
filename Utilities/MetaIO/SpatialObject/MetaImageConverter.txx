@@ -112,8 +112,10 @@ MetaImageConverter<NDimensions,PixelType>
   }
 
   Image->ID(spatialObject->GetId());
-  Image->ParentID(spatialObject->GetParentId());
-
+  if(spatialObject->GetParent())
+  {
+    Image->ParentID(spatialObject->GetParent()->GetId());
+  }
   return Image;
 }
 

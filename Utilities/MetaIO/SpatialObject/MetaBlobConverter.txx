@@ -49,10 +49,10 @@ MetaBlobConverter<NDimensions>
   {
     spacing[i]=Blob->ElementSpacing()[i];
   }
-  blob->SetSpacing(spacing);
+  blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   blob->GetProperty()->SetName((char*)Blob->Name());
-  blob->SetParentId(Blob->ParentID());
   blob->SetId(Blob->ID());
+  blob->SetParentId(Blob->ParentID());
   blob->GetProperty()->SetRed(Blob->Color()[0]);
   blob->GetProperty()->SetGreen(Blob->Color()[1]);
   blob->GetProperty()->SetBlue(Blob->Color()[2]);
@@ -138,7 +138,10 @@ MetaBlobConverter<NDimensions>
 
   Blob->Color(color);
   Blob->ID( spatialObject->GetId());
-  Blob->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    Blob->ParentID(spatialObject->GetParent()->GetId());
+  }
   Blob->NPoints(Blob->GetPoints().size());
 
   return Blob;

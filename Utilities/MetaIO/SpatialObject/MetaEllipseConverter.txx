@@ -43,8 +43,8 @@ MetaEllipseConverter<NDimensions>
   }
   spatialObject->SetRadius(radius);
   spatialObject->GetProperty()->SetName((char*)ellipse->Name());
-  spatialObject->SetParentId(ellipse->ParentID());
   spatialObject->SetId(ellipse->ID());
+  spatialObject->SetParentId(ellipse->ParentID());
   return spatialObject;
 }
 
@@ -62,7 +62,10 @@ MetaEllipseConverter<NDimensions>
     radius[i] = spatialObject->GetRadius()[i];
   }
 
-  ellipse->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    ellipse->ParentID(spatialObject->GetParent()->GetId());
+  }
   ellipse->Radius(radius);
   ellipse->ID(spatialObject->GetId());
   return ellipse;

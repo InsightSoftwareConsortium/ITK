@@ -35,14 +35,8 @@ typename MetaTubeConverter<NDimensions>::SpatialObjectPointer
 MetaTubeConverter<NDimensions>
 ::MetaTubeToTubeSpatialObject(MetaTube * tube)
 { 
-  //SpatialObjectPointer spatialObject = SpatialObjectType::New();
-
   typedef itk::TubeSpatialObject<NDimensions> TubeSpatialObjectType;
   typename TubeSpatialObjectType::Pointer tub = TubeSpatialObjectType::New();
-  
-  //typedef TubeSpatialObjectType::VectorType VectorType;
-  //typedef vnl_vector<double> VectorType;
-  //VectorType vect(NDimensions);
   double spacing[NDimensions];
 
   tub->SetReferenceCount(2);
@@ -53,11 +47,11 @@ MetaTubeConverter<NDimensions>
     spacing[i]=tube->ElementSpacing()[i];
   }
 
-  tub->SetSpacing(spacing);
+  tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   tub->GetProperty()->SetName((char*)tube->Name());
-  tub->SetParentId(tube->ParentID());
   tub->SetParentPoint(tube->ParentPoint());
   tub->SetId(tube->ID());
+  tub->SetParentId(tube->ParentID());
   tub->GetProperty()->SetRed(tube->Color()[0]);
   tub->GetProperty()->SetGreen(tube->Color()[1]);
   tub->GetProperty()->SetBlue(tube->Color()[2]);
@@ -69,8 +63,8 @@ MetaTubeConverter<NDimensions>
   typedef MetaTube::PointListType ListType;
   ListType::iterator it2 = tube->GetPoints().begin();
     
-  itk::Vector<double,NDimensions> v;
-  //vnl_vector<double> v(ndims);
+  itk::CovariantVector<double,NDimensions> v; 
+  itk::Vector<double,NDimensions> t;
   
   for(unsigned int id=0;id< tube->GetPoints().size();id++)
   {
@@ -95,19 +89,19 @@ MetaTubeConverter<NDimensions>
       {
       v[i]=(*it2)->m_V1[i];
       }
-    pnt.SetV1(v);
+    pnt.SetNormal1(v);
 
     for(unsigned int i=0;i<ndims;i++)
       {
       v[i]=(*it2)->m_V2[i];
       }
-    pnt.SetV2(v);
+    pnt.SetNormal2(v);
 
     for(unsigned int i=0;i<ndims;i++)
       {
-      v[i]=(*it2)->m_T[i];
+      t[i]=(*it2)->m_T[i];
       }
-    pnt.SetTangent(v);
+    pnt.SetTangent(t);
 
     pnt.SetAlpha1((*it2)->m_Alpha1);
     pnt.SetAlpha2((*it2)->m_Alpha2);
@@ -139,19 +133,16 @@ MetaTubeConverter<NDimensions>
   // fill in the tube information
    
   typename SpatialObjectType::PointListType::const_iterator i;
-  for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
+  for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); 
+      i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end();
+      i++)
   {
     TubePnt* pnt = new TubePnt(NDimensions);
-    //TubePnt pnt(NDimensions);
 
-    //float x[NDimensions];
     for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_X[d] = (*i).GetPosition()[d];
     }
-
-    //pnt.SetX(x);
-    //std::cout << pnt.m_X[0] << std::endl;
       
     pnt->m_ID = (*i).GetID();
     pnt->m_R=(*i).GetRadius();
@@ -165,26 +156,29 @@ MetaTubeConverter<NDimensions>
 
     for(unsigned int d=0;d<NDimensions;d++)
     {
-      pnt->m_V1[d]=(*i).GetV1()[d];
+      pnt->m_V1[d]=(*i).GetNormal1()[d];
     }
 
     for(unsigned int d=0;d<NDimensions;d++)
     {
-      pnt->m_V2[d]=(*i).GetV2()[d];
+      pnt->m_V2[d]=(*i).GetNormal2()[d];
     }
 
     for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_T[d]=(*i).GetTangent()[d];
     }
-
+              
     pnt->m_Color[0] = (*i).GetRed();
     pnt->m_Color[1] = (*i).GetGreen();
     pnt->m_Color[2] = (*i).GetBlue();
     pnt->m_Color[3] = (*i).GetAlpha();
 
     tube->GetPoints().push_back(pnt); 
+
   }
+
+
     
   if(NDimensions == 2)
   {
@@ -203,14 +197,17 @@ MetaTubeConverter<NDimensions>
 
   tube->Color(color);
   tube->ID( spatialObject->GetId());
-  tube->ParentID(spatialObject->GetParentId());
-  
+
+  if(spatialObject->GetParent())
+  {
+    tube->ParentID(spatialObject->GetParent()->GetId());
+  }
   tube->ParentPoint(spatialObject->GetParentPoint());
   tube->NPoints(tube->GetPoints().size());
 
   for(unsigned int i=0;i<NDimensions;i++)
   {
-    tube->ElementSpacing(i,spatialObject->GetSpacing()[i]);
+    tube->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
   }
   return tube;
 }

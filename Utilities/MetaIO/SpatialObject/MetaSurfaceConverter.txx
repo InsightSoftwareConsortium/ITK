@@ -47,10 +47,10 @@ MetaSurfaceConverter<NDimensions>
   {
     spacing[i]=Surface->ElementSpacing()[i];
   }
-  surface->SetSpacing(spacing);
+  surface->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   surface->GetProperty()->SetName((char*)Surface->Name());
-  surface->SetParentId(Surface->ParentID());
   surface->SetId(Surface->ID());
+  surface->SetParentId(Surface->ParentID());
   surface->GetProperty()->SetRed(Surface->Color()[0]);
   surface->GetProperty()->SetGreen(Surface->Color()[1]);
   surface->GetProperty()->SetBlue(Surface->Color()[2]);
@@ -150,7 +150,10 @@ MetaSurfaceConverter<NDimensions>
 
   Surface->Color(color);
   Surface->ID( spatialObject->GetId());
-  Surface->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    Surface->ParentID(spatialObject->GetParent()->GetId());
+  }
   Surface->NPoints(Surface->GetPoints().size());
 
   return Surface;

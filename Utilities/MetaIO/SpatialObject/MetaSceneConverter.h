@@ -61,6 +61,7 @@ private:
 
   float m_Orientation[100] ;
   float m_Position[10] ;
+  float m_CenterOfRotation[10] ;
 
 };
 

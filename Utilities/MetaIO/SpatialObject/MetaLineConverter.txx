@@ -47,10 +47,10 @@ MetaLineConverter<NDimensions>
   {
     spacing[i]=Line->ElementSpacing()[i];
   }
-  line->SetSpacing(spacing);
+  line->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   line->GetProperty()->SetName((char*)Line->Name());
-  line->SetParentId(Line->ParentID());
   line->SetId(Line->ID());
+  line->SetParentId(Line->ParentID());
   line->GetProperty()->SetRed(Line->Color()[0]);
   line->GetProperty()->SetGreen(Line->Color()[1]);
   line->GetProperty()->SetBlue(Line->Color()[2]);
@@ -157,7 +157,10 @@ MetaLineConverter<NDimensions>
 
   Line->Color(color);
   Line->ID( spatialObject->GetId());
-  Line->ParentID(spatialObject->GetParentId());
+  if(spatialObject->GetParent())
+  {
+    Line->ParentID(spatialObject->GetParent()->GetId());
+  }
   Line->NPoints(Line->GetPoints().size());
 
   return Line;
