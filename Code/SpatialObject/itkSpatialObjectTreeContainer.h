@@ -43,7 +43,7 @@ template< unsigned int TDimension>  class SpatialObject;
  * \ingroup DataRepresentation 
  */
 template <unsigned int TDimension>
-class SpatialObjectTreeContainer : public TreeContainer<typename itk::SpatialObject<TDimension>::Pointer>
+class SpatialObjectTreeContainer : public TreeContainer<itk::SpatialObject<TDimension>*>
 {
 
 public:
@@ -68,7 +68,7 @@ public:
 
   /** Set the root */
   bool SetRoot(const SpatialObjectPointer element);
-  bool SetRoot( TreeNode<SpatialObjectPointer>* node);
+  bool SetRoot(TreeNodeType* node);
 
 protected:
   

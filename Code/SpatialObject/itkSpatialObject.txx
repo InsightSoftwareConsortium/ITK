@@ -70,6 +70,14 @@ void
 SpatialObject< TDimension >
 ::Clear(void)
 {
+  typename ChildrenListType::iterator pos = m_InternalChildrenList.begin();
+  typename ChildrenListType::iterator it =  m_InternalChildrenList.begin();
+  while( it != m_InternalChildrenList.end() ) 
+    {
+    pos = it;
+    it++;
+    m_InternalChildrenList.erase(pos);
+    }
 }
 
 /** Return the Derivative at a point given the order of the derivative */
@@ -277,6 +285,7 @@ SpatialObject< TDimension >
 ::AddSpatialObject( Self * pointer )
 {
   m_TreeNode->AddChild(pointer->GetTreeNode());
+  m_InternalChildrenList.push_back(pointer);
   this->Modified();
 }
 
@@ -288,6 +297,12 @@ SpatialObject< TDimension >
 {
   if(m_TreeNode->Remove(pointer->GetTreeNode()))
     {
+    typename ChildrenListType::iterator pos;
+    pos = std::find(m_InternalChildrenList.begin(), m_InternalChildrenList.end(), pointer );
+    if ( pos != m_InternalChildrenList.end() ) 
+      {
+      m_InternalChildrenList.erase(pos);
+      }
     this->Modified();
     }
   else

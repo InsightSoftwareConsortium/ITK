@@ -27,15 +27,15 @@ namespace itk
 template <unsigned int TDimension> class SpatialObject;
 
 template <unsigned int TDimension>
-class SpatialObjectTreeNode : public TreeNode< SmartPointer< SpatialObject<TDimension> > >
+class SpatialObjectTreeNode : public TreeNode< SpatialObject<TDimension> * >
 {
 
 public:
 
   /** Standard typedefs */
   typedef SpatialObject<TDimension>                                   SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer                         SpatialObjectPointer;
-  typedef TreeNode< SmartPointer< SpatialObject<TDimension> > >       Superclass;
+  //typedef typename SpatialObjectType::Pointer                         SpatialObjectPointer;
+  typedef TreeNode< SpatialObject<TDimension> *>                      Superclass;
   typedef SpatialObjectTreeNode<TDimension>                           Self;
   typedef SmartPointer<Self>                                          Pointer;
   typedef SmartPointer<const Self>                                    ConstPointer;
@@ -51,7 +51,7 @@ public:
   itkTypeMacro( Self, Superclass );
 
   /** Set the SpatialObject pointer */
-  virtual void SetData(SpatialObjectPointer data);
+  virtual void SetData(SpatialObjectType* data);
 
   /** Set/Get the NodeToParenNode transform */
   itkSetObjectMacro(NodeToParentNodeTransform,TransformType);
@@ -80,7 +80,7 @@ protected:
 /** Constructor */
 template <unsigned int TDimension>
 SpatialObjectTreeNode<TDimension>
-::SpatialObjectTreeNode() : TreeNode<SpatialObjectPointer>()
+::SpatialObjectTreeNode() : TreeNode<SpatialObject<TDimension> *>()
 {
   m_NodeToParentNodeTransform = TransformType::New();
   m_NodeToParentNodeTransform->SetIdentity();
@@ -93,7 +93,7 @@ SpatialObjectTreeNode<TDimension>
 template <unsigned int TDimension>
 void
 SpatialObjectTreeNode<TDimension>
-::SetData(SpatialObjectPointer data)
+::SetData(SpatialObjectType* data)
 {
   Superclass::Set(data);
   data->SetTreeNode(this); // give the pointer to the node to the spatial object

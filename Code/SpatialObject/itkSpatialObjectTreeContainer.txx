@@ -60,7 +60,7 @@ SpatialObjectTreeContainer<TDimension>::SetRoot(const SpatialObjectPointer eleme
 /** Set the root of the tree */
 template <unsigned int TDimension>
 bool 
-SpatialObjectTreeContainer<TDimension>::SetRoot( TreeNode<SpatialObjectPointer>* node)
+SpatialObjectTreeContainer<TDimension>::SetRoot( TreeNodeType* node)
 {
   if (m_Root)
     {

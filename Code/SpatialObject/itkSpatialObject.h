@@ -397,17 +397,10 @@ public:
   void SetTreeNode(TreeNodeType* node) {m_TreeNode = node;}
 
   /** Return a raw pointer to the node container */
-  typename TreeNode<Pointer>::Pointer GetTreeNode() {return m_TreeNode;}
-
-
-
-
-
-
+  typename TreeNodeType::Pointer GetTreeNode() {return m_TreeNode;}
+  typename TreeNodeType::ConstPointer GetTreeNode() const {return m_TreeNode;}
 
   /** Theses functions are just calling the AffineGeometryFrame functions */
-
-
   /** Set the spacing of the spatial object. */
   void SetSpacing( const double spacing[itkGetStaticConstMacro(ObjectDimension)] )
   { this->GetIndexToObjectTransform()->SetScaleComponent(spacing);}
@@ -574,11 +567,14 @@ protected:
   int m_ParentId;
 
   /** Pointer to the tree container */
-  typename TreeNode<Pointer>::Pointer m_TreeNode;
+  typename TreeNodeType::Pointer m_TreeNode;
 
   /** Pointer to the AffineGeometryFrame */
   AffineGeometryFramePointer  m_AffineGeometryFrame;
 
+  /** We keep an internal list of smart pointers to the immediate children
+   *  This avoid the deletion of a child */
+  ChildrenListType m_InternalChildrenList;
 }; 
 
 } // end of namespace itk
