@@ -95,9 +95,16 @@ public:
   itkGetMacro(AngleY, ScalarType);
   itkGetMacro(AngleZ, ScalarType);
 
+/** Set the about which the rotation will be applied. */
   void SetCenter( const InputPointType & center );
   itkGetConstReferenceMacro( Center, InputPointType );
 
+  /** Set the transformation translation. This is applied after rotation.
+   * Not to be confused with member m_Offset in base class
+   * Rigid3DTransform. m_Offset is recomputed to take into account
+   * translation to the centre of rotation pre- (negative) and post-
+   * (positive) rotation, and the subsequent translation m_Translation.
+   **/
   void SetTranslation( const OutputVectorType & translation );
   itkGetConstReferenceMacro( Translation, OutputVectorType );
   
@@ -130,6 +137,10 @@ protected:
 
  void ComputeAnglesFromMatrix(void);
 
+protected:
+  InputPointType m_Center;
+  OutputVectorType m_Translation;
+
 private:
   Euler3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -139,8 +150,6 @@ private:
   ScalarType  m_AngleZ;
   bool        m_ComputeZYX;
 
-  InputPointType m_Center;
-  OutputVectorType m_Translation;
 
 }; //class Euler3DTransform
 

@@ -154,19 +154,6 @@ protected:
 private:
   CenteredEuler3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /**
-   * Transformation translation (applied after rotation).
-   * Not to be confused with member m_Offset in base class
-   * Rigid3DTransform. m_Offset is recomputed to take into account
-   * translation to the centre of rotation pre- (negative) and post-
-   * (positive) rotation, and the subsequent translation m_Translation.
-   **/
-  OutputVectorType        m_Translation;   
-
-  // The center of rotation coordinate 
-  InputPointType          m_Center;   
-
 }; //class CenteredEuler3DTransform
 
 
