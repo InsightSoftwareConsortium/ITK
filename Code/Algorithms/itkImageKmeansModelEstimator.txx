@@ -465,7 +465,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   //-----------------------------------------------------------------
   // Declare the iterators for the image and the codebook
   //-----------------------------------------------------------------
-  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstPointer  inputImage = this->GetInputImage().GetPointer();
   InputImageConstIterator inputImageIt( inputImage, inputImage->GetBufferedRegion() );
   inputImageIt.GoToBegin();
 
