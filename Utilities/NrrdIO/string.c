@@ -142,7 +142,7 @@ airStrntok(const char *_s, const char *ct) {
       n++;
       t = airStrtok(NULL, ct, &l);
     }
-    s = airFree(s);
+    airFree(s);
   }
   return n;
 }

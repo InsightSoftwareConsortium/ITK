@@ -321,7 +321,7 @@ biffMaybeAdd(const char *key, const char *err, int useBiff) {
 char *
 biffGet(const char *key) {
   int i, max, len, sum;
-  char me[] = "biffGet", *ret = NULL, *buf;
+  char me[] = "biffGet", *ret, *buf;
   _biffEntry *e;
 
   _biffInit();

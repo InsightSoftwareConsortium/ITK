@@ -644,7 +644,7 @@ int
 _nrrdReadNrrdParseField (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParseField", err[AIR_STRLEN_MED], *next,
     *buff, *colon, *keysep;
-  int fld=nrrdField_unknown, noField=AIR_FALSE, badField=AIR_FALSE;
+  int fld=nrrdField_unknown, noField, badField=AIR_FALSE;
   
   next = nio->line + nio->pos;
 
