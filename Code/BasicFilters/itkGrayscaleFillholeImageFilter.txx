@@ -75,7 +75,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   //
 
   // compute the maximum pixel value in the input
-  MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
+  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
     = MinimumMaximumImageCalculator<TInputImage>::New();
   calculator->SetImage( this->GetInput() );
   calculator->ComputeMaximum();
@@ -128,7 +128,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic erosion filter.
   //
   //
-  GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     erode
        = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
 

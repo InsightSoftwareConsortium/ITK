@@ -67,6 +67,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DoubleThresholdImageFilter, ImageToImageFilter);
 
+  /** Types from the superclass */
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImageType InputImageType;
+
   /** Pixel types. */
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;

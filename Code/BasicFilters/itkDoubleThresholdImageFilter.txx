@@ -75,21 +75,21 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   typedef BinaryThresholdImageFilter<TInputImage, TOutputImage> ThresholdFilterType;
   typedef GrayscaleGeodesicDilateImageFilter<TOutputImage, TOutputImage> DilationFilterType;
 
-  ThresholdFilterType::Pointer narrowThreshold = ThresholdFilterType::New();
+  typename ThresholdFilterType::Pointer narrowThreshold = ThresholdFilterType::New();
   narrowThreshold->SetLowerThreshold( m_Threshold2 );
   narrowThreshold->SetUpperThreshold( m_Threshold3 );
   narrowThreshold->SetInsideValue( m_InsideValue );
   narrowThreshold->SetOutsideValue( m_OutsideValue );
   narrowThreshold->SetInput( this->GetInput() );
 
-  ThresholdFilterType::Pointer wideThreshold = ThresholdFilterType::New();
+  typename ThresholdFilterType::Pointer wideThreshold = ThresholdFilterType::New();
   wideThreshold->SetLowerThreshold( m_Threshold1 );
   wideThreshold->SetUpperThreshold( m_Threshold4 );
   wideThreshold->SetInsideValue( m_InsideValue );
   wideThreshold->SetOutsideValue( m_OutsideValue );
   wideThreshold->SetInput( this->GetInput() );
   
-  DilationFilterType::Pointer dilate = DilationFilterType::New();
+  typename DilationFilterType::Pointer dilate = DilationFilterType::New();
   dilate->SetMarkerImage( narrowThreshold->GetOutput() );
   dilate->SetMaskImage( wideThreshold->GetOutput() );
   dilate->RunOneIterationOff();   // run to convergence

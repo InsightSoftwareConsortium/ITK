@@ -73,7 +73,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   //
 
   // compute the minimum pixel value in the input
-  MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
+  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
     = MinimumMaximumImageCalculator<TInputImage>::New();
   calculator->SetImage( this->GetInput() );
   calculator->ComputeMaximum();
@@ -109,7 +109,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic dilation filter.
   //
   //
-  GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     erode
        = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
 

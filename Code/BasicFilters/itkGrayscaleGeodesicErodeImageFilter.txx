@@ -52,7 +52,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 
 
 template <class TInputImage, class TOutputImage>
-const GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MarkerImageType *
+const typename GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MarkerImageType *
 GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 ::GetMarkerImage()
 {
@@ -71,7 +71,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 
 
 template <class TInputImage, class TOutputImage>
-const GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MaskImageType *
+const typename GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MaskImageType *
 GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 ::GetMaskImage()
 {
@@ -198,13 +198,13 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   // separately. For efficiency, we will delegate to an instance that
   // is templated over <TInputImage, TInputImage> to avoid any
   // pixelwise casting until the final output image is configured.
-  GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     singleIteration
          = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
   bool done = false;
 
   // set up the singleIteration filter. we are not using the grafting
-  // mechanism because we only need the requested region to be set up
+  // mechanism because we only need the requested regioN to be set up
   singleIteration->RunOneIterationOn();
   singleIteration->SetMarkerImage( this->GetMarkerImage() );
   singleIteration->SetMaskImage( this->GetMaskImage() );
@@ -314,16 +314,16 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
   kernelRadius.Fill(1);
   faceList = fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType::iterator fit;
 
   unsigned int d;
-  NeighborhoodIteratorType::OffsetValueType i;
-  NeighborhoodIteratorType::OffsetType offset;
+  typename NeighborhoodIteratorType::OffsetValueType i;
+  typename NeighborhoodIteratorType::OffsetType offset;
 
   MarkerImagePixelType value, erodeValue, maskValue;
 
@@ -359,7 +359,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
       erodeValue = NumericTraits<MarkerImagePixelType>::max();
       
       // Erode by checking the face connected neighbors (and center pixel)
-      NeighborhoodIteratorType::ConstIterator sIt;
+      typename NeighborhoodIteratorType::ConstIterator sIt;
       for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); sIt++)
         {
         // a pixel in the neighborhood
