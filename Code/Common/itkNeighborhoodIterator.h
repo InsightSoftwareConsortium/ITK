@@ -451,6 +451,7 @@ public:
     m_Image = orig.m_Image;
     m_Buffer = orig.m_Buffer;
     m_StartIndex = orig.m_StartIndex;
+    m_EndPointer = orig.m_EndPointer;
     return *this;
   }
   
