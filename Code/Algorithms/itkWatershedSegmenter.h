@@ -160,10 +160,11 @@ public:
    * this method will not be modified by the Itk pipeline and are necessary
    * for analysis of boundaries.   */
   void SetLargestPossibleRegion(ImageRegionType reg)
-    {
-      m_LargestPossibleRegion = reg;
-      this->Modified();
-    }
+  {
+    if (reg == m_LargestPossibleRegion) return;
+    m_LargestPossibleRegion = reg;
+    this->Modified();
+  }
   ImageRegionType GetLargestPossibleRegion() const
     {      return m_LargestPossibleRegion; }
 

@@ -95,6 +95,9 @@ WatershedImageFilter<TInputImage>
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
+  // Set the largest possible region in the segmenter
+  m_Segmenter->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
+  
   // Fiddle with the update command to accomodate filters that will and will
   // not execute.  This logic is not guaranteed to cover all update cases.
   if (m_FirstExecution == false)
