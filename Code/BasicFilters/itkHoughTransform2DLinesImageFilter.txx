@@ -41,7 +41,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_AngleAxisSize = 500;
   m_NumberOfLines = 1;
   m_DiscRadius = 10;
-  m_Variance = 10;
+  m_Variance = 5;
   m_OldModifiedTime = 0;
   m_OldNumberOfLines = 0;
   m_SimplifyAccumulator = NULL;
