@@ -7,6 +7,9 @@ PROJECT(ImageSegmentation)
 ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
 TARGET_LINK_LIBRARIES(ConfidenceConnected ITKCommon ITKNumerics VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
+TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+
 ADD_EXECUTABLE(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
