@@ -11,9 +11,19 @@
 
   See COPYRIGHT.txt for copyright details.
   
-  ==========================================================================*/
+==========================================================================*/
+#ifndef __itkImageIterator_h
+#define __itkImageIterator_h
 
-/**
+#include <memory.h>
+#include "itkIndex.h"
+
+namespace itk
+{
+
+/** \class ImageIterator
+ * \brief Multi-dimensional image iterator.
+ * 
  * ImageIterator is a templated class to represent a multi-dimensional
  * iterator. ImageIterator is templated over the dimension of the image
  * and the data type of the image.
@@ -26,24 +36,16 @@
  * This class may need to be wholly contained by Image.
  *
  */
-
-
-#ifndef __itkImageIterator_h
-#define __itkImageIterator_h
-
-#include <memory.h>
-#include "itkIndex.h"
-
-namespace itk
-{
-
 template<class TPixel, unsigned int TImageDimension=2>
 class ImageIterator {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef ImageIterator  Self;
   
   /** 
-   * Index typedef support 
+   * Index typedef support.
    */
   typedef Index<TImageDimension>  Index;
 
