@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkKmeansUnsupervisedClassifier_txx
 
 #include "itkNumericTraits.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
