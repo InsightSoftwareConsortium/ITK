@@ -95,5 +95,12 @@ int itkMatrixTest(int, char* [] )
   MatrixType matrix4;
   matrix4 = matrix.GetTranspose();
 
-  return 0;
+  MatrixType matrix5;
+  matrix5.Fill( 1.7 );
+  
+  MatrixType matrix6 = matrix5 * 2.5;
+
+  matrix6 *= 1.3;
+
+  return EXIT_SUCCESS;
 }
