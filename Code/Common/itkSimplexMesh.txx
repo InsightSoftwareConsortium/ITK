@@ -404,7 +404,10 @@ namespace itk
         secondFound = i;
         }
       }
-    assert (firstFound != -1 && secondFound != -1);
+    if(firstFound != -1 && secondFound != -1)
+      {
+      itkExceptionMacro("first and second not found");
+      }
     data->neighborIndices[firstFound] = secondIdx;
     data->neighborIndices[secondFound] = firstIdx;
     }
