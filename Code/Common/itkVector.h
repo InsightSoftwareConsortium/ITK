@@ -18,6 +18,7 @@
 #define __itkVector_h
 
 #include "itkFixedArray.h"
+#include "itkNumericTraits.h"
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
 
@@ -63,6 +64,7 @@ public:
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
   typedef T ValueType;
+  typedef typename NumericTraits< ValueType >::RealType   RealValueType;
 
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
@@ -145,10 +147,10 @@ public:
     { return !operator==(v); }
    
   /** Returns the Euclidean Norm of the vector  */
-  ValueType GetNorm( void ) const;
+  RealValueType GetNorm( void ) const;
 
   /** Returns vector's Squared Euclidean Norm  */
-  ValueType GetSquaredNorm( void ) const; 
+  RealValueType GetSquaredNorm( void ) const; 
 
   /** Returns the number of components in this vector type */
   static int GetNumberOfComponents(){ return NVectorDimension;}

@@ -200,14 +200,14 @@ Vector<T, TVectorDimension>
  * Returns vector's Squared Euclidean Norm
  */
 template<class T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::ValueType
+typename Vector<T, TVectorDimension>::RealValueType
 Vector<T, TVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  typename NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
+  typename NumericTraits<RealValueType>::AccumulateType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
     {
-    const ValueType value = (*this)[i];
+    const RealValueType value = (*this)[i];
     sum += value * value;
     }
   return sum;
@@ -219,11 +219,11 @@ Vector<T, TVectorDimension>
  * Returns vector's Euclidean Norm
  */
 template<class T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::ValueType
+typename Vector<T, TVectorDimension>::RealValueType
 Vector<T, TVectorDimension>
 ::GetNorm( void ) const
 {
-  return ValueType(sqrt( double(this->GetSquaredNorm()) )); 
+  return RealValueType( sqrt( double(this->GetSquaredNorm()) )); 
 }
 
 
@@ -235,7 +235,7 @@ void
 Vector<T, TVectorDimension>
 ::Normalize( void ) 
 {
-  T norm = GetNorm();
+  const RealValueType norm = this->GetNorm();
   for( unsigned int i=0; i<TVectorDimension; i++) 
     {
     (*this)[i] /= norm;
