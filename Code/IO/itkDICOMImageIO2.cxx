@@ -32,10 +32,6 @@
 
 #include "DICOMCallback.h"
 
-// Convert a subtag into an unsigned int.
-static inline unsigned int
-BytePairToUnsigned(unsigned char* bytePair)
-{ return ((unsigned int) (bytePair[1]) << 8)  + bytePair[0]; }
 
 namespace itk
 {
