@@ -439,7 +439,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
       boundaryFeature->AddUsingCell( cellID );
       }
 
-    m_OutputMesh->SetBoundaryAssignment( 3, cellID, 0, boundaryID );
+    m_OutputMesh->SetBoundaryAssignment( 2, cellID, 0, boundaryID );
 
     }
   return cellID;
@@ -874,7 +874,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine( const CoordinateType p0[ PointDimension ],
            const CoordinateType p1[ PointDimension ] )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 2 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   return AddLine( pointIDs );
@@ -887,7 +887,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
                const CoordinateType p1[ PointDimension ],
                const CoordinateType p2[ PointDimension ] )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 3 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
@@ -902,7 +902,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
                     const CoordinateType p2[ PointDimension ],
                     const CoordinateType p3[ PointDimension ] )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
@@ -918,7 +918,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
                   const CoordinateType p2[ PointDimension ],
                   const CoordinateType p3[ PointDimension ] )
 {
-  Array<IdentifierType> pointIDs( 8 );
+  Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
   pointIDs[ 1 ] = AddPoint( p1 );
   pointIDs[ 2 ] = AddPoint( p2 );
