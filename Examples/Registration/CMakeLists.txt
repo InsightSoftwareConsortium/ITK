@@ -164,7 +164,7 @@ ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES3}
         ${TEMP}/ImageRegistration9Test.png
 )
 
-ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES5}
+ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
             ${TEMP}/ImageRegistration13Test.png
   ImageRegistration13Test
