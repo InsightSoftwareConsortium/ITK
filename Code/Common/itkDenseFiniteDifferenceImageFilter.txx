@@ -44,12 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <list>
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "itkFastMutexLock.h"
 
 namespace itk {
-
-/** Used for mutex locking */
-static SimpleFastMutexLock ListMutex;
 
 template <class TInputImage, class TOutputImage>
 void
@@ -271,9 +267,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
           nbStart[i] += -overlapLow;               
           fRegion.SetIndex(fStart);                
           fRegion.SetSize(fSize);                  
-          ListMutex.Lock();
           faceList.push_back(fRegion);             
-          ListMutex.Unlock();
         }
       if (overlapHigh < 0)
         {
@@ -296,9 +290,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
           nbSize[i] -= fSize[i];
           fRegion.SetIndex(fStart);
           fRegion.SetSize(fSize);
-          ListMutex.Lock();
           faceList.push_back(fRegion);
-          ListMutex.Unlock();
         }
     }
   nbRegion.SetSize(nbSize);
