@@ -22,7 +22,7 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
-#include "itkTranslationRegularStepGradientDescentRegistrationTransform.h"
+#include "itkTranslationRegistrationTransform.h"
 #include "itkSimpleImageRegionIterator.h"
 #include "itkPointSet.h"
 
@@ -54,7 +54,7 @@ public:
    * Image Dimensions
    */
    enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension*(ImageDimension+1) };
+         ParametersDimension = ImageDimension };
 
   /**
    *  Type of the parameters
@@ -64,7 +64,7 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef AffineRegistrationTransform<
+   typedef TranslationRegistrationTransform<
                 double, 
                 ImageDimension, 
                 ParametersType > TransformationType;
@@ -77,13 +77,13 @@ public:
   /**
    *  Type of the Metric
    */
-   typedef MeanSquaresImageToImageMetric<TargetType, MapperType>   MetricType;
+   typedef NormalizedCorrelationPointSetToImageMetric<TargetType, MapperType>   MetricType;
 
 
   /**
    *  Type of the Optimizer 
    */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
+   typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
 
 
 };
@@ -202,18 +202,6 @@ public:
    * Method that initiates the registration.
    */
    int StartRegistration(void);
-
-
-  /**
-   * Get the Transformation
-   */
-   itkGetMacro( Transformation, TransformationPointer );
-
-
-  /**
-   * Get the Optimizer
-   */
-   itkGetMacro( Optimizer, OptimizerPointer );
 
 
 
