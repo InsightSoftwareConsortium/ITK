@@ -73,7 +73,7 @@ AmoebaOptimizer
 /** Return Current Value */
 AmoebaOptimizer::MeasureType
 AmoebaOptimizer
-::GetValue()
+::GetValue() const
 {
   return this->GetCostFunctionAdaptor()->f(this->GetCurrentPosition());
 }

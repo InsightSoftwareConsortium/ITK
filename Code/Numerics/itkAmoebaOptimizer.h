@@ -118,7 +118,7 @@ public:
   itkGetMacro( FunctionConvergenceTolerance, double );
 
   /** Return Current Value */
-  MeasureType GetValue();
+  MeasureType GetValue() const;
 
 protected:
   AmoebaOptimizer();
