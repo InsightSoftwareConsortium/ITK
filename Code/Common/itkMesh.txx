@@ -816,7 +816,6 @@ Mesh<TPixelType,TMeshType>
 ::FindClosestPoint(CoordRepType coords[PointDimension],
                    PointIdentifier* pointId)
 {
-  m_PointLocator->DebugOn();
   m_BoundingBox->SetPoints(this->GetPoints());
   m_PointLocator->InitPointInsertion(m_PointsContainer, m_BoundingBox);
 
