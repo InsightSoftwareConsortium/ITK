@@ -69,7 +69,7 @@ public:
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
 
-  /** Compute the minimum value of intensity of the input image. */
+  /** Compute the Otsu's threshold for the input image. */
   void Compute(void);
 
   /** Return the Otsu's threshold value. */
