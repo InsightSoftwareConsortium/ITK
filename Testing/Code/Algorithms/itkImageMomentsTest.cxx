@@ -20,9 +20,10 @@
 #include "itkImageMomentsCalculator.h"
 
 
+typedef unsigned short         PixelType;
 typedef itk::Vector<double,3>  VectorType;
 typedef itk::Matrix<double,3>  MatrixType;
-typedef itk::Image<unsigned short, 3> ImageType;
+typedef itk::Image<PixelType, 3> ImageType;
 typedef itk::ImageMomentsCalculator<ImageType> CalculatorType;
 typedef CalculatorType::AffineTransformType AffineTransformType;
 
@@ -87,6 +88,8 @@ main( int argc, char *argv[] )
     image->SetSpacing(spacing);
     image->Allocate();
     
+    image->FillBuffer( itk::NumericTraits<PixelType>::Zero );
+
     /* Set a few mass points within the image */
     /* FIXME: The method used here to set the points is klutzy,
        but appears to be the only method currently supported. */
