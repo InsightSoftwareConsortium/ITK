@@ -361,15 +361,17 @@ int main( int argc, char **argv )
   //  The second image is the result of intentionally translating the image
   //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
   //  images having unit-spacing. These images are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration2}. The registration takes ??
-  //  iterations and produce as result the parameters:
+  //  \ref{fig:FixedMovingImageRegistration2}. The registration has been
+  //  stopped at 200 iterations iterations and produce as result the
+  //  parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 12.8864
-  //  Translation Y = 17.1026
+  //  Translation X = 13.55
+  //  Translation Y = 17.3635
+  //  \end{verbatim}
   // 
-  //  As expected, these values are match closely the true misaligment
-  //  introduced in the moving image.
+  //  As expected, these values match closely the true misaligment introduced
+  //  in the moving image.
   //
   //  Software Guide : EndLatex 
 
@@ -447,9 +449,64 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The result of the resampling the moving image is presented in Figure
-  //  \ref{fig:ImageRegistration2Output.eps}
+  //  \ref{fig:ImageRegistration2Output}
   //
   //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations.eps}
+  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations2.eps}
+  // \caption{Sequence of translations during the registration process. Left,
+  // iterations form 0 to 200. Right iterations from 150 to 200.}
+  // \label{fig:ImageRegistration2TraceTranslations}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ImageRegistration2TraceTranslations} presents the
+  //  sequence of translations followed by the optimizer as it searched the
+  //  parameter space. The left plot shows iterations $0$ to $200$ while the
+  //  right figure zooms into iterations $150$ to $200$. The area covered by
+  //  the right figure has been highlighted by a rectangle in the left image.
+  //  It can be seen that after a certain number of iterations the optimizer
+  //  oscilates covering an area of the parameter space. At this point it is
+  //  clear that more iterations will not help. It is rather time to modify
+  //  some of the parameters of the registration process. For example, the
+  //  learning rate of the optimizer could be reduced in order to make smaller
+  //  steps on the parameter space.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric.eps}
+  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric2.eps}
+  // \caption{Sequence of metric values during the registration process. Left,
+  // iterations form 0 to 300. Right, iterations from 100 to 200.}
+  // \label{fig:ImageRegistration2TraceMetric}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ImageRegistration2TraceTranslations} shows the sequence
+  //  of metric values computed as the optimizer searched the parameter space.
+  //  The left plot shows iterations $0$ to $200$ while the right figure zooms
+  //  into iterations $100$ to $200$. It can be seen that after a certain
+  //  number of iterations the metric value oscilates without further
+  //  convergence. This may indicate the the images used are too noisy and
+  //  undcertainty is leaking to the computation of the metric. Possible
+  //  solutions could be to smooth the images using any of the smoothing
+  //  filters described in section \ref{sec:SmoothingFilters} or to increase
+  //  the number of sample points taken by the
+  //  \code{MutualInformationImageToImageMetric}. In the first case, you will
+  //  have to keep in mind that the registration will no longer be that of the
+  //  fixed and moving images but that of thir smoothed versions.
+  //
+  //  This figures highlight the importance of tracking the evolution of the
+  //  registration method in order to get some insight on the characteristics
+  //  of the particular problem at hand. The behavior revealed by these plots
+  //  usually helps to identify possible improvements in the setup of the
+  //  registration parameters. 
+  //
+  //  Software Guide : EndLatex 
+
 
 
 
