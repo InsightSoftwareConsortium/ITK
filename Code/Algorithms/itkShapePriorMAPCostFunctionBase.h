@@ -90,7 +90,8 @@ public:
   typedef typename NodeContainerType::ConstPointer  NodeContainerPointer;
 
   /** Type of the shape signed distance function. */
-  typedef ShapeSignedDistanceFunction<float,ImageDimension>  ShapeFunctionType;
+  typedef ShapeSignedDistanceFunction<float,
+                                      itkGetStaticConstMacro(ImageDimension)> ShapeFunctionType;
   typedef typename ShapeFunctionType::Pointer            ShapeFunctionPointer;
 
   /** Set/Get the shape distance function. */
@@ -112,8 +113,7 @@ public:
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
-  virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const
+  virtual void GetDerivative( const ParametersType &, DerivativeType & ) const
     { itkExceptionMacro( << "This function is currently not supported." ); }
 
   /** Return the number of parameters. */
@@ -123,22 +123,22 @@ public:
 
   /** Compute the inside term component of the MAP cost function. 
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogInsideTerm( const ParametersType & parameters ) const
+  virtual MeasureType ComputeLogInsideTerm( const ParametersType & ) const
     { return 0.0; }
 
   /** Compute the gradient term component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogGradientTerm( const ParametersType & parameters ) const
+  virtual MeasureType ComputeLogGradientTerm( const ParametersType & ) const
     { return 0.0; }
 
   /** Compute the shape prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogShapePriorTerm( const ParametersType & parameters ) const
+  virtual MeasureType ComputeLogShapePriorTerm( const ParametersType & ) const
     { return 0.0; }
 
   /** Compute the pose prior component of the MAP cost function.
    * Subclasses should override this function */
-  virtual MeasureType ComputeLogPosePriorTerm( const ParametersType & parameters ) const
+  virtual MeasureType ComputeLogPosePriorTerm( const ParametersType & ) const
     { return 0.0; }
 
   /** Initialize the cost function by making sure that all the components

@@ -152,7 +152,7 @@ template <class TFeatureImage, class TOutputPixel>
 typename ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 ::MeasureType
 ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
-::ComputeLogPosePriorTerm( const ParametersType & parameters ) const
+::ComputeLogPosePriorTerm( const ParametersType & itkNotUsed(parameters) ) const
 {
   return 0.0;
 }

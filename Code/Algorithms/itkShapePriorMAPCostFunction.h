@@ -28,6 +28,9 @@ namespace itk
  * ShapePriorSegmentationLevelSetImageFilter to estimate the shape paramaeters.
  *
  * This class follows the shape and pose parameters estimation developed in [1].
+ * Note that this class returns the negative log of the MAP function.
+ * Using the negative function make this cost function compatible
+ * with generic optimizers which seeks the minimum of a cost function.
  *
  * This class has two template parameters, the feature image type representing the 
  * edge potential map and the pixel type used to
