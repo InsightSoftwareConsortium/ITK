@@ -79,6 +79,7 @@ int main()
   // Run the resampling filter
   resample->Update();
 
+
   // Check if desired results were obtained
   bool passed = true;
   ImageType::RegionType region2;
@@ -96,6 +97,9 @@ int main()
       passed = false;
     }
   }
+
+  // Exercise other member functions
+  resample->Print( std::cout );
 
   // Report success or failure
   if (passed) {
