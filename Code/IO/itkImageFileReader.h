@@ -119,7 +119,7 @@ public:
    * factory mechanism that determines whether a particular ImageIO can
    * read a certain file. This method provides a way to get the ImageIO 
    * instance that is created. */
-  itkSetObjectMacro(ImageIO,ImageIOBase);
+  void  SetImageIO( ImageIOBase * imageIO );
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
   /** Prepare the allocation of the output image during the first back
