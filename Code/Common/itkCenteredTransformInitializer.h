@@ -120,7 +120,7 @@ public:
 
 
   /** Initialize the transform using data from the images */
-  void InitializeTransform() const;
+  virtual void InitializeTransform() const;
 
   /** Select between using the geometrical center of the images or 
       using the center of mass given by the image intensities. */
