@@ -63,6 +63,8 @@ struct KdTreeNode
   virtual InstanceIdentifier GetInstanceIdentifier(size_t index) = 0 ;
 
   virtual void AddInstanceIdentifier(InstanceIdentifier id) = 0 ;
+
+  virtual ~KdTreeNode() {}; // needed to subclasses will actually be deleted
 } ; // end of class
 
 template< class TSample >
