@@ -251,7 +251,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     DICOMMapKey ge = (*iter).first;
     VRTypes valType = VRTypes(((*iter).second.first));
 
-    std::pair<DICOMMapKey,DICOMMapValue> p = *iter;
+    std::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
         
     std::vector<DICOMCallback*> * cbVector = mv.second;
