@@ -19,8 +19,8 @@
 int main()
 {
 
-  typedef itk::Point<2,float>                    Point2DType;
-  typedef itk::Point<3,float>                    Point3DType;
+  typedef itk::Point<float,2>                    Point2DType;
+  typedef itk::Point<float,3>                    Point3DType;
 
   typedef itk::VectorContainer< unsigned long, 
                                 Point2DType    > TargetType;

@@ -20,7 +20,7 @@ int main()
 
   typedef itk::Image<unsigned char,2>             ImageType;
 
-  typedef itk::Point<3,float>                    Point3DType;
+  typedef itk::Point<float, 3>                    Point3DType;
 
   typedef itk::VectorContainer< unsigned short,
                                 double >      ParameterType;

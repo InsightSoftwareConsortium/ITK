@@ -5,7 +5,6 @@
 //-------------------------------------------
 
 
-#include <itkPoint.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationMethod.h>
 #include <itkRegistrationOptimizerLBFGS.h>
