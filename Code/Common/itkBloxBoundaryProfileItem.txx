@@ -170,7 +170,7 @@ BloxBoundaryProfileItem<VImageDimension>
 template <unsigned int VImageDimension>
 void
 BloxBoundaryProfileItem<VImageDimension>
-::SetGradient(GradientType * gradient)
+::SetGradient(GradientType gradient)
 {
   m_Gradient = gradient;
 }
@@ -180,7 +180,7 @@ typename BloxBoundaryProfileItem<VImageDimension>::GradientType
 BloxBoundaryProfileItem<VImageDimension>
 ::GetGradient()
 {
-  return *m_Gradient;
+  return m_Gradient;
 }
 
 } // end namespace itk

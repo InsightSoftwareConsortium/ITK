@@ -64,7 +64,7 @@ public:
   PositionType GetOptimalBoundaryLocation(void);
 
   /** Set and get the gradient of the boundary profile * */
-  void SetGradient(GradientType * gradient);
+  void SetGradient(GradientType gradient);
   GradientType GetGradient();
 
   BloxBoundaryProfileItem();
@@ -99,7 +99,7 @@ private:
   PositionType m_OptimalBoundaryLocation;
 
   /** The gradient of the boundary point (non-normalized) */
-  GradientType * m_Gradient;
+  GradientType m_Gradient;
 };
 
 } // end namespace itk
