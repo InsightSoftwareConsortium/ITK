@@ -99,21 +99,11 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   //
   ImageRegionExclusionConstIteratorWithIndex<TInputImage>
     inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion());
+  inputBoundaryIt.SetExclusionRegionToInsetRegion();
+
   ImageRegionExclusionIteratorWithIndex<TInputImage>
     markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
-
-  // build the exclusion region
-  InputImageRegionType exclusionRegion;
-  exclusionRegion = this->GetInput()->GetRequestedRegion();
-  for (unsigned int i=0; i < InputImageType::ImageDimension; ++i)
-    {
-    exclusionRegion.SetSize( i, exclusionRegion.GetSize()[i] - 2);
-    exclusionRegion.SetIndex( i, exclusionRegion.GetIndex()[i] + 1);
-    }
-
-  // set the exclusion region
-  inputBoundaryIt.SetExclusionRegion( exclusionRegion );
-  markerBoundaryIt.SetExclusionRegion( exclusionRegion );
+  markerBoundaryIt.SetExclusionRegionToInsetRegion();
 
   // copy the boundary pixels
   inputBoundaryIt.GoToBegin();

@@ -199,6 +199,12 @@ public:
    */
   void SetExclusionRegion( const RegionType & region );
 
+  /** Set the exclusion region to be inset one pixel in from the
+   * region the iterator walks. This configures the iterator to only
+   * walk the pixels on the boundary of the region.
+   */
+  void SetExclusionRegionToInsetRegion();
+  
 private:
 
   RegionType      m_ExclusionRegion;
