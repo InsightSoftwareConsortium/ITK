@@ -119,8 +119,9 @@ private:
   /** Returns the value located at position n of the slice. */
   TPixel& Loc(unsigned long n) const
     {
-      return (*m_ContainerPointer)[m_Slice.start()
-                                  + n * static_cast<unsigned long>(m_Slice.stride())];
+      const unsigned long start  = static_cast<unsigned long>( m_Slice.start() );
+      const unsigned long stride = static_cast<unsigned long>( m_Slice.stride() );
+      return (*m_ContainerPointer)[ start + n * stride ];
     }  
 
   /** Pointer to the container referenced by the slice iterator. */

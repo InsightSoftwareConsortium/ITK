@@ -51,7 +51,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
     if (coeff[i] <= 0.0) break;  // failsafe
     if (coeff.size() > m_MaximumKernelWidth )
       {
-      itkWarningMacro("Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth << " and has been truncated to " << coeff.size() << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
+      itkWarningMacro("Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth << " and has been truncated to " << static_cast<unsigned long>( coeff.size() ) << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
       break;
       }  
     }
@@ -62,7 +62,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
     }
 
   // Make symmetric
-  j = coeff.size()-1;
+  j = static_cast<int>( coeff.size() ) - 1;
   coeff.insert(coeff.begin(), j, 0);
   for (i=0, it = coeff.end()-1; i < j; --it, ++i)
     {

@@ -52,7 +52,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
     {
       if (i == this->GetDirection())
         {
-          k[i] = coefficients.size() >> 1;
+          k[i] = static_cast<unsigned long>( coefficients.size() ) >> 1;
         }
       else
         {
