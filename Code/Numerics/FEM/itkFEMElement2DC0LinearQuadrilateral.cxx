@@ -27,39 +27,6 @@ namespace itk {
 namespace fem {
 
 
-void Element2DC0LinearQuadrilateral::GetMassMatrix( MatrixType& Me ) const
-{
-  // Number of DOFs
-  const unsigned int NnDOF=this->GetNumberOfDegreesOfFreedomPerNode();
-  const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
-  const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
-
-  Me.resize(NDOF,NDOF); // resize the target matrix object
-  Me.fill(0.0);
-
-  VectorType ip;
-  Float w;
-  MatrixType J;
-  MatrixType shapeD, shapeDgl;
-
-  for(unsigned int i=0; i<Nip; i++)
-  {
-    this->GetIntegrationPointAndWeight(i,ip,w,0);
-    this->ShapeFunctionDerivatives(ip,shapeD);
-    this->Jacobian(ip,J,&shapeD);
-    this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
-    Float detJ=this->JacobianDeterminant( ip, &J );
-    
-    for(unsigned int i=0; i<NDOF; i++)
-    {
-      for(unsigned int j=0; j<NDOF; j++)
-      {
-        Me[i][j]+=detJ*w*shapeDgl[i%NnDOF][i/NnDOF]*shapeDgl[j%NnDOF][j/NnDOF];
-      }
-    }
-  }
-
-}
 
 
 void

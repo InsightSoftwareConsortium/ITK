@@ -33,7 +33,7 @@ SolverHyperbolic::SolverHyperbolic()
   this->InitializeLinearSystemWrapper();
   m_beta=0.25;
   m_gamma=0.5;
-  m_deltaT=0.01;
+  m_deltaT=0.1;
 }
 
 
@@ -125,7 +125,8 @@ void
 SolverHyperbolic
 ::FinalizeMatrixAfterAssembly( void )
 {
-  // Apply the boundary conditions to the K matrix
+  // Apply the boundary conditions to the matrix
+  // FIXME: this doesn't work in general
   this->ApplyBC(0,matrix_M);
   this->ApplyBC(0,matrix_K);
 

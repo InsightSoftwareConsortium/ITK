@@ -207,10 +207,43 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
 void Element::GetMassMatrix( MatrixType& Me ) const
 {
   /*
-   * If the function is not overiden, we return 0 matrix. This means that
-   * by default the elements are static.
+   * If the function is not overiden, we compute consistent mass matrix
+   * by integrating the shape functions over the element domain. The element
+   * density is assumed one. If this is not the case, the GetMassMatrix in a
+   * derived class must be overriden and the Me matrix corrected accordingly.
    */
   Me = MatrixType( this->GetNumberOfDegreesOfFreedom(), this->GetNumberOfDegreesOfFreedom(), 0.0 );
+
+  const unsigned int NnDOF=this->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes=this->GetNumberOfNodes();
+  const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
+  const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
+
+  Me.resize(NDOF,NDOF); // resize the target matrix object
+  Me.fill(0.0);
+
+  Float w;
+  VectorType ip, shape;
+  MatrixType J, shapeD;
+
+  for(unsigned int i=0; i<Nip; i++)
+  {
+    this->GetIntegrationPointAndWeight(i,ip,w,0);
+    shape=this->ShapeFunctions(ip);
+    this->ShapeFunctionDerivatives(ip,shapeD);
+    this->Jacobian(ip,J,&shapeD);
+    Float detJ=this->JacobianDeterminant( ip, &J );
+    
+    for(unsigned int i=0; i<Nnodes; i++)
+    {
+      for(unsigned int j=0; j<Nnodes; j++)
+      {
+        Me[i*NnDOF][j*NnDOF]+=detJ*w*shape[i]*shape[j];
+        Me[i*NnDOF+1][j*NnDOF+1]+=detJ*w*shape[i]*shape[j];
+      }
+    }
+  }
+
 }
 
 

@@ -264,9 +264,15 @@ public:
   virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
 
   /**
-   * Compute and return element mass matrix in global coordinate system.
-   * This is needed if dynamic problems (parabolic or hyperbolix d.e.)
-   * need to be solved.
+   * Compute and return element mass matrix (Me) in global coordinate system.
+   *
+   *     b   T
+   * int    N(x) (rho c) N(x) dx
+   *     a
+   *
+   * where (rho c) is constant (element density), which is here assumed to be
+   * equal to one. If this is not the case, this function must be overriden in
+   * a derived class. Implementation is similar to GetStiffnessMatrix.
    */
   virtual void GetMassMatrix( MatrixType& Me ) const;
 
