@@ -68,6 +68,8 @@ namespace itk
 #define FORMAT_NM_IGE_STRING  "Starcam"
 
 #define GIPL_MAGIC_NUMBER 0xefffe9b0
+#define GIPL_MAGIC_NUMBER2 0x2ae389b8
+
 
 /** Constructor */
 GiplImageIO::GiplImageIO()
@@ -129,7 +131,7 @@ bool GiplImageIO::CanReadFile( const char* filename )
     ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&magic_number);
   }
 
-  if(magic_number == GIPL_MAGIC_NUMBER)
+  if((magic_number == GIPL_MAGIC_NUMBER) || (magic_number == GIPL_MAGIC_NUMBER2))
   {
      inputStream.close();
      return true;
