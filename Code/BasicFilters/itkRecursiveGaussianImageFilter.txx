@@ -65,7 +65,6 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
 
-  bool symmetric;
 
   switch( m_Order ) 
     {
@@ -79,7 +78,8 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_C1 = static_cast<RealType>( -0.2598 );
       m_W0 = static_cast<RealType>(  0.6318 );
       m_W1 = static_cast<RealType>(  1.9970 );
-      symmetric = true;
+      const bool symmetric = true;
+      this->ComputeFilterCoefficients(symmetric);
       break;
       }
     case FirstOrder: // equivalent to convolution with 
@@ -93,7 +93,8 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_C1 = static_cast<RealType>(   0.9557 );
       m_W0 = static_cast<RealType>(   0.6719 );
       m_W1 = static_cast<RealType>(   2.0720 );
-      symmetric = false;
+      const symmetric = false;
+      this->ComputeFilterCoefficients(symmetric);
       break;
       }
     case SecondOrder: // equivalent to convolution with 
@@ -107,12 +108,17 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_C1 = static_cast<RealType>(  -1.7380 );
       m_W0 = static_cast<RealType>(   0.7480 );
       m_W1 = static_cast<RealType>(   2.1660 );
-      symmetric = true;
+      const symmetric = true;
+      this->ComputeFilterCoefficients(symmetric);
       break;
+      }
+    default:
+      {
+      itkExceptionMacro(<<"Unknown Order");
+      return;
       }
     }
 
-  ComputeFilterCoefficients(symmetric);
 
 }
 
