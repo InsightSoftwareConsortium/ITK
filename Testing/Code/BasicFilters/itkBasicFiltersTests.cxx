@@ -56,6 +56,7 @@ void RegisterTests()
   REGISTER_TEST(itkInteriorExteriorMeshFilterTest  );
   REGISTER_TEST(itkInterpolateImageFilterTest );
   REGISTER_TEST(itkInterpolateImagePointsFilterTest );
+  REGISTER_TEST(itkIntensityWindowingImageFilterTest );
   REGISTER_TEST(itkJoinImageFilterTest );
   REGISTER_TEST(itkLog10ImageFilterAndAdaptorTest );
   REGISTER_TEST(itkLogImageFilterAndAdaptorTest );
@@ -92,6 +93,7 @@ void RegisterTests()
   REGISTER_TEST(itkSparseFieldLayerTest);
   REGISTER_TEST(itkSpatialFunctionImageEvaluatorFilterTest );
   REGISTER_TEST(itkSqrtImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkSquareImageFilterTest );
   REGISTER_TEST(itkSquaredDifferenceImageFilterTest );
   REGISTER_TEST(itkStreamingImageFilterTest );
   REGISTER_TEST(itkStreamingImageFilterTest2 );

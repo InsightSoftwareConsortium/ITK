@@ -52,6 +52,7 @@ ADD_TEST(itkImportImageTest ${BASIC_FILTERS_TESTS} itkImportImageTest)
 ADD_TEST(itkInteriorExteriorMeshFilterTest ${BASIC_FILTERS_TESTS} itkInteriorExteriorMeshFilterTest )
 ADD_TEST(itkInterpolateImageFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImageFilterTest )
 ADD_TEST(itkInterpolateImagePointsFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImagePointsFilterTest )
+ADD_TEST(itkIntensityWindowingImageFilterTest ${BASIC_FILTERS_TESTS} itkIntensityWindowingImageFilterTest )
 ADD_TEST(itkJoinImageFilterTest ${BASIC_FILTERS_TESTS} itkJoinImageFilterTest)
 ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageFilterAndAdaptorTest)
 ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
@@ -87,6 +88,7 @@ ADD_TEST(itkSinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSinImageFilte
 ADD_TEST(itkSparseFieldLayerTest ${BASIC_FILTERS_TESTS} itkSparseFieldLayerTest)
 ADD_TEST(itkSpatialFunctionImageEvaluatorFilterTest ${BASIC_FILTERS_TESTS} itkSpatialFunctionImageEvaluatorFilterTest)
 ADD_TEST(itkSqrtImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSqrtImageFilterAndAdaptorTest)
+ADD_TEST(itkSquareImageFilterTest ${BASIC_FILTERS_TESTS} itkSquareImageFilterTest)
 ADD_TEST(itkSquaredDifferenceImageFilterTest ${BASIC_FILTERS_TESTS} itkSquaredDifferenceImageFilterTest)
 ADD_TEST(itkStreamingImageFilterTest ${BASIC_FILTERS_TESTS} itkStreamingImageFilterTest)
 ADD_TEST(itkStreamingImageFilterTest2 ${BASIC_FILTERS_TESTS} itkStreamingImageFilterTest2)
@@ -229,6 +231,7 @@ itkImportImageTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx
 itkInterpolateImageFilterTest.cxx
 itkInterpolateImagePointsFilterTest.cxx
+itkIntensityWindowingImageFilterTest.cxx
 itkJoinImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkLogImageFilterAndAdaptorTest.cxx
@@ -267,6 +270,7 @@ itkStreamingImageFilterTest.cxx
 itkStreamingImageFilterTest2.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkSqrtImageFilterAndAdaptorTest.cxx
+itkSquareImageFilterTest.cxx
 itkSquaredDifferenceImageFilterTest.cxx
 itkSubtractImageFilterTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
