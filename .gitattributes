@@ -11,5 +11,6 @@ configure        crlf=input
 cvsrmvend        crlf=input
 install-sh       crlf=input
 itktcl           crlf=input
+itkwish          crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input

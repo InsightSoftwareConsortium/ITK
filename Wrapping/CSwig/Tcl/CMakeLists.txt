@@ -18,6 +18,7 @@ TARGET_LINK_LIBRARIES(itkwish
   ${TK_LIBRARY}
 )
 
+INSTALL_PROGRAMS(/bin itkwish)
 INSTALL_TARGETS(/lib/InsightToolkit itkwish)
 
 INSTALL_FILES(/lib/InsightToolkit/tcl .tcl itkinteraction itktesting itkdata)
