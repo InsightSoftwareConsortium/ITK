@@ -27,6 +27,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageWriter.txx"
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
+#include "itkDicomImageIO.h"
+#include "itkDicomImageIOFactory.h"
 #include "itkPNGImageIO.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkRawImageIO.txx"
