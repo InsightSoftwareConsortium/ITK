@@ -5,7 +5,7 @@ proc MakeDateTimeStamp {} \
 
 proc MakeDateStamp {} \
 {
-  return [clock format [clock seconds] -format %Y%m%d]
+  return [clock format [clock seconds] -format %Y%m%d -gmt 1]
 }
 
 proc FileMap { Queue PatternList Map } \
