@@ -116,6 +116,10 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
     m_Bounds->ComputeBoundingBox();
     m_BoundsMTime.Modified();
   }
+  else
+  {
+    this->Modified();
+  }
 } 
 
 /** Return true is the given point is on the surface */
