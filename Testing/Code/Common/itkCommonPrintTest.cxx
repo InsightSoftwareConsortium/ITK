@@ -70,6 +70,7 @@
 #include "itkIdentityTransform.h"
 #include "itkImage.h"
 #include "itkImageAdaptor.h"
+#include "itkImageDuplicator.h"
 #include "itkImageBase.h"
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkImageRegionSplitter.h"
