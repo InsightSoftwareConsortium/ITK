@@ -63,7 +63,7 @@ ImageMapper<TImage,TTransformation>
 template <class TImage, class TTransformation> 
 void
 ImageMapper<TImage,TTransformation>
-::SetDomain(DomainType *  domain)
+::SetDomain(const DomainType *  domain)
 {
   Superclass::SetDomain( domain );
 

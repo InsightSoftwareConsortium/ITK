@@ -168,7 +168,7 @@ public:
   /**
    * Set Domain
    */
-  void SetDomain( DomainType * domain );
+  void SetDomain( const DomainType * domain );
 
 
 

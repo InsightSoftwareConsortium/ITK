@@ -96,6 +96,12 @@ public:
 
 
   /**
+   *  Const Pointer type for the Reference 
+   */
+  typedef typename DomainType::ConstPointer DomainConstPointer;
+
+
+  /**
    *  Pointer type for the Transformation
    */
   typedef typename TransformationType::Pointer TransformationPointer;
@@ -116,13 +122,13 @@ public:
   /**
    * Connect the Domain
    */
-  itkSetObjectMacro( Domain, DomainType );
+  itkSetConstObjectMacro( Domain, DomainType );
 
 
   /**
    * Get the Domain
    */
-  itkGetObjectMacro( Domain, DomainType);
+  itkGetConstObjectMacro( Domain, DomainType);
 
   /**
    * Connect the Transformation
@@ -146,7 +152,7 @@ protected:
 
 private:
 
-  DomainPointer            m_Domain;
+  DomainConstPointer       m_Domain;
   TransformationPointer    m_Transformation;
 
 };

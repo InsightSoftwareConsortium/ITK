@@ -106,7 +106,7 @@ TargetType * ptr )
  * Get the target
  */
 template <class TRegistrationMethod>
-MultiResolutionRegistration<TRegistrationMethod>::TargetPointer
+MultiResolutionRegistration<TRegistrationMethod>::TargetConstPointer
 MultiResolutionRegistration<TRegistrationMethod>
 ::GetTarget()
 {
@@ -136,7 +136,7 @@ ReferenceType * ptr )
  * Get the target
  */
 template <class TRegistrationMethod>
-MultiResolutionRegistration<TRegistrationMethod>::ReferencePointer
+MultiResolutionRegistration<TRegistrationMethod>::ReferenceConstPointer
 MultiResolutionRegistration<TRegistrationMethod>
 ::GetReference()
 {

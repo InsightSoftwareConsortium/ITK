@@ -91,12 +91,12 @@ public:
   /**
    *  Pointer type for the Reference 
    */
-  typedef typename ReferenceType::Pointer ReferencePointer;
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
   
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
   /**
    *  Typedef for the image moments calculator
@@ -150,9 +150,9 @@ protected:
   
 private:
    
-  ReferencePointer     m_Reference;
-  TargetPointer        m_Target;
-  AffineTransformType  m_OutputTransform;
+  ReferenceConstPointer     m_Reference;
+  TargetConstPointer        m_Target;
+  AffineTransformType       m_OutputTransform;
 
 };  
 

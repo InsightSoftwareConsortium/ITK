@@ -103,7 +103,7 @@ RegistrationMethod< TTraits >
 
 
 template <class TTraits>
-typename RegistrationMethod<TTraits>::ReferencePointer
+typename RegistrationMethod<TTraits>::ReferenceConstPointer
 RegistrationMethod<TTraits>
 ::GetReference( void )
 {
@@ -115,7 +115,7 @@ RegistrationMethod<TTraits>
  * Get Target 
  */
 template <class TTraits>
-typename RegistrationMethod<TTraits>::TargetPointer
+typename RegistrationMethod<TTraits>::TargetConstPointer
 RegistrationMethod< TTraits >
 ::GetTarget( void )
 {
@@ -127,7 +127,7 @@ RegistrationMethod< TTraits >
 template <class TTraits>
 void
 RegistrationMethod<TTraits>
-::SetReference( ReferenceType * reference )
+::SetReference( const ReferenceType * reference )
 {
   m_Metric->SetReference( reference );
 }
@@ -139,7 +139,7 @@ RegistrationMethod<TTraits>
 template <class TTraits>
 void
 RegistrationMethod< TTraits >
-::SetTarget( TargetType * target )
+::SetTarget( const TargetType * target )
 {
   m_Metric->SetTarget( target );
 }

@@ -87,8 +87,8 @@ public:
   /**
    *  Type of the Reference
    */
-  typedef typename TMapper::DomainType     ReferenceType;
-  typedef typename ReferenceType::Pointer  ReferencePointer;
+  typedef typename TMapper::DomainType          ReferenceType;
+  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
 
 
   /**
@@ -118,7 +118,7 @@ public:
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
 
   /**
@@ -148,25 +148,25 @@ public:
   /**
    * Connect the Reference 
    */
-   void SetReference( ReferenceType * );
+   void SetReference( const ReferenceType * );
 
 
   /**
    * Return the Reference 
    */
-   ReferencePointer  GetReference( void );
+   ReferenceConstPointer  GetReference( void );
 
 
   /**
    * Connect the Target 
    */
-   itkSetObjectMacro( Target, TargetType );
+   itkSetConstObjectMacro( Target, TargetType );
 
 
   /**
    * Get the Target
    */
-   itkGetObjectMacro( Target, TargetType );
+   itkGetConstObjectMacro( Target, TargetType );
 
 
   /**
@@ -202,7 +202,7 @@ protected:
 
 private:
 
-  TargetPointer               m_Target;
+  TargetConstPointer          m_Target;
   MapperPointer               m_Mapper;
 
 protected:

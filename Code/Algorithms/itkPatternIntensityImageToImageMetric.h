@@ -127,13 +127,13 @@ public:
   /**
    *  Pointer type for the Reference 
    */
-  typedef typename ReferenceType::Pointer         ReferencePointer;
+  typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
 
 
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::Pointer            TargetPointer;
+  typedef typename TargetType::ConstPointer            TargetConstPointer;
 
 
   /**

@@ -126,13 +126,13 @@ public:
   /**
    *  Pointer type for the Reference 
    */
-  typedef typename ReferenceType::Pointer ReferencePointer;
+  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
 
   
   /**
    *  Pointer type for the Target 
    */
-  typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
 
   /**
@@ -180,13 +180,13 @@ public:
   /**
    * Set the Target
    */
-   void SetTarget( TargetType * );
+   itkSetConstObjectMacro( Target, TargetType );
 
    
   /**
    * Set the Reference
    */
-   void SetReference( ReferenceType * );
+   itkSetConstObjectMacro( Reference, ReferenceType );
 
 
   /**
@@ -198,13 +198,13 @@ public:
   /**
    * Get the Reference
    */
-   itkGetMacro( Reference, ReferencePointer );
+   itkGetConstObjectMacro( Reference, ReferenceType );
 
    
   /**
    * Get the Target
    */
-   itkGetMacro( Target, TargetPointer );
+   itkGetConstObjectMacro( Target, TargetType );
 
 
   /**

@@ -117,7 +117,7 @@ public:
   /**
    * TargetPointer typedef support
    */
-  typedef typename TargetType::Pointer TargetPointer;
+  typedef typename TargetType::ConstPointer TargetConstPointer;
 
   /**
    * ReferenceType typedef support
@@ -127,7 +127,7 @@ public:
   /**
    * ReferencePointer typedef support
    */
-  typedef typename ReferenceType::Pointer  ReferencePointer;
+  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
 
   /**
    * TargetImageDimension enumeration
@@ -181,7 +181,7 @@ public:
   /**
    * Get the target
    */
-  TargetPointer GetTarget( void );
+  TargetConstPointer GetTarget( void );
 
   /**
    * Set the reference
@@ -191,7 +191,7 @@ public:
   /**
    * Get the reference
    */
-  ReferencePointer GetReference( void );
+  ReferenceConstPointer GetReference( void );
 
   /**
    * Get the target pyramid

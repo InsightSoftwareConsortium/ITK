@@ -66,7 +66,7 @@ template <class TTarget, class TMapper,
           class TMeasure,class TDerivative>
 void
 SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
-::SetReference( ReferenceType * reference ) 
+::SetReference( const ReferenceType * reference ) 
 {
   this->m_Mapper->SetDomain( reference );
 }
@@ -77,7 +77,7 @@ SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
  */
 template <class TTarget, class TMapper, 
           class TMeasure,class TDerivative>
-typename SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>::ReferencePointer
+typename SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>::ReferenceConstPointer
 SimilarityRegistrationMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::GetReference( void )
 {

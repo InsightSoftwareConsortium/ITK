@@ -82,7 +82,7 @@ public:
    *  Type of the Target
    */
    typedef typename TTraits::TargetType              TargetType;
-   typedef typename TargetType::Pointer              TargetPointer;
+   typedef typename TargetType::ConstPointer              TargetConstPointer;
 
   /**
    *  Type of the Metric
@@ -103,8 +103,8 @@ public:
   /**
    *  Type of the Reference
    */
-   typedef typename TTraits::ReferenceType         ReferenceType;
-   typedef typename ReferenceType::Pointer         ReferencePointer;
+   typedef typename TTraits::ReferenceType              ReferenceType;
+   typedef typename ReferenceType::ConstPointer         ReferenceConstPointer;
 
 
   /**
@@ -142,13 +142,13 @@ public:
   /**
    * Set the Target
    */
-   void SetTarget( TargetType * Target );
+   void SetTarget( const TargetType * Target );
 
 
   /**
    * Set the Reference
    */
-   void SetReference( ReferenceType * Reference );
+   void SetReference( const ReferenceType * Reference );
 
 
   /**
@@ -166,13 +166,13 @@ public:
   /**
    * Get the Reference
    */
-   ReferencePointer GetReference( void );
+   ReferenceConstPointer GetReference( void );
    
 
   /**
    * Get the Target
    */
-   TargetPointer     GetTarget( void );
+   TargetConstPointer     GetTarget( void );
 
 
   /**
