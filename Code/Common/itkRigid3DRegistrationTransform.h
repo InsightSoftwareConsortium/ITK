@@ -21,6 +21,7 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkRigid3DTransform.h"
+#include "itkMatrix.h"
 
 namespace itk
 {
@@ -167,7 +168,17 @@ private:
    * Jacobian matrix of the transformation. It is used to compute
    * derivatives by using the chain rule.
    */
-  mutable JacobianType                m_Jacobian;     
+  mutable JacobianType                m_Jacobian; 
+
+  /**
+   * Cached results for calculating the Jacobian
+   */
+  double                              m_AxisMagnitude;
+  double                              m_CosHalfAngle;
+  double                              m_SinHalfAngle;
+  
+  typedef Matrix<double,4,4> MatrixType;
+  MatrixType                          m_dQ_dParameters;    
 
 };
 

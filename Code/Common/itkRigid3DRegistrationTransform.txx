@@ -94,17 +94,41 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
   typename RigidTransformType::VectorType  axis;
   typename RigidTransformType::VectorType  translation;
 
+  // get the axis of rotation
   unsigned int counter = 0;
   for( unsigned int e=0; e<SpaceDimension; e++)
   {
     axis[e] = m_Parameters[counter++];
   }
 
-//  axis.Set_vnl_vector( axis.Get_vnl_vector().normalize() );
+  // normalize the axis
+  m_AxisMagnitude = axis.GetNorm();
 
-//  const double angle = 2.0 * acos( m_Parameters[counter++] );
+  if( m_AxisMagnitude ) 
+   {
+   axis /= m_AxisMagnitude;
+   }
+
+  // get the angle
   const double angle = m_Parameters[counter++];
+  m_SinHalfAngle = sin( angle / 2.0 );
+  m_CosHalfAngle = cos( angle / 2.0 );
+
+  // compute derivatives of the quaternion components 
+  // with respect to the actual parameters
+  double cosFactor = 0.5 * m_CosHalfAngle;
+  double sinFactor = m_SinHalfAngle * m_AxisMagnitude * m_TranslationScale;
+  m_dQ_dParameters.Fill(0.0);
+
+  for( unsigned int i = 0; i < SpaceDimension; i++ )
+    {
+    m_dQ_dParameters[i][i] = sinFactor;
+    m_dQ_dParameters[i][3] = cosFactor * axis[i];
+    }
+  m_dQ_dParameters[3][3] = -0.5 * m_SinHalfAngle;
+
   
+  // get the translation
   for( unsigned int i=0; i<SpaceDimension; i++)
   {
     translation[i] = m_Parameters[counter++] * m_TranslationScale;
@@ -126,48 +150,36 @@ Rigid3DRegistrationTransform<ScalarType, TParameters>::
 GetJacobian( const PointType & p ) const
 {
 
+  // reset Jacobian
+  m_Jacobian.Fill( 0.0 );
+
   // compute derivatives with respect to rotation
   typename RigidTransformType::VnlQuaternionType Q =
     m_RigidTransform.GetRotation();
 
-  vnl_matrix_fixed<double,3,4> dXdQ;
+  // compute Jacobian with respect to quaternion parameters
+  vnl_matrix_fixed<double,3,4> dX_dQ;
 
-  // compute dX / dQ
-  dXdQ(0,0) = 2.0 * (  Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2]);
-  dXdQ(0,1) = 2.0 * (- Q.y() * p[0] + Q.x() * p[1] - Q.r() * p[2]);
-  dXdQ(0,2) = 2.0 * (- Q.z() * p[0] + Q.r() * p[1] + Q.x() * p[2]);
-  dXdQ(0,3) = 2.0 * (  Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2]);
+  dX_dQ[0][0] = 2.0 * (  Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2]);
+  dX_dQ[0][1] = 2.0 * (- Q.y() * p[0] + Q.x() * p[1] - Q.r() * p[2]);
+  dX_dQ[0][2] = 2.0 * (- Q.z() * p[0] + Q.r() * p[1] + Q.x() * p[2]);
+  dX_dQ[0][3] = 2.0 * (  Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2]);
 
-  dXdQ(1,0) = - dXdQ(0,1);
-  dXdQ(1,1) =   dXdQ(0,0);
-  dXdQ(1,2) = - dXdQ(0,3);
-  dXdQ(1,3) =   dXdQ(0,2);
+  dX_dQ[1][0] = - dX_dQ[0][1];
+  dX_dQ[1][1] =   dX_dQ[0][0];
+  dX_dQ[1][2] = - dX_dQ[0][3];
+  dX_dQ[1][3] =   dX_dQ[0][2];
 
-  dXdQ(2,0) = - dXdQ(0,2);
-  dXdQ(2,1) =   dXdQ(0,3);
-  dXdQ(2,2) =   dXdQ(0,0);
-  dXdQ(2,3) = - dXdQ(0,1);
+  dX_dQ[2][0] = - dX_dQ[0][2];
+  dX_dQ[2][1] =   dX_dQ[0][3];
+  dX_dQ[2][2] =   dX_dQ[0][0];
+  dX_dQ[2][3] = - dX_dQ[0][1];
 
+  // compute Jacobian with respect to actual parameters
+  vnl_matrix_fixed<double,3,4> dX_dParameters = 
+		dX_dQ * m_dQ_dParameters.GetVnlMatrix();
 
-  // compute dQ / dParameters
-  double factor   = 0.5 * cos( m_Parameters[3] / 2 );
-  double sinAlpha = sin( m_Parameters[3] / 2 );
-
-  vnl_matrix_fixed<double,4,4> dQdP;
-  dQdP.fill( 0.0 );
-  dQdP.fill_diagonal( sinAlpha );
-
-
-  dQdP(0,3) = factor * m_Parameters[0];
-  dQdP(1,3) = factor * m_Parameters[1];
-  dQdP(2,3) = factor * m_Parameters[2];
-  dQdP(3,3) = - 0.5 * sinAlpha;
-
-  // compute dX / dParameters
-  vnl_matrix_fixed<double,3,4> dXdP = dXdQ * dQdP;
-
-  m_Jacobian.Fill(0.0);
-  m_Jacobian.GetVnlMatrix().update( dXdP, 0, 0 );
+  m_Jacobian.GetVnlMatrix().update( dX_dParameters, 0, 0 );
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 4;
