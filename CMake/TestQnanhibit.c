@@ -10,26 +10,25 @@
 int
 main(int argc, char *argv[])
 {
-  char *me;
-  float qnan, zero;
-  int i;
+   const char * const me=argv[0];
+   const float zero=0.0F;
+   union {
+     float flt32bit;
+     int   int32bit;
+   } qnan;
 
 #if defined(__BORLANDC__)
-  // Disable floating point exceptions in Borland
-  _control87(MCW_EM, MCW_EM);
+   // Disable floating point exceptions in Borland
+   _control87(MCW_EM, MCW_EM);
 #endif // defined(__BORLANDC__)
-  
-  me = argv[0];
-  if (sizeof(float) != sizeof(int))
-    {
-    fprintf(stderr, "%s: MADNESS:  sizeof(float)=%d != sizeof(int)=%d\n",
-            me, (int)sizeof(float), (int)sizeof(int));
-    return -1;
-    }
 
-  zero = 0;
-  qnan=zero/zero;
-  i=*(int*)(&qnan);
-  printf("-DTEEM_QNANHIBIT=%d\n", (i >> 22) & 1);
-  return (int)((i >> 22) & 1);
+   if (sizeof(float) != sizeof(int))
+     {
+     fprintf(stderr, "%s: MADNESS:  sizeof(float)=%d != sizeof(int)=%d\n",
+           me, (int)sizeof(float), (int)sizeof(int));
+     return -1;
+     }
+   qnan.flt32bit=zero/zero;
+   printf("-DTEEM_QNANHIBIT=%d\n", (qnan.int32bit >> 22) & 1);
+   return (int)((qnan.int32bit >> 22) & 1);
 }

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -135,7 +136,7 @@ int _nrrdGzWrite (gzFile file, const voidp buf, unsigned int len, unsigned int* 
 ** _nrrdGzOpen()
 **
 ** Opens a gzip (.gz) file for reading or writing. The mode parameter
-** is like in fopen ("r" or "w"). The file represented by the FILE* pointer
+** is like in fopen ("rb" or "wb"). The file represented by the FILE* pointer
 ** should be open already with the same mode.  The mode parameter can also be
 ** used to specify the compression level "[0-9]" and strategy "[f|h]".
 **
@@ -219,7 +220,8 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
     
   if (s->mode == 'w') {
     error = deflateInit2(&(s->stream), level,
-                         Z_DEFLATED, -MAX_WBITS, _NRRD_DEF_MEM_LEVEL, strategy);
+                         Z_DEFLATED, -MAX_WBITS, _NRRD_DEF_MEM_LEVEL, 
+                         strategy);
     /* windowBits is passed < 0 to suppress zlib header */
 
     s->stream.next_out = s->outbuf = (Byte*)calloc(1, _NRRD_Z_BUFSIZE);
@@ -255,7 +257,11 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   if (s->mode == 'w') {
     /* Write a very simple .gz header: */
     fprintf(s->file, "%c%c%c%c%c%c%c%c%c%c", _nrrdGzMagic[0], _nrrdGzMagic[1],
-            Z_DEFLATED, 0 /*flags*/, 0,0,0,0 /*time*/, 0 /*xflags*/, _NRRD_OS_CODE);
+            Z_DEFLATED, 
+            0 /*flags*/, 
+            0,0,0,0 /*time*/, 
+            0 /*xflags*/, 
+            _NRRD_OS_CODE);
     s->startpos = 10L;
     /* We use 10L instead of ftell(s->file) to because ftell causes an
      * fflush on some systems. This version of the library doesn't use
@@ -416,7 +422,8 @@ _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
 ** Returns the number of bytes actually written (0 in case of error).
 */
 int
-_nrrdGzWrite (gzFile file, const voidp buf, unsigned int len, unsigned int* written) {
+_nrrdGzWrite (gzFile file, const voidp buf, unsigned int len,
+              unsigned int* written) {
   char me[] = "_nrrdGzWrite", err[AIR_STRLEN_MED];
   _NrrdGzStream *s = (_NrrdGzStream*)file;
 
@@ -483,10 +490,10 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
 /*
 ******** _nrrdGzCheckHeader()
 **
-** Checks the gzip header of a _NrrdGzStream opened for reading. Sets the stream
-** mode to transparent if the gzip magic header is not present; sets s->err
-** to Z_DATA_ERROR if the magic header is present but the rest of the header
-** is incorrect.
+** Checks the gzip header of a _NrrdGzStream opened for reading. Sets
+** the stream mode to transparent if the gzip magic header is not
+** present; sets s->err to Z_DATA_ERROR if the magic header is present
+** but the rest of the header is incorrect.
 ** IN assertion: the stream s has already been created sucessfully;
 ** s->stream.avail_in is zero for the first time, but may be non-zero
 ** for concatenated .gz files.

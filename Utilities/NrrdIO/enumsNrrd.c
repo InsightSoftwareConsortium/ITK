@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -31,7 +32,11 @@
 ** 1) Be awake and undistracted.  Turn down the music.
 ** 2) When editing the char arrays, make sure that you put commas
 **    where you mean them to be.  C's automatic string concatenation 
-**    is not your friend here.
+**    is not your friend here.  In fact, EXPLOIT the fact that you can have
+**    a comma after the last element of a list (of strings)- it decreases
+**    the chances that adding a new element at the end will be thwarted by 
+**    the lack of a comma at the end of the previous (and previously last)
+**    string.
 ** 3) When editing the *StrEqv and *ValEqv arrays, make absolutely
 **    sure that both are changed in parallel.  Use only one enum value
 **    per line; putting all equivalents on that line, and make sure that
@@ -51,7 +56,7 @@ _nrrdFormatTypeStr[NRRD_FORMAT_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "png",
   "vtk",
   "text",
-  "eps"
+  "eps",
 };
 
 char
@@ -62,7 +67,7 @@ _nrrdFormatTypeDesc[NRRD_FORMAT_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "Portable Network Graphics: lossless compression of 8- and 16-bit data",
   "Visualization ToolKit STRUCTURED_POINTS data",
   "white-space-delimited plain text encoding of 2-D float array",
-  "Encapsulated PostScript images"
+  "Encapsulated PostScript images",
 };
 
 char
@@ -83,7 +88,7 @@ _nrrdFormatTypeValEqv[] = {
   nrrdFormatTypePNG,
   nrrdFormatTypeVTK,
   nrrdFormatTypeText, nrrdFormatTypeText, nrrdFormatTypeText,
-  nrrdFormatTypeEPS
+  nrrdFormatTypeEPS,
 };
 
 airEnum
@@ -113,7 +118,7 @@ _nrrdTypeStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "unsigned long long int",
   "float",
   "double",
-  "block"
+  "block",
 };
 
 char 
@@ -129,7 +134,7 @@ _nrrdTypeDesc[NRRD_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "unsigned 8-byte integer",
   "4-byte floating point",
   "8-byte floating point",
-  "size user-defined at run-time"
+  "size user-defined at run-time",
 };
 
 #define ntCH nrrdTypeChar
@@ -174,7 +179,7 @@ _nrrdTypeValEqv[] = {
   ntUL, ntUL, ntUL, ntUL, ntUL, 
   ntFL,
   ntDB,
-  ntBL
+  ntBL,
 };
 
 airEnum
@@ -198,7 +203,7 @@ _nrrdEncodingTypeStr[NRRD_ENCODING_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "ascii",
   "hex",
   "gz",
-  "bz2"
+  "bz2",
 };
 
 char
@@ -208,7 +213,7 @@ _nrrdEncodingTypeDesc[NRRD_ENCODING_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "values written out in ASCII",
   "case-insenstive hexadecimal encoding (2 chars / byte)",
   "gzip compression of binary encoding",
-  "bzip2 compression of binary encoding"
+  "bzip2 compression of binary encoding",
 };
 
 char
@@ -230,7 +235,6 @@ _nrrdEncodingTypeValEqv[] = {
   nrrdEncodingTypeHex,
   nrrdEncodingTypeGzip, nrrdEncodingTypeGzip,
   nrrdEncodingTypeBzip2, nrrdEncodingTypeBzip2,
-  nrrdEncodingTypeLast
 };
 
 airEnum
@@ -251,7 +255,7 @@ char
 _nrrdCenterStr[NRRD_CENTER_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_center)",
   "node",
-  "cell"
+  "cell",
 };
 
 char
@@ -276,31 +280,36 @@ nrrdCenter = &_nrrdCenter_enum;
 /* ------------------------ nrrdKind ------------------------- */
 
 /*
-  nrrdKindDomain,              1: "Yes, you can resample me" 
-  nrrdKindList,                2: "No, it is goofy to resample me" 
-  nrrdKindStub,                3: axis with one sample (a placeholder) 
-  nrrdKindScalar,              4: effectively, same as a stub 
-  nrrdKindComplex,             5: real and imaginary components 
-  nrrdKind2Vector,             6: 2 component vector 
-  nrrdKind3Color,              7: ANY 3-component color value 
-  nrrdKind4Color,              8: ANY 4-component color value 
-  nrrdKind3Vector,             9: 3 component vector 
-  nrrdKind3Normal,            10: 3 component vector, assumed normalized 
-  nrrdKind4Vector,            11: 4 component vector 
-  nrrdKind2DSymTensor,        12: Txx Txy Tyy 
-  nrrdKind2DMaskedSymTensor,  13: mask Txx Txy Tyy 
-  nrrdKind2DTensor,           14: Txx Txy Tyx Tyy 
-  nrrdKind2DMaskedTensor,     15: mask Txx Txy Tyx Tyy 
-  nrrdKind3DSymTensor,        16: Txx Txy Txz Tyy Tyz Tzz 
-  nrrdKind3DMaskedSymTensor,  17: mask Txx Txy Txz Tyy Tyz Tzz 
-  nrrdKind3DTensor,           18: Txx Txy Txz Tyx Tyy Tyz Tzx Tzy Tzz 
-  nrrdKind3DMaskedTensor,     19: mask Txx Txy Txz Tyx Tyy Tyz Tzx Tzy Tzz 
+  nrrdKindUnknown,
+  nrrdKindDomain,            *  1: "Yes, you can resample me" *
+  nrrdKindSpace,             *  2: a spatial domain *
+  nrrdKindTime,              *  3: a temporal domain *
+  nrrdKindList,              *  4: "No, it is goofy to resample me" *
+  nrrdKindStub,              *  5: axis with one sample (a placeholder) *
+  nrrdKindScalar,            *  6: effectively, same as a stub *
+  nrrdKindComplex,           *  7: real and imaginary components *
+  nrrdKind2Vector,           *  8: 2 component vector *
+  nrrdKind3Color,            *  9: ANY 3-component color value *
+  nrrdKind4Color,            * 10: ANY 4-component color value *
+  nrrdKind3Vector,           * 11: 3 component vector *
+  nrrdKind3Normal,           * 12: 3 component vector, assumed normalized *
+  nrrdKind4Vector,           * 13: 4 component vector *
+  nrrdKind2DSymMatrix,       * 14: Mxx Mxy Myy *
+  nrrdKind2DMaskedSymMatrix, * 15: mask Mxx Mxy Myy *
+  nrrdKind2DMatrix,          * 16: Mxx Mxy Myx Myy *
+  nrrdKind2DMaskedMatrix,    * 17: mask Mxx Mxy Myx Myy *
+  nrrdKind3DSymMatrix,       * 18: Mxx Mxy Mxz Myy Myz Mzz *
+  nrrdKind3DMaskedSymMatrix, * 19: mask Mxx Mxy Mxz Myy Myz Mzz *
+  nrrdKind3DMatrix,          * 20: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
+  nrrdKind3DMaskedMatrix,    * 21: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
 */
 
 char
 _nrrdKindStr[NRRD_KIND_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_kind)",
   "domain",
+  "space",
+  "time",
   "list",
   "stub",
   "scalar",
@@ -311,20 +320,22 @@ _nrrdKindStr[NRRD_KIND_MAX+1][AIR_STRLEN_SMALL] = {
   "3-vector",
   "3-normal",
   "4-vector",
-  "2D-symmetric-tensor",
-  "2D-masked-symmetric-tensor",
-  "2D-tensor",
-  "2D-masked-tensor",
-  "3D-symmetric-tensor",
-  "3D-masked-symmetric-tensor",
-  "3D-tensor",
-  "3D-masked-tensor"
+  "2D-symmetric-matrix",
+  "2D-masked-symmetric-matrix",
+  "2D-matrix",
+  "2D-masked-matrix",
+  "3D-symmetric-matrix",
+  "3D-masked-symmetric-matrix",
+  "3D-matrix",
+  "3D-masked-matrix",
 };
 
 char
 _nrrdKindDesc[NRRD_KIND_MAX+1][AIR_STRLEN_MED] = {
   "unknown kind",
   "a domain variable of the function which the nrrd samples",
+  "a spatial domain, like the axes of a measured volume image",
+  "a temporal domain, as from time-varying measurements",
   "some list of attributes; it makes no sense to resample along these",
   "a place-holder axis with a single sample",
   "axis used to indicate that the nrrd contains a scalar value",
@@ -335,19 +346,21 @@ _nrrdKindDesc[NRRD_KIND_MAX+1][AIR_STRLEN_MED] = {
   "a 3-element vector",
   "a 3-element vector which is assumed normalized",
   "a 4-element vector",
-  "3 elements of 2D symmetric tensor: Txx Txy Tyy",
-  "mask plus 3 elements of 2D symmetric tensor: mask Txx Txy Tyy",
-  "4 elements of general 2D tensor: Txx Txy Tyx Tyy",
-  "mask plus 4 elements of general 2D tensor: mask Txx Txy Tyx Tyy",
-  "6 elements of 3D symmetric tensor: Txx Txy Txz Tyy Tyz Tzz",
-  "mask plus 6 elements of 3D symmetric tensor: mask Txx Txy Txz Tyy Tyz Tzz",
-  "9 elements of general 3D tensor: Txx Txy Txz Tyx Tyy Tyz Tzx Tzy Tzz",
-  "mask plus 9 elements of general 3D tensor: mask Txx Txy Txz Tyx Tyy Tyz Tzx Tzy Tzz"
+  "3 elements of 2D symmetric matrix: Mxx Mxy Myy",
+  "mask plus 3 elements of 2D symmetric matrix: mask Mxx Mxy Myy",
+  "4 elements of general 2D matrix: Mxx Mxy Myx Myy",
+  "mask plus 4 elements of general 2D matrix: mask Mxx Mxy Myx Myy",
+  "6 elements of 3D symmetric matrix: Mxx Mxy Mxz Myy Myz Mzz",
+  "mask plus 6 elements of 3D symmetric matrix: mask Mxx Mxy Mxz Myy Myz Mzz",
+  "9 elements of general 3D matrix: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz",
+  "mask plus 9 elements of general 3D matrix: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz",
 };
 
 char
 _nrrdKindStr_Eqv[][AIR_STRLEN_SMALL] = {
   "domain",
+  "space",
+  "time",
   "list",
   "stub",
   "scalar",
@@ -358,20 +371,30 @@ _nrrdKindStr_Eqv[][AIR_STRLEN_SMALL] = {
   "3-vector",
   "3-normal",
   "4-vector",
-  "2D-symmetric-tensor", "2D-sym-tensor",
-  "2D-masked-symmetric-tensor", "2D-masked-sym-tensor",
-  "2D-tensor",
-  "2D-masked-tensor",
-  "3D-symmetric-tensor", "3D-sym-tensor",
-  "3D-masked-symmetric-tensor", "3D-masked-sym-tensor",
-  "3D-tensor",
-  "3D-masked-tensor",
+  "2D-symmetric-matrix", "2D-sym-matrix", 
+        "2D-symmetric-tensor", "2D-sym-tensor",
+  "2D-masked-symmetric-matrix", "2D-masked-sym-matrix",
+        "2D-masked-symmetric-tensor", "2D-masked-sym-tensor",
+  "2D-matrix",
+        "2D-tensor",
+  "2D-masked-matrix",
+        "2D-masked-tensor",
+  "3D-symmetric-matrix", "3D-sym-matrix",
+        "3D-symmetric-tensor", "3D-sym-tensor",
+  "3D-masked-symmetric-matrix", "3D-masked-sym-matrix",
+        "3D-masked-symmetric-tensor", "3D-masked-sym-tensor",
+  "3D-matrix",
+        "3D-tensor",
+  "3D-masked-matrix",
+        "3D-masked-tensor",
   ""
 };
 
 int
 _nrrdKindVal_Eqv[] = {
   nrrdKindDomain,
+  nrrdKindSpace,
+  nrrdKindTime,
   nrrdKindList,
   nrrdKindStub,
   nrrdKindScalar,
@@ -382,14 +405,22 @@ _nrrdKindVal_Eqv[] = {
   nrrdKind3Vector,
   nrrdKind3Normal,
   nrrdKind4Vector,
-  nrrdKind2DSymTensor, nrrdKind2DSymTensor,
-  nrrdKind2DMaskedSymTensor, nrrdKind2DMaskedSymTensor,
-  nrrdKind2DTensor,
-  nrrdKind2DMaskedTensor,
-  nrrdKind3DSymTensor, nrrdKind3DSymTensor,
-  nrrdKind3DMaskedSymTensor, nrrdKind3DMaskedSymTensor,
-  nrrdKind3DTensor,
-  nrrdKind3DMaskedTensor,
+  nrrdKind2DSymMatrix, nrrdKind2DSymMatrix,
+        nrrdKind2DSymMatrix, nrrdKind2DSymMatrix,
+  nrrdKind2DMaskedSymMatrix, nrrdKind2DMaskedSymMatrix,
+        nrrdKind2DMaskedSymMatrix, nrrdKind2DMaskedSymMatrix,
+  nrrdKind2DMatrix,
+        nrrdKind2DMatrix,
+  nrrdKind2DMaskedMatrix,
+        nrrdKind2DMaskedMatrix,
+  nrrdKind3DSymMatrix, nrrdKind3DSymMatrix,
+        nrrdKind3DSymMatrix, nrrdKind3DSymMatrix,
+  nrrdKind3DMaskedSymMatrix, nrrdKind3DMaskedSymMatrix,
+        nrrdKind3DMaskedSymMatrix, nrrdKind3DMaskedSymMatrix,
+  nrrdKind3DMatrix,
+        nrrdKind3DMatrix,
+  nrrdKind3DMaskedMatrix,
+        nrrdKind3DMaskedMatrix,
 };
 
 airEnum
@@ -415,11 +446,15 @@ _nrrdFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL] = {
   "type",
   "block size",
   "dimension",
+  "space",
+  "space dimension",
   "sizes",
   "spacings",
+  "thicknesses",
   "axis mins",
   "axis maxs",
-  "centers",
+  "space directions",
+  "centerings",
   "kinds",
   "labels",
   "units",
@@ -427,41 +462,51 @@ _nrrdFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL] = {
   "max",
   "old min",
   "old max",
-  "data file",
   "endian",
   "encoding",
   "line skip",
   "byte skip",
-  "key/value"
+  "key/value",
+  "sample units",
+  "space units",
+  "space origin",
+  "data file",
 };
 
 char
 _nrrdFieldDesc[NRRD_FIELD_MAX+1][AIR_STRLEN_MED] = {
   "unknown field identifier",
   "comment",
-  "short description of whole array and/or its provinance",
+  "short description of whole array and/or its provenance",
   "total number of samples in array",
   "type of sample value",
   "number of bytes in one block (for block-type)",
   "number of axes in array",
+  "identifier for space in which array grid lies",
+  "dimension of space in which array grid lies",
   "list of number of samples along each axis, aka \"dimensions\" of the array",
   "list of sample spacings along each axis",
+  "list of sample thicknesses along each axis",
   "list of minimum positions associated with each axis",
   "list of maximum positions associated with each axis",
+  "list of direction inter-sample vectors for each axis",
   "list of sample centerings for each axis",
   "list of kinds for each axis",
   "list of short descriptions for each axis",
-  "list of units in which each axes' spacing is measured",
+  "list of units in which each axes' spacing and thickness is measured",
   "supposed minimum array value",
   "supposed maximum array value",
   "minimum array value prior to quantization",
   "maximum array value prior to quantization",
-  "with detached headers, where is data to be found",
   "endiannes of data as written in file",
   "encoding of data written in file",
   "number of lines to skip prior to byte skip and reading data",
   "number of bytes to skip after line skip and prior to reading data",
-  "string-based key/value pairs"
+  "string-based key/value pairs",
+  "units of measurement of (scalar) values inside array itself",
+  "list of units for measuring origin and direct vectors' coefficients",
+  "location in space of center of first (lowest memory address) sample",
+  "with detached headers, where is data to be found",
 };
 
 char
@@ -472,11 +517,15 @@ _nrrdFieldStrEqv[][AIR_STRLEN_SMALL]  = {
   "type",
   "block size", "blocksize",
   "dimension",
+  "space",
+  "space dimension", "spacedimension",
   "sizes",
   "spacings",
+  "thicknesses",
   "axis mins", "axismins",
   "axis maxs", "axismaxs",
-  "centers",
+  "space directions", "spacedirections",
+  "centers", "centerings",
   "kinds",
   "labels",
   "units",
@@ -484,12 +533,15 @@ _nrrdFieldStrEqv[][AIR_STRLEN_SMALL]  = {
   "max",
   "old min", "oldmin",
   "old max", "oldmax",
-  "data file", "datafile",
   "endian",
   "encoding",
   "line skip", "lineskip",
   "byte skip", "byteskip",
   /* nothing for keyvalue */
+  "sample units", "sampleunits",
+  "space units", "spaceunits",
+  "space origin", "spaceorigin",
+  "data file", "datafile",
   ""
 };
 
@@ -501,11 +553,15 @@ _nrrdFieldValEqv[] = {
   nrrdField_type,
   nrrdField_block_size, nrrdField_block_size,
   nrrdField_dimension,
+  nrrdField_space,
+  nrrdField_space_dimension, nrrdField_space_dimension,
   nrrdField_sizes,
   nrrdField_spacings,
+  nrrdField_thicknesses,
   nrrdField_axis_mins, nrrdField_axis_mins,
   nrrdField_axis_maxs, nrrdField_axis_maxs,
-  nrrdField_centers,
+  nrrdField_space_directions, nrrdField_space_directions,
+  nrrdField_centers, nrrdField_centers,
   nrrdField_kinds,
   nrrdField_labels,
   nrrdField_units,
@@ -513,12 +569,15 @@ _nrrdFieldValEqv[] = {
   nrrdField_max,
   nrrdField_old_min, nrrdField_old_min,
   nrrdField_old_max, nrrdField_old_max,
-  nrrdField_data_file, nrrdField_data_file,
   nrrdField_endian,
   nrrdField_encoding,
   nrrdField_line_skip, nrrdField_line_skip,
   nrrdField_byte_skip, nrrdField_byte_skip,
   /* nothing for keyvalue */
+  nrrdField_sample_units, nrrdField_sample_units,
+  nrrdField_space_units, nrrdField_space_units,
+  nrrdField_space_origin, nrrdField_space_origin,
+  nrrdField_data_file, nrrdField_data_file,
 };
 
 airEnum
@@ -528,8 +587,124 @@ _nrrdField = {
   _nrrdFieldStr, NULL,
   _nrrdFieldDesc,
   _nrrdFieldStrEqv, _nrrdFieldValEqv, 
-  AIR_FALSE
+  AIR_FALSE  /* field identifiers not case sensitive */
 };
 airEnum *
 nrrdField = &_nrrdField;
+
+/* ------------------------ nrrdSpace ------------------------- */
+
+/*
+  nrrdSpaceUnknown,
+  nrrdSpaceRightAnteriorSuperior,     *  1: NIFTI-1 (right-handed) *
+  nrrdSpaceLeftAnteriorSuperior,      *  2: standard Analyze (left-handed) *
+  nrrdSpaceLeftPosteriorSuperior,     *  3: DICOM 3.0 (right-handed) *
+  nrrdSpaceRightAnteriorSuperiorTime, *  4: *
+  nrrdSpaceLeftAnteriorSuperiorTime,  *  5: *
+  nrrdSpaceLeftPosteriorSuperiorTime, *  6: *
+  nrrdSpaceScannerXYZ,                *  7: ACR/NEMA 2.0 (pre-DICOM 3.0) *
+  nrrdSpaceScannerXYZTime,            *  8: *
+  nrrdSpace3DRightHanded,             *  9: *
+  nrrdSpace3DLeftHanded,              * 10: *
+  nrrdSpace3DRightHandedTime,         * 11: *
+  nrrdSpace3DLeftHandedTime,          * 12: *
+  nrrdSpaceLast
+*/
+
+char
+_nrrdSpaceStr[NRRD_SPACE_MAX+1][AIR_STRLEN_SMALL] = {
+  "(unknown_space)",
+  "right-anterior-superior",
+  "left-anterior-superior",
+  "left-posterior-superior",
+  "right-anterior-superior-time",
+  "left-anterior-superior-time",
+  "left-posterior-superior-time",
+  "scanner-xyz",
+  "scanner-xyz-time",
+  "3D-right-handed",
+  "3D-left-handed",
+  "3D-right-handed-time",
+  "3D-left-handed-time",
+};
+
+char
+_nrrdSpaceDesc[NRRD_SPACE_MAX+1][AIR_STRLEN_MED] = {
+  "unknown space",
+  "right-anterior-superior (used in NIFTI-1 and SPL's 3D Slicer)",
+  "left-anterior-superior (used in Analyze 7.5)",
+  "left-posterior-superior (used in DICOM 3)",
+  "right-anterior-superior-time",
+  "left-anterior-superior-time",
+  "left-posterior-superior-time",
+  "scanner-xyz (used in ACR/NEMA 2.0)",
+  "scanner-xyz-time",
+  "3D-right-handed",
+  "3D-left-handed",
+  "3D-right-handed-time",
+  "3D-left-handed-time",
+};
+
+char
+_nrrdSpaceStrEqv[][AIR_STRLEN_SMALL] = {
+  "(unknown_space)",
+  "right-anterior-superior", "right anterior superior",
+      "rightanteriorsuperior", "RAS",
+  "left-anterior-superior", "left anterior superior",
+      "leftanteriorsuperior", "LAS",
+  "left-posterior-superior", "left posterior superior",
+      "leftposteriorsuperior", "LPS",
+  "right-anterior-superior-time", "right anterior superior time",
+      "rightanteriorsuperiortime", "RAST",
+  "left-anterior-superior-time", "left anterior superior time",
+      "leftanteriorsuperiortime", "LAST",
+  "left-posterior-superior-time", "left posterior superior time",
+      "leftposteriorsuperiortime", "LPST",
+  "scanner-xyz",
+  "scanner-xyz-time", "scanner-xyzt", 
+  "3D-right-handed", "3D right handed", "3Drighthanded"
+  "3D-left-handed", "3D left handed", "3Dlefthanded",
+  "3D-right-handed-time", "3D right handed time",
+      "3Drighthandedtime",
+  "3D-left-handed-time", "3D left handed time",
+      "3Dlefthandedtime",
+  ""
+};
+
+int
+_nrrdSpaceValEqv[] = {
+  nrrdSpaceUnknown,
+  nrrdSpaceRightAnteriorSuperior, nrrdSpaceRightAnteriorSuperior,
+     nrrdSpaceRightAnteriorSuperior, nrrdSpaceRightAnteriorSuperior,
+  nrrdSpaceLeftAnteriorSuperior, nrrdSpaceLeftAnteriorSuperior,
+     nrrdSpaceLeftAnteriorSuperior, nrrdSpaceLeftAnteriorSuperior,
+  nrrdSpaceLeftPosteriorSuperior, nrrdSpaceLeftPosteriorSuperior,
+     nrrdSpaceLeftPosteriorSuperior, nrrdSpaceLeftPosteriorSuperior,
+  nrrdSpaceRightAnteriorSuperiorTime, nrrdSpaceRightAnteriorSuperiorTime,
+     nrrdSpaceRightAnteriorSuperiorTime, nrrdSpaceRightAnteriorSuperiorTime,
+  nrrdSpaceLeftAnteriorSuperiorTime, nrrdSpaceLeftAnteriorSuperiorTime,
+     nrrdSpaceLeftAnteriorSuperiorTime, nrrdSpaceLeftAnteriorSuperiorTime,
+  nrrdSpaceLeftPosteriorSuperiorTime, nrrdSpaceLeftPosteriorSuperiorTime,
+     nrrdSpaceLeftPosteriorSuperiorTime, nrrdSpaceLeftPosteriorSuperiorTime,
+  nrrdSpaceScannerXYZ,
+  nrrdSpaceScannerXYZTime, nrrdSpaceScannerXYZTime, 
+  nrrdSpace3DRightHanded, nrrdSpace3DRightHanded, nrrdSpace3DRightHanded,
+  nrrdSpace3DLeftHanded, nrrdSpace3DLeftHanded, nrrdSpace3DLeftHanded,
+  nrrdSpace3DRightHandedTime, nrrdSpace3DRightHandedTime, 
+     nrrdSpace3DRightHandedTime,
+  nrrdSpace3DLeftHandedTime, nrrdSpace3DLeftHandedTime,
+     nrrdSpace3DLeftHandedTime
+};
+
+airEnum
+_nrrdSpace = {
+  "space",
+  NRRD_SPACE_MAX,
+  _nrrdSpaceStr, NULL,
+  _nrrdSpaceDesc,
+  _nrrdSpaceStrEqv, _nrrdSpaceValEqv,
+  AIR_FALSE
+};
+airEnum *
+nrrdSpace = &_nrrdSpace;
 

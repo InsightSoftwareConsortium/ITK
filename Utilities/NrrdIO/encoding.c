@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,16 +27,14 @@
 
 /*
 ** what a NrrdEncoding can assume:
-** -- the given nrrd struct has been filled out so that functions
-**    like nrrdElementNumber and nrrdElementSize will work correctly.
+** -- the given nrrd struct has been filled out for the sake of knowing
+**    nrrd->dim, nrrd->axis[0].size, nrrd->type, and nrrd->blockSize
+**    AND NOTHING ELSE.  See nrrd.h for why those fields, of all things
+**    are needed for {en/de}coding
 **
 ** what a NrrdEncoding has to do:
-** -- allocate nrrd->data for the amount of space required, or use existing
-**    memory described by nio->oldData and nio->oldDataSize.  This is most
-**    easily done via _nrrdCalloc(). Allocation has to be done here because
-**    of the restrictions imposed by DirectIO (used by nrrdEncodingRaw).
-** -- do nothing on read/write if nio->skipData
-** -- read data from nio->dataFile into nrrd->data, or vice versa.
+** -- read data from file into the "data" argument (BUT NOT nrrd->data!!),
+**     or vice versa.
 ** -- respect nrrdStateVerboseIO with messages to stderr, if possible
 ** -- in case of error, put text error messages into biff via
 **    biffAdd(NRRD, <error char*>)
@@ -53,12 +52,9 @@ _nrrdEncodingUnknown_available(void) {
 }
 
 int
-_nrrdEncodingUnknown_read(Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingUnknown_read(FILE *file, void *data, size_t elementNum,
+                          Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingUnknown_read", err[AIR_STRLEN_MED];
-
-  if (nio->skipData) {
-    return 0;
-  }
 
   /* insert code here, and remove error handling below */
 
@@ -68,12 +64,9 @@ _nrrdEncodingUnknown_read(Nrrd *nrrd, NrrdIoState *nio) {
 }
 
 int
-_nrrdEncodingUnknown_write(const Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingUnknown_write(FILE *file, const void *data, size_t elementNum,
+                           const Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingUnknown_write", err[AIR_STRLEN_MED];
-
-  if (nio->skipData) {
-    return 0;
-  }
 
   /* insert code here, and remove error handling below */
 

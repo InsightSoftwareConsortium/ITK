@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -78,6 +79,21 @@ demoIO(char *filename) {
 
 int
 main(int argc, char **argv) {
+  char *err;
+
+  fprintf(stderr, "(from Teem %s, %s)\n", 
+          airTeemVersion, airTeemReleaseDate);
+
+  if (!nrrdSanity()) {
+    fprintf(stderr, "\n");
+    fprintf(stderr, "!!! nrrd sanity check FAILED: fix and re-compile\n");
+    err = biffGet(NRRD);
+    fprintf(stderr, "%s\n", err);
+    free(err); 
+    return 1;
+  } else {
+    fprintf(stderr, "(nrrdSanity check passed)\n\n");
+  }
 
   if (2 != argc) {
     fprintf(stderr, "usage: demoIO <filename>\n");

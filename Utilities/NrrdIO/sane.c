@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -32,9 +33,10 @@
 */
 int
 airSanity(void) {
-  double nan, pinf, ninf, pzero;
+  double nan, pinf, ninf;
   float nanF, pinfF, ninfF;
-  int tmpI, sign, exp, frac, size;
+  unsigned int sign, exp, mant;
+  int tmpI, size;
   char endian;
   unsigned char uc0, uc1;
   static int _airSanity=0;
@@ -74,7 +76,9 @@ airSanity(void) {
 
   /* run-time NaN checks */
   pinf = DBL_MAX;
-  pinf = pinf * pinf;
+  pinf = pinf * pinf * pinf;
+  pinf = pinf * pinf * pinf;
+  pinf = pinf * pinf * pinf;
   if (AIR_EXISTS(pinf)) {
     return airInsane_pInfExists;
   }
@@ -82,17 +86,16 @@ airSanity(void) {
   if (AIR_EXISTS(ninf)) {
     return airInsane_nInfExists;
   }
-  pzero = 0.0;
-  nan = pzero/pzero;
+  nan = pinf / pinf;
   if (AIR_EXISTS(nan)) {
     return airInsane_NaNExists;
   }
   nanF = nan;
   pinfF = pinf;
   ninfF = ninf;
-  airFPValToParts_f(&sign, &exp, &frac, nanF);
-  frac >>= 22;
-  if (AIR_QNANHIBIT != frac) {
+  airFPValToParts_f(&sign, &exp, &mant, nanF);
+  mant >>= 22;
+  if (AIR_QNANHIBIT != mant) {
     return airInsane_QNaNHiBit;
   }
   if (!(airFP_QNAN == airFPClass_f(nanF)

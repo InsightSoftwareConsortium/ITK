@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -42,14 +43,14 @@ const NrrdEncoding *nrrdDefWriteEncoding = &_nrrdEncodingRaw;
 int nrrdDefWriteBareText = AIR_TRUE;
 int nrrdDefWriteCharsPerLine = 75;
 int nrrdDefWriteValsPerLine = 8;
-int nrrdDefCenter = nrrdCenterNode;
+int nrrdDefCenter = nrrdCenterCell;
 double nrrdDefSpacing = 1.0;
 
 /* these aren't really "defaults" because there's no other channel for
    specifying this information.  It is just global state.  Obviously,
    like defaults, they are not thread-safe if different threads ever
    set them differently. */
-int nrrdStateVerboseIO = 1;
+int nrrdStateVerboseIO = 0;
 int nrrdStateAlwaysSetContent = AIR_TRUE;
 int nrrdStateDisableContent = AIR_FALSE;
 char *nrrdStateUnknownContent = NRRD_UNKNOWN;

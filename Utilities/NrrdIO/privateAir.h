@@ -1,7 +1,6 @@
 
 #include "teemEndian.h"
 #include "teemQnanhibit.h"
-#include "teemBigbitfield.h"
 
 /*
 ** _airFloat, _airDouble
@@ -14,14 +13,14 @@
 typedef union {
   unsigned int i;
   struct {
-#if TEEM_ENDIAN == 1234
-    unsigned int frac : 23;
-    unsigned int exp : 8;
+#if TEEM_ENDIAN == 1234        /* little endian */
+    unsigned int mant : 23;
+    unsigned int expo : 8;
     unsigned int sign : 1;
-#else
+#else                          /* big endian */
     unsigned int sign : 1;
-    unsigned int exp : 8;
-    unsigned int frac : 23;
+    unsigned int expo : 8;
+    unsigned int mant : 23;
 #endif
   } c;
   float v;
@@ -29,20 +28,6 @@ typedef union {
 
 typedef union {
   airULLong i;
-#if TEEM_BIGBITFIELD == 1
-  /* #ifndef __sparc */
-  struct {
-# if TEEM_ENDIAN == 1234
-    airULLong frac : 52;
-    unsigned int exp : 11;
-    unsigned int sign : 1;
-# else
-    unsigned int sign : 1;
-    unsigned int exp : 11;
-    airULLong frac : 52;
-# endif
-  } c;
-#endif
   /* these next two members are used for printing in airFPFprintf_d */
   struct { /* access to whole double as two unsigned ints */
 #if TEEM_ENDIAN == 1234
@@ -54,18 +39,18 @@ typedef union {
 #endif
   } h;
   struct { /* access to fraction with two unsigned ints */
-#if TEEM_ENDIAN == 1234
-    unsigned int frac0 : 32;
-    unsigned int frac1 : 20;
-    unsigned int exp : 11;
+#if TEEM_ENDIAN == 1234        /* little endian */
+    unsigned int mant1 : 32;
+    unsigned int mant0 : 20;
+    unsigned int expo : 11;
     unsigned int sign : 1;
-#else
+#else                          /* big endian */
     unsigned int sign : 1;
-    unsigned int exp : 11;
-    unsigned int frac1 : 20;
-    unsigned int frac0 : 32;
+    unsigned int expo : 11;
+    unsigned int mant0 : 20;
+    unsigned int mant1 : 32;
 #endif
-  } c2;
+  } c;
   double v;
 } _airDouble;
 

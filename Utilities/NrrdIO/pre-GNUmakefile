@@ -1,6 +1,7 @@
 #
 # NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+# Copyright (C) 2005  Gordon Kindlmann
+# Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
 # These source files have been copied and/or modified from teem,
 # Gordon Kindlmann's research software; <http://teem.sourceforge.net>.
@@ -32,8 +33,15 @@
 ### source distribution is automated, and is controlled by this GNU
 ### makefile:
 ###
+###    rm -f itk_NrrdIO_mangle.h                     (for ITK stuff)
+###    touch itk_NrrdIO_mangle.h                     (for ITK stuff)
 ###    make -f pre-GNUmakefile clean
+###    setenv ITK_NRRDIO                             (for ITK stuff)
 ###    make -f pre-GNUmakefile
+###    unsetenv ITK_NRRDIO                           (for ITK stuff)
+###    make -f sample-GNUmakefile                    (for ITK stuff)
+###    perl mangle.pl itk >! itk_NrrdIO_mangle.h     (for ITK stuff)
+###    make -f sample-GNUmakefile clean              (for ITK stuff)
 ###
 ### This file is the single place where the required teem source files
 ### are listed.  Once the NrrdIO source distribution is created, this
@@ -60,8 +68,7 @@ NEED_NOT = encodingBzip2.c formatEPS.c formatPNG.c formatPNM.c \
 ### These are still needed for exact same functionality as in teem
 ###
 TEEM_HDRS = $(addprefix teem/, \
-  teem32bit.h teemBigbitfield.h teemDio.h \
-  teemEndian.h teemPng.h teemQnanhibit.h)
+  teem32bit.h teemDio.h teemEndian.h teemPng.h teemQnanhibit.h)
 
 ### NEED_{AIR,BIFF,NRRD}: the source files from teem that we need
 ### NEED_HDRS: the headers that we need
@@ -90,7 +97,7 @@ all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) NrrdIO.h NrrdIO_Srcs.txt
 ### teem headers in $(NEED_HDRS), but we do need to "unteem" them.
 ###
 $(NEED_PUB_HDRS) $(NEED_PRIV_HDRS):
-	tail +19 $(TEEM_SRC_ROOT)/src/$@ \
+	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
          | perl unteem.pl \
          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
 NrrdIO.h: $(NEED_PUB_HDRS)
@@ -106,7 +113,7 @@ NrrdIO_Srcs.txt:
 ### The teem*.h headers: we need only change the pre-amble here
 ###
 teem/%.h: 
-	tail +19 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
+	tail +20 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
           | cat preamble.c - > $(notdir $@)
 
 ### The rest: by design, these targets have the library names as part
@@ -114,7 +121,7 @@ teem/%.h:
 ### source file without any VPATH games
 ###
 %.h %.c:
-	tail +19 $(TEEM_SRC_ROOT)/src/$@ \
+	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
           | cat preamble.c - \
           | perl unteem.pl \
           | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
@@ -124,5 +131,5 @@ teem/%.h:
 clean:
 	rm -f $(notdir $(TEEM_HDRS) $(NEED_SRCS) \
                        $(NEED_PUB_HDRS) $(NEED_PRIV_HDRS)) \
-              NrrdIO.h NrrdIO_srcs.txt \
+              NrrdIO.h NrrdIO_Srcs.txt \
               *.o libNrrdIO.a sampleIO

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -35,35 +36,20 @@ _nrrdEncodingGzip_available(void) {
 }
 
 int
-_nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
+                       Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdEncodingGzip_read", err[AIR_STRLEN_MED];
 #if TEEM_ZLIB
-  size_t num, bsize, size, total_read;
+  size_t bsize, total_read;
   int block_size, i, error=0;
   unsigned int read;
   char *data;
   gzFile gzfin;
   
-  if (nio->skipData) {
-    return 0;
-  }
-  num = nrrdElementNumber(nrrd);
-  bsize = num * nrrdElementSize(nrrd);
-  size = bsize;
-  if (num != bsize/nrrdElementSize(nrrd)) {
-    fprintf(stderr,
-            "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
-    exit(1);
-  }
-
-  /* Allocate memory for the incoming data. */
-  if (_nrrdCalloc(nrrd, nio)) {
-    sprintf(err, "%s: couldn't allocate sufficient memory for all data", me);
-    biffAdd(NRRD, err); return 1;
-  }
+  bsize = nrrdElementSize(nrrd)*elNum;
 
   /* Create the gzFile for reading in the gzipped data. */
-  if ((gzfin = _nrrdGzOpen(nio->dataFile, "r")) == Z_NULL) {
+  if ((gzfin = _nrrdGzOpen(file, "rb")) == Z_NULL) {
     /* there was a problem */
     sprintf(err, "%s: error opening gzFile", me);
     biffAdd(NRRD, err);
@@ -86,8 +72,8 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
      pass in the size, because it might be too large for an 
      unsigned int.  Therefore it must be read in chunks 
      if the size is larger than UINT_MAX. */
-  if (size <= UINT_MAX) {
-    block_size = (unsigned int)size;
+  if (bsize <= UINT_MAX) {
+    block_size = (unsigned int)bsize;
   } else {
     block_size = UINT_MAX;
   }
@@ -96,10 +82,11 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
      as we think we should. */
   total_read = 0;
   /* Pointer to the blocks as we read them. */
-  data = nrrd->data;
+  data = (char *)_data;
   
   /* Ok, now we can begin reading. */
-  while ((error = _nrrdGzRead(gzfin, data, block_size, &read)) == 0 && read > 0) {
+  while ((error = _nrrdGzRead(gzfin, data, block_size, &read)) == 0 
+         && read > 0) {
     /* Increment the data pointer to the next available spot. */
     data += read; 
     total_read += read;
@@ -108,8 +95,8 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
        we don't want.  This will reduce block_size when we get to the last
        block (which may be smaller than block_size).
     */
-    if (size - total_read < block_size)
-      block_size = (unsigned int)(size - total_read);
+    if (bsize - total_read < block_size)
+      block_size = (unsigned int)(bsize - total_read);
   }
 
   /* Check if we stopped because of an error. */
@@ -121,7 +108,7 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* Close the gzFile.  Since _nrrdGzClose does not close the FILE* we
-     will not encounter problems when nio->dataFile is closed later. */
+     will not encounter problems when dataFile is closed later. */
   if (_nrrdGzClose(gzfin) != 0) {
     sprintf(err, "%s: error closing gzFile", me);
     biffAdd(NRRD, err);
@@ -129,10 +116,10 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
   }
   
   /* Check to see if we got out as much as we thought we should. */
-  if (total_read != size) {
+  if (total_read != bsize) {
     sprintf(err, "%s: expected " _AIR_SIZE_T_FMT " bytes and received "
             _AIR_SIZE_T_FMT " bytes",
-            me, size, total_read);
+            me, bsize, total_read);
     biffAdd(NRRD, err);
     return 1;
   }
@@ -145,35 +132,17 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
 }
 
 int
-_nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
+                        const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdEncodingGzip_write", err[AIR_STRLEN_MED];
 #if TEEM_ZLIB
-  size_t num, bsize, size, total_written;
+  size_t bsize, total_written;
   int block_size, fmt_i=0, error=0;
   char *data, fmt[4];
   gzFile gzfout;
   unsigned int wrote;
   
-  if (nio->skipData) {
-    return 0;
-  }
-  /* this shouldn't actually be necessary ... */
-  if (!nrrdElementSize(nrrd)) {
-    sprintf(err, "%s: nrrd reports zero element size!", me);
-    biffAdd(NRRD, err); return 1;
-  }
-  num = nrrdElementNumber(nrrd);
-  if (!num) {
-    sprintf(err, "%s: calculated number of elements to be zero!", me);
-    biffAdd(NRRD, err); return 1;
-  }
-  bsize = num * nrrdElementSize(nrrd);
-  size = bsize;
-  if (num != bsize/nrrdElementSize(nrrd)) {
-    fprintf(stderr,
-            "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
-    exit(1);
-  }
+  bsize = nrrdElementSize(nrrd)*elNum;
 
   /* Set format string based on the NrrdIoState parameters. */
   fmt[fmt_i++] = 'w';
@@ -193,7 +162,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   fmt[fmt_i] = 0;
 
   /* Create the gzFile for writing in the gzipped data. */
-  if ((gzfout = _nrrdGzOpen(nio->dataFile, fmt)) == Z_NULL) {
+  if ((gzfout = _nrrdGzOpen(file, fmt)) == Z_NULL) {
     /* there was a problem */
     sprintf(err, "%s: error opening gzFile", me);
     biffAdd(NRRD, err);
@@ -201,11 +170,11 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* zlib can handle data sizes up to UINT_MAX, so we can't just 
-     pass in the size, because it might be too large for an 
+     pass in the bsize, because it might be too large for an 
      unsigned int.  Therefore it must be read in chunks 
-     if the size is larger than UINT_MAX. */
-  if (size <= UINT_MAX) {
-    block_size = (unsigned int)size;
+     if the bsize is larger than UINT_MAX. */
+  if (bsize <= UINT_MAX) {
+    block_size = (unsigned int)bsize;
   } else {
     block_size = UINT_MAX;
   }
@@ -214,7 +183,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
      as we think we should. */
   total_written = 0;
   /* Pointer to the blocks as we write them. */
-  data = nrrd->data;
+  data = (char *)_data;
   
   /* Ok, now we can begin writing. */
   while ((error = _nrrdGzWrite(gzfout, data, block_size, &wrote)) == 0 
@@ -227,8 +196,8 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
        will reduce block_size when we get to the last block (which may
        be smaller than block_size).
     */
-    if (size - total_written < block_size)
-      block_size = (unsigned int)(size - total_written);
+    if (bsize - total_written < block_size)
+      block_size = (unsigned int)(bsize - total_written);
   }
   
   /* Check if we stopped because of an error. */
@@ -240,7 +209,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* Close the gzFile.  Since _nrrdGzClose does not close the FILE* we
-     will not encounter problems when nio->dataFile is closed later. */
+     will not encounter problems when dataFile is closed later. */
   if (_nrrdGzClose(gzfout) != 0) {
     sprintf(err, "%s: error closing gzFile", me);
     biffAdd(NRRD, err);
@@ -248,10 +217,10 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   }
   
   /* Check to see if we got out as much as we thought we should. */
-  if (total_written != size) {
+  if (total_written != bsize) {
     sprintf(err, "%s: expected to write " _AIR_SIZE_T_FMT " bytes, but only "
             "wrote " _AIR_SIZE_T_FMT,
-            me, size, total_written);
+            me, bsize, total_written);
     biffAdd(NRRD, err);
     return 1;
   }

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -37,7 +38,7 @@
 **    NrrdEncoding respects it (by making read and write no-ops).  
 **    nrrdFormatNRRD, for instance, won't create empty detached data files
 **    if nio->skipData.
-** -- determing what the NrrdEncoding to use, if there's a choice
+** -- determine what NrrdEncoding to use, if there's a choice
 ** -- respect nrrdStateVerboseIO with messages to stderr, if possible
 **
 ** The "unknown" format is intended as a template for writing new formats.

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -43,7 +44,7 @@
 const char *
 airTeemVersion = "1.8 pre-release";
 const char *
-airTeemReleaseDate = "XX XXX 2004";
+airTeemReleaseDate = "11 Feb 2005";
 
 /*
 ******** airNull()

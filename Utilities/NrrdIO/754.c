@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,7 +27,6 @@
 #include "privateAir.h"
 #include "teemEndian.h"
 #include "teemQnanhibit.h"
-#include "teemBigbitfield.h"
 
 /*
 ** all this is based on a reading of
@@ -35,12 +35,6 @@
 **
 ** and some assorted web pages
 */
-
-#if TEEM_BIGBITFIELD == 1
-const int airMyBigBitField = 1;
-#else
-const int airMyBigBitField = 0;
-#endif
 
 /* 
 ** The hex numbers in braces are examples of C's "initial member of a union"
@@ -80,46 +74,55 @@ extern air_export const airDouble airDoubleMin;
 #define AIR_DBL_MAX (airDoubleMax.d)
 */
 
-/*
-** these will work for both _airFloats and _airDoubles
-*/
-#define FP_SET(flt, s, e, f) \
-  flt.c.sign = s; \
-  flt.c.exp = e; \
-  flt.c.frac = f
+#define FP_SET_F(flt, s, e, m) \
+  flt.c.sign = (s); \
+  flt.c.expo = (e); \
+  flt.c.mant = (m)
 
-#define FP_GET(s, e, f, flt) \
-  s = flt.c.sign; \
-  e = flt.c.exp; \
-  f = flt.c.frac
+#define FP_GET_F(s, e, m, flt) \
+  (s) = flt.c.sign; \
+  (e) = flt.c.expo; \
+  (m) = flt.c.mant
+
+#define FP_SET_D(dbl, s, e, m0, m1) \
+  dbl.c.sign = (s); \
+  dbl.c.expo = (e); \
+  dbl.c.mant0 = (m0); \
+  dbl.c.mant1 = (m1)
+
+#define FP_GET_D(s, e, m0, m1, dbl) \
+  (s) = dbl.c.sign; \
+  (e) = dbl.c.expo; \
+  (m0) = dbl.c.mant0; \
+  (m1) = dbl.c.mant1
+
 
 float
-airFPPartsToVal_f(int sign, int exp, int frac) {
+airFPPartsToVal_f(unsigned int sign,
+                  unsigned int expo, 
+                  unsigned int mant) {
   _airFloat f;
-  FP_SET(f, sign, exp, frac);
+  FP_SET_F(f, sign, expo, mant);
   return f.v;
 }
 
-void
-airFPValToParts_f(int *signP, int *expP, int *fracP, float v) {
+void 
+airFPValToParts_f(unsigned int *signP, 
+                  unsigned int *expoP, 
+                  unsigned int *mantP, float v) {
   _airFloat f;
   f.v = v;
-  FP_GET(*signP, *expP, *fracP, f);
+  FP_GET_F(*signP, *expoP, *mantP, f);
 }
 
 double
-airFPPartsToVal_d(int sign, int exp, airULLong frac) {
-#if TEEM_BIGBITFIELD == 0
-  /* #ifdef __sparc */
-  _airFloat f;
-  fprintf(stderr, "airFPPartsToVal_d: WARNING: using float, not double\n");
-  FP_SET(f, sign, exp, frac);
-  return f.v;
-#else
+airFPPartsToVal_d(unsigned int sign, 
+                  unsigned int expo,
+                  unsigned int mant0,
+                  unsigned int mant1) {
   _airDouble d;
-  FP_SET(d, sign, exp, frac);
+  FP_SET_D(d, sign, expo, mant0, mant1);
   return d.v;
-#endif
 }
 
 /*
@@ -131,18 +134,13 @@ airFPPartsToVal_d(int sign, int exp, airULLong frac) {
 #pragma warning(disable : 4700)
 #endif
 void
-airFPValToParts_d(int *signP, int *expP, airULLong *fracP, double v) {
-#if TEEM_BIGBITFIELD == 0
-  /* #ifdef __sparc */
-  _airFloat f;
-  fprintf(stderr, "airFPPartsToVal_d: WARNING: using float, not double\n");
-  f.v = v;
-  FP_GET(*signP, *expP, *fracP, f);
-#else
+airFPValToParts_d(unsigned int *signP, 
+                  unsigned int *expoP,
+                  unsigned int *mant0P,
+                  unsigned int *mant1P, double v) {
   _airDouble d;
   d.v = v;
-  FP_GET(*signP, *expP, *fracP, d);
-#endif
+  FP_GET_D(*signP, *expoP, *mant0P, *mant1P, d);
 }
 #ifdef _WIN32
 #pragma warning(pop)
@@ -159,40 +157,40 @@ airFPGen_f(int cls) {
   
   switch(cls) {
   case airFP_SNAN:
-    /* sgn: anything, frc: anything non-zero with high bit !TEEM_QNANHIBIT */
-    FP_SET(f, 0, 0xff, (!TEEM_QNANHIBIT << 22) | 0x3fffff);
+    /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
+    FP_SET_F(f, 0, 0xff, (!TEEM_QNANHIBIT << 22) | 0x3fffff);
     break;
   case airFP_QNAN:
-    /* sgn: anything, frc: anything non-zero with high bit TEEM_QNANHIBIT */
-    FP_SET(f, 0, 0xff, (TEEM_QNANHIBIT << 22) | 0x3fffff);
+    /* sgn: anything, mant: anything non-zero with high bit TEEM_QNANHIBIT */
+    FP_SET_F(f, 0, 0xff, (TEEM_QNANHIBIT << 22) | 0x3fffff);
     break;
   case airFP_POS_INF:
-    FP_SET(f, 0, 0xff, 0);
+    FP_SET_F(f, 0, 0xff, 0);
     break;
   case airFP_NEG_INF:
-    FP_SET(f, 1, 0xff, 0);
+    FP_SET_F(f, 1, 0xff, 0);
     break;
   case airFP_POS_NORM:
-    /* exp: anything non-zero but < 255, frc: anything */
-    FP_SET(f, 0, 0x80, 0x7ff000);     
+    /* exp: anything non-zero but < 0xff, mant: anything */
+    FP_SET_F(f, 0, 0x80, 0x7ff000);     
     break;
   case airFP_NEG_NORM:
-    /* exp: anything non-zero but < 255, frc: anything */
-    FP_SET(f, 1, 0x80, 0x7ff000);     
+    /* exp: anything non-zero but < 0xff, mant: anything */
+    FP_SET_F(f, 1, 0x80, 0x7ff000);     
     break;
   case airFP_POS_DENORM:
-    /* frc: anything non-zero */
-    FP_SET(f, 0, 0, 0xff);        
+    /* mant: anything non-zero */
+    FP_SET_F(f, 0, 0, 0xff);        
     break;
   case airFP_NEG_DENORM:
-    /* frc: anything non-zero */
-    FP_SET(f, 1, 0, 0xff);        
+    /* mant: anything non-zero */
+    FP_SET_F(f, 1, 0, 0xff);        
     break;
   case airFP_POS_ZERO:
-    FP_SET(f, 0, 0, 0);
+    FP_SET_F(f, 0, 0, 0);
     break;
   case airFP_NEG_ZERO:
-    FP_SET(f, 1, 0, 0);
+    FP_SET_F(f, 1, 0, 0);
     break;
   default:
     /* User is a moron.  What can you do? */
@@ -209,56 +207,44 @@ airFPGen_f(int cls) {
 */
 double
 airFPGen_d(int cls) {
-#if TEEM_BIGBITFIELD == 0
-  /* #ifdef __sparc */
-  fprintf(stderr, "airFPGen_d: WARNING: using float, not double\n");
-  return airFPGen_f(cls);
-#else
   _airDouble f;
+
   switch(cls) {
   case airFP_SNAN:
-    /* sgn: anything, frc: anything non-zero with high bit !TEEM_QNANHIBIT */
-# if TEEM_QNANHIBIT == 1
-    FP_SET(f, 0, 0x7ff, (AIR_ULLONG(0) << 52) | 0x3fffff);
-# else
-    FP_SET(f, 0, 0x7ff, (AIR_ULLONG(1) << 52) | 0x3fffff);
-# endif
+    /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
+    FP_SET_D(f, 0, 0x7ff, (!TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
     break;
   case airFP_QNAN:
-    /* sgn: anything, frc: anything non-zero with high bit TEEM_QNANHIBIT */
-# if TEEM_QNANHIBIT == 1
-    FP_SET(f, 0, 0x7ff, (AIR_ULLONG(1) << 52) | 0x3fffff);
-# else
-    FP_SET(f, 0, 0x7ff, (AIR_ULLONG(0) << 52) | 0x3fffff);
-# endif
+    /* sgn: anything, mant anything non-zero with high bit TEEM_QNANHIBIT */
+    FP_SET_D(f, 0, 0x7ff, (TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
     break;
   case airFP_POS_INF:
-    FP_SET(f, 0, 0x7ff, 0);
+    FP_SET_D(f, 0, 0x7ff, 0, 0);
     break;
   case airFP_NEG_INF:
-    FP_SET(f, 1, 0x7ff, 0);
+    FP_SET_D(f, 1, 0x7ff, 0, 0);
     break;
   case airFP_POS_NORM:
-    /* exp: anything non-zero but < 255, frc: anything */
-    FP_SET(f, 0, 0x400, 0x7ff000);     
+    /* exp: anything non-zero but < 0xff, mant: anything */
+    FP_SET_D(f, 0, 0x400, 0x7ff000, 0);     
     break;
   case airFP_NEG_NORM:
-    /* exp: anything non-zero but < 255, frc: anything */
-    FP_SET(f, 1, 0x400, 0x7ff000);     
+    /* exp: anything non-zero but < 0xff, mant: anything */
+    FP_SET_D(f, 1, 0x400, 0x7ff000, 0);     
     break;
   case airFP_POS_DENORM:
-    /* frc: anything non-zero */
-    FP_SET(f, 0, 0, 0xff);        
+    /* mant: anything non-zero */
+    FP_SET_D(f, 0, 0, 0xff, 0);        
     break;
   case airFP_NEG_DENORM:
-    /* frc: anything non-zero */
-    FP_SET(f, 1, 0, 0xff);        
+    /* mant: anything non-zero */
+    FP_SET_D(f, 1, 0, 0xff, 0);        
     break;
   case airFP_POS_ZERO:
-    FP_SET(f, 0, 0, 0);
+    FP_SET_D(f, 0, 0, 0, 0);
     break;
   case airFP_NEG_ZERO:
-    FP_SET(f, 1, 0, 0);
+    FP_SET_D(f, 1, 0, 0, 0);
     break;
   default:
     /* User is a moron.  What can you do? */
@@ -266,7 +252,6 @@ airFPGen_d(int cls) {
     break;
   }
   return f.v;
-#endif
 }
 
 /*
@@ -277,36 +262,39 @@ airFPGen_d(int cls) {
 int
 airFPClass_f(float val) {
   _airFloat f;
-  int sign, exp, frac, index, ret = 0;
+  unsigned int sign, exp, mant;
+  int index, ret = 0;
 
   f.v = val;
-  FP_GET(sign, exp, frac, f);
-  index = ((!!sign) << 2) | ((!!exp) << 1) | (!!frac);
+  FP_GET_F(sign, exp, mant, f);
+  index = ((!!sign) << 2) | ((!!exp) << 1) | (!!mant);
   switch(index) {
   case 0: 
     /* all fields are zero */
     ret = airFP_POS_ZERO;   
     break;
   case 1: 
-    /* only fractional field is non-zero */
+    /* only mantissa is non-zero */
     ret = airFP_POS_DENORM; 
     break;
   case 2: 
     /* only exponent field is non-zero */
-    if (255 > exp)
-      ret = airFP_POS_NORM;
-    else
+    if (0xff == exp) {
       ret = airFP_POS_INF;
+    } else {
+      ret = airFP_POS_NORM;
+    }
     break;
   case 3:
-    /* exponent and fractional fields are non-zero */
-    if (255 > exp)
-      ret = airFP_POS_NORM;
-    else {
-      if (TEEM_QNANHIBIT == frac >> 22)
+    /* exponent and mantissa fields are non-zero */
+    if (0xff == exp) {
+      if (TEEM_QNANHIBIT == mant >> 22) {
         ret = airFP_QNAN;
-      else
+      } else {
         ret = airFP_SNAN;
+      }
+    } else {
+      ret = airFP_POS_NORM;
     }
     break;
   case 4: 
@@ -314,25 +302,27 @@ airFPClass_f(float val) {
     ret = airFP_NEG_ZERO; 
     break;
   case 5:
-    /* sign and fractional fields are non-zero */
+    /* sign and mantissa fields are non-zero */
     ret = airFP_NEG_DENORM;
     break;
   case 6:
     /* sign and exponent fields are non-zero */
-    if (0xff > exp)
+    if (0xff > exp) {
       ret = airFP_NEG_NORM;
-    else
+    } else {
       ret = airFP_NEG_INF;
+    }
     break;
   case 7:
     /* all fields are non-zero */
-    if (0xff > exp)
+    if (0xff > exp) {
       ret = airFP_NEG_NORM;
-    else {
-      if (TEEM_QNANHIBIT == frac >> 22)
+    } else {
+      if (TEEM_QNANHIBIT == mant >> 22) {
         ret = airFP_QNAN;
-      else
+      } else {
         ret = airFP_SNAN;
+      }
     }
     break;
   }
@@ -354,26 +344,21 @@ airFPClass_f(float val) {
 */
 int
 airFPClass_d(double val) {
-#if TEEM_BIGBITFIELD == 0
-  /* #ifdef __sparc */
-  fprintf(stderr, "airFPClass_d: WARNING: using float, not double\n");
-  return airFPClass_f(val);
-#else
   _airDouble f;
-  unsigned int sign, exp, index, ret = 0;
-  airULLong frac;
-  int hibit;
+  unsigned int sign, expo, mant0, mant1;
+  int hibit, index, ret=0;
 
   f.v = val;
-  sign = f.c2.sign; 
-  exp = f.c2.exp;    /* this seems to be a WIN32 bug: on a quiet-NaN, f.c.exp
-                        should be non-zero, but it was completely zero, so that
-                        this function returned airFP_NEG_DENORM instead of
-                        airFP_QNAN */
-  frac = f.c.frac;
-  hibit = frac >> 51;
+  sign = f.c.sign; 
+  expo = f.c.expo;  /* this seems to be a WIN32 bug: on a quiet-NaN, f.c.exp
+                       should be non-zero, but it was completely zero, so that
+                       this function returned airFP_NEG_DENORM instead of
+                       airFP_QNAN */
+  mant0 = f.c.mant0;
+  mant1 = f.c.mant1;
+  hibit = mant0 >> 20;
 
-  index = ((!!sign) << 2) | ((!!exp) << 1) | (!!frac);
+  index = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
   switch(index) {
   case 0: 
     /* all fields are zero */
@@ -385,7 +370,7 @@ airFPClass_d(double val) {
     break;
   case 2: 
     /* only exponent field is non-zero */
-    if (0x7ff > exp) {
+    if (0x7ff > expo) {
       ret = airFP_POS_NORM;
     } else {
       ret = airFP_POS_INF;
@@ -393,7 +378,7 @@ airFPClass_d(double val) {
     break;
   case 3:
     /* exponent and fractional fields are non-zero */
-    if (0x7ff > exp) {
+    if (0x7ff > expo) {
       ret = airFP_POS_NORM;
     } else {
       if (TEEM_QNANHIBIT == hibit) {
@@ -413,7 +398,7 @@ airFPClass_d(double val) {
     break;
   case 6:
     /* sign and exponent fields are non-zero */
-    if (0x7ff > exp) {
+    if (0x7ff > expo) {
       ret = airFP_NEG_NORM;
     } else {
       ret = airFP_NEG_INF;
@@ -421,7 +406,7 @@ airFPClass_d(double val) {
     break;
   case 7:
     /* all fields are non-zero */
-    if (0x7ff > exp)
+    if (0x7ff > expo)
       ret = airFP_NEG_NORM;
     else {
       if (TEEM_QNANHIBIT == hibit) {
@@ -433,7 +418,6 @@ airFPClass_d(double val) {
     break;
   }
   return ret;
-#endif
 }
 #ifdef _WIN32
 #pragma warning(pop)
@@ -446,14 +430,14 @@ airFPClass_d(double val) {
 ** to only have a a float version of this function, as opposed to
 ** having one for float and one for double, because Section 6.2 of the
 ** 754 spec tells us that that NaN is to be preserved across precision
-** changes.
+** changes (and airSanity() explicitly checks for this).
 */
 int
 airIsNaN(float g) {
   _airFloat f;
   
   f.v = g;
-  return (255 == f.c.exp && f.c.frac);
+  return (0xff == f.c.expo && f.c.mant);
 }
 
 /*
@@ -462,18 +446,22 @@ airIsNaN(float g) {
 ** returns 1 if input is positive infinity,
 ** -1 if negative infinity, 
 ** or 0 otherwise (including NaN)
+**
+** thus the non-zero-ness of the return is an easy way to do a 
+** boolean check of whether the value is infinite
 */
 int
 airIsInf_f(float f) {
   int c, ret;
   
   c = airFPClass_f(f);
-  if (airFP_POS_INF == c)
+  if (airFP_POS_INF == c) {
     ret = 1;
-  else if (airFP_NEG_INF == c)
+  } else if (airFP_NEG_INF == c) {
     ret = -1;
-  else 
+  } else {
     ret = 0;
+  }
   return ret;
 }
 int
@@ -481,36 +469,31 @@ airIsInf_d(double d) {
   int c, ret;
   
   c = airFPClass_d(d);
-  if (airFP_POS_INF == c)
+  if (airFP_POS_INF == c) {
     ret = 1;
-  else if (airFP_NEG_INF == c)
+  } else if (airFP_NEG_INF == c) {
     ret = -1;
-  else 
+  } else {
     ret = 0;
+  }
   return ret;
 }
 
-/*
-******** airExists_f(), airExists_d()
-**
-** returns 1 iff given float/double is not NaN and is not an infinity,
-** otherwize 0.
-*/
-#ifndef __BORLANDC__
-#ifdef _WIN32
-__inline
-#endif
-#endif
-int
-airExists_f(float f) { return AIR_EXISTS_F(f); }
+/* airExists_f() airExists_d() were nixed because they weren't used- 
+  you can just use AIR_EXISTS_F and AIR_EXISTS_D directly */
 
-#ifndef __BORLANDC__
-#ifdef _WIN32
-__inline
-#endif
-#endif
+/*
+******** airExists()
+**
+** an optimization-proof alternative to AIR_EXISTS
+*/
 int
-airExists_d(double d) { return AIR_EXISTS_D(d); }
+airExists(double val) {
+  _airDouble d;
+
+  d.v = val;
+  return 0x7ff != d.c.expo;
+}
 
 /*
 ******** airNaN()
@@ -530,22 +513,24 @@ airNaN(void) {
 */
 void
 airFPFprintf_f(FILE *file, float val) {
-  int i, sign, exp, frac;
+  int i;
+  unsigned int sign, expo, mant;
   _airFloat f;
   
   if (file) {
     f.v = val;
-    FP_GET(sign, exp, frac, f);
+    FP_GET_F(sign, expo, mant, f);
     fprintf(file, "%f: class %d; 0x%08x = ",val, airFPClass_f(val), f.i);
-    fprintf(file, "sign:0x%x, exp:0x%02x, frac:0x%06x = \n", sign, exp, frac);
-    fprintf(file, " S < . . Exp . . > "
-            "< . . . . . . . . . Frac. . . . . . . . . . >\n");
+    fprintf(file, "sign:0x%x, expo:0x%02x, mant:0x%06x = \n",
+            sign, expo, mant);
+    fprintf(file, " S [ . . Exp . . ] "
+            "[ . . . . . . . . . Mant. . . . . . . . . . ]\n");
     fprintf(file, " %d ", sign);
     for (i=7; i>=0; i--) {
-      fprintf(file, "%d ", (exp >> i) & 1);
+      fprintf(file, "%d ", (expo >> i) & 1);
     }
     for (i=22; i>=0; i--) {
-      fprintf(file, "%d ", (frac >> i) & 1);
+      fprintf(file, "%d ", (mant >> i) & 1);
     }
     fprintf(file, "\n");
   }
@@ -563,20 +548,20 @@ airFPFprintf_d(FILE *file, double val) {
   
   if (file) {
     d.v = val;
-    fprintf(file, "%f: class %d; 0x%08x%08x = \n",
+    fprintf(file, "%f: class %d; 0x%08x %08x = \n",
             val, airFPClass_d(val), d.h.half1, d.h.half0);
-    fprintf(file, "sign:0x%x, exp:0x%03x, frac:0x%05x%08x = \n",
-            d.c2.sign, d.c2.exp, d.c2.frac1, d.c2.frac0);
-    fprintf(file, "S<...Exp...><.......................Frac.......................>\n");
-    fprintf(file, "%d", d.c2.sign);
+    fprintf(file, "sign:0x%x, expo:0x%03x, mant:0x%05x %08x = \n",
+            d.c.sign, d.c.expo, d.c.mant0, d.c.mant1);
+    fprintf(file, "S[...Exp...][.......................Mant.......................]\n");
+    fprintf(file, "%d", d.c.sign);
     for (i=10; i>=0; i--) {
-      fprintf(file, "%d", (d.c2.exp >> i) & 1);
+      fprintf(file, "%d", (d.c.expo >> i) & 1);
     }
     for (i=19; i>=0; i--) {
-      fprintf(file, "%d", (d.c2.frac1 >> i) & 1);
+      fprintf(file, "%d", (d.c.mant0 >> i) & 1);
     }
     for (i=31; i>=0; i--) {
-      fprintf(file, "%d", (d.c2.frac0 >> i) & 1); 
+      fprintf(file, "%d", (d.c.mant1 >> i) & 1); 
     }
     fprintf(file, "\n");
   }

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -39,135 +40,7 @@ const int airMyDio = 0;
 const int airMyDio = 1;
 #endif
 
-int airDisableDio = 0;
-
-int
-airDioInfo(int *mem, int *min, int *max, FILE *file) {
-#if TEEM_DIO == 0
-#else
-  int fd;
-  struct dioattr dioinfo;
-#endif
-  
-#if TEEM_DIO == 0
-  return 1;
-#else
-  if (!(mem && min && max && file))
-    return 1;
-  
-  fd = fileno(file);
-  if (-1 == fd) {
-    /* couldn't get the underlying file descriptor */
-    return 1;
-  }
-  if (0 != fcntl(fd, F_DIOINFO, &dioinfo)) {
-    /* couldn't learn direct I/O specifics */
-    return 1;
-  }
-
-  *mem = dioinfo.d_mem;
-  *min = dioinfo.d_miniosz;
-  *max = dioinfo.d_maxiosz;
-  return 0;
-#endif
-}
-
-int
-airDioTest(size_t size, FILE *file, void *ptr) {
-#if TEEM_DIO == 0
-#else
-  int fd;
-  struct dioattr dioinfo;
-  void *tmp;
-#endif
-
-#if TEEM_DIO == 0
-  /* teem makefiles think no direct IO is possible on this architecture */
-  return airNoDio_arch;
-#else
-
-  if (airDisableDio) {
-    /* user turned direct I/O off */
-    return airNoDio_disable;
-  }
-
-  if (!file) {
-    /* didn't get a valid FILE * */
-    return airNoDio_file;
-  }
-
-  fd = fileno(file);
-  if (0 == fd || 1 == fd || 2 == fd) {
-    /* This was added because I was noticing a problem with piping between
-       unrrdu programs- sometimes the fread() of the receiving data through
-       a unix pipe ("|") failed to read all the data.  If the body of this
-       function was bypassed (with "return airNoDio_disable;", for instance),
-       then the problem went away.  The problematic call seemed to be the
-       fflush() below.  I don't think direct I/O is possible on stdin, stdout,
-       or stdout, since the fcntl() call below fails on stdin and stdout.
-       However, something about making that fcntl() call changes something
-       which means that about half the time, the read() on a piped stdin 
-       fails (on an irix6.n32 O2, at least). So, seems to be safest to just
-       explicitly say that direct I/O is unavailable, based solely on the
-       file descriptor number (0, 1, 2).  In other words, this is a hack.
-       (this behavior was observed on the SGIs) */
-    return airNoDio_std;
-  }
-  if (-1 == fd) {
-    /* couldn't get the underlying file descriptor */
-    return airNoDio_fd;
-  }
-
-  fflush(file);
-  if (0 != fcntl(fd, F_DIOINFO, &dioinfo)) {
-    /* couldn't learn direct I/O specifics */
-    return airNoDio_fcntl;
-  }
-  
-  /* 
-  ** direct I/O requirements:
-  ** 1) xfer size between d_miniosz and d_maxiosz
-  ** 2) xfer size a multiple of d_miniosz
-  ** 3) memory buffer on d_mem-byte boundary
-  ** 4) file position on d_miniosz-byte boundary
-  **
-  ** As long as xfer size is >= d_miniosz and meets req. #2, then
-  ** we can break the xfer into d_maxiosz-size pieces of need be.
-  ** We can test #3 here if we're given non-NULL ptr
-  ** We can always test #4
-  */
-  if (size < dioinfo.d_miniosz) {
-    /* too small! */
-    return airNoDio_small;
-  }
-  if (size % dioinfo.d_miniosz) {
-    /* fails req. #2 above */
-    return airNoDio_size;
-  }
-  if (ptr) {
-    if ((unsigned long)(ptr) % dioinfo.d_mem) {
-      /* fails req. #3 above */
-      return airNoDio_ptr;
-    }
-  }
-  if (lseek(fd, 0, SEEK_CUR) % dioinfo.d_miniosz) {
-    /* fails req. #4 above */
-    return airNoDio_fpos;
-  }
-
-  if (!ptr) {
-    tmp = memalign(dioinfo.d_mem, dioinfo.d_miniosz);
-    if (!tmp) {
-      /* couldn't even alloc (via memalign) the minimum size */
-      return airNoDio_test;
-    }
-    free(tmp);
-  }
-  
-  /* seems that direct I/O is available */
-  return airNoDio_okay;
-#endif
-}
+int airDisableDio = AIR_FALSE;
 
 const char
 _airNoDioErr[AIR_NODIO_MAX+2][AIR_STRLEN_SMALL] = {
@@ -175,18 +48,17 @@ _airNoDioErr[AIR_NODIO_MAX+2][AIR_STRLEN_SMALL] = {
   "CAN TOO do direct I/O!",
   "direct I/O apparently not available on this architecture",
   "direct I/O apparently not suitable for given file format",
-  "got NULL pointer pointer",
   "won't do direct I/O on std{in|out|err}",
-  "can't learn integral file descriptor from FILE pointer",
-  "fcntl() call (to learn direct I/O specifics) failed",
+  "got -1 as file descriptor",
+  "fcntl(F_DIOINFO) to learn direct I/O specifics failed",
   "requested transfer size is too small",
   "requested transfer size not a multiple of d_miniosz",
   "data memory address not multiple of d_mem",
   "current file position not multiple of d_miniosz",
+  "fcntl(F_SETFL, FDIRECT) to turn on direct I/O failed",
   "memalign() test (on a small chuck of memory) failed",
   "direct I/O (in air library) has been disabled with airDisableDio"
 };
-
 
 const char *
 airNoDioErr(int noDio) {
@@ -199,85 +71,246 @@ airNoDioErr(int noDio) {
   }
 }
 
-size_t
-airDioRead(FILE *file, void **ptrP, size_t size) {
-  size_t red;
+/*
+******** airDioTest
+**
+** does everything necessary to assess whether direct IO can be used
+** to read a data segment of a given size, from a given file
+** descriptor, into a given pointer.  The given pointer ptr can be
+** NULL, and/or the size can be 0, in order to test the other aspects
+** of direct IO. The return value of this is from the airNoDio_* enum.
+** Note that airNoDio_okay means, "actually, direct IO *does* seem to
+** be possible here".
+*/
+int
+airDioTest(int fd, const void *ptr, size_t size) {
 #if TEEM_DIO == 0
+  /* Teem makefiles think no direct IO is possible on this architecture */
+  return airNoDio_arch;
 #else
-  int fd, mem, min, max;
   struct dioattr dioinfo;
-  size_t remain, part;
-  char *ptr;
-#endif
-  
-  if (!( ptrP && airNoDio_okay == airDioTest(size, file, NULL) ))
-    return 0;
+  void *tmp;
+  int flags;
 
-#if TEEM_DIO == 0
-  red = 0;
-#else
-  fd = fileno(file);
-  fcntl(fd, F_DIOINFO, &dioinfo);
-  airDioInfo(&mem, &min, &max, file);
-  *ptrP = memalign(mem, size);
-  if (!*ptrP) {
-    /* couldn't alloc (via memalign) "size" bytes */
-    return 0;
+  if (airDisableDio) {
+    /* user turned direct I/O off */
+    return airNoDio_disable;
   }
-  ptr = *ptrP;
-  remain = size;
-  red = 0;
-  do {
-    if (remain >= max) {
-      part = max;
-    }
-    else {
-      part = remain;
-    }
-    red += read(fd, ptr, part);
-    ptr += part;
-    remain -= part;
-  } while (remain);
-#endif
+  if (0 == fd || 1 == fd || 2 == fd) {
+    /* This was added because I was noticing a problem with piping
+       between unrrdu programs- sometimes the fread() of the receiving
+       data through a unix pipe ("|") failed to read all the data.  If
+       the body of this function was bypassed (with "return
+       airNoDio_disable;", for instance), then the problem went away.
+       The problematic call seemed to be the fflush() below (Tue Feb 1
+       06:47:33 EST 2005: which has since been removed with the change
+       of this function's argument from a FILE * to an integral file
+       descriptor).  I don't think direct I/O is possible on stdin,
+       stdout, or stdout, since the fcntl() call below fails on stdin
+       and stdout.  However, something about making that fcntl() call
+       changes something which means that about half the time, the
+       read() on a piped stdin fails (on an irix6.n32 O2, at
+       least). So, seems to be safest to just explicitly say that
+       direct I/O is unavailable, based solely on the file descriptor
+       number (0, 1, 2).  */
+    return airNoDio_std;
+  }
+  if (-1 == fd) {
+    /* caller probably couldn't get the underlying file descriptor */
+    return airNoDio_fd;
+  }
+  if (0 != fcntl(fd, F_DIOINFO, &dioinfo)) {
+    /* couldn't learn direct I/O specifics */
+    return airNoDio_dioinfo;
+  }
   
-  return red;
+  if (size) {
+    /* 
+    ** direct I/O requirements:
+    ** 1) xfer size between d_miniosz and d_maxiosz
+    ** 2) xfer size a multiple of d_miniosz
+    ** 3) memory buffer on d_mem-byte boundary
+    ** 4) file position on d_miniosz-byte boundary
+    **
+    ** As long as xfer size is >= d_miniosz and meets req. #2, then
+    ** we can break the xfer into d_maxiosz-size pieces of need be.
+    ** We can test #3 here if we're given non-NULL ptr
+    ** We can always test #4
+    */
+    if (size < dioinfo.d_miniosz) {
+      /* fails req. #1 above */
+      return airNoDio_small;
+    }
+    /* we don't actually check for being too large, since we can always
+       do IO on d_maxiosz-sized pieces */
+    if (size % dioinfo.d_miniosz) {
+      /* fails req. #2 above */
+      return airNoDio_size;
+    }
+  }
+  if (ptr) {
+    if ((unsigned long)(ptr) % dioinfo.d_mem) {
+      /* fails req. #3 above */
+      return airNoDio_ptr;
+    }
+  } else {
+    tmp = memalign(dioinfo.d_mem, dioinfo.d_miniosz);
+    if (!tmp) {
+      /* couldn't even alloc (via memalign) the minimum size */
+      return airNoDio_test;
+    }
+    free(tmp);
+  }
+  if (lseek(fd, 0, SEEK_CUR) % dioinfo.d_miniosz) {
+    /* fails req. #4 above */
+    return airNoDio_fpos;
+  }
+  flags = fcntl(fd, F_GETFL);
+  if (-1 == fcntl(fd, F_SETFL, flags | FDIRECT)) {
+    /* couln't turn on direct I/O */
+    return airNoDio_setfl;
+  }
+  /* put things back the way they were */
+  fcntl(fd, F_SETFL, flags);
+
+  /* as far as we know, direct I/O seems workable */
+  return airNoDio_okay;
+#endif
 }
 
-size_t
-airDioWrite(FILE *file, void *_ptr, size_t size) {
-  size_t rit;
+/*
+******** airDioInfo
+**
+** does the fcntl stuff to learn the direct IO parameters:
+** align: required alignment of memory (pointer must be multiple of this)
+** min: minimum size of dio transfer
+** max: maximum size of dio transfer
+**
+** NOTE: this does not try to do any error checking, because it assumes
+** that you've already called airDioTest without incident.
+*/
+void
+airDioInfo(int *align, int *min, int *max, int fd) {
 #if TEEM_DIO == 0
+  return;
 #else
-  int fd, mem, min, max;
   struct dioattr dioinfo;
+
+  if (align && min && max && !fcntl(fd, F_DIOINFO, &dioinfo)) {
+    *align = dioinfo.d_mem;
+    *min = dioinfo.d_miniosz;
+    *max = dioinfo.d_maxiosz;
+  }
+  return;
+#endif
+}
+
+/*
+******** airDioMalloc
+**
+** does direct IO compatible memory allocation.  
+** 
+** NOTE: like airDioInfo, this assumes that you've called airDioTest 
+** without incident
+*/
+void *
+airDioMalloc(size_t size, int fd) {
+#if TEEM_DIO == 0
+  return NULL;
+#else
+  int align, min, max;
+  
+  airDioInfo(&align, &min, &max, fd);
+  return memalign(align, size);
+#endif
+}
+
+/*
+******** airDioRead
+**
+** like read(), but for direct IO.  The idea is that you call this on as
+** big a chunk of memory as possible.  
+** 
+** NOTE: like airDioInfo, this assumes that you've called airDioTest 
+** without incident
+*/
+size_t
+airDioRead(int fd, void *_ptr, size_t size) {
+#if TEEM_DIO == 0
+  return 0;
+#else
+  size_t red, totalred;
+  int align, min, max, flags;
   size_t remain, part;
   char *ptr;
-#endif
   
-  if (!( _ptr && (airNoDio_okay == airDioTest(size, file, _ptr)) ))
+  if (!( _ptr && airNoDio_okay == airDioTest(fd, _ptr, size) )) {
     return 0;
+  }
 
-#if TEEM_DIO == 0
-  rit = 0;
-#else
-  fd = fileno(file);
-  fcntl(fd, F_DIOINFO, &dioinfo);
-  airDioInfo(&mem, &min, &max, file);
-  ptr = _ptr;
+  flags = fcntl(fd, F_GETFL);
+  fcntl(fd, F_SETFL, flags | FDIRECT);
+  airDioInfo(&align, &min, &max, fd);
   remain = size;
-  rit = 0;
+  totalred = 0;
+  ptr = (char*)_ptr;
   do {
-    if (remain >= max) {
-      part = max;
+    part = AIR_MIN(remain, max);
+    red = read(fd, ptr, part);
+    totalred += red;
+    if (red != part) {
+      break;
     }
-    else {
-      part = remain;
-    }
-    rit += write(fd, ptr, part);
-    ptr += part;
-    remain -= part;
+    ptr += red;
+    remain -= red;
   } while (remain);
-#endif
+  fcntl(fd, F_SETFL, flags);
   
-  return rit;
+  return totalred;
+#endif
+}
+
+/*
+******** airDioWrite
+**
+** like write(), but for direct IO.  The idea is that you call this on as
+** big a chunk of memory as possible.  
+** 
+** NOTE: like airDioInfo, this assumes that you've called airDioTest 
+** without incident
+*/
+size_t
+airDioWrite(int fd, const void *_ptr, size_t size) {
+#if TEEM_DIO == 0
+  return 0;
+#else
+  size_t rit, totalrit;
+  int align, min, max, flags;
+  size_t remain, part;
+  char *ptr;
+  
+  if (!( _ptr && (airNoDio_okay == airDioTest(fd, _ptr, size)) )) {
+    return 0;
+  }
+
+  flags = fcntl(fd, F_GETFL);
+  fcntl(fd, F_SETFL, flags | FDIRECT);
+  airDioInfo(&align, &min, &max, fd);
+  remain = size;
+  totalrit = 0;
+  ptr = (char*)_ptr;
+  do {
+    part = AIR_MIN(remain, max);
+    rit = write(fd, ptr, part);
+    totalrit += rit;
+    if (rit != part) {
+      break;
+    }
+    ptr += rit;
+    remain -= rit;
+  } while (remain);
+  fcntl(fd, F_SETFL, flags);
+  
+  return totalrit;
+#endif
 }

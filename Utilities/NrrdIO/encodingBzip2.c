@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -31,7 +32,8 @@ _nrrdEncodingBzip2_available(void) {
 }
 
 int
-_nrrdEncodingBzip2_read(Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingBzip2_read(FILE *file, void *data, size_t elementNum,
+                        Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingBzip2_read", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",
@@ -40,7 +42,8 @@ _nrrdEncodingBzip2_read(Nrrd *nrrd, NrrdIoState *nio) {
 }
 
 int
-_nrrdEncodingBzip2_write(const Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdEncodingBzip2_write(FILE *file, const void *data, size_t elementNum,
+                         const Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingBzip2_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",

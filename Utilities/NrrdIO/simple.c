@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -31,43 +32,63 @@ const char *
 nrrdBiffKey = "nrrd";
 
 /*
-******** nrrdPeripheralInit
+******** nrrdSpaceDimension
 **
-** resets peripheral information
+** returns expected dimension of given space (from nrrdSpace* enum), or,
+** 0 if there is no expected dimension.
+**
+** The expected behavior here is to return 0 for nrrdSpaceUnknown, because
+** that is the right answer, not because its an error of any kind.
 */
 int
-nrrdPeripheralInit (Nrrd *nrrd) {
+nrrdSpaceDimension(int space) {
+  char me[]="nrrdSpaceDimension";
+  int ret;
 
-  if (!nrrd) 
-    return 1;
+  if (!( AIR_IN_OP(nrrdSpaceUnknown, space, nrrdSpaceLast) )) {
+    /* they gave us invalid or unknown space */
+    return 0;
+  }
+  switch (space) {
+  case nrrdSpaceRightAnteriorSuperior:
+  case nrrdSpaceLeftAnteriorSuperior:
+  case nrrdSpaceLeftPosteriorSuperior:
+  case nrrdSpaceScannerXYZ:
+  case nrrdSpace3DRightHanded:
+  case nrrdSpace3DLeftHanded:
+    ret = 3;
+    break;
+  case nrrdSpaceRightAnteriorSuperiorTime:
+  case nrrdSpaceLeftAnteriorSuperiorTime:
+  case nrrdSpaceLeftPosteriorSuperiorTime:
+  case nrrdSpaceScannerXYZTime:
+  case nrrdSpace3DRightHandedTime:
+  case nrrdSpace3DLeftHandedTime:
+    ret = 4;
+    break;
+  default:
+    fprintf(stderr, "%s: PANIC: nrrdSpace %d not implemented!\n", me, space);
+    exit(1);
+    break;
+  }
+  return ret;
+}
 
-  /* nrrd->min = nrrd->max = AIR_NAN; */
-  nrrd->oldMin = nrrd->oldMax = AIR_NAN;
-  /* nrrd->hasNonExist = nrrdNonExistUnknown; */
+int
+nrrdSpaceSet(Nrrd *nrrd, int space) {
+  char me[]="nrrdSpaceSet", err[AIR_STRLEN_MED];
+  
+  if (nrrdSpaceUnknown != space) {
+    if (airEnumValCheck(nrrdSpace, space)) {
+      sprintf(err, "%s: given space (%d) not valid", me, space);
+      biffAdd(NRRD, err); return 1;
+    }
+  }
+  nrrd->space = space;
+  nrrd->spaceDim = nrrdSpaceDimension(space);
   return 0;
 }
 
-/*
-******** nrrdPeripheralCopy
-**
-** copies peripheral information
-*/
-int
-nrrdPeripheralCopy (Nrrd *nout, const Nrrd *nin) {
-
-  if (!( nout && nin ))
-    return 1;
-
-  /* HEY: who copies the content? */
-  /*
-  nout->min = nin->min;
-  nout->max = nin->max;
-  */
-  nout->oldMin = nin->oldMin;
-  nout->oldMax = nin->oldMax;
-  /* nout->hasNonExist = nin->hasNonExist; */
-  return 0;
-}
 
 /*
 ** _nrrdContentGet
@@ -211,17 +232,23 @@ nrrdDescribe (FILE *file, const Nrrd *nrrd) {
       fprintf(file, "Content = \"%s\"\n", nrrd->content);
     fprintf(file, "%d-dimensional array, with axes:\n", nrrd->dim);
     for (i=0; i<nrrd->dim; i++) {
-      if (airStrlen(nrrd->axis[i].label))
+      if (airStrlen(nrrd->axis[i].label)) {
         fprintf(file, "%d: (\"%s\") ", i, nrrd->axis[i].label);
-      else
+      } else {
         fprintf(file, "%d: ", i);
+      }
       fprintf(file, "%s-centered, size=%d, ",
               airEnumStr(nrrdCenter, nrrd->axis[i].center),
               nrrd->axis[i].size);
       airSinglePrintf(file, NULL, "spacing=%lg, \n", nrrd->axis[i].spacing);
+      airSinglePrintf(file, NULL, "thickness=%lg, \n",
+                      nrrd->axis[i].thickness);
       airSinglePrintf(file, NULL, "    axis(Min,Max) = (%lg,",
                        nrrd->axis[i].min);
       airSinglePrintf(file, NULL, "%lg)\n", nrrd->axis[i].max);
+      if (airStrlen(nrrd->axis[i].units)) {
+        fprintf(file, "units=%s, \n", nrrd->axis[i].units);
+      }
     }
     /*
     airSinglePrintf(file, NULL, "The min, max values are %lg",
@@ -243,86 +270,483 @@ nrrdDescribe (FILE *file, const Nrrd *nrrd) {
 }
 
 /*
-******** nrrdCheck()
+** asserts all the properties associated with orientation information
 **
-** does some consistency checks for things that can go wrong in a nrrd
+** The most important part of this is asserting the per-axis mutual 
+** exclusion of min/max/spacing/units versus using spaceDirection.
 */
 int
-nrrdCheck (const Nrrd *nrrd) {
-  char me[] = "nrrdCheck", err[AIR_STRLEN_MED];
-  int size[NRRD_DIM_MAX], i, ret;
+_nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, int checkOrigin, int useBiff) {
+  char me[]="_nrrdFieldCheckSpaceInfo", err[AIR_STRLEN_MED];
+  int dd, ii, exists;
+
+  if (!( !nrrd->space || !airEnumValCheck(nrrdSpace, nrrd->space) )) {
+    sprintf(err, "%s: space %d invalid", me, nrrd->space);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  if (!AIR_IN_CL(0, nrrd->spaceDim, NRRD_SPACE_DIM_MAX)) {
+    sprintf(err, "%s: space dimension %d is outside valid range "
+            "[0,NRRD_SPACE_DIM_MAX] = [0,%d]",
+            me, nrrd->dim, NRRD_SPACE_DIM_MAX);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  if (nrrd->spaceDim) {
+    if (nrrd->space) {
+      if (nrrdSpaceDimension(nrrd->space) != nrrd->spaceDim) {
+        sprintf(err, "%s: space %s has dimension %d but spaceDim is %d", 
+                me, airEnumStr(nrrdSpace, nrrd->space),
+                nrrdSpaceDimension(nrrd->space), nrrd->spaceDim);
+        biffMaybeAdd(NRRD, err, useBiff); return 1;
+      }
+    }
+    exists = AIR_EXISTS(nrrd->spaceOrigin[0]);
+    for (ii=0; ii<nrrd->spaceDim; ii++) {
+      if (exists ^ AIR_EXISTS(nrrd->spaceOrigin[ii])) {
+        sprintf(err, "%s: existance of space origin coefficients must "
+                "be consistent (val[0] not like val[%d])", me, ii);
+        biffMaybeAdd(NRRD, err, useBiff); return 1;
+      }
+    }
+    /* this is a relic of those few pre-Fri Feb 11 04:25:36 EST 2005
+       weeks when I though that spaceOrigin must be known */
+    if (checkOrigin && !exists) {
+      sprintf(err, "%s: coefficients of origin vector must all exist", me);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+    for (dd=0; dd<nrrd->dim; dd++) {
+      exists = AIR_EXISTS(nrrd->axis[dd].spaceDirection[0]);
+      for (ii=1; ii<nrrd->spaceDim; ii++) {
+        if (exists ^ AIR_EXISTS(nrrd->axis[dd].spaceDirection[ii])) {
+          sprintf(err, "%s: existance of space direction coefficients must "
+                  "be consistent (val[0] not like val[%d])", me, ii);
+          biffMaybeAdd(NRRD, err, useBiff); return 1;
+        }
+      }
+      if (exists) {
+        if (AIR_EXISTS(nrrd->axis[dd].min)
+            || AIR_EXISTS(nrrd->axis[dd].max)
+            || AIR_EXISTS(nrrd->axis[dd].spacing)
+            || airStrlen(nrrd->axis[dd].units)) {
+          sprintf(err, "%s: axis[%d] has a direction vector, and so can't "
+                  "have min, max, spacing, or units set", me, dd);
+          biffMaybeAdd(NRRD, err, useBiff); return 1;
+        }
+      }
+    }
+  } else {
+    /* else there's not supposed to be anything in "space" */
+    if (nrrd->space) {
+      sprintf(err, "%s: space %s can't be set with spaceDim %d", 
+              me, airEnumStr(nrrdSpace, nrrd->space), nrrd->spaceDim);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+    exists = AIR_FALSE;
+    for (dd=0; dd<NRRD_SPACE_DIM_MAX; dd++) {
+      exists |= airStrlen(nrrd->spaceUnits[dd]);
+      exists |= AIR_EXISTS(nrrd->spaceOrigin[dd]);
+      for (ii=0; ii<NRRD_DIM_MAX; ii++) {
+        exists |= AIR_EXISTS(nrrd->axis[ii].spaceDirection[dd]);
+      }
+    }
+    if (exists) {
+      sprintf(err, "%s: spaceDim is 0, but space units, origin, or direction "
+              "is set", me);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  return 0;
+}
+
+/* --------------------- per-field checks ----------------
+**
+** Strictly speacking, these checks only apply to the nrrd itself, not
+** to a potentially incomplete nrrd in the process of being read, so
+** the NrrdIoState stuff is not an issue.  This limits the utility of
+** these to the field parsers for handling the more complex state 
+** involved in parsing some of the NRRD fields (like units).
+**
+** return 0 if it is valid, and 1 if there is an error
+*/
+
+int
+_nrrdFieldCheck_noop(const Nrrd *nrrd, int useBiff) {
+
+  return 0;
+}
+
+int
+_nrrdFieldCheck_type(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_type", err[AIR_STRLEN_MED];
+  
+  if (airEnumValCheck(nrrdType, nrrd->type)) {
+    sprintf(err, "%s: type (%d) is not valid", me, nrrd->type);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_block_size(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_block_size", err[AIR_STRLEN_MED];
+  
+  if (nrrdTypeBlock == nrrd->type && (!(0 < nrrd->blockSize)) ) {
+    sprintf(err, "%s: type is %s but nrrd->blockSize (%d) invalid", me,
+            airEnumStr(nrrdType, nrrdTypeBlock),
+            nrrd->blockSize);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  if (nrrdTypeBlock != nrrd->type && (0 < nrrd->blockSize)) {
+    sprintf(err, "%s: type is %s (not block) but blockSize is %d", me,
+            airEnumStr(nrrdType, nrrd->type), nrrd->blockSize);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_dimension(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_dimension", err[AIR_STRLEN_MED];
+  
+  if (!AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)) {
+    sprintf(err, "%s: dimension %d is outside valid range [1,%d]",
+            me, nrrd->dim, NRRD_DIM_MAX);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_space(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_space", err[AIR_STRLEN_MED];
+
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_space_dimension(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_space_dimension", err[AIR_STRLEN_MED];
+  
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_sizes(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_sizes", err[AIR_STRLEN_MED];
+  int size[NRRD_DIM_MAX];
+  
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSize, size);
+  if (_nrrdSizeCheck(nrrd->dim, size, useBiff)) {
+    sprintf(err, "%s: trouble with array sizes", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_spacings(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_spacings", err[AIR_STRLEN_MED];
   double val[NRRD_DIM_MAX];
+  int i;
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSpacing, val);
+  for (i=0; i<nrrd->dim; i++) {
+    if (!( !airIsInf_d(val[i]) && (airIsNaN(val[i]) || (0 != val[i])) )) {
+      sprintf(err, "%s: axis %d spacing (%g) invalid", me, i, val[i]);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_thicknesses(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_thicknesses", err[AIR_STRLEN_MED];
+  double val[NRRD_DIM_MAX];
+  int i;
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoThickness, val);
+  for (i=0; i<nrrd->dim; i++) {
+    /* note that unlike spacing, we allow zero thickness, 
+       but it makes no sense to be negative */
+    if (!( !airIsInf_d(val[i]) && (airIsNaN(val[i]) || (0 <= val[i])) )) {
+      sprintf(err, "%s: axis %d thickness (%g) invalid", me, i, val[i]);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_axis_mins(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_axis_mins", err[AIR_STRLEN_MED];
+  double val[NRRD_DIM_MAX];
+  int i, ret;
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoMin, val);
+  for (i=0; i<nrrd->dim; i++) {
+    if ((ret=airIsInf_d(val[i]))) {
+      sprintf(err, "%s: axis %d min %sinf invalid", me, i, 1==ret ? "+" : "-");
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  /* HEY: contemplate checking min != max, but what about stub axes ... */
+  return 0;
+}
+
+int
+_nrrdFieldCheck_axis_maxs(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_axis_maxs", err[AIR_STRLEN_MED];
+  double val[NRRD_DIM_MAX];
+  int i, ret;
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoMax, val);
+  for (i=0; i<nrrd->dim; i++) {
+    if ((ret=airIsInf_d(val[i]))) {
+      sprintf(err, "%s: axis %d max %sinf invalid", me, i, 1==ret ? "+" : "-");
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  /* HEY: contemplate checking min != max, but what about stub axes ... */
+  return 0;
+}
+
+int
+_nrrdFieldCheck_space_directions(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_space_directions", err[AIR_STRLEN_MED];
+
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: space info problem", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_centers(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_centers", err[AIR_STRLEN_MED];
+  int i, val[NRRD_DIM_MAX];
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoCenter, val);
+  for (i=0; i<nrrd->dim; i++) {
+    if (!( nrrdCenterUnknown == val[i]
+           || !airEnumValCheck(nrrdCenter, val[i]) )) {
+      sprintf(err, "%s: axis %d center %d invalid", me, i, val[i]);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_kinds(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_kinds", err[AIR_STRLEN_MED];
+  int i, wantLen, val[NRRD_DIM_MAX];
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoKind, val);
+  for (i=0; i<nrrd->dim; i++) {
+    if (!( nrrdKindUnknown == val[i]
+           || !airEnumValCheck(nrrdKind, val[i]) )) {
+      sprintf(err, "%s: axis %d kind %d invalid", me, i, val[i]);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+    wantLen = nrrdKindSize(val[i]);
+    if (wantLen && wantLen != nrrd->axis[i].size) {
+      sprintf(err, "%s: axis %d kind %s requires size %d, but have %d", me,
+              i, airEnumStr(nrrdKind, val[i]), wantLen, nrrd->axis[i].size);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_labels(const Nrrd *nrrd, int useBiff) {
+  /* char me[]="_nrrdFieldCheck_labels", err[AIR_STRLEN_MED]; */
+
+  /* don't think there's anything to do here: the label strings are
+     either NULL (which is okay) or non-NULL, but we have no restrictions
+     on the validity of the strings */
+
+  return 0;
+}
+
+int
+_nrrdFieldCheck_units(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_units", err[AIR_STRLEN_MED];
+
+  /* as with labels- the strings themselves don't need checking themselves */
+  /* but per-axis units cannot be set for axes with space directions ... */
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: space info problem", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_old_min(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_old_min", err[AIR_STRLEN_MED];
+  int ret;
+
+  if ((ret=airIsInf_d(nrrd->oldMin))) {
+    sprintf(err, "%s: old min %sinf invalid", me, 1==ret ? "+" : "-");
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  /* oldMin == oldMax is perfectly valid */
+  return 0;
+}
+
+int
+_nrrdFieldCheck_old_max(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_old_max", err[AIR_STRLEN_MED];
+  int ret;
+
+  if ((ret=airIsInf_d(nrrd->oldMax))) {
+    sprintf(err, "%s: old max %sinf invalid", me, 1==ret ? "+" : "-");
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  /* oldMin == oldMax is perfectly valid */
+  return 0;
+}
+
+int
+_nrrdFieldCheck_keyvalue(const Nrrd *nrrd, int useBiff) {
+  /* char me[]="_nrrdFieldCheck_keyvalue", err[AIR_STRLEN_MED]; */
+
+  /* nrrdKeyValueAdd() ensures that keys aren't repeated, 
+     not sure what other kind of checking can be done */
+
+  return 0;
+}
+
+int
+_nrrdFieldCheck_space_units(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_space_units", err[AIR_STRLEN_MED];
+
+  /* not sure if there's anything to specifically check for the
+     space units themselves ... */
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: space info problem", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdFieldCheck_space_origin(const Nrrd *nrrd, int useBiff) {
+  char me[]="_nrrdFieldCheck_space_origin", err[AIR_STRLEN_MED];
+
+  /* pre-Fri Feb 11 04:25:36 EST 2005, I thought that 
+     the spaceOrigin must be known to describe the 
+     space/orientation stuff, but that's too restrictive,
+     which is why below says AIR_FALSE instead of AIR_TRUE */
+  if (_nrrdFieldCheckSpaceInfo(nrrd, AIR_FALSE, useBiff)) {
+    sprintf(err, "%s: space info problem", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+(*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *, int useBiff) = {
+  _nrrdFieldCheck_noop,           /* nonfield */
+  _nrrdFieldCheck_noop,           /* comment */
+  _nrrdFieldCheck_noop,           /* content */
+  _nrrdFieldCheck_noop,           /* number */
+  _nrrdFieldCheck_type,
+  _nrrdFieldCheck_block_size,
+  _nrrdFieldCheck_dimension,
+  _nrrdFieldCheck_space,
+  _nrrdFieldCheck_space_dimension,
+  _nrrdFieldCheck_sizes,
+  _nrrdFieldCheck_spacings,
+  _nrrdFieldCheck_thicknesses,
+  _nrrdFieldCheck_axis_mins,
+  _nrrdFieldCheck_axis_maxs,
+  _nrrdFieldCheck_space_directions,
+  _nrrdFieldCheck_centers,
+  _nrrdFieldCheck_kinds,
+  _nrrdFieldCheck_labels,
+  _nrrdFieldCheck_units,
+  _nrrdFieldCheck_noop,           /* min */
+  _nrrdFieldCheck_noop,           /* max */
+  _nrrdFieldCheck_old_min,
+  _nrrdFieldCheck_old_max,
+  _nrrdFieldCheck_noop,           /* endian */
+  _nrrdFieldCheck_noop,           /* encoding */
+  _nrrdFieldCheck_noop,           /* line_skip */
+  _nrrdFieldCheck_noop,           /* byte_skip */
+  _nrrdFieldCheck_keyvalue,
+  _nrrdFieldCheck_noop,           /* sample units */
+  _nrrdFieldCheck_space_units,
+  _nrrdFieldCheck_space_origin,
+  _nrrdFieldCheck_noop,           /* data_file */
+};
+
+int
+_nrrdCheck (const Nrrd *nrrd, int checkData) {
+  char me[]="_nrrdCheck", err[AIR_STRLEN_MED];
+  int fi;
 
   if (!nrrd) {
     sprintf(err, "%s: got NULL pointer", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (!(nrrd->data)) {
-    sprintf(err, "%s: nrrd has NULL data pointer", me);
-    biffAdd(NRRD, err); return 1;
+  if (checkData) {
+    if (!(nrrd->data)) {
+      sprintf(err, "%s: nrrd has NULL data pointer", me);
+      biffAdd(NRRD, err); return 1;
+    }
   }
-  if (airEnumValCheck(nrrdType, nrrd->type)) {
-    sprintf(err, "%s: type (%d) of array is invalid", me, nrrd->type);
-    biffAdd(NRRD, err); return 1;
+  for (fi=nrrdField_unknown+1; fi<nrrdField_last; fi++) {
+    /* yes, this will call _nrrdFieldCheckSpaceInfo() many many times */
+    if (_nrrdFieldCheck[fi](nrrd, AIR_TRUE)) {
+      sprintf(err, "%s: trouble with %s field", me,
+              airEnumStr(nrrdField, fi));
+      biffAdd(NRRD, err); return 1;
+    }
   }
-  if (nrrdTypeBlock == nrrd->type && (!(0 < nrrd->blockSize)) ) {
-    sprintf(err, "%s: nrrd type is %s but nrrd->blockSize (%d) invalid", me,
-            airEnumStr(nrrdType, nrrdTypeBlock),
-            nrrd->blockSize);
-    biffAdd(NRRD, err); return 1;
-  }
-  if (!AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)) {
-    sprintf(err, "%s: dimension %d is outside valid range [1,%d]",
-            me, nrrd->dim, NRRD_DIM_MAX);
-    biffAdd(NRRD, err); return 1;
-  }
-  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSize, size);
-  if (_nrrdSizeCheck(nrrd->dim, size, AIR_TRUE)) {
-    sprintf(err, "%s:", me);
-    biffAdd(NRRD, err); return 1;
-  }
+  return 0;
+}
 
-  /* these checks basically cut/paste from validity checks in 
-     _nrrdReadNrrdParse_* */
-  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSpacing, val);
-  for (i=0; i<=nrrd->dim-1; i++) {
-    if (!( !airIsInf_d(val[i]) && (airIsNaN(val[i]) || (0 != val[i])) )) {
-      sprintf(err, "%s: spacing %d (%g) invalid", me, i, val[i]);
-      biffAdd(NRRD, err); return 1;
-    }
-  }
-  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoMin, val);
-  for (i=0; i<=nrrd->dim-1; i++) {
-    if ((ret=airIsInf_d(val[i]))) {
-      sprintf(err, "%s: axis min %d %sinf invalid", me, i, 1==ret ? "+" : "-");
-      biffAdd(NRRD, err); return 1;
-    }
-  }
-  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoMax, val);
-  for (i=0; i<=nrrd->dim-1; i++) {
-    if ((ret=airIsInf_d(val[i]))) {
-      sprintf(err, "%s: axis ax %d %sinf invalid", me, i, 1==ret ? "+" : "-");
-      biffAdd(NRRD, err); return 1;
-    }
-  }
-  if ((ret=airIsInf_d(nrrd->oldMin))) {
-    sprintf(err, "%s: old min %sinf invalid", me, 1==ret ? "+" : "-");
+/*
+******** nrrdCheck()
+**
+** does some consistency checks for things that can go wrong in a nrrd
+** returns non-zero if there is a problem, zero if no problem.
+**
+** You might think that this should be merged with _nrrdHeaderCheck(),
+** but that is really only for testing sufficiency of information 
+** required to do the data reading.
+*/
+int
+nrrdCheck (const Nrrd *nrrd) {
+  char me[]="nrrdCheck", err[AIR_STRLEN_MED];
+
+  if (_nrrdCheck(nrrd, AIR_TRUE)) {
+    sprintf(err, "%s: trouble", me);
     biffAdd(NRRD, err); return 1;
   }
-  if ((ret=airIsInf_d(nrrd->oldMax))) {
-    sprintf(err, "%s: old max %sinf invalid", me, 1==ret ? "+" : "-");
-    biffAdd(NRRD, err); return 1;
-  }
-  /*
-  if ((ret=airIsInf_d(nrrd->min))) {
-    sprintf(err, "%s: min %sinf invalid", me, 1==ret ? "+" : "-");
-    biffAdd(NRRD, err); return 1;
-  }
-  if ((ret=airIsInf_d(nrrd->max))) {
-    sprintf(err, "%s: max %sinf invalid", me, 1==ret ? "+" : "-");
-    biffAdd(NRRD, err); return 1;
-  }
-  */
   return 0;
 }
 
@@ -331,6 +755,10 @@ nrrdCheck (const Nrrd *nrrd) {
 **
 ** returns 1 iff given two nrrds have same dimension and axes sizes.
 ** This does NOT look at the type of the elements.
+**
+** The intended user of this is someone who really wants the nrrds to be
+** the same size, so that if they aren't, some descriptive (error) message
+** can be generated according to useBiff
 */
 int
 nrrdSameSize (const Nrrd *n1, const Nrrd *n2, int useBiff) {
@@ -420,6 +848,22 @@ nrrdElementNumber (const Nrrd *nrrd) {
     num *= size[d];
   }
   return num;
+}
+
+void
+_nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, Nrrd *nrrd, int split) {
+  int dd, size[NRRD_DIM_MAX];
+
+  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSize, size);
+  *pieceSize = 1;
+  for (dd=0; dd<split; dd++) {
+    *pieceSize *= size[dd];
+  }
+  *pieceNum = 1;
+  for (dd=split; dd<nrrd->dim; dd++) {
+    *pieceNum *= size[dd];
+  }
+  return;
 }
 
 /*

@@ -1,6 +1,7 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
+  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -53,11 +54,11 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, int ax) {
     biffAdd(NRRD, err); return 1;
   }
   if (nout != nin) {
-    if (nrrdCopy(nout, nin)) {
+    if (_nrrdCopy(nout, nin, (NRRD_BASIC_INFO_COMMENTS_BIT
+                              | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
       sprintf(err, "%s:", me);
       biffAdd(NRRD, err); return 1;
     }
-    /* HEY: comments have been copied, perhaps that's not appropriate */
   }
   nout->dim = 1 + nin->dim;
   for (d=nin->dim-1; d>=ax; d--) {
@@ -75,7 +76,7 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, int ax) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
-  nrrdPeripheralCopy(nout, nin);
+  /* all basic info has already been copied by nrrdCopy() above */
   return 0;
 }
 
