@@ -28,10 +28,6 @@ itkMRFLabellerTest
 itkMutualInformationTest
 itkNewTest
 itkRegionGrow2DTest
-itkRegistrationImageToImageAffine
-itkRegistrationModelToImage
-itkRegistrationPoints3D2DAffine
-itkRegistrationProcrustes
 itkSupervisedClassifierTest
 itkTraitsTest
 itkUnsupervisedClassifierTest
