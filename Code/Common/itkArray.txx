@@ -220,4 +220,30 @@ Array<TValueType, VLength>
 }
 
 
+/**
+ * Fill all elements of the array with the given value.
+ */
+template <typename TValueType, unsigned long VLength>
+void
+Array<TValueType, VLength>
+::Fill(const ValueType& value)
+{
+  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value;
+}
+
+
+/**
+ * Return an Array with all elements assigned to the given value.
+ */
+template <typename TValueType, unsigned long VLength>
+Array<TValueType, VLength>
+Array<TValueType, VLength>
+::Filled(const ValueType& value)
+{
+  Array<ValueType, Length> array;
+  array.Fill(value);
+  return array;
+}
+
+
 } // namespace itk

@@ -18,10 +18,21 @@
 
 #include "itkMacro.h"
 
-#include <vnl/vnl_vector_ref.h>
-
 namespace itk
 {
+
+/**
+ * Utility class for static range indexing support.
+ */
+template <unsigned long VFirst, unsigned long VLast>
+class Range
+{
+public:
+  enum { First = VFirst };
+  enum { Last = VLast };
+  enum { Length = Last-First+1 };
+};
+
 
 /** \class Array
  *
@@ -115,7 +126,7 @@ protected:
      * and the first element in the list of assignments.
      */
     ArrayCommaListCopier(Iterator iter, const ValueType& elt): m_Iterator(iter)
-      {*m_Iterator++ = elt;}
+      { *m_Iterator++ = elt; }
 
     /**
      * Each comma encountered increments the Iterator, and the next element
@@ -174,12 +185,32 @@ public:
   Iterator      End();
   ConstIterator End() const;
   SizeType      Size() const;
+  void Fill(const ValueType&);
   
   /**
-   * Get a reference to the array that can be treated as a vnl vector.
+   * Return a reference to a sub-range of the Array, specified by the
+   * template parameters.
    */
-  ::vnl_vector_ref<ValueType> Get_vnl_vector()
-    {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
+  template <SizeType VFirst, SizeType VLast>
+  typename Array<ValueType, Range<VFirst, VLast>::Length>::Reference
+  operator[](Range<VFirst, VLast>)
+    {
+    return Array<ValueType, Range<VFirst, VLast>::Length>
+      ::Reference(m_InternalArray+VFirst);
+    }
+
+  
+  /**
+   * Return a reference to a sub-range of the Array, specified by the
+   * template parameters.
+   */
+  template <SizeType VFirst, SizeType VLast>
+  typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+  operator[](Range<VFirst, VLast>) const
+    {
+    return Array<ValueType, Range<VFirst, VLast>::Length>
+      ::ConstReference(m_InternalArray+VFirst);
+    }
   
 private:
   /**
@@ -208,36 +239,36 @@ public:
      * allows the ValueType's assignment operator to be executed.
      */
     Reference& operator= (const Array& r)
-    {
+      {
       if(r.Begin() == m_InternalArray) return *this;
       ConstIterator input = r.Begin();
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
-    }
+      }
       
     Reference& operator= (const Reference& r)
-    {
+      {
       if(r.Begin() == m_InternalArray) return *this;
       ConstIterator input = r.Begin();
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
-    }
+      }
     
     Reference& operator= (const ConstReference& r)
-    {
+      {
       if(r.Begin() == m_InternalArray) return *this;
       ConstIterator input = r.Begin();
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
-    }
+      }
     
     Reference& operator= (const ValueType r[Length])
-    {
+      {
       if(r == m_InternalArray) return *this;
       ConstIterator input = r;
       for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
       return *this;
-    }
+      }
 
     /**
      * Assignment operator to allow assignment via a comma-separated list.
@@ -275,37 +306,61 @@ public:
      * Get an Iterator for the beginning of the Array.
      */
     Iterator      Begin() 
-      {return (Iterator)m_InternalArray;}
+      { return (Iterator)m_InternalArray; }
 
     /**
      * Get a ConstIterator for the beginning of the Array.
      */
     ConstIterator Begin() const 
-      {return (ConstIterator)m_InternalArray;}
+      { return (ConstIterator)m_InternalArray; }
 
     /**
      * Get an Iterator for the end of the Array.
      */
     Iterator      End() 
-      {return (Iterator)(m_InternalArray+Length);}
+      { return (Iterator)(m_InternalArray+Length); }
 
     /**
      * Get a ConstIterator for the end of the Array.
      */
     ConstIterator End() const 
-      {return (ConstIterator)(m_InternalArray+Length);}
+      { return (ConstIterator)(m_InternalArray+Length); }
 
     /**
      * Get the size of the Array.
      */
     SizeType      Size() const 
-      {return Length;}
+      { return Length; }
 
     /**
-     * Get a reference to the array that can be treated as a vnl vector.
+     * Fill all elements of the array with the given value.
      */
-    ::vnl_vector_ref<ValueType> Get_vnl_vector()
-      {return ::vnl_vector_ref<ValueType>(Length, m_InternalArray);}
+    void Fill(const ValueType& value)
+      { for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value; }
+    
+    /**
+     * Return a reference to a sub-range of the Array, specified by the
+     * template parameters.
+     */
+    template <SizeType VFirst, SizeType VLast>
+    typename Array<ValueType, Range<VFirst, VLast>::Length>::Reference
+    operator[](Range<VFirst, VLast>)
+      {
+      return Array<ValueType, Range<VFirst, VLast>::Length>
+        ::Reference(m_InternalArray+VFirst);
+      }    
+    
+    /**
+     * Return a reference to a sub-range of the Array, specified by the
+     * template parameters.
+     */
+    template <SizeType VFirst, SizeType VLast>
+    typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+    operator[](Range<VFirst, VLast>) const
+      {
+      return Array<ValueType, Range<VFirst, VLast>::Length>
+        ::ConstReference(m_InternalArray+VFirst);
+      }
     
   private:
     /**
@@ -313,8 +368,8 @@ public:
      */
     ValueType * const m_InternalArray;
   };
-
-
+  
+  
   /** \class Array<TValueType, VLength>::ConstReference
    * Identical to Array<TValueType, VLength>::Reference class, but serves
    * as a const reference.
@@ -346,28 +401,45 @@ public:
     
     operator const ValueType* () const
       { return m_InternalArray; }
+    
     /**
      * Get a ConstIterator for the beginning of the Array.
      */
     ConstIterator  Begin() const 
-      {return (ConstIterator)m_InternalArray;}
+      { return (ConstIterator)m_InternalArray; }
+    
     /**
      * Get a ConstIterator for the end of the Array.
      */
     ConstIterator  End() const
-      {return (ConstIterator)(m_InternalArray+Length);}
+      { return (ConstIterator)(m_InternalArray+Length); }
+    
     /**
      * Get the size of the Array.
      */
     SizeType       Size() const
-      {return Length;}
+      { return Length; }
+
+    /**
+     * Return a reference to a sub-range of the Array, specified by the
+     * template parameters.
+     */
+    template <SizeType VFirst, SizeType VLast>
+    typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+    operator[](Range<VFirst, VLast>) const
+      {
+      return Array<ValueType, Range<VFirst, VLast>::Length>
+        ::ConstReference(m_InternalArray+VFirst);
+      }
 
   private:
     /**
      * Store a pointer to the real memory.
      */
     const ValueType * const m_InternalArray;
-  };  
+  };
+  
+  static Array Filled(const ValueType&);
 };
   
 } // namespace itk
