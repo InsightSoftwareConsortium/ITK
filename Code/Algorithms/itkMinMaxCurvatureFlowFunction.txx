@@ -69,7 +69,6 @@ void
 MinMaxCurvatureFlowFunction<TImage>
 ::InitializeStencilOperator()
 {
-
   // Fill stencil operator with a sphere of radius m_StencilRadius.
 
   m_StencilOperator.SetRadius( m_StencilRadius );
@@ -142,7 +141,6 @@ MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const DispatchBase &,
                    const NeighborhoodType &it) const
 {
-
   PixelType threshold = NumericTraits<PixelType>::Zero;
 
   // Compute gradient
@@ -309,6 +307,7 @@ typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<3> &, const NeighborhoodType &it) const
 {
+  
   const signed int imageDimension = 3;
   
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
@@ -350,15 +349,25 @@ MinMaxCurvatureFlowFunction<TImage>
     }
 
   double theta, phi;
+  if (gradient[2] > 1.0)
+    {
+    gradient[2] = 1.0;
+    }
+  if (gradient[2] < -1.0)
+    {
+    gradient[2] = -1.0;
+    }
   theta = acos( gradient[2] );
+
   if ( gradient[0] == 0 )
     {
     phi = vnl_math::pi * 0.5;
     }
   else
     {
-    phi = atan( gradient[1] / gradient[0] );
+    phi = atan( gradient[1]/ gradient[0] );
     }
+
 
   double cosTheta = cos( theta );
   double sinTheta = sin( theta );
@@ -418,7 +427,6 @@ MinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset)
 {
-
   PixelType update = this->Superclass::ComputeUpdate(
     it, globalData, offset );
 
