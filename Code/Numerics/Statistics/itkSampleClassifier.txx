@@ -67,7 +67,8 @@ SampleClassifier< TSample >
   typename TSample::Iterator iter = GetSample()->Begin() ;
   typename TSample::Iterator end = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
-  
+
+  m_Output->Resize(GetSample()->Size()) ;
   std::vector< double > discriminantScores ;
   unsigned int numberOfClasses = this->GetNumberOfClasses() ;
   discriminantScores.resize(numberOfClasses) ;
