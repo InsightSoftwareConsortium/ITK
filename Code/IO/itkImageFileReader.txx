@@ -112,12 +112,15 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   // the image.
   //
   Size dimSize;
+  double spacing[ TOutputImage::ImageDimension ];
+  double origin[ TOutputImage::ImageDimension ];
+
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
     dimSize[i] = m_ImageIO->GetDimensions(i);
+    spacing[i] = m_ImageIO->GetSpacing()[i];
+    origin[i]  = m_ImageIO->GetOrigin()[i];
     }
-  output->SetOrigin( m_ImageIO->GetOrigin() );
-  output->SetSpacing( m_ImageIO->GetSpacing() );
 
   typedef typename TOutputImage::IndexType   IndexType;
 
@@ -146,6 +149,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   
   
   output->SetLargestPossibleRegion(region);
+  output->SetRequestedRegion(region);
   output->SetBufferedRegion(region);
   output->Allocate();
   
