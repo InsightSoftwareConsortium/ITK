@@ -22,8 +22,8 @@
 //  \doxygen{GrayscaleErodeImageFilter} and
 //  \doxygen{GrayscaleDilateImageFilter} are covered in this example. The
 //  filter names clearly specify the type of image on which they operate.
-//  The header files required for a minimal example on the use of
-//  mathematical morphology filters are presented below.
+//  The header files required for a simple example of the use of
+//  grayscale mathematical morphology filters are presented below.
 //
 //  \index{itk::GrayscaleDilateImageFilter!header}
 //  \index{itk::GrayscaleErodeImageFilter!header}
@@ -79,7 +79,7 @@ int main( int argc, char * argv[] )
   //  Mathematical morphology operations are based on the application of an
   //  operator over a neighborhood of each input pixel. The combination of
   //  the rule and the neighborhood is known as \emph{structuring
-  //  element}. Altough some rules have become the de facto standard in image
+  //  element}. Although some rules have become the de facto standard in image
   //  processing there is a good deal of freedom as to what kind of
   //  algorithmic rule should be applied on the neighborhood. The
   //  implementation in ITK follows the typical rule of minimum for
@@ -100,7 +100,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element type is then used along the input and output
+  //  The structuring element type is then used along with the input and output
   //  image types for instantiating the type of the filters.
   //
   //  Software Guide : EndLatex 
@@ -185,7 +185,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  A grayscale image is provided as input to the filters. This image can be,
+  //  A grayscale image is provided as input to the filters. This image might be,
   //  for example, the output of a reader.
   //
   //  Software Guide : EndLatex 
@@ -199,9 +199,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the filter can be triggered by the invocation of the
-  //  \code{Update()} method on the filter or on other downstream filter, for
-  //  example a writer.
+  //  The filter is executed by invoking its \code{Update()} method, or by
+  //  updating any downstream filter, like, for example, an image writer.
   //
   //  \index{itk::GrayscaleDilateImageFilter!Update()}
   //  \index{itk::GrayscaleErodeImageFilter!Update()}
@@ -224,7 +223,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput.eps}
-  // \itkcaption[Effect of erosion and dilation in a grayscale image]{Effect of
+  // \itkcaption[Effect of erosion and dilation in a grayscale image.]{Effect of
   // erosion and dilation in a grayscale image.}
   // \label{fig:MathematicalMorphologyGrayscaleFilters}
   // \end{figure}
