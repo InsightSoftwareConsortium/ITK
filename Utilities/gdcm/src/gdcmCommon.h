@@ -49,7 +49,7 @@
 #include <string>
 #include <assert.h>
 
-#ifdef GDCM_HAVE_STDINT_H
+#ifdef CMAKE_HAVE_STDINT_H
 #include <stdint.h>   // For uint8_t uint16_t and uint32_t
 #else
 #if defined(_MSC_VER) || defined(__BORLANDC__)

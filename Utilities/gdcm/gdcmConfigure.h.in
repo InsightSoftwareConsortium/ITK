@@ -22,7 +22,7 @@
 #cmakedefine GDCM_NO_ANSI_STRING_STREAM
 
 /* I guess something important */
-#cmakedefine GDCM_HAVE_STDINT_H
+#cmakedefine CMAKE_HAVE_STDINT_H
 
 /* This variable allows you to have helpful debug statement */
 /* That are in between #ifdef / endif in the gdcm code */
@@ -33,6 +33,21 @@
 /* Whether we are building shared libraries.  */
 /* This was important as long as GDCM is LGPL */
 #cmakedefine BUILD_SHARED_LIBS
+
+/* GDCM uses __FUNCTION__ which is not ANSI C, but C99 */
+#cmakedefine GDCM_COMPILER_HAS_FUNCTION
+
+
+/* GetMacAddress require a lot of include file to access low level API */
+#cmakedefine CMAKE_HAVE_UNISTD_H
+#cmakedefine CMAKE_HAVE_STDLIB_H
+#cmakedefine CMAKE_HAVE_SYS_IOCTL_H
+#cmakedefine CMAKE_HAVE_SYS_SOCKET_H
+#cmakedefine CMAKE_HAVE_SYS_SOCKIO_H
+#cmakedefine CMAKE_HAVE_NET_IF_H
+#cmakedefine CMAKE_HAVE_NETINET_IN_H
+#cmakedefine CMAKE_HAVE_NET_IF_DL_H
+#cmakedefine CMAKE_HAVE_NET_IF_ARP_H
 
 
 /*--------------------------------------------------------------------------*/
