@@ -36,10 +36,9 @@ CacheableScalarFunction
   
   m_CacheTable = MeasureArrayType(m_NumberOfSamples) ;
   
-  m_TableInc = static_cast<MeasureType>( 
-                              (m_CacheUpperBound - m_CacheLowerBound) / 
-                              (m_NumberOfSamples - 1)
-                                       );
+  m_TableInc = 
+    static_cast<MeasureType>( (m_CacheUpperBound - m_CacheLowerBound) / 
+                              double(m_NumberOfSamples - 1) );
 
   d = static_cast<MeasureType>( m_CacheLowerBound );
   for (i = 0; i < m_NumberOfSamples; i++) 

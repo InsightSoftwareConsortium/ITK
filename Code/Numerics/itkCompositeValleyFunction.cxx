@@ -69,9 +69,9 @@ void CompositeValleyFunction
     }
   
   m_LowerBound = m_Targets[low].GetMean() - 
-    9 * m_Targets[low].GetSigma() ;
+    9.0 * m_Targets[low].GetSigma() ;
   m_UpperBound = m_Targets[high].GetMean() + 
-    9 * m_Targets[high].GetSigma() ;
+    9.0 * m_Targets[high].GetSigma() ;
 
   CreateCache(m_LowerBound, m_UpperBound, 1000000) ;
 }
