@@ -92,7 +92,7 @@ int main()
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
   // spacing between the centers of adjacent pixels. The following code
-  // illustrates the methods available in the \doxygen{Image} class for dealing with
+  // illustrates the methods available in the Image class for dealing with
   // spacing and origin.
   //
   // \index{itk::Image!Spacing}
@@ -198,7 +198,7 @@ int main()
   // space can be mapped into an image index for the purpose of reading the
   // content of the closest pixel.
   //
-  // First, an \doxygen{Point} type must be declared. The point type is
+  // First, a \doxygen{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
   // dimension of the space. In this particular case, the dimension of the
   // point must match the dimension of the image. 
@@ -212,7 +212,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // An \doxygen{Point}, like an \doxygen{Index}, is a relatively small and
+  // The Point class, like an \doxygen{Index}, is a relatively small and
   // simple object.  For this reason, it is not reference-counted like the
   // large data objects in ITK.  Consequently, it is also not manipulated
   // with \doxygen{SmartPointer}s.  Point objects are simply declared as

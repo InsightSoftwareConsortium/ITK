@@ -140,9 +140,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{ExtractImageFilter} type is instantiated using the input and
+  //  The ExtractImageFilter type is instantiated using the input and
   //  output image types. A filter object is created with the New()
-  //  method and assigned to a \doxygen{SmartPointer}.
+  //  method and assigned to a SmartPointer.
   //
   //  Software Guide : EndLatex 
 
@@ -154,13 +154,13 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{ExtractImageFilter} requires a region to be defined by the
+  //  The ExtractImageFilter requires a region to be defined by the
   //  user. The region is specified by an \doxygen{Index} indicating the
   //  pixel where the region starts and an \doxygen{Size} indication how many
   //  pixels the region has along each dimension. In order to extract a $2D$
   //  image from a $3D$ data set, it is enough to set the size of the region
   //  to $0$ in one dimension.  This will indicate to
-  //  \doxygen{ExtractImageFilter} that a dimensional reduction has been //
+  //  ExtractImageFilter that a dimensional reduction has been //
   //  specified. Here we take the region from the largest possible region of
   //  the input image. Note that Update() is being called first on the
   //  reader, since otherwise the output would have invalid data.
@@ -179,7 +179,7 @@ int main( int argc, char ** argv )
   //  
   //  We take the size from the region and collapse the size in the $Z$
   //  component by setting its value to $0$. This will indicate to the
-  //  \doxygen{ExtractImageFilter} that the output image should have a
+  //  ExtractImageFilter that the output image should have a
   //  dimension less than the input image.
   //  
   //  Software Guide : EndLatex 

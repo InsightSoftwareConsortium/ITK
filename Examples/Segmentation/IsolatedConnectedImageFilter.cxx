@@ -263,7 +263,7 @@ int main( int argc, char *argv[] )
   //  \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
   //  used for separating white matter from gray matter in
   //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput} using the
-  //  \doxygen{IsolatedConnectedImageFilter}.\label{tab:IsolatedConnectedImageFilterOutput}}
+  //  IsolatedConnectedImageFilter.\label{tab:IsolatedConnectedImageFilterOutput}}
   //  \end{table}
   //
   // \begin{figure} \center

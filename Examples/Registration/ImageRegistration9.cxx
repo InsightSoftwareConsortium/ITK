@@ -22,7 +22,7 @@
 // identical to that in
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
 // use of the CenteredAffineTransform here instead of the
-// CenteredRigid2DTransform. We will focus on the most
+// \doxygen{CenteredRigid2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
@@ -201,11 +201,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example, we again use the 
-  //  CenteredTransformInitializer helper class in order to compute a reasonable
-  //  value for the initial center of rotation and the translation. The
-  //  initializer is set to use the center of mass of each image as the
-  //  initial correspondence correction.
+  //  In this example, we again use the
+  //  \doxygen{CenteredTransformInitializer} helper class in order to compute
+  //  a reasonable value for the initial center of rotation and the
+  //  translation. The initializer is set to use the center of mass of each
+  //  image as the initial correspondence correction.
   //
   //  Software Guide : EndLatex 
 
@@ -282,7 +282,7 @@ int main( int argc, char *argv[] )
   //  
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  RegularStepGradientDescentOptimizer. Below, we define the
+  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
   //  optimization parameters like initial step length, minimal step length
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.

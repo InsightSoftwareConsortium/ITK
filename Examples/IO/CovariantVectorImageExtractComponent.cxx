@@ -94,7 +94,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{VectorIndexSelectionCastImageFilter} is instantiated
+  //  The VectorIndexSelectionCastImageFilter is instantiated
   //  using the input and output image types. A filter object is created with
   //  the New() method and assigned to a \doxygen{SmartPointer}.
   //
@@ -114,7 +114,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{VectorIndexSelectionCastImageFilter} require us to specify
+  //  The VectorIndexSelectionCastImageFilter class require us to specify
   //  which of the vector components is to be extracted from the vector image.
   //  This is done with the SetIndex() method. In this example we obtain
   //  this value from the command line arguments.
@@ -170,7 +170,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the New() method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a SmartPointer.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

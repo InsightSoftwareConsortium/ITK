@@ -93,7 +93,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RegionOfInterestImageFilter} type is instantiated using
+  //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
   //
@@ -108,7 +108,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RegionOfInterestImageFilter} requires a region to be
+  //  The RegionOfInterestImageFilter requires a region to be
   //  defined by the user. The region is specified by an \doxygen{Index}
   //  indicating the pixel where the region starts and an \doxygen{Size}
   //  indication how many pixels the region has along each dimension. In this
@@ -164,7 +164,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the New() method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a SmartPointer.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

@@ -33,7 +33,7 @@
 // the \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
 // metric computation, the values are too noisy to work
 // successfully with the \doxygen{RegularStepGradientDescentOptimizer}.
-// Therefore, we will use the simpler \doxygen{GradientDescentOptimizer} with
+// Therefore, we will use the simpler GradientDescentOptimizer with
 // a user defined learning rate.  The following headers declare the basic
 // components of this registration method.
 //
@@ -342,7 +342,7 @@ int main( int argc, char *argv[] )
   //  
   //  Since larger values of mutual information indicate better matches than
   //  smaller values, we need to maximize the cost function in this example.
-  //  By default the \doxygen{GradientDescentOptimizer} is set to minimize the
+  //  By default the GradientDescentOptimizer class is set to minimize the
   //  value of the cost-function. It is therefore necessary to modify its
   //  default behavior by invoking the \code{MaximizeOn()} method.
   //  Additionally, we need to define the optimizer's step size using the

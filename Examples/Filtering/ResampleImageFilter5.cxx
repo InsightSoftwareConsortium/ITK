@@ -141,7 +141,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{Similarity2DTransform} allows the user to select the
+  //  The Similarity2DTransform allows the user to select the
   //  center of rotation.  This center is used for both rotation and scaling
   //  operations.
   //
@@ -210,7 +210,7 @@ int main( int argc, char * argv[] )
   //  Note that the order in which rotation, scaling and translation are
   //  defined is irrelevant in this transform. This is not the case in the
   //  Affine transform which is very generic and allow different combinations
-  //  for initialization. In the \doxygen{Similarity2DTransform} transform the
+  //  for initialization. In the Similarity2DTransform class the
   //  rotation and scaling will always be applied before the translation.
   //
   //  \index{itk::Similarity2DTransform!SetScale()}

@@ -34,7 +34,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The type is defined by the \emph{traits} of the \doxygen{PointSet}
+  //  The type is defined by the \emph{traits} of the PointSet
   //  class. The following line conveniently takes the PointsContainer type
   //  from the PointSet traits and declare it in the global namespace.
   //

@@ -237,9 +237,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The \doxygen{WarpImageFilter} can be used to warp the moving image with
-  // the output deformation field. Like the ResampleImageFilter, the WarpImageFilter requires
-  // the specification of the input image to be resampled, an input image
-  // interpolator, and the output image spacing and origin.
+  // the output deformation field. Like the \doxygen{ResampleImageFilter},
+  // the WarpImageFilter requires the specification of the input image to be
+  // resampled, an input image interpolator, and the output image spacing and
+  // origin.
   //
   // \index{itk::WarpImageFilter}
   // \index{itk::WarpImageFilter!SetInput()}

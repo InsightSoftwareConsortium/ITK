@@ -24,7 +24,7 @@
 //  the appropriate ImageIO class for performing the IO operations. Explicit
 //  selection of the ImageIO also allows the user to invoke specialized
 //  features of a particular class which may not be available from the
-//  general API provide by \doxygen{ImageIO}.
+//  general API provide by ImageIO.
 //
 //  The following example illustrates explicit instantiating of an IO class
 //  (in this case a VTK file format), setting its parameters and then
@@ -155,7 +155,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Explicitly declaring the specific \doxygen{VTKImageIO} allow users to
+  //  Explicitly declaring the specific VTKImageIO allow users to
   //  invoke methods specific to a particulat IO class. For example, the
   //  following line specifies to the writer to use ASCII format when writing
   //  the pixel data.
@@ -171,10 +171,10 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{VTKImageIO} object is then connected to the
-  //  \doxygen{ImageFileWriter}.  This will short-circuit the action of the
-  //  \doxygen{ImageIOFactory} mechanism. The \doxygen{ImageFileWriter} will
-  //  not attempt to look for other \doxygen{ImageIO} objects capable of
+  //  The VTKImageIO object is then connected to the
+  //  ImageFileWriter.  This will short-circuit the action of the
+  //  ImageIOFactory mechanism. The ImageFileWriter will
+  //  not attempt to look for other ImageIO objects capable of
   //  performing the writing tasks. It will simply invoke the one provided by
   //  the user.
   // 
@@ -189,7 +189,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we invoke Update() on the \doxygen{ImageFileWriter} and
+  //  Finally we invoke Update() on the ImageFileWriter and
   //  place this call inside a try/catch block in case any errors ocurr during
   //  the writing process.
   // 
@@ -214,8 +214,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Although this example only illustrates how to use an explicit
-  //  \doxygen{ImageIO} class with the \doxygen{ImageFileWriter}, the same
-  //  can be done with the \doxygen{ImageFileReader}. The typical case in
+  //  ImageIO class with the ImageFileWriter, the same
+  //  can be done with the ImageFileReader. The typical case in
   //  which this is done is when reading raw image files with the
   //  \doxygen{RawImageIO} object. The drawback of this approach is that the
   //  parameters of the image have to be explicitly written in the code.  The
@@ -223,7 +223,7 @@ int main( int argc, char ** argv )
   //  imaging.  It is always better to create a header for a raw file by
   //  using any of the file formats that combine a text header file and a raw
   //  binary file, like \doxygen{MetaImgaIO}, \doxygen{GiplImageIO} and
-  //  \doxygen{VTKImageIO}.
+  //  VTKImageIO.
   // 
   //  Software Guide : EndLatex 
 

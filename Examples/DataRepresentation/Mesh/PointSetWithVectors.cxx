@@ -45,7 +45,7 @@ int main()
   //  \itkpiccaption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \parpic(6cm,4cm)[r]{\includegraphics[width=4cm]{PointSetWithVectors.eps}}
   //
-  //  The \doxygen{Vector} class is templated over the type used to represent
+  //  The Vector class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the
   //  PixelType is independent of the PointType, we are free to select any
   //  dimension for the vectors to be used as pixel type. However, for the
@@ -78,10 +78,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a sphere and assigning vector
-  //  values to the points. The components of the vectors in this example are
-  //  computed to represent the tangents to the circle as shown in figure
-  //  \ref{fig:PointSetWithVectors}.
+  //  The following code is generating a sphere and assigning vector values
+  //  to the points. The components of the vectors in this example are
+  //  computed to represent the tangents to the circle as shown in
+  //  Figure~\ref{fig:PointSetWithVectors}.
   //
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}

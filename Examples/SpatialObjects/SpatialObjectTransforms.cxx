@@ -93,8 +93,6 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // Next, we apply an offset on the ObjectToParentTransform of the child object 
@@ -114,7 +112,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // To realize the previous operations on the transformations, we should
-// invoke the ComputeObjectToWorldTransform() that recomputes all
+// invoke the \code{ComputeObjectToWorldTransform()} that recomputes all
 // dependent transformations.
 //
 // Software Guide : EndLatex 
@@ -128,13 +126,13 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We can now display the ObjectToWorldTransform for both objects.  One
-// should notice that the \doxygen{FixedCenterOfRotationAffineTransform}
-// derives from \doxygen{AffineTransform} and therefore the only valid
-// members of the transformation is Matrix and Offset. For instance, when we
-// invoke the ScaleComponent() method the internal Matrix is recomputed to
+// should notice that the FixedCenterOfRotationAffineTransform derives from
+// \doxygen{AffineTransform} and therefore the only valid members of the
+// transformation is Matrix and Offset. For instance, when we invoke the
+// \code{ScaleComponent()} method the internal Matrix is recomputed to
 // reflect this change.
 // 
-// The \doxygen{FixedCenterOfRotationAffineTransform} performs the following
+// The FixedCenterOfRotationAffineTransform performs the following
 // computation
 //
 //  \begin{equation}
@@ -152,11 +150,11 @@ int main( int , char *[] )
 // T = C + V - R \cdot C
 // \end{equation}
 //
-// This means that GetScaleComponent() and GetOffsetComponent()
-// as well as the GetMatrixComponent() might not be set to the expected
-// value, especially if the transformation results from a composition with
-// another transformation since the composition is done using the Matrix and
-// the Offset of the affine transformation.
+// This means that \code{GetScaleComponent()} and \code{GetOffsetComponent()}
+// as well as the \code{GetMatrixComponent()} might not be set to the
+// expected value, especially if the transformation results from a
+// composition with another transformation since the composition is done
+// using the Matrix and the Offset of the affine transformation.
 //
 // Next, we show the two affine transformations corresponding to the two
 // objects.
@@ -196,7 +194,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next we invoke ComputeObjectToWorldTransform() on the modified
+// Next we invoke \code{ComputeObjectToWorldTransform()} on the modified
 // object.  This will propagate the transformation through all its children.
 //
 // Software Guide : EndLatex 

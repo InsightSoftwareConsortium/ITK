@@ -25,12 +25,12 @@
 // in other dimensions. The objective of the initializer class is to simplify
 // the computation of the center of rotation and translation required to
 // initialize certains transforms, like the
-// \doxygen{CenteredRigid2DTransform}. The initializer accepts two images and
+// CenteredRigid2DTransform. The initializer accepts two images and
 // a transform as inputs. The images are considered to be the fixed and
 // moving images of the registration problem, while the transform is the one
 // used to register the images.
 //
-// The \doxygen{CenteredRigid2DTransform} supports two modes of operation. In
+// The CenteredRigid2DTransform supports two modes of operation. In
 // the first mode, the centers of the images are computed as space
 // coordinates using the image origin, size and spacing. The center of the
 // moving image is assigned as the rotational center of the transform and the
@@ -215,7 +215,7 @@ int main( int argc, char *argv[] )
   //  
   //  The input images are taken from readers. It is not necessary to
   //  explicitly call \code{Update()} on the readers since the
-  //  \doxygen{CenteredTransformInitializer} will do it as part of its
+  //  CenteredTransformInitializer class will do it as part of its
   //  initialization. The following code instantiates the initializer. This
   //  class is templated over the fixed and moving image type as well as the
   //  transform type. An initializer is then constructed by calling the
@@ -397,7 +397,7 @@ int main( int argc, char *argv[] )
   // 
   //  Note that the reported translation is not the translation of $(13,17)$
   //  that might be expected. The reason is that the five parameters of the
-  //  \doxygen{CenteredRigid2DTransform} are redundant. The actual movement
+  //  CenteredRigid2DTransform are redundant. The actual movement
   //  in space is described by only $3$ parameters. This means that there are
   //  infinite combinations of rotation center and translations that will
   //  represent the same actual movement in space. It it more illustrative in

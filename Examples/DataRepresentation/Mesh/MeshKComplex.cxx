@@ -17,15 +17,15 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class supports the representation of formal topologies. In
-//  particular the concept of \emph{K-Complex} can be correctly represented in
-//  the Mesh. An informal definition of K-Complex may be as follows: a
-//  K-Complex is a topological structure in which for every cell of dimension
-//  $N$, its boundary faces which are cells of dimension $N-1$ also belong to
-//  the structure.
+//  The \doxygen{Mesh} class supports the representation of formal
+//  topologies. In particular the concept of \emph{K-Complex} can be
+//  correctly represented in the Mesh. An informal definition of K-Complex
+//  may be as follows: a K-Complex is a topological structure in which for
+//  every cell of dimension $N$, its boundary faces which are cells of
+//  dimension $N-1$ also belong to the structure.
 //
 //  This section illustrates how to instantiate a K-Complex structure using the
-//  \doxygen{Mesh}. The example structure is composed of one tetrahedron, its
+//  mesh. The example structure is composed of one tetrahedron, its
 //  four triangle faces, its six line edges and its four vertices.
 //
 //  \index{itk::Mesh!K-Complex}
@@ -76,7 +76,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The cell type can now be instantiated using the traits
-  //  taken from the \doxygen{Mesh}.  
+  //  taken from the Mesh.  
   //
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::VertexCell!Instantiation}
@@ -436,7 +436,7 @@ int main()
   //  by specifying that two triangles are not considered to be neighbors any
   //  more. 
   //
-  //  Neighborhood relationships are represented in the \doxygen{Mesh} by the
+  //  Neighborhood relationships are represented in the mesh by the
   //  notion of \emph{BoundaryFeature}. Every cell has an internal list of
   //  cell-identifiers pointing to other cells that are considered to be its
   //  neighbors. Boundary features are classified by dimension. For example, a
@@ -453,7 +453,7 @@ int main()
   //  Let's take in our current example the tetrahedron cell that was
   //  associated with the cell-identifier \code{0} and assign to it the four
   //  vertices as boundaries of dimension zero. This is done by invoking the
-  //  \code{SetBoundaryAssignment()} method on the \doxygen{Mesh}. 
+  //  \code{SetBoundaryAssignment()} method on the Mesh class. 
   //
   //  \index{itk::Mesh!SetBoundaryAssignment()}
   //  \index{SetBoundaryAssignment()!itk::Mesh}

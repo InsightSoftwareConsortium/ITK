@@ -23,12 +23,12 @@
 //  with the points.  The mesh class is also n-dimensional which
 //  allows a great flexibility in its use.
 //
-//  In practice a \doxygen{Mesh} class can be seen as a \doxygen{PointSet} to
+//  In practice a Mesh class can be seen as a PointSet to
 //  which cells (also known as elements) of many different dimensions and
 //  shapes have been added. Cells in the mesh are defined in terms of the
 //  existing points using their point-identifiers.
 //
-//  In the same way as for the \doxygen{PointSet}, two basic styles of
+//  In the same way as for the PointSet, two basic styles of
 //  Meshes are available in ITK. They are referred to as \emph{static}
 //  and \emph{dynamic}. The first one is used when the number of
 //  points in the set can be known in advance and it is not expected
@@ -75,7 +75,7 @@ int main()
   //  Programming}. In particular the Mesh class is parametrized over the
   //  PixelType and the dimension of the space. PixelType is the type of the
   //  value associated with every point just as is done with the
-  //  \doxygen{PointSet}. The following line illustrates a typical
+  //  PointSet. The following line illustrates a typical
   //  instantiation of the Mesh.
   //
   //  \index{itk::Mesh!Instantiation}
@@ -108,8 +108,8 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The management of points in the \doxygen{Mesh} is exactly the same as in
-  //  the \doxygen{PointSet}. The type point associated with the mesh can be
+  //  The management of points in the Mesh is exactly the same as in
+  //  the PointSet. The type point associated with the mesh can be
   //  obtained through the \code{PointType} trait. The following code shows the
   //  creation of points compatible with the mesh type defined above and the
   //  assignment of values to its coordinates.
@@ -168,7 +168,7 @@ int main()
   //
   //  The points can now be efficiently accessed using the Iterator to the
   //  PointsContainer as it was done in the previous section for the
-  //  \doxygen{PointSet}.  First, the point iterator type is extracted through
+  //  PointSet.  First, the point iterator type is extracted through
   //  the mesh traits.
   //
   //  \index{PointsContainer!Iterator}

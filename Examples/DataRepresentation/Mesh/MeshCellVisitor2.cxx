@@ -19,9 +19,9 @@
 //
 //  The following section illustrates a realistic example of the use of Cell
 //  visitors on the \doxygen{Mesh}. A set of different visitors is defined
-//  here, each visitor associated with a particular type of cell. All the visitors
-//  are registered with a MultiVisitor class which is passed to the
-//  \doxygen{Mesh}.
+//  here, each visitor associated with a particular type of cell. All the
+//  visitors are registered with a MultiVisitor class which is passed to the
+//  mesh.
 // 
 //  The first step is to include the \code{CellInterfaceVisitor} header file.
 //
@@ -445,7 +445,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  Finally, the iteration over the cells is triggered by calling the method
-  //  \code{Accept()} on the \doxygen{Mesh}.
+  //  \code{Accept()} on the Mesh class.
   // 
   //  \index{itk::Mesh!Accept()}
   //  \index{Accept()!itk::Mesh!}

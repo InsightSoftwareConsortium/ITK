@@ -522,7 +522,7 @@ int main( int argc, char *argv[] )
   //  \itkcaption[GeodesicActiveContour segmentation example parameters]{Parameters used
   //  for segmenting some brain structures shown in
   //  Figure~\ref{fig:GeodesicActiveContourImageFilterOutput2} using the filter
-  //  \doxygen{GeodesicActiveContourLevelSetImageFilter}. 
+  //  GeodesicActiveContourLevelSetImageFilter. 
   //  \label{tab:FastMarchingImageFilterOutput2}}
   //  \end{table}
   //

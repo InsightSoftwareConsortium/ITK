@@ -31,11 +31,10 @@
 //  edges, vertices, and faces, so no geometric feature appears more
 //  than once.  
 //  
-//  This section shows how you can use the
-//  \doxygen{AutomaticTopologyMeshSource} to instantiate a mesh
-//  representing a K-Complex.  We will first generate the same
-//  tetrahedron from Section~\ref{sec:MeshKComplex}, after which we will add
-//  a hollow one to illustrate some additional features of the mesh
+//  This section shows how you can use the AutomaticTopologyMeshSource to
+//  instantiate a mesh representing a K-Complex.  We will first generate the
+//  same tetrahedron from Section~\ref{sec:MeshKComplex}, after which we will
+//  add a hollow one to illustrate some additional features of the mesh
 //  source.
 //
 //  \index{itk::Mesh!K-Complex}
@@ -70,7 +69,7 @@ main()
   //  source.  Two new types are \code{IdentifierType} and
   //  \code{IdentifierArrayType}.  Every cell in a mesh has an
   //  identifier, whose type is determined by the mesh traits.
-  //  \doxygen{AutomaticTopologyMeshSource} requires that the identifier
+  //  AutomaticTopologyMeshSource requires that the identifier
   //  type of all vertices and cells be \code{unsigned long}, which is
   //  already the default.  However, if you created a new mesh traits
   //  class to use string tags as identifiers, the resulting mesh
@@ -218,14 +217,13 @@ main()
 
   //  Software Guide : BeginLatex
   //
-  //  In contrast to the case with typical filters, \code{GetOutput()}
-  //  does not trigger an update process.  The mesh is always
-  //  maintained in a valid state as cells are added, and can be
-  //  accessed at any time.  It would, however, be a mistake to modify
-  //  the mesh by some other means until
-  //  \code{AutomaticTopologyMeshSource} is done with it, since the
-  //  mesh source would then have an inaccurate record of which points
-  //  and cells are currently in the mesh.
+  //  In contrast to the case with typical filters, \code{GetOutput()} does
+  //  not trigger an update process.  The mesh is always maintained in a
+  //  valid state as cells are added, and can be accessed at any time.  It
+  //  would, however, be a mistake to modify the mesh by some other means
+  //  until AutomaticTopologyMeshSource is done with it, since the mesh
+  //  source would then have an inaccurate record of which points and cells
+  //  are currently in the mesh.
   //
   //  Software Guide : EndLatex
 

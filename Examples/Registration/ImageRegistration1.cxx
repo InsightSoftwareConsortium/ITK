@@ -208,8 +208,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs to the
-  //  output of the readers.
+  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs to
+  //  the output of the readers.
   //
   //  Software Guide : EndLatex 
 
@@ -274,7 +274,7 @@ int main( int argc, char *argv[] )
   //
   //  At this point the registration method is ready for execution. The
   //  optimizer is the component that drives the execution of the
-  //  registration.  However, the \doxygen{ImageRegistrationMethod} class
+  //  registration.  However, the ImageRegistrationMethod class
   //  orchestrates the ensemble to make sure that everything is in place
   //  before control is passed to the optimizer.
   //
@@ -460,14 +460,14 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  It is common, as the last step of a registration task, to use the resulting
-  //  transform to map the moving image into the fixed image space.  This is
-  //  easily done with the \doxygen{ResampleImageFilter}. Please refer to
-  //  Section \ref{sec:ResampleImageFilter} for details on the use of this
-  //  filter.  First, a ResampleImageFilter type is instantiated using
-  //  the image types. It is convenient to use the fixed image type as the
-  //  output type since it is likely that the transformed moving image will be
-  //  compared with the fixed image.
+  //  It is common, as the last step of a registration task, to use the
+  //  resulting transform to map the moving image into the fixed image space.
+  //  This is easily done with the \doxygen{ResampleImageFilter}. Please
+  //  refer to Section~\ref{sec:ResampleImageFilter} for details on the use
+  //  of this filter.  First, a ResampleImageFilter type is instantiated
+  //  using the image types. It is convenient to use the fixed image type as
+  //  the output type since it is likely that the transformed moving image
+  //  will be compared with the fixed image.
   //
   //  Software Guide : EndLatex 
 
@@ -640,7 +640,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The complete pipeline structure of the current example is presented in
-  //  Figure \ref{fig:ImageRegistration1Pipeline}.  The components of the
+  //  Figure~\ref{fig:ImageRegistration1Pipeline}.  The components of the
   //  registration method are depicted as well.  Figure
   //  \ref{fig:ImageRegistration1Output} (left) shows the result of resampling
   //  the moving image in order to map it onto the fixed image space. The top
@@ -674,13 +674,13 @@ int main( int argc, char *argv[] )
   //
   //  It is always useful to keep in mind that registration is essentially an
   //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
-  //  reinforce this notion by showing the trace of translations and values of
-  //  the image metric at each iteration of the optimizer. It can be seen from
-  //  the top figure that the step length is progressively reduced as the
-  //  optimizer gets closer to the metric extrema. The bottom plot clearly
-  //  shows how the metric value decreases as the optimization advances. The log
-  //  plot helps to hightlight the normal oscilations of the optimizer around
-  //  the extrema value.
+  //  reinforce this notion by showing the trace of translations and values
+  //  of the image metric at each iteration of the optimizer. It can be seen
+  //  from the top figure that the step length is progressively reduced as
+  //  the optimizer gets closer to the metric extrema. The bottom plot
+  //  clearly shows how the metric value decreases as the optimization
+  //  advances. The log plot helps to hightlight the normal oscilations of
+  //  the optimizer around the extrema value.
   //
   //  Software Guide : EndLatex 
 

@@ -156,7 +156,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter output is now cast to \code{unsigned char} RGB components by
-  //  using the \doxygen{VectorCastImageFilter}
+  //  using the VectorCastImageFilter
   //
   //  \index{itk::VectorCastImageFilter!instantiation}
   //  \index{itk::VectorCastImageFilter!New()}
@@ -223,7 +223,7 @@ int main( int argc, char * argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
-  //  Compares the effect of the gradient and curvature anisotropic diffusion
+  //  compares the effect of the gradient and curvature anisotropic diffusion
   //  filters on a small region of the same cryogenic slice used in Figure
   //  \ref{fig:RGBVectorCurvatureAnisotropicDiffusionImageFilterInputOutput}.
   //  The region used in this figure is only  $127 \times 162$ pixels and took

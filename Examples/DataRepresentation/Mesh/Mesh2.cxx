@@ -25,7 +25,7 @@
 //
 //  The following code creates a polygonal line in order to illustrate the
 //  simplest case of cell management in a Mesh. The only cell type used here is
-//  the \doxygen{LineCell}. The header file of this class has to be included.
+//  the LineCell. The header file of this class has to be included.
 //
 //  \index{itk::LineCell!Header}
 //
@@ -65,7 +65,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{LineCell} type can now be instantiated using the traits
+  //  The LineCell type can now be instantiated using the traits
   //  taken from the Mesh.  
   //
   //  \index{itk::LineCell!Instantiation}
@@ -155,7 +155,7 @@ int main()
   //
   //  The following code creates two CellAutoPointers and initializes
   //  them with newly created cell objects. The actual cell type
-  //  created in this case is \doxygen{LineCell}. Note that cells are
+  //  created in this case is LineCell. Note that cells are
   //  created with the normal \code{new} C++ operator. The
   //  CellAutoPointer takes ownership of the received pointer by using
   //  the method \code{TakeOwnership()}. Even though this may seem
@@ -185,8 +185,8 @@ int main()
   //  in the mesh. Every cell type has a specific number of points that must
   //  be associated with it.\footnote{Some cell types like polygons have a
   //  variable number of points associated with them.} For example a
-  //  \doxygen{LineCell} requires two points, a \doxygen{TriangleCell}
-  //  requires three and a \doxygen{TetrahedronCell} requires four. Cells use
+  //  LineCell requires two points, a TriangleCell
+  //  requires three and a TetrahedronCell requires four. Cells use
   //  an internal numbering system for points. It is simply an index in the
   //  range $\{0,NumberOfPoints-1\}$. The association of points and cells is
   //  done by the \code{SetPointId()} method which requires the user to

@@ -37,7 +37,7 @@
 // rather fast in low gradient areas. This arrangement will make the contour
 // propagate until it reaches the edges of anatomical structures in the image
 // and then slow down in front of those edges.  The output of the
-// \doxygen{FastMarchingImageFilter} is a \emph{time-crossing map} that
+// FastMarchingImageFilter is a \emph{time-crossing map} that
 // indicates, for each pixel, how much time it would take for the front to
 // arrive at the pixel location.
 //
@@ -57,13 +57,13 @@
 // the contour was contained for a long time in a region of the image space.
 //
 // Figure~\ref{fig:FastMarchingCollaborationDiagram} shows the major components
-// involved in the application of the \doxygen{FastMarchingImageFilter} to a
+// involved in the application of the FastMarchingImageFilter to a
 // segmentation task. It involves an initial stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input to the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
 // \doxygen{SigmoidImageFilter}.  Finally, the output of the
-// \doxygen{FastMarchingImageFilter} is passed to a
+// FastMarchingImageFilter is passed to a
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
 //
@@ -75,7 +75,7 @@
 // term of the differential equation. 
 //
 // Let's start by including the following headers. First we include the header
-// of the \doxygen{CurvatureAnisotropicDiffusionImageFilter} that will be used
+// of the CurvatureAnisotropicDiffusionImageFilter that will be used
 // for removing noise from the input image.
 //
 // Software Guide : EndLatex 
@@ -367,7 +367,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} requires a couple
+  //  The CurvatureAnisotropicDiffusionImageFilter class requires a couple
   //  of parameters to be defined. The following are typical values for $2D$
   //  images. However they may have to be adjusted depending on the amount of
   //  noise present in the input image. This filter has been discussed in
@@ -460,7 +460,7 @@ int main( int argc, char *argv[] )
   //
   //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
-  //  \doxygen{FastMarchingImageFilter} traits.
+  //  FastMarchingImageFilter traits.
   //
   //  \index{itk::FastMarchingImageFilter!Nodes}
   //  \index{itk::FastMarchingImageFilter!NodeContainer}
@@ -679,7 +679,7 @@ int main( int argc, char *argv[] )
   //  \itkcaption[FastMarching segmentation example parameters]{Parameters used
   //  for segmenting some brain structures shown in
   //  Figure~\ref{fig:FastMarchingImageFilterOutput2} using the filter
-  //  \doxygen{FastMarchingImageFilter}. All of them used a stopping value of
+  //  FastMarchingImageFilter. All of them used a stopping value of
   //  100.\label{tab:FastMarchingImageFilterOutput2}}
   //  \end{table}
   //
@@ -689,7 +689,7 @@ int main( int argc, char *argv[] )
   //  right: the output of the anisotropic diffusion filter, the gradient
   //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
   //  which is finally used as the speed image for the
-  //  \doxygen{FastMarchingImageFilter}.
+  //  FastMarchingImageFilter.
   //
   // \begin{figure} \center
   // \includegraphics[height=0.40\textheight]{BrainProtonDensitySlice.eps}

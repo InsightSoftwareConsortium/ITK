@@ -20,10 +20,10 @@
 // The following example illustrates the use of the
 // \doxygen{NeighborhoodConnectedImageFilter}.  This filter is a close variant
 // of the \doxygen{ConnectedThresholdImageFilter}. The main difference between
-// these two filters is that the \doxygen{ConnectedThresholdImageFilter}
+// these two filters is that the ConnectedThresholdImageFilter
 // accepts a pixel in the region if its intensity is in the interval defined by
 // two user-provided threshold values. The
-// \doxygen{NeighborhoodConnectedImageFilter}, on the other hand, will only
+// NeighborhoodConnectedImageFilter, on the other hand, will only
 // accept a pixel if \textbf{all} its neighbors have intensities that fit in
 // the interval. The size of the neighborhood to be considered around each
 // pixel is defined by a user-provided integer radius. 
@@ -240,7 +240,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now provide the
+  //  As in the ConnectedThresholdImageFilter we must now provide the
   //  intensity value to be used for the output pixels accepted in the region
   //  and at least one seed point to define the initial region.
   //
@@ -310,12 +310,12 @@ int main( int argc, char *argv[] )
   // \label{fig:NeighborhoodConnectedImageFilterOutput}
   // \end{figure}
   //
-  //  As with the \doxygen{ConnectedThresholdImageFilter}, several seeds could
+  //  As with the ConnectedThresholdImageFilter, several seeds could
   //  beprovided to the filter by using the \code{AddSeed()} method.
   //  Compare the output of Figure
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} with those of Figure
   //  \ref{fig:ConnectedThresholdOutput} produced by the
-  //  \doxygen{ConnectedThresholdImageFilter}. You may want to play with the
+  //  ConnectedThresholdImageFilter. You may want to play with the
   //  value of the neighborhood radius and see how it affect the smoothness of
   //  the segmented object borders, the size of the segmented region and how
   //  much that costs in computing time. 

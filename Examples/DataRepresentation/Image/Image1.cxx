@@ -24,7 +24,7 @@
 // \index{itk::Image!Instantiation}
 // \index{itk::Image!Header}
 //
-// First, the header file of the \doxygen{Image} class must be included.
+// First, the header file of the Image class must be included.
 //
 // Software Guide : EndLatex 
 
@@ -86,8 +86,8 @@ int main()
   //
   // A region is defined by two classes: the \doxygen{Index} and
   // \doxygen{Size} classes. The origin of the region within the
-  // image with which it is associated is defined by \code{Index}. The
-  // extent, or size, of the region is defined by \code{Size}. \code{Index}
+  // image with which it is associated is defined by Index. The
+  // extent, or size, of the region is defined by Size. Index
   // is represented by a n-dimensional array where each component is an
   // integer indicating---in topological image coordinates---the initial
   // pixel of the image. When an image is created manually, the user is
@@ -95,7 +95,7 @@ int main()
   // grid starts. These two parameters make it possible to process selected
   // regions.
   //   
-  // The starting point of the image is defined by an \doxygen{Index} class
+  // The starting point of the image is defined by an Index class
   // that is an n-dimensional array where each component is an integer
   // indicating the grid coordinates of the initial pixel of the image.
   //
@@ -115,7 +115,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // The region size is represented by an array of the same dimension of the
-  // image (using the \doxygen{Size} class). The components of the array are
+  // image (using the Size class). The components of the array are
   // unsigned integers indicating the extent in pixels of the image along
   // every dimension.
   //

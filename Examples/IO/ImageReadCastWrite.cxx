@@ -99,9 +99,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Below we instantiate the type of the
-  //  \doxygen{RescaleIntensityImageFilter} that will linearly scale the image
-  //  intensities.
+  //  Below we instantiate the RescaleIntensityImageFilter class that will
+  //  linearly scale the image intensities.
   //
   //  Software Guide : EndLatex 
 

@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates the use of the SpatialObject as a
+//  This example illustrates the use of the \doxygen{SpatialObject} as a
 //  component of the registration framework in order to perfom model based
 //  registration. The current example creates a geometrical model composed of
 //  several ellipses. Then, it uses the model to produce a synthetic binary
@@ -87,7 +87,7 @@
 //  
 //  As in previous registration problems, we have to evaluate the image
 //  intensity in non-grid positions. The
-//  LinearInterpolateImageFunction is used here for this purpose.
+//  \doxygen{LinearInterpolateImageFunction} is used here for this purpose.
 //
 //  \index{itk::LinearInterpolateImageFunction!header}
 //
@@ -101,8 +101,8 @@
 //  Software Guide : BeginLatex
 //  
 //  The SpatialObject is mapped from its own space into the image
-//  space by using a Transform. In this
-//  example, we use the Euler2DTransform.
+//  space by using a \doxygen{Transform}. In this
+//  example, we use the \doxygen{Euler2DTransform}.
 //
 //  Software Guide : EndLatex 
 
@@ -113,11 +113,11 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Registration is fundamentally an optimization problem. Here we include the
-//  optimizer used to search the parameter space and identify the
-//  best transformation that will map the shape model on top of the image. The
+//  Registration is fundamentally an optimization problem. Here we include
+//  the optimizer used to search the parameter space and identify the best
+//  transformation that will map the shape model on top of the image. The
 //  optimizer used in this example is the
-//  OnePlusOneEvolutionaryOptimizer that implements an
+//  \doxygen{OnePlusOneEvolutionaryOptimizer} that implements an
 //  \href{http://www.aic.nrl.navy.mil/galist/}{evolutionary algorithm}.
 //
 //  Software Guide : EndLatex 
@@ -140,7 +140,7 @@
 //  As in previous registration examples, it is important to
 //  track the evolution of the optimizer as it progresses through the parameter
 //  space.  This is done by using the Command/Observer paradigm.  The
-//  following lines of code implement the Command observer that
+//  following lines of code implement the \doxygen{Command} observer that
 //  monitors the progress of the registration. The code is quite
 //  similar to what we have used in previous registration examples.
 //

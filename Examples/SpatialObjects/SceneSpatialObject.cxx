@@ -33,7 +33,7 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// An \doxygen{SceneSpatialObject} is templated over the dimension of the
+// An SceneSpatialObject is templated over the dimension of the
 // space which requires all the objects referenced by the SceneSpatialObject to
 // have the same dimension.
 //
@@ -78,10 +78,11 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We can query the number of object in the SceneSpatialObject with the
-// GetNumberOfObjects() function. This function takes two optional arguments:
-// the depth at which we should count the number of objects (default is set
-// to infinity) and the name of the object to count (default is set to NULL).
-// This allows the user to count, for example, only ellipses.
+// \code{GetNumberOfObjects()} function. This function takes two optional
+// arguments: the depth at which we should count the number of objects
+// (default is set to infinity) and the name of the object to count (default
+// is set to NULL).  This allows the user to count, for example, only
+// ellipses.
 // 
 // Software Guide : EndLatex 
 
@@ -92,8 +93,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetObjectById() returns the first object in the SceneSpatialObject
-// that has the specified identification number.
+// The \code{GetObjectById()} returns the first object in the
+// SceneSpatialObject that has the specified identification number.
 // 
 // Software Guide : EndLatex 
 
@@ -105,7 +106,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Objects can also be removed from the SceneSpatialObject using the
-// RemoveSpatialObject() function.
+// \code{RemoveSpatialObject()} function.
 // 
 // Software Guide : EndLatex 
 
@@ -116,8 +117,9 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The list of current objects in the SceneSpatialObject can be retrieved
-// using the GetObjects() method.  Like the GetNumberOfObjects() method,
-// GetObjects() can take two arguments: a search depth and a matching name.
+// using the \code{GetObjects()} method.  Like the
+// \code{GetNumberOfObjects()} method, \code{GetObjects()} can take two
+// arguments: a search depth and a matching name.
 // 
 // Software Guide : EndLatex 
 
@@ -130,10 +132,10 @@ int main( int , char *[] )
   
 // Software Guide : BeginLatex
 //
-// In some cases, it is useful to define the hierarchy by using ParentId()
-// and the current identification number. This results in having a flat list
-// of SpatialObjects in the SceneSpatialObject. Therefore, the
-// \doxygen{SceneSpatialObject} provides the FixHierarchy() method which
+// In some cases, it is useful to define the hierarchy by using
+// \code{ParentId()} and the current identification number. This results in
+// having a flat list of SpatialObjects in the SceneSpatialObject. Therefore,
+// the SceneSpatialObject provides the \code{FixHierarchy()} method which
 // reorganizes the Parent-Child hierarchy based on identification numbers.
 // 
 // Software Guide : EndLatex 

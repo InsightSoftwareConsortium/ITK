@@ -18,11 +18,11 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
-// for performing rigid registration in $2D$. The example code is for
-// the most part identical to that presented in Section 
+// for performing rigid registration in $2D$. The example code is for the
+// most part identical to that presented in Section
 // \ref{sec:IntroductionImageRegistration}.  The main difference is the use
 // of the CenteredRigid2DTransform here instead of the
-// TranslationTransform.
+// \doxygen{TranslationTransform}.
 //
 // \index{itk::CenteredRigid2DTransform}
 //
@@ -319,7 +319,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Next we set the normal parameters of the optimization method. In this
-  //  case we are using an RegularStepGradientDescentOptimizer.
+  //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}.
   //  Below, we define the optimization parameters like initial step length,
   //  minimal step length and number of iterations. These last two act as
   //  stopping criteria for the optimization.

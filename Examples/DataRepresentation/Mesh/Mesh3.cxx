@@ -159,7 +159,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Cell data can be read from the \doxygen{Mesh} with the
+  //  Cell data can be read from the Mesh with the
   //  \code{GetCellData()} method. It requires the user to provide the
   //  identifier of the cell for which the data is to be retrieved. The user
   //  should provide also a valid pointer to a location where the data can be

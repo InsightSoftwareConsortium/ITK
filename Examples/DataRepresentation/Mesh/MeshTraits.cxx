@@ -42,18 +42,18 @@
 //  Mesh class instantiation.
 //
 //  There are two ways of achieving this. The first is to use the existing
-//  \doxygen{DefaultStaticMeshTraits} class. This class is itself templated
+//  DefaultStaticMeshTraits class. This class is itself templated
 //  over six parameters.  Customizing those parameters could provide enough
 //  flexibility to define a very specific kind of mesh. The second way is to
 //  write a traits class from scratch, in which case the easiest way to proceed
-//  is to copy the \code{itkDefaultStaticMeshTraits} into another file and edit
+//  is to copy the DefaultStaticMeshTraits into another file and edit
 //  its content. Only the first approach is illustrated here. The second is
 //  discouraged unless you are familiar with Generic Programming, feel
 //  comfortable with C++ templates and have access to an abundant supply of
 //  (Columbian) coffee. 
 //
 //  The first step in customizing the mesh is to include the header file of the
-//  \doxygen{Mesh} and its StaticTraits.
+//  Mesh and its static traits.
 //  
 //  \index{itk::DefaultStaticMeshTraits!Header}
 //
@@ -77,17 +77,17 @@ int main()
   //  one of its six template arguments. They are in order
   // 
   //  \begin{description}
-  //  \item[PixelType] The type associated with every point.
-  //  \item[PointDimension] The dimension of the space in which the mesh is embedded.
-  //  \item[MaxTopologicalDimension] The highest dimension of the mesh cells.
-  //  \item[CoordRepType] The type used to represent space coordinates.
-  //  \item[InterpolationWeightType]  The type used to represent interpolation weights.
-  //  \item[CellPixelType] The type associated with every cell.
+  //  \item[PixelType.] The type associated with every point.
+  //  \item[PointDimension.] The dimension of the space in which the mesh is embedded.
+  //  \item[MaxTopologicalDimension.] The highest dimension of the mesh cells.
+  //  \item[CoordRepType.] The type used to represent space coordinates.
+  //  \item[InterpolationWeightType.]  The type used to represent interpolation weights.
+  //  \item[CellPixelType.] The type associated with every cell.
   //  \end{description}
   //
   //  Let's define types and values for each one of those elements. For example
   //  the following code will use points in 3D space as nodes of the
-  //  \doxygen{Mesh}. The maximum dimension of the cells will be two which means
+  //  Mesh. The maximum dimension of the cells will be two which means
   //  that this is a 2D manifold better know as a \emph{surface}. The data type
   //  associated with points is defined to be a four-dimensional vector. This
   //  type could represent values of membership for a four-classes segmentation
@@ -136,7 +136,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now create an \doxygen{Mesh} and insert some points on it. Note
+  //  Let's now create an Mesh and insert some points on it. Note
   //  that the dimension of the points matches the dimension of the Mesh. Here
   //  we insert a sequence of points that look like a plot of the $log()$
   //  function.
@@ -197,7 +197,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Data associated with cells is inserted in the \doxygen{Mesh} by using
+  //  Data associated with cells is inserted in the Mesh by using
   //  the \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
   //  of the inserted cells. In this simple example, the square of the cell
@@ -218,7 +218,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Cell data can be read from the \doxygen{Mesh} with the
+  //  Cell data can be read from the Mesh with the
   //  \code{GetCellData()} method. It requires the user to provide the
   //  identifier of the cell for which the data is to be retrieved. The user
   //  should provide also a valid pointer to a location where the data can be

@@ -354,17 +354,17 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Before attempting to analyze the effect of the resampling image filter it
-  //  is important to make sure that the image viewer used to display the input
-  //  and output images take the spacing into account and use it to
-  //  appropriately scale the images on the screen. Please note that images in
-  //  formats like PNG are not capable of representing origin and spacing. The
-  //  toolkit assume trivial default values for them. Figure
+  //  Before attempting to analyze the effect of the resampling image filter
+  //  it is important to make sure that the image viewer used to display the
+  //  input and output images take the spacing into account and use it to
+  //  appropriately scale the images on the screen. Please note that images
+  //  in formats like PNG are not capable of representing origin and
+  //  spacing. The toolkit assume trivial default values for them. Figure
   //  \ref{fig:ResampleImageFilterOutput7} (center) illustrates the effect of
   //  using a naive viewer that does not take pixel spacing into account. A
   //  correct display is presented at the right in the same figure\footnote{A
-  //  viewer is provided with ITK under the name of
-  //  \texttt{MetaImageViewer}. This viewer takes into account pixel spacing}.
+  //  viewer is provided with ITK under the name of MetaImageViewer. This
+  //  viewer takes into account pixel spacing.}.
   // 
   // \begin{figure}
   // \center

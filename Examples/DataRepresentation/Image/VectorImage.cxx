@@ -34,7 +34,7 @@
 // \index{itk::Vector!header}
 //
 //
-// The first step is to include the header file of the \code{Vector} class.
+// The first step is to include the header file of the Vector class.
 //
 // Software Guide : EndLatex 
 
@@ -49,7 +49,7 @@ int main()
 {
   // Software Guide : BeginLatex
   // 
-  // The \doxygen{Vector} class is templated over the type used to represent
+  // The Vector class is templated over the type used to represent
   // the coordinate in space and over the dimension of the space.  In this example,
   // we want the vector dimension to match the image dimension, but this is by
   // no means a requirement. We could have defined a four-dimensional image
@@ -109,9 +109,9 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{Vector} inherits the operator \code{[]} from the
+  // The Vector class inherits the operator \code{[]} from the
   // \doxygen{FixedArray} class. This makes it possible to access the
-  // \code{Vector}'s components using index notation.
+  // Vector's components using index notation.
   //
   // Software Guide : EndLatex 
 

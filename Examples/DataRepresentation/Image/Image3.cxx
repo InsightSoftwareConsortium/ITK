@@ -23,7 +23,7 @@
 // relatively slow and should not be used in situations where
 // high-performance access is required. Image iterators are the appropriate
 // mechanism to efficiently access image pixel data. (See
-// \ref{sec:ImageIteratorsChapter} on page
+// Chapter~\ref{sec:ImageIteratorsChapter} on page
 // \pageref{sec:ImageIteratorsChapter} for information about image
 // iterators.)
 //

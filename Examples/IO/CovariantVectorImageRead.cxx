@@ -29,8 +29,8 @@
 //  \doxygen{GradientToMagnitudeImageFilter}. Note that this filter is
 //  different from the \doxygen{GradientMagnitudeImageFilter} which actually
 //  takes a scalar image as input and compute the magnitude of its gradient.
-//  The \doxygen{GradientToMagnitudeImageFilter} take an image of vector
-//  pixel type as input and computes pixel-wise the magnitue of each vector.
+//  The GradientToMagnitudeImageFilter class takes an image of vector
+//  pixel type as input and computes pixel-wise the magnitude of each vector.
 //
 //  Let's start by including the relevant header files.
 //
@@ -65,7 +65,7 @@ int main( int argc, char ** argv )
   //
   //  We read an image of \doxygen{CovariantVector} pixels and compute pixel
   //  magnitude to produce an image where each pixel is of type
-  //  \code{unsigned short}. The componets of the \doxygen{CovariantVector}
+  //  \code{unsigned short}. The componets of the CovariantVector
   //  are selected to be \code{float} here. Notice that a renormalization is
   //  required in order to map the dynamic range of the magnitude values into
   //  the range of the output pixel type.  The
@@ -102,7 +102,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{GradientToMagnitudeImageFilter} is instantiated using the
+  //  The GradientToMagnitudeImageFilter is instantiated using the
   //  input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
   //
@@ -122,7 +122,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{RescaleIntensityImageFilter} type is instantiated next.
+  //  The RescaleIntensityImageFilter class is instantiated next.
   //
   //  \index{RescaleIntensityImageFilter!Instantiation}
   //  \index{RescaleIntensityImageFilter!New()}
@@ -160,7 +160,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the New() method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a SmartPointer.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

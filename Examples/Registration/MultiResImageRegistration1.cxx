@@ -85,7 +85,7 @@
 // beginning registration at each resolution level,
 // MultiResolutionImageRegistrationMethod invokes an
 // IterationEvent. The registration components can be changed by
-// implementing a Command which responds to the
+// implementing a \doxygen{Command} which responds to the
 // event. A brief description the interaction between events and commands was
 // previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
@@ -375,7 +375,7 @@ int main( int argc, char *argv[] )
   //  
   //  The fixed and moving images are read from a file. Before connecting
   //  these images to the registration we need to cast them to the internal
-  //  image type using CastImageFilters.
+  //  image type using \doxygen{CastImageFilters}.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet

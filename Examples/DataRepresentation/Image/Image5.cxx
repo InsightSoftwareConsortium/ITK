@@ -22,18 +22,18 @@
 // systems. Many systems use a contiguous block of memory as a buffer
 // for image pixel data. The current example assumes this is the case and
 // feeds the buffer into an \doxygen{ImportImageFilter}, thereby producing an
-// \doxygen{Image} as output.
+// Image as output.
 
 //
 // For fun we create a synthetic image with a centered sphere in
 // a locally allocated buffer and pass this block of memory to the
-// \code{ImportImageFilter}. This example is set up so that on execution, the
+// ImportImageFilter. This example is set up so that on execution, the
 // user must provide the name of an output file as a command-line argument.
 //
 // \index{itk::ImportImageFilter!Instantiation}
 // \index{itk::ImportImageFilter!Header}
 //
-// First, the header file of the \doxygen{ImportImageFilter} class must be
+// First, the header file of the ImportImageFilter class must be
 // included.
 //
 // Software Guide : EndLatex 
@@ -73,7 +73,7 @@ int main(int argc, char ** argv)
   
   // Software Guide : BeginLatex
   //
-  // The type of the \doxygen{ImportImageFilter} is instantiated in the
+  // The type of the ImportImageFilter is instantiated in the
   // following line.
   //
   // \index{itk::ImportImageFilter!Instantiation}
@@ -169,7 +169,7 @@ int main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Next we allocate the memory block containing the pixel data to be
-  //  passed to the \code{ImportImageFilter}. Note that we use exactly the
+  //  passed to the ImportImageFilter. Note that we use exactly the
   //  same size that was specified with the \code{SetRegion()} method.  In a
   //  practical application, you may get this buffer from some other library
   //  using a different data structure to represent the images.
@@ -219,21 +219,21 @@ int main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The buffer is passed to the \doxygen{ImportImageFilter} with the
+  //  The buffer is passed to the ImportImageFilter with the
   //  \code{SetImportPointer()}. Note that the last argument of this method
   //  specifies who will be responsible for deleting the memory block once it
   //  is no longer in use. A \code{false} value indicates that the
-  //  \doxygen{ImportImageFilter} will not try to delete the buffer when its
+  //  ImportImageFilter will not try to delete the buffer when its
   //  destructor is called. A \code{true} value, on the other hand, will allow the
   //  filter to delete the memory block upon destruction of the import filter.
   //
-  //  For the \doxygen{ImportImageFilter} to appropriately delete the
+  //  For the ImportImageFilter to appropriately delete the
   //  memory block, the memory must be allocated with the C++
   //  \code{new()} operator.  Memory allocated with other memory
   //  allocation mechanisms, such as C \code{malloc} or \code{calloc}, will not
-  //  be deleted properly by the \doxygen{ImportImageFilter}.  In
+  //  be deleted properly by the ImportImageFilter.  In
   //  other words, it is the application programmer's responsibility
-  //  to ensure that \doxygen{ImportImageFilter} is only given
+  //  to ensure that ImportImageFilter is only given
   //  permission to delete the C++ \code{new} operator-allocated memory.
   //  Software Guide : EndLatex
 
@@ -278,7 +278,7 @@ int main(int argc, char ** argv)
   //
   //  Note that we do not call \code{delete} on the buffer since we pass
   //  \code{true} as the last argument of \code{SetImportPointer()}. Now the
-  //  buffer is owned by the \code{ImportImageFilter}. 
+  //  buffer is owned by the ImportImageFilter. 
   //
   //  Software Guide : EndLatex
 

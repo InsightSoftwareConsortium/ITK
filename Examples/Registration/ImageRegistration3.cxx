@@ -37,18 +37,18 @@
 // represented by the hierarchy of the Event class. Typical events
 // are \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
 //
-// Registration is controlled by an Optimizer, which generally
+// Registration is controlled by an \doxygen{Optimizer}, which generally
 // executes an iterative process. Most Optimizer classes invoke an
 // \code{itk::IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
-// observers (Commands) and checks whether any one of them has
-// expressed interest in the current event type. Whenever such an observer is
-// found, its corresponding \code{Execute()} method is invoked.  In this
-// context, \code{Execute()} methods should be considered 
-// \emph{callbacks}.  As such, some of the common sense rules of callbacks
-// should be respected.  For example, \code{Execute()} methods should not
-// perform heavy computational tasks.  They are assumed to execute
-// rapidly, for example, printing out a message or updating a value in a GUI.
+// observers (Commands) and checks whether any one of them has expressed
+// interest in the current event type. Whenever such an observer is found,
+// its corresponding \code{Execute()} method is invoked.  In this context,
+// \code{Execute()} methods should be considered \emph{callbacks}.  As such,
+// some of the common sense rules of callbacks should be respected.  For
+// example, \code{Execute()} methods should not perform heavy computational
+// tasks.  They are assumed to execute rapidly, for example, printing out a
+// message or updating a value in a GUI.
 //
 // \index{itk::ImageRegistrationMethod!Monitoring}
 //
@@ -74,9 +74,9 @@
 //
 //  The following code illustrates a simple way of creating a 
 //  Observer/Command to monitor a registration process. This new
-//  class derives from the \doxygen{Command} class and provides a specific
+//  class derives from the Command class and provides a specific
 //  implementation of the \code{Execute()} method.  First, the header file of
-//  the \code{Command} class must be included.
+//  the Command class must be included.
 //
 //  Software Guide : EndLatex 
 

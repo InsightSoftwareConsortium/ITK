@@ -27,7 +27,7 @@
 //  In order to make this example a bit more interesting we setup a pipeline
 //  to read an image, compute its gradient and write the gradient to a file.
 //  Gradients are represented with \doxygen{CovariantVector}s as opposed to
-//  \doxygen{Vector}s. In this way, gradients are transformed correctly under
+//  Vectors. In this way, gradients are transformed correctly under
 //  \doxygen{AffineTransform}s or in general, any transform having
 //  anisotropic scaling.
 //
@@ -47,7 +47,7 @@
 //  
 //  We use the \doxygen{GradientRecursiveGaussianImageFilter} in order to
 //  compute the image gradient. The output of this filter is an image whose
-//  pixels are \doxygen{CovariantVector}s.
+//  pixels are CovariantVectors.
 //
 //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!header}
 //
@@ -75,7 +75,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  We select to read an image of \code{signed short} pixels and compute the
-  //  gradient to produce an image of \doxygen{CovariantVector} where each
+  //  gradient to produce an image of CovariantVector where each
   //  component is of type \code{float}.
   //
   //  Software Guide : EndLatex 
@@ -107,7 +107,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{GradientRecursiveGaussianImageFilter} type is instantiated
+  //  The GradientRecursiveGaussianImageFilter class is instantiated
   //  using the input and output image types. A filter object is created with
   //  the New() method and assigned to a \doxygen{SmartPointer}.
   //
@@ -124,7 +124,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  We select a value for the $\sigma$ parameter of the
-  //  \doxygen{GradientRecursiveGaussianImageFilter}. Note that this $\sigma$
+  //  GradientRecursiveGaussianImageFilter. Note that this $\sigma$
   //  is specified in millimeters.
   //
   //  Software Guide : EndLatex 
@@ -138,7 +138,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer  using the New() method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a SmartPointer.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

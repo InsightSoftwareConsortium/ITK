@@ -34,11 +34,11 @@
 //  \index{itk::CovariantVector!itk::PointSet}
 //
 //  The following code shows how vector values can be used as pixel type on the
-//  PointSet class.  The \doxygen{CovariantVector} class is used here as the
+//  PointSet class.  The CovariantVector class is used here as the
 //  pixel type. The example illustrates how a deformable model could move under
 //  the influence of the gradient of potential function.
 //  
-//  In order to use the \doxygen{CovariantVector} class it is necessary to
+//  In order to use the CovariantVector class it is necessary to
 //  include its header file along with the header of the point set.
 //
 //  \index{itk::CovariantVector!Header}
@@ -54,7 +54,7 @@ int main()
 {
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CovariantVector} class is templated over the type used to
+  //  The CovariantVector class is templated over the type used to
   //  represent the spatial coordinates and over the space dimension.  Since
   //  the PixelType is independent of the PointType, we are free to select any
   //  dimension for the covariant vectors to be used as pixel type. However, we
@@ -163,7 +163,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{CovariantVector} class does not overload the \code{+}
+  //  The CovariantVector class does not overload the \code{+}
   //  operator with the \doxygen{Point}. In other words, CovariantVectors can
   //  not be added to points in order to get new points. Further, since we
   //  are ignoring physics in the example, we are also forced to do the

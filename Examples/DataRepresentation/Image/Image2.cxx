@@ -55,8 +55,8 @@ int main( int , char ** argv)
   // to represent the data on disk must be sufficient to characterize it
   // accurately. Readers do not apply any transformation to the pixel data
   // other than casting from the pixel type of the file to the pixel type of
-  // the \code{ImageFileReader}. The following illustrates a typical
-  // instantiation of the \code{ImageFileReader} type.
+  // the ImageFileReader. The following illustrates a typical
+  // instantiation of the ImageFileReader type.
   //
   // \index{itk::ImageFileReader!Instantiation}
   // \index{itk::Image!read}

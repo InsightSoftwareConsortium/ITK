@@ -27,10 +27,10 @@
 //
 //  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
-//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this
+//  Vector. It is perfectly reasonable, however, to apply this
 //  filter to images of other, user-defined types as long as the appropriate
 //  typedefs and operator overloads are in place.  As a general rule, follow
-//  the example of \doxygen{Vector} in defining your data types.
+//  the example of Vector in defining your data types.
 //
 //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
 //
