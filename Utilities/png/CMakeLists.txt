@@ -21,6 +21,7 @@ IF(WIN32)
 ENDIF(WIN32)
 
 ADD_LIBRARY(itkpng PNG_SRCS)
+LINK_DIRECTORIES ( ${ITK_BINARY_DIR}/Utilities/zlib )
 TARGET_LINK_LIBRARIES(itkpng itkzlib)
 
 INSTALL_TARGETS(/lib/insight itkpng)
