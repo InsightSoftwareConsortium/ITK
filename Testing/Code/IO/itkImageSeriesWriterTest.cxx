@@ -24,6 +24,7 @@
 #include "itkDICOMSeriesFileNames.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageSeriesWriter.h"
+#include "itkNumericSeriesFileNames.h"
 #include "../BasicFilters/itkFilterWatcher.h"
 
 int itkImageSeriesWriterTest(int ac, char* av[])
@@ -75,17 +76,70 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     rescaler->SetOutputMaximum( 255 );
     rescaler->UpdateLargestPossibleRegion();
 
+
+  { // This API is being deprecated. Please use NumericSeriesFileNames in the future
+    // for generating the list of filenames.  This API will be removed after ITK 1.8
   typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType; 
 
   WriterType::Pointer writer = WriterType::New();
+
   FilterWatcher watcher2(writer);
-  
+
   writer->SetInput(rescaler->GetOutput());
   char format[4096];
   sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
   writer->SetSeriesFormat(format);
-  writer->Update();
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while writing the series with old API" << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Old API PASSED !" << std::endl;
+  }
  
+  { // This is the new API, using the NumericSeriesFileNames (or any other filename generator).
+  itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
+
+  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType; 
+
+  WriterType::Pointer writer = WriterType::New();
+
+
+  char format[4096];
+  sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
+
+  std::cout << "Format = " << format << std::endl;
+
+  ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
+  ImageNDType::SizeType   size = region.GetSize();
+
+  fit->SetStartIndex(0);
+  fit->SetEndIndex(size[2]-1);  // The number of slices to write
+  fit->SetIncrementIndex(1);
+  fit->SetSeriesFormat (format);
+
+  writer->SetInput(rescaler->GetOutput());
+  writer->SetFileNames(  fit->GetFileNames() );
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Test with NumericSeriesFileNames PASSED !" << std::endl;
+  }
+  
   return EXIT_SUCCESS;
 
 }
