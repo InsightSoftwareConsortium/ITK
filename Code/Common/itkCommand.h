@@ -350,13 +350,10 @@ public:
 
 
 protected:
-  CStyleCommand()
-    { 
-      m_ClientData = 0;
-      m_Callback = 0; 
-      m_ConstCallback = 0; 
-      m_ClientDataDeleteCallback = 0;
-    }
+  CStyleCommand(): m_ClientData(0),
+                   m_Callback(0),
+                   m_ConstCallback(0),
+                   m_ClientDataDeleteCallback(0) {}
   ~CStyleCommand() 
     { 
     if (m_ClientDataDeleteCallback)
