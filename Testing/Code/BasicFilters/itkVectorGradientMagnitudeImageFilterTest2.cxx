@@ -46,7 +46,7 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   if(ac < 5)
     {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage Mode SliceToExtract\n";
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Create a reader and filter
@@ -55,14 +55,15 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
-  int mode = ::atoi( av[3] );
+  const int mode = ::atoi( av[3] );
+
   if ( mode == 1)
     {
-      filter->SetUsePrincipleComponentsOn();
+    filter->SetUsePrincipleComponentsOn();
     }
   else
     {
-      filter->SetUsePrincipleComponentsOff();
+    filter->SetUsePrincipleComponentsOff();
     }
 
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
@@ -75,45 +76,47 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   
   try
     {
-      rescale->Update();
+    rescale->Update();
 
-      // Extract one slice to write for regression testing
-      CharImage3Type::RegionType extractedRegion = rescale->GetOutput()->GetRequestedRegion();
-      extractedRegion.SetSize(2,1);
-      extractedRegion.SetIndex(2,::atoi(av[4]));
+    // Extract one slice to write for regression testing
+    CharImage3Type::RegionType extractedRegion = rescale->GetOutput()->GetRequestedRegion();
+    extractedRegion.SetSize(2,1);
+    extractedRegion.SetIndex(2,::atoi(av[4]));
 
-      CharImage2Type::Pointer extractedImage = CharImage2Type::New();
-      CharImage2Type::RegionType reg;
-      reg.SetSize(0,extractedRegion.GetSize()[0]);
-      reg.SetSize(1,extractedRegion.GetSize()[1]);
-      reg.SetIndex(0,0);
-      reg.SetIndex(1,0);
-      extractedImage->SetRegions(reg);
-      extractedImage->Allocate();
-      double sp[2];
-      sp[0] = rescale->GetOutput()->GetSpacing()[0];
-      sp[1] = rescale->GetOutput()->GetSpacing()[1];
-      extractedImage->SetSpacing(sp);
+    CharImage2Type::Pointer extractedImage = CharImage2Type::New();
+    CharImage2Type::RegionType reg;
+    reg.SetSize(0,extractedRegion.GetSize()[0]);
+    reg.SetSize(1,extractedRegion.GetSize()[1]);
+    reg.SetIndex(0,0);
+    reg.SetIndex(1,0);
+    extractedImage->SetRegions(reg);
+    extractedImage->Allocate();
+    double sp[2];
+    sp[0] = rescale->GetOutput()->GetSpacing()[0];
+    sp[1] = rescale->GetOutput()->GetSpacing()[1];
+    extractedImage->SetSpacing(sp);
 
-      itk::ImageRegionIterator<CharImage3Type> in(rescale->GetOutput(), extractedRegion);
-      itk::ImageRegionIterator<CharImage2Type> out(extractedImage,
-                                                   extractedImage->GetRequestedRegion());
-      
-      for (; !in.IsAtEnd(); ++in, ++out)
-        { out.Set(in.Get()); }
-      
-      writer->SetInput( extractedImage );
-      writer->Update();
+    itk::ImageRegionIterator<CharImage3Type> in(rescale->GetOutput(), extractedRegion);
+    itk::ImageRegionIterator<CharImage2Type> out(extractedImage,
+                                                 extractedImage->GetRequestedRegion());
+    
+    for (; !in.IsAtEnd(); ++in, ++out)
+      { 
+      out.Set(in.Get()); 
+      }
+    
+    writer->SetInput( extractedImage );
+    writer->Update();
     }
   catch (itk::ExceptionObject& e)
     {
-      std::cerr << "Exception detected: "  << e.GetDescription();
-      return -1;
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return EXIT_FAILURE;
     }
   catch (...)
     {
-      std::cerr << "Some other exception occurred" << std::endl;
-      return -2;
+    std::cerr << "Some other exception occurred" << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout <<  "The gradient image range was (low, high) = ("
@@ -122,5 +125,6 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   std::cout <<  "Output was scaled, shifted = " << rescale->GetScale() << ", "
             << rescale->GetShift() << std::endl;
   
-  return 0;
+  return EXIT_SUCCESS;
 }
+

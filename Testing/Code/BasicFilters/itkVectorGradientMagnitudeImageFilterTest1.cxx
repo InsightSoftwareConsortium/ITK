@@ -41,23 +41,24 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
   if(ac < 4)
     {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage Mode\n";
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Create a reader and filter
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(av[1]);
   FilterType::Pointer filter = FilterType::New();
+
   filter->SetInput(reader->GetOutput());
 
   int mode = ::atoi( av[3] );
   if ( mode == 1)
     {
-      filter->SetUsePrincipleComponentsOn();
+    filter->SetUsePrincipleComponentsOn();
     }
   else
     {
-      filter->SetUsePrincipleComponentsOff();
+    filter->SetUsePrincipleComponentsOff();
     }
 
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
@@ -71,18 +72,24 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
 
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch (itk::ExceptionObject& e)
     {
-      std::cerr << "Exception detected: "  << e.GetDescription();
-      return -1;
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return EXIT_FAILURE;
     }
   catch (...)
     {
-      std::cerr << "Some other exception occurred" << std::endl;
-      return -2;
+    std::cerr << "Some other exception occurred" << std::endl;
+    return EXIT_FAILURE;
     }
+
+  // Exercise the Print method
+  std::cout << "-- Test of the Print method --------------" << std::endl;
+  filter->Print( std::cout );
+  std::cout << "-- End of Print method test --------------" << std::endl;
+
 
   std::cout <<  "The gradient image range was (low, high) = ("
             <<  rescale->GetInputMinimum() << ", " << rescale->GetInputMaximum()
@@ -90,5 +97,5 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
   std::cout <<  "Output was scaled, shifted = " << rescale->GetScale() << ", "
             << rescale->GetShift() << std::endl;
  
-  return 0;
+  return EXIT_SUCCESS;
 }
