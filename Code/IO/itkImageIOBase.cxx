@@ -612,6 +612,31 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
 
 
 template <class TComponent>
+static bool ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int num)
+{
+
+  const unsigned int numberOfBytesToBeRead = num;
+
+  is.read( buffer, numberOfBytesToBeRead );
+
+  const unsigned int numberOfBytesRead = is.gcount();
+
+#ifdef __APPLE_CC__
+    // fail() is broken in the Mac. It returns true when reaches eof().
+    if ( numberOfBytesRead != numberOfBytesToBeRead )
+#else
+    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || file.fail() )
+#endif
+       {
+       return false; // read failed
+       }
+
+  return true;
+
+}
+
+
+template <class TComponent>
 static void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
 {
   TComponent *ptr = buffer;

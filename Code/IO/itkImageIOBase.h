@@ -337,6 +337,9 @@ protected:
   void ReadBufferAsASCII(std::istream& os, void *buffer, IODataType ctype,
                          unsigned int numComp);
 
+  /** Convenient method to read a buffer as binary. Return true on success. */
+  bool ReadBufferAsBinary(std::istream& os, void *buffer, unsigned int numComp);
+
 private:
   ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
