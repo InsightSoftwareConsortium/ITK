@@ -31,9 +31,9 @@ namespace itk
 
 OrthogonallyCorrected2DParametricPath::OutputType
 OrthogonallyCorrected2DParametricPath
-::Evaluate( const InputType & input ) const
+::Evaluate( const InputType & itkNotUsed(input) ) const
 {
-  InputType   theta;
+  //InputType   theta;
   OutputType  output;
   /*
   int         numHarmonics;
@@ -50,7 +50,9 @@ OrthogonallyCorrected2DParametricPath
     output += ( m_CosCoefficients->ElementAt(n) * cos(theta) +
                 m_SinCoefficients->ElementAt(n) * sin(theta) ) * 2.0;
     }
-  */output.Fill(0);theta=0;
+  */
+  output.Fill(0);
+  //theta=0;
   
   return output;
 }
@@ -59,9 +61,9 @@ OrthogonallyCorrected2DParametricPath
 
 OrthogonallyCorrected2DParametricPath::VectorType
 OrthogonallyCorrected2DParametricPath
-::EvaluateDerivative(const InputType & input) const
+::EvaluateDerivative(const InputType & itkNotUsed(input)) const
 {
-  InputType   theta;
+  //InputType   theta;
   VectorType  output;
   /*
   int         numHarmonics;
@@ -76,7 +78,9 @@ OrthogonallyCorrected2DParametricPath
     output += ( m_SinCoefficients->ElementAt(n) * cos(theta) -
                 m_CosCoefficients->ElementAt(n) * sin(theta) ) * (2.0 * n);
     }
-  */output.Fill(0);theta=0;
+  */
+  output.Fill(0);
+  //theta=0;
 
   return output;
 }
