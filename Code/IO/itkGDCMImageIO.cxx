@@ -148,8 +148,8 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   //We are parsing the header one time here:
 
-  gdcmHeader GdcmHeader( filename );
-  if (!m_GdcmHeader->IsReadable())
+  gdcmHeader GdcmHeader( fname );
+  if (!GdcmHeader.IsReadable())
     {
     itkExceptionMacro("Gdcm cannot parse file " << filename );
     return false;
@@ -187,10 +187,10 @@ void GDCMImageIO::Read(void* buffer)
 
   if( !m_GdcmHeader )
     {
-    m_GdcmHeader = new gdcmHeader( m_FileName.c_str() );
+    m_GdcmHeader = new gdcmHeader( m_FileName );
     }
 
-  gdcmFile GdcmFile(m_FileName);
+  gdcmFile GdcmFile( m_FileName );
   size_t size = GdcmFile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
@@ -209,7 +209,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcmHeader GdcmHeader(m_FileName.c_str());
+  gdcmHeader GdcmHeader(m_FileName );
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
