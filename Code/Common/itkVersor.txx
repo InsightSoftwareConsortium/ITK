@@ -273,6 +273,33 @@ Versor<T>
 
 
 /**
+ * Get the Square root of the unit quaternion
+ */
+template<class T>
+Versor<T>
+Versor<T>
+::SquareRoot( void ) const
+{
+
+  const ValueType newScalar = sqrt( static_cast<double>( 1.0 + m_W ) );
+  const double sqrtOfTwo    = sqrt( 2.0f );
+
+  const double factor = 1.0f / ( newScalar * sqrtOfTwo );
+
+  Self result;
+
+  result.m_X = m_X * factor;
+  result.m_Y = m_Y * factor;
+  result.m_Z = m_Z * factor;
+  result.m_W = newScalar / sqrtOfTwo;
+
+  return result;
+
+}
+ 
+
+
+/**
  * Set Axis and Angle (in radians)
  */
 template<class T>

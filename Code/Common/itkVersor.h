@@ -280,6 +280,11 @@ public:
    Matrix<T,3,3> GetMatrix(void) const;
 
    
+  /**
+   * Get the Square root of the unit quaternion
+   */
+   Self SquareRoot(void) const;
+
 private:
 
    /** 
