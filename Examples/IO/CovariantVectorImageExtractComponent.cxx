@@ -251,7 +251,7 @@ int main( int argc, char ** argv )
   typedef itk::ImageFileWriter< ComponentImageType >  ComponentWriterType;
   ComponentWriterType::Pointer componentWriter = ComponentWriterType::New();
   componentWriter->SetInput( componentExtractor->GetOutput() );
-  componentWriter->SetFileName( argv[3] );
+  componentWriter->SetFileName( argv[2] );
   componentWriter->Update();
 
   return 0;
