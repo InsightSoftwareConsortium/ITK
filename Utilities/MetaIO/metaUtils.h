@@ -230,7 +230,7 @@ inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
   }
   else
   {
-    std::cout  <<"Couldn't convert pixel type" << std::endl;
+    std::cerr  <<"Couldn't convert pixel type" << std::endl;
     return MET_NONE;
   }
 }

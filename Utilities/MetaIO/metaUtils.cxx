@@ -532,7 +532,7 @@ bool MET_SkipToVal(std::istream &fp)
   
   if( fp.eof() )
     {
-    std::cout << "Incomplete file record definition" << std::endl;
+    std::cerr << "Incomplete file record definition" << std::endl;
     return false;
     }
   
@@ -551,7 +551,7 @@ bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
     {
     if((*fieldIter)->required && !(*fieldIter)->defined)
       {
-      std::cout << (*fieldIter)->name << " required and not defined." 
+      std::cerr << (*fieldIter)->name << " required and not defined." 
                 << std::endl;
       return false;
       }
@@ -609,8 +609,8 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
         if((*fieldIter)->dependsOn >= 0)
           if(!(*fields)[(*fieldIter)->dependsOn]->defined)
             {
-            std::cout << (*fieldIter)->name << " defined prior to defining ";
-            std::cout << (*fields)[(*fieldIter)->dependsOn]->name << std::endl;
+            std::cerr << (*fieldIter)->name << " defined prior to defining ";
+            std::cerr << (*fields)[(*fieldIter)->dependsOn]->name << std::endl;
             return false;
             }
         switch((*fieldIter)->type)
@@ -693,7 +693,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               if((*fieldIter)->length <= 0)
                 {
-                std::cout << 
+                std::cerr << 
                   "Arrays must have dependency or pre-specified lengths"
                   << std::endl;
                 return false;
@@ -727,7 +727,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               if((*fieldIter)->length <= 0)
                 {
-                std::cout << 
+                std::cerr << 
                   "Arrays must have dependency or pre-specified lengths"
                   << std::endl;
                 return false;
@@ -757,7 +757,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
       }
     if(!found)
       {
-      std::cout << "Skipping unrecognized field " << s << std::endl;
+      std::cerr << "Skipping unrecognized field " << s << std::endl;
       fp.getline( s, 500 );
       }
     if(oneLine)
@@ -821,9 +821,9 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cout << "Warning:";
-            std::cout << "length and dependsOn values not equal in write";
-            std::cout << std::endl;
+            std::cerr << "Warning:";
+            std::cerr << "length and dependsOn values not equal in write";
+            std::cerr << std::endl;
             }
           }
         fp.write( (char *)((*fieldIter)->value), (*fieldIter)->length );
@@ -845,9 +845,9 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cout << "Warning: ";
-            std::cout << "Length and dependsOn values not equal in write";
-            std::cout << std::endl;
+            std::cerr << "Warning: ";
+            std::cerr << "Length and dependsOn values not equal in write";
+            std::cerr << std::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
@@ -866,9 +866,9 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cout << "Warning: ";
-            std::cout << "length and dependsOn values not equal in write";
-            std::cout << std::endl;
+            std::cerr << "Warning: ";
+            std::cerr << "length and dependsOn values not equal in write";
+            std::cerr << std::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
@@ -886,9 +886,9 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cout << "Warning: ";
-            std::cout << "length and dependsOn values not equal in write";
-            std::cout << std::endl;
+            std::cerr << "Warning: ";
+            std::cerr << "length and dependsOn values not equal in write";
+            std::cerr << std::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length*(*fieldIter)->length; j++)
