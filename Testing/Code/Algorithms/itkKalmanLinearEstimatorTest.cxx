@@ -108,22 +108,22 @@ int main()
 
   VectorType estimation = filter.GetEstimator();
 
-  std::cout << std::endl << endl << "The Right answer should be : " << std::endl;
+  std::cout << std::endl << "The Right answer should be : " << std::endl;
   std::cout << planeEquation;
 
-  std::cout << std::endl << endl << "The Estimation is : " << std::endl;
+  std::cout << std::endl << "The Estimation is : " << std::endl;
   std::cout << estimation;
 
   VectorType error = estimation - planeEquation;
   ValueType errorMagnitude =  dot_product( error, error );
 
-  std::cout << std::endl << endl << "Errors : " << std::endl;
+  std::cout << std::endl << "Errors : " << std::endl;
   std::cout << error;
 
-  std::cout << std::endl << endl << "Error Magnitude : " << std::endl;
+  std::cout << std::endl << "Error Magnitude : " << std::endl;
   std::cout << errorMagnitude;
 
-  std::cout << std::endl << std::endl << "Variance : " << std::endl;
+  std::cout << std::endl << "Variance : " << std::endl;
   std::cout << filter.GetVariance();
    
   std::cout << std::endl << std::endl;
