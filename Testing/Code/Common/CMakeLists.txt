@@ -1,11 +1,3 @@
-IF(ITK_BINARY_DIR)
-  IF(TCL_TCLSH)
-    ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
-             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
-             ${ITK_SOURCE_DIR}/Code/Common)
-  ENDIF(TCL_TCLSH)
-ENDIF(ITK_BINARY_DIR)
-
 IF(ITK_CSWIG_TCL)
   ADD_TEST(itkBasicClasses ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Common/itkBasicClasses.tcl)
@@ -15,6 +7,14 @@ ENDIF(ITK_CSWIG_TCL)
 # information in case the test doesn't run.
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
+IF(ITK_BINARY_DIR)
+  IF(TCL_TCLSH)
+    ADD_TEST(PrintSelf-Common ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Code/Common)
+  ENDIF(TCL_TCLSH)
+ENDIF(ITK_BINARY_DIR)
+
 
 SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
