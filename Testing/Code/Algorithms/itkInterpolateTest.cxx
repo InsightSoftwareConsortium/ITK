@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkSize.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
 
@@ -55,6 +56,9 @@ typedef InterpolatorType::IndexType                 IndexType;
 typedef InterpolatorType::PointType                 PointType;
 typedef InterpolatorType::ContinuousIndexType       ContinuousIndexType;
 
+typedef itk::NearestNeighborInterpolateImageFunction<ImageType>
+  NNInterpolatorType;
+
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 40, 80}};
 double origin [3] = { 0.5,   0.5,   0.5};
@@ -65,8 +69,9 @@ double spacing[3] = { 0.1,   0.05 , 0.025};
  * Test a geometric point. Returns true if test has passed,
  * returns false otherwise
  */
+template <class TInterpolator>
 bool TestGeometricPoint(
-const InterpolatorType * interp,
+const TInterpolator * interp,
 const PointType& point,
 bool isInside,
 double trueValue )
@@ -104,8 +109,9 @@ double trueValue )
  * Test a continuous index. Returns true if test has passed,
  * returns false otherwise
  */
+template<class TInterpolator>
 bool TestContinuousIndex(
-const InterpolatorType * interp,
+const TInterpolator * interp,
 const ContinuousIndexType& index,
 bool isInside,
 double trueValue )
@@ -189,62 +195,73 @@ main(
     // an integer position inside the image
     double darray1[3] = { 10, 20, 40};
     cindex = ContinuousIndexType(darray1);
-    passed = TestContinuousIndex( interp, cindex, true, 70 );
+    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 70 );
 
     if( !passed ) flag = 1;
     
     interp->ConvertContinuousIndexToPoint( cindex, point );
-    passed = TestGeometricPoint( interp, point, true, 70 );
+    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
     
     // position at the image border
     double darray2[3] = {0, 20, 40};
     cindex = ContinuousIndexType(darray2);
-    passed = TestContinuousIndex( interp, cindex, true, 60 );
+    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 60 );
 
     if( !passed ) flag = 1;
 
     interp->ConvertContinuousIndexToPoint( cindex, point );
-    passed = TestGeometricPoint( interp, point, true, 60 );
+    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 60 );
 
     if( !passed ) flag = 1;
 
     // position near image border
     double darray3[3] = {19, 20, 40};
     cindex = ContinuousIndexType(darray3);
-    passed = TestContinuousIndex( interp, cindex, true, 79 );
+    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 79 );
 
     if( !passed ) flag = 1;
 
     interp->ConvertContinuousIndexToPoint( cindex, point );
-    passed = TestGeometricPoint( interp, point, true, 79 );
+    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 79 );
 
     if( !passed ) flag = 1;
 
     // position outside the image
     double darray4[3] = {20, 20, 40};
     cindex = ContinuousIndexType(darray4);
-    passed = TestContinuousIndex( interp, cindex, false, 0 );
+    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, false, 0 );
 
     if( !passed ) flag = 1;
 
     interp->ConvertContinuousIndexToPoint( cindex, point );
-    passed = TestGeometricPoint( interp, point, false, 0 );
+    passed = TestGeometricPoint<InterpolatorType>( interp, point, false, 0 );
 
     if( !passed ) flag = 1;
 
     // at non-integer position 
     double darray5[3] = {5.25, 12.5, 42.0};
     cindex = ContinuousIndexType(darray5);
-    passed = TestContinuousIndex( interp, cindex, true, 59.75 );
+    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.75 );
 
     if( !passed ) flag = 1;
 
     interp->ConvertContinuousIndexToPoint( cindex, point );
-    passed = TestGeometricPoint( interp, point, true, 59.75 );
+    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
 
     if( !passed ) flag = 1;
+
+    /* Create and initialize the nearest neigh. interpolator */
+    NNInterpolatorType::Pointer nninterp = NNInterpolatorType::New();
+    nninterp->SetInputImage(image);
+    nninterp->Print( std::cout );
+
+    passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true,
+      60 );
+
+    if( !passed ) flag = 1;
+
 
 
     /* Return results of test */
