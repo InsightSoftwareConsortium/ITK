@@ -21,16 +21,18 @@
 //  Gaussian.\label{fig:DiscretizedGaussian}}
 //  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
 //
-//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
-//  input image with a Gaussian kernel by taking advantage of its separability.
-//  A one-dimensional Gaussian function is discretized on a convolution kernel.
-//  The size of the kernel is extended until there are enough discrete points
-//  in the Gaussian to ensure that a user-provided minimum error is reached.
-//  Since the size of the kernel is unkown a priory it is necesary to impose a
-//  limit to its growth. The user can then provide a value to be the maximum
-//  admisible size of the kernel. The discretization errror is defined as the
-//  difference between the area under the discrete Gaussian curve and the area
-//  under the continuous Gaussian. 
+//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution
+//  of the input image with a Gaussian kernel by taking advantage of
+//  its separability.  A one-dimensional Gaussian function is
+//  discretized on a convolution kernel.  The size of the kernel is
+//  extended until there are enough discrete points in the Gaussian to
+//  ensure that a user-provided maximum error is not exceeded.  Since
+//  the size of the kernel is unkown a priori it is necesary to impose
+//  a limit to its growth. The user can thus provide a value to be the
+//  maximum admissible size of the kernel. The discretization errror
+//  is defined as the difference between the area under the discrete
+//  Gaussian curve (which has finite support) and the area under the
+//  continuous Gaussian.
 //
 //  \index{itk::DiscreteGaussianImageFilter|textbf}
 //
