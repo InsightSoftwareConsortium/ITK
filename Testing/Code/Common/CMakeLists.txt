@@ -93,6 +93,7 @@ ADD_TEST(itkRigid2DTransformTest ${COMMON_TESTS} itkRigid2DTransformTest)
 ADD_TEST(itkRigid3DTransformTest ${COMMON_TESTS} itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS} itkRigid3DPerspectiveTransformTest)
 ADD_TEST(itkScalarToRGBPixelFunctorTest ${COMMON_TESTS} itkScalarToRGBPixelFunctorTest)
+ADD_TEST(itkSemaphoreTest ${COMMON_TESTS} itkSemaphoreTest)
 ADD_TEST(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkShapedNeighborhoodIteratorTest)
 ADD_TEST(itkSimilarity2DTransformTest ${COMMON_TESTS} itkSimilarity2DTransformTest)
 ADD_TEST(itkSliceIteratorTest ${COMMON_TESTS} itkSliceIteratorTest)
@@ -249,6 +250,7 @@ itkScalarToRGBPixelFunctorTest.cxx
 itkScaleTransformTest.cxx
 itkScaleLogarithmicTransformTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
+itkSemaphoreTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkSliceIteratorTest.cxx
 itkSmartPointerTest.cxx

@@ -93,6 +93,7 @@ REGISTER_TEST(itkRigid2DTransformTest );
 REGISTER_TEST(itkRigid3DTransformTest );
 REGISTER_TEST(itkRigid3DPerspectiveTransformTest );
 REGISTER_TEST(itkScalarToRGBPixelFunctorTest );
+REGISTER_TEST(itkSemaphoreTest );
 REGISTER_TEST(itkShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkSimilarity2DTransformTest );
 REGISTER_TEST(itkSliceIteratorTest );
