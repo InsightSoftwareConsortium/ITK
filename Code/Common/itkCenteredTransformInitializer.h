@@ -18,6 +18,8 @@
 #ifndef __itkCenteredTransformInitializer_h
 #define __itkCenteredTransformInitializer_h
 
+#include <itkObject.h>
+
 #include <iostream>
 
 namespace itk
@@ -38,18 +40,17 @@ namespace itk
  * of the  fixed image to the center of the moving image is passed as the
  * initial translation. This mode basically assumes that the anatomical objects
  * to be registered are centered in their respective images. Hence the best
- * initial guess for the registration is the one that superimpose those two
+ * initial guess for the registration is the one that superimposes those two
  * centers.
  *
- * In the second mode, the moments of gray level values are computed for both
- * images. The center of mass of the moving image is then used as center of
- * rotation. The vector relation both centers of mass is passes as the initial
- * translation to the transform. This second approach assumes that the moments
- * of the anatomical object in the image is similar for both images and hence
- * the best initial guess for registration is to superimpose both mass centers.
- * Note that this assumption will probably not hold in multi-modality
- * registration.
- *
+ * In the second mode, the moments of gray level values are computed
+ * for both images. The center of mass of the moving image is then
+ * used as center of rotation. The vector between the two centers of
+ * mass is passes as the initial translation to the transform. This
+ * second approach assumes that the moments of the anatomical objects
+ * are similar for both images and hence the best initial guess for
+ * registration is to superimpose both mass centers.  Note that this
+ * assumption will probably not hold in multi-modality registration.
  * 
  * \ingroup Transforms
  */
