@@ -15,6 +15,13 @@ INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 # Walk into these directories before Testing or Auxiliary
 SUBDIRS(Utilities Code)
 
+# Optionally add Tcl wrappers.  They should be built before Testing so
+# that that Tcl tests can run when Tcl is available.
+OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
+IF(ITK_WRAP_TCL)
+  SUBDIRS(Wrapping)
+ENDIF(ITK_WRAP_TCL)
+
 # Include the standard Dart testing module
 INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)
 IF (BUILD_TESTING)
@@ -81,12 +88,6 @@ IF(NOT UNIX)
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h COPYONLY)
   ENDIF(WIN32)
 ENDIF(NOT UNIX)
-
-OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
-
-IF(ITK_WRAP_TCL)
-  SUBDIRS(Wrapping)
-ENDIF(ITK_WRAP_TCL)
 
 # Add an option to use or not use VTK
 OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some examples need this)" 0)
