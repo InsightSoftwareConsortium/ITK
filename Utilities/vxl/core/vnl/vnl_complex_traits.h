@@ -42,6 +42,7 @@ VCL_DEFINE_SPECIALIZATION struct vnl_complex_traits<T > \
 macro(signed T); \
 macro(unsigned T)
 makro(char);
+makro(short);
 makro(int);
 makro(long);
 #undef makro
