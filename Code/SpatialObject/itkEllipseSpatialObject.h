@@ -18,8 +18,8 @@
 #ifndef __itkEllipseSpatialObject_h
 #define __itkEllipseSpatialObject_h
 
-#include "itkAffineTransform.h"
 #include "itkSpatialObject.h"
+#include "itkAffineTransform.h"
 #include "itkFixedArray.h"
 
 namespace itk
