@@ -73,10 +73,6 @@ IF( USE_SCSL )
     FIND_PACKAGE( SCSL )
 ENDIF( USE_SCSL )
 
-# Deal with GDCM library Options
-OPTION(USE_GDCM "Use the GDCM dicom library " ON)
-MARK_AS_ADVANCED(USE_GDCM)
-
 # Put "." in the rpath of all ITK shared libraries.
 LINK_DIRECTORIES(.)
 

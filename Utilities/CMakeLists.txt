@@ -17,9 +17,7 @@ ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
-IF(USE_GDCM)
-  SUBDIRS(gdcm)
-ENDIF(USE_GDCM)
+SUBDIRS(gdcm)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK

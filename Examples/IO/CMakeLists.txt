@@ -42,28 +42,23 @@ TARGET_LINK_LIBRARIES(ImageReadImageSeriesWrite ITKCommon ITKIO)
 ADD_EXECUTABLE(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
 TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite ITKCommon ITKIO)
 
-IF(USE_GDCM)
-  INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
-  
-  ADD_EXECUTABLE(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
-  TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite2 ITKCommon ITKIO)
+ADD_EXECUTABLE(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
+TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite2 ITKCommon ITKIO)
 
-  ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
-  TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags ITKCommon ITKIO)
+ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
+TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags ITKCommon ITKIO)
 
-  ADD_EXECUTABLE(DicomImageReadPrintTags DicomImageReadPrintTags.cxx )
-  TARGET_LINK_LIBRARIES(DicomImageReadPrintTags ITKCommon ITKIO)
+ADD_EXECUTABLE(DicomImageReadPrintTags DicomImageReadPrintTags.cxx )
+TARGET_LINK_LIBRARIES(DicomImageReadPrintTags ITKCommon ITKIO)
 
-  ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
-  TARGET_LINK_LIBRARIES(DicomImageReadWrite ITKCommon ITKIO)
+ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
+TARGET_LINK_LIBRARIES(DicomImageReadWrite ITKCommon ITKIO)
 
-  ADD_EXECUTABLE(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
-  TARGET_LINK_LIBRARIES(DicomImageReadChangeHeaderWrite ITKCommon ITKIO)
+ADD_EXECUTABLE(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
+TARGET_LINK_LIBRARIES(DicomImageReadChangeHeaderWrite ITKCommon ITKIO)
 
-  ADD_EXECUTABLE(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
-  TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite ITKCommon ITKIO)
-ENDIF(USE_GDCM)
+ADD_EXECUTABLE(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
+TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
 TARGET_LINK_LIBRARIES(DicomPrintPatientInformation ITKCommon ITKIO)
-

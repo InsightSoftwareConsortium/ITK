@@ -26,6 +26,8 @@ SET(ITKIO_SRCS
   itkArchetypeSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
+  itkGDCMImageIO.cxx
+  itkGDCMSeriesFileNames.cxx
   itkGiplImageIO.cxx
   itkGiplImageIOFactory.cxx
   itkIOCommon.cxx
@@ -51,20 +53,8 @@ SET(ITKIO_SRCS
   itkVTKImageIOFactory.cxx
 )
 
-IF(USE_GDCM)
-  INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
-  SET(ITKIO_SRCS ${ITKIO_SRCS}
-    itkGDCMImageIO.cxx
-    itkGDCMSeriesFileNames.cxx
-  )
-ENDIF(USE_GDCM)
-
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
-
-IF(USE_GDCM)
-  SET(ITK_GDCM_LIBRARIES itkgdcm)
-ENDIF(USE_GDCM)
 
 TARGET_LINK_LIBRARIES(ITKIO 
 ITKCommon 
@@ -72,10 +62,10 @@ ITKNrrdIO
 itkjpeg8
 itkjpeg12
 itkjpeg16
+itkgdcm
 ${ITK_PNG_LIBRARIES}
 ${ITK_ZLIB_LIBRARIES} 
 ${ITK_TIFF_LIBRARIES} 
-${ITK_GDCM_LIBRARIES}
 ITKMetaIO
 ITKDICOMParser 
 ITKEXPAT)
