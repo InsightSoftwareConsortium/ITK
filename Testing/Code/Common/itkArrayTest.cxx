@@ -50,6 +50,11 @@ void Print_ArrayConstReference(itk::Array<int, 3>::ConstReference x,
   os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
 }
 
+void Print_Array5(itk::Array<int, 5> x, std::ostream& os)
+{
+  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << ','
+     << x[3] << ',' << x[4] << '}' << std::endl;
+}
 
 int main(void)
 {
@@ -93,11 +98,19 @@ int main(void)
   
   itk::Array<int, 3>::ConstReference cref3 = c_Array2;
   
-  // Test out vnl_vector interface.
-  std::cout << dot_product(array3.Get_vnl_vector(), ref1.Get_vnl_vector())
-            << std::endl;  
-  std::cout << dot_product(ref1.Get_vnl_vector(), ref2.Get_vnl_vector())
-            << std::endl;
+  // Test range selection.
+  itk::Array<int, 5> array5;
+  array5.Fill(0);
+  array5[itk::Range<1,3>()] = ref2;
+  Print_Array5(array5, std::cout);
   
+  Print_Array(array5[itk::Range<2,4>()], std::cout);
+  
+  const itk::Array<int, 5>::Reference ref4 = array5;
+  Print_Array(ref4[itk::Range<1,3>()], std::cout);
+  
+  itk::Array<int, 4>::ConstReference ref5 = array5[itk::Range<1,4>()];
+  Print_Array(ref5[itk::Range<1,3>()], std::cout);
+
   return 0;
 }
