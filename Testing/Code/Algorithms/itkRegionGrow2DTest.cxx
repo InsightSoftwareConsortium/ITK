@@ -64,7 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   REGIONGROW_SLICE_GRIDSIZE  1
 
 static unsigned int test_regiongrowKLM2D();
-// static unsigned int test_regiongrowKLM3D();
+static unsigned int test_regiongrowKLM3D();
 
 //
 // This test mutual information registration
@@ -79,8 +79,6 @@ int main()
 
   test_regiongrowKLM2D();
   
-
-
   return( 0 );
 }
 
@@ -198,7 +196,7 @@ unsigned int test_regiongrowKLM2D()
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
   applyRegionGrowImageFilterKLM->SetInput(image);
-  applyRegionGrowImageFilterKLM->SetMaxNumRegions(REGIONGROW_NUMREGIONS);
+  applyRegionGrowImageFilterKLM->SetMaximumNumberOfRegions(REGIONGROW_NUMREGIONS);
   applyRegionGrowImageFilterKLM->SetMaxLambda(REGIONGROW_LAMBDA);
   applyRegionGrowImageFilterKLM->SetRowGridSize(REGIONGROW_ROW_GRIDSIZE);
   applyRegionGrowImageFilterKLM->SetColGridSize(REGIONGROW_COL_GRIDSIZE);
@@ -206,6 +204,7 @@ unsigned int test_regiongrowKLM2D()
 
   //Kick off the Region grow function
   applyRegionGrowImageFilterKLM->Update();
+  applyRegionGrowImageFilterKLM->Print(std::cout);
 
   typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> OutputImageType; 
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
@@ -257,20 +256,20 @@ unsigned int test_regiongrowKLM2D()
 
 
   //Check the size of the vector of unique labels
-  if( maxpixelLabel > applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel > applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm failed" << std::endl;
     std::cout<<"More than the max set num regions found "<<std::endl;
     std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
   }
 
-  if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Fewer regions than desired found"<<std::endl;
   }
 
-  if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Desired number of regions found"<<std::endl;
@@ -289,11 +288,11 @@ unsigned int test_regiongrowKLM2D()
     std::cout<<""<<std::endl;
   }//end while
 
-
+  
   return 0;
 } // End test_regiongrow2D()
 
-/*
+
 unsigned int test_regiongrowKLM3D()
 {
   //---------------------------------------------------------------
@@ -473,7 +472,7 @@ unsigned int test_regiongrowKLM3D()
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
   applyRegionGrowImageFilterKLM->SetInput(image);
-  applyRegionGrowImageFilterKLM->SetMaxNumRegions( REGIONGROW_NUMREGIONS3D );
+  applyRegionGrowImageFilterKLM->SetMaximumNumberOfRegions( REGIONGROW_NUMREGIONS3D );
   applyRegionGrowImageFilterKLM->SetMaxLambda( REGIONGROW_LAMBDA );
   applyRegionGrowImageFilterKLM->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
   applyRegionGrowImageFilterKLM->SetColGridSize( REGIONGROW_COL_GRIDSIZE );
@@ -533,20 +532,20 @@ unsigned int test_regiongrowKLM3D()
 
 
   //Check the size of the vector of unique labels
-  if( maxpixelLabel > applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel > applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm failed" << std::endl;
     std::cout<<"More than the max set num regions found "<<std::endl;
     std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
   }
 
-  if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Fewer regions than desired found"<<std::endl;
   }
 
-  if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
+  if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaximumNumberOfRegions() )
   {
     std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Desired number of regions found"<<std::endl;
@@ -568,4 +567,4 @@ unsigned int test_regiongrowKLM3D()
   return 0;
 } // End test_regiongrow3D()
 
-*/
+
