@@ -316,7 +316,14 @@ public:
   bool IsMethodType(void) const    { return (this->GetTypeOfObject() == MethodType_id); }
   bool IsOffsetType(void) const    { return (this->GetTypeOfObject() == OffsetType_id); }
   bool IsArrayType(void) const     { return (this->GetTypeOfObject() == ArrayType_id); }
+  bool IsFunctionPointer(void) const 
+    {
+      return ((this->GetTypeOfObject() == PointerType_id )
+	      && (this->GetName().find("(*)") != String::npos));
+    }
+  
 
+	
   
   String GetName(void) const { return this->GetNameWithCV(); }  
   String GetCV(void) const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
@@ -361,9 +368,9 @@ public:
   CV_Qualifiers::ConstPointer GetCV_Qualifiers(void) const
     { return m_CV_Qualifiers.RealPointer(); }
 
-  bool IsConst(void)    { return (m_CV_Qualifiers && m_CV_Qualifiers->IsConst()); }
-  bool IsVolatile(void) { return (m_CV_Qualifiers && m_CV_Qualifiers->IsVolatile()); }
-  bool IsRestrict(void) { return (m_CV_Qualifiers && m_CV_Qualifiers->IsRestrict()); }
+  bool IsConst(void) const   { return (m_CV_Qualifiers && m_CV_Qualifiers->IsConst()); }
+  bool IsVolatile(void) const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsVolatile()); }
+  bool IsRestrict(void) const { return (m_CV_Qualifiers && m_CV_Qualifiers->IsRestrict()); }
 
   virtual void Print(FILE*, unsigned long) const =0;
   void PrintCV_Qualifiers(FILE*, unsigned long) const;  
