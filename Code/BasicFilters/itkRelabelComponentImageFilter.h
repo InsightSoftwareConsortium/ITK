@@ -17,7 +17,7 @@
 #ifndef __itkRelabelComponentImageFilter_h
 #define __itkRelabelComponentImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkImage.h"
 #include <vector>
 
@@ -53,19 +53,25 @@ namespace itk
  * GetSizeOfObjectsInPixels()[0], the size of object #2 is
  * GetSizeOfObjectsInPixels()[1], etc.
  *
+ * RelabelComponentImageFilter can be run as an "in place" filter,
+ * where it will overwrite its output.  The default is run out of
+ * place (or generate a separate output).  "In place" operation can be
+ * controlled via methods in the superclass,
+ * InPlaceImageFilter::InPlaceOn() and InPlaceImageFilter::InPlaceOff().
+ *
  * \sa ConnectedComponentImageFilter, BinaryThresholdImageFilter, ThresholdImageFilter
  */
 
-template <class TInputImage, class TOutputImage = TInputImage>
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RelabelComponentImageFilter : 
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+    public InPlaceImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
    * Standard "Self" & Superclass typedef.
    */
   typedef RelabelComponentImageFilter Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
    * Types from the Superclass
@@ -162,7 +168,7 @@ public:
 protected:
   RelabelComponentImageFilter()
     : m_NumberOfObjects(0)
-    {}
+    { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
   RelabelComponentImageFilter(const Self&) {}
 

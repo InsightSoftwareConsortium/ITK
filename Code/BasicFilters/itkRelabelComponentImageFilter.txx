@@ -203,7 +203,6 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
 
   // Allocate the output and initialize to zeros
   this->AllocateOutputs();
-  output->FillBuffer( NumericTraits<OutputPixelType>::Zero );
 
   // Remap the labels.  Note we only walk the region of the output
   // that was requested.  This may be a subset of the input image.

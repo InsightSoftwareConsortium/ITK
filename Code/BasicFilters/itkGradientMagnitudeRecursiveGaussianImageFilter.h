@@ -21,6 +21,7 @@
 #include "itkImage.h"
 #include "itkPixelTraits.h"
 #include "itkRecursiveGaussianImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 
 namespace itk
 {
@@ -42,12 +43,12 @@ namespace itk
 template <typename TInputImage, 
           typename TOutputImage= TInputImage >
 class ITK_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+    public InPlaceImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef GradientMagnitudeRecursiveGaussianImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
+  typedef InPlaceImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>        ConstPointer;
   

@@ -57,6 +57,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   
   this->SetSigma( 1.0 );
 
+  this->InPlaceOff();
 }
 
 
@@ -236,7 +237,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   // after all the subfilters ran to minimize total memory footprint)
   outputImage = this->GetOutput();
   outputImage->SetRegions( inputImage->GetBufferedRegion() );
-  outputImage->Allocate();
+  this->AllocateOutputs();
 
   // Finally convert the cumulated image to the output by 
   // taking the square root of the pixels.
