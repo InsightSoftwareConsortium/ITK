@@ -38,7 +38,7 @@ REGISTER_TEST(itkLevelSetShapeDetectionTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
 REGISTER_TEST(itkMinimumMaximumImageCalculatorTest );
 REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
-REGISTER_TEST(itkMRFLabellerTest );
+REGISTER_TEST(itkMRFImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPyramidImageFilterTest );
 REGISTER_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPDEDeformableRegistrationTest );

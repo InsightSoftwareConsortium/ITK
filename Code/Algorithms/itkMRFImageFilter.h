@@ -21,8 +21,9 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
 
+#include "itkImageClassifierBase.h"
+
 #include "itkImageToImageFilter.h"
-#include "itkSupervisedClassifier.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkConstNeighborhoodIterator.h"
@@ -30,6 +31,8 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhood.h"
 #include "itkSize.h"
+
+
 
 namespace itk
 {
@@ -46,14 +49,16 @@ namespace itk
  * distances by evaluating the influence of its neighboring pixels (based 
  * on a MRF model) and finally, classifies each pixel to the class 
  * which has the minimum distance to that pixel (taking the neighborhood 
- * influence under consideration).
+ * influence under consideration). DoNeighborhoodOperation is the function
+ * that can be modified to achieve different falvors of MRF filters in 
+ * derived classes.
  *
  * The a classified initial labeled image is needed. It is important
  * that the number of expected classes be set before calling the 
- * classifier. In our case we have used the GaussianSupervisedClassifer to
- * generate the initial labels. This classifier requires the user to 
- * ensure that an appropriate training image set be provided. See the 
- * documentation of the classifier class for more information.
+ * classifier. In our case we have used the ImageClassifer using a Gaussian 
+ * model to generate the initial labels. This classifier requires the user to 
+ * ensure that an appropriate membership functions be provided. See the 
+ * documentation of the image classifier class for more information.
  *
  * The influence of a neighborhood on a given pixel's
  * classification (the MRF term) is computed by calculating a weighted
@@ -185,7 +190,7 @@ public:
   enum{ ClassifiedImageDimension = TClassifiedImage::ImageDimension };
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
-  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
+  typedef ImageClassifierBase<TInputImage,TClassifiedImage> ClassifierType;
 
   /** Size and value typedef support. */
   typedef Size<InputImageDimension> SizeType;
@@ -225,12 +230,6 @@ public:
   typedef typename LabelledImageFaceListType::iterator 
     LabelledImageFaceListIterator;
 
-  /** Set the image required for training type classifiers. */
-  void SetTrainingImage(TrainingImagePointer image);
-
-  /** Get the traning image.  */
-  TrainingImagePointer GetTrainingImage();
-
   /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
 
@@ -268,7 +267,6 @@ public:
       return radius;
     }
     
-
   /** Set the weighting parameters (used in MRF algorithms). This is a
    * function allowing the users to set the weight matrix by providing a 
    * a 1D array of weights. The default implementation supports  a 
@@ -279,7 +277,7 @@ public:
     {
     return m_MRFNeighborhoodWeight;
     }
-      
+    
 protected:
   MRFImageFilter();
   ~MRFImageFilter();
@@ -297,18 +295,6 @@ protected:
   /** Minimization algorithm to be used. */
   virtual void MinimizeFunctional();
 
-  virtual void GenerateData();
-  virtual void GenerateInputRequestedRegion();
-  virtual void EnlargeOutputRequestedRegion( DataObject * );
-  virtual void GenerateOutputInformation();
-
-private:            
-  MRFImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  typedef typename TInputImage::SizeType InputImageSizeType;
-
-
   typedef Image<int,InputImageDimension > LabelStatusImageType;
   typedef typename LabelStatusImageType::IndexType LabelStatusIndexType;
   typedef typename LabelStatusImageType::RegionType LabelStatusRegionType;
@@ -319,6 +305,22 @@ private:
   /** Labelled status image neighborhood interator typedef */
   typedef NeighborhoodIterator< LabelStatusImageType >
     LabelStatusImageNeighborhoodIterator;
+  //Function implementing the neighborhood operation
+
+  virtual void DoNeighborhoodOperation( const InputImageNeighborhoodIterator &imageIter,
+    LabelledImageNeighborhoodIterator &labelledIter,
+    LabelStatusImageNeighborhoodIterator &labelStatusIter );
+
+  virtual void GenerateData();
+  virtual void GenerateInputRequestedRegion();
+  virtual void EnlargeOutputRequestedRegion( DataObject * );
+  virtual void GenerateOutputInformation();
+
+private:            
+  MRFImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
+  typedef typename TInputImage::SizeType InputImageSizeType;
 
   typedef typename LabelStatusImageNeighborhoodIterator::RadiusType 
     LabelStatusImageNeighborhoodRadiusType;
@@ -353,7 +355,7 @@ private:
   std::vector<double>       m_MahalanobisDistance;
 
   /** Pointer to the classifier to be used for the MRF labelling. */
-  typename ClassifierType::Pointer m_ClassifierPtr;
+ typename ClassifierType::Pointer m_ClassifierPtr;
 
 
   /** Set/Get the weighting parameters (Beta Matrix). A default 3 x 3 x 3 
@@ -363,11 +365,6 @@ private:
 
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();
-
-  //Function implementing the neighborhood operation
-  void DoNeighborhoodOperation( const InputImageNeighborhoodIterator &imageIter,
-         LabelledImageNeighborhoodIterator &labelledIter,
-         LabelStatusImageNeighborhoodIterator &labelStatusIter );
 
 
 }; // class MRFImageFilter

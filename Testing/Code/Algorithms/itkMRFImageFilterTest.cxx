@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMRFLabellerTest.cxx
+  Module:    itkMRFImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,9 +16,12 @@
 =========================================================================*/
 
 // Insight classes
-
-#include "itkGaussianSupervisedClassifier.h"
 #include "itkMRFImageFilter.h"
+
+#include "itkImageClassifierBase.h"
+#include "itkImageGaussianModelEstimator.h"
+#include "itkMahalanobisDistanceMembershipFunction.h"
+#include "itkMinimumDecisionRule.h"
 
 #include "itkSize.h"
 #include "itkImage.h"
@@ -41,7 +44,7 @@
 #define   NEIGHBORHOOD_RAD    1
 
 
-int itkMRFLabellerTest(int, char**)
+int itkMRFImageFilterTest(int, char**)
 {
 
   //------------------------------------------------------
@@ -52,6 +55,8 @@ int itkMRFLabellerTest(int, char**)
   typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType; 
 
   VecImageType::Pointer vecImage = VecImageType::New();
+
+  typedef VecImageType::PixelType VecImagePixelType;
 
   VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
@@ -274,16 +279,82 @@ int itkMRFLabellerTest(int, char**)
   //---------------------------------------------------------------------
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
-  typedef 
-  itk::Classifier<VecImageType,ClassImageType>::Pointer 
-    ClassifierType;
+  
+  //----------------------------------------------------------------------
+  //Set membership function (Using the statistics objects)
+  //----------------------------------------------------------------------
 
-  //Instantiate the classifier to be used
-  typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
-    GaussianSupervisedClassifierType;
+  namespace stat = itk::Statistics;
 
-  GaussianSupervisedClassifierType::Pointer 
-    myGaussianClassifier = GaussianSupervisedClassifierType::New();
+  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType > 
+    MembershipFunctionType ;
+  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+
+  typedef std::vector< MembershipFunctionPointer > 
+    MembershipFunctionPointerVector;
+
+  //----------------------------------------------------------------------
+  // Set the image model estimator (train the class models)
+  //----------------------------------------------------------------------
+  typedef itk::ImageGaussianModelEstimator<VecImageType,
+    ClassImageType, MembershipFunctionType> 
+    ImageGaussianModelEstimatorType;
+  
+  ImageGaussianModelEstimatorType::Pointer 
+    applyEstimateModel = ImageGaussianModelEstimatorType::New();  
+
+  applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
+  applyEstimateModel->SetInputImage(vecImage);
+  applyEstimateModel->SetTrainingImage(classImage);  
+
+  //Run the gaussian classifier algorithm
+  applyEstimateModel->EstimateModels();
+  applyEstimateModel->Print(std::cout); 
+
+  MembershipFunctionPointerVector membershipFunctions = 
+    applyEstimateModel->GetMembershipFunctions();  
+
+  //----------------------------------------------------------------------
+  //Set the decision rule 
+  //----------------------------------------------------------------------  
+  typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
+
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+  DecisionRuleType::Pointer  
+    myDecisionRule = DecisionRuleType::New();
+
+  //----------------------------------------------------------------------
+  // Set the classifier to be used and assigne the parameters for the 
+  // supervised classifier algorithm except the input image which is 
+  // grabbed from the MRF application pipeline.
+  //----------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  typedef VecImagePixelType MeasurementVectorType;
+
+  typedef itk::ImageClassifierBase< VecImageType,
+    ClassImageType > ClassifierType;
+
+  typedef itk::ClassifierBase<VecImageType>::Pointer 
+    ClassifierBasePointer;
+
+  typedef ClassifierType::Pointer ClassifierPointer;
+  ClassifierPointer myClassifier = ClassifierType::New();
+  // Set the Classifier parameters
+  myClassifier->SetNumberOfClasses(NUM_CLASSES);
+
+  // Set the decison rule 
+  myClassifier->
+    SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
+
+  //Add the membership functions
+  for( unsigned int i=0; i<NUM_CLASSES; i++ )
+    {
+    myClassifier->AddMembershipFunction( membershipFunctions[i] );
+    }
+
+  //----------------------------------------------------------------------
+  // Set the MRF labeller and populate the parameters
+  //----------------------------------------------------------------------
 
   //Set the MRF labeller
   typedef itk::MRFImageFilter<VecImageType,ClassImageType> MRFImageFilterType;
@@ -302,14 +373,12 @@ int itkMRFLabellerTest(int, char**)
   //applyMRFImageFilter->SetNeighborhoodRadius( radius );
  
   applyMRFImageFilter->SetInput(vecImage);
-  applyMRFImageFilter
-    ->SetClassifier((ClassifierType) myGaussianClassifier ); 
-
-  //Since a suvervised classifier is used, it requires a training image
-  applyMRFImageFilter->SetTrainingImage(classImage);  
+  applyMRFImageFilter->SetClassifier( myClassifier ); 
   
   //Kick off the MRF labeller function
   applyMRFImageFilter->Update();
+
+  applyMRFImageFilter->Print(std::cout); 
   
   ClassImageType::Pointer  outClassImage = applyMRFImageFilter->GetOutput();
 
@@ -329,7 +398,7 @@ int itkMRFLabellerTest(int, char**)
   //---------------------------------------------------------------------
 
   //Set up the nighborhood iterators
-  /** Labelled image neighborhood interator typedef */
+  // Labelled image neighborhood interator typedef 
 
   typedef itk::NeighborhoodIterator< ClassImageType >
     OutImageNeighborhoodIterator;

@@ -48,13 +48,18 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
 {
   Superclass::PrintSelf(os,indent);
 
+  unsigned int i;
   os << indent << "General Image Classifier / Clusterer" << std::endl;
   os << indent << "ClassifiedImage: ";
   os << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-  os << indent << "Pixel membership:        " << std::endl;
-  os << m_PixelMembershipValue << std::endl;
+  os << indent << "Pixel membership: [" ;
+  for ( i = 0; i < m_PixelMembershipValue.size() - 1; i++)
+    {
+    os << m_PixelMembershipValue[i] << ", ";
+    }
+  os << m_PixelMembershipValue[i] << "]" << std::endl;
 
 }// end PrintSelf
 
@@ -195,13 +200,16 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
 
 template<class TInputImage, 
          class TClassifiedImage>
-const vnl_vector< double > &
+const std::vector< double > &
 ImageClassifierBase<TInputImage, TClassifiedImage>
 ::GetPixelMembershipValue(const InputImagePixelType  inputImagePixel)
 {
   
   unsigned int numberOfClasses = this->GetNumberOfClasses();
-  m_PixelMembershipValue.resize( numberOfClasses );
+  if( m_PixelMembershipValue.size() != numberOfClasses )
+    {
+    m_PixelMembershipValue.resize( numberOfClasses );
+    }
   
   MembershipFunctionPointerVector
     membershipFunctions = this->GetMembershipFunctions();

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkMRFImageFilter_txx
 #define _itkMRFImageFilter_txx
+#include "itkMRFImageFilter.h"
 
 namespace itk
 {
@@ -55,11 +56,30 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent <<" MRF Image filter object " << std::endl;
-  os << indent <<" Number of classes: " << m_NumberOfClasses << std::endl;
-  os << indent <<" Maximum number of iterations: " << m_MaximumNumberOfIterations << std::endl;
-  os << indent <<" Error tollerance for convergence: " << m_ErrorTolerance << std::endl;
+  unsigned int i;
 
+  os << indent <<" MRF Image filter object " << std::endl;
+
+  os << indent <<" Number of classes: " << m_NumberOfClasses << std::endl;
+
+  os << indent <<" Maximum number of iterations: " << 
+    m_MaximumNumberOfIterations << std::endl;
+
+  os << indent <<" Error tollerance for convergence: " << 
+    m_ErrorTolerance << std::endl;
+
+  os << indent <<" Size of the MRF neighborhood radius:" << 
+    m_InputImageNeighborhoodRadius << std::endl;
+
+  os << indent <<" Number of elements in MRF neighborhood :" <<
+    m_MRFNeighborhoodWeight.size() << std::endl;
+
+  os << indent <<" Neighborhood weight : [";
+  for (i=0; i < m_MRFNeighborhoodWeight.size() - 1; i++)
+    {
+    os << m_MRFNeighborhoodWeight[i] << ", ";
+    }
+  os << m_MRFNeighborhoodWeight[i] << "]" << std::endl;
 }// end PrintSelf
 
 /**
@@ -77,11 +97,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   OutputImagePointer outputPtr = this->GetOutput();
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 
+/*
   TrainingImagePointer trainPtr = this->GetTrainingImage();
   if ( trainPtr )
    {
    trainPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
    }
+*/
   
 }
 
@@ -132,10 +154,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //Give the input image and training image set to the  
   // classifier
   m_ClassifierPtr->SetInputImage( inputImage );
-  m_ClassifierPtr->SetTrainingImage( this->GetTrainingImage() );
 
   //Run the gaussian classifier algorithm
-  m_ClassifierPtr->ClassifyImage();
+  m_ClassifierPtr->Update();
 
   //Allocate memory for the labelled images
   this->Allocate();
@@ -188,30 +209,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_ClassifierPtr = ptrToClassifier;
   m_ClassifierPtr->SetNumberOfClasses( m_NumberOfClasses );
 }//end SetPtrToClassifier
-
-template<class TInputImage, class TClassifiedImage>
-void
-MRFImageFilter<TInputImage, TClassifiedImage>
-::SetTrainingImage( TrainingImagePointer image )
-{
-  this->ProcessObject::SetNthInput(1, image );
- 
-}//end SetInputImage
-
-template<class TInputImage, class TClassifiedImage>
-MRFImageFilter<TInputImage, TClassifiedImage>
-::TrainingImagePointer
-MRFImageFilter<TInputImage, TClassifiedImage>
-::GetTrainingImage()
-{
-  if ( this->GetNumberOfInputs() < 2 )
-  {
-    return NULL;
-  }
-  return static_cast<TClassifiedImage*>(
-    this->ProcessObject::GetInput(1).GetPointer() );
-
-}
 
 //-------------------------------------------------------
 //Set the neighborhood radius
@@ -558,16 +555,17 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     LabelStatusImageNeighborhoodIterator &labelStatusIter )
 {
 
+  //Read the pixel of interest and get its corresponding membership value
+  InputImagePixelType   *inputPixelVec = imageIter.GetCenterValue();
+
+  const std::vector<double> & pixelMembershipValue = 
+    m_ClassifierPtr->GetPixelMembershipValue( *inputPixelVec );
+
+
   //Reinitialize the neighborhood influence at the beginning of the 
   //neighborhood operation
   for( unsigned int index = 0; index < m_NeighborInfluence.size() ;index++ ) 
-    m_NeighborInfluence[index]=0;
-
-  //Read the pixel of interest and get its corresponding membership value
-  InputImagePixelType   *inputPixelVec = imageIter.GetCenterValue();
-  m_ClassifierPtr->GetPixelDistance( *inputPixelVec, 
-                                     &(*(m_MahalanobisDistance.begin())) );
-
+    m_NeighborInfluence[index]= 0;
 
   LabelledImagePixelType labelledPixel; 
   int index;
@@ -580,14 +578,15 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     index = (int) labelledPixel;
     m_NeighborInfluence[ index ] += m_MRFNeighborhoodWeight[ i ];
 
-
     }//End neighborhood processing
 
   //Add the prior probability to the pixel probability
   for( unsigned int index = 0; index < m_NumberOfClasses; index++ )
+    {
     m_MahalanobisDistance[index] = m_NeighborInfluence[index] - 
-                                       m_MahalanobisDistance[index] ;
- 
+                                       pixelMembershipValue[index] ;
+    }
+
   //Determine the maximum possible distance
   double maximumDistance = -1e+20;
   int pixLabel = -1;
