@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkRawImageIO_txx
+#define _itkRawImageIO_txx
 #include "itkRawImageIO.h"
 #include "itkByteSwapper.h"
 
@@ -249,3 +251,4 @@ void RawImageIO<TPixel,VImageDimension>
 
 
 } // namespace itk
+#endif

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkImageFileReader_txx
 #define _itkImageFileReader_txx
+#include "itkImageFileReader.h"
 
 #include "itkObjectFactory.h"
 #include "itkSimpleImageRegionIterator.h"

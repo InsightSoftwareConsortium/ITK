@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkConvertPixelBuffer_txx
 #define __itkConvertPixelBuffer_txx
+#include "itkConvertPixelBuffer.h"
 
 #include "itkRGBPixel.h"
 
