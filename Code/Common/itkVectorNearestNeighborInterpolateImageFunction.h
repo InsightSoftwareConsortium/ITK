@@ -26,9 +26,10 @@ namespace itk
  * \class VectorNearestNeighborInterpolateImageFunction
  * \brief Nearest neighbor interpolate a vector image at specified positions.
  *
- * VectorNearestNeighborInterpolateImageFunction linearly interpolates a vector
- * image intensity non-integer pixel position. This class is templated
- * over the input image type and the coordinate representation type.
+ * VectorNearestNeighborInterpolateImageFunction interpolates vector
+ * image intensity non-integer pixel position using nearest neighbor interpolation. 
+ * This class is templated over the input image type and the coordinate 
+ * representation type.
  *
  * This function works for N-dimensional images.
  *
