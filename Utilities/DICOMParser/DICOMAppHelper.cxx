@@ -656,7 +656,7 @@ void DICOMAppHelper::SeriesDescriptionCallback(DICOMParser *,
                                        doublebyte,
                                        DICOMParser::VRTypes,
                                        unsigned char* val,
-                                       quadbyte ) 
+                                       quadbyte len ) 
 {
   if (len == 0)
     {
