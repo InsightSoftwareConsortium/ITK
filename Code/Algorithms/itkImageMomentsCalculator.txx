@@ -17,319 +17,266 @@
 #define _itkImageMomentsCalculator_txx
 
 
-#include <stdlib.h>            // For abort
-
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkSimpleImageRegionConstIterator.h"
 
 namespace itk
 { 
-    template<class TPixel, int VRank> const char* 
-    ImageMomentsCalculator<TPixel, VRank>::notvalid
-    = "No valid image moments are available.";
 
-    //----------------------------------------------------------------------
-    // Construct without computing moments
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::ImageMomentsCalculator(void) {
-	m_valid = 0;
-    }
 
-    //-----------------------------------------------------------------------
-    // Construct and compute moments
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::
-    ImageMomentsCalculator(
-	ImageType &image) 
-	{
-	    ComputeMoments(image);
-	}
+template<class TImage>
+const char * ImageMomentsCalculator<TImage>::notvalid
+= "No valid image moments are available.";
 
-    //----------------------------------------------------------------------
-    // Destructor
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::
-    ~ImageMomentsCalculator()
+
+//----------------------------------------------------------------------
+// Construct without computing moments
+template<class TImage>
+ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void) 
+{
+  m_valid = 0;
+}
+
+//-----------------------------------------------------------------------
+// Construct and compute moments
+template<class TImage>
+ImageMomentsCalculator<TImage>::
+ImageMomentsCalculator( const ImageType * image) 
+{
+  ComputeMoments(image);
+}
+
+//----------------------------------------------------------------------
+// Destructor
+template<class TImage>
+ImageMomentsCalculator<TImage>::
+~ImageMomentsCalculator()
+{
+}
+
+//----------------------------------------------------------------------
+// Compute moments for a new or modified image
+template<class TImage>
+void
+ImageMomentsCalculator<TImage>::
+ComputeMoments( const ImageType * image)
+{
+
+  AffineTransformType indexToPhysical = image->GetIndexToPhysicalTransform();
+
+  m_m0 = 0.0;
+  m_m1.Fill( 0.0 );
+  m_m2.Fill( 0.0 );
+
+  typedef typename ImageType::IndexType IndexType;
+    
+  SimpleImageRegionConstIterator< ImageType > it( image,
+                                                  image->GetRequestedRegion() ); 
+  it.Begin();
+  while( !it.IsAtEnd() )
+  {
+    double value = it.Value();
+    IndexType index = it.GetIndex();
+    Point<double,ImageDimension> indexPosition;
+    Point<double,ImageDimension> physicalPosition;
+
+    for(unsigned int i=0; i<ImageType::ImageDimension; i++)
     {
+      indexPosition[i] = index[i];
     }
 
-    //----------------------------------------------------------------------
-    // Compute moments for a new or modified image
-    template<class TPixel, int VRank>
-    void
-    ImageMomentsCalculator<TPixel, VRank>::
-    ComputeMoments(
-	ImageType &image)
+    m_m0 += value;
+
+    for(unsigned int i=0; i<ImageDimension; i++)
     {
-
-        /* Check for a *positive* number of dimensions */
-        if (VRank <= 0)
-            Error("Sorry! Number of dimensions may not be zero");
-
-	/* Determine image dimensions */
-	const Size<VRank>& size = image->GetLargestPossibleRegion().GetSize();
-        unsigned long ncol = size[VRank-1];
-
-	/* Zero moments before accumulating new ones */
-	m_m0 = 0;
-	for (int i = 0; i < VRank; i++) {
-	    m_m1[i] = 0;
-	    for (int j = 0; j < VRank; j++) {
-		m_m2[i][j] = 0;
-	    }
-	}
-
-	/* Loop over all rows of the image */
-	double pix;
-	Index<VRank> index;
-	unsigned long coord[VRank];
-        int iaxis = 0;
-        int i, j;
-        
-        for (i = 0; i < VRank; i++)
-            coord[i] = 0;
-        do {
-
-            /* Compute moments for current row */
-            double r0 = 0, rx = 0, rxx = 0;
-            for (unsigned long x = 0; x < ncol; x++) {
-
-                /* Get the next pixel from the image */
-                coord[VRank-1] = x;
-                index.SetIndex(coord);
-                pix = image->GetPixel(index);
-
-                /* Accumulate moments within current row */
-                r0  += pix;
-                rx  += x*pix;
-                rxx += (double)x*x*pix;
-            }
-		
-            /* Accumulate moments over entire image */
-            m_m0  += r0;
-            m_m1[VRank-1]  += rx;
-            m_m2[VRank-1][VRank-1] += rxx;
-            for (i = 0; i < VRank-1; i++) {
-                m_m1[i] += coord[i] * r0;
-                m_m2[VRank-1][i] += coord[i] * rx;
-                for (j = 0; j <= i; j++) {
-                    m_m2[i][j] += (double)coord[i] * coord[j] * r0;
-                }
-            }
-
-            /* Step to next row in the image */
-            for (iaxis = VRank-2; iaxis >= 0; iaxis--) {
-                if ( ++(coord[iaxis]) < size[iaxis] )
-                    break;
-                else
-                    coord[iaxis] = 0;
-            } 
-	} while (iaxis >= 0);
-
-	/* Reflect across diagonal */
-        for (i = 0; i < VRank-1; i++)
-            for (j = i+1; j < VRank; j++) 
-                m_m2[i][j] = m_m2[j][i];
-
-	/* Compute center of gravity and central moments */
-	for (int r = 0; r < VRank; r++) {
-	    m_cg[r] = m_m1[r] / m_m0;
-	    m_cm[r][r] = m_m2[r][r] 
-		- 2.0*m_cg[r]*m_m1[r] + m_cg[r]*m_cg[r]*m_m0;
-	    for (int s = 0; s < r; s++) {
-		m_cm[r][s] = m_m2[r][s]
-		    - m_cg[r]*m_m1[s] - m_cg[s]*m_m1[r]
-		    + m_cg[r]*m_cg[s]*m_m0;
-	    }
-	}
-
-	/* Convert cg and central moments to physical units */
-	double const *org = image->GetOrigin();
-	double const *spc = image->GetSpacing();
-	for (int r = 0; r < VRank; r++) {
-	    m_cg[r] = spc[r] * m_cg[r] + org[r];
-	    m_cm[r][r] *= spc[r] * spc[r];
-	    for (int s = 0; s < r; s++) {
-		m_cm[r][s] *= spc[r] * spc[s];
-		m_cm[s][r] = m_cm[r][s];   // Reflect across diagonal
-	    }
-	}
-
-	/* Compute principal moments and axes */
-	vnl_symmetric_eigensystem<double> eigen(m_cm.GetVnlMatrix());
-	vnl_diag_matrix<double> pm = eigen.D;
-	for ( int i = 0; i < VRank; i++ )
-	    m_pm[i] = pm(i,i);
-	m_pa = eigen.V.transpose();
-
-        /* Add a final reflection if needed for a proper rotation,
-           by multiplying the last row by the determinant. */
-        /* FIXME:  This is a really klutzy implementation; the right
-           way would be to use an eigensystem solver in the step above
-           that either preserves parity, or that at least counts
-           the number of reflections that it does. */
-        vnl_real_eigensystem eigenrot(m_pa.GetVnlMatrix());
-        vnl_diag_matrix<vnl_double_complex> eigenval = eigenrot.D;
-        vnl_double_complex det(1.0, 0.0);
-        for ( int i = 0 ; i < VRank; ++i) {
-            det *= eigenval(i,i);
-        }
-        for ( int i = 0; i < VRank; ++i) {
-            m_pa[VRank-1][i] *= std::real(det);
-        }
-	
-	/* Remember that the moments are valid */
-	m_valid = 1;
+      m_m1[i] += indexPosition[i] * value; 
+      for(unsigned int j=i; j<ImageDimension; j++)
+      {
+        double weight = value * indexPosition[i] * indexPosition[j];
+        m_m2[i][j] += weight;
+        m_m2[j][i] += weight;
+      }
     }
 
-
-    //---------------------------------------------------------------------
-    // Get sum of intensities
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel,VRank>::ScalarType
-    ImageMomentsCalculator<TPixel,VRank>::
-    GetTotalMass()
+    physicalPosition = indexToPhysical.Transform( indexPosition );
+      
+    for(unsigned int i=0; i<ImageDimension; i++)
     {
-	if (!m_valid)    Error(notvalid);
-	return m_m0;
+      m_cg[i] += physicalPosition[i] * value; 
+      for(unsigned int j=i; j<ImageDimension; j++)
+      {
+        double weight = value * physicalPosition[i] * physicalPosition[j];
+        m_cm[i][j] += weight;
+        m_cm[j][i] += weight;
+      }
+
     }
 
-    //--------------------------------------------------------------------
-    // Get first moments about origin, in index coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel,VRank>::VectorType
-    ImageMomentsCalculator<TPixel,VRank>::
-    GetFirstMoments()
+    ++it;
+  }
+
+  for(unsigned int i=0; i<ImageDimension; i++)
+  {
+    m_cg[i] /= m_m0;
+    m_m1[i] /= m_m0;
+    for(unsigned int j=i; j<ImageDimension; j++)
     {
-	if (!m_valid)    Error(notvalid);
-	return m_m1;
+      m_cm[i][j] /= m_m0;
+      m_m2[i][j] /= m_m0;
+    }
+  }
+
+
+  /* Remember that the moments are valid */
+  m_valid = 1;
+}
+
+
+//---------------------------------------------------------------------
+// Get sum of intensities
+template<class TImage>
+ImageMomentsCalculator<TImage>::ScalarType
+ImageMomentsCalculator<TImage>::
+GetTotalMass()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_m0;
+}
+
+//--------------------------------------------------------------------
+// Get first moments about origin, in index coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::VectorType
+ImageMomentsCalculator<TImage>::
+GetFirstMoments()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_m1;
+}
+
+//--------------------------------------------------------------------
+// Get second moments about origin, in index coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::MatrixType
+ImageMomentsCalculator<TImage>::
+GetSecondMoments()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_m2;
+}
+
+//--------------------------------------------------------------------
+// Get center of gravity, in physical coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::VectorType
+ImageMomentsCalculator<TImage>::
+GetCenterOfGravity()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_cg;
+}
+
+//--------------------------------------------------------------------
+// Get second central moments, in physical coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::MatrixType
+ImageMomentsCalculator<TImage>::
+GetCentralMoments()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_cm;
+}
+
+//--------------------------------------------------------------------
+// Get principal moments, in physical coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::VectorType
+ImageMomentsCalculator<TImage>::
+GetPrincipalMoments()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_pm;
+}
+
+//--------------------------------------------------------------------
+// Get principal axes, in physical coordinates
+template<class TImage>
+ImageMomentsCalculator<TImage>::MatrixType
+ImageMomentsCalculator<TImage>::
+GetPrincipalAxes()
+{
+  if (!m_valid)    Error(notvalid);
+  return m_pa;
+}
+
+//--------------------------------------------------------------------
+// Get principal axes to physical axes transform
+template<class TImage>
+ImageMomentsCalculator<TImage>::AffineTransformType
+ImageMomentsCalculator<TImage>::
+GetPrincipalAxesToPhysicalAxesTransform(void) const
+{
+    AffineTransformType::MatrixType matrix;
+    AffineTransformType::VectorType offset;
+    for (int i = 0; i < ImageDimension; i++) {
+        for (int j = 0; j < ImageDimension; j++)
+            matrix[j][i] = m_pa[i][j];    // Note the transposition
+        offset[i]    = m_cg [i];
     }
 
-    //--------------------------------------------------------------------
-    // Get second moments about origin, in index coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel,VRank>::MatrixType
-    ImageMomentsCalculator<TPixel,VRank>::
-    GetSecondMoments()
-    {
-	if (!m_valid)    Error(notvalid);
-	return m_m2;
+    AffineTransformType result(matrix, offset);
+    result.SetMatrix(matrix);
+    result.SetOffset(offset);
+
+    return result;
+}
+
+
+//--------------------------------------------------------------------
+// Get physical axes to principal axes transform
+
+template<class TImage>
+ImageMomentsCalculator<TImage>::AffineTransformType
+ImageMomentsCalculator<TImage>::
+GetPhysicalAxesToPrincipalAxesTransform(void) const
+{
+    AffineTransformType::MatrixType matrix;
+    AffineTransformType::VectorType offset;
+    for (int i = 0; i < ImageDimension; i++) {
+        for (int j = 0; j < ImageDimension; j++)
+            matrix[j][i] = m_pa[i][j];    // Note the transposition
+        offset[i]    = m_cg [i];
     }
 
-    //--------------------------------------------------------------------
-    // Get center of gravity, in physical coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::VectorType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetCenterOfGravity()
-    {
-	if (!m_valid)    Error(notvalid);
-	return m_cg;
-    }
+    AffineTransformType result(matrix, offset);
+    result.SetMatrix(matrix);
+    result.SetOffset(offset);
 
-    //--------------------------------------------------------------------
-    // Get second central moments, in physical coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::MatrixType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetCentralMoments()
-    {
-	if (!m_valid)    Error(notvalid);
-	return m_cm;
-    }
+    return result.Inverse();
+}
 
-    //--------------------------------------------------------------------
-    // Get principal moments, in physical coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::VectorType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetPrincipalMoments()
-    {
-	if (!m_valid)    Error(notvalid);
-	return m_pm;
-    }
-
-    //--------------------------------------------------------------------
-    // Get principal axes, in physical coordinates
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::MatrixType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetPrincipalAxes()
-    {
-	if (!m_valid)    Error(notvalid);
-	return m_pa;
-    }
-
-    //--------------------------------------------------------------------
-    // Get principal axes to physical axes transform
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::AffineTransformType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetPrincipalAxesToPhysicalAxesTransform(void) const
-    {
-        AffineTransformType::MatrixType matrix;
-        AffineTransformType::VectorType offset;
-        for (int i = 0; i < VRank; i++) {
-            for (int j = 0; j < VRank; j++)
-                matrix[j][i] = m_pa[i][j];    // Note the transposition
-            offset[i]    = m_cg [i];
-        }
-
-        AffineTransformType result(matrix, offset);
-        result.SetMatrix(matrix);
-        result.SetOffset(offset);
-
-        return result;
-    }
-
-
-    //--------------------------------------------------------------------
-    // Get physical axes to principal axes transform
-
-    template<class TPixel, int VRank>
-    ImageMomentsCalculator<TPixel, VRank>::AffineTransformType
-    ImageMomentsCalculator<TPixel, VRank>::
-    GetPhysicalAxesToPrincipalAxesTransform(void) const
-    {
-        AffineTransformType::MatrixType matrix;
-        AffineTransformType::VectorType offset;
-        for (int i = 0; i < VRank; i++) {
-            for (int j = 0; j < VRank; j++)
-                matrix[j][i] = m_pa[i][j];    // Note the transposition
-            offset[i]    = m_cg [i];
-        }
-
-        AffineTransformType result(matrix, offset);
-        result.SetMatrix(matrix);
-        result.SetOffset(offset);
-
-        return result.Inverse();
-    }
-
-    //--------------------------------------------------------------------
-    /**
-     * This private and interim method reports a error by printing
-     * a given char string to standard error and aborting.  This
-     * is a purely temporary method used as a placeholder until
-     * the right implementation of error handling in itk is designed.
-     */
-    /* FIXME:  Use more general approach to error reporting */
-    template<class TPixel, int VRank>
-    void
-    ImageMomentsCalculator<TPixel, VRank>::
-    Error (const char *string) {
-	std::cerr << string << "\n";
-	abort();
-    }
+//--------------------------------------------------------------------
+/**
+ * This private and interim method reports a error by printing
+ * a given char string to standard error and aborting.  This
+ * is a purely temporary method used as a placeholder until
+ * the right implementation of error handling in itk is designed.
+ */
+template<class TImage>
+void
+ImageMomentsCalculator<TImage>::
+Error (const char *string) {
+   std::cerr << string << "\n";
+   ExceptionObject problem;
+   problem.SetLocation("ImageMomentsCalculator");
+   problem.SetDescription( string );
+   throw problem;
+}
 
 
 } // end namespace itk
 
 
-
-// Define file characteristics for emacs
-// FIXME:  Create .emacs commands for the Insight indentation style
-// Local variables: ***
-// END: ***
 
 #endif

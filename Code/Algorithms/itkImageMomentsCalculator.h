@@ -54,32 +54,34 @@ namespace itk
  * FIXME: It's not yet clear how multi-echo images should be handled here.
  *
  */
-
-// FIXME:  Find right incantation to doxygenate the template parameters
-template <
-    class TPixel,             // Type of the image data
-    int   VRank >             // Rank = Number of dimensions
+template < class TImage >
 class ImageMomentsCalculator
 {
 public:
 
+    enum { ImageDimension = TImage::ImageDimension };
+
     /// Standard self typedef
-    typedef ImageMomentsCalculator<TPixel, VRank>   Self;
+    typedef ImageMomentsCalculator<TImage>   Self;
 
     /// Standard scalar type within this class.
     typedef double                       ScalarType;
 
     /// Standard vector type within this class.
-    typedef Vector<double,VRank>         VectorType;
+    typedef Vector<ScalarType,ImageDimension>         VectorType;
 
     /// Standard matrix type within this class.
-    typedef Matrix<double,VRank,VRank>   MatrixType;
+    typedef Matrix<ScalarType,
+                   ImageDimension,ImageDimension>   MatrixType;
 
     /// Standard image type within this class.
-    typedef typename PhysicalImage<TPixel, VRank>::Pointer ImageType;
+    typedef TImage ImageType;
+
+    /// Standard image type pointer within this class.
+    typedef typename ImageType::Pointer ImagePointer;
 
     /// Standard affine transform type for this class
-    typedef AffineTransform<double, VRank> AffineTransformType;
+    typedef AffineTransform<ScalarType, ImageDimension> AffineTransformType;
 
     /**
      * Compute moments of a new or modified image.
@@ -90,7 +92,7 @@ public:
      * other methods of this object.
      *
      */
-    void ComputeMoments(ImageType &image);
+    void ComputeMoments( const ImageType * image );
 
     /**
      * Return the total mass (or zeroth moment) of an image.
@@ -205,7 +207,7 @@ public:
      * other methods of the object constructed.
      */
     ImageMomentsCalculator(              // Create and sum moments of an image
-	ImageType &image);
+          const ImageType * image);
 
     /**
      * Destroy an ImageMomentsCalculator object.
@@ -213,7 +215,7 @@ public:
     ~ImageMomentsCalculator();
 
 private:
-    bool m_valid;                   // Have moments been computed yet?
+    bool m_valid;                      // Have moments been computed yet?
     ScalarType m_m0;                   // Zeroth moment
     VectorType m_m1;                   // First moments about origin
     MatrixType m_m2;                   // Second moments about origin
