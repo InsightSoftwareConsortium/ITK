@@ -209,7 +209,6 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
   // 0 - Gaussian, 1 - Triangular
   unsigned int spaceDimension = 4; // number of cost function parameters
 
-  profileFilter->SetUseOptimizerGradient(true);
   profileFilter->Initialize(setUniqueAxis, setSymmetricAxes, numberOfBins, 
     splatMethod, spaceDimension);
   std::cout << "Profile filter initialized" << std::endl;
