@@ -8,7 +8,7 @@
 #include <itkPoint.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationMethod.h>
-#include <itkRegistrationOptimizer.h>
+#include <itkRegistrationOptimizerLBFGS.h>
 #include <itkRegistrationTransformationAffine.h>
 #include <itkRegistrationMetricProcrustes.h>
 
@@ -36,7 +36,7 @@ int main()
   typedef MetricType::TargetType         TargetType;
   typedef MetricType::ReferenceType      ReferenceType;
 
-  typedef itk::RegistrationOptimizer< 
+  typedef itk::RegistrationOptimizerLBFGS< 
                                 MetricType >      OptimizerType;
 
   typedef itk::RegistrationMethod< MetricType,
