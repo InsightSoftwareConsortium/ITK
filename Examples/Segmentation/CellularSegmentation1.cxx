@@ -97,6 +97,8 @@ int main( int argc, char *argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
+  std::cout << "Filename = " << argv[1] << std::endl;
+
   try
     {
     reader->Update();
@@ -150,6 +152,8 @@ int main( int argc, char *argv[] )
 
   reader->GetOutput()->TransformIndexToPhysicalPoint( index, position );
 
+  std::cout << "Egg position index = " <<  index   << std::endl;
+  std::cout << "Egg position point = " << position << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -164,7 +168,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  CellType * egg = new CellType;
+  CellType * egg = CellType::CreateEgg();
   // Software Guide : EndCodeSnippet
 
 
@@ -206,6 +210,8 @@ int main( int argc, char *argv[] )
   cellularAggregate->SetEgg( egg, position );
   // Software Guide : EndCodeSnippet
  
+
+
   //  Software Guide : BeginLatex
   //
   //  The CellularAggregate will update the life cycle of all the cells in an
@@ -222,12 +228,16 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfIterations = atoi( argv[6] );
 
+  std::cout << "numberOfIterations " << numberOfIterations << std::endl;
+
   for(unsigned int i=0; i<numberOfIterations; i++)
     {
     cellularAggregate->AdvanceTimeStep();
     }
   // Software Guide : EndCodeSnippet
 
+
+  std::cout << " Final number of Cells = " << cellularAggregate->GetNumberOfCells() << std::endl;
 
   return 0;
 }
