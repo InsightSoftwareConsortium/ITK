@@ -198,12 +198,18 @@ Document::~Document ()
    RefShaDict = NULL;
 
    // Recursive clean up of sequences
-   for (TagDocEntryHT::const_iterator it = TagHT.begin(); 
-                                      it != TagHT.end(); ++it )
-   { 
-      //delete it->second; //temp remove
-   }
-   TagHT.clear();
+   //
+   // This code is incorrect.  You cannot clear TagHT here because the
+   // superclass (ElementSet) needs to clear TagHT.  ElementSet
+   // created TagHT and should be responsible for clearing it. The
+   // call to TagHT.clear() here causes memory leaks.
+   //
+//    for (TagDocEntryHT::const_iterator it = TagHT.begin(); 
+//                                       it != TagHT.end(); ++it )
+//    { 
+//       //delete it->second; //temp remove
+//    }
+//    //TagHT.clear();
    delete RLEInfo;
    delete JPEGInfo;
 }
@@ -657,6 +663,8 @@ BinEntry* Document::ReplaceOrCreateByNumber(
          dbg.Verbose(0, "Document::ReplaceOrCreateByNumber: AddEntry"
                         " failed allthough this is a creation.");
       }
+
+      delete currentEntry;
    }
    else
    {
