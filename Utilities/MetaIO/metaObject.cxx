@@ -1276,14 +1276,14 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Color[i] = mF->value[i];
+      m_Color[i] = static_cast<float>( mF->value[i] );
       }
     }
   else
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Color[i] = 1;
+      m_Color[i] = static_cast<unsigned int>( 1 );
       }
     }
 
@@ -1292,7 +1292,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = mF->value[i];
+      m_Offset[i] = static_cast<float>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Offset", &m_Fields);
@@ -1300,7 +1300,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = mF->value[i];
+      m_Offset[i] = static_cast<float>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Origin", &m_Fields);
@@ -1308,7 +1308,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Offset[i] = mF->value[i];
+      m_Offset[i] = static_cast<float>( mF->value[i] );
       }
     }
 
@@ -1320,7 +1320,7 @@ M_Read(void)
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = mF->value[i];
+      m_Rotation[i] = static_cast<float>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Rotation", &m_Fields);
@@ -1330,7 +1330,7 @@ M_Read(void)
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = mF->value[i];
+      m_Rotation[i] = static_cast<float>( mF->value[i] );
       }
     }
   if(!rotationDefined)
@@ -1352,7 +1352,7 @@ M_Read(void)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_ElementSpacing[i] = mF->value[i];
+      m_ElementSpacing[i] = static_cast<float>( mF->value[i] );
       if (META_DEBUG) 
         std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
                   << m_ElementSpacing[i] << std::endl;
@@ -1463,29 +1463,32 @@ void* MetaObject
   {
     int eSize;
     MET_SizeOfType((*it)->type, &eSize);
-    void * out = calloc((*it)->length, eSize);
+    const unsigned int itLength = 
+                static_cast<unsigned int>( (*it)->length );
+    void * out = calloc( itLength, eSize );
     if(!strcmp((*it)->name,_name))
-    {
+      {
       if((*it)->type == MET_STRING)
-      {
-         memcpy(out,(*it)->value,(*it)->length*eSize);
-      }
+        {
+        memcpy( out, (*it)->value, itLength * eSize );
+        }
       else if((*it)->type == MET_FLOAT_MATRIX)
-      {
-        for(unsigned int i=0;i<(*it)->length*(*it)->length;i++)
         {
+        const unsigned int numMatrixElements = itLength * itLength;
+        for( unsigned int i=0; i < numMatrixElements; i++ )
+          {
           MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
+          }
         }
-      }
       else
-      {
-        for(unsigned int i=0;i<(*it)->length;i++)
         {
+        for( unsigned int i=0; i < itLength; i++ )
+          {
           MET_DoubleToValue((*it)->value[i],(*it)->type,out,i);
+          }
         }
-      }
       return out;
-    }
+      }
     it++;
   }
   return NULL;
