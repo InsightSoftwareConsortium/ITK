@@ -73,6 +73,17 @@ public:
    */
   typedef Index<VImageDimension> Index;
 
+  /** 
+   * Size typedef support.
+   */
+  typedef Size<VImageDimension> Size;
+
+  /** 
+   * Region typedef support.
+   */
+  typedef ImageRegion<VImageDimension> Region;
+
+
   /**
    * Image typedef support.
    */
@@ -181,12 +192,17 @@ public:
 
   /**
    * Get the index. This provides a read only reference to the index.
-   * This causes the index to be calculated from pointer arithmetic and is
-   * therefore an expensive operation.
    * \sa SetIndex
    */
   const Index GetIndex()
     { return m_PositionIndex; }
+
+  /**
+   * Get the region that this iterator walks. ImageIterators know the
+   * beginning and the end of the region of the image to iterate over.
+   */
+  const Region& GetRegion() const
+  { return m_Region; };
 
   /**
    * Set the index. No bounds checking is performed.
@@ -203,23 +219,11 @@ public:
   { return m_Image->GetImageSize(); };
 
   /**
-   * Get the size of the buffer.
-   */
-  const unsigned long *GetBufferSize() const
-  { return m_Image->GetBufferSize(); };
-
-  /**
    * Get the "array index" of the first pixel to iterate over.
    * ImageIteratorWithIndexs know the beginning and end of the region of the image
    * to iterate over.
    */
   const Index &GetStartIndex() const  {return m_BeginIndex;} ;
-
-  /**
-   * Get the size of the region to iterator over.
-   */
-  const unsigned long *GetSize() const
-    { return m_Size; };
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
@@ -265,9 +269,8 @@ protected: //made protected so other iterators can access
   Index          m_BeginIndex;                // Index to start iterating over
   Index          m_EndIndex;                  // Index to finish iterating 
 
-  Index          m_StartBufferIndex;          // Index where the buffer starts
-  
-  unsigned long  m_Size[VImageDimension];     // How large of a region to iter
+  Region         m_Region;                    // region to iterate over
+
   unsigned long  m_OffsetTable[VImageDimension+1]; 
   
   TPixel        *m_Position;

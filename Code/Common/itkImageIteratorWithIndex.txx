@@ -32,7 +32,6 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   m_Begin     = 0;
   m_End       = 0;
   m_Remaining = true;
-  memset( m_Size, 0, VImageDimension*sizeof(unsigned long) );
 }
 
 
@@ -49,9 +48,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   m_PositionIndex     = it.m_PositionIndex;
   m_BeginIndex        = it.m_BeginIndex;
   m_EndIndex          = it.m_EndIndex;
-  m_StartBufferIndex  = it.m_StartBufferIndex;
+  m_Region            = it.m_Region;
 
-  memcpy(m_Size,        it.m_Size,        VImageDimension*sizeof(unsigned long));
   memcpy(m_OffsetTable, it.m_OffsetTable, (VImageDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
@@ -68,15 +66,13 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 ImageIteratorWithIndex<TPixel, VImageDimension>
 ::ImageIteratorWithIndex(const SmartPointer<Image> &ptr,
-              const Index &start,
-              const unsigned long size[VImageDimension])
+              const Region & region )
 {
   m_Image = ptr;
   TPixel * m_Buffer   = m_Image->GetBufferPointer();
-  m_StartBufferIndex  = m_Image->GetBufferStartIndex();
-  m_BeginIndex        = start;
+  m_BeginIndex        = region.GetIndex();
   m_PositionIndex     = m_BeginIndex;
-  memcpy(m_Size,        size,             VImageDimension*sizeof(unsigned long));
+
   memcpy(m_OffsetTable, m_Image->GetOffsetTable(), (VImageDimension+1)*sizeof(unsigned long));
 
   // Compute the start position
@@ -87,8 +83,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   Index pastEnd;
   for (unsigned int i=0; i < VImageDimension; ++i)
     {
-    m_EndIndex[i] = m_BeginIndex[i] + m_Size[i];
-    pastEnd[i]    = m_BeginIndex[i] + m_Size[i]-1;
+    m_EndIndex[i] = m_BeginIndex[i] + region.GetSize()[i];
+    pastEnd[i]    = m_BeginIndex[i] + region.GetSize()[i]-1;
     }
   m_End = m_Buffer + m_Image->ComputeOffset( pastEnd );
   m_End++;
@@ -109,10 +105,8 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
 
   m_BeginIndex        = it.m_BeginIndex;
   m_EndIndex          = it.m_EndIndex;
-  m_StartBufferIndex  = it.m_StartBufferIndex;
   m_PositionIndex     = it.m_PositionIndex;
 
-  memcpy(m_Size,        it.m_Size,        VImageDimension*sizeof(unsigned long));
   memcpy(m_OffsetTable, it.m_OffsetTable, (VImageDimension+1)*sizeof(unsigned long));
   
   m_Position    = it.m_Position;
