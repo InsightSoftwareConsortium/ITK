@@ -230,7 +230,7 @@ public:
   void Advance();
 
 protected:
-  GibbsPriorFilter() {};
+  GibbsPriorFilter();
   ~GibbsPriorFilter() {};
 //  GibbsPriorFilter(const GibbsPriorFilter&) {};
 //  void operator=(const GibbsPriorFilter&) {};
