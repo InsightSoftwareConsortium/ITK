@@ -157,9 +157,7 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The following lines instantiate a
-  //  \doxygen{ThresholdSegmentationLevelSetImageFilter} and create an object of this type
-  //  using the \code{New()} method.
+  //  The following lines define and instantiate a \doxygen{CannySegmentationLevelSetImageFilter}.
   //
   //  Software Guide : EndLatex 
   
