@@ -74,20 +74,17 @@ public:
    */
    typedef TTarget TargetType;
 
-
-  /**
-   *  Type of the Transformation
-   */
-   typedef TranslationTransform<
-                                  double, 
-                                   ReferenceType::ImageDimension
-                                                  > TransformationType;
-	  
   /**
    * Image Dimensions
    */
    enum { ImageDimension = ReferenceType::ImageDimension }; 
 
+
+  /**
+   *  Type of the Transformation
+   */
+   typedef TranslationTransform< double, ImageDimension
+                                                  > TransformationType;
 
   /**
    * Parameters Dimensions

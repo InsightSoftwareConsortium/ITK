@@ -76,23 +76,20 @@ public:
 
 
   /**
+   * Image Dimensions
+   */
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
+
+
+  /**
    *  Type of the Transformation
    */
-   typedef AffineTransform<
-                            double, 
-                            ReferenceType::ImageDimension 
-                                                  > TransformationType;
+   typedef AffineTransform< double, ImageDimension > TransformationType;
 
 	/**
    *  Type of the parameters
    */
    typedef typename TransformationType::ParametersType  ParametersType;
-
-
-  /**
-   * Image Dimensions
-   */
-   enum { ImageDimension = ReferenceType::ImageDimension }; 
 
 
   /**
