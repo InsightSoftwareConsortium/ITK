@@ -24,8 +24,7 @@
 #include "itkLineCell.h"
 #include "itkPoint.h"
 #include <vector>
-#include <queue>
-
+#include <deque>
 
 namespace itk
 {
