@@ -100,6 +100,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkShapeDetectionLevelSetFilter.h"
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkSimpleFuzzyConnectednessImageFilterBase.h"
+#include "itkSimpleFuzzyConnectednessRGBImageFilter.h"
+#include "itkSimpleFuzzyConnectednessScalarImageFilter.h"
 #include "itkSphereMeshSource.h"
 #include "itkSphereSource.h"
 #include "itkSupervisedClassifier.h"
