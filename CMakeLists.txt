@@ -153,7 +153,7 @@ IF(USE_FLTK)
 ENDIF(USE_FLTK)
 
 # Copy the UseITK.cmake file to the binary tree for backward compatability.
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake.in
                ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY IMMEDIATE)
 
 INSTALL_FILES(/include/InsightToolkit ".h" "itkConfigure")
