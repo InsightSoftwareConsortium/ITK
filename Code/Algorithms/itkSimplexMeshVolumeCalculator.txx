@@ -167,7 +167,7 @@ SimplexMeshVolumeCalculator<TInputMesh>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Volume = " << m_Volume << std::endl;
-  os << indent << "Mesh   = " << m_Mesh << std::endl;
+  os << indent << "Mesh   = " << m_SimplexMesh << std::endl;
 }
 
 } // end of namspace itk
