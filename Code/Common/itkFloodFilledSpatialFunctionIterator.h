@@ -72,12 +72,12 @@ public:
   /** 
    * Index typedef support.
    */
-  typedef TImage::IndexType  IndexType;
+  typedef typename TImage::IndexType  IndexType;
 
   /** 
    * Size typedef support.
    */
-  typedef TImage::SizeType    SizeType;
+  typedef typename TImage::SizeType    SizeType;
 
   /**
    * Image typedef support.
@@ -102,7 +102,7 @@ public:
   /**
    * Type of vector used to store location info in the spatial function
    */
-  typedef TFunction::TVectorType VectorType;
+  typedef typename TFunction::TVectorType VectorType;
 
   /**
    * Constructor establishes an iterator to walk a particular image and a
