@@ -81,6 +81,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPatternIntensityImageToImageMetric.txx"
 #include "itkPatternIntensityPointSetToImageMetric.txx"
+#include "itkPointSetToImageMetric.txx"
 #include "itkRGBGibbsPriorFilter.txx"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
 #include "itkRegionGrowImageFilter.txx"
