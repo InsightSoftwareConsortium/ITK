@@ -76,7 +76,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   os << indent << "DistanceForGradient = " << m_DistanceForGradient << std::endl;
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
   os << indent << "Resolution = " << m_Resolution << std::endl;
-  os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
+  if (!m_ImageOutput.IsNull())
+    {
+    os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
+    }
   os << indent << "Potential = " << m_Potential << std::endl;
   os << indent << "Displacements = " << m_Displacements << std::endl;
   os << indent << "Locations = " << m_Locations << std::endl;
@@ -337,8 +340,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
   int i;
-  IndexType coord = {0, 0};
-  IndexType extend = {0, 0};
+  IndexType coord; coord.Fill(0);
+  IndexType extend; extend.Fill(0);
   float extends[2], fo, t, xs, ys;
   FloatVector n1, n, vec1, vec2; 
   float max;
@@ -371,7 +374,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   coord[0] = (int) x[0];
   coord[1] = (int) x[1];
-  coord[2] = 0;
 
   label = (unsigned short)m_Potential->GetPixel(coord);
   if ( label != m_ObjectLabel ) {
@@ -1108,8 +1110,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++normals;
   }
 
-  mag = 0.0;
-
 }
 
 /*
@@ -1475,9 +1475,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   i = 0;
   s = locations.Value();
   while ( i < m_Resolution - 1 ) {
-      v1 = locations.Value();
+    v1 = locations.Value();
     ++locations;
-      v2 = locations.Value();
+    v2 = locations.Value();
     dis = sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
     i++;
   }
