@@ -51,6 +51,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkComplexToRealImageFilter.h"
+#include "itkComplexToImaginaryImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -136,10 +137,10 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // We instantiate now the ImageFilter that will help us to extract the real
-// part from the complex image without having toalocate additional memory.  The
-// Adaptor we use here is the \doxygen{ComplexToRealImageFilter}. It takes as
-// first template parameter the type of the complex image and as second
-// template parameter it takes the type of the output image pixel.
+// part from the complex image.  The Filter that  we use here is the
+// \doxygen{ComplexToRealImageFilter}. It takes as first template parameter the
+// type of the complex image and as second template parameter it takes the type
+// of the output image pixel.
 //
 // Software Guide : EndLatex 
 
@@ -197,10 +198,48 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Error: " << std::endl;
+    std::cerr << "Error writing the real image: " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+
+
+// Software Guide : BeginLatex
+//
+// We instantiate now the ImageFilter that will help us to extract the
+// imaginary part from the complex image.  The filter that we use here is the
+// \doxygen{ComplexToImaginaryImageFilter}. It takes as first template parameter the
+// type of the complex image and as second template parameter it takes the type
+// of the output image pixel.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  typedef FFTFilterType::OutputImageType    ComplexImageType;
+
+  typedef itk::ComplexToImaginaryImageFilter< ComplexImageType, ImageType > ImaginaryFilterType;
+// Software Guide : EndCodeSnippet
+
+  ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
+
+  imaginaryFilter->SetInput( filter->GetOutput() );
+
+
+  intensityRescaler->SetInput( realFilter->GetOutput() );
+  writer->SetFileName( argv[3] );
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error writing the imaginary image: " << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   return EXIT_SUCCESS;
 }
