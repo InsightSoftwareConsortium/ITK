@@ -82,7 +82,7 @@ public:
   }
   
   /** Virtual destructor needed for subclasses.  */
-  virtual ~ExceptionObject() {}
+  virtual ~ExceptionObject() throw() {}
 
   /** Assignment operator. */
   ExceptionObject &operator= ( const ExceptionObject &orig )
