@@ -21,6 +21,7 @@
 #include "itkGaussianOperator.h"
 #include "itkGaussianSpatialFunction.h"
 #include "itkImageFunction.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -61,9 +62,7 @@ public:
   typedef typename InputImageType::PixelType          InputPixelType;
   typedef typename Superclass::IndexType              IndexType;
   typedef typename Superclass::ContinuousIndexType    ContinuousIndexType;
-  typedef NeighborhoodOperatorImageFunction<InputImageType,
-                                             TOutput> OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
+
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -77,6 +76,15 @@ public:
   
   typedef GaussianSpatialFunction<TOutput,1>  GaussianFunctionType;
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
+  typedef itk::Image<double,itkGetStaticConstMacro(ImageDimension)> InternalImageType;
+  typedef typename InternalImageType::Pointer InternalImagePointer;
+
+  typedef NeighborhoodOperatorImageFunction<InternalImageType,
+                                             TOutput> OperatorImageFunctionType;
+  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
+
+  typedef itk::CastImageFilter<InputImageType,InternalImageType> CastImageFilterType;
+  typedef typename CastImageFilterType::Pointer CastImageFilterPointer;
 
   typedef itk::FixedArray< double, 
                   itkGetStaticConstMacro(ImageDimension) >   ErrorArrayType;
@@ -169,6 +177,8 @@ private:
   OperatorImageFunctionPointer  m_OperatorImageFunction;
   mutable OperatorArrayType     m_OperatorArray;
   mutable OperatorArrayType     m_ContinuousOperatorArray;
+  InternalImagePointer          m_InternalImage;
+  CastImageFilterPointer        m_Caster;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.

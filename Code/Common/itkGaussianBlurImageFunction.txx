@@ -18,6 +18,7 @@
 #define _itkGaussianBlurImageFunction_txx
 
 #include "itkGaussianBlurImageFunction.h"
+#include "itkImageLinearIteratorWithIndex.h"
 
 namespace itk
 {
@@ -42,7 +43,9 @@ GaussianBlurImageFunction<TInputImage,TOutput>
   m_GaussianFunction->SetMean(mean);
   m_GaussianFunction->SetNormalized(false); // faster
   m_OperatorImageFunction = OperatorImageFunctionType::New();
+  m_InternalImage = InternalImageType::New();
   this->RecomputeGaussianKernel();
+  m_Caster = CastImageFilterType::New();
 }
 
 /** Set the input image */
@@ -52,7 +55,9 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 ::SetInputImage( const InputImageType * ptr )
 {
   Superclass::SetInputImage(ptr);
-  m_OperatorImageFunction->SetInputImage(ptr);
+  m_Caster->SetInput(ptr);
+  m_Caster->Update();
+  m_OperatorImageFunction->SetInputImage(m_Caster->GetOutput());
 }
 
 
@@ -72,6 +77,9 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     }
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+
+  os << indent << "Internal Image : " << m_InternalImage << std::endl; 
+  os << indent << "Image Caster : " << m_Caster << std::endl; 
 
 }
 
@@ -173,12 +181,16 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     }
 }
 
-/** Recompute the gaussian kernel used to evaluate indexes*/
+/** Recompute the gaussian kernel used to evaluate indexes
+ *  And allocate the internal image for processing depending on 
+ *  the size of the operator */
 template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::RecomputeGaussianKernel()
 {
+  
+  typename InternalImageType::SizeType size;
   // Compute the convolution of each kernel in each direction
   for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
     {
@@ -206,7 +218,16 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 
     gaussianOperator.CreateDirectional();
     m_OperatorArray[direction] = gaussianOperator;
+    size[direction] = gaussianOperator.GetSize()[direction];
     }
+
+  // Allocate the internal image
+  m_InternalImage = InternalImageType::New();
+  typename InternalImageType::RegionType region;
+  region.SetSize(size);
+  m_InternalImage->SetRegions(region);
+  m_InternalImage->Allocate();
+  m_InternalImage->FillBuffer(0);
 }
 
 /** Evaluate the function at the specifed point */
@@ -215,20 +236,118 @@ TOutput
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::EvaluateAtIndex(const IndexType& index) const
 {
-  // Apply each gaussian kernel to a subset of the image
-  InputPixelType pixel = this->GetInputImage()->GetPixel(index);
-  double value = pixel;
+  // First time we use the complete image and fill the internal image
+  m_OperatorImageFunction->SetInputImage(m_Caster->GetOutput());
+  m_OperatorImageFunction->SetOperator(m_OperatorArray[0]);
 
-  for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
+  // if 1D Image we return the result
+  if(itkGetStaticConstMacro(ImageDimension) == 1)
     {
-    unsigned int center = (unsigned int)((m_OperatorArray[direction].GetSize()[direction]-1)/2);
-    double centerval = m_OperatorArray[direction].GetCenterValue();
-    m_OperatorArray[direction][center] = 0;
-    m_OperatorImageFunction->SetOperator(m_OperatorArray[direction]);
-    value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
-    //std::cout << "value1 = " << centerval << std::endl;
+    return m_OperatorImageFunction->EvaluateAtIndex(index);
     }
-  return value;
+
+  // Compute the centered index fo the neighborhood
+  IndexType centerIndex;
+  for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    centerIndex[i] = (unsigned long)((float)m_InternalImage->GetBufferedRegion().GetSize()[i]/2.0);
+    }
+
+  // first direction
+  typename InternalImageType::IndexType ind;
+  ind = index;
+
+  //Define the region of the iterator
+  typename InternalImageType::RegionType region;
+  typename InternalImageType::SizeType size = m_InternalImage->GetBufferedRegion().GetSize();
+  size[0]=1;
+  region.SetSize(size);
+
+  for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    if(i != 0)
+      {
+      ind[i] -= centerIndex[i];
+      }
+    }
+  region.SetIndex(ind);
+
+  typename InternalImageType::RegionType regionN;
+  regionN.SetSize(size);
+  ind = centerIndex;
+  for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    if(i != 0)
+      {
+      ind[i] = 0;
+      }
+    }
+  regionN.SetIndex(ind);
+
+  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),region);
+  itk::ImageLinearIteratorWithIndex<InternalImageType> itN(m_InternalImage,regionN);
+  it.SetDirection(1);
+  itN.SetDirection(1);
+  it.GoToBeginOfLine();
+  itN.GoToBeginOfLine();
+  while(!it.IsAtEnd())
+    {
+    while(!it.IsAtEndOfLine())
+      {
+      if(m_Caster->GetOutput()->GetLargestPossibleRegion().IsInside(it.GetIndex()))
+        {
+        itN.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
+        }
+      ++it;
+      ++itN;
+      }
+    it.NextLine();
+    itN.NextLine();
+    }
+
+  // Do the convolution in other directions
+  for(unsigned int direction=1;direction<itkGetStaticConstMacro(ImageDimension);direction++)
+    {
+
+    size[direction] = 1;
+    ind = centerIndex;
+    for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+      {
+      if(i > direction)
+        {
+        ind[i] = 0;
+        }
+      }
+    region.SetSize(size);
+    region.SetIndex(ind);
+
+
+    m_OperatorImageFunction->SetInputImage(m_InternalImage);
+    m_OperatorImageFunction->SetOperator(m_OperatorArray[direction]);
+
+    itk::ImageLinearIteratorWithIndex<InternalImageType> it(m_InternalImage,region);
+      
+    unsigned int dir = direction +1;
+    if(dir == itkGetStaticConstMacro(ImageDimension))
+      {
+      dir = itkGetStaticConstMacro(ImageDimension)-1;
+      }
+
+    it.SetDirection(dir);
+    it.GoToBeginOfLine();
+    while(!it.IsAtEnd())
+      {
+      while(!it.IsAtEndOfLine())
+        {
+        it.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
+        ++it;
+        }
+      it.NextLine();
+      }
+    }
+
+  return m_InternalImage->GetPixel(centerIndex);
+
 }
 
 
@@ -284,11 +403,8 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     while(it != gaussianNeighborhood.End() )
       {    
       (*it) /= sum;
-      //std::cout << *it << std::endl;
       it++;
       }
-    //std::cout << std::endl;
-    //std::cout << std::endl;
     m_ContinuousOperatorArray[direction] = gaussianNeighborhood;
     }
 }
@@ -311,20 +427,117 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 
   this->RecomputeContinuousGaussianKernel(offset);
 
-  // Apply each gaussian kernel to a subset of the image
-  InputPixelType pixel = this->GetInputImage()->GetPixel(index);
-  double value = pixel;
+  // First time we use the complete image and fill the internal image
+  m_OperatorImageFunction->SetInputImage(m_Caster->GetOutput());
+  m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[0]);
 
-  for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
+  // if 1D Image we return the result
+  if(itkGetStaticConstMacro(ImageDimension) == 1)
     {
-    unsigned int center = (unsigned int)((m_ContinuousOperatorArray[direction].GetSize()[direction]-1)/2);
-    double centerval = m_ContinuousOperatorArray[direction][center];
-    m_ContinuousOperatorArray[direction][center] = 0;
-    m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[direction]);
-    value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
+    return m_OperatorImageFunction->EvaluateAtIndex(index);
     }
 
-  return value;
+  // Compute the centered index fo the neighborhood
+  IndexType centerIndex;
+  for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    centerIndex[i] = (unsigned long)((float)m_InternalImage->GetBufferedRegion().GetSize()[i]/2.0);
+    }
+
+  // first direction
+  typename InternalImageType::IndexType ind;
+  ind = index;
+
+  //Define the region of the iterator
+  typename InternalImageType::RegionType region;
+  typename InternalImageType::SizeType size = m_InternalImage->GetBufferedRegion().GetSize();
+  size[0]=1;
+  region.SetSize(size);
+
+  for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    if(i != 0)
+      {
+      ind[i] -= centerIndex[i];
+      }
+    }
+  region.SetIndex(ind);
+
+  typename InternalImageType::RegionType regionN;
+  regionN.SetSize(size);
+  ind = centerIndex;
+  for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+    {
+    if(i != 0)
+      {
+      ind[i] = 0;
+      }
+    }
+  regionN.SetIndex(ind);
+
+  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),region);
+  itk::ImageLinearIteratorWithIndex<InternalImageType> itN(m_InternalImage,regionN);
+  it.SetDirection(1);
+  itN.SetDirection(1);
+  it.GoToBeginOfLine();
+  itN.GoToBeginOfLine();
+  while(!it.IsAtEnd())
+    {
+    while(!it.IsAtEndOfLine())
+      {
+      if(m_Caster->GetOutput()->GetLargestPossibleRegion().IsInside(it.GetIndex()))
+        {
+        itN.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
+        }
+      ++it;
+      ++itN;
+      }
+    it.NextLine();
+    itN.NextLine();
+    }
+
+  // Do the convolution in other directions
+  for(unsigned int direction=1;direction<itkGetStaticConstMacro(ImageDimension);direction++)
+    {
+
+    size[direction] = 1;
+    ind = centerIndex;
+    for(unsigned int i = 0;i<itkGetStaticConstMacro(ImageDimension);i++)
+      {
+      if(i > direction)
+        {
+        ind[i] = 0;
+        }
+      }
+    region.SetSize(size);
+    region.SetIndex(ind);
+
+
+    m_OperatorImageFunction->SetInputImage(m_InternalImage);
+    m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[direction]);
+
+    itk::ImageLinearIteratorWithIndex<InternalImageType> it(m_InternalImage,region);
+      
+    unsigned int dir = direction +1;
+    if(dir == itkGetStaticConstMacro(ImageDimension))
+      {
+      dir = itkGetStaticConstMacro(ImageDimension)-1;
+      }
+
+    it.SetDirection(dir);
+    it.GoToBeginOfLine();
+    while(!it.IsAtEnd())
+      {
+      while(!it.IsAtEndOfLine())
+        {
+        it.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
+        ++it;
+        }
+      it.NextLine();
+      }
+    }
+
+  return m_InternalImage->GetPixel(centerIndex);
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
