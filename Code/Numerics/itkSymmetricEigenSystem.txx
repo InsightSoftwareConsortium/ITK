@@ -86,7 +86,7 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
       for(j = i + 1 ; j < VNumberOfRows ; j++)
         {
           if( (m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder) ||
-              ( (abs( m_EigenValues[j] ) > abs( m_EigenValues[i] ) ) 
+              ( (vnl_math_abs( m_EigenValues[j] ) > vnl_math_abs( m_EigenValues[i] ) ) 
                 && m_UseAbsoluteOrder) )
             {
               temp= m_EigenValues[i] ;
