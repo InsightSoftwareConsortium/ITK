@@ -74,6 +74,7 @@ void RegisterTests()
   REGISTER_TEST(itkCyclicReferences );
   REGISTER_TEST(itkDanielssonDistanceMapImageFilterTest );
   REGISTER_TEST(itkDerivativeImageFilterTest );
+  REGISTER_TEST(itkDeformationFieldInverseImageFilterTest );
   REGISTER_TEST(itkDifferenceOfGaussiansGradientTest );
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest );
   REGISTER_TEST(itkDivideImageFilterTest );

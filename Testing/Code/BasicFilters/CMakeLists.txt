@@ -54,6 +54,7 @@ ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} 
 ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
 ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
+ADD_TEST(itkDeformationFieldInverseImageFilterTest ${BASIC_FILTERS_TESTS} itkDeformationFieldInverseImageFilterTest)
 ADD_TEST(itkDifferenceOfGaussiansGradientTest ${BASIC_FILTERS_TESTS} itkDifferenceOfGaussiansGradientTest)
 ADD_TEST(itkDiscreteGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkDiscreteGaussianImageFilterTest)
 ADD_TEST(itkDivideImageFilterTest ${BASIC_FILTERS_TESTS} itkDivideImageFilterTest)
@@ -450,6 +451,7 @@ itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkCyclicReferences.cxx
 itkDanielssonDistanceMapImageFilterTest.cxx
 itkDerivativeImageFilterTest.cxx
+itkDeformationFieldInverseImageFilterTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
