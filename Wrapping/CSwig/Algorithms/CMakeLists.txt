@@ -35,4 +35,4 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
 )
 
 ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKAlgorithms Algorithms 
-  "_ITKNumericsPython;_ITKCommonPython;_ITKBasicFiltersAPython;_ITKBasicFiltersBPython" "" "")
+  "ITKNumerics;ITKCommon;ITKBasicFiltersA;ITKBasicFiltersB" "" "")

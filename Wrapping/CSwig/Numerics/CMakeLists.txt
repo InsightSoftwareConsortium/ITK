@@ -9,5 +9,5 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
                        "${WrapITK_BINARY_DIR}/Numerics/ITKNumerics.mdx"
                        "${WrapITK_BINARY_DIR}/Common/ITKCommon.mdx"
 )
-ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKNumerics Numerics "_ITKCommonPython" "" "")
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKNumerics Numerics "ITKCommon" "" "")
 

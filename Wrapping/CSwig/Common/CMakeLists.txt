@@ -50,5 +50,5 @@ SET(ITK_EXTRA_TCL_SOURCES itkTclCommand.cxx)
 SET(ITK_EXTRA_PYTHON_SOURCES itkPyCommand.cxx)
 SET(ITK_EXTRA_PYTHON_WRAP wrap_ITKPyUtils)
 SET(ITK_EXTRA_TCL_WRAP wrap_ITKUtils)
-ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKCommon Common "_VXLNumericsPython" itkStringStream.cxx "")
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKCommon Common "VXLNumerics" itkStringStream.cxx "")
 
