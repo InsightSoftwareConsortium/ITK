@@ -93,6 +93,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSegmentationLevelSetImageFilter.txx"
 #include "itkShapeDetectionLevelSetFunction.txx"
 #include "itkShapeDetectionLevelSetImageFilter.txx"
+#include "itkShapePriorMAPCostFunction.txx"
+#include "itkShapePriorMAPCostFunctionBase.txx"
 #include "itkSimpleFuzzyConnectednessImageFilterBase.txx"
 #include "itkSimpleFuzzyConnectednessRGBImageFilter.txx"
 #include "itkSimpleFuzzyConnectednessScalarImageFilter.txx"
