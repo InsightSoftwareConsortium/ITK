@@ -159,17 +159,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     = m_BoundingCorner[6][2] 
     = m_BoundingCorner[7][2] = 0;
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  int i;
-  cout << endl << "Corners of volume: " << endl;
-  for (i=0; i<8; i++)
-    { 
-    cout << "   " << setw(4) << i 
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][0] << ", "
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][1] << ", "
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][2] << endl;
-    }
-#endif
 }
 
 
@@ -244,28 +233,28 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   // find the equations of the planes
 
-  int c1, c2, c3, c4;
+  int c1, c2, c3;
         
   for (j=0; j<6; j++) 
     {                                // loop around for planes
     switch (j) {                // which corners to take
     case 0:
-      c1=1; c2=2; c3=3; c4=0;
+      c1=1; c2=2; c3=3;;
       break;
     case 1:
-      c1=4; c2=5; c3=6; c4=7;
+      c1=4; c2=5; c3=6;
       break;
     case 2:
-      c1=5; c2=3; c3=7; c4=1;
+      c1=5; c2=3; c3=7;
       break;
     case 3:
-      c1=2; c2=4; c3=6; c4=0;
+      c1=2; c2=4; c3=6;
       break;
     case 4:
-      c1=1; c2=5; c3=0; c4=4;
+      c1=1; c2=5; c3=0;
       break;
     case 5:
-      c1=3; c2=7; c3=2; c4=6;
+      c1=3; c2=7; c3=2;
       break;
     }
 
@@ -1529,7 +1518,6 @@ bool
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::IntegrateAboveThreshold(double &integral, double threshold) const
 {
-  int iRayPoint = 0;
   double intensity;
 //  double posn3D_x, posn3D_y, posn3D_z;
 
@@ -1563,18 +1551,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
        m_NumVoxelPlanesTraversed++) 
     {
     intensity = this->GetCurrentIntensity();
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-    this->GetCurrentCoord3D(posn3D_x, posn3D_y, posn3D_z);
-
-    cout << "   " << setw(4) << iRayPoint++ << " ("
-
-         << setw(8) << setprecision(4) << posn3D_x << ", "
-         << setw(8) << setprecision(4) << posn3D_y << ", "
-         << setw(8) << setprecision(4) << posn3D_z << ") "
-                                         
-         << setw(8) << setprecision(4) << intensity << endl;
-#endif
 
     if (intensity > threshold)
       {

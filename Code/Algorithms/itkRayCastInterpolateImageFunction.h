@@ -127,7 +127,7 @@ public:
    * calling the method. 
    */
   virtual OutputType EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & index ) const {return 0; };
+    const ContinuousIndexType & ) const {return 0; };
 
 
   /** Connect the Transform. */
