@@ -23,7 +23,7 @@
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.44 $, $Date: 2000-10-30 23:58:50 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.45 $, $Date: 2000-10-31 14:36:17 $ (GMT)"
 
 namespace itk
 {
