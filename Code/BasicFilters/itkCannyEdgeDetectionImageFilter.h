@@ -54,7 +54,10 @@ namespace itk
 /** \class CannyEdgeDetectionImageFilter
  *
  * This filter is an implementation of a Canny edge detector for scalar-valued
- * images.  There are four major steps used in the edge-detection scheme:
+ * images.  Based on John Canny's paper "A Computational Approach to Edge 
+ * Detection"(IEEE Transactions on Pattern Analysis and Machine Intelligence, 
+ * Vol. PAMI-8, No.6, November 1986),  there are four major steps used in the 
+ * edge-detection scheme:
  * (1) The input image is smoothed using a Gaussian filter.
  * (2) The zero-crossings of the second derivative of the smoothed image are
  *     found.
