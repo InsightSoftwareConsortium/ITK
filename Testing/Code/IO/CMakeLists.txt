@@ -64,6 +64,8 @@ ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
                            ${TEMP}/bigendian.raw ${TEMP}/littleendian.raw
 )
 
+ADD_TEST(itkStimulateImageIOTest ${IO_TESTS} itkStimulateImageIOTest
+                           ${TEMP}/test1.spr ${TEMP}/test2.spr)
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest ${TEMP})
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
