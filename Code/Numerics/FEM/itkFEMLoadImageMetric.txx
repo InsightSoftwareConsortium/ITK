@@ -105,7 +105,9 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       {
          vnl_vector<Float> ncoord(2);
          ncoord=(*elt)->GetNodalCoordinates(jj);
-         Sol[ii] += shapeF(jj)* GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
+         Sol[ii] += shapeF(jj)* 
+           (GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1)+
+            step*GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),0)); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
          Gpt[ii] += shapeF(jj)*ncoord(ii); //FIXME GET COORDINATE AT NODE
       }
       
@@ -113,13 +115,9 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       InVec[ii+ImageDimension]=Sol[ii];
     }
 
-    std::cout << " Gpt " << Gpt << " sol " <<  Sol << " shapeF " << shapeF << endl;
-
     energy+=abs(GetMetric(InVec));
   }
    
-
-  std::cout << " the energy is " << energy << std::endl;
 
   return energy;
 
