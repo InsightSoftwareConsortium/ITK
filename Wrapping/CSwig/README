@@ -59,5 +59,4 @@ To run scripts.
 KNOWN ISSUES:
         - dependency information is not available in visual studio until
           after the first build, and cmake is run again.
-        - dll for itkcommon needs to be created
 
