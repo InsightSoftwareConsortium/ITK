@@ -100,6 +100,7 @@ int main()
   ind[1] = 19;
   inputImage->SetPixel(ind, fgValue);
 
+  i = 0;
   it.GoToBegin();
   while ( !it.IsAtEnd() )
     {
