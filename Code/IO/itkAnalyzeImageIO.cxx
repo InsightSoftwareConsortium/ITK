@@ -998,7 +998,7 @@ namespace itk
     }
     //
     // set up the dimension stuff
-    for(unsigned int dim = 0; dim < this->GetNumberOfDimensions(); dim++) {
+    for(dim = 0; dim < this->GetNumberOfDimensions(); dim++) {
       this->SetDimensions(dim,this->m_hdr.dime.dim[dim+1]);
       this->SetSpacing(dim,this->m_hdr.dime.pixdim[dim+1]);
     }
