@@ -31,8 +31,8 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   int p,q,m;
 
-  unsigned short eq_tab[NumericTraits<unsigned short>::max()];
-  unsigned char flags[NumericTraits<unsigned short>::max()];
+  unsigned short eq_tab[65535];
+  unsigned char flags[65535];
   OutputPixelType    label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
