@@ -47,8 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main()
 {
-  ios::sync_with_stdio();
-
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
@@ -59,7 +57,7 @@ int main()
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
@@ -96,15 +94,15 @@ int main()
 
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
             << if2->GetSpacing()[1] << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Output spacing: " << shrink->GetOutput()->GetSpacing()[0]
             << ", "
             << shrink->GetOutput()->GetSpacing()[1] << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
-  std::cout << flush;
+  std::cout << std::flush;
   
   //
   // This code determines whether the shrink code produced
@@ -118,12 +116,12 @@ int main()
 
   bool passed = true;
   std::cout << "Output image" << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
               << std::endl;
-    std::cout << flush;
+    std::cout << std::flush;
 
     short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
               + (region.GetSize()[0]
@@ -137,14 +135,14 @@ int main()
 
   // Now test shrinking by 2x2
   std::cout << "Shrink the image by (2,2) instead." << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   
   factors[1] = 2;
   shrink->SetShrinkFactors(factors);
 
   // ask for an invalid requested region to force an exception
   std::cout << "Assign an invalid requested region which should throw an exception." << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   itk::Index<2> foo;
   unsigned long fooindex[] = {100, 100};
   foo.SetIndex(fooindex);
@@ -164,7 +162,7 @@ int main()
     std::cout << std::endl << std::endl
               << "Exception caught, updating largest possible region instead."
               << std::endl;
-    std::cout << flush;
+    std::cout << std::flush;
     shrink->ResetPipeline();
     shrink->UpdateLargestPossibleRegion();
     }
@@ -175,38 +173,38 @@ int main()
     }
 
   std::cout << std::endl << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
             << if2->GetSpacing()[1] << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Shrink filter: " << shrink;
   std::cout << "Shrink filter output: " << shrink->GetOutput();
   std::cout << "Output spacing: " << std::flush << shrink->GetOutput()->GetSpacing()[0]
             << ", "
             << shrink->GetOutput()->GetSpacing()[1] << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Input Requested region: " << std::flush << shrink->GetInput()->GetRequestedRegion() << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
-  std::cout << flush;
+  std::cout << std::flush;
 
   std::cout << shrink << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Input" << std::endl << shrink->GetInput() << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   std::cout << "Output" << std::endl << shrink->GetOutput() << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   iterator2 = itk::ImageRegionIterator<ShortImage>(shrink->GetOutput(), requestedRegion);
 
   std::cout << "Output image" << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
               << std::endl;
-    std::cout << flush;
+    std::cout << std::flush;
 
     short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
               + (region.GetSize()[0]
@@ -219,18 +217,18 @@ int main()
     }
   
   std::cout << std::endl;
-  std::cout << flush;
+  std::cout << std::flush;
   if (passed)
     {
     std::cout << "Recovered from the exception." << std::endl;
     std::cout << "ShrinkImageFilter test passed." << std::endl;
-    std::cout << flush;
+    std::cout << std::flush;
     return EXIT_SUCCESS;
     }
   else
     {
     std::cout << "ShrinkImageFilter test failed." << std::endl;
-    std::cout << flush;
+    std::cout << std::flush;
     return EXIT_FAILURE;
     }
 
