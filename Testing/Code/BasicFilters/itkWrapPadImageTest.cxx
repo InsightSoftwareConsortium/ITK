@@ -70,10 +70,10 @@ int VerifyPixel(int row, int col, int val)
 
 int main()
 {
-  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
-  fow->SetInstance(fow);
-
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(2);
+//  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
+//  fow->SetInstance(fow);
+//
+//  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
