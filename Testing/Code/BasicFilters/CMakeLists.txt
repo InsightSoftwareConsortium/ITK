@@ -182,6 +182,7 @@ ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandIm
 ADD_TEST(itkVectorNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
 ADD_TEST(itkWarpVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpVectorImageFilterTest)
+ADD_TEST(itkWeightedAddImageFilterTest ${BASIC_FILTERS_TESTS} itkWeightedAddImageFilterTest)
 ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
 ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS} itkXorImageFilterTest)
 ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
@@ -624,6 +625,7 @@ itkVectorResampleImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkWarpImageFilterTest.cxx
 itkWarpVectorImageFilterTest.cxx
+itkWeightedAddImageFilterTest.cxx
 itkWrapPadImageTest.cxx
 itkXorImageFilterTest.cxx
 itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
