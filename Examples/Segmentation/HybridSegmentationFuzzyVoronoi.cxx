@@ -20,6 +20,7 @@
 // This example illustrates the use of the \code{itk::SimpleFuzzyConnectednessScalarImageFilter}
 // and \code{itk::VoronoiSegmentationImageFilter} to build a hybrid segmentation framework.
 //
+// First, the header files of the filters must be included.
 //
 // Software Guide : EndLatex 
 
@@ -53,25 +54,116 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  First, We declare the pixel type and image dimension.
-  //  With them we declare the image type.
+  //  Then, we declare the pixel type and image dimension.  With them we
+  //  declare the image type to be used as input.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short       InputPixelType;
-  const unsigned int  Dimension = 2;
+  typedef  unsigned short     InputPixelType;
+  const    unsigned int       Dimension = 2;
   
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
 
-  typedef bool BinaryPixelType;
-  typedef itk::Image< BinaryPixelType, Dimension > BinaryImageType;
 
+  //  Software Guide : BeginLatex
+  //  
+  //  A Fuzzy Connectedness segmentation will be performed first to generate a
+  //  rough segmentation, and the binary result will be used as a prior for the
+  //  next step.  The \code{SimpleFuzzyConnectednessScalarImageFilter} is used
+  //  here, but any of the image segmentation filters could do it.  The result
+  //  of the segmentation produced by the fuzzy segmentation filter will be
+  //  stored in a binary image.  Here we declare the type of this image using a
+  //  pixel type and a spatial dimension.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef   bool      BinaryPixelType;
+  
+  typedef itk::Image< BinaryPixelType, Dimension >      BinaryImageType;
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The fuzzy segmentation filter type is instantiated here using the input
+  //  and binary image types as template parameters.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef   itk::SimpleFuzzyConnectednessScalarImageFilter< 
+                               InputImageType, 
+                               BinaryImageType >        FuzzySegmentationFilterType;
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The fuzzy connectedness segmentation filter is created by invoking the 
+  //  \code{New()} method and assigning the result to a \code{SmartPointer}.
+  //
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!New()}
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!Pointer}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  FuzzySegmentationFilterType::Pointer fuzzysegmenter = 
+                                               FuzzySegmentationFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  
+  //  Software Guide : BeginLatex
+  //  
+  //  The second step of this hybrid method involve using the prior generated
+  //  from the fuzzy segmentation to build a homogeneity measurement for the
+  //  object.  A \code{VoronoiSegmentationImageFilter} is applied based on this
+  //  measurement to give the final segmentation result.  In this example, the
+  //  result of the \code{VoronoiSegmentationImageFilter} will be sent to a
+  //  writer. It is convenient to declare its output type as one compatible with the
+  //  writers.  
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef unsigned short OutputPixelType;
+
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  // Software Guide : EndCodeSnippet
 
                         
+
+  //  Software Guide : BeginLatex
+  //
+  //  The following lines declare the type of the voronoi segmentation filter
+  //  and create one filter object.
+  //
+  //  \index{itk::VoronoiSegmentationImageFilter!New()}
+  //  \index{itk::VoronoiSegmentationImageFilter!Pointer}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef  itk::VoronoiSegmentationImageFilter< 
+                                    InputImageType, 
+                                    OutputImageType > VoronoiSegmentationFilterType;
+
+  VoronoiSegmentationFilterType::Pointer voronoisegmenter = 
+                                     VoronoiSegmentationFilterType::New();
+  // Software Guide : EndCodeSnippet
+  
+
+
+
+
   //
   // We instantiate reader and writer types
   //
@@ -86,82 +178,94 @@ int main( int argc, char **argv )
 
 
 
+
   //  Software Guide : BeginLatex
   //  
-  //  A Fuzzy Connectedness segmentation was performed first to generate a rough 
-  //  segmentation, and the binary result was used as a prior for the next step.
-  //  \code{SimpleFuzzyConnectednessScalarImageFilter} is used here, but any of the
-  //  image segmentation filters could do it.
-  //  The filter type is instantiated using the image type as template
-  //  parameter.
+  //  The input to the FuzzySegmentationFilter is taken from the reader.
+  //
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetInput()}
   //
   //  Software Guide : EndLatex 
-
+  
   // Software Guide : BeginCodeSnippet
-  typedef   itk::SimpleFuzzyConnectednessScalarImageFilter< 
-                 InputImageType, 
-                 BinaryImageType >     FuzzySegmentationFilterType;
-  // Software Guide : EndCodeSnippet
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The fuzzy connectedness segmentation filter is created by invoking the 
-  //  \code{New()} method and assigning the result to a \code{SmartPointer}.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  FuzzySegmentationFilterType::Pointer fuzzysegmenter = 
-                         FuzzySegmentationFilterType::New();
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The fuzzy connectedness segmentation filter is created by invoking the 
-  //  \code{New()} method and assigning the result to a \code{SmartPointer}.
-  //
-  //  Software Guide : EndLatex 
   fuzzysegmenter->SetInput( reader->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+  
   InputImageType::IndexType index;
-  index.Fill(0);
+
   index[0] = atoi(argv[3]);
   index[1] = atoi(argv[4]);
-  fuzzysegmenter->SetObjectsSeed(index);
-  fuzzysegmenter->SetMean(atof(argv[5]));
-  fuzzysegmenter->SetVariance(atof(argv[6]));
-  fuzzysegmenter->Update();
+
+
+  const float  mean     = atof(argv[5]);
+  const float  variance = atof(argv[6]);
+
+  
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The second step of hybrid segmentation involved using the a prior generated
-  //  from last step to build a homogeneity measurement for the object and 
-  //  a \code{VoronoiSegmentationImageFilter} is applied based on this measurement
-  //  to give the final segmentation result. 
+  //  The parameters of the FuzzySegmentationFilter are defined here. A seed
+  //  point is provided in order to initialize the region to be grown.
+  //  Estimated values for the mean and variance of the object intensities are
+  //  also provided.
+  //
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetVariance()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::VoronoiSegmentationImageFilter< 
-                                    InputImageType, 
-                                    OutputImageType > VoronoiSegmentationFilterType;
+  fuzzysegmenter->SetObjectsSeed( index );
+  fuzzysegmenter->SetMean( mean );
+  fuzzysegmenter->SetVariance( variance );
   // Software Guide : EndCodeSnippet
 
-  VoronoiSegmentationFilterType::Pointer voronoisegmenter = 
-                                 VoronoiSegmentationFilterType::New();
-  
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The execution of the FuzzySegmentationFilter is triggered with the
+  //  \code{Update()} method.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  fuzzysegmenter->Update();
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The input to the voronoi filter is taken from the reader and the prior is
+  //  taken from the fuzzy segmentation filter.
+  //
+  //  \index{itk::VoronoiSegmentationImageFilter!SetInput()}
+  //  \index{itk::VoronoiSegmentationImageFilter!TakeAPrior()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   voronoisegmenter->SetInput( reader->GetOutput() );
   voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
-  voronoisegmenter->Update();
+  // Software Guide : EndCodeSnippet
+
+
+
+
 
   
   //  Software Guide : BeginLatex
   //
-  //  The segmentation result was then write to the output file.
+  //  The segmented image is finally passed to a writer. The invokation of the
+  //  \code{Update()} method on the writer will trigger the execution of the
+  //  pipeline.
   //  
   //  Software Guide : EndLatex 
 
@@ -169,6 +273,9 @@ int main( int argc, char **argv )
   writer->SetInput( voronoisegmenter->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
+
+
+
 
   return 0;
 
