@@ -200,21 +200,28 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   reinitializer->Update();
 
   // Check if inside/outside points remain the same after reinitialization
-  checker->Update();
+  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
+  typedef ReinitializerType::NodeContainer        NodeContainerType;
+  typedef NodeContainerType::ConstIterator        ContainerIterator;
 
-  calculator->Compute();
-  minValue = calculator->GetMinimum();
-  maxValue = calculator->GetMaximum();
+  NodeContainerPointer nodes2  = reinitializer->GetOutputNarrowBand();
+  ContainerIterator nodeIter = nodes2->Begin();
+  ContainerIterator nodeEnd   = nodes2->End();
 
-  std::cout << "Min. product = " << minValue << std::endl;
-  std::cout << "Max. product = " << maxValue << std::endl;
-
-  if ( minValue < 0.0 )
-    { 
-    std::cout << "Inside/Outside mismatch at ";
-    std::cout << calculator->GetIndexOfMinimum() << std::endl;
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
+  while( nodeIter != nodeEnd )
+    {
+    ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
+    double product = image->GetPixel( nodeIndex ) * 
+      reinitializer->GetOutput()->GetPixel( nodeIndex );
+    if ( product < 0.0 )
+      {
+      std::cout << "Product: " << product;
+      std::cout << " at: " << nodeIndex << std::endl;
+      std::cout << "Inside/outside mismatch" << std::endl;
+      std::cout << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    nodeIter++;
     }
 
   std::cout << "Test passed" << std::endl;
