@@ -103,9 +103,16 @@ public:
 
 
   /** 
-   * Point Type
+   * Input Point Type
    */
-  typedef  typename TranslationTransformType::PointType     PointType;
+  typedef  typename TranslationTransformType::InputPointType     InputPointType;
+
+
+  /** 
+   * Output Point Type
+   */
+  typedef  typename TranslationTransformType::OutputPointType     OutputPointType;
+
 
 
   /** 
@@ -130,7 +137,7 @@ public:
   /**
    * Transform a Point using the Translation transformation
    */
-  PointType Transform( const PointType & point ) const;
+  OutputPointType Transform( const InputPointType & point ) const;
 
   /**
    * Set the Transformation Parameters
@@ -146,7 +153,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector.
    **/
-  const JacobianType & GetJacobian(const PointType  &point ) const;
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
 
@@ -158,7 +165,7 @@ protected:
 
 private:
 
-  TranslationTransformType                 m_TranslationTransform;
+  TranslationTransformType            m_TranslationTransform;
   ParametersType                      m_Parameters;
 
   mutable JacobianType                m_Jacobian;     
