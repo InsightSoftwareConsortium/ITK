@@ -30,12 +30,14 @@ namespace itk
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, output.GetPointer());
     m_HandledEdgeIds = IdVectorType::New();
+    m_FaceSet = NULL;
     }
 
   template <typename TInputMesh, typename TOutputMesh>
     TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>
     ::~TriangleMeshToSimplexMeshFilter()
     {
+    delete m_FaceSet;
     }
 
 
@@ -67,8 +69,13 @@ namespace itk
     m_VertexNeighborList = VertexNeighborListType::New();
     m_LineCellIndices = LineCellIndexType::New();
     m_Edges = EdgeMapType::New();
-    m_FaceSet = new IndexSetType();
+    if(m_FaceSet)
+      {
+      delete m_FaceSet;
+      }
 
+    m_FaceSet = new IndexSetType();
+      
     InputPointType v1, v2, v3;
 
 
