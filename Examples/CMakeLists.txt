@@ -1,4 +1,5 @@
 SUBDIRS( 
+  Iterators
   DataRepresentation
   Filtering
   IO
