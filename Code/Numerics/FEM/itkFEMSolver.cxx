@@ -357,9 +357,7 @@ void Solver::AssembleK() {
       for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
-        if ( (*e)->GetDegreeOfFreedom(j) < 0 ||
-             (*e)->GetDegreeOfFreedom(j) >= NGFN ||
-             (*e)->GetDegreeOfFreedom(k) < 0 ||
+        if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
              (*e)->GetDegreeOfFreedom(k) >= NGFN  )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
@@ -450,7 +448,7 @@ void Solver::AssembleF(int dim) {
       }
 
       // we simply copy the load to the force vector
-      for(int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()); dof++)
+      for(unsigned int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()); dof++)
       {
         // error checking
         if ( l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) < 0 || l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) >= NGFN )
@@ -492,10 +490,10 @@ void Solver::AssembleF(int dim) {
           // we pass a pointer to the load object as a paramater.
           vnl_vector<Float> Fe = el0->Fe(Element::LoadElementPointer(l1));
           int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
-          for(int j=0; j<Ne; j++)    // step over all DOF
+          for(unsigned int j=0; j<Ne; j++)    // step over all DOF
           {
             // error checking
-            if ( el0->GetDegreeOfFreedom(j) < 0 || el0->GetDegreeOfFreedom(j) >= NGFN )
+            if ( el0->GetDegreeOfFreedom(j) >= NGFN )
             {
               throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
             }
@@ -516,9 +514,9 @@ void Solver::AssembleF(int dim) {
           vnl_vector<Float> Fe=(*e)->Fe(Element::LoadElementPointer(l1));  // ... element's force vector
           int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
-          for(int j=0; j<Ne; j++)        // step over all DOF
+          for(unsigned int j=0; j<Ne; j++)        // step over all DOF
           {
-            if ( (*e)->GetDegreeOfFreedom(j) < 0 || (*e)->GetDegreeOfFreedom(j) >= NGFN )
+            if ( (*e)->GetDegreeOfFreedom(j) >= NGFN )
             {
               throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
             }

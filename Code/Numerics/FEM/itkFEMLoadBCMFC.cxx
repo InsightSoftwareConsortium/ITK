@@ -32,7 +32,7 @@ namespace fem {
 /**
  * Fix a DOF to a prescribed value
  */
-LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Node::Float> val)
+LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val)
 {
   lhs.clear();
 

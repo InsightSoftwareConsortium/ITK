@@ -282,7 +282,7 @@ public:
    * \param pt Local index of a point within a cell (0 - number_of_points-1).
    * \param dof_at_pt Number of DOF present at point pt (0 - number_of_dofs_at_point-1).
    */
-  virtual int GetDegreeOfFreedomAtPoint( unsigned int pt, unsigned int dof_at_pt ) const
+  virtual DegreeOfFreedomIDType GetDegreeOfFreedomAtPoint( unsigned int pt, unsigned int dof_at_pt ) const
   {
     if (dof_at_pt>=GetNumberOfDegreesOfFreedomPerPoint() || pt>=GetNumberOfPoints())
     {

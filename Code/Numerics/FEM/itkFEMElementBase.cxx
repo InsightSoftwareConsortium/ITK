@@ -55,7 +55,7 @@ double& Element::DC_Scale=Node::DC_Scale;
 
 void Element::ClearDegreesOfFreedom(void)
 {
-  for(int i=0;i<GetNumberOfDegreesOfFreedom();i++)
+  for(unsigned int i=0;i<GetNumberOfDegreesOfFreedom();i++)
   {
     SetDegreeOfFreedom(i,InvalidDegreeOfFreedomID);
   }
@@ -73,7 +73,7 @@ void Element::LinkDegreesOfFreedom(void)
   this->ClearDegreesOfFreedom();
 
   // Step over all points in current cell
-  for( int pt=0;pt<this->GetNumberOfPoints();pt++ )
+  for( unsigned int pt=0;pt<this->GetNumberOfPoints();pt++ )
   {
     Node::ConstPointer n=this->GetPoint(pt);
 
@@ -91,7 +91,7 @@ void Element::LinkDegreesOfFreedom(void)
 
       // Check if point ptj of the neighboring element is same as
       // the point pt of the current element
-      for( int ptn=0;ptn<el->GetNumberOfPoints();ptn++ ) // Step over all points in the neighbor cell
+      for( unsigned int ptn=0;ptn<el->GetNumberOfPoints();ptn++ ) // Step over all points in the neighbor cell
       {
         // Skip all points that are not shared.
         if( n!=el->GetPoint(ptn) )

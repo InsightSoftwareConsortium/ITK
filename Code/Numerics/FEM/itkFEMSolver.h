@@ -134,13 +134,13 @@ protected:
   /**
    * Number of global degrees of freedom in a system
    */
-  int NGFN;
+  unsigned int NGFN;
 
   /**
    * Number of multi freedom constraints in a system.
    * This member is set in a AssembleK function.
    */
-  int NMFC;
+  unsigned int NMFC;
 
   /** Pointer to LinearSystemWrapper object. */
   LinearSystemWrapper* m_ls;

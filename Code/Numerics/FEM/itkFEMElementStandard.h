@@ -77,13 +77,14 @@ public:
   enum { NDOF=NumberOfPoints*NumberOfDOFsPerPoint };
 
   /**
-   * Default constructor just clears the node pointers
+   * Default constructor just clears the ivars
    */
   ElementStandard()
   {
-    for(int i=0; i<NDOF; i++)
+    this->ClearDegreesOfFreedom();
+    for(int i=0; i<NumberOfPoints; i++)
     {
-      m_node[i]=0;
+      this->m_node[i]=0;
     }
   }
   
@@ -111,13 +112,13 @@ public:
   virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
   { 
     if(local_dof>NDOF) { return InvalidDegreeOfFreedomID; } // error checking
-    return m_dof[local_dof];
+    return this->m_dof[local_dof];
   }
 
   virtual void SetDegreeOfFreedom( unsigned int local_dof, DegreeOfFreedomIDType global_dof)
   {
     if (local_dof>NDOF) return; // error checking
-    m_dof[local_dof]=global_dof;
+    this->m_dof[local_dof]=global_dof;
   }
 
 
@@ -126,7 +127,7 @@ public:
   /**
    * Array of pointers to node objects that define the element
    */
-  typename NodeClass::ConstPointer m_node[NDOF];
+  typename NodeClass::ConstPointer m_node[NumberOfPoints];
 
 private:
   /**
