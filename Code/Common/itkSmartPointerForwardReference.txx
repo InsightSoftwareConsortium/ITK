@@ -20,7 +20,7 @@ namespace itk
 
 //----------------------------------------------------------------------------
 template <class T>
-inline SmartPointerForwardReference<T>
+SmartPointerForwardReference<T>
 ::SmartPointerForwardReference (const SmartPointerForwardReference<T> &p)
 { 
   m_Pointer = p.m_Pointer; 
@@ -29,7 +29,7 @@ inline SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline SmartPointerForwardReference<T>
+SmartPointerForwardReference<T>
 ::SmartPointerForwardReference (T *p)
 { 
   m_Pointer = p; 
@@ -38,7 +38,7 @@ inline SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline SmartPointerForwardReference<T>
+SmartPointerForwardReference<T>
 ::~SmartPointerForwardReference ()
 {
   this->UnRegister();
@@ -46,7 +46,7 @@ inline SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline T *
+T *
 SmartPointerForwardReference<T>
 ::operator -> () const
 { 
@@ -55,7 +55,7 @@ SmartPointerForwardReference<T>
 
 //----------------------------------------------------------------------------
 template <class T>
-inline SmartPointerForwardReference<T>
+SmartPointerForwardReference<T>
 ::operator T * () const 
 { 
   return m_Pointer; 
@@ -63,7 +63,7 @@ inline SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline T *
+T *
 SmartPointerForwardReference<T>
 ::GetPointer () const 
 { 
@@ -72,7 +72,7 @@ SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline bool 
+bool 
 SmartPointerForwardReference<T>
 ::operator < (const SmartPointerForwardReference &r)
 { 
@@ -81,7 +81,7 @@ SmartPointerForwardReference<T>
 
 //----------------------------------------------------------------------------
 template <class T>
-inline bool 
+bool 
 SmartPointerForwardReference<T>
 ::operator > (const SmartPointerForwardReference &r)
 { 
@@ -90,7 +90,7 @@ SmartPointerForwardReference<T>
 
 //----------------------------------------------------------------------------
 template <class T>
-inline bool 
+bool 
 SmartPointerForwardReference<T>
 ::operator <= (const SmartPointerForwardReference &r)
 { 
@@ -99,7 +99,7 @@ SmartPointerForwardReference<T>
 
 //----------------------------------------------------------------------------
 template <class T>
-inline bool 
+bool 
 SmartPointerForwardReference<T>
 ::operator >= (const SmartPointerForwardReference &r)
 { 
@@ -117,7 +117,7 @@ SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline SmartPointerForwardReference<T> &
+SmartPointerForwardReference<T> &
 SmartPointerForwardReference<T>
 ::operator = (T *r)
 {                                                              
@@ -147,7 +147,7 @@ SmartPointerForwardReference<T>
 
 //----------------------------------------------------------------------------
 template <class T>
-inline void 
+void 
 SmartPointerForwardReference<T>
 ::Register()
 { 
@@ -159,7 +159,7 @@ SmartPointerForwardReference<T>
   
 //----------------------------------------------------------------------------
 template <class T>
-inline void 
+void 
 SmartPointerForwardReference<T>
 ::UnRegister()
 {
