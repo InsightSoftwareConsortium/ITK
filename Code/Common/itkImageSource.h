@@ -163,7 +163,9 @@ public:
    * output data object so that the ProcessObject is in a valid state.
    * So DataObject::DisconnectPipeline eventually calls
    * ProcessObject::MakeOutput. Note that MakeOutput always returns a
-   * SmartPointer to a DataObject.
+   * SmartPointer to a DataObject. If a subclass of ImageSource has
+   * multiple outputs of different types, then that class must provide
+   * an implementation of MakeOutput().
    */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
