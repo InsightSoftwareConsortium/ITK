@@ -122,7 +122,6 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
-#include "itkWin32OutputWindow.h"
 #include "itkXMLFileOutputWindow.h"
 
 int itkCommonPrintTest(int , char* [])
@@ -533,10 +532,6 @@ int itkCommonPrintTest(int , char* [])
     itk::VolumeSplineKernelTransform<foo>::Pointer VolumeSplineKernelTransformObj =
       itk::VolumeSplineKernelTransform<foo>::New();
     std::cout << "------------VolumeSplineKernelTransform" << VolumeSplineKernelTransformObj;
-
-    itk::Win32OutputWindow<foo>::Pointer Win32OutputWindowObj =
-      itk::Win32OutputWindow<foo>::New();
-    std::cout << "------------Win32OutputWindow" << Win32OutputWindowObj;
 
     itk::XMLFileOutputWindow<foo>::Pointer XMLFileOutputWindowObj =
       itk::XMLFileOutputWindow<foo>::New();
