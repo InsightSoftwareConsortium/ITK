@@ -52,6 +52,7 @@ SpatialObject< TDimension >
   m_AffineGeometryFrame->SetIndexToWorldTransform(m_IndexToWorldTransform);
   m_TreeNode = SpatialObjectTreeNode<TDimension>::New();
   m_TreeNode->Set(this);
+  m_InternalInverseTransform = TransformType::New();
 }
 
 /** Destructor */

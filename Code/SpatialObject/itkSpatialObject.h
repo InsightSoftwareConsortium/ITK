@@ -511,8 +511,6 @@ public:
   void SetNodeToParentNodeTransform( TransformType * transform );
   TransformType * GetNodeToParentNodeTransform( void );
   const TransformType * GetNodeToParentNodeTransform( void ) const;
-  
-
 
 protected: 
  
@@ -565,6 +563,10 @@ protected:
   /** We keep an internal list of smart pointers to the immediate children
    *  This avoid the deletion of a child */
   ChildrenListType m_InternalChildrenList;
+
+  /** We create an inverse transform pointer since it take time to create
+   *  it each time to get the inverse transform in the IsInside() method */
+  TransformPointer m_InternalInverseTransform;
 }; 
 
 } // end of namespace itk
