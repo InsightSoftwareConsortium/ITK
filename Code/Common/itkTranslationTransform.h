@@ -173,7 +173,19 @@ private:
 }; //class TranslationTransform
 
 
-
+/**
+ * Print the offset of a TranslationTransform
+ * This method prints the offset of the
+ * TranslationTransform as n vector.
+ **/
+                                                              
+ template<class ScalarType, unsigned int NDimensions>
+ inline
+ std::ostream &
+ operator<< (std::ostream &s, TranslationTransform<ScalarType, NDimensions> &affine)
+ {
+     return affine.PrintSelf(s);
+ }
 
 
 }  // namespace itk
