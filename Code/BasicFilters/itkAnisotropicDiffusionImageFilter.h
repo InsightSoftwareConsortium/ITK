@@ -72,9 +72,6 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /** Smart pointer support for this class. */
-  itkNewMacro(Self);
-
   /** Run-time type information. */
   itkTypeMacro(AnisotropicDiffusionImageFilter,
                DenseFiniteDifferenceImageFilter);

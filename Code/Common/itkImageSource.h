@@ -49,9 +49,6 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
-
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource,ProcessObject);
 
