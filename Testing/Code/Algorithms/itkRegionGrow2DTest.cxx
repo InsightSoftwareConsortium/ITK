@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -63,7 +63,7 @@ int itkRegionGrow2DTest(int, char* [] )
   //---------------------------------------------------------------
   //Generate the image data
   //---------------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType;
   ImageType::Pointer image  = ImageType::New();
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, (NFRAMES3D + 1) }};
@@ -105,7 +105,7 @@ int itkRegionGrow2DTest(int, char* [] )
     exceptionTestingFilter->ResetPipeline();
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -131,7 +131,7 @@ int itkRegionGrow2DTest(int, char* [] )
     exceptionTestingFilter->ResetPipeline();
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -157,7 +157,7 @@ int itkRegionGrow2DTest(int, char* [] )
     exceptionTestingFilter->ResetPipeline();
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -184,7 +184,7 @@ int itkRegionGrow2DTest(int, char* [] )
     exceptionTestingFilter->ResetPipeline();
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -196,7 +196,7 @@ int itkRegionGrow2DTest(int, char* [] )
   //Generate the image data
   //---------------------------------------------------------------
 
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,4> ImageType4D; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,4> ImageType4D;
   ImageType4D::Pointer image4D  = ImageType4D::New();
 
   ImageType4D::SizeType ImageSize4D = {{ IMGWIDTH , IMGHEIGHT, NFRAMES3D ,4 }};
@@ -235,7 +235,7 @@ int itkRegionGrow2DTest(int, char* [] )
     exceptionTesting4DFilter->ResetPipeline();
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -257,7 +257,7 @@ unsigned int test_regiongrowKLM2D()
   //---------------------------------------------------------------
   //Generate the image data
   //---------------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> ImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> ImageType;
   ImageType::Pointer image  = ImageType::New();
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT }};
@@ -281,19 +281,19 @@ unsigned int test_regiongrowKLM2D()
   typedef
     itk::ImageRegionIterator< ImageType > ImageIterator;
 
-  ImageIterator 
+  ImageIterator
   inIt( image, image->GetBufferedRegion() );
 
   //Set up the vector to store the image  data
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData; 
+  ImageData   pixelData;
 
   //--------------------------------------------------------------------------
   //Manually create and store each pixel.
   //The image is a 6 x 6 matrix with 9 regions.
-  //-------------------------------------------------------------------------- 
+  //--------------------------------------------------------------------------
   //  03 | 03 | 30 | 30 | 20 | 20 |
-  //  03 | 03 | 30 | 30 | 20 | 20 | 
+  //  03 | 03 | 30 | 30 | 20 | 20 |
   //  04 | 04 | 40 | 40 | 40 | 40 |
   //  04 | 04 | 40 | 40 | 40 | 40 |
   //  03 | 03 | 02 | 02 | 04 | 04 |
@@ -301,56 +301,56 @@ unsigned int test_regiongrowKLM2D()
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  inIt.Set( 04 ); ++inIt; 
   inIt.Set( 04 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  inIt.Set( 04 ); ++inIt; 
   inIt.Set( 04 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 02 ); ++inIt;
+  inIt.Set( 02 ); ++inIt;
+  inIt.Set( 04 ); ++inIt;
   inIt.Set( 04 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 02 ); ++inIt; 
-  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 02 ); ++inIt;
+  inIt.Set( 02 ); ++inIt;
+  inIt.Set( 04 ); ++inIt;
   inIt.Set( 04 ); ++inIt;
 
   //------------------------------------------------------------------------
@@ -367,7 +367,7 @@ unsigned int test_regiongrowKLM2D()
   //---------------------------------------------------------------------
 
   KLMRegionGrowImageFilterType::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterType::New();
-  
+
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
@@ -388,11 +388,11 @@ unsigned int test_regiongrowKLM2D()
   applyRegionGrowImageFilterKLM->PrintAlgorithmRegionStats();
   applyRegionGrowImageFilterKLM->PrintAlgorithmBorderStats();
 
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> OutputImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> OutputImageType;
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
 
   //Make sure that the labelled image type is set to unsigned integer
-  //as labels associated with different regions are always integers 
+  //as labels associated with different regions are always integers
   typedef itk::Image<unsigned short, NDIMENSION2D> LabelledImageType;
   LabelledImageType::Pointer labelledImage
     = applyRegionGrowImageFilterKLM->GetLabelledImage();
@@ -404,7 +404,7 @@ unsigned int test_regiongrowKLM2D()
 
   //Loop through the labels and check if they match with segmented label
   //if match is found then skip if no match found a new label is identified
-  //The test passes if the number of identified uniques is exactly equal to 
+  //The test passes if the number of identified uniques is exactly equal to
   //the number of expected regions
 
 
@@ -420,10 +420,10 @@ unsigned int test_regiongrowKLM2D()
   typedef
     itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
 
-  LabelImageIterator 
+  LabelImageIterator
   labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
-  unsigned short pixelLabel;  
+  unsigned short pixelLabel;
   unsigned short maxpixelLabel=0;
 
   while(!labelIt.IsAtEnd())
@@ -470,7 +470,7 @@ unsigned int test_regiongrowKLM2D()
     std::cout<<""<<std::endl;
   }//end while
 
-  
+
   return 0;
 } // End test_regiongrow2D()
 
@@ -482,7 +482,7 @@ unsigned int test_regiongrowKLM3D()
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType;
   ImageType::Pointer image  = ImageType::New();
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES3D }};
@@ -506,19 +506,19 @@ unsigned int test_regiongrowKLM3D()
   typedef
     itk::ImageRegionIterator< ImageType > ImageIterator;
 
-  ImageIterator 
+  ImageIterator
   inIt( image, image->GetBufferedRegion() );
 
   //Set up the vector to store the image  data
   typedef ImageType::PixelType::VectorType ImageData;
-  ImageData   pixelData; 
+  ImageData   pixelData;
 
   //--------------------------------------------------------------------------
   //Manually create and store each pixel. ) (In image slice 1)
   //The slice is a 6 x 6 matrix with 9 regions.
-  //-------------------------------------------------------------------------- 
+  //--------------------------------------------------------------------------
   //  03 | 03 | 03 | 20 | 20 | 20 |
-  //  03 | 03 | 03 | 20 | 20 | 20 | 
+  //  03 | 03 | 03 | 20 | 20 | 20 |
   //  03 | 03 | 03 | 20 | 20 | 20 |
   //  40 | 40 | 40 | 40 | 40 | 40 |
   //  40 | 40 | 40 | 40 | 40 | 40 |
@@ -526,63 +526,63 @@ unsigned int test_regiongrowKLM3D()
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  inIt.Set( 03 ); ++inIt; 
   inIt.Set( 03 ); ++inIt;
-  inIt.Set( 03 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  inIt.Set( 40 ); ++inIt; 
   inIt.Set( 40 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  inIt.Set( 40 ); ++inIt; 
   inIt.Set( 40 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  inIt.Set( 40 ); ++inIt; 
   inIt.Set( 40 ); ++inIt;
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
-  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
+  inIt.Set( 40 ); ++inIt;
   inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   //Manually create and store each pixel. ) (In image slice 2)
   //The slice is a 6 x 6 matrix with 9 regions.
-  //-------------------------------------------------------------------------- 
+  //--------------------------------------------------------------------------
   //  10 | 10 | 10 | 20 | 20 | 20 |
-  //  10 | 10 | 10 | 20 | 20 | 20 | 
+  //  10 | 10 | 10 | 20 | 20 | 20 |
   //  10 | 10 | 10 | 20 | 20 | 20 |
   //  30 | 30 | 30 | 20 | 20 | 20 |
   //  30 | 30 | 30 | 20 | 20 | 20 |
@@ -590,56 +590,56 @@ unsigned int test_regiongrowKLM3D()
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  inIt.Set( 10 ); ++inIt; 
   inIt.Set( 10 ); ++inIt;
-  inIt.Set( 10 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  inIt.Set( 10 ); ++inIt; 
   inIt.Set( 10 ); ++inIt;
-  inIt.Set( 10 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  inIt.Set( 10 ); ++inIt; 
   inIt.Set( 10 ); ++inIt;
-  inIt.Set( 10 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 10 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  inIt.Set( 30 ); ++inIt; 
   inIt.Set( 30 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  inIt.Set( 30 ); ++inIt; 
   inIt.Set( 30 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  inIt.Set( 30 ); ++inIt; 
   inIt.Set( 30 ); ++inIt;
-  inIt.Set( 30 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
-  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 30 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
+  inIt.Set( 20 ); ++inIt;
   inIt.Set( 20 ); ++inIt;
 
   //--------------------------------------------------------------------------
@@ -652,7 +652,7 @@ unsigned int test_regiongrowKLM3D()
 
   typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterType;
   KLMRegionGrowImageFilterType::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterType::New();
-  
+
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
@@ -670,13 +670,13 @@ unsigned int test_regiongrowKLM3D()
   //Kick off the Region grow function
   applyRegionGrowImageFilterKLM->Update();
 
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> OutputImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> OutputImageType;
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
 
   applyRegionGrowImageFilterKLM->Print(std::cout);
 
   //Make sure that the labelled image type is set to unsigned integer
-  //as labels associated with different regions are always integers 
+  //as labels associated with different regions are always integers
   typedef itk::Image<unsigned short, NDIMENSION3D> LabelledImageType;
   LabelledImageType::Pointer labelledImage
     = applyRegionGrowImageFilterKLM->GetLabelledImage();
@@ -688,7 +688,7 @@ unsigned int test_regiongrowKLM3D()
 
   //Loop through the labels and check if they match with segmented label
   //if match is found then skip if no match found a new label is identified
-  //The test passes if the number of identified uniques is exactly equal to 
+  //The test passes if the number of identified uniques is exactly equal to
   //the number of expected regions
 
 
@@ -704,10 +704,10 @@ unsigned int test_regiongrowKLM3D()
   typedef
     itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
 
-  LabelImageIterator 
+  LabelImageIterator
   labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
-  unsigned short pixelLabel;  
+  unsigned short pixelLabel;
   unsigned short maxpixelLabel=0;
 
   while(!labelIt.IsAtEnd())
@@ -756,4 +756,3 @@ unsigned int test_regiongrowKLM3D()
 
   return 0;
 } // End test_regiongrow3D()
-
