@@ -27,6 +27,7 @@ SET(ITKIO_SRCS
   itkGiplImageIOFactory.cxx
   itkIOCommon.cxx
   itkIPLCommonImageIO.cxx
+  itkIPLFileNameList.cxx
   itkImageIOBase.cxx
   itkImageIOFactory.cxx
   itkMetaImageIO.cxx
