@@ -38,14 +38,14 @@ SceneSpatialObject<SpaceDimension>
 {
   //We decrease the reference count of all the object added to the scene
   //i.e. the flag  SceneManageMemory is set to true;
-  ObjectListType * objects = this->GetObjects();
+  ObjectListType * objects = this->GetObjects(0);
   typename ObjectListType::iterator it = objects->begin();
 
   while(it!=objects->end())
     {
     if((*it)->GetSceneManageMemory())
       {
-      (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);
+      (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);    
       }
     it++;
     } 
