@@ -203,10 +203,10 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   typedef LevelSetFunctionWithRefitTerm <OutputImageType,
                                          SparseImageType> LevelSetFunctionType; 
   
-  itkGetMacro(MaxRefitIteration,int);
-  itkSetMacro(MaxRefitIteration,int);
-  itkGetMacro(MaxNormalIteration,int);
-  itkSetMacro(MaxNormalIteration,int);
+  itkGetMacro(MaxRefitIteration,unsigned int);
+  itkSetMacro(MaxRefitIteration,unsigned int);
+  itkGetMacro(MaxNormalIteration,unsigned int);
+  itkSetMacro(MaxNormalIteration,unsigned int);
   itkGetMacro(CurvatureBandWidth,ValueType);
   itkSetMacro(CurvatureBandWidth,ValueType);
   itkGetMacro(RMSChangeNormalProcessTrigger, ValueType);
@@ -305,16 +305,16 @@ protected:
 private:
   /** This is a iteration counter that gets reset to 0 every time
       ProcessNormals method is called. */
-  int m_RefitIteration;
+  unsigned int m_RefitIteration;
 
   /** This parameter determines the maximum number of
       SparseFieldLevelSetImageFilter iterations that will be executed between
       calls to ProcessNormals. */
-  int m_MaxRefitIteration;
+  unsigned int m_MaxRefitIteration;
 
   /** This parameter is used to set the corresponding parameter in
       ImplicitManifoldNormalDiffusionfFilter. */
-  int m_MaxNormalIteration;
+  unsigned int m_MaxNormalIteration;
 
   /** This is used to trigger a call to the ProcessNormals method
       before m_RefitIteration reaches m_MaxRefitIteration if the RMSChange falls
