@@ -41,6 +41,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDerivativeImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
+#include "itkEigenAnalysis2DImageFilter.h"
 #include "itkExpImageFilter.h"
 #include "itkFileIOToImageFilter.h"
 #include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
