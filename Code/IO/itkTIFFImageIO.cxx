@@ -544,6 +544,7 @@ void TIFFImageIO::Read(void* buffer)
         *(fimage+1) = green;
         *(fimage+2) = blue;
         *(fimage+3) = alpha;
+        fimage += 4;
 
         simage += 4;
         ssimage ++;
@@ -602,6 +603,7 @@ TIFFImageIO::TIFFImageIO()
 
 TIFFImageIO::~TIFFImageIO()
 {
+  m_InternalImage->Clean();
   delete this->m_InternalImage;
 }
 
@@ -822,6 +824,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   if ( !tif )
     {
+    delete file;
     return;
     }
 
@@ -924,7 +927,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
   TIFFClose(tif);
   file->close();
-
+  delete file;
 }
 
 
