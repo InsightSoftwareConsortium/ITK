@@ -16,7 +16,7 @@ INCLUDE_DIRECTORIES(
   ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
 )
 
-ADD_TEST( itkTubeSpatialObjectTest itkSpatialObjectTests itkTubeTest )
+ADD_TEST( itkTubeSpatialObjectTest itkSpatialObjectTests itkTubeSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest itkSpatialObjectTests itkImageSpatialObjectTest )
 
 SOURCE_FILES(
