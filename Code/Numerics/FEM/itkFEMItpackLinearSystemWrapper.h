@@ -387,7 +387,7 @@ public:
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
    */  
-  void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeroValues);
+  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeroValues);
 
 
   void ScaleMatrix(Float scale, unsigned int matrixIndex);

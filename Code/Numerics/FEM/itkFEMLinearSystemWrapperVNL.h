@@ -47,8 +47,11 @@ public:
   /* superclass */
   typedef LinearSystemWrapper SuperClass;
 
-  /* vector holding typedef */
-  typedef std::vector< vnl_sparse_matrix<Float>* > VectorHolder;
+  /* matrix typedef */
+  typedef vnl_sparse_matrix<Float>                 MatrixRepresentation;
+
+  /* matrix holder typedef */
+  typedef std::vector< MatrixRepresentation* >     MatrixHolder;
 
   /* constructor & destructor */
   LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(0), m_Vectors(0), m_Solutions(0) {}
@@ -61,6 +64,8 @@ public:
   virtual void  DestroyVector(unsigned int MatrixIndex);
   virtual void  InitializeSolution(unsigned int SolutionIndex);
   virtual void  DestroySolution(unsigned int SolutionIndex);
+  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) {}
+
 
   /* assembly & solving routines */
   virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int MatrixIndex) const { return (*((*m_Matrices)[MatrixIndex]))(i,j); }
@@ -75,6 +80,7 @@ public:
   virtual void  Solve(void);
 
   /* matrix & vector manipulation routines */
+  virtual void  ScaleMatrix(Float scale, unsigned int matrixIndex);
   virtual void  SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2);
   virtual void  SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2);
   virtual void  SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2);
@@ -85,7 +91,8 @@ public:
 private:
 
   /** vector of pointers to VNL sparse matrices */
-  std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
+  //std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
+  MatrixHolder *m_Matrices;
 
   /** vector of pointers to VNL vectors  */
   std::vector< vnl_vector<Float>* > *m_Vectors;

@@ -95,7 +95,7 @@ public:
    * \note in general this function does nothing, however it may 
    *       redefined by the derived wrapper if necessary
    */
-  void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) {}
+  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeros) = 0;
 
   /**
    * Get Index of matrices used by system
@@ -132,6 +132,8 @@ public:
    * \param MatrixIndex index of matrix to initialize
    */
   virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
+
+  /* virtual void IsMatrixInitialized(unsigned int matrixIndex = 0) = 0; */
 
   /**
    * Free the memory from a matrix

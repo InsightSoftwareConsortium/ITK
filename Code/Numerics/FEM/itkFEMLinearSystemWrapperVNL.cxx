@@ -26,7 +26,7 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   // allocate if necessary
   if (m_Matrices == 0)
   {
-    m_Matrices = new std::vector< vnl_sparse_matrix<Float>* >(m_NumberOfMatrices);
+    m_Matrices = new MatrixHolder(m_NumberOfMatrices);
   }
 
   // out with old, in with new
@@ -35,7 +35,7 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
    delete (*m_Matrices)[matrixIndex];
   }
 
-  (*m_Matrices)[matrixIndex] = new vnl_sparse_matrix<Float>(this->GetSystemOrder(), this->GetSystemOrder() );
+  (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
 
 }
 
@@ -197,6 +197,16 @@ void LinearSystemWrapperVNL::MultiplyMatrixVector(unsigned int ResultVectorIndex
   (*m_Vectors)[ResultVectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
 
   ((*m_Matrices)[MatrixIndex])->mult( *((*m_Vectors)[VectorIndex]), *((*m_Vectors)[ResultVectorIndex]) );
+
+}
+
+void LinearSystemWrapperVNL::ScaleMatrix(Float scale, unsigned int matrixIndex)
+{
+  for ( ((*m_Matrices)[matrixIndex])->reset(); ((*m_Matrices)[matrixIndex])->next(); )
+  {
+    (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() ) 
+      = scale * (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() );
+  }
 
 }
 
