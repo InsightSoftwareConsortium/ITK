@@ -308,6 +308,14 @@ protected:
   void Allocate();
 
   /**
+   * Apply MRF Classifier. In this example the images are labelled using
+   * Iterated Conditional Mode algorithm by J. Besag, "On statistical
+   * analysis of dirty pictures," J. Royal Stat. Soc. B, vol. 48,
+   * pp. 259-302, 1986.
+   */
+  virtual void ApplyMRFImageFilter();  
+
+  /**
    * Minimization algorithm to be used.
    */
   virtual void MinimizeFunctional();
@@ -346,13 +354,6 @@ private:
   int                    *m_WidthOffset;
   int                    *m_HeightOffset;
   int                    *m_DepthOffset;
-
-  /**
-   * Apply MRF Classifier. Label the image set using Iterated Conditional 
-   * Mode algorithm by J. Besag, "On statistical analysis of dirty pictures,"
-   * J. Royal Stat. Soc. B, vol. 48, pp. 259-302, 1986.
-   */
-  void ApplyMRFImageFilter();  
 
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();

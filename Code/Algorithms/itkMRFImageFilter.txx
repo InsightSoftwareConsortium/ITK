@@ -29,9 +29,9 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_ClassifierPtr(0),
       m_kWidth(3), // Default values of the kernel size of the beta matrix
       m_kHeight(3), 
-      m_kDepth(3), 
-      m_KernelSize(3 * 3 * 3)
+      m_kDepth(3) 
 {
+  m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
   SetBeta( 0 );
 }
 
