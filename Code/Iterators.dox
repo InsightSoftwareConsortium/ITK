@@ -97,7 +97,7 @@
   
   Here is a list of the different ImageIterators implemented in ITK:
 
-  - ImageRegionItertor
+  - ImageRegionIterator
   - ImageRegionReverseIterator
   - SimpleImageRegionIterator
   - ImageLinearIterator
@@ -111,20 +111,115 @@
   \ref NeighborhoodIterators.
 
   \section ImageIteratorConcepts ImageIterator Concepts
+
+  \subsection STL ImageIterators vs. STL Iterators
+
+  Given the breadth and complexity of ImageIterators, they are designed to 
+  operate slightly differently than STL iterators.  In STL, you ask a 
+  container for an iterator that will traverse the container.  Furthermore, 
+  in STL, you frequently compare an iterator against another iterator.
+  Here is a loop to walk over an STL vector.
+
+  \code
+  for (it = vec.begin(); it != vec.end(); ++it)
+    {}
+  \endcode
+
+  ImageIterators, unfortunately, are more complicated than STL iterators.  
+  ImageIterators need to store more state information than STL iterators.
+  As one example, ImageIterators can walk a region of an image and an
+  image can have multiple ImageIterators traversing different 
+  regions simultaneously. Thus, each ImageIterator must maintain which region
+  it traverses. This results in a fairly heavyweight iterator, where
+  comparing two ImageIterators and constructing iterators is an
+  expensive operation. To address this issue, ImageIterators have a
+  slightly different API than STL iterators.
+
+  First, you do not ask the container (the image) for an iterator.  Instead,
+  you construct an iterator and tell it which image to traverse.  Here
+  is a snippet of code to construct an iterator that will walk a region 
+  of an image:
+
+  \code
+  ImageType::Pointer im = GetAnImageSomeHow();
+
+  ImageIterator  it( im, im->GetRequestedRegion() );
+  \endcode
+
+  Second, since constructing and comparing ImageIterators is expensive,
+  ImageIterators know the beginning and end of the region.  So you ask the 
+  iterator rather than the container whether the iterator is at the end of 
+  a region.
+ 
+  \code
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
+  {
+    it.Set( 10 );
+  }
+  \endcode
+
+
   \subsection Regions Regions
+  Iterators are typically defined to walk a region of an image. ImageRegions
+  are defined to be rectangular prisms. (Insight also has a number of
+  iterators that can walk a region defined by a spatial function.)
+  The region for an iterator is defined at constructor time.  Regions
+  are not validated, so the programmer is responsible for assigning a
+  region that is within the image. Iterator methods Begin() and End()
+  are defined relative to the region.  See below.
+
   \subsection Positioning Position
+
   \subsection Intervals Half Open Intervals - Begin/End
+  Like most iterator implementations, ImageIterators walk a half-open
+  interval.  Begin is defined as the first pixel in the region. End is
+  defined as one pixel past the last pixel in the region (one pixel
+  past in the same row). So Begin points a valid pixel in the region
+  and End points to a pixel that is outside the region.
+
   \subsection Dereferencing Dereferencing
 
   \section IteratorAPI Iterator API
   \subsection OperatorPlusPlus operator++
   \subsection OperatorMinusMinus operator--
+
   \subsection Begin Begin()
+  Begin() returns an iterator for the same image and region as the current
+  iterator but positioned at the first pixel in the region. 
+
   \subsection End End()
+  End() returns an iterator for the same image and region as the current
+  iterator but positioned one pixel past the last pixel in the region.
+
   \subsection GotoBegin GotoBegin()
+  GotoBegin() repositions the iterator to the first pixel in the region.
+
   \subsection GotoEnd GotoEnd()
+  GotoEnd() repositions the iterator to one pixel past (in the same
+  row) the last pixel in the region.
+
   \subsection IsAtBegin IsAtBegin()
+  IsAtBegin() returns true if the iterator is positioned at the first
+  pixel in the region, returns false otherwise. IsAtBegin() is faster than
+  comparing an iterator for equivalence to the iterator returned by Begion().
+
+  \code
+  if (it.IsAtBegin()) {}   // Fast
+  
+  if (it == it.Begin()) {} // Slow
+  \endcode
+
   \subsection IsAtEnd IsAtEnd()
+  IsAtEnd() returns true if the iterator is positioned one pixel past
+  the last pixel in the region, returns false otherwise. IsAtEnd()
+  is faster than comparing an iterator for equivalence to the iterator
+  returned by End().
+
+  \code
+  if (it.IsAtEnd()) {}   // Fast
+  
+  if (it == it.End()) {} // Slow
+  \endcode
   
 
   \subsection ImageRegionIterator ImageRegionIterator 
