@@ -67,7 +67,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkExpandImageFilter.txx"
 #include "itkExtractImageFilter.txx"
 #include "itkExtractImageFilterRegionCopier.h"
-#include "itkFileIOToImageFilter.txx"
 #include "itkFlipImageFilter.txx"
 #include "itkGaussianImageSource.txx"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
