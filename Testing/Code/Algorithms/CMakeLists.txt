@@ -179,6 +179,6 @@ IF(ITK_WRAP_TCL)
 ENDIF(ITK_WRAP_TCL)
 
 IF(ITK_CSWIG_TCL)
-  ADD_TEST(itkCurvatureFlowTestTcl ${TCL_TCLSH}
+  ADD_TEST(itkCurvatureFlowTestTcl ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl2.tcl)
 ENDIF(ITK_CSWIG_TCL)
