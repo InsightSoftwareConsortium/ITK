@@ -160,7 +160,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
 //  printVolumeTo(averager->GetOutput(), 2, "c:\\tmp", "aaver0");
 
 
-  yawEstimate=estimateAngle((averagedImageType::ConstPointer)averagedImage);
+  yawEstimate=estimateAngle((typename averagedImageType::ConstPointer)averagedImage);
 /*  estimate=new estimateType;
   estimate->shiftsY=new double[130];
   for(int i=0; i<=129; i++)
@@ -198,7 +198,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
     translations[i]=centerOfRotation[i]-transformedPoint[i];
   }
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(tmpImage);
   transformer->SetOutputOrigin(defaultOrigin);
   transformer->SetOutputSpacing(defaultSpacing);
@@ -240,7 +240,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   estimate->flippedCenterOfMass[1]=24.2944;
   estimate->flippedCenterOfMass[2]=64.22322; */
 
-  rollEstimate=estimateAngle((averagedImageType::ConstPointer)averagedImage);
+  rollEstimate=estimateAngle((typename averagedImageType::ConstPointer)averagedImage);
   rollAngle=rollEstimate->angleEstimate/2;
   rollEstimate->flippedCenterOfMass[1]=yawEstimate->flippedCenterOfMass[1];
 //  rollAngle=FindAngle((typename Superclass::InputImageConstPointer)tmpImage, ROLL_ANGLE, 90, 1, estimate);
@@ -268,7 +268,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
     translations[i]=centerOfRotation[i]-transformedPoint[i];
   }
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(inputPtr);
   transformer->SetOutputOrigin(defaultOrigin);
   transformer->SetOutputSpacing(defaultSpacing);
@@ -291,7 +291,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
 //  shift = 0.36;
 
   transformer=transformerType::New();
-  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
+  transformer->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
   transformer->SetSize(inputPtr->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(defaultSpacing);
   transformer->SetOutputOrigin(defaultOrigin);
@@ -303,7 +303,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   }
   translations[0]=-shift/2;
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->Update();
   printVolumeTo(transformer->GetOutput(), 0, "c:\\tmp", "finalYaw");
   printVolumeTo(transformer->GetOutput(), 1, "c:\\tmp", "finalRoll");
@@ -320,7 +320,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   axes[1]=0;
   axes[2]=0;
   correctingTransform->Translate(axes);
-  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(inputPtr);
   transformer->Update();
   this->GraftOutput(transformer->GetOutput());
@@ -348,7 +348,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
   typedef ResampleImageFilter<TInputImage, TInputImage> transformerType;
   int junk;
 
-  linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();  
+  typename linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();  
   typename TInputImage::Pointer flippedImage=TInputImage::New();
   typename flipperType::FlipAxesArrayType flipAxes;
   typename flipperType::Pointer flipper=flipperType::New();
@@ -403,7 +403,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
 //  aPoint[1]=ceil(flippedSize[1]/2);
 //  aPoint[2]=ceil(flippedSize[2]/2);
   aPoint=estimate->flippedCenterOfMass;
-  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(flippedImage->GetSpacing());
   transformer->SetOutputOrigin(flippedImage->GetOrigin());
@@ -840,14 +840,14 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
   correlator->SetFixedImageRegion(originalImage->GetLargestPossibleRegion());
   backupCorrelator->SetFixedImage(originalImage);
   backupCorrelator->SetFixedImageRegion(originalImage->GetLargestPossibleRegion());
-  backupCorrelator->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer)identityTransform);
+  backupCorrelator->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer)identityTransform);
     transformer->SetInput(flippedImage);
-  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(flippedImage->GetSpacing());
   transformer->SetOutputOrigin(flippedImage->GetOrigin());
 
-  transformerShifter->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformerShifter->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformerShifter->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformerShifter->SetOutputSpacing(flippedImage->GetSpacing());
   transformerShifter->SetOutputOrigin(flippedImage->GetOrigin());
@@ -890,7 +890,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
 //    savedAffineTransform->SetParameters(affineTransform->GetParameters());
 
-    transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+    transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
 //      params=affineTransform->GetParameters();
 //      fprintf(stdout, "\n%f %f %f | %f %f %f |  %f %f %f |  %f %f %f\n", params[0], params[1], params[2], params[3]
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
@@ -928,8 +928,8 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 //      fprintf(stdout, "\n%f %f %f | %f %f %f |  %f %f %f |  %f %f %f\n", params[0], params[1], params[2], params[3]
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
 
-  transformerType::Pointer transformerShifter=transformerType::New();
-  transformerShifter->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  typename transformerType::Pointer transformerShifter=transformerType::New();
+  transformerShifter->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformerShifter->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformerShifter->SetOutputSpacing(flippedImage->GetSpacing());
   transformerShifter->SetOutputOrigin(flippedImage->GetOrigin());
@@ -937,7 +937,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 
 
 //      transformerShifter->SetInput(flippedImage);
-      transformerShifter->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+      transformerShifter->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
       thresholder->SetInput(transformerShifter->GetOutput());
       thresholder->Update();
       transformedImage=thresholder->GetOutput();
@@ -1111,12 +1111,12 @@ estimateShift(typename Superclass::InputImageConstPointer volume)
     thresholder->SetOutsideValue(1);
     thresholder->ThresholdOutside(0, 0.1);
     transformer=transformerType::New();
-    transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+    transformer->SetInterpolator((typename InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
     transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
     transformer->SetOutputSpacing(flippedImage->GetSpacing());
     transformer->SetOutputOrigin(flippedImage->GetOrigin());
     transformer->SetInput(flippedImage);
-    transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+    transformer->SetTransform((typename Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
     thresholder->SetInput(transformer->GetOutput());
     thresholder->Update();
 
