@@ -56,8 +56,11 @@ void
 QuaternionRigidTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
-  m_Rotation      = rotation;
-  m_RotationMatrix  = m_Rotation.rotation_matrix();
+  m_Rotation        = rotation;
+  m_InverseRotation = rotation.inverse();
+  // this is done to compensate for the transposed representation
+  // between VNL and ITK
+  m_RotationMatrix  = m_InverseRotation.rotation_matrix();
   return;
 }
 
@@ -115,7 +118,7 @@ GetJacobian( const InputPointType & p ) const
   
 
   // compute derivatives with respect to rotation
-  VnlQuaternionType Q = this->GetRotation();
+  VnlQuaternionType Q = m_InverseRotation;
 
   m_Jacobian.Fill(0.0);
 
