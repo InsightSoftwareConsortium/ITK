@@ -249,7 +249,14 @@ bool SerieHeader::ImagePositionPatientOrdering()
       //Assumption: all files are present (no one missing)
       pos = (int)( fabs( (distlist[n]-min)/step) + .5 );
             
-      CoherentGdcmFileVector[pos] = *it2;
+      // a Dicom 'Serie' may contain scout views
+      // and images may have differents directions
+      // -> More than one may have the same 'pos'
+      // Sorting has then NO meaning !
+      if (CoherentGdcmFileVector[pos]==NULL)
+         CoherentGdcmFileVector[pos] = *it2;
+      else
+         return false;
    }
 
    CoherentGdcmFileList.clear();  //this doesn't delete list's element, node only
