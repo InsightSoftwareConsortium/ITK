@@ -23,8 +23,9 @@
 #include "itkLightProcessObject.h"
 #include "itkProcessObject.h"
 #include "itkOutputWindow.h"
-#include "itkTimeStamp.h"
 #include "itkVersion.h"
+#include "itkImageIO.h"
+#include "itkTimeStamp.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
@@ -46,6 +47,7 @@ namespace _cable_
       ITK_WRAP_BASE_TYPEDEF(ProcessObject);
       ITK_WRAP_BASE_TYPEDEF(OutputWindow);
       ITK_WRAP_BASE_TYPEDEF(Version);
+      ITK_WRAP_BASE_TYPEDEF(ImageIO);
       typedef ::itk::TimeStamp TimeStamp;
     }
   }
@@ -63,6 +65,7 @@ void force_instantiate()
   ITK_WRAP_BASE_SIZEOF(ProcessObject);
   ITK_WRAP_BASE_SIZEOF(OutputWindow);
   ITK_WRAP_BASE_SIZEOF(Version);
+  ITK_WRAP_BASE_SIZEOF(ImageIO);
   sizeof(_cable_::wrappers::itk::TimeStamp);
 }
 
