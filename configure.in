@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT()
 
-AC_CONFIG_HEADER(CMake/Source/cmConfigure.h itkConfigure.h)
+AC_CONFIG_HEADER(CMake/Source/cmConfigure.h)
 
 CMAKE_CONFIG_DIR=`pwd`
 AC_SUBST(CMAKE_CONFIG_DIR)
@@ -18,9 +18,7 @@ AC_PATH_XTRA
 
 # get byte swapping info
 AC_C_BIGENDIAN
-if test $ac_cv_c_bigendian = yes; then
-  AC_DEFINE(CMAKE_WORDS_BIGENDIAN)
-fi
+AC_SUBST(CMAKE_WORDS_BIGENDIAN)
 
 
 # some stuff Tcl uses
@@ -465,15 +463,9 @@ esac
 fi
 
 
-if test $CMAKE_USE_SPROC = 1; then
-AC_DEFINE(CMAKE_USE_SPROC)
-fi
-if test $CMAKE_USE_PTHREADS = 1; then
-AC_DEFINE(CMAKE_USE_PTHREADS)
-fi
-if test $CMAKE_HP_PTHREADS = 1; then
-AC_DEFINE(CMAKE_HP_PTHREADS)
-fi
+AC_SUBST(CMAKE_USE_SPROC)
+AC_SUBST(CMAKE_USE_PTHREADS)
+AC_SUBST(CMAKE_HP_PTHREADS)
 
 AC_SUBST(THREAD_LIBS)
 

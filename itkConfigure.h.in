@@ -1,26 +1,27 @@
+/* 
+ * here is where system comupted values get stored these values should only
+ * change when the target compile platform changes 
+ */
+
 /* what byte order */
-#undef CMAKE_WORDS_BIGENDIAN
+#cmakedefine CMAKE_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
+  #define ITK_WORDS_BIGENDIAN 
+#endif
 
 /* what threading system are we using */
-#undef CMAKE_USE_PTHREADS
-#undef CMAKE_USE_SPROC
-#undef CMAKE_HP_PTHREADS
-
-/* Define if you have the <sys/prctl.h> header file.  */
-#undef HAVE_SYS_PRCTL_H
-
-/* Define if you have the <unistd.h> header file.  */
-#undef HAVE_UNISTD_H
-
-#define _HP_NO_FAST_MACROS
-
-
+#cmakedefine CMAKE_USE_PTHREADS
 #ifdef CMAKE_USE_PTHREADS
 #define ITK_USE_PTHREADS
 #endif
+
+#cmakedefine CMAKE_USE_SPROC
 #ifdef CMAKE_USE_SPROC
 #define ITK_USE_SPROC
 #endif
+
+#cmakedefine CMAKE_HP_PTHREADS
 #ifdef CMAKE_HP_PTHREADS
 #define ITK_HP_PTHREADS
 #endif
+

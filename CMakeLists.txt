@@ -62,7 +62,7 @@ BUILD_COMMAND(MAKECOMMAND ${MAKEPROGRAM} )
 # Add commands to generate configure file when no
 # autoconf is around
 
-CONFIGURE_FILE_NOAUTOCONF(
+CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/itkConfigure.h.in 
 ${ITK_BINARY_DIR}/itkConfigure.h)
 
