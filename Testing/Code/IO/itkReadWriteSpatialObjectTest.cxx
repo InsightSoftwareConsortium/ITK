@@ -20,7 +20,7 @@
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
 
-int itkReadWriteSpatialObjectTest(int, char** const)
+int itkReadWriteSpatialObjectTest(int, char*[])
 {
   
   typedef itk::TubeSpatialObject<3>        TubeType;
