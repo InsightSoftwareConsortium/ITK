@@ -88,7 +88,9 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
 
   // Define the orientations of the ellipsoid axes, for now, we'll use
   // the identify matrix
-  vnl_matrix<double> orientations(3, 3, vnl_matrix_identity);  
+  typename EllipsoidType::OrientationType orientations;
+  orientations.fill( 0.0 );
+  orientations.fill_diagonal( 1.0 );
   spatialFunction->SetOrientations(orientations);
 
   typename ImageType::IndexType seed;
