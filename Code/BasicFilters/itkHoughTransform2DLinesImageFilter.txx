@@ -150,8 +150,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       m_MaxIndex[1]=0;
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
       {  
-        m_Index[0]=image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle); // m_R
-        m_Index[1]= (m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI); // m_Theta
+        m_Index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
+        m_Index[1]= (long int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
   
         if ( (m_Index[0]>0) && (m_Index[0]<size[0]) && (m_Index[1]>0) && (m_Index[1]<size[1]))
         {
