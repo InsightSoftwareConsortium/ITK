@@ -72,6 +72,7 @@ ImageIteratorWithIndex<TPixel, VImageDimension>
   TPixel * m_Buffer   = m_Image->GetBufferPointer();
   m_BeginIndex        = region.GetIndex();
   m_PositionIndex     = m_BeginIndex;
+  m_Region            = region;
 
   memcpy(m_OffsetTable, m_Image->GetOffsetTable(), (VImageDimension+1)*sizeof(unsigned long));
 
