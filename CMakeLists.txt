@@ -27,16 +27,16 @@ $(DL_LIBS) \
 BEGIN MAKE VERBATIM
 
 NightlyDashboardStart:
-	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Start
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Start
 
 NightlyDashboardBuild:
-	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Build
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Build
 
 NightlyDashboardTest:
-	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Test
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Test
 
 NightlyDashboardCoverage:
-	$(TCLSHCOMMAND) Testing/Utilities/DashboardManager.tcl Nightly Coverage
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Coverage
 
 END MAKE VERBATIM
 
