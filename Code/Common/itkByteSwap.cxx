@@ -54,11 +54,9 @@ ByteSwap
 ::Swap4BERange(void *ptr, int num)
 {
   char one_byte;
-  char *pos;
+  char *pos = (char *)ptr;
   int i;
-  
-  pos = (char *)ptr;
-  
+
   for (i = 0; i < num; i++)
     {
     one_byte = pos[0];
@@ -134,7 +132,6 @@ ByteSwap
   h1 = (unsigned short) *p << 8;
   h2 = (unsigned short) *p >> 8;
   *p = (short) h1 | h2;
-
 }
 #else
 void 
@@ -171,10 +168,8 @@ ByteSwap
 ::Swap4LERange(void *p, int num)
 {
   char one_byte;
-  void *pos;
+  char *pos = (char *)p;
   int i;
-  
-  pos = p;
   
   for (i = 0; i < num; i++)
     {
@@ -187,7 +182,6 @@ ByteSwap
     pos[2] = one_byte;
     pos = pos + 4;
     }
-  
 }
 #else
 void 
@@ -236,7 +230,6 @@ ByteSwap
     pos[1] = one_byte;
     pos = pos + 2;
     }
-  
 }
 #endif
 
@@ -247,10 +240,8 @@ ByteSwap
 ::Swap2LERange(void *p, int num)
 {
   char one_byte;
-  void *pos;
+  char *pos = (char *)p;
   int i;
-  
-  pos = p;
   
   for (i = 0; i < num; i++)
     {
@@ -259,7 +250,6 @@ ByteSwap
     pos[1] = one_byte;
     pos = pos + 2;
     }
-  
 }
 #else
 void 
