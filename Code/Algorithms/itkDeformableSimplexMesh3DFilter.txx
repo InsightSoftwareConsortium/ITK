@@ -41,6 +41,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   m_Step = 0;
   m_Iterations = 20;
   m_Alpha = 0.2;
+  m_Beta  = 0.01;
   m_Gamma = 0.05;
   m_Rigidity = 1;
 

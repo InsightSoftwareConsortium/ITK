@@ -32,6 +32,7 @@ namespace itk
     ::DeformableSimplexMesh3DBalloonForceFilter()
 
     {
+    m_Kappa = 0.1;
     /*m_Step = 0;
     m_Iterations = 20;
     m_Alpha = 0.2;
