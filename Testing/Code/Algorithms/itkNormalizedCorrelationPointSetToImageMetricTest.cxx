@@ -21,6 +21,7 @@
 #include "itkGaussianImageSource.h"
 #include "itkImage.h"
 #include "itkPointSet.h"
+#include "itkImageRegionIterator.h"
 
 #include <iostream>
 
@@ -93,14 +94,40 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
 //-----------------------------------------------------------
   typedef itk::PointSet< float, 2 >   FixedPointSetType;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
-  fixedPointSet->GetPoints()->Reserve( 100 );
-  fixedPointSet->GetPointData()->Reserve( 100 );
 
-  for(unsigned int y=0; y<100; y+=10)
+  const unsigned int numberOfPoints = 100;
+
+  fixedPointSet->GetPoints()->Reserve( numberOfPoints );
+  fixedPointSet->GetPointData()->Reserve( numberOfPoints );
+
+  itk::ImageRegionIterator< FixedImageType > it( fixedImage, 
+                                            fixedImage->GetBufferedRegion() );
+
+  const unsigned int skip = 
+      fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
+
+  unsigned int counter = skip;
+
+  FixedPointSetType::PointIdentifier pointId = 0;
+  FixedPointSetType::PointType  point;
+
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
     {
-    for(unsigned int x=0; x<100; x+=10)
+    if( counter==0 )
       {
+      fixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      fixedPointSet->SetPoint( pointId, point );
+      fixedPointSet->SetPointData( pointId, it.Get() );
+      ++pointId; 
+      if( pointId == numberOfPoints )
+        {
+        break;
+        }
+      counter = skip;
       }
+    --counter;
+    ++it;
     }
 
 
