@@ -65,7 +65,7 @@ unsigned int num )
 
   // resize the schedules
   ScheduleType temp( m_NumberOfLevels, ImageDimension );
-  temp.Fill( 0.0 );
+  temp.Fill( 0 );
   m_Schedule = temp;
 
   // determine initial shrink factor
