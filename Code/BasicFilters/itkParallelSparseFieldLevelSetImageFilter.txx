@@ -1242,7 +1242,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         str->Filter->SetElapsedIterations (++iter);
         }
     
-      if (ThreadId == 1)
+      if (ThreadId == 0)
         {
         for (i= 0; i < str->Filter->m_NumOfThreads; i++)
           {
@@ -1273,7 +1273,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       {
       str->Filter->WaitForAll();
       // change boundaries if needed
-      if (ThreadId == 1)
+      if (ThreadId == 0)
         {
         str->Filter->CheckLoadBalance();
         }
