@@ -41,7 +41,13 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
     for(std::list<gdcmHeader*>::iterator it = flist.begin(); 
         it != flist.end(); ++it )
       {
-      m_InputFileNames.push_back( (*it)->GetFileName() );
+        gdcmHeader * header = *it;
+        if( !header )
+          {
+          std::cerr << "GDCMSeriesFileNames got NULL header " << std::endl;
+          continue;
+          }
+      m_InputFileNames.push_back( header->GetFileName() );
       }
     }
   else
