@@ -49,6 +49,7 @@ DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
 
   m_KernelTransform = DefaultTransformType::New();
 
+  m_SubsamplingFactor = 16;
 }
 
 
