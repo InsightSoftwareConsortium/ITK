@@ -66,7 +66,8 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
   
   typename NodeContainerType::ConstIterator iter = m_ActiveRegion->Begin();
   typename NodeContainerType::ConstIterator end  = m_ActiveRegion->End();
-  unsigned int counter = 0;
+
+  MeasureType counter = 0.0;
 
   // count the number of pixels inside the current contour but outside the current shape
   while( iter != end )
@@ -77,14 +78,23 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 
     m_FeatureImage->TransformIndexToPhysicalPoint( node.GetIndex(), point );
 
-    if ( node.GetValue() <= 0.0 && m_ShapeFunction->Evaluate( point ) > 0.0 )
-      { 
-      counter++;
+    if ( node.GetValue() <= 0.0 )
+      {
+      double value = m_ShapeFunction->Evaluate( point );
+      if ( value > 0.0 )
+        { 
+        counter += 1.0;
+        }
+      else if ( value > -1.0 ) 
+        {
+        counter += ( 1.0 + value );
+        }
       }
+      
     ++iter;
     }
 
-  MeasureType output = static_cast<MeasureType>( counter ) * m_Weights[0];
+   MeasureType output = counter * m_Weights[0];
 
 //  std::cout << output << " ";
   return output;
@@ -109,7 +119,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     }
   measure *= m_Weights[2];
 
-//  std::cout << measure << " " << std::endl;
+ // std::cout << measure << " " << std::endl;
   return measure;
 
 }
