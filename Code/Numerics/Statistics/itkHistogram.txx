@@ -106,7 +106,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
       interval = (upperBound[i] - lowerBound[i]) / 
         static_cast< MeasurementType >(size[i]) ;
       // Set the min vector and max vector
-      for (int j = 0; j < (size[i] - 1) ; j++)
+      for (unsigned int j = 0; j < (size[i] - 1) ; j++)
         {
           this->SetBinMin(i, j, lowerBound[i] + j * interval) ;
           this->SetBinMax(i, j, lowerBound[i] + (j + 1) * interval);
@@ -208,10 +208,10 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 {
   for (int dim = 0 ; dim < MeasurementVectorSize ; dim++)
     {
-      if (index[dim] < 0 || index[dim] >= m_Size[dim])
-        {
-          return true ;
-        }
+    if (index[dim] < 0 || index[dim] >= static_cast<IndexValueType>(m_Size[dim]))
+      {
+      return true ;
+      }
     }
   return false ;
 }
