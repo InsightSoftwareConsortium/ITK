@@ -33,7 +33,7 @@ class ProcessObject;
  * 
  * \sa ProcessObject
  * \sa ImageBase
- * \sa MeshBase
+ * \sa Mesh
  */
 class ITK_EXPORT DataObject : public Object
 {
