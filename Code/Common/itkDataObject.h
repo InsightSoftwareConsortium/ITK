@@ -32,9 +32,6 @@ See COPYRIGHT.txt for copyright details.
 
 class itkProcessObject;
 
-#define ITK_UNSTRUCTURED_EXTENT   0 ///based on pieces
-#define ITK_STRUCTURED_EXTENT     1 ///based on n-dimensional extents
-
 class ITK_EXPORT itkDataObject : public itkObject
 {
 public:
@@ -54,9 +51,13 @@ public:
   static Pointer New();
 
   /** 
-   * Set/Get the source object creating this data object. 
+   * Set the source object creating this data object. 
    */
   void SetSource(itkProcessObject *s);
+  
+  /** 
+   * Get the source object creating this data object. 
+   */
   itkGetObjectMacro(Source,itkProcessObject);
   
   /** 
@@ -126,19 +127,28 @@ public:
    */
   virtual void Update();
 
-  // Methods to update the pipeline.
+  /**
+   * Methods to update the pipeline.
+   */
   virtual void UpdateInformation();
   virtual void PropagateUpdateExtent();
   virtual void TriggerAsynchronousUpdate();
   virtual void UpdateData();
 
-  // More internal methods to update the pipeline.
+  /**
+   * More internal methods to update the pipeline.
+   */
   void SetPipelineMTime(unsigned long time) 
     {m_PipelineMTime = time; }
   itkGetMacro(PipelineMTime,unsigned long);
 
+  /**
+   * Enums used to describe the extent types.
+   */
+  typedef enum {ITK_UNSTRUCTURED_EXTENT,ITK_STRUCTURED_EXTENT} ExtentType;
+  
   virtual int GetExtentType() 
-    {return ITK_UNSTRUCTURED_EXTENT;}
+    {return itkDataObject::ITK_UNSTRUCTURED_EXTENT;}
   void SetUpdateExtentToWholeExtent();
   virtual void PrepareForNewData() 
     {this->Initialize();};

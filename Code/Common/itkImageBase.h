@@ -52,27 +52,37 @@ public:
 
   /** 
    * Set the size of the image. This method assumes that
-   *  the dimension of the data has been set. 
+   * the dimension of the data has been set. 
    */
   void SetSize(unsigned long *size);
 
   /** 
-   * Get the size of the iamge. 
+   * Get the size of the image. 
    */
   const unsigned long *GetSize() const {return m_Size;} ;
   
   /** 
-   * Set the dimensions of the image. This method assumes that
+   * Set the spacing of the image. This method assumes that
    * the dimension of the data has been set. 
    */
   void SetSpacing(float *spacing);
 
   /** 
-   * Set the dimensions of the image. This method assumes that
+   * Get the size of the image. 
+   */
+  const float *GetSpacing() const {return m_Spacing;} ;
+  
+  /** 
+   * Set the origin of the image. This method assumes that
    * the dimension of the data has been set. 
    */
   void SetOrigin(float *origin);
 
+  /** 
+   * Get the origin of the image. 
+   */
+  const float *GetOrigin() const {return m_Origin;} ;
+  
 protected:
   itkImageBase();
   ~itkImageBase();

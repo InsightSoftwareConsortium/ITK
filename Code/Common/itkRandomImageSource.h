@@ -30,7 +30,7 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkRandomImageSource<TOutputImage> > Pointer;
+  typedef typename itkSmartPointer< itkRandomImageSource<TOutputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).

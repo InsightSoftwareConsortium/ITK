@@ -30,12 +30,12 @@ TInputImage *
 itkWriteImage<TInputImage>
 ::GetInput()
 {
-  if (this->NumberOfInputs < 1)
+  if (this->GetNumberOfInputs() < 1)
     {
     return 0;
     }
   
-  return (TInputImage *)(this->GetInput(0));
+  return static_cast<TInputImage *>(this->itkProcessObject::GetInput(0));
 }
 
 //----------------------------------------------------------------------------

@@ -49,28 +49,6 @@ public:
   itkGetStringMacro(FileName);
   
   /** 
-   * Specify the output file type as either ASCII or binary.
-   */
-  itkSetClampMacro(FileType,int,ITK_ASCII,ITK_BINARY);
-  
-  /** 
-   * Get the file type.
-   */
-  itkGetMacro(FileType,int);
-  
-  /** 
-   * Specify the output file type as ASCII (the default).
-   */
-  void SetFileTypeToASCII() 
-    {this->SetFileType(ITK_ASCII);}
-
-  /** 
-   * Specify the output file type to binary.
-   */
-  void SetFileTypeToBinary() 
-    {this->SetFileType(ITK_BINARY);}
-
-  /** 
    * A special version of the Update() method for writers.
    * It insures the pipeline is up-to-date and invokes the
    * WriteData() method.
@@ -91,7 +69,6 @@ protected:
   
 private:
   std::string m_FileName;
-  int         m_FileType;
   
 };
 

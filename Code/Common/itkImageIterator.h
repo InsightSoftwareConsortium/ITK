@@ -40,7 +40,7 @@ public:
   /** 
    * Index typedef support 
    */
-  typedef itkIndex<TImageDimension> Index;
+  typedef typename itkIndex<TImageDimension> Index;
 
   /**
    * Get the dimension (size) of the index.

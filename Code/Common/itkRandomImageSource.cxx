@@ -75,6 +75,8 @@ itkRandomImageSource<TOutputImage>
   
   pixel.SetScalar(min);
 
+  value = (min + max) / 2.0;
+
   
  // for (int j=0; j<imageSize; j++)
   

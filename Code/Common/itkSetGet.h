@@ -29,35 +29,6 @@
 #include <string>
 #include <strstream>
 #include "itkWin32Header.h"
-//
-// Some constants used throughout code
-//
-#define ITK_LARGE_FLOAT 1.0e+38F
-#define ITK_LARGE_INTEGER 2147483647 // 2^31 - 1
-
-// Some constant required for correct template performance
-#define ITK_BIT_MIN 0
-#define ITK_BIT_MAX 1
-#define ITK_CHAR_MIN -128
-#define ITK_CHAR_MAX 127
-#define ITK_UNSIGNED_CHAR_MIN 0
-#define ITK_UNSIGNED_CHAR_MAX 255
-#define ITK_SHORT_MIN -32768
-#define ITK_SHORT_MAX 32767
-#define ITK_UNSIGNED_SHORT_MIN 0
-#define ITK_UNSIGNED_SHORT_MAX 65535
-#define ITK_INT_MIN (-ITK_LARGE_INTEGER-1)
-#define ITK_INT_MAX ITK_LARGE_INTEGER
-#define ITK_UNSIGNED_INT_MIN 0
-#define ITK_UNSIGNED_INT_MAX 4294967295UL
-#define ITK_LONG_MIN (-ITK_LARGE_INTEGER-1)
-#define ITK_LONG_MAX ITK_LARGE_INTEGER
-#define ITK_UNSIGNED_LONG_MIN 0
-#define ITK_UNSIGNED_LONG_MAX 4294967295UL
-#define ITK_FLOAT_MIN -ITK_LARGE_FLOAT
-#define ITK_FLOAT_MAX ITK_LARGE_FLOAT
-#define ITK_DOUBLE_MIN -1.0e+99L
-#define ITK_DOUBLE_MAX  1.0e+99L
 
 // Error codes for exceptions
 const int itkBoundsError=10;
@@ -116,7 +87,7 @@ const int itkInvalidDimension=11;
 #define itkGetStringMacro(name) \
   virtual const char* Get##name () const \
   { \
-    return this->m_##name.data(); \
+    return this->m_##name.c_str(); \
   } 
 
 // Set built-in type where value is constrained between min/max limits.

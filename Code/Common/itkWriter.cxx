@@ -21,7 +21,6 @@ itkWriter
 ::itkWriter()
 {
   m_FileName = "";
-  m_FileType = ITK_ASCII;
 }
 
 //----------------------------------------------------------------------------
@@ -70,13 +69,5 @@ itkWriter
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
-  if ( m_FileType == ITK_BINARY )
-    {
-    os << indent << "File Type: BINARY\n";
-    }
-  else
-    {
-    os << indent << "File Type: ASCII\n";
-    }
 }
 

@@ -50,7 +50,7 @@ class itkScalar {
    * ValueType can be used to declare a variable that is the same type
    * as the data held in an itkScalar.
    */
-  typedef T ValueType;
+  typedef typename T ValueType;
 
   /**
    * Get the dimension (size) of this scalar. The method is necessary

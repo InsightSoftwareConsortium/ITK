@@ -29,7 +29,7 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
+  typedef typename itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).
@@ -41,8 +41,35 @@ public:
    */
   static Pointer New();
 
+  /**
+   * Enums used to specify VTK file types.
+   */
+  typedef typename enum {VTK_ASCII,VTK_BINARY} VTKFileType;
+  
+  /** 
+   * Set the VTK file type. The default is VTK_ASCII.
+   */
+  itkSetMacro(FileType,VTKFileType);
+  
+  /** 
+   * Get the VTK file type.
+   */
+  itkGetMacro(FileType,VTKFileType);
+                 
+  /** 
+   * Specify the output file type as ASCII (the default).
+   */
+  void SetFileTypeToASCII() 
+    {this->SetFileType(itkWriteVTKImage::VTK_ASCII);}
+
+  /** 
+   * Specify the output file type to binary.
+   */
+  void SetFileTypeToBinary() 
+    {this->SetFileType(itkWriteVTKImage::VTK_BINARY);}
+
 protected:
-  itkWriteVTKImage() {};
+  itkWriteVTKImage();
   ~itkWriteVTKImage() {};
   itkWriteVTKImage(const itkWriteVTKImage&) {};
   void operator=(const itkWriteVTKImage&) {};
@@ -51,6 +78,14 @@ protected:
   void WriteData();
   
 private:
+  bool               m_WriteToOutputString;
+  std::vector<char>  m_OutputBuffer;
+  VTKFileType        m_FileType;
+  
+  std::ostream *OpenVTKFile();
+  bool WriteVTKHeader(std::ostream *fp);
+  bool WriteVTKImageData(std::ostream *fp, TInputImage *input);
+  void CloseVTKFile(std::ostream *fp);
   
 };
 
@@ -59,8 +94,3 @@ private:
 #endif
 
 #endif
-
-
-
-
-

@@ -28,7 +28,7 @@ public:
   /** 
    * Smart pointer typedef support. 
    */
-  typedef itkSmartPointer<itkMeshBase> Pointer;
+  typedef typename itkSmartPointer<itkMeshBase> Pointer;
 
   /** 
    * Create an empty image. 

@@ -22,6 +22,7 @@
 
 #include "itkImageBase.h"
 #include "itkImageIterator.h"
+#include "itkPixelTraits.h"
 #include <vector>
 
 template <class T, unsigned int TImageDimension=2>
@@ -43,7 +44,8 @@ public:
    * Pixel value typedef support. The pixel value is the type that
    * pixels are composed of; usually something like float, int, etc.
    */
-  typedef typename T::ValueType PixelValueType;
+//  typedef typename T::ValueType PixelValueType;
+  typedef typename itkPixelTraits<T>::ValueType PixelValueType;
 
   /** 
    * Image dimension typedef support. Used to help declare pixel types

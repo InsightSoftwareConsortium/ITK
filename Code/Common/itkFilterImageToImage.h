@@ -29,7 +29,7 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer< itkFilterImageToImage<TInputImage,TOutputImage> >
+  typedef typename itkSmartPointer< itkFilterImageToImage<TInputImage,TOutputImage> >
     Pointer;
 
   /** 
