@@ -790,19 +790,16 @@ namespace itk
     }
 
     std::ifstream   local_InputStream;
-    local_InputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
+    local_InputStream.open( HeaderFileName.c_str(), 
+                            std::ios::in | std::ios::binary );
     if( local_InputStream.fail() )
     {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be read");
-      throw exception;
+      return false;
     }
     local_InputStream.read( (char *)&(this->m_hdr), sizeof(struct dsr) );
-    if( local_InputStream.eof() )
+    if( local_InputStream.fail() )
     {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Unexpected end of file");
-      throw exception;
+      return false;
     }
     local_InputStream.close();
 
