@@ -46,7 +46,8 @@ public:
   typedef Vector<double, TPointDimension >    VectorType;
   typedef CovariantVector<double, TPointDimension >    CovariantVectorType;
  
-  /** Constructor. This one defines the # of dimensions in the TubeSpatialObjectPoint */
+  /** Constructor. This one defines the # of dimensions in the 
+   * TubeSpatialObjectPoint */
   TubeSpatialObjectPoint( void );
 
   /** Default destructor. */
@@ -61,24 +62,20 @@ public:
   void SetTangent(const double t0, const double t1, const double t2);
 
   /** Get V1 */
-  const CovariantVectorType & GetCV1( void );
-  const VectorType & GetV1( void ) const;
+  const CovariantVectorType & GetNormal1( void ) const;
 
   /** Set V1 */
-  void SetV1(const VectorType & newV1);
-  void SetV1(const CovariantVectorType & newV1);
-  void SetV1(const double v10, const double v11);
-  void SetV1(const double v10, const double v11, const double v12);
+  void SetNormal1(const CovariantVectorType & newV1);
+  void SetNormal1(const double v10, const double v11);
+  void SetNormal1(const double v10, const double v11, const double v12);
 
   /** Get V2 */
-  const VectorType & GetV2( void ) const;
-  const CovariantVectorType & GetCV2( void );
+  const CovariantVectorType & GetNormal2( void ) const;
 
   /** Set V2 */
-  void SetV2(const VectorType & newV2);
-  void SetV2(const CovariantVectorType & newV2);
-  void SetV2(const double v20, const double v21);
-  void SetV2(const double v20, const double v21, const double v22);
+  void SetNormal2(const CovariantVectorType & newV2);
+  void SetNormal2(const double v20, const double v21);
+  void SetNormal2(const double v20, const double v21, const double v22);
 
   /** Get R */
   float GetRadius( void ) const;
@@ -137,10 +134,8 @@ public:
 protected:
 
   VectorType m_T;
-  CovariantVectorType m_CV1;
-  CovariantVectorType m_CV2;
-  VectorType m_V1;
-  VectorType m_V2;
+  CovariantVectorType m_Normal1;
+  CovariantVectorType m_Normal2;
 
   /** First of 3 alpha values */
   float m_Alpha1;

@@ -29,11 +29,11 @@ TubeSpatialObjectPoint< TPointDimension >
 { 
   m_NumDimensions = TPointDimension;
   //m_T = new VectorType(m_NumDimensions);
-  //m_V1 = new VectorType(m_NumDimensions);
-  //m_V2 = new VectorType(m_NumDimensions);
+  //m_Normal1 = new VectorType(m_NumDimensions);
+  //m_Normal2 = new VectorType(m_NumDimensions);
   m_T.Fill(0);
-  m_V1.Fill(0);
-  m_V2.Fill(0);
+  m_Normal1.Fill(0);
+  m_Normal2.Fill(0);
   m_R = 0;
   m_Medialness = 0;
   m_Ridgeness = 0;
@@ -50,8 +50,8 @@ TubeSpatialObjectPoint< TPointDimension >
 ::~TubeSpatialObjectPoint( void ) 
 {
   //delete m_T;
-  //delete m_V1;
-  //delete m_V2;
+  //delete m_Normal1;
+  //delete m_Normal2;
 }
 
 /** Get the radius */
@@ -176,14 +176,14 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetV1() const
+::GetNormal1() const
 {
-  return m_V1;
+  return m_Normal1;
 }
 
-template< unsigned int TPointDimension >
+/*template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
 ::GetCV1() 
@@ -191,115 +191,92 @@ TubeSpatialObjectPoint< TPointDimension >
   int i;
   for(i=0; i<TPointDimension; i++)
     {
-    m_CV1[i] = m_V1[i];
+    m_CV1[i] = m_Normal1[i];
     }
   return m_CV1;
-}
+}*/
 
 // n-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV1( const VectorType & newV1 ) 
+::SetNormal1( const CovariantVectorType & newV1 ) 
 {
-  m_V1 = newV1;
+  m_Normal1 = newV1;
 }
 
 // n-D case
-template< unsigned int TPointDimension >
+/*template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV1( const CovariantVectorType & newV1 ) 
+::SetNormal1( const CovariantVectorType & newV1 ) 
   {
   int i;
   for(i=0; i<TPointDimension; i++)
     {
-    m_V1[i] = newV1[i];
+    m_Normal1[i] = newV1[i];
     }
   }
+*/
 
 // 3-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV1( const double v10, const double v11, const double v12 ) 
+::SetNormal1( const double v10, const double v11, const double v12 ) 
 {
-  m_V1[0] = v10;
-  m_V1[1] = v11;
-  m_V1[2] = v12;
+  m_Normal1[0] = v10;
+  m_Normal1[1] = v11;
+  m_Normal1[2] = v12;
 }
 
 // 2-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV1( const double v10, const double v11 ) 
+::SetNormal1( const double v10, const double v11 ) 
 {
-  m_V1[0] = v10;
-  m_V1[1] = v11;
-}
-
-template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
-TubeSpatialObjectPoint< TPointDimension >
-::GetV2() const
-{
-  return m_V2;
+  m_Normal1[0] = v10;
+  m_Normal1[1] = v11;
 }
 
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetCV2() 
-  {
-  int i;
-  for(i=0; i<TPointDimension; i++)
-    {
-    m_CV2[i] = m_V2[i];
-    }
-  return m_CV2;
-  }
+::GetNormal2() const
+{
+  return m_Normal2;
+}
+
 
 // n-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV2( const VectorType & newV2 ) 
+::SetNormal2( const CovariantVectorType & newV2 ) 
 {
-  m_V2 = newV2;
+  m_Normal2 = newV2;
 }
-
-template< unsigned int TPointDimension >
-void 
-TubeSpatialObjectPoint< TPointDimension >
-::SetV2( const CovariantVectorType & newV2 ) 
-  {
-  int i;
-  for(i=0; i<TPointDimension; i++)
-    {
-    m_V2[i] = newV2[i];
-    }
-  }
 
 // 3-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV2( const double v20, const double v21, const double v22 ) 
+::SetNormal2( const double v20, const double v21, const double v22 ) 
 {
-  m_V2[0] = v20;
-  m_V2[1] = v21;
-  m_V2[2] = v22;
+  m_Normal2[0] = v20;
+  m_Normal2[1] = v21;
+  m_Normal2[2] = v22;
 }
 
 // 2-D case
 template< unsigned int TPointDimension >
 void 
 TubeSpatialObjectPoint< TPointDimension >
-::SetV2( const double v20, const double v21 ) 
+::SetNormal2( const double v20, const double v21 ) 
 {
-  m_V2[0] = v20;
-  m_V2[1] = v21;
+  m_Normal2[0] = v20;
+  m_Normal2[1] = v21;
 }
 
 template< unsigned int TPointDimension >
@@ -363,8 +340,8 @@ TubeSpatialObjectPoint< TPointDimension >
   os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
   os << indent << "X: " << m_X << std::endl;
   os << indent << "T: " << m_T << std::endl;
-  os << indent << "V1: " << m_V1 << std::endl;
-  os << indent << "V2: " << m_V2 << std::endl;
+  os << indent << "Normal1: " << m_Normal1 << std::endl;
+  os << indent << "Normal2: " << m_Normal2 << std::endl;
   os << indent << "Alpha1: " << m_Alpha1 << std::endl;
   os << indent << "Alpha2: " << m_Alpha2 << std::endl;
   os << indent << "Alpha3: " << m_Alpha3 << std::endl;
@@ -386,8 +363,8 @@ TubeSpatialObjectPoint< TPointDimension >
   m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
   m_T = rhs.m_T;
-  m_V1 = rhs.m_V1;
-  m_V2 = rhs.m_V2;
+  m_Normal1 = rhs.m_Normal1;
+  m_Normal2 = rhs.m_Normal2;
   m_Alpha1 = rhs.m_Alpha1;
   m_Alpha2 = rhs.m_Alpha2;
   m_Alpha3 = rhs.m_Alpha3;
