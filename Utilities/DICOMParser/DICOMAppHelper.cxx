@@ -68,11 +68,11 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
   DICOMMemberCallback<DICOMAppHelper>* cb7 = new DICOMMemberCallback<DICOMAppHelper>;
   cb7->SetCallbackFunction(this, &DICOMAppHelper::WidthCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_FL, cb7);
+  parser->AddDICOMTagCallback(0x0028, 0x0011, DICOMParser::VR_US, cb7);
 
   DICOMMemberCallback<DICOMAppHelper>* cb8 = new DICOMMemberCallback<DICOMAppHelper>;
   cb8->SetCallbackFunction(this, &DICOMAppHelper::HeightCallback);
-  parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_FL, cb8);
+  parser->AddDICOMTagCallback(0x0028, 0x0010, DICOMParser::VR_US, cb8);
 
   DICOMMemberCallback<DICOMAppHelper>* cb9 = new DICOMMemberCallback<DICOMAppHelper>;
   cb9->SetCallbackFunction(this, &DICOMAppHelper::PixelRepresentationCallback);
