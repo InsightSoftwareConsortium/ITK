@@ -16,6 +16,7 @@
                                                                                 
 =========================================================================*/
 #include "gdcmFile.h"
+#include <stdio.h>
 
 extern "C" {
 #include "itkjpeg/12/jconfig.h"

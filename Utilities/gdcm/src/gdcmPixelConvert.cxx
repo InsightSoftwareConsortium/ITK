@@ -25,6 +25,7 @@
 #include "gdcmDebug.h"
 #include "gdcmPixelConvert.h"
 #include <fstream>
+#include <stdio.h>
 
 namespace gdcm
 {

@@ -65,11 +65,14 @@ typedef  unsigned int   uint32_t;
 #define UINT32_MAX    (4294967295U)
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 #define GDCM_EXPORT __declspec( dllexport )
-#define getcwd _getcwd
 #else
 #define GDCM_EXPORT
+#endif
+
+#ifdef _MSC_VER
+#define getcwd _getcwd
 #endif
 
 // ifdef for old gcc / broken compiler
