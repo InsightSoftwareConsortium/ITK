@@ -21,6 +21,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageRegionIterator.h"
 #include "itkImageBufferIterator.h"
 
+
 // This is a recursive function that iterates over a region using the
 // "BasisIndex" API to move an iterator. Note the type of iterator passed
 // to this routine is converted to an ImageBufferIterator.
@@ -161,7 +162,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 
   T vec;
   unsigned short uvec[5] = {5, 4, 3, 2, 1};
-  vec.SetVector( uvec );
+  vec.GetVector().copy_in( uvec );
   out[regionStartIndex3D] = vec;
   out[regionEndIndex3D] = in[regionStartIndex3D];
 }
@@ -201,7 +202,8 @@ int main()
   std::cout << "Setting/Getting a pixel" << std::endl;
   itk::Vector<unsigned short, 5> vec;
   unsigned short uvec[5] = {5, 4, 3, 2, 1};
-  vec.SetVector( uvec );
+  vec.GetVector().copy_in(uvec);
+  
   (*o3)[regionStartIndex3D] = vec;
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
