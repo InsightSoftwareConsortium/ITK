@@ -50,6 +50,8 @@ MetaObject::
 ~MetaObject(void)
   {
   M_Destroy();
+  delete m_ReadStream;
+  delete m_WriteStream;
   }
 
 //
