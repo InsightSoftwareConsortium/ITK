@@ -81,7 +81,8 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   typename EllipsoidType::InputType center;
   for (i=0; i < VDimension; i++)
     {
-    center[i] = this->GetRadius(i);
+    // put the center of ellipse in the middle of the center pixel
+    center[i] = this->GetRadius(i) + 0.5; 
     }
   spatialFunction->SetCenter( center );
 
@@ -98,7 +99,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> 
     sfi = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType,
      EllipsoidType>(sourceImage, spatialFunction, seed);
-  sfi.SetOriginInclusionStrategy();
+  sfi.SetCenterInclusionStrategy();
   
   // Iterate through the entire image and set interior pixels to 1
   for(; !sfi.IsAtEnd(); ++sfi)
