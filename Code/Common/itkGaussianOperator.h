@@ -141,7 +141,7 @@ public:
   /**
    * Prints some debugging information.
    */
-  virtual void PrintSelf(ostream &os, Indent i) const
+  virtual void PrintSelf(std::ostream &os, Indent i) const
   {
     os << i << "GaussianOperator { this=" << this
        << ", m_Variance = " << m_Variance

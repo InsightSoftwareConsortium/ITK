@@ -138,7 +138,7 @@ protected:
 };
 
 template<class TPixel>
-inline std::ostream& operator<<(ostream &o, const NeighborhoodAllocator<TPixel>
+inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPixel>
                                 & a)
 {
   o << "NeighborhoodAllocator { this = " << &a << ", begin = "

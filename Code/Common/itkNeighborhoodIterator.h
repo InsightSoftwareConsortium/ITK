@@ -168,7 +168,7 @@ public:
   /**
    * Standard print method
    */
-  virtual void PrintSelf(ostream &, Indent) const;
+  virtual void PrintSelf(std::ostream &, Indent) const;
   
   /**
    * Initializes the iterator to walk a particular image and a particular

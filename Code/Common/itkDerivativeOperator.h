@@ -101,7 +101,7 @@ public:
   /**
    * Prints some debugging information
    */
-  virtual void PrintSelf(ostream &os, Indent i) const  
+  virtual void PrintSelf(std::ostream &os, Indent i) const  
   { 
     os << i << "DerivativeOperator { this=" << this
        << ", m_Order = " << m_Order << "}" << std::endl;
