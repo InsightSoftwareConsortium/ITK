@@ -208,49 +208,50 @@ private:
   BSplineDeformableTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // The bulk transform
+  /** The bulk transform. */
   BulkTransformPointer  m_BulkTransform;
 
-  // Variables defining the coefficient grid extend
+  /** Variables defining the coefficient grid extend. */
   RegionType    m_GridRegion;
   SpacingType   m_GridSpacing;
   OriginType    m_GridOrigin;
   
   RegionType    m_ValidRegion;
 
-  // Variables defining the interpolation support region
+  /** Variables defining the interpolation support region. */
   unsigned long m_Offset;
   SizeType      m_SupportSize;
 
-  // Parameters as SpaceDimension number of images
+  /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType PixelType;
   typedef Image<PixelType,SpaceDimension> ImageType;
   
   typename ImageType::Pointer   m_CoefficientImage[SpaceDimension];
 
-  // Jacobian as SpaceDimension number of images
+  /** Jacobian as SpaceDimension number of images. */
   typedef typename JacobianType::ValueType JacobianPixelType;
   typedef Image<JacobianPixelType,SpaceDimension> JacobianImageType;
  
   typename JacobianImageType::Pointer m_JacobianImage[SpaceDimension];
 
-  // Keep track of last support region used in computing the Jacobian
-  // for fast resetting of Jacobian to zero
+  /** Keep track of last support region used in computing the Jacobian
+   * for fast resetting of Jacobian to zero.
+   */
   mutable IndexType m_LastJacobianIndex;
 
-  // Keep a pointer to the input parameters
+  /** Keep a pointer to the input parameters. */
   const ParametersType *  m_InputParametersPointer;
 
-  // BSpline kernel function for reconstruction
+  /** BSpline kernel function for reconstruction. */
   typedef BSplineKernelFunction<SplineOrder> KernelType;
   typename KernelType::Pointer  m_Kernel;
 
-  // Compute interpolation weights 
+  /** Compute interpolation weights. */ 
   typedef vnl_matrix_fixed<double,SpaceDimension,SplineOrder + 1> WeightsType;
   void ComputeInterpolationWeights( const InputPointType & point, 
     WeightsType & weights, IndexType & supportIndex, bool & valid ) const;
 
-  // Table mapping support region offset to index
+  /** Table mapping support region offset to index. */
   typedef vnl_matrix<unsigned long> TableType;
   TableType m_SupportOffsetToIndexTable;
 
