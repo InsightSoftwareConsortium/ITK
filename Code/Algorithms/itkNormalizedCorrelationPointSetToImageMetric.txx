@@ -63,8 +63,10 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   typename  PointsContainerType::Iterator       pt;
   typename  PointsDataContainerType::Iterator   vl;
 
-  PointsContainerPointerType       points = m_Target->GetPoints();
-  PointsDataContainerPointerType   data   = m_Target->GetPointData();
+  TargetPointer target = Superclass::GetTarget();
+
+  PointsContainerPointerType       points = target->GetPoints();
+  PointsDataContainerPointerType   data   = target->GetPointData();
 
   pt = points->Begin();
   vl = data->Begin();
@@ -75,7 +77,8 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  m_Mapper->GetTransformation()->SetParameters( parameters );
+  MapperPointer mapper = Superclass::GetMapper();
+  mapper->GetTransformation()->SetParameters( parameters );
 
   double sab = 0.0;
   double saa = 0.0;
@@ -89,7 +92,7 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
     insidePoint = true;
 
     try {
-     ReferenceValue = m_Mapper->Evaluate( point );
+     ReferenceValue = mapper->Evaluate( point );
     }
 
     //If the Mapped Voxel is outside the image
