@@ -31,12 +31,12 @@
 // A suitable height function for many applications can be generated as the
 // gradient magnitude of the image to be segmented.
 //
-// For this example, we will be using the
-// \code{itk::VectorGradientMagnitudeAnisotropicDiffusionImageFilter} to smooth the
-// image and \code{itk::VectorGradientMagnitudeImageFilter} to generate the
-// height function.  We begin by including all preprocessing filter header files and
-// the header file for the \code{itk::WatershedImageFilter}.  We use the
-// vector versions of these filters because the input data is a color image.
+// The \code{itk::VectorGradientMagnitudeAnisotropicDiffusionImageFilter} class
+// is used to smooth the image and the
+// \code{itk::VectorGradientMagnitudeImageFilter} to generate the height
+// function.  We begin by including all preprocessing filter header files and
+// the header file for the \code{itk::WatershedImageFilter}.  We use the vector
+// versions of these filters because the input data is a color image.
 //
 // 
 // Software Guide : EndLatex
