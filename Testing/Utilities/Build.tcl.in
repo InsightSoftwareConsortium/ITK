@@ -112,8 +112,15 @@ while { ![eof $Build] } \
     # For GCC, we get /path/to/source.cxx:##
     if { [string match "*SourceLogLine] } \
     {
-      # Looking good!
+      # GCC
       if { [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
+      {
+	set ErrorList($i,SourceFile) $SourceFile
+	set ErrorList($i,SourceLineNumber) $LineNumber
+      }
+      # Irix compiler
+      # cc-1552 CC: WARNING File = /home/blezek/src/Insight/Code/Common/itkAffineMutualInformationVW.txx, Line = 250
+      if { [regexp "${SourceDirectory}/(\[^,\]*), Line = (\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
       {
 	set ErrorList($i,SourceFile) $SourceFile
 	set ErrorList($i,SourceLineNumber) $LineNumber

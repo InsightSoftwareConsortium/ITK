@@ -166,6 +166,26 @@ foreach Command $Commands \
       # Collect all the latest BuildStamps, and any from today's Nightlies
       # Find latest dashboard
 
+      # Make the images directory and copy things over
+      # Images need to go in BuildDir/Testing/HTML/TestingResults/Images
+      # From $SourceDir/Testing/HTML/TestingResults/Images
+      set DashboardImagesDir [file join $TestingBaseDir Images]
+      set ImagesSourceDir [file join $SourceDirectory Testing HTML TestingResults Images]
+      if { ![info exists $DashboardImagesDir] } \
+      {
+	file mkdir [file join $DashboardImagesDir]
+	set ImageList [glob -nocomplain [file join $ImagesSourceDir *]]
+	foreach Image $ImageList \
+	{
+	  if { ![file exists [file join $DashboardImagesDir [file tail $Image]]] } \
+	  {
+	    puts "Copy $Image to $DashboardImagesDir"
+	    # Copy it over.
+	    file copy $Image $DashboardImagesDir
+	  }
+	}
+      }
+
       if { $Model == "Nightly" && $argc == 3 } \
       {
 	# If we are starting on "old" Nightly dashboard
