@@ -59,7 +59,7 @@ inline int Chdir(const char* dir)
 }
 #endif
 
-std::string IOCommon
+::std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 {
   switch(pixelType)
@@ -281,19 +281,19 @@ char *IOCommon
 {
 #if defined(_WIN32)
   char pathpart[MAXPATHLEN];
-  std::strcpy(pathpart,path);
+  strcpy(pathpart,path);
   char fnamepart[MAXPATHLEN];
   char *slash;
 
-  if((slash = std::strrchr(pathpart,'/')) == NULL)
+  if((slash = strrchr(pathpart,'/')) == NULL)
     {
-      slash = std::strrchr(pathpart,'\\');
+      slash = strrchr(pathpart,'\\');
     }
 
   if(slash == NULL) // no path part, so just use current dir.
     {
       Getcwd(pathpart,sizeof(pathpart));
-      std::strcpy(fnamepart,path);
+      strcpy(fnamepart,path);
     } 
   else // change directory to path part, getcwd to find OS resolved path
     {
@@ -306,9 +306,9 @@ char *IOCommon
       Getcwd(pathpart,sizeof(pathpart));
       Chdir(savedir);
     }
-  std::strcpy(resolved_path,pathpart);
-  std::strcat(resolved_path,"/");
-  std::strcat(resolved_path,fnamepart);
+  strcpy(resolved_path,pathpart);
+  strcat(resolved_path,"/");
+  strcat(resolved_path,fnamepart);
   return resolved_path;
 #else
   return realpath(path,resolved_path);
