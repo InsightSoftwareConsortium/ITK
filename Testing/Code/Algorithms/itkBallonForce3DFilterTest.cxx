@@ -152,15 +152,18 @@ int itkBallonForce3DFilterTest(int, char**)
     {
     std::cerr << "ITK Exception thrown while updating BallonForce3DFilter"  << std::endl;
     std::cerr << exp << std::endl;
+    return EXIT_FAILURE;
     }
   catch( std::exception & stdexp )
     {
     std::cerr << "STL Exception thrown while updating BallonForce3DFilter"  << std::endl;
     std::cerr << stdexp.what() << std::endl;
+    return EXIT_FAILURE;
     }
   catch( ... )
     {
     std::cerr << "Unknown Exception thrown while updating BallonForce3DFilter"  << std::endl;
+    return EXIT_FAILURE;
     }
  
 
@@ -168,7 +171,3 @@ int itkBallonForce3DFilterTest(int, char**)
   return EXIT_SUCCESS;
 
 }
-
-
-
-
