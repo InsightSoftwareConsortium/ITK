@@ -43,8 +43,8 @@ BinaryMedialNodeMetric<VDimensions>
 {
   //initialize smallest value above 1, so all values will be smaller that its initial value
   float smallest_value = 1.1;
-  int smallest_index;
-  int smallest_key;
+  int smallest_index = 0;
+  int smallest_key = 0;
 
   for(int i = 0; i < VDimensions; i++)
   {
