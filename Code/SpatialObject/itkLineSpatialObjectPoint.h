@@ -72,9 +72,6 @@ protected:
 
   NormalArrayType m_NormalArray;
 
-  /**  Initialization of the common variables */
-  void CommonConstruction( void );
-
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };

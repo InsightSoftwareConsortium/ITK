@@ -22,12 +22,15 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 namespace itk 
 {
 
-/** Common construction */
+/** Constructor */
 template< unsigned int TPointDimension >
-void 
 TubeSpatialObjectPoint< TPointDimension >
-::CommonConstruction() 
-{
+::TubeSpatialObjectPoint( void ) 
+{ 
+  m_NumDimensions = TPointDimension;
+  m_T = new VectorType(m_NumDimensions);
+  m_V1 = new VectorType(m_NumDimensions);
+  m_V2 = new VectorType(m_NumDimensions);
   m_ID = 0;
   m_R = 0;
   m_Medialness = 0;
@@ -37,18 +40,6 @@ TubeSpatialObjectPoint< TPointDimension >
   m_Alpha1 = 0;
   m_Alpha2 = 0;
   m_Alpha3 = 0;
-}
-
-/** Constructor */
-template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >
-::TubeSpatialObjectPoint( void ) 
-{ 
-  CommonConstruction();
-  m_NumDimensions = TPointDimension;
-  m_T = new VectorType(m_NumDimensions);
-  m_V1 = new VectorType(m_NumDimensions);
-  m_V2 = new VectorType(m_NumDimensions);
 }
 
 /** Destructor */
@@ -313,6 +304,7 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::PrintSelf( std::ostream & os, Indent indent) const
 {
+  Superclass::PrintSelf(os,indent);
   os << "ID: " << m_ID << " ";
   os << "#Dims: " << m_NumDimensions << " ";
   os << "R: " << m_R << " ";

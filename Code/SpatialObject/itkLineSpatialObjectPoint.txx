@@ -22,21 +22,12 @@
 namespace itk 
 {
  
-/** Common construction of a line point */
-template< unsigned int TPointDimension >
-void 
-LineSpatialObjectPoint< TPointDimension >
-::CommonConstruction() 
-{
-  m_ID = 0;
-}
-
 /** Constructor */
 template< unsigned int TPointDimension >
 LineSpatialObjectPoint< TPointDimension >
 ::LineSpatialObjectPoint( void ) 
 { 
-  CommonConstruction();
+  m_ID = 0;
   m_NumDimensions = TPointDimension;
 }
 

@@ -171,9 +171,6 @@ protected:
   /** # of dimensions */
   unsigned short int m_NumDimensions;
 
-  /**  Initialization of the common variables */
-  void CommonConstruction( void );
-
   /** Print the object */
   void PrintSelf( std::ostream & os, Indent indent) const;
 };
