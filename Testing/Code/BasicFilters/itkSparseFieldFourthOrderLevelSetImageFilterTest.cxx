@@ -1,7 +1,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkLevelSetFunctionWithRefitTerm.h"
-#include <iostream.h>
+#include <iostream>
 
 /*
  * This test exercises the SparseFieldFourthOrderLevelSetImageFilter
