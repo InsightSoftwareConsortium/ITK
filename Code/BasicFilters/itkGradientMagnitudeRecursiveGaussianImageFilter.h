@@ -110,15 +110,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Set Sigma value */
+  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( RealType sigma );
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
-  /** GradientMagnitudeRecursiveSeparableImageFilter needs all of the input to produce an
-   * output. Therefore, GradientMagnitudeRecursiveSeparableImageFilter needs to provide
+  /** GradientMagnitudeRecursiveGaussianImageFilter needs all of the input to produce an
+   * output. Therefore, GradientMagnitudeRecursiveGaussianImageFilter needs to provide
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
