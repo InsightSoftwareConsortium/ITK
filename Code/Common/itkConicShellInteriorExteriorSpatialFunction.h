@@ -128,7 +128,7 @@ public:
   itkSetMacro( Origin, InputType);
 
   TGradientType GetOriginGradient() {return m_OriginGradient;}
-  void SetOriginGradient(TGradientType grad) {m_OriginGradient = grad;}
+  void SetOriginGradient(TGradientType grad);
 
   itkGetMacro( DistanceMin, double);
   itkSetMacro( DistanceMin, double);

@@ -65,6 +65,17 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>::~ConicShellInteriorE
 }
 
 template <unsigned int VImageDimension>
+void
+ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+::SetOriginGradient(TGradientType grad)
+{
+  m_OriginGradient = grad;
+
+  // Normalize the origin gradient
+  m_OriginGradient.Get_vnl_vector().normalize();
+}
+
+template <unsigned int VImageDimension>
 ConicShellInteriorExteriorSpatialFunction<VImageDimension>::OutputType
 ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 ::Evaluate(const InputType& position) const
@@ -96,11 +107,6 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 
   typedef Vector<double, VImageDimension> TVectorType;
 
-  TGradientType originGradient = m_OriginGradient;
-
-  // Normalize the origin gradient
-  originGradient.Get_vnl_vector().normalize();
-
   // Compute the vector from the origin to the point we're testing
   TVectorType vecOriginToTest = position - m_Origin;
 
@@ -113,6 +119,9 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 
   // Normalize it
   vecOriginToTest.Get_vnl_vector().normalize();
+
+  // Create a temp vector to get around const problems
+  TGradientType originGradient = m_OriginGradient;
 
   // Now compute the dot product
   double dotprod = dot_product(originGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());
