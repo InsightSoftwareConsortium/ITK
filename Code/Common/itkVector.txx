@@ -260,7 +260,7 @@ typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::GetSquaredNorm( void ) const
 {
-  ValueType sum = NumericTraits<T>::Zero;
+  NumericTraits<T>::AccumulateType sum = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
     const ValueType value = (*this)[i];
@@ -402,7 +402,7 @@ typename Vector<T, TVectorDimension>::ValueType
 Vector<T, TVectorDimension>
 ::operator*( const Self & other ) const
 {
-  T value = NumericTraits<T>::Zero;
+  NumericTraits<T>::AccumulateType value = NumericTraits<T>::Zero;
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
     value += (*this)[i] * other[i];
