@@ -23,9 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImage.h"
 #include "itkCovariantVector.h"
 
-//#include <vnl/vnl_matrix_fixed.h>
-//#include <vnl/vnl_math.h>
-
 #include <set>
 
 namespace itk
@@ -124,12 +121,12 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef typename std::set<unsigned long>      NeighborSetType;
     typedef typename std::set<unsigned long>      IndexSetType;
     typedef typename NeighborSetType::iterator    NeighborSetIterator;
-    typedef typename IndexSetType::iterator    IndexSetIterator;
+    typedef typename IndexSetType::iterator       IndexSetIterator;
 
 
     typedef typename InputMeshType::GeometryMapType   GeometryMapType;
-    typedef typename GeometryMapType::Pointer GeometryMapPointer;
-    typedef typename GeometryMapType::Iterator GeometryMapIterator;
+    typedef typename GeometryMapType::Pointer         GeometryMapPointer;
+    typedef typename GeometryMapType::Iterator        GeometryMapIterator;
 
 
     /** Routines. */
@@ -176,19 +173,16 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /** control smoothness of the mesh */
     itkGetMacro(Rigidity, unsigned int);
 
-    itkSetMacro(Data, GeometryMapPointer );
-    itkGetMacro(Data, GeometryMapPointer );
+    itkSetObjectMacro(Data, GeometryMapType );
+    itkGetObjectMacro(Data, GeometryMapType );
 
 
   protected:
     DeformableSimplexMesh3DFilter();
     ~DeformableSimplexMesh3DFilter();
-    DeformableSimplexMesh3DFilter(const Self&) 
-      {
-      }
-    void operator=(const Self&) 
-      {
-      }
+    DeformableSimplexMesh3DFilter(const Self&); //purposely not implemented
+    void operator=(const Self&); //purposely not implemented
+
     void PrintSelf(std::ostream& os, Indent indent) const;
 
 
@@ -299,7 +293,7 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /**
     * map stores a Geometry object for every mesh point 
     */
-    typename GeometryMapType::Pointer m_Data;
+    GeometryMapPointer m_Data;
 
     /* gradient image pointer */
     GradientImagePointer m_Gradient;
