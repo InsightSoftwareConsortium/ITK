@@ -50,7 +50,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkComplexToRealImageAdaptor.h"
+#include "itkComplexToRealImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -135,9 +135,9 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// We instantiate now the ImageAdaptor that will help us to extract the real
+// We instantiate now the ImageFilter that will help us to extract the real
 // part from the complex image without having toalocate additional memory.  The
-// Adaptor we use here is the \doxygen{ComplexToRealImageAdaptor}. It takes as
+// Adaptor we use here is the \doxygen{ComplexToRealImageFilter}. It takes as
 // first template parameter the type of the complex image and as second
 // template parameter it takes the type of the output image pixel.
 //
@@ -146,12 +146,12 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginCodeSnippet
   typedef FFTFilterType::OutputImageType    ComplexImageType;
 
-  typedef itk::ComplexToRealImageAdaptor< ComplexImageType, PixelType > RealAdaptorType;
+  typedef itk::ComplexToRealImageFilter< ComplexImageType, ImageType > RealFilterType;
 // Software Guide : EndCodeSnippet
 
-  RealAdaptorType::Pointer realAdaptor = RealAdaptorType::New();
+  RealFilterType::Pointer realFilter = RealFilterType::New();
 
-  realAdaptor->SetImage( filter->GetOutput() );
+  realFilter->SetInput( filter->GetOutput() );
 
 
   typedef unsigned char WritePixelType;
@@ -164,16 +164,13 @@ int main( int argc, char * argv [] )
 //
 // We instantiate now the filter type that will be used for rescaling the
 // intensities of the \code{real} image into a range suitable for writing in a
-// file. This is done with the \doxygen{RescaleIntensityImageFilter}. Note that
-// the input image type in the instantiation must be directly the Adaptor type.
-// For most information on image adaptors you may want to look at section
-// \ref{sec:ImageAdaptors}.
-//
+// file. This is done with the \doxygen{RescaleIntensityImageFilter}. 
+// 
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   typedef itk::RescaleIntensityImageFilter< 
-                                RealAdaptorType, 
+                                ImageType, 
                                 WriteImageType > RescaleFilterType;
 // Software Guide : EndCodeSnippet
 
@@ -181,7 +178,7 @@ int main( int argc, char * argv [] )
 
   RescaleFilterType::Pointer intensityRescaler = RescaleFilterType::New();
 
-  intensityRescaler->SetInput( realAdaptor );
+  intensityRescaler->SetInput( realFilter->GetOutput() );
 
   intensityRescaler->SetOutputMinimum(  0  );
   intensityRescaler->SetOutputMaximum( 255 );
@@ -196,7 +193,7 @@ int main( int argc, char * argv [] )
 
   try
     {
-//    writer->Update();
+    writer->Update();
     }
   catch( itk::ExceptionObject & excp )
     {
