@@ -31,14 +31,14 @@
 // tyepdefs necessary for FEM visitor dispatcher
   
   typedef unsigned char PixelType;
-  typedef itk::Image<PixelType,3> ImageType;  
+  typedef itk::Image<PixelType,3> testImageType;  
   typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;
 //  typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
 
 //#ifdef  USEIMAGEMETRIC 
-  typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType2;
+  typedef itk::fem::ImageMetricLoad<testImageType,testImageType>     ImageLoadType2;
 //#else
-  typedef itk::fem::FiniteDifferenceFunctionLoad<ImageType,ImageType>     ImageLoadType;
+  typedef itk::fem::FiniteDifferenceFunctionLoad<testImageType,testImageType>     ImageLoadType;
 //#endif 
   template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
   typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
@@ -123,9 +123,9 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   typedef itk::Vector<float,ImageDimension> VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
   typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType  IndexType;
-  typedef ImageType::SizeType   SizeType;
-  typedef ImageType::RegionType RegionType;
+  typedef testImageType::IndexType  IndexType;
+  typedef testImageType::SizeType   SizeType;
+  typedef testImageType::RegionType RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -142,8 +142,8 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   region.SetSize( size );
   region.SetIndex( index );
   
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
+  testImageType::Pointer moving = testImageType::New();
+  testImageType::Pointer fixed = testImageType::New();
   FieldType::Pointer initField = FieldType::New();
 
   moving->SetLargestPossibleRegion( region );
@@ -165,11 +165,11 @@ int itkFEMRegistrationFilterTest(int, char* [] )
 
   // fill moving with circle 
   center[0] = 16; center[1] = 16; center[2] = 16;radius = 5;
-  FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
+  FillWithCircle<testImageType>( moving, center, radius, fgnd, bgnd );
 
   // fill fixed with circle
   center[0] = 16; center[1] = 16; center[2] = 16; radius = 5;
-  FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
+  FillWithCircle<testImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
   VectorType zeroVec;
@@ -190,14 +190,14 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   for (int met=0; met<6; met++)
   {
 
-  typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType> RegistrationType;
+  typedef itk::fem::FEMRegistrationFilter<testImageType,testImageType> RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
   registrator->SetFixedImage( fixed );
   registrator->SetMovingImage( moving );
   
   registrator->DoMultiRes(true);
   registrator->SetNumLevels(1);
-  registrator->SetMaxLevel(1);
+  registrator->SetMaxLevel(1); 
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->ChooseMetric((float)met);
@@ -212,11 +212,18 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   registrator->SetMaximumIterations( maxiters,0 );
   registrator->SetMeshPixelsPerElementAtEachResolution(4,0);
   registrator->SetWidthOfMetricRegion(0 ,0);
+  if ( met == 0 || met == 5) 
+    registrator->SetWidthOfMetricRegion(0 ,0);
+  else 
+    registrator->SetWidthOfMetricRegion(1 ,0);
   registrator->SetNumberOfIntegrationPoints(1,0);
   registrator->SetDescentDirectionMinimize();
+  registrator->SetDescentDirectionMaximize();
   registrator->DoLineSearch(false);
   registrator->SetTimeStep(1.);
   registrator->EmployRegridding(false);
+  registrator->UseLandmarks(false);
+//  registrator->SetTemp(1.0);
 
   itk::fem::MaterialLinearElasticity::Pointer m;
   m=itk::fem::MaterialLinearElasticity::New();
@@ -241,6 +248,8 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     {
     // Register the images
     registrator->RunRegistration();
+//    registrator->EmployRegridding(2);
+//    registrator->RunRegistration();
     }
   catch(... )
     {
@@ -251,6 +260,7 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     //throw err;
     }
   }
+
   /*
   // get warped reference image
   // ---------------------------------------------------------
