@@ -54,14 +54,20 @@ int main(int argc, char *argv[])
   itk::RawImageIO<RGBPixelType>::Pointer io;
   io = itk::RawImageIO<RGBPixelType>::New();
   unsigned int dim[3] = {570,670,1};
-  io->SetDimensions(dim);
+  io->SetDimensions(0,dim[0]);
+  io->SetDimensions(1,dim[1]);
+  io->SetDimensions(2,dim[2]);
   double spacing[3] = {0.8, 0.8, 1.5};
-  io->SetSpacing(spacing);
+  io->SetSpacing(0,spacing[0]);
+  io->SetSpacing(1,spacing[1]);
+  io->SetSpacing(2,spacing[2]);
   double origin[3] = {0.0,0.0,0.0};
-  io->SetOrigin(origin);
+  io->SetOrigin(0, origin[0]);
+  io->SetOrigin(1, origin[1]);
+  io->SetOrigin(2, origin[2]);
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
-  io->SetImageByteOrderToLittleEndian();
+  io->SetByteOrderToLittleEndian();
 
   typedef itk::Image<RGBPixelType,2> RGBImage2DType;
   itk::ImageFileReader<RGBImage2DType>::Pointer reader;
