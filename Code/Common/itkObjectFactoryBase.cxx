@@ -1,5 +1,22 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkObjectFactoryBase.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 // Disable warning for long symbol names in this file only
+#ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
+#endif
 
 #include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
