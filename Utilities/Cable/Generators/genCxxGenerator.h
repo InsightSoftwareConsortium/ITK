@@ -68,6 +68,8 @@ private:
   Indent CloseNamespace(std::ostream&, std::ostream&,
                         Indent, const configuration::Namespace*) const;
   
+  bool MakeDirectory(const char*);
+
   /**
    * The configuration that controls generation.
    */
