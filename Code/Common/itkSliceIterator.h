@@ -30,26 +30,23 @@ namespace itk {
  * A slice is a construct that defines a starting position, stride length
  * (distance between adjacent elements), and a length.
  *
- * NOTE: This class needs an overhaul to support any container with
- * operator[] defined or that allows direct buffer access.  There is
- * no need for the TContainer or VDimension typenames in the template.
- * jc 10-6-00
+ * Any container with operator[] is supported.  Because it uses this interface
+ * the iterator is only as efficient as the implementation of a container's
+ * operator[] method.
  *
  * References:
  * Modeled after a slice iterator proposed by Bjarne Stroustrup
  * in C++ Programming Language, Third Edition. Bjarne Stroustrup.  Addison
  * Wesley, Reading, MA. 1997.
  */
-template<class TPixel, template<class, unsigned int>class TContainer,
-  unsigned int VDimension=2>
+template<class TPixel, class TContainer>
 class SliceIterator
 {
 public:
   /**
    * Constructor.
    */
-  SliceIterator(TContainer<TPixel, VDimension> *n,
-                                std::slice s)
+  SliceIterator(TContainer *n, std::slice s)
     : m_ContainerPointer(n), m_Pos(0), m_Slice(s) {}
 
   /**
@@ -153,7 +150,7 @@ private:
   /**
    * Pointer to the container referenced by the slice iterator.
    */
-  TContainer<TPixel, VDimension> *m_ContainerPointer;
+  TContainer *m_ContainerPointer;
 
   /**
    * Current position within the slice.
