@@ -226,7 +226,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:ThresholdLevelSetSegmentationCollaborationDiagram1}.
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram}.
   //  Remember that before calling \code{Update()} on the file writer object, the fast
   //  marching filter must be initialized with the seed points and the output
   //  from the reader object.  See previous examples and the source code for
@@ -405,18 +405,19 @@ int main( int argc, char *argv[] )
   //
   //
   //  \begin{table}
-  //  \label{tab:ThresholdSegmentationLevelSetImageFilter}
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline  \\ \hline
+  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline  
   //  White matter & $(60,116)$ & 150 & 180 & Second from left  \\  \hline
   //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left  \\  \hline
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left  \\  \hline
   //  \end{tabular}
   //  \itkcaption[ThresholdSegmentationLevelSet segmentation parameters]
   //  {Segmentation results of ThresholdSegmentationLevelSetImageFilter for
-  //  various seed points. The resulting images are shown in Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}}.
+  //  various seed points. The resulting images are shown in
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
+  //  \label{tab:ThresholdSegmentationLevelSetImageFilter} }.
   //  \end{center}
   //  \end{table}
   // 
