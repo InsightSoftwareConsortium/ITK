@@ -149,8 +149,8 @@ public:
   /** Set/Get the number of samples in the approximation to the Gaussian
    * used for the range smoothing. Samples are only generated in the
    * range of [0, 4*m_RangeSigma]. Default is 100. */
-  itkSetMacro(NumberOfRangeGaussianSamples, long);
-  itkGetMacro(NumberOfRangeGaussianSamples, long);
+  itkSetMacro(NumberOfRangeGaussianSamples, unsigned long);
+  itkGetMacro(NumberOfRangeGaussianSamples, unsigned long);
   
 protected:
   /** Constructor.  Default value for DomainSigma is 4. Default value
@@ -216,7 +216,7 @@ private:
   KernelType m_GaussianKernel;
 
   /** Variables for the lookup table of range gaussian values */
-  long m_NumberOfRangeGaussianSamples;
+  unsigned long m_NumberOfRangeGaussianSamples;
   double m_DynamicRange;
   double m_DynamicRangeUsed;
   std::vector<double> m_RangeGaussianTable;
