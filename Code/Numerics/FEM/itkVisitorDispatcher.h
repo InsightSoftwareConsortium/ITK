@@ -1,8 +1,10 @@
 #ifndef __VisitorDispatcher_h
 #define __VisitorDispatcher_h
 
+#include "itkFEMException.h"
 #include <typeinfo>
 #include <map>
+
 
 
 
@@ -92,6 +94,10 @@
  *  - TReturnType   Return type of all visitor functions.
  *
  */
+
+namespace itk {
+namespace fem {
+
 template<class TVisitedClass, class TVisitorBase, class TReturnType>
 class VisitorDispatcher
 {
@@ -257,12 +263,12 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TReturnType>::ReturnType VisitorD
   {
     // Visitor function not found... FIXME: write the proper error handler.
     std::cout<<"Error: Visitor "<<typeid(*l).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" not found!\n";
-    throw;
+    throw FEMException(__FILE__, __LINE__, "FEM error");
   }
   return (i->second)(e,l);
 }
 
 
-
+}}
 
 #endif // __VisitorDispatcher_h
