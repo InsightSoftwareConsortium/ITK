@@ -620,7 +620,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
          shiftedIt = shiftedIt.Begin();
        ! outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt)
     {
-    if (statusIt.Get() == m_StatusNull)
+    if (statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel)
       {
       if (shiftedIt.Get() > m_ValueZero)
         {
@@ -997,19 +997,36 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
     outputIt.SetLocation( toIt->m_Value );
 
-    value = m_ValueZero;
     found_neighbor_flag = false;
     for (i = 0; i < m_NeighborList.GetSize(); ++i)
       {
       // If this neighbor is in the "from" list, compare its absolute value
-      // to to any previous values found in the "from" list.  Keep only the
-      // value with the greatest magnitude.
+      // to to any previous values found in the "from" list.  Keep the value
+      // that will cause the next layer to be closest to the zero level set.
       if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == from )
         {
-        found_neighbor_flag = true;
         value_temp = outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
-        if ( ::vnl_math_abs(value_temp) > ::vnl_math_abs(value) )
-          { value = value_temp; }
+        
+        if (found_neighbor_flag == false)
+          {
+          value = value_temp;
+          }
+        else
+          {
+          if (InOrOut == 1)
+            {
+            // Find the largest (least negative) neighbor
+            if ( value_temp > value )
+              { value = value_temp; }
+            }
+          else
+            {
+            // Find the smallest (least positive) neighbor
+            if (value_temp < value)
+              { value = value_temp; }
+            }
+          }
+        found_neighbor_flag = true;
         }
       }
     if (found_neighbor_flag == true)
