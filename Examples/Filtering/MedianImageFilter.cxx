@@ -1,36 +1,198 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    MedianImageFilter.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+//  Software Guide : BeginLatex
+//
+//  The median filter is commonly used as a robust approach for noise
+//  reduction. This filter is particularly efficient against salt-and-pepper
+//  noise. Said in other words, it is robust to the presence of graylevel
+//  outliers. The filter computes the value of each output pixel by taking a
+//  neighborhood of the input pixel and finding the statistical median of the
+//  values in the neighborhood. The following figure illustrates the local
+//  effect of this filter in a $2D$ case. The statistical median of the
+//  neighborhood on the left is passed as the output value associated with the
+//  pixel at the center of the neighborhood.
+//
+//
+//  \begin{center}
+//  \begin{picture}(200,46)
+//  \put(   5.0,  0.0 ){\framebox(30.0,15.0){25}} 
+//  \put(  35.0,  0.0 ){\framebox(30.0,15.0){30}} 
+//  \put(  65.0,  0.0 ){\framebox(30.0,15.0){32}} 
+//  \put(   5.0, 15.0 ){\framebox(30.0,15.0){27}} 
+//  \put(  35.0, 15.0 ){\framebox(30.0,15.0){25}} 
+//  \put(  65.0, 15.0 ){\framebox(30.0,15.0){29}} 
+//  \put(   5.0, 30.0 ){\framebox(30.0,15.0){28}} 
+//  \put(  35.0, 30.0 ){\framebox(30.0,15.0){26}} 
+//  \put(  65.0, 30.0 ){\framebox(30.0,15.0){50}} 
+//  \put( 100.0, 22.0 ){\vector(1,0){20.0}}
+//  \put( 125.0, 15.0 ){\framebox(30.0,15.0){28}} 
+//  \end{picture}
+//  \end{center}
+//
+//
+//  This filter will work on images of any dimension thanks to the internal use
+//  of SmartNeighborhoodIterators and NeighborhoodOperators. The size of the
+//  neighborhood over which the median is computed can be set by the user.
+//
+//  \index{itk::MedianImageFilter|textbf}
+//
+//  Software Guide : EndLatex 
+
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+
+
+
+//  Software Guide : BeginLatex
+//
+//  The header file corresponding to this filter should be included first.
+//
+//  \index{itk::MedianImageFilter!header|textbf}
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
 #include "itkMedianImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+
 
 
 int main( int argc, char ** argv )
 {
 
-  typedef float                              InputPixelType;
-  typedef float                              OutputPixelType;
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile   outputImageFile" << std::endl;
+    return 1;
+    }
 
+
+  //  Software Guide : BeginLatex
+  //
+  //  Then the pixel types for input and output image must be defined and with
+  //  them the image types can be instantiated.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef   unsigned char  InputPixelType;
+  typedef   unsigned char  OutputPixelType;
+
+  typedef itk::Image< InputPixelType,  2 >   InputImageType;
+  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  // Software Guide : EndCodeSnippet
+
+
+  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+  WriterType::Pointer writer = WriterType::New();
+
+  reader->SetFileName( argv[1] );
+  writer->SetFileName( argv[2] );
+
+  //  Software Guide : BeginLatex
+  //
+  //  Using the image types it is now possible to instantiate the filter type
+  //  and create the filter object. 
+  //
+  //  \index{itk::MedianImageFilter!instantiation}
+  //  \index{itk::MedianImageFilter!New()}
+  //  \index{itk::MedianImageFilter!Pointer}
+  // 
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::MedianImageFilter<
                InputImageType, OutputImageType >  FilterType;
 
-  ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
+  // Software Guide : EndCodeSnippet
 
-  reader->SetFileName( argv[1] );
-  filter->SetInput( reader->GetOutput() );
 
+  //  Software Guide : BeginLatex
+  //
+  //  The size of the neighborhood is defined along every dimension by passing
+  //  a \code{SizeType} object with the corresponding values. The value on each
+  //  dimension is used as the semi-size of a rectangular box. For example, in
+  //  $2D$ a size of \(1,2\) will result in a $3 \times 5$ neighborhood. 
+  //
+  //  \index{itk::MedianImageFilter!Radius}
+  //  \index{itk::MedianImageFilter!Neighborhood}
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
   InputImageType::SizeType indexRadius;
   
-  indexRadius[0] = 2; // radius along x
-  indexRadius[1] = 2; // radius along y
-  indexRadius[2] = 2; // radius along z
+  indexRadius[0] = 1; // radius along x
+  indexRadius[1] = 1; // radius along y
 
   filter->SetRadius( indexRadius );
+  // Software Guide : EndCodeSnippet
 
-  filter->Update();
+  //  Software Guide : BeginLatex
+  //
+  //  The input to the filter can be taken from any other filter, for example a
+  //  reader. The output can be passed down the pipeline to other filters, for
+  //  example a writer. An update call on any downstream filter will trigger
+  //  the execution of the median filter.
+  //
+  //  \index{itk::MedianImageFilter!SetInput()}
+  //  \index{itk::MedianImageFilter!GetOutput()}
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  filter->SetInput( reader->GetOutput() );
+  writer->SetInput( filter->GetOutput() );
+  writer->Update();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=6cm]{MedianImageFilterOutput.eps}
+  // \caption{Effect of the Median filter on a slice from a MRI
+  // Proton Density brain image.}
+  // \label{fig:MedianImageFilterOutput}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:MedianImageFilterOutput} illustrate the effect of this
+  //  filter on a slice of MRI brain image using a neighborhood radii of
+  //  \(1,1\) which corresponds to a $ 3 \times 3 $ classical neighborhood.  It
+  //  can be seen from this picture that the filter has a moderate tendency to
+  //  preserve edges.
+  //
+  //  Software Guide : EndLatex 
+
 
   return 0;
 
