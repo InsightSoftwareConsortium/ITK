@@ -67,7 +67,7 @@ SphereSpatialFunction<VImageDimension>
 {
   double acc = 0;
 
-  for(int i = 0; i < VImageDimension; i++)
+  for(unsigned int i = 0; i < VImageDimension; i++)
   {
     acc += (position[i] - m_Center[i]) * (position[i] - m_Center[i]);
   }
