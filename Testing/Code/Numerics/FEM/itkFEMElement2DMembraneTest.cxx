@@ -29,8 +29,8 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-//itkFEMElement2DMembraneTest
-int main(int, char *[])
+//
+int itkFEMElement2DMembraneTest(int, char *[])
 {
     Node::Pointer n0,n1,n2,n3;
     Element::VectorType pt(2);
