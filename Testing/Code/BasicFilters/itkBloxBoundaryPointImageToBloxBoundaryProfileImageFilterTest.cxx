@@ -178,7 +178,7 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char**)
 
   //------------------------Blox Profile Analysis---------------------------------
 
-  typedef itk::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TImageType > TProfileFilter;
+  typedef itk::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TImageType > TProfileFilter;
   typedef itk::BloxBoundaryProfileImage< dim > TBloxProfileImageType;
 
   TProfileFilter::Pointer profileFilter = TProfileFilter::New();
