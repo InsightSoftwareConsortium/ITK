@@ -13,7 +13,7 @@ set allClasses [info command itk*_New]
 
 foreach class $allClasses {
     puts $fileid "--------------- $class ---------------"
-    catch {set a [$class]; $a Print [$b GetStream]; puts $fileid "[$b GetString]"; p}
+    catch {set a [$class]; $a Print [$b GetStream]; puts $fileid "[$b GetString]"; $b Reset}
 }
 
 exit
