@@ -87,6 +87,7 @@ PrintSelf(std::ostream &os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   
   os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Center: " << m_Center << std::endl;
 }
 
 
