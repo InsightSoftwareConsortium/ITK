@@ -33,7 +33,7 @@ MembershipSample< TSample >
 ::SetSample(SamplePointer sample)
 {
   m_Sample = sample ; 
-  m_ClassLabelHolder.resize(m_Sample->GetNumberOfInstances()) ;
+  m_ClassLabelHolder.resize(m_Sample->Size()) ;
 }
 
 template< class TSample >
@@ -83,6 +83,7 @@ MembershipSample< TSample >
 { 
   m_ClassLabelHolder[id] = classLabel ; 
   m_ClassSampleSizes[classLabel] += 1 ;
+
   (m_ClassSamples[classLabel])->AddInstance(id) ;
 }
 
