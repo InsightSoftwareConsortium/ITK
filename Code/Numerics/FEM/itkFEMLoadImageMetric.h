@@ -111,9 +111,9 @@ public:
   typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
 
 //  typedef typename MutualInformationMetricType             DefaultMetricType;
-//  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
+  typedef typename NormalizedCorrelationMetricType             DefaultMetricType;
 //  typedef typename PatternIntensityMetricType             DefaultMetricType;
-  typedef typename MeanSquaresMetricType             DefaultMetricType;
+//  typedef typename MeanSquaresMetricType             DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 

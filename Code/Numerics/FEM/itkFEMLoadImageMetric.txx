@@ -56,7 +56,7 @@ void LoadImageMetric<TReference , TTarget>::InitializeMetric()
   
   m_Metric->SetTransform( m_Transform.GetPointer() );
   m_Interpolator = InterpolatorType::New();
-  m_Interpolator->SetInputImage( m_RefImage.GetPointer() );
+  m_Interpolator->SetInputImage( m_RefImage );
   m_Metric->SetInterpolator( m_Interpolator.GetPointer() );
 
   
@@ -89,33 +89,35 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
   
   for (int j=0; j<ImageDimension; j++) Pos[j]=0.0;
 
-  Element::ArrayType::iterator elt=el->begin();
-  int ndof=(*elt)->GetNumberOfDegreesOfFreedom();
-  
-  vnl_vector<Float> shapeF;
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
-  for( elt=el->begin(); elt!=el->end(); elt++) 
+  for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
   
-    shapeF=(*elt)->ComputeShapeFunctionsAt(Pos);
+    unsigned int sfsz= (*elt)->GetNumberOfNodes();
 
+    vnl_vector<Float> shapeF( sfsz );
+    shapeF=(*elt)->ComputeShapeFunctionsAt(Pos);
+    
     for (unsigned int ii=0; ii < ImageDimension; ii++)
-    {  
-      for (unsigned int jj=0; jj<shapeF.size(); jj++)
+    { 
+      Gpt[ii]=0.0;
+      Sol[ii]=0.0; 
+      for (unsigned int jj=0; jj<sfsz; jj++)
       {
-         Sol[ii] += shapeF[jj]* GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
-        //Gpt[ii] += shapeF[jj]*(*elt)->GetPoint(0)->X; //FIXME GET COORDINATE AT NODE
-         Gpt[ii]=0.0;
+         vnl_vector<Float> ncoord(2);
+         ncoord=(*elt)->GetNodalCoordinates(jj);
+         Sol[ii] += shapeF(jj)* GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
+         Gpt[ii] += shapeF(jj)*ncoord(ii); //FIXME GET COORDINATE AT NODE
       }
       
       InVec[ii]=Gpt[ii];
       InVec[ii+ImageDimension]=Sol[ii];
     }
 
-    std::cout << " Gpt " << Gpt << " sol " <<  Sol << endl;
+    //std::cout << " Gpt " << Gpt << " sol " <<  Sol << endl;
 
-    energy+=GetMetric(InVec);
+    energy+=abs(GetMetric(InVec));
   }
    
 
@@ -142,6 +144,7 @@ LoadImageMetric<TReference , TTarget>::Fg
 //------------------------------------------------------------
 // Set up transform parameters
 //------------------------------------------------------------
+  int temp=1;
   ParametersType parameters( m_Transform->GetNumberOfParameters() );
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;
@@ -199,7 +202,7 @@ LoadImageMetric<TReference , TTarget>::GetMetric
 //------------------------------------------------------------
 // Set up transform parameters
 //------------------------------------------------------------
-  ParametersType parameters( m_Transform->GetNumberOfParameters() );
+  ParametersType parameters( m_Transform->GetNumberOfParameters());
   typename TargetType::RegionType requestedRegion;
   typename TargetType::IndexType tindex;
   typename ReferenceType::IndexType rindex;
