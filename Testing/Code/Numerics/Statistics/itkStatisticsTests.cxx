@@ -9,4 +9,9 @@ void RegisterTests()
   REGISTER_TEST(itkDenseFrequencyContainerTest);
   REGISTER_TEST(itkFastRandomUnitNormalVariateGeneratorTest);
   REGISTER_TEST(itkHistogramTest);
+  REGISTER_TEST(itkImageToListAdaptorTest);
+  REGISTER_TEST(itkMembershipSampleTest);
+  REGISTER_TEST(itkSubsampleTest);
+  REGISTER_TEST(itkMeanCalculatorTest);
+  REGISTER_TEST(itkCovarianceCalculatorTest);
 }
