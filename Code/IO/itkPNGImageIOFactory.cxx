@@ -25,7 +25,7 @@ __declspec( dllexport )
 #endif  
 itk::ObjectFactoryBase* itkLoad()
 {
-  return itk::PNGImageIOFactory::New();
+  return itk::PNGImageIOFactory::FactoryNew();
 }
 
   

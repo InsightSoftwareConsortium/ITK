@@ -44,7 +44,7 @@ public:
     
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  
+  static PNGImageIOFactory* FactoryNew() { return new PNGImageIOFactory;}
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
 
