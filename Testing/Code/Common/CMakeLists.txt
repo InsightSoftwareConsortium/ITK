@@ -14,6 +14,7 @@ ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
+ADD_TEST(itkFixedCenterOfRotationAffineTransformTest ${COMMON_TESTS} itkFixedCenterOfRotationAffineTransformTest)
 ADD_TEST(itkFixedArrayTest ${COMMON_TESTS} itkFixedArrayTest)
 ADD_TEST(itkArrayTest ${COMMON_TESTS} itkArrayTest)
 ADD_TEST(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
@@ -164,6 +165,7 @@ itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx
 itkExceptionObjectTest.cxx
 itkFixedArrayTest.cxx
+itkFixedCenterOfRotationAffineTransformTest.cxx
 itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
 itkImageIteratorTest.cxx
