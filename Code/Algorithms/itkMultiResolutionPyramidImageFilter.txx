@@ -78,7 +78,7 @@ unsigned int num )
   // set the required number of outputs
   this->SetNumberOfRequiredOutputs( m_NumberOfLevels );
 
-  unsigned int numOutputs = this->GetNumberOfOutputs();
+  unsigned int numOutputs = static_cast<unsigned int>( this->GetNumberOfOutputs() );
   unsigned int idx;
   if( numOutputs < m_NumberOfLevels )
     {
