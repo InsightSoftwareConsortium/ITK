@@ -88,6 +88,8 @@ SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
 SET(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
+SET(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
+SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -189,7 +191,7 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${TEMP}/MultiResImageRegistration2Test.png  0
 )
 
-ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES3}
+ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/DeformableRegistration4Test.png
             ${TEMP}/DeformableRegistration4Test.png
   DeformableRegistration4Test
@@ -198,7 +200,7 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES3}
         ${TEMP}/DeformableRegistration4Test.png
 )
 
-ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES3}
+ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/BSplineWarping1Test.png
             ${TEMP}/BSplineWarping1Test.png
   BSplineWarping1Test
@@ -232,5 +234,11 @@ TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples5 RegistrationExamples5.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples6 RegistrationExamples6.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 
