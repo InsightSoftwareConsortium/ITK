@@ -59,7 +59,8 @@ DoUnSynchedInnerProduct(Image<TPixel, VDimension> *in,
  *
  * This function does not handle boundary conditions.
  */
-template < class TNeighborhoodIterator, class TImageIterator, class TNeighborhood>
+template < class TNeighborhoodIterator, class TImageIterator,
+    class TNeighborhood>
 void
 DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
                         TNeighborhood &oper)
