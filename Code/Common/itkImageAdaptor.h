@@ -266,6 +266,7 @@ public:
    * the image iterator class.
    */
   InternalPixelType *GetBufferPointer();
+  const InternalPixelType *GetBufferPointer() const;
 
   typedef InternalPixelType * InternalPixelPointerType;
   void GetBufferPointer2( InternalPixelPointerType  & );

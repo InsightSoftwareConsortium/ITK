@@ -199,6 +199,18 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
+const ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
+ImageAdaptor<TImage , TAccessor>
+::GetBufferPointer() const
+{
+  return m_Image->GetBufferPointer();
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
 ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer()
