@@ -7,6 +7,7 @@ SET(WRAP_SOURCES
     wrap_itkMattesMutualInformationImageToImageMetric
     wrap_itkMeanSquaresImageToImageMetric
     wrap_itkMutualInformationImageToImageMetric
+    wrap_itkMultiResolutionImageRegistrationMethod
     wrap_itkNormalizedCorrelationImageToImageMetric
     wrap_itkOtsuThresholdImageCalculator
     wrap_itkMeanReciprocalSquareDifferenceImageToImageMetric

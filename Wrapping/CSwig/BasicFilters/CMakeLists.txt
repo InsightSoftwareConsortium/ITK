@@ -5,8 +5,10 @@ SET(WRAP_SOURCES
   wrap_itkCannyEdgeDetectionImageFilter
   wrap_itkCastImageFilter
   wrap_itkConfidenceConnectedImageFilter
+  wrap_itkChangeInformationImageFilter
   wrap_itkConnectedThresholdImageFilter
   wrap_itkCurvatureAnisotropicDiffusionImageFilter
+  wrap_itkFlipImageFilter
   wrap_itkExpImageFilter
   wrap_itkExpNegativeImageFilter
   wrap_itkExtractImageFilter
@@ -20,6 +22,8 @@ SET(WRAP_SOURCES
   wrap_itkMedianImageFilter
   wrap_itkMinimumMaximumImageCalculator
   wrap_itkNaryAddImageFilter
+  wrap_itkNormalizeImageFilter
+  wrap_itkPermuteAxesImageFilter
   wrap_itkRandomImageSource
   wrap_itkRecursiveGaussianImageFilter
   wrap_itkRecursiveSeparableImageFilter
