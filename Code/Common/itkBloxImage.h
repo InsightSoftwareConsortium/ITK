@@ -51,9 +51,17 @@ namespace itk
  * \class BloxImage
  * \brief Templated n-dimensional image class used to store linked lists.
  *
- * BloxImage is not templated over pixel type, in order to ensure that the
- * pixel type is *always* a subclass of BloxPixel. Because BloxPixels are not
- * "normal" pixels, this distinction is very important.
+ * BloxImage is not templated over pixel type in order to ensure that the
+ * pixel type is *always* a  BloxPixel. Because BloxPixels are not
+ * "normal" pixels, this distinction is very important. A BloxPixel contains
+ * a linked list of BloxItem's, or classes derived from BloxItem.
+ *
+ * By not templating over pixel type, we ensure that scalar traits are defined
+ * for all derived classes of BloxImage, regardless of the type of BloxItem
+ * type they are designed to address.
+ *
+ * Important note: classes derived from BloxImage should handle different
+ * BloxItem types, *not* different BloxPixel types.
  *
  * */
 
