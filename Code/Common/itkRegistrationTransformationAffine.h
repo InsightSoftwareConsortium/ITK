@@ -77,7 +77,7 @@ public:
  /** 
    * Affine Transform Type
    */
-  typedef  AffineTransform<NDimensions>      AffineTransformationType;
+  typedef  AffineTransform<double,NDimensions>      AffineTransformationType;
 
 
  /** 

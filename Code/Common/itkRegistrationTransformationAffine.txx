@@ -62,7 +62,7 @@ RegistrationTransformationAffine<NDimensions>::PointType
 RegistrationTransformationAffine<NDimensions>
 ::Transform(const PointType & point )
 {
-  return m_AffineTransform.Transform( point );
+  return m_AffineTransform.TransformPoint( &point );
 }
 
 
@@ -76,7 +76,7 @@ RegistrationTransformationAffine<NDimensions>::VectorType
 RegistrationTransformationAffine<NDimensions>
 ::Transform(const VectorType & vector )
 {
-  return m_AffineTransform.Transform( vector );
+  return m_AffineTransform.TransformVector( &vector );
 }
 
 
@@ -88,7 +88,7 @@ RegistrationTransformationAffine<NDimensions>::PointType
 RegistrationTransformationAffine<NDimensions>
 ::InverseTransform(const PointType & point )
 {
-  return m_AffineTransform.BackTransform( point );
+  return m_AffineTransform.BackTransformPoint( &point );
 }
 
 
@@ -101,7 +101,7 @@ RegistrationTransformationAffine<NDimensions>::VectorType
 RegistrationTransformationAffine<NDimensions>
 ::InverseTransform(const VectorType & vector )
 {
-  return m_AffineTransform.BackTransform( vector );
+  return m_AffineTransform.BackTransformVector( &vector );
 }
 
 
@@ -155,8 +155,8 @@ RegistrationTransformationAffine<NDimensions>
     ++pit;
   }
 
-  m_AffineTransform.SetLinearPart( linear);
-  m_AffineTransform.SetConstantPart( constant );
+  m_AffineTransform.SetMatrix( linear);
+  m_AffineTransform.SetOffset( constant );
 
 }
 
