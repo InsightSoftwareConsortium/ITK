@@ -272,7 +272,7 @@ int main()
   
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
-  ito.GoToBegin();
+  ito = myFloatIteratorType(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();
@@ -301,7 +301,7 @@ int main()
 
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
-  ito.GoToBegin();
+  ito = myFloatIteratorType(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
   while( !ito.IsAtEnd() ) 
   {
     myIndexType index = ito.GetIndex();
