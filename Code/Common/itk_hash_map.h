@@ -58,6 +58,18 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1))
+#include <ext/hash_map>
+
+namespace itk
+{
+  using __gnu_cxx::hash;
+  using __gnu_cxx::hash_map;
+  using __gnu_cxx::hash_multimap;
+}
+
+#else
+
 #include "itk_hashtable.h"
 #include "itk_alloc.h"
 
@@ -305,5 +317,7 @@ inline bool operator==(const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>& hm
 extern "please include emulation/hash_map.txx instead"
 
 } // end namespace itk
+
+#endif
 
 #endif // itk_emulation_hash_map_h

@@ -54,6 +54,18 @@
 #ifndef itk_emulation_hash_set_h
 #define itk_emulation_hash_set_h
 
+#if defined(__GNUC__) && ((__GNUC__==3) && (__GNUC_MINOR__>=1))
+#include <ext/hash_set>
+
+namespace itk
+{
+  using __gnu_cxx::hash;
+  using __gnu_cxx::hash_set;
+  using __gnu_cxx::hash_multiset;
+}
+
+#else
+
 #include "itk_hashtable.h"
 #include <functional>
 
@@ -306,4 +318,5 @@ inline void swap(hash_set<Value, HashFcn, EqualKey, Alloc>& a,
 
 } // end namespace itk
 
+#endif
 #endif // itk_emulation_hash_set_h
