@@ -68,8 +68,8 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   TubeType::TransformType::OffsetType offset;
   offset.Fill(10);
-  tube1->GetTransform()->SetOffset(offset);
-  tube1->ComputeGlobalTransform();
+  tube1->GetObjectToParentTransform()->SetOffset(offset);
+  tube1->ComputeObjectToWorldTransform();
 
   for( unsigned int i=0; i<10; i++)
     {
@@ -299,19 +299,19 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
 
   translation.Fill(10);
-  tubeNet1->GetTransform()->Translate(translation,false);
-  tubeNet1->ComputeGlobalTransform();
+  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);
+  tubeNet1->ComputeObjectToWorldTransform();
 
   axis.Fill(0);
   axis[1] = 1;
 
   angle = vnl_math::pi_over_2;
-  tube2->GetTransform()->Rotate3D(axis,angle);
-  tube2->ComputeGlobalTransform();
+  tube2->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube2->ComputeObjectToWorldTransform();
 
   angle = -vnl_math::pi_over_2;
-  tube3->GetTransform()->Rotate3D(axis,angle);
-  tube3->ComputeGlobalTransform();
+  tube3->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube3->ComputeObjectToWorldTransform();
 
   in.Fill(25);
   out.Fill(15);
