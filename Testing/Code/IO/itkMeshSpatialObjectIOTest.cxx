@@ -123,7 +123,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(meshSO);
-  writer->SetFullFileName("metamesh.txt");
+  writer->SetFileName("metamesh.txt");
   writer->Update();
   std::cout<<"[PASSED]"<<std::endl;
 
