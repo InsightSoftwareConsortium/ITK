@@ -1,7 +1,3 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -19,6 +15,9 @@
 #include "itkImage.h"
 #include "itkDefaultStaticMeshTraits.h"
 #include "itkSimpleImageRegionIterator.h"
+#include <iostream>
+#include <string>
+#include <math.h>
 
 #define   IMGWIDTH            20
 #define   IMGHEIGHT           20
@@ -209,11 +208,11 @@ int main(){
 	i++;
 	++labeloutIt;
   }
-/*
+
   FILE *middle=fopen("middle.raw", "wb");
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
   fclose(middle);
-*/
+
   //---------------------------------------------------------------------
   // Define the deformable Mesh
   //---------------------------------------------------------------------
@@ -296,11 +295,11 @@ int main(){
 	TestImage1[k] = 0;
 	p++;
   }
-/*
+
   FILE *output=fopen("new1.raw", "wb");
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, output);
   fclose(output);
-*/
+
   it.Begin();
   classoutIt.Begin();
   while( !it.IsAtEnd()) {	
@@ -322,7 +321,7 @@ int main(){
 // here is a simple example of send the reulst of deformable model back
 // to refine the gibbs prior model parameters.   
   applyGibbsImageFilter->Advance();
-/*
+
   labeloutIt.Begin();
 
   i = 0;
@@ -336,6 +335,6 @@ int main(){
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
   fclose(middle);
   return 0;
-*/
+
 }
 

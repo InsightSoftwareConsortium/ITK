@@ -1,10 +1,7 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
+
 #include "itkImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
@@ -12,7 +9,9 @@
 #include "itkSimpleImageRegionIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkGibbsPriorFilter.h"
-
+#include <iostream>
+#include <string>
+#include <math.h>
 
 #define   IMGWIDTH            20
 #define   IMGHEIGHT           20
