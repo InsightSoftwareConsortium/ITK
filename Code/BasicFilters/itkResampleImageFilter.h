@@ -105,26 +105,22 @@ public:
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect. */
-  void SetTransform(TransformPointerType transform) 
-    { m_Transform = transform; }
+  itkSetObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */
   itkGetObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function */
-  void SetInterpolator(InterpolatorPointerType interpolator) 
-    { m_Interpolator = interpolator; }
+  itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** Set the size of the output image. */
-  void SetSize(const SizeType &size) 
-    { m_Size = size; }
+  itkSetMacro( Size, SizeType );
 
   /** Get the size of the output image. */
-  const SizeType& GetSize()
-    { return m_Size; }
+  itkGetConstReferenceMacro( Size, SizeType );
      
   /** Set the pixel value when a transformed pixel is outside of the image */
   itkSetMacro(DefaultPixelValue,PixelType);
