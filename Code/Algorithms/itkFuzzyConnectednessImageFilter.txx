@@ -47,9 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk{
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::FuzzyConnectednessImageFilter()
@@ -57,9 +54,6 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::~FuzzyConnectednessImageFilter()
@@ -67,9 +61,6 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 void 
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
@@ -96,9 +87,6 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   }
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 double 
 FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
@@ -118,7 +106,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   }
 }
 
-} // end namespace itk
+} /** end namespace itk. */
 
 
 #endif
