@@ -46,8 +46,6 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   m_IsoFilter = IsoFilterType::New();
   m_ChamferFilter = ChamferFilterType::New(); 
   
-  this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
-  
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
   m_MaximumRMSError   = 0.02;
