@@ -231,6 +231,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPolyLineParametricPath.txx"
 #include "itkPolygonCell.txx"
 #include "itkProcessObject.h"
+#include "itkProgressAccumulator.h"
 #include "itkProgressReporter.h"
 #include "itkQuadraticEdgeCell.txx"
 #include "itkQuadraticTriangleCell.txx"
