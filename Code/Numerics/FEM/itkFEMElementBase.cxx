@@ -159,7 +159,8 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigne
   Float value=0.0;
 
   VectorType shapef = this->ShapeFunctions(pt);
-  for(unsigned int n=this->GetNumberOfNodes(); n!=-1; n--)
+  unsigned int Nnodes=this->GetNumberOfNodes();
+  for(unsigned int n=0; n<Nnodes; n++)
   {
     value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f) );
   }
@@ -303,7 +304,8 @@ Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 {
   MatrixType nc;
 
-  for(unsigned int n=this->GetNumberOfNodes(); n!=-1; n--)
+  unsigned int Nnodes=this->GetNumberOfNodes();
+  for(unsigned int n=0; n<Nnodes; n++)
   {
     nc.set_column( n,this->GetNodalCoordinates(n) );
   }
