@@ -123,13 +123,20 @@ public:
       m_IndexStack.pop();
       }
 
-    // Push the seed onto the stack
-    m_IndexStack.push(m_StartIndex);
+    if( this->IsPixelIncluded(m_StartIndex) )
+      {
+      // Push the seed onto the stack
+      m_IndexStack.push(m_StartIndex);
+      
+      m_IsAtEnd = false;
 
-    // Initialize the temporary image
-    tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
-    
-    m_IsAtEnd = false;
+      // Initialize the temporary image
+      tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
+      }
+    else
+      {
+      m_IsAtEnd = true;
+      }    
     };
 
   /** Walk forward one index */

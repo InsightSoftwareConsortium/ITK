@@ -64,14 +64,39 @@ public:
    * particular region of that image. */
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
-                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
+                                     IndexType startIndex);
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalIterator() {};
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const;
+
+  /** Set the inclusion strategy to origin */
+  void SetOriginInclusionStrategy() { m_InclusionStrategy = 0; }
+
+  /** Set the inclusion strategy to center */
+  void SetCenterInclusionStrategy() { m_InclusionStrategy = 1; }
+  
+  /** Set the inclusion strategy to complete */
+  void SetCompleteInclusionStrategy() { m_InclusionStrategy = 2; }
+
+  /** Set the inclusion strategy to intersect */
+  void SetIntersectInclusionStrategy() { m_InclusionStrategy = 3; }
   
 protected: //made protected so other iterators can access 
+
+  /** How the pixel (index) is examined in order to decide whether or not
+   * it's included. The strategies are:
+   * 0) Origin: if the origin of the pixel in physical space is inside the function,
+   * then the pixel is inside the function
+   * 1) Center: if the center of a pixel, in physical space, is inside the function,
+   * then the pixel is inside the function
+   * 2) Complete: if all of the corners of the pixel in physical space are inside the function,
+   * then the pixel is inside the function
+   * 3) Intersect: if any of the corners of the pixel in physical space are inside the function,
+   * then the pixel is inside the function */
+
+  unsigned char m_InclusionStrategy;
 
 };
 
