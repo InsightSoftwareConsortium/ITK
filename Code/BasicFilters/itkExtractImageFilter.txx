@@ -21,6 +21,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
+#include "itkExtractImageFilterRegionCopier.h"
+
 
 namespace itk
 {
@@ -30,7 +32,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 ExtractImageFilter<TInputImage,TOutputImage>
-::ExtractImageFilter()
+::ExtractImageFilter() 
 {
 }
 
@@ -46,7 +48,57 @@ ExtractImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "ExtractionRegion: " << m_ExtractionRegion << std::endl;
+  os << indent << "OutputImageRegion: " << m_OutputImageRegion << std::endl;
 }
+
+
+template<class TInputImage, class TOutputImage>
+void 
+ExtractImageFilter<TInputImage,TOutputImage>
+::CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
+                 const ImageRegion<OutputImageDimension> &srcRegion)
+{
+  ExtractImageFilterRegionCopierType extractImageRegionCopier;
+  extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);
+}
+
+
+template <class TInputImage, class TOutputImage>
+void 
+ExtractImageFilter<TInputImage,TOutputImage>
+::SetExtractionRegion(InputImageRegionType extractRegion)
+{
+  m_ExtractionRegion = extractRegion;
+
+  int nonzeroSizeCount = 0;
+  InputImageSizeType inputSize = extractRegion.GetSize();
+  OutputImageSizeType outputSize;
+  OutputImageIndexType outputIndex;
+
+  /**
+   * check to see if the number of non-zero entries in the extraction region
+   * matches the number of dimensions in the output image.  
+   **/
+  for (int i = 0; i < InputImageDimension; ++i)
+    {
+    if (inputSize[i])
+      { 
+      outputSize[nonzeroSizeCount] = inputSize[i];    
+      outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
+      nonzeroSizeCount++;
+      }
+    }
+    
+  if (nonzeroSizeCount != OutputImageDimension)
+    {
+    itkExceptionMacro("Extraction Region not consistent with output image");
+    }
+
+  m_OutputImageRegion.SetSize(outputSize);
+  m_OutputImageRegion.SetIndex(outputIndex);
+  this->Modified();
+}
+
 
 
 /** 
@@ -76,7 +128,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
     }
 
   // Set the output image size to the same value as the extraction region.
-  outputPtr->SetLargestPossibleRegion( m_ExtractionRegion );
+  outputPtr->SetLargestPossibleRegion( m_OutputImageRegion );
 
   // Set the output spacing and origin
   const ImageBase<InputImageDimension> *phyData;
@@ -173,7 +225,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
-  this->GetRegionCopier()(inputRegionForThread, outputRegionForThread);
+  this->CallCopyRegion(inputRegionForThread, outputRegionForThread);
   
   // Define the iterators.
   typedef ImageRegionIterator<TOutputImage> OutputIterator;

@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkSmartPointer.h"
+#include "itkExtractImageFilterRegionCopier.h"
 
 namespace itk
 {
@@ -29,6 +30,21 @@ namespace itk
  *
  * ExtractImageFilter changes the image boundary of an image by removing  
  * pixels outside the target region.  The target region must be specified.
+ *
+ * ExtractImageFilter also collapses dimensions so that the input image 
+ * may have more dimensions than the output image (i.e. 4-D input image
+ * to a 3-D output image).  To specify what dimensions to collapse,
+ * the ExtractionRegion must be specified.  For any dimension dim where
+ * ExtractionRegion.Size[dim] = 0, that dimension is collapsed.  The 
+ * index to collapse on is specified by ExtractionRegion.Index[dim].
+ * For example, we have a image 4D = a 4x4x4x4 image, and we want 
+ * to get a 3D image, 3D = a 4x4x4 image, specified as [x,y,z,2] from 4D 
+ * (i.e. the 3rd "time" slice from 4D).  The ExtractionRegion.Size = 
+ * [4,4,4,0] and ExtractionRegion.Index = [0,0,0,2].  
+ *
+ * The number of dimension in ExtractionRegion.Size and Index must = 
+ * InputImageDimension.  The number of non-zero dimensions in 
+ * ExtractionRegion.Size must = OutputImageDimension.
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
@@ -70,10 +86,19 @@ public:
   enum { InputImageDimension = TInputImage::ImageDimension };
   enum { OutputImageDimension = TOutputImage::ImageDimension };
 
-  /** Set/Get the output image region. */
-  itkSetMacro(ExtractionRegion, OutputImageRegionType);
-  itkGetMacro(ExtractionRegion, OutputImageRegionType);
-                 
+  typedef 
+    ImageToImageFilterDetail::ExtractImageFilterRegionCopier<InputImageDimension, 
+                     OutputImageDimension> ExtractImageFilterRegionCopierType;
+
+  /** Set/Get the output image region. 
+   *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
+   *  we have to collapse dimension dim.  This means the output image will have
+   *  'c' dimensions less than the input image, where c = # of 
+   *  ExtractionRegion.Size = 0. */
+  void SetExtractionRegion(InputImageRegionType extractRegion);
+  itkGetMacro(ExtractionRegion, InputImageRegionType);
+
+
   /** ExtractImageFilter produces an image which is a different resolution
    * than its input image.  As such, ExtractImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
@@ -82,6 +107,8 @@ public:
    * \sa ProcessObject::GenerateOutputInformaton()  */
   virtual void GenerateOutputInformation();
 
+  virtual void CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
+                              const ImageRegion<OutputImageDimension> &srcRegion);
 protected:
   ExtractImageFilter();
   ~ExtractImageFilter() {};
@@ -98,12 +125,13 @@ protected:
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
+  InputImageRegionType m_ExtractionRegion;
+  OutputImageRegionType m_OutputImageRegion;
 
 private:
   ExtractImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  OutputImageRegionType m_ExtractionRegion;
+  
 };
 
   
