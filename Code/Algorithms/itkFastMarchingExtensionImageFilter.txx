@@ -143,7 +143,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 DataObject *output )
 {
 
-  for ( int j = 0; j < this->GetNumberOfOutputs(); j++ )
+  for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
     {
     // Check which index this output refers to
     if ( output == this->ProcessObject::GetOutput( j ) )
