@@ -74,7 +74,7 @@ RandomImageSource<TOutputImage>
 ::ExecuteInformation()
 {
   TOutputImage *output;
-  TOutputImage::Index index = {0};
+  typename TOutputImage::Index index = {0};
   
   output = this->GetOutput(0);
   
