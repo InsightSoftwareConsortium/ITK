@@ -741,8 +741,11 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
         {
         stepV = (int)atof(wrds[3]);
         }
-      std::cout << "Using string '" << wrds[0] << "' with values " 
-        << minV << " to " << maxV << " stepping " << stepV << std::endl;
+      if (META_DEBUG)
+        {
+        std::cout << "Using string '" << wrds[0] << "' with values " 
+                  << minV << " to " << maxV << " stepping " << stepV << std::endl;
+        }
       int cnt = 0;
       for(i=minV; i<=maxV; i += stepV)
         {
@@ -755,7 +758,10 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
           {
           strcpy(fName, s);
           }
-        std::cout << "  file = _" << fName << "_" << std::endl;
+        if (META_DEBUG)
+          {
+          std::cout << "  file = _" << fName << "_" << std::endl;
+          }
         readStreamTemp->open(fName, std::ios::binary | std::ios::in);
         if(!readStreamTemp->is_open())
           {
