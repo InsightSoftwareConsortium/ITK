@@ -297,7 +297,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  transform->SetCenterOfRotation( centerFixed );
+  transform->SetCenter( centerFixed );
 
   transform->SetTranslation( centerMoving - centerFixed );
   // Software Guide : EndCodeSnippet
