@@ -78,6 +78,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
     // Invoke the iteration event.
     this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent( ProgressEvent() );
     }
 
   // Any further processing of the solution can be done here.
