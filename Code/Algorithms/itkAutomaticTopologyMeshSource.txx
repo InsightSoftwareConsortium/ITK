@@ -168,12 +168,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
   else
     {
 
-    // Choose the cell ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
     *cellIDPlusOne = cellID + 1;
 
-    // Construct the cell as a boundary.
+    // Construct the cell.
     CellAutoPointer newCell;
     newCell.TakeOwnership( new VertexCell );
     newCell->SetPointId( 0, pointIDs[0] );
@@ -191,7 +190,7 @@ template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddLine( const IdentifierArrayType& pointIDs )
-{
+{       
 
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
@@ -205,12 +204,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     {
     const IdentifierType pointIdsEnd = 2;
 
-    // Choose the ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
-    *cellIDPlusOne = cellID + 1;
-
-    // Construct the cell as a boundary.
+    // Construct the cell.
     CellAutoPointer newCell;
     newCell.TakeOwnership( new LineCell );
 
@@ -224,12 +218,14 @@ AutomaticTopologyMeshSource<TOutputMesh>
       newCell->SetPointId( i, pointID );
       }
 
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
+    *cellIDPlusOne = cellID + 1;
+
     // Add the cell to the mesh.
     m_OutputMesh->SetCell( cellID, newCell ); 
 
     // Set the boundaries for the new cell.
-
-    CellAutoPointer boundaryFeature;
 
     for( i = 0; i < pointIdsEnd; i++ )
       {
@@ -285,17 +281,14 @@ AutomaticTopologyMeshSource<TOutputMesh>
       lineArray[i] = AddLine( pointIDs[i], pointIDs[ (i+1) % pointIdsEnd ] );
       }
 
-    // Choose the ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
     m_OutputMesh->SetCell( cellID, newCell ); 
 
     // Set the boundaries for the new cell.
-
-    CellAutoPointer boundaryFeature;
 
     for( i = 0; i < pointIdsEnd; i++ )
       {
@@ -355,17 +348,14 @@ AutomaticTopologyMeshSource<TOutputMesh>
     lineArray[2] = AddLine( pointIDs[0], pointIDs[2] );
     lineArray[3] = AddLine( pointIDs[1], pointIDs[3] );
 
-    // Choose the ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
     m_OutputMesh->SetCell( cellID, newCell ); 
 
     // Set the boundaries for the new cell.
-
-    CellAutoPointer boundaryFeature;
 
     for( i = 0; i < pointIdsEnd; i++ )
       {
@@ -434,17 +424,14 @@ AutomaticTopologyMeshSource<TOutputMesh>
     faceArray[2] = AddTriangle( pointIDs[0], pointIDs[2], pointIDs[3] );
     faceArray[3] = AddTriangle( pointIDs[1], pointIDs[2], pointIDs[3] );
 
-    // Choose the ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
     m_OutputMesh->SetCell( cellID, newCell ); 
 
     // Set the boundaries for the new cell.
-
-    CellAutoPointer boundaryFeature;
 
     for( i = 0; i < pointIdsEnd; i++ )
       {
@@ -527,17 +514,14 @@ AutomaticTopologyMeshSource<TOutputMesh>
     faceArray[4] = AddQuadrilateral( pointIDs[0], pointIDs[2], pointIDs[4], pointIDs[6] );
     faceArray[5] = AddQuadrilateral( pointIDs[1], pointIDs[3], pointIDs[5], pointIDs[7] );
 
-    // Choose the ID and store it in its place in the hash table.
-    IdentifierType nextNewCellID = m_OutputMesh->GetNumberOfCells();
-    cellID = nextNewCellID;
+    // Choose the ID and store it in its hash location (cellIDPlusOne)
+    cellID = m_OutputMesh->GetNumberOfCells();
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
     m_OutputMesh->SetCell( cellID, newCell ); 
 
     // Set the boundaries for the new cell.
-
-    CellAutoPointer boundaryFeature;
 
     for( i = 0; i < pointIdsEnd; i++ )
       {
