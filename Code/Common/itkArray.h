@@ -61,8 +61,10 @@ public:
   void Fill (TValueType const& v) { fill(v); }
  
   /** Return the number of elements in the Array  */
-  unsigned int Size (void ) const { return size(); }
-  unsigned int GetNumberOfElements(void) const { return size(); }
+  unsigned int Size (void ) const 
+      { return static_cast<unsigned int>( this->size() ); }
+  unsigned int GetNumberOfElements(void) const 
+      { return static_cast<unsigned int>( this->size() ); }
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
