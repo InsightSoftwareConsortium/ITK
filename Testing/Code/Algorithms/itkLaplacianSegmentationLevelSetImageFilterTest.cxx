@@ -148,6 +148,8 @@ protected:
 
 int itkLaplacianSegmentationLevelSetImageFilterTest(int, char **)
 {
+  std::cout << "Last modified 11/08/02" << std::endl;
+
   LSIFTN::ImageType::RegionType reg;
   LSIFTN::ImageType::RegionType::SizeType sz;
   LSIFTN::ImageType::RegionType::IndexType idx;
