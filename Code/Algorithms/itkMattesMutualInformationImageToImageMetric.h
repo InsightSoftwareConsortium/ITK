@@ -329,7 +329,7 @@ private:
    */
   typedef BSplineDeformableTransform<
     CoordinateRepresentationType,
-    FixedImageDimension,
+    ::itk::GetImageDimension<FixedImageType>::ImageDimension,
     DeformationSplineOrder> BSplineTransformType;
   typedef typename BSplineTransformType::WeightsType 
     BSplineTransformWeightsType;
