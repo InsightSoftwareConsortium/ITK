@@ -29,6 +29,7 @@ GradientDescentOptimizer<TCostFunction>
 ::GradientDescentOptimizer()
 {
    m_LearningRate = 1.0;
+   m_NumberOfIterations = 100;
 }
 
 
@@ -75,7 +76,7 @@ GradientDescentOptimizer<TCostFunction>
 
     m_CurrentNumberOfIterations++;
 
-    if( m_CurrentNumberOfIterations == m_NumberOfIterations )
+    if( m_CurrentNumberOfIterations >= m_NumberOfIterations )
     {
        m_StopCondition = MaximumNumberOfIterations;
        StopOptimization();
