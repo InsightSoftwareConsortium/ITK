@@ -36,6 +36,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#include "itkRescaleIntensityImageFilter.h"
+
 
 int main( int argc, char **argv )
 {
@@ -120,6 +122,7 @@ int main( int argc, char **argv )
 
 
 
+
   
   //  Software Guide : BeginLatex
   //  
@@ -161,6 +164,19 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
   
 
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=6cm]{BrainT1Slice.eps}
+  // \includegraphics[width=6cm]{HybridSegmentationFuzzyVoronoiOutput.eps}
+  // \caption{Segmentation results for the hybrid segmentation approach.}
+  // \label{fig:HybridSegmentationFuzzyVoronoiOutput}
+  // \end{figure}
+  //
+  //  Software Guide : EndLatex 
 
 
 
@@ -280,22 +296,63 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
-
+  
 
   
   //  Software Guide : BeginLatex
   //
-  //  The segmented image is finally passed to a writer. The invokation of the
-  //  \code{Update()} method on the writer will trigger the execution of the
-  //  pipeline.
+  //  The output of the voronoi segmentation is an image mask with zeros
+  //  everywhere an $1$s inside the segmented object. This image will appear
+  //  black in many image viewers since they usually do not stretch the
+  //  graylevels. We add here then a \code{RescaleIntensityImageFilter} in
+  //  order to expand the dynamic range to more typical values. 
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::RescaleIntensityImageFilter< 
+                                  OutputImageType,
+                                  OutputImageType >   ScalerFilterType;
+  
+  ScalerFilterType::Pointer scaler = ScalerFilterType::New();
+
+  scaler->SetOutputMinimum(   0 );
+  scaler->SetOutputMaximum( 255 );
+
+  scaler->SetInput( voronoisegmenter->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  // The output of the rescaler is finally passed to the writer. The invokation
+  // of the \code{Update()} method on the writer will trigger the execution of
+  // the pipeline.
   //  
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  writer->SetInput( voronoisegmenter->GetOutput() );
+  writer->SetInput( scaler->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
 
+
+  //  Software Guide : BeginLatex
+  //
+  //  Let's execute this program on the image \code{BrainT1Slice.png} available
+  //  in the directory \code{Insight/Examples/Data}. The following parameters
+  //  should be passed to the command line:
+  // 
+  //  \begin{verbatim}
+  //  HybridSegmentationFuzzyVoronoi BrainT1Slice.png Output.png 140 125 140 25
+  //  \end{verbatim}
+  //
+  //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput} shows the input
+  //  image and the binary mask resulting from the segmentation.
+  //
+  //  Software Guide : EndLatex 
 
 
 
