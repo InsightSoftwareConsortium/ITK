@@ -24,7 +24,7 @@
 source [file join Testing Utilities Utility.tcl.in]
 
 # Read in the user list
-set f [open [file join Documents UserList.txt]]
+set f [open [file join Documentation UserList.txt]]
 while { ![eof $f] } \
 {
   set l [gets $f]
