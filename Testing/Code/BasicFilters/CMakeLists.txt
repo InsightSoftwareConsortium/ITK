@@ -8,6 +8,8 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest)
 ADD_TEST(itkBasicFiltersPrintTest2 ${BASIC_FILTERS_TESTS} itkBasicFiltersPrintTest2)
@@ -64,8 +66,19 @@ ADD_TEST(itkGradientImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientImageFilte
 ADD_TEST(itkGradientMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientMagnitudeImageFilterTest)
 ADD_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS} itkGradientMagnitudeRecursiveGaussianFilterTest)
 ADD_TEST(itkGradientRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS} itkGradientRecursiveGaussianFilterTest)
-ADD_TEST(itkGrayscaleFunctionDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkGrayscaleFunctionDilateImageFilterTest)
-ADD_TEST(itkGrayscaleFunctionErodeImageFilterTest ${BASIC_FILTERS_TESTS} itkGrayscaleFunctionErodeImageFilterTest)
+ADD_TEST(itkGrayscaleFunctionDilateImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${BASELINE}/itkGrayscaleFunctionDilateImageFilterTest.mha
+            ${TEMP}/itkGrayscaleFunctionDilateImageFilterTest.mha
+  itkGrayscaleFunctionDilateImageFilterTest
+            ${TEMP}/itkGrayscaleFunctionDilateImageFilterTest.mha
+)
+ADD_TEST(itkGrayscaleFunctionErodeImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${BASELINE}/itkGrayscaleFunctionErodeImageFilterTest.mha
+            ${TEMP}/itkGrayscaleFunctionErodeImageFilterTest.mha
+  itkGrayscaleFunctionErodeImageFilterTest
+            ${TEMP}/itkGrayscaleFunctionErodeImageFilterTest.mha
+)
+
 ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientToMagnitudeImageFilterTest)
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
@@ -100,6 +113,7 @@ ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterT
 ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS} itkNarrowBandTest)
 ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS} itkNarrowBandImageFilterBaseTest)
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
+ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS} itkNonThreadedShrinkImageTest)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
 ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS} itkParallelSparseFieldLevelSetImageFilterTest)
@@ -455,6 +469,7 @@ itkMultiplyImageFilterTest.cxx
 itkNaryAddImageFilterTest.cxx
 itkNeighborhoodConnectedImageFilterTest.cxx
 itkNeighborhoodOperatorImageFilterTest.cxx
+itkNonThreadedShrinkImageTest.cxx
 itkNormalizeImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkParallelSparseFieldLevelSetImageFilterTest.cxx
