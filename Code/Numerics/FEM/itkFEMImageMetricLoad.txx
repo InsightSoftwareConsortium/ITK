@@ -145,7 +145,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       float tempe=0.0;
       try
       {
-      tempe=fabs(GetMetric(InVec));
+      tempe=fabs(GetMetric(InVec.as_ref()));
       }
       catch( itk::ExceptionObject & e )
       { 
