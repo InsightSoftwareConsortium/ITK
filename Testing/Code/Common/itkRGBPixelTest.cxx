@@ -77,5 +77,35 @@ int itkRGBPixelTest(int, char**)
       }
     }
 
+  std::cout << "Testing arithmetic methods" << std::endl;
+  itk::RGBPixel< float > pa;
+  itk::RGBPixel< float > pb;
+
+  pa[0] = 1.25;
+  pa[1] = 3.25;
+  pa[2] = 5.25;
+
+  pb[0] = 1.55;
+  pb[1] = 3.55;
+  pb[2] = 5.55;
+
+  itk::RGBPixel< float > pc;
+  
+  pc = pa + pb;
+  std::cout << "addition = " << pc << std::endl;
+
+  pc = pa - pb;
+  std::cout << "subtraction = " << pc << std::endl;
+
+  pc += pb;
+  std::cout << "in-place addition = " << pc << std::endl;
+
+  pc -= pb;
+  std::cout << "in-place subtraction = " << pc << std::endl;
+
+  pc = pa * 3.2;
+  std::cout << "product by scalar = " << pc << std::endl;
+  
+
   return 0;
 }
