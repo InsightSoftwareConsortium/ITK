@@ -25,7 +25,7 @@
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
 #include "itkRGBGibbsPriorFilter.h"
 
@@ -103,7 +103,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::SimpleImageRegionIterator< VecImageType > VecIterator;
+  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.GoToBegin();
@@ -148,7 +148,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
+  typedef  itk::ImageRegionIterator<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
   classoutIt.GoToBegin();
