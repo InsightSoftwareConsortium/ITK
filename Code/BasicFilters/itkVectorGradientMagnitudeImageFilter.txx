@@ -53,7 +53,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   os << std::endl;
   os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
      << std::endl;
-  os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage
+  os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
      << std::endl;
 }
   
