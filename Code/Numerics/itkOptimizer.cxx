@@ -82,8 +82,17 @@ Optimizer
      << m_InitialPosition << std::endl;
   os << indent << "CurrentPosition: "
      << m_CurrentPosition << std::endl;
-  os << indent << "Scales: "
-     << m_Scales << std::endl;
+
+  if(m_ScalesInitialized)
+    {
+    os << indent << "Scales: "
+       << m_Scales << std::endl;
+    }
+  else
+    {
+    os << indent << "Scales: not defined (default 1)" 
+       << std::endl;
+    }
 }
 
 
