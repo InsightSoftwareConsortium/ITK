@@ -18,6 +18,7 @@ INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")
 # Create the kwsys library for ITK.
 SET(KWSYS_NAMESPACE itksys)
 SET(KWSYS_USE_SystemTools 1)
+SET(KWSYS_USE_RegularExpression 1)
 SET(KWSYS_USE_Directory 1)
 SET(KWSYS_HEADER_ROOT ${ITK_BINARY_DIR}/Utilities)
 SET(KWSYS_LIBRARY_INSTALL_DIR /lib/InsightToolkit)
