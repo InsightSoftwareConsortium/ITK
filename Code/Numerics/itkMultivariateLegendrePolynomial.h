@@ -17,28 +17,32 @@
 #ifndef __itkMultivariateLegendrePolynomial_h
 #define __itkMultivariateLegendrePolynomial_h
 
-#include <algorithm>
-#include <vector>
-#include <vnl/vnl_vector.h>
+#include "itkArray.h"
 
 /** \class MultivariateLegendrePolynomial
  * \brief 2D and 3D multivariate Legendre Polynomial 
  *
- * In 2D, f(x_vector, parameter_vector) 
+ * In 2D, 
+ * \f[
+ *  f(x_vector, parameter_vector) 
  * = sum_i (sum_j (parameter_i_j * P_i(x) *P_j(y)) 
  * over j from 0 to l - i)) over i from 0 to l 
+ * \f]
  * where P_i() denoting a Legendre polynomial of degree i
  * and l it the degree of the polynomial
  *
- * In 3D, f(x_vector, parameter_vecter)
+ * In 3D,
+ * \f[
+ * f(x_vector, parameter_vecter)
  * = sum_i (sum_j (sum_k (paramter_i_j_k * P_i(x) * P_j(y) * P_k(z)) 
  * over k from 0 to l - i - j) over j from 0 to l - i) over i from 0 to l
+ * \f]
  *
- * The size of the parameter vector for 2D is (l + 1) * (l + 2) / 2, and
- * for 3D (l + 1) * (l + 2) / 2 * (l + 3) / 3
+ * The size of the parameter vector for 2D is \f$ (l + 1) * (l + 2) / 2 \f$,
+ * and for 3D is \f$ (l + 1) * (l + 2) / 2 * (l + 3) / 3 \f$
  *
  * To get the size of the parameter vector, users can use one of the 
- * two GetNoOfCoefficients() member functions
+ * two GetNumberOfCoefficients() member functions
  *
  * To get function result, users can use the operator() or its 
  * SimpleForwardIterator's Get() method.
@@ -65,37 +69,40 @@ class MultivariateLegendrePolynomial
 {
 public:
   /** Legendre polynomial coefficients type. */
-  typedef vnl_vector<double> CoefficientVector ;
+  typedef Array<double>             CoefficientVectorType;
 
   /** Same as CoefficientVector
    * This type definition will be used by EnergyFunction object. */
-  typedef CoefficientVector ParametersType ;
+  typedef CoefficientVectorType     ParametersType ;
 
   /** Internal coefficient storage type. */
-  typedef double* CoefficientArray ;
+  typedef Array<double>             CoefficientArrayType ;
 
   /** The size of the domain. */
-  typedef std::vector<unsigned long> DomainSizeType ;
-  typedef std::vector<long> IndexType ;
+  typedef Array<unsigned long>      DomainSizeType ;
+  typedef Array<long>               IndexType ;
   
   /** Constructor. */
-  MultivariateLegendrePolynomial(int dimension, int degree,
-                                 DomainSizeType domainSize) ;
+  MultivariateLegendrePolynomial( unsigned int dimension, 
+                                  unsigned int degree,
+                                  const DomainSizeType & domainSize );
   /** Destructor. */
-  virtual ~MultivariateLegendrePolynomial() ;
+  virtual ~MultivariateLegendrePolynomial();
 
   /** Constructor calls this function. So there is no need to
    * call separately. However, if you want to set parameters to
    * zeros, call this.
    * Allocates memory for the internal coefficients array 
    * and caches. */
-  void Initialize() ;
+  void Initialize(void) ;
 
   /** Gets the dimension. */
-  int GetDimension() { return m_Dimension ; }
+  unsigned int GetDimension(void) const 
+                  { return m_Dimension ; }
 
   /** Gets the degree (the degree of Legendre polynomials). */ 
-  int GetDegree() { return m_Degree ; } 
+  unsigned int GetDegree(void) const 
+                  { return m_Degree ; } 
 
   /** Returns the number of coefficients of the polynomial  
    *  This number is computed from the degree of the polynomial 
@@ -103,10 +110,11 @@ public:
    *  size, an exception is thrown otherwise
    *  \sa SetCoefficients                                   */
   unsigned int GetNumberOfCoefficients(void) const
-    { return m_NoOfCoefficients; }
+    { return m_NumberOfCoefficients; }
 
   /** Gets each dimesion's size. */
-  DomainSizeType GetDomainSize() { return m_DomainSize ; }
+  const DomainSizeType & GetDomainSize( void ) const 
+                          { return m_DomainSize; }
 
   /** Exception object. */
   class CoefficientVectorSizeMismatch 
@@ -126,11 +134,11 @@ public:
     * \warning The number of coefficients provided should
     * match the number returned by GetNumberOfCoefficients()
     * otherwise an exception is thrown.  */
-  void SetCoefficients(CoefficientVector coef) 
+  void SetCoefficients(const CoefficientVectorType & coef) 
     throw (CoefficientVectorSizeMismatch) ;
 
   /** Gets Legendre polynomials' coefficients. */
-  CoefficientVector& GetCoefficients() ;
+  const CoefficientVectorType & GetCoefficients(void) const;
  
   /** In the case which the bias field is 2D, it returns bias value at
    * the point which is specified by the index */
@@ -183,10 +191,10 @@ public:
     }
 
   /** Gets the number of coefficients. */
-  int GetNoOfCoefficients() ;
+  unsigned int GetNumberOfCoefficients(void);
 
   /** Gets the number of coefficients. */
-  int GetNoOfCoefficients(int dimension, int degree) ;
+  unsigned int GetNumberOfCoefficients(unsigned int dimension, unsigned int degree) ;
 
   /** Iterator which only supports forward iteration and Begin(), IsAtEnd(), 
    *  and Get() method which work just like as SimpleImageRegionIterator. */
@@ -196,20 +204,20 @@ public:
     SimpleForwardIterator (MultivariateLegendrePolynomial* polynomial) 
       {
       m_MultivariateLegendrePolynomial = polynomial ;
-      m_Dimension = m_MultivariateLegendrePolynomial->GetDimension() ;
-      m_DomainSize = m_MultivariateLegendrePolynomial->GetDomainSize() ;
-      m_Index.resize(m_Dimension) ;
+      m_Dimension   = m_MultivariateLegendrePolynomial->GetDimension();
+      m_DomainSize  = m_MultivariateLegendrePolynomial->GetDomainSize();
+      m_Index       = IndexType(m_Dimension);
       }
     
-    void Begin() 
-      { std::fill(m_Index.begin(), m_Index.end(), 0); }
+    void Begin( void ) 
+      { m_Index.Fill( 0 ); }
     
     bool IsAtEnd()
       { return m_IsAtEnd; }
     
     SimpleForwardIterator& operator++()
       {
-        for (int dim = 0 ; dim < m_Dimension ; dim++)
+        for (unsigned int dim = 0 ; dim < m_Dimension ; dim++)
           {
           if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
             {
@@ -236,34 +244,33 @@ public:
       { return (*m_MultivariateLegendrePolynomial)(m_Index); }
     
   private:
-    MultivariateLegendrePolynomial* m_MultivariateLegendrePolynomial ;
-    int m_Dimension ;
-    DomainSizeType m_DomainSize ;
-    IndexType m_Index ;
-    bool m_IsAtEnd ;
+    MultivariateLegendrePolynomial* m_MultivariateLegendrePolynomial;
+    unsigned int      m_Dimension; 
+    DomainSizeType    m_DomainSize;
+    IndexType         m_Index;
+    bool              m_IsAtEnd;
   } ; // end of class Iterator 
   
 protected:
-  double LegendreSum(const double x, int n, double* coef) ; 
-  void CalculateXCoef(double norm_y, double* coef) ;
-  void CalculateYCoef(double norm_z, double* coef) ;
-  void DeleteArrays() ;
+  double LegendreSum(const double x, int n, const CoefficientArrayType & coef, int offset = 0); 
+  void CalculateXCoef(double norm_y, const CoefficientArrayType & coef);
+  void CalculateYCoef(double norm_z, const CoefficientArrayType & coef);
 
 private:
-  DomainSizeType m_DomainSize ;
-  int m_Dimension ;
-  int m_Degree ;
-  int m_NoOfCoefficients ;
-  bool m_MultiplicativeBias; 
+  DomainSizeType  m_DomainSize;
+  unsigned int    m_Dimension;
+  unsigned int    m_Degree;
+  unsigned int    m_NumberOfCoefficients;
+  bool            m_MultiplicativeBias; 
   
-  CoefficientVector m_CoefficientVector ;
-  CoefficientArray m_CoefficientArray ;
-  CoefficientArray m_CachedXCoef ;
-  CoefficientArray m_CachedYCoef ;
-  CoefficientArray m_CachedZCoef ;
-  std::vector<double> m_NormFactor ;
-  long m_PrevY ;
-  long m_PrevZ ;
+  CoefficientVectorType   m_CoefficientVector;
+  CoefficientArrayType    m_CoefficientArray;
+  CoefficientArrayType    m_CachedXCoef;
+  CoefficientArrayType    m_CachedYCoef;
+  CoefficientArrayType    m_CachedZCoef;
+  Array<double>           m_NormFactor;
+  long                    m_PrevY ;
+  long                    m_PrevZ ;
 } ; // end of class
 
 } // end of namespace itk

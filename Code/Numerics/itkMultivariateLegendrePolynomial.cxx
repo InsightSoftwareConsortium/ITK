@@ -15,29 +15,30 @@
 
 =========================================================================*/
 #include "itkMultivariateLegendrePolynomial.h"
+#include "itkMacro.h"
 
 namespace itk {
 MultivariateLegendrePolynomial
-::MultivariateLegendrePolynomial(int dimension, int degree, 
-                                 DomainSizeType domainSize)
+::MultivariateLegendrePolynomial( unsigned int dimension, 
+                                  unsigned int degree, 
+                                  const DomainSizeType & domainSize)
 {
-  if (dimension > 3 || dimension < 2)
-    exit(0) ;
+  if (dimension > 3 || dimension < 2) 
+    {
+    itkGenericExceptionMacro(<<"MultivariateLegendrePolynomial only supports 2D and 3D");
+    }
   
-  m_Dimension = dimension ;
+  m_Dimension = dimension;
 
-  if (degree < 0)
-    exit(0) ;
-
-  m_Degree = degree ;
+  m_Degree    = degree;
   
-  m_CachedYCoef = 0 ;
-  m_CachedXCoef = 0 ;
-  m_CachedZCoef = 0 ;
-  m_CoefficientArray = 0 ;
+  m_CachedYCoef = 0;
+  m_CachedXCoef = 0;
+  m_CachedZCoef = 0;
+  m_CoefficientArray = 0;
 
-  m_DomainSize = domainSize ;
-  this->GetNoOfCoefficients() ;
+  m_DomainSize = domainSize;
+  this->GetNumberOfCoefficients() ;
   
   this->Initialize() ;
 }
@@ -46,7 +47,7 @@ MultivariateLegendrePolynomial
 MultivariateLegendrePolynomial
 ::~MultivariateLegendrePolynomial()
 {
-  DeleteArrays() ;
+  
 }
 
 
@@ -55,19 +56,17 @@ void MultivariateLegendrePolynomial
 {
 
 
-  this->DeleteArrays() ;
-
   // used as intermediate store to hold legendre polynomials
   // y_coef[i,j] = Sum (0 <= k <= m-i-j) p(i,j,k) * P(z)
-  m_CachedYCoef = new double[(m_Degree+1)*(m_Degree+2)/2];  
+  m_CachedYCoef      = CoefficientArrayType((m_Degree+1)*(m_Degree+2)/2);  
 
   // used as intermediate store to hold legendre polynomials
   // x_coef[i] = Sum (0 <= j <= m-i) y_coef[i,j] * P(y) 
-  m_CachedXCoef = new double [m_Degree+1];
+  m_CachedXCoef      = CoefficientArrayType( m_Degree+1 );
 
-  m_CachedZCoef = new double [m_Degree+1];
+  m_CachedZCoef      = CoefficientArrayType( m_Degree+1 );
   
-  m_CoefficientArray = new double[m_NoOfCoefficients] ;
+  m_CoefficientArray = CoefficientArrayType( m_NumberOfCoefficients );
 
   m_PrevY = -1 ;
   m_PrevZ = -1 ;
@@ -75,32 +74,33 @@ void MultivariateLegendrePolynomial
 //    for (int i = 0 ; i < m_NoOfCoefficients ; i++)
 //      m_CoefficientArray[i] = 0 ;
 
-  m_NormFactor.resize(m_Dimension) ;
-  for (int j = 0 ; j < m_Dimension ; j++)
+  m_NormFactor = Array<double>(m_Dimension);
+  for (unsigned int j = 0 ; j < m_Dimension ; j++)
     {
-      m_NormFactor[j] = 2 / (m_DomainSize[j] - 1.0);
+    m_NormFactor[j] = 2.0f / 
+        (static_cast<double>(m_DomainSize[j]) - 1.0f);
     }
 
-  m_CoefficientVector.resize(m_NoOfCoefficients) ;
-  m_CoefficientVector.fill(0) ;
+  m_CoefficientVector = CoefficientVectorType(m_NumberOfCoefficients) ;
+  m_CoefficientVector.Fill(0.0f) ;
 }
 
 
 void MultivariateLegendrePolynomial
-::SetCoefficients(CoefficientVector coefficients) 
+::SetCoefficients(const CoefficientVectorType & coefficients) 
   throw (MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch)
 {
   //  this->Initialize() ;
 
-  if (coefficients.size() != m_NoOfCoefficients)
+  if (coefficients.Size() != m_NumberOfCoefficients)
     {
-      throw CoefficientVectorSizeMismatch(coefficients.size(),
-                                          m_NoOfCoefficients) ;
+    throw CoefficientVectorSizeMismatch(coefficients.size(),
+                                          m_NumberOfCoefficients) ;
     }
 
 
   // copy coefficients to array of double
-  for(int i = 0 ; i < m_NoOfCoefficients ; i++)
+  for(unsigned int i = 0 ; i < m_NumberOfCoefficients; i++ )
     {
       m_CoefficientArray[i] = coefficients[i] ; 
     }
@@ -112,9 +112,9 @@ void MultivariateLegendrePolynomial
 }
 
 
-MultivariateLegendrePolynomial::CoefficientVector& 
+const MultivariateLegendrePolynomial::CoefficientVectorType & 
 MultivariateLegendrePolynomial
-::GetCoefficients()
+::GetCoefficients( void ) const
 {
   return m_CoefficientVector ;
 }
@@ -122,16 +122,17 @@ MultivariateLegendrePolynomial
 
 
 void MultivariateLegendrePolynomial
-::CalculateXCoef(double norm_y, double* coef)
+::CalculateXCoef(double norm_y, const CoefficientArrayType & coef)
 {
   // compute x_coef[i] = sum (0 <= j <= m-i) pij * P(y)]
   int offset = 0 ;
 
-  for (int lx = 0; lx <= m_Degree; lx++) 
+  for (unsigned int lx = 0; lx <= m_Degree; lx++) 
     {
-      m_CachedXCoef[lx] = LegendreSum(norm_y, m_Degree-lx, 
-                                        coef+offset);
-      offset += m_Degree+1-lx;
+      m_CachedXCoef[lx] = 
+          LegendreSum( norm_y, m_Degree-lx, coef, offset );
+
+      offset += ( m_Degree + 1 - lx ); 
     }
 }
 
@@ -139,78 +140,67 @@ void MultivariateLegendrePolynomial
 
 
 void MultivariateLegendrePolynomial
-::CalculateYCoef(double norm_z, double* coef)
+::CalculateYCoef(double norm_z, const CoefficientArrayType & coef)
 {
   // compute y_coef[i,j] = sum (0 <= k <= m-i-j) pijk * P(z)
-  double *ycoefp = m_CachedYCoef ;
-  const double *coefp = coef;
-  for (int lx = 0; lx <= m_Degree; lx++) 
+  unsigned int ycoefp = 0;
+  unsigned int coefp  = 0;
+  const unsigned int lxmax = m_Degree;
+  for (unsigned int lx = 0; lx <= lxmax; lx++) 
     {
-      for (int ly = 0; ly <= m_Degree-lx; ly++, coefp++) 
-        {
-          const double *zcoefp = coefp;
-          for (int lz = 0, offset = 0; lz <= m_Degree-lx-ly; 
-               zcoefp += ((m_Degree+1-lz)*(m_Degree+2-lz)/2) - lx, lz++) 
-            m_CachedZCoef[lz] = *zcoefp;
-          *ycoefp = LegendreSum(norm_z, m_Degree-lx-ly, m_CachedZCoef); 
-          ycoefp++;
+    const unsigned int lymax = m_Degree - lx;
+    for (unsigned int ly = 0; ly <= lymax; ly++, coefp++) 
+      {
+      unsigned int zcoefp = coefp;
+      unsigned int lzmax  = m_Degree - lx - ly;
+      for ( unsigned int lz = 0; lz <= lzmax; lz++ )
+        { 
+        m_CachedZCoef[lz] = coef[zcoefp];
+        zcoefp += ((m_Degree+1-lz)*(m_Degree+2-lz)/2) - lx;
         }
-    }
+      m_CachedZCoef[ycoefp] = LegendreSum(norm_z, m_Degree-lx-ly, m_CachedZCoef); 
+      ycoefp++;
+      }
+   }
 }
 
 
 double MultivariateLegendrePolynomial
-::LegendreSum(const double x, int n, double* coef) 
+::LegendreSum(const double x, int n, const CoefficientArrayType & coef,int offset) 
 //n+1 elements !
 {
   if (n == 0) 
-    return coef[0];
+    {
+    return coef[offset];
+    }
 
-  double ykp2 = 0, ykp1 = coef[n];
+  double ykp2 = 0, ykp1 = coef[n+offset];
 
   for (int k = n-1; k>0; k--) 
     {
-      double yk = x*ykp1*(2*k+1)/(k+1) - ykp2*(k+1)/(k+2) + coef[k];
+      double yk = x*ykp1*(2*k+1)/(k+1) - ykp2*(k+1)/(k+2) + coef[k+offset];
       ykp2 = ykp1;
       ykp1 = yk;
     }
-  return -ykp2/2 + x*ykp1 + coef[0];
+  return -ykp2/2 + x*ykp1 + coef[offset];
 }
 
 
-int MultivariateLegendrePolynomial
-::GetNoOfCoefficients()
+unsigned int MultivariateLegendrePolynomial
+::GetNumberOfCoefficients( void )
 { 
   // calculate the number of parameters
-  float result = 1.0 ;
+  unsigned int numerator   = 1;
+  unsigned int denominator = 1;
+  for (unsigned int i = 1 ; i <= m_Dimension ; i++)
+    {
+    numerator   *=  (m_Degree + i);
+    denominator *=  i;
+    }
+  m_NumberOfCoefficients = numerator / denominator;
 
-  for (int i = 1 ; i <= m_Dimension ; i++)
-    result *= (float) (m_Degree + i) / (float) i  ;
-
-  m_NoOfCoefficients = (int) result ;
-
-  return m_NoOfCoefficients ;
+  return m_NumberOfCoefficients;
 }
 
-void MultivariateLegendrePolynomial
-::DeleteArrays()
-{
-  if (m_CachedYCoef)
-    delete m_CachedYCoef ;
-
-  if (m_CachedXCoef)
-    delete m_CachedXCoef ;
-
-  if (m_CachedZCoef)
-    delete m_CachedZCoef ;
-
-  if (m_CoefficientArray)
-    delete m_CoefficientArray ;
-
-  m_CachedYCoef = 0 ;
-  m_CachedXCoef = 0 ;
-  m_CachedZCoef = 0 ;
-  m_CoefficientArray = 0 ;
-}
 
 } // end of namespace itk
