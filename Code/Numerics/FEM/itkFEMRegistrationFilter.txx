@@ -424,7 +424,7 @@ void FEMRegistrationFilter<TReference,TTarget>::WarpImage(ImageType* ImageToWarp
         ImageDataType t = (ImageDataType) ImageToWarp->GetPixel(tindex);
         m_WarpedImage->SetPixel(rindex, t );
       }
-      else m_WarpedImage->SetPixel(rindex,1);
+      else m_WarpedImage->SetPixel(rindex,0);
     }
   }
   else 
@@ -688,7 +688,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    if ((LastE <= InitDeltE )/*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
-   m_MinE=LastE;
+     m_MinE=LastE;
      minct=NumMins;
    }
    else //if ( minct < NumMins )
@@ -702,12 +702,12 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    std::cout << " min E " << m_MinE << " Sim E " << ImageSimilarity <<  " iter " << iters << std::endl;
    iters++;
    if ( iters > m_Maxiters ) DLS=1;
-   if (iters > 2*m_Maxiters ) {
+   if (iters > (m_Maxiters+3) ) {
      Done=true;
    }
    if (iters == 2) {
      InitDeltE=LastE/m_EnergyReductionFactor;
-   std::cout << " convergence energy = " << InitDeltE << std::endl;
+     std::cout << " convergence energy = " << InitDeltE << std::endl;
    }
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
