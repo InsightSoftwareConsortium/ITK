@@ -23,10 +23,13 @@ namespace fem {
 void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
 {
 
+  /* FIX ME: error checking */
+
   // allocate if necessary
   if (m_Matrices == 0)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
+    if (m_Matrices == NULL) throw;
   }
 
   // out with old, in with new
@@ -36,6 +39,9 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   }
 
   (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
+  if ( (*m_Matrices)[matrixIndex] == NULL) throw;
+
+  return;
 
 }
 
@@ -63,6 +69,7 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   if (m_Vectors == 0)
   {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
+    if (m_Vectors == NULL) throw;
   }
 
   // out with old, in with new
@@ -72,7 +79,10 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   }
 
   (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  if ( (*m_Vectors)[vectorIndex] == NULL) throw;
   (*m_Vectors)[vectorIndex]->fill(0.0);
+
+  return;
 
 }
 
@@ -100,6 +110,7 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
+    if (m_Solutions == NULL) throw;
   }
 
   // out with old, in with new
@@ -109,7 +120,10 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   }
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  if ( (*m_Solutions)[solutionIndex] == NULL) throw;
   (*m_Solutions)[solutionIndex]->fill(0.0);
+
+  return;
 }
 
 bool LinearSystemWrapperVNL::IsSolutionInitialized(unsigned int solutionIndex)

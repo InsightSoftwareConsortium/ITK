@@ -70,19 +70,22 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 {
 
   /* FIX ME: exceptions */
-  if (!m_Order || !m_MaximumNonZeroValues || !m_NumberOfMatrices) throw;
+  if (!m_Order || !m_MaximumNonZeroValues || (matrixIndex >= m_NumberOfMatrices) ) throw;
   if ( !m_MaximumNonZeroValues[matrixIndex] ) throw;
 
   // allocate if necessay
   if (m_Matrices == 0)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
+    if (m_Matrices == NULL) throw;
   }
 
   /* Set required variables */
   (*m_Matrices)[matrixIndex].Clear();
   (*m_Matrices)[matrixIndex].SetOrder(m_Order);
   (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues[matrixIndex] );
+
+  return;
 
 }
 
@@ -97,7 +100,6 @@ bool ItpackLinearSystemWrapper::IsMatrixInitialized(unsigned int matrixIndex)
   return true;
 }
 
-
 void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 {
 
@@ -108,6 +110,7 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
   if (m_Vectors == 0)
   {
     m_Vectors = new VectorHolder(m_NumberOfVectors);
+    if (m_Vectors == NULL) throw;
   }
   
   /* delete old vector */
@@ -118,12 +121,15 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
 
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal [m_Order];
+  if ( (*m_Vectors)[vectorIndex] == NULL) throw;
 
   /* fill with zeros */
   for (int i=0; i<m_Order; i++)
   {
     (*m_Vectors)[vectorIndex][i] = 0.0;
   }
+
+  return;
 
 }
 
@@ -147,6 +153,7 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new VectorHolder(m_NumberOfSolutions);
+    if (m_Solutions == NULL) throw;
   }
 
   /* delete old vector */
@@ -157,12 +164,15 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
 
   /* insert new vector */
   (*m_Solutions)[solutionIndex] = new doublereal [m_Order];
+  if ( (*m_Solutions)[solutionIndex] == NULL) throw;
 
   /* fill with zeros */
   for (int i=0; i<m_Order; i++)
   {
     (*m_Solutions)[solutionIndex][i] = 0.0;
   }
+
+  return;
 
 }
 

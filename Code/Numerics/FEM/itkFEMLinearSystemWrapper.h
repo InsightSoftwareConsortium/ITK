@@ -133,6 +133,11 @@ public:
    */
   virtual void InitializeMatrix(unsigned int matrixIndex = 0) = 0;
 
+
+  /**
+   * Check to see if matrix is initialized
+   * \param matrixIndex index of matrix to examine
+   */
   virtual bool IsMatrixInitialized(unsigned int matrixIndex = 0) = 0;
 
   /**
@@ -149,6 +154,11 @@ public:
    */
   virtual void InitializeVector(unsigned int vectorIndex = 0) = 0;
 
+
+  /**
+   * Check to see if vector is initialized
+   * \param vectorIndex vector of index to examine
+   */
   virtual bool IsVectorInitialized(unsigned int vectorIndex = 0) = 0;
 
   /**
@@ -165,6 +175,10 @@ public:
    */
   virtual void InitializeSolution(unsigned int solutionIndex = 0) = 0;
 
+  /**
+   * Check to see if solution vector is initialized
+   * \param solutionIndex index of solution vector to examine
+   */
   virtual bool IsSolutionInitialized(unsigned int solutionIndex = 0) = 0;
 
   /** Free teh mememory from a solution vector
