@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGaussianDensityFunction.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkGaussianDensityFunction.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkGaussianDensityFunction_h
@@ -23,10 +23,11 @@
 #include "vnl/algo/vnl_determinant.h"
 #include "vnl/vnl_math.h"
 
+#include "itkMatrix.h"
 #include "itkDensityFunction.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class GaussianDensityFunction
  * \brief GaussianDensityFunction class represents Gaussian Density Function.
@@ -38,7 +39,7 @@ namespace itk{
 
 template< class TMeasurementVector >
 class ITK_EXPORT GaussianDensityFunction :
-      public DensityFunction< TMeasurementVector >
+    public DensityFunction< TMeasurementVector >
 {
 public:
   /** Standard class typedefs */
@@ -54,22 +55,24 @@ public:
   typedef TMeasurementVector MeasurementVectorType ;
 
   /** Dimension of the each individual pixel vector. */
-  enum{ VectorDimension = MeasurementVectorType::Length } ;
+  enum{ VectorDimension = TMeasurementVector::Length } ;
 
+  typedef Vector< double, VectorDimension > MeanType ;
+  typedef Matrix< double, VectorDimension, VectorDimension > CovarianceType ;
   /** Method to set mean */
-  void SetMean(vnl_vector<double> mean) ;
+  void SetMean(MeanType* mean) ;
   
   /** Method to get mean */
-  vnl_vector<double> GetMean() ;
+  MeanType* GetMean() ;
 
   /** Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of 
    * Gaussian Distribution to speed up GetProbability */
-  void SetCovariance(vnl_matrix<double> cov); 
+  void SetCovariance(CovarianceType* cov); 
   
   /** Method to get covariance matrix */
-  vnl_matrix<double> GetCovariance() ;
-    
+  CovarianceType* GetCovariance() ;
+
   /**y Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
   double Evaluate(const MeasurementVectorType &measurement) const ;
@@ -80,21 +83,19 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  vnl_vector< double >  m_Mean;              // mean
-  vnl_matrix< double >  m_Covariance;         // covariance matrix
+  MeanType*  m_Mean;              // mean
+  CovarianceType*  m_Covariance;         // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 
   // when covariace matirx is set.  This speed up the GetProbability()
-  vnl_matrix< double >  m_InverseCovariance; 
+  CovarianceType  m_InverseCovariance; 
 
   // pre_factor which is automatically calculated 
   // when covariace matirx is set.  This speeds up the GetProbability()  
   double m_PreFactor;
-  
-  unsigned int m_VectorSize ;
 };
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
