@@ -3,6 +3,7 @@
 
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
+#include "itkHexahedronCell.h"
 
 /**
  * Some typedefs to make things easier.
@@ -15,11 +16,18 @@
 typedef itkMesh<int>             Mesh;
 
 /**
- * Define a tetrahedron cell type which uses a PixelType of "int".  Again,'
+ * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itkTetrahedronCell<int>  TetraCell;
+typedef itkTetrahedronCell<int>    TetraCell;
+typedef itkHexahedronCell<int>     HexaCell;
+
+/**
+ * Typedef the generic cell type for the mesh.  It is an abstract class,
+ * so we can only use information from it, like get its pointer type.
+ */
+typedef Mesh::Cell               Cell;
 
 /**
  * The type of point stored in the mesh.
@@ -29,19 +37,22 @@ typedef Mesh::Point              Point;
 int main(void)
 {
   /**
-   * Define the 3d geometric positions for 4 points.
-   * I just made these up, so there is no significance to relative position
-   * of the points in this example.
+   * Define the 3d geometric positions for 8 points in a cube.
    */
-  double testPointCoords0[3] = {2,3,4};
-  double testPointCoords1[3] = {3,3,3};
-  double testPointCoords2[3] = {4,3,2};
-  double testPointCoords3[3] = {5,6,4};
+  double testPointCoords[8][3]
+    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
+        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
   
   /**
    * List the points that the tetrahedron will use from the mesh.
    */
-  unsigned long testPointList[4] = {0,1,2,3};
+  unsigned long tetraPoints[4] = {0,1,2,4};
+  
+  /**
+   * List the points that the hexahedron will use from the mesh.
+   */
+  unsigned long hexaPoints[8] = {0,1,2,3,4,5,6,7};
+  
   
   /**
    * Create the mesh through its object factory.
@@ -49,31 +60,48 @@ int main(void)
   Mesh::Pointer mesh(Mesh::New());  
 
   /**
-   * Add our 4 points to the mesh.
+   * Add our test points to the mesh.
    * mesh->SetPoint(pointId, point)
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  mesh->SetPoint(0, Point(testPointCoords0));
-  mesh->SetPoint(1, Point(testPointCoords1));
-  mesh->SetPoint(2, Point(testPointCoords2));
-  mesh->SetPoint(3, Point(testPointCoords3));
+  for(int i=0; i < 8 ; ++i)
+    {
+    mesh->SetPoint(i, Point(testPointCoords[i]));
+    }
 
   /**
    * Create the test cell.
    */
-  TetraCell::Pointer testCell(TetraCell::New());
+  Cell::Pointer testCell(TetraCell::New());
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
-  testCell->SetCellPoints(testPointList);
-
+  testCell->SetCellPoints(tetraPoints);
+  
   /**
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
    */
   mesh->SetCell(0, testCell);
+  
+  /**
+   * Create another test cell.
+   */
+  testCell = HexaCell::New();
+
+  testCell->SetCellPoints(hexaPoints);
+
+  mesh->SetCell(1, testCell);
+
+  /**
+   * Try getting one of the hexahedron's faces.
+   */
+  testCell = mesh->GetCellBoundaryFeature(
+    2,    // Topological dimension of boundary.
+    1,    // CellIdentifier.
+    0);   // CellFeatureIdentifier
   
   return 0;  
 }
