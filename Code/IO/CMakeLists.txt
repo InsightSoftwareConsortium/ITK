@@ -1,37 +1,35 @@
 SET(ITKIO_SRCS
-itkAnalyzeImageIO.cxx
-itkAnalyzeImageIOFactory.cxx
-itkDicomImageIOFactory.cxx
-itkDicomImageIO.cxx
-itkDICOMImageIO2Factory.cxx
-itkDICOMImageIO2.cxx
-itkFileIteratorBase.cxx
-itkGiplImageIOFactory.cxx
-itkGiplImageIO.cxx
-itkImageIOBase.cxx
-itkImageIOFactory.cxx
-itkAnalyzeImageIO.cxx
-itkAnalyzeImageIOFactory.cxx
-itkIPLCommonImageIO.cxx
-itkGEAdwImageIO.cxx
-itkGEAdwImageIOFactory.cxx
-itkGE4ImageIO.cxx
-itkGE4ImageIOFactory.cxx
-itkGE5ImageIO.cxx
-itkGE5ImageIOFactory.cxx
-itkIOCommon.cxx
-itkMetaImageIOFactory.cxx
-itkMetaImageIO.cxx
-itkNumericSeriesFileIterator.cxx
-itkPNGImageIOFactory.cxx
-itkPNGImageIO.cxx
-itkVOLImageIOFactory.cxx
-itkVOLImageIO.cxx
-itkVTKImageIOFactory.cxx
-itkVTKImageIO.cxx
-itkStimulateImageIO.cxx
-itkStimulateImageIOFactory.cxx
-itkWriter.cxx
+  itkAnalyzeImageIO.cxx
+  itkAnalyzeImageIOFactory.cxx
+  itkDICOMImageIO2.cxx
+  itkDICOMImageIO2Factory.cxx
+  itkDicomImageIO.cxx
+  itkDicomImageIOFactory.cxx
+  itkFileIteratorBase.cxx
+  itkGE4ImageIO.cxx
+  itkGE4ImageIOFactory.cxx
+  itkGE5ImageIO.cxx
+  itkGE5ImageIOFactory.cxx
+  itkGEAdwImageIO.cxx
+  itkGEAdwImageIOFactory.cxx
+  itkGiplImageIO.cxx
+  itkGiplImageIOFactory.cxx
+  itkIOCommon.cxx
+  itkIPLCommonImageIO.cxx
+  itkImageIOBase.cxx
+  itkImageIOFactory.cxx
+  itkMetaImageIO.cxx
+  itkMetaImageIOFactory.cxx
+  itkNumericSeriesFileIterator.cxx
+  itkPNGImageIO.cxx
+  itkPNGImageIOFactory.cxx
+  itkStimulateImageIO.cxx
+  itkStimulateImageIOFactory.cxx
+  itkVOLImageIO.cxx
+  itkVOLImageIOFactory.cxx
+  itkVTKImageIO.cxx
+  itkVTKImageIOFactory.cxx
+  itkWriter.cxx
 )
 
 # Add ITKIO library
