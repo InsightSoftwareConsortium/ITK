@@ -58,7 +58,7 @@ const typename ImageAndPathToImageFilter<TInputImage,TInputPath,TOutputImage>::I
 ImageAndPathToImageFilter<TInputImage,TInputPath,TOutputImage>
 ::GetImageInput(void) 
 {
-  if (this->GetNumberOfInputs() < 0)
+  if (this->GetNumberOfInputs() < 1)
     {
     return 0;
     }
