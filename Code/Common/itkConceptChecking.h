@@ -40,10 +40,10 @@
  * Binding Parametric Polymorphism in C++" by Jeremy Siek and Andrew
  * Lumsdaine, University of Notre Dame.
  */
-#  define ITK_CONCEPT_CONSTRAINTS() \
+#  define itkConceptConstraintsMacro() \
     template <void (Constraints::*)()> struct Enforcer {}; \
     typedef Enforcer<&Constraints::constraints> EnforcerInstantiation
-#  define ITK_CONCEPT_REQUIRE(name, concept) enum { name = sizeof concept }
+#  define itkConceptMacro(name, concept) enum { name = sizeof concept }
 
 #elif defined(ITK_CONCEPT_IMPLEMENTATION_VTABLE)
 
@@ -52,21 +52,21 @@
  * run-time overhead.  The "vtable" approach was invented for this
  * project by Brad King at Kitware.
  */
-#  define ITK_CONCEPT_CONSTRAINTS() \
+#  define itkConceptConstraintsMacro() \
     virtual void Enforcer() { &Constraints::constraints; }
-#  define ITK_CONCEPT_REQUIRE(name, concept) enum { name = sizeof concept }
+#  define itkConceptMacro(name, concept) enum { name = sizeof concept }
 
 #elif define(ITK_CONCEPT_IMPLEMENTATION_CALL)
 
 /** Not implemented.  */
-#  define ITK_CONCEPT_CONSTRAINTS()
-#  define ITK_CONCEPT_REQUIRE(name, concept) enum { name = 0 }
+#  define itkConceptConstraintsMacro()
+#  define itkConceptMacro(name, concept) enum { name = 0 }
 
 #else
 
 /** Disable concept checking.  */
-#  define ITK_CONCEPT_CONSTRAINTS()
-#  define ITK_CONCEPT_REQUIRE(name, concept) enum { name = 0 }
+#  define itkConceptConstraintsMacro()
+#  define itkConceptMacro(name, concept) enum { name = 0 }
 
 #endif
 
@@ -127,7 +127,7 @@ struct DefaultConstructible
       }
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have a copy constructor. (BOOST) */
@@ -153,7 +153,7 @@ struct CopyConstructible
     T b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T1 to be convertible to T2. (BOOST) */
@@ -169,7 +169,7 @@ struct Convertible
       }
     T1 a;
   };
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operator =.  (BOOST) */
@@ -190,7 +190,7 @@ struct Assignable
     T a;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operator <.  (BOOST) */
@@ -206,7 +206,7 @@ struct LessThanComparable
     T a, b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operators == and != (BOOST) */
@@ -223,7 +223,7 @@ struct EqualityComparable
     T a, b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operators <, >, <=, >=, ==, !=. (BOOST) */
@@ -244,7 +244,7 @@ struct Comparable
     T a, b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operators +, -, +=, -=. */
@@ -271,7 +271,7 @@ struct AdditiveOperators
     T a, b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring T to have operators *, /, *=, /=. */
@@ -298,7 +298,7 @@ struct MultiplicativeOperators
     T a, b;
   };
   
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
   
@@ -314,7 +314,7 @@ struct SameType
         Detail::IgnoreUnusedVariable(a);
       }
   };
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 /** Concept requiring D1 and D2 to be the same dimension. */
@@ -331,7 +331,7 @@ struct SameDimension
         Detail::IgnoreUnusedVariable(a);
       }
   };
-  ITK_CONCEPT_CONSTRAINTS();
+  itkConceptConstraintsMacro();
 };
 
 } // namespace Concept
