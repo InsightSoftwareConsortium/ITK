@@ -29,6 +29,7 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 ::IterativeClosestPointMetric()
 {
   m_DistanceMap = 0;
+  m_ComputeSquaredDistance = false; // for computation speed
 }
 
 /** Return the number of values, i.e the number of points in the moving set */
@@ -110,11 +111,11 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 
       while( pointItr2 != pointEnd2 )
         {
+        double dist = pointItr2.Value().EuclideanDistanceTo(transformedPoint);
 
-        double dist = 0;
-        for(unsigned int i=0;i<itkGetStaticConstMacro(MovingPointSetDimension);i++)
+        if(m_ComputeSquaredDistance)
           {
-          dist += (pointItr2.Value()[i] - transformedPoint[i])*(pointItr2.Value()[i] - transformedPoint[i]);
+          dist = sqrt(dist);
           }
 
         if(dist<minimumDistance)
