@@ -85,10 +85,10 @@ public:
   void Execute(Object *caller, const EventObject &event)
   {
     std::cout <<
-      (dynamic_cast<SparseFieldLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType> *>(caller))->GetRMSChange()
+      (dynamic_cast<SparseFieldLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))->GetRMSChange()
               << std::endl;
     std::cout <<
-      (dynamic_cast<SegmentationLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
+      (dynamic_cast<SegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
               << std::endl;
    
   }
@@ -143,8 +143,8 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
             inputImage->SetPixel(idx, val);
           }
 
-  itk::ThresholdSegmentationLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
-    filter = itk::ThresholdSegmentationLevelSetImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
+  itk::ThresholdSegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType>::Pointer
+    filter = itk::ThresholdSegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType>::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
 

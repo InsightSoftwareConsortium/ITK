@@ -125,10 +125,10 @@ public:
   void Execute(Object *caller, const EventObject &event)
   {
     std::cout <<
-      (dynamic_cast<SparseFieldLevelSetImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType> *>(caller))->GetRMSChange()
+      (dynamic_cast<SparseFieldLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))->GetRMSChange()
               << std::endl;
     std::cout <<
-      (dynamic_cast<SegmentationLevelSetImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
+      (dynamic_cast<SegmentationLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
               << std::endl;
    
   }
@@ -173,8 +173,8 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char **)
   LSIFTN::evaluate_float_function(inputImage, LSIFTN::sphere2);
 
   
-  itk::LaplacianSegmentationLevelSetImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::Pointer
-    filter = itk::LaplacianSegmentationLevelSetImageFilter<LSIFTN::SeedImageType, LSIFTN::ImageType>::New();
+  itk::LaplacianSegmentationLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType>::Pointer
+    filter = itk::LaplacianSegmentationLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType>::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
 
