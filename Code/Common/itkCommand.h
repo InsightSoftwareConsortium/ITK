@@ -188,7 +188,7 @@ public:
    */
   virtual void Execute( const LightObject *caller, unsigned long event)
     { 
-      ((*m_This).*(m_memberfunction))(caller, event);
+      ((*m_This).*(m_MemberFunction))(caller, event);
     }
 
 
