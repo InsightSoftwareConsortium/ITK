@@ -132,8 +132,6 @@ int main()
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
 
-  unsigned int ClassImageDimension = NDIMENSION;
-
   typedef
     itk::ImageRegionIterator<ClassImagePixelType, NDIMENSION>  
       ClassImageIterator;
