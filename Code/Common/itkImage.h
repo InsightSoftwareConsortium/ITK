@@ -18,7 +18,8 @@
 #define __itkImage_h
 
 #include "itkImageBase.h"
-#include "itkDefaultImageTraits.h"
+#include "itkImageRegion.h"
+#include "itkImportImageContainer.h"
 #include "itkDefaultPixelAccessor.h"
 #include "itkAffineTransform.h"
 #include "itkPoint.h"
@@ -31,14 +32,8 @@ namespace itk
  *  \brief Templated n-dimensional image class.
  * 
  * Images are templated over a pixel type (modeling the dependent
- * variables), a dimension (number of independent variables) and a
- * traits class.  The container for the pixel data is specified as a
- * "PixelContainer" member of the image traits, and must satisfy the
- * ImageContainerInterface.  The default pixel container uses a
- * valarray to store pixel values (ValarrayImageContainer).  An
- * alternative pixel container is ImportImageFilterContainer, which
- * allows an application to pass a block of memory to the Image class
- * to use as its initial storage.
+ * variables), and a dimension (number of independent variables).  The
+ * container for the pixel data is the ImportImageContainer.
  * 
  * Within the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
@@ -74,10 +69,8 @@ namespace itk
  *
  * \sa ImageContainerInterface
  *
- * \ingroup ImageObjects
- */
-template <class TPixel, unsigned int VImageDimension=2,
-          class TImageTraits=DefaultImageTraits< TPixel, VImageDimension > >
+ * \ingroup ImageObjects */
+template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
@@ -113,15 +106,20 @@ public:
    * the image. */
   enum { ImageDimension = VImageDimension };
   
-  /** The ImageTraits for this image. */
-  typedef TImageTraits ImageTraits;
+  /** Container used to store pixels in the image. */
+  typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
-  /** Convenient typedefs obtained from TImageTraits template parameter. */
-  typedef typename ImageTraits::PixelContainer PixelContainer;
-  typedef typename ImageTraits::SizeType SizeType;
-  typedef typename ImageTraits::IndexType IndexType;
-  typedef typename ImageTraits::OffsetType OffsetType;
-  typedef typename ImageTraits::RegionType RegionType;
+  /** Index typedef support. An index is used to access pixel values. */
+  typedef Index<ImageDimension>  IndexType;
+
+  /** Offset typedef support. An offset is used to access pixel values. */
+  typedef Offset<ImageDimension>  OffsetType;
+
+  /** Size typedef support. A size is used to define region bounds. */
+  typedef Size<ImageDimension>  SizeType;
+
+  /** Region typedef support. A region is used to specify a subset of an image. */
+  typedef ImageRegion<ImageDimension>  RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

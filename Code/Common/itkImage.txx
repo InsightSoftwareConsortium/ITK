@@ -28,8 +28,8 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-Image<TPixel, VImageDimension, TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
+Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = PixelContainer::New();
@@ -48,17 +48,17 @@ Image<TPixel, VImageDimension, TImageTraits>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-Image<TPixel, VImageDimension, TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
+Image<TPixel, VImageDimension>
 ::~Image()
 {
 }
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::Allocate()
 {
   unsigned long num;
@@ -69,9 +69,9 @@ Image<TPixel, VImageDimension, TImageTraits>
   m_Buffer->Reserve(num);
 }
 
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::Initialize()
 {
   //
@@ -87,9 +87,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 }
 
 
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::FillBuffer (const TPixel& value)
 {
   ImageRegionIterator<Self> it(this,this->GetBufferedRegion());
@@ -100,9 +100,9 @@ Image<TPixel, VImageDimension, TImageTraits>
     }
 }
 
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetPixelContainer(PixelContainer *container)
 {
   if (m_Buffer != container)
@@ -115,9 +115,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetSpacing(const double spacing[ImageDimension] )
 {
   unsigned int i; 
@@ -139,9 +139,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetSpacing(const float spacing[ImageDimension] )
 {
   unsigned int i; 
@@ -165,9 +165,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 const double *
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::GetSpacing() const
 {
   return m_Spacing;
@@ -177,9 +177,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetOrigin(const double origin[ImageDimension] )
 {
   unsigned int i; 
@@ -202,9 +202,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetOrigin(const float origin[ImageDimension] )
 {
   unsigned int i; 
@@ -227,9 +227,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::SetOrigin(const OriginOffsetType & origin )
 {
   unsigned int i; 
@@ -252,18 +252,18 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 const double *
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::GetOrigin() const
 {
   return m_Origin;
 }
 
 //---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::RebuildTransforms()
 {
   typename AffineTransformType::MatrixType matrix;
@@ -311,9 +311,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
-Image<TPixel, VImageDimension, TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
+typename Image<TPixel, VImageDimension>::AffineTransformPointer
+Image<TPixel, VImageDimension>
 ::GetIndexToPhysicalTransform(void)
 {
   
@@ -327,9 +327,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 
 //---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
-Image<TPixel, VImageDimension, TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
+typename Image<TPixel, VImageDimension>::AffineTransformPointer
+Image<TPixel, VImageDimension>
 ::GetPhysicalToIndexTransform(void)
 {
 
@@ -342,9 +342,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::CopyInformation(const DataObject *data)
 {
   // Standard call to the superclass' method
@@ -375,9 +375,9 @@ Image<TPixel, VImageDimension, TImageTraits>
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+template<class TPixel, unsigned int VImageDimension>
 void 
-Image<TPixel, VImageDimension, TImageTraits>
+Image<TPixel, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

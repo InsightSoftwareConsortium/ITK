@@ -31,18 +31,16 @@ namespace itk
  *
  * */
 
-template <class TSourceImage,
-          class TImageTraits = DefaultImageTraits<BloxBoundaryPointPixel<TSourceImage::ImageDimension>,
-          TSourceImage::ImageDimension> >
+template <class TSourceImage>
 class ITK_EXPORT BloxBoundaryPointImage :
     public BloxImage<BloxBoundaryPointPixel<TSourceImage::ImageDimension>,
-                     TSourceImage::ImageDimension, TImageTraits>
+                     TSourceImage::ImageDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryPointImage  Self;
   typedef BloxImage<BloxBoundaryPointPixel<TSourceImage::ImageDimension>,
-                    TSourceImage::ImageDimension, TImageTraits>  Superclass;
+                    TSourceImage::ImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -75,15 +73,12 @@ public:
   /** The type of vector used to convert between physical and blox space */
   typedef Point<double, NDimensions> TPositionType;
 
-  /** The ImageTraits for this image. */
-  typedef TImageTraits ImageTraits;
-
-  /** Convenient typedefs obtained from TImageTraits template parameter. */
-  typedef typename ImageTraits::PixelContainer PixelContainer;
-  typedef typename ImageTraits::SizeType SizeType;
-  typedef typename ImageTraits::IndexType IndexType;
-  typedef typename ImageTraits::OffsetType OffsetType;
-  typedef typename ImageTraits::RegionType RegionType;
+  /** Convenient typedefs obtained from Superclass. */
+  typedef typename Superclass::PixelContainer PixelContainer;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::RegionType RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

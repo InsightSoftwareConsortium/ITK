@@ -39,18 +39,16 @@ namespace itk
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-template <class TBoundaryPointImage,
-  class TImageTraits = DefaultImageTraits<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-  TBoundaryPointImage::ImageDimension> >
+template <class TBoundaryPointImage>
 class ITK_EXPORT BloxCoreAtomImage :
   public BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-  TBoundaryPointImage::ImageDimension, TImageTraits>
+                   TBoundaryPointImage::ImageDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef BloxCoreAtomImage  Self;
   typedef BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-          TBoundaryPointImage::ImageDimension, TImageTraits>  Superclass;
+                    TBoundaryPointImage::ImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -92,18 +90,15 @@ public:
   /** How we represent gradients. */
   typedef CovariantVector<double, NDimensions> TGradientType;
 
-  /** The ImageTraits for this image.
+  /** Convenient typedefs obtained from Superclass.
    * Note: Unlike "normal" images BloxCoreAtomImages support neither Scalar nor
    * Vector calls!!! Scalar and vector traits are not defined and do not
    * make sense for linked lists (at the present time). */
-  typedef TImageTraits ImageTraits;
-
-  /** Convenient typedefs obtained from TImageTraits template parameter. */
-  typedef typename ImageTraits::PixelContainer PixelContainer;
-  typedef typename ImageTraits::SizeType SizeType;
-  typedef typename ImageTraits::IndexType IndexType;
-  typedef typename ImageTraits::OffsetType OffsetType;
-  typedef typename ImageTraits::RegionType RegionType;
+  typedef typename Superclass::PixelContainer PixelContainer;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::RegionType RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

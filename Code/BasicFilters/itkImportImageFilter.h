@@ -18,7 +18,6 @@
 #define __itkImportImageFilter_h
 
 #include "itkImageSource.h"
-#include "itkImportImageContainer.h"
 #include "itkImage.h"
 
 namespace itk
@@ -32,22 +31,17 @@ namespace itk
  * object.
  *
  * This class is templated over the pixel type and the image dimension of
- * the output image.  The filter prescribes a ImageImportContainer to be
- * be used as the pixel container for the output image.
+ * the output image.
  * 
  * \ingroup IOFilters
  */
 template <typename TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT ImportImageFilter:
-    public ImageSource<Image<TPixel,VImageDimension,
-                             DefaultImageTraits< TPixel, VImageDimension,
-                             ImportImageContainer<unsigned long, TPixel> > > >
+class ITK_EXPORT ImportImageFilter: 
+    public ImageSource< Image<TPixel,VImageDimension> >
 {
 public:
   /** Typedef for the output image.   */
-  typedef Image<TPixel,VImageDimension,
-               DefaultImageTraits< TPixel,VImageDimension,
-               ImportImageContainer<unsigned long, TPixel> > > OutputImageType;
+  typedef Image<TPixel,VImageDimension> OutputImageType;
   
   /** Standard class typedefs. */
   typedef ImportImageFilter   Self;

@@ -56,15 +56,13 @@ namespace itk
  *
  * */
 
-template <typename TBloxPixelType,
-          unsigned int VImageDimension=3,
-          class TImageTraits = DefaultImageTraits<TBloxPixelType, VImageDimension> >
-class ITK_EXPORT BloxImage : public Image<TBloxPixelType, VImageDimension, TImageTraits>
+template <typename TBloxPixelType, unsigned int VImageDimension=3>
+class ITK_EXPORT BloxImage : public Image<TBloxPixelType, VImageDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef BloxImage  Self;
-  typedef Image<TBloxPixelType, VImageDimension, TImageTraits>  Superclass;
+  typedef Image<TBloxPixelType, VImageDimension>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -94,15 +92,12 @@ public:
    * of the image. */
   enum { ImageDimension = VImageDimension };
 
-  /** The ImageTraits for this image. */
-  typedef TImageTraits ImageTraits;
-
-  /** Convenient typedefs obtained from TImageTraits template parameter. */
-  typedef typename ImageTraits::PixelContainer PixelContainer;
-  typedef typename ImageTraits::SizeType SizeType;
-  typedef typename ImageTraits::IndexType IndexType;
-  typedef typename ImageTraits::OffsetType OffsetType;
-  typedef typename ImageTraits::RegionType RegionType;
+  /** Convenient typedefs obtained from Superclass. */
+  typedef typename Superclass::PixelContainer PixelContainer;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::RegionType RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

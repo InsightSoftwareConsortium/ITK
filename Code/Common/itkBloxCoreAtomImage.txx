@@ -26,8 +26,8 @@
 namespace itk
 {
 
-template<class TBoundaryPointImage, class TImageTraits>
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+template<class TBoundaryPointImage>
+BloxCoreAtomImage<TBoundaryPointImage>
 ::BloxCoreAtomImage()
 {
   m_BoundaryPointImage = NULL;
@@ -39,16 +39,16 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   m_Polarity = 0;
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+template<class TBoundaryPointImage>
+BloxCoreAtomImage<TBoundaryPointImage>
 ::~BloxCoreAtomImage()
 {
 
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
+template<class TBoundaryPointImage>
 void
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+BloxCoreAtomImage<TBoundaryPointImage>
 ::FindCoreAtoms()
 {
   itkDebugMacro(<< "BloxCoreAtomImage::FindCoreAtoms() called");
@@ -88,9 +88,9 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
                 << "I found " << m_NumCoreAtoms << " core atoms\n");
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
+template<class TBoundaryPointImage>
 void
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+BloxCoreAtomImage<TBoundaryPointImage>
 ::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pBPOne)
 {
   // When looking for core atoms at a boundary point, we want to examine
@@ -221,9 +221,9 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
    } // end if the seed position for the conic shell is in the image
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
+template<class TBoundaryPointImage>
 void
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
+BloxCoreAtomImage<TBoundaryPointImage>::
 DoEigenanalysis()
 {
   itk::ImageRegionIterator<Self> bloxIt = 
@@ -235,9 +235,9 @@ DoEigenanalysis()
     }
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
+template<class TBoundaryPointImage>
 void
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
+BloxCoreAtomImage<TBoundaryPointImage>::
 DoCoreAtomVoting()
 {
   // Iterator to access all pixels in the image
@@ -317,9 +317,9 @@ DoCoreAtomVoting()
     }
 }
 
-template<class TBoundaryPointImage, class TImageTraits>
+template<class TBoundaryPointImage>
 void
-BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+BloxCoreAtomImage<TBoundaryPointImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

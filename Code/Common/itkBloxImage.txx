@@ -23,23 +23,23 @@
 namespace itk
 {
 
-template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
-BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
+template<typename TBloxPixelType, unsigned int VImageDimension>
+BloxImage<TBloxPixelType, VImageDimension>
 ::BloxImage()
 {
 
 }
 
-template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
-BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
+template<typename TBloxPixelType, unsigned int VImageDimension>
+BloxImage<TBloxPixelType, VImageDimension>
 ::~BloxImage()
 {
 
 }
 
-template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
+template<typename TBloxPixelType, unsigned int VImageDimension>
 void
-BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
+BloxImage<TBloxPixelType, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

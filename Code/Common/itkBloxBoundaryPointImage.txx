@@ -24,32 +24,32 @@
 namespace itk
 {
 
-template<class TSourceImage, class TImageTraits>
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
+template<class TSourceImage>
+BloxBoundaryPointImage<TSourceImage>
 ::BloxBoundaryPointImage()
 {
   m_Threshold = 0;
 }
 
-template<class TSourceImage, class TImageTraits>
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
+template<class TSourceImage>
+BloxBoundaryPointImage<TSourceImage>
 ::~BloxBoundaryPointImage()
 {
 
 }
 
-template<class TSourceImage, class TImageTraits>
+template<class TSourceImage>
 void
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
+BloxBoundaryPointImage<TSourceImage>
 ::UpdateSourceParameters()
 {
   m_SourceOrigin = m_SourceImage->GetOrigin();
   m_SourceSpacing = m_SourceImage->GetSpacing();
 }
 
-template<class TSourceImage, class TImageTraits>
+template<class TSourceImage>
 void
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
+BloxBoundaryPointImage<TSourceImage>
 ::FindBoundaryPoints()
 {
   itkDebugMacro(<< "BloxBoundaryPointImage::FindBoundaryPoints() called");
@@ -120,9 +120,9 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
                 << "I added " << numBPadded << " points\n");
 }
 
-template<class TSourceImage, class TImageTraits>
+template<class TSourceImage>
 void
-BloxBoundaryPointImage<TSourceImage, TImageTraits>
+BloxBoundaryPointImage<TSourceImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
