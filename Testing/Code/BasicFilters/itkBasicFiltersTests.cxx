@@ -162,6 +162,7 @@ void RegisterTests()
   REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageStatisticsCalculatorTest );
+  REGISTER_TEST(itkSpatialObjectToPointSetFilterTest );
   REGISTER_TEST(itkSpatialFunctionImageEvaluatorFilterTest );
   REGISTER_TEST(itkSqrtImageFilterAndAdaptorTest );
   REGISTER_TEST(itkSquareImageFilterTest );
