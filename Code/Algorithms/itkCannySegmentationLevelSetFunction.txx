@@ -32,9 +32,9 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
   // Create a distance transform to the canny edges
   this->CalculateDistanceImage();
 
-  // Change the Speed Image's container so that it holds the distance
-  // transform
-  m_SpeedImage->SetPixelContainer(m_Distance->GetOutput()->GetPixelContainer());
+  // Graft the distance transform into the Speed Image
+  this->GetSpeedImage()->Graft( m_Distance->GetOutput() );
+
 }
 
 template <class TImageType, class TFeatureImageType>
