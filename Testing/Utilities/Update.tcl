@@ -53,7 +53,7 @@ proc SplitLog { Log } \
 
 proc LoadCVSInformation { File } \
 {
-  global UseDates Yesterday Today cvs FileStatus YesterdayTS
+  global UseDates Yesterday Today cvs FileStatus YesterdayTS Model
 
   #  puts stderr $YesterdayTS
 
@@ -77,6 +77,14 @@ proc LoadCVSInformation { File } \
     
     regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy LastReported
 
+    # Break out if not today or yesterday...
+    if { $Model == "Nightly" } \
+    {
+      if { ![string match "$Today*" $Date] && ![string match "$Yesterday*" $Date] } \
+      {
+	break;
+      }
+    }
     if { $i == 1 } \
     {
       set FileStatus($File,LastReportedRevision) $LastReported
@@ -113,7 +121,10 @@ proc LoadCVSInformation { File } \
     }
     incr i
     incr FileStatus($File,SelectedRevisions)
-
+    if { $Model == "Experimental" && $i > 1 } \
+    {
+      break
+    }
     
   }
   
@@ -135,9 +146,17 @@ if { $Model == "Nightly" } \
 
   set Date [clock format $t -format "%Y-%m-%d 3:00:00 EST"]
   set UpdateCommand "$UpdateCommand -D \"$Date\""
+
+  set Today [clock format $t -format "%Y/%m/%d"]
+  set Yesterday [clock format [expr $t - 24 * 60 * 60 ] -format "%Y/%m/%d"]
   
 }
-  
+if { $Model == "Experimental" } \
+{
+  set t [clock seconds]
+  set Today [clock format $t -format "%Y/%m/%d"]
+  set Yesterday [clock format [expr $t - 24 * 60 * 60 ] -format "%Y/%m/%d"]
+}  
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
 
 puts $Out "\t<UpdateCommand>$UpdateCommand</UpdateCommand>"
