@@ -176,18 +176,27 @@ void RawImageIO<TPixel,VImageDimension>
     itkExceptionMacro(<<"File seek failed");
     }
 
-  itkDebugMacro(<< "Reading " << m_Strides[m_FileDimensionality + 1] << " bytes");
+  const unsigned long numberOfBytesToBeRead = 
+          static_cast< unsigned long>( this->GetImageSizeInBytes() );
+
+ itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
   
   if ( m_FileType == Binary )
     {
     // Read the image (binary) 
-    file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
-    if ( file.fail() )
+    file.read((char *)buffer, numberOfBytesToBeRead );
+    const unsigned long numberOfBytesRead = file.gcount();
+#ifdef __APPLE_CC__
+    // fail() is broken in the Mac. It returns true when reaches eof().
+    if ( numberOfBytesRead != numberOfBytesToBeRead )
+#else
+    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || file.fail() )
+#endif
       {
       itkExceptionMacro(<<"Read failed: Wanted " 
-                        << m_Strides[m_FileDimensionality + 1]
+                        << numberOfBytesToBeRead
                         << " bytes, but read " 
-                        << file.gcount() << " bytes.");
+                        << numberOfBytesRead << " bytes.");
       }
     }
   else
