@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRT3DTransform.h
+  Module:    itkAzimuthElevationToCartesianTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
