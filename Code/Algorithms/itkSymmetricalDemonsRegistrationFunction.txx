@@ -46,7 +46,7 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
   m_FixedImage = NULL;
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
-  m_Normalizer = 1.0;
+  m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 
@@ -100,7 +100,7 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
   m_FixedImageOrigin     = m_FixedImage->GetOrigin();
 
   // compute the normalizer
-  m_Normalizer      = 1.0;
+  m_Normalizer      = 0.0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
