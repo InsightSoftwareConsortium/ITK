@@ -81,7 +81,7 @@ int itkFEMElementTest(int ac, char** av)
       std::cout<<S.GetSolution(dof);
       std::cout<<",  ";
     }
-    std::cout<<"\b\b\b \b\n";
+    std::cout<<"\n";
   }
 
 
