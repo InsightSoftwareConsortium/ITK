@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include <iostream>
 #include "itkImage.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
@@ -46,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFileOutputWindow.h"
 #include "itkMultiThreader.h"
 #include "itkStreamingImageFilter.h"
+#include <iostream>
 
 //
 // Check that val represents the correct pixel value.  This routine
