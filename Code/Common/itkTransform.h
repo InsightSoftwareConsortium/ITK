@@ -96,20 +96,20 @@ public:
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const
-    { OutputPointType result; return result; }
+    { OutputPointType result; result.CastFrom(point); return result; }
 
   /**  Method to transform a vector. */
   virtual OutputVectorType    TransformVector(const InputVectorType &vector) const
-    { OutputVectorType result; return result; }
+    { OutputVectorType result; result.CastFrom(vector); return result; }
 
   /**  Method to transform a vnl_vector. */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const
-    { OutputVnlVectorType result; return result; }
+    { return vector; }
 
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const
-    { OutputCovariantVectorType result; return result; }
+    { OutputCovariantVectorType result; result.CastFrom(vector); return result; }
 
   /** Set the Transformation Parameters
    * and update the internal transformation. */
@@ -143,7 +143,12 @@ public:
    *
    * \f]
    * **/
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const = 0;
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) 
+    { 
+    m_Jacobian = JacobianType(NInputDimensions,1); 
+    m_Jacobian.Fill(0.0); 
+    return m_Jacobian;
+    }
 
 
   /** Return the number of parameters that completely define the Transfom  */
@@ -152,6 +157,7 @@ public:
 
 
 protected:
+  Transform(); // constructor for Identity Transforms
   Transform(unsigned int Dimension, unsigned int NumberOfParameters);
   virtual ~Transform() {};
 
