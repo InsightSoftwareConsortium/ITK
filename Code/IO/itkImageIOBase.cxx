@@ -244,6 +244,12 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     this->SetPixelType(ImageIOBase::FLOAT);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
+  else if ( ptype == typeid(Vector<float,3>))
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(ImageIOBase::FLOAT);
+    this->SetComponentType(ImageIOBase::FLOAT);
+    }
   else
     {
     itkExceptionMacro("Pixel type currently not supported.");
