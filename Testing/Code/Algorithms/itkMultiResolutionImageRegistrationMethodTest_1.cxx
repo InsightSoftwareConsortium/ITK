@@ -228,7 +228,6 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char**)
     CommandIterationType::New();
 
   iterationCommand->SetOptimizer( optimizer );
-  optimizer->AddObserver( itk::IterationEvent(), iterationCommand );
 */
 
   /******************************************************************

@@ -249,7 +249,6 @@ int itkImageRegistrationMethodTest_14(int, char**)
     CommandIterationType::New();
 
   iterationCommand->SetOptimizer( optimizer );
-  optimizer->AddObserver( itk::IterationEvent(), iterationCommand );
 
   /******************************************************************
    * Set up the metric.

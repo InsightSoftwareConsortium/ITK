@@ -117,8 +117,11 @@ SpatialSampleContainer& samples ) const
 
   bool allOutside = true;
 
-  for( iter = samples.begin(); iter != end; ++iter, ++randIter )
+  for( iter = samples.begin(); iter != end; ++iter )
     {
+
+    // jump to random position
+    ++randIter;
 
     // get sampled index
     FixedImageIndexType index = randIter.GetIndex();
