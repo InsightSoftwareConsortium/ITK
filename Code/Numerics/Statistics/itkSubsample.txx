@@ -26,6 +26,7 @@ template< class TSample >
 Subsample< TSample >
 ::Subsample()
 {
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
 }
 
 template< class TSample >
