@@ -21,7 +21,7 @@
 // \doxygen{DanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map from the input image using the algorithm developed by
 // Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi partition
-// if the input elements is produced, as well as a vector image with the
+// of the input elements is produced, as well as a vector image with the
 // components of the distance vector to the closest point. The input to the map
 // is assumed to be a set of points on the input image. Each point/pixel is
 // considered to be a separate entity even if they share the same graylevel
