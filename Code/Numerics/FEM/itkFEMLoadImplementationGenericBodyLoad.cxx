@@ -57,9 +57,8 @@ Element::VectorType LoadImplementationGenericBodyLoad(ElementNew::ConstPointer e
 
   for(unsigned int i=0; i<Nip; i++)
   {
-    ip=element->GetIntegrationPoint(i,order);
+    element->GetIntegrationPointAndWeight(i,ip,w,order);
     gip=element->GetGlobalFromLocalCoordinates(ip);
-    w=element->GetWeightAtIntegrationPoint(i,order);
 
     shapeF=element->ShapeFunctions(ip);
     detJ=element->JacobianDeterminant(ip);

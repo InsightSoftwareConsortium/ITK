@@ -27,37 +27,24 @@ namespace fem {
 
 
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
+void
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i, unsigned int order) const
+::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
   // FIXME: range checking
 
   // default integration order=2
   if (order==0) { order=2; }
 
-  VectorType pt(2);
+  pt.resize(2);
 
   pt[0]=gaussPoint[order][i%order];
   pt[1]=gaussPoint[order][i/order];
 
-  return pt;
+  w=gaussWeight[order][i%order]*gaussWeight[order][i/order];
+
 }
 
-
-
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::Float
-Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const
-{
-  // FIXME: range checking
-
-  // default integration order=2
-  if (order==0) { order=2; }
-
-  return gaussWeight[order][i%order]*gaussWeight[order][i/order];
-}
 
 
 

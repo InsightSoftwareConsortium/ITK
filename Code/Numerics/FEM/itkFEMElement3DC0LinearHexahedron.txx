@@ -27,38 +27,24 @@ namespace fem {
 
 
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
+void
 Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i, unsigned int order) const
+::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
-  VectorType pt(3);
-
   // FIXME: range checking
 
   // default integration order=2
   if (order==0) { order=2; }
 
+  pt.resize(3);
   pt[0] = gaussPoint[order][i%order];
   pt[1] = gaussPoint[order][(i/order)%order];
   pt[2] = gaussPoint[order][(i/(order*order))];
 
-  return pt;
+  w=gaussWeight[order][i%order]*gaussWeight[order][(i/order)%order]*gaussWeight[order][(i/(order*order))];
+
 }
 
-
-
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>::Float
-Element3DC0LinearHexahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const
-{
-  // FIXME: range checking
-
-  // default integration order=2
-  if (order==0) { order=2; }
-
-  return gaussWeight[order][i%order]*gaussWeight[order][(i/order)%order]*gaussWeight[order][(i/(order*order))];
-}
 
 
 

@@ -170,8 +170,8 @@ void ElementNew::Node::Write( std::ostream& f, int clid ) const
  *     a
  *
  * using the Gaussian numeric integration method. The function calls
- * GetIntegrationPoint() / GetNumberOfIntegrationPoints() to obtain the
- * integration points. It also calls the GetStrainDisplacementMatrix()
+ * GetIntegrationPointAndWeight() / GetNumberOfIntegrationPoints() to obtain
+ * the integration points. It also calls the GetStrainDisplacementMatrix()
  * and GetMaterialMatrix() member functions.
  *
  * \param Ke Reference to the resulting stiffnes matrix.
@@ -194,20 +194,21 @@ void ElementNew::GetStiffnessMatrix(MatrixType& Ke) const
   unsigned int Nip=this->GetNumberOfIntegrationPoints();
 
   VectorType ip;
+  Float w;
   MatrixType J;
   MatrixType shapeDgl;
   MatrixType shapeD;
 
   for(unsigned int i=0; i<Nip; i++)
   {
-    ip=this->GetIntegrationPoint(i);
+    this->GetIntegrationPointAndWeight(i,ip,w);
     this->ShapeFunctionDerivatives(ip,shapeD);
     this->Jacobian(ip,J,&shapeD);
     this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
 
     this->GetStrainDisplacementMatrix( B, shapeDgl );
     Float detJ=this->JacobianDeterminant( ip, &J );
-    Ke+=detJ*GetWeightAtIntegrationPoint(i)*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
+    Ke+=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
   }
 }
 

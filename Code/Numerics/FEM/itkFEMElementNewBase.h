@@ -276,8 +276,8 @@ public:
    *     a
    *
    * using the Gaussian numeric integration method. The function calls
-   * GetIntegrationPoint() / GetNumberOfIntegrationPoints() to obtain the
-   * integration points. It also calls the GetStrainDisplacementMatrix()
+   * GetIntegrationPointAndWeight() / GetNumberOfIntegrationPoints() to obtain
+   * the integration points. It also calls the GetStrainDisplacementMatrix()
    * and GetMaterialMatrix() member functions.
    *
    * \param Ke Reference to the resulting stiffnes matrix.
@@ -374,9 +374,10 @@ public:
    */
 
   /**
-   * Returns the vector representing the i-th integration point in 
+   * Computes the vector representing the i-th integration point in 
    * local element coordinates for a Gauss-Legendre numerical integration
-   * over the element domain.
+   * over the element domain. It also computes the weight at this integration
+   * point.
    *
    * Optionally you can also specify the order of integration. If order
    * is not specified, it defaults to 0, which means that the derived element
@@ -387,26 +388,14 @@ public:
    *       gaussMaxOrder-th order of integration.
    *
    * \param i Integration point number 0<=i<GetNumberOfIntegrationPoints()
+   * \param pt Reference to object of class VectorType that will hold the
+   *           integration point.
+   * \param w Reference to Float variable that will hold the weight.
    * \param order Order of integration.
    *
-   * \sa GetWeightAtIntegrationPoint()
    * \sa GetNumberOfIntegrationPoints()
    */
-  virtual VectorType GetIntegrationPoint( unsigned int i, unsigned int order=0 ) const = 0;
-
-  /**
-   * Returns the weight at i-th integration point.
-   *
-   * \note This function must be implemented in derived element classes, and
-   *       is expected to provide valid integration weights for up to
-   *       gaussMaxOrder-th order of integration.
-   *
-   * \param i Integration point number 0<=i<GetNumberOfIntegrationPoints()
-   * \param order Order of integration.
-   *
-   * \sa GetIntegrationPoint()
-   */
-  virtual Float GetWeightAtIntegrationPoint( unsigned int i, unsigned int order=0 ) const = 0;
+  virtual void GetIntegrationPointAndWeight( unsigned int i, VectorType& pt, Float& w, unsigned int order=0 ) const = 0;
 
   /**
    * Returns total number of integration points, for given order
@@ -416,7 +405,7 @@ public:
    *       is expected to provide valid number of integration points for up
    *       to gaussMaxOrder-th order of integration.
    *
-   * \sa GetIntegrationPoint()
+   * \sa GetIntegrationPointAndWeight()
    */
   virtual unsigned int GetNumberOfIntegrationPoints( unsigned int order=0 ) const = 0;
 

@@ -27,31 +27,23 @@ namespace fem {
 
 
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::VectorType
+void
 Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetIntegrationPoint(unsigned int i, unsigned int order) const
+::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
 {
-  VectorType ipts(3);
+  // FIXME: Write rules for other integration orders
+  pt.resize(3);
 
-  Float pt = (Float)1.0 / (Float)sqrt(3.0);
+  Float d = 1.0/sqrt(3.0);
 
-  ipts[0] = pt;
-  ipts[1] = pt;
-  ipts[2] = pt;
+  pt[0] = d;
+  pt[1] = d;
+  pt[2] = d;
 
-  return ipts;
+  w=1.0;
 
 }
 
-
-
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>::Float
-Element3DC0LinearTetrahedron<VNumberOfDegreesOfFreedomPerNode>
-::GetWeightAtIntegrationPoint(unsigned int, unsigned int order) const
-{
-  return (Float)1.0;
-}
 
 
 

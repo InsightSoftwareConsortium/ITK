@@ -31,7 +31,7 @@ namespace fem {
  * \brief 4-noded, linear, C0 continuous finite element in 2D space.
  *
  * This class is templated over number of unknowns per point. This
- * constant must be defined in derived classes, when te physics of
+ * constant must be defined in derived classes, when the physics of
  * the problem is known.
  */
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
@@ -61,9 +61,7 @@ public:
    * Methods related to numeric integration
    */
 
-  virtual VectorType GetIntegrationPoint(unsigned int i, unsigned int order) const;
-
-  virtual Float GetWeightAtIntegrationPoint(unsigned int i, unsigned int order) const;
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const;
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
