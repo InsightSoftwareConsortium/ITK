@@ -103,6 +103,11 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   std::cout << "filter->GetReplaceValue(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue)
             << std::endl;
+  bool findUpperThreshold = filter->GetFindUpperThreshold();
+  std::cout << "filter->GetFindUpperThreshold(): "
+            << findUpperThreshold
+            << std::endl;
+
   
 
   try
