@@ -123,7 +123,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(meshSO);
-  writer->SetFullFileName("e:/metamesh.txt");
+  writer->SetFullFileName("metamesh.txt");
   writer->Update();
   std::cout<<"[PASSED]"<<std::endl;
 
@@ -131,7 +131,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   std::cout<<"Testing Reading MeshSpatialObject: ";
   typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName("e:/metamesh.txt");
+  reader->SetFileName("metamesh.txt");
   reader->Update();
   ReaderType::ScenePointer myScene = reader->GetScene();
   if(!myScene)
