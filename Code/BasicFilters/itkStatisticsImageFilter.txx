@@ -35,6 +35,15 @@ StatisticsImageFilter<TInputImage>
     }
 }
 
+template<class TInputImage>
+void
+StatisticsImageFilter<TInputImage>
+::EnlargeOutputRequestedRegion(DataObject *data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+  data->SetRequestedRegionToLargestPossibleRegion();
+}
+
 
 template<class TInputImage>
 void
