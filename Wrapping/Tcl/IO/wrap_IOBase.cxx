@@ -29,5 +29,6 @@ ITK_WRAP_OBJECT(MetaImageIO);
 ITK_WRAP_OBJECT(PNGImageIOFactory);
 ITK_WRAP_OBJECT(MetaImageIOFactory);
 ITK_WRAP_OBJECT_TEMPLATE_2(RawImageIOF2, RawImageIO<float, 2>);
+ITK_WRAP_OBJECT_TEMPLATE_2(RawImageIOF3, RawImageIO<float, 3>);
 
 #endif
