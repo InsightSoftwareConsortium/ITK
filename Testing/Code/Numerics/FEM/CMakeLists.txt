@@ -6,6 +6,8 @@ ENDIF (TCL_TCLSH)
 
 INCLUDE_DIRECTORIES(
 ${ITK_SOURCE_DIR}/Code/Common
+${ITK_SOURCE_DIR}/Code/Algorithms
+${ITK_SOURCE_DIR}/Code/BasicFilters
 ${ITK_SOURCE_DIR}/Code/Numerics
 ${ITK_SOURCE_DIR}/Code/Numerics/FEM
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl
@@ -14,6 +16,8 @@ ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
 
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Code/Common
+${ITK_BINARY_DIR}/Code/Algorithms
+${ITK_BINARY_DIR}/Code/BasicFilters
 ${ITK_BINARY_DIR}/Code/Numerics
 ${ITK_BINARY_DIR}/Code/Numerics/FEM
 ${ITK_BINARY_DIR}/Code/Numerics/vxl
