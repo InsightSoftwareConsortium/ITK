@@ -173,12 +173,12 @@ public:
   
   /** Method to set minimum value of n th bin of dimension d */
   void SetBinMin(const unsigned int dimension, const unsigned long nbin,
-                 const float min)
+                 const MeasurementType min)
   { m_Min[dimension][nbin] = min ; }
   
   /** Method to set maximum value of n th bin of dimension d */
   void SetBinMax(const unsigned int dimension, 
-                 unsigned long nbin, float max)
+                 unsigned long nbin, const MeasurementType max)
   { m_Max[dimension][nbin] = max ; }
   
   /** Method to get the minimum of the bin corresponding to the gray level of 
@@ -209,17 +209,17 @@ public:
   
   /** Method to get mins of each dimension for a measurement in the histogram */
   MeasurementVectorType& GetHistogramMinFromValue(const MeasurementVectorType 
-                                                  &measurement) const ; 
+                                                  &measurement)  ; 
   
   /** Method to get maxs of each dimension for a measurement in the histogram */
   MeasurementVectorType& GetHistogramMaxFromValue(const MeasurementVectorType 
-                                                  &measurement) const; 
+                                                  &measurement) ; 
   
   /** Method to get mins in the histogram by index  */
-  MeasurementVectorType& GetHistogramMinFromIndex(const IndexType &index) const ;
+  MeasurementVectorType& GetHistogramMinFromIndex(const IndexType &index) ;
   
   /**  Method to get maxs in the histogram by index  */
-  MeasurementVectorType& GetHistogramMaxFromIndex(const IndexType &index) const ; 
+  MeasurementVectorType& GetHistogramMaxFromIndex(const IndexType &index) ; 
   
   /** Method to get the frequency from histogram */
   FrequencyType GetFrequency(const InstanceIdentifier &id) const
@@ -384,10 +384,10 @@ protected:
   SizeType m_Size ;
   
   // lower bound of each bin
-  std::vector< std::vector<float> > m_Min ;
+  std::vector< std::vector<MeasurementType> > m_Min ;
   
   // upper bound of each bin
-  std::vector< std::vector<float> > m_Max ;
+  std::vector< std::vector<MeasurementType> > m_Max ;
   
 private:
   Histogram(const Self&); //purposely not implemented
