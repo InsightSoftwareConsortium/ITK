@@ -24,14 +24,15 @@ namespace itk
 {
 
 /** \class ImageRegionConstIterator
- * \brief Multi-dimensional image iterator which only walks a region.
+ * \brief Multi-dimensional image iterator which walks a region.
  * 
  * \sa ImageRegionIterator
  *
- * ImageRegionConstIterator is a templated class to represent a multi-dimensional
- * iterator. ImageRegionConstIterator is templated over the dimension of the image
- * and the data type of the image. ImageRegionConstIterator is constrained to walk
- * only within the specified region.
+ * ImageRegionConstIterator is a templated class to represent a
+ * multi-dimensional iterator. ImageRegionConstIterator is templated
+ * over the image type, and is constrained to walk only within the
+ * specified region.  To walk the entire image, specify the region to
+ * be \c image->GetLargestPossibleRegion().
  *
  * ImageRegionConstIterator provides read-only access to image data. Its behavior
  * is similar to the one of ImageRegionIterator with the exception of lacking a 

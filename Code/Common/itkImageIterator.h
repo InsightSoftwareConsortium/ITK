@@ -28,7 +28,7 @@ namespace itk
  * 
  * ImageIterator is a templated class to represent a
  * multi-dimensional iterator. ImageIterator is templated
- * over the dimension of the image and the data type of the image.
+ * over the corresponding image type.
  *
  * Most of the ImageIterator functionality is inherited from 
  * its superclass the ImageConstIterator. This iterator

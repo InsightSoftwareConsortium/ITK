@@ -341,8 +341,8 @@ public:
    * CellFeatureIdentifier \a featureId must be assigned for each
    * distinct boundary feature of a given dimension.
    * CellFeatureIdentifier is equivalent to <tt>unsigned long</tt> by
-   * default, and will not typically need to be changed.  The
-   * UsingCells list of \a boundaryId is automatically updated to
+   * default, and this typedef will not typically need to be changed.
+   * The UsingCells list of \a boundaryId is automatically updated to
    * include \a cellId.
    */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,

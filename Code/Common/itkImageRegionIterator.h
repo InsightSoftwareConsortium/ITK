@@ -24,12 +24,15 @@ namespace itk
 {
 
 /** \class ImageRegionIterator
- * \brief Multi-dimensional image iterator which only walks a region.
+ * \brief Multi-dimensional image iterator which walks a region.
  * 
- * ImageRegionIterator is a templated class to represent a multi-dimensional
- * iterator. ImageRegionIterator is templated over the image type
- * ImageRegionIterator is constrained to walk only within the 
- * specified region and along a line parallel to one of the coordinate axis.
+ * ImageRegionIterator is a templated class to represent a
+ * multi-dimensional iterator. ImageRegionIterator is templated over
+ * the image type, and is constrained to walk only within the
+ * specified region and along a line parallel to one of the coordinate
+ * axes, "wrapping" to the next line as it reaches the boundary of the
+ * image.  To walk the entire image, specify the region to
+ * be \c image->GetLargestPossibleRegion().
  *
  * Most of the functionality is inherited from the ImageRegionConstIterator.
  * The current class only adds write access to image pixels.

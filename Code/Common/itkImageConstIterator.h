@@ -29,8 +29,8 @@ namespace itk
  * \brief Multi-dimensional image iterator.
  * 
  * ImageConstIterator is a templated class to represent a multi-dimensional
- * iterator. ImageConstIterator is templated over the dimension of the image
- * and the data type of the image.
+ * iterator. ImageConstIterator is templated over the type of
+ * the image to be iterated over.
  *
  * ImageConstIterator is a base class for all the image iterators. It provides
  * the basic construction and comparison operations.  However, it does not
