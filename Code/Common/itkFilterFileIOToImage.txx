@@ -46,7 +46,7 @@ void FilterFileIOToImage<TOutputImage>::GenerateData()
 
   typedef typename TOutputImage::PixelType  PixelType;
 
-  typedef itk::ImageRegionSimpleIterator< TOutputImage> IteratorType;
+  typedef ImageRegionSimpleIterator< TOutputImage> IteratorType;
   
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion());

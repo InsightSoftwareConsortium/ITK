@@ -17,6 +17,7 @@
 
 #include "itkImageSource.h"
 #include "itkLevelSet.h"
+#include "itkIndex.h"
 #include "vnl/vnl_math.h"
 
 #include <functional>
@@ -126,7 +127,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef itk::Index<SetDimension> IndexType;
+  typedef Index<SetDimension> IndexType;
 
   /**
    * SpeedImage typedef support.

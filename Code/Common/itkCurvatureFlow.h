@@ -89,7 +89,7 @@ public:
   /**
    * Index typedef support
    */
-  typedef itk::Index<SetDimension> IndexType;
+  typedef Index<SetDimension> IndexType;
 
 protected:
   CurvatureFlow();
