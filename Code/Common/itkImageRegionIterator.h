@@ -199,7 +199,7 @@ public:
       dim = 0;
       if (!done)
         {
-        while ( (dim < ImageIteratorDimension - 1)
+        while ( ( dim+1 < ImageIteratorDimension )
           && (ind[dim] > startIndex[dim] +  static_cast<IndexValueType>(size[dim]) - 1) )
           {
           ind[dim] = startIndex[dim];

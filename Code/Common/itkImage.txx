@@ -373,13 +373,13 @@ Image<TPixel, VImageDimension>
   
   unsigned int i;
   os << indent << "Origin: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i+1 < VImageDimension; i++)
     {
     os << m_Origin[i] << ", ";
     }
   os << m_Origin[i] << "]" << std::endl;
   os << indent << "Spacing: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i+1 < VImageDimension; i++)
     {
     os << m_Spacing[i] << ", ";
     }
