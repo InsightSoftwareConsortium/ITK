@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDiscreteGaussianImageFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkDiscreteGaussianImageFilter.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkDiscreteGaussianImageFilter_txx
@@ -166,8 +166,9 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     
     // Release data on all but the 1st filter
     if(i != 0)
+      {
       filter[i]->ReleaseDataFlagOn();
-
+      }
     // Register the filter with the with progress accumulator using
     // equal weight proportion
     progress->RegisterInternalFilter(filter[i],1.0f / m_FilterDimensionality);
