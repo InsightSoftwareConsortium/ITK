@@ -145,7 +145,7 @@ public:
         }
         ParametersType parameters;
         ConvertParameters( inparameters, parameters );
-        typename DerivativeType::Pointer externalGradient = 
+        typename DerivativeType externalGradient = 
                       m_CostFunction->GetDerivative( parameters );
         ConvertGradient( externalGradient, gradient);
       }
@@ -163,7 +163,7 @@ public:
 
         *f = (InternalMeasureType)m_CostFunction->GetValue( parameters );
 
-        typename DerivativeType::Pointer externalGradient = 
+        typename DerivativeType externalGradient = 
                                       m_CostFunction->GetDerivative( parameters );
 
         ConvertGradient( externalGradient, *g );    
