@@ -13,6 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#include "vnl/vnl_math.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
