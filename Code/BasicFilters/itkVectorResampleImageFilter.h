@@ -38,13 +38,7 @@ namespace itk
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
  * itk::VectorLinearInterpolateImageFunction<InputImageType, double>, which
- * is reasonable for ordinary medical images.  However, some synthetic
- * images have pixels drawn from a finite prescribed set.  An example
- * would be a mask indicating the segmentation of a brain into a small
- * number of tissue types.  For such an image, one does not want to
- * interpolate between different pixel values, and so
- * itk::NearestNeighborInterpolateImageFunction< InputImageType,
- * TCoordRep > would be a better choice.
+ * is reasonable for ordinary medical images.  
  *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
@@ -127,11 +121,7 @@ public:
   itkGetObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
-   * itk::VectorLinearInterpolateImageFunction<InputImageType, double>. Some
-   * other options are itk::NearestNeighborInterpolateImageFunction
-   * (useful for binary masks and other images with a small number of
-   * possible pixel values), and itk::BSplineInterpolateImageFunction
-   * (which provides a higher order of interpolation).  */
+   * itk::VectorLinearInterpolateImageFunction<InputImageType, double>.  */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
