@@ -10,6 +10,8 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
 
 ADD_TEST(itkHistogramTest itkStatisticsTests itkHistogramTest)
 ADD_TEST(itkDenseFrequencyContainerTest itkStatisticsTests itkDenseFrequencyContainerTest)
+ADD_TEST(itkFastRandomUnitNormalVariateGeneratorTest itkStatisticsTests 
+                    itkFastRandomUnitNormalVariateGeneratorTest)
 
 LINK_LIBRARIES (
 ITKCommon
@@ -20,6 +22,7 @@ ITKStatistics
 SOURCE_FILES(Statistics_SRCS
 itkHistogramTest 
 itkDenseFrequencyContainerTest
+itkFastRandomUnitNormalVariateGeneratorTest 
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx Statistics_SRCS)
