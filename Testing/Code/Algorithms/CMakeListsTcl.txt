@@ -1,5 +1,6 @@
 CABLE_CLASS_SET(Float float)
 CABLE_CLASS_SET(Double double)
+CABLE_CLASS_SET(Int int)
 CABLE_CLASS_SET(ULong "unsigned long")
 CABLE_CLASS_SET(UShort "unsigned short")
 CABLE_CLASS_SET(Dimension 2)
@@ -16,7 +17,9 @@ CABLE_CLASS_SET(RGBPix "itk::RGBPixel<$Float>")
 CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
 CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Float>")
 CABLE_CLASS_SET(VecPix "itk::Vector<$Float>")
+CABLE_CLASS_SET(VecIntPix "itk::Vector<$Int>")
 CABLE_CLASS_SET(VecImage "itk::Image<$VecPix,$Dimension>")
+CABLE_CLASS_SET(VecIntImage "itk::Image<$VecIntPix,$Dimension>")
 CABLE_CLASS_SET(VecImage3D "itk::Image<$VecPix,$Dimension3>")
 CABLE_CLASS_SET(BloxPix "itk::BloxPixel<$Float>")
 CABLE_CLASS_SET(BloxPixImage "itk::Image<$BloxPix, $Dimension>")
@@ -115,7 +118,7 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl4
   "itk::SimpleFuzzyConnectednessImageFilterBase<$Image,$Image>"
   "itk::SupervisedClassifier<$Image,$Image>"
   "itk::UnsupervisedClassifier<$VecImage,$VecImage>"
-  "itk::VectorFuzzyConnectednessImageFilter<$VecImage,$VecImage>"
+  "itk::VectorFuzzyConnectednessImageFilter<$VecIntImage,$VecIntImage>"
   "itk::VoronoiDiagram2D<$Float>"
   "itk::VoronoiDiagram2DGenerator<$Float>"
   "itk::VoronoiSegmentationImageFilter<$Image,$Image>"
