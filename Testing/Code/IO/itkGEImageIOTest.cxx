@@ -29,12 +29,14 @@
 #include "itkImageIOFactory.h"
 #include "itkExceptionObject.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include <itksys/SystemTools.hxx>
 
 typedef itk::Image<signed short, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;
 typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+typedef itk::ImageFileWriter< ImageType > ImageWriterType ;
 
 int itkGEImageIOFactoryTest(int ac, char * av[])
 {
@@ -124,6 +126,14 @@ int itkGEImageIOTest(int ac, char * av[])
               << e.what() << std::endl;
     return Failmode ? 1 : 0;
     }
+
+  if (failmode == std::string("true"))
+    {
+    ImageWriterType::Pointer writer = ImageWriterType::New();
+    writer->SetInput( input );
+    writer->SetFileName( av[4] );
+    writer->Update();
+    }
+
   return Failmode ? 0 : 1;
 }
-

@@ -197,14 +197,44 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
                                   false ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-  ADD_TEST(itkGE4 ${IO_TESTS} itkGEImageIOTest ${ITK_TEST_OUTPUT_DIR} true 
-		  GE4 ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
-  ADD_TEST(itkGE5 ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
-		  GE5 ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
-  ADD_TEST(itkGEAdw ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
-		  GEAdw ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
-  ADD_TEST(itkSiemens ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
-		  Siemens ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+  
+ADD_TEST(itkGE4 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  itkGEImageIOTest
+            true 
+		GE4
+            ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+
+
+  ADD_TEST(itkGE5 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  itkGEImageIOTest
+            true 
+            GE5
+            ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+            
+ ADD_TEST(itkGEAdw  ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  itkGEImageIOTest
+            true 
+            GEAdw 
+            ${ITK_DATA_ROOT}/Input/test_geadw/I.001
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+            
+ ADD_TEST(itkSiemens ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  itkGEImageIOTest
+            true 
+            Siemens 
+            ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima
+            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+
 
   ADD_TEST(itkGE4Fail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
 		  GE4 
