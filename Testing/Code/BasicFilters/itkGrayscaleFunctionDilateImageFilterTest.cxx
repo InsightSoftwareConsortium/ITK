@@ -26,8 +26,9 @@
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
 #include "itkFilterWatcher.h"
+#include "itkImageFileWriter.h"
 
-int itkGrayscaleFunctionDilateImageFilterTest(int, char* [] ) 
+int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] ) 
 {
   unsigned int i;
   
@@ -174,8 +175,17 @@ int itkGrayscaleFunctionDilateImageFilterTest(int, char* [] )
     return -1;
     }
 
-  // All objects should be automatically destroyed at this point
-
+  // if there is a file name specified as an argument, write the data
+  //  into the file. This enables regression testing of the filter.
+  if (argc == 2)
+    {
+    typedef  itk::ImageFileWriter<  myImageType  > WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( argv[1] );
+    writer->SetInput( filter->GetOutput() );
+    writer->Update();
+    }
+  
   return 0;
 
 }

@@ -25,9 +25,10 @@
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
 #include "itkFilterWatcher.h"
+#include "itkImageFileWriter.h"
 #include <itkExceptionObject.h>
 
-int itkGrayscaleFunctionErodeImageFilterTest(int, char* [] ) 
+int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] ) 
 {
   unsigned int i;
   
@@ -172,6 +173,15 @@ int itkGrayscaleFunctionErodeImageFilterTest(int, char* [] )
     {
     std::cerr << "Exception caught during filter Update\n"  << e;
     return -1;
+    }
+
+  if (argc == 2)
+    {
+    typedef  itk::ImageFileWriter<  myImageType  > WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( argv[1] );
+    writer->SetInput( filter->GetOutput() );
+    writer->Update();
     }
 
   // All objects should be automatically destroyed at this point
