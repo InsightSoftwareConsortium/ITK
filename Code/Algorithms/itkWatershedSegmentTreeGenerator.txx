@@ -595,7 +595,12 @@ SegmentTreeGenerator<TScalarType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-}
+  os << indent << "FloodLevel: " << m_FloodLevel << std::endl;
+  os << indent << "Merge: " << m_Merge << std::endl;
+  os << indent << "ConsumeInput: " << m_ConsumeInput << std::endl;
+  os << indent << "HighestCalculatedFloodLevel: " <<
+    m_HighestCalculatedFloodLevel << std::endl;
+}  
  
 }// end namespace watershed
 }// end namespace itk

@@ -57,9 +57,10 @@ namespace itk {
  * the calculations.  If your subclass does not do any additional neighborhood
  * processing, then the default radius should be 1 in each direction.
  *
- * \todo Documentation & References
  * \todo Account for variable curvature term in the CFL Condition when
  *       calculating the time step.
+ *
+ * \ingroup Functions
  */
 template <class TImageType>
 class LevelSet2DFunction
@@ -149,10 +150,11 @@ protected:
   ~LevelSet2DFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
-    os << indent << "LevelSet2DFunction";
-    Superclass::PrintSelf(os, indent.GetNextIndent() );
+      Superclass::PrintSelf(os, indent );
+      os << indent << "WaveDT: " << m_WaveDT << std::endl;
+      os << indent << "DT: " << m_DT << std::endl;
     }
-
+  
   /** Constants used in the time step calculation. */
   static double m_WaveDT;
   static double m_DT;

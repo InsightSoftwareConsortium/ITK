@@ -174,9 +174,6 @@ protected:
   LevelSetPointer GetOutputBuffer()
     { return m_OutputBuffer; }
 
-  /** Generate the output data. Subclasses must provide this method. */
-  virtual void GenerateData() = 0;
-
   /** Specify the required input region to satisfiy the output
    * request. The default is to request for the largest
    * possible region for any output. Subclasses should override

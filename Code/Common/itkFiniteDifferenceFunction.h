@@ -186,8 +186,8 @@ protected:
   ~FiniteDifferenceFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
-    os << indent << "FiniteDifferenceFunction";
-    Superclass::PrintSelf(os, indent.GetNextIndent() );
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Radius: " << m_Radius << std::endl;
   }
 
   RadiusType m_Radius;

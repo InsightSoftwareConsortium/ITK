@@ -84,7 +84,8 @@ public:
 protected:
   ScalarAnisotropicDiffusionFunction() {}
   ~ScalarAnisotropicDiffusionFunction() {}
-
+  void PrintSelf(std::ostream& os, Indent indent) const
+    { Superclass::PrintSelf(os,indent); }
 private:
   ScalarAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

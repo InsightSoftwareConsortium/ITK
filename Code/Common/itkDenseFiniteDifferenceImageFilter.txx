@@ -351,8 +351,9 @@ void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  os << indent << "DenseFiniteDifferenceImageFilter";
-  Superclass::PrintSelf(os, indent.GetNextIndent());
+  Superclass::PrintSelf(os, indent);
+
+  
 }
 
 }// end namespace itk

@@ -174,6 +174,14 @@ protected:
     }
   ~AnisotropicDiffusionFunction() {}
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+      Superclass::PrintSelf(os,indent);
+      os << indent << "TimeStep: " << m_TimeStep << std::endl;
+      os << indent << "ConductanceParameter: " << m_ConductanceParameter <<
+        std::endl;
+    }
+
 private:
   AnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

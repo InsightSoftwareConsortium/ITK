@@ -234,13 +234,13 @@ protected:
    * information.    */
   std::vector<std::pair<bool,bool> >  m_Valid;
 
-  /*@{ Virtual methods required by DataObject interface.   */
+  /** Virtual methods required by DataObject interface.   */
   void UpdateOutputInformation();
   bool VerifyRequestedRegion() { return true; }
   void SetRequestedRegionToLargestPossibleRegion () {}
   bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
   void SetRequestedRegion (itk::DataObject *) {}
-  //@}
+
 };
 }// end namespace watershed
 }// end namespace itk

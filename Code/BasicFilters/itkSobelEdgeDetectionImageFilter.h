@@ -135,7 +135,10 @@ protected:
    * multithreaded by default.
    */
   void GenerateData();
+  void PrintSelf(std::ostream& os, Indent indent) const
+    { Superclass::PrintSelf(os,indent); }
 
+  
 private:
 
 };

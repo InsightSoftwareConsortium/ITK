@@ -167,6 +167,8 @@ WatershedImageFilter<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Level: " << m_Level << std::endl;
 }
 
 void WatershedMiniPipelineProgressCommand

@@ -119,6 +119,9 @@ protected:
   GradientNDAnisotropicDiffusionFunction();
   ~GradientNDAnisotropicDiffusionFunction() {}
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {      Superclass::PrintSelf(os,indent);    }
+  
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 

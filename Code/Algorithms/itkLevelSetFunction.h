@@ -54,6 +54,7 @@ namespace itk {
  *
  * references: Sethian Chap 6, Vispack documentation, insight documents
  * level set arch proposal
+ * \ingroup Functions
  */
 template <class TImageType>
 class LevelSetFunction : public FiniteDifferenceFunction<TImageType>
@@ -151,11 +152,7 @@ protected:
     }
   ~LevelSetFunction() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    os << indent << "LevelSetFunction";
-    Superclass::PrintSelf(os, indent.GetNextIndent() );
-  }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;

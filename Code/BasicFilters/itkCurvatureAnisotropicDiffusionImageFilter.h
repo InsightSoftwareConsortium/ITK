@@ -89,7 +89,7 @@ protected:
   ~CurvatureAnisotropicDiffusionImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
-      Superclass::PrintSelf(os, indent.GetNextIndent());
+      Superclass::PrintSelf(os,indent);
     }
 
 private:

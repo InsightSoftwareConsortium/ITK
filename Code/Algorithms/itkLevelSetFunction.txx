@@ -60,8 +60,19 @@ template <class TImageType>
 typename LevelSetFunction<TImageType>::VectorType
 LevelSetFunction<TImageType>::m_ZeroVectorConstant =
 LevelSetFunction<TImageType>::InitializeZeroVectorConstant();
-  
 
+template <class TImageType>
+void
+LevelSetFunction<TImageType>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "EpsilonMagnitude: " << m_EpsilonMagnitude << std::endl;
+  os << indent << "AdvectionWeight: " << m_AdvectionWeight << std::endl;
+  os << indent << "PropagationWeight: " << m_PropagationWeight << std::endl;
+  os << indent << "CurvatureWeight: " << m_CurvatureWeight << std::endl;
+}
+  
 } // end namespace itk
 
 #endif

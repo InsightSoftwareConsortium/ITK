@@ -201,7 +201,10 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent.GetNextIndent());
+  Superclass::PrintSelf(os, indent);
+
+  os << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
+  os << "DifferenceFunction: " << m_DifferenceFunction << std::endl;
 }
 
 

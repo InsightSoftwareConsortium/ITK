@@ -86,6 +86,9 @@ protected:
     }
   ~GradientAnisotropicDiffusionImageFilter() {}
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {      Superclass::PrintSelf(os,indent);    }
+  
 private:  
   GradientAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

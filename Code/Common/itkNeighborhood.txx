@@ -94,12 +94,14 @@ void Neighborhood<TPixel, VDimension, TContainer>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   unsigned int i;
-  os << indent << "Neighborhood { this = " << this << ", m_Size = { ";
+
+  os << "m_Size: [ ";
   for (i=0; i<VDimension; ++i) os << m_Size[i] << " ";
-  os << "}, m_Radius = { ";
+  os << "]" << std::endl;
+  
+  os << "m_Radius: [ ";
   for (i=0; i<VDimension; ++i) os << m_Radius[i] << " ";
-  os << "}, m_DataBuffer = " << &m_DataBuffer << ", {"
-     << m_DataBuffer << "} }" << std::endl;
+  os << "]" << std::endl;  
 }
 
 }  // namespace itk

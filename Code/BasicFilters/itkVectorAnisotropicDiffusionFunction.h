@@ -94,7 +94,8 @@ public:
 protected:
   VectorAnisotropicDiffusionFunction() {}
   ~VectorAnisotropicDiffusionFunction() {}
-
+  void PrintSelf(std::ostream& os, Indent indent) const
+    { Superclass::PrintSelf(os,indent); }
 private:
   VectorAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

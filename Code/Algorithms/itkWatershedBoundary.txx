@@ -107,9 +107,7 @@ template<class TScalarType,  unsigned int TDimension >
 void 
 Boundary<TScalarType, TDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
+{  Superclass::PrintSelf(os,indent); }
 
 }// end namespace watershed
 }// end namespace itk

@@ -148,6 +148,9 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+  
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {  Superclass::PrintSelf(os, indent); }
 private:
   NeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

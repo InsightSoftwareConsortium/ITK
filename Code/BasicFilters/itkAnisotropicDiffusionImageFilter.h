@@ -121,6 +121,17 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const
     {
       Superclass::PrintSelf(os, indent.GetNextIndent());
+      os << indent << "TimeStep: " << m_TimeStep << std::endl;
+      os << indent << "ConductanceParameter: "
+         << m_ConductanceParameter << std::endl;
+      os << indent << "ConductanceScalingParameter: "
+         << m_ConductanceScalingParameter << std::endl;
+      os << indent << "Iterations: " << m_Iterations
+         << std:endl;
+      os << indent << "ConductanceScalingUpdateInterval: "
+         << m_ConductanceScalingUpdateInterval << std::endl;
+      os << indent << "FixedAverageGradientMagnitude: "
+         << m_FixedAverageGradientMagnitude << std::endl;
     }
   
   /** Supplies the halting criteria for this class of filters.  The
@@ -137,6 +148,9 @@ protected:
       AnisotropicDiffusionFunction<UpdateBufferType> *f = 
         dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
         (this->GetDifferenceFunction().GetPointer());
+      if (! f)
+        {  throw ExceptionObject(__FILE__, __LINE__);    }
+      
       f->SetConductanceParameter(m_ConductanceParameter);
       
       if (m_GradientMagnitudeIsFixed == false)

@@ -142,6 +142,13 @@ protected:
    * multithreaded by default. */
   void GenerateData();
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+      Superclass::PrintSelf(os,indent);
+      os << indent << "Variance: " << m_Variance << std::endl;
+      os << indent << "MaximumError: " << m_MaximumError << std::endl;
+    }
+  
 private:
   DiscreteGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
