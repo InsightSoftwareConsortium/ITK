@@ -163,7 +163,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
 void MetaImageIO::ReadImageInformation()
 { 
-  if(!m_MetaImage.Read(m_FileName.c_str()), false)
+  if(!m_MetaImage.Read(m_FileName.c_str(), false))
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
