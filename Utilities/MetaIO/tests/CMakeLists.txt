@@ -25,3 +25,6 @@ ADD_EXECUTABLE( testMeta6Surface ${testMeta6Surface_SRCS} )
 
 SET( testMeta7Line_SRCS testMeta7Line.cxx )
 ADD_EXECUTABLE( testMeta7Line ${testMeta7Line_SRCS} )
+
+SET( testMeta8Scene_SRCS testMeta8Scene.cxx )
+ADD_EXECUTABLE( testMeta8Scene ${testMeta8Scene_SRCS} )

@@ -27,7 +27,7 @@ int main(int argc, char **argv)
   orient[7] = 1;
   tObj.Orientation(orient);
   tObj.ElementSpacing(0, 1);
-  tObj.ElementSpacing(1, 1);
+  tObj.ElementSpacing(1, 2);
   tObj.ElementSpacing(2, 1);
   tObj.PrintInfo();
   tObj.Write();

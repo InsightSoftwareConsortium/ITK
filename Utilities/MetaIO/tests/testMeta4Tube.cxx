@@ -53,22 +53,25 @@ int main(int argc, char **argv)
   myScene.AddObject(tube2);
   myScene.AddObject(ellipse);
 
-  myScene.Write("test.tre");
+  myScene.Write("test.scn");
 
   std::cout << "done" << std::endl;
-  std::cout << "Reading test file ...";
+  std::cout << "Reading test file ..." << std::endl;
 
   // Read the result 
   MetaScene myScene2 = MetaScene();
   myScene2.InitializeEssential(3);
  
-  myScene2.Read("test.tre");
+  std::cout << "  ... reading scene " << std::endl;
+  myScene2.Read("test.scn");
+  std::cout << "  ... read scene " << std::endl;
   
   typedef  MetaScene::ObjectListType ListType;
-  ListType list = myScene2.GetObjectList();
-  ListType::iterator it = list.begin();
+  ListType * list = myScene2.GetObjectList();
+  ListType::iterator it = list->begin();
 
-  for(i=0;i< list.size();i++)
+  std::cout << "  ... beginning loop " << std::endl;
+  for(i=0;i< list->size();i++)
   {
     
     (*it)->PrintInfo();
