@@ -349,8 +349,8 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   std::cout << "------------------------------" << std::endl;
   std::cout << "Location   : " << this << std::endl;
   std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
-  std::cout << "Area       : " << m_RegionArea << std::endl;
-  std::cout << "Mean       : " << m_MeanVec << std::endl;
+  std::cout << "Area       : " << (this->GetRegionArea()) << std::endl;
+  std::cout << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl;
   std::cout << "Num Borders: " << m_RegionBorderVec.size() << std::endl;
   std::cout << "++++++++++++++++++++++++++++++" << std::endl;
 
