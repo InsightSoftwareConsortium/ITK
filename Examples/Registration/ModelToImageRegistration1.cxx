@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \doxygen{SpatialObject} as a
+//  This example illustrates the use of the SpatialObject as a
 //  component of the registration framework in order to perfom model based
 //  registration. The current example creates a geometrical model composed of
 //  several ellipses. Then, it uses the model to produce a synthetic binary
@@ -32,7 +32,7 @@
 //  Software Guide : BeginLatex
 //  
 //  Let's look first at the classes required to support
-//  \doxygen{SpatialObject}. In this example we use the
+//  SpatialObject. In this example we use the
 //  \doxygen{EllipseSpatialObject} as the basic shape components and we use the
 //  \doxygen{GroupSpatialObject} to group them together as a representation of
 //  a more complex shape. Their respective headers are included below.
@@ -50,10 +50,10 @@
 
 //  Software Guide : BeginLatex
 //  
-//  In order to generate the initial syntethic image of the ellipses, we use
+//  In order to generate the initial synthetic image of the ellipses, we use
 //  the \doxygen{SpatialObjectToImageFilter} that tests---for every pixel in
-//  the image---whether the pixel (anf hence the spatial object) is
-//  \emph{inside} or \emph{outside} of the geometric model.
+//  the image---whether the pixel (and hence the spatial object) is
+//  \emph{inside} or \emph{outside} the geometric model.
 //
 //  \index{itk::SpatialObjectToImageFilter!header}
 //
@@ -70,8 +70,8 @@
 //  Software Guide : BeginLatex
 //  
 //  A metric is defined to evaluate the fitness between the
-//  \doxygen{SpatialObject} and the \doxygen{Image}. The base class for this
-//  type of metric is the \doxygen{ImageToSpatialObjectMetric} whose header is
+//  SpatialObject and the Image. The base class for this
+//  type of metric is the \doxygen{ImageToSpatialObjectMetric}, whose header is
 //  included below.
 //
 //  \index{itk::ImageToSpatialObjectMetric!header}
@@ -85,9 +85,9 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Similar to previous registration problems, we have to evaluate the image
+//  As in previous registration problems, we have to evaluate the image
 //  intensity in non-grid positions. The
-//  \doxygen{LinearInterpolateImageFunction} is used here for this purpose.
+//  LinearInterpolateImageFunction is used here for this purpose.
 //
 //  \index{itk::LinearInterpolateImageFunction!header}
 //
@@ -100,9 +100,9 @@
 
 //  Software Guide : BeginLatex
 //  
-//  The \doxygen{SpatialObject} is mapped from its own space into the image
-//  space by using a \doxygen{Transform}. In this
-//  example, we use the \doxygen{Euler2DTransform}.
+//  The SpatialObject is mapped from its own space into the image
+//  space by using a Transform. In this
+//  example, we use the Euler2DTransform.
 //
 //  Software Guide : EndLatex 
 
@@ -114,10 +114,10 @@
 //  Software Guide : BeginLatex
 //  
 //  Registration is fundamentally an optimization problem. Here we include the
-//  optimizer used to search the parameter space and to identify the
+//  optimizer used to search the parameter space and identify the
 //  best transformation that will map the shape model on top of the image. The
 //  optimizer used in this example is the
-//  \doxygen{OnePlusOneEvolutionaryOptimizer} that implements an
+//  OnePlusOneEvolutionaryOptimizer that implements an
 //  \href{http://www.aic.nrl.navy.mil/galist/}{evolutionary algorithm}.
 //
 //  Software Guide : EndLatex 
@@ -138,10 +138,10 @@
 //  Software Guide : BeginLatex
 //  
 //  As in previous registration examples, it is important to
-//  track the evolution of the optimizer progressing through the parameter
-//  space.  This is done by using the \code{Command/Observer} paradigm.  The
-//  following lines of code implement the \doxygen{Command} observer that
-//  monitors the progress of the registration process. The code is quite
+//  track the evolution of the optimizer as it progresses through the parameter
+//  space.  This is done by using the Command/Observer paradigm.  The
+//  following lines of code implement the Command observer that
+//  monitors the progress of the registration. The code is quite
 //  similar to what we have used in previous registration examples.
 //
 //  \index{Model to Image Registration!Observer}
@@ -219,18 +219,18 @@ protected:
 //  
 //  Consider now the most critical component of this new registration
 //  approach: the metric.  This component evaluates the match between the
-//  \doxygen{SpatialObject} and the \doxygen{Image}. The properties of
+//  SpatialObject and the Image. The 
 //  smoothness and regularity of the metric determine the difficulty of the
 //  task assigned to the optimizer. In this case, we use a very robust
 //  optimizer that should be able to find its way even in the most
 //  discontinuous cost functions. The metric to be implemented should derive
-//  from the \doxygen{ImageToSpatialObjectMetric} class.
+//  from the ImageToSpatialObjectMetric class.
 //
 //  The following code implements a simple metric that computes the sum of
 //  the pixels that are inside the spatial object. In fact, the metric
 //  maximum is obtained when the model and the image are aligned. The metric
-//  is templated over the type of the \doxygen{SpatialObject} and the type of
-//  the \doxygen{Image}.
+//  is templated over the type of the SpatialObject and the type of
+//  the Image.
 //
 //  Software Guide : EndLatex 
 
@@ -309,11 +309,11 @@ public:
   //  The fundamental operation of the metric is its \code{GetValue()} method.
   //  It is in this method that the fitness value is computed. In our current
   //  example, the fitness is computed over the points of the
-  //  \doxygen{SpatialObject}. For each point, its coordinates are mapped
+  //  SpatialObject. For each point, its coordinates are mapped
   //  through the transform into image space. The resulting point is used
   //  to evaluate the image and the resulting value is acummulated in a sum.
   //  Since we are not allowing scale changes, the optimal value of the sum
-  //  will result when all the \doxygen{SpatialObject} points are mapped on
+  //  will result when all the SpatialObject points are mapped on
   //  the white regions of the image. Note that the argument for the
   //  \code{GetValue()} method is the array of parameters of the transform.
   // 
@@ -385,8 +385,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  First we instantiate the \doxygen{GroupSpatialObject} and
-  //  \doxygen{EllipseSpatialObject}. These two objects are parameterized by
+  //  First we instantiate the GroupSpatialObject and
+  //  EllipseSpatialObject. These two objects are parameterized by
   //  the dimension of the space. In our current example a $2D$ instantiation
   //  is created.
   //
@@ -404,7 +404,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The image is instantiated in the following lines using the pixel
-  //  type and the space dimension. This image is using a \code{float} pixel
+  //  type and the space dimension. This image uses a \code{float} pixel
   //  type since we plan to blur it in order to increase the capture radius of
   //  the optimizer. Images of real pixel type behave better under blurring
   //  than those of integer pixel type.
@@ -419,8 +419,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Here is where the fun begins! In the following lines we create the
-  //  \doxygen{EllipseSpatialObject}s using their \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}. These lines will create
+  //  EllipseSpatialObjects using their \code{New()} methods, and
+  //  assigning the results to SmartPointers. These lines will create
   //  three ellipses.
   //
   //  Software Guide : EndLatex 
@@ -434,9 +434,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Every class deriving from \doxygen{SpatialObject} has particular
+  //  Every class deriving from SpatialObject has particular
   //  parameters enabling the user to tailor its shape. In the case of the
-  //  \doxygen{EllipseSpatialObject}, the \code{SetRadius()} is used to
+  //  EllipseSpatialObject, \code{SetRadius()} is used to
   //  define the ellipse size. An additional \code{SetRadius(Array)} method
   //  allows the user to define the ellipse axes independently.
   //
@@ -453,8 +453,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  By default the ellipses are created centered in space. We use the
-  //  following lines of code to place the ellipses arranged in a triangle.
+  //  The ellipses are created centered in space by default. We use the
+  //  following lines of code to arrange the ellipses in a triangle.
   //  The spatial transform intrinsically associated with the object is
   //  accessed by the \code{GetTransform()} method. This transform can define
   //  a translation in space with the \code{SetOffset()} method.  We take
@@ -488,9 +488,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Note that after a change has been made in the transform, the
-  //  \doxygen{SpatialObject} invokes the method
+  //  SpatialObject invokes the method
   //  \code{ComputeGlobalTransform()} in order to update its global
-  //  transform.  The reason for doing this is that \doxygen{SpatialObject}s
+  //  transform.  The reason for doing this is that SpatialObjects
   //  can be arranged in hierarchies. It is then possible to change the
   //  position of a set of spatial objects by moving the parent of the group.
   //
@@ -498,9 +498,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Now we add the three \doxygen{EllipseSpatialObject}s to a
-  //  \doxygen{GroupSpatialObject} that will be subsequently passed on to the
-  //  registration method. The \doxygen{GroupSpatialObject} facilitates the
+  //  Now we add the three EllipseSpatialObjects to a
+  //  GroupSpatialObject that will be subsequently passed on to the
+  //  registration method. The GroupSpatialObject facilitates the
   //  management of the three ellipses as a higher level structure
   //  representing a complex shape. Groups can be nested any number of levels
   //  in order to represent shapes with higher detail.
@@ -522,7 +522,7 @@ int main( int argc, char *argv[] )
   //  
   //  Having the geometric model ready, we proceed to generate the binary
   //  image representing the imprint of the space occupied by the ellipses.
-  //  The \doxygen{SpatialObjectToImageFilter} is used to that end. Note that
+  //  The SpatialObjectToImageFilter is used to that end. Note that
   //  this filter is instantiated over the spatial object used and the image
   //  type to be generated.
   //
@@ -539,7 +539,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  With the defined type, we construct a filter using the \code{New()}
-  //  method. The newly created filter is assigned to a \code{SmartPointer}.
+  //  method. The newly created filter is assigned to a SmartPointer.
   //
   //  \index{itk::SpatialObjectToImageFilter!New()}
   //  \index{itk::SpatialObjectToImageFilter!Pointer}
@@ -554,7 +554,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{GroupSpatialObject} is passed as input to the filter.
+  //  The GroupSpatialObject is passed as input to the filter.
   //
   //  \index{itk::SpatialObjectToImageFilter!SetInput()}
   //
@@ -616,8 +616,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of the \doxygen{SpatialObjectToImageFilter} is connected as
-  //  input to the \doxygen{DiscreteGaussianImageFilter}.
+  //  The output of the SpatialObjectToImageFilter is connected as
+  //  input to the DiscreteGaussianImageFilter.
   //
   //  Software Guide : EndLatex 
   
@@ -646,8 +646,8 @@ int main( int argc, char *argv[] )
   //  The following lines instantiate the type of the
   //  \doxygen{ImageToSpatialObjectRegistrationMethod} method and instantiate a
   //  registration object with the \code{New()} method. Note that the
-  //  registration type is templated over the \doxygen{Image} type and the
-  //  \doxygen{SpatialObject} type. The spatial object in this case is the
+  //  registration type is templated over the Image and the
+  //  SpatialObject types. The spatial object in this case is the
   //  group of spatial objects.
   //
   //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!Instantiation}
@@ -681,7 +681,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  An interpolator will be needed to evaluate the image in non-grid
+  //  An interpolator will be needed to evaluate the image at non-grid
   //  positions. Here we instantiate a linear interpolator type.
   //
   //  Software Guide : EndLatex 
@@ -709,8 +709,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, we instantiate the transform class. In this case we use the
-  //  \doxygen{Euler2DTransform} that implements a rigid transform in $2D$
+  //  Next, we instantiate the transform class. In this case we use the
+  //  Euler2DTransform that implements a rigid transform in $2D$
   //  space.
   //
   //  Software Guide : EndLatex 
@@ -723,9 +723,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Evolutionary algorithms are based in testing random variations
+  //  Evolutionary algorithms are based on testing random variations
   //  of parameters. In order to support the computation of random values,
-  //  ITK provides a family of random number generators. In this example we
+  //  ITK provides a family of random number generators. In this example, we
   //  use the \doxygen{NormalVariateGenerator} which generates values with a
   //  normal distribution.
   //
@@ -755,7 +755,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{OnePlusOneEvolutionaryOptimizer} is initialized by
+  //  The OnePlusOneEvolutionaryOptimizer is initialized by
   //  specifying the random number generator, the number of samples for the
   //  initial population and the maximum number of iterations.
   //
@@ -771,9 +771,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  As in previous registration examples, we take care to normalize the
-  //  dynamic range of the different transform parameters. In particular the
-  //  ranges of the angle and translations of the \doxygen{Euler2DTransform}
-  //  must be compensated. In order to achieve this goal, we provide an array
+  //  dynamic range of the different transform parameters. In particular, the
+  //  we must compensate for the ranges of the angle and translations of the Euler2DTransform.
+  //  In order to achieve this goal, we provide an array
   //  of scales to the optimizer. 
   //
   //  Software Guide : EndLatex 
@@ -793,9 +793,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Here we instantiate the \doxygen{Command} object that will act as an
+  //  Here we instantiate the Command object that will act as an
   //  observer of the registration method and print out parameters at each
-  //  iteration. Above we defined this command as a class templated over the
+  //  iteration. Earlier, we defined this command as a class templated over the
   //  optimizer type. Once it is created with the \code{New()} method, we
   //  connect the optimizer to the command.
   //
@@ -811,11 +811,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  All the components are plugged into the
-  //  \doxygen{ImageToSpatialObjectRegistrationMethod} object. The typical
+  //  ImageToSpatialObjectRegistrationMethod object. The typical
   //  \code{Set()} methods are used here. Note the use of the
   //  \code{SetMovingSpatialObject()} method for connecting the spatial object.
-  //  As input image we provide the blurred version of the synthetic binary
-  //  image created originally. 
+  //  We provide the blurred version of the original synthetic binary
+  //  image as the input image.
   //
   //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetFixedImage()}
   //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetMovingSpatialObject()}
@@ -841,7 +841,7 @@ int main( int argc, char *argv[] )
   //  The initial set of transform parameters is passed to the registration
   //  method using the \code{SetInitialTransformParameters()} method. Note that
   //  since our original model is already registered with the synthetic image,
-  //  we introduce here an artificial mis-registration in order to initialize
+  //  we introduce an artificial mis-registration in order to initialize
   //  the optimization at some point away from the optimal value.
   //
   //  Software Guide : EndLatex 
@@ -863,8 +863,8 @@ int main( int argc, char *argv[] )
   //  Due to the character of the metric used to evaluate the fitness
   //  between the spatial object and the image, we must tell the optimizer that
   //  we are interested in finding the maximum value of the metric. Some
-  //  metrics associate low numeric values to good matching, others associate
-  //  high numeric values to good matching. The \code{MaximizeOn()} and
+  //  metrics associate low numeric values with good matching, while others associate
+  //  high numeric values with good matching. The \code{MaximizeOn()} and
   //  \code{MaximizeOff()} methods allow the user to deal with both types of
   //  metrics.
   //
@@ -880,7 +880,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the registration process with the
+  //  Finally, we trigger the execution of the registration process with the
   //  \code{StartRegistration()} method. We place this call in a
   //  \code{try/catch} block in case any exception is thrown during the
   //  process.
@@ -909,7 +909,7 @@ int main( int argc, char *argv[] )
   //  recovered with the \code{GetLastTransformParameters()} method. This
   //  method returns the array of transform parameters that should be
   //  interpreted according to the implementation of each transform. In our
-  //  current example, the \doxygen{Euler2DTransform} has three parameters:
+  //  current example, the Euler2DTransform has three parameters:
   //  the rotation angle, the translation in $x$ and the translation in $y$.
   //
   //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!StartRegistration()}
@@ -936,10 +936,10 @@ int main( int argc, char *argv[] )
   // \label{fig:ModelToImageRegistrationPlots}
   // \end{figure}
   //
-  //  The results of execution are presented in
+  //  The results are presented in
   //  Figure~\ref{fig:ModelToImageRegistrationPlots}. The left side shows the
   //  evolution of the angle parameter as a function of iteration
-  //  numbers. The right side shows $(x,y)$ translation in the plane.
+  //  numbers, while the right side shows the $(x,y)$ translation.
   //
   //  Software Guide : EndLatex 
 
