@@ -42,7 +42,7 @@ public:
   /**
    * Get the type of the object.
    */
-  const CvQualifiedType& GetType() const { return m_Type; }
+  const CvQualifiedType& GetCvQualifiedType() const { return m_Type; }
   
   /**
    * Return whether this pointer type is const-qualified.
