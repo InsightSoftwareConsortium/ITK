@@ -175,6 +175,8 @@ ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
 
+ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png itkGrayscaleFillholeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png)
+
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png
@@ -296,6 +298,7 @@ itkGradientMagnitudeImageFilterTest.cxx
 itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
 itkGradientRecursiveGaussianFilterTest.cxx
 itkGradientToMagnitudeImageFilterTest.cxx
+itkGrayscaleFillholeImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkHausdorffDistanceImageFilterTest.cxx
 itkHoughTransform2DLinesImageTest.cxx
