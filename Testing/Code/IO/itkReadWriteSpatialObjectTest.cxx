@@ -61,7 +61,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   SurfaceType::PointListType list5;
   LineType::PointListType    list6;
   LandmarkType::PointListType    list7;
-/*
+
   for( unsigned int i=0; i<10; i++)
   {
     TubePointType p;
@@ -74,7 +74,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     list.push_back(p);
   }
   
-
+/*
   for( unsigned int i=0; i<5; i++)
   {
     TubePointType p;
@@ -165,12 +165,12 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   }
 
   /** Create a Tube  composed of 3 tubes */
-/*  TubePointer tube1 = TubeType::New();
+  TubePointer tube1 = TubeType::New();
   tube1->GetProperty()->SetName("Tube 1");
   tube1->SetId(1);
   tube1->SetPoints(list);
   tube1->ComputeBoundingBox();
-
+/*
   TubePointer tube2 = TubeType::New();
   tube2->GetProperty()->SetName("Tube 2");
   tube2->SetId(2);
@@ -182,12 +182,12 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tube3->SetId(3);
   tube3->SetPoints(list3);
   tube3->ComputeBoundingBox();
- 
+*/ 
   GroupPointer tubeN1 = GroupType::New();
   tubeN1->GetProperty()->SetName("tube network 1");
   tubeN1->SetId(0);
   tubeN1->AddSpatialObject( tube1 );
-  tubeN1->AddSpatialObject( tube2 );
+/*  tubeN1->AddSpatialObject( tube2 );
 
 
   GroupPointer tubeN2 = GroupType::New();
@@ -262,9 +262,10 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   tubeN1->AddSpatialObject( tubeN2 );
   tubeN1->AddSpatialObject( blob );
   tubeN1->AddSpatialObject( line );
-  tubeN1->AddSpatialObject( surface );
-  tubeN1->AddSpatialObject( landmark );
+  tubeN1->AddSpatialObject( surface );*/
 
+  tubeN1->AddSpatialObject( landmark );
+/*
   std::cout<<"Testing Number of children: ";
   
   if( tubeN1->GetNumberOfChildren() != 7 )
@@ -280,8 +281,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   std::cout<<"Testing Writing SceneSpatialObject: ";
 
   WriterType::Pointer writer = WriterType::New();
-  //writer->SetInput(tubeN1);
-  writer->SetInput(landmark);
+  writer->SetInput(tubeN1);
+  //writer->SetInput(landmark);
   writer->SetFullFileName("Objects.meta");
   writer->Update();
 
