@@ -223,8 +223,9 @@ int main( int argc, char ** argv )
   // \begin{figure} \center
   // \includegraphics[width=6cm]{VisibleWomanHeadSlice.eps}
   // \includegraphics[width=6cm]{RGBGradientAnisotropicDiffusionImageFilterOutput.eps}
-  // \caption{Effect of the VectorGradientAnisotropicDiffusionImageFilter on
-  // a RGB image from a cryogenic section of the Visible Woman data set.}
+  // \caption[VectorGradientAnisotropicDiffusionImageFilter on RGB
+  // images]{Effect of the VectorGradientAnisotropicDiffusionImageFilter on a
+  // RGB image from a cryogenic section of the Visible Woman data set.}
   // \label{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
