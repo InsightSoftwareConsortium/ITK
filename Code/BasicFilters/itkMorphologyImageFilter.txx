@@ -105,7 +105,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
 
   ImageRegionIterator<TOutputImage> o_iter;
  
@@ -114,7 +113,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
 
-  for (++fit; fit != faceList.end(); ++fit)
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     b_iter = SmartNeighborhoodIteratorType(m_Kernel.GetRadius(),
                                            this->GetInput(), *fit);
