@@ -39,7 +39,11 @@ namespace Statistics {
  * invariant to rotation.
  *
  * This class is templated over the input image type.
-  
+ *
+ * Template Parameters:
+ * The image type, and the type of histogram frequency container. If you are using
+ * a large number of bins per axis, a sparse frequency container may be advisable.
+ * The default is to use a dense frequency container.
  * Inputs and parameters:
  * (1) An image
  * (2) A mask defining the region over which texture features will be
@@ -89,7 +93,8 @@ namespace Statistics {
  * Author: Zachary Pincus
  */
     
-template< class TImageType >
+template< class TImageType, class THistogramFrequencyContainer = 
+  DenseFrequencyContainer< float > >
 class ScalarImageTextureCalculator : public Object
 {
 public:
@@ -104,7 +109,8 @@ public:
       
   /** standard New() method support */
   itkNewMacro(Self) ;
-      
+  
+  typedef THistogramFrequencyContainer                FrequencyContainerType;
   typedef TImageType                                  ImageType;
   typedef typename ImageType::Pointer                 ImagePointer;
       
@@ -113,8 +119,8 @@ public:
   typedef VectorContainer<unsigned char, OffsetType>  OffsetVector;
   typedef typename OffsetVector::Pointer              OffsetVectorPointer;
 
-  typedef MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator< ImageType >
-  GLCMGeneratorType;
+  typedef MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator< ImageType,
+    FrequencyContainerType > GLCMGeneratorType;
   typedef GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator< typename
   GLCMGeneratorType::HistogramType >                GLCMCalculatorType;
       

@@ -24,8 +24,8 @@
 namespace itk {
 namespace Statistics {
 
-template< class TImage >
-ScalarImageTextureCalculator< TImage >::
+template< class TImage, class THistogramFrequencyContainer >
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::
 ScalarImageTextureCalculator()
 {
   m_GLCMGenerator = GLCMGeneratorType::New();
@@ -62,9 +62,9 @@ ScalarImageTextureCalculator()
     }
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 Compute(void)
 {
   int numOffsets = m_Offsets->size();
@@ -153,49 +153,49 @@ Compute(void)
   delete[] features;
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 SetInput( const ImagePointer inputImage )
 {
   m_GLCMGenerator->SetInput(inputImage);
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 SetNumberOfBinsPerAxis( unsigned int numberOfBins )
 {
   m_GLCMGenerator->SetNumberOfBinsPerAxis(numberOfBins);
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 SetPixelValueMinMax( PixelType min, PixelType max )
 {
   m_GLCMGenerator->SetPixelValueMinMax(min, max);
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 SetImageMask(ImagePointer ImageMask)
 {
   m_GLCMGenerator->SetImageMask(ImageMask);
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::
 SetInsidePixelValue(PixelType InsidePixelValue)
 {
   m_GLCMGenerator->SetInsidePixelValue(InsidePixelValue);
 }
     
-template< class TImage >
+template< class TImage, class THistogramFrequencyContainer >
 void
-ScalarImageTextureCalculator< TImage >::    
+ScalarImageTextureCalculator< TImage, class THistogramFrequencyContainer >::    
 PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
