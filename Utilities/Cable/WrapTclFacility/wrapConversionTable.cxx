@@ -147,6 +147,7 @@ void ConversionTable::InitializePredefinedConversions()
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned long);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(long, unsigned long);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, float);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, double);
