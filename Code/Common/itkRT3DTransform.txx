@@ -134,8 +134,14 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputPointType &point) const 
 {
 	InputPointType result; 
-	if (m_ForwardIsIndexToPhysical) result = (InputpointType)TransformCartesianToAzEl(point);
-	else result = (InputPointType)TransformAzElToCartesian(point);
+	if( m_ForwardIsIndexToPhysical ) 
+    {
+    result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
+    }
+	else 
+    {
+    result = static_cast<InputPointType>(TransformAzElToCartesian(point));
+    }
 }
 
 
@@ -143,15 +149,24 @@ BackTransform(const OutputPointType &point) const
 // Back transform a point, from cartesian to azimuth-elevation
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
-RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::OutputPointType
+RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::InputPointType
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransformPoint(const OutputPointType &point) const 
 {
 	OutputPointType result; 
-	if (m_ForwardIsIndexToPhysical) result = (OutputPointType)TransformCartesianToAzEl(point);
-	else result = TransformAzElToCartesian(point);
+	if (m_ForwardIsIndexToPhysical) 
+    {
+    result = static_cast<InputPointType>( TransformCartesianToAzEl(point) );
+    }
+	else
+    {
+    result = static_cast<InputPointType>( TransformAzElToCartesian(point) );
+    }
 	return result;
 }
+
+
+
 
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >

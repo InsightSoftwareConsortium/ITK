@@ -121,8 +121,10 @@ public:
     /**
      * Standard coordinate point type for this class
      */
-    typedef Point<TScalarType, SpaceDimension> InputPointType;
-    typedef Point<TScalarType, SpaceDimension> OutputPointType;
+//    typedef Point<TScalarType, SpaceDimension> InputPointType;
+//    typedef Point<TScalarType, SpaceDimension> OutputPointType;
+    typedef    Superclass::InputPointType     InputPointType;
+    typedef    Superclass::OutputPointType    OutputPointType;
 
     
     /**
