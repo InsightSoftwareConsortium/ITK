@@ -20,6 +20,7 @@ CABLE_CLASS_SET(HexCell
                 "itk::HexahedronCell<$Float, $(Mesh)::CellTraits>")
 CABLE_CLASS_SET(EllipsoidFunc
                 "itk::EllipsoidInteriorExteriorSpatialFunction<$Float>")
+CABLE_CLASS_SET(Kernel "itk::Neighborhood<$Float, $Dimension>")
 CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
 CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
 CABLE_CLASS_SET(Transform "itk::AffineTransform<$Float>")
@@ -35,8 +36,8 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::AsinImageFilter<$Image,$Image>"
   "itk::Atan2ImageFilter<$Image,$Image,$Image>"
   "itk::AtanImageFilter<$Image,$Image>"
-  "itk::BinaryDilateImageFilter<$Image,$Image,$Image>"
-  "itk::BinaryErodeImageFilter<$Image,$Image,$Image>"
+  "itk::BinaryDilateImageFilter<$Image,$Image,$Kernel>"
+  "itk::BinaryErodeImageFilter<$Image,$Image,$Kernel>"
   #"itk::BinaryFunctorImageFilter"
   "itk::BinaryMagnitudeImageFilter<$Image,$Image,$Image>"
   "itk::BinomialBlurImageFilter<$Image,$Image>"
@@ -63,13 +64,13 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::GradientMagnitudeImageFilter<$Image,$Image>"
   "itk::GradientNDAnisotropicDiffusionFunction<$Image>"
   "itk::GradientRecursiveGaussianImageFilter<$Image,$Image.$Float>"
-  "itk::GradientToMagnitudeImageFilter<$Image,$Image>"
-  "itk::GrayscaleDilateImageFilter<$Image,$Image.$Image>"
-  "itk::GrayscaleErodeImageFilter<$Image,$Image,$Image>"
-  "itk::GrayscaleFunctionDilateImageFilter<$Image,$Image,$Image>"
-  "itk::GrayscaleFunctionErodeImageFilter<$Image,$Image,$Image>"
+  "itk::GradientToMagnitudeImageFilter<$VecImage,$Image>"
+  "itk::GrayscaleDilateImageFilter<$Image,$Image,$Kernel>"
+  "itk::GrayscaleErodeImageFilter<$Image,$Image,$Kernel>"
+  "itk::GrayscaleFunctionDilateImageFilter<$Image,$Image,$Kernel>"
+  "itk::GrayscaleFunctionErodeImageFilter<$Image,$Image,$Kernel>"
   "itk::ImageToMeshFilter<$Image,$Mesh>"
-  "itk::ImageToParametricSpaceFilter<$Image,$Image>"
+  "itk::ImageToParametricSpaceFilter<$Image,$Mesh>"
   "itk::ImportImageFilter<$Float,$Dimension>"
   "itk::InteriorExteriorMeshFilter<$Mesh,$Mesh,$EllipsoidFunc>"
   "itk::JoinImageFilter<$Image,$Image>"
@@ -78,7 +79,7 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::LogImageFilter<$Image,$Image>"
   "itk::MinimumMaximumImageFilter<$Image>"
   "itk::MirrorPadImageFilter<$Image,$Image>"
-  "itk::MorphologyImageFilter<$Image,$Image>"
+  "itk::MorphologyImageFilter<$Image,$Image,$Kernel>"
   "itk::MultiplyImageFilter<$Image,$Image,$Image>"
   "itk::NaryAddImageFilter<$Image,$Image>"
   # "itk::NaryFunctorImageFilter<$Image,$Image>"
