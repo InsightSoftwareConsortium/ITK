@@ -106,6 +106,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
 {
   InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
+  typedef typename NumericTraits<InputImagePixelType>::AccumulateType AccumulateType;
 
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion() ;
@@ -127,9 +128,9 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   // If the upper threshold has not been set, find it.
   if (m_FindUpperThreshold)
     {
-    InputImagePixelType lower = m_Lower;
-    InputImagePixelType upper = m_Upper;
-    InputImagePixelType guess = upper;
+    AccumulateType lower = static_cast<AccumulateType>(m_Lower);
+    AccumulateType upper = static_cast<AccumulateType>(m_Upper);
+    AccumulateType guess = upper;
 
     // do a binary search to find an upper threshold that separates the
     // two sets of seeds.
@@ -146,7 +147,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
       cumulatedProgress += progressWeight;
       outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-      function->ThresholdBetween ( m_Lower, guess );
+      function->ThresholdBetween ( m_Lower, static_cast<InputImagePixelType>(guess));
       it.GoToBegin();
       while( !it.IsAtEnd())
         {
@@ -186,16 +187,16 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       iterate.CompletedStep();
       }
 
-    m_IsolatedValue = lower; //the lower bound on the upper threshold guess
+    m_IsolatedValue = static_cast<InputImagePixelType>(lower); //the lower bound on the upper threshold guess
     }
 
 
   // If the lower threshold has not been set, find it.
   else if (!m_FindUpperThreshold)
     {
-    InputImagePixelType lower = m_Lower;
-    InputImagePixelType upper = m_Upper;
-    InputImagePixelType guess = lower;
+    AccumulateType lower = static_cast<AccumulateType>(m_Lower);
+    AccumulateType upper = static_cast<AccumulateType>(m_Upper);
+    AccumulateType guess = lower;
 
     // do a binary search to find a lower threshold that separates the
     // two sets of seeds.
@@ -212,7 +213,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
       cumulatedProgress += progressWeight;
       outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-      function->ThresholdBetween ( guess, m_Upper );
+      function->ThresholdBetween ( static_cast<InputImagePixelType>(guess), m_Upper );
       it.GoToBegin();
       while( !it.IsAtEnd())
         {
@@ -252,7 +253,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       iterate.CompletedStep();
       }
 
-    m_IsolatedValue = upper; //the upper bound on the lower threshold guess
+    m_IsolatedValue = static_cast<InputImagePixelType>(upper); //the upper bound on the lower threshold guess
     }
 
   // now rerun the algorithm with the thresholds that separate the seeds.
