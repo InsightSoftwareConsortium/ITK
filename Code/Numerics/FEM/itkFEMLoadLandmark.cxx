@@ -114,7 +114,7 @@ void LoadLandmark::Write( std::ostream& f ) const
    */
 
   /** Information */
-  f<<"\t"<<"Each vector below is preceded by its size"<<"\n";
+  f << "\t% Each vector below is preceded by its size" << std::endl;
 
   /** Write the point coordinates in the undeformed state */
   f<<"\t"<<m_pt.size()<<" "<<m_pt<<"\t%Point (local) coordinates, undeformed state"<<"\n";
