@@ -137,9 +137,9 @@ protected:
   virtual void GenerateInputRequestedRegion()
     {
     Superclass::GenerateInputRequestedRegion();
-    ( const_cast< ImageType * > (GetImageInput()) ) ->
+    ( const_cast< ImageType * > (this->GetImageInput()) ) ->
         SetRequestedRegionToLargestPossibleRegion();
-    ( const_cast< PathType * > (GetPathInput()) ) ->
+    ( const_cast< PathType * > (this->GetPathInput()) ) ->
         SetRequestedRegionToLargestPossibleRegion();
     }
   

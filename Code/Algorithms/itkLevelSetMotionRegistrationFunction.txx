@@ -43,8 +43,8 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_GradientMagnitudeThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
   m_GradientSmoothingStandardDeviations = 1.0;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
 
@@ -205,20 +205,20 @@ void
 LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->GetFixedImage()->GetSpacing();
+  m_FixedImageOrigin     = this->GetFixedImage()->GetOrigin();
 
   // create a smoothed version of the moving image for the calculation
   // of gradients.  due to the pipeline structure, this will only be
   // calculated once. InitializeIteration() is called in a single
   // threaded execution model. 
-  m_MovingImageSmoothingFilter->SetInput( m_MovingImage );
+  m_MovingImageSmoothingFilter->SetInput( this->GetMovingImage() );
   m_MovingImageSmoothingFilter
     ->SetSigma( m_GradientSmoothingStandardDeviations );
   m_MovingImageSmoothingFilter->Update();
@@ -227,7 +227,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
      ->SetInputImage( m_MovingImageSmoothingFilter->GetOutput() );
   
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
 
   // initialize metric computation variables
   m_SumOfSquaredDifference  = 0.0;
@@ -238,7 +238,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for (unsigned int j=0; j < ImageDimension; j++)
     {
     m_MovingPixelSize +=
-      (m_MovingImage->GetSpacing()[j] * m_MovingImage->GetSpacing()[j]);
+      (this->GetMovingImage()->GetSpacing()[j] * this->GetMovingImage()->GetSpacing()[j]);
     }
   m_MovingPixelSize = vcl_sqrt( m_MovingPixelSize );
 
@@ -266,7 +266,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedValue = (double) this->GetFixedImage()->GetPixel( index );
 
   // Get moving image related information
   double movingValue;
@@ -405,7 +405,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       // spacing. we will use this to calculate a timestep which
       // converts the update (measured in intensity) to a vector
       // measured in physical units (mm).
-      L1norm += (vnl_math_abs(update[j]) / m_MovingImage->GetSpacing()[j]);
+      L1norm += (vnl_math_abs(update[j]) / this->GetMovingImage()->GetSpacing()[j]);
       }
     }
 

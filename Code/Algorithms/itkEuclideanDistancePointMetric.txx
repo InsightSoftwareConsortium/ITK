@@ -88,7 +88,7 @@ EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-      m_Transform->TransformPoint( inputPoint );
+      this->m_Transform->TransformPoint( inputPoint );
 
     double minimumDistance = NumericTraits<double>::max();
     bool closestPoint = false;

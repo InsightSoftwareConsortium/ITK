@@ -280,7 +280,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::CopyInputToOutput()
 {
 
-  typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
+  typename Superclass::InputImageType::ConstPointer  inputPtr  = this->GetInput();
   
   if( inputPtr )
     {

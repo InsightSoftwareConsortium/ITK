@@ -37,7 +37,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 ::SegmentationLevelSetImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
-  this->SetNumberOfLayers(ImageDimension);
+  this->SetNumberOfLayers(TInputImage::ImageDimension);
   m_SegmentationFunction = 0;
   m_AutoGenerateSpeedAdvection = true;
   this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
@@ -85,7 +85,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
     }
   
   // Allocate the images from which speeds will be sampled.
-  if (this->GetState() == UNINITIALIZED && m_AutoGenerateSpeedAdvection == true)
+  if (this->GetState() == Superclass::UNINITIALIZED && m_AutoGenerateSpeedAdvection == true)
     {
     if (this->GetSegmentationFunction()->GetPropagationWeight() != 0)
       {

@@ -82,7 +82,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::operator=(const DTITubeSpatialObjectPoint & rhs) 
 {
   this->m_ID = rhs.m_ID;
-  m_R = rhs.m_R;
+  this->m_R = rhs.m_R;
   m_FA = rhs.m_FA;
   m_ADC = rhs.m_ADC;
   m_GA = rhs.m_GA;
@@ -111,9 +111,9 @@ DTITubeSpatialObjectPoint< TPointDimension >
   m_Interpolation = rhs.m_Interpolation;
   m_NumDimensions = rhs.m_NumDimensions;
   this->m_X = rhs.m_X;
-  m_T = rhs.m_T;
-  m_Normal1 = rhs.m_Normal1;
-  m_Normal2 = rhs.m_Normal2;
+  this->m_T = rhs.m_T;
+  this->m_Normal1 = rhs.m_Normal1;
+  this->m_Normal2 = rhs.m_Normal2;
   this->m_Color = rhs.m_Color;
   return * this;
 }

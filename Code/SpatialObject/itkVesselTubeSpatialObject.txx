@@ -31,7 +31,7 @@ template< unsigned int TDimension >
 VesselTubeSpatialObject< TDimension > 
 ::VesselTubeSpatialObject() : Superclass()
 { 
-  m_ParentPoint = -1;
+  this->m_ParentPoint = -1;
   this->SetDimension(TDimension);
   this->SetTypeName("VesselTubeSpatialObject");
 } 

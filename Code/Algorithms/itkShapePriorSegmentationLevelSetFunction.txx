@@ -71,7 +71,7 @@ const FloatOffsetType& offset )
       cdx[i] = static_cast<double>( idx[i] ) - offset[i];
       }
     typename ShapeFunctionType::PointType point;
-    m_FeatureImage->TransformContinuousIndexToPhysicalPoint( cdx, point );
+    this->GetFeatureImage()->TransformContinuousIndexToPhysicalPoint( cdx, point );
 
     ScalarValueType shape_term = m_ShapePriorWeight * 
       ( m_ShapeFunction->Evaluate( point ) - neighborhood.GetCenterPixel() );
@@ -108,19 +108,19 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = vnl_math_min((m_WaveDT / d->m_MaxAdvectionChange),
-                        (    m_DT / d->m_MaxCurvatureChange ));
+      dt = vnl_math_min((this->m_WaveDT / d->m_MaxAdvectionChange),
+                        (    this->m_DT / d->m_MaxCurvatureChange ));
       }
     else
       {
-      dt = m_DT / d->m_MaxCurvatureChange;
+      dt = this->m_DT / d->m_MaxCurvatureChange;
       }
     }
   else
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = m_WaveDT / d->m_MaxAdvectionChange; 
+      dt = this->m_WaveDT / d->m_MaxAdvectionChange; 
       }
     else 
       {

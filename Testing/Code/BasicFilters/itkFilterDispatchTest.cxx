@@ -197,7 +197,8 @@ template <typename TInputImage, typename TOutputImage>
 void ExampleImageFilter<TInputImage, TOutputImage>
 ::Execute(Dispatch<0>)
 {
-  this_should_not_have_been_instantiated();
+  // this_should_not_have_been_instantiated();
+  throw std::string("The 0-Dispatch method should not have been called.");
 }
 
 

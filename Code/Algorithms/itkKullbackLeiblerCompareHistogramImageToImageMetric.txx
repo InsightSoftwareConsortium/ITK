@@ -57,8 +57,8 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, \
   HistogramIteratorType measured_it   = histogram.Begin();
   HistogramIteratorType measured_end  = histogram.End();
 
-  HistogramIteratorType training_it   = m_TrainingHistogram->Begin();
-  HistogramIteratorType training_end  = m_TrainingHistogram->End();
+  HistogramIteratorType training_it   = this->GetTrainingHistogram()->Begin();
+  HistogramIteratorType training_end  = this->GetTrainingHistogram()->End();
 
   while (measured_it != measured_end)
     {
@@ -76,15 +76,15 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, \
     itkWarningMacro("The Measured and Training Histograms have different number of bins.");
 
   // Get the total frequency for each histogram.
-  HistogramFrequencyType totalTrainingFreq = m_TrainingHistogram->GetTotalFrequency();
+  HistogramFrequencyType totalTrainingFreq = this->GetTrainingHistogram()->GetTotalFrequency();
   HistogramFrequencyType totalMeasuredFreq = histogram.GetTotalFrequency();
 
   // The actual number of total frequency is a bit larger
   // than the number of counts because we add m_Epsilon to every bin
   double AdjustedTotalTrainingFreq = totalTrainingFreq +
-    m_HistogramSize[0]*m_HistogramSize[1]*m_Epsilon;
+    this->GetHistogramSize()[0]*this->GetHistogramSize()[1]*m_Epsilon;
   double AdjustedTotalMeasuredFreq = totalMeasuredFreq +
-    m_HistogramSize[0]*m_HistogramSize[1]*m_Epsilon;
+    this->GetHistogramSize()[0]*this->GetHistogramSize()[1]*m_Epsilon;
 
   KullbackLeibler = KullbackLeibler/static_cast<MeasureType>(AdjustedTotalMeasuredFreq)
     - log(AdjustedTotalMeasuredFreq/AdjustedTotalTrainingFreq);

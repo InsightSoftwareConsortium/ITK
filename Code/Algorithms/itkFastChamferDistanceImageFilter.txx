@@ -241,7 +241,7 @@ FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 {
 
   // Allocate the output image.
-  typename OutputImageType::Pointer output = this->GetOutput();
+  typename TOutputImage::Pointer output = this->GetOutput();
   
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();

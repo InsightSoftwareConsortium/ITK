@@ -92,19 +92,19 @@ double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueOne = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueOne = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
                                                             TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueZero = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueZero = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
                                                              TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_StatusNull = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+::m_StatusNull = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
                                                               TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
@@ -871,9 +871,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::TimeStepType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::CalculateChange()
 {
-  const typename FiniteDifferenceFunctionType::Pointer df
+  const typename Superclass::FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
-  typename FiniteDifferenceFunctionType::FloatOffsetType offset;
+  typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;
   ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
     backwardValue, centerValue;
   unsigned i;

@@ -266,27 +266,27 @@ public:
   /** Specify the moving spatial object. */
   void SetMovingSpatialObject( const MovingSpatialObjectType * object)
     {
-      if(!m_FixedImage)
+      if(!this->m_FixedImage)
         {
         std::cout << "Please set the image before the moving spatial object" << std::endl;
         return;
         }
-      m_MovingSpatialObject = object;
+      this->m_MovingSpatialObject = object;
       m_PointList.clear();
       typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
 
-      myIteratorType it(m_FixedImage,m_FixedImage->GetBufferedRegion());
+      myIteratorType it(this->m_FixedImage,this->m_FixedImage->GetBufferedRegion());
 
       itk::Point<double,2> point;
 
       while(!it.IsAtEnd())
         {
-        for(unsigned int i=0;i<ObjectDimension;i++)
+        for(unsigned int i=0;i<Self::ObjectDimension;i++)
           {
           point[i]=it.GetIndex()[i];
           }
 
-        if(m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInside(point,99999))
           { 
           m_PointList.push_back(point);
           }    
@@ -326,27 +326,27 @@ public:
   MeasureType    GetValue( const ParametersType & parameters ) const
     {   
       double value;
-      m_Transform->SetParameters( parameters );
+      this->m_Transform->SetParameters( parameters );
     
       PointListType::const_iterator it = m_PointList.begin();
     
       typename TFixedImage::SizeType size =
-        m_FixedImage->GetBufferedRegion().GetSize();
+        this->m_FixedImage->GetBufferedRegion().GetSize();
 
       itk::Index<2> index;
-      itk::Index<2> start = m_FixedImage->GetBufferedRegion().GetIndex();
+      itk::Index<2> start = this->m_FixedImage->GetBufferedRegion().GetIndex();
 
       value = 0;
       while(it != m_PointList.end())
         {
-        PointType transformedPoint = m_Transform->TransformPoint(*it);
-        m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
+        PointType transformedPoint = this->m_Transform->TransformPoint(*it);
+        this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
         if(    index[0]> start[0] 
                && index[1]> start[1]
                && index[0]< static_cast< signed long >( size[0] )
                && index[1]< static_cast< signed long >( size[1] )  )
           {
-          value += m_FixedImage->GetPixel(index);
+          value += this->m_FixedImage->GetPixel(index);
           }
         it++;
         }

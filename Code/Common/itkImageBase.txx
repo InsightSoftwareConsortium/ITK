@@ -75,6 +75,52 @@ ImageBase<VImageDimension>
 
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetSpacing(const double spacing[VImageDimension] )
+{
+  SpacingType s(spacing);
+  this->SetSpacing(s);
+}
+
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetSpacing(const float spacing[VImageDimension] )
+{
+  Vector<float, VImageDimension> sf(spacing);
+  SpacingType s;
+  s.CastFrom( sf );
+  this->SetSpacing(s);
+}
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetOrigin(const double origin[VImageDimension] )
+{
+  PointType p(origin);
+  this->SetOrigin( p );
+}
+
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetOrigin(const float origin[VImageDimension] )
+{
+  Point<float, VImageDimension> of(origin);
+  PointType p;
+  p.CastFrom( of );
+  this->SetOrigin( p );
+}
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
 void
 ImageBase<VImageDimension>
 ::ComputeOffsetTable()

@@ -34,7 +34,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 
   // Setting the output.
   CorrespondenceMatrixPointer output;
-  output = static_cast<CoreAtomImageToUnaryCorrespondenceMatrixProcess::CorrespondenceMatrixType*>(this->MakeOutput(0).GetPointer());
+  output = static_cast<typename CoreAtomImageToUnaryCorrespondenceMatrixProcess::CorrespondenceMatrixType*>(this->MakeOutput(0).GetPointer());
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
@@ -109,7 +109,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::GetInput1() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(0));
+  return const_cast<TSourceImage *>(this->GetNthInput(0));
 }
 
 /**
@@ -121,7 +121,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::GetInput2() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(1));
+  return const_cast<TSourceImage *>(this->GetNthInput(1));
 }
 
 /**

@@ -94,8 +94,8 @@ void
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::RecordVolumeDimensions(void) const
 {
-  typename InputImageType::SpacingType spacing=m_Image->GetSpacing();
-  SizeType dim=m_Image->GetLargestPossibleRegion().GetSize();
+  typename InputImageType::SpacingType spacing=this->m_Image->GetSpacing();
+  SizeType dim=this->m_Image->GetLargestPossibleRegion().GetSize();
 
   m_NumberOfVoxelsInX = dim[0];
   m_NumberOfVoxelsInY = dim[1];
@@ -519,8 +519,8 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
 
   // Store the position and direction of the ray
-  typename TInputImage::SpacingType spacing=m_Image->GetSpacing();
-  SizeType dim=m_Image->GetLargestPossibleRegion().GetSize();
+  typename TInputImage::SpacingType spacing=this->m_Image->GetSpacing();
+  SizeType dim=this->m_Image->GetLargestPossibleRegion().GetSize();
 
   // we need to translate the _center_ of the volume to the origin
   m_NumberOfVoxelsInX = dim[0];
@@ -974,19 +974,19 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
       index[0]=Ix; index[1]=Iy; index[2]=Iz; 
       m_RayIntersectionVoxels[0]
-        = m_Image->GetBufferPointer() + m_Image->ComputeOffset(index);
+        = this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(index);
 
       index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
       m_RayIntersectionVoxels[1] 
-        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+        = ( this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
       m_RayIntersectionVoxels[2] 
-        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+        = ( this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix; index[1]=Iy+1; index[2]=Iz+1; 
       m_RayIntersectionVoxels[3] 
-        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+        = ( this->m_Image->GetBufferPointer() + this->m_Image->ComputeOffset(index) );
       }
     else
       m_RayIntersectionVoxels[0] 
@@ -1006,20 +1006,20 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
       {
 
       index[0]=Ix; index[1]=Iy; index[2]=Iz; 
-      m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[0] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
-      m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[1] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
-      m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[2] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix+1; index[1]=Iy; index[2]=Iz+1; 
-      m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[3] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
       }
     else
       m_RayIntersectionVoxels[0] 
@@ -1039,20 +1039,20 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
       {
 
       index[0]=Ix; index[1]=Iy; index[2]=Iz; 
-      m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[0] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
-      m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[1] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
-      m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[2] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       index[0]=Ix+1; index[1]=Iy+1; index[2]=Iz; 
-      m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
-                                     + m_Image->ComputeOffset(index) );
+      m_RayIntersectionVoxels[3] = ( this->m_Image->GetBufferPointer()
+                                     + this->m_Image->ComputeOffset(index) );
 
       }
     else

@@ -41,7 +41,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
 
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if( !fixedImage ) 
     {
@@ -56,7 +56,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   MeasureType measure;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -74,34 +74,34 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
       {
       ++ti;
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
       ++ti;
       continue;
       }
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = ti.Get();
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       }
 
     ++ti;
     }
 
-  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     measure = sfm * factor;
@@ -129,12 +129,12 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
                  DerivativeType & derivative ) const
 {
 
-  if( !m_GradientImage )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
     }
 
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if( !fixedImage ) 
     {
@@ -149,7 +149,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typename FixedImageType::IndexType index;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -179,28 +179,28 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
       {
       ++ti;
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
       ++ti;
       continue;
       }
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = ti.Get();
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       }
 
     ++ti;
@@ -216,15 +216,15 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue     = ti.Get();
 
       const TransformJacobianType & jacobian =
-        m_Transform->GetJacobian( inputPoint ); 
+        this->m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -234,7 +234,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
-      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+      this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
@@ -243,7 +243,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-        m_GradientImage->GetPixel( mappedIndex );
+        this->GetGradientImage()->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -263,7 +263,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     ++ti;
     }
 
-  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)
@@ -293,12 +293,12 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 {
 
 
-  if( !m_GradientImage )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
     }
 
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if( !fixedImage ) 
     {
@@ -313,7 +313,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   typename FixedImageType::IndexType index;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -343,28 +343,28 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
       {
       ++ti;
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
       ++ti;
       continue;
       }
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = ti.Get();
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       }
 
     ++ti;
@@ -381,15 +381,15 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue     = ti.Get();
 
       const TransformJacobianType & jacobian =
-        m_Transform->GetJacobian( inputPoint ); 
+        this->m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -399,7 +399,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
-      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+      this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
@@ -408,7 +408,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-        m_GradientImage->GetPixel( mappedIndex );
+        this->GetGradientImage()->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -426,7 +426,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       }
     ++ti;
     }
-  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)

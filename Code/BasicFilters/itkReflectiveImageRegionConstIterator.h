@@ -132,7 +132,7 @@ public:
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
   {
-    return !m_Remaining;
+    return !this->m_Remaining;
   }
 
   /** Set the begin offset.  Forward iteration starts at this offset

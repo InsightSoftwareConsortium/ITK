@@ -53,8 +53,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_minnorm=1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
@@ -107,26 +107,26 @@ void
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->m_MovingImage || !this->m_FixedImage || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->m_FixedImage->GetSpacing();
+  m_FixedImageOrigin     = this->m_FixedImage->GetOrigin();
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
+  m_FixedImageGradientCalculator->SetInputImage( this->m_FixedImage );
 
   if (m_DoInverse)
     {
     // setup gradient calculator
-    m_MovingImageGradientCalculator->SetInputImage( m_MovingImage );
+    m_MovingImageGradientCalculator->SetInputImage( this->m_MovingImage );
     }
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->m_MovingImage );
 
   m_MetricTotal=0.0;
 
@@ -182,12 +182,12 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   float thresh2=1.0/255.;//  FIX ME : FOR PET LUNG ONLY !!
   float thresh1=1.0/255.;
-  if ( m_MovingImage->GetPixel(oindex) <= thresh1 &&
-       m_FixedImage->GetPixel(oindex) <= thresh2 ) return update;
+  if ( this->m_MovingImage->GetPixel(oindex) <= thresh1 &&
+       this->m_FixedImage->GetPixel(oindex) <= thresh2 ) return update;
 
   typename FixedImageType::SizeType hradius=this->GetRadius();
  
-  FixedImageType* img =const_cast<FixedImageType *>(m_FixedImage.GetPointer());
+  FixedImageType* img =const_cast<FixedImageType *>(this->m_FixedImage.GetPointer());
   typename FixedImageType::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
   
 
@@ -216,7 +216,9 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
   NeighborhoodIterator<DeformationFieldType> 
-    asamIt( hradius , m_DeformationField,m_DeformationField->GetRequestedRegion());
+    asamIt( hradius,
+            this->GetDeformationField(),
+            this->GetDeformationField()->GetRequestedRegion());
   asamIt.SetLocation(oindex);
   unsigned int hoodlen=asamIt.Size();
  
@@ -238,13 +240,13 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       CovariantVectorType fixedGradient;
 
       // Get fixed image related information
-      fixedValue = (double) m_FixedImage->GetPixel( index );
+      fixedValue = (double) this->m_FixedImage->GetPixel( index );
       
      
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
        
       // Get moving image related information
-      typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
+      typename DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
         {
@@ -319,7 +321,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
         CovariantVectorType fixedGradient;
         double fgm=0;
         // Get fixed image related information
-        fixedValue = (double) m_FixedImage->GetPixel( index );
+        fixedValue = (double) this->m_FixedImage->GetPixel( index );
         fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
 
         for( j = 0; j < ImageDimension; j++ )
@@ -327,7 +329,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
           fgm+=fixedGradient[j] *fixedGradient[j];
           } 
         // Get moving image related information
-        typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
+        typename DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
 
         for( j = 0; j < ImageDimension; j++ )
           {
@@ -379,7 +381,9 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   for (j=0;j<ImageDimension; j++) hradius[j]=0;
   NeighborhoodIterator<DeformationFieldType> 
-    hoodIt( hradius , m_DeformationField,m_DeformationField->GetRequestedRegion());
+    hoodIt( hradius,
+            this->GetDeformationField(),
+            this->GetDeformationField()->GetRequestedRegion());
   hoodIt.SetLocation(oindex);
  
 // then get the entropy ( and MI derivative ) related sample
@@ -402,14 +406,14 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       CovariantVectorType fixedGradient;
 
       // Get fixed image related information
-      fixedValue = (double) m_FixedImage->GetPixel( index );
+      fixedValue = (double) this->m_FixedImage->GetPixel( index );
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
        
       // Get moving image related information
 
 
       // Get moving image related information
-      typename DeformationFieldType::PixelType hooditvec=m_DeformationField->GetPixel(index);
+      typename DeformationFieldType::PixelType hooditvec=this->m_DeformationField->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
         {
@@ -590,7 +594,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   value += log( nsamp );
 
   m_MetricTotal+=value;  
-  m_Energy+=value;
+  this->m_Energy+=value;
 
   derivative  /= nsamp;
   derivative  /= vnl_math_sqr( m_FixedImageStandardDeviation );
@@ -602,12 +606,12 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   updatenorm=sqrt(updatenorm);
   
-  if (updatenorm > 1.e-20 && m_NormalizeGradient) 
+  if (updatenorm > 1.e-20 && this->GetNormalizeGradient()) 
     {
     derivative=derivative/updatenorm;
     } 
  
-  return derivative*m_GradientStep;
+  return derivative*this->GetGradientStep();
 }
 
 

@@ -125,6 +125,22 @@ public:
   static unsigned int GetImageDimension() 
     { return VImageDimension; }
 
+  /** Set the origin of the image. The origin is the geometric
+   * coordinates of the image origin.  It is stored internally
+   * as double but may be set from float.
+   * \sa GetOrigin() */
+  itkSetMacro(Origin, PointType);
+  virtual void SetOrigin( const double origin[VImageDimension] );
+  virtual void SetOrigin( const float origin[VImageDimension] );
+
+  /** Set the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * It is stored internally as double, but may be set from
+   * float. \sa GetSpacing() */
+  itkSetMacro(Spacing, SpacingType);
+  virtual void SetSpacing( const double spacing[VImageDimension] );
+  virtual void SetSpacing( const float spacing[VImageDimension] );
+
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
@@ -318,13 +334,13 @@ protected:
   void ComputeOffsetTable();
 
 protected:
-  /** Origin and spacing of physical coordinates. Protected so
-   * subclasses can access directly. */
-  SpacingType  m_Spacing;
-  PointType   m_Origin;
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** Origin and spacing of physical coordinates. */
+  SpacingType  m_Spacing;
+  PointType   m_Origin;
 
   OffsetValueType  m_OffsetTable[VImageDimension+1];
 

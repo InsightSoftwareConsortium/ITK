@@ -42,8 +42,8 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
   m_Normalizer = 0.0;
@@ -127,14 +127,14 @@ void
 SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->GetFixedImage()->GetSpacing();
+  m_FixedImageOrigin     = this->GetFixedImage()->GetOrigin();
 
   // compute the normalizer
   m_Normalizer      = 0.0;
@@ -146,10 +146,10 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
 
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
+  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
 
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
 
   // initialize metric computation variables
   m_SumOfSquaredDifference  = 0.0;
@@ -172,9 +172,9 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
 
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
   PixelType update;
-  IndexType FirstIndex = m_FixedImage->GetLargestPossibleRegion().GetIndex();
-  IndexType LastIndex = m_FixedImage->GetLargestPossibleRegion().GetIndex() + 
-                        m_FixedImage->GetLargestPossibleRegion().GetSize();
+  IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
+  IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() + 
+                        this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
 
   IndexType index = it.GetIndex();
 
@@ -186,7 +186,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
 
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedValue = (double) this->GetFixedImage()->GetPixel( index );
   fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
 
 

@@ -70,15 +70,15 @@ namespace itk
   {
     unsigned int i;
     // get pointers to the input and output
-    typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-    typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+    typename Superclass::TInputImageType::ConstPointer  inputPtr  = this->GetInput();
+    typename Superclass::TOutputImageType::Pointer      outputPtr = this->GetOutput();
 
     if ( !inputPtr || !outputPtr )
       {
       return;
       }
   
-    const typename TInputImageType::SizeType&   inputSize
+    const typename Superclass::TInputImageType::SizeType&   inputSize
       = inputPtr->GetLargestPossibleRegion().GetSize();
     unsigned int num_dims = inputPtr->GetImageDimension();
 

@@ -258,22 +258,6 @@ public:
   const AccessorType GetPixelAccessor( void ) const
     { return AccessorType(); }
 
-  /** Set the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * It is stored internally as double, but may be set from
-   * float. \sa GetSpacing() */
-  itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing( const double spacing[VImageDimension] );
-  virtual void SetSpacing( const float spacing[VImageDimension] );
-
-  /** Set the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  It is stored internally
-   * as double but may be set from float.
-   * \sa GetOrigin() */
-  itkSetMacro(Origin, PointType);
-  virtual void SetOrigin( const double origin[VImageDimension] );
-  virtual void SetOrigin( const float origin[VImageDimension] );
-
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
@@ -286,7 +270,7 @@ public:
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      index[i] = static_cast<TCoordRep>( (point[i]- m_Origin[i]) / m_Spacing[i] );
+      index[i] = static_cast<TCoordRep>( (point[i]- this->GetOrigin()[i]) / this->GetSpacing()[i] );
       }
 
     // Now, check to see if the index is within allowed bounds
@@ -310,7 +294,7 @@ public:
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      index[i] = static_cast<IndexValueType>( (point[i]- m_Origin[i]) / m_Spacing[i] );
+      index[i] = static_cast<IndexValueType>( (point[i]- this->GetOrigin()[i]) / this->GetSpacing()[i] );
       }
 
     // Now, check to see if the index is within allowed bounds
@@ -331,7 +315,7 @@ public:
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>( m_Spacing[i] * index[i] + m_Origin[i] );
+      point[i] = static_cast<TCoordRep>( this->GetSpacing()[i] * index[i] + this->GetOrigin()[i] );
       }
     }
 
@@ -347,8 +331,8 @@ public:
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>( m_Spacing[i] *
-        static_cast<double>( index[i] ) + m_Origin[i] );
+      point[i] = static_cast<TCoordRep>( this->GetSpacing()[i] *
+        static_cast<double>( index[i] ) + this->GetOrigin()[i] );
       }
     }
 

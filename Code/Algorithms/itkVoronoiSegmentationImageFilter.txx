@@ -121,7 +121,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
   itk::ImageRegionConstIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionConstIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
 
-  m_Size = this->GetInput()->GetRequestedRegion().GetSize();
+  this->m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 
   int num=0;
   float addp=0;
@@ -131,9 +131,9 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
   unsigned int i,j;
   unsigned int minx = 0,miny = 0,maxx = 0,maxy = 0;
   bool status=0;
-  for(i=0;i<m_Size[1];i++)
+  for(i=0;i<this->m_Size[1];i++)
     {
-    for(j=0;j<m_Size[0];j++)
+    for(j=0;j<this->m_Size[0];j++)
       {
       if( (status==0)&&(ait.Get()) )
         {
@@ -161,7 +161,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
   iit.GoToBegin();
   for(i=0;i<miny;i++)
     {
-    for(j=0;j<m_Size[0];j++)
+    for(j=0;j<this->m_Size[0];j++)
       {
       ++ait;
       ++iit;
@@ -192,7 +192,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
         }
       ++ait;++iit;
       }
-    for(j=maxx+1;j<m_Size[0];j++)
+    for(j=maxx+1;j<this->m_Size[0];j++)
       {
       ++ait;
       ++iit;
@@ -203,9 +203,9 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
   m_STD = sqrt((addpp - (addp*addp)/num)/(num-1));
   float b_Mean = addb/numb;
 
-  if(m_UseBackgroundInAPrior)
+  if(this->GetUseBackgroundInAPrior())
     {
-    m_MeanTolerance = fabs(m_Mean-b_Mean)*m_MeanDeviation;
+    m_MeanTolerance = fabs(m_Mean-b_Mean)*this->GetMeanDeviation();
     }
   else
     {

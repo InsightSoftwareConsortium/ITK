@@ -193,6 +193,9 @@ public:
    * ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
+  itkSetMacro(MaximumError,double);
+  itkGetConstReferenceMacro(MaximumError,double);
+
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() {};

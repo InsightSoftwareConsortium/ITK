@@ -117,7 +117,7 @@ Image<TPixel, VImageDimension>
       {
       // Now copy anything remaining that is needed
       this->SetPixelContainer(
-        const_cast<Image<TPixel, VImageDimension>::PixelContainer *>
+        const_cast<typename Image<TPixel, VImageDimension>::PixelContainer *>
         (imgData->GetPixelContainer()) );
       }
     else
@@ -128,53 +128,6 @@ Image<TPixel, VImageDimension>
                          << typeid(const Self *).name() );
       }
     }
-}
-
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetSpacing(const double spacing[VImageDimension] )
-{
-  SpacingType s(spacing);
-  this->SetSpacing(s);
-}
-
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetSpacing(const float spacing[VImageDimension] )
-{
-  Vector<float, VImageDimension> sf(spacing);
-  SpacingType s;
-  s.CastFrom( sf );
-  this->SetSpacing(s);
-}
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetOrigin(const double origin[VImageDimension] )
-{
-  PointType p(origin);
-  this->SetOrigin( p );
-}
-
-
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::SetOrigin(const float origin[VImageDimension] )
-{
-  Point<float, VImageDimension> of(origin);
-  PointType p;
-  p.CastFrom( of );
-  this->SetOrigin( p );
 }
 
 

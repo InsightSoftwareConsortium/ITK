@@ -39,7 +39,7 @@ namespace itk
   {
     MeasureType meanX = NumericTraits<MeasureType>::Zero;
 
-    for (unsigned int i = 0; i < m_HistogramSize[0]; i++)
+    for (unsigned int i = 0; i < this->m_HistogramSize[0]; i++)
     {
       MeasureType valX = histogram.GetMeasurement(i, 0);
       HistogramFrequencyType freq = histogram.GetFrequency(i, 0);
@@ -59,7 +59,7 @@ namespace itk
   {
     MeasureType meanY = NumericTraits<MeasureType>::Zero;
 
-    for (unsigned int i = 0; i < m_HistogramSize[1]; i++)
+    for (unsigned int i = 0; i < this->m_HistogramSize[1]; i++)
     {
       MeasureType valY = histogram.GetMeasurement(i, 1);
       HistogramFrequencyType freq = histogram.GetFrequency(i, 1);
@@ -79,7 +79,7 @@ namespace itk
   {
     MeasureType varX = NumericTraits<MeasureType>::Zero;
 
-    for (unsigned int i = 0; i < m_HistogramSize[0]; i++)
+    for (unsigned int i = 0; i < this->m_HistogramSize[0]; i++)
     {
       varX += static_cast<double>(histogram.GetFrequency(i, 0))/
         histogram.GetTotalFrequency()*
@@ -97,7 +97,7 @@ namespace itk
   {
     MeasureType varY = NumericTraits<MeasureType>::Zero;
 
-    for (unsigned int i = 0; i < m_HistogramSize[1]; i++)
+    for (unsigned int i = 0; i < this->m_HistogramSize[1]; i++)
     {
       varY += static_cast<double>(histogram.GetFrequency(i, 1))/
         histogram.GetTotalFrequency()*
@@ -117,8 +117,8 @@ namespace itk
     MeasureType meanX = MeanX(histogram);
     MeasureType meanY = MeanY(histogram);
 
-    for (unsigned int j = 0; j < m_HistogramSize[1]; j++)
-      for (unsigned int i = 0; i < m_HistogramSize[0]; i++)
+    for (unsigned int j = 0; j < this->m_HistogramSize[1]; j++)
+      for (unsigned int i = 0; i < this->m_HistogramSize[0]; i++)
       {
         typename HistogramType::IndexType index;
         index[0] = i;

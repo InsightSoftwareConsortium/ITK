@@ -157,17 +157,17 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
   // clear the container
   ptr->Initialize();
 
-  const typename FiniteDifferenceFunctionType::Pointer df
+  const typename Superclass::FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
 
-  typename LayerType::ConstIterator layerIt;
+  typename Superclass::LayerType::ConstIterator layerIt;
   NeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
                 this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   unsigned int counter = 0;
   for ( unsigned int k = 0; k < this->GetNumberOfLayers(); k++ )
     {
-    for (layerIt = m_Layers[k]->Begin(); layerIt != m_Layers[k]->End(); ++layerIt)
+    for (layerIt = this->m_Layers[k]->Begin(); layerIt != this->m_Layers[k]->End(); ++layerIt)
       {
         NodeType node;
         outputIt.SetLocation(layerIt->m_Value);

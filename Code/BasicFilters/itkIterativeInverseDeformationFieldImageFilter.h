@@ -105,7 +105,7 @@ namespace itk
     itkSetMacro(StopValue, double);
     itkGetMacro(StopValue, double);
 
-    char* GetReport() {return m_Report;}
+    char* GetReport() {return this->m_Report;}
 
   protected:
     IterativeInverseDeformationFieldImageFilter();

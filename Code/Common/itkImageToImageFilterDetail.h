@@ -312,8 +312,9 @@ namespace ImageToImageFilterDetail
     virtual void operator() (ImageRegion<D1> &destRegion,
                             const ImageRegion<D2> &srcRegion) const
     {
+      typedef typename BinaryUnsignedIntDispatch<D1, D2>::ComparisonType ComparisonType;
       ImageToImageFilterDefaultCopyRegion<D1, D2>(
-                      BinaryUnsignedIntDispatch<D1, D2>::ComparisonType(),
+                      ComparisonType(),
                       destRegion, srcRegion);
     }
   };

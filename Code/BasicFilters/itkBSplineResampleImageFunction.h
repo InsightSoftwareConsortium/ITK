@@ -69,10 +69,10 @@ public:
   {
     // bypass my superclass
     this->InterpolateImageFunction<TImageType,TCoordRep>::SetInputImage(inputData);
-    m_Coefficients = inputData;
-    if ( m_Coefficients != 0 )
+    this->m_Coefficients = inputData;
+    if ( this->m_Coefficients != 0 )
       {
-      m_DataLength = m_Coefficients->GetBufferedRegion().GetSize();
+      this->m_DataLength = this->m_Coefficients->GetBufferedRegion().GetSize();
     }
   }
 

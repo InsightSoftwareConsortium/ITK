@@ -138,7 +138,8 @@ public:
                           const ImageRegion<D2> &srcRegion,
                           const ImageRegion<D1> &totalInputExtractionRegion) const
   {
-    ExtractImageFilterCopyRegion<D1, D2>(BinaryUnsignedIntDispatch<D1, D2>::ComparisonType(),
+    typedef typename BinaryUnsignedIntDispatch<D1, D2>::ComparisonType ComparisonType;
+    ExtractImageFilterCopyRegion<D1, D2>(ComparisonType(),
                                          destRegion, srcRegion, totalInputExtractionRegion);
   }
 

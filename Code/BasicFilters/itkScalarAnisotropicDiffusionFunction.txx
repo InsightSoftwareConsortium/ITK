@@ -84,7 +84,7 @@ ScalarAnisotropicDiffusionFunction<TImage>
     for (i = 0; i < ImageDimension; ++i)
       {
       val = IP(iterator_list[i], operator_list[i]);     
-      val = static_cast<PixelType>(static_cast<double>(val) * m_ScaleCoefficients[i]);
+      val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
       accumulator += val * val;
       ++iterator_list[i];
       }
@@ -108,7 +108,7 @@ ScalarAnisotropicDiffusionFunction<TImage>
       for (i = 0; i < ImageDimension; ++i)
         {
         val = SIP(face_iterator_list[i], operator_list[i]);     
-        val = static_cast<PixelType>(static_cast<double>(val) * m_ScaleCoefficients[i]);
+        val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
         accumulator += val * val;
         ++face_iterator_list[i];
         }

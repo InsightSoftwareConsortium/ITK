@@ -121,7 +121,7 @@ public CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 
-  { return m_Transform->GetNumberOfParameters(); }
+  { return this->GetTransform()->GetNumberOfParameters(); }
  
   /** Forms the histogram of the training images to prepare to evaluate the */
   /** metric. Must set all parameters first */

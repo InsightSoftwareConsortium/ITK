@@ -85,7 +85,7 @@ public:
   {
     bool operator()(const merge_t &a, const merge_t &b)
     {
-      return a.saliency < s.Saliency;
+      return a.saliency < b.Saliency;
     }
   };
 

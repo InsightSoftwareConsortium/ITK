@@ -208,8 +208,8 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   bool flag = false;
   NodeType *node;
   
-  layerIt = m_Layers[0]->Begin();
-  while (layerIt != m_Layers[0]->End() )
+  layerIt = this->m_Layers[0]->Begin();
+  while (layerIt != this->m_Layers[0]->End() )
     {
     node = im->GetPixel(layerIt->m_Value);
     if ((node == 0)||

@@ -142,6 +142,9 @@ public:
   /** Get a pointer to the Interpolator.  */
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
+  /** Get Gradient Image. */
+  itkGetConstObjectMacro( GradientImage, GradientImageType );
+
   /** Get the number of pixels considered in the computation. */
   itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
 

@@ -57,7 +57,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
 
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if( !fixedImage ) 
     {
@@ -79,7 +79,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -91,25 +91,26 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
       {
       ++ti;
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+    typename Superclass::TransformType const *transform = this->m_Transform;
+    typename Superclass::OutputPointType transformedPoint = transform->TransformPoint( inputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
       ++ti;
       continue;
       }
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      MovingValue  = m_Interpolator->Evaluate( transformedPoint );
+      MovingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       FixedValue     = ti.Get();
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue; 
       measure += 1.0f / ( 1.0f + m_Lambda* ( diff * diff ) ); 
       }

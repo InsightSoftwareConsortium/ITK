@@ -68,7 +68,7 @@ public:
     { m_MovingImage = ptr; }
 
   /** Get the moving image. */
-  MovingImageType * GetMovingImage(void)
+  const MovingImageType * GetMovingImage(void)
     { return m_MovingImage; }
 
   /** Set the fixed image. */
@@ -76,7 +76,7 @@ public:
     { m_FixedImage = ptr; }
 
   /** Get the fixed image. */
-  FixedImageType * GetFixedImage(void)
+  const FixedImageType * GetFixedImage(void)
     { return m_FixedImage; }
 
   /** Set the fixed image. */

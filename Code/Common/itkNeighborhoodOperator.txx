@@ -138,7 +138,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
     it = coeff.begin() - sizediff;
     }
 
-  Self::SliceIteratorType data(this, *temp_slice);
+  SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
 
   // Copy the coefficients into the neighborhood, truncating them if there

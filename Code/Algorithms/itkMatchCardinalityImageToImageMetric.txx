@@ -32,7 +32,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("Constructor");
 
-  m_ComputeGradient = false; // don't use the default gradients
+  this->SetComputeGradient(false); // don't use the default gradients
   m_MeasureMatches = true;  // default to measure percentage of pixel matches
 
   m_Threader = MultiThreader::New();
@@ -60,7 +60,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
   if( !fixedImage ) 
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
@@ -70,7 +70,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   //
   //
   MeasureType measure = NumericTraits< MeasureType >::Zero;
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   m_ThreadMatches.clear();
   m_ThreadCounts.clear();
@@ -111,17 +111,17 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
        mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
     {
     measure += *mIt;
-    m_NumberOfPixelsCounted += *cIt;
+    this->m_NumberOfPixelsCounted += *cIt;
     }
 
 
-  if( !m_NumberOfPixelsCounted )
+  if( !this->m_NumberOfPixelsCounted )
     {
     itkExceptionMacro(<<"All the points mapped to outside of the moving image");
     }
   else
     {
-    measure /= m_NumberOfPixelsCounted;
+    measure /= this->m_NumberOfPixelsCounted;
     }
 
   return measure;
@@ -153,24 +153,24 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( inputPoint ) )
+    if( this->GetFixedImageMask() && !this->GetFixedImageMask()->IsInside( inputPoint ) )
       {
       ++ti;
       continue;
       }
 
     typename Superclass::OutputPointType
-      transformedPoint = m_Transform->TransformPoint( inputPoint );
+      transformedPoint = this->GetTransform()->TransformPoint( inputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->GetMovingImageMask() && !this->GetMovingImageMask()->IsInside( transformedPoint ) )
       {
       ++ti;
       continue;
       }
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->GetInterpolator()->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue= m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue= this->GetInterpolator()->Evaluate( transformedPoint );
       const RealType fixedValue = ti.Get();
       RealType diff;
       

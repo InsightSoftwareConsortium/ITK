@@ -183,8 +183,8 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   if ( m_AuxAliveValues )
     { 
     typename AuxValueContainer::ConstIterator auxIter = m_AuxAliveValues->Begin();
-    typename NodeContainer::ConstIterator pointsIter = (this->GetAlivePoints())->Begin();
-    typename NodeContainer::ConstIterator pointsEnd = (this->GetAlivePoints())->End();
+    typename Superclass::NodeContainer::ConstIterator pointsIter = (this->GetAlivePoints())->Begin();
+    typename Superclass::NodeContainer::ConstIterator pointsEnd = (this->GetAlivePoints())->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
@@ -192,7 +192,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
-      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) ) 
+      if ( !this->GetOutput()->GetBufferedRegion().IsInside( node.GetIndex() ) ) 
         {
         continue;
         }
@@ -208,8 +208,8 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   if ( m_AuxTrialValues )
     { 
     typename AuxValueContainer::ConstIterator auxIter = m_AuxTrialValues->Begin();
-    typename NodeContainer::ConstIterator pointsIter = (this->GetTrialPoints())->Begin();
-    typename NodeContainer::ConstIterator pointsEnd = (this->GetTrialPoints())->End();
+    typename Superclass::NodeContainer::ConstIterator pointsIter = (this->GetTrialPoints())->Begin();
+    typename Superclass::NodeContainer::ConstIterator pointsEnd = (this->GetTrialPoints())->End();
 
     for ( ; pointsIter != pointsEnd; ++pointsIter, ++auxIter )
       {
@@ -217,7 +217,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
       auxVec = auxIter.Value();
 
       // check if node index is within the output level set
-      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) ) 
+      if ( !this->GetOutput()->GetBufferedRegion().IsInside( node.GetIndex() ) ) 
         {
         continue;
         }

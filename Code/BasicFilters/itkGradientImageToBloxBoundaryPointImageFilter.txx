@@ -52,7 +52,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   if( j < NDimensions )
     {
     this->Modified();
-    for( j = 0; j < ImageDimension; j++ )
+    for( j = 0; j < Superclass::ImageDimension; j++ )
       {
       m_BloxResolution[j] = bloxResolution[j];
       if( m_BloxResolution[j] < 1 ) 

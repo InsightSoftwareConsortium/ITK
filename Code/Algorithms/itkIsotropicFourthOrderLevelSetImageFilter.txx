@@ -26,7 +26,7 @@ IsotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 ::IsotropicFourthOrderLevelSetImageFilter()
 {
   RadiusType radius;
-  for (unsigned int j=0; j<ImageDimension;j++)
+  for (unsigned int j=0; j<Self::ImageDimension;j++)
     {
     radius[j] = 1;
     }

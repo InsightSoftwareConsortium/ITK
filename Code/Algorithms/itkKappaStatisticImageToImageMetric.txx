@@ -32,7 +32,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("Constructor");
 
-  m_ComputeGradient = false; // don't use the default gradients
+  this->SetComputeGradient(false); // don't use the default gradients
   m_ForegroundValue = 255;
   m_Complement = false;
 }
@@ -53,7 +53,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   //Get the fixed image
   //
   //
-  FixedImageConstPointer fixedImage = this->GetFixedImage();
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
   if( !fixedImage ) 
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
@@ -69,7 +69,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   //Get the moving image
   //
   //
-  MovingImageConstPointer movingImage = this->GetMovingImage();
+  MovingImageConstPointer movingImage = this->m_MovingImage;
   if( !movingImage ) 
     {
     itkExceptionMacro( << "Moving image has not been assigned" );
@@ -100,7 +100,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType fixedInputPoint;
     fixedImage->TransformIndexToPhysicalPoint( fixedIndex, fixedInputPoint );
 
-    if( m_FixedImageMask && !m_FixedImageMask->IsInside( fixedInputPoint ) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( fixedInputPoint ) )
       {
       ++fi;
       continue;
@@ -121,9 +121,9 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     //
     //
     typename Superclass::OutputPointType
-      transformedPoint = m_Transform->TransformPoint( fixedInputPoint );
+      transformedPoint = this->m_Transform->TransformPoint( fixedInputPoint );
 
-    if( m_MovingImageMask && !m_MovingImageMask->IsInside( transformedPoint ) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
       ++fi;
       continue;
@@ -132,9 +132,9 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     //Compute movingForegroundArea and intersection
     //
     //
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {    
-      const RealType movingValue = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue = this->m_Interpolator->Evaluate( transformedPoint );
       if (movingValue==m_ForegroundValue)
         {        
         movingForegroundArea++;

@@ -121,8 +121,8 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
        { return dynamic_cast<const Self*>(e); } \
      virtual ::itk::EventObject* MakeObject() const \
        { return new Self; } \
-   private: \
      classname(const Self&); \
+   private: \
      void operator=(const Self&); \
  }
 

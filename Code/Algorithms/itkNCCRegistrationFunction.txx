@@ -43,8 +43,8 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
@@ -90,26 +90,26 @@ void
 NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->m_MovingImage || !this->m_FixedImage || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->m_FixedImage->GetSpacing();
+  m_FixedImageOrigin     = this->m_FixedImage->GetOrigin();
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
+  m_FixedImageGradientCalculator->SetInputImage( this->m_FixedImage );
 
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->m_MovingImage );
 
 
   std::cout << " total metric " << m_MetricTotal << " field size " <<
-    m_DeformationField->GetLargestPossibleRegion().GetSize()<< " image size " <<
-    m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+    this->GetDeformationField()->GetLargestPossibleRegion().GetSize()<< " image size " <<
+    this->m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
   m_MetricTotal=0.0;
 
 }
@@ -134,7 +134,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   typename FixedImageType::SizeType hradius=it.GetRadius();
  
-  FixedImageType* img =const_cast<FixedImageType *>(m_FixedImage.GetPointer()); 
+  FixedImageType* img =const_cast<FixedImageType *>(this->m_FixedImage.GetPointer()); 
 
   typename FixedImageType::SizeType imagesize=img->GetLargestPossibleRegion().GetSize();
   
@@ -182,7 +182,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
       // Note: no need to check the index is within
       // fixed image buffer. This is done by the external filter.
-      fixedValue = (double) m_FixedImage->GetPixel( index );
+      fixedValue = (double) this->m_FixedImage->GetPixel( index );
 
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index ); 
       for( j = 0; j < ImageDimension; j++ )
@@ -194,7 +194,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       
       PointType mappedPoint;
 
-      typename TDeformationField::PixelType vec = m_DeformationField->GetPixel(index);
+      typename TDeformationField::PixelType vec = this->GetDeformationField()->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
       {
@@ -236,7 +236,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
     updatenorm=sqrt(updatenorm);
     m_MetricTotal+=sfm*factor;
-    m_Energy+=sfm*factor;
+    this->m_Energy+=sfm*factor;
   } 
   else
   {
@@ -249,13 +249,13 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 //  if ( fixedValue > 0.40 && movingValue > 0.40)  std::cout << " update norm " << updatenorm;
   
-  if (m_NormalizeGradient && updatenorm !=0.0 ) 
+  if (this->GetNormalizeGradient() && updatenorm !=0.0 ) 
   {
     update/=(updatenorm);
   }
 
 
-  return update*m_GradientStep;
+  return update*this->m_GradientStep;
 }
 
 

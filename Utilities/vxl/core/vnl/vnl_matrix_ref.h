@@ -48,7 +48,7 @@ class vnl_matrix_ref : public vnl_matrix<T>
     Base::num_rows = m;
     Base::num_cols = n;
 #if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    vnl_matrix_own_data = 0;
+    this->vnl_matrix_own_data = 0;
 #endif
   }
 
@@ -59,7 +59,7 @@ class vnl_matrix_ref : public vnl_matrix<T>
     Base::num_rows = other.rows();
     Base::num_cols = other.cols();
 #if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    vnl_matrix_own_data = 0;
+    this->vnl_matrix_own_data = 0;
 #endif
   }
 

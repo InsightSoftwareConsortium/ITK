@@ -137,7 +137,7 @@ public:
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
   {    
     ContinuousIndexType index;
-    m_Image->TransformPhysicalPointToContinuousIndex( point, index );
+    this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
   } 
 

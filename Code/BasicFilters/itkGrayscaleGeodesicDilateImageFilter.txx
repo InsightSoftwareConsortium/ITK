@@ -340,9 +340,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   //
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    NeighborhoodIteratorType markerIt;
-    markerIt = NeighborhoodIteratorType(kernelRadius,
-                                        this->GetMarkerImage(), *fit);
+    NeighborhoodIteratorType markerIt(kernelRadius,
+                                      this->GetMarkerImage(), *fit);
     maskIt=ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), *fit);
     oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
 
@@ -353,7 +352,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     // neighbors and the center pixel
     offset.Fill(0);
     markerIt.ActivateOffset(offset); // center pixel
-    for (d=0; d < InputImageType::ImageDimension; ++d)
+    for (d=0; d < TInputImage::ImageDimension; ++d)
       {
       for (i=-1; i<=1; i+=2)
         {

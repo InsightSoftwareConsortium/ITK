@@ -236,7 +236,7 @@ PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os,indent);
   os << indent << "Size:  " << m_Size << std::endl;
   os << indent << "DefaultPixelValue:  "
-     << NumericTraits<ImagePixelType>::PrintType(m_DefaultPixelValue)
+     << typename NumericTraits<ImagePixelType>::PrintType(m_DefaultPixelValue)
      << std::endl;
 }
 

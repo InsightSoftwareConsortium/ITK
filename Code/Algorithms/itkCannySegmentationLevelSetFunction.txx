@@ -97,7 +97,7 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
   m_Canny->SetOutsideValue(NumericTraits<ScalarValueType>::Zero);
 
   m_Distance->SetInput(m_Canny->GetOutput());
-  m_Distance->GetOutput()->SetRequestedRegion(m_SpeedImage->GetRequestedRegion());
+  m_Distance->GetOutput()->SetRequestedRegion(this->GetSpeedImage()->GetRequestedRegion());
   m_Distance->Update();
 }
 

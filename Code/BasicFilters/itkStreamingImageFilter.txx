@@ -81,7 +81,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
   /**
    * prevent chasing our tail
    */
-  if (m_Updating)
+  if (this->m_Updating)
     {
     return;
     }
@@ -103,7 +103,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
     }
   this->SetAbortGenerateData(0);
   this->SetProgress(0.0);
-  m_Updating = true;
+  this->m_Updating = true;
     
 
   /**
@@ -202,7 +202,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
   this->ReleaseInputs();
   
   // Mark that we are no longer updating the data in this filter
-  m_Updating = false;
+  this->m_Updating = false;
 }
 
 

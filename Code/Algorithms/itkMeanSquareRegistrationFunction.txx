@@ -39,12 +39,12 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   this->SetRadius(r);
 
-  m_Energy = 0.0;
+  this->SetEnergy(0.0);
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
@@ -90,23 +90,23 @@ void
 MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->GetFixedImage()->GetSpacing();
+  m_FixedImageOrigin     = this->GetFixedImage()->GetOrigin();
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
+  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
 
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
   
-  m_Energy=0.0;
+  this->SetEnergy(0.0);
 }
 
 
@@ -134,7 +134,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedValue = (double) this->GetFixedImage()->GetPixel( index );
   fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
   for( j = 0; j < ImageDimension; j++ )
     {
@@ -144,7 +144,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Get moving image related information
   double movingValue;
   PointType mappedPoint;
-  typename DeformationFieldType::PixelType itvec=m_DeformationField->GetPixel(index);
+  typename Superclass::DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
 
   for( j = 0; j < ImageDimension; j++ )
     {
@@ -164,9 +164,9 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Compute update
   double speedValue = fixedValue - movingValue;
-  m_Energy+=speedValue*speedValue;
+  this->m_Energy+=speedValue*speedValue;
 
-  bool normalizemetric=m_NormalizeGradient;  
+  bool normalizemetric=this->GetNormalizeGradient();  
   double denominator = 1.0;
   if (normalizemetric) 
   {  
@@ -188,7 +188,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for( j = 0; j < ImageDimension; j++ )
     {
     update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) / 
-      denominator*m_GradientStep;
+      denominator*this->m_GradientStep;
     }
 
   return update;

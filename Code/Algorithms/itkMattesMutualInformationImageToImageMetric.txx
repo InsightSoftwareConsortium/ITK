@@ -42,7 +42,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_NumberOfSpatialSamples = 500;
   m_NumberOfHistogramBins = 50;
 
-  m_ComputeGradient = false; // don't use the default gradient for now
+  this->SetComputeGradient(false); // don't use the default gradient for now
 
   m_InterpolatorIsBSpline = false;
   m_TransformIsBSpline    = false;
@@ -126,7 +126,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   this->Superclass::Initialize();
   
   // Cache the number of transformation parameters
-  m_NumberOfParameters = m_Transform->GetNumberOfParameters();
+  m_NumberOfParameters = this->m_Transform->GetNumberOfParameters();
 
   /**
    * Compute the minimum and maximum for the FixedImage over
@@ -140,7 +140,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   typedef ImageRegionConstIterator<FixedImageType> FixedIteratorType;
   FixedIteratorType fixedImageIterator( 
-    m_FixedImage, this->GetFixedImageRegion() );
+    this->m_FixedImage, this->GetFixedImageRegion() );
 
   for ( fixedImageIterator.GoToBegin(); 
         !fixedImageIterator.IsAtEnd(); ++fixedImageIterator )
@@ -169,7 +169,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   typedef ImageRegionConstIterator<MovingImageType> MovingIteratorType;
   MovingIteratorType movingImageIterator(
-    m_MovingImage, m_MovingImage->GetBufferedRegion() );
+    this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );
 
   for ( movingImageIterator.GoToBegin(); 
         !movingImageIterator.IsAtEnd(); ++movingImageIterator)
@@ -322,13 +322,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_InterpolatorIsBSpline = true;
 
   BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
-    m_Interpolator.GetPointer() );
+    this->m_Interpolator.GetPointer() );
   if ( !testPtr )
     {
     m_InterpolatorIsBSpline = false;
 
     m_DerivativeCalculator = DerivativeFunctionType::New();
-    m_DerivativeCalculator->SetInputImage( m_MovingImage );
+    m_DerivativeCalculator->SetInputImage( this->m_MovingImage );
 
     m_BSplineInterpolator = NULL;
     itkDebugMacro( "Interpolator is not BSpline" );
@@ -353,7 +353,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_TransformIsBSpline = true;
 
   BSplineTransformType * testPtr2 = dynamic_cast<BSplineTransformType *>(
-    m_Transform.GetPointer() );
+    this->m_Transform.GetPointer() );
   if( !testPtr2 )
     {
     m_TransformIsBSpline = false;
@@ -400,7 +400,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
-  RandomIterator randIter( m_FixedImage, this->GetFixedImageRegion() );
+  RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
 
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
   randIter.GoToBegin();
@@ -408,7 +408,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   typename FixedImageSpatialSampleContainer::iterator iter;
   typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
 
-  if( m_FixedImageMask )
+  if( this->m_FixedImageMask )
     {
 
     typename Superclass::InputPointType inputPoint;
@@ -420,10 +420,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Get sampled index
       FixedImageIndexType index = randIter.GetIndex();
       // Check if the Index is inside the mask, translate index to point
-      m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
       // If not inside the mask, ignore the point
-      if( !m_FixedImageMask->IsInside( inputPoint ) )
+      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
         {
         ++randIter; // jump to another random position
         continue;
@@ -448,7 +448,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Get sampled fixed image value
       (*iter).FixedImageValue = randIter.Get();
       // Translate index to point
-      m_FixedImage->TransformIndexToPhysicalPoint( index,
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
                                                    (*iter).FixedImagePointValue );
       // Jump to random position
       ++randIter;
@@ -518,7 +518,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_JointPDF->FillBuffer( 0.0 );
 
   // Set up the parameters in the transform
-  m_Transform->SetParameters( parameters );
+  this->m_Transform->SetParameters( parameters );
 
 
   // Declare iterators for iteration over the sample container
@@ -776,7 +776,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 
   // Set up the parameters in the transform
-  m_Transform->SetParameters( parameters );
+  this->m_Transform->SetParameters( parameters );
 
 
   // Declare iterators for iteration over the sample container
@@ -1107,7 +1107,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   if ( !m_TransformIsBSpline )
     {
     // Use generic transform to compute mapped position
-    mappedPoint = m_Transform->TransformPoint( 
+    mappedPoint = this->m_Transform->TransformPoint( 
       m_FixedImageSamples[sampleNumber].FixedImagePointValue );
     }
   else
@@ -1140,7 +1140,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 
   // Check if mapped point inside image buffer
-  sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
+  sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
 
   if ( m_TransformIsBSpline )
     {
@@ -1150,16 +1150,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   // If user provided a mask over the Moving image
-  if ( m_MovingImageMask )
+  if ( this->m_MovingImageMask )
     {
     // Check if mapped point is within the support region of the moving image mask
-    sampleOk = sampleOk && m_MovingImageMask->IsInside( mappedPoint );
+    sampleOk = sampleOk && this->m_MovingImageMask->IsInside( mappedPoint );
     }
 
 
   if ( sampleOk )
     {
-    movingImageValue = m_Interpolator->Evaluate( mappedPoint );
+    movingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
 
     if ( movingImageValue < m_MovingImageTrueMin || 
          movingImageValue > m_MovingImageTrueMax )
@@ -1201,7 +1201,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Compute the transform Jacobian.
     typedef typename TransformType::JacobianType JacobianType;
     const JacobianType& jacobian = 
-      m_Transform->GetJacobian( 
+      this->m_Transform->GetJacobian( 
         m_FixedImageSamples[sampleNumber].FixedImagePointValue );
 
     for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++, derivPtr++ )
@@ -1258,9 +1258,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::PreComputeTransformValues()
 {
   // Create all zero dummy transform parameters
-  ParametersType dummyParameters( m_Transform->GetNumberOfParameters() );
+  ParametersType dummyParameters( this->m_Transform->GetNumberOfParameters() );
   dummyParameters.Fill( 0.0 );
-  m_Transform->SetParameters( dummyParameters );
+  this->m_Transform->SetParameters( dummyParameters );
 
   // Cycle through each sampled fixed image point
   BSplineTransformWeightsType weights( m_NumBSplineWeights );

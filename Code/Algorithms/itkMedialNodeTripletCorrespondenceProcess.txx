@@ -41,7 +41,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 
   //Setting the output
   OutputDataStructurePointerType output;
-  output = static_cast<MedialNodeTripletCorrespondenceProcess::OutputDataStructureType*>(this->MakeOutput(0).GetPointer()); 
+  output = static_cast<typename MedialNodeTripletCorrespondenceProcess::OutputDataStructureType*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
@@ -148,7 +148,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 ::GetCoreAtomImageA() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(3));
+  return const_cast<TSourceImage *>(this->GetNthInput(3));
 }
 
 /** 
@@ -160,7 +160,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 ::GetCoreAtomImageB() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(4));
+  return const_cast<TSourceImage *>(this->GetNthInput(4));
 }
 
 /** 
@@ -172,7 +172,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 ::GetDistanceMatrixA() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<DistanceMatrixType *>(GetNthInput(1));
+  return const_cast<DistanceMatrixType *>(this->GetNthInput(1));
 }
 
 /** 
@@ -184,7 +184,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 ::GetDistanceMatrixB() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<DistanceMatrixType *>(GetNthInput(2));
+  return const_cast<DistanceMatrixType *>(this->GetNthInput(2));
 }
 
 /** 

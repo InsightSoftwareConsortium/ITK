@@ -750,7 +750,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>
   m_Load->GN=mySolver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
   m_Load->SetSign((Float)m_DescentDirection);
   mySolver.load.push_back( FEMP<Load>(&*m_Load) );    
-  m_Load=dynamic_cast<FEMRegistrationFilter<TMovingImage,TFixedImage>::ImageMetricLoadType*> 
+  m_Load=dynamic_cast<typename FEMRegistrationFilter<TMovingImage,TFixedImage>::ImageMetricLoadType*> 
     (&*mySolver.load.Find(mySolver.load.size()));  
 }   
 

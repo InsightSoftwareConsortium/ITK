@@ -155,6 +155,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << indent << "ComputeGradient: "
+     << static_cast<typename NumericTraits<bool>::PrintType>(m_ComputeGradient)
+     << std::endl;
   os << indent << "Moving Image: " << m_MovingImage.GetPointer()  << std::endl;
   os << indent << "Fixed  Image: " << m_FixedImage.GetPointer()   << std::endl;
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;

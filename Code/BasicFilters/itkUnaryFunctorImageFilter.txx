@@ -70,10 +70,10 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 
   // Set the output spacing and origin
-  const ImageBase<InputImageDimension> *phyData;
+  const ImageBase<Superclass::InputImageDimension> *phyData;
 
   phyData
-    = dynamic_cast<const ImageBase<InputImageDimension>*>(this->GetInput());
+    = dynamic_cast<const ImageBase<Superclass::InputImageDimension>*>(this->GetInput());
 
   if (phyData)
     {
@@ -91,12 +91,12 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
 
     // copy the input to the output and fill the rest of the
     // output with zeros.
-    for (i=0; i < InputImageDimension; ++i)
+    for (i=0; i < Superclass::InputImageDimension; ++i)
       {
       outputSpacing[i] = inputSpacing[i];
       outputOrigin[i] = inputOrigin[i];
       }
-    for (; i < OutputImageDimension; ++i)
+    for (; i < Superclass::OutputImageDimension; ++i)
       {
       outputSpacing[i] = 1.0;
       outputOrigin[i] = 0.0;
@@ -111,7 +111,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::UnaryFunctorImageFilter::GenerateOutputInformation "
                       << "cannot cast input to "
-                      << typeid(ImageBase<InputImageDimension>*).name() );
+                      << typeid(ImageBase<Superclass::InputImageDimension>*).name() );
     }
 }
 

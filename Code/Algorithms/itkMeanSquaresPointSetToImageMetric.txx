@@ -56,7 +56,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -67,28 +67,28 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-      m_Transform->TransformPoint( inputPoint );
+      this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = pointDataItr.Value();
       const RealType diff = movingValue - fixedValue; 
       measure += diff * diff; 
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       }
 
     ++pointItr;
     ++pointDataItr;
     }
 
-  if( !m_NumberOfPixelsCounted )
+  if( !this->m_NumberOfPixelsCounted )
     {
     itkExceptionMacro(<<"All the points mapped to outside of the moving image");
     }
   else
     {
-    measure /= m_NumberOfPixelsCounted;
+    measure /= this->m_NumberOfPixelsCounted;
     }
 
 
@@ -110,7 +110,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
                  DerivativeType & derivative ) const
 {
 
-  if( !m_GradientImage )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
     }
@@ -122,7 +122,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
 
@@ -143,20 +143,20 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-      m_Transform->TransformPoint( inputPoint );
+      this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = pointDataItr.Value();
 
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
       const RealType diff = movingValue - fixedValue; 
 
 
       // Now compute the derivatives
       const TransformJacobianType & jacobian =
-        m_Transform->GetJacobian( inputPoint ); 
+        this->m_Transform->GetJacobian( inputPoint ); 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -166,7 +166,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
         MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
-      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+      this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
@@ -175,12 +175,12 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-        m_GradientImage->GetPixel( mappedIndex );
+        this->GetGradientImage()->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
-        for(unsigned int dim=0; dim<FixedPointSetDimension; dim++)
+        for(unsigned int dim=0; dim<Self::FixedPointSetDimension; dim++)
           {
           sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
           }
@@ -192,7 +192,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     ++pointDataItr;
     }
 
-  if( !m_NumberOfPixelsCounted )
+  if( !this->m_NumberOfPixelsCounted )
     {
     itkExceptionMacro(<<"All the points mapped to outside of the moving image");
     }
@@ -200,12 +200,9 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] /= m_NumberOfPixelsCounted;
+      derivative[i] /= this->m_NumberOfPixelsCounted;
       }
     }
-
-
-
 }
 
 
@@ -219,7 +216,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
                         MeasureType & value, DerivativeType  & derivative) const
 {
 
-  if( !m_GradientImage )
+  if( !this->GetGradientImage() )
     {
     itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
     }
@@ -231,7 +228,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
   this->SetTransformParameters( parameters );
@@ -253,18 +250,18 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     typename Superclass::InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
     typename Superclass::OutputPointType transformedPoint = 
-      m_Transform->TransformPoint( inputPoint );
+      this->m_Transform->TransformPoint( inputPoint );
 
-    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
       {
-      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue   = pointDataItr.Value();
 
-      m_NumberOfPixelsCounted++;
+      this->m_NumberOfPixelsCounted++;
 
       // Now compute the derivatives
       const TransformJacobianType & jacobian =
-        m_Transform->GetJacobian( inputPoint ); 
+        this->m_Transform->GetJacobian( inputPoint ); 
 
       const RealType diff = movingValue - fixedValue; 
   
@@ -278,7 +275,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
         MovingImageContinuousIndexType;
 
       MovingImageContinuousIndexType tempIndex;
-      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+      this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
       for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
@@ -287,12 +284,12 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
         }
 
       const GradientPixelType gradient = 
-        m_GradientImage->GetPixel( mappedIndex );
+        this->GetGradientImage()->GetPixel( mappedIndex );
 
      for(unsigned int par=0; par<ParametersDimension; par++)
         {
         RealType sum = NumericTraits< RealType >::Zero;
-        for(unsigned int dim=0; dim<FixedPointSetDimension; dim++)
+        for(unsigned int dim=0; dim<Self::FixedPointSetDimension; dim++)
           {
           sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
           }
@@ -305,7 +302,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     ++pointDataItr;
     }
 
- if( !m_NumberOfPixelsCounted )
+ if( !this->m_NumberOfPixelsCounted )
     {
     itkExceptionMacro(<<"All the points mapped to outside of the moving image");
     }
@@ -313,9 +310,9 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] /= m_NumberOfPixelsCounted;
+      derivative[i] /= this->m_NumberOfPixelsCounted;
       }
-    measure /= m_NumberOfPixelsCounted;
+    measure /= this->m_NumberOfPixelsCounted;
     }
 
   value = measure;

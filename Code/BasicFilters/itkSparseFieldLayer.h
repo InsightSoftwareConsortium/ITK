@@ -94,29 +94,29 @@ public:
   { }
 
   TNodeType &operator*()
-  { return *m_Pointer; }
+  { return *this->m_Pointer; }
 
   TNodeType* operator->()
-  { return m_Pointer; }
+  { return this->m_Pointer; }
 
   TNodeType* GetPointer()
-  { return m_Pointer; }
+  { return this->m_Pointer; }
   
   SparseFieldLayerIterator &operator++()
   {
-    m_Pointer = m_Pointer->Next;
+    this->m_Pointer = this->m_Pointer->Next;
     return *this;
   }
 
   SparseFieldLayerIterator &operator--()
   {
-    m_Pointer = m_Pointer->Previous;
+    this->m_Pointer = this->m_Pointer->Previous;
     return *this;
   }
 
   SparseFieldLayerIterator &operator=(Superclass &sc)
   {
-    m_Pointer = const_cast<TNodeType*> (sc.GetPointer());
+    this->m_Pointer = const_cast<TNodeType*> (sc.GetPointer());
     return *this;
   }
 };

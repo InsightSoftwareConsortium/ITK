@@ -34,7 +34,7 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
 
   // Setting the output.
   DistanceMatrixPointer output;
-  output = static_cast<CoreAtomImageToDistanceMatrixProcess::DistanceMatrixType*>(this->MakeOutput(0).GetPointer()); 
+  output = static_cast<typename CoreAtomImageToDistanceMatrixProcess::DistanceMatrixType*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
@@ -88,7 +88,7 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
 ::GetInput1() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(0));
+  return const_cast<TSourceImage *>(this->GetNthInput(0));
 }
 
 /**

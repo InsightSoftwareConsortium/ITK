@@ -53,7 +53,7 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::GenerateData () 
 {
-  if (this->GetState() == UNINITIALIZED)
+  if (this->GetState() == Superclass::UNINITIALIZED)
     {
     // Allocate the output image
     typename TOutputImage::Pointer output = this->GetOutput();

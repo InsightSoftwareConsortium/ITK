@@ -314,13 +314,6 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   // iterator for the marker image
   // NeighborhoodIteratorType markerIt;
 
-  // iterator for the mask image
-  ImageRegionConstIterator<TInputImage> maskIt; 
-
-  // output iterator
-  ImageRegionIterator<TOutputImage> oIt;
- 
-  
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList;
@@ -341,10 +334,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   //
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    NeighborhoodIteratorType markerIt;
-    markerIt = NeighborhoodIteratorType(kernelRadius, this->GetMarkerImage(), *fit);
-    maskIt=ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), *fit);
-    oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
+    NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), *fit);
+    ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), *fit);
+    ImageRegionIterator<TOutputImage> oIt(this->GetOutput(), *fit);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();
@@ -353,7 +345,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     // neighbors and the center pixel
     offset.Fill(0);
     markerIt.ActivateOffset(offset); // center pixel
-    for (d=0; d < InputImageType::ImageDimension; ++d)
+    for (d=0; d < TInputImage::ImageDimension; ++d)
       {
       for (i=-1; i<=1; i+=2)
         {

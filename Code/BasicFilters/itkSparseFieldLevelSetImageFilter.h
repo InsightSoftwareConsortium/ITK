@@ -395,6 +395,9 @@ protected:
   /** */
   void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
   
+  itkGetConstMacro(ValueZero, ValueType);
+  itkGetConstMacro(ValueOne, ValueType);
+
   /** Connectivity information for examining neighbor pixels.   */
   SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType> >
   m_NeighborList;

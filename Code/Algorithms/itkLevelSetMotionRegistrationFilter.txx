@@ -100,7 +100,7 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   // call the superclass' version
   bool halt = Superclass::Halt();
 
-  if ((m_RMSChange == 0.0) && (this->GetElapsedIterations() != 0))
+  if ((this->m_RMSChange == 0.0) && (this->GetElapsedIterations() != 0))
     {
     halt = true;
     }

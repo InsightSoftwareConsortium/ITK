@@ -42,7 +42,7 @@ DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     {
     if(*kernel_it>0)
       {
-      nit.SetPixel(i, m_ObjectValue, valid);
+      nit.SetPixel(i, this->GetObjectValue(), valid);
       }
     }
 } 

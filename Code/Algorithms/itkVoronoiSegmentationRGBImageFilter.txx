@@ -92,11 +92,11 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
 
   Superclass::SetInput(input);
 
-  m_Size = this->GetInput()->GetLargestPossibleRegion().GetSize();
+  this->SetSize(this->GetInput()->GetLargestPossibleRegion().GetSize());
   IndexType index;
   index.Fill(0);
   RegionType region;
-  region.SetSize(m_Size);
+  region.SetSize(this->GetSize());
   region.SetIndex(index);
 
   m_WorkingImage=RGBHCVImage::New();
@@ -224,9 +224,9 @@ TakeAPrior(const BinaryObjectImage* aprior)
   int i,j;
   int minx=0,miny=0,maxx=0,maxy=0;
   bool status=0;
-  for(i=0;i<m_Size[1];i++)
+  for(i=0;i<this->GetSize()[1];i++)
     {
-    for(j=0;j<m_Size[0];j++)
+    for(j=0;j<this->GetSize()[0];j++)
       {
       if( (status==0)&&(ait.Get()) )
         {
@@ -261,7 +261,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
   int k;
   for(i=0;i<miny;i++)
     {
-    for(j=0;j<m_Size[0];j++)
+    for(j=0;j<this->GetSize()[0];j++)
       {
       ++ait;
       ++iit;
@@ -297,7 +297,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
         }
       ++ait;++iit;
       }
-    for(j=maxx+1;j<m_Size[0];j++)
+    for(j=maxx+1;j<this->GetSize()[0];j++)
       {
       ++ait;
       ++iit;
@@ -319,10 +319,14 @@ TakeAPrior(const BinaryObjectImage* aprior)
     if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
     diffSTD[i] = (b_STD[i]-m_STD[i])/m_STD[i];
     if(diffSTD[i] < 0) diffSTD[i] = -diffSTD[i];
-    if(m_UseBackgroundInAPrior)
-      m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*m_MeanDeviation;
+    if(this->GetUseBackgroundInAPrior())
+      {
+      m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*this->GetMeanDeviation();
+      }
     else
+      {
       m_MeanTolerance[i] = fabs(m_Mean[i]*m_MeanPercentError[i]);
+      }
     }
 
   if(objnum<10)
@@ -373,7 +377,6 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxValueOfRGB: " << m_MaxValueOfRGB << std::endl;
   os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Diff_Mean: " << m_Diff_Mean << std::endl;
 
 }
 } //end namespace

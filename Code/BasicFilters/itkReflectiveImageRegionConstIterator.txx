@@ -80,15 +80,15 @@ void
 ReflectiveImageRegionConstIterator<TImage>
 ::GoToBegin( void ) 
 {
-  m_PositionIndex = m_BeginIndex + m_BeginOffset;
-  m_Position = m_Image->GetBufferPointer() +
-    m_Image->ComputeOffset( m_PositionIndex );
+  this->m_PositionIndex = this->m_BeginIndex + this->m_BeginOffset;
+  this->m_Position = this->m_Image->GetBufferPointer() +
+    this->m_Image->ComputeOffset( this->m_PositionIndex );
 
-  m_Remaining = false;
-  for (unsigned int i=0; i < ImageDimension; ++i)
+  this->m_Remaining = false;
+  for (unsigned int i=0; i < TImage::ImageDimension; ++i)
     {
-    unsigned long size = m_Region.GetSize()[i];
-    if( size > 0 ) { m_Remaining = true; }
+    unsigned long size = this->m_Region.GetSize()[i];
+    if( size > 0 ) { this->m_Remaining = true; }
     }
 
   for(unsigned int i=0;i<TImage::ImageDimension;i++) 
@@ -128,46 +128,46 @@ ReflectiveImageRegionConstIterator<TImage>
 ::operator++()
 {
   
-  m_Remaining = false;
+  this->m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
     {    
     if( m_IsFirstPass[ in ] ) 
       {
-      m_PositionIndex[ in  ]++;
-      if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
+      this->m_PositionIndex[ in  ]++;
+      if( this->m_PositionIndex[ in ] < this->m_EndIndex[ in ] )
         {
-        m_Position += m_OffsetTable[in];
-        m_Remaining = true;
+        this->m_Position += this->m_OffsetTable[in];
+        this->m_Remaining = true;
         break;
         }
       else 
         {
-        m_PositionIndex[ in ] = m_EndIndex[ in ]-m_EndOffset[ in ]-1; 
+        this->m_PositionIndex[ in ] = this->m_EndIndex[ in ]-m_EndOffset[ in ]-1; 
         m_IsFirstPass[ in ] = false;
-        m_Remaining = true;
+        this->m_Remaining = true;
         break;
         }
       }
     else 
       {
-      m_PositionIndex[ in ]--;
-      if( m_PositionIndex[ in ] >= m_BeginIndex[ in ] )
+      this->m_PositionIndex[ in ]--;
+      if( this->m_PositionIndex[ in ] >= this->m_BeginIndex[ in ] )
         {
-        m_Position -= m_OffsetTable[in];
-        m_Remaining = true;
+        this->m_Position -= this->m_OffsetTable[in];
+        this->m_Remaining = true;
         break;
         }
       else 
         {
-        m_PositionIndex[ in ] = m_BeginIndex[ in ]+m_BeginOffset[ in ]; 
+        this->m_PositionIndex[ in ] = this->m_BeginIndex[ in ]+m_BeginOffset[ in ]; 
         m_IsFirstPass[ in ] = true;
         }
       }
     }
 
-  if( !m_Remaining ) // It will not advance here otherwise
+  if( !this->m_Remaining ) // It will not advance here otherwise
     {
-    m_Position = m_End;
+    this->m_Position = this->m_End;
     }
 
   return *this;

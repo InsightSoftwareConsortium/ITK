@@ -95,19 +95,19 @@ double ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueOne = NumericTraits<ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueOne = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                       TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueZero = NumericTraits<ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueZero = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                              TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_StatusNull = NumericTraits<ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_StatusNull = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                         TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
@@ -151,7 +151,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  if (this->GetState() == UNINITIALIZED)
+  if (this->GetState() == Superclass::UNINITIALIZED)
     {
     // Clean up any memory from any aborted previous filter executions.
     this->DeallocateData();
@@ -1159,7 +1159,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 #ifdef ITK_USE_SPROC
   // Every thread should 'usadd' itself to the arena as the very first thing so
   // as to detect errors (if any) early.
-  if (str->Filter->GetState() == UNINITIALIZED)
+  if (str->Filter->GetState() == Superclass::UNINITIALIZED)
     {
     if (MultiThreader::GetThreadArena() != 0)
       {
@@ -1177,7 +1177,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // allocate thread data: every thread allocates its own data
   // We do NOT assume here that malloc is thread safe: hence make threads
   // allocate data serially
-  if (str->Filter->GetState() == UNINITIALIZED)
+  if (str->Filter->GetState() == Superclass::UNINITIALIZED)
     {
     if (ThreadId == 0)
       {

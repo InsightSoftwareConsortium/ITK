@@ -62,10 +62,10 @@ typename ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 ::ComputeLogInsideTerm( const ParametersType & parameters ) const
 {
-  m_ShapeFunction->SetParameters( parameters );
+  this->m_ShapeFunction->SetParameters( parameters );
   
-  typename NodeContainerType::ConstIterator iter = m_ActiveRegion->Begin();
-  typename NodeContainerType::ConstIterator end  = m_ActiveRegion->End();
+  typename NodeContainerType::ConstIterator iter = this->GetActiveRegion()->Begin();
+  typename NodeContainerType::ConstIterator end  = this->GetActiveRegion()->End();
 
   MeasureType counter = 0.0;
 
@@ -76,11 +76,11 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     NodeType node = iter.Value();
     typename ShapeFunctionType::PointType point;
 
-    m_FeatureImage->TransformIndexToPhysicalPoint( node.GetIndex(), point );
+    this->GetFeatureImage()->TransformIndexToPhysicalPoint( node.GetIndex(), point );
 
     if ( node.GetValue() <= 0.0 )
       {
-      double value = m_ShapeFunction->Evaluate( point );
+      double value = this->m_ShapeFunction->Evaluate( point );
       if ( value > 0.0 )
         { 
         counter += 1.0;
@@ -113,7 +113,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 {
   // assume the shape parameters is from a independent gaussian distributions
   MeasureType measure = 0.0;
-  for ( unsigned int j = 0; j < m_ShapeFunction->GetNumberOfShapeParameters(); j++ )
+  for ( unsigned int j = 0; j < this->m_ShapeFunction->GetNumberOfShapeParameters(); j++ )
     {
     measure += vnl_math_sqr( ( parameters[j] - m_ShapeParameterMeans[j] ) / 
       m_ShapeParameterStandardDeviations[j] );
@@ -135,10 +135,10 @@ typename ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 ::ComputeLogGradientTerm( const ParametersType & parameters ) const
 {
-  m_ShapeFunction->SetParameters( parameters );
+  this->m_ShapeFunction->SetParameters( parameters );
   
-  typename NodeContainerType::ConstIterator iter = m_ActiveRegion->Begin();
-  typename NodeContainerType::ConstIterator end  = m_ActiveRegion->End();
+  typename NodeContainerType::ConstIterator iter = this->GetActiveRegion()->Begin();
+  typename NodeContainerType::ConstIterator end  = this->GetActiveRegion()->End();
   MeasureType sum = 0.0;
 
   // Assume that ( 1 - FeatureImage ) approximates a Gaussian (zero mean, unit variance)
@@ -151,10 +151,10 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     NodeType node = iter.Value();
     typename ShapeFunctionType::PointType point;
 
-    m_FeatureImage->TransformIndexToPhysicalPoint( node.GetIndex(), point );
+    this->GetFeatureImage()->TransformIndexToPhysicalPoint( node.GetIndex(), point );
 
-    sum += vnl_math_sqr( m_GaussianFunction->Evaluate( m_ShapeFunction->Evaluate( point ) )
-      -1.0 + m_FeatureImage->GetPixel( node.GetIndex() ) );
+    sum += vnl_math_sqr( m_GaussianFunction->Evaluate( this->m_ShapeFunction->Evaluate( point ) )
+      -1.0 + this->GetFeatureImage()->GetPixel( node.GetIndex() ) );
 
     ++iter;
     }
@@ -192,18 +192,18 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
 
   // check if the mean and variances array are of the right size
   if ( m_ShapeParameterMeans.Size() < 
-       m_ShapeFunction->GetNumberOfShapeParameters() )
+       this->m_ShapeFunction->GetNumberOfShapeParameters() )
     {
     itkExceptionMacro( << "ShapeParameterMeans does not have at least " 
-                       << m_ShapeFunction->GetNumberOfShapeParameters()
+                       << this->m_ShapeFunction->GetNumberOfShapeParameters()
                        << " number of elements." );
     }
     
   if ( m_ShapeParameterStandardDeviations.Size() < 
-       m_ShapeFunction->GetNumberOfShapeParameters() )
+       this->m_ShapeFunction->GetNumberOfShapeParameters() )
     {
     itkExceptionMacro( << "ShapeParameterStandardDeviations does not have at least " 
-                       << m_ShapeFunction->GetNumberOfShapeParameters()
+                       << this->m_ShapeFunction->GetNumberOfShapeParameters()
                        << " number of elements." );
     }
 

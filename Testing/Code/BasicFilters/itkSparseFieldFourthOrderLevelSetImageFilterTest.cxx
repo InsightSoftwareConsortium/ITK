@@ -101,7 +101,7 @@ protected:
   IsotropicDiffusionLevelSetFilter()
   {
     RadiusType radius;
-    for (unsigned int j=0; j<ImageDimension;j++)
+    for (unsigned int j=0; j<TInputImage::ImageDimension;j++)
       {
       radius[j] = 1;
       }

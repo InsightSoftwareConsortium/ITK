@@ -96,16 +96,16 @@ public:
     // call the superclass's implementation
     this->Superclass::StartNewLevel();
 
-    if ( !m_Registrator ) return;
+    if ( !this->m_Registrator ) return;
 
     // Try to cast the optimizer to a gradient descent type,
     // return if casting didn't work.
     itk::GradientDescentOptimizer::Pointer optimizer;
     optimizer = dynamic_cast< itk::GradientDescentOptimizer * >(
-      m_Registrator->GetOptimizer() );
+      this->m_Registrator->GetOptimizer() );
     if ( !optimizer ) return;
 
-    unsigned int level = m_Registrator->GetCurrentLevel();
+    unsigned int level = this->m_Registrator->GetCurrentLevel();
     if ( m_NumberOfIterations.Size() >= level + 1 )
       {
       optimizer->SetNumberOfIterations( m_NumberOfIterations[level] );

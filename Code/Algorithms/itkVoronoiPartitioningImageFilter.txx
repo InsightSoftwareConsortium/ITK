@@ -51,29 +51,29 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
   PointTypeDeque VertList;
   IndexList PixelPool;
 
-  m_NumberOfBoundary = 0;
-  for(int i=0;i<m_NumberOfSeeds;i++)
+  this->m_NumberOfBoundary = 0;
+  for(int i=0;i<this->GetNumberOfSeeds();i++)
     {
     CellAutoPointer currCell;
-    m_WorkingVD->GetCellId(i,currCell);
+    this->m_WorkingVD->GetCellId(i,currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
     for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
       {
-      m_WorkingVD->GetPoint((*currPit),&(currP));
+      this->m_WorkingVD->GetPoint((*currPit),&(currP));
       VertList.push_back(currP);
       }
 
     PixelPool.clear();
     this->GetPixelIndexFromPolygon(VertList,&PixelPool);
-    m_NumberOfPixels[i] = PixelPool.size();
-    m_Label[i] = this->TestHomogeneity(PixelPool);
+    this->m_NumberOfPixels[i] = PixelPool.size();
+    this->m_Label[i] = this->TestHomogeneity(PixelPool);
 
     // when partitioning the NumberOfBoundary is the number of regions that
     // are not homogeneous
-    if (!m_Label[i])
+    if (!this->m_Label[i])
       {
-      m_NumberOfBoundary++;
+      this->m_NumberOfBoundary++;
       }
     }
 }
@@ -84,23 +84,23 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
 ::GenerateAddingSeeds(void)
 {
   EdgeIterator eit;
-  EdgeIterator eitend = m_WorkingVD->EdgeEnd();  
+  EdgeIterator eitend = this->m_WorkingVD->EdgeEnd();  
   PointType adds;
   Point<int,2> seeds;
 
   // Walk the edges of the diagram, if a seed to either side is
   // no homogeneous, then place a new seed along the middle of the edge
-  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
+  for(eit = this->m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
     {
-    seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
+    seeds = this->m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
     // if either seed is not homogeneous
-    if( ( !m_Label[seeds[0]] || !m_Label[seeds[1]])
-        && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
-        && (m_NumberOfPixels[seeds[1]]>m_MinRegion) )
+    if( ( !this->m_Label[seeds[0]] || !this->m_Label[seeds[1]])
+        && (this->m_NumberOfPixels[seeds[0]]>this->GetMinRegion())
+        && (this->m_NumberOfPixels[seeds[1]]>this->GetMinRegion()) )
       {
       adds[0] = (eit->m_Left[0] + eit->m_Right[0])*0.5;
       adds[1] = (eit->m_Left[1] + eit->m_Right[1])*0.5;
-      m_SeedsToAdded.push_back(adds);
+      this->m_SeedsToAdded.push_back(adds);
       }
     }
 }
@@ -122,14 +122,14 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
-  for(int i=0;i<m_NumberOfSeeds;i++)
+  for(int i=0;i<this->GetNumberOfSeeds();i++)
     {
-    nitend = m_WorkingVD->NeighborIdsEnd(i);
-    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit)
+    nitend = this->m_WorkingVD->NeighborIdsEnd(i);
+    for(nit=this->m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit)
       {
       if ((*nit)>i) 
         {
-        drawLine(m_WorkingVD->GetSeed(i),m_WorkingVD->GetSeed(*nit));
+        drawLine(this->m_WorkingVD->GetSeed(i),this->m_WorkingVD->GetSeed(*nit));
         i=i;
         }
       }
@@ -152,15 +152,15 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
   PointIdIterator currPitEnd;
   PointType currP;
   PointTypeDeque VertList;
-  for(int i=0;i<m_NumberOfSeeds;i++)
+  for(int i=0;i<this->GetNumberOfSeeds();i++)
     {
     CellAutoPointer currCell; 
-    m_WorkingVD->GetCellId(i, currCell);
+    this->m_WorkingVD->GetCellId(i, currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
     for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
       {
-      m_WorkingVD->GetPoint((*currPit),&(currP));
+      this->m_WorkingVD->GetPoint((*currPit),&(currP));
       VertList.push_back(currP);
       }
     // Need to fill with an segment identifier

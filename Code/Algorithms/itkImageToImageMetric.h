@@ -152,13 +152,13 @@ public:
   itkSetObjectMacro( Transform, TransformType );
 
   /** Get a pointer to the Transform.  */
-  itkGetObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro( Transform, TransformType );
  
   /** Connect the Interpolator. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the Interpolator.  */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetConstObjectMacro( Interpolator, InterpolatorType );
 
   /** Get the number of pixels considered in the computation. */
   itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
@@ -171,12 +171,19 @@ public:
  
   /** Set/Get the moving image mask. */
   itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
-  itkGetObjectMacro( MovingImageMask, MovingImageMaskType );
+  itkGetConstObjectMacro( MovingImageMask, MovingImageMaskType );
 
   /** Set/Get the fixed image mask. */
   itkSetObjectMacro( FixedImageMask, FixedImageMaskType );
-  itkGetObjectMacro( FixedImageMask, FixedImageMaskType );
+  itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
+  /** Set/Get gradient computation. */
+  itkSetMacro( ComputeGradient, bool);
+  itkGetConstReferenceMacro( ComputeGradient, bool);
+  itkBooleanMacro(ComputeGradient);
+
+  /** Get Gradient Image. */
+  itkGetConstObjectMacro( GradientImage, GradientImageType );
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters ) const;

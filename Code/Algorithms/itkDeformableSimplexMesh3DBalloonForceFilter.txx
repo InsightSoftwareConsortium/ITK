@@ -95,21 +95,21 @@ namespace itk
     tmp_co_3[2] = coord2[2];
 
     if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
-      (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) ) 
+      (coord2[0] < this->GetImageWidth()) && (coord2[1] < this->GetImageHeight()) && (coord2[2] < this->GetImageDepth()) ) 
       {
-      vec_for[0] = m_Gradient->GetPixel(coord)[0];
-      vec_for[1] = m_Gradient->GetPixel(coord)[1];
-      vec_for[2] = m_Gradient->GetPixel(coord)[2];
+      vec_for[0] = this->GetGradient()->GetPixel(coord)[0];
+      vec_for[1] = this->GetGradient()->GetPixel(coord)[1];
+      vec_for[2] = this->GetGradient()->GetPixel(coord)[2];
 
-      tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
-      tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
-      tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
-      tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
-      tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
-      tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
-      tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_1[0] = this->GetGradient()->GetPixel(tmp_co_1)[0] - this->GetGradient()->GetPixel(coord)[0];
+      tmp_vec_1[1] = this->GetGradient()->GetPixel(tmp_co_1)[1] - this->GetGradient()->GetPixel(coord)[1];
+      tmp_vec_1[2] = this->GetGradient()->GetPixel(tmp_co_1)[2] - this->GetGradient()->GetPixel(coord)[2];
+      tmp_vec_2[0] = this->GetGradient()->GetPixel(tmp_co_2)[0] - this->GetGradient()->GetPixel(coord)[0];
+      tmp_vec_2[1] = this->GetGradient()->GetPixel(tmp_co_2)[1] - this->GetGradient()->GetPixel(coord)[1];
+      tmp_vec_2[2] = this->GetGradient()->GetPixel(tmp_co_2)[2] - this->GetGradient()->GetPixel(coord)[2];
+      tmp_vec_3[0] = this->GetGradient()->GetPixel(tmp_co_3)[0] - this->GetGradient()->GetPixel(coord)[0];
+      tmp_vec_3[1] = this->GetGradient()->GetPixel(tmp_co_3)[1] - this->GetGradient()->GetPixel(coord)[1];
+      tmp_vec_3[2] = this->GetGradient()->GetPixel(tmp_co_3)[2] - this->GetGradient()->GetPixel(coord)[2];
 
       vec_for[0] = vec_for[0] + ((data->pos)[0]-coord[0])*tmp_vec_1[0] 
     + ((data->pos)[1]-coord[1])*tmp_vec_2[0] + ((data->pos)[2]-coord[2])*tmp_vec_3[0];
@@ -125,9 +125,9 @@ namespace itk
 
     double mag = dot_product(data->normal.Get_vnl_vector(),vec_for.Get_vnl_vector());
 
-    vec_for[0] = m_Beta * mag*(data->normal)[0]/*num_for*/;
-    vec_for[1] = m_Beta * mag*(data->normal)[1]/*num_for*/; 
-    vec_for[2] = m_Beta * mag*(data->normal)[2]/*num_for*/; 
+    vec_for[0] = this->GetBeta() * mag*(data->normal)[0]/*num_for*/;
+    vec_for[1] = this->GetBeta() * mag*(data->normal)[1]/*num_for*/; 
+    vec_for[2] = this->GetBeta() * mag*(data->normal)[2]/*num_for*/; 
 
     vec_for[0] += m_Kappa * data->normal[0];
     vec_for[1] += m_Kappa * data->normal[1]; 

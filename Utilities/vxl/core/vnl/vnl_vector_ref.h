@@ -34,7 +34,7 @@ class vnl_vector_ref : public vnl_vector<T>
     Base::data = space;
     Base::num_elmts = n;
 #if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    vnl_vector_own_data = 0;
+    this->vnl_vector_own_data = 0;
 #endif
   }
 
@@ -45,7 +45,7 @@ class vnl_vector_ref : public vnl_vector<T>
     Base::data = const_cast<T*>(v.data_block()); // const incorrect!
     Base::num_elmts = v.size();
 #if VCL_HAS_SLICED_DESTRUCTOR_BUG
-    vnl_vector_own_data = 0;
+    this->vnl_vector_own_data = 0;
 #endif
   }
 

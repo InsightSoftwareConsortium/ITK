@@ -49,7 +49,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
-  if( !this->IsScheduleDownwardDivisible( m_Schedule ) )
+  if( !this->IsScheduleDownwardDivisible( this->GetSchedule() ) )
     {
     // use the Superclass implemenation
     this->Superclass::GenerateData();
@@ -80,16 +80,16 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typename TOutputImage::RegionType  LPRegion;
 
   smoother->SetUseImageSpacing( false );
-  smoother->SetMaximumError( m_MaximumError );
+  smoother->SetMaximumError( this->GetMaximumError() );
   shrinker->SetInput( smoother->GetOutput() );
 
   
   // recursively compute outputs starting from the last one
-  for( ilevel = m_NumberOfLevels - 1; ilevel > -1; ilevel--)
+  for( ilevel = this->GetNumberOfLevels() - 1; ilevel > -1; ilevel--)
     {
 
     this->UpdateProgress( 1.0 - static_cast<float>( 1 + ilevel ) /
-                          static_cast<float>( m_NumberOfLevels ) );
+                          static_cast<float>( this->GetNumberOfLevels() ) );
 
     // Allocate memory for each output
     outputPtr = this->GetOutput( ilevel );
@@ -103,14 +103,14 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     allOnes = true;
     for( idim = 0; idim < ImageDimension; idim++ )
       {
-      if( ilevel == static_cast<int>(m_NumberOfLevels) - 1)
+      if( ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
         {
-        factors[idim] = m_Schedule[ilevel][idim];
+        factors[idim] = this->GetSchedule()[ilevel][idim];
         }
       else
         {
-        factors[idim] = m_Schedule[ilevel][idim] /
-          m_Schedule[ilevel+1][idim];
+        factors[idim] = this->GetSchedule()[ilevel][idim] /
+          this->GetSchedule()[ilevel+1][idim];
         }
       variance[idim] = vnl_math_sqr( 0.5 * 
                                      static_cast<float>( factors[idim] ) );
@@ -125,7 +125,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       }
 
 
-    if( allOnes && ilevel == static_cast<int>(m_NumberOfLevels) - 1 )
+    if( allOnes && ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1 )
       {
       // just copy the input over
       caster->SetInput( inputPtr );
@@ -156,7 +156,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       }
     else
       {
-      if( ilevel == static_cast<int>(m_NumberOfLevels) - 1 )
+      if( ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1 )
         {
         // use caster -> smoother -> shrinker piepline
         caster->SetInput( inputPtr );
@@ -232,7 +232,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType * oper = new OperatorType;
-  oper->SetMaximumError( m_MaximumError );
+  oper->SetMaximumError( this->GetMaximumError() );
 
   typedef typename OutputImageType::SizeType    SizeType;
   typedef typename SizeType::SizeValueType      SizeValueType;
@@ -248,7 +248,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   IndexType  requestedIndex;
 
   // compute requested regions for lower levels
-  for( ilevel = refLevel + 1; ilevel < static_cast<int>(m_NumberOfLevels); 
+  for( ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); 
        ilevel++ )
     {
 
@@ -258,7 +258,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
     for( idim = 0; idim < static_cast<int>(ImageDimension); idim++ )
       {
-      factors[idim] = m_Schedule[ilevel-1][idim] / m_Schedule[ilevel][idim];
+      factors[idim] = this->GetSchedule()[ilevel-1][idim] / this->GetSchedule()[ilevel][idim];
 
       // take into account shrink component
       requestedSize[idim] *= static_cast<SizeValueType>(factors[idim]);
@@ -300,7 +300,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     for( idim = 0; idim < static_cast<int>(ImageDimension); idim++ )
       {
 
-      factors[idim] = m_Schedule[ilevel][idim] / m_Schedule[ilevel+1][idim];
+      factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel+1][idim];
       
       // take into account smoothing component
       if( factors[idim] > 1 )
@@ -376,7 +376,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef typename IndexType::IndexValueType    IndexValueType;
   typedef typename OutputImageType::RegionType  RegionType;
 
-  unsigned int refLevel = m_NumberOfLevels - 1;
+  unsigned int refLevel = this->GetNumberOfLevels() - 1;
   SizeType baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
   IndexType baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
   RegionType baseRegion;
@@ -384,7 +384,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   unsigned int idim;
   for( idim = 0; idim < ImageDimension; idim++ )
     {
-    unsigned int factor = m_Schedule[refLevel][idim];
+    unsigned int factor = this->GetSchedule()[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>( factor );
     baseSize[idim]  *= static_cast<SizeValueType>( factor );    
     }
@@ -404,11 +404,11 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
     oper->SetDirection(idim);
     oper->SetVariance( vnl_math_sqr( 0.5 * static_cast<float>(
-                                       m_Schedule[refLevel][idim] ) ) );
-    oper->SetMaximumError( m_MaximumError );
+                                       this->GetSchedule()[refLevel][idim] ) ) );
+    oper->SetMaximumError( this->GetMaximumError() );
     oper->CreateDirectional();
     radius[idim] = oper->GetRadius()[idim];
-    if( m_Schedule[refLevel][idim] <= 1 )
+    if( this->GetSchedule()[refLevel][idim] <= 1 )
       {
       radius[idim] = 0;
       }

@@ -274,7 +274,7 @@ public:
 
   /// Return the ray point spacing in mm
   double GetRayPointSpacing(void) const {
-    typename InputImageType::SpacingType spacing=m_Image->GetSpacing();
+    typename InputImageType::SpacingType spacing=this->m_Image->GetSpacing();
 
     if (m_ValidRay)
       return sqrt(  m_VoxelIncrement[0]*spacing[0]*m_VoxelIncrement[0]*spacing[0]

@@ -66,7 +66,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   unsigned int iFilter;  // Index of Sobel filters for each dimension
 
 
-  if ( ! m_ComputeGradient )
+  if ( ! this->GetComputeGradient() )
     {
     itkExceptionMacro(<<"Gradients must be calculated");
     }
@@ -80,17 +80,17 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   m_TransformMovingImageFilter = TransformMovingImageFilterType::New();
 
-  m_TransformMovingImageFilter->SetTransform(    m_Transform );
-  m_TransformMovingImageFilter->SetInterpolator( m_Interpolator );
+  m_TransformMovingImageFilter->SetTransform(    this->m_Transform );
+  m_TransformMovingImageFilter->SetInterpolator( this->m_Interpolator );
 
   m_TransformMovingImageFilter->SetDefaultPixelValue( 0 );
 
-  m_TransformMovingImageFilter->SetOutputSpacing( m_FixedImage->GetSpacing() );
-  m_TransformMovingImageFilter->SetOutputOrigin(  m_FixedImage->GetOrigin() );
+  m_TransformMovingImageFilter->SetOutputSpacing( this->m_FixedImage->GetSpacing() );
+  m_TransformMovingImageFilter->SetOutputOrigin(  this->m_FixedImage->GetOrigin() );
 
-  m_TransformMovingImageFilter->SetSize( m_FixedImage->GetLargestPossibleRegion().GetSize() );
+  m_TransformMovingImageFilter->SetSize( this->m_FixedImage->GetLargestPossibleRegion().GetSize() );
 
-  m_TransformMovingImageFilter->SetInput( m_MovingImage );
+  m_TransformMovingImageFilter->SetInput( this->m_MovingImage );
 
 
   // Compute the image gradients
@@ -101,7 +101,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
 
   m_CastFixedImageFilter = CastFixedImageFilterType::New();
-  m_CastFixedImageFilter->SetInput( m_FixedImage );
+  m_CastFixedImageFilter->SetInput( this->m_FixedImage );
 
   for (iFilter=0; iFilter<FixedImageDimension; iFilter++)
     {
@@ -331,7 +331,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     m_FixedSobelFilters[iDimension]->Update();
     m_MovedSobelFilters[iDimension]->Update();
 
-    m_NumberOfPixelsCounted = 0;
+    this->m_NumberOfPixelsCounted = 0;
 
     while ( ! fixedIterator.IsAtEnd() ) 
       {

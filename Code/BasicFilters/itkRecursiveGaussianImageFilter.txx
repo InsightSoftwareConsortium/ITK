@@ -96,27 +96,27 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   if( this->GetNormalizeAcrossScale() )
     {
-    m_K = 1.0 / (          sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    this->m_K = 1.0 / (          sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
   else
     {
-    m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    this->m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
 
-  m_K *= direction;  // take into account the sign of the spacing.
+  this->m_K *= direction;  // take into account the sign of the spacing.
 
-  switch( m_Order ) 
+  switch( this->m_Order ) 
     {
     case ZeroOrder: // equivalent to convolution with a gaussian
       {
-      m_A0 = static_cast<RealType>(  1.680  );
-      m_A1 = static_cast<RealType>(  3.735  );
-      m_B0 = static_cast<RealType>(  1.783  );
-      m_B1 = static_cast<RealType>(  1.723  );
-      m_C0 = static_cast<RealType>( -0.6803 );
-      m_C1 = static_cast<RealType>( -0.2598 );
-      m_W0 = static_cast<RealType>(  0.6318 );
-      m_W1 = static_cast<RealType>(  1.9970 );
+      this->m_A0 = static_cast<RealType>(  1.680  );
+      this->m_A1 = static_cast<RealType>(  3.735  );
+      this->m_B0 = static_cast<RealType>(  1.783  );
+      this->m_B1 = static_cast<RealType>(  1.723  );
+      this->m_C0 = static_cast<RealType>( -0.6803 );
+      this->m_C1 = static_cast<RealType>( -0.2598 );
+      this->m_W0 = static_cast<RealType>(  0.6318 );
+      this->m_W1 = static_cast<RealType>(  1.9970 );
       const bool symmetric = true;
       this->ComputeFilterCoefficients(symmetric, spacing);
       break;
@@ -124,15 +124,15 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     case FirstOrder: // equivalent to convolution with 
                      // the first derivative of a gaussian
       {
-      m_A0 = static_cast<RealType>(  -0.6472 );
-      m_A1 = static_cast<RealType>(  -4.5310 );
-      m_B0 = static_cast<RealType>(   1.5270 );
-      m_B1 = static_cast<RealType>(   1.5160 );
-      m_C0 = static_cast<RealType>(   0.6494 );
-      m_C1 = static_cast<RealType>(   0.9557 );
-      m_W0 = static_cast<RealType>(   0.6719 );
-      m_W1 = static_cast<RealType>(   2.0720 );
-      m_K /= sigmad;
+      this->m_A0 = static_cast<RealType>(  -0.6472 );
+      this->m_A1 = static_cast<RealType>(  -4.5310 );
+      this->m_B0 = static_cast<RealType>(   1.5270 );
+      this->m_B1 = static_cast<RealType>(   1.5160 );
+      this->m_C0 = static_cast<RealType>(   0.6494 );
+      this->m_C1 = static_cast<RealType>(   0.9557 );
+      this->m_W0 = static_cast<RealType>(   0.6719 );
+      this->m_W1 = static_cast<RealType>(   2.0720 );
+      this->m_K /= sigmad;
       const bool symmetric = false;
       this->ComputeFilterCoefficients(symmetric, spacing);
       break;
@@ -140,15 +140,15 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     case SecondOrder: // equivalent to convolution with 
                       // the second derivative of a gaussian
       {
-      m_A0 = static_cast<RealType>(  -1.3310 );
-      m_A1 = static_cast<RealType>(   3.6610 );
-      m_B0 = static_cast<RealType>(   1.2400 );
-      m_B1 = static_cast<RealType>(   1.3140 );
-      m_C0 = static_cast<RealType>(   0.3225 );
-      m_C1 = static_cast<RealType>(  -1.7380 );
-      m_W0 = static_cast<RealType>(   0.7480 );
-      m_W1 = static_cast<RealType>(   2.1660 );
-      m_K /= sigmad * sigmad;
+      this->m_A0 = static_cast<RealType>(  -1.3310 );
+      this->m_A1 = static_cast<RealType>(   3.6610 );
+      this->m_B0 = static_cast<RealType>(   1.2400 );
+      this->m_B1 = static_cast<RealType>(   1.3140 );
+      this->m_C0 = static_cast<RealType>(   0.3225 );
+      this->m_C1 = static_cast<RealType>(  -1.7380 );
+      this->m_W0 = static_cast<RealType>(   0.7480 );
+      this->m_W1 = static_cast<RealType>(   2.1660 );
+      this->m_K /= sigmad * sigmad;
       const bool symmetric = true;
       this->ComputeFilterCoefficients(symmetric, spacing);
       break;
@@ -178,55 +178,55 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   const RealType sigmad = m_Sigma / spacing;
   
-  m_N00  = m_A0 + m_C0;
-  m_N11  = exp(-m_B1/sigmad)*(m_C1*sin(m_W1/sigmad)-(m_C0+2*m_A0)*cos(m_W1/sigmad)); 
-  m_N11 += exp(-m_B0/sigmad)*(m_A1*sin(m_W0/sigmad)-(m_A0+2*m_C0)*cos(m_W0/sigmad)); 
-  m_N22  = ((m_A0+m_C0)*cos(m_W1/sigmad)*cos(m_W0/sigmad));
-  m_N22 -= (m_A1*cos(m_W1/sigmad)*sin(m_W0/sigmad)+m_C1*cos(m_W0/sigmad)*sin(m_W1/sigmad));
-  m_N22 *= 2*exp(-(m_B0+m_B1)/sigmad);
-  m_N22 += m_C0*exp(-2*m_B0/sigmad) + m_A0*exp(-2*m_B1/sigmad);
-  m_N33  = exp(-(m_B1+2*m_B0)/sigmad)*(m_C1*sin(m_W1/sigmad)-m_C0*cos(m_W1/sigmad));
-  m_N33 += exp(-(m_B0+2*m_B1)/sigmad)*(m_A1*sin(m_W0/sigmad)-m_A0*cos(m_W0/sigmad));
+  this->m_N00  = this->m_A0 + this->m_C0;
+  this->m_N11  = exp(-this->m_B1/sigmad)*(this->m_C1*sin(this->m_W1/sigmad)-(this->m_C0+2*this->m_A0)*cos(this->m_W1/sigmad)); 
+  this->m_N11 += exp(-this->m_B0/sigmad)*(this->m_A1*sin(this->m_W0/sigmad)-(this->m_A0+2*this->m_C0)*cos(this->m_W0/sigmad)); 
+  this->m_N22  = ((this->m_A0+this->m_C0)*cos(this->m_W1/sigmad)*cos(this->m_W0/sigmad));
+  this->m_N22 -= (this->m_A1*cos(this->m_W1/sigmad)*sin(this->m_W0/sigmad)+this->m_C1*cos(this->m_W0/sigmad)*sin(this->m_W1/sigmad));
+  this->m_N22 *= 2*exp(-(this->m_B0+this->m_B1)/sigmad);
+  this->m_N22 += this->m_C0*exp(-2*this->m_B0/sigmad) + this->m_A0*exp(-2*this->m_B1/sigmad);
+  this->m_N33  = exp(-(this->m_B1+2*this->m_B0)/sigmad)*(this->m_C1*sin(this->m_W1/sigmad)-this->m_C0*cos(this->m_W1/sigmad));
+  this->m_N33 += exp(-(this->m_B0+2*this->m_B1)/sigmad)*(this->m_A1*sin(this->m_W0/sigmad)-this->m_A0*cos(this->m_W0/sigmad));
   
-  m_D44  = exp(-2*(m_B0+m_B1)/sigmad);
-  m_D33  = -2*cos(m_W0/sigmad)*exp(-(m_B0+2*m_B1)/sigmad);
-  m_D33 += -2*cos(m_W1/sigmad)*exp(-(m_B1+2*m_B0)/sigmad);
-  m_D22  =  4*cos(m_W1/sigmad)*cos(m_W0/sigmad)*exp(-(m_B0+m_B1)/sigmad);
-  m_D22 +=  exp(-2*m_B1/sigmad)+exp(-2*m_B0/sigmad);
-  m_D11  =  -2*exp(-m_B1/sigmad)*cos(m_W1/sigmad)-2*exp(-m_B0/sigmad)*cos(m_W0/sigmad);
+  this->m_D44  = exp(-2*(this->m_B0+this->m_B1)/sigmad);
+  this->m_D33  = -2*cos(this->m_W0/sigmad)*exp(-(this->m_B0+2*this->m_B1)/sigmad);
+  this->m_D33 += -2*cos(this->m_W1/sigmad)*exp(-(this->m_B1+2*this->m_B0)/sigmad);
+  this->m_D22  =  4*cos(this->m_W1/sigmad)*cos(this->m_W0/sigmad)*exp(-(this->m_B0+this->m_B1)/sigmad);
+  this->m_D22 +=  exp(-2*this->m_B1/sigmad)+exp(-2*this->m_B0/sigmad);
+  this->m_D11  =  -2*exp(-this->m_B1/sigmad)*cos(this->m_W1/sigmad)-2*exp(-this->m_B0/sigmad)*cos(this->m_W0/sigmad);
   
   if( symmetric )
     {
-    m_M11 = m_N11 - m_D11 * m_N00;
-    m_M22 = m_N22 - m_D22 * m_N00;
-    m_M33 = m_N33 - m_D33 * m_N00;
-    m_M44 =       - m_D44 * m_N00;
+    this->m_M11 = this->m_N11 - this->m_D11 * this->m_N00;
+    this->m_M22 = this->m_N22 - this->m_D22 * this->m_N00;
+    this->m_M33 = this->m_N33 - this->m_D33 * this->m_N00;
+    this->m_M44 =       - this->m_D44 * this->m_N00;
     }
   else
     {
-    m_M11 = -( m_N11 - m_D11 * m_N00 );
-    m_M22 = -( m_N22 - m_D22 * m_N00 );
-    m_M33 = -( m_N33 - m_D33 * m_N00 );
-    m_M44 =            m_D44 * m_N00;
+    this->m_M11 = -( this->m_N11 - this->m_D11 * this->m_N00 );
+    this->m_M22 = -( this->m_N22 - this->m_D22 * this->m_N00 );
+    this->m_M33 = -( this->m_N33 - this->m_D33 * this->m_N00 );
+    this->m_M44 =            this->m_D44 * this->m_N00;
     }
 
   // Compute Coefficients to be used at the boundaries
   // in order to prevent border effects
-  const RealType SumOfNCoefficients = m_N00 + m_N11 + m_N22 + m_N33;
-  const RealType SumOfMCoefficients = m_M11 + m_M22 + m_M33 + m_M44;
-  const RealType SumOfDCoefficients = m_D11 + m_D22 + m_D33 + m_D44;
+  const RealType SumOfNCoefficients = this->m_N00 + this->m_N11 + this->m_N22 + this->m_N33;
+  const RealType SumOfMCoefficients = this->m_M11 + this->m_M22 + this->m_M33 + this->m_M44;
+  const RealType SumOfDCoefficients = this->m_D11 + this->m_D22 + this->m_D33 + this->m_D44;
   const RealType CoefficientNormN    = SumOfNCoefficients / ( 1.0 + SumOfDCoefficients );
   const RealType CoefficientNormM    = SumOfMCoefficients / ( 1.0 + SumOfDCoefficients );
 
-  m_BN1 = m_D11 * CoefficientNormN;
-  m_BN2 = m_D22 * CoefficientNormN;
-  m_BN3 = m_D33 * CoefficientNormN;
-  m_BN4 = m_D44 * CoefficientNormN;
+  this->m_BN1 = this->m_D11 * CoefficientNormN;
+  this->m_BN2 = this->m_D22 * CoefficientNormN;
+  this->m_BN3 = this->m_D33 * CoefficientNormN;
+  this->m_BN4 = this->m_D44 * CoefficientNormN;
   
-  m_BM1 = m_D11 * CoefficientNormM;
-  m_BM2 = m_D22 * CoefficientNormM;
-  m_BM3 = m_D33 * CoefficientNormM;
-  m_BM4 = m_D44 * CoefficientNormM;
+  this->m_BM1 = this->m_D11 * CoefficientNormM;
+  this->m_BM2 = this->m_D22 * CoefficientNormM;
+  this->m_BM3 = this->m_D33 * CoefficientNormM;
+  this->m_BM4 = this->m_D44 * CoefficientNormM;
   
 }
 

@@ -47,11 +47,11 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 
   if (binary_val == m_UpperBinaryValue)
     {   
-    return ( vnl_math_max(new_value, m_ValueZero) ); 
+    return ( vnl_math_max(new_value, this->GetValueZero()) ); 
     }
   else
     {
-   return ( vnl_math_min(new_value, m_ValueZero) ); 
+   return ( vnl_math_min(new_value, this->GetValueZero()) ); 
     }
   
 }
@@ -64,8 +64,8 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
 
-  if (ImageDimension == 2) this->SetNumberOfLayers(2);
-  else if (ImageDimension == 3) this->SetNumberOfLayers(3);
+  if (TInputImage::ImageDimension == 2) this->SetNumberOfLayers(2);
+  else if (TInputImage::ImageDimension == 3) this->SetNumberOfLayers(3);
   else
     {
     this->SetNumberOfLayers(3);
@@ -84,7 +84,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
   this->InterpolateSurfaceLocationOff(); // no need for interpolation here
-  if (ImageDimension > 3 && this->GetNumberOfLayers() < 4)
+  if (TInputImage::ImageDimension > 3 && this->GetNumberOfLayers() < 4)
     {
     itkWarningMacro("Only 3 layers are being used in the solver.  You should consider using at least as many layers as dimensions of your input.  This value can be set by calling SetNumberOfLayers(n) on this filter.");
     }

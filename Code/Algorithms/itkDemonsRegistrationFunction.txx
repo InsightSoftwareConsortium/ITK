@@ -42,8 +42,8 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
+  this->SetMovingImage(NULL);
+  this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
   m_Normalizer = 1.0;
@@ -135,14 +135,14 @@ void
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
+  if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     }
 
   // cache fixed image information
-  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
-  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+  m_FixedImageSpacing    = this->GetFixedImage()->GetSpacing();
+  m_FixedImageOrigin     = this->GetFixedImage()->GetOrigin();
 
   // compute the normalizer
   m_Normalizer      = 0.0;
@@ -154,11 +154,11 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
   // setup gradient calculator
-  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
-  m_MovingImageGradientCalculator->SetInputImage( m_MovingImage );
+  m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
+  m_MovingImageGradientCalculator->SetInputImage( this->GetMovingImage() );
 
   // setup moving image interpolator
-  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
+  m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
 
   // initialize metric computation variables
   m_SumOfSquaredDifference  = 0.0;
@@ -191,7 +191,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  fixedValue = (double) m_FixedImage->GetPixel( index );
+  fixedValue = (double) this->GetFixedImage()->GetPixel( index );
 
   // Get moving image related information
   double movingValue;

@@ -136,7 +136,7 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 
   /** Return the number of parameters required by the Transform */
   unsigned int GetNumberOfParameters(void) const 
-  { return m_Transform->GetNumberOfParameters(); }
+  { return this->GetTransform()->GetNumberOfParameters(); }
  
   /** Forms the histogram of the training images to prepare to evaluate the */
   /** metric. Must set all parameters first. */
@@ -156,6 +156,11 @@ protected:
       re-implement method. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
 
+private:
+  // Purposely not implemented.
+  CompareHistogramImageToImageMetric(Self const&);
+  void operator=(Self const&); // Purposely not implemented.
+
   FixedImageConstPointer  m_TrainingFixedImage;
   MovingImageConstPointer m_TrainingMovingImage;
   TransformPointer        m_TrainingTransform;
@@ -163,10 +168,6 @@ protected:
   FixedImageRegionType    m_TrainingFixedImageRegion;
   HistogramPointerType    m_TrainingHistogram;
 
-private:
-  // Purposely not implemented.
-  CompareHistogramImageToImageMetric(Self const&);
-  void operator=(Self const&); // Purposely not implemented.
 };
 
 } // End namespace itk.

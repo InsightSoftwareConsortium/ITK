@@ -36,7 +36,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 
   // Setting the output.
   DataStructurePointerType output;
-  output  = static_cast<MedialNodePairCorrespondenceProcess::DataStructureType*>(this->MakeOutput(0).GetPointer()); 
+  output  = static_cast<typename MedialNodePairCorrespondenceProcess::DataStructureType*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
@@ -153,7 +153,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 ::GetCoreAtomImageA() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(0));
+  return const_cast<TSourceImage *>(this->GetNthInput(0));
 }
 
 /**
@@ -165,7 +165,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 ::GetCoreAtomImageB() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(GetNthInput(1));
+  return const_cast<TSourceImage *>(this->GetNthInput(1));
 }
 
 /**
@@ -177,7 +177,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 ::GetDistanceMatrixA() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<DistanceMatrixType *>(GetNthInput(2));
+  return const_cast<DistanceMatrixType *>(this->GetNthInput(2));
 }
 
 /**
@@ -189,7 +189,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 ::GetDistanceMatrixB() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<DistanceMatrixType *>(GetNthInput(3));
+  return const_cast<DistanceMatrixType *>(this->GetNthInput(3));
 }
 
 /**
@@ -201,7 +201,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 ::GetCorrespondenceMatrix() 
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<CorrespondenceMatrixType *>(GetNthInput(4));
+  return const_cast<CorrespondenceMatrixType *>(this->GetNthInput(4));
 }
 
 /**

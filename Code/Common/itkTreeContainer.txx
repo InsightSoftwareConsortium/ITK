@@ -27,7 +27,7 @@ template <class TValueType>
 TreeContainer<TValueType>::TreeContainer()
 {
   m_Root = NULL;
-  m_SubTree = false;
+  this->SetSubtree( false );
   m_DefaultChildrenCount = 2;
 }
 
@@ -36,7 +36,7 @@ template <class TValueType>
 TreeContainer<TValueType>::TreeContainer(int dcc)
 {  
   m_Root = NULL;
-  m_SubTree = false;
+  this->SetSubtree( false );
   m_DefaultChildrenCount = dcc;
 }
 
@@ -46,7 +46,7 @@ template <class TValueType>
 TreeContainer<TValueType>::TreeContainer(TreeContainer<TValueType>& tree)
 {
   m_Root = NULL;
-  m_SubTree = false;
+  this->SetSubtree( false );
   m_DefaultChildrenCount = 3;
 }
 
@@ -281,7 +281,7 @@ template <class TValueType>
 bool 
 TreeContainer<TValueType>::SetRoot( IteratorType& pos ) 
 {
-  if( m_SubTree )
+  if( this->GetSubTree() )
     {
     return false;
     }

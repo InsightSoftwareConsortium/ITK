@@ -61,7 +61,7 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   m_SegmentationFunction = s; 
   
   typename SegmentationFunctionType::RadiusType r;
-  for (i = 0; i < ImageDimension; ++i)  r[i] = 1;
+  for (i = 0; i < Self::ImageDimension; ++i)  r[i] = 1;
   
   m_SegmentationFunction->Initialize(r);
   this->SetDifferenceFunction(m_SegmentationFunction);
@@ -113,9 +113,9 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 
   typename OutputImageType::Pointer levelset = this->GetOutput();
 
-  if(!m_NarrowBand->Empty())
+  if(!this->m_NarrowBand->Empty())
     {
-    m_IsoFilter->SetNarrowBand(m_NarrowBand.GetPointer());
+    m_IsoFilter->SetNarrowBand(this->m_NarrowBand.GetPointer());
     m_IsoFilter->NarrowBandingOn(); //Maybe we should check that the NarrowBand exits.
     }
   else
@@ -123,13 +123,13 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
     m_IsoFilter->NarrowBandingOff();
     }  
   
-  m_IsoFilter->SetFarValue(m_NarrowBand->GetTotalRadius()+1);
+  m_IsoFilter->SetFarValue(this->m_NarrowBand->GetTotalRadius()+1);
   m_IsoFilter->SetInput(levelset);
   m_IsoFilter->Update();
   
   m_ChamferFilter->SetInput(m_IsoFilter->GetOutput());
-  m_ChamferFilter->SetMaximumDistance(m_NarrowBand->GetTotalRadius()+1);
-  m_ChamferFilter->SetNarrowBand(m_NarrowBand.GetPointer());
+  m_ChamferFilter->SetMaximumDistance(this->m_NarrowBand->GetTotalRadius()+1);
+  m_ChamferFilter->SetNarrowBand(this->m_NarrowBand.GetPointer());
   m_ChamferFilter->Update();
  
   this->GraftOutput(m_ChamferFilter->GetOutput());

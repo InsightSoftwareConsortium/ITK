@@ -48,7 +48,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   //
   // Following initialization is related to
   // calculating image derivatives
-  m_ComputeGradient = false; // don't use the default gradient for now
+  this->SetComputeGradient(false); // don't use the default gradient for now
   m_DerivativeCalculator = DerivativeFunctionType::New();
 
 }
@@ -107,7 +107,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 {
 
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
-  RandomIterator randIter( m_FixedImage, this->GetFixedImageRegion() );
+  RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
 
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
   randIter.GoToBegin();
@@ -117,7 +117,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   bool allOutside = true;
 
-  m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;
 
   for( iter = samples.begin(); iter != end; ++iter )
     {
@@ -129,16 +129,16 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     (*iter).FixedImageValue = randIter.Get();
 
     // get moving image value
-    m_FixedImage->TransformIndexToPhysicalPoint( index, 
+    this->m_FixedImage->TransformIndexToPhysicalPoint( index, 
                                                  (*iter).FixedImagePointValue );
 
     MovingImagePointType mappedPoint = 
-      m_Transform->TransformPoint( (*iter).FixedImagePointValue );
+      this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
 
-    if( m_Interpolator->IsInsideBuffer( mappedPoint ) )
+    if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
       {
-      (*iter).MovingImageValue = m_Interpolator->Evaluate( mappedPoint );
-      m_NumberOfPixelsCounted++;
+      (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
+      this->m_NumberOfPixelsCounted++;
       allOutside = false;
       }
     else
@@ -171,7 +171,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 {
 
   // make sure the transform has the current parameters
-  m_Transform->SetParameters( parameters );
+  this->m_Transform->SetParameters( parameters );
 
   // collect sample set A
   this->SampleFixedImageDomain( m_SampleA );
@@ -253,16 +253,16 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 {
 
   value = NumericTraits< MeasureType >::Zero;
-  unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
+  unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();
   DerivativeType temp( numberOfParameters );
   temp.Fill( 0 );
   derivative = temp;
 
   // make sure the transform has the current parameters
-  m_Transform->SetParameters( parameters );
+  this->m_Transform->SetParameters( parameters );
 
   // set the DerivativeCalculator
-  m_DerivativeCalculator->SetInputImage( m_MovingImage );
+  m_DerivativeCalculator->SetInputImage( this->m_MovingImage );
 
   // collect sample set A
   this->SampleFixedImageDomain( m_SampleA );
@@ -432,7 +432,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   DerivativeType& derivatives ) const
 {
 
-  MovingImagePointType mappedPoint = m_Transform->TransformPoint( point );
+  MovingImagePointType mappedPoint = this->m_Transform->TransformPoint( point );
   
   CovariantVector<double,MovingImageDimension> imageDerivatives;
 
@@ -447,9 +447,9 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   typedef typename TransformType::JacobianType JacobianType;
-  const JacobianType& jacobian = m_Transform->GetJacobian( point );
+  const JacobianType& jacobian = this->m_Transform->GetJacobian( point );
 
-  unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
+  unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();
 
   for ( unsigned int k = 0; k < numberOfParameters; k++ )
     {
