@@ -40,8 +40,8 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>
   m_IsolatedValue = 0.0;
   m_IsolatedValueTolerance = 0.001;
   m_UpperValueLimit = 1.0;
-  m_GradientMagnitude = GradientMagnitudeImageFilter<TInputImage,TInputImage>::New();
-  m_Watershed = WatershedImageFilter<TInputImage>::New();
+  m_GradientMagnitude = GradientMagnitudeType::New();
+  m_Watershed = WatershedType::New();
 }
 
 /**
@@ -158,8 +158,8 @@ IsolatedWatershedImageFilter<TInputImage,TOutputImage>
 
   ImageRegionIterator<OutputImageType> ot =
     ImageRegionIterator<OutputImageType>(outputImage, region);
-  ImageRegionIterator<WatershedImageFilter<InputImageType>::OutputImageType>  it =
-    ImageRegionIterator<WatershedImageFilter<InputImageType>::OutputImageType>(m_Watershed->GetOutput(), region);
+  ImageRegionIterator<typename WatershedType::OutputImageType>  it =
+    ImageRegionIterator<typename WatershedType::OutputImageType>(m_Watershed->GetOutput(), region);
 
   unsigned long seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
   unsigned long seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);

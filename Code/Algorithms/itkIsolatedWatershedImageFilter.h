@@ -68,6 +68,8 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
   
+  typedef WatershedImageFilter<InputImageType> WatershedType;
+  typedef GradientMagnitudeImageFilter<InputImageType,OutputImageType> GradientMagnitudeType;
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if
@@ -114,8 +116,8 @@ protected:
   OutputImagePixelType m_ReplaceValue1;
   OutputImagePixelType m_ReplaceValue2;
 
-  typename GradientMagnitudeImageFilter<TInputImage,TInputImage>::Pointer m_GradientMagnitude;
-  typename WatershedImageFilter<TInputImage>::Pointer m_Watershed;
+  typename GradientMagnitudeType::Pointer m_GradientMagnitude;
+  typename WatershedType::Pointer m_Watershed;
 
   double m_Threshold;
   double m_IsolatedValue;
