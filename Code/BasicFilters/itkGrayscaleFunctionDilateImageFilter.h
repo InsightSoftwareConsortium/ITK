@@ -90,9 +90,6 @@ public:
   /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /** Declaration of image kernel iterator type. */
-  typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
-
   /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
  
@@ -111,7 +108,9 @@ protected:
    * structuring element is positive. */
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
-
+ private:
+  GrayscaleFunctionDilateImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 } ; // end of class
 
 } // end namespace itk
