@@ -82,6 +82,17 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+typename ImageAdaptor<TImage, TAccessor>::IndexType
+ImageAdaptor<TImage , TAccessor>
+::ComputeIndex( unsigned long offset ) const
+{
+  return m_Image->ComputeIndex( offset );
+}
+
+
+
 
 
 //----------------------------------------------------------------------------

@@ -221,6 +221,13 @@ public:
   const unsigned long *GetOffsetTable() const;
 
 
+  /**
+   * Compute  Index given an Offset
+   */
+  IndexType ComputeIndex(unsigned long offset) const;
+
+
+
   /** 
    * PixelContainer typedef support. Used to construct a container for
    * the pixel data.
