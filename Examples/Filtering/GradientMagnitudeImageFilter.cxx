@@ -37,7 +37,7 @@
 //
 //  adding the sum of their squares and computing the square root of the sum.
 //
-//  This filter will work on images off any dimension thanks to the internal
+//  This filter will work on images of any dimension thanks to the internal
 //  use of NeighborhoodIterators and NeighborhoodOperators.
 //
 //  \index{itk::GradientMagnitudeImageFilter|textbf}
