@@ -61,7 +61,7 @@ namespace itk {
  *
  *
  *
- * \todo DOCUMENT! References
+ * 
  * 
  */ 
 template <class TImage>
