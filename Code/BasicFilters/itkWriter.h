@@ -124,7 +124,7 @@ protected:
   ~Writer();
   Writer(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * All writers must respond to WriteData(). The WriteData() method

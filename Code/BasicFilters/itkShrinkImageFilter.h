@@ -147,7 +147,7 @@ public:
   ~ShrinkImageFilter() {};
   ShrinkImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * ShrinkImageFilter can be implemented as a multithreaded filter.  Therefore,

@@ -105,7 +105,7 @@ protected:
   ~MeshToMeshFilter() {};
   MeshToMeshFilter(const MeshToMeshFilter&) {};
   void operator=(const MeshToMeshFilter&) {};
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 };
 

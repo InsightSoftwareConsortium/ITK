@@ -65,14 +65,15 @@ ResampleImageFilter<TInputImage,TOutputImage>
 
 /**
  * Print out a description of self
+ *
+ * \todo Add details about this class
  */
 template <class TInputImage, class TOutputImage>
 void 
 ResampleImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  // FIXME: Add details about this class?
 
   return;
 }

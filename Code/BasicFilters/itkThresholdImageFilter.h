@@ -147,7 +147,7 @@ protected:
   ~ThresholdImageFilter() {};
   ThresholdImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent);
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * ThresholdImageFilter can be implemented as a multithreaded filter.
