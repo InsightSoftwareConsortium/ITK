@@ -361,6 +361,11 @@ protected:
 
 private:
   typedef typename TInputImage::SizeType InputImageSize;
+  typedef typename KLMSegmentationRegion<TInputImage,TOutputImage>::Pointer 
+    KLMSegmentationRegionPtr;
+
+  typedef typename KLMSegmentationBorder<TInputImage,TOutputImage>::Pointer
+    KLMSegmentationBorderPtr;
 
   unsigned int     m_MaxLambda;
   unsigned int     m_imgWidth;
@@ -375,10 +380,10 @@ private:
   VecDblType       m_InitRegionMean;
   unsigned int     m_InitRegionArea;
 
-  KLMSegmentationRegion<TInputImage,TOutputImage> *m_pRegions;   
-  KLMSegmentationBorder<TInputImage,TOutputImage> *m_pBorders;
 
-  SegmentationBorderPtr                        *m_pBordersDynPtrs;
+  std::vector< KLMSegmentationRegionPtr >      m_pRegions;
+  std::vector< KLMSegmentationBorderPtr >      m_pBorders;
+  std::vector< SegmentationBorderPtr >         m_pBordersDynPtrs;
   SegmentationBorderPtr                        *m_pBordersCandidateDynPtr;
   SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
 
