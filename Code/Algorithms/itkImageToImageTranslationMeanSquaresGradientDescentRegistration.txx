@@ -29,7 +29,6 @@ template <class TReference, class TTarget>
 ImageToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTarget>
 ::ImageToImageTranslationMeanSquaresGradientDescentRegistration()
 { 
-  m_TranslationScale = 100.0; 
 }
 
 
@@ -42,7 +41,6 @@ ImageToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTarge
   :Superclass( other )
 {
   m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
 }
 
 
@@ -68,7 +66,6 @@ ImageToImageTranslationMeanSquaresGradientDescentRegistration< TReference, TTarg
 {
   Superclass::operator=( other );
   m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
 
@@ -110,10 +107,6 @@ ImageToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTarge
   std::cout << "The Solution is : " ;
   m_Parameters = optimizer->GetCurrentPosition();
   const unsigned int offsetStart = ImageDimension * ImageDimension;
-  for(unsigned int k=0; k<ImageDimension; k++)
-  {
-    m_Parameters[ offsetStart + k ] *= m_TranslationScale;
-  }
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
