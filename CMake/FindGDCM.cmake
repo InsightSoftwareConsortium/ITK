@@ -10,13 +10,22 @@
 #  GDCM_LIBRARIES         = full path to the GDCM library and linker flags on unix
 #  CMAKE_GDCM_CXX_FLAGS   = compiler flags for building GDCM 
 #  GDCM_INCLUDE_DIR       = include path of GDCM
-
+#
+#
+#   NOTE: That GDCM *MUST* be build as a shared library 
+#         because it its distributed under a LGPL license.
+#         This is currently the only way for using GDCM
+#         at a open license level similar to ITK.
+#
+#
+#
 IF(WIN32)
   IF(NOT UNIX)
 
   SET (GDCM_POSSIBLE_LIB_PATHS
     /usr/lib
     /usr/local/lib
+    $ENV{HOME}/local/lib
     $ENV{CREATIS}/gdcm/lib/Release
     $ENV{CREATIS}/gdcm/lib/Debug
     $ENV{CREATIS}/gdcm/lib/
@@ -128,10 +137,13 @@ IF(WIN32)
 
 ENDIF(WIN32)
 
+
+
 IF(UNIX)
 
   SET (GDCM_POSSIBLE_LIB_PATHS
     $ENV{CREATIS}/gdcm/lib/
+    $ENV{HOME}/local/lib
     $ENV{GDCMHOME}/lib
     /usr/local/lib
     /usr/lib
@@ -141,6 +153,7 @@ IF(UNIX)
   SET (GDCM_POSSIBLE_INCLUDE_PATHS
     $ENV{CREATIS}/gdcm/src
     $ENV{CREATIS}/gdcm/vtk
+    $ENV{HOME}/local/include
     $ENV{GDCMHOME}/src
     $ENV{GDCMHOME}/vtk
     /usr/local/include
@@ -162,9 +175,42 @@ IF(UNIX)
   #Merge every path in one single :
   SET(GDCM_INCLUDE_DIR ${GDCM_INCLUDE_DIR} ${VTKGDCM_INCLUDE_DIR})
 
-  FIND_LIBRARY(GDCM_LIBRARIES
-    NAMES vtkgdcm gdcm 
+  FIND_LIBRARY(GDCM_SHARED_LIBRARY
+    NAMES gdcm 
     PATHS ${GDCM_POSSIBLE_LIB_PATHS} 
+  )
+
+  FIND_LIBRARY(VTKGDCM_SHARED_LIBRARY
+    NAMES vtkgdcm
+    PATHS ${GDCM_POSSIBLE_LIB_PATHS} 
+  )
+
+  FIND_LIBRARY(GDCMIJPEG8_SHARED_LIBRARY
+    NAMES gdcmijpeg8 libgdcmijpeg8
+    PATHS ${GDCM_POSSIBLE_LIB_PATHS} 
+  )
+
+  FIND_LIBRARY(GDCMIJPEG12_SHARED_LIBRARY
+    NAMES gdcmijpeg12 libgdcmijpeg12
+    PATHS ${GDCM_POSSIBLE_LIB_PATHS} 
+  )
+
+  FIND_LIBRARY(GDCMLJPEG_SHARED_LIBRARY
+    NAMES gdcmljpeg libgdcmljpeg
+    PATHS ${GDCM_POSSIBLE_LIB_PATHS} 
+  )
+
+  SET(GDCM_LIBRARIES ${VTKGDCM_SHARED_LIBRARY} ${GDCM_SHARED_LIBRARY}
+  ${GDCMIJPEG8_SHARED_LIBRARY} ${GDCMIJPEG12_SHARED_LIBRARY} ${GDCMLJPEG_SHARED_LIBRARY})
+
+  MARK_AS_ADVANCED(
+    VTKGDCM_SHARED_LIBRARY
+    GDCM_SHARED_LIBRARY
+    GDCMIJPEG8_SHARED_LIBRARY
+    GDCMIJPEG12_SHARED_LIBRARY
+    GDCMLJPEG_SHARED_LIBRARY
+    CMAKE_GDCM_CXX_FLAGS
+    GDCM_INCLUDE_DIR
   )
 
 ENDIF(UNIX)  
