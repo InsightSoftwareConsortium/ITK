@@ -245,7 +245,7 @@ int main()
   //  loop for walking through all the point data can be controled by comparing
   //  the current iterator with the iterator returned by the \code{End()}
   //  method of the PointsContainer. The following lines illustrate the typical
-  //  loop for walking through the points.
+  //  loop for walking through the point data.
   //
   //  Software Guide : EndLatex 
 
