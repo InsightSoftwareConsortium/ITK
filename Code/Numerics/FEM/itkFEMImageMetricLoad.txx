@@ -93,59 +93,6 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad()
 
 }
 
-/*
-template<class TReference,class TTarget>
-ImageMetricLoad<TReference , TTarget>::ImageMetricLoad(const ImageMetricLoad& LMS)
-{ 
-  m_RefImage=LMS.m_RefImage;
-  m_TarImage=LMS.m_TarImage;
-  m_MetricRadius=LMS.m_MetricRadius;
-  m_NumberOfIntegrationPoints=LMS.m_NumberOfIntegrationPoints;
-
-  m_Transform = LMS.m_Transform;
-  m_Metric = LMS.m_Metric;
-
-  m_Metric->SetMovingImage( m_RefImage );
-  m_Metric->SetFixedImage( m_TarImage );
-
-  typename TargetType::RegionType requestedRegion;
-  typename TargetType::SizeType  size;
-  typename TargetType::IndexType tindex;
-  for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
-  //Set the size of the image region
-    size[k] = 1;
-    tindex[k]=0;
-  }
-
-
-// Set the associated region
-  requestedRegion.SetSize(size);
-  requestedRegion.SetIndex(tindex);
-  m_TarImage->SetRequestedRegion(requestedRegion);  
-  m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-  
-  m_Metric->SetTransform( m_Transform.GetPointer() );
-  m_Interpolator = InterpolatorType::New();
-  m_Interpolator->SetInputImage( m_RefImage );
-  m_Metric->SetInterpolator( m_Interpolator.GetPointer() );
-
-  
-//------------------------------------------------------------
-// This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the 
-// internal components: Interpolator, Transform and Images
-//------------------------------------------------------------
-  try 
-  {
-    m_Metric->Initialize();
-  } catch( ExceptionObject & e )
-  {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
-  }
-
-}*/
 
 template<class TReference,class TTarget>
 typename ImageMetricLoad<TReference , TTarget>::Float 

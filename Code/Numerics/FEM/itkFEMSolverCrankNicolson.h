@@ -47,6 +47,9 @@ namespace fem {
  *      ( M + alpha*dt* K )*U_t=(M - (1.- alpha)*dt* K)* U_{t-1} + dt*(alpha*f_{n+1} + (1-alpha)*f_n) 
  *
  * which is the Crank-Nicolson formulation of the static problem if alpha=0.5.  
+ * The static solution is gained if :
+ *      rho = 0.0;   alpha = 1.0;  dt = 1.0;  
+ * Practically, it is good to set rho to something small (for the itpack solver).
  * The advantage of choosing alpha=0.5 is that the solution is then stable for any
  * choice of time step, dt.  This class inherits and uses most of the Solver class
  * functionality.  One must call AssembleKandM instead of AssembleK and 

@@ -19,7 +19,14 @@
 #define __itkFEMImageMetricLoadImplementation_h
 
 #include "itkFEMImageMetricLoad.h"
-#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
+
+#include "itkFEMElement2DC0LinearLineStress.h"
+#include "itkFEMElement2DC1Beam.h"
+#include "itkFEMElement2DC0LinearTriangularStress.h"
+#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
+#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
+#include "itkFEMElement3DC0LinearTetrahedronStrain.h"
+#include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
 namespace itk {
 namespace fem {
@@ -48,7 +55,7 @@ class ImageMetricLoadImplementation
 {
 public:
   
-  static void ImplementImageMetricLoad(Element2DC0LinearQuadrilateralStress::ConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
+  static void ImplementImageMetricLoad(Element2DC0LinearQuadrilateralMembrane::ConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
@@ -119,7 +126,7 @@ private:
 // corresponding Load class.
 template<class TLoadClass>
 const bool ImageMetricLoadImplementation<TLoadClass>::registered=
-VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadType, Element2DC0LinearQuadrilateralStress::LoadImplementationFunctionPointer>
+VisitorDispatcher<Element2DC0LinearQuadrilateralMembrane,Element::LoadType, Element2DC0LinearQuadrilateralMembrane::LoadImplementationFunctionPointer>
   ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
 
 

@@ -167,7 +167,7 @@ public:
 // FUNCTIONS
 
   /** Set/Get the Metric. FIXME */
-//  void SetMetric(MetricBaseTypePointer MP) { m_metric=MP; }; 
+  void SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }; 
   
  /** Define the reference (moving) image. */
   void SetReferenceImage(ReferenceType* R)
