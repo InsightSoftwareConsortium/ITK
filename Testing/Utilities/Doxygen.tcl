@@ -6,6 +6,7 @@
 
 # Must be run from root directory of Insight build, only by make
 
+set SourceDirectory [pwd]
 set Model Experimental
 if { $argc > 0 } \
 {
