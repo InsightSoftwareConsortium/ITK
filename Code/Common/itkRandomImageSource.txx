@@ -16,6 +16,7 @@
 #include "itkRandomImageSource.h"
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
+#include "itkImageScalarRegionIterator.h"
 
 namespace itk
 {
@@ -71,17 +72,16 @@ RandomImageSource<TOutputImage>
   typedef typename TOutputImage::ScalarValueType scalarType;
 
   TOutputImage *image=this->GetOutput(0);
-  unsigned int N = image->GetImageDimension();
 
   scalarType min = NumericTraits<scalarType>::min();
   scalarType max = NumericTraits<scalarType>::max();
-  typename TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
-  typename TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
+
+  ImageScalarRegionIterator<TOutputImage::PixelType, TOutputImage::ImageDimension>
+    scalarIterator(image, image->GetRegionStartIndex(),image->GetRegionSize());
 
   itkDebugMacro(<<"Generating a random image of scalars");
-  
-  for ( scalarIterator=image->ScalarBegin(); 
-        scalarIterator != scalarEnd; ++scalarIterator )
+
+  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
     {
     *scalarIterator = (min + max) / 2.0;
     }

@@ -42,17 +42,18 @@ public:
   typedef typename T::ValueType ValueType;
   
   /* 
-   * Support GetScalar method 
+   * Reflect the value type from the underlying (usually native type)
+   * value type.
    */
-  typedef typename T::ValueType ScalarType;
+  typedef typename T::ValueType ScalarValueType;
   
   /* 
    * Support the GetScalar / SetScalar methods. These are the
    * default implemnentations if the template is not specialized.
    */
-  static NumericTraits<typename T::ValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
-  //static ScalarType& GetScalar(T& v) {return v.GetScalar();}
-  static void SetScalar(T& v, ScalarType const&d) {v.SetScalar(d);}
+  static NumericTraits<typename T::ScalarValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
+  //static ScalarValueType& GetScalar(T& v) {return v.GetScalar();}
+  static void SetScalar(T& v, ScalarValueType const&d) {v.SetScalar(d);}
 };
 
 /** \class VectorTraits
@@ -75,16 +76,17 @@ public:
   typedef typename T::ValueType ValueType;
   
   /* 
-   * Support GetVector method 
+   * Reflect the value type from the underlying (usually native type)
+   * value type.
    */
-  typedef typename T::ValueType VectorType;
+  typedef typename T::ValueType VectorValueType;
   
   /* 
    * Support the GetVector / SetVector methods. These are the
    * default implemnentations if the template is not specialized.
    */
-  static VectorType& GetVector(T& v) {return v.GetVector();}
-  static void SetVector(T& v, VectorType const&d) {v.SetVector(d);}
+  static VectorValueType& GetVector(T& v) {return v.GetVector();}
+  static void SetVector(T& v, VectorValueType const&d) {v.SetVector(d);}
 };
 
 
@@ -100,9 +102,9 @@ template <>
 class ScalarTraits<bool> {
 public:
   typedef bool ValueType;
-  typedef bool ScalarType;
-  static ScalarType& GetScalar(bool& v) {return v;}
-  static void SetScalar(bool& data, ScalarType const& v) {data = v;}
+  typedef bool ScalarValueType;
+  static ScalarValueType& GetScalar(bool& v) {return v;}
+  static void SetScalar(bool& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<unsigned char>
@@ -112,9 +114,9 @@ template <>
 class ScalarTraits<unsigned char> {
 public:
   typedef unsigned char ValueType;
-  typedef unsigned char ScalarType;
-  static ScalarType& GetScalar(unsigned char& v) {return v;}
-  static void SetScalar(unsigned char& data, ScalarType const& v) {data = v;}
+  typedef unsigned char ScalarValueType;
+  static ScalarValueType& GetScalar(unsigned char& v) {return v;}
+  static void SetScalar(unsigned char& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<signed char>
@@ -124,9 +126,9 @@ template <>
 class ScalarTraits<signed char> {
 public:
   typedef signed char ValueType;
-  typedef signed char ScalarType;
-  static ScalarType& GetScalar(signed char& v) {return v;}
-  static void SetScalar(signed char& data, ScalarType const& v) {data = v;}
+  typedef signed char ScalarValueType;
+  static ScalarValueType& GetScalar(signed char& v) {return v;}
+  static void SetScalar(signed char& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<unsigned short>
@@ -136,9 +138,9 @@ template <>
 class ScalarTraits<unsigned short> {
 public:
   typedef unsigned short ValueType;
-  typedef unsigned short ScalarType;
-  static ScalarType& GetScalar(unsigned short& v) {return v;}
-  static void SetScalar(unsigned short& data, ScalarType const& v) {data = v;}
+  typedef unsigned short ScalarValueType;
+  static ScalarValueType& GetScalar(unsigned short& v) {return v;}
+  static void SetScalar(unsigned short& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<signed short>
@@ -148,9 +150,9 @@ template <>
 class ScalarTraits<signed short> {
 public:
   typedef signed short ValueType;
-  typedef signed short ScalarType;
-  static ScalarType& GetScalar(signed short& v) {return v;}
-  static void SetScalar(signed short& data, ScalarType const& v) {data = v;}
+  typedef signed short ScalarValueType;
+  static ScalarValueType& GetScalar(signed short& v) {return v;}
+  static void SetScalar(signed short& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<unsigned int>
@@ -160,9 +162,9 @@ template <>
 class ScalarTraits<unsigned int> {
 public:
   typedef unsigned int ValueType;
-  typedef unsigned int ScalarType;
-  static ScalarType& GetScalar(unsigned int& v) {return v;}
-  static void SetScalar(unsigned int& data, ScalarType const& v) {data = v;}
+  typedef unsigned int ScalarValueType;
+  static ScalarValueType& GetScalar(unsigned int& v) {return v;}
+  static void SetScalar(unsigned int& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<signed int>
@@ -172,9 +174,9 @@ template <>
 class ScalarTraits<signed int> {
 public:
   typedef signed int ValueType;
-  typedef signed int ScalarType;
-  static ScalarType& GetScalar(signed int& v) {return v;}
-  static void SetScalar(signed int& data, ScalarType const& v) {data = v;}
+  typedef signed int ScalarValueType;
+  static ScalarValueType& GetScalar(signed int& v) {return v;}
+  static void SetScalar(signed int& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<signed long>
@@ -184,9 +186,9 @@ template <>
 class ScalarTraits<signed long> {
 public:
   typedef signed long ValueType;
-  typedef signed long ScalarType;
-  static ScalarType& GetScalar(signed long& v) {return v;}
-  static void SetScalar(signed long& data, ScalarType const& v) {data = v;}
+  typedef signed long ScalarValueType;
+  static ScalarValueType& GetScalar(signed long& v) {return v;}
+  static void SetScalar(signed long& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<unsigned long>
@@ -196,9 +198,9 @@ template <>
 class ScalarTraits<unsigned long> {
 public:
   typedef unsigned long ValueType;
-  typedef unsigned long ScalarType;
-  static ScalarType& GetScalar(unsigned long& v) {return v;}
-  static void SetScalar(unsigned long& data, ScalarType const& v) {data = v;}
+  typedef unsigned long ScalarValueType;
+  static ScalarValueType& GetScalar(unsigned long& v) {return v;}
+  static void SetScalar(unsigned long& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<float>
@@ -208,9 +210,9 @@ template <>
 class ScalarTraits<float> {
 public:
   typedef float ValueType;
-  typedef float ScalarType;
-  static ScalarType& GetScalar(float& v) {return v;}
-  static void SetScalar(float& data, ScalarType const& v) {data = v;}
+  typedef float ScalarValueType;
+  static ScalarValueType& GetScalar(float& v) {return v;}
+  static void SetScalar(float& data, ScalarValueType const& v) {data = v;}
 };
 
 /** \class ScalarTraits<double>
@@ -220,9 +222,9 @@ template <>
 class ScalarTraits<double> {
 public:
   typedef double ValueType;
-  typedef double ScalarType;
-  static ScalarType& GetScalar(double& v) {return v;}
-  static void SetScalar(double& data, ScalarType const& v) {data = v;}
+  typedef double ScalarValueType;
+  static ScalarValueType& GetScalar(double& v) {return v;}
+  static void SetScalar(double& data, ScalarValueType const& v) {data = v;}
 };
 
 /**
@@ -237,9 +239,9 @@ template <>
 class VectorTraits<bool> {
 public:
   typedef bool ValueType;
-  typedef bool VectorType;
-  static VectorType& GetVector(bool& v) {return v;}
-  static void SetVector(bool& data, VectorType const& v) {data = v;}
+  typedef bool VectorValueType;
+  static VectorValueType& GetVector(bool& v) {return v;}
+  static void SetVector(bool& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<unsigned char>
@@ -249,9 +251,9 @@ template <>
 class VectorTraits<unsigned char> {
 public:
   typedef unsigned char ValueType;
-  typedef unsigned char VectorType;
-  static VectorType& GetVector(unsigned char& v) {return v;}
-  static void SetVector(unsigned char& data, VectorType const& v) {data = v;}
+  typedef unsigned char VectorValueType;
+  static VectorValueType& GetVector(unsigned char& v) {return v;}
+  static void SetVector(unsigned char& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<signed char>
@@ -261,9 +263,9 @@ template <>
 class VectorTraits<signed char> {
 public:
   typedef signed char ValueType;
-  typedef signed char VectorType;
-  static VectorType& GetVector(signed char& v) {return v;}
-  static void SetVector(signed char& data, VectorType const& v) {data = v;}
+  typedef signed char VectorValueType;
+  static VectorValueType& GetVector(signed char& v) {return v;}
+  static void SetVector(signed char& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<unsigned short>
@@ -273,9 +275,9 @@ template <>
 class VectorTraits<unsigned short> {
 public:
   typedef unsigned short ValueType;
-  typedef unsigned short VectorType;
-  static VectorType& GetVector(unsigned short& v) {return v;}
-  static void SetVector(unsigned short& data, VectorType const& v) {data = v;}
+  typedef unsigned short VectorValueType;
+  static VectorValueType& GetVector(unsigned short& v) {return v;}
+  static void SetVector(unsigned short& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<signed short>
@@ -285,9 +287,9 @@ template <>
 class VectorTraits<signed short> {
 public:
   typedef signed short ValueType;
-  typedef signed short VectorType;
-  static VectorType& GetVector(signed short& v) {return v;}
-  static void SetVector(signed short& data, VectorType const& v) {data = v;}
+  typedef signed short VectorValueType;
+  static VectorValueType& GetVector(signed short& v) {return v;}
+  static void SetVector(signed short& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<unsigned int>
@@ -297,9 +299,9 @@ template <>
 class VectorTraits<unsigned int> {
 public:
   typedef unsigned int ValueType;
-  typedef unsigned int VectorType;
-  static VectorType& GetVector(unsigned int& v) {return v;}
-  static void SetVector(unsigned int& data, VectorType const& v) {data = v;}
+  typedef unsigned int VectorValueType;
+  static VectorValueType& GetVector(unsigned int& v) {return v;}
+  static void SetVector(unsigned int& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<signed int>
@@ -309,9 +311,9 @@ template <>
 class VectorTraits<signed int> {
 public:
   typedef signed int ValueType;
-  typedef signed int VectorType;
-  static VectorType& GetVector(signed int& v) {return v;}
-  static void SetVector(signed int& data, VectorType const& v) {data = v;}
+  typedef signed int VectorValueType;
+  static VectorValueType& GetVector(signed int& v) {return v;}
+  static void SetVector(signed int& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<signed long>
@@ -321,9 +323,9 @@ template <>
 class VectorTraits<signed long> {
 public:
   typedef signed long ValueType;
-  typedef signed long VectorType;
-  static VectorType& GetVector(signed long& v) {return v;}
-  static void SetVector(signed long& data, VectorType const& v) {data = v;}
+  typedef signed long VectorValueType;
+  static VectorValueType& GetVector(signed long& v) {return v;}
+  static void SetVector(signed long& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<unsigned long>
@@ -333,9 +335,9 @@ template <>
 class VectorTraits<unsigned long> {
 public:
   typedef unsigned long ValueType;
-  typedef unsigned long VectorType;
-  static VectorType& GetVector(unsigned long& v) {return v;}
-  static void SetVector(unsigned long& data, VectorType const& v) {data = v;}
+  typedef unsigned long VectorValueType;
+  static VectorValueType& GetVector(unsigned long& v) {return v;}
+  static void SetVector(unsigned long& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<float>
@@ -345,9 +347,9 @@ template <>
 class VectorTraits<float> {
 public:
   typedef float ValueType;
-  typedef float VectorType;
-  static VectorType& GetVector(float& v) {return v;}
-  static void SetVector(float& data, VectorType const& v) {data = v;}
+  typedef float VectorValueType;
+  static VectorValueType& GetVector(float& v) {return v;}
+  static void SetVector(float& data, VectorValueType const& v) {data = v;}
 };
 
 /** \class VectorTraits<double>
@@ -357,9 +359,9 @@ template <>
 class VectorTraits<double> {
 public:
   typedef double ValueType;
-  typedef double VectorType;
-  static VectorType& GetVector(double& v) {return v;}
-  static void SetVector(double& data, VectorType const& v) {data = v;}
+  typedef double VectorValueType;
+  static VectorValueType& GetVector(double& v) {return v;}
+  static void SetVector(double& data, VectorValueType const& v) {data = v;}
 };
 
 } // end namespace itk

@@ -67,6 +67,12 @@ class Vector {
   typedef T ValueType;
 
   /**
+   * VectorValueType can be used to declare a variable that is the same type
+   * as a data element held in an Vector.  
+   */
+  typedef T VectorValueType;
+  
+  /**
    * VectorType can be used to declare a variable that is the same type
    * as the internal vector.  
    */

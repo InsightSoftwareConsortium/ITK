@@ -119,6 +119,18 @@ public:
     }
 
   /**
+   * Compare two indices.
+   */
+  bool
+  operator!=(const Self &vec)
+    {
+    bool same=1;
+    for (unsigned int i=0; i < VIndexDimension && same; i++)
+      { same = (m_Index[i] == vec.m_Index[i]); }
+    return !same;
+    }
+
+  /**
    * Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. No bounds checking is performed.
    */
@@ -152,9 +164,6 @@ public:
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
    * values of "dim" are 0, ..., VIndexDimension-1.
-   *
-   * This routine will throw an exception (InvalidDimension) if
-   * "dim" > dimension of the index.
    */
   static Self GetBasisIndex(unsigned int dim); 
 
@@ -178,16 +187,27 @@ Index<VIndexDimension>
 Index<VIndexDimension>
 ::GetBasisIndex(unsigned int dim)
 {
-  if (dim >= VIndexDimension)
-    {
-    throw InvalidDimension;
-    }
-  
   Self ind;
   
   memset(ind.m_Index, 0, sizeof(long)*VIndexDimension);
   ind.m_Index[dim] = 1;
   return ind;
+}
+
+template<unsigned int VImageDimension>
+std::ostream & operator<<(std::ostream &os, const Index<VImageDimension> &ind)
+{
+  os << "[";
+  for (int i=0; i < VImageDimension - 1; ++i)
+    {
+    os << ind[i] << ", ";
+    }
+  if (VImageDimension >= 1)
+    {
+    os << ind[VImageDimension-1];
+    }
+  os << "]" << std::endl;
+  return os;
 }
 
 } // end namespace itk

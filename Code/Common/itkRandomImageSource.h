@@ -56,32 +56,32 @@ public:
   /** 
    * Specify the size of the output image.
    */
-  itkSetVectorMacro(Size,unsigned long,TOutputImage::GetImageDimension());
+  itkSetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
 
   /** 
    * Get the size of the output image.
    */
-  itkGetVectorMacro(Size,unsigned long,TOutputImage::GetImageDimension());
+  itkGetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
   
   /** 
    * Specify the spacing of the output image.
    */
-  itkSetVectorMacro(Spacing,float,TOutputImage::GetImageDimension());
+  itkSetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
 
   /** 
    * Get the spacing of the output image.
    */
-  itkGetVectorMacro(Spacing,float,TOutputImage::GetImageDimension());
+  itkGetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
 
   /** 
    * Specify the origin of the output image.
    */
-  itkSetVectorMacro(Origin,float,TOutputImage::GetImageDimension());
+  itkSetVectorMacro(Origin,float,TOutputImage::ImageDimension);
 
   /** 
    * Get the origin of the output image.
    */
-  itkGetVectorMacro(Origin,float,TOutputImage::GetImageDimension());
+  itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
   
   
 protected:

@@ -60,7 +60,7 @@ const int InvalidDimension=11;
  * Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
  */
 #define itkSetMacro(name,type) \
-  virtual void Set##name (type _arg) \
+  virtual void Set##name (const type _arg) \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): setting " #name " to " << _arg); \
@@ -385,10 +385,8 @@ virtual type *Get##name () const \
   }
 
 /**
- * Get vector macro defines two methods. One returns pointer to type 
- * (i.e., array of type). This is for efficiency. The second copies data
- * into user provided array. This is more object-oriented.
- * Examples: float *GetColor() and void GetColor(float c[count]).
+ * Get vector macro. Returns pointer to type (i.e., array of type).
+ * This is for efficiency. 
  */
 #define itkGetVectorMacro(name,type,count) \
   virtual type *Get##name () const \

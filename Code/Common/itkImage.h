@@ -86,17 +86,35 @@ public:
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native
    * type that the scalar portion of the pixels are composed of; usually 
-   * something like float, int, etc.  
+   * something like float, int, etc. ScalarTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * scalar values, ScalarTraits provides an opportunity to define what
+   * the scalar type would be if the PixelType had scalars.  For instance,
+   * the ScalarValueType for a PixelType that only has a vector may be
+   * defined to match the vector value type.
    */
   typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
 
   /** 
    * Pixel (vector) value typedef support. The vector value is the native
    * type that the vector portion of the pixels are composed of; usually 
-   * something like float, int, etc.  
+   * something like float, int, etc. VectorTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * vector values, VectorTraits provides an opportunity to define what
+   * the vector value type would be if the PixelType had a vector.  For
+   * instance, the VectorValueType for a PixelType that only has a scalar may
+   * be defined to match the vector value type.
    */
   typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
 
+  /**
+   * Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image.
+   */
+  enum { ImageDimension = VImageDimension };
+  
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
@@ -113,12 +131,11 @@ public:
   itkNewMacro(Self);  
 
   /** 
-   * Image dimension typedef support. Used to help declare pixel types
-   * or other operations.
+   * Image dimension. The dimension of an image is fixed at construction.
    */
   static unsigned int GetImageDimension() 
     { return VImageDimension; }
-  
+
   /** 
    * Set the size of the image. This is used in determining how much memory
    * would be needed to load an entire dataset.  It is also used to determine
@@ -126,7 +143,7 @@ public:
    * \sa GetImageSize(), SetBufferSize(), SetRegionSize()
    * 
    */
-  itkSetVectorMacro(ImageSize, unsigned long, VImageDimension);
+  itkSetVectorMacro(ImageSize, const unsigned long, VImageDimension);
 
   /** 
    * Get the size of the image.
@@ -139,7 +156,7 @@ public:
    * that is currently loaded in memory.
    * \sa GetBufferSize(), SetImageSize(), SetRegionSize()
    */
-  itkSetVectorMacro(BufferSize, unsigned long, VImageDimension);
+  itkSetVectorMacro(BufferSize, const unsigned long, VImageDimension);
 
   /** 
    * Get the size of the current buffer.  This is the amount of the image
@@ -152,7 +169,7 @@ public:
    * Set the size of the region of interest.
    * \sa GetRegionSize(), SetImageSize(), SetBufferSize()
    */
-  itkSetVectorMacro(RegionSize, unsigned long, VImageDimension);
+  itkSetVectorMacro(RegionSize, const unsigned long, VImageDimension);
 
   /** 
    * Get the size of the region of interest.
@@ -165,41 +182,38 @@ public:
    * The image does not have to start at index [0,0,...0]
    * \sa GetImageStartIndex(), SetBufferStartIndex(), SetRegionStartIndex()
    */
-  void SetImageStartIndex(const Index &start)
-    { m_ImageStartIndex = start; };
+  itkSetMacro(ImageStartIndex, Index &);
 
   /**
    * Get the "array index" of the first pixel of the image.
    * \sa SetImageStartIndex(), GetBufferStartIndex(), GetRegionStartIndex()
    */
-  const Index& GetImageStartIndex() const {return m_ImageStartIndex;} ;
+  itkGetConstMacro(ImageStartIndex, Index &);
   
   /**
    * Set the "array index" of the first pixel of the buffer currently in
    * memory.
    * \sa GetBufferStartIndex(), SetImageStartIndex(), SetRegionStartIndex()
    */
-  void SetBufferStartIndex(const Index &start)
-    { m_BufferStartIndex = start; };
-
+  itkSetMacro(BufferStartIndex, Index &);
+  
   /**
    * Get the "array index" of the first pixel of the buffer currently in
    * memory.
    * \sa SetBufferStartIndex(), GetImageStartIndex(), GetRegionStartIndex()
    */
-  const Index &GetBufferStartIndex() const  {return m_BufferStartIndex;} ;
+  itkGetConstMacro(BufferStartIndex, Index &);
   
   /**
    * Set the "array index" of the first pixel of the region to be processed.
    */
-  void SetRegionStartIndex(const Index &start)
-    { m_RegionStartIndex = start; };
+  itkSetMacro(RegionStartIndex, Index &);
 
   /**
    * Get the "array index" of the first pixel of the region of interest.
    * \sa SetRegionStartIndex(), GetImageStartIndex(), GetBufferStartIndex()
    */
-  const Index &GetRegionStartIndex() const  {return m_RegionStartIndex;} ;
+  itkGetConstMacro(RegionStartIndex, Index &);
 
   /**
    * Allocate the image memory. Dimension and Size must be set a priori.
@@ -251,7 +265,7 @@ public:
    * Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing()
    */
-  itkSetVectorMacro(Spacing, float, VImageDimension);
+  itkSetVectorMacro(Spacing, const float, VImageDimension);
 
   /** 
    * Get the spacing (size of a pixel) of the image.
@@ -263,7 +277,7 @@ public:
    * Set the origin of the image.
    * \sa GetOrigin()
    */
-  itkSetVectorMacro(Origin, float, VImageDimension);
+  itkSetVectorMacro(Origin, const float, VImageDimension);
 
   /** 
    * Get the origin of the image.

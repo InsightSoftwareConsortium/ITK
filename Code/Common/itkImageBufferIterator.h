@@ -56,6 +56,11 @@ public:
   typedef ImageBufferIterator Self;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ImageBufferIterator, ImageIterator);
+
+  /** 
    * Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not

@@ -65,7 +65,7 @@ WriteVTKImage<TInputImage>
   //
   *fp << "DATASET STRUCTURED_POINTS\n";
 
-  dims = input->GetSize();
+  dims = input->GetImageSize();
   *fp << "DIMENSIONS " << dims[0] << " " << dims[1] << " " << dims[2] << "\n";
 
   spacing = input->GetSpacing();

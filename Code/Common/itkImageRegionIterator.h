@@ -80,6 +80,11 @@ public:
    */
   typedef itk::Image<TPixel, VImageDimension> Image;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ImageRegionIterator, ImageIterator);
+
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
