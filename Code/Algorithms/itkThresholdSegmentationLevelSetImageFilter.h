@@ -58,11 +58,11 @@ public:
   }
   ValueType GetUpperThreshold() const
   {
-    m_ThresholdFunction->GetUpperThreshold();
+    return m_ThresholdFunction->GetUpperThreshold();
   }
   ValueType GetLowerThreshold() const
   {
-    m_ThresholdFunction->GetLowerThreshold();
+    return m_ThresholdFunction->GetLowerThreshold();
   }
   
 protected:
