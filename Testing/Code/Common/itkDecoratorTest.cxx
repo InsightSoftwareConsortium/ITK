@@ -25,6 +25,12 @@
 #include "itkDataObjectDecorator.h"
 #include "itkAutoPointerDataObjectDecorator.h"
 
+// Problems with gcc 2.95. Temporary workaround
+#if !(defined(__GNUC__) && __GNUC__ <= 2)
+#define OK
+#endif
+
+#ifdef OK
 namespace {
 template <class charT, class traits, class T, class A>
 std::basic_ostream<charT, traits>&
@@ -34,6 +40,7 @@ operator<<(std::basic_ostream<charT, traits>&os, const std::vector<T,A> &p)
   return os;
 }
 }
+#endif
 
 int itkDecoratorTest(int, char* [] )
 {
@@ -75,12 +82,14 @@ int itkDecoratorTest(int, char* [] )
 
   VectorType v;
   v.resize(5);
+#ifdef OK
   std::cout << v << std::endl;
-  
+#endif  
   VectorObjectType::Pointer vo = VectorObjectType::New();
   vo->Set(v);
+#ifdef OK
   std::cout << vo;
-
+#endif
   std::cout << "----------------------------------------------------"
             << std::endl;
 
@@ -91,12 +100,16 @@ int itkDecoratorTest(int, char* [] )
   VectorPointer vp;
   vp = new VectorType;
   vp->resize(3);
+#ifdef OK
   std::cout << *vp << std::endl;
+#endif
 
   VectorPointerObjectType::Pointer vop = VectorPointerObjectType::New();
   vop->Set(vp);
 
+#ifdef OK
   std::cout << vop;
+#endif
   }
 
   std::cout << "----------------------------------------------------"
