@@ -204,7 +204,7 @@ int main( int argc, char *argv[] )
 //
 //  
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{SpatialObjectTransforms.eps}
+// \includegraphics[width=0.5\textwidth]{SpatialObjectTransforms.eps}
 // \itkcaption[SpatialObject Transform Computations]{Physical positions of the
 // two objects in the world frame. (shapes are merely for illustration
 // purposes)}
