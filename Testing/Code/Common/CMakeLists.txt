@@ -1,5 +1,6 @@
 TESTS(
 itkAffineTransformTest 
+itkArrayTest
 itkBasicArchitectureTest 
 itkBoundingBoxTest 
 itkByteSwapTest 
