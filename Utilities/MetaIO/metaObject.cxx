@@ -223,11 +223,7 @@ Read(const char *_fileName)
   Clear();
 
   M_SetupReadFields();
-
-  if(!m_ReadStream)
-  {
-    m_ReadStream = new std::ifstream;
-  }
+  M_PrepareNewReadStream();
 
   m_ReadStream->open(m_FileName);
   if(!m_ReadStream->is_open())
@@ -1563,4 +1559,20 @@ bool MetaObject
   MET_InitReadField(mFr,_fieldName, _type, _required,_dependsOn,_length);
   m_UserDefinedReadFields.push_back(mFr);
   return 1;
+}
+
+void MetaObject::M_PrepareNewReadStream()
+{
+  if(m_ReadStream)
+    {
+    if(m_ReadStream->is_open())
+      {
+      m_ReadStream->close();
+      }
+    m_ReadStream->clear();
+    }
+  else
+    {
+    m_ReadStream = new std::ifstream;
+    }  
 }

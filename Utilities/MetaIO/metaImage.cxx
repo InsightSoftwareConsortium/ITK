@@ -604,10 +604,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
     strcpy(m_FileName, _headerName);
     }
   
-  if(!m_ReadStream)
-  {
-    m_ReadStream = new std::ifstream;
-  }
+  M_PrepareNewReadStream();
   m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   if(!m_ReadStream->is_open())
     {

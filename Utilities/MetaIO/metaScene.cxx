@@ -115,10 +115,7 @@ Read(const char *_headerName)
 
   if(META_DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
  
-  if(!m_ReadStream)
-  {
-    m_ReadStream = new std::ifstream;
-  }
+  M_PrepareNewReadStream();
   
   m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   

@@ -64,6 +64,8 @@ class MetaObject
       virtual bool M_Read(void);
 
       virtual bool M_Write(void);
+    
+    virtual void M_PrepareNewReadStream();
 
       //MET_FieldRecordType * M_GetFieldRecord(const char * _fieldName);
       //int   M_GetFieldRecordNumber(const char * _fieldName);
