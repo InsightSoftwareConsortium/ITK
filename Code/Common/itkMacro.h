@@ -250,7 +250,7 @@ virtual type *Get##name () const \
                   << "): returning " << #name " pointer " << this->m_##name); \
     return this->m_##name; \
   } \
-  virtual void Get##name (type &_arg1, type &_arg2, type &_arg3) \
+  virtual void Get##name (type &_arg1, type &_arg2, type &_arg3) const \
   { \
     _arg1 = this->m_##name[0]; \
     _arg2 = this->m_##name[1]; \
@@ -259,7 +259,7 @@ virtual type *Get##name () const \
                   << "): returning " << #name " = (" << _arg1 << "," \
                   << _arg2 << "," << _arg3 << ")"); \
     }; \
-  virtual void Get##name (type _arg[3]) \
+  virtual void Get##name (type _arg[3]) const \
   { \
     this->Get##name (_arg[0], _arg[1], _arg[2]);\
   } 
