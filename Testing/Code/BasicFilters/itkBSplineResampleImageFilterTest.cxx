@@ -601,14 +601,7 @@ itkBSplineResampleImageFilterTest(
 
   std::cout << "Testing B Spline up and down sampling methods: \n";
 
-// 
-  flag += testIntInputDoubleOutput(); 
-
-  //Test for Centered l2 BSplines for different orders (4-1)
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 4 );
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 3 ); 
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 2 );  
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 1 );     
+  flag += testIntInputDoubleOutput();    
 
   //Test for Standard l2 BSplines for different orders (3,2,1,0)
   flag += test2D_Standard_l2_NthOrderSpline_filter( 3 );
@@ -619,6 +612,12 @@ itkBSplineResampleImageFilterTest(
   //dummy flag is used to test that the code compiles. The accuracy of this
   //filter remains to be tested
   dummyflag += test2D_Standard_l2_NthOrderSpline_filter( 1 );
+
+  //Test for Centered l2 BSplines for different orders (4-1)
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 4 );
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 3 ); 
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 2 );  
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 1 );  
 
   //Test for Standard L2 BSplines for different orders (5,3,1,0)
   flag += test2D_Standard_L2_NthOrderSpline_filter( 5 ); 
