@@ -1019,7 +1019,7 @@ M_Destroy(void)
   {
   if(m_AutoFreeElementData && m_ElementData != NULL)
     {
-    delete (char *)m_ElementData;
+      free((char *)m_ElementData);
     }
 
   m_ElementData = NULL;
