@@ -119,6 +119,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension );
 
+  /** Dimension of the Vector pixel type. */
+  itkStaticConstMacro(PixelDimension, unsigned int,
+                      PixelType::Dimension );
+
   /** Deformation field typedef support. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;

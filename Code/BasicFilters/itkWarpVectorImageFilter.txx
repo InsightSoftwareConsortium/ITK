@@ -39,7 +39,7 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
   m_OutputSpacing.Fill( 1.0 );
   m_OutputOrigin.Fill( 0.0 );
 
-  for (unsigned int i=0; i<ImageDimension; i++)
+  for (unsigned int i=0; i<PixelDimension; i++)
     {
     m_EdgePaddingValue[i] = 0;
     }
@@ -207,7 +207,7 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
       typedef typename InterpolatorType::OutputType  OutputType;
       const OutputType interpolatedValue = m_Interpolator->Evaluate( point );
 
-      for( unsigned int k = 0; k < ImageDimension; k++ )
+      for( unsigned int k = 0; k < PixelDimension; k++ )
         {
         outputValue[k] = static_cast<ValueType>( interpolatedValue[k] );
         }
