@@ -21,12 +21,26 @@ namespace itk
 /**
  * Constructor
  */
-template <class TMetric>
-AmoebaOptimizer<TMetric>
+template <class TCostFunction >
+AmoebaOptimizer<TCostFunction>
 ::AmoebaOptimizer():
-  m_Amoeba( m_MetricCostFunction )
+  m_Amoeba( m_CostFunction )
 {
 }
+
+
+/**
+ * Start the optimization
+ */
+template <class TCostFunction>
+void
+AmoebaOptimizer<TCostFunction>
+::StartOptimization( VectorType & initialValue )
+{
+  m_Amoeba.minimize( initialValue );
+}
+
+
 
 
 /**
