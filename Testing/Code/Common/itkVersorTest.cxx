@@ -360,6 +360,96 @@ int main()
     std::cout << " PASSED !" << std::endl;
   }
   
+
+
+
+  {
+
+    std::cout << "Test for Reciprocal and Conjugate Operations...";
+
+    VersorType  v1;
+    VersorType  v2;
+
+    VectorType x1;
+    x1 = 2.5f, 1.5f, 0.5f;
+
+    ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
+    
+    VectorType x2;
+    x2 = 1.5f, 0.5f, 0.5f;
+
+    ValueType angle2 = atan(1.0)/1.0; // 45 degrees in radians
+    
+    v1.Set( x1, angle1 );
+    v2.Set( x2, angle2 );
+        
+
+    VersorType unit;
+    VersorType v2r;
+
+    v2r  = v2.GetReciprocal();
+    unit = v2 * v2r;
+
+    if( fabs( unit.GetX() ) > epsilon ||
+        fabs( unit.GetY() ) > epsilon ||
+        fabs( unit.GetZ() ) > epsilon ||
+        fabs( unit.GetW() - 1.0 ) > epsilon )
+      {
+      std::cout << "Error in Reciprocal ! " << std::endl;
+      std::cout << "Versor     = " << v2    << std::endl;
+      std::cout << "Reciprocal = " << v2r   << std::endl;
+      std::cout << "Product    = " << unit  << std::endl;
+
+      return EXIT_FAILURE;
+      }  
+
+
+    unit = v2 / v2;
+
+    if( fabs( unit.GetX() ) > epsilon ||
+        fabs( unit.GetY() ) > epsilon ||
+        fabs( unit.GetZ() ) > epsilon ||
+        fabs( unit.GetW() - 1.0 ) > epsilon )
+      {
+      std::cout << "Error in Division ! " << std::endl;
+      std::cout << "Versor          = " << v2    << std::endl;
+      std::cout << "Self Division   = " << unit  << std::endl;
+
+      return EXIT_FAILURE;
+      }  
+
+
+
+
+    x1.Normalize();
+    x2.Normalize();
+
+   
+    VersorType  v3;
+
+    v3 = v1 * v2;
+
+    VersorType v4;
+
+    v4 = v3 * v2r;
+
+
+    if( fabs(v1.GetX() - v4.GetX() ) > epsilon ||
+        fabs(v1.GetY() - v4.GetY() ) > epsilon ||
+        fabs(v1.GetZ() - v4.GetZ() ) > epsilon ||
+        fabs(v1.GetW() - v4.GetW() ) > epsilon )
+      {
+      std::cout << "Error in Versor division ! " << std::endl;
+      std::cout << "v1  = " << v1 << std::endl;
+      std::cout << "v1' = " << v4 << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
+
+
+  }
+
+
   return EXIT_SUCCESS;
 
 }
