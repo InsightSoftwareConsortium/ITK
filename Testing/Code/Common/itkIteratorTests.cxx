@@ -32,14 +32,13 @@ int main()
   double origin3D[3] = { 5, 2.1, 8.1};
   double spacing3D[3] = { 1.5, 2.1, 1};
 
-  ScalarImage::SizeType imageSize3D = { 200, 200, 200 };
-  ScalarImage::SizeType bufferSize3D = { 200, 200, 200 };
-  ScalarImage::SizeType regionSize3D = { 190, 190, 190 };
+  ScalarImage::SizeType imageSize3D = {{ 200, 200, 200 }};
+  ScalarImage::SizeType bufferSize3D = {{ 200, 200, 200 }};
+  ScalarImage::SizeType regionSize3D = {{ 190, 190, 190 }};
 
-  ScalarImage::IndexType startIndex3D = {0, 0, 0};
-  ScalarImage::IndexType bufferStartIndex3D = {0, 0, 0};
-  ScalarImage::IndexType regionStartIndex3D = {5,5, 5};
-  ScalarImage::IndexType regionEndIndex3D = {194, 194, 194};
+  ScalarImage::IndexType startIndex3D = {{0, 0, 0}};
+  ScalarImage::IndexType bufferStartIndex3D = {{0, 0, 0}};
+  ScalarImage::IndexType regionStartIndex3D = {{5,5, 5}};
 
 
   ScalarImage::RegionType region;
