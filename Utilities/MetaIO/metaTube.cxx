@@ -437,9 +437,18 @@ M_Read(void)
 
   float v[30];
   
+  if(m_Event)
+    {
+     m_Event->StartReading(m_NPoints);
+    }
 
   for(j=0; j<m_NPoints; j++) 
   {
+    if(m_Event)
+      {
+      m_Event->SetCurrentIteration(j+1);
+      }
+
    TubePnt* pnt = new TubePnt(m_NDims);
 
     for(int k=0; k<pntDim; k++)
@@ -550,6 +559,11 @@ M_Read(void)
     c = m_ReadStream->get();// to avoid unrecognize charactere
   }
   
+  if(m_Event)
+    {
+    m_Event->StopReading();
+    }
+
   delete posDim;
   return true;
 }

@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include <metaUtils.h>
+#include <metaEvent.h>
 
 extern int META_DEBUG;
 
@@ -65,8 +66,9 @@ class MetaObject
 
       virtual bool M_Write(void);
     
-    virtual void M_PrepareNewReadStream();
+      virtual void M_PrepareNewReadStream();
 
+      metaEvent*     m_Event;
       //MET_FieldRecordType * M_GetFieldRecord(const char * _fieldName);
       //int   M_GetFieldRecordNumber(const char * _fieldName);
 
@@ -245,6 +247,7 @@ class MetaObject
 
       // Get the user field
       void* GetUserField(const char* _name);
+      void SetEvent(metaEvent* event) {m_Event = event;}
 
   };
 

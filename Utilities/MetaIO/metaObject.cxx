@@ -23,6 +23,7 @@ MetaObject(void)
   m_ReadStream = NULL;
   m_WriteStream = NULL;
   m_FileName[0] = '\0';
+  m_Event = NULL;
   }
 
 MetaObject::
@@ -35,6 +36,7 @@ MetaObject(const char * _fileName)
   m_ReadStream = NULL;
   m_WriteStream = NULL;
   this->Read(_fileName);
+  m_Event = NULL;
   }
 
 MetaObject::
@@ -48,6 +50,7 @@ MetaObject(unsigned int dim)
   m_WriteStream = NULL;
   m_FileName[0] = '\0';
   InitializeEssential(dim);
+  m_Event = NULL;
   }
 
 
