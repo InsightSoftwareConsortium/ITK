@@ -134,8 +134,6 @@ int main(int ac, char* av[])
   writer3->SetFileName( av[4] );
  
   writer3->SetInput( rescaler->GetOutput() );
-  itk::MetaDataDictionary &d = gdcmImageIO->GetMetaDataDictionary();
-
   writer3->UseInputMetaDataDictionaryOff ();
   writer3->SetImageIO( gdcmImageIO );
 
