@@ -56,15 +56,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 // class to support progress feeback
-template<class TClassifier>
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(TClassifier * o)
+  ShowProgressObject(itk::LightProcessObject * o)
     {m_Process = o;}
   void ShowProgress()
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  typename TClassifier::Pointer m_Process;
+  itk::LightProcessObject::Pointer m_Process;
 };
 
 
@@ -276,7 +275,7 @@ int main()
   GaussianSupervisedClassifierType::Pointer 
     applyClassifier = GaussianSupervisedClassifierType::New();
 
-  typedef ShowProgressObject<GaussianSupervisedClassifierType> 
+  typedef ShowProgressObject 
     ProgressType;
 
   ProgressType progressWatch(applyClassifier);
