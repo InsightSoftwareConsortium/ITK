@@ -42,6 +42,7 @@ namespace eval itk {
       package require itkcommon $version
       package require itkio $version
       package require itkbasicfilters $version
+      package require itkutils $version
       package provide itk $version
     "
 
@@ -63,6 +64,12 @@ namespace eval itk {
     package ifneeded itkio $version "
       package require ITKIOTcl $version
       package provide itkio $version
+    "
+
+    package ifneeded itkutils $version "
+      set src [file join ${ITK_SOURCE_DIR} Wrapping Tcl itkutils.tcl]
+      if {\[catch { source \$src } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkutils $version }
     "
 
   }
