@@ -17,6 +17,7 @@
 #ifndef _itkAffineTransform_txx
 #define _itkAffineTransform_txx
 
+#include "itkConceptChecking.h"
 #include "itkNumericTraits.h"
 #include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
@@ -253,6 +254,8 @@ Rotate2D(TScalarType angle, bool pre)
 {
   MatrixType trans;
 
+  itkConceptMacro(SameDimension, (Concept::SameDimension<NDimensions,2>));
+
   trans[0][0] =  cos(angle);
   trans[0][1] =  sin(angle);
   trans[1][0] = -sin(angle);
@@ -283,6 +286,8 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
   MatrixType trans;
   ScalarType r, x1, x2, x3;
   ScalarType q0, q1, q2, q3;
+
+  itkConceptMacro(SameDimension, (Concept::SameDimension<NDimensions,3>));
 
   // Convert the axis to a unit vector
   r = sqrt(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
@@ -712,3 +717,4 @@ GetJacobian( const InputPointType & p ) const
 } // namespace
 
 #endif
+
