@@ -121,9 +121,7 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  pixelValue = 149;
-
-  image->SetPixel(   pixelIndex,   pixelValue  );
+  image->SetPixel(   pixelIndex,   pixelValue+1  );
   // Software Guide : EndCodeSnippet
 
 

@@ -119,6 +119,10 @@ int main( int , char ** argv )
   PixelType::ValueType blue  = onePixel.GetBlue();
   // Software Guide : EndCodeSnippet
 
+  std::cout << "Pixel values from GetRed,GetGreen,GetBlue:" << std::endl;
+  std::cout << "Red = " << red << std::endl;
+  std::cout << "Green = " << green << std::endl;
+  std::cout << "Blue = " << blue << std::endl;
 
   // Software Guide : BeginLatex
   //
