@@ -185,7 +185,8 @@ String Type::PrepareOuterStringForPostfix(const String& outer) const
     if(((first >= 'A') && (first <= 'Z'))
        || ((first >= 'a') && (first <= 'z'))
        || ((first >= '0') && (first <= '9'))
-       || first == ':')
+       || (first == '_')
+       || (first == ':'))
       {
       return " "+outer;
       }
