@@ -56,7 +56,7 @@ public:
     typename TLoadClass::Pointer l0=dynamic_cast<TLoadClass*>(&*load);
     if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
-
+    const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
     typename Solution::ConstPointer   S=l0->GetSolution(); // has current solution state
 
     // Order of integration
@@ -77,7 +77,7 @@ public:
     {
       element->GetIntegrationPointAndWeight(i,ip,w,order);
       gip=element->GetGlobalFromLocalCoordinates(ip);
-      gsol=element->InterpolateSolution(ip,*S);
+      gsol=element->InterpolateSolution(ip,*S,TotalSolutionIndex);
 
       shapeF=element->ShapeFunctions(ip);
       detJ=element->JacobianDeterminant(ip);
