@@ -84,12 +84,12 @@ int main()
   size[1] = 100;
   size[2] = 100;
 
-  ImageSourceType::TArrayType sigma;
+  ImageSourceType::ArrayType sigma;
   sigma[0] = 50.0f;
   sigma[1] = 50.0f;
   sigma[2] = 50.0f;
 
-  ImageSourceType::TArrayType mean;
+  ImageSourceType::ArrayType mean;
   mean[0] = size[0] / 2.0;
   mean[1] = size[1] / 2.0;
   mean[2] = size[2] / 2.0;
