@@ -162,7 +162,7 @@ namespace Functor {
       out[idx] = static_cast<JoinValueType>(B);
     }
   }; 
-};
+}
 
 
   
