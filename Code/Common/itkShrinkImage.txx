@@ -78,25 +78,20 @@ ShrinkImage<TInputImage,TOutputImage>
     factorIndex[i] = m_ShrinkFactor;
     }
 
-  // support progress methods
-  unsigned long numVisits=1;
+  // support progress methods/callbacks
+  unsigned long updateVisits;
   if ( threadId == 0 )
     {
-    const unsigned long *size = 
-      outputPtr->GetRequestedRegion().GetSize().GetSize();
-    for (int i=0; i<OutputImage::ImageDimension; i++)
-      {
-      numVisits *= size[i];
-      }
-    numVisits /= 10;
+    updateVisits = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels();
     }
 
   // walk the output region, and sample the input image
-  for ( int i=0; !outIt.IsAtEnd(); ++outIt, i++)
+  for ( int i=0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
-    if ( threadId == 0 && !(i % numVisits ) )
+    if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress(((float)i/numVisits)*10.0);
+      this->UpdateProgress((float)i/(updateVisits*10.0));
       }
     
     // determine the index of the output pixel

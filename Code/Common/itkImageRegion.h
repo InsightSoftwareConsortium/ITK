@@ -162,6 +162,12 @@ public:
     return !same;
   }
   
+  /**
+   * Get the number of pixels contained in this region. This just
+   * multiplies the size components.
+   */
+  unsigned long GetNumberOfPixels() const;
+
 protected:
 
 private:

@@ -41,5 +41,21 @@ ImageRegion<VImageDimension>
 {
 }
 
+template<unsigned int VImageDimension>
+unsigned long 
+ImageRegion<VImageDimension>
+::GetNumberOfPixels() const
+{
+  int numPixels=1;
+
+  for (int i=0; i<VImageDimension; i++)
+    {
+    numPixels *= m_Size[i];
+    }
+  
+  return numPixels;
+}
+
+
 } // end namespace itk
 
