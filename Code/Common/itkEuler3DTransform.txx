@@ -112,7 +112,7 @@ Euler3DTransform<TScalarType>
 template <class TScalarType>
 void
 Euler3DTransform<TScalarType>
-::SetRotation(TScalarType angleX,TScalarType angleY,TScalarType angleZ)
+::SetRotation(ScalarType angleX,ScalarType angleY,ScalarType angleZ)
 {
   m_AngleX = angleX;
   m_AngleY = angleY;
