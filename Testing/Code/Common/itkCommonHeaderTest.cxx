@@ -102,6 +102,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFileOutputWindow.h"
 #include "itkFiniteDifferenceFunction.txx"
 #include "itkFiniteDifferenceImageFilter.txx"
+#include "itkFiniteDifferenceSparseImageFilter.txx"
+#include "itkFiniteDifferenceSparseImageFunction.txx"
 #include "itkFixedArray.txx"
 #include "itkFixedCenterOfRotationAffineTransform.txx"
 #include "itkFloodFilledFunctionConditionalConstIterator.txx"
