@@ -891,7 +891,7 @@ void DICOMAppHelper::ROIContourSequenceCallback( DICOMParser *,
                                         doublebyte,
                                         DICOMParser::VRTypes,
                                         unsigned char*,
-                                        quadbyte len)
+                                        quadbyte)
 {
 
 #ifdef DEBUG_DICOM_APP_HELPER

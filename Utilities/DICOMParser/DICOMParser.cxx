@@ -461,7 +461,7 @@ void DICOMParser::ParseSequence(unsigned char *buffer, quadbyte len)
     else
       {
       // Get the block of data for this item
-      char *itemValue=0;
+      char *itemValue;
       itemValue = DataBuffer.ReadAsciiCharArray(itemLength);
 
       // Wrap this data block into a DICOMBuffer
