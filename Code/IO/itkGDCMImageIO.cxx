@@ -20,6 +20,8 @@
 #include "itkGDCMImageIO.h"
 #include "gdcmFile.h"
 #include "gdcmHeader.h"
+#include "gdcmValEntry.h"
+#include "itkMetaDataObject.h"
 #include <fstream>
 
 namespace itk
@@ -157,15 +159,6 @@ bool GDCMImageIO::CanReadFile(const char* filename)
     return false;
     }
 
-  //For later : For 2d stack dicom:
-  //we should not mix insoncistent on pixel type
-  //GdcmHeader.GetPixelType();
-  //we should not mix insoncistent on image size
-  //GdcmHeader.GetXSize(); GdcmHeader.GetYSize(); GdcmHeader.GetZSize();
-  //spacing:
-  //GdcmHeader.GetXSpacing(); GdcmHeader.GetYSpacing(); ...
-  //GdcmHeader.GetXOrigin() ...
-
   return true;
 }
 
@@ -188,7 +181,7 @@ void GDCMImageIO::Read(void* buffer)
   size_t size = GdcmFile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
-  memcpy((void*)buffer, (void*)Source, size);
+  memcpy(buffer, (void*)Source, size);
   delete[] Source;
 
   //closing files:
@@ -203,7 +196,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcmHeader GdcmHeader(m_FileName );
+  gdcmHeader GdcmHeader( m_FileName );
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
@@ -269,6 +262,20 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_RescaleSlope = GdcmHeader.GetRescaleSlope();
   m_RescaleIntercept = GdcmHeader.GetRescaleIntercept();
 
+  //Now copying the gdcm dictionary to the itk dictionary:
+   MetaDataDictionary & dico = this->GetMetaDataDictionary();
+
+  TagDocEntryHT & nameHt = GdcmHeader.GetEntry();
+  for (TagDocEntryHT::iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
+    {
+    // Do not copy field from private (unknown) dictionary.
+    // In the longer we might want to (but we need the Private dictionary from manufacturer
+    if( tag->second->GetName() != "unkn" )
+      {
+      EncapsulateMetaData<std::string>(dico, tag->second->GetName(),
+                         ((gdcmValEntry*)(tag->second))->GetValue() );
+      }
+    }
 }
 
 void GDCMImageIO::ReadImageInformation()
@@ -316,16 +323,33 @@ void GDCMImageIO::Write(const void* buffer)
     {
     return;
     }
-
+  file.close();
 
   const unsigned long numberOfBytes = this->GetImageSizeInBytes();
 
-  gdcmFile GdcmFile( m_GdcmHeader );
-  GdcmFile.GetImageData();  //FIXME: annoyance in gdcm
-  GdcmFile.SetImageData((void*)buffer, numberOfBytes );
-  GdcmFile.WriteDcmExplVR(m_FileName);
+  MetaDataDictionary & dico = this->GetMetaDataDictionary();
+  std::vector<std::string> keys = dico.GetKeys();
 
-  file.close();
+  for( std::vector<std::string>::const_iterator it = keys.begin();
+      it != keys.end(); ++it )
+    {
+    std::string temp;
+    ExposeMetaData<std::string>(dico, *it, temp);
+
+    // Convert DICOM name to DICOM (group,element)
+    gdcmDictEntry *dictEntry =
+       m_GdcmHeader->GetPubDict()->GetDictEntryByName(*it);
+    //m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
+  }
+
+  gdcmFile *myGdcmFile = new gdcmFile( m_GdcmHeader );
+  myGdcmFile->GetImageData();  //API problem
+  m_GdcmHeader->SetEntryVoidAreaByNumber( (void*)buffer, 
+         m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel());//Another API problem
+  myGdcmFile->SetImageData((void*)buffer, numberOfBytes );
+
+  myGdcmFile->WriteDcmExplVR( m_FileName );
+  delete myGdcmFile;
 }
 
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
