@@ -99,7 +99,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
+  MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Maximum", MET_FLOAT, true);
