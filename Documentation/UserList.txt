@@ -58,3 +58,4 @@ quaeler:loki der quaeler:loki@weltschmerz.org
 galeotti:John M. Galeotti:jgaleotti@cmu.edu
 padfield:Dirk Padfield:padfield@research.ge.com
 pauly:Paul A. Yushkevich:pauly@cognitica.com
+drueckert:Daniel Rueckert:dr@doc.ic.ac.uk
