@@ -49,6 +49,15 @@ int itkGaussianImageSourceTest(int, char* [] )
   pSource->SetSpacing( spacing );
   pSource->SetMean( mean );
   pSource->SetSigma( sigma );
+  
+  // Test the get macros as well (booorrring...)
+  pSource->GetSize();
+  pSource->GetSpacing();
+  pSource->GetOrigin();
+  pSource->GetScale();
+  pSource->GetNormalized();
+  pSource->GetSigma();
+  pSource->GetMean();
 
   // Get the output of the source
   ImageType::Pointer pImage = pSource->GetOutput();
