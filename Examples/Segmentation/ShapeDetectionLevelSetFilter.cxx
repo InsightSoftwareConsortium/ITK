@@ -17,10 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// The following example illustrates the use of the
-// \doxygen{ShapeDetectionLevelSetImageFilter}.  The implementation of this filter
-// in ITK is based on the paper by Malladi et al \cite{Malladi1995}.
-// In this implementation, the governing differential equation has an additional
+// The use of the \doxygen{ShapeDetectionLevelSetImageFilter} is illustrated in
+// the following example.  The implementation of this filter in ITK is based on
+// the paper by Malladi et al \cite{Malladi1995}.  In this implementation, the
+// governing differential equation has an additional
 // curvature-based term. This term act as a smoothing term where areas of
 // high curvature, assumed to be due to noise, are smoothed out. Scaling parameters
 // are used to control the tradeoff between the expansion term and the smoothing term.
@@ -770,22 +770,30 @@ int main( int argc, char *argv[] )
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seeds in the appropriate locations. The following
-  //  table presents the parameters used for some structures.
+  //  structures by providing seeds in the appropriate locations.
+  //  Table~\ref{tab:ShapeDetectionLevelSetFilterOutput} presents the
+  //  parameters used for some structures.  For all of the examples illustrated
+  //  in this table, the propagation scaling was set to $1.0$, and the
+  //  curvature scaling set to 0.05.
   //
+  //  \begin{table}
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Curvature Scaling & Output Image \\ \hline  \\ \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 0.05 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 0.05 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Output Image \\ \hline  
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
   //  \end{tabular}
   //  \end{center}
-  //
-  //  For all of the examples illustrated in this table, the propagation
-  //  scaling was set to $1.0$.
+  //  \itkcaption[ShapeDetection example parameters]{Parameters used for
+  //  segmenting some brain structures shown in
+  //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} using the filter
+  //  \doxygen{ShapeDetectionLevelSetFilter}. All of them used a propagation
+  //  scaling of $1.0$ and curvature scaling of
+  //  $0.05$.\label{tab:ShapeDetectionLevelSetFilterOutput}}
+  //  \end{table}
   //
   //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} presents the
   //  intermediate outputs of the pipeline illustrated in
