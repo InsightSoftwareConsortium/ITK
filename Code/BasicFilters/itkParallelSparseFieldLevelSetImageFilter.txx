@@ -373,9 +373,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
       for(unsigned int j = 0; j < ImageDimension; j++)
         {
-        if((center_index[j] <= startIndex[j]) ||
-           (center_index[j] >= (startIndex[j] +
-                                static_cast<StartIndexValueType>(regionSize[j]-1))))
+        if ( static_cast<int>(center_index[j]) <= static_cast<int>(startIndex[j]) ||
+             static_cast<int>(center_index[j]) >= static_cast<int>(startIndex[j]+ regionSize[j]-1))
           {
           bounds_status = false;
           break;
