@@ -126,7 +126,7 @@ Rigid3DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
   itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
-  return m_RotationMatrix * vect;
+  return this->GetMatrix() * vect;
 }
 
 } // namespace
