@@ -47,7 +47,7 @@ SET(ITKIO_SRCS
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
 TARGET_LINK_LIBRARIES(ITKIO ITKCommon ${ITK_PNG_LIBRARIES}
-                      ${ITK_ZLIB_LIBRARIES} ITKMetaIO ITKDICOMParser ITKexpat)
+                      ${ITK_ZLIB_LIBRARIES} ITKMetaIO ITKDICOMParser expat)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
 INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")
