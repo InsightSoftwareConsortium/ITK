@@ -245,6 +245,8 @@ class DICOMFile
       | (v >> 24);
     }
 
+  char* GetPlatformEndian() {return this->PlatformEndian;}
+
  protected:
   //
   // Internal storage for the filename.
