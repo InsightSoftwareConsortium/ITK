@@ -37,7 +37,7 @@ namespace function {
     ~Tan() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)tan(A);
+      return (TOutput)tan((double)A);
     }
   }; 
 

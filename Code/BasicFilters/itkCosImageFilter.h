@@ -37,7 +37,7 @@ namespace function {
     ~Cos() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)cos(A);
+      return (TOutput)cos((double)A);
     }
   }; 
 

@@ -37,7 +37,7 @@ namespace function {
     ~Sqrt() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)sqrt(A);
+      return (TOutput)sqrt((double)A);
     }
   }; 
 
