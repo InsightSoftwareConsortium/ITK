@@ -79,9 +79,18 @@ public:
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
+  /** Type of the mixture model component base class*/
   typedef MixtureModelComponentBase< TSample > ComponentType ;
+
+  /** Type of the component pointer storage */ 
   typedef std::vector< ComponentType* > ComponentVectorType ;
-  typedef MembershipFunctionBase< MeasurementVectorType > ComponentMembershipFunctionType ;
+
+  /** Type of the membership function base class */
+  typedef MembershipFunctionBase< MeasurementVectorType > 
+  ComponentMembershipFunctionType ;
+
+  /** Type of the array of the proportion values */
+  typedef Array< double > ProportionVectorType ;
 
   /** Sets the target data that will be classified by this */
   void SetSample(TSample* sample) ;
@@ -89,30 +98,42 @@ public:
   /** Returns the target data */
   TSample* GetSample() ;
 
-  typedef Array< double > ProportionVectorType ;
-
+  /** Set/Gets the initial proportion values. The size of proportion
+   * vector should be same as the number of component (or classes) */
   void SetInitialProportions(ProportionVectorType &propotion) ;
-
   ProportionVectorType* GetInitialProportions() ;
 
+  /** Gets the result proportion values */
   ProportionVectorType* GetProportions() ;
 
+  /** Set/Gets the maximum number of iterations. When the optimization
+   * process reaches the maximum number of interations, even if the
+   * class parameters aren't converged, the optimization process
+   * stops. */
   void SetMaximumIteration(int numberOfIterations) ;
-  
   int GetMaximumIteration() ;
 
+  /** Gets the current iteration. */
   int GetCurrentIteration() 
   { return m_CurrentIteration ; }
 
+  /** Adds a new component (or class). */
   int AddComponent(ComponentType* component) ;
 
+  /** Gets the total number of classes currently plugged in. */
   int GetNumberOfComponents() ;
 
+  /** Runs the optimization process. */
   void Update() ;
 
+  /** Termination status after running optimization */
   enum TERMINATION_CODE { CONVERGED = 0, NOT_CONVERGED = 1 } ;
 
+  /** Gets the termination status */
   TERMINATION_CODE GetTerminationCode() ;
+
+  /** Gets the membership function specified by componentIndex
+  argument. */
   ComponentMembershipFunctionType* GetComponentMembershipFunction(int componentIndex) ;
 
 protected:
@@ -125,7 +146,7 @@ protected:
   bool UpdateComponentParameters() ;
   bool UpdateProportions() ;
 
-  /** Starts the classification process */
+  /** Starts the estimation process */
   void GenerateData() ;
 
 private:
