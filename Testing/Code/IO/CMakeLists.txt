@@ -6,6 +6,7 @@ itkIOPrintTest.cxx
 itkAnalyzeImageIOTest.cxx
 itkBrains2MaskImageIOTest.cxx
 itkConvertBufferTest.cxx
+itkConvertBufferTest2.cxx
 itkDicomImageIOTest.cxx
 itkDICOMImageIO2Test.cxx
 itkDICOMSeriesFileNamesTest.cxx
@@ -43,6 +44,7 @@ itkReadWriteSpatialObjectTest.cxx
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
+ADD_TEST(itkConvertBufferTest2 ${IO_TESTS} itkConvertBufferTest2)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
 ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup)
 ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils)
