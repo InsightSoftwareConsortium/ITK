@@ -79,11 +79,7 @@ unsigned int level )
   this->Modified();
 
   // clamp current level to be between 0 and NumberOfLevels - 1
-  if( level < 0 )
-    {
-    m_CurrentLevel = 0;
-    }
-  else if( level > this->GetNumberOfLevels() - 1 )
+  if( level > this->GetNumberOfLevels() - 1 )
     {
     m_CurrentLevel = this->GetNumberOfLevels() - 1;
     }
