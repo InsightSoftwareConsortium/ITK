@@ -9,6 +9,7 @@ void RegisterTests()
   REGISTER_TEST(itkAffineGeometryFrameTest);
   REGISTER_TEST(itkArrowSpatialObjectTest);
   REGISTER_TEST(itkBlobSpatialObjectTest);
+  REGISTER_TEST(itkCylinderSpatialObjectTest);
   REGISTER_TEST(itkEllipseSpatialObjectTest);
   REGISTER_TEST(itkGaussianSpatialObjectTest);
   REGISTER_TEST(itkImageMaskSpatialObjectTest);
