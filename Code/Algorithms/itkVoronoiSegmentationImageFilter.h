@@ -84,6 +84,7 @@ public:
   typedef typename VoronoiDiagram::PointType PointType;
   typedef typename VoronoiDiagram::Cell Cell;
   typedef typename VoronoiDiagram::CellPointer CellPointer;
+  typedef typename VoronoiDiagram::Pointer VoronoiPointer;
   typedef typename Cell::PointIdIterator PointIdIterator;
 
   typedef typename VoronoiDiagram::SeedsType SeedsType;
@@ -95,6 +96,10 @@ public:
   typedef std::deque<PointType> PointTypeDeque;
   typedef itk::Image<bool,2>  BinaryObjectImage;
   typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
+  
+	/* for output the drawing of Voronoi Diagram */
+	typedef itk::Image<unsigned char,2>  VDImage;
+  typedef typename VDImage::Pointer  VDImagePointer;
 
   /**
    * Set the Estimation of the mean pixel value for the object.
@@ -171,9 +176,10 @@ public:
   itkGetMacro(MeanPercentError, double);
   itkGetMacro(VarPercentError, double);
 
+	itkGetMacro(NumberOfSeedsToAdded, int);
+
   void SetMeanPercentError(double x);
   void SetVarPercentError(double x);
-
 
 	/**
 	 * stuff need to be take care of before segmentation
@@ -201,6 +207,26 @@ public:
    */
   void MakeSegmentBoundary(void);
 
+  VoronoiPointer GetVoronoiDiagram(void){ return m_WorkingVD; };
+
+	/**
+	 * Normally not used, the seeds are set randomly.
+	 * in case that need set customized seeds:
+	 * use SetSeeds methods after InitializeSegment.
+	 */
+  void SetSeeds(int num, SeedsIterator begin){
+    m_NumberOfSeeds = num;
+		m_WorkingVD->SetSeeds(num,begin);
+  };
+
+  PointType getSeed(int SeedID){ return m_WorkingVD->getSeed(SeedID); };
+
+
+	void DrawDiagram(VDImagePointer result,unsigned char incolor,
+    unsigned char outcolor,unsigned char boundcolor);
+
+	void BeforeNextStep(void);
+
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter();
@@ -225,7 +251,7 @@ private:
 
   typename InputImageType::Pointer m_InputImage;
   typename OutputImageType::Pointer m_OutputImage;
-  typename VoronoiDiagram::Pointer m_WorkingVD;
+  VoronoiPointer m_WorkingVD;
 
   std::vector<PointType> m_SeedsToAdded;
 
@@ -241,6 +267,9 @@ private:
 
 	// draw a straight line to the output image.
   void drawLine(PointType p1,PointType p2);
+
+	//used for drawing the intermedia Voronoi Diagram.
+  void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color);
 };
 
 }//end namespace
