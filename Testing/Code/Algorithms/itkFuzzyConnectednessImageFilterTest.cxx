@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkFuzzyConnectednessImageFilter.h"
 #include "itkSimpleImageRegionIterator.h"
+#include <iomanip>
 
 const int WIDTH = 20;
 const int HEIGHT = 20;
@@ -104,7 +105,7 @@ int main(){
 	it.Begin();
 	for(int i = 0;i < HEIGHT; i++){
 		for (int j = 0; j < WIDTH; j++){
-			std::cout<<it.Get()<<" ";
+		std::cout << std::setw(4) << it.Get()<<" ";
 			++it;
 			}
 		std::cout<<std::endl;
@@ -137,7 +138,7 @@ int main(){
 		std::cout<<std::endl;
 		}
 
-	return 1;
+	return 0;
 }
 
 
