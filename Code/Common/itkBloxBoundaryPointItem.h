@@ -51,7 +51,7 @@ namespace itk
 /**
  * \class BloxBoundaryPointItem
  * \brief A boundary point, stored in a BloxPixel
- * \ingroup ImageObject
+ * \ingroup ImageObjects
  *
  * */
 

@@ -54,7 +54,7 @@ namespace itk
  *
  * BloxPixel is a specialized version of the STL list, designed to hold
  * only BloxItems. 
- * \ingroup ImageObject 
+ * \ingroup ImageObjects 
  * */
 
 class BloxPixel : public std::list<BloxItem*>

@@ -60,7 +60,7 @@ namespace itk
  * A BloxCoreAtomImage stores and processes BloxCoreAtomItem's (in BloxPixel
  * linked lists). The primary task of BloxCoreAtomImage is finding core atoms
  * and storing them in the correct blox location.
- * \ingroup ImageObject
+ * \ingroup ImageObjects
  * */
 
 template <class TBoundaryPointImage,
