@@ -207,7 +207,7 @@
                               </xsl:otherwise>
                             </xsl:choose>
                             <a>
-                              <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/CoverageByCount.html</xsl:attribute><b><xsl:value-of select="Coverage/PercentCoverage"/>%</b>
+                              <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/CoverageByName.html</xsl:attribute><b><xsl:value-of select="Coverage/PercentCoverage"/>%</b>
                             </a>
                           </td>
                           <td align="right">
