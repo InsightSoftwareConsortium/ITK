@@ -3,6 +3,7 @@ ADD_LIBRARY(ITKAlgorithms
   itkWatershedOneWayEquivalencyTable.cxx
   itkWatershedMiniPipelineProgressCommand.cxx
   itkBioGene.cxx
+  itkBioGeneNetwork.cxx
 )
 TARGET_LINK_LIBRARIES(ITKAlgorithms ITKNumerics)
 
