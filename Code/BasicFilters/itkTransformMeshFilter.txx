@@ -50,19 +50,20 @@ namespace itk
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
-TransformMeshFilter<TInputMesh,TOutputMesh>
+template <class TInputMesh, class TOutputMesh, class TTransform>
+TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
 ::TransformMeshFilter()
 {
+  m_Transform = TransformType::New();
 }
 
 
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
+template <class TInputMesh, class TOutputMesh, class TTransform>
 void 
-TransformMeshFilter<TInputMesh,TOutputMesh>
+TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -72,9 +73,9 @@ TransformMeshFilter<TInputMesh,TOutputMesh>
 /**
  * This method causes the filter to generate its output.
  */
-template <class TInputMesh, class TOutputMesh>
+template <class TInputMesh, class TOutputMesh, class TTransform>
 void 
-TransformMeshFilter<TInputMesh,TOutputMesh>
+TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
 ::GenerateData(void) 
 {
   
@@ -110,7 +111,7 @@ TransformMeshFilter<TInputMesh,TOutputMesh>
   while( inputPoint != inPoints->End() ) 
     {
     outputPoint.Value() = 
-	           m_Transform.TransformPoint( inputPoint.Value() );
+	           m_Transform->TransformPoint( inputPoint.Value() );
 
     ++inputPoint;
     ++outputPoint;

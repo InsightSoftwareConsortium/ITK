@@ -63,7 +63,7 @@ namespace itk
  * \ingroup MeshFilters
  *
  */
-template <class TInputMesh, class TOutputMesh>
+template <class TInputMesh, class TOutputMesh, class TTransform>
 class ITK_EXPORT TransformMeshFilter : 
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
@@ -85,10 +85,16 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
+   * Type for representing coordinates
+   */
+  typedef typename TInputMesh::CoordRepType  CoordRepType;
+
+
+  /** 
    * Type of the  Transform
    */
-  typedef Transform< typename TInputMesh::CoordRepType,
-                     TInputMesh::PointDimension> TransformType;
+  typedef TTransform  TransformType;
+
 
   /**
    * Method for creation through the object factory.
@@ -108,14 +114,12 @@ public:
   /** 
    * Set transform.
    */
-  void SetTransform( const TransformType & transform ) 
-    { m_Transform = transform;  this->Modified(); }
+  itkSetObjectMacro(Transform, TransformType); 
 
   /** 
    * Get transform.
    */
-  const TransformType & GetTransform( void ) const
-    { return m_Transform; }
+  itkGetObjectMacro(Transform,TransformType);
 
 
 protected:
@@ -128,7 +132,7 @@ protected:
  /**
   *   transform to apply to all the mesh points
   */
-  TransformType         m_Transform;
+  typename TransformType::Pointer   m_Transform;
 
 };
 
