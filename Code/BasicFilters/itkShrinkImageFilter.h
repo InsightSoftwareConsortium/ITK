@@ -82,6 +82,10 @@ public:
    * a minimum value of 1. Default is 1 for all dimensions. */
   void SetShrinkFactors( unsigned int factors[] );
   void SetShrinkFactors( unsigned int factor );
+  void SetShrinkFactor( unsigned int i, unsigned int factor )
+    {
+    m_ShrinkFactors[i] = factor;
+    }
   
   /** Get the shrink factors. */
   const unsigned int * GetShrinkFactors() const
