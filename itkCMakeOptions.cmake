@@ -12,6 +12,8 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
+${ITK_SOURCE_DIR}/Utilities/png
+${ITK_SOURCE_DIR}/Utilities/zlib
 )
 
 # set link libraries

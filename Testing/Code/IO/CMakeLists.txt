@@ -1,0 +1,37 @@
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/IO)
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/zlib)
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
+
+LINK_LIBRARIES(ITKIO ITKCommon png zlib)
+
+LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
+LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
+LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
+
+ADD_EXECUTABLE(itkTestConvertBuffer itkTestConvertBuffer)
+ADD_EXECUTABLE(itkTestLoadPNG itkTestLoadPNG)
+ADD_EXECUTABLE(itkTestRawImageIO itkTestRawImageIO)
+
+
+IF(VTK_INCLUDE_PATH AND VTK_BIN_PATH AND VTK_LIB_PATH)
+ADD_DEFINITIONS(-DITK_HAS_VTK)
+  INCLUDE_DIRECTORIES(
+     ${VTK_INCLUDE_PATH}/Common
+     ${VTK_INCLUDE_PATH}/Filtering
+     ${VTK_INCLUDE_PATH}/Graphics
+     ${VTK_INCLUDE_PATH}/Hybrid
+     ${VTK_INCLUDE_PATH}/IO
+     ${VTK_INCLUDE_PATH}/Imaging
+     ${VTK_INCLUDE_PATH}/Parallel
+     ${VTK_INCLUDE_PATH}/Patented
+     ${VTK_INCLUDE_PATH}/Rendering
+     ${VTK_BIN_PATH}
+   ) 
+  LINK_LIBRARIES(
+     vtkCommon     vtkGraphics  vtkImaging
+     vtkFiltering  vtkIO        vtkRendering opengl32
+    )
+  LINK_DIRECTORIES(${VTK_LIB_PATH})
+ENDIF(VTK_INCLUDE_PATH AND VTK_BIN_PATH AND VTK_LIB_PATH)
+
+
