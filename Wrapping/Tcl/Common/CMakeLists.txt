@@ -6,20 +6,22 @@ ADD_LIBRARY(ITKCommonTcl
 )
 
 ITK_WRAP_TCL(ITKCommonTcl
-  wrap_ITKCommon.cxx
-  wrap_ITKUtils.cxx
   wrap_ITKBase.cxx
+  wrap_ITKCommon.cxx
   wrap_ITKFilterBase.cxx
+  wrap_ITKInterpolators.cxx
   wrap_ITKRegions.cxx
-  wrap_itkEventObject.cxx
-  wrap_itkImage.cxx
-  wrap_itkFiniteDifferenceImageFilter.cxx
+  wrap_ITKTransforms.cxx
+  wrap_ITKUtils.cxx
+  wrap_itkArray.cxx
+  wrap_itkContinuousIndex.cxx
   wrap_itkDenseFiniteDifferenceImageFilter.cxx
+  wrap_itkEventObject.cxx
+  wrap_itkFiniteDifferenceImageFilter.cxx
+  wrap_itkFixedArray.cxx
+  wrap_itkImage.cxx
+  wrap_itkPoint.cxx
+  wrap_itkVector.cxx
 )
 
-TARGET_LINK_LIBRARIES(ITKCommonTcl
-  ITKCommon
-  ITKNumerics
-  VXLNumerics
-  ${CABLE_TCL_LIBRARY}
-)
+TARGET_LINK_LIBRARIES(ITKCommonTcl ITKCommon ${CABLE_TCL_LIBRARY})

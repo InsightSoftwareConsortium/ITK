@@ -22,14 +22,21 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
-    ITK_WRAP_GROUP(ITKUtils),
     ITK_WRAP_GROUP(ITKBase),
     ITK_WRAP_GROUP(ITKFilterBase),
+    ITK_WRAP_GROUP(ITKInterpolators),
     ITK_WRAP_GROUP(ITKRegions),
+    ITK_WRAP_GROUP(ITKTransforms),
+    ITK_WRAP_GROUP(ITKUtils),
+    ITK_WRAP_GROUP(itkArray),
+    ITK_WRAP_GROUP(itkContinuousIndex),
+    ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkEventObject),
-    ITK_WRAP_GROUP(itkImage),
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
-    ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter)
+    ITK_WRAP_GROUP(itkFixedArray),
+    ITK_WRAP_GROUP(itkImage),
+    ITK_WRAP_GROUP(itkPoint),
+    ITK_WRAP_GROUP(itkVector)
   };
 }
 #endif
