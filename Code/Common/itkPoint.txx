@@ -66,7 +66,7 @@ Point< VPointDimension , TCoordRep >
 template <int VPointDimension, typename TCoordRep>
 void
 Point< VPointDimension , TCoordRep >
-::GetCoords(CoordRep coords[PointDimension])
+::GetCoords(CoordRep coords[PointDimension]) const
 {
   for(int i=0; i < PointDimension ; ++i)
     {

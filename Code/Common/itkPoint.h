@@ -68,8 +68,8 @@ public:
    * Access routines.
    */
   void SetCoords(CoordRep coords[PointDimension]);
-  void GetCoords(CoordRep coords[PointDimension]);
-  
+  void GetCoords(CoordRep coords[PointDimension]) const;
+  const CoordRep* GetCoords() const { return m_Coords;} ;
 protected:
   /**
    * Actually store the point's geometrical information.
