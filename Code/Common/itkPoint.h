@@ -30,7 +30,7 @@ namespace itk
  * Point can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The TPointDimension defines the number of
+ * short, float, complex).  The NPointDimension defines the number of
  * components in the point array. 
  *
  * \ingroup Geometry
@@ -38,13 +38,13 @@ namespace itk
  * 
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
  */
-template<class TCoordRep, unsigned int TPointDimension=3>
-class Point : public Array< TCoordRep, TPointDimension >
+template<class TCoordRep, unsigned int NPointDimension=3>
+class Point : public Array< TCoordRep, NPointDimension >
 {
 public:
   /** Standard class typedefs. */
   typedef Point  Self;
-  typedef Array<TCoordRep,TPointDimension>  Superclass;
+  typedef Array<TCoordRep,NPointDimension>  Superclass;
   
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
@@ -52,19 +52,19 @@ public:
   typedef TCoordRep CoordRepType;
   
   /** Dimension of the Space */
-  enum { PointDimension = TPointDimension };
+  enum { PointDimension = NPointDimension };
 
   /** The Array type from which this Vector is derived. */
-  typedef Array<TCoordRep, TPointDimension>         BaseArray;
+  typedef Array<TCoordRep, NPointDimension>         BaseArray;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
     
   /** Get the dimension (size) of the point. */
-  static unsigned int GetPointDimension() 
-    { return TPointDimension; }
+  static unsigned int GeNPointDimension() 
+    { return NPointDimension; }
   
   /** VectorType define the difference between two Points */
-  typedef Vector< ValueType, TPointDimension >   VectorType;
+  typedef Vector< ValueType, NPointDimension >   VectorType;
 
   /** Default constructor has nothing to do. */
   Point() {}
@@ -198,15 +198,24 @@ public:
    * \f]
    */
   void SetToBarycentricCombination( const Self * P, const double * weights, unsigned int N);
+
+  template < typename TCoordRepB >
+  CastFrom( const Point<TCoordRepB,NPointDimension> & pa )
+  {
+    for(unsigned int i=0; i<NPointDimension; i++ )
+      {
+      (*this)[i] = static_cast<TCoordRep>( pa[i] );
+      }
+  }
 };
 
-template< class T, unsigned int TPointDimension >  
+template< class T, unsigned int NPointDimension >  
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-                                    const Point<T,TPointDimension> & v); 
+                                    const Point<T,NPointDimension> & v); 
 
-template< class T, unsigned int TPointDimension >  
+template< class T, unsigned int NPointDimension >  
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
-                                    Point<T,TPointDimension> & v); 
+                                    Point<T,NPointDimension> & v); 
 
 /** Class that computes the barycentric combination of an array of N points
  *

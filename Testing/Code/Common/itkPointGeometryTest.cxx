@@ -111,6 +111,46 @@ int main()
   }
 
 
+  // Test for PointCast() function
+  {
+  std::cout << "Test for CastFrom function... ";
+
+  // Dimension & Type
+  const     unsigned int    N = 3;
+
+  //  Point Classes
+  typedef    itk::Point<  double, N >    DoublePointType;
+  typedef    itk::Point<  float , N >    FloatPointType;
+
+  DoublePointType dp;
+  dp[0] = 1.0;
+  dp[1] = 1.7;
+  dp[2] = 1.9;
+
+  FloatPointType fp;
+  fp[0] = 0.0;
+  fp[1] = 0.0;
+  fp[2] = 0.0;
+
+ 
+  fp.CastFrom( dp );  // Here is the call !
+
+  for(unsigned int i=0; i<N; i++)
+    {
+    FloatPointType::ValueType val = 
+        static_cast< FloatPointType::ValueType >( dp[i] );
+    if( val != fp[i] )
+      {
+        std::cout << "Failed at component " << i << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+
+  std::cout << " PASSED ! " << std::endl;
+
+  }
+
   // Test the MeanPoint
   {
     PointType midpoint;
@@ -264,8 +304,6 @@ int main()
     }
     std::cout << "Test for Barycentric combination of a VectorContainer of Points PASSED" << std::endl;
   }
-
-
 
   return EXIT_SUCCESS;
 }
