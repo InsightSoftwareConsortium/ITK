@@ -256,14 +256,14 @@ private:
   typedef typename ParametersType::ValueType PixelType;
   typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
   
-  typename ImageType::Pointer   m_CoefficientImage[SpaceDimension];
+  typename ImageType::Pointer   m_CoefficientImage[NDimensions];
 
   /** Jacobian as SpaceDimension number of images. */
   typedef typename JacobianType::ValueType JacobianPixelType;
   typedef Image<JacobianPixelType,
                 itkGetStaticConstMacro(SpaceDimension)> JacobianImageType;
  
-  typename JacobianImageType::Pointer m_JacobianImage[SpaceDimension];
+  typename JacobianImageType::Pointer m_JacobianImage[NDimensions];
 
   /** Keep track of last support region used in computing the Jacobian
    * for fast resetting of Jacobian to zero.
