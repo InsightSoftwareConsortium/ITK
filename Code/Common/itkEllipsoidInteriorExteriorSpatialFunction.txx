@@ -50,6 +50,7 @@ namespace itk
 template <class T, unsigned int VImageDimension>
 EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::EllipsoidInteriorExteriorSpatialFunction()
 {
+  m_orientations = NULL;
   m_Axes.Fill(1.0);   // Lengths of ellipsoid axes.
   m_Center.Fill(0.0); // Origin of ellipsoid
 }
@@ -57,7 +58,15 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::EllipsoidInteriorE
 template <class T, unsigned int VImageDimension>
 EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~EllipsoidInteriorExteriorSpatialFunction()
 {
-
+  unsigned int i;
+  if (m_orientations)
+    {
+    for(i = 0; i < VImageDimension; i++)
+      {
+      delete []m_orientations[i];
+      }
+    delete []m_orientations;
+    }
 }
 
 template <class T, unsigned int VImageDimension>
@@ -98,17 +107,26 @@ template <class T, unsigned int VImageDimension>
 void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 ::SetOrientations(vnl_matrix<VectorType> orientations)
 {
+  unsigned int i, j;
   // Initialize orientation vectors.
+  if (m_orientations)
+    {
+    for(i = 0; i < VImageDimension; i++)
+      {
+      delete []m_orientations[i];
+      }
+    delete []m_orientations;
+    }
   m_orientations = new VectorType * [VImageDimension];
-  for(unsigned int i = 0; i < VImageDimension; i++)
+  for(i = 0; i < VImageDimension; i++)
     {
     m_orientations[i] = new VectorType[VImageDimension];
     }
 
   // Set orientation vectors (must be orthogonal).
-  for(unsigned int i = 0; i < VImageDimension; i++)
+  for(i = 0; i < VImageDimension; i++)
     {
-    for(unsigned int j = 0; j < VImageDimension; j++)
+    for(j = 0; j < VImageDimension; j++)
       {
       m_orientations[i][j] = orientations[i][j];
       }
@@ -119,10 +137,24 @@ template <class T, unsigned int VImageDimension>
 void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
+  unsigned int i, j;
+
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
   os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
+  if (m_orientations)
+    {
+      os << indent << "Orientations: " << std::endl;
+    for (i = 0; i < VImageDimension; i++)
+      {
+      for (j = 0; j < VImageDimension; j++)
+        {
+        os << indent << indent <<  m_orientations[i][j] << " ";
+        }
+      os << std::endl;
+      }
+    }
 }
 
 } // end namespace itk
