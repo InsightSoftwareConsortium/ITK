@@ -107,7 +107,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
 
   // determine which split we are in
   unsigned int offset = i;
-  for (int j=VImageDimension-1; j > 0; j--)
+  for (j=VImageDimension-1; j > 0; j--)
     {
     ijk[j] = offset / offsetTable[j];
     offset -= (ijk[j] * offsetTable[j]);

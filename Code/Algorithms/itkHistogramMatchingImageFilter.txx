@@ -197,7 +197,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
  
   double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
 
-  for ( unsigned long j = 1; j < m_NumberOfMatchPoints + 1; j++ )
+  for ( j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
     m_QuantileTable[0][j] = m_SourceHistogram->Quantile( 
       0, double(j) * delta );
@@ -283,7 +283,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
  
   double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
 
-  for ( unsigned long j = 1; j < m_NumberOfMatchPoints + 1; j++ )
+  for ( unsigned int j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
     m_QuantileTable[2][j] = m_OutputHistogram->Quantile( 
       0, double(j) * delta );

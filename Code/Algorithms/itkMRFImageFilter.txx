@@ -592,6 +592,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
                            LabelStatusImageNeighborhoodIterator &labelStatusIter )
 {
 
+  unsigned int index;
+
   //Read the pixel of interest and get its corresponding membership value
   InputImagePixelType   *inputPixelVec = imageIter.GetCenterValue();
 
@@ -601,24 +603,25 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   //Reinitialize the neighborhood influence at the beginning of the 
   //neighborhood operation
-  for( unsigned int index = 0; index < m_NeighborInfluence.size() ;index++ ) 
+  for( index = 0; index < m_NeighborInfluence.size() ;index++ ) 
+    {
     m_NeighborInfluence[index]= 0;
+    }
 
   LabelledImagePixelType labelledPixel; 
-  int index;
   
   //Begin neighborhood processing. Calculate the prior for each label
   for( int i = 0; i < m_NeighborhoodSize; ++i )
     {
 
     labelledPixel = labelledIter.GetPixel( i );
-    index = (int) labelledPixel;
+    index = (unsigned int) labelledPixel;
     m_NeighborInfluence[ index ] += m_MRFNeighborhoodWeight[ i ];
 
     }//End neighborhood processing
 
   //Add the prior probability to the pixel probability
-  for( unsigned int index = 0; index < m_NumberOfClasses; index++ )
+  for( index = 0; index < m_NumberOfClasses; index++ )
     {
     m_MahalanobisDistance[index] = m_NeighborInfluence[index] - 
       pixelMembershipValue[index] ;
@@ -628,7 +631,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   double maximumDistance = -1e+20;
   int pixLabel = -1;
   double tmpPixDistance;
-  for( unsigned int index = 0; index < m_NumberOfClasses; index++ )
+  for( index = 0; index < m_NumberOfClasses; index++ )
     {
     tmpPixDistance = m_MahalanobisDistance[index]; 
     if ( tmpPixDistance > maximumDistance )

@@ -136,7 +136,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // fixed image buffer. This is done by the external filter.
   fixedValue = (double) m_FixedImage->GetPixel( index );
   fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-  for( unsigned int j = 0; j < ImageDimension; j++ )
+  for( j = 0; j < ImageDimension; j++ )
     {
     fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
     } 

@@ -226,7 +226,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     gradient = m_MovingImageGradientCalculator->Evaluate( mappedPoint );
     }
 
-  for( unsigned int j = 0; j < ImageDimension; j++ )
+  for( j = 0; j < ImageDimension; j++ )
     {
     gradientSquaredMagnitude += vnl_math_sqr( gradient[j] );
     } 
