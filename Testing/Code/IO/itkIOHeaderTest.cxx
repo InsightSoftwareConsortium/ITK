@@ -24,6 +24,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAnalyzeDbh.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
+#include "itkBMPImageIO.h"
+#include "itkBMPImageIOFactory.h"
 #include "itkBrains2HeaderBase.h"
 #include "itkBrains2HeaderFactory.h"
 #include "itkBrains2IPLHeaderInfo.h"
