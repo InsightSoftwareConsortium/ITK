@@ -108,6 +108,14 @@ public:
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
+
+protected:
+  CellBoundary() {}
+  ~CellBoundary() {}
+  
+private:
+  CellBoundary(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 } // end namespace itk

@@ -350,10 +350,15 @@ public:
   itkTypeMacro(CellInterface, LightObject);
 
 protected:
+  CellInterface() {}
+  ~CellInterface() {}
   /** Cell internal utility routines. */
 
   /** Get the geometric position of a point. */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
+private:
+  CellInterface(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 

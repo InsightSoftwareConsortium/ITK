@@ -160,6 +160,13 @@ protected:
   static const int m_Edges[12][2];
   static const int m_Faces[6][4];
     
+protected:
+  HexahedronCell() {}
+  ~HexahedronCell() {}
+  
+private:
+  HexahedronCell(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 
@@ -183,6 +190,13 @@ public:
 
   /** Standard part of every itk Object. */
   itkTypeMacro(HexahedronBoundary, CellBoundary);
+protected:
+  HexahedronBoundary() {}
+  ~HexahedronBoundary() {}
+  
+private:
+  HexahedronBoundary(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 } // end namespace itk
