@@ -1,5 +1,5 @@
 PROJECT (CABLE)
-INCLUDE_REGULAR_EXPRESSION ("^(cxx|cable|xml|gen|wrap).*$")
+INCLUDE_REGULAR_EXPRESSION ("^(cxx|cable|xml|gen|wrap|CxxTypes).*$")
 
 SUBDIRS (Expat CxxTypes Parsers Generators Executables)
 SUBDIR_DEPENDS(Parsers Expat CxxTypes)
