@@ -30,7 +30,7 @@ namespace itk
 template<class T, unsigned int NRows, unsigned int NColumns >
 Vector<T, NRows> 
 Matrix<T, NRows, NColumns>
-::operator*( const Vector<T, NColumns> & vector ) const
+::operator*( const Vector<T, NColumns> & vect ) const
 {
   Vector<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
@@ -38,7 +38,7 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * vector[c];
+       sum += (*this)(r,c) * vect[c];
     }
     result[r] = sum;
   }
@@ -54,7 +54,7 @@ Matrix<T, NRows, NColumns>
 template<class T, unsigned int NRows, unsigned int NColumns >
 Point<T, NRows> 
 Matrix<T, NRows, NColumns>
-::operator*( const Point<T, NColumns> & vector ) const
+::operator*( const Point<T, NColumns> & pnt ) const
 {
   Point<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
@@ -62,7 +62,7 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * vector[c];
+       sum += (*this)(r,c) * pnt[c];
     }
     result[r] = sum;
   }
@@ -78,7 +78,7 @@ Matrix<T, NRows, NColumns>
 template<class T, unsigned int NRows, unsigned int NColumns >
 CovariantVector<T, NRows> 
 Matrix<T, NRows, NColumns>
-::operator*( const CovariantVector<T, NColumns> & vector ) const
+::operator*( const CovariantVector<T, NColumns> & covect ) const
 {
   CovariantVector<T,NRows> result;
   for( unsigned int r=0; r<NRows; r++) 
@@ -86,7 +86,7 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * vector[c];
+       sum += (*this)(r,c) * covect[c];
     }
     result[r] = sum;
   }
