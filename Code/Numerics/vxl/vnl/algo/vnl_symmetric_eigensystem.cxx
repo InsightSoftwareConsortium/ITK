@@ -39,15 +39,33 @@ T vnl_symmetric_eigensystem<T>::get_eigenvalue(int i) const
   return D(i, i);
 }
 
-template <class T>
-bool vnl_symmetric_eigensystem<T>::compute(vnl_matrix<T> const& A, vnl_matrix<T>& V, vnl_vector<T>& D)
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<float> const & A, 
+                                       vnl_matrix<float>       & V, 
+                                       vnl_vector<float>       & D)
+{
+  vnl_matrix<double> Ad(A.rows(), A.cols());
+  vnl_matrix<double> Vd(V.rows(), V.cols());
+  vnl_vector<double> Dd(D.size());
+
+  vnl_copy(A, Ad);
+  bool f = vnl_symmetric_eigensystem<double>::compute(Ad, Vd, Dd);
+  vnl_copy(Vd, V);
+  vnl_copy(Dd, D);
+  
+  return f;
+}
+
+
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A, 
+                                       vnl_matrix<double>       & V, 
+                                       vnl_vector<double>       & D)
 {
   A.assert_finite();
 
   int n = A.rows();
-  vnl_vector<T> work1(n);
-  vnl_vector<T> work2(n);
-  vnl_vector<T> Vvec(n*n);
+  vnl_vector<double> work1(n);
+  vnl_vector<double> work2(n);
+  vnl_vector<double> Vvec(n*n);
   
   int want_eigenvectors = 1;
   int ierr = 0;
@@ -61,12 +79,20 @@ bool vnl_symmetric_eigensystem<T>::compute(vnl_matrix<T> const& A, vnl_matrix<T>
   }
 
   // Transpose-copy into V
-  T *vptr = &Vvec[0];
+  double *vptr = &Vvec[0];
   for(int c = 0; c < n; ++c)
     for(int r = 0; r < n; ++r)
       V(r,c) = *vptr++;
   
   return true;
+}
+
+
+template <class T>
+bool vnl_symmetric_eigensystem<T>::compute(vnl_matrix<T> const& A,
+                                           vnl_matrix<T>& V, vnl_vector<T>& D)
+{
+  return vnl_symmetric_eigensystem_compute(A, V, D);
 }
 
 template <class T>
@@ -128,24 +154,6 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::inverse_square_root() const
 }
 
 //--------------------------------------------------------------------------------
-
-VCL_DEFINE_SPECIALIZATION
-bool vnl_symmetric_eigensystem<float>::compute(vnl_matrix<float> const & A, 
-					       vnl_matrix<float>       & V, 
-					       vnl_vector<float>       & D)
-{
-  vnl_matrix<double> Ad(A.rows(), A.cols());
-  vnl_matrix<double> Vd(V.rows(), V.cols());
-  vnl_vector<double> Dd(D.size());
-
-  vnl_copy(A, Ad);
-  bool f = vnl_symmetric_eigensystem<double>::compute(Ad, Vd, Dd);
-  vnl_copy(Vd, V);
-  vnl_copy(Dd, D);
-  
-  return f;
-}
-VCL_UNINSTANTIATE_SPECIALIZATION(bool vnl_symmetric_eigensystem<float>::compute(vnl_matrix<float> const &, vnl_matrix<float> &, vnl_vector<float> &));
 
 template class vnl_symmetric_eigensystem<float>;
 template class vnl_symmetric_eigensystem<double>;
