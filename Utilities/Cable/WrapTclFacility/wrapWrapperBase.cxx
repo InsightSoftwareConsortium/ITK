@@ -823,7 +823,14 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
   // Determine the argument types of the method call.
   CvQualifiedTypes argumentTypes;
   // Add the implicit object argument.
-  argumentTypes.push_back(objectType);
+  if(objectType.IsPointerType())
+    {    
+    argumentTypes.push_back(PointerType::SafeDownCast(objectType.GetType())->GetPointedToType());
+    }
+  else
+    {
+    argumentTypes.push_back(objectType);
+    }
   // Add the normal arguments.
   for(int i=2; i < objc; ++i)
     {
@@ -954,6 +961,16 @@ const CvQualifiedType& WrapperBase::Argument::GetType() const
 {
   // TODO: Throw exception for uninitalized argument.
   return m_Type;
+}
+
+
+/**
+ * Set the type of the Argument for selecting a conversion function.
+ * This should only be used to dereference the implicit object argument.
+ */
+void WrapperBase::Argument::SetType(const CvQualifiedType& type)
+{
+  m_Type = type;
 }
 
 
@@ -1223,6 +1240,11 @@ void WrapperBase::Method::Call(int objc, Tcl_Obj*CONST objv[]) const
   // Prepare the implicit object argument for the method wrapper to use
   // to call the real method.
   Argument implicit = m_Wrapper->GetObjectArgument(objv[0]);
+  
+  if(implicit.GetType().IsPointerType())
+    {
+    implicit.SetType(PointerType::SafeDownCast(implicit.GetType().GetType())->GetPointedToType());
+    }
   
   // Prepare the list of arguments for the method wrapper to convert and pass
   // to the real method.

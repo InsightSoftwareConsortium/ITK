@@ -199,6 +199,7 @@ public:
   
   Anything GetValue() const;
   const CvQualifiedType& GetType() const;
+  void SetType(const CvQualifiedType&);
   void SetToObject(ObjectType object, const CvQualifiedType& type);
   void SetToBool(bool);
   void SetToInt(int);
@@ -207,7 +208,6 @@ public:
   void SetToPointer(ObjectType v, const CvQualifiedType& pointerType);
   void SetToFunction(FunctionType f,
                      const CvQualifiedType& functionPointerType);
-
 private:
   enum ArgumentId { Uninitialized_id=0, Object_id, Pointer_id, Function_id,
                     bool_id, int_id, long_id, double_id };
