@@ -18,10 +18,9 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::LandmarkSpatialObject}
-// LandmarkSpatialObject contains a list of \doxygen{SpatialObjectPoint} which have
-// a position and a color.
-//
-// Let's start by including the appropriate header file.
+// LandmarkSpatialObject contains a list of \doxygen{SpatialObjectPoint}
+// which have a position and a color. Let's begin this example by including 
+// the appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -47,7 +46,8 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// Next, we set some properties of the object like its name and its identification number.
+// Next, we set some properties of the object like its name and its
+// identification number.
 //
 // Software Guide : EndLatex 
 
@@ -58,8 +58,9 @@ int main( int , char *[] )
   
 // Software Guide : BeginLatex
 //
-// We are now ready to add points into the LandmarkSpatialObject.
-// We first create a list of SpatialObjectPoint and for each point we set the position and the color.
+// We are now ready to add points into the LandmarkSpatialObject.  We first
+// create a list of SpatialObjectPoint and for each point we set the position
+// and the color.
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
@@ -76,7 +77,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  Then we add  the list to the object using the SetPoints() method. 
+// Then we add  the list to the object using the SetPoints() method. 
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet

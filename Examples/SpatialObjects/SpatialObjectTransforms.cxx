@@ -17,8 +17,8 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SpatialObjectTransforms}
-// This example describes the different transformations associated with a SpatialObject.
+// \index{itk::SpatialObjectTransforms} This example describes the different
+// transformations associated with a spatial object.
 //
 // Software Guide : EndLatex 
 
@@ -29,9 +29,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Like the previous example, we create two SpatialObjects and give 
-// them the names "First Object" 
-// and "Second Object" respectively. 
+// Like the previous example, we create two spatial objects and give them the
+// names "First Object" and "Second Object" respectively.
 //
 // Software Guide : EndLatex 
 
@@ -50,30 +49,35 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// SpatialObject keeps three transformations internally:
-// the IndexToObjectTransform, the ObjectToParentTransform and the 
-// ObjectToWorldTransform. To simplify, the global transformation
-// IndexToWorldTransform and its inverse, WorldToIndexTransform, are also kept
-// internally.
+// Instances of SpatialObject maintain three transformations internally that
+// can be used to compute the position and orientation of data and objects.
+// These transformations are: an IndexToObjectTransform, an
+// ObjectToParentTransform, and an ObjectToWorldTransform. As a convenience
+// to the user, the global transformation IndexToWorldTransform and its
+// inverse, WorldToIndexTransform, are also maintained by the class. Methods
+// are provided by SpatialObject to access and manipulate these transforms.
 //
-// The two main transformations, IndexToObjectTransform and ObjectToParentTransform, are applied 
-// successively. ObjectToParentTransform is applied to children.
+// The two main transformations, IndexToObjectTransform and
+// ObjectToParentTransform, are applied successively. ObjectToParentTransform
+// is applied to children.
 //
-// The IndexToObjectTransform transforms points from the internal data coordinate 
-// system of the object (typically the indices of the image from which
-// the object was defined) to ``physical" space (which accounts
-// for the spacing, orientation, and offset of the indices). 
+// The IndexToObjectTransform transforms points from the internal data
+// coordinate system of the object (typically the indices of the image from
+// which the object was defined) to ``physical" space (which accounts for the
+// spacing, orientation, and offset of the indices).
 //
 // The ObjectToParentTransform transforms points from the object-specific 
 // ``physical" space to the ``physical" space of its parent object.   
 //
-// The ObjectToWorldTransformation transforms points from the global coordinate 
-// frame. This is useful when the position of the object is known only in the global
-// coordinate frame. Note that by setting this transform, the ObjectToParent transform is recomputed. 
+// The ObjectToWorldTransformation transforms points from the global
+// coordinate frame. This is useful when the position of the object is known
+// only in the global coordinate frame. Note that by setting this transform,
+// the ObjectToParent transform is recomputed.
 //
-// These transformations use \doxygen{FixedCenterOfRotationAffineTransform}. They are created in 
-// the constructor of the spatial \doxygen{SpatialObject}  
-// Software Guide : EndLatex 
+// These transformations use the
+// \doxygen{FixedCenterOfRotationAffineTransform}. They are created in the
+// constructor of the spatial \doxygen{SpatialObject}.
+// Software Guide : EndLatex
 
 // Software Guide : BeginLatex
 //
@@ -109,9 +113,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To make the previous modification on the transformations effective, we should
-// invoke the ComputeObjectToWorldTransform() which recomputes all dependent
-// transformations.
+// To realize the previous operations on the transformations, we should
+// invoke the ComputeObjectToWorldTransform() that recomputes all
+// dependent transformations.
 //
 // Software Guide : EndLatex 
 
@@ -123,13 +127,15 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can now display the ObjectToWorldTransform for both objects.
-// One should notice that the \doxygen{FixedCenterOfRotationAffineTransform} derives
-// from \doxygen{AffineTransform} and therefore the only valid data for the transformation
-// is the Matrix and the Offset. For instance, when we set the ScaleComponent() value
-// the internal Matrix is recomputed to reflect the new ScaleComponent.
+// We can now display the ObjectToWorldTransform for both objects.  One
+// should notice that the \doxygen{FixedCenterOfRotationAffineTransform}
+// derives from \doxygen{AffineTransform} and therefore the only valid
+// members of the transformation is Matrix and Offset. For instance, when we
+// invoke the ScaleComponent() method the internal Matrix is recomputed to
+// reflect this change.
 // 
-// The \doxygen{FixedCenterOfRotationAffineTransform} performs the following computation
+// The \doxygen{FixedCenterOfRotationAffineTransform} performs the following
+// computation
 //
 //  \begin{equation}
 //  X' = R \cdot \left( S \cdot X - C \right) + C + V
@@ -146,13 +152,15 @@ int main( int , char *[] )
 // T = C + V - R \cdot C
 // \end{equation}
 //
-// This means that \code{GetScaleComponent()} and \code{GetOffsetComponent()}
-// as well as the \code{GetMatrixComponent()} might not be set to the expected
+// This means that GetScaleComponent() and GetOffsetComponent()
+// as well as the GetMatrixComponent() might not be set to the expected
 // value, especially if the transformation results from a composition with
 // another transformation since the composition is done using the Matrix and
 // the Offset of the affine transformation.
 //
-// Next, we show the two affine transformations corresponding to the two objects
+// Next, we show the two affine transformations corresponding to the two
+// objects.
+//  
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -170,10 +178,11 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then, we decide to translate the first object which is the parent of the second
-// by a vector [3,3]. This is still done by setting the offset of the ObjectToParentTransform.
-// This can also be done by setting the ObjectToWorldTransform because the first object
-// does not have any parent and therefore is attached to the world coordinate frame.
+// Then, we decide to translate the first object which is the parent of the
+// second by a vector [3,3]. This is still done by setting the offset of the
+// ObjectToParentTransform.  This can also be done by setting the
+// ObjectToWorldTransform because the first object does not have any parent
+// and therefore is attached to the world coordinate frame.
 //
 // Software Guide : EndLatex 
 
@@ -185,11 +194,10 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 
-
 // Software Guide : BeginLatex
 //
-// Then we should invoke \code{ComputeObjectToWorldTransform()} on the modified
-// object.  This will propagate the transformation through all the children.
+// Next we invoke ComputeObjectToWorldTransform() on the modified
+// object.  This will propagate the transformation through all its children.
 //
 // Software Guide : EndLatex 
 
@@ -198,16 +206,14 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 //  
 // \begin{figure} \center
 // \includegraphics[width=0.5\textwidth]{SpatialObjectTransforms.eps}
 // \itkcaption[SpatialObject Transform Computations]{Physical positions of the
-// two objects in the world frame. (shapes are merely for illustration
-// purposes)}
+// two objects in the world frame (shapes are merely for illustration
+// purposes).}
 // \label{fig:SpatialObjectTransforms}
 // \end{figure}
 //
@@ -230,38 +236,27 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The output of this second example looks like the following:
+// \small
+// \begin{verbatim}
 //object2 IndexToObject Matrix:
-//
 //2 0
-//
 //0 2
-//
 //object2 IndexToObject Offset: 0  0
-//
 //object2 IndexToWorld Matrix:
-//
 //2 0
-//
 //0 2
-//
 //object2 IndexToWorld Offset: 4  3
-//
 //object1 IndexToWorld Matrix:
-//
 //1 0
-//
 //0 1
-//
 //object1 IndexToWorld Offset: 3  3
-//
 //object2 IndexToWorld Matrix:
-//
 //2 0
-//
 //0 2
-//
 //object2 IndexToWorld Offset: 7  6
-//
+// \end{verbatim}
+// \normalsize  
+
 // Software Guide : EndLatex 
   return 0;
 }

@@ -19,7 +19,8 @@
 //
 // \index{itk::SpatialObjectHierarchy}
 // This example describes how \doxygen{SpatialObject} can form a hierarchy.
-// This first example also shows how to create and manipulate SpatialObjects.
+// This first example also shows how to create and manipulate 
+// spatial objects.
 //
 // Software Guide : EndLatex 
 
@@ -32,7 +33,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// First, we create two SpatialObjects and give them the names "First Object" 
+// First, we create two spatial objects and give them the names "First Object" 
 // and "Second Object" respectively.
 //
 // Software Guide : EndLatex 
@@ -48,8 +49,9 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// We then add the second object to the first one by using the AddSpatialObject() function.
-// As a result object2 becames a child of object1.
+// We then add the second object to the first one by using the
+// AddSpatialObject() method.  As a result object2 becames a child of
+// object1.
 //
 // Software Guide : EndLatex 
 
@@ -59,9 +61,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can query if an object has a parent by using the HasParent() function. If it has one, the
-// GetParent() function returns a constant pointer to the parent.
-// In our case, if we ask the parent's name of the object2 we should obtain: "First Object".
+// We can query if an object has a parent by using the HasParent()
+// method. If it has one, the GetParent() method returns a
+// constant pointer to the parent.  In our case, if we ask the parent's name
+// of the object2 we should obtain: "First Object".
 //
 // Software Guide : EndLatex 
 
@@ -75,8 +78,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To access the list of children of the object, the GetChildren() function
-// returns a pointer to the (STL) list of children.
+// To access the list of children of the object, the GetChildren()
+// method returns a pointer to the (STL) list of children.
 //
 // Software Guide : EndLatex 
 
@@ -94,7 +97,8 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// An object can also be removed by using the RemoveSpatialObject() method.
+// An object can also be removed by using the RemoveSpatialObject()
+// method.
 //
 // Software Guide : EndLatex 
 
@@ -103,7 +107,8 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// We can query the number of children an object has with the GetNumberOfChildren() function
+// We can query the number of children an object has with the
+// GetNumberOfChildren() method.
 //
 // Software Guide : EndLatex 
 
@@ -113,8 +118,9 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// The Clear() method erasess all the information regarding the object as well as the data. This function is,
-// most of the time, overloaded by the derived classes.
+// The Clear() method erases all the information regarding the object
+// as well as the data. This method is usually overloaded by 
+// derived classes.
 //
 // Software Guide : EndLatex 
 
@@ -125,17 +131,15 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The output of this first example looks like the following:
-//
-// Name of the parent of the object2: First Object
-//
-// object1 has 1 child
-//
-// Name of the child of the object 1: Second Object
-//
-// Number of children for object1: 0
-//
+// \small
+// \begin{verbatim}
+//   Name of the parent of the object2: First Object
+//   object1 has 1 child
+//   Name of the child of the object 1: Second Object
+//   Number of children for object1: 0
+// \end{verbatim}
+// \normalsize  
 // Software Guide : EndLatex 
-
 
   return 0;
 }

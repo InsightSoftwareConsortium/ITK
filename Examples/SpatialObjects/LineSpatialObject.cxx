@@ -18,11 +18,9 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::LineSpatialObject}
-// LineSpatialObject defines a line in an N-dimensional space. 
+// LineSpatialObject defines a line in an n-dimensional space. 
 // A Line is defined as a list of points which compose the line, i.e a 
-// polyline.
-// 
-// Let's start by including the appropriate header files.
+// polyline. We begin the example by including the appropriate header files.
 //
 // Software Guide : EndLatex 
 
@@ -37,8 +35,8 @@ int main( int , char *[] )
 //
 // LineSpatialObject is templated over the dimension of the space.
 // A LineSpatialObject contains a list of LineSpatialObjectPoints. 
-// A LineSpatialObjectPoint has a position, N-1 normals and a color.
-// Each normal is expressed as a \doxygen{itkCovariantVector} of size N.
+// A LineSpatialObjectPoint has a position, $n-1$ normals and a color.
+// Each normal is expressed as a \doxygen{CovariantVector} of size N.
 //
 // First, we define some type definitions and we create our line.
 //
@@ -56,18 +54,18 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the SetPosition() method. We also set the color of each
-// point to red.
+// coordinate system using the SetPosition() method. We also set the color of
+// each point to red.
 //
-// The two normals are set using the SetNormal() function; the first argument is
-// the normal itself and the second argument is the index of the normal.
+// The two normals are set using the SetNormal() function; the first argument
+// is the normal itself and the second argument is the index of the normal.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
- LineType::PointListType list;
+  LineType::PointListType list;
 
-  for( unsigned int i=0; i<3; i++)
+  for(unsigned int i=0; i<3; i++)
     {
     LinePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -76,10 +74,10 @@ int main( int , char *[] )
     VectorType normal1;
     VectorType normal2;
     for(unsigned int j=0;j<3;j++)
-    {
+      {
       normal1[j]=j;
       normal2[j]=j*2;
-    }
+      }
     
     p.SetNormal(normal1,0);
     p.SetNormal(normal2,1);
@@ -89,8 +87,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we set the name of the object using SetName(). We also set its identification
-// number with SetId() and we set the list of points previously created.
+// Next, we set the name of the object using SetName(). We also set its
+// identification number with SetId() and we set the list of points
+// previously created.
 //
 // Software Guide : EndLatex 
 
@@ -102,7 +101,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method returns a reference to the internal list of points of the object.
+// The GetPoints() method returns a reference to the internal list of points
+// of the object.
 //
 // Software Guide : EndLatex 
 
@@ -115,23 +115,24 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using standard STL iterators.
-// The GetPosition() and GetColor() functions return respectively the position and the color
-// of the point. Using the GetNormal(unsigned int) function we can access each normal.
+// Then we can access the points using standard STL iterators.  The
+// GetPosition() and GetColor() functions return respectively the position
+// and the color of the point. Using the GetNormal(unsigned int) function we
+// can access each normal.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  LineType::PointListType::const_iterator it = Line->GetPoints().begin(); 
-  while(it != Line->GetPoints().end())
-    {
-    std::cout << "Position = " << (*it).GetPosition() << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
-    std::cout << "First normal = " << (*it).GetNormal(0) << std::endl;
-    std::cout << "Second normal = " << (*it).GetNormal(1) << std::endl;
-    std::cout << std::endl;
-    it++;
-    }
+   LineType::PointListType::const_iterator it = Line->GetPoints().begin(); 
+   while(it != Line->GetPoints().end())
+     {
+     std::cout << "Position = " << (*it).GetPosition() << std::endl;
+     std::cout << "Color = " << (*it).GetColor() << std::endl;
+     std::cout << "First normal = " << (*it).GetNormal(0) << std::endl;
+     std::cout << "Second normal = " << (*it).GetNormal(1) << std::endl;
+     std::cout << std::endl;
+     it++;
+     }
 // Software Guide : EndCodeSnippet
 
   return 0;

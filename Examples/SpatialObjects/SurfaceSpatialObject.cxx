@@ -18,11 +18,10 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SurfaceSpatialObject}
-// SurfaceSpatialObject defines a surface in a N-dimensional space.
-// A Surface is defined as a list of points which lie on the surface. Each point has a position and
-// a unique normal.
-//
-// Let's start by including the appropriate header file.
+// SurfaceSpatialObject defines a surface in n-dimensional space.  A
+// SurfaceSpatialObject is defined by a list of points which lie on the
+// surface. Each point has a position and a unique normal. The example
+// begins by including the appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -35,9 +34,9 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// SurfaceSpatialObject is templated over the dimension of the space.
-// A SurfaceSpatialObject contains a list of SurfaceSpatialObjectPoints.
-// A SurfaceSpatialObjectPoint has a position, a normal and a color.
+// SurfaceSpatialObject is templated over the dimension of the space.  A
+// SurfaceSpatialObject contains a list of SurfaceSpatialObjectPoints.  A
+// SurfaceSpatialObjectPoint has a position, a normal and a color.
 //
 // First we define some type definitions
 //
@@ -55,13 +54,13 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the SetPosition() method. We also set the color of each
-// point to red.
+// coordinate system using the SetPosition() method. We also set the color of
+// each point to red.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
- SurfaceType::PointListType list;
+  SurfaceType::PointListType list;
 
   for( unsigned int i=0; i<3; i++)
     {
@@ -70,9 +69,9 @@ int main( int , char *[] )
     p.SetColor(1,0,0,1);
     VectorType normal;
     for(unsigned int j=0;j<3;j++)
-    {
+      {
       normal[j]=j;
-    }
+      }
     p.SetNormal(normal);
     list.push_back(p);
     }
@@ -80,8 +79,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we create the surface and set his name using SetName(). We also set its Identification
-// number with SetId() and we add the list of points previously created.
+// Next, we create the surface and set his name using SetName(). We also set
+// its Identification number with SetId() and we add the list of points
+// previously created.
 //
 // Software Guide : EndLatex 
 
@@ -93,7 +93,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method returns a reference to the internal list of points of the object.
+// The GetPoints() method returns a reference to the internal list of points
+// of the object.
 //
 // Software Guide : EndLatex 
 
@@ -106,22 +107,22 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using standard STL iterators.
-// GetPosition() and GetColor() functions return respectively the position and the color
-// of the point. GetNormal() returns the normal as a \doxygen{CovariantVector}.
+// Then we can access the points using standard STL iterators.  GetPosition()
+// and GetColor() functions return respectively the position and the color of
+// the point. GetNormal() returns the normal as a \doxygen{CovariantVector}.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  SurfaceType::PointListType::const_iterator it = Surface->GetPoints().begin(); 
-  while(it != Surface->GetPoints().end())
-    {
-    std::cout << "Position = " << (*it).GetPosition() << std::endl;
-    std::cout << "Normal = " << (*it).GetNormal() << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl; 
-    std::cout << std::endl;
-    it++;
-    }
+   SurfaceType::PointListType::const_iterator it = Surface->GetPoints().begin(); 
+   while(it != Surface->GetPoints().end())
+     {
+     std::cout << "Position = " << (*it).GetPosition() << std::endl;
+     std::cout << "Normal = " << (*it).GetNormal() << std::endl;
+     std::cout << "Color = " << (*it).GetColor() << std::endl; 
+     std::cout << std::endl;
+     it++;
+     }
 // Software Guide : EndCodeSnippet
 
   return 0;

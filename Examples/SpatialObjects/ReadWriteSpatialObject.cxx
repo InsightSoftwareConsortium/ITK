@@ -18,10 +18,13 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::ReadWriteSpatialObject}
-// Reading and Writing SpatialObjects is a fairly simple task. MetaIO is used to 
-// convert current SpatialObjects into a file format.
+// Reading and writing SpatialObjects is a fairly simple task. The classes
+// \doxygen{SpatialObjectReader} and \doxygen(SpatialObjectWriter} are used
+// to read and write these objects, respectively. (Note these classes
+// make use of the MetaIO auxiliary I/O routines and therefore have a 
+// \code{.meta} file suffix.)
 //
-// We first include the appropriate header files
+// We begin this example by including the appropriate header files.
 //
 // Software Guide : EndLatex 
 
@@ -37,7 +40,7 @@ int main( int , char *[] )
  
 // Software Guide : BeginLatex
 //
-// Next, we create a SpatialObjectWriter which is templated over the dimension 
+// Next, we create a SpatialObjectWriter that is templated over the dimension 
 // of the object(s) we want to write.
 // 
 // Software Guide : EndLatex 
@@ -49,8 +52,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We create an \doxygen{EllipseSpatialObject}.
-//
+// For this example, we create an \doxygen{EllipseSpatialObject}.
 //
 // Software Guide : EndLatex 
 
@@ -61,8 +63,9 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// Finally, we set to the writer the object to write using the SetInput() method and we set the name of the file  with 
-// SetFileName() and, finally, qw call the Update() method.
+// Finally, we set to the writer the object to write using the SetInput()
+// method and we set the name of the file with SetFileName() and call the
+// Update() method to actually write the information.
 //
 // Software Guide : EndLatex 
 
@@ -74,10 +77,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// No we are ready to open the freshly created object.
-//
-// We first create a SpatialObjectReader which is also templated over the dimension of the object in the file
-// This means that the file should contain only objects with the same dimension.
+// Now we are ready to open the freshly created object. We first create a
+// SpatialObjectReader which is also templated over the dimension of the
+// object in the file. This means that the file should contain only objects
+// with the same dimension.
 //
 // Software Guide : EndLatex 
 
@@ -88,7 +91,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then, we set the name of the file to read using SetFileName() and we call the Update() method to read the file.
+// Next we set the name of the file to read using SetFileName() and we call
+// the Update() method to read the file.
 //
 // Software Guide : EndLatex 
 
@@ -99,8 +103,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To get the objects in the file you can call the GetScene() function or the GetGroup() function.
-// GetScene() returns an pointer to an \doxygen{Scene}.
+// To get the objects in the file you can call the GetScene() method or the
+// GetGroup() method.  GetScene() returns an pointer to a
+// \doxygen{SceneSpatialObject}.
 //
 // Software Guide : EndLatex 
 
@@ -112,7 +117,6 @@ int main( int , char *[] )
   std::cout << "Number of objects in the group: ";
   std::cout << group->GetNumberOfChildren() << std::endl;
 // Software Guide : EndCodeSnippet
-
 
 
   return 0;

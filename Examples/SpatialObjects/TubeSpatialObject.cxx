@@ -18,11 +18,10 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::TubeSpatialObject}
-// TubeSpatialObject defines an N-Dimensional Tube.
-// A tube is defined as a list of centerline points which have a position,
-// a radius, some normals and other properties.
-//
-// Let's start by including the appropriate header file.
+// TubeSpatialObject defines an n-dimensional tube.  A tube is defined as a
+// list of centerline points which have a position, a radius, some normals
+// and other properties. Let's start by including the appropriate header
+// file.
 //
 // Software Guide : EndLatex 
 
@@ -35,8 +34,8 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// TubeSpatialObject is templated over the dimension of the space.
-// A TubeSpatialObject contains a list of TubeSpatialObjectPoints. 
+// TubeSpatialObject is templated over the dimension of the space.  A
+// TubeSpatialObject contains a list of TubeSpatialObjectPoints.
 //
 // First we define some type definitions and we create the tube.
 //
@@ -48,27 +47,29 @@ int main( int , char *[] )
   typedef itk::TubeSpatialObjectPoint<3>       TubePointType;
   typedef TubePointType::CovariantVectorType   VectorType;
 
-   TubePointer tube = TubeType::New();
+  TubePointer tube = TubeType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // We create a point list and we set:
-//   
-// 1) The position of each point in the local coordinate system using the SetPosition() method.
+// \begin{enumerate}
+// \item The position of each point in the local coordinate system using the 
+// SetPosition() method.
+// \item The radius of the tube at this position using SetRadius().
+// \item The two normals at the tube is set using SetNormal1() and 
+// SetNormal2().
+// \item The color of the point is set to red in our case.
+// \end{itemize}  
 //
-// 2) The radius of the tube at this position using SetRadius().
-//
-// 3) The two normals at the tube is set using SetNormal1() and SetNormal2().
-//
-// 4) The color of the point is set to red in our case.
-//
-// Other values can be set to tell  how well the tube was extracted from the image. 
-// These values are indeed optional if the tube is not extracted from an image.
-// First, the ridgeness coefficient tells how well the extracted tube falls into a ridge.
-// Second, the medialness value shows how medial the point is on the ridge. Third and last,
-// the branchness value tends to take a high value when a branch is present nearby the centerline point.
-// All these values can be set using SetRidgeness(), SetMedialness(), SetBranchness().
+// Other values can be set to tell how well the tube was extracted from the
+// image.  These values are indeed optional if the tube is not extracted from
+// an image.  First, the ridgeness coefficient tells how well the extracted
+// tube falls into a ridge.  Second, the medialness value shows how medial
+// the point is on the ridge. Third and last, the branchness value tends to
+// take a high value when a branch is present nearby the centerline point.
+// All these values can be set using SetRidgeness(), SetMedialness(),
+// SetBranchness().
 //
 // Software Guide : EndLatex 
 
@@ -100,8 +101,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we create the tube and set its name using SetName(). We also set its identification
-// number with SetId() and, at the end, we add the list of points previously created.
+// Next, we create the tube and set its name using SetName(). We also set its
+// identification number with SetId() and, at the end, we add the list of
+// points previously created.
 //
 // Software Guide : EndLatex 
 
@@ -113,7 +115,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method return a reference to the internal list of points of the object.
+// The GetPoints() method return a reference to the internal list of points
+// of the object.
 //
 // Software Guide : EndLatex 
 
@@ -125,8 +128,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The ComputeTangentAndNormals() function computes the normals and the tangent for each point
-// using finite differences.
+// The ComputeTangentAndNormals() function computes the normals and the
+// tangent for each point using finite differences.
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
@@ -135,10 +138,11 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using STL iterators.
-// GetPosition() and GetColor() functions return respectively the position and the color
-// of the point.GetRadius return the radius at that point. GetNormal1() and GetNormal1() functions
-// return a \doxygen{CovariantVector} and GetTangent() returns a \doxygen{Vector}.
+// Then we can access the points using STL iterators.  GetPosition() and
+// GetColor() functions return respectively the position and the color of the
+// point. GetRadius() returns the radius at that point. GetNormal1() and
+// GetNormal1() functions return a \doxygen{CovariantVector} and GetTangent()
+// returns a \doxygen{Vector}.
 //
 // Software Guide : EndLatex 
 

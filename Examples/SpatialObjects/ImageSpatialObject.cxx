@@ -17,11 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::ImageSpatialObject}
-// An ImageSpatialObject contains an \doxygen{itkImage} but adds the notion
-// of spatial transformations and parent-child hierarchy.
-//
-// Let's start by including the appropriate header file.
+// \index{itk::ImageSpatialObject} An ImageSpatialObject contains an
+// \doxygen{Image} but adds the notion of spatial transformations and
+// parent-child hierarchy. Let's begin the next example by including the
+// appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -51,7 +50,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  Next we fill the image with increasing values
+//  Next we fill the image with increasing values.
 //
 // Software Guide : EndLatex 
 
@@ -123,12 +122,13 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  The derivative at a specified position in space can be computed using the 
-//  DerivativeAt() function. The first argument is the point in physical coordinates
-//  where we are evaluating the derivatives. The second argument is the order of the 
-//  derivation, and the third argument is the result expressed as a \doxygen{itkVector}.
-//  Derivatives are computed iteratively using finite differences and, like the ValueAt(), no
-//  interpolator is used.
+//  The derivative at a specified position in space can be computed using the
+//  DerivativeAt() function. The first argument is the point in physical
+//  coordinates where we are evaluating the derivatives. The second argument
+//  is the order of the derivation, and the third argument is the result
+//  expressed as a \doxygen{Vector}.  Derivatives are computed iteratively
+//  using finite differences and, like the ValueAt(), no interpolator is
+//  used.
 //
 // Software Guide : EndLatex 
 
