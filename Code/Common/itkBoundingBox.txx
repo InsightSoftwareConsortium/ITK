@@ -103,7 +103,11 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 {
   if ( !m_PointsContainer )
     {
-    m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
+    if ( this->GetMTime() > m_BoundsMTime )
+      {
+      m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
+      m_BoundsMTime.Modified();
+      }
     return false;
     }
 
@@ -144,19 +148,110 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 }
 
 
-
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType  
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetCenter(void) const
-{
+::GetCenter(void)
+  {
+  this->ComputeBoundingBox();
+
   PointType center;
   for (unsigned int i=0; i<PointDimension; i++)
     {
     center[i] = (m_Bounds[2*i] + m_Bounds[2*i+1]) / 2.0;
     }
+
   return center;
+  }
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetMinimum(void)
+  {
+  this->ComputeBoundingBox();
+
+  PointType minimum;
+  for (unsigned int i=0; i<PointDimension; i++)
+    {
+    minimum[i] = m_Bounds[2*i];
+    }
+
+  return minimum;
+  }
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+void
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::SetMinimum(const PointType & point)
+  {
+  for (unsigned int i=0; i<PointDimension; i++)
+    {
+    m_Bounds[2*i] = point[i];
+    }
+
+  m_BoundsMTime.Modified();
+  }
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetMaximum(void)
+  {
+  this->ComputeBoundingBox();
+
+  PointType maximum;
+  for (unsigned int i=0; i<PointDimension; i++)
+    {
+    maximum[i] = m_Bounds[2*i+1];
+    }
+
+  return maximum;
+  }
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+void
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::SetMaximum(const PointType & point)
+  {
+  for (unsigned int i=0; i<PointDimension; i++)
+    {
+    m_Bounds[2*i+1] = point[i];
+    }
+
+  m_BoundsMTime.Modified();
+  }
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+void
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::ConsiderPoint( const PointType & point )
+{
+  bool changed = false;
+  for (unsigned int i=0; i<PointDimension; i++)
+    {
+    if ( point[i] < m_Bounds[2*i] )
+      {
+      m_Bounds[2*i] = point[i];
+      changed = true;
+      }
+    if ( point[i] > m_Bounds[2*i+1] )
+      {
+      m_Bounds[2*i+1] = point[i];
+      changed = true;
+      }
+    }
+
+  if(changed)
+    {
+    m_BoundsMTime.Modified();
+    }
 }
 
 template <typename TPointIdentifier, int VPointDimension,

@@ -111,7 +111,31 @@ public:
 
   /** Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetCenter(void) const;
+  PointType GetCenter(void);
+
+  /** Get the minimum point of the bounding box. Returns NULL if bounding box
+   * cannot be computed. */
+  PointType GetMinimum(void);
+
+  /** Set the minimum point of the bounding box. May not be valid for the given
+   * set of points.   Will be preserved until this filter's (i.e., the point
+   * set's) modified time changes. */
+  void      SetMinimum(const PointType & );
+
+  /** Get the maximum point of the bounding box. Returns NULL if bounding box
+   * cannot be computed. */
+  PointType GetMaximum(void);
+
+  /** Set the maximum point of the bounding box. May not be valid for the given
+   * set of points.   Will be preserved until this filter's (i.e., the point
+   * set's) modified time changes. */
+  void      SetMaximum(const PointType & );
+
+  /** Adjust bounds (if necessary) as if the given point was in the set
+   * of points being considered.   Does not add the given point to the set.
+   * Therefore, this point not considered in future computeboundingbox/gets
+   * once the point set is changed. */
+  void ConsiderPoint( const PointType & );
 
   /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
