@@ -41,10 +41,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMException_h
 #define __itkFEMException_h
 
+
+// FEM classes need to use bad_cast exception and other typeinfo stuff.
+// For some reason bad_cast excepction doesn't work on MSVC compiler if
+// we include <typeinfo>, but does work when we include <typeinfo.h>.
+// However on some some systems (linux???) <typeinfo.h> doesn't exist, so
+// we must include <typeinfo> instead.
+#ifdef _MSC_VER
+#include <typeinfo.h>
+#else
+#include <typeinfo>
+#endif
+
 #include "itkExceptionObject.h"
 #include <string>
-#include <stdexcept>
-#include <strstream>
 
 namespace itk {
 namespace fem {
@@ -76,12 +86,7 @@ public:
    * you should use __FILE__ and __LINE__ macros to specify file name
    * and line number.
    */
-  FEMException(const char *file, unsigned int lineNumber, std::string location="Unknown") :
-    ExceptionObject(file,lineNumber)
-  {
-    SetDescription("Unhandled exception in FEM class!");
-    SetLocation(location);
-  }
+  FEMException(const char *file, unsigned int lineNumber, std::string location="Unknown");
 
 };
 
@@ -102,13 +107,8 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
-    FEMException(file,lineNumber)
-  {
-    SetDescription("IO error in FEM class: "+moreDescription);
-    SetLocation(location);
-  }
- 
+  FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
+
 };
 
 
@@ -128,11 +128,7 @@ public:
 class FEMExceptionWrongClass : public FEMException
 {
 public:
-  FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location)
-    : FEMException(file, lineNumber, location)
-  {
-    SetDescription("Object was of wrong class!");
-  }
+  FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location);
 
 };
 
@@ -149,16 +145,7 @@ public:
 class FEMExceptionObjectNotFound : public FEMException
 {
 public:
-  FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName, int GN)
-    : FEMException(file, lineNumber, location)
-  {
-    m_baseClassName=baseClassName;
-    m_GN=GN;
-    std::ostrstream buf;
-    buf.clear();
-    buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!"<<'\0';
-    SetDescription(buf.str());
-  }
+  FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName, int GN);
 
   /**
    * Base class of the searched object.
@@ -186,12 +173,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
-    FEMException(file,lineNumber)
-  {
-    SetDescription("Error when solving FEM problem: "+moreDescription);
-    SetLocation(location);
-  }
+  FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
  
 };
 

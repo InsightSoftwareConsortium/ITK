@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMLightObject_h
 #define __itkFEMLightObject_h
 
-#include <typeinfo.h>
 #include "itkFEMException.h"
 #include "itkFEMMacro.h"
 
