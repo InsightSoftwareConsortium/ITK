@@ -46,21 +46,13 @@ int itkTransformIOTest(int ac, char* av[])
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
   BSplineTransformType::RegionType region;
 
-  try
-    {
-    BSplineTransformType::SizeType size;
-    size.Fill(3);
-    region.SetSize(size);
-    bspline->SetGridRegion( region );
-    BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
-    bspline->SetParameters( parameters );
-    bspline->SetIdentity();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    }
+  BSplineTransformType::SizeType size;
+  size.Fill(10);
+  region.SetSize(size);
+  bspline->SetGridRegion( region );
+  BSplineTransformType::ParametersType parameters( bspline->GetNumberOfParameters() );
+  bspline->SetParameters( parameters );
+  bspline->SetIdentity();
 
   writer->AddTransform(bspline);
   writer->SetFileName( "Transforms.meta" );
