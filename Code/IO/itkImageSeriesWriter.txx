@@ -84,7 +84,7 @@ ImageSeriesWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageSeriesWriter<TInputImage>
-::SetIORegion (const ImageIORegion* region) 
+::SetIORegion (const ImageIORegion & region) 
 {
   itkDebugMacro("setting IORegion to " << region );
   if ( m_IORegion != region)

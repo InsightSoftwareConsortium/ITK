@@ -158,8 +158,8 @@ protected:
    * is written. (Left protected for now to insure that the user doesn't
    * try to use writing of partial images just yet since it's really not
    * working at this time.) */
-  void SetIORegion(const ImageIORegion *region);
-  const ImageIORegion *GetIORegion() const;
+  void SetIORegion(const ImageIORegion & region);
+  const ImageIORegion & GetIORegion() const;
 
 private:
   ImageSeriesWriter(const Self&); //purposely not implemented
