@@ -28,13 +28,26 @@ template <class T, unsigned int TImageDimension=2>
 class ITK_EXPORT itkImage : public itkImageBase
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
 
-  /** Iterator typedef support */
+  /** 
+   * Pixel typedef support. Used to declare pixel type in filters
+   * or other operations.
+   */
+  typedef T PixelType;
+
+  /** 
+   * Iterator typedef support. An iterator is used to traverse
+   * the image.
+   */
   typedef itkImageIterator<T, TImageDimension> Iterator;
 
-  /** Index typedef support */
+  /** 
+   * Index typedef support. An index is used to access pixel values.
+   */
   typedef itkIndex<TImageDimension> Index;
   
   /** 

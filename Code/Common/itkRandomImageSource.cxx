@@ -54,4 +54,6 @@ void itkRandomImageSource<TOutputImage>
   index[0] = 0;
   index[1] = 0;
   ind.SetIndex(index);
+  
+  
 }
