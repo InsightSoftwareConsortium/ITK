@@ -82,12 +82,12 @@ public:
   typedef typename ImageType::Pointer ImagePointer;
 
   /** Standard transform type for this class. */
-  typedef ImageType::TransformType                   TransformType;
+  typedef typename ImageType::TransformType          TransformType;
   typedef typename TransformType::Pointer            TransformPointer;
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,ImageDimension,ImageDimension> AffineTransformType;
-  typedef typename AffineTransformType::SmartPointer            AffineTransformPointer;
+  typedef AffineTransform<double,ImageDimension>     AffineTransformType;
+  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a

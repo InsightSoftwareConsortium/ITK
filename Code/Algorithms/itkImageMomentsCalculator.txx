@@ -96,7 +96,7 @@ ComputeMoments( ImageType * image )
     double value = it.Value();
     IndexType index = it.GetIndex();
     Point<double,ImageDimension>    indexPosition;
-    TransformType::OutputPointType  physicalPosition;
+    typename TransformType::OutputPointType  physicalPosition;
 
     for(unsigned int i=0; i<ImageType::ImageDimension; i++)
     {
