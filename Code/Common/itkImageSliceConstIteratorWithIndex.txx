@@ -31,11 +31,12 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   // Move to next line
   m_PositionIndex[ m_Direction_B ]++;
-  m_Position += m_Jump_B;
+  m_Position += m_LineJump;
 
   // Move to beginning of line
   m_PositionIndex[ m_Direction_A ] = m_BeginIndex[ m_Direction_A ];   
-  m_Position -= m_OffsetTable[ m_Direction_A + 1 ]; 
+  m_Position -= m_PixelJump *
+       ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
 }
 
 
@@ -51,11 +52,12 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   // Move to previous line
   m_PositionIndex[ m_Direction_B ]--;
-  m_Position -= m_Jump_B;
+  m_Position -= m_LineJump;
 
   // Move to end of line
   m_PositionIndex[ m_Direction_A ] = m_EndIndex[ m_Direction_A ]-1;   
-  m_Position += m_OffsetTable[ m_Direction_A + 1 ]; 
+  m_Position += m_PixelJump *
+       ( m_EndIndex[ m_Direction_A ] - m_BeginIndex[ m_Direction_A ] ); 
 }
 
 
@@ -74,7 +76,8 @@ ImageSliceConstIteratorWithIndex<TImage>
 
   // Move to beginning of Slice
   m_PositionIndex[m_Direction_B] = m_BeginIndex[m_Direction_B];   
-  m_Position -= m_OffsetTable[ m_Direction_B + 1 ]; 
+  m_Position -= m_LineJump *
+       ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
@@ -116,7 +119,8 @@ ImageSliceConstIteratorWithIndex<TImage>
 
   // Move to end of Slice
   m_PositionIndex[m_Direction_B] = m_EndIndex[m_Direction_B] - 1;   
-  m_Position += m_OffsetTable[ m_Direction_B + 1 ]; 
+  m_Position += m_LineJump *
+       ( m_EndIndex[ m_Direction_B ] - m_BeginIndex[ m_Direction_B ] ); 
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
@@ -219,7 +223,7 @@ ImageSliceConstIteratorWithIndex<TImage>
     throw ExceptionObject(__FILE__, __LINE__);
   }
   m_Direction_A = direction;
-  m_Jump_A = m_OffsetTable[ m_Direction_A ];
+  m_PixelJump = m_OffsetTable[ m_Direction_A ];
 }
 
 
@@ -238,7 +242,7 @@ ImageSliceConstIteratorWithIndex<TImage>
     throw ExceptionObject(__FILE__, __LINE__);
   }
   m_Direction_B = direction;
-  m_Jump_B = m_OffsetTable[ m_Direction_B ];
+  m_LineJump = m_OffsetTable[ m_Direction_B ];
 }
 
 
@@ -252,7 +256,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 ::operator++()
 {
   m_PositionIndex[ m_Direction_A ]++;
-  m_Position += m_Jump_A;
+  m_Position += m_PixelJump;
   return *this;
 }
 
@@ -267,7 +271,7 @@ ImageSliceConstIteratorWithIndex<TImage>
 ::operator--()
 {
   m_PositionIndex[ m_Direction_A ]--;
-  m_Position -= m_Jump_A;
+  m_Position -= m_PixelJump;
   return *this;
 }
 
