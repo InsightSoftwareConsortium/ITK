@@ -78,10 +78,10 @@ public:
   /**
    * Prints some debugging information
    */
-  void Print()  // Note: This method is for devel/debugging
+  void PrintSelf()  // Note: This method is for devel/debugging
   {             // and should probably be removed at some point.
                 //  jc 10-06-00
-    NeighborhoodOperator::Print();
+    NeighborhoodOperator::PrintSelf();
     std::cout << "DerivativeOperator" << std::endl;
     std::cout << "\tOrder = " << m_Order << std::endl;
   }

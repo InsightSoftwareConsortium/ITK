@@ -66,7 +66,7 @@ NeighborhoodBase<TPixel, VDimension>
 
 template<class TPixel, unsigned int VDimension>
 void NeighborhoodBase<TPixel, VDimension>
-::Print()            // Note -- Debugging function for development
+::PrintSelf()            // Note -- Debugging function for development
 {                    //         that should probably be removed at
                      //         some point.  jc 10-05-00  
   std::cout << "NeighborhoodBase" << std::endl;

@@ -51,15 +51,9 @@ public:
   typedef SmartRegionNeighborhoodIterator  Self;
 
   /**
-   * Index, Image, & Neighborhood  typedef support. While these were already
-   * typdef'ed in the superclass, they need to be redone here for this subclass
-   * to compile properly with gcc. Note that we have to rescope back to
-   * itk:: so that it is not confused with ImageIterator::.
+   *
    */
-  typedef itk::Image<TPixel, VDimension>        Image;
-  typedef itk::Index<VDimension>                Index;
-  typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
-  typedef itk::ImageRegion<VDimension>          Region;
+  typedef NeighborhoodIterator<TPixel, VDimension>  Superclass;
   
   /** 
    * Run-time type information (and related methods).
@@ -72,8 +66,8 @@ public:
    * that image.
    */ 
   SmartRegionNeighborhoodIterator(const SizeType& radius,
-                                  Image *ptr,
-                                  const Region& region)
+                                  ImageType *ptr,
+                                  const RegionType& region)
     : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
     this->SetBound(region.GetSize());
@@ -93,19 +87,34 @@ public:
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
    * itk::Image at the position of the iterator.
    */
-  Neighborhood GetNeighborhood();
+  Neighborhood<TPixel, VDimension> GetNeighborhood();
 
+  /**
+   * Returns the pixel value referenced by a linear array location.
+   */
+  virtual TPixel GetPixel(unsigned long i)
+  {
+    if (this->InBounds())
+      {
+        return Superclass::GetPixel(i);
+      }
+    else
+      {
+        return (this->GetNeighborhood())[i];
+      }
+  }
+  
   /**
    * Sets the values in the itk::Image at the iterator location to the values
    * contained in a Neighborhood.
    */
-  void SetNeighborhood(Neighborhood &);
+  void SetNeighborhood(NeighborhoodType &);
 
   /**
    * Prints information about the neighborhood pointer structure to
    * std::cout for debugging purposes.
    */
-  void Print();
+  void PrintSelf();
 
   /**
    * Calculates the inner product of the neighborhood of referenced pixel
@@ -118,8 +127,14 @@ public:
    * \sa SlicedInnerProduct
    */
   TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
+  TPixelScalarValueType InnerProduct(std::valarray<TPixelScalarValueType> &,
+                                     VectorComponentDataAccessor<TPixel,
+                                     TPixelScalarValueType> &);
   TPixelScalarValueType SlicedInnerProduct(const std::slice &s,
                                            std::valarray<TPixel> &v);
+  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<TPixelScalarValueType> &,
+              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &); 
 
   /**
    * Assignment operator

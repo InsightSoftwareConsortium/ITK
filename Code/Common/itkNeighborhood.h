@@ -20,6 +20,7 @@
 #include <valarray>
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
+#include "itkVectorComponentDataAccessor.h"
 
 namespace itk {
 
@@ -116,7 +117,7 @@ Convolve1D(Neighborhood<TPixel, VDimension> &,
  * \sa NeighborhoodAlgorithm
  */  
 template<class TPixel, unsigned int VDimension = 2>
-class Neighborhood : public NeighborhoodBase<TPixel, VDimension>
+class ITK_EXPORT Neighborhood : public NeighborhoodBase<TPixel, VDimension>
 {
 public:
 
@@ -165,11 +166,23 @@ public:
       }
     return *this;
   }
+
+  /**
+   * Sets all of the pixel values in this neighborhood to a pixel constant
+   */
+  Self &operator=( const TPixel &v )
+  {
+    for (Iterator it = this->Begin(); it < this->End(); ++it)
+      {
+        *it = v;
+      }
+    return *this;
+  }
   
   /**
    * Prints some debugging info.
    */
-  void Print();
+  void PrintSelf();
 
   /**
    * Prints some debugging info.  Formats the output data logically.
@@ -186,12 +199,26 @@ public:
   TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
 
   /**
+   *
+   */
+  TPixelScalarValueType InnerProduct(std::valarray<TPixelScalarValueType> &, 
+              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
+
+  
+  /**
    * Slices the neighborhood and returns the slice's inner product with
    * the valarray argument.
    * \sa InnerProduct
    */
   TPixelScalarValueType SlicedInnerProduct(const std::slice &,
                                            std::valarray<TPixel> &);
+
+  /**
+   *
+   */
+  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<TPixelScalarValueType> &,
+              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
 
   /**
    * Returns the value of the center pixel in a Neighborhood.

@@ -37,8 +37,8 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::GetNeighborhood()
 {
   const Iterator _end = this->end();
-  Neighborhood ans;
-  Neighborhood::Iterator ans_it;
+  NeighborhoodType ans;
+  NeighborhoodType::Iterator ans_it;
   Iterator this_it;
 
   ans.SetRadius( this->GetRadius() );
@@ -110,11 +110,11 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::SetNeighborhood(Neighborhood &N)
+::SetNeighborhood(NeighborhoodType &N)
 {
   const Iterator _end = this->end();
   Iterator this_it;
-  Neighborhood::Iterator N_it;
+  typename  NeighborhoodType::Iterator N_it;
   
   if (InBounds())
     {
@@ -178,7 +178,6 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-  //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
   TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
   TPixel *it;
   const TPixel *_end = &(v[v.size()]);
@@ -204,6 +203,39 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   
   return sum;
 }
+
+template<class TPixel, unsigned int VDimension>
+typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+SmartRegionNeighborhoodIterator<TPixel, VDimension>
+::InnerProduct(std::valarray<typename SmartRegionNeighborhoodIterator<TPixel,
+               VDimension>::TPixelScalarValueType> &v,
+               VectorComponentDataAccessor<TPixel, 
+               typename SmartRegionNeighborhoodIterator<TPixel,
+               VDimension>::TPixelScalarValueType> & accessor)
+{
+  TPixelScalarValueType sum  = NumericTraits<TPixelScalarValueType>::Zero; 
+  
+  TPixelScalarValueType *it;
+  Iterator this_it;
+
+  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+
+  if (InBounds())
+    {
+      for (it = &(v[0]), this_it = this->begin(); it < itEnd;
+           ++it, ++this_it)
+        {
+          sum += *it * accessor.Get(**this_it);
+        }
+    }
+  else
+    {
+      return this->GetNeighborhood().InnerProduct(v, accessor);
+    }
+  return sum;
+}
+
+
 
 template<class TPixel, unsigned int VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
@@ -236,12 +268,45 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   return sum;
 }
 
+
+template<class TPixel, unsigned int VDimension>
+typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+SmartRegionNeighborhoodIterator<TPixel, VDimension>
+::SlicedInnerProduct(const std::slice& s, std::valarray<TPixelScalarValueType> &v, 
+               VectorComponentDataAccessor<TPixel, TPixelScalarValueType>
+               &accessor)
+{
+  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  
+  TPixelScalarValueType *it;
+  typename Self::SliceIteratorType slice_it(this, s);
+
+  slice_it[0];
+  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  if (InBounds())
+    {
+      for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+        {
+          //sum += *it * *slice_it;
+          sum += *it * accessor.Get(**slice_it);
+        }
+    }
+  else
+    {
+      return this->GetNeighborhood().SlicedInnerProduct(s,v, accessor);
+    }
+
+  return sum;
+}
+
+
+
 template<class TPixel, unsigned int VDimension>
 void SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::Print()
+::PrintSelf()
 {
   int i;
-  //NeighborhoodBase<TPixel, VDimension>::Print();
+  //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
   std::cout << "SmartRegionNeighborhoodIterator" << std::endl;
   std::cout << "        this = " << this << std::endl;
   std::cout << "this->size() = " << this->size() << std::endl;
@@ -272,7 +337,7 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
 {
   Size<VDimension> radius  = this->GetRadius();
   const unsigned long *offset     = m_Image->GetOffsetTable();
-  const Index imageRRStart  = m_Image->GetRequestedRegion().GetIndex();
+  const IndexType imageRRStart  = m_Image->GetRequestedRegion().GetIndex();
   Size<VDimension> imageRRSize = m_Image->GetRequestedRegion().GetSize();
   Size<VDimension> imageBufferSize = m_Image->GetBufferedRegion().GetSize();
 
@@ -308,7 +373,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::End()
 {
-  Index endIndex;
+  IndexType endIndex;
   
   // Copy the current iterator
   Self it( *this );

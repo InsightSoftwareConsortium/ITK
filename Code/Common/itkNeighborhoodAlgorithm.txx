@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
+#include "itkDerivativeOperator.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
   RegionNeighborhoodIterator<TPixel, VDimension>
     nbi(hoodRadius, ip, iterRegion);
   ImageRegionIterator<TPixel, VDimension> rsi(op, iterRegion);
-  rsi.Begin();
+  rsi = rsi.Begin();
  
   DoUnsynchedInnerProduct< RegionNeighborhoodIterator<TPixel, VDimension>,
     ImageRegionIterator<TPixel, VDimension>, 
@@ -122,6 +123,82 @@ DoSynchedInnerProduct(Image<TPixel, VDimension> *ip,
   DoSynchedInnerProduct<RegionBoundaryNeighborhoodIterator<TPixel, VDimension>,
     Neighborhood<TPixel, VDimension> >( bi, oper );
 }
+
+
+template<class TPixel, unsigned int VDimension>
+typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+InnerProduct(Neighborhood<TPixel, VDimension> &n,
+             std::valarray<typename Neighborhood<TPixel,
+             VDimension>::TPixelScalarValueType> &v, 
+             VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
+             VDimension>::TPixelScalarValueType> &accessor)
+{
+  typedef typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+    ExternalType;
+  
+  ExternalType sum  = NumericTraits<ExternalType>::Zero; 
+  
+  ExternalType *it;
+  TPixel *this_it;
+  
+  const ExternalType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]), this_it = n.Begin(); it < itEnd;
+       ++it, ++this_it)
+    {
+      sum += *it * accessor.Get(*this_it);
+    }
+  
+  return sum;
+}
+
+template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
+TExternalType
+AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *ip,
+                        typename TNeighborhoodIterator::ImageType::Region region,
+        VectorComponentDataAccessor<TInternalType, TExternalType> accessor)
+{
+  typedef  typename TNeighborhoodIterator::ImageType ImageType;
+
+  TExternalType accumulator;
+  TExternalType val;
+  unsigned long counter;
+  TNeighborhoodIterator iterator_list[ImageType::ImageDimension];
+   DerivativeOperator<TExternalType, ImageType::ImageDimension>
+    operator_list[ImageType::ImageDimension];
+
+  // Set up the derivative operators and their iterators
+  for (int i = 0; i < ImageType::ImageDimension; ++i)
+    {
+      operator_list[i].SetOrder(1);
+      operator_list[i].SetDirection(i);
+      operator_list[i].CreateDirectional();
+      iterator_list[i] =
+        RegionNeighborhoodIterator<TInternalType, ImageType::ImageDimension>
+                                   (operator_list[i].GetRadius(), ip, region);
+      iterator_list[i] = iterator_list[i].Begin();
+    }
+
+  // Now do the actual processing
+  accumulator = NumericTraits<TExternalType>::Zero;
+  counter     = 0;
+  const RegionNeighborhoodIterator<TInternalType, ImageType::ImageDimension>
+                                         iterator_end = iterator_list[0].End();
+  for (iterator_list[0] = iterator_list[0].Begin();
+       iterator_list[0] < iterator_end; ++counter)
+    {
+      for (int i = 0; i < ImageType::ImageDimension; ++i)
+        {
+          val = iterator_list[i].InnerProduct(operator_list[i], accessor);
+          accumulator += val * val;
+          ++iterator_list[i];
+        }
+    }
+
+    return (accumulator / counter);
+
+}
+
+
 
 } // end namespace NeighborhoodAlgorithm
 } // end namespace itk

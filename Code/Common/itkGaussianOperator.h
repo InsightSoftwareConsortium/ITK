@@ -124,10 +124,10 @@ public:
   /**
    * Prints some debugging information.
    */
-  void Print()                // Note: This method is for debugging/devel
+  void PrintSelf()                // Note: This method is for debugging/devel
   {                           //  purposes and should probably be removed
                               // at some point.  jc 10-06-00
-    NeighborhoodOperator::Print();
+    NeighborhoodOperator::PrintSelf();
     std::cout << "GaussianOperator" << std::endl;
     std::cout << "\t Variance = " << m_Variance << std::endl;
     std::cout << "\t MaximumError = " << m_MaximumError << std::endl;

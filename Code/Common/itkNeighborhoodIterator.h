@@ -109,22 +109,22 @@ public:
   /**
    * itk::Image typedef support.
    */
-  typedef Image<TPixel, VDimension> Image;
+  typedef Image<TPixel, VDimension> ImageType;
 
   /**
    * Region typedef support.
    */
-  typedef ImageRegion<VDimension> Region;
+  typedef ImageRegion<VDimension> RegionType;
   
   /**
    * itk::Index typedef support.
    */
-  typedef Index<VDimension> Index;
+  typedef Index<VDimension> IndexType;
   
   /**
    * itk::Neighborhood typedef support
    */
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
   
   /**
    * itk::NeighborhoodBase typedef support
@@ -147,8 +147,8 @@ public:
   * that image.
   */
   NeighborhoodIterator(const SizeType &radius,
-                       Image * ptr,
-                       const Region &region
+                       ImageType * ptr,
+                       const RegionType &region
                        )
     : m_OutputBuffer(0)
   {
@@ -177,7 +177,7 @@ public:
    * This method must be defined by each subclass according to how
    * that subclass handles boundary conditions.
    */
-  virtual void SetNeighborhood(Neighborhood &) = 0;
+  virtual void SetNeighborhood(NeighborhoodType &) = 0;
 
   /**
    * Virtual function that "dereferences" a NeighborhoodIterator,
@@ -187,7 +187,7 @@ public:
    * subclass according to how that subclass handles boundary
    * conditions.
    */
-  virtual Neighborhood GetNeighborhood() = 0;
+  virtual NeighborhoodType GetNeighborhood() = 0;
 
   /**
    * Returns a const pointer to an internal array of offsets that 
@@ -195,6 +195,16 @@ public:
    * is necessary to shift pointers when wrapping around region edges because
    * region memory is not necessarily contiguous within the buffer.
    */
+
+
+  /**
+   * Returns the pixel value referenced at a linear array location.
+   */
+  virtual TPixel GetPixel(const unsigned long i)
+  {
+    return *(this->operator[](i));
+  }
+  
   const unsigned long* GetWrapOffset() const
   {
     return m_WrapOffsets;
@@ -344,7 +354,7 @@ public:
    * iterator during iteration, only for initializing it to a position
    * prior to iteration.  This method is not optimized for speed.
    */
-  void SetLocation( const Index& position )
+  void SetLocation( const IndexType& position )
   {
     this->SetLoop(position);
     this->SetPixelPointers(position);
@@ -353,7 +363,7 @@ public:
   /**
    * Returns a smartpointer to the image on which this iterator operates.
    */
-  Image::Pointer GetImagePointer() { return m_Image; }
+  typename ImageType::Pointer GetImagePointer() { return m_Image; }
 
   /**
    * Assignment operator
@@ -379,7 +389,7 @@ protected:
    * This correspondence is a coincidental feature that will not
    * necessarily be supported.
    */
-  virtual void SetLoop( const Index& position )
+  virtual void SetLoop( const IndexType& position )
   {
     memcpy(m_Loop, position.m_Index, sizeof(long) * VDimension);
   }
@@ -388,7 +398,7 @@ protected:
    * Default method for setting the index of the first pixel in the
    * iteration region.
    */
-  virtual void SetStartIndex( const Index& start)
+  virtual void SetStartIndex( const IndexType& start)
   {
     m_StartIndex = start;
   }
@@ -406,7 +416,7 @@ protected:
    * generally only be called when the iterator is initialized.
    * \sa SetLocation
    */
-  virtual void SetPixelPointers(const Index &);
+  virtual void SetPixelPointers(const IndexType &);
 
   /**
    * The internal array of offsets that provide support for regions of interest.
@@ -438,9 +448,9 @@ protected:
 
   /**
    * The pointer to the itk::Image on which this NeighborhoodIterator is
-   * defined on.
+   * defined.
    */
-  SmartPointer<Image> m_Image;
+  typename ImageType::Pointer m_Image;
 
   /**
    * Shortcut to the data buffer of the itk::Image on which this
@@ -452,7 +462,7 @@ protected:
    * The starting index for iteration within the itk::Image region
    * on which this NeighborhoodIterator is defined.
    */
-  Index  m_StartIndex;
+  IndexType  m_StartIndex;
 };
 
 } // namespace itk

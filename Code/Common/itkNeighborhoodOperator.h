@@ -18,6 +18,8 @@
 
 #include "itkNeighborhood.h"
 #include "itkExceptionObject.h"
+#include <vector>
+
 
 namespace itk {
 /**
@@ -123,9 +125,9 @@ public:
   /**
    * Prints some debugging information.
    */
-  void Print()
+  void PrintSelf()
   {
-    Neighborhood::Print(); 
+    Neighborhood::PrintSelf(); 
     std::cout << "NeighborhoodOperator" << std::endl;
     std::cout << "\t Direction = " << m_Direction << std::endl;
   }

@@ -48,17 +48,6 @@ public:
    */
   typedef RegionBoundaryNeighborhoodIterator Self;
 
-  /**
-   * Index, Image, & Neighborhood  typedef support. While these were already
-   * typdef'ed in the superclass, they need to be redone here for this subclass
-   * to compile properly with gcc. Note that we have to rescope back to
-   * itk:: so that it is not confused with ImageIterator::.
-   */
-  typedef itk::Image<TPixel, VDimension>        Image;
-  typedef itk::Index<VDimension>                Index;
-  typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
-  typedef itk::ImageRegion<VDimension>          Region;
-  
   /** 
    * Run-time type information (and related methods).
    */
@@ -71,8 +60,8 @@ public:
    * that image.
    */ 
   RegionBoundaryNeighborhoodIterator(const SizeType& radius,
-                                     Image * ptr,
-                                     const Region& region)
+                                     ImageType * ptr,
+                                     const RegionType& region)
     : m_InnerStride(0),
       SmartRegionNeighborhoodIterator<TPixel, VDimension>(radius, ptr,
                                                           region)
@@ -97,7 +86,7 @@ public:
   /**
    * Print some debugging information.
    */
-  void Print();
+  void PrintSelf();
 
   /**
    * Assignment operator

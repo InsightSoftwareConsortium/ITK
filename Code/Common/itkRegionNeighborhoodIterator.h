@@ -17,6 +17,7 @@
 #define __itkRegionNeighborhoodIterator_h
 
 #include "itkNeighborhoodIterator.h"
+#include "itkVectorComponentDataAccessor.h"
 
 
 namespace itk {
@@ -54,17 +55,6 @@ public:
   typedef RegionNeighborhoodIterator Self;
 
   /**
-   * Index, Image, & Neighborhood  typedef support. While these were already
-   * typdef'ed in the superclass, they need to be redone here for this subclass
-   * to compile properly with gcc. Note that we have to rescope back to
-   * itk:: so that it is not confused with ImageIterator::.
-   */
-  typedef itk::Image<TPixel, VDimension>        Image;
-  typedef itk::Index<VDimension>                Index;
-  typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
-  typedef itk::ImageRegion<VDimension>          Region;
-
-  /**
    * Standard Superclass typedef
    */
   typedef NeighborhoodIterator<TPixel, VDimension> Superclass;
@@ -85,8 +75,8 @@ public:
   * that image.
   */
   RegionNeighborhoodIterator(const SizeType &radius,
-                             Image *ptr,
-                             const Region &region)
+                             ImageType *ptr,
+                             const RegionType &region)
     : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
     this->SetBound(region.GetSize());
@@ -108,20 +98,20 @@ public:
    * \sa SetPixelValues
    * \sa Neighborhood
    */
-  Neighborhood GetNeighborhood();
+  Neighborhood<TPixel, VDimension> GetNeighborhood();
 
   /**
    * Sets the values in the referenced image to the values contained in
    * a Neighborhood object.  This method assumes that the Neighborhood object
    * argument and the NeighborhoodPointer are equal size.
    */
-  void SetNeighborhood(Neighborhood &);
+  void SetNeighborhood(NeighborhoodType &);
 
   /**
    * Prints information about the neighborhood pointer structure to
    * std::cout for debugging purposes.
    */
-  void Print();
+  void PrintSelf();
 
 
   /**
@@ -135,8 +125,15 @@ public:
    * \sa SlicedInnerProduct
    */
   TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
+  TPixelScalarValueType InnerProduct(std::valarray<TPixelScalarValueType> &,
+                                     VectorComponentDataAccessor<TPixel,
+                                     TPixelScalarValueType> &);
   TPixelScalarValueType SlicedInnerProduct(const std::slice &s,
                                            std::valarray<TPixel> &v);
+
+  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<TPixelScalarValueType> &,
+              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
 
   /**
    * Assignment operator

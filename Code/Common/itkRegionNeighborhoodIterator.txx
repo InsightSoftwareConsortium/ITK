@@ -20,8 +20,8 @@ Neighborhood<TPixel, VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
 ::GetNeighborhood()
 {
-  Neighborhood ans;
-  Neighborhood::Iterator ans_it;
+  NeighborhoodType ans;
+  typename NeighborhoodType::Iterator ans_it;
   Iterator this_it;
   const Iterator _end = this->end();
 
@@ -39,11 +39,11 @@ RegionNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 RegionNeighborhoodIterator<TPixel, VDimension>
-::SetNeighborhood(Neighborhood &N)
+::SetNeighborhood(NeighborhoodType &N)
 {
   Iterator this_it;
   const Iterator _end = this->end();
-  Neighborhood::Iterator N_it;
+  typename NeighborhoodType::Iterator N_it;
   
   for (this_it = this->begin(); this_it < _end; this_it++, N_it++)
     {
@@ -54,10 +54,10 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   
 template<class TPixel, unsigned int VDimension>
 void RegionNeighborhoodIterator<TPixel, VDimension>
-::Print()   // --- Note: This method is for development/debugging
-{           //           and should be removed at some point.
-  int i;    //           jc 10-05-00
-  //NeighborhoodBase<TPixel, VDimension>::Print();
+::PrintSelf()  
+{          
+  int i;   
+  //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
   std::cout << "RegionNeighborhoodIterator" << std::endl;
   std::cout << "        this = " << this << std::endl;
   std::cout << "this->size() = " << this->size() << std::endl;
@@ -86,11 +86,10 @@ void RegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-RegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+typename RegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
 RegionNeighborhoodIterator<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-  // NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
   TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
   TPixel *it;
   Iterator this_it;
@@ -105,11 +104,35 @@ RegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
+typename RegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+RegionNeighborhoodIterator<TPixel, VDimension>
+::InnerProduct(std::valarray<typename RegionNeighborhoodIterator<TPixel,
+               VDimension>::TPixelScalarValueType> &v,
+               VectorComponentDataAccessor<TPixel,
+               typename RegionNeighborhoodIterator<TPixel,
+               VDimension>::TPixelScalarValueType> & accessor)
+{
+  TPixelScalarValueType sum  = NumericTraits<TPixelScalarValueType>::Zero; 
+  
+  TPixelScalarValueType *it;
+  Iterator this_it;
+
+  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]), this_it = this->begin(); it < itEnd;
+       ++it, ++this_it)
+    {
+      sum += *it * accessor.Get(**this_it);
+    }
+  
+  return sum;
+}
+
+
+template<class TPixel, unsigned int VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
 RegionNeighborhoodIterator<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
-  //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
   TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
   TPixel *it;
   typename Self::SliceIteratorType slice_it(this, s);
@@ -126,6 +149,31 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   return sum;
   
 }
+
+template<class TPixel, unsigned int VDimension>
+typename RegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+RegionNeighborhoodIterator<TPixel, VDimension>
+::SlicedInnerProduct(const std::slice& s, std::valarray<TPixelScalarValueType> &v, 
+               VectorComponentDataAccessor<TPixel, TPixelScalarValueType>
+               &accessor)
+{
+  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  
+  TPixelScalarValueType *it;
+  typename Self::SliceIteratorType slice_it(this, s);
+
+  slice_it[0];
+  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
+    {
+      //sum += *it * *slice_it;
+      sum += *it * accessor.Get(**slice_it);
+    }
+
+  return sum;
+}
+
+
 
 template<class TPixel, unsigned int VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
@@ -146,7 +194,7 @@ RegionNeighborhoodIterator<TPixel, VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
 ::End()
 {
-  Index endIndex;
+  IndexType endIndex;
   
   // Copy the current iterator
   Self it( *this );

@@ -17,7 +17,7 @@ namespace itk {
   
 template<class TPixel, unsigned int VDimension>
 void NeighborhoodIterator<TPixel, VDimension>
-::SetPixelPointers(const Index &offset)
+::SetPixelPointers(const IndexType &offset)
 {
   const Iterator _end = this->end();
   int i;

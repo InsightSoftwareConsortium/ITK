@@ -22,12 +22,15 @@
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkImage.h"
 #include "itkExceptionObject.h"
+#include "itkVectorComponentDataAccessor.h"
+
 namespace itk
 {
   
 namespace NeighborhoodAlgorithm
 {
-/**
+  
+  /**
  * Walks across the region defined in the iterator argument and
  * calculates the inner product of each pixel neighborhood
  * with the operator.  Writes scalar output to the corresponding
@@ -114,6 +117,30 @@ DoSynchedInnerProduct(Image<TPixel, VDimension> *in,
                       Image<TPixel, VDimension> *out,
                       Neighborhood<TPixel, VDimension> &op);
   
+
+/**
+ *
+ */
+template<class TPixel, unsigned int VDimension>
+typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+InnerProduct(Neighborhood<TPixel, VDimension> &,
+             std::valarray<typename Neighborhood<TPixel,
+             VDimension>::TPixelScalarValueType> &v,
+             VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
+             VDimension>::TPixelScalarValueType> &accessor);
+
+
+/**
+ *
+ */
+template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
+TExternalType
+AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *,
+                                typename
+                                TNeighborhoodIterator::ImageType::Region,
+           VectorComponentDataAccessor<TInternalType, TExternalType> accessor);
+
+
 } // end namespace NeighborhoodAlgorithm
   
 } // end namespace itk

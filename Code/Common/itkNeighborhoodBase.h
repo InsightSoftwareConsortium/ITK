@@ -183,7 +183,7 @@ public:
    * Prints some information about the neighborhood for debugging
    * purposes.
    */
-  virtual void Print();
+  virtual void PrintSelf();
 
   /**
    * Standard operator= function.  Defined so we can call the superclasses

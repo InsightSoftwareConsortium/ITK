@@ -99,7 +99,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 ::End()
 {
-  Index endIndex;
+  IndexType endIndex;
   
   // Copy the current iterator
   Self it( *this );
@@ -119,12 +119,12 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 
 template<class TPixel, unsigned int VDimension>
 void RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-::Print()   // -- Note: this method is for developmental/
+::PrintSelf()   // -- Note: this method is for developmental/
 {           //          debugging purposes and should be
             //          removed at some point.
   std::cout << "RegionBoundaryNeighborhoodIterator" << std::endl;
   std::cout << "\tm_InnerStride = " << m_InnerStride << std::endl;
-  SmartRegionNeighborhoodIterator<TPixel, VDimension>::Print();
+  SmartRegionNeighborhoodIterator<TPixel, VDimension>::PrintSelf();
 }
 
 } // namespace itk
