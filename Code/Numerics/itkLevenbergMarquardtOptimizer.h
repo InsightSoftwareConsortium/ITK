@@ -65,10 +65,14 @@ public:
   
 
   /**
+   * VectorType typedef.
+   */
+  typedef   vnl_vector<double>     VectorType;
+
+  /**
    * Internal Optimizer Type
    */
   typedef   vnl_levenberg_marquardt InternalOptimizerType;
-
 
   /**
    * Method for getting access to the internal optimizer

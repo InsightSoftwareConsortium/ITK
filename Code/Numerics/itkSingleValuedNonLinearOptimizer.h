@@ -45,13 +45,11 @@ public:
    */
   typedef   NonLinearOptimizer Superclass;
 
-
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
 
  /** 
    * Run-time type information (and related methods).
@@ -59,20 +57,15 @@ public:
   itkTypeMacro( SingleValuedNonLinearOptimizer, 
       NonLinearOptimizer );
 
-
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
   
-
-
   /**
-   * Standard "Superclass" typedef.
+   * VectorType typedef.
    */
   typedef   vnl_vector<double>     VectorType;
-
-
 
   /** \class VnlCostFunction
    * \brief Adaptor between the CostFunction and the vnl_cost_function classes

@@ -42,7 +42,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   SingleValuedNonLinearOptimizer Superclass;
+  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -56,6 +56,11 @@ public:
    */
   typedef   vnl_conjugate_gradient InternalOptimizerType;
 
+
+  /**
+   * VectorType typedef.
+   */
+  typedef   vnl_vector<double>     VectorType;
 
  /** 
    * Run-time type information (and related methods).

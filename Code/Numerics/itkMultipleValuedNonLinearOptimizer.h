@@ -45,13 +45,16 @@ public:
    */
   typedef   NonLinearOptimizer Superclass;
 
-
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /**
+   * VectorType typedef.
+   */
+  typedef   vnl_vector<double>     VectorType;
 
  /** 
    * Run-time type information (and related methods).

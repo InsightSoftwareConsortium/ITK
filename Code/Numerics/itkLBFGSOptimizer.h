@@ -49,7 +49,10 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
+  /**
+   * VectorType typedef.
+   */
+  typedef   vnl_vector<double>     VectorType;
 
  /** 
    * Run-time type information (and related methods).
@@ -57,20 +60,15 @@ public:
   itkTypeMacro( LBFGSOptimizer, 
       SingleValuedNonLinearOptimizer );
 
-
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
-
 
   /**
    * Internal Optimizer Type
    */
   typedef   vnl_lbfgs       InternalOptimizerType;
-
-
 
   /**
    * Method for getting access to the internal optimizer
