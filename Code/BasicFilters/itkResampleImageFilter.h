@@ -115,7 +115,7 @@ public:
    * FIXME: Generalize to any sort of image function.
    */
   typedef LinearInterpolateImageFunction<TInputImage>   InterpolatorType;
-  typedef InterpolatorType::Pointer  InterpolatorPointerType;
+  typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /**
    * Image size typedef
