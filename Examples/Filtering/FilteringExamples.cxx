@@ -80,10 +80,6 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 #include "DiscreteGaussianImageFilter.cxx"
 
 #undef main
-#define main DerivativeImageFilterTest
-#include "DerivativeImageFilter.cxx"
-
-#undef main
 #define main GradientAnisotropicDiffusionImageFilterTest
 #include "GradientAnisotropicDiffusionImageFilter.cxx"
 
