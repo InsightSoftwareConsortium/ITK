@@ -168,11 +168,6 @@ namespace itk {
  * internal loop variables and offsets to trigger wraps at itk::Image region
  * boundaries, and to identify the end of the itk::Image region.
  *
- * NeighborhoodIterator does not perform bounds checking before dereferencing
- * it pixels.  It is up to the user to make sure the iteration region is
- * sufficiently padded for the neighborhood radius.  See
- * SmartNeighborhoodIterator for a way to automatically handle bounds
- * conditions.
  * 
  * \todo Better support for regions with negative indicies.
  * \todo Add Begin() and End() methods?

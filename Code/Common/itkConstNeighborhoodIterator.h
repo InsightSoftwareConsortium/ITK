@@ -46,7 +46,6 @@ namespace itk {
  * \ingroup ImageIterators
  *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
- * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  **/
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage> >
