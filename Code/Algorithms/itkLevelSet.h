@@ -19,11 +19,7 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkVectorContainer.h"
-#include "vnl/vnl_vector_fixed.h"
-
-#include "vnl/vnl_vector_fixed.txx"
-#include "vnl/vnl_vector.txx"
-#include "vnl/vnl_c_vector.txx"
+#include "itkVector.h"
 
 namespace itk
 {
@@ -70,7 +66,7 @@ public:
   }
 
   TPixel                     value;
-  Index<VSetDimension>  index;
+  Index<VSetDimension>       index;
   
 };
 
@@ -167,7 +163,7 @@ public:
   /**
    * AuxVector typedef support
    */
-  typedef vnl_vector_fixed<TPixel,VAuxDimension> AuxValueVectorType;
+  typedef Vector<TPixel,VAuxDimension> AuxValueVectorType;
 
   /**
    * AuxContainer typdef support
