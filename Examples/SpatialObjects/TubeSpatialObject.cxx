@@ -60,7 +60,7 @@ int main( int , char *[] )
 // \item The two normals at the tube is set using SetNormal1() and 
 // SetNormal2().
 // \item The color of the point is set to red in our case.
-// \end{itemize}  
+// \end{enumerate}  
 //
 // Other values can be set to tell how well the tube was extracted from the
 // image.  These values are indeed optional if the tube is not extracted from
