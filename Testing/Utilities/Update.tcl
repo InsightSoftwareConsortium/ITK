@@ -44,6 +44,10 @@ if { $Model == "Nightly" } \
 {
   # For the moment, just get latest source
   # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
+  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00"]
+  set Yesterday [clock format [expr [clock seconds] - 24 * 60 * 60] -format "%Y-%m-%d 3:00"]
+  puts "Today $Today, Yesterday $Yesterday"
+  set UpdateCommand "$UpdateCommand -D $Today"
 }
   
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
@@ -83,8 +87,8 @@ catch { file delete -force update.tmp }
 # Get a little bit of info for each file
 foreach File $Files \
 {
-  set lastRevision [lindex [exec cvs log -N -r $File | grep "revision "] 1]
-  set allRevisions  [exec /usr/tmp/local/bin/cvs log -N -r:$lastRevision  $File | grep "revision "]
+  set lastRevision [lindex [exec $cvs log -N -r $File | grep "revision "] 1]
+  set allRevisions  [exec $cvs log -N -r:$lastRevision  $File | grep "revision "]
   set priorRevision [lindex $allRevisions 3]
   set Log [GetLog $File]
 
