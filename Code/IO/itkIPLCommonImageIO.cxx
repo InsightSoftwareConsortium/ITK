@@ -19,7 +19,6 @@
 #include "itkGEImageHeader.h"
 #include "idbm_hdr_def.h"
 #include "itkDirectory.h"
-#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string.h>
