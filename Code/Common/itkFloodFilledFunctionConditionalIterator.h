@@ -113,6 +113,25 @@ public:
   bool IsAtEnd()
     { return m_IsAtEnd; };
 
+ /** Move an iterator to the beginning of the region. "Begin" is
+  * defined as the first pixel in the region. */
+  void GoToBegin()
+    {
+    // Clear the stack
+    while (!m_IndexStack.empty())
+      {
+      m_IndexStack.pop();
+      }
+
+    // Push the seed onto the stack
+    m_IndexStack.push(m_StartIndex);
+
+    // Initialize the temporary image
+    tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
+    
+    m_IsAtEnd = false;
+    };
+
   /** Walk forward one index */
   void operator++()
     { this->DoFloodStep(); }
