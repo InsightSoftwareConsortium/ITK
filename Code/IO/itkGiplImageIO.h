@@ -17,6 +17,10 @@
 #ifndef __itkGiplImageIO_h
 #define __itkGiplImageIO_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <fstream>
 #include "itkImageIOBase.h"
 #include <stdio.h>
