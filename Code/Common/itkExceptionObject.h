@@ -145,7 +145,7 @@ public:
   itkTypeMacro(InvalidArgumentError, ExceptionObject);
 };
 
-/** \class InvalidArgumentError
+/** \class IncompatibleOperandsError
  * Exception thrown when two operands are incompatible.
  */
 class IncompatibleOperandsError : public ExceptionObject
