@@ -30,7 +30,14 @@ class DICOMAppHelper
   virtual ~DICOMAppHelper();
   
   void SetFileName(const char* filename);
-  
+
+  virtual void RescaleSlopeCallback(doublebyte group,
+                     doublebyte element,
+                     DICOMParser::VRTypes type,
+                     unsigned char* val,
+                     quadbyte len);
+
+
   virtual void ArrayCallback(doublebyte group,
                      doublebyte element,
                      DICOMParser::VRTypes type,

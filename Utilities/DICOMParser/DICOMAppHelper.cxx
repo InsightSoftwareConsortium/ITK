@@ -86,6 +86,10 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   cb11->SetCallbackFunction(this, &DICOMAppHelper::PixelOffsetCallback);
   parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, cb11);
 
+  DICOMMemberCallback<DICOMAppHelper>* cb12 = new DICOMMemberCallback<DICOMAppHelper>;
+  cb12->SetCallbackFunction(this, &DICOMAppHelper::RescaleSlopeCallback);
+  parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_FL, cb12);
+
   DICOMTagInfo dicom_tags[] = {
     {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
     {0x0002, 0x0003, DICOMParser::VR_UI, "Media storage SOP inst uid"},
@@ -567,3 +571,17 @@ const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
     }
 
 }
+
+
+void DICOMAppHelper::RescaleSlopeCallback(doublebyte group,
+                     doublebyte ,
+                     DICOMParser::VRTypes ,
+                     unsigned char* val,
+                     quadbyte )
+{
+  float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
+  std::cout << "Rescale slope: " << fval << std::endl;
+}
+
+
+
