@@ -21,6 +21,7 @@
 #include "itkIndex.h"
 #include "itkImageRegion.h"
 #include "itkPixelTraits.h"
+#include "itkByteSwapper.h"
 #include "itkVersion.h"
 #include <string>
 #include <fstream>
@@ -60,6 +61,13 @@ public:
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
   typedef TPixel PixelType;
+
+  /** this type is used in case the pixel has several components */
+  typedef PixelTraits<PixelType>::ValueType       ComponentType;
+
+  /** Helper class to swap bytes when necessary */
+  typedef ByteSwapper<ComponentType>               ByteSwapperType;
+
 
   /** If the data is in the tail end of the file, you want to
    * explicitly set the header size. */

@@ -200,13 +200,13 @@ void RawImageIO<TPixel,VImageDimension>
   // Swap bytes if necessary
   if ( m_ByteOrder == LittleEndian )
     {
-    ByteSwapper<PixelType>::SwapRangeFromSystemToLittleEndian(
-                    (PixelType *)buffer, m_Strides[VImageDimension+1]);
+    ByteSwapperType::SwapRangeFromSystemToLittleEndian(
+                    (ComponentType *)buffer, this->GetImageSizeInComponents() );
     }
   else if ( m_ByteOrder == BigEndian )
     {
-    ByteSwapper<PixelType>::SwapRangeFromSystemToBigEndian(
-                    (PixelType *)buffer, m_Strides[VImageDimension+1]);
+    ByteSwapperType::SwapRangeFromSystemToBigEndian(
+                    (ComponentType *)buffer, this->GetImageSizeInComponents() );
     }
 }
 
