@@ -103,6 +103,13 @@ public:
    * versor. */
   const Self& operator*=(const Self & v);
 
+  /** Division operator /=.  Divide the current versor
+   * with the operand and store the result in the current
+   * versor. This is equivalent to compose the Versor with
+   * the reciprocal of the operand \sa GetReciprocal */
+  const Self& operator/=(const Self & v);
+
+
   /** Get Tensor part of the Versor. 
    * Given that Versors are normalized quaternions this value
    * is expected to be 1.0 always  */
