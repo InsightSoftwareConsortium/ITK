@@ -364,6 +364,10 @@ public:
   TPixel *GetBufferPointer()
   { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
+  const TPixel *GetBufferPointer() const
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
+
+
   /**
    * Return a pointer to the container 
    */
