@@ -228,32 +228,8 @@ int itkAffineTransformTest(
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
 
-    /* Create an image for testing index<->physical transforms */
-    std::cout << "Creating image for testing index<->physical transforms"
-              << std::endl;
-    double spacing[3] = {1.0, 2.0, 3.0};
-    double origin [3] = {4.0, 5.0, 6.0};
-    itk::Image<unsigned char, 3>::Pointer
-        image =itk::Image<unsigned char, 3>::New();
-    image->SetOrigin (origin);
-    image->SetSpacing(spacing);
-
-    /* Generate index-to-physical transform */
-    Affine3DType::Pointer i2p = 
-          dynamic_cast<Affine3DType *>(
-                   image->GetIndexToPhysicalTransform().GetPointer()  );
-
-    std::cout << "Index to physical transformation:" << std::endl;
-    i2p->Print( std::cout );
-
-    /* Generate physical-to-index transform */
-    Affine3DType::Pointer p2i = 
-        dynamic_cast<Affine3DType *>(
-                 image->GetPhysicalToIndexTransform().GetPointer()  );
-
-    std::cout << "Physical to index transformation:" << std::endl;
-    p2i->Print( std::cout );
-
+    
+    
 
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();

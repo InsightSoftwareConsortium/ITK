@@ -91,7 +91,6 @@ itkImageMomentsTest( int itkNotUsed(argc), char ** itkNotUsed(argv) )
     image->SetOrigin(origin);
     image->SetSpacing(spacing);
     image->Allocate();
-    image->RebuildTransforms();
     
     image->FillBuffer( itk::NumericTraits<PixelType>::Zero );
 
