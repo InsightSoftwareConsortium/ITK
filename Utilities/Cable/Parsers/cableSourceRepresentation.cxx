@@ -973,7 +973,7 @@ Namespace
  * This internal version takes iterators into a Qualifiers describing
  * the name.
  */
-Context*
+Named*
 Class
 ::LookupName(QualifiersConstIterator first,
              QualifiersConstIterator last) const

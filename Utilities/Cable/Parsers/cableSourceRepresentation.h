@@ -1132,7 +1132,7 @@ public:
   
   const cxx::ClassType* GetCxxClassType(const Namespace* gns) const;
   
-  Context* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
+  virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:  
   Class(const String& name, Access access): Context(name), m_Access(access) {}
   Class(const Self&): Context("") {}
