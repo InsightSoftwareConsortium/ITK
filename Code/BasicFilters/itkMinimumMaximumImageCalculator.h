@@ -61,6 +61,9 @@ public:
   /** Type definition for the input image index type. */
   typedef typename TInputImage::IndexType IndexType;
   
+  /** Type definition for the input image region type. */
+  typedef typename TInputImage::RegionType RegionType;
+  
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
 
@@ -85,6 +88,9 @@ public:
   /** Return the index of the maximum intensity value. */
   itkGetConstReferenceMacro(IndexOfMaximum,IndexType);
 
+  /** Set the region over which the values will be computed */
+  void SetRegion( const RegionType & region );
+
 protected:
   MinimumMaximumImageCalculator();
   virtual ~MinimumMaximumImageCalculator() {};
@@ -101,6 +107,8 @@ private:
   IndexType            m_IndexOfMinimum;
   IndexType            m_IndexOfMaximum;
 
+  RegionType           m_Region;
+  bool                 m_RegionSetByUser;
 };
 
 } // end namespace itk

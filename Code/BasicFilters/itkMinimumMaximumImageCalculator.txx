@@ -36,6 +36,7 @@ MinimumMaximumImageCalculator<TInputImage>
   m_Minimum = NumericTraits<PixelType>::max() ;
   m_IndexOfMinimum.Fill(0);
   m_IndexOfMaximum.Fill(0);
+  m_RegionSetByUser = false;
 }
 
 
@@ -47,7 +48,12 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::Compute(void)
 {
-  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  if( m_RegionSetByUser )
+    {
+    m_Region = m_Image->GetRequestedRegion();
+    }
+
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image, m_Region );
   m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
   m_Minimum = NumericTraits<PixelType>::max() ;
 
@@ -78,7 +84,11 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMinimum(void)
 {
-  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  if( m_RegionSetByUser )
+    {
+    m_Region = m_Image->GetRequestedRegion();
+    }
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Region );
   m_Minimum = NumericTraits<PixelType>::max() ;
 
   while( !it.IsAtEnd() )
@@ -102,7 +112,11 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMaximum(void)
 {
-  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  if( m_RegionSetByUser )
+    {
+    m_Region = m_Image->GetRequestedRegion();
+    }
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Region );
   m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
 
   while( !it.IsAtEnd() )
@@ -118,6 +132,19 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
+
+
+template<class TInputImage>
+void
+MinimumMaximumImageCalculator<TInputImage>
+::SetRegion( const RegionType & region )
+{
+  m_Region = region;
+  m_RegionSetByUser = true;
+}
+
+
+ 
 template<class TInputImage>
 void
 MinimumMaximumImageCalculator<TInputImage>
@@ -134,6 +161,8 @@ MinimumMaximumImageCalculator<TInputImage>
   os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
   os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
   os << indent << "Image: " << m_Image << std::endl;
+  os << indent << "Region: " << m_Region << std::endl;
+  os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
 }
 
 } // end namespace itk
