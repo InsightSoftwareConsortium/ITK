@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkZeroFluxNeumannBoundaryCondition_txx
 #define __itkZeroFluxNeumannBoundaryCondition_txx
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 namespace itk
 {
 template<class TImage>
