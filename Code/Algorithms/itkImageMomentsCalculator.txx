@@ -130,7 +130,9 @@ Compute()
 
   // Throw an error if the total mass is zero
   if ( m_M0 == 0.0 )
-    throw InvalidImageMomentsError(__FILE__, __LINE__);
+    {
+    itkExceptionMacro(<<"Compute(): Total Mass of the image was zero. Aborting here to prevent division by zero later on.");
+    }
 
   // Normalize using the total mass
   for(unsigned int i=0; i<ImageDimension; i++)
@@ -192,7 +194,10 @@ typename ImageMomentsCalculator<TImage>::ScalarType
 ImageMomentsCalculator<TImage>::
 GetTotalMass() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid) 
+    {
+    itkExceptionMacro( << "GetTotalMass() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_M0;
 }
 
@@ -203,7 +208,10 @@ typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetFirstMoments() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)
+    {
+    itkExceptionMacro( << "GetFirstMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_M1;
 }
 
@@ -214,7 +222,10 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetSecondMoments() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)        
+    {
+    itkExceptionMacro( << "GetSecondMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_M2;
 }
 
@@ -225,7 +236,10 @@ typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetCenterOfGravity() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)        
+    {
+    itkExceptionMacro( << "GetCenterOfGravity() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_Cg;
 }
 
@@ -236,7 +250,10 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetCentralMoments() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)        
+    {
+    itkExceptionMacro( << "GetCentralMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_Cm;
 }
 
@@ -247,7 +264,10 @@ typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetPrincipalMoments() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)        
+    {
+    itkExceptionMacro( << "GetPrincipalMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_Pm;
 }
 
@@ -260,7 +280,10 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxes() const
 {
-  if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
+  if (!m_Valid)        
+    {
+    itkExceptionMacro( << "GetPrincipalAxes() invoked, but the moments have not been computed. Call Compute() first.");
+    }
   return m_Pa;
 }
 
