@@ -83,7 +83,7 @@ public:
   typedef typename InputImageType::PixelType InputImagePixelType; 
   
   /** Set/Get the image input of this process object.  */
-  void SetInput(InputImageType *input);
+  virtual void SetInput(InputImageType *input);
   InputImagePointer GetInput();
   InputImagePointer GetInput(unsigned int idx);
   
