@@ -39,9 +39,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-
-/** disable stupid debug warnings in MSVC++ */
+/** disable debug warnings in MS compiler */
+#ifdef _MSC_VER
 #pragma warning(disable: 4786)
+#endif
 
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMLoadGrav.h"

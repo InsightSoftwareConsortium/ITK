@@ -38,8 +38,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-/* disable stupid debug warnings in MSVC++ */
+
+/** disable debug warnings in MS compiler */
+#ifdef _MSC_VER
 #pragma warning(disable: 4786)
+#endif
 
 #include "itkFEMUtility.h"
 

@@ -41,9 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMP_h
 #define __itkFEMP_h
 
-/* disable stupid debug warnings in MSVC++ */
-#pragma warning(disable: 4786)
-
 namespace itk {
 namespace fem {
 
