@@ -57,18 +57,15 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  int openMode = std::ios::in;
 
 #ifdef _WIN32
-  openMode |= std::ios::binary;
-#endif
-#if defined(__GNUC__) && __GNUC__ >= 3
-  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
-#elif defined (__MWERKS__)
-  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+  const int openMode = std::ios::in|std::ios::binary;
+#elif ( defined(__GNUC__) && __GNUC__ >= 3 ) || defined (__MWERKS__) || defined (__INTEL_COMPILER)
+  const std::ios_base::openmode openMode = std::ios::in;
 #else
-  os.open(filename, openMode);
+  const int openMode = std::ios::in;
 #endif
+  os.open(filename, openMode);
   if ( os.fail() )
     {
     itkExceptionMacro(<< "Could not open file for reading: " << filename);
@@ -103,18 +100,14 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  int openMode = std::ios::out;
-
 #ifdef _WIN32
-  openMode |= std::ios::binary;
-#endif
-#if defined(__GNUC__) && __GNUC__ >= 3
-  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
-#elif defined (__MWERKS__)
-  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+  const int openMode = std::ios::out|std::ios::binary;
+#elif (defined(__GNUC__) && __GNUC__ >= 3) || defined (__MWERKS__) || defined (__INTEL_COMPILER)
+  const std::ios_base::openmode openMode =std::ios::out;
 #else
-  os.open(filename, openMode);
+  const int openMode = std::ios::out;
 #endif
+  os.open(filename, openMode);
   if ( os.fail() )
     {
     itkExceptionMacro(<< "Could not open file for writing: " << filename);
