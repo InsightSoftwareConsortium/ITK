@@ -77,7 +77,7 @@ namespace itk {
  *   - Replace the original value with the specified value
  *
  * \sa MorphologyImageFilter, BinaryFunctionErodeImageFilter, BinaryErodeImageFilter
- * \ingroup ImageEnhancement
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
 template<class TInputImage, class TOutputImage, class TKernel>
