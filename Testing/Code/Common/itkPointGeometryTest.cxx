@@ -7,6 +7,7 @@
 
 #include "itkVector.h"
 #include "itkPoint.h"
+#include "itkVectorContainer.h"
 #include <vnl/vnl_vector_ref.h>
 #include <iostream>
 
@@ -96,25 +97,25 @@ int main()
 
   // Test the MeanPoint
   {
-    PointType median;
+    PointType midpoint;
     PointType A;
     PointType B;
     A = 2.0,4.0,7.0;
     B = 6.0,2.0,9.0;
-    median.SetToMedian( A, B );
-    std::cout << "Test for median point " << std::endl;
+    midpoint.SetToMidPoint( A, B );
+    std::cout << "Test for MidPoint " << std::endl;
     std::cout << "PA = " << A << std::endl;
     std::cout << "PB = " << B << std::endl;
-    std::cout << "Median = " << median << std::endl;
+    std::cout << "MidPoint = " << midpoint << std::endl;
     for(unsigned int i=0; i<N; i++ )
     {
-      if( median[i] != (A[i]+B[i])/2.0 )
+      if( midpoint[i] != (A[i]+B[i])/2.0 )
       {
-        std::cerr << "Failure to compute Median Point" << std::endl;
+        std::cerr << "Failure to compute MidPoint " << std::endl;
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Test for median point PASSED" << std::endl;
+    std::cout << "Test for MidPoint point PASSED" << std::endl;
   }
 
 
@@ -177,6 +178,69 @@ int main()
       }
     }
     std::cout << "Test for Barycentric combination PASSED" << std::endl;
+  }
+
+ // Test the Barycentric combination for an array
+  {
+    const double tolerance = 1e-10;
+    PointType combination;
+    unsigned int NP = 3;
+    PointType A[NP];
+    double     w[NP-1];
+    const double K = 12.0;
+    A[0] =    K,  0.0,  0.0;
+    A[1] =  0.0,    K,  0.0;
+    A[2] =  0.0,  0.0,    K;
+    w[0] = 1/3.0;
+    w[1] = 1/3.0;
+    combination.SetToBarycentricCombination( A, w, N );
+    std::cout << "Test for Barycentric combination of an array of Points" << std::endl;
+    for(unsigned int i=0; i<N; i++ )
+    {
+      if( fabs( combination[i] - (K/3.0) ) > tolerance )
+      {
+        std::cerr << "Failure to compute Barycentric combination" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Test for Barycentric combination of an array of Points PASSED" << std::endl;
+  }
+
+
+ // Test the Barycentric combination for an VectorContainer of Points
+  {
+    const double tolerance = 1e-10;
+    PointType combination;
+    unsigned int NP = 3;
+    typedef itk::VectorContainer<unsigned long,PointType>  VectorOfPoints;
+    VectorOfPoints::Pointer points = VectorOfPoints::New();
+    points->Reserve(NP);
+    const double K = 12.0;
+    
+    VectorOfPoints::Iterator point = points->Begin();
+    point->Value() =  K,  0.0,  0.0;
+    point++;
+    point->Value() =  0.0,    K,  0.0;
+    point++;
+    point->Value() =  0.0,  0.0,    K;
+
+    double     w[NP-1];
+    w[0] = 1/3.0;
+    w[1] = 1/3.0;
+
+    typedef itk::BarycentricCombination< VectorOfPoints, double * > BarycentricCalculatorType;
+    BarycentricCalculatorType barycentreCalculator;
+    combination = barycentreCalculator.Evaluate( points, w );
+    std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;
+    for(unsigned int i=0; i<N; i++ )
+    {
+      if( fabs( combination[i] - (K/3.0) ) > tolerance )
+      {
+        std::cerr << "Failure to compute Barycentric combination" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Test for Barycentric combination of a VectorContainer of Points PASSED" << std::endl;
   }
 
 
