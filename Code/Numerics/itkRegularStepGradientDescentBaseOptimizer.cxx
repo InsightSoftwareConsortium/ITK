@@ -179,7 +179,7 @@ RegularStepGradientDescentBaseOptimizer
     magnitudeSquare += weighted * weighted;
   }
     
-  const double gradientMagnitude = vnl_math_sqrt( magnitudeSquare );
+  const double gradientMagnitude = vcl_sqrt( magnitudeSquare );
 
   if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
   {

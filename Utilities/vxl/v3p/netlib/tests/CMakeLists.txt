@@ -1,5 +1,5 @@
 IF(BUILD_TESTING)
-  LINK_LIBRARIES( netlib )
+  LINK_LIBRARIES( itknetlib )
 
 
   # test

@@ -68,7 +68,7 @@ IF(NETLIB_FOUND)
 
 
   ADD_EXECUTABLE( vnl_basic_operation_timings basic_operation_timings.cxx  )
-  TARGET_LINK_LIBRARIES( vnl_basic_operation_timings vnl )
+  TARGET_LINK_LIBRARIES( vnl_basic_operation_timings itkvnl )
 IF( CXX_TEST_PATH )
   SET(VNL_TEST_ALL ${CXX_TEST_PATH}/vnl_test_all)
   SET(VNL_TEST_INCLUDE ${CXX_TEST_PATH}/vnl_test_include)

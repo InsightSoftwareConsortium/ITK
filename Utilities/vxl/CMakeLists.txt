@@ -16,6 +16,17 @@ SET(BUILD_EXAMPLES 1)
 # To avoid typing for the FindXXX.cmake modules
 SET( MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules CACHE INTERNAL "VXL module path" )
 
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl
+                    ${ITK_BINARY_DIR}/Utilities/vxl/vcl
+                    ${ITK_SOURCE_DIR}/Utilities/vxl)
+
+IF(WIN32)
+  IF(NOT CYGWIN)
+    INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl/config.win32)
+  ENDIF(NOT CYGWIN)
+ENDIF(WIN32)
+
+
 INCLUDE(${MODULE_PATH}/FindNetlib.cmake)
 # Build the core vxl + support libraries
 SUBDIRS(v3p/netlib testlib vnl)

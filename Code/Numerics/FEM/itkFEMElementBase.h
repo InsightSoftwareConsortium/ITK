@@ -169,8 +169,8 @@ public:
     /**
      * Create 3D node.
      */
-    Node(Float x, Float y, Float z) : m_coordinates(VectorType(x,y,z)) {}
-
+        Node(Float x, Float y, Float z) : m_coordinates(VectorType(3))
+    { m_coordinates[0]=x; m_coordinates[1]=y; m_coordinates[2]=z;}
     /**
      * Return a reference to a vector that contains coordinates
      * of this node.

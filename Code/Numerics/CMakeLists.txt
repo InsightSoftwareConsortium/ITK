@@ -1,4 +1,7 @@
-SUBDIRS(vxl Statistics)
+IF(NOT VXL_FROM_UTILITIES)
+  SUBDIRS(vxl)
+ENDIF(NOT VXL_FROM_UTILITIES)
+SUBDIRS(Statistics)
 # Sources of non-templated classes.
 SET(ITKNumerics_SRCS
 itkCacheableScalarFunction.cxx

@@ -131,16 +131,19 @@ MAKE_DIRECTORY(${ITK_BINARY_DIR}/Documentation/Doxygen)
 
 # run VXL configure scripts
 IF(RUN_CONFIGURE)
+ IF(NOT VXL_FROM_UTILITIES)
   IF(UNIX)
     EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
                  ${ITK_BINARY_DIR}/Code/Numerics/vxl)
     EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
                  ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
   ENDIF(UNIX)
+ ENDIF(NOT VXL_FROM_UTILITIES)
 ENDIF(RUN_CONFIGURE)
 
 # for win32 vc60, just copy files
 IF(NOT UNIX)
+ IF(NOT VXL_FROM_UTILITIES)
   IF(WIN32)
     CONFIGURE_FILE(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
@@ -155,6 +158,7 @@ IF(NOT UNIX)
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h COPYONLY)
   ENDIF(WIN32)
+ ENDIF(NOT VXL_FROM_UTILITIES)
 ENDIF(NOT UNIX)
 
 # Add an option to use or not use VTK
