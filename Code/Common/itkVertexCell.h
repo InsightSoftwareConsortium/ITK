@@ -80,10 +80,10 @@ public:
   static Pointer New(void) { return new Self; }
   
   /** Pick-up typedefs from superclass or classes that we use. */
-  typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
   typedef typename Superclass::PointIdIterator        PointIdIterator;
   typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
+  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
   
   /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 

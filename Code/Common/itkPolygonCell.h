@@ -65,10 +65,10 @@ public:
   typedef typename Superclass::CellTraits             CellTraits;
 
   /** Extract typedefs from superclass. */
-  typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier                       CellFeatureCount;
   typedef typename Superclass::PointIdIterator        PointIdIterator;
   typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
+  typedef typename Superclass::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
   
   /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
