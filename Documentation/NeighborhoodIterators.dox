@@ -1,20 +1,24 @@
 /**
+\page NeighborhoodIteratorsPage Neighborhood Iterators
 
-  \page NeighborhoodIteratorsPage Neighborhood Iterators
+\section Introduction
 
+\par
+Neighborhood iterators are the abstraction of the concept of \em locality in
+image processing. They are designed to be used in algorithms that perform
+calculations using a neighborhood of pixel values around a point in an image.
 
-  \section Introduction
+\par
+For example, a classic neighborhood-based operation is to compute the mean of a
+set of pixels in order to reduce noise in an image. This is typically done by
+taking a region of 3x3 pixels and computing the average of their values. A new
+image is produced with the resulting means, this new image contains a lower
+amount of high frequencies and a cause of that a reduced amount of noise.
 
-  Neighborhood iterators are the abstraction of the concept of \em locality in
-  image processing. A classical use of this notion is to compute the mean of a
-  set of pixels in order to reduce noise in an image. This is typically done by
-  taking a region of 3x3 pixels and computing the mean of their values. A new
-  image is produced with the resulting means, this new image contains a lower
-  amount of high frequencies and a cause of that a reduced amount of noise.
+\par
+This code in classical \em texbook notation can look like:
 
-  This code in classical \em texbook notation can look like:
-
-  \code
+\code
 
   int nx = 512;
   int ny = 512;
@@ -28,39 +32,75 @@
       sum += image(x-1,y  ) + image(x  ,y  ) + image(x+1,y  );
       sum += image(x-1,y+1) + image(x  ,y+1) + image(x+1,y+1);
     }
-  }
-  
-  \endcode
+  }  
+\endcode
 
+\par
+The code above is readable and straightforward to implement.  But its
+efficiency is limited to the speed of random access into the image.  We can
+eliminate the random access bottleneck by using iterators to dereference
+pixels, and, for a two-dimensional image, code-readability may not suffer too much.
+But what if we want code to efficiently process an image of three, four, or
+more dimensions?  What if we want completely generic code for any dimension?
+Before long, our code size and complexity has increased to unacceptable levels.
+In Itk, we have encapsulated this functionality for efficiency, readability, and
+reusability.
 
-  Which shows clearly why neghborhood greater than 5x5 are rarely used...
+\section NeighborhoodIterators
+itk::Image neighborhood iteration and dereferencing is encapsulated in the
+itk::NeighborhoodIterator classes. ITK NeighborhoodIterators allow code
+that is closer to the algorithmic abstraction,
 
-  A large variety of tricks has been proposed to speed up this kind of
-  processes but all of them tend to make the code hard to read and error prone.
-  
-  ITK neighborhood iterators are closer to the algorithmic abraction, that
-  should be:
-
+code
   ForAllThePixels p in Image
      GetTheNeighbors in a 3x3 region
        Compute their means
          Write the value to the output
- 
-  Here is how this is writen in ITK:         
+\endcode
 
+Here is how the pseudocode above can be rewritten in ITK using neighborhood
+iterators:
 
-  \code
+\code
+1   typedef itk::Image<float, 2> ImageType;
+2   typedef itk::SmartNeighborhoodIterator<ImageType> NeighborhoodIterator;
+3   typedef itk::ImageRegionIterator<ImageType>       ImageIterator;
+4
+5   ImageType::Pointer input_image  = GetImageSomehow();
+6   ImageType::Pointer output_image = GetImageSomehow();
+7
+8   // A radius of 1 in all axial directions gives a 3x3x3x3x... neighborhood.
+9   NeighborhoodIterator::RadiusType radius;
+10  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i) radius[i] = 1;
+11
+12  // Initializes the iterators on the input & output image regions
+13  NeighborhoodIterator it(radius, input_image, 
+14                                  output_image->GetRequestedRegion());
+15  ImageIterator out(output_image, output_image->GetRequestedRegion());
+16
+17  // Iterates over the input and output
+18  for (it.SetToBegin(), out = out.Begin(); ! it.IsAtEnd(); ++it, ++out )
+19    {
+20      float accum = 0.0;
+21      for (unsigned int i = 0; i < it.Size(); ++i)
+22        {    
+23          accum += it.GetPixel(i);  
+24        }
+25      out.Set(accum/(float)(it.Size()));
+26    }
+\endcode
 
-  ImageType::Pointer image = GetImageSomehow();
-  
-  NeighborhoodIterator it;
-  
-  \endcode
-        
-  \section  
+\par        
+Note that all of the work is done in lines 18-26. The code is also completely
+generalized for multiple dimensions.  Changing line 1 to:
+\code
+1   typedef itk::Image<float, 5> ImageType;
+\endcode
+produces an averaging filter for five-dimensional images.
 
-  \subsection
+\section NeighborhoodOperators
 
+\section Calculations at Image Boundaries
   
 
 */
