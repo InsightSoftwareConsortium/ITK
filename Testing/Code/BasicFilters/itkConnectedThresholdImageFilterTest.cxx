@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkImageRegionIterator.h"
+#include "itkFilterWatcher.h"
 
 int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
 {
@@ -39,6 +40,8 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
   typedef itk::ConnectedThresholdImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
+
     filter->SetInput(input->GetOutput());
 
     FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;

@@ -21,6 +21,7 @@
 #include "itkBSplineResampleImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkBSplineDecompositionImageFilter.h"
+#include "itkFilterWatcher.h"
 #include "itkImage.h"
 #include "itkSize.h"
 #include "itkRandomImageSource.h"
@@ -59,6 +60,7 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
 
   typedef itk::BSplineDecompositionImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter,"filter");
 
   filter->SetSplineOrder( SplineOrder );
   filter->SetInput( source->GetOutput() );

@@ -19,19 +19,7 @@
 #include "itkTextOutput.h"
 #include "itkCommand.h"
 #include "itkImageRegionIteratorWithIndex.h"
-
-
-// The following classe is used to support callbacks
-// on the filter in the pipeline that follows later
-class ShowProgressObject
-{
-public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  itk::ProcessObject::Pointer m_Process;
-};
+#include "itkFilterWatcher.h"
 
 int itkFlipImageFilterTest(int, char* [] )
 {
@@ -76,20 +64,13 @@ int itkFlipImageFilterTest(int, char* [] )
 
   // permute the image
   FlipperType::Pointer flipper = FlipperType::New();
+  FilterWatcher watcher(flipper);
 
   bool bArray[ImageDimension] = { true, false, true };
   FlipperType::FlipAxesArrayType flipAxes( bArray );
  
   flipper->SetFlipAxes( flipAxes );
   flipper->SetInput( inputImage );
-
-  ShowProgressObject progressWatch(flipper);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  flipper->AddObserver( itk::ProgressEvent(), command);
-
   flipper->Update();
 
   flipper->Print( std::cout );

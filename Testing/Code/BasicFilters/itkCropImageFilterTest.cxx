@@ -21,6 +21,7 @@
 #include "itkCropImageFilter.h"
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
+#include "itkFilterWatcher.h"
 
 int itkCropImageFilterTest(int, char* [] )
 {
@@ -64,6 +65,8 @@ int itkCropImageFilterTest(int, char* [] )
   // Create a filter
   itk::CropImageFilter< ShortImage, ShortImage >::Pointer extract;
   extract = itk::CropImageFilter< ShortImage, ShortImage >::New();
+  FilterWatcher watcher(extract);
+
   extract->SetInput( if2 );
   
   ShortImage::RegionType requestedRegion;

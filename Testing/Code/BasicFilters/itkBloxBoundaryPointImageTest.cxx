@@ -23,6 +23,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkPoint.h"
+#include "itkFilterWatcher.h"
 
 // Blox stuff
 #include "itkBloxBoundaryPointPixel.h"
@@ -129,6 +130,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
   binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
+  FilterWatcher watcher(binfilter);
 
   sourceImage->SetRequestedRegion(sourceImage->GetLargestPossibleRegion() );
 

@@ -20,6 +20,7 @@
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
+#include "itkFilterWatcher.h"
 
 int itkCannyEdgeDetectionImageFilterTest(int , char * [] )
 {
@@ -31,6 +32,8 @@ int itkCannyEdgeDetectionImageFilterTest(int , char * [] )
       itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer 
         filter =
         itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::New();
+      FilterWatcher watcher(filter);
+
       filter->SetVariance(1.0f);
       filter->SetMaximumError(.01f);
       std::cout << "filter: " << filter;

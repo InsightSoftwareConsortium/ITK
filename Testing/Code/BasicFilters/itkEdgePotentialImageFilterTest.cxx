@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkCovariantVector.h"
 #include "itkImageRegionIterator.h"
-
+#include "itkFilterWatcher.h"
 
 int itkEdgePotentialImageFilterTest(int, char* [] ) 
 {
@@ -95,7 +95,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
                                OutputImageType  >  FilterType;
                                           
   FilterType::Pointer filter = FilterType::New();
-
+  FilterWatcher watcher(filter);
 
   // Connect the input images
   filter->SetInput( inputImage ); 

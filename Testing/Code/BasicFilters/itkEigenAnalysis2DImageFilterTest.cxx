@@ -18,8 +18,7 @@
 #include <itkEigenAnalysis2DImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkCovariantVector.h>
-
-
+#include "itkFilterWatcher.h"
 
 
 // Define the dimension of the images
@@ -160,7 +159,7 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
 
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
-
+  FilterWatcher watcher(filter);
 
   // Connect the input images
   filter->SetInput1( inputImageXX ); 
