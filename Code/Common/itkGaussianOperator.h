@@ -75,6 +75,7 @@ public:
   {
     m_Variance = other.m_Variance;
     m_MaximumError = other.m_MaximumError;
+    m_MaximumKernelWidth = other.m_MaximumKernelWidth;
   }
 
   /** Assignment operator */
