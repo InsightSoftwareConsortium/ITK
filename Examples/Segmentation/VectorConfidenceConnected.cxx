@@ -25,7 +25,7 @@
 //  matrix instead of a variance, and a vector mean instead of a scalar mean.
 //  The membership of a vector pixel value to the region is measured using the
 //  Mahalanobis distance as implemented in the class
-//  \subdoxyge{Statistics}{MahalanobisDistanceImageFunction}.
+//  \subdoxygen{Statistics}{MahalanobisDistanceImageFunction}.
 //
 //  Software Guide : EndLatex 
 
