@@ -61,6 +61,9 @@ public:
   /** Output type for the function. */
   typedef typename Superclass::OutputType OutputType;
 
+  /** Spatial dimension. */
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+
   /** Evaluate the function at a given position. Remember, position is
   * represented by an n-d itk::Point object with data type double. */
   virtual OutputType Evaluate( const InputType& input ) const = 0;
