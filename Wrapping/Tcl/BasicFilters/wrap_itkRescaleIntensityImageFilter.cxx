@@ -21,7 +21,8 @@
 #include "wrap_ITKBasicFilters.h"
 
 #define ITK_WRAP_RIIF(x, y) \
-  ITK_WRAP_IMAGE_TO_IMAGE(RescaleIntensityImageFilter, x, y)
+  ITK_WRAP_IMAGE_TO_IMAGE(RescaleIntensityImageFilter, x, y) \
+  ITK_WRAP_IMAGE_TO_IMAGE_SUPERCLASS(RescaleIntensityImageFilter, x, y)
 
 ITK_WRAP_CONFIG_GROUP(itkRescaleIntensityImageFilter);
 ITK_WRAP_DEFINE_IMAGE_TYPES();
