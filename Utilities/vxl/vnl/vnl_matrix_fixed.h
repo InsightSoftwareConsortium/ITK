@@ -445,7 +445,8 @@ public:
   T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
   //: Return mean of all matrix elements
-  T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
+  T mean() const { return vnl_c_vector<T>::mean(begin(), num_rows * num_cols); }  
+  // size() call causes an ICE with VS7 WAH
 
   // predicates
 
