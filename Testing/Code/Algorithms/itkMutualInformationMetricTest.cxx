@@ -110,7 +110,7 @@ int main()
   TargetIteratorType ti(imgTarget,region);
   ri.Begin();
   while(!ri.IsAtEnd())
-  {
+    {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
     d = p-center;
@@ -119,20 +119,20 @@ int main()
     const double y = d[1];
     ri.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
-  }
+    }
 
 
   ti.Begin();
   while(!ti.IsAtEnd())
-  {
+    {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
-  d = p-center;
-  const double x = d[0];
-  const double y = d[1];
+    d = p-center;
+    const double x = d[0];
+    const double y = d[1];
     ti.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
-  }
+    }
 
 //-----------------------------------------------------------
 // Set up a transformer
@@ -244,6 +244,12 @@ int main()
     metric->GetTargetStandardDeviation() << std::endl;
   std::cout << "Reference std dev = " <<
     metric->GetReferenceStandardDeviation() << std::endl;
+
+  metric->Print( std::cout );
+
+  itk::KernelFunction::Pointer theKernel = metric->GetKernelFunction();
+  metric->SetKernelFunction( theKernel );
+  theKernel->Print( std::cout );
 
   std::cout << "Try causing a exception by making std dev too small";
   std::cout << std::endl;
