@@ -17,72 +17,25 @@
 #include <itkImageAdaptor.h>
 #include <itkScalar.h>
 #include <itkImageRegionSimpleIterator.h>
+#include <itkRGB.h>
+#include <itkDataAccessorRGBtoRed.h>
 
-
-//-------------------------------------
-// Class RGB to be used as pixel type
-//-------------------------------------
-class RGB {
-  public:
-    float r;
-    float g;
-    float b;
-  public:
-    RGB() {
-      r = g = b = 0.0;
-    }
-    RGB( float ir, float ig, float ib ) {
-      r = ir;
-      g = ig;
-      b = ib;
-    }
-    const RGB & operator=( const RGB & c ) {
-      r = c.r;
-      g = c.g;
-      b = c.b;
-      return *this;
-    }
-};
-
-
-//---------------------------------------------
-// Accessor type that defines what part of the
-// pixel type will be presented externally
-//---------------------------------------------
-class myRedAccessorType 
-{
-  public:
-    typedef RGB     InternalType;
-    typedef float   ExternalType;
-    static inline void Set( InternalType & pixel, 
-                            const ExternalType & value ) 
-    {
-      pixel.r = value;
-    }
-
-    static inline ExternalType Get( const InternalType & value )
-    {
-      return (ExternalType)(value.r);
-    }
-  
-};
 
 
 
 //-------------------------------------
 //     Typedefs for convinience
 //-------------------------------------
-typedef itk::Image< RGB,   2 > myImageType;
+typedef itk::Image< itk::RGB<float>,   2 > myImageType;
 
-typedef itk::ImageAdaptor< 
-                  myImageType, 
-                  myRedAccessorType > myRedAdaptorType;
 
-typedef itk::ImageRegionSimpleIterator< 
-                         myImageType > myIteratorType;
+typedef itk::DataAccessorRGBtoRed<float> myRedAccessorType;
 
-typedef itk::ImageRegionSimpleIterator< 
-                         myRedAdaptorType > myRedIteratorType;
+typedef itk::ImageAdaptor< myImageType, myRedAccessorType > myRedAdaptorType;
+
+typedef itk::ImageRegionSimpleIterator< myImageType >       myIteratorType;
+
+typedef itk::ImageRegionSimpleIterator< myRedAdaptorType >  myRedIteratorType;
 
 
 
@@ -92,6 +45,7 @@ typedef itk::ImageRegionSimpleIterator<
 //
 //-------------------------
 int main() {
+
 
   myImageType::SizeType size;
   size[0] = 2;
@@ -107,6 +61,7 @@ int main() {
 
   myImageType::Pointer myImage = myImageType::New();
 
+
   myImage->SetLargestPossibleRegion( region );
   myImage->SetBufferedRegion( region );
   myImage->SetRequestedRegion( region );
@@ -115,7 +70,7 @@ int main() {
   myIteratorType  it1( myImage, myImage->GetRequestedRegion() );
   
   // Value to initialize the pixels
-  RGB color( 1.0, 0.5, 0.5 );
+  myImageType::PixelType  color( 1.0, 0.5, 0.5 );
   
   // Initializing all the pixel in the image
   it1.Begin();
@@ -126,14 +81,17 @@ int main() {
   }
 
   // Reading the values to verify the image content
+  std::cout << "--- Before --- " << std::endl;
   it1.Begin();
   while( !it1.IsAtEnd() )
   {
-    const RGB c = it1.Get();
-    std::cout << c.r << "  " << c.g;
-    std::cout << "  " << c.b << std::endl;
+    const myImageType::PixelType c( it1.Get() );
+    std::cout << c.GetRed()   << "  ";
+    std::cout << c.GetGreen() << "  ";
+    std::cout << c.GetBlue()  << std::endl;
     ++it1;
   }
+
 
 
   myRedAdaptorType::Pointer myAdaptor = myRedAdaptorType::New();
@@ -146,18 +104,20 @@ int main() {
   it2.Begin();
   while( !it2.IsAtEnd() )
   {
-    it2.Set(0.4);
+    it2.Set( 0.4 );
     ++it2;
   }
+
 
   std::cout << "--- After --- " << std::endl;
 
   it1.Begin();
   while( !it1.IsAtEnd() )
   {
-    const RGB c = it1.Get();
-    std::cout << c.r << "  " << c.g;
-    std::cout << "  " << c.b << std::endl;
+    const myImageType::PixelType c( it1.Get() );
+    std::cout << c.GetRed()   << "  ";
+    std::cout << c.GetGreen() << "  ";
+    std::cout << c.GetBlue()  << std::endl;
     ++it1;
   }
 
