@@ -71,14 +71,14 @@ int itkFEMPArrayTest(int, char*[])
     std::cout << "Nodes\n";
 
 
-    NodeType::Pointer node; 
+    NodeType::Pointer node, node1, node2, node3, node4; 
 
     try 
       { 
-      node = &*array.Find(0);
-      node = &*array.Find(1);
-      node = &*array.Find(2);
-      node = &*array.Find(3);
+      node1 = &*array.Find(0);
+      node2 = &*array.Find(1);
+      node3 = &*array.Find(2);
+      node4 = &*array.Find(3);
       }
     catch ( itk::ExceptionObject &e) 
       {
