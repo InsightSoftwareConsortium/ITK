@@ -170,6 +170,13 @@ ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png)
 
+ADD_TEST(itkConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
+  itkConnectedComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png 130 145)
+
 ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
@@ -337,6 +344,7 @@ itkCannyEdgeDetectionImageFilterTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkComposeRGBImageFilterTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
+itkConnectedComponentImageFilterTest.cxx
 itkConnectedThresholdImageFilterTest.cxx
 itkConstantPadImageTest.cxx
 itkCosImageFilterAndAdaptorTest.cxx
