@@ -13,19 +13,19 @@
 */
 
 /**
-  \defgroup Image Image
+  \defgroup ImageObjects Image Representation Objects
   \ingroup DataRepresentation
   This category includes the objects required to represent images in ITK. 
 */
 
 /**
-  \defgroup Mesh Mesh
+  \defgroup MeshObjects Mesh Representation Objects
   \ingroup DataRepresentation
   This category includes the objects required to represent meshes in ITK.
 */
 
 /**
-  \defgroup Geometry Geometry
+  \defgroup Geometry Geometry Representation Objects
   \ingroup DataRepresentation
 
   This category include the objects required to represent geometrical entities
@@ -44,6 +44,18 @@
 */
 
 /**
+\defgroup ImageAccess Image Access Objects
+\ingroup DataAccess
+*/
+
+
+/**
+\defgroup MeshAccess Mesh Access Objects
+\ingroup DataAccess
+*/
+
+
+/**
 \defgroup Iterators Iterators
 \ingroup DataAccess
 Iterators are the mechanism used to walk over the content of a particular data object.
@@ -56,6 +68,8 @@ They allow to define paths and directions along which the data should be walked 
 Image Iterators allow to go through the content of an image in a predefined way.
 For a detailed description of iterators rationale see \ref ImageIteratorsPage
 */
+
+
 
 
 /** 
@@ -232,6 +246,13 @@ Examples of these types of segmentation methods in ITK include: curvature flow-b
   fast marching filters, and shape-detection filters.
 */  
 
+/**
+ \defgroup HybridSegmentation Hybrid Segmentation Filters
+ \ingroup ImageSegmentation
+ These filters are hybrid between intensity-based, region-based, or model-based image
+ segmentation filters. 
+*/  
+
 
 /**
  \defgroup RegistrationFilters Registration Filters
@@ -332,14 +353,8 @@ the image grid space defined by an Index.
 */
 
 /**
-\defgroup ContinuousImageFunctions Continuous Image Functions
-\ingroup ImageFunctions
-Continuous image functions compute single values using data from an
-Image previously specified. The value is computed in a position of
-the continuous space defined by a Point.
-\sa Image
-\sa Point
-\sa ImageFunction
+\defgroup SpatialFunctions Spatial Functions
+\ingroup Functions
 */
 
 
