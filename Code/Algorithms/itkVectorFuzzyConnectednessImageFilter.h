@@ -80,9 +80,9 @@ public:
   enum {VectorDimension = InputPixelType::VectorDimension};
 
   /** Vector and matrix related typedefs. */
-  typedef   itk::Matrix<double,VectorDimension,VectorDimension>               MatrixType;
-  typedef   itk::Vector<int,VectorDimension>                    VDVector;
-  typedef   itk::Vector<int,ImageDimension>                     IDVector;
+  typedef   Matrix<double,VectorDimension,VectorDimension>               MatrixType;
+  typedef   Vector<int,VectorDimension>                    VDVector;
+  typedef   Vector<int,ImageDimension>                     IDVector;
 
   /** Convenient typedefs. */
   typedef   TInputImage                           InputImageType;
