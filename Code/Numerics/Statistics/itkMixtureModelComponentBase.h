@@ -121,7 +121,7 @@ public:
 
 protected:
   MixtureModelComponentBase() ;
-  virtual ~MixtureModelComponentBase() {}
+  virtual ~MixtureModelComponentBase() ;
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** allocates the weights array */

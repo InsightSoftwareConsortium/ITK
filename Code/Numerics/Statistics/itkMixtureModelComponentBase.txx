@@ -26,7 +26,19 @@ template< class TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
+  m_Weights = 0 ;
   m_MinimalParametersChange = 1.0e-06 ;
+}
+
+template< class TSample >
+MixtureModelComponentBase< TSample >
+::~MixtureModelComponentBase()
+{
+  if ( m_Weights != 0 )
+    {
+      delete m_Weights ;
+      m_Weights = 0 ;
+    }
 }
 
 template< class TSample >
@@ -101,6 +113,12 @@ void
 MixtureModelComponentBase< TSample >
 ::CreateWeightArray()
 {
+  if ( m_Weights != 0 )
+    {
+      delete m_Weights ;
+      m_Weights = 0 ;
+    }
+
   m_Weights = new WeightArrayType(m_Sample->Size());
 }
 
