@@ -8,8 +8,6 @@ wm geometry . 1024x500
 set dir [file dirname [info script]]
 set logo [file join $dir itkLogoMediumTransparentBackground.gif]
 
-itk::PNGImageIOFactory RegisterOneFactory
-
 # Initial configuration.
 set fileName ""
 set timestep 0.25
