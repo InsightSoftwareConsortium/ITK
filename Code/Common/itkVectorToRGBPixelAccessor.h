@@ -63,16 +63,13 @@ public:
     }
 
   /** Read access to the VectorToRGB component */
-  inline const ExternalType & Get( const InternalType & input ) const
-    { 
-    m_Temp[0] = input[0];  
-    m_Temp[1] = input[1];  
-    m_Temp[2] = input[2];  
-    return m_Temp;
+  inline ExternalType Get( const InternalType & input ) const
+    {
+    ExternalType rgb(input.GetDataPointer());
+    return rgb;
     }
 
 private:
-  mutable ExternalType m_Temp;
 };
   
 }  // end namespace Accessor
