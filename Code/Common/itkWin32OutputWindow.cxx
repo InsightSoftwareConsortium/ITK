@@ -216,7 +216,7 @@ Win32OutputWindow
   
   lpParam.lpszName = "Output Control";
   lpParam.lpszClass = "EDIT";  // use the RICHEDIT control widget
-  lpParam.dwExStyle = NULL;
+  lpParam.dwExStyle = 0;
   /**
    * Create the EDIT window as a child of win
    */
@@ -262,13 +262,6 @@ Win32OutputWindow
     Object::GlobalWarningDisplayOff(); 
     }
   msg.rdbuf()->freeze(0);
-}
-
-Win32OutputWindow* 
-Win32OutputWindow
-::New()
-{ 
-  return new Win32OutputWindow;
 }
 
 } // end namespace itk

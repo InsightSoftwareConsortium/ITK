@@ -47,12 +47,12 @@ public:
    * counting will work.   The single instance will be unreferenced when
    * the program exits.
    */
-  static OutputWindow* New();
+  static Pointer New();
 
   /**
    * Return the singleton instance with no reference counting.
    */
-  static OutputWindow* GetInstance();
+  static Pointer GetInstance();
 
   /**
    * Supply a user defined output window. Call ->Delete() on the supplied
@@ -83,7 +83,7 @@ protected:
 
 private:
   bool m_PromptUser;
-  static OutputWindow* m_Instance;
+  static Pointer m_Instance;
 };
   
 } // end namespace itk

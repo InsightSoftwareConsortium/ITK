@@ -14,7 +14,7 @@
 
 =========================================================================*/
 #include "itkOutputWindow.h"
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include "itkWin32OutputWindow.h"
 #endif
 #include "itkObjectFactory.h"
@@ -22,7 +22,7 @@
 namespace itk
 {
   
-OutputWindow* OutputWindow::m_Instance = 0;
+OutputWindow::Pointer OutputWindow::m_Instance = 0;
 
 /**
  * Prompting off by default
@@ -81,25 +81,22 @@ OutputWindow
 /**
  * Return the single instance of the OutputWindow
  */
-OutputWindow* 
+OutputWindow::Pointer
 OutputWindow
 ::GetInstance()
 {
   if ( !OutputWindow::m_Instance )
     {
-    /**
-     * Try the factory first
-     */
-
-    /**
-     * if the factory did not provide one, then create it here
-     */
+    // Try the factory first
+    OutputWindow::m_Instance  = ObjectFactory<Self>::Create();
+    // if the factory did not provide one, then create it here
     if( ! OutputWindow::m_Instance )
       {
-#ifdef _MSC_VER
+      // For the windows OS, use a special output window
+#ifdef _WIN32
       OutputWindow::m_Instance = Win32OutputWindow::New();
 #else
-      OutputWindow::m_Instance = OutputWindow::New();
+      OutputWindow::m_Instance = new OutputWindow;
 #endif
       }
     }
@@ -117,33 +114,17 @@ OutputWindow
     {
     return;
     }
-
-  /**
-   * preferably this will be NULL
-   */
-  if ( OutputWindow::m_Instance )
-    {
-    OutputWindow::m_Instance->Delete();;
-    OutputWindow::m_Instance = NULL;
-    }
-
   OutputWindow::m_Instance = instance;
-
 }
 
 /**
- * Up the reference count so it behaves like New
+ * This just calls GetInstance
  */
-OutputWindow* 
+OutputWindow::Pointer 
 OutputWindow
 ::New()
 { 
-  if ( ! OutputWindow::m_Instance )
-    {
-    OutputWindow::m_Instance = new OutputWindow;
-    }
-  
-  return OutputWindow::m_Instance;
+  return GetInstance();
 }
 
 
