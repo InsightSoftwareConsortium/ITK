@@ -80,11 +80,11 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   os << indent << "OutputIntensityThreshold: ";
   os << m_ReferenceIntensityThreshold << std::endl;
   os << indent << "Source histogram: ";
-  os << m_SourceHistogram << std::endl;
+  os << m_SourceHistogram.GetPointer() << std::endl;
   os << indent << "Reference histogram: ";
-  os << m_ReferenceHistogram << std::endl;
+  os << m_ReferenceHistogram.GetPointer() << std::endl;
   os << indent << "Output histogram: ";
-  os << m_OutputHistogram << std::endl;
+  os << m_OutputHistogram.GetPointer() << std::endl;
   os << indent << "QuantileTable: " << std::endl;
   os << m_QuantileTable << std::endl;
   os << indent << "Gradients: " << std::endl;
