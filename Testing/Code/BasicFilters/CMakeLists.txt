@@ -11,6 +11,7 @@ LINK_LIBRARIES (
 ITKBasicFilters 
 ITKCommon
 ITKIO
+ITKNumerics
 itkpng
 itkzlib
 ITKNumerics
@@ -225,6 +226,6 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest
 
 
 ADD_TEST(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest)
-ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest)
+ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx BasicFilters_SRCS)

@@ -36,4 +36,4 @@ SOURCE_FILES(
 )
 
 ADD_EXECUTABLE( itkSpatialObjectTests itkSpatialObjectTests.cxx SpatialObject_SRCS)
-ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest)
+ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)

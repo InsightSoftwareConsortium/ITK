@@ -153,6 +153,6 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
 )
 
 
-ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest)
+ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx BasicTests_SRCS)
 

@@ -9,7 +9,7 @@ LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
-ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
+ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 
 SOURCE_FILES(IOTest_SRCS
 itkConvertBufferTest
@@ -32,7 +32,7 @@ ${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
 
 IF(VW_RAW_DATA_PATH)
 ADD_TEST(itkRawImageIOTest2 itkIOTests itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
-ADD_EXECUTABLE(itkRawImageIOTest2 itkRawImageIOTest2)
+ADD_EXECUTABLE(itkRawImageIOTest2 itkRawImageIOTest2.cxx)
 ENDIF(VW_RAW_DATA_PATH)
 
 # Add VTK code if we found VTK

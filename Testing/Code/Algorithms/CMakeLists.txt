@@ -149,7 +149,7 @@ itkVoronoiSegmentationImageFilterTest
 itkWatershedImageFilterTest 
 )
 
-ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest)
+ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 ADD_TEST(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest)
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx AlgorithmsTest_SRCS)
