@@ -150,6 +150,8 @@ void RegisterTests()
   REGISTER_TEST(itkNormalizeImageFilterTest  );
   REGISTER_TEST(itkObjectMorphologyImageFilterTest );
   REGISTER_TEST(itkOrImageFilterTest );
+  REGISTER_TEST(itkOrientImageFilterTest);
+  REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
   REGISTER_TEST(itkPasteImageFilterTest );
   REGISTER_TEST(itkPathToChainCodePathFilterTest );
   REGISTER_TEST(itkPathToImageFilterTest );
@@ -178,7 +180,6 @@ void RegisterTests()
   REGISTER_TEST(itkSmoothingRecursiveGaussianImageFilterTest );
   REGISTER_TEST(itkSparseFieldFourthOrderLevelSetImageFilterTest );
   REGISTER_TEST(itkSparseFieldLayerTest);
-  REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageFilterTest );
   REGISTER_TEST(itkSpatialObjectToImageStatisticsCalculatorTest );
   REGISTER_TEST(itkSpatialObjectToPointSetFilterTest );
@@ -190,28 +191,5 @@ void RegisterTests()
   REGISTER_TEST(itkStreamingImageFilterTest );
   REGISTER_TEST(itkStreamingImageFilterTest2 );
   REGISTER_TEST(itkSubtractImageFilterTest );
-  REGISTER_TEST(itkTanImageFilterAndAdaptorTest );
-  REGISTER_TEST(itkTernaryMagnitudeImageFilterTest );
-  REGISTER_TEST(itkTileImageFilterTest );
-  REGISTER_TEST(itkThresholdImageFilterTest );
-  REGISTER_TEST(itkThresholdLabelerImageFilterTest );
-  REGISTER_TEST(itkTobogganImageFilterTest );
-  REGISTER_TEST(itkTransformMeshFilterTest );
-  REGISTER_TEST(itkTriangleMeshToSimplexMeshFilterTest);
-  REGISTER_TEST(itkTriangleMeshToSimplexMeshFilter2Test);
-  REGISTER_TEST(itkTwoOutputExampleImageFilterTest );
-  REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
-  REGISTER_TEST(itkVectorExpandImageFilterTest );
-  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest1 );
-  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest2 );
-  REGISTER_TEST(itkVectorNeighborhoodOperatorImageFilterTest );
-  REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
-  REGISTER_TEST(itkVectorResampleImageFilterTest );
-  REGISTER_TEST(itkVectorRescaleIntensityImageFilterTest );
-  REGISTER_TEST(itkWarpImageFilterTest );
-  REGISTER_TEST(itkWeightedAddImageFilterTest);
-  REGISTER_TEST(itkWarpVectorImageFilterTest );
-  REGISTER_TEST(itkWrapPadImageTest );
-  REGISTER_TEST(itkOrientImageFilterTest);
 }
 
