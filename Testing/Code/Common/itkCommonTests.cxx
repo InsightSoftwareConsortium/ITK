@@ -125,6 +125,7 @@ REGISTER_TEST(itkTranslationTransformTest );
 REGISTER_TEST(itkVarianceImageFunctionTest );
 REGISTER_TEST(itkVectorGeometryTest );
 REGISTER_TEST(itkVectorMeanImageFunctionTest );
+REGISTER_TEST(itkVersorTransformTest );
 REGISTER_TEST(itkVersorTest );
 REGISTER_TEST(itkVersorRigid3DTransformTest );
 REGISTER_TEST(itkVectorTest );

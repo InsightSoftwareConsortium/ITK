@@ -135,6 +135,7 @@ ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS} itkTranslationTransformTest
 ADD_TEST(itkVarianceImageFunctionTest ${COMMON_TESTS} itkVarianceImageFunctionTest)
 ADD_TEST(itkVectorGeometryTest ${COMMON_TESTS} itkVectorGeometryTest)
 ADD_TEST(itkVectorMeanImageFunctionTest ${COMMON_TESTS} itkVectorMeanImageFunctionTest)
+ADD_TEST(itkVersorTransformTest ${COMMON_TESTS} itkVersorTransformTest)
 ADD_TEST(itkVersorTest ${COMMON_TESTS} itkVersorTest)
 ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransformTest)
 ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
@@ -306,6 +307,7 @@ itkTranslationTransformTest.cxx
 itkVectorGeometryTest.cxx
 itkVarianceImageFunctionTest.cxx
 itkVectorMeanImageFunctionTest.cxx
+itkVersorTransformTest.cxx
 itkVersorTest.cxx
 itkVersorRigid3DTransformTest.cxx
 itkVectorTest.cxx
