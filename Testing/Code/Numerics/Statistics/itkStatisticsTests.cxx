@@ -10,6 +10,7 @@ void RegisterTests()
   REGISTER_TEST(itkNormalVariateGeneratorTest);
   REGISTER_TEST(itkHistogramTest);
   REGISTER_TEST(itkImageToListAdaptorTest);
+  REGISTER_TEST(itkListSampleTest);
   REGISTER_TEST(itkMembershipSampleTest);
   REGISTER_TEST(itkSubsampleTest);
   REGISTER_TEST(itkMeanCalculatorTest);

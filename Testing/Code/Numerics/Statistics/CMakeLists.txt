@@ -24,6 +24,7 @@ ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalcul
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
 ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
+ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
 ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
@@ -47,6 +48,7 @@ itkWeightedMeanCalculatorTest.cxx
 itkSubsampleTest.cxx
 itkMembershipSampleTest.cxx
 itkImageToListAdaptorTest.cxx
+itkListSampleTest.cxx
 itkHistogramTest.cxx
 itkDenseFrequencyContainerTest.cxx
 itkNormalVariateGeneratorTest.cxx
