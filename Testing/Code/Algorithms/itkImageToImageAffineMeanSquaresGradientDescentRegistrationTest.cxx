@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPhysicalImage.h"
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImageToImageAffineMeanSquaresGradientDescentRegistration.h"
+#include "itkCommandIterationUpdate.h"
 
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -61,7 +62,14 @@ int main()
   typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
   typedef itk::PhysicalImage<unsigned char,2>           TargetType;
 
-  typedef itk::ImageToImageAffineMeanSquaresGradientDescentRegistration<ReferenceType,TargetType> RegistrationType;
+  typedef itk::ImageToImageAffineMeanSquaresGradientDescentRegistration<
+                                                ReferenceType,
+                                                TargetType> RegistrationType;
+
+
+  typedef itk::CommandIterationUpdate<  RegistrationType::OptimizerType  >
+                                                           CommandIterationType;
+
 
   ReferenceType::SizeType size = {{100,100}};
   ReferenceType::IndexType index = {{0,0}};
@@ -133,6 +141,15 @@ int main()
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+
+  iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
+
+  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+                                                   iterationCommand ); 
+
+
+
   const double translationScale = 1e4;
 
   registrationMethod->SetReference(imgReference);
@@ -147,8 +164,6 @@ int main()
   // get the results
   RegistrationType::ParametersType solution = 
     registrationMethod->GetOptimizer()->GetCurrentPosition();
-
-  std::cout << "Solution is: " << solution << std::endl;
 
   //
   // check results to see if it is within range

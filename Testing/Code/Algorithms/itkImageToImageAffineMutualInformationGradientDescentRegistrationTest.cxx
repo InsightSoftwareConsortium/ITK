@@ -45,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vnl/vnl_math.h"
 #include "itkExceptionObject.h"
 
+#include "itkCommandIterationUpdate.h"
+
 #include <iostream>
 
 int main()
@@ -145,6 +147,7 @@ int main()
 
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+
   // connect the images
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
@@ -157,6 +160,19 @@ int main()
   registrationMethod->GetMetric()->SetTargetStandardDeviation( 5.0 );
   registrationMethod->GetMetric()->SetReferenceStandardDeviation( 5.0 );
   registrationMethod->GetMetric()->SetNumberOfSpatialSamples( 50 );
+
+
+  // Define the type for the observer command to monitor progress
+  typedef itk::CommandIterationUpdate<  RegistrationType::OptimizerType  >
+                                                           CommandIterationType;
+
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+
+  iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
+
+  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+                                                   iterationCommand ); 
+
 
   // do the registration
   // reduce learning rate as we go

@@ -5,7 +5,7 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
-s
+
 Copyright (c) 2001 Insight Consortium
 All rights reserved.
 
@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkSimpleImageRegionIterator.h"
 #include "itkPointSetToImageTranslationMeanSquaresGradientDescentRegistration.h"
 
+#include "itkCommandIterationUpdate.h"
+
+
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  * 
@@ -75,6 +78,10 @@ int main()
   typedef itk::PointSetToImageTranslationMeanSquaresGradientDescentRegistration<
                                                                 ReferenceType,
                                                                 TargetType> RegistrationType;
+
+  typedef itk::CommandIterationUpdate<  RegistrationType::OptimizerType  >
+                                                                 CommandIterationType;
+
 
   ReferenceType::SizeType size = {{100,100}};
   ReferenceType::IndexType index = {{0,0}};
@@ -183,6 +190,13 @@ int main()
   
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+
+  iterationCommand->SetOptimizer(  registrationMethod->GetOptimizer() );
+
+  registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+                                                   iterationCommand ); 
+
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(pointSetTarget);
 
@@ -191,15 +205,8 @@ int main()
   registrationMethod->StartRegistration();
 
 
-  std::cout << std::endl << "After  " << 
-    registrationMethod->GetOptimizer()->GetCurrentIteration()
-    << "  Iterations " << std::endl;
-
-  // get the results
   RegistrationType::ParametersType solution = 
     registrationMethod->GetOptimizer()->GetCurrentPosition();
-
-  std::cout << "Solution is: " << solution << std::endl;
 
   //
   // check results to see if it is within range
