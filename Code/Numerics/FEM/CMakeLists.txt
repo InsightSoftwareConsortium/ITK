@@ -87,7 +87,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMMacro.h
   itkFEMUtility.h
   itkFEMException.h
-  
+
   ReadMe.txt
   ToDo.txt
 
@@ -102,7 +102,6 @@ SOURCE_GROUP("Nodes" itkFEMNode*)
 SOURCE_GROUP("Loads" itkFEMLoad*)
 SOURCE_GROUP("Materials" itkFEMMaterial*)
 SOURCE_GROUP("Source Files Template" ./*.txx)
-
 
 
 # Add an option to use SmartPointers
@@ -123,6 +122,23 @@ IF(WIN32)
     ADD_DEFINITIONS( -DFEM_BUILD_VISUALIZATION /D "_AFXDLL" )
     ENDIF(FEM_VISUALIZATION)
 ENDIF(WIN32)
+
+
+
+# Include the ITPACK library within FEM
+SOURCE_FILES(FEM_SRCS 
+  itpack_dsrc2c.c
+  itpack_dummy.c
+)
+IF(NOT UNIX)
+IF(WIN32)
+SOURCE_FILES(FEM_SRCS
+  itpack.h
+  itpack_f2c.h
+)
+ENDIF(WIN32)
+ENDIF(NOT UNIX)
+SOURCE_GROUP("ITPACK" itpack*)
 
 
 
