@@ -287,8 +287,8 @@ template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
 double
 FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 ::UpdateValue(
-IndexType& index,
-SpeedImageType * speed,
+const IndexType& index,
+const SpeedImageType * speed,
 LevelSetImageType * output )
 {
 

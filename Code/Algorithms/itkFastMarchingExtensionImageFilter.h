@@ -118,8 +118,8 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void Initialize( LevelSetImageType * );
-  virtual double UpdateValue( IndexType & index,
-    SpeedImageType * speed, LevelSetImageType * output);
+  virtual double UpdateValue( const IndexType & index,
+    const SpeedImageType * speed, LevelSetImageType * output);
 
   /** Generate the output image meta information */
   virtual void GenerateOutputInformation();

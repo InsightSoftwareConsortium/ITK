@@ -127,8 +127,13 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
   itk::ImageRegionIterator<FloatImage>
     iterator( output, output->GetBufferedRegion() );
 
+  typedef MarcherType::AuxImageType AuxImageType;
+  AuxImageType::Pointer auxImage = marcher->GetAuxiliaryImage(0);
+  itk::ImageRegionIterator<AuxImageType>
+    auxIterator( auxImage, auxImage->GetBufferedRegion() );
 
-  for ( ; !iterator.IsAtEnd(); ++iterator )
+
+  for ( ; !iterator.IsAtEnd(); ++iterator, ++auxIterator )
     {
 
     FloatImage::IndexType tempIndex;
@@ -152,6 +157,17 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
       std::cout << vnl_math_abs( output ) / distance << " ";
       std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
       passed = false;
+      break;
+      }
+
+    if ( auxIterator.Get() != vector[0] )
+      {
+      std::cout << auxIterator.GetIndex()
+                << " got aux value of " << (double) auxIterator.Get()
+                << " but it should be  " << (double) vector[0]
+                << std::endl;
+      passed = false;
+      break;
       }
     
     }
