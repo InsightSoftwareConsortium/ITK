@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
@@ -41,7 +41,7 @@ int main()
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
 //  typedef itk::Image<itk::Scalar<float>,2> FloatImage2DType;
-  typedef itk::Image<float,2> FloatImage2DType;
+  typedef itk::PhysicalImage<float,2> FloatImage2DType;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();
