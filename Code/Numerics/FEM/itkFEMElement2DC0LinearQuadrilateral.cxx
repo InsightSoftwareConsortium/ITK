@@ -172,14 +172,14 @@ Element2DC0LinearQuadrilateral
 
 bool
 Element2DC0LinearQuadrilateral
-::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const
+::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const
 {
 
   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  Lpt.resize(2);
-  Lpt.fill(0.0);
+  localPt.resize(2);
+  localPt.fill(0.0);
 
   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
@@ -202,22 +202,25 @@ Element2DC0LinearQuadrilateral
   x0 = 0.25 * (x1 + x2 + x3 + x4);
   y0 = 0.25 * (y1 + y2 + y3 + y4);
 
-  dx = pt[0] - x0;
-  dy = pt[1] - y0;
+  dx = globalPt[0] - x0;
+  dy = globalPt[1] - y0;
 
   be =  A - (dx * yb) + (dy * xb);
   bn = -A - (dx * yb) + (dy * xb);
   ce = (dx * yce) - (dy * xce);
   cn = (dx * ycn) - (dy * xcn);
 
-  Lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-  Lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+  localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
+  localPt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
-  bool IsInside=true;
+  bool isInside=true;
 
-  if (Lpt[0] < -1.0 || Lpt[0] > 1.0 || Lpt[1] < -1.0 || Lpt[1] > 1.0 ) IsInside=false;
+  if (localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0 )
+  {
+    isInside=false;
+  }
 
-  return IsInside;
+  return isInside;
 }
 
 

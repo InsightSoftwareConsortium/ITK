@@ -114,14 +114,14 @@ Element3DC0LinearTetrahedron
 
 bool
 Element3DC0LinearTetrahedron
-::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const
+::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const
 {
 
 //   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
 //         A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
-  Lpt.resize(3);
-  Lpt.fill(0.0);
+  localPt.resize(3);
+  localPt.fill(0.0);
 
   // FIXME!
 
@@ -146,16 +146,16 @@ Element3DC0LinearTetrahedron
 //   x0 = 0.25 * (x1 + x2 + x3 + x4);
 //   y0 = 0.25 * (y1 + y2 + y3 + y4);
 
-//   dx = pt[0] - x0;
-//   dy = pt[1] - y0;
+//   dx = globalPt[0] - x0;
+//   dy = globalPt[1] - y0;
 
 //   be =  A - (dx * yb) + (dy * xb);
 //   bn = -A - (dx * yb) + (dy * xb);
 //   ce = (dx * yce) - (dy * xce);
 //   cn = (dx * ycn) - (dy * xcn);
 
-//   lpt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-//   lpt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+//   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
+//   localPt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
   bool IsInside=false;
 

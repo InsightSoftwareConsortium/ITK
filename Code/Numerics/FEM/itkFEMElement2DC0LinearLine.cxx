@@ -113,7 +113,7 @@ Element2DC0LinearLine
 
 bool
 Element2DC0LinearLine
-::GetLocalFromGlobalCoordinates( const VectorType& pt , VectorType& Lpt) const
+::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const
 {
 
   // FIXME: write proper implementation

@@ -96,7 +96,10 @@ public:
 
   virtual VectorType ShapeFunctions( const VectorType& pt ) const;
   virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
-  virtual bool GetLocalFromGlobalCoordinates( const VectorType& pt ,VectorType& Lpt) const { return false; }
+  virtual bool GetLocalFromGlobalCoordinates( const VectorType& globalPt ,VectorType& localPt) const
+  {
+    return false;
+  }
   virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const;
 
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
