@@ -15,6 +15,7 @@ AC_PROG_RANLIB
 AC_PROG_INSTALL
 AC_PATH_XTRA
 
+
 # get byte swapping info
 AC_C_BIGENDIAN
 if test $ac_cv_c_bigendian = yes; then
@@ -503,7 +504,7 @@ AC_CONFIG_SUBDIRS(Code/Insight3DParty/vxl/vcl)
 #  and any sub directories recursivley 
 #
 
-echo "Searching CMakeLists.txt files for all sub directoris"
+echo "Searching CMakeLists.txt files for all sub directories"
 # the result of a the directories found is stored in allDirs
 allDirs=
 # start looking in the current directory .
@@ -535,6 +536,7 @@ while $dirHasListsFile; do
 	dirHasListsFile=false
     fi
 done  # continue while loop until dirHasListsFile=false
+
 if test "x$srcdir" = x.; then
     allDirs=`echo $allDirs | sed -e "s|\./||g"`
 else
@@ -591,15 +593,26 @@ AC_SUBST(BUILDNAME)
 
 
 # Testing system configuration
-AC_CHECK_PROGS(MAKECOMMAND, gmake make)
-AC_CHECK_PROGS(CVSCOMMAND, cvs )
-AC_CHECK_PROGS(GREPCOMMAND, grep )
-AC_CHECK_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
+AC_PATH_PROGS(MAKECOMMAND, gmake make)
+AC_PATH_PROGS(CVSCOMMAND, cvs )
+AC_PATH_PROGS(GREPCOMMAND, grep )
+AC_PATH_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
+AC_PATH_PROGS(TCLSHCOMMAND, tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 )
 
 AC_SUBST(MAKECOMMAND)
 AC_SUBST(CVSCOMMAND)
 AC_SUBST(GREPCOMMAND)
 AC_SUBST(COMPRESSIONCOMMAND)
+AC_SUBST(TCLSHCOMMAND)
+
+# Make java optional
+AC_PATH_PROGS(JAVA, java, jre )
+AC_SUBST(JAVA)
+
+# AC_PROG_JAVA
+# AC_PROG_JAVAC
+# AC_PROG_JAR
+
 
 AC_OUTPUT(
 Makefile
@@ -616,17 +629,19 @@ Testing/Utilities/Build.tcl
 Testing/Utilities/Utility.conf
 Testing/Utilities/Utility.tcl
 Testing/Utilities/Test.tcl
+Testing/Utilities/CMakeTestingRules.make
 
 )
+
 
 #
 # Make the directories that will be needed to hold testing results
 #
-if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE; then
-	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE 
+if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE; then
+	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE 
 fi
-if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE/$BUILDNAME; then
-	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE/$BUILDNAME
+if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE/$BUILDNAME; then
+	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE/$BUILDNAME
 fi
 
 
