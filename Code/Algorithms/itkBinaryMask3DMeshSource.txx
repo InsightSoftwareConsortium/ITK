@@ -2098,9 +2098,9 @@ BinaryMask3DMeshSource<TOutputMesh>
       m_PointFound = 1;
       test[i] = 1;
 
-      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
-      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageHeight );
-      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
+      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth ) + 0.5;
+      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageHeight ) + 0.5;
+      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) ) + 0.5;
       this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
       switch ( nodesid[i] ) {
