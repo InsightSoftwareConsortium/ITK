@@ -18,7 +18,8 @@ itkPNGImageIOTest
 itkVOLImageIOTest
 itkVTKImageIOTest
 itkRawImageIOTest
-itkRawImageIOTest3)
+itkRawImageIOTest3
+itkRawImageIOTest4)
  
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx IOTest_SRCS)
 
