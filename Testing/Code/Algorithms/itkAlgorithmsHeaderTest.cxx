@@ -101,6 +101,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorFuzzyConnectednessImageFilter.h"
 #include "itkVoronoi2DDiagram.h"
 #include "itkVoronoiSegmentationImageFilter.h"
+#include "itkVoronoiSegmentationImageFilterBase.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkWatershedImageFilter.h"
 
