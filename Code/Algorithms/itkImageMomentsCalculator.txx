@@ -76,8 +76,9 @@ ImageMomentsCalculator<TImage>::
 ComputeMoments( ImageType * image )
 {
 
-  AffineTransformPointer indexToPhysical 
-          = image->GetIndexToPhysicalTransform();
+  TransformPointer indexToPhysical =
+              image->GetIndexToPhysicalTransform().GetPointer() ;
+
 
   m_M0 = 0.0;
   m_M1.Fill( 0.0 );
@@ -94,8 +95,8 @@ ComputeMoments( ImageType * image )
     {
     double value = it.Value();
     IndexType index = it.GetIndex();
-    Point<double,ImageDimension> indexPosition;
-    Point<double,ImageDimension> physicalPosition;
+    Point<double,ImageDimension>    indexPosition;
+    TransformType::OutputPointType  physicalPosition;
 
     for(unsigned int i=0; i<ImageType::ImageDimension; i++)
     {
