@@ -26,25 +26,27 @@
 // This example illustrates a technique for improving the efficiency of
 // neighborhood calculations by eliminating unnecessary bounds checking. As
 // described in Section~\ref{sec:NeighborhoodIterators}, the neighborhood
-// iterator will automatically enable or disable bounds checking based on the
-// iteration region over which it is initialized. By splitting our image into
+// iterator automatically enables or disables bounds checking based on the
+// iteration region in which it is initialized. By splitting our image into
 // boundary and non-boundary regions, and then processing each region using a
-// separate neighborhood iterator, the algorithm will only perform
+// different neighborhood iterator, the algorithm will only perform
 // bounds-checking on those pixels for which it is actually required.  This
 // trick can provide a significant speedup for simple algorithms such as our
 // Sobel edge detection, where iteration speed is a critical.
 //
-// Splitting the image into regions is easy thanks to a function object called
-// the \doxygen{ImageBoundaryFacesCalculator}.  The face calculator is so named
-// because it returns a list of the ``faces'' of the ND dataset, those ND
-// regions that lie close enough to the the boundary for a neighborhood
-// iterator of a specified radius to require boundary conditions.  The face
-// calculator also returns the single inner region where that same neighborhood
-// iterator would never touch the boundaries.
+// Splitting the image into the necessary regions is easy thanks to a function
+// object called the \doxygen{ImageBoundaryFacesCalculator}.  The face
+// calculator is so named because it returns a list of the ``faces'' of the ND
+// dataset.  Faces are those regions whose pixels all lie within a distance $d$
+// from the boundary, where $d$ is the radius of the neighborhood stencil used
+// for the numerical calculations. In other words, faces are those regions
+// where a neighborhood iterator of radius $d will always overlap the boundary
+// of the image. The face calculator also returns the single \emph{inner}
+// region, in which out-of-bounds values are never required and bounds checking
+// is not necessary.
 //
-// The face calculator object is defined in
-// \code{itkNeighborhoodAlgorithm.h}.  We include this file in addition to
-// those from the previous two examples.
+// The face calculator object is defined in \code{itkNeighborhoodAlgorithm.h}.
+// We include this file in addition to those from the previous two examples.
 //
 // Software Guide : EndLatex
 
@@ -99,10 +101,11 @@ int main( int argc, char ** argv )
   
 // Software Guide : BeginLatex
 //
-// Load the input image and create the output image and inner product function
-// as in the previous examples.  The image iterators will be created in a later
-// step.  Next we define and create an face calculator object and a list to
-// hold the regions that it will return.
+// First we load the input image and create the output image and inner product
+// function as in the previous examples.  The image iterators will be created
+// in a later step.  Next we create a face calculator object.  An empty list is
+// created to hold the regions that will later on be returned by the face
+// calculator.
 // 
 // Software Guide : EndLatex
   
@@ -118,15 +121,17 @@ int main( int argc, char ** argv )
 //
 // The face calculator function is invoked by passing it an image pointer, an
 // image region, and a neighborhood radius.  The image pointer is the same
-// image used to initialize the neighborhood iterator and the image region is
+// image used to initialize the neighborhood iterator, and the image region is
 // the region that the algorithm is going to process.  The radius is the radius
 // of the iterator.
 //
 // Notice that in this case the image region is given as the region of the
 // \emph{output} image and the image pointer is given as that of the
 // \emph{input} image.  This is important if the input and output images differ
-// in size, i.e. the input image is larger than the output image, the region
-// to process.
+// in size, i.e. the input image is larger than the output image.  ITK image
+// filters, for example, operate on data from the input image but only generate
+// results in the \code{RequestedRegion} of the output image, which may be
+// smaller than the full extent of the input.
 //
 // Software Guide : EndLatex
   
@@ -137,11 +142,11 @@ int main( int argc, char ** argv )
   
 // Software Guide : BeginLatex
 //
-// The face calculator has returned a list of $2N+1$ regions, but it is not
-// necessary to remember this because the list defines an iterator.  The first
-// element in the list is always the non-boundary region, which may or may not
-// be important depending on the application.  For our purposes it does not
-// matter because all regions are processed the same way.
+// The face calculator has returned a list of $2N+1$ regions. The first element
+// in the list is always the inner region, which may or may not be important
+// depending on the application.  For our purposes it does not matter because
+// all regions are processed the same way.  We use an iterator to traverse the
+// list of faces.
 //
 // Software Guide : EndLatex
 
@@ -151,15 +156,14 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// We now rewrite the main loop of the algorithm so that each region in the
-// list is processed by a separate iterator. The iterators \code{it} and
+// We now rewrite the main loop of the previous example so that each region in the
+// list is processed by a separate iterator.  The iterators \code{it} and
 // \code{out} are reinitialized over each region in turn.  Bounds checking is
 // automatically enabled for those regions that require it, and disabled for
 // the region that does not.
 //
 // Software Guide : EndLatex
 
-  
 // Software Guide : BeginCodeSnippet
   IteratorType out;
   NeighborhoodIteratorType it;
@@ -183,10 +187,10 @@ int main( int argc, char ** argv )
 // The output is written as before.  Results for this example are the same as
 // the previous example.  You may not notice the speedup except on larger
 // images.  When moving to 3D and higher dimensions, the effects are greater
-// because the volume to surface area ratio is generally larger.  In other
+// because the volume to surface area ratio is usually larger.  In other
 // words, as the number of interior pixels increases relative to the number of
-// boundary pixels, the speedup gained by disabling bounds checking on
-// interior pixels also increases.
+// face pixels, there is a corresponding increase in efficiency from disabling
+// bounds checking on interior pixels.
 //  
 // Software Guide : EndLatex
 
