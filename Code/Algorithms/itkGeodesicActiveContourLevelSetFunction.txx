@@ -48,7 +48,7 @@ void GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>
   typedef GradientRecursiveGaussianImageFilter<FeatureImageType,VectorImageType>
     DerivativeFilterType;
 
-  DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
+  typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
   derivative->SetInput( this->GetFeatureImage() );
   derivative->SetSigma( m_DerivativeSigma );
   derivative->Update();
