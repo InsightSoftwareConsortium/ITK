@@ -143,9 +143,16 @@ int main( int , char * argv[] )
   blue  = onePixel[2];  // extract Blue  component
 
   std::cout << "Pixel values:" << std::endl;
-  std::cout << "Red = " << red << std::endl;
-  std::cout << "Green = " << green << std::endl;
-  std::cout << "Blue = " << blue << std::endl;
+  std::cout << "Red = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(red)
+            << std::endl;
+  std::cout << "Green = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(green)
+            << std::endl;
+  std::cout << "Blue = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(blue)
+            << std::endl;
+
   // Software Guide : EndCodeSnippet
 
   // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are
