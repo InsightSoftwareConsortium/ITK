@@ -21,8 +21,8 @@
 // sample pixel values.  When incremented or decremented, it jumps to a random
 // location in its image region.
 //
-// \index{itk::ImageRandomConstIteratorWithIndex!sample size}
-// \index{itk::ImageRandomConstIteratorWithIndex!begin and end positions}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!sample size}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!begin and end positions}
 //
 // The user must specify a sample size when creating this iterator. The sample
 // size, rather than a specific image index, defines the end position for the
@@ -33,8 +33,8 @@
 // \doxygen{ImageRandomConstIteratorWithIndex} may visit the same pixel
 //  more than once.
 //
-// \index{itk::ImageRandomConstIteratorWithIndex!example of using|(}
-// \index{itk::ImageRandomConstIteratorWithIndex!and statistics}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|(}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!and statistics}
 // Let's use the random iterator to estimate some simple image statistics. The next
 // example calculates an estimate of the arithmetic mean of pixel values.
 //
@@ -94,8 +94,8 @@ int main( int argc, char *argv[] )
 // \code{ReinitializeSeed} seeds the random number generator.  The iterator is
 // initialized over the entire valid image region.
 //
-//  \index{itk::ImageRandomConstIteratorWithIndex!SetNumberOfSamples()}
-//  \index{itk::ImageRandomConstIteratorWithIndex!ReinitializeSeed()}
+//  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!SetNumberOfSamples()}
+//  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!ReinitializeSeed()}
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -143,7 +143,7 @@ int main( int argc, char *argv[] )
 // \end{center}
 // \end{table}
 //
-// \index{itk::ImageRandomConstIteratorWithIndex!example of using|)}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
 // Software Guide : EndLatex
   
   return 0;
