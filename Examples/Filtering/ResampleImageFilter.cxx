@@ -79,7 +79,7 @@ int main( int argc, char ** argv )
 {
 
 
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile"; 
@@ -89,7 +89,7 @@ int main( int argc, char ** argv )
 
   int exampleAction = 0;
  
-  if( argc >= 3 )
+  if( argc >= 4 )
     {
     exampleAction = atoi( argv[3] );
     }
@@ -407,9 +407,10 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  It is sometimes useful to intentionaly set the output value to a distinct
-  //  gray value in order to highligth the mapping of the image borders. For
+  //  gray value in order to highlight the mapping of the image borders. For
   //  example, the following code sets the default external value to a visible
-  //  gray value and maps the image.
+  //  gray value. The result is shown in the right side of figure
+  //  \ref{fig:ResampleImageFilterOutput3Analysis}
   //
   //  Software Guide : EndLatex 
 
