@@ -93,14 +93,9 @@ namespace itk
       { 
       ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
       itk::Size<NDimensions> size = region.GetSize();
-      VectorContainer< unsigned long int, Point< ScalarType, NDimensions> >::Pointer points;
       PointType pointLow,pointHigh;
 
-      if( !(points = m_Bounds->GetPoints()) )
-        {
-        points = VectorContainerType::New();
-        m_Bounds->SetPoints(points);
-        }
+      VectorContainerType::Pointer points = VectorContainerType::New();
 
       points->Initialize(); 
 
@@ -112,6 +107,8 @@ namespace itk
    
       points->InsertElement(0,pointLow);
       points->InsertElement(1,pointHigh);
+
+      m_Bounds->SetPoints(points);
       m_Bounds->ComputeBoundingBox();
       m_BoundsMTime.Modified();
       }
