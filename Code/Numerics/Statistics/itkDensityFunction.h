@@ -17,45 +17,38 @@
 #ifndef __itkDensityFunction_h
 #define __itkDensityFunction_h
 
-#include "itkObject.h"
+#include "itkMembershipFunctionBase.h"
 
 namespace itk{ 
   namespace Statistics{
 
 /** \class DensityFunction
- * \brief DensityFunction class represents  Density Function.
+ * \brief DensityFunction class defines common interfaces for density functions.
  *
- * This class keeps parameter to define  Density Function  and has
- * method to return the probability density 
- * of an instance.  MeasurementVectorSize is the dimension of measurement space.
- * double is type of measurement. 
+ * The Evaluate method returns density value for the input measurement vector
  */
 
 template< class TMeasurementVector >
 class ITK_EXPORT DensityFunction :
-      public Object
+      public MembershipFunctionBase< TMeasurementVector >
 {
 public:
   /** Standard class typedefs */
   typedef DensityFunction Self;
-  typedef Object Superclass ;
+  typedef MembershipFunctionBase< TMeasurementVector > Superclass ;
   typedef SmartPointer<Self> Pointer;
 
   /** Strandard macros */
-  itkTypeMacro(DensityFunction, Object);
-  itkNewMacro(Self);
+  itkTypeMacro(DensityFunction, MembershipFunctionBase);
 
-  /** Typedef alias for the measurement vectors */
-  typedef TMeasurementVector MeasurementVectorType ;
-
- /** Method to get probability of an instance. The return value is the
-  * value of the density function, not probability. */
-  virtual double Evaluate(MeasurementVectorType &measurement) = 0 ;
+  /** Method to get probability of an instance. The return value is the
+   * value of the density function, not probability. */
+  virtual double Evaluate(const TMeasurementVector &measurement) const = 0 ;
   
-
 protected:
   DensityFunction(void) {}
   virtual ~DensityFunction(void) {}
+
   void PrintSelf(std::ostream& os, Indent indent) const
   { Superclass::PrintSelf(os,indent) ; }
 } ; // end of class
@@ -64,3 +57,8 @@ protected:
 } // end namespace itk
 
 #endif
+
+
+
+
+
