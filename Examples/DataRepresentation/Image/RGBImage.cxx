@@ -131,6 +131,11 @@ int main( int , char ** argv )
   red   = onePixel[0];  // extract Red   component
   green = onePixel[1];  // extract Green component
   blue  = onePixel[2];  // extract Blue  component
+
+  std::cout << "Pixel values:" << std::endl;
+  std::cout << "Red = " << red << std::endl;
+  std::cout << "Green = " << green << std::endl;
+  std::cout << "Blue = " << blue << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are
