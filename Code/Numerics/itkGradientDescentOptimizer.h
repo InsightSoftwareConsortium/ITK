@@ -172,13 +172,35 @@ public:
    */
   void    StopOptimization( void );
 
+  /**
+   * Set the learning rate.
+   */
   itkSetMacro( LearningRate, double );
+
+  /**
+   * Get the learning rate.
+   */
+  itkGetConstMacro( LearningRate, double);
+
+  /**
+   * Set the number of iterations.
+   */
   itkSetMacro( NumberOfIterations, unsigned long );
 
-  itkGetConstMacro( LearningRate, double);
+  /**
+   * Get the number of iterations.
+   */
   itkGetConstMacro( NumberOfIterations, unsigned long );
-  itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
 
+  /**
+   * Get the current iteration number.
+   */
+  itkGetConstMacro( CurrentIteration, unsigned int );
+
+  /**
+   * Set the scaling between parameters.
+   * The default is 1.0 for all parameters.
+   */
   void SetScale( const ParametersType & scale )
           { m_Scale = scale; this->Modified(); }
 
@@ -202,7 +224,7 @@ private:
   StopConditionType             m_StopCondition;
   double                        m_LearningRate;
   unsigned long                 m_NumberOfIterations;
-  unsigned long                 m_CurrentNumberOfIterations;
+  unsigned long                 m_CurrentIteration;
 
   CostFunctionPointer           m_CostFunction;
 

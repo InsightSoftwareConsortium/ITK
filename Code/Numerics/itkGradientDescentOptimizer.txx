@@ -55,6 +55,8 @@ GradientDescentOptimizer<TCostFunction>
 {
    m_LearningRate = 1.0;
    m_NumberOfIterations = 100;
+   m_Scale.Fill( 1.0 );
+   m_CurrentIteration = 0;
 }
 
 
@@ -68,7 +70,7 @@ GradientDescentOptimizer<TCostFunction>
 ::StartOptimization( void )
 {
 
-  m_CurrentNumberOfIterations   = 0;
+  m_CurrentIteration   = 0;
 
   this->SetCurrentPosition( GetInitialPosition() );
   this->ResumeOptimization();
@@ -99,9 +101,9 @@ GradientDescentOptimizer<TCostFunction>
   
     AdvanceOneStep();
 
-    m_CurrentNumberOfIterations++;
+    m_CurrentIteration++;
 
-    if( m_CurrentNumberOfIterations >= m_NumberOfIterations )
+    if( m_CurrentIteration >= m_NumberOfIterations )
     {
        m_StopCondition = MaximumNumberOfIterations;
        StopOptimization();
