@@ -79,9 +79,12 @@ private:
   void InitializeForInterpreter();
   int ListMethodsCommand(int, Tcl_Obj*CONST[]) const ;
   int TypeOfCommand(int, Tcl_Obj*CONST[]) const ;
+  int DeleteCommand(int, Tcl_Obj*CONST[]) const ;
   static int ListMethodsCommandFunction(ClientData, Tcl_Interp*,
                                         int, Tcl_Obj*CONST[]);
   static int TypeOfCommandFunction(ClientData, Tcl_Interp*,
+                                   int, Tcl_Obj*CONST[]);
+  static int DeleteCommandFunction(ClientData, Tcl_Interp*,
                                    int, Tcl_Obj*CONST[]);
 
   typedef std::map<const Type*, WrapperBase*>  WrapperMap;

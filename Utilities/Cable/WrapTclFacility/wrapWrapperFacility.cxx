@@ -136,6 +136,8 @@ void WrapperFacility::InitializeForInterpreter()
                        &ListMethodsCommandFunction, 0, 0);
   Tcl_CreateObjCommand(m_Interpreter, "wrap::TypeOf",
                        &TypeOfCommandFunction, 0, 0);
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::Delete",
+                       &DeleteCommandFunction, 0, 0);
   
   Tcl_PkgProvide(m_Interpreter, "Wrap", "1.0");
 }
@@ -266,6 +268,35 @@ int WrapperFacility::TypeOfCommand(int objc, Tcl_Obj* CONST objv[]) const
 }
 
 
+int WrapperFacility::DeleteCommand(int objc, Tcl_Obj* CONST objv[]) const
+{
+  static const char usage[] =
+    "Usage: Delete <name-of-object>";
+  
+  Tcl_ResetResult(m_Interpreter);
+  if(objc > 1)
+    {
+    String objectName = Tcl_GetStringFromObj(objv[1], NULL);
+    if(m_InstanceTable->Exists(objectName))
+      {
+      m_InstanceTable->DeleteObject(objectName);
+      return TCL_OK;
+      }
+    else
+      {
+      Tcl_AppendResult(m_Interpreter, "Don't know about object with name ",
+                       const_cast<char*>(objectName.c_str()), NULL);
+      return TCL_ERROR;
+      }
+    }
+  else
+    {
+    Tcl_AppendResult(m_Interpreter, usage, NULL);
+    return TCL_ERROR;
+    }
+}
+
+
 int WrapperFacility
 ::ListMethodsCommandFunction(ClientData clientData, Tcl_Interp* interp,
                              int objc, Tcl_Obj* CONST objv[])
@@ -284,6 +315,15 @@ int WrapperFacility
   return wrapperFacility->TypeOfCommand(objc, objv);
 }
 
+
+int WrapperFacility
+::DeleteCommandFunction(ClientData clientData, Tcl_Interp* interp,
+                        int objc, Tcl_Obj* CONST objv[])
+{
+  WrapperFacility* wrapperFacility =
+    WrapperFacility::GetForInterpreter(interp);
+  return wrapperFacility->DeleteCommand(objc, objv);
+}
 
 
 /**
