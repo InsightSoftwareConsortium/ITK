@@ -45,7 +45,7 @@
 //
 // \begin{figure}
 //   \centering
-//   \includegraphics[width=0.7\textwidth]{BayesianPluginClassifier.eps}
+//   \includegraphics[width=0.9\textwidth]{BayesianPluginClassifier.eps}
 //   \itkcaption[Bayesian plug-in classifier for two Gaussian classes]{Bayesian
 //   plug-in classifier for two Gaussian classes}
 //  \protect\label{fig:BayesianPluginClassifier}
