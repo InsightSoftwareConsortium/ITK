@@ -352,12 +352,14 @@ M_Read(void)
       m_PointList.push_back(pnt);
     }
 
-      
-    char c = ' ';
-    while( (c!='\n') && (!m_ReadStream->eof()))
-    {
-      c = m_ReadStream->get();// to avoid unrecognize charactere
-    }
+    if(m_NPoints>0)
+      {
+      char c = ' ';
+      while( (c!='\n') && (!m_ReadStream->eof()))
+        {
+        c = m_ReadStream->get();// to avoid unrecognize charactere
+        }
+      }
   }
   
   delete [] posDim;
