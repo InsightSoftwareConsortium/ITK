@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationPoint_Beam2D.cxx
+  Module:    itkFEMLoadImplementationGravBeam2D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -21,7 +21,8 @@
 #endif
 
 #include "itkFEMElementBeam2D.h"
-#include "itkFEMLoadPoint.h"
+#include "itkFEMLoadGrav.h"
+#include "itkFEMUtility.h"
 #include "vnl/vnl_vector_fixed.h"
 
 namespace itk {
@@ -31,28 +32,53 @@ namespace fem {
 
 
 /**
- * Handle LoadPoint in Beam2D element
+ * Handle LoadGrav in Beam2D element
  */
-Element::LoadVectorType LoadPointImplementation_Beam2D(Beam2D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadGravImplementationBeam2D(Beam2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;
-  LoadPoint::Pointer l0=dynamic_cast<LoadPoint*>(&*load);
+  LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
   if ( !l0 ) throw;
 
   vnl_vector_fixed<Float,2> n1(element->m_node[0]->X,element->m_node[0]->Y);
   vnl_vector_fixed<Float,2> n2(element->m_node[1]->X,element->m_node[1]->Y);
   Float l=(n1-n2).magnitude();
-  Float l1=(l0->point-n1).magnitude();
-  Float l2=(l0->point-n2).magnitude();
-  vnl_vector_fixed<Float,2> F1=l0->Fp*l2/l;
-  vnl_vector_fixed<Float,2> F2=l0->Fp*l1/l;
+  vnl_vector_fixed<Float,2> dn=(n2-n1)/l;
+
+  double a=0;
+  double b=l;
+  int n=10;  /** number of integration points (even numbers only) */
+  vnl_vector_fixed<Float,2> F1,F2;
+
+  {
+    double scale, t, tl, tu;
+    int i, m, ibase;
+
+    /**  Begin integration  */
+    scale = (b - a)/2.0;
+    m = n/2;
+    ibase = m*m;
+    F1.fill(0.0);
+    F2.fill(0.0);
+          
+    for (i=1; i <= m; i++)  {
+      t = GaussIntegrate::z[ibase + i - 1];
+      tl = (a*(1.0 + t) + (1.0 - t)*b)/2.0;
+      tu = (a*(1.0 - t) + (1.0 + t)*b)/2.0;
+      F1 = F1 + GaussIntegrate::w[ibase + i - 1]*(l0->Fg(n1+dn*tl)*(l-tl)/l  +l0->Fg(n1+dn*tu)*(l-tu)/l);
+      F2 = F2 + GaussIntegrate::w[ibase + i - 1]*(l0->Fg(n1+dn*tl)*tl/l  +l0->Fg(n1+dn*tu)*tu/l);
+    }
+
+    F1=scale*F1;
+    F2=scale*F2;
+
+  }
 
   vnl_vector<Float> F(6,0.0);
   F.update(F1,0);
   F.update(F2,3);
   return F;
-
 
 }
 

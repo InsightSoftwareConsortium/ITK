@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationEdge_TriC02D.cxx
+  Module:    itkFEMLoadImplementationEdgeTriC02D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -94,7 +94,7 @@ EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
 /**
  * Handle LoadEdge in TriC02D element
  */
-Element::LoadVectorType LoadEdgeImplementation_TriC02D(TriC02D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadEdgeImplementationTriC02D(TriC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

@@ -92,7 +92,7 @@ GravityLoad(const vnl_vector<Element::Float>& f, MembraneC02D::ConstPointer elem
  * Return the force vector for MembraneC02D element
  */
 Element::LoadVectorType
-LoadGravImplementation_MembraneC02D
+LoadGravImplementationMembraneC02D
 (MembraneC02D::ConstPointer element, Element::LoadElementPointer load)
 {
     

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationPoint_Bar2D.cxx
+  Module:    itkFEMLoadImplementationC1IsoCurve2D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,8 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMElementBar2D.h"
-#include "itkFEMLoadPoint.h"
+#include "itkFEMElementC1IsoCurve2D.h"
 #include "vnl/vnl_vector_fixed.h"
 
 namespace itk {
@@ -31,27 +30,31 @@ namespace fem {
 
 
 /**
- * Handle LoadPoint in Bar2D element
+ * Handle gravity load in Bar2D element
  */
-Element::LoadVectorType LoadPointImplementation_Bar2D(Bar2D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadImplementationC1IsoCurve2D(C1IsoCurve2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;
-  LoadPoint::Pointer l0=dynamic_cast<LoadPoint*>(&*load);
-  if ( !l0 ) throw;
 
-  vnl_vector_fixed<Float,2> n1(element->m_node[0]->X,element->m_node[0]->Y);
-  vnl_vector_fixed<Float,2> n2(element->m_node[1]->X,element->m_node[1]->Y);
-  Float l=(n1-n2).magnitude();
-  Float l1=(l0->point-n1).magnitude();
-  Float l2=(l0->point-n2).magnitude();
-  vnl_vector_fixed<Float,2> F1=l0->Fp*l2/l;
-  vnl_vector_fixed<Float,2> F2=l0->Fp*l1/l;
+  vnl_vector<Float> fvec(element->GetNumberOfDegreesOfFreedom()*element->NI(),0.0);
+  return fvec;
 
-  vnl_vector<Float> F(4);
-  F.update(F1,0);
-  F.update(F2,2);
-  return F;
+  //Superclass::Fe(L);  // we can't handle this load, pass it over to the parent class
+/* FIX ME!!
+  Float fx=0.;  
+  Float fy=0.;
+  const_cast<C1IsoCurve2D*>(this)->current_match_index=GN;
+  ( dynamic_cast<itkActiveContourLoad*> (L))->DistForce(
+    &(const_cast<C1IsoCurve2D*>(this)->current_match_index),
+    cur_node->X,cur_node->Y, 0. , 0. , &fx,&fy);
+
+  // apply only to cur_node -- all others zero
+  fvec[2]=  cur_node->X + fx;
+  fvec[3]=  cur_node->Y + fy;
+  
+  return fvec;
+*/
 
 }
 

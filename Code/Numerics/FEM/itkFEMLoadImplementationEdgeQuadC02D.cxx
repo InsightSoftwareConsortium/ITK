@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationEdge_QuadC02D.cxx
+  Module:    itkFEMLoadImplementationEdgeQuadC02D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -92,7 +92,7 @@ EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
 /**
  * Handle LoadEdge in QuadC02D element
  */
-Element::LoadVectorType LoadEdgeImplementation_QuadC02D(QuadC02D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadEdgeImplementationQuadC02D(QuadC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

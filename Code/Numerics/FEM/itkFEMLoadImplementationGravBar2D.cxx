@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationGrav_Beam2D.cxx
+  Module:    itkFEMLoadImplementationGravBar2D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,7 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMElementBeam2D.h"
+#include "itkFEMElementBar2D.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMUtility.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -32,11 +32,10 @@ namespace fem {
 
 
 /**
- * Handle LoadGrav in Beam2D element
+ * Handle LoadGrav in Bar2D elements
  */
-Element::LoadVectorType LoadGravImplementation_Beam2D(Beam2D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadGravImplementationBar2D(Bar2D::ConstPointer element, Element::LoadElementPointer load)
 {
-
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
   if ( !l0 ) throw;
@@ -75,9 +74,10 @@ Element::LoadVectorType LoadGravImplementation_Beam2D(Beam2D::ConstPointer eleme
 
   }
 
-  vnl_vector<Float> F(6,0.0);
+  vnl_vector<Float> F(4);
   F.update(F1,0);
-  F.update(F2,3);
+  F.update(F2,2);
+
   return F;
 
 }

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationGrav_QuadC02D.cxx
+  Module:    itkFEMLoadImplementationGravQuadC02D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -92,7 +92,7 @@ GravityLoad(const vnl_vector<Element::Float>& f, QuadC02D::ConstPointer element)
 /**
  * Handle LoadGrav in QuadC02D element
  */
-Element::LoadVectorType LoadGravImplementation_QuadC02D(QuadC02D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadGravImplementationQuadC02D(QuadC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

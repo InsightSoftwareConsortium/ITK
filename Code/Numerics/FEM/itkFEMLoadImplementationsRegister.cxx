@@ -51,27 +51,27 @@ void LoadImplementationsRegister(void)
 {
 
   // Loads acting on Bar2D element
-  REGISTER_LOAD( Bar2D,        LoadGrav,         LoadGravImplementation_Bar2D    );
-  REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementation_Bar2D    );
-  REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementation_Bar2D   );
+  REGISTER_LOAD( Bar2D,        LoadGrav,         LoadGravImplementationBar2D    );
+  REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementationBar2D    );
+  REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementationBar2D   );
 
   // Loads acting on Beam2D element
-  REGISTER_LOAD( Beam2D,       LoadGrav,         LoadGravImplementation_Beam2D   );
-  REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementation_Beam2D   );
-  REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementation_Beam2D  );
+  REGISTER_LOAD( Beam2D,       LoadGrav,         LoadGravImplementationBeam2D   );
+  REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementationBeam2D   );
+  REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementationBeam2D  );
 
   // Loads acting on TriC02D element
-  REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementation_TriC02D  );
-  REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementation_TriC02D  );
-  REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementation_TriC02D  );
+  REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementationTriC02D  );
+  REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementationTriC02D  );
+  REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementationTriC02D  );
 
   // Loads acting on QuadC02D element
-  REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementation_QuadC02D );
-  REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementation_QuadC02D );
-  REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementation_QuadC02D );
+  REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementationQuadC02D );
+  REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementationQuadC02D );
+  REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementationQuadC02D );
 
   // Loads acting on MembraneC02D element
-  REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementation_MembraneC02D );
+  REGISTER_LOAD( MembraneC02D, LoadGrav,         LoadGravImplementationMembraneC02D );
   
 /*  typedef Image< unsigned char, 2 > ImageType;
   extern Element::LoadVectorType LoadGravImplementation_MembraneC02D 
@@ -81,7 +81,7 @@ void LoadImplementationsRegister(void)
     &LoadGravImplementation_MembraneC02D ); */
 
   // Loads acting on C1IsoCurve2D element
-  REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementation_C1IsoCurve2D );
+  REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementationC1IsoCurve2D );
 
 
   // Add any additional loads here in a similar fashion...

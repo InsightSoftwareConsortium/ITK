@@ -43,19 +43,19 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImageMetric.txx
  
   itkFEMLoadImplementationsRegister.cxx
-  itkFEMLoadImplementationGrav_Bar2D.cxx
-  itkFEMLoadImplementationGrav_Beam2D.cxx
+  itkFEMLoadImplementationGravBar2D.cxx
+  itkFEMLoadImplementationGravBeam2D.cxx
   itkFEMLoadImplementationGravMembraneC02D.cxx
-  itkFEMLoadImplementationGrav_QuadC02D.cxx
-  itkFEMLoadImplementationGrav_TriC02D.cxx
+  itkFEMLoadImplementationGravQuadC02D.cxx
+  itkFEMLoadImplementationGravTriC02D.cxx
 
-  itkFEMLoadImplementationEdge_TriC02D.cxx
-  itkFEMLoadImplementationEdge_QuadC02D.cxx
+  itkFEMLoadImplementationEdgeTriC02D.cxx
+  itkFEMLoadImplementationEdgeQuadC02D.cxx
 
-  itkFEMLoadImplementationPoint_Bar2D.cxx
-  itkFEMLoadImplementationPoint_Beam2D.cxx
+  itkFEMLoadImplementationPointBar2D.cxx
+  itkFEMLoadImplementationPointBeam2D.cxx
 
-  itkFEMLoadImplementation_C1IsoCurve2D.cxx
+  itkFEMLoadImplementationC1IsoCurve2D.cxx
 
 
   itkFEMSolver.cxx
