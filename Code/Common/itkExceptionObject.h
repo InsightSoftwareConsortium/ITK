@@ -29,6 +29,12 @@ public:
    * called when children are instantiated..
    */
   itkExceptionObject() { };
+
+  /**
+   * Virtual destructor needed 
+   */
+  virtual ~itkExceptionObject() {};
+
   itkExceptionObject( const itkExceptionObject &orig )
   {
     this->m_Location    = orig.m_Location;
