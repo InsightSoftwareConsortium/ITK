@@ -351,6 +351,10 @@ int itkMRFImageFilterTest(int, char* [] )
   applyMRFImageFilter->Update();
 
   applyMRFImageFilter->Print(std::cout); 
+  std::cout << "Number of Iterations : " << applyMRFImageFilter->GetNumberOfIterations() 
+    << std::endl;
+  std::cout << "Stop condition: (1) Maximum number of iterations (2) Error tolerance:  " 
+    << applyMRFImageFilter->GetStopCondition() << std::endl;
   
   ClassImageType::Pointer  outClassImage = applyMRFImageFilter->GetOutput();
 
@@ -448,3 +452,7 @@ int itkMRFImageFilterTest(int, char* [] )
 
   return 0;
 }
+
+
+
+  
