@@ -165,6 +165,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSinImageFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.txx"
 #include "itkSobelEdgeDetectionImageFilter.txx"
+#include "itkSparseFieldFourthOrderLevelSetImageFilter.txx"
 #include "itkSparseFieldLayer.txx"
 #include "itkSparseFieldLevelSetImageFilter.txx"
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
