@@ -15,7 +15,16 @@
 # define finite _finite
 # define finitef _finite
 # define isnan _isnan
-#elif VXL_IEEEFP_HAS_FINITE
+#elif VXL_HAS_IEEEFP_H  //NOTE: This is always defined, but ==1 only if file exists
+# if VXL_IEEEFP_HAS_FINITEF
+#  define VNL_HAS_NO_FINITEF 1 //If using IEEEFP version, then require VNL_HAS_NO_FINITEF
+# endif
+# if VXL_IEEEFP_HAS_FINITE
+#  define VNL_HAS_NO_FINITE 1 //If using IEEEFP version, then require VNL_HAS_NO_FINITE
+# endif
+# if VXL_IEEEFP_HAS_FINITEL
+#  define VNL_HAS_NO_FINITEL 1 //If using IEEEFP version, then require VNL_HAS_NO_FINITEL
+# endif
 # include <ieeefp.h>
 # ifndef finitef
 #  define finitef finite
@@ -40,8 +49,12 @@ extern "C" int finitef(float);
 # include <math.h>
 # include <float.h>
 #else
+# warning finitef() is not declared on this platform
+# define VNL_HAS_NO_FINITEF
 # warning finite() is not declared on this platform
 # define VNL_HAS_NO_FINITE
+# warning finitel() is not declared on this platform
+# define VNL_HAS_NO_FINITEL
 #endif
 
 #ifdef VCL_SUNPRO_CC_50
@@ -168,22 +181,22 @@ bool vnl_math_isfinite(float x) { return _finite(x) != 0; }
 bool vnl_math_isfinite(double x) { return _finite(x) != 0; }
 //: Return true if x is neither NaN nor Inf.
 bool vnl_math_isfinite(long double x) { return _finitel(x) != 0 && !_isnanl(x); }
-#elif !defined(VNL_HAS_NO_FINITE)
-  #if defined(VNL_HAS_NO_FINITEF)
-  //: Return true if x is neither NaN nor Inf.
-  bool vnl_math_isfinite(float x) { return finite(x) != 0; }
-  #else
-  //: Return true if x is neither NaN nor Inf.
-  bool vnl_math_isfinite(float x) { return finitef(x) != 0; }
-  #endif
+#elif VXL_C_MATH_HAS_FINITE  //Double version of finite supported
   //: Return true if x is neither NaN nor Inf.
   bool vnl_math_isfinite(double x) { return finite(x) != 0; }
-  #if defined(VNL_HAS_NO_FINITEL)
-  //: Return true if x is neither NaN nor Inf.
-  bool vnl_math_isfinite(long double x) { return finite(x) != 0; }
-  #else
-  //: Return true if x is neither NaN nor Inf.
-  bool vnl_math_isfinite(long double x) { return finitel(x) != 0; }
+  #if  VXL_C_MATH_HAS_FINITEF //Single version of finite supported
+    //: Return true if x is neither NaN nor Inf.
+    bool vnl_math_isfinite(float x) { return finitef(x) != 0; }
+  #else //Default to double version
+    //: Return true if x is neither NaN nor Inf.
+    bool vnl_math_isfinite(float x) { return finite(x) != 0; }
+  #endif
+  #if  VXL_C_MATH_HAS_FINITEL  //Long double version of finte supported
+    //: Return true if x is neither NaN nor Inf.
+    bool vnl_math_isfinite(long double x) { return finitel(x) != 0; }
+  #else //Default to double version
+    //: Return true if x is neither NaN nor Inf.
+    bool vnl_math_isfinite(long double x) { return finite(x) != 0; }
   #endif
 #else
 // Assume IEEE floating point number representation
