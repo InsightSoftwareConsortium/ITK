@@ -28,8 +28,8 @@ namespace _cable_
   {
     typedef itk::Region itkRegion;
     typedef itk::MeshRegion itkMeshRegion;
-    typedef itk::ImageRegion<2> itkImageRegion2;
-    typedef itk::ImageRegion<3> itkImageRegion3;
+    typedef itk::ImageRegion<2>::ImageRegion itkImageRegion2;
+    typedef itk::ImageRegion<3>::ImageRegion itkImageRegion3;
   }
 }
 
