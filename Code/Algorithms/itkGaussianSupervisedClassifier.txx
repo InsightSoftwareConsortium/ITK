@@ -158,7 +158,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   for( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
     {
 
-    unsigned int classIndex = trainingImageIt.Get();
+    unsigned int classIndex = (unsigned int) trainingImageIt.Get();
         
     // Training data assumed =1 band; also the class indices go
     // from 1, 2, ..., n while the corresponding memory goes from
