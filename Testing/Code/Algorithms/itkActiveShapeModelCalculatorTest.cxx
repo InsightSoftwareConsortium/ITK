@@ -23,7 +23,7 @@
 #include "itkActiveShapeModelGradientSearchMethod.h"
 
 
-int itkActiveShapeModelCalculatorTest( int argc, char ** argv )
+int itkActiveShapeModelCalculatorTest( int argc, char * argv[] )
 {
     if( argc < 3 )
     {
