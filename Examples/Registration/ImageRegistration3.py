@@ -64,6 +64,19 @@ initialParameters = transform.GetParameters()
 
 registration.SetInitialTransformParameters( initialParameters )
 
+#
+# Iteration Observer
+#
+def iterationUpdate():
+    currentParameter = transform.GetParameters()
+    print "M: %f   P: %f %f " % ( optimizer.GetValue(),
+                        currentParameter.GetElement(0),
+                        currentParameter.GetElement(1) )
+ 
+iterationCommand = itkPyCommand_New()
+iterationCommand.SetCommandCallable( iterationUpdate )
+optimizer.AddObserver( itkIterationEvent(), iterationCommand.GetPointer() )
+
 
 
 #
