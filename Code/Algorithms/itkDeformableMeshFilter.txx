@@ -1192,6 +1192,9 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   ++celldata;
   }
 
+  m_Output->SetCellsAllocationMethod( 
+     OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+
 }
 
 /**
@@ -1202,18 +1205,24 @@ void
 DeformableMeshFilter<TInputMesh, TOutputMesh>
 ::GenerateData() 
 {
-  while (m_Step < m_StepThreshold2) {
-  this->ComputeNormals();
-  if (m_Step > m_StepThreshold1) this->GradientFit();
-  else  this->ComputeForce();
-  this->ComputeDt();
-  this->Advance();
-  this->ACDSearch();
-  this->NodesRearrange();
-  this->ComputeOutput();
-  m_Step++;
-  }
-
+  while (m_Step < m_StepThreshold2) 
+    {
+    this->ComputeNormals();
+    if (m_Step > m_StepThreshold1) 
+      {
+      this->GradientFit();
+      }
+    else  
+      {
+      this->ComputeForce();
+      }
+    this->ComputeDt();
+    this->Advance();
+    this->ACDSearch();
+    this->NodesRearrange();
+    this->ComputeOutput();
+    m_Step++;
+    }
 }
 
 /**

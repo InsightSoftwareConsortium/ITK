@@ -908,24 +908,30 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     /** disable for shrink test */
 
-    if (s[0] < 0) {
+    if (s[0] < 0) 
+      {
       s[0] = 0;
-    }
-    if (s[1] < 0) {
+      }
+    if (s[1] < 0) 
+      {
       s[1] = 0;
-    }
-    if (s[2] < 0) {
+      }
+    if (s[2] < 0) 
+      {
       s[2] = 0;
-    }
-    if (s[2] > m_ImageDepth) {
+      }
+    if (s[2] > m_ImageDepth) 
+      {
       s[2] = m_ImageDepth-0.001;
-    }
-    if (s[0] > m_ImageWidth) {
+      }
+    if (s[0] > m_ImageWidth) 
+      {
       s[0] = m_ImageWidth-0.001;
-    }
-    if (s[1] > m_ImageHeight) {
-      s[1] = m_ImageHeight-0.001;
-    }
+      }
+    if (s[1] > m_ImageHeight)
+     {
+     s[1] = m_ImageHeight-0.001;
+     }
 
     points.Value() = s;
     displacements.Value() = d;
@@ -998,10 +1004,17 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   this->Initialize();
   this->SetStiffnessMatrix();
 
-  while (m_Step < m_StepThreshold) {
+  while (m_Step < m_StepThreshold) 
+    {
     this->ComputeNormals();
-    if (m_ModelDistanceToBoundary < m_ModelDistanceToBoundaryThreshold) this->GradientFit();
-    else this->ComputeForce();
+    if (m_ModelDistanceToBoundary < m_ModelDistanceToBoundaryThreshold) 
+      {
+      this->GradientFit();
+      }
+    else 
+      {
+      this->ComputeForce();
+      }
     this->ComputeDt();
     this->Advance();
 //    this->ACDSearch();
@@ -1009,18 +1022,26 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     this->ComputeOutput();
     m_Step++;
 
-    if ( m_Step%70 == 0 ) {
+    if ( m_Step%70 == 0 ) 
+      {
       i = 0;
-      while (i < m_XResolution-1) {
+      while (i < m_XResolution-1) 
+        {
         j = i+1;
         this->ComputeSliceDistance(i, j);
         i++;
+        }
       }
-    }
 
-    if (m_Step == 145) this->NodeAddition();
+    if (m_Step == 145) 
+      {
+      this->NodeAddition();
+      }
 
   }
+
+  m_Output->SetCellsAllocationMethod( 
+     OutputMeshType::CellsAllocatedDynamicallyCellByCell );
 
 }
 
