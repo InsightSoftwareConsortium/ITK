@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkTimeProbesCollectorBase.h"
+#include <iostream>
 
 //-------------------------
 //
@@ -24,6 +25,10 @@
 //-------------------------
 int itkTimeProbesTest(int, char* [] ) 
 {
+  
+  std::cout << "clock() precision = " << CLOCKS_PER_SEC;
+  std::cout << "  ticks per second " << std::endl;
+  std::cout << std::endl;
   
   itk::TimeProbesCollectorBase   collector;
 
