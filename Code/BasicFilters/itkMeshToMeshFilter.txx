@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMeshToMeshFilter_txx
+#define _itkMeshToMeshFilter_txx
+
 #include "itkMeshToMeshFilter.h"
 
 
@@ -87,3 +90,5 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>
 }
 
 } // end namespace itk
+
+#endif

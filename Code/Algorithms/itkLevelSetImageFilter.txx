@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkLevelSetImageFilter_txx
+#define _itkLevelSetImageFilter_txx
+
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 
@@ -250,3 +253,5 @@ LevelSetImageFilter<TLevelSet>
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageMomentsCalculator_txx
+#define _itkImageMomentsCalculator_txx
+
 
 #include <stdlib.h>            // For abort
 
@@ -328,3 +331,5 @@ namespace itk
 // FIXME:  Create .emacs commands for the Insight indentation style
 // Local variables: ***
 // END: ***
+
+#endif

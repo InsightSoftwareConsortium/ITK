@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkReinitializeLevelSetImageFilter_txx
+#define _itkReinitializeLevelSetImageFilter_txx
+
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 
@@ -371,3 +374,5 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
 
 } // namespace itk
+
+#endif

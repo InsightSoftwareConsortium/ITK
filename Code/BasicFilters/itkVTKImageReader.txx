@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVTKImageReader_txx
+#define _itkVTKImageReader_txx
+
 #include "itkVTKImageReader.h"
 #include "itkObjectFactory.h"
 
@@ -54,3 +57,5 @@ VTKImageReader<TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

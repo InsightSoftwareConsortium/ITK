@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkCurvatureAnisotropicDiffusionImageFilter_txx
+#define _itkCurvatureAnisotropicDiffusionImageFilter_txx
+
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
@@ -177,3 +180,5 @@ void AnisoDiffuseCurveND<TInnerProduct, TIterator>
 
 
 } // end namespace itk
+
+#endif

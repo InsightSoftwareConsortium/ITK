@@ -1,3 +1,22 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGibbsPriorFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+#ifndef _itkGibbsPriorFilter_txx
+#define _itkGibbsPriorFilter_txx
+
+
 #include "itkGibbsPriorFilter.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -872,3 +891,5 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 }
 
 } // end namespace itk
+
+#endif

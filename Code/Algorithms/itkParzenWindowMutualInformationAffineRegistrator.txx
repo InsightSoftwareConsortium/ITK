@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkParzenWindowMutualInformationAffineRegistrator_txx
+#define _itkParzenWindowMutualInformationAffineRegistrator_txx
+
 
 namespace itk
 {
@@ -197,3 +200,5 @@ ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 
 
 } // namespace itk
+
+#endif

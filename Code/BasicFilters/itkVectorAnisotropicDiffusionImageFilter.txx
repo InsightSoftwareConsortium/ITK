@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkVectorAnisotropicDiffusionImageFilter_txx
+#define _itkVectorAnisotropicDiffusionImageFilter_txx
+
 #include "itkDerivativeOperator.h"
 #include "itkSimpleImageRegionIterator.h"
 
@@ -352,3 +355,5 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkWatershedImageFilter_txx
+#define _itkWatershedImageFilter_txx
+
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
@@ -852,3 +855,5 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
 
 } // end namespace itk
+
+#endif

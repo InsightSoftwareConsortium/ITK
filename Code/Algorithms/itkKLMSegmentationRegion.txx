@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkKLMSegmentationRegion_txx
+#define _itkKLMSegmentationRegion_txx
+
 namespace itk
 {
 
@@ -343,3 +346,5 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 
 
 
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkKLMRegionGrowImageFilter_txx
+#define _itkKLMRegionGrowImageFilter_txx
+
 namespace itk
 {
 
@@ -1355,3 +1358,5 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
 
 
+
+#endif

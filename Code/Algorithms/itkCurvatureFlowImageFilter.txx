@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkCurvatureFlowImageFilter_txx
+#define _itkCurvatureFlowImageFilter_txx
+
 #include "itkPixelTraits.h"
 #include "itkImageRegionIterator.h"
 #include "itkLevelSetCurvatureFunction.h"
@@ -143,3 +146,5 @@ CurvatureFlowImageFilter<TLevelSet>
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImageWriter_txx
+#define _itkImageWriter_txx
+
 #include "itkImageWriter.h"
 
 namespace itk
@@ -57,3 +60,5 @@ ImageWriter<TInputImage>
 }
 
 } // end namespace itk
+
+#endif

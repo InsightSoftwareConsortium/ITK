@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkAffineTransformMeshFilter_txx
+#define _itkAffineTransformMeshFilter_txx
+
 #include "itkAffineTransformMeshFilter.h"
 #include "itkExceptionObject.h"
 
@@ -118,3 +121,5 @@ AffineTransformMeshFilter<TInputMesh,TOutputMesh>
 
 
 } // end namespace itk
+
+#endif

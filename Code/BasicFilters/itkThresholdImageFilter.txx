@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkThresholdImageFilter_txx
+#define _itkThresholdImageFilter_txx
+
 #include "itkThresholdImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkImageTraits.h"
@@ -174,3 +177,5 @@ ThresholdImageFilter<TImage>
 }
 
 } // end namespace itk
+
+#endif

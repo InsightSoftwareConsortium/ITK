@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkDanielssonDistanceMapImageFilter_txx
+#define _itkDanielssonDistanceMapImageFilter_txx
+
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
@@ -379,3 +382,5 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
 
 } // end namespace itk
+
+#endif

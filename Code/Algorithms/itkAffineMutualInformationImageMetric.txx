@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkAffineMutualInformationImageMetric_txx
+#define _itkAffineMutualInformationImageMetric_txx
+
 
 namespace itk
 {
@@ -69,3 +72,5 @@ unsigned int idx )
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,9 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkFileIOToImageFilter_txx
+#define _itkFileIOToImageFilter_txx
+
 #include "itkObjectFactory.h"
 #include "itkSimpleImageRegionIterator.h"
 
@@ -127,3 +130,5 @@ ImageIO* FileIOToImageFilter<TOutputImage>::GetIO()
 }
 
 } //namespace ITK
+
+#endif

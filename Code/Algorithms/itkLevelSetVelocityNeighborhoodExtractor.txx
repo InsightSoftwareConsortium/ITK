@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkLevelSetVelocityNeighborhoodExtractor_txx
+#define _itkLevelSetVelocityNeighborhoodExtractor_txx
+
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -166,3 +169,5 @@ Index& index)
 }
 
 } // namespace itk
+
+#endif

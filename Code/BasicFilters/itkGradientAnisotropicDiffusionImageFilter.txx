@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkGradientAnisotropicDiffusionImageFilter_txx
+#define _itkGradientAnisotropicDiffusionImageFilter_txx
+
 #include "vnl/vnl_math.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNeighborhoodIterator.h"
@@ -209,3 +212,5 @@ void AnisoDiffuseGradND<TInnerProduct, TIterator>
 
 
 } // end namespace itk
+
+#endif

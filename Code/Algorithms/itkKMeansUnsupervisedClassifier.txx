@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkKMeansUnsupervisedClassifier_txx
+#define _itkKMeansUnsupervisedClassifier_txx
+
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -649,3 +652,5 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 
 
+
+#endif

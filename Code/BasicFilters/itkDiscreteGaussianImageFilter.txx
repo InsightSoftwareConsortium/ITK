@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkDiscreteGaussianImageFilter_txx
+#define _itkDiscreteGaussianImageFilter_txx
+
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkImageRegionIterator.h"
@@ -91,3 +94,5 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkNonThreadedShrinkImageFilter_txx
+#define _itkNonThreadedShrinkImageFilter_txx
+
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkObjectFactory.h"
 
@@ -187,3 +190,5 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

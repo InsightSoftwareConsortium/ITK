@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkMutualInformationImageMetric_txx
+#define _itkMutualInformationImageMetric_txx
+
 
 namespace itk
 {
@@ -72,3 +75,5 @@ TTestImage * ptr )
 
 
 } // namespace itk
+
+#endif

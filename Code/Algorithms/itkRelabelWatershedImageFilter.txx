@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkRelabelWatershedImageFilter_txx
+#define _itkRelabelWatershedImageFilter_txx
+
 namespace itk
 {
 
@@ -37,3 +40,5 @@ RelabelWatershedImageFilter<TInputImage, TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

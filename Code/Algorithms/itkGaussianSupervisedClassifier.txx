@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkGaussianSupervisedClassifier_txx
+#define _itkGaussianSupervisedClassifier_txx
+
 namespace itk
 {
 
@@ -394,3 +397,5 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
 
 
+
+#endif

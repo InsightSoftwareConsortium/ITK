@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSegmentationBorder_txx
+#define _itkSegmentationBorder_txx
+
 namespace itk
 {
 
@@ -44,3 +47,5 @@ SegmentationBorder<TInputImage,TOutputImage>
 }// end PrintSelf
 
 } // namespace itk
+
+#endif

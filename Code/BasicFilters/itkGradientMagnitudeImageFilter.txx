@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkGradientMagnitudeImageFilter_txx
+#define _itkGradientMagnitudeImageFilter_txx
+
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
@@ -103,3 +106,5 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
 }
   
 } // end namespace itk
+
+#endif

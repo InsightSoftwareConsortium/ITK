@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkDeformableMesh_txx
+#define _itkDeformableMesh_txx
+
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -222,3 +225,5 @@ DeformableMesh<TPixelType/*, TMeshTraits*/>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkFuzzyConnectednessImageFilter_txx
+#define _itkFuzzyConnectednessImageFilter_txx
+
 #include "vnl/vnl_math.h"
 #include "itkSimpleImageRegionIterator.h"
 
@@ -303,3 +306,4 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 } // end namespace itk
 
 
+#endif

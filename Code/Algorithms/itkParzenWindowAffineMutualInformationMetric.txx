@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkParzenWindowAffineMutualInformationMetric_txx
+#define _itkParzenWindowAffineMutualInformationMetric_txx
+
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
@@ -498,3 +501,5 @@ bool resample)
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRandomImageSource_txx
+#define _itkRandomImageSource_txx
+
 #include "itkRandomImageSource.h"
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
@@ -118,3 +121,5 @@ RandomImageSource<TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

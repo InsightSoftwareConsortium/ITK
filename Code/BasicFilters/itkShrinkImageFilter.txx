@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkShrinkImageFilter_txx
+#define _itkShrinkImageFilter_txx
+
 #include "itkShrinkImageFilter.h"
 #include "itkObjectFactory.h"
 
@@ -207,3 +210,5 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

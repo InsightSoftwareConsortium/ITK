@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkGeodesicActiveContourImageFilter_txx
+#define _itkGeodesicActiveContourImageFilter_txx
+
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "itkUpwindDerivativeImageFunction.h"
@@ -428,3 +431,5 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
 
 } // namespace itk
+
+#endif

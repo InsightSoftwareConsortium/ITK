@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSecondDerivativeRecursiveGaussianImageFilter_txx
+#define _itkSecondDerivativeRecursiveGaussianImageFilter_txx
+
 #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 
 namespace itk
@@ -44,3 +47,5 @@ SecondDerivativeRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputat
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVoronoi2DDiagram_txx
+#define _itkVoronoi2DDiagram_txx
+
 
 #include <algorithm>
 #include "vnl/vnl_sample.h"
@@ -1203,3 +1206,5 @@ GenerateVDFortune(void)
 }
 
 }//end namespace
+
+#endif

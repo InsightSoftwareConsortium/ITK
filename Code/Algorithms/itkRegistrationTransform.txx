@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRegistrationTransform_txx
+#define _itkRegistrationTransform_txx
+
 
 #include "itkRegistrationTransform.h"
 
@@ -129,3 +132,5 @@ RegistrationTransform<TMetric, TOptimizationMethod>
 
 
 } // end namespace itk
+
+#endif

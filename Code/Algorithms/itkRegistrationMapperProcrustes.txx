@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRegistrationMapperProcrustes_txx
+#define _itkRegistrationMapperProcrustes_txx
+
 
 
 namespace itk
@@ -73,3 +76,5 @@ RegistrationMapperProcrustes<TTransformation,NDimension>
 
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSegmentationRegion_txx
+#define _itkSegmentationRegion_txx
+
 namespace itk
 {
 
@@ -72,3 +75,5 @@ SegmentationRegion<TInputImage,TOutputImage>
 
 } // namespace itk
 
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVTKImageWriter_txx
+#define _itkVTKImageWriter_txx
+
 #include "itkVTKImageWriter.h"
 #include "itkObjectFactory.h"
 #include "itkByteSwapper.h"
@@ -333,3 +336,5 @@ VTKImageWriter<TInputImage>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkBalloonForceFilter_txx
+#define _itkBalloonForceFilter_txx
+
 #include "itkBalloonForceFilter.h"
 
 namespace itk
@@ -953,3 +956,5 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 
 } // end namespace itk
+
+#endif

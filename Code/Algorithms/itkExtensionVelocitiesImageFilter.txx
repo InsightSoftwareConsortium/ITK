@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkExtensionVelocitiesImageFilter_txx
+#define _itkExtensionVelocitiesImageFilter_txx
+
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 
@@ -485,3 +488,5 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
 
 } //namespace itk
+
+#endif

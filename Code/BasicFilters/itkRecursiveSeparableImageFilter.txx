@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRecursiveSeparableImageFilter_txx
+#define _itkRecursiveSeparableImageFilter_txx
+
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIterator.h"
@@ -296,3 +299,5 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
 
 } // end namespace itk
+
+#endif

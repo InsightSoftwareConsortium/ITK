@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkUnaryImageFilter_txx
+#define _itkUnaryImageFilter_txx
+
 // #include "itkUnaryImageFilter.h"
 
 
@@ -95,3 +98,5 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 
 
 } // end namespace itk
+
+#endif

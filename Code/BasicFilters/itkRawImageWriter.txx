@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRawImageWriter_txx
+#define _itkRawImageWriter_txx
+
 #include "itkRawImageWriter.h"
 #include "itkObjectFactory.h"
 #include "itkByteSwapper.h"
@@ -147,3 +150,5 @@ RawImageWriter<TInputImage>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkTernaryImageFilter_txx
+#define _itkTernaryImageFilter_txx
+
 // #include "itkTernaryImageFilter.h"
 
 
@@ -144,3 +147,5 @@ TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkBinaryImageFilter_txx
+#define _itkBinaryImageFilter_txx
+
 // #include "itkBinaryImageFilter.h"
 
 
@@ -125,3 +128,5 @@ BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 
 
 } // end namespace itk
+
+#endif

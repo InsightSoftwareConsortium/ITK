@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkLevelSetNeighborhoodExtractor_txx
+#define _itkLevelSetNeighborhoodExtractor_txx
+
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkPixelTraits.h"
@@ -333,3 +336,5 @@ IndexType& index)
 }
 
 } // namespace itk
+
+#endif

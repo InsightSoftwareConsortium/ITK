@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkFastMarchingImageFilter_txx
+#define _itkFastMarchingImageFilter_txx
+
 
 #include "itkImageRegionIterator.h"
 #include "itkPixelTraits.h"
@@ -514,3 +517,5 @@ IndexType& index )
 
 } // namespace itk
 
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkDynamicPolygonCell_txx
+#define _itkDynamicPolygonCell_txx
+
 
 namespace itk
 {
@@ -333,3 +336,5 @@ DynamicPolygonCell< TPixelType , TCellTraits >
 
 
 } // end namespace itk
+
+#endif

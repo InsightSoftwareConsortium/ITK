@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkUnsupervisedClassifier_txx
+#define _itkUnsupervisedClassifier_txx
+
 namespace itk
 {
 
@@ -62,3 +65,5 @@ UnsupervisedClassifier<TInputImage,TClassifiedImage>
 
 
 
+
+#endif

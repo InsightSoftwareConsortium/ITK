@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkMutualInformationAffineRegistrator_txx
+#define _itkMutualInformationAffineRegistrator_txx
+
 
 namespace itk
 {
@@ -54,3 +57,5 @@ MutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 
 
 } // namespace itk
+
+#endif

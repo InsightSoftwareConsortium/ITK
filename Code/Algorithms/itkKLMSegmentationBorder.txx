@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkKLMSegmentationBorder_txx
+#define _itkKLMSegmentationBorder_txx
+
 namespace itk
 {
 
@@ -156,3 +159,5 @@ KLMSegmentationBorder<TInputImage,TOutputImage>
 
 
 
+
+#endif

@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkPlaheImageFilter_txx
+#define _itkPlaheImageFilter_txx
+
 #include <map>
 
 #include "vnl/vnl_math.h"
@@ -272,3 +275,5 @@ PlaheImageFilter<TPixel, VImageDimension>
 
 } // end namespace
 
+
+#endif

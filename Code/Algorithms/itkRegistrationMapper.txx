@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRegistrationMapper_txx
+#define _itkRegistrationMapper_txx
+
 
 
 namespace itk
@@ -58,3 +61,5 @@ RegistrationMapper<TDomain,TTransformation>
 
 
 } // end namespace itk
+
+#endif

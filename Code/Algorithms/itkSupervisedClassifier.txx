@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSupervisedClassifier_txx
+#define _itkSupervisedClassifier_txx
+
 namespace itk
 {
 
@@ -114,3 +117,5 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
 
 
 } // namespace itk
+
+#endif

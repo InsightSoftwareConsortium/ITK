@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRegionGrowImageFilter_txx
+#define _itkRegionGrowImageFilter_txx
+
 namespace itk
 {
 
@@ -51,3 +54,5 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 
 
 
+
+#endif

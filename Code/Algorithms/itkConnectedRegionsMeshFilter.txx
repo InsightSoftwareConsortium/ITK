@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkConnectedRegionsMeshFilter_txx
+#define _itkConnectedRegionsMeshFilter_txx
+
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkObjectFactory.h"
 
@@ -80,3 +83,5 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMeshSource_txx
+#define _itkMeshSource_txx
+
 // #include "itkMeshSource.h"
 
 namespace itk
@@ -105,3 +108,5 @@ MeshSource<TOutputMesh>
 }
 
 } // end namespace itk
+
+#endif

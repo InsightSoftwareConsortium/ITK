@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkImportPhysicalImageFilter_txx
+#define _itkImportPhysicalImageFilter_txx
+
 #include "itkImportPhysicalImageFilter.h"
 #include "itkObjectFactory.h"
 
@@ -157,3 +160,5 @@ ImportPhysicalImageFilter<TPixel, VImageDimension>
 
 
 } // end namespace itk
+
+#endif

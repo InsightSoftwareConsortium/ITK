@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVoronoiSegmentationImageFilter_txx
+#define _itkVoronoiSegmentationImageFilter_txx
+
 #include "itkSimpleImageRegionIterator.h"
 
 
@@ -526,3 +529,5 @@ TakeAPrior(BinaryObjectImage* aprior)
 
 
 
+
+#endif

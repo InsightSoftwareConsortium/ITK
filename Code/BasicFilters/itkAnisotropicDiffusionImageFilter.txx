@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkAnisotropicDiffusionImageFilter_txx
+#define _itkAnisotropicDiffusionImageFilter_txx
+
 #include "itkImageTraits.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
@@ -155,3 +158,5 @@ AvgGradMagSquared<TImageType>
 }
 
 } // end namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkSimilarityRegistrationMetric_txx
+#define _itkSimilarityRegistrationMetric_txx
+
 
 
 namespace itk
@@ -92,3 +95,5 @@ SimilarityRegistrationMetric<TReference,TTarget,TMapper,TMeasure,TDerivative>
 
 
 } // end namespace itk
+
+#endif

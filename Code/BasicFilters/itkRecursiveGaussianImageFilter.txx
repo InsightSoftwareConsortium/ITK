@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkRecursiveGaussianImageFilter_txx
+#define _itkRecursiveGaussianImageFilter_txx
+
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIterator.h"
@@ -113,3 +116,5 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
 
 } // end namespace itk
+
+#endif

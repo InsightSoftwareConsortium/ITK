@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkProcrustesRegistrationMetric_txx
+#define _itkProcrustesRegistrationMetric_txx
+
 
 
 #include <itkExceptionObject.h>
@@ -97,3 +100,5 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
 
 
 } // end namespace itk
+
+#endif

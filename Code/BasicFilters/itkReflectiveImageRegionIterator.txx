@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkReflectiveImageRegionIterator_txx
+#define _itkReflectiveImageRegionIterator_txx
+
 
 #include "itkReflectiveImageRegionIterator.h"
 
@@ -98,3 +101,5 @@ ReflectiveImageRegionIterator<TImage>
 }
 
 } // end namespace itk
+
+#endif

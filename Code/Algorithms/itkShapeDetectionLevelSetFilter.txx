@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkShapeDetectionLevelSetFilter_txx
+#define _itkShapeDetectionLevelSetFilter_txx
+
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "itkImageRegionIterator.h"
@@ -369,3 +372,5 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
 
 } // namespace itk
+
+#endif

@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkDerivativeImageFilter_txx
+#define _itkDerivativeImageFilter_txx
+
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
 namespace itk
@@ -42,3 +45,5 @@ DerivativeImageFilter< TInputImage, TOutputImage >
 }
 
 } // end namespace itk
+
+#endif

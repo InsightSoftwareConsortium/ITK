@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkMRFImageFilter_txx
+#define _itkMRFImageFilter_txx
+
 namespace itk
 {
 
@@ -524,3 +527,5 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
 
 
+
+#endif

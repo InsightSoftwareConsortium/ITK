@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
+#ifndef _itkFastMarchingExtensionImageFilter_txx
+#define _itkFastMarchingExtensionImageFilter_txx
+
 
 namespace itk
 {
@@ -294,3 +297,5 @@ IndexType& index )
 
 } // namespace itk
 
+
+#endif

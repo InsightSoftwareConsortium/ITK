@@ -13,6 +13,9 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#ifndef _itkNeighborhoodOperatorImageFilter_txx
+#define _itkNeighborhoodOperatorImageFilter_txx
+
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
@@ -48,3 +51,5 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
 }
 
 } // end namespace itk
+
+#endif
