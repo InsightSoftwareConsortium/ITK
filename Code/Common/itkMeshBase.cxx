@@ -56,16 +56,6 @@ itkMeshBase
 {
 }
 
-<<<<<<< itkMeshBase.cxx
-//-------------------------------------------------------------------------
-void itkMeshBase::PrintSelf(std::ostream& os, itkIndent indent)
-{
-  itkDataObject::PrintSelf(os,indent);
-  
-}
-
-
-=======
 //-------------------------------------------------------------------------
 void 
 itkMeshBase
@@ -74,6 +64,3 @@ itkMeshBase
   itkDataObject::PrintSelf(os,indent);
   
 }
-
-
->>>>>>> 1.4
