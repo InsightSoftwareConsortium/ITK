@@ -31,7 +31,7 @@ namespace bio {
  * \brief This class implement the abstraction of a biological gene network.
  * 
  * This class is implemented to iteratively compute the state of the gene network
- * following update rules (typicall Partial Differential Equations).
+ * following update rules (typical Partial Differential Equations).
  * 
  */
 class GeneNetwork  

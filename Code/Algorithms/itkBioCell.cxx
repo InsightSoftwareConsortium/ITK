@@ -626,6 +626,32 @@ Cell
 
 
 /**
+ *    Set the amount of Energy that is needed for Self-repair.
+ *    Cells that go below this level will degrade and enter
+ *    termination stage.
+ */ 
+void
+Cell
+::SetEnergySelfRepairLevel( double value ) 
+{
+  EnergySelfRepairLevel = value;
+}
+
+
+/**
+ *    Set the amount of Nutrients that are needed for Self-repair.
+ *    Cells that go below this level will degrade and enter
+ *    termination stage.
+ */ 
+void
+Cell
+::SetNutrientSelfRepairLevel( double value ) 
+{
+  NutrientSelfRepairLevel = value;
+}
+
+
+/**
  *    Set the value of the limit of cell generation.
  *    After this generation cells will stop dividing
  *    A mechanism similar to the inhibition of Telomerase
