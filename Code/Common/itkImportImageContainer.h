@@ -111,6 +111,21 @@ public:
   /** Tell the container to release any of its allocated memory. */
   void Initialize(void);
 
+
+  /** These methods allow to define whether upon destruction of this class
+   *  the memory buffer should be released or not.  Setting it to true
+   *  (or ON) makes that this class will take care of memory release.
+   *  Setting it to false (or OFF) will prevent the destructor from
+   *  deleting the memory buffer. This is desirable only when the data
+   *  is intended to be used by external applications.
+   *  Note that the normal logic of this class set the value of the boolean
+   *  flag. This may override your setting if you call this methods prematurely.
+   *  \warning Improper use of these methods will result in memory leaks */
+  itkSetMacro(ContainerManageMemory,bool);
+  itkGetMacro(ContainerManageMemory,bool);
+  itkBooleanMacro(ContainerManageMemory);
+
+
 protected:
   ImportImageContainer();
   virtual ~ImportImageContainer();
