@@ -20,6 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAcosImageAdaptor.h"
 #include "itkAffineTransform.h"
 #include "itkArray.h"
+#include "itkArray2D.h"
 #include "itkAsinImageAdaptor.h"
 #include "itkAtanImageAdaptor.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
