@@ -211,7 +211,7 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
       {
       std::cerr << "Error: Dilated images differ!" << std::endl;
       std::cerr << "   Slice = " << count/(size[1]*size[0]) << std::endl;
-      int x, y;
+      unsigned int x, y;
       itk::Index<3> i;
       i[2] = count/(size[1]*size[0]);
       for(y=0; y<size[1]; y++)
@@ -308,7 +308,7 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
       std::cout << "  Please see documentation - ErodeObject and BinaryErode";
       std::cout << std::endl << "    produce different results" << std::endl;
       std::cout << "   Slice = " << count/(size[1]*size[0]) << std::endl;
-      int x, y;
+      unsigned int x, y;
       itk::Index<3> i;
       i[2] = count/(size[1]*size[0]);
       for(y=0; y<size[1]; y++)
