@@ -24,6 +24,7 @@ template< class TSample >
 CovarianceCalculator< TSample >
 ::CovarianceCalculator()
 {
+  m_Mean = 0 ;
 }
 
 template< class TSample >
@@ -35,12 +36,20 @@ CovarianceCalculator< TSample >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Output: " << m_Output << std::endl;
-  os << indent << "Mean: [" ;
-  for (i=0; i+1 < MeasurementVectorSize; i++)
+
+  if ( m_Mean )
     {
+    os << indent << "Mean: [" ;
+    for (i=0; i+1 < MeasurementVectorSize; i++)
+      {
       os << m_Mean[i] << ", ";
+      }
+    os << m_Mean[i] << "]" << std::endl;
     }
-  os << m_Mean[i] << "]" << std::endl;
+  else
+    {
+    os << indent << "Mean: not set" << std::endl ;
+    }
 }
 
 template< class TSample >
@@ -85,31 +94,31 @@ CovarianceCalculator< TSample >
   // fills the lower triangle and the diagonal cells in the covariance matrix
   while (iter != end)
     {
-      frequency = iter.GetFrequency() ;
-      totalFrequency += frequency ;
-      measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < MeasurementVectorSize ; i++)
+    frequency = iter.GetFrequency() ;
+    totalFrequency += frequency ;
+    measurements = iter.GetMeasurementVector() ;
+    for (i = 0 ; i < MeasurementVectorSize ; i++)
+      {
+      diff[i] = measurements[i] - (*m_Mean)[i] ;
+      }
+    for ( row = 0; row < MeasurementVectorSize ; row++)
+      {
+      for ( col = 0; col < row + 1 ; col++)
         {
-          diff[i] = measurements[i] - (*m_Mean)[i] ;
+        m_Output.GetVnlMatrix()(row,col) += frequency * diff[row] * diff[col] ;
         }
-      for ( row = 0; row < MeasurementVectorSize ; row++)
-        {
-          for ( col = 0; col < row + 1 ; col++)
-            {
-              m_Output.GetVnlMatrix()(row,col) += frequency * diff[row] * diff[col] ;
-            }
-        }
-      ++iter ;
+      }
+    ++iter ;
     }
 
   // fills the upper triangle using the lower triangle  
   for (row = 1 ; row < MeasurementVectorSize ; row++)
     {
-      for (col = 0 ; col < row ; col++)
-        {
-          m_Output.GetVnlMatrix()(col, row) = 
-            m_Output.GetVnlMatrix()(row, col) ;
-        } 
+    for (col = 0 ; col < row ; col++)
+      {
+      m_Output.GetVnlMatrix()(col, row) = 
+        m_Output.GetVnlMatrix()(row, col) ;
+      } 
     }
 
   m_Output.GetVnlMatrix() /= (totalFrequency - 1.0f);
