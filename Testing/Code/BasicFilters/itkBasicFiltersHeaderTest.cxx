@@ -51,6 +51,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
 #include "itkGradient2DAnisotropicDiffusionEquation.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
+#include "itkGradientImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkGradientNDAnisotropicDiffusionEquation.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
