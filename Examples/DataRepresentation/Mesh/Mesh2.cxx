@@ -326,9 +326,9 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   while( cellIterator != end ) {
-    MeshType::CellType * cellptr = cellIterator->Value();
+    MeshType::CellType * cellptr = cellIterator.Value();
     LineType * line = dynamic_cast<LineType *>( cellptr );
-    std::cout << line->GetNumberOfPoints() << std::cout;
+    std::cout << line->GetNumberOfPoints() << std::endl;
     ++cellIterator;
     }
   // Software Guide : EndCodeSnippet
