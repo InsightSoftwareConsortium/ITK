@@ -125,17 +125,17 @@ while { ![eof $Build] } \
   # set hasError [regexp -nocase ".*error.*" $LogLine]
   # set hasWarning [regexp -nocase ".*warning.*" $LogLine]
 
-  if { $hasError } \
+  if { $hasWarning } \
   {
-    set Type Error
-    incr Report(Error)
+    set Type Warning
+    incr Report(Warning)
   } \
   else \
   {
-    if { $hasWarning } \
+    if { $hasError } \
     {
-      set Type Warning
-      incr Report(Warning)
+      set Type Error
+      incr Report(Error)
     }
   }
   if { $hasError || $hasWarning } \
