@@ -608,7 +608,8 @@ TIFFImageIO::~TIFFImageIO()
 void TIFFImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
+  os << indent << "PixelType: " << m_PixelType << "\n";
+  os << indent << "Compression: " << m_Compression << "\n";
 }
 
 void TIFFImageIO::InitializeColors()
