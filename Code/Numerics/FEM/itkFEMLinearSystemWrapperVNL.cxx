@@ -20,72 +20,90 @@
 namespace itk {
 namespace fem {
 
-void LinearSystemWrapperVNL::InitializeMatrix(unsigned int MatrixIndex)
+void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
 {
 
   // allocate if necessary
-  if (m_Matrices == NULL)
+  if (m_Matrices == 0)
   {
     m_Matrices = new std::vector< vnl_sparse_matrix<Float>* >(m_NumberOfMatrices);
   }
 
   // out with old, in with new
-  delete (*m_Matrices)[MatrixIndex];
-  (*m_Matrices)[MatrixIndex] = new vnl_sparse_matrix<Float>(this->GetSystemOrder(), this->GetSystemOrder() );
+  if ( (*m_Matrices)[matrixIndex] != 0 )
+  {
+   delete (*m_Matrices)[matrixIndex];
+  }
+
+  (*m_Matrices)[matrixIndex] = new vnl_sparse_matrix<Float>(this->GetSystemOrder(), this->GetSystemOrder() );
 
 }
 
 
-void LinearSystemWrapperVNL::DestroyMatrix(unsigned int MatrixIndex)
+void LinearSystemWrapperVNL::DestroyMatrix(unsigned int matrixIndex)
 {
-  if (m_Matrices == NULL) return;
-  delete (*m_Matrices)[MatrixIndex];
+  if (m_Matrices == 0) return;
+  if ((*m_Matrices)[matrixIndex] == 0) return;
+  delete (*m_Matrices)[matrixIndex];
+  (*m_Matrices)[matrixIndex] = 0;
 }
 
 
-void LinearSystemWrapperVNL::InitializeVector(unsigned int VectorIndex)
+void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
 {
 
   // allocate if necessary
-  if (m_Vectors == NULL)
+  if (m_Vectors == 0)
   {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
   }
 
   // out with old, in with new
-  delete (*m_Vectors)[VectorIndex];
-  (*m_Vectors)[VectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  (*m_Vectors)[VectorIndex]->fill(0.0);
+  if ( (*m_Vectors)[vectorIndex] != 0)
+  {
+    delete (*m_Vectors)[vectorIndex];
+  }
+
+  (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  (*m_Vectors)[vectorIndex]->fill(0.0);
 
 }
 
 
-void LinearSystemWrapperVNL::DestroyVector(unsigned int VectorIndex)
+void LinearSystemWrapperVNL::DestroyVector(unsigned int vectorIndex)
 {
-  if (m_Vectors == NULL) return;
-  delete (*m_Vectors)[VectorIndex];
+  if (m_Vectors == 0) return;
+  if ( (*m_Vectors)[vectorIndex] == 0) return;
+  delete (*m_Vectors)[vectorIndex];
+  (*m_Vectors)[vectorIndex] = 0;
 }
 
 
-void LinearSystemWrapperVNL::InitializeSolution(unsigned int SolutionIndex)
+void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
 {
   // allocate if necessary
-  if (m_Solutions == NULL)
+  if (m_Solutions == 0)
   {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
   }
 
   // out with old, in with new
-  delete (*m_Solutions)[SolutionIndex];
-  (*m_Solutions)[SolutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  (*m_Solutions)[SolutionIndex]->fill(0.0);
+  if ( (*m_Solutions)[solutionIndex] != 0)
+  {
+    delete (*m_Solutions)[solutionIndex];
+  }
+
+  (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  (*m_Solutions)[solutionIndex]->fill(0.0);
 }
 
 
-void LinearSystemWrapperVNL::DestroySolution(unsigned int SolutionIndex)
+void LinearSystemWrapperVNL::DestroySolution(unsigned int solutionIndex)
 {
-  if (m_Solutions == NULL) return;
-  delete (*m_Solutions)[SolutionIndex];
+  if (m_Solutions == 0) return;
+  if ( (*m_Solutions)[solutionIndex] == 0) return;
+  delete (*m_Solutions)[solutionIndex];
+  (*m_Solutions)[solutionIndex] = 0;
 }
 
 
@@ -104,9 +122,11 @@ void LinearSystemWrapperVNL::Solve(void)
   if( (m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0) ) throw;
 
   /* use functions to make sure that zero based matrix, vector, & index store final system to solve */
+  /*
   if (m_PrimaryMatrixSetupFunction != NULL) (*m_PrimaryMatrixSetupFunction)(static_cast<SuperClass*>(this));
   if (m_PrimaryVectorSetupFunction != NULL) (*m_PrimaryVectorSetupFunction)(static_cast<SuperClass*>(this));
   if (m_PrimarySolutionSetupFunction != NULL) (*m_PrimarySolutionSetupFunction)(static_cast<SuperClass*>(this));
+  */
 
   /*
    * Solve the sparse system of linear equation and store the result in m_Solutions(0).
