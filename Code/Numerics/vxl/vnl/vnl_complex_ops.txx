@@ -3,6 +3,7 @@
 /*
   fsm@robots.ox.ac.uk
 */
+#include <vcl_cmath.h>
 #include "vnl_complex_ops.h"
 
 //-----------------------------------------------------------------------

@@ -8,6 +8,8 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <vcl_cmath.h>
+
 #include "vnl_symmetric_eigensystem.h"
 #include <vcl_iostream.h>
 #include <vnl/vnl_copy.h>
