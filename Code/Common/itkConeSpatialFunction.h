@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConeSpatialFunction_h
 #define __itkConeSpatialFunction_h
 
-#include "VNL/vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "itkSpatialFunction.h"
 
 namespace itk
@@ -49,15 +49,14 @@ namespace itk
 
 /**
  * \class ConeSpatialFunction
- * \brief Spatial function implementation of a Cone
+ * \brief InteriorExterioSpatialFunction implementation of a cone
  *
- * Implements a function that returns < 0 for points inside a Cone, 0 for points
- * on the surface of a Cone, and > 0 for points outside a Cone.
+ * Returns 1 for points inside a cone, 0 for points outside a cone
  *
  * */
 
 template <unsigned int VImageDimension=3>
-class ITK_EXPORT ConeSpatialFunction : public SpatialFunction<VImageDimension>
+class ITK_EXPORT ConeSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
 {
 public:
 
@@ -69,7 +68,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
   
   /** 
    * Smart pointer typedef support.
@@ -77,7 +76,7 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  itkTypeMacro(ConeSpatialFunction,SpatialFunction);
+  itkTypeMacro(ConeSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**
    * Method for creation through the object factory.
@@ -87,19 +86,16 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  double EvaluateFunctionValue(TVectorType* position);
+  TFunctionValueType Evaluate(TVectorType* position);
 
   /**
-   * Evaluates the gradient at a given position
-   */
-
-  void EvaluateFunctionGradient(TVectorType* position,
-    TVectorType* gradient);
-
-  /**
-   * Get and set the angle of the Cone
+   * Get the angle of the Cone
    */
   itkGetMacro( Angle, double);
+
+  /**
+   * Set the angle of the Cone
+   */
   itkSetMacro( Angle, double);
      
 protected:
@@ -113,7 +109,7 @@ protected:
 private:
 
   /**
-   * The radius of the Cone
+   * The angle that the cone makes with the x-axis
    */
   double m_Angle;
 

@@ -63,27 +63,19 @@ ConeSpatialFunction<VImageDimension>::~ConeSpatialFunction()
 
 // Evaluate cone equation.
 template <unsigned int VImageDimension>
-double ConeSpatialFunction<VImageDimension>
-::EvaluateFunctionValue(TVectorType* position)
+bool
+ConeSpatialFunction<VImageDimension>
+::Evaluate(TVectorType* position)
 {
   double tanTheta = tan( m_Angle*3.1415926/180 );
 
-  return position->get(1)*position->get(1) + position->get(2)*position->get(2)
+  double result = position->get(1)*position->get(1) + position->get(2)*position->get(2)
     - position->get(0)*position->get(0)*tanTheta*tanTheta;
-}
 
-// Evaluate cone normal
-template <unsigned int VImageDimension>
-void ConeSpatialFunction<VImageDimension>
-::EvaluateFunctionGradient(TVectorType* position, TVectorType* gradient)
-{
-  /*
-  float tanTheta = (float) 
-    tan((double)this->Angle*vtkMath::DegreesToRadians());
-  g[0] = -2.0*x[0]*tanTheta*tanTheta;
-  g[1] = 2.0*x[1];
-  g[2] = 2.0*x[2];
-  */
+  if (result <= 0)
+    return 1;
+  else
+    return 0;
 }
 
 } // end namespace itk

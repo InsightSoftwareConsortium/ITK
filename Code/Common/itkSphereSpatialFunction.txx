@@ -61,8 +61,8 @@ SphereSpatialFunction<VImageDimension>::~SphereSpatialFunction()
 }
 
 template <unsigned int VImageDimension>
-double SphereSpatialFunction<VImageDimension>
-::EvaluateFunctionValue(TVectorType* position)
+bool SphereSpatialFunction<VImageDimension>
+::Evaluate(TVectorType* position)
 {
   double acc = 0;
 
@@ -73,14 +73,10 @@ double SphereSpatialFunction<VImageDimension>
 
   acc -= m_Radius*m_Radius;
 
-  return acc;
-}
-
-template <unsigned int VImageDimension>
-void SphereSpatialFunction<VImageDimension>
-::EvaluateFunctionGradient(TVectorType* position, TVectorType* gradient)
-{
-  // To do: add gradient code
+  if(acc <= 0) // inside the sphere
+    return 1;
+  else
+    return 0; // outside the sphere
 }
 
 } // end namespace itk

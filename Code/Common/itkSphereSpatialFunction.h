@@ -42,8 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkSphereSpatialFunction_h
 #define __itkSphereSpatialFunction_h
 
-#include "VNL/vnl_vector_fixed.h"
-#include "itkSpatialFunction.h"
+#include "vnl/vnl_vector_fixed.h"
+#include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk
 {
@@ -52,16 +52,13 @@ namespace itk
  * \class SphereSpatialFunction
  * \brief Spatial function implementation of a sphere
  *
- * Implements a function that returns < 0 for points inside a sphere, 0 for points
- * on the surface of a sphere, and > 0 for points outside a sphere. The function
- * value is a measure of the distance from the point to the surface of the sphere,
- * along a vector from the point to the sphere's center.
+ * Implements a function that returns 0 for points inside or on the surface
+ * of a sphere, 1 for points outside the sphere
  *
- * Gradient is not yet implemented.
  * */
 
 template <unsigned int VImageDimension=3>
-class ITK_EXPORT SphereSpatialFunction : public SpatialFunction<VImageDimension>
+class ITK_EXPORT SphereSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
 {
 public:
 
@@ -73,7 +70,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
   
   /** 
    * Smart pointer typedef support.
@@ -81,7 +78,7 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  itkTypeMacro(SphereSpatialFunction,SpatialFunction);
+  itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**
    * Method for creation through the object factory.
@@ -91,14 +88,7 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  double EvaluateFunctionValue(TVectorType* position);
-
-  /**
-   * Evaluates the gradient at a given position
-   */
-
-  void EvaluateFunctionGradient(TVectorType* position,
-    TVectorType* gradient);
+  TFunctionValueType Evaluate(TVectorType* position);
 
   /**
    * Get and set the center of the sphere
@@ -126,7 +116,7 @@ private:
   /**
    * The center of the sphere
    */
-  vnl_vector_fixed<double, VImageDimension> m_Center;
+  TVectorType m_Center;
 
   /**
    * The radius of the sphere

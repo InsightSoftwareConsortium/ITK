@@ -52,30 +52,31 @@ namespace itk
  * \brief N-dimensional spatial function class
  *
  * SpatialFunction is based on its implicit VTK counterpart. It provides
- * the ability to evaluate a function and its gradient at an arbitrary
- * point in space, defined by an n-dimensional VNL vector of doubles. Spatial
+ * the ability to evaluate a function  at an arbitrary point in space,
+ * defined by an n-dimensional VNL vector of doubles. Spatial
  * functions are defined at all points in n-dimensional space; evaluation
  * of spatial functions occurs irrespective of images, meshes, or other
  * data storage types.
  *
- * Functions are scalar valued, gradients are vector valued, with the
- * same number of dimensions as the function itself. All vector and
- * scalar values are doubles.
- *
- * This class was designed with the creation of test/validation images in mind
- * (in conjunction with itkSpatialFunctionImageEvaluatorFilter)
+ * SpatialFunction is templated over function value type (the data type
+ * returned by an evaluate() call) and dimensionality.
  * */
 
-template <unsigned int VImageDimension=3>
+template <typename TFunctionValue, unsigned int VImageDimension=3>
 class ITK_EXPORT SpatialFunction : public Object
 {
   public:
 
-  /**
-   * Vector typedef - use this type to get the gradient info from the
-   * function, and to pass an evaluation location to the function
+ /**
+   * Vector typedef - use this type to pass an evaluation
+   * location to the function
    */
   typedef vnl_vector_fixed<double, VImageDimension> TVectorType;
+
+  /**
+   * The type of data that is returned by an evaluate() call
+   */
+  typedef TFunctionValue TFunctionValueType;
 
   /**
    * Standard "Self" typedef.
@@ -96,24 +97,18 @@ class ITK_EXPORT SpatialFunction : public Object
   /** 
    * Run-time type information (and related methods).
    */
-  TypeMacro(SpatialFunction,Object);
+  itkTypeMacro(SpatialFunction,Object);
 
   /**
    * Method for creation through the object factory.
    */
-  NewMacro(Self);
+  itkNewMacro(Self);
 
   /**
   * Evaluate the function at a given position. Remember, position is
   * represented by a TVectorType object, which uses VNL vector syntax
   */
-  virtual double EvaluateFunctionValue(TVectorType* position) = 0;
-
-  /**
-  * Evaluate the gradient at a given position
-  */
-  virtual void EvaluateFunctionGradient(TVectorType* position,
-    TVectorType* gradient) = 0;
+  virtual TFunctionValueType Evaluate(TVectorType* position) = 0;
 
 protected:
   SpatialFunction();
