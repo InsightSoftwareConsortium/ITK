@@ -71,7 +71,7 @@ MeanCalculator< TSample >
       totalFrequency += frequency ;
       for (dim = 0 ; dim < Dimension ; dim++)
         {
-          mean[dim] += iter.GetMeasurement(dim) * frequency ;
+          mean[dim] += iter.GetMeasurementVector()[dim] * frequency ;
         }
       ++iter ;
     }
