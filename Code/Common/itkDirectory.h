@@ -47,7 +47,7 @@ public:
     
   /** Method for creation through the object factory. */
   static Pointer New()
-    { return new Directory; }
+    { Pointer n = new Self; n->UnRegister(); return n; }
   
   /** Return the class name as a string. */
   itkTypeMacro(Directory,Object);

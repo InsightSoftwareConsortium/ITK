@@ -160,21 +160,19 @@ HasObserver(const EventObject & event) const
   return false;
 }
 
-/**
- * Instance creation.
- */
 Object::Pointer
-Object
-::New()
+Object::New()
 {
-  Self *ret = ObjectFactory<Self>::Create();
-  if(ret)
+  Pointer smartPtr;
+  Object *rawPtr = ::itk::ObjectFactory<Object>::Create();
+  if(rawPtr == NULL)
     {
-    return ret;
+    rawPtr = new Object;
     }
-  return new Self;
+  smartPtr = rawPtr;
+  rawPtr->UnRegister();
+  return smartPtr;
 }
-  
   
 /**
  * Turn debugging output on.

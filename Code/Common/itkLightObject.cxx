@@ -23,23 +23,21 @@
 
 namespace itk
 {
-    
-/**
- * Instance creation.
- */
+
 LightObject::Pointer
-LightObject
-::New()
+LightObject::New()
 {
-  Self *ret = ObjectFactory<Self>::Create();
-  if(ret)
+  Pointer smartPtr;
+  LightObject *rawPtr = ::itk::ObjectFactory<LightObject>::Create();
+  if(rawPtr == NULL)
     {
-    return ret;
+    rawPtr = new LightObject;
     }
-  return new Self;
+  smartPtr = rawPtr;
+  rawPtr->UnRegister();
+  return smartPtr;
 }
-  
-  
+
 /**
  * Delete a itk object. This method should always be used to delete an object 
  * when the new operator was used to create it. Using the C++ delete method
