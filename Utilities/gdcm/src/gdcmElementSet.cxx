@@ -160,4 +160,31 @@ bool ElementSet::RemoveEntry( DocEntry* entryToRemove)
    dbg.Verbose(0, "ElementSet::RemoveEntry: key not present: ");
    return false ;
 }
+
+/**
+ * \brief   Initialise the visit of the Hash table (TagHT)
+ */
+void ElementSet::Initialize()
+{
+   ItTagHT = TagHT.begin();
+}
+
+/**
+ * \brief   Get the next entry whil visiting the Hash table (TagHT)
+ * \return  The next DocEntry if found, otherwhise NULL
+ */
+DocEntry *ElementSet::GetNextEntry()
+{
+   if (ItTagHT != TagHT.end())
+   {
+      DocEntry *tmp = ItTagHT->second;
+      ++ItTagHT;
+
+      return tmp;
+   }
+   else
+   {
+      return NULL;
+   }
+}
 } // end namespace gdcm

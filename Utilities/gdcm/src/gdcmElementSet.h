@@ -19,18 +19,18 @@
 #ifndef GDCMELEMENTSET_H
 #define GDCMELEMENTSET_H
 
-#include "gdcmCommon.h"
 #include "gdcmDocEntrySet.h"
+
 #include <map>
 #include <iostream>
 #include <fstream>
 
+namespace gdcm 
+{
 class ValEntry;
 class BinEntry;
 class SeqEntry;
 
-namespace gdcm 
-{
 typedef std::map<TagKey, DocEntry *> TagDocEntryHT;
 
 //-----------------------------------------------------------------------------
@@ -53,12 +53,15 @@ public:
    // A test is using it thus put it in public (matt)
    TagDocEntryHT const & GetTagHT() const { return TagHT; };
 
-protected:
-    
+   void Initialize();
+   DocEntry *GetNextEntry();
+
 private:
 // Variables
    /// Hash Table (map), to provide fast access
    TagDocEntryHT TagHT; 
+   /// Hash Table (map) iterator, used to visit the TagHT variable
+   TagDocEntryHT::iterator ItTagHT; 
  
    friend class Document;
    friend class DicomDir; //For accessing private TagHT
