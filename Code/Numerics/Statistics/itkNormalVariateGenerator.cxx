@@ -32,6 +32,7 @@ NormalVariateGenerator::NormalVariateGenerator()
   TLEN  = (8*LEN) ;
   vec1 = new int[TLEN] ;
 
+  gausssave = 0 ;
   this->Initialize(0) ;
 }
 

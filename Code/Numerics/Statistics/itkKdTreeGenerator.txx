@@ -25,6 +25,7 @@ KdTreeGenerator< TSample >
 ::KdTreeGenerator()
 {
   m_SourceSample = 0 ;
+  m_BucketSize = 16 ;
   m_Subsample = SubsampleType::New() ;
 }
 

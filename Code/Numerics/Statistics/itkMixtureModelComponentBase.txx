@@ -30,6 +30,7 @@ MixtureModelComponentBase< TSample >
   m_MembershipFunction = 0 ;
   m_Weights = 0 ;
   m_MinimalParametersChange = 1.0e-06 ;
+  m_ParametersModified = true ;
 }
 
 template< class TSample >
