@@ -270,7 +270,7 @@ public:
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      index[i] = static_cast<TCoordRep>( (point[i]- this->GetOrigin()[i]) / this->GetSpacing()[i] );
+      index[i] = static_cast<TCoordRep>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
       }
 
     // Now, check to see if the index is within allowed bounds
@@ -294,7 +294,7 @@ public:
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      index[i] = static_cast<IndexValueType>( (point[i]- this->GetOrigin()[i]) / this->GetSpacing()[i] );
+      index[i] = static_cast<IndexValueType>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
       }
 
     // Now, check to see if the index is within allowed bounds
@@ -315,7 +315,7 @@ public:
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>( this->GetSpacing()[i] * index[i] + this->GetOrigin()[i] );
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
       }
     }
 
@@ -331,8 +331,8 @@ public:
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>( this->GetSpacing()[i] *
-        static_cast<double>( index[i] ) + this->GetOrigin()[i] );
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
+        static_cast<double>( index[i] ) + this->m_Origin[i] );
       }
     }
 
