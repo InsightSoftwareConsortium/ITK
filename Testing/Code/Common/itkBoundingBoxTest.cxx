@@ -86,7 +86,7 @@ int main ( int argc, char* argv[] )
     P[0] = (double)i;
     Points->InsertElement ( i, P );
     }
-  std::cout << "Insert ponits passed" <<std::endl;
+  std::cout << "Insert points passed" <<std::endl;
 
   myBox->SetPoints ( Points );
   if ( !myBox->ComputeBoundingBox() )
@@ -132,5 +132,47 @@ int main ( int argc, char* argv[] )
 
   // End with a Print.
   myBox->Print( std::cout );
-  return 0;
+
+
+  // Test the IsInside method in 3D
+  std::cout << " Some Testing in 3D " <<std::endl;
+
+  typedef itk::BoundingBox<unsigned long, 3, double> CC;
+  CC::Pointer my3DBox = CC::New();
+
+  CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
+
+  CC::PointType Q;
+  Q = -1.0f, -1.0f, -1.0f;
+  Points3D->InsertElement( 0, Q );
+
+  Q =  1.0f,  1.0f,  1.0f;
+  Points3D->InsertElement( 1, Q );
+  std::cout << "Insert points passed" <<std::endl;
+
+  my3DBox->SetPoints ( Points3D );
+  if ( !my3DBox->ComputeBoundingBox() )
+    {
+    return EXIT_FAILURE;
+    }
+  std::cout << "Compute Bounding Box passed" <<std::endl;
+
+  Q = 0.0f, 0.0f, 0.0f;
+  if( !my3DBox->IsInside( Q ) )
+    {
+    std::cerr << "Point " << Q << " Should be repoted inside " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  Q = 2.0f, 0.0f, 0.0f;
+  if( my3DBox->IsInside( Q ) )
+    {
+    std::cerr << "Point " << Q << " Should be repoted outside " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+
+  return EXIT_SUCCESS;
 }
+
