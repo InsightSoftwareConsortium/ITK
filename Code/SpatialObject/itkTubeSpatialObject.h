@@ -88,6 +88,9 @@ public:
   /** Calculate the normalized tangent */
   bool ComputeTangentAndNormals( void );
 
+  /** Remove duplicate points */
+  unsigned int RemoveDuplicatePoints(void);
+
   /** Returns true if the tube is evaluable at the requested point, 
    *  false otherwise. */
   bool IsEvaluableAt( const PointType & point,

@@ -210,7 +210,38 @@ TubeSpatialObject< TDimension >
   
   return Superclass::IsInside(point, depth, name);
 
-} 
+}
+
+/** Remove duplicate points */
+template< unsigned int TDimension >
+unsigned int  
+TubeSpatialObject< TDimension > 
+::RemoveDuplicatePoints(void)
+{
+  unsigned int nPoints = 0;
+  typename PointListType::iterator it, previt,end; 
+  it = m_Points.begin(); 
+  end = m_Points.end();
+  
+  previt = it;
+  unsigned long size = m_Points.size();
+  it++; // discarding the first point
+  for(unsigned int i=0;i<size-1;i++)
+    {
+    if((*previt).GetPosition() == (*it).GetPosition())
+      {
+      it=m_Points.erase(it);
+      nPoints++;
+      }
+    else
+      {
+      previt = it;
+      it++;
+      }
+    }
+  return nPoints;
+}
+
 
 /** Compute the tangent of the centerline of the tube */ 
 template< unsigned int TDimension >
@@ -255,7 +286,14 @@ TubeSpatialObject< TDimension >
       l = l + t[i]*t[i];
       }
     
-    l = sqrt(l); 
+    l = sqrt(l);
+    if(l == 0)
+      {
+      std::cout << "TubeSpatialObject::ComputeTangentAndNormals() : "; 
+      std::cout << "length between two consecutive points is 0";
+      std::cout << "(use RemoveDuplicatePoints())" << std::endl;
+      return false;
+      }
     for(unsigned int i=0; i<TDimension; i++)
       {
       t[i] /= l;
