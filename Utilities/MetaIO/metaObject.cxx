@@ -82,6 +82,7 @@ ClearFields()
     MET_FieldRecordType* field = *it;
     it++;
     delete field;
+    field = NULL;
     }
   m_Fields.clear();
 }
@@ -814,6 +815,7 @@ Clear(void)
     if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
     MET_FieldRecordType* field = *fieldIter;
     delete field;
+    field = NULL;
     if(META_DEBUG) std::cout << " has been deleted." << std::endl;
     }
   m_Fields.clear();
@@ -1428,29 +1430,31 @@ bool MetaObject
 // Clear UserFields
 void MetaObject
 ::ClearUserFields()
-{
-   // Clear write field
-   FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
-   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
-   while( it != end )
-   {
-     MET_FieldRecordType* field = *it;
-     it++;
-     delete field;
-   }
+{   
+  // Clear write field
+  FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+  while( it != end )
+  {
+    MET_FieldRecordType* field = *it;
+    it++;
+    delete field;
+    field = NULL;
+  }
    
-   m_UserDefinedWriteFields.clear();
+  m_UserDefinedWriteFields.clear();
 
-   // Clear read field
-   it  = m_UserDefinedReadFields.begin();
-   end = m_UserDefinedReadFields.end();
-   while( it != end )
-   {
-     MET_FieldRecordType* field = *it;
-     it++;
-     delete field;
-   }
-   m_UserDefinedReadFields.clear();  
+  // Clear read field
+  it  = m_UserDefinedReadFields.begin();
+  end = m_UserDefinedReadFields.end();
+  while( it != end )
+  {
+    MET_FieldRecordType* field = *it;
+    it++;
+    delete field;
+    field = NULL;
+  }
+  m_UserDefinedReadFields.clear();
 }
 
 // Get the user field
@@ -1465,12 +1469,13 @@ void* MetaObject
     MET_SizeOfType((*it)->type, &eSize);
     const unsigned int itLength = 
                 static_cast<unsigned int>( (*it)->length );
-    void * out = calloc( itLength, eSize );
+    void * out = calloc( itLength+1, eSize );
     if(!strcmp((*it)->name,_name))
       {
       if((*it)->type == MET_STRING)
         {
         memcpy( out, (*it)->value, itLength * eSize );
+        static_cast<char*>(out)[itLength]=0;
         }
       else if((*it)->type == MET_FLOAT_MATRIX)
         {
