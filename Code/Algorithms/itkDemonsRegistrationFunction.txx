@@ -62,6 +62,9 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
 
+  m_MovingImageGradientCalculator = MovingImageGradientCalculatorType::New();
+  m_UseMovingImageGradient = false;
+
 }
 
 
@@ -83,6 +86,9 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   os << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: ";
   os << m_IntensityDifferenceThreshold << std::endl;
+
+  os << indent << "UseMovingImageGradient: ";
+  os << m_UseMovingImageGradient << std::endl;
 
   os << indent << "Metric: ";
   os << m_Metric << std::endl;
@@ -126,6 +132,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
+  m_MovingImageGradientCalculator->SetInputImage( m_MovingImage );
 
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
@@ -156,17 +163,12 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Get fixed image related information
   double fixedValue;
-  CovariantVectorType fixedGradient;
-  double fixedGradientSquaredMagnitude = 0;
+  CovariantVectorType gradient;
+  double gradientSquaredMagnitude = 0;
 
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   fixedValue = (double) m_FixedImage->GetPixel( index );
-  fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] );
-    } 
 
   // Get moving image related information
   double movingValue;
@@ -191,6 +193,22 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     return update;
     }
 
+  // Compute the gradient of either fixed or moving image
+  if( !m_UseMovingImageGradient )
+    {
+    gradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+    }
+  else
+    {
+    gradient = m_MovingImageGradientCalculator->Evaluate( mappedPoint );
+    }
+
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    gradientSquaredMagnitude += vnl_math_sqr( gradient[j] );
+    } 
+
+
   /**
    * Compute Update.
    * In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
@@ -213,7 +231,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   double denominator = vnl_math_sqr( speedValue ) / m_Normalizer + 
-    fixedGradientSquaredMagnitude;
+    gradientSquaredMagnitude;
 
   if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
        denominator < m_DenominatorThreshold )
@@ -227,7 +245,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * fixedGradient[j] / denominator;
+    update[j] = speedValue * gradient[j] / denominator;
     if ( globalData )
       {
       globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );

@@ -109,11 +109,16 @@ public:
    * NOT the current iteration. */
   virtual double GetMetric() const;
 
+  /** Switch between using the fixed image and moving image gradient
+   * for computing the deformation field updates. */
+  itkSetMacro( UseMovingImageGradient, bool );
+  itkGetMacro( UseMovingImageGradient, bool );
+  itkBooleanMacro( UseMovingImageGradient );
+
 protected:
   DemonsRegistrationFilter();
   ~DemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf( os, indent ); }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();
@@ -124,6 +129,8 @@ protected:
 private:
   DemonsRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  bool  m_UseMovingImageGradient;
 
 };
 

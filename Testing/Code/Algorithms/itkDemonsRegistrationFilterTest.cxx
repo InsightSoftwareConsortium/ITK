@@ -187,6 +187,9 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   // turn on inplace execution
   registrator->InPlaceOn();
 
+  // turn on/off use moving image gradient
+  registrator->UseMovingImageGradientOff();
+
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(

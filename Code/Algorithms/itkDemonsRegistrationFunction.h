@@ -111,11 +111,17 @@ InterpolatorType;
   typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> 
 CovariantVectorType;
 
-  /** Gradient calculator type. */
+  /** Fixed image gradient calculator type. */
   typedef CentralDifferenceImageFunction<FixedImageType> 
 GradientCalculatorType;
   typedef typename GradientCalculatorType::Pointer   
 GradientCalculatorPointer;
+
+ /** Moving image gradient calculator type. */
+  typedef CentralDifferenceImageFunction<MovingImageType,CoordRepType>
+      MovingImageGradientCalculatorType;
+  typedef typename MovingImageGradientCalculatorType::Pointer
+      MovingImageGradientCalculatorPointer;
 
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator( InterpolatorType * ptr )
@@ -164,6 +170,14 @@ FloatOffsetType(0.0));
   virtual double GetRMSChange() const
     { return m_RMSChange; }
 
+  /** Select if the fixed image or moving image gradient is used for
+   * the computating the demon forces. The fixed image gradient is used
+   * by default. */
+  virtual void SetUseMovingImageGradient( bool flag )
+    { m_UseMovingImageGradient = flag; }
+  virtual bool GetUseMovingImageGradient() const
+    { return m_UseMovingImageGradient; }
+
 protected:
   DemonsRegistrationFunction();
   ~DemonsRegistrationFunction() {}
@@ -193,6 +207,10 @@ private:
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
+
+  /** Function to compute derivatives of the moving image. */
+  MovingImageGradientCalculatorPointer       m_MovingImageGradientCalculator;
+  bool                                       m_UseMovingImageGradient;
 
   /** Function to interpolate the moving image. */
   InterpolatorPointer             m_MovingImageInterpolator;

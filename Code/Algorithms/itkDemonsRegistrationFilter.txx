@@ -34,6 +34,19 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
                                  drfp.GetPointer() ) );
 
+  m_UseMovingImageGradient = false;
+
+}
+
+
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::PrintSelf(std::ostream& os, Indent indent) const
+{ 
+  Superclass::PrintSelf( os, indent );
+  os << indent << "UseMovingImageGradient: ";
+  os << m_UseMovingImageGradient << std::endl; 
 }
 
 
@@ -48,6 +61,20 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  
   // call the superclass  implementation
   Superclass::InitializeIteration();
+
+  // set the gradient selection flag
+  DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to DemonsRegistrationFunction" );
+   }
+   
+  drfp->SetUseMovingImageGradient( m_UseMovingImageGradient );
+
 
   /*
    * Smooth the deformation field
