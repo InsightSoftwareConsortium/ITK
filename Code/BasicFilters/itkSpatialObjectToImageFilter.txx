@@ -104,6 +104,31 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     (this->ProcessObject::GetInput(idx));
 }
 
+
+//----------------------------------------------------------------------------
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetSpacing(const SpacingType& spacing )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
 //----------------------------------------------------------------------------
 template <class TInputSpatialObject, class TOutputImage>
 void 
@@ -155,6 +180,31 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 ::GetSpacing() const
 {
   return m_Spacing;
+}
+
+
+//----------------------------------------------------------------------------
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetOrigin(const PointType& origin)
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    this->Modified();
+    }
 }
 
 //----------------------------------------------------------------------------

@@ -41,9 +41,11 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   typedef typename TOutputImage::SizeType   SizeType;
+  typedef typename TOutputImage::PointType   PointType;
   typedef TOutputImage  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::ValueType  ValueType;
+  typedef typename OutputImageType::SpacingType SpacingType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,6 +78,7 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
+  virtual void SetSpacing( const SpacingType& spacing);
   virtual void SetSpacing( const double spacing[OutputImageDimension] );
   virtual void SetSpacing( const float spacing[OutputImageDimension] );
   virtual const double* GetSpacing() const;
@@ -102,6 +105,7 @@ public:
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
+  virtual void SetOrigin( const PointType& origin);
   virtual void SetOrigin( const double origin[OutputImageDimension] );
   virtual void SetOrigin( const float origin[OutputImageDimension] );
   virtual const double * GetOrigin() const;
