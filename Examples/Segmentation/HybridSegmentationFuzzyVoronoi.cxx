@@ -360,7 +360,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The output of the Voronoi Diagram Classification is an image mask with zeros
-  //  everywhere an $1$s inside the segmented object. This image will appear
+  //  everywhere an ones inside the segmented object. This image will appear
   //  black on many image viewers since they usually do not stretch the
   //  graylevels. We add here a \doxygen{RescaleIntensityImageFilter} in
   //  order to expand the dynamic range to more typical values. 
