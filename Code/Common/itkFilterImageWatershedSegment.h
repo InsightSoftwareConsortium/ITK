@@ -28,25 +28,16 @@
 
 namespace itk
 {
-/**
- * \class FilterImageWatershedSegment
- * \brief Produces a segmented, labeled image from a scalar-valued image
- * input.  The input is assumed to represent a height function.
- * 
- * Two parameters control the output of the filter, Threshold and Level.
- * The units of both parameters are percentage points of the maximum height
- * value in the input.  Threshold is used to set the absolute minimum height
- * value used during processing. Raising this threshold percentage effectively
- * decreases the  number of local minima in the input. Level controls the depth
- * of flooding of the image.  Raising the Level influences the number of segments
- * in the basic segmentation that merge to produce the final output.  A level
- * of 1.0 is analogous to flooding the image up to a depth that is 100 percent
- * of the maximum value in the image.  A level of 0.0 produces the basic
- * segmentation. 
- *
- * \sa FilterImageWatershedLevelAdaptor
- */
 
+/**
+ * \class WatershedSegmentBasicOutput
+ * \brief Structure that holds a segmentation produced by the
+ * FilterImageWatershedSegment filter object.
+ *
+ * Consists of a labeled image and a heirarchy of merges
+ * of labeled segments.  This structure encapsulates all the information needed
+ * to examine the segmented image at any arbitrary level.
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT WatershedSegmentBasicOutput : public TOutputImage
 {
@@ -124,6 +115,25 @@ private:
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT FilterImageWatershedLevelAdaptor;
 
+
+/**
+ * \class FilterImageWatershedSegment
+ * \brief Produces a segmented, labeled image from a scalar-valued image
+ * input.  The input is assumed to represent a height function.
+ * 
+ * Two parameters control the output of the filter, Threshold and Level.
+ * The units of both parameters are percentage points of the maximum height
+ * value in the input.  Threshold is used to set the absolute minimum height
+ * value used during processing. Raising this threshold percentage effectively
+ * decreases the  number of local minima in the input. Level controls the depth
+ * of flooding of the image.  Raising the Level influences the number of segments
+ * in the basic segmentation that merge to produce the final output.  A level
+ * of 1.0 is analogous to flooding the image up to a depth that is 100 percent
+ * of the maximum value in the image.  A level of 0.0 produces the basic
+ * segmentation. 
+ *
+ * \sa FilterImageWatershedLevelAdaptor
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT FilterImageWatershedSegment :
     public FilterImageToImage< TInputImage, TOutputImage >

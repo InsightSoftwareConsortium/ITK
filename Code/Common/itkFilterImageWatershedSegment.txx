@@ -97,7 +97,7 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   basic_output->Allocate();
   
   Self::FindMinMax(input, minImageValue, maxImageValue);
-  floodLevel = m_Level * maxImageValue;
+  floodLevel = m_Level * (maxImageValue - minImageValue);
   InputScalarType thresholdValue = minImageValue
     + ((maxImageValue - minImageValue) *  m_Threshold);
 
@@ -139,11 +139,11 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
                               NumericTraits<OutputScalarType>::Zero);
 
   sort_comp comp;
-  sort<MergeListType::iterator, sort_comp>
+  sort<typename MergeListType::iterator, sort_comp>
     (m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
   basic_output->SetMergeList(m_MergeHeirarchy);
 
-  // Copy basic_output to output
+  // Copy basic_output labeled image to output
   Self::CopyOutputToOutput(output, basic_output);
   
   Self::RelabelImage(output,
@@ -162,7 +162,8 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   ImageRegionIterator<PixelType, ImageDimension>
     out_it(output, output->GetRequestedRegion());
 
-  for (in_it = in_it.Begin(); in_it  < in_it.End(); ++in_it)
+  out_it = out_it.Begin();
+  for (in_it = in_it.Begin(); in_it  < in_it.End(); ++in_it, ++out_it)
     {
       *out_it = *in_it;
     }
@@ -212,10 +213,10 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   typename MergeListType::value_type topMerge = heap.front();
   while( (! heap.empty()) && (topMerge.Saliency <= floodLevel) )
     {
-      pop_heap<MergeListType::iterator, merge_comp>
+      pop_heap<typename MergeListType::iterator, merge_comp>
         (heap.begin(), heap.end(), comp);
       heap.pop_back();  // Popping the heap moves the top element to the end
-                       // of the container structure, so we delete that here.
+                        // of the container structure, so we delete that here.
 
       // Recursively find the segments we are about to merge
       // (the labels identified here may have merged already)
@@ -326,7 +327,7 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
                   tempMerge.ToLabel   = toSegLabel;
                   tempMerge.Saliency  = toSeg->second.Depth;
                   heap.push_back(tempMerge);
-                  push_heap<MergeListType::iterator, merge_comp>
+                  push_heap<typename MergeListType::iterator, merge_comp>
                     (heap.begin(), heap.end(), comp);
                 }
             }          
@@ -374,7 +375,7 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
     }
 
   merge_comp comp;
-  make_heap<MergeListType::iterator, merge_comp>
+  make_heap<typename MergeListType::iterator, merge_comp>
     (mergeHeap.begin(), mergeHeap.end(), comp);  
 }
 
@@ -588,16 +589,16 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   // 0 1 2
   // 3 4 5
   // 6 7 8
-  Index<ImageDimension> moveTable[hoodSize];
-  moveTable[0][0] = -1;  moveTable[0][1] = -1;
-  moveTable[1][0] =  0;  moveTable[1][1] = -1;
-  moveTable[2][0] =  1;  moveTable[2][1] = -1;
-  moveTable[3][0] = -1;  moveTable[3][1] =  0;
-  moveTable[4][0] =  0;  moveTable[4][1] =  0;
-  moveTable[5][0] =  1;  moveTable[5][1] =  0;
-  moveTable[6][0] = -1;  moveTable[6][1] =  1;
-  moveTable[7][0] =  0;  moveTable[7][1] =  1;
-  moveTable[8][0] =  1;  moveTable[8][1] =  1;
+  Index<ImageDimension> mT[hoodSize];
+  mT[0][0] = -1;  mT[0][1] = -1;
+  mT[1][0] =  0;  mT[1][1] = -1;
+  mT[2][0] =  1;  mT[2][1] = -1;
+  mT[3][0] = -1;  mT[3][1] =  0;
+  mT[4][0] =  0;  mT[4][1] =  0;
+  mT[5][0] =  1;  mT[5][1] =  0;
+  mT[6][0] = -1;  mT[6][1] =  1;
+  mT[7][0] =  0;  mT[7][1] =  1;
+  mT[8][0] =  1;  mT[8][1] =  1;
 
   // Search the image and trace the unlabeled pixels to a labeled region.
   for (it = it.Begin(); it < it.End(); ++it)
@@ -611,13 +612,13 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
             {                                  // is found.
               updateStack.push(labelIt.CenterPointer());
               minVal = *valueIt[0];
-              moveIndex = moveTable[0];
+              moveIndex = mT[0];
               for (int i= 1; i < hoodSize; ++i)
                 {
                   if ( (i!=hoodCenter) && (*valueIt[i] < minVal) )
                     {
                       minVal = *valueIt[i];
-                      moveIndex = moveTable[i];
+                      moveIndex = mT[i];
                     }
                 }
               valueIt += moveIndex;
