@@ -1,119 +1,161 @@
 #ifndef __itkStatDensityEstimate_h
 #define __itkStatDensityEstimate_h
 
+#include <limits.h>
+#include <map>
 
-//#include "itkStatLib.h"
-#include "itkObject.h"
-#include "itkSize.h"
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk{
 
-/** \class DensityEstimate
- * \brief 
- *
- * DensityEstimate contains the result of a test 
- * on a hiatogram. 
+/** \class DensityEstimate 
+ *  \brief This class is a container of density estimate of a sample.
  */
 
-template <class THistogram>
-class DensityEstimate : public Object
+template <class TDensity = double>
+class ITK_EXPORT DensityEstimate 
+: public LightObject
 {
 public:
  /**
-  * Standard "Self" typedef
+  * Standard "Self" typedef.
   */
-  typedef DensityEstimate<THistogram> Self;
+  typedef DensityEstimate  Self;
 
  /**
-  * Smart Pointer Support
+  * Standard "Superclass" typedef.
   */
-  typedef SmartPointer<Self> Pointer;
+  typedef LightObject Superclass;
 
  /**
-  * Size typedef support
-  */ 
-  typedef typename THistogram::SizeType SizeType;
+  * Density Type support
+  */
+  typedef TDensity DensityType;
 
-  typedef typename THistogram::IndexType IndexType;
-              
+ /** 
+  * Smart pointer typedef support 
+  */
+  typedef SmartPointer<Self>   Pointer;
+
  /**
-  * Interface into object factory
+  * Map typedef support
+  */
+  typedef std::map<unsigned long, DensityType> MapType;
+
+ /**
+  * Map Iterator typedef support
+  */
+  typedef typename MapType::iterator MapIterator;
+
+ /** 
+  * Run-time type information (and related methods).
+  */
+  itkTypeMacro(DensityEstimate, LightObject);
+
+ /**
+  * Method for creation through the object factory.
   */
   itkNewMacro(Self);
 
  /**
-  * Run-time type information
+  * Method to get density
   */
-  itkTypeMacro(DensityEstimate,Object);
-    
- /**
-  * set the number of instances in the estimate
-  */
-//  void SetNumInstances(const int numInstances);
+  DensityType GetDensity(unsigned long id)
+  { return m_Density[id]; };
 
  /**
-  * get the number of instances in the estimate
+  * Method to set density
   */
-//  int GetNumInstances(void);
+  void  SetDensity(unsigned long id, DensityType prob)
+  { m_Density[id] = prob;}; 
 
- /**
-  * set the label that the estimate is based on
-  */
-//  void SetLabel(const char *newLabel);
+  class Iterator;
+  friend class Iterator;
 
- /** 
-  * get the name of the label that the estimate is based on
-  */
-//  const char *GetLabel(void);
-
- /**
-  * Set the estimate for an individual instance
-  */
-  void SetProbability(const IndexType index, const float probability);
-
- /**
-  * return the probability of an individual instance
-  */
-		double GetProbability(const IndexType index);
-
- /**
-  * Set m_Size
-  */
-  void SetSize(SizeType size) { m_Size = size;};
+  Iterator Begin()
+  {
+    Iterator iter(m_Density.begin(), this);
+    return iter; 
+  }
+       
+  Iterator  End()        
+  { 
+    Iterator iter(m_Density.end(), this); 
+    return iter; 
+  }
   
  /**
-  * Allocate m_Probability which is the container of density estimate
-  * m_Size should be set prior
+  * The non-const iterator type for the map.
   */
-  void Allocate()
-  { m_Probabilities = THistogram::New();
-    m_Probabilities->SetSize(m_Size);
-    m_Probabilities->AllocateHistogram();
-  }
+  class Iterator
+  {
+  public:
+    Iterator(){};
 
- /**
-  * Print information about the estimate
-  */
-//  void PrintDensity(std::ostream &);
+    Iterator(Pointer density) 
+    { 
+      m_Iter  = density->Begin();
+      m_Den = density; 
+    } 
+
+    Iterator(MapIterator i, Pointer l)
+    :m_Iter(i), m_Den(l){}
+     
+    DensityType GetDensity() 
+    { return  (*m_Iter).second; }
+
+    void SetDensity(DensityType density) 
+    { return  (*m_Iter).second = density; }
+    
+    Iterator& operator++() 
+    { 
+      ++m_Iter; 
+      return *this;
+    }
+ 
+    bool operator!=(const Iterator& it) 
+      { return (m_Iter != it.m_Iter); }
+    
+    bool operator==(const Iterator& it) 
+      { return (m_Iter == it.m_Iter); }
+
+    bool      IsAtBegin()  
+    { 
+      Iterator it = m_Den->Begin();
+      return ( m_Iter == it.m_Iter ); 
+    } 
+    
+    bool      IsAtEnd()    
+    { 
+      Iterator it = m_Den->End();
+      return ( m_Iter == it.m_Iter ); 
+    }
+    
+    Iterator& operator=(const Iterator& iter)
+    { 
+      m_Iter  = iter.m_Iter;
+      m_Den = iter.m_Den; 
+    }
+     
+  private:
+    MapIterator m_Iter;
+    Pointer m_Den;
+  
+  };
 
 protected:
-		DensityEstimate() {};
-		~DensityEstimate(){};
+ 
+  DensityEstimate() {};
+  virtual ~DensityEstimate() {};
+  DensityEstimate(const Self&) {};
+  void operator=(const Self&) {};
 
-//		int m_NumInstances; //number of instances
-//  char *m_Label;      //the label for this estimate
-    //perhaps this should be a different data structure?
+private:
+  MapType m_Density;
 
-  // The number of bins for each image
-  SizeType m_Size;
-
-  typename THistogram::Pointer m_Probabilities; //the histogram of probability values
 };
 
-} // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatDensityEstimate.txx"
-#endif
+} // end of namespace
 
 #endif

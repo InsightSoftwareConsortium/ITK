@@ -1,15 +1,41 @@
 /*=========================================================================
-  
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkStatGaussianDensityFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2000 National Library of Medicine
-  All rights reserved.
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
 
-  See COPYRIGHT.txt for copyright details.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
@@ -21,10 +47,8 @@
 #include <vnl/algo/vnl_matrix_inverse.h>
 #include <vnl/algo/vnl_determinant.h>
 
-#include "itkSmartPointer.h"
+
 #include "itkStatDensityFunction.h"
-
-
 
 #define PI 3.141592
 
@@ -36,13 +60,12 @@ namespace itk{
  * This class keeps parameter to define Gaussian Density Function  and has
  * method to return the probability (the value of Gaussian Density Function) 
  * of an instance.  FeatureDimension is the dimension of feature space.
- * TFeature is type of feature. (e.g. For RGB data, TFeature can be
- * 3-dimensional vector.  For black and white image, TFeture can be scalar)
+ * double is type of feature. 
  */
 
-template <unsigned int FeatureDimension, class TFeature = double>
+template <class TFeatureCoorRep = float, unsigned int VFeatureDimension>
 class ITK_EXPORT GaussianDensityFunction 
-: public DensityFunction<FeatureDimension, TFeature>
+: public DensityFunction<TFeatureCoorRep, VFeatureDimension>
 {
 public:
  /**
@@ -55,15 +78,14 @@ public:
   */
   typedef SmartPointer<Self> Pointer;
 
+  typedef TFeatureCoorRep FeatureCoorRepType;
+
  /**
   * Standard Superclass typedef
   */
-  typedef DensityFunction<FeatureDimension, TFeature> Superclass;
+  typedef DensityFunction<FeatureCoorRepType, VFeatureDimension> Superclass;
 
- /**
-  * Dimension of the feature vector
-  */
-  enum { Dimension = FeatureDimension };
+  typedef typename Superclass::FeatureType FeatureType;
 
  /**
   * Interface into object factory
@@ -78,31 +100,31 @@ public:
  /**
   * Method to get mean
   */
-  vnl_vector<TFeature> GetMeans() 
+  vnl_vector<double> GetMeans() 
   { return m_Means; };
 
  /**
   * Method to set mean
   */
-  void SetMeans(vnl_vector<TFeature> means) 
+  void SetMeans(vnl_vector<double> means) 
   { m_Means = means; };
 
  /**
   * Method to get standard deviation
   */
-  vnl_vector<TFeature> GetStandardDeviations() 
+  vnl_vector<double> GetStandardDeviations() 
   { return m_StandardDeviations; };
 
  /**
   * Method to set standard deviation
   */
-  void SetStandardDeviations(vnl_vector<TFeature> std) 
-  { m_StandardDeviations = std; };
+  void SetStandardDeviation(vnl_vector<double> std) 
+  { m_StandardDeviation = std; };
 
  /**
   * Method to get covariance matrix
   */
-  vnl_matrix<TFeature> GetCovarianceMatrix() 
+  vnl_matrix<double> GetCovariance() 
   { return m_Covariance; };
  
  /**
@@ -110,55 +132,37 @@ public:
   * Also, this function calculates inverse covariance and pre factor of 
   * Gaussian Distribution to speed up GetProbability
   */
-  void SetCovariance(vnl_matrix<TFeature> cov) 
-  { 
-    m_Covariance = cov; 
-
-    // allocate the memory for m_InverseCovariance matrix   
-    m_InverseCovariance.resize(Dimension, Dimension);
-    m_InverseCovariance = vnl_matrix_inverse<TFeature>(m_Covariance);
-   
-    // the determinant of the covaraince matrix
-    double det = vnl_determinant(m_Covariance);
-
-    // calculate coefficient C of multivariate gaussian
-    // p(x) = C exp(-0.5 * (x-u) * inv(covariance) * (x-u)')
-    m_PreFactor = 1.0/pow( pow(2.0*PI, Dimension), 1/2.0)*sqrt(fabs(det));
-  };
+  void SetCovariance(vnl_matrix<double> cov); 
+  
 
  /**
   * Method to get probability of an instance. The return value is the
   * value of the density function, not probability.
   */
-  double GetProbability(vnl_vector<TFeature> feature)
-  { 
-    vnl_matrix<TFeature> xMatrix(Dimension,1);
+  double GetDensity(FeatureType feature);
+  
 
-    for ( int i=0; i < Dimension; i++)
-      {
-      xMatrix.put(i,0, feature[i] - m_Means[i]);
-      }
-
-    vnl_matrix<TFeature> exponentMatrix(1,1);
-    exponentMatrix = vnl_transpose(xMatrix)*m_InverseCovariance*xMatrix;
-    
-    return m_PreFactor * exp( -0.5*exponentMatrix.get(0,0) );
-  }
+ /**
+  * Method to get probability of an instance. The return value is the
+  * value of the density function, not probability.
+  */
+  double GetDensity(double feature);
+  
 
 protected:		
   GaussianDensityFunction(void){};
   ~GaussianDensityFunction(void){};
 
-  vnl_vector<TFeature> m_Means;              // mean
-  vnl_vector<TFeature> m_StandardDeviations; // standard deviation
-  vnl_matrix<TFeature> m_Covariance;         // covariance matrix
+  vnl_vector<double>  m_Means;              // mean
+  vnl_vector<double>  m_StandardDeviations; // standard deviation
+  vnl_matrix<double>  m_Covariance;         // covariance matrix
 
   // inverse covariance matrix which is automatically calculated 
   // when covariace matirx is set.  This speed up the GetProbability()
-  vnl_matrix<TFeature> m_InverseCovariance; 
+  vnl_matrix<double>  m_InverseCovariance; 
 
   // pre_factor which is automatically calculated 
-  // when covariace matirx is set.  This speed up the GetProbability()  
+  // when covariace matirx is set.  This speeds up the GetProbability()  
   double m_PreFactor;
 
 
@@ -166,6 +170,8 @@ protected:
 
 } // end namespace itk
 
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkStatGaussianDensityFunction.txx"
+#endif
 
 #endif

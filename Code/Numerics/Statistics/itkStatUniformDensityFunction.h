@@ -1,15 +1,41 @@
 /*=========================================================================
-  
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkStatUniformDensityFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2000 National Library of Medicine
-  All rights reserved.
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
 
-  See COPYRIGHT.txt for copyright details.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
@@ -18,7 +44,6 @@
 
 #include <vnl/vnl_vector.h>
 
-#include "itkSmartPointer.h"
 #include "itkStatDensityFunction.h"
 
 
@@ -30,13 +55,13 @@ namespace itk{
  * This class keeps parameter to define Uniform Density Function  and has
  * method to return the probability (the value of Uniform Density Function) 
  * of an instance.  FeatureDimension is the dimension of feature space.
- * TFeature is type of feature. (e.g. For RGB data, TFeature can be
+ * double is type of feature. (e.g. For RGB data, double can be
  * 3-dimensional vector.  For black and white image, TFeture can be scalar)
  */
 
-template <unsigned int FeatureDimension, class TFeature = double>
+template <class TFeatureCoorRep = float, unsigned int VFeatureDimension>
 class ITK_EXPORT UniformDensityFunction 
-: public DensityFunction<FeatureDimension, TFeature>
+: public DensityFunction<TFeatureCoorRep, VFeatureDimension>
 {
 public:
  /**
@@ -49,15 +74,19 @@ public:
   */
   typedef SmartPointer<Self> Pointer;
 
+  typedef TFeatureCoorRep FeatureCoorRepType;
+
  /**
   * Standard Superclass typedef
   */
-  typedef DensityFunction<FeatureDimension, TFeature> Superclass;
+  typedef DensityFunction<FeatureCoorRepType, VFeatureDimension> Superclass;
+
+  typedef typename Superclass::FeatureType FeatureType;
 
  /**
   * Dimension of the feature vector
   */
-  enum { Dimension = FeatureDimension };
+  enum { FeatureDimension = VFeatureDimension };
 
  /**
   * Interface into object factory
@@ -72,30 +101,30 @@ public:
  /**
   * Method to get minimum value of support
   */
-  vnl_vector<TFeature> GetMins() { return m_Mins; };
+  vnl_vector<double> GetMins() { return m_Mins; };
 
  /**
   * Method to set minimum value of support
   */
-  void SetMins(vnl_vector<TFeature> mins) 
+  void SetMins(vnl_vector<double> mins) 
   { m_Mins = mins; m_Probability = -1; };
 
  /**
   * Method to get maximum value of support
   */
-  vnl_vector<TFeature> GetMaxs() { return m_Maxs; };
+  vnl_vector<double> GetMaxs() { return m_Maxs; };
 
  /**
   * Method to set maximum value of support
   */
-  void SetMaxs(vnl_vector<TFeature> maxs) 
+  void SetMaxs(vnl_vector<double> maxs) 
   { m_Maxs = maxs; m_Probability = -1; };
 
  /**
   * Method to get probability of an instance. The return value is the
   * value of the density function, not probability.
   */
-  double GetProbability(vnl_vector<TFeature> feature)
+  double GetDensity(FeatureType feature)
   { 
     bool within_support = true;
     for ( int i = 0; i < Dimension; i++ )
@@ -132,8 +161,8 @@ protected:
   UniformDensityFunction(void){ m_Probability = -1;};
   ~UniformDensityFunction(void){};
 
-  vnl_vector<TFeature> m_Mins; // vector containing lower bound of support
-  vnl_vector<TFeature> m_Maxs; // vector containing upper bound of support
+  vnl_vector<double> m_Mins; // vector containing lower bound of support
+  vnl_vector<double> m_Maxs; // vector containing upper bound of support
   double m_Probability;   // probability is initially set to negative value
                           // If GetProbability is called once,
                           // the probability is replaced by real value
@@ -144,3 +173,4 @@ protected:
 
 
 #endif
+
