@@ -77,7 +77,7 @@ int main()
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  return 1;
+  return 0;
 }
 
 
