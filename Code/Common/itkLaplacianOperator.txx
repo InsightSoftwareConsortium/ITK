@@ -78,13 +78,13 @@ typename LaplacianOperator<TPixel, VDimension, TAllocator>
 LaplacianOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
-  unsigned int i, d;
-  unsigned int w = 1;
-
+  unsigned int i, w;
+  
   // Create a vector of the correct size to hold the coefficients.
+  w = 1;
   for(i = 0; i < VDimension; i ++)
     {
-      w = w*3;
+    w = w*3;
     }
 
   std::vector<PixelType> coeff(w);
