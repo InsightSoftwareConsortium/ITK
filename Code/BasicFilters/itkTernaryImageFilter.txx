@@ -39,7 +39,7 @@ template <class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage, class TFunction  >
 void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
-::SetInput1( Image1Pointer image1 ) 
+::SetInput1( TInputImage1 *image1 ) 
 {
   SetNthInput(0, image1.GetPointer() );
 }
@@ -52,7 +52,7 @@ template <class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage, class TFunction  >
 void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
-::SetInput2( Image2Pointer image2 ) 
+::SetInput2( TInputImage2 *image2 ) 
 {
   SetNthInput(1, image2.GetPointer());
 }
@@ -66,7 +66,7 @@ template <class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage, class TFunction  >
 void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
-::SetInput3( Image3Pointer image3 ) 
+::SetInput3( TInputImage3 *image3 ) 
 {
   SetNthInput(2, image3.GetPointer());
 }
