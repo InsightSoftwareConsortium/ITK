@@ -47,10 +47,10 @@ public:
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
 
-  typedef NDimensionalSpatialObject<SpaceDimension> ObjectType;
+  typedef SpatialObject<SpaceDimension> ObjectType;
   typedef SpatialObject<SpaceDimension> SpatialObjectType;
 
-  typedef std::list< NDimensionalSpatialObject<SpaceDimension> * > 
+  typedef std::list< SpatialObject<SpaceDimension> * > 
           ObjectListType; 
      
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
@@ -60,13 +60,13 @@ public:
   itkTypeMacro(Self, Superclass); 
 
   /** Add an object to the list of children. */ 
-  void AddSpatialObject( NDimensionalSpatialObject<> * pointer ); 
+  void AddSpatialObject( SpatialObject<SpaceDimension> * pointer ); 
      
   /** Remove the object passed as arguments from the list of 
    *  children. May this function 
    *  should return a false value if the object to remove is 
    *  not found in the list. */ 
-  void RemoveSpatialObject( NDimensionalSpatialObject<> * object ); 
+  void RemoveSpatialObject( SpatialObject<SpaceDimension> * object ); 
 
   /** Returns a list of pointer to the children affiliated to this object.*/ 
   ObjectListType * GetObjects( unsigned int depth=MaximumDepth,
@@ -88,7 +88,7 @@ public:
   int  GetParentId(void) {return m_ParentId;}
 
   /** Return a SpatialObject in the scene given its ID */
-  NDimensionalSpatialObject<> * GetObjectById(int Id);
+  SpatialObject<SpaceDimension> * GetObjectById(int Id);
 
   bool FixHierarchy(void);
 

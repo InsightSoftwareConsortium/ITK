@@ -42,7 +42,7 @@ Scene<SpaceDimension>
 template <unsigned int SpaceDimension>
 void 
 Scene<SpaceDimension>
-::AddSpatialObject( NDimensionalSpatialObject<> * pointer )
+::AddSpatialObject( SpatialObject<SpaceDimension> * pointer )
 {
   m_Objects.push_back( pointer );
   this->Modified();
@@ -52,7 +52,7 @@ Scene<SpaceDimension>
 template <unsigned int SpaceDimension>
 void 
 Scene<SpaceDimension>
-::RemoveSpatialObject( NDimensionalSpatialObject<> * pointer )
+::RemoveSpatialObject( SpatialObject<SpaceDimension> * pointer )
 {
   typename ObjectListType::iterator it;    
   it = std::find(m_Objects.begin(),m_Objects.end(),pointer);
@@ -206,7 +206,7 @@ Scene<SpaceDimension>
 /** Return a SpatialObject in the scene 
  *  given a parent ID */
 template <unsigned int SpaceDimension>
-NDimensionalSpatialObject<> *
+SpatialObject<SpaceDimension> *
 Scene<SpaceDimension>
 ::GetObjectById(int Id)
 {
@@ -234,7 +234,7 @@ Scene<SpaceDimension>
         {
         if( (*cIt)->GetId() == Id )
           {
-          NDimensionalSpatialObject<SpaceDimension> * tmp;
+          SpatialObject<SpaceDimension> * tmp;
           tmp = *cIt;
           delete cList;
           return tmp;

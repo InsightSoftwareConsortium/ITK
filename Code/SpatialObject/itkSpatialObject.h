@@ -52,7 +52,7 @@ template< unsigned int NDimensions = 3,
           unsigned int SpaceDimension = 3 
         > 
 class SpatialObject 
-:public NDimensionalSpatialObject<SpaceDimension>
+:public NDimensionalSpatialObject<NDimensions>
 { 
 
 public: 
@@ -62,7 +62,7 @@ public:
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
   typedef SpatialObject<NDimensions,SpaceDimension> Self;
-  typedef NDimensionalSpatialObject<SpaceDimension> Superclass; 
+  typedef NDimensionalSpatialObject<NDimensions> Superclass; 
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
