@@ -55,6 +55,8 @@
 //
 //  The first step required for using this filter is to include its header file
 //
+//  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!header}
+//
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -112,6 +114,8 @@ int main( int argc, char ** argv )
   //  The filter type is now instantiated using both the input image and the
   //  output image types.
   //
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!Instantiation}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -129,6 +133,9 @@ int main( int argc, char ** argv )
   //
   //  A filter object is created by invoking the \code{New()} method and
   //  assigning the result to a SmartPointer.
+  //
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!New()}
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -156,6 +163,9 @@ int main( int argc, char ** argv )
   //  It is not time for selecting the sigma of the gaussian to use for
   //  smoothing the data prior to te differentiation.
   //
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!SetSigma()}
+  //  \index{SetSigma()!itk::GradientMagnitudeRecursiveGaussianImageFilter}
+  //
   //  Software Guide : EndLatex 
   const double sigma = atof( argv[2] );
 
@@ -170,6 +180,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Finally the filter is executed by invoking the \code{Update()} method.
+  //
+  //  \index{itk::GradientMagnitudeRecursiveGaussianImageFilter!Update()}
   //
   //  Software Guide : EndLatex 
 
@@ -229,15 +241,15 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain using a sigma value of 3. The figure shows how the sensitivity
-  //  to noise can be regulated by selecting an apropriate sigma.  This type of
-  //  scale-tunable filter is suitable for performing scale space analysis.
+  //  the brain using a sigma value of 3 (left) and a value of 5 (right). The
+  //  figure shows how the sensitivity to noise can be regulated by selecting
+  //  an apropriate sigma.  This type of scale-tunable filter is suitable for
+  //  performing scale space analysis.
   //
   //  Attention should be paid to the image type choosen for representing the
-  //  output image since the dynamic range of gradient magnitudes is usually
-  //  quite smaller than the dynamic range of the input image intensities. The
-  //  image to the right in figure
-  //
+  //  input and output images since the dynamic range of gradient magnitudes is
+  //  usually quite smaller than the dynamic range of the input image
+  //  intensities. 
   //
   //  Software Guide : EndLatex 
 

@@ -53,6 +53,8 @@
 //
 //  The first step required for using this filter is to include its header file
 //
+//  \index{itk::GradientMagnitudeImageFilter!header}
+//
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -111,6 +113,8 @@ int main( int argc, char ** argv )
   //  The gradient magnitude filter type is now instantiated using both the
   //  input image and the output image types.
   //
+  //  \index{itk::GradientMagnitudeImageFilter!instantiation}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -128,6 +132,9 @@ int main( int argc, char ** argv )
   //
   //  A filter object is created by invoking the \code{New()} method and
   //  assigning the result to a SmartPointer.
+  //
+  //  \index{itk::GradientMagnitudeImageFilter!New()}
+  //  \index{itk::GradientMagnitudeImageFilter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -154,6 +161,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Finally the filter is executed by invoking the \code{Update()} method.
+  //
+  //  \index{itk::GradientMagnitudeImageFilter!Update()}
   //
   //  Software Guide : EndLatex 
 
