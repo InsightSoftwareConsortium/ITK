@@ -45,7 +45,9 @@
 // \center
 // \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
 // \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
-// \caption{Effect of a rotation on the resampling filter. Input image at left, Output image at right.}
+// \caption[Effect of a rotation on the resampling filter.]{Effect of a
+// rotation on the resampling filter. Input image at left, Output image at
+// right.} 
 // \label{fig:ResampleImageFilterOutput9}
 // \end{figure}
 //

@@ -408,7 +408,9 @@ int main( int argc, char *argv[] )
   //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left  \\  \hline
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left  \\  \hline
   //  \end{tabular}
-  //  \caption{Segmentation results of ThresholdSegmentationLevelSetImageFilter for various seed points}.
+  //  \caption[Segmentation results of
+  //  ThresholdSegmentationLevelSetImageFilter]{Segmentation results of
+  //  ThresholdSegmentationLevelSetImageFilter for various seed points}.
   //  \end{center}
   // 
   //  Software Guide : EndLatex 

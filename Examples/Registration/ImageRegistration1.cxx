@@ -561,8 +561,9 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=4.5cm]{ImageRegistration1Output.eps}
   // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceBefore.eps}
   // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceAfter.eps}
-  // \caption{Mapped moving image and its difference with the fixed image
-  // before and after registration} \label{fig:ImageRegistration1Output}
+  // \caption[HelloWorld registration output images]{Mapped moving image and its
+  // difference with the fixed image before and after registration}
+  // \label{fig:ImageRegistration1Output}
   // \end{figure}
   //
   //  Software Guide : EndLatex 
