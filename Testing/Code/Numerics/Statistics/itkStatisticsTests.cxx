@@ -14,6 +14,7 @@ void RegisterTests()
   REGISTER_TEST(itkHistogramTest);
   REGISTER_TEST(itkImageToListAdaptorTest);
   REGISTER_TEST(itkKdTreeBasedKmeansEstimatorTest);
+  REGISTER_TEST(itkKdTreeGeneratorTest);
   REGISTER_TEST(itkListSampleTest);
   REGISTER_TEST(itkListSampleToHistogramFilterTest);
   REGISTER_TEST(itkListSampleToHistogramGeneratorTest);
@@ -30,4 +31,5 @@ void RegisterTests()
   REGISTER_TEST(itkStatisticsAlgorithmTest);
   REGISTER_TEST(itkSubsampleTest);
   REGISTER_TEST(itkWeightedMeanCalculatorTest);
+  REGISTER_TEST(itkWeightedCovarianceCalculatorTest);
 }

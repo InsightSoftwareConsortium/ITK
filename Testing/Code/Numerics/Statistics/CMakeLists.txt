@@ -21,6 +21,8 @@ ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
 ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS} 
          itkKdTreeBasedKmeansEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS} 
+         itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
@@ -41,6 +43,8 @@ ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS}
                                             itkSelectiveSubsampleGeneratorTest)
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
+ADD_TEST(itkWeightedCovarianceCalculatorTest ${STATISTICS_TESTS} 
+					     itkWeightedCovarianceCalculatorTest)
 
 
 SET(Statistics_SRCS
@@ -53,6 +57,7 @@ itkGoodnessOfFitMixtureModelCostFunctionTest
 itkHistogramTest.cxx
 itkImageToListAdaptorTest.cxx
 itkKdTreeBasedKmeansEstimatorTest.cxx
+itkKdTreeGeneratorTest.cxx
 itkListSampleTest.cxx
 itkListSampleToHistogramFilterTest.cxx
 itkListSampleToHistogramGeneratorTest.cxx
@@ -68,6 +73,7 @@ itkSampleSelectiveMeanShiftBlurringFilterTest.cxx
 itkSelectiveSubsampleGeneratorTest.cxx
 itkSubsampleTest.cxx
 itkWeightedMeanCalculatorTest.cxx
+itkWeightedCovarianceCalculatorTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
