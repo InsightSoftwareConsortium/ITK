@@ -50,28 +50,26 @@
 //
 // \begin{itemize}
 //
-// \item First, the user can define a particular threshold , all the pixels
-// with values below this threshold will be replaced by a user defined value
-// called here the \code{OutsideValue}.  Pixels with values above the threshold
-// remain unchanged. This is illustrated in figure
-// \ref{fig:ThresholdTransferFunctionBelow}.
+// \item First, the user can define a single threshold.  Any pixels with values
+// below this threshold will be replaced by a user defined value, called here the
+// \code{OutsideValue}.  Pixels with values above the threshold remain
+// unchanged. This type of thresholding is illustrated in
+// Figure~\ref{fig:ThresholdTransferFunctionBelow}.
 //
-// \item Second, the user can define a particular threshold where all the
-// pixels with values above this threshold will be replaced by the
+// \item Second, the user can define a particular threshold such that all the
+// pixels with values above the threshold will be replaced by the
 // \code{OutsideValue}.  Pixels with values below the threshold remain
-// unchanged. This is illustrated in figure
-// \ref{fig:ThresholdTransferFunctionAbove}.
+// unchanged. This is illustrated in Figure~\ref{fig:ThresholdTransferFunctionAbove}.
 //
 // \item Third, the user can provide two thresholds. All the pixels with
 // intensity values inside the range defined by the two thresholds will remain
 // unchanged. Pixels with values outside this range will be assigned to the
-// \code{OutsideValue}. This is illustrated in figure
-// \ref{fig:ThresholdTransferFunctionOutside}.
+// \code{OutsideValue}. This is illustrated in
+// Figure~\ref{fig:ThresholdTransferFunctionOutside}.
 //
 // \end{itemize}
 //
-// The mode of operation of the filter is the defined by calling one of the
-// following methods
+// The following methods choose among the three operating modes of the filter.
 //
 // \begin{itemize}
 // \item \texttt{ThresholdBelow()}
@@ -110,16 +108,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Then we must decide what pixel type to use for the image. This filter is
-  //  templated over a single image type since the output image must be able to
-  //  represent the unchanged pixels.
+  //  templated over a single image type because the algorithm only modifies
+  //  pixel values outside the specified range, passing the rest through
+  //  unchanged.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char  PixelType;
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -199,7 +196,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  The method \code{SetOutsideValue()} defines the intensity value to be
@@ -218,9 +214,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The method \code{ThresholdBelow()} define the intensity value below
-  //  which pixels of the input image will be transformed into the
-  //  \code{OutsideValue}.
+  //  The method \code{ThresholdBelow()} defines the intensity value below
+  //  which pixels of the input image will be changed to the \code{OutsideValue}.
   //  
   //  \index{itk::ThresholdImageFilter!ThresholdBelow()}
   //  Software Guide : EndLatex 
@@ -229,13 +224,12 @@ int main( int argc, char * argv[] )
   filter->ThresholdBelow( 180 );
   // Software Guide : EndCodeSnippet
 
-
   //  Software Guide : BeginLatex
   //  
-  //  The execution of the filter is triggered by invoking the \code{Update()}
-  //  method. If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any of the posterior filters in the
-  //  pipeline will indirectly trigger the update of this filter too.
+  //  The filter is executed by invoking the \code{Update()} method. If the
+  //  filter is part of a larger image processing pipeline, calling
+  //  \code{Update()} on a downstream filter will also trigger update of this
+  //  filter.
   //
   //  Software Guide : EndLatex 
 
@@ -250,10 +244,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of this process is shown on figure
-  //  \ref{fig:ThresholdTransferFunctionBelow}.  The second mode of operation
-  //  of the filter is enabled by invoking the method \code{ThresholdAbove()}
-  //  and then triggering the update of the filter.
+  //  The output of this example is shown in
+  //  Figure~\ref{fig:ThresholdTransferFunctionBelow}.  The second operating mode of
+  //  the filter is now enabled by calling the method
+  //  \code{ThresholdAbove()}.
   //
   //  Software Guide : EndLatex 
 
@@ -268,10 +262,9 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of this process is shown on figure
-  //  \ref{fig:ThresholdTransferFunctionAbove}.  The third mode of operation
-  //  of the filter is enabled by invoking the method
-  //  \code{ThresholdOutside()} and then triggering the update of the filter.
+  //  Updating the filter with this new setting produces the output shown in
+  //  Figure~\ref{fig:ThresholdTransferFunctionAbove}.  The third operating
+  //  mode of the filter is enabled by calling \code{ThresholdOutside()}.
   //
   //  Software Guide : EndLatex 
 
@@ -287,11 +280,13 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of this process is shown in figure
-  //  \ref{fig:ThresholdTransferFunctionOutside}.  The examples in this
-  //  section also illustrate the limitations of this filter for performing
+  //  The output of this third, ``band-pass'' thresholding mode is shown in
+  //  Figure~\ref{fig:ThresholdTransferFunctionOutside}.
+  //
+  //  The examples in this 
+  //  section also illustrate the limitations of the thresholding filter for performing
   //  segmentation by itself. These limitations are particularly noticeable
-  //  in noisy images and in images lacking spatial uniformity as is the case
+  //  in noisy images and in images lacking spatial uniformity, as is the case
   //  with MRI due to field bias.
   //
   //  \relatedClasses

@@ -1,5 +1,4 @@
 /*=========================================================================
-
   Program:   Insight Segmentation & Registration Toolkit
   Module:    BinaryThresholdImageFilter.cxx
   Language:  C++
@@ -22,9 +21,9 @@
 // \label{fig:BinaryThresholdTransferFunction}}
 // \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}
 //
-// This example illustrates the use of the binary threhold image filter.  This
+// This example illustrates the use of the binary threshold image filter.  This
 // filter is used to transform an image into a binary image by changing the
-// pixel values according to the rule illustrated in figure
+// pixel values according to the rule illustrated in Figure
 // \ref{fig:BinaryThresholdTransferFunction}. The user defines two
 // thresholds---Upper and Lower---and two intensity values---Inside and
 // Outside. For each pixel in the input image, the value of the pixel is
@@ -63,7 +62,7 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Then we must decide what pixel types to use for the input and output
+  //  The next step is to decide which pixel types to use for the input and output
   //  images.
   //
   //  Software Guide : EndLatex 
@@ -77,7 +76,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The input and output image types are now defined using their respective
-  //  pixel type and dimension.
+  //  pixel types and dimensions.
   //
   //  Software Guide : EndLatex 
 
@@ -147,7 +146,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The image obtained with the reader is passed as input to the
-  //  \doxygen{BinaryThresholdImageFilter}.
+  //  BinaryThresholdImageFilter.
   //
   //  \index{itk::Binary\-Threshold\-Image\-Filter!SetInput()}
   //  \index{itk::FileImageReader!GetOutput()}
@@ -164,7 +163,7 @@ int main( int argc, char * argv[] )
   //  The method \code{SetOutsideValue()} defines the intensity value to be
   //  assigned to those pixels whose intensities are outside the range defined
   //  by the lower and upper thresholds. The method \code{SetInsideValue()}
-  //  define the intensity value to be assigned to pixels with intensities
+  //  defines the intensity value to be assigned to pixels with intensities
   //  falling inside the threshold range.
   //  
   //  \index{itk::Binary\-Threshold\-Image\-Filter!SetOutsideValue()}
@@ -205,9 +204,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The execution of the filter is triggered by invoking the \code{Update()}
-  //  method. If the filter's output has been passed as input to subsequent
-  //  filters, the \code{Update()} call on any of the posterior filters in the
-  //  pipeline will indirectly trigger the update of this filter too.
+  //  method.   If the filter's output has been passed as input to subsequent
+  //  filters, the \code{Update()} call on any posterior filters in the
+  //  pipeline will indirectly trigger the update of this filter.
   //
   //  Software Guide : EndLatex 
 
