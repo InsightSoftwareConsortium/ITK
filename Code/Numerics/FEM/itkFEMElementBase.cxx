@@ -201,6 +201,39 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
   }
 }
 
+Element::VectorType Element::GetStrainsAtPoint(const VectorType& pt, const Solution& sol, unsigned int index) const
+  // NOTE: pt should be in local coordinates already
+{
+  MatrixType B;
+  VectorType e, u;
+  MatrixType J, shapeD, shapeDgl;
+  Float w;
+  
+  this->ShapeFunctionDerivatives(pt, shapeD);
+  this->Jacobian(pt, J, &shapeD);
+  this->ShapeFunctionGlobalDerivatives(pt, shapeDgl, &J, &shapeD);
+  this->GetStrainDisplacementMatrix(B, shapeDgl);
+  
+  u = this->InterpolateSolution(pt, sol, index);
+  
+  e = B*u;
+
+  return e;
+}
+
+Element::VectorType Element::GetStressesAtPoint(const VectorType& pt, const VectorType& e, const Solution& sol, unsigned int index) const
+  // NOTE: pt should be in local coordinates already
+{
+  MatrixType D;
+  VectorType sigma;
+
+  this->GetMaterialMatrix(D);
+  
+  sigma = D*e;
+
+  return sigma;
+}
+
 void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
 {
   // Provides the contribution of a landmark to the element stiffness
