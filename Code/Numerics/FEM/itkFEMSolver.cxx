@@ -396,7 +396,7 @@ void Solver::AssembleK() {
       Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
 
       /** error checking. all GFN should be =>0 and <NGFN */
-      if ( gfn<0 || gfn>=NGFN )
+      if ( gfn>=NGFN )
       {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
       }
