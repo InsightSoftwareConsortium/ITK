@@ -16,60 +16,15 @@
 #ifndef _wrapUtils_h
 #define _wrapUtils_h
 
-/**
- * Disable some warnings.
- */
+// Include the C++ type representation classes.
+// This also includes cxxUtils.h which does some work for us.
+#include "cxxTypes.h"
 
-// Visual C++
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable : 4251 )
-#endif
-
-// Intel C++ Compiler
-#ifdef __ICL
-#pragma warning ( disable : 985 )
-#endif
-
-/**
- * Setup a few utilities used by almost all source files.  There are some
- * differences between UNIX and Win32 platforms that are addressed here.
- */
-#if defined(_WIN32) || defined(WIN32) /* Win32 version */
-
-#define _wrap_IMPORT __declspec( dllimport )
-#define _wrap_EXPORT __declspec( dllexport )
-
-#include "wrapDllAllocator.h"
-
-#include <string>
-
-/**
- * Define the type "String" to be just like the STL "string", but with our
- * DLL-boundary-safe allocator for the Win32 version.
- */
-typedef std::basic_string<char, std::char_traits<char>, DllAllocator<char> >  String;
-
-#else /* UNIX version */
-
-#define _wrap_IMPORT
-#define _wrap_EXPORT
-
-#include <string>
-
-/**
- * Define the type "String" to be just like the STL "string".  In UNIX,
- * there are no problems with this in shared libraries.
- */
-typedef std::string  String;
-
-#endif
+// Get the DLL export definition from the CxxTypes package.
+#define _wrap_EXPORT _cxx_EXPORT
 
 // Include Tcl headers.
 #include <tcl.h>
-
-// Include the C++ type representation classes.
-#include "cxxTypes.h"
 
 namespace _wrap_
 {
@@ -80,6 +35,11 @@ _wrap_EXPORT bool TclObjectTypeIsInt(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsDouble(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsString(Tcl_Obj*);
 _wrap_EXPORT bool TclObjectTypeIsCmdName(Tcl_Obj*);
+
+/**
+ * The String type defined in the _cxx_ namespace.
+ */
+typedef ::_cxx_::String String;
 
 /*@{
  * Pull this representation type out of _cxx_ namespace into _wrap_ namespace.
