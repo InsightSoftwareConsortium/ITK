@@ -54,24 +54,24 @@ public:
   itkTypeMacro(ByteSwapper,Object);
 
   /** Query the machine Endian-ness. */
-  static bool IsBigEndian ();
-  static bool IsBE () { return IsBigEndian(); }
-  static bool IsLittleEndian ();
-  static bool IsLE () { return IsLittleEndian(); }
+  static bool SystemIsBigEndian ();
+  static bool SystemIsBE () { return SystemIsBigEndian(); }
+  static bool SystemIsLittleEndian ();
+  static bool SystemIsLE () { return SystemIsLittleEndian(); }
     
   /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  static void SwapBE(T *p);
+  static void SwapFromSystemToBigEndian(T *p);
   
   /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  static void SwapRangeBE(T *p, unsigned long num);
+  static void SwapRangeFromSystemToBigEndian(T *p, unsigned long num);
   
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
@@ -80,21 +80,21 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  static void SwapWriteRangeBE(T *p, int num, OStreamType *fp);
+  static void SwapWriteRangeFromSystemToBigEndian(T *p, int num, OStreamType *fp);
   
   /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  static void SwapLE(T *p);
+  static void SwapFromSystemToLittleEndian(T *p);
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  static void SwapRangeLE(T *p, unsigned long num);
+  static void SwapRangeFromSystemToLittleEndian(T *p, unsigned long num);
 
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
@@ -103,7 +103,7 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  static void SwapWriteRangeLE(T *p, int num, OStreamType *fp);
+  static void SwapWriteRangeFromSystemToLittleEndian(T *p, int num, OStreamType *fp);
   
 protected:
   ByteSwapper() {}

@@ -53,14 +53,14 @@ public:
   // Machine definitions
 #ifdef CMAKE_WORDS_BIGENDIAN
   template <class T>
-  bool ByteSwapper<T>::IsBigEndian() { return true; }
+  bool ByteSwapper<T>::SystemIsBigEndian() { return true; }
   template <class T>
-  bool ByteSwapper<T>::IsLittleEndian() { return false; }
+  bool ByteSwapper<T>::SystemIsLittleEndian() { return false; }
 #else
   template <class T>
-  bool ByteSwapper<T>::IsBigEndian() { return false; }
+  bool ByteSwapper<T>::SystemIsBigEndian() { return false; }
   template <class T>
-  bool ByteSwapper<T>::IsLittleEndian() { return true; }
+  bool ByteSwapper<T>::SystemIsLittleEndian() { return true; }
 #endif  
 
   
@@ -71,12 +71,12 @@ public:
 template <class T>
 void 
 ByteSwapper<T>
-::SwapBE(T *){}
+::SwapFromSystemToBigEndian(T *){}
 #else
 template <class T>
 void 
 ByteSwapper<T>
-::SwapBE(T *p)
+::SwapFromSystemToBigEndian(T *p)
 {
   switch ( sizeof(T) )
     {
@@ -101,12 +101,12 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeBE(T *p, unsigned long num) {}
+::SwapRangeFromSystemToBigEndian(T *p, unsigned long num) {}
 #else
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeBE(T *p, unsigned long num)
+::SwapRangeFromSystemToBigEndian(T *p, unsigned long num)
 {
   switch ( sizeof(T) )
     {
@@ -131,7 +131,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeBE(T *p, int num, OStreamType *fp)
+::SwapWriteRangeFromSystemToBigEndian(T *p, int num, OStreamType *fp)
 {
   num *= sizeof(T);
   fp->write((char *)p, num);
@@ -140,7 +140,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeBE(T *p, int num, OStreamType *fp)
+::SwapWriteRangeFromSystemToBigEndian(T *p, int num, OStreamType *fp)
 {
   switch ( sizeof(T) )
     {
@@ -167,7 +167,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapLE(T *p)
+::SwapFromSystemToLittleEndian(T *p)
 {
   switch ( sizeof(T) )
     {
@@ -190,7 +190,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapLE(T *){}
+::SwapFromSystemToLittleEndian(T *){}
 #endif  
 
 
@@ -198,7 +198,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeLE(T *p, unsigned long num) 
+::SwapRangeFromSystemToLittleEndian(T *p, unsigned long num) 
 {
   switch ( sizeof(T) )
     {
@@ -221,14 +221,14 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeLE(T *p, unsigned long num) {}
+::SwapRangeFromSystemToLittleEndian(T *p, unsigned long num) {}
 #endif  
 
 #ifdef CMAKE_WORDS_BIGENDIAN
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeLE(T *p, int num, OStreamType *fp)
+::SwapWriteRangeFromSystemToLittleEndian(T *p, int num, OStreamType *fp)
 {
   switch ( sizeof(T) )
     {
@@ -251,7 +251,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeLE(T *p, int num, OStreamType *fp)
+::SwapWriteRangeFromSystemToLittleEndian(T *p, int num, OStreamType *fp)
 {
   num *= sizeof(T);
   fp->write((char *)p, num);
