@@ -205,6 +205,7 @@ public:
     else if( typeid( event ) == typeid( itk::IterationEvent ) )
       {
       std::cout << m_Optimizer->GetCurrentIteration() << "   ";
+      std::cout << m_Optimizer->GetValue() << "   ";
       std::cout << m_Optimizer->GetCurrentPosition();
       }
     else if( typeid( event ) == typeid( itk::EndEvent ) )
