@@ -200,7 +200,7 @@ public:
   void SetToBarycentricCombination( const Self * P, const double * weights, unsigned int N);
 
   template < typename TCoordRepB >
-  CastFrom( const Point<TCoordRepB,NPointDimension> & pa )
+  void CastFrom( const Point<TCoordRepB,NPointDimension> & pa )
   {
     for(unsigned int i=0; i<NPointDimension; i++ )
       {
