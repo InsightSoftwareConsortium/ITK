@@ -104,6 +104,11 @@ public:
   typedef typename InputImageType::IndexType IndexType;
 
   /**
+   * Superclass typedefs
+   */
+  typedef typename Superclass::PointType PointType;
+
+  /**
    * ContinuousIndex typedef support.
    */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
