@@ -39,6 +39,7 @@ SOURCE_FILES(FEM_SRCS
 
 # Header and template source files for FEM project
 # we can only include them if compiling on windows
+IF(NOT UNIX)
 IF(WIN32)
 SOURCE_FILES(FEM_SRCS 
 
@@ -87,7 +88,7 @@ SOURCE_FILES(FEM_SRCS
 
 )
 ENDIF(WIN32)
-
+ENDIF(NOT UNIX)
 
 
 # Define source groups that look nice in DSP files
