@@ -120,13 +120,9 @@ public:
   /** returns the frequency of the instance which is identified by the 'id'*/
   virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
 
-  
-//    /** returns the frequency of the 'n'-th element in the 'd' dimension * of the measurement vector*/
-//    virtual FrequencyType GetFrequency(const unsigned int d,
-//                                       const unsigned long n)  = 0 ;
-
   /** returns the total frequency for the 'd' dimension*/
-  virtual FrequencyType GetTotalFrequency(const unsigned int &dimension) const = 0 ;
+  virtual FrequencyType GetTotalFrequency(const unsigned int &dimension) const 
+    = 0 ;
 
   /** if a subclass of this class has its data sorted, return true* else, false.*/
   bool IsSorted() { return m_Sorted ; }
