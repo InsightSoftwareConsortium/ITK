@@ -54,11 +54,57 @@ public:
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
-
+  
+  typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
   /** VMeasurementVectorSize template argument alias */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TMeasurementVector::Length);
 
+  
+  inline void Search(MeasurementVectorType center, double radius, 
+                     SearchResultVectorType& result)
+  {
+    if (radius == 0.0)
+      {
+      itkGenericExceptionMacro("Search radius should be greater than zero.") ;
+      }
+    
+    unsigned int j ;
+    double squaredRadius ;
+    double distance ;
+    double coordinateDistance ;
+    
+    MeasurementVectorType tempVector ;
+    unsigned int length = MeasurementVectorType::Length ;
+    
+    squaredRadius = radius * radius ;
+    
+    result.clear() ;
+    for ( InstanceIdentifier id = 0 ; id < this->Size() ; ++id )
+      {
+      distance = 0.0 ;
+      tempVector = this->GetMeasurementVector( id ) ;
+      for (j = 0 ; j < length && distance < squaredRadius ; j++)
+        {
+        coordinateDistance = (double)tempVector[j] - center[j] ;
+        if (vnl_math_abs(coordinateDistance) > radius )
+          {
+          distance = squaredRadius ;
+          }
+        }
+      
+      for (j = 0 ; j < length && distance < squaredRadius ; j++)
+        {
+        coordinateDistance = (double)tempVector[j] - center[j] ;
+        distance += coordinateDistance * coordinateDistance ;
+        }
+      
+      if (distance < squaredRadius)
+        {
+        result.push_back( id ) ;
+        }
+      }
+  }
 protected:
   ListSampleBase() {}
   virtual ~ListSampleBase() {}
