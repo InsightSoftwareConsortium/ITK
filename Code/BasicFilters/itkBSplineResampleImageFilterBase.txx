@@ -157,10 +157,10 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
       m_h[11] = -0.000656743;
       break;
     default :
-      // I don't feel well I think I'm going to throw up.
+      // Throw an exception
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation( "BSplineResampleImageFilterBase" );
-      err.SetDescription( "SplineOrder for l2 pyramid filter must be between 0 and 3. Requested spline order has not been implemented." );
+      err.SetDescription( "SplineOrder for l2 pyramid filter must be between 1 and 3. Requested spline order has not been implemented." );
       throw err;
       break;
     }
@@ -393,8 +393,6 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
-    // HELP!  I would like to set these up in the if statement below but
-    //    haven't been able to do so such that the scope is outside if statement.
     ConstInputImageIterator inIterator1( workingImage, validRegion);
     ConstOutputImageIterator inIterator2( scratchImage, validRegion);
     if (n==0)
@@ -482,9 +480,9 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   RegionType scratchRegion;
   scratchRegion = inputPtr->GetBufferedRegion();
   currentSize = startSize;
-  // scratchImage 2 times the space of the original
-  // image .
-  // TODO: Is multiplying by 2 correct or do I need to ensure image size is >=1 ?
+
+  // scratchImage 2 times the space of the original image .
+
   for (unsigned int n = 0; n < ImageDimension; n++)
     {
     currentSize[n] = currentSize[n] * 2;  
@@ -517,8 +515,6 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
-    // HELP!  I would like to set these up in the if statement below but
-    //    haven't been able to do so such that the scope is outside if statement.
     ConstInputImageIterator inIterator1( workingImage, validRegion);
     ConstOutputImageIterator inIterator2( scratchImage, validRegion);
     if (n==0)
@@ -539,7 +535,6 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     currentSize[n] = currentSize[n] * 2;  // expand by a factor of 2
     validRegion.SetSize(currentSize); 
 
-    // TODO:  Is there a way to put this in the else statement below?
     OutputImageIterator outIterator( scratchImage, validRegion );
     if (n == ( ImageDimension - 1) )
       {

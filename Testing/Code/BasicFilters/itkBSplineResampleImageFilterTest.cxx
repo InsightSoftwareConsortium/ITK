@@ -29,27 +29,23 @@
 
 #include "vnl/vnl_math.h"
 
-  typedef double InputPixelType;
-  typedef int    IntInputPixelType;
+typedef double InputPixelType;
+typedef int    IntInputPixelType;
 
-  // Set up for 2D Images
-  enum { ImageDimension2D = 2 };
+// Set up for 2D Images
+enum { ImageDimension2D = 2 };
 
-  typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
-  typedef ImageType2D::Pointer ImageTypePtr2D;
-  typedef ImageType2D::SizeType SizeType2D;
-  
-  typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
+typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
+typedef ImageType2D::Pointer ImageTypePtr2D;
+typedef ImageType2D::SizeType SizeType2D;
+typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
 
+typedef itk::Image< IntInputPixelType, ImageDimension2D > IntImageType2D;
+typedef IntImageType2D::Pointer IntImageTypePtr2D;
+typedef IntImageType2D::SizeType IntSizeType2D;
+typedef itk::ImageRegionIterator<IntImageType2D>  IntInputIterator;
 
-  typedef itk::Image< IntInputPixelType, ImageDimension2D > IntImageType2D;
-  typedef IntImageType2D::Pointer IntImageTypePtr2D;
-  typedef IntImageType2D::SizeType IntSizeType2D;
-  
-  typedef itk::ImageRegionIterator<IntImageType2D>  IntInputIterator;
-
-  void set2DData(ImageType2D::Pointer);
-
+void set2DData(ImageType2D::Pointer);
 
 void PrintImageData(ImageTypePtr2D imgPtr)
 {
@@ -159,7 +155,34 @@ void setInt2DData(IntImageType2D::Pointer imgPtr)
   
 }
 
-bool VerifyResults(ImageTypePtr2D ActualResults, double *ExpectedResults)
+bool VerifyResults4thOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+{
+  double * ERptr;
+  ERptr = ExpectedResults;
+
+  InputIterator ActualResultsIter( ActualResults, ActualResults->GetLargestPossibleRegion() );
+  double percentErr = 0;
+
+  while (!ActualResultsIter.IsAtEnd() )
+    {
+    double val1 = ActualResultsIter.Get();
+
+    percentErr += vnl_math_abs( ( val1 - * ERptr ) / val1 );
+
+    ++ActualResultsIter;
+    ++ERptr;
+    }
+
+  //Mean error is determined over the number of pixels, which in the test case is 16
+  if( (percentErr/16) > 0.05 )
+    {
+    // std::cout << "*** Error: total error is more than 10%: " << percentErr << std::endl;
+    return false;
+    }
+  return true;
+}
+
+bool VerifyResults3rdOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
 {
   double * ERptr;
   ERptr = ExpectedResults;
@@ -179,9 +202,90 @@ bool VerifyResults(ImageTypePtr2D ActualResults, double *ExpectedResults)
     }
   return true;
 }
-  
 
+bool VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+{
+  double * ERptr;
+  ERptr = ExpectedResults;
 
+  InputIterator ActualResultsIter( ActualResults, ActualResults->GetLargestPossibleRegion() );
+  double percentErr = 0;
+
+  while (!ActualResultsIter.IsAtEnd() )
+    {
+    double val1 = ActualResultsIter.Get();
+
+    percentErr += vnl_math_abs( ( val1 - * ERptr ) / val1 );
+
+    ++ActualResultsIter;
+    ++ERptr;
+    }
+
+  //Mean error is determined over the number of pixels, which in the test case is 16
+  if( (percentErr/16) > 0.1 )
+    {
+    // std::cout << "*** Error: total error is more than 10%: " << percentErr << std::endl;
+    return false;
+    }
+  return true;
+}
+
+bool VerifyResults1stOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+{
+  double * ERptr;
+  ERptr = ExpectedResults;
+
+  InputIterator ActualResultsIter( ActualResults, ActualResults->GetLargestPossibleRegion() );
+  double percentErr = 0;
+
+  while (!ActualResultsIter.IsAtEnd() )
+    {
+    double val1 = ActualResultsIter.Get();
+
+    percentErr += vnl_math_abs( ( val1 - * ERptr ) / val1 );
+
+    ++ActualResultsIter;
+    ++ERptr;
+    }
+
+  //Mean error is determined over the number of pixels, which in the test case is 16
+  //Threshold error is higher since the order of the spline is lower.
+  if( (percentErr)/16 > 0.3 )
+    {
+    // std::cout << "*** Error: total error is more than 30%: " << percentErr << std::endl;
+    return false;
+    }
+  return true;
+}
+
+bool VerifyResults0thOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
+{
+  double * ERptr;
+  ERptr = ExpectedResults;
+
+  InputIterator ActualResultsIter( ActualResults, ActualResults->GetLargestPossibleRegion() );
+  double percentErr = 0;
+
+  while (!ActualResultsIter.IsAtEnd() )
+    {
+    double val1 = ActualResultsIter.Get();
+
+    percentErr += vnl_math_abs( ( val1 - * ERptr ) / val1 );
+
+    ++ActualResultsIter;
+    ++ERptr;
+    }
+
+  //Mean error is determined over the number of pixels, which in the test case is 16
+  //Threshold error is higher since the order of the spline is lower. Allow large errors
+  if( (percentErr)/16 > 0.5 )
+    {
+    // std::cout << "*** Error: total error is more than 30%: " << percentErr << std::endl;
+    return false;
+    }
+  return true;
+} 
+   
 int test2D_Standard_l2_filter()
 {
   int flag = 0;
@@ -196,7 +300,6 @@ int test2D_Standard_l2_filter()
                               2.784775, 3.223312, 3.663641, 3.751054};
 
   // l2 norm resampler.
-//  typedef itk::BSplineResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
   typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D> DownsamplerType2D;
   typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D> UpsamplerType2D;
 
@@ -214,14 +317,11 @@ int test2D_Standard_l2_filter()
   downSampler->Update();
   ImageTypePtr2D outImage1 = downSampler->GetOutput();
   PrintImageData(outImage1);
-//  interp->Print( std::cout );
-//  PrintImageData(image);
-//  upSampler->SetInput( downSampler->GetOutput() );
   upSampler->SetInput( outImage1 );
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults(outImage2, ExpectedResults);
+  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
   if (!sameResults)
     {
     flag = 1;
@@ -268,14 +368,11 @@ int test2D_Standard_L2_filter()
   downSampler->Update();
   ImageTypePtr2D outImage1 = downSampler->GetOutput();
   PrintImageData(outImage1);
-//  interp->Print( std::cout );
-//  PrintImageData(image);
-//  upSampler->SetInput( downSampler->GetOutput() );
   upSampler->SetInput( outImage1 );
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults(outImage2, ExpectedResults);
+  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
   if (!sameResults)
     {
     flag = 1;
@@ -319,14 +416,11 @@ int test2D_Centered_l2_filter()
   downSampler->Update();
   ImageTypePtr2D outImage1 = downSampler->GetOutput();
   PrintImageData(outImage1);
-//  interp->Print( std::cout );
-//  PrintImageData(image);
-//  upSampler->SetInput( downSampler->GetOutput() );
   upSampler->SetInput( outImage1 );
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults(outImage2, ExpectedResults);
+  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
   if (!sameResults)
     {
     flag = 1;
@@ -340,6 +434,7 @@ int test2D_Centered_l2_filter()
   return flag;
 }
 
+/*
 int test2D_Centered_L2_filter()
 {
   int flag = 0;
@@ -377,7 +472,7 @@ int test2D_Centered_L2_filter()
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults(outImage2, ExpectedResults);
+  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
   if (!sameResults)
     {
     flag = 1;
@@ -390,6 +485,7 @@ int test2D_Centered_L2_filter()
 
   return flag;
 }
+*/
 
 int testIntInputDoubleOutput()
 {
@@ -430,7 +526,7 @@ int testIntInputDoubleOutput()
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults = VerifyResults(outImage2, ExpectedResults);
+  bool sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
   if (!sameResults)
     {
     flag = 1;
@@ -445,23 +541,103 @@ int testIntInputDoubleOutput()
 }
 
 
+//Test for Centered_L2 filter with Nth order spline
+int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
+{
+  int flag = 0;
+
+  // Allocate a simple test image 
+  ImageTypePtr2D image = ImageType2D::New();
+
+  set2DData(image);
+  double ExpectedResults[] = {0.119494, 0.600647, 1.323863, 1.802788,
+                              0.574571, 1.712082, 2.837723, 3.583139,
+                              1.245641, 2.733425, 3.217399, 3.537894,
+                              1.690034, 3.409774, 3.468826, 3.507932};
+
+  // L2 norm resampler.
+  typedef itk::BSplineCenteredL2ResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
+  typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
+  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
+
+  DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+  FilterWatcher downWatcher(downSampler, "test2D_Centered_L2_filter");
+  UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
+  FilterWatcher upWatcher(upSampler, "test2D_Centered_L2_filter");
+  //int splineOrder = 2;
+  downSampler->SetSplineOrder(splineOrder);
+  upSampler->SetSplineOrder(splineOrder);
+
+  downSampler->SetInput(image);
+  downSampler->Update();
+  ImageTypePtr2D outImage1 = downSampler->GetOutput();
+  PrintImageData(outImage1);
+//  interp->Print( std::cout );
+//  PrintImageData(image);
+//  upSampler->SetInput( downSampler->GetOutput() );
+  upSampler->SetInput( outImage1 );
+  upSampler->Update();
+  ImageTypePtr2D outImage2 = upSampler->GetOutput();
+  PrintImageData(outImage2);
+
+  bool sameResults;
+  if( splineOrder == 4 ) 
+    {
+    sameResults = VerifyResults4thOrderSpline(outImage2, ExpectedResults);
+    }
+  else if( splineOrder == 3 ) 
+    {
+    sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
+    }
+  else if( splineOrder == 2 ) 
+    {
+    sameResults = VerifyResults2ndOrderSpline(outImage2, ExpectedResults);
+    }
+  else if (splineOrder == 1 )
+    {
+    sameResults = VerifyResults1stOrderSpline(outImage2, ExpectedResults);
+    }
+  else if (splineOrder == 0 )
+    {
+    sameResults = VerifyResults0thOrderSpline(outImage2, ExpectedResults);
+    }
+  if (!sameResults)
+    {
+    flag = 1;
+    std::cout << "*** Error: unexpected value in Centered L2 - resampler with order " << splineOrder <<
+      "  spline." << std::endl;
+    std::cout << "" << std::endl;
+    }
+  else
+    {
+    std::cout << "Tests for Centered L2 - resampler with order " <<  splineOrder <<  "  spline PASSED " << std::endl;
+    std::cout << "" << std::endl;
+    }
+
+  return flag;
+}
+
 int 
 itkBSplineResampleImageFilterTest(
     int itkNotUsed(argc),
     char * itkNotUsed(argv) [] )
 {
-  int flag = 0;           // Did this test program work? 
+  int flag = 0;  
 
-  std::cout << "Testing B Spline up and down sampling methods:\n";
+  std::cout << "Testing B Spline up and down sampling methods: \n";
 
-//  
+// 
+  flag += testIntInputDoubleOutput(); 
   flag += test2D_Standard_l2_filter();
   flag += test2D_Standard_L2_filter();
   flag += test2D_Centered_l2_filter();
-  flag += test2D_Centered_L2_filter();
-  flag += testIntInputDoubleOutput();
 
-
+  //Test for Centered L2 BSplines for different orders
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 4 ); 
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 3 );  
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 2 );   
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 1 );   
+  
   // Return results of test 
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
