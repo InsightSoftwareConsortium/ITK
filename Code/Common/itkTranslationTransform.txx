@@ -215,7 +215,7 @@ GetJacobian( const InputPointType & ) const
 
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    m_Jacobian(i,i) = 1.0f;
+    m_Jacobian(i,i) = 1.0;
     }
 
   return m_Jacobian;

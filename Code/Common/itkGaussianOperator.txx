@@ -38,7 +38,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   const double cap          = 1.0 - m_MaximumError;
   
   // Create the kernel coefficients as a std::vector
-  sum = 0.0f;
+  sum = 0.0;
   coeff.push_back(et * ModifiedBesselI0(m_Variance));
   sum += coeff[0];
   coeff.push_back(et * ModifiedBesselI1(m_Variance));
@@ -135,7 +135,7 @@ double
 GaussianOperator<TPixel,VDimension, TAllocator>
 ::ModifiedBesselI(int n, double y)
 {
-  const double ACCURACY = 40.0f;
+  const double ACCURACY = 40.0;
   int j;
   double qim, qi, qip, toy;
   double accumulator;

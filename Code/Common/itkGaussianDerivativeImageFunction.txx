@@ -28,11 +28,11 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::GaussianDerivativeImageFunction()
 {
   typename GaussianFunctionType::ArrayType mean;
-  mean[0]=0.0f;
+  mean[0]=0.0;
   for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension2);i++)
     {
-    m_Sigma[i] = 1.0f;
-    m_Extent[i] = 1.0f;
+    m_Sigma[i] = 1.0;
+    m_Extent[i] = 1.0;
     }
   m_UseImageSpacing = true;
   m_GaussianDerivativeFunction = GaussianDerivativeFunctionType::New();
