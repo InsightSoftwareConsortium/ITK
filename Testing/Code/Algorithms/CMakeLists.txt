@@ -18,6 +18,7 @@ itkFastMarchingTest
 itkGeodesicActiveContoursTest
 itkGradientAnisotropicDiffusionImageFilterTest
 itkAlgorithmsHeaderTest
+itkFuzzyConnectednessImageFilterTest
 itkImageMomentsTest
 itkInterpolateTest
 itkLevelSetShapeDetectionTest
