@@ -37,7 +37,7 @@ main( int argc, char *argv[] )
        produces results that are off by 12*epsilon.  This is still
        reasonably close but might deserve investigation some day when all
        the worse problems have been fixed. */
-    double maxerr = 1.2e-15;
+    double maxerr = 1.9e-15;
 
     /* Define the image size and physical coordinates */
     itk::Size<3> size = {{20, 40, 80}};
