@@ -22,22 +22,23 @@
 // approach to segmentation. The object to be segmented is delimited by a
 // contour which is represented here as the \emph{zero set} of a function. It
 // can also be said that the contour is defined as an implicit function of the
-// form $f(\bf{X})=0$.  The contour is initialized by the user and then is
-// made evolve in order to make it fit to the form of an anatomical structure
-// in the image. The evolution of the \emph{zero set} is simulated by changing
-// the $f$ function under the control of a differential equation.  The terms in
-// the equation basically represent a diffusion equation in which the speed
-// term can be customized by the user. In the case of the
+// form $f(\bf{X})=0$.  The contour is initialized by the user and then is made
+// evolve in order to make it fit to the form of an anatomical structure in the
+// image. The evolution of the \emph{zero set} is simulated by changing the $f$
+// function under the control of a differential equation.  The terms in the
+// equation basically represent a diffusion equation in which the speed term
+// can be customized by the user. In the case of the
 // \doxygen{FastMarchingImageFilter} the speed term is expected to be provided
-// by the user in the form of an image. This image is typically computed as the
-// negative exponential of the gradient magnitude. This choice makes that the
-// propagation speed of the front will be very low close to hight gradients
-// while it will move rather fast in low gradient areas. This arrangement will
-// make the contour propagate until it reaches the edges of anatomical
-// structures in the image and to slow down in front of those edges.  The
-// output of this filter is a \emph{time-crossing map} that indicates for each
-// pixel, how much time would take for the front to arrive to the pixel
-// location.
+// by the user in the form of an image. This image is typically computed as a
+// function of the gradient magnitude. Several mappings are popular in the
+// literature. In the current example we decided to use a sigmoid function.
+// This choice makes that the propagation speed of the front will be very low
+// close to hight gradients while it will move rather fast in low gradient
+// areas. This arrangement will make the contour propagate until it reaches the
+// edges of anatomical structures in the image and to slow down in front of
+// those edges.  The output of this filter is a \emph{time-crossing map} that
+// indicates for each pixel, how much time would take for the front to arrive
+// to the pixel location.
 //
 // \begin{figure} \center
 // \includegraphics[width=14cm]{FastMarchingCollaborationDiagram1.eps}
@@ -61,7 +62,7 @@
 // passed as the input for the \doxygen{FastMarchingImageFilter} and it is also
 // used to produce the image potential by passing it to the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
-// \doxygen{ExpNegativeImageFilter}.  Finally the output of the
+// \doxygen{SigmoidImageFilter}.  Finally the output of the
 // \doxygen{FastMarchingImageFilter} is passed to a
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
@@ -86,7 +87,7 @@
 //  Software Guide : BeginLatex
 //  
 //  The headers of the \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and
-//  \doxygen{ExpNegativeImageFilter} are included below. This two
+//  \doxygen{SigmoidImageFilter} are included below. This two
 //  filters combined will produce the image potential for regulating the speed
 //  term in the differential equation describing the evolution of the level
 //  set.
@@ -95,7 +96,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-#include "itkExpNegativeImageFilter.h"
+#include "itkSigmoidImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -159,7 +160,7 @@ int main( int argc, char **argv )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage seedX seedY";
-    std::cerr << " Sigma ExponentialFactor TimeThreshold StoppingValue" << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue" << std::endl;
     return 1;
     }
 
@@ -232,7 +233,7 @@ int main( int argc, char **argv )
 
   // Software Guide : BeginCodeSnippet
   thresholder->SetLowerThreshold( 0.0 );
-  thresholder->SetUpperThreshold( atof( argv[7] ) );
+  thresholder->SetUpperThreshold( atof( argv[8] ) );
 
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
@@ -301,7 +302,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The types of the \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and
-  //  \doxygen{ExpNegativeImageFilter} are instantiated using the internal
+  //  \doxygen{SigmoidImageFilter} are instantiated using the internal
   //  image type. 
   //
   //  Software Guide : EndLatex 
@@ -311,9 +312,9 @@ int main( int argc, char **argv )
                                InternalImageType, 
                                InternalImageType >  GradientFilterType;
 
-  typedef   itk::ExpNegativeImageFilter<                               
+  typedef   itk::SigmoidImageFilter<                               
                                InternalImageType, 
-                               InternalImageType >  ExpNegativeFilterType;
+                               InternalImageType >  SigmoidFilterType;
   // Software Guide : EndCodeSnippet
 
 
@@ -329,7 +330,7 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
 
-  ExpNegativeFilterType::Pointer negativeExponential = ExpNegativeFilterType::New();
+  SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -340,7 +341,7 @@ int main( int argc, char **argv )
   //  
   //  We declare now the type of the
   //  \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and the
-  //  \doxygen{ExpNegativeImageFilter} that will generate the image
+  //  \doxygen{SigmoidImageFilter} that will generate the image
   //  potential required for the \doxygen{FastMarchingImageFilter}.
   //
   //  Software Guide : EndLatex 
@@ -380,10 +381,9 @@ int main( int argc, char **argv )
 
   gradientMagnitude->SetInput( smoothing->GetOutput() );
 
-  negativeExponential->SetInput( gradientMagnitude->GetOutput() );
+  sigmoid->SetInput( gradientMagnitude->GetOutput() );
 
-  fastMarching->SetSpeedImage( negativeExponential->GetOutput() );
-  fastMarching->SetInput( smoothing->GetOutput() );
+  fastMarching->SetSpeedImage( sigmoid->GetOutput() );
   
   thresholder->SetInput( fastMarching->GetOutput() );
 
@@ -404,7 +404,7 @@ int main( int argc, char **argv )
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetTimeStep( 0.25 );
-  smoothing->SetIterations( 5 );
+  smoothing->SetIterations(  5 );
   smoothing->SetConductanceParameter( 3.0 );
   // Software Guide : EndCodeSnippet
 
@@ -432,19 +432,33 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ExpNegativeImageFilter} requires the exponential factor as a
-  //  parameter. This value will multiply all the input pixel intensities
-  //  before their exponential is computed. The factor is passed using the
-  //  \code{SetFactor()} method. In the context of this example, the factor can
-  //  be used to intensify the differences between regions of low and high
-  //  values in the speed image. In an ideal case, the speed value should be
-  //  $1.0$ in the homogeneous regions of anatomical structures and the value
-  //  should decay rapidly to $0.0$ around the edges of structures.
+  //  The \doxygen{SigmoidImageFilter} requires two parameters that define the
+  //  linear transformation to be applied to the sigmoid argument. This
+  //  parameters are passed using the \code{SetAlpha()} and \code{SetBeta()}
+  //  methods. In the context of this example, the parameters are used to
+  //  intensify the differences between regions of low and high values in the
+  //  speed image. In an ideal case, the speed value should be $1.0$ in the
+  //  homogeneous regions of anatomical structures and the value should decay
+  //  rapidly to $0.0$ around the edges of structures. The heuristic for
+  //  finding the values is the following. From the gradient magnitude image,
+  //  lets call $K1$ the minimum value along the contour of the anatomical
+  //  structure to be segmented. Then, let's call $K2$ an average value of the
+  //  gradient magnitude in the middle of the structure. These two values
+  //  indicate the dynamic range the we want to map to the interval $[0:1]$ in
+  //  the speed image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$ to
+  //  $1.0$. This mapping will produce a speed image such that the level set
+  //  will march rapidly on the homogeneous region and will definitely stop on
+  //  the contour. The suggested value for beta is minus the average of $K1$
+  //  and $K2$, while the suggested value for alpha is $(K1-K2)/10$.  In our
+  //  simple example the values are provided by the user from the command line
+  //  arguments. The user can estimate these values by observing the gradient
+  //  magnitude image. 
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  negativeExponential->SetFactor( atof( argv[6] ) );
+  sigmoid->SetAlpha( atof( argv[6] ) );
+  sigmoid->SetBeta(  atof( argv[7] ) );
   // Software Guide : EndCodeSnippet
 
 
@@ -566,7 +580,7 @@ int main( int argc, char **argv )
   caster2->SetOutputMaximum( 255 );
   writer2->Update();
 
-  caster3->SetInput( negativeExponential->GetOutput() );
+  caster3->SetInput( sigmoid->GetOutput() );
   writer3->SetInput( caster3->GetOutput() );
   writer3->SetFileName("FastMarchingFilterOutput3.png");
   caster3->SetOutputMinimum(   0 );
@@ -616,7 +630,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetStoppingValue( atof( argv[8] ) );
+  fastMarching->SetStoppingValue( atof( argv[9] ) );
   // Software Guide : EndCodeSnippet
 
 
@@ -664,11 +678,15 @@ int main( int argc, char **argv )
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
-  speedWriter->SetInput( negativeExponential->GetOutput() );
+  speedWriter->SetInput( sigmoid->GetOutput() );
   speedWriter->SetFileName("FastMarchingFilterOutput3.mha");
   speedWriter->Update();
 
 
+  InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
+  gradientWriter->SetInput( gradientMagnitude->GetOutput() );
+  gradientWriter->SetFileName("FastMarchingFilterOutput2.mha");
+  gradientWriter->Update();
 
 
 
@@ -677,25 +695,35 @@ int main( int argc, char **argv )
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seeds in the appropriate locations. For example
+  //  structures by providing seeds in the appropriate locations. The following
+  //  table presents the parameters used for some structures.
   //
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|}
   //  \hline
-  //  Structure & Seed Index & Output Image \\
+  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Output Image \\
   //  \hline
-  //  White matter & $(60,116)$ & Second from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  Ventricle    & $(81,112)$ & Third  from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  Gray matter  & $(107,69)$ & Fourth from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
+  //  Left Ventricle  & $(81,114)$ & 1.0 & -2.0 & 3.0  & 150 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 1.0 & -2.0 & 3.0  & 150 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 1.0 & -2.0 & 2.0  & 400 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 0.5 & -2.0 & 4.0  & 600 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
   //
+  //  Figure~\ref{fig:FastMarchingImageFilterOutput} presents the intermediate
+  //  outputs of the pipeline illustrated in
+  //  Figure~\ref{fig:FastMarchingCollaborationDiagram}. They are from left to
+  //  right. The output of the anisotropic diffusing filter, the gradient
+  //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
+  //  which is finally used as the speed image for the
+  //  \doxygen{FastMarchingImageFilter}.
+  //
   // \begin{figure} \center
-  // \includegraphics[width=5cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput1.eps}
-  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput2.eps}
-  // \includegraphics[width=5cm]{FastMarchingImageFilterOutput3.eps}
+  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput1.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput2.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput3.eps}
   // \caption[FastMarchingImageFilter output images]{Images generated by the
   // segmentation process based on the FastMarchingImageFilter}
   // \label{fig:FastMarchingImageFilterOutput}
@@ -703,10 +731,24 @@ int main( int argc, char **argv )
   //
   //  It can be noticed that the gray matter is not being completly segmented.
   //  This illustrates the vulnerability of the region growing methods when the
-  //  anatomical structures to be segmented do not have a homogeneous
-  //  statistical distribution over the image space. You may want to experiment
-  //  with differnt numbers of iterations to verify how the accepted region
-  //  will extend.
+  //  anatomical structures to be segmented do not occupy extended regions of
+  //  the image. In particular when the width of the structure is comparable to
+  //  the size of the atenuations band generated by the gradient filter. A
+  //  possible turn around this limitation is to use multiple seed distributed
+  //  along the elongated object.  Level sets have the nice topological
+  //  property of being able to fuse when they come together. The segmentation
+  //  resulting from multiple seeds grow naturally in this segmentation paradigm.
+  //
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput5.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput6.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput7.eps}
+  // \includegraphics[width=4cm]{FastMarchingImageFilterOutput8.eps}
+  // \caption[FastMarchingImageFilter output images]{Images generated by the
+  // segmentation process based on the FastMarchingImageFilter}
+  // \label{fig:FastMarchingImageFilterOutput2}
+  // \end{figure}
   //
   //  Software Guide : EndLatex 
 
