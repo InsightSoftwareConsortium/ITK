@@ -45,6 +45,7 @@ public:
   static const ClassType* SafeDownCast(const Type*);
   
   String GetName() const;
+  bool IsSubclassOf(const ClassType*) const;
   
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;

@@ -63,6 +63,37 @@ String ClassType::GetName() const
 }
 
 
+/**
+ * Determine whether this ClassType is a subclass of the given ClassType
+ * through any chain of inheritance.
+ */
+bool ClassType::IsSubclassOf(const ClassType* superclass) const
+{
+  // See if any of our immediate parents are the superclass.
+  for(ClassTypes::const_iterator parent = m_Parents.begin();
+      parent != m_Parents.end(); ++parent)
+    {
+    if(*parent == superclass)
+      {
+      return true;
+      }
+    }
+  
+  // Didn't find an immediate parent.  Ask each parent recursively.
+  for(ClassTypes::const_iterator parent = m_Parents.begin();
+      parent != m_Parents.end(); ++parent)
+    {
+    if((*parent)->IsSubclassOf(superclass))
+      {
+      return true;
+      }
+    }
+  
+  // We are not a subclass of the given class.
+  return false;
+}
+
+
 String ClassType::GenerateName(const String& indirection,
                                bool isConst, bool isVolatile) const
 {
