@@ -245,6 +245,19 @@ VectorContainer< TElementIdentifier , TElement >
 
 
 /**
+ * Clear the elements. The final size will be zero.
+ */
+template <typename TElementIdentifier, typename TElement>
+void 
+VectorContainer< TElementIdentifier , TElement >
+::Clear(void) 
+{
+  this->VectorType::clear();
+}
+
+
+
+/**
  * Tell the container to allocate enough memory to allow at least
  * as many elements as the size given to be stored.  This is NOT
  * guaranteed to actually allocate any memory, but is useful if the
