@@ -179,7 +179,6 @@ public:
     double arg = 0;
     for( int x = 0; x<m_RangeDimension; x++ ) 
     {
-      const double xd = (double)x;
       arg     = ((x-c)/(d*SQUARE_ROOT_OF_TWO));
 
       m_Derivative[0][valueindex] =  1;
