@@ -184,12 +184,6 @@ public:
    * filters that preceed this one). */
   virtual void PropagateRequestedRegion(DataObject *output);
 
-  /** An opportunity to Allocate/Deallocate bulk data. Some filters may wish
-   *  to reuse the existing bulk data. The default implementation applies Initialize()
-   *  to each Output. DataObject::Initialize() frees its bulk data.
-   */
-  virtual void PrepareOutputs();
-
   /** Actually generate new output  */
   virtual void UpdateOutputData(DataObject *output);
 
@@ -211,18 +205,6 @@ public:
              unsigned long *inputSize,
              unsigned long size[2] );
 
-  /** Generate the information decribing the output data. The default 
-   * implementation of this method will copy information from the input to
-   * the output.  A filter may override this method if its output will have
-   * different information than its input.  For instance, a filter that 
-   * shrinks an image will need to provide an implementation for this 
-   * method that changes the spacing of the pixels. Such filters should call
-   * their superclass' implementation of this method prior to changing the
-   * information values they need (i.e. GenerateOutputInformation() should
-   * call Superclass::GenerateOutputInformation() prior to changing the
-   * information. */
-  virtual void GenerateOutputInformation();
-
   /** Give the process object a chance to indictate that it will produce more
    * output than it was requested to produce. For example, many imaging
    * filters must compute the entire output at once or can only produce output
@@ -232,33 +214,6 @@ public:
    * a process object does not modify the size of the output requested region. */
   virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
   
-  /** What is the input requested region that is required to produce the
-   * output requested region? By default, the largest possible region is
-   * always required but this is overridden in many subclasses. For instance,
-   * for an image processing filter where an output pixel is a simple function
-   * of an input pixel, the input requested region will be set to the output
-   * requested region.  For an image processing filter where an output pixel
-   * is a function of the pixels in a neighborhood of an input pixel, then
-   * the input requested region will need to be larger than the output
-   * requested region (to avoid introducing artificial boundary conditions).
-   * This function should never request an input region that is outside the
-   * the input largest possible region (i.e. implementations of this method
-   * should crop the input requested region at the boundaries of the input
-   * largest possible region). */
-  virtual void GenerateInputRequestedRegion();
-  
-  /** Given one output whose requested region has been set, how should
-   * the requested regions for the remaining outputs of the process object
-   * be set?  By default, all the outputs are set to the same requested
-   * region.  If a filter needs to produce different requested regions
-   * for each output, for instance an image processing filter producing
-   * several outputs at different resolutions, then that filter may
-   * override this method and set the requested regions appropriatedly.
-   *
-   * Note that a filter producing multiple outputs of different types is
-   * required to override this method.  The default implementation
-   * can only correctly handle multiple outputs of the same type. */
-  virtual void GenerateOutputRequestedRegion(DataObject *output);
 
   /** Reset the pipeline. If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
@@ -309,6 +264,52 @@ protected:
   virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
   itkGetConstReferenceMacro(NumberOfRequiredInputs,unsigned int);
+  
+  /** What is the input requested region that is required to produce the
+   * output requested region? By default, the largest possible region is
+   * always required but this is overridden in many subclasses. For instance,
+   * for an image processing filter where an output pixel is a simple function
+   * of an input pixel, the input requested region will be set to the output
+   * requested region.  For an image processing filter where an output pixel
+   * is a function of the pixels in a neighborhood of an input pixel, then
+   * the input requested region will need to be larger than the output
+   * requested region (to avoid introducing artificial boundary conditions).
+   * This function should never request an input region that is outside the
+   * the input largest possible region (i.e. implementations of this method
+   * should crop the input requested region at the boundaries of the input
+   * largest possible region). */
+  virtual void GenerateInputRequestedRegion();
+  
+  /** Given one output whose requested region has been set, how should
+   * the requested regions for the remaining outputs of the process object
+   * be set?  By default, all the outputs are set to the same requested
+   * region.  If a filter needs to produce different requested regions
+   * for each output, for instance an image processing filter producing
+   * several outputs at different resolutions, then that filter may
+   * override this method and set the requested regions appropriatedly.
+   *
+   * Note that a filter producing multiple outputs of different types is
+   * required to override this method.  The default implementation
+   * can only correctly handle multiple outputs of the same type. */
+  virtual void GenerateOutputRequestedRegion(DataObject *output);
+
+  /** An opportunity to Allocate/Deallocate bulk data. Some filters may wish
+   *  to reuse the existing bulk data. The default implementation applies Initialize()
+   *  to each Output. DataObject::Initialize() frees its bulk data.
+   */
+  virtual void PrepareOutputs();
+
+  /** Generate the information decribing the output data. The default 
+   * implementation of this method will copy information from the input to
+   * the output.  A filter may override this method if its output will have
+   * different information than its input.  For instance, a filter that 
+   * shrinks an image will need to provide an implementation for this 
+   * method that changes the spacing of the pixels. Such filters should call
+   * their superclass' implementation of this method prior to changing the
+   * information values they need (i.e. GenerateOutputInformation() should
+   * call Superclass::GenerateOutputInformation() prior to changing the
+   * information. */
+  virtual void GenerateOutputInformation();
   
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
