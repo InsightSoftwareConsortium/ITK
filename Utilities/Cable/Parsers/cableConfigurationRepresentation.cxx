@@ -174,9 +174,37 @@ Set
  */
 void
 Set
-::Add(const String& tag, const String& code)
+::AddElement(const String& tag, const String& code)
 {
   m_Elements.insert(ElementContainer::value_type(tag, code));
+}
+
+
+/**
+ * Add a header file on which the Set depends.
+ */
+void
+Set
+::AddFile(const String& name, const String& purpose)
+{
+  m_Files.push_back(File());
+  m_Files.back().name = name;
+  m_Files.back().purpose = purpose;
+}
+
+
+/**
+ * Add file dependencies from another set.
+ */
+void
+Set
+::AddFilesFrom(const Set& set)
+{
+  for(FilesIterator f = set.FilesBegin();
+      f != set.FilesEnd(); ++f)
+    {
+    m_Files.push_back(*f);
+    }
 }
 
 
@@ -625,8 +653,64 @@ PackageNamespace
 PackageNamespace
 ::PackageNamespace(const String& in_name, const String& in_prefixSeparator,
                    Namespace* in_enclosingNamespace):
-  Namespace(in_name, in_prefixSeparator, in_enclosingNamespace)
+  Namespace(in_name, in_prefixSeparator, in_enclosingNamespace),
+  m_Package(NULL)
 {
+}
+
+
+/**
+ * Set the Package containing this PackageNamespace.
+ */
+void
+PackageNamespace
+::SetPackage(Package* package)
+{
+  m_Package = package;
+  
+  // Any nested PackageNamespaces must be set to the given package as well.
+  for(Fields::const_iterator f = m_Fields.begin(); f != m_Fields.end(); ++f)
+    {
+    // If the field is a namespace, set its package.  Otherwise, ignore it.
+    if(f->second->IsPackageNamespace())
+      {
+      PackageNamespace* pns =
+        dynamic_cast<PackageNamespace*>(f->second.RealPointer());
+      pns->SetPackage(package);
+      }
+    }
+}
+
+
+/**
+ * Walk through all Sets in the namespace (and nested namespaces) to collect
+ * their header dependencies.
+ */
+void
+PackageNamespace
+::CollectHeaders(Headers* headers)
+{
+  // Walk through the fields to recurse into nested PackageNamespaces.
+  for(Fields::const_iterator f = m_Fields.begin(); f != m_Fields.end(); ++f)
+    {
+    if(f->second->IsPackageNamespace())
+      {
+      PackageNamespace* pns =
+        dynamic_cast<PackageNamespace*>(f->second.RealPointer());
+      pns->CollectHeaders(headers);
+      }
+    }
+  
+  // Add the header dependencies from this PackageNamespace's wrappers.
+  for(Wrappers::const_iterator w = m_Wrappers.begin();
+      w != m_Wrappers.end(); ++w)
+    {
+    if((*w)->IsInstantiationSet() || (*w)->IsWrapperSet())
+      {
+      Set* set = dynamic_cast<Set*>((*w).RealPointer());
+      headers->AddFilesFrom(*set);
+      }
+    }
 }
 
 
@@ -702,6 +786,21 @@ Headers
 
 
 /**
+ * Add file dependencies from a Set.
+ */
+void
+Headers
+::AddFilesFrom(const Set& set)
+{
+  for(FilesIterator f = set.FilesBegin();
+      f != set.FilesEnd(); ++f)
+    {
+    m_Files.push_back(*f);
+    }
+}
+
+
+/**
  * Add a directory to the set of header directories.
  */
 void
@@ -724,6 +823,25 @@ Package
 
 
 /**
+ * When the Package is fully defined, this walks through it to collect
+ * header dependencies.
+ */
+void
+Package
+::Finalize()
+{
+  // Make sure we have a Headers block.
+  if(!m_Headers)
+    {
+    m_Headers = Headers::New();
+    }
+  
+  // Walk the all the PackageNamespaces and ask for their Sets' headers.
+  m_StartingNamespace->CollectHeaders(m_Headers);
+}
+
+
+/**
  * Constructor sets up the name of the package and its namespace.
  */
 Package
@@ -731,6 +849,8 @@ Package
   Named(name),
   m_StartingNamespace(ns)
 {
+  // Tell the namespace that this Package contains it.
+  m_StartingNamespace->SetPackage(this);
 }
 
 

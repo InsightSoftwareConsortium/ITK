@@ -615,6 +615,9 @@ void
 Parser
 ::end_Package()
 {
+  // Tell the Package it is fully defined.
+  this->CurrentPackage()->Finalize();
+  
   this->PopElement();
   if(this->TopParseElement()->IsCableConfiguration())
     {
@@ -704,9 +707,17 @@ Parser
   String name = atts.Get("name");
   String purpose = atts.Have("purpose") ?
     atts.Get("purpose") : "";
-
-  // Add the file to the current set of headers.
-  this->CurrentHeaders()->AddFile(name, purpose);
+  
+  if(this->TopParseElement()->IsHeaders())
+    {
+    // Add the file to the current set of headers.
+    this->CurrentHeaders()->AddFile(name, purpose);
+    }
+  else
+    {
+    // Add the file to the current Set's dependencies.
+    this->CurrentSet()->AddFile(name, purpose);
+    }
 }
 
 
@@ -1321,8 +1332,15 @@ ElementCombinationGenerator
   // single combination.
   if(m_Substitutions.empty())
     {
-    out_set->Add(m_Element->GetTag(), m_Element->GetCode());
+    out_set->AddElement(m_Element->GetTag(), m_Element->GetCode());
     return;
+    }
+
+  // Add to the set all file dependencies from sets used in substitutions.
+  for(Substitutions::const_iterator substitution = m_Substitutions.begin();
+      substitution != m_Substitutions.end(); ++substitution)
+    {
+    out_set->AddFilesFrom(*(substitution->first));
     }
   
   // We must generate all combinations of substitutions.
@@ -1353,7 +1371,7 @@ ElementCombinationGenerator
       code.append((*i)->GetCode());
       }
     // Add this combination to the output set.
-    out_set->Add(tag, code);
+    out_set->AddElement(tag, code);
     }
   else
     {

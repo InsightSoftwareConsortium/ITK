@@ -104,6 +104,7 @@ private:
   std::vector<String>  m_PackageNames;
 };
 
+class Set;
 
 /**
  * Store a set of directories and header files.
@@ -121,6 +122,7 @@ public:
   static Pointer New();
   
   void AddFile(const String&, const String&);
+  void AddFilesFrom(const Set&);
   void AddDirectory(const String&);
   
   struct File { String name; String purpose; };
@@ -259,7 +261,9 @@ public:
   
   static Pointer New(const String&);
   
-  void Add(const String&, const String&);
+  void AddElement(const String&, const String&);
+  void AddFile(const String&, const String&);
+  void AddFilesFrom(const Set&);
   
   typedef std::multimap<String, String> ElementContainer;
   typedef ElementContainer::iterator  Iterator;
@@ -270,6 +274,13 @@ public:
   ConstIterator Begin() const { return m_Elements.begin(); }
   ConstIterator End() const   { return m_Elements.end(); }
   unsigned long Size() const  { return m_Elements.size(); }
+
+  typedef Headers::File File;
+  typedef Headers::Files Files;
+  typedef Headers::FilesIterator FilesIterator;
+
+  FilesIterator FilesBegin() const { return m_Files.begin(); }
+  FilesIterator FilesEnd() const { return m_Files.end(); }
   
 protected:
   Set(const String& in_name): Named(in_name) {}
@@ -283,6 +294,11 @@ private:
    * can have the same tag, so this must be a multi-map.
    */
   ElementContainer  m_Elements;
+  
+  /**
+   * The header files needed by types in this Set.
+   */
+  Files m_Files;
 };
 
 
@@ -397,7 +413,7 @@ private:
   bool ParseQualifiedName(const String&, QualifiersInserter) const;
   
   QualifiersConstIterator Next(QualifiersConstIterator) const;
-private:
+protected:
   typedef std::map<String, Named::Pointer>  Fields;
   
   /**
@@ -425,6 +441,8 @@ private:
 };
 
 
+class Package;
+
 /**
  * Represent the copy of a Namespace used in a Package.  This additionally
  * stores the WrapperSet and InstantiationSet instances defined in a Package.
@@ -440,6 +458,9 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return PackageNamespace_id; }
   
   static Pointer New(const String&, const String&, Namespace*);
+
+  void SetPackage(Package*);
+  void CollectHeaders(Headers*);
   
   void AddWrapperSet(WrapperSet*);
   void AddInstantiationSet(InstantiationSet*);
@@ -454,14 +475,22 @@ public:
 
 protected:
   PackageNamespace(const String&, const String&, Namespace*);
-  PackageNamespace(const Self&): Namespace("","",NULL) {}
+  PackageNamespace(const Self&): Namespace("","",NULL), m_Package(NULL) {}
   void operator=(const Self&) {}
   virtual ~PackageNamespace() {}
+
+  // Pull down Fields typedef from superclass.
+  typedef Namespace::Fields Fields;
   
 private:
   /**
+   * The package containing this PackageNamespace's package.
+   */
+  Package* m_Package;
+  
+  /**
    * List of WrapperSets and InstantiationSets that have been defined
-   * in this NamespacePackage's Package, in order.
+   * in this PackageNamespace's Package, in order.
    */
   Wrappers m_Wrappers;
 };
@@ -495,6 +524,8 @@ public:
   
   PackageNamespace::Pointer GetStartingNamespace() const
     { return m_StartingNamespace; }  
+
+  void Finalize();
   
 protected:
   Package(const String&, PackageNamespace*);
