@@ -56,6 +56,12 @@ public:
   typedef RGBAPixel  Self;
   typedef FixedArray<TComponent, 4> Super;
     
+  /** Dimension of the vector space. */
+  itkStaticConstMacro(Dimension, unsigned int, 4);
+
+  /** Length of the pixel. */
+  itkStaticConstMacro(Length, unsigned int, 4);
+
   /** Convenience typedefs. */
   typedef FixedArray<TComponent, 4> BaseArray;
   

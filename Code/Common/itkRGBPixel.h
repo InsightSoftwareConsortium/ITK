@@ -57,6 +57,7 @@ public:
   
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, 3);
+  itkStaticConstMacro(Length, unsigned int, 3);
 
   /** Convenience typedefs. */
   typedef FixedArray<TComponent, 3> BaseArray;
