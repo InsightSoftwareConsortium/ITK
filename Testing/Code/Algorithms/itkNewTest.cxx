@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkBackwardDifferenceOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkAddImageFilter.h"
-#include "itkBinaryImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 // #include "itkDerivativeImageFilter.h"
 // #include "itkDiscreteGaussianImageFilter.h"
@@ -56,7 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // #include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
 // #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 // #include "itkSubtractImageFilter.h"
-// #include "itkTernaryImageFilter.h"
+// #include "itkTernaryFunctorImageFilter.h"
 // #include "itkTernaryAddImageFilter.h"
 // #include "itkTernaryMagnitudeImageFilter.h"
 // #include "itkTernaryMagnitudeSquaredImageFilter.h"
@@ -144,7 +144,7 @@ int main ( int argc, char* argv[] )
   iFIA::Pointer FIA = iFIA::New();
   
   // BinaryImageFilter
-  typedef itk::BinaryImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
+  typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
   iFIB::Pointer FIB = iFIB::New();
   
   return 0;
