@@ -164,6 +164,7 @@ public:
   /** Set/Get the number of multi-resolution levels. */
   itkSetClampMacro( NumberOfLevels, unsigned long, 1,
     NumericTraits<unsigned long>::max() );
+  itkGetMacro( NumberOfLevels, unsigned long );
 
   /** Get the current resolution level being processed. */
   itkGetMacro( CurrentLevel, unsigned long );
@@ -195,7 +196,10 @@ protected:
 
   /** Compute the size of the fixed region for each level of the pyramid. */
   void PreparePyramids( void );
-  
+
+  /** Set the current level to be processed */  
+  itkSetMacro( CurrentLevel, unsigned long );
+
 private:
   MultiResolutionImageRegistrationMethod(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
