@@ -26,7 +26,6 @@
 
 #include "itkMembershipFunctionBase.h"
 
-#define PI 3.141592
 
 namespace itk{ 
   namespace Statistics{
