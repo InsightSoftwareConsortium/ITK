@@ -18,6 +18,8 @@
 #define __itkVTKImageExport_txx
 #include "itkVTKImageExport.h"
 
+#include "itkPixelTraits.h"
+
 namespace itk
 {
 
@@ -209,7 +211,11 @@ const char* VTKImageExport<TInputImage, TVTKRealType>::ScalarTypeCallback()
 template <class TInputImage, typename TVTKRealType>
 int VTKImageExport<TInputImage, TVTKRealType>::NumberOfComponentsCallback()
 {
-  return 1;
+  typedef typename TInputImage::PixelType                 PixelType;
+  typedef typename PixelTraits< PixelType >::ValueType    ValueType;
+
+  // on the assumption that there is no padding in this pixel type...
+  return sizeof( PixelType ) / sizeof( ValueType );
 }
 
 
