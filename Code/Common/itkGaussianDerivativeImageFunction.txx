@@ -291,7 +291,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
         {
         unsigned int id= 2*direction+1; // select only gaussian kernel;
         unsigned int center = (unsigned int)((m_OperatorArray[id].GetSize()[direction]-1)/2);
-        InputPixelType centerval = m_OperatorArray[id].GetCenterValue();
+        TOutput centerval = m_OperatorArray[id].GetCenterValue();
         m_OperatorArray[id][center] = 0;
         m_OperatorImageFunction->SetOperator(m_OperatorArray[id]);
         value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
@@ -300,7 +300,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     
     // then derivative in the direction
     signed int center = (unsigned int)((m_OperatorArray[2*i].GetSize()[i]-1)/2);
-    InputPixelType centerval = m_OperatorArray[2*i].GetCenterValue();
+    TOutput centerval = m_OperatorArray[2*i].GetCenterValue();
     m_OperatorArray[2*i][center] = 0;
     m_OperatorImageFunction->SetOperator(m_OperatorArray[2*i]);      
     value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
@@ -439,7 +439,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
         {
         unsigned int id= 2*direction+1; // select only gaussian kernel;
         unsigned int center = (unsigned int)((m_ContinuousOperatorArray[id].GetSize()[direction]-1)/2);
-        InputPixelType centerval = m_ContinuousOperatorArray[id][center];
+        TOutput centerval = m_ContinuousOperatorArray[id][center];
         m_ContinuousOperatorArray[id][center] = 0;
         m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[id]);
         value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
@@ -448,7 +448,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     
     // then derivative in the direction
     signed int center = (unsigned int)((m_ContinuousOperatorArray[2*i].GetSize()[i]-1)/2);
-    InputPixelType centerval = m_ContinuousOperatorArray[2*i][center];
+    TOutput centerval = m_ContinuousOperatorArray[2*i][center];
     m_ContinuousOperatorArray[2*i][center] = 0;
     m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[2*i]);      
     value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
