@@ -130,19 +130,39 @@ public:
   typedef TTarget TargetType;
  
   /**
+   * TargetImageDimension enumeration
+   */
+  enum { TargetImageDimension = TargetType::ImageDimension };
+
+  /**
    *  Type of the match measure
    */
   typedef TMeasure  MeasureType; 
 
   /**
+   * Type of the Transform
+   */
+  typedef typename MapperType::TransformationType TransformationType;
+
+  /**
+   * Space dimension is the dimension of parameters space
+   */
+   enum { SpaceDimension = TMapper::SpaceDimension };    
+
+  /**
+   *  Parameters type
+   */
+  typedef typename TransformationType::ParametersType ParametersType;
+
+  /**
    *  Type of the derivative of the match measure
    */
-  typedef itk::VectorContainer<unsigned int,TDerivative>  DerivativeType;
+  typedef Vector<TDerivative,SpaceDimension>  DerivativeType;
 
   /**
    * Type of the vector match measure
    */
-  typedef itk::VectorContainer<unsigned int,TMeasure>     VectorMeasureType;
+  typedef Vector<TMeasure,SpaceDimension>     VectorMeasureType;
 
   /**
    *  Pointer type for the Reference 
@@ -158,16 +178,6 @@ public:
    *  Pointer type for the Mapper
    */
   typedef typename MapperType::Pointer MapperPointer;
-
-  /**
-   *  Parameters type
-   */
-  typedef itk::VectorContainer<unsigned int,double> ParametersType;
-
-  /**
-   * TargetImageDimension enumeration
-   */
-  enum { TargetImageDimension = TargetType::ImageDimension };
 
   /**
    * TargetIndex typedef support
@@ -202,12 +212,19 @@ public:
   /**
    * Set the Transformation parameters
    */
-  void SetParameters( ParametersType * );
+  void SetParameters( const ParametersType& params )
+    { m_Parameters = params; }
+
+  /**
+   * Get Parameters
+   */
+  const ParametersType& GetParameters( void ) const 
+    { return m_Parameters; }
 
   /**
    * Get the Derivatives of the Match Measure
    */
-  DerivativeType::Pointer GetDerivative( void );
+  DerivativeType& GetDerivative( void );
 
   /**
    *  Get the Value for SingleValue Optimizers
@@ -217,25 +234,14 @@ public:
   /**
    *  Get the Value for MultipleValuedOptimizers
    */
-  void  GetValue(VectorMeasureType::Pointer &);
+  void GetValue( VectorMeasureType& );
 
   /**
    *  Get Value and Derivatives for SingleValuedOptimizers
    */
-  void GetValueAndDerivative(MeasureType & Value, DerivativeType::Pointer & Derivative );
+  void GetValueAndDerivative(MeasureType& Value, DerivativeType& Derivative );
 
-  /**
-   * Get Parameters
-   */
-  const ParametersType::Pointer & GetParameters( void ) const 
-    { return m_Parameters; }
   
-  /**
-   * Space dimension is the dimension of parameters space
-   */
-   enum { SpaceDimension = TMapper::SpaceDimension };    
-   enum { RangeDimension = 9 };
-
   /**
    * Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -301,9 +307,9 @@ protected:
   TargetPointer               m_Target;
   MapperPointer               m_Mapper;
   MeasureType                 m_MatchMeasure;
-  VectorMeasureType::Pointer  m_VectorMatchMeasure;        
-  DerivativeType::Pointer     m_MatchMeasureDerivatives;
-  ParametersType::Pointer     m_Parameters;
+  VectorMeasureType           m_VectorMatchMeasure;        
+  DerivativeType              m_MatchMeasureDerivatives;
+  ParametersType              m_Parameters;
 
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {};
@@ -383,13 +389,12 @@ private:
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives( TargetPointType&, IntensityDerivativeType * );
+  void CalculateDerivatives( TargetPointType&, IntensityDerivativeType& );
 
   typedef CentralDerivativeImageFunction< ReferenceType > 
     DerivativeFunctionType;
 
-  typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
-  
+  typename DerivativeFunctionType::Pointer      m_DerivativeCalculator;
 
 };
 

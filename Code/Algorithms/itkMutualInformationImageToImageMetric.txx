@@ -30,10 +30,6 @@ template < class TTarget, class TMapper, class TMeasure,  class TDerivative >
 MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::MutualInformationImageToImageMetric()
 {
-  m_Parameters = ParametersType::New();
-  m_Parameters->Reserve(TMapper::SpaceDimension);
-  m_MatchMeasureDerivatives = DerivativeType::New();
-  m_MatchMeasureDerivatives->Reserve(TMapper::SpaceDimension);
 
   this->SetNumberOfSpatialSamples( 50 );
 
@@ -76,26 +72,6 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 {
   this->m_Mapper = mapper;
 }
-
-/**
- * Set the parameters
- */
-template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
-void
-MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
-::SetParameters( ParametersType * parameters ) 
-{
-  ParametersType::ConstIterator inIt = parameters->Begin();
-  ParametersType::Iterator outIt = m_Parameters->Begin();
-
-  while( inIt != parameters->End() )
-    {
-    outIt.Value() = inIt.Value();
-    ++outIt;
-    ++inIt;
-    }
-}
-
 
 /**
  * Uniformly sample the target domain. Each sample consists of:
@@ -235,19 +211,14 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
 void
 MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
-::GetValue(VectorMeasureType::Pointer & matchMeasure)
+::GetValue(VectorMeasureType& matchMeasure)
 {
 
   // call the single-valued version
   this->GetValue();
  
   // fill measure vector with the same value
-  typename VectorMeasureType::Iterator it = matchMeasure->Begin();
-  while(it != matchMeasure->End() )
-  {
-    it.Value() = m_MatchMeasure;
-	it++;
-  }
+  matchMeasure = m_MatchMeasure;
 
 }
 
@@ -260,18 +231,11 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
 void
 MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
-::GetValueAndDerivative(MeasureType & Value, DerivativeType::Pointer  & Derivative)
+::GetValueAndDerivative(MeasureType& Value, DerivativeType& Derivative)
 {
 
-  typename DerivativeType::Iterator diter;
-  typename DerivativeType::Iterator dend = m_MatchMeasureDerivatives->End();
-
   // reset the derivatives all to zero
-  for( diter = m_MatchMeasureDerivatives->Begin(); diter != dend; ++diter )
-    {
-    diter.Value() = 0;
-    }
-
+  m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
 
   // check if target and mapper are valid
@@ -282,13 +246,11 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
     return;
     }
 
-  //
-  // Set the DerivativeCalculator
-  //
-  m_DerivativeCalculator->SetInputImage( m_Mapper->GetDomain() );
-
   // make sure the mapper has the current parameters
   m_Mapper->GetTransformation()->SetParameters( m_Parameters );
+
+  // set the DerivativeCalculator
+  m_DerivativeCalculator->SetInputImage( m_Mapper->GetDomain() );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -320,12 +282,11 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
   for( aiter = m_SampleA.begin(), aditer = m_SampleADerivatives.begin();
     aiter != aend; ++aiter, ++aditer )
     {
-    this->CalculateDerivatives( (*aiter).TargetPointValue, &(*aditer) );
+    this->CalculateDerivatives( (*aiter).TargetPointValue, (*aditer) );
     }  
 
 
-  IntensityDerivativeType derivDiff;
-
+  IntensityDerivativeType derivB;
 
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
@@ -359,6 +320,9 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
     dLogSumRef -= log( dDenominatorRef / referenceDenom );
     dLogSumJoint -= log( dDenominatorJoint / jointDenom );
 
+    // get the image derivative for this B sample
+    this->CalculateDerivatives( (*biter).TargetPointValue, derivB );
+
     for( aiter = m_SampleA.begin(), aditer = m_SampleADerivatives.begin(); 
       aiter != aend; ++aiter )
       {
@@ -381,20 +345,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
       weight = ( weightRef - weightJoint ) / m_ReferenceStandardDeviation;
       weight *= (*biter).ReferenceValue - (*aiter).ReferenceValue;
-
-      // get the image derivative for this B sample
-      this->CalculateDerivatives( (*biter).TargetPointValue, &derivDiff );
-
-      derivDiff -= *aditer;
-      derivDiff *= weight;
-
-      typename IntensityDerivativeType::ConstIterator fiter;
-
-      for( fiter = derivDiff.Begin(), diter = m_MatchMeasureDerivatives->Begin(); 
-        diter != dend; ++diter, ++fiter )
-        {
-        diter.Value() += *fiter;
-        }
+ 
+      m_MatchMeasureDerivatives += ( derivB - (*aditer) ) * weight;
 
       } // end of sample A loop
 
@@ -406,10 +358,7 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 
   m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
 
-  for( diter = m_MatchMeasureDerivatives->Begin(); diter != dend; ++diter )
-    {
-    diter.Value() /= nsamp;
-    }
+  m_MatchMeasureDerivatives /= nsamp;
 
   Value = m_MatchMeasure;
   Derivative =  m_MatchMeasureDerivatives;
@@ -421,13 +370,13 @@ MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
  * Get both the match Measure and theDerivative Measure 
  */
 template < class TTarget, class TMapper, class TMeasure,  class TDerivative > 
-MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>::DerivativeType::Pointer
+MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>::DerivativeType&
 MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::GetDerivative( void )
 {
 
   MeasureType value;
-  DerivativeType::Pointer deriv;
+  DerivativeType deriv;
   // call the combined version
   this->GetValueAndDerivative( value, deriv );
 
@@ -450,7 +399,7 @@ void
 MutualInformationImageToImageMetric<TTarget,TMapper,TMeasure,TDerivative>
 ::CalculateDerivatives( 
 TargetPointType& point,
-IntensityDerivativeType * derivatives )
+IntensityDerivativeType& derivatives )
 {
 
   TargetPointType refPoint;
@@ -469,22 +418,8 @@ IntensityDerivativeType * derivatives )
     imageDerivatives[j] = m_DerivativeCalculator->Evaluate( refIndex, j );
     }
 
-  typename IntensityDerivativeType::Iterator iter = derivatives->Begin();
-
-  for( unsigned int row = 0; row < TargetImageDimension; row++ )
-    {
-    for( unsigned int col = 0; col < TargetImageDimension; col++ )
-      {
-      *iter = imageDerivatives[row] * point[col];
-      ++iter;
-      }
-    }
-
-  for( unsigned int j = 0; j < TargetImageDimension; j++ )
-   {
-    *iter = imageDerivatives[j];
-    ++iter;
-   }
+  derivatives.Set_vnl_vector( m_Mapper->GetTransformation()->GetJacobian( point ).GetTranspose() 
+    * imageDerivatives.Get_vnl_vector() );
 
 }
 
