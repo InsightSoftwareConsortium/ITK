@@ -149,7 +149,7 @@ int main( int argc, char **argv )
   // Software Guide : BeginLatex
   //
   // We then select the number of bins to represent the histograms and the number
-  // of points or quantiles values where are to be matched.
+  // of points or quantiles values where the histogram is to be matched.
   //
   // \index{itk::HistogramMatchingImageFilter!SetNumberOfHistogramLevels()}
   // \index{itk::HistogramMatchingImageFilter!SetNumberOfMatchPoints()}
@@ -358,7 +358,7 @@ int main( int argc, char **argv )
   // \label{fig:DeformableRegistration2Output}
   // \end{figure}
   // 
-  // The results of the demons-based deformable registration is presented in
+  // The result of the demons-based deformable registration is presented in
   // Figure \ref{fig:DeformableRegistration2Output}. The checkerboard
   // comparision shows that the algorithm was able to recover the misalignment
   // due to expiration.
