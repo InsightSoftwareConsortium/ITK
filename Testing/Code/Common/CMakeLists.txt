@@ -17,6 +17,7 @@ itkImageAdaptorTest
 itkImageIteratorTest
 itkImageIteratorsForwardBackwardTest
 itkImageLinearIteratorTest
+itkImageSliceIteratorTest
 itkIteratorTests
 itkMatrixTest
 itkMemoryLeakTest
@@ -54,6 +55,7 @@ ADD_EXECUTABLE(itkImageAdaptorTest itkImageAdaptorTest)
 ADD_EXECUTABLE(itkImageIteratorTest itkImageIteratorTest)
 ADD_EXECUTABLE(itkImageIteratorsForwardBackwardTest itkImageIteratorsForwardBackwardTest)
 ADD_EXECUTABLE(itkImageLinearIteratorTest itkImageLinearIteratorTest)
+ADD_EXECUTABLE(itkImageSliceIteratorTest itkImageSliceIteratorTest)
 ADD_EXECUTABLE(itkIteratorTests itkIteratorTests)
 ADD_EXECUTABLE(itkMatrixTest itkMatrixTest)
 ADD_EXECUTABLE(itkMemoryLeakTest itkMemoryLeakTest)
