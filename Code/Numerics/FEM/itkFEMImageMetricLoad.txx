@@ -44,6 +44,10 @@ ImageMetricLoad<TReference , TTarget>
     tindex[k]=0;
   }
 
+// Set the number of integration points to zero (default for an element)
+
+  m_NumberOfIntegrationPoints=0;
+
 // Set the associated region
   requestedRegion.SetSize(size);
   requestedRegion.SetIndex(tindex);

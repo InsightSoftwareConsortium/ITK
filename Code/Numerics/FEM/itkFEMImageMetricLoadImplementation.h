@@ -62,7 +62,7 @@ public:
     // Order of integration
     // FIXME: Allow changing the order of integration by setting a 
     //        static member within an element base class.
-    unsigned int order=0;
+    unsigned int order=l0->GetNumberOfIntegrationPoints();
 
     const unsigned int Nip=element->GetNumberOfIntegrationPoints(order);
     const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();

@@ -204,6 +204,13 @@ public:
   /** Define the target (fixed) image region size. */ 
   void SetTargetRadius(TargetRadiusType T) {m_TarRadius  = T; };       
   
+  /** Set/Get methods for the number of integration points to use 
+    * in each 1-dimensional line integral when evaluating the load.
+    * This value is passed to the load implementation.
+    */
+  void SetNumberOfIntegrationPoints(unsigned int i){ m_NumberOfIntegrationPoints=i;}
+  unsigned int GetNumberOfIntegrationPoints(){ return m_NumberOfIntegrationPoints;}
+
 
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
@@ -260,6 +267,7 @@ private:
   TargetRadiusType                                    m_TarRadius; /** used by the metric to set region size for fixed image*/ 
   typename ReferenceType::SizeType                    m_RefSize;
   typename TargetType::SizeType                       m_TarSize;
+  unsigned int                                        m_NumberOfIntegrationPoints;
 
   typename Solution::ConstPointer                     m_Solution;
   typename MetricBaseTypePointer                      m_Metric;
