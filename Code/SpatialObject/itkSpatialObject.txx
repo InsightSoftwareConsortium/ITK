@@ -69,18 +69,6 @@ void
 SpatialObject< TDimension >
 ::Clear(void)
 {
-  // Call the Clear function of every child
-  typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator itEnd = m_Children.end();
-
-  while(it!=itEnd)
-    {
-    if((*it))
-      {
-      (*it)->Delete();
-      }
-    it++;
-    }
   m_Children.clear();
 }
 
@@ -275,8 +263,6 @@ void
 SpatialObject< TDimension > 
 ::AddSpatialObject( Self * pointer )
 {
-  pointer->Register(); // increase the reference count.
-
   typename ChildrenListType::iterator it;
 
   it = std::find(m_Children.begin(),m_Children.end(),pointer);
@@ -320,12 +306,6 @@ SpatialObject< TDimension >
     //throw an exception object to let user know that he tried to remove an object
     // which is not in the list of the children.
     }
-
-  if(found)
-    {
-    (pointer)->UnRegister();
-    }
-
 }
 
 /** Set the local to global transformation */
@@ -668,7 +648,7 @@ SpatialObject< TDimension >
   
   while(it != itEnd)
     {
-    (*it)->Register(); // increase the reference count
+    //(*it)->Register(); // increase the reference count
     (*it)->SetParent( this );  
     it++;
     }
