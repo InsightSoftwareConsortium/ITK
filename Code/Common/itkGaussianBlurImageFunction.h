@@ -78,6 +78,15 @@ public:
   typedef GaussianSpatialFunction<TOutput,1>  GaussianFunctionType;
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
+  typedef itk::FixedArray< double, 
+                  itkGetStaticConstMacro(ImageDimension) >   ErrorArrayType;
+
+  typedef itk::FixedArray< double, 
+                  itkGetStaticConstMacro(ImageDimension) >   ExtentArrayType;
+
+  typedef itk::FixedArray< double, 
+                  itkGetStaticConstMacro(ImageDimension) >   SigmaArrayType;
+
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
   
@@ -100,7 +109,8 @@ public:
   void SetSigma( const double sigma[ImageDimension] );
   void SetSigma( const float sigma[ImageDimension] );
   void SetSigma( const double sigma);
-  const double* GetSigma() const {return m_Sigma;}
+  itkSetMacro( Sigma, SigmaArrayType );
+  itkGetConstReferenceMacro( Sigma, SigmaArrayType );
   
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
@@ -108,9 +118,26 @@ public:
    * SetInputImage again to update cached values. */
   virtual void SetInputImage( const InputImageType * ptr );
 
+  /** Set/Get the Extent of the array holding the coefficients
+   *  of the Gaussian kernel computed by the GaussianOperator.
+   */
+  itkSetMacro( Extent, ExtentArrayType );
+  itkGetConstReferenceMacro( Extent, ExtentArrayType );
   void SetExtent( const double extent[ImageDimension] );
   void SetExtent( const double extent);
-  const double* GetExtent() const {return m_Extent;}
+
+  /** Set/Get the maximum error acceptable for the approximation
+   *  of the Gaussian kernel with the GaussianOperator.
+   */
+  itkSetMacro( MaximumError, ErrorArrayType );
+  itkGetConstReferenceMacro( MaximumError, ErrorArrayType );
+
+  /** Set/GetMaximumKernelWidth() This value is used by the underling 
+   *  GaussianOperator for computing the number of coefficients to be 
+   *  used in the Gaussian kernel  
+   */
+  itkSetMacro( MaximumKernelWidth, int );
+  itkGetMacro( MaximumKernelWidth, int );
 
 protected:
   GaussianBlurImageFunction();
@@ -127,7 +154,7 @@ protected:
 
 private:
   
-  double                        m_Sigma[ImageDimension];
+  SigmaArrayType                m_Sigma;
   OperatorImageFunctionPointer  m_OperatorImageFunction;
   mutable OperatorArrayType     m_OperatorArray;
   mutable OperatorArrayType     m_ContinuousOperatorArray;
@@ -135,8 +162,8 @@ private:
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  double m_MaximumError[ImageDimension];
-  double m_Extent[ImageDimension];
+  ErrorArrayType                m_MaximumError;
+  ExtentArrayType               m_Extent;
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */

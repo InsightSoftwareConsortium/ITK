@@ -67,7 +67,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   // Testing Set/GetVariance()
   std::cout << "Testing Set/GetVariance(): ";  
   gaussianFunction->SetSigma(5.0);
-  const double* sigma = gaussianFunction->GetSigma();
+  const GFunctionType::SigmaArrayType & sigma = gaussianFunction->GetSigma();
   
   for(unsigned int i=0;i<Dimension;i++)
   {
@@ -83,7 +83,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   std::cout << "Testing Set/GetExtent(): ";
     
   gaussianFunction->SetExtent(5.0);
-  const double* ext = gaussianFunction->GetExtent();
+  const GFunctionType::ExtentArrayType & ext = gaussianFunction->GetExtent();
   
   for(unsigned int i=0;i<Dimension;i++)
   {
@@ -94,7 +94,47 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
     }
   }
   std::cout << "[PASSED] " << std::endl;
-  
+
+
+   // Testing Set/GetMaximumError()
+  {
+    std::cout << "Testing Set/GetMaximumError(): ";
+    GFunctionType::ErrorArrayType  setError;
+    
+    setError.Fill( 0.05 );
+    gaussianFunction->SetMaximumError( setError );
+
+    const GFunctionType::ErrorArrayType & readError =
+                            gaussianFunction->GetMaximumError();
+    
+    for(unsigned int i=0;i<Dimension;i++)
+    {
+      if( fabs( setError[i] - readError[i] ) > 1e-6 )
+      {
+      std::cerr << "[FAILED]" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+    std::cout << "[PASSED] " << std::endl;
+  } 
+
+  // Testing Set/GetMaximumKernelWidth()
+  {
+    std::cout << "Testing Set/GetMaximumKernelWidth(): ";
+    int setKernelWidth = 47;
+    
+    gaussianFunction->SetMaximumKernelWidth( setKernelWidth );
+
+    int readKernelWidth = gaussianFunction->GetMaximumKernelWidth();
+    
+    if( readKernelWidth != setKernelWidth )
+      {
+      std::cerr << "[FAILED]" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "[PASSED] " << std::endl;
+  } 
+
 
   GFunctionType::OutputType  blurredvalue_index;
   blurredvalue_index = gaussianFunction->EvaluateAtIndex( index );
