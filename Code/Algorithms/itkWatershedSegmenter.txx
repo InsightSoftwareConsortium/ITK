@@ -953,13 +953,7 @@ void Segmenter<TInputImage>
       segment_ptr = segments->Lookup((*edge_table_entry_ptr).first);
       if ( segment_ptr == 0 )
         {
-          ExceptionObject e(__FILE__, __LINE__);
-          std::ostrstream msg;
-          msg << (char *) this->GetNameOfClass()
-              << "::UpdateSegmentTable()" << std::ends;
-          e.SetLocation(msg.str());
-          e.SetDescription("An unexpected and fatal error has occurred.");
-          throw e;
+        itkGenericExceptionMacro ( << "UpdateSegmentTable:: An unexpected and fatal error has occurred.");
         }
 
       // Copy into the segment list
@@ -1077,12 +1071,7 @@ void Segmenter<TInputImage>
       if ( ((a = regions.find((*it).first)) == regions.end())
            || ((b = regions.find((*it).second)) == regions.end()) )
         {
-          ExceptionObject e(__FILE__, __LINE__);
-          std::ostrstream msg;
-          msg << "Segmenter::MergeFlatRegions" << std::ends;
-          e.SetLocation(msg.str());
-          e.SetDescription("An unexpected and fatal error has occurred.");
-          throw e;
+        itkGenericExceptionMacro ( << "MergeFlatRegions:: An unexpected and fatal error has occurred.");
         }
       
       if ((*a).second.bounds_min < (*b).second.bounds_min)
@@ -1105,6 +1094,7 @@ void Segmenter<TInputImage>
   
   unsigned long temp;
   ImageRegionIterator<OutputImageType> it(img, region);
+
   it = it.Begin();
   while ( !it.IsAtEnd() )
     {

@@ -294,12 +294,7 @@ void SegmentTreeGenerator<TScalarType>
 
   if (from_seg == 0 || to_seg == 0)
     {
-      ExceptionObject e(__FILE__, __LINE__);
-      std::ostrstream msg;
-      msg << "SegmentTreeGenerator::PruneMergeSegments()" << std::ends;
-      e.SetLocation(msg.str());
-      e.SetDescription("An unexpected and fatal error has occurred.");
-      throw e;
+    itkGenericExceptionMacro ( << "PruneMergeSegments:: An unexpected and fatal error has occurred.");
     }
 
   // Compare the minimum values.
@@ -427,12 +422,7 @@ void SegmentTreeGenerator<TScalarType>
 
   if (from_seg == 0 || to_seg == 0)
     {
-      ExceptionObject e(__FILE__, __LINE__);
-      std::ostrstream msg;
-      msg <<"SegmentTreeGenerator::MergeSegments()" << std::ends;
-      e.SetLocation(msg.str());
-      e.SetDescription("An unexpected and fatal error has occurred.");
-      throw e;
+    itkGenericExceptionMacro ( << "MergeSegments:: An unexpected and fatal error has occurred.");
     }
 
   // Compare the minimum values.
