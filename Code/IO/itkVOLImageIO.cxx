@@ -315,6 +315,7 @@ void VOLImageIO::ReadData(FILE * fp, void * buffer, size_t size, long pos)
    }
 #endif
 
-}
+} 
+
 
 } // namespace itk
