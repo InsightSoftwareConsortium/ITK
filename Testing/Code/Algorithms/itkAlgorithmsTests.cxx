@@ -3,12 +3,12 @@
 
 #include "itkTestMain.h" 
 
+// WARNING: Do not add any more tests to this program. Add new tests
+// to itkAlgorithmsTests2.cxx. This file has become too large for the
+// Borland linker.
 
 void RegisterTests()
 {
-REGISTER_TEST(itkAlgorithmsPrintTest  );
-REGISTER_TEST(itkAlgorithmsPrintTest2  );
-REGISTER_TEST(itkAlgorithmsPrintTest3  );
 REGISTER_TEST(itkAntiAliasBinaryImageFilterTest );
 REGISTER_TEST(itkAutomaticTopologyMeshSourceTest );
 REGISTER_TEST(itkAnisotropicFourthOrderLevelSetImageFilterTest );

@@ -10,9 +10,9 @@ SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
 
-ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest)
-ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest2)
-ADD_TEST(itkAlgorithmsPrintTest3 ${ALGORITHMS_TESTS} itkAlgorithmsPrintTest3)
+ADD_TEST(itkAlgorithmsPrintTest ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest)
+ADD_TEST(itkAlgorithmsPrintTest2 ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest2)
+ADD_TEST(itkAlgorithmsPrintTest3 ${ALGORITHMS_TESTS2} itkAlgorithmsPrintTest3)
 ADD_TEST(itkAnisotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkAnisotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopologyMeshSourceTest)
@@ -118,9 +118,6 @@ ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${TEMP}/itkCurvatureFlowTest.vtk)
 
 SET(AlgorithmsTest_SRCS
-itkAlgorithmsPrintTest.cxx
-itkAlgorithmsPrintTest2.cxx
-itkAlgorithmsPrintTest3.cxx
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
 itkAntiAliasBinaryImageFilterTest.cxx
 itkAutomaticTopologyMeshSourceTest.cxx
@@ -215,6 +212,9 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 SET(AlgorithmsTest2_SRCS
+itkAlgorithmsPrintTest.cxx
+itkAlgorithmsPrintTest2.cxx
+itkAlgorithmsPrintTest3.cxx
 itkMIRegistrationFunctionTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
