@@ -17,6 +17,7 @@
 #include <metaGroup.h>
 #include <metaSurface.h>
 #include <metaLandmark.h>
+#include <metaMesh.h>
 //
 // MetaScene Constructors
 //
@@ -242,6 +243,14 @@ Read(const char *_headerName)
       group->SetEvent(m_Event);
       group->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(group);
+    }
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Mesh",4) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "msh")))
+    {
+      MetaMesh* mesh = new MetaMesh();
+      mesh->SetEvent(m_Event);
+      mesh->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(mesh);
     }
   }
 

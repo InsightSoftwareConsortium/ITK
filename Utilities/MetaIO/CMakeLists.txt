@@ -7,6 +7,8 @@ ADD_LIBRARY(ITKMetaIO
   metaImageUtils.cxx
   metaLandmark.cxx
   metaLine.cxx
+  metaMesh.cxx
+  metaMesh.h
   metaObject.cxx
   metaScene.cxx
   metaSurface.cxx
