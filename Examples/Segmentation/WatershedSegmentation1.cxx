@@ -240,7 +240,7 @@ int main( int argc, char *argv[] )
 // \includegraphics[width=0.32\textwidth]{VisibleWomanEyeSlice.eps}
 // \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output1.eps}
 // \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output2.eps}
-// \caption[Watershed segmentation output]{Segmented section of Visible Human
+// \itkcaption[Watershed segmentation output]{Segmented section of Visible Human
 // female head and neck cryosection data.  At left is the original image.  The
 // image in the middle was generated with parameters: conductance = 2.0,
 // iterations = 10, threshold = 0.0, level = 0.05, principle components = on.

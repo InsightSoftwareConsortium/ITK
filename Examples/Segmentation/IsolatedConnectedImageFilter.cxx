@@ -300,7 +300,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0.eps}
   // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1.eps}
-  // \caption[IsolatedConnected segmentation results]{Segmentation results of
+  // \itkcaption[IsolatedConnected segmentation results]{Segmentation results of
   // the IsolatedConnectedImageFilter.}
   // \label{fig:IsolatedConnectedImageFilterOutput}
   // \end{figure}

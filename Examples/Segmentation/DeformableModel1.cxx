@@ -26,7 +26,7 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{DeformableModelCollaborationDiagram.eps}
-// \caption[Deformable model collaboration diagram]{Collaboration
+// \itkcaption[Deformable model collaboration diagram]{Collaboration
 // diagram of the DeformableMesh3DFilter applied to a segmentation task.}
 // \label{fig:DeformableModelCollaborationDiagram}
 // \end{figure}

@@ -54,7 +54,7 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{LaplacianSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
-// \caption[LaplacianSegmentationLevelSetImageFilter collaboration
+// \itkcaption[LaplacianSegmentationLevelSetImageFilter collaboration
 // diagram]{An image processing pipeline using
 // LaplacianSegmentationLevelSetImageFilter for segmentation.}
 // \label{fig:LaplacianSegmentationLevelSetImageFilterDiagram}
@@ -278,7 +278,7 @@ int main( int argc, char *argv[] )
   //  \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
   //  \includegraphics[width=0.32\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
   //  \includegraphics[width=0.32\textwidth]{LaplacianSegmentationLevelSetImageFilterVentricle.eps}
-  //  \caption[Segmentation results of LaplacianLevelSetImageFilter]{Results of
+  //  \itkcaption[Segmentation results of LaplacianLevelSetImageFilter]{Results of
   //  applying LaplacianSegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from

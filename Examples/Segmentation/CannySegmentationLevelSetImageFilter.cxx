@@ -61,7 +61,7 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
-// \caption[CannySegmentationLevelSetImageFilter collaboration
+// \itkcaption[CannySegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the CannySegmentationLevelSetImageFilter
 // applied to a segmentation task.}
 // \label{fig:CannySegmentationLevelSetImageFilterDiagram}
@@ -298,7 +298,7 @@ int main( int argc, char *argv[] )
   //  \includegraphics[width=0.24\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
   //  \includegraphics[width=0.24\textwidth]{CannySegmentationLevelSetImageFilterVentricle1.eps}
   //  \includegraphics[width=0.24\textwidth]{CannySegmentationLevelSetImageFilterVentricle2.eps}
-  //  \caption[Segmentation results of CannyLevelSetImageFilter]{Results of
+  //  \itkcaption[Segmentation results of CannyLevelSetImageFilter]{Results of
   //  applying \code{CannySegmentationLevelSetImageFilter} to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
