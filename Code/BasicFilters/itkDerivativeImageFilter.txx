@@ -21,6 +21,8 @@
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkProgressAccumulator.h"
+
 namespace itk
 {
 
@@ -35,7 +37,7 @@ DerivativeImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   typename Superclass::InputImagePointer  inputPtr = 
-      const_cast< InputImageType * >( this->GetInput() );
+    const_cast< InputImageType * >( this->GetInput() );
   
   if ( !inputPtr )
     {
@@ -44,9 +46,9 @@ DerivativeImageFilter<TInputImage,TOutputImage>
 
   // Build an operator so that we can determine the kernel size
   DerivativeOperator<OutputPixelType, ImageDimension> oper;
-   oper.SetDirection(m_Direction);
-   oper.SetOrder(m_Order);
-   oper.CreateDirectional();
+  oper.SetDirection(m_Direction);
+  oper.SetOrder(m_Order);
+  oper.CreateDirectional();
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -92,27 +94,35 @@ DerivativeImageFilter< TInputImage, TOutputImage >
   
   // Filter
   DerivativeOperator<OutputPixelType, ImageDimension> oper;
-   oper.SetDirection(m_Direction);
-   oper.SetOrder(m_Order);
-   oper.CreateDirectional();
-   oper.FlipAxes();
+  oper.SetDirection(m_Direction);
+  oper.SetOrder(m_Order);
+  oper.CreateDirectional();
+  oper.FlipAxes();
 
-   if (m_UseImageSpacing == true)
-     {
-     if ( this->GetInput()->GetSpacing()[m_Direction] == 0.0 )
-       {
-       itkExceptionMacro(<< "Image spacing cannot be zero.");
-       }
-     else
-       {
-       oper.ScaleCoefficients( 1.0 / this->GetInput()->GetSpacing()[m_Direction] );
-       }
-     }
+  if (m_UseImageSpacing == true)
+    {
+    if ( this->GetInput()->GetSpacing()[m_Direction] == 0.0 )
+      {
+      itkExceptionMacro(<< "Image spacing cannot be zero.");
+      }
+    else
+      {
+      oper.ScaleCoefficients( 1.0 / this->GetInput()->GetSpacing()[m_Direction] );
+      }
+    }
 
   typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::Pointer filter =
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+  // Register the filter with the with progress accumulator using
+  // equal weight proportion
+  progress->RegisterInternalFilter(filter,1.0f);
 
   filter->OverrideBoundaryCondition(&nbc);
 
