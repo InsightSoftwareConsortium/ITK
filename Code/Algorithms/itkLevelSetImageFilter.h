@@ -27,10 +27,10 @@ namespace itk
   * \brief
   *
   * LevelSetImageFilter is the abstract base class for all process objects 
-  * which evolves an input level set to an output level set according to some 
+  * that evolve an input level set to an output level set according to some 
   * PDE update equations. This class is templated over the level set type. 
   * Both the input and output level sets are of the same type
-  * represented as Images.
+  * represented as itk::Images.
   *
   * Depending on the application a level set function may correspond to 
   * iso-intensity contours of an image (e.g. for image denoising) or
