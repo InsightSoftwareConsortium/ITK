@@ -104,7 +104,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   // Test for vnl interface
 
   // Test the no const version that returns an vnl_vector_ref
-  vnl_vector_ref< ValueType > vnlVector = va.Get_vnl_vector();
+  vnl_vector_ref< ValueType > vnlVector = va.GetVnlVector();
   {
     std::cout << "vnl_vector_ref = va ";
     for( unsigned int i=0; i<N; i++ )
@@ -121,7 +121,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   // Test the const version that returns an vnl_vector
   const VectorType vf(va);
-  vnl_vector<ValueType> vnlVector2 = vf.Get_vnl_vector();
+  vnl_vector<ValueType> vnlVector2 = vf.GetVnlVector();
   {
     std::cout << "vnl_vector = va ";
     for( unsigned int i=0; i<N; i++ )
