@@ -167,6 +167,7 @@ protected:
   ~itkObjectFactoryBase();
   itkObjectFactoryBase(const itkObjectFactoryBase&) {};
   void operator=(const itkObjectFactoryBase&) {};
+public:
   struct OverrideInformation
   {
     std::string m_Description;
@@ -174,6 +175,7 @@ protected:
     bool m_EnabledFlag;
     itkCreateObjectFunctionBase::Pointer m_CreateObject;
   };
+protected:
   itkOverRideMap* m_OverrideMap;
 
 private:
