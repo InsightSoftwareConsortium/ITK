@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to compute the KMeans model of an Image.
+// This example shows how to compute the KMeans model of an Scalar Image.
 //
 // The  \subdoxygen{Statistics}{KdTreeBasedKmeansEstimator} is used for taking
 // a scalar image and applying the K-Means algorithm in order to define classes
