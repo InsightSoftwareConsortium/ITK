@@ -121,6 +121,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     // Set up the operator for this dimension
     oper->SetDirection(i);
     oper->SetVariance(m_Variance[i]);
+    oper->SetMaximumKernelWidth(m_MaximumKernelWidth);
     oper->SetMaximumError(m_MaximumError[i]);
     oper->CreateDirectional();
 

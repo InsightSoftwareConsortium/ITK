@@ -28,9 +28,6 @@ namespace itk
  * \todo Add GenerateInputRequestedRegion method to buffer the image chunk
  * appropriately if possible.
  * 
- * \todo Rewrite for multithreading
- *
- * 
  * \ingroup GradientFilters
  *
  * \sa Image
