@@ -238,15 +238,6 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
  
 };
 
-  
-
-template< class T, unsigned int TCovariantVectorDimension >  
-ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-          const CovariantVector<T,TCovariantVectorDimension> & v); 
-
-template< class T, unsigned int TCovariantVectorDimension >  
-ITK_EXPORT std::istream& operator>>(std::istream& is, 
-          CovariantVector<T,TCovariantVectorDimension> & v); 
 
 } // end namespace itk
   

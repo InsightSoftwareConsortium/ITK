@@ -306,58 +306,6 @@ CovariantVector<T, TCovariantVectorDimension>
   vnl_vector_ref< T > vector_ref( TCovariantVectorDimension, this->GetDataPointer() );
   return vector_ref;
 }
- 
-
- 
-/**
- * Print content
- */
-template<class T, unsigned int TCovariantVectorDimension>
-void
-CovariantVector<T, TCovariantVectorDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
-  {
-    os <<  (*this)[i] << ", ";
-  }
-  os << std::endl;
-}
-
-
-
-/**
- * Print content
- */
-template<class T, unsigned int TCovariantVectorDimension>
-std::ostream &
-operator<<(std::ostream& os, 
-    const CovariantVector<T,TCovariantVectorDimension> & cvt ) 
-{
-  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
-  {
-    os <<  cvt[i] << "  ";
-  }
-  return os;
-}
-
-
-
-/**
- * Read content
- */
-template<class T, unsigned int TCovariantVectorDimension>
-std::istream &
-operator>>(std::istream& is, 
-    CovariantVector<T,TCovariantVectorDimension> & cvt ) 
-{
-  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
-  {
-    is >>  cvt[i];
-  }
-  return is;
-}
-
 
 
 } // end namespace itk
