@@ -149,7 +149,6 @@ protected:
    * RangeSigma is 50. */
   BilateralImageFilter()
   {
-    unsigned int i;
     m_DomainSigma.Fill(4.0);
     m_RangeSigma = 50.0;
     m_FilterDimensionality = ImageDimension;

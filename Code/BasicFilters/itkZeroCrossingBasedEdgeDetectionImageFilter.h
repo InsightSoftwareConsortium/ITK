@@ -116,13 +116,13 @@ public:
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   
   /** Set the variance parameter needed by the embedded gaussian filter  */ 
-  void SetVariance(const ArrayType::ValueType v)
+  void SetVariance(const typename ArrayType::ValueType v)
   {
     m_Variance.Fill(v);
   }
   
   /** Set the MaximumError parameter needed by the embedded gaussian filter */
-  void SetMaximumError(const ArrayType::ValueType v)
+  void SetMaximumError(const typename ArrayType::ValueType v)
   {
     m_MaximumError.Fill(v);
   }

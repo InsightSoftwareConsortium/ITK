@@ -112,12 +112,12 @@ public:
   
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
-  void SetVariance (const ArrayType::ValueType v)
+  void SetVariance (const typename ArrayType::ValueType v)
     {
       m_Variance.Fill(v);
     }
 
-  void SetMaximumError (const ArrayType::ValueType v)
+  void SetMaximumError (const typename ArrayType::ValueType v)
     {
       m_MaximumError.Fill(v);
     }
@@ -149,7 +149,6 @@ public:
 protected:
   DiscreteGaussianImageFilter()
   {
-    unsigned int i;
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;

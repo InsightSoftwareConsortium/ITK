@@ -145,14 +145,14 @@ public:
   
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
-  void SetVariance(const ArrayType::ValueType v)
+  void SetVariance(const typename ArrayType::ValueType v)
   {
     m_Variance.Fill(v);
   }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
-  void SetMaximumError(const ArrayType::ValueType v)
+  void SetMaximumError(const typename ArrayType::ValueType v)
   {
     m_MaximumError.Fill(v);
   }
