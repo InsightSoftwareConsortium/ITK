@@ -23,7 +23,7 @@
 // mandatory. In particular the information associated with the physical
 // spacing between pixels and the position of the image in space with 
 // respect to some world coordinates reference system are considered to
-// be extremly important.
+// be extremely important.
 //
 // The values assiged to origin and spacing are fundamental in many
 // applications. Registration, for example, is entirely performed in
@@ -33,6 +33,24 @@
 // diagnosis, image analysis, feature extraction, assisted radiation
 // therapy or image guided surgery. In other words, medical images
 // lacking spacing are not only useless but rather hazardous. 
+//
+// \begin{figure} \center
+// \includegraphics[width=15cm]{ImageOriginAndSpacing.eps}
+// \caption{Geometrical concepts associated with the ITK image.}
+// \label{fig:ImageOriginAndSpacing}
+// \end{figure}
+//
+// Figure \ref{fig:ImageOriginAndSpacing} illustrates the main geometrical
+// concepts associated with the \code{itk::Image}. In this figure, circles are
+// used to represent the center of pixels. The value of the pixel is assumed to
+// exist as a dirac delta located at the pixel center. Pixel spacing is measured
+// between the pixel centers and can be different along each dimension. The
+// image origin is associated with the coordinates of the first pixel in the
+// image. A \emph{Pixel} is considered to be the rectangular region surrounding
+// the dirac delta holding the data value. This can be seen as the Voronoi
+// region of the image grid, as illustrated in the right side of the figure.
+// Linear interpolation of image values will be performed inside the Delaunay
+// region whose corners are pixel centers.
 //
 // Software Guide : EndLatex 
 
@@ -130,19 +148,17 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Image origin is managed in a similar way to the spacing.
-  // A C-like array of doubles matching the dimension of the
-  // image must be allocated first. The coordinates of the
-  // origin can then be assigned to every component. These
-  // coordinates correspond to the position of the first 
-  // pixel of the image with respect to an arbitrary reference
-  // system in physical space. It is the user's responsibility
-  // to make sure that multiple images used in the same application
-  // are using a consisten reference system. This is extremly
+  // Image origin is managed in a similar way to the spacing.  A C-like array
+  // of doubles matching the dimension of the image must be allocated first.
+  // The coordinates of the origin can then be assigned to every component.
+  // These coordinates correspond to the position of the first pixel of the
+  // image with respect to an arbitrary reference system in physical space. It
+  // is the user's responsibility to make sure that multiple images used in the
+  // same application are using a consistent reference system. This is extremly
   // important in image registration applications.
   // 
-  // The following code illustrates the creation and assignment
-  // of a variable suitable for initializing the image origin.
+  // The following code illustrates the creation and assignment of a variable
+  // suitable for initializing the image origin.
   //  
   // \index{itk::Image!origin}
   // \index{itk::Image!SetOrigin()}
