@@ -95,8 +95,7 @@ int main( int argc, char* argv[] )
 //  Software Guide : EndLatex 
 
 
-    //std::string entryId = "Patient Name"; //DICOM 2002
-    std::string entryId = "Patient's Name"; //DICOM 2003
+    std::string entryId = "0010|0010";
     itk::MetaDataObjectBase::ConstPointer  entry = dictionary[entryId];
 
     MetaDataStringType::ConstPointer entryvalue = 
@@ -105,7 +104,7 @@ int main( int argc, char* argv[] )
     if( entryvalue )
       {
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << entryId <<  " = " << tagvalue << std::endl;
+      std::cout << "Patient's Name (" << entryId <<  ") is: " << tagvalue << std::endl;
       }
 
 
