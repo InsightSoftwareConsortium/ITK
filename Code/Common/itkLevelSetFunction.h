@@ -94,9 +94,7 @@ public:
 
   /** The vector type that will be used in the calculations. */
   //  typedef
-  //    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
   typedef FixedArray<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
-
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step and other intermediate
@@ -107,6 +105,7 @@ public:
   {
     ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxPropagationChange;
+    ScalarValueType m_MaxCurvatureChange;
 
     /** Hessian matrix */
     vnl_matrix_fixed<ScalarValueType,
@@ -255,7 +254,33 @@ public:
   {
     this->SetUseMinimalCurvature(false);
   }
-  
+
+  /** Set/Get the maximum constraint for the curvature term factor in the time step
+      calculation.  Changing this value from the default is not recommended or
+      necessary, but can be used to speed up the surface evolution at the risk
+      of creating an unstable solution.*/
+  static void SetMaximumCurvatureTimeStep(double n)
+  {
+    m_DT = n;
+  }
+  static double GetMaximumCurvatureTimeStep()
+  {
+    return m_DT;
+  }
+
+  /** Set/Get the maximum constraint for the scalar/vector term factor of the time step
+      calculation.  Changing this value from the default is not recommended or
+      necessary, but can be used to speed up the surface evolution at the risk
+      of creating an unstable solution.*/
+  static void SetMaximumPropagationTimeStep(double n)
+  {
+    m_WaveDT = n;
+  }
+  static double GetMaximumPropagationTimeStep()
+  {
+    return m_WaveDT;
+  }
+
 protected:
   LevelSetFunction()
   {

@@ -237,19 +237,19 @@ LevelSetFunction<TImageType>
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
-                        ( m_DT/ vnl_math_abs(m_CurvatureWeight) ));
+      dt = vnl_math_min((m_WaveDT / d->m_MaxAdvectionChange),
+                        (    m_DT / d->m_MaxCurvatureChange ));
       }
     else
       {
-      dt = m_DT / vnl_math_abs(m_CurvatureWeight);
+      dt = m_DT / d->m_MaxCurvatureChange;
       }
     }
   else
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = m_WaveDT / d->m_MaxAdvectionChange;
+      dt = m_WaveDT / d->m_MaxAdvectionChange; 
       }
     else 
       {
@@ -323,13 +323,13 @@ LevelSetFunction< TImageType >
     for( j = i+1; j < ImageDimension; j++ )
       {
       const unsigned int positionAa = static_cast<unsigned int>( 
-        m_Center - m_xStride[i] - m_xStride[j] );    
+        m_Center - m_xStride[i] - m_xStride[j] );
       const unsigned int positionBa = static_cast<unsigned int>( 
-        m_Center - m_xStride[i] + m_xStride[j] );    
+        m_Center - m_xStride[i] + m_xStride[j] );
       const unsigned int positionCa = static_cast<unsigned int>( 
-        m_Center + m_xStride[i] - m_xStride[j] );    
+        m_Center + m_xStride[i] - m_xStride[j] );
       const unsigned int positionDa = static_cast<unsigned int>( 
-        m_Center + m_xStride[i] + m_xStride[j] );    
+        m_Center + m_xStride[i] + m_xStride[j] );
 
       gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 *( it.GetPixel( positionAa )
                                           - it.GetPixel( positionBa )
@@ -343,12 +343,15 @@ LevelSetFunction< TImageType >
     {
     curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight
       * this->CurvatureSpeed(it, offset);
+
+    gd->m_MaxCurvatureChange = vnl_math_max(gd->m_MaxCurvatureChange,
+                   vnl_math_abs(curvature_term));
     }
   else
     {
     curvature_term = ZERO;
     }
-    
+
   // Calculate the advection term.
   //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
   //
@@ -381,7 +384,10 @@ LevelSetFunction< TImageType >
     advection_term *= m_AdvectionWeight;
     
     }
-  else advection_term = ZERO;
+  else
+    {
+    advection_term = ZERO;
+    }
 
   if (m_PropagationWeight != ZERO)
     {
