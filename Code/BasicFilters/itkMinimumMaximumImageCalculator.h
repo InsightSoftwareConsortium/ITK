@@ -18,6 +18,7 @@
 #define __itkMinimumMaximumImageCalculator_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
