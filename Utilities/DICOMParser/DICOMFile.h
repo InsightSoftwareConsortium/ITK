@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   DICOMParser
+  Module:    DICOMFile.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2003 Matt Turek
+  All rights reserved.
+  See Copyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #ifndef __DICOMFILE_H_
 #define __DICOMFILE_H_
@@ -9,8 +26,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
 #include "DICOMTypes.h"
@@ -32,7 +47,7 @@ class DICOM_EXPORT DICOMFile
   // that is true if the file is successfully
   // opened.
   //
-  bool Open(const dicomstd::string& filename);
+  bool Open(const dicom_stl::string& filename);
   
   //
   // Close a file.
@@ -207,7 +222,7 @@ class DICOM_EXPORT DICOMFile
       | (v >> 24));
     }
 
-  char* GetPlatformEndian() {return this->PlatformEndian;}
+ const char* GetPlatformEndian() {return this->PlatformEndian;}
 
  protected:
   //
@@ -220,7 +235,7 @@ class DICOM_EXPORT DICOMFile
   //
   // FILE* Fptr;
   
-  dicomstd::ifstream InputStream;
+  dicom_stream::ifstream InputStream;
   
   //
   // Flag for swaping bytes.
@@ -230,7 +245,7 @@ class DICOM_EXPORT DICOMFile
   //
   // Platform endianness
   //
-  char* PlatformEndian;
+  const char* PlatformEndian;
 
  private:
   DICOMFile(const DICOMFile&);

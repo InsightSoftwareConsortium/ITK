@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   DICOMParser
+  Module:    DICOMFile.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2003 Matt Turek
+  All rights reserved.
+  See Copyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4514 )
@@ -5,9 +22,6 @@
 #pragma warning ( push, 3 )
 #endif 
 
-#include <iostream>
-#include <fstream>
-#include <iomanip>
 #include <stdio.h>
 #include <string>
 
@@ -71,11 +85,16 @@ void DICOMFile::operator=(const DICOMFile& in)
   // InputStream = in.InputStream;
 }
 
-bool DICOMFile::Open(const dicomstd::string& filename)
+bool DICOMFile::Open(const dicom_stl::string& filename)
 {
-  InputStream.open(filename.c_str(), dicomstd::ios::binary | dicomstd::ios::in);
+#ifdef _WIN32
+  InputStream.open(filename.c_str(), dicom_stream::ios::binary | dicom_stream::ios::in);
+#else  
+  InputStream.open(filename.c_str(), dicom_stream::ios::in);
+#endif
 
-  if (InputStream.is_open())
+  //if (InputStream.is_open())
+  if (InputStream.rdbuf()->is_open())
     {
     return true;
     }
@@ -93,23 +112,23 @@ void DICOMFile::Close()
 long DICOMFile::Tell() 
 {
   long loc = InputStream.tellg();
-  // dicomstd::cout << "Tell: " << loc << dicomstd::endl;
+  // dicom_stream::cout << "Tell: " << loc << dicom_stream::endl;
   return loc;
 }
 
 void DICOMFile::SkipToPos(long increment) 
 {
-  InputStream.seekg(increment, dicomstd::ios::beg);
+  InputStream.seekg(increment, dicom_stream::ios::beg);
 }
 
 long DICOMFile::GetSize() 
 {
   long curpos = this->Tell();
 
-  InputStream.seekg(0,dicomstd::ios::end);
+  InputStream.seekg(0,dicom_stream::ios::end);
 
   long size = this->Tell();
-  // dicomstd::cout << "Tell says size is: " << size << dicomstd::endl;
+  // dicom_stream::cout << "Tell says size is: " << size << dicom_stream::endl;
   this->SkipToPos(curpos);
 
   return size;
@@ -117,18 +136,18 @@ long DICOMFile::GetSize()
 
 void DICOMFile::Skip(long increment) 
 {
-  InputStream.seekg(increment, dicomstd::ios::cur);
+  InputStream.seekg(increment, dicom_stream::ios::cur);
 }
 
 void DICOMFile::SkipToStart() 
 {
-  InputStream.seekg(0, dicomstd::ios::beg);
+  InputStream.seekg(0, dicom_stream::ios::beg);
 }
 
 void DICOMFile::Read(void* ptr, long nbytes) 
 {
   InputStream.read((char*)ptr, nbytes);
-  // dicomstd::cout << (char*) ptr << dicomstd::endl;
+  // dicom_stream::cout << (char*) ptr << dicom_stream::endl;
 }
 
 doublebyte DICOMFile::ReadDoubleByte() 
@@ -184,7 +203,7 @@ quadbyte DICOMFile::ReadNBytes(int len)
       ret = ReadQuadByte();
       break;
     default:
-      dicomstd::cerr << "Unable to read " << len << " bytes" << dicomstd::endl;
+      dicom_stream::cerr << "Unable to read " << len << " bytes" << dicom_stream::endl;
       break;
     }
   return (ret);
@@ -207,14 +226,14 @@ float DICOMFile::ReadAsciiFloat(int len)
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
-  dicomstd::istrstream data(val2);
+  dicom_stream::istrstream data(val2);
   data >> ret;
   delete [] val2;
 #else
   sscanf(val,"%e",&ret);
 #endif
 
-  dicomstd::cout << "Read ASCII float: " << ret << dicomstd::endl;
+  dicom_stream::cout << "Read ASCII float: " << ret << dicom_stream::endl;
 
   delete [] val;
   return (ret);
@@ -236,14 +255,14 @@ int DICOMFile::ReadAsciiInt(int len)
   char* val2 = new char[len2];
   strncpy(val2, (char*) val, len2);
 
-  dicomstd::istrstream data(val2);
+  dicom_stream::istrstream data(val2);
   data >> ret;
   delete [] val2;
 #else
   sscanf(val,"%d",&ret);
 #endif
 
-  dicomstd::cout << "Read ASCII int: " << ret << dicomstd::endl;
+  dicom_stream::cout << "Read ASCII int: " << ret << dicom_stream::endl;
 
   delete [] val;
   return (ret);

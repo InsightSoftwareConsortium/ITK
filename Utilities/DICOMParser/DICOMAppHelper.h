@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   DICOMParser
+  Module:    DICOMAppHelper.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2003 Matt Turek
+  All rights reserved.
+  See Copyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #ifndef __DICOM_APP_HELPER_H_
 #define __DICOM_APP_HELPER_H_
@@ -7,22 +24,19 @@
 #pragma warning ( push, 3 )
 #endif 
 
-#include <fstream>
 #include <vector>
 #include <string>
-#include <iomanip>
-#include <iostream>
 
 #include "DICOMConfig.h"
 #include "DICOMTypes.h"
-#include "DICOMParser.h"
 #include "DICOMCallback.h"
 
+class DICOMParser;
 
 // Function object for sorting strings
 struct ltstdstr
 {
-  bool operator()(const dicomstd::string s1, const dicomstd::string s2) const
+  bool operator()(const dicom_stl::string s1, const dicom_stl::string s2) const
   {
     return s1 < s2;
   }
@@ -34,7 +48,7 @@ struct DICOMTagInfo
   doublebyte group;
   doublebyte element;
   DICOMParser::VRTypes datatype;
-  char* description;
+  const char* description;
 };
 
 
@@ -65,7 +79,7 @@ public:
   float ImageOrientationPatient[6];
 };
 
-
+class DICOMAppHelperImplementation;
 
 /**
  * \class DICOMAppHelper
@@ -305,8 +319,8 @@ public:
     // be ignored for CS types.  We don't handle this
     // well yet.
     //
-    dicomstd::string str1(*this->PhotometricInterpretation);
-    dicomstd::string rgb("RGB ");
+    dicom_stl::string str1(*this->PhotometricInterpretation);
+    dicom_stl::string rgb("RGB ");
 
     if (str1 == rgb)
       {
@@ -320,7 +334,7 @@ public:
 
   /** Get the transfer syntax UID for the last image processed by the
    *  DICOMParser. */
-  dicomstd::string GetTransferSyntaxUID()
+  dicom_stl::string GetTransferSyntaxUID()
     {
     return *(this->TransferSyntaxUID);
     }
@@ -358,34 +372,34 @@ public:
 
   /** Get the series UIDs for the files processed since the last
    * clearing of the cache. */
-  void GetSeriesUIDs(dicomstd::vector<dicomstd::string> &v); 
+  void GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v); 
   
   /** Get the filenames for a series ordered by slice number. */
-  void GetSliceNumberFilenamePairs(const dicomstd::string &seriesUID,
-                              dicomstd::vector<dicomstd::pair<int, dicomstd::string> > &v);
+  void GetSliceNumberFilenamePairs(const dicom_stl::string &seriesUID,
+                              dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> > &v);
 
   /** Get the filenames for a series order by slice number.  Use the
       first series by default. */
-  void GetSliceNumberFilenamePairs(dicomstd::vector<dicomstd::pair<int, dicomstd::string> > &v);
+  void GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> > &v);
 
   /* Get the filenames for a series ordered by slice location. */
-  void GetSliceLocationFilenamePairs(const dicomstd::string &seriesUID,
-                              dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
+  void GetSliceLocationFilenamePairs(const dicom_stl::string &seriesUID,
+                              dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> > &v);
 
   /* Get the filenames for a series ordered by slice location. Use the
    * first series by default. */
-  void GetSliceLocationFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
+  void GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> > &v);
 
   /* Get the filenames for a series ordered by image position
      patient. This is the most reliable way to order the images in a
      series. */
-  void GetImagePositionPatientFilenamePairs(const dicomstd::string &seriesUID,
-                            dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
+  void GetImagePositionPatientFilenamePairs(const dicom_stl::string &seriesUID,
+                            dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> > &v);
 
   /* Get the filenames for a series ordered by image position
      patient. This is the most reliable way to order the images in a
      series. Use the first series by default. */
-  void GetImagePositionPatientFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> > &v);
+  void GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> > &v);
 
  protected:
   int BitsAllocated;
@@ -398,21 +412,21 @@ public:
   float ImagePositionPatient[3];
 
   // map from series UID to vector of files in the series 
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr> SeriesUIDMap;
+  // dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDMap;
 
   // map from filename to intraseries sortable tags
-  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
+  // dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
 
-  typedef dicomstd::map<dicomstd::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
-  TagMapType TagMap;
+  typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
+  // TagMapType TagMap;
 
-  dicomstd::ofstream HeaderFile;
+  dicom_stream::ofstream HeaderFile;
   
   // 0 unsigned
   // 1 2s complement (signed)
   int PixelRepresentation;
-  dicomstd::string* PhotometricInterpretation;
-  dicomstd::string* TransferSyntaxUID;
+  dicom_stl::string* PhotometricInterpretation;
+  dicom_stl::string* TransferSyntaxUID;
   float RescaleOffset;
   float RescaleSlope;
   void* ImageData;
@@ -436,10 +450,18 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* RescaleSlopeCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelDataCB;
 
+  //
+  // Implementation contains stl templated classes that 
+  // can't be exported from a DLL in Windows. We hide
+  // them in the implementation to get rid of annoying
+  // compile warnings.
+  //
+  DICOMAppHelperImplementation* Implementation;
+
  private:
   DICOMAppHelper(const DICOMAppHelper&);  
   void operator=(const DICOMAppHelper&); 
-   
+    
 };
 
 #ifdef _MSC_VER

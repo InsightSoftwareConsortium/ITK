@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   DICOMParser
+  Module:    DICOMAppHelper.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2003 Matt Turek
+  All rights reserved.
+  See Copyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4514 )
@@ -12,8 +29,6 @@
 #include "DICOMAppHelper.h"
 #include "DICOMCallback.h"
 
-#include <iomanip>
-#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
@@ -22,10 +37,24 @@
 
 //#define DEBUG_DICOM_APP_HELPER
 
+class DICOMAppHelperImplementation
+{
+public:
+  // map from series UID to vector of files in the series 
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDMap;
+
+  // map from filename to intraseries sortable tags
+  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr> SliceOrderingMap;
+
+  typedef dicom_stl::map<dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
+  TagMapType TagMap;
+
+}; 
+
 struct lt_pair_int_string
 {
-  bool operator()(const dicomstd::pair<int, dicomstd::string> s1, 
-                  const dicomstd::pair<int, dicomstd::string> s2) const
+  bool operator()(const dicom_stl::pair<int, dicom_stl::string> s1, 
+                  const dicom_stl::pair<int, dicom_stl::string> s2) const
   {
     return s1.first < s2.first;
   }
@@ -34,8 +63,8 @@ struct lt_pair_int_string
 
 struct lt_pair_float_string
 {
-  bool operator()(const dicomstd::pair<float, dicomstd::string> s1, 
-                  const dicomstd::pair<float, dicomstd::string> s2) const
+  bool operator()(const dicom_stl::pair<float, dicom_stl::string> s1, 
+                  const dicom_stl::pair<float, dicom_stl::string> s2) const
   {
     return s1.first < s2.first;
   }
@@ -72,6 +101,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->RescaleSlopeCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelDataCB = new DICOMMemberCallback<DICOMAppHelper>;
 
+  this->Implementation = new DICOMAppHelperImplementation;
 }
 
 DICOMAppHelper::~DICOMAppHelper()
@@ -112,13 +142,15 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->RescaleOffsetCB;
   delete this->RescaleSlopeCB;
   delete this->PixelDataCB;
+
+  delete this->Implementation;
 }
 
 void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 {
   if (!parser)
     {
-    dicomstd::cerr << "Null parser!" << dicomstd::endl;
+    dicom_stream::cerr << "Null parser!" << dicom_stream::endl;
     }
 
   SeriesUIDCB->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
@@ -212,9 +244,9 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     doublebyte group = tagStruct.group;
     doublebyte element = tagStruct.element;
 
-    dicomstd::pair<doublebyte, doublebyte> gePair(group, element);
-    dicomstd::pair<dicomstd::pair<doublebyte, doublebyte>, DICOMTagInfo> mapPair(gePair, tagStruct);
-    this->TagMap.insert(mapPair);
+    dicom_stl::pair<doublebyte, doublebyte> gePair(group, element);
+    dicom_stl::pair<const dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> mapPair(gePair, tagStruct);
+    this->Implementation->TagMap.insert(mapPair);
 
 #ifdef DEBUG_DICOM_APP_HELPER
     //
@@ -240,14 +272,14 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *parser,
                                        quadbyte) 
 {
   char* newString = (char*) val;
-  dicomstd::string newStdString(newString);
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr>::iterator iter = this->SeriesUIDMap.find(newStdString);
-  if ( iter == this->SeriesUIDMap.end())
+  dicom_stl::string newStdString(newString);
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr>::iterator iter = this->Implementation->SeriesUIDMap.find(newStdString);
+  if ( iter == this->Implementation->SeriesUIDMap.end())
     {
-    dicomstd::vector<dicomstd::string> newVector;
+    dicom_stl::vector<dicom_stl::string> newVector;
 
     newVector.push_back(parser->GetFileName());
-    this->SeriesUIDMap.insert(dicomstd::pair<dicomstd::string, dicomstd::vector<dicomstd::string> > (newStdString, newVector));
+    this->Implementation->SeriesUIDMap.insert(dicom_stl::pair<const dicom_stl::string, dicom_stl::vector<dicom_stl::string> > (newStdString, newVector));
     }
   else
     {
@@ -257,27 +289,27 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *parser,
 
 void DICOMAppHelper::OutputSeries()
 {
-  dicomstd::cout << dicomstd::endl << dicomstd::endl;
+  dicom_stream::cout << dicom_stream::endl << dicom_stream::endl;
         
-  for (dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr >::iterator iter = this->SeriesUIDMap.begin();
-       iter != this->SeriesUIDMap.end();
+  for (dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator iter = this->Implementation->SeriesUIDMap.begin();
+       iter != this->Implementation->SeriesUIDMap.end();
        iter++)
     {
-    dicomstd::cout << "SERIES: " << (*iter).first << dicomstd::endl;
-    dicomstd::vector<dicomstd::string>& v_ref = (*iter).second;
+    dicom_stream::cout << "SERIES: " << (*iter).first.c_str() << dicom_stream::endl;
+    dicom_stl::vector<dicom_stl::string>& v_ref = (*iter).second;
              
-    for (dicomstd::vector<dicomstd::string>::iterator v_iter = v_ref.begin();
+    for (dicom_stl::vector<dicom_stl::string>::iterator v_iter = v_ref.begin();
          v_iter != v_ref.end();
          v_iter++)
       {
-      dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*v_iter);
+      dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*v_iter);
 
       int slice = -1;
-      if (sn_iter != SliceOrderingMap.end())
+      if (sn_iter != Implementation->SliceOrderingMap.end())
         {
         slice = (*sn_iter).second.SliceNumber;
         }
-      dicomstd::cout << "\t" << *v_iter << " [" << slice << "]" <<  dicomstd::endl;
+      dicom_stream::cout << "\t" << (*v_iter).c_str() << " [" << slice << "]" <<  dicom_stream::endl;
       }
                 
     }
@@ -291,10 +323,10 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
                                    unsigned char* val,
                                    quadbyte len) 
 {
-  char* desc = "No description";
+  const char* desc = "No description";
   
-  TagMapType::iterator iter = this->TagMap.find(dicomstd::pair<doublebyte, doublebyte> (group, element));
-  if (iter != this->TagMap.end())
+  TagMapType::iterator iter = this->Implementation->TagMap.find(dicom_stl::pair<doublebyte, doublebyte> (group, element));
+  if (iter != this->Implementation->TagMap.end())
     {
     desc = (*iter).second.description;
     }
@@ -311,17 +343,17 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
   HeaderFile.width(4);
   char prev = HeaderFile.fill('0');
 
-  HeaderFile << dicomstd::hex << group;
+  HeaderFile << dicom_stream::hex << group;
   HeaderFile << ",0x";
 
   HeaderFile.width(4);
   HeaderFile.fill('0');
     
-  HeaderFile << dicomstd::hex << element;
+  HeaderFile << dicom_stream::hex << element;
   HeaderFile << ") ";
 
   HeaderFile.fill(prev);
-  HeaderFile << dicomstd::dec;
+  HeaderFile << dicom_stream::dec;
   HeaderFile << " " << ct1 << ct2 << " ";
   HeaderFile << "[" << len << " bytes] ";
   
@@ -383,7 +415,7 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
         HeaderFile << uival;
         break;
       default:
-        HeaderFile << val << dicomstd::endl;
+        HeaderFile << val << dicom_stream::endl;
         break;
       }
     }
@@ -392,7 +424,7 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
     HeaderFile << "NULL";
     }
   
-  HeaderFile << dicomstd::dec << dicomstd::endl;
+  HeaderFile << dicom_stream::dec << dicom_stream::endl;
   HeaderFile.fill(prev);
 
   delete [] val;
@@ -406,16 +438,16 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *parser,
                                          quadbyte) 
 {
   // Look for the current file in the map of slice ordering data
-  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->SliceOrderingMap.find(parser->GetFileName());
-  if (it == SliceOrderingMap.end())
+  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
+  if (it == Implementation->SliceOrderingMap.end())
     {
     // file not found, create a new entry
     DICOMOrderingElements ord;
     ord.SliceNumber = atoi( (char *) val);
 
     // insert into the map
-    this->SliceOrderingMap.insert(dicomstd::pair<dicomstd::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
     }
   else
     {
@@ -436,16 +468,16 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *parser,
                                            quadbyte) 
 {
   // Look for the current file in the map of slice ordering data
-  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->SliceOrderingMap.find(parser->GetFileName());
-  if (it == SliceOrderingMap.end())
+  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
+  if (it == Implementation->SliceOrderingMap.end())
     {
     // file not found, create a new entry
     DICOMOrderingElements ord;
     ord.SliceLocation = (float)atof( (char *) val);
 
     // insert into the map
-    this->SliceOrderingMap.insert(dicomstd::pair<dicomstd::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
     }
   else
     {
@@ -462,9 +494,9 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
                                                   quadbyte) 
 {
   // Look for the current file in the map of slice ordering data
-  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->SliceOrderingMap.find(parser->GetFileName());
-  if (it == SliceOrderingMap.end())
+  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
+  if (it == Implementation->SliceOrderingMap.end())
     {
     // file not found, create a new entry
     DICOMOrderingElements ord;
@@ -474,7 +506,7 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
             &ord.ImagePositionPatient[2] );
     
     // insert into the map
-    this->SliceOrderingMap.insert(dicomstd::pair<dicomstd::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
 
     // cache the value
     memcpy( this->ImagePositionPatient, ord.ImagePositionPatient,
@@ -503,9 +535,9 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *parser,
                                                      quadbyte) 
 {
   // Look for the current file in the map of slice ordering data
-  dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator it;
-  it = this->SliceOrderingMap.find(parser->GetFileName());
-  if (it == SliceOrderingMap.end())
+  dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator it;
+  it = this->Implementation->SliceOrderingMap.find(parser->GetFileName());
+  if (it == Implementation->SliceOrderingMap.end())
     {
     // file not found, create a new entry
     DICOMOrderingElements ord;
@@ -518,7 +550,7 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *parser,
             &ord.ImageOrientationPatient[5] );
     
     // insert into the map
-    this->SliceOrderingMap.insert(dicomstd::pair<dicomstd::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+    this->Implementation->SliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(parser->GetFileName(), ord));
     }
   else
     {
@@ -548,10 +580,10 @@ void DICOMAppHelper::TransferSyntaxCallback(DICOMParser *parser,
 #else
   char platformByteOrder = 'B';
 #endif
-  dicomstd::cout << "Platform byte order: " << platformByteOrder << dicomstd::endl;
+  dicom_stream::cout << "Platform byte order: " << platformByteOrder << dicom_stream::endl;
 #endif
 
-  static char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
+  static const char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
 
   // Only add the ToggleSwapBytes callback when we need it.
   if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*) val) == 0)
@@ -559,7 +591,7 @@ void DICOMAppHelper::TransferSyntaxCallback(DICOMParser *parser,
     this->ByteSwapData = true;
     parser->AddDICOMTagCallback(0x0800, 0x0000, DICOMParser::VR_UNKNOWN, ToggleSwapBytesCB);
 #ifdef DEBUG_DICOM_APP_HELPER
-    dicomstd::cerr <<"Registering callback for swapping bytes." << dicomstd::endl;
+    dicom_stream::cerr <<"Registering callback for swapping bytes." << dicom_stream::endl;
 #endif
     }
   
@@ -567,11 +599,11 @@ void DICOMAppHelper::TransferSyntaxCallback(DICOMParser *parser,
     {
     delete this->TransferSyntaxUID;
     }
-  this->TransferSyntaxUID = new dicomstd::string((char*) val);
+  this->TransferSyntaxUID = new dicom_stl::string((char*) val);
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Transfer Syntax UID: " << *this->TransferSyntaxUID;
-  dicomstd::cout << " " << this->TransferSyntaxUIDDescription(this->TransferSyntaxUID->c_str()) << dicomstd::endl;
+  dicom_stream::cout << "Transfer Syntax UID: " << *this->TransferSyntaxUID;
+  dicom_stream::cout << " " << this->TransferSyntaxUIDDescription(this->TransferSyntaxUID->c_str()) << dicom_stream::endl;
 #endif
 }
 
@@ -584,7 +616,7 @@ void DICOMAppHelper::BitsAllocatedCallback(DICOMParser *parser,
 {
   this->BitsAllocated = parser->GetDICOMFile()->ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Bits allocated: " << this->BitsAllocated << dicomstd::endl;
+  dicom_stream::cout << "Bits allocated: " << this->BitsAllocated << dicom_stream::endl;
 #endif
 }
 
@@ -597,13 +629,13 @@ void DICOMAppHelper::ToggleSwapBytesCallback(DICOMParser *parser,
                                              quadbyte len) 
 {
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "ToggleSwapBytesCallback" << dicomstd::endl;
+  dicom_stream::cout << "ToggleSwapBytesCallback" << dicom_stream::endl;
 #endif
   bool bs = parser->GetDICOMFile()->GetPlatformIsBigEndian();
   parser->GetDICOMFile()->SetPlatformIsBigEndian(!bs);
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Set byte swap to: " << parser->GetDICOMFile()->GetPlatformIsBigEndian() << dicomstd::endl;
+  dicom_stream::cout << "Set byte swap to: " << parser->GetDICOMFile()->GetPlatformIsBigEndian() << dicom_stream::endl;
 #endif
 
   long pos = parser->GetDICOMFile()->Tell();
@@ -643,7 +675,7 @@ void DICOMAppHelper::WidthCallback(DICOMParser *parser,
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Width: " << uival << dicomstd::endl;
+  dicom_stream::cout << "Width: " << uival << dicom_stream::endl;
 #endif
 
   this->Width = uival;
@@ -659,7 +691,7 @@ void DICOMAppHelper::HeightCallback(DICOMParser *parser,
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Height: " << uival << dicomstd::endl;
+  dicom_stream::cout << "Height: " << uival << dicom_stream::endl;
 #endif
   this->Height = uival;
   this->Dimensions[1] = this->Height;
@@ -675,7 +707,7 @@ void DICOMAppHelper::PixelRepresentationCallback( DICOMParser *parser,
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << dicomstd::endl;
+  dicom_stream::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << dicom_stream::endl;
 #endif
   this->PixelRepresentation = uival;
 }
@@ -688,14 +720,14 @@ void DICOMAppHelper::PhotometricInterpretationCallback( DICOMParser *,
                                                         quadbyte)
 {
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Photometric Interpretation: " << (char*) val << dicomstd::endl;
+  dicom_stream::cout << "Photometric Interpretation: " << (char*) val << dicom_stream::endl;
 #endif
   if (this->PhotometricInterpretation)
     {
     delete this->PhotometricInterpretation;
     }
 
-  this->PhotometricInterpretation = new dicomstd::string((char*) val);
+  this->PhotometricInterpretation = new dicom_stl::string((char*) val);
 }
 
 void DICOMAppHelper::PixelDataCallback( DICOMParser *,
@@ -716,7 +748,7 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
     }
 
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "numPixels : " << numPixels << dicomstd::endl;
+  dicom_stream::cout << "numPixels : " << numPixels << dicom_stream::endl;
 #endif
 
   int ptrIncr = int(this->BitsAllocated/8.0);
@@ -732,8 +764,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
   if (isFloat)
     {
 #ifdef DEBUG_DICOM_APP_HELPER
-    dicomstd::cout << "Slope and offset are not integer valued : ";
-    dicomstd::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicomstd::endl;
+    dicom_stream::cout << "Slope and offset are not integer valued : ";
+    dicom_stream::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicom_stream::endl;
 #endif
     if (this->ImageData)
       {
@@ -754,8 +786,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
         floatOutputData[i] = newFloatPixel;
         }
 #ifdef DEBUG_DICOM_APP_HELPER
-      dicomstd::cout << "Did rescale, offset to float from char." << dicomstd::endl;
-      dicomstd::cout << numPixels << " pixels." << dicomstd::endl;
+      dicom_stream::cout << "Did rescale, offset to float from char." << dicom_stream::endl;
+      dicom_stream::cout << numPixels << " pixels." << dicom_stream::endl;
 #endif
       }
     else if (ptrIncr == 2)
@@ -766,16 +798,16 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
         floatOutputData[i] = newFloatPixel;
         }
 #ifdef DEBUG_DICOM_APP_HELPER
-      dicomstd::cout << "Did rescale, offset to float from short." << dicomstd::endl;
-      dicomstd::cout << numPixels << " pixels." << dicomstd::endl;
+      dicom_stream::cout << "Did rescale, offset to float from short." << dicom_stream::endl;
+      dicom_stream::cout << numPixels << " pixels." << dicom_stream::endl;
 #endif
       }
     }
   else
     {
 #ifdef DEBUG_DICOM_APP_HELPER
-    dicomstd::cout << "Slope and offset are integer valued : ";
-    dicomstd::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicomstd::endl;
+    dicom_stream::cout << "Slope and offset are integer valued : ";
+    dicom_stream::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicom_stream::endl;
 #endif
 
     if (ptrIncr == 1)
@@ -798,8 +830,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
         charOutputData[i] = newCharPixel;
         }
 #ifdef DEBUG_DICOM_APP_HELPER
-      dicomstd::cout << "Did rescale, offset to char from char." << dicomstd::endl;
-      dicomstd::cout << numPixels << " pixels." << dicomstd::endl;
+      dicom_stream::cout << "Did rescale, offset to char from char." << dicom_stream::endl;
+      dicom_stream::cout << numPixels << " pixels." << dicom_stream::endl;
 #endif
       }
     else if (ptrIncr == 2)
@@ -820,8 +852,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
         shortOutputData[i] = newShortPixel;
         }
 #ifdef DEBUG_DICOM_APP_HELPER
-      dicomstd::cout << "Did rescale, offset to short from short." << dicomstd::endl;
-      dicomstd::cout << numPixels << " pixels." << dicomstd::endl;
+      dicom_stream::cout << "Did rescale, offset to short from short." << dicom_stream::endl;
+      dicom_stream::cout << numPixels << " pixels." << dicom_stream::endl;
 #endif
       }
     }
@@ -843,7 +875,7 @@ void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
   float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
   this->RescaleOffset = fval;
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Pixel offset: " << this->RescaleOffset << dicomstd::endl;
+  dicom_stream::cout << "Pixel offset: " << this->RescaleOffset << dicom_stream::endl;
 #endif
 }
 
@@ -903,7 +935,7 @@ void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
   float fval = DICOMFile::ReturnAsFloat(val,
                                         parser->GetDICOMFile()->GetPlatformIsBigEndian ());
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicomstd::cout << "Rescale slope: " << fval << dicomstd::endl;
+  dicom_stream::cout << "Rescale slope: " << fval << dicom_stream::endl;
 #endif
   this->RescaleSlope = fval;
 }
@@ -946,46 +978,46 @@ bool DICOMAppHelper::RescaledImageDataIsSigned()
 }
 
 
-void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicomstd::string &seriesUID,
-                                                 dicomstd::vector<dicomstd::pair<int, dicomstd::string> >& v)
+void DICOMAppHelper::GetSliceNumberFilenamePairs(const dicom_stl::string &seriesUID,
+                                                 dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
 {
   v.clear();
 
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.find(seriesUID);
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
 
-  if (miter == this->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDMap.end() )
     {
     return;
     }
 
   // grab the filenames for the specified series
-  dicomstd::vector<dicomstd::string> files = (*miter).second;
+  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
 
-  for (dicomstd::vector<dicomstd::string>::iterator fileIter = files.begin();
+  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
        fileIter != files.end();
        fileIter++)
        {
-       dicomstd::pair<int, dicomstd::string> p;
-       p.second = dicomstd::string(*fileIter);
+       dicom_stl::pair<int, dicom_stl::string> p;
+       p.second = dicom_stl::string(*fileIter);
        int slice_number;
-       dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
+       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
        // Only store files that have a valid slice number
-       if (sn_iter != SliceOrderingMap.end())
+       if (sn_iter != Implementation->SliceOrderingMap.end())
         {
         slice_number = (*sn_iter).second.SliceNumber;
         p.first = slice_number;
         v.push_back(p);
         }
        }
-  dicomstd::sort(v.begin(), v.end(), lt_pair_int_string());
+  dicom_stl::sort(v.begin(), v.end(), lt_pair_int_string());
 }
 
-void DICOMAppHelper::GetSliceNumberFilenamePairs(dicomstd::vector<dicomstd::pair<int, dicomstd::string> >& v)
+void DICOMAppHelper::GetSliceNumberFilenamePairs(dicom_stl::vector<dicom_stl::pair<int, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDMap.size() > 0)
     {
-    this->GetSliceNumberFilenamePairs( (*this->SeriesUIDMap.begin()).first, v );
+    this->GetSliceNumberFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first, v );
     }
   else
     {
@@ -993,46 +1025,46 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(dicomstd::vector<dicomstd::pair
     }
 }
 
-void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicomstd::string &seriesUID,
-                                                   dicomstd::vector<dicomstd::pair<float, dicomstd::string> >& v)
+void DICOMAppHelper::GetSliceLocationFilenamePairs(const dicom_stl::string &seriesUID,
+                                                   dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   v.clear();
 
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.find(seriesUID);
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
 
-  if (miter == this->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDMap.end() )
     {
     return;
     }
 
   // grab the filenames for the specified series
-  dicomstd::vector<dicomstd::string> files = (*miter).second;
+  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
 
-  for (dicomstd::vector<dicomstd::string>::iterator fileIter = files.begin();
+  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
        fileIter != files.end();
        fileIter++)
        {
-       dicomstd::pair<float, dicomstd::string> p;
-       p.second = dicomstd::string(*fileIter);
+       dicom_stl::pair<float, dicom_stl::string> p;
+       p.second = dicom_stl::string(*fileIter);
        float slice_location;
-       dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
+       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
 
-       if (sn_iter != SliceOrderingMap.end())
+       if (sn_iter != Implementation->SliceOrderingMap.end())
         {
         slice_location = (*sn_iter).second.SliceLocation;
         p.first = slice_location;
         v.push_back(p);
         }
        }
-  dicomstd::sort(v.begin(), v.end(), lt_pair_float_string());
+  dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
 }
 
-void DICOMAppHelper::GetSliceLocationFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> >& v)
+void DICOMAppHelper::GetSliceLocationFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDMap.size() > 0)
     {
-    this->GetSliceLocationFilenamePairs( (*this->SeriesUIDMap.begin()).first,
+    this->GetSliceLocationFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first,
                                          v );
     }
   else
@@ -1041,33 +1073,33 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(dicomstd::vector<dicomstd::pa
     }
 }
 
-void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicomstd::string &seriesUID, dicomstd::vector<dicomstd::pair<float, dicomstd::string> >& v)
+void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicom_stl::string &seriesUID, dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   v.clear();
 
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr >::iterator miter  = this->SeriesUIDMap.find(seriesUID);
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter  = this->Implementation->SeriesUIDMap.find(seriesUID);
 
-  if (miter == this->SeriesUIDMap.end() )
+  if (miter == this->Implementation->SeriesUIDMap.end() )
     {
     return;
     }
 
   // grab the filenames for the specified series
-  dicomstd::vector<dicomstd::string> files = (*miter).second;
+  dicom_stl::vector<dicom_stl::string> files = (*miter).second;
 
-  for (dicomstd::vector<dicomstd::string>::iterator fileIter = files.begin();
+  for (dicom_stl::vector<dicom_stl::string>::iterator fileIter = files.begin();
        fileIter != files.end();
        fileIter++)
        {
-       dicomstd::pair<float, dicomstd::string> p;
-       p.second = dicomstd::string(*fileIter);
+       dicom_stl::pair<float, dicom_stl::string> p;
+       p.second = dicom_stl::string(*fileIter);
 
        float image_position;
        float normal[3];
        
-       dicomstd::map<dicomstd::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
+       dicom_stl::map<dicom_stl::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = Implementation->SliceOrderingMap.find(*fileIter);
 
-       if (sn_iter != SliceOrderingMap.end())
+       if (sn_iter != Implementation->SliceOrderingMap.end())
         {
         // compute the image patient position wrt to the slice image
         // plane normal
@@ -1092,16 +1124,16 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const dicomstd::string
         v.push_back(p);
         }
        }
-  dicomstd::sort(v.begin(), v.end(), lt_pair_float_string());
+  dicom_stl::sort(v.begin(), v.end(), lt_pair_float_string());
 }
 
 
-void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicomstd::vector<dicomstd::pair<float, dicomstd::string> >& v)
+void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicom_stl::vector<dicom_stl::pair<float, dicom_stl::string> >& v)
 {
   // Default to using the first series
-  if (this->SeriesUIDMap.size() > 0)
+  if (this->Implementation->SeriesUIDMap.size() > 0)
     {
-    this->GetImagePositionPatientFilenamePairs( (*this->SeriesUIDMap.begin()).first, v );
+    this->GetImagePositionPatientFilenamePairs( (*this->Implementation->SeriesUIDMap.begin()).first, v );
     }
   else
     {
@@ -1109,13 +1141,13 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(dicomstd::vector<dicom
     }
 }
 
-void DICOMAppHelper::GetSeriesUIDs(dicomstd::vector<dicomstd::string> &v)
+void DICOMAppHelper::GetSeriesUIDs(dicom_stl::vector<dicom_stl::string> &v)
 {
   v.clear();
 
-  dicomstd::map<dicomstd::string, dicomstd::vector<dicomstd::string>, ltstdstr >::iterator miter;
+  dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr >::iterator miter;
 
-  for (miter = this->SeriesUIDMap.begin(); miter != this->SeriesUIDMap.end();
+  for (miter = this->Implementation->SeriesUIDMap.begin(); miter != this->Implementation->SeriesUIDMap.end();
        ++miter)
     {
     v.push_back( (*miter).first );
@@ -1124,8 +1156,8 @@ void DICOMAppHelper::GetSeriesUIDs(dicomstd::vector<dicomstd::string> &v)
 
 void DICOMAppHelper::Clear()
 { 
-  this->SliceOrderingMap.clear();
-  this->SeriesUIDMap.clear();
+  this->Implementation->SliceOrderingMap.clear();
+  this->Implementation->SeriesUIDMap.clear();
 }
 
 #ifdef _MSC_VER

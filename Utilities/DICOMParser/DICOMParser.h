@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   DICOMParser
+  Module:    DICOMParser.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2003 Matt Turek
+  All rights reserved.
+  See Copyright.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #ifndef __DICOMParser_h_
 #define __DICOMParser_h_
@@ -5,13 +22,16 @@
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4514 )
+#pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4503 )
+#pragma warning ( disable : 4710 )
+#pragma warning ( disable : 4702 )
 #pragma warning ( push, 3 )
 #endif 
 
 
 #include <map>
 #include <utility> 
-#include <fstream>
 #include <vector>
 
 #include "DICOMConfig.h"
@@ -22,12 +42,15 @@
 class DICOMCallback;
 template <class T> class DICOMMemberCallback;
 
+//DICOM_EXPIMP_TEMPLATE template class DICOM_EXPORT dicom_stl::vector<doublebyte>;
+
+class DICOMParserImplementation;
+
 //
 // We should keep a map with the implicit types for the groups and elements
 // separate from the callbacks.  We can use this for the implicit types.
 //
 //
-
 
 class DICOM_EXPORT DICOMParser
 {
@@ -46,12 +69,12 @@ class DICOM_EXPORT DICOMParser
   //
   // Opens a file and initializes the parser.
   //
-  bool OpenFile(const dicomstd::string& filename);
+  bool OpenFile(const dicom_stl::string& filename);
 
   //
   // Return the name of the file last processed.
   //
-  const dicomstd::string& GetFileName();
+  const dicom_stl::string& GetFileName();
   
   //
   // This method kicks off the parser.
@@ -119,8 +142,8 @@ class DICOM_EXPORT DICOMParser
   //
   void ModalityTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* tempdata, quadbyte length);
 
-  void SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicomstd::vector<DICOMCallback*>* cbVector);
-  void AddDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicomstd::vector<DICOMCallback*>* cbVector);
+  void SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicom_stl::vector<DICOMCallback*>* cbVector);
+  void AddDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicom_stl::vector<DICOMCallback*>* cbVector);
   void AddDICOMTagCallback (doublebyte group, doublebyte element, VRTypes datatype, DICOMCallback* cb);
   void AddDICOMTagCallbackToAllTags(DICOMCallback* cb);
 
@@ -139,9 +162,9 @@ class DICOM_EXPORT DICOMParser
                               unsigned char* val,
                               quadbyte) ;
 
-  void GetGroupsElementsDatatypes(dicomstd::vector<doublebyte>& groups,
-                                  dicomstd::vector<doublebyte>& elements,
-                                  dicomstd::vector<VRTypes>& datatypes);
+  void GetGroupsElementsDatatypes(dicom_stl::vector<doublebyte>& groups,
+                                  dicom_stl::vector<doublebyte>& elements,
+                                  dicom_stl::vector<VRTypes>& datatypes);
 
  protected:
 
@@ -156,19 +179,14 @@ class DICOM_EXPORT DICOMParser
   // Print a tag.
   //
   // void DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* data, quadbyte length);
-  void DumpTag(dicomstd::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
+  void DumpTag(dicom_stream::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
 
-  //
-  // Hack to check out dynamic modality tags.
-  //
-  void AddMRTags();
-
-  struct DicomRecord 
-  {
+  struct DICOMRecord 
+    {
     doublebyte group;
     doublebyte element;
     VRTypes datatype;
-  };
+    };
 
   //
   // Check to see if the type is a valid DICOM type.  If not, figure
@@ -197,7 +215,7 @@ class DICOM_EXPORT DICOMParser
   // Stores a map from pair<group, element> keys to
   // values of pair<vector<DICOMCallback*>, datatype>
   //
-  DICOMParserMap Map;
+  // DICOMParserMap Map;
 
   //
   // Stores a map from pair<group, element> keys to
@@ -205,31 +223,40 @@ class DICOM_EXPORT DICOMParser
   // datatypes for implicit keys that we are 
   // interested in.
   //
-  DICOMImplicitTypeMap TypeMap;
+  // DICOMImplicitTypeMap TypeMap;
 
   //
   // Used for outputting debug information.
   //
-  dicomstd::ofstream ParserOutputFile;
+  dicom_stream::ofstream ParserOutputFile;
 
   //
   // Pointer to the DICOMFile we're parsing.
   //
   DICOMFile* DataFile;
-  dicomstd::string FileName;
+  dicom_stl::string FileName;
   
   bool ToggleByteSwapImageData;
 
-  dicomstd::vector<doublebyte> Groups;
-  dicomstd::vector<doublebyte> Elements;
-  dicomstd::vector<VRTypes> Datatypes;
+  //dicom_stl::vector<doublebyte> Groups;
+  //dicom_stl::vector<doublebyte> Elements;
+  //dicom_stl::vector<VRTypes> Datatypes;
 
   DICOMMemberCallback<DICOMParser>* TransferSyntaxCB;
+
+  //
+  // Implementation contains stl templated classes that 
+  // can't be exported from a DLL in Windows. We hide
+  // them in the implementation to get rid of annoying
+  // compile warnings.
+  //
+  DICOMParserImplementation* Implementation;
 
  private:
   DICOMParser(const DICOMParser&);  
   void operator=(const DICOMParser&); 
 };
+
 
 #ifdef _MSC_VER
 #pragma warning ( pop )
