@@ -37,7 +37,6 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>
 ::VotingBinaryHoleFillingImageFilter()
 {
   this->SetSurvivalThreshold(0);
-  this->m_MaximumNumberOfIterations = 10;
   this->m_MajorityThreshold = 1;
   this->m_NumberOfPixelsChanged = 0;
 }
@@ -187,7 +186,6 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutput>
   Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
-  os << indent << "Maximum Number of Iterations : " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "Majority Threshold           : " << m_MajorityThreshold << std::endl;
   os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << std::endl;
 }

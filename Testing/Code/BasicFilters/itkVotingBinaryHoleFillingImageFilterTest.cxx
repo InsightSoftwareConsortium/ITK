@@ -71,10 +71,6 @@ int itkVotingBinaryHoleFillingImageFilterTest(int, char* [] )
   neighRadius[1] = 1;
   voting->SetRadius(neighRadius);
 
-  // Set the maximum number of times the filter should perform passes filling
-  // the border of holes and cavities.
-  voting->SetMaximumNumberOfIterations( 10 );
-
 
   // Set the number of pixels over 50% that will tip the decision about
   // switching a pixel.

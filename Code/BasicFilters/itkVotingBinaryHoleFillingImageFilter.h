@@ -71,12 +71,6 @@ public:
   typedef typename InputImageType::SizeType InputSizeType;
 
 
-   /** Maximum number of iterations. This filter is executed iteratively as
-    * long as at least one pixel has changed in a previous iteration, or until
-    * the maximum number of iterations has been reached. */
-  itkGetConstReferenceMacro(MaximumNumberOfIterations, unsigned int);
-  itkSetMacro(MaximumNumberOfIterations, unsigned int);
-
   /** Majority threshold. It is the number of pixels over 50% that will decide
    * whether an OFF pixel will become ON or not. For example, if the
    * neighborhood of a pixel has 124 pixels (excluding itself), the 50% will be
@@ -126,8 +120,6 @@ private:
   VotingBinaryHoleFillingImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int m_MaximumNumberOfIterations;
- 
   unsigned int m_MajorityThreshold;
 
   unsigned int m_NumberOfPixelsChanged;
