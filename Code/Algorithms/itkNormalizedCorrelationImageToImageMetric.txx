@@ -89,7 +89,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     ++ti;
     }
 
-  if( m_NumberOfPixelsCounted )
+  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     measure = sfm * factor;
@@ -245,7 +245,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     ++ti;
     }
 
-  if( m_NumberOfPixelsCounted )
+  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)
@@ -402,7 +402,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       }
     ++ti;
     }
-  if( m_NumberOfPixelsCounted )
+  if( m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
     {
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)
