@@ -154,7 +154,6 @@ int testBinaryMinMaxCurvatureFlow(
       value = background;
       }
 
-    vnl_sample_reseed(vcl_time(0)); // Reseed rand number generator before use
     if ( vnl_sample_uniform( 0.0, 1.0 ) < fractionNoise )
       {
       value = vnl_sample_uniform( vnl_math_min(foreground,background),
