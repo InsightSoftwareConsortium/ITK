@@ -234,6 +234,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPathFunctions.h"
 #include "itkPathIterator.txx"
 #include "itkPathSource.txx"
+#include "itkPathToPathFilter.txx"
 #include "itkPeriodicBoundaryCondition.txx"
 #include "itkPixelAccessor.h"
 #include "itkPixelTraits.h"
