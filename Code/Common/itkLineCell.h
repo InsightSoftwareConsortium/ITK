@@ -118,10 +118,10 @@ public:
   /** Visitor interface */
   itkCellVisitMacro(LINE_CELL);
 
-protected:
   LineCell() {}
   ~LineCell() {}
 
+protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
 

@@ -113,10 +113,11 @@ public:
   /** Cell visitor interface */
   itkCellVisitMacro(VERTEX_CELL);
 
-protected:
+public:
   VertexCell() {}
   ~VertexCell() {}
 
+protected:
   /**
    * Store the number of points needed for a vertex.
    */

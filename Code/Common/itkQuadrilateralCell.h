@@ -125,16 +125,17 @@ public:
   /** Visitor interface */
   itkCellVisitMacro(QUADRILATERAL_CELL);
 
-protected:
+public:
   QuadrilateralCell() {}
   ~QuadrilateralCell() {}
 
+protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
   /** Quadrilateral topology data. */
   static const int m_Edges[4][2];
- private:
+private:
   QuadrilateralCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

@@ -139,9 +139,11 @@ protected:
   std::vector<EdgeInfo> m_Edges;
   std::vector<PointIdentifier> m_PointIds;
 
+public:
   PolygonCell() {}
   ~PolygonCell() {}
- private:
+
+private:
   PolygonCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

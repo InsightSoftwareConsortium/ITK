@@ -130,10 +130,11 @@ public:
   /** Visitor interface. */
   itkCellVisitMacro(TETRAHEDRON_CELL);
   
- protected:
+ public:
   TetrahedronCell() {}
   ~TetrahedronCell() {}
 
+ protected:
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   

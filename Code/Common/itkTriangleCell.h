@@ -125,10 +125,11 @@ public:
   /** Cell visitor interface. */
   itkCellVisitMacro(TRIANGLE_CELL);
 
-protected:
+ public:
   TriangleCell() {}
   ~TriangleCell() {}
 
+ protected:
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
 

@@ -139,7 +139,7 @@ protected:
   static const int m_Edges[12][2];
   static const int m_Faces[6][4];
     
-protected:
+public:
   HexahedronCell() {}
   ~HexahedronCell() {}
   
