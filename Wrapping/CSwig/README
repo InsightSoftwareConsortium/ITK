@@ -46,7 +46,15 @@ To run scripts.
                          from InsightToolkit import *
         Tcl:
                 - set the TCLLIBPATH variable to ITK-build/Wrapping/CSwig/Tcl/[Release|Debug]
-        
+                
+                Use the following at the top of the script:
+
+                package require Tk
+                package require InsightToolkit
+                package require itkinteraction
+
+        There are a few examples in Insight/Wrapping/CSwig/Tests.
+
 
 KNOWN ISSUES:
         - dependency information is not being computed for the wrappers correctly.
