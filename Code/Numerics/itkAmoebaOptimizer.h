@@ -60,19 +60,20 @@ public:
   virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
 
   /** Set/Get the maximum number of iterations. The optimization algorithm will
-   * terminate after the maximum number of iterations has been reached. */
+   * terminate after the maximum number of iterations has been reached. 
+   * The default value is 500. */
   virtual void SetMaximumNumberOfIterations( unsigned int n );
   itkGetMacro( MaximumNumberOfIterations, unsigned int );
 
-  /** Set/Get the parameters convergence tolerance. The optimization algorithm
-   * will terminate when the simplex diameter falls below the user specified 
-   * threshold. */
+  /** The optimization algorithm will terminate when the simplex diameter 
+   * and the difference in cost function within the simplex falls below user specified 
+   * thresholds. 
+   * The simplex diameter threshold is set via method 
+   * SetParametersConvergenceTolerance() with the default value being 1e-8.
+   * The cost function convergence threshold is set via method 
+   * SetFunctionConvergenceTolerance() with the default value being 1e-4. */
   virtual void SetParametersConvergenceTolerance( double tol );
   itkGetMacro( ParametersConvergenceTolerance, double );
-  
-  /** Set/Get the function convergence tolerance. The optimization algorithm
-   * will terminate when the difference in the cost function within the simple
-   * falls below the user specified threshold. */
   virtual void SetFunctionConvergenceTolerance( double tol );
   itkGetMacro( FunctionConvergenceTolerance, double );
 
