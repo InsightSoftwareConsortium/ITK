@@ -35,7 +35,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
 #include "itkMultivariateLegendrePolynomial.h"
 #include "itkNonLinearOptimizer.h"
-#include "itkOnePlusOneEvolutionaryOptimizer.txx"
+#include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
