@@ -31,6 +31,7 @@ void RegisterTests()
   REGISTER_TEST(itkAcosImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAdaptImageFilterTest );
   REGISTER_TEST(itkAdaptImageFilterTest2 );
+  REGISTER_TEST(itkAdaptiveHistogramEqualizationImageFilterTest);
   REGISTER_TEST(itkAddImageFilterTest );
   REGISTER_TEST(itkAsinImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAtanImageFilterAndAdaptorTest );

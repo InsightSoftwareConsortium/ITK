@@ -135,6 +135,20 @@ ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingIm
 
 
 IF(ITK_DATA_ROOT)
+ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png
+  itkAdaptiveHistogramEqualizationImageFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png 10 0.5 0.5)
+
+ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest2 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
+  itkAdaptiveHistogramEqualizationImageFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png 10 1.0 0.25)
+
 ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png
@@ -281,6 +295,7 @@ itkBasicFiltersPrintTest2.cxx
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAdaptImageFilterTest.cxx
 itkAdaptImageFilterTest2.cxx
+itkAdaptiveHistogramEqualizationImageFilterTest.cxx
 itkAddImageFilterTest.cxx
 itkAsinImageFilterAndAdaptorTest.cxx
 itkAtanImageFilterAndAdaptorTest.cxx
