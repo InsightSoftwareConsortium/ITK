@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialObjectToImageRegistrationTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkSpatialObjectToImageRegistrationTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
@@ -54,41 +54,41 @@ public:
 
   /** Set Optimizer */
   void SetOptimizer( OptimizerType * optimizer )
-  { 
-    m_Optimizer = optimizer;
-    m_Optimizer->AddObserver( itk::IterationEvent(), this );
-  }
+    { 
+      m_Optimizer = optimizer;
+      m_Optimizer->AddObserver( itk::IterationEvent(), this );
+    }
 
 
   /** Execute method will print data at each iteration */
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
-    Execute( (const itk::Object *)caller, event);
-  }
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
 
   void Execute(const itk::Object *, const itk::EventObject & event)
-  {
-    if( typeid( event ) == typeid( itk::StartEvent ) )
     {
-      std::cout << std::endl << "Position              Value";
-      std::cout << std::endl << std::endl;
-    }    
-    else if( typeid( event ) == typeid( itk::IterationEvent ) )
-    {
-      std::cout << "#" << m_Optimizer->GetCurrentIteration() 
-                << " Current parameters = " << m_Optimizer->GetCurrentPosition()
-                << std::endl;
-    }
-    else if( typeid( event ) == typeid( itk::EndEvent ) )
-    {
-      std::cout << std::endl << std::endl;
-      std::cout << "After " << m_Optimizer->GetCurrentIteration();
-      std::cout << "  iterations " << std::endl;
-      std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
-      std::cout << std::endl;
-    }
+      if( typeid( event ) == typeid( itk::StartEvent ) )
+        {
+        std::cout << std::endl << "Position              Value";
+        std::cout << std::endl << std::endl;
+        }    
+      else if( typeid( event ) == typeid( itk::IterationEvent ) )
+        {
+        std::cout << "#" << m_Optimizer->GetCurrentIteration() 
+                  << " Current parameters = " << m_Optimizer->GetCurrentPosition()
+                  << std::endl;
+        }
+      else if( typeid( event ) == typeid( itk::EndEvent ) )
+        {
+        std::cout << std::endl << std::endl;
+        std::cout << "After " << m_Optimizer->GetCurrentIteration();
+        std::cout << "  iterations " << std::endl;
+        std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
+        std::cout << std::endl;
+        }
 
-  }
+    }
 
 protected:
   IterationCallback() {};
@@ -105,7 +105,7 @@ public:
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;
   typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>  
-                                                                     Superclass;
+  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -126,79 +126,79 @@ public:
 
   /** Connect the MovingSpatialObject */
   void SetMovingSpatialObject( const MovingSpatialObjectType * object)
-  {
-    if(!m_FixedImage)
     {
-      std::cout << "Please set the image before the moving spatial object" << std::endl;
-      return;
-    }
-    m_MovingSpatialObject = object;
-    m_PointList.clear();
-    typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
+      if(!m_FixedImage)
+        {
+        std::cout << "Please set the image before the moving spatial object" << std::endl;
+        return;
+        }
+      m_MovingSpatialObject = object;
+      m_PointList.clear();
+      typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
 
-    myIteratorType it(m_FixedImage,m_FixedImage->GetLargestPossibleRegion());
+      myIteratorType it(m_FixedImage,m_FixedImage->GetLargestPossibleRegion());
 
-    itk::Point<double,2> point;
+      itk::Point<double,2> point;
 
-    while(!it.IsAtEnd())
-    {
-      for(unsigned int i=0;i<ObjectDimension;i++)
-      {
-        point[i]=it.GetIndex()[i];
-      }
+      while(!it.IsAtEnd())
+        {
+        for(unsigned int i=0;i<ObjectDimension;i++)
+          {
+          point[i]=it.GetIndex()[i];
+          }
       
-      if(m_MovingSpatialObject->IsInside(point,99999))
-      { 
-        m_PointList.push_back(point);
-      }    
-      ++it;
-    }
+        if(m_MovingSpatialObject->IsInside(point,99999))
+          { 
+          m_PointList.push_back(point);
+          }    
+        ++it;
+        }
 
-    std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
-  }
+      std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
+    }
 
 
   unsigned int GetNumberOfParameters(void) const  {return SpaceDimension;};
 
   /** Get the Derivatives of the Match Measure */
   void GetDerivative(const ParametersType&, DerivativeType&) const
-  {
-    return;
-  }
+    {
+      return;
+    }
 
   /** Get the Value for SingleValue Optimizers */
   MeasureType    GetValue( const ParametersType & parameters ) const
-  {   
-    double value;
-    m_Transform->SetParameters(parameters);
+    {   
+      double value;
+      m_Transform->SetParameters(parameters);
     
-    PointListType::const_iterator it = m_PointList.begin();
+      PointListType::const_iterator it = m_PointList.begin();
     
-    Index<2> index;
-    value = 0;
-    while(it != m_PointList.end())
-    {
-      PointType transformedPoint = m_Transform->TransformPoint(*it);
-      m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
-      if(index[0]>0L && index[1]>0L
-        && index[0]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[0])
-        && index[1]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[1])
-        )
-      {
-        value += m_FixedImage->GetPixel(index);
-      }
-      it++;
+      Index<2> index;
+      value = 0;
+      while(it != m_PointList.end())
+        {
+        PointType transformedPoint = m_Transform->TransformPoint(*it);
+        m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
+        if(index[0]>0L && index[1]>0L
+           && index[0]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[0])
+           && index[1]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[1])
+          )
+          {
+          value += m_FixedImage->GetPixel(index);
+          }
+        it++;
+        }
+      return value;
     }
-    return value;
-  }
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative( const ParametersType & parameters,
-       MeasureType & Value, DerivativeType  & Derivative ) const
-  {
-    Value = this->GetValue(parameters);
-    this->GetDerivative(parameters,Derivative);
-  }
+                              MeasureType & Value, DerivativeType  & Derivative ) const
+    {
+      Value = this->GetValue(parameters);
+      this->GetDerivative(parameters,Derivative);
+    }
 
 private:
 
@@ -289,70 +289,76 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   typedef itk::Euler2DTransform<> TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-  bool catching = false;
+  bool catching;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
   if(!catching)
     {
-      std::cout<<"Test failed!"<<std::endl;
-      return EXIT_FAILURE;
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
     }
 
   registration->SetFixedImage(image);
   
-  catching = false;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
   if(!catching)
     {
-      std::cout<<"Test failed!"<<std::endl;
-      return EXIT_FAILURE;
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
     }
 
   registration->SetMovingSpatialObject(group);
 
-  catching = false;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
   if(!catching)
     {
-      std::cout<<"Test failed!"<<std::endl;
-      return EXIT_FAILURE;
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
     }
 
   registration->SetMetric(metric);
 
-  catching = false;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
+  if(!catching)
+    {
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
+    }
 
   /** Setup the optimizer */
   TransformType::ParametersType m_ParametersScale;
@@ -361,9 +367,9 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   m_ParametersScale[0]=100; // angle scale
 
   for(unsigned int i=1;i<3;i++)
-  {
+    {
     m_ParametersScale[i] = 1; // offset scale
-  }
+    }
 
   optimizer->SetScales( m_ParametersScale );
 
@@ -380,7 +386,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   optimizer->MaximizeOn();
 
   itk::Statistics::NormalVariateGenerator::Pointer generator 
-                      = itk::Statistics::NormalVariateGenerator::New();
+    = itk::Statistics::NormalVariateGenerator::New();
   generator->Initialize(12345);
 
   optimizer->SetNormalVariateGenerator(generator);
@@ -394,39 +400,39 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   registration->SetOptimizer(optimizer);
 
-  catching = false;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
   if(!catching)
     {
-      std::cout<<"Test failed!"<<std::endl;
-      return EXIT_FAILURE;
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
     }
 
 
-   registration->SetTransform(transform);
+  registration->SetTransform(transform);
 
-  catching = false;
   try
     {
+    catching = false;
     registration->StartRegistration();
     }
   catch(...)
     {
-      catching = true;
+    catching = true;
     }
 
   if(!catching)
     {
-      std::cout<<"Test failed!"<<std::endl;
-      return EXIT_FAILURE;
+    std::cout<<"Test failed!"<<std::endl;
+    return EXIT_FAILURE;
     }
 
   registration->SetInterpolator(interpolator.GetPointer());
@@ -434,18 +440,18 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   registration->StartRegistration();
  
   RegistrationType::ParametersType finalParameters 
-                                 = registration->GetLastTransformParameters();
+    = registration->GetLastTransformParameters();
 
   std::cout << "Final Solution is : " << finalParameters << std::endl;
 
   for(unsigned int i=0;i<3;i++)
-  {
-    if(finalParameters[i]>1) // if we are not within 1 pixel the registration fails
     {
+    if(finalParameters[i]>1) // if we are not within 1 pixel the registration fails
+      {
       std::cout<<"Test failed!"<<std::endl;
       return EXIT_FAILURE;
+      }
     }
-  }
 
   std::cout<<"Test Succeed!"<<std::endl;
   return EXIT_SUCCESS;

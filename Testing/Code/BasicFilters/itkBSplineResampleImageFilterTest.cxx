@@ -692,6 +692,7 @@ itkBSplineResampleImageFilterTest(
   if (!passed)
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
 
+  std::cout << "dummyflag: " << dummyflag << std::endl;
   // Return results of test 
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
