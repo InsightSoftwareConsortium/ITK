@@ -318,7 +318,7 @@ static const char GE_PROD_STR[]="SIGNA";
         curImage->offset = itk::IOCommon::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
       }
 
-    strncpy (curImage->filename,FileNameToRead, MAXPATHLEN+1);
+    strncpy (curImage->filename,FileNameToRead, IOCommon::MAXPATHLEN+1);
 
     return (curImage);
   }

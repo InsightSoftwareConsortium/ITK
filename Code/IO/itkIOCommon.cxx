@@ -19,6 +19,45 @@
 
 namespace itk
 {
+  // CODE STOLEN STRAIGHT FROM CMAKE
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
+#include <string.h>
+#include <windows.h>
+#include <direct.h>
+#define _unlink unlink
+inline int Mkdir(const char* dir)
+{
+  return _mkdir(dir);
+}
+inline const char* Getcwd(char* buf, unsigned int len)
+{
+  return _getcwd(buf, len);
+}
+inline int Chdir(const char* dir)
+{
+  #if defined(__BORLANDC__)
+  return chdir(dir);
+  #else
+  return _chdir(dir);
+  #endif
+}
+#else
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+inline int Mkdir(const char* dir)
+{
+  return mkdir(dir, 00777);
+}
+inline const char* Getcwd(char* buf, unsigned int len)
+{
+  return getcwd(buf, len);
+}
+inline int Chdir(const char* dir)
+{
+  return chdir(dir);
+}
+#endif
 
 std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
@@ -237,5 +276,43 @@ unsigned long IOCommon
     }
 }
 
+char *IOCommon
+::RealPath(const char *path, char *resolved_path)
+{
+#if defined(_WIN32)
+  char pathpart[MAXPATHLEN];
+  std::strcpy(pathpart,path);
+  char fnamepart[MAXPATHLEN];
+  char *slash;
+
+  if((slash = std::strrchr(pathpart,'/')) == NULL)
+    {
+      slash = std::strrchr(pathpart,'\\');
+    }
+
+  if(slash == NULL) // no path part, so just use current dir.
+    {
+      Getcwd(pathpart,sizeof(pathpart));
+      std::strcpy(fnamepart,path);
+    } 
+  else // change directory to path part, getcwd to find OS resolved path
+    {
+      *slash = '\0';
+      strcpy(fnamepart,slash+1);
+
+      char savedir[MAXPATHLEN];
+      Getcwd(savedir,sizeof(savedir));
+      Chdir(pathpart);
+      Getcwd(pathpart,sizeof(pathpart));
+      Chdir(savedir);
+    }
+  std::strcpy(resolved_path,pathpart);
+  std::strcat(resolved_path,"/");
+  std::strcat(resolved_path,fnamepart);
+  return resolved_path;
+#else
+  return realpath(path,resolved_path);
+#endif
+}
 
 } // namespace itk

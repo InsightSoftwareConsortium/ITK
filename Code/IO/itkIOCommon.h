@@ -59,7 +59,7 @@ public:
     ITK_ORIENTATION_SRP_CORONAL_FLIPPED=4,   /**<  */
     ITK_ORIENTATION_ILP_SAGITTAL_FLIPPED=5   /**<  */
   } ValidOrientationFlags;
-
+  typedef enum { MAXPATHLEN =2048 /**< Maximum length of a filename */  } SysConstants;
   typedef enum
   {
     ITK_UCHAR,         // aka uint8_t
@@ -106,6 +106,7 @@ public:
    * \ so it's important to check existence separately
    */
   static unsigned long FileLength(const char* filename);
+  static char *RealPath(const char *path, char *resolved_path);
 };
   
 

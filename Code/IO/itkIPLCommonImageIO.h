@@ -33,6 +33,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <fstream>
 #include "itkImageIOBase.h"
+#include "itkIOCommon.h"
 #include "itkGEImageHeader.h"
 #include "idbm_hdr_def.h"
 
@@ -107,24 +108,24 @@ namespace itk
        * that the IORegions has been set properly. */
       virtual void Write(const void* buffer);
       enum ENUM_PLANE_SELECTION
-  {
-    NO_PLANE = 0,
-    AXIAL = 1,
-    CORONAL = 2,
-    SAGITTAL = 3,
-    UNKNOWN_PLANE = 5
-  };
+        {
+          NO_PLANE = 0,
+          AXIAL = 1,
+          CORONAL = 2,
+          SAGITTAL = 3,
+          UNKNOWN_PLANE = 5
+        };
 
+      enum { MAX_FILENAMELIST_SIZE = 512, MAXPATHLEN=2048 };
 
       struct FILESORTINFOSTRUCT {
-  char imageFileName[MAXPATHLEN+1];
-  float SliceLocation;
-  int  SliceOffset;
-  int echoNumber;
-  void * data;
+        char imageFileName[MAXPATHLEN+1];
+        float SliceLocation;
+        int  SliceOffset;
+        int echoNumber;
+        void * data;
       };
       typedef struct FILESORTINFOSTRUCT FILESORTINFO;
-      enum { MAX_FILENAMELIST_SIZE = 512 };
     protected:
       IPLCommonImageIO();
       ~IPLCommonImageIO();
@@ -134,13 +135,13 @@ namespace itk
 
       struct FILENAMELISTSTRUCT
       {
-  FILESORTINFO Info[MAX_FILENAMELIST_SIZE];
-  int  XDim;
-  int  YDim;
-  int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/
-  int Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
-  int numImageInfoStructs;
-  int maxImageFileNames;
+        FILESORTINFO Info[MAX_FILENAMELIST_SIZE];
+        int  XDim;
+        int  YDim;
+        int Key1;  /** Key that must be matched for image to be used, i.e. seriesNumber, extensionkey*/
+        int Key2;  /** Key that must be matched for image to be used, i.e. echoNumber*/
+        int numImageInfoStructs;
+        int maxImageFileNames;
       };
       typedef struct FILENAMELISTSTRUCT FILENAMELIST;
       void InitializeFILENAMELIST( FILENAMELIST * const fnList );
@@ -158,13 +159,13 @@ namespace itk
       //
       // return 0 on success, -1 on failure
       int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
-          size_t amount, bool throw_exception = true);
+                      size_t amount, bool throw_exception = true);
       int GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
-       bool throw_exception = true);
+                   bool throw_exception = true);
       int GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
-         bool throw_exception = true);
+                     bool throw_exception = true);
       int GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
-         bool throw_exception = true);
+                     bool throw_exception = true);
 
       short hdr2Short(char *hdr);
       int hdr2Int(char *hdr);

@@ -81,7 +81,7 @@ namespace itk
       RAISE_EXCEPTION();
 
     RGEDEBUG(char debugbuf[16384];)
-      char tmpStr[MAXPATHLEN+1];
+      char tmpStr[IOCommon::MAXPATHLEN+1];
     int intTmp;
     short int tmpShort;
     float tmpFloat;

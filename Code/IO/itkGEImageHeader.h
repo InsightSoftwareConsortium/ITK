@@ -17,7 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef _itkGEImageHeader_H_
 #define _itkGEImageHeader_H_
 
-#define MAXPATHLEN 1024
+#include "itkIOCommon.h"
 
 #include "idbm_hdr_def.h"
 enum GE_PANE_STRUCT {
@@ -59,7 +59,7 @@ struct GEImageHeader
   short int imagePlane;
   short int numberOfSlices;
   short int offset;
-  char filename[MAXPATHLEN+1];
+  char filename[itk::IOCommon::MAXPATHLEN+1];
   char hospital[35];
   short int imagesPerSlice;
   short int turboFactor; //This is only relevant for the geADW image format, but is put here for convenience

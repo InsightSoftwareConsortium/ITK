@@ -5,12 +5,12 @@
 /* GEMSBG Include File
  * Copyright (C) 1987, 1988, 1989 The General Electric Company
  *      Include File Name:  PixelData.h
-\author WR Edens, JL Agle, MJ Benson
+ \author WR Edens, JL Agle, MJ Benson
  * Source
- * $Revision$  $Date: 2003-03-13 14:50:51 $
+ * $Revision$  $Date: 2003-03-13 22:15:48 $
  */
 /*@Synopsis Description of the PixelData header
-*/
+ */
 /*@Description
  * Description of header for files containing deep pixel medical images
  *      The structures of this file are designed with 32 bit word
@@ -209,14 +209,8 @@
 /* only do this once in any given compilation.*/
 #ifndef PIXELDATA_INCLUDE
 #define PIXELDATA_INCLUDE
-
-#include <sys/types.h>
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-/* Add other declaration type for pixel header - Dominic H. Nguyen */
+namespace itk { // keep this stuff from polluting ITK client program namespaces
+  /* Add other declaration type for pixel header - Dominic H. Nguyen */
   typedef struct dcmp_t
   {
     int nextHtEntry;
@@ -243,7 +237,7 @@ extern "C"
 #define     DC_NO_UNPACK_TABLE     -102
 #define     DC_NEED_INPUT          -201
 #define     DC_NEED_OUTPUT         -202
-/* end - Dominic H. Nguyen */
+  /* end - Dominic H. Nguyen */
   typedef struct pixhdr
   {
     int img_magic;              /* magic number */
@@ -304,40 +298,40 @@ extern "C"
                                    IMG_HDR_VERSION TO CHANGE!! */
   /* GEMS compress rule to set into 'img_compress'  */
   /*  end of header portion */
-/* ========== 'unpack control' structures pointed to by 'img_p_unpack'
- *      This table does not have a version number independent of the
- *   PixHdr portion of the header since the IP library expects both
- *   of them to be of a certain format.  We have more freedom with the
- *   other structures, since no non-Genesis code has expectations of
- *   the format.
- *      What is actually stored with the data set is:
- *                      PixUpk  up[(img_l_unpack/sizeof(PixUpk))];
- *      This typically will not exceed 1024 entries.
- *      If one were to malloc this space a useful thing to have around
- *   might be:          PixUpk  *up_ptr;
- *   but we use it as an exercise for the user to understand how this
- *   pointer may be of help.
- *      The 'unpack control' of the file is a new format table that
- *   is compatible with the 'Genesis' hardware requirements.
- *      This table exists in the file if the file is of 'img_compress'
- *   type IC_PACKED, IC_COMPACK, or IC_CPK2.
- *      The number of entry pairs in the table is 'img_height'.
- *   Each pair of (short) entries in the 'line_length' table indicates
- *   the number of pixels at the beginning of the image line to be filled
- *   with the background shade value, and the actual count of pixel values
- *   from the pixel data to be put into the image line.  The image line is
- *   to be filled out with the background shade value to the limit of
- *   'img_width'.
- *      Consider the following few examples.  Assume that the width of
- *   the PixelData is 10 pixels and that an 'x' is a background value
- *   and 'y' is an image value.
- *      xxxxxxxxxx      up_left = 10 up_image = 0  (atypical case,
- *                                                  causes a blank line)
- *      xxxyyyyxxx      up_left = 3  up_image = 4
- *      xxyyyyyxxx      up_left = 2  up_image = 5
- *      xxxyyyyyyx      up_left = 3  up_image = 6
- *      yyyyyyyyyy      up_left = 0  up_image = 10
- */
+  /* ========== 'unpack control' structures pointed to by 'img_p_unpack'
+   *      This table does not have a version number independent of the
+   *   PixHdr portion of the header since the IP library expects both
+   *   of them to be of a certain format.  We have more freedom with the
+   *   other structures, since no non-Genesis code has expectations of
+   *   the format.
+   *      What is actually stored with the data set is:
+   *                      PixUpk  up[(img_l_unpack/sizeof(PixUpk))];
+   *      This typically will not exceed 1024 entries.
+   *      If one were to malloc this space a useful thing to have around
+   *   might be:          PixUpk  *up_ptr;
+   *   but we use it as an exercise for the user to understand how this
+   *   pointer may be of help.
+   *      The 'unpack control' of the file is a new format table that
+   *   is compatible with the 'Genesis' hardware requirements.
+   *      This table exists in the file if the file is of 'img_compress'
+   *   type IC_PACKED, IC_COMPACK, or IC_CPK2.
+   *      The number of entry pairs in the table is 'img_height'.
+   *   Each pair of (short) entries in the 'line_length' table indicates
+   *   the number of pixels at the beginning of the image line to be filled
+   *   with the background shade value, and the actual count of pixel values
+   *   from the pixel data to be put into the image line.  The image line is
+   *   to be filled out with the background shade value to the limit of
+   *   'img_width'.
+   *      Consider the following few examples.  Assume that the width of
+   *   the PixelData is 10 pixels and that an 'x' is a background value
+   *   and 'y' is an image value.
+   *      xxxxxxxxxx      up_left = 10 up_image = 0  (atypical case,
+   *                                                  causes a blank line)
+   *      xxxyyyyxxx      up_left = 3  up_image = 4
+   *      xxyyyyyxxx      up_left = 2  up_image = 5
+   *      xxxyyyyyyx      up_left = 3  up_image = 6
+   *      yyyyyyyyyy      up_left = 0  up_image = 10
+   */
   typedef struct
   {
     short up_left;              /* pixels to the left of the image */
@@ -345,48 +339,48 @@ extern "C"
   }
   PixUpk;
 
-/*      The data area of the file is pixel data stored sequentially
- *   starting in the Upper Left Hand Corner (ULHC) of the image filling
- *   the x_axis 'img_width' for each line and continuing down the y_axis
- *   for 'img_height' lines.
- */
+  /*      The data area of the file is pixel data stored sequentially
+   *   starting in the Upper Left Hand Corner (ULHC) of the image filling
+   *   the x_axis 'img_width' for each line and continuing down the y_axis
+   *   for 'img_height' lines.
+   */
 #endif                          /* PIXELDATA_INCLUDE */
-/*@Start***********************************************************/
-/* GEMSBG Include File
- * Copyright (C) 1988 GE Medical Systems
- *      Include File Name:      phonebook
-\author David Carleton
- * Source
- * $Revision$  $Date: 2003-03-13 14:50:51 $
- */
-/*@Synopsis     Contains defaults and strings for the Phone Book feature.
-*/
-/*@Description
-     The defaults and strings necessary for the Phone Book feature.
-*/
-/*@End*********************************************************/
-/* only do this once in any given compilation.*/
+  /*@Start***********************************************************/
+  /* GEMSBG Include File
+   * Copyright (C) 1988 GE Medical Systems
+   *      Include File Name:      phonebook
+   \author David Carleton
+   * Source
+   * $Revision$  $Date: 2003-03-13 22:15:48 $
+   */
+  /*@Synopsis     Contains defaults and strings for the Phone Book feature.
+   */
+  /*@Description
+    The defaults and strings necessary for the Phone Book feature.
+  */
+  /*@End*********************************************************/
+  /* only do this once in any given compilation.*/
 #ifndef  PB_INCL
 #define  PB_INCL
 
 #ifndef lint
-/*
-static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1988 GEMSBG";
-*/
+  /*
+    static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1988 GEMSBG";
+  */
 #endif
 
-/*============================================================================*/
-/* Defines for Phone Book.                                                    */
-/*============================================================================*/
-/* Bit fields for request flags */
-/* Request flag is a long int   */
+  /*============================================================================*/
+  /* Defines for Phone Book.                                                    */
+  /*============================================================================*/
+  /* Bit fields for request flags */
+  /* Request flag is a long int   */
 #define MAGDISK         0x00000001      /* Media type in bits 0-15 */
 #define OPTDISK         0x00000002
 
 #define RPMAN           0x00010000      /* Service type in bits 16-31 */
 #define DBSER           0x00020000
 
-/* Structure to contain a single phone book entry */
+  /* Structure to contain a single phone book entry */
   struct PBInfo
   {
     int diskType;
@@ -397,29 +391,29 @@ static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1
 
   typedef struct PBInfo BookEntry_t;
 
-/* Set names for service processes */
-/* Mag DB Servers */
+  /* Set names for service processes */
+  /* Mag DB Servers */
 #define DB0     "dbserver"
 #define DB1     "dbserver1"
 #define DB2     "dbserver2"
 #define DB3     "dbserver3"
 #define DB4     "dbserver4"
 
-/* Optical DB Servers */
+  /* Optical DB Servers */
 #define ODB0    "odbrpm0"
 #define ODB1    "odbrpm1"
 #define ODB2    "odbrpm2"
 #define ODB3    "odbrpm3"
 #define ODB4    "odbrpm4"
 
-/* Mag RPM */
+  /* Mag RPM */
 #define RPM0    "mrpm"
 #define RPM1    "mrpm1"
 #define RPM2    "mrpm2"
 #define RPM3    "mrpm3"
 #define RPM4    "mrpm4"
 
-/* Optical Mag RPM */
+  /* Optical Mag RPM */
 #define ORPM0   "odbrpm0"
 #define ORPM1   "odbrpm1"
 #define ORPM2   "odbrpm2"
@@ -465,13 +459,11 @@ static char pb_sccsid[] = "@(#)phonebook.h      1.6 7/11/90 16:55:37 Copyright 1
 #define PBVERSION 1
 #define PBVERSIONSTR "1"
 
-/* FIX ME -- GET THESE FROM A CONFIG FILE */
+  /* FIX ME -- GET THESE FROM A CONFIG FILE */
 #define MAXMAG 1
 #define MAXOPT 2
 
 #define MAG_DB  0
 #define OPT_DB  1
-#ifdef __cplusplus
 }
-#endif
 #endif                          /* PB_INCL */
