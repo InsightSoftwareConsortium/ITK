@@ -15,12 +15,45 @@
 =========================================================================*/
 #include "cxxConversions.h"
 
-#include <iostream>
-
 namespace _cxx_
 {
 
 // public functions:
+
+/**
+ * Determine whether the given ReferenceType "to" can bind to the given
+ * type "from" as an identity.  That is, without any conversion other than
+ * cv-qualifier adjustment.  Not even a derived-to-base conversion.
+ */
+bool Conversions::ReferenceCanBindAsIdentity(const CvQualifiedType& from,
+                                             const ReferenceType* to)
+{
+  CvQualifiedType toType = to->GetReferencedType();
+  // See if the reference can bind directly to an object.
+  if((toType == from)
+     || (toType == from.GetMoreQualifiedType(true, false))
+     || (toType == from.GetMoreQualifiedType(false, true))
+     || (toType == from.GetMoreQualifiedType(true, true)))
+    {
+    return true;
+    }
+  
+  // See if the "from" type is itself a ReferenceType.  If so, it must be
+  // to an equally, or less cv-qualified type than "to" references.
+  if(from.GetType()->IsReferenceType())
+    {
+    CvQualifiedType fromType = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+    if((toType == fromType)
+       || (toType == fromType.GetMoreQualifiedType(true, false))
+       || (toType == fromType.GetMoreQualifiedType(false, true))
+       || (toType == fromType.GetMoreQualifiedType(true, true)))
+      {
+      return true;
+      }
+    }
+  
+  return false;
+}
 
 
 /**
