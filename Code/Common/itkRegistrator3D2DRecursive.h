@@ -19,7 +19,8 @@
 #include <itkRegistrator3D2D.h>
 #include <itkKalmanFilter.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Registrator3D2DRecursive
  * \brief Perform rigid-body registration between a set of 3D points
@@ -84,7 +85,7 @@ private:
 };
 
   
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
   

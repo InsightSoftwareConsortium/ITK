@@ -16,7 +16,8 @@
 #include "itkBoundingBox.h"
 #include "itkNumericTraits.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Print out the bounding box.
@@ -196,4 +197,4 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
   return dist2;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -21,7 +21,8 @@
 
 #include "itkExceptionObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** 
  * \class Index
@@ -189,6 +190,6 @@ Index<VIndexDimension>
   return ind;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif 

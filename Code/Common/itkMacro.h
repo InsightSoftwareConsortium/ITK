@@ -31,22 +31,21 @@
 #include <string>
 #include <strstream>
 
-#define ITK_NAMESPACE_BEGIN namespace itk {
-#define ITK_NAMESPACE_END   }
-
 /** \namespace itk
  * \brief The "itk" namespace contains all classes defined for Insight.
  */
-ITK_NAMESPACE_BEGIN
-ITK_NAMESPACE_END
+namespace itk
+{
+} // end namespace itk
 
 /**
  * Error codes for exceptions
  */
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 const int BoundsError=10;
 const int InvalidDimension=11;
-ITK_NAMESPACE_END
+} // end namespace itk
 
 
 /**
@@ -402,10 +401,10 @@ virtual type *Get##name () const \
  * This is to avoid Object #include of OutputWindow
  * while OutputWindow #includes Object
  */
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 extern ITK_EXPORT void OutputWindowDisplayText(const char*);
-ITK_NAMESPACE_END
-
+} // end namespace itk
 
 /**
  * This macro is used to print debug (or other information). They are

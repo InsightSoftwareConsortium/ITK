@@ -21,7 +21,8 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class KalmanFilter
  * \brief Implement a linear recursive estimator.
@@ -232,6 +233,6 @@ KalmanFilter<T,VEstimatorDimension>
     }
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif

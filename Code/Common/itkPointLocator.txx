@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkPointLocator.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
@@ -175,4 +176,4 @@ PointLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

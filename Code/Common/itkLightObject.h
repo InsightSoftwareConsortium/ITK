@@ -25,7 +25,8 @@
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class LightObject
  * LightObject is the highest level base class for most itk objects. It
@@ -138,6 +139,6 @@ protected:
   void (*m_DeleteMethod)(void *);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

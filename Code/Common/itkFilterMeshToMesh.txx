@@ -16,7 +16,8 @@
 #include "itkFilterMeshToMesh.h"
 
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /**
  *
@@ -83,4 +84,4 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
   MeshSource<TOutputMesh>::PrintSelf(os,indent);
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -16,7 +16,8 @@
 #include "itkReadVTKImage.h"
 #include "itkObjectFactory.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  *
@@ -52,4 +53,4 @@ ReadVTKImage<TOutputImage>
 
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

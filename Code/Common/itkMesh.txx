@@ -16,7 +16,8 @@
 #include "itkMesh.h"
 #include <algorithm>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 template <typename TPixelType, typename TMeshType>
 void
@@ -1173,4 +1174,4 @@ Mesh<TPixelType,TMeshType>
 }
 
 
-ITK_NAMESPACE_END
+} // end namespace itk

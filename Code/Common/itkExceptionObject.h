@@ -20,7 +20,8 @@
 #include "itkObject.h"
 #include <string>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class ExceptionObject
  * \brief Standard exception handling object.
@@ -196,7 +197,7 @@ public:
 };
 */
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 

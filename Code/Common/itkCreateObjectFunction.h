@@ -18,7 +18,8 @@
 
 #include "itkObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class CreateObjectFunctionBase
  * Define API for object creation callback functions.
@@ -70,7 +71,7 @@ public:
     }
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 

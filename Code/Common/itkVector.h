@@ -21,7 +21,8 @@
 
 #include <memory.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Vector
  * \brief A templated class holding a n vector values and responding to
@@ -103,6 +104,6 @@ class Vector {
 };
 
   
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif 

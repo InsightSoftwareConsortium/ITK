@@ -30,7 +30,8 @@
 #define ITKDYNAMICLOADER_DEFINED 1
 #include <dl.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 //----------------------------------------------------------------------------
 LibHandle 
@@ -83,7 +84,7 @@ DynamicLoader
   return 0;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 
@@ -97,7 +98,8 @@ ITK_NAMESPACE_END
 #include <Threads.h>
 #include <Timer.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 //----------------------------------------------------------------------------
 LibHandle 
@@ -162,7 +164,7 @@ DynamicLoader
   return 0;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 
@@ -172,7 +174,8 @@ ITK_NAMESPACE_END
 #include <windows.h>
 #define ITKDYNAMICLOADER_DEFINED 1
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 //----------------------------------------------------------------------------
 LibHandle 
@@ -240,7 +243,7 @@ DynamicLoader
   return str;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 
@@ -252,7 +255,8 @@ ITK_NAMESPACE_END
 // Setup for most unix machines
 #include <dlfcn.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 //----------------------------------------------------------------------------
 LibHandle 
@@ -302,6 +306,6 @@ DynamicLoader
   return dlerror(); 
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif

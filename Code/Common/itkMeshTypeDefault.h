@@ -20,7 +20,8 @@
 #include "itkVectorContainer.h"
 #include <set>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class MeshTypeDefault
  * MeshTypeDefault is a simple structure that holds type information
@@ -175,6 +176,6 @@ public:
         BoundaryDataContainer;
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif

@@ -20,7 +20,8 @@
 #include "itkObjectFactory.h"
 #include <windows.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Win32OutputWindow
  * \brief Collect error and debug messages on Win32-based systems.
@@ -73,6 +74,6 @@ protected:
 };
  
   
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

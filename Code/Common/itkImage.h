@@ -21,7 +21,8 @@
 #include "itkPixelTraits.h"
 #include <valarray>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * \class Image
@@ -348,7 +349,7 @@ private:
 };
 
   
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.txx"

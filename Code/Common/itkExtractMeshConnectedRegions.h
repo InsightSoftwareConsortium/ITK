@@ -18,7 +18,8 @@
 
 #include "itkFilterMeshToMesh.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /** \class ExtractMeshConnectedRegions
  * \brief Extract portions of a mesh that are connected at vertices.
@@ -98,7 +99,7 @@ private:
 
 }; // class declaration
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkExtractMeshConnectedRegions.txx"

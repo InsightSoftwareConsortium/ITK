@@ -38,7 +38,8 @@
         }\
     }
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
   
 
@@ -461,7 +462,7 @@ public:
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
                Point, PointsContainer, UsingCellsContainer>
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellInterface.txx"

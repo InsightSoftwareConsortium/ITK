@@ -18,7 +18,8 @@
 
 #include "itkLightObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 // forward reference CellInterface
 template <
   typename TPixelType,
@@ -147,6 +148,6 @@ protected:
   void operator=(const Self&) {}
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif

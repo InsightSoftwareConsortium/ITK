@@ -18,7 +18,8 @@
 
 #include "itkImageSource.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class FilterImageToImage
  * \brief 
@@ -71,7 +72,7 @@ protected:
   
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageToImage.txx"

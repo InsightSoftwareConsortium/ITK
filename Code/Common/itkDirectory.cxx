@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkDirectory.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  *
@@ -59,7 +60,7 @@ Directory
     }
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 // First microsoft compilers
 
@@ -74,7 +75,8 @@ ITK_NAMESPACE_END
 #include <sys/stat.h>
 #include <sys/types.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /**
  *
@@ -116,7 +118,7 @@ Directory
   return _findclose(srchHandle) != -1;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #else
 
@@ -125,7 +127,8 @@ ITK_NAMESPACE_END
 #include <sys/types.h>
 #include <dirent.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /**
  *
@@ -151,11 +154,12 @@ Directory
   return 1;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /**
  *
@@ -173,5 +177,5 @@ Directory
   return m_Files[index].c_str();
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
 

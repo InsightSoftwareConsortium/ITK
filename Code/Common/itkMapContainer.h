@@ -22,7 +22,8 @@
 
 #include <map>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class MapContainer
  * Define a front-end to the STL "map" container that conforms to the
@@ -147,7 +148,7 @@ public:
   itkTypeMacro(MapContainer, Object);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMapContainer.txx"

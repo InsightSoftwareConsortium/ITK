@@ -19,7 +19,8 @@
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
     /** 
      * Construct an ImageMoments object.
@@ -330,7 +331,7 @@ ITK_NAMESPACE_BEGIN
     }
 
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 
 

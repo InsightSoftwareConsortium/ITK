@@ -18,7 +18,8 @@
 
 #include "itkProcessObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class ImageSource
  *  \brief Base class for all process objects that output image data.
@@ -87,7 +88,7 @@ private:
   int m_ExecuteNumberOfPieces;
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageSource.txx"

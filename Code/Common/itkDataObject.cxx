@@ -17,7 +17,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 // Initialize static member that controls global data release 
 // after use by filter
@@ -555,4 +556,4 @@ DataObject
   return retval;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

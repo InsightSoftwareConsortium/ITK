@@ -20,7 +20,8 @@
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class QuadrilateralCell
  * QuadrilateralCell represents a quadrilateral for a Mesh.
@@ -159,7 +160,7 @@ public:
   itkTypeMacro(QuadrilateralBoundary, CellBoundary);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuadrilateralCell.txx"

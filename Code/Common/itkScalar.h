@@ -17,7 +17,8 @@
 
 #include "itkMacro.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Scalar
  * \brief A templated class holding a single scalar value and responding to
@@ -91,6 +92,6 @@ private:
   T m_Scalar;
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif 

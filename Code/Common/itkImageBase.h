@@ -18,7 +18,8 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkDataObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
@@ -68,7 +69,7 @@ protected:
 private:
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 

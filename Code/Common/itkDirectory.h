@@ -22,7 +22,8 @@
 #include <string>
 #include <vector>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 /** \class Directory
  * \brief Portable directory/filename traversal.
  * 
@@ -85,6 +86,6 @@ private:
   std::string m_Path;               // Path to Open'ed directory
 }; // End Class: Directory
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

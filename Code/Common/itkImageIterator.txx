@@ -16,7 +16,8 @@
 
 // #include "itkImageIterator.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
@@ -56,4 +57,4 @@ ImageIterator<TPixel, VImageDimension>
   return it;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -20,7 +20,8 @@
 #include "itkCellBoundary.h"
 #include "itkTriangleCell.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class TetrahedronCell
  * TetrahedronCell represents a tetrahedron for a Mesh.
@@ -169,7 +170,7 @@ public:
   itkTypeMacro(TetrahedronBoundary, CellBoundary);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTetrahedronCell.txx"

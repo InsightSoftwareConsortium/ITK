@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkTimeStamp.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Instance creation.
@@ -43,4 +44,4 @@ TimeStamp
   m_ModifiedTime = ++timeStampTime;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -21,7 +21,8 @@
 #include "itkNumericTraits.h"
 #include "itkBoundingBox.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class PointLocator
  * \brief Accelerate geometric searches for points.
@@ -227,7 +228,7 @@ private:
 
 }; // End Class: PointLocator
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPointLocator.txx"

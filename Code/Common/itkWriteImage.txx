@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkWriteImage.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  *
@@ -55,4 +56,4 @@ WriteImage<TInputImage>
   
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -15,7 +15,8 @@
 =========================================================================*/
 // #include "itkVectorContainer.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Get a reference to the element at the given index.
@@ -270,4 +271,4 @@ VectorContainer< TElementIdentifier , TElement >
 {
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

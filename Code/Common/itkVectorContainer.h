@@ -23,7 +23,8 @@
 #include <utility>
 #include <vector>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class VectorContainer
  * Define a front-end to the STL "vector" container that conforms to the
@@ -223,7 +224,7 @@ public:
   itkTypeMacro(VectorContainer, Object);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorContainer.txx"

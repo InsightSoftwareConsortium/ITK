@@ -24,7 +24,8 @@
 #include <iostream>
 #include <typeinfo>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Object
  * Object is the second-highest level base class for most itk objects.
@@ -153,7 +154,7 @@ private:
   static bool m_GlobalWarningDisplay;
 };
   
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
 

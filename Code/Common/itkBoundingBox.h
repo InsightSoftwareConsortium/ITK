@@ -20,7 +20,8 @@
 #include "itkPoint.h"
 #include "itkNumericTraits.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class BoundingBox
  * \brief Represent and compute information about bounding boxes.
@@ -154,7 +155,7 @@ private:
 
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBoundingBox.txx"

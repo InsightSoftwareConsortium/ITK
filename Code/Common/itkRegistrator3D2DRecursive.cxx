@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkRegistrator3D2DRecursive.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /*********************************************************************
  *
@@ -266,4 +267,4 @@ void Registrator3D2DRecursive::RecursiveEstimation(void)
 
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -16,7 +16,8 @@
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Instance creation.
@@ -246,4 +247,4 @@ operator<<(std::ostream& os, LightObject& o)
   return os;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

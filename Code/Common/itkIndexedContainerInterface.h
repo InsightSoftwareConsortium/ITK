@@ -19,7 +19,8 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class IndexedContainerInterface
  * This should only be used for reference when writing containers
@@ -194,6 +195,6 @@ public:
   itkTypeMacro(IndexedContainerInterface, Object);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

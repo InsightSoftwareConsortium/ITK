@@ -18,7 +18,8 @@
 
 #include "itkObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 /** \class OutputWindow
  * \brief Messages sent from the system are collected by this object.
  *
@@ -85,6 +86,6 @@ private:
   static OutputWindow* m_Instance;
 };
   
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif

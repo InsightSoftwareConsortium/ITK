@@ -19,7 +19,8 @@
 #include "itkImage.h"
 #include <memory.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * \class ImageIterator
@@ -305,7 +306,7 @@ protected: //made protected so other iterators can access
   TPixel        *m_Buffer;
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageIterator.txx"

@@ -20,7 +20,8 @@
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class TriangleCell
  * TriangleCell represents a triangle for a Mesh.
@@ -161,7 +162,7 @@ public:
   itkTypeMacro(TriangleBoundary, CellBoundary);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTriangleCell.txx"

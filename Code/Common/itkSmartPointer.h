@@ -19,7 +19,8 @@
 #include "itkMacro.h"
 #include <iostream>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class SmartPointer
  * \brief Implements transparent reference counting.
@@ -195,6 +196,6 @@ std::ostream& operator<< (std::ostream& os, SmartPointer<T> p)
   return os;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

@@ -18,7 +18,8 @@
 
 #include "itkMacro.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class TimeStamp
  * \brief Generate a unique, increasing time value.
@@ -99,6 +100,6 @@ private:
 };
 
   
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

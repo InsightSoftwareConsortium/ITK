@@ -18,7 +18,8 @@
 #include "itkImageIteratorOriented.h"
 
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 template <class TInputImage, class TOutputImage, class TComputation>
 FilterImageGaussian<TInputImage,TOutputImage,TComputation>
@@ -288,4 +289,4 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -30,7 +30,8 @@
 #include <set>
 
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 
 /** \class Mesh
@@ -474,7 +475,7 @@ protected:
 
 }; // End Class: Mesh
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMesh.txx"

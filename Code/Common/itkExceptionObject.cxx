@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkExceptionObject.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 void ExceptionObject::Print(std::ostream& os) const
 {
@@ -32,4 +33,4 @@ void ExceptionObject::Print(std::ostream& os) const
     }
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkPoint.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Default constructor.
@@ -74,4 +75,4 @@ Point< VPointDimension , TCoordRep >
     }
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

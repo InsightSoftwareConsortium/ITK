@@ -15,7 +15,8 @@
 =========================================================================*/
 // #include "itkLineCell.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  * Standard CellInterface:
@@ -228,4 +229,4 @@ LineCell< TPixelType , TCellType >
   return vert;  
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

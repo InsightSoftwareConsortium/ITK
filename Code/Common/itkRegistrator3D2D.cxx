@@ -17,7 +17,8 @@
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/vnl_fastops.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
   
 /**
  * Creator
@@ -221,4 +222,4 @@ Registrator3D2D
   return m_NumberOfIterations;
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

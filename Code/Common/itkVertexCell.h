@@ -19,7 +19,8 @@
 #include "itkCellInterface.h"
 #include "itkCellBoundary.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class VertexCell
  * VertexCell represents a single vertex for a Mesh.
@@ -139,7 +140,7 @@ public:
   itkTypeMacro(VertexBoundary, CellBoundary);
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVertexCell.txx"

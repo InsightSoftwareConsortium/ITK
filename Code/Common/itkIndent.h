@@ -19,7 +19,8 @@
 #include "itkMacro.h"
 #include <iostream>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Indent
  * \brief Control indentation during Print() invocation.
@@ -74,6 +75,6 @@ private:
   int m_Indent;
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
   
 #endif

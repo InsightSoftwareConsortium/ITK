@@ -17,7 +17,8 @@
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /**
  *
@@ -86,4 +87,4 @@ RandomImageSource<TOutputImage>
     }
 }
 
-ITK_NAMESPACE_END
+} // end namespace itk

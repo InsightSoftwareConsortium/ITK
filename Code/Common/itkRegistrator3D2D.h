@@ -20,7 +20,8 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Registrator3D2D
  * \brief Perform 3D rigid registration between a set of 3D points 
@@ -410,7 +411,7 @@ public:
     }
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #endif
   

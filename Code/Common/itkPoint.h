@@ -18,7 +18,8 @@
 
 #include "itkMacro.h"
 
-ITK_NAMESPACE_BEGIN
+namespace itk
+{
 
 /** \class Point
  * \brief Represent the coordinates of a point in n-dimensional space.
@@ -81,7 +82,7 @@ protected:
   CoordRep m_Coords[PointDimension];
 };
 
-ITK_NAMESPACE_END
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.txx"
