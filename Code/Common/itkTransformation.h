@@ -34,8 +34,8 @@ namespace itk
  *
  */
 
-template <class TScalarType,int NDimensions>
-class ITK_EXPORT  Transformation : public Object
+template <class TScalarType,unsigned int NDimensions>
+class ITK_EXPORT  Transformation 
 {
 public:
   /**
@@ -45,36 +45,11 @@ public:
 
 
   /**
-   * Standard "Superclass" typedef.
-   */
-  typedef Object  Superclass;
-
-  
-  /**
    * Dimension of the domain space
    */
   enum { SpaceDimension     = NDimensions };
 
 
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(Self, Superclass);
-
-
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
-  
   /**
    * Standard vector type for this class
    */
@@ -124,7 +99,6 @@ public:
                            const CovariantVectorType &vector) const
                                                 { return vector; }
 
-protected:
   
   Transformation();
   virtual ~Transformation() {};
