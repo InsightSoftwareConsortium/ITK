@@ -184,7 +184,7 @@ bool SQItem::SetEntryByNumber(std::string const & val, uint16_t group,
       {
          // instead of ReplaceOrCreateByNumber 
          // that is a method of Document :-( 
-         ValEntry* entry = 0;
+         ValEntry* entry;
          TagKey key = DictEntry::TranslateToKey(group, element);
 
          if ( ! PtagHT->count(key))

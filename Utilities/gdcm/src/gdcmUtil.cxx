@@ -389,24 +389,18 @@ int GetMacAddrSys ( unsigned char *addr )
    AsnObjectIdentifier MIB_NULL = { 0, 0 };
    int ret;
    int dtmp;
-   int i = 0, j = 0;
-   BOOL found = FALSE;
+   int j = 0;
 
    // Load the SNMP dll and get the addresses of the functions necessary
    HINSTANCE m_hInst = LoadLibrary("inetmib1.dll");
    if (m_hInst < (HINSTANCE) HINSTANCE_ERROR)
    {
-      m_hInst = NULL;
       return -1;
    }
    pSnmpExtensionInit m_Init =
        (pSnmpExtensionInit) GetProcAddress(m_hInst, "SnmpExtensionInit");
-   pSnmpExtensionInitEx m_InitEx =
-       (pSnmpExtensionInitEx) GetProcAddress(m_hInst, "SnmpExtensionInitEx");
    pSnmpExtensionQuery m_Query =
        (pSnmpExtensionQuery) GetProcAddress(m_hInst, "SnmpExtensionQuery");
-   pSnmpExtensionTrap m_Trap =
-       (pSnmpExtensionTrap) GetProcAddress(m_hInst, "SnmpExtensionTrap");
    m_Init(GetTickCount(), &PollForTrapEvent, &SupportedView);
 
    /* Initialize the variable list to be retrieved by m_Query */
@@ -418,7 +412,7 @@ int GetMacAddrSys ( unsigned char *addr )
    // Inteface table
    varBindList.len = 1;        // Only retrieving one item
    SNMP_oidcpy(&varBind[0].name, &MIB_ifEntryNum);
-   ret = m_Query(ASN_RFC1157_GETNEXTREQUEST, &varBindList, &errorStatus,
+   m_Query(ASN_RFC1157_GETNEXTREQUEST, &varBindList, &errorStatus,
                  &errorIndex);
 //   printf("# of adapters in this system : %i\n",
 //          varBind[0].value.asnValue.number); varBindList.len = 2;
