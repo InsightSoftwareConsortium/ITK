@@ -116,8 +116,10 @@ public:
    * Standard get, set methods for member variables.
    */
   void SetMergeList(const MergeListType &m)
-  { m_MergeHeirarchy = m;
-    this->Update();  }
+  {
+    m_MergeHeirarchy = m;
+    //this->Update();
+  }
   
   MergeListType GetMergeList() const
   {    return m_MergeHeirarchy;  }
