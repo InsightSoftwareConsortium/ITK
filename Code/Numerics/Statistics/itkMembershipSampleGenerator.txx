@@ -96,7 +96,7 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
-      classLabel = iter.GetMeasurement(dimension) ;
+      classLabel = iter.GetMeasurementVector()[dimension] ;
       m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
     }

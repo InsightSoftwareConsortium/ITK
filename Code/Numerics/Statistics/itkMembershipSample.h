@@ -140,8 +140,7 @@ public:
   
   Iterator  End()        
   {
-    const unsigned int position = this->GetNumberOfInstances() - 1;
-    Iterator iter(position, this) ; 
+    Iterator iter(this->Size(), this) ; 
     return iter; 
   }
   
@@ -157,10 +156,7 @@ public:
     { return  m_Sample->GetFrequency(m_Id) ; }
     
     MeasurementVectorType& GetMeasurementVector()
-    { return m_Sample->GetMeasurementVector() ; } 
-    
-    MeasurementType& GetMeasurement(int dimension)
-    { return m_Sample->GetMeasurement(m_Id, dimension) ; }
+    { return m_Sample->GetMeasurementVector(m_Id) ; } 
     
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
