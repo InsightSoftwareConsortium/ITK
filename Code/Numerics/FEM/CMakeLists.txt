@@ -1,4 +1,17 @@
 # Source files for the FEM project
+
+INCLUDE_DIRECTORIES(
+${ITK_SOURCE_DIR}/Code/Common
+${ITK_SOURCE_DIR}/Code/BasicFilters
+${ITK_SOURCE_DIR}/Code/Algorithms
+${ITK_SOURCE_DIR}/Code/IO
+${ITK_SOURCE_DIR}/Code/Numerics
+${ITK_SOURCE_DIR}/Code/Numerics/vxl
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl
+)
+
+
+
 SOURCE_FILES(FEM_SRCS 
 
   itkFEMNodeBase.cxx
@@ -119,6 +132,15 @@ SOURCE_FILES(FEM_SRCS
 )
 ENDIF(WIN32)
 ENDIF(NOT UNIX)
+
+
+LINK_LIBRARIES (
+VXLNumerics
+ITKNumerics
+ITKCommon
+ITKBasicFilters        
+TKIO  
+)
 
 
 # Define source groups that look nice in DSP files
