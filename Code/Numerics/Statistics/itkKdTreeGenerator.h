@@ -72,6 +72,9 @@ public:
   OutputType* GetOutput()
   { return m_Tree.GetPointer() ; }
 
+  void Update()
+  { this->GenerateData() ; }
+
   void GenerateData() ;
 
   unsigned int TotalInstance ;
