@@ -36,19 +36,12 @@ namespace fem {
  */
 Element::VectorType LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress(Element2DC0LinearQuadrilateralStress::ConstPointer element, Element::LoadElementPointer load)
 {
-  // Order of integration
-  // FIXME: Allow changing the order of integration by setting a 
-  //        static member within an element base class.
-  unsigned int order=0;
-
-  const unsigned int Nip=element->GetNumberOfIntegrationPoints(order);
-  const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int NnDOF=element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
   Element::VectorType Fe( element->GetNumberOfDegreesOfFreedom(), 0.0 );
-  Element::VectorType force( Ndofs, 0.0 ), disp( Ndofs, 0.0 );
+  Element::VectorType force( NnDOF, 0.0 ), disp( NnDOF, 0.0 );
   Element::VectorType shapeF;
-  Element::Float w, detJ;
 
   LoadLandmark::Pointer l0 = dynamic_cast<LoadLandmark*>( &*load );
 
@@ -64,17 +57,15 @@ Element::VectorType LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilater
   
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
-  detJ = element->JacobianDeterminant(pt);
   
   // Calculate the equivalent nodal loads
   for(unsigned int n=0; n < Nnodes; n++) {
-    for(unsigned int d=0; d < Ndofs; d++) {
-        Fe[n*Ndofs+d] += shapeF[n] * force[d] * w * detJ;
+    for(unsigned int d=0; d < NnDOF; d++) {
+        Fe[n*NnDOF+d] += shapeF[n] * force[d];
     }
   }
   
   return Fe;
-
 }
 
 

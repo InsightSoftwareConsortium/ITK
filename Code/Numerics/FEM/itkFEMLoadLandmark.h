@@ -96,7 +96,7 @@ public:
 /*     pointu(2), Flm_value(2) {} */
 /*   LoadLandmark( int dim ) : */
 /*     pointu(dim), Flm_value(dim) {}  */
-  LoadLandmark( Element::ConstPointer el_, vnl_vector<Float> pu_, vnl_vector<Float> F_ ) : m_element(el_), m_pt(pu_), F(F_) {}
+  LoadLandmark( Element::ConstPointer el_, vnl_vector<Float> pu_, vnl_vector<Float> F_ ) : m_pt(pu_), F(F_), m_element(el_) {}
 
 };
 
