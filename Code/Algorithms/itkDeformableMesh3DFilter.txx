@@ -753,8 +753,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
   InputPointType x, y, z, d;
-  InputPointType* x_pt;
-  x_pt = &x;
   unsigned long tripoints[3];
 
   InputPointsContainerPointer  myForces = m_Forces->GetPoints();
@@ -1196,8 +1194,6 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
-  int i, j, k, node, slice;
-  double dis;
   IndexType coord = IndexType::ZeroIndex;
   InputPointType v1, v2;
 
@@ -1217,13 +1213,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   s[0] = 0;
   s[1] = 0;
   s[2] = 0;
-
-  i = 0;
-  j = 0;
-  k = 0;
-  dis = 0;
-  node = 0;
-  slice = 0;
 
   /** New gradient fit method testing. */
 
