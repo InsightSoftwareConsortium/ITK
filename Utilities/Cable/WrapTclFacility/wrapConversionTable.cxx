@@ -105,6 +105,18 @@ void ConversionTable::SetConversion(const CvQualifiedType& from,
   m_ConversionMap->insert(ConversionMap::value_type(conversionKey, f));
 }
 
+namespace
+{
+void* ConvertToPointerToVoid(Anything anything)
+{
+  return anything.object;
+}
+
+const void* ConvertToPointerToConstVoid(Anything anything)
+{
+  return anything.object;
+}
+}
 
 /**
  * Retrieve the function for the given conversion.  If an exact match for
@@ -175,10 +187,32 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
       }
     }
   
+  // A special hack for conversion of any pointer type to pointer to
+  // void.
+  if(to->IsPointerType() && from.IsPointerType())
+    {
+    CvQualifiedType toType = PointerType::SafeDownCast(to)->GetPointedToType();
+    if(toType.IsFundamentalType()
+       && FundamentalType::SafeDownCast(toType.GetType())->IsVoid())
+      {
+      CvQualifiedType fromType = PointerType::SafeDownCast(from.GetType())->GetPointedToType();
+      if(!fromType.IsFunctionType())
+        {
+        if(!fromType.IsConst() && !fromType.IsVolatile())
+          {
+          return reinterpret_cast<ConversionFunction>(&ConvertToPointerToVoid);
+          }
+        if(fromType.IsConst() && !fromType.IsVolatile())
+          {
+          return reinterpret_cast<ConversionFunction>(&ConvertToPointerToConstVoid);
+          }
+        }
+      }
+    }
+  
   // Couldn't find a conversion.
   return NULL;
 }
-
 
 // Macro to shorten InitializePredefinedConversions function body.
 #define _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(T1, T2) \
