@@ -747,7 +747,7 @@ void Solver::AssembleF(int dim) {
  */  
 void Solver::DecomposeK()
 {
-
+  std::cout<<"Decomposing the K\n";
 }
 
 
