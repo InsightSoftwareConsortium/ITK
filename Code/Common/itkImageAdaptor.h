@@ -32,8 +32,8 @@ namespace itk
  * The basic aspects of this class are the types it defines.  
  *
  * Image adaptors can be used as intermediate classes that allow
- * to send an image to a filter, specifying what part of the
- * image pixels will the filter act on.
+ * the sending of an image to a filter, specifying what part of the
+ * image pixels the filter will act on.
  *
  * The TAccessor class should implement the Get and Set methods
  * as static methods. These two will specify how data can be put

@@ -35,7 +35,7 @@ namespace itk
 /** \class IdentityTransform
  * \brief Implementation of an Identity Transform.
  *
- * This Class define the generic interface for an Identity Transform.
+ * This class defines the generic interface for an Identity Transform.
  * 
  * It will map every point to itself, every vector to itself and
  * every covariant vector to itself.

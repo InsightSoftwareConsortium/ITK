@@ -28,7 +28,7 @@ namespace itk
 {
 
 /** \class KLMDynamicBorderArray
- * \brief  Object maintaining a reference to a list of border associated 
+ * \brief  Object maintaining a reference to a list of borders associated 
  * with a region.
  *
  * This is a tiny class similar to smart pointers that maintains a reference

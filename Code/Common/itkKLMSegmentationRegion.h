@@ -31,7 +31,7 @@ namespace itk
  * \brief Base class for KLMSegmentationRegion object
  * 
  * itkKLMSegmentationRegion is the base class for the KLMSegmentationRegion
- * objects. It provides the basic function definitons that are inherent to a
+ * objects. It provides the basic function definitions that are inherent to
  * KLMSegmentationRegion objects.  It is templated over the type of input and
  * output image.
 
@@ -44,7 +44,7 @@ namespace itk
  * A single band image is treated as a vector image with a single element 
  * for every vector.
  * 
- * Data structures for a regions
+ * Data structures for a region
  * =============================
  * A region is defined as a closed area in the image that is surrounded
  * by a list of borders objects (see itkKLMSegmentationBorder class).  
