@@ -33,6 +33,10 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementStd.txx
   itkFEMElement2DC0LinearQuadrilateral.txx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
+  itkFEMElement3DC0LinearHexahedron.txx
+  itkFEMElement3DC0LinearHexahedronStrain.cxx  
+  itkFEMElement3DC0LinearTetrahedron.txx
+  itkFEMElement3DC0LinearTetrahedronStrain.cxx  
 
   itkFEMMaterialBase.cxx
   itkFEMMaterialStandard.cxx
@@ -113,6 +117,10 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMElement2DC0LinearQuadrilateral.h
   itkFEMElement2DC0LinearQuadrilateralStress.h
+  itkFEMElement3DC0LinearHexahedron.h
+  itkFEMElement3DC0LinearHexahedronStrain.h  
+  itkFEMElement3DC0LinearTetrahedron.h
+  itkFEMElement3DC0LinearTetrahedronStrain.h  
 
   itkFEMMaterials.h
   itkFEMMaterialBase.h
