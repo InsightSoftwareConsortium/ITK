@@ -33,8 +33,6 @@ public:
   virtual RepresentationType GetRepresentationType() const;
   
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
-  
   PointerType(const CvQualifiedType&);
   PointerType(const Self&): m_ReferencedType(NULL) {}
   void operator=(const Self&) {}

@@ -64,22 +64,6 @@ TypedefType
 
 
 /**
- * Pass through the conversion test to the real type, but with any
- * cv-qualifiers added by this typedef.
- */
-bool
-TypedefType
-::CanConvertTo(const CvQualifiedType& destType,
-               bool isConst, bool isVolatile) const
-{
-  return m_CvQualifiedType.GetType()
-    ->CanConvertTo(destType,
-                   isConst || m_CvQualifiedType.IsConst(),
-                   isVolatile || m_CvQualifiedType.IsVolatile());
-}
-
-
-/**
  * Constructor takes the cv-qualified type that is referenced.
  */
 TypedefType

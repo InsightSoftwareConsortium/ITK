@@ -62,18 +62,6 @@ CvQualifiedType
 
 
 /**
- * Test if this cv-qualified type can be converted to the given
- * cv-qualified type.
- */
-bool
-CvQualifiedType
-::CanConvertTo(const Self& in_type) const
-{
-  return m_Type->CanConvertTo(in_type, m_Const, m_Volatile);
-}
-
-
-/**
  * CvQualifiedTypes compare equal iff they refer to the same Type, and
  * have the same cv-qualifiers.
  */

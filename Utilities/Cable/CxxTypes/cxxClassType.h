@@ -43,8 +43,6 @@ public:
   void AddParent(const ClassType*);
   
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
-  
   ClassType(const String&);
   ClassType(const Self&) {}
   void operator=(const Self&) {}

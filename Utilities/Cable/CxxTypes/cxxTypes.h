@@ -34,7 +34,7 @@ enum RepresentationType
   Undefined_id=0,
   
   ArrayType_id, ClassType_id, PointerType_id, PointerToMemberType_id,
-  ReferenceType_id, FundamentalType_id, FunctionType_id, TypedefType_id
+  ReferenceType_id, FundamentalType_id, FunctionType_id
 };
 
 class TypeSystem;

@@ -49,8 +49,6 @@ public:
 
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
   
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const = 0;
-  
 protected:
 
   Type() {}

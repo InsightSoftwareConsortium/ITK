@@ -40,8 +40,6 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
-  
   FundamentalType(Id);
   FundamentalType(const Self&) {}
   void operator=(const Self&) {}

@@ -30,18 +30,6 @@ FundamentalType
 
 
 /**
- * Test whether this type with the given cv-qualifiers can convert to
- * the given CvQualifiedType.
- */
-bool
-FundamentalType
-::CanConvertTo(const CvQualifiedType&, bool, bool) const
-{
-  return false;
-}
-
-
-/**
  * Constructor takes the Id of the fundamental type.
  */
 FundamentalType::FundamentalType(Id in_id):

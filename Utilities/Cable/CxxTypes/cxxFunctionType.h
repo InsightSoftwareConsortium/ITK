@@ -34,8 +34,6 @@ public:
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
-
   FunctionType(const CvQualifiedType&);
   FunctionType(const Self&): m_ReturnType(NULL) {}
   void operator=(const Self&) {}

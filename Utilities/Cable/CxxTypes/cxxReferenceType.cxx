@@ -40,16 +40,4 @@ ReferenceType
 }
 
 
-/**
- * Test whether this type with the given cv-qualifiers can convert to
- * the given CvQualifiedType.
- */
-bool
-ReferenceType
-::CanConvertTo(const CvQualifiedType&, bool, bool) const
-{
-  return false;
-}
-
-
 } // namespace _cxx_

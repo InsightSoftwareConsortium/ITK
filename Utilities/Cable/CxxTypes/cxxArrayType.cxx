@@ -29,17 +29,6 @@ ArrayType
   return ArrayType_id;
 }
 
-/**
- * Test whether this type with the given cv-qualifiers can convert to
- * the given CvQualifiedType.
- */
-bool
-ArrayType
-::CanConvertTo(const CvQualifiedType&, bool, bool) const
-{
-  return false;
-}
-
 
 /**
  * Constructor takes the type of the elements in the array, and the length.

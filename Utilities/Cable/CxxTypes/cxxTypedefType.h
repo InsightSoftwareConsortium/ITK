@@ -35,8 +35,6 @@ public:
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
   
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
-
   TypedefType(const CvQualifiedType&);
   TypedefType(const Self&): m_CvQualifiedType(NULL) {}
   void operator=(const Self&) {}

@@ -42,18 +42,6 @@ ClassType
 
 
 /**
- * Test whether this type with the given cv-qualifiers can convert to
- * the given CvQualifiedType.
- */
-bool
-ClassType
-::CanConvertTo(const CvQualifiedType&, bool, bool) const
-{
-  return false;
-}
-
-
-/**
  * Constructor for ClassType just takes the name of the class.  This name
  * may include template parameters of an instantiation.
  */

@@ -41,8 +41,6 @@ public:
   
   const Type* GetType() const { return m_Type; }
   
-  bool CanConvertTo(const Self&) const;
-
   bool operator== (const Self&) const;
   bool operator< (const Self&) const;
   
@@ -50,7 +48,7 @@ private:
   /**
    * The type to which these cv-qualifiers apply.
    */
-  const Type* const m_Type;
+  const Type* m_Type;
   
   /**
    * Flag for presence of "const" cv-qualifier.
