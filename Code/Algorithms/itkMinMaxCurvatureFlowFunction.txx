@@ -160,12 +160,12 @@ MinMaxCurvatureFlowFunction<TImage>
                           it.GetPixel( center - stride ) );
     gradient[j] *= this->m_ScaleCoefficients[j];
     
-    gradMagnitude += vnl_math_sqr( gradient[j] );
+    gradMagnitude += vnl_math_sqr( (double)gradient[j] );
     }
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( gradMagnitude );
+  gradMagnitude = vcl_sqrt( (double)gradMagnitude );
 
   // Search for all position in the neighborhood perpendicular to 
   // the gradient and at a distance of StencilRadius from center.
@@ -200,7 +200,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
       }
 
-    vectorMagnitude = vcl_sqrt( vectorMagnitude );
+    vectorMagnitude = vcl_sqrt( (double)vectorMagnitude );
 
     if ( vectorMagnitude != 0.0 )
       {
@@ -266,18 +266,18 @@ MinMaxCurvatureFlowFunction<TImage>
                         it.GetPixel( center - 1) );
   k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = vnl_math_sqr( gradient[k] );
+  gradMagnitude = vnl_math_sqr( (double)gradient[k] );
   k++;
 
   stride = it.GetStride( 1 );
   gradient[k] = 0.5 * ( it.GetPixel( center + stride ) -
                         it.GetPixel( center - stride ) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( gradient[k] );
+  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( gradMagnitude ) /
+  gradMagnitude = vcl_sqrt( (double)gradMagnitude ) /
     static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
@@ -287,14 +287,14 @@ MinMaxCurvatureFlowFunction<TImage>
 
 
   // Compute first perpendicular point
-  position[0] = vnl_math_rnd( m_StencilRadius - gradient[1] );
-  position[1] = vnl_math_rnd( m_StencilRadius + gradient[0] );
+  position[0] = vnl_math_rnd( (double)(m_StencilRadius - gradient[1]) );
+  position[1] = vnl_math_rnd( (double)(m_StencilRadius + gradient[0]) );
   
   threshold = it.GetPixel( position[0] + stride * position[1] );
 
   // Compute second perpendicular point 
-  position[0] = vnl_math_rnd( m_StencilRadius + gradient[1] );
-  position[1] = vnl_math_rnd( m_StencilRadius - gradient[0] );
+  position[0] = vnl_math_rnd( (double)(m_StencilRadius + gradient[1]) );
+  position[1] = vnl_math_rnd( (double)(m_StencilRadius - gradient[0]) );
 
   threshold += it.GetPixel( position[0] + stride * position[1] );
   threshold *= 0.5;
@@ -336,23 +336,23 @@ MinMaxCurvatureFlowFunction<TImage>
                         it.GetPixel( center - 1) );
   k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = vnl_math_sqr( gradient[k] );
+  gradMagnitude = vnl_math_sqr( (double)gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel( center + strideY ) -
                         it.GetPixel( center - strideY ) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( gradient[k] );
+  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel( center + strideZ ) -
                         it.GetPixel( center - strideZ ) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( gradient[k] );
+  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( gradMagnitude ) /
+  gradMagnitude = vcl_sqrt( (double)gradMagnitude ) /
     static_cast<PixelType>( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
