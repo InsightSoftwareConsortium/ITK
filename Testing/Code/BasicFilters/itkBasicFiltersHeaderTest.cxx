@@ -55,6 +55,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkSinImageFilter.h"
+#include "itkSpatialFunctionImageEvaluatorFilter.h"
 #include "itkSqrtImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkTanImageFilter.h"
