@@ -64,10 +64,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
     free(m_NewNodes);
     }
+#if 0
   if (m_K)
     {
     free (m_K);
     }
+#endif
 }
 
 /*
