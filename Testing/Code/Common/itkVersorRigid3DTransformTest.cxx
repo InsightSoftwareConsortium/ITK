@@ -99,12 +99,9 @@ int itkVersorRigid3DTransformTest(int, char* [] )
     parameters[0] = versor.GetX();
     parameters[1] = versor.GetY();
     parameters[2] = versor.GetZ();
-    parameters[3] = 0.0;             // Rotation center
+    parameters[3] = 0.0;             // Translation
     parameters[4] = 0.0;
     parameters[5] = 0.0;
-    parameters[6] = 0.0;             // Translation
-    parameters[7] = 0.0;
-    parameters[8] = 0.0;
 
     transform->SetParameters( parameters );
 
@@ -345,12 +342,9 @@ int itkVersorRigid3DTransformTest(int, char* [] )
     parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
     parameters[2] = versor.GetZ();
-    parameters[3] = 4.0;             // Rotation center
-    parameters[4] = 3.0;
-    parameters[5] = 2.0;
-    parameters[6] = 8.0;             // Translation
-    parameters[7] = 7.0;
-    parameters[8] = 6.0;
+    parameters[3] = 8.0;             // Translation
+    parameters[4] = 7.0;
+    parameters[5] = 6.0;
 
     transform->SetParameters( parameters );
 
