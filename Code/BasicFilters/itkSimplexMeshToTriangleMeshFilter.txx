@@ -81,7 +81,11 @@ namespace itk
       bool b3 = m_Centers->GetElementIfIndexExists(newId3, &p3 );
 
       meshSource->AddTriangle(p1,p2,p3);
-//      assert(b1 && b2 && b3);
+
+      if( !(b1 && b2 && b3) )
+        {
+        itkExceptionMacro(<<"Assertion failed for test of GetElementIfIndexExists()");
+        }
 
       pointsIt++;
       }
@@ -110,7 +114,10 @@ namespace itk
       cellIt++;
       }
 
-//    assert (cellIt != cells1.end() );
+    if (cellIt == cells1.end() )
+      {
+      itkExceptionMacro(<<"Cell was not found, altough it should be there");
+      }
 
     return *cellIt;
     }
