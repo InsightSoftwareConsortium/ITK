@@ -98,7 +98,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   // this filter requires the all of the input images 
   // to be at the size of the output requested region
-  InputImagePointer inputPtr = 
+  typename Superclass::InputImagePointer inputPtr = 
       const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
