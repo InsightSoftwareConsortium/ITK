@@ -76,7 +76,7 @@ public:
       this->Modified();        
       }
   };
-  const std::vector<std::string> & GetFileNames()
+  const std::vector<std::string> & GetFileNames() const
   {
     return m_FileNames;
   }
@@ -87,6 +87,7 @@ public:
   {
     m_FileNames.clear();
     m_FileNames.push_back(name);
+    this->Modified();
   }
 
   /** Add a single filename to the list of files. To add a vector of
@@ -94,6 +95,7 @@ public:
   void AddFileName (std::string const &name)
   {
     m_FileNames.push_back(name);
+    this->Modified();
   }
 
   /** ReverseOrderOn changes the order of travesal of the file names
