@@ -263,12 +263,14 @@ public:
   void      SetNumberOfIntegrationPoints(unsigned int i,unsigned int which=0){ m_NumberOfIntegrationPoints[which]=i;}
   
   /** The metric region allows one to compute the derivative (force) of the similarity metric 
-    * using a region of size [i,i] in 2D [i,i,i] in 3D.  
+    * using a region of size [i,i] in 2D [i,i,i] in 3D.
+    * \param i number of elements
     * \param which determines the region at a given resolution of the solution process.
     */
   void      SetWidthOfMetricRegion(unsigned int i,unsigned int which=0) { m_MetricWidth[which]=i;}
   
   /** Setting the maximum iterations stops the solution after i iterations regardless of energy.
+    * \param i number of elements
     * \param which determines the resolution of the solution process the call is applied to.
     */
   void      SetMaximumIterations(unsigned int i,unsigned int which) { m_Maxiters[which]=i;}
