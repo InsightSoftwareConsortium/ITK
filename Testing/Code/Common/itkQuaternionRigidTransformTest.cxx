@@ -30,8 +30,8 @@
 int itkQuaternionRigidTransformTest(int ,char * [] )
 {
 
-
-  typedef itk::QuaternionRigidTransform<double>  TransformType;
+  typedef double CoordinateType;
+  typedef itk::QuaternionRigidTransform< CoordinateType >  TransformType;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
@@ -66,20 +66,22 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
   /* Create a Rigid 3D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
-    TransformType::OffsetType::ValueType ioffsetInit[3] = {1,4,9};
-    TransformType::OffsetType ioffset = ioffsetInit;
-
-    translation->SetOffset( ioffset );
+    TransformType::OutputVectorType itransVector;
+    itransVector[0] = 1;
+    itransVector[1] = 4;
+    itransVector[2] = 9;
+    
+    translation->SetTranslation( itransVector );
 
     std::cout << "translation: " << translation;
 
-    TransformType::OffsetType offset = translation->GetOffset();
+    TransformType::OutputVectorType translationVector = translation->GetTranslation();
     std::cout << "pure Translation test:  ";
-    std::cout << offset << std::endl;
+    std::cout << translationVector << std::endl;
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( fabs( translationVector[i]- itransVector[i] ) > epsilon )
       {
         Ok = false;
         break;    
@@ -87,7 +89,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     }
     if( !Ok )
     { 
-      std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
+      std::cerr << "GetTranslation differs from SetTranslation value " << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -96,7 +98,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputPointType::ValueType pInit[3] = {10,10,10};
       TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
-      q = p + ioffset;
+      q = p + itransVector;
       TransformType::OutputPointType r;
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
@@ -226,12 +228,13 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     qrotation[2] =  sinth2;
     qrotation[3] =  costh2;
 
+    rotation->SetIdentity();
     rotation->SetRotation( qrotation );
 
     TransformType::OffsetType ioffset;
     ioffset.Fill( 0.0f );
 
-    rotation->SetOffset( ioffset );
+    rotation->ComputeOffset();
 
     std::cout << "rotation: " << rotation;
 
@@ -534,6 +537,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     qrotation[2] =  sinth2;
     qrotation[3] =  costh2;
 
+    rotation->SetIdentity();
+
     rotation->SetRotation( qrotation );
 
     TransformType::InputPointType  center;
@@ -542,13 +547,15 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     center[2] = 23;
 
 
-    TransformType::OffsetType ioffset;
-    ioffset.Fill( 0.0f );
+    TransformType::OutputVectorType itranslation;
+    itranslation[0] = 13;
+    itranslation[1] = 17;
+    itranslation[2] = 19;
 
-    rotation->SetOffset( ioffset );
-
-    
+    rotation->SetTranslation( itranslation );
     rotation->SetCenter( center );
+
+    rotation->ComputeOffset();
 
     std::cout << "rotation: " << rotation;
 
@@ -556,6 +563,18 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     TransformType::OffsetType offset = rotation->GetOffset();
     std::cout << "pure Rotation test:  " << std::endl;
     std::cout << "Offset = " << offset << std::endl;
+
+    TransformType::OffsetType ioffset;
+
+    ioffset[0]  = center[0] + itranslation[0];
+    ioffset[1]  = center[1] + itranslation[1];
+    ioffset[2]  = center[2] + itranslation[2];
+
+    ioffset[0] -= costh * center[0] - sinth * center[1];
+    ioffset[1] -= sinth * center[0] + costh * center[1];
+    ioffset[2] -= center[2]; 
+ 
+    std::cout << "iOffset = " << ioffset << std::endl;
 
     for(unsigned int i=0; i<N; i++)
     {
@@ -603,9 +622,13 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputPointType p = pInit;
       TransformType::InputPointType q;
 
-      q[0] =  p[0] * costh - p[1] * sinth;
-      q[1] =  p[0] * sinth + p[1] * costh;
-      q[2] =  p[2];
+      const CoordinateType x = p[0] - center[0];
+      const CoordinateType y = p[1] - center[1];
+      const CoordinateType z = p[2] - center[2];
+
+      q[0] =  x * costh - y * sinth + center[0] + itranslation[0];
+      q[1] =  x * sinth + y * costh + center[1] + itranslation[1];
+      q[2] =  z                     + center[2] + itranslation[2];
 
       TransformType::OutputPointType r;
       r = rotation->TransformPoint( p );
@@ -635,7 +658,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       TransformType::InputVectorType::ValueType pInit[3] = {10,10,10};
       TransformType::InputVectorType p = pInit;
 
-      TransformType::InputPointType q;
+      TransformType::OutputVectorType q;
       q[0] =  p[0] * costh - p[1] * sinth;
       q[1] =  p[0] * sinth + p[1] * costh;
       q[2] =  p[2];
@@ -699,7 +722,7 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
     
     {
-      // Translate a vnl_vector
+      // Rotate a vnl_vector
       TransformType::InputVnlVectorType p;
       p[0] = 11;
       p[1] =  7;
@@ -736,6 +759,10 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     }
 
   }
+
+  std::cout << std::endl;
+  std::cout << "Test PASSED !" << std::endl;
+  std::cout << std::endl;
 
   return EXIT_SUCCESS;
 
