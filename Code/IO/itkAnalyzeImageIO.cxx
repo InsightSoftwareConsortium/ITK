@@ -68,6 +68,16 @@ enum DataTypeIndex  {
   ANALYZE_DT_INDEX_UNSIGNED_SHORT=10
 };
 
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
+#include <stdlib.h>
+#define _unlink unlink
+#else
+#include <unistd.h>
+#endif
+static inline int Remove(const char *fname)
+{
+  return unlink(fname);
+}
 
 //GetExtension from uiig library.
 static std::string
@@ -1276,7 +1286,7 @@ namespace itk
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img";
-        std::remove(unusedbaseimgname.c_str());
+        Remove(unusedbaseimgname.c_str());
       }
     else 
       {
@@ -1309,7 +1319,7 @@ namespace itk
         //DEBUG -- Will this work under windows?
         std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
         unusedbaseimgname+=".img.gz";
-        std::remove(unusedbaseimgname.c_str());
+        Remove(unusedbaseimgname.c_str());
       }
   }
 } // end namespace itk
