@@ -17,6 +17,8 @@
 #ifndef __itkStatisticsAlgorithm_txx
 #define __itkStatisticsAlgorithm_txx
 
+#include "itkStatisticsAlgorithm.h"
+
 namespace itk{
 namespace Statistics{
 
