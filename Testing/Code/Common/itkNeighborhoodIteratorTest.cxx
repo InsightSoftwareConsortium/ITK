@@ -42,18 +42,18 @@ int main()
   itk::ImageRegion<4> RegionND;
   
   itk::Size<2>  size2D;
-   size2D[0] = 123;
-   size2D[1] = 241;
+   size2D[0] = 26;
+   size2D[1] = 26;
   
   itk::Size<3>  size3D;
-   size3D[0] = 100;
-   size3D[1] = 100;
-   size3D[2] = 10;
+   size3D[0] = 26;
+   size3D[1] = 26;
+   size3D[2] = 3;
 
   itk::Size<4>  sizeND;
-   sizeND[0] = 10;
-   sizeND[1] = 10;
-   sizeND[2] = 4;
+   sizeND[0] = 26;
+   sizeND[1] = 26;
+   sizeND[2] = 3;
    sizeND[3] = 2;
   
   itk::Index<2> orig2D;
@@ -129,8 +129,8 @@ int main()
    szN[2] = 1;
    szN[3] = 1;
 
-  itk::RegionNeighborhoodIterator<ImageType2D,itk::NeighborhoodAllocator<float *>,
-    vnl_vector<float> > rni2D(sz2, image2D, image2D->GetRequestedRegion());
+   itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
+                                                      image2D->GetRequestedRegion());
   itk::RegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
                                             image3D->GetRequestedRegion());
   itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
@@ -143,8 +143,23 @@ int main()
   rni2D.End().Print(std::cout);
 
   int i=0;
+  println("2d forward iteration");
   for (rni2D = rni2D.Begin(); rni2D < rni2D.End(); ++rni2D)
-    { ++i; }
+    {
+      std::cout << rni2D.GetIndex() << std::endl;
+      ++i;
+    }
+  std::cout << i << std::endl;
+
+  println("2d backward iteration");
+  i = 0;
+  rni2D = rni2D.End();
+  --rni2D;
+  for (; rni2D >= rni2D.Begin(); --rni2D)
+    {
+      std::cout << rni2D.GetIndex() << std::endl;
+      ++i;
+    }
   std::cout << i << std::endl;
 
   i=0;
@@ -159,9 +174,8 @@ int main()
 
 
   println("Testing RandomAccessNeighborhoodIterator");
-  itk::RandomAccessNeighborhoodIterator<ImageType3D,
-    itk::NeighborhoodAllocator<float *>,
-    vnl_vector<float> > rri3D(sz3, image3D, image3D->GetRequestedRegion());
+  itk::RandomAccessNeighborhoodIterator<ImageType3D>
+    rri3D(sz3, image3D, image3D->GetRequestedRegion());
 
   println("Testing forward iteration");
   i =0; 
@@ -193,25 +207,20 @@ int main()
   std::cout << (rri3D - rri3D.Begin()) << std::endl;
  
   println("Testing RegionNonBoundaryNeighborhoodIterator");
-  itk::RegionNonBoundaryNeighborhoodIterator<ImageType3D,
-    itk::NeighborhoodAllocator<float *>,
-    vnl_vector<float> > rnbi3D(sz3, image3D, image3D->GetRequestedRegion());
+  itk::RegionNonBoundaryNeighborhoodIterator<ImageType3D>
+    rnbi3D(sz3, image3D, image3D->GetRequestedRegion());
 
   rnbi3D.Print(std::cout);
  
   println("Testing SmartRegionNeighborhoodIterator");
-  itk::SmartRegionNeighborhoodIterator<ImageType3D,
-        itk::NeighborhoodAllocator<float *>,
-    vnl_vector<float> > rsbi3D(sz3, image3D,
+  itk::SmartRegionNeighborhoodIterator<ImageType3D> rsbi3D(sz3, image3D,
                                image3D->GetRequestedRegion());
   rsbi3D.Print(std::cout);
-
+  
   println("Testing RegionBoundaryNeighborhoodIterator");
-  itk::RegionBoundaryNeighborhoodIterator<ImageType3D,
-    itk::NeighborhoodAllocator<float *>,
-    vnl_vector<float> > rbni3D
-    (sz3, image3D, image3D->GetRequestedRegion() );
-  rbni3D.Print(std::cout);
+   itk::RegionBoundaryNeighborhoodIterator<ImageType3D> rsbni3D
+     (sz3, image3D, image3D->GetRequestedRegion() );
+   rsbni3D.Print(std::cout);
   
   return 0;
 }
