@@ -48,7 +48,8 @@ namespace itk
 {
 
 template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SymmetricEllipsoidInteriorExteriorSpatialFunction()
+SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
   m_Center.Fill(0.0); // Origin of ellipsoid
   m_Orientation.Fill(1.0);  // Orientation of unique axis
@@ -57,7 +58,8 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::Symmetric
 }
 
 template <class T, unsigned int VImageDimension>
-SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::~SymmetricEllipsoidInteriorExteriorSpatialFunction()
+SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::~SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
 
 }
@@ -92,9 +94,24 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 }
 
 template <class T, unsigned int VImageDimension>
-void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SetOrientation(itk::Vector<VectorType> orientation,
-                                                                                           VectorType uniqueAxis,
-                                                                                           VectorType symmetricAxes)
+void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Origin of Ellipsoid: ";
+  os << m_Center << std::endl;
+  os << indent << "Unique Axis Orientation: ";
+  os << m_Orientation << std::endl;
+  os << indent << "Unique Axis Length: ";
+  os << m_UniqueAxis << std::endl;
+  os << indent << "Symmetric Axis Length: ";
+  os << m_SymmetricAxes << std::endl;
+}
+
+template <class T, unsigned int VImageDimension>
+void SymmetricEllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::SetOrientation(itk::Vector<VectorType> orientation, VectorType uniqueAxis, VectorType symmetricAxes)
 {
   m_Orientation = orientation;  // Orientation of unique axis of ellipsoid
   m_SymmetricAxes = symmetricAxes;  // Length of symmetric axes

@@ -98,6 +98,8 @@ protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
   virtual ~SymmetricEllipsoidInteriorExteriorSpatialFunction();
 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 private:
   SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

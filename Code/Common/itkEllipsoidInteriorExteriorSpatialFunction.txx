@@ -95,7 +95,18 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 }
 
 template <class T, unsigned int VImageDimension>
+void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 
+  os << indent << "Lenghts of Ellipsoid Axes: ";
+  os << m_Axes << std::endl;
+  os << indent << "Origin of Ellipsoid: ";
+  os << m_Center << std::endl;
+}
+
+template <class T, unsigned int VImageDimension>
 void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 ::SetOrientations(vnl_matrix<VectorType> orientations)
 {
