@@ -240,10 +240,10 @@ bool MetaImageIO::CanReadFile( const char* filename )
       return false;
       }
     inputStream >> key;
-    if( strcmp( key, "LOCAL" ) != 0 ) 
-      {
-      return false;
-      }
+    //if( strcmp( key, "LOCAL" ) != 0 ) 
+    //  {
+    //  return false;
+    //  }
     // end of header : succesful read
     return true;
     }
@@ -521,9 +521,17 @@ void MetaImageIO::ReadImageInformation()
     m_Ifstream.getline( restOfTheLine, maxLineLength );
     if( strcmp( key, "LOCAL" ) != 0 ) 
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Lecture of non LOCAL files is not implemented yet");
-      throw exception;
+      size_t endOfPath = m_FileName.find_last_of( "\\/" );
+      if( endOfPath > m_FileName.max_size() )
+        {
+        endOfPath = 0; // there is no path
+        }
+      m_Ifstream.close();        // Close the header
+      std::string dataFileName = key;
+      std::cout << "Header filename = " << m_FileName << std::endl;
+      m_FileName.insert( endOfPath, dataFileName );  // Compose the data filename
+      std::cout << "Data filename = " << m_FileName << std::endl;
+      m_Ifstream.open( m_FileName.c_str() ); // open the data file
       }
     else 
       {
