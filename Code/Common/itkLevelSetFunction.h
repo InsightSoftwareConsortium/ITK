@@ -17,7 +17,11 @@
 #ifndef __itkLevelSetFunction_h_
 #define __itkLevelSetFunction_h_
 
-#include "itkLevelSetFunctionBase.h"
+#include "itkFiniteDifferenceFunction.h"
+#include "vnl/vnl_matrix_fixed.h"
+// To do: propagate non-const ComputeUpdate also documentation
+//         modify Dense solver to allow state changes in function objects &
+//         threaded sparse field
 
 namespace itk {
 
@@ -61,12 +65,12 @@ namespace itk {
  */
 template <class TImageType>
 class ITK_EXPORT LevelSetFunction
-  : public LevelSetFunctionBase<TImageType>
+  : public FiniteDifferenceFunction<TImageType>
 {
 public:
   /** Standard class typedefs. */
   typedef LevelSetFunction Self;
-  typedef LevelSetFunctionBase<TImageType> Superclass;
+  typedef FiniteDifferenceFunction<TImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -74,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( LevelSetFunction, LevelSetFunctionBase );
+  itkTypeMacro( LevelSetFunction, FiniteDifferenceFunction );
 
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
@@ -83,18 +87,80 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Convenient typedefs. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
-  typedef typename Superclass::RadiusType       RadiusType;
+  typedef double TimeStepType;
+  typedef typename Superclass::ImageType  ImageType;
+  typedef typename Superclass::PixelType  PixelType;
+  typedef                      PixelType  ScalarValueType;
+  typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::VectorType VectorType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+
+  /** The vector type that will be used in the calculations. */
+  //  typedef
+  //    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
+  typedef FixedArray<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
+  
+  /** Advection field.  Default implementation returns a vector of zeros. */
+  virtual VectorType AdvectionField(const NeighborhoodType &,
+                                    const FloatOffsetType &)  const
+    { return m_ZeroVectorConstant; }
+
+  /** Propagation speed.  This term controls surface expansion/contraction.
+   *  Default implementation returns zero. */ 
+  virtual ScalarValueType PropagationSpeed(
+    const NeighborhoodType& ,
+    const FloatOffsetType & ) const
+    { return NumericTraits<ScalarValueType>::Zero; }
+
+  /** Curvature speed.  Can be used to spatially modify the effects of
+      curvature . The default implementation returns one. */
+  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
+                                         const FloatOffsetType &
+                                         ) const
+    { return NumericTraits<ScalarValueType>::One; }
+
+    /** Laplacian smoothing speed.  Can be used to spatially modify the 
+      effects of laplacian smoothing of the level set function */
+  virtual ScalarValueType LaplacianSmoothingSpeed(
+    const NeighborhoodType &,
+    const FloatOffsetType &) const
+    { return NumericTraits<ScalarValueType>::One; }
+
+  /** Alpha.  Scales all advection term values.*/ 
+  void SetAdvectionWeight(const ScalarValueType a)
+    { m_AdvectionWeight = a; }
+  ScalarValueType GetAdvectionWeight() const
+    { return m_AdvectionWeight; }
+  
+  /** Beta.  Scales all propagation term values. */
+  void SetPropagationWeight(const ScalarValueType p)
+    { m_PropagationWeight = p; }
+  ScalarValueType GetPropagationWeight() const
+    { return m_PropagationWeight; }
+  
+  /** Gamma. Scales all curvature weight values */
+  void SetCurvatureWeight(const ScalarValueType c)
+    { m_CurvatureWeight = c; }
+  ScalarValueType GetCurvatureWeight() const
+    { return m_CurvatureWeight; }
+  
+  /** Weight of the laplacian smoothing term */
+  void SetLaplacianSmoothingWeight(const ScalarValueType c)
+    { m_LaplacianSmoothingWeight = c; }
+  ScalarValueType GetLaplacianSmoothingWeight() const
+    { return m_LaplacianSmoothingWeight; }
+  
+  /** Epsilon. */
+  void SetEpsilonMagnitude(const ScalarValueType e)
+    { m_EpsilonMagnitude = e; }
+  ScalarValueType GetEpsilonMagnitude() const
+    { return m_EpsilonMagnitude; }
 
   /** Compute the equation value. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& = FloatOffsetType(0.0)) const;
+                                  const FloatOffsetType& = FloatOffsetType(0.0));
 
  /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
@@ -129,6 +195,40 @@ public:
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
     { delete (GlobalDataStruct *) GlobalData; }
 
+  /**  */
+  virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
+                                               const FloatOffsetType &
+                                               );
+  virtual ScalarValueType ComputeMeanCurvature(const NeighborhoodType &,
+                                               const FloatOffsetType &
+                                               );
+
+  virtual ScalarValueType ComputeMinimalCurvature(const NeighborhoodType &,
+                                                  const FloatOffsetType &
+                                                  );
+  
+  virtual ScalarValueType Compute3DMinimalCurvature(const NeighborhoodType &,
+                                                    const FloatOffsetType &
+                                                    );
+  
+  /** */
+  void SetUseMinimalCurvature( bool b )
+  {
+    m_UseMinimalCurvature = b;
+  }
+  bool GetUseMinimalCurvature() const
+  {
+    return m_UseMinimalCurvature;
+  }
+  void UseMinimalCurvatureOn()
+  {
+    this->SetUseMinimalCurvature(true);
+  }
+  void UseMinimalCurvatureOff()
+  {
+    this->SetUseMinimalCurvature(false);
+  }
+  
 protected:
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step. */
@@ -138,17 +238,20 @@ protected:
     ScalarValueType m_MaxPropagationChange;
   };
   
-  LevelSetFunction() {}
-  ~LevelSetFunction() {}
+  LevelSetFunction()
+  {
+    m_EpsilonMagnitude = 1.0e-5;
+    m_AdvectionWeight = m_PropagationWeight 
+      = m_CurvatureWeight = m_LaplacianSmoothingWeight 
+      = NumericTraits<ScalarValueType>::Zero;
+    m_UseMinimalCurvature = true;
+  }
+  virtual ~LevelSetFunction() {}
   void PrintSelf(std::ostream &s, Indent indent) const;
   
   /** Constants used in the time step calculation. */
   static double m_WaveDT;
   static double m_DT;
-
-private:
-  LevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&);   //purposely not implemented
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
@@ -158,6 +261,47 @@ private:
 
   /** Stride length along the y-dimension. */
   ::size_t m_xStride[ImageDimension];
+
+  bool m_UseMinimalCurvature;
+
+  /** Hessian matrix */
+  vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> m_dxy;
+
+  /** Array of first derivatives*/
+  ScalarValueType m_dx[ImageDimension];
+
+  ScalarValueType m_dx_forward[ImageDimension];
+  ScalarValueType m_dx_backward[ImageDimension];
+
+  ScalarValueType m_GradMagSqr;
+  
+  /** This method's only purpose is to initialize the zero vector
+   * constant. */
+  static VectorType InitializeZeroVectorConstant();
+  
+  /** Zero vector constant. */
+  static VectorType m_ZeroVectorConstant;
+
+  /** Epsilon magnitude controls the lower limit for gradient magnitude. */
+  ScalarValueType m_EpsilonMagnitude;
+  
+  /** Alpha. */
+  ScalarValueType m_AdvectionWeight;
+
+  /** Beta. */
+  ScalarValueType m_PropagationWeight;
+
+  /** Gamma. */
+  ScalarValueType m_CurvatureWeight;
+
+  /** Laplacean smoothing term */
+  ScalarValueType m_LaplacianSmoothingWeight;
+  
+  
+private:
+  LevelSetFunction(const Self&); //purposely not implemented
+  void operator=(const Self&);   //purposely not implemented
+
 };
 
 } // namespace itk

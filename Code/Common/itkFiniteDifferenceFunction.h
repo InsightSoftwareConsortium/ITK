@@ -125,8 +125,7 @@ public:
    * \sa ComputeGlobalTimeStep */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType &offset = FloatOffsetType(0.0))
-    const = 0;
+                                   const FloatOffsetType &offset = FloatOffsetType(0.0)) = 0;
 
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction

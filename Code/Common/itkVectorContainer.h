@@ -55,7 +55,7 @@ public:
   typedef Object  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-    
+  
   /** Save the template parameters. */
   typedef TElementIdentifier  ElementIdentifier;
   typedef TElement            Element;

@@ -80,42 +80,7 @@ public:
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
   
-  /** Laplacian smoothing speed.  Can be used to spatially modify the 
-      effects of laplacian smoothing of the level set function */
-  virtual ScalarValueType LaplacianSmoothingSpeed(
-    const NeighborhoodType &,
-    const FloatOffsetType &) const
-    { return NumericTraits<ScalarValueType>::One; }
 
-  /** Alpha.  Scales all advection term values.*/ 
-  void SetAdvectionWeight(const ScalarValueType a)
-    { m_AdvectionWeight = a; }
-  ScalarValueType GetAdvectionWeight() const
-    { return m_AdvectionWeight; }
-  
-  /** Beta.  Scales all propagation term values. */
-  void SetPropagationWeight(const ScalarValueType p)
-    { m_PropagationWeight = p; }
-  ScalarValueType GetPropagationWeight() const
-    { return m_PropagationWeight; }
-  
-  /** Gamma. Scales all curvature weight values */
-  void SetCurvatureWeight(const ScalarValueType c)
-    { m_CurvatureWeight = c; }
-  ScalarValueType GetCurvatureWeight() const
-    { return m_CurvatureWeight; }
-  
-  /** Weight of the laplacian smoothing term */
-  void SetLaplacianSmoothingWeight(const ScalarValueType c)
-    { m_LaplacianSmoothingWeight = c; }
-  ScalarValueType GetLaplacianSmoothingWeight() const
-    { return m_LaplacianSmoothingWeight; }
-  
-  /** Epsilon. */
-  void SetEpsilonMagnitude(const ScalarValueType e)
-    { m_EpsilonMagnitude = e; }
-  ScalarValueType GetEpsilonMagnitude() const
-    { return m_EpsilonMagnitude; }
 
   virtual void Initialize(const RadiusType &r) =0;
 
