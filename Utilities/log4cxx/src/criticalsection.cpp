@@ -17,6 +17,7 @@
 #include <log4cxx/helpers/criticalsection.h>
 #include <log4cxx/helpers/thread.h>
 
+
 using namespace log4cxx::helpers;
 
 CriticalSection::CriticalSection() : owningThread(0)
@@ -24,7 +25,9 @@ CriticalSection::CriticalSection() : owningThread(0)
 #ifdef HAVE_PTHREAD
   pthread_mutexattr_t attr;
   pthread_mutexattr_init(&attr);
+#ifndef __INTEL_COMPILER 
   pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+#endif
   pthread_mutex_init(&mutex, &attr);
   pthread_mutexattr_destroy(&attr);
 #elif defined(HAVE_MS_THREAD)

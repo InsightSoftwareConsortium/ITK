@@ -30,7 +30,9 @@ Mutex::Mutex()
 #ifdef HAVE_PTHREAD
   pthread_mutexattr_t attr;
   pthread_mutexattr_init(&attr);
+#ifndef __INTEL_COMPILER
   pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+#endif
   pthread_mutex_init(&mutex, &attr);
   pthread_mutexattr_destroy(&attr);
 #elif defined(HAVE_MS_THREAD)
