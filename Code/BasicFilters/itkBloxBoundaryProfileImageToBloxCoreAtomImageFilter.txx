@@ -227,6 +227,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
 
           VectorType C21 = P1 - P2;
 
+
           C12 = C12 / C12.GetNorm();
           C21 = C21 / C21.GetNorm();
 
@@ -234,8 +235,16 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
           GradientType G1 = ( (BProfileItemType*)pBPOne )->GetGradient2();
           GradientType G2 = ( (BProfileItemType*)pBPTwo )->GetGradient2();
 
-          G1 = G1 / G1.GetNorm();
-          G2 = G2 / G2.GetNorm();
+          if(G1.GetNorm()>0)
+            {
+            G1 = G1 / G1.GetNorm();
+            }
+          
+        
+          if(G2.GetNorm()>0)
+            {
+            G2 = G2 / G2.GetNorm();
+            }
 
           // Calculate face-to-faceness
           double faceness1 = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() );
