@@ -37,9 +37,7 @@ static const char* DICOM_MAGIC = "DICM";
 static const int   OPTIONAL_SKIP = 128;
 
 
-// -- Open an image file so it is ready for reading, and calls to 
-//    GetSection and PutSection.  
-DICOMParser::DICOMParser() :  DebugFile() 
+DICOMParser::DICOMParser() :  ParserOutputFile() 
 {
   DataFile = NULL;
   this->InitTypeMap();
@@ -53,7 +51,7 @@ bool DICOMParser::OpenFile(char* filename)
 }
 
 DICOMParser::~DICOMParser() {
-  DebugFile.close();
+  ParserOutputFile.close();
   if (DataFile)
     {
     delete DataFile;
@@ -61,6 +59,9 @@ DICOMParser::~DICOMParser() {
 }
 
 bool DICOMParser::ReadHeader() {
+
+  static int read_count = 0;
+  std::cout << "ReadHeader called: " << ++read_count << std::endl;
 
   bool dicom = this->IsDICOMFile(this->DataFile);
   if (!dicom)
@@ -76,7 +77,7 @@ bool DICOMParser::ReadHeader() {
     this->ReadNextRecord(group, element);
     } while (DataFile->Tell() < DataFile->GetSize());
 
-  DebugFile.close();
+  ParserOutputFile.close();
 
   return true;
 }
@@ -216,7 +217,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
   group = DataFile->ReadDoubleByte();
   element = DataFile->ReadDoubleByte();
 
-  doublebyte representation = DataFile->ReadDoubleByteNoSwap();
+  doublebyte representation = DataFile->ReadDoubleByteAsLittleEndian();
   quadbyte length = 0;
   VRTypes mytype = VR_UNKNOWN;
   this->IsValidRepresentation(representation, length, mytype);

@@ -16,10 +16,10 @@
 
 
 #ifdef WIN32
-#define WORDS_LITTLEENDIAN
+#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
 #endif
 #ifdef __CYGWIN__
-#define WORDS_LITTLEENDIAN
+#define DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
 #endif
 
 
@@ -27,9 +27,11 @@
 DICOMFile::DICOMFile() : inputStream()
 {
   Filename = NULL;
-#ifdef WORDS_LITTLEENDIAN
+#ifdef DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
+  PlatformEndian = "LittleEndian";
   ByteSwap = false;
 #else
+  PlatformEndian = "BigEndian";
   ByteSwap = true;
 #endif  
 
@@ -112,11 +114,14 @@ doublebyte DICOMFile::ReadDoubleByte()
   return(sh);
 }
 
-doublebyte DICOMFile::ReadDoubleByteNoSwap() 
+doublebyte DICOMFile::ReadDoubleByteAsLittleEndian() 
 {
   doublebyte sh = 0;
   int sz = sizeof(doublebyte);
   this->Read((char*)&(sh),sz); 
+#ifndef DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
+   sh = swapShort(sh);
+#endif
   return(sh);
 }
 

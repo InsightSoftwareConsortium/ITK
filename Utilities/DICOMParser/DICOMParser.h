@@ -203,7 +203,7 @@ class DICOMParser
   //
   // Used for outputting debug information.
   //
-  std::ofstream DebugFile;
+  std::ofstream ParserOutputFile;
 
   //
   // Pointer to the DICOMFile we're parsing.

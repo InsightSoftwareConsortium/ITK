@@ -71,7 +71,7 @@ class DICOMFile
   doublebyte ReadDoubleByte();
 
   
-  doublebyte ReadDoubleByteNoSwap();
+  doublebyte ReadDoubleByteAsLittleEndian();
 
   //
   // Read a quadbyte of data.
@@ -262,4 +262,9 @@ class DICOMFile
   // Flag for swaping bytes.
   //
   bool ByteSwap;
+
+  //
+  // Platform endianness
+  //
+  char* PlatformEndian;
 };

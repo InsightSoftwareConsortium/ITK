@@ -373,39 +373,29 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
                                             unsigned char* val,
                                             quadbyte) 
 {
-  char dataByteOrder;
 #ifdef WIN32
   char platformByteOrder = 'L';
 #else
   char platformByteOrder = 'B';
 #endif
+  std::cout << "Platform byte order: " << platformByteOrder << std::endl;
 
   static char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
 
-  if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*) val) == 0)
-    {
-    dataByteOrder = 'B';
-    }
-  else
-    {
-    dataByteOrder = 'L';
-    }
 
   DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
   cb->SetCallbackFunction(this, &DICOMAppHelper::ToggleSwapBytesCallback);
 
-  if ((platformByteOrder != dataByteOrder))
+  if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*) val) == 0)
     {
     this->ByteSwapData = true;
-    this->Parser->AddDICOMTagCallback(0x800, 0x0000, DICOMParser::VR_UNKNOWN, cb);
+    this->Parser->AddDICOMTagCallback(0x0800, 0x0000, DICOMParser::VR_UNKNOWN, cb);
     std::cerr <<"Registering callback for swapping bytes." << std::endl;
     }
   
   this->TransferSyntaxUID = new std::string((char*) val);
   std::cout << "Transfer Syntax UID: " << *this->TransferSyntaxUID;
   std::cout << " " << this->TransferSyntaxUIDDescription(this->TransferSyntaxUID->c_str()) << std::endl;
-
-
 }
 
 void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
@@ -428,6 +418,8 @@ void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
   std::cout << "ToggleSwapBytesCallback" << std::endl;
   bool bs = this->DICOMDataFile->GetByteSwap();
   this->DICOMDataFile->SetByteSwap(!bs);
+
+  std::cout << "Set byte swap to: " << this->DICOMDataFile->GetByteSwap() << std::endl;
 
   long pos = this->DICOMDataFile->Tell();
 

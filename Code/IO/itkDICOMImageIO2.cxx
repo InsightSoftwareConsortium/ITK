@@ -74,13 +74,34 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
                                       unsigned char* val,
                                       quadbyte len)
 {
-  memcpy(this->ImageDataBuffer, val, len);
+  unsigned int imageBytes = this->GetImageSizeInBytes();
+  if (len < 0)
+    {
+    len = 0;
+    }
+  if (len < imageBytes)
+    {
+    imageBytes = len;
+    }
+  std::cerr << "DICOMImageIO2::ReadDataCallback " << imageBytes << " bytes." << std::endl;
+  memcpy(this->ImageDataBuffer, val, imageBytes);
 }
 
 void DICOMImageIO2::Read(void* buffer)
 {
-  
-  // Parser.ClearAllDICOMTagCallbacks();
+  Parser.ClearAllDICOMTagCallbacks();
+  AppHelper.RegisterCallbacks(&Parser);
+
+  AppHelper.SetFileName(m_FileName.c_str());
+    
+  bool open = Parser.OpenFile((char*) m_FileName.c_str());
+  if (!open)
+    {
+    std::cerr << "Couldn't open file: " << m_FileName << std::endl;
+    return;
+    }
+
+  AppHelper.SetDICOMDataFile(Parser.GetDICOMFile());
 
   DICOMMemberCallback<DICOMImageIO2>* cb = new DICOMMemberCallback<DICOMImageIO2>;
   cb->SetCallbackFunction(this, &DICOMImageIO2::ReadDataCallback);
@@ -88,13 +109,12 @@ void DICOMImageIO2::Read(void* buffer)
 
   this->ImageDataBuffer = (unsigned char*) buffer;
   
+  std::cout << "DICOMImageIO2::Read" << std::endl;
   Parser.ReadHeader();
-
 }
 
 /** 
  *  Read Information about the dicom file
- *  and put the cursor of the stream just before the first data pixel
  */
 void DICOMImageIO2::ReadImageInformation()
 {
