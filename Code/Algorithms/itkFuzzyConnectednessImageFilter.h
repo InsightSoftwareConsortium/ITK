@@ -81,6 +81,8 @@ namespace itk{
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
  *  Graphical Models and Image Processing, Vol.58, No.3. pp 246-261, 1996.
+ *
+ * \ingroup FuzzyConnectednessSegmentation  
  */
 
 template <class TInputImage, class TOutputImage>

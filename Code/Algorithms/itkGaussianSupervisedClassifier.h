@@ -108,6 +108,8 @@ namespace itk
  * 1 particular band of a multiband dataset. A single band image is treated 
  * as a vector image with a single element for every vector. The classified
  * image is treated as a single band scalar image.
+ *
+ * \ingroup SupervisedClassificationFilters 
  */
 
 template <class TInputImage, class TClassifiedImage>

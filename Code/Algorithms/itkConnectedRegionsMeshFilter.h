@@ -54,6 +54,8 @@ namespace itk
  * are referred to as a region.) Options exist to extract the largest
  * region, a particular region, a region containing a specified
  * point, or a region containing a specified cell.
+ *
+ * \ingroup MeshFilters 
  */
 
 template <class TInputMesh, class TOutputMesh>

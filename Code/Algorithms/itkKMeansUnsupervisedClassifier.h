@@ -136,6 +136,8 @@ namespace itk
  * image is treated as a single band scalar image. Currently there is no
  * support for generating a classified image. This class can be extended by
  * overriding the virtual GetPixelDistance() function.
+ *
+ * \ingroup UnSupervisedClassificationFilters 
  */
 
 template <class TInputImage, class TClassifiedImage>

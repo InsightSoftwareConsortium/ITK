@@ -23,6 +23,8 @@ namespace itk
  * f_1 for the object homogeneity, f_2 for the boundary smoothness,
  * f_3 is the noise model. f_1 and f_3 is minimized in the function
  * GradientEnergy and f_2 is minized in the function GibbsTotalEnergy
+ *
+ * \ingroup MRFFilters
  */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage, 

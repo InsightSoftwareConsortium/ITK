@@ -68,6 +68,9 @@ namespace itk
   * This class is templated over the image type which represents the
   * level set.
   *
+  * \ingroup LevelSetSegmentation 
+  * \ingroup ImageEnhancement 
+  *
   *
   */
 template <class TLevelSet>

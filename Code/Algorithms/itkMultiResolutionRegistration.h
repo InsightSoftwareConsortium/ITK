@@ -68,6 +68,9 @@ namespace itk
  *    MultiResolutionImagePyramid.
  * e) the reference image pyramid type
  *
+ * \ingroup RegistrationFilters
+ * \ingroup ImageRegistration
+ *
  */
 template <class TTraits>
 class ITK_EXPORT MultiResolutionRegistration : public ProcessObject

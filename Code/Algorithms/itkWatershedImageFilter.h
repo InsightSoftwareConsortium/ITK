@@ -64,6 +64,8 @@ namespace itk
  * to examine the segmented image at any arbitrary level.
  *
  * The pixels must support the operators <, ==
+ * 
+ * \ingroup WatershedSegmentation 
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT WatershedSegmentBasicOutput : public TOutputImage
@@ -210,6 +212,7 @@ class ITK_EXPORT RelabelWatershedImageFilter;
  * \todo References to the documentation.
  *
  * \sa RelabelWatershedImageFilter
+ * \ingroup WatershedSegmentation 
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT WatershedImageFilter :

@@ -67,6 +67,8 @@ public ImageToImageFilter<TInputImage,TOutputImage>
  *  " Semi-automated color segmentation of anatomical tissue,"
  *   C. Imelinska, M. Downes, and W. Yuan  
  *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
+ *
+ * \ingroup HybridSegmentation 
  */
 public:
   /**

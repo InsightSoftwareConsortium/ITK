@@ -70,6 +70,8 @@ public ImageToImageFilter<TInputImage,TOutputImage>
  *
  * the input image should be in the format of:
  * itkImage<itkVector<PixelType,3>, 2>.
+ *
+ * \ingroup HybridSegmentation 
  */
 public:
   /**

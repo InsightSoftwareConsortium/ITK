@@ -99,6 +99,7 @@ namespace itk
  *
  * - Add support to detect convergence.
  *
+ * \ingroup LevelSetSegmentation 
  */
 template <
 class TLevelSet, 

@@ -53,6 +53,8 @@ namespace itk
  * This Class define the generic interface for a registration method.
  * The basic elements of a registration method are defined in a Traits
  * class
+ *
+ * \ingroup RegistrationFilters
  * 
  */
 

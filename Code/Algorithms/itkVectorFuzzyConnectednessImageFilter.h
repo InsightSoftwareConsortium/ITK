@@ -30,7 +30,7 @@ namespace itk{
 
 /** \class VectorFuzzyConnectednessImageFilter
  * 
- * 
+ *  \ingroup FuzzyConnectednessSegmentation  
  */
 template <class TInputImage, class TOutputImage>
 class VectorFuzzyConnectednessImageFilter:

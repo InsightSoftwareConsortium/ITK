@@ -85,6 +85,8 @@ namespace itk{
  *
  * the input image should be in the form of:
  *  itkImage<itkVector<Pixeltype,3>,2>
+ *
+ * \ingroup FuzzyConnectednessSegmentation  
  */
 
 template <class TInputImage, class TOutputImage>

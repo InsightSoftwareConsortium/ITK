@@ -55,6 +55,8 @@ namespace itk
  * object to merge and relabel segments at a specified flood level.  Note that
  * the maximum Level (1.0) is equal to the Level parameter of the input
  * WatershedSegment object.
+ *
+ * \ingroup WatershedSegmentation 
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RelabelWatershedImageFilter :

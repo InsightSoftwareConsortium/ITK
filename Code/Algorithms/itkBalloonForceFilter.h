@@ -65,6 +65,9 @@ namespace itk
  * When the nodes on the model stopped at the estimated boundary, using the
  * GapSearch method to add new nodes at region the object has a complicate
  * shape.
+ *
+ * \ingroup MeshFilters
+ * \ingroup MeshSegmentation
  */
 template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT BalloonForceFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>

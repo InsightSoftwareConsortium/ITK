@@ -72,6 +72,9 @@ namespace itk
   *
   * \sa LevelSetImageFilter
   *
+  * \ingroup ImageEnhancement 
+  * \ingroup LevelSetSegmentation 
+  *
   */
 template <class TLevelSet> 
 class ITK_EXPORT CurvatureFlowImageFilter : 

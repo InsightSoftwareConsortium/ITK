@@ -61,6 +61,8 @@ namespace itk
  * This class provides an interface method called ApplySegmentationRegion to enable
  * future extension of the region object.
  *
+ * \ingroup RegionGrowingSegmentation 
+ *
  */
 
 template <class TInputImage, class TOutputImage>

@@ -81,6 +81,8 @@ namespace itk
  * as a vector image with a single element for every vector. The classified
  * image is treated as a single band scalar image.
  *
+ * \ingroup SupervisedClassificationFilters 
+ *
  */
 
 template <class TInputImage, class TClassifiedImage>

@@ -56,6 +56,8 @@ namespace itk
  * LevelSetNode is a simple templated class that represents a node in a level set.
  * LevelSetNode is templated over the data type and dimension of the level set.
  *
+ * \ingroup LevelSetSegmentation 
+ *
  */
 template<class TPixel, unsigned int VSetDimension = 2>
 class ITK_EXPORT LevelSetNode
@@ -103,6 +105,8 @@ public:
  * LevelSetTypeDefault is a simple class that holds type information
  * useful for level set algorithms. This class is templated over the
  * level set image type.
+ *
+ * \ingroup LevelSetSegmentation 
  */
 template<class TLevelSet>
 class ITK_EXPORT LevelSetTypeDefault
@@ -155,6 +159,8 @@ public:
  * for auxiliary variables in some level set algorithms. This class is templated
  * over the auxiliary variable data type, the number of auxiliary variables
  * and the level set dimension.
+ *
+ * \ingroup LevelSetSegmentation 
  *
  */
 template < 

@@ -117,6 +117,8 @@ namespace itk
  * has been fixed. The filter currently zero pads the image which causes large 
  * gradient at the image boundary causes registration algorithms to be unstable. 
  *
+ * \ingroup ImageRegistration
+ *
  */
 template <
 class TInputImage, 

@@ -124,6 +124,8 @@ namespace itk
  * synchronous scheme (iteration by iteration) until the error reaches
  * less than the threshold or the number of iteration exceed the maximum set
  * number of iterations. 
+ *
+ * \ingroup MRFFilters
  */
 
 template <class TInputImage, class TClassifiedImage>

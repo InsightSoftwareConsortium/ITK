@@ -66,6 +66,8 @@ namespace itk
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
+ * \ingroup LevelSetSegmentation 
+ *
  */
 template <class TLevelSet>
 class ITK_EXPORT ReinitializeLevelSetImageFilter :

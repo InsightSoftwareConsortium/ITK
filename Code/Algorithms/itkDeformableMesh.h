@@ -22,6 +22,9 @@ namespace itk
  * The connectness of nodes ( the cells make up the surface of the model )
  * is stored in the cellscontainer.
  * The model have both global and local deforming ability.
+ *
+ * \ingroup MeshFilters
+ * \ingroup MeshSegmentation
  */
 template <typename TPixelType/*, 
 	typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >*/>

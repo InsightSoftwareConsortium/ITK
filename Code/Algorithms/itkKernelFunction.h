@@ -48,6 +48,8 @@ namespace itk
 /**
  * \class KernelFunction
  * \brief Kernel used for kernel function/density estimation.
+ * 
+ * \ingroup Operators
  */
 class ITK_EXPORT KernelFunction : public Object
 {
@@ -82,6 +84,9 @@ protected:
 /**
  * \class GaussianKernelFunction
  * \brief Gaussian kernel used for kernel function/density estimation.
+ *
+ * \ingroup Operators
+ *
  */
 class ITK_EXPORT GaussianKernelFunction : public KernelFunction
 {

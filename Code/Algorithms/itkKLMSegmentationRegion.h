@@ -110,6 +110,8 @@ namespace itk
  *  \end{tabular}
  *  \end{center}
  *
+ * \ingroup RegionGrowingSegmentation 
+ *
  */
 template <class TInputImage, class TOutputImage>
 class KLMSegmentationBorder;

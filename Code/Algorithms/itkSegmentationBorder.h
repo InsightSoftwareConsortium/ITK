@@ -57,6 +57,8 @@ namespace itk
  * created within the application and then used to initialize/store/use
  * the various parameters accessible through the public methods. For usage
  * also see itkRegionGrowImageFiltering class.
+ * 
+ * \ingroup RegionGrowingSegmentation 
  *
  */
 

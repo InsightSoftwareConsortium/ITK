@@ -70,6 +70,7 @@ namespace itk
  * \sa FastMarchingImageFilter
  * \sa LevelSetTypeDefault
  * \sa AuxVarTypeDefault
+ * \ingroup LevelSetSegmentation 
  */
 template <
   class TLevelSet, 

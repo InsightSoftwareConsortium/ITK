@@ -15,6 +15,8 @@ namespace itk
  * This filter is implemented using the recursive gaussian
  * filters
  *
+ * \ingroup HybridSegmentation 
+ *
  */
 template <class TInputImage, class TOutputImage, class TInputMesh, 
 	class TOutputMesh>

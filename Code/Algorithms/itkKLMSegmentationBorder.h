@@ -54,6 +54,8 @@ namespace itk
  *
  * This is a tiny class similar to smart pointers that maintains a reference
  * to a list of borders pointed by a region. 
+ *
+ * \ingroup RegionGrowingSegmentation 
  * 
  */
 
@@ -92,6 +94,8 @@ public:
  * the more dominant is its presence in the a region. In case of removal
  * of a border during the region growing process the one with least lambda
  * value is eliminated.
+ *
+ * \ingroup RegionGrowingSegmentation 
  * 
  */
 

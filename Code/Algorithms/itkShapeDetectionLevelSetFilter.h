@@ -98,6 +98,8 @@ namespace itk
  * number of iterations before reinitialization.
  * - Add support to detect convergence.
  *
+ * \ingroup LevelSetSegmentation 
+ *
  */
 template <class TLevelSet, class TEdgeImage>
 class ITK_EXPORT ShapeDetectionLevelSetFilter :

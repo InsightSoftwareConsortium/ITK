@@ -61,6 +61,8 @@ namespace itk
  * the target object and the transformation. This types are obtained
  * from the Metric type, to reduce the number of redundant
  * template parameters
+ * 
+ * \ingroup Transforms 
  *
  */
 

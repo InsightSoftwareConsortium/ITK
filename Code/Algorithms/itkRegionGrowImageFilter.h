@@ -93,6 +93,8 @@ namespace itk
  * A single band image is treated as a vector image with a single element 
  * for every vector.
  *
+ * \ingroup RegionGrowingSegmentation 
+ *
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT RegionGrowImageFilter : 

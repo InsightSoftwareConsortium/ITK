@@ -98,6 +98,7 @@ namespace itk
  * to locate the node which is to be updated.
  *
  * \sa LevelSetTypeDefault
+ * \ingroup LevelSetSegmentation 
  */
 template <
   class TLevelSet, 
