@@ -88,7 +88,7 @@ parse(void)
   
   inputstream.read(buffer,filesize);
 
-  if(inputstream.gcount() != filesize)
+  if(static_cast<std::streamsize>(inputstream.gcount()) != filesize)
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File Read Error");
