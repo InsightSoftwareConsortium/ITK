@@ -171,6 +171,9 @@ this->SetConversion(CvPredefinedType<const T2>::type, \
  */
 void ConversionTable::InitializePredefinedConversions()
 {
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, short);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, int);
+  _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(bool, long);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned short);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned int);
   _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(int, unsigned long);
