@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include <fstream>
 #include <iostream>
 #include "itkRandomImageSource.h"
 #include "itkImageFileWriter.h"
