@@ -188,8 +188,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
               || ((this_one == zero) && (that != zero))
               || ((this_one != zero) && (that == zero))  )
             {
-              abs_this_one =  ::abs(this_one);
-              abs_that = ::abs(that);
+              abs_this_one = vnl_math_abs(this_one);
+              abs_that = vnl_math_abs(that);
               if(abs_this_one < abs_that)
                 {
                   it.Set(m_ForegroundValue);
@@ -229,8 +229,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                   || ((this_one == zero) && (that != zero))
                   || ((this_one != zero) && (that == zero))  )
                 {
-                  abs_this_one =  ::abs(this_one);
-                  abs_that = ::abs(that);
+                  abs_this_one =  vnl_math_abs(this_one);
+                  abs_that = vnl_math_abs(that);
                   if(abs_this_one < abs_that)
                     {
                       it.Set(m_ForegroundValue);
