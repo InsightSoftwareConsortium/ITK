@@ -446,7 +446,6 @@ void ItpackLinearSystemWrapper::SwapVectors(unsigned int vectorIndex1, unsigned 
 {
 
   if ( !m_Vectors || (vectorIndex1 >= m_NumberOfVectors) || (vectorIndex2 >= m_NumberOfVectors) ) throw;
-  if ( !(*m_Vectors)[vectorIndex1] || !(*m_Vectors)[vectorIndex2] ) throw;
 
   VectorRepresentation temp = (*m_Vectors)[vectorIndex1];
 
@@ -459,7 +458,6 @@ void ItpackLinearSystemWrapper::SwapSolutions(unsigned int solutionIndex1, unsig
 {
 
   if ( !m_Solutions || (solutionIndex1 >= m_NumberOfSolutions) || (solutionIndex2 >= m_NumberOfSolutions) ) throw;
-  if ( !(*m_Solutions)[solutionIndex1] || !(*m_Solutions)[solutionIndex2] ) throw;
 
   VectorRepresentation temp = (*m_Solutions)[solutionIndex1];
 
@@ -473,7 +471,7 @@ void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsi
 
   /* FIX ME: error checking */
   if (!m_Solutions || !m_Vectors || (solutionIndex >= m_NumberOfSolutions) || (vectorIndex >= m_NumberOfVectors) ) throw;
-  if ( !(*m_Solutions)[solutionIndex] || !(*m_Vectors)[vectorIndex] ) throw;
+  if ( !(*m_Solutions)[solutionIndex] ) throw;
 
   this->InitializeVector(vectorIndex);
 
@@ -488,6 +486,9 @@ void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsi
 void ItpackLinearSystemWrapper::MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex)
 {
 
+  if (!m_Matrices || (resultMatrixIndex >= m_NumberOfMatrices) || (leftMatrixIndex >= m_NumberOfMatrices) || (rightMatrixIndex >= m_NumberOfMatrices) ) throw;
+  if ( !(*m_Matrices)[leftMatrixIndex].GetOrder() || !(*m_Matrices)[rightMatrixIndex].GetOrder() ) throw;
+
   (*m_Matrices)[leftMatrixIndex].mult( &((*m_Matrices)[rightMatrixIndex]), &((*m_Matrices)[resultMatrixIndex]) );
 
 }
@@ -495,6 +496,9 @@ void ItpackLinearSystemWrapper::MultiplyMatrixMatrix(unsigned int resultMatrixIn
 
 void ItpackLinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex)
 {
+
+  if (!m_Matrices || !m_Vectors || (resultVectorIndex >= m_NumberOfVectors) || (matrixIndex >= m_NumberOfMatrices) || (vectorIndex >= m_NumberOfVectors) ) throw;
+  if ( !(*m_Vectors)[vectorIndex] ) throw;
 
   (*m_Matrices)[matrixIndex].mult( (*m_Vectors)[vectorIndex], (*m_Vectors)[resultVectorIndex] );
 
