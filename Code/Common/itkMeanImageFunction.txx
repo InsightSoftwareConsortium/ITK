@@ -1,0 +1,94 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMeanImageFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef _itkMeanImageFunction_txx
+#define _itkMeanImageFunction_txx
+
+#include "itkNumericTraits.h"
+#include "itkConstSmartNeighborhoodIterator.h"
+
+namespace itk
+{
+
+/**
+ * Constructor
+ */
+template <class TInputImage>
+MeanImageFunction<TInputImage>
+::MeanImageFunction()
+{
+}
+
+
+/**
+ *
+ */
+template<class TInputImage>
+void
+MeanImageFunction<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os,indent);
+}
+
+
+/**
+ *
+ */
+template <class TInputImage>
+MeanImageFunction<TInputImage>::RealType
+MeanImageFunction<TInputImage>
+::EvaluateAtIndex(const IndexType& index) const
+{
+  int i;
+  RealType sum;
+
+  sum = NumericTraits<RealType>::Zero;
+  
+  if( !m_Image )
+    {
+    return ( NumericTraits<RealType>::max() );
+    }
+  
+  if ( !this->IsInsideBuffer( index ) )
+    {
+    return ( NumericTraits<RealType>::max() );
+    }
+
+  // Create an N-d neighborhood kernel, using a zeroflux boundary condition
+  InputImageType::SizeType kernelSize;
+  kernelSize.Fill( 1 );
+  
+  ConstSmartNeighborhoodIterator<InputImageType>
+    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+
+  // Set the iterator at the desired location
+  it.SetLocation(index);
+
+  // Walk the neighborhood
+  for (i = 0; i < it.Size(); ++i)
+    {
+    sum += static_cast<RealType>(it.GetPixel(i));
+    }
+  sum /= double(it.Size());
+             
+  return ( sum );
+}
+
+
+} // namespace itk
+
+#endif
