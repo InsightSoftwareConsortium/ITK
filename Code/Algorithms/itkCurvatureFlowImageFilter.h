@@ -26,15 +26,18 @@ namespace itk {
   * \brief Denoise an image using curvature driven flow.
   *
   * CurvatureFlowImageFilter implements a curvature driven image denoising 
-  * algorithm. Iso-brightness contours in the input image are viewed as a 
-  * level set. The level set is then evolved using a curvature-based speed 
+  * algorithm. Iso-brightness contours in the grayscale input image are viewed 
+  * as a level set. The level set is then evolved using a curvature-based speed 
   * function:
   *
   * \f[  I_t = \kappa |\nabla I| \f]
   * where \f$ \kappa \f$ is the curvature.
   *
   * The advantage of this approach is that sharp boundaries are preserved
-  * with smoothing occuring only within a region.
+  * with smoothing occuring only within a region. However, it should be
+  * noted that continuous application of this scheme will result in the
+  * eventual removal of all information as each contour shrinks to zero and
+  * disappear.
   *
   * Note that unlike level set segmentation algorithms,
   * the image to be denoised is already the level set and can be set
@@ -55,7 +58,7 @@ namespace itk {
   *
   * \warning This filter assumes that the input and output types have the
   * same dimensions. This filter also requires that the output image pixels
-  * are of a floating point type.
+  * are of a floating point type. This filter works for any dimensional images.
   *
   * Reference:
   * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
@@ -63,8 +66,12 @@ namespace itk {
   *
   * \sa DenseFiniteDifferenceImageFilter
   * \sa CurvatureFlowFunction
+  * \sa MinMaxCurvatureFlowImageFilter
+  * \sa BinaryMinMaxCurvatureFlowImageFilter
   *
-  * \ingroup ImageEnhancement Multithreaded Streamed
+  * \ingroup ImageEnhancement 
+  * \ingroup Multithreaded 
+  * \ingroup Streamed
   * 
   */
 template <class TInputImage, class TOutputImage>

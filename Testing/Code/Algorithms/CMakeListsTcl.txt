@@ -40,6 +40,8 @@ CABLE_CLASS_SET(TransformDouble "itk::AffineTransform<$Double>")
 ADD_LIBRARY(ITKAlgorithmsTestTcl1)
 
 CABLE_WRAP_TCL(ITKAlgorithmsTestTcl1
+  "itk::BinaryMinMaxCurvatureFlowImageFilter<$Image,$Image>"
+  "itk::BinaryMinMaxCurvatureFlowFunction<$Image>"
   "itk::BalloonForceFilter<$Mesh,$Mesh>"
   "itk::BalloonForce3DFilter<$Mesh,$Mesh>"
   "itk::Classifier<$Image, $Image>"

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMinMaxCurvatureFlowFunction.h
+  Module:    itkBinaryMinMaxCurvatureFlowFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,37 +14,37 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowFunction_h_
-#define __itkMinMaxCurvatureFlowFunction_h_
+#ifndef __itkBinaryMinMaxCurvatureFlowFunction_h_
+#define __itkBinaryMinMaxCurvatureFlowFunction_h_
 
-#include "itkCurvatureFlowFunction.h"
+#include "itkMinMaxCurvatureFlowFunction.h"
 #include "itkMacro.h"
 #include "itkNeighborhoodOperator.h"
 
 namespace itk {
 
-/** \class MinMaxCurvatureFlowFunction
+/** \class BinaryMinMaxCurvatureFlowFunction
  *  
  * This class encapsulate the finite difference equation which drives a
- * min/max curvature flow denoising algorithm.
+ * min/max curvature flow algorithm for denoising binary images.
  *
  * This class uses a zero flux Neumann boundary condition when computing
  * derivatives near the data boundary.
  *
  * This class operates as part of the finite difference solver hierarchy.
  *
- * \sa MinMaxCurvatureFlowImageFilter
+ * \sa BinaryMinMaxCurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition 
  * \ingroup FiniteDifferenceFunctions
 */
 template <class TImage>
-class MinMaxCurvatureFlowFunction :
-    public CurvatureFlowFunction<TImage>
+class BinaryMinMaxCurvatureFlowFunction :
+    public MinMaxCurvatureFlowFunction<TImage>
 {
 public:
   /**  Standard class typedefs. */
-  typedef MinMaxCurvatureFlowFunction Self;
-  typedef CurvatureFlowFunction<TImage> Superclass;
+  typedef BinaryMinMaxCurvatureFlowFunction Self;
+  typedef MinMaxCurvatureFlowFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -52,8 +52,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( MinMaxCurvatureFlowFunction,
-                CurvatureFlowFunction );
+  itkTypeMacro( BinaryMinMaxCurvatureFlowFunction,
+                MinMaxCurvatureFlowFunction );
   
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::PixelType PixelType;
@@ -65,13 +65,11 @@ public:
   /** Extract superclass dimension. */
   enum { ImageDimension = Superclass::ImageDimension };  
 
-  /** Typedef support for the stencil radius. */
-  typedef typename RadiusType::SizeValueType RadiusValueType;
-
-  /** Set/Get the stencil radius. */
-  void SetStencilRadius( const RadiusValueType radius );
-  const RadiusValueType &GetRadiusValueType() const
-    { return m_StencilRadius; }
+  /** Set/Get the threshold value. */
+  void SetThreshold( const double thresh )
+    { m_Threshold = thresh; }
+  const double & GetThreshold() const
+    { return m_Threshold; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
@@ -88,45 +86,21 @@ public:
                                   ) const;
 
 protected:
-  MinMaxCurvatureFlowFunction();
-  ~MinMaxCurvatureFlowFunction() {}
-
-  typedef Neighborhood<PixelType,ImageDimension> StencilOperatorType;
-  StencilOperatorType  m_StencilOperator;
-
-  /** Initialize the stencil opearator to be an N-Dimensional sphere
-   * of radius m_StencilRadius. */
-  void InitializeStencilOperator();
-
+  BinaryMinMaxCurvatureFlowFunction();
+  ~BinaryMinMaxCurvatureFlowFunction() {}
 
 private:
-  MinMaxCurvatureFlowFunction(const Self&); //purposely not implemented
+  BinaryMinMaxCurvatureFlowFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  RadiusValueType  m_StencilRadius;
-
-  /** This method computes the threshold by averaging the intensity
-   *  in direction perpendicular to the image gradient. */
-  virtual PixelType ComputeThreshold2D( 
-    const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold2D( 
-    const BoundaryNeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold3D( 
-    const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold3D( 
-    const BoundaryNeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThresholdND( 
-    const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThresholdND( 
-    const BoundaryNeighborhoodType & neighborhood ) const;
-
+  double           m_Threshold;
 
 };
 
 }// end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinMaxCurvatureFlowFunction.txx"
+#include "itkBinaryMinMaxCurvatureFlowFunction.txx"
 #endif
 
 #endif

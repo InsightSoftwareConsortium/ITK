@@ -27,6 +27,7 @@ ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Code/Algorithms)
 ENDIF (TCL_TCLSH)
 
+ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_TEST(itkCurvatureFlowTest itkCurvatureFlowTest)
 ADD_TEST(itkDemonsRegistrationFilterTest itkDemonsRegistrationFilterTest)
 ADD_TEST(itkExtractMeshConnectedRegionsTest itkExtractMeshConnectedRegionsTest)
@@ -78,6 +79,7 @@ ADD_TEST(itkVoronoiDiagram2DTest itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest itkWatershedImageFilterTest)
 
+ADD_EXECUTABLE(itkBinaryMinMaxCurvatureFlowImageFilterTest itkBinaryMinMaxCurvatureFlowImageFilterTest )
 ADD_EXECUTABLE(itkCurvatureFlowTest itkCurvatureFlowTest)
 ADD_EXECUTABLE(itkDemonsRegistrationFilterTest itkDemonsRegistrationFilterTest)
 ADD_EXECUTABLE(itkExtractMeshConnectedRegionsTest itkExtractMeshConnectedRegionsTest)
