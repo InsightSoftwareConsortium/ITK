@@ -2131,7 +2131,7 @@ void
 BinaryMask3DMeshSource<TOutputMesh>
 ::AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp )
 {
-  int i = 0, j;
+  int i = 0;
   OPointType new_p;
 //  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 //  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
@@ -2440,7 +2440,26 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BinaryMask3DMeshSource" << std::endl;
+  os << indent
+     << "ObjectValue: " 
+     << static_cast<NumericTraits<unsigned char>::PrintType>(m_ObjectValue)
+     << std::endl;
+
+  os << indent
+     << "NumberOfNodes: "
+     << m_NumberOfNodes
+     << std::endl;
+
+  os << indent
+     << "NumberOfCells: "
+     << m_NumberOfCells
+     << std::endl;
+
+  os << indent
+     << "BinaryImage: "
+     << &m_BinaryImage
+     << std::endl;
+
 }
 
 } /** end namespace itk. */
