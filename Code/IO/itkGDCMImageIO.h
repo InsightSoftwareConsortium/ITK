@@ -26,15 +26,24 @@
 namespace itk
 {
 
-/** \brief ImageIO class for reading DICOM v3 and ACR/NEMA images
- *  This class is only an adaptor to the gdcm library:
+/** \brief ImageIO class for reading and writing DICOM v3 and ACR/NEMA images
+ *  This class is only an adaptor to the gdcm library (currently gdcm 0.6.x is used):
  *  
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
  *
- *  CREATIS INSA - Lyon 2004
+ *  CREATIS INSA - Lyon 2003-2004
  *    http://www.creatis.insa-lyon.fr
  *
- * \ingroup IOFilters
+ *  \warning There are several restrictions to this current writer:
+ *           1. Basically you always need a DICOM as input to write a proper DICOM image file
+ *              (As of 12/10/2004 this restriction is solved in GDCM CVS repository)
+ *           2. Eventhough during the writing process you pass in a DICOM file as input
+ *              The output file may not contains ALL DICOM field from the input file.
+ *              In particular: - The SeQuence DICOM field (SQ).
+ *                             - The Binary DICOM field (a non human readable string)
+ *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
+ *
+ *  \ingroup IOFilters
  *
  */
 class ITK_EXPORT GDCMImageIO : public ImageIOBase
