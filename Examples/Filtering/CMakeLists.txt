@@ -372,7 +372,7 @@ ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES}
         10 1.2
 )
 
-ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
   SigmoidImageFilterTest
@@ -381,7 +381,7 @@ ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES}
         10 240 10 170
 )
 
-ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
   SmoothingRecursiveGaussianImageFilterTest
@@ -390,7 +390,7 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
         3
 )
 
-ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES}
+ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
   SmoothingRecursiveGaussianImageFilter2Test
@@ -399,7 +399,7 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES}
         3
 )
 
-ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdAboveImageFilter.png
             ${TEMP}/ThresholdAboveImageFilter.png
   ThresholdImageFilterTest
@@ -409,7 +409,7 @@ ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
 
-ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdBelowImageFilter.png
             ${TEMP}/ThresholdBelowImageFilter.png
   ThresholdImageFilterTest
@@ -419,7 +419,7 @@ ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
 
-ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdOutsideImageFilter.png
             ${TEMP}/ThresholdOutsideImageFilter.png
   ThresholdImageFilterTest
@@ -429,7 +429,7 @@ ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
 
-ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/VectorGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
   VectorGradientAnisotropicDiffusionImageFilterTest
@@ -439,7 +439,7 @@ ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES
         .25 5
 )
 
-ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/VectorCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
   VectorCurvatureAnisotropicDiffusionImageFilterTest
