@@ -100,7 +100,6 @@ WatershedImageFilter<TInputImage, TOutputImage>
   InputScalarType floodLevel;
   ImageRegion<ImageDimension> expandedOutputRegion;
   Size<ImageDimension>        expandedOutputSize;
-  Size<ImageDimension>        unaryRadius;
   Index<ImageDimension>       expandedOutputIndex;
   InputScalarType             minImageValue;
   InputScalarType             maxImageValue;

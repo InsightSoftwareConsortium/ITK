@@ -59,7 +59,7 @@ VectorAnisotropicDiffusionEquation<TImage>
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage> BFC_type;
 
   unsigned int i, j;
-  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
+  //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
   ScalarValueType                           accumulator;
   PixelType                                 val;
   ScalarValueType                           counter;
@@ -99,7 +99,7 @@ VectorAnisotropicDiffusionEquation<TImage>
   // This is more efficient for higher dimensions.
   for (i = 0; i < ImageDimension; ++i)
     {
-      iterator_list[i]=RNI_type(operator_list[i].GetRadius(), ip, *fit); 
+      iterator_list[i]=RNI_type(operator_list[i].GetRadius(), ip, *fit);
       iterator_list[i].GoToBegin();
     }  
   while ( !iterator_list[0].IsAtEnd() )

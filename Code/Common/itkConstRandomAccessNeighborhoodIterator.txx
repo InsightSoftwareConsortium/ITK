@@ -47,7 +47,6 @@ void
 ConstRandomAccessNeighborhoodIterator<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  unsigned int i;
   os << indent;
   os << "ConstRandomAccessNeighborhoodIterator {this= " << this << "}"
      << std::endl;

@@ -47,7 +47,6 @@ void
 NeighborhoodIterator<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  unsigned int i;
   os << indent;
   os << "NeighborhoodIterator {this= " << this << "}" << std::endl;
   Superclass::PrintSelf(os, indent.GetNextIndent());

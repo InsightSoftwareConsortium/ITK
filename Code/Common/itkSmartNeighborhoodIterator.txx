@@ -162,7 +162,6 @@ template<class TImage, class TBoundaryCondition>
 void SmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  unsigned int i;
   os << indent << "SmartNeighborhoodIterator { this = " << this
      << "} " << std::endl;
 
