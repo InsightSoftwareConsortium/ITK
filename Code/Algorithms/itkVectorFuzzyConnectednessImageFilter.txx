@@ -13,6 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+#ifndef _itkVectorFuzzyConnectednessImageFilter_txx
+#define _itkVectorFuzzyConnectednessImageFilter_txx
 #include "itkSimpleImageRegionIterator.h"
 
 
@@ -1608,3 +1610,5 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
+
+#endif

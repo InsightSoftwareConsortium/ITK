@@ -1,3 +1,5 @@
+#ifndef _itkHybridFilter_txx
+#define _itkHybridFilter_txx
 #include "itkHybridFilter.h"
 
 namespace itk
@@ -141,3 +143,5 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 
 
 } // end namespace itk
+
+#endif
