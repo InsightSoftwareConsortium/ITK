@@ -85,7 +85,7 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
 
   vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // solution at the local point
   vnl_vector_fixed<Float,ImageDimension> Gpt(0.0);  // global position given by local point
-  vnl_vector<Float> Pos(0.0,ImageDimension);  // solution at the point
+  vnl_vector_fixed<Float,ImageDimension> Pos(0.0);  // solution at the point
   
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
@@ -113,7 +113,7 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
       InVec[ii+ImageDimension]=Sol[ii];
     }
 
-    //std::cout << " Gpt " << Gpt << " sol " <<  Sol << endl;
+    std::cout << " Gpt " << Gpt << " sol " <<  Sol << " shapeF " << shapeF << endl;
 
     energy+=abs(GetMetric(InVec));
   }
