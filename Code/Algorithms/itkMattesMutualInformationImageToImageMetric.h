@@ -247,10 +247,8 @@ private:
 
   /** Variables to define the marginal and joint histograms. */
   unsigned long m_NumberOfHistogramBins;
-  double m_FixedImageMin;
-  double m_FixedImageMax;
-  double m_MovingImageMin;
-  double m_MovingImageMax;
+  double m_MovingImageNormalizedMin;
+  double m_FixedImageNormalizedMin;
   double m_MovingImageTrueMin;
   double m_MovingImageTrueMax;
   double m_FixedImageBinSize;

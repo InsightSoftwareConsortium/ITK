@@ -80,14 +80,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // Debugging information
   os << indent << "NumberOfParameters: ";
   os << m_NumberOfParameters << std::endl;
-  os << indent << "FixedImageMin: ";
-  os << m_FixedImageMin << std::endl;
-  os << indent << "FixedImageMax: ";
-  os << m_FixedImageMax << std::endl;
-  os << indent << "MovingImageMin: ";
-  os << m_MovingImageMin << std::endl;
-  os << indent << "MovingImageMax: ";
-  os << m_MovingImageMax << std::endl;
+  os << indent << "FixedImageNormalizedMin: ";
+  os << m_FixedImageNormalizedMin << std::endl;
+  os << indent << "MovingImageNormalizedMin: ";
+  os << m_MovingImageNormalizedMin << std::endl;
+  os << indent << "MovingImageTrueMin: ";
+  os << m_MovingImageTrueMin << std::endl;
+  os << indent << "MovingImageTrueMax: ";
+  os << m_MovingImageTrueMax << std::endl;
   os << indent << "FixedImageBinSize: "; 
   os << m_FixedImageBinSize << std::endl;
   os << indent << "MovingImageBinSize: ";
@@ -121,8 +121,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * NB: We can't use StatisticsImageFilter to do this because
    * the filter computes the min/max for the largest possible region
    */
-   m_FixedImageMin = NumericTraits<double>::max();
-   m_FixedImageMax = NumericTraits<double>::NonpositiveMin();
+   double fixedImageMin = NumericTraits<double>::max();
+   double fixedImageMax = NumericTraits<double>::NonpositiveMin();
 
   typedef ImageRegionConstIterator<FixedImageType> FixedIteratorType;
   FixedIteratorType fixedImageIterator( 
@@ -134,14 +134,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       double sample = static_cast<double>( fixedImageIterator.Get() );
 
-      if ( sample < m_FixedImageMin )
+      if ( sample < fixedImageMin )
         {
-          m_FixedImageMin = sample;
+          fixedImageMin = sample;
         }
 
-      if ( sample > m_FixedImageMax )
+      if ( sample > fixedImageMax )
         {
-          m_FixedImageMax = sample;
+          fixedImageMax = sample;
         }
     }
 
@@ -150,8 +150,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * Compute the minimum and maximum for the entire moving image
    * in the buffer.
    */
-   m_MovingImageMin = NumericTraits<double>::max();
-   m_MovingImageMax = NumericTraits<double>::NonpositiveMin();
+   double movingImageMin = NumericTraits<double>::max();
+   double movingImageMax = NumericTraits<double>::NonpositiveMin();
 
   typedef ImageRegionConstIterator<MovingImageType> MovingIteratorType;
   MovingIteratorType movingImageIterator(
@@ -162,24 +162,24 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     {
       double sample = static_cast<double>( movingImageIterator.Get() );
 
-      if ( sample < m_MovingImageMin )
+      if ( sample < movingImageMin )
         {
-          m_MovingImageMin = sample;
+          movingImageMin = sample;
         }
 
-      if ( sample > m_MovingImageMax )
+      if ( sample > movingImageMax )
         {
-          m_MovingImageMax = sample;
+          movingImageMax = sample;
         }
     }
 
-  m_MovingImageTrueMin = m_MovingImageMin;
-  m_MovingImageTrueMax = m_MovingImageMax;
+  m_MovingImageTrueMin = movingImageMin;
+  m_MovingImageTrueMax = movingImageMax;
 
-  itkDebugMacro( " FixedImageMin: " << m_FixedImageMin << 
-    " FixedImageMax: " << m_FixedImageMax << std::endl );
-  itkDebugMacro( " MovingImageMin: " << m_MovingImageMin << 
-    " MovingImageMax: " << m_MovingImageMax << std::endl );
+  itkDebugMacro( " FixedImageMin: " << fixedImageMin << 
+    " FixedImageMax: " << fixedImageMax << std::endl );
+  itkDebugMacro( " MovingImageMin: " << movingImageMin << 
+    " MovingImageMax: " << movingImageMax << std::endl );
 
 
   /**
@@ -200,19 +200,19 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    */
   const int padding = 2;  // this will pad by 2 bins
 
-  m_FixedImageBinSize = ( m_FixedImageMax - m_FixedImageMin ) /
+  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin ) /
     static_cast<double>( m_NumberOfHistogramBins - 2 * padding );
-  m_FixedImageMin -= static_cast<double>( padding ) * m_FixedImageBinSize;
+  m_FixedImageNormalizedMin = fixedImageMin / m_FixedImageBinSize - 
+    static_cast<double>( padding );
 
-  m_MovingImageBinSize = ( m_MovingImageMax - m_MovingImageMin ) /
+  m_MovingImageBinSize = ( movingImageMax - movingImageMin ) /
     static_cast<double>( m_NumberOfHistogramBins - 2 * padding );
-  m_MovingImageMin -= static_cast<double>( padding ) * m_MovingImageBinSize;
+  m_MovingImageNormalizedMin = movingImageMin / m_MovingImageBinSize -
+    static_cast<double>( padding );
 
 
-  itkDebugMacro( " FixedImageMin: " << m_FixedImageMin << 
-    " FixedImageMax: " << m_FixedImageMax << std::endl );
-  itkDebugMacro( " MovingImageMin: " << m_MovingImageMin << 
-    " MovingImageMax: " << m_MovingImageMax << std::endl );
+  itkDebugMacro( "FixedImageNormalizedMin: " << m_FixedImageNormalizedMin );
+  itkDebugMacro( "MovingImageNormalizedMin: " << m_MovingImageNormalizedMin );
   itkDebugMacro( "FixedImageBinSize: " << m_FixedImageBinSize );
   itkDebugMacro( "MovingImageBinSize; " << m_MovingImageBinSize );
   
@@ -448,12 +448,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).    
       double movingImageParzenWindowTerm =
-        ( movingImageValue - m_MovingImageMin ) / m_MovingImageBinSize;
+        movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
         static_cast<unsigned int>( floor( movingImageParzenWindowTerm ) );
 
       double fixedImageParzenWindowTerm = 
-        ( static_cast<double>( (*fiter).FixedImageValue - m_FixedImageMin ) ) / m_FixedImageBinSize;
+        static_cast<double>( (*fiter).FixedImageValue ) / m_FixedImageBinSize -
+        m_FixedImageNormalizedMin;
       unsigned int fixedImageParzenWindowIndex =
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
       
@@ -717,12 +718,13 @@ DerivativeType& derivative) const
 
       // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).    
       double movingImageParzenWindowTerm =
-        ( movingImageValue - m_MovingImageMin ) / m_MovingImageBinSize;
+        movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
         static_cast<unsigned int>( floor( movingImageParzenWindowTerm ) );
 
       double fixedImageParzenWindowTerm = 
-        ( static_cast<double>( (*fiter).FixedImageValue - m_FixedImageMin ) ) / m_FixedImageBinSize;
+        static_cast<double>( (*fiter).FixedImageValue ) / m_FixedImageBinSize -
+        m_FixedImageNormalizedMin;
       unsigned int fixedImageParzenWindowIndex =
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
       
