@@ -93,11 +93,21 @@ PrintSelf(std::ostream &os, Indent indent) const
       {
       os << m_Matrix[i][j] << " ";
       }
-    os << m_Offset[i] << std::endl;
+    os << std::endl;
     }
 
-  // for debugging
-  os << indent << "Inverse: " << m_Inverse << std::endl;
+  os << indent << "Offset: " << m_Offset << std::endl;
+
+  os << indent << "Inverse: " << std::endl;
+  for (i = 0; i < NDimensions; i++) 
+    {
+    os << indent.GetNextIndent();
+    for (j = 0; j < NDimensions; j++)
+      {
+      os << m_Inverse[i][j] << " ";
+      }
+    os << std::endl;
+    }
   os << indent << "Singular: " << m_Singular << std::endl;
 
 }
