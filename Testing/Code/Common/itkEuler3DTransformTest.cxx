@@ -281,6 +281,26 @@ int itkEuler3DTransformTest(int,char *[] )
 
   }
 
+  
+  std::cout << "Testing Angle from matrix : ";
+  eulerTransform->SetIdentity();
+
+  eulerTransform->SetRotation(0.2,0.1,0.3);
+  
+  EulerTransformType::Pointer t2 = EulerTransformType::New();
+  t2->SetIdentity();
+  t2->Compose(eulerTransform);
+  if( (fabs(t2->GetParameters()[0]-0.2)>0.0001)
+    || (fabs(t2->GetParameters()[1]-0.1)>0.0001)
+    || (fabs(t2->GetParameters()[2]-0.3)>0.0001) 
+    )
+    {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
   return EXIT_SUCCESS;
 
 }

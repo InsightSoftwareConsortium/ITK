@@ -163,7 +163,7 @@ int itkEuler2DTransformTest(int,char *[] )
   EulerTransformType::Pointer t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if(t2->GetParameters()[0]-0.2>0.0001)
+  if(fabs(t2->GetParameters()[0]-0.2)>0.0001)
     {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE; 
