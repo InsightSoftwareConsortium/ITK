@@ -18,7 +18,7 @@
 #define __itkListSampleToHistogramFilter_h
 
 #include "itkObject.h"
-#include "itkListSample.h"
+#include "itkListSampleBase.h"
 #include "itkHistogram.h"
 
 namespace itk{
