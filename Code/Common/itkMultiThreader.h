@@ -21,12 +21,10 @@
 
 #ifdef ITK_USE_SPROC
 #include <sys/types.h>
-#include <unistd.h>
 #endif
 
 #ifdef ITK_USE_PTHREADS
-#include <sys/types.h>
-#include <unistd.h>
+#include <pthread.h>
 #endif
 
 namespace itk

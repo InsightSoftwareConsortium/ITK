@@ -26,9 +26,6 @@
 #include <errno.h>
 #endif
 
-#ifdef ITK_USE_PTHREADS
-#include <pthread.h>
-#endif
 
 namespace itk {
 
