@@ -68,7 +68,7 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 template <class TInputImage, class TOutputImage, class TComputation>
 void
 FilterImageGaussian<TInputImage,TOutputImage,TComputation>
-::SetUp(TComputation dd)
+::SetUp(void)
 {
   
   this->a0 = TComputation(  1.680  );
@@ -80,15 +80,18 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
   this->w0 = TComputation(  0.6318 );
   this->w1 = TComputation(  1.9970 );
   
-  if( dd < TComputation( 0.01 ) ) return;
+  if( m_Spacing < TComputation( 0.0001 ) ) return;
   
-  const TComputation sigmad = m_Sigma/dd;
+  const TComputation sigmad = m_Sigma/m_Spacing;
+
 //K = 1.0/(sigmad*sigmad*sqrt(2.0*(4.0*atan(1.0))));
   K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
   
   const bool symmetric = true;
   ComputeFilterCoefficients(symmetric);
+
 }
+
 
 
 /**
@@ -99,22 +102,25 @@ void
 FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::ComputeFilterCoefficients(bool symmetric) 
 {
-  n00  = a0 + c0;
-  n11  = exp(-b1/m_Sigma)*(c1*sin(w1/m_Sigma)-(c0+2*a0)*cos(w1/m_Sigma)); 
-  n11 += exp(-b0/m_Sigma)*(a1*sin(w0/m_Sigma)-(a0+2*c0)*cos(w0/m_Sigma)); 
-  n22  = ((a0+c0)*cos(w1/m_Sigma)*cos(w0/m_Sigma));
-  n22	-= (a1*cos(w1/m_Sigma)*sin(w0/m_Sigma)+c1*cos(w0/m_Sigma)*sin(w1/m_Sigma));
-  n22	*= 2*exp(-(b0+b1)/m_Sigma);
-  n22	+= c0*exp(-2*b0/m_Sigma) + a0*exp(-2*b1/m_Sigma);
-  n33  = exp(-(b1+2*b0)/m_Sigma)*(c1*sin(w1/m_Sigma)-c0*cos(w1/m_Sigma));
-  n33 += exp(-(b0+2*b1)/m_Sigma)*(a1*sin(w0/m_Sigma)-a0*cos(w0/m_Sigma));
+
+  const TComputation sigmad = m_Sigma/m_Spacing;
   
-  d44  = exp(-2*(b0+b1)/m_Sigma);
-  d33  = -2*cos(w0/m_Sigma)*exp(-(b0+2*b1)/m_Sigma);
-  d33 += -2*cos(w1/m_Sigma)*exp(-(b1+2*b0)/m_Sigma);
-  d22  =  4*cos(w1/m_Sigma)*cos(w0/m_Sigma)*exp(-(b0+b1)/m_Sigma);
-  d22 +=  exp(-2*b1/m_Sigma)+exp(-2*b0/m_Sigma);
-  d11  =  -2*exp(-b1/m_Sigma)*cos(w1/m_Sigma)-2*exp(-b0/m_Sigma)*cos(w0/m_Sigma);
+  n00  = a0 + c0;
+  n11  = exp(-b1/sigmad)*(c1*sin(w1/sigmad)-(c0+2*a0)*cos(w1/sigmad)); 
+  n11 += exp(-b0/sigmad)*(a1*sin(w0/sigmad)-(a0+2*c0)*cos(w0/sigmad)); 
+  n22  = ((a0+c0)*cos(w1/sigmad)*cos(w0/sigmad));
+  n22	-= (a1*cos(w1/sigmad)*sin(w0/sigmad)+c1*cos(w0/sigmad)*sin(w1/sigmad));
+  n22	*= 2*exp(-(b0+b1)/sigmad);
+  n22	+= c0*exp(-2*b0/sigmad) + a0*exp(-2*b1/sigmad);
+  n33  = exp(-(b1+2*b0)/sigmad)*(c1*sin(w1/sigmad)-c0*cos(w1/sigmad));
+  n33 += exp(-(b0+2*b1)/sigmad)*(a1*sin(w0/sigmad)-a0*cos(w0/sigmad));
+  
+  d44  = exp(-2*(b0+b1)/sigmad);
+  d33  = -2*cos(w0/sigmad)*exp(-(b0+2*b1)/sigmad);
+  d33 += -2*cos(w1/sigmad)*exp(-(b1+2*b0)/sigmad);
+  d22  =  4*cos(w1/sigmad)*cos(w0/sigmad)*exp(-(b0+b1)/sigmad);
+  d22 +=  exp(-2*b1/sigmad)+exp(-2*b0/sigmad);
+  d11  =  -2*exp(-b1/sigmad)*cos(w1/sigmad)-2*exp(-b0/sigmad)*cos(w0/sigmad);
 	
   if( symmetric )
     {
@@ -130,6 +136,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     m33 = -( n33 - d33 * n00 );
     m44 =          d44 * n00;
     }
+
 }
 
 
@@ -248,9 +255,11 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::Execute() 
 {
 
-   std::cout << "Gaussian running" << std::endl;
   typedef ImageLinearIterator< TInputImage::PixelType,
-							   TInputImage::ImageDimension> Iterator;
+							   TInputImage::ImageDimension>  InputIteratorType;
+
+  typedef ImageLinearIterator< TOutputImage::PixelType,
+							   TOutputImage::ImageDimension> OutputIteratorType;
 
   const TInputImage::Pointer   inputImage(    GetInputImage ()   );
         TOutputImage::Pointer  outputImage(   GetOutput()        );
@@ -273,13 +282,15 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 
 
   const float * pixelSize = inputImage->GetSpacing();
-  SetUp( pixelSize[ this->m_Direction ] );
+  m_Spacing   = pixelSize[ this->m_Direction ];
   
-  Iterator inputIterator( inputImage,
+  SetUp();
+  
+  InputIteratorType inputIterator( inputImage,
                           inputImage->GetImageStartIndex(),
                           inputImage->GetBufferSize());
 
-  Iterator outputIterator( outputImage,
+  OutputIteratorType outputIterator( outputImage,
                            outputImage->GetImageStartIndex(),
                            outputImage->GetBufferSize());
 
@@ -303,44 +314,44 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     }
 
   try 
-    {
+  {
     outs = new TComputation[ ln ];
-    }
+  }
   catch( std::bad_alloc & ) 
-    {
+  {
     throw ExceptionObject();
-    }
+  }
 
 
   inputIterator.Begin();
   outputIterator.Begin();
 
   while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
-    {
+  {
     
-    for( unsigned int i=0; i<ln; i++ )
-      {
+    unsigned int i=0;
+    while( !inputIterator.IsAtEndOfLine() )
+    {
       inps[i++]      = *inputIterator;
       ++inputIterator;
       }
 
     FilterDataArray( outs, inps, ln );
 
-    for( unsigned int j=0; j<ln; j++ )
-      {
+    unsigned int j=0; 
+    while( !outputIterator.IsAtEndOfLine() )
+    {
       *outputIterator  = outs[j++];
       ++outputIterator;
-      }
+    }
 
     inputIterator.NextLine();
     outputIterator.NextLine();
 
-    }
+  }
 
   delete [] outs;
   delete [] inps;
-
-  std::cout << "Gaussian done !" << std::endl;
 
 }
 

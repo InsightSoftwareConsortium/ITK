@@ -34,6 +34,9 @@ template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT FilterImageGaussianSecondDerivative:
   public FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 {
+
+public:
+
   /**
    * Standard "Self" typedef.
    */
@@ -50,17 +53,22 @@ class ITK_EXPORT FilterImageGaussianSecondDerivative:
   itkNewMacro(Self);
 
 protected:
-  FilterImageGaussianSecondDerivative();
+
+  FilterImageGaussianSecondDerivative() {};
+  
   virtual ~FilterImageGaussianSecondDerivative() {};
+  
   FilterImageGaussianSecondDerivative(const Self&) {}
+  
   void operator=(const Self&) {}
   
+
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a Gaussian or one of its
    * derivatives.
    */
-  virtual void SetUp(TComputation dd);
+  virtual void SetUp(void);
 };
 
 } // end namespace itk

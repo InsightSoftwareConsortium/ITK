@@ -24,7 +24,7 @@ namespace itk
 template <class TInputImage, class TOutputImage, class TComputation>
 void
 FilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
-::SetUp(TComputation dd)
+::SetUp(void)
 {
   a0 = TComputation( -1.3310 );
   a1 = TComputation(  3.6610 );
@@ -35,7 +35,7 @@ FilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
   w0 = TComputation(  0.7480 );
   w1 = TComputation(  2.1660 );
   
-  const TComputation sigmad = cSigma/dd;
+  const TComputation sigmad = m_Sigma/m_Spacing;
 //K = 1.0/(sigmad*sigmad*sqrt(2.0*(4.0*atan(1.0))));
   K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
   

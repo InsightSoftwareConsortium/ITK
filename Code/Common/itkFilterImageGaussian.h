@@ -47,10 +47,15 @@ public:
    */
   typedef SmartPointer<Self>   Pointer;
 
- /** 
+  /** 
    * Smart pointer typedef support 
    */
   typedef typename TInputImage::Pointer  InputImagePointer;
+
+  /**
+   * Type macro that defines a name for this class
+   */
+  itkTypeMacro( FilterImageGaussian, FilterImageToImage );
 
   /**
    * Method for creation through the object factory.
@@ -60,13 +65,13 @@ public:
   /**
    * Get the Sigma of the Gaussian kernel.
    */   
-  itkGetMacro(Sigma,TComputation);
+  itkGetMacro( Sigma, TComputation );
 
 
   /**
    * Set the Sigma of the Gaussian kernel.
    */   
-  itkSetMacro(Sigma,TComputation);
+  itkSetMacro( Sigma, TComputation );
 
   /**
    * Get the direction in which the filter is to be applied
@@ -97,8 +102,11 @@ public:
 
 protected:
   FilterImageGaussian();
+  
   virtual ~FilterImageGaussian() {};
+  
   FilterImageGaussian(const Self&) {}
+  
   void operator=(const Self&) {}
 
   /**
@@ -106,13 +114,13 @@ protected:
    * typically it can be used to approximate a gaussian or one of its
    * derivatives.
    */
-  virtual void SetUp(TComputation dd);
+  virtual void SetUp(void);
 
   /**
    * Apply the recursive filter along one of the dimensions of the image.
-   * This allow to filter each one of the dimensions of an image using a
-   * different sigma. Which usually is needed because of the anisotropy of
-   * the data 
+   * This allow to filter each one of the dimensions of an image separately.
+   * Sigma is given in length units so the spacing between pixels is taken 
+   * into account. This is relevant for anisotropic images
    */
   void ApplyRecursiveFilter(unsigned int dimension);
 
@@ -134,14 +142,20 @@ protected:
                        const TComputation *data, unsigned int ln);
 
   TComputation a0,a1,b0,b1,c0,c1,w0,w1; // Parameter of exponential serie
-  TComputation K;                       // Normalization factor
 
-private:  
+  TComputation K;                       // Normalization factor
 
   /**
    * Sigma of the gaussian kernel
    */   
   TComputation m_Sigma;
+
+  /**
+   * Spacing along the direction of filtering
+   */   
+  TComputation m_Spacing;
+
+private:  
 
   /**
    * Direction in which the filter is to be applied
