@@ -247,7 +247,8 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   os << std::endl;
   if (m_DifferenceFunction)
     {
-    os << indent << "DifferenceFunction: " << m_DifferenceFunction;
+    os << indent << "DifferenceFunction: " << std::endl;
+    m_DifferenceFunction->Print(os,indent.GetNextIndent());
     }
   else
     {

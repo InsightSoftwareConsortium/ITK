@@ -484,15 +484,18 @@ PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os,indent);
   if (m_SourceLandmarks)
     {
-    os << indent << "SourceLandmarks: " << m_SourceLandmarks << std::endl;
+    os << indent << "SourceLandmarks: " << std::endl;
+    m_SourceLandmarks->Print(os,indent.GetNextIndent());
     }
   if (m_TargetLandmarks)
     {
-    os << indent << "TargetLandmarks: " << m_TargetLandmarks << std::endl;
+    os << indent << "TargetLandmarks: " << std::endl;
+    m_TargetLandmarks->Print(os,indent.GetNextIndent());
     }
   if (m_Displacements)
     {
-    os << indent << "Displacements: " << m_Displacements << std::endl;
+    os << indent << "Displacements: " << std::endl;
+    m_Displacements->Print(os,indent.GetNextIndent());
     }
   os << indent << "Stiffness: " << m_Stiffness << std::endl;
 }

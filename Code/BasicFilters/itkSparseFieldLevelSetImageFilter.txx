@@ -50,7 +50,9 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
   m_NeighborhoodOffset.reserve(m_Size);
 
   for (i = 0; i < m_Size; ++i)
-    { m_NeighborhoodOffset.push_back(zero_offset); }
+    {
+    m_NeighborhoodOffset.push_back(zero_offset);
+    }
 
   for (d = Dimension - 1, i = 0; d >= 0; --d, ++i)
     {
@@ -64,7 +66,9 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
     }
 
   for (i = 0; i < Dimension; ++i)
-    { m_StrideTable[i] = it.GetStride(i); }
+    {
+    m_StrideTable[i] = it.GetStride(i);
+    }
 }
 
 template <class TNeighborhoodType>
@@ -529,7 +533,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<StatusImageType>
     statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
   for (statusIt.GoToBegin(); ! statusIt.IsAtEnd(); ++statusIt)
-    { statusIt.Set( m_StatusNull ); }
+    {
+    statusIt.Set( m_StatusNull );
+    }
 
   // Initialize the boundary pixels in the status images to
   // m_StatusBoundaryPixel values.  Uses the face calculator to find all of the
@@ -550,7 +556,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     {
     statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
     for (statusIt.GoToBegin(); ! statusIt.IsAtEnd(); ++statusIt)
-      {      statusIt.Set( m_StatusBoundaryPixel );      }
+      {
+      statusIt.Set( m_StatusBoundaryPixel );
+      }
     }
 
   // Erase all existing layer lists.
@@ -585,7 +593,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Construct the rest of the non active set layers using the first two
   // layers. Inside layers are odd numbers, outside layers are even numbers.
   for (i = 1; i < m_Layers.size() - 2; ++i)
-    {      this->ConstructLayer(i, i+2);    }
+    {
+    this->ConstructLayer(i, i+2);
+    }
   
   // Set the values in the output image for the active layer.
   this->InitializeActiveLayerValues();
@@ -723,9 +733,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           value = shiftedIt.GetPixel(m_NeighborList.GetArrayIndex(i));
 
           if ( value < m_ValueZero ) // Assign to first inside layer.
-            { layer_number = 1; }
+            {
+            layer_number = 1;
+            }
           else // Assign to first outside layer
-            { layer_number = 2; }
+            {
+            layer_number = 2;
+            }
                   
           statusIt.SetPixel( m_NeighborList.GetArrayIndex(i),
                              layer_number, bounds_status );
@@ -819,9 +833,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         - shiftedIt.GetPixel(center - m_NeighborList.GetStride(i));
 
       if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
-        { length += dx_forward * dx_forward;         }
+        {
+        length += dx_forward * dx_forward;
+        }
       else
-        { length += dx_backward * dx_backward;       }
+        {
+        length += dx_backward * dx_backward;
+        }
       }
     length = vcl_sqrt(length) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
@@ -973,7 +991,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   // Update the rest of the layers.
   for (i = 1; i < m_Layers.size() - 2; ++i)
-    {   this->PropagateLayerValues(i, i+2, i+4, (i+2)%2);    }
+    {
+    this->PropagateLayerValues(i, i+2, i+4, (i+2)%2);
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -1047,13 +1067,17 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
             {
             // Find the largest (least negative) neighbor
             if ( value_temp > value )
-              { value = value_temp; }
+              {
+              value = value_temp;
+              }
             }
           else
             {
             // Find the smallest (least positive) neighbor
             if (value_temp < value)
-              { value = value_temp; }
+              {
+              value = value_temp;
+              }
             }
           }
         found_neighbor_flag = true;
@@ -1128,8 +1152,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
 }
 
-
-
 template<class TInputImage, class TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
@@ -1138,8 +1160,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   unsigned int i;
-  os << indent << "m_IsoSurfaceValue" << m_IsoSurfaceValue << std::endl;
-  os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
+  os << indent << "m_IsoSurfaceValue: " << m_IsoSurfaceValue << std::endl;
+  os << indent << "m_LayerNodeStore: " << std::endl;
+    m_LayerNodeStore->Print(os,indent.GetNextIndent());
   os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
   for (i=0; i < m_Layers.size(); i++)
     {

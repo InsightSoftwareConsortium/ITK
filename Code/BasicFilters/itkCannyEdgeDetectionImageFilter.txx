@@ -728,10 +728,10 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
      << m_Center << std::endl;
   os << "Stride: "
      << m_Stride << std::endl;
-  os << "UpdateBuffer: "
-     << m_UpdateBuffer;
-  os << "UpdateBuffer1: "
-     << m_UpdateBuffer1;
+  os << "UpdateBuffer: " << std::endl;
+     m_UpdateBuffer->Print(os,indent.GetNextIndent());
+  os << "UpdateBuffer1: " << std::endl;
+     m_UpdateBuffer1->Print(os,indent.GetNextIndent());
 }
 
 }//end of itk namespace

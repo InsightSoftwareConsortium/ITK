@@ -41,7 +41,8 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "ShapeDetectionFunction: " << m_ShapeDetectionFunction.GetPointer();
+  os << indent << "ShapeDetectionFunction: " << std::endl;
+    m_ShapeDetectionFunction.GetPointer()->Print(os, indent.GetNextIndent());
 }
 
 template <class TInputImage, class TFeatureImage, class TOutputType>
