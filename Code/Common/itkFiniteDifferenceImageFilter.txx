@@ -75,6 +75,9 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     this->ApplyUpdate(dt);
     ++m_ElapsedIterations;
     }
+
+  // Any further processing of the solution can be done here.
+  this->PostProcessOutput();
 }
 
 /** 

@@ -241,6 +241,10 @@ protected:
   /** Set the number of elapsed iterations of the filter. */
   itkSetMacro(ElapsedIterations, unsigned int);
 
+  /** This method is called after the solution has been generated to allow
+   * subclasses to apply some further processing to the output.*/
+  virtual void PostProcessOutput() {}
+  
 private:
   FiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
