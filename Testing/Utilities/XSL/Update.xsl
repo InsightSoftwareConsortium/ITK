@@ -33,6 +33,22 @@
 
 
 <hr/>
+<h2>Summary</h2>
+<xsl:for-each select="Modified">
+  <br/>
+  <strong><a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
+  <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>
+  </strong> by <a><xsl:attribute name="href">#<xsl:value-of select="Author"/></xsl:attribute><xsl:value-of select="Author"/></a> in <a><xsl:attribute name="href">#<xsl:value-of select="File/@Directory"/></xsl:attribute><xsl:value-of select="File/@Directory"/></a>
+    Revision: 
+    <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup</xsl:attribute><xsl:value-of select="Revision"/></a>
+
+  <xsl:if test="count(PriorRevision) != 0">
+    Diff to Previous:
+    <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/></xsl:attribute>
+    <xsl:value-of select="PriorRevision"/></a>
+  </xsl:if>
+  <br/>
+</xsl:template>
 
 
 <h2><a><xsl:attribute name="name">author</xsl:attribute>Modified by Author</a></h2>
