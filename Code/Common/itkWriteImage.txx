@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWriteVTKImage.cxx
+  Module:    itkWriteImage.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,40 +13,39 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkWriteVTKImage.h"
-#include "itkObjectFactory.h"
+#include "itkWriteImage.h"
 
-//------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 template <class TInputImage>
-itkWriteVTKImage<TInputImage>::Pointer itkWriteVTKImage<TInputImage>
-::New()
+void 
+itkWriteImage<TInputImage>
+::SetInput(TInputImage *input)
 {
-  itkWriteVTKImage<TInputImage>* ret = 
-    itkObjectFactory< itkWriteVTKImage<TInputImage> >::Create();
-  if ( ret )
+  this->itkProcessObject::SetNthInput(0, input);
+}
+
+//----------------------------------------------------------------------------
+template <class TInputImage>
+TInputImage *
+itkWriteImage<TInputImage>
+::GetInput()
+{
+  if (this->NumberOfInputs < 1)
     {
-    return ret;
+    return 0;
     }
-  return new itkWriteVTKImage<TInputImage>;
+  
+  return (TInputImage *)(this->GetInput(0));
 }
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
 void 
-itkWriteVTKImage<TInputImage>
-::WriteData()
-{
-  itkDebugMacro(<<"Writing image in VTK format");
-}
-
-//----------------------------------------------------------------------------
-template <class TInputImage>
-void 
-itkWriteVTKImage<TInputImage>
+itkWriteImage<TInputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
-  itkWriteImage<TInputImage>::PrintSelf(os,indent);
-
+  itkWriter::PrintSelf(os,indent);
+  
 }
 
 

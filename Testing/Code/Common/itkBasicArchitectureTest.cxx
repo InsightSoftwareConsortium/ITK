@@ -19,8 +19,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVector.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImage.h"
-#include "itkVTKImageWriter.h"
-#include "itkVTKImageReader.h"
+#include "itkWriteVTKImage.h"
+#include "itkReadVTKImage.h"
 
 template <class T, unsigned int TImageDimension>
 int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
@@ -115,8 +115,8 @@ int main()
   // Begin by creating a simple pipeline
   //
   // Create another source
-  itkVTKImageReader< itkImage<itkScalar<float>,2> >::Pointer reader;
-  reader = itkVTKImageReader< itkImage<itkScalar<float>,2> >::New();
+  itkReadVTKImage< itkImage<itkScalar<float>,2> >::Pointer reader;
+  reader = itkReadVTKImage< itkImage<itkScalar<float>,2> >::New();
   reader->SetFileName("junkInput.vtk");
 
   // Create a source
@@ -130,8 +130,8 @@ int main()
   shrink->DebugOn();
 
   // Create a mapper
-  itkVTKImageWriter< itkImage<itkScalar<float>,2> >::Pointer writer;
-  writer = itkVTKImageWriter< itkImage<itkScalar<float>,2> >::New();
+  itkWriteVTKImage< itkImage<itkScalar<float>,2> >::Pointer writer;
+  writer = itkWriteVTKImage< itkImage<itkScalar<float>,2> >::New();
   writer->SetInput(shrink->GetOutput());
   writer->SetFileName("junkImage.vtk");
   writer->SetFileTypeToASCII();

@@ -177,10 +177,6 @@ SOURCE=..\..\..\Code\Common\itkImageSource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Code\Common\itkImageWriter.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\Code\Common\itkIndent.h
 # End Source File
 # Begin Source File
@@ -213,6 +209,10 @@ SOURCE=..\..\..\Code\Common\itkRandomImageSource.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkReadVTKImage.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkScalar.h
 # End Source File
 # Begin Source File
@@ -241,14 +241,6 @@ SOURCE=..\..\..\Code\Common\itkVersion.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\Code\Common\itkVTKImageReader.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Code\Common\itkVTKImageWriter.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\Code\Common\itkWin32Header.h
 # End Source File
 # Begin Source File
@@ -257,7 +249,15 @@ SOURCE=..\..\..\Code\Common\itkWin32OutputWindow.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkWriteImage.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkWriter.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkWriteVTKImage.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

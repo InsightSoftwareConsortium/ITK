@@ -13,12 +13,12 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageWriter.h"
+#include "itkWriteImage.h"
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
 void 
-itkImageWriter<TInputImage>
+itkWriteImage<TInputImage>
 ::SetInput(TInputImage *input)
 {
   this->itkProcessObject::SetNthInput(0, input);
@@ -27,7 +27,7 @@ itkImageWriter<TInputImage>
 //----------------------------------------------------------------------------
 template <class TInputImage>
 TInputImage *
-itkImageWriter<TInputImage>
+itkWriteImage<TInputImage>
 ::GetInput()
 {
   if (this->NumberOfInputs < 1)
@@ -41,7 +41,7 @@ itkImageWriter<TInputImage>
 //----------------------------------------------------------------------------
 template <class TInputImage>
 void 
-itkImageWriter<TInputImage>
+itkWriteImage<TInputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkWriter::PrintSelf(os,indent);

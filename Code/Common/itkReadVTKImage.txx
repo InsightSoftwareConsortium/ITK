@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWriteVTKImage.cxx
+  Module:    itkReadVTKImage.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,39 +13,46 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkWriteVTKImage.h"
+#include "itkReadVTKImage.h"
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
-template <class TInputImage>
-itkWriteVTKImage<TInputImage>::Pointer itkWriteVTKImage<TInputImage>
+template <class TOutputImage>
+itkReadVTKImage<TOutputImage>::Pointer itkReadVTKImage<TOutputImage>
 ::New()
 {
-  itkWriteVTKImage<TInputImage>* ret = 
-    itkObjectFactory< itkWriteVTKImage<TInputImage> >::Create();
+  itkReadVTKImage<TOutputImage>* ret = 
+    itkObjectFactory< itkReadVTKImage<TOutputImage> >::Create();
   if ( ret )
     {
     return ret;
     }
-  return new itkWriteVTKImage<TInputImage>;
+  return new itkReadVTKImage<TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
-template <class TInputImage>
-void 
-itkWriteVTKImage<TInputImage>
-::WriteData()
+template <class TOutputImage>
+itkReadVTKImage<TOutputImage>
+::itkReadVTKImage()
 {
-  itkDebugMacro(<<"Writing image in VTK format");
+  m_FileName = "";
 }
 
 //----------------------------------------------------------------------------
-template <class TInputImage>
+template <class TOutputImage>
 void 
-itkWriteVTKImage<TInputImage>
+itkReadVTKImage<TOutputImage>
+::Execute()
+{
+}
+
+//----------------------------------------------------------------------------
+template <class TOutputImage>
+void 
+itkReadVTKImage<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
-  itkWriteImage<TInputImage>::PrintSelf(os,indent);
+  itkImageSource<TOutputImage>::PrintSelf(os,indent);
 
 }
 

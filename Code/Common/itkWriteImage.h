@@ -14,26 +14,26 @@
 
 =========================================================================*/
 /**
- * itkImageWriter is the base class for writers that write images.
+ * itkWriteImage is the base class for writers that write images.
  */
-#ifndef __itkImageWriter_h
-#define __itkImageWriter_h
+#ifndef __itkWriteImage_h
+#define __itkWriteImage_h
 
 #include "itkWriter.h"
 
 template <class TInputImage>
-class ITK_EXPORT itkImageWriter : public itkWriter
+class ITK_EXPORT itkWriteImage : public itkWriter
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkImageWriter<TInputImage> > Pointer;
+  typedef itkSmartPointer< itkWriteImage<TInputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImageWriter,itkWriter);
+  itkTypeMacro(itkWriteImage,itkWriter);
 
   /** 
    * Set the input image of this writer. 
@@ -46,10 +46,10 @@ public:
   TInputImage *GetInput();
 
 protected:
-  itkImageWriter() {};
-  ~itkImageWriter() {};
-  itkImageWriter(const itkImageWriter&) {};
-  void operator=(const itkImageWriter&) {};
+  itkWriteImage() {};
+  ~itkWriteImage() {};
+  itkWriteImage(const itkWriteImage&) {};
+  void operator=(const itkWriteImage&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:
@@ -58,7 +58,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageWriter.cxx"
+#include "itkWriteImage.cxx"
 #endif
 
 #endif

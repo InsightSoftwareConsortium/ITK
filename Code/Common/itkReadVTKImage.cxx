@@ -13,27 +13,27 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkVTKImageReader.h"
+#include "itkReadVTKImage.h"
 #include "itkObjectFactory.h"
 
 //------------------------------------------------------------------------
 template <class TOutputImage>
-itkVTKImageReader<TOutputImage>::Pointer itkVTKImageReader<TOutputImage>
+itkReadVTKImage<TOutputImage>::Pointer itkReadVTKImage<TOutputImage>
 ::New()
 {
-  itkVTKImageReader<TOutputImage>* ret = 
-    itkObjectFactory< itkVTKImageReader<TOutputImage> >::Create();
+  itkReadVTKImage<TOutputImage>* ret = 
+    itkObjectFactory< itkReadVTKImage<TOutputImage> >::Create();
   if ( ret )
     {
     return ret;
     }
-  return new itkVTKImageReader<TOutputImage>;
+  return new itkReadVTKImage<TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
 template <class TOutputImage>
-itkVTKImageReader<TOutputImage>
-::itkVTKImageReader()
+itkReadVTKImage<TOutputImage>
+::itkReadVTKImage()
 {
   m_FileName = "";
 }
@@ -41,7 +41,7 @@ itkVTKImageReader<TOutputImage>
 //----------------------------------------------------------------------------
 template <class TOutputImage>
 void 
-itkVTKImageReader<TOutputImage>
+itkReadVTKImage<TOutputImage>
 ::Execute()
 {
 }
@@ -49,7 +49,7 @@ itkVTKImageReader<TOutputImage>
 //----------------------------------------------------------------------------
 template <class TOutputImage>
 void 
-itkVTKImageReader<TOutputImage>
+itkReadVTKImage<TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageSource<TOutputImage>::PrintSelf(os,indent);

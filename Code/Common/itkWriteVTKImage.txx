@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWriteVTKImage.cxx
+  Module:    itkWriteVTKImage.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

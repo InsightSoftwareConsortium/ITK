@@ -14,27 +14,27 @@
 
 =========================================================================*/
 /**
- * itkVTKImageWriter writes 1-3D images in VTK file format. You can specify
+ * itkWriteVTKImage writes 1-3D images in VTK file format. You can specify
  * binary or ASCII output types.
  */
-#ifndef __itkVTKImageWriter_h
-#define __itkVTKImageWriter_h
+#ifndef __itkWriteVTKImage_h
+#define __itkWriteVTKImage_h
 
-#include "itkImageWriter.h"
+#include "itkWriteImage.h"
 
 template <class TInputImage>
-class ITK_EXPORT itkVTKImageWriter : public itkImageWriter<TInputImage>
+class ITK_EXPORT itkWriteVTKImage : public itkWriteImage<TInputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkVTKImageWriter<TInputImage> > Pointer;
+  typedef itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkVTKImageWriter,itkImageWriter);
+  itkTypeMacro(itkWriteVTKImage,itkImageWriter);
 
   /** 
    * Create the VTK image writer.
@@ -42,10 +42,10 @@ public:
   static Pointer New();
 
 protected:
-  itkVTKImageWriter() {};
-  ~itkVTKImageWriter() {};
-  itkVTKImageWriter(const itkVTKImageWriter&) {};
-  void operator=(const itkVTKImageWriter&) {};
+  itkWriteVTKImage() {};
+  ~itkWriteVTKImage() {};
+  itkWriteVTKImage(const itkWriteVTKImage&) {};
+  void operator=(const itkWriteVTKImage&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
 
   void WriteData();
@@ -55,7 +55,7 @@ private:
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKImageWriter.cxx"
+#include "itkWriteVTKImage.cxx"
 #endif
 
 #endif
