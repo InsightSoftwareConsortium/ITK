@@ -198,11 +198,16 @@ public:
    * elements of the BufferedRegion::Size array.  The last element of
    * the OffsetTable is equivalent to the BufferSize.  Having a
    * [VImageDimension+1] size array, simplifies the implementation of
-   * some data accessing algorithms. */
+   * some data accessing algorithms. The entries in the offset table
+   * are only valid after the BufferedRegion is set. */
   const OffsetValueType *GetOffsetTable() const { return m_OffsetTable; };
   
   /** Compute an offset from the beginning of the buffer for a pixel
-   * at the specified index. */
+   * at the specified index. The index is not checked as to whether it
+   * is inside the current buffer, so the computed offset could
+   * conceivably be outside the buffer. If bounds checking is needed,
+   * one can call ImageRegion::IsInside(ind) on the BufferedRegion
+   * prior to calling ComputeOffset. */
   OffsetValueType ComputeOffset(const IndexType &ind) const
   {
     // need to add bounds checking for the region/buffer?
@@ -221,7 +226,12 @@ public:
   }
 
   /** Compute the index of the pixel at a specified offset from the
-   * beginning of the buffered region. */
+   * beginning of the buffered region. Bounds checking is not
+   * performed. Thus, the computed index could be outside the
+   * BufferedRegion. To ensure a valid index, the parameter "offset"
+   * should be between 0 and the number of pixels in the
+   * BufferedRegion (the latter can be found using
+   * ImageRegion::GetNumberOfPixels()). */
   IndexType ComputeIndex(OffsetValueType offset) const
   {
     IndexType index;

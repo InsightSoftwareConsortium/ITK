@@ -136,7 +136,7 @@ protected:
   
   void UpdateOutputInformation();
   bool VerifyRequestedRegion() { return true; }
-  void SetRequestedRegionToLargestPossibleRegion () {}
+  void SetRequestedRegionToLargestPossibleRegion () {m_RequestedRegionInitialized = true;}
   bool RequestedRegionIsOutsideOfTheBufferedRegion () { return false; }
   
   void SetRequestedRegion (itk::DataObject *) {}

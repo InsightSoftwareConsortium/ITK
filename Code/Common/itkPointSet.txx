@@ -368,8 +368,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     {
     this->SetRequestedRegionToLargestPossibleRegion();
     }
-  
-  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
 //----------------------------------------------------------------------------

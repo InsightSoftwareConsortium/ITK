@@ -95,10 +95,7 @@ void EquivalencyTable::UpdateOutputInformation()
   if ( ! m_RequestedRegionInitialized)
     {
     this->SetRequestedRegionToLargestPossibleRegion();
-    m_RequestedRegionInitialized = true;
     }
-  
-  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
 void EquivalencyTable

@@ -312,9 +312,6 @@ protected:
   /** Propagate a call to ResetPipeline(). Called only from ProcessObject. */
   virtual void PropagateResetPipeline();
   
-  // Was the update extent propagated down the pipeline?
-  bool m_LastRequestedRegionWasOutsideOfTheBufferedRegion;
-
   // First update, the update region will be set to the largest possible
   // region.
   bool m_RequestedRegionInitialized;  

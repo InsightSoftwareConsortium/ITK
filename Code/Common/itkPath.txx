@@ -80,8 +80,6 @@ Path<TInput, TOutput, VDimension>
     this->SetRequestedRegionToLargestPossibleRegion();
     }
   */
-  
-  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
 //----------------------------------------------------------------------------

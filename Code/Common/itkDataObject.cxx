@@ -154,7 +154,6 @@ DataObject() : m_UpdateMTime()
   m_PipelineMTime = 0;
 
   m_RequestedRegionInitialized = false;
-  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = false;
 }
 
 //----------------------------------------------------------------------------
@@ -332,9 +331,6 @@ DataObject
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
-  
-  os << indent << "LastRequestedRegionWasOutsideOfTheBufferedRegion: " << 
-    m_LastRequestedRegionWasOutsideOfTheBufferedRegion << std::endl;
 }
 
 // The following methods are used for updating the data processing pipeline.
@@ -378,19 +374,13 @@ DataObject
   // data was released, then propagate the update region to the source 
   // if there is one.
   if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
-       this->RequestedRegionIsOutsideOfTheBufferedRegion() || 
-       m_LastRequestedRegionWasOutsideOfTheBufferedRegion)
+       this->RequestedRegionIsOutsideOfTheBufferedRegion() )
     {
-
     if ( m_Source )
       {
       m_Source->PropagateRequestedRegion(this);
       }
     }
-  
-  // update the value of this ivar
-  m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 
-    this->RequestedRegionIsOutsideOfTheBufferedRegion();
   
   // Check that the requested region lies within the largest possible region
   if ( ! this->VerifyRequestedRegion() )
