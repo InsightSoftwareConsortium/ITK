@@ -37,12 +37,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-int WIDTH = 32;
-int HEIGHT = 32;
-int DEPTH = 32;
-
-int main() 
+int itkDeformableTest(int, char**)
 {
+  int WIDTH = 32;
+  int HEIGHT = 32;
+  int DEPTH = 32;
+
   
   // Define the dimension of the images
   const unsigned int myDimension = 3;
