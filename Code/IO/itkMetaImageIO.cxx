@@ -265,6 +265,7 @@ MetaImageIO
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
                                   (void *)buffer);
   m_MetaImage.Position(eOrigin);
+  m_MetaImage.BinaryData(binaryData);
 
   m_MetaImage.Write(m_FileName.c_str());
   } 
