@@ -121,8 +121,6 @@ private:
 
   TScalarType m_Angle; 
 
-  mutable ParametersType m_Parameters;
-
 }; //class Euler2DTransform
 
 
