@@ -155,7 +155,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNormalizeImageFilter.txx"
 #include "itkObjectMorphologyImageFilter.txx"
 #include "itkOrImageFilter.h"
-#include "itkOrienterImageFilter.txx"
+#include "itkOrientImageFilter.txx"
 #include "itkPadImageFilter.txx"
 #include "itkParallelSparseFieldLevelSetImageFilter.txx"
 #include "itkParametricSpaceToImageSpaceMeshFilter.txx"

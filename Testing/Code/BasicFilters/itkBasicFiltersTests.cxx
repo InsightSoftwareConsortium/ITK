@@ -196,5 +196,6 @@ void RegisterTests()
   REGISTER_TEST(itkXorImageFilterTest );
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkZeroCrossingImageFilterTest );
+  REGISTER_TEST(itkOrientImageFilterTest);
 }
 
