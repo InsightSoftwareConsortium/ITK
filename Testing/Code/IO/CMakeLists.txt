@@ -2,6 +2,12 @@
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
 
+IF( CXX_TEST_PATH )
+  SET(IO_TESTS ${CXX_TEST_PATH}/itkIOTests)
+ELSE( CXX_TEST_PATH )
+  SET(IO_TESTS itkIOTests)
+ENDIF( CXX_TEST_PATH )
+
 SET(IOTest_SRCS
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
@@ -25,7 +31,7 @@ avfCROP.1023c.raw
 ${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
 
 IF(VW_RAW_DATA_PATH)
-ADD_TEST(itkRawImageIOTest2 itkIOTests itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
+ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
 ENDIF(VW_RAW_DATA_PATH)
 
 # Add VTK code if we found VTK
