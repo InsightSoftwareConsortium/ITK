@@ -160,6 +160,14 @@ int itkShapedNeighborhoodIteratorTest(int, char* [] )
        std::cout << it.GetPixel(off) << std::endl;
      }
    std::cout << it.GetPixel(off) << std::endl;
+
+   println("testing operator=");
+   itk::ShapedNeighborhoodIterator<TestImageType> oeIt;
+   oeIt = it;
+
+   it.Print(std::cout);
+   oeIt.Print(std::cout);
+
    
   
   return 0;
