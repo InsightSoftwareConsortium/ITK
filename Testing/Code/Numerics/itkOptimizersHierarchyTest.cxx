@@ -30,7 +30,6 @@
 #include "itkVersorTransformOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "Statistics/itkFastRandomUnitNormalVariateGenerator.h"
 
 #include "vnl/vnl_math.h"
 
@@ -149,9 +148,7 @@ int itkOptimizersHierarchyTest(int, char**)
   QuaternionOptimizerType::Pointer   quaternionopt = QuaternionOptimizerType::New();
 
 
-  typedef itk::FastRandomUnitNormalVariateGenerator RandomGeneratorType;
-  typedef itk::OnePlusOneEvolutionaryOptimizer< RandomGeneratorType > 
-                                           OnePlusOneEvolutionaryOptimizerType;
+  typedef itk::OnePlusOneEvolutionaryOptimizer OnePlusOneEvolutionaryOptimizerType;
 
   OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne = 
                                           OnePlusOneEvolutionaryOptimizerType::New();
