@@ -22,19 +22,23 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-ReferenceType
-::GetRepresentationType() const
+RepresentationType ReferenceType::GetRepresentationType() const
 {
   return ReferenceType_id;
+}
+
+
+// Can't have indirection or cv qualifiers.
+String ReferenceType::GenerateName(const String&, bool, bool) const
+{
+  return m_ReferencedType.GenerateName("&");
 }
 
 
 /**
  * Constructor takes the cv-qualified type that is referenced.
  */
-ReferenceType
-::ReferenceType(const CvQualifiedType& in_type):
+ReferenceType::ReferenceType(const CvQualifiedType& in_type):
   m_ReferencedType(in_type)
 {
 }

@@ -41,6 +41,8 @@ public:
   bool IsVolatile() const { return m_Volatile; }
   
   const Type* GetType() const { return m_Type; }
+  String GenerateName(const String& indirection,
+                      bool isConst = false, bool isVolatile = false) const;
   
   bool operator== (const Self&) const;
   bool operator< (const Self&) const;

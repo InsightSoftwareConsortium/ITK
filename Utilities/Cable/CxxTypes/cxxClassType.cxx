@@ -22,20 +22,35 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-ClassType
-::GetRepresentationType() const
+RepresentationType ClassType::GetRepresentationType() const
 {
   return ClassType_id;
 }
+
+
+/**
+ * Get the name of the class.
+ */
+String ClassType::GetName() const
+{
+  return m_Name;
+}
+
+
+String ClassType::GenerateName(const String& indirection,
+                               bool isConst, bool isVolatile) const
+{
+  String cv = this->GetLeftCvString(isConst, isVolatile);
+  return cv+m_Name+indirection;
+}
+
 
 /**
  * Constructor for ClassType just takes the name of the class.  This name
  * may include template parameters of an instantiation.
  */
-ClassType
-::ClassType(const String& name,
-            const ClassTypes& parents):
+ClassType::ClassType(const String& name,
+                     const ClassTypes& parents):
   m_Name(name),
   m_Parents(parents)
 {

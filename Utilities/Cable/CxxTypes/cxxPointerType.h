@@ -31,6 +31,8 @@ public:
   typedef PointerType Self;
 
   virtual RepresentationType GetRepresentationType() const;
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
   
 protected:
   PointerType(const CvQualifiedType&);
@@ -38,13 +40,11 @@ protected:
   void operator=(const Self&) {}
   virtual ~PointerType() {}
   
-private:
+protected:
   /**
    * The type to which this type refers.
    */
   CvQualifiedType m_ReferencedType;
-  
-  bool CanConvertFromArrayType(const CvQualifiedType&, bool, bool) const;
   
   friend TypeSystem;
 };

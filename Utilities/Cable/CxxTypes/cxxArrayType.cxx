@@ -15,6 +15,8 @@
 =========================================================================*/
 #include "cxxTypes.h"
 
+#include <strstream>
+
 namespace _cxx_
 {
 
@@ -27,6 +29,16 @@ ArrayType
 ::GetRepresentationType() const
 {
   return ArrayType_id;
+}
+
+
+String ArrayType::GenerateName(const String& indirection,
+                               bool isConst, bool isVolatile) const
+{
+  std::strstream length;
+  length << m_Length;
+  String lengthStr = length.str();
+  return m_ElementType.GenerateName("", isConst, isVolatile)+"("+indirection+")["+lengthStr+"]";
 }
 
 

@@ -74,10 +74,23 @@ TypedefType
 
 
 /**
+ * Get the name of the type.  This call is not passed through to the
+ * real type because we want the typedef name.
+ */
+String TypedefType::GenerateName(const String& indirection,
+                                 bool isConst, bool isVolatile) const
+{
+  String cv = this->GetLeftCvString(isConst, isVolatile);
+  return cv+m_Name+indirection;
+}
+
+
+/**
  * Constructor takes the cv-qualified type that is referenced.
  */
 TypedefType
-::TypedefType(const CvQualifiedType& in_type):
+::TypedefType(const String& name, const CvQualifiedType& in_type):
+  m_Name(name),
   m_CvQualifiedType(in_type)
 {
 }

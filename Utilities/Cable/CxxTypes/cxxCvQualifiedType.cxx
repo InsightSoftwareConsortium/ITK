@@ -75,6 +75,19 @@ CvQualifiedType
 
 
 /**
+ * Return the type name with its cv-qualifiers.
+ */
+String CvQualifiedType::GenerateName(const String& indirection,
+                                     bool isConst, bool isVolatile) const
+{
+  bool isc = isConst || m_Const;
+  bool isv = isVolatile || m_Volatile;
+  
+  return m_Type->GenerateName(indirection, isc, isv);
+}
+
+
+/**
  * CvQualifiedTypes compare equal iff they refer to the same Type, and
  * have the same cv-qualifiers.
  */

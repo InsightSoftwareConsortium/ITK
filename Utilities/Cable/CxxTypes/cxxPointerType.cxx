@@ -22,19 +22,29 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-PointerType
-::GetRepresentationType() const
+RepresentationType PointerType::GetRepresentationType() const
 {
   return PointerType_id;
+}
+
+
+String PointerType::GenerateName(const String& indirection,
+                                 bool isConst, bool isVolatile) const
+{
+  String cv = this->GetRightCvString(isConst, isVolatile);
+  String indirect = "*"+cv;
+  if(indirection != "")
+    {
+    indirect += " "+indirection;
+    }
+  return m_ReferencedType.GenerateName(indirect);
 }
 
 
 /**
  * Constructor takes the cv-qualified type to which the pointer points.
  */
-PointerType
-::PointerType(const CvQualifiedType& in_type):
+PointerType::PointerType(const CvQualifiedType& in_type):
   m_ReferencedType(in_type)
 {
 }

@@ -31,6 +31,8 @@ public:
   typedef PointerToMemberType Self;
   
   virtual RepresentationType GetRepresentationType() const;
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
 
 protected:
   PointerToMemberType(const CvQualifiedType&, const ClassType*);  

@@ -49,11 +49,21 @@ public:
   
   virtual const Type* Id() const;  
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
+
+  /**
+   * Get the name of the type.
+   */
+  String Name() const;
+  String CvName(bool isConst, bool isVolatile) const;
+
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const =0;
   
 protected:
-
   Type() {}
   virtual ~Type() {}
+  String GetLeftCvString(bool isConst, bool isVolatile) const;
+  String GetRightCvString(bool isConst, bool isVolatile) const;
 };
 
 

@@ -31,7 +31,9 @@ public:
   typedef ReferenceType Self;
   
   virtual RepresentationType GetRepresentationType() const;
-  
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
+
 protected:  
   ReferenceType(const CvQualifiedType&);
   ReferenceType(const Self&): m_ReferencedType(NULL) {}

@@ -21,11 +21,22 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-PointerToMemberType
-::GetRepresentationType() const
+RepresentationType PointerToMemberType::GetRepresentationType() const
 {
   return PointerToMemberType_id;
+}
+
+
+String PointerToMemberType::GenerateName(const String& indirection,
+                                         bool isConst, bool isVolatile) const
+{
+  String cv = this->GetRightCvString(isConst, isVolatile);
+  String indirect = m_ClassType->GetName() + "::*" + cv;
+  if(indirection != "")
+    {
+    indirect += " "+indirection;
+    }
+  return m_ReferencedType.GenerateName(indirect);
 }
 
 
@@ -33,9 +44,8 @@ PointerToMemberType
  * Constructor takes cv-qualified type of member, and the type of
  * the class in which the member resides.
  */
-PointerToMemberType
-::PointerToMemberType(const CvQualifiedType& in_type,
-                      const ClassType* in_class):
+PointerToMemberType::PointerToMemberType(const CvQualifiedType& in_type,
+                                         const ClassType* in_class):
   PointerType(in_type),
   m_ClassType(in_class)
 {

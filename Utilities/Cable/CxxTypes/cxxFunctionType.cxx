@@ -21,20 +21,37 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-FunctionType
-::GetRepresentationType() const
+RepresentationType FunctionType::GetRepresentationType() const
 {
   return FunctionType_id;
 }
 
 
+String FunctionType::GenerateName(const String& indirection,
+                                  bool isConst, bool) const
+{
+  String returns = m_ReturnType.GenerateName("");
+  
+  String arguments = "";
+  CvQualifiedTypes::const_iterator arg = m_Arguments.begin();
+  if(arg != m_Arguments.end())
+    {    
+    arguments += arg->GenerateName("");
+    for(;arg != m_Arguments.end(); ++arg)
+      {
+      arguments += ", "+arg->GenerateName("");
+      }
+    }
+  String cv = this->GetRightCvString(isConst, false);
+  return returns + "(" + indirection + ")( " + arguments + " )" + cv;
+}
+
+  
 /**
  * Constructor takes the return type of the function.
  */
-FunctionType
-::FunctionType(const CvQualifiedType& returnType,
-               const CvQualifiedTypes& arguments):
+FunctionType::FunctionType(const CvQualifiedType& returnType,
+                           const CvQualifiedTypes& arguments):
   m_ReturnType(returnType),
   m_Arguments(arguments)
 {

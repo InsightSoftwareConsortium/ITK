@@ -35,6 +35,8 @@ public:
   
   virtual RepresentationType GetRepresentationType() const;
 
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
 protected:
   FunctionType(const CvQualifiedType& returnType,
                const CvQualifiedTypes& arguments);

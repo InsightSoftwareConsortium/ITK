@@ -34,14 +34,21 @@ public:
   
   virtual const Type* Id() const;
   virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
   
 protected:
-  TypedefType(const CvQualifiedType&);
+  TypedefType(const String& name, const CvQualifiedType&);
   TypedefType(const Self&): m_CvQualifiedType(NULL) {}
   void operator=(const Self&) {}
   virtual ~TypedefType() {}
   
 private:
+  /**
+   * The name of the typedef type.
+   */
+  String m_Name;
+  
   /**
    * The type to which the typedef refers, including optional cv-qualifiers.
    */

@@ -54,4 +54,73 @@ Type::GetCvQualifiedType(bool isConst, bool isVolatile) const
 }
 
 
+/**
+ * Get the name of the type.
+ */
+String
+Type::Name() const
+{
+  return this->CvName(false, false);
+}
+
+
+/**
+ * Get the name of the type with the given cv-qualifiers.
+ */
+String
+Type::CvName(bool isConst, bool isVolatile) const
+{
+  return this->GetCvQualifiedType(isConst, isVolatile).GenerateName("");
+}
+
+
+/**
+ * Get a cv-qualifier string that can be conactenated on the left end
+ * of a string.
+ */
+String Type::GetLeftCvString(bool isConst, bool isVolatile) const
+{
+  if(isConst && isVolatile)
+    {
+    return "const volatile ";
+    }
+  else if(isConst)
+    {
+    return "const ";
+    }
+  else if(isVolatile)
+    {
+    return "volatile ";
+    }
+  else
+    {
+    return "";
+    }
+}
+
+
+/**
+ * Get a cv-qualifier string that can be conactenated on the right end
+ * of a string.
+ */
+String Type::GetRightCvString(bool isConst, bool isVolatile) const
+{
+  if(isConst && isVolatile)
+    {
+    return " const volatile";
+    }
+  else if(isConst)
+    {
+    return " const";
+    }
+  else if(isVolatile)
+    {
+    return " volatile";
+    }
+  else
+    {
+    return "";
+    }
+}
+
 } // namespace _cxx_

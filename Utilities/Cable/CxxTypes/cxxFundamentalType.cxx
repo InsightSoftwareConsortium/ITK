@@ -21,11 +21,17 @@ namespace _cxx_
 /**
  * Retrieve what kind of Type this is.
  */
-RepresentationType
-FundamentalType
-::GetRepresentationType() const
+RepresentationType FundamentalType::GetRepresentationType() const
 {
   return FundamentalType_id;
+}
+
+
+String FundamentalType::GenerateName(const String& indirection,
+                                     bool isConst, bool isVolatile) const
+{
+  String cv = this->GetLeftCvString(isConst, isVolatile);
+  return cv+fundamentalTypeNames[m_Id]+indirection;
 }
 
 
@@ -37,5 +43,11 @@ FundamentalType::FundamentalType(Id in_id):
 {
 }
 
+const char* FundamentalType::fundamentalTypeNames[NumberOfTypes] =
+{
+  "unsigned char", "unsigned short", "unsigned int", "unsigned long",
+  "signed char", "char", "short", "int", "long", "wchar_t", "bool",
+  "float", "double", "long double", "void"
+};
 
 } // namespace _cxx_

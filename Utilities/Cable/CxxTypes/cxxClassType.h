@@ -42,6 +42,10 @@ public:
   
   virtual RepresentationType GetRepresentationType() const;
 
+  String GetName() const;
+  
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
 protected:
   ClassType(const String&, const ClassTypes&);
   ClassType(const Self&) {}

@@ -35,6 +35,8 @@ public:
   const CvQualifiedType& GetElementType() const
     { return m_ElementType; }
   
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
 protected:
   ArrayType(const CvQualifiedType&, unsigned long);
   ArrayType(const Self&): m_ElementType(NULL), m_Length(0) {}
