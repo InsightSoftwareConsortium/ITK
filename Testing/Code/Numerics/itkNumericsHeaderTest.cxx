@@ -29,6 +29,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCumulativeGaussianCostFunction.h"
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkGradientDescentOptimizer.h"
+#include "itkLBFGSBOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultipleValuedCostFunction.h"
