@@ -46,11 +46,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main() 
 {
 
-  // Declare the mesh pixel type.
-  // Those are the values associated 
-  // with each mesh point. (not used on this filter test)
-  typedef int    MeshPixelType;
   typedef float  ImagePixelType;
+
+  // Declare the type for the images
+  typedef itk::Image<ImagePixelType,2>        ImageType;
+  typedef ImageType::Pointer                  ImagePointer;
+  typedef ImageType::IndexType                IndexType;
+
+  // Make the Mesh PointData type be an Image Index.
+  typedef IndexType                         MeshPixelType;
   
   // Declare the types of the Mesh
   typedef itk::Mesh<MeshPixelType>  MeshType;
@@ -70,10 +74,6 @@ int main()
   // Insert data on the Mesh
   PointsContainerPointer  points = inputMesh->GetPoints();
 
-  // Declare the type for the images
-  typedef itk::Image<ImagePixelType,2>         ImageType;
-  typedef ImageType::Pointer              ImagePointer;
-  typedef ImageType::IndexType            IndexType;
 
   // Declare the type for the images
   typedef itk::ImageRegionIteratorWithIndex<ImageType> ImageIteratorType;
