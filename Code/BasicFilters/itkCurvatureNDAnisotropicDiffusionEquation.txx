@@ -44,12 +44,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage>
+double CurvatureNDAnisotropicDiffusionEquation<TImage>
+::m_MIN_NORM = 1.0e-10;
+ 
+template<class TImage>
 CurvatureNDAnisotropicDiffusionEquation<TImage>
 ::CurvatureNDAnisotropicDiffusionEquation()
 {
-  unsigned int i;
+  unsigned int i, j;
   RadiusType r;
-  r[0] = 2;
+
   for (i = 0; i < ImageDimension; ++i)
     {
       r[i] = 1;
@@ -64,15 +68,27 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
   m_Center =  it.Size() / 2;
 
   for (i = 0; i< ImageDimension; ++i)
+    { m_Stride[i] = it.GetStride(i); }
+
+  for (i = 0; i< ImageDimension; ++i)
+    { x_slice[i]  = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]); }
+  
+  for (i = 0; i< ImageDimension; ++i)
     {
-      m_Stride[i]   = it.GetStride(i);
-      x_slice[i]  = std::slice( m_Center - m_Stride[i],  3, m_Stride[i]);
-      xa_slice[i] = std::slice((m_Center+1)-m_Stride[i], 3, m_Stride[i]);
-      xd_slice[i] = std::slice((m_Center-1)-m_Stride[i], 3, m_Stride[i]);
+      for (j = 0; j < ImageDimension; ++j)
+        {
+          // For taking derivatives in the i direction that are offset one
+          // pixel in the j direction.
+          xa_slice[i][j]
+            = std::slice((m_Center + m_Stride[j])-m_Stride[i], 3, m_Stride[i]); 
+          xd_slice[i][j]
+            = std::slice((m_Center - m_Stride[j])-m_Stride[i], 3, m_Stride[i]);
+        }
     }
 
   // Allocate the derivative operator.
-  dx_op.SetDirection(0);
+  dx_op.SetDirection(0);  // Not relevant, will be applied in a slice-based
+                          // fashion.
   dx_op.SetOrder(1);
   dx_op.CreateDirectional();
 }
@@ -83,17 +99,15 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
-  const PixelType Zero = NumericTraits<PixelType>::Zero;
-  
   unsigned int i, j;
-  PixelType speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
-  PixelType grad_mag_sq, grad_mag_sq_d, grad_mag, grad_mag_d;
-  PixelType Cx, Cxd;
-  PixelType dx_forward[ImageDimension];
-  PixelType dx_backward[ImageDimension];
-  PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  double speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
+  double grad_mag_sq, grad_mag_sq_d, grad_mag, grad_mag_d;
+  double Cx, Cxd;
+  double dx_forward[ImageDimension];
+  double dx_backward[ImageDimension];
+  double dx[ImageDimension];
+  double dx_aug;
+  double dx_dim;
 
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)
@@ -106,11 +120,9 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 
       // Centralized differences
       dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
-      dx_aug[i]     = m_InnerProduct(xa_slice[i],it, dx_op);
-      dx_dim[i]     = m_InnerProduct(xd_slice[i],it, dx_op);
     }
 
-  speed = Zero;
+  speed = 0.0;
   for (i = 0; i < ImageDimension; i++)
     {
       // Gradient magnitude approximations
@@ -120,36 +132,36 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
         {
           if (j != i)
             {
-              grad_mag_sq   += 0.25f * (dx[j]+dx_aug[j]) * (dx[j]+dx_aug[j]);
-              grad_mag_sq_d += 0.25f * (dx[j]+dx_dim[j]) * (dx[j]+dx_dim[j]);
+              dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
+              dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
+              grad_mag_sq   += 0.25f * (dx[j]+dx_aug) * (dx[j]+dx_aug);
+              grad_mag_sq_d += 0.25f * (dx[j]+dx_dim) * (dx[j]+dx_dim);
             }
         }
-      grad_mag   = vnl_math_sqrt(grad_mag_sq);
-      grad_mag_d = vnl_math_sqrt(grad_mag_sq_d);
+      grad_mag   = ::sqrt(m_MIN_NORM + grad_mag_sq);
+      grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
       // Conductance Terms
       Cx  = ::exp( grad_mag_sq   / m_k );
       Cxd = ::exp( grad_mag_sq_d / m_k );
 
       // First order normalized finite-difference conductance products
-      if (grad_mag != Zero)
-        { dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;  }
-      if (grad_mag_d != Zero)
-        { dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd; }
-
+      dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;
+      dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd; 
+      
       // Second order conductance-modified curvature
       speed += (dx_forward_Cn - dx_backward_Cn);
     }
 
   // ``Upwind'' gradient magnitude term
-  propagation_gradient = Zero;
+  propagation_gradient = 0.0;
   if (speed > 0)
     {  
       for (i = 0; i < ImageDimension; i++)
         {
           propagation_gradient +=
-            vnl_math_sqr( vnl_math_min(dx_backward[i], Zero) )
-            + vnl_math_sqr( vnl_math_max(dx_forward[i],  Zero) );
+            vnl_math_sqr( vnl_math_min(dx_backward[i], 0.0) )
+            + vnl_math_sqr( vnl_math_max(dx_forward[i],  0.0) );
         }
     }
   else
@@ -157,13 +169,13 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
       for (i = 0; i < ImageDimension; i++)
         {
           propagation_gradient +=
-            vnl_math_sqr( vnl_math_max(dx_backward[i], Zero) )
-            + vnl_math_sqr( vnl_math_min(dx_forward[i],  Zero) );
+            vnl_math_sqr( vnl_math_max(dx_backward[i], 0.0) )
+            + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
         }
     }
 
   
-  return ( vnl_math_sqrt(propagation_gradient) * speed );
+  return ( ::sqrt(propagation_gradient) * speed );
 }
 
 template<class TImage>
@@ -172,17 +184,15 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
-  const PixelType Zero = NumericTraits<PixelType>::Zero;
-  
   unsigned int i, j;
-  PixelType speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
-  PixelType grad_mag_sq, grad_mag_sq_d, grad_mag, grad_mag_d;
-  PixelType Cx, Cxd;
-  PixelType dx_forward[ImageDimension];
-  PixelType dx_backward[ImageDimension];
-  PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  double speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
+  double grad_mag_sq, grad_mag_sq_d, grad_mag, grad_mag_d;
+  double Cx, Cxd;
+  double dx_forward[ImageDimension];
+  double dx_backward[ImageDimension];
+  double dx[ImageDimension];
+  double dx_aug;
+  double dx_dim;
 
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)
@@ -195,11 +205,9 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 
       // Centralized differences
       dx[i]         = m_SmartInnerProduct(x_slice[i], it, dx_op);
-      dx_aug[i]     = m_SmartInnerProduct(xa_slice[i],it, dx_op);
-      dx_dim[i]     = m_SmartInnerProduct(xd_slice[i],it, dx_op);
     }
 
-  speed = Zero;
+  speed = 0.0;
   for (i = 0; i < ImageDimension; i++)
     {
       // Gradient magnitude approximations
@@ -209,36 +217,36 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
         {
           if (j != i)
             {
-              grad_mag_sq   += 0.25f * (dx[j]+dx_aug[j]) * (dx[j]+dx_aug[j]);
-              grad_mag_sq_d += 0.25f * (dx[j]+dx_dim[j]) * (dx[j]+dx_dim[j]);
+              dx_aug     = m_SmartInnerProduct(xa_slice[j][i], it, dx_op);
+              dx_dim     = m_SmartInnerProduct(xd_slice[j][i], it, dx_op);
+              grad_mag_sq   += 0.25f * (dx[j]+dx_aug) * (dx[j]+dx_aug);
+              grad_mag_sq_d += 0.25f * (dx[j]+dx_dim) * (dx[j]+dx_dim);
             }
         }
-      grad_mag   = vnl_math_sqrt(grad_mag_sq);
-      grad_mag_d = vnl_math_sqrt(grad_mag_sq_d);
+      grad_mag   = ::sqrt(m_MIN_NORM + grad_mag_sq);
+      grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
       // Conductance Terms
       Cx  = ::exp( grad_mag_sq   / m_k );
       Cxd = ::exp( grad_mag_sq_d / m_k );
 
       // First order normalized finite-difference conductance products
-      if (grad_mag != Zero)
-        { dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;  }
-      if (grad_mag_d != Zero)
-        { dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd; }
-
+      dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;
+      dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd; 
+      
       // Second order conductance-modified curvature
       speed += (dx_forward_Cn - dx_backward_Cn);
     }
 
   // ``Upwind'' gradient magnitude term
-  propagation_gradient = Zero;
+  propagation_gradient = 0.0;
   if (speed > 0)
     {  
       for (i = 0; i < ImageDimension; i++)
         {
           propagation_gradient +=
-            vnl_math_sqr( vnl_math_min(dx_backward[i], Zero) )
-            + vnl_math_sqr( vnl_math_max(dx_forward[i],  Zero) );
+            vnl_math_sqr( vnl_math_min(dx_backward[i], 0.0) )
+            + vnl_math_sqr( vnl_math_max(dx_forward[i],  0.0) );
         }
     }
   else
@@ -246,13 +254,13 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
       for (i = 0; i < ImageDimension; i++)
         {
           propagation_gradient +=
-            vnl_math_sqr( vnl_math_max(dx_backward[i], Zero) )
-            + vnl_math_sqr( vnl_math_min(dx_forward[i],  Zero) );
+            vnl_math_sqr( vnl_math_max(dx_backward[i], 0.0) )
+            + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
         }
     }
 
   
-  return ( vnl_math_sqrt(propagation_gradient) * speed );
+  return ( ::sqrt(propagation_gradient) * speed );
 }
 
 } // end namespace itk
