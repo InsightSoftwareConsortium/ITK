@@ -29,7 +29,7 @@ FastRandomUnitNormalVariateGenerator::FastRandomUnitNormalVariateGenerator()
   LEN = 128 ;
   LMASK = (4 * (LEN-1)) ;
   TLEN  = (8*LEN) ;
-  vec1 = new long[TLEN] ;
+  vec1 = new int[TLEN] ;
 }
 
 FastRandomUnitNormalVariateGenerator::~FastRandomUnitNormalVariateGenerator()
@@ -37,7 +37,7 @@ FastRandomUnitNormalVariateGenerator::~FastRandomUnitNormalVariateGenerator()
   delete vec1 ;
 }
 
-void FastRandomUnitNormalVariateGenerator::Initialize(long randomSeed)
+void FastRandomUnitNormalVariateGenerator::Initialize(int randomSeed)
 {
   double fake ;
   lseed = randomSeed ;
@@ -77,24 +77,24 @@ double FastRandomUnitNormalVariateGenerator::GetNormalVariate()
 
 double FastRandomUnitNormalVariateGenerator::FastNorm(void)
 {
-  long i = 0;
-  long inc    = 0;
-  long skew   = 0;
-  long stride = 0;
-  long mask   = 0;
-  long p = 0;
-  long q = 0;
-  long r = 0;
-  long s = 0;
-  long t = 0;
-  long *pa = 0;
-  long *pb = 0;
-  long *pc = 0;
-  long *pd = 0;
-  long *pe = 0;
-  long *p0 = 0;
-  long mtype = 0;
-  long stype = 0;
+  int i = 0;
+  int inc    = 0;
+  int skew   = 0;
+  int stride = 0;
+  int mask   = 0;
+  int p = 0;
+  int q = 0;
+  int r = 0;
+  int s = 0;
+  int t = 0;
+  int *pa = 0;
+  int *pb = 0;
+  int *pc = 0;
+  int *pd = 0;
+  int *pe = 0;
+  int *p0 = 0;
+  int mtype = 0;
+  int stype = 0;
   double ts = 0.0;
   double tr = 0.0;
   double tx = 0.0;
@@ -293,8 +293,8 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   tz = -2.0 * log ((r + 0.5) * Rcons);   /* Sum of squares */
   ts += tz;
   tz = sqrt ( tz / tr );
-  vec1 [p++] = (long) (Scale *  tx * tz) ;
-  vec1 [p++] = (long) (Scale *  ty * tz) ;
+  vec1 [p++] = (int) (Scale *  tx * tz) ;
+  vec1 [p++] = (int) (Scale *  ty * tz) ;
   if (p < TLEN) goto nextpair;
   /*    Horrid, but good enough */
   /*    Calc correction factor to make sum of squares = TLEN    */
@@ -302,7 +302,7 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   tr = sqrt (ts);
   for (p = 0; p < TLEN; p++)    {
     tx = vec1 [p] * tr;
-    vec1 [p] = (long) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
+    vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
   }
 
  recalcsumsq:

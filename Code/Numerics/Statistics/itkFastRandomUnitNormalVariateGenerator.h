@@ -78,7 +78,7 @@ namespace itk {
  * 
  *         The program should initialize the generator by calling 
  * initnorm(seed)
- * with seed a long integer seed value. Different seed values will give
+ * with seed a int integer seed value. Different seed values will give
  * different sequences of Normals.
  *         Then, wherever the program needs a new Normal variate, it should
  * use the macro FastGauss, e.g. in statements like:
@@ -119,7 +119,7 @@ namespace itk {
     /**
      * generate random number table
      */
-    void Initialize(long randomSeed) ;
+    void Initialize(int randomSeed) ;
 
     /**
      * get a variate using FastNorm function
@@ -144,12 +144,12 @@ namespace itk {
     int LMASK ;
     int TLEN ;
     
-    long gaussfaze, *gausssave;
+    int gaussfaze, *gausssave;
     double GScale;
     
-    long* vec1 ;
-    long nslew;
-    long irs, lseed;
+    int* vec1 ;
+    int nslew;
+    int irs, lseed;
     double chic1, chic2, actualRSD;
   } ;  // end of class
   
