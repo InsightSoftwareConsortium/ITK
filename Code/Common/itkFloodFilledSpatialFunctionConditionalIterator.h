@@ -17,7 +17,7 @@
 #ifndef __itkFloodFilledSpatialFunctionConditionalIterator_h
 #define __itkFloodFilledSpatialFunctionConditionalIterator_h
 
-#include "itkFloodFilledFunctionConditionalIterator.h"
+#include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 
 namespace itk
 {
@@ -30,12 +30,13 @@ namespace itk
  *
  */
 template<class TImage, class TFunction>
-class FloodFilledSpatialFunctionConditionalIterator: public FloodFilledFunctionConditionalIterator<TImage, TFunction>
+class FloodFilledSpatialFunctionConditionalIterator: public FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class typedefs. */
   typedef FloodFilledSpatialFunctionConditionalIterator Self;
-  typedef FloodFilledFunctionConditionalIterator<TImage, TFunction> Superclass;
+  typedef FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 
@@ -61,46 +62,28 @@ public:
   typedef typename Superclass::PixelType   PixelType;
 
   /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+   * particular region of that image. This version of the constructor uses
+   * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
-                                     IndexType startIndex);
+                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};;
 
+  /** Constructor establishes an iterator to walk a particular image and a
+   * particular region of that image. This version of the constructor
+   * should be used when the seed pixel is unknown. */
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
-                                     FunctionType *fnPtr);
+                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {};;
+
+  /** Get the pixel value */
+  PixelType & Get(void)
+    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ); }
+
+  /** Set the pixel value */
+  void Set( const PixelType & value)
+    { const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ) = value; }
+
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalIterator() {};
-
-  /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(const IndexType & index) const;
-
-  /** Set the inclusion strategy to origin */
-  void SetOriginInclusionStrategy() { m_InclusionStrategy = 0; }
-
-  /** Set the inclusion strategy to center */
-  void SetCenterInclusionStrategy() { m_InclusionStrategy = 1; }
-  
-  /** Set the inclusion strategy to complete */
-  void SetCompleteInclusionStrategy() { m_InclusionStrategy = 2; }
-
-  /** Set the inclusion strategy to intersect */
-  void SetIntersectInclusionStrategy() { m_InclusionStrategy = 3; }
-  
-protected: //made protected so other iterators can access 
-
-  /** How the pixel (index) is examined in order to decide whether or not
-   * it's included. The strategies are:
-   * 0) Origin: if the origin of the pixel in physical space is inside the function,
-   * then the pixel is inside the function
-   * 1) Center: if the center of a pixel, in physical space, is inside the function,
-   * then the pixel is inside the function
-   * 2) Complete: if all of the corners of the pixel in physical space are inside the function,
-   * then the pixel is inside the function
-   * 3) Intersect: if any of the corners of the pixel in physical space are inside the function,
-   * then the pixel is inside the function */
-
-  unsigned char m_InclusionStrategy;
-
 };
 
 } // end namespace itk

@@ -18,6 +18,7 @@
 #define __itkConditionalIterator_h
 
 #include "itkIndex.h"
+#include "itkConditionalConstIterator.h"
 
 namespace itk
 {
@@ -32,11 +33,12 @@ namespace itk
  * \ingroup ImageIterators
  */
 template<class TImage>
-class ConditionalIterator {
+class ConditionalIterator : public ConditionalConstIterator<TImage>
+{
 public:
   /** Standard class typedefs. */
   typedef ConditionalIterator Self;
-  
+
   /** Dimension of the image the iterator walks.  This enum is needed so that
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
@@ -60,9 +62,6 @@ public:
 
   /** External Pixel Type */
   typedef typename TImage::PixelType   PixelType;
-
-  /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
   
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -72,40 +71,11 @@ public:
     m_Region = it.m_Region;   // copy the region
   }
   
-  /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension() 
-    {return TImage::ImageDimension;}
-
-  /** Get the index at the current iterator location. */
-  virtual const IndexType GetIndex() = 0;
-
-  /** Get the pixel value at the current iterator location. */
-  virtual PixelType & Get(void) = 0;
-  
-  /** Set the pixel value at the current iterator location. */
-  virtual void Set( const PixelType & value) = 0;
-
-  /** Is the iterator at the end of the region? */
-  virtual bool IsAtEnd() = 0;
-
-  /** Walk forward one index. */
-  virtual void operator++() = 0;
-  
   /** Constructor */
   ConditionalIterator();
 
   /** Destructor */
   virtual ~ConditionalIterator();
-
-protected: //made protected so other iterators can access 
-  /** Smart pointer to the source image. */
-  SmartPointer<ImageType> m_Image;
-
-  /** Region type to iterate over. */
-  RegionType m_Region;
-
-  /** Is the iterator at the end of its walk? */
-  bool m_IsAtEnd;
 };
 
 } // end namespace itk

@@ -21,13 +21,6 @@
 
 namespace itk
 {
-template<class TImage, class TFunction>
-bool
-FloodFilledImageFunctionConditionalIterator<TImage, TFunction>
-::IsPixelIncluded(const IndexType & index) const
-{
-  return m_Function->EvaluateAtIndex(index);
-}
 
 } // end namespace itk
 

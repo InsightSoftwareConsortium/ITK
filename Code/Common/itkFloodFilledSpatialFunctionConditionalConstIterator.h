@@ -36,6 +36,7 @@ public:
   /** Standard class typedefs. */
   typedef FloodFilledSpatialFunctionConditionalConstIterator Self;
   typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 

@@ -17,7 +17,7 @@
 #ifndef __itkFloodFilledImageFunctionConditionalIterator_h
 #define __itkFloodFilledImageFunctionConditionalIterator_h
 
-#include "itkFloodFilledFunctionConditionalIterator.h"
+#include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 
 namespace itk
 {
@@ -30,12 +30,13 @@ namespace itk
  *
  */
 template<class TImage, class TFunction>
-class FloodFilledImageFunctionConditionalIterator: public FloodFilledFunctionConditionalIterator<TImage, TFunction>
+class FloodFilledImageFunctionConditionalIterator: public FloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class typedefs. */
   typedef FloodFilledImageFunctionConditionalIterator Self;
-  typedef FloodFilledFunctionConditionalIterator<TImage, TFunction> Superclass;
+  typedef FloodFilledImageFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 
@@ -79,14 +80,16 @@ public:
   FloodFilledImageFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {};
 
+  /** Get the pixel value */
+  PixelType & Get(void)
+    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ); }
+
+  /** Set the pixel value */
+  void Set( const PixelType & value)
+    { const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ) = value; }
+
   /** Default Destructor. */
   virtual ~FloodFilledImageFunctionConditionalIterator() {};
-
-  /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(const IndexType & index) const;
-  
-protected: //made protected so other iterators can access 
-
 };
 
 } // end namespace itk

@@ -36,6 +36,7 @@ public:
   /** Standard class typedefs. */
   typedef FloodFilledImageFunctionConditionalConstIterator Self;
   typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+  
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 
@@ -83,9 +84,6 @@ public:
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const;
-  
-protected: //made protected so other iterators can access 
-
 };
 
 } // end namespace itk
