@@ -33,7 +33,6 @@
 #include "itkPNGImageIO.h"
 #include "itkRawImageIO.h"
 #include "itkStimulateImageIO.h"
-#include "itkVOLImageIO.h"
 #include "itkVTKImageIO.h"
 
 int itkIOPrintTest(int , char* [])
@@ -96,11 +95,6 @@ int itkIOPrintTest(int , char* [])
   Stimulateio = itk::StimulateImageIO::New();
   reader->SetImageIO(Stimulateio);
   std::cout << "---------------Stimulate" << reader;
-
-  itk::VOLImageIO::Pointer VOLio;
-  VOLio = itk::VOLImageIO::New();
-  reader->SetImageIO(VOLio);
-  std::cout << "---------------VOL" << reader;
 
   itk::VTKImageIO::Pointer VTKio;
   VTKio = itk::VTKImageIO::New();

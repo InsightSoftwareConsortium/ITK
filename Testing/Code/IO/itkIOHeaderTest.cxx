@@ -72,8 +72,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialObjectWriter.txx"
 #include "itkStimulateImageIO.h"
 #include "itkStimulateImageIOFactory.h"
-#include "itkVOLImageIO.h"
-#include "itkVOLImageIOFactory.h"
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkXMLFile.h"

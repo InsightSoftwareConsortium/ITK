@@ -39,7 +39,6 @@ void RegisterTests()
   REGISTER_TEST(itkNumericSeriesFileNamesTest);
   REGISTER_TEST(itkPolygonGroupSpatialObjectXMLFileTest);
   REGISTER_TEST(itkPNGImageIOTest);
-  REGISTER_TEST(itkVOLImageIOTest);
   REGISTER_TEST(itkVTKImageIOTest);
   REGISTER_TEST(itkRawImageIOTest);
   REGISTER_TEST(itkRawImageIOTest2);
