@@ -429,7 +429,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 {
   InputMeshPointer inputMesh = this->GetInput(0);
   InputPointsContainerPointer   points = inputMesh->GetPoints();
-  InputPointsContainerIterator  pointsIt = points->Begin();
 
   double H;
   double H_N1;
