@@ -159,6 +159,7 @@ PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 m_Points(NULL)
 {
   m_Divisions = new unsigned long [PointDimension];
+  m_NumberOfPointsPerBucket = 3;
 }
 
 template <typename TPointIdentifier, int VPointDimension,
