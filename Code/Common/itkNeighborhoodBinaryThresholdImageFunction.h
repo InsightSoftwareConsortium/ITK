@@ -79,10 +79,10 @@ public:
   /** SizeType of the input image */
   typedef typename InputImageType::SizeType InputSizeType;
 
-  /** Set the radius of the neighborhood used to compute the median. */
+  /** Set the radius of the neighborhood used in computation. */
   itkSetMacro(Radius, InputSizeType);
 
-  /** Get the radius of the neighborhood used to compute the median */
+  /** Get the radius of the neighborhood used in computation */
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
   /** Evalulate the function at specified index */
