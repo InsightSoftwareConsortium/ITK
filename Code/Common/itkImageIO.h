@@ -116,6 +116,12 @@ public:
    */
   void* GetFileData();
 
+  /**
+   * Convenient method for accessing # bytes to get to the next pixel.
+   * Returns m_Strides[1];
+   */
+  unsigned int GetPixelStride () const;
+
 protected:
   /**
    * Default constructor
@@ -224,12 +230,6 @@ protected:
    * Returns m_Strides[0];
    */
   unsigned int GetComponentStride() const;
-
-  /**
-   * Convenient method for accessing # bytes to get to the next pixel.
-   * Returns m_Strides[1];
-   */
-  unsigned int GetPixelStride () const;
 
   /**
    * Convenient method for accessing # bytes to get to the next row.
