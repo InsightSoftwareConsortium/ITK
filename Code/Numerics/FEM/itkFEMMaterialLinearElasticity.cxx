@@ -106,6 +106,12 @@ std::string::size_type b,e;
       continue;
     }
 
+    if (s=="RhoC") {
+      SkipWhiteSpace(f); f>>d; if(!f) goto out;
+      h=d;
+      continue;
+    }
+
     if (s=="END") {
       // End of constants in material definition
       goto out;
@@ -148,6 +154,7 @@ void MaterialLinearElasticity::Write( std::ostream& f ) const
   f<<"\tI  : "<<I<<"\t% Moment of inertia\n";
   f<<"\tnu : "<<nu<<"\t% Poisson's ratio\n";
   f<<"\th : "<<h<<"\t% Plate thickness\n";
+  f<<"\tRhoC : "<<h<<"\t% Density times capacity\n";
   f<<"\tEND:\t% End of material definition\n";
 
   // check for errors
