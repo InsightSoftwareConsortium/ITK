@@ -196,6 +196,8 @@ IF(BUILD_TESTING)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
                  ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif
                  COPYONLY IMMEDIATE)
+  SET(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
+  MARK_AS_ADVANCED(BUILDNAME)
 ENDIF(BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
