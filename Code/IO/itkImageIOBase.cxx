@@ -90,21 +90,21 @@ void ImageIOBase::Resize(const unsigned int numDimensions,
 
 void ImageIOBase::SetDimensions(unsigned int i, unsigned int dim)
 {
-  if ( i < 0 || i > m_Dimensions.size() ) {return;}
+  if ( i > m_Dimensions.size() ) {return;}
   this->Modified();
   m_Dimensions.insert(m_Dimensions.begin()+i,dim);
 }
 
 void ImageIOBase::SetOrigin(unsigned int i, double origin)
 {
-  if ( i < 0 || i > m_Origin.size() ) {return;}
+  if ( i > m_Origin.size() ) {return;}
   this->Modified();
   m_Origin.insert(m_Origin.begin()+i,origin);
 }
 
 void ImageIOBase::SetSpacing(unsigned int i, double spacing)
 {
-  if ( i < 0 || i > m_Spacing.size() ) {return;}
+  if (i > m_Spacing.size() ) {return;}
   this->Modified();
   m_Spacing.insert(m_Spacing.begin()+i,spacing);
 }
@@ -137,8 +137,8 @@ const std::type_info& ImageIOBase::GetPixelType() const
       return typeid(RGBPixel<unsigned char>);
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
-    default:
-      itkErrorMacro (<< "Invalid type: " << m_PixelType );
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -219,7 +219,7 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     }
   else
     {
-    itkErrorMacro(<<"Pixel type currently not supported");
+    itkErrorMacro("Pixel type currently not supported.");
     this->SetPixelType(ImageIOBase::UNKNOWN);
     this->SetComponentType(ImageIOBase::UNKNOWN);
     return false;
@@ -324,7 +324,7 @@ ImageIOBase::ConvertToTypeInfo(IODataType t ) const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     default:
-      itkErrorMacro (<< "Invalid type: " << m_PixelType );
+      itkErrorMacro ("Invalid type: " << m_PixelType );
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -358,6 +358,8 @@ ImageIOBase::GetSizeOfType(IODataType t) const
       return sizeof(RGBPixel<unsigned char>);
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << t);
     }
   return 0;
 
@@ -391,6 +393,8 @@ unsigned int ImageIOBase::GetPixelSize() const
       return sizeof(RGBPixel<unsigned char>);
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -424,6 +428,8 @@ unsigned int ImageIOBase::GetComponentSize() const
       return sizeof(RGBPixel<unsigned char>);
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -458,6 +464,8 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
       return (s = "rgb");
     case RGBA:
       return (s = "rgba");
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << t);
     }
   return (s="unknown");
 

@@ -238,6 +238,20 @@ protected:
   const std::type_info& ConvertToTypeInfo(IODataType ) const;
   unsigned int GetSizeOfType(IODataType ) const;
     
+  /** Used internally to keep track of the type of the pixel. */
+  IODataType m_PixelType;
+
+  /** Used internally to keep track of the type of the component. It is set
+   * when ComputeStrides() is invoked. */
+  IODataType m_ComponentType;
+
+  /** The number of dimensions in the image. */
+  unsigned int m_NumberOfDimensions;
+
+  /** Big or Little Endian, and the type of the file. (May be ignored.) */
+  ByteOrder      m_ByteOrder;
+  FileType       m_FileType;
+
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
 
@@ -247,10 +261,6 @@ protected:
   /** File prefix: pathname + filename + some pattern */
   std::string m_FilePrefix;
 
-  /** Big or Little Endian, and the type of the file. (May be ignored.) */
-  FileType       m_FileType;
-  ByteOrder      m_ByteOrder;
-
   /** Stores the number of components per pixel. This will be 1 for 
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
   unsigned int m_NumberOfComponents;
@@ -259,18 +269,15 @@ protected:
    * data within the region to read or write. */
   ImageIORegion m_IORegion;
 
-  /** The number of dimensions in the image. */
-  unsigned int m_NumberOfDimensions;
-
   /** The array which stores the number of pixels in the x, y, z directions. */
   std::vector<unsigned int> m_Dimensions;
 
   /** The array which stores the spacing of pixels in the 
    * x, y, z directions. */
-  std::vector<unsigned int> m_Spacing;
+  std::vector<double> m_Spacing;
 
   /** The array which stores the origin of the image. */
-  std::vector<unsigned int> m_Origin;
+  std::vector<double> m_Origin;
 
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
@@ -293,13 +300,6 @@ protected:
    * strides[2] = bytes to get to the next row in y direction,
    * strides[3] = bytes to get to the next slice in z direction, etc. */
   void ComputeStrides();
-
-  /** Used internally to keep track of the type of the pixel. */
-  IODataType m_PixelType;
-
-  /** Used internally to keep track of the type of the component. It is set
-   * when ComputeStrides() is invoked. */
-  IODataType m_ComponentType;
 
   /** Compute the size (in bytes) of the pixel. For
    * example, and RGB pixel of unsigned char would have size 3 bytes. */
