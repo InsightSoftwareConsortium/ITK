@@ -21,6 +21,17 @@ namespace itk
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>
+::ScaleCoefficients( TPixel s )
+{
+  for (unsigned i = 0; i < this->Size(); i++)
+    {
+    this->operator[](i) = this->operator[](i) * s;
+    }
+}
+
+template <class TPixel, unsigned int VDimension, class TAllocator>
+void
+NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::FlipAxes()
 {
   // To flip the operator across all of its axes, all we have to do is reverse

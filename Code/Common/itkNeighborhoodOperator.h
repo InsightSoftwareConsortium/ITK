@@ -133,6 +133,9 @@ public:
       Superclass::PrintSelf( os, i.GetNextIndent() );
     }
 
+  /** Multiplies all of the coefficients of the kernel by a scalar value. */
+  void ScaleCoefficients( TPixel );
+
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */
