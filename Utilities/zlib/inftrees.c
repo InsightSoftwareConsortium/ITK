@@ -447,7 +447,7 @@ z_streamp z;             /* for memory allocation */
     fixed_built = 1;
   }
 #endif
-  z = z;  // prevent warning for unused variable
+  z = z;  /* prevent warning for unused variable*/
   *bl = fixed_bl;
   *bd = fixed_bd;
   *tl = fixed_tl;
