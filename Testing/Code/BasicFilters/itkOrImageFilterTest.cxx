@@ -99,6 +99,7 @@ int itkOrImageFilterTest(int, char* [] )
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  it1.GoToBegin();
 
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
@@ -111,6 +112,7 @@ int itkOrImageFilterTest(int, char* [] )
 
   // Create one iterator for Image B (this is a light object)
   myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  it2.GoToBegin();
 
   // Initialize the content of Image B
   std::cout << "Second operand " << std::endl;
@@ -139,6 +141,7 @@ int itkOrImageFilterTest(int, char* [] )
 
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
+  it3.GoToBegin();
   
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
