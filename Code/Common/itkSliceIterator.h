@@ -18,8 +18,7 @@
 
 #include "itkMacro.h"
 #include "itkExceptionObject.h"
-#include <std/slice.h>
-
+#include <valarray>
 namespace itk {
 
 /**
