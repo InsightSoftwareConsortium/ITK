@@ -50,7 +50,7 @@
 
 source Testing/Utilities/Utility.conf
 source Testing/Utilities/Utility.tcl
-source Testing/Utilities/ftp.tcl
+source [file join $SourceDirectory Testing Utilities ftp.tcl]
 
 package require http
 
