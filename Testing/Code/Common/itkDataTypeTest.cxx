@@ -10,17 +10,14 @@ int main()
   itk::Scalar<double> s;
   itk::Vector<int, 4> v;
 
-  int vec[4];
-  vec[0] = 1; vec[1] = 3; vec[2] = 2; vec[3] = 4;
-  
   s.SetScalar( 5.1 );
   std::cout << "Scalar value = " << s.GetScalar() << std::endl;
 
-  v.GetVector().copy_in( vec );
+  v = 1,2,3,4;
   std::cout << "Vector value = ";
   for (int i=0; i < v.GetVectorDimension(); i++)
     {
-    std::cout << v.GetVector()[i];
+    std::cout << v[i];
     if (i < v.GetVectorDimension() - 1)
       {
       std::cout << ", ";
