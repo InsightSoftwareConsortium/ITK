@@ -79,7 +79,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     throw ImageFileReaderException(__FILE__, __LINE__, "One of FileName or FilePrefix must be non-empty");
     }
 
-  if ( m_ImageIO == 0 ) //try creating via factory
+  if ( m_ImageIO.IsNull() ) //try creating via factory
     {
     m_UserSpecifiedImageIO = false;
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
@@ -89,7 +89,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     m_UserSpecifiedImageIO = true;
     }
   
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     ImageFileReaderException e(__FILE__, __LINE__);
     OStringStream msg;

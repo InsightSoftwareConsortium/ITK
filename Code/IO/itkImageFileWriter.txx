@@ -99,7 +99,7 @@ ImageFileWriter<TInputImage>
   InputImageType * nonConstInput = const_cast<InputImageType*>( input );
   nonConstInput->Update();
 
-  if ( m_ImageIO == 0 ) //try creating via factory
+  if ( m_ImageIO.IsNull() ) //try creating via factory
     {
     itkDebugMacro(<<"Attempting creation of ImageIO with a factory for file " << m_FileName);
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
@@ -114,7 +114,7 @@ ImageFileWriter<TInputImage>
         }
     }
 
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     itkExceptionMacro(<<"No ImageIO set, or none could be created.");
     return;
@@ -155,7 +155,7 @@ ImageFileWriter<TInputImage>
     return;
     }
 
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     itkExceptionMacro(<<"No ImageIO set, or none could be created.");
     return;
@@ -210,7 +210,7 @@ ImageFileWriter<TInputImage>
     throw ImageFileWriterException(__FILE__, __LINE__, "One of FileName or FilePrefix must be non-empty");
     }
 
-  if ( m_ImageIO == 0 ) //try creating via factory
+  if ( m_ImageIO.IsNull() ) //try creating via factory
     {
     m_UserSpecifiedImageIO = false;
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::WriteMode );
@@ -220,7 +220,7 @@ ImageFileWriter<TInputImage>
     m_UserSpecifiedImageIO = true;
     }
   
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     ImageFileWriterException e(__FILE__, __LINE__);
     OStringStream msg;
@@ -281,7 +281,7 @@ ImageFileWriter<TInputImage>
      << (m_FilePattern.data() ? m_FilePattern.data() : "(none)") << std::endl;
 
   os << indent << "Image IO: ";
-  if ( m_ImageIO == 0 )
+  if ( m_ImageIO.IsNull() )
     {
     os << "(none)\n";
     }
