@@ -357,7 +357,7 @@ ADD_TEST(itkVectorConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
   itkVectorConfidenceConnectedImageFilterTest
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png 
-            72 44 23 67 4.5 10)
+            72 44 23 67 8.0 10)
 
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1a ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1a.png
