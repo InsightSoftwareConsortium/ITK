@@ -17,6 +17,7 @@
 #ifndef _itkVersor_txx
 #define _itkVersor_txx
 
+#include "itkVersor.h"
 #include "itkVector.h" 
 #include "itkNumericTraits.h" 
 #include "itkExceptionObject.h"
