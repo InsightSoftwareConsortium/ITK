@@ -249,10 +249,10 @@ ComputeOffset( void )
   const MatrixType & matrix = this->GetMatrix();
   
   OffsetType offset;
-  for(unsigned int i; i<SpaceDimension; i++)
+  for(unsigned int i=0; i<SpaceDimension; i++)
     {
     offset[i] = m_Translation[i] + m_Center[i];
-    for(unsigned int j; j<SpaceDimension; j++)
+    for(unsigned int j=0; j<SpaceDimension; j++)
       {
       offset[i] -= matrix[i][j] * m_Center[j];
       }
