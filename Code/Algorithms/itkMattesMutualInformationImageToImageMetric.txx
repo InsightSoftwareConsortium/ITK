@@ -384,19 +384,52 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   typename FixedImageSpatialSampleContainer::iterator iter;
   typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
 
-  for( iter=samples.begin(); iter != end; ++iter )
+  if( m_FixedImageMask )
     {
 
-    // Get sampled index
-    FixedImageIndexType index = randIter.GetIndex();
-    // Get sampled fixed image value
-    (*iter).FixedImageValue = randIter.Get();
-    // Translate index to point
-    m_FixedImage->TransformIndexToPhysicalPoint( index,
-                                                 (*iter).FixedImagePointValue );
-    // Jump to random position
-    ++randIter;
+    typename Superclass::InputPointType inputPoint;
 
+    iter=samples.begin();
+
+    while( iter != end )
+      {
+      // Get sampled index
+      FixedImageIndexType index = randIter.GetIndex();
+      // Check if the Index is inside the mask, translate index to point
+      m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+      // If not inside the mask, ignore the point
+      if( !m_FixedImageMask->IsInside( inputPoint ) )
+        {
+        ++randIter; // jump to another random position
+        continue;
+        }
+
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = randIter.Get();
+      // Translate index to point
+      (*iter).FixedImagePointValue = inputPoint;
+
+      // Jump to random position
+      ++randIter;
+      ++iter;
+      }
+    }
+  else
+    {
+    for( iter=samples.begin(); iter != end; ++iter )
+      {
+      // Get sampled index
+      FixedImageIndexType index = randIter.GetIndex();
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = randIter.Get();
+      // Translate index to point
+      m_FixedImage->TransformIndexToPhysicalPoint( index,
+                                                   (*iter).FixedImagePointValue );
+      // Jump to random position
+      ++randIter;
+
+      }
     }
 }
 
@@ -1049,6 +1082,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // This is neccessary for computing the metric gradient
     sampleOk = sampleOk && insideBSValidRegion;
     }
+
+  // If user provided a mask over the Moving image
+  if ( m_MovingImageMask )
+    {
+    // Check if mapped point is within the support region of the moving image mask
+    sampleOk = sampleOk && m_MovingImageMask->IsInside( mappedPoint );
+    }
+
 
   if ( sampleOk )
     {
