@@ -114,12 +114,12 @@ Tcl_Interp* WrapperBase::GetInterpreter() const
 
 
 /**
- * Appends the list of methods provided by this wrapper's class and
- * its superclasses to the current Tcl result.
+ * Appends the list of methods provided by this wrapper's class to the
+ * current Tcl result.
  */
-int WrapperBase::ListMethods() const
+void WrapperBase::ListMethods() const
 {
-  String className = m_WrappedTypeRepresentation->Name();
+  String className = m_WrappedTypeRepresentation->Name();  
   Tcl_AppendResult(m_Interpreter,
                    "Methods provided by class ",
                    const_cast<char*>(className.c_str()),
@@ -132,7 +132,6 @@ int WrapperBase::ListMethods() const
     Tcl_AppendResult(m_Interpreter,
                      "  ", const_cast<char*>(prototype.c_str()), "\n", NULL);
     }
-  return TCL_OK;
 }
 
 

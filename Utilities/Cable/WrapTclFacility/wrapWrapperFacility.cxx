@@ -48,6 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapWrapperBase.h"
 
 #include <map>
+#include <queue>
 
 namespace _wrap_
 {
@@ -149,13 +150,12 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
     "Usage: ListMethods <id>\n"
     "  Where <id> is an object name, pointer, reference.";
   
-  WrapperBase* wrapper = NULL;
+  const Type* type = NULL;
   
   if(objc > 1)
     {
     Pointer p;
     Reference r;
-    const Type* type = NULL;
     
     if(TclObjectTypeIsPointer(objv[1]))
       {
@@ -185,23 +185,49 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
         type = r.GetReferencedType().GetType();
         }    
       }
-    
-    if(type)
-      {
-      wrapper = m_WrapperTable->GetWrapper(type);
-      }
     }
   
+  const ClassType* classType = ClassType::SafeDownCast(type);
   Tcl_ResetResult(m_Interpreter);
-  if(wrapper)
-    {
-    return wrapper->ListMethods();
-    }
-  else
+  if(!classType)
     {
     Tcl_AppendResult(m_Interpreter, usage, NULL);
     return TCL_ERROR;
     }
+
+  // A queue to do a BFS of this class and its parents, but without
+  // duplicates.
+  std::queue<const ClassType*> classQueue;
+  std::set<const ClassType*> visited;
+    
+  // Start with the search at this class.
+  visited.insert(classType);
+  classQueue.push(classType);
+  while(!classQueue.empty())
+    {
+    // Get the next class off the queue.
+    const ClassType* curClass = classQueue.front(); classQueue.pop();
+      
+    // If the class has a wrapper, list its methods.
+    const WrapperBase* wrapper = m_WrapperTable->GetWrapper(curClass);
+    if(wrapper)
+      {
+      wrapper->ListMethods();
+      }
+      
+    // Walk up to the class's parents.
+    for(ClassTypes::const_iterator parent = curClass->ParentsBegin();
+        parent != curClass->ParentsEnd(); ++parent)
+      {
+      if(visited.count(*parent) == 0)
+        {
+        visited.insert(*parent);
+        classQueue.push(*parent);
+        }
+      }
+    }
+    
+  return TCL_OK;
 }
 
 

@@ -78,7 +78,7 @@ public:
   
   Tcl_Interp* GetInterpreter() const;
   
-  int ListMethods() const;
+  void ListMethods() const;
   
   void CreateResultCommand(const String& name, const Type* type) const;
   void AddInstance(const String& name, void* object) const;
