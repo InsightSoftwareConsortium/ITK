@@ -26,17 +26,6 @@
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
-//An array of the Analyze v7.5 known DataTypes
-static const char DataTypes[10][12]=  {
-  "UNKNOWN","BINARY","CHAR","SHORT",
-  "INT","FLOAT","COMPLEX","DOUBLE","RGB", "USHORT"
-};
-//An array with the corresponding sizes
-static const short int DataTypeSizes[11]={0,1,8,16,32,32,64,64,24,0,16};
-//An array with Data type key sizes
-static const short int DataTypeKey[11]={0,1,2,4,8,16,32,64,128,255,6};
-
-
 //Written by Hans J. Johnson
 //Copied from uiig ANALYZE file reader
 // Acceptable values for hdr.dime.datatype
@@ -67,6 +56,33 @@ enum DataTypeIndex  {
   ANALYZE_DT_INDEX_ALL           =9,
   ANALYZE_DT_INDEX_UNSIGNED_SHORT=10
 };
+
+//An array of the Analyze v7.5 known DataTypes
+static const char DataTypes[10][12]=  {
+  "UNKNOWN","BINARY","CHAR","SHORT",
+  "INT","FLOAT","COMPLEX","DOUBLE","RGB", "USHORT"
+};
+
+//An array with the corresponding sizes
+//NOTE: the following two line should be equivalent.
+//static const short int DataTypeSizes[11]={0,1,8,16,32,32,64,64,24,0,16};
+static const short int DataTypeSizes[11]={
+  ANALYZE_DT_INDEX_UNKNOWN       ,
+  ANALYZE_DT_INDEX_BINARY        ,
+  ANALYZE_DT_INDEX_UNSIGNED_CHAR ,
+  ANALYZE_DT_INDEX_SIGNED_SHORT  ,
+  ANALYZE_DT_INDEX_SIGNED_INT    ,
+  ANALYZE_DT_INDEX_FLOAT         ,
+  ANALYZE_DT_INDEX_COMPLEX       ,
+  ANALYZE_DT_INDEX_DOUBLE        ,
+  ANALYZE_DT_INDEX_RGB           ,
+  ANALYZE_DT_INDEX_ALL           ,
+  ANALYZE_DT_INDEX_UNSIGNED_SHORT
+};
+//An array with Data type key sizes
+static const short int DataTypeKey[11]={0,1,2,4,8,16,32,64,128,255,6};
+
+
 //The following was inserted based on Bill Hoffman's CMake
 //implementation.
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
