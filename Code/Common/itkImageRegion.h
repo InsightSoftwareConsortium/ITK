@@ -199,7 +199,7 @@ public:
           {
           return false;
           }
-        if( index[i] >= m_Index[i] + m_Size[i] ) 
+        if( index[i] >= m_Index[i] + static_cast<long>(m_Size[i]) ) 
           {
           return false;
           }
