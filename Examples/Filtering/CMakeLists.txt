@@ -40,6 +40,9 @@ TARGET_LINK_LIBRARIES(BinaryMinMaxCurvatureFlowImageFilter ITKCommon ITKBasicFil
 ADD_EXECUTABLE(DiscreteGaussianImageFilter DiscreteGaussianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
+
 ADD_EXECUTABLE(BinomialBlurImageFilter BinomialBlurImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinomialBlurImageFilter ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
 
@@ -78,6 +81,9 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO ITKMe
 
 ADD_EXECUTABLE(ResampleImageFilter4 ResampleImageFilter4.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter4 ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO ITKMetaIO itkzlib itkpng)
 
 
 
