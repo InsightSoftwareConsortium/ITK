@@ -53,6 +53,7 @@ public:
   itkTypeMacro(CorrespondenceDataStructure, DataObject);
 
   typedef TItemType ItemType;
+  itkStaticConstMacro(CliqueSize, unsigned int, VCliqueSize);
 
   /** Virtual method required by DataObject interface.   */
   void UpdateOutputInformation() {}
