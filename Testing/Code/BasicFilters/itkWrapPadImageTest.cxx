@@ -44,6 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkWrapPadImageFilter.h"
 #include "itkFileOutputWindow.h"
+#include "itkMultiThreader.h"
+#include "itkStreamingImageFilter.h"
 
 //
 // Check that val represents the correct pixel value.  This routine
@@ -70,6 +72,8 @@ int main()
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
+
+  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(2);
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
@@ -107,8 +111,8 @@ int main()
   wrapPad = itk::WrapPadImageFilter< ShortImage, ShortImage >::New();
   wrapPad->SetInput( if2 );
   
-  unsigned int upperfactors[2] = { 0, 0};
-  unsigned int lowerfactors[2] = { 0, 0};
+  unsigned long upperfactors[2] = { 0, 0};
+  unsigned long lowerfactors[2] = { 0, 0};
   wrapPad->SetPadLowerBound(lowerfactors);
   wrapPad->SetPadUpperBound(upperfactors);
   wrapPad->UpdateLargestPossibleRegion();
@@ -233,6 +237,12 @@ int main()
   wrapPad->SetPadLowerBound(lowerfactors);
   wrapPad->SetPadUpperBound(upperfactors);
   
+  // Create a stream
+  itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream;
+  stream = itk::StreamingImageFilter< ShortImage, ShortImage >::New();
+  stream->SetInput( wrapPad->GetOutput() );
+  stream->SetNumberOfStreamDivisions(3);
+
   if ((wrapPad->GetPadUpperBound()[0] != upperfactors[0]) 
       || (wrapPad->GetPadUpperBound()[1] != upperfactors[1])
       || (wrapPad->GetPadLowerBound()[0] != lowerfactors[0])
@@ -242,11 +252,11 @@ int main()
     } 
   else 
     {
-      wrapPad->UpdateLargestPossibleRegion();
-      requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
+      stream->UpdateLargestPossibleRegion();
+      requestedRegion = stream->GetOutput()->GetRequestedRegion();
       
       itk::ImageRegionIterator<ShortImage>
-	iteratorIn3(wrapPad->GetOutput(), requestedRegion);
+	iteratorIn3(stream->GetOutput(), requestedRegion);
       
       passed = true; 
       size = requestedRegion.GetSize();

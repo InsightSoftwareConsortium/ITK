@@ -89,8 +89,8 @@ int main()
   constantPad = itk::ConstantPadImageFilter< ShortImage, ShortImage >::New();
   constantPad->SetInput( if2 );
   
-  unsigned int upperfactors[2] = { 0, 0};
-  unsigned int lowerfactors[2] = { 0, 0};
+  unsigned long upperfactors[2] = { 0, 0};
+  unsigned long lowerfactors[2] = { 0, 0};
   constantPad->SetConstant(13);
   constantPad->SetPadLowerBound(lowerfactors);
   constantPad->SetPadUpperBound(upperfactors);
