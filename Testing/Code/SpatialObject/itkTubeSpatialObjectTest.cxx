@@ -33,19 +33,25 @@
 
 int itkTubeSpatialObjectTest(int, char **) 
 {
-  typedef double ScalarType;
-  typedef bool OutputType;
-  typedef itk::Vector< ScalarType, 3> Vector;
-  typedef itk::Vector< OutputType, 3> OutputVector;
-  typedef itk::Point< ScalarType, 3> Point;
-  typedef itk::Matrix< ScalarType, 3, 3> Matrix;
-  typedef itk::TubeSpatialObject Tube;
-  typedef itk::SmartPointer< itk::TubeSpatialObject > TubePointer;
-  typedef itk::TubeNetworkSpatialObject TubeNet;
-  typedef itk::SmartPointer< itk::TubeNetworkSpatialObject > TubeNetPointer;
-  typedef itk::AffineTransform< ScalarType, 3 > AffineTransformType;
-  typedef itk::SmartPointer<AffineTransformType> AffineTransformPointer;
-  typedef std::list< itk::SpatialObject< 3, AffineTransformType, OutputType> * > ChildrenListType;
+  typedef double                                      ScalarType;
+  typedef bool                                        OutputType;
+  typedef itk::Vector< ScalarType, 3>                 Vector;
+  typedef itk::Vector< OutputType, 3>                 OutputVector;
+  typedef itk::Point< ScalarType, 3>                  Point;
+  typedef itk::Matrix< ScalarType, 3, 3>              Matrix;
+  typedef itk::TubeSpatialObject                      TubeType;
+  typedef itk::SmartPointer< TubeType >               TubePointer;
+  typedef TubeType::TubePointType                         TubePointType;
+  typedef TubePointType::Pointer                      TubePointPointer;
+  typedef itk::TubeNetworkSpatialObject               TubeNetType;
+  typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
+  typedef TubeType::PointListType                     TubePointListType;
+  typedef itk::AffineTransform< ScalarType, 3 >       AffineTransformType;
+  typedef itk::SmartPointer<AffineTransformType>      AffineTransformPointer;
+  typedef std::list< itk::SpatialObject<  
+                      3, 
+                      AffineTransformType, 
+                      OutputType> * >                 ChildrenListType;
 
   Vector axis, translation;
   Point in, out;
@@ -59,10 +65,10 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing SpatialObject:"<<std::endl<<std::endl;
 
-  TubePointer tube1 = itk::TubeSpatialObject::New();
+  TubePointer tube1 = TubeType::New();
   AffineTransformPointer tube1Transform = AffineTransformType::New();
   AffineTransformPointer tube1InverseTransform = AffineTransformType::New();
-  itk::TubeSpatialObject::PointListPointer list = new itk::TubeSpatialObject::PointListType();
+  TubePointListType * list = new TubePointListType();
 
   translation.Fill(10);
   tube1Transform->Translate(translation);
@@ -70,7 +76,7 @@ int itkTubeSpatialObjectTest(int, char **)
 
   for( unsigned int i=0; i<10; i++)
     {
-    itk::TubePoint * p = new itk::TubePoint();
+    TubePointPointer p = TubePointType::New();
     p->SetCenterLinePoint(i,i,i);
     p->SetRadius(1);
     list->push_back(p);
@@ -371,8 +377,8 @@ int itkTubeSpatialObjectTest(int, char **)
   std::cout<<"=============================================="<<std::endl;
   std::cout<<"Testing references behavior for SpatialObject:"<<std::endl<<std::endl;
 
-  TubePointer tube = Tube::New();
-  TubeNetPointer net = TubeNet::New();
+  TubePointer tube = TubeType::New();
+  TubeNetPointer net = TubeNetType::New();
 
   unsigned int tubeCount, netCount;
   tubeCount = tube->GetReferenceCount();
@@ -427,6 +433,8 @@ int itkTubeSpatialObjectTest(int, char **)
     }
 
   std::cout<<"[PASSED]"<<std::endl;
+
+  delete list;
 
   return EXIT_SUCCESS;
 }
