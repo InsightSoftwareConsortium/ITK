@@ -24,6 +24,7 @@
 #include "itkImageRegion.h"
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
+#include "itkNeighborhood.h"
 
 namespace itk {
 
@@ -87,6 +88,7 @@ namespace itk {
  * \sa SmartRegionNeighborhoodIterator
  * \sa RegionBoundaryNeighborhoodIterator
  */
+
 template<class TPixel, unsigned int VDimension = 2>
 class NeighborhoodIterator
   :  public NeighborhoodBase<TPixel *, VDimension>
@@ -133,32 +135,51 @@ public:
   itkTypeMacro(NeighborhoodIterator, NeighborhoodBase);
 
   /**
+   * Default constructor.
+   */
+  NeighborhoodIterator() : m_OutputBuffer(0)
+  {
+    memset(m_OutputWrapOffsetModifier, 0, sizeof(long) *
+           VDimension);
+  }
+  
+  /**
    * Size object typedef support
    */
   typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
 
   /**
-   * Default constructor.
+   * Constructor which establishes the region size, neighborhood, and image
+   * over which to walk.
    */
-  NeighborhoodIterator() : m_OutputBuffer(0) {};
-  
- /**
-  * Constructor establishes a neighborhood of iterators of a specified
-  * dimension to walk a particular image and a particular region of
-  * that image.
-  */
   NeighborhoodIterator(const SizeType &radius,
                        ImageType * ptr,
                        const RegionType &region
                        )
-    : m_OutputBuffer(0)
   {
+    this->Initialize(radius, ptr, region);
+  }
+
+  /**
+   * Initializes the iterator to walk a particular image and a particular
+   * region of that image.
+   */
+  virtual void Initialize(const SizeType &radius, ImageType *ptr,
+                          const RegionType &region)
+  {
+    m_Region = region;
+    m_OutputBuffer = 0;
+    memset(m_OutputWrapOffsetModifier, 0, sizeof(long) *
+           VDimension);
     this->SetRadius(radius);
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
     this->SetStartIndex(region.GetIndex());
     this->SetLocation(region.GetIndex());
+    this->SetBound(region.GetSize());
+    this->SetEnd();
   }
+  
   
   /**
    * Increments the pointers in the NeighborhoodIterator,
@@ -168,8 +189,18 @@ public:
    *
    * This function may be overridden by a subclass.
    */
-  virtual const Self &operator++();  
-
+  virtual const Self &operator++();
+  
+  /**
+   * Decrements the pointers in the NeighborhoodIterator,
+   * wraps across boundaries automatically, accounting for
+   * the disparity in the buffer size and the region size of the
+   * image.
+   *
+   * This function may be overridden by a subclass.
+   */
+  virtual const Self &operator--();  
+  
   /**
    * Virtual function that replaces the pixel values in the image
    * neighborhood "pointed to" by the NeighborhoodIterator with
@@ -189,15 +220,7 @@ public:
    * conditions.
    */
   virtual NeighborhoodType GetNeighborhood() = 0;
-
-  /**
-   * Returns a const pointer to an internal array of offsets that 
-   * provide support for regions of interest.  An offset for each dimension
-   * is necessary to shift pointers when wrapping around region edges because
-   * region memory is not necessarily contiguous within the buffer.
-   */
-
-
+  
   /**
    * Returns the pixel value referenced at a linear array location.
    */
@@ -205,10 +228,48 @@ public:
   {
     return *(this->operator[](i));
   }
+
+  /**
+   * API for the innerproduct operations on iterators.
+   */
+  virtual  ScalarValueType InnerProduct(std::valarray<TPixel> &) = 0;
+  virtual  ScalarValueType InnerProduct(
+                              std::valarray<ScalarValueType> &,
+                              VectorComponentDataAccessor<TPixel,
+                              ScalarValueType> &
+                              ) = 0;
+  virtual ScalarValueType SlicedInnerProduct(const std::slice &s,
+                                           std::valarray<TPixel> &v) = 0;
   
+  virtual ScalarValueType SlicedInnerProduct(const std::slice &,
+                                    std::valarray<ScalarValueType> &,
+                 VectorComponentDataAccessor<TPixel, ScalarValueType> &)= 0;
+  
+  /**
+   * Returns the offsets used to wrap across dimensional boundaries.
+   */
   const unsigned long* GetWrapOffset() const
   {
     return m_WrapOffsets;
+  }
+  
+  /**
+   * Sets the offsets that will be used to adjust for differences in input
+   * and output buffer sizes.
+   */
+  void SetOutputWrapOffsetModifier( const long* modifiers)
+  {
+    memcpy( m_OutputWrapOffsetModifier, modifiers, sizeof(long) 
+            * VDimension);
+  }
+  
+  /**
+   * Returns the offsets that will be used to adjust for differences in input
+   * and output buffer sizes.
+   */
+  const long* GetOutputWrapOffsetModifier() const
+  {
+    return m_OutputWrapOffsetModifier;
   }
   
   /**
@@ -242,11 +303,22 @@ public:
   }
 
   /**
+   * Returns the N-dimensional index of the iterator's position in
+   * the image.
+   */
+  virtual IndexType GetIndex() const
+  {
+    IndexType temp;
+    memcpy(temp.m_Index, m_Loop, sizeof(long int) * VDimension);
+    return temp;
+  }
+  
+  /**
    * Returns a boolean == comparison of the memory addresses of the center
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator==(const Self &it)
+  bool operator==(const Self &it) const 
   {
     return  it[this->size()>>1] == (*this)[this->size()>>1];
   }
@@ -256,7 +328,7 @@ public:
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator!=(const Self &it)
+  bool operator!=(const Self &it) const
   {
     return  it[this->size()>>1] != (*this)[this->size()>>1];
   }
@@ -266,7 +338,7 @@ public:
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator<(const Self &it)
+  bool operator<(const Self &it) const
   {
     return  (*this)[this->size()>>1] < it[this->size()>>1];
   }
@@ -276,7 +348,7 @@ public:
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator<=(const Self &it)
+  bool operator<=(const Self &it) const
   {
     return  (*this)[this->size()>>1] <= it[this->size()>>1];
   }
@@ -286,7 +358,7 @@ public:
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator>(const Self &it)
+  bool operator>(const Self &it) const
   {
     return  (*this)[this->size()>>1] > it[this->size()>>1];
   }
@@ -296,7 +368,7 @@ public:
    * elements of two NeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored.
    */
-  bool operator>=(const Self &it)
+  bool operator>=(const Self &it) const
   {
     return  (*this)[this->size()>>1] >= it[this->size()>>1];
   }
@@ -316,7 +388,7 @@ public:
   {
     return (this->operator[]((this->size())>>1));
   }
-
+  
   /**
    * "Scalar" dereference.  References the pixel on which the iterator is
    * centered.  Allows a NeighborhoodIterator to be used in the context of a
@@ -383,6 +455,34 @@ public:
     return *this;
   }
   
+  /**
+   * Virtual method for rewinding the iterator to its beginning pixel.
+   * This is useful for writing functions which take neighborhood iterators
+   * of arbitrary type and must use virtual functions.
+   */
+  virtual void SetToBegin() = 0;
+
+  /**
+   * Virtual method for determining whether the the iterator has reached the
+   * end of its iteration region.  Useful for writing functions that take
+   * neighborhood iterators of arbitrary type and must use virtual functions.
+   */
+  virtual bool IsAtEnd() const
+  {
+    return ( this->operator[](this->size()>>1) == m_EndPointer ); 
+  }
+  
+
+  /**
+   *
+   */
+  virtual void SetEnd() = 0;
+
+  /**
+   *
+   */
+  RegionType GetRegion() const { return m_Region; }
+   
 protected:
   /**
    * Default method for setting the coordinate location of the iterator.
@@ -403,14 +503,14 @@ protected:
   {
     m_StartIndex = start;
   }
-
+  
   /**
    * Virtual method for setting internal loop boundaries.  This
    * method must be defined in each subclass because
    * each subclass may handle loop boundaries differently.
    */
   virtual void SetBound(const SizeType &) = 0;
-
+  
   /**
    * Default method for setting the values of the internal pointers
    * to itk::Image memory buffer locations.  This method should
@@ -418,7 +518,7 @@ protected:
    * \sa SetLocation
    */
   virtual void SetPixelPointers(const IndexType &);
-
+  
   /**
    * The internal array of offsets that provide support for regions of interest.
    * An offset for each dimension is necessary to shift pointers when wrapping
@@ -426,7 +526,15 @@ protected:
    * within the buffer.
    */
   unsigned long m_WrapOffset[VDimension];
-
+  
+  /**
+   * Modifiers that compensate for the difference in the sizes of the input
+   * and output buffers.  m_OutputBuffer will be incremented by these
+   * additional values when wrapping across dimensional boundaries during
+   * iteration.
+   */
+  long m_OutputWrapOffsetModifier[VDimension];
+  
   /**
    * An array of upper looping boundaries used during iteration.
    */
@@ -442,8 +550,8 @@ protected:
    * the center position of the NeighborhoodIterator.
    *
    * The output buffer is assumed to be the same size as the itk::Image buffer
-   * on which the NeighborhoodIterator is defined.  Scalar output can be written
-   * directly to the synchronized pointer location. 
+   * on which the NeighborhoodIterator is defined.  Scalar output can be
+   * written directly to the synchronized pointer location. 
    */
   TPixel *m_OutputBuffer;
 
@@ -464,12 +572,24 @@ protected:
    * on which this NeighborhoodIterator is defined.
    */
   IndexType  m_StartIndex;
+
+  /**
+   *
+   */
+  TPixel *m_EndPointer;
+
+  /**
+   *
+   */
+  RegionType m_Region;
+  
 };
 
 } // namespace itk
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhoodIterator.txx"
 #endif
 
-#endif 
+#endif
