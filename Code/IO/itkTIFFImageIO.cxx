@@ -564,8 +564,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
         if ( tempImage != buffer )
           {
           delete [] tempImage;
-          }
-      
+          } 
         return;
         }
       int xx, yy;
@@ -573,81 +572,83 @@ void TIFFImageIO::ReadVolume(void* buffer)
       
       if(m_ComponentType == USHORT)
         {
-         unsigned short *fimage = (unsigned short *)buffer;
-         for ( yy = 0; yy < height; yy ++ )
-           {
-           ssimage = tempImage + (height - yy - 1) * width;
-           for ( xx = 0; xx < width; xx++ )
-             {
-             unsigned short red   = static_cast<unsigned short>(TIFFGetR(*ssimage));
-             unsigned short green = static_cast<unsigned short>(TIFFGetG(*ssimage));
-             unsigned short blue  = static_cast<unsigned short>(TIFFGetB(*ssimage));
-             unsigned short alpha = static_cast<unsigned short>(TIFFGetA(*ssimage));
-          
-             *(fimage  ) = red;
-             *(fimage+1) = green;
-             *(fimage+2) = blue;
-             *(fimage+3) = alpha;
-             fimage += 4;
-             ssimage ++;
-             }
-           }
-         }
-       else
-         {
-         unsigned char *fimage = (unsigned char *)buffer;
-         for ( yy = 0; yy < height; yy ++ )
-           {
-           ssimage = tempImage + (height - yy - 1) * width;
-           for ( xx = 0; xx < width; xx++ )
-             {
-             unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
-             unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
-             unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
-             unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
-          
-             *(fimage  ) = red;
-             *(fimage+1) = green;
-             *(fimage+2) = blue;
-             *(fimage+3) = alpha;
-             fimage += 4;
-             ssimage ++;
-             }
-           }
-         }
-       if ( tempImage != 0 && tempImage != buffer )
+        unsigned short *fimage = (unsigned short *)buffer;
+        fimage += width*height*4*page;
+        for ( yy = 0; yy < height; yy ++ )
+          {
+          ssimage = tempImage + (height - yy - 1) * width;
+          for ( xx = 0; xx < width; xx++ )
+            {
+            unsigned short red   = static_cast<unsigned short>(TIFFGetR(*ssimage));
+            unsigned short green = static_cast<unsigned short>(TIFFGetG(*ssimage));
+            unsigned short blue  = static_cast<unsigned short>(TIFFGetB(*ssimage));
+            unsigned short alpha = static_cast<unsigned short>(TIFFGetA(*ssimage));
+         
+            *(fimage  ) = red;
+            *(fimage+1) = green;
+            *(fimage+2) = blue;
+            *(fimage+3) = alpha;
+            fimage += 4;
+            ssimage ++;
+            }
+          }
+        }
+      else
+        {
+        unsigned char *fimage = (unsigned char *)buffer;
+        fimage += width*height*4*page;
+        for ( yy = 0; yy < height; yy ++ )
+          {
+          ssimage = tempImage + (height - yy - 1) * width;
+          for ( xx = 0; xx < width; xx++ )
+            {
+            unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
+            unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
+            unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
+            unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
+      
+            *(fimage  ) = red;
+            *(fimage+1) = green;
+            *(fimage+2) = blue;
+            *(fimage+3) = alpha;
+            fimage += 4;
+            ssimage ++;
+            }
+          }
+        }
+      if ( tempImage != 0 && tempImage != buffer )
         {
         delete [] tempImage;
         }
-      return;
       }
-
-    unsigned int format = this->GetFormat();  
-     
-    switch ( format )
+    else
       {
-      case TIFFImageIO::GRAYSCALE:
-      case TIFFImageIO::RGB_: 
-      case TIFFImageIO::PALETTE_RGB:
-      case TIFFImageIO::PALETTE_GRAYSCALE:
-        if(m_ComponentType == USHORT)
-          {
-          unsigned short* volume = reinterpret_cast<unsigned short*>(buffer);
-          volume += width*height*m_InternalImage->SamplesPerPixel*page;
-          this->ReadGenericImage( volume, width, height );
-          }
-        else
-          {
-          unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
-          volume += width*height*m_InternalImage->SamplesPerPixel*page;
-          this->ReadGenericImage( volume, width, height );
-          }
-        
-        break;
-      default:
-        return;
-      } 
-    TIFFReadDirectory(m_InternalImage->Image);
+      unsigned int format = this->GetFormat();  
+    
+      switch ( format )
+        {
+        case TIFFImageIO::GRAYSCALE:
+        case TIFFImageIO::RGB_: 
+        case TIFFImageIO::PALETTE_RGB:
+        case TIFFImageIO::PALETTE_GRAYSCALE:
+          if(m_ComponentType == USHORT)
+            {
+            unsigned short* volume = reinterpret_cast<unsigned short*>(buffer);
+            volume += width*height*m_InternalImage->SamplesPerPixel*page;
+            this->ReadGenericImage( volume, width, height );
+            }
+          else
+            {
+            unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
+            volume += width*height*m_InternalImage->SamplesPerPixel*page;
+            this->ReadGenericImage( volume, width, height );
+            }
+          break;
+        default:
+          return;
+        }
+      }
+    TIFFReadDirectory(m_InternalImage->Image); 
     }
 }
 
