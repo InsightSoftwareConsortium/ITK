@@ -65,7 +65,7 @@
 // binary representation of the segmented object.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
+// \includegraphics[width=0.8\textwidth]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \itkcaption[ThresholdSegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the ThresholdSegmentationLevelSetImageFilter
 // applied to a segmentation task.}
@@ -400,10 +400,15 @@ int main( int argc, char *argv[] )
   // segmentation process based on the ThresholdSegmentationLevelSet. From left to
   // right: segmentation of the left ventricle, segmentation of the right
   // ventricle, segmentation of the white matter, attempt of segmentation of
-  // the gray matter.}
+  // the gray matter. The parameters used in this segmentations are presented in Table~\ref{tab:ThresholdSegmentationLevelSetImageFilter}}
   //  \label{fig:ThresholdSegmentationLevelSetImageFilter}
   //  \end{figure}
   //
+  //
+  //
+  //
+  //  \begin{table}
+  //  \label{tab:ThresholdSegmentationLevelSetImageFilter}
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
   //  \hline
@@ -414,8 +419,9 @@ int main( int argc, char *argv[] )
   //  \end{tabular}
   //  \itkcaption[ThresholdSegmentationLevelSet segmentation parameters]
   //  {Segmentation results of ThresholdSegmentationLevelSetImageFilter for
-  //  various seed points}.
+  //  various seed points. The resulting images are shown in Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}}.
   //  \end{center}
+  //  \end{table}
   // 
   //  Software Guide : EndLatex 
 
