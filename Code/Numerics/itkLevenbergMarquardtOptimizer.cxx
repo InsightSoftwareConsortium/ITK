@@ -30,6 +30,10 @@ LevenbergMarquardtOptimizer
 {
   m_OptimizerInitialized    = false;
   m_VnlOptimizer            = 0;
+  m_NumberOfIterations      = 2000;
+  m_ValueTolerance          = 1e-8;
+  m_GradientTolerance       = 1e-5;
+  m_EpsilonFunction         = 1e-11;
 }
 
 
@@ -51,8 +55,6 @@ void
 LevenbergMarquardtOptimizer
 ::SetCostFunction( MultipleValuedCostFunction * costFunction )
 {
-
-
   const unsigned int numberOfParameters = 
     costFunction->GetNumberOfParameters();
 
@@ -76,6 +78,11 @@ LevenbergMarquardtOptimizer
   ScalesType scales( numberOfParameters );
   scales.Fill( 1.0f );
   SetScales( scales );
+
+  this->SetNumberOfIterations(m_NumberOfIterations);
+  this->SetValueTolerance(m_ValueTolerance);
+  this->SetGradientTolerance(m_GradientTolerance);
+  this->SetEpsilonFunction(m_EpsilonFunction);
 
   m_OptimizerInitialized = true;
 
@@ -119,7 +126,65 @@ LevenbergMarquardtOptimizer
 
 }
 
+/** Set the maximum number of iterations */
+void 
+LevenbergMarquardtOptimizer
+::SetNumberOfIterations(unsigned int iterations)
+{
+  if(m_VnlOptimizer)
+    { 
+    m_VnlOptimizer->set_max_function_evals(iterations);
+    }
 
+  m_NumberOfIterations = iterations;
+}
+
+
+
+
+
+/** Set the maximum number of iterations */
+void 
+LevenbergMarquardtOptimizer
+::SetValueTolerance(double tol)
+{
+  if(m_VnlOptimizer)
+    { 
+    m_VnlOptimizer->set_x_tolerance(tol);
+    }
+
+  m_ValueTolerance = tol;
+}
+
+
+/** Set Gradient Tolerance */
+void 
+LevenbergMarquardtOptimizer
+::SetGradientTolerance(double tol)
+{
+ if(m_VnlOptimizer)
+    { 
+    m_VnlOptimizer->set_g_tolerance(tol);
+    }
+
+  m_GradientTolerance = tol;
+
+}
+
+
+/** Set Epsilon function */
+void 
+LevenbergMarquardtOptimizer
+::SetEpsilonFunction(double epsilon)
+{
+  if(m_VnlOptimizer)
+    { 
+    m_VnlOptimizer->set_epsilon_function(epsilon);
+    }
+
+  m_EpsilonFunction = epsilon;
+
+}
 
 
 /**

@@ -59,6 +59,11 @@ public:
   /** Plug in a Cost Function into the optimizer  */
   virtual void SetCostFunction( MultipleValuedCostFunction * costFunction );
 
+  void SetNumberOfIterations(unsigned int iterations);
+  void SetValueTolerance(double tol);
+  void SetGradientTolerance(double tol);
+  void SetEpsilonFunction(double epsilon);
+
 protected:
   LevenbergMarquardtOptimizer();
   virtual ~LevenbergMarquardtOptimizer();
@@ -71,6 +76,10 @@ private:
   
   bool                          m_OptimizerInitialized;
   InternalOptimizerType       * m_VnlOptimizer;
+  unsigned int                  m_NumberOfIterations;
+  double                        m_ValueTolerance;
+  double                        m_GradientTolerance;
+  double                        m_EpsilonFunction;
 
 };
 
