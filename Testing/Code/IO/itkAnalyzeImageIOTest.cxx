@@ -275,7 +275,13 @@ template <typename T> int MakeImage(void)
 int itkAnalyzeImageIOTest(int ac, char* av[])
 {
   int rval = 0;
-
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1) {
+    char *testdir = *++av;
+    --ac;
+    itk::IOCommon::Chdir(testdir);
+  }
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
     {
       typedef itk::Image<unsigned char, 3> ImageType ;
@@ -372,6 +378,13 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
 
 int itkAnalyzeImageIOTest2(int ac, char* av[])
 {
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1) {
+    char *testdir = *++av;
+    --ac;
+    itk::IOCommon::Chdir(testdir);
+  }
   if(ac != 3)
     return 1;
   char *arg1 = av[1];

@@ -12,6 +12,13 @@ typedef itk::ImageFileReader< ImageType > ImageReaderType ;
 
 int itkGEImageIOTest(int ac, char * av[])
 {
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1) {
+    char *testdir = *++av;
+    --ac;
+    itk::IOCommon::Chdir(testdir);
+  }
   if(ac != 4)
     return 1;
   std::string failmode(av[1]);

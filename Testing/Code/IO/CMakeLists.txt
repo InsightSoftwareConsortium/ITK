@@ -78,42 +78,42 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
-  ADD_TEST(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
-  ADD_TEST(itkAnalyzeIOBigEndianCompressed.img ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOBigEndianCompressed.img ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
-  ADD_TEST(itkAnalyzeIOBigEndianCompressed.img.gz ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOBigEndianCompressed.img.gz ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
-  ADD_TEST(itkAnalyzeIOBigEndian ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOBigEndian ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
-  ADD_TEST(itkAnalyzeIOLittleEndianCompressed ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOLittleEndianCompressed ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
-  ADD_TEST(itkAnalyzeIOLittleEndian ${IO_TESTS} itkAnalyzeImageIOTest
+  ADD_TEST(itkAnalyzeIOLittleEndian ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-  ADD_TEST(itkAnalyzeIOInternalTests ${IO_TESTS} itkAnalyzeImageIOTest)
-  ADD_TEST(itkAnalyzeIOShouldFail ${IO_TESTS} itkAnalyzeImageIOTest2
+  ADD_TEST(itkAnalyzeIOInternalTests ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
+  ADD_TEST(itkAnalyzeIOShouldFail ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   false ${ITK_DATA_ROOT}/Input/ramp.gipl)
-  ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2
+  ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-  ADD_TEST(itkGE4 ${IO_TESTS} itkGEImageIOTest true 
+  ADD_TEST(itkGE4 ${IO_TESTS} itkGEImageIOTest ${ITK_TEST_OUTPUT_DIR} true 
 		  GE4 ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
-  ADD_TEST(itkGE5 ${IO_TESTS} itkGEImageIOTest true 
+  ADD_TEST(itkGE5 ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
 		  GE5 ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
-  ADD_TEST(itkGEAdw ${IO_TESTS} itkGEImageIOTest true 
+  ADD_TEST(itkGEAdw ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
 		  GEAdw ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
-  ADD_TEST(itkSiemens ${IO_TESTS} itkGEImageIOTest true 
+  ADD_TEST(itkSiemens ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} true 
 		  Siemens ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
 
-  ADD_TEST(itkGE4Fail ${IO_TESTS} itkGEImageIOTest false 
+  ADD_TEST(itkGE4Fail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
 		  GE4 
 		  ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
-  ADD_TEST(itkGE5Fail ${IO_TESTS} itkGEImageIOTest false 
+  ADD_TEST(itkGE5Fail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
 		  GE5 
 		  ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
-  ADD_TEST(itkGEAdwFail ${IO_TESTS} itkGEImageIOTest false 
+  ADD_TEST(itkGEAdwFail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
 		  GEAdw 
 		  ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
-  ADD_TEST(itkSiemensFail ${IO_TESTS} itkGEImageIOTest false 
+  ADD_TEST(itkSiemensFail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
 		  Siemens 
 		  ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
 
