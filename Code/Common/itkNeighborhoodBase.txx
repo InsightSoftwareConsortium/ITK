@@ -39,7 +39,7 @@ void
 NeighborhoodBase<TPixel, VDimension>
 ::SetRadius(const unsigned long s)
 {
-  Size k;
+  SizeType k;
   for (int i = 0; i< VDimension; i++)
     {
       k[i] = s;
@@ -50,7 +50,7 @@ NeighborhoodBase<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 NeighborhoodBase<TPixel, VDimension>
-::SetRadius(const Size &r)
+::SetRadius(const SizeType &r)
 {
   memcpy(m_Radius.m_Size, r.m_Size, sizeof(const unsigned long)*VDimension);
   this->SetSize();

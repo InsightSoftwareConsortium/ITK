@@ -65,7 +65,7 @@ public:
   /**
    * Size object typedef support
    */
-  typedef Size<VDimension> Size;
+  typedef Size<VDimension> SizeType;
 
   /**
    * Slice iterator typedef support
@@ -80,7 +80,7 @@ public:
   /**
    * Returns the radius of the neighborhood.
    */
-  const Size GetRadius() const
+  const SizeType GetRadius() const
   {
     return m_Radius;
   }
@@ -106,11 +106,10 @@ public:
   /**
    * Returns the size (total length of sides) of the neighborhood.
    */
-  const Size GetSize() const
+  const SizeType GetSize() const
   {
     return m_Size;
   }
-  
   /**
    * Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
@@ -160,7 +159,7 @@ public:
    * Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage.
    */
-  void SetRadius(const Size &);
+  void SetRadius(const SizeType &);
 
   /**
    * Sets the radius for the neighborhood. Overloaded to support an unsigned
@@ -168,7 +167,7 @@ public:
    */
   void SetRadius(const unsigned long *rad)
   {
-    Size s;
+    SizeType s;
     memcpy(s.m_Size, rad, sizeof(unsigned long) * VDimension);
     this->SetRadius(s);
   }
@@ -225,13 +224,13 @@ private:
    * Number of neighbors to include (symmetrically) along each axis.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
    */
-  Size m_Radius;
+  SizeType m_Radius;
 
    /**
    * Actual length of each dimension, calculated from m_Radius.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1).
    */
-  Size m_Size;
+  SizeType m_Size;
 };
 
 } // namespace itk
