@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{itk::ConfidenceConnectedImageFilter}. This filter is based on the use
+// \doxygen{ConfidenceConnectedImageFilter}. This filter is based on the use
 // of the flood fill iterator. Most of the algorithmic complexity of a region
 // growing method comes from the strategy used for visiting the neighbor
 // pixels. The flood fill iterator assumes this responsibility and greatly
