@@ -234,7 +234,6 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   totalGridSize;
 
   gridSizeOnImage.Fill( 12 );
-  gridSizeOnImage[2] = 3;
   gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
