@@ -9,7 +9,7 @@
 
 /* JVM - turned off warnings in f2c generated code */
 #if defined(_MSC_VER)
-#pragma warning(disable)
+#pragma warning(disable : 239 264 1011 )
 #endif
 
 typedef int integer; /* awf changed from long */
