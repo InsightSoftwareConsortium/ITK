@@ -22,7 +22,7 @@
 
 #include "itkImageIOBase.h"
 #include <fstream>
-
+#include <string>
 namespace itk
 {
 
@@ -100,11 +100,35 @@ public:
   itkGetStringMacro(UIDPrefix);
   itkSetStringMacro(UIDPrefix);
 
+  /** Access the generated DICOM UID's. */
+  itkGetStringMacro(StudyInstanceUID);
+  itkGetStringMacro(SeriesInstanceUID);
+  itkGetStringMacro(FrameOfReferenceInstanceUID);
+
   /** Preserve the original DICOM UID of the input files
    */
   itkSetMacro(KeepOriginalUID,bool);
   itkGetMacro(KeepOriginalUID,bool);
   itkBooleanMacro(KeepOriginalUID);
+
+  /** Convenience methods to query patient information and scanner
+   * information. These matheds are here for compatibility with the
+   * DICOMImageIO2 class. */
+  void GetPatientName(char* name);
+  void GetPatientID(char* id);
+  void GetPatientSex(char* sex);
+  void GetPatientAge(char* age);
+  void GetStudyID(char* id);
+  void GetPatientDOB(char* dob);
+  void GetStudyDescription(char* desc);
+  void GetBodyPart(char* part);
+  void GetNumberOfSeriesInStudy(char* series);
+  void GetNumberOfStudyRelatedSeries(char* series);
+  void GetStudyDate(char* date);
+  void GetModality(char* modality);
+  void GetManufacturer(char* manu);
+  void GetInstitution(char* ins);
+  void GetModel(char* model);
 
 protected:
   GDCMImageIO();
@@ -127,6 +151,23 @@ protected:
 private:
   GDCMImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  std::string m_PatientName;
+  std::string m_PatientID;
+  std::string m_PatientDOB;
+  std::string m_StudyID;   
+  std::string m_StudyDescription;
+  std::string m_BodyPart;
+  std::string m_NumberOfSeriesInStudy;
+  std::string m_NumberOfStudyRelatedSeries;
+  std::string m_PatientSex;
+  std::string m_PatientAge;
+  std::string m_StudyDate;
+  std::string m_Modality;
+  std::string m_Manufacturer;
+  std::string m_Institution;
+  std::string m_Model;
+  std::string m_ScanOptions;
 };
 
 } // end namespace itk

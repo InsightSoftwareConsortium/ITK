@@ -568,6 +568,103 @@ void GDCMImageIO::Write(const void* buffer)
   delete header;
 }
 
+// Convenience methods to query patient and scanner information. These
+// methods are here for compatibility with the DICOMImageIO2 class.
+void GDCMImageIO::GetPatientName( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Patient's Name", m_PatientName);
+  strcpy (name, m_PatientName.c_str());
+}
+void GDCMImageIO::GetPatientID( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Patient ID", m_PatientName);
+  strcpy (name, m_PatientID.c_str());
+}
+void GDCMImageIO::GetPatientSex( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Patient's Sex", m_PatientSex);
+  strcpy (name, m_PatientSex.c_str());
+}
+void GDCMImageIO::GetPatientAge( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Patient's Age", m_PatientAge);
+  strcpy (name, m_PatientAge.c_str());
+}
+void GDCMImageIO::GetStudyID( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Study ID", m_StudyID);
+  strcpy (name, m_StudyID.c_str());
+}
+void GDCMImageIO::GetPatientDOB( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Patient's Birthdate", m_PatientDOB);
+  strcpy (name, m_PatientDOB.c_str());
+}
+void GDCMImageIO::GetStudyDescription( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Study Description", m_StudyDescription);
+  strcpy (name, m_StudyDescription.c_str());
+}
+void GDCMImageIO::GetBodyPart( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Body Part Examined", m_BodyPart);
+  strcpy (name, m_BodyPart.c_str());
+}
+void GDCMImageIO::GetNumberOfSeriesInStudy( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Series in Study", m_NumberOfSeriesInStudy);
+  strcpy (name, m_NumberOfSeriesInStudy.c_str());
+}
+void GDCMImageIO::GetNumberOfStudyRelatedSeries( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Number of Study Related Series", m_NumberOfStudyRelatedSeries);
+  strcpy (name, m_NumberOfStudyRelatedSeries.c_str());
+}
+void GDCMImageIO::GetStudyDate( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Study Date", m_StudyDate);
+  strcpy (name, m_StudyDate.c_str());
+}
+
+void GDCMImageIO::GetModality( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Modality", m_Modality);
+  strcpy (name, m_Modality.c_str());
+}
+
+void GDCMImageIO::GetManufacturer( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Manufacturer", m_Manufacturer);
+  strcpy (name, m_Manufacturer.c_str());
+}
+
+void GDCMImageIO::GetInstitution( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Institution Name", m_Institution);
+  strcpy (name, m_Institution.c_str());
+}
+
+void GDCMImageIO::GetModel( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Manufacturer's Model Name", m_Model);
+  strcpy (name, m_Model.c_str());
+}
+
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -575,6 +672,28 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << "\n";
   os << indent << "KeepOriginalUID:" << (m_KeepOriginalUID ? "On" : "Off") << "\n";
   os << indent << "UIDPrefix: " << m_UIDPrefix << "\n";
+  os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << "\n";
+  os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << "\n";
+  os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << "\n";
+
+  char name[512];
+  this->GetPatientName(name); os << indent << "Patient Name:" << name << std::endl;
+  this->GetPatientID(name); os << indent << "Patient ID:" << name << std::endl;
+  this->GetPatientSex(name); os << indent << "Patient Sex:" << name << std::endl;
+  this->GetPatientAge(name); os << indent << "Patient Age:" << name << std::endl;
+  this->GetStudyID(name); os << indent << "Study ID:" << name << std::endl;
+  this->GetPatientDOB(name); os << indent << "Patient DOB:" << name << std::endl;
+  this->GetStudyDescription(name); os << indent << "Study Description:" << name << std::endl;
+  this->GetBodyPart(name); os << indent << "Body Part:" << name << std::endl;
+  this->GetNumberOfSeriesInStudy(name); os << indent << "Number Of Series In Study:" << name << std::endl;
+  this->GetNumberOfStudyRelatedSeries(name); os << indent << "Number Of Study Related Series:" << name << std::endl;
+  this->GetStudyDate(name); os << indent << "Study Date:" << name << std::endl;
+  this->GetModality(name); os << indent << "Modality:" << name << std::endl;
+  this->GetManufacturer(name); os << indent << "Manufacturer:" << name << std::endl;
+  this->GetInstitution(name); os << indent << "Institution:" << name << std::endl;
+  this->GetModel(name); os << indent << "Model:" << name << std::endl;
+
+
 }
 
 
