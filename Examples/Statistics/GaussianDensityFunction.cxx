@@ -60,10 +60,10 @@ int main()
   // We create the two distribution parameters and set them. The mean is
   // [0, 0], and the covariance matrix is:
   // \[
-  // \begin{matrix}
+  // \begin{pmatrix}
   // 4 & 0 \\
-  // 4 & 0
-  // \end{matrix}
+  // 0 & 4
+  // \end{pmatrix}
   // \]
   // We get the probability density for the measurement vector: [0, 0]
   // using the \code{Evaluate(measurement vector)} method and print it out.
