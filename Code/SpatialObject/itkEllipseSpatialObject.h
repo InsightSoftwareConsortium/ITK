@@ -43,6 +43,7 @@ public:
   typedef SmartPointer < const Self > ConstPointer;
   typedef SpatialObject< NDimensions, AffineTransform< double, NDimensions >, PipelineDimension > Superclass;
   typedef SmartPointer<Superclass> SuperclassPointer;
+  typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 
