@@ -649,9 +649,6 @@ void Solver::UpdateDisplacements()
 void Solver::ApplyBC(int dim)
 {
 
-  // We need fast access to this constant...
-  const unsigned int totGFN=NGFN+NMFC;
-
   m_ls->DestroyVector(1);
 
   /* Step over all Loads */

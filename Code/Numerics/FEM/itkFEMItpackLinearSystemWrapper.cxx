@@ -112,7 +112,7 @@ void ItpackLinearSystemWrapper::InitializeVector(unsigned int vectorIndex)
   if ( (*m_Vectors)[vectorIndex] == NULL) throw;
 
   /* fill with zeros */
-  for (int i=0; i<m_Order; i++)
+  for (unsigned int i=0; i<m_Order; i++)
   {
     (*m_Vectors)[vectorIndex][i] = 0.0;
   }
@@ -155,7 +155,7 @@ void ItpackLinearSystemWrapper::InitializeSolution(unsigned int solutionIndex)
   if ( (*m_Solutions)[solutionIndex] == NULL) throw;
 
   /* fill with zeros */
-  for (int i=0; i<m_Order; i++)
+  for (unsigned int i=0; i<m_Order; i++)
   {
     (*m_Solutions)[solutionIndex][i] = 0.0;
   }
@@ -373,7 +373,7 @@ void ItpackLinearSystemWrapper::Solve(void)
    * FIX ME: itpack does not allow for any non-zero diagonal elements
    * so "very small" numbers are inserted to allow for a solution
    */
-  int i;
+  unsigned int i;
   doublereal fakeZero = 1.0e-16;
 
   /* insert "fake" zeros */
@@ -565,7 +565,7 @@ void ItpackLinearSystemWrapper::CopySolution2Vector(unsigned solutionIndex, unsi
   this->InitializeVector(vectorIndex);
 
   /* copy values */
-  for (int i=0; i<m_Order; i++)
+  for (unsigned int i=0; i<m_Order; i++)
   {
     (*m_Vectors)[vectorIndex][i] = (*m_Solutions)[solutionIndex][i];
   }
@@ -598,7 +598,7 @@ ItpackLinearSystemWrapper::~ItpackLinearSystemWrapper(void)
 {
   delete m_Matrices;
 
-  int i;
+  unsigned int i;
   if (m_Vectors != 0)
   {
     for (i=0; i<m_NumberOfVectors; i++)
