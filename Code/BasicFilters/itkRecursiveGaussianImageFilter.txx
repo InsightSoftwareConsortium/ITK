@@ -96,11 +96,11 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   if( this->GetNormalizeAcrossScale() )
     {
-    m_K = 1.0 / (         sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    m_K = 1.0 / (          sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
   else
     {
-    m_K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+    m_K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
     }
 
   m_K *= direction;  // take into account the sign of the spacing.
