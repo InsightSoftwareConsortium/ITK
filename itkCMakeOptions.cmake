@@ -40,7 +40,10 @@ IF(UNIX)
 ENDIF(UNIX)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-depth-50")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-depth-50")
+  IF(APPLE)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-double")
+  ENDIF(APPLE)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 # force the use of ansi cxx flags (i.e. -LANG:std on sgi )
