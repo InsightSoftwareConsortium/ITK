@@ -396,8 +396,9 @@ void PNGImageIO::Write(void* buffer)
       }
     else 
       {
-      fileName = m_FilePrefix;
-      fileName += "." + fileNum;
+      char fullName[1024];
+      sprintf (fullName, "%s%d.png", m_FilePrefix.c_str(), fileNum);
+      fileName = fullName;
       }
     this->WriteSlice(fileName,buffer,fileNum*sliceSize);
     }
@@ -409,6 +410,7 @@ void PNGImageIO::WriteSlice(std::string& fileName, void* buffer,
 {
   unsigned char *outPtr = (unsigned char *) buffer;
 
+  std::cout << "File: " << fileName.c_str() << std::endl;
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
   FILE* fp = pngfp.m_FilePointer;
