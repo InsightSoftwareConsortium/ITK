@@ -300,15 +300,15 @@ VTKImageImport<TOutputImage>
   Superclass::PrintSelf(os,indent);
   if (m_DataExtentCallback)
     {
-    std::cout << "DataExtentCallback: " << m_DataExtentCallback << std::end;
+    std::cout << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
     }
   if (m_WholeExtentCallback)
     {
-    std::cout << "WholeExtentCallback: " << m_WholeExtentCallback << std::end;
+    std::cout << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
     }
   if (m_BufferPointerCallback)
     {
-    std::cout << "BufferPointerCallback: " << m_BufferPointerCallback << std::end;
+    std::cout << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
     }
   if (m_UpdateDataCallback)
     {
@@ -336,7 +336,7 @@ VTKImageImport<TOutputImage>
     }
   if (m_ScalarTypeCallback)
     {
-    std::cout << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::end;
+    std::cout << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
     }
   if (m_PropagateUpdateExtentCallback)
     {
