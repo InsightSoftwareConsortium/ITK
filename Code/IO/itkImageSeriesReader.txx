@@ -100,7 +100,7 @@ void ImageSeriesReader<TOutputImage>
         position1[i] = reader1->GetOutput()->GetOrigin()[i];
         }
       // Override the position if there is an ITK_ImageOrigin 
-      std::cout << "Expose: " << ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1) << std::endl;
+      ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
 
       // Compute the inter slice spacing by computing the distance
       // between two consective slices
