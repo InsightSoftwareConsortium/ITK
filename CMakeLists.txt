@@ -107,9 +107,6 @@ CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
 ${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl)
 
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/ftp.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/ftp.tcl)
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
