@@ -195,7 +195,7 @@ foreach Command $Commands \
 	  set Status [catch {
 	    set NightlyBuilds [glob [file join $TestingBaseDir Sites * * [MakeDateStamp]*]]
 	  } Result]
-	  if { $Status } { puts $Result }
+	  if { $Status } { puts $Result }p
 	}
       }
 	  
@@ -268,6 +268,15 @@ foreach Command $Commands \
  	catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
 	puts $Result
       }
+
+      # Add the softlink from MostRecentResults to latest.
+      puts stderr [pwd]
+      # cd $DashboardDir
+      cd ..
+      puts stderr [pwd]
+      file delete -force MostRecentResults-Nightly
+      catch { exec ln -s [file tail $DashboardDir] MostRecentResults-Nightly } Result
+      puts $Result
     }
   }
 }
