@@ -42,6 +42,17 @@
 int main() 
 {
 
+/*
+  VectorType vv;
+  vv = 0, 2, 4;
+
+  if( vv[0] != 0 || vv[1] != 2 || vv[2] != 4 )
+    {
+    std::cerr << "Error initializing the Vector " << std::endl;
+    return EXIT_FAILURE;
+    }
+  */
+
   VectorType va;
   va[0] = 1.0;
   va[1] = 2.0;
