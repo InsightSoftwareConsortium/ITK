@@ -159,7 +159,7 @@ public:
   template <typename T>
   struct ReturnPointerTo
   {
-    static void From(WrapperBase* wrapper, T* result)
+    static void From(T* result, WrapperBase* wrapper)
       {
       Tcl_Interp* interp = wrapper->GetInterpreter();
       CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
@@ -184,7 +184,7 @@ public:
   template <typename T>
   struct ReturnReferenceTo
   {
-    static void From(WrapperBase* wrapper, T* result)
+    static void From(T& result, WrapperBase* wrapper)
       {
       Tcl_Interp* interp = wrapper->GetInterpreter();
       CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
@@ -192,7 +192,7 @@ public:
       // Set the Tcl result to a ReferenceType object representing this
       // reference return value.
       Tcl_SetReferenceObj(Tcl_GetObjResult(interp),
-                          Reference(const_cast<T*>(result), referencedType));
+                          Reference(const_cast<T*>(&result), referencedType));
       
       // Create the command to allow methods to be invoked on the
       // resulting value.
