@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::CovariantVector<floa
   return o;
 }
 
-int itkGradientImageFilterTest(int argc, char **argv)
+int itkGradientImageFilterTest(int argc, char * argv[] )
 {
   try
     {

@@ -26,7 +26,7 @@
 #include "itkRandomImageSource.h"
 #include "vnl/vnl_sample.h"
 
-int itkBSplineResampleImageFunctionTest(int, char **)
+int itkBSplineResampleImageFunctionTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 2;

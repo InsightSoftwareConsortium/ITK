@@ -22,7 +22,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkSigmoidImageFilterTest(int, char**) 
+int itkSigmoidImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

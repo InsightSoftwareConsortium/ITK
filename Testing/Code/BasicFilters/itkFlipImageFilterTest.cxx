@@ -33,7 +33,7 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-int itkFlipImageFilterTest(int, char**)
+int itkFlipImageFilterTest(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());

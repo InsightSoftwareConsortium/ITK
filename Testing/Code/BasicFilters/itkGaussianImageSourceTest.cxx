@@ -18,7 +18,7 @@
 #include "itkImage.h"
 #include "itkGaussianImageSource.h"
 
-int itkGaussianImageSourceTest(int, char**)
+int itkGaussianImageSourceTest(int, char* [] )
 {
   // This can be changed!
   const unsigned int dim = 3;

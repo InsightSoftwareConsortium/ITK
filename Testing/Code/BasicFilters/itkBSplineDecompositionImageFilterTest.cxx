@@ -31,7 +31,7 @@
   *        and demonstrates its use.
   */
 
-int itkBSplineDecompositionImageFilterTest(int, char **)
+int itkBSplineDecompositionImageFilterTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 2;

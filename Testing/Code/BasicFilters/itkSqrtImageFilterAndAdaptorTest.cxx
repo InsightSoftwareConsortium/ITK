@@ -24,7 +24,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkSqrtImageFilterAndAdaptorTest(int, char**) 
+int itkSqrtImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

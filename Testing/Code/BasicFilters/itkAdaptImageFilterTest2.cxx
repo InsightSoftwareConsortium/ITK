@@ -55,7 +55,7 @@ typedef itk::ImageRegionIteratorWithIndex< myImageType >  myIteratorType;
 //   Main code
 //
 //-------------------------
-int itkAdaptImageFilterTest2(int, char**) {
+int itkAdaptImageFilterTest2(int, char* [] ) {
 
 
   myVectorImageType::SizeType size;

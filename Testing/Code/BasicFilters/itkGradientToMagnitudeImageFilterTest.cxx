@@ -25,7 +25,7 @@
 #include <itkGradientToMagnitudeImageFilter.h>
 
 
-int itkGradientToMagnitudeImageFilterTest(int, char**) 
+int itkGradientToMagnitudeImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

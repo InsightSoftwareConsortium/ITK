@@ -27,7 +27,7 @@
 #include "itkBinaryBallStructuringElement.h"
 
 
-int itkMathematicalMorphologyImageFilterTest(int, char**) 
+int itkMathematicalMorphologyImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

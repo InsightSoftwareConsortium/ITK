@@ -23,7 +23,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkExpNegativeImageFilterAndAdaptorTest(int, char**) 
+int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

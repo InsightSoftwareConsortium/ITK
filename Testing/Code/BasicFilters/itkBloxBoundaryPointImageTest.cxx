@@ -38,7 +38,7 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 
 // Main for testing BloxImage/BloxPixel storage
-int itkBloxBoundaryPointImageTest(int, char**)
+int itkBloxBoundaryPointImageTest(int, char* [] )
 {
   const unsigned int dim = 3;
 

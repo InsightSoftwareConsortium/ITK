@@ -24,7 +24,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkTanImageFilterAndAdaptorTest(int, char**) 
+int itkTanImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

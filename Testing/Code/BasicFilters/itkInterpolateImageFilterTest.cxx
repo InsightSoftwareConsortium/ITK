@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkInterpolateImageFilter.h"
 
-int itkInterpolateImageFilterTest(int, char**)
+int itkInterpolateImageFilterTest(int, char* [] )
 {
   enum { ImageDimension = 2 };
   typedef unsigned long InputPixelType;

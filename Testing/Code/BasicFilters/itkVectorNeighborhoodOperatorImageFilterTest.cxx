@@ -23,7 +23,7 @@
 int 
 itkVectorNeighborhoodOperatorImageFilterTest(
 int itkNotUsed(argc), 
-char ** itkNotUsed(argv) )
+char * itkNotUsed(argv) [] )
 {
   try
     {

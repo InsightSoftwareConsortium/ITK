@@ -20,7 +20,7 @@
 #include "itkTextOutput.h"
 
 
-int itkMeanImageFilterTest(int, char**)
+int itkMeanImageFilterTest(int, char* [] )
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());

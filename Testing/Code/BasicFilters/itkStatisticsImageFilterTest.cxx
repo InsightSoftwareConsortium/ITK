@@ -28,7 +28,7 @@
 #include "itkFilterWatcher.h"
 #include "vnl/vnl_math.h"
 
-int itkStatisticsImageFilterTest(int, char**)
+int itkStatisticsImageFilterTest(int, char* [] )
 {
   std::cout << "itkStatisticsImageFilterTest Start" << std::endl;
 

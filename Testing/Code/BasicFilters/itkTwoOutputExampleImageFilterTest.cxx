@@ -21,7 +21,7 @@
 #include "itkTextOutput.h"
 
 
-int itkTwoOutputExampleImageFilterTest(int, char**)
+int itkTwoOutputExampleImageFilterTest(int, char* [] )
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance( itk::TextOutput::New() );

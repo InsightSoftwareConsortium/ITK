@@ -20,7 +20,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-int itkStreamingImageFilterTest(int, char**)
+int itkStreamingImageFilterTest(int, char* [] )
 {
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;

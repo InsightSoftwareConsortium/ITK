@@ -28,7 +28,7 @@
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
-int itkFloodFillIteratorTest(int, char**)
+int itkFloodFillIteratorTest(int, char* [] )
 {
   const unsigned int dim = 3;
 

@@ -27,7 +27,7 @@ struct node_type
 };
 
 
-int itkSparseFieldLayerTest(int argc, char **argv)
+int itkSparseFieldLayerTest(int argc, char *argv[] )
 {
   unsigned int i, j;
   node_type *store = new node_type[4000];

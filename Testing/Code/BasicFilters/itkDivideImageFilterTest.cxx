@@ -23,7 +23,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkDivideImageFilterTest(int, char**) 
+int itkDivideImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

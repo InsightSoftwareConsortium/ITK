@@ -69,7 +69,7 @@ public:
 
 
 
-int itkExpandImageFilterTest(int, char**)
+int itkExpandImageFilterTest(int, char* [] )
 {
   typedef float PixelType;
   enum { ImageDimension = 2 };

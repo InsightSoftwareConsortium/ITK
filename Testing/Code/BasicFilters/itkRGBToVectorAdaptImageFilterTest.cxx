@@ -40,7 +40,7 @@
 //   Main code
 //
 //-------------------------
-int itkRGBToVectorAdaptImageFilterTest(int, char**) {
+int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
 
 
   //-------------------------------------

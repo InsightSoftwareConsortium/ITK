@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 
 
-int itkBilateralImageFilterTest2(int ac, char** av)
+int itkBilateralImageFilterTest2(int ac, char* av[] )
 {
   if(ac < 3)
     {

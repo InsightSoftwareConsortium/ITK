@@ -44,7 +44,7 @@ int VerifyPixel(int row, int col, int val)
 }
 
 
-int itkWrapPadImageTest(int, char**)
+int itkWrapPadImageTest(int, char* [] )
 {
 //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
 //  fow->SetInstance(fow);

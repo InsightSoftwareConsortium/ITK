@@ -24,7 +24,7 @@
 #include <itkRGBAPixel.h>
 #include <vnl/vnl_sample.h>
 
-int itkJoinImageFilterTest(int, char**) 
+int itkJoinImageFilterTest(int, char* [] ) 
 {
   // Define the dimension of the images
   const unsigned int myDimension = 2;

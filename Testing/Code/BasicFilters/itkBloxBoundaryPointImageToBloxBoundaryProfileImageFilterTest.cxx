@@ -42,7 +42,7 @@
 #include "itkExceptionObject.h"
 
 
-int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char**)
+int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] )
 {
   const unsigned int dim = 3;
   const unsigned int size = 20;

@@ -22,7 +22,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkSubtractImageFilterTest(int, char**) 
+int itkSubtractImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

@@ -20,7 +20,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkImportImageFilter.h"
 
-int itkImportImageTest(int, char**)
+int itkImportImageTest(int, char* [] )
 {
   // Create a C-array to hold an image
   short *rawImage = new short[8*12];

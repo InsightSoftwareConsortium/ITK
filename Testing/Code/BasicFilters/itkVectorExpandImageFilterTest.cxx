@@ -70,7 +70,7 @@ public:
 };
 
 
-int itkVectorExpandImageFilterTest(int, char**)
+int itkVectorExpandImageFilterTest(int, char* [] )
 {
   typedef float ValueType;
   enum { VectorDimension = 3 };

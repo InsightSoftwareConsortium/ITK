@@ -23,7 +23,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char**) 
+int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

@@ -82,7 +82,7 @@ int VerifyPixel(int row, int col, int val)
 }
 }
 
-int itkMirrorPadImageTest(int, char**)
+int itkMirrorPadImageTest(int, char* [] )
 {
 //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
 //  fow->SetInstance(fow);

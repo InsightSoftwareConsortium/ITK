@@ -22,7 +22,7 @@
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
 
-int itkCropImageFilterTest(int, char**)
+int itkCropImageFilterTest(int, char* [] )
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);

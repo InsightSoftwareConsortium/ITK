@@ -24,7 +24,7 @@
 #include "itkImageRegionIterator.h"
 
 
-int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char** av)
+int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 {
   if(ac < 3)
     {

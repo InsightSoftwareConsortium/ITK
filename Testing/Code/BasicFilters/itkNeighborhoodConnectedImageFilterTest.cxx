@@ -20,7 +20,7 @@
 #include "itkPNGImageIOFactory.h"
 #include "itkImageRegionIterator.h"
 
-int itkNeighborhoodConnectedImageFilterTest(int ac, char** av)
+int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 {
   if(ac < 3)
     {

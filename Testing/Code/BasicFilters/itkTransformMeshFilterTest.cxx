@@ -22,7 +22,7 @@
 #include <itkMesh.h>
 #include <itkAffineTransform.h>
 
-int itkTransformMeshFilterTest(int, char**) 
+int itkTransformMeshFilterTest(int, char* [] ) 
 {
 
   // Declare the mesh pixel type.

@@ -257,7 +257,7 @@ int test3DInterpolateImagePointsFilter()
 }
 
 int 
-itkInterpolateImagePointsFilterTest( int, char ** )
+itkInterpolateImagePointsFilterTest( int, char * [] )
 {
   int flag = 0;           /* Did this test program work? */
 

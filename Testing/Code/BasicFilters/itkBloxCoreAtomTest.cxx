@@ -39,7 +39,7 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 
 // Main for testing BloxImage/BloxPixel storage
-int itkBloxCoreAtomTest(int, char**)
+int itkBloxCoreAtomTest(int, char* [] )
 {
   const unsigned int dim = 3;
 

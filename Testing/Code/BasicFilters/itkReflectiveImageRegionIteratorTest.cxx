@@ -23,7 +23,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkReflectiveImageRegionIteratorTest(int, char**)
+int itkReflectiveImageRegionIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
   const unsigned int Dimension = 4;

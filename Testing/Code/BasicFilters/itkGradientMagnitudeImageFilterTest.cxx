@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-int itkGradientMagnitudeImageFilterTest(int argc, char **argv)
+int itkGradientMagnitudeImageFilterTest(int argc, char * argv[] )
 {
   try
     {

@@ -70,7 +70,7 @@ public:
 
 
 
-int itkWarpImageFilterTest(int, char**)
+int itkWarpImageFilterTest(int, char* [] )
 {
   typedef float PixelType;
   enum { ImageDimension = 2 };

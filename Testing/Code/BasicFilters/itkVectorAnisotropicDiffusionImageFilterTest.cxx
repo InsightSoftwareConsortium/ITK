@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char **itkNotUsed(argv))
+int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itkNotUsed(argv) [] )
 {
   try
     {

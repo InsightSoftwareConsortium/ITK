@@ -23,7 +23,7 @@
 #include "itkRandomImageSource.h"
 
 #include "itkFilterWatcher.h"
-int itkShiftScaleImageFilterTest(int, char**)
+int itkShiftScaleImageFilterTest(int, char* [] )
 {
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
 

@@ -23,7 +23,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkLogImageFilterAndAdaptorTest(int, char**) 
+int itkLogImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

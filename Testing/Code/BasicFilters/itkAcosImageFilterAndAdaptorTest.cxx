@@ -24,7 +24,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkAcosImageFilterAndAdaptorTest(int, char**) 
+int itkAcosImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

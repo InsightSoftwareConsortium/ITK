@@ -26,7 +26,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRandomImageSource.h"
 
-int itkRescaleIntensityImageFilterTest(int, char**)
+int itkRescaleIntensityImageFilterTest(int, char* [] )
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 

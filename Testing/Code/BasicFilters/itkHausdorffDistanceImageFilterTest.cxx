@@ -19,7 +19,7 @@
 #include "itkHausdorffDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-int itkHausdorffDistanceImageFilterTest(int, char**)
+int itkHausdorffDistanceImageFilterTest(int, char* [] )
 {
 
   typedef unsigned int Pixel1Type;

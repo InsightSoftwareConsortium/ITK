@@ -24,7 +24,7 @@
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
 
-int itkObjectMorphologyImageFilterTest(int, char**) 
+int itkObjectMorphologyImageFilterTest(int, char* [] ) 
 {
   unsigned int i;
   

@@ -23,7 +23,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkCosImageFilterAndAdaptorTest(int, char**) 
+int itkCosImageFilterAndAdaptorTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

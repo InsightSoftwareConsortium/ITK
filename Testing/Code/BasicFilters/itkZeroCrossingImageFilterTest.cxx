@@ -27,7 +27,7 @@ inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-int itkZeroCrossingImageFilterTest(int, char **)
+int itkZeroCrossingImageFilterTest(int, char * [] )
 {
   try
     {

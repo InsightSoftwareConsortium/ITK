@@ -148,7 +148,7 @@ void PrintImage( myVectorImageType * image, const char *text )
 
 
 
-int itkEigenAnalysis2DImageFilterTest(int, char**) 
+int itkEigenAnalysis2DImageFilterTest(int, char* [] ) 
 {
   // Create the images
   myImageType::Pointer inputImageXX  = myImageType::New();

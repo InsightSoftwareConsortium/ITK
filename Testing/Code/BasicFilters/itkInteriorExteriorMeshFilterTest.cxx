@@ -22,7 +22,7 @@
 #include <itkMesh.h>
 #include <itkSphereSpatialFunction.h>
 
-int itkInteriorExteriorMeshFilterTest(int, char**) 
+int itkInteriorExteriorMeshFilterTest(int, char* [] ) 
 {
 
   // Declare the mesh pixel type.

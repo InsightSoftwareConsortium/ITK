@@ -33,7 +33,7 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-int itkPermuteAxesImageFilterTest(int, char**)
+int itkPermuteAxesImageFilterTest(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance( itk::TextOutput::New() );

@@ -21,7 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkRGBPixel.h"
 
-int itkVectorGradientMagnitudeImageFilterTest1(int ac, char** av)
+int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
 {
   typedef itk::RGBPixel<unsigned short> RGBPixelType;
   typedef itk::Image<RGBPixelType, 2> RGBImageType;

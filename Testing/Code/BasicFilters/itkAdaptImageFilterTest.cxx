@@ -59,7 +59,7 @@ typedef itk::ImageRegionIteratorWithIndex< myImageType >  myIteratorType;
 //   Main code
 //
 //-------------------------
-int itkAdaptImageFilterTest(int, char**) {
+int itkAdaptImageFilterTest(int, char* [] ) {
 
 
   myRGBImageType::SizeType size;

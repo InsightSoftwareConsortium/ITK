@@ -31,7 +31,7 @@
 #include "itkGaussianSpatialFunction.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 
-int itkSpatialFunctionImageEvaluatorFilterTest(int, char**)
+int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
 {
   const unsigned int dim = 3;
 

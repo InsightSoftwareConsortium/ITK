@@ -23,7 +23,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkMaximumImageFilterTest(int, char**) 
+int itkMaximumImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images

@@ -23,7 +23,7 @@
 #include "vnl/vnl_math.h"
 
 
-int itkVectorGradientMagnitudeImageFilterTest2(int ac, char** av)
+int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
 {
   typedef itk::RGBPixel<unsigned short> RGBPixelType;
   typedef itk::Image<RGBPixelType, 2> RGBImageType;

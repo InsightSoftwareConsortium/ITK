@@ -21,7 +21,7 @@
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
 
-int itkCannyEdgeDetectionImageFilterTest(int argc, char **argv)
+int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
 {
   try
     {

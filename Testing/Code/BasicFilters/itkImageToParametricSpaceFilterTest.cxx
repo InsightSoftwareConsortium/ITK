@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-int itkImageToParametricSpaceFilterTest(int, char**) 
+int itkImageToParametricSpaceFilterTest(int, char* [] ) 
 {
 
   typedef float  ImagePixelType;

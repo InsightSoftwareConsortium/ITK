@@ -26,7 +26,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkRecursiveGaussianImageFiltersTest(int, char**) 
+int itkRecursiveGaussianImageFiltersTest(int, char* [] ) 
 {
 
   // Define the dimension of the images
