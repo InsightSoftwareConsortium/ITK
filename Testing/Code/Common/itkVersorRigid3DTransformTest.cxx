@@ -90,14 +90,17 @@ int itkVersorRigid3DTransformTest(int, char**)
     VersorType versor;
     versor.Set( axis, angle );
     
-    ParametersType parameters(6); // Number of parameters
+    ParametersType parameters( transform->GetNumberOfParameters() ); // Number of parameters
 
     parameters[0] = versor.GetX();
     parameters[1] = versor.GetY();
     parameters[2] = versor.GetZ();
-    parameters[3] = versor.GetW();
+    parameters[3] = 0.0;             // Rotation center
     parameters[4] = 0.0;
     parameters[5] = 0.0;
+    parameters[6] = 0.0;             // Translation
+    parameters[7] = 0.0;
+    parameters[8] = 0.0;
 
     transform->SetParameters( parameters );
 
@@ -292,23 +295,23 @@ int itkVersorRigid3DTransformTest(int, char**)
   {
   bool Ok = true;
 
-    TransformType::Pointer  rotation = TransformType::New();
+    TransformType::Pointer  transform = TransformType::New();
 
     itk::Vector<double,3> axis(1);
 
     const double angle = (atan(1.0)/45.0)*30.0; // turn 30 degrees
 
-    rotation->SetRotation( axis, angle );
+    transform->SetRotation( axis, angle );
 
     TransformType::InputPointType  center;
     center[0] = 31;
     center[1] = 62;
     center[2] = 93;
     
-    rotation->SetCenter( center );
+    transform->SetCenter( center );
 
     TransformType::OutputPointType transformedPoint;
-    transformedPoint = rotation->TransformPoint( center );
+    transformedPoint = transform->TransformPoint( center );
 
     for(unsigned int i=0; i<3; i++)
       {
@@ -329,7 +332,37 @@ int itkVersorRigid3DTransformTest(int, char**)
       std::cout << "Ok center is invariant to rotation." << std::endl;
       }
 
-    
+    const unsigned int np = transform->GetNumberOfParameters();
+
+    ParametersType parameters( np ); // Number of parameters
+
+    VersorType versor;
+
+    parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
+    parameters[1] = versor.GetY();
+    parameters[2] = versor.GetZ();
+    parameters[3] = 4.0;             // Rotation center
+    parameters[4] = 3.0;
+    parameters[5] = 2.0;
+    parameters[6] = 8.0;             // Translation
+    parameters[7] = 7.0;
+    parameters[8] = 6.0;
+
+    transform->SetParameters( parameters );
+
+    ParametersType parameters2 = transform->GetParameters();
+
+    const double tolerance = 1e-8;
+
+    for(unsigned int p=0; p<np; p++)
+      {
+      if( fabs( parameters[p] - parameters2[p] ) > tolerance )
+        {
+        std::cerr << "Output parameter does not match input " << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+     std::cout << "Input/Output parameter check Passed !"  << std::endl;
   }
 
   
