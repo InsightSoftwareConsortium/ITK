@@ -16,20 +16,20 @@
 #ifndef __itkLevenbergMarquardtOptimizer_h
 #define __itkLevenbergMarquardtOptimizer_h
 
-#include "itkNonLinearOptimizer.h"
+#include "itkMultipleValuedNonLinearOptimizer.h"
 #include "vnl/algo/vnl_levenberg_marquardt.h"
 
 namespace itk
 {
   
 /** \class LevenbergMarquardtOptimizer
- * \brief Wrap of the vnl_levenberg_marquardt to be adapted for Registration
+ * \brief Wrap of the vnl_levenberg_marquardt 
  *
  */
 
-template <class TMetric>
+template <class TCostFunction>
 class ITK_EXPORT LevenbergMarquardtOptimizer : 
-    public NonLinearOptimizer<TMetric> 
+          public MultipleValuedNonLinearOptimizer<TCostFunction> 
 
 {
 public:
@@ -41,7 +41,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<TMetric> Superclass;
+  typedef   MultipleValuedNonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -65,11 +65,21 @@ public:
   
 
   /**
+   * Internal Optimizer Type
+   */
+  typedef   vnl_levenberg_marquardt InternalOptimizerType;
+
+
+  /**
    * Method for getting access to the internal optimizer
    */
-  vnl_levenberg_marquardt & GetOptimizer(void);
+  InternalOptimizerType & GetOptimizer(void);
 
-
+  /**
+   * Start optimization with an initial value
+   */
+  void StartOptimization( VectorType & );
+ 
 protected:
 
   LevenbergMarquardtOptimizer();
@@ -77,7 +87,7 @@ protected:
   LevenbergMarquardtOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-  vnl_levenberg_marquardt     m_LevenbergMarquardt;
+  InternalOptimizerType     m_LevenbergMarquardt;
 
 };
 

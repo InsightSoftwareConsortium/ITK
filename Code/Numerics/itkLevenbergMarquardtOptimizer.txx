@@ -21,23 +21,37 @@ namespace itk
 /**
  * Constructor
  */
-template <class TMetric>
-LevenbergMarquardtOptimizer<TMetric>
+template <class TCostFunction>
+LevenbergMarquardtOptimizer<TCostFunction>
 ::LevenbergMarquardtOptimizer():
-  m_LevenbergMarquardt( m_MetricCostFunction )
+  m_LevenbergMarquardt( m_CostFunctionAdaptor )
 {
 }
 
 /**
  * Get the Optimizer
  */
-template <class TMetric>
-vnl_levenberg_marquardt & 
-LevenbergMarquardtOptimizer<TMetric>
+template <class TCostFunction>
+LevenbergMarquardtOptimizer<TCostFunction>::InternalOptimizerType &
+LevenbergMarquardtOptimizer<TCostFunction>
 ::GetOptimizer()
 {
   return m_LevenbergMarquardt;
 }
+
+
+
+/**
+ * Start the optimization
+ */
+template <class TCostFunction>
+void
+LevenbergMarquardtOptimizer<TCostFunction>
+::StartOptimization( VectorType & initialValue )
+{
+  m_LevenbergMarquardt.minimize( initialValue );
+}
+
 
 
 } // end namespace itk
