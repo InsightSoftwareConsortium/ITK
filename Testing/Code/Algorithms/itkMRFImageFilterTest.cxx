@@ -170,33 +170,7 @@ int itkMRFImageFilterTest(int, char* [] )
     dblVec[0] = 11; dblVec[1] = 10;
     for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
     }
-/*
-  //--------------------------------------------------------------------------
-  //Slice 4
-  //--------------------------------------------------------------------------
-  for( k=0; k< halfHeight; k++)
-    {
-    //Vector no. 1-3 Row k
-    dblVec[0] = 16; dblVec[1] = 18;
-    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
- 
-    //Vector no. 4-6 Row k
-    dblVec[0] = 18; dblVec[1] = 18;
-    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
-    }
 
-  //Row 4-6
-  for( k=0; k< halfHeight; k++)
-    {
-    //Vector no. 1-3 Row k
-    dblVec[0] = 15; dblVec[1] = 13;
-    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
- 
-    //Vector no. 4-6 Row k
-    dblVec[0] = 14; dblVec[1] = 13;
-    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
-    }
-*/
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
@@ -265,17 +239,7 @@ int itkMRFImageFilterTest(int, char* [] )
     {
     for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 1 );
     }
-/*
-  //--------------------------------------------------------------------------
-  //Slice 4
-  //--------------------------------------------------------------------------
-  //Row 1-6
-  for( k=0; k< (halfHeight*2); k++)
-    {
-    //Vector no. 1-3 Row k
-    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 0 ); 
-    }
-*/
+
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
   //----------------------------------------------------------------------
@@ -365,9 +329,10 @@ int itkMRFImageFilterTest(int, char* [] )
   MRFImageFilterType::Pointer applyMRFImageFilter = MRFImageFilterType::New();
 
   // Set the MRF labeller parameters
-  applyMRFImageFilter->SetNumberOfClasses(NUM_CLASSES);
-  applyMRFImageFilter->SetMaximumNumberOfIterations(MAX_NUM_ITER);
-  applyMRFImageFilter->SetErrorTolerance(0.10);
+  applyMRFImageFilter->SetNumberOfClasses( NUM_CLASSES );
+  applyMRFImageFilter->SetMaximumNumberOfIterations( MAX_NUM_ITER );
+  applyMRFImageFilter->SetErrorTolerance( 0.10 );
+  applyMRFImageFilter->SetSmoothingFactor( 1 );
 
   //For setting up a square/cubic or hypercubic neighborhood
   applyMRFImageFilter->SetNeighborhoodRadius( NEIGHBORHOOD_RAD );
@@ -375,7 +340,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //For setting up a rectangular/cuboidal or hypercuboidal neighborhood
   //itk::Size<NDIMENSION> radius = {{1, 10, 5}};
   //applyMRFImageFilter->SetNeighborhoodRadius( radius );
- 
+
   applyMRFImageFilter->SetInput(vecImage);
   applyMRFImageFilter->SetClassifier( myClassifier ); 
   
@@ -385,6 +350,18 @@ int itkMRFImageFilterTest(int, char* [] )
   applyMRFImageFilter->Print(std::cout); 
   
   ClassImageType::Pointer  outClassImage = applyMRFImageFilter->GetOutput();
+
+  //Testing of different parameter access functions in the filter
+  std::cout << "The number of classes labelled was: " <<
+    applyMRFImageFilter->GetNumberOfClasses() << std::endl;
+  std::cout << "The maximum number of iterations were: " <<
+    applyMRFImageFilter->GetMaximumNumberOfIterations() << std::endl; 
+  std::cout << "The error tolerace threshold was: " <<
+    applyMRFImageFilter->GetErrorTolerance() << std::endl; 
+  std::cout << "The smoothing MRF parameter used was: " <<
+    applyMRFImageFilter->GetSmoothingFactor() << std::endl;
+//  std::cout << "The MRF neighborhood weights are: " << std::endl;
+//  std::cout << applyMRFImageFilter->GetMRFNeighborhoodWeight() << std::endl;
 
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
