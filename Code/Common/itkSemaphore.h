@@ -132,8 +132,11 @@ private:
   ~Semaphore();
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  static int unix_semaphore_key;  // every semaphore must be created with a unique key
-  static SimpleMutexLock m_Mutex; // a lock over the 'unix_semaphore_key'
+  /** Every IPC semaphore must be created with a unique key. This variable
+   * increments with each new ITK Semaphore created to give a unique key. */
+  static int m_IPCSemaphoreKey;
+  /** Mutex to lock increment operation on m_IPCSemaphoreKey */
+  static SimpleMutexLock m_Mutex;
   
   int  UnixIpcSemaphoreCreate (int unix_semaphore_key);
   void UnixIpcSemaphoreRemove (int sid);

@@ -23,8 +23,8 @@
 namespace itk {
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  int Semaphore::unix_semaphore_key = 12345;
-  SimpleMutexLock Semaphore::m_Mutex;
+int Semaphore::m_IPCSemaphoreKey = 12345;
+SimpleMutexLock Semaphore::m_Mutex;
 #endif
   
 Semaphore::Semaphore ()
@@ -50,34 +50,30 @@ void Semaphore::Initialize(unsigned int value)
 {
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  std::cout << "Using IPC" << std::endl;
-  // Obtain a lock over the 'unix_semaphore_key' so that the new semaphore is
+  // Obtain a lock over the m_IPCSemaphoreKey so that the new semaphore is
   // created with a unique unix_semaphore_key 
   Semaphore::m_Mutex.Lock();
-  m_Sema = Semaphore::UnixIpcSemaphoreCreate(Semaphore::unix_semaphore_key);
-
+  m_Sema = Semaphore::UnixIpcSemaphoreCreate(Semaphore::m_IPCSemaphoreKey);
+  
   // by default the semaphore created has value 0
-  Semaphore::unix_semaphore_key++;
+  Semaphore::m_IPCSemaphoreKey++;
   Semaphore::m_Mutex.Unlock();
   
   for (unsigned int i = 0; i < value; i++)
     {
     this->Up();
     }
-  
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
 #ifdef ITK_USE_SPROC
-  std::cout << "using sproc" << std::endl;
-
   if (MultiThreader::GetInitialized() == false)
     {
       MultiThreader::Initialize();
     }
 
   m_Sema = usnewsema(MultiThreader::GetThreadArena(), static_cast<int>(value));
-  if (!m_Sema )
+  if ( ! m_Sema )
     {
       itkExceptionMacro( << " sem_init call failed with code " << m_Sema );
     }
@@ -203,9 +199,11 @@ void Semaphore::Remove ()
 #ifdef ITK_USE_SPROC
   if (MultiThreader::GetThreadArena() != 0)
     {
-      if (m_Sema != 0)
-  usfreesema (m_Sema, MultiThreader::GetThreadArena());
-      m_Sema= 0;
+    if (m_Sema != 0)
+      {
+      usfreesema(m_Sema, MultiThreader::GetThreadArena());
+      }
+    m_Sema = 0;
     }
 #endif
 #ifdef ITK_USE_PTHREADS
@@ -218,7 +216,9 @@ void Semaphore::Remove ()
   
 #ifdef ITK_USE_WIN32_THREADS
   if (m_Sema != 0)
+    {
     CloseHandle(m_Sema);
+    }
   m_Sema= 0;
 #endif
 }
@@ -230,7 +230,7 @@ void Semaphore::Remove ()
 // If no semaphore has been established for this number, one is created.
 int Semaphore::UnixIpcSemaphoreCreate(int unix_semaphore_key)
 {
-  int sid= -1;
+  int sid = -1;
   std::string s; 
  
   if( (sid = semget( (key_t)unix_semaphore_key, 1, 0666 | IPC_CREAT )) == -1 )
