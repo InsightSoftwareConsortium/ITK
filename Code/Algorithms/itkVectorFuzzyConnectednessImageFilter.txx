@@ -142,14 +142,14 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   double sum[VectorDimension];
   InputVectorType            value;
   double anisotropy_row,anisotropy_col;
-  double const *spaceing;
   int ppptti1[2*(MAX_SCALE+5)][2*(MAX_SCALE+5)];
   TDVector location;
 
-  spaceing = m_InputImage->GetSpacing();
+  const typename TInputImage::SpacingType& 
+    spacing = m_InputImage->GetSpacing();
 
-  anisotropy_col = spaceing[0];
-  anisotropy_row = spaceing[1];
+  anisotropy_col = spacing[0];
+  anisotropy_row = spacing[1];
 
   double tt1 = anisotropy_col;
   if(tt1>anisotropy_row)
