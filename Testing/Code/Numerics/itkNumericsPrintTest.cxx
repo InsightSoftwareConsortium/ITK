@@ -83,7 +83,7 @@ int itkNumericsPrintTest(int , char* [])
   PolynomialType::DomainSizeType domainSize(dimension);
   itk::MultivariateLegendrePolynomial * MultivariateLegendrePolynomialObj =
     new itk::MultivariateLegendrePolynomial(dimension,degree,domainSize);
-  std::cout << "----------MultivariateLegendrePolynomial " << MultivariateLegendrePolynomialObj;
+  std::cout << "----------MultivariateLegendrePolynomial " << *MultivariateLegendrePolynomialObj;
   delete MultivariateLegendrePolynomialObj;
 
   itk::OnePlusOneEvolutionaryOptimizer::Pointer OnePlusOneEvolutionaryOptimizerObj =
