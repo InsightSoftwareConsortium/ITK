@@ -192,8 +192,7 @@ void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::GenerateData() 
 {
-  typedef typename TOutputImage::PixelType  TOutputType;
-  typedef typename TInputImage::PixelType   TInputType;
+  typedef typename TOutputImage::PixelType  OutputPixelType;
 
   typedef ImageLinearConstIteratorWithIndex< TInputImage  >  InputConstIteratorType;
   typedef ImageLinearIteratorWithIndex< TOutputImage >  OutputIteratorType;
@@ -288,7 +287,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     unsigned int j=0; 
     while( !outputIterator.IsAtEndOfLine() )
       {
-      outputIterator.Set( (TOutputType)( outs[j++] ) );
+      outputIterator.Set( static_cast<OutputPixelType>( outs[j++] ) );
       ++outputIterator;
       }
 
