@@ -100,26 +100,26 @@ public:
   /**
    * TVisitedClass is class to which visitor functions will be applied. 
    */
-  typedef TVisitedClass VisitedClass;
+  typedef typename TVisitedClass VisitedClass;
 
   /**
    * TVisitorBase is base class for visitor objects. Any class derived from
    * TVisitorBase could in general be applied to TVisitedClass.
    */
-  typedef TVisitorBase VisitorBase;
+  typedef typename TVisitorBase VisitorBase;
 
   /**
    * Return type of the visitor functions.
    */
-  typedef TReturnType ReturnType;
+  typedef typename TReturnType ReturnType;
 
 
   /**
    *
    */
-  typedef VisitedClass::Pointer VisitedClassPointer;
-  typedef VisitedClass::ConstPointer VisitedClassConstPointer;
-  typedef VisitorBase::Pointer VisitorBasePointer;
+  typedef typename VisitedClass::Pointer VisitedClassPointer;
+  typedef typename VisitedClass::ConstPointer VisitedClassConstPointer;
+  typedef typename VisitorBase::Pointer VisitorBasePointer;
 
 
 
