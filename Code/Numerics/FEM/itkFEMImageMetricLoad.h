@@ -40,6 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkFEMImageMetricLoad_h_
 #define _itkFEMImageMetricLoad_h_
 
+#include "itkFEMLoadElementBase.h"
+
 #include "itkImage.h"
 #include "itkTranslationTransform.h"
 
