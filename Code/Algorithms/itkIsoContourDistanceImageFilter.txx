@@ -168,13 +168,11 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   //Iterate over split region or split band as convinient.
   if( m_NarrowBanding == false )
      {  
-     
      this->ThreadedGenerateDataFull(outputRegionForThread,threadId);
      }
   else 
      {
      this->ThreadedGenerateDataBand(outputRegionForThread,threadId);
-           
      }
      
 }
@@ -263,27 +261,29 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
    
   for (inNeigIt.GoToBegin(); !inNeigIt.IsAtEnd() ; ++inNeigIt, ++outNeigIt) 
     {
-     val0 = inNeigIt.GetPixel(center)-m_LevelSetValue;
+     val0 = inNeigIt.GetPixel(center) - static_cast< PixelType >( m_LevelSetValue );
      sign = (val0>0);
      
      //Compute gradient at val0
      for (ng=0;ng<ImageDimension;ng++) 
        {
-        grad0[ng]=inNeigIt.GetNext(ng,1)-inNeigIt.GetPrevious(ng,1);
+       grad0[ng] = static_cast< PixelType >( inNeigIt.GetNext(ng,1) ) -
+                   static_cast< PixelType >( inNeigIt.GetPrevious(ng,1) );
        } 
      
      for (n=0;n<ImageDimension;n++)
        {
        
-       val1 = inNeigIt.GetPixel(center+stride[n])-m_LevelSetValue;
+       val1 =  static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]) )
+              -static_cast< PixelType >( m_LevelSetValue );
        
        neigh_sign = (val1>0);
        
        if(sign != neigh_sign) {
          for (ng=0;ng<ImageDimension;ng++)
            {
-           grad1[ng]=inNeigIt.GetPixel(center+stride[n]+stride[ng]) - 
-                     inNeigIt.GetPixel(center+stride[n]-stride[ng]);
+           grad1[ng]= static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]+stride[ng]) ) 
+                     -static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]-stride[ng]) );
            }
          if(sign)
            {
