@@ -143,7 +143,7 @@ public:
    **/
   void SetMatrix(const MatrixType &matrix)
     {
-    this->SetRotationMatrix();
+    this->SetRotationMatrix(matrix);
     }
 
   /**
