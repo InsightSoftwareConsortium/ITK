@@ -2,6 +2,7 @@ SUBDIRS(vxl Statistics FEM)
 # Sources of non-templated classes.
 SOURCE_FILES(ITKNumerics_SRCS
 itkCacheableScalarFunction
+itkCostFunction
 itkCompositeValleyFunction
 itkMultipleValuedVnlCostFunctionAdaptor
 itkMultivariateLegendrePolynomial

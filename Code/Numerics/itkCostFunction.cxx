@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCostFunction.txx
+  Module:    itkCostFunction.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCostFunction_txx
-#define _itkCostFunction_txx
-
 #include "itkCostFunction.h"
 
 namespace itk
@@ -30,5 +27,3 @@ CostFunction
 }
 
 } // end namespace itk
-
-#endif
