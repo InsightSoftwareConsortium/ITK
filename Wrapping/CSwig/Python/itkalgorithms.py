@@ -1,5 +1,5 @@
 from itkbasicfilters import *
 from itknumerics import *
-data = itkbase.preimport()
+__itk_import_data__ = itkbase.preimport()
 from ITKAlgorithmsPython import *
-itkbase.postimport(data)
+itkbase.postimport(__itk_import_data__)
