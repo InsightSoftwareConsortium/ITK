@@ -294,6 +294,20 @@ TubeSpatialObject< TDimension >
       n1[1] = t[0];
       (*it1).SetNormal1(n1); 
     }
+    else if (TDimension == 3)
+    {
+      n1[0] = -t[1];
+     n1[1] = t[0];
+     n1[2] = 0;
+ 
+     n2[0] = t[2]*t[0]; 
+     n2[1] = -t[2]*t[1];
+     n2[2] = t[0]*t[0] - t[1]*t[1];
+ 
+      (*it1).SetV1(n1);
+      (*it1).SetV2(n2);
+    }
+
  
     it1++;
   }
