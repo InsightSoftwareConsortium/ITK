@@ -117,6 +117,7 @@ namespace itk
     const char *FileNameToRead = this->GetFileName();
     InitializeFILENAMELIST(&m_fnlist);
     this->m_ImageHeader = this->ReadHeader(FileNameToRead);
+    //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
     //
     // if anything fails in the header read, just let
     // exceptions propogate up.

@@ -88,6 +88,10 @@ namespace itk
   struct GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
   {
     char tmpbuf[1024];
+
+    if(!this->CanReadFile(FileNameToRead))
+      RAISE_EXCEPTION();
+
     GEImageHeader *hdr = new struct GEImageHeader;
     if(hdr == 0)
       RAISE_EXCEPTION();

@@ -148,7 +148,6 @@ namespace itk
       void sortImageListAscend (FILENAMELIST * const fnList);
       void sortImageListDescend (FILENAMELIST * const fnList);
       int statTimeToAscii (void *clock, char *timeString);
-
       virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
       //
       // data members

@@ -174,6 +174,8 @@ static const char GE_PROD_STR[]="SIGNA";
     int timeStamp;
     char tmpId[64];
     char *ptr;
+    if(checkGe5xImages(FileNameToRead) != 0)
+      RAISE_EXCEPTION();
 
     curImage = new GEImageHeader;
     if (curImage == NULL)

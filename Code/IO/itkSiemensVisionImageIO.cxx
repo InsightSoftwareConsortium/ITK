@@ -70,10 +70,13 @@ namespace itk
 
   struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   {
+    if(!this->CanReadFile(FileNameToRead))
+      RAISE_EXCEPTION();
+
     int tmpInt;
     double tmpDble;
 
-#define DEBUGHEADER
+    // #define DEBUGHEADER
 #if defined(DEBUGHEADER)
 #define DB(x) std::cerr << #x << " " << x << std::endl
 #else
@@ -81,8 +84,9 @@ namespace itk
 #endif
 
 #define GE_PROD_STR    "SIEMENS"
-    char tmpStr[TEXT_ANGLE_FLAG1_LEN+1], tmpStr2[TEXT_ANGLE_FLAG1_LEN+1],
-      tmpStr3[TEXT_ANGLE_FLAG1_LEN+1], tmpStr4[TEXT_ANGLE_FLAG1_LEN+1];
+#define TEMPLEN 2048
+    char tmpStr[TEMPLEN], tmpStr2[TEMPLEN],
+      tmpStr3[TEMPLEN], tmpStr4[TEMPLEN];
     GEImageHeader *hdr = new struct GEImageHeader;
     if(hdr == 0)
       RAISE_EXCEPTION();

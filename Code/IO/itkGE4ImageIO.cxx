@@ -48,7 +48,6 @@ namespace itk
     std::ifstream f(FileNameToRead,std::ifstream::binary);
     if(!f.is_open())
       return false;
-    f.close();
     // This is a weak heuristic but should only be true for GE4 files
     // 
     // Get the Plane from the IMAGE Header.
@@ -60,11 +59,13 @@ namespace itk
         strstr (tmpStr, "SAGITTAL") == NULL &&
         strstr (tmpStr, "AXIAL") == NULL)
       {
+        f.close();
         return false;
       }
     //
     // doesn't appear to be any signature in the header so I guess
     // I have to assume it's readable
+    f.close();
     return true;
   }
 
@@ -76,6 +77,12 @@ namespace itk
 #else
 #define RGEDEBUG(x)
 #endif
+    if(FileNameToRead == 0 || strlen(FileNameToRead) == 0)
+      return 0;
+    //
+    // need to check if this is a valid file before going further
+    if(!this->CanReadFile(FileNameToRead))
+      RAISE_EXCEPTION();
     struct GEImageHeader *hdr = new struct GEImageHeader;
     if(hdr == 0)
       RAISE_EXCEPTION();
@@ -85,8 +92,6 @@ namespace itk
     int intTmp;
     short int tmpShort;
     float tmpFloat;
-    if(FileNameToRead == 0 || strlen(FileNameToRead) == 0)
-      return 0;
 
     //
     // save off the name of the current file...
