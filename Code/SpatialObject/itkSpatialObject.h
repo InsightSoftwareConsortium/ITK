@@ -195,7 +195,7 @@ public:
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
-  void SetParent(const Self * parent);
+  void SetParent(Self * parent);
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt( const PointType & point,
@@ -254,6 +254,9 @@ public:
 
   /** Return a pointer to the parent object in the hierarchy tree */ 
   virtual const Self * GetParent( void ) const; 
+
+  /** Return a pointer to the parent object in the hierarchy tree */ 
+  virtual Self * GetParent( void ) {return m_Parent;} 
 
   /** Returns a list of pointer to the children affiliated to this object. 
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
@@ -490,7 +493,7 @@ protected:
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
 
-  const Self* m_Parent;
+  mutable Self* m_Parent;
 
   std::string m_TypeName;
 

@@ -719,7 +719,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::SetParent( const Self * parent )
+::SetParent( Self * parent )
 {
   m_Parent = parent;
 }
