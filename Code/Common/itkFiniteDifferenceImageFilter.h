@@ -180,7 +180,7 @@ protected:
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. ) 
    */
-  void CopyInputToOutput();
+  virtual void CopyInputToOutput();
   
   /**
    * This is the default, high-level algorithm for calculating finite
