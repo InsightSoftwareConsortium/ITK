@@ -21,6 +21,7 @@
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "itkMatrix.h"
+#include "itkExceptionObject.h"
 
 #include "vnl/vnl_vector_fixed.h"
 
