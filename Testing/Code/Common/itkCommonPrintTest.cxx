@@ -37,6 +37,7 @@
 #include "itkBloxBoundaryPointImage.h"
 #include "itkBloxBoundaryProfileImage.h"
 #include "itkBloxCoreAtomImage.h"
+#include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 #include "itkBloxImage.h"
 #include "itkBoundingBox.h"
 #include "itkCellInterfaceVisitor.h"
@@ -47,6 +48,7 @@
 #include "itkColorTable.h"
 #include "itkCommand.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
+#include "itkCoreAtomImageToDistanceMatrixProcess.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCreateObjectFunction.h"
 #include "itkDifferenceImageFilter.h"
@@ -84,6 +86,7 @@
 #include "itkLog10ImageAdaptor.h"
 #include "itkLogImageAdaptor.h"
 #include "itkMapContainer.h"
+#include "itkMatrixResizeableDataObject.h"
 #include "itkMaximumDecisionRule.h"
 #include "itkMaximumRatioDecisionRule.h"
 #include "itkMeanImageFunction.h"
@@ -168,6 +171,8 @@ int itkCommonPrintTest(int , char* [])
   // Used for ImageAdaptor
   typedef itk::RedPixelAccessor<float> RedAccessorType;
   
+  // Used for CoreAtomImageToDistanceMatrixProcess
+  typedef itk::BloxBoundaryPointToCoreAtomImageFilter<3>::TOutputImage BloxCAImageType;
   
   itk::AcosImageAdaptor<InputType,InputType>::Pointer AcosImageAdaptorObj =
     itk::AcosImageAdaptor<InputType,InputType>::New();
@@ -257,6 +262,10 @@ int itkCommonPrintTest(int , char* [])
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
   
+  itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::Pointer CoreAtomImageToDistanceMatrixProcessObj = 
+    itk::CoreAtomImageToDistanceMatrixProcess<BloxCAImageType>::New();
+  std::cout << "------------CoreAtomImageToDistanceMatrixProcess" << CoreAtomImageToDistanceMatrixProcessObj;
+
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
   std::cout << "------------CosImageAdaptor" << CosImageAdaptorObj;
@@ -385,6 +394,10 @@ int itkCommonPrintTest(int , char* [])
     itk::MapContainer<unsigned long,PointType>::New();
   std::cout << "------------MapContainer" << MapContainerObj;
   
+  itk::MatrixResizeableDataObject<double>::Pointer MatrixResizeableDataObjectObj = 
+    itk::MatrixResizeableDataObject<double>::New();
+  std::cout << "------------MatrixResizeableDataObject" << MatrixResizeableDataObjectObj;
+
   itk::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
     itk::MaximumDecisionRule::New();
   std::cout << "------------MaximumDecisionRule" << MaximumDecisionRuleObj;
