@@ -94,27 +94,6 @@ ImageToListAdaptor< TImage, TDataAccessor >
 }
 
 template < class TImage, class TDataAccessor >
-inline void
-ImageToListAdaptor< TImage, TDataAccessor >
-::SetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dim,
-                 const MeasurementType &value) 
-{
-  m_TempMeasurementVector = this->GetMeasurementVector(id) ;
-  m_TempMeasurementVector[dim] = value ;
-  SetMeasurementVector(id, m_TempMeasurementVector) ;
-}
-
-template < class TImage, class TDataAccessor >
-inline ImageToListAdaptor< TImage, TDataAccessor >::MeasurementType& 
-ImageToListAdaptor< TImage, TDataAccessor >
-::GetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dim)
-{
-  return m_DataAccessor.GetMeasurement(id, dim) ; 
-}
-
-template < class TImage, class TDataAccessor >
 inline ImageToListAdaptor< TImage, TDataAccessor >::FrequencyType
 ImageToListAdaptor< TImage, TDataAccessor >
 ::GetFrequency(const InstanceIdentifier &id) const 
@@ -159,15 +138,6 @@ ScalarImageAccessor< TImage >
 }
 
 template < class TImage >
-inline ScalarImageAccessor< TImage >::MeasurementType& 
-ScalarImageAccessor< TImage >
-::GetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dimension)
-{
-  return (*m_PixelContainer)[id] ;
-}
-
-template < class TImage >
 void
 VectorImageAccessor< TImage >
 ::SetPixelContainer(PixelContainerPointer pixelContainer)
@@ -192,16 +162,6 @@ VectorImageAccessor< TImage >
   return (*m_PixelContainer)[id] ; 
 }
   
-template < class TImage >
-inline VectorImageAccessor< TImage >::MeasurementType&
-VectorImageAccessor< TImage >
-::GetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dimension)
-{ 
-  return (*m_PixelContainer)[id][dimension] ;
-}
-
-
   } // end of namespace Statistics 
 } // end of namespace itk
 

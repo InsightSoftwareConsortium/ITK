@@ -79,10 +79,6 @@ public:
   MeasurementVectorType& 
   GetMeasurementVector(const InstanceIdentifier &id) ;
 
-  MeasurementType& 
-  GetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dimension) ;
-
 private:
   MeasurementVectorType m_TempMeasurementVector ;
   PixelContainerPointer m_PixelContainer ;
@@ -110,10 +106,6 @@ public:
   
   MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
   
-  MeasurementType& 
-  GetMeasurement(const InstanceIdentifier &id, 
-                 const unsigned int &dimension) ;
-
 private:
   PixelContainerPointer m_PixelContainer ;
 } ; // end of class
@@ -183,11 +175,6 @@ public:
                       const unsigned int &dim,
                       const MeasurementType &value) ;
 
-  /** Method to get a measurement element the measurement 
-   * from this container */
-  MeasurementType& GetMeasurement(const InstanceIdentifier &id, 
-                                  const unsigned int &dimension) ;
-
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   FrequencyType GetTotalFrequency(const unsigned int &dimension) const ;
@@ -222,9 +209,6 @@ public:
 
     MeasurementVectorType& GetMeasurementVector()
     { return m_Container->GetMeasurementVector(m_Id) ;} 
-
-    MeasurementType& GetMeasurement(const unsigned int &dimension)
-    { return m_Container->GetMeasurement(m_Id, dimension) ;} 
 
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ;}
