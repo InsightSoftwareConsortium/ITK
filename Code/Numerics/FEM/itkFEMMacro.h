@@ -236,7 +236,7 @@ struct INITClass {
      * want to perform.
      */
     volatile int Dummy=i;
-    Dummy;
+    Dummy++;
   }
 };
 
