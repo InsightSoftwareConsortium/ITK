@@ -80,7 +80,6 @@ int main()
 
   IteratorType it( myImage, region );
 
-  ImageType::IndexType index;
   ImageType::PixelType value;
   
   value = itk::NumericTraits< ImageType::PixelType >::Zero;
@@ -90,7 +89,6 @@ int main()
 
   while( !it.IsAtEnd() )
   {
-    index = it.GetIndex();
     value++;
     it.Set( value );
     ++it;
