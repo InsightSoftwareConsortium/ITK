@@ -74,7 +74,7 @@ unsigned int idx )
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-const ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+typename const ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::AuxImageType *
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetInputVelocityImage( unsigned int idx )
@@ -95,7 +95,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+typename ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::AuxImageType *
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GetOutputVelocityImage( unsigned int idx )
@@ -198,10 +198,11 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   double levelSetValue = this->GetLevelSetValue();
 
   // define iterators
+  typedef typename LevelSetType::LevelSetImageType LocalLevelSetImageType;
   typedef 
-    ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
+    ImageRegionIterator<LocalLevelSetImageType> IteratorType;
   typedef 
-    ImageRegionConstIterator<LevelSetType::LevelSetImageType> ConstIteratorType;
+    ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
@@ -349,10 +350,11 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   double inputBandwidth = this->GetInputNarrowBandwidth();
 
   // define iterators
+  typedef typename LevelSetType::LevelSetImageType LocalLevelSetImageType;
   typedef 
-    ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
+    ImageRegionIterator<LocalLevelSetImageType> IteratorType;
   typedef 
-    ImageRegionConstIterator<LevelSetType::LevelSetImageType> ConstIteratorType;
+    ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );

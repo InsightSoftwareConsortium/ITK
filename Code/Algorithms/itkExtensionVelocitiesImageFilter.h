@@ -66,8 +66,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
 
-  /** The type of level set. */
+  /** The type of level set and the pointer type. */
   typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
+  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
+  typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
+  typedef typename LevelSetType::PixelType  PixelType;
+  typedef typename LevelSetType::NodeType NodeType;
+  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** The dimension of the level set. */
   enum { SetDimension = LevelSetType::SetDimension};
