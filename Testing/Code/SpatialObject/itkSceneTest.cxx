@@ -49,6 +49,49 @@ int itkSceneTest(int, char* [])
   scene->GetMTime(); // coverage
   std::cout << scene << std::endl;
 
+  // Test spatial objects for coverage
+  typedef itk::SpatialObject<3> SpatialObjectType;
+  SpatialObjectType::Pointer object = SpatialObjectType::New();
+
+  std::cout << "Testing Typename: ";
+  if(strcmp(object->GetTypeName(),"SpatialObject"))
+  {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "[PASSED]" << std::endl;
+
+  object->GetRequestedRegion();
+  object->GetBufferedRegion();
+  object->GetLargestPossibleRegion();
+
+  std::cout << "Testing  BoundingBoxChildren depth: ";
+  if(object->GetBoundingBoxChildrenDepth() != 0)
+  {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Testing BoundingBoxChildrenName: ";
+  if(object->GetBoundingBoxChildrenName() != "")
+  {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Testing Set/GetParentID: ";
+  object->SetParentId(3);
+
+  if(object->GetParentId() != 3)
+  {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "[PASSED]" << std::endl;
+
+
   std::cout << "[DONE]" << std::endl;
 
   return EXIT_SUCCESS;
