@@ -228,6 +228,7 @@ int main()
   // generate output at a level with progress
   std::cout << "Run MultiResolutionImagePyramid in standalone mode with progress";
   std::cout << std::endl;
+
   ShowProgressObject progressWatch(pyramid);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -239,6 +240,7 @@ int main()
   pyramid->SetCurrentLevel( currentLevel );
   pyramid->Update();
 
+/*
   pyramid->Print( std::cout );
 
   // check the output image information
@@ -322,6 +324,8 @@ int main()
     ++iter1;
     ++iter2;
     }
+
+*/
 
 
   if( !pass )
