@@ -42,7 +42,7 @@ int main ( int argc, char* argv[] )
 }
 "
 
-set D [lsort [glob Code/*]]
+set D [lsort [glob -nocomplain Code/*]]
 set Directories ""
 foreach d $D \
 {
@@ -60,7 +60,7 @@ foreach Directory $Directories \
   }
   set f [open [file join Testing Code $Directory itk${Directory}HeaderTest.cxx] w]
   puts $f $Header
-  foreach File [lsort [glob [file join Code $Directory *.h]]] \
+  foreach File [lsort [glob -nocomplain [file join Code $Directory *.h]]] \
   {
     puts $f "#include \"[file tail $File]\""
   }
