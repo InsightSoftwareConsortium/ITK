@@ -40,18 +40,18 @@ ${WrapITK_BINARY_DIR}/Common/ITKCommonTcl.mdx
 # set the generated sources as generated
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
   # add the library
   ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES})
   TARGET_LINK_LIBRARIES(ITKCommonTcl ${TCL_LIBRARY} ITKCommon VXLNumericsTcl SwigRuntimeTcl )
-ENDIF(ITK_SWRAP_TCL)
+ENDIF(ITK_CSWIG_TCL)
 
-IF(ITK_WRAP_PYTHON)
+IF(ITK_CSWIG_PYTHON)
   ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES})
   SET_TARGET_PROPERTIES( _ITKCommonPython PROPERTIES PREFIX "")
   # link to ITKCommon
   TARGET_LINK_LIBRARIES(_ITKCommonPython ${PYTHON_LIBRARY} ITKCommon SwigRuntimePython)
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)
 
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
                        "${WrapITK_BINARY_DIR}/Common/ITKCommonTcl.mdx"
@@ -59,27 +59,27 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
 
 # wrap each of the files
 FOREACH(Source ${WRAP_SOURCES})
-  IF(ITK_SWRAP_TCL)
+  IF(ITK_CSWIG_TCL)
   # tcl
     WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
                      ${Source} ITKCommonTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-  ENDIF(ITK_SWRAP_TCL)
+  ENDIF(ITK_CSWIG_TCL)
    
-  IF(ITK_WRAP_PYTHON)
+  IF(ITK_CSWIG_PYTHON)
   # python
     WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
                         ${Source} _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-  ENDIF(ITK_WRAP_PYTHON)
+  ENDIF(ITK_CSWIG_PYTHON)
 ENDFOREACH(Source)
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
 # tcl
   WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
                    wrap_ITKCommonTcl ITKCommonTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_SWRAP_TCL)
+ENDIF(ITK_CSWIG_TCL)
    
-IF(ITK_WRAP_PYTHON)
+IF(ITK_CSWIG_PYTHON)
 # python
   WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/Common ${WrapITK_BINARY_DIR}/Common
                       wrap_ITKCommonPython _ITKCommonPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)

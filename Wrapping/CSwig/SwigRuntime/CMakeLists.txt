@@ -12,17 +12,17 @@
 SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/swigrunTcl.cxx GENERATED)
 SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/swigrunPython.cxx GENERATED)
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
   ADD_LIBRARY(SwigRuntimeTcl SHARED ${WrapITK_BINARY_DIR}/swigrunTcl.cxx)
   TARGET_LINK_LIBRARIES(SwigRuntimeTcl ${TCL_LIBRARY})
-ENDIF(ITK_SWRAP_TCL)
-IF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_TCL)
+IF(ITK_CSWIG_PYTHON)
   ADD_LIBRARY(SwigRuntimePython SHARED ${WrapITK_BINARY_DIR}/swigrunPython.cxx)
   TARGET_LINK_LIBRARIES(SwigRuntimePython ${PYTHON_LIBRARY})
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)
 
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
 # create the xml file from the .h file for the TCL wrap
   ADD_CUSTOM_COMMAND(
    SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
@@ -39,9 +39,9 @@ IF(ITK_SWRAP_TCL)
    ARGS -o ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunTcl.cxx -tcl -c++ ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
    TARGET SwigRuntimeTcl
    OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunTcl.cxx)
-ENDIF(ITK_SWRAP_TCL)
+ENDIF(ITK_CSWIG_TCL)
 
-IF(ITK_WRAP_PYTHON)
+IF(ITK_CSWIG_PYTHON)
 # create the xml file from the .h file for Python Wrap
   ADD_CUSTOM_COMMAND(
    SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
@@ -58,4 +58,4 @@ IF(ITK_WRAP_PYTHON)
    ARGS -o ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunPython.cxx -python -c++ ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
    TARGET SwigRuntimePython
    OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunPython.cxx)
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)

@@ -52,6 +52,9 @@ LINK_DIRECTORIES(.)
 IF(NOT WIN32)
   OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 ENDIF(NOT WIN32)
+OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
+OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
+
 OPTION(ITK_WRAP_TCL "Build Tcl wrapper support (requires CABLE/GCC-XML)." OFF)
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
 OPTION(ITK_USE_SYSTEM_STDLIB
@@ -65,6 +68,8 @@ ITK_THIRD_PARTY_OPTION(PNG  png)
 ITK_THIRD_PARTY_OPTION(JPEG jpeg)
 
 MARK_AS_ADVANCED(ITK_WRAP_TCL)
+MARK_AS_ADVANCED(ITK_CSWIG_PYTHON)
+MARK_AS_ADVANCED(ITK_CSWIG_TCL)
 
 IF(CMAKE_SYSTEM MATCHES "IRIX.*")
 ELSE(CMAKE_SYSTEM MATCHES "IRIX.*")
@@ -85,6 +90,20 @@ ENDIF(BUILD_TESTING)
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
 SUBDIRS(Utilities Code)
+
+# set a variable to determine if 
+# the Wrapping/CSwig directory should be used
+SET(ITK_CSWIG_DIR 0)
+IF(ITK_CSWIG_TCL)
+  SET(ITK_CSWIG_DIR 1)
+ENDIF(ITK_CSWIG_TCL)
+IF(ITK_CSWIG_PYTHON)
+  SET(ITK_CSWIG_DIR 1)
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_DIR)
+  SUBDIRS(Wrapping/CSwig)
+ENDIF(ITK_CSWIG_DIR)
 
 IF(ITK_WRAP_TCL)
   SUBDIRS(Wrapping)

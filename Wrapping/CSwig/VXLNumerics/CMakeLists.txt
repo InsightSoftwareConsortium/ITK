@@ -29,16 +29,16 @@ SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_VXLNumericsPythonPython.cxx)
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 # add the tcl and python libraries
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
   ADD_LIBRARY(VXLNumericsTcl SHARED ${WRAP_TCL_SOURCES})
   TARGET_LINK_LIBRARIES(VXLNumericsTcl itkvnl itkvnl_algo SwigRuntimeTcl ${TCL_LIBRARY})
-ENDIF(ITK_SWRAP_TCL)
+ENDIF(ITK_CSWIG_TCL)
 
-IF(ITK_WRAP_PYTHON)
+IF(ITK_CSWIG_PYTHON)
   ADD_LIBRARY(_VXLNumericsPython MODULE ${WRAP_PYTHON_SOURCES})
   SET_TARGET_PROPERTIES( _VXLNumericsPython PROPERTIES PREFIX "")
   TARGET_LINK_LIBRARIES(_VXLNumericsPython itkvnl itkvnl_algo  SwigRuntimePython ${PYTHON_LIBRARY})
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)
 
 
 CONFIGURE_FILE( 
@@ -51,25 +51,25 @@ SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx")
 # wrap each source in WRAP_SOURCES for tcl and python
 FOREACH(Source ${WRAP_SOURCES})
   # tcl
-  IF(ITK_SWRAP_TCL)
+  IF(ITK_CSWIG_TCL)
     WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                      ${Source} VXLNumericsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-  ENDIF(ITK_SWRAP_TCL)
+  ENDIF(ITK_CSWIG_TCL)
   # python 
-  IF(ITK_WRAP_PYTHON)
+  IF(ITK_CSWIG_PYTHON)
     WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                      ${Source} _VXLNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-  ENDIF(ITK_WRAP_PYTHON)
+  ENDIF(ITK_CSWIG_PYTHON)
 ENDFOREACH(Source)
 
 # add package wrappers for tcl and python
 
-IF(ITK_SWRAP_TCL)
+IF(ITK_CSWIG_TCL)
    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                     wrap_VXLNumericsTcl VXLNumericsTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_SWRAP_TCL)
+ENDIF(ITK_CSWIG_TCL)
 
-IF(ITK_WRAP_PYTHON)
+IF(ITK_CSWIG_PYTHON)
    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/VXLNumerics ${WrapITK_BINARY_DIR}/VXLNumerics
                      wrap_VXLNumericsPython _VXLNumericsPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_WRAP_PYTHON)
+ENDIF(ITK_CSWIG_PYTHON)

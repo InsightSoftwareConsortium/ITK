@@ -1,8 +1,5 @@
 PROJECT(WrapITK)
 
-OPTION(ITK_SWRAP_TCL "Wrap with tcl" ON)
-OPTION(ITK_WRAP_PYTHON "Wrap with python" ON)
-
 # find python and tcl
 INCLUDE (${CMAKE_ROOT}/Modules/FindTCL.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
@@ -19,12 +16,37 @@ IF(CABLE_INDEX)
   GET_FILENAME_COMPONENT(CABLE_INDEX_PATH ${CABLE_INDEX} PATH)
 ENDIF(CABLE_INDEX)
 
+# if any one of the three are set, then look for the others
+# in the same directory
+# also look in the registry entries for cmake last build
+# so if CableSwig was built on the same machine recently
+# it can be found automatically
+SET(CMAKE_SEARCH_PATHS
+    ${CSWIG_PATH} ${GCCXML_PATH} ${CABLE_INDEX_PATH} 
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild1]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild2]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild3]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild4]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild5]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild6]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild7]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild8]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild9]/bin
+    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild10]/bin
+)
+FOREACH(DIR ${CMAKE_SEARCH_PATHS} )
+   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/Debug)
+   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/Release)
+   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/RelWithDebInfo)
+   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/MinSizeRel)
+ENDFOREACH(DIR)
+
 # find cswig, gccxml, and cableidx programs
 FIND_PROGRAM(CSWIG
   NAMES 
   cswig
   PATHS
-  ${CSWIG_PATH} ${GCCXML_PATH} ${CABLE_INDEX_PATH}
+  ${CMAKE_SEARCH_PATHS}
   ${CYGWIN_INSTALL_PATH}/bin
   /bin
   /usr/bin 
@@ -35,7 +57,7 @@ FIND_PROGRAM(GCCXML
   NAMES 
   gccxml
   PATHS
-  ${CSWIG_PATH} ${GCCXML_PATH} ${CABLE_INDEX_PATH}
+  ${CMAKE_SEARCH_PATHS}
   ${CYGWIN_INSTALL_PATH}/bin
   /bin
   /usr/bin 
@@ -46,7 +68,7 @@ FIND_PROGRAM(CABLE_INDEX
   NAMES 
   cableidx
   PATHS
-  ${CSWIG_PATH} ${GCCXML_PATH} ${CABLE_INDEX_PATH}
+  ${CMAKE_SEARCH_PATHS}
   ${CYGWIN_INSTALL_PATH}/bin
   /bin
   /usr/bin 
@@ -132,15 +154,19 @@ ENDMACRO(WRAP_PYTHON_SOURCES)
 
 
 # make sure required stuff is set
+SET(CSWIG_MISSING_VALUES)
 IF(NOT CSWIG)
-   MESSAGE(SEND_ERROR "CSWIG Must be specified")
+   SET(CSWIG_MISSING_VALUES "${CSWIG_MISSING_VALUES} CSWIG ")
 ENDIF(NOT CSWIG)
 IF(NOT CABLE_INDEX)
-   MESSAGE(SEND_ERROR "CABLE_INDEX Must be specified")
+   SET(CSWIG_MISSING_VALUES "${CSWIG_MISSING_VALUES} CABLE_INDEX ")
 ENDIF(NOT CABLE_INDEX)
 IF(NOT GCCXML)
-   MESSAGE(SEND_ERROR "GCCXML Must be specified")
+   SET(CSWIG_MISSING_VALUES "${CSWIG_MISSING_VALUES} GCCXML ")
 ENDIF(NOT GCCXML)
+IF(CSWIG_MISSING_VALUES)
+  MESSAGE(SEND_ERROR "To use cswig wrapping, CSWIG, CABLE_INDEX, and GCCXML executables must be specified.  If they are all in the same directory, only specifiy one of them, and then run cmake configure again and the others should be found.\nCurrently, you are missing the following:\n ${CSWIG_MISSING_VALUES}")
+ENDIF(CSWIG_MISSING_VALUES)
 
 
 SET(ITK_TOP ${ITK_SOURCE_DIR})
