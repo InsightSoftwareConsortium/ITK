@@ -99,7 +99,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 bool  
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::ComputeBoundingBox(void)
+::ComputeBoundingBox(void) const
 {
   if ( !m_PointsContainer )
     {
@@ -161,7 +161,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetCenter(void)
+::GetCenter(void) const
 {
   this->ComputeBoundingBox();
 
@@ -178,7 +178,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetMinimum(void)
+::GetMinimum(void) const
 {
   this->ComputeBoundingBox();
 
@@ -209,7 +209,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetMaximum(void)
+::GetMaximum(void) const
 {
   this->ComputeBoundingBox();
 
@@ -267,7 +267,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::AccumulateType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetDiagonalLength2(void)
+::GetDiagonalLength2(void) const
 {
   typename NumericTraits<CoordRepType>::AccumulateType
     dist2 = NumericTraits<CoordRepType>::Zero;
@@ -290,7 +290,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 bool
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::IsInside( const PointType & point )
+::IsInside( const PointType & point ) const
 {
   unsigned int j = 0; 
   unsigned int i = 0;

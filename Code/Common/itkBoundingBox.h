@@ -102,7 +102,7 @@ public:
   const PointsContainer * GetPoints(void) const;
   
   /** Method that actually computes bounding box. */
-  bool ComputeBoundingBox(void);
+  bool ComputeBoundingBox(void) const;
 
   /** Get the bounding box. NULL is returned if the bounding box cannot be
    * computed. (This may happen if the user never specifies something to
@@ -111,11 +111,11 @@ public:
 
   /** Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetCenter(void);
+  PointType GetCenter(void) const;
 
   /** Get the minimum point of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetMinimum(void);
+  PointType GetMinimum(void) const;
 
   /** Set the minimum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
@@ -124,7 +124,7 @@ public:
 
   /** Get the maximum point of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  PointType GetMaximum(void);
+  PointType GetMaximum(void) const;
 
   /** Set the maximum point of the bounding box. May not be valid for the given
    * set of points.   Will be preserved until this filter's (i.e., the point
@@ -141,10 +141,10 @@ public:
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length. */
   typedef typename NumericTraits<CoordRepType>::AccumulateType AccumulateType;
-  AccumulateType GetDiagonalLength2(void);
+  AccumulateType GetDiagonalLength2(void) const;
   
   /** Method that checks if a point is inside the bounding box. */
-  bool IsInside( const PointType & );
+  bool IsInside( const PointType & ) const;
 
   /** Method Compute the Modified Time based on changed to the components. */
   unsigned long GetMTime( void ) const;
@@ -183,8 +183,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PointsContainerConstPointer m_PointsContainer;
-  BoundsArrayType m_Bounds;
-  TimeStamp m_BoundsMTime; //The last time the bounds were computed.
+  mutable  BoundsArrayType    m_Bounds;
+  mutable  TimeStamp          m_BoundsMTime; //The last time the bounds were computed.
 
 };
 
