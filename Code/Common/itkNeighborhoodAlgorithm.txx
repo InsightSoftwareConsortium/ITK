@@ -62,9 +62,22 @@ ImageBoundaryFacesCalculator<TImage>
       for (j = 0; j < ImageDimension; ++j) // define the starting index
         {                                  // and size of the face region
         fStart[j] = rStart[j];
-        if ( j == i ) fSize[j] = -overlapLow;// NOTE: this algorithm
-        else          fSize[j] = rSize[j];   // results in a single
-        }                                      // duplicate
+        if ( j == i )
+          {
+          fSize[j] = -overlapLow;
+          } 
+        else                                 // NOTE: this algorithm
+          {                                  // results in duplicate      
+          fSize[j] = rSize[j];               // pixels at corners between
+          }                                  // adjacent faces.  
+
+        // Boundary region cannot be outside the region to process
+        if (fSize[j] > rSize[j])
+          {
+          fSize[j] = rSize[j];
+          }
+        }
+                                             
       // avoid unsigned overflow if the non-boundary region is too small to process
       if (fSize[i] > nbSize[i])
         {
@@ -72,9 +85,9 @@ ImageBoundaryFacesCalculator<TImage>
         }
       else
         {
-        nbSize[i]  -= fSize[i];                  // pixel at corners between
+        nbSize[i]  -= fSize[i];                  
         }
-      nbStart[i] += -overlapLow;               // adjacent faces.  
+      nbStart[i] += -overlapLow;             
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
       faceList.push_back(fRegion);
@@ -87,6 +100,14 @@ ImageBoundaryFacesCalculator<TImage>
           {
           fStart[j] = rStart[j] + static_cast<IndexValueType>(rSize[j]) + overlapHigh;
           fSize[j] = -overlapHigh;
+
+          // Start of the boundary condition region cannot be to the
+          // left of the region to process
+          if (fStart[j] < rStart[j])
+            {
+            fStart[j] = rStart[j];
+            fSize[j] = rSize[j];     // is this the right size?
+            }
           }
         else
           {
