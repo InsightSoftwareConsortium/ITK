@@ -52,21 +52,21 @@ namespace itk{
 
 /** /class FuzzyConnectednessRGBImageFilter
  * 
- * Perform the segmentation by three channel(RGB) fuzzy connectedness.  Used
- * as a node of the segmentation toolkits.  The Basic concept here is the
- * fuzzy affinity which is defined between two neighbor pixels, it reflects
- * the similarity and possibility of these two pixels to be in the same
- * object.  A "path" between two pixels is a list of pixels that connect
- * them, the stregth of a particular path was defined as the weakest affinity
- * between the neighbor pixels that form the path.  The fuzzy connectedness
- * between two pixels is defined as the strongest path stregth between these
+ * Perform the segmentation for three channels (RGB) image 
+ * via thresholding of a fuzzy connectedness scene. 
+ * Used as a node of the segmentation toolkit.
+ * Fuzzy affinity is defined between two neighboor pixels, to reflect
+ * their similarity and assign a probability that these two pixels belong to the
+ * same object.  A "path" between two pixels is a list of pixels that connect
+ * them, the strength of a particular path is defined as the weakest affinity
+ * between the neighboor pixels that form the path. The fuzzy connectedness
+ * between two pixels is defined as the strongest path strength between these
  * two pixels.  The segmentation based on fuzzy connectedness assumes that
- * the fuzzy connectedness between any two pixels is significantly higher
- * than those belongs to different objects.  A fuzzy connectedness scene was
- * first computed, which is the fuzzy connectedness value to a preset seed
- * point believed to be inside the object of interest.  then a threshold was
- * applied to obtain the binary segmented object.
- * 
+ * the fuzzy connectedness between any two pixels from a single object 
+ * is significantly higher than those for pixels belonging to different objects.  
+ * A fuzzy connectedness scene is first computed for a set of input seed
+ * points selected inside the object of interest.  A threshold is then
+ * applied to the fuzzy scene to extract the binary segmented object.
  * The fuzzy affinity here was defined as a gaussian function of the pixel difference
  * and the difference of the estimated object mean and the mean of the two input
  * pixels ( in a vectorial fashion).
@@ -81,16 +81,21 @@ namespace itk{
  *    MakeSegmentObject() should be called to get the updated result.
  * 5. use GetOutput to obtain the resulted binary image Object.
  * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the 
- *    fuzzy scene.
+ *    fuzzy scene.*
  *
- * Detail information about this algorithm can be found in:
+ * Input Parameters are:
+ * (1) Input image in the form  itkImage<itkVector<Pixeltype,3>,Dimension>
+ * (2) Seed points
+ * (3) Threshold value.
+ * 
+ * The fuzzy scene can also be extracted with the GetFuzzyScene method.
+ *
+ * Detailed information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
  *  Graphical Models and Image Processing, Vol.58, No.3. pp 246-261, 1996.
  *
- * the input image should be in the form of:
- *  itkImage<itkVector<Pixeltype,3>,2>
- *
+ * 
  * \ingroup FuzzyConnectednessSegmentation */
 
 template <class TInputImage, class TOutputImage>
@@ -115,7 +120,7 @@ public:
   /** The pixel type. */
   typedef typename TInputImage::PixelType PixelType;
 
-  /** Setting and geting the segmentation parameters. */
+  /** Setting and getting the segmentation parameters. */
   itkSetVectorMacro(Mean,double,3);
   void GetMean(double omean[3])
     {
@@ -159,7 +164,7 @@ protected:
  
 private:
   double m_Mean[3];
-  double m_Var[3][3]; //covariance matrix of the RGB channels.(estimated)
+  double m_Var[3][3]; 
   double m_DiffMean[3];
   double m_DiffVar[3][3];
   double m_VarInverse[3][3];
@@ -171,7 +176,7 @@ private:
 };
 
 
-} // end namespace itk
+} /** end namespace itk. */
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFuzzyConnectednessRGBImageFilter.txx"
