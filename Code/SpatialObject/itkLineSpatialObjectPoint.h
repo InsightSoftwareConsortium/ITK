@@ -34,7 +34,7 @@ namespace itk
 * A LineSpatialObjectPoint has NDimension-1 normals. 
 */ 
 template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT LineSpatialObjectPoint 
+class LineSpatialObjectPoint 
 : public SpatialObjectPoint<TPointDimension>
 {
 
@@ -42,15 +42,15 @@ public:
 
   typedef LineSpatialObjectPoint                      Self;
   typedef SpatialObjectPoint<TPointDimension>         Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef const SmartPointer< const Self >            ConstPointer;
   typedef Point< double, TPointDimension >            PointType;
   typedef CovariantVector<double,TPointDimension>     VectorType;
   typedef FixedArray<VectorType,TPointDimension-1> NormalArrayType;
 
-  itkNewMacro( LineSpatialObjectPoint );
+  /** Constructor. This one defines the # of dimensions in the LineSpatialObjectPoint */
+  LineSpatialObjectPoint( void );
 
-  itkTypeMacro( LineSpatialObjectPoint, SpatialObjectPoint );
+  /** Default destructor. */
+  ~LineSpatialObjectPoint( void );
 
   /** Get Normal */
   const VectorType & GetNormal( unsigned int index ) const;
@@ -62,12 +62,6 @@ public:
   Self & operator=(const LineSpatialObjectPoint & rhs);
 
 protected:
-
-  /** Constructor. This one defines the # of dimensions in the LineSpatialObjectPoint */
-  LineSpatialObjectPoint( void );
-
-  /** Default destructor. */
-  ~LineSpatialObjectPoint( void );
 
   NormalArrayType m_NormalArray;
 
