@@ -55,6 +55,12 @@ public:
   unsigned short PlanarConfig;
   unsigned short Orientation;
   unsigned long int TileDepth;
+  unsigned int TileRows;
+  unsigned int TileColumns;
+  unsigned int TileWidth;
+  unsigned int TileHeight;
+  unsigned short NumberOfTiles;
+
   float XResolution;
 };
 
@@ -100,6 +106,11 @@ void TIFFReaderInternal::Clean()
   this->CurrentPage = 0;
   this->NumberOfPages = 0;
   this->XResolution = 0.0;
+  this->NumberOfTiles = 0;
+  this->TileRows = 0;
+  this->TileColumns = 0;
+  this->TileWidth = 0;
+  this->TileHeight = 0;
 }
 
 TIFFReaderInternal::TIFFReaderInternal()
@@ -135,6 +146,25 @@ int TIFFReaderInternal::Initialize()
           }
         }
       }
+
+    // If the number of pages is still zero we look if the image is tiled
+    if(this->NumberOfPages == 0 && TIFFIsTiled(this->Image))
+      {
+      this->NumberOfTiles = TIFFNumberOfTiles(this->Image);
+      
+      if ( !TIFFGetField(this->Image,TIFFTAG_TILEWIDTH,&this->TileWidth)
+        || !TIFFGetField(this->Image,TIFFTAG_TILELENGTH,&this->TileHeight)
+        )
+        {
+        std::cout << "Error: Cannot read tile width and tile length from file" << std::endl;
+        }
+      else
+        {
+        TileRows = this->Height/this->TileHeight;
+        TileColumns = this->Width/this->TileWidth;
+        }
+      }
+
 
 
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
@@ -443,7 +473,44 @@ unsigned int TIFFImageIO::GetFormat( )
   return this->ImageFormat;
 }
 
+/** Read a tiled tiff */  
+void TIFFImageIO::ReadTiles(void* buffer)
+{
+  unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
 
+  for(unsigned int col = 0;col<m_InternalImage->Width;col+=m_InternalImage->TileWidth)
+    {
+    for(unsigned int row = 0;row<m_InternalImage->Height;row+=m_InternalImage->TileHeight)
+      {
+      unsigned char *tempImage;
+      tempImage = new unsigned char[ m_InternalImage->TileWidth * m_InternalImage->TileHeight * m_InternalImage->SamplesPerPixel];
+
+      if(TIFFReadTile(m_InternalImage->Image,tempImage, col,row,0,0)<0)
+        {
+        std::cout << "Cannot read tile : "<< row << "," << col << " from file" << std::endl;
+        if ( tempImage != buffer )
+          {
+          delete [] tempImage;
+          }
+      
+        return;
+        }
+
+      int xx, yy;
+      for ( yy = 0; yy < m_InternalImage->TileHeight; yy++ )
+        {
+        for ( xx = 0; xx <  m_InternalImage->TileWidth; xx++ )
+          {
+          for(unsigned int i=0;i< m_InternalImage->SamplesPerPixel;i++)
+            {
+            *volume = *(tempImage++);
+            volume++;
+            }
+          }
+        }
+      }
+    }
+}
 
 /** Read a multipage tiff */  
 void TIFFImageIO::ReadVolume(void* buffer)
@@ -537,6 +604,13 @@ void TIFFImageIO::Read(void* buffer)
   if(m_InternalImage->NumberOfPages>0)
     {
     this->ReadVolume(buffer);
+    return;
+    }
+
+  
+  if(m_InternalImage->NumberOfTiles>0)
+    {
+    this->ReadTiles(buffer);
     return;
     }
 
@@ -704,6 +778,17 @@ void TIFFImageIO::ReadImageInformation()
      {
      this->SetNumberOfDimensions(3);
      m_Dimensions[2] = m_InternalImage->NumberOfPages;
+     m_Spacing[2] = 1.0;
+     m_Origin[2] = 0.0;
+     }
+
+   // if the tiff is tiled
+   if(m_InternalImage->NumberOfTiles>0)
+     {
+     this->SetNumberOfDimensions(3);
+     m_Dimensions[0] = m_InternalImage->TileWidth;
+     m_Dimensions[1] = m_InternalImage->TileHeight;
+     m_Dimensions[2] = m_InternalImage->NumberOfTiles;
      m_Spacing[2] = 1.0;
      m_Origin[2] = 0.0;
      }

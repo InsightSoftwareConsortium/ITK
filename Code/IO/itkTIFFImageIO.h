@@ -63,8 +63,11 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Reads 3D data from multiple files assuming one slice per file. */
+  /** Reads 3D data from nulti-pages tiff. */
   virtual void ReadVolume(void* buffer);
+
+  /** Reads 3D data from tiled tiff*/
+  virtual void ReadTiles(void* buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
