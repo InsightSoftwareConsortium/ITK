@@ -39,11 +39,12 @@ proc FindTests { Path } \
 {
   global TestList
   set Tests [GetCMakeVariable TESTS]
-  # puts "Tests: $Tests"
+  puts "Tests: $Tests"
   foreach Test $Tests \
   {
     lappend TestList "[file join $Path $Test]"
   }
+  puts "SUBDIRS: [GetCMakeVariable SUBDIRS]"
   foreach SubDir [GetCMakeVariable SUBDIRS] \
   {
     cd $SubDir

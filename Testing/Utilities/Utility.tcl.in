@@ -555,14 +555,17 @@ proc GetCMakeVariable { Variable } \
   set f [open CMakeLists.txt r]
   set Contents [read $f]
   close $f
-  regsub -all "\\\\\n" $Contents "" Contents
+  # puts $Contents
+  regsub -all "\n" $Contents " " C1
+  # puts $C1
+  regsub -all {\)} $C1 ")\n " C
+  set Contents $C
+  
   foreach Line [split $Contents "\n"] \
   {
     if { [string first $Variable $Line] != -1 } \
     {
-      
       set i [expr [string first "(" $Line] + 1]
-      
       set l [string trim [string range $Line $i end]]
       set l [string trim $l "()"]
       return $l

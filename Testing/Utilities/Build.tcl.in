@@ -191,6 +191,7 @@ for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
   if { $ErrorList($i,SourceFile) != "" } \
   {
     puts $Out "\t\t<SourceFile>[XMLSafeString $ErrorList($i,SourceFile)]</SourceFile>"
+    puts $Out "\t\t<SourceFileTail>[XMLSafeString [file tail $ErrorList($i,SourceFile)]]</SourceFileTail>"
     puts $Out "\t\t<SourceLineNumber>$ErrorList($i,SourceLineNumber)</SourceLineNumber>"
   }
   puts -nonewline $Out "\t\t<PreContext>"
