@@ -15,6 +15,21 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginLatex
+//  
+//  This example illustrates the use of the Confidence connected concept
+//  applied to images with vector pixel types. The Confidence connected
+//  algorithm is implemented for vector images in the class
+//  \doxygen{VectorConfidenceConnected}. The basic difference between the
+//  scalar and vector version is that the vector version uses the covariance
+//  matrix instead of a variance, and a vector mean instead of a scalar mean.
+//  The membership of a vector pixel value to the region is measured using the
+//  Mahalanobis distance as implemented in the class
+//  \subdoxyge{Statistics}{MahalanobisDistanceImageFunction}.
+//
+//  Software Guide : EndLatex 
+
+
 
 // Software Guide : BeginCodeSnippet
 #include "itkVectorConfidenceConnectedImageFilter.h"
