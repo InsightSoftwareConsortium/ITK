@@ -99,7 +99,7 @@ public:
                        VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
-  typedef std::list< Self * > ChildrenListType; 
+  typedef std::list< Pointer > ChildrenListType; 
   typedef ChildrenListType* ChildrenListPointer; 
    
   /** Index typedef support. An index is used to access pixel values. */
