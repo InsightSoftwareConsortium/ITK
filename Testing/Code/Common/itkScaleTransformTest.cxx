@@ -192,7 +192,7 @@ int main(int argc,char *argv[])
       {
         q[j] = p[j] / iscale[j];
       }
-      TransformType::OutputVectorType r;
+      TransformType::OutputCovariantVectorType r;
       r = scaleTransform->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
       {
