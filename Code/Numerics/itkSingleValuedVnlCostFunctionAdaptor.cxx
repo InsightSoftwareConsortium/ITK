@@ -41,8 +41,7 @@ SingleValuedVnlCostFunctionAdaptor
     {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
-    ex.SetDescription("Attempt to use a SingleValuedVnlCostFunctionAdaptor 
-        without any CostFunction plugged in");
+    ex.SetDescription("Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
     throw ex;
     }
 
