@@ -197,7 +197,7 @@ void VTKImageIO::Read(void* buffer)
   float origin[3];
   file.getline(line,255);
   text = line;
-  int i;
+  unsigned int i;
 
   if ( text.find("DIMENSIONS") < text.length() || 
        text.find("dimensions") < text.length() )
