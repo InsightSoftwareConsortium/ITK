@@ -56,6 +56,58 @@ double F( itk::Vector<double,3> & v );
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
  *  One image is rotated and shifted relative to the other.
+ *
+ * Notes
+ * =====
+ * This example performs an rigid registration
+ * between a 3D fixed (target) image and 3D moving (source) image 
+ * using mutual information.
+ * It uses the optimization method of Viola and Wells to find the
+ * best rigid transform to register the moving image onto the fixed
+ * image. 
+ *
+ * The mutual information value and its derivatives are estimated
+ * using spatial sampling. The performance
+ * of the registration depends on good choices of the parameters
+ * used to estimate the mutual information. Refer to the documentation
+ * for MutualInformationImageToImageMetric for details on these
+ * parameters and how to set them.
+ *
+ * The registration uses a simple stochastic gradient ascent scheme. Steps
+ * are repeatedly taken that are proportional to the approximate
+ * deriviative of the mutual information with respect to the rotation
+ * transform parameters. The stepsize is governed by the LearningRate
+ * parameter.
+ *
+ * In this example, the rigid transformation is represent by a vector
+ * of 7 doubles. The first 4 parameters defines the 
+ * quaternion and the last 3 parameters the translation in each dimension.
+ * Since the parameters of the rotation part is different in magnitude
+ * to the parameters in the offset part, scaling is required
+ * to improve convergence. The scaling can set via the optimizer.
+ *
+ * NB: In the Viola and Wells paper, the scaling is specified by
+ * using different learning rates for the linear and offset part.
+ * The following formula translate their scaling parameters to
+ * those used in this framework:
+ *
+ * LearningRate = lambda_R
+ * TranslationScale = sqrt( lambda_T / lambda_R );
+ *
+ * In the optimizer's scale transform set the scaling for
+ * all the translation parameters to TranslationScale^{-2}.
+ * Set the scale for all other parameters to 1.0.
+ *
+ * Note: the optimization performance can be improved by 
+ * setting the image origin to center of mass of the image.
+ *
+ * Implementaton of this class is based on:
+ * Viola, P. and Wells III, W. (1997).
+ * "Alignment by Maximization of Mutual Information"
+ * International Journal of Computer Vision, 24(2):137-154
+ *
+ * Caveat: this exampe only work for 3D images
+ *
  */ 
 
 int main()

@@ -56,8 +56,53 @@ double F( itk::Vector<double,3> & v );
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
  *  One image is scaled and shifted relative to the other.
+ *
+ * Notes:
+ * =======
+ * This example performs an affine registration
+ * between a moving (source) and target (fixed) image using mutual information.
+ * It uses the optimization method of Viola and Wells to find the
+ * best affine transform to register the moving image onto the fixed
+ * image. 
+ *
+ * The mutual information value and its derivatives are estimated
+ * using spatial sampling. The performance
+ * of the registration depends on good choices of the parameters
+ * used to estimate the mutual information. Refer to the documentation
+ * for MutualInformationImageToImageMetric for details on these
+ * parameters and how to set them.
+ *
+ * The registration uses a simple stochastic gradient ascent scheme. Steps
+ * are repeatedly taken that are proportional to the approximate
+ * deriviative of the mutual information with respect to the affine
+ * transform parameters. The stepsize is governed by the LearningRate
+ * parameter.
+ *
+ * Since the parameters of the linear part is different in magnitude
+ * to the parameters in the offset part, scaling is required
+ * to improve convergence. The scaling can set via the optimizer.
+ *
+ * NB: In the Viola and Wells paper, the scaling is specified by
+ * using different learning rates for the linear and offset part.
+ * The following formula translate their scaling parameters to
+ * those used in this framework:
+ *
+ * LearningRate = lambda_R
+ * TranslationScale = sqrt( lambda_T / lambda_R );
+ *
+ * In the optimizer's scale transform set the scaling for
+ * all the translation parameters to TranslationScale^{-2}.
+ * Set the scale for all other parameters to 1.0.
+ *
+ * Note: the optimization performance can be improved by 
+ * setting the image origin to center of mass of the image.
+ *
+ * Implementaton of this example and related components are based on:
+ * Viola, P. and Wells III, W. (1997).
+ * "Alignment by Maximization of Mutual Information"
+ * International Journal of Computer Vision, 24(2):137-154
+ * 
  */ 
-
 int main()
 {
 
