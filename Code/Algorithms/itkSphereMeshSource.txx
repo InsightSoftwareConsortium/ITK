@@ -117,28 +117,36 @@ SphereMeshSource<TOutputMesh>
     ++point;
   }
 
-  /* Cells allocation. */
-  this->GetOutput()->GetCells()->Reserve(numcells);
+  /* Cells container allocation. */
+  CellsContainerPointer cells = CellsContainer::New();
+  cells->Reserve( numcells );
+  this->GetOutput()->SetCells( cells );
+
+  /* Cell data container allocation. */
+  CellDataContainerPointer celldata = CellDataContainer::New();
+  celldata->Reserve( numcells );
+  this->GetOutput()->SetCellData( celldata );
+
   p = 0;
   TriCellPointer testCell(TriCell::New());
 
   /* Store all regular cells. */
-  for(unsigned int i=0; i < m_ResolutionX-1 ; i++) {
+  for(unsigned int i=0; i+1 < m_ResolutionX ; i++) {
     for (unsigned int j=0; j<m_ResolutionY; j++) {
       jn = (j+1)%m_ResolutionY; 
       tripoints[0] = i*m_ResolutionY+j; 
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
-      this->GetOutput()->SetCell(p, testCell);
-      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
+      cells->SetElement(p, testCell);
+      celldata->SetElement(p, (OPixelType)3.0);
       p++;
       testCell = TriCell::New();
       tripoints[0] = tripoints[1]; 
       tripoints[1] = tripoints[0]+m_ResolutionY; 
       testCell->SetPointIds(tripoints);
-      this->GetOutput()->SetCell(p, testCell);
-      this->GetOutput()->SetCellData(p, (OPixelType)3.0);
+      cells->SetElement(p, testCell);
+      celldata->SetElement(p, (OPixelType)3.0);
       p++;
       testCell = TriCell::New();
     }
@@ -151,8 +159,8 @@ SphereMeshSource<TOutputMesh>
     tripoints[1] = jn; 
     tripoints[2] = j; 
     testCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(p, testCell);
-    this->GetOutput()->SetCellData(p, (OPixelType)1.0);
+    cells->SetElement(p, testCell);
+    celldata->SetElement(p, (OPixelType)1.0);
     p++;
     testCell = TriCell::New();
   }
@@ -164,8 +172,8 @@ SphereMeshSource<TOutputMesh>
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
     testCell->SetPointIds(tripoints);
-    this->GetOutput()->SetCell(p, testCell);
-    this->GetOutput()->SetCellData(p, (OPixelType)2.0);
+    cells->SetElement(p, testCell);
+    celldata->SetElement(p, (OPixelType)2.0);
     p++;
     testCell = TriCell::New();
   }
