@@ -117,7 +117,7 @@ ImageToImageTranslationMeanSquaresRegistration<TReference, TTarget>
   /* Initialize the Offset */ 
   for (unsigned int k=0; k<TReference::ImageDimension; k++)
   { 
-    m_Parameters[ k++ ] = 0;
+    m_Parameters[ k ] = 0;
   }
 
   m_Mapper->SetTransformation(m_Transformation);
