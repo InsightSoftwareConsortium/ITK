@@ -263,7 +263,7 @@ unsigned long
 VectorContainer< TElementIdentifier , TElement >
 ::Size(void) const
 {
-  return this->VectorType::size();
+  return static_cast<unsigned long>( this->VectorType::size() );
 }
 
 

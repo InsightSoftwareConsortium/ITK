@@ -42,11 +42,11 @@ Mesh<TPixelType, VDimension, TMeshTraits>
        << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
     os << indent << "Size of Cell Data Container: " 
        << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
-    os << indent << "Size of boundary container vector: " << m_BoundariesContainers.size() << std::endl;
+    os << indent << "Size of boundary container vector: " << static_cast<unsigned long>(m_BoundariesContainers.size()) << std::endl;
     os << indent << "Size of boundaries data container vector: " 
-       << m_BoundaryDataContainers.size() << std::endl;
-    os << indent << "Number of explicet cell boundary assignments: " 
-       << m_BoundaryAssignmentsContainers.size() << std::endl;
+       << static_cast<unsigned long>( m_BoundaryDataContainers.size() ) << std::endl;
+    os << indent << "Number of explicit cell boundary assignments: " 
+       << static_cast<unsigned long>( m_BoundaryAssignmentsContainers.size() ) << std::endl;
 
   os << indent << "Requested Number Of Regions: " 
   << m_RequestedNumberOfRegions << std::endl;
@@ -1166,7 +1166,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(void)
 {
   itkDebugMacro("Mesh  ReleaseBoundariesMemory method ");
-  const unsigned int numberOfBoundaryDimension = m_BoundariesContainers.size();
+  const unsigned int numberOfBoundaryDimension = 
+             static_cast<unsigned int>( m_BoundariesContainers.size() );
 
   if( numberOfBoundaryDimension == 0 )
     {

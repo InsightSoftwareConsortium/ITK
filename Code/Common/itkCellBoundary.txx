@@ -77,7 +77,7 @@ unsigned int
 CellBoundary<TCell>
 ::GetNumberOfUsingCells(void)
 {
-  return m_UsingCells.size();
+  return static_cast<unsigned int>( m_UsingCells.size() );
 }
 
 
