@@ -32,7 +32,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 
-#define DEBUG_SPLINE
+// #define DEBUG_SPLINE
 
 namespace itk  
 { 
@@ -285,19 +285,29 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   //
   // Form basis function matrix
   //
-  int num_basis_functions = 2 * m_SplineOrder - 1;
+  //int num_basis_functions = 2 * m_SplineOrder - 1;
+  //int num_basis_functions = m_Points.size();
+  int num_rows = m_Points.size();
 
-  vnl_matrix<double> N_matrix(m_Points.size(), num_basis_functions);
+  //
+  // Assumes multiplicity k (m_SplineOrder at the ends).
+  //
+  int num_cols = m_Knots.size() - m_SplineOrder;
 
-  for (int r = 0; r < m_Points.size(); r++)
+  vnl_matrix<double> N_matrix(num_rows, num_cols);
+
+  //N_matrix(0, 0) = 1.0;
+
+  for (int r = 0; r < num_rows; r++)
     {
-    for (int c = 0; c < num_basis_functions; c++)
+    for (int c = 0; c < num_cols; c++)
       {
       double t = m_CumulativeChordLength[r];
       N_matrix(r, c) = NonUniformBSplineFunctionRecursive(m_SplineOrder, c, t);
       }
     }
-  N_matrix(m_Points.size()-1, num_basis_functions-1) = 1.0;
+
+  N_matrix(num_rows-1, num_cols-1) = 1.0;
 
 #ifdef DEBUG_SPLINE
   std::cout << "Basis function matrix : " << std::endl;
@@ -314,7 +324,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   m_ControlPoints.clear();
 
   int j = 0;
-  for (j = 0; j < m_Points.size(); j++)
+  for (j = 0; j < B.rows(); j++)
     {
     vnl_vector<double> v = B.get_row(j);
     itk::Vector<double> iv;
