@@ -208,6 +208,7 @@ private:
 
   ImagePointer m_Image ;
   PixelContainerPointer m_PixelContainer ;
+  bool m_UseBuffer ;
 } ; // end of class ImageToListAdaptor
 
 } // end of namespace Statistics

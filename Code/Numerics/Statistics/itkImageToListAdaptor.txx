@@ -38,6 +38,14 @@ ImageToListAdaptor< TImage >
 { 
   m_Image = image ; 
   m_PixelContainer = image->GetPixelContainer() ;
+  if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 )
+    {
+    m_UseBuffer = false ;
+    }
+  else
+    {
+    m_UseBuffer = true ;
+    }
 }
 
 template < class TImage >
@@ -72,7 +80,14 @@ inline typename ImageToListAdaptor< TImage >::MeasurementVectorType&
 ImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
-  return (*m_PixelContainer)[id] ;
+  if ( m_UseBuffer )
+    {
+    return (*m_PixelContainer)[id] ;
+    }
+  else
+    {
+    return m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ;
+    }
 }
 
 template < class TImage >
