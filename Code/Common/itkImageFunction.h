@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObject.h"
 #include "itkIndex.h"
+#include "itkPoint.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -133,6 +134,13 @@ public:
    * Evaluate the function at specified index
    */
   virtual TOutput Evaluate( const IndexType& index ) const = 0;
+
+  /**
+   * Evaluate the function at a Point position
+   */
+  virtual TOutput Evaluate( const PointType & point ) const {};
+
+
 
 protected:
 
