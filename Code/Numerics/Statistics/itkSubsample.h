@@ -83,12 +83,15 @@ public:
     return size ;
   }
   
+  size_t GetNumberOfInstances() ;
+
   /** returns SizeValueType value that is the number of elements in the
    * 'dimension' dimension. */
   SizeValueType GetSize(unsigned int dimension) 
   { return m_IdHolder.size() ; }
 
-  /** retunrs the measurement of the instance which is identified by the 'id' */
+  /** retunrs the measurement of the instance which is identified 
+   * by the 'id' */
   MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id)
   { return m_Sample->GetMeasurementVector(id) ; }
 

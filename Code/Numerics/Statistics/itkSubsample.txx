@@ -29,6 +29,14 @@ Subsample< TSample >
 }
 
 template< class TSample >
+size_t
+Subsample< TSample >
+::GetNumberOfInstances()
+{
+  return m_Sample->GetNumberOfInstances() ;
+}
+
+template< class TSample >
 void
 Subsample< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
