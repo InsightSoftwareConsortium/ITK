@@ -592,7 +592,22 @@ SpatialObject< NDimensions, SpaceDimension>
   return latestTime;  
 }
 
-/** Compute boundary of the object */
+/** 
+ * Compute an axis-aligned bounding box for an object and its selected
+ * children, down to a specified depth.  Once this function is called
+ * with a specific value of \p depth and \p name, future calls,
+ * irrespective of the parameters, will leave the bounding box
+ * unchanged until the spatial object is modified and the modification
+ * time updated.
+ * \param depth Include children down to this depth.  If \p depth = 0,
+ * include only the object itself.
+ * \param name Include only objects whose type string contains \p
+ * name.  
+ * \return \c true if, after the function completes, the bounding box
+ * reflects object information, and \c false if the bounding box is
+ * still in an initial state.  The return value is mainly used by recursive
+ * calls of this function.
+ */
 template< unsigned int NDimensions, unsigned int SpaceDimension >
 bool
 SpatialObject< NDimensions, SpaceDimension>
