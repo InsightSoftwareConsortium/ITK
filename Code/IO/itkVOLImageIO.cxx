@@ -142,16 +142,8 @@ void VOLImageIO::Load(void* buffer)
 			}
 		}
 	delete imgset;
-	m_Spacing[0] = 1.0;
-  m_Spacing[1] = 1.0;
-	m_Spacing[2] = 1.0;
-  m_Spacing[3] = 1.0;
-	
 
-  m_Origin[0] = 0.0;
-  m_Origin[1] = 0.0;
-  m_Origin[2] = 0.0;
-  m_Origin[3] = 0.0;
+	
 
 }
 
@@ -292,6 +284,16 @@ void VOLImageIO::ReadImageInformation()
 	this->m_Dimensions[1] = el_lines * 4;
 	this->m_Dimensions[2] = EchoLPF;
 	this->m_Dimensions[3] = numEchoFrames;
+
+	this->m_Spacing[0] = az_angular_separation;
+	this->m_Spacing[1] = el_angular_separation;
+	this->m_Spacing[2] = sampleSize;
+  this->m_Spacing[3] = 1.0;
+
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
+  m_Origin[2] = 0.0;
+  m_Origin[3] = 0.0;
 
 	m_Strides.resize(5);
 
