@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkVector.h" 
 #include "itkNumericTraits.h" 
+#include "itkExceptionObject.h"
 
 
 namespace itk
@@ -307,7 +308,6 @@ Versor<T>
 {
 
   const ValueType sinangle2 =  axis.GetNorm();
-
   if( sinangle2 > 1.0 )
    {
    ExceptionObject exception;
