@@ -107,19 +107,22 @@ int main( int argc, char ** argv )
   writer->SetFileName( outputFilename );
   // Software Guide : EndCodeSnippet
 
-  reader->Update();
 
   ImageType::Pointer image = reader->GetOutput();
+  
+  writer->SetInput( image );
 
-  image->Print( std::cout );
 
-  writer->SetImageIO( itk::MetaImageIO::New() );
+  //  Software Guide : BeginLatex
+  //
+  //  Finally, execution of the pipeline can be triggered by invoking the
+  //  \code{Update()} method in the writer.
+  //
+  //  Software Guide : EndLatex 
 
-  writer->SetInput( reader->GetOutput() );
-
+  // Software Guide : BeginCodeSnippet
   writer->Update();
-
-
+  // Software Guide : EndCodeSnippet
 
 
 
