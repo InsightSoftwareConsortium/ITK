@@ -120,6 +120,13 @@ public:
    */
   vnl_vector<Float> ComputeShapeFunctionsAt(Float[]) const;
 
+  /** 
+   * Function that computes the shape functions defining
+   * the geometry of this finite element at a given point.
+   */
+  VectorType ShapeFunctions( const VectorType& pt ) const;
+
+
  /** This method interpolates a scalar function from values of that function at the nodes.  
   *   The interpolation is done with the shape functions
   */

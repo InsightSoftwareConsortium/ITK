@@ -85,10 +85,8 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
 
   vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // solution at the local point
   vnl_vector_fixed<Float,ImageDimension> Gpt(0.0);  // global position given by local point
-  Float Pos[ImageDimension];  // solution at the point
+  vnl_vector<Float> Pos(0.0,ImageDimension);  // solution at the point
   
-  for (int j=0; j<ImageDimension; j++) Pos[j]=0.0;
-
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
@@ -97,7 +95,7 @@ LoadImageMetric<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
     unsigned int sfsz= (*elt)->GetNumberOfNodes();
 
     vnl_vector<Float> shapeF( sfsz );
-    shapeF=(*elt)->ComputeShapeFunctionsAt(Pos);
+    shapeF=(*elt)->ShapeFunctions(Pos);
     
     for (unsigned int ii=0; ii < ImageDimension; ii++)
     { 

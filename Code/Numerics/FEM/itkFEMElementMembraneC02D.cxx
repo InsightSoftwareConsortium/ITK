@@ -247,6 +247,34 @@ void MembraneC02D::Draw(CDC* pDC, Solution::ConstPointer sol) const
 #endif
 
 
+vnl_vector<MembraneC02D::Float> MembraneC02D::ShapeFunctions
+( const vnl_vector<MembraneC02D::Float>& x ) const
+{
+ /* Linear quadrilateral element has four shape functions  */
+  vnl_vector<Float> shapeF(4);
+  
+  /*
+   * Linear quadrilateral element has local coordinates
+   * (-1,-1), (1,-1), (1,1), and (-1,1)
+   */
+  
+  /* given local point x=(r,s), where -1 <= r,s <= 1 and */
+
+  /* shape function 1: ((1 - r) * (1 - s)) / 4  (node 1) */
+  shapeF[0] = (1 - x[0]) * (1 - x[1]) * .25;
+
+  /* shape function 2: ((1 + r) * (1 - s)) / 4  (node 2) */
+  shapeF[1] = (1 + x[0]) * (1 - x[1]) * .25;
+
+  /* shape function 3: ((1 + r) * (1 + s)) / 4  (node 3) */
+  shapeF[2] = (1 + x[0]) * (1 + x[1]) * .25;
+
+  /* shape function 1: ((1 - r) * (1 + s)) / 4  (node 4) */
+  shapeF[3] = (1 - x[0]) * (1 + x[1]) * .25;
+
+  return shapeF;
+}
+
 /**
  * Returns a vector with global point p corresponding to
  * local point x in the cell.
