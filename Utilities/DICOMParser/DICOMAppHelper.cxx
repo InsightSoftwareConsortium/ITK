@@ -667,7 +667,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 
       this->ImageDataType = DICOMParser::VR_OB;
       this->ImageDataLengthInBytes = numPixels * sizeof(char);
-      char newCharPixel = 0;
+      char newCharPixel;
 
       for (int i = 0; i < numPixels; i++)
         {
