@@ -17,6 +17,8 @@
 #ifndef __itkAffineTransform_h
 #define __itkAffineTransform_h
 
+#include <iostream>
+
 #include "itkMatrix.h"
 #include "itkTransformation.h"
 #include "itkExceptionObject.h"
@@ -456,7 +458,7 @@ private:
  * the conventional homogeneous coordinate representation,
  * except that the last row is omitted.
  **/
-template<class ScalarType, int NDimensions>
+template<class ScalarType, unsigned int NDimensions>
 inline
 std::ostream &
 operator<< (std::ostream &s, AffineTransform<ScalarType, NDimensions> &affine)
