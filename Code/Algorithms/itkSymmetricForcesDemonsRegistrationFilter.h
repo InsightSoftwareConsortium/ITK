@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSymmetricalDemonsRegistrationFilter.h
+  Module:    itkSymmetricForcesDemonsRegistrationFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSymmetricalDemonsRegistrationFilter_h_
-#define _itkSymmetricalDemonsRegistrationFilter_h_
+#ifndef _itkSymmetricForcesDemonsRegistrationFilter_h_
+#define _itkSymmetricForcesDemonsRegistrationFilter_h_
 
 #include "itkPDEDeformableRegistrationFilter.h"
-#include "itkSymmetricalDemonsRegistrationFunction.h"
+#include "itkSymmetricForcesDemonsRegistrationFunction.h"
 
 namespace itk {
 
-/** \class SymmetricalDemonsRegistrationFilter
+/** \class SymmetricForcesDemonsRegistrationFilter
  * \brief Deformably register two images using the demons algorithm.
  *
  * This class was contributed by Corinne Mattmann, ETH Zurich, Switzerland.
@@ -30,7 +30,7 @@ namespace itk {
  * is to use equation (5) from Thirion's paper along with the modification for
  * avoiding large deformations when gradients have small values.
  *
- * SymmetricalDemonsRegistrationFilter implements the demons deformable algorithm that 
+ * SymmetricForcesDemonsRegistrationFilter implements the demons deformable algorithm that 
  * register two images by computing the deformation field which will map a 
  * moving image onto a fixed image.
  *
@@ -59,19 +59,19 @@ namespace itk {
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  * 
- * \sa SymmetricalDemonsRegistrationFunction 
+ * \sa SymmetricForcesDemonsRegistrationFunction 
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT SymmetricalDemonsRegistrationFilter : 
+class ITK_EXPORT SymmetricForcesDemonsRegistrationFilter : 
     public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                             TDeformationField>
 {
 public:
   /** Standard class typedefs. */
-  typedef SymmetricalDemonsRegistrationFilter    Self;
+  typedef SymmetricForcesDemonsRegistrationFilter    Self;
   typedef PDEDeformableRegistrationFilter<
     TFixedImage, TMovingImage,TDeformationField>    Superclass;
   typedef SmartPointer<Self> Pointer;
@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SymmetricalDemonsRegistrationFilter, 
+  itkTypeMacro( SymmetricForcesDemonsRegistrationFilter, 
                 PDEDeformableRegistrationFilter );
 
   /** FixedImage image type. */
@@ -103,12 +103,12 @@ public:
   FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
-  typedef SymmetricalDemonsRegistrationFunction<FixedImageType,MovingImageType,
+  typedef SymmetricForcesDemonsRegistrationFunction<FixedImageType,MovingImageType,
                                      DeformationFieldType>  DemonsRegistrationFunctionType;
 
 protected:
-  SymmetricalDemonsRegistrationFilter();
-  ~SymmetricalDemonsRegistrationFilter() {}
+  SymmetricForcesDemonsRegistrationFilter();
+  ~SymmetricForcesDemonsRegistrationFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
   { Superclass::PrintSelf( os, indent ); }
 
@@ -116,7 +116,7 @@ protected:
   virtual void InitializeIteration();
 
 private:
-  SymmetricalDemonsRegistrationFilter(const Self&); //purposely not implemented
+  SymmetricForcesDemonsRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
@@ -125,7 +125,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricalDemonsRegistrationFilter.txx"
+#include "itkSymmetricForcesDemonsRegistrationFilter.txx"
 #endif
 
 #endif

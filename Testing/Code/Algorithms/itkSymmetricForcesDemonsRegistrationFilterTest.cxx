@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSymmetricalDemonsRegistrationFilterTest.cxx
+  Module:    itkSymmetricForcesDemonsRegistrationFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,7 +17,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkSymmetricalDemonsRegistrationFilter.h"
+#include "itkSymmetricForcesDemonsRegistrationFilter.h"
 
 #include "itkIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -91,7 +91,7 @@ TImage *output )
 
 }
 
-int itkSymmetricalDemonsRegistrationFilterTest(int, char* [] )
+int itkSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 {
 
   typedef unsigned char PixelType;
@@ -156,7 +156,7 @@ int itkSymmetricalDemonsRegistrationFilterTest(int, char* [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::SymmetricalDemonsRegistrationFilter<ImageType,ImageType,FieldType> 
+  typedef itk::SymmetricForcesDemonsRegistrationFilter<ImageType,ImageType,FieldType> 
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSymmetricalDemonsRegistrationFilter.txx
+  Module:    itkSymmetricForcesDemonsRegistrationFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSymmetricalDemonsRegistrationFilter_txx
-#define _itkSymmetricalDemonsRegistrationFilter_txx
-#include "itkSymmetricalDemonsRegistrationFilter.h"
+#ifndef _itkSymmetricForcesDemonsRegistrationFilter_txx
+#define _itkSymmetricForcesDemonsRegistrationFilter_txx
+#include "itkSymmetricForcesDemonsRegistrationFilter.h"
 
 namespace itk {
 
@@ -24,8 +24,8 @@ namespace itk {
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-SymmetricalDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
-::SymmetricalDemonsRegistrationFilter()
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SymmetricForcesDemonsRegistrationFilter()
 {
  
   typename DemonsRegistrationFunctionType::Pointer drfp;
@@ -42,7 +42,7 @@ SymmetricalDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-SymmetricalDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+SymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
 

@@ -37,7 +37,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkSymmetricalDemonsRegistrationFilter.h"
+#include "itkSymmetricForcesDemonsRegistrationFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkWarpImageFilter.h"
@@ -180,17 +180,17 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{SymmetricalDemonsRegistrationFilter}, the deformation field is
+  // In the \doxygen{SymmetricForcesDemonsRegistrationFilter}, the deformation field is
   // represented as an image whose pixels are floating point vectors.
   //
-  // \index{itk::SymmetricalDemonsRegistrationFilter}
+  // \index{itk::SymmetricForcesDemonsRegistrationFilter}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Vector< float, Dimension >    VectorPixelType;
   typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
-  typedef itk::SymmetricalDemonsRegistrationFilter<
+  typedef itk::SymmetricForcesDemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
                                 DeformationFieldType>   RegistrationFilterType;
@@ -204,8 +204,8 @@ int main( int argc, char *argv[] )
   // filter.  The input moving image is the output of the histogram matching
   // filter.
   //
-  // \index{itk::SymmetricalDemonsRegistrationFilter!SetFixedImage()}
-  // \index{itk::SymmetricalDemonsRegistrationFilter!SetMovingImage()}
+  // \index{itk::SymmetricForcesDemonsRegistrationFilter!SetFixedImage()}
+  // \index{itk::SymmetricForcesDemonsRegistrationFilter!SetMovingImage()}
   //
   // Software Guide : EndLatex
 
@@ -221,8 +221,8 @@ int main( int argc, char *argv[] )
   // iterations to be performed and the standard deviation of the Gaussian
   // smoothing kernel to be applied to the deformation field after each
   // iteration.
-  // \index{itk::SymmetricalDemonsRegistrationFilter!SetNumberOfIterations()}
-  // \index{itk::SymmetricalDemonsRegistrationFilter!SetStandardDeviations()}
+  // \index{itk::SymmetricForcesDemonsRegistrationFilter!SetNumberOfIterations()}
+  // \index{itk::SymmetricForcesDemonsRegistrationFilter!SetStandardDeviations()}
   //
   // Software Guide : EndLatex
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSymmetricalDemonsRegistrationFunction.txx
+  Module:    itkSymmetricForcesDemonsRegistrationFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSymmetricalDemonsRegistrationFunction_txx_
-#define _itkSymmetricalDemonsRegistrationFunction_txx_
+#ifndef _itkSymmetricForcesDemonsRegistrationFunction_txx_
+#define _itkSymmetricForcesDemonsRegistrationFunction_txx_
 
-#include "itkSymmetricalDemonsRegistrationFunction.h"
+#include "itkSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
 #include "vnl/vnl_math.h"
 
@@ -27,8 +27,8 @@ namespace itk {
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::SymmetricalDemonsRegistrationFunction()
+SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::SymmetricForcesDemonsRegistrationFunction()
 {
 
   RadiusType r;
@@ -65,7 +65,7 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -87,7 +87,7 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
   if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
@@ -121,9 +121,9 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
  * Compute update at a non boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-typename SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+typename SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
-SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
                 const FloatOffsetType& itkNotUsed(offset))
 {
