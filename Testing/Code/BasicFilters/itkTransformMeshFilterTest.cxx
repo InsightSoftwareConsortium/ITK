@@ -126,6 +126,7 @@ int main()
 
   // Execute the filter
   filter->Update();
+  std::cout << "Filter: " << filter;
 
   // Get the Smart Pointer to the Filter Output 
   MeshType::Pointer outputMesh = filter->GetOutput();

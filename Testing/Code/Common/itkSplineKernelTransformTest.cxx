@@ -325,6 +325,8 @@ int main(int argc, char* argv[])
   }
   std::cout << std::endl;
 
+  std::cout << ebs2D << std::endl;
+
   return EXIT_SUCCESS;
 
 }

@@ -121,6 +121,8 @@ int main()
   // Percent difference in volume measurement and calculation
   double volumeError = (fabs(volume - interiorPixelCounter)/volume)*100; 
 
+  std::cout << spatialFunc;
+ 
   // 5% error was randomly chosen as a successful ellipsoid fill.
   // This should actually be some function of the image/ellipsoid size.
   if(volumeError <= 5 || functionValue == 1)

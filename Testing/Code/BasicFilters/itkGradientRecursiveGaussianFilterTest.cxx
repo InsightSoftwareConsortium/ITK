@@ -148,6 +148,7 @@ int main()
   // Execute the filter
   filter->Update();
 
+  std::cout << "Filter: " << filter;
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated
