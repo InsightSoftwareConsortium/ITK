@@ -368,7 +368,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
     if ( !(i % updateVisits ) )
       {
-      std::cerr << "#";
       this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
 
