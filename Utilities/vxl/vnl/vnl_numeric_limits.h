@@ -200,6 +200,39 @@ class vnl_numeric_limits
 };
 
 // SPECIALIZATIONS :
+VCL_DEFINE_SPECIALIZATION
+class vnl_numeric_limits<unsigned char> {
+public:
+  static const bool is_specialized VCL_STATIC_CONST_INIT_INT_DECL(true);
+  inline static unsigned int min() { return 0; }
+  inline static unsigned int max() { return 0xff; }
+  static const int digits   VCL_STATIC_CONST_INIT_INT_DECL(sizeof(unsigned char) * 8 );
+  static const int digits10 VCL_STATIC_CONST_INIT_INT_DECL( (digits * 301) / 1000 );
+  static const bool is_signed  VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool is_integer VCL_STATIC_CONST_INIT_INT_DECL(true);
+  static const bool is_exact   VCL_STATIC_CONST_INIT_INT_DECL(true);
+  static const int radix VCL_STATIC_CONST_INIT_INT_DECL(2);
+  inline static int epsilon()     { return 0; }
+  inline static int round_error() { return 0; }
+  static const int min_exponent   VCL_STATIC_CONST_INIT_INT_DECL(0);
+  static const int min_exponent10 VCL_STATIC_CONST_INIT_INT_DECL(0);
+  static const int max_exponent   VCL_STATIC_CONST_INIT_INT_DECL(5);
+  static const int max_exponent10 VCL_STATIC_CONST_INIT_INT_DECL(2);
+  static const bool has_infinity      VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool has_quiet_NaN     VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool has_signaling_NaN VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool has_denorm        VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static int infinity() { return max(); }
+  static int quiet_NaN();
+  static int signaling_NaN();
+  inline static int denorm_min()    { return min(); }
+  static const bool is_iec559  VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool is_bounded VCL_STATIC_CONST_INIT_INT_DECL(true);
+  static const bool is_modulo  VCL_STATIC_CONST_INIT_INT_DECL(true);
+  static const bool traps      VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const bool tinyness_before VCL_STATIC_CONST_INIT_INT_DECL(false);
+  static const vnl_float_round_style round_style VCL_STATIC_CONST_INIT_INT_DECL(vnl_round_toward_zero);
+};
 
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_limits<int>
