@@ -746,12 +746,21 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
   // Set the interpolation grid (image) size, origin and spacing
   // from the given vectors, so that physical point of v1 is (0,0,0) and
   // phisical point v2 is (size[0],size[1],size[2]).
-  InterpolationGridType::SizeType image_size={1.0,1.0,1.0};
-  for(int i=0;i<size.size();i++) image_size[i]=size[i];
+  InterpolationGridType::SizeType image_size={{1,1,1}};
+  for(unsigned int i=0;i<size.size();i++) 
+    {
+    image_size[i] = static_cast<InterpolationGridType::SizeType::SizeValueType>( size[i] );
+    }
   Float image_origin[MaxGridDimensions]={0.0,0.0,0.0};
-  for(int i=0;i<size.size();i++) image_origin[i]=v1[i];
+  for(unsigned int i=0;i<size.size();i++)
+   {
+   image_origin[i]=v1[i];
+   }
   Float image_spacing[MaxGridDimensions]={1.0,1.0,1.0};
-  for(int i=0;i<size.size();i++) image_spacing[i]=(v2[i]-v1[i])/(image_size[i]-1);
+  for(unsigned int i=0;i<size.size();i++) 
+    {
+    image_spacing[i]=(v2[i]-v1[i])/(image_size[i]-1);
+    }
 
   // All regions are the same
   m_InterpolationGrid->SetRegions(image_size);
@@ -773,31 +782,54 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
 
     const unsigned int NumberOfDimensions=(*e)->GetNumberOfSpatialDimensions();
 
-    for(int n=1;n<(*e)->GetNumberOfNodes();n++)
-    {
-      const VectorType& v=(*e)->GetNodeCoordinates(n);
-      for(int d=0;d<NumberOfDimensions;d++)
+    for(unsigned int n=1; n < (*e)->GetNumberOfNodes(); n++ )
       {
-        if(v[d]<v1[d]) v1[d]=v[d];
-        if(v[d]>v2[d]) v2[d]=v[d];
+      const VectorType& v=(*e)->GetNodeCoordinates(n);
+      for(unsigned int d=0; d < NumberOfDimensions; d++ )
+        {
+        if( v[d] < v1[d] )
+          {
+          v1[d]=v[d];
+          }
+        if( v[d] > v2[d] ) 
+          {
+          v2[d]=v[d];
+          }
+        }
       }
-    }
 
     // Convert boundary box corner points into discrete image indexes.
     InterpolationGridType::IndexType vi1,vi2;
     
     Point<Float,MaxGridDimensions> vp1,vp2,pt;
-    for(int i=0;i<MaxGridDimensions;i++)
+    for(unsigned int i=0;i<MaxGridDimensions;i++)
     {
-      if (i<NumberOfDimensions) vp1[i]=v1[i]; else vp1[i]=0.0;
-      if (i<NumberOfDimensions) vp2[i]=v2[i]; else vp2[i]=0.0;
+      if ( i < NumberOfDimensions ) 
+        {
+        vp1[i]=v1[i];
+        }
+     else 
+        {
+        vp1[i]=0.0;
+        }
+      if ( i < NumberOfDimensions ) 
+        {
+        vp2[i]=v2[i];
+        }
+      else 
+        {
+        vp2[i]=0.0;
+        }
     }
 
     m_InterpolationGrid->TransformPhysicalPointToIndex(vp1,vi1);
     m_InterpolationGrid->TransformPhysicalPointToIndex(vp2,vi2);
 
     InterpolationGridType::SizeType region_size;
-    for(int i=0;i<MaxGridDimensions;i++) region_size[i]=vi2[i]-vi1[i]+1;
+    for( unsigned int i=0; i<MaxGridDimensions; i++ ) 
+      {
+      region_size[i] = vi2[i]-vi1[i]+1;
+      }
     InterpolationGridType::RegionType region(vi1,region_size);
 
     // Initialize the iterator that will step over all grid points within
@@ -816,7 +848,7 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
     for(iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
     {
       m_InterpolationGrid->TransformIndexToPhysicalPoint(iter.GetIndex(),pt);
-      for(int d=0; d<NumberOfDimensions; d++)
+      for(unsigned int d=0; d<NumberOfDimensions; d++)
       {
         global_point[d]=pt[d];
       }
@@ -824,9 +856,9 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
       // If the point is within the element, we update the pointer at
       // this point in the interpolation grid image.
       if( (*e)->GetLocalFromGlobalCoordinates(global_point,local_point) )
-      {
+        {
         iter.Set(*e);
-      }
+        }
     } // next point in region
 
 
@@ -836,13 +868,20 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
 
 
 
-Element::ConstPointer
+const Element *
 Solver::GetElementAtPoint(const VectorType& pt) const
 {
   Point<Float,MaxGridDimensions> pp;
-  for(int i=0;i<MaxGridDimensions;i++)
+  for(unsigned int i=0;i<MaxGridDimensions;i++)
   {
-    if (i<pt.size()) pp[i]=pt[i]; else pp[i]=0.0;
+    if ( i < pt.size() ) 
+      {
+      pp[i]=pt[i]; 
+      }
+    else 
+      {
+      pp[i]=0.0;
+      }
   }
 
   InterpolationGridType::IndexType index;

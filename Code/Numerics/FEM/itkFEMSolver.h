@@ -128,8 +128,8 @@ public:
    * \note Physical coordinates in an image correspond to the global
    *       coordinate system in which the mesh (nodes) are.
    */
-  InterpolationGridType::ConstPointer GetInterpolationGrid(void) const
-  { return m_InterpolationGrid; }
+  const InterpolationGridType * GetInterpolationGrid(void) const
+  { return m_InterpolationGrid.GetPointer(); }
 
   /**
    * Returns the pointer to the element which contains global point pt.
@@ -139,7 +139,7 @@ public:
    * \note Interpolation grid must be initializes before you can
    *       call this function.
    */
-  Element::ConstPointer GetElementAtPoint(const VectorType& pt) const;
+  const Element * GetElementAtPoint(const VectorType& pt) const;
 
   /**
    * Reads the whole system (nodes, materials and elements) from input stream
