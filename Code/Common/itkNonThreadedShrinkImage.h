@@ -13,18 +13,18 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkShrinkImage_h
-#define __itkShrinkImage_h
+#ifndef __itkNonThreadedShrinkImage_h
+#define __itkNonThreadedShrinkImage_h
 
 #include "itkFilterImageToImage.h"
 
 namespace itk
 {
 
-/** \class ShrinkImage
+/** \class NonThreadedShrinkImage
  * \brief Reduce the size of an image by an integer factor.
  *
- * ShrinkImage reduces the size of an image by an integer factor. The
+ * NonThreadedShrinkImage reduces the size of an image by an integer factor. The
  * algorithm implemented is a simple subsample. Since this filter produces
  * an image which is a different resolution and with different pixel spacing
  * than its input image, it needs to override several of the methods defined
@@ -34,14 +34,14 @@ namespace itk
  * ProcessObject::UpdateOutputInformation().
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ShrinkImage:
+class ITK_EXPORT NonThreadedShrinkImage:
     public FilterImageToImage<TInputImage,TOutputImage>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef ShrinkImage         Self;
+  typedef NonThreadedShrinkImage         Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -61,7 +61,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ShrinkImage, FilterImageToImage);
+  itkTypeMacro(NonThreadedShrinkImage, FilterImageToImage);
 
   /** 
    * Set the shrink factor. The default value is 1.
@@ -75,9 +75,9 @@ public:
   itkGetMacro(ShrinkFactor,unsigned int);
                  
   /**
-   * ShrinkImage produces an image which is a different resolution and
+   * NonThreadedShrinkImage produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
-   * ShrinkImage needs to provide an implementation for
+   * NonThreadedShrinkImage needs to provide an implementation for
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    *
@@ -86,8 +86,8 @@ public:
   virtual void UpdateOutputInformation();
 
   /**
-   * ShrinkImage needs a larger input requested region than the output
-   * requested region.  As such, ShrinkImage needs to provide an implementation
+   * NonThreadedShrinkImage needs a larger input requested region than the output
+   * requested region.  As such, NonThreadedShrinkImage needs to provide an implementation
    * for GenerateInputRequestedRegion() in order to inform the pipeline
    * execution model.  
    *
@@ -96,9 +96,9 @@ public:
   virtual void GenerateInputRequestedRegion();
 
  protected:
-  ShrinkImage();
-  ~ShrinkImage() {};
-  ShrinkImage(const Self&) {}
+  NonThreadedShrinkImage();
+  ~NonThreadedShrinkImage() {};
+  NonThreadedShrinkImage(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
   
@@ -112,7 +112,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShrinkImage.txx"
+#include "itkNonThreadedShrinkImage.txx"
 #endif
   
 #endif

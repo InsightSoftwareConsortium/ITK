@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkShrinkImage.h"
+#include "itkNonThreadedShrinkImage.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -23,8 +23,8 @@ namespace itk
  *
  */
 template <class TInputImage, class TOutputImage>
-ShrinkImage<TInputImage,TOutputImage>
-::ShrinkImage()
+NonThreadedShrinkImage<TInputImage,TOutputImage>
+::NonThreadedShrinkImage()
 {
   m_ShrinkFactor = 1;
 }
@@ -35,7 +35,7 @@ ShrinkImage<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-ShrinkImage<TInputImage,TOutputImage>
+NonThreadedShrinkImage<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -49,7 +49,7 @@ ShrinkImage<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-ShrinkImage<TInputImage,TOutputImage>
+NonThreadedShrinkImage<TInputImage,TOutputImage>
 ::GenerateData()
 {
   itkDebugMacro(<<"Actually executing");
@@ -104,7 +104,7 @@ ShrinkImage<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-ShrinkImage<TInputImage,TOutputImage>
+NonThreadedShrinkImage<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -144,7 +144,7 @@ ShrinkImage<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-ShrinkImage<TInputImage,TOutputImage>
+NonThreadedShrinkImage<TInputImage,TOutputImage>
 ::UpdateOutputInformation()
 {
   // call the superclass' implementation of this method
