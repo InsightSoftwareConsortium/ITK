@@ -143,8 +143,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
-::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
-                           int threadId)
+::ThreadedApplyUpdate(TimeStepType dt,
+                      const ThreadRegionType &regionToProcess,
+                      int itkNotUsed(threadId))
 {
   typename NarrowBandType::ConstIterator it;
   typename OutputImageType::Pointer image=this->GetOutput();
@@ -248,7 +249,8 @@ template <class TInputImage, class TOutputImage>
 typename
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::TimeStepType
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
-::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int threadId)
+::ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
+                          int itkNotUsed(threadId))
 {
   typedef typename OutputImageType::RegionType RegionType;
   typedef typename OutputImageType::SizeType   SizeType;
