@@ -27,16 +27,16 @@ namespace itk{
 namespace Statistics{
 
 /** \class GaussianGoodnessOfFitComponent 
- *  \brief provides implemenations of GoodnessOfFitComponentBase's methods
- * for a Gaussian component
+ *  \brief is a GoodnessOfFitComponent for Gaussian distribution.
  *
  * Among the GoodnessOfFitComponentBase's methods, this class provides
- * implementations for the CalculateProjectionAxess, the GetCumulativeProbability
- * (univariate CDF), and the GetProbabilityDensity (multivariate PDF)methods.
+ * implementations for the CalculateProjectionAxess, the
+ * GetCumulativeProbability (univariate CDF), and the
+ * GetProbabilityDensity (multivariate PDF)methods.
  *
- * The CalculateProjectionAxes method creats an array of projection axes that
- * are the eigen vectors generated from the weighted covariance matrix of the
- * resampled sample using a spherical kernel.
+ * The CalculateProjectionAxes method creats an array of projection
+ * axes that are the eigen vectors generated from the weighted
+ * covariance matrix of the resampled sample using a spherical kernel.
  *
  * \sa GoodnessOfFitComponentBase, GoodnessOfFitMixtureModelCostFunction
  */
@@ -59,13 +59,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
-  /** typedefs from input sample */
+  /** Typedefs from input sample */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 
-  /** typedefs from Superclass */
+  /** Typedefs from Superclass */
   typedef typename Superclass::CenterType CenterType ;
   typedef typename Superclass::RadiusType RadiusType ;
   typedef typename Superclass::MeanType MeanType ;
@@ -81,14 +81,15 @@ public:
 
   typedef typename ProbabilityDensityFunctionType::CovarianceType CovarianceType ;
 
-  /** Covariance calculator type. the output of this calculator is
+  /** Type of the covariance calculator. the output of this calculator is
    * a covariance matrix that is used as the input of the Projection 
    * calculator */
   typedef WeightedCovarianceCalculator< ResampledSampleType > 
   CovarianceCalculatorType ;
 
   /** Default projection axis calculator type*/
-  typedef SymmetricEigenSystem< double, itkGetStaticConstMacro(MeasurementVectorSize) > 
+  typedef SymmetricEigenSystem< double, 
+                                itkGetStaticConstMacro(MeasurementVectorSize) >
   ProjectionAxisCalculatorType ;
 
   /** Gets the size of parameters which consists of mean
@@ -99,12 +100,16 @@ public:
   /** Sets the component distribution parameters */
   void SetParameters(const ParametersType &parameter) ;
 
+  /** Gets the center point for the neighborhood sampling */
   CenterType* GetCenter() ;
 
+  /** Gets the radius for the neighborhood sampling */
   RadiusType* GetRadius() ;
   
+  /** Gets the mean of the distributon */
   MeanType* GetMean() ;
 
+  /** Gets the standard deviation of the distribution */
   StandardDeviationType* GetStandardDeviation() ;
 
   /** Univariate (standard) cumulative probability function */
@@ -113,6 +118,7 @@ public:
   /** Multivariate probability density function */
   double GetProbabilityDensity(MeasurementVectorType &measurements) const ;
 
+  /** Prints all the parameters. Usually for debugging. */
   void PrintParameters(std::ostream &os) const ;
 
   /** Gets the full distribution parameters which consists of
@@ -128,10 +134,9 @@ protected:
   virtual void CalculateProjectionAxes() ;
 
 private:
-  typename ProbabilityDensityFunctionType::Pointer m_ProbabilityDensityFunction ;
-
+  typename ProbabilityDensityFunctionType::Pointer 
+  m_ProbabilityDensityFunction ;
   typename CovarianceCalculatorType::Pointer m_CovarianceCalculator ;
-
   typename ProjectionAxisCalculatorType::Pointer m_ProjectionAxisCalculator ;
 
   MeanType m_Mean ;
