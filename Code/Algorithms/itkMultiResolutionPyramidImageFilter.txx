@@ -367,7 +367,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     itkExceptionMacro( << "Input has not been set" );
     }
 
-  const double * inputSpacing = inputPtr->GetSpacing();
+  const typename InputImageType::SpacingType&
+    inputSpacing = inputPtr->GetSpacing();
   const typename InputImageType::SizeType& inputSize = 
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename InputImageType::IndexType& inputStartIndex =
@@ -379,7 +380,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef typename IndexType::IndexValueType  IndexValueType;
 
   OutputImagePointer outputPtr;
-  double outputSpacing[OutputImageType::ImageDimension];
+  typename OutputImageType::SpacingType outputSpacing;
   SizeType    outputSize;
   IndexType   outputStartIndex;
   double shrinkFactor;
