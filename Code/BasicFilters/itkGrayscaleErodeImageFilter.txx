@@ -70,6 +70,8 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
     // in the image
     if (*kernel_it > 0)
       {
+      // note we use GetPixel() on the SmartNeighborhoodIterator in order
+      // to respect boundary conditions.
       temp = nit.GetPixel(i);
 
       if (temp < min)

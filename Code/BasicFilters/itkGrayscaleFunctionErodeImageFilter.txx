@@ -71,7 +71,9 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
     // in the image minus the structuring element value
     if (*kernel_it > 0)
       {
-      // subtract the structuring element value to the pixel value
+      // subtract the structuring element value to the pixel value,
+      // note we use GetPixel() on SmartNeighborhoodIterator to respect
+      // boundary condition
       temp = nit.GetPixel(i) - (PixelType) *kernel_it;
 
       if (temp < min)

@@ -131,12 +131,16 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
     // in the image
     if (*kernel_it > 0)
       {
-      // if the image pixel is not the erode value, 
+      // if the image pixel is not the erode value, note we use GetPixel()
+      // on the SmartNeighborhoodIterator in order to respect boundary
+      // conditions
       if (nit.GetPixel(i) != m_ErodeValue)
         {
         erode = true;
         
-        // if the image pixel is less than current min
+        // if the image pixel is less than current min,  note we use GetPixel()
+        // on the SmartNeighborhoodIterator in order to respect boundary
+        // conditions
         if (min > nit.GetPixel(i))
           {
           min = nit.GetPixel(i);
