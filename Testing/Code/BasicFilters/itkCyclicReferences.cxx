@@ -51,6 +51,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class TextOutput : public itk::OutputWindow
 {
 public:
+  typedef itk::SmartPointer<TextOutput> Pointer;
+  itkNewMacro(TextOutput);
   virtual void DisplayText(const char* s)
     {
       std::cout << s << std::endl;
