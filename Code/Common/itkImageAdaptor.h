@@ -212,28 +212,28 @@ public:
    * Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing()
    */
-  virtual void SetSpacing( const float values[TImage::ImageDimension] );
+  virtual void SetSpacing( const double values[TImage::ImageDimension] );
 
 
   /** 
    * Get the spacing (size of a pixel) of the image.
    * \sa SetSpacing()
    */
-  virtual const float * GetSpacing() const;
+  virtual const double * GetSpacing() const;
 
 
   /** 
    * Set the origin of the image.
    * \sa GetOrigin()
    */
-  virtual void SetOrigin( const float values[TImage::ImageDimension] );
+  virtual void SetOrigin( const double values[TImage::ImageDimension] );
 
 
   /** 
    * Get the origin of the image.
    * \sa SetOrigin()
    */
-  virtual const float * GetOrigin() const;
+  virtual const double * GetOrigin() const;
 
 
   /**
