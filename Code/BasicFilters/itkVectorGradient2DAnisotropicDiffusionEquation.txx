@@ -74,15 +74,15 @@ VectorGradient2DAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, TimeStepType &dt) const
 {
   unsigned int j;
-  ScalarValueType Cx, Cy, Cxd, Cyd;
-  ScalarValueType Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
+  double Cx, Cy, Cxd, Cyd;
+  double Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
   PixelType dx_forward, dx_backward, dy_forward, dy_backward;
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
 
-  Cx_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cy_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cxd_gradmag = NumericTraits<ScalarValueType>::Zero;
-  Cyd_gradmag = NumericTraits<ScalarValueType>::Zero;
+  Cx_gradmag  = 0.0;
+  Cy_gradmag  = 0.0;
+  Cxd_gradmag = 0.0;
+  Cyd_gradmag = 0.0;
 
   // Take derivatives
   dx_forward = it.GetPixel(6)  - it.GetPixel(7);
@@ -135,15 +135,15 @@ VectorGradient2DAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, TimeStepType &dt) const
 {
   unsigned int j;
-  ScalarValueType Cx, Cy, Cxd, Cyd;
-  ScalarValueType Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
+  double Cx, Cy, Cxd, Cyd;
+  double Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
   PixelType dx_forward, dx_backward, dy_forward, dy_backward;
   PixelType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
 
-  Cx_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cy_gradmag  = NumericTraits<ScalarValueType>::Zero;
-  Cxd_gradmag = NumericTraits<ScalarValueType>::Zero;
-  Cyd_gradmag = NumericTraits<ScalarValueType>::Zero;
+  Cx_gradmag  = 0.0;
+  Cy_gradmag  = 0.0;
+  Cxd_gradmag = 0.0;
+  Cyd_gradmag = 0.0;
 
   // Take derivatives
   dx_forward = it.GetPixel(6)  - it.GetPixel(7);

@@ -248,14 +248,12 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       magnitude = inCurvature->GetMagnitude();
       updateValue += curvature * magnitude;
 
-      speed = (double) ScalarTraits<EdgePixelType>::
-        GetScalar( speedIt.Get() );
+      speed = (double) speedIt.Get();
       updateValue *= speed;
 
       for( unsigned int j = 0; j < SetDimension; j++ )
         {
-        deriv = (double) ScalarTraits<DerivPixelType>::
-          GetScalar( derivIt[j].Get() );
+        deriv = (double) derivIt[j].Get();
 
         inUpwind->SetSpeed( -1.0 * deriv );
 
@@ -264,10 +262,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
       updateValue *= timeStepSize; 
     
-      value = (double) ScalarTraits<PixelType>::GetScalar( inIt.Get() );
+      value = (double) inIt.Get();
       value += updateValue;
 
-      ScalarTraits<PixelType>::SetScalar( outIt.Get(), value );
+      outIt.Set( value );
 
       ++outIt;
       ++inIt;
@@ -417,16 +415,14 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
         updateValue += curvature * magnitude;
 
         typedef typename TEdgeImage::PixelType EdgePixelType;
-        speed = (double) ScalarTraits<EdgePixelType>::
-          GetScalar( edgeImage->GetPixel(node.index) );
+        speed = (double) edgeImage->GetPixel(node.index);
 
         updateValue *= speed;
 
         for( unsigned int j = 0; j < SetDimension; j++ )
           {
           typedef typename TDerivImage::PixelType DerivPixelType;
-          deriv = (double) ScalarTraits<DerivPixelType>::
-            GetScalar( m_DerivImages[j]->GetPixel( node.index ) );
+          deriv = (double) m_DerivImages[j]->GetPixel( node.index );
 
           inUpwind->SetSpeed( -1.0 * deriv );
           
@@ -436,11 +432,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
         updateValue *= timeStepSize; 
     
-        value = (double) ScalarTraits<PixelType>::
-          GetScalar( inputPtr->GetPixel( node.index ) );
+        value = (double) inputPtr->GetPixel( node.index );
         value += updateValue;
 
-        ScalarTraits<PixelType>::SetScalar( lsetPixel, value );
+        lsetPixel =  value;
         outputPtr->SetPixel( node.index, lsetPixel );
 
         }

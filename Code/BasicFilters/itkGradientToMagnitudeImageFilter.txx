@@ -4,7 +4,6 @@
 #include <iostream>
 #include <math.h>
 #include "itkSize.h"
-#include "itkPixelTraits.h"
 #include "itkImageRegion.h"
 #include "itkGradientToMagnitudeImageFilter.h"
 

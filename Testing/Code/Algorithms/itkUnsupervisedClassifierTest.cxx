@@ -40,7 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 // Insight classes
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"

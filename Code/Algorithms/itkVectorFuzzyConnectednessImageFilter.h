@@ -18,7 +18,6 @@
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
 

@@ -310,7 +310,7 @@ protected:
   const typename LevelSetImageType::SizeType& GetOutputSize() const
     { return m_OutputSize; }
 
-  typename LevelSetImageType::ScalarValueType GetLargeValue() const
+  typename LevelSetImageType::PixelType GetLargeValue() const
     { return m_LargeValue; }
 
   const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
@@ -338,7 +338,7 @@ private:
 
   typename LevelSetImageType::SizeType          m_OutputSize;
 
-  typename LevelSetImageType::ScalarValueType   m_LargeValue;
+  typename LevelSetImageType::PixelType   m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
 

@@ -43,9 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <list>
 
-#include "itkScalar.h"
-#include "itkPixelTraits.h"
-#include "itkNumericTraits.h"
 #include "itkBloxItem.h"
 
 namespace itk
@@ -56,8 +53,7 @@ namespace itk
  * \brief Holds a linked list of BloxItem's
  *
  * BloxPixel is a specialized version of the STL list, designed to hold
- * only BloxItems. Scalar and vector traits are defined only for
- * compatibility purposes. A linked list is not scalar or vector valued!!
+ * only BloxItems. 
  * */
 
 class BloxPixel : public std::list<BloxItem*>
@@ -69,28 +65,6 @@ public:
   ~BloxPixel();
 };
 
-/**
- * Vector and scalar traits don't actually mean anything for BloxPixel
- * objects, but are necessary in order to fit the image class framework.
- */
-
-template <>
-class VectorTraits< BloxPixel > {
-public:
-  typedef BloxPixel ValueType;
-  typedef BloxPixel VectorValueType;
-  static VectorValueType& GetVector(BloxPixel& v) {return v;}
-  static void SetVector(BloxPixel& data, VectorValueType const & v) { }
-};
-
-template <>
-class ScalarTraits< BloxPixel > {
-public:
-  typedef BloxPixel ValueType;
-  typedef BloxPixel ScalarValueType;
-  static ScalarValueType& GetScalar(BloxPixel& v) {return v;}
-  static void SetScalar(BloxPixel& data, ScalarValueType const & v) { }
-};
 
 } // end namespace itk
 

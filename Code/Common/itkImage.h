@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkImage_h
 
 #include "itkImageBase.h"
-#include "itkPixelTraits.h"
 #include "itkDefaultImageTraits.h"
 #include "itkDefaultDataAccessor.h"
 
@@ -85,13 +84,12 @@ namespace itk
  * an iterator that can walk a specified region of a buffer.
  *
  * The pixel type may be one of the native types; or it can be a 
- * Insight-defined class type such as Scalar or Vector; or a
+ * Insight-defined class type such as Vector; or a
  * user-defined type. Note that depending on the type of pixel that you use,
  * the process objects (i.e., those filters processing data objects), may not
  * operate on the image and/or pixel type. This becomes apparant at 
- * compile-time either because operator overloading (for the pixel type) is 
- * not supported; or the filter may only process scalars (meaning it supports 
- * the GetScalar() method), or vectors (supports GetVector()).  
+ * compile-time because operator overloading (for the pixel type) is 
+ * not supported.
  *
  * The data in an image is arranged in a 1D array as [][][][slice][row][col]
  * with Index[0] = col, Index[1] = row, Index[2] = slice, ...
@@ -139,30 +137,6 @@ public:
    *  representations.
    */
   typedef DefaultDataAccessor< PixelType > AccessorType;
-
-  /** 
-   * Pixel (scalar) value typedef support. The scalar value is the native
-   * type that the scalar portion of the pixels are composed of; usually 
-   * something like float, int, etc. ScalarTraits typically needs to be
-   * specialized for a given PixelType. If a PixelType does not have
-   * scalar values, ScalarTraits provides an opportunity to define what
-   * the scalar type would be if the PixelType had scalars.  For instance,
-   * the ScalarValueType for a PixelType that only has a vector may be
-   * defined to match the vector value type.
-   */
-  typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
-
-  /** 
-   * Pixel (vector) value typedef support. The vector value is the native
-   * type that the vector portion of the pixels are composed of; usually 
-   * something like float, int, etc. VectorTraits typically needs to be
-   * specialized for a given PixelType. If a PixelType does not have
-   * vector values, VectorTraits provides an opportunity to define what
-   * the vector value type would be if the PixelType had a vector.  For
-   * instance, the VectorValueType for a PixelType that only has a scalar may
-   * be defined to match the vector value type.
-   */
-  typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
 
   /**
    * Dimension of the image.  This enum is used by functions that are

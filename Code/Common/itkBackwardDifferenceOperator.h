@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBackwardDifferenceOperator_h
 #define __itkBackwardDifferenceOperator_h
 
-#include "itkPixelTraits.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
 
@@ -74,11 +73,6 @@ public:
    * Standard Superclass typedef support
    */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
-  
-  /**
-   * External support for coefficient type
-   */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
   
   /**
    * Constructor.

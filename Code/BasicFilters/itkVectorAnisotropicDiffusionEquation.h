@@ -47,6 +47,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /**
+ * Requirements:
+ *      1) Image PixelType must have an internal typedef of ValueType,
+ *            i.e. TImage::PixelType::ValueType must be defined as the
+ *                 as the type of one value (element/component) of a pixel.
+ *                 Since we are talking about vector anisotropic diffusion,
+ *                 this is the type of an element of the vector (float, etc.)
+ *
  * \todo DOCUMENT!
  */ 
 template <class TImage>
@@ -66,7 +73,6 @@ public:
   enum { ImageDimension = Superclass::ImageDimension };
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;

@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "itkPixelTraits.h"
 #include "vnl/vnl_math.h"
 
 #include <algorithm>
@@ -60,8 +59,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   m_InputLevelSet = NULL;  
   m_LevelSetValue = 0.0;
 
-  typedef typename LevelSetImageType::ScalarValueType ScalarValueType;
-  m_LargeValue = NumericTraits<ScalarValueType>::max();
+  typedef typename LevelSetImageType::PixelType PixelType;
+  m_LargeValue = NumericTraits<PixelType>::max();
   m_NodesUsed.resize( SetDimension );
 
   m_NarrowBanding = false;
@@ -260,11 +259,11 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::CalculateDistance(
 IndexType& index)
 {
-  typename LevelSetImageType::ScalarValueType centerValue;
+  typename LevelSetImageType::PixelType centerValue;
   PixelType inputPixel;
 
   inputPixel = m_InputLevelSet->GetPixel( index );
-  centerValue = (double) ScalarTraits<PixelType>::GetScalar( inputPixel );
+  centerValue = (double) inputPixel ;
   centerValue -= m_LevelSetValue;
 
   NodeType centerNode;
@@ -280,7 +279,7 @@ IndexType& index)
   bool inside = ( centerValue <= 0.0 );
 
   IndexType neighIndex = index;
-  typename LevelSetImageType::ScalarValueType neighValue;
+  typename LevelSetImageType::PixelType neighValue;
   NodeType  neighNode;
   double distance;
 
@@ -301,7 +300,7 @@ IndexType& index)
         }
           
       inputPixel = m_InputLevelSet->GetPixel( neighIndex );
-      neighValue = ScalarTraits<PixelType>::GetScalar( inputPixel );
+      neighValue = inputPixel;
       neighValue -= m_LevelSetValue;
 
       if( ( neighValue > 0 && inside ) ||

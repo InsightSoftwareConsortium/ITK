@@ -40,13 +40,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 // Insight classes
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
-
-#include "itkPixelTraits.h"
 
 //Data definitons 
 #define   IMGWIDTH            2
@@ -173,85 +170,85 @@ int main()
   //--------------------------------------------------------------------------
   //Slice 1
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
+  outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 2 
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
+  outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
+  outputPixel = 1;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
+  outputPixel = 1;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Slice 2
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
   
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Slice 3
   //Pixel no. 1 
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
+  outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 2 );
+  outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
   
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
+  outputPixel = 1;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 1 );
+  outputPixel = 1;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Slice 4
   //Pixel no. 1
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
   
   //Pixel no. 2
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 3
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
   //Pixel no. 4
-  itk::ScalarTraits<ClassImagePixelType>::SetScalar(outputPixel, 0 );
+  outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
@@ -286,15 +283,13 @@ int main()
 
   int i=0;
   while(labeloutIt != labeloutItEnd)
-  {
+    {
     //Print the classified index
-    int classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::
-        GetScalar( labeloutIt.Get() );
-	  std::cout << " Pixel No" << i << " Value " << classIndex << std::endl;
-	  ++i;
-	  ++labeloutIt;
-  }//end while
+    int classIndex = (int) labeloutIt.Get();
+    std::cout << " Pixel No" << i << " Value " << classIndex << std::endl;
+    ++i;
+    ++labeloutIt;
+    }//end while
 
   //Verify if the results were as per expectation
   labeloutIt = labeloutIt.Begin();
@@ -303,9 +298,8 @@ int main()
 
   //Loop through the data set
   while(labeloutIt != labeloutItEnd)
-  {
-    int classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( labeloutIt.Get() );
+    {
+    int classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)
     {
       passTest = false;
@@ -313,8 +307,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( labeloutIt.Get() );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)
     {
       passTest = false;
@@ -322,8 +315,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( labeloutIt.Get() );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 1)
     {
       passTest = false;
@@ -331,8 +323,7 @@ int main()
     }
     ++labeloutIt;
 
-    classIndex = 
-      (int) itk::ScalarTraits<ClassImagePixelType>::GetScalar( labeloutIt.Get() );
+    classIndex = (int) labeloutIt.Get();
     if (classIndex != 1)
     {
       passTest = false;
@@ -342,11 +333,14 @@ int main()
 
   }//end while
 
-  if( passTest == true ) 
+  if( passTest == true )
+    {
     std::cout<< "Supervised Classifier Test Passed" << std::endl;
-  else 
+    }
+  else
+    {
     std::cout<< "Supervised Classifier Test failed" << std::endl;
-
+    }
 
   return 0;
 }

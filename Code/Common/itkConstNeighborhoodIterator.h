@@ -109,11 +109,6 @@ public:
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
 
   /**
-   * Scalar data type typedef support
-   */
-  typedef typename ScalarTraits<PixelType>::ScalarValueType ScalarValueType;
-  
-  /**
    * Default constructor
    */
   ConstNeighborhoodIterator();

@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <strstream>
 #include "itkPhysicalImage.h"
-#include "itkScalar.h"
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
 #include "itkCommand.h"
@@ -66,7 +65,6 @@ int main()
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-//  typedef itk::Image<itk::Scalar<float>,2> FloatImage2DType;
   typedef itk::PhysicalImage<float,2> FloatImage2DType;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;

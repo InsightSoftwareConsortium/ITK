@@ -89,7 +89,7 @@ static void WriteDataArray(std::ofstream& f, TInputImage *image,
     }
   else
     {
-    typedef typename TInputImage::ScalarValueType scalarType;
+    typedef typename TInputImage::PixelType scalarType;
     scalarType foo;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {

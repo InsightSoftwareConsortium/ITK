@@ -255,7 +255,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - levelSetValue > 0 )
       {
       outputIt.Set( tempIt.Get() );
@@ -293,10 +293,10 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - levelSetValue <= 0 )
       {
-      value = (double) ScalarTraits<PixelType>::GetScalar( tempIt.Get() );
+      value = (double) tempIt.Get();
       outputIt.Set( -1.0 * value );
 
       for( unsigned int k = 0; k < VAuxDimension; k++ )
@@ -347,11 +347,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   PixelType posInfinity;
   PixelType negInfinity;
-  typedef typename TLevelSet::ScalarValueType ScalarValueType;
-  ScalarTraits<PixelType>::SetScalar(posInfinity, 
-    NumericTraits<ScalarValueType>::max());
-  ScalarTraits<PixelType>::SetScalar(negInfinity, 
-    NumericTraits<ScalarValueType>::NonpositiveMin());
+
+  posInfinity = NumericTraits<PixelType>::max();
+  negInfinity = NumericTraits<PixelType>::NonpositiveMin();
 
   // set all internal pixels to minus infinity and 
   // all external pixels to positive infinity
@@ -362,7 +360,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - levelSetValue <= 0 )
       {
       outputIt.Set( negInfinity );
@@ -378,7 +376,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   // set all auxiliary images to zero
   TAuxValue zeroPixel;
-  ScalarTraits<TAuxValue>::SetScalar(zeroPixel, 0.0 );
+  zeroPixel = 0.0;
 
   typedef
     ImageRegionIterator<AuxImageType> AuxIteratorType;
@@ -458,7 +456,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.index );
     
-    value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
+    value = (double) inPixel;
     if( value - levelSetValue > 0 )
       {
       inPixel = tempLevelSet->GetPixel( node.index );
@@ -489,12 +487,12 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.index );
     
-    value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
+    value = (double) inPixel;
     if( value - levelSetValue <= 0 )
       {
       inPixel = tempLevelSet->GetPixel( node.index );
-      value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
-      ScalarTraits<PixelType>::SetScalar( inPixel, -1.0 * value );
+      value = (double) inPixel;
+      inPixel = -1.0 * value;
       outputPtr->SetPixel( node.index, inPixel );
       node.value *= -1.0;
       outputNB->InsertElement( outputNB->Size(), node );

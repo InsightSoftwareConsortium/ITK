@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkConstantBoundaryCondition_h
 #include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
-#include "itkPixelTraits.h"
 #include "itkImageBoundaryCondition.h"
 
 namespace itk
@@ -91,7 +90,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
   enum { ImageDimension = Superclass::ImageDimension };
-  typedef typename ScalarTraits<PixelType>::ValueType PixelScalarValueType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
@@ -100,7 +98,7 @@ public:
    * Default constructor.
    */
   ConstantBoundaryCondition()
-  { m_Constant = NumericTraits<PixelScalarValueType>::Zero; }
+  { m_Constant = NumericTraits<PixelType>::Zero; }
 
   /**
    * Computes and returns appropriate out-of-bounds values from

@@ -78,11 +78,6 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /**
-   * Scalar data type typedef support
-   */
-  typedef typename TOutputImage::ScalarValueType ScalarValueType;
-
-  /**
    * Compile time image dimensionality support.
    */
   enum {ImageDimension = TOutputImage::ImageDimension };

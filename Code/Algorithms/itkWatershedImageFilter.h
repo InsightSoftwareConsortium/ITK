@@ -108,12 +108,12 @@ public:
   /**
    * Typedef support for the input image scalar value type.
    */
-  typedef typename InputImageType::ScalarValueType InputScalarType;
+  typedef typename InputImageType::PixelType InputScalarType;
 
   /**
    * Typedef support for the output image scalar value type.
    */
-  typedef typename OutputImageType::ScalarValueType OutputScalarType;
+  typedef typename OutputImageType::PixelType OutputScalarType;
   
   /**
    * Structure for storing merge information.
@@ -252,12 +252,12 @@ public:
   /**
    * Typedef support for the input image scalar value type.
    */
-  typedef typename InputImageType::ScalarValueType InputScalarType;
+  typedef typename InputImageType::PixelType InputScalarType;
 
   /**
    * Typedef support for the output image scalar value type.
    */
-  typedef typename OutputImageType::ScalarValueType OutputScalarType;
+  typedef typename OutputImageType::PixelType OutputScalarType;
   
   /** 
    * Smart pointer typedef support 

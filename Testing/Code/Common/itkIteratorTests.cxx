@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkPhysicalImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageBufferIterator.h"
@@ -51,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main()
 {
   std::cout << "Creating an image" << std::endl;
-  typedef itk::PhysicalImage<itk::Scalar<unsigned short>, 3> ScalarImage;
+  typedef itk::PhysicalImage<unsigned short, 3> ScalarImage;
   ScalarImage::Pointer  o3 = ScalarImage::New();
 
   double origin3D[3] = { 5, 2.1, 8.1};
@@ -91,7 +90,7 @@ int main()
   
   // memset
   start = clock();
-  itk::Scalar<unsigned short> *ptr = o3->GetBufferPointer();
+  unsigned short *ptr = o3->GetBufferPointer();
   memset(ptr, 0, num*sizeof(unsigned short));
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
@@ -106,7 +105,6 @@ int main()
   ptr = o3->GetBufferPointer();
   for (i=0; i < num; ++i)
     {
-//    *ptr = itk::Scalar<unsigned short> (5);
     ++ptr;
     }
   end = clock();
@@ -150,7 +148,7 @@ int main()
   start = clock();
   itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
-  itk::Scalar<unsigned short> scalar;
+  unsigned short scalar;
   scalar = 5;
   
   i = 0;

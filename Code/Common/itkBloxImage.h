@@ -106,19 +106,6 @@ public:
    */
   typedef DefaultDataAccessor< PixelType > AccessorType;
 
-  /** 
-   * Pixel (scalar) value typedef support. Remember, for BloxPixel's
-   * ScalarTraits exist for compatibility purposes only!!
-   */
-  typedef typename ScalarTraits<BloxPixel>::ValueType ScalarValueType;
-
-  /** 
-   * Pixel (vector) value typedef support. Remember, for BloxPixel's
-   * VectorTraits exist for compatibility purposes only!!
-   */
-  
-  typedef typename VectorTraits<BloxPixel>::ValueType VectorValueType;
-
   /**
    * Dimension of the image.  This enum is used by functions that are
    * templated over image type (as opposed to being templated over pixel

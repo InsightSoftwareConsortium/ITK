@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 #include "itkSize.h"
-#include "itkPixelTraits.h"
 #include "itkImageRegion.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 

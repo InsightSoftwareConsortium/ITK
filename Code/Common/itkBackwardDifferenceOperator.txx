@@ -50,9 +50,9 @@ BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   CoefficientVector coeff(3);
-  coeff[0] = -1.0f *  NumericTraits<ScalarValueType>::One;
-  coeff[1] =  NumericTraits<ScalarValueType>::One;
-  coeff[2] =  NumericTraits<ScalarValueType>::Zero;
+  coeff[0] = -1.0f *  NumericTraits<PixelType>::One;
+  coeff[1] =  NumericTraits<PixelType>::One;
+  coeff[2] =  NumericTraits<PixelType>::Zero;
 
   return coeff;
 }

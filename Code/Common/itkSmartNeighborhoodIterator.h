@@ -147,7 +147,6 @@ public:
   typedef typename Superclass::ImageBoundaryConditionPointerType
     ImageBoundaryConditionPointerType;
   typedef typename Superclass::BoundaryConditionType BoundaryConditionType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
   
   /**
    * Default constructor.

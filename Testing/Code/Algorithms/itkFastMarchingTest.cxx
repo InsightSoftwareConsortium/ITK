@@ -40,16 +40,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkImageRegionIterator.h"
-#include "itkPixelTraits.h"
 
 #include "vnl/vnl_math.h"
 
 int main()
 {
   // create a fastmarching object
-  typedef itk::Scalar<float> PixelType;
+  typedef float PixelType;
   typedef itk::Image<PixelType,2> FloatImage;
   typedef itk::FastMarchingImageFilter<FloatImage> FloatFMType;
 
@@ -103,7 +101,7 @@ int main()
       }
     distance = vnl_math_sqrt( distance );
 
-    output = itk::ScalarTraits<PixelType>::GetScalar( iterator.Get() );
+    output = (float) iterator.Get();
 
     if( vnl_math_abs( output ) / distance > 1.42 )
       {

@@ -201,7 +201,7 @@ protected:
   void operator= ( const Self& ) {};
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  typename LevelSetImageType::ScalarValueType GetLargeValue() const
+  typename LevelSetImageType::PixelType GetLargeValue() const
     { return m_LargeValue; }
 
   const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
@@ -229,7 +229,7 @@ private:
   NodeContainerPointer                          m_InputNarrowBand;
 
   signed long                                   m_ImageSize[SetDimension];
-  typename LevelSetImageType::ScalarValueType   m_LargeValue;
+  typename LevelSetImageType::PixelType         m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
 

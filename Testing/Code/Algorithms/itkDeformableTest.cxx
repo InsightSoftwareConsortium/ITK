@@ -3,7 +3,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkSimpleImageRegionIterator.h"

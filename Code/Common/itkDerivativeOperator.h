@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkDerivativeOperator_h
 #define __itkDerivativeOperator_h
 
-#include "itkPixelTraits.h"
 #include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
@@ -80,11 +79,6 @@ public:
    */
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
-  /**
-   * External support for the scalar value type of the coefficients.
-   */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
-  
   /**
    * Constructor
    */

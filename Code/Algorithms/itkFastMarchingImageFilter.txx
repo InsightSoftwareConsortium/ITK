@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "itkImageRegionIterator.h"
-#include "itkPixelTraits.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"
 #include <algorithm>
@@ -73,8 +72,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_InverseSpeed = -1.0;
   m_LabelImage = LabelImageType::New();
 
-  typedef typename LevelSetImageType::ScalarValueType ScalarValueType;
-  m_LargeValue = NumericTraits<ScalarValueType>::max();
+  typedef typename LevelSetImageType::PixelType PixelType;
+  m_LargeValue = NumericTraits<PixelType>::max();
   m_StoppingValue =  (double) m_LargeValue;
   m_CollectPoints = false;
 
@@ -192,7 +191,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     m_OutputLevelSet->GetBufferedRegion() );
 
   PixelType outputPixel;
-  ScalarTraits<PixelType>::SetScalar( outputPixel, m_LargeValue );
+  outputPixel = m_LargeValue;
   
   for( outIt = outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
     {
@@ -243,8 +242,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
       // make this an alive point
       m_LabelImage->SetPixel( node.index, AlivePoint );
-  
-      ScalarTraits<PixelType>::SetScalar( outputPixel, node.value );
+
+      outputPixel = node.value;
       m_OutputLevelSet->SetPixel( node.index, outputPixel );
 
       }
@@ -284,8 +283,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
       // make this a trail point
       m_LabelImage->SetPixel( node.index, TrialPoint );
-      
-      ScalarTraits<PixelType>::SetScalar( outputPixel, node.value );
+
+      outputPixel = node.value;
       m_OutputLevelSet->SetPixel( node.index, outputPixel );
 
       m_TrialHeap.push( node );
@@ -329,8 +328,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     if( m_DebugOn ) { NumPoints++; }
 
     // does this node contain the current value ?
-    currentValue = (double) ScalarTraits<PixelType>::GetScalar( 
-      m_OutputLevelSet->GetPixel( node.index ) );
+    currentValue = (double) m_OutputLevelSet->GetPixel( node.index );
 
     if( node.value != currentValue )
       {
@@ -434,7 +432,7 @@ IndexType& index )
 {
 
   IndexType neighIndex = index;
-  typename TLevelSet::ScalarValueType neighValue;
+  typename TLevelSet::PixelType neighValue;
   PixelType outputPixel;
   NodeType node;
 
@@ -456,7 +454,7 @@ IndexType& index )
       if( m_LabelImage->GetPixel( neighIndex ) == AlivePoint )
       {
         outputPixel = m_OutputLevelSet->GetPixel( neighIndex );
-        neighValue = ScalarTraits<PixelType>::GetScalar( outputPixel );
+        neighValue = outputPixel ;
 
         if( node.value > neighValue )
         {
@@ -487,8 +485,7 @@ IndexType& index )
   if( m_SpeedImage )
   {
     typedef typename SpeedImageType::PixelType SpeedPixelType;
-    cc = (double) ScalarTraits<SpeedPixelType>::
-      GetScalar( m_SpeedImage->GetPixel( index ) );
+    cc = (double) m_SpeedImage->GetPixel( index ) ;
     cc = -1.0 * vnl_math_sqr( 1.0 / cc );
   }
   else 
@@ -525,16 +522,15 @@ IndexType& index )
 
   if( solution < m_LargeValue )
   {
-    // write solution to m_OutputLevelSet
-    ScalarTraits<PixelType>::SetScalar( outputPixel, solution );
-    m_OutputLevelSet->SetPixel( index, outputPixel );
+  // write solution to m_OutputLevelSet
+  outputPixel = solution;
+  m_OutputLevelSet->SetPixel( index, outputPixel );
 
     // insert point into trial heap
-    m_LabelImage->SetPixel( index, TrialPoint );
-    node.value = solution;
-    node.index = index;
-    m_TrialHeap.push( node );
-
+  m_LabelImage->SetPixel( index, TrialPoint );
+  node.value = solution;
+  node.index = index;
+  m_TrialHeap.push( node );
   }
 
   return solution;

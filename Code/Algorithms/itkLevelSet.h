@@ -130,14 +130,9 @@ public:
   typedef typename TLevelSet::PixelType PixelType;
   
   /**
-   * ScalarValueType typedef support.
-   */
-  typedef typename TLevelSet::ScalarValueType ScalarValueType;
-
-  /**
    * Node typdef support.
    */
-  typedef LevelSetNode<ScalarValueType, SetDimension> NodeType;
+  typedef LevelSetNode<PixelType, SetDimension> NodeType;
 
   /**
    * NodeContainer typedef support.

@@ -107,11 +107,6 @@ public:
   typedef typename Superclass::ConstIterator ConstIterator;
   
   /**
-   * Scalar data type typedef support
-   */
-  typedef typename Superclass::ScalarValueType ScalarValueType;
-
-  /**
    * Default constructor.
    */
   ConstSmartNeighborhoodIterator()

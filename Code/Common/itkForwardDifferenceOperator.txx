@@ -40,6 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #ifndef _itkForwardDifferenceOperator_txx
 #define _itkForwardDifferenceOperator_txx
+
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 
@@ -51,9 +54,9 @@ ForwardDifferenceOperator<TPixel, VDimension, TAllocator>
 {
   CoefficientVector coeff(3);
 
-  coeff[0] = NumericTraits<ScalarValueType>::Zero;
-  coeff[1] = -1.0f *  NumericTraits<ScalarValueType>::One;
-  coeff[2] =  NumericTraits<ScalarValueType>::One;
+  coeff[0] = NumericTraits<PixelType>::Zero;
+  coeff[1] = -1.0f *  NumericTraits<PixelType>::One;
+  coeff[2] =  NumericTraits<PixelType>::One;
 
   return coeff;
 }

@@ -51,6 +51,12 @@ namespace itk {
 /**
  * \class VectorGradient2DAnisotropicDiffusionEquation
  *  
+ * Requirements:
+ *      1) Image PixelType must have an internal typedef of ValueType,
+ *            i.e. TImage::PixelType::ValueType must be defined as the
+ *                 as the type of one value (element/component) of a pixel.
+ *                 Since we are talking about vector anisotropic diffusion,
+ *                 this is the type of an element of the vector (float, etc.)
  *
  *
  * \todo Convert this class to ND and write a 2DGradientAnis....Equation
@@ -72,12 +78,18 @@ public:
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   enum { ImageDimension = Superclass::ImageDimension };
   enum { VectorDimension= Superclass::VectorDimension };
+
+  /**
+   * Type of a value in a vector (double, float, etc.)
+   */
+  typedef typename PixelType::ValueType         ScalarValueType;
+
+
   /** 
    * Smart pointer support for this class.
    */
@@ -156,7 +168,7 @@ protected:
   /**
    * Modified global average gradient magnitude term.
    */
-  ScalarValueType m_k;
+  double m_k;
   
 };
 

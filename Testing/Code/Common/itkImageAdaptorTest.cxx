@@ -15,7 +15,6 @@
 
 
 #include <itkImageAdaptor.h>
-#include <itkScalar.h>
 #include <itkSimpleImageRegionIterator.h>
 #include <itkRGBPixel.h>
 #include <itkRedDataAccessor.h>

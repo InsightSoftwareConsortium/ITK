@@ -249,16 +249,15 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       magnitude = inCurvature->GetMagnitude();
       updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 
-      speed = (double) ScalarTraits<EdgePixelType>::
-        GetScalar( speedIt.Get() );
+      speed = (double) speedIt.Get();
 
       updateValue *= timeStepSize * speed; 
     
-      value = (double) ScalarTraits<PixelType>::GetScalar( inBuffIt.Get() );
+      value = (double) inBuffIt.Get();
       value += updateValue;
 
       tempPixel = outBuffIt.Get();
-      ScalarTraits<PixelType>::SetScalar( tempPixel, value );
+      tempPixel = value;
       outBuffIt.Set( tempPixel );
 
       ++outBuffIt;
@@ -375,16 +374,14 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
         magnitude = inCurvature->GetMagnitude();
         updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 
-        speed = (double) ScalarTraits<EdgePixelType>::
-          GetScalar( extVelPtr->GetPixel(node.index) );
+        speed = (double) extVelPtr->GetPixel(node.index);
 
         updateValue *= timeStepSize * speed; 
     
-        value = (double) ScalarTraits<PixelType>::
-          GetScalar( inputPtr->GetPixel( node.index ) );
+        value = (double) inputPtr->GetPixel( node.index );
         value += updateValue;
 
-        ScalarTraits<PixelType>::SetScalar( lsetPixel, value );
+        lsetPixel = value;
         outputPtr->SetPixel( node.index, lsetPixel );
 
         }

@@ -72,7 +72,6 @@ public:
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
@@ -149,13 +148,13 @@ protected:
   /**
    * Derivative operators.
    */
-  DerivativeOperator<ScalarValueType, 2> dx_op;
-  DerivativeOperator<ScalarValueType, 2> dy_op;
+  DerivativeOperator<PixelType, 2> dx_op;
+  DerivativeOperator<PixelType, 2> dy_op;
 
   /**
    * Modified global average gradient magnitude term.
    */
-  ScalarValueType m_k;
+  PixelType m_k;
   
 };
 

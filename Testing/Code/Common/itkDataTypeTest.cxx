@@ -1,5 +1,4 @@
 #include <iostream>
-#include "itkScalar.h"
 #include "itkVector.h"
 
 
@@ -7,11 +6,7 @@
 
 int main()
 {
-  itk::Scalar<double> s;
   itk::Vector<int, 4> v;
-
-  s.SetScalar( 5.1 );
-  std::cout << "Scalar value = " << s.GetScalar() << std::endl;
 
   v = 1,2,3,4;
   std::cout << "Vector value = ";

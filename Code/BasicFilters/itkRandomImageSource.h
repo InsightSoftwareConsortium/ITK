@@ -50,9 +50,7 @@ namespace itk
  * \brief Generate an n-dimensional image of random image values.
  *
  * RandomImageSource generates an image of random scalar values.
- * The output image may be of any dimension. The scalar values are
- * inserted into the image via a scalar iterator (i.e., the pixel type
- * must support GetScalar()/SetScalar()).
+ * The output image may be of any dimension. 
  */
 template <typename TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
@@ -78,11 +76,6 @@ public:
    * Typedef for the output image PixelType
    */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
-
-  /**
-   * Typedef for the output image ScalarValueType.
-   */
-  typedef typename TOutputImage::ScalarValueType OutputImageScalarValueType;
 
   /**
    * Typedef to describe the output image region type.
@@ -131,29 +124,29 @@ public:
   
   /** 
    * Set the minimum possible pixel value. By default, it is
-   * NumericTraits<TOutputImage::ScalarValueType>::min().
+   * NumericTraits<TOutputImage::PixelType>::min().
    */
-  itkSetClampMacro(Min, OutputImageScalarValueType,
-                   NumericTraits<OutputImageScalarValueType>::min(),
-                   NumericTraits<OutputImageScalarValueType>::max());
+  itkSetClampMacro(Min, OutputImagePixelType,
+                   NumericTraits<OutputImagePixelType>::min(),
+                   NumericTraits<OutputImagePixelType>::max());
   
   /** 
    * Get the minimum possible pixel value.
    */
-  itkGetMacro(Min,typename TOutputImage::ScalarValueType);
+  itkGetMacro(Min, OutputImagePixelType);
 
   /** 
    * Set the maximum possible pixel value. By default, it is
-   * NumericTraits<TOutputImage::ScalarValueType>::max().
+   * NumericTraits<TOutputImage::PixelType>::max().
    */
-  itkSetClampMacro(Max, OutputImageScalarValueType,
-                   NumericTraits<OutputImageScalarValueType>::min(),
-                   NumericTraits<OutputImageScalarValueType>::max());
+  itkSetClampMacro(Max, OutputImagePixelType,
+                   NumericTraits<OutputImagePixelType>::min(),
+                   NumericTraits<OutputImagePixelType>::max());
   
   /** 
    * Get the maximum possible pixel value.
    */
-  itkGetMacro(Max, OutputImageScalarValueType);
+  itkGetMacro(Max, OutputImagePixelType);
 
 protected:
   RandomImageSource();
@@ -172,8 +165,8 @@ private:
   float         *m_Spacing; //spacing
   float         *m_Origin;  //origin
 
-  typename TOutputImage::ScalarValueType m_Min; //minimum possible value
-  typename TOutputImage::ScalarValueType m_Max; //maximum possible value
+  typename TOutputImage::PixelType m_Min; //minimum possible value
+  typename TOutputImage::PixelType m_Max; //maximum possible value
 };
 
 } // end namespace itk

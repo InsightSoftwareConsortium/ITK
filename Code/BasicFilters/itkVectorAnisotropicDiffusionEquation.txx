@@ -60,9 +60,9 @@ VectorAnisotropicDiffusionEquation<TImage>
 
   unsigned int i, j;
   //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
-  ScalarValueType                           accumulator;
+  double                                    accumulator;
   PixelType                                 val;
-  ScalarValueType                           counter;
+  unsigned long                             counter;
   BFC_type                                  bfc;
   typename BFC_type::FaceListType           faceList;
   typename RNI_type::RadiusType             radius;
@@ -72,8 +72,7 @@ VectorAnisotropicDiffusionEquation<TImage>
   VectorNeighborhoodInnerProduct<TImage>      IP;
   RNI_type                                    iterator_list[ImageDimension];
   SNI_type                               face_iterator_list[ImageDimension];
-  DerivativeOperator<ScalarValueType,
-                        ImageDimension> operator_list[ImageDimension];
+  DerivativeOperator<PixelType::ValueType, ImageDimension> operator_list[ImageDimension];
   
   // Set up the derivative operators, one for each dimension
   for (i = 0; i < ImageDimension; ++i)
@@ -89,8 +88,8 @@ VectorAnisotropicDiffusionEquation<TImage>
   fit      = faceList.begin();
 
   // Now do the actual processing
-  accumulator = NumericTraits<ScalarValueType>::Zero;
-  counter     = NumericTraits<ScalarValueType>::Zero;
+  accumulator = 0.0;
+  counter     = 0;
 
   // First process the non-boundary region
 
@@ -104,14 +103,14 @@ VectorAnisotropicDiffusionEquation<TImage>
     }  
   while ( !iterator_list[0].IsAtEnd() )
     {
-      counter += NumericTraits<ScalarValueType>::One;
-      for (i = 0; i < ImageDimension; ++i)
-        {
-          val = IP(iterator_list[i], operator_list[i]);
-          for (j = 0; j < VectorDimension; ++j)
-            {  accumulator += val[j] * val[j];  }
-          ++iterator_list[i];
-        }
+    counter++;
+    for (i = 0; i < ImageDimension; ++i)
+      {
+      val = IP(iterator_list[i], operator_list[i]);
+      for (j = 0; j < VectorDimension; ++j)
+        {  accumulator += val[j] * val[j];  }
+      ++iterator_list[i];
+      }
     }
   
   // Go on to the next region(s).  These are on the boundary faces.
@@ -126,7 +125,7 @@ VectorAnisotropicDiffusionEquation<TImage>
         
        while ( ! face_iterator_list[0].IsAtEnd() )
          {
-           counter += NumericTraits<ScalarValueType>::One;
+           counter++;
            for (i = 0; i < ImageDimension; ++i)
              {
                val = SIP(face_iterator_list[i], operator_list[i]);
@@ -138,7 +137,7 @@ VectorAnisotropicDiffusionEquation<TImage>
        ++fit;
     }
   
-  m_AverageGradientMagnitudeSquared =( (ScalarValueType) (accumulator / counter) );
+  m_AverageGradientMagnitudeSquared = accumulator / (double) counter;
 
   //DEBUG
   std::cout << m_AverageGradientMagnitudeSquared << std::endl;

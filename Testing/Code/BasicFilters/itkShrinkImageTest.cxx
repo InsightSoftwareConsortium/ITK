@@ -42,19 +42,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkScalar.h"
 #include "itkShrinkImageFilter.h"
 
 int main()
 {
   // typedefs to simplify the syntax
-  typedef itk::Image<itk::Scalar<short>, 2>   SimpleImage;
+  typedef itk::Image<short, 2>   SimpleImage;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
   
   // typedefs to simplify the syntax
-  typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
+  typedef itk::PhysicalImage<short, 2>   ShortImage;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
@@ -72,11 +71,9 @@ int main()
   itk::ImageRegionIterator<ShortImage> iterator(if2, region);
 
   short i=0;
-  itk::Scalar<short> scalar;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
     {
-    scalar = i;
-    iterator.Set( scalar );
+    iterator.Set( i );
     }
   
   // Create a filter

@@ -42,9 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkRandomImageSource_txx
 
 #include "itkRandomImageSource.h"
-#include "itkPixelTraits.h"
+#include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
-#include "itkScalarImageRegionIterator.h"
 #include "vnl/vnl_sample.h"
 
  
@@ -70,8 +69,8 @@ RandomImageSource<TOutputImage>
     m_Origin[i] = 0.0;
     }
 
-  m_Min = NumericTraits<OutputImageScalarValueType>::min();
-  m_Max = NumericTraits<OutputImageScalarValueType>::max();
+  m_Min = NumericTraits<OutputImagePixelType>::min();
+  m_Max = NumericTraits<OutputImagePixelType>::max();
 
 }
 
@@ -131,17 +130,15 @@ RandomImageSource<TOutputImage>
 {
   itkDebugMacro(<<"Generating a random image of scalars");
 
-  typedef typename TOutputImage::ScalarValueType scalarType;
+  typedef typename TOutputImage::PixelType scalarType;
   typename TOutputImage::Pointer image=this->GetOutput(0);
   image->SetBufferedRegion( image->GetRequestedRegion() );
 
-  ScalarImageRegionIterator<TOutputImage>
-    scalarIterator(image, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
 
-  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
+  for ( ; !it.IsAtEnd(); ++it)
     {
-    scalarIterator.Set( (scalarType) vnl_sample_uniform(
-                                   (double)m_Min,(double)m_Max) );
+    it.Set( (scalarType) vnl_sample_uniform( (double)m_Min,(double)m_Max) );
     }
 }
 

@@ -41,9 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkNeighborhoodOperator_h
 #define __itkNeighborhoodOperator_h
 
-#include "itkPixelTraits.h"
 #include "itkNeighborhood.h"
 #include "itkExceptionObject.h"
+#include "itkNumericTraits.h"
 #include <vector>
 
 namespace itk {
@@ -105,10 +105,10 @@ public:
   typedef typename Superclass::SizeType SizeType;
 
   /**
-   * External scalar type support
+   * External support for pixel type
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
-  
+  typedef TPixel PixelType;
+
   /**
    * Slice iterator typedef support
    */
@@ -223,7 +223,7 @@ protected:
   {
     for (unsigned int i = 0; i< this->Size(); ++i)
       {
-        this->operator[](i) = NumericTraits<ScalarValueType>::Zero;
+        this->operator[](i) = NumericTraits<PixelType>::Zero;
       }
   }
   

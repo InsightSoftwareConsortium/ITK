@@ -223,7 +223,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - m_LevelSetValue > 0 )
       {
       outputIt.Set( tempIt.Get() );
@@ -244,10 +244,10 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - m_LevelSetValue <= 0 )
       {
-      value = (double) ScalarTraits<PixelType>::GetScalar( tempIt.Get() );
+      value = (double) tempIt.Get();
       outputIt.Set( -1.0 * value );
       }
 
@@ -283,11 +283,9 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   PixelType posInfinity;
   PixelType negInfinity;
-  typedef typename TLevelSet::ScalarValueType ScalarValueType;
-  ScalarTraits<PixelType>::SetScalar(posInfinity, 
-    NumericTraits<ScalarValueType>::max());
-  ScalarTraits<PixelType>::SetScalar(negInfinity, 
-    NumericTraits<ScalarValueType>::NonpositiveMin());
+
+  posInfinity = NumericTraits<PixelType>::max();
+  negInfinity = NumericTraits<PixelType>::NonpositiveMin();
 
   // set all internal pixels to minus infinity and 
   // all external pixels to positive infinity
@@ -298,7 +296,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
+    value = (double) inputIt.Get();
     if( value - m_LevelSetValue <= 0 )
       {
       outputIt.Set( negInfinity );
@@ -357,7 +355,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.index );
     
-    value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
+    value = (double) inPixel;
     if( value - m_LevelSetValue > 0 )
       {
       inPixel = tempLevelSet->GetPixel( node.index );
@@ -381,12 +379,12 @@ ReinitializeLevelSetImageFilter<TLevelSet>
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.index );
     
-    value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
+    value = (double) inPixel ;
     if( value - m_LevelSetValue <= 0 )
       {
       inPixel = tempLevelSet->GetPixel( node.index );
-      value = (double) ScalarTraits<PixelType>::GetScalar( inPixel );
-      ScalarTraits<PixelType>::SetScalar( inPixel, -1.0 * value );
+      value = (double) inPixel;
+      inPixel =  -1.0 * value;
       outputPtr->SetPixel( node.index, inPixel );
       node.value *= -1.0;
       m_OutputNarrowBand->InsertElement( m_OutputNarrowBand->Size(), node );

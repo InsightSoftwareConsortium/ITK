@@ -138,9 +138,9 @@ AvgGradMagSquared<TImageType>
              const RegionType &region)
   const
 {
-  PixelType accumulator;
+  double accumulator;
   PixelType val;
-  PixelType counter;
+  unsigned int counter;
   typedef RegionNonBoundaryNeighborhoodIterator<TImageType> RNI_type;
   NeighborhoodAlgorithm::IteratorInnerProduct<RNI_type,
     NeighborhoodOperator<PixelType, ImageDimension> > IP;
@@ -163,22 +163,22 @@ AvgGradMagSquared<TImageType>
     }
 
   // Now do the actual processing
-  accumulator = NumericTraits<PixelType>::Zero;
-  counter     = NumericTraits<PixelType>::Zero;
+  accumulator = 0.0;
+  counter     = 0;
   const RNI_type iterator_end = iterator_list[0].End();
   for (iterator_list[0] = iterator_list[0].Begin();
        !iterator_list[0].IsAtEnd(); )
     {
-      counter += NumericTraits<PixelType>::One;
-      for (unsigned int i = 0; i < ImageDimension; ++i)
-        {
-          val = IP(iterator_list[i], operator_list[i]);     
-          accumulator += val * val;
-          ++iterator_list[i];
-        }
+    counter++;
+    for (unsigned int i = 0; i < ImageDimension; ++i)
+      {
+      val = IP(iterator_list[i], operator_list[i]);     
+      accumulator += val * val;
+      ++iterator_list[i];
+      }
     }
 
-  return ( (PixelType) (accumulator / counter) );
+  return accumulator / (double) counter;
 }
 
 } // end namespace itk

@@ -108,7 +108,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
+
   //  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
 
@@ -146,30 +146,30 @@ public:
     { m_TimeStep = t; }
   const TimeStepType &GetTimeStep() const
     { return m_TimeStep; }
-  void SetConductanceParameter(const ScalarValueType &c)
+  void SetConductanceParameter(const double &c)
     { m_ConductanceParameter = c; }
-  const ScalarValueType &GetConductanceParameter() const
+  const double &GetConductanceParameter() const
     { return m_ConductanceParameter; }
 
-  const ScalarValueType &GetAverageGradientMagnitudeSquared() const
+  const double &GetAverageGradientMagnitudeSquared() const
     { return m_AverageGradientMagnitudeSquared;  }
 
-  void SetAverageGradientMagnitudeSquared(const ScalarValueType &c)
+  void SetAverageGradientMagnitudeSquared(const double &c)
     { m_AverageGradientMagnitudeSquared = c; }
 
 protected:
   AnisotropicDiffusionEquation()
     {
-      m_AverageGradientMagnitudeSquared = NumericTraits<ScalarValueType>::Zero;
-      m_ConductanceParameter     = NumericTraits<ScalarValueType>::One;
+      m_AverageGradientMagnitudeSquared = 0.0;
+      m_ConductanceParameter     = 0.0;
       m_TimeStep                 = 0.125f;
     }
   ~AnisotropicDiffusionEquation() {}
   AnisotropicDiffusionEquation(const Self&) {}
   void operator=(const Self&) {}
 
-  ScalarValueType m_AverageGradientMagnitudeSquared;
-  ScalarValueType m_ConductanceParameter;
+  double m_AverageGradientMagnitudeSquared;
+  double m_ConductanceParameter;
   TimeStepType    m_TimeStep;
 };
 

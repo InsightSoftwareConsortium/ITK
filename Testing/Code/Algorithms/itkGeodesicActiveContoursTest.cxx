@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFastMarchingImageFilter.h"
 #include "itkGeodesicActiveContourImageFilter.h"
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkImageRegionIterator.h"
 
 int main()

@@ -40,7 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 #include "itkPhysicalImage.h"
-#include "itkScalar.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
 #include "itkVTKImageWriter.h"
@@ -79,10 +78,10 @@ int main()
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  // Begin by creating a simple pipeline. Use the Scalar class as a pixel.
+  // Begin by creating a simple pipeline. Use a scalar as a pixel.
   //
   // Create a typedef to make the code more digestable
-  typedef itk::PhysicalImage<itk::Scalar<float>,2> FloatImage2DType;
+  typedef itk::PhysicalImage<float,2> FloatImage2DType;
 
   // Test the deletion of an image with native type.
   // (scope operators cause automagic smart pointer destruction)
@@ -95,10 +94,10 @@ int main()
   if2->AddObserver(itk::Command::DeleteEvent, deleteCommand);
 
   //test unregister from vector of data objects
-    {
-    std::vector<itk::DataObject::Pointer> v;
-    v.push_back(if2.GetPointer());
-    }
+  {
+  std::vector<itk::DataObject::Pointer> v;
+  v.push_back(if2.GetPointer());
+  }
   }//image
 
   // Create a source object (in this case a reader)

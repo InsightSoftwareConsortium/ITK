@@ -333,8 +333,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         {
           offset = nrow * m_imgWidth + ncol;
           tempImgIt = outImgIt + offset;
-          ScalarTraits<LabelImagePixelType>::SetScalar( *tempImgIt,
-                                                        newRegionLabel );
+          *tempImgIt = newRegionLabel;
         }
       }
                                                         

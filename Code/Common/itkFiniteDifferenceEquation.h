@@ -72,8 +72,12 @@ public:
   typedef TImageType ImageType;
   enum { ImageDimension = ImageType::ImageDimension };
   typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::ScalarValueType TimeStepType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
+
+
+  /**
+   * Define the TimeStepType to always be double.
+   */
+  typedef double  TimeStepType;
 
   /**
    * The default boundary condition for finite difference

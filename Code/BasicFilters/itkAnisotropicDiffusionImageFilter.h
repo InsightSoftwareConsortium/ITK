@@ -44,6 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkAnisotropicDiffusionEquation.h"
+#include "itkNumericTraits.h"
+
 namespace itk {
 
 template <class TInputImage, class TOutputImage>
@@ -75,12 +77,8 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /**
-   * Define what a scalar value is.
-   */
-  typedef typename OutputImageType::ScalarValueType ScalarValueType;
 
- /** 
+  /** 
    * Smart pointer support for this class.
    */
   typedef SmartPointer<Self> Pointer;
@@ -93,14 +91,14 @@ public:
   itkGetMacro(Iterations, unsigned int);
   itkSetMacro(TimeStep, TimeStepType);
   itkGetMacro(TimeStep, TimeStepType);
-  itkSetMacro(ConductanceParameter, ScalarValueType);
-  itkGetMacro(ConductanceParameter, ScalarValueType);
+  itkSetMacro(ConductanceParameter, double);
+  itkGetMacro(ConductanceParameter, double);
   
 protected:
   AnisotropicDiffusionImageFilter()
     {
       m_Iterations = 0;
-      m_ConductanceParameter = NumericTraits<ScalarValueType>::One;
+      m_ConductanceParameter = 1.0;
       m_TimeStep = 0.125f;
     }
   ~AnisotropicDiffusionImageFilter() {}
@@ -137,7 +135,7 @@ protected:
     }
   
 private:
-  ScalarValueType  m_ConductanceParameter;
+  double           m_ConductanceParameter;
   unsigned int     m_Iterations;
   TimeStepType     m_TimeStep;
 };

@@ -44,39 +44,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkOffset.h"
 #include "itkIndex.h"
-#include "itkPixelTraits.h"
 #include "itkImageRegionIterator.h"
 #include <iostream>
 
 typedef itk::Image<itk::Index<4>, 4> TestImageType;
 typedef itk::Offset<4> OffsetType;
 
-
-namespace itk {
-  
-template <>
-class ScalarTraits< Index<4> >
-{
-public:
-  // This useless class is necessary because itk expects all image pixels
-  // to have ScalarTraits defined.  The default definition is not compatible
-  // with itk::Index.
-  typedef Index<4> ValueType;
-  typedef Index<4> ScalarValueType;
-};
-  
-template <>
-class VectorTraits< Index<4> >
-{
-public:
-  // This useless class is necessary because itk expects all image pixels
-  // to have VectorTraits defined.  The default definition is not compatible
-  // with itk::Index.
-  typedef Index<4> ValueType;
-  typedef Index<4> ScalarValueType;
-};
-  
-}  // end namespace itk
 
 inline void println(char *s) { std::cout << s << std::endl; }
 

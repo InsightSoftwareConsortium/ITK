@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkCurvatureFlowImageFilter_txx
 #define _itkCurvatureFlowImageFilter_txx
 
-#include "itkPixelTraits.h"
 #include "itkImageRegionIterator.h"
 #include "itkLevelSetCurvatureFunction.h"
 
@@ -146,7 +145,7 @@ CurvatureFlowImageFilter<TLevelSet>
       outIt != outIt.End(); ++outIt, ++inIt)
       {
 
-      value = (double) ScalarTraits<PixelType>:: GetScalar(inIt.Get());
+      value = (double) inIt.Get();
 
       inputIndex = outIt.GetIndex();
 
@@ -155,7 +154,7 @@ CurvatureFlowImageFilter<TLevelSet>
 
       value += timeStep * curvature * magnitude;
 
-      ScalarTraits<PixelType>::SetScalar(outputPixel, value );
+      outputPixel = value;
       outIt.Set(outputPixel);
 
       }

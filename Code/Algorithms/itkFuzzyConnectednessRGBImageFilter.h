@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
-#include "itkScalar.h"
 #include <vnl/vnl_matrix_fixed.h>
 
 #include <queue>

@@ -104,11 +104,11 @@ Index& index)
   }
 
   // is this an inside or outside point
-  typename LevelSetImageType::ScalarValueType pixelValue;
+  double pixelValue;
   PixelType inputPixel;
 
   inputPixel = (this->GetInput())->GetPixel( index );
-  pixelValue = (double) ScalarTraits<PixelType>::GetScalar( inputPixel );
+  pixelValue = (double) inputPixel;
   pixelValue -= this->GetLevelSetValue();
 
   bool inside = ( pixelValue <= 0.0 );
@@ -119,17 +119,16 @@ Index& index)
   for( unsigned int k = 0; k < VAuxDimension; k++ )
   {
     auxPixel = m_AuxImage[k]->GetPixel( index );
-    centerValue[k] = (double) ScalarTraits<AuxValueType>::
-      GetScalar( auxPixel );
+    centerValue[k] = (double) auxPixel;
   }
 
   // if distance is zero, insert point in inside container
   if( distance == 0.0 )
   {
     for( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
-      ScalarTraits<AuxValueType>::SetScalar( auxVector[k], centerValue[k] );
-    }
+      {
+      auxVector[k] = centerValue[k];
+      }
 
     m_AuxInsideValues->InsertElement( m_AuxInsideValues->Size(), auxVector );
     
@@ -166,8 +165,7 @@ Index& index)
     for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
       auxPixel = m_AuxImage[k]->GetPixel( neighNode.index );
-      numer[k] += (double) ScalarTraits<AuxValueType>::
-        GetScalar( auxPixel ) / vnl_math_sqr( neighNode.value );
+      numer[k] += (double) ( auxPixel ) / vnl_math_sqr( neighNode.value );
     }
 
   }
@@ -175,7 +173,7 @@ Index& index)
   for( unsigned int k = 0; k < VAuxDimension; k++ )
   {
     numer[k] /= denom;
-    ScalarTraits<AuxValueType>::SetScalar( auxVector[k], numer[k] );
+    auxVector[k] = numer[k];
   }
 
   if( inside )

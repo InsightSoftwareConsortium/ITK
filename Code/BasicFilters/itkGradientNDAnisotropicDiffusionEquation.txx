@@ -89,7 +89,7 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   PixelType dx_aug[ImageDimension];
   PixelType dx_dim[ImageDimension];
 
-  delta = NumericTraits<ScalarValueType>::Zero;
+  delta = NumericTraits<PixelType>::Zero;
   
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)
@@ -142,7 +142,7 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   PixelType dx_aug[ImageDimension];
   PixelType dx_dim[ImageDimension];
 
-  delta = NumericTraits<ScalarValueType>::Zero;
+  delta = NumericTraits<PixelType>::Zero;
   
   // Calculate the partial derivatives for each dimension
   for (i = 0; i < ImageDimension; i++)

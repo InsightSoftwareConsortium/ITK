@@ -40,11 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 // Insight classes
 #include "itkImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIterator.h"
-#include "itkPixelTraits.h"
 
 #include "itkKLMRegionGrowImageFilter.h"
 
@@ -231,9 +229,7 @@ int main()
 
   while(labelIt != labelItEnd)
   {
-    pixelLabel = 
-	    (unsigned short)  
-        itk::ScalarTraits<LabelledImagePixelType>::GetScalar( labelIt.Get() );
+    pixelLabel = (unsigned short) labelIt.Get();
 
     if(pixelLabel > maxpixelLabel)
 	    maxpixelLabel = pixelLabel;
@@ -268,8 +264,7 @@ int main()
   {
     for(int k=0; k<IMGWIDTH;k++)
 	  {
-	    pixelLabel = 
-	      (unsigned short)  itk::ScalarTraits<LabelledImagePixelType>::GetScalar(labelIt.Get());
+	    pixelLabel = (unsigned short) labelIt.Get();
 	    std::cout << pixelLabel;
 	    ++labelIt;
 	  }//end row
@@ -278,6 +273,4 @@ int main()
 
 
   return 0;
-
-
 }

@@ -40,7 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 #include "itkPhysicalImage.h"
-#include "itkScalar.h"
 #include "itkVector.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
@@ -144,10 +143,10 @@ int main()
   std::cout << "Image dimension is " << itk::PhysicalImage<short,1>::ImageDimension
             << std::endl;
 
-  // Begin by creating a simple pipeline. Use the Scalar class as a pixel.
+  // Begin by creating a simple pipeline. Use a scalar ss a pixel.
   //
   // Create a typedef to make the code more digestable
-  typedef itk::PhysicalImage<itk::Scalar<float>,2> FloatImage2DType;
+  typedef itk::PhysicalImage<float,2> FloatImage2DType;
 
   // Create a source object (in this case a reader)
   itk::VTKImageReader<FloatImage2DType>::Pointer reader;

@@ -46,13 +46,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
-#include "itkScalar.h"
 #include "itkSimpleImageRegionIterator.h"
 
 
 enum {NDimensions = 2};
 
-typedef itk::Scalar<short>                  PixelType;
+typedef short                  PixelType;
 typedef itk::PhysicalImage<PixelType, NDimensions>     ImageType;
 typedef ImageType::IndexType                ImageIndexType;
 typedef ImageType::Pointer                  ImagePointerType;

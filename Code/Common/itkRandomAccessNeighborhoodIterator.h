@@ -90,7 +90,6 @@ public:
   typedef typename Superclass::ConstIterator ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType
    ImageBoundaryConditionPointerType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
   
   /**
    * Default constructor.

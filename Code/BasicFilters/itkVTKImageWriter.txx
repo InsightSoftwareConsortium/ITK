@@ -252,15 +252,15 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
         {
         *fp << std::endl;
         }
-      *fp << inIt.Get().GetScalar() << " ";
+      *fp << inIt.Get() << " ";
       }
     }
   else
     {
-    typedef typename TInputImage::ScalarValueType scalarType;
+    typedef typename TInputImage::PixelType scalarType;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
-      scalarType foo = inIt.Get().GetScalar();
+      scalarType foo = inIt.Get();
       ByteSwapper<scalarType>::SwapBE(&foo);
       fp->write((char *)&foo, sizeof(scalarType));
       }
@@ -285,7 +285,7 @@ VTKImageWriter<TInputImage>
   
   // Write scalar data
   //
-  typedef typename TInputImage::ScalarValueType scalarType;
+  typedef typename TInputImage::PixelType scalarType;
 
   if ( typeid(scalarType) == typeid(char) )
     {

@@ -295,25 +295,22 @@ IndexType& index )
         }
 
         auxVal = m_AuxImage[k]->GetPixel( node.index );
-        numer +=  ScalarTraits<AuxValueType>::GetScalar( auxVal ) * 
-          ( solution - node.value );
+        numer +=  auxVal  *  ( solution - node.value );
         denom += solution - node.value;
 
       }
 
       if( denom > 0 )
-      {
-        ScalarTraits<AuxValueType>::SetScalar( auxVal, numer / denom );
-      }
+        {
+        auxVal = numer / denom;
+        }
       else 
-      {
-        ScalarTraits<AuxValueType>::SetScalar( auxVal, 0.0 );
-      }
+        {
+      auxVal = 0.0;
+        }
         
       m_AuxImage[k]->SetPixel( index, auxVal );
-
     }
-
   }
 
   return solution;
