@@ -14,7 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkWin32Header.h"#if defined(_MSC_VER)
+#include "itkWin32Header.h"
+#if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
