@@ -106,28 +106,27 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   m_ImageIO->SetFileName(m_FileName.c_str());
   m_ImageIO->ReadImageInformation();
 
-  if( m_ImageIO->GetNumberOfDimensions() < TOutputImage::ImageDimension )
-    {
-    ImageFileReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << "Number of dimensions in file ("
-        << m_ImageIO->GetNumberOfDimensions()
-        << ") does not match number of dimensions in output ("
-        << TOutputImage::ImageDimension
-        << ")";
-    e.SetDescription(msg.str().c_str());
-    throw e;
-    }
-  
   SizeType dimSize;
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
-    dimSize[i] = m_ImageIO->GetDimensions(i);
-    spacing[i] = m_ImageIO->GetSpacing(i);
-    origin[i]  = m_ImageIO->GetOrigin(i);
+    if ( i < m_ImageIO->GetNumberOfDimensions() )
+      {
+      dimSize[i] = m_ImageIO->GetDimensions(i);
+      spacing[i] = m_ImageIO->GetSpacing(i);
+      origin[i]  = m_ImageIO->GetOrigin(i);
+      }
+    else
+      {
+      // Number of dimensions in the output is more than number of dimensions
+      // in the ImageIO object (the file).  Use default values for the size,
+      // spacing, and origin for the final (degenerate) dimensions.
+      dimSize[i] = 1;  
+      spacing[i] = 1.0;
+      origin[i] = 0.0;
+      }
     }
 
   output->SetSpacing( spacing );   // Set the image spacing
@@ -172,7 +171,17 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   SizeType dimSize;
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
-    dimSize[i] = m_ImageIO->GetDimensions(i);
+    if (i < m_ImageIO->GetNumberOfDimensions())
+      {
+      dimSize[i] = m_ImageIO->GetDimensions(i);
+      }
+    else
+      {
+      // Number of dimensions in the output is more than number of dimensions
+      // in the ImageIO object (the file).  Use default values for the size,
+      // spacing, and origin for the final (degenerate) dimensions.
+      dimSize[i] = 1;
+      }
     }
 
   for(unsigned int i = 0; i < dimSize.GetSizeDimension(); ++i)
