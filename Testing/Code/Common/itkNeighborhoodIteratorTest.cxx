@@ -176,7 +176,10 @@ int main()
   std::cout << i << std::endl;
 
   println("Testing random access");
-  itk::Index<3> offset = { 12, 11, 2};
+  itk::Index<3> offset;
+  offset[0] = 12;
+  offset[1] = 11;
+  offset[2] = 2;
   rri3D = rri3D.Begin() + offset;
   rri3D.Print(std::cout);
 
