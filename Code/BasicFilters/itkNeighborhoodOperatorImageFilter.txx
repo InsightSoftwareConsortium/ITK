@@ -89,7 +89,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     BFC;
   typedef typename BFC::FaceListType FaceListType;
 
-  NeighborhoodInnerProduct<InputImageType> smartInnerProduct;
+  NeighborhoodInnerProduct<InputImageType, OutputPixelType> smartInnerProduct;
   BFC faceCalculator;
   FaceListType faceList;
 

@@ -137,8 +137,8 @@ private:
   NeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** Pointer to the internal operator used to filter the image. */
-  InputNeighborhoodType m_Operator;
+  /** Internal operator used to filter the image. */
+  OutputNeighborhoodType m_Operator;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
