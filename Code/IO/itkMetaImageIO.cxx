@@ -193,7 +193,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
     continue;
     }
 
-  if( strcmp(key,"ElementSize")==0 ) 
+  if( strcmp(key,"ElementSize")==0 ||
+      strcmp(key,"ElementSpacing") ==0 ) 
     {
     if( !GetSeparatorCharacter( inputStream ) )
       {
@@ -411,8 +412,22 @@ void MetaImageIO::ReadImageInformation()
     m_Ifstream.getline( restOfTheLine, maxLineLength );
     continue;
     }
-
-  if( strcmp(key,"ElementSize")==0 ) 
+  if( strcmp(key, "ElementSpacing")==0  ) 
+    {
+    if( !GetSeparatorCharacter( m_Ifstream ) )
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after ElementSpacing");
+      throw exception;
+      }
+    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
+      {
+      m_Ifstream >> m_Spacing[ dim ];
+      }
+    m_Ifstream.getline( restOfTheLine, maxLineLength );
+    continue;
+    }
+  if( strcmp(key,   "ElementSize" )==0 )  // same as ElementSpacing
     {
     if( !GetSeparatorCharacter( m_Ifstream ) )
       {
