@@ -89,7 +89,7 @@ public:
   /**
    * Parameters Pointer
    */
-  typedef ParametersType::Pointer ParametersPointer;
+  typedef typename ParametersType::Pointer ParametersPointer;
 
 
   /**
@@ -143,7 +143,7 @@ public:
           throw ExceptionObject();
         }
         ConvertParameters( parameters);
-        DerivativeType::Pointer externalGradient = 
+        typename DerivativeType::Pointer externalGradient = 
                       m_CostFunction->GetDerivative();
         ConvertGradient( externalGradient, gradient);
       }
@@ -160,7 +160,7 @@ public:
 
         *f =           (InternalMeasureType)m_CostFunction->GetValue();
 
-        DerivativeType::Pointer externalGradient = 
+        typename DerivativeType::Pointer externalGradient = 
                                       m_CostFunction->GetDerivative();
 
         ConvertGradient( externalGradient, *g );    
@@ -172,8 +172,8 @@ public:
        */
       void ConvertParameters( const InternalParametersType & input )
       {
-        ParametersType::Pointer output = m_CostFunction->GetParameters();
-        ParametersType::Iterator it = output->Begin(); 
+        typename ParametersType::Pointer output = m_CostFunction->GetParameters();
+        typename ParametersType::Iterator it = output->Begin(); 
         unsigned int i=0;
         while( it != output->End() )
         {
@@ -187,7 +187,7 @@ public:
        *  Convert external Parameters VectorContainer 
        *  into internal type (vnl_Vector)
        */
-      static void ConvertParameters(ParametersType::Pointer & input,
+      static void ConvertParameters(typename ParametersType::Pointer & input,
                                     InternalParametersType & output )
       {
         const unsigned size = input->Size();
@@ -196,7 +196,7 @@ public:
           output.resize( size );
         }
 
-        ParametersType::ConstIterator it;
+        typename ParametersType::ConstIterator it;
         it = input->Begin(); 
         for(unsigned int i=0; i< size; i++)
         {
@@ -209,7 +209,7 @@ public:
        *  Convert external derviative measures (VectorContainer) 
        *  into internal type (vnl_Vector)
        */
-      void ConvertGradient(const DerivativeType::Pointer & input,
+      void ConvertGradient(const typename DerivativeType::Pointer & input,
                            InternalDerivativeType & output )
       {
         const unsigned size = input->Size();
@@ -218,7 +218,7 @@ public:
           output.resize( size );
         }
         unsigned int i=0;
-        DerivativeType::Iterator it = input->Begin();
+        typename DerivativeType::Iterator it = input->Begin();
         while( it != input->End() )
         {
           output[i] = it.Value();
@@ -228,7 +228,7 @@ public:
       }
 
   private:
-    TCostFunction::Pointer   m_CostFunction;
+    typename TCostFunction::Pointer   m_CostFunction;
 
   };  // end of Class CostFunction
 

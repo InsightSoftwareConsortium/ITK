@@ -61,9 +61,7 @@ public:
    * ParametersType typedef.
    */
   typedef typename TCostFunction::ParametersType    ParametersType;
-
-
-  typedef ParametersType::Pointer    ParametersPointer;
+  typedef typename ParametersType::Pointer    ParametersPointer;
 
 
   /**

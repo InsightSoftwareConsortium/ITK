@@ -77,7 +77,7 @@ public:
   /**
    * Parameters Pointer
    */
-  typedef ParametersType::Pointer ParametersPointer;
+  typedef typename ParametersType::Pointer ParametersPointer;
 
  /** 
    * Run-time type information (and related methods).
@@ -130,7 +130,7 @@ public:
           throw ExceptionObject();
         }
         ConvertParameters( parameters); // should be transfertparameters
-        MeasureType::Pointer externalOutput = MeasureType::New();
+        typename MeasureType::Pointer externalOutput = MeasureType::New();
         externalOutput->Reserve(output.size());
         ConvertMeasure(output,externalOutput);
         m_CostFunction->GetValue( externalOutput);
@@ -148,7 +148,7 @@ public:
         }
         
        ConvertParameters( parameters );
-       DerivativeType::Pointer externalDerivative = DerivativeType::New();
+       typename DerivativeType::Pointer externalDerivative = DerivativeType::New();
              externalDerivative = m_CostFunction->GetDerivative();
 
         ConvertGradient( externalDerivative, derivative );  
@@ -163,13 +163,13 @@ public:
         // delegate the computation to the CostFunction
 
         ConvertParameters( x );
-        MeasureType::Pointer externalMeasure = MeasureType::New();
+        typename MeasureType::Pointer externalMeasure = MeasureType::New();
         externalMeasure->Reserve(f->size());
         ConvertMeasure(*f,externalMeasure);
         m_CostFunction->GetValue( externalMeasure);
         ConvertMeasure(externalMeasure,*f);
 
-        DerivativeType::Pointer externalGradient = 
+        typename DerivativeType::Pointer externalGradient = 
                                       m_CostFunction->GetDerivative();
 
         ConvertGradient( externalGradient, *g ); 
@@ -181,8 +181,8 @@ public:
        */
       void ConvertParameters( const InternalParametersType & input )
       {
-        ParametersType::Pointer output = m_CostFunction->GetParameters();
-        ParametersType::Iterator it = output->Begin(); 
+        typename ParametersType::Pointer output = m_CostFunction->GetParameters();
+        typename ParametersType::Iterator it = output->Begin(); 
         unsigned int i=0;
         while( it != output->End() )
         {
@@ -197,7 +197,7 @@ public:
        *  Convert external Parameters (VectorContainer) 
        *  into internal parameters type (vnl_Vector)
        */
-      static void ConvertParameters(ParametersType::Pointer & input,
+      static void ConvertParameters(typename ParametersType::Pointer & input,
                                     InternalParametersType & output )
       {
         const unsigned size = input->Size();
@@ -206,7 +206,7 @@ public:
           output.resize( size );
         }
 
-        ParametersType::ConstIterator it;
+        typename ParametersType::ConstIterator it;
         it = input->Begin(); 
         for(unsigned int i=0; i< size; i++)
         {
@@ -220,7 +220,7 @@ public:
        *  Convert external Gradient (VectorContainer) 
        *  into internal gradient type (vnl_Matrix)
        */
-      void ConvertGradient(const DerivativeType::Pointer & input,
+      void ConvertGradient(const typename DerivativeType::Pointer & input,
                            InternalDerivativeType & output )
       {
         const unsigned size = input->Size();
@@ -230,7 +230,7 @@ public:
         }
         unsigned int i=0;
 
-        DerivativeType::Iterator it = input->Begin();
+        typename DerivativeType::Iterator it = input->Begin();
         for(unsigned int i=0; i<(size/2); i++)
           for(unsigned int j=0; j<(size/2); j++)
             {
@@ -244,7 +244,7 @@ public:
       *  Convert external Measure (VectorContainer) 
       *  into internal Measure type (vnl_Vector)
       */
-     void ConvertMeasure(const MeasureType::Pointer & input,
+     void ConvertMeasure(const typename MeasureType::Pointer & input,
                            InternalMeasureType & output )
       {
         const unsigned size = input->Size();
@@ -253,7 +253,7 @@ public:
           output.resize( size );
         }
         unsigned int i=0;
-        MeasureType::Iterator it = input->Begin();
+        typename MeasureType::Iterator it = input->Begin();
         while( it != input->End() )
         {
           output[i] = it.Value();
@@ -267,7 +267,7 @@ public:
       *  into external Measure type (VectorContainer)
       */
        void ConvertMeasure(const InternalMeasureType & input,
-                           MeasureType::Pointer & output )
+                           typename MeasureType::Pointer & output )
       {
         const unsigned size = input.size();
         if( output->Size() != size ) 
@@ -276,7 +276,7 @@ public:
           output->Squeeze();
         }
         unsigned int i=0;
-        MeasureType::Iterator it = output->Begin();
+        typename MeasureType::Iterator it = output->Begin();
 
         while( it != output->End() )
         {
@@ -289,7 +289,7 @@ public:
 
 
   private:
-    TCostFunction::Pointer   m_CostFunction;
+    typename TCostFunction::Pointer   m_CostFunction;
   };  // end of Class CostFunction
 
 
@@ -321,6 +321,3 @@ protected:
 #endif
 
 #endif
-
-
-

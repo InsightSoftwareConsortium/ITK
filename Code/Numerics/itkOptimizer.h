@@ -67,7 +67,6 @@ public:
    * search space to the optimizer
    */
   typedef   TParameters    ParametersType;
-  
 
 
   /**
@@ -91,7 +90,7 @@ protected:
 
 private:
 
-  ParametersType::Pointer     m_Parameters;
+  typename ParametersType::Pointer     m_Parameters;
 
 };
 
