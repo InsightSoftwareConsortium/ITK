@@ -20,7 +20,7 @@
 // \index{Statistics!Projecting mesurement vectors to 1-D histogram}
 // \index{itk::Statistics::Sample\-To\-Histogram\-Projection\-Filter}
 //
-// The \subdoxygen{Statistics{{SampleToHistogramProjectionFilter} projects
+// The \subdoxygen{Statistics}{SampleToHistogramProjectionFilter} projects
 // measurement vectors of a sample onto a vector and fills up a 1-D
 // \subdoxygen{Statistics}{Histogram}. The histram will be formed around the
 // mean value set by the \code{SetMean()} method. The histogram's measurement
