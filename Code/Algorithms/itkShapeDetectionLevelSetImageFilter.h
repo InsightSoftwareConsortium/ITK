@@ -23,91 +23,98 @@
 namespace itk {
 
 /** \class ShapeDetectionLevelSetImageFilter
- *  \brief Segments structures in images based on user supplied edge potential map.
+ * \brief Segments structures in images based on a user supplied edge potential map.
  *
- *   \par IMPORTANT
- *   The SegmentationLevelSetImageFilter class and the
- *   ShapeDetectionLevelSetFunction class contain additional information necessary
- *   to the full understanding of how to use this filter.
+ * \par IMPORTANT
+ * The SegmentationLevelSetImageFilter class and the
+ * ShapeDetectionLevelSetFunction class contain additional information necessary
+ * to gain full understanding of how to use this filter.
  *
- *    \par OVERVIEW
- *    This class is a level set method segmentation filter. An initial contour
- *    is propagated outwards (or inwards) until it sticks to the shape boundaries.
- *    This is done by using a level set speed function based on a user supplied
- *    edge potential map. This approach for segmentation follows that of
- *    Malladi et al (1995).
+ * \par OVERVIEW
+ * This class is a level set method segmentation filter. An initial contour
+ * is propagated outwards (or inwards) until it ''sticks'' to the shape boundaries.
+ * This is done by using a level set speed function based on a user supplied
+ * edge potential map. This approach for segmentation follows that of
+ * Malladi et al (1995).
  *
- *    \par INPUTS
- *    This filter requires two inputs.  The first input is a initial level set.
- *    The initial level set is a real image which contains the initial contour/surface
- *    as the zero level set. For example, a signed distance function from the initial
- *    contour/surface is typically used. Note that for the algorithm the initial contour
- *    has to be wholly within (or wholly outside) the structure to be segmented.
+ * \par INPUTS
+ * This filter requires two inputs.  The first input is a initial level set.
+ * The initial level set is a real image which contains the initial contour/surface
+ * as the zero level set. For example, a signed distance function from the initial
+ * contour/surface is typically used. Note that for this algorithm the initial contour
+ * has to be wholly within (or wholly outside) the structure to be segmented.
  *
- *    \par
- *    The second input is the feature image.  For this filter, this is the edge
- *    potential map. General characteristics of an edge potential map is that
- *    it has values close to zero in regions near the edges and values close
- *    to one inside the shape itself. Typically, the edge potential map is compute
- *    from the image gradient, for example:
+ * \par
+ * The second input is the feature image.  For this filter, this is the edge
+ * potential map. General characteristics of an edge potential map is that
+ * it has values close to zero in regions near the edges and values close
+ * to one inside the shape itself. Typically, the edge potential map is compute
+ * from the image gradient, for example:
  *
- *    \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
- *    \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
+ * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
+ * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
  * 
- *    where \f$ I \f$ is image intensity and
- *    \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ * where \f$ I \f$ is image intensity and
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
  *
- *    \par
- *    See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
- *    for more information on Inputs.
+ * \par
+ * See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
+ * for more information on Inputs.
  *
- *    \par PARAMETERS
- *    The method SetUseNegatiiveFeatures() can be used to switch from propagating outwards (true)
- *    versus propagting inwards (false). 
+ * \par PARAMETERS
+ * The PropagationScaling parameter can be used to switch from propagation outwards
+ * (POSITIVE scaling parameter) versus propagating inwards (NEGATIVE scaling 
+ * parameter). 
  *
- *    The smoothness of the resulting contour/surface can be adjusting using a combination
- *    of SetPropagationScaling() and SetCurvatureScaling(). The larger the CurvatureScaling, the
- *    smoother the resulting contour. To follow the implementation in Malladi's paper,
- *    set the PropagtionScaling to 1.0 and CurvatureScaling to \f$ \epsilon \f$.
+ * The smoothness of the resulting contour/surface can be adjusted using a combination
+ * of PropagationScaling and CurvatureScaling parameters. The larger the CurvatureScaling 
+ * parameter, the smoother the resulting contour. 
+ * To follow the implementation in Malladi et al paper,
+ * set the PropagtionScaling to \f$\pm 1.0\f$ and CurvatureScaling to \f$ \epsilon \f$.
  *
- *    Note that there is no advection term for this filter. Setting the 
- *    advection scaling will have no effect.
+ * Note that there is no advection term for this filter. Setting the 
+ * advection scaling will have no effect.
  *
- *    \par OUTPUTS
- *    The filter outputs a single, scalar, real-valued image.
- *    Negative values in the output image are inside the segmentated region
- *    and positive values in the image are outside of the inside region.  The
- *    zero crossings of the image correspond to the position of the level set
- *    front.
+ * \par OUTPUTS
+ * The filter outputs a single, scalar, real-valued image.
+ * Negative values in the output image represent the inside the segmentated region
+ * and positive values in the image represent outside of the inside region.  The
+ * zero crossings of the image correspond to the position of the propagating
+ * front.
  *
- *   \par
- *   See SparseFieldLevelSetImageFilter and
- *   SegmentationLevelSetImageFilter for more information.
+ * \par
+ * See SparseFieldLevelSetImageFilter and
+ * SegmentationLevelSetImageFilter for more information.
  *
- *    \par REFERENCES
- *    \par  
+ * \par REFERENCES
+ * \par  
  *    "Shape Modeling with Front Propagation: A Level Set Approach",
  *    R. Malladi, J. A. Sethian and B. C. Vermuri.
  *    IEEE Trans. on Pattern Analysis and Machine Intelligence,
  *    Vol 17, No. 2, pp 158-174, February 1995
  *
  *
- *   \sa SegmentationLevelSetImageFilter
- *   \sa ShapeDetectionLevelSetFunction
- *   \sa SparseFieldLevelSetImageFilter 
+ * \sa SegmentationLevelSetImageFilter
+ * \sa ShapeDetectionLevelSetFunction
+ * \sa SparseFieldLevelSetImageFilter 
  *
- *   \ingroup LevelSetSegmentation
+ * \ingroup LevelSetSegmentation
  */
 template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
 class ITK_EXPORT ShapeDetectionLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+  : public SegmentationLevelSetImageFilter< TInputImage, 
+                                            TFeatureImage, TOutputPixelType, 
+                                            Image<TOutputPixelType, 
+                                            ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 {
 public:
   /** Standard class typedefs */
   typedef ShapeDetectionLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
+  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
+                                            TOutputPixelType, Image<TOutputPixelType, 
+                                            ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -135,6 +142,7 @@ protected:
 
   ShapeDetectionLevelSetImageFilter(const Self &); // purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
 private:
   ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
 };

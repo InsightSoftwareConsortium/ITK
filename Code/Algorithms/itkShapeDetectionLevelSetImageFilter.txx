@@ -31,9 +31,6 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 
   this->SetSegmentationFunction(m_ShapeDetectionFunction);
 
-  /* Use negative features by default. */
-  this->SetUseNegativeFeatures( true );
-
   /* Turn off interpolation. */
   this->InterpolateSurfaceLocationOff();
 }

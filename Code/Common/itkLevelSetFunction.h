@@ -29,9 +29,9 @@ namespace itk {
  * LevelSetFunction implements a generic level set function.  This function is
  * an expanded form of the basic equation developed in [1].
  *
- * \f$\phi_{t} = \alpha
+ * \f$\phi_{t} + \alpha
  * \stackrel{\rightharpoonup}{A}(\mathbf{x})\cdot\nabla\phi + \beta
- * P(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
+ * P(\mathbf{x})\mid\nabla\phi\mid = \gamma Z(\mathbf{x})\kappa\mid\nabla\phi\mid\f$
  *
  * where \f$ \stackrel{\rightharpoonup}{A} \f$ is an advection term, \f$ P \f$
  * is a propagation (growth) term, and \f$ Z \f$ is a spatial modifier term for
@@ -44,7 +44,7 @@ namespace itk {
  * of level set methods can be implemented by subclassing this basic equation.
  *
  * In ITK, the usual sign convention is that the INSIDE of a surface contains
- * POSITIVE values and the OUTSIDE of the surface contains NEGATIVE values.
+ * NEGATIVE values and the OUTSIDE of the surface contains POSITIVE values.
  *
  * \warning You MUST call Initialize() in the constructor of subclasses of this
  * object to set it up properly to do level-set Calculations.  The argument
