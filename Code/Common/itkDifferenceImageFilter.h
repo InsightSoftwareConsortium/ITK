@@ -48,7 +48,7 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(DifferenceImageFilter, ImageToImageFilter);
-
+  
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
@@ -81,6 +81,8 @@ protected:
   DifferenceImageFilter();
   virtual ~DifferenceImageFilter() {}
   
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   /** DifferenceImageFilter can be implemented as a multithreaded
    * filter.  Therefore, this implementation provides a
    * ThreadedGenerateData() routine which is called for each

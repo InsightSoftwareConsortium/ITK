@@ -49,6 +49,19 @@ DifferenceImageFilter<TInputImage, TOutputImage>
 }
 
 //----------------------------------------------------------------------------
+template<class TInputImage, class TOutputImage>
+void 
+DifferenceImageFilter<TInputImage, TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "ToleranceRadius: " << m_ToleranceRadius << "\n";  
+  os << indent << "DifferenceThreshold: " << m_DifferenceThreshold << "\n";
+  os << indent << "MeanDifference: " << m_MeanDifference << "\n";
+  os << indent << "TotalDifference: " << m_TotalDifference << "\n";
+}
+
+//----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void 
 DifferenceImageFilter<TInputImage, TOutputImage>
