@@ -33,7 +33,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
   m_ErrorTolerance(0.2),
   m_SmoothingFactor(1),
   m_ClassProbability(0),
-  m_ClassifierPtr(0)
+  m_ClassifierPtr(0),
+  m_StopCondition(MaximumNumberOfIterations)
 {
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
@@ -89,6 +90,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   os << indent <<" Smoothing factor for the MRF neighborhood:" << 
     m_SmoothingFactor << std::endl;
+
+  os << indent << "StopCondition: "
+     << m_StopCondition << std::endl;
 
 }// end PrintSelf
 
@@ -445,13 +449,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   int maxNumPixelError = (int) ( vnl_math_rnd (m_ErrorTolerance * 
                                                m_TotalNumberOfValidPixelsInOutputImage) );
 
-  unsigned int numIter = 0;
+  m_NumIter = 0;
   do
     {
-    itkDebugMacro(<< "Iteration No." << numIter);
+    itkDebugMacro(<< "Iteration No." << m_NumIter);
  
     MinimizeFunctional();
-    numIter += 1;
+    m_NumIter += 1;
     m_ErrorCounter = m_TotalNumberOfValidPixelsInOutputImage - 
       totalNumberOfPixelsInInputImage;  
  
@@ -465,9 +469,19 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       ++rIter;
       }  
     }    
-  while(( numIter < m_MaximumNumberOfIterations ) && 
+  while(( m_NumIter < m_MaximumNumberOfIterations ) && 
         ( m_ErrorCounter > maxNumPixelError ) ); 
 
+  //Determine stop condition
+  if( m_NumIter >= m_MaximumNumberOfIterations )
+    {
+    m_StopCondition = MaximumNumberOfIterations;
+    }
+  else if( m_ErrorCounter <= maxNumPixelError ) 
+    {
+    m_StopCondition = ErrorTolerance;
+    }
+    
 }// ApplyMRFImageFilter
 
 //-------------------------------------------------------

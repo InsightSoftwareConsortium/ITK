@@ -290,7 +290,14 @@ public:
   {
     return m_MRFNeighborhoodWeight;
   }
-    
+  
+//Enum to get the stopping condition of the MRF filter
+typedef enum{
+  MaximumNumberOfIterations=1,
+  ErrorTolerance
+  } StopConditionType;
+itkGetConstReferenceMacro( StopCondition, StopConditionType );
+  
 protected:
   MRFImageFilter();
   ~MRFImageFilter();
@@ -329,6 +336,9 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
 
+  unsigned long                 m_NumIter;
+  StopConditionType             m_StopCondition;
+  
 private:            
   MRFImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
