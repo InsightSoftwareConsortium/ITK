@@ -61,6 +61,58 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
 
   std::cout << fit;
 
+  // Show only those files with numbers in the names
+  fit->SetRegularExpression("([0-9]+)");
+  fit->NumericSortOn();
+  fit->SetSubMatch(1);
+  names = fit->GetFileNames();
+  std::cout << "Numeric sort on only files with numbers in the names--------" << std::endl;
+  for (nit = names.begin();
+       nit != names.end();
+       nit++)
+    {
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+    }
+
+
+  std::cout << "Vector size: " << names.size() << std::endl;
+
+  // Show only those files with numbers in the names followed by other
+  // numbers.  Sort them by the first set of numbers.
+  fit->SetRegularExpression("([0-9]+)[^0-9]+([0-9]+)");
+  fit->NumericSortOn();
+  fit->SetSubMatch(1);
+  names = fit->GetFileNames();
+  std::cout << "Numeric sort on only files with numbers in the names.  Sort on the first set of numbers.--------" << std::endl;
+  for (nit = names.begin();
+       nit != names.end();
+       nit++)
+    {
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+    }
+
+  // Show only those files with numbers in the names followed by other
+  // numbers.  Sort them by the second set of numbers.
+  fit->SetRegularExpression("([0-9]+)[^0-9]+([0-9]+)");
+  fit->NumericSortOn();
+  fit->SetSubMatch(2);
+  names = fit->GetFileNames();
+  std::cout << "Numeric sort on only files with numbers in the names.  Sort on the second set of numbers.--------" << std::endl;
+  for (nit = names.begin();
+       nit != names.end();
+       nit++)
+    {
+    std::cout << "File: " << (*nit).c_str() << std::endl;
+    }
+
+
+  std::cout << "Vector size: " << names.size() << std::endl;
+
+  std::cout << "Directory: " << fit->GetDirectory() << std::endl;
+  std::cout << "RegularExpression: " << fit->GetRegularExpression() << std::endl;
+  std::cout << "SubMatch: " << fit->GetSubMatch() << std::endl;
+  
+
   return EXIT_SUCCESS;
 
 }
