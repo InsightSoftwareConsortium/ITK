@@ -101,10 +101,6 @@ public:
   /**  Pointer to the Output Image */
   typedef typename OutputImageType::Pointer                  OutputImagePointer;                                  
 
-  /**  Command for observing progress of internal pipeline filters */
-  typedef          MemberCommand< Self >     CommandType;  
-  typedef typename CommandType::Pointer      CommandPointer;
-
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -133,9 +129,6 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
 
-  /** Compute progress by weighting the contributions of the internal filters */
-  void ReportProgress(const Object * object, const EventObject & event );
-
 private:
   SmoothingRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -143,9 +136,6 @@ private:
   InternalGaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   FirstGaussianFilterPointer            m_FirstSmoothingFilter;
   CastingFilterPointer                  m_CastingFilter;
-
-  CommandPointer                        m_ProgressCommand;
-  float                                 m_Progress;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 

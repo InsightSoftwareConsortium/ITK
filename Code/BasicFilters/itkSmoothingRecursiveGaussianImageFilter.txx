@@ -19,6 +19,7 @@
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk
 {
@@ -34,17 +35,12 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
-  m_ProgressCommand = CommandType::New();
-  m_ProgressCommand->SetCallbackFunction( this, & Self::ReportProgress );
-  m_Progress  = 0.0f;
-
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
     {
     m_SmoothingFilters[ i ] = InternalGaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( InternalGaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     m_SmoothingFilters[ i ]->SetDirection( i+1 );
-    m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
     m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
     }
 
@@ -52,7 +48,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_FirstSmoothingFilter->SetOrder( FirstGaussianFilterType::ZeroOrder );
   m_FirstSmoothingFilter->SetDirection( 0 );
   m_FirstSmoothingFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-  m_FirstSmoothingFilter->AddObserver( ProgressEvent(), m_ProgressCommand );
   
   m_FirstSmoothingFilter->SetInput( this->GetInput() );
 
@@ -73,27 +68,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 }
 
-
-
-/**
- *  Report progress by weigthing contributions of internal filters
- */
-template <typename TInputImage, typename TOutputImage>
-void 
-SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::ReportProgress(const Object * object, const EventObject & event )
-{
-  const ProcessObject * internalFilter = 
-    dynamic_cast<const ProcessObject *>( object );
-
-  if( typeid( event ) == typeid( ProgressEvent() ) )
-    {
-    const float filterProgress    = internalFilter->GetProgress();
-    const float weightedProgress  = filterProgress / ImageDimension;
-    m_Progress += weightedProgress;
-    this->UpdateProgress( m_Progress );
-    }
-}
 
 
 /**
@@ -184,10 +158,20 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   itkDebugMacro(<< "SmoothingRecursiveGaussianImageFilter generating data ");
 
-  m_Progress = 0.0f;
-
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+  // Register the filter with the with progress accumulator using
+  // equal weight proportion
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+    {
+    progress->RegisterInternalFilter(m_SmoothingFilters[i],1.0 / (ImageDimension));
+    }
+
+  progress->RegisterInternalFilter(m_FirstSmoothingFilter,1.0 / (ImageDimension));
   m_FirstSmoothingFilter->SetInput( inputImage );
   m_CastingFilter->Update();
   this->GraftOutput(m_CastingFilter->GetOutput());
