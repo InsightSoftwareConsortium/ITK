@@ -142,7 +142,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
   sort_comp comp;
   std::sort(m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
-  basic_output->SetMergeList(m_MergeHeirarchy); // BUG jc 3/27/01
+  basic_output->SetMergeList(m_MergeHeirarchy);
+
   // Copy basic_output labeled image to output
   Self::CopyOutputToOutput(output, basic_output);
   Self::RelabelImage(output,
