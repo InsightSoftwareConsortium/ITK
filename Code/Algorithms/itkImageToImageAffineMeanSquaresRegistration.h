@@ -24,7 +24,7 @@
 #include "itkImageMapper.h"
 #include "itkAffineRegistrationTransform.h"
 #include "itkSimpleImageRegionIterator.h"
-#include "itkVectorContainer.h"
+#include "itkPoint.h"
 
 namespace itk
 {
@@ -93,8 +93,10 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef AffineRegistrationTransform<double, ImageDimension, 
-                                       ParametersType> TransformationType;
+   typedef AffineRegistrationTransform<
+                double, 
+                ImageDimension, 
+                ParametersType > TransformationType;
 	  
   /**
    *  Type of the Mapper
@@ -206,6 +208,13 @@ public:
    itkGetMacro( Optimizer, OptimizerPointer );
 
 
+  /**
+   * Set Translation Scale
+   */
+   void SetTranslationScale( const double & scale )
+   { m_TranslationScale = scale; }
+
+
 
 protected:
 
@@ -224,6 +233,7 @@ private:
   MetricPointer              m_Metric;
   OptimizerPointer           m_Optimizer;
   ParametersType             m_Parameters;
+  double                     m_TranslationScale;
 
 };
 

@@ -33,6 +33,7 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   m_Mapper = MapperType::New(); 
   m_Optimizer = OptimizerType::New();
   m_Transformation = TransformationType::New();
+  m_TranslationScale = 100.0; 
 }
 
 
@@ -106,6 +107,9 @@ ImageToImageAffineMeanSquaresRegistration< TReference, TTarget>
 }
 
 
+
+
+
 /**
  * Starts the Registration Process
  */
@@ -114,32 +118,30 @@ int
 ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
-  /* Initialize Linear part*/ 
+  /* Initialize the rotation / shear */
   unsigned int k = 0;
-  for (unsigned int i=0; i<TReference::ImageDimension; i++)
+  for (unsigned int col=0; col<ImageDimension; col++)
   {
-    for (unsigned int j=0; j<TReference::ImageDimension; j++)
-    {
-      if(i != j) 
+    for (unsigned int row=0; row<ImageDimension; row++)
+    { 
+      if( col == row ) 
       {
-		m_Parameters[ k++ ] = 0.0;
+        m_Parameters[ k++ ] = 1.0;
       }
       else 
       {
-        m_Parameters[ k++ ] = 1.0;
+        m_Parameters[ k++ ] = 0.0;
       }
     }
   }
 
   /* Initialize the Offset */ 
-  for (unsigned int i=0; i<TReference::ImageDimension; i++)
-  { 
-    m_Parameters[ k++ ] = 0;
+  for (unsigned int coff=0; coff<ImageDimension; coff++)
+  {
+    m_Parameters[ k++ ] = 0.0;
   }
 
-  std::cout << "Parameters = ";
-  std::cout << m_Parameters << std::endl;
-
+  m_Transformation->SetTranslationScale( m_TranslationScale );
   m_Mapper->SetTransformation(m_Transformation);
   m_Metric->SetMapper(m_Mapper);
   m_Optimizer->SetCostFunction( m_Metric );
@@ -153,14 +155,15 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   */
 
   /*Tolerances for Levenberg Marquardt  optimizer */
-/*
+  /*
   const double F_Tolerance      = 1e-10;  // Function value tolerance
   const double G_Tolerance      = 1e-10;  // Gradient magnitude tolerance 
   const double X_Tolerance      = 1e-10;  // Search space tolerance
   const double Epsilon_Function = 1e-3;  // Step 
   const int    Max_Iterations   =   100; // Maximum number of iterations
+  */
 
-
+  /*
   vnlOptimizerType & vnlOptimizer = m_Optimizer->GetOptimizer();
 
   vnlOptimizer.set_f_tolerance( F_Tolerance );
@@ -173,16 +176,17 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   vnlOptimizer.set_verbose( true ); // activate verbose mode
 
   vnlOptimizer.set_check_derivatives( 3 );
-*/
+  */
 
   ParametersType  parametersScale;
   parametersScale.Fill( 1.0 );
   m_Optimizer->SetMinimize();
   m_Optimizer->SetScale( parametersScale );
-  m_Optimizer->SetGradientMagnitudeTolerance( 1e-6 );
-  m_Optimizer->SetMaximumStepLength( 30.0 );
+  m_Optimizer->SetGradientMagnitudeTolerance( 1e-9 );
+  m_Optimizer->SetMaximumStepLength( 1e-3  );
   m_Optimizer->SetMinimumStepLength( 1e-6 );
-  m_Optimizer->SetMaximumNumberOfIterations( 900 );
+  m_Optimizer->SetMaximumNumberOfIterations( 100 );
+
   m_Optimizer->SetInitialPosition( m_Parameters );
   m_Optimizer->StartOptimization();
 
@@ -208,6 +212,11 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
 
   std::cout << "The Solution is : " ;
   m_Parameters = m_Optimizer->GetCurrentPosition();
+  const unsigned int offsetStart = ImageDimension * ImageDimension;
+  for(unsigned int k=0; k<ImageDimension; k++)
+  {
+    m_Parameters[ offsetStart + k ] *= m_TranslationScale;
+  }
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
