@@ -236,7 +236,7 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
  
   index[0] = 10;
   index[1] = 20;
-  index[3] = 40;
+  index[2] = 40;
   if ( interp->EvaluateAtIndex( index ) != output )
     {
     std::cout << "Index: " << index;
