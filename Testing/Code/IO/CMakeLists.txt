@@ -141,6 +141,12 @@ ADD_TEST(itkJPEGImageIOTest ${IO_TESTS}
   itkJPEGImageIOTest 
             ${ITK_DATA_ROOT}/Input/cthead1.jpg
             ${ITK_TEST_OUTPUT_DIR}/cthead1.png)
+ADD_TEST(itkJPEGImageIOTest2 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.jpg
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
+  itkJPEGImageIOTest 
+            ${ITK_DATA_ROOT}/Input/cthead1.jpg
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg)
 ADD_TEST(itkDicomImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDicomImageIOTest.png
             ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png
