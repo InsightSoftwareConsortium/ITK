@@ -1,5 +1,8 @@
 ADD_LIBRARY(ITKAlgorithms
   itkWatershedMiniPipelineProgressCommand.cxx
+  itkBioCell.cxx
+  itkBioCellularAggregate.cxx
+  itkBioGenome.cxx
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
 )
