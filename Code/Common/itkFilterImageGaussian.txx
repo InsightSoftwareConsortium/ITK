@@ -15,7 +15,8 @@
 =========================================================================*/
 #include "itkFilterImageGaussian.h"
 #include "itkObjectFactory.h"
-#include "itkImageIteratorOriented.h"
+#include "itkImageLinearIterator.h"
+#include <new>
 
 
 namespace itk
@@ -26,6 +27,7 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 ::FilterImageGaussian()
 {
   this->SetSigma( 1.0 );
+  this->SetDirection( 0 );
 }
 
 
@@ -49,7 +51,7 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
   
   if( dd < TComputation( 0.01 ) ) return;
   
-  const TComputation sigmad = cSigma/dd;
+  const TComputation sigmad = m_Sigma/dd;
 //K = 1.0/(sigmad*sigmad*sqrt(2.0*(4.0*atan(1.0))));
   K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
   
@@ -67,21 +69,21 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::ComputeFilterCoefficients(bool symmetric) 
 {
   n00  = a0 + c0;
-  n11  = exp(-b1/cSigma)*(c1*sin(w1/cSigma)-(c0+2*a0)*cos(w1/cSigma)); 
-  n11 += exp(-b0/cSigma)*(a1*sin(w0/cSigma)-(a0+2*c0)*cos(w0/cSigma)); 
-  n22  = ((a0+c0)*cos(w1/cSigma)*cos(w0/cSigma));
-  n22	-= (a1*cos(w1/cSigma)*sin(w0/cSigma)+c1*cos(w0/cSigma)*sin(w1/cSigma));
-  n22	*= 2*exp(-(b0+b1)/cSigma);
-  n22	+= c0*exp(-2*b0/cSigma) + a0*exp(-2*b1/cSigma);
-  n33  = exp(-(b1+2*b0)/cSigma)*(c1*sin(w1/cSigma)-c0*cos(w1/cSigma));
-  n33 += exp(-(b0+2*b1)/cSigma)*(a1*sin(w0/cSigma)-a0*cos(w0/cSigma));
+  n11  = exp(-b1/m_Sigma)*(c1*sin(w1/m_Sigma)-(c0+2*a0)*cos(w1/m_Sigma)); 
+  n11 += exp(-b0/m_Sigma)*(a1*sin(w0/m_Sigma)-(a0+2*c0)*cos(w0/m_Sigma)); 
+  n22  = ((a0+c0)*cos(w1/m_Sigma)*cos(w0/m_Sigma));
+  n22	-= (a1*cos(w1/m_Sigma)*sin(w0/m_Sigma)+c1*cos(w0/m_Sigma)*sin(w1/m_Sigma));
+  n22	*= 2*exp(-(b0+b1)/m_Sigma);
+  n22	+= c0*exp(-2*b0/m_Sigma) + a0*exp(-2*b1/m_Sigma);
+  n33  = exp(-(b1+2*b0)/m_Sigma)*(c1*sin(w1/m_Sigma)-c0*cos(w1/m_Sigma));
+  n33 += exp(-(b0+2*b1)/m_Sigma)*(a1*sin(w0/m_Sigma)-a0*cos(w0/m_Sigma));
   
-  d44  = exp(-2*(b0+b1)/cSigma);
-  d33  = -2*cos(w0/cSigma)*exp(-(b0+2*b1)/cSigma);
-  d33 += -2*cos(w1/cSigma)*exp(-(b1+2*b0)/cSigma);
-  d22  =  4*cos(w1/cSigma)*cos(w0/cSigma)*exp(-(b0+b1)/cSigma);
-  d22 +=  exp(-2*b1/cSigma)+exp(-2*b0/cSigma);
-  d11  =  -2*exp(-b1/cSigma)*cos(w1/cSigma)-2*exp(-b0/cSigma)*cos(w0/cSigma);
+  d44  = exp(-2*(b0+b1)/m_Sigma);
+  d33  = -2*cos(w0/m_Sigma)*exp(-(b0+2*b1)/m_Sigma);
+  d33 += -2*cos(w1/m_Sigma)*exp(-(b1+2*b0)/m_Sigma);
+  d22  =  4*cos(w1/m_Sigma)*cos(w0/m_Sigma)*exp(-(b0+b1)/m_Sigma);
+  d22 +=  exp(-2*b1/m_Sigma)+exp(-2*b0/m_Sigma);
+  d11  =  -2*exp(-b1/m_Sigma)*cos(w1/m_Sigma)-2*exp(-b0/m_Sigma)*cos(w0/m_Sigma);
 	
   if( symmetric )
     {
@@ -122,7 +124,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     {
     s1 = new TComputation[ln];
     }
-  catch(bad_alloc) 
+  catch( std::bad_alloc &) 
     {
     throw ExceptionObject();
     }
@@ -132,7 +134,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     {
     s2 = new TComputation[ln];
     }
-  catch(bad_alloc) 
+  catch( std::bad_alloc &) 
     {
     delete [] s1; 
     s1=0; 
@@ -212,30 +214,49 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 template <class TInputImage, class TOutputImage, class TComputation>
 void
 FilterImageGaussian<TInputImage,TOutputImage, TComputation>
-::ApplyRecursiveFilter(unsigned int dimensionToFilter) 
+::Execute() 
 {
 
-  typedef ImageIteratorOriented<typename TInputImage::Type,
-    TInputImage::Dimension> Iterator;
+  typedef ImageLinearIterator< TInputImage::PixelType,
+							   TInputImage::ImageDimension> Iterator;
 
-  const TInputImage  * inputImage  = GetInput ();
-  TOutputImage * outputImage = GetOutput();
+  const TInputImage::Pointer   inputImage  = GetInputImage ();
+        TOutputImage::Pointer  outputImage = GetOutput();
     
+ 
+  // Initialize the output image
+  outputImage->SetImageSize( inputImage->GetImageSize()  );
+  outputImage->SetBufferSize( inputImage->GetBufferSize() );
+  outputImage->Allocate();
+  outputImage->SetImageStartIndex( inputImage->GetImageStartIndex() );
+  outputImage->SetBufferStartIndex( inputImage->GetBufferStartIndex() );
+ 
+ 
   const unsigned int imageDimension = inputImage->GetImageDimension();
 
-  if( dimensionToFilter >= imageDimension )
+  if( this->m_Direction >= imageDimension )
     {
     throw ExceptionObject();
     }
 
-  Iterator  *inputIterator = inputImage->Begin();
-  Iterator *outputIterator = outputImage->Begin();
 
-  inputIterator->SetDirection( dimensionToFilter );
-  outputIterator->SetDirection( dimensionToFilter );
+  const float * pixelSize = inputImage->GetSpacing();
+  SetUp( pixelSize[ this->m_Direction ] );
+  
+  Iterator inputIterator( inputImage,
+                          inputImage->GetImageStartIndex(),
+                          inputImage->GetBufferSize());
 
-  const unsigned *imageSize = inputIterator->GetImageSize();
-  const unsigned int ln     = imageSize[ dimensionToFilter ];
+  Iterator outputIterator( outputImage,
+                           outputImage->GetImageStartIndex(),
+                           outputImage->GetBufferSize());
+
+
+  inputIterator.SetDirection(  this->m_Direction );
+  outputIterator.SetDirection( this->m_Direction );
+
+  const unsigned long *imageSize = inputIterator.GetImageSize();
+  const unsigned int ln     = imageSize[ this->m_Direction ];
 
   TComputation *inps = 0;
   TComputation *outs = 0;
@@ -244,7 +265,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     {
     inps = new TComputation[ ln ];
     }
-  catch( bad_alloc ) 
+  catch( std::bad_alloc & ) 
     {
     throw ExceptionObject();
     }
@@ -253,18 +274,18 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     {
     outs = new TComputation[ ln ];
     }
-  catch( bad_alloc ) 
+  catch( std::bad_alloc & ) 
     {
     throw ExceptionObject();
     }
 
 
-  while( !inputIterator->End && !outputIterator->End() )
+  inputIterator.Begin();
+  outputIterator.Begin();
+
+  while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
     {
     
-    inputIterator->JumpToBeginOfLine();
-    outputIterator->JumpToBeginOfLine();
-
     for( unsigned int i=0; i<ln; i++ )
       {
       inps[i++]      = *inputIterator;
@@ -279,8 +300,8 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
       ++outputIterator;
       }
 
-    inputIterator->NextLine();
-    outputIterator->NextLine();
+    inputIterator.NextLine();
+    outputIterator.NextLine();
 
     }
 
@@ -288,5 +309,10 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
   delete [] inps;
 
 }
+
+
+
+
+
 
 } // end namespace itk

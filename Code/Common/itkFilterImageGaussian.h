@@ -33,7 +33,7 @@ namespace itk
 
 template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT FilterImageGaussian :
-    public FilterImageToImage<TInputImage,TOutputImage> 
+    public ImageSource<TOutputImage> 
 
 {
 public:
@@ -57,10 +57,38 @@ public:
    */   
   itkGetMacro(Sigma,TComputation);
 
+
   /**
    * Set the Sigma of the Gaussian kernel.
    */   
   itkSetMacro(Sigma,TComputation);
+
+  /**
+   * Get the direction in which the filter is to be applied
+   */   
+  itkGetMacro(Direction, unsigned int);
+
+  /**
+   * Set the direction in which the filter is to be applied
+   */   
+  itkSetMacro(Direction, unsigned int);
+
+  /**
+   * Set Input Image
+   */
+  itkSetMacro(InputImage, typename TInputImage::Pointer );
+
+  /**
+   * Get Input Image
+   */
+  itkGetMacro(InputImage, typename TInputImage::Pointer );
+
+
+  /**
+   * Execute (apply) the filter
+   */   
+  void Execute(void);
+
 
 protected:
   FilterImageGaussian();
@@ -76,7 +104,7 @@ protected:
   virtual void SetUp(TComputation dd);
 
   /**
-   * Apply the recursive filtre along one of the dimensions of the image.
+   * Apply the recursive filter along one of the dimensions of the image.
    * This allow to filter each one of the dimensions of an image using a
    * different sigma. Which usually is needed because of the anisotropy of
    * the data 
@@ -109,6 +137,17 @@ private:
    * Sigma of the gaussian kernel
    */   
   TComputation m_Sigma;
+
+  /**
+   * Direction in which the filter is to be applied
+   * this shoul in the range [0,ImageDimension-1]
+   */ 
+  unsigned int m_Direction;
+
+  /**
+   * Smart pointer to input image
+   */ 
+  typename TInputImage::Pointer m_InputImage;
 
   TComputation n00,n11,n22,n33; // Causal coefficients
   TComputation d11,d22,d33,d44; // Causal coefficients == Anticausal coeff.
