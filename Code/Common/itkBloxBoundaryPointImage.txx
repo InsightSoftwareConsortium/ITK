@@ -130,7 +130,10 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
       // Get the index of the boundary pixel
       sourceIndex = sourceIt.GetIndex();
 
-      TSourceImage::AffineTransformType::Pointer imageTrans = m_SourceImage->GetIndexToPhysicalTransform();
+      typedef typename TSourceImage::AffineTransformType AffineTransformType;
+      typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+
+      AffineTransformPointer imageTrans = m_SourceImage->GetIndexToPhysicalTransform();
       
       // Convert the normal index to a continuous index
       typedef ContinuousIndex<double, NDimensions> ContinuousIndexType;
