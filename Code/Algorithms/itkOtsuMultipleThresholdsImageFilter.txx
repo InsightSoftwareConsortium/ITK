@@ -44,14 +44,14 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
   progress->SetMiniPipelineFilter(this);
 
   // Create a histogram of the image intensities
-  typedef typename Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
+  typedef typename itk::Statistics::ScalarImageToHistogramGenerator< TInputImage > HistogramGeneratorType;
   typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(  this->GetInput()  );
   histogramGenerator->SetNumberOfBins( m_NumberOfHistogramBins );
   histogramGenerator->Compute();
 
   // Compute the multiple Otsu Thresholds for the input image
-  typedef OtsuMultipleThresholdsCalculator< HistogramGeneratorType::HistogramType > OtsuType;
+  typedef OtsuMultipleThresholdsCalculator< typename HistogramGeneratorType::HistogramType > OtsuType;
   typename OtsuType::Pointer otsuThresholdCalculator = OtsuType::New();
   otsuThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuThresholdCalculator->SetNumberOfThresholds( m_NumberOfThresholds );
