@@ -4,6 +4,7 @@
 
 #include <metaObject.h>
 #include <metaUtils.h>
+#include "itkNumericTraits.h"
 
 int testMetaObject(int , char *[])
   {
@@ -155,7 +156,7 @@ int testMetaObject(int , char *[])
     }
   else
     {
-    std::cout << "outDataChar = " << outDataChar[0] << std::endl;
+    std::cout << "outDataChar = " << static_cast<itk::NumericTraits<char>::PrintType>(outDataChar[0]) << std::endl;
     }
 
   delete [] inDataChar;
@@ -171,7 +172,7 @@ int testMetaObject(int , char *[])
     }
   else
     {
-    std::cout << "outDataUChar = " << outDataUChar[0] << std::endl;
+    std::cout << "outDataUChar = " << static_cast<itk::NumericTraits<char>::PrintType>(outDataUChar[0]) << std::endl;
     }
 
   delete [] inDataUChar;
