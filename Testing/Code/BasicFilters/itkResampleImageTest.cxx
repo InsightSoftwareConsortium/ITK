@@ -43,7 +43,7 @@ int itkResampleImageTest(int, char**)
   // Create and configure an image
   ImagePointerType image = ImageType::New();
   ImageIndexType  index = {{0,  0}};
-  ImageSizeType   size  = {{8, 12}};
+  ImageSizeType   size  = {{18, 12}};
   ImageRegionType region;
   region.SetSize ( size );
   region.SetIndex( index );
