@@ -31,6 +31,8 @@ namespace itk
 class ProcessObject;
 class DataObject;
   
+/*--------------------Data Object Exceptions---------------------------*/
+
 /** \brief Exception object for DataObject exceptions */
 class ITK_EXPORT DataObjectError : public ExceptionObject
 {
@@ -61,7 +63,7 @@ public:
   void SetDataObject(DataObject *dobj);
 
   /** Get the data object that is throwing this exception. */
-  SmartPointer<DataObject> GetDataObject();
+  DataObject* GetDataObject();
 
 protected:
   /** Print exception information.  This method can be overridden by
@@ -71,7 +73,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
     
 private:
-  SmartPointer<DataObject> m_DataObject;
+  DataObject *m_DataObject;
 };
 
   
@@ -84,6 +86,9 @@ class ITK_EXPORT InvalidRequestedRegionError : public DataObjectError
   /** Default constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError();
   
+  /** Destructor. Need to specify empty throw() to avoid warnings. */
+  virtual ~InvalidRequestedRegionError() throw() {}
+
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
 
@@ -107,7 +112,10 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   
 };
-  
+
+
+/*----------------------------Data Object--------------------------------*/  
+
 /** \class DataObject
  * \brief Base class for all data objects in ITK.
  *
