@@ -26,3 +26,33 @@ namespace image
   typedef itk::Image<signed int    , 3> SI3;
   typedef itk::Image<signed long   , 3> SL3;
 }
+
+namespace vector
+{
+  typedef itk::Vector< float,  2>  F2;
+  typedef itk::Vector< float,  3>  F3;
+  typedef itk::Vector< double, 2>  D2;
+  typedef itk::Vector< double, 3>  D3;
+}
+
+namespace covariantvector
+{
+  typedef itk::CovariantVector< float,  2>  F2;
+  typedef itk::CovariantVector< float,  3>  F3;
+  typedef itk::CovariantVector< double, 2>  D2;
+  typedef itk::CovariantVector< double, 3>  D3;
+}
+
+namespace image
+{
+  typedef itk::Image< vector::F2, 2 > VF2;
+  typedef itk::Image< vector::F2, 3 > VF3;
+  typedef itk::Image< vector::F2, 2 > VD2;
+  typedef itk::Image< vector::F2, 3 > VD3;
+
+  typedef itk::Image< covariantvector::F2, 2 > CVF2;
+  typedef itk::Image< covariantvector::F3, 3 > CVF3;
+  typedef itk::Image< covariantvector::D2, 2 > CVD2;
+  typedef itk::Image< covariantvector::D3, 3 > CVD3;
+
+}
