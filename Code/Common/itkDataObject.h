@@ -175,7 +175,7 @@ public:
   /** Turn on/off a flag to control whether this object's data is released
    * after being used by a filter.  */
   itkSetMacro(ReleaseDataFlag,bool);
-  itkGetMacro(ReleaseDataFlag,bool);
+  itkGetConstMacro(ReleaseDataFlag,bool);
   itkBooleanMacro(ReleaseDataFlag);
   
   /** Turn on/off a flag to control whether every object releases its data
@@ -233,10 +233,14 @@ public:
    * the internal state of the pipeline so Update() can be called. */
   virtual void ResetPipeline();
 
-  /** More internal methods to update the pipeline. */
+  /** The maximum MTime of all upstream filters and data objects.
+   * This does not include the MTime of this data object. */
   void SetPipelineMTime(unsigned long time) 
     {m_PipelineMTime = time;}
   itkGetConstMacro(PipelineMTime,unsigned long);
+
+  /** MTime for the last time this DataObject was generated. */
+  virtual unsigned long GetUpdateMTime() const;
   
   /** Setup a DataObject to receive new data.  This method is called
    * by the pipeline mechanism on each output of filter that needs
@@ -324,12 +328,12 @@ private:
   mutable unsigned int m_SourceOutputIndex;
     
   /** When was this data last generated? */
-  TimeStamp m_UpdateTime;  
+  TimeStamp m_UpdateMTime;  
 
   bool m_ReleaseDataFlag; //Data will release after use by a filter if on
   bool m_DataReleased; //Keep track of data release during pipeline execution
 
-  /** The Maximum MTime of all upstream filters and data objects.
+  /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
   unsigned long m_PipelineMTime;
 

@@ -141,7 +141,7 @@ InvalidRequestedRegionError
 
 //----------------------------------------------------------------------------
 DataObject::
-DataObject() : m_UpdateTime()
+DataObject() : m_UpdateMTime()
 {
   m_Source = 0;
   m_SourceOutputIndex = 0;
@@ -326,7 +326,7 @@ DataObject
      << (m_GlobalReleaseDataFlag ? "On\n" : "Off\n");
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
-  os << indent << "UpdateTime: " << m_UpdateTime << std::endl;
+  os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
   
   os << indent << "LastRequestedRegionWasOutsideOfTheBufferedRegion: " << 
     m_LastRequestedRegionWasOutsideOfTheBufferedRegion << std::endl;
@@ -372,7 +372,7 @@ DataObject
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the update region to the source 
   // if there is one.
-  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
+  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
        this->RequestedRegionIsOutsideOfTheBufferedRegion() || 
        m_LastRequestedRegionWasOutsideOfTheBufferedRegion)
     {
@@ -412,7 +412,7 @@ DataObject
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the UpdateOutputData to the source
   // if there is one.
-  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
+  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
        this->RequestedRegionIsOutsideOfTheBufferedRegion())
     {
     if ( m_Source )
@@ -428,7 +428,15 @@ DataObject
 ::DataHasBeenGenerated()
 {
   m_DataReleased = 0;
-  m_UpdateTime.Modified();
+  m_UpdateMTime.Modified();
+}
+
+//----------------------------------------------------------------------------
+unsigned long 
+DataObject
+::GetUpdateMTime() const
+{
+  return m_UpdateMTime.GetMTime();
 }
 
 
