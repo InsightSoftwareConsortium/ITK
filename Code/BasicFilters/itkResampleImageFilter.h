@@ -90,7 +90,7 @@ public:
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
   typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
-  typedef typename TransformType::Pointer TransformPointerType;
+  typedef typename TransformType::ConstPointer TransformPointerType;
 
   /** Interpolator typedef. */
   typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
@@ -121,10 +121,10 @@ public:
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
    * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
-  itkSetObjectMacro( Transform, TransformType ); 
+  itkSetConstObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */
-  itkGetObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
    * itk::LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>. Some
@@ -135,7 +135,7 @@ public:
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetConstObjectMacro( Interpolator, InterpolatorType );
 
   /** Set the size of the output image. */
   itkSetMacro( Size, SizeType );
@@ -218,11 +218,9 @@ private:
 
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
-  InterpolatorPointerType m_Interpolator;
-  // Image function for interpolation
-  PixelType               m_DefaultPixelValue; 
-  // default pixel value if the point 
-  // is outside the image
+  InterpolatorPointerType m_Interpolator; // Image function for interpolation
+  PixelType               m_DefaultPixelValue; // default pixel value if the point 
+                                               // is outside the image
   SpacingType             m_OutputSpacing; // output image spacing
   PointType               m_OutputOrigin;  // output image origin
   IndexType               m_OutputStartIndex; // output image start index
