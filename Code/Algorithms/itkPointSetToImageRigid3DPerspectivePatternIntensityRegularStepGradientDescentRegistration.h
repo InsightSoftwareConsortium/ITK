@@ -50,10 +50,15 @@ public:
    typedef TTarget TargetType;
 
   /**
-   * Image Dimensions
+   * Image Dimensions and Parameters Dimension
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = 7 }; // one quaternion + one vector
+   enum { ImageDimension = ReferenceType::ImageDimension };
+
+  /**
+   * Parameters Dimension
+   */
+   enum { ParametersDimension = 7 }; // one quaternion + one vector
+
 
   /**
    *  Type of the parameters
