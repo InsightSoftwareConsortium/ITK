@@ -59,8 +59,16 @@ namespace itk
 {
 /**
  * \class VoronoiDiagram2DGenerator
- *  Using Fortune's Sweep line method to construct the 2D voronoi Diagram
- *   based on given seed points.
+ * \brief Implement the Sweep Line Algorithm for constructing the 2D Voronoi
+ * Diagram.
+ *
+ * Reference:
+ * "A sweepline algorithm for Voronoi diagrams." 
+ * S. Fortune, Algorithmica 2, 153-174, 1987.
+ *
+ * Parameters need to assigned before constructing:
+ * 1. size of the region.
+ * 2. the seed points (can be randomly set).
  *
  * Template parameters for VoronoiDiagram2DGenerator:
  *
@@ -106,7 +114,7 @@ public:
   typedef typename VDMesh::EdgeInfo EdgeInfo;
   typedef typename VDMesh::EdgeInfoDQ EdgeInfoDQ;
   typedef typename VDMesh::CoordRepType CoordRepType;
-  typedef typename VDMesh::VorEdge VorEdge;
+  typedef typename VDMesh::VoronoiEdge VoronoiEdge;
 
 
   itkGetMacro(NumberOfSeeds,unsigned int);
@@ -146,7 +154,7 @@ public:
   /**
    * return the given indexed seed.
    */
-  PointType getSeed(int SeedID);
+  PointType GetSeed(int SeedID);
 
 protected:
   VoronoiDiagram2DGenerator();
@@ -158,8 +166,8 @@ protected:
 
 private:
   unsigned int m_NumberOfSeeds;
-  PointType m_VorBoundary;
-  OutputType m_OutputVD;
+  PointType m_VoronoiBoundary;
+  OutputType m_OutputVoronoiDiagram;
   SeedsType m_Seeds;
 
   static bool comp(PointType arg1,PointType arg2);
@@ -187,8 +195,8 @@ private:
 
   class FortuneHalfEdge{
   public:
-    FortuneHalfEdge *m_left;
-    FortuneHalfEdge *m_right;
+    FortuneHalfEdge *m_Left;
+    FortuneHalfEdge *m_Right;
     FortuneEdge *m_edge;
     bool m_RorL;
     FortuneSite *m_vert;
