@@ -53,6 +53,8 @@ public:
   
   Array(unsigned int dimension);
 
+  void Fill (TValueType const& v) { fill(v); }
+
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array() {};
@@ -64,14 +66,15 @@ public:
 template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 {
+  const unsigned int length = arr.size();
   os << "[";
-  for (unsigned int i=0; i < arr.size() - 1; ++i)
+  for (unsigned int i=0; i < length - 1; ++i)
     {
     os << arr[i] << ", ";
     }
-  if (VLength >= 1)
+  if (length >= 1)
     {
-    os << arr[VLength-1];
+    os << arr[length-1];
     }
   os << "]" << std::endl;
   return os;
