@@ -36,14 +36,14 @@ const double rc = 29.0;
  *
  *   This example minimize the equation:
  *
- *   ( a * x + b * y + c ) 
- *  -( 2 * x + 3 * y + 4 )
+ *   [   (  a * x +  b * y +  c ) 
+ *      -( 11 * x + 17 * y + 29 ) ] ^ 2
  *  
  *   for the (a,b,c) parameters
  *
- *   the solution is the vector | 2 3 4 |
+ *   the solution is the vector |  11  17  29  |
  *
- *   (x,y) values are sampled over a rectangular doitkLevenbergMarquardtOptimizerTest
+ *   (x,y) values are sampled over a rectangular region
  *   whose size is defined by XRange and YRange
  *
  */ 
@@ -57,7 +57,7 @@ public:
   itkNewMacro( Self );
 
   enum { XRange = 1,
-         YRange = 1 };   // size of the doitkLevenbergMarquardtOptimizerTest to sample the cost function
+         YRange = 1 };   // size of the region to sample the cost function
          
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
@@ -76,19 +76,19 @@ public:
     m_Derivative.resize(SpaceDimension,RangeDimension);
     m_TheoreticalData.resize(RangeDimension);
     
-    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
+    // Compute points of the function over a square region
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
-    {
+      {
       const double yd = (double)y;
       for( int x = -XRange; x<=XRange; x++ ) 
-      {
+        {
         const double xd = (double)x;
         m_TheoreticalData[valueindex] = ra*xd + rb*yd + rc;
         std::cout << m_TheoreticalData[valueindex] << "  ";
         valueindex++;
+        }
       }
-    }
 
     std::cout << std::endl;
 
@@ -107,20 +107,21 @@ public:
     std::cout << b << " , ";
     std::cout << c << ") = ";
 
-    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
+    // Compute points of the function over a square region
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
-    {
+      {
       const double yd = (double)y;
       for( int x = -XRange; x<=XRange; x++ ) 
-      {
+        {
         const double xd = (double)x;
-        m_Measure[valueindex]  = a * xd + b * yd + c;
-        m_Measure[valueindex] -= m_TheoreticalData[valueindex];
+        double value = a * xd + b * yd + c;
+        value       -= m_TheoreticalData[valueindex];
+        m_Measure[valueindex] = value * value;
         std::cout << m_Measure[valueindex] << "  ";
         valueindex++;
+        }
       }
-    }
 
     std::cout << std::endl;
 
@@ -140,7 +141,9 @@ public:
     std::cout << b << " , ";
     std::cout << c << ") = " << std::endl;
 
-    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
+    MeasureType value = this->GetValue( parameters );
+
+    // Compute points of the function over a square region
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
     {
@@ -148,9 +151,10 @@ public:
       for( int x = -XRange; x<=XRange; x++ ) 
       {
         const double xd = (double)x;
-        m_Derivative[0][valueindex] =  xd;
-        m_Derivative[1][valueindex] =  yd;
-        m_Derivative[2][valueindex] =  1.0;
+        const double sqrtvalue = vnl_math_sqrt( value[valueindex] );
+        m_Derivative[0][valueindex] =  2.0 * sqrtvalue * xd;
+        m_Derivative[1][valueindex] =  2.0 * sqrtvalue * yd;
+        m_Derivative[2][valueindex] =  2.0 * sqrtvalue * 1.0;
         valueindex++;
       }
     }
@@ -160,7 +164,7 @@ public:
       std::cout << std::endl;
       for(unsigned int dim2=0; dim2 < RangeDimension; dim2++)
       {
-        std::cout << m_Derivative[dim1][dim2] << " ";
+//        std::cout << m_Derivative[dim1][dim2] << " ";
       }
     }
     std::cout << std::endl;
@@ -188,15 +192,15 @@ private:
 
 
 
-int itkLevenbergMarquardtOptimizerTest(int, char**) 
+int itkRunLevenbergMarquardOptimization( bool useGradient, 
+                double fTolerance, double gTolerance, double xTolerance, 
+                double epsilonFunction, int maxIterations )
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n"; 
   
   typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-
-  
   
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  Optimizer = OptimizerType::New();
@@ -210,9 +214,10 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
   
   std::cout << costFunction->GetNumberOfValues() << "\n";
 
+
   try 
     {
-  Optimizer->SetCostFunction( costFunction.GetPointer() );
+    Optimizer->SetCostFunction( costFunction.GetPointer() );
     }
   catch( itk::ExceptionObject & e )
     {
@@ -222,26 +227,24 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
     return EXIT_FAILURE;
     }
   
-  const double F_Tolerance      = 1e-15;  // Function value tolerance
-  const double G_Tolerance      = 1e-17;  // Gradient magnitude tolerance 
-  const double X_Tolerance      = 1e-16;  // Search space tolerance
-  const double Epsilon_Function = 1e-10;  // Step
-  const int    Max_Iterations   =    20;  // Maximum number of iterations
+  // this following call is equivalent to invoke: costFunction->SetUseGradient( useGradient );
+  Optimizer->SetUseCostFunctionGradient( useGradient );
 
   vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
 
-  vnlOptimizer->set_f_tolerance( F_Tolerance );
-  vnlOptimizer->set_g_tolerance( G_Tolerance );
-  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
-  vnlOptimizer->set_epsilon_function( Epsilon_Function );
-  vnlOptimizer->set_max_function_evals( Max_Iterations );
+  vnlOptimizer->set_f_tolerance( fTolerance );
+  vnlOptimizer->set_g_tolerance( gTolerance );
+  vnlOptimizer->set_x_tolerance( xTolerance ); 
+  vnlOptimizer->set_epsilon_function( epsilonFunction );
+  vnlOptimizer->set_max_function_evals( maxIterations );
 
   // We start not so far from the solution 
   typedef LMCostFunction::ParametersType ParametersType;
   ParametersType  initialValue(LMCostFunction::SpaceDimension);
-  initialValue[0] = 100;
-  initialValue[1] = 200;
-  initialValue[2] = 150;
+
+  initialValue[0] = 20;
+  initialValue[1] = 30;
+  initialValue[2] = 40;
 
   OptimizerType::ParametersType currentValue(LMCostFunction::SpaceDimension);
 
@@ -323,7 +326,81 @@ int itkLevenbergMarquardtOptimizerTest(int, char**)
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
+}
 
+
+int itkLevenbergMarquardtOptimizerTest(int argc, char** argv ) 
+{
+  std::cout << "Levenberg Marquardt optimizer test \n \n"; 
+
+
+  bool useGradient;
+  int  result;
+
+  double F_Tolerance      =  1e-2;  // Function value tolerance
+  double G_Tolerance      =  1e-2;  // Gradient magnitude tolerance 
+  double X_Tolerance      =  1e-5;  // Search space tolerance
+  double Epsilon_Function =  1e-9;  // Step
+  int    Max_Iterations   =   200;  // Maximum number of iterations
+
+  if( argc > 1 ) 
+    {
+    F_Tolerance = atof( argv[1] );
+    }
+
+  if( argc > 2 ) 
+    {
+    G_Tolerance = atof( argv[2] );
+    }
+
+  if( argc > 3 ) 
+    {
+    X_Tolerance = atof( argv[3] );
+    }
+
+  if( argc > 4 ) 
+    {
+    Epsilon_Function = atof( argv[4] );
+    }
+
+  if( argc > 5 ) 
+    {
+    Max_Iterations = atoi( argv[5] );
+    }
+
+  std::cout << "F_Tolerance      = " << F_Tolerance << std::endl;
+  std::cout << "G_Tolerance      = " << G_Tolerance << std::endl;
+  std::cout << "X_Tolerance      = " << X_Tolerance << std::endl;
+  std::cout << "Epsilon_Function = " << Epsilon_Function << std::endl;
+  std::cout << "Max_Iterations   = " << Max_Iterations << std::endl;
+
+
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << "Running using the Gradient computed by vnl " << std::endl;
+  useGradient = false;
+  result = itkRunLevenbergMarquardOptimization( useGradient,F_Tolerance,
+                                                G_Tolerance,X_Tolerance, 
+                                                Epsilon_Function,Max_Iterations );
+  if( result == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+
+
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << "Running using the Gradient provided by the Cost function" << std::endl;
+  useGradient = true;
+  result = itkRunLevenbergMarquardOptimization( useGradient,F_Tolerance,
+                                                G_Tolerance,X_Tolerance, 
+                                                Epsilon_Function,Max_Iterations );
+  if( result == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS; 
 }
 
 
