@@ -3,6 +3,10 @@ INCLUDE(${CMAKE_ROOT}/Modules/FindGCCXML.cmake)
 
 IF(GCCXML)
   SET(ITK_GCCXML_EXECUTABLE "${GCCXML}")
+ELSE(GCCXML)
+  MESSAGE(SEND_ERROR "Wrapping is enabled, but GCCXML is not found!  "
+          "Please set GCCXML to the location of the \"gccxml\" executable.")
+  SET(ITK_WRAP_TCL 0)
 ENDIF(GCCXML)
 
 # Find CABLE.
@@ -22,7 +26,8 @@ IF(CABLE_FOUND)
     SET(ITK_WRAP_TCL 0)
   ENDIF(NOT CABLE_TCL_LIBRARY)
 ELSE(CABLE_FOUND)
-  MESSAGE(SEND_ERROR "Wrapping is enabled, but CABLE is not found!")
+  MESSAGE(SEND_ERROR "Wrapping is enabled, but CABLE is not found!  "
+          "Please set CABLE_DIR to the location of CABLEConfig.cmake.")
   SET(ITK_WRAP_TCL 0)
 ENDIF(CABLE_FOUND)
 
