@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSparseFieldFourthOrderLevelSetImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef _itkSparseFieldFourthOrderLevelSetImageFilter_h_
 #define _itkSparseFieldFourthOrderLevelSetImageFilter_h_
 
@@ -172,35 +188,6 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
       }
   }
   
-private:
-  /** This is a iteration counter that gets reset to 0 every time
-      ProcessNormals method is called. */
-  int m_RefitIteration;
-
-  /** This parameter determines the maximum number of
-      SparseFieldLevelSetImageFilter iterations that will be executed between
-      calls to ProcessNormals. */
-  int m_MaxRefitIteration;
-
-  /** This parameter is used to set the corresponding parameter in
-      ImplicitManifoldNormalDiffusionfFilter. */
-  int m_MaxNormalIteration;
-
-  /** This is used to trigger a call to the ProcessNormals method
-      before m_RefitIteration reaches m_MaxRefitIteration if the RMSChange falls
-      below this parameter. */
-  ValueType m_RMSChangeNormalProcessTrigger;
-
-  /** This flag is set to true to signal final convergence. It can be used by
-      subclasses that define a Halt method. */
-  bool m_ConvergenceFlag;
-
-  /** The level set function with the term for refitting the level set to the
-      processed normal vectors. */
-  LevelSetFunctionType *m_LevelSetFunction;
-  
-public:
-
   /** This method first calls the Superclass InitializeIteration method. Then
       it determines whether ProcessNormals should be called. */
   virtual void InitializeIteration()
@@ -236,6 +223,7 @@ protected:
   ~SparseFieldFourthOrderLevelSetImageFilter () {};
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
+
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */
   ValueType ComputeCurvatureFromSparseImageNeighborhood
@@ -257,6 +245,32 @@ protected:
   bool ActiveLayerCheckBand() const;
   
 private:
+  /** This is a iteration counter that gets reset to 0 every time
+      ProcessNormals method is called. */
+  int m_RefitIteration;
+
+  /** This parameter determines the maximum number of
+      SparseFieldLevelSetImageFilter iterations that will be executed between
+      calls to ProcessNormals. */
+  int m_MaxRefitIteration;
+
+  /** This parameter is used to set the corresponding parameter in
+      ImplicitManifoldNormalDiffusionfFilter. */
+  int m_MaxNormalIteration;
+
+  /** This is used to trigger a call to the ProcessNormals method
+      before m_RefitIteration reaches m_MaxRefitIteration if the RMSChange falls
+      below this parameter. */
+  ValueType m_RMSChangeNormalProcessTrigger;
+
+  /** This flag is set to true to signal final convergence. It can be used by
+      subclasses that define a Halt method. */
+  bool m_ConvergenceFlag;
+
+  /** The level set function with the term for refitting the level set to the
+      processed normal vectors. */
+  LevelSetFunctionType *m_LevelSetFunction;
+  
   /** This parameter determines the width of the band where we compute
    * curvature from the processed normals. The wider the band, the more level set
    * iterations that can be performed between calls to ProcessNormals. It is
