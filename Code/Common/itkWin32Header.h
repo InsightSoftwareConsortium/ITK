@@ -54,9 +54,6 @@
 // clients of class 'type2'
 // #pragma warning ( disable : 4251 )
 
-// C++ exception specification ignored except to indicate...
-#pragma warning ( disable : 4267 )
-
 // C++ exception specification ignored except to indicate a 
 // function is not __declspec(nothrow)
 #pragma warning ( disable : 4290 )
