@@ -15,12 +15,13 @@
 
 =========================================================================*/
 #include "itkMetaDataDictionary.h"
+namespace itk{
 
 void
-itk::MetaDataDictionary
+MetaDataDictionary
 ::Print(std::ostream& os) const
 {
-  for(itk::MetaDataDictionary::const_iterator it=this->begin();
+  for(MetaDataDictionary::const_iterator it=this->begin();
       it != this->end();
       it++)
     {
@@ -29,7 +30,22 @@ itk::MetaDataDictionary
     }
 }
 
-itk::MetaDataDictionary
+MetaDataDictionary
 ::~MetaDataDictionary()
 {
 }
+
+MetaDataObjectBase::Pointer &
+MetaDataDictionary
+::operator [](const std::string &key)
+{
+return Superclass::operator[](key);
+}
+
+bool
+MetaDataDictionary
+::HasKey(const std::string &key)
+{
+  return Superclass::find(key) != Superclass::end();
+}
+}; // namespace

@@ -38,7 +38,7 @@ namespace itk
    * associate arbitrary data elements with itk DataObjects.
    */
   class ITKCommon_EXPORT MetaDataDictionary
-    :public std::map<std::string, itk::MetaDataObjectBase::Pointer>
+    :private std::map<std::string, MetaDataObjectBase::Pointer>
     {
       public:
         typedef MetaDataDictionary Self;
@@ -56,6 +56,13 @@ namespace itk
         //Right now, I can not think of any neccessary functionality that is
         //not available from the std::map class.
         virtual ~MetaDataDictionary();
+
+        // Implement map's api. On some Micorsoft compilers, stl containers
+        // cannot be exported. This causes problems when building DLL's.
+        // Here we inherit privately from std::map and provide a simple
+        // API. The implementation will be in the DLL.
+        MetaDataObjectBase::Pointer &operator [](const std::string &);
+        bool HasKey (const std::string &);
     };
 }
 #endif// MetaDataDictionary_h_h

@@ -152,7 +152,7 @@ namespace itk
     {
       typename MetaDataObject<T>::Pointer temp=MetaDataObject<T>::New();
       temp->SetMetaDataObjectValue(invalue);
-      Dictionary[key]=temp;
+      Dictionary[key] = temp;
     }
 
   template <class T>
@@ -173,7 +173,7 @@ namespace itk
   template <class T>
     inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const std::string key, T &outval)
     {
-      if(Dictionary.find(key) == Dictionary.end())
+      if(!Dictionary.HasKey(key))
       {
         return false;
       }
