@@ -65,8 +65,8 @@ vnl_quaternion<T>::vnl_quaternion (const vnl_vector<T>& axis, T angle)
   double a = angle / 2.0;  // half angle
   double s = vcl_sin(a);
   for (int i = 0; i < 3; i++)           // imaginary vector is sine of
-    this->operator[](i) = s * axis(i);  // half angle multiplied with axis
-  this->operator[](3) = vcl_cos(a);     // real part is cosine of half angle
+    this->operator[](i) = (float)(s * axis(i));  // half angle multiplied with axis
+  this->operator[](3) = (float)vcl_cos(a);     // real part is cosine of half angle
 }
 
 //: Creates a quaternion from a vector.
