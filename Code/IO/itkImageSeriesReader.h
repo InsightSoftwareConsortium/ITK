@@ -73,9 +73,11 @@ public:
   typedef std::vector< DictionaryRawPointer >  DictionaryArrayType;
   typedef const DictionaryArrayType *          DictionaryArrayRawPointer;
   
+  typedef  std::vector<std::string>            FileNamesContainer;
+
   /** Set the vector of strings that contains the file names. Files
    * are processed in sequential order. */
-  void SetFileNames (const std::vector<std::string> &name)
+  void SetFileNames (const FileNamesContainer &name)
   {
     if ( m_FileNames != name)
       {
@@ -83,7 +85,7 @@ public:
       this->Modified();        
       }
   };
-  const std::vector<std::string> & GetFileNames() const
+  const FileNamesContainer & GetFileNames() const
   {
     return m_FileNames;
   }
@@ -147,7 +149,7 @@ protected:
   bool m_ReverseOrder;
 
   /** A list of filenames to be processed. */
-  std::vector<std::string> m_FileNames;
+  FileNamesContainer m_FileNames;
 
   /** The number of independent variables in the images that comprise
    *  the series. */
