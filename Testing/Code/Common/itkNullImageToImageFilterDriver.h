@@ -143,7 +143,7 @@ void
 NullImageSource<TOutputImage>::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::IndexType index = {0};
+  typename TOutputImage::IndexType index = {{0}};
   output = this->GetOutput(0);
   typename TOutputImage::RegionType largestPossibleRegion;
   largestPossibleRegion.SetSize( m_ImageSize );
