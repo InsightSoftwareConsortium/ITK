@@ -37,6 +37,13 @@ IF (BUILD_TESTING)
 ENDIF (BUILD_TESTING)
 
 
+# Add an option to build or not build the Examples
+OPTION(BUILD_EXAMPLES "Build the examples directory")
+IF(BUILD_EXAMPLES)
+SUBDIRS(Examples)
+ENDIF(BUILD_EXAMPLES)
+
+
 # Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
 IF(BUILD_UNSUPPORTED)
