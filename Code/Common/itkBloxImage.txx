@@ -45,6 +45,25 @@ BloxImage<TBloxPixelType, VImageDimension>
   Superclass::PrintSelf(os,indent);
 }
 
+template<typename TBloxPixelType, unsigned int VImageDimension>
+void
+BloxImage<TBloxPixelType, VImageDimension>
+::EmptyImage()
+{
+  printf("In BloxImage::EmptyImage()\n");
+  // Create an iterator to walk this image
+  typedef ImageRegionIterator<Self> TImageIterator;
+
+  TImageIterator imageIt ( this,
+                           this->GetLargestPossibleRegion() );
+
+  // Iterate through the entire image and delete the contents of each pixel
+  for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
+    {
+    ( imageIt.Get() ).DeleteListEntries();
+    }
+}
+
 } // end namespace itk
 
 #endif

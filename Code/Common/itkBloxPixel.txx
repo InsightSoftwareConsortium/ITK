@@ -35,14 +35,31 @@ BloxPixel<TItemType>
 {
   // We need to clean up memory used by linked list entries
   // Walk through all of the elements at the pixel and delete what we find
+
+  //printf("In ~BloxPixel()\n");
   
-  // The iterator for accessing linked list info
-  BloxPixel::iterator bpiterator;
-  
-  for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+  this->DeleteListEntries();
+}
+
+template <typename TItemType>
+BloxPixel<TItemType>
+::DeleteListEntries()
+{
+  //printf("In DeleteListEntries()\n");
+
+  if( !( this->empty() ) )
     {
-    delete (*bpiterator);
+    // The iterator for accessing linked list info
+    BloxPixel::iterator bpiterator;
+  
+    for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+      {
+      delete (*bpiterator);
+      }
     }
+
+    // Empty the linked list
+    this->clear();
 }
 
 } // end namespace itk

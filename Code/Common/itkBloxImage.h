@@ -102,6 +102,12 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
+  /** Traverse the entire image and empty all linked lists.
+   * This is used in filters prior to generating new data, to
+   * avoid appending the new data onto the old
+   */
+  void EmptyImage();
+
 protected:
   BloxImage();
   virtual ~BloxImage();

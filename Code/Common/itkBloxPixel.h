@@ -45,6 +45,10 @@ template <typename TItemType>
 class BloxPixel : public std::list<TItemType*>
 {
 public:
+
+  // Delete all entries in the list, then clear the list
+  DeleteListEntries();
+
   BloxPixel();
   ~BloxPixel();
 };
