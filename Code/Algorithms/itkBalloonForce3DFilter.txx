@@ -388,7 +388,8 @@ void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
-  int i, l=0, slice;
+  int i;
+  int slice;
   unsigned short label; 
   IndexType coord; 
   IndexType extend;
@@ -558,7 +559,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   const unsigned long *tp;
   typename TriCell::CellAutoPointer testCell;
   testCell.TakeOwnership( new TriCell );
-  int npts = 3;
 
   InputCellsContainerPointer  myCells = m_Locations->GetCells();
   InputCellsContainerIterator cells = myCells->Begin();
@@ -696,10 +696,10 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     d[0] += m_TimeStep*ds[0]; 
     d[1] += m_TimeStep*ds[1]; 
     d[2] += m_TimeStep*ds[2]; 
-    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
-    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
-    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
-    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
+    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = static_cast<int>( s[1] );
+    if ( m_ModelYUpLimit   < s[1] ) m_ModelYUpLimit   = static_cast<int>( s[1] );
+    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = static_cast<int>( s[0] );
+    if ( m_ModelXUpLimit   < s[0] ) m_ModelXUpLimit   = static_cast<int>( s[0] );
 
     /* disable for shrink test */
     if ( i < m_NumNodes - 2 ) {
@@ -829,7 +829,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   InputPointType* v2_pt;
   v1_pt = &v1;
   v2_pt = &v2;
-  int slicediv = this->m_YResolution; 
 
   typename TInputMesh::PointType s, d;
 
@@ -840,7 +839,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerIterator      forces = myForces->Begin();
 
   InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
 
   InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
   InputPointDataContainerIterator   forcedata = myForceData->Begin();
@@ -1164,22 +1162,23 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 
     InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
-    InputPointsContainerIterator    derives = myDerives->Begin();
 
     InputCellsContainerPointer      myCells = m_Locations->GetCells();
     myCells->Reserve(m_NumCells);
-    InputCellsContainerIterator     cells = myCells->Begin(); 
   
     InputCellDataContainerPointer   myCellData = m_Locations->GetCellData();
     myCellData->Reserve(m_NumCells);
-    InputCellDataContainerIterator  celldata = myCellData->Begin();
 
-    for (j = 0; j < m_XResolution; j++) length[j] = length[j]*0.5;
+    for (j = 0; j < m_XResolution; j++) 
+      {
+      length[j] = length[j]*0.5;
+      }
   }
 
   forces = myForces->Begin();
 
-  for (j = 0; j < m_XResolution; j++) {
+  for (j = 0; j < m_XResolution; j++) 
+    {
     k = 1;
     i = 0;
     l1 = 0;
