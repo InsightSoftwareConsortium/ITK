@@ -20,13 +20,17 @@
 
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
+
 #ifndef _WIN32
 #include <unistd.h>
 #endif
+
 #ifdef _WIN32
+#pragma warning ( disable : 4786 )
 #include "itkWindows.h"
 #include <process.h>
 #endif
+
 // These are the includes necessary for multithreaded rendering on an SGI
 // using the sproc() call
 #ifdef ITK_USE_SPROC
