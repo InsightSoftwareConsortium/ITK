@@ -243,7 +243,7 @@ INPUT                 = "@ITK_SOURCE_DIR@/Code"
 # and *.h) to filter out the source-files in the directories. If left 
 # blank all files are included. 
 
-FILE_PATTERNS         = *.h *.txx *.cxx
+FILE_PATTERNS         = *.h *.txx *.cxx *.dox
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories 
 # should be searched for input files as well. Possible values are YES and NO. 
