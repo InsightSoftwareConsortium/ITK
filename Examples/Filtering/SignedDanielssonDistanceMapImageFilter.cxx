@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 // Software Guide : BeginLatex
 // This example illustrates the use of the
 // \doxygen{SignedDanielssonDistanceMapImageFilter}.  This filter generates a
