@@ -23,6 +23,10 @@
 #include "itkDICOMImageIO2.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
+#include "itkFixedArray.h"
+
 #include <iostream>
 #include <list>
 
@@ -99,6 +103,15 @@ void DICOMImageIO2::Read(void* buffer)
   // Should ReadHeader() be Read() since more than just a header is read?
   Parser->ReadHeader();
 
+  FixedArray<float,3> imagePosition;
+  imagePosition[0] = AppHelper->GetImagePositionPatient()[0];
+  imagePosition[1] = AppHelper->GetImagePositionPatient()[1];
+  imagePosition[2] = AppHelper->GetImagePositionPatient()[2];
+
+  EncapsulateMetaData<FixedArray<float,3> >(this->GetMetaDataDictionary(),
+                                            "ITK_ImageOrigin",
+                                            imagePosition);
+  
   void* newData;
   DICOMParser::VRTypes newType;
   unsigned long imageDataLength = 0;
@@ -134,6 +147,7 @@ void DICOMImageIO2::ReadImageInformation()
 
   int* dims = AppHelper->GetDimensions();
 
+  
   for (int i = 0; i < 2; i++)
     {
     this->SetOrigin(i, origin[i]);

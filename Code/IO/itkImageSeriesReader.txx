@@ -23,7 +23,10 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
-
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
+#include "itkFixedArray.h"
+#include "vnl/vnl_math.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -44,26 +47,72 @@ void ImageSeriesReader<TOutputImage>
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typedef ImageFileReader<TOutputImage> ReaderType;
+  FixedArray<float,TOutputImage::ImageDimension> position1; position1.Fill(0.0);
+  FixedArray<float,TOutputImage::ImageDimension> position2; position2.Fill(0.0);
+
+  float interSliceSpacing;
+  int i;
 
   // Read the first (or last) file and use its size.
-  if (m_FileNames.size() > 0)
+  if (m_FileNames.size() > 1)
     {
-    typename ReaderType::Pointer reader = ReaderType::New();
+    typename ReaderType::Pointer reader1 = ReaderType::New();
+    typename ReaderType::Pointer reader2 = ReaderType::New();
     try
       {
-      reader->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
-      reader->Update();
+      // Read the second (or second to last) image
+      reader2->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-2): 1)].c_str());
+      reader2->Update();
+
+      std::string key("ITK_ImageOrigin");
+      // Initialize the position to the origin returned by the reader
+      for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+        {
+        position2[i] = reader2->GetOutput()->GetOrigin()[i];
+        }
+      // Override the position if there is an ITK_ImageOrigin 
+      ExposeMetaData<FixedArray<float,TOutputImage::ImageDimension> > ( reader2->GetImageIO()->GetMetaDataDictionary(), key, position2);
+
+      // Read the first (or last) image
+      reader1->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
+      reader1->Update();
+
+      // Initialize the position to the origin returned by the reader
+      for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+        {
+        position1[i] = reader1->GetOutput()->GetOrigin()[i];
+        }
+      // Override the position if there is an ITK_ImageOrigin 
+      ExposeMetaData<FixedArray<float,TOutputImage::ImageDimension> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
+
+      // Compute the inter slice spacing by computing the distance
+      // between two consective slices
+      interSliceSpacing = ::sqrt(vnl_math_sqr(position2[0] - position1[0])
+                                 + vnl_math_sqr(position2[1] - position1[1])
+                                 + vnl_math_sqr(position2[2] - position1[2]));
+      if (interSliceSpacing == 0.0)
+        {
+        interSliceSpacing = 1.0;
+        }
       }
     catch (ExceptionObject &e)
       {
       throw e;
       }
     
-    SizeType dimSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+    SizeType dimSize = reader1->GetOutput()->GetLargestPossibleRegion().GetSize();
     dimSize[TOutputImage::ImageDimension - 1] = m_FileNames.size();
 
-    const double *spacing = reader->GetOutput()->GetSpacing();
-    const double *origin =  reader->GetOutput()->GetOrigin();
+    float spacing[TOutputImage::ImageDimension];
+    float origin[TOutputImage::ImageDimension];
+
+    for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+      {
+      spacing[i] = reader1->GetOutput()->GetSpacing()[i];
+      origin[i] = position1[i];
+      }
+    spacing[TOutputImage::ImageDimension - 1] = interSliceSpacing;
+    origin[TOutputImage::ImageDimension - 1] = position1[TOutputImage::ImageDimension - 1];
 
     output->SetSpacing( spacing );   // Set the image spacing
     output->SetOrigin( origin );     // Set the image origin
