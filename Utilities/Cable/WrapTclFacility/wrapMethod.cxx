@@ -63,13 +63,13 @@ Method::Method(WrapperBase* wrapper,
 {
   // Construct the function type associated with the method.  This does not
   // include the implicit object parameter.
-  CvQualifiedTypes parameterTypes;  
+  CvQualifiedTypes functionParameterTypes;  
   for(ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
       arg != m_ParameterTypes.end(); ++arg)
     {
-    parameterTypes.push_back((*arg)->GetCvQualifiedType(false, false));
+    functionParameterTypes.push_back((*arg)->GetCvQualifiedType(false, false));
     }
-  m_FunctionType = TypeInfo::GetFunctionType(returnType, parameterTypes,
+  m_FunctionType = TypeInfo::GetFunctionType(returnType, functionParameterTypes,
                                              isConst, false);
 
   // Add the implicit object parameter to the front of the parameter list.
