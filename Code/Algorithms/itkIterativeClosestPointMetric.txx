@@ -139,8 +139,8 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>
 void
 IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
-::GetDerivative( const TransformParametersType & parameters,
-                 DerivativeType & derivative ) const
+::GetDerivative( const TransformParametersType & itkNotUsed(parameters),
+                 DerivativeType & itkNotUsed(derivative) ) const
 {
 
 }

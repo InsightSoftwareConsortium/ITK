@@ -233,7 +233,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 
   for(i=0;i<InputPointSetDimension;i++)
     {
-    size[i] = bb->GetBounds()[2*i+1]-bb->GetBounds()[2*i];
+    size[i] = (unsigned long)(bb->GetBounds()[2*i+1]-bb->GetBounds()[2*i]);
     origin[i]=0;
     }
   
