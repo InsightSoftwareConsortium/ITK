@@ -83,7 +83,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 
 template <unsigned int VDimension, typename TInput>
 void EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
-::SetOrientations(const vnl_matrix_fixed<double,VDimension,VDimension> &orientations)
+::SetOrientations(const OrientationType &orientations)
 {
   unsigned int i, j;
   // Initialize orientation vectors.

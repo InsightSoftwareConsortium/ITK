@@ -57,6 +57,9 @@ public:
 
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
+
+  /** Typedef for the orientation matrix */
+  typedef vnl_matrix_fixed<double, VDimension, VDimension> OrientationType;
    
   /** Set/Get and set the center of the ellipsoid. */
   itkGetMacro(Center, InputType);
@@ -68,7 +71,7 @@ public:
   
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
-  void SetOrientations(const vnl_matrix_fixed<double,VDimension,VDimension> &);
+  void SetOrientations(const OrientationType &);
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
