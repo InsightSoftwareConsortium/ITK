@@ -74,6 +74,7 @@ public:
   /** 
    * Some typedefs.
    */
+  typedef typename Superclass::OutputMeshType OutputMeshType;
   typedef TInputMesh InputMeshType;
   typedef typename InputMeshType::PointsContainerPointer
       InputPointsContainerPointer;
@@ -84,7 +85,7 @@ public:
   typedef typename InputMeshType::PointDataContainer::Iterator
       InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
-      InputCellsContainerPointer;
+      InputCellsxContainerPointer;
   typedef typename InputMeshType::CellsContainer::Iterator
       InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
@@ -96,14 +97,12 @@ public:
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
-  typedef TOutputMesh OutputMeshType;
-
-  typedef itk::Image<unsigned short, 3>		ImageType;
+  typedef Image<unsigned short, 3>		ImageType;
   typedef typename InputMeshType::Pointer	InputMeshPointer;
   typedef typename OutputMeshType::Pointer	OutputMeshPointer;
   typedef typename ImageType::Pointer		ImagePointer;
   typedef typename ImageType::IndexType		IndexType;
-  typedef typename itk::SimpleImageRegionIterator<ImageType>	ImageIterator;
+  typedef SimpleImageRegionIterator<ImageType>	ImageIterator;
 
   typedef itk::Vector<float, 3>				FloatVector;
   typedef itk::Vector<int, 3>				IntVector;
