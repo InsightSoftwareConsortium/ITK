@@ -67,11 +67,6 @@ Transform<TScalarType, NDimensions>()
   m_SourceLandmarks = PointSetType::New();
   m_TargetLandmarks = PointSetType::New();
   m_Displacements   = VectorSetType::New();
-  m_LMatrix = NULL;
-  m_KMatrix = NULL;
-  m_PMatrix = NULL;
-  m_YMatrix = NULL;
-  m_WMatrix = NULL;
   m_WMatrixComputed = false;
 }
 
@@ -81,26 +76,6 @@ Transform<TScalarType, NDimensions>()
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::~KernelTransform()
 {
-  if (m_LMatrix != NULL)
-    {
-    delete m_LMatrix;
-    }
-  if (m_KMatrix != NULL)
-    {
-    delete m_KMatrix;
-    }
-  if (m_PMatrix != NULL)
-    {
-    delete m_PMatrix;
-    }
-  if (m_YMatrix != NULL)
-    {
-    delete m_YMatrix;
-    }
-  if (m_WMatrix != NULL)
-    {
-    delete m_WMatrix;
-    }
 }
 
 /**
@@ -195,13 +170,8 @@ void KernelTransform<TScalarType, NDimensions>
 
   ComputeL();
   ComputeY();
-  if (m_WMatrix != NULL)
-    {
-    delete m_WMatrix;
-    }
-  m_WMatrix = new WMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
-  SVDSolverType svd( *m_LMatrix, 1e-8 );
-  *m_WMatrix = svd.solve( *m_YMatrix );
+  SVDSolverType svd( m_LMatrix, 1e-8 );
+  m_WMatrix = svd.solve( m_YMatrix );
 }
 
 /**
@@ -216,16 +186,12 @@ void KernelTransform<TScalarType, NDimensions>::ComputeL()
 
   ComputeP();
   ComputeK();
-  if (m_LMatrix != NULL)
-    {
-    delete m_LMatrix;
-    }
-  m_LMatrix = new LMatrixType(NDimensions*(numLandmarks+NDimensions+1),
-                              NDimensions*(numLandmarks+NDimensions+1));
-  m_LMatrix->update(*m_KMatrix, 0, 0);
-  m_LMatrix->update(*m_PMatrix, 0, m_KMatrix->columns());
-  m_LMatrix->update(m_PMatrix->transpose(), m_KMatrix->rows(), 0);
-  m_LMatrix->update(O2, m_KMatrix->rows(), m_KMatrix->columns());
+  m_LMatrix.resize( NDimensions*(numLandmarks+NDimensions+1),
+                    NDimensions*(numLandmarks+NDimensions+1) );
+  m_LMatrix.update( m_KMatrix, 0, 0 );
+  m_LMatrix.update( m_PMatrix, 0, m_KMatrix.columns() );
+  m_LMatrix.update( m_PMatrix.transpose(), m_KMatrix.rows(), 0);
+  m_LMatrix.update(O2, m_KMatrix.rows(), m_KMatrix.columns());
 }
 
 
@@ -239,13 +205,9 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK()
   GMatrixType G;
 
   ComputeD();
-  if (m_KMatrix != NULL)
-  {
-    delete m_KMatrix;
-  }
 
-  m_KMatrix = new KMatrixType(NDimensions*numLandmarks,
-                              NDimensions*numLandmarks);
+  m_KMatrix.resize( NDimensions * numLandmarks,
+                    NDimensions * numLandmarks );
 
   PointsIterator p1  = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
@@ -259,7 +221,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK()
     {
       const VectorType s = p1.Value() - p2.Value();
       G = ComputeG(s);
-      m_KMatrix->update(G, i*NDimensions, j*NDimensions);
+      m_KMatrix.update(G, i*NDimensions, j*NDimensions);
       p2++;
       j++;
     }
@@ -281,21 +243,17 @@ void KernelTransform<TScalarType, NDimensions>::ComputeP()
   PointType p;
 
   I.set_identity();
-  if (m_PMatrix != NULL)
-  {
-    delete m_PMatrix;
-  }
-  m_PMatrix = new PMatrixType(NDimensions*numLandmarks,
-                              NDimensions*(NDimensions+1));
+  m_PMatrix.resize( NDimensions*numLandmarks,
+                    NDimensions*(NDimensions+1) );
   for (i = 0; i < numLandmarks; i++)
   {
     m_SourceLandmarks->GetPoint(i, &p);
     for (j = 0; j < NDimensions; j++)
       {
       temp = I * p.Get_vnl_vector()[j];
-      m_PMatrix->update(temp, i*NDimensions, j*NDimensions);
+      m_PMatrix.update(temp, i*NDimensions, j*NDimensions);
       }
-    m_PMatrix->update(I, i*NDimensions, j*NDimensions);
+    m_PMatrix.update(I, i*NDimensions, j*NDimensions);
   }
 }
 
@@ -308,25 +266,22 @@ void KernelTransform<TScalarType, NDimensions>::ComputeY()
   int i, j;
   int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
-  if (m_YMatrix != NULL)
-  {
-    delete m_YMatrix;
-  }
-
   VectorSetType::ConstIterator displacement = m_Displacements->Begin();
-  m_YMatrix = new YMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
+
+  m_YMatrix.resize( NDimensions*(numLandmarks+NDimensions+1), 1);
+
   for (i = 0; i < numLandmarks; i++)
   {
     for (j = 0; j < NDimensions; j++)
     {
-      m_YMatrix->put(i*NDimensions+j, 0, displacement.Value()[j]);
+      m_YMatrix.put(i*NDimensions+j, 0, displacement.Value()[j]);
     }
     displacement++;
   }
 
   for (i = 0; i < NDimensions*(NDimensions+1); i++) 
   {
-    m_YMatrix->put(numLandmarks*NDimensions+i, 0, 0);
+    m_YMatrix.put(numLandmarks*NDimensions+i, 0, 0);
   }
 }
 
@@ -349,17 +304,17 @@ KernelTransform<TScalarType, NDimensions>
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
     {
-    c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
+    c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     m_SourceLandmarks->GetPoint(i, &p);
     argumentG = thisPoint - p;
     d = d + ComputeG(argumentG) * c;
     }
   for (i = 0; i < NDimensions; i++)
     {
-    A.update(m_WMatrix->extract(NDimensions, 1,
+    A.update(m_WMatrix.extract(NDimensions, 1,
                                 (numLandmarks+i)*NDimensions, 0), 0, i);
     }
-  b.update(m_WMatrix->extract(NDimensions, 1,
+  b.update(m_WMatrix.extract(NDimensions, 1,
                               (numLandmarks+NDimensions)*NDimensions, 0),
            0, 0);
   for (j = 0; j < NDimensions; j++)
@@ -396,7 +351,7 @@ KernelTransform<TScalarType, NDimensions>
   for (i = 0; i < numLandmarks; i++)
     {
     m_SourceLandmarks->GetPoint(i, &p);
-    c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
+    c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     for (j = 0; j < NDimensions; j++)
       {
       GArgument[j] = thisVectorCopy.Get_vnl_vector()[j] -
@@ -404,11 +359,11 @@ KernelTransform<TScalarType, NDimensions>
       }
     d = d + ComputeG(GArgument) * c;
   }
-  A.update(m_WMatrix->extract(NDimensions, 1,
+  A.update(m_WMatrix.extract(NDimensions, 1,
                               numLandmarks*NDimensions, 0), 0, 0);
-  A.update(m_WMatrix->extract(NDimensions, 1,
+  A.update(m_WMatrix.extract(NDimensions, 1,
                               (numLandmarks+1)*NDimensions, 0), 0, 1);
-  A.update(m_WMatrix->extract(NDimensions, 1,
+  A.update(m_WMatrix.extract(NDimensions, 1,
                               (numLandmarks+2)*NDimensions, 0), 0, 2);
   for (j = 0; j < NDimensions; j++)
     {

@@ -263,27 +263,27 @@ protected:
   /**
    * The L matrix
    */
-  LMatrixType* m_LMatrix;
+  LMatrixType m_LMatrix;
 
   /**
    * The K matrix
    */
-  KMatrixType* m_KMatrix;
+  KMatrixType m_KMatrix;
   
   /**
    * The P matrix
    */
-  PMatrixType* m_PMatrix;
+  PMatrixType m_PMatrix;
   
   /**
    * The Y matrix
    */
-  YMatrixType* m_YMatrix;
+  YMatrixType m_YMatrix;
   
   /**
    * The W matrix
    */
-  WMatrixType* m_WMatrix;
+  WMatrixType m_WMatrix;
   
   /**
    * Has the W matrix been computed?
