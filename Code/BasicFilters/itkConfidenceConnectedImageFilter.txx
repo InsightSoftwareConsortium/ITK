@@ -254,6 +254,15 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       thirdIt.Set(m_ReplaceValue);
       ++thirdIt;
       }
+
+    this->UpdateProgress( static_cast<float>(         loop         ) /
+                          static_cast<float>( m_NumberOfIterations )   );
+
+    if( this->GetAbortGenerateData() )
+      {
+      throw ProcessAborted( __FILE__, __LINE__ );
+      }
+
     }
 
 }
