@@ -315,10 +315,33 @@ ENDIF(ITK_DATA_ROOT)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
+
 IF(ITK_CSWIG_TCL)
+
   ADD_TEST(itkCurvatureFlowTestTcl2 ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl2.tcl)
+  
+  ADD_TEST(ImageRegistration3Tcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration3.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration3TclTest.png )
+
+  ADD_TEST(ImageRegistration4Tcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration4.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration4TclTest.png )
+
+  ADD_TEST(ImageRegistration5Tcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Registration/ImageRegistration5.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+           ${ITK_TEST_OUTPUT_DIR}/ImageRegistration5TclTest.png )
+
+
 ENDIF(ITK_CSWIG_TCL)
+
 
 
 IF(ITK_CSWIG_PYTHON)
