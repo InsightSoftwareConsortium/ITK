@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * ImageSource is the base class for all process objects that output
- * image data.
- */
 #ifndef __itkImageSource_h
 #define __itkImageSource_h
 
@@ -25,14 +21,27 @@
 namespace itk
 {
 
+/** \class ImageSource
+ *  \brief Base class for all process objects that output image data.
+ *
+ * ImageSource is the base class for all process objects that output
+ * image data. Specifically, this class defines the GetOutput() method
+ * that returns a pointer to the output image. The class also defines
+ * some internal private data memebers that are used to manage streaming
+ * of data.
+ */
 template <class TOutputImage>
 class ITK_EXPORT ImageSource : public ProcessObject
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ImageSource         Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef ImageSource         Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**
