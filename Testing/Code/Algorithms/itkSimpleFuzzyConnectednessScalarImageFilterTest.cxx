@@ -69,7 +69,7 @@ const unsigned short TestingImage [400]={
 
 int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
   int i, j;
-  typedef itk::Image<bool,2> BinaryImage2D;
+  typedef itk::Image<unsigned char,2> BinaryImage2D;
   typedef itk::Image<unsigned short,2> UShortImage2D;
   typedef itk::SimpleFuzzyConnectednessScalarImageFilter<UShortImage2D,BinaryImage2D> FuzzyUShort;
 
@@ -123,7 +123,7 @@ int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
   testFuzzy->SetInput(inputimg);
   index[0] = 5;
   index[1] = 5;
-  testFuzzy->SetObjectsSeed(index);
+  testFuzzy->SetObjectSeed(index);
 
 /* set the parameters */
   testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
@@ -153,7 +153,7 @@ int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
     std::cout<<std::endl;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
