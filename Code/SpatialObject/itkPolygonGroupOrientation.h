@@ -29,4 +29,5 @@ typedef enum {
   Unknown = 4
 } PolygonGroupOrientation;
 }
+
 #endif

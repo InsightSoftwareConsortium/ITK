@@ -13,6 +13,7 @@ itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkMetaImageIOTest.cxx
 itkNumericSeriesFileNamesTest.cxx
+itkPolygonGroupSpatialObjectXMLFileTest.cxx
 itkPNGImageIOTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
@@ -58,11 +59,12 @@ ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
 )
 
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
+ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS})
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
 TARGET_LINK_LIBRARIES(itkIOTests ITKIO)
-
+TARGET_LINK_LIBRARIES(itkIOTests ITKEXPAT)
 
 ##Add tests that depend on finding data
 FIND_PATH(VW_RAW_DATA_PATH avfCROP.1023c.raw 

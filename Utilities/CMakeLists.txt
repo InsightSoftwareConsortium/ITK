@@ -5,6 +5,7 @@ ITK_THIRD_PARTY_SUBDIR(JPEG jpeg)
 
 SUBDIRS(MetaIO DICOMParser)
 SUBDIRS(vxl)
+SUBDIRS(expat)
 
 # Use the system version of STD library (STL and streams).
 IF (NOT ITK_USE_SYSTEM_STDLIB)

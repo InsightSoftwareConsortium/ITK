@@ -116,6 +116,16 @@ extern const char *const ITK_PatientID;
 extern const char *const ITK_ExperimentDate;
 extern const char *const ITK_ExperimentTime;
 extern const char *const ITK_InputFilterName;
+extern const char *const ROI_NAME;
+extern const char *const ROI_X_SIZE;
+extern const char *const ROI_X_RESOLUTION;
+extern const char *const ROI_Y_SIZE;
+extern const char *const ROI_Y_RESOLUTION;
+extern const char *const ROI_Z_SIZE;
+extern const char *const ROI_Z_RESOLUTION;
+extern const char *const ROI_NUM_SEGMENTS;
+extern const char *const ROI_PLANE;
+extern const char *const ROI_SCAN_ID;
 } // end namespace itk
 
 #endif // __itkIOCommon_h

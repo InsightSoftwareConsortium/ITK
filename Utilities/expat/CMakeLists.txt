@@ -19,7 +19,7 @@ CONFIGURE_FILE(${ITKEXPAT_SOURCE_DIR}/expatConfig.h.in
 CONFIGURE_FILE(${ITKEXPAT_SOURCE_DIR}/expatDllConfig.h.in
                ${ITKEXPAT_BINARY_DIR}/expatDllConfig.h)
 
-ADD_LIBRARY(Insightexpat ${expat_SRCS})
+ADD_LIBRARY(ITKEXPAT ${expat_SRCS})
 
-INSTALL_TARGETS(/lib/InsightToolkit Insightexpat)
+INSTALL_TARGETS(/lib/InsightToolkit ITKEXPAT)
 INSTALL_FILES(/include/InsightToolkit/expat .h expat expatDllConfig)

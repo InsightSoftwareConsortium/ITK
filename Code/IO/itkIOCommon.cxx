@@ -33,6 +33,16 @@ const char *const ITK_PatientID = "ITK_PatientID";
 const char *const ITK_ExperimentDate = "ITK_ExperimentDate";
 const char *const ITK_ExperimentTime = "ITK_ExperimentTime";
 const char *const ITK_InputFilterName = "ITK_InputFilterName";
+const char *const ROI_NAME = "ROI_NAME";
+const char *const ROI_X_SIZE = "ROI_X_SIZE";
+const char *const ROI_X_RESOLUTION = "ROI_X_RESOLUTION";
+const char *const ROI_Y_SIZE = "ROI_Y_SIZE";
+const char *const ROI_Y_RESOLUTION = "ROI_Y_RESOLUTION";
+const char *const ROI_Z_SIZE = "ROI_Z_SIZE";
+const char *const ROI_Z_RESOLUTION = "ROI_Z_RESOLUTION";
+const char *const ROI_NUM_SEGMENTS = "ROI_NUM_SEGMENTS";
+const char *const ROI_PLANE = "ROI_PLANE";
+const char *const ROI_SCAN_ID = "ROI_SCAN_ID";
 
 std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)

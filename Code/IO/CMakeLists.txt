@@ -33,6 +33,8 @@ SET(ITKIO_SRCS
   itkNumericSeriesFileNames.cxx
   itkPNGImageIO.cxx
   itkPNGImageIOFactory.cxx
+  itkPolygonGroupSpatialObjectXMLFile.cxx
+  itkXMLFile.cxx
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
   itkVOLImageIO.cxx
