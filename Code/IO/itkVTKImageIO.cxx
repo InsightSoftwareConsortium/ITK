@@ -89,6 +89,10 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
     return false;
     }
 
+  // Create the file. This is required on some older sgi's
+  std::ofstream tFile(filename,std::ios::out);
+  tFile.close();                    
+
   // Close file from any previous image
   if ( os.is_open() )
     {
@@ -472,7 +476,7 @@ void VTKImageIO::Write(const void* buffer)
     {
       case 2:
         {
-          ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int * const>(tempmemory), this->GetImageSizeInComponents() );
+          ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), this->GetImageSizeInComponents() );
         }
         break;
       case 4:
