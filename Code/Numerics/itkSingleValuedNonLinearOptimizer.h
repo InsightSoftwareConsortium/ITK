@@ -120,6 +120,7 @@ protected:
   SingleValuedNonLinearOptimizer(const Self&) {}
   void operator=(const Self&) {}
  
+
 };
 
 } // end namespace itk
