@@ -52,23 +52,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk{ 
   namespace Statistics{
 
+/** \class MembershipSample
+ * \brief Container for storing the instance-identifiers of other sample with 
+ * their associated class labels.
+ *
+ * This class does not store any measurement data. In a sense, you can
+ * think it as an additional information to basic samples (such as Histogram,
+ * PointSetListSampleAdaptor, and ImageListSampleAdaptor). The additional
+ * information is a class label for a measurement vector. Obviously without
+ * such basic types of sample, this one is meaningless. You can call any
+ * basic methods that has been defined in the Sample class such as 
+ * GetMeasurementVector and GetFrequency. You can query the class label for
+ * an instance using an instance-identifier. Another new and important method 
+ * is the GetClassSample method. With a given class label, it returns a
+ * pointer to the Subsample object that has all the instance-identifiers 
+ * of instances that belong to the class.
+ *
+ * This class is templated over the type of the basic sample. To use all
+ * the method, you should first plug in a basic type sample using the
+ * SetSample method
+ */
+ 
 template< class TSample >
 class ITK_EXPORT MembershipSample : 
       public Sample< typename TSample::MeasurementType, 
                      TSample::MeasurementVectorSize >
 {
 public:
-  /*@{ Standard class typedefs. */
+  /** Standard class typedefs. */
   typedef MembershipSample Self;
   typedef Sample< typename TSample::MeasurementType, 
                   TSample::MeasurementVectorSize > Superclass ;
   typedef SmartPointer< Self > Pointer ;
-  //@}
 
-  /*@{ Standard macros */ 
+  /** Standard macros */ 
   itkTypeMacro(MembershipSample, Sample);
   itkNewMacro(Self) ;
-  //@}
 
   /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;
