@@ -25,13 +25,20 @@
   ITK_WRAP_OBJECT_TEMPLATE_2(f##x, f< Image##x, double >)
 
 #define ITK_WRAP_LIIF(x) \
-  ITK_WRAP_IIF(LinearInterpolateImageFunction, x)
+  ITK_WRAP_IIF(LinearInterpolateImageFunction, x) \
+  ITK_WRAP_IIF(InterpolateImageFunction, x) \
+  ITK_WRAP_OBJECT_TEMPLATE_2(InterpolateImageFunction##x##_Superclass, \
+                             InterpolateImageFunction< Image##x, double>::Superclass) \
+  ITK_WRAP_OBJECT_TEMPLATE_2(InterpolateImageFunction##x##_Superclass_Superclass, \
+                             InterpolateImageFunction< Image##x, double>::Superclass::Superclass) 
 
 #define ITK_WRAP_NNIIF(x) \
   ITK_WRAP_IIF(NearestNeighborInterpolateImageFunction, x)
 
 ITK_WRAP_CONFIG_GROUP(ITKInterpolators);
 ITK_WRAP_DEFINE_IMAGE_TYPES();
+
+
 
 ITK_WRAP_LIIF(F2);
 ITK_WRAP_LIIF(F3);
