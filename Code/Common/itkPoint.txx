@@ -75,11 +75,11 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
 Point<T, TPointDimension>
-::operator+=( const Vector<T, TPointDimension> & vector )
+::operator+=( const Vector<T, TPointDimension> & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    (*this)[i] += vector[i];
+    (*this)[i] += vec[i];
   }
   return *this;
 }
@@ -91,11 +91,11 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 const Point<T, TPointDimension> &
 Point<T, TPointDimension>
-::operator-=( const Vector<T, TPointDimension> & vector )
+::operator-=( const Vector<T, TPointDimension> & vec )
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    (*this)[i] -= vector[i];
+    (*this)[i] -= vec[i];
   }
   return *this;
 }
@@ -108,12 +108,12 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator+( const Vector<T, TPointDimension> & vector ) const
+::operator+( const Vector<T, TPointDimension> & vec ) const
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    result[i] = (*this)[i] + vector[i];
+    result[i] = (*this)[i] + vec[i];
   }
   return result;
 }
@@ -126,12 +126,12 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator-( const Vector<T, TPointDimension> & vector )  const
+::operator-( const Vector<T, TPointDimension> & vec )  const
 {
   Self result;
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    result[i] = (*this)[i] - vector[i];
+    result[i] = (*this)[i] - vec[i];
   }
   return result;
 }
@@ -144,12 +144,12 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 Vector<T, TPointDimension> 
 Point<T, TPointDimension>
-::operator-( const Point<T, TPointDimension> & point )  const
+::operator-( const Point<T, TPointDimension> & pnt )  const
 {
   VectorType result;
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
-    result[i] = (*this)[i] - point[i];
+    result[i] = (*this)[i] - pnt[i];
   }
   return result;
 }

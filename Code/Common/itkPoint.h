@@ -116,7 +116,7 @@ class Point : public Array< T, TPointDimension > {
   /**
    * Computes the Vector difference between two points
    */
-  VectorType operator-(const Self &point) const;
+  VectorType operator-(const Self &pnt) const;
 
 
 
