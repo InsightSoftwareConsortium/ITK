@@ -92,9 +92,6 @@ public:
     {  return m_Constant;  }
   
 private:
-  ConstantBoundaryCondition(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
   PixelType m_Constant;
 };
 
