@@ -70,7 +70,7 @@ public:
   typedef Offset<2>                             OffsetType;          
   typedef Superclass::VectorType                VectorType;
   typedef ParametricPath<2>                     OriginalPathType;
-  typedef ParametricPath<2>::Pointer            OriginalPathPointer;
+  typedef OriginalPathType::ConstPointer        OriginalPathConstPointer;
   typedef VectorContainer<unsigned, double>     OrthogonalCorrectionTableType;
   typedef OrthogonalCorrectionTableType::Pointer OrthogonalCorrectionTablePointer;
 
@@ -84,7 +84,7 @@ public:
    * the beginnning and the end of the original path. */
   // The usual itkSetObjectMacro can not be used here because
   // m_DefaultInputStepSize must also be copied over.
-  void SetOriginalPath( OriginalPathType *originalPath );
+  void SetOriginalPath( const OriginalPathType *originalPath );
   
   /** Set table of evenly-spaced orthogonal offsets for the original path. */
   itkSetObjectMacro( OrthogonalCorrectionTable, OrthogonalCorrectionTableType )
@@ -120,7 +120,7 @@ private:
   OrthogonallyCorrected2DParametricPath(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  OriginalPathPointer               m_OriginalPath;
+  OriginalPathConstPointer          m_OriginalPath;
   OrthogonalCorrectionTablePointer  m_OrthogonalCorrectionTable;
   
 };

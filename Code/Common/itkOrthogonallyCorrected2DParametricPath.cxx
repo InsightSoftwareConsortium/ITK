@@ -86,7 +86,7 @@ OrthogonallyCorrected2DParametricPath
 
 void
 OrthogonallyCorrected2DParametricPath
-::SetOriginalPath( OriginalPathType *originalPath )
+::SetOriginalPath( const OriginalPathType *originalPath )
 {
   itkDebugMacro("setting OriginalPath to " << originalPath );
   if (this->m_OriginalPath != originalPath)
