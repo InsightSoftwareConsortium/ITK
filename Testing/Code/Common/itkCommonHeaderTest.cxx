@@ -125,8 +125,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageConstIteratorWithIndex.txx"
 #include "itkImageContainerInterface.h"
 #include "itkImageFunction.txx"
-#include "itkImageIO.h"
-#include "itkImageIOCommon.h"
 #include "itkImageIterator.txx"
 #include "itkImageIteratorWithIndex.txx"
 #include "itkImageLinearConstIteratorWithIndex.txx"
