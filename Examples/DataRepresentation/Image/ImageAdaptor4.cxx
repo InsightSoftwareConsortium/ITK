@@ -22,12 +22,9 @@
 
 // Software Guide : BeginLatex
 //
-// Image adaptors can also be used to perform simple computations on image
-// data. They are particularly interesting in the cases where basic
-// pixel-wise operations are to be performed. The following example
-// illustrates how to use the \doxygen{ImageAdaptor} for image
-// thresholding. This is one of those simple image operations that hardly
-// justify holding an extra copy of the image in memory.
+// Image adaptors can also be used to perform simple pixel-wise computations 
+// on image data. The following example illustrates how to use the 
+// \doxygen{ImageAdaptor} for image thresholding.
 //
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
@@ -48,8 +45,7 @@
 //
 //  A pixel accessor for image thresholding requires that the accessor
 //  maintain the threshold value. Therefore, it must also implement the
-//  assignment operator to set this internal parameter. Here is the code that
-//  implements binary thresholding as a pixel accessor.
+//  assignment operator to set this internal parameter.
 //
 //  Software Guide : EndLatex 
 
@@ -82,8 +78,9 @@ private:
 
 //  Software Guide : BeginLatex
 //
-//  The \code{Get()} method computes the binary thresholding of the image.
-//  The assignment operator transfers the value of the threshold member
+//  The \code{Get()} method returns one if the input pixel is above
+//  the threshold and zero otherwise. The assignment operator transfers 
+//  the value of the threshold member
 //  variable from one instance of the pixel accessor to another.
 //
 //  Software Guide : EndLatex 
@@ -108,7 +105,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  In order to test the image adaptor, we first instantiate an image type
+//  To create an image adaptor, we first instantiate an image type
 //  whose pixel type is the same as the internal pixel type of the pixel
 //  accessor.
 //
@@ -124,7 +121,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We instantiate the \doxygen{ImageAdaptor} using the image type as the
+//  We instantiate the ImageAdaptor using the image type as the
 //  first template parameter and the pixel accessor as the second template
 //  parameter.
 //
@@ -140,10 +137,9 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  In order to set the threshold value, we get the value from the command
-//  line, create a pixel accessor, set its threshold value and finally assign
-//  the pixel accessor to the image adaptor using the
-//  \code{SetPixelAccessor()} method.
+//  The threshold value is set from the command line. A threshold
+//  pixel accessor is created and connected to the image adaptor
+//  in the same manner as the previous example.
 //
 //  Software Guide : EndLatex 
 
@@ -157,7 +153,8 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We create a reader and load the input image.
+//  We create a reader to load the input image and connect the output
+//  of the reader as the input to the adaptor.
 //
 //  Software Guide : EndLatex 
 
@@ -167,58 +164,26 @@ int main( int argc, char *argv[] )
   ReaderType::Pointer reader = ReaderType::New();  
   reader->SetFileName( argv[1] );
   reader->Update();
-// Software Guide : EndCodeSnippet
 
-
-//  Software Guide : BeginLatex
-//
-//  The newly read image is set as the internal image of the image adaptor.
-//
-//  Software Guide : EndLatex 
-
-//  Software Guide : BeginCodeSnippet
   adaptor->SetImage( reader->GetOutput() );
 //  Software Guide : EndCodeSnippet 
 
 
-//  Software Guide : BeginLatex
-//
-//  We instantiate an \doxygen{RescaleIntensityImageFilter} and an
-//  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel
-//  values and send the thresholded image to a file. Note that the image type
-//  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
-//  is, the adaptor type is used as an image type, not as a filter type.
-//
-//  Software Guide : EndLatex 
-
-
-// Software Guide : BeginCodeSnippet
   typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, ImageType > 
     RescalerType;
   RescalerType::Pointer rescaler = RescalerType::New();
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   WriterType::Pointer writer = WriterType::New();
-// Software Guide : EndCodeSnippet
 
 
   writer->SetFileName( argv[2] );
 
-
-//  Software Guide : BeginLatex
-//
-//  Finally, we set the adaptor as input to the rescaler and invoke the
-//  \code{Update()} method in the writer.
-//
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
   rescaler->SetOutputMinimum(  0  );
   rescaler->SetOutputMaximum( 255 );
 
   rescaler->SetInput( adaptor );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
-// Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
@@ -228,13 +193,16 @@ int main( int argc, char *argv[] )
 // \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingA.eps}
 // \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingB.eps}
 // \itkcaption[Image Adaptor for performing computations]{Using
-// \doxygen{ImageAdaptor} to perform simple image computation. An
-// \doxygen{ImageAdaptor} is used to perform binary thresholding on
-// the input image at left. The center image used a threshold of 180, while the
-// image at right used a threshold of 220.}
+// ImageAdaptor to perform a simple image computation. An
+// ImageAdaptor is used to perform binary thresholding on
+// the input image on the  left. The center image was created using a 
+// threshold of 180, while the
+// image on the right corresponds to a  threshold of 220.}
 // \label{fig:ImageAdaptorThresholding}
 // \end{figure}
 //
+//  As before, we rescale the emulated scalar image before writing it
+//  out to file.
 //  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
 //  applying the thresholding adaptor to a typical gray scale image using two
 //  different threshold values. Note that the same effect could have been

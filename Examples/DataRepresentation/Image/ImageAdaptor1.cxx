@@ -22,17 +22,15 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the classes \doxygen{ImageAdaptor} and
-// \doxygen{PixelAccessor}.  Here we show how ImageAdaptor can be used to
-// cast the pixel type of an image.  In particular, an image of pixel type
-// \code{unsigned char} is \emph{adapted} to make it look as and image of
+//This example illustrates how the \doxygen{ImageAdaptor} can be used to cast 
+// an image from one pixel type to another. In particular, we will 
+// \emph{adapt} an \code{unsigned char} image to make it appear as an image of 
 // pixel type \code{float}.
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
 //
-// The first step required to use image adaptors is to include the relevant
-// headers.  
+// We begin by including the relevant headers.
 //
 // Software Guide : EndLatex 
 
@@ -48,17 +46,16 @@
 
 //  Software Guide : BeginLatex
 //
-//  Then, a class should be defined for specifying the pixel conversion.
-//  This class is called in general a \doxygen{PixelAccessor}. Note that
-//  valid operations are those that only require the value of the input
-//  pixel. Neighborhood operations are not possible with the use of
-//  PixelAccessors. The PixelAccessor class must provide methods \code{Set()}
-//  and \code{Get()}, and define the types \code{InternalType} and
-//  \code{ExternalType}. The \code{InternalType} corresponds to the pixel
-//  type of the image to be adapted (in the current example this is
-//  \code{unsigned char}). The \code{ExternalType} corresponds to the pixel
-//  type we desire to emulate with the ImageAdaptor (in this case this is
-//  \code{float}).
+// First, we need to define a \emph{pixel accessor} class that does the actual
+// conversion. Note that in general, the only valid operations for pixel 
+// accessors are those that only require the value of the input pixel. As 
+// such, neighborhood type operations are not possible. A pixel accessor must 
+// provide methods \code{Set()} and \code{Get()}, and define the types of 
+// \code{InternalPixelType} and \code{ExternalPixelType}. The 
+// \code{InternalPixelType} corresponds to the pixel type of the image to be 
+// adapted (\code{unsigned char} in this example). The \code{ExternalPixelType}
+// corresponds to the pixel type we wish to emulate with the ImageAdaptor 
+// (\code{float} in this case). 
 //
 //  Software Guide : EndLatex 
 
@@ -101,9 +98,10 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  The CastPixelAccessor class defined above simply applies a
+//  The CastPixelAccessor class simply applies a
 //  \code{static\_cast} to the pixel values. We use now this pixel accessor
-//  for instantiating the image adaptor in the lines below.
+//  to define the image adaptor type and create an instance using
+//  the standard \code{New()} method.
 //
 //  Software Guide : EndLatex 
 
@@ -114,28 +112,15 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InputPixelType, Dimension >   ImageType;
 
   typedef itk::ImageAdaptor< ImageType, CastPixelAccessor > ImageAdaptorType;
-// Software Guide : EndCodeSnippet
-
-
-//  Software Guide : BeginLatex
-//
-//  An object of this type is now constructed using the standart \code{New()}
-//  method and assigning the result to a \code{SmartPointer}.
-//
-//  Software Guide : EndLatex 
-
-
-// Software Guide : BeginCodeSnippet
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
 
-
-//  Software Guide : BeginLatex
+// Software Guide : BeginLatex
 //
-//  We create a reader whose output will have the appropiate type for the
-//  \emph{adapted} image type.
+// We also create a image reader templated over the input image type and
+// read the input image from file.
 //
-//  Software Guide : EndLatex 
+// Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
@@ -150,7 +135,8 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  and now connect the output of the reader as input to the image adaptor.
+//  The output of the reader is then connected as the input to the image
+//  adaptor.
 //
 //  Software Guide : EndLatex 
 
@@ -162,9 +148,9 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Finally, we can visit the image using an iterator instantiated for the
-//  output image type of the adaptor. For example, the following code
-//  computes the sum of pixel values.
+//  In the following code, we visit the image using an iterator 
+//  instantiated using the adapted image type and compute the
+//  sum of the pixel values.
 //
 //  Software Guide : EndLatex 
 
@@ -189,12 +175,11 @@ std::cout << "Sum of pixels is: " << sum << std::endl;
 
 //  Software Guide : BeginLatex
 //
-// In this case, the iterator is simply visiting all the pixels, reading their
-// values and accumulating them in the sum. The key concept is that
-// access to pixels is performed as if the pixel type is \code{float}. 
-//
-// Note that the \code{adaptor} is used \emph{as if} it was an image, not as a
-// filter. ImageAdaptors provide the same API of the \doxygen{Image} class.
+// Although in this example, we are just performing a simple summation, the key 
+// concept is that access to pixels is performed as if the pixel is of type
+//  \code{float}. Additionally, it should be noted that the adaptor is use 
+// as if it was an actual image and not as a filter. ImageAdaptors conforms 
+// to the same API as the  \doxygen{Image} class.
 //
 //  Software Guide : EndLatex 
 

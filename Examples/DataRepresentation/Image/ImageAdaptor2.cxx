@@ -22,11 +22,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to use \doxygen{ImageAdaptor} and
-// \doxygen{PixelAccessor} to access the individual components of an
-// RGB image. In this case we create an ImageAdaptor that will accept an RGB
-// image as input and presents it as a scalar image. The pixel data
-// will be taken directly from the red channel of the adapted image.
+// This example illustrates how to use the \doxygen{ImageAdaptor}
+// to access the individual components of an RGB image. In this case, we 
+// create an ImageAdaptor that will accept a RGB image as input and 
+// presents it as a scalar image. The pixel data
+// will be taken directly from the red channel of the original image.
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
@@ -43,12 +43,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The bulk of the effort in creating an ImageAdaptor is associated with the
-//  definition of the PixelAccessor class. Here we need to define how pixel
-//  values are going to be read from the RGB image. Note that we intentionally
-//  omit the \code{Set()} method, since we only expect this adaptor to be used
-//  for reading data from the image. We define the input image as having pixel
-//  type \doxygen{RGBPixel}.
+//  As with the previous example, the bulk of the effort in creating the image 
+//  adaptor is associated with the definition of the pixel accessor class. In 
+//  this case, the accessor converts a RGB vector to a scalar containing the 
+//  red channel component. Note that in the following, we do not need to define
+//  the \code{Set()} method since we only expect the adaptor to be used for 
+//  reading data from the image.
 //
 //  Software Guide : EndLatex 
 
@@ -70,7 +70,7 @@ public:
 
 //  Software Guide : BeginLatex
 //
-//  The \code{Get()} method is simply calling the \code{GetRed()} method
+//  The \code{Get()} method simply calls the \code{GetRed()} method
 //  defined in the \doxygen{RGBPixel} class.
 //
 //  Software Guide : EndLatex 
@@ -117,8 +117,8 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We create a reader that produces the appropiate type for the
-//  \emph{adapted} image type.
+//  We create an image reader and connect the output to the adaptor
+//  as before.
 //
 //  Software Guide : EndLatex 
 
@@ -128,31 +128,21 @@ int main( int argc, char *argv[] )
   ReaderType::Pointer reader = ReaderType::New();  
 // Software Guide : EndCodeSnippet
 
-
   reader->SetFileName( argv[1] );
   reader->Update();
-
-
-//  Software Guide : BeginLatex
-//
-//  and now connect the output of the reader as input of the image adaptor.
-//
-//  Software Guide : EndLatex 
-
 
 // Software Guide : BeginCodeSnippet
   adaptor->SetImage( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
-
  
 
 //  Software Guide : BeginLatex
 //
-//  We instantiate a \doxygen{RescaleIntensityImageFilter} and a
+//  We create a \doxygen{RescaleIntensityImageFilter} and a
 //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
 //  and send the extracted channel to an image file. Note that the image type
 //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
-//  is, the adaptor type is used as an image type, not as a filter type.
+//  is, the adaptor type is used in the same context as an image type.
 //
 //  Software Guide : EndLatex 
 
@@ -192,8 +182,8 @@ int main( int argc, char *argv[] )
 //
 //  ImageAdaptors for the green and blue channels can easily be implemented by
 //  modifying the pixel accessor of the red channel and then using the
-//  new pixel accessor for instantiating the type of an image adaptor. Here is
-//  the code for a green channel pixel accessor.
+//  new pixel accessor for instantiating the type of an image adaptor. 
+//  The following define a green channel pixel accessor.
 //
 //  \index{PixelAccessor!RGB green channel}
 //  \index{itk::ImageAdaptor!RGB green channel}
@@ -219,7 +209,7 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-// Here is the code for a blue channel pixel accessor.
+// A blue channel pixel accessor is similarly defined.
 //
 //  \index{PixelAccessor!RGB blue channel}
 //  \index{itk::ImageAdaptor!RGB blue channel}
@@ -250,17 +240,15 @@ int main( int argc, char *argv[] )
 // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent.eps}
 // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent.eps}
 // \itkcaption[Image Adaptor to RGB Image]{Using
-// \doxygen{ImageAdaptor} to extract the components of an RGB image. The
-// image at left is a subregion of the Visible Woman cryogenic data set. The
-// red, green and blue components are shown from left to right as scalar images
-// extracted with an \doxygen{ImageAdaptor}.}
+// ImageAdaptor to extract the components of an RGB image. The
+// image on the left is a subregion of the Visible Woman cryogenic data set. 
+// The red, green and blue components are shown from left to right as scalar 
+// images extracted with an ImageAdaptor.}
 // \label{fig:ImageAdaptorToRGBImage}
 // \end{figure}
 //
 //
-//  Note that the adaptor is used as an image would have been used, not as a
-//  filter. The \doxygen{ImageAdaptor} conforms to the API of the
-//  \doxygen{Image}. Figure~\ref{fig:ImageAdaptorToRGBImage} shows the result
+//  Figure~\ref{fig:ImageAdaptorToRGBImage} shows the result
 //  of extracting the red, green and blue components from a region of the
 //  Visible Woman cryogenic data set. 
 //
