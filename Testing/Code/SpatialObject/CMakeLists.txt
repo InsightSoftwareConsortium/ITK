@@ -18,12 +18,21 @@ ENDIF (TCL_TCLSH)
 
 ADD_TEST( itkTubeSpatialObjectTest itkSpatialObjectTests itkTubeSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest itkSpatialObjectTests itkImageSpatialObjectTest )
+ADD_TEST( itkEllipseSpatialObjectTest itkSpatialObjectTests itkEllipseSpatialObjectTest)
+ADD_TEST( itkBlobSpatialObjectTest itkSpatialObjectTests itkBlobSpatialObjectTest )
+ADD_TEST( itkSurfaceSpatialObjectTest itkSpatialObjectTests itkSurfaceSpatialObjectTest )
+ADD_TEST( itkLineSpatialObjectTest itkSpatialObjectTests itkLineSpatialObjectTest )
+
 ADD_TEST(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest)
 
 SOURCE_FILES(
   SpatialObject_SRCS
   itkTubeSpatialObjectTest
   itkImageSpatialObjectTest
+  itkEllipseSpatialObjectTest
+  itkBlobSpatialObjectTest
+  itkSurfaceSpatialObjectTest  
+  itkLineSpatialObjectTest
 )
 
 ADD_EXECUTABLE( itkSpatialObjectTests itkSpatialObjectTests.cxx SpatialObject_SRCS)

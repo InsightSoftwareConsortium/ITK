@@ -8,4 +8,8 @@ void RegisterTests()
 {
   REGISTER_TEST(itkImageSpatialObjectTest);
   REGISTER_TEST(itkTubeSpatialObjectTest);
+  REGISTER_TEST(itkBlobSpatialObjectTest);
+  REGISTER_TEST(itkLineSpatialObjectTest);
+  REGISTER_TEST(itkEllipseSpatialObjectTest);
+  REGISTER_TEST(itkSurfaceSpatialObjectTest);
 }
