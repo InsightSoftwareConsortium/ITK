@@ -46,6 +46,7 @@ public:
   typedef DistanceMetric Self;
   typedef MembershipFunctionBase< TVector > Superclass;
   
+  enum { VectorLength = TVector::Length } ;
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 
@@ -53,7 +54,7 @@ public:
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
   void SetOrigin(const TVector &x) ;
-  
+
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function*/
   virtual double Evaluate(const TVector &x) const = 0 ;
