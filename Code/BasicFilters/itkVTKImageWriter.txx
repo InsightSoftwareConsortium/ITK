@@ -152,7 +152,7 @@ VTKImageWriter<TInputImage>
       }
     m_OutputBuffer.resize((int) (500 + 1000 * input->GetActualMemorySize()));
 
-    fptr = new std::ostrstream(m_OutputBuffer.begin(), m_OutputBuffer.size());
+    fptr = new std::ostrstream(&*(m_OutputBuffer.begin()), m_OutputBuffer.size());
     }
   else 
     {
