@@ -83,7 +83,7 @@ public:
    * TestAbort is on, the filter being watched will be aborted when
    * the progress reaches 30%.*/
   void TestAbortOn() {m_TestAbort = true;};
-  void TestAbortOff() {m_TestAbort = true;};
+  void TestAbortOff() {m_TestAbort = false;};
   
 protected:
 

@@ -123,7 +123,7 @@ public:
   void QuietOn() {m_Quiet = true;};
   void QuietOff() {m_Quiet = false;};
   void TestAbortOn() {m_TestAbort = true;};
-  void TestAbortOff() {m_TestAbort = true;};
+  void TestAbortOff() {m_TestAbort = false;};
 protected:
   clock_t m_Start;
   clock_t m_End;
