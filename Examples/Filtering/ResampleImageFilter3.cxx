@@ -202,24 +202,62 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  We set the transform to identity in order to better appreciate the effect
-  //  of the origin selection.
+  //  Rotations are performed around the origin of coordinates. The process of
+  //  positioning the output image frame as it is shown in the figure reguires
+  //  three steps. First, the image origin must be moved to the origin of the
+  //  coordinate system, this is done by applying a translationof
+  //  $(-50,-130.0))$. In a second step, a rotation of 30 degrees is performed.
+  //  The third and final step implies to translate back the origing to the
+  //  previous location, which can be done with a translation of $(50.0,130)$.
+  //  Note that the AffineTransform uses a second boolean argument to specify
+  //  if the current modification of the transform should be pre-composed or
+  //  post-composed with the current transform content.
+  //
+  //  Angles are specified in Radians to the Affine transform.
   //
   //  Software Guide : EndLatex 
+  
+  // Software Guide : BeginCodeSnippet
+  TransformType::OutputVectorType translation1;
+
+  translation1[0] =   -50.0;
+  translation1[1] =  -130.0;
+  
+  transform->Translate( translation1 );
+  // Software Guide : EndCodeSnippet
+
 
   // Software Guide : BeginCodeSnippet
-  transform->Rotate2D( 30.0 );
+  const double degreesToRadians = atan(1.0) / 45.0;
+  transform->Rotate2D( 30.0 * degreesToRadians, false );
 
   filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
   
+   // Software Guide : BeginCodeSnippet
+  TransformType::OutputVectorType translation2;
+
+  translation2[0] =    50.0;
+  translation2[1] =   130.0;
   
+  transform->Translate( translation2, false );
+  // Software Guide : EndCodeSnippet
+
+ 
 
   
   if( exampleAction == 0 )
     {
-    writer->Update();
+      try 
+        {
+        writer->Update();
+        }
+      catch( itk::ExceptionObject & excep )
+        {
+        std::cerr << "Exception catched !" << std::endl;
+        std::cerr << excep << std::endl;
+        }
     }
 
 
