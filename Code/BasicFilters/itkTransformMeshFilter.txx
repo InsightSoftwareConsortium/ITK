@@ -70,12 +70,12 @@ TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
   
   if( !inputMesh )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro(<<"Missing Input Mesh");
     }
 
   if( !outputMesh )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro(<<"Missing Output Mesh");
     }
 
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
