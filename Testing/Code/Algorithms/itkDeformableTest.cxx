@@ -23,7 +23,7 @@
 #include <time.h>
 
 #include <itkImage.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include <itkImageRegionIterator.h>
 #include <itkDeformableMesh3DFilter.h>
 #include <itkMesh.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
@@ -95,8 +95,8 @@ int itkDeformableTest(int, char**)
   binaryImageType::Pointer       biimg=binaryImageType::New();
   myGradientImageType::Pointer   gdimg=myGradientImageType::New();
 
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>         myIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<myGradientImageType> myGradientIteratorType;
+  typedef itk::ImageRegionIterator<myImageType>         myIteratorType;
+  typedef itk::ImageRegionIterator<myGradientImageType> myGradientIteratorType;
 
   binaryImageType::SizeType      bisize={{WIDTH,HEIGHT,DEPTH}};
   binaryImageType::IndexType     biindex;
@@ -139,9 +139,9 @@ int itkDeformableTest(int, char**)
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  itk::ImageRegionIteratorWithIndex <myImageType> it(inputImage, region);
+  itk::ImageRegionIterator<myImageType> it(inputImage, region);
   it.GoToBegin();
-  itk::ImageRegionIteratorWithIndex <binaryImageType> bit(biimg, biregion);
+  itk::ImageRegionIterator<binaryImageType> bit(biimg, biregion);
   bit.GoToBegin();
 
 
@@ -169,8 +169,8 @@ int itkDeformableTest(int, char**)
   region.SetIndex( start );
   biregion.SetSize( size );
   biregion.SetIndex( start );
-  itk::ImageRegionIteratorWithIndex <myImageType> itb( inputImage, region );
-  itk::ImageRegionIteratorWithIndex <binaryImageType> bitb( biimg, biregion );
+  itk::ImageRegionIterator<myImageType> itb( inputImage, region );
+  itk::ImageRegionIterator<binaryImageType> bitb( biimg, biregion );
 
   // Initialize the content the internal region
   while( !itb.IsAtEnd() ) 
