@@ -51,7 +51,9 @@ public:
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::ScalarValueType ScalarValueType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::TimeStep TimeStepType;
 
   /** Index type derived from the ImageType. */
   typedef typename ImageType::IndexType IndexType;
