@@ -465,7 +465,7 @@ int main()
   //  more. 
   //
   //  Neighborhood relationships are represented in the \doxygen{Mesh} by the
-  //  notion of \emph{BoundaryFeature}. Every cell has a internal list of
+  //  notion of \emph{BoundaryFeature}. Every cell has an internal list of
   //  cell-identifiers pointing to other cells that are considered to be its
   //  neighbors. Boundary features are classified by dimension. For example, a
   //  line will have two boundary features of dimension zero corresponding to

@@ -42,3 +42,6 @@ TARGET_LINK_LIBRARIES(MeshCellVisitor ITKCommon)
 ADD_EXECUTABLE(MeshCellVisitor2 MeshCellVisitor2.cxx )
 TARGET_LINK_LIBRARIES(MeshCellVisitor2 ITKCommon)
 
+ADD_EXECUTABLE(AutomaticMesh AutomaticMesh.cxx )
+TARGET_LINK_LIBRARIES(AutomaticMesh ITKCommon ITKAlgorithms)
+
