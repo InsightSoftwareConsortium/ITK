@@ -95,7 +95,7 @@ public:
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information. 
    */
-  virtual const char *GetClassName() const 
+  virtual const char *GetNameOfClass() const 
     {return "LightObject";}
 
 #ifdef _WIN32

@@ -44,10 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // add in the Windows variants
 
-// Just in case windows.h ended up in this translation unit first, make
-// sure stray #define names don't mess up itk code.
-#undef GetClassName
-
 #if defined(__CYGWIN__)
 #ifndef WIN32
 #define WIN32 1

@@ -82,8 +82,7 @@ void
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::SetPoints(PointsContainer* points)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting Points container to " << points);
+  itkDebugMacro("setting Points container to " << points);
   if(m_PointsContainer.GetPointer() != points)
     {
     m_PointsContainer = points;
@@ -100,8 +99,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::P
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::GetPoints(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Points container of " << m_PointsContainer );
+  itkDebugMacro("returning Points container of " << m_PointsContainer );
 
   return m_PointsContainer;
 }

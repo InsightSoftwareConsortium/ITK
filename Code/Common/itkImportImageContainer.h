@@ -43,8 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkSmartPointer.h"
-
 #include <utility>
 
 namespace itk

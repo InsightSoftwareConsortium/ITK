@@ -87,8 +87,7 @@ namespace itk
 #define itkSetMacro(name,type) \
   virtual void Set##name (const type _arg) \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): setting " #name " to " << _arg); \
+    itkDebugMacro("setting " #name " to " << _arg); \
     if (this->m_##name != _arg) \
       { \
       this->m_##name = _arg; \
@@ -103,8 +102,7 @@ namespace itk
 #define itkGetMacro(name,type) \
   virtual type Get##name () \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " << #name " of " << this->m_##name ); \
+    itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
 
@@ -117,8 +115,7 @@ namespace itk
 #define itkGetConstMacro(name,type) \
   virtual type Get##name () const \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " << #name " of " << this->m_##name ); \
+    itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
 
@@ -132,8 +129,7 @@ namespace itk
 #define itkGetConstReferenceMacro(name,type) \
   virtual const type & Get##name () const \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " << #name " of " << this->m_##name ); \
+    itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
 
@@ -179,8 +175,7 @@ namespace itk
 #define itkSetClampMacro(name,type,min,max) \
   virtual void Set##name (type _arg) \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): setting " << #name " to " << _arg ); \
+    itkDebugMacro("setting " << #name " to " << _arg ); \
     if (this->m_##name != (_arg<min?min:(_arg>max?max:_arg))) \
       { \
       this->m_##name = (_arg<min?min:(_arg>max?max:_arg)); \
@@ -198,8 +193,7 @@ namespace itk
 #define itkSetObjectMacro(name,type) \
   virtual void Set##name (type* _arg) \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): setting " << #name " to " << _arg ); \
+    itkDebugMacro("setting " << #name " to " << _arg ); \
     if (this->m_##name != _arg) \
       { \
       this->m_##name = _arg; \
@@ -215,8 +209,7 @@ namespace itk
 #define itkGetObjectMacro(name,type) \
   virtual typename type::Pointer Get##name () \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " #name " address " << this->m_##name ); \
+    itkDebugMacro("returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
   } 
 
@@ -230,8 +223,7 @@ namespace itk
 #define itkSetConstObjectMacro(name,type) \
   virtual void Set##name (const type* _arg) \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): setting " << #name " to " << _arg ); \
+    itkDebugMacro("setting " << #name " to " << _arg ); \
     if (this->m_##name != _arg) \
       { \
       this->m_##name = _arg; \
@@ -247,8 +239,7 @@ namespace itk
 #define itkGetConstObjectMacro(name,type) \
   virtual typename type::ConstPointer Get##name () \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " #name " address " << this->m_##name ); \
+    itkDebugMacro("returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
   } 
 
@@ -260,8 +251,7 @@ namespace itk
 #define itkGetConstReferenceObjectMacro(name,type) \
   virtual const typename type::Pointer & Get##name () const \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " #name " address " << this->m_##name ); \
+    itkDebugMacro("returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
   } 
 
@@ -333,7 +323,7 @@ static Pointer New(void) \
  * information.
  */
 #define itkTypeMacro(thisClass,superclass) \
-    virtual const char *GetClassName() const \
+    virtual const char *GetNameOfClass() const \
         {return #thisClass;}
 
 /** 
@@ -362,7 +352,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 { if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
-             << this->GetClassName() << " (" << this << "): " x  \
+             << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
       itk::OutputWindowDisplayText(itkmsgbuff); \
@@ -383,7 +373,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 { if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
-             << this->GetClassName() << " (" << this << "): " x  \
+             << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
       itk::OutputWindowDisplayText(itkmsgbuff); \
@@ -404,7 +394,7 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 { if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n" \
-             << this->GetClassName() << " (" << this << "): " x  \
+             << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
       itk::OutputWindowDisplayText(itkmsgbuff); \

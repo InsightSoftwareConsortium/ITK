@@ -132,7 +132,7 @@ public:
   /**
    * Return the name of the class.
    */
-  static const char *GetClassName() {return "ExceptionObject";}
+  static const char *GetNameOfClass() {return "ExceptionObject";}
   
 private:
   /**

@@ -83,7 +83,7 @@ public:
   /**
    * Return the name of the class.
    */
-  static const char *GetClassName() {return "Indent";}
+  static const char *GetNameOfClass() {return "Indent";}
 
   /** 
    * Determine the next indentation level. Keep indenting by two until the 

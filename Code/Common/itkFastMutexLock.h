@@ -112,7 +112,7 @@ public:
   static SimpleFastMutexLock *New();
   void Delete() {delete this;}
 
-  virtual const char *GetClassName() 
+  virtual const char *GetNameOfClass() 
     {return "SimpleFastMutexLock";};
   
   /**

@@ -74,8 +74,7 @@ void
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPoints(PointsContainer* points)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting Points container to " << points);
+  itkDebugMacro("setting Points container to " << points);
   if(m_PointsContainer != points)
     {
     m_PointsContainer = points;
@@ -93,8 +92,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainerPointer
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Points container of " << m_PointsContainer );
+  itkDebugMacro("returning Points container of " << m_PointsContainer );
   if( !m_PointsContainer )
     {
     this->SetPoints(PointsContainer::New());
@@ -111,8 +109,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainerConstPointer
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void) const
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Points container of " << m_PointsContainer );
+  itkDebugMacro("returning Points container of " << m_PointsContainer );
   return m_PointsContainer.GetPointer();
 }
 
@@ -125,8 +122,7 @@ void
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetPointData(PointDataContainer* pointData)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting PointData container to " << pointData);
+  itkDebugMacro("setting PointData container to " << pointData);
   if(m_PointDataContainer != pointData)
     {
     m_PointDataContainer = pointData;
@@ -143,8 +139,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainerPointer
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning PointData container of "
+  itkDebugMacro("returning PointData container of "
                 << m_PointDataContainer );
   return m_PointDataContainer;
 }
@@ -159,8 +154,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainerConstPointer
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPointData(void) const
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning PointData container of "
+  itkDebugMacro("returning PointData container of "
                 << m_PointDataContainer );
   return m_PointDataContainer.GetPointer();
 }

@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkImageContainerInterface_h
 
 #include "itkObject.h"
-#include "itkSmartPointer.h"
 
 namespace itk
 {

@@ -42,12 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkObject_h
 
 #include "itkLightObject.h"
-#include "itkSmartPointer.h"
-#include "itkTimeStamp.h"
-#include "itkIndent.h"
-
-#include <iostream>
-#include <typeinfo>
 
 namespace itk
 {

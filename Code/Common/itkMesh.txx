@@ -86,8 +86,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetCellLinks(CellLinksContainer* cellLinks)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting CellLinks container to " << cellLinks);
+  itkDebugMacro("setting CellLinks container to " << cellLinks);
   if(m_CellLinksContainer != cellLinks)
     {
     m_CellLinksContainer = cellLinks;
@@ -103,8 +102,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellLinks(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning CellLinks container of "
+  itkDebugMacro("returning CellLinks container of "
                 << m_CellLinksContainer );
   return m_CellLinksContainer;
 }
@@ -118,8 +116,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetCells(CellsContainer* cells)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting Cells container to " << cells);
+  itkDebugMacro("setting Cells container to " << cells);
   if(m_CellsContainer != cells)
     {
     m_CellsContainer = cells;
@@ -136,8 +133,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCells(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Cells container of " << m_CellsContainer );
+  itkDebugMacro("returning Cells container of " << m_CellsContainer );
   return m_CellsContainer;
 }
 
@@ -150,8 +146,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetCellData(CellDataContainer* cellData)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting CellData container to " << cellData);
+  itkDebugMacro("setting CellData container to " << cellData);
   if(m_CellDataContainer != cellData)
     {
     m_CellDataContainer = cellData;
@@ -168,8 +163,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellData(void)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning CellData container of "
+  itkDebugMacro("returning CellData container of "
                 << m_CellDataContainer );
   return m_CellDataContainer;
 }
@@ -183,8 +177,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetBoundaries(int dimension, BoundariesContainer* boundaries)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting Boundaries[" << dimension
+  itkDebugMacro("setting Boundaries[" << dimension
                 << "] container to " << boundaries);
   if(m_BoundariesContainers[dimension] != boundaries)
     {
@@ -203,8 +196,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BoundariesContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaries(int dimension)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Boundaries[" << dimension
+  itkDebugMacro("returning Boundaries[" << dimension
                 << "] container of "
                 << m_BoundariesContainers[dimension]);
   return m_BoundariesContainers[dimension];
@@ -219,8 +211,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetBoundaryData(int dimension, BoundaryDataContainer* boundaryData)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting BoundaryData[" << dimension
+  itkDebugMacro("setting BoundaryData[" << dimension
                 << "] container to " << boundaryData);
   if(m_BoundaryDataContainers[dimension] != boundaryData)
     {
@@ -238,8 +229,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryData(int dimension)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning BoundaryData[" << dimension
+  itkDebugMacro("returning BoundaryData[" << dimension
                 << "] container of "
                 << m_BoundaryDataContainers[dimension]);
   return m_BoundaryDataContainers[dimension];
@@ -257,8 +247,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   int dimension,
   BoundaryAssignmentsContainer* boundaryAssignments)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): setting BoundaryAssignments[" << dimension
+  itkDebugMacro("setting BoundaryAssignments[" << dimension
                 << "] container to " << boundaryAssignments);
   if(m_BoundaryAssignmentsContainers[dimension] != boundaryAssignments)
     {
@@ -277,8 +266,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryAssignments(int dimension)
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning BoundaryAssignments[" << dimension
+  itkDebugMacro("returning BoundaryAssignments[" << dimension
                 << "] container of "
                 << m_BoundaryAssignmentsContainers[dimension]);
   return m_BoundaryAssignmentsContainers[dimension];

@@ -138,8 +138,7 @@ void
 DataObject
 ::DisconnectPipeline() const
 {
-  itkDebugMacro( << this->GetClassName() << " (" 
-                 << this << "): disconnecting from the pipeline." );
+  itkDebugMacro( "disconnecting from the pipeline." );
 
   // disconnect ourselves from the current process object
   if (m_Source)
@@ -155,8 +154,7 @@ void
 DataObject
 ::DisconnectSource(ProcessObject *arg, unsigned int idx) const
 {
-  itkDebugMacro( << this->GetClassName() << " (" 
-                 << this << "): disconnecting source  " << arg
+  itkDebugMacro( "disconnecting source  " << arg
                  << ", source output index " << idx);
 
   if ( m_Source == arg && m_SourceOutputIndex == idx)
@@ -171,8 +169,7 @@ void
 DataObject
 ::ConnectSource(ProcessObject *arg, unsigned int idx) const
 {
-  itkDebugMacro( << this->GetClassName() << " (" 
-                 << this << "): connecting source  " << arg
+  itkDebugMacro( "connecting source  " << arg
                  << ", source output index " << idx);
 
   if ( m_Source != arg || m_SourceOutputIndex != idx)
@@ -190,8 +187,7 @@ SmartPointerForwardReference<ProcessObject>
 DataObject
 ::GetSource() const
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Source address " << m_Source );
+  itkDebugMacro("returning Source address " << m_Source );
   return m_Source.GetPointer();
 }
 
@@ -199,8 +195,7 @@ unsigned int
 DataObject
 ::GetSourceOutputIndex() const
 {
-  itkDebugMacro(<< this->GetClassName() << " (" << this
-                << "): returning Source index " << m_SourceOutputIndex );
+  itkDebugMacro("returning Source index " << m_SourceOutputIndex );
   return m_SourceOutputIndex;
 }
 

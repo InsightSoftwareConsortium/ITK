@@ -106,7 +106,7 @@ public:
   static SimpleMutexLock *New();
   void Delete() {delete this;}
 
-  virtual const char *GetClassName() {return "itkSimpleMutexLock";};
+  virtual const char *GetNameOfClass() {return "itkSimpleMutexLock";};
   
   /**
    * Lock the MutexLock.

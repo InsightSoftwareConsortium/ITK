@@ -41,10 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkCellInterface_h
 #define __itkCellInterface_h
 
-#include "itkLightObject.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkSmartPointer.h"
 #include <map>
 #include "itkCellInterfaceVisitor.h"
 

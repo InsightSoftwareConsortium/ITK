@@ -270,8 +270,7 @@ ProcessObject
   // so we are prepared for the next Update()
 //   if (!m_Outputs[idx])
 //     {
-//     itkDebugMacro( << this->GetClassName() << " (" 
-//                    << this << "): creating new output object." );
+//     itkDebugMacro( " creating new output object." );
 //     DataObjectPointer newOutput = ...
 //     this->SetNthOutput(idx, newOutput);
 //     }

@@ -86,7 +86,7 @@ public:
   /** 
    * The class name as a string. 
    */
-  static const char *GetClassName() 
+  static const char *GetNameOfClass() 
     {return "TimeStamp";}
 
   /** 

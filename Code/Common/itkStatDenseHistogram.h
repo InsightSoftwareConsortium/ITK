@@ -41,8 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkStatDenseHistogram_h
 
 #include "itkImage.h"
-#include "itkIndex.h"
-#include "itkSmartPointer.h"
 #include "itkStatHistogram.h"
 #include "itkImageRegionIterator.h"
 

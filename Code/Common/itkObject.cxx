@@ -236,7 +236,7 @@ void
 Object
 ::PrintHeader(std::ostream& os, Indent indent) const
 {
-  os << indent << this->GetClassName() << " (" << this << ")\n";
+  os << indent << this->GetNameOfClass() << " (" << this << ")\n";
 }
 
 

@@ -51,7 +51,7 @@ void ExceptionObject::Print(std::ostream& os) const
     os << "in \"" << m_Location << "\" ";
     }
   
-  os << "of type \"" << this->GetClassName() << "\" ";
+  os << "of type \"" << this->GetNameOfClass() << "\" ";
   if (! m_Description.empty()) 
     {
     os << std::endl << "\t" << m_Description;  
