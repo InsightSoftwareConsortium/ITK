@@ -47,7 +47,6 @@ void
 TranslationTransform<TScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
-  Superclass::SetParameters( parameters );
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
     m_Offset[i] = parameters[i];
