@@ -50,20 +50,23 @@ public:
 
   /** Standard class typedefs. */
   typedef HistogramToImageFilter               Self;
-  typedef ImageSource< Image<unsigned long, THistogram::MeasurementVectorSize> >            
-    Superclass;
+  typedef ImageSource< Image<unsigned long, 
+  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
+                                                                    Superclass;
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>             ConstPointer;
   
-  typedef Image<unsigned long, THistogram::MeasurementVectorSize>  
-    OutputImageType; 
+  typedef Image<unsigned long, 
+  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> 
+                                                                OutputImageType; 
   typedef typename Superclass::Pointer    OutputImagePointer;
   typedef typename OutputImageType::SpacingType SpacingType;
   typedef typename OutputImageType::PointType PointType;
   
   // Define an iterator to iterate through the image
   typedef itk::ImageRegionIteratorWithIndex< Image<unsigned long, 
-          THistogram::MeasurementVectorSize> > ImageIteratorType;
+  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
+                                                              ImageIteratorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,7 +89,7 @@ public:
   
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                     THistogram::MeasurementVectorSize  );
+  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension  );
   
   /** Set/Get the input of this process object.  */
   virtual void SetInput( const HistogramType *histogram);
