@@ -1213,7 +1213,6 @@ unsigned int test_regiongrowKLM2D()
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
   OutputImageIterator outItEnd3 = outIt3.End();
 
-  k = 0;
   while ( outIt3 != outItEnd3 )
     {
     pixelOut = outIt3.Get();
@@ -1225,8 +1224,6 @@ unsigned int test_regiongrowKLM2D()
       }
 
     ++outIt3;
-    ++k;
-
     } //end while iterator loop
 
 
@@ -1807,7 +1804,6 @@ unsigned int test_regiongrowKLM3D()
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
   OutputImageIterator outItEnd3 = outIt3.End();
 
-  k = 0;
   while ( outIt3 != outItEnd3 )
     {
     pixelOut = outIt3.Get();
@@ -1819,8 +1815,6 @@ unsigned int test_regiongrowKLM3D()
       }
 
     ++outIt3;
-    ++k;
-
     } //end while iterator loop
 
 
@@ -2207,7 +2201,6 @@ unsigned int test_regiongrowKLM4D()
   OutputImageIterator outIt3( outImage3, outImage3->GetBufferedRegion() );
   OutputImageIterator outItEnd3 = outIt3.End();
 
-  k = 0;
   while ( outIt3 != outItEnd3 )
     {
     pixelOut = outIt3.Get();
@@ -2219,8 +2212,6 @@ unsigned int test_regiongrowKLM4D()
       }
 
     ++outIt3;
-    ++k;
-
     } //end while iterator loop
 
 
