@@ -394,17 +394,38 @@ public:
     { return *(m_Buffer+m_Offset); }
 
   /**
-   * Return an iterator for the beginning of the region.
+   * Return an iterator for the beginning of the region. "Begin" for a reverse
+   * iterator is the last pixel in the region.
    */
   Self Begin();
 
+ /**
+  * Move an iterator to the beginning of the region. "Begin" for a reverse
+  * iterator is the last pixel in the region.
+  */
+  void GoToBegin()
+    {
+    m_Offset = m_BeginOffset;
+    };
+
   /**
-   * Return an iterator for the end of the region.
+   * Return an iterator for the end of the region. "End" for a reverse iterator
+   * is one pixel before the first pixel in the region.
    */
   Self End();
 
+ /**
+  * Move an iterator to the end of the region. "End" for a reverse iterator
+  * is defined as one pixel before the first pixel in the region.
+  */
+  void GoToEnd()
+    {
+    m_Offset = m_EndOffset;
+    };
+
   /**
-   * Is the iterator at the beginning of the (reverse) region?
+   * Is the iterator at the beginning of the (reverse) region? "Begin" for
+   * a reverse iterator is the last pixel in the region.
    */
   bool IsAtBegin()
     {
@@ -412,7 +433,8 @@ public:
     }
 
   /**
-   * Is the iterator at the end of the (reverse) region?
+   * Is the iterator at the end of the (reverse) region? "End" for a reverse
+   * iterator is one pixel before the first pixel in the region.
    */
   bool IsAtEnd()
     {

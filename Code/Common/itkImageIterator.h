@@ -346,17 +346,38 @@ public:
     { return *(m_Buffer+m_Offset); }
 
   /**
-   * Return an iterator for the beginning of the region.
+   * Return an iterator for the beginning of the region. "Begin"
+   * is defined as the first pixel in the region.
    */
   Self Begin();
 
+ /**
+  * Move an iterator to the beginning of the region. "Begin" is
+  * defined as the first pixel in the region.
+  */
+  void GoToBegin()
+    {
+    m_Offset = m_BeginOffset;
+    };
+
   /**
-   * Return an iterator for the end of the region.
+   * Return an iterator for the end of the region. "End" is defined
+   * as one pixel past the last pixel of the region.
    */
   Self End();
 
+ /**
+  * Move an iterator to the end of the region. "End" is defined as
+  * one pixel past the last pixel of the region.
+  */
+  void GoToEnd()
+    {
+    m_Offset = m_EndOffset;
+    };
+
   /**
-   * Is the iterator at the beginning of the region?
+   * Is the iterator at the beginning of the region? "Begin" is defined
+   * as the first pixel in the region.
    */
   bool IsAtBegin()
     {
@@ -364,7 +385,8 @@ public:
     }
 
   /**
-   * Is the iterator at the end of the region?
+   * Is the iterator at the end of the region? "End" is defined as one
+   * pixel past the last pixel of the region.
    */
   bool IsAtEnd()
     {
@@ -376,8 +398,8 @@ protected: //made protected so other iterators can access
   RegionType              m_Region;      // region to iterate over
   
   unsigned long  m_Offset;
-  unsigned long  m_BeginOffset;
-  unsigned long  m_EndOffset;
+  unsigned long  m_BeginOffset; // offset to first pixel in region
+  unsigned long  m_EndOffset;  // offset to one pixel past last pixel in region
 
   InternalPixelType        *m_Buffer;
 
