@@ -28,6 +28,7 @@ template <typename TCoordRepType>
 VoronoiDiagram2D<TCoordRepType>::
 VoronoiDiagram2D()
 {
+  m_NumberOfSeeds = 0;
 }
 
 template <typename TCoordRepType>
