@@ -77,7 +77,8 @@ void AffineGeometryFrame<TScalarType, NDimensions>
 {
   boundingBox = BoundingBoxType::New();
   
-  typename BoundingBoxType::PointsContainer::Pointer pointscontainer = BoundingBoxType::PointsContainer::New();
+  typename BoundingBoxType::PointsContainer::Pointer pointscontainer =
+           BoundingBoxType::PointsContainer::New();
   typename BoundingBoxType::PointType p; 
   typename BoundingBoxType::PointIdentifier pointid;
   
@@ -99,7 +100,8 @@ void AffineGeometryFrame<TScalarType, NDimensions>
 /** Clone the geometry */
 template<class TScalarType, unsigned int NDimensions>
 typename AffineGeometryFrame<TScalarType, NDimensions>::Pointer
-AffineGeometryFrame<TScalarType, NDimensions>::Clone() const
+AffineGeometryFrame<TScalarType, NDimensions>
+::Clone() const
 {
   typename Self::Pointer newGeometry = Self::New();
   newGeometry->Initialize();
@@ -111,22 +113,31 @@ AffineGeometryFrame<TScalarType, NDimensions>::Clone() const
 
 /** Initialize the geometry */
 template<class TScalarType, unsigned int NDimensions>
-void AffineGeometryFrame<TScalarType, NDimensions>::InitializeGeometry(AffineGeometryFrame * newGeometry) const
+void 
+AffineGeometryFrame<TScalarType, NDimensions>
+::InitializeGeometry(AffineGeometryFrame * newGeometry) const
 {
   newGeometry->SetBounds(m_BoundingBox->GetBounds());
   // we have to create a new transform!!
   typename TransformType::Pointer indexToObjecttransform = TransformType::New();
-  indexToObjecttransform->SetParameters(m_IndexToObjectTransform->GetParameters());
+  indexToObjecttransform->SetCenter( m_IndexToObjectTransform->GetCenter() );
+  indexToObjecttransform->SetMatrix( m_IndexToObjectTransform->GetMatrix() );
+  indexToObjecttransform->SetOffset( m_IndexToObjectTransform->GetOffset() );
   newGeometry->SetIndexToObjectTransform(indexToObjecttransform);
   
   typename TransformType::Pointer objectToNodeTransform = TransformType::New();
-  objectToNodeTransform->SetParameters(m_ObjectToNodeTransform->GetParameters());
+  objectToNodeTransform->SetCenter( m_ObjectToNodeTransform->GetCenter() );
+  objectToNodeTransform->SetMatrix( m_ObjectToNodeTransform->GetMatrix() );
+  objectToNodeTransform->SetOffset( m_ObjectToNodeTransform->GetOffset() );
   newGeometry->SetObjectToNodeTransform(objectToNodeTransform);
 
   if(m_IndexToWorldTransform)
     {
-    typename TransformType::Pointer indexToWorldTransform = TransformType::New();
-    indexToWorldTransform->SetParameters(m_IndexToWorldTransform->GetParameters());
+    typename TransformType::Pointer indexToWorldTransform =
+             TransformType::New();
+    indexToWorldTransform->SetCenter( m_IndexToWorldTransform->GetCenter() );
+    indexToWorldTransform->SetMatrix( m_IndexToWorldTransform->GetMatrix() );
+    indexToWorldTransform->SetOffset( m_IndexToWorldTransform->GetOffset() );
     newGeometry->SetIndexToWorldTransform(indexToWorldTransform);
     }
 }
