@@ -73,14 +73,20 @@ int main( int argc, char* argv[] )
   DictionaryType::ConstIterator itr = dictionary.Begin();
   DictionaryType::ConstIterator end = dictionary.End();
 
+  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+
   while( itr != end )
     {
-    itk::MetaDataObjectBase::Pointer entry = itr->second;
+    itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
-    std::string tagkey   = itr->first;
-    std::string tagvalue = entry->GetMetaDataObjectTypeName();
+    MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
 
-    std::cout << tagkey <<  " = " << tagvalue << std::endl;
+    if( entryvalue )
+      {
+      std::string tagkey   = itr->first;
+      std::string tagvalue = entryvalue->GetMetaDataObjectValue();
+      std::cout << tagkey <<  " = " << tagvalue << std::endl;
+      }
     ++itr;
     }
 
