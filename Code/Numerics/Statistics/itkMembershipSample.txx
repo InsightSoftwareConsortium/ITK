@@ -107,7 +107,7 @@ inline int
 MembershipSample< TSample >
 ::GetInternalClassLabel(const unsigned int classLabel) const
 {
-  for ( int i = 0 ; i < m_UniqueClassLabels.size() ; i++ )
+  for ( unsigned int i = 0 ; i < m_UniqueClassLabels.size() ; i++ )
     {
       if ( m_UniqueClassLabels[i] == classLabel )
         {
