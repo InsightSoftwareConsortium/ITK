@@ -35,11 +35,6 @@ class LoadLandmark : public LoadElement {
 FEM_CLASS(LoadLandmark,LoadElement)
 public:
 
-  /**
-   * Landmark ID
-   */
-  int id;
-
   /**  
    * Square root of the variance (eta)
    */
@@ -60,6 +55,28 @@ public:
    * configuration of the landmark
    */
   Element::ConstPointer m_element;
+
+  /**
+   * Pointer to the solution object
+   */
+  Solution::ConstPointer m_Solution;
+
+  /**
+   * Methods to access the most recent solution vector
+   */
+  void SetSolution(Solution::ConstPointer ptr) { m_Solution = ptr; }
+  Solution::ConstPointer GetSolution() { return m_Solution; }
+  Float GetSolution(unsigned int i, unsigned int v=0) { return m_Solution->GetSolutionValue(i,v); }
+
+  /**
+   * Access the location of the point load
+   */
+  Element::VectorType GetPoint() { return m_pt; }
+
+  /**
+   * Access the force vector
+   */
+  Element::VectorType GetForce() { return F; }
 
   /** 
    * Read a LoadLandmark object from the input stream

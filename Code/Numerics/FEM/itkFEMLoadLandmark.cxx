@@ -42,8 +42,8 @@ void LoadLandmark::Read( std::istream& f, void* info )
   // first call the parent's read function 
   Superclass::Read(f,info);
 
-  // Read the landmark ID (this is no more than a counter at this point, and may be removed later)
-  SkipWhiteSpace(f); f>>id; if(!f) goto out;
+  // Read the landmark ID - obsolete
+  // SkipWhiteSpace(f); f>>id; if(!f) goto out;
 
   // read the dimensions of the undeformed point and set the size of the point accordingly
   SkipWhiteSpace(f); f>>n1; if(!f) goto out;
@@ -70,10 +70,12 @@ void LoadLandmark::Read( std::istream& f, void* info )
   this->F = ( (pd - pu) / (this->eta * this->eta) );
 
   // Compute & store the local coordinates of the undeformed point
-  //Element::ArrayType::Pointer eaptr = dynamic_cast<const Element::ArrayType*>( &*elements );
   el = ( *elements );
   for (Element::ArrayType::iterator n = el.begin(); n!=el.end() && !isFound; n++) {
-    if ( (*n)->GetLocalFromGlobalCoordinates(pu, this->m_pt) ) { isFound = true; }
+    if ( (*n)->GetLocalFromGlobalCoordinates(pu, this->m_pt) ) { 
+      isFound = true; 
+      this->m_element = ( *n );
+    }
   }
 
   // If the corresponding local coordinates aren't found, complain
