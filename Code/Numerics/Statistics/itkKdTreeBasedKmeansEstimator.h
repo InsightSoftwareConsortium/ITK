@@ -48,6 +48,11 @@ namespace Statistics {
  * WeightedCenteroidKdTreeGenerator. It will save the tree construction
  * time and memory usage.
  *
+ * Note: There is a second implementation of k-means algorithm in ITK under the
+ * While the Kd tree based implementation is more time efficient, the  GLA/LBG 
+ * based algorithm is more memory efficient.
+ * \sa ImageKmeansModelEstimator
+ *
  * \sa WeightedCenteroidKdTreeGenerator, KdTree
  */
 
