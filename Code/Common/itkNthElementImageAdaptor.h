@@ -85,7 +85,15 @@ public:
     { this->GetPixelAccessor().SetElementNumber( nth ); 
     this->Modified(); }
 
+protected:
+  NthElementImageAdaptor() {}
+  virtual ~NthElementImageAdaptor() {}
+  
+private:
+  NthElementImageAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
+
 
 } // end namespace itk
 
