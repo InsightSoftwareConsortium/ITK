@@ -137,8 +137,8 @@ BinaryMedialNodeMetric<VDimensions>
     m_DistanceVectorA[k] /= distanceA;
     m_DistanceVectorB[k] /= distanceB;
 
-    m_DistanceVectorA[k] = abs(m_DistanceVectorA[k]);
-    m_DistanceVectorB[k] = abs(m_DistanceVectorB[k]);
+    m_DistanceVectorA[k] = fabs(m_DistanceVectorA[k]);
+    m_DistanceVectorB[k] = fabs(m_DistanceVectorB[k]);
     }
   
   OrderValues();
