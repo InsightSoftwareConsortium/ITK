@@ -56,26 +56,26 @@
 
 void usage()
 {
-  cerr << "\n";
-  cerr << "Usage: DRR <options> [input]\n";
-  cerr << "       calculates the Digitally Reconstructed Radiograph from  \n";
-  cerr << "       a volume. \n\n";
-  cerr << "   where <options> is one or more of the following:\n\n";
-  cerr << "       <-h>                    Display (this) usage information\n";
-  cerr << "       <-v>                    Verbose output [default: no]\n";
-  cerr << "       <-res float float>      Pixel spacing of the output image [default: 1x1mm]  \n";
-  cerr << "       <-size int int>         Dimension of the output image [default: 501x501]  \n";
-  cerr << "       <-sid float>            Distance of ray source (focal point) [default: 400mm]\n";
-  cerr << "       <-t float float float>  Translation parameter of the camera \n";
-  cerr << "       <-rx float>             Rotation around x,y,z axis in degrees \n";
-  cerr << "       <-ry float>\n";
-  cerr << "       <-rz float>\n";
-  cerr << "       <-normal float float>   The 2D projection normal position [default: 0x0mm]\n";
-  cerr << "       <-cor float float float> The centre of rotation relative to centre of volume\n";
-  cerr << "       <-threshold float>      Threshold [default: 0]\n";
-  cerr << "       <-o file>               Output image filename\n\n";
-  cerr << "                               by  thomas@hartkens.de\n";
-  cerr << "                               and john.hipwell@kcl.ac.uk (CISG London)\n\n";
+  std::cerr << "\n";
+  std::cerr << "Usage: DRR <options> [input]\n";
+  std::cerr << "       calculates the Digitally Reconstructed Radiograph from  \n";
+  std::cerr << "       a volume. \n\n";
+  std::cerr << "   where <options> is one or more of the following:\n\n";
+  std::cerr << "       <-h>                    Display (this) usage information\n";
+  std::cerr << "       <-v>                    Verbose output [default: no]\n";
+  std::cerr << "       <-res float float>      Pixel spacing of the output image [default: 1x1mm]  \n";
+  std::cerr << "       <-size int int>         Dimension of the output image [default: 501x501]  \n";
+  std::cerr << "       <-sid float>            Distance of ray source (focal point) [default: 400mm]\n";
+  std::cerr << "       <-t float float float>  Translation parameter of the camera \n";
+  std::cerr << "       <-rx float>             Rotation around x,y,z axis in degrees \n";
+  std::cerr << "       <-ry float>\n";
+  std::cerr << "       <-rz float>\n";
+  std::cerr << "       <-normal float float>   The 2D projection normal position [default: 0x0mm]\n";
+  std::cerr << "       <-cor float float float> The centre of rotation relative to centre of volume\n";
+  std::cerr << "       <-threshold float>      Threshold [default: 0]\n";
+  std::cerr << "       <-o file>               Output image filename\n\n";
+  std::cerr << "                               by  thomas@hartkens.de\n";
+  std::cerr << "                               and john.hipwell@kcl.ac.uk (CISG London)\n\n";
   exit(1);
 }
 
@@ -249,7 +249,7 @@ int main( int argc, char ** argv )
       
       else 
         {
-        cerr << "ERROR: Can not parse argument " << argv[1] << endl;
+        std::cerr << "ERROR: Can not parse argument " << argv[1] << std::endl;
         usage();
         }
       }
@@ -257,8 +257,8 @@ int main( int argc, char ** argv )
 
   if (verbose) 
     {
-    if (input_name)  std::cout << "Input image: "  << input_name  << endl;
-    if (output_name) std::cout << "Output image: " << output_name << endl;
+    if (input_name)  std::cout << "Input image: "  << input_name  << std::endl;
+    if (output_name) std::cout << "Output image: " << output_name << std::endl;
     }
 
 // Software Guide : BeginLatex
@@ -299,8 +299,8 @@ int main( int argc, char ** argv )
     
     catch( itk::ExceptionObject & err ) 
     { 
-      std::cerr << "ERROR: ExceptionObject caught !" << endl; 
-      std::cerr << err << endl; 
+      std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
+      std::cerr << err << std::endl; 
       return -1;
     } 
 
@@ -409,7 +409,7 @@ int main( int argc, char ** argv )
 
     try 
       { 
-      std::cout << "Writing image: " << filename << endl;
+      std::cout << "Writing image: " << filename << std::endl;
       writer->Update();
       } 
     catch( itk::ExceptionObject & err ) 
@@ -429,7 +429,7 @@ int main( int argc, char ** argv )
     {
     int i;
     const itk::Vector<double, 3> spacing = image->GetSpacing();  
-    std::cout << endl << "Input ";
+    std::cout << std::endl << "Input ";
     
     InputImageType::RegionType region = image->GetBufferedRegion();
     region.Print(std::cout);
@@ -440,7 +440,7 @@ int main( int argc, char ** argv )
       std::cout << spacing[i];
       if (i < Dimension-1) std::cout << ", ";
       }
-    std::cout << "]" << endl;
+    std::cout << "]" << std::endl;
     
     const itk::Point<double, 3> origin = image->GetOrigin();
     std::cout << "  Origin: [";
@@ -449,7 +449,7 @@ int main( int argc, char ** argv )
       std::cout << origin[i];
       if (i < Dimension-1) std::cout << ", ";
       }
-    std::cout << "]" << endl<< endl;
+    std::cout << "]" << std::endl<< std::endl;
     }
 
 // Software Guide : BeginLatex
@@ -587,7 +587,7 @@ int main( int argc, char ** argv )
     std::cout << "Focal Point: " 
               << focalpoint[0] << ", " 
               << focalpoint[1] << ", " 
-              << focalpoint[2] << endl;
+              << focalpoint[2] << std::endl;
     }
 
 // Software Guide : BeginLatex
@@ -635,12 +635,12 @@ int main( int argc, char ** argv )
     std::cout << "Output image size: " 
               << size[0] << ", " 
               << size[1] << ", " 
-              << size[2] << endl;
+              << size[2] << std::endl;
     
     std::cout << "Output image spacing: " 
               << spacing[0] << ", " 
               << spacing[1] << ", " 
-              << spacing[2] << endl;
+              << spacing[2] << std::endl;
     }
 
 // Software Guide : BeginLatex
@@ -669,7 +669,7 @@ int main( int argc, char ** argv )
     std::cout << "Output image origin: " 
               << origin[0] << ", " 
               << origin[1] << ", " 
-              << origin[2] << endl;
+              << origin[2] << std::endl;
     }
 
   // create writer
@@ -693,7 +693,7 @@ int main( int argc, char ** argv )
 
     try 
       { 
-      std::cout << "Writing image: " << output_name << endl;
+      std::cout << "Writing image: " << output_name << std::endl;
       writer->Update();
       } 
     catch( itk::ExceptionObject & err ) 
