@@ -31,6 +31,7 @@ class IStringStream: public std::istringstream
 {
 public:
   IStringStream() {}
+  IStringStream(std::string &s) : std::istringstream(s) {}
 private:
   IStringStream(const IStringStream&);
   void operator=(const IStringStream&);
