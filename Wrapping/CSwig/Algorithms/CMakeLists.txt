@@ -31,7 +31,7 @@ SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED
 IF(ITK_SWRAP_TCL)
   ADD_LIBRARY(ITKAlgorithmsTcl SHARED ${WRAP_TCL_SOURCES})
   TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl ITKAlgorithms VXLNumericsTcl 
-                        ITKNumericsTcl ITKCommonTcl SwigRuntimeTcl ${TCL_LIBRARY})
+                        ITKBasicFiltersTcl ITKNumericsTcl ITKCommonTcl SwigRuntimeTcl ${TCL_LIBRARY})
 ENDIF(ITK_SWRAP_TCL)
 
 IF(ITK_WRAP_PYTHON)
