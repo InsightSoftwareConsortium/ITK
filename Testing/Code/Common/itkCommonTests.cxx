@@ -54,6 +54,7 @@ REGISTER_TEST(itkNeighborhoodTest );
 REGISTER_TEST(itkNeighborhoodIteratorTest );
 REGISTER_TEST(itkNeighborhoodOperatorTest );
 REGISTER_TEST(itkObjectStoreTest );
+REGISTER_TEST(itkPeriodicBoundaryConditionTest );
 REGISTER_TEST(itkPixelAccessTest );
 REGISTER_TEST(itkPointGeometryTest );
 REGISTER_TEST(itkPointSetTest );

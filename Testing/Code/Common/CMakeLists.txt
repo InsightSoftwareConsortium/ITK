@@ -61,6 +61,7 @@ ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
 ADD_TEST(itkNeighborhoodTest ${COMMON_TESTS} itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS} itkNeighborhoodIteratorTest)
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest)
+ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS} itkPeriodicBoundaryConditionTest)
 ADD_TEST(itkPixelAccessTest ${COMMON_TESTS} itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
@@ -142,6 +143,7 @@ itkNeighborhoodTest.cxx
 itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkObjectStoreTest.cxx
+itkPeriodicBoundaryConditionTest.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
 itkPointSetTest.cxx
