@@ -103,6 +103,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkShrinkImageFilter.txx"
 #include "itkSinImageFilter.h"
 #include "itkSobelEdgeDetectionImageFilter.txx"
+#include "itkSparseFieldLevelSetImageFilter.txx"
+#include "itkSparseLevelSetNode.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
 #include "itkSqrtImageFilter.h"
 #include "itkStatisticsImageFilter.txx"
