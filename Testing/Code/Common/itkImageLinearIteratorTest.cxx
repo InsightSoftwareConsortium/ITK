@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkImageLinearIterator.h"
-#include "itkImageLinearConstIterator.h"
+#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageLinearConstIteratorWithIndex.h"
 
 
 
@@ -77,9 +77,9 @@ int main()
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
 
-  typedef itk::ImageLinearIterator< ImageType > IteratorType;
+  typedef itk::ImageLinearIteratorWithIndex< ImageType > IteratorType;
 
-  typedef itk::ImageLinearConstIterator< ImageType > ConstIteratorType;
+  typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 
   IteratorType it( myImage, region );
 
