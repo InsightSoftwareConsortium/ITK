@@ -43,6 +43,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   
   m_NarrowBanding = false;
   m_NarrowBand = NULL;
+  
+  m_Barrier = Barrier::New();
 
 }
 
@@ -139,40 +141,11 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
      // Split the narrow band into sections, one section for each thread
      this->m_NarrowBandRegion
        = this->m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+       
+     // Inititalize the barrier for the thread syncronization in
+     // the narrowband case
+     this->m_Barrier->Initialize(this->GetNumberOfThreads());
 
-     // Build a valid output for the narrow band case.
-     typedef typename InputImageType::ConstPointer ImageConstPointer;
-     typedef typename OutputImageType::Pointer OutputPointer;
-     ImageConstPointer inputPtr = this->GetInput();
-     OutputPointer outputPtr = this->GetOutput();
-     
-     typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
-     typedef ImageRegionIterator<OutputImageType> IteratorType;
-     ConstIteratorType inIt (inputPtr,
-                             outputPtr->GetRequestedRegion());
-     IteratorType outIt (outputPtr,
-                         outputPtr->GetRequestedRegion()); 
-     
-     while(!inIt.IsAtEnd())
-       {
-       if(inIt.Get() > m_LevelSetValue)
-         {
-         outIt.Set(+m_FarValue);
-         }
-       else
-         {
-         if (inIt.Get() < m_LevelSetValue)
-           {
-           outIt.Set(-m_FarValue);
-           }
-         else
-           {
-           outIt.Set(NumericTraits<PixelType>::Zero);
-           }
-         }
-       ++inIt;
-       ++outIt;
-       }
      }
 }
 
@@ -218,28 +191,23 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   IteratorType outIt (outputPtr,
                       outputRegionForThread); 
   
-//  IndexType inputIndex;
   unsigned int n,ng;
  
- //Here Karl calls a kind of locator for his levelset. Maybe we can use
- //the same that Lydia Ng did.....
-  //WARNING: Karls only reset the output image. Lydia's locater works over
-  //input. Maybe we don't need this.......!!!!! Just in ImageIterator setting
-  //output values to a given value depending input.
-   //Do marching with Karls technique:
- //Define neighborhood iterator with radius 2 pixel. We need to jump in each
- //Dimension one position as well as compute the gradient (it does mean 2 pix
- //radius is needed)
- 
+  //Initialize output image 
   while(!inIt.IsAtEnd())
    {
      if(inIt.Get() > m_LevelSetValue)
+       {
        outIt.Set(+m_FarValue);
-     else
-     if (inIt.Get() < m_LevelSetValue)
+       }
+     else if (inIt.Get() < m_LevelSetValue)
+       {
        outIt.Set(-m_FarValue);
+       }
      else
+       {
        outIt.Set(NumericTraits<PixelType>::Zero);    
+       }
      ++inIt;
      ++outIt;
     } 
@@ -247,9 +215,6 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   inIt.GoToBegin();
   outIt.GoToBegin();
   
-  //Define Neighborhood iterator
-//  InputSizeType radius_in[ImageDimension];
-//  SizeType radius_out[ImageDimension];
   InputSizeType radius_in;
   SizeType radius_out;
   for (n=0 ; n<ImageDimension ; n++)
@@ -257,7 +222,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
     radius_in[n]= 2;
     radius_out[n]= 1;
     }
-       
+
+  //Define Neighborhood iterator       
   ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr, 
                                                         inputPtr->GetRequestedRegion());
   NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr, 
@@ -309,7 +275,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
        if(sign != neigh_sign) {
          for (ng=0;ng<ImageDimension;ng++)
            {
-           grad1[ng]=inNeigIt.GetPixel(center+stride[n]+stride[ng]) -                                 inNeigIt.GetPixel(center+stride[n]-stride[ng]);
+           grad1[ng]=inNeigIt.GetPixel(center+stride[n]+stride[ng]) - 
+                     inNeigIt.GetPixel(center+stride[n]-stride[ng]);
            }
          if(sign)
            {
@@ -321,7 +288,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
            }
          if(diff < NumericTraits<PixelType>::min()) 
            {
-          //do something: printf, or thorw exception.
+          //do something: printf, or thorw exception. ??
            continue;
            }
           //Interpolate values
@@ -365,12 +332,52 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateDataBand(const OutputImageRegionType& itkNotUsed(outputRegionForThread),
+::ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
                            int threadId)
 {
 
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  
+  
+  //Tasks:
+  //1. Initialize whole output image
+  //2. Wait for threads
+  //3. Compute over the narrowband
+  
+  //1. Initialization of the output image
+  //Each thread initializes the region given by outputRegionForThread.
+  typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
+  typedef ImageRegionIterator<OutputImageType> IteratorType;
+  ConstIteratorType inInitIt (inputPtr,
+                          outputRegionForThread);
+  IteratorType outInitIt (outputPtr,
+                      outputRegionForThread); 
+  
+  
+  //Initialize output image 
+  while(!inInitIt.IsAtEnd())
+   {
+     if(inInitIt.Get() > m_LevelSetValue)
+       {
+       outInitIt.Set(+m_FarValue);
+       }
+     else if (inInitIt.Get() < m_LevelSetValue)
+       {
+       outInitIt.Set(-m_FarValue);
+       }
+     else
+       {
+       outInitIt.Set(NumericTraits<PixelType>::Zero);    
+       }
+     ++inInitIt;
+     ++outInitIt;
+    } 
+    
+  //2. Threads must wait till all are done
+  this->m_Barrier->Wait();
+  
+  //3. Computation over the narrowband
   ConstBandIterator bandIt  = m_NarrowBandRegion[threadId].Begin;
   ConstBandIterator bandEnd = m_NarrowBandRegion[threadId].End;
   typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
@@ -382,19 +389,9 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
                       outputPtr->GetRequestedRegion());
   unsigned int n,ng;
                        
-//  for( ; bandIt != bandEnd; ++bandIt )
-//    {
-//    inIt.SetIndex(bandIt->m_Index);
-//    outIt.SetIndex(bandIt->m_Index);
-//    if(inIt.Get() > m_LevelSetValue)
-//       outIt.Set(+m_FarValue);
-//    else
-//    if (inIt.Get() < m_LevelSetValue)
-//       outIt.Set(-m_FarValue);
-//    else
-//       outIt.Set(NumericaTraits<PixelType>::Zero());     
-//
-//    }
+  //We don't have to initialize the band again.
+  //Following commented lines will be deprecetated.
+  /**
   for( ; bandIt != bandEnd; ++bandIt )
     {
     inIt.SetIndex(bandIt->m_Index);
@@ -414,11 +411,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
     }
    bandIt = m_NarrowBandRegion[threadId].Begin;
    bandEnd = m_NarrowBandRegion[threadId].End;
+  **/
 
-  //Create neigh iterator
-  
-  //InputSizeType radius_in[ImageDimension];
-  //SizeType radius_out[ImageDimension];
   InputSizeType radius_in;
   SizeType radius_out;
   for (n=0 ; n<ImageDimension ; n++)
@@ -428,7 +422,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
     radius_out[n] = 1;
     //radius_out[n]= NumericTraits<SizeType>::One();
     }
-       
+
+  //Create neigh iterator       
   ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr, 
                                                         inputPtr->GetRequestedRegion());
   NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr, 
@@ -501,7 +496,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
           
            if (diff < NumericTraits<PixelType>::min())
              {
-             //do something: printf, or thorw exception.
+             //do something: printf, or thorw exception.??
              continue;
              }
           //Interpolate values

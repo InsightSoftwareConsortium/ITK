@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNarrowBand.h"
+#include "itkBarrier.h"
 
 namespace itk
 {
@@ -140,7 +141,7 @@ protected:
   IsoContourDistanceImageFilter();
   ~IsoContourDistanceImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
+  
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
   void ThreadedGenerateDataFull(const OutputImageRegionType& outputRegionForThread,
@@ -162,7 +163,9 @@ private:
   bool                      m_NarrowBanding;
   NarrowBandPointer         m_NarrowBand;
   std::vector<RegionType>   m_NarrowBandRegion;
-
+  
+  /** A global barrier used for synchronization between all threads. */
+  typename Barrier::Pointer m_Barrier;
 };
 
 } // namespace itk
