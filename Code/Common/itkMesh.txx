@@ -688,14 +688,19 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   
 /**
  * Get the boundary feature of the given dimension of the given cell
- * corresponding to the given feature identifier.
+ * corresponding to the given feature identifier.  If the boundary
+ * feature has been explicitly assigned, then \a boundary will be left
+ * pointing to the appropriate cell in the mesh.  If the boundary has
+ * not been explicitly assigned, then a boundary cell will be
+ * constructed and placed in \a boundary.  The constructed cell will
+ * not be added to the mesh or somehow cached.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
                          CellFeatureIdentifier featureId,
-                         BoundaryAutoPointer & boundary) const
+                         CellAutoPointer& boundary) const
 {
   /**
    * First check if the boundary has been explicitly assigned.
@@ -707,6 +712,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   
   /**
    * It was not explicitly assigned, so ask the cell to construct it.
+   * This will be a geometric copy of the actual boundary feature, not
+   * a pointer to an actual cell in the mesh.  
    */
   if(( !m_CellsContainer.IsNull() ) && m_CellsContainer->IndexExists(cellId))
     {
@@ -714,20 +721,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     CellType * thecell = m_CellsContainer->GetElement(cellId);
     if( thecell->GetBoundaryFeature(dimension, featureId, boundary ) )
       {
-      // If a container for this dimension doesn't exist, create one.
-      // No need to do this code, see the note below
-      // if( ! m_BoundariesContainers[dimension] )
-      //   {
-      //   m_BoundariesContainers[dimension] = BoundariesContainer::New();
-      //   }
-
-      // the next line causes a memory leak if the implicit feature has already
-      // been created. this code is commented out so the implicit feature
-      // will be always created and will not be cached. Regardless of the
-      // memory leak, the code is incorrect because it needs to InsertElement
-      // at a "boundaryId" not a "featureId".  featureId's are relative to
-      // a cell.  boundaryId's are global to the mesh.
-      // m_BoundariesContainers[dimension]->InsertElement( featureId, boundary.ReleaseOwnership() );
       return true;
       }
     else
@@ -769,7 +762,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * Sanity check on mesh status.
    */
   if( !m_PointsContainer || !m_CellsContainer ||
-      (!m_CellsContainer->IndexExists(cellId)))
+      (!m_CellsContainer->IndexExists(cellId)) )
     {
     /**
      * TODO: Throw EXCEPTION here?
@@ -780,7 +773,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  BoundaryAutoPointer boundary;
+  CellAutoPointer boundary;
   if(this->GetAssignedCellBoundaryIfOneExists(
        dimension, cellId, featureId, boundary))
     {
@@ -844,7 +837,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * Now get the cell links for the first point.  Also allocate a second set
    * for temporary storage during set intersections below.
    */
-  typename BoundaryType::PointIdConstIterator pointId = boundary->PointIdsBegin();
+  typename CellType::PointIdConstIterator pointId = boundary->PointIdsBegin();
   PointCellLinksContainer*  currentCells =
     new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
   PointCellLinksContainer*  tempCells = new PointCellLinksContainer();
@@ -914,6 +907,159 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return numberOfNeighboringCells;
 }
 
+/**
+ * Get the set of cells having the given cell as part of their
+ * boundary.  Returns the number of neighbors found.  If cellSet is not
+ * NULL, the set of cell pointers is filled in with identifiers of the
+ * neighboring cells.
+ *
+ * NOTE: We would like to change this to use an "output iterator"
+ * (in STL fashion) instead of an actual container to return the neighbor
+ * identifiers.  This requires templated member support by the compiler,
+ * though, and we are not sure how wide-spread this support is.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+unsigned long
+Mesh<TPixelType, VDimension, TMeshTraits>
+::GetCellNeighbors( CellIdentifier cellId, std::set<CellIdentifier>* cellSet )
+{
+  /**
+   * Sanity check on mesh status.
+   */
+  if( !m_PointsContainer || !m_CellsContainer ||
+      (!m_CellsContainer->IndexExists(cellId)) )
+    {
+    /**
+     * TODO: Throw EXCEPTION here?
+     */
+    return 0;
+    }
+  
+  /**
+   * Get the cell itself.  IndexExists call above should ensure that
+   * GetCell() returns true, but be safe anyway.
+   */
+  CellAutoPointer cell;
+  if( !this->GetCell( cellId, cell ) )
+    {
+    return 0;
+    }
+
+  /**
+   * If the cell's UsingCells list is nonempty, then use it.
+   */
+  if( cell->GetNumberOfUsingCells() != 0 )
+    {
+
+    /**
+     * Loop through UsingCells and put them in the output set.  First
+     * we empty the output set.
+     */
+    if(cellSet != 0)
+      {
+      cellSet->erase(cellSet->begin(), cellSet->end());
+
+      typename BoundaryType::UsingCellsContainerIterator usingCell;
+      for(usingCell = cell->UsingCellsBegin() ;
+          usingCell != cell->UsingCellsEnd() ; ++usingCell)
+        {
+        cellSet->insert(*usingCell);
+        }
+      }
+    return cell->GetNumberOfUsingCells();
+    }
+
+
+  /**
+   * The cell's UsingCells list was empy.  We use set operations
+   * through point neighboring information to get the neighbors.  This
+   * requires that the CellLinks be built.
+   */
+  if( !m_CellLinksContainer ||
+      (m_PointsContainer->GetMTime() > m_CellLinksContainer->GetMTime()) ||
+      (m_CellsContainer->GetMTime()  > m_CellLinksContainer->GetMTime()) )
+    {
+    this->BuildCellLinks();
+    }
+  
+  /**
+   * Cell links are up to date. We can proceed with the set operations.
+   * We need to intersect the CellLinks sets for each point on the
+   * given cell.
+   */
+
+  /**
+   * Now get the cell links for the first point.  Also allocate a second set
+   * for temporary storage during set intersections below.
+   */
+  typename CellType::PointIdConstIterator pointId = cell->PointIdsBegin();
+  PointCellLinksContainer*  currentCells =
+    new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
+  PointCellLinksContainer*  tempCells = new PointCellLinksContainer();
+  
+  /**
+   * Next, loop over the other points, and intersect their cell links with
+   * the current result.  We maintain "currentCells" as a pointer to the
+   * current cell set instead of a set itself to prevent an extra copy of
+   * the temporary set after each intersection.
+   */
+  while(pointId != cell->PointIdsEnd())
+    {
+    /**
+     * Clean out temporary cell set from previous iteration.
+     */
+    tempCells->erase(tempCells->begin(), tempCells->end());
+    
+    /**
+     * Perform the intersection.
+     */
+    std::set_intersection(m_CellLinksContainer->CreateElementAt(*pointId).begin(),
+                          m_CellLinksContainer->CreateElementAt(*pointId).end(),
+                          currentCells->begin(),
+                          currentCells->end(),
+                          std::inserter(*tempCells, tempCells->begin()));
+    
+    /**
+     * Switch the cell set pointers to make the intersection result the
+     * current set.
+     */
+    std::swap(currentCells, tempCells);
+    
+    /**
+     * Move on to the next point.
+     */
+    ++pointId;
+    }
+  
+  /**
+   * Don't need the second set anymore.
+   */
+  delete tempCells;
+  
+  /**
+   * Now we have a set of all the cells which share all the points on
+   * the original cell determined by cellId.  We simply need to copy
+   * this set to the output cell set.
+   */
+  unsigned long numberOfNeighboringCells = currentCells->size();
+  if(cellSet != 0)
+    {
+    *cellSet = *currentCells;    
+    }
+  
+  /**
+   * Don't need the cell set anymore.
+   */
+  delete currentCells;
+  
+  /**
+   * Return the number of neighboring cells that were put into the set.
+   */
+  return numberOfNeighboringCells;
+}
+
+
+#if 0
 
 /**
  * Check if there is an explicitly assigned boundary feature for the
@@ -952,7 +1098,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return false;
 }
 
-#if 0
+#endif
 
 /**
  * Check if there is an explicitly assigned boundary feature for the
@@ -992,8 +1138,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   boundary.Reset();
   return false;
 }
-
-#endif
 
 /**
  * Dynamically build the links from points back to their using cells.  This
