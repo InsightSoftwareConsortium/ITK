@@ -143,7 +143,7 @@ CumulativeGaussianCostFunction
 ::GetValue( const ParametersType & parameters ) const
 {
   for(unsigned int i = 0; i < m_RangeDimension; i++)
-    m_Measure[i] =  parameters.get(2) + ((parameters.get(3)-parameters.get(2))*(EvaluateCumulativeGaussian((i-parameters.get(0))/(parameters.get(1)*sqrt(2)))+1)/2);
+    m_Measure[i] =  parameters.get(2) + ((parameters.get(3)-parameters.get(2))*(EvaluateCumulativeGaussian((i-parameters.get(0))/(parameters.get(1)*sqrt(2.0)))+1)/2);
   
   return m_Measure; 
 } 
@@ -156,7 +156,7 @@ CumulativeGaussianCostFunction
   m_MeasurePointer->resize(m_RangeDimension);
 
   for(unsigned int i = 0; i < m_RangeDimension; i++)
-    m_MeasurePointer->put(i, parameters.get(2) + ((parameters.get(3)-parameters.get(2))*(EvaluateCumulativeGaussian((i-parameters.get(0))/(parameters.get(1)*sqrt(2)))+1)/2));
+    m_MeasurePointer->put(i, parameters.get(2) + ((parameters.get(3)-parameters.get(2))*(EvaluateCumulativeGaussian((i-parameters.get(0))/(parameters.get(1)*sqrt(2.0)))+1)/2));
   
   return m_MeasurePointer; 
 }
