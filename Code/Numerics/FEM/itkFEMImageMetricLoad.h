@@ -268,13 +268,12 @@ private:
   typename ReferenceType::SizeType                    m_RefSize;
   typename TargetType::SizeType                       m_TarSize;
   unsigned int                                        m_NumberOfIntegrationPoints;
+  unsigned int                                        m_SolutionIndex;
 
   typename Solution::ConstPointer                     m_Solution;
   typename MetricBaseTypePointer                      m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer                  m_Interpolator;
-
-
 };
 
 

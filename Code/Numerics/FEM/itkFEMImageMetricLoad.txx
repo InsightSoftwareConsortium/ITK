@@ -82,6 +82,7 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad()
 {
   m_Metric=NULL;
   m_Transform = NULL;
+  m_SolutionIndex=1;
 
   for (int i=0; i<ImageDimension; i++)
   {
@@ -104,33 +105,24 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
   
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
+  ElementNew::VectorType ip;
+  ElementNew::Float w;
+  
   for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
   {
-  
-    unsigned int sfsz= (*elt)->GetNumberOfNodes();
+    for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
+    {
+      dynamic_cast<ElementNew*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
+      Gpt=(*elt)->GetGlobalFromLocalCoordinates(ip);
+      Sol=(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex);
 
-    vnl_vector<Float> shapeF( sfsz );
-    shapeF=(*elt)->ShapeFunctions(Pos);
-    
-    for (unsigned int ii=0; ii < ImageDimension; ii++)
-    { 
-      Gpt[ii]=0.0;
-      Sol[ii]=0.0; 
-      for (unsigned int jj=0; jj<sfsz; jj++)
-      {
-         vnl_vector<Float> ncoord(2);
-         ncoord=(*elt)->GetNodalCoordinates(jj);
-         Sol[ii] += shapeF(jj)* 
-           (GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),1)+
-            step*GetSolution( (*elt)->GetDegreeOfFreedom(jj*ImageDimension+ii),0)); // FIXME ASSUMPTION ABOUT WHERE SOLUTION IS
-         Gpt[ii] += shapeF(jj)*ncoord(ii); //FIXME GET COORDINATE AT NODE
+      for (unsigned int ii=0; ii < ImageDimension; ii++)
+      { 
+        InVec[ii]=Gpt[ii];
+        InVec[ii+ImageDimension]=Sol[ii];
       }
-      
-      InVec[ii]=Gpt[ii];
-      InVec[ii+ImageDimension]=Sol[ii];
-    }
-
-    energy+=abs(GetMetric(InVec));
+      energy+=w*abs(GetMetric(InVec));
+    }  
   }
    
 
