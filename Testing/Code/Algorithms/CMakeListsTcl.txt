@@ -90,6 +90,8 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl3
   "itk::LevelSetNeighborhoodExtractor<$Image>"
   "itk::LevelSetVelocityNeighborhoodExtractor<$Image,$Float>"
   "itk::MinimumMaximumImageCalculator<$Image>"
+  "itk::MinMaxCurvatureFlowImageFilter<$Image,$Image>"
+  "itk::MinMaxCurvatureFlowFunction<$Image>"
   "itk::MRASlabIdentifier<$Image>"
   "itk::MRIBiasFieldCorrectionFilter<$Image,$Image>"
   "itk::MRFImageFilter<$VecImage3D,$Image3D>"
