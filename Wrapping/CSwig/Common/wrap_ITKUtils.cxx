@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkTclCommand.h"
-#include "itkStringStream.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -26,7 +25,6 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT(TclCommand);
-    typedef itk::StringStream itkStringStream;
   }
 }
 

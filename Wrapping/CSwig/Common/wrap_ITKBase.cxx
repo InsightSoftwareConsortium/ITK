@@ -24,6 +24,7 @@
 #include "itkOutputWindow.h"
 #include "itkVersion.h"
 #include "itkTimeStamp.h"
+#include "itkStringStream.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -43,6 +44,7 @@ namespace _cable_
     ITK_WRAP_OBJECT(OutputWindow);
     ITK_WRAP_OBJECT(Version);
     typedef itk::TimeStamp itkTimeStamp;
+    typedef itk::StringStream itkStringStream;
   }
 }
 

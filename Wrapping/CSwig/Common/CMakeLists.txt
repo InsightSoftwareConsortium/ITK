@@ -64,7 +64,7 @@ ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON) 
   SET_SOURCE_FILES_PROPERTIES(SwigExtras_wrapPython.cxx GENERATED)
-  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES} SwigExtras_wrapPython.cxx )
+  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES} itkStringStream.cxx SwigExtras_wrapPython.cxx )
   ADD_CUSTOM_COMMAND(
     COMMENT "run native swig on SwigExtras.i"
     SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
