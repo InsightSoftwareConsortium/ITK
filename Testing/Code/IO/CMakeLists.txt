@@ -37,7 +37,6 @@ ENDIF(VW_RAW_DATA_PATH)
 # Add VTK code if we found VTK
 IF (HAS_VTK)
   ADD_DEFINITIONS(-DITK_HAS_VTK)
-  INCLUDE(${USE_VTK_FILE})
   TARGET_LINK_LIBRARIES( itkIOTests
       vtkRendering
       vtkGraphics	  

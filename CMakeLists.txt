@@ -107,7 +107,7 @@ IF(USE_VTK)
     INCLUDE (${USE_VTK_FILE})
     # Test for VTK using std libs
     IF(VTK_USE_ANSI_STDLIB)
-      SET(HAS_VTK 1 CACHE INTERNAL "VTK Headers and Libraries are available")
+      SET(HAS_VTK 1)
     ELSE( VTK_USE_ANSI_STDLIB )
       MESSAGE ("Warning. Your VTK was not built with the VTK_USE_ANSI_STDLIB option ON. \nPlease reconfigure and recompile VTK with this option before trying to use it with ITK.")
     ENDIF( VTK_USE_ANSI_STDLIB )
@@ -121,6 +121,8 @@ IF(USE_VTK)
     MESSAGE("The UseVTK.cmake file was not found. You will not be able to build code requiring VTK")
     SET(HAS_VTK 0 CACHE INTERNAL "Use VTK: The Visualization Toolkit, this is required for some examples but not for the ITK toolkit")
   ENDIF (USE_VTK_FILE)
+ELSE(USE_VTK)
+  SET(HAS_VTK 0)
 ENDIF(USE_VTK)
 
 
