@@ -83,18 +83,9 @@ public:
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
     {
-      if ( ImageDimension == 2) 
-        {
-        VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-          = VectorGradient2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(p);
-        }
-      else
-        {
-        VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-          = VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(p);
-        }
+      VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
+        = VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+      this->SetDifferenceEquation(p);
     }
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
 
