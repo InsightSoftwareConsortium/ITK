@@ -11,5 +11,7 @@ void RegisterTests()
   //REGISTER_TEST(itkFEMElementTestMenu);
   REGISTER_TEST(itkFEMElementTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperItpackTest);
+  REGISTER_TEST(itkFEMLinearSystemWrapperVNLTest);
+  REGISTER_TEST(itkFEMLinearSystemWrapperDenseVNLTest);
   //REGISTER_TEST( itkFEMBar2DTest );
 }

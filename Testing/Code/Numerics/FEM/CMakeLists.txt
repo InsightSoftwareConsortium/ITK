@@ -23,6 +23,8 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl/vnl
 SOURCE_FILES(FEM_SRCS
 itkFEMElementTest
 itkFEMLinearSystemWrapperItpackTest
+itkFEMLinearSystemWrapperVNLTest
+itkFEMLinearSystemWrapperDenseVNLTest
 )
 
 LINK_LIBRARIES (
@@ -54,6 +56,8 @@ ADD_TEST(itkFEMC0TriangularElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_D
 ADD_TEST(itkFEMTruss itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
 ADD_TEST(itkFEMTruss-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss_noload.fem)
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest  itkFEMTests itkFEMLinearSystemWrapperItpackTest)
+ADD_TEST(itkFEMLinearSystemWrapperVNLTest  itkFEMTests itkFEMLinearSystemWrapperVNLTest)
+ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  itkFEMTests itkFEMLinearSystemWrapperDenseVNLTest)
 
 #ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
 
