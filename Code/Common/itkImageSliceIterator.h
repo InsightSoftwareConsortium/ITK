@@ -74,7 +74,7 @@ public:
    * particular region of that image.
    */
   ImageSliceIterator( Image *ptr,
-                      const typename Self::Region & region)
+                      const RegionType & region)
     : ImageIteratorWithIndex<TImage>(ptr, region) 
     {
       m_Direction_A = 0;

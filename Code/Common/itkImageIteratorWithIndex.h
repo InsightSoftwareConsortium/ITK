@@ -71,22 +71,22 @@ public:
   /** 
    * Index typedef support.
    */
-  typedef typename TImage::Index  Index;
+  typedef typename TImage::IndexType  IndexType;
 
   /** 
    * Size typedef support.
    */
-  typedef typename TImage::Size    Size;
+  typedef typename TImage::SizeType    SizeType;
 
   /** 
    * Region typedef support.
    */
-  typedef typename TImage::Region   Region;
+  typedef typename TImage::RegionType   RegionType;
 
   /**
    * Image typedef support.
    */
-  typedef TImage   Image;
+  typedef TImage   ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -129,7 +129,7 @@ public:
    * particular region of that image.
    */
   ImageIteratorWithIndex(TImage *ptr,
-                         const Region& region);
+                         const RegionType& region);
 
   /**
    * operator= is provided to make sure the handle to the image is properly
@@ -217,21 +217,21 @@ public:
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const Index GetIndex()
+  const IndexType GetIndex()
     { return m_PositionIndex; }
 
   /**
    * Get the region that this iterator walks. ImageIterators know the
    * beginning and the end of the region of the image to iterate over.
    */
-  const Region& GetRegion() const
+  const RegionType& GetRegion() const
   { return m_Region; };
 
   /**
    * Set the index. No bounds checking is performed.
    * \sa GetIndex
    */
-  void SetIndex(const Index &ind)
+  void SetIndex(const IndexType &ind)
     { m_Position = m_Begin + m_Image->ComputeOffset( ind ); 
       m_PositionIndex = ind;  }
 
@@ -279,14 +279,14 @@ public:
 protected: //made protected so other iterators can access 
   SmartPointer<TImage> m_Image;
   
-  Index          m_PositionIndex;             // Index where we currently are
-  Index          m_BeginIndex;                // Index to start iterating over
-  Index          m_EndIndex;                  // Index to finish iterating:
-                                              // one pixel past the end of each
-                                              // row, col, slice, etc....
+  IndexType    m_PositionIndex;     // Index where we currently are
+  IndexType    m_BeginIndex;        // Index to start iterating over
+  IndexType    m_EndIndex;          // Index to finish iterating:
+                                    // one pixel past the end of each
+                                    // row, col, slice, etc....
                                
 
-  Region         m_Region;                    // region to iterate over
+  RegionType   m_Region;            // region to iterate over
 
 
   unsigned long          m_OffsetTable[ImageIteratorDimension+1]; 

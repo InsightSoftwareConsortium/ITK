@@ -67,7 +67,7 @@ ImageIteratorWithIndex<TImage>
 template<class TImage>
 ImageIteratorWithIndex<TImage>
 ::ImageIteratorWithIndex(TImage *ptr,
-                         const Region & region )
+                         const RegionType & region )
 {
   m_Image = ptr;
 
@@ -85,7 +85,7 @@ ImageIteratorWithIndex<TImage>
   m_Begin = m_Buffer + offs;
   
   // Compute the end offset
-  Index pastEnd;
+  IndexType pastEnd;
   for (unsigned int i=0; i < ImageIteratorDimension; ++i)
     {
     m_EndIndex[i] = m_BeginIndex[i] + region.GetSize()[i];

@@ -75,7 +75,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef typename TImage::Index   Index;
+  typedef typename TImage::IndexType   IndexType;
 
   /**
    * Region typedef support. While this was already typdef'ed in the superclass
@@ -83,7 +83,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef typename TImage::Region Region;
+  typedef typename TImage::RegionType RegionType;
   
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -91,7 +91,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef TImage Image;
+  typedef TImage ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -110,8 +110,8 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageLinearIterator(Image *ptr,
-                      const Region& region)
+  ImageLinearIterator(ImageType *ptr,
+                      const RegionType& region)
     : ImageIteratorWithIndex<TImage>( ptr, region ) {}
 
   /**
