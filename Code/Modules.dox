@@ -269,33 +269,29 @@ Examples of these types of segmentation methods in ITK include: curvature flow-b
 /**
 
   \defgroup PipeLine Pipeline Architecture
-  Insight is commited to support large sets of data, for that reason the basic
-  architecture of the toolkit included a data pipeline mechanism that allows to
-  process data by sequentially sending subregions to process objects.
+  Insight is committed to supporting large data sets. Insight uses
+  a data pipeline mechanism that can process large datasets by sequentially
+  sending subregions to process objects.
   
 */
 
 /**
   \defgroup DataObjects Data Objects
  
- Data Objects are the basic data holder objects designed to carry data around. Data Objects
- are passed between process objects serving as links or connections in the data
- pipeline.
+ Data Objects are containers for bulk data. Data objects are passed between
+ process objects serving as links or connections in the data pipeline.
  
  */
 
 /**
   \defgroup Numerics Numerics
  
-  Insight provides support for numerical operations at two levels. The first
-  level makes use of an external library known as VXL developped by the VXL
-  consortium. This library provides support for linear algebra, optimization
-  and lot more. The second level is a reduced number of classes that respond to
-  more particular needs of the Insight toolkit. This category includes things
-  like numerical optimizers specifically designed to fit in the registration
-  framework, Statistical classes designed to be used for classification and
-  segmentation.
-
+  Insight provides support for numerical operations at two levels. First, 
+  Insight uses an external library called VNL which is one component of
+  the VXL toolkit. This library provides linear algebra, optimization, 
+  and fft's. Second, Insight provides numerical optimizers
+  designed for the registration framework and statistical
+  classes designed to be used for classification and segmentation.
  
  */
 
