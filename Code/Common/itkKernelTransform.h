@@ -2,7 +2,7 @@
 #define __itkKernelTransform_h
 
 #include "itkObjectFactory.h"
-#include "itkTransformation.h"
+#include "itkObject.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
@@ -34,7 +34,7 @@ namespace itk
  */
 template <class TScalarType,         // Only float and double make sense
           int NDimensions = 3>       // Number of dimensions
-class KernelTransform : public Transformation<TScalarType, NDimensions>
+class KernelTransform : public Object
 {
 public:
   /**
@@ -49,7 +49,7 @@ public:
   /**
    * Standard Superclass typedef
    */
-  typedef Transformation<TScalarType, NDimensions> Superclass;
+  typedef Object Superclass;
   /**
    * Run-time type information (and related methods).
    */
@@ -59,14 +59,18 @@ public:
    */
   itkNewMacro(Self);
   /**
+   * Standard coordinate point type for this class
+   */
+  typedef Point<TScalarType, NDimensions> PointType;
+  /**
+   * Standard vector type for this class
+   */
+  typedef Vector<TScalarType, NDimensions> VectorType;
+  /**
    * PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists.
    */
   typedef std::deque<PointType*> PointListType;
-  /**
-   * Vector typedef
-   */
-  typedef Vector<TScalarType, NDimensions> VectorType;
   /**
    * VectorList typedef
    */
@@ -74,19 +78,16 @@ public:
   /**
    * Get the source landmarks list, which we will denote p
    */
-  //itkGetMacro(p, PointListType*);
-	PointListType* Getp();
+  itkGetMacro(p, PointListType*);
   /**
    * Get the target landmarks list, which we will denote q
    */
-  //itkGetMacro(q, PointListType*);
-	PointListType* Getq();
+  itkGetMacro(q, PointListType*);
   /**
    * Get the displacements list, which we will denote d,
    * where d_i = q_i - p_i
    */
-  //itkGetMacro(d, VectorListType*);
-	VectorListType* Getd();
+  itkGetMacro(d, VectorListType*);
   /**
    * Compute W matrix
    */

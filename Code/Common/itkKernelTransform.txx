@@ -14,8 +14,7 @@ KernelTransform<TScalarType, NDimensions>::m_I;
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::KernelTransform() :
-Transformation<TScalarType, NDimensions>()
+KernelTransform<TScalarType, NDimensions>::KernelTransform() : Object()
 {
   static bool IMatrixInitialized = false;
 
@@ -79,37 +78,6 @@ KernelTransform<TScalarType, NDimensions>::~KernelTransform()
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::PointListType*
-KernelTransform<TScalarType, NDimensions>::Getp()
-{
-	return m_p;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::PointListType*
-KernelTransform<TScalarType, NDimensions>::Getq()
-{
-	return m_q;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::VectorListType*
-KernelTransform<TScalarType, NDimensions>::Getd()
-{
-	return m_d;
-}
-
-
-/**
- *
- */
-template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeD()
 {
   int numLandmarks = m_p->size();
@@ -145,7 +113,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
   m_WMatrix = new WMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
   svd = new vnl_svd<TScalarType>(*m_LMatrix, 1e-8);
   *m_WMatrix = svd->solve(*m_YMatrix);
-cout << *m_WMatrix << endl;
+	//std::cout << *m_WMatrix << std::endl;
 }
 
 /**
@@ -317,7 +285,7 @@ KernelTransform<TScalarType, NDimensions>::Transform(const VectorType& thisVecto
   VectorType result;
   VectorType GArgument;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
-	VectorType thisVectorCopy = thisVector;
+  VectorType thisVectorCopy = thisVector;
 
 /*  if (!m_WMatrixComputed)
   {
