@@ -210,7 +210,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
 
   if ( m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG )
     {
-    for ( row = 0; row < height; row ++ )
+    for ( row = 0; row < (int)height; row ++ )
       {
       if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
         {
