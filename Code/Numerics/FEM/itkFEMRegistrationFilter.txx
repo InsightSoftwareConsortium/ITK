@@ -198,36 +198,38 @@ void FEMRegistrationFilter<TReference,TTarget>::ChooseMetric(unsigned int whichm
 {
   // Choose the similarity metric
 
-  typedef itk::ImageToImageMetric<ImageType,TargetImageType> MetricType;
   typedef itk::MeanSquaresImageToImageMetric<ImageType,TargetImageType> MetricType0;
   typedef itk::NormalizedCorrelationImageToImageMetric<ImageType,TargetImageType> MetricType1;
   typedef itk::PatternIntensityImageToImageMetric<ImageType,TargetImageType> MetricType2;
   typedef itk::MutualInformationImageToImageMetric<ImageType,TargetImageType> MetricType3;
 
-  MetricType::Pointer msqp;
   
   switch (whichmetric){
     case 0:
-      msqp=MetricType0::New();
-      msqp->SetScaleGradient(1.0); // this is the default(?)
+      m_Metric=MetricType0::New();
+      m_Metric->SetScaleGradient(1.0); // this is the default(?)
+    std::cout << " Mean Square " << std::endl;
     break;
     case 1:
-      msqp=MetricType1::New();
-      msqp->SetScaleGradient(1.0); 
+      m_Metric=MetricType1::New();
+      m_Metric->SetScaleGradient(1.0); 
+    std::cout << " Normalized Correlation " << std::endl;
     break;
     case 2:
-      msqp=MetricType2::New();
-      msqp->SetScaleGradient(1.0); 
+      m_Metric=MetricType2::New();
+      m_Metric->SetScaleGradient(1.0); 
+    std::cout << " Pattern Intensity " << std::endl;
     break;
     case 3:
-      msqp=MetricType3::New();
-      msqp->SetScaleGradient(1.0); 
+      m_Metric=MetricType3::New();
+      m_Metric->SetScaleGradient(1.0); 
+    std::cout << " Mutual Information " << std::endl;
     break;
     default:
-      msqp=MetricType0::New();
-      msqp->SetScaleGradient(1.0); 
+      m_Metric=MetricType0::New();
+      m_Metric->SetScaleGradient(1.0); 
+    std::cout << " Mean Square " << std::endl;
   }
-  this->SetMetric(msqp.GetPointer());
 
 }
 
@@ -948,12 +950,17 @@ void FEMRegistrationFilter<TReference,TTarget>::SampleVectorFieldAtNodes(SolverT
   for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
   {
     coord=(*node)->GetCoordinates();
+    bool inimage=true;
     for (ii=0; ii < ImageDimension; ii++)
     { 
       if (coord[ii] != 0) rindex[ii]=(long int) ((Float)coord[ii]*(Float)m_ImageScaling[ii]+0.5)-1;
-     else rindex[ii]=0;
+      else rindex[ii]=0;
+      if ( rindex[ii] < 0 || rindex[ii]  > m_FieldSize[ii]-1  || inimage == false){ 
+        inimage=false;      
+      SolutionAtNode[ii]=0;
+      }
     }
-    SolutionAtNode=m_Field->GetPixel(rindex);
+    if (inimage)   SolutionAtNode=m_Field->GetPixel(rindex);
     // Now put it into the solution!
     for (ii=0; ii < ImageDimension; ii++)
     { 
