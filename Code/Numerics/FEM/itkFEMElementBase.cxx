@@ -220,7 +220,10 @@ Element::VectorType Element::GetStrainsAtPoint(const VectorType& pt, const Solut
   return e;
 }
 
-Element::VectorType Element::GetStressesAtPoint(const VectorType& pt, const VectorType& e, const Solution& sol, unsigned int index) const
+Element::VectorType Element::GetStressesAtPoint(const VectorType& itkNotUsed(pt),
+                                                const VectorType& e,
+                                                const Solution& itkNotUsed(sol),
+                                                unsigned int itkNotUsed(index)) const
   // NOTE: pt should be in local coordinates already
 {
   MatrixType D;
