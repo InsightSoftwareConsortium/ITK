@@ -401,7 +401,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
         } 
 
       // try getting new codewords, send a warning to user 
-      itkWarningMacro(<<"Attempting to fill empty cells in the codebook");
+      itkDebugMacro(<<"Attempting to fill empty cells in the codebook");
 
       // consolidate the highest distortion codewords into the beginning
       // of the array.  Take care to protect zero distortion codewords
