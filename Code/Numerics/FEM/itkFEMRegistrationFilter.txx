@@ -569,34 +569,34 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
       unsigned int numnodesperelt=(*((*node)->m_elements.begin()))->GetNumberOfNodes();
       unsigned int whichnode=0;
      
-      unsigned int maxnode;
-      if (ImageDimension == 2) maxnode=3; 
-      if (ImageDimension == 3) maxnode=4; 
-      for (unsigned int whichnode=0; whichnode<=maxnode; whichnode++)
-    {
-    Node::ConstPointer tnode=( *((*node)->m_elements.begin()))->GetNode(whichnode); 
-    coord=(tnode)->GetCoordinates();
+      unsigned int maxnode;               
+      if (ImageDimension == 2) maxnode=( 3 < numnodesperelt ? 3 : numnodesperelt); 
+      if (ImageDimension == 3) maxnode=( 4 < numnodesperelt ? 4 : numnodesperelt); 
+      for (whichnode=0; whichnode<=maxnode; whichnode++)
+      {
+        Node::ConstPointer tnode=( *((*node)->m_elements.begin()))->GetNode(whichnode); 
+        coord=(tnode)->GetCoordinates();
         CornerCounter=0;
         for (ii=0; ii < ImageDimension; ii++)
         { 
           if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
         }
         if (CornerCounter == ImageDimension - 1) CornerFound=false; else CornerFound=true;
-    if (!CornerFound){
-        for (unsigned int jj=0; jj<ndofpernode; jj++)
-        {
-          std::cout << " which node " << whichnode << std::endl; 
-      std::cout << " edge coord " << coord << std::endl;
+        if (!CornerFound){
+          for (unsigned int jj=0; jj<ndofpernode; jj++){
+            std::cout << " which node " << whichnode << std::endl; 
+            std::cout << " edge coord " << coord << std::endl;
     
-          l1=LoadBC::New();
-          // now we get the element from the node -- we assume we need fix the dof only once
-          // even if more than one element shares it.
-          l1->m_element=( *((*node)->m_elements.begin())); 
-          unsigned int localdof=whichnode*ndofpernode+jj;
-          l1->m_dof=localdof; // FIXME should be correct for each element
-          l1->m_value=vnl_vector<double>(1,0.0);
-          mySolver.load.push_back( FEMP<Load>(&*l1) );
-    }}
+            l1=LoadBC::New();
+            // now we get the element from the node -- we assume we need fix the dof only once
+            // even if more than one element shares it.
+            l1->m_element=( *((*node)->m_elements.begin())); 
+            unsigned int localdof=whichnode*ndofpernode+jj;
+            l1->m_dof=localdof; // FIXME should be correct for each element
+            l1->m_value=vnl_vector<double>(1,0.0);
+            mySolver.load.push_back( FEMP<Load>(&*l1) );
+          }
+        }
       }
       CornerFound=true;
   }
@@ -655,10 +655,9 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   if (!m_DoMultiRes) NumMins=1;
   m_MinE=10.e9;
   Float LastE=9.e9 , deltE=1.e9, ETol=1.e-5;
-  // iterative solve  
-  //for (unsigned int iters=0; iters<m_Maxiters; iters++){
+
   unsigned int iters=0;
-  Float LastISim=9.e9, InitDeltE=0.0;
+  //Float LastISim=9.e9, InitDeltE=0.0;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
   while ( !Done ){
@@ -682,10 +681,11 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
      std::cout << " line search done " << std::endl;
    } else if (DLS >0 && iters == 0) mint=1.0;
 
-   ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
+   //ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    LastE=mySolver.EvaluateResidual(mint);
-   deltE=fabs(LastE-m_MinE);
-   if ((LastE <= InitDeltE )/*|| ImageSimilarity > LastISim*/) 
+   deltE=(LastE-m_MinE);
+   mySolver.AddToDisplacements(mint);  
+   if ((LastE <= m_EnergyReductionFactor )/*|| ImageSimilarity > LastISim*/) 
    {
      Done=true;
      m_MinE=LastE;
@@ -693,21 +693,16 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    }
    else //if ( minct < NumMins )
    {  
-     mySolver.AddToDisplacements(mint);  
      //if (LastE >= m_MinE) minct++; else 
      m_MinE=LastE;
-     LastISim = ImageSimilarity;
+     //LastISim = ImageSimilarity;
    } //else iters=m_Maxiters;
    
-   std::cout << " min E " << m_MinE << " Sim E " << ImageSimilarity <<  " iter " << iters << std::endl;
+   std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
    if ( iters > m_Maxiters ) DLS=1;
    if (iters > (m_Maxiters+3) ) {
      Done=true;
-   }
-   if (iters == 2) {
-     InitDeltE=LastE/m_EnergyReductionFactor;
-     std::cout << " convergence energy = " << InitDeltE << std::endl;
    }
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
