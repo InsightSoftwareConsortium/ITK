@@ -273,7 +273,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   PixelType alpha0 = 0.5;  //Interpolation factor
   PixelType alpha1 = 0.5;  //Interpolation factor
   const double *vs = inputPtr->GetSpacing();
-  double *vs_2 = new double[ImageDimension];
+  double vs_2[ImageDimension];
   
   for(n = 0; n<ImageDimension ; n++)
      vs_2[n]=2*vs[n];
@@ -444,7 +444,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   PixelType alpha0 = 0.5;  //Interpolation factor
   PixelType alpha1 = 0.5;  //Interpolation factor
   const double *vs = inputPtr->GetSpacing();
-  double *vs_2 = new double[ImageDimension];
+  double vs_2[ImageDimension];
   
   for(n = 0; n<ImageDimension ; n++)
      {
