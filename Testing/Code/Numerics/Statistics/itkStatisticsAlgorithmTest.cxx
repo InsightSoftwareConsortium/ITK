@@ -133,19 +133,14 @@ int itkStatisticsAlgorithmTest(int, char**)
   std::vector< int > refVector ;
 
   // creats a subsample with all instances in the image
-  SampleType::Iterator iter = sample->Begin() ;
-  while (iter != sample->End())
-    {
-      subsample->AddInstance(iter.GetInstanceIdentifier()) ;
-      ++iter ;
-    }
-
+  subsample->InitializeWithAllInstances() ;
 
   // InsertSort algorithm test
 
   // fill the image with random values and fill and sort the
   // refVector
   resetData(image, refVector) ;
+
   itk::Statistics::InsertSort< SubsampleType >(subsample, activeDimension,
                                     0, subsample->Size()) ;
   if (!isSortedOrderCorrect(refVector, subsample))
