@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,7 +30,7 @@ namespace itk
 
 /** \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
  * The Nrrd format was developed as part of the Teem package
- * (teem.sourceforge.org). 
+ * (teem.sourceforge.org).
  *
  *  \ingroup IOFilters
  */
@@ -41,7 +41,7 @@ public:
   typedef NrrdImageIO            Self;
   typedef ImageIOBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -55,24 +55,24 @@ public:
    * indicated. */
   virtual bool SupportsDimension(unsigned long )
   {return true;}
-  
+
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool CanReadFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
-  
+
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
-  
+
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
   virtual bool CanWriteFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
-  
+
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
@@ -86,11 +86,11 @@ protected:
       representations */
   int ITKToNrrdPixelType( const ImageIOBase::IOComponentType ) const;
   ImageIOBase::IOComponentType NrrdToITKComponentType( const int ) const;
-  
-private:  
+
+private:
   NrrdImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
 };
 
 } // end namespace itk
