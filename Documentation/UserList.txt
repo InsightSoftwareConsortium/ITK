@@ -9,7 +9,7 @@ burgiss
 cates:Josh Cates:cates@cs.utah.edu
 celina:Celina  Imielinska:ci42@columbia.edu
 chandra
-chenting
+chenting:Ting Chen:chenting@graphics.cis.upenn.edu
 danny
 gash
 gee
@@ -19,14 +19,13 @@ ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin:Yinpeng Jin:yj76@columbia.edu
 jjomier
 jrgold
-kellyae:Anne Kelly:kellyae@crd.ge.com
 king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
 lng:Lydia Ng:lng@insightful.com
 lorensen:Bill Lorensen:lorensen@crd.ge.com
 martink:Ken Martin:ken.martin@kitware.com
 millerjv:Jim Miller:millerjv@crd.ge.com
-parks
+parks:Sungwook Parks:parks@cs.unc.edu
 ratiu:Peter Ratiu:ratiu@bwh.harvard.edu
 rondot:Pascale Rondot:rondot@crd.ge.com
 Rystrom
@@ -38,7 +37,7 @@ stetten:George Stetten:george@stetten.com
 tamburo:Robert Tamburo:rjtst21@pitt.edu
 turek:Matt Turek:turek@crd.ge.com
 vikram:Vikram Chalana:vikram@insightful.com
-whitaker
+whitaker:Ross Whitaker:whitaker@serrano.cs.utah.edu
 will:Will Schroeder:will.schroeder@kitware.com
-ying
+ying:Ying Zhuge:zhuge@mipg.upenn.edu
 yoo:Terry S. Yoo:yoo@nlm.nih.gov
