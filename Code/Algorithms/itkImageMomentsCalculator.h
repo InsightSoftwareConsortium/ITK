@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkAffineTransform.h"
 #include "itkMacro.h"
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix_fixed.h"
