@@ -1,5 +1,5 @@
-[submodule "Unsupported"]
-	path = Unsupported
+[submodule "Auxiliary"]
+	path = Auxiliary
 	url = git://itk.org/ITKApps.git
 [submodule "Examples"]
 	path = Examples

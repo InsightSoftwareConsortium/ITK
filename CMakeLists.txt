@@ -12,7 +12,7 @@ SOURCE_GROUP("XML Files" "[.]xml$")
 # Include the include and link libraries
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 
-# Walk into these directories before Testing or Unsupported.
+# Walk into these directories before Testing or Auxiliary
 SUBDIRS(Utilities Code)
 SUBDIR_DEPENDS(Code Utilities)
 
@@ -35,12 +35,12 @@ IF(BUILD_EXAMPLES)
 ENDIF(BUILD_EXAMPLES)
 
 
-# Add an option to build or not build the Unsupported stuff
-OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
-IF(BUILD_UNSUPPORTED)
-  SUBDIRS(Unsupported)
-  SUBDIR_DEPENDS(Unsupported Code)
-ENDIF(BUILD_UNSUPPORTED)
+# Add an option to build or not build the Auxiliary stuff
+OPTION(BUILD_AUXILIARY "Build the unsupported directory")
+IF(BUILD_AUXILIARY)
+  SUBDIRS(Auxiliary)
+  SUBDIR_DEPENDS(Auxiliary Code)
+ENDIF(BUILD_AUXILIARY)
 
 # Configure files
 CONFIGURE_FILE(
