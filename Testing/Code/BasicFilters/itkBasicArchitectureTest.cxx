@@ -184,7 +184,7 @@ int main()
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
-  shrink->AddObserver(itk::Command::StartEvent, start);
+  unsigned long tag = shrink->AddObserver(itk::Command::StartEvent, start);
   
   // Create a command to call StartEndEvent when end event is triggered
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
@@ -198,7 +198,7 @@ int main()
   allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch,
                                  &AllEvents::WatchEvents);
-  unsigned long tag = shrink->AddObserver(itk::Command::AnyEvent, allEvents);
+  shrink->AddObserver(itk::Command::AnyEvent, allEvents);
   
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
