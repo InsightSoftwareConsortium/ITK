@@ -44,6 +44,8 @@ IF(VW_RAW_DATA_PATH)
 ENDIF(VW_RAW_DATA_PATH)
 
 IF(ITK_DATA_ROOT)
+  ADD_TEST(itkGiplRampFile ${IO_TESTS} itkGiplImageIOTest
+           ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
            ${ITK_DATA_ROOT}/Input/012345.002.050)
   ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
@@ -63,6 +65,7 @@ IF(ITK_DATA_ROOT)
   ADD_TEST(itkAnalyzeIOLittleEndian ${IO_TESTS} itkAnalyzeImageIOTest
            ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
   ADD_TEST(itkAnalyzeIOInternalTests ${IO_TESTS} itkAnalyzeImageIOTest)
+
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
