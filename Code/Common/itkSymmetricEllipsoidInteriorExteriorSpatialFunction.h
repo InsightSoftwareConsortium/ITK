@@ -67,7 +67,7 @@ public:
   
   /** Set the orientation vector of the ellipsoid's unique axis and axes lengths.
    * Must be normalized!!!!! */
-  void SetOrientation(Vector<double> orientation, double uniqueAxis, double symmetricAxes);
+  void SetOrientation(Vector<double,VDimension> orientation, double uniqueAxis, double symmetricAxes);
      
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
