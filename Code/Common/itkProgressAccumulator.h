@@ -61,10 +61,10 @@ public:
   itkGetMacro(AccumulatedProgress,float);
 
   /** Set the mini-pipeline filter */
-  itkSetMacro(MiniPipelineFilter,GenericFilterPointer);
+  itkSetObjectMacro(MiniPipelineFilter,ProcessObject);
 
   /** Set the mini-pipeline filter */
-  itkGetMacro(MiniPipelineFilter,GenericFilterPointer);
+  itkGetConstObjectMacro(MiniPipelineFilter,ProcessObject);
 
   /** 
    * Register a filter with the progress accumulator and specify the
