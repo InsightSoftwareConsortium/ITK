@@ -141,8 +141,6 @@ RegularSphereMeshSource<TOutputMesh>
   
     PointMapType::Pointer handledEdges = PointMapType::New();
 
-    std::cout << "cells.size(): " << myCells->Size() << std::endl;
-
     while( cells != myCells->End() ) 
       {
       tp = cells.Value()->GetPointIds();
