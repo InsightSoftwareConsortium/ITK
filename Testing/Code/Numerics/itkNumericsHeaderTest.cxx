@@ -24,7 +24,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCostFunction.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
-#include "itkLevenbergMarquardtOptimizer.txx"
+#include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultipleValuedCostFunction.h"
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
