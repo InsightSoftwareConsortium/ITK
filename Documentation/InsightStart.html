@@ -1,0 +1,194 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Getting Started with Insight</TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<B><FONT SIZE=6><P ALIGN="CENTER">Getting Started with Insight</P>
+<P ALIGN="CENTER">(InsightStart.doc)</P>
+<P ALIGN="CENTER"></P>
+</B><P ALIGN="CENTER">Subscribing to the Mailing List</P>
+</FONT><FONT SIZE=4>
+</FONT><P>To subscribe to insight-developers use the following web page:</P>
+
+<FONT SIZE=2><P></FONT><A HREF="http://public.kitware.com/mailman/listinfo/insight-developers"><FONT SIZE=2>http://public.kitware.com/mailman/listinfo/insight-developers</FONT></A></P>
+
+<P>To subscribe insight-announce use the following web page:</P>
+<P> </P>
+<FONT SIZE=2><P></FONT><A HREF="http://public.kitware.com/mailman/listinfo/insight-announce"><FONT SIZE=2>http://public.kitware.com/mailman/listinfo/insight-announce</FONT></A></P>
+
+<P>Requests to subscribe to the mailing list are currently limited to members of the consortium.  As such all requests must be approved, if you would like to allow a grad student etc to be on the list just send email to bill.hoffman@kitware.com.</P>
+<FONT SIZE=4>
+</FONT><B><FONT SIZE=6><P ALIGN="CENTER">Using CVS</P>
+</B></FONT><FONT SIZE=4>
+</FONT><P>You can obtain CVS from the web site http://download.cyclic.com/pub/cvs-1.10/  For UNXI you will need to build and install CVS. For windows you need to put cvs.exe patch.exe and the dll file into your system32 directory under winNT or windows.</P>
+<B><FONT SIZE=4>
+<U><P>Getting a copy of Insight</P>
+</B></U></FONT><P>To check out a copy of insight use the following two commands. You will first need to have a login name and password provided to you. The first command verifies your identity and the second command will check out a copy of the tree onto your current directory. So make sure you execute these commands in the directory you want insight to appear. Once you have checked out insight you do not need to execute them again unless you move to a different machine or completely erase your insight tree. If you want to obtain a copy of insight without the Data directory use InsightLight instead of Insight in the second command.</P>
+
+<P>cvs -d :pserver:YourLoginName@public.kitware.com:/insight/cvsroot login</P>
+
+<P>cvs -d :pserver:YourLoginName@public.kitware.com:/insight/cvsroot checkout Insight</P>
+
+<P>To obtain a login name and password please call Bill Hoffman at 518-371-3971 ex 105.  You can leave the desired login name and password in Bill’s voice mail if he is not there.  CVS provides no way for users to change passwords, so this can not be done with email.</P>
+
+<B><U><FONT SIZE=4><P>Adding a new file or directory to Insight</P>
+</B></U></FONT><P>To add a new file or directory to the CVS repository use the following commands. The kb flag should be used for any binary files such as pdf, word, tiff, etc. </P>
+
+<P>cvs add directoryName</P>
+<P>cvs add fileName</P>
+<P>cvs add -kb binaryFileName</P>
+
+<B><U><FONT SIZE=4><P>Committing changes to the repository</P>
+</B></U></FONT><P>Once a file has been added or edited, you must commit it before others will be able to retrieve it.  When a commit is done you must specify a comment indicating why the change was made. You should prefix the change with one of the following indicators.</P>
+
+<P>BUG: - a change made to fix an error in the code</P>
+<P>ENH: - new functionality added to the toolkit</P>
+<P>PERF: - a performance improvement</P>
+<P>STYLE: - a change made to improve style, comments, compiler warnings </P>
+
+<P>The cvs command to commit the change is:</P>
+
+<P>cvs commit -m "BUG: fixed core dump when passed float data" filename</P>
+
+<P>you can also use the syntax below which omits the -m flag. In this case cvs will start up an editor for you to enter a comment on why you made the change.</P>
+
+<P>cvs commit filename</P>
+
+<B><U><FONT SIZE=4><P>Updating your copy of Insight</P>
+</B></U></FONT><P>To bring your copy of Insight up to date with the repository use the following command.</P>
+
+<P>cvs update</P>
+
+<B><U><FONT SIZE=4><P>Determining what files have changed in the repository</P>
+</B></U></FONT><P>You can determine what files you have edited and also what files have changed since your last update by using update with the -n flag. This will show you what files you have modified with a "M" (modified), what files have changed in the repository since your last update "P" (patch) or "U" (updated), and what files have conflicts with changes you have made "C".</P>
+
+<P>cvs update -n</P>
+
+<B><U><FONT SIZE=4><P>Seeing your changes to a file</P>
+</B></U></FONT><P>To see the changes that you have made to a file in the insight you can use the diff command. The first version shows you the changes between your current copy of the file and the version you last updated from. The second version shows the changes between your current version and the most recent copy in the repository.</P>
+
+<P>cvs diff filename</P>
+<P>cvs diff -rHEAD filename</P>
+
+<B><U><FONT SIZE=4><P>Additional information on a file</P>
+</B></U></FONT><P>To see the change history of a file you can use the cvs log command as:</P>
+
+<P>cvs log filename</P>
+
+<P>To see the current status of a file</P>
+
+<P>cvs status filename</P>
+
+<P>to see who last edited each line of a file and when use:</P>
+
+<P>cvs annotate filename </P>
+
+<P>&nbsp;</P>
+<B><FONT SIZE=5><P ALIGN="CENTER">Installing and Compliling </B></FONT><FONT FACE="Comic Sans MS" SIZE=5>itk</FONT><B><FONT SIZE=6> </P>
+</B></FONT><FONT SIZE=2>
+<P>&nbsp;</P>
+</FONT><P>This section provides the basic instructions for compiling itk on Window and Unix.</P>
+
+<FONT SIZE=2><P>&nbsp;</P>
+</FONT><P>If you have problems or questions during compilation, please send a detail description to the itk mail list:<FONT SIZE=2> </FONT><A HREF="mailto:insight-developers@public.kitware.com"><FONT SIZE=2>insight-developers@public.kitware.com</FONT></A></P>
+
+<P>With itk, it is easy to create installations/libraries for multiple platforms.   This is implemented by locating source separate from object files.   This separation also helps simplify and centralize CVS interactions.</P>
+
+<P>So, at the same level as the Insight directory, create directories for the object files for each platform you will be compiling for.</P><DIR>
+<DIR>
+
+<P>E.g.,</P><DIR>
+<DIR>
+
+<P>~/src/Insight (the source code checked out from the CVS repository)</P>
+<P>~/src/Insight-VC++/</P>
+<P>~/src/Insight-Cygwin/</P>
+<P>~/src/Insight-Sun/</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<P>Platform specific instructions are below<FONT SIZE=2>:</P>
+<DIR>
+<DIR>
+
+</FONT><B><FONT SIZE=6><P ALIGN="CENTER">Windows: VC++</P><DIR>
+<DIR>
+
+</B></FONT><P>This process will have you create a program that you will run that will in-turn create workspace and project files, specialized for your directory structure, that will create the library files and several test programs.</P>
+<DIR>
+<DIR>
+
+<P>1. Open the directory Insight/CMake/Source</P>
+<P>2. Open CMakeSetup.dsw – this should start MSVC++</P>
+<P>3. Make CmakeSetup the active project, it should be highlighted if active, if not, click right over the name and select make active project.   </P>
+<P>4. Once the CMakeSetup is project active, press execute &quot;!&quot; button.</P>
+<P>It should now ask if you want to build the software, answer yes, and when it is built, the CmakeSetup dialog should open.</P>
+<P>5. In the CMakeSetup dialog , </P>
+<P>- specify Insight directory using the browse button (e.g., E:/src/Insight)</P>
+<P>- Specify your object directory as the destination directory (e.g., E:/src/Insight-VC++)</P><DIR>
+<DIR>
+
+<P>This creates a directory structure under the destination directory and fills that directory structure with appropriate .dsp and .dsw files.</P></DIR>
+</DIR>
+
+<P>6. Open the top-level itk workspace file in the destination director </P><DIR>
+<DIR>
+
+<P>e.g., E:/src/Insight-VC++/itk.dsw</P>
+</DIR>
+</DIR>
+
+<P>7. Menu: Build: Batch Build</P><DIR>
+<DIR>
+
+<P>Select all and then check boxes</P>
+<P>Press Rebuild All</P></DIR>
+</DIR>
+
+<P>8. After the build completes, run a few tests</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<B><FONT SIZE=6><P ALIGN="CENTER">Unix /Cgywin Out of Source Build</P>
+</B></FONT><FONT SIZE=2><P>To build in a directory other than the source code directory that you checked out with cvs, you will need gnu make (gmake), as most standard make programs will not work.  For linux and cygwin gmake is the default. For other Unix systems, you will have to build gmake from source.  Once you have gmake on your system, the instructions for building itk are as follows: (NOTE: Plateform should be replaced with Cygwin, Sun-CC, Sun-gcc, SGI-CC, or some name descriptive of the type of build.)</P>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</FONT><P>&gt; mkdir Insight-Platform (same level as Insight directory)</P>
+<P>&gt; cd Insight-Platform </P>
+<P>&gt; ../Insight/configure</P>
+<P>&gt; make  </P>
+<FONT SIZE=2></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+</FONT><B><FONT SIZE=6><P ALIGN="CENTER">Unix /Cgywin In Source Build</P>
+</B></FONT><FONT SIZE=2><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</FONT><P>&gt; cd Insight</P>
+<P>&gt; ./configure</P>
+<P>&gt; make</P>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<B><FONT SIZE=6><P ALIGN="CENTER">The Insight Web Site</P>
+</B></FONT><FONT SIZE=4>
+</FONT><P>The insight web site can be found at <A HREF="http://public.kitware.com/cgi-bin/InsightFAQ"><FONT SIZE=2>http://public.kitware.com/Insight.html</FONT></A>. There is also a searchable frequently asked questions at <A HREF="http://public.kitware.com/cgi-bin/InsightFAQ"><FONT SIZE=2>http://public.kitware.com/cgi-bin/InsightFAQ</FONT></A>. If you check new web pages into the CVS repository and would like to make them visible on the web site you can use <A HREF="http://public.kitware.com/cgi-bin/Update-InsightHTML.sh"><FONT SIZE=2>http://public.kitware.com/cgi-bin/Update-InsightHTML.sh</FONT></A>.</P></BODY>
+</HTML>
