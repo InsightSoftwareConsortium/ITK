@@ -221,8 +221,10 @@ void SolverCrankNicolson::Solve()
 }
 
 
-void SolverCrankNicolson::GoldenSection(Float tol)
+void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
 {
+//void SolverCrankNicolson::GoldenSection(Float tol)
+//{
  // in 1-D domain, we want to find a < b < c , s.t.  f(b) < f(a) && f(b) < f(c)
  //  see Numerical Recipes
  
@@ -230,7 +232,9 @@ void SolverCrankNicolson::GoldenSection(Float tol)
   Float Glimit=100.0;
   Float Tiny=1.e-20;
   
-  Float ax=1.e-4, bx=1.0, cx=bx+ax,fc=0.0;
+  Float ax, bx,cx;
+  ax=1.e-4; bx=1.0; cx=bx+ax;
+  Float fc=0.0;
   Float fa=EvaluateResidual(ax);
   Float fb=EvaluateResidual(bx);
   
@@ -291,10 +295,106 @@ void SolverCrankNicolson::GoldenSection(Float tol)
       fa=fb; fb=fc; fc=u;
     }
   }
+  *a=ax; *b=bx; *c=cx;
+}
 
+Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters)
+{
   // We should now have a, b and c, as well as f(a), f(b), f(c), 
   // where b gives the minimum energy position;
 
+  Float CGOLD = 0.3819660;
+  Float ZEPS = 1.e-10;
+
+  Float ax, bx, cx;
+
+  FindBracketingTriplet(&ax, &bx, &cx);
+
+  Float xmin,fmin;
+
+  unsigned int iter;
+  
+  Float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
+
+  Float e=0.0;  // the distance moved on the step before last;
+
+  a=((ax  < cx) ? ax : cx);
+  b=((ax  > cx) ? ax : cx);
+  
+  x=w=v=bx;
+  fw=fv=fx=EvaluateResidual(x);
+
+  bool DONE=false;
+  for (iter = 1; iter <=MaxIters; iter++)
+  {
+    xm=0.5*(a+b);
+  tol2=2.0*(tol1=tol*fabs(x)+ZEPS);
+  if (fabs(x-xm) <= (tol2-0.5*(b-a)))
+  {
+      xmin=x;
+    fmin=fx;
+    DONE=true;
+  }
+
+  if (fabs(e) > tol1){
+      r=(x-w)*(fx-fv);
+    q=(x-v)*(fx-fw);
+    p=(x-v)*q-(x-w)*r;
+    q=2.0*(q-r);
+    if (q>0.0) p = -1.*p;
+    q=fabs(q);
+    etemp=e;
+    e=d;
+    if (fabs(p) >= fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
+      d=CGOLD*(e=(x>=xm ? a-x : b-x));
+    else{
+        d=p/q;
+    u=x+d;
+    if (u-a < tol2 || b-u < tol2) 
+      d=GSSign(tol1,xm-x);
+    }
+  }else{
+    d=CGOLD*(e=(x>= xm ? a-x : b-x));
+  }
+  
+    u=(fabs(d) >= tol1 ? x+d : x + GSSign(tol1,d));
+    fu=EvaluateResidual(u);
+    if (fu <= fx){
+      if ( u >= x ) a=x; else b=x;
+    v=w; w=x;x=u;
+    fv=fw; fw=fx; fx=fu;
+  } else {
+      if (u<x) a = u; else b=u;
+    if (fu <= fw || w ==x) {
+        v=w;
+      w=u;
+      fv=fw;
+      fw=fu;
+    } else if (fu <= fv || v==x || v == w) {
+        v=u;
+      fv=fu;
+    }
+  }
+  }
+  if (!DONE){
+    xmin=x;
+    fmin=fx;
+  }
+
+  SetEnergyToMin(xmin);
+  return fmin;
+}
+
+
+
+void SolverCrankNicolson::GoldenSection(Float tol)
+{
+  // We should now have a, b and c, as well as f(a), f(b), f(c), 
+  // where b gives the minimum energy position;
+
+  Float ax, bx, cx;
+
+  FindBracketingTriplet(&ax, &bx, &cx);
   Float xmin=1.0;
   //if (fb!=0.0)
   {
@@ -332,6 +432,13 @@ void SolverCrankNicolson::GoldenSection(Float tol)
     fmin=f2;
   }
   }
+  SetEnergyToMin(xmin);
+}
+
+
+
+void SolverCrankNicolson::SetEnergyToMin(Float xmin)
+{
   for (unsigned int j=0; j<NGFN; j++)
   {
     Float SolVal=0.0;
@@ -350,8 +457,8 @@ void SolverCrankNicolson::GoldenSection(Float tol)
     m_ls->SetSolutionValue(j,SolVal,SolutionTIndex);
     m_ls->SetVectorValue(j,FVal,ForceTIndex);
   }
-}
 
+}
 
 Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
 {
@@ -426,7 +533,7 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     Float CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
     m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
     m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
-    m_ls->AddVectorValue(i,CurrentForce,ForceTMinus1Index);
+    m_ls->SetVectorValue(i,CurrentForce,ForceTMinus1Index);
 #endif
    
     if (CurrentSolution < mins2 )  mins2=CurrentSolution;
