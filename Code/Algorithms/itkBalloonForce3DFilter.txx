@@ -279,7 +279,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   unsigned short label; 
   IndexType coord = {0, 0, 0};
   IndexType extend = {0, 0, 0};
-  double max, fo, t, xs, ys, zs; 
+  double max, fo, t, xs, ys;
   InputPointType x, y, z, f, n, extends;
   InputPointType* y_pt;
   InputPointType* z_pt;
@@ -310,7 +310,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   while ( i < m_NumNodes-2 ) 
   {
     slice = i/slicediv;
-    xs = ys = zs = -1.0; 
+    xs = ys = -1.0; 
     x = points.Value();
 
     coord[0] = (int) x[0];
@@ -320,7 +320,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     if ( (coord[0]>0)&&(coord[0]<m_ImageWidth)&&(coord[1]>0)&&
         (coord[1]<m_ImageHeight)&&(coord[2]>0)&&(coord[2]<m_ImageDepth)) {
       if ( m_Potential->GetPixel(coord) == m_ObjectLabel ) {
-        xs = ys = zs = 0.0;
+        xs = ys = 0.0;
       }
     }
 
@@ -402,13 +402,9 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   double t;
   double xs;
   double ys;
-  double zs; 
 
   InputPointType x, y, z, f, n, extends;
-  InputPointType* y_pt;
-  InputPointType* z_pt;
-  y_pt = &y;
-  z_pt = &z;
+
 
   InputPointsContainerPointer  Points = m_Locations->GetPoints();
   InputPointsContainerIterator points = Points->Begin();
@@ -431,7 +427,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   
   while( i < m_NumNodes-2 ) {
     slice = i/slicediv;
-    xs = ys = zs = 1.0; 
+    xs = ys = 1.0; 
     x = points.Value();
 
     coord[0] = (int) x[0];
@@ -439,7 +435,7 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     coord[2] = slice + m_FirstSlice;
 
     if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-      xs = ys = zs = 0.0;
+      xs = ys = 0.0;
     }
 
   /* The following part should be added if the input potential provides only 
@@ -820,15 +816,9 @@ void
 BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
-  int i, j, k, node, slice;
-  double dis;
+  
   IndexType coord;
   coord.Fill( 0 );
-  InputPointType v1, v2;
-  InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  v1_pt = &v1;
-  v2_pt = &v2;
 
   typename TInputMesh::PointType s, d;
 
@@ -846,13 +836,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
   s[0] = 0;
   s[1] = 0;
   s[2] = 0;
-
-  i = 0;
-  j = 0;
-  k = 0;
-  dis = 0;
-  node = 0;
-  slice = 0;
 
   /* New gradient fit method testing. */
 
