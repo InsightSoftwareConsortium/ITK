@@ -42,8 +42,6 @@
  *
  */
 
-#include "f2c.h"
-#include "netlib.h"
 #ifdef __BORLANDC__
 /* A hack to overcome a typo in borlands math.h
  * file with respect to the abs function
@@ -55,6 +53,8 @@
 #else
 # include <math.h>
 #endif
+#include "f2c.h"
+#include "netlib.h"
 
 /* Table of constant values */
 
