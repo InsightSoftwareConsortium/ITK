@@ -5,5 +5,21 @@
 XALAN = $(topdir)/Code/Insight3DParty/xalan/xalan.jar
 
 
+# BuildStampRules
+
 Build.html: XML/Build.xml
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Build.xsl
+
+Test.html: XML/Test.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/Test.xsl
+
+BuildSummary.xml: XML/Build.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/BuildSummary.xsl
+
+TestSummary.xml: XML/Test.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/TestSummary.xsl
+
+# InstanceRules
+
+MostRecentResults: XML/Build.xml XML/Test.xml
+	
