@@ -66,8 +66,8 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
 ::Evaluate(const InputType& position) const
 {  
   double distanceSquared = 0; 
-  Vector<InputType, VImageDimension> orientationVector;
-  Vector<InputType, VImageDimension> pointVector;  
+  Vector<VectorType, VImageDimension> orientationVector;
+  Vector<VectorType, VImageDimension> pointVector;
 
   // Project the position onto each of the axes, normalize by axis length, 
   // and determine whether position is inside ellipsoid. The length of axis0,
