@@ -59,8 +59,12 @@ LevenbergMarquardtOptimizer<TCostFunction>
                                 GetInitialPosition()
                               , initialParameters );
   
-  m_LevenbergMarquardt.minimize( initialParameters );
-
+  // vnl_levenberg_marquardt offers two methods for start minimization
+  // depending on whether the cost_function knows how to compute gradients
+  // or not
+  // m_LevenbergMarquardt.minimize( initialParameters );
+  m_LevenbergMarquardt.minimize_using_gradient( initialParameters );
+  
 }
 
 
