@@ -113,7 +113,7 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return ((id >= 0) && (id < this->VectorType::size()));
+  return ((id > 0) && (id < this->VectorType::size()));
 }
 
 
@@ -127,7 +127,7 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
-  if((id >= 0) && (id < this->VectorType::size()))
+  if((id > 0) && (id < this->VectorType::size()))
     {
     if(element)
       {
@@ -149,7 +149,7 @@ void
 VectorContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
-  if(id >= this->VectorType::size())
+  if(id > this->VectorType::size())
     {
     /**
      * The vector must be expanded to fit the
