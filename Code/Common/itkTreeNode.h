@@ -116,6 +116,9 @@ protected:
   TValueType m_Data;
   Self* m_Parent;
   ChildrenListType m_Children;
+private:
+  TreeNode(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk
