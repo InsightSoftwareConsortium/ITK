@@ -64,7 +64,7 @@ struct VOLFileWrapper
 
 VOLImageIO::VOLImageIO()
 {
-  m_VOLPixelType = UCHAR;
+  m_PixelType = UCHAR;
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(4);
   m_Skinoffset = -1;
@@ -149,17 +149,6 @@ void VOLImageIO::Read(void* buffer)
   delete imgset;
 }
 
-const double* VOLImageIO::GetOrigin() const
-{
-  return m_Origin;
-}
-
-
-const double* VOLImageIO::GetSpacing() const
-{
-  return m_Spacing;
-}
-
 
 const double** VOLImageIO::GetMt_tp() const
 {
@@ -184,7 +173,6 @@ double VOLImageIO::GetBlanking()
 void VOLImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "VOLPixelType " << m_VOLPixelType << "\n";
   os << indent << "File_type " << m_File_type<< "\n";
   os << indent << "File_rev " << m_File_rev << "\n";      
   os << indent << "Description " << m_Description << "\n";     

@@ -10,11 +10,11 @@ LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
 ADD_EXECUTABLE(itkConvertBufferTest itkConvertBufferTest)
-ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
+ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
 ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
+ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
 ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
 ADD_EXECUTABLE(itkVTKImageIOTest itkVTKImageIOTest)
-ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
 
 #ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 

@@ -77,38 +77,10 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Get the image origin. */
-  virtual const double* GetOrigin() const;
-
-  /** Get the image spacing. */
-  virtual const double* GetSpacing() const;
-
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const;
-
-  /** Enums used to specify byte order; whether Big Endian or Little Endian. */
-  typedef  enum {BigEndian,LittleEndian} ByteOrder;
-  
-  /** These methods indicate the byte ordering of the file you are trying
-   * to read in. These methods will then either swap or not swap
-   * the bytes depending on the byte ordering of the machine it is
-   * being run on. For example, reading in a BigEndian file on a
-   * BigEndian machine will result in no swapping. Trying to read
-   * the same file on a LittleEndian machine will result in swapping.
-   * Note: most UNIX machines are BigEndian while PC's
-   * and VAX's are LittleEndian. So if the file you are reading
-   * in was generated on a VAX or PC, SetImageByteOrderToLittleEndian 
-   * otherwise SetImageByteOrderToBigEndian.  */
-  itkSetMacro(ImageByteOrder,ByteOrder);
-  itkGetConstMacro(ImageByteOrder,ByteOrder);
-    
-  /** Specify the byet ordering of the file. */
-  void SetImageByteOrderToBigEndian()
-    { this->SetImageByteOrder(BigEndian); }
-  void SetImageByteOrderToLittleEndian()
-    { this->SetImageByteOrder(LittleEndian); }
   
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -134,10 +106,6 @@ private:
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
   bool GetSeparatorCharacter(std::ifstream & ifs) const;
 
-  ComponentType m_MetaPixelType;
-  double m_Spacing[10];
-  double m_Origin[10];
-  ByteOrder      m_ImageByteOrder;
   std::ifstream   m_Ifstream;
   
 };

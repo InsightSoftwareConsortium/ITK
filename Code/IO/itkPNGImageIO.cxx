@@ -110,7 +110,7 @@ bool PNGImageIO::CanReadFile(const char* file)
   
 const std::type_info& PNGImageIO::GetPixelType() const
 {
-  switch(m_PNGPixelType)
+  switch(m_PixelType)
     {
     case UCHAR:
       return typeid(unsigned char);
@@ -125,8 +125,8 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case FLOAT:
     case DOUBLE:
       {
-      itkErrorMacro ("Invalid type: " << m_PNGPixelType << ", only unsigned char and unsigned short are allowed.");
-      return this->ConvertToTypeInfo(m_PNGPixelType);      
+      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      return this->ConvertToTypeInfo(m_PixelType);      
       }
     default:
       return typeid(unsigned char);
@@ -136,7 +136,7 @@ const std::type_info& PNGImageIO::GetPixelType() const
   
 unsigned int PNGImageIO::GetComponentSize() const
 {
-  switch(m_PNGPixelType)
+  switch(m_PixelType)
     {
     case UCHAR:
       return sizeof(unsigned char);
@@ -151,7 +151,7 @@ unsigned int PNGImageIO::GetComponentSize() const
     case FLOAT:
     case DOUBLE:
       {
-      itkErrorMacro ("Invalid type: " << m_PNGPixelType << ", only unsigned char and unsigned short are allowed.");
+      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return 0;
       }
     }
@@ -269,24 +269,10 @@ void PNGImageIO::Read(void* buffer)
 }
 
 
-const double* 
-PNGImageIO::GetOrigin() const
-{
-  return m_Origin;
-}
-
-
-const double* 
-PNGImageIO::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
 PNGImageIO::PNGImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PNGPixelType = UCHAR;
+  m_PixelType = UCHAR;
 }
 
 PNGImageIO::~PNGImageIO()
@@ -296,7 +282,7 @@ PNGImageIO::~PNGImageIO()
 void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PNGPixelType " << m_PNGPixelType << "\n";
+  os << indent << "PixelType " << m_PixelType << "\n";
 }
 
   
@@ -379,11 +365,11 @@ void PNGImageIO::ReadImageInformation()
   this->m_Dimensions[1] = height;
   if (bit_depth <= 8)
     {
-    m_PNGPixelType = UCHAR;
+    m_PixelType = UCHAR;
     }
   else
     {
-    m_PNGPixelType = USHORT;
+    m_PixelType = USHORT;
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
   png_destroy_read_struct(&png_ptr, &info_ptr,

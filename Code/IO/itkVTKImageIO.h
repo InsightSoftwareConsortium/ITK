@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkVTKImageIO_h
 
 #include "itkImageIOBase.h"
+#include <fstream>
 
 namespace itk
 {
@@ -60,23 +61,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageIO, Superclass);
 
-  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
-   * is required when writing the image. */
-  virtual void SetOrigin(unsigned int i, double origin);
-  virtual double GetOrigin(unsigned int i) const;
-
-  /** Set/Get the image spacing on an axis-by-axis basis. The SetSpacing() method 
-   * is required when writing the image. */
-  virtual void SetSpacing(unsigned int i, double spacing);
-  virtual double GetSpacing(unsigned int i) const;
-
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool CanReadFile(const char*);
   
-  /** Set the spacing and diemention information for the set filename. */
+  /** Set the spacing and dimesion information for the current filename. */
   virtual void ReadImageInformation();
   
   /** Reads the data from disk into the memory buffer provided. */
@@ -86,11 +77,10 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char*)
-    { return false; }
+  virtual bool CanWriteFile(const char*);
 
   /** Writes the data to disk from the memory buffer provided. Make sure
-   * that the IORegions has been set properly. */
+   * that the IORegion has been set properly. */
   virtual void Write(void* buffer);
 
 protected:
@@ -98,13 +88,11 @@ protected:
   ~VTKImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  double m_Spacing[3];
-  double m_Origin[3];
+  bool OpenVTKFile(std::ofstream& os, const char* filename, int openMode);
 
 private:
   VTKImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 } // end namespace itk

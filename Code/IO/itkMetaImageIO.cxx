@@ -51,8 +51,8 @@ namespace itk
 MetaImageIO::MetaImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_MetaPixelType  = UCHAR;
-  m_ImageByteOrder = BigEndian;
+  m_PixelType  = UCHAR;
+  m_ByteOrder = BigEndian;
 }
 
 
@@ -67,23 +67,7 @@ MetaImageIO::~MetaImageIO()
 void MetaImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MetaPixelType " << m_MetaPixelType << "\n";
-}
-
-
-
-const double* 
-MetaImageIO::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
-  
-const double* 
-MetaImageIO::GetOrigin() const
-{
-  return m_Origin;
+  os << indent << "PixelType " << m_PixelType << "\n";
 }
 
 
@@ -162,11 +146,11 @@ bool MetaImageIO::CanReadFile( const char* filename )
     inputStream >> key;
     if( strcmp( key, "False" ) == 0 )
     {
-      m_ImageByteOrder = LittleEndian;
+      m_ByteOrder = LittleEndian;
     }
     else if ( strcmp( key, "True" ) == 0 )
     {
-      m_ImageByteOrder = BigEndian;
+      m_ByteOrder = BigEndian;
     }
     else 
     {
@@ -264,7 +248,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
 const std::type_info& MetaImageIO::GetPixelType() const
 {
-  switch(m_MetaPixelType)
+  switch(m_PixelType)
     {
     case CHAR:
       return typeid(char);
@@ -296,7 +280,7 @@ const std::type_info& MetaImageIO::GetPixelType() const
   
 unsigned int MetaImageIO::GetComponentSize() const
 {
-  switch(m_MetaPixelType)
+  switch(m_PixelType)
     {
     case CHAR:
       return sizeof(char);
@@ -473,52 +457,52 @@ void MetaImageIO::ReadImageInformation()
     if( strcmp( elementType, "MET_UCHAR" ) == 0 )
       {
       m_ComponentType = UCHAR;
-      m_MetaPixelType = UCHAR;
+      m_PixelType = UCHAR;
       }
     else if( strcmp( elementType, "MET_CHAR" ) == 0 )
       {
       m_ComponentType = CHAR;
-      m_MetaPixelType = CHAR;
+      m_PixelType = CHAR;
       }
     else if( strcmp( elementType, "MET_USHORT" ) == 0 )
       {
       m_ComponentType = USHORT;
-      m_MetaPixelType = USHORT;
+      m_PixelType = USHORT;
       }
     else if( strcmp( elementType, "MET_SHORT" ) == 0 )
       {
       m_ComponentType = SHORT;
-      m_MetaPixelType = SHORT;
+      m_PixelType = SHORT;
       }
     else if( strcmp( elementType, "MET_UINT" ) == 0 )
       {
       m_ComponentType = UINT;
-      m_MetaPixelType = UINT;
+      m_PixelType = UINT;
       }
     else if( strcmp( elementType, "MET_INT" ) == 0 )
       {
       m_ComponentType = INT;
-      m_MetaPixelType = INT;
+      m_PixelType = INT;
       }
     else if( strcmp( elementType, "MET_ULONG" ) == 0 )
       {
       m_ComponentType = ULONG;
-      m_MetaPixelType = ULONG;
+      m_PixelType = ULONG;
       }
     else if( strcmp( elementType, "MET_LONG" ) == 0 )
       {
       m_ComponentType = LONG;
-      m_MetaPixelType = LONG;
+      m_PixelType = LONG;
       }
     else if( strcmp( elementType, "MET_UFLOAT" ) == 0 )
       {
       m_ComponentType = FLOAT;
-      m_MetaPixelType = FLOAT;
+      m_PixelType = FLOAT;
       }
     else if( strcmp( elementType, "MET_DOUBLE" ) == 0 )
       {
       m_ComponentType = DOUBLE;
-      m_MetaPixelType = DOUBLE;
+      m_PixelType = DOUBLE;
       }
 
     continue;
@@ -570,16 +554,16 @@ void
 MetaImageIO
 ::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
 {
-  switch(m_MetaPixelType)
+  switch(m_PixelType)
     {
     case CHAR:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<char>::IsBigEndian() )
         {
         ByteSwapper<char>::SwapRangeBE((char*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<char>::IsLittleEndian() )
         {
         ByteSwapper<char>::SwapRangeLE((char *)buffer, numberOfPixels );
@@ -588,12 +572,12 @@ MetaImageIO
       }
     case UCHAR:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<unsigned char>::IsBigEndian() )
         {
         ByteSwapper<unsigned char>::SwapRangeBE((unsigned char*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<unsigned char>::IsLittleEndian() )
         {
         ByteSwapper<unsigned char>::SwapRangeLE((unsigned char *)buffer, numberOfPixels );
@@ -602,12 +586,12 @@ MetaImageIO
       }
     case SHORT:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<short>::IsBigEndian() )
         {
         ByteSwapper<short>::SwapRangeBE((short*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<short>::IsLittleEndian() )
         {
         ByteSwapper<short>::SwapRangeLE((short *)buffer, numberOfPixels );
@@ -616,12 +600,12 @@ MetaImageIO
       }
     case USHORT:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<unsigned short>::IsBigEndian() )
         {
         ByteSwapper<unsigned short>::SwapRangeBE((unsigned short*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<unsigned short>::IsLittleEndian() )
         {
         ByteSwapper<unsigned short>::SwapRangeLE((unsigned short *)buffer, numberOfPixels );
@@ -630,12 +614,12 @@ MetaImageIO
       }
     case INT:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<int>::IsBigEndian() )
         {
         ByteSwapper<int>::SwapRangeBE((int*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<int>::IsLittleEndian() )
         {
         ByteSwapper<int>::SwapRangeLE((int *)buffer, numberOfPixels );
@@ -644,12 +628,12 @@ MetaImageIO
       }
     case UINT:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<unsigned int>::IsBigEndian() )
         {
         ByteSwapper<unsigned int>::SwapRangeBE((unsigned int*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<unsigned int>::IsLittleEndian() )
         {
         ByteSwapper<unsigned int>::SwapRangeLE((unsigned int *)buffer, numberOfPixels );
@@ -658,12 +642,12 @@ MetaImageIO
       }
     case LONG:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<long>::IsBigEndian() )
         {
         ByteSwapper<long>::SwapRangeBE((long*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<long>::IsLittleEndian() )
         {
         ByteSwapper<long>::SwapRangeLE((long *)buffer, numberOfPixels );
@@ -672,12 +656,12 @@ MetaImageIO
       }
     case ULONG:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<unsigned long>::IsBigEndian() )
         {
         ByteSwapper<unsigned long>::SwapRangeBE((unsigned long*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<unsigned long>::IsLittleEndian() )
         {
         ByteSwapper<unsigned long>::SwapRangeLE((unsigned long *)buffer, numberOfPixels );
@@ -686,12 +670,12 @@ MetaImageIO
       }
     case FLOAT:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<float>::IsBigEndian() )
         {
         ByteSwapper<float>::SwapRangeBE((float*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<float>::IsLittleEndian() )
         {
         ByteSwapper<float>::SwapRangeLE((float *)buffer, numberOfPixels );
@@ -700,12 +684,12 @@ MetaImageIO
       }
     case DOUBLE:
       {
-      if ( m_ImageByteOrder == LittleEndian &&
+      if ( m_ByteOrder == LittleEndian &&
         ByteSwapper<double>::IsBigEndian() )
         {
         ByteSwapper<double>::SwapRangeBE((double*)buffer, numberOfPixels );
         }
-      else if ( m_ImageByteOrder == BigEndian &&
+      else if ( m_ByteOrder == BigEndian &&
         ByteSwapper<double>::IsLittleEndian() )
         {
         ByteSwapper<double>::SwapRangeLE((double *)buffer, numberOfPixels );

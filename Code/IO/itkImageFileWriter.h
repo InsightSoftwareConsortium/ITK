@@ -138,13 +138,14 @@ public:
   itkSetObjectMacro(ImageIO,ImageIOBase);
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
-  /** A special version of the Update() method for writers.
-   * It invokes start and end events and handles releasing data. It
-   * eventually calls GenerateData() ehich does the actual writing.
+  /** A special version of the Update() method for writers.  It
+   * invokes start and end events and handles releasing data. It
+   * eventually calls GenerateData() which does the actual writing.
    * Note: if the write method is called without arguments, then the
    * entire image is written. The Write(region) method writes the
-   * requested region. Note that the region will be cropped to fit
-   * the input image's LargestPossibleRegion. */
+   * specified region (if the ImageIO supports it). Note that the
+   * region will be cropped to fit the input image's
+   * LargestPossibleRegion. */
   virtual void Write();
   virtual void Write(const ImageIORegion& region);
 

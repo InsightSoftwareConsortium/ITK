@@ -93,10 +93,6 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Get the image spacing. */
-  virtual const double* GetSpacing() const;
-  const double* GetOrigin() const;
-  
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -211,10 +207,6 @@ protected:
   VOLImageIO();
   ~VOLImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  ComponentType   m_VOLPixelType;
-  double m_Spacing[4] ;
-  double m_Origin[4] ;
 
   /** Read the data into a void* or char* pointer. */
   void ReadData(FILE * fp, void * buffer, size_t size, long pos = -1);

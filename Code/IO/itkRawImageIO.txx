@@ -82,8 +82,8 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   
   for (int idx = 0; idx < VImageDimension; ++idx)
     {
-    m_Spacing[idx] = 1.0;
-    m_Origin[idx] = 0.0;
+    m_Spacing.insert(m_Spacing.begin()+idx,1.0);
+    m_Origin.insert(m_Spacing.begin(+ids),0.0);
     }
   
   m_HeaderSize = 0;
@@ -91,7 +91,7 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   
   // Left over from short reader
   m_ImageMask = 0xffff;
-  m_ImageByteOrder = BigEndian;
+  m_ByteOrder = ImageIOBase::BigEndian;
   m_FileDimensionality = 2;
 }
 
@@ -207,19 +207,6 @@ void RawImageIO<TPixel,VImageDimension>
   m_ManualHeaderSize = true;
 }
 
-template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>
-::SetDimensions(const unsigned int *dims)
-{
-}
-
-template <class TPixel, unsigned int VImageDimension>
-unsigned int *RawImageIO<TPixel,VImageDimension>
-::GetDimensions() const
-{
-  return 0;
-}
-
 
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>
@@ -246,12 +233,12 @@ void RawImageIO<TPixel,VImageDimension>
   m_File.read((char *)m_RequestedRegionData, m_Strides[3]);
   
   // Swap bytes if necessary
-  if ( m_ImageByteOrder == LittleEndian &&
+  if ( m_ByteOrder == LittleEndian &&
     ByteSwapper<PixelType>::IsBigEndian() )
     {
     ByteSwapper<PixelType>::SwapRangeBE((PixelType *)m_RequestedRegionData, m_Strides[3]);
     }
-  else if ( m_ImageByteOrder == BigEndian &&
+  else if ( m_ByteOrder == BigEndian &&
     ByteSwapper<PixelType>::IsLittleEndian() )
     {
     ByteSwapper<PixelType>::SwapRangeLE((PixelType *)m_RequestedRegionData, m_Strides[3]);

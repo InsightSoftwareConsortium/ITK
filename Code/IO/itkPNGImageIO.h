@@ -75,12 +75,6 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Get the image origin. */
-  virtual const double* GetOrigin() const;
-
-  /** Get the image spacing. */
-  virtual const double* GetSpacing() const;
-
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
@@ -102,10 +96,6 @@ protected:
   PNGImageIO();
   ~PNGImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  ComponentType m_PNGPixelType;
-  double m_Spacing[2];
-  double m_Origin[2];
 
 private:
   PNGImageIO(const Self&); //purposely not implemented

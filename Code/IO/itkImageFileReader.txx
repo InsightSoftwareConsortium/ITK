@@ -115,9 +115,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   m_ImageIO->ReadImageInformation();
 
   if( m_ImageIO->GetNumberOfDimensions() < TOutputImage::ImageDimension )
-  {
+    {
     throw ImageFileReaderException(__FILE__, __LINE__, "Wrong image dimension");
-  }
+    }
   
   Size dimSize;
   double spacing[ TOutputImage::ImageDimension ];

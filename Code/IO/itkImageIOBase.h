@@ -82,18 +82,40 @@ public:
   /** Enums used to manipulate the pixel and component type. (Typically a 
    * pixel is assumed to be made up of one or more components.) */
   typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,
-                 FLOAT,DOUBLE} ComponentType;
+                 FLOAT,DOUBLE,RGB,RGBA} IODataType;
 
-  /** Set the filename. */
+  /** Set/Get the file name. Subclasses may ignore this and use FilePrefix. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   
+  /** Set/Get the file prefix. Subclasses may ignore this and use FileName. */
+  itkSetStringMacro(FilePrefix);
+  itkGetStringMacro(FilePrefix);
+  
+  /** Set/Get the number of independent variables (dimensions) in the
+   * image being read. */
+  void SetNumberOfDimensions(unsigned int);
+  itkGetMacro(NumberOfDimensions, unsigned int);
+
   /** Set/Get the image dimensions in the x, y, z, etc. directions. 
    * GetDimensions() is typically used after reading the data; the
    * SetDimensions() is used prior to writing the data. */
   virtual void SetDimensions(unsigned int i, unsigned int dim);
-  virtual unsigned int GetDimensions(unsigned int i) const;
-  
+  virtual unsigned int GetDimensions(unsigned int i) const
+    { return m_Dimensions[i]; }
+
+  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
+   * is required when writing the image. */
+  virtual void SetOrigin(unsigned int i, double origin);
+  virtual double GetOrigin(unsigned int i) const
+    { return m_Origin[i]; }
+
+  /** Set/Get the image spacing on an axis-by-axis basis. The
+   * SetSpacing() method is required when writing the image. */
+  virtual void SetSpacing(unsigned int i, double spacing);
+  virtual double GetSpacing(unsigned int i) const
+    { return m_Spacing[i]; }
+
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or
    * write. Regions are defined with an index and a size vector. These
@@ -103,17 +125,81 @@ public:
   itkSetMacro(IORegion, ImageIORegion);
   itkGetMacro(IORegion, ImageIORegion);
 
-  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
-   * is required when writing the image. */
-  virtual void SetOrigin(unsigned int i, double origin) {}
-  virtual double GetOrigin(unsigned int i) const
-    { return 0.0; }
+  /** Set/Get the type of the pixel. The pixel type and component type may
+   * be different. By default, they are assumed to be the same. The pixel
+   * type may be determined by the reader (from the file) or from the
+   * writer (the writer's input type). */
+  virtual const std::type_info& GetPixelType() const;
+  virtual void SetPixelType(const IODataType ctype);
 
-  /** Set/Get the image spacing on an axis-by-axis basis. The
-   * SetSpacing() method is required when writing the image. */
-  virtual void SetSpacing(unsigned int i, double spacing) {}
-  virtual double GetSpacing(unsigned int i) const
-    { return 1.0; }
+  /** This special, convenience version of SetPixelType() also sets
+   * the number of components and the component type. The function
+   * returns false if the pixel type is unsupported. */
+  virtual bool SetPixelType(const std::type_info& ptype);
+
+  /** Set/Get the component type of the image. The readering and writing
+   * process typically only supports the native types, with special
+   * case support like RGBPixel. */
+  itkSetMacro(ComponentType,IODataType);
+  itkGetMacro(ComponentType,IODataType);
+
+  /** Set/Get the number of components per pixel in the image. This may
+   * be set by the reading process. */
+  itkSetMacro(NumberOfComponents,unsigned int);
+  itkGetMacro(NumberOfComponents,unsigned int);
+
+  /** Convenience method returns the IODataType as a string. This can be
+   * used for writing output files. */
+  std::string ReturnTypeAsString(IODataType) const;
+
+  /** Enums used to specify write style: whether binary or ASCII. Some
+   * subclasses use this, some ignore it. */
+  typedef  enum {ASCII,Binary,TypeNotApplicable} FileType;
+  
+  /** Enums used to specify byte order; whether Big Endian or Little Endian.
+   * Some subclasses use this, some ignore it. */
+  typedef  enum {BigEndian,LittleEndian,OrderNotApplicable} ByteOrder;
+  
+  /** These methods control whether the file is written binary or ASCII.
+   * Many file formats (i.e., subclasses) ignore this flag. */
+  itkSetMacro(FileType,FileType);
+  itkGetConstMacro(FileType,FileType);
+  void SetFileTypeToASCII()
+    { this->SetFileType(ASCII); }
+  void SetFileTypeToBinary()
+    { this->SetFileType(Binary); }
+
+  /** These methods indicate the byte ordering of the file you are
+   * trying to read in. These methods will then either swap or not
+   * swap the bytes depending on the byte ordering of the machine it
+   * is being run on. For example, reading in a BigEndian file on a
+   * BigEndian machine will result in no swapping. Trying to read the
+   * same file on a LittleEndian machine will result in swapping.
+   * Note: most UNIX machines are BigEndian while PC's and VAX's are
+   * LittleEndian. So if the file you are reading in was generated on
+   * a VAX or PC, SetByteOrderToLittleEndian() otherwise
+   * SetByteOrderToBigEndian().  Some ImageIOBase subclasses
+   * ignore these methods. */
+  itkSetMacro(ByteOrder,ByteOrder);
+  itkGetConstMacro(ByteOrder,ByteOrder);
+  void SetByteOrderToBigEndian()
+    { this->SetByteOrder(BigEndian); }
+  void SetByteOrderToLittleEndian()
+    { this->SetByteOrder(LittleEndian); }
+  
+  /** Convenient method for accessing the number of bytes to get to 
+   * the next pixel. Returns m_Strides[1]; */
+  virtual unsigned int GetPixelStride () const;
+
+  /** Return the number of pixels in the image. */
+  unsigned int GetImageSizeInPixels() const;
+
+  /** Return the number of bytes in the image. */
+  unsigned int GetImageSizeInBytes() const;
+  
+  /** Return the number of pixels times the number 
+   * of components in the image. */
+  unsigned int GetImageSizeInComponents() const;
 
  /*-------- This part of the interfaces deals with reading data ----- */
 
@@ -125,13 +211,6 @@ public:
    * Assumes SetFileName has been called with a valid file name. */
   virtual void ReadImageInformation() = 0;
   
-  /** Set/Get the type of the pixel. The pixel type and component type may
-   * be different. By default, they are assumed to be the same. The pixel
-   * type may be determined by the reader (from the file) or from the
-   * writer (the input type). */
-  virtual const std::type_info& GetPixelType() const;
-  virtual void SetPixelType(const ComponentType& ctype);
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer) = 0;
 
@@ -140,27 +219,6 @@ public:
   void* GetRequestedRegionData() const 
     {return m_RequestedRegionData;}
 
-  /** Set/Get the component type of the image. The readering and writing
-   * process typically only supports the native types. */
-  itkSetMacro(ComponentType,ComponentType);
-  itkGetConstMacro(ComponentType,ComponentType);
-
-  /** Set/Get the number of components per pixel in the image. This may
-   * be set by the reading process. */
-  itkSetMacro(NumberOfComponents,unsigned int);
-  itkGetMacro(NumberOfComponents,unsigned int);
-
-  /** Get the number of independent variables (dimensions) in the image
-   * being read. */
-  itkGetMacro(NumberOfDimensions, unsigned int);
-
-  /** Convenient method for accessing the number of bytes to get to 
-   * the next pixel. Returns m_Strides[1]; */
-  virtual unsigned int GetPixelStride () const;
-
-  /** Return the number of bytes in the image. */
-  unsigned int GetImageSizeInBytes() const;
-  
   /*-------- This part of the interfaces deals with writing data ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -176,19 +234,22 @@ protected:
   ~ImageIOBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Utility methods for working with ComponentType. */
-  const std::type_info& ConvertToTypeInfo(ComponentType ) const;
-  unsigned int GetSizeOfType(ComponentType ) const;
+  /** Utility methods for working with IODataType. */
+  const std::type_info& ConvertToTypeInfo(IODataType ) const;
+  unsigned int GetSizeOfType(IODataType ) const;
     
-  /** Set the number of independent variables (dimensions) in the image
-   * being read. */
-  void SetNumberOfDimensions(unsigned int);
-
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
 
   /** Filename: pathname + filename + file extension. */
   std::string m_FileName;
+
+  /** File prefix: pathname + filename + some pattern */
+  std::string m_FilePrefix;
+
+  /** Big or Little Endian, and the type of the file. (May be ignored.) */
+  FileType       m_FileType;
+  ByteOrder      m_ByteOrder;
 
   /** Stores the number of components per pixel. This will be 1 for 
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
@@ -203,6 +264,13 @@ protected:
 
   /** The array which stores the number of pixels in the x, y, z directions. */
   std::vector<unsigned int> m_Dimensions;
+
+  /** The array which stores the spacing of pixels in the 
+   * x, y, z directions. */
+  std::vector<unsigned int> m_Spacing;
+
+  /** The array which stores the origin of the image. */
+  std::vector<unsigned int> m_Origin;
 
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
@@ -227,24 +295,21 @@ protected:
   void ComputeStrides();
 
   /** Used internally to keep track of the type of the pixel. */
-  ComponentType m_PixelType;
+  IODataType m_PixelType;
 
   /** Used internally to keep track of the type of the component. It is set
    * when ComputeStrides() is invoked. */
-  ComponentType m_ComponentType;
+  IODataType m_ComponentType;
+
+  /** Compute the size (in bytes) of the pixel. For
+   * example, and RGB pixel of unsigned char would have size 3 bytes. */
+  virtual unsigned int GetPixelSize() const;
 
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. This method can be invoked only after
    * the component type is set. */
   virtual unsigned int GetComponentSize() const;
-
-  /** Return the number of pixels in the image. */
-  unsigned int GetImageSizeInPixels() const;
-
-  /** Return the number of pixels times the number 
-   * of components in the image. */
-  unsigned int GetImageSizeInComponents() const;
 
   /** Convenient method for accessing number of bytes to get to the next pixel 
    * component. Returns m_Strides[0]. */
@@ -257,6 +322,10 @@ protected:
   /** Convenient method for accessing the number of bytes to get to the 
    * next slice. Returns m_Strides[3]. */
   unsigned int GetSliceStride () const;
+
+  /** Convenient method to write a buffer as ASCII text. */
+  void WriteBufferAsASCII(std::ostream& os, void *buffer, IODataType ctype,
+                          unsigned int numComp);
 
 private:
   ImageIOBase(const Self&); //purposely not implemented

@@ -105,25 +105,75 @@ void
 ImageFileWriter<TInputImage>
 ::Write()
 {
+  InputImagePointer input = this->GetInput();
+  if ( input == 0 ) {return;}
+
+  // make sure the data is up-to-date
+  input->Update();
+
+  // Make sure region is within the image, crop if necessary
+  ImageIORegion ioRegion(TInputImage::ImageDimension);
+  ImageRegion<TInputImage::ImageDimension> region = 
+        input->GetLargestPossibleRegion();
+  const double *spacing = input->GetSpacing();
+  const double *origin = input->GetOrigin();
+
+  m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
+  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
+    {
+    ioRegion.SetSize(i,region.GetSize(i));
+    ioRegion.SetIndex(i,region.GetIndex(i));
+    m_ImageIO->SetDimensions(i,region.GetSize(i));
+    m_ImageIO->SetSpacing(i,spacing[i]);
+    m_ImageIO->SetOrigin(i,origin[i]);
+    }
+
+  this->Write(ioRegion);        
 }
 
 //---------------------------------------------------------
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::Write(const ImageIORegion &region)
+::Write(const ImageIORegion &ioRegion)
 {
+  InputImagePointer input = this->GetInput();
+
   // make sure input is available
-  if ( !this->GetInput(0) )
+  if ( input == 0 )
     {
-    itkErrorMacro(<< "No input!");
+    itkErrorMacro(<< "No input to writer!");
     return;
     }
 
-  // Make sure region is within the image, crop if necessary
+  // Check to see if we can write the file given the name or prefix
+  //
+  if ( m_FileName == "" && m_FilePrefix == "" )
+    {
+    itkErrorMacro(<<"No filename or file prefix specified");
+    return;
+    }
+
+  if ( m_ImageIO == 0 ) //try creating via factory if not set
+    {
+    m_UserSpecifiedImageIO = false;
+    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
+    }
+  else
+    {
+    m_UserSpecifiedImageIO = true;
+    }
+  
+  if ( m_ImageIO == 0 )
+    {
+    itkErrorMacro(<<"No ImageIO set, or none could be created.");
+    return;
+    }
+
+  m_ImageIO->SetIORegion(ioRegion);
 
   // make sure the data is up-to-date
-  this->GetInput(0)->Update();
+  input->Update();
 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
@@ -152,111 +202,17 @@ ImageFileWriter<TInputImage>
 
   itkDebugMacro(<<"Writing file" << m_FileName);
   
-  // Check to see if we can write the file given the name or prefix
-  //
-  if ( m_FileName == "" && m_FilePrefix == "" )
-    {
-    throw ImageFileWriterException(__FILE__, __LINE__, "Bad File Name");
-    }
-
-  if ( m_ImageIO == 0 ) //try creating via factory if not set
-    {
-    m_UserSpecifiedImageIO = false;
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
-    }
-  else
-    {
-    m_UserSpecifiedImageIO = true;
-    }
-  
-  if ( m_ImageIO == 0 )
-    {
-    throw ImageFileWriterException(__FILE__, __LINE__, "Could not create IO object for file name");
-    return;
-    }
-
   // Make sure that the image is the right type and no more than 
   // four components.
   typedef typename InputImageType::PixelType ScalarType;
 
-  if ( typeid(ScalarType) != typeid(double) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::DOUBLE);
-    m_ImageIO->SetComponentType(ImageIOBase::DOUBLE);
-    }
-  else if ( typeid(ScalarType) != typeid(float) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::FLOAT);
-    m_ImageIO->SetComponentType(ImageIOBase::FLOAT);
-    }
-  else if ( typeid(ScalarType) != typeid(long) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::LONG);
-    m_ImageIO->SetComponentType(ImageIOBase::LONG);
-    }
-  else if ( typeid(ScalarType) != typeid(unsigned long) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::ULONG);
-    m_ImageIO->SetComponentType(ImageIOBase::ULONG);
-    }
-  else if ( typeid(ScalarType) != typeid(int) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::INT);
-    m_ImageIO->SetComponentType(ImageIOBase::INT);
-    }
-  else if ( typeid(ScalarType) != typeid(unsigned int) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::UINT);
-    m_ImageIO->SetComponentType(ImageIOBase::UINT);
-    }
-  else if ( typeid(ScalarType) != typeid(short) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::SHORT);
-    m_ImageIO->SetComponentType(ImageIOBase::SHORT);
-    }
-  else if ( typeid(ScalarType) != typeid(unsigned short) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::USHORT);
-    m_ImageIO->SetComponentType(ImageIOBase::USHORT);
-    }
-  else if ( typeid(ScalarType) != typeid(char) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::CHAR);
-    m_ImageIO->SetComponentType(ImageIOBase::CHAR);
-    }
-  else if ( typeid(ScalarType) != typeid(unsigned char) )
-    {
-    m_ImageIO->SetPixelType(ImageIOBase::UCHAR);
-    m_ImageIO->SetComponentType(ImageIOBase::UCHAR);
-    }
-  else
-    {
-    itkErrorMacro(<<"Pixel type currently not supported");
-    m_ImageIO->SetPixelType(ImageIOBase::UNKNOWN);
-    m_ImageIO->SetComponentType(ImageIOBase::UNKNOWN);
-    return;
-    }
+  // Set the pixel and component type; the number of components.
+  m_ImageIO->SetPixelType(typeid(ScalarType));  
 
   // Setup the image IO for writing.
   //
   m_ImageIO->SetFileName(m_FileName.c_str());
-  m_ImageIO->SetFileName(m_FilePrefix.c_str());
-
-  ImageIORegion ioRegion(TInputImage::ImageDimension);
-  ImageRegion<TInputImage::ImageDimension> region = input->GetLargestPossibleRegion();
-  const double *spacing = input->GetSpacing();
-  const double *origin = input->GetOrigin();
-
-  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
-    {
-    ioRegion.SetSize(i,region.GetSize(i));
-    ioRegion.SetIndex(i,region.GetIndex(i));
-    m_ImageIO->SetDimensions(i,region.GetSize(i));
-    m_ImageIO->SetSpacing(i,spacing[i]);
-    m_ImageIO->SetOrigin(i,origin[i]);
-    }
-
-  m_ImageIO->SetIORegion(ioRegion);
+  m_ImageIO->SetFilePrefix(m_FilePrefix.c_str());
 
   //okay, now extract the data as a raw buffer pointer
   void* dataPtr = (void*) input->GetBufferPointer();
