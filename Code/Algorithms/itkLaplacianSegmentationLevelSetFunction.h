@@ -67,7 +67,22 @@ public:
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
   }
   
+  /**
+   * The Laplacian level set does not use an advection term. We clamp
+   * the value to ZERO here because a superclass may try to set it
+   * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
+   * it when SetFeatureScaling is called.
+   */
+  void SetAdvectionWeight(ScalarValueType value)
+    {
+      if (value == NumericTraits<ScalarValueType>::Zero)
+        {
+        Superclass::SetAdvectionWeight(value);
+        }
+    }
+
 protected:
+
   LaplacianSegmentationLevelSetFunction()
   {
     this->SetAdvectionWeight(0.0);
