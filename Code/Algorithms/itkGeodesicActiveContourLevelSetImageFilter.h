@@ -44,6 +44,7 @@ namespace itk {
  *    the initial contour does not have to lie wholly within the shape to be segmented.
  *    The intiial contour is allow to overlap the shape boundary. The extra advection term
  *    in the update equation behaves like a doublet and attracts the contour to the boundary.
+ *    This approach for segmentation follows that of Caselles et al (1997).
  *
  *    \par
  *    The second input is the feature image.  For this filter, this is the edge
@@ -65,6 +66,13 @@ namespace itk {
  *    \par PARAMETERS
  *    The method SetUseNegatiiveFeatures() can be used to switch from propagating inwards (false)
  *    versus propagting outwards (true). 
+ *
+ *    This implementation allows the user to set the weights between the propagation, advection
+ *    and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
+ *    SetCurvatureScaling(). In general, the larger the CurvatureScaling, the smoother the
+ *    resulting contour. To follow the implementation in Caselles's paper,
+ *    set the PropagationScaling to \f$ c \f$ (the inflation or ballon force) and
+ *    AdvectionScaling and CurvatureScaling both to 1.0.
  *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.

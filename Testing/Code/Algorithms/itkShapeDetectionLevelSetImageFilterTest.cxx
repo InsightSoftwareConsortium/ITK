@@ -197,7 +197,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char**)
   /**
    * Uncomment to write out image files.
    */
-/*
+  /*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -227,7 +227,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char**)
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "outputLevelSet.png" );
   writer->Update();
-*/
+  */
 
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;

@@ -18,19 +18,20 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{ShapeDetectionLevelSetFilter}.  The implementation of this filter
+// \doxygen{ShapeDetectionLevelSetImageFilter}.  The implementation of this filter
 // in ITK is based on the paper by Malladi et al\cite{Malladi1995}.
 // In this implementation, the governing differential equation has an additional
 // curvature based term. This term act as a smoothing term, where areas of
-// high curvature, assumed to be due to noise, is smoothed out. A length penalty
-// strength parameter can be used to control the degree of smoothing.
+// high curvature, assumed to be due to noise, is smoothed out. Scaling parameters
+// are used to control the tradeoff between the expansion term and smoothing term.
 // One consequent of this additional curvature term is that the fast marching
 // algorithm is no longer applicable because the contour is no longer guaranteed
-// to be always expanding. Instead, the whole level set function is updated iteratively.
+// to be always expanding. Instead, the level set function is updated iteratively.
 //
-// The \doxygen{ShapeDetectionLevelSetFilter} expects two inputs, 
+// The \doxygen{ShapeDetectionLevelSetImageFilter} expects two inputs, 
 // the first is an initial Level Set in the form of an
-// \doxygen{Image}, the second input is an edge potential image which basically
+// \doxygen{Image}, the second input is an feature image. For this algorithm,
+// the feature image is an edge potential image that basically
 // follows the same rules applicable to the speed image used for the
 // \doxygen{FastMarchingImageFilter} discussed in
 // section~\ref{sec:FastMarchingImageFilter}. 
@@ -43,14 +44,14 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ShapeDetectionCollaborationDiagram1.eps}
-// \caption[ShapeDetectionLevelSetFilter collaboration diagram]{Collaboration
-// diagram of the ShapeDetectionLevelSetFilter applied to a segmentation task.}
+// \caption[ShapeDetectionLevelSetImageFilter collaboration diagram]{Collaboration
+// diagram of the ShapeDetectionLevelSetImageFilter applied to a segmentation task.}
 // \label{fig:ShapeDetectionCollaborationDiagram}
 // \end{figure}
 //
 // Figure~\ref{fig:ShapeDetectionCollaborationDiagram} shows the major
 // components involved in the application of the
-// \doxygen{ShapeDetectionLevelSetFilter} to a segmentation task. It involves a
+// \doxygen{ShapeDetectionLevelSetImageFilter} to a segmentation task. It involves a
 // first stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input for the
@@ -60,10 +61,10 @@
 // \doxygen{FastMarchingImageFilter} in order to compute their distance map. A
 // constant value is subtracted from this map in order to obtain a Level Set in
 // which the \emph{Zero Set} represents the initial contour. This level set is
-// also passed as input to the \doxygen{ShapeDetectionLevelSetFilter}.
+// also passed as input to the \doxygen{ShapeDetectionLevelSetImageFilter}.
 // 
 // Finally the LevelSet at the output of the
-// \doxygen{ShapeDetectionLevelSetFilter} is passed to a
+// \doxygen{ShapeDetectionLevelSetImageFilter} is passed to a
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
 //
@@ -90,7 +91,7 @@
 //  
 //  We will need the \doxygen{Image} class, the
 //  \doxygen{FastMarchingImageFilter} class and the
-//  \doxygen{ShapeDetectionLevelSetFilter} class. Hence we include their
+//  \doxygen{ShapeDetectionLevelSetImageFilter} class. Hence we include their
 //  headers here.
 //
 //  Software Guide : EndLatex 
@@ -98,14 +99,14 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
 #include "itkFastMarchingImageFilter.h"
-#include "itkShapeDetectionLevelSetFilter.h"
+#include "itkShapeDetectionLevelSetImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
 
 //  Software Guide : BeginLatex
 //  
-//  The LevelSet resulting from the \doxygen{ShapeDetectionLevelSetFilter} will
+//  The LevelSet resulting from the \doxygen{ShapeDetectionLevelSetImageFilter} will
 //  be thresholded at the Zero level in order to get a binary image
 //  representing the segmented object. The \doxygen{BinaryThresholdImageFilter}
 //  is used for this purpose.
@@ -145,7 +146,7 @@ int main( int argc, char **argv )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta Iterations" << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta curvatureScaling" << std::endl;
     return 1;
     }
 
@@ -209,7 +210,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //
   //  The upper threshold of the \doxygen{BinaryThresholdImageFilter} is set up
-  //  to $0.0$ in order to make visible the zero set of the resulting level
+  //  to $0.0$ in order to display the zero set of the resulting level
   //  set. The lower threshold is set to a large negative number in order to
   //  ensure that all the interior of the segmented object will appear in the
   //  inside of the binary region.
@@ -368,13 +369,13 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In the following lines we instantiate the type of the
-  //  \doxygen{ShapeDetectionLevelSetFilter} and create an object of this type
+  //  \doxygen{ShapeDetectionLevelSetImageFilter} and create an object of this type
   //  using the \code{New()} method.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ShapeDetectionLevelSetFilter< 
+  typedef  itk::ShapeDetectionLevelSetImageFilter< 
                               InternalImageType, 
                               InternalImageType >    ShapeDetectionFilterType;
 
@@ -401,7 +402,7 @@ int main( int argc, char **argv )
 
   
   shapeDetection->SetInput( fastMarching->GetOutput() );
-  shapeDetection->SetEdgeImage( sigmoid->GetOutput() );
+  shapeDetection->SetFeatureImage( sigmoid->GetOutput() );
 
   thresholder->SetInput( shapeDetection->GetOutput() );
 
@@ -651,33 +652,27 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Several parameters should be set in the
-  //  \doxygen{ShapeDetectionLevelSetFilter}. In particular, the number of
-  //  iterations to perform and the time step for solving the differential
-  //  equation. The time step should be choosen in such a way that the zero set
-  //  does not move more than one pixel at each iteration. A typical value in
-  //  $2D$ is $0.25$. The number of iterations is a critical value since
-  //  technically the level set will never converge. Instead the front keeps
-  //  moving continuously. It is expected though that it will slow down
-  //  considerably in the regions where the speed image has close to zero
-  //  values. In a real application is desirable to couple the evolution of the
-  //  zero set to a visualization module allowing the user to follow the
-  //  evolution of the zero set. With this feedback, the user may decide when
-  //  to stop the algorithm before the zero set leaks through the regions of
-  //  low gradient in the contour of the anatomical structure to be segmented.
+  //  \doxygen{ShapeDetectionLevelSetImageFilter} provides two parameters to
+  //  control the competition between the propagation or expansion term and the curvature
+  //  smoothing term. The methods \code{SetPropagationScaling()} and
+  //  \code{SetCurvatureScaling()} defines the relative weighting between
+  //  the two terms. In this example, we will set the propagation scaling to one
+  //  and let the curvature scaling be an input argument. The larger the 
+  //  the curvature scaling parameter the smoother the resulting segmentation.
+  //  However, the curvature scaling parameter should not be set too large either
+  //  as it will draw the contour away from the shape boundaries.
   //
-  //  \index{itk::ShapeDetectionLevelSetFilter!SetTimeStepSize()}
-  //  \index{itk::ShapeDetectionLevelSetFilter!SetNumberOfIterations()}
-  //  \index{itk::LevelSetImageFilter!SetTimeStepSize()}
-  //  \index{itk::LevelSetImageFilter!SetNumberOfIterations()}
+  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetPropagationScaling()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
+  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetCurvatureScaling()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetCurvatureScaling()}
   //
   //  Software Guide : EndLatex 
 
-  const unsigned int numberOfIterations = atoi( argv[ 9] ); 
+  const double curvatureScaling = atof( argv[ 9] ); 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->SetNumberOfIterations(  numberOfIterations );
-
-  shapeDetection->SetTimeStepSize( 0.25 ); 
+  shapeDetection->SetPropagationScaling(  1.0 );
+  shapeDetection->SetCurvatureScaling( curvatureScaling ); 
   //  Software Guide : EndCodeSnippet 
 
 
@@ -685,16 +680,25 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In addition to that, we enable the option of using a narrow band
-  //  technique for computing th evolution of the contour.
+  //  Once activiated the level set evolution stop if the convergence criteria has
+  //  been reached or if the maximum number of iterations has elasped.
+  //  The convergence criteria is defined in terms of the root mean squared (RMS)
+  //  change in the level set function. The evolution is said to have converged
+  //  if the RMS change is below a user specified threshold.
+  //  In a real application is desirable to couple the evolution of the
+  //  zero set to a visualization module allowing the user to follow the
+  //  evolution of the zero set. With this feedback, the user may decide when
+  //  to stop the algorithm before the zero set leaks through the regions of
+  //  low gradient in the contour of the anatomical structure to be segmented.
   //
-  //  \index{itk::ShapeDetectionLevelSetFilter!NarrowBandingOn()}
-  //  \index{itk::LevelSetImageFilter!NarrowBandingOn()}
+  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumRMSError()}
+  //  \index{itk::ShapeDetectionLevelSetImageFilter!SetMaximumIterations()}
   //
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->NarrowBandingOn();
+  shapeDetection->SetMaximumRMSError( 0.02 );
+  shapeDetection->SetMaximumIterations( 800 );
   //  Software Guide : EndCodeSnippet 
 
 
@@ -719,12 +723,15 @@ int main( int argc, char **argv )
     }
   // Software Guide : EndCodeSnippet
 
-
+  // Print out some useful information 
+  std::cout << std::endl;
+  std::cout << "Max. no. iterations: " << shapeDetection->GetMaximumIterations() << std::endl;
+  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
+  std::cout << std::endl;
+  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
+  std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
 
   writer4->Update();
-
-
-
 
   //
   // The following writer type is used to save the output of the time-crossing
@@ -764,12 +771,12 @@ int main( int argc, char **argv )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Iterations & Output Image \\
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Curvature Scaling & Output Image \\
   //  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 150 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 800 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 200 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 0.05 & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 0.05 & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 0.05 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
@@ -780,7 +787,7 @@ int main( int argc, char **argv )
   //  to right: the output of the anisotropic diffusing filter, the gradient
   //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
   //  which is finally used as the edge potential for the
-  //  \doxygen{ShapeDetectionLevelSetFilter}.
+  //  \doxygen{ShapeDetectionLevelSetImageFilter}.
   //
   //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} the
   //  segmented shapes are rounder than the results in
@@ -793,8 +800,8 @@ int main( int argc, char **argv )
   // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput1.eps}
   // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput2.eps}
   // \includegraphics[width=6cm]{ShapeDetectionLevelSetFilterOutput3.eps}
-  // \caption[ShapeDetectionLevelSetFilter intermediate output]{Images generated by
-  // the segmentation process based on the ShapeDetectionLevelSetFilter. From left
+  // \caption[ShapeDetectionLevelSetImageFilter intermediate output]{Images generated by
+  // the segmentation process based on the ShapeDetectionLevelSetImageFilter. From left
   // to right and top to bottom: Input image to be segmented, image smoothed with an
   // edge-preserving smoothing filter, gradient magnitude of the smoothed
   // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
@@ -817,8 +824,8 @@ int main( int argc, char **argv )
   // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput6.eps}
   // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput7.eps}
   // \includegraphics[width=4cm]{ShapeDetectionLevelSetFilterOutput8.eps}
-  // \caption[ShapeDetectionLevelSetFilter segmentations]{Images generated by the
-  // segmentation process based on the ShapeDetectionLevelSetFilter. From left to
+  // \caption[ShapeDetectionLevelSetImageFilter segmentations]{Images generated by the
+  // segmentation process based on the ShapeDetectionLevelSetImageFilter. From left to
   // right: Segmentation of the left ventricle, segmentation of the right
   // ventricle, segmentation of the white matter, attempt of segmentation of
   // the gray matter.}

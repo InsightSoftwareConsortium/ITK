@@ -18,24 +18,19 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{GeodesicActiveContourImageFilter}.  The implementation of this
+// \doxygen{GeodesicActiveContourLevelSetImageFilter}.  The implementation of this
 // filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  
 // This implementation extends the funtionality of \doxygen{ShapeDetectionLevelSetFilter}
-// by the addition of a third doublet term which attracts the level set to
+// by the addition of a third avection term which attracts the level set to
 // the object boundaries.
 //
-// \doxygen{GeodesicActiveContourImageFilter} expects three inputs. 
+// \doxygen{GeodesicActiveContourLevelSetImageFilter} expects two inputs. 
 // The first is an initial Level Set in the form
-// of an \doxygen{Image}. The second input is an edge potential image which
+// of an \doxygen{Image}. The second input is an feature image. For this
+// algorithm the feature image is an edge potential image that
 // basically follows the same rules used for the
-// \doxygen{ShapeDetectionLevelSetFilter} discussed in
-// section~\ref{sec:ShapeDetectionLevelSetFilter}. The third input is the
-// gradient image of the edge potential map. This third image is used to
-// improve the convergence of the zero set towards the edges of the eventual
-// structures present in the image. This filter also introduce an additional
-// factor on the forces driving the contours evolution. This new factor is an
-// inflation force that produce an effect similar to blowing up a ballon inside
-// the contour.
+// \doxygen{ShapeDetectionLevelSetImageFilter} discussed in
+// section~\ref{sec:ShapeDetectionLevelSetFilter}.
 //
 // The configuration of this example is quite similar to the example on the use
 // of the \doxygen{ShapeDetectionLevelSetFilter} in
@@ -45,23 +40,18 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{GeodesicActiveContoursCollaborationDiagram1.eps}
-// \caption[GeodesicActiveContourImageFilter collaboration
-// diagram]{Collaboration diagram of the GeodesicActiveContourImageFilter
-// applied to a segmentation task. Note the addition of the gradient filter
-// computing the derivative of the edge potential map.}
+// \caption[GeodesicActiveContourLevelSetImageFilter collaboration
+// diagram]{Collaboration diagram of the GeodesicActiveContourLevelSetImageFilter
+// applied to a segmentation task.}
 // \label{fig:GeodesicActiveContoursCollaborationDiagram}
 // \end{figure}
 //
 // Figure~\ref{fig:GeodesicActiveContoursCollaborationDiagram} shows the major
 // components involved in the application of the
-// \doxygen{GeodesicActiveContourImageFilter} to a segmentation task. This
+// \doxygen{GeodesicActiveContourLevelSetImageFilter} to a segmentation task. This
 // pipeline is quite similar to the one used by the
 // \doxygen{ShapeDetectionLevelSetFilter} in
-// section~\ref{sec:ShapeDetectionLevelSetFilter}. The most relevant change
-// here is the introduction of the
-// \doxygen{GradientRecursiveGaussianImageFilter} for computing the derivatives
-// of the edge potential map and passing it as input to the
-// \doxygen{GeodesicActiveContourImageFilter}.  
+// section~\ref{sec:ShapeDetectionLevelSetFilter}.
 //
 // The pipeline involves a first stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
@@ -72,10 +62,10 @@
 // \doxygen{FastMarchingImageFilter} in order to compute their distance map. A
 // constant value is subtracted from this map in order to obtain a Level Set in
 // which the \emph{Zero Set} represents the initial contour. This level set is
-// also passed as input to the \doxygen{GeodesicActiveContourImageFilter}.
+// also passed as input to the \doxygen{GeodesicActiveContourLevelSetImageFilter}.
 // 
 // Finally the LevelSet at the output of the
-// \doxygen{GeodesicActiveContourImageFilter} is passed to a
+// \doxygen{GeodesicActiveContourLevelSetImageFilter} is passed to a
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
 //
@@ -87,7 +77,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
-#include "itkGeodesicActiveContourImageFilter.h"
+#include "itkGeodesicActiveContourLevelSetImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -103,43 +93,18 @@
 #include "itkImageFileWriter.h"
 
 
-
-//  Software Guide : BeginLatex
-//  
-//  One of the main differences between the
-//  \doxygen{GeodesicActiveContourImageFilter} and the
-//  \doxygen{ShapDetectionImageFilter} is that the the former uses the
-//  derivatives of the edge image map in order to improve convergence of the
-//  contour. It is then necessary to compute such derivatives and pass them as
-//  input to the filter. In this example we use the
-//  \doxygen{GradientRecursiveGaussianImageFilter} for computing the
-//  derivatives of the edge potential.
-//
-//  Software Guide : EndLatex 
-
-//  Software Guide : BeginCodeSnippet
-#include "itkGradientRecursiveGaussianImageFilter.h"
-//  Software Guide : EndCodeSnippet 
-
-
-
-
-
-
-
-
 int main( int argc, char **argv )
 {
 
 
-  if( argc < 11 )
+  if( argc < 10 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta Iterations";
-    std::cerr << " InflationStrength"  << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta";
+    std::cerr << " PropagationScaling"  << std::endl;
     return 1;
     }
 
@@ -160,44 +125,11 @@ int main( int argc, char **argv )
   
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The \doxygen{GeodesicActiveContourImageFilter} requires as input the
-  //  derivative of the Edge Potential map. We declare in the following lines
-  //  the type of the derivative image.
-  //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
-  typedef itk::CovariantVector< float, Dimension >  DerivativePixelType;
-
-  typedef itk::Image< DerivativePixelType, Dimension > DerivativeImageType;  
-  //  Software Guide : EndCodeSnippet 
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  With this derivative image type we can instantiate the type of a
-  //  \doxygen{GradientRecursiveGaussianImageFilter} that will compute the
-  //  gradient of the edge map image.
-  //
-  //  Software Guide : EndLatex 
-  
-  //  Software Guide : BeginCodeSnippet
-  typedef itk::GradientRecursiveGaussianImageFilter< 
-                                     InternalImageType, 
-                                     DerivativeImageType >  DerivativeFilterType;
-  //  Software Guide : EndCodeSnippet 
-
-
-
                                      
 
   //  
   //  The following lines instantiate the tresholding filter that will
-  //  process the final level set at the output of the GeodesicActiveContourImageFilter.                                    
+  //  process the final level set at the output of the GeodesicActiveContourLevelSetImageFilter.                                    
   //
   typedef unsigned char OutputPixelType;
 
@@ -214,7 +146,6 @@ int main( int argc, char **argv )
 
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
-
 
 
   //  
@@ -284,8 +215,6 @@ int main( int argc, char **argv )
   sigmoid->SetOutputMaximum(  1.0  );
 
 
-
-
   //  
   //  We declare now the type of the \doxygen{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
@@ -301,62 +230,19 @@ int main( int argc, char **argv )
   //
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
 
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  It is now time for creating the derivative filter that will compute the
-  //  gradient of the edge potential image. Note that this filter is different
-  //  from the \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} used as
-  //  intermediate step in the computation of the actual edge potential. The
-  //  current filter produce as output an image of \doxygen{CovariantVector}s.
-  //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
-  DerivativeFilterType::Pointer derivativeFilter  = DerivativeFilterType::New();
-  //  Software Guide : EndCodeSnippet 
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  We connect the edge potential image as input of the derivative filter.
-  //  The output will be passed later to the
-  //  \doxygen{GeodesicActiveContourImageFilter}. We also define the sigma to
-  //  be used in the Gaussian derivative operator. we do not need to blurr much
-  //  this image since it has already been blurred when the gradient magnitude
-  //  was computed.
-  //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
-  derivativeFilter->SetInput( sigmoid->GetOutput() ); 
-  
-  derivativeFilter->SetSigma( 1.0 );
-  //  Software Guide : EndCodeSnippet 
-
-
-
-
   
   //  Software Guide : BeginLatex
   //  
   //  In the following lines we instantiate the type of the
-  //  \doxygen{GeodesicActiveContourImageFilter} and create an object of this type
+  //  \doxygen{GeodesicActiveContourLevelSetImageFilter} and create an object of this type
   //  using the \code{New()} method.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::GeodesicActiveContourImageFilter< 
+  typedef  itk::GeodesicActiveContourLevelSetImageFilter< 
                               InternalImageType, 
-                              InternalImageType,
-                              DerivativeImageType
-                                       >    GeodesicActiveContourFilterType;
+                              InternalImageType >    GeodesicActiveContourFilterType;
 
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour = 
                                      GeodesicActiveContourFilterType::New();                              
@@ -366,22 +252,44 @@ int main( int argc, char **argv )
   
   //  Software Guide : BeginLatex
   //  
-  //  The differential equation used by the
-  //  \doxygen{GeodesicActiveContourImageFilter} includes an inflation term.
-  //  This value drives a ballon-like force that help expand the contour. The
-  //  value of this factor is passed to the filter with the
-  //  \code{SetInflationStrength()} method. In our current example, we take
-  //  this value from the command line arguments.
+  //  For the \doxygen{GeodesicActiveContourLevelSetImageFilter), scaling
+  //  parameters are used to tradeoff between the propagation (inflation),
+  //  the curvature (smoothing) and the advection terms. These parameters are
+  //  set using methods \code{SetPropagationScaling()}, \code{SetCurvatureScaling()}
+  //  and \code{SetAdvectionScaling()}. In this example, we will set the
+  //  curvature and advection scales to one and let the propagation scale
+  //  be an command-line argument.
   //
-  //  \index{itk::GeodesicActiveContourImageFilter!SetInflationStrength()}
+  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetPropagationScaling()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
+  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetCurvatureScaling()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetCurvatureScaling()}
+  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetAdvectionScaling()}
+  //  \index{itk::SegmentationLevelSetImageFilter!SetAdvectionScaling()}
   //
   //  Software Guide : EndLatex 
 
-  const double inflationStrength = atof( argv[10] );
+  const double propagationScaling = atof( argv[9] );
 
   //  Software Guide : BeginCodeSnippet
-  geodesicActiveContour->SetInflationStrength( inflationStrength ); 
+  geodesicActiveContour->SetPropagationScaling( propagationScaling );
+  geodesicActiveContour->SetCurvatureScaling( 1.0 );
+  geodesicActiveContour->SetAdvectionScaling( 1.0 );
   //  Software Guide : EndCodeSnippet 
+
+  //  Once activiated the level set evolution stop if the convergence criteria has
+  //  been reached or if the maximum number of iterations has elasped.
+  //  The convergence criteria is defined in terms of the root mean squared (RMS)
+  //  change in the level set function. The evolution is said to have converged
+  //  if the RMS change is below a user specified threshold.
+  //  In a real application is desirable to couple the evolution of the
+  //  zero set to a visualization module allowing the user to follow the
+  //  evolution of the zero set. With this feedback, the user may decide when
+  //  to stop the algorithm before the zero set leaks through the regions of
+  //  low gradient in the contour of the anatomical structure to be segmented.
+
+  geodesicActiveContour->SetMaximumRMSError( 0.02 );
+  geodesicActiveContour->SetMaximumIterations( 800 );
 
 
   //  Software Guide : BeginLatex
@@ -400,8 +308,7 @@ int main( int argc, char **argv )
   sigmoid->SetInput( gradientMagnitude->GetOutput() );
 
   geodesicActiveContour->SetInput(           fastMarching->GetOutput()     );
-  geodesicActiveContour->SetEdgeImage(       sigmoid->GetOutput()          );
-  geodesicActiveContour->SetDerivativeImage( derivativeFilter->GetOutput() );
+  geodesicActiveContour->SetFeatureImage(       sigmoid->GetOutput()          );
 
   thresholder->SetInput( geodesicActiveContour->GetOutput() );
 
@@ -600,50 +507,6 @@ int main( int argc, char **argv )
   fastMarching->SetOutputSize( 
            reader->GetOutput()->GetBufferedRegion().GetSize() );
 
-
-  //  
-  //  Several parameters should be set in the
-  //  \doxygen{GeodesicActiveContourImageFilter}. In particular, the number of
-  //  iterations to perform and the time step for solving the differential
-  //  equation. The time step should be choosed in such a way that the zero set
-  //  does not move more than one pixel at each iteration. A typical value in
-  //  $2D$ is $0.25$. The number of iterations is a critical value since
-  //  technically the level set will never converge. Instead the front keeps
-  //  moving continuously. It is expected though that it will slow down
-  //  considerably in the regions where the speed image has close to zero
-  //  values. In a real application is desirable to couple the evolution of the
-  //  zero set to a visualization module allowing the user to follow the
-  //  evolution of the zero set. With this feedback, the user may decide when
-  //  to stop the algorithm before the zero set leaks through the regions of
-  //  low gradient in the contour of the anatomical structure to be segmented.
-  //
-  
-  const unsigned int numberOfIterations = atoi( argv[ 9] ); 
- 
-  geodesicActiveContour->SetNumberOfIterations(  numberOfIterations );
-
-  geodesicActiveContour->SetTimeStepSize( 0.25 ); 
-
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  In order to speed up the computation, we enable the option of using a
-  //  narrow band technique for computing the evolution of the contour.
-  //
-  //  \index{itk::GeodesicActiveContourImageFilter!NarrowBandingOn()}
-  //  \index{itk::LevelSetImageFilter!NarrowBandingOn()}
-  //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
-  geodesicActiveContour->NarrowBandingOn();
-  //  Software Guide : EndCodeSnippet 
-
-
-
   
   //  Software Guide : BeginLatex
   //  
@@ -665,11 +528,15 @@ int main( int argc, char **argv )
     }
   // Software Guide : EndCodeSnippet
 
-
+  // Print out some useful information 
+  std::cout << std::endl;
+  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetMaximumIterations() << std::endl;
+  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError() << std::endl;
+  std::cout << std::endl;
+  std::cout << "No. elpased iterations: " << geodesicActiveContour->GetElapsedIterations() << std::endl;
+  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange() << std::endl;
 
   writer4->Update();
-
-
 
 
   //
@@ -711,12 +578,12 @@ int main( int argc, char **argv )
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
   //  \hline
   //  Structure    & Seed Index &  Distance   &   $\sigma$  &     
-  //  $\alpha$     &  $\beta$   & Iterations  & Inflation & Output Image \\   
+  //  $\alpha$     &  $\beta$   & Propagation Scaling & Output Image \\   
   //  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 100 & 3.0 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 100 & 3.0 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 500 & 3.0 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 200 & 3.0 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & First  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & 2.0 & Second in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 10.0 & Third  in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
+  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 10.0 & Fourth in Figure \ref{fig:GeodesicActiveContourImageFilterOutput2} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
@@ -729,24 +596,12 @@ int main( int argc, char **argv )
   //  similar to those obtained with the \doxygen{ShapeDetectionLevelSetFilter} in
   //  section~\ref{sec:ShapeDetectionLevelSetFilter}.
   //
-  //  An interesting trade-off exists between the number of iterations to run,
-  //  the inflation strength and the contrast of the borders in the anatomical
-  //  structure. In principle we want to set the inflation strength as high as
-  //  possible since this will make the front propagate faster and hence less
-  //  iteration will be needed to move the contour to the structure edges.
-  //  However the inflation force may provoke a premature leaking of the
-  //  contour through the regions of weak contrast in the structure edges.
-  //  Unfortunately only experimentation can allow to determine the optimal
-  //  values for the inflation strength and the number of iterations. In a real
-  //  application we could imagine an interactive mechanism by which a human
-  //  operator identifies the regions of weak contrast in the object edges, and
-  //  from this value a reasonable guess of the inflation strength could be
-  //  made. Then the filter could be run for a certain number of iterations
-  //  stopping periodically in order to display intermediate results showing
-  //  the current position of the contour. In this setup, an operator will be
-  //  able to supervise the growth of the contour and make informed decisions
-  //  on whether new parameters are needed or simply more iterations are
-  //  required.
+  //  Note that a relatively larger propagation scaling value was required to segment the 
+  //  white matter. This is due to two factors: the lower contrast between at the border
+  //  of the white matter and the complex shape of the structure. Unfortunately the optimal
+  //  value of these scaling parameters can only be determined by experimentation. In a real
+  //  application we could imagine an interactive mechanism by which a user supervises the
+  //  contour evolution and adjust these parameters accordingly.
   //
   // \begin{figure} \center
   // \includegraphics[width=4cm]{GeodesicActiveContourImageFilterOutput5.eps}
@@ -762,7 +617,6 @@ int main( int argc, char **argv )
   // \end{figure}
   //
   //  Software Guide : EndLatex 
-
 
 
 

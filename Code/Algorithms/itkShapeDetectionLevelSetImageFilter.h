@@ -34,7 +34,8 @@ namespace itk {
  *    This class is a level set method segmentation filter. An initial contour
  *    is propagated outwards (or inwards) until it sticks to the shape boundaries.
  *    This is done by using a level set speed function based on a user supplied
- *    edge potential map.
+ *    edge potential map. This approach for segmentation follows that of
+ *    Malladi et al (1995).
  *
  *    \par INPUTS
  *    This filter requires two inputs.  The first input is a initial level set.
@@ -64,6 +65,11 @@ namespace itk {
  *    The method SetUseNegatiiveFeatures() can be used to switch from propagating outwards (true)
  *    versus propagting inwards (false). 
  *
+ *    The smoothness of the resulting contour/surface can be adjusting using a combination
+ *    of SetPropagationScaling() and SetCurvatureScaling(). The larger the CurvatureScaling, the
+ *    smoother the resulting contour. To follow the implementation in Malladi's paper,
+ *    set the PropagtionScaling to 1.0 and CurvatureScaling to \f$ \epsilon \f$.
+ *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
  *    Negative values in the output image are inside the segmentated region
@@ -74,6 +80,14 @@ namespace itk {
  *   \par
  *   See SparseFieldLevelSetImageFilter and
  *   SegmentationLevelSetImageFilter for more information.
+ *
+ *    \par REFERENCES
+ *    \par  
+ *    "Shape Modeling with Front Propagation: A Level Set Approach",
+ *    R. Malladi, J. A. Sethian and B. C. Vermuri.
+ *    IEEE Trans. on Pattern Analysis and Machine Intelligence,
+ *    Vol 17, No. 2, pp 158-174, February 1995
+ *
  *
  *   \sa SegmentationLevelSetImageFilter
  *   \sa ShapeDetectionLevelSetFunction

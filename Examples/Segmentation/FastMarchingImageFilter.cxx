@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // When the differential equation governing the level set evolution has
-// of a very simple form, a fast evolution algorithm call fast marching
+// a very simple form, a fast evolution algorithm call fast marching
 // can be used.
 //
 // The following example illustrates the use of the
