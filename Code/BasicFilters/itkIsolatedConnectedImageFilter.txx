@@ -120,10 +120,19 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
 
   // do a binary search to find an upper threshold that separates the
   // two seeds.
+  const unsigned int maximumIterationsInBinarySearch = 
+      static_cast< unsigned int > (
+         log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
+                static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
+
+  const float progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
+  float cumulatedProgress = 0.0f;
+
   IterationReporter iterate( this, 0, 1);
   while (lower + m_IsolatedValueTolerance < guess)
     {
-    ProgressReporter progress( this, 0, region.GetNumberOfPixels());
+    ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
+    cumulatedProgress += progressWeight;
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     function->ThresholdBetween ( m_Lower, guess );
     it.GoToBegin();
@@ -146,7 +155,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     }
 
   // now rerun the algorithm with the threshold that separates the seeds.
-  ProgressReporter progress( this, 0, region.GetNumberOfPixels());
+  ProgressReporter progress( this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight );
 
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
   function->ThresholdBetween ( m_Lower, lower);
