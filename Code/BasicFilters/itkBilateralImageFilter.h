@@ -166,6 +166,7 @@ protected:
     m_FilterDimensionality = ImageDimension;
     m_NumberOfRangeGaussianSamples = 100;
     m_DynamicRange = 0.0;
+    m_DynamicRangeUsed = 0.0;
     m_DomainMu = 2.5;  // keep small to keep kernels small
     m_RangeMu = 4.0;   // can be bigger then DomainMu since we only
                        // index into a single table

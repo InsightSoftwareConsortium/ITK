@@ -18,6 +18,7 @@
 #define __itkMinimumMaximumImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -66,7 +67,11 @@ public:
   itkGetMacro(Maximum,InputPixelType);
 
 protected:
-  MinimumMaximumImageFilter() {}
+  MinimumMaximumImageFilter()
+    {
+    m_Minimum = NumericTraits<InputPixelType>::NonpositiveMin();
+    m_Maximum = NumericTraits<InputPixelType>::max();
+    }
   virtual ~MinimumMaximumImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
