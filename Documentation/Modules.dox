@@ -11,7 +11,11 @@
 
   \defgroup Geometry Geometry
   This category include the objects required to represent geometrical entities
-  like positions, distances and mappings.
+  like positions, vectors and space mappings.
+   
+  A detailed description of the rationale for these classes can be found in
+  \ref GeometryPage
+  
 */
  
 /**
