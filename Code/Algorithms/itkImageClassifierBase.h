@@ -19,6 +19,7 @@
 
 #include "itkClassifierBase.h"
 #include "itkExceptionObject.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -131,6 +132,9 @@ public:
   typedef
     ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;   
 
+  /** Method to get the membership of a given pixel to the different classes */
+  const vnl_vector<double> & 
+    GetPixelMembershipValue(const InputImagePixelType  inputImagePixel );
 
 
 protected: 
@@ -152,6 +156,7 @@ private:
 
   InputImagePointer      m_InputImage;
   ClassifiedImagePointer m_ClassifiedImage;
+  vnl_vector< double >   m_PixelMembershipValue;
 
   /** Define a virtual Classifier function to classify the whole image. */
   virtual void Classify();

@@ -26,6 +26,7 @@ template<class TInputImage,
 ImageClassifierBase<TInputImage,TClassifiedImage>
 ::ImageClassifierBase( void )
 {
+
 }
 
 template<class TInputImage, 
@@ -52,6 +53,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   os << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
+  os << indent << "Pixel membership:        " << std::endl;
+  os << m_PixelMembershipValue << std::endl;
 
 }// end PrintSelf
 
@@ -189,6 +192,30 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   classifiedImage->Allocate();
 
 }
+
+template<class TInputImage, 
+         class TClassifiedImage>
+const vnl_vector< double > &
+ImageClassifierBase<TInputImage, TClassifiedImage>
+::GetPixelMembershipValue(const InputImagePixelType  inputImagePixel)
+{
+  
+  unsigned int numberOfClasses = this->GetNumberOfClasses();
+  m_PixelMembershipValue.resize( numberOfClasses );
+  
+  MembershipFunctionPointerVector
+    membershipFunctions = this->GetMembershipFunctions();
+  for (unsigned int classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
+    {
+      m_PixelMembershipValue[classIndex] = 
+        (membershipFunctions[classIndex])->Evaluate(inputImagePixel) ;
+    }
+ 
+  //Return the membership value of the 
+  return m_PixelMembershipValue;
+
+}
+
 
 } // namespace itk
 
