@@ -317,6 +317,30 @@ public:
     return m_SegmentationFunction->GetCurvatureWeight();
   }
 
+
+  /** */
+  void SetUseMinimalCurvature( bool b )
+  {
+    if ( m_SegmentationFunction->GetUseMinimalCurvature() != b)
+      {
+      m_SegmentationFunction->SetUseMinimalCurvature( b );
+      this->Modified();
+      }
+  }
+  bool GetUseMinimalCurvature() const
+  {
+    return m_SegmentationFunction->GetUseMinimalCurvature();
+  }
+  void UseMinimalCurvatureOn()
+  {
+    this->SetUseMinimalCurvature(true);
+  }
+  void UseMinimalCurvatureOff()
+  {
+    this->SetUseMinimalCurvature(false);
+  }
+  
+  
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
   virtual void SetSegmentationFunction(SegmentationFunctionType *s);
