@@ -50,6 +50,7 @@ using namespace std;
 #include <itkImage.h>
 #include "itkTranslationTransform.h"
 
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkSmartNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
@@ -95,8 +96,7 @@ public:
   enum{ ImageDimension = TReference::ImageDimension };
   typedef itk::ImageRegionIteratorWithIndex<TReference> RefRegionIteratorType; 
   typedef itk::ImageRegionIteratorWithIndex<TTarget>    TarRegionIteratorType; 
-  typedef itk::NeighborhoodIterator<ReferenceType> 
-                                     ReferenceNeighborhoodIteratorType; 
+  
   typedef itk::SmartNeighborhoodIterator<ReferenceType> 
                                      ReferenceNeighborhoodIteratorType; 
   typedef typename ReferenceNeighborhoodIteratorType::IndexType  
