@@ -48,6 +48,10 @@ namespace itk
   TubePoint
   ::~TubePoint() 
   {
+    delete m_X;
+    delete m_T;
+    delete m_V1;
+    delete m_V2;
   }
 
   TubePoint::Self & 
