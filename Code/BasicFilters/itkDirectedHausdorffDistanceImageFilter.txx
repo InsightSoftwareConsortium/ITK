@@ -166,7 +166,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
                        int threadId) 
 {
 
-  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1(), regionForThread);
+  ImageRegionConstIterator<TInputImage1> it1 (this->GetInput1().GetPointer(), regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2 (m_DistanceMap, regionForThread);
   
   // support progress methods/callbacks
