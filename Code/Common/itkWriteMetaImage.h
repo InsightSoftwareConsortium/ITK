@@ -18,12 +18,13 @@
 
 #include "itkWriteImage.h"
 #include <vector>
+#include <MetaImageLib/MetaImageTypes.h>
 
 namespace itk
 {
 
 /** \class WriteMetaImage
- * \brief Write an image (dimension 1-3D) in Meta Image format.
+ * \brief Write an image in Meta Image format.
  *
  * WriteMetaImage writes N-D images in Meta Image file format. 
  */
@@ -40,6 +41,12 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
+
+  /** 
+   * Type of pixel
+   */
+  typedef   typename TInputImage::PixelType      PixelType;
+
 
   /** 
    * Run-time type information (and related methods).
@@ -70,6 +77,12 @@ public:
    * Write Data (abstract function from Writer)
    */
    void WriteData(void);
+
+
+   /**
+    * Return the MetaImage type code corresponding to the pixel type
+    */
+    MET_Type GetTypeCode(void) const;
  
 
 protected:

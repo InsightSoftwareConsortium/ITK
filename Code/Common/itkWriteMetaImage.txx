@@ -16,6 +16,7 @@
 #include "itkWriteMetaImage.h"
 #include "itkObjectFactory.h"
 #include <fstream>
+#include <MetaImageLib/MetaImageLib.h>
 
 namespace itk
 {
@@ -58,7 +59,9 @@ WriteMetaImage<TInputImage>
 ::WriteData(void)
 {
   
-  const unsigned int BitsPerPixel = 0; // use default value for MET_UCHAR
+  const unsigned int BitsPerPixel = 
+                          8*sizeof( PixelType );
+
   float * PixelSize = 0;               // instruct to ignore pixel size
 
   const unsigned int dimension = TInputImage::ImageDimension;
@@ -81,7 +84,7 @@ WriteMetaImage<TInputImage>
   
   PixelType *yetAnotherBuffer = new PixelType[ bufferSize ];
 
-  typedef itk::ImageRegionSimpleIterator<typename TInputImage::PixelType,
+  typedef itk::ImageRegionSimpleIterator<PixelType,
                   TInputImage::ImageDimension> IteratorType;
   
   IteratorType it(m_InputImage,
@@ -99,7 +102,7 @@ WriteMetaImage<TInputImage>
 
   MetaImage saver(  dimension,
                     dimSize,
-                    MET_SHORT,
+                    GetTypeCode(),
                     spacing,
                     BitsPerPixel,
                     MET_SYSTEM_BYTE_ORDER_MSB,
@@ -133,6 +136,11 @@ WriteMetaImage<TInputImage>
   WriteImage<TInputImage>::PrintSelf(os,indent);
   os << indent << "Meta Image file format writer";
 }
+
+
+
+
+
 
 
 } // end namespace itk
