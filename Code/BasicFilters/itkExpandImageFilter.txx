@@ -152,7 +152,6 @@ ExpandImageFilter<TInputImage,TOutputImage>
   if( !m_Interpolator || !this->GetInput() )
     {
     itkExceptionMacro(<< "Interpolator and/or Input not set");
-    throw ExceptionObject(__FILE__,__LINE__ );
     }
 
   // Connect input image to interpolator

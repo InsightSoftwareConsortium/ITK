@@ -23,6 +23,7 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkExpandImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
@@ -116,6 +117,14 @@ int itkExpandImageFilterTest(int, char* [] )
   std::cout << std::endl;
   typedef itk::ExpandImageFilter<ImageType,ImageType> ExpanderType;
   ExpanderType::Pointer expander = ExpanderType::New();
+
+  typedef itk::LinearInterpolateImageFunction<ImageType,double> InterpolatorType;
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+
+  expander->SetInterpolator( interpolator );
+  std::cout << "Interpolator: " << expander->GetInterpolator() << std::endl;
+
+  expander->SetExpandFactors( 5 );
 
   unsigned int factors[ImageDimension] = {2,3};
   ImageType::PixelType padValue = 4.0;
@@ -230,16 +239,59 @@ int itkExpandImageFilterTest(int, char* [] )
     ++streamIter;
     }
   
-
-  if ( testPassed )
-    {
-    std::cout << "Test passed." << std::endl;
-    return EXIT_SUCCESS;
-    }
-  else 
+  
+  if ( !testPassed )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Test error handling
+
+  try
+    {
+    testPassed = false;
+    std::cout << "Setting Input to NULL" << std::endl;
+    expander->SetInput( NULL );
+    expander->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    expander->ResetPipeline();
+    expander->SetInput( input );
+    testPassed = true;
+    }
+
+  if ( !testPassed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  try
+    {
+    testPassed = false;
+    std::cout << "Setting Interpolator to NULL" << std::endl;
+    expander->SetInterpolator( NULL );
+    expander->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    expander->ResetPipeline();
+    expander->SetInterpolator( interpolator );
+    testPassed = true;
+    }
+
+  if ( !testPassed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 
 }

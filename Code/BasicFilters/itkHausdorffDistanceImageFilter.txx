@@ -101,20 +101,13 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 template<class TInputImage1, class TInputImage2>
 void
 HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
-::AllocateOutputs()
+::GenerateData()
 {
+
   // Pass the first input through as the output
   InputImage1Pointer image =
     const_cast< TInputImage1 * >( this->GetInput1() );
   this->GraftOutput( image );
-}
-
-
-template<class TInputImage1, class TInputImage2>
-void
-HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
-::GenerateData()
-{
 
   RealType distance12, distance21;
 

@@ -116,9 +116,6 @@ protected:
   HausdorffDistanceImageFilter();
   ~HausdorffDistanceImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
-  void AllocateOutputs();      
   
   /** GenerateData. */
   void  GenerateData();
