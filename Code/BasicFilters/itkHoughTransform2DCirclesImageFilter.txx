@@ -166,6 +166,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 
   std::cout << "Derivative Scale : "
             << m_SigmaGradient << std::endl;
+
+  std::cout << "Radius Image Information : " 
+            << m_RadiusImage << std::endl;
 }
 
 
