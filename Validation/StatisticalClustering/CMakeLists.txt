@@ -5,7 +5,6 @@ ${ITK_SOURCE_DIR}/Code/Numerics
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl
 ${ITK_SOURCE_DIR}/Code/Numerics/Statistics
 ${ITK_SOURCE_DIR}/Examples/MRIBiasCorrection
-${ITK_SOURCE_DIR}/Utilities/MetaIO
 ${ITK_SOURCE_DIR}/Validation/StatisticalClustering
 )
 
@@ -20,7 +19,6 @@ ITKCommon
 ITKBasicFilters
 ITKNumerics
 ITKStatistics
-MetaIO
 ITKIO
 )
 
