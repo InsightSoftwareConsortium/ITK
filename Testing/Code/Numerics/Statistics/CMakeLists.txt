@@ -11,15 +11,21 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
 
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/Numerics/Statistics)
 
-ADD_TEST(itkStatisticsAlgorithmTest itkStatisticsTests itkStatisticsAlgorithmTest)
-ADD_TEST(itkCovarianceCalculatorTest itkStatisticsTests itkCovarianceCalculatorTest)
-ADD_TEST(itkMeanCalculatorTest itkStatisticsTests itkMeanCalculatorTest)
-ADD_TEST(itkSubsampleTest itkStatisticsTests itkSubsampleTest)
-ADD_TEST(itkMembershipSampleTest itkStatisticsTests itkMembershipSampleTest)
-ADD_TEST(itkImageToListAdaptorTest itkStatisticsTests itkImageToListAdaptorTest)
-ADD_TEST(itkHistogramTest itkStatisticsTests itkHistogramTest)
-ADD_TEST(itkDenseFrequencyContainerTest itkStatisticsTests itkDenseFrequencyContainerTest)
-ADD_TEST(itkNormalVariateGeneratorTest itkStatisticsTests 
+IF( CXX_TEST_PATH )
+  SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
+ELSE( CXX_TEST_PATH )
+  SET(STATISTICS_TESTS itkStatisticsTests)
+ENDIF( CXX_TEST_PATH )
+
+ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
+ADD_TEST(itkCovarianceCalculatorTest ${STATISTICS_TESTS} itkCovarianceCalculatorTest)
+ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
+ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
+ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
+ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
+ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
+ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
+ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
 
 
