@@ -10,46 +10,55 @@
   </Headers>
 
   <Set name="Dimension">
-    <Element tag="1">1</Element>
-    <Element tag="2">2</Element>
-    <Element tag="3">3</Element>
+    <Element tag="_1">1</Element>
+    <Element tag="_2">2</Element>
+    <Element tag="_3">3</Element>
   </Set>
 
-  <Set name="Integer">
-    <Element tag="i">int</Element>
+  <Set name="signedness">
+    <Element tag="_"></Element>
+    <Element tag="_U">unsigned </Element>
+  </Set>
+
+  <Set name="scalarType">
+    <Element tag="char">char</Element>
+    <Element tag="short">short</Element>
+    <Element tag="int">int</Element>
+    <Element tag="long">long</Element>
+    <Element tag="llong">long long</Element>
   </Set>
 
   <Set name="BasicScalarType">
-    <Element tag="f">float</Element>
-    <Set name="Integer"/>
+    <Element tag="">$signedness$scalarType</Element>
   </Set>
 
-  <CreateMethod name="New()">
-    <![CDATA[ 
-             _wrap_TypeName::Pointer newObject = _wrap_TypeName::New();
-             newObject->Register();
-             return newObject.GetPointer();
-            ]]>
-  </CreateMethod>
-  
-  <DeleteMethod name="Delete()">
-    <![CDATA[
-             static_cast<_wrap_TypeName*>(object)->Delete();
-            ]]>
-  </DeleteMethod>
-
-  <Set name="ImageType">
-    <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension> ]]></Element>
-  </Set>
+  <Namespace name="itk" prefix_seperator="">
+    <Code name="New()">
+      <![CDATA[ 
+               _wrap_TypeName::Pointer newObject = _wrap_TypeName::New();
+               newObject->Register();
+               return newObject.GetPointer();
+              ]]>
+    </Code>
+    
+    <Code name="Delete()">
+      <![CDATA[
+               static_cast<_wrap_TypeName*>(object)->Delete();
+              ]]>
+    </Code>
+    <Set name="ImageType">
+      <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension>]]></Element>
+    </Set>
+  </Namespace>
 
   <WrapperSet>
-    <!-- 
-      <Create method="New()"/>
-      <Delete method="Delete()"/>
-      -->
-    <Set name="ImageType"/>
+    <!--
+    <Method purpose="create" code="New()"/>
+    <Method purpose="create" code="Delete()"/>
+    -->
+    <Set name="::itk::ImageType"/>
     <Element tag="Directory">Directory</Element>
-    <Element tag="Pair"><![CDATA[pair<$ImageType, $BasicScalarType> ]]></Element>
+    <Element tag="Pair"><![CDATA[pair<$itk::ImageType, $Dimension>]]></Element>
   </WrapperSet>
 
 </Package>
