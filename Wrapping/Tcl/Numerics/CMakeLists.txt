@@ -25,7 +25,7 @@ ITK_WRAP_TCL(VXLNumericsTcl
   wrap_vnl_vector_ref.cxx
 )
 
-TARGET_LINK_LIBRARIES(VXLNumericsTcl VXLNumerics ${CABLE_TCL_LIBRARY})
+TARGET_LINK_LIBRARIES(VXLNumericsTcl ${VXL_NUMERICS_LIBRARIES} ${CABLE_TCL_LIBRARY})
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKNumericsTcl)
 INSTALL_TARGETS(/lib/InsightToolkit VXLNumericsTcl)
