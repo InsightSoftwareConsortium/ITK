@@ -9,14 +9,23 @@ while(<>)
 {
     chomp;
     $line = $_;
+# if the line is not an empty line
     if( $line =~ /\S+/ )
     {
 	if ( /\/\*\*(.*)/ )
 	{
+            # I guess it was not a group, dump savebuffer
+            if($ingroup)
+            { 
+                print "/**" . $savebuffer . "\n";
+            }
+            # if it is a class or brief then output the line but
+            # do not start a group
 	    if ( /(\\class|\\brief)/ )
 	    {
 		print $line . "\n";
 	    }
+            # must be a group so start saving
 	    else
 	    {
                 $savebuffer = "$1" . "\n";
@@ -28,6 +37,7 @@ while(<>)
 	}
 	else
 	{
+            # add to save buffer if in group
             if($ingroup)
             {
                 $savebuffer = $savebuffer . $_ . "\n";
