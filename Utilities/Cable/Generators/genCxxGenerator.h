@@ -53,11 +53,11 @@ namespace gen
 class CxxGenerator: public GeneratorBase
 {
 public:
-  CxxGenerator(const configuration::CableConfiguration* in_config):
-    GeneratorBase(in_config) {}
+  CxxGenerator(const configuration::Package* in_package):
+    GeneratorBase(in_package) {}
   virtual ~CxxGenerator() {}
   
-  static GeneratorBase* GetInstance(const configuration::CableConfiguration*);  
+  static GeneratorBase* GetInstance(const configuration::Package*);  
   
   virtual void Generate();  
 private:

@@ -53,9 +53,9 @@ using namespace configuration;
 /**
  * Construct an instance of this generator and return it.
  */
-GeneratorBase* CxxGenerator::GetInstance(const CableConfiguration* in_config)
+GeneratorBase* CxxGenerator::GetInstance(const Package* in_package)
 {
-  return new CxxGenerator(in_config);
+  return new CxxGenerator(in_package);
 }
 
 
@@ -66,13 +66,7 @@ void
 CxxGenerator
 ::Generate()
 {
-  // Just loop over all pacakges in the configuration.
-  for(CableConfiguration::PackageIterator package =
-        m_CableConfiguration->BeginPackages();
-      package != m_CableConfiguration->EndPackages(); ++package)
-    {
-    this->GeneratePackage(*package);
-    }
+  this->GeneratePackage(m_Package);
 }
  
 

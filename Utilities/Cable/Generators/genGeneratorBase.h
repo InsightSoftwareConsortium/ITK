@@ -70,16 +70,16 @@ std::ostream& operator<<(std::ostream& os, const String& str);
 class GeneratorBase
 {
 public:
-  GeneratorBase(const configuration::CableConfiguration* in_config):
-    m_CableConfiguration(in_config) {}
+  GeneratorBase(const configuration::Package* in_package):
+    m_Package(in_package) {}
   virtual ~GeneratorBase() {}
   
   virtual void Generate()=0;
 protected:
   /**
-   * The configuration that controls generation.
+   * The package configuration that controls generation.
    */
-  configuration::CableConfiguration::ConstPointer m_CableConfiguration;
+  configuration::Package::ConstPointer m_Package;
   
   static bool MakeDirectory(const char*);
 };
