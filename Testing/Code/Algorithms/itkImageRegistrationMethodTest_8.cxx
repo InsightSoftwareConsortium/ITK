@@ -178,7 +178,7 @@ int itkImageRegistrationMethodTest_8(int argc, char* argv[] )
   // This can potentially throw an exception
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {

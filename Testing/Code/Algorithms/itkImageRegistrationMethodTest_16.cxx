@@ -154,7 +154,7 @@ bool DoRegistration ()
   // This can potentially throw an exception
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {

@@ -182,7 +182,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   // Start the actual registration process
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {

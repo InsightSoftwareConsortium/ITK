@@ -312,7 +312,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
         optimizer->SetNumberOfIterations( iter[j] );
         optimizer->SetLearningRate( rates[j] );
         registration->SetInitialTransformParameters( initialParameters );
-        registration->StartRegistration();
+        registration->Update();
      
         initialParameters = registration->GetLastTransformParameters();
 

@@ -164,7 +164,7 @@ int itkImageRegistrationMethodTest_1(int argc, char* argv[] )
   // This can potentially throw an exception
   try
     {
-    registration->StartRegistration();
+    registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -196,6 +196,15 @@ int itkImageRegistrationMethodTest_1(int argc, char* argv[] )
       pass = false;
       }
     }
+
+  //
+  //  Get the transform as the Output of the Registration filter
+  //
+  RegistrationType::TransformOutputConstPointer transformDecorator = 
+                                                        registration->GetOutput();
+
+  TransformType::ConstPointer finalTransform = 
+    static_cast< const TransformType * >( transformDecorator->Get() ); 
 
 
   if( !pass )

@@ -289,7 +289,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
         optimizer->SetNumberOfIterations( iter[j] );
         optimizer->SetLearningRate( rates[j] );
         registration->SetInitialTransformParameters( initialParameters );
-        registration->StartRegistration();
+        registration->Update();
      
         initialParameters = registration->GetLastTransformParameters();
 
@@ -356,7 +356,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   try
     {
     pass = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(itk::ExceptionObject& err)
     {
@@ -384,7 +384,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   try
     {
     pass = false;
-    registration->StartRegistration();
+    registration->Update();
     }
   catch(itk::ExceptionObject& err)
     {
