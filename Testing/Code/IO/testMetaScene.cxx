@@ -18,8 +18,13 @@ int testMetaScene(int , char * [])
   e2->ID(1);
   e2->Radius(4);
 
+  MetaGroup g0;
   MetaGroup * g1 = new MetaGroup(3);
   g1->ID(2);
+
+  MetaGroup g2(g1);
+  g2.PrintInfo();
+
 
   e1->ParentID(2);
   e2->ParentID(2);
