@@ -618,7 +618,7 @@ void Segmenter<TInputImage>
 ::LabelMinima(InputImageTypePointer img, ImageRegionType region,
               Self::flat_region_table_t &flatRegions, InputPixelType Max)
 {
-  unsigned int i, nSize, nCenter, nPos;
+  unsigned int i, nSize, nCenter, nPos = 0;
   bool foundSinglePixelMinimum, foundFlatRegion;
   InputPixelType maxValue = Max;
   
