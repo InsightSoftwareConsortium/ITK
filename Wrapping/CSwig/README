@@ -25,7 +25,10 @@ To build ITK with the CSwig wrappers:
 
                 Note that no cvs login is needed here.
 
-        2. build CableSwig on your system.
+        1.1  IF you checkout CableSwig in the Insight/Utilities directory, then
+             CableSwig will be built as part of ITK
+     
+        2. build CableSwig on your system.  (this step can be skipped if 1.1 was done.
 
         3. run cmake on ITK (ccmake or CMakeSetup)
                 - turn on the show advanced values option  (t in ccmake)
@@ -35,7 +38,8 @@ To build ITK with the CSwig wrappers:
                   cswig executable built in 1.  Run cmake configure again.
                   Cmake should set CABLE_INDEX and GCCXML based on the path given for CSWIG.
                   When running on windows, as long as CableSwig was configured first, cmake
-                  should automatically find all of them.
+                  should automatically find all of them.  If step 1.1 was followed, then
+                  CSWIG, CABLE_INDEX, and GCCXML should all be set automatically.
                 - generate the makefiles 
 
 To run scripts.
@@ -62,4 +66,6 @@ To run scripts.
 KNOWN ISSUES:
         - dependency information is not available in visual studio until
           after the first build, and cmake is run again.
+        - Python must be built Release of RelWithDebInfo on windows.
+
 

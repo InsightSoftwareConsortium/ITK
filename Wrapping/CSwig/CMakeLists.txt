@@ -50,6 +50,7 @@ IF(CABLE_INDEX)
   GET_FILENAME_COMPONENT(CABLE_INDEX_PATH ${CABLE_INDEX} PATH)
 ENDIF(CABLE_INDEX)
 
+
 # if any one of the three are set, then look for the others
 # in the same directory
 # also look in the registry entries for cmake last build
@@ -74,6 +75,7 @@ FOREACH(DIR ${CMAKE_SEARCH_PATHS} )
    SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/RelWithDebInfo)
    SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/MinSizeRel)
 ENDFOREACH(DIR)
+
 
 # find cswig, gccxml, and cableidx programs
 FIND_PROGRAM(CSWIG
