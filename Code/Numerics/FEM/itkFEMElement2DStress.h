@@ -86,6 +86,12 @@ public:
   virtual void GetMaterialMatrix(MatrixType& D) const;
 
   /**
+   * Compute the mass matrix specific for 2D stress problems.
+   */
+  void GetMassMatrix(MatrixType& Me) const;
+
+
+  /**
    * 2D stress elements have 2 DOFs per node.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const

@@ -30,38 +30,33 @@ namespace fem {
 void Element2DC0LinearQuadrilateral::GetMassMatrix( MatrixType& Me ) const
 {
   // Number of DOFs
+  const unsigned int NnDOF=this->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
+  const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
 
-/* 
- *  this efficient version comes from :
- *     http://sp81.msi.umn.edu:999/fluent/fidap/help/theory/th05.htm
- */
-
-  Float RhoC=1.0;
   Me.resize(NDOF,NDOF); // resize the target matrix object
   Me.fill(0.0);
-  unsigned int Nip=this->GetNumberOfIntegrationPoints(0);  
 
   VectorType ip;
   Float w;
-  MatrixType N;
   MatrixType J;
-  MatrixType shapeFgl,shapeDgl;
-  MatrixType shapeF,shapeD;
+  MatrixType shapeD, shapeDgl;
 
   for(unsigned int i=0; i<Nip; i++)
   {
-/*    VectorType temp = this->ShapeFunctions(ip);
-    shapeF.set_column(0,temp);
-    shapeF.set_column(1,temp);
-    this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
-
-    this->GetStrainDisplacementMatrix( N, shapeDgl );*/
     this->GetIntegrationPointAndWeight(i,ip,w,0);
     this->ShapeFunctionDerivatives(ip,shapeD);
     this->Jacobian(ip,J,&shapeD);
+    this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
     Float detJ=this->JacobianDeterminant( ip, &J );
-    Me+=detJ*w*RhoC; //N.transpose()*N*RhoC; // this is efficient for 2D Quad.
+    
+    for(unsigned int i=0; i<NDOF; i++)
+    {
+      for(unsigned int j=0; j<NDOF; j++)
+      {
+        Me[i][j]+=detJ*w*shapeDgl[i%NnDOF][i/NnDOF]*shapeDgl[j%NnDOF][j/NnDOF];
+      }
+    }
   }
 
 }

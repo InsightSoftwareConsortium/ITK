@@ -33,7 +33,7 @@ SolverHyperbolic::SolverHyperbolic()
   this->InitializeLinearSystemWrapper();
   m_beta=0.25;
   m_gamma=0.5;
-  m_deltaT=1.0;
+  m_deltaT=0.01;
 }
 
 

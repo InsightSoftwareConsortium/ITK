@@ -68,6 +68,22 @@ Element2DStress<TBaseClass>
 template<class TBaseClass>
 void
 Element2DStress<TBaseClass>
+::GetMassMatrix(MatrixType& Me) const
+{
+  // Call the parent's get matrix function
+  Superclass::GetMassMatrix(Me);
+
+  // Since parent class doesn't have the material properties,
+  // we need to adjust Me matrix here for the density of the element.
+  Me=Me*m_mat->RhoC;
+}
+
+
+
+
+template<class TBaseClass>
+void
+Element2DStress<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
   D.resize(3,3);
