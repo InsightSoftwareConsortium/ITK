@@ -26,14 +26,23 @@ void
 WatershedImageFilter<TInputImage>
 ::SetThreshold(double val)
 {
-  if (val != m_Threshold) { this->Modified(); }
+  if (val < 0.0)
+    {
+    val = 0.0;
+    }
+  else if (val > 1.0)
+    {
+    val = 1.0;
+    }
   
-  if ( m_Threshold < 0.0 )      { m_Threshold = 0.0; }
-  else if ( m_Threshold > 1.0 ) { m_Threshold = 1.0; }
-  else { m_Threshold = val; }
+  if (val != m_Threshold)
+    {
+    m_Threshold = val;
+    m_Segmenter->SetThreshold( m_Threshold );
 
-  if (m_Segmenter->GetThreshold() != m_Threshold)
-    {  m_Segmenter->SetThreshold( m_Threshold ); }
+    m_ThresholdChanged = true;
+    this->Modified();
+    }
 }
 
 template< class TInputImage >
@@ -41,22 +50,29 @@ void
 WatershedImageFilter<TInputImage>
 ::SetLevel(double val)
 {
-  if (val != m_Level) { this->Modified(); }
+  if (val < 0.0)
+    {
+    val = 0.0;
+    }
+  else if (val > 1.0)
+    {
+    val = 1.0;
+    }
   
-  if ( m_Level < 0.0 )      { m_Level = 0.0; }
-  else if ( m_Level > 1.0 ) { m_Level = 1.0; }
-  else { m_Level = val; }
+  if (val != m_Level)
+    {
+    m_Level = val;
+    m_TreeGenerator->SetFloodLevel( m_Level );
+    m_Relabeler->SetFloodLevel( m_Level );
 
-  if (m_TreeGenerator->GetFloodLevel() != m_Level)
-    {  m_TreeGenerator->SetFloodLevel( m_Level ); }
-  
-  if (m_Relabeler->GetFloodLevel() != m_Level)
-    {  m_Relabeler->SetFloodLevel( m_Level ); }
+    m_LevelChanged = true;
+    this->Modified();
+    }
 }
   
 template< class TInputImage >
 WatershedImageFilter<TInputImage>
-::WatershedImageFilter() :  m_Threshold(0.0), m_Level(0.0), m_FirstExecution(true)
+::WatershedImageFilter() :  m_Threshold(0.0), m_Level(0.0)
 {
   // Set up the mini-pipeline for the first execution.
   m_Segmenter    = watershed::Segmenter<InputImageType>::New();
@@ -83,6 +99,10 @@ WatershedImageFilter<TInputImage>
   m_Segmenter->AddObserver(ProgressEvent(), c);
   m_ObserverTag = m_TreeGenerator->AddObserver(ProgressEvent(), c);
   m_Relabeler->AddObserver(ProgressEvent(), c);
+
+  m_InputChanged = true;
+  m_LevelChanged = true;
+  m_ThresholdChanged = true;
 }
   
 template< class TInputImage >
@@ -97,59 +117,90 @@ WatershedImageFilter<TInputImage>
 template< class TInputImage >
 void
 WatershedImageFilter<TInputImage>
+::PrepareOutputs()
+{
+  // call the superclass' method to clear out the outputs
+  Superclass::PrepareOutputs();
+
+  // clear out the temporary storage of the mini-pipeline as necessary
+  //
+  //
+
+  // If input changed, then Segmenter + Tree Generator + Relabeler need
+  // to re-execute.  Plus, the HighestCalculatedFloodLevel must be reset
+  // on the Tree Generator.
+  //
+  // If the threshold changed, then Segmenter + Tree Generator +
+  // Relabeler need to re-execute.  Plus, the
+  // HighestCalculatedFloodLevel must be reset on the Tree Generator
+  //
+  if (m_InputChanged
+      || (this->GetInput()->GetPipelineMTime() > m_GenerateDataMTime)
+      || m_ThresholdChanged)
+    {
+    m_Segmenter->PrepareOutputs();
+    m_TreeGenerator->PrepareOutputs();
+    m_Relabeler->PrepareOutputs();
+      
+    m_TreeGenerator->SetHighestCalculatedFloodLevel(0.0);
+    }
+    
+  // If the flood level changed but is below the Tree
+  // Generator::HighestCalculatedFloodLevel, then only the Relabeler
+  // must execute.
+  //
+  // If the flood level changed and is above the Tree
+  // Generator::HighestCalculatedFloodLevel, then the Tree Generator +
+  // Relabeler must execute.
+  //
+  if (m_LevelChanged)
+    {
+    if (m_Level <= m_TreeGenerator->GetHighestCalculatedFloodLevel())
+      {
+      m_Relabeler->PrepareOutputs();
+      }
+    else
+      {
+      m_TreeGenerator->PrepareOutputs();
+      m_Relabeler->PrepareOutputs();
+      }
+    }
+}
+
+template< class TInputImage >
+void
+WatershedImageFilter<TInputImage>
 ::GenerateData()
 {
-  // Allocate the output image.
-  typename OutputImageType::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
-
   // Set the largest possible region in the segmenter
-  m_Segmenter->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
-  m_Segmenter->GetOutputImage()->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
+  m_Segmenter->SetLargestPossibleRegion(this->GetInput()
+                                        ->GetLargestPossibleRegion());
+  m_Segmenter->GetOutputImage()
+    ->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
   
-  // Fiddle with the update command to accomodate filters that will and will
-  // not execute.  This logic is not guaranteed to cover all update cases.
-  //if (m_FirstExecution == false)
-  //    {      
-  //      unsigned long filtercount = 0;
+  // Setup the progress command
   WatershedMiniPipelineProgressCommand::Pointer c =
     dynamic_cast<WatershedMiniPipelineProgressCommand *>(
       m_TreeGenerator->GetCommand(m_ObserverTag) ); 
   c->SetCount(0.0);
   c->SetNumberOfFilters(3);
       
-  //      if (m_Segmenter->GetMTime() > this->GetMTime() )
-  //        { filtercount++; }
-  //      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
-  //        { filtercount++; }
-  //      if (m_Relabeler->GetMTime() > this->GetMTime() )
-  //        { filtercount++; }
-  //      c->SetNumberOfFilters(filtercount);
-  //    }
-  //  else m_FirstExecution = false;
-  
-  // Complete any necessary set up of the mini-pipeline.  We have to be careful 
-  // not to cause time stamps to be updated unneccessarily.  Specifically, we
-  // don't want the SegmentTreeGenerator to execute unless it is really
-  // needed, since it is the bottleneck.
-  if (this->GetThreshold() != m_Segmenter->GetThreshold() )
-    {
-    m_Segmenter->SetThreshold( this->GetThreshold() ) ;
-    }
-  
-  if (this->GetLevel()  > m_TreeGenerator->GetFloodLevel() )
-    {
-    // SegmentTreeGenerator::SetFloodLevel has logic to determine
-    // whether or not its Modified() method will be called.
-    m_TreeGenerator->SetFloodLevel( this->GetLevel() );
-    }
-
-  m_Relabeler->SetFloodLevel( this->GetLevel() );
+  // Graft our output on the relabeler
   m_Relabeler->GraftOutput( this->GetOutput() );
+
+  // Update the mini-pipeline
   m_Relabeler->Update();
 
+  // Graft the output of the relabeler back on this filter
   this->GraftOutput( m_Relabeler->GetOutputImage() );
+
+  // Keep track of when we last executed
+  m_GenerateDataMTime.Modified();
+
+  // Clear flags
+  m_InputChanged = false;
+  m_LevelChanged = false;
+  m_ThresholdChanged = false;
 }
 
 template<class TInputImage>

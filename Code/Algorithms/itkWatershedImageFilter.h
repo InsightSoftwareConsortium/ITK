@@ -193,13 +193,18 @@ public:
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
   void SetInput(const InputImageType *input)
-  {
+    {
+    // if the input is changed, we'll need to clear the cached tree
+    // when we execute
+    if (input != this->GetInput(0))
+      {
+      m_InputChanged = true;
+      }
+      
     // processObject is not const-correct so a const_cast is needed here
-    this->ProcessObject::SetNthInput(0, 
-                                     const_cast<InputImageType *>( input ) );
-    m_Segmenter->SetInputImage(
-      const_cast<InputImageType *>( input ) );
-  }
+    this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(input));
+    m_Segmenter->SetInputImage( const_cast<InputImageType *>( input ) );
+    }
 
   virtual void SetInput( unsigned int i, const TInputImage * image)
   {
@@ -241,6 +246,10 @@ protected:
   WatershedImageFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** An opportunity to Allocate/Deallocate bulk data. 
+   */
+  virtual void PrepareOutputs();
   
 private:
   /** A Percentage of the maximum depth (max - min pixel value) in the input
@@ -262,7 +271,11 @@ private:
   typename watershed::Relabeler<ScalarType, itkGetStaticConstMacro(ImageDimension)>::Pointer m_Relabeler;
 
   unsigned long m_ObserverTag;
-  bool m_FirstExecution;
+
+  bool m_LevelChanged;
+  bool m_ThresholdChanged;
+  bool m_InputChanged;
+  TimeStamp m_GenerateDataMTime;
 };
 
 } // end namespace itk
