@@ -186,9 +186,10 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     ++i_iter ;
     ++ib_iter ;
     }
-  std::cout << "Avg. error before correction = " 
+  std::cout << "Absolute Avg. error before correction = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+  double origSumError = sumOfError;
 
   std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl; 
   filter->SetInput( imageWithBias.GetPointer() ) ;
@@ -248,9 +249,12 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   
     }
 
-  std::cout << "Avg. error without input and output mask = " 
+  std::cout << "Absolute Avg. error without input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+  if (origSumError < sumOfError) {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Computing bias correction with mask" << std::endl;
   filter->SetInput( imageWithBias.GetPointer() ) ;
@@ -274,12 +278,17 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     ++o2_iter ;
     }
 
-  std::cout << "Avg. error with input and output mask = " 
+  std::cout << "Absolute Avg. error with input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+  if (origSumError < sumOfError) {
+    return EXIT_FAILURE;
+  }
 
   // default schedule is 2 2 2 - 1 1 1, let's change this
-  std::cout << "Computing bias correction only with 2,2,2 resolution" << std::endl;
+  std::cout << "Computing bias correction only with 2,2,2 resolution & no interSlice/Slab" << std::endl;
+  filter->SetUsingInterSliceIntensityCorrection( false ) ; // default value
+  filter->SetUsingSlabIdentification( false ) ; // default value = false
   FilterType::ScheduleType schedule ( 1, ImageDimension) ;
   schedule.Fill( 2 );
   filter->SetNumberOfLevels( 1 ) ; // Important to set this first, otherwise the filter rejects the new schedule
@@ -302,9 +311,12 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     ++o3_iter ;
     }
 
-  std::cout << "Avg. error with input and output mask = " 
+  std::cout << "Absolute Avg. error with input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+  if (origSumError < sumOfError) {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab" << std::endl;
   filter->SetUsingInterSliceIntensityCorrection( false ) ; // default value
@@ -330,10 +342,39 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     ++o4_iter ;
     }
 
-  std::cout << "Avg. error with input and output mask = " 
+  std::cout << "Absolute Avg. error with input and output mask = " 
             << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) 
             << std::endl ;
+  if (origSumError < sumOfError) {
+    return EXIT_FAILURE;
+  }
 
+  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab & more iterations" << std::endl;
+  initCoefficients = filter->GetEstimatedBiasFieldCoefficients();
+  filter->SetInitialBiasFieldCoefficients(initCoefficients); 
+  filter->SetVolumeCorrectionMaximumIteration( 20000 ) ; // default value = 100
+  t1 = time(NULL);
+  filter->Update() ;
+  t2 = time(NULL);
+  std::cout << "Run time (in s)" << t2-t1  << std::endl ;
+
+  double sumOfErrorFinal = 0.0 ;
+  ImageIteratorType o5_iter( filter->GetOutput(), 
+                             filter->GetOutput()->GetLargestPossibleRegion() );
+  i_iter.GoToBegin() ;
+  while ( !i_iter.IsAtEnd() )
+    {
+    sumOfErrorFinal += vnl_math_abs( o5_iter.Get() - i_iter.Get() ) ;
+    ++i_iter ;
+    ++o5_iter ;
+    }
+
+  std::cout << "Absolute Avg. error with input and output mask = " 
+            << sumOfErrorFinal / (imageSize[0] * imageSize[1] * imageSize[2]) 
+            << std::endl ;
+  if (sumOfError < sumOfErrorFinal) {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Using slab identification: " 
             << filter->GetUsingSlabIdentification() << std::endl ;
