@@ -72,7 +72,7 @@ public:
   typedef InputPixelType   MeasurementVectorType;
 
   /** Type of the Gaussian density functions */
-  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType > 
+  typedef Statistics::GaussianDensityFunction< MeasurementVectorType > 
                                                               MembershipFunctionType;
   typedef typename MembershipFunctionType::ConstPointer       MembershipFunctionConstPointer;
 
@@ -80,7 +80,7 @@ public:
   typedef std::vector< MembershipFunctionConstPointer >       MembershipFunctionContainer;
 
   /** Decision rule to use for defining the label */
-  typedef itk::MaximumRatioDecisionRule                       DecisionRuleType;
+  typedef MaximumRatioDecisionRule                            DecisionRuleType;
 
   
   /** Add a membership function to the filter. This is expected to be a Gaussian */
