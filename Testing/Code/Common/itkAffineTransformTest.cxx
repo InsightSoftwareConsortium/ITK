@@ -241,14 +241,14 @@ int main(
     axis[1] = .707;
     axis[2] = .707;
     aff3->Rotate3D(axis, 1.0, 1);
-    std::cout << "Create and rotate a 3D transform:" << std::endl
-              << *aff3;
+    std::cout << "Create and rotate a 3D transform:" << std::endl;
+    aff3->PrintSelf( std::cout );
 
     /* Generate inverse transform */
     Affine3DType::Pointer inv3;
     inv3 = aff3->Inverse();
-    std::cout << "Create an inverse transformation:"
-              << std::endl << inv3;
+    std::cout << "Create an inverse transformation:" << std::endl;
+    inv3->PrintSelf( std::cout );
 
     /* Create an image for testing index<->physical transforms */
     std::cout << "Creating image for testing index<->physical transforms"
@@ -263,12 +263,12 @@ int main(
     /* Generate index-to-physical transform */
     Affine3DType::Pointer i2p = image->GetIndexToPhysicalTransform();
     std::cout << "Index to physical transformation:" << std::endl;
-    std::cout << *i2p << std::endl;
+    i2p->PrintSelf( std::cout );
 
     /* Generate physical-to-index transform */
     Affine3DType::Pointer p2i = image->GetPhysicalToIndexTransform();
     std::cout << "Physical to index transformation:" << std::endl;
-    std::cout << *p2i << std::endl;
+    p2i->PrintSelf( std::cout );
 
     return any;
 }
