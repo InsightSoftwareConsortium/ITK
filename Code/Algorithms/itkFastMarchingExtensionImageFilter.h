@@ -97,6 +97,7 @@ public:
   /** Inherited typedefs. */
   typedef typename Superclass::LevelSetType  LevelSetType;
   typedef typename Superclass::SpeedImageType SpeedImageType;
+  typedef typename Superclass::LevelSetImageType  LevelSetImageType;
 
   /** The dimension of the level set. */
   enum { SetDimension = Superclass::SetDimension};
