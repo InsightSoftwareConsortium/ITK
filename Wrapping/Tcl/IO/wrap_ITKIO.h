@@ -19,6 +19,6 @@
 
 #define ITK_WRAP_PACKAGE "ITKIOTcl"
 #define ITK_WRAP_PACKAGE_VERSION "0.7"
-#define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE #x
+#define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE "_" #x
 
 #endif
