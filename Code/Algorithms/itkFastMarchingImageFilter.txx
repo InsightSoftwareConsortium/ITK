@@ -70,6 +70,9 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   os << indent << "Trial points: " << m_TrialPoints.GetPointer() << std::endl;
   os << indent << "Speed constant: " << m_SpeedConstant << std::endl;
   os << indent << "Stopping value: " << m_StoppingValue << std::endl;
+  os << indent << "Large Value: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
+     << std::endl;
   os << indent << "Normalization Factor: " << m_NormalizationFactor << std::endl;
   os << indent << "Collect points: " << m_CollectPoints << std::endl;
   os << indent << "Output size: " << m_OutputSize << std::endl;
