@@ -59,7 +59,7 @@ ImageMomentsCalculator<TImage>::
 template<class TImage>
 void
 ImageMomentsCalculator<TImage>::
-ComputeMoments( ImageType * image)
+ComputeMoments( ImageType * image )
 {
 
   AffineTransformType indexToPhysical = image->GetIndexToPhysicalTransform();
@@ -128,7 +128,6 @@ ComputeMoments( ImageType * image)
     }
   }
 
-
   // Center the second order moments
   for(unsigned int i=0; i<ImageDimension; i++)
   {
@@ -139,12 +138,13 @@ ComputeMoments( ImageType * image)
     }
   }
 
+
   // Compute principal moments and axes
   vnl_symmetric_eigensystem<double> eigen( m_cm.GetVnlMatrix() );
   vnl_diag_matrix<double> pm = eigen.D;
   for(unsigned int i=0; i<ImageDimension; i++)
   {
-    m_pm[i] = pm(i,i);
+    m_pm[i] = pm(i,i) * m_m0;
   }
   m_pa = eigen.V.transpose();
 
