@@ -290,7 +290,11 @@ proc XMLConcat { FP filename } \
 {
   catch {	
     set f [open $filename r]
-    gets $f
+    set line [gets $f]
+    if { ![string match {<?xml*} $line] } \
+    {
+      puts $FP $line
+    }
     puts -nonewline $FP [read $f]
     close $f
   }
