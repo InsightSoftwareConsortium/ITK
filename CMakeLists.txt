@@ -1,6 +1,6 @@
 PROJECT(ITK)
 
-SUBDIRS(Code Testing Examples)
+SUBDIRS(Utilities Code Testing Examples)
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_BINARY_DIR} 
@@ -12,21 +12,10 @@ ${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl
 ${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
+
 LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/Common 
 ${CMAKE_BINARY_DIR}/Code/Numerics/vxl )
-
-LINK_LIBRARIES (
-VXLNumerics
-)
-
-UNIX_LIBRARIES(
-${THREAD_LIBS} 
-${DL_LIBS} 
--lm
-)
-
-
 
 
 # Add commands to generate configure file when no
