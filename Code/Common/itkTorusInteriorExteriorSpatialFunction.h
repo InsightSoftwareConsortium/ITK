@@ -88,7 +88,10 @@ private:
    * radius is measured) */
   InputType m_Origin;
 
+  /** The distance from the origin of the torus to the center of the "tube" */
   double m_MajorRadius;
+
+  /** The diameter of the "tube" */
   double m_MinorRadius;
 
 };

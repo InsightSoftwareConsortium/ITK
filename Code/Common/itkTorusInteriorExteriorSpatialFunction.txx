@@ -65,6 +65,7 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>
   Superclass::PrintSelf(os,indent);
 
   unsigned int i;
+
   os << indent << "Origin: [";
   for (i=0; i < VDimension - 1; i++)
     {
@@ -73,6 +74,7 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>
   os << "]" << std::endl;
 
   os << indent << "Major radius: " << m_MajorRadius << std::endl;
+
   os << indent << "Minor radius: " << m_MinorRadius << std::endl;
 }
 
