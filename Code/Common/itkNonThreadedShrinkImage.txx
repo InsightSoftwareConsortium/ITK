@@ -112,7 +112,7 @@ NonThreadedShrinkImage<TInputImage,TOutputImage>
 
   // get pointers to the input and output
   InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
 
   // we need to compute the input requested region (size and start index)
   int i;
