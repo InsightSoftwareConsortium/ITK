@@ -27,8 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template <class TParametricPath, class TImage>
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+template <class TParametricPath, class TSwathMeritImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::OrthogonalSwath2DPathFilter()
 {
   SizeType size;
@@ -41,34 +41,14 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   m_MeritValues = NULL;
   m_OptimumStepsValues = NULL;
   m_FinalOffsetValues = OrthogonalCorrectionTableType::New();
-  
-  // Setup internal pipeline, which is used for preprocessing the image data
-  
-  // Extract the swath image
-  m_SwathFilter = SwathFilterType::New();
-  size[0]=512;
-  size[1]=16*2+1; // the top 1 and bottom 1 rows are dropped when smoothing
-  m_SwathFilter->SetSize(size);
-  
-  // Cast the swath image into a double image
-  m_CastFilter = CastFilterType::New();
-  m_CastFilter->SetInput( m_SwathFilter->GetOutput() );
-  m_CastFilter->SetOutputMinimum(0);
-  m_CastFilter->SetOutputMaximum(1.0);
-  
-  // Find the vertical gradient of the swath image
-  m_MeritFilter = MeritFilterType::New();
-  m_MeritFilter->SetInput( m_CastFilter->GetOutput() );
-  m_MeritFilter->SetOrder( 1 ); // first partial derivative
-  m_MeritFilter->SetDirection( 1 ); // d/dy
 }
 
 
 /**
  * Destructor
  */
-template <class TParametricPath, class TImage>
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+template <class TParametricPath, class TSwathMeritImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::~OrthogonalSwath2DPathFilter()
 {
   if(m_StepValues)          delete [] m_StepValues;
@@ -80,32 +60,28 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
 /**
  * GenerateData Performs the reflection
  */
-template <class TParametricPath, class TImage>
+template <class TParametricPath, class TSwathMeritImage>
 void
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::GenerateData( void )
 {
-  // Run the internal pipeline
-  FloatImagePointer outImage;
-  m_SwathFilter->SetImageInput( this->GetImageInput() );
-  m_SwathFilter->SetPathInput( this->GetPathInput() );
-  outImage=m_MeritFilter->GetOutput();
-  outImage->Update();
+  // Get a convenience pointer 
+  ImageConstPointer swathMeritImage = this->GetImageInput();
   
   // Re-initialize the member variables
-  m_SwathSize = outImage->GetLargestPossibleRegion().GetSize();
+  m_SwathSize = swathMeritImage->GetLargestPossibleRegion().GetSize();
   if(m_StepValues)          delete [] m_StepValues;
   if(m_MeritValues)         delete [] m_MeritValues;
   if(m_OptimumStepsValues)  delete [] m_OptimumStepsValues;
-  m_StepValues  = new int[ m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1] ];
-  m_MeritValues = new double[ m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1] ];
+  m_StepValues = new int[ m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1] ];
+  m_MeritValues= new double[ m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1] ];
   m_OptimumStepsValues = new int[ m_SwathSize[0] ];
   m_FinalOffsetValues->Initialize();
   
   
   // Perform the remaining calculations; use dynamic programming
   
-  // current column of the swath (all previous columns have been fully processed)
+  // current swath column (all previous columns have been fully processed)
   unsigned int x;
   // current first row and last row of the swath.
   unsigned int F,L;
@@ -120,7 +96,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
     if(F==L)
       {
       index[1]=F;
-      MeritValue(F,L,0) = (double) outImage->GetPixel(index);
+      MeritValue(F,L,0) = (double) swathMeritImage->GetPixel(index);
       StepValue( F,L,0) = F;
       }
     else
@@ -145,8 +121,8 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
       index2[0]=1;
       index2[1]=L;
       // Here we know in advance that Pixel(0,F) = Max(l=L-1..L+1){Merit(F,l,0)}
-      MeritValue(F,L,1) = double( outImage->GetPixel(index)
-                                + outImage->GetPixel(index2) );
+      MeritValue(F,L,1) = double( swathMeritImage->GetPixel(index)
+                                + swathMeritImage->GetPixel(index2) );
       }
     else
       {
@@ -166,7 +142,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
     index[0]=x+1;
     index[1]=L;
     MeritValue(F,L,x+1) = MeritValue(F,bestL,x) +
-                          double( outImage->GetPixel(index) );
+                          double( swathMeritImage->GetPixel(index) );
     }
   // end of tripple for-loop covering x & F & L
   
@@ -201,7 +177,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   for(x=0;x<m_SwathSize[0];x++)
     {
     m_FinalOffsetValues->InsertElement( 
-        x,  double( m_OptimumStepsValues[x] - m_SwathSize[1]/2 )  );
+        x,  double( m_OptimumStepsValues[x] - int(m_SwathSize[1]/2) )  );
     }
   
   // setup the output path
@@ -210,18 +186,22 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   outputPtr->SetOrthogonalCorrectionTable(m_FinalOffsetValues);
 }
 
-template <class TParametricPath, class TImage>
+template <class TParametricPath, class TSwathMeritImage>
 void
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "StepValues:  " << m_StepValues << std::endl;
+  os << indent << "MeritValues:  " << m_MeritValues << std::endl;
+  os << indent << "OptimumStepsValues:  " << m_OptimumStepsValues << std::endl;
+  os << indent << "FinalOffsetValues:  " << m_FinalOffsetValues << std::endl;
 }
 
 // The next three functions are private helper functions
-template <class TParametricPath, class TImage>
+template <class TParametricPath, class TSwathMeritImage>
 unsigned int
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::FindAndStoreBestErrorStep(unsigned int x, unsigned int F, unsigned int L)
 {
   unsigned int bestL; // L with largest merit of L and its 2 neighbors L-1 & L+1
@@ -262,17 +242,17 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   StepValue(F,L,x) = bestL;
   return bestL;
 }
-template <class TParametricPath, class TImage>
+template <class TParametricPath, class TSwathMeritImage>
 inline int &
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::StepValue(int f, int l, int x)
 {
   int rows=m_SwathSize[1];
   return m_StepValues[ (x*rows*rows) + (f*rows) + (l) ];
 }
-template <class TParametricPath, class TImage>
+template <class TParametricPath, class TSwathMeritImage>
 inline double &
-OrthogonalSwath2DPathFilter<TParametricPath, TImage>
+OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
 ::MeritValue(int f, int l, int x)
 {
   int rows=m_SwathSize[1];

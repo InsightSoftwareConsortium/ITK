@@ -20,10 +20,6 @@
 
 #include "itkPathAndImageToPathFilter.h"
 #include "itkOrthogonallyCorrected2DParametricPath.h"
-// Filters used internally
-#include "itkExtractOrthogonalSwath2DImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkDerivativeImageFilter.h"
 
 
 namespace itk
@@ -34,27 +30,30 @@ namespace itk
  * OrthogonalSwath2DPathFilter produces an OrthogonallyCorrected2DParametricPath
  * representation of a path that is optimal with respect to an image and an
  * original Fourier series path (sometimes referred to as an "initial contour"). 
- * A rectangular "swath" image is extracted from the input image by interpolating
- * image pixels orthogonal to the initial contour while walking along the initial
- * contour.  The swath image is then processed by a merit filter of the user's
- * choosing before dynamic programming is used to find the "optimal" path through
- * the image, where the optimality of an index along a path is the value of the
- * swath image at that pixel after the swath has been processed by the user's
- * filter.  The vertical (y-axis) partial derivative is often a good choice for
- * a merit filter.  The user will probably also want to smooth the input image
- * before passing it to this filter.
+ * Usage is a little complex.  The input image must be preprocessed with
+ * ExtractOrthogonalSwath2DImageFilter (the user may want to smooth the image
+ * first).  The user should then use the resulting swath image to produce a new
+ * "merit" swath image of the EXACT same size as the swath image produced in the
+ * preceeding step.  Each pixel value in the merit swath image indicates the
+ * local merit of having the path pass through that swath index (taking the
+ * absolute value of the vertical partial-derivative of the swath image is often
+ * a good way to do this). Both the merit swath image and the path used to
+ * extract the swath image should then be passed as inputs to this filter which
+ * will search through the merit swath image using dynamic programming to find
+ * the absolutely optimum (in terms of the swath image) path.  The test file
+ * itkOrthogonalSwath2DPathFilterTest.cxx provides a good usage example.
  * 
  * \ingroup PathFilters
  */
-template <class TFourierSeriesPath, class TImage>
+template <class TFourierSeriesPath, class TSwathMeritImage>
 class ITK_EXPORT OrthogonalSwath2DPathFilter : public
-PathAndImageToPathFilter< TFourierSeriesPath, TImage,
+PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
                           OrthogonallyCorrected2DParametricPath >
 {
 public:
   /** Standard class typedefs. */
   typedef OrthogonalSwath2DPathFilter                         Self;
-  typedef PathAndImageToPathFilter< TFourierSeriesPath, TImage,
+  typedef PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
                       OrthogonallyCorrected2DParametricPath > Superclass;
   typedef SmartPointer<Self>                                  Pointer;
   typedef SmartPointer<const Self>                            ConstPointer;
@@ -70,8 +69,8 @@ public:
   typedef typename InputPathType::Pointer       InputPathPointer;
   typedef typename InputPathType::InputType     InputPathInputType;
   
-  typedef TImage                                ImageType;
-  typedef typename ImageType::Pointer           ImagePointer;
+  typedef TSwathMeritImage                      ImageType;
+  typedef typename ImageType::ConstPointer      ImageConstPointer;
   
   typedef OrthogonallyCorrected2DParametricPath OutputPathType;
   typedef typename OutputPathType::Pointer      OutputPathPointer;
@@ -85,12 +84,6 @@ public:
   typedef typename InputPathType::OffsetType    OffsetType;
   typedef typename ImageType::SizeType          SizeType;
 
-  typedef Image<double, 2>                                  FloatImageType;
-  typedef typename FloatImageType::Pointer                  FloatImagePointer;
-  typedef ExtractOrthogonalSwath2DImageFilter<ImageType>        SwathFilterType;
-  typedef RescaleIntensityImageFilter<ImageType,FloatImageType> CastFilterType;
-  typedef DerivativeImageFilter<FloatImageType,FloatImageType>  MeritFilterType;
-  
 protected:
   OrthogonalSwath2DPathFilter();
   virtual ~OrthogonalSwath2DPathFilter();
@@ -101,12 +94,6 @@ protected:
 private:
   OrthogonalSwath2DPathFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-  typename SwathFilterType::Pointer m_SwathFilter;
-  typename CastFilterType::Pointer m_CastFilter;
-  typename MeritFilterType::Pointer m_MeritFilter;
-  
-  SizeType m_SwathSize;
   
   // Find the "L" for the maximum merit over the range L-1 to L+1 at F & x.
   // This value is both returned and stored in m_StepValues.
@@ -132,6 +119,8 @@ private:
   
   int *m_OptimumStepsValues;  // best step (e value) sequence for a closed path
   OrthogonalCorrectionTablePointer m_FinalOffsetValues;
+
+  SizeType m_SwathSize;
 };
 
 } // end namespace itk
