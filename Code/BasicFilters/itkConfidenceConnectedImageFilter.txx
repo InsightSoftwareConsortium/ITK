@@ -40,7 +40,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
 {
   m_Multiplier = 2.5;
   m_NumberOfIterations = 4;
-  m_Seed.Fill(0);
+  m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
@@ -126,34 +126,57 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage ( inputImage );
 
-  InputRealType lower, upper, seedIntensity;
-  InputRealType mean, variance;
-  mean = meanFunction->EvaluateAtIndex( m_Seed );
-  variance = varianceFunction->EvaluateAtIndex( m_Seed );
-  seedIntensity = static_cast<InputRealType>(inputImage->GetPixel(m_Seed));
+  InputRealType lower;
+  InputRealType upper;
+
+  InputRealType mean     = itk::NumericTraits<InputRealType>::Zero;
+  InputRealType variance = itk::NumericTraits<InputRealType>::Zero;
+
+  SeedsContainerType::const_iterator si = m_Seeds.begin();
+  SeedsContainerType::const_iterator li = m_Seeds.end();
+  while( si != li )
+    {
+    mean     += meanFunction->EvaluateAtIndex( *si );
+    variance += varianceFunction->EvaluateAtIndex( *si );
+    si++;
+    }
+  mean     /= m_Seeds.size();
+  variance /= m_Seeds.size();
+
 
   lower = mean - m_Multiplier * sqrt(variance);
   upper = mean + m_Multiplier * sqrt(variance);
   
   // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
   // returned by the iterator and a zero variance will result
-  if (lower > seedIntensity)
+
+  si = m_Seeds.begin();
+  li = m_Seeds.end();
+  while( si != li )
     {
-    lower = seedIntensity;
-    }
-  if (upper < seedIntensity)
-    {
-    upper = seedIntensity;
+    const InputRealType seedIntensity = 
+            static_cast<InputRealType>(inputImage->GetPixel( *si ));
+
+    if (lower > seedIntensity)
+      {
+      lower = seedIntensity;
+      }
+    if (upper < seedIntensity)
+      {
+      upper = seedIntensity;
+      }
+
+    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+      {
+      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+      }
+    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+      {
+      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+      }
+    si++;
     }
 
-  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
-    {
-    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
-    }
-  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-    {
-    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-    }
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
 
@@ -167,7 +190,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType ( outputImage, function, m_Seed );
+  IteratorType it = IteratorType ( outputImage, function, m_Seeds );
   it.GoToBegin();
   while( !it.IsAtEnd())
     {
@@ -195,7 +218,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     num = 0;
     
     SecondIteratorType sit
-      = SecondIteratorType ( inputImage, secondFunction, m_Seed );
+      = SecondIteratorType ( inputImage, secondFunction, m_Seeds );
     sit.GoToBegin();
     while( !sit.IsAtEnd())
       {
@@ -219,24 +242,35 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 
     // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
     // returned by the iterator and a zero variance will result
-    if (lower > seedIntensity)
+    si = m_Seeds.begin();
+    li = m_Seeds.end();
+    while( si != li )
       {
-      lower = seedIntensity;
-      }
-    if (upper < seedIntensity)
-      {
-      upper = seedIntensity;
+      const InputRealType seedIntensity = 
+              static_cast<InputRealType>(inputImage->GetPixel( *si ));
+
+
+      if (lower > seedIntensity)
+        {
+        lower = seedIntensity;
+        }
+      if (upper < seedIntensity)
+        {
+        upper = seedIntensity;
+        }
+
+      // Make sure the lower and upper limit are not outside the valid range of the input 
+      if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+        {
+        lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+        }
+      if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+        {
+        upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+        }
+      si++;
       }
 
-    // Make sure the lower and upper limit are not outside the valid range of the input 
-    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
-      {
-      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
-      }
-    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-      {
-      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-      }
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
     
@@ -253,7 +287,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-    IteratorType thirdIt = IteratorType ( outputImage, function, m_Seed );
+    IteratorType thirdIt = IteratorType ( outputImage, function, m_Seeds );
     thirdIt.GoToBegin();
     try
       {

@@ -72,27 +72,34 @@ public:
                ImageToImageFilter);
 
   typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::SizeType SizeType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::IndexType    IndexType;
+  typedef typename InputImageType::SizeType     SizeType;
   
   typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
+  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
   
+  typedef std::vector< IndexType >              SeedsContainerType;
+
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
-  /** Set seed point. */
+  /** Set seed point. This method is deprecated, please use AddSeed() */
   void SetSeed(const IndexType & seed)
   {
-    if ( m_Seed != seed )
-      {
-      m_Seed = seed;
-      this->Modified();
-      }
+    m_Seeds.clear();
+    this->AddSeed( seed );
+  };
+
+
+  /** Add seed point. */
+  void AddSeed(const IndexType & seed)
+  {
+    m_Seeds.push_back( seed );
+    this->Modified();
   };
 
   /** Set/Get the multiplier to define the confidence interval.  Multiplier
@@ -129,11 +136,11 @@ private:
   ConfidenceConnectedImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  IndexType m_Seed;
-  double m_Multiplier;
-  unsigned int m_NumberOfIterations;
-  OutputImagePixelType m_ReplaceValue;
-  unsigned int m_InitialNeighborhoodRadius;
+  SeedsContainerType      m_Seeds;
+  double                  m_Multiplier;
+  unsigned int            m_NumberOfIterations;
+  OutputImagePixelType    m_ReplaceValue;
+  unsigned int            m_InitialNeighborhoodRadius;
 };
 
 
