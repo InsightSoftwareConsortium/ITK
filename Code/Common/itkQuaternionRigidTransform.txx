@@ -55,11 +55,13 @@ QuaternionRigidTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
   m_Rotation        = rotation;
-  m_InverseRotation = rotation.inverse();
+  VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
   // this is done to compensate for the transposed representation
   // between VNL and ITK
-  m_RotationMatrix  = m_InverseRotation.rotation_matrix();
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  m_RotationMatrix  = conjugateRotation.rotation_matrix();
+
+  VnlQuaternionType inverseRotation = conjugateRotation.inverse();
+  m_InverseMatrix = inverseRotation.rotation_matrix();
   return;
 }
 
@@ -103,28 +105,27 @@ const typename QuaternionRigidTransform<TScalarType>::JacobianType &
 QuaternionRigidTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
-  
-
+ 
   // compute derivatives with respect to rotation
-  VnlQuaternionType Q = m_InverseRotation;
+  VnlQuaternionType Q = m_Rotation;
 
   m_Jacobian.Fill(0.0);
 
   // compute Jacobian with respect to quaternion parameters
-  m_Jacobian[0][0] = 2.0 * (  Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2]);
-  m_Jacobian[0][1] = 2.0 * (- Q.y() * p[0] + Q.x() * p[1] - Q.r() * p[2]);
-  m_Jacobian[0][2] = 2.0 * (- Q.z() * p[0] + Q.r() * p[1] + Q.x() * p[2]);
-  m_Jacobian[0][3] = 2.0 * (  Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2]);
+  m_Jacobian[0][0] =   2.0 * (  Q.x() * p[0] + Q.y() * p[1] + Q.z() * p[2]);
+  m_Jacobian[0][1] =   2.0 * (- Q.y() * p[0] + Q.x() * p[1] + Q.r() * p[2]);
+  m_Jacobian[0][2] =   2.0 * (- Q.z() * p[0] - Q.r() * p[1] + Q.x() * p[2]);
+  m_Jacobian[0][3] = - 2.0 * (- Q.r() * p[0] + Q.z() * p[1] - Q.y() * p[2]);
 
   m_Jacobian[1][0] = - m_Jacobian[0][1];
   m_Jacobian[1][1] =   m_Jacobian[0][0];
-  m_Jacobian[1][2] = - m_Jacobian[0][3];
-  m_Jacobian[1][3] =   m_Jacobian[0][2];
+  m_Jacobian[1][2] =   m_Jacobian[0][3];
+  m_Jacobian[1][3] = - m_Jacobian[0][2];
 
   m_Jacobian[2][0] = - m_Jacobian[0][2];
-  m_Jacobian[2][1] =   m_Jacobian[0][3];
+  m_Jacobian[2][1] = - m_Jacobian[0][3];
   m_Jacobian[2][2] =   m_Jacobian[0][0];
-  m_Jacobian[2][3] = - m_Jacobian[0][1];
+  m_Jacobian[2][3] =   m_Jacobian[0][1];
 
 
   // compute derivatives for the translation part

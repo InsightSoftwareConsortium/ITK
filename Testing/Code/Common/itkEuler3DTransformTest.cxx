@@ -270,8 +270,8 @@ int itkEuler3DTransformTest(int,char *[] )
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
           std::cerr << "Reported result is: " << computedDerivative << std::endl;
-          //std::cerr << " [ FAILED ] " << std::endl;
-          //return EXIT_FAILURE;
+          std::cerr << " [ FAILED ] " << std::endl;
+          return EXIT_FAILURE;
           }
         }
       }

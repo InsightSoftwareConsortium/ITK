@@ -39,7 +39,6 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
   bool Ok = true;
 
-
   /* Create a 3D identity transformation and show its parameters */
   {
     TransformType::Pointer  identityTransform = TransformType::New();
@@ -419,12 +418,102 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       }
     }
 
-
-
-
   }
 
- 
+    {
+    // Test the Jacobian
+    std::cout << "Testing GetJacobian()" << std::endl;
+
+    TransformType::Pointer quaternionRigid = TransformType::New();
+    TransformType::ParametersType parameters( quaternionRigid->GetNumberOfParameters() );
+
+    parameters.Fill( 0.0 );
+
+    double angle = 0.62 / 180.0 * vnl_math::pi;
+
+    parameters[0] =  2.0 * sin( 0.5 * angle );
+    parameters[1] =  5.0 * sin( 0.5 * angle );
+    parameters[2] = -4.0 * sin( 0.5 * angle );
+    parameters[3] =        cos( 0.5 * angle );
+    parameters[4] = 6.0;
+    parameters[5] = 8.0;
+    parameters[6] = 10.0;
+
+    quaternionRigid->SetParameters( parameters );
+    
+    TransformType::InputPointType pInit;
+    pInit[0] = 1.0;
+    pInit[1] = 1.5;
+    pInit[2] = 2.6;
+
+    TransformType::JacobianType jacobian;
+    jacobian = quaternionRigid->GetJacobian( pInit );
+    std::cout << jacobian << std::endl;
+
+    TransformType::JacobianType approxJacobian = jacobian;
+
+    for( unsigned int k = 0; k < quaternionRigid->GetNumberOfParameters(); k++ )
+      {
+      const double delta = 0.001;
+      TransformType::ParametersType plusParameters;
+      TransformType::ParametersType minusParameters;
+
+      plusParameters = parameters;
+      minusParameters = parameters;
+      plusParameters[k] += delta;
+      minusParameters[k] -= delta;
+
+      TransformType::OutputPointType plusPoint;
+      TransformType::OutputPointType minusPoint;
+
+      quaternionRigid->SetParameters( plusParameters );
+      plusPoint = quaternionRigid->TransformPoint( pInit );
+      quaternionRigid->SetParameters( minusParameters );
+      minusPoint = quaternionRigid->TransformPoint( pInit );
+
+      for( unsigned int j = 0; j < 3; j++ )
+        {
+        double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
+        double computedDerivative = jacobian[j][k];
+        approxJacobian[j][k] = approxDerivative;
+        if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+          {
+          std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
+          std::cerr << "Result should be: " << approxDerivative << std::endl;
+          std::cerr << "Reported result is: " << computedDerivative << std::endl;
+          std::cerr << " [ FAILED ] " << std::endl;
+          return EXIT_FAILURE;
+          } // if
+        } // for j
+
+      } // for k
+
+    std::cout << approxJacobian << std::endl;
+    std::cout << " [ PASSED ] " << std::endl;
+
+    // Testing inverse transform
+    std::cout << "Testing BackTransform()" << std::endl;
+    TransformType::OutputPointType pOut;
+    quaternionRigid->SetParameters( parameters );
+    pOut = quaternionRigid->BackTransform( quaternionRigid->TransformPoint( pInit ) );  
+
+    // pOut should equate pInit
+    for( unsigned int j = 0; j < 3; j++ )
+      {
+      if ( vnl_math_abs( pOut[j] - pInit[j] ) > 1e-5 )
+        {
+        std::cerr << "Error computing back transform" << std::endl;
+        std::cerr << "Result should be: " << pInit << std::endl;
+        std::cerr << "Reported result is: " << pOut << std::endl;
+        std::cerr << " [ FAILED ] " << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+
+    std::cout << " [ PASSED ] " << std::endl;
+
+    } 
+
   return EXIT_SUCCESS;
 
 }

@@ -128,7 +128,6 @@ private:
 
   /** Rotation of the transformation. */
   VnlQuaternionType   m_Rotation;
-  VnlQuaternionType   m_InverseRotation;
 
 }; //class QuaternionRigidTransform
 

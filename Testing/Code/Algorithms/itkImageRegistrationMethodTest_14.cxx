@@ -323,7 +323,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   RegistrationType::ParametersType trueParameters( 
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
-  trueParameters[2] = - sin( angle / 2.0 );
+  trueParameters[2] =   sin( angle / 2.0 );
   trueParameters[3] =   cos( angle / 2.0 );
   trueParameters[4] = -1.0 * ( displacement[0] * cos(angle) -
                                displacement[1] * sin(angle) ) ;
