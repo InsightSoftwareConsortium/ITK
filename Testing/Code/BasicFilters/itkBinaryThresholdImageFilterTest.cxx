@@ -86,7 +86,7 @@ int itkBinaryThresholdImageFilterTest(int, char**)
     }
   catch(...)
     {
-    std::cerr << "Caught an unexpected expection. " << std::endl;
+    std::cerr << "Caught an unexpected exception. " << std::endl;
     std::cerr << "Test failed. " << std::endl;
     return EXIT_FAILURE;
     }
@@ -150,7 +150,7 @@ int itkBinaryThresholdImageFilterTest(int, char**)
   catch(itk::ExceptionObject &err)
     {
     pass = true;
-    std::cout << "Caught an expected expection. " << std::endl;
+    std::cout << "Caught an expected exception. " << std::endl;
     std::cout << err << std::endl;
     }
 

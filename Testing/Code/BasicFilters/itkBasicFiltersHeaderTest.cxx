@@ -97,7 +97,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRecursiveSeparableImageFilter.txx"
 #include "itkReflectImageFilter.txx"
 #include "itkReflectiveImageRegionIterator.txx"
-#include "itkRemoveDimensionsImageFilter.txx"
 #include "itkResampleImageFilter.txx"
 #include "itkScalarAnisotropicDiffusionFunction.txx"
 #include "itkShiftScaleImageFilter.txx"
