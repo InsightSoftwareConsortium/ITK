@@ -77,6 +77,8 @@ private:
 namespace Converter
 {
 
+// Conversion functions returning objects:
+
 /**
  * A conversion function for the identity conversion of an object.
  */
@@ -107,40 +109,6 @@ struct ObjectDerivedToBase
   inline static ConversionFunction GetConversionFunction()
     {
     return reinterpret_cast<ConversionFunction>(&ObjectDerivedToBase::Convert);
-    }
-};
-
-
-/**
- * A conversion function for a derived-to-base pointer conversion.
- */
-template <typename From, typename To>
-struct PointerDerivedToBase
-{
-  static To* Convert(void* in)
-    {
-    return static_cast<To*>(static_cast<From*>(in));
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&PointerDerivedToBase::Convert);
-    }
-};
-
-
-/**
- * A conversion function for a derived-to-base reference conversion.
- */
-template <typename From, typename To>
-struct ReferenceDerivedToBase
-{
-  static To& Convert(void* in)
-    {
-    return static_cast<To&>(*static_cast<From*>(in));
-    }
-  inline static ConversionFunction GetConversionFunction()
-    {
-    return reinterpret_cast<ConversionFunction>(&ReferenceDerivedToBase::Convert);
     }
 };
 
@@ -193,6 +161,61 @@ struct ObjectReinterpret
   inline static ConversionFunction GetConversionFunction()
     {
     return reinterpret_cast<ConversionFunction>(&ObjectReinterpret::Convert);
+    }
+};
+
+
+// Conversion functions returning pointers:
+
+/**
+ * A conversion function for a derived-to-base pointer conversion.
+ */
+template <typename From, typename To>
+struct PointerDerivedToBase
+{
+  static To* Convert(void* in)
+    {
+    return static_cast<To*>(static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&PointerDerivedToBase::Convert);
+    }
+};
+
+
+// Conversion functions returning references:
+
+/**
+ * A conversion function for reference identity.
+ */
+template <typename To>
+struct ReferenceIdentity
+{
+  static To& Convert(void* in)
+    {
+    return *static_cast<To*>(in);
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ReferenceIdentity::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for a derived-to-base reference conversion.
+ */
+template <typename From, typename To>
+struct ReferenceDerivedToBase
+{
+  static To& Convert(void* in)
+    {
+    return static_cast<To&>(*static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ReferenceDerivedToBase::Convert);
     }
 };
 
