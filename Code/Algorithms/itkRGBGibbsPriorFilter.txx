@@ -314,7 +314,7 @@ double
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GibbsEnergy(int i, int k, int k1)
 {
-  LabelledImageIterator  
+  LabelledImageRegionIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
   int f[8];
@@ -440,11 +440,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   /** Copy labelled result to the Output buffer and set the iterators of 
     * the processed image.   */
-  LabelledImageIterator  
+  LabelledImageRegionIterator  
     labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );
 
   /** Set the iterators of the output image buffer. */
-  LabelledImageIterator  
+  LabelledImageRegionIterator  
     outImageIt( outputPtr, outputPtr->GetBufferedRegion() );
 
   while ( !outImageIt.IsAtEnd() )
@@ -503,21 +503,21 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::ApplyGibbsLabeller()
 {
   /** Set the iterators and the pixel type definition for the input image. */
-  InputImageIterator  inputImageIt(m_InputImage, 
+  InputImageRegionIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  InputImageIterator  mediumImageIt(m_MediumImage, 
+  InputImageRegionIterator  mediumImageIt(m_MediumImage, 
                                     m_MediumImage->GetBufferedRegion() );
 
   /** Set the iterators and the pixel type definition for the classified image. */
-  LabelledImageIterator  
+  LabelledImageRegionIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
   /** Variable to store the origin pixel vector value. */
-  InputImageVectorType OriginPixelVec;
+  InputImagePixelType OriginPixelVec;
 
   /** Variable to store the modified pixel vector value. */
-  InputImageVectorType ChangedPixelVec;
+  InputImagePixelType ChangedPixelVec;
 
   /** Variable to store the output pixel vector label after
    *  the MRF classification. */
@@ -605,7 +605,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   unsigned short *valid_region_counter = new unsigned short[size/100];
 
-  LabelledImageIterator  
+  LabelledImageRegionIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
   for ( i=0; i<size; i++ ) {

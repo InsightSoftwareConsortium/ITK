@@ -25,6 +25,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkSupervisedClassifier.h"
 #include "itkMRFImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 namespace itk
