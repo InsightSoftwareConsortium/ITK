@@ -51,7 +51,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageKmeansModelEstimator.txx"
 #include "itkImageModelEstimatorBase.txx"
 #include "itkImageMomentsCalculator.txx"
-#include "itkImageRegistrationMethod.h"
+#include "itkImageRegistrationMethod.txx"
 #include "itkImageToImageMetric.txx"
 #include "itkKLMRegionGrowImageFilter.txx"
 #include "itkKalmanLinearEstimator.h"
