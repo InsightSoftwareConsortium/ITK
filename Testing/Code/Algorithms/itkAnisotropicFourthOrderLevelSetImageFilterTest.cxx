@@ -40,10 +40,12 @@ int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   typedef itk::AnisotropicFourthOrderLevelSetImageFilter<ImageType,
     ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetMaxFilterIteration (150);
+  filter->SetMaxFilterIteration (2);
+  filter->SetMaxNormalIteration(5);
   filter->SetNormalProcessConductance(0.5);
                                       
   filter->SetInput(im_init);
+  filter->SetRMSChangeNormalProcessTrigger(0.1);
   std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";
   filter->Update();

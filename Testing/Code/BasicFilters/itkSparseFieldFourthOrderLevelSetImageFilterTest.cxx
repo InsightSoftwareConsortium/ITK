@@ -100,7 +100,7 @@ protected:
   
   virtual bool Halt ()
   {
-    if (this->GetElapsedIterations()==100) return true;
+    if (this->GetElapsedIterations()==50) return true;
     else return false;
   }
 };
@@ -129,7 +129,19 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(im_init);
-  std::cout<<"Starting processing.\n";
+  std::cout<<"MaxRefitIteration = "<<(filter->GetMaxRefitIteration())<<"\n";
+  std::cout<<"MaxNormalIteration = "<<(filter->GetMaxNormalIteration())<<"\n";
+  filter->SetCurvatureBandWidth (4);
+  std::cout<<"CurvatureBandWidth= "<<(filter->GetCurvatureBandWidth())<<"\n";
+  filter->SetRMSChangeNormalProcessTrigger(0.001);
+  std::cout<<"RMS change trigger = "
+           <<(filter->GetRMSChangeNormalProcessTrigger())<<"\n";
+  std::cout<<"Normal process type = "<<(filter->GetNormalProcessType())<<"\n";
+  std::cout<<"Conductance = "<<(filter->GetNormalProcessConductance())<<"\n";
+  std::cout<<"Unsharp flag = "<<(filter->GetNormalProcessUnsharpFlag())<<"\n";
+  std::cout<<"Unsharp weight = "
+           <<(filter->GetNormalProcessUnsharpWeight())<<"\n";
+  
   filter->Update();
   filter->Print(std::cout);
   std::cout<<"Passed.\n";
