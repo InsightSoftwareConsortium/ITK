@@ -40,5 +40,5 @@ CHECK_INCLUDE_FILE("stdint.h" GDCM_HAVE_STDINT_H)
 CONFIGURE_FILE(${GDCM_SOURCE_DIR}/gdcmConfigure.h.in
                ${GDCM_BINARY_DIR}/gdcmConfigure.h @ONLY IMMEDIATE)
 
-INSTALL_FILES(/include/InsightToolkit/gdcm .h gdcmConfigure.h)
+INSTALL_FILES(/include/InsightToolkit/gdcm/src .h gdcmConfigure.h)
 
