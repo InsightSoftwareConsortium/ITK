@@ -22,6 +22,7 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAntiAliasBinaryImageFilter.txx"
+#include "itkAutomaticTopologyMeshSource.txx"
 #include "itkBalloonForce3DFilter.txx"
 #include "itkBalloonForceFilter.txx"
 #include "itkBinaryMask3DMeshSource.txx"
