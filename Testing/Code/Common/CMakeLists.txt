@@ -52,10 +52,13 @@ ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
 ADD_TEST(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
+ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS} itkMaximumDecisionRuleTest)
+ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS} itkMaximumRatioDecisionRuleTest)
 ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS} itkMeanImageFunctionTest)
 ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS} itkMemoryLeakTest)
 ADD_TEST(itkMeshTest ${COMMON_TESTS} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
+ADD_TEST(itkMinimumDecisionRuleTest ${COMMON_TESTS} itkMinimumDecisionRuleTest)
 ADD_TEST(itkNeighborhoodTest ${COMMON_TESTS} itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS} itkNeighborhoodIteratorTest)
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest)
@@ -177,10 +180,13 @@ itkLevelSetFunctionTest.cxx
 itkLightObjectTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
+itkMaximumDecisionRuleTest.cxx
+itkMaximumRatioDecisionRuleTest.cxx
 itkMeanImageFunctionTest.cxx 
 itkMemoryLeakTest.cxx
 itkMeshTest.cxx
 itkMeshFstreamTest.cxx
+itkMinimumDecisionRuleTest.cxx
 itkNeighborhoodTest.cxx
 itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorTest.cxx
