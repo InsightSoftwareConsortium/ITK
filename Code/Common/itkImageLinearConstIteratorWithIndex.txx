@@ -158,6 +158,52 @@ ImageLinearConstIteratorWithIndex<TImage>
 
 
 
+
+//----------------------------------------------------------------------
+//  Go to the first pixel of the current line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageLinearConstIteratorWithIndex<TImage>
+::GoToBeginOfLine(void)
+{
+
+  long distanceToBegin = 
+                m_PositionIndex[ m_Direction ] - m_Begin[ m_Direction ];
+
+  m_Position -= m_Jump * distanceToBegin; 
+
+  m_PositionIndex[m_Direction] = m_Begin[m_Direction];   
+  
+}
+
+
+
+
+//----------------------------------------------------------------------
+//  Pass to the past last pixel of the current line
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageLinearConstIteratorWithIndex<TImage>
+::GoToEndOfLine(void)
+{
+
+  long distanceToEnd = 
+                m_EndIndex[ m_Direction ] - m_PositionIndex[ m_Direction ];
+
+
+  m_Position += m_Jump * distanceToEnd; 
+
+  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction];   
+  
+}
+
+
+
+
+
+
 //----------------------------------------------------------------------
 //  Set direction of movement
 //----------------------------------------------------------------------

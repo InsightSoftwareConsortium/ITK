@@ -194,6 +194,25 @@ public:
    */
   void PreviousLine(void);
 
+  /**
+   * Go to the beginning pixel of the current line.
+   * \sa GoToEndOfLine
+   * \sa operator++
+   * \sa operator--
+   * \sa NextLine
+   * \sa EndOfLine
+   */
+  void GoToBeginOfLine(void);
+
+  /**
+   * Go to the past end pixel of the current line.
+   * \sa GoToBeginOfLine
+   * \sa operator++
+   * \sa operator--
+   * \sa NextLine
+   * \sa EndOfLine
+   */
+  void GoToEndOfLine(void);
 
   /**
    * Test if the index is at the end of line on the predefined region
