@@ -34,6 +34,7 @@ public:
                                       unsigned long size);
   static CvQualifiedType GetClassType(const String& name,
                                       bool isConst, bool isVolatile,
+                                      bool isAbstract = false,
                                       const ClassTypes& parents = ClassTypes());
   static CvQualifiedType GetFunctionType(const CvQualifiedType& returnType,
                                          const CvQualifiedTypes& argumentTypes,

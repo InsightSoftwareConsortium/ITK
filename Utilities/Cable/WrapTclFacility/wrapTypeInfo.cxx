@@ -121,9 +121,9 @@ TypeInfo::GetArrayType(const CvQualifiedType& elementType,
 CvQualifiedType
 TypeInfo::GetClassType(const String& name,
                        bool isConst, bool isVolatile,
-                       const ClassTypes& parents)
+                       bool isAbstract, const ClassTypes& parents)
 {
-  return typeSystem.GetClassType(name, parents)
+  return typeSystem.GetClassType(name, isAbstract, parents)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
