@@ -35,6 +35,12 @@ namespace itk
  * \brief Structure that holds a segmentation produced by the
  * WatershedImageFilter filter object.
  *
+ * NOTE: The outputs of itkWatershedImageFilter are being restructured
+ *       to eliminate this class.  Currently there is a bug in
+ *       itkWatershedImageFilter which creates infinite looping when
+ *       invoked in the Insight pipeline.  Restructuring the outputs
+ *       will eliminate this bug. -cates 3/27/01
+ *       
  * Consists of a labeled image and a heirarchy of merges
  * of labeled segments.  This structure encapsulates all the information needed
  * to examine the segmented image at any arbitrary level.
@@ -129,7 +135,12 @@ class ITK_EXPORT RelabelWatershedImageFilter;
  * \class WatershedImageFilter
  * \brief Produces a segmented, labeled image from a scalar-valued image
  * input.  The input is assumed to represent a height function.
- * 
+ *
+ * BUG:  The outputs of itkWatershedImageFilter are being restructured
+ *    .  Currently there is a bug in itkWatershedImageFilter which creates
+ *       infinite looping when invoked in the Insight pipeline.  Restructuring
+ *       the outputs will eliminate this bug. -cates 3/27/01
+ *
  * Two parameters control the output of the filter, Threshold and Level.
  * The units of both parameters are percentage points of the maximum height
  * value in the input.  Threshold is used to set the absolute minimum height

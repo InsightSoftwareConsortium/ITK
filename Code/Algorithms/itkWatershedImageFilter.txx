@@ -64,7 +64,6 @@ void
 WatershedImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  std::cout << "IN GENERATE DATA" << std::endl;
   WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer basic_output
     = this->GetBasicOutput();
   typename TInputImage::Pointer  thresholded_input = TInputImage::New();
@@ -143,7 +142,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 
   sort_comp comp;
   std::sort(m_MergeHeirarchy.begin(), m_MergeHeirarchy.end(), comp);
-  basic_output->SetMergeList(m_MergeHeirarchy);
+  basic_output->SetMergeList(m_MergeHeirarchy); // BUG jc 3/27/01
 
   // Copy basic_output labeled image to output
   Self::CopyOutputToOutput(output, basic_output);

@@ -26,6 +26,12 @@ namespace itk
  * \brief Relabels a basic watershed segmentation labeled image at the flood
  * level percentage specified.
  *
+ * BUG: The outputs of itkWatershedImageFilter are being restructured
+ *       which will produce changes to this class.  Currently there is a bug in
+ *       itkWatershedImageFilter which creates infinite looping when
+ *       invoked in the Insight pipeline.  Restructuring the outputs
+ *       will eliminate this bug. -cates 3/27/01
+ *
  * This class uses the basic segmentation from a WatershedImageFilter
  * object to merge and relabel segments at a specified flood level.  Note that
  * the maximum Level (1.0) is equal to the Level parameter of the input
