@@ -140,7 +140,7 @@ public:
   /**
    *
    */
-  void  Execute (itk::Object* caller, const itk::EventObject& event ) {
+  void  Execute (itk::Object*, const itk::EventObject& event ) {
 
        std::cout << event.GetEventName() << std::endl;
   }
@@ -148,7 +148,7 @@ public:
   /**
    *
    */
-  virtual void  Execute (const itk::Object *caller, const itk::EventObject &event) {
+  virtual void  Execute (const itk::Object *, const itk::EventObject &event) {
   
     std::cout << event.GetEventName();
 
