@@ -41,32 +41,53 @@ StringToTestFunctionMap[#test] = test
 void RegisterTests();
 void PrintAvailableTests()
 {
-  std::cout << "Availiable tests:\n";
+  std::cout << "Available tests:\n";
   std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.begin();
+  int i = 0;
   while(j != StringToTestFunctionMap.end())
     {
-    std::cout << j->first << "\n";
+    std::cout << i << ". " << j->first << "\n";
+    ++i;
     ++j;
     }
-
 }
+
 int main(int ac, char** av)
 {
+  RegisterTests();
+  std::string testToRun;
   if(ac < 2)
     {
     PrintAvailableTests();
-    std::cerr << "Usage: " << av[0] << " TestName\n";
-    return -1;
+    std::cout << "To run a test, enter the test number: ";
+    int testNum = 0;
+    std::cin >> testNum;
+    std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.begin();
+    int i = 0;
+    while(j != StringToTestFunctionMap.end() && i < testNum)
+      {
+      ++i;
+      ++j;
+      }
+    if(j == StringToTestFunctionMap.end())
+      {
+      std::cerr << testNum << " is an invalid test number\n";
+      return -1;
+      }
+    testToRun = j->first;
     }
-  RegisterTests();
-  std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.find(av[1]);
+  else
+    {
+    testToRun = av[1];
+    }
+  std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.find(testToRun);
   if(j != StringToTestFunctionMap.end())
     {
     MainFuncPointer f = j->second;
     return (*f)(ac-1, av+1);
     }
   PrintAvailableTests();
-  std::cerr << "Failed: " << av[1] << ": No test registered with name " << av[1] << "\n";
+  std::cerr << "Failed: " << testToRun << ": No test registered with name " << testToRun << "\n";
   return -1;
 }
 
