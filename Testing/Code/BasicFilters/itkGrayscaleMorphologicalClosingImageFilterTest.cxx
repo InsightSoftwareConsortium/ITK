@@ -85,6 +85,8 @@ int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
   // Connect the structuring element
   filter->SetKernel( ball );
   
+  // Exercise Print()
+  filter->Print( std::cout );
 
   // Execute the filter
   try
