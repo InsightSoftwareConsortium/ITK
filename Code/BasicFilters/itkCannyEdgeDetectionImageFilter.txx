@@ -215,7 +215,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
                    void *globalData ) 
 {
   unsigned int i, j;
-  NeighborhoodInnerProduct<OutputImageType> innerProduct;
+  SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;
 
   OutputImagePixelType dx[ImageDimension];
   OutputImagePixelType dxx[ImageDimension];
@@ -454,9 +454,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  ConstNeighborhoodIterator<TInputImage> nit;
-  ConstNeighborhoodIterator<TInputImage> nit1;
-
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ConstSmartNeighborhoodIterator<TInputImage> bit1;
 
@@ -487,16 +484,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
-  // Process non-boundary face
-  nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
-  nit1 = ConstNeighborhoodIterator<TInputImage>(radius, input1, *fit);
-  it  = ImageRegionIterator<TOutputImage>(output, *fit);
-
-  nit.GoToBegin();
-  nit1.GoToBegin();
-  it.GoToBegin();
-
-
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
   OutputImagePixelType dx[ImageDimension]; 
