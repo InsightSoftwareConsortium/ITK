@@ -31,11 +31,38 @@ NormalVariateGenerator::NormalVariateGenerator()
   LMASK = (4 * (LEN-1)) ;
   TLEN  = (8*LEN) ;
   vec1 = new int[TLEN] ;
+
+  this->Initialize(0) ;
 }
 
 NormalVariateGenerator::~NormalVariateGenerator()
 {
-  delete vec1 ;
+  delete[] vec1 ;
+}
+
+void NormalVariateGenerator::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent) ;
+
+  os << indent << "Scale: " << Scale << std::endl ;
+  os << indent << "Rscale: " << Rscale << std::endl ;
+  os << indent << "Rcons: " << Rcons << std::endl ;
+  os << indent << "ELEN: " << ELEN << std::endl ;
+  os << indent << "LEN: " << LEN << std::endl ;
+  os << indent << "LMASK: " << LMASK << std::endl ;
+  os << indent << "TLEN: " << TLEN << std::endl ;
+    
+  os << indent << "gaussfaze: " << gaussfaze << std::endl ;
+  os << indent << "gausssave: " << gausssave << std::endl ;
+  os << indent << "GScale: " << GScale << std::endl ;
+    
+  os << indent << "vec1: " << vec1 << std::endl ;
+  os << indent << "nslew: " << nslew << std::endl ;
+  os << indent << "irs: " << irs << std::endl ;
+  os << indent << "lseed: " << lseed << std::endl ;
+  os << indent << "chic1: " << chic1 << std::endl ;
+  os << indent << "chic2: " << chic2 << std::endl ;
+  os << indent << "actualRSD: " << actualRSD << std::endl ;
 }
 
 void NormalVariateGenerator::Initialize(int randomSeed)
@@ -63,6 +90,8 @@ void NormalVariateGenerator::Initialize(int randomSeed)
   fake = 1.0 + 0.125 / TLEN;   // This is A 
   chic2 = sqrt (2.0 * TLEN  -  fake*fake) /  fake;
   chic1 = fake * sqrt (0.5 / TLEN);
+
+  actualRSD = 0.0 ;
   return;
 }
 

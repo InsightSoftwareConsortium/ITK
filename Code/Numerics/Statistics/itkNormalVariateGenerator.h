@@ -114,6 +114,7 @@ public:
 protected:
   NormalVariateGenerator() ;
   virtual ~NormalVariateGenerator() ; 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ;
     
   /** get a variate */
   double FastNorm (void) ;
