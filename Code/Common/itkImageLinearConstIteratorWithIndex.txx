@@ -35,7 +35,9 @@ ImageLinearConstIteratorWithIndex<TImage>
 {
 
   m_PositionIndex[m_Direction] = m_BeginIndex[m_Direction];   
-  m_Position -= m_OffsetTable[ m_Direction+1 ]; 
+  m_Position -=   m_OffsetTable[ m_Direction ] * 
+                ( m_EndIndex[ m_Direction ] - m_BeginIndex[ m_Direction ] ); 
+  
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
@@ -75,7 +77,9 @@ ImageLinearConstIteratorWithIndex<TImage>
 {
 
   m_PositionIndex[m_Direction] = m_EndIndex[m_Direction]-1;   
-  m_Position += m_OffsetTable[ m_Direction+1 ]; 
+  m_Position +=   m_OffsetTable[ m_Direction ] * 
+                ( m_EndIndex[ m_Direction ] - m_BeginIndex[ m_Direction ] ); 
+  
   
 
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
