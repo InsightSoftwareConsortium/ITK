@@ -177,7 +177,30 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 
   m_ThresholdFunction->SetThreshold( m_Multiplier );
 
-  itkDebugMacro(<< "\nMultiplier = " << m_Multiplier );
+  itkDebugMacro(<< "\nMultiplier originally = " << m_Multiplier );
+
+
+  // Make sure that the multiplier is large enough to include the seed points themselves.
+  // This is a pragmatic fix, but a questionable practice because it means that the actual
+  // region may be grown using a multiplier different from the one specified by the user.
+  si = m_Seeds.begin();
+  li = m_Seeds.end();
+  while( si != li )
+    {
+    const double distance = 
+      m_ThresholdFunction->EvaluateDistanceAtIndex( *si );
+    if( distance >  m_Multiplier )
+      {
+      m_Multiplier = distance;
+      }
+    si++;
+    }
+
+  // Finally setup the eventually modified multiplier. That is actually the threshold itself.
+  m_ThresholdFunction->SetThreshold( m_Multiplier );
+
+  itkDebugMacro(<< "\nMultiplier after verifying seeds inclusion = " << m_Multiplier );
+
 
 
   // Segment the image, the iterator walks the output image (so Set()
