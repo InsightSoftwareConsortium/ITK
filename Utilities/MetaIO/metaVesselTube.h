@@ -1,5 +1,5 @@
-#ifndef METATUBE_H
-#define METATUBE_H
+#ifndef METAVesselTube_H
+#define METAVesselTube_H
 
 #include <metaTypes.h>
 #include <metaUtils.h>
@@ -8,21 +8,21 @@
 #include <list>
 
 
-/*!    MetaTube (.h and .cpp)
+/*!    MetaVesselTube (.h and .cpp)
  *
  * Description:
- *    Reads and Writes MetaTubeFiles.
+ *    Reads and Writes MetaVesselTubeFiles.
  *
  * \author Julien Jomier
  * 
  * \date May 22, 2002
  */
 
-class TubePnt
+class VesselTubePnt
 {
 public:
 
-  TubePnt(int dim)
+  VesselTubePnt(int dim)
   { 
     m_Dim = dim;
     m_X = new float[m_Dim];
@@ -36,7 +36,15 @@ public:
       m_V2[i]= 0;
       m_T[i]= 0;
     }
+    m_Alpha1=0;
+    m_Alpha2=0;
+    m_Alpha3=0;
     m_R=0;
+    m_Medialness=0;
+    m_Ridgeness=0;
+    m_Branchness=0;
+    m_Mark=false;
+    
     //Color is red by default
     m_Color[0]=1.0;
     m_Color[1]=0.0;
@@ -45,7 +53,7 @@ public:
     m_ID = -1;
   }
 
-  ~TubePnt()
+  ~VesselTubePnt()
   {
     delete m_X;
     delete m_V1;
@@ -58,7 +66,14 @@ public:
   float* m_V2;
   float* m_X;
   float* m_T;
+  float m_Alpha1;
+  float m_Alpha2;
+  float m_Alpha3;
   float m_R;
+  float m_Medialness;
+  float m_Ridgeness;
+  float m_Branchness;
+  bool  m_Mark;
   float m_Color[4];
   int   m_ID;
 };
@@ -66,7 +81,7 @@ public:
 
 
 
-class MetaTube : public MetaObject
+class MetaVesselTube : public MetaObject
   {
 
   /////
@@ -76,29 +91,29 @@ class MetaTube : public MetaObject
   ////
   public:
 
-   typedef std::list<TubePnt*> PointListType;
+   typedef std::list<VesselTubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
     //
     ////
-    MetaTube(void);
+    MetaVesselTube(void);
 
-    MetaTube(const char *_headerName);   
+    MetaVesselTube(const char *_headerName);   
 
-    MetaTube(const MetaTube *_tube); 
+    MetaVesselTube(const MetaVesselTube *_VesselTube); 
     
-    MetaTube(unsigned int dim);
+    MetaVesselTube(unsigned int dim);
 
-    ~MetaTube(void);
+    ~MetaVesselTube(void);
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaTube * _tube);
+    void CopyInfo(const MetaVesselTube * _VesselTube);
 
     //    NPoints(...)
     //       Required Field
-    //       Number of points wich compose the tube
+    //       Number of points wich compose the VesselTube
     void  NPoints(int npnt);
     int   NPoints(void) const;
 
@@ -110,14 +125,14 @@ class MetaTube : public MetaObject
 
     //    Root(...)
     //       Optional Field
-    //       Set if this tube is a root
+    //       Set if this VesselTube is a root
     void  Root(int root);
     int   Root(void) const;
 
 
     //    ParentPoint(...)
     //       Optional Field
-    //       Set the point number of the parent tube where the branch occurs
+    //       Set the point number of the parent VesselTube where the branch occurs
     void  ParentPoint(int parentpoint);
     int   ParentPoint(void) const;
 

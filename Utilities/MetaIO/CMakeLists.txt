@@ -1,5 +1,6 @@
 ADD_LIBRARY(ITKMetaIO
   metaBlob.cxx
+  metaDTITube.cxx
   metaEllipse.cxx
   metaGroup.cxx
   metaGaussian.cxx
@@ -15,6 +16,7 @@ ADD_LIBRARY(ITKMetaIO
   metaTube.cxx
   metaTypes.h
   metaUtils.cxx
+  metaVesselTube.cxx
 )
 
 #SUBDIRS(tests)

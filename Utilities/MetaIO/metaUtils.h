@@ -184,6 +184,7 @@ extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,
 
 
 extern const char* MET_ReadType(std::istream & _fp);
+extern const char* MET_ReadSubType(std::istream & _fp);
 
 inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
 {

@@ -8,6 +8,8 @@
 #include <metaObject.h>
 #include <metaScene.h>
 #include <metaTube.h>
+#include <metaDTITube.h>
+#include <metaVesselTube.h>
 #include <metaEllipse.h>
 #include <metaGaussian.h>
 #include <metaImage.h>
@@ -156,12 +158,29 @@ Read(const char *_headerName)
 
     if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4) || 
        (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "tre")))
-    {
-      MetaTube* tube = new MetaTube();
-      tube->SetEvent(m_Event);
-      tube->ReadStream(m_NDims,m_ReadStream);
-      m_ObjectList.push_back(tube);
-    }
+      {
+      if(!strncmp(MET_ReadSubType(*m_ReadStream),"Vessel",6))
+        {
+        MetaVesselTube* vesseltube = new MetaVesselTube();
+        vesseltube->SetEvent(m_Event);
+        vesseltube->ReadStream(m_NDims,m_ReadStream);
+        m_ObjectList.push_back(vesseltube);
+        }
+      else if(!strncmp(MET_ReadSubType(*m_ReadStream),"DTI",3))
+        {
+        MetaDTITube* dtitube = new MetaDTITube();
+        dtitube->SetEvent(m_Event);
+        dtitube->ReadStream(m_NDims,m_ReadStream);
+        m_ObjectList.push_back(dtitube);
+        }
+      else
+        {
+        MetaTube* tube = new MetaTube();
+        tube->SetEvent(m_Event);
+        tube->ReadStream(m_NDims,m_ReadStream);
+        m_ObjectList.push_back(tube);
+        }
+      }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
             (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "elp")))

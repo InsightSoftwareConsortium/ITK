@@ -69,7 +69,6 @@ const char* MET_ReadType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
-
   static MET_FieldRecordType* mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   mF->required = false;
@@ -83,6 +82,40 @@ const char* MET_ReadType(std::istream &_fp)
   {
     return (char *)(mF->value);
   }
+
+  ((char *)(mF->value))[0] = '\0';
+
+  return (char *)(mF->value);
+}
+
+//
+// Read the subtype of the object
+//
+const char* MET_ReadSubType(std::istream &_fp)
+{
+  unsigned int pos = _fp.tellg();
+  std::vector<MET_FieldRecordType *> fields;
+  MET_FieldRecordType* mF;
+  
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ObjectType", MET_STRING, false);
+  mF->required = false;
+  fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ObjectSubType", MET_STRING, false);
+  mF->required = false;
+  mF->terminateRead = true;
+  fields.push_back(mF);
+
+  MET_Read(_fp, &fields, '=', false);
+  _fp.seekg(pos);
+
+  mF = MET_GetFieldRecord("ObjectSubType",&fields);
+  if(mF && mF->defined)
+    {
+    return (char *)(mF->value);
+    }
 
   ((char *)(mF->value))[0] = '\0';
 
