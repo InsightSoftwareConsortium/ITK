@@ -840,7 +840,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   pRegion1->UpdateRegionBorderLambda();
 
   // Resort the border list based on the lambda values
-  std::sort( m_pBordersDynPtrs.begin(), 
+  std::sort( &*(m_pBordersDynPtrs.begin()), 
              &(m_pBordersDynPtrs[m_nBorders]), 
              std::greater < DynamicBorderArrayKLM<BorderType> >() );
 

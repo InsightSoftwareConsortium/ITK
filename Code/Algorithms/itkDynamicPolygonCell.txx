@@ -190,10 +190,8 @@ void
 DynamicPolygonCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  PointIdIterator ii((PointIdIterator)first);
-  
-  m_PointIds.clear();
-  m_PointIds.insert(ii, first, last);
+  m_PointIds.erase(m_PointIds.begin(), m_PointIds.end());
+  m_PointIds.insert(m_PointIds.begin(), first, last);
   m_NumberOfPoints = m_PointIds.size();
   BuildEdges();
 }
@@ -224,7 +222,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >::PointIdIterator
 DynamicPolygonCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void)
 {
-  return m_PointIds.begin();
+  return &*(m_PointIds.begin());
 }
 
 
@@ -238,7 +236,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >::PointIdConstIterator
 DynamicPolygonCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void) const
 {
-  return m_PointIds.begin();
+  return &*(m_PointIds.begin());
 }
 
 
@@ -251,7 +249,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >::PointIdIterator
 DynamicPolygonCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void)
 {
-  return m_PointIds.end();
+  return &*(m_PointIds.end());
 }
 
 
@@ -265,7 +263,7 @@ DynamicPolygonCell< TPixelType , TCellTraits >::PointIdConstIterator
 DynamicPolygonCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void) const
 {
-  return m_PointIds.end();
+  return &*(m_PointIds.end());
 }
 
 
