@@ -82,6 +82,10 @@ int itkMeanImageFilterTest(int, char* [] )
       }
     }
   
+  // Test the itkGetConstReferenceMacro
+  const FloatImage2DType::SizeType & radius = mean->GetRadius();
+  std::cout << "mean->GetRadius():" << radius << endl;
+
   return EXIT_SUCCESS;
 }
 
