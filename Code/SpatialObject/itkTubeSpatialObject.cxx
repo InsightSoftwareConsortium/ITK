@@ -148,12 +148,11 @@ namespace itk
       return false;
       }
 
-    for(unsigned long i=0; it!= end; it++,i++)
+    for(unsigned int i=0; it!= end; it++,i++)
       {  
       if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it)->GetReferenceToCenterLinePoint())) < minSquareDist)
         {
         minSquareDist = tempSquareDist;
-        id = i;
         min = it; 
         }
       }
