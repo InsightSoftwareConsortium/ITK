@@ -43,6 +43,12 @@ class ITK_EXPORT BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensi
 {
 public:
 
+  /** Standard class typedefs. */
+  typedef BloxCoreAtomPixel                            Self;
+  typedef BloxPixel< BloxCoreAtomItem<NDimensions> >   Superclass; 
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
+
   /** Self typedef */
   typedef BloxCoreAtomPixel<NDimensions> Self;
 
