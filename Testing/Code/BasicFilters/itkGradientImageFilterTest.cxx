@@ -55,13 +55,13 @@ int main(int argc, char *argv[])
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
-      typedef itk::GradientImageFilter<ImageType, float> FilterType;
+      typedef itk::Image<unsigned short, 2> ImageType;
+      typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
       typedef FilterType::OutputImageType OutputImageType;
       
       // Set up filter
-      itk::GradientImageFilter<ImageType, float>::Pointer 
-        filter = itk::GradientImageFilter<ImageType, float>::New();
+      itk::GradientImageFilter<ImageType, float, float>::Pointer 
+        filter = itk::GradientImageFilter<ImageType, float, float>::New();
 
       // Run Test
       itk::Size<2> sz;

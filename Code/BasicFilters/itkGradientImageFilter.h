@@ -55,9 +55,13 @@ namespace itk
  * The directional derivative at each pixel location is computed by
  * convolution with a first-order derivative operator.
  *
- * The output image type defined as a covariant vector image whose
- * value type is specified as the second template parameter.  If omitted,
- * the value type of the covariant vector will be float.
+ * The second template parameter defines the value type used in the
+ * derivative operator (defaults to float).  The third template
+ * parameter defines the value type used for output image (defaults to
+ * float).  The output image is defined as a covariant vector image
+ * whose value type is specified as this third template parameter.
+ *
+ * \todo Take into account the Spacing of the pixels
  *
  * \sa Image
  * \sa Neighborhood
@@ -68,10 +72,10 @@ namespace itk
  *
  */
 
-template <class TInputImage, class TOutputValueType=float>
+template <class TInputImage, class TOperatorValueType=float, class TOutputValueType=float>
 class ITK_EXPORT GradientImageFilter :
     public ImageToImageFilter< TInputImage,
-                               Image<CovariantVector<TOutputValueType, ITK_TYPENAME TInputImage::ImageDimension>,  ITK_TYPENAME TInputImage::ImageDimension> >
+                               Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>,  TInputImage::ImageDimension> >
 {
 public:
   /**
@@ -84,12 +88,14 @@ public:
    */
   enum {InputImageDimension = TInputImage::ImageDimension};
   typedef TInputImage InputImageType;
-  typedef InputImageType::PixelType InputPixelType;
+  typedef typename InputImageType::PixelType InputPixelType;
   enum {OutputImageDimension = TInputImage::ImageDimension};
+  typedef TOperatorValueType OperatorValueType;
   typedef TOutputValueType OutputValueType;
   typedef CovariantVector<OutputValueType, OutputImageDimension> OutputPixelType;
   typedef Image<CovariantVector<TOutputValueType, OutputImageDimension>,  OutputImageDimension> OutputImageType;
-
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  
 
   /**
    * Superclass typedef

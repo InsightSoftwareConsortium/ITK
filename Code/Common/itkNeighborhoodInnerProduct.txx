@@ -45,16 +45,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-template<class TImage>
-typename NeighborhoodInnerProduct<TImage>::PixelType
-NeighborhoodInnerProduct<TImage>
+template<class TImage, class TOperator, class TComputation>
+typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+NeighborhoodInnerProduct<TImage, TOperator, TComputation>
 ::operator()(const ConstNeighborhoodIterator<TImage> &n,
-             const Neighborhood<PixelType, ImageDimension> &op) const
+             const Neighborhood<OperatorPixelType, ImageDimension> &op) const
 {
   typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<PixelType, ImageDimension> Operator_t;
+  typedef Neighborhood<OperatorPixelType, ImageDimension> Operator_t;
   
-  PixelType sum = NumericTraits<PixelType>::Zero;
+  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
   typename Neighborhood_t::ConstIterator n_it;
   typename Operator_t::ConstIterator o_it;
   
@@ -62,57 +62,57 @@ NeighborhoodInnerProduct<TImage>
   const typename Operator_t::ConstIterator op_end = op.End();
   for (o_it = op.Begin(); o_it < op_end; ++o_it, ++n_it)
     {
-      sum += *o_it * **n_it;
+    sum += *o_it * **n_it;
     }
 
   return sum;
 }
 
-template<class TImage>
-typename NeighborhoodInnerProduct<TImage>::PixelType
-NeighborhoodInnerProduct<TImage>
+template<class TImage, class TOperator, class TComputation>
+typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+NeighborhoodInnerProduct<TImage, TOperator, TComputation>
 ::operator()(const std::slice &s,
              const ConstNeighborhoodIterator<TImage> &n,
-             const Neighborhood<PixelType, ImageDimension> &op) const
+             const Neighborhood<OperatorPixelType, ImageDimension> &op) const
 {
   typedef ConstNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<PixelType, ImageDimension> Operator_t;
+  typedef Neighborhood<OperatorPixelType, ImageDimension> Operator_t;
   
-  PixelType sum = NumericTraits<PixelType>::Zero;
-  ConstSliceIterator<PixelType *, Neighborhood_t> s_it(&n, s);
+  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
+  ConstSliceIterator<ImagePixelType *, Neighborhood_t> s_it(&n, s);
   typename Operator_t::ConstIterator o_it;
 
   s_it = s_it.Begin();
   const typename Operator_t::ConstIterator op_end = op.End();
   for (o_it = op.Begin(); o_it < op_end; ++o_it, ++s_it)
     {
-      sum += *o_it * **s_it;
+    sum += *o_it * **s_it;
     }
 
   return sum;
 }
 
-template<class TImage>
-typename SmartNeighborhoodInnerProduct<TImage>::PixelType
-SmartNeighborhoodInnerProduct<TImage>
+template<class TImage, class TOperator, class TComputation>
+typename SmartNeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+SmartNeighborhoodInnerProduct<TImage, TOperator, TComputation>
 ::operator()(const std::slice &s,
              /*           const ImageBoundaryCondition<TImage> *,*/
              const ConstSmartNeighborhoodIterator<TImage> &it,
-             const Neighborhood<PixelType, ImageDimension>
+             const Neighborhood<OperatorPixelType, ImageDimension>
              &op) const
 {
   typedef ConstSmartNeighborhoodIterator<TImage> Neighborhood_t;
-  typedef Neighborhood<PixelType, ImageDimension> Operator_t;
+  typedef Neighborhood<OperatorPixelType, ImageDimension> Operator_t;
 
   typename Operator_t::ConstIterator o_it;
-  PixelType sum = NumericTraits<PixelType>::Zero;
+  OutputPixelType sum = NumericTraits<OutputPixelType>::Zero;
 
   o_it = op.Begin();
   const typename Operator_t::ConstIterator op_end = op.End();
 
   for ( unsigned int i = s.start(); o_it < op_end; i+=s.stride(), ++o_it )
     {
-        sum += *o_it * it.GetPixel(i);
+    sum += *o_it * it.GetPixel(i);
     }
   
 

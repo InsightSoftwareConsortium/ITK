@@ -52,56 +52,65 @@ namespace itk {
 /**
  * \class NeighborhoodInnerProduct
  *
- * This class defines the inner product operation between an itk::Neighborhood
- * and and itk::NeighborhoodOperator.  The operator() method is overloaded
- * to support various types of neighborhoods as well as inner products with
- * slices of neighborhoods.
+ * This class defines the inner product operation between an
+ * itk::Neighborhood and and itk::NeighborhoodOperator.  The
+ * operator() method is overloaded to support various types of
+ * neighborhoods as well as inner products with slices of
+ * neighborhoods. The second template parameter allows you to set the
+ * value type of the operator. The third templage parameter allows you
+ * to set the value type used as the return type of the inner product
+ * calculation. The operator value type defaults to the image pixel
+ * type and the output value type defaults to the operator type.
  *
  * \ingroup Operators
  *
  */
-template<class TImage>
+template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class NeighborhoodInnerProduct
 {
 public:
-  typedef typename TImage::PixelType PixelType;
+  typedef typename TImage::PixelType ImagePixelType;
+  typedef TOperator OperatorPixelType;
   enum {ImageDimension = TImage::ImageDimension};
-
+  typedef TComputation OutputPixelType;
+  
   /**
    *
    */
-  PixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<PixelType, ImageDimension>
+  OutputPixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
+                       const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
   /**
    *
    */
-  PixelType operator()(const std::slice &s,
+  OutputPixelType operator()(const std::slice &s,
                        const ConstNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<PixelType, ImageDimension>
+                       const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
 };
 
-template<class TImage>
+template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
 class SmartNeighborhoodInnerProduct
 {
 public:
-  typedef typename TImage::PixelType PixelType;
+  typedef typename TImage::PixelType ImagePixelType;
+  typedef TOperator OperatorPixelType;
   enum {ImageDimension = TImage::ImageDimension};
+  typedef TComputation OutputPixelType;
 
   /**
    *
    */
-  PixelType operator()(const std::slice &s,
+  OutputPixelType operator()(const std::slice &s,
                       /*                      const ImageBoundaryCondition<TImage> *,*/
                        const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<PixelType, ImageDimension>
+                       const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const;
   /**
    * 
    */
-  PixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
-                       const Neighborhood<PixelType, ImageDimension>
+  OutputPixelType operator()(const ConstSmartNeighborhoodIterator<TImage> &it,
+                       const Neighborhood<OperatorPixelType, ImageDimension>
                        &op) const
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
