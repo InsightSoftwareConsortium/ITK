@@ -71,4 +71,3 @@ TARGET_LINK_LIBRARIES(itktiff -lm)
 ENDIF(UNIX)
 
 INSTALL_TARGETS(/lib/InsightToolkit itktiff)
-INSTALL_FILES(/include/InsightToolkit/Utilities/tiff .h tiffDllConfig tiffvers tiff tiffio tconf)

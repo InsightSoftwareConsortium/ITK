@@ -36,6 +36,3 @@ TARGET_LINK_LIBRARIES(itkpng ${ITK_ZLIB_LIBRARIES})
 ENDIF(UNIX)
 
 INSTALL_TARGETS(/lib/InsightToolkit itkpng)
-INSTALL_FILES(/include/InsightToolkit/Utilities/png .h
-  png pngconf pngDllConfig
-)

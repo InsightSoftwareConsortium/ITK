@@ -1,3 +1,4 @@
+#include "itk_jpeg_mangle.h"
 /*
  * jpeglib.h
  *

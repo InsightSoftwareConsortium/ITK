@@ -24,19 +24,20 @@ MACRO(ITK_THIRD_PARTY_OPTION upper lower)
 ENDMACRO(ITK_THIRD_PARTY_OPTION)
 
 #-----------------------------------------------------------------------------
+# The in-tree third-party libraries are not exported.  We only need
+# the include directory inside the tree.  If using a third-party
+# library from the system, though, make sure the system include
+# directory is consistent inside and outside the tree.
 MACRO(ITK_THIRD_PARTY_INCLUDE upper lower)
   IF(ITK_USE_SYSTEM_${upper})
     IF(${upper}_INCLUDE_DIR)
       SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM} ${${upper}_INCLUDE_DIR})
     ENDIF(${upper}_INCLUDE_DIR)
   ELSE(ITK_USE_SYSTEM_${upper})
-    SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+    SET(ITK_INCLUDE_DIRS_BUILD_TREE_CXX ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
       ${ITK_SOURCE_DIR}/Utilities/${lower}
       ${ITK_BINARY_DIR}/Utilities/${lower}
-    )
-    SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-      ${ITK_INSTALL_INCLUDE_DIR}/Utilities/${lower}
-    )
+      )
   ENDIF(ITK_USE_SYSTEM_${upper})
 ENDMACRO(ITK_THIRD_PARTY_INCLUDE)
 

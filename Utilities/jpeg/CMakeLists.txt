@@ -49,7 +49,3 @@ CONFIGURE_FILE(${ITKJPEG_SOURCE_DIR}/jpegDllConfig.h.in
 ADD_LIBRARY(itkjpeg ${systemdependent_SRCS} ${common_SRCS} ${compression_SRCS} ${decompression_SRCS})
 
 INSTALL_TARGETS(/lib/InsightToolkit itkjpeg)
-INSTALL_FILES(/include/InsightToolkit/Utilities/jpeg .h
-  jpeglib jconfig jmorecfg jpegint jerror jpegDllConfig
-)
-

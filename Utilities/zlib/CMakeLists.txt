@@ -34,6 +34,3 @@ CONFIGURE_FILE(${ITKZLIB_SOURCE_DIR}/zlibDllConfig.h.in
 ADD_LIBRARY(itkzlib ${ZLIB_SRCS})
 
 INSTALL_TARGETS(/lib/InsightToolkit itkzlib)
-INSTALL_FILES(/include/InsightToolkit/Utilities/zlib .h
-  zlib zconf zlibDllConfig
-)

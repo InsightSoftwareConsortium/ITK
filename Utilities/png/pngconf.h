@@ -1,3 +1,4 @@
+#include "itk_png_mangle.h"
 /* pngconf.h - machine configurable file for libpng
  *
  * libpng 1.0.12 - June 8, 2001
