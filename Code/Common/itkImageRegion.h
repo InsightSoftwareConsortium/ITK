@@ -24,6 +24,7 @@
 #include "itkObjectFactory.h"
 #include "itkIndex.h"
 #include "itkSize.h"
+#include "itkContinuousIndex.h"
 
 namespace itk
 {
@@ -163,7 +164,30 @@ public:
         }
       return true;
     }
+  
+  /** Test if an index is inside */
+  template <typename TCoordRepType>
+  bool
+  IsInside(const ContinuousIndex<TCoordRepType,ImageDimension> &index) const
+    {
+      for(unsigned int i=0; i<ImageDimension; i++)
+        {
+        if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) ) 
+          {
+          return false;
+          }
+        const TCoordRepType bound = static_cast<TCoordRepType>(
+                              m_Index[i] + static_cast<long>(m_Size[i]) );
+
+        if( index[i] >= bound )
+          {
+          return false;
+          }
+        }
+      return true;
+    }
  
+
   /** Test if a region (the argument) is completly inside of this region */
   bool
   IsInside(const Self &region) const
