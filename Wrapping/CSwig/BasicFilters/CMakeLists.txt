@@ -28,7 +28,9 @@ SET(WRAP_SOURCES
   wrap_itkSigmoidImageFilter
   wrap_itkStatisticsImageFilter
   wrap_itkSobelEdgeDetectionImageFilter
+  wrap_itkSmoothingRecursiveGaussianImageFilter
   wrap_itkTernaryMagnitudeImageFilter
+  wrap_itkThresholdImageFilter
 )
 
 # loop over cable config files creating two lists:

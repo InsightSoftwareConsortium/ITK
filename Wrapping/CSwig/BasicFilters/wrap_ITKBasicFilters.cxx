@@ -49,7 +49,9 @@ namespace _cable_
     ITK_WRAP_GROUP(itkSigmoidImageFilter),
     ITK_WRAP_GROUP(itkStatisticsImageFilter),
     ITK_WRAP_GROUP(itkSobelEdgeDetectionImageFilter),
-    ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter)
+    ITK_WRAP_GROUP(itkSmoothingRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter),
+    ITK_WRAP_GROUP(itkThresholdImageFilter)
   };
 }
 #endif
