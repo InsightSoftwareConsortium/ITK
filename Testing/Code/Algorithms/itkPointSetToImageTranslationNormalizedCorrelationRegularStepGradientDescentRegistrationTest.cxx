@@ -29,7 +29,7 @@ int main()
 {
 
   // Number of pixels to take from the target image
-  unsigned long  numberOfSamples = 10000L;
+  unsigned long  numberOfSamples = 157L;
 
   /*Allocate Images*/
   const unsigned int ImageDimension  = 2;
@@ -160,6 +160,8 @@ int main()
 
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(pointSetTarget);
+
+  registrationMethod->GetOptimizer()->SetMaximumNumberOfIterations(100);
 
   registrationMethod->StartRegistration();
 
