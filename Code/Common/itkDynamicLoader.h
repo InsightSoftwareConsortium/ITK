@@ -37,7 +37,7 @@ ITK_NAMESPACE_END
 #else
 ITK_NAMESPACE_BEGIN
 typedef void* LibHandle;
-ITK_NAMESPAC_END
+ITK_NAMESPACE_END
 #endif
 
 #include "itkObject.h"
