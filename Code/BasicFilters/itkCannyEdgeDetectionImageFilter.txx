@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkCannyEdgeDetectionImageFilter_txx
 #define _itkCannyEdgeDetectionImageFilter_txx
+#include "itkCannyEdgeDetectionImageFilter.h"
 
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMultiplyImageFilter.h"
