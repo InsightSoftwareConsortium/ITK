@@ -351,7 +351,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
                           m_StatusImage, m_OutputImage->GetRequestedRegion());
   
   IndexType center_index, offset_index;
-  LayerNodeType *node = 0;
+  LayerNodeType *node;
   bool bounds_status = true;
   ValueType value;
   StatusType layer_number;
@@ -435,7 +435,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ConstructLayer(StatusType from, StatusType to)
 {
-  LayerNodeType *node= 0;
+  LayerNodeType *node;
   bool boundary_status;
   typename LayerType::ConstIterator fromIt;
   NeighborhoodIterator<StatusImageType> statusIt(m_NeighborList.GetRadius(), m_StatusImage,
@@ -542,7 +542,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   int i;
   ValueType value, value_temp, delta;
   bool found_neighbor_flag;
-  LayerNodeType* node= 0;
+  LayerNodeType* node;
   StatusType past_end = static_cast<StatusType>( m_Layers.size() ) - 1;
   
   // Are we propagating values inward (more negative) or outward (more positive)?
@@ -873,7 +873,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
   // divide the lists based on the boundaries
   
-  LayerNodeType * nodePtr= 0, * nodeTempPtr= 0;
+  LayerNodeType * nodePtr, * nodeTempPtr;
   
   for (int i = 0; i < 2 * m_NumberOfLayers + 1; i++)
     {
@@ -977,7 +977,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     for (i = 0; i < 2*m_NumberOfLayers+1; i++)
       {
       // return all the nodes in layer i to thread-i's node pool
-      LayerNodeType * nodePtr= 0;
+      LayerNodeType * nodePtr;
       LayerPointerType layerPtr= m_Data[ThreadId].m_Layers[i];
       while (! layerPtr->Empty())
         {
@@ -1000,7 +1000,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           continue;
           }
         
-        LayerNodeType * nodePtr= 0;
+        LayerNodeType * nodePtr;
         LayerPointerType layerPtr= m_Data[ThreadId].m_LoadTransferBufferLayers[i][j];
         
         while (! layerPtr->Empty())
@@ -1017,7 +1017,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     // 3. clear up the nodes in the last layer of m_InterNeighborNodeTransferBufferLayers (if any)
     for (i= 0; i < m_NumOfThreads; i++)
       {
-      LayerNodeType* nodePtr= 0;
+      LayerNodeType* nodePtr;
       for (int InOrOut= 0; InOrOut < 2; InOrOut++)
         {
         LayerPointerType layerPtr
@@ -1282,7 +1282,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // post-process output
   str->Filter->GetThreadRegionSplitUniformly(ThreadId,
                         str->Filter->m_Data[ThreadId].ThreadRegion);
-  str->Filter->ThreadedPostProcessOutput(ThreadId,
+  str->Filter->ThreadedPostProcessOutput(
                         str->Filter->m_Data[ThreadId].ThreadRegion);
   
   return ITK_THREAD_RETURN_VALUE;
@@ -1478,7 +1478,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   ValueType LOWER_ACTIVE_THRESHOLD = - (m_ConstantGradientValue / 2.0);
   ValueType UPPER_ACTIVE_THRESHOLD =    m_ConstantGradientValue / 2.0 ;
   
-  LayerNodeType *release_node= 0;
+  LayerNodeType *release_node;
   bool flag;
   
   IndexType  centerIndex;
@@ -1622,8 +1622,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   typename LayerType::Iterator layerIt = FromListPtr->Begin();
   typename LayerType::Iterator layerEnd= FromListPtr->End();
   
-  LayerNodeType * nodePtr = 0;
-  LayerNodeType * nodeTempPtr= 0;
+  LayerNodeType * nodePtr;
+  LayerNodeType * nodeTempPtr;
   
   while (layerIt != layerEnd)
     {
@@ -1644,7 +1644,7 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ClearList (int ThreadId, LayerPointerType ListPtr)
 {
-  LayerNodeType * nodePtr = 0;
+  LayerNodeType * nodePtr;
   
   while (! ListPtr->Empty())
     {
@@ -1696,7 +1696,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
                                         StatusType SearchForStatus,
                                         int InOrOut, int BufferLayerNumber, int ThreadId)
 {
-  LayerNodeType* nodePtr = 0;
+  LayerNodeType* nodePtr;
   StatusType from, neighbor_status;
   ValueType value, value_temp, delta;
   bool found_neighbor_flag;
@@ -1980,7 +1980,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and ... ... update the status image value at that index 
-  LayerNodeType* nodePtr= 0;
+  LayerNodeType* nodePtr;
   while ( ! OutsideList->Empty() )
     {
     nodePtr = OutsideList->Front();
@@ -2386,7 +2386,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::ThreadedPostProcessOutput(int ThreadId, const ThreadRegionType & regionToProcess)
+::ThreadedPostProcessOutput(const ThreadRegionType & regionToProcess)
 {
   // Assign background pixels INSIDE the sparse field layers to a new level set
   // with value less than the innermost layer.  Assign background pixels

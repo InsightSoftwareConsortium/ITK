@@ -578,7 +578,7 @@ protected:
   void GetThreadRegionSplitUniformly(int ThreadId, ThreadRegionType& ThreadRegion);
   
   /** */
-  void ThreadedPostProcessOutput(int ThreadId, const ThreadRegionType & regionToProcess);
+  void ThreadedPostProcessOutput(const ThreadRegionType & regionToProcess);
   
   /** Check if the load is fairly balanced among the threads.
    *  This is performed by just one thread while all other threads wait.
