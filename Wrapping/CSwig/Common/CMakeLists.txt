@@ -64,7 +64,9 @@ IF(ITK_CSWIG_PYTHON)
     COMMENT "run native swig on SwigExtras.i"
     SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     COMMAND ${CSWIG} 
-    ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
+    ARGS -nocable -c ${IGNORE_WARNINGS} 
+         -o ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
+         -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}"
          -python -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     TARGET _ITKCommonPython
     OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
