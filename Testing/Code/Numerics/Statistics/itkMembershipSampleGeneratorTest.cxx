@@ -19,7 +19,7 @@
 #include "itkMembershipSampleGenerator.h"
 #include "itkVector.h"
 
-int itkMembershipSampleGeneratorTest( int, char** )
+int itkMembershipSampleGeneratorTest( int, char* [] )
 {
   // The following code snippet will create a \code{ListSample} object
   // with three-component float measurement vectors and put three

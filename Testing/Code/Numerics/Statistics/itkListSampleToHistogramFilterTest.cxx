@@ -19,7 +19,7 @@
 #include "itkListSampleToHistogramFilter.h"
 #include "itkVector.h"
 
-int itkListSampleToHistogramFilterTest( int, char** )
+int itkListSampleToHistogramFilterTest( int, char* [] )
 {
   // The following code snippet will create a \code{ListSample} object
   // with two-component int measurement vectors and put the measurement

@@ -19,7 +19,7 @@
 #include "itkSelectiveSubsampleGenerator.h"
 #include "itkVector.h"
 
-int itkSelectiveSubsampleGeneratorTest( int, char** )
+int itkSelectiveSubsampleGeneratorTest( int, char* [] )
 {
   // The following code snippet will create a \code{ListSample} object
   // with three-component float measurement vectors and put three
