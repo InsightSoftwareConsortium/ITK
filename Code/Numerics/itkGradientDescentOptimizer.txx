@@ -40,9 +40,13 @@ void
 GradientDescentOptimizer<TCostFunction>
 ::StartOptimization( void )
 {
+
   m_CurrentStepLength         = m_MaximumStepLength;
-  m_CurrentNumberIterations   = 0;
-  ResumeOptimization();
+  m_CurrentNumberOfIterations   = 0;
+
+  this->SetCurrentPosition( GetInitialPosition() );
+  this->ResumeOptimization();
+
 }
 
 
@@ -80,9 +84,9 @@ GradientDescentOptimizer<TCostFunction>
 
     AdvanceOneStep();
 
-    m_CurrentNumberIterations++;
+    m_CurrentNumberOfIterations++;
 
-    if( m_CurrentNumberIterations == m_MaximumNumberOfIterations )
+    if( m_CurrentNumberOfIterations == m_MaximumNumberOfIterations )
     {
        m_StopCondition = MaximumNumberOfIterations;
        StopOptimization();
@@ -122,7 +126,7 @@ GradientDescentOptimizer<TCostFunction>
   double magnitudeSquare = 0;
   for(unsigned int dim=0; dim<SpaceDimension; dim++)
   {
-    const double weighted = m_Gradient[dim] * m_StepSize[dim];
+    const double weighted = m_Gradient[dim] * m_Scale[dim];
     magnitudeSquare += weighted * weighted;
   }
     
@@ -139,8 +143,8 @@ GradientDescentOptimizer<TCostFunction>
 
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
-    const double weight1 = m_Gradient[i]         * m_StepSize[i]; 
-    const double weight2 = m_PreviousGradient[i] * m_StepSize[i]; 
+    const double weight1 = m_Gradient[i]         * m_Scale[i]; 
+    const double weight2 = m_PreviousGradient[i] * m_Scale[i]; 
     scalarProduct += weight1 * weight2;
   }
    

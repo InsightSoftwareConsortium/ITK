@@ -112,12 +112,14 @@ public:
   /**
    * Select to Minimize the cost function
    */
-  void    SetMinimize(void);
+  void    SetMinimize(void) 
+              { m_Maximize = false; }
 
   /**
    * Select to Maximize the cost function
    */
-  void    SetMaximize(void);
+  void    SetMaximize(void)
+              { m_Maximize = true; }
 
   /**
    * Advance one step following the gradient direction
@@ -146,27 +148,20 @@ public:
    */
   void    StopOptimization( void );
 
-  /**
-   * Define the minimum step size 
-   * this is used as a stopping condition
-   */
-  void    SetMinimumStepSize( double step_size );
-
-  /**
-   * Define the maximum step size 
-   * this is a superior bound to the step in the gradient direction
-   * it is also the initial default value for the step
-   */
-  void    SetMaximumStepSize( double step_size );
-
   itkSetMacro( MaximumStepLength, double );
   itkSetMacro( MinimumStepLength, double );
   itkSetMacro( MaximumNumberOfIterations, unsigned long );
+  itkSetMacro( GradientMagnitudeTolerance, double );
 
   itkGetConstMacro( CurrentStepLength, double);
   itkGetConstMacro( MaximumStepLength, double );
   itkGetConstMacro( MinimumStepLength, double );
   itkGetConstMacro( MaximumNumberOfIterations, unsigned long );
+  itkGetConstMacro( GradientMagnitudeTolerance, double );
+  itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
+
+  void SetScale( const ParametersType & scale )
+          { m_Scale = scale; this->Modified(); }
 
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
@@ -181,7 +176,7 @@ private:
 
   ParametersType                m_Gradient; 
   ParametersType                m_PreviousGradient; 
-  ParametersType                m_StepSize;
+  ParametersType                m_Scale;
 
   bool                          m_Stop;
   bool                          m_Maximize;
@@ -192,7 +187,7 @@ private:
   double                        m_CurrentStepLength;
   StopConditionType             m_StopCondition;
   unsigned long                 m_MaximumNumberOfIterations;
-  unsigned long                 m_CurrentNumberIterations;
+  unsigned long                 m_CurrentNumberOfIterations;
 
   CostFunctionPointer           m_CostFunction;
 
