@@ -92,7 +92,7 @@ const char* MET_ReadType(std::istream &_fp)
 //
 // Read the subtype of the object
 //
-const char* MET_ReadSubType(std::istream &_fp)
+char* MET_ReadSubType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
@@ -116,7 +116,9 @@ const char* MET_ReadSubType(std::istream &_fp)
     }
   _fp.seekg(pos);
 
-  return value.c_str();
+  char* ret = new char[value.size()];
+  strcpy(ret,value.c_str());
+  return ret;
 }
 
 

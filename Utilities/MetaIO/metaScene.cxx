@@ -159,14 +159,15 @@ Read(const char *_headerName)
     if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4) || 
        (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "tre")))
       {
-      if(!strncmp(MET_ReadSubType(*m_ReadStream),"Vessel",6))
+      char* subtype = MET_ReadSubType(*m_ReadStream);
+      if(!strncmp(subtype,"Vessel",6))
         {
         MetaVesselTube* vesseltube = new MetaVesselTube();
         vesseltube->SetEvent(m_Event);
         vesseltube->ReadStream(m_NDims,m_ReadStream);
         m_ObjectList.push_back(vesseltube);
         }
-      else if(!strncmp(MET_ReadSubType(*m_ReadStream),"DTI",3))
+      else if(!strncmp(subtype,"DTI",3))
         {
         MetaDTITube* dtitube = new MetaDTITube();
         dtitube->SetEvent(m_Event);
@@ -180,6 +181,7 @@ Read(const char *_headerName)
         tube->ReadStream(m_NDims,m_ReadStream);
         m_ObjectList.push_back(tube);
         }
+      delete subtype;
       }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
