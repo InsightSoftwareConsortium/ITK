@@ -18,7 +18,8 @@
 class DICOMCallback
 {
  public:
-  virtual void Execute(doublebyte group,
+  virtual void Execute(DICOMParser *parser,
+                       doublebyte group,
                        doublebyte element,
                        DICOMParser::VRTypes type,
                        unsigned char* val,
@@ -33,7 +34,8 @@ template <class T>
 class DICOMMemberCallback : public DICOMCallback
 {
  public:
-  typedef  void (T::*TMemberFunctionPointer)(doublebyte group,
+  typedef  void (T::*TMemberFunctionPointer)(DICOMParser *parser,
+                                             doublebyte group,
                                              doublebyte element,
                                              DICOMParser::VRTypes type,
                                              unsigned char* val,
@@ -54,7 +56,8 @@ class DICOMMemberCallback : public DICOMCallback
   //
   // Execute method implementation from DICOMCallback.
   //
-  void Execute(doublebyte group,
+  void Execute(DICOMParser *parser,
+               doublebyte group,
                doublebyte element,
                DICOMParser::VRTypes type,
                unsigned char* val,
@@ -62,7 +65,7 @@ class DICOMMemberCallback : public DICOMCallback
   {
     if (MemberFunction)
       {
-      ((*ObjectThis).*(MemberFunction))(group, element, type, val, len);
+      ((*ObjectThis).*(MemberFunction))(parser, group, element, type, val,len);
       }
   }
 
