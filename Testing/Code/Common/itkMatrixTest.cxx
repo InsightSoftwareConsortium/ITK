@@ -195,6 +195,69 @@ int itkMatrixTest(int, char* [] )
     return EXIT_FAILURE;
     }
       
+
+  { // Test for Matrix addition and subtraction
+    const unsigned int nc = 4;
+    const unsigned int nr = 3;
+
+    typedef itk::Matrix<double, nr, nc>  MatrixType;
+    
+    MatrixType m1;
+    MatrixType m2;
+    
+    // fill the matrices with something  
+    {
+    for(unsigned int r=0; r < nr; r++)
+      {
+      for(unsigned int c=0; c < nc; c++)
+        {
+        const double fr = (double)r;
+        const double fc = (double)c;
+        m1[r][c] = fr + fc;  
+        m2[r][c] = fr - fc;  
+        }
+      }
+    }
+
+    MatrixType m3;
+    m3 = m1 + m2;
+
+    MatrixType m4;
+    m4 = m1 - m2;
+
+    std::cout << "Results of ITK matrix addition" << std::endl;
+    std::cout << "M1 = " << std::endl << m1 << std::endl;
+    std::cout << "M2 = " << std::endl << m2 << std::endl;
+    std::cout << "M1+M2 = " << std::endl << m3 << std::endl;
+    std::cout << "M1-M2 = " << std::endl << m4 << std::endl;
+ 
+    // Check the addition and subtraction values
+    {
+    const double tolerance = 1e-7;
+    for(unsigned int r=0; r < nr; r++)
+      {
+      for(unsigned int c=0; c < nc; c++)
+        {
+        if( fabs( m3[r][c] - 2*r ) > tolerance ) 
+          {
+          std::cerr << "Addition failed !" << std::endl;
+          std::cerr << "M["<< r << "][" << c << "] = ";
+          std::cerr << m3[r][c] << std::endl;
+          return EXIT_FAILURE;
+          }
+        if( fabs( m4[r][c] - 2*c ) > tolerance ) 
+          {
+          std::cerr << "Subtraction failed !" << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+      }
+    }
+
+
+  }
+
+
   std::cout << "Test Passed !" << std::endl;
 
   return EXIT_SUCCESS;
