@@ -175,16 +175,24 @@ GradientDescentOptimizer<TCostFunction>
     direction = -1.0;
   }
 
-  ParametersType newPosition;
+  ParametersType newPosition(SpaceDimension);
   const ParametersType & currentPosition = GetCurrentPosition();
 
+  CovariantVector<double,SpaceDimension> gradient; 
+
   for(unsigned int j=0; j<SpaceDimension; j++)
-  {
-    DerivativeType transformedGradient = 
-            GetTransform()->TransformCovariantVector( m_Gradient );
+    {
+    gradient[j] = m_Gradient[j];
+    }
+
+  CovariantVector<double,SpaceDimension> transformedGradient = 
+                GetTransform()->TransformCovariantVector( gradient );
+
+  for(unsigned int j=0; j<SpaceDimension; j++)
+    {
     newPosition[j] = currentPosition[j] + 
       direction * m_LearningRate * transformedGradient[j];
-  }
+    }
 
   SetCurrentPosition( newPosition );
 

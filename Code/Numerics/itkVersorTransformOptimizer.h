@@ -18,6 +18,7 @@
 #define __itkVersorTransformOptimizer_h
 
 #include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkVersor.h"
 
 namespace itk
 {
@@ -71,6 +72,10 @@ public:
    *  It defines a position in the optimization search space. */
   typedef typename Superclass::ParametersType ParametersType;
   typedef typename Superclass::DerivativeType DerivativeType;
+
+  /**  Versor Type  */
+  typedef Versor<double>                      VersorType;
+  typedef VersorType::VectorType              VectorType;
 
   /** Advance one step following the gradient direction. */
   virtual void StepAlongGradient( double factor, 

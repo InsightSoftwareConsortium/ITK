@@ -90,7 +90,7 @@ public:
         {
         throw ExceptionObject(__FILE__, __LINE__);
         }
-      ParametersType parameters;
+      ParametersType parameters(SpaceDimension);
       ConvertInternalToExternalParameters( inparameters, parameters );
       const InternalMeasureType value = 
         (InternalMeasureType)m_CostFunction->GetValue( parameters );
@@ -104,7 +104,7 @@ public:
         {
         throw ExceptionObject(__FILE__, __LINE__);
         }
-      ParametersType parameters;
+      ParametersType parameters(SpaceDimension);
       ConvertInternalToExternalParameters( inparameters, parameters );
       DerivativeType externalGradient = 
         m_CostFunction->GetDerivative( parameters );
@@ -116,7 +116,7 @@ public:
                          InternalMeasureType      * f, 
                          InternalDerivativeType   * g   ) {
       // delegate the computation to the CostFunction
-      ParametersType parameters;
+      ParametersType parameters(SpaceDimension);
       ConvertInternalToExternalParameters( x, parameters );
 
       *f = (InternalMeasureType)m_CostFunction->GetValue( parameters );

@@ -100,7 +100,7 @@ public:
           throw ExceptionObject(__FILE__, __LINE__);
           }
 
-        ParametersType externalParameters;
+        ParametersType externalParameters(SpaceDimension);
         ConvertInternalToExternalParameters( parameters, externalParameters ); 
         ConvertExternalToInternalMeasure( 
           m_CostFunction->GetValue( externalParameters ),output);
@@ -115,7 +115,7 @@ public:
           throw ExceptionObject(__FILE__, __LINE__);
           }
 
-        ParametersType externalParameters; 
+        ParametersType externalParameters(SpaceDimension); 
         ConvertInternalToExternalParameters( parameters, externalParameters );
 
         ConvertGradient( m_CostFunction->GetDerivative( externalParameters ),
@@ -128,7 +128,7 @@ public:
       {
         // delegate the computation to the CostFunction
 
-        ParametersType externalParameters; 
+        ParametersType externalParameters(SpaceDimension); 
         ConvertInternalToExternalParameters( x, externalParameters );
         ConvertExternalToInternalMeasure(m_CostFunction->GetValue( externalParameters ), *f);
         ConvertGradient(m_CostFunction->GetDerivative( externalParameters ), *g ); 

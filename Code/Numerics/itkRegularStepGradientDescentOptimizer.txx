@@ -37,7 +37,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
                      const DerivativeType & transformedGradient )
 { 
 
-  ParametersType newPosition;
+  ParametersType newPosition(SpaceDimension);
   const ParametersType & currentPosition = GetCurrentPosition();
 
   for(unsigned int j=0; j<SpaceDimension; j++)

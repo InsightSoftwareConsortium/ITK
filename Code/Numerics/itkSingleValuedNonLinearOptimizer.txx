@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkSingleValuedNonLinearOptimizer_txx
 #define _itkSingleValuedNonLinearOptimizer_txx
+
 #include "itkSingleValuedNonLinearOptimizer.h"
 
 namespace itk
