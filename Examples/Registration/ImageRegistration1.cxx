@@ -18,8 +18,8 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
-// Insight.  It should be read as a \emph{Hello World} for ITK
-// registration. Which means that for now you don't ask \emph{why}? Instead,
+// Insight.  It should be read as a "Hello World" for ITK
+// registration. Which means that for now you don't ask "why?". Instead,
 // use the example as an introduction to the typical elements involved in
 // solving an image registration problem.
 //
@@ -67,7 +67,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   // 
   // The types of each one of the components in the registration methods should
-  // be instantiated. First we select the image dimension and the type for
+  // be instantiated. First, we select the image dimension and the type for
   // representing image pixels.
   //
   // Software Guide : EndLatex 
@@ -132,7 +132,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Finally, the type of the interpolator is declared. This interpolator will
+  //  Finally, the type of the interpolator is declared. The interpolator will
   //  evaluate the moving image at non-grid positions.
   //
   //  Software Guide : EndLatex 
@@ -161,8 +161,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Each one of the registration components are created using their
-  //  \code{New()} method and are assigned to their respective 
+  //  Each one of the registration components is created using its
+  //  \code{New()} method and is assigned to its respective 
   //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
@@ -178,7 +178,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The components are connected to the instance of the registration method.
+  //  Each component is now connected to the instance of the registration method.
   //  \index{itk::RegistrationMethod!SetMetric()}
   //  \index{itk::RegistrationMethod!SetOptimizer()}
   //  \index{itk::RegistrationMethod!SetTransform()}
@@ -208,8 +208,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethod} to connect its inputs to the
-  //  output of the respective readers.
+  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs to the
+  //  output of the readers.
   //
   //  Software Guide : EndLatex 
 
@@ -246,13 +246,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The parameters of the transform are initialized by passing them in an
-  //  array. This can be used to setup an initial known correction to the
+  //  array. This can be used to setup an initial known correction of the
   //  misalignment. In this particular case, a translation transform is
   //  being used for the registration. The array of parameters for this
-  //  transform is simply composed of the values of translation along each
-  //  dimension. Setting the values of the parameters to zero leads to
-  //  initializing the transform as an \emph{identity} transform. Note that the
-  //  array constructor requires the number of elements as argument.
+  //  transform is simply composed of the translation values along each
+  //  dimension. Setting the values of the parameters to zero 
+  //  initializes the transform as an \emph{identity} transform. Note that the
+  //  array constructor requires the number of elements as an argument.
   //
   //  \index{itk::TranslationTransform!GetNumberOfParameters()}
   //  \index{itk::RegistrationMethod!SetInitialTransformParameters()}
@@ -276,22 +276,22 @@ int main( int argc, char *argv[] )
   //  optimizer is the component that drives the execution of the
   //  registration.  However, the \doxygen{ImageRegistrationMethod} class
   //  orchestrates the ensemble to make sure that everything is in place
-  //  before the control is passed to the optimizer.
+  //  before control is passed to the optimizer.
   //
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
-  //  from taking steps which are too large.  At each iteration this optimizer
+  //  from taking steps which are too large.  At each iteration, this optimizer
   //  will take a step along the direction of the \doxygen{ImageToImageMetric}
   //  derivative. The initial length of the step is defined by the user. Each
-  //  time that the direction of the derivative abruptly changes, the optimizer
+  //  time the direction of the derivative abruptly changes, the optimizer
   //  assumes that a local extrema has been passed and reacts by reducing the
-  //  step length by a half. After several reductions of the step length the
+  //  step length by a half. After several reductions of the step length, the
   //  optimizer may be moving in a very restricted area of the transform
-  //  parameters space. The user can define how small the step length should be
-  //  to consider convergence has been reached. This is equivalent to defining
-  //  the precision with which the final transform is to be known.
+  //  parameter space. The user can define how small the step length should be
+  //  to consider convergence to have been reached. This is equivalent to defining
+  //  the precision with which the final transform should be known.
   //
   //  The initial step length is defined with the method
   //  \code{SetMaximumStepLength()}, while the tolerance for convergence is
@@ -311,7 +311,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  In the case where the optimizer never succeeds in reaching the desired
-  //  precision tolerance it is prudent to establish a limit on the number of
+  //  precision tolerance, it is prudent to establish a limit on the number of
   //  iterations to be performed. This maximum number is defined with the
   //  method \code{SetNumberOfIterations()}.
   //
@@ -350,7 +350,7 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  // In a real application you may attempt to recover from the error in the
+  // In a real application, you may attempt to recover from the error in the
   // catch block. Here we are simply printing out a message and then
   // terminating the execution of the program.
   //
@@ -375,7 +375,7 @@ int main( int argc, char *argv[] )
   //  
   //  In the case of the \doxygen{TranslationTransform}, there is a
   //  straightforward interpretation of the parameters.  Each element of the
-  //  array corresponds to a translation along one of the dimension of space.
+  //  array corresponds to a translation along one spatial dimension.
   //
   //  Software Guide : EndLatex 
 
@@ -424,8 +424,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images provided in
-  //  \code{Examples/Data}, for example:
+  //  Let's execute this example over two of the images provided in
+  //  \code{Examples/Data}:
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
@@ -435,15 +435,15 @@ int main( int argc, char *argv[] )
   //  The second image is the result of intentionally translating the first
   //  image by $(13,17)$ millimeters. Both images have unit-spacing and
   //  are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
-  //  registration takes 18 iterations and produce as result the parameters:
+  //  registration takes 18 iterations and the resulting transform parameters are:
   //
   //  \begin{verbatim}
   //  Translation X = 12.9903
   //  Translation Y = 17.0001
   //  \end{verbatim}
   // 
-  //  As expected, these values pretty well match the misalignment
-  //  intentionally introduced in the moving image.
+  //  As expected, these values match the misalignment
+  //  intentionally introduced in the moving image quite well.
   //
   // \begin{figure}
   // \center
@@ -460,11 +460,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  It is common, as a last step of a registration task, to use the resulting
+  //  It is common, as the last step of a registration task, to use the resulting
   //  transform to map the moving image into the fixed image space.  This is
   //  easily done with the \doxygen{ResampleImageFilter}. Please refer to
   //  Section \ref{sec:ResampleImageFilter} for details on the use of this
-  //  filter.  First a \code{ResampleImageFilter} type is instantiated using
+  //  filter.  First, a ResampleImageFilter type is instantiated using
   //  the image types. It is convenient to use the fixed image type as the
   //  output type since it is likely that the transformed moving image will be
   //  compared with the fixed image.
@@ -510,16 +510,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  As described in Section \ref{sec:ResampleImageFilter}, the
-  //  \doxygen{ResampleImageFilter} requires additional parameters to be
-  //  specified. In particular the spacing, origin and size of the output
+  //  ResampleImageFilter requires additional parameters to be
+  //  specified, in particular, the spacing, origin and size of the output
   //  image. The default pixel value is also set to a distinct gray level in
-  //  order to make visible the regions that are outside of the mapped image. 
+  //  order to make the regions that are outside of the mapped image visible.  
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resample->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetDefaultPixelValue( 100 );
@@ -551,7 +551,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char  OutputPixelType;
+  typedef unsigned char  OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< 
                         FixedImageType,
@@ -562,7 +562,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The corresponding filters are created by invoking their \code{New()}
+  //  The filters are created by invoking their \code{New()}
   //  method.
   //
   //  Software Guide : EndLatex 
@@ -640,16 +640,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The complete pipeline structure of the current example is presented in
-  //  Figure \ref{fig:ImageRegistration1Pipeline}, the components of the
-  //  registration method are exposed as well.  Figure
-  //  \ref{fig:ImageRegistration1Output} left shows the result of resampling
+  //  Figure \ref{fig:ImageRegistration1Pipeline}.  The components of the
+  //  registration method are depicted as well.  Figure
+  //  \ref{fig:ImageRegistration1Output} (left) shows the result of resampling
   //  the moving image in order to map it onto the fixed image space. The top
   //  and right borders of the image appear in the gray level selected with the
-  //  \code{SetDefaultPixelValue()} in the \doxygen{ResampleImageFilter}. The
-  //  center image shows the squared differences between the fixed image and
-  //  the moving image. The right image shows the squared differences between
+  //  \code{SetDefaultPixelValue()} in the ResampleImageFilter. The
+  //  center image shows the squared difference between the fixed image and
+  //  the moving image. The right image shows the squared difference between
   //  the fixed image and the transformed moving image.  Both difference images
-  //  are displayed negated in order to accentuate pixels where differences
+  //  are displayed negated in order to accentuate those pixels where differences
   //  exist. 
   //
   //  Software Guide : EndLatex 
@@ -667,7 +667,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations.eps}
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric.eps}
-  // \itkcaption[Trace of translations and metrics during registration]{Sequence
+  // \itkcaption[Trace of translations and metrics during registration]{The sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration1Trace}
   // \end{figure}
@@ -676,9 +676,9 @@ int main( int argc, char *argv[] )
   //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
   //  reinforce this notion by showing the trace of translations and values of
   //  the image metric at each iteration of the optimizer. It can be seen from
-  //  the left figure that the step length is progressively reduced as the
-  //  optimizer gets closer to the metric extrema. The right plot shows clearly
-  //  how the metric value is decreasing as the optimization advances. The log
+  //  the top figure that the step length is progressively reduced as the
+  //  optimizer gets closer to the metric extrema. The bottom plot clearly
+  //  shows how the metric value decreases as the optimization advances. The log
   //  plot helps to hightlight the normal oscilations of the optimizer around
   //  the extrema value.
   //

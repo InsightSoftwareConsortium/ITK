@@ -18,37 +18,37 @@
 // Software Guide : BeginLatex
 //
 // Given the numerous parameters involved in tuning a registration method for
-// a particular application it is not uncommon for a registration process to
-// run for several minutes and produce a useless result.  To avoid
+// a particular application, it is not uncommon for a registration process to
+// run for several minutes and still produce a useless result.  To avoid
 // this situation it is quite helpful to track the evolution of the
 // registration as it progresses. The following section illustrates the
 // mechanisms provided in ITK for monitoring the activity of the
-// \doxygen{ImageRegistrationMethod} class.
+// ImageRegistrationMethod class.
 //
 // Insight implements the \emph{Observer/Command} design pattern
-// \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.)
+// \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.) 
 // The classes involved in this implementation are the \doxygen{Object},
-// \doxygen{Command} and \doxygen{EventObject} classes. The \doxygen{Object}
-// class is the base class of most ITK objects. This class maintains a linked
+// \doxygen{Command} and \doxygen{EventObject} classes. The Object
+// is the base class of most ITK objects. This class maintains a linked
 // list of pointers to event observers. The role of observers is played by
-// the \doxygen{Command} class.  Observer register themselves with an
-// \doxygen{Object} declaring that they are interested in receiving
-// notification when a particular event happens. A set of events are
-// represented by the hierarchy of the \doxygen{Event} class. Typical events
+// the Command class.  Observers register themselves with an
+// Object, declaring that they are interested in receiving
+// notification when a particular event happens. A set of events is
+// represented by the hierarchy of the Event class. Typical events
 // are \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
 //
-// Registration is controlled by an \doxygen{Optimizer} which in general
-// executes an iterative process. Most \doxygen{Optimizer} classes invoke an
+// Registration is controlled by an Optimizer, which generally
+// executes an iterative process. Most Optimizer classes invoke an
 // \code{itk::IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
-// observers (\doxygen{Command}s) and checks whether any one of them
+// observers (Commands) and checks whether any one of them has
 // expressed interest in the current event type. Whenever such an observer is
 // found, its corresponding \code{Execute()} method is invoked.  In this
-// context, \code{Execute()} methods should be considered as
+// context, \code{Execute()} methods should be considered 
 // \emph{callbacks}.  As such, some of the common sense rules of callbacks
 // should be respected.  For example, \code{Execute()} methods should not
 // perform heavy computational tasks.  They are assumed to execute
-// rapidly. For example, printing out a message or updating a value in a GUI.
+// rapidly, for example, printing out a message or updating a value in a GUI.
 //
 // \index{itk::ImageRegistrationMethod!Monitoring}
 //
@@ -88,7 +88,7 @@
 //  Software Guide : BeginLatex
 //
 //  Our custom command class is called \code{CommandIterationUpdate}. It
-//  derives from the \doxygen{Command} class and declares for convenience the
+//  derives from the Command class and declares for convenience the
 //  types \code{Self} and \code{Superclass}. This facilitate the use of
 //  standard macros later in the class implementation.
 //
@@ -146,11 +146,11 @@ protected:
 public:
   //  Software Guide : BeginLatex
   //
-  //  Since this \doxygen{Command} object will be observing the optimizer,
+  //  Since this Command object will be observing the optimizer,
   //  the following typedefs are useful for converting pointers when the
   //  \code{Execute()} method is invoked.  Note the use of \code{const} on
   //  the declaration of \code{OptimizerPointer}.  This is relevant since, in
-  //  this case, the observer is not intended to modify the optimizer in any
+  //  this case, the observer is not intending to modify the optimizer in any
   //  way. A \code{const} interface insures that all operations invoked on the
   //  optimizer are read-only.
   //
@@ -158,7 +158,7 @@ public:
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef const OptimizerType                         *OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
 
@@ -166,11 +166,11 @@ public:
   //
   //  ITK enforces const-correctness. There is hence a distinction between the
   //  \code{Execute()} method that can be invoked from a \code{const} object
-  //  and the one that can be invoked from a \code{non-const} object. In this
-  //  particular example the \code{non-const} version simply invoke the
+  //  and the one that can be invoked from a non-\code{const} object. In this
+  //  particular example the non-\code{const} version simply invoke the
   //  \code{const}  version. In a more elaborate situation the implementation
   //  of both \code{Execute()} methods could be quite different. For example,
-  //  you could imagine a \code{non-const} interaction in which the observer
+  //  you could imagine a non-\code{const} interaction in which the observer
   //  decides to stop the optimizer in response to a divergent behavior. A
   //  similar case could happen when a user is controlling the registration
   //  process from a GUI.
@@ -189,7 +189,7 @@ public:
   //
   // Finally we get to the heart of the observer, the \code{Execute()} method.
   // Two arguments are passed to this method. The first argument is the pointer
-  // to the object who invoked the event. The second argument is the event that
+  // to the object that invoked the event. The second argument is the event that
   // was invoked.
   //
   //  Software Guide : EndLatex 
@@ -202,9 +202,9 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the first argument is a pointer to an \doxygen{Object} even
+  //  Note that the first argument is a pointer to an Object even
   //  though the actual object invoking the event is probably a subclass of
-  //  \doxygen{Object}. In our case we know that the actual object is an
+  //  Object. In our case we know that the actual object is an
   //  optimizer. Thus we can perform a \code{dynamic\_cast} to the real type
   //  of the object.
   //
@@ -221,10 +221,10 @@ public:
   //  The next step is to verify that the event invoked is actually the one in
   //  which we are interested. This is checked using the RTTI\footnote{RTTI
   //  stands for: Run-Time Type Information} support. The \code{typeid}
-  //  function allows to compare the actual type of two references or pointers.
-  //  In this case we compare the type of the received event with the type of
-  //  \code{itk::IterationEvent}. If they happen to be different the method
-  //  return without any further action.
+  //  function allows us to compare the actual type of two references or pointers.
+  //  In this case we compare the type of the received event with an
+  //  IterationEvent. If they happen to be different, the method
+  //  returns without any further action.
   //
   //  Software Guide : EndLatex 
 
@@ -242,7 +242,7 @@ public:
   //  query data from the optimizer. Here, for example, we get the current
   //  number of iterations, the current value of the cost function and the
   //  current position on the parameter space. All of these values are printed
-  //  out to the standard output. You could imagine more elaborate actions like
+  //  to the standard output. You could imagine more elaborate actions like
   //  updating a GUI or refreshing a visualization pipeline.
   //
   //  Software Guide : EndLatex 
@@ -256,9 +256,9 @@ public:
    
   //  Software Guide : BeginLatex
   //
-  //  This concludes our implementation of a minimal \doxygen{Command} class
+  //  This concludes our implementation of a minimal Command class
   //  capable of observing our registration method.  We can now move on to
-  //  configure the registration process.
+  //  configuring the registration process.
   //
   //  Software Guide : EndLatex 
 };
@@ -346,7 +346,7 @@ int main( int argc, char *argv[] )
   //
   //  Once all the registration components are in place we can create one
   //  instance of our observer. This is done with the standard \code{New()}
-  //  method and assignment to a \doxygen{SmartPointer}.
+  //  method and assigned to a SmartPointer.
   //
   //  Software Guide : EndLatex 
 
@@ -372,11 +372,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The newly created command is registered as observer on the
-  //  optimizer. The method \code{AddObserver()} is used to that end. Note
+  //  optimizer, using the \code{AddObserver()} method. Note
   //  that the event type is provided as the first argument to this
-  //  method. In order for the RTTI mechanism to work correctly a newly
-  //  created event of the desired type can be passes as the first
-  //  argument. The second argument being simply the smart pointer to the
+  //  method. In order for the RTTI mechanism to work correctly, a newly
+  //  created event of the desired type can be passed as the first
+  //  argument. The second argument is simply the smart pointer to the
   //  optimizer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
   //  interaction between the Command/Observer class and the registration
   //  method.
@@ -390,9 +390,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  At this point, we are ready to execute the registration process. The
+  //  At this point, we are ready to execute the registration. The
   //  typical call to \code{StartRegistration()} will do it. Note again the
-  //  use of the \code{try/catch} block around the \code{StartRegistration}
+  //  use of the \code{try/catch} block around the \code{StartRegistration()}
   //  method in case an exception is thrown.
   //
   //  Software Guide : EndLatex 
@@ -413,14 +413,14 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the registration process on images: 
+  //  The registration process is applied to the following images in \code{Examples/Data}:
   //  
   //  \begin{itemize}
   //  \item \code{BrainProtonDensitySliceBorder20.png} 
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
-  //  provided in \code{Examples/Data} produces the following output.
+  //  It produces the following output.
   //
   //  \begin{verbatim}
   //    0 = 4499.45  : [2.84491, 2.81184]
@@ -441,14 +441,14 @@ int main( int argc, char *argv[] )
   //   15 = 0.3895   : [13.0027, 16.9996]
   //   16 = 0.003495 : [12.9872, 17.0012]
   //  \end{verbatim}
-  //  You can verify from the code in the \code{Execute()} method, the first
+  //  You can verify from the code in the \code{Execute()} method that the first
   //  column is the iteration number, the second column is the metric value and
   //  the third and fourth columns are the parameters of the transform, which
   //  is a $2D$ translation transform in this case. By tracking these values as
-  //  the registration progresses you will be able to determine whether the
+  //  the registration progresses, you will be able to determine whether the
   //  optimizer is advancing in the right direction and whether the step-length
-  //  is of reasonable size.  That will allow you to interrupt the registration
-  //  process and fine tune parameters without having to wait until the
+  //  is reasonable.  That will allow you to interrupt the registration
+  //  process and fine-tune parameters without having to wait until the
   //  optimizer stops by itself.
   //
   //  Software Guide : EndLatex 
