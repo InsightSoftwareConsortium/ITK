@@ -28,10 +28,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 HConvexImageFilter<TInputImage, TOutputImage>
 ::HConvexImageFilter()
-  : m_Height ( 2 ),
-    m_NumberOfIterationsUsed( 0 )
-
 {
+  m_Height = 2;
+  m_NumberOfIterationsUsed = 0;
 }
 
 template <class TInputImage, class TOutputImage>

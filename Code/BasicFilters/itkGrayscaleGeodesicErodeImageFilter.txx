@@ -35,10 +35,10 @@ namespace itk {
 
 template <class TInputImage, class TOutputImage>
 GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
-::GrayscaleGeodesicErodeImageFilter()
-  : m_RunOneIteration( false ),  // run to convergence
-    m_NumberOfIterationsUsed( 0 )
+::GrayscaleGeodesicErodeImageFilter()    
 {
+  m_RunOneIteration =  false;
+  m_NumberOfIterationsUsed =  0; // run to convergence
   this->SetNumberOfRequiredInputs(2);
 }
 

@@ -36,9 +36,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 ::GrayscaleGeodesicDilateImageFilter()
-  : m_RunOneIteration( false ),  // run to convergence
-    m_NumberOfIterationsUsed( 0 )
 {
+  m_RunOneIteration = false ;  // run to convergence
+  m_NumberOfIterationsUsed = 0;
   this->SetNumberOfRequiredInputs(2);
 }
 

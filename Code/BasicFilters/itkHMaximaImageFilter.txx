@@ -29,10 +29,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 HMaximaImageFilter<TInputImage, TOutputImage>
 ::HMaximaImageFilter()
-  : m_Height ( 2 ),
-    m_NumberOfIterationsUsed( 0 )
-
 {
+  m_Height = 2;
+  m_NumberOfIterationsUsed = 0;
 }
 
 template <class TInputImage, class TOutputImage>
