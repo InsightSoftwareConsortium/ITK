@@ -286,8 +286,10 @@ int main(int argc, char * argv[] )
   std::cout << "Result from the FFT transform" << std::endl;
   for(unsigned int k=0; k<spectrumSize; k++)
     {
-    std::cout << k << " : ";
-    std::cout << signal[k] << std::endl;
+    const double real = signal[k].real();
+    const double imag = signal[k].imag();
+    const double magnitude = sqrt( real * real + imag * imag );
+    std::cout << k << "  " << magnitude << std::endl;
     }
   // Software Guide : EndCodeSnippet
 
