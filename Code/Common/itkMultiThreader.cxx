@@ -348,6 +348,10 @@ void MultiThreader::SingleMethodExecute()
     }
   
   code= setrlimit64 (RLIMIT_STACK, &rlpOld);
+  if (code != 0)
+    {
+    itkExceptionMacro("setrlimit failed in Multithreader");
+    }
 #endif
   
 #ifdef ITK_USE_PTHREADS
@@ -558,6 +562,10 @@ void MultiThreader::MultipleMethodExecute()
     }
   
   code= setrlimit64 (RLIMIT_STACK, &rlpOld);
+  if (code != 0)
+    {
+    itkExceptionMacro("setrlimit failed in Multithreader");
+    }
 #endif
   
 #ifdef ITK_USE_PTHREADS
