@@ -43,7 +43,7 @@ int main()
                                        double           // interpolation weight
                                          >  DefaultPointSetTraits;
 
-  typedef itk::PointSet<unsigned char,DefaultPointSetTraits>    PointSetType;
+  typedef itk::PointSet<unsigned char,ImageDimension,DefaultPointSetTraits>    PointSetType;
 
   typedef PointSetType                                          TargetType;
 
@@ -136,13 +136,14 @@ int main()
   ti.Begin();
   while(!ti.IsAtEnd() && numPoints < numberOfSamples )
   {
-    if( counter < numPixelsToSkip ) 
+    if( counter >= numPixelsToSkip ) 
     {
       PointSetType::PointType point;
       point[0] = ti.GetIndex()[0];
       point[1] = ti.GetIndex()[1];
-      points->SetElement( counter, point    );
-      data->SetElement(   counter, ti.Get() );
+      points->SetElement( numPoints, point    );
+      data->SetElement(   numPoints, ti.Get() );
+      counter = 0;
       numPoints++;
     }
     ++ti;
