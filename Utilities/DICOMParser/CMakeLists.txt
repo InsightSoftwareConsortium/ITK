@@ -30,4 +30,5 @@ ADD_LIBRARY(ITKDICOMParser DICOMSource.cxx DICOMBuffer.cxx DICOMFile.cxx DICOMPa
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKDICOMParser)
 INSTALL_FILES(/include/InsightToolkit "(\\.h|\\.txx)$")
-
+INSTALL_FILES(/include/InsightToolkit FILES
+  ${DICOMParser_BINARY_DIR}/DICOMCMakeConfig.h)
