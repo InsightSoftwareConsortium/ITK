@@ -46,10 +46,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template< class TImageType >
-double LevelSetFunction<TImageType>::m_WaveDT = 1.0/(1.0 * ImageDimension);
+double LevelSetFunction<TImageType>::m_WaveDT = 1.0/(2.0 * ImageDimension);
 
 template < class TImageType >
-double LevelSetFunction<TImageType>::m_DT     = 1.0/(1.0 * ImageDimension);
+double LevelSetFunction<TImageType>::m_DT     = 1.0/(2.0 * ImageDimension);
 
 template< class TImageType >
 typename LevelSetFunction< TImageType >::TimeStepType
