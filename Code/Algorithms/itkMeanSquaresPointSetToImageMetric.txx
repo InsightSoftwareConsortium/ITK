@@ -105,10 +105,6 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
   MapperPointer mapper = Superclass::GetMapper();
   mapper->GetTransform()->SetParameters( parameters );
 
-  double sab = 0.0;
-  double saa = 0.0;
-  double sbb = 0.0;
-
   while( pt != points->End()  || vl != data->End() )
   {
     point       = pt.Value();
