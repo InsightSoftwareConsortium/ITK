@@ -130,7 +130,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
     // anticausal initialization 
     this->SetInitialAntiCausalCoefficient(m_SplinePoles[k]);
     // anticausal recursion 
-    for (unsigned int n = m_DataLength[m_IteratorDirection] - 2; 0 <= n; n--)
+    for ( int n = m_DataLength[m_IteratorDirection] - 2; 0 <= n; n--)
       {
       m_Scratch[n] = m_SplinePoles[k] * (m_Scratch[n + 1] - m_Scratch[n]);
       }
@@ -212,7 +212,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   /* See Unser, 1999, Box 2 for explaination */
 
   double  sum, zn, z2n, iz;
-  unsigned int  horizon;
+  unsigned long  horizon;
 
   /* this initialization corresponds to mirror boundaries */
   horizon = m_DataLength[m_IteratorDirection];
