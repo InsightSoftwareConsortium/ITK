@@ -795,7 +795,6 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
-  int i, j, cell=0; 
   InputPointType x, y, z, d;
   InputPointType* x_pt;
 //  InputPointType* y_pt; 
@@ -840,9 +839,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputCellDataContainerIterator      outcelldata = myOutCellData->Begin();
    
   typename TriCell::Pointer           insertCell = TriCell::New(); 
-
-  i = 0;
-  j = 0;
 
   int p = 0, jn;
 
