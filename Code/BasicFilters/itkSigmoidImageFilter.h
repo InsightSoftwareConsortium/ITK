@@ -29,7 +29,7 @@ namespace itk
  * the sigmoid fuction. The resulting total transfrom is given by
  *
  * \f[
- * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{-(\alpha \cdot x + \beta)}\right)} + Min
+ * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{-(\frac{ x - \beta }{\alpha}\right)} + Min
  * \f]
  *
  * Every output pixel is equal to f(x). Where x is the intensity of the
@@ -53,7 +53,7 @@ namespace Function {
     ~Sigmoid() {};
     inline TOutput operator()( const TInput & A )
     {
-      const double x = m_Alpha * static_cast<double>(A) + m_Beta;
+      const double x = ( static_cast<double>(A) - m_Beta ) / m_Alpha;
       const double e = 1.0 / ( 1.0 + exp( - x ) );
       const double v = 
         (m_OutputMaximum - m_OutputMinimum ) * e + m_OutputMinimum;
