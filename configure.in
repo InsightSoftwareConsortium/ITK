@@ -505,6 +505,8 @@ fi
 
 AC_SUBST(EXTRA_GCC_FLAG)
 
+AC_CONFIG_SUBDIRS(Code/Insight3DParty/vxl/vcl)
+
 # For remote builds you have to configure at least one
 # file in each directory, so configure can make the directories.
 # So, for some directories with no Makefiles, a mkdir file is created
