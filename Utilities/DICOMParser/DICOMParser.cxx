@@ -341,7 +341,7 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
     //
     unsigned char* tempdata;
 
-    if (static_cast<unsigned long>(length) != 0xfffffffful)
+    if (static_cast<unsigned long>(length) != static_cast<unsigned long>(-1))
       {
       // length was specified
       tempdata = (unsigned char*) source.ReadAsciiCharArray(length);
