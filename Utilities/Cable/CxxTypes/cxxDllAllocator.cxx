@@ -47,7 +47,7 @@ namespace _cxx_
 /**
  * Allocate "length" bytes of memory, and return a pointer to it.
  */
-void* DllAllocate(size_t length, DllAllocator<void>::const_pointer)
+void* DllAllocate(size_t length)
 {
   return ((void*)(new char[length]));
 }

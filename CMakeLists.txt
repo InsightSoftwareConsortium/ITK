@@ -60,58 +60,68 @@ SITE_NAME(SITE)
 BUILD_NAME(BUILDNAME)
 # set the build command
 BUILD_COMMAND(MAKECOMMAND ${MAKEPROGRAM} )
-# Add commands to generate configure file when no
-# autoconf is around
+
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/itkConfigure.h.in 
 ${ITK_BINARY_DIR}/itkConfigure.h)
 
-CONFIGURE_FILE_NOAUTOCONF(
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
-
-CONFIGURE_FILE_NOAUTOCONF(
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
-
-CONFIGURE_FILE_NOAUTOCONF(
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
-
-CONFIGURE_FILE_NOAUTOCONF(
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
-
-
 CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Build.tcl)
+${ITK_SOURCE_DIR}/Code/doxygen.config.in
+${ITK_BINARY_DIR}/Code/doxygen.config)
+
+MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
+MAKE_DIRECTORY(${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME})
+
+IF(RUN_CONFIGURE)
+  EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
+               ${ITK_BINARY_DIR}/Code/Numerics/vxl)
+  EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
+               ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
+ELSE(RUN_CONFIGURE)
+  CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
+  CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
+  CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
+  CONFIGURE_FILE_NOAUTOCONF(
+        ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
+        ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
+ENDIF(RUN_CONFIGURE)
+
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
-${ITK_BINARY_DIR}/Testing/Utilities/Utility.conf)
+${ITK_BINARY_DIR}/Testing/Utilities/Utility.conf )
+
+CONFIGURE_FILE(
+${ITK_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Build.tcl COPYONLY)
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Utility.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Utility.tcl)
+${ITK_BINARY_DIR}/Testing/Utilities/Utility.tcl COPYONLY)
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/DashboardManager.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl)
+${ITK_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl COPYONLY)
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Test.tcl)
+${ITK_BINARY_DIR}/Testing/Utilities/Test.tcl COPYONLY)
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl)
+${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl COPYONLY)
 
 
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl)
+${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl COPYONLY)
 
 
 ADD_CUSTOM_TARGET(Nightly 

@@ -56,9 +56,13 @@ class DllAllocator;
 /**
  * Special allocator for "void".
  */
-template <> class DllAllocator<void>: public std::allocator<void> {};
+template <> class DllAllocator<void>: public std::allocator<void> 
+{
+public:
+  typedef std::allocator<void>::const_pointer const_pointer;
+};
 
-_cxx_EXPORT void* DllAllocate(size_t length, DllAllocator<void>::const_pointer);
+_cxx_EXPORT void* DllAllocate(size_t length);
 _cxx_EXPORT void DllDeallocate(void* buffer, size_t);
 
 /**
@@ -96,9 +100,9 @@ public:
    * Re-implement the allocate() method to be sure to allocate memory on only
    * one DLL's heap.
    */
-  pointer allocate(size_type n, DllAllocator<void>::const_pointer hint = 0)
+  pointer allocate(size_type n, DllAllocator<void>::const_pointer = 0)
     {
-      return (pointer)DllAllocate(n*sizeof(T), hint);
+      return (pointer)DllAllocate(n*sizeof(T));
     }
   
   /**
@@ -114,9 +118,9 @@ public:
    * Re-implement the allocate() method to be sure to allocate memory on only
    * one DLL's heap.
    */
-  static pointer allocate(size_type n, DllAllocator<void>::const_pointer hint = 0)
+  static pointer allocate(size_type n, DllAllocator<void>::const_pointer = 0)
     {
-      return (pointer)DllAllocate(n*sizeof(T), hint);
+      return (pointer)DllAllocate(n*sizeof(T));
     }
 
   /**

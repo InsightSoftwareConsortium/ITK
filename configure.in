@@ -18,7 +18,9 @@ AC_PATH_XTRA
 
 # get byte swapping info
 AC_C_BIGENDIAN
-AC_SUBST(CMAKE_WORDS_BIGENDIAN)
+if test $ac_cv_c_bigendian = yes; then
+  AC_DEFINE(CMAKE_WORDS_BIGENDIAN)
+fi
 
 
 # some stuff Tcl uses
@@ -564,11 +566,6 @@ fi
 
 AC_SUBST(EXTRA_GCC_FLAG)
 
-AC_CONFIG_SUBDIRS(Code/Numerics/vxl)
-AC_CONFIG_SUBDIRS(Code/Numerics/vxl/vcl)
-
-
-
 # find make to use to build cmake, prefer gmake
 AC_PATH_PROGS(RUNMAKE, gmake make)
 
@@ -586,26 +583,7 @@ CMake/CMakeVariables.make
 CMake/CMakeRules.make 
 CMake/Source/CMakeTargets.make:CMake/dummy.in 
 CMake/Source/Makefile
-Code/doxygen.config
-Code/Numerics/mkdir:CMake/dummy.in
-Code/Numerics/vxl/mkdir:CMake/dummy.in
-Code/Numerics/vxl/vcl/mkdir:CMake/dummy.in
-Testing/HTML/mkdir:CMake/dummy.in
-Testing/HTML/TestingResults/mkdir:CMake/dummy.in
-Testing/HTML/TestingResults/Sites/mkdir:CMake/dummy.in
 )
-
-
-#
-# Make the directories that will be needed to hold testing results
-#
-if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE; then
-	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE 
-fi
-if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE/$BUILDNAME; then
-	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/Sites/$SITE/$BUILDNAME
-fi
-
 
 # build the CMakeBuildTargets program
 (cd CMake/Source; $RUNMAKE CMakeBuildTargets)
@@ -614,13 +592,14 @@ fi
 # cache file can have the most recent changes from configure
 # in it.
 echo  CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
-CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR} -DRUN_CONFIGURE
 
 echo CMakeCache.txt location: ${CMAKE_CONFIG_DIR}/CMakeCache.txt
 
 # force a rebuild of CMakeBuildTargets which will rebuild CMakeTargets.make
-# this has to be done because configure generates empty CMakeTargets.make files
+# this has to be done because CMakeBuildTargets -MakeCache generates stub CMakeTargets.make files
 # and make programs other than gnu do not like to include make file fragments
 # that do not exist, even if they know how to create them.
 rm -f CMake/Source/CMakeBuildTargets
 rm -f CMake/Source/CMakeBuildTargets.exe
+
