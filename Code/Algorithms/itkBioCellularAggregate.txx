@@ -157,7 +157,6 @@ CellularAggregate<NSpaceDimension>
             }
           else
             {
-            std::cout << "removing" << std::endl;
             region->RemovePointId( id );
             }
           }
