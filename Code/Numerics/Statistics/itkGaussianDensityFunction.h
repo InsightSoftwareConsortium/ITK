@@ -35,6 +35,11 @@ namespace Statistics{
  * This class keeps parameter to define Gaussian Density Function  and has
  * method to return the probability density 
  * of an instance (pattern) .  
+ * If the all element of the covariance matrix is zero the "usual" density 
+ * calculations ignored. if the measurement vector to be evaluated is equal to
+ * the mean, then the Evaluate method will return maximum value of double and return 0 
+ * for others 
+ *
  */
 
 template< class TMeasurementVector >
@@ -103,6 +108,10 @@ private:
   // pre_factor which is automatically calculated 
   // when covariace matirx is set.  This speeds up the GetProbability()  
   double m_PreFactor;
+
+  /** if the all element of the given covarinace is zero, then this
+   * value set to true */
+  bool m_IsCovarianceZero ;
 };
 
 } // end of namespace Statistics
