@@ -192,10 +192,10 @@ public:
    * template parameters.
    */
   template <SizeType VFirst, SizeType VLast>
-  typename Array<ValueType, Range<VFirst, VLast>::Length>::Reference
+  typename Array<ValueType, (VLast-VFirst+1)>::Reference
   operator[](Range<VFirst, VLast>)
     {
-    return Array<ValueType, Range<VFirst, VLast>::Length>
+    return Array<ValueType, (VLast-VFirst+1)>
       ::Reference(m_InternalArray+VFirst);
     }
 
@@ -205,10 +205,10 @@ public:
    * template parameters.
    */
   template <SizeType VFirst, SizeType VLast>
-  typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+  typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
   operator[](Range<VFirst, VLast>) const
     {
-    return Array<ValueType, Range<VFirst, VLast>::Length>
+    return Array<ValueType, (VLast-VFirst+1)>
       ::ConstReference(m_InternalArray+VFirst);
     }
   
@@ -343,10 +343,10 @@ public:
      * template parameters.
      */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, Range<VFirst, VLast>::Length>::Reference
+    typename Array<ValueType, (VLast-VFirst+1)>::Reference
     operator[](Range<VFirst, VLast>)
       {
-      return Array<ValueType, Range<VFirst, VLast>::Length>
+      return Array<ValueType, (VLast-VFirst+1)>
         ::Reference(m_InternalArray+VFirst);
       }    
     
@@ -355,10 +355,10 @@ public:
      * template parameters.
      */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+    typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
     operator[](Range<VFirst, VLast>) const
       {
-      return Array<ValueType, Range<VFirst, VLast>::Length>
+      return Array<ValueType, (VLast-VFirst+1)>
         ::ConstReference(m_InternalArray+VFirst);
       }
     
@@ -425,10 +425,10 @@ public:
      * template parameters.
      */
     template <SizeType VFirst, SizeType VLast>
-    typename Array<ValueType, Range<VFirst, VLast>::Length>::ConstReference
+    typename Array<ValueType, (VLast-VFirst+1)>::ConstReference
     operator[](Range<VFirst, VLast>) const
       {
-      return Array<ValueType, Range<VFirst, VLast>::Length>
+      return Array<ValueType, (VLast-VFirst+1)>
         ::ConstReference(m_InternalArray+VFirst);
       }
 
