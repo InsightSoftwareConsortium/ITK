@@ -41,6 +41,7 @@ namespace itk
   TubeSpatialObject 
   ::~TubeSpatialObject()
   { 
+    delete m_Points;
   } 
  
   TubeSpatialObject::PointListPointer  
