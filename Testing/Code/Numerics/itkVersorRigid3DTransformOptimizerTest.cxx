@@ -132,6 +132,76 @@ public:
   void GetDerivative( const ParametersType & parameters,
                             DerivativeType & derivative  ) const
   {
+    VectorType rightPart;
+    for(unsigned int i=0; i<3; i++)
+      {
+      rightPart[i] = parameters[i];
+      }
+
+    VersorType currentVersor;
+    currentVersor.Set( rightPart );
+
+
+    const MeasureType baseValue =  this->GetValue( parameters );
+
+    VersorType versorX;
+    VersorType versorY;
+    VersorType versorZ;
+
+    const double deltaAngle = 0.00175; // in radians = about 0.1 degree
+
+    versorX.SetRotationAroundX( deltaAngle );
+    versorY.SetRotationAroundY( deltaAngle );
+    versorZ.SetRotationAroundZ( deltaAngle );
+
+    VersorType plusdDeltaX = currentVersor * versorX;
+    VersorType plusdDeltaY = currentVersor * versorY;
+    VersorType plusdDeltaZ = currentVersor * versorZ;
+
+    ParametersType parametersPlustDeltaVX = parameters;
+    ParametersType parametersPlustDeltaVY = parameters;
+    ParametersType parametersPlustDeltaVZ = parameters;
+    
+    ParametersType parametersPlustDeltaTX = parameters;
+    ParametersType parametersPlustDeltaTY = parameters;
+    ParametersType parametersPlustDeltaTZ = parameters;
+    
+    parametersPlustDeltaVX[0] = plusdDeltaX.GetX();
+    parametersPlustDeltaVX[1] = plusdDeltaX.GetY();
+    parametersPlustDeltaVX[2] = plusdDeltaX.GetZ();
+
+    parametersPlustDeltaVY[0] = plusdDeltaY.GetX();
+    parametersPlustDeltaVY[1] = plusdDeltaY.GetY();
+    parametersPlustDeltaVY[2] = plusdDeltaY.GetZ();
+
+    parametersPlustDeltaVZ[0] = plusdDeltaZ.GetX();
+    parametersPlustDeltaVZ[1] = plusdDeltaZ.GetY();
+    parametersPlustDeltaVZ[2] = plusdDeltaZ.GetZ();
+
+    const MeasureType turnXValue = this->GetValue( parametersPlustDeltaVX );
+    const MeasureType turnYValue = this->GetValue( parametersPlustDeltaVY );
+    const MeasureType turnZValue = this->GetValue( parametersPlustDeltaVZ );
+
+    derivative = DerivativeType( SpaceDimension );
+
+    derivative[0] = ( turnXValue - baseValue ) / deltaAngle;
+    derivative[1] = ( turnYValue - baseValue ) / deltaAngle;
+    derivative[2] = ( turnZValue - baseValue ) / deltaAngle;
+
+    const double deltaTranslation = deltaAngle; // just to keep the scaling
+    
+    parametersPlustDeltaTX[0] += deltaTranslation;
+    parametersPlustDeltaTY[1] += deltaTranslation;
+    parametersPlustDeltaTZ[2] += deltaTranslation;
+
+    const MeasureType transXValue = this->GetValue( parametersPlustDeltaTX );
+    const MeasureType transYValue = this->GetValue( parametersPlustDeltaTY );
+    const MeasureType transZValue = this->GetValue( parametersPlustDeltaTZ );
+
+    derivative[3] = ( transXValue - baseValue ) / deltaTranslation;
+    derivative[4] = ( transYValue - baseValue ) / deltaTranslation;
+    derivative[5] = ( transZValue - baseValue ) / deltaTranslation;
+
   }
 
   unsigned int GetNumberOfParameters(void) const 
@@ -265,7 +335,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   trueAxis[0]  = 1.0f;
   trueAxis[1]  = 0.0f;
   trueAxis[2]  = 0.0f;
-  trueAngle = 10.0 * atan( 1.0f );
+  trueAngle = 10.0 * atan( 1.0f ) / 45.0;
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
     
