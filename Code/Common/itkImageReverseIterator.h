@@ -265,7 +265,37 @@ public:
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
     m_PixelAccessor = it.m_PixelAccessor;
+    return *this;
+  }
+  
+  /**
+   * operator= is provided to make sure the handle to the image is properly
+   * reference counted.
+   */
+  Self &operator=(const ImageIterator<TImage>& it)
+  {
+    m_Image = it.GetImage();
+    m_Region = it.GetRegion();
+    m_Buffer = m_Image->GetBufferPointer();
+    
+    IndexType ind = it.GetIndex();
 
+    m_Offset = m_Image->ComputeOffset( ind );
+
+    // Compute the end offset, one pixel before the first pixel
+    m_EndOffset = m_Image->ComputeOffset( m_Region.GetIndex() ) - 1;
+    
+    // Compute the begin offset, the last pixel in the region
+    IndexType regInd(m_Region.GetIndex());
+    SizeType regSize(m_Region.GetSize());
+    for (unsigned int i=0; i < TImage::ImageDimension; ++i)
+      {
+      regInd[i] += (regSize[i] - 1);
+      }
+    m_BeginOffset = m_Image->ComputeOffset( regInd );
+    
+    m_PixelAccessor = m_Image->GetPixelAccessor();
+    
     return *this;
   }
   
