@@ -3,12 +3,14 @@ CABLE_CLASS_SET(Double double)
 CABLE_CLASS_SET(ULong "unsigned long")
 CABLE_CLASS_SET(Dimension 2)
 CABLE_CLASS_SET(Dimension3 3)
+CABLE_CLASS_SET(Index "itk::Index<$Dimension>")
 CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
 CABLE_CLASS_SET(Image3D "itk::Image<$Float,$Dimension3>")
 CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
 CABLE_CLASS_SET(CovariantVector3 "itk::CovariantVector<$Float,$Dimension3>")
 CABLE_CLASS_SET(GradientImage3 "itk::Image<$CovariantVector3,$Dimension3>")
 CABLE_CLASS_SET(Mesh "itk::Mesh<$Float,$Dimension>")
+CABLE_CLASS_SET(MeshI "itk::Mesh<$Index,$Dimension3>")
 CABLE_CLASS_SET(RGBPix "itk::RGBPixel<$Float>")
 CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
 CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Float>")
@@ -74,7 +76,7 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::GrayscaleFunctionDilateImageFilter<$Image,$Image,$Kernel>"
   "itk::GrayscaleFunctionErodeImageFilter<$Image,$Image,$Kernel>"
   "itk::ImageToMeshFilter<$Image,$Mesh>"
-  "itk::ImageToParametricSpaceFilter<$Image,$Mesh>"
+  "itk::ImageToParametricSpaceFilter<$Image,$MeshI>"
   "itk::ImportImageFilter<$Float,$Dimension>"
   "itk::InteriorExteriorMeshFilter<$Mesh,$Mesh,$EllipsoidFunc>"
   "itk::JoinImageFilter<$Image,$Image>"
