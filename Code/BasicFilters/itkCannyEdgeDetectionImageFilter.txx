@@ -50,10 +50,7 @@ CannyEdgeDetectionImageFilter()
 
   // Set up neighborhood slices for all the dimensions.
   typename Neighborhood<OutputImagePixelType, ImageDimension>::RadiusType r;
-  for (i = 0; i < ImageDimension; ++i)
-    {
-    r[i] = 1;
-    }
+  r.Fill(1);
 
   // Dummy neighborhood used to set up the slices.
   Neighborhood<OutputImagePixelType, ImageDimension> it;
@@ -168,7 +165,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ThreadedCompute2ndDerivative(const OutputImageRegionType&
                                outputRegionForThread, int threadId)
 {
-  unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ImageRegionIterator<TOutputImage> it;
@@ -181,8 +177,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   typename  InputImageType::Pointer output  = m_UpdateBuffer;
 
   // set iterator radius
-  Size<ImageDimension> radius;
-  for (i = 0; i < ImageDimension; ++i) radius[i]  = 1;
+  Size<ImageDimension> radius; radius.Fill(1);
 
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
@@ -447,11 +442,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   ListNodeType * node;
 
   //assign iterator radius
-  Size<ImageDimension> radius;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-    radius[i]  = 1;
-    }
+  Size<ImageDimension> radius; radius.Fill(1);
 
   ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
   
@@ -493,8 +484,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/*
-  
+/*  
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -507,42 +497,37 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   
   //assign iterator radius
-  Size<ImageDimension> radius;
-  for (int i = 0; i < ImageDimension; ++i)
-    {
-    radius[i]  = 1;
-    }
-
+  Size<ImageDimension> radius; radius.Fill(1);
+  
   ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
   
   ImageRegionIteratorWithIndex<TOutputImage> uit(m_UpdateBuffer,
-                                        m_UpdateBuffer->GetRequestedRegion());
-
+                                                 m_UpdateBuffer->GetRequestedRegion());
+  
   uit.SetIndex(index);
-
+  
   if(uit.Get() ==1) return;
-
+  
   uit.Value() = 1;
   
   int nSize = m_Center * 2 +1;
-
+  
   oit.SetLocation(index);
-
+  
   for(int i = 0; i < nSize; i++)
     {
-      nIndex = oit.GetIndex(i);
-      uit.SetIndex(nIndex);
-      if(InBounds(nIndex))
+    nIndex = oit.GetIndex(i);
+    uit.SetIndex(nIndex);
+    if(InBounds(nIndex))
       if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
         {
-          uit.Value() = 1;
-          oit.SetLocation(nIndex);
-          i = -1;
+        uit.Value() = 1;
+        oit.SetLocation(nIndex);
+        i = -1;
         }
     }
-
+  
 }
-
 */
 
 template< class TInputImage, class TOutputImage >
@@ -556,7 +541,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    if(index[i] < 0 || index[i] >= sz[i])
+    if(index[i] < 0 ||
+       index[i] >= static_cast<typename IndexType::IndexValueType>(sz[i]))
       {
       return false;
       }
@@ -571,7 +557,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ThreadedCompute2ndDerivativePos(const OutputImageRegionType& outputRegionForThread, int threadId)
 {
 
-  unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ConstNeighborhoodIterator<TInputImage> bit;
@@ -589,8 +574,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   
 
   // set iterator radius
-  Size<ImageDimension> radius;
-  for (i = 0; i < ImageDimension; ++i) radius[i]  = 1;
+  Size<ImageDimension> radius; radius.Fill(1);
 
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::

@@ -101,9 +101,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   Point<float,2> point;
 
   while( !image_it.IsAtEnd() )
-  {
+    {
     if(image_it.Get()>m_Threshold)
-    {   
+      {   
       point[0] = image_it.GetIndex()[0];
       point[1] = image_it.GetIndex()[1];
       typename DoGFunctionType::VectorType grad = DoGFunction->EvaluateAtIndex(image_it.GetIndex());
@@ -112,7 +112,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
       double Vy = grad[1];
 
       if( (fabs(Vx)>1) || (fabs(Vy)>1) ) // if the gradient is not flat
-      {
+        {
         double norm = sqrt(Vx*Vx+Vy*Vy);
         Vx /= norm;
         Vy /= norm;
@@ -122,30 +122,35 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 
         do{
 
-            index[0] = (long int)(point[0]+i*Vx);
-            index[1] = (long int)(point[1]+i*Vy);
+        index[0] = (long int)(point[0]+i*Vx);
+        index[1] = (long int)(point[1]+i*Vy);
 
-            distance = sqrt( (index[1]-point[1])*(index[1]-point[1])
-                             +(index[0]-point[0])*(index[0]-point[0])
-                           );
+        distance = sqrt( (index[1]-point[1])*(index[1]-point[1])
+                         +(index[0]-point[0])*(index[0]-point[0])
+          );
 
 
-            if((index[1]>0) &&(index[1]<size[1])  && (index[0]>0) &&(index[0]<size[0]))
-            {
-              m_OutputImage->SetPixel(index, m_OutputImage->GetPixel(index)+1);
-              m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance)/2);       
-            }
+        if((index[1]>0) &&(index[1]<static_cast<long
+                           int>(size[1]))  && (index[0]>0)
+           &&(index[0]<static_cast<long int>(size[0])))
+          {
+          m_OutputImage->SetPixel(index, m_OutputImage->GetPixel(index)+1);
+          m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance)/2);       
+          }
           
-            i=i+1;
+        i=i+1;
 
-          } while( (index[0]>0) && (index[0]<size[0]) && (index[1]>0) && (index[1]<size[1]) 
-                    && (distance < m_MaximumRadius)
-                  );
+        } while( (index[0]>0) &&
+                 (index[0]<static_cast<typename Index<2>::IndexValueType>(size[0])) &&
+                 (index[1]>0) &&
+                 (index[1]<static_cast<typename Index<2>::IndexValueType>(size[1])) 
+                 && (distance < m_MaximumRadius)
+          );
+        }
+
       }
-
-    }
     ++image_it;
-  }
+    }
 
 }
 
