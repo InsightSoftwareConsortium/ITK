@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkNumericTraits.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMException.h"
-#include "itkNumericTraits.h"
 #include <vector>
 
 namespace itk {
@@ -53,7 +53,7 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
   m_IPARM[4] = 1;    /* non-symmetric matrix */
 
   /* itpack recommended (but not default) value */
-  m_RPARM[7] = 500.0 * NumericTraits<double>::min();
+  m_RPARM[7] = 500.0 * NumericTraits<double>::NonpositiveMin();
 
   m_MaximumNonZeroValues = 0;
   m_Matrices = 0;

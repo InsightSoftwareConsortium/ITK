@@ -22,7 +22,6 @@
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMItpackSparseMatrix.h"
 #include <vector>
-#include "itpack.h"
 
 
 namespace itk {
