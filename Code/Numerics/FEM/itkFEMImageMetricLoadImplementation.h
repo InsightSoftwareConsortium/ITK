@@ -70,7 +70,7 @@ private:
   
   static const bool registered;
   
-  static void Implementation(Element::ConstPointer element, TLoadClass::Pointer l0, Element::VectorType& Fe)
+  static void Implementation(typename Element::ConstPointer element, typename TLoadClass::Pointer l0, typename Element::VectorType& Fe)
   {
     const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
     typename Solution::ConstPointer   S=l0->GetSolution(); // has current solution state
