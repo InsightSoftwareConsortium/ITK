@@ -63,7 +63,7 @@ inline int Chdir(const char* dir)
 }
 #endif
 
-::std::string IOCommon
+std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 {
   switch(pixelType)
@@ -284,15 +284,9 @@ char *IOCommon
 ::RealPath(const char *path, char *resolved_path)
 {
 #if defined(_WIN32)
-<<<<<<< itkIOCommon.cxx
   char pathpart[itk::IOCommon::ITK_MAXPATHLEN];
-  std::strcpy(pathpart,path);
-  char fnamepart[itk::IOCommon::ITK_MAXPATHLEN];
-=======
-  char pathpart[MAXPATHLEN];
   strcpy(pathpart,path);
-  char fnamepart[MAXPATHLEN];
->>>>>>> 1.5
+  char fnamepart[itk::IOCommon::ITK_MAXPATHLEN];
   char *slash;
 
   if((slash = strrchr(pathpart,'/')) == NULL)
