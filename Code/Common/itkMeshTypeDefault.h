@@ -141,7 +141,7 @@ public:
         PointCellLinksContainer;
 
   /**
-   * The container type for use in storing point links back to cells.]
+   * The container type for use in storing point links back to cells.
    * It must conform to the IndexedContainer interface.
    */
   typedef VectorContainer< PointIdentifier , PointCellLinksContainer >

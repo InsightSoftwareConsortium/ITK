@@ -31,7 +31,6 @@ HexahedronCell< TPixelType , TCelltype >
   return newCell;
 }
 
-  
 /**
  * Standard CellInterface:
  * Get the topological dimension of this cell.
@@ -41,9 +40,8 @@ int
 HexahedronCell< TPixelType , TCelltype >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
-
 
 /**
  * Standard CellInterface:
@@ -54,9 +52,8 @@ int
 HexahedronCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
-
 
 /**
  * Standard CellInterface:
@@ -75,7 +72,6 @@ HexahedronCell< TPixelType , TCelltype >
     default: return 0;
     }
 }
-
 
 /**
  * Standard CellInterface:
@@ -97,7 +93,6 @@ HexahedronCell< TPixelType , TCelltype >
     }
 }
 
-
 /**
  * Standard CellInterface:
  * Set the point id list used by the cell.  It is assumed that the given
@@ -110,10 +105,11 @@ HexahedronCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
+    {   
     m_PointIds[i] = *ii++;
+    }
 }
-
 
 /**
  * Standard CellInterface:
@@ -131,9 +127,10 @@ HexahedronCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
-
 
 /**
  * Standard CellInterface:
@@ -147,7 +144,6 @@ HexahedronCell< TPixelType , TCelltype >
   m_PointIds[localId] = ptId;
 }
 
-
 /**
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
@@ -159,7 +155,6 @@ HexahedronCell< TPixelType , TCelltype >
 {
   return &m_PointIds[0];
 }
-
 
 /**
  * Standard CellInterface:
@@ -174,7 +169,6 @@ HexahedronCell< TPixelType , TCelltype >
   return &m_PointIds[0];
 }
 
-
 /**
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
@@ -184,9 +178,8 @@ HexahedronCell< TPixelType , TCelltype >::PointIdIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
-
 
 /**
  * Standard CellInterface:
@@ -198,9 +191,8 @@ HexahedronCell< TPixelType , TCelltype >::PointIdConstIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
-
 
 /**
  * Hexahedron-specific:
@@ -211,9 +203,8 @@ HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
 HexahedronCell< TPixelType , TCelltype >
 ::GetNumberOfVertices(void)
 {
-  return NumberOfVertices;
+  return Self::NumberOfVertices;
 }
-
 
 /**
  * Hexahedron-specific:
@@ -224,9 +215,8 @@ HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
 HexahedronCell< TPixelType , TCelltype >
 ::GetNumberOfEdges(void)
 {
-  return NumberOfEdges;
+  return Self::NumberOfEdges;
 }
-
 
 /**
  * Hexahedron-specific:
@@ -237,9 +227,8 @@ HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
 HexahedronCell< TPixelType , TCelltype >
 ::GetNumberOfFaces(void)
 {
-  return NumberOfFaces;
+  return Self::NumberOfFaces;
 }
-
 
 /**
  * Hexahedron-specific:
@@ -271,11 +260,12 @@ HexahedronCell< TPixelType , TCelltype >
   Edge::Pointer edge(Edge::New());
 
   for(int i=0; i < Edge::NumberOfPoints; ++i)
+    {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
+    }
   
   return edge;
 }
-
 
 /**
  * Hexahedron-specific:
@@ -290,11 +280,12 @@ HexahedronCell< TPixelType , TCelltype >
   Face::Pointer face(Face::New());
   
   for(int i=0; i < Face::NumberOfPoints; ++i)
+    {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
+    }
   
   return face;
 }
-
 
 /**
  * The hexahedron's topology data: Edges.

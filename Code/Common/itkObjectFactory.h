@@ -43,19 +43,19 @@ class ObjectFactory : public ObjectFactoryBase
 public:
   static T* Create()
     {
-      LightObject* ret = ObjectFactory::CreateInstance(typeid(T).name());
-      if(ret)
-	{
-	try
-	  {
-	  return dynamic_cast<T*>(ret);
-	  }
-	catch (...)
-	  {
-	  return 0;
-	  }
-	}
-      return 0;
+    LightObject* ret = ObjectFactory::CreateInstance(typeid(T).name());
+    if(ret)
+      {
+      try
+        {
+        return dynamic_cast<T*>(ret);
+        }
+      catch (...)
+        {
+        return 0;
+        }
+      }
+    return 0;
     }
 };
 
@@ -64,3 +64,4 @@ public:
 #endif
 
         
+

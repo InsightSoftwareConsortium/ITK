@@ -23,18 +23,18 @@ namespace itk
 {
 
 /** \class IndexedContainerInterface
- * This should only be used for
- * reference when writing containers conforming to this interface.  ITK
- * uses generic programming to allow container type substitution, so
- * polymorphism is not needed to use containers through this interface.  This
- * means that a container conforming to this interface need not be derived
- * from it, and that their methods should not be virtual.
- * However, the container must derive from itk::Object in order to
- * support the reference counting, modification time, and debug information
- * required by this interface.
+ * This should only be used for reference when writing containers
+ * conforming to this interface.  ITK uses generic programming to
+ * allow container type substitution, so polymorphism is not needed to
+ * use containers through this interface.  This means that a container
+ * conforming to this interface need not be derived from it, and that
+ * their methods should not be virtual.  However, the container must
+ * derive from itk::Object in order to support the reference counting,
+ * modification time, and debug information required by this
+ * interface.
  *
  * Note that many comments refer to a "default element" or "default element
- * value".  This value is equal to the default contstructor of the
+ * value".  This value is equal to the default constructor of the
  * Element type.  Also note that all non-const methods assume that the
  * container was modified, and update the modification time.
  *
@@ -45,8 +45,9 @@ namespace itk
  *    It must have a < operator defined for ordering.
  *
  * TElement =
- *    The element type stored in the container.
+ *    The element type stored in the container.  
  */
+
 template <typename TElementIdentifier, typename TElement>
 class IndexedContainerInterface: public Object
 {

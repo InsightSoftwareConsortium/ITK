@@ -41,7 +41,7 @@ int
 LineCell< TPixelType , TCellType >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
 
 
@@ -54,7 +54,7 @@ int
 LineCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
 
 
@@ -106,7 +106,7 @@ LineCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
     m_PointIds[i] = *ii++;
 }
 
@@ -127,7 +127,9 @@ LineCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
 
 
@@ -180,7 +182,7 @@ LineCell< TPixelType , TCelltype >::PointIdIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -194,7 +196,7 @@ LineCell< TPixelType , TCelltype >::PointIdConstIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -207,7 +209,7 @@ LineCell< TPixelType , TCellType >::CellFeatureCount
 LineCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }
 
 

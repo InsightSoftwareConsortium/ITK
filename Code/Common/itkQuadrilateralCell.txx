@@ -41,7 +41,7 @@ int
 QuadrilateralCell< TPixelType , TCellType >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
 
 
@@ -54,7 +54,7 @@ int
 QuadrilateralCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
 
 
@@ -108,8 +108,10 @@ QuadrilateralCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
+    {
     m_PointIds[i] = *ii++;
+    }
 }
 
 
@@ -129,7 +131,9 @@ QuadrilateralCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
 
 
@@ -182,7 +186,7 @@ QuadrilateralCell< TPixelType , TCelltype >::PointIdIterator
 QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -196,9 +200,8 @@ QuadrilateralCell< TPixelType , TCelltype >::PointIdConstIterator
 QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
-
 
 /**
  * Quadrilateral-specific:
@@ -212,7 +215,6 @@ QuadrilateralCell< TPixelType , TCellType >
   return NumberOfVertices;
 }
 
-
 /**
  * Quadrilateral-specific:
  * Get the number of edges defined for the quadrilateral.
@@ -222,9 +224,8 @@ QuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
 QuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
-  return NumberOfEdges;
+  return Self::NumberOfEdges;
 }
-
 
 /**
  * Quadrilateral-specific:
@@ -242,7 +243,6 @@ QuadrilateralCell< TPixelType , TCellType >
   return vert;
 }
 
-
 /**
  * Quadrilateral-specific:
  * Get the edge specified by the given cell feature Id.
@@ -256,11 +256,12 @@ QuadrilateralCell< TPixelType , TCellType >
   Edge::Pointer edge(Edge::New());
 
   for(int i=0; i < Edge::NumberOfPoints; ++i)
+    {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
+    }
   
   return edge;
 }
-
 
 /**
  * The quadrilateral's topology data: Edges.

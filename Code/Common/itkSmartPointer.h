@@ -22,7 +22,7 @@ namespace itk
 {
 
 /** \class SmartPointer
- * \brief Implements reansparent reference counting.
+ * \brief Implements transparent reference counting.
  *
  * SmartPointer implements reference counting by overloading
  * operator -> (and *) among others. This allows natural interface
@@ -51,8 +51,8 @@ public:
    */
   SmartPointer (const SmartPointer<T> &p)
     { 
-      m_Pointer = p.m_Pointer; 
-      this->Register(); 
+    m_Pointer = p.m_Pointer; 
+    this->Register(); 
     }
   
   /** 
@@ -96,11 +96,10 @@ public:
      }
 
   /** 
-   * Access funtion to pointer 
+   * Access function to pointer.
    */
   T *GetPointer () const 
     { 
-    // This returns the pointer.  
     return m_Pointer; 
     }
   
@@ -165,7 +164,7 @@ public:
     { 
     // This prints the object pointed to by the pointer  
     (*m_Pointer).Print(os);  
-        return m_Pointer;
+    return m_Pointer;
     } 
 
 private:
@@ -187,15 +186,14 @@ private:
       m_Pointer->UnRegister();
       }
     }
-  
 };
   
 template <typename T>
 std::ostream& operator<< (std::ostream& os, SmartPointer<T> p) 
-  {
-    p.Print(os); 
-    return os;
-  }
+{
+  p.Print(os); 
+  return os;
+}
 
 } // namespace itk
   

@@ -41,7 +41,7 @@ int
 VertexCell< TPixelType , TCellType >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
 
 
@@ -54,7 +54,7 @@ int
 VertexCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
 
 
@@ -96,8 +96,10 @@ VertexCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
+    {
     m_PointIds[i] = *ii++;
+    }
 }
 
 
@@ -117,7 +119,9 @@ VertexCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
 
 
@@ -170,7 +174,7 @@ VertexCell< TPixelType , TCelltype >::PointIdIterator
 VertexCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -184,7 +188,7 @@ VertexCell< TPixelType , TCelltype >::PointIdConstIterator
 VertexCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 

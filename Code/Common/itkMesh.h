@@ -174,7 +174,7 @@ protected:
      */
     BoundaryAssignmentIdentifier() {}
     BoundaryAssignmentIdentifier(CellIdentifier cellId,
-				 CellFeatureIdentifier featureId):
+                                 CellFeatureIdentifier featureId):
       m_CellId(cellId), m_FeatureId(featureId) {}    
     
     /**
@@ -193,8 +193,8 @@ protected:
      */
     bool operator < (const Self& r) const
       {
-	return ((m_CellId < r.m_CellId) ||
-		((m_CellId == r.m_CellId) && (m_FeatureId < r.m_FeatureId)));
+      return ((m_CellId < r.m_CellId) ||
+              ((m_CellId == r.m_CellId) && (m_FeatureId < r.m_FeatureId)));
       }
   
     /**
@@ -203,7 +203,7 @@ protected:
      */
     bool operator == (const Self& r) const
       {
-	return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
+      return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
       }
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
@@ -229,7 +229,7 @@ protected:
   CellLinksContainerPointer  m_CellLinksContainer;
   
   /**
-   * An object containing cells used by the mesh.  Individual cellss are
+   * An object containing cells used by the mesh.  Individual cells are
    * accessed through cell identifiers.
    */
   CellsContainerPointer  m_CellsContainer;
@@ -320,7 +320,7 @@ public:
   BoundaryDataContainerPointer GetBoundaryDataContainer(int dimension);
   
   void SetBoundaryAssignmentsContainer(int dimension,
-				       BoundaryAssignmentsContainer*);
+                                       BoundaryAssignmentsContainer*);
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignmentsContainer(int dimension);
   
@@ -372,21 +372,21 @@ public:
    * information from it.
    */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
-			     CellFeatureIdentifier featureId,
-			     BoundaryIdentifier);
+                             CellFeatureIdentifier featureId,
+                             BoundaryIdentifier);
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
-			     CellFeatureIdentifier featureId,
-			     BoundaryIdentifier*) const;
+                             CellFeatureIdentifier featureId,
+                             BoundaryIdentifier*) const;
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
-				CellFeatureIdentifier featureId);
+                                CellFeatureIdentifier featureId);
 
   /**
    * Interface to cells.
    */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
-						   CellIdentifier) const;
+                                                   CellIdentifier) const;
   Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
-					 CellFeatureIdentifier) const;
+                                           CellFeatureIdentifier) const;
   
 
   /**
@@ -397,9 +397,9 @@ public:
   unsigned long GetNumberOfPoints(void);
   unsigned long GetNumberOfCells(void);
   void GetCellBoundingBox(CellIdentifier cellId,
-			  CoordRep bounds[PointDimension*2]);
+                          CoordRep bounds[PointDimension*2]);
   bool FindClosestPoint(CoordRep coords[PointDimension],
-			PointIdentifier* pointId);
+                        PointIdentifier* pointId);
   // FindCell(.........)
   void ComputeBoundingBox(void);
   CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
@@ -412,8 +412,8 @@ public:
     std::set<CellIdentifier>* cellSet);
   
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
-					  CellFeatureIdentifier,
-					  Boundary::Pointer*) const;
+                                          CellFeatureIdentifier,
+                                          Boundary::Pointer*) const;
 
   void BuildCellLinks(void);
   
@@ -434,7 +434,7 @@ protected:
 
 } // namespace itk
   
-#ifndef ITK_MANUAL_INSTANTIATION
+#ifr ,  ITK_MANUAL_INSTANTIATION
 #include "itkMesh.txx"
 #endif
   

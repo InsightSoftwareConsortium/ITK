@@ -1,5 +1,24 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit (ITK)
+  Module:    itkMeshTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+Copyright (c) 2000 National Library of Medicine
+All rights reserved.
+
+See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 #include <iostream>
 #include <string>
+
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
 
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
@@ -33,7 +52,9 @@ typedef Mesh::Cell  Cell;
 typedef Cell        Boundary;
 
 /**
- * The type of point stored in the mesh.
+ * The type of point stored in the mesh. Because mesh was instantiated
+ * with defaults (itkMeshTypeDefault), the point dimension is 3 and
+ * the coordinate representation is double.
  */
 typedef Mesh::Point  Point;
 
@@ -74,7 +95,9 @@ int main(void)
     }
 
   /**
-   * Create the test cell.
+   * Create the test cell. Note that testCell is a generic smart
+   * pointer to a cell; in this example it ends up pointing to
+   * different types of cells.
    */
   Cell::Pointer testCell(TetraCell::New());
 
@@ -93,9 +116,7 @@ int main(void)
    * Create another test cell.
    */
   testCell = HexaCell::New();
-
   testCell->SetPointIds(hexaPoints);
-
   mesh->SetCell(1, testCell);
 
   /**
@@ -153,6 +174,41 @@ int main(void)
     std::cout << std::endl;
     }
   
+  /**
+   * Try getting the hexahedron's neighbor through its second edge.
+   * This should be the test tetrahedron. (Because the boundary is
+   * not defined explicitly, we use implicit relationships to determine
+   * neighbors. In this case, bit the tetrahedron and hexahedron share
+   * the two points defining the edge and are therefore considered 
+   * neighbors.)
+   */
+  mesh->GetCellBoundaryFeatureNeighbors(
+    1,              // Topological dimension of feature.
+    1,              // CellIdentifier
+    0,              // CellFeatureIdentifier
+    &neighborSet); // Where to put result.
+
+
+  /**
+   * Try getting the tetrahedrons's neighbor through its xxx edge.
+   * This should be the test hexahedron. The boundaries are implicit
+   * as in the previous example.
+   */
+  mesh->GetCellBoundaryFeatureNeighbors(
+    1,              // Topological dimension of feature.
+    0,              // CellIdentifier
+    0,              // CellFeatureIdentifier
+    &neighborSet); // Where to put result.
+
+
+  /**
+   * Perform some geometric operations (coordinate transformations)
+   * to see if they are working.
+   */
+  Mesh::CoordRep coords[Mesh::PointDimension];
+  Mesh::PointIdentifier pointId;
+  mesh->FindClosestPoint(coords,&pointId);
+
   return 0;  
 }
 

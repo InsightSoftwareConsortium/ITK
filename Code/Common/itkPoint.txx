@@ -26,7 +26,9 @@ Point< VPointDimension , TCoordRep >
 ::Point()
 {
   for(int i=0; i < PointDimension ; ++i)
+    {
     m_Coords[i] = CoordRep();
+    }
 }
 
 
@@ -38,7 +40,9 @@ Point< VPointDimension , TCoordRep >
 ::Point(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
+    {
     m_Coords[i] = coords[i];
+    }
 }
 
 
@@ -51,7 +55,9 @@ Point< VPointDimension , TCoordRep >
 ::SetCoords(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
+    {
     m_Coords[i] = coords[i];
+    }
 }
 
 
@@ -64,7 +70,9 @@ Point< VPointDimension , TCoordRep >
 ::GetCoords(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
+    {
     coords[i] = m_Coords[i];
+    }
 }
 
 } // namespace itk

@@ -121,9 +121,9 @@ public:
   typedef std::pair< const ElementIdentifier , Element >  ValueType;
   
   /**
-   * A const iterator simulates simulates the STL map container style
-   * iterator to make it look like the index is stored in the container
-   * with the element in a pair.
+   * A const iterator simulates the STL map container style iterator
+   * to make it look like the index is stored in the container with
+   * the element in a pair. 
    */
   class ConstIterator
   {

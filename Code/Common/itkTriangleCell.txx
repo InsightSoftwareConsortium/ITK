@@ -41,7 +41,7 @@ int
 TriangleCell< TPixelType , TCellType >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
 
 
@@ -54,7 +54,7 @@ int
 TriangleCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
 
 
@@ -108,8 +108,10 @@ TriangleCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
+    {
     m_PointIds[i] = *ii++;
+    }
 }
 
 
@@ -129,7 +131,9 @@ TriangleCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
 
 
@@ -182,7 +186,7 @@ TriangleCell< TPixelType , TCelltype >::PointIdIterator
 TriangleCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -196,7 +200,7 @@ TriangleCell< TPixelType , TCelltype >::PointIdConstIterator
 TriangleCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -209,7 +213,7 @@ TriangleCell< TPixelType , TCellType >::CellFeatureCount
 TriangleCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
-  return NumberOfVertices;
+  return Self::NumberOfVertices;
 }
 
 
@@ -222,9 +226,8 @@ TriangleCell< TPixelType , TCellType >::CellFeatureCount
 TriangleCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
-  return NumberOfEdges;
+  return Self::NumberOfEdges;
 }
-
 
 /**
  * Triangle-specific:
@@ -242,7 +245,6 @@ TriangleCell< TPixelType , TCellType >
   return vert;
 }
 
-
 /**
  * Triangle-specific:
  * Get the edge specified by the given cell feature Id.
@@ -256,7 +258,9 @@ TriangleCell< TPixelType , TCellType >
   Edge::Pointer edge(Edge::New());
   
   for(int i=0; i < Edge::NumberOfPoints; ++i)
+    {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
+    }
   
   return edge;
 }

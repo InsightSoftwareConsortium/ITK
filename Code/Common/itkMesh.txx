@@ -709,6 +709,7 @@ Mesh< TPixelType , TMeshType >
 
 /**
  * Copy the geometric and topological structure of the given input mesh.
+ * The copying is done via reference counting.
  */
 template <typename TPixelType, typename TMeshType>
 void
@@ -773,6 +774,8 @@ Mesh< TPixelType , TMeshType >
 		   PointIdentifier* pointId)
 {
   // IMPLEMENT ME
+  int i = int();
+  bool foo = bool();
   return bool();
 }
 
@@ -802,8 +805,9 @@ Mesh< TPixelType , TMeshType >
 
 
 /**
- * Get the bounding box of the entire Mesh.  The box must first be
- * computed with ComputeBoundingBox().
+ * Get the bounding box of the entire Mesh. If no points have
+ * been defined, NULL may be returned indicating that the
+ * bounding box is not valid.
  */
 template <typename TPixelType, typename TMeshType>
 Mesh< TPixelType , TMeshType >::CoordRep*

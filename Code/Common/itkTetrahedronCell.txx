@@ -41,7 +41,7 @@ int
 TetrahedronCell< TPixelType , TCellType >
 ::GetDimension(void)
 {
-  return CellDimension;
+  return Self::CellDimension;
 }
 
 
@@ -54,7 +54,7 @@ int
 TetrahedronCell< TPixelType , TCelltype >
 ::GetNumberOfPoints(void)
 {
-  return NumberOfPoints;
+  return Self::NumberOfPoints;
 }  
 
 
@@ -110,8 +110,10 @@ TetrahedronCell< TPixelType , TCelltype >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints ; ++i)
+    {
     m_PointIds[i] = *ii++;
+    }
 }
 
 
@@ -131,7 +133,9 @@ TetrahedronCell< TPixelType , TCelltype >
   PointIdConstIterator ii(first);
   
   while(ii != last)
+    {
     m_PointIds[localId++] = *ii++;
+    }
 }
 
 
@@ -184,7 +188,7 @@ TetrahedronCell< TPixelType , TCelltype >::PointIdIterator
 TetrahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -198,7 +202,7 @@ TetrahedronCell< TPixelType , TCelltype >::PointIdConstIterator
 TetrahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints];
 }
 
 
@@ -211,7 +215,7 @@ TetrahedronCell< TPixelType , TCellType >::CellFeatureCount
 TetrahedronCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
-  return NumberOfVertices;
+  return Self::NumberOfVertices;
 }
 
 
@@ -224,7 +228,7 @@ TetrahedronCell< TPixelType , TCellType >::CellFeatureCount
 TetrahedronCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
-  return NumberOfEdges;
+  return Self::NumberOfEdges;
 }
 
 
@@ -237,7 +241,7 @@ TetrahedronCell< TPixelType , TCellType >::CellFeatureCount
 TetrahedronCell< TPixelType , TCellType >
 ::GetNumberOfFaces(void)
 {
-  return NumberOfFaces;
+  return Self::NumberOfFaces;
 }
 
 
@@ -271,7 +275,9 @@ TetrahedronCell< TPixelType , TCellType >
   Edge::Pointer edge(Edge::New());
 
   for(int i=0; i < Edge::NumberOfPoints; ++i)
+    {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
+    }
   
   return edge;
 }
@@ -290,7 +296,9 @@ TetrahedronCell< TPixelType , TCellType >
   Face::Pointer face(Face::New());
   
   for(int i=0; i < Face::NumberOfPoints; ++i)
+    {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
+    }
   
   return face;
 }
