@@ -90,6 +90,7 @@ void
 itk::MetaDataObject<MetaDataObjectType>
 ::Print(std::ostream& os) const
 {
-  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
+        //  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
+        Superclass::Print(os);
 }
 #endif

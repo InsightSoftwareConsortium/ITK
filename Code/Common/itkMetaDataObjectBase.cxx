@@ -24,8 +24,7 @@ void
 itk::MetaDataObjectBase
 ::Print(std::ostream& os) const
 {
-  //Superclass::Print(os);
-  os <<  "Unknown Print Characteristics" << std::endl;
+  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
 }
 
 
@@ -56,6 +55,7 @@ itk::MetaDataObjectBase
   //Nothing to do here
 }
 
+#if __THIS_IS_UNNECESSARY_CODE__
 itk::MetaDataObjectBase::Pointer
 itk::MetaDataObjectBase
 ::New(void)
@@ -70,3 +70,4 @@ itk::MetaDataObjectBase
   rawPtr->UnRegister();
   return smartPtr;
 }
+#endif
