@@ -261,22 +261,19 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       readScalars = true;
 
-      int myscal;
-      sscanf(line, "%*s %*s %d", &myscal);
-      if ( myscal == 1 )
+      int numComp = 1;
+      sscanf(line, "%*s %*s %d", &numComp);
+      if ( this->GetFileType() == ASCII )
         {
-          if ( this->GetFileType() == ASCII ) {
-            SetPixelType(FLOAT);
-            SetComponentType(FLOAT);
-          }
-          else {
-            SetPixelType(UCHAR);
-            SetComponentType(UCHAR);
-          }
+        SetNumberOfComponents(numComp);
+        SetPixelType(FLOAT);
+        SetComponentType(FLOAT);
         }
       else
         {
-        itkExceptionMacro(<<"Unrecognized type");
+        SetNumberOfComponents(numComp);
+        SetPixelType(UCHAR);
+        SetComponentType(UCHAR);
         }
       }
 
@@ -286,55 +283,66 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
       readScalars = true;
 
       char pixelType[256];
-      sscanf(line, "%*s %*s %s", pixelType);
+      int numComp = 1;
+      sscanf(line, "%*s %*s %s %d", pixelType, &numComp);
       text = pixelType;
       if ( text.find("float") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(FLOAT);
         SetComponentType(FLOAT);
         }
       else if ( text.find("double") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(DOUBLE);
         SetComponentType(DOUBLE);
         }
       else if ( text.find("unsigned_char") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(UCHAR);
         SetComponentType(UCHAR);
         }
       else if ( text.find("char") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(CHAR);
         SetComponentType(CHAR);
         }
       else if ( text.find("unsigned_short") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(USHORT);
         SetComponentType(USHORT);
         }
       else if ( text.find("short") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(SHORT);
         SetComponentType(SHORT);
         }
       else if ( text.find("unsigned_int") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(UINT);
         SetComponentType(UINT);
         }
       else if ( text.find("int") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(INT);
         SetComponentType(INT);
         }
       else if ( text.find("unsigned_long") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(ULONG);
         SetComponentType(ULONG);
         }
       else if ( text.find("long") < text.length() )
         {
+        SetNumberOfComponents(numComp);
         SetPixelType(LONG);
         SetComponentType(LONG);
         }
