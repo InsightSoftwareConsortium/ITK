@@ -115,7 +115,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFixedArray.txx"
 #include "itkFixedCenterOfRotationAffineTransform.txx"
 #include "itkFloodFilledFunctionConditionalConstIterator.txx"
-#include "itkFloodFilledFunctionConditionalIterator.txx"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.txx"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.txx"
