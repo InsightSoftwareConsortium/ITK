@@ -183,7 +183,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Scale(const InputVectorType &factor, bool pre) 
+Scale(const OutputVectorType &factor, bool pre) 
 {
   MatrixType trans;
   unsigned int i, j;
@@ -284,7 +284,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Rotate3D(const InputVectorType &axis, TScalarType angle, bool pre)
+Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
 {
   MatrixType trans;
   ScalarType r, x1, x2, x3;
