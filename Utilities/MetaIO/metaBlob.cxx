@@ -33,13 +33,13 @@ MetaBlob(const char *_headerName)
 
 //
 MetaBlob::
-MetaBlob(const MetaBlob *_tube)
+MetaBlob(const MetaBlob *_blob)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaBlob()" << std::endl;
   m_NPoints = 0;
   Clear();
-  CopyInfo(_tube);
+  CopyInfo(_blob);
 }
 
 
@@ -75,9 +75,9 @@ PrintInfo() const
 }
 
 void MetaBlob::
-CopyInfo(const MetaBlob * _tube)
+CopyInfo(const MetaBlob * _blob)
 {
-  MetaObject::CopyInfo(_tube);
+  MetaObject::CopyInfo(_blob);
 }
 
     
@@ -107,14 +107,14 @@ NPoints(void) const
 }
 
 
-/** Clear tube information */
+/** Clear blob information */
 void MetaBlob::
 Clear(void)
 {
   if(META_DEBUG) std::cout << "MetaBlob: Clear" << std::endl;
   MetaObject::Clear();
   if(META_DEBUG) std::cout << "MetaBlob: Clear: m_NPoints" << std::endl;
-  // Delete the list of pointers to tubes.
+  // Delete the list of pointers to blobs.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
   {
@@ -128,7 +128,7 @@ Clear(void)
   m_ElementType = MET_FLOAT;
 }
         
-/** Destroy tube information */
+/** Destroy blob information */
 void MetaBlob::
 M_Destroy(void)
 {

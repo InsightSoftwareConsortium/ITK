@@ -74,7 +74,7 @@ class MetaBlob : public MetaObject
 
     MetaBlob(const char *_headerName);   
 
-    MetaBlob(const MetaBlob *_tube); 
+    MetaBlob(const MetaBlob *_blob); 
     
     MetaBlob(unsigned int dim);
 
@@ -82,11 +82,11 @@ class MetaBlob : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaBlob * _tube);
+    void CopyInfo(const MetaBlob * _blob);
 
     //    NPoints(...)
     //       Required Field
-    //       Number of points wich compose the tube
+    //       Number of points wich compose the blob
     void  NPoints(int npnt);
     int   NPoints(void) const;
 
