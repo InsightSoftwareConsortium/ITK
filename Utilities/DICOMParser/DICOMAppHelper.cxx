@@ -355,7 +355,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
 }
 
-void DICOMAppHelper::DefaultCallback(DICOMParser *parser,
+void DICOMAppHelper::DefaultCallback(DICOMParser *,
                                      doublebyte,
                                      doublebyte,
                                      DICOMParser::VRTypes,
@@ -391,7 +391,7 @@ void DICOMAppHelper::InstanceUIDCallback(DICOMParser *parser,
 }
 
 
-void DICOMAppHelper::ReferencedInstanceUIDCallback(DICOMParser *parser,
+void DICOMAppHelper::ReferencedInstanceUIDCallback(DICOMParser *,
                                                    doublebyte,
                                                    doublebyte,
                                                    DICOMParser::VRTypes,
@@ -411,7 +411,7 @@ void DICOMAppHelper::ReferencedInstanceUIDCallback(DICOMParser *parser,
   this->Implementation->SeriesUIDToReferencedInstanceUIDMap[this->CurrentSeriesUID].push_back( newStdString );
 }
 
-void DICOMAppHelper::ContourImageSequenceCallback(DICOMParser *parser,
+void DICOMAppHelper::ContourImageSequenceCallback(DICOMParser *,
                                                   doublebyte,
                                                   doublebyte,
                                                   DICOMParser::VRTypes,
@@ -430,7 +430,7 @@ void DICOMAppHelper::ContourImageSequenceCallback(DICOMParser *parser,
 #endif
 }
 
-void DICOMAppHelper::SeriesUIDCallback(DICOMParser *parser,
+void DICOMAppHelper::SeriesUIDCallback(DICOMParser *,
                                        doublebyte,
                                        doublebyte,
                                        DICOMParser::VRTypes,
@@ -641,7 +641,7 @@ void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
   delete [] val;
 }
     
-void DICOMAppHelper::SliceNumberCallback(DICOMParser *parser,
+void DICOMAppHelper::SliceNumberCallback(DICOMParser *,
                                          doublebyte,
                                          doublebyte,
                                          DICOMParser::VRTypes,
@@ -671,7 +671,7 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *parser,
 }
 
 
-void DICOMAppHelper::SliceLocationCallback(DICOMParser *parser,
+void DICOMAppHelper::SliceLocationCallback(DICOMParser *,
                                            doublebyte,
                                            doublebyte,
                                            DICOMParser::VRTypes,
@@ -697,7 +697,7 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *parser,
     }
 }
 
-void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
+void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *,
                                                   doublebyte,
                                                   doublebyte,
                                                   DICOMParser::VRTypes,
@@ -738,7 +738,7 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
 }
 
 
-void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *parser,
+void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *,
                                                      doublebyte,
                                                      doublebyte,
                                                      DICOMParser::VRTypes,

@@ -338,7 +338,7 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
     //
     unsigned char* tempdata;
 
-    if (length != 0xfffffffful)
+    if (static_cast<unsigned long>(length) != 0xfffffffful)
       {
       // length was specified
       tempdata = (unsigned char*) source.ReadAsciiCharArray(length);
@@ -348,7 +348,7 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
       // unspecified length, read block as sequence
       doublebyte dataelementtag[2];
       quadbyte itemLength;
-      bool done = false;
+
       dataelementtag[0] = source.ReadDoubleByte();
       dataelementtag[1] = source.ReadDoubleByte();
       while (dataelementtag[0] == 0xfffe && dataelementtag[1] == 0xe000) // item tag
