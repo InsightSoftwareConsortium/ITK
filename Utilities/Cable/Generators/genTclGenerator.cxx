@@ -602,8 +602,13 @@ void TclGenerator::WriteArgumentList(std::ostream& wrapperStream,
 
 
 /**
- * Write the ArgumentAs, ArgumentAsReferenceTo, or ArgumentAsPointerTo
- * call needed to access the given argument index as the given type.
+ * Write the ArgumentAs... call needed to access the given argument
+ * index as the given type.  This may be one of
+ *  ArgumentAs<T>                   for object T
+ *  ArgumentAsReferenceTo<T>        for reference type T&
+ *  GetArgumentAsReferenceTo_const  for reference type const T&
+ *  ArgumentAsPointerTo<T>          for pointer type T*
+ *  ArgumentAsPointerToFunction<T>  for type T, a pointer to function
  */
 void TclGenerator::WriteArgumentAs(std::ostream& wrapperStream,
                                    const cxx::CvQualifiedType& cvType,
@@ -613,14 +618,33 @@ void TclGenerator::WriteArgumentAs(std::ostream& wrapperStream,
   if(type->IsReferenceType())
     {
     cxx::CvQualifiedType rt = cxx::ReferenceType::SafeDownCast(type)->GetReferencedType();
-    wrapperStream <<
-      "    ArgumentAsReferenceTo< " << rt.GetName() << " >::Get(arguments[" << argIndex << "], this)";
+    if(rt.IsConst() && !rt.IsVolatile()
+       && !(rt.GetType()->IsClassType()
+            && cxx::ClassType::SafeDownCast(rt.GetType())->IsAbstract()))
+      {
+      cxx::CvQualifiedType nrt = rt.GetType()->GetCvQualifiedType(false, false);
+      wrapperStream <<
+        "    GetArgumentAsReferenceTo_const< " << nrt.GetName() << " >(this)(arguments[" << argIndex << "])";
+      }
+    else
+      {
+      wrapperStream <<
+        "    ArgumentAsReferenceTo< " << rt.GetName() << " >::Get(arguments[" << argIndex << "], this)";
+      }
     }
   else if(type->IsPointerType())
     {
     cxx::CvQualifiedType pt = cxx::PointerType::SafeDownCast(type)->GetPointedToType();
-    wrapperStream <<
-      "    ArgumentAsPointerTo< " << pt.GetName() << " >::Get(arguments[" << argIndex << "], this)";
+    if(pt.GetType()->IsFunctionType())
+      {
+      wrapperStream <<
+        "    ArgumentAsPointerToFunction< " << cvType.GetName() << " >::Get(arguments[" << argIndex << "], this)";
+      }
+    else
+      {
+      wrapperStream <<
+        "    ArgumentAsPointerTo< " << pt.GetName() << " >::Get(arguments[" << argIndex << "], this)";
+      }
     }
   else
     {
@@ -672,10 +696,9 @@ TclGenerator
 
 void TclGenerator::FindCvTypes(const source::Class* c)
 {
+  // Add the implict argument types for method calls.
   cxx::CvQualifiedType classCvType = c->GetCxxClassType(m_GlobalNamespace);
-  cxx::CvQualifiedType constClassCvType = classCvType.GetMoreQualifiedType(true, false);
-  m_CvTypeGenerator.Add(classCvType);
-  m_CvTypeGenerator.Add(constClassCvType);
+  cxx::CvQualifiedType constClassCvType = classCvType.GetMoreQualifiedType(true, false);  
   m_CvTypeGenerator.Add(source::CxxTypes::GetReferenceType(classCvType));
   m_CvTypeGenerator.Add(source::CxxTypes::GetReferenceType(constClassCvType));
   
