@@ -17,6 +17,8 @@
 #ifndef _itkRegionGrowImageFilter_txx
 #define _itkRegionGrowImageFilter_txx
 
+#include "itkRegionGrowImageFilter.h"
+
 namespace itk
 {
 
