@@ -21,6 +21,17 @@
 namespace _wrap_
 {
 
+namespace
+{
+/**
+ * Every type invovled in a wrapper should have a specialization of this
+ * class with the following member:
+ * static CvQualifiedType name;
+ */
+template <class T>
+struct CvType;
+} // anonymous namespace
+
 /**
  * When a method returns an object, the wrapper function calls this to
  * prepare the return.  This creates the temporary instance, sets the

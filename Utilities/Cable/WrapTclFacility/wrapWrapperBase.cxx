@@ -150,19 +150,19 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
     }
   else if(TclObjectTypeIsBoolean(obj))
     {
-    return CvType<bool>::type;
+    return CvPredefinedType<bool>::type;
     }
   else if(TclObjectTypeIsInt(obj))
     {
-    return CvType<int>::type;
+    return CvPredefinedType<int>::type;
     }
   else if(TclObjectTypeIsLong(obj))
     {
-    return CvType<long>::type;
+    return CvPredefinedType<long>::type;
     }
   else if(TclObjectTypeIsDouble(obj))
     {
-    return CvType<double>::type;
+    return CvPredefinedType<double>::type;
     }
   // No Tcl type information.  Try converting from string representation.
   else
@@ -196,17 +196,17 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       double d;
       if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
         {
-        return CvType<long>::type;
+        return CvPredefinedType<long>::type;
         }
       else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
         {
-        return CvType<double>::type;
+        return CvPredefinedType<double>::type;
         }
       }
     }
   
   // Could not determine the type.  Default to char*.
-  return CvType<char*>::type;
+  return CvPredefinedType<char*>::type;
 }
 
 
@@ -305,7 +305,7 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
         // Can't identify the object type.  We will have to assume char*.
         // When the conversion function dereferences its pointer, it must
         // get a pointer to char, not a char.
-        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL), CvType<char*>::type); 
+        argument.SetToPointer(Tcl_GetStringFromObj(obj, NULL), CvPredefinedType<char*>::type); 
         }
       }
     }
@@ -946,7 +946,7 @@ void WrapperBase::Argument::SetToBool(bool b)
 {
   m_Temp.m_bool = b;
   m_Anything.object = &m_Temp.m_bool;
-  m_Type = CvType<bool>::type;
+  m_Type = CvPredefinedType<bool>::type;
   m_ArgumentId = bool_id;
 }
 
@@ -958,7 +958,7 @@ void WrapperBase::Argument::SetToInt(int i)
 {
   m_Temp.m_int = i;
   m_Anything.object = &m_Temp.m_int;
-  m_Type = CvType<int>::type;
+  m_Type = CvPredefinedType<int>::type;
   m_ArgumentId = int_id;
 }
 
@@ -970,7 +970,7 @@ void WrapperBase::Argument::SetToLong(long l)
 {
   m_Temp.m_long = l;
   m_Anything.object = &m_Temp.m_long;
-  m_Type = CvType<long>::type;
+  m_Type = CvPredefinedType<long>::type;
   m_ArgumentId = long_id;
 }
 
@@ -982,7 +982,7 @@ void WrapperBase::Argument::SetToDouble(double d)
 {
   m_Temp.m_double = d;
   m_Anything.object = &m_Temp.m_double;
-  m_Type = CvType<double>::type;
+  m_Type = CvPredefinedType<double>::type;
   m_ArgumentId = double_id;
 }
 

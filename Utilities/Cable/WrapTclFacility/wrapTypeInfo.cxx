@@ -19,18 +19,18 @@ namespace _wrap_
 {
 
 // A macro to generate all cv-qualifier combinations for defining a
-// fundamental type's CvType<> specialization.
+// fundamental type's CvPredefinedType<> specialization.
 #define _wrap_DEFINE_FUNDAMENTAL_CVTYPES(T) \
-CvQualifiedType CvType<T>::type; \
-CvQualifiedType CvType<const T>::type; \
-CvQualifiedType CvType<volatile T>::type; \
-CvQualifiedType CvType<const volatile T>::type
+CvQualifiedType CvPredefinedType<T>::type; \
+CvQualifiedType CvPredefinedType<const T>::type; \
+CvQualifiedType CvPredefinedType<volatile T>::type; \
+CvQualifiedType CvPredefinedType<const volatile T>::type
 
 /*@{
  * The actual CvQualifiedType instance for this fundamental type.
  */
 #ifdef _wrap_NO_CV_VOID
-CvQualifiedType CvType<void>::type;
+CvQualifiedType CvPredefinedType<void>::type;
 #else
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(void);
 #endif
@@ -62,12 +62,12 @@ TypeSystem TypeInfo::typeSystem;
 
   
 // A macro to generate all cv-qualifier combinations for generating a
-// fundamental type's CvType<> specialization.
+// fundamental type's CvPredefinedType<> specialization.
 #define _wrap_GENERATE_FUNDAMENTAL_CVTYPES(T, ID) \
-CvType<T>::type = GetFundamentalType(FundamentalType::ID, false, false); \
-CvType<const T>::type = GetFundamentalType(FundamentalType::ID, true, false); \
-CvType<volatile T>::type = GetFundamentalType(FundamentalType::ID, false, true); \
-CvType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, true)
+CvPredefinedType<T>::type = GetFundamentalType(FundamentalType::ID, false, false); \
+CvPredefinedType<const T>::type = GetFundamentalType(FundamentalType::ID, true, false); \
+CvPredefinedType<volatile T>::type = GetFundamentalType(FundamentalType::ID, false, true); \
+CvPredefinedType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, true)
   
 /**
  * Setup the type representations of the predefined, fundamental types.
@@ -75,7 +75,7 @@ CvType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, t
 void TypeInfo::Initialize()
 {
 #ifdef _wrap_NO_CV_VOID
-  CvType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
+  CvPredefinedType<void>::type = GetFundamentalType(FundamentalType::Void, false, false);
 #else
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(void, Void);
 #endif
@@ -95,10 +95,10 @@ void TypeInfo::Initialize()
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(float, Float);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(double, Double);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long double, LongDouble);
-  CvType<char*>::type  = GetPointerType(CvType<char>::type, false, false);
-  CvType<const char*>::type  = GetPointerType(CvType<const char>::type, false, false);
-  CvType<volatile char*>::type  = GetPointerType(CvType<volatile char>::type, false, false);
-  CvType<const volatile char*>::type  = GetPointerType(CvType<const volatile char>::type, false, false);
+  CvPredefinedType<char*>::type  = GetPointerType(CvPredefinedType<char>::type, false, false);
+  CvPredefinedType<const char*>::type  = GetPointerType(CvPredefinedType<const char>::type, false, false);
+  CvPredefinedType<volatile char*>::type  = GetPointerType(CvPredefinedType<volatile char>::type, false, false);
+  CvPredefinedType<const volatile char*>::type  = GetPointerType(CvPredefinedType<const volatile char>::type, false, false);
 }
 
 

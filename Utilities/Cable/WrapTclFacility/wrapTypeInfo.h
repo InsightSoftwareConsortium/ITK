@@ -54,20 +54,20 @@ private:
 };
 
 /**
- * Every type invovled in a wrapper should have a specialization of this
- * class with the following member:
+ * The wrapper facility uses specializations of this class with the member
  * static CvQualifiedType name;
+ * for each type it needs to use.
  */
 template <class T>
-struct CvType;
+struct CvPredefinedType;
 
 // A macro to generate all cv-qualifier combinations for declaring a
-// fundamental type's CvType<> specialization.
+// fundamental type's CvPredefinedType<> specialization.
 #define _wrap_DECLARE_FUNDAMENTAL_CVTYPES(T) \
-template <> struct _wrap_EXPORT CvType<T> { static CvQualifiedType type; }; \
-template <> struct _wrap_EXPORT CvType<const T> { static CvQualifiedType type; }; \
-template <> struct _wrap_EXPORT CvType<volatile T> { static CvQualifiedType type; }; \
-template <> struct _wrap_EXPORT CvType<const volatile T> { static CvQualifiedType type; }
+template <> struct _wrap_EXPORT CvPredefinedType<T> { static CvQualifiedType type; }; \
+template <> struct _wrap_EXPORT CvPredefinedType<const T> { static CvQualifiedType type; }; \
+template <> struct _wrap_EXPORT CvPredefinedType<volatile T> { static CvQualifiedType type; }; \
+template <> struct _wrap_EXPORT CvPredefinedType<const volatile T> { static CvQualifiedType type; }
 
 /*@{
  * A specialization for a fundamental type.
@@ -75,7 +75,7 @@ template <> struct _wrap_EXPORT CvType<const volatile T> { static CvQualifiedTyp
   
 // These require some special handling for some compilers.
 #ifdef _wrap_NO_CV_VOID
-template <> struct _wrap_EXPORT CvType<void> { static CvQualifiedType type; };
+template <> struct _wrap_EXPORT CvPredefinedType<void> { static CvQualifiedType type; };
 #else  
 _wrap_DECLARE_FUNDAMENTAL_CVTYPES(void);
 #endif

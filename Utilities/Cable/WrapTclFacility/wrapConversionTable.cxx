@@ -125,11 +125,11 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
 
 // Macro to shorten InitializePredefinedConversions function body.
 #define _wrap_REGISTER_FUNDAMENTAL_TYPE_CONVERSIONS(T1, T2) \
-this->SetConversion(CvType<const T1>::type, \
-                    CvType<T2>::type.GetType(), \
+this->SetConversion(CvPredefinedType<const T1>::type, \
+                    CvPredefinedType<T2>::type.GetType(), \
                     Converter::ConversionByConstructor<T1, T2>::GetConversionFunction()); \
-this->SetConversion(CvType<const T2>::type, \
-                    CvType<T1>::type.GetType(), \
+this->SetConversion(CvPredefinedType<const T2>::type, \
+                    CvPredefinedType<T1>::type.GetType(), \
                     Converter::ConversionByConstructor<T2, T1>::GetConversionFunction())
 
 /**
