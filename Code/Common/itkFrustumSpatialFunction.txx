@@ -65,7 +65,7 @@ FrustumSpatialFunction<VImageDimension,TInput>
 {
     
     typedef InputType PointType;
-    typedef PointType::VectorType VectorType;
+    typedef typename PointType::VectorType VectorType;
 
     VectorType relativePosition = position - m_Apex;
     const double distanceToApex = relativePosition.GetNorm();
