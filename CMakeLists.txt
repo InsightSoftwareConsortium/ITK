@@ -127,6 +127,10 @@ ELSE(USE_VTK)
 ENDIF(USE_VTK)
 
 
+# Look for GLUT and if found build the simple image viewer
+INCLUDE (${CMAKE_ROOT}/Modules/FindGLUT.cmake)
+
+
 # Add an option to use or not use FLTK (http://www.fltk.org)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
 IF(USE_FLTK)
@@ -185,6 +189,7 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_SOURCE_DIR}/Code/Numerics/vxl"
   "${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl"
   "${ITK_SOURCE_DIR}/Code/SpatialObject"
+  "${ITK_SOURCE_DIR}/Utilities/GlutMaster"
   "${ITK_SOURCE_DIR}/Utilities/MetaIO"
   "${ITK_SOURCE_DIR}/Utilities/png"
   "${ITK_SOURCE_DIR}/Utilities/zlib"
@@ -216,6 +221,7 @@ SET(ITK_INCLUDE_DIRS
   "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl"
   "${ITK_INSTALL_INCLUDE_DIR}/Numerics/vxl/vcl"
   "${ITK_INSTALL_INCLUDE_DIR}/SpatialObject"
+  "${ITK_INSTALL_INCLUDE_DIR}/Utilities/GlutMaster"
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/MetaIO"
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/png"
   "${ITK_INSTALL_INCLUDE_DIR}/Utilities/zlib"
