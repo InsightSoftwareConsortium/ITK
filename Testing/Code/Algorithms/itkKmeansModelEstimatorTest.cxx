@@ -179,7 +179,10 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //----------------------------------------------------------------------
   applyKmeansEstimator->SetInputImage(vecImage);
   applyKmeansEstimator->SetNumberOfModels(NCODEWORDS);
-  applyKmeansEstimator->SetThreshold(0.01);
+  applyKmeansEstimator->SetThreshold(0.01 );
+  applyKmeansEstimator->SetOffsetAdd( 0.01 );
+  applyKmeansEstimator->SetOffsetMultiply( 0.01 );
+  applyKmeansEstimator->SetMaxSplitAttempts( 10 );
   applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
@@ -221,7 +224,20 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
-   membershipFunctions = applyKmeansEstimator->GetMembershipFunctions(); 
+  membershipFunctions = applyKmeansEstimator->GetMembershipFunctions(); 
+
+  //Testing for the various parameter access functions in the test
+  std::cout << "The final codebook (cluster centers are: " << std::endl;
+  std::cout << applyKmeansEstimator->GetCodebook() << std::endl;
+  std::cout << "The threshold parameter used was: " <<
+    applyKmeansEstimator->GetThreshold() << std::endl;
+  std::cout << "The additive ofset parameter used was: " <<
+    applyKmeansEstimator->GetOffsetAdd() << std::endl;
+  std::cout << "The multiplicative ofset parameter used was: " <<
+    applyKmeansEstimator->GetOffsetMultiply() << std::endl;
+  std::cout << "The maximum number of attempted splits in codebook: " <<
+    applyKmeansEstimator->GetMaxSplitAttempts() << std::endl;
+  std::cout << "  " << std::endl;
 
   //Validation with initial Kmeans estimate provided as input by the user
 
