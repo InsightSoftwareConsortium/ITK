@@ -239,30 +239,14 @@ public:
   VectorType Fe1(VectorType);
   VectorType Fe(VectorType,VectorType);
  
-  
   static Baseclass* NewImageMetricLoad(void)
   { return new ImageMetricLoad; }
-
-  virtual void Read( std::istream& f, void* info )
-  {
-    Superclass::Read(f,info);
-  }
-  
-  void Write( std::ostream& f, int clid ) const
-  {
-    // if not set already, se set the clid
-    if (clid<0) clid=CLID;
-
-    // call the parent's write function
-    Superclass::Write(f,clid);
-  }
-
 
 
 protected:
 
-private:  
-  
+private:
+
   typename CovariantVectorImageType::Pointer          m_DerivativeImage;
   ReferencePointer                                    m_RefImage;
   TargetPointer                                       m_TarImage;
