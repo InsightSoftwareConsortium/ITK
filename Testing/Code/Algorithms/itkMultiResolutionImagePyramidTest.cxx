@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkCommand.h"
+#include "itkCastImageFilter.h"
+#include "itkStreamingImageFilter.h"
 
 #include <iostream>
 
@@ -223,8 +225,9 @@ int main()
     std::cout << pyramid->GetSchedule();
     }
 
-
   // generate output at a level with progress
+  std::cout << "Run MultiResolutionImagePyramid in standalone mode with progress";
+  std::cout << std::endl;
   ShowProgressObject progressWatch(pyramid);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -278,6 +281,48 @@ int main()
     pyramid->GetInput()->Print(std::cout);
     pyramid->GetOutput()->Print(std::cout);
     }
+
+
+  // run in streamed mode
+  std::cout << "Run ImagePyramid with streamer";
+  std::cout << std::endl;
+  
+  typedef itk::CastImageFilter<InputImageType,InputImageType> CasterType;
+  CasterType::Pointer caster = CasterType::New();
+
+  caster->SetInput( pyramid->GetInput() );
+
+  PyramidType::Pointer pyramid2 = PyramidType::New();
+  pyramid2->SetInput( caster->GetOutput() );
+  pyramid2->SetNumberOfLevels( pyramid->GetNumberOfLevels() );
+  pyramid2->SetSchedule( pyramid->GetSchedule() );
+  pyramid2->SetCurrentLevel( pyramid->GetCurrentLevel() );
+
+  typedef itk::StreamingImageFilter<OutputImageType,OutputImageType>
+    StreamerType;
+  StreamerType::Pointer streamer = StreamerType::New();
+  streamer->SetInput( pyramid2->GetOutput() );
+  streamer->SetNumberOfStreamDivisions( 3 );
+  streamer->Update();
+
+  std::cout << "Compare standalone and streamed outputs" << std::endl;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
+  OutputIterator iter1( pyramid->GetOutput(),
+    pyramid->GetOutput()->GetBufferedRegion() );
+  OutputIterator iter2( streamer->GetOutput(),
+    streamer->GetOutput()->GetBufferedRegion() );
+
+  while( !iter1.IsAtEnd() )
+    {
+    if( iter1.Get() != iter2.Get() )
+      {
+      std::cout << "Streamed output is different!!!" << std::endl;
+      pass = false;
+      }
+    ++iter1;
+    ++iter2;
+    }
+
 
   if( !pass )
     {
