@@ -329,6 +329,8 @@ IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
     itkbasicfilters
     itkcommon
     itkio
+    itktesting
+    itkdata
     itknumerics
     vxlnumerics
     )
