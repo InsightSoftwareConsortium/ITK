@@ -180,8 +180,7 @@ void RawImageIO<TPixel,VImageDimension>
   
   if ( m_FileType == Binary )
     {
-    // Read the image (binary)
-    file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
+    // Read the image (binary) file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
     if ( file.fail() )
       {
       itkExceptionMacro(<<"Read failed: Wanted " 
@@ -199,15 +198,15 @@ void RawImageIO<TPixel,VImageDimension>
   itkDebugMacro(<< "Reading Done");
 
   // Swap bytes if necessary
-  if ( m_ByteOrder == LittleEndian &&
-    ByteSwapper<PixelType>::IsBigEndian() )
+  if ( m_ByteOrder == LittleEndian )
     {
-    ByteSwapper<PixelType>::SwapRangeBE((PixelType *)buffer, m_Strides[VImageDimension+1]);
+    ByteSwapper<PixelType>::SwapRangeFromSystemToLittleEndian(
+                    (PixelType *)buffer, m_Strides[VImageDimension+1]);
     }
-  else if ( m_ByteOrder == BigEndian &&
-    ByteSwapper<PixelType>::IsLittleEndian() )
+  else if ( m_ByteOrder == BigEndian )
     {
-    ByteSwapper<PixelType>::SwapRangeLE((PixelType *)buffer, m_Strides[VImageDimension+1]);
+    ByteSwapper<PixelType>::SwapRangeFromSystemToBigEndian(
+                    (PixelType *)buffer, m_Strides[VImageDimension+1]);
     }
 }
 

@@ -534,141 +534,141 @@ MetaImageIO
     {
     case CHAR:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<char>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<char>::SwapRangeBE((char*)buffer, numberOfPixels );
+        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
+                                  (char*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<char>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<char>::SwapRangeLE((char *)buffer, numberOfPixels );
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
+                                  (char *)buffer, numberOfPixels );
         }
       break;
       }
     case UCHAR:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<unsigned char>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<unsigned char>::SwapRangeBE((unsigned char*)buffer, numberOfPixels );
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
+                        (unsigned char*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<unsigned char>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<unsigned char>::SwapRangeLE((unsigned char *)buffer, numberOfPixels );
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+                        (unsigned char *)buffer, numberOfPixels );
         }
       break;
       }
     case SHORT:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<short>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<short>::SwapRangeBE((short*)buffer, numberOfPixels );
+        ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
+                                  (short*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<short>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<short>::SwapRangeLE((short *)buffer, numberOfPixels );
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
+                                  (short *)buffer, numberOfPixels );
         }
       break;
       }
     case USHORT:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<unsigned short>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<unsigned short>::SwapRangeBE((unsigned short*)buffer, numberOfPixels );
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
+                                (unsigned short*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<unsigned short>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<unsigned short>::SwapRangeLE((unsigned short *)buffer, numberOfPixels );
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+                                (unsigned short *)buffer, numberOfPixels );
         }
       break;
       }
     case INT:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<int>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<int>::SwapRangeBE((int*)buffer, numberOfPixels );
+        ByteSwapper<int>::SwapRangeFromSystemToLittleEndian(
+                                    (int*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<int>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<int>::SwapRangeLE((int *)buffer, numberOfPixels );
+        ByteSwapper<int>::SwapRangeFromSystemToBigEndian(
+                                    (int *)buffer, numberOfPixels );
         }
       break;
       }
     case UINT:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<unsigned int>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<unsigned int>::SwapRangeBE((unsigned int*)buffer, numberOfPixels );
+        ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian(
+                                    (unsigned int*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<unsigned int>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<unsigned int>::SwapRangeLE((unsigned int *)buffer, numberOfPixels );
+        ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(
+                                    (unsigned int *)buffer, numberOfPixels );
         }
       break;
       }
     case LONG:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<long>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<long>::SwapRangeBE((long*)buffer, numberOfPixels );
+        ByteSwapper<long>::SwapRangeFromSystemToLittleEndian(
+                                  (long*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<long>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<long>::SwapRangeLE((long *)buffer, numberOfPixels );
+        ByteSwapper<long>::SwapRangeFromSystemToBigEndian(
+                                  (long *)buffer, numberOfPixels );
         }
       break;
       }
     case ULONG:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<unsigned long>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<unsigned long>::SwapRangeBE((unsigned long*)buffer, numberOfPixels );
+        ByteSwapper<unsigned long>::SwapRangeFromSystemToLittleEndian(
+                                      (unsigned long*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<unsigned long>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<unsigned long>::SwapRangeLE((unsigned long *)buffer, numberOfPixels );
+        ByteSwapper<unsigned long>::SwapRangeFromSystemToBigEndian(
+                                      (unsigned long *)buffer, numberOfPixels );
         }
       break;
       }
     case FLOAT:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<float>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<float>::SwapRangeBE((float*)buffer, numberOfPixels );
+        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian(
+                                  (float*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<float>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<float>::SwapRangeLE((float *)buffer, numberOfPixels );
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(
+                                  (float *)buffer, numberOfPixels );
         }
       break;
       }
     case DOUBLE:
       {
-      if ( m_ByteOrder == LittleEndian &&
-        ByteSwapper<double>::IsBigEndian() )
+      if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper<double>::SwapRangeBE((double*)buffer, numberOfPixels );
+        ByteSwapper<double>::SwapRangeFromSystemToLittleEndian(
+                                  (double*)buffer, numberOfPixels );
         }
-      else if ( m_ByteOrder == BigEndian &&
-        ByteSwapper<double>::IsLittleEndian() )
+      else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper<double>::SwapRangeLE((double *)buffer, numberOfPixels );
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(
+                                  (double *)buffer, numberOfPixels );
         }
       break;
       }
