@@ -72,6 +72,10 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 #include "DanielssonDistanceMapImageFilter.cxx"
 
 #undef main
+#define main DerivativeImageFilterTest
+#include "DerivativeImageFilter.cxx"
+
+#undef main
 #define main DiscreteGaussianImageFilterTest
 #include "DiscreteGaussianImageFilter.cxx"
 
