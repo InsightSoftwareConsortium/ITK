@@ -17,7 +17,7 @@
 #ifndef __itkTransform_h
 #define __itkTransform_h
 
-#include "itkObject.h"
+#include "itkTransformBase.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
@@ -63,12 +63,12 @@ namespace itk
 template <class TScalarType,
           unsigned int NInputDimensions=3, 
           unsigned int NOutputDimensions=3>
-class ITK_EXPORT  Transform  : public Object
+class ITK_EXPORT  Transform  : public TransformBase
 {
 public:
   /** Standard class typedefs. */
   typedef Transform  Self;
-  typedef Object Superclass;
+  typedef TransformBase Superclass;
   typedef SmartPointer< Self >   Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
   
@@ -76,17 +76,23 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Transform, Object );
+  itkTypeMacro( Transform, TransformBase );
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
 
+  /** Get the size of the input space */
+  unsigned int GetInputSpaceDimension(void) const {return NInputDimensions;}
+
+  /** Get the size of the output space */
+  unsigned int GetOutputSpaceDimension(void) const {return NOutputDimensions;}
+
   /** Type of the scalar representing coordinate and vector elements. */
   typedef  TScalarType     ScalarType;
 
   /** Type of the input parameters. */
-  typedef  Array< double >                           ParametersType;
+  typedef  typename Superclass::ParametersType         ParametersType;
 
   /** Type of the Jacobian matrix. */
   typedef  Array2D< double >                           JacobianType;
