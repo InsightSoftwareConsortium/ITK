@@ -70,49 +70,11 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::SetSeed(const IndexType &seed)
-{
-  m_Seed = seed;
-}
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::PushNeighbors(const IndexType &center)
-{
-  IndexType current=center;
-    
-  for(int i = 0; i < ImageDimension; i++)
-  {
-	if(current[i] < m_size[i]-1)
-	{
-      current[i]++;
-	  m_Queue.push(current);
-	  current[i]--;
-    }
-	
-	if(current[i]>0){
-	  current[i]--;
-	  m_Queue.push(current);
-      current[i]++;
-    }
-  }
-}
-
-/**
- *
- */
 
 template <class TInputImage, class TOutputImage>
 double 
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::FuzzyAffinity(const PixelRGB f1, const PixelRGB f2)
+::FuzzyAffinity(const PixelType f1, const PixelType f2)
 {
   double save[3];
   save[0] = 0.5 * (f1[0]+f2[0]) - m_Mean[0];
@@ -172,112 +134,6 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 	}
 }
 
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-double 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::FindStrongPath(const IndexType &center)
-{
-  IndexType current = center;
-  double tmp=0;
-  double tmp1;
-  double tmp2;
-
-  PixelRGB centerpixel = m_InputImage->GetPixel(current);
-  PixelRGB savepixel;
-
-  if(current[0] > 0)
-  {
-    current[0]--;
-    tmp = (double)(m_FuzzyScene->GetPixel(current));
-    savepixel = m_InputImage->GetPixel(current);
-    tmp1 = FuzzyAffinity(savepixel,centerpixel);
-    if(tmp > tmp1)
-	{
-      tmp=tmp1;
-    }
-    current[0]++;
-  }
-  if(current[0] < m_size[0]-1)
-  {
-    current[0]++;  
-    tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-    tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
-    if(tmp2 > tmp1)
-	{
-      tmp2 = tmp1;
-    }
-    if(tmp < tmp2){
-      tmp = tmp2;
-    }
-    current[0]--;
-  }
-
-  
-  for(int i = 1;i < ImageDimension; i++)
-  {
-    if(current[i] > 0)
-	{
-      current[i]--;
-      tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-      tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
-      if(tmp2 > tmp1)
-	  {
-        tmp2 = tmp1;
-      }
-      if(tmp < tmp2)
-	  {
-        tmp = tmp2;
-      }
-      current[i]++;
-	}
-	if(current[i] < m_size[i]-1)
-	{
-	  current[i]++;
-      tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-      tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
-      if(tmp2 > tmp1)
-	  {
-        tmp2 = tmp1;
-      }
-      if(tmp < tmp2)
-	  {
-        tmp = tmp2;
-      }
-      current[i]--;
-	}
-  }
-
-  return(tmp);
-}
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::MakeSegmentObject()
-{
-  RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
-  UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
-  
-  double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
-
-
-  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, regionIN);
-  ImageRegionIteratorWithIndex <OutputImageType> ot(this->m_SegmentObject, regionOUT);
-
-  while( !it.IsAtEnd())
-    {    
-    ot.Set(it.Get() > activeThreshold);
-    ++it;
-    ++ot;
-    }
-}
-
 
 /**
  *
@@ -287,8 +143,6 @@ void
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  IndexType current;
-  unsigned short fmax;
 
 /* compute the Determinate and inverse of the Variance Matrices */
   m_Var_Det = m_Var[0][0]*m_Var[1][1]*m_Var[2][2]
@@ -342,61 +196,8 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   m_Diff_Var_inverse[2][2]=(m_Diff_Var[0][0]*m_Diff_Var[1][1]-m_Diff_Var[1][0]*m_Diff_Var[0][1])
                       /m_Diff_Var_Det;  
   }
-            
-  m_InputImage = this->GetInput();
-  m_SegmentObject = this->GetOutput(); 
-
-  m_size = m_InputImage->GetLargestPossibleRegion().GetSize();
-  IndexType index = IndexType::ZeroIndex;
-  UShortImage::RegionType region;
-  region.SetSize(m_size);
-  region.SetIndex(index);
-  m_FuzzyScene = UShortImage::New();  
-  m_FuzzyScene->SetLargestPossibleRegion( region );
-  m_FuzzyScene->SetBufferedRegion( region );
-  m_FuzzyScene->SetRequestedRegion( region );
-  m_FuzzyScene->Allocate();  
-
-  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, region);
-
-  while( !it.IsAtEnd())
-    {    
-    it.Set(0);
-    ++it;
-    }
-
-  RegionType region1;
-  region1.SetSize(m_size);
-  region1.SetIndex(index);
-  m_SegmentObject->SetLargestPossibleRegion( region1 );
-  m_SegmentObject->SetBufferedRegion( region1 );
-  m_SegmentObject->SetRequestedRegion( region1 );
-  m_SegmentObject->Allocate();  
-
-  PushNeighbors(m_Seed);
-  m_FuzzyScene->SetPixel(m_Seed,NumericTraits<unsigned short>::max());
-
-  while(! m_Queue.empty())
-  {
-    current = m_Queue.front();
-	m_Queue.pop();
-	fmax = (unsigned short)(FindStrongPath(current));
-	if(fmax > m_FuzzyScene->GetPixel(current))
-	{
-	  m_FuzzyScene->SetPixel(current,fmax);
-	  PushNeighbors(current);
-	}
-  }
-
-  MakeSegmentObject();
-}
-
-template <class TInputImage, class TOutputImage>
-void 
-FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::UpdateThreshold(double x){
-  SetThreshold(x);
-  MakeSegmentObject();
+  
+  Superclass::GenerateData();            
 }
 
 } // end namespace itk

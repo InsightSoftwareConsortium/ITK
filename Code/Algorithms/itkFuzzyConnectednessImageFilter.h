@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
+#include "itkSimpleFuzzyConnectednessImageFilterBase.h"
 
 #include <queue>
 
@@ -87,7 +88,7 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class FuzzyConnectednessImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+  public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /**
@@ -104,51 +105,17 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
+  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   Superclass;
 
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(FuzzyConnectednessImageFilter,ImageToImageFilter);
+  itkTypeMacro(FuzzyConnectednessImageFilter,SimpleFuzzyConnectednessImageFilterBase);
 
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-
-  enum {ImageDimension = TInputImage::ImageDimension };
-
-
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef Image <unsigned short, ImageDimension> UShortImage;
-  typedef typename UShortImage::Pointer UShortImagePointer;
-  typedef typename TInputImage::IndexType IndexType;
-  typedef typename TInputImage::SizeType SizeType;
-
-  typedef std::queue<IndexType> QueueType;
-
-  typedef typename TOutputImage::RegionType RegionType;
-  
-  UShortImagePointer GetFuzzyScene(void){ return m_FuzzyScene;};
-
-  /**
-   * Set the Estimation of the mean pixel value for the object.
-   */
-  itkSetMacro(Mean, double);
-
-  /**
-   * Get the Estimation of the mean pixel value for the object.
-   */
-  itkGetMacro(Mean, double);
-  /**
-   * Set the Estimation of the variance of the pixel value for the object.
-   */
-  itkSetMacro(Var, double);
-  /**
-   * Get the Estimation of the variance of the pixel value for the object.
-   */
-  itkGetMacro(Var, double);
 
   /**
    * Set the Estimation of the mean difference between neighbor pixels for the object.
@@ -168,48 +135,11 @@ public:
   itkGetMacro(Diff_Var, double);
   
   /**
-   * Set the Weight of the first term(standard statistics) in the affinity computation.
-   */
-  itkSetMacro(Weight, double);
-  /**
-   * Get the Weight of the first term(standard statistics) in the affinity computation.
-   */
-  itkGetMacro(Weight, double);
-  /**
-   * Set the Threshold value for the segmentation.
-   */
-  itkSetMacro(Threshold, double);
-  /**
-   * Get the Threshold value for the segmentation.
-   */
-  itkGetMacro(Threshold, double);
-
-  /**
    * Setting the parameters for segmentation:
    */
   void SetParameters(const double inmean,const double invar, 
 	  const double indifmean,const double indifvar,const double inweight);
 	
-  /**
-   * Setting the beginning point, believed to be inside the object.
-   */
-  void SetSeed(const IndexType & seed);
-	
- /**
-  * Standard pipeline method.
-  */
-  void GenerateData();
-
-  /**
-   * Update the binary result. (needed after update the threshold)
-   */
-  void MakeSegmentObject();
-
-  /**
-   * a simple combining of set threshold and makesegmentobject.
-   */
-  void UpdateThreshold(double x);
-
 protected:
   FuzzyConnectednessImageFilter();
   ~FuzzyConnectednessImageFilter();
@@ -219,20 +149,10 @@ private:
   double m_Var; //estimation of the Variance.
   double m_Diff_Mean;
   double m_Diff_Var;
-  double m_Weight;
-  double m_Threshold;
   IndexType m_Seed;
   SizeType m_size;
 
-  typename InputImageType::Pointer m_InputImage;
-  typename UShortImage::Pointer m_FuzzyScene;
-  typename OutputImageType::Pointer m_SegmentObject; 
-  
-  QueueType m_Queue;
-
-  void PushNeighbors(const IndexType &center);
-  double FuzzyAffinity(const double f1, const double f2);
-  double FindStrongPath(const IndexType &center);
+  double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };
 
 

@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
+#include "itkSimpleFuzzyConnectednessImageFilterBase.h"
 #include <vnl/vnl_matrix_fixed.h>
 
 #include <queue>
@@ -91,7 +92,7 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class FuzzyConnectednessRGBImageFilter:
-  public ImageToImageFilter<TInputImage,TOutputImage>
+  public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /**
@@ -108,75 +109,20 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
+  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   Superclass;
 
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(FuzzyConnectednessRGBImageFilter,ImageToImageFilter);
+  itkTypeMacro(FuzzyConnectednessRGBImageFilter,SimpleFuzzyConnectednessImageFilterBase);
 
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
 
-  enum {ImageDimension = TInputImage::ImageDimension };
-
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef Image <unsigned short, ImageDimension> UShortImage;
-  typedef typename TInputImage::IndexType IndexType;
-  typedef typename TInputImage::SizeType SizeType;
-  typedef typename TInputImage::PixelType PixelRGB;
-  typedef typename UShortImage::Pointer FuzzyScene;
-
-  typedef std::queue<IndexType> QueueType;
-
-  typedef typename TOutputImage::RegionType RegionType;
-  
-  /**
-   * Set the Weight of the first term(standard statistics) in the affinity 
-   * computation.
-   */
-  itkSetMacro(Weight, double);
-  /**
-   * Get the Weight of the first term(standard statistics) in the affinity 
-   * computation.
-   */
-  itkGetMacro(Weight, double);
-  
-  /**
-   * Set the Threshold value for the segmentation.
-   */
-  itkSetMacro(Threshold, double);
-  /**
-   * Get the Threshold value for the segmentation.
-   */
-  itkGetMacro(Threshold, double);
-
-  /**
-   * Setting the beginning point, believed to be inside the object.
-   */
-  void SetSeed(const IndexType & seed);
-	
-  /**
-  * Standard pipeline method.
-  */
-  void GenerateData();
-
-  /**
-   * Update the binary result. (needed after update the threshold)
-   */
-  void MakeSegmentObject();
-
-  FuzzyScene GetFuzzyScene(void){ return m_FuzzyScene; };
-
-  /**
-   * a simple combining of set threshold and makesegmentobject.
-   */
-  void UpdateThreshold(double x);
-
-  
+  void GenerateData(void);
+ 
   /**
    * Seting and geting the parameters
    */
@@ -226,20 +172,8 @@ private:
   double m_Diff_Var_inverse[3][3];
   double m_Var_Det;
   double m_Diff_Var_Det;
-  double m_Weight;
-  double m_Threshold;
-  IndexType m_Seed;
-  SizeType m_size;
 
-  typename InputImageType::Pointer m_InputImage;
-  typename UShortImage::Pointer m_FuzzyScene;
-  typename OutputImageType::Pointer m_SegmentObject; 
-  
-  QueueType m_Queue;
-
-  void PushNeighbors(const IndexType &center);
-  double FuzzyAffinity(const PixelRGB f1, const PixelRGB f2);
-  double FindStrongPath(const IndexType &center);
+  double FuzzyAffinity(const PixelType f1, const PixelType f2);
 };
 
 
