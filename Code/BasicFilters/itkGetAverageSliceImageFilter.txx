@@ -88,7 +88,7 @@ GetAverageSliceImageFilter<TInputImage,TOutputImage>
   inputSize=inputPtr->GetLargestPossibleRegion().GetSize();
   inputOrigin=inputPtr->GetOrigin();
   inputSpacing=inputPtr->GetSpacing();
-  for(int i=0; i<TInputImage::ImageDimension; i++)
+  for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
   {  
     if(i!=m_AveragedOutDimension)
     {
@@ -127,7 +127,7 @@ GetAverageSliceImageFilter<TInputImage,TOutputImage>
   }
 
   outputIter.GoToBegin();
-  for(int z=0; z<inputSize[m_AveragedOutDimension]; z++)
+  for(unsigned int z=0; z<inputSize[m_AveragedOutDimension]; z++)
   {
     requestedIndex[m_AveragedOutDimension]=z;
     requestedRegion.SetIndex(requestedIndex);

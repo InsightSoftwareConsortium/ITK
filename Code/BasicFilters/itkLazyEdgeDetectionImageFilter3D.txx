@@ -99,7 +99,7 @@ LazyEdgeDetectionImageFilter3D<TInputImage,TOutputImage>
   edgeDetector->SetInput(extractor->GetOutput());
 
 
-  for(int z=0; z<size[2]; z++)
+  for(unsigned int z=0; z<size[2]; z++)
   {
     extractionRegionIndex[2]=z;
     extractionRegion.SetIndex(extractionRegionIndex);
