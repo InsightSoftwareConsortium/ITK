@@ -105,6 +105,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
+  initialParameters.Fill(0);
 
   registration->SetInitialTransformParameters( initialParameters );
 
