@@ -100,11 +100,13 @@ LevenbergMarquardtOptimizer
                                             parameters     );
 
   m_VnlOptimizer->minimize( parameters );
-
-  ParametersType solution =
-   this->GetCostFunctionAdaptor()->GetCostFunction()->GetParameters() ;
-
-  this->SetCurrentPosition( solution );
+  // InternalParametersType is different than ParametersType....
+  ParametersType p(parameters.size());
+  for(unsigned int i=0; i < parameters.size(); ++i)
+    {
+    p[i] = parameters[i];
+    }
+  this->SetCurrentPosition( p );
       
 
 }
