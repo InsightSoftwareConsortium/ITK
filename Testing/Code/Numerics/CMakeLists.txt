@@ -15,6 +15,7 @@ SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
 ADD_TEST(itkNumericsPrintTest ${NUMERICS_TESTS} itkNumericsPrintTest)
 ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
 ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
+ADD_TEST(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunctionTest)
 ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
 ADD_TEST(itkLevenbergMarquardtOptimizerTest ${NUMERICS_TESTS} itkLevenbergMarquardtOptimizerTest)
 ADD_TEST(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
@@ -30,6 +31,7 @@ SET(Numerics_SRCS
 itkNumericsPrintTest.cxx
 itkAmoebaOptimizerTest.cxx
 itkConjugateGradientOptimizerTest.cxx
+itkCompositeValleyFunctionTest.cxx
 itkGradientDescentOptimizerTest.cxx
 itkLevenbergMarquardtOptimizerTest.cxx
 itkLBFGSOptimizerTest.cxx
