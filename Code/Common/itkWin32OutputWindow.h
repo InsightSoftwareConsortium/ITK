@@ -19,10 +19,7 @@
 #ifdef _WIN32
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
-#include <windows.h>
-#undef max
-#undef min
-
+#include "itkWindows.h"
 namespace itk
 {
 
@@ -84,5 +81,5 @@ protected:
  
   
 } // end namespace itk
-#endif  
-#endif
+#endif  // end win32
+#endif  //  __itkWin32OutputWindow_h
