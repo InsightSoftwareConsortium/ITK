@@ -92,12 +92,9 @@ DynamicLoader
 
 // ---------------------------------------------------------------
 // 2. Implementation for the Power PC (MAC)
-#ifdef __powerc
-#define ITKDYNAMICLOADER_DEFINED 1
-#include <CodeFragments.h>
-#include <Errors.h>
-#include <Threads.h>
-#include <Timer.h>
+#ifdef __APPLE__
+#define ITKDYNAMICLOADER_DEFINED 
+#include <mach-o/dyld.h>
 
 namespace itk
 {
@@ -107,16 +104,11 @@ LibHandle
 DynamicLoader
 ::OpenLibrary(const char* libname )
 {
-    Str63 libName;
-    libName[0] = strlen(libname);
-    strcpy((char*) &libName[1], libname);
-    ConnectionID connID;
-    Ptr mainAddr;
-    Str255 errName;
-    OSErr err = GetSharedLibrary(
-        libName, kPowerPCArch, kLoadLib, &connID, &mainAddr, errName
-    );
-    return err == fragNoErr ? connID : 0;
+  NSObjectFileImageReturnCode rc;
+  NSObjectFileImage image;
+  
+  rc = NSCreateObjectFileImageFromFile(libname, &image);
+  return NSLinkModule(image, libname, TRUE);
 }
 
 //----------------------------------------------------------------------------
@@ -132,13 +124,16 @@ void*
 DynamicLoader
 ::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
-  Str255 symName;
-  symName[0] = strlen(sym);
-  strcpy((char*) &symName[1], sym);
-  Ptr symAddr;
-  SymClass symClass;
-  OSErr err = FindSymbol(lib, symName, &symAddr, &symClass);
-  return (void*) symAddr; 
+  void *result=0;
+  if(NSIsSymbolNameDefined(sym))
+    {
+    NSSymbol symbol= NSLookupAndBindSymbol(sym);
+    if(symbol)
+      {
+      result = NSAddressOfSymbol(symbol);
+      }
+    }
+  return result;
 }
 
 //----------------------------------------------------------------------------
@@ -154,7 +149,7 @@ const char*
 DynamicLoader
 ::LibExtension()
 {
-  return ".lib";
+  return ".dylib";
 }
 
 //----------------------------------------------------------------------------
