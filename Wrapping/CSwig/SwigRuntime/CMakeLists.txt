@@ -39,7 +39,8 @@ MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
        ARGS -fxml-start=_cable_ -DCABLE_CONFIGURATION ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
           -fxml=${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml 
        TARGET ${LibName}
-       OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml )
+       OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
+       DEPENDS ${GCCXML})
      SET(XML_COMMAND_ADDED 1)
    ADD_CUSTOM_COMMAND(
     SOURCE ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
@@ -47,7 +48,8 @@ MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
     ARGS -o ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun${LangPostFix}.cxx ${LangOption}
          -c++ ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
     TARGET ${LibName}
-    OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun${LangPostFix}.cxx)
+    OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun${LangPostFix}.cxx
+    DEPENDS ${CSWIG})
 ENDMACRO(CREATE_SWIG_RUNTIME)
 
 IF(ITK_CSWIG_TCL)
