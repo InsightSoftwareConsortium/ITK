@@ -45,7 +45,6 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::TubeSpatialObject<3>                   TubeType;
   typedef itk::SmartPointer< TubeType >               TubePointer;
   typedef TubeType::TubePointType                     TubePointType;
-  typedef TubePointType*                              TubePointPointer;
   typedef itk::TubeNetworkSpatialObject<3>            TubeNetType;
   typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
   typedef TubeType::PointListType                     TubePointListType;
