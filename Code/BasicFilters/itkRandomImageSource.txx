@@ -130,7 +130,7 @@ RandomImageSource<TOutputImage>
 {
   itkDebugMacro(<<"Generating a random image of scalars");
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   unsigned long updateVisits = 0, i=0;
   if ( threadId == 0 )
     {
@@ -143,9 +143,22 @@ RandomImageSource<TOutputImage>
 
   ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
 
+  // Random number seed
+  unsigned long sample_seed = 12345 + threadId;
+  double u;
+  double rnd;
+
+  double dMin = static_cast<double>(m_Min);
+  double dMax = static_cast<double>(m_Max);
+
   for ( ; !it.IsAtEnd(); ++it)
     {
-    it.Set( (scalarType) vnl_sample_uniform(static_cast<double>(m_Min),static_cast<double>(m_Max)));
+
+    sample_seed = (sample_seed*16807)%2147483647L;
+    u = static_cast<double>(sample_seed)/2147483711UL;
+    rnd = (1.0 - u)*dMin + u*dMax;
+
+    it.Set( (scalarType) rnd);
     if ( threadId == 0 && !(i % updateVisits ) )
       {
       this->UpdateProgress( static_cast<float>(i) / 

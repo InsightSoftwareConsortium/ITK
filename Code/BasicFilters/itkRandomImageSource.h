@@ -30,6 +30,8 @@ namespace itk
  * \brief Generate an n-dimensional image of random pixel values.
  *
  * RandomImageSource generates an image of random pixel values.
+ * This filter uses an inline random number generator since the library
+ * drand48, although thread-safe, is very slow in a threaded environment.
  * The output image may be of any dimension. 
  *
  * \ingroup DataSources
