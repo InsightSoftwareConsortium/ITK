@@ -17,6 +17,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
+#include "itkShrinkImage.h"
+#include "itkRandomImage.h"
 
 template <class T, unsigned int TImageDimension>
 int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
@@ -35,31 +37,31 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
     catch (const int error)
       {
       if (error == itkInvalidDimension)
-	{
-	std::cout << "Exception: Invalid dimension" << std::endl;
-	}
+        {
+        std::cout << "Exception: Invalid dimension" << std::endl;
+        }
       }
 
     // set "it" to the beginning of the dim projection
     for (i=0; i < it.GetImageSize()[dim]; i++)
       {
       for (ii=0; ii < dim; ii++)
-	{ std::cout << "\t"; }
+        { std::cout << "\t"; }
       std::cout << "Looping over " << dim << std::endl;
       
       IterateOverImage(it, dim+1);
       // increment the iterator
       try
-	{
-	it += basisIndex;
-	}
+        {
+        it += basisIndex;
+        }
       catch (const int error)
-	{
-	if (error == itkBoundsError)
-	  {
-	  std::cout << "Exception: Exceeding image bounds." << std::endl;
-	  }
-	}
+        {
+        if (error == itkBoundsError)
+          {
+          std::cout << "Exception: Exceeding image bounds." << std::endl;
+          }
+        }
       }
     }
   else
@@ -73,37 +75,37 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
     catch (const int error)
       {
       if (error == itkInvalidDimension)
-	{
-	std::cout << "Exception: Invalid dimension" << std::endl;
-	}
+        {
+        std::cout << "Exception: Invalid dimension" << std::endl;
+        }
       }
 
     // final dimension... do something
     for (j=0; j < it.GetImageSize()[dim]; j++)
       {
       for (ii=0; ii < dim; ii++)
-	{ std::cout << "\t"; }
-      std::cout << "Looping over " << dim << ", "
-		<< it.GetIndex() << std::endl;
+        { std::cout << "\t"; }
+//     std::cout << "Looping over " << dim << ", "
+//              << it.GetIndex() << std::endl;
   
       // set the pixel using iterator notation
       *it = value;
 
       // increment the iterator
       try
-	{
-	++it; // fastest
-	//it++; // fast
-	//it += basisIndex; // slow
-	//it.Increment( it.GetIndex().GetBasisIndex(dim) ); // slowest
-	}
+        {
+        ++it; // fastest
+        //it++; // fast
+        //it += basisIndex; // slow
+        //it.Increment( it.GetIndex().GetBasisIndex(dim) ); // slowest
+        }
       catch (const int error)
-	{
-	if (error == itkBoundsError)
-	  {
-	  std::cout << "Exception: Exceeding image bounds." << std::endl;
-	  }
-	}
+        {
+        if (error == itkBoundsError)
+          {
+          std::cout << "Exception: Exceeding image bounds." << std::endl;
+          }
+        }
       }
     }
   
@@ -112,8 +114,6 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
 
 int main()
 {
-  itkImageBase::Pointer o1 = itkImageBase::New();
-
   itkImage<itkScalar<float>, 2>::Pointer
     o2 = itkImage<itkScalar<float>, 2>::New();
 
@@ -126,6 +126,17 @@ int main()
   spacing[0] = 1.5;
   spacing[1] = 2.1;
   
+  // Create a source
+  itkRandomImage< itkImage<itkScalar<float>,2> >::Pointer random;
+  random = itkRandomImage< itkImage<itkScalar<float>,2> >::New();
+
+  // Create a filter
+  itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;
+  shrink = itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::New();
+  shrink->SetInput(o2);
+
+  // Create a mapper
+
   //  o2->SetDimension(2);
   o2->SetSize(size);
   o2->SetOrigin(origin);
@@ -194,12 +205,12 @@ int main()
   vec = o3->GetPixel(ind3D);
 
   std::cout << "Vector pixel value is: ["
-	    << vec.GetVector()[0] << ", "
-	    << vec.GetVector()[1] << ", "
-	    << vec.GetVector()[2] << ", "
-	    << vec.GetVector()[3] << ", "
-	    << vec.GetVector()[4] << "]"
-	    << std::endl;
+            << vec.GetVector()[0] << ", "
+            << vec.GetVector()[1] << ", "
+            << vec.GetVector()[2] << ", "
+            << vec.GetVector()[3] << ", "
+            << vec.GetVector()[4] << "]"
+            << std::endl;
   
   
   // return 0;

@@ -7,13 +7,12 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///superclass of all producing images as output
 /**
  * itkImageSource is the base class for all process objects that output
  * image data.
@@ -21,30 +20,40 @@ See COPYRIGHT.txt for copyright details.
 #ifndef __itkImageSource_h
 #define __itkImageSource_h
 
-#include "itkDataObject.h"
-#include "itkImage.h"
+#include "itkProcessObject.h"
 
-template < class vtkImage<T> >
+template <class TOutputImage>
 class ITK_EXPORT itkImageSource : public itkProcessObject
 {
 public:
-  /** Smart pointer typedef support */
-  typedef itkSmartPointer< itkImageSource<T> > Pointer;
+  /** 
+   * Smart pointer typedef support.
+   */
+  typedef itkSmartPointer< itkImageSource<TOutputImage> > Pointer;
 
-  /** Create the source with one output initially */
+  /** 
+   * Create the source with one output initially 
+   */
   static Pointer New();
 
-  /** Get the output of this process object. */
-  itkImage<T> *GetOutput();
-  itkImage<T> *GetOutput(int idx)
-    {return (itkImage<T> *) this->itkProcessObject::GetOutput(idx); };
-  void SetOutput(itkImage<T> *output);
+  /** 
+   * Get the image output of this process object. 
+   */
+  TOutputImage *GetOutput();
+  TOutputImage *GetOutput(int idx)
+    {return (TOutputImage *) this->itkProcessObject::GetOutput(idx);}
+
+  /** 
+   * Set the image output of this process object. 
+   */
+  void SetOutput(TOutputImage *output);
 
 protected:
   itkImageSource();
   ~itkImageSource() {};
   itkImageSource(const itkImageSource&) {};
   void operator=(const itkImageSource&) {};
+  void PrintSelf(std::ostream& os, itkIndent indent);
   
   // Update extent of Image is specified in pieces.  
   // Since all DataObjects should be able to set UpdateExent as pieces,
@@ -57,6 +66,10 @@ private:
   int m_ExecutePiece;
   int m_ExecuteNumberOfPieces;
 };
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkImageSource.cxx"
+#endif
 
 #endif
 

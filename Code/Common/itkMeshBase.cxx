@@ -42,3 +42,11 @@ void itkMeshBase::SetDimension(int dim)
 {
 }
 
+//-------------------------------------------------------------------------
+void itkMeshBase::PrintSelf(std::ostream& os, itkIndent indent)
+{
+  itkDataObject::PrintSelf(os,indent);
+  
+}
+
+

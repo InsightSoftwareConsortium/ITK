@@ -30,6 +30,10 @@ itkProcessObject::itkProcessObject()
   m_NumberOfRequiredInputs = 0;
   m_Inputs = NULL;
 
+  m_NumberOfOutputs = 0;
+  m_NumberOfRequiredOutputs = 0;
+  m_Outputs = NULL;
+
   m_StartMethod = NULL;
   m_StartMethodArgDelete = NULL;
   m_StartMethodArg = NULL;
@@ -75,6 +79,21 @@ itkProcessObject::~itkProcessObject()
     delete [] m_Inputs;
     m_Inputs = NULL;
     m_NumberOfInputs = 0;
+    }
+
+  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
+    {
+    if (m_Outputs[idx])
+      {
+      m_Outputs[idx]->UnRegister();
+      m_Outputs[idx] = NULL;
+      }
+    }
+  if (m_Outputs)
+    {
+    delete [] m_Outputs;
+    m_Outputs = NULL;
+    m_NumberOfOutputs = 0;
     }
 }
 

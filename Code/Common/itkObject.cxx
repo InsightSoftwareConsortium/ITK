@@ -189,8 +189,8 @@ void itkObject::SetReferenceCount(int ref)
 void itkObject::Register()
 {
   m_ReferenceCount++;
-  itkDebugMacro(<< "Registered, " << 
-    << "ReferenceCount = " << m_ReferenceCount);
+  itkDebugMacro(<< "Registered, "
+                << "ReferenceCount = " << m_ReferenceCount);
 
   if (m_ReferenceCount <= 0)
     {

@@ -7,56 +7,70 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkImageSource.h"
 
 
 //------------------------------------------------------------------------
-itkImageSource::Pointer<T> itkImageSource::New()
+template<class TOutputImage>
+itkImageSource<TOutputImage>::Pointer itkImageSource<TOutputImage>
+::New()
 {
-  return itkImageSource::Pointer(new itkImageSource<T>);
+  return itkImageSource::Pointer(new itkImageSource<TOut,TOutDim>);
 }
 
 //----------------------------------------------------------------------------
-itkImageSource::itkImageSource()
+template<class TOutputImage>
+itkImageSource<TOutputImage>
+::itkImageSource()
 {
-  this->itkProcessObject::SetNthOutput(0, itkImage::New());
-
-  // Releasing data for pipeline parallism.
-  // Filters will know it is empty. 
-  this->GetOutput(0)->ReleaseData();
-  this->GetOutput(0)->Delete();
+  // Create the output
+  this->itkProcessObject::SetNumberOfRequiredOutputs(1);
+  this->itkProcessObject::SetNthOutput(0, TOutputImage::New());
 
   m_ExecutePiece = 0;
   m_ExecuteNumberOfPieces = 0;
 }
 
 //----------------------------------------------------------------------------
-itkImage<T> *itkImageSource::GetOutput()
+template<class TOutputImage>
+TOutputImage *itkImageSource<TOutputImage>
+::GetOutput()
 {
   if (this->NumberOfOutputs < 1)
     {
     return 0;
     }
   
-  return (itkImage<T> *)(this->GetOutput(0));
+  return (TOutputImage *)(this->GetOutput(0));
 }
 
 //----------------------------------------------------------------------------
-void itkImageSource::SetOutput(itkImage<T> *output)
+template<class TOutputImage>
+void itkImageSource<TOutputImage>
+::SetOutput(TOutputImage *output)
 {
   this->itkProcessObject::SetNthOutput(0, output);
 }
 
+//----------------------------------------------------------------------------
+template<class TOutputImage>
+void itkImageSource<TOutputImage>
+::ComputeInputUpdateExtents(itkDataObject *data)
+{
+}
 
 //----------------------------------------------------------------------------
-void itkImageSource::ComputeInputUpdateExtents(itkDataObject *data)
+template<class TOutputImage>
+void itkImageSource<TOutputImage>
+::PrintSelf(std::ostream& os, itkIndent indent)
 {
+  itkProcessObject::PrintSelf(os,indent);
 }
 
   

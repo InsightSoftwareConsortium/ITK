@@ -14,8 +14,8 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 /**
- * itkDataSet is the base class for all process objects (source, filters, 
- * mappers) in the Insight data processing pipeline.
+ * itkProcessObject is the base class for all process objects (source,
+ * filters, mappers) in the Insight data processing pipeline.
  * itkProcessObject is an abstract object that specifies behavior and
  * interface of visualization network process objects (sources, filters,
  * mappers). Source objects are creators of visualization data; filters
@@ -36,8 +36,9 @@ See COPYRIGHT.txt for copyright details.
  * methods. It is also possible to specify a function to delete the argument
  * via StartMethodArgDelete and EndMethodArgDelete.
  *
- * Another method, ProgressMethod() can be specified. Some filters invoke this 
- * method periodically during their execution. The use is similar to that of 
+ * Another method, ProgressMethod() can be specified. Some filters invoke
+ * this method periodically during their execution (with the progress,
+ * parameter, the fraction of work done). The use is similar to that of
  * StartMethod() and EndMethod(). Filters may also check their AbortExecute
  * flag to determine whether to prematurally end their execution.
  *
@@ -169,6 +170,10 @@ protected:
   virtual void SetNthInput(int num, itkDataObject *input);
   virtual void AddInput(itkDataObject *input);
   virtual void RemoveInput(itkDataObject *input);
+  void SetNumberOfRequiredInputs(unsigned int num)
+    {itkSetClampMacro(m_NumberOfRequiredInputs,num,0,ITK_LARGE_INTEGER);}
+  unsigned int GetNumberOfRequiredInputs()
+    {itkGetMacro(m_NumberOfRequiredInputs);}
   // Called to allocate the input array.  Copies old inputs.
   void SetNumberOfInputs(int num);
 
@@ -176,6 +181,10 @@ protected:
   virtual void SetNthOutput(int num, itkDataObject *output);
   virtual void AddOutput(itkDataObject *output);
   virtual void RemoveOutput(itkDataObject *output);
+  void SetNumberOfRequiredOutputs(unsigned int num)
+    {itkSetClampMacro(m_NumberOfRequiredOutputs,num,0,ITK_LARGE_INTEGER);}
+  unsigned int GetNumberOfRequiredOutputs()
+    {itkGetMacro(m_NumberOfRequiredOutputs);}
 
   // Execute the algorithm
   virtual void Execute() {};
@@ -189,11 +198,13 @@ protected:
 private:
   itkDataObject **m_Inputs;     // An Array of the inputs to the filter
   int m_NumberOfInputs;
-  int m_NumberOfRequiredInputs;
+  unsigned int m_NumberOfRequiredInputs;
 
   itkDataObject **m_Outputs;   // An Array of the outputs to the filter
   int m_NumberOfOutputs;
-  int m_Updating;
+  unsigned int m_NumberOfRequiredOutputs;
+
+  bool m_Updating; // This flag indicates when the pipeline is executing
 
   // Time when ExecuteInformation was last called.
   itkTimeStamp m_InformationTime;

@@ -67,6 +67,7 @@ protected:
   ~itkImageBase();
   itkImageBase(const itkImageBase&) {};
   void operator=(const itkImageBase&) {};
+  virtual void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:
   unsigned long *m_Size;

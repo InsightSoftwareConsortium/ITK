@@ -37,7 +37,9 @@
 template<class T, unsigned int TImageDimension=2>
 class itkImageIterator {
  public:
-  /** Index typedef support */
+  /** 
+   * Index typedef support 
+   */
   typedef itkIndex<TImageDimension> Index;
 
   /**

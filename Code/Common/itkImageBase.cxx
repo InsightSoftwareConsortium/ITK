@@ -122,7 +122,13 @@ void itkImageBase::SetOrigin(float *origin)
     }
 }
 
+//-------------------------------------------------------------------------
+void itkImageBase::PrintSelf(std::ostream& os, itkIndent indent)
+{
+  itkDataObject::PrintSelf(os,indent);
   
+}
+
   
   
 

@@ -53,6 +53,7 @@ protected:
   ~itkMeshBase();
   itkMeshBase(const itkMeshBase&) {};
   void operator=(const itkMeshBase&) {};
+  virtual void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:
   

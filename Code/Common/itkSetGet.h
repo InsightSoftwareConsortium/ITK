@@ -73,7 +73,17 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 // also used to catch errors, etc. Example usage looks like:
 // itkDebugMacro(<< "this is debug info" << this->SomeVariable);
 //
+#ifdef ITK_LEAN_AND_MEAN
 #define itkDebugMacro(x)
+#else
+#define itkDebugMacro(x) \
+{ if (this->GetDebug() && itkObject::GetGlobalWarningDisplay()) \
+    { char *itkmsgbuff; ostrstream itkmsg; \
+      itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" << this->GetClassName() << " (" << this << "): " x  << "\n\n" << ends; \
+      itkmsgbuff = itkmsg.str(); \
+      itkOutputWindowDisplayText(itkmsgbuff);\
+      itkmsg.rdbuf()->freeze(0);}}
+#endif
 
 #define itkWarningMacro(x)
 
@@ -85,7 +95,9 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 
 // Use this method to set instance variable values.
 #define itkSetMacro(ivarValue,value) \
-{if ( ivarValue != value ) \
+{itkDebugMacro(<< this->GetClassName() << " (" << this << "): setting " #ivarValue " to " << value); \
+\
+if ( ivarValue != value ) \
   {\
   this->Modified();\
   ivarValue = value;\
