@@ -47,6 +47,9 @@ TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
 TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter.cxx )
+TARGET_LINK_LIBRARIES(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
+
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
@@ -222,6 +225,15 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GeodesicActiveContourGrayMatterTest.png
         40 90 5.0 0.5 -0.3 2.0 10.0
+)
+
+ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/HoughTransformTwoLinesTest.png
+            ${TEMP}/HoughTransformTwoLinesTest.png
+  HoughTransform2DLinesImageFilter
+        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoLines.png
+        ${TEMP}/HoughTransformTwoLinesTest.png
+        2 5 10
 )
 
 ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES}
