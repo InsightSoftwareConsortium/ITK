@@ -51,7 +51,9 @@ public:
   void CreateResultCommand(const String& name, const Type* type) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
   
+  class Argument;
   CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
+  void GetArgument(Tcl_Obj* obj, Argument& argument) const;
   bool InstanceExists(const String& name) const;
   void* GetInstanceObject(const String& name) const;
   CvQualifiedType GetInstanceType(const String& name) const;
@@ -142,6 +144,51 @@ protected:
    * to AddMethod.
    */
   MethodMap m_MethodMap;
+};
+
+
+/**
+ * Holds an argument after extraction from a Tcl object, but before
+ * passing to the final conversion function.  This is necessary because
+ * the memory to which the argument refers may not be an InstanceTable
+ * object.  It may be a pointer or a fundamental type.
+ */
+struct _wrap_EXPORT WrapperBase::Argument
+{
+  Argument();
+
+  void* GetValue() const;
+  const CvQualifiedType& GetType() const;
+  void SetToObject(void* object, const CvQualifiedType& type);
+  void SetToBool(bool);
+  void SetToInt(int);
+  void SetToLong(long);
+  void SetToDouble(double);
+  void SetToPointer(void* v, const CvQualifiedType& pointerType);
+
+private:
+  /**
+   * The pointer to the actual object.
+   */
+  void* m_Object;
+
+  /**
+   * The type of the object.
+   */
+  CvQualifiedType m_Type;
+  
+  /**
+   * If a temporary is needed to hold the value extracted from the
+   * Tcl object, this will hold it.
+   */
+  union
+  {
+    bool m_bool;
+    int m_int;
+    long m_long;
+    double m_double;
+    void* m_Pointer;
+  } m_Temp;
 };
 
 

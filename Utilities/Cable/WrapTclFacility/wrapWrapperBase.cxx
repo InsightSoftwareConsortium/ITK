@@ -113,13 +113,13 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
     {
     Pointer p;
     Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
-    return TypeInfo::GetPointerType(p.GetCvQualifiedType(), false, false);
+    return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
     }
   else if(TclObjectTypeIsReference(obj))
     {
     Reference r;
     Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
-    return TypeInfo::GetReferenceType(r.GetCvQualifiedType());
+    return TypeInfo::GetReferenceType(r.GetReferencedType());
     }
   else if(TclObjectTypeIsBoolean(obj))
     {
@@ -150,7 +150,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       Pointer p;
       if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
         {
-        return TypeInfo::GetPointerType(p.GetCvQualifiedType(), false, false);
+        return TypeInfo::GetPointerType(p.GetPointedToType(), false, false);
         }
       }
     else if(StringRepIsReference(objectName))
@@ -158,7 +158,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
       Reference r;
       if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
         {
-        return TypeInfo::GetReferenceType(r.GetCvQualifiedType());
+        return TypeInfo::GetReferenceType(r.GetReferencedType());
         }
       }
     else
@@ -180,6 +180,117 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
   
   // Could not determine the type.  Default to char*.
   return CvType<char*>::type;
+}
+
+
+/**
+ * Try to figure out how to extract a C++ object from the given Tcl
+ * object.  If successful, "argument" is set to refer to the C++ object.
+ * If the type cannot be determined, a default of "char*" is used.
+ */
+void WrapperBase::GetArgument(Tcl_Obj* obj, Argument& argument) const
+{
+  // First, see if Tcl has given us the type information.
+  if(TclObjectTypeIsPointer(obj))
+    {
+    Pointer p;
+    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
+    // When the conversion function dereferences its pointer, it must
+    // get a pointer, not the object.
+    argument.SetToPointer(p.GetObject(),
+                          TypeInfo::GetPointerType(p.GetPointedToType(),
+                                                   false, false));
+    }
+  else if(TclObjectTypeIsReference(obj))
+    {
+    Reference r;
+    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
+    // When the conversion function dereferences its pointer, it must
+    // get the object referenced.
+    argument.SetToObject(r.GetObject(), r.GetReferencedType());
+    }
+  else if(TclObjectTypeIsBoolean(obj))
+    {
+    int i;
+    Tcl_GetBooleanFromObj(m_Interpreter, obj, &i);
+    bool b = (i!=0);
+    argument.SetToBool(b);
+    }
+  else if(TclObjectTypeIsInt(obj))
+    {
+    int i;
+    Tcl_GetIntFromObj(m_Interpreter, obj, &i);
+    argument.SetToInt(i);
+    }
+  else if(TclObjectTypeIsLong(obj))
+    {
+    long l;
+    Tcl_GetLongFromObj(m_Interpreter, obj, &l);
+    argument.SetToLong(l);
+    }
+  else if(TclObjectTypeIsDouble(obj))
+    {
+    double d;
+    Tcl_GetDoubleFromObj(m_Interpreter, obj, &d);
+    argument.SetToDouble(d);
+    }
+  else
+    {
+    // Tcl has not given us the type information.  Try converting from
+    // string representation.
+
+    // See if it the name of an instance.
+    String objectName = Tcl_GetString(obj);
+    if(m_InstanceTable->Exists(objectName))
+      {        
+      // When the conversion function dereferences its pointer, it must
+      // get the object.
+      argument.SetToObject(m_InstanceTable->GetObject(objectName),
+                           m_InstanceTable->GetType(objectName));
+      }
+    else if(StringRepIsPointer(objectName))
+      {
+      Pointer p;
+      if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
+        {
+        // When the conversion function dereferences its pointer, it must
+        // get a pointer, not the object.
+        argument.SetToPointer(p.GetObject(),
+                              TypeInfo::GetPointerType(p.GetPointedToType(),
+                                                       false, false));
+        }
+      }
+    else if(StringRepIsReference(objectName))
+      {
+      Reference r;
+      if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
+        {
+        // When the conversion function dereferences its pointer, it must
+        // get the object referenced.
+        argument.SetToObject(r.GetObject(), r.GetReferencedType());
+        }
+      }
+    else
+      {
+      // No type information available from string representation.
+      // Try to convert to some basic Tcl types.
+      long l;
+      double d;
+      if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
+        {
+        argument.SetToLong(l);
+        }
+      else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
+        {
+        argument.SetToDouble(d);
+        }
+      }  
+    }
+  
+  // Can't identify the object type.  We will have to assume char*.
+  // When the conversion function dereferences its pointer, it must
+  // get a pointer to char, not a char.
+  argument.SetToPointer(Tcl_GetString(obj), CvType<char*>::type); 
 }
 
 
@@ -437,6 +548,99 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
   return TCL_OK;  
 }
 
+
+/**
+ * Constructor just initializes argument to no value.
+ */
+WrapperBase::Argument::Argument():
+  m_Object(NULL)
+{
+}
+
+
+/**
+ * Get the value of the Argument for passing to the conversion function.
+ */
+void* WrapperBase::Argument::GetValue() const
+{
+  return m_Object;
+}
+
+
+/**
+ * Get the type of the Argument for selecting a conversion function.
+ */
+const CvQualifiedType& WrapperBase::Argument::GetType() const
+{
+  return m_Type;
+}
+
+
+/**
+ * Set the Argument to be the object pointed to by the given pointer.
+ */
+void WrapperBase::Argument::SetToObject(void* object,
+                                        const CvQualifiedType& type)
+{
+  m_Object = object;
+  m_Type = type;
+}
+
+
+/**
+ * Set the Argument to be the given bool value.
+ */
+void WrapperBase::Argument::SetToBool(bool b)
+{
+  m_Temp.m_bool = b;
+  m_Object = &m_Temp.m_bool;
+  m_Type = CvType<bool>::type;
+}
+
+
+/**
+ * Set the Argument to be the given int value.
+ */
+void WrapperBase::Argument::SetToInt(int i)
+{
+  m_Temp.m_int = i;
+  m_Object = &m_Temp.m_int;
+  m_Type = CvType<int>::type;
+}
+
+
+/**
+ * Set the Argument to be the given long value.
+ */
+void WrapperBase::Argument::SetToLong(long l)
+{
+  m_Temp.m_long = l;
+  m_Object = &m_Temp.m_long;
+  m_Type = CvType<long>::type;
+}
+
+
+/**
+ * Set the Argument to be the given double value.
+ */
+void WrapperBase::Argument::SetToDouble(double d)
+{
+  m_Temp.m_double = d;
+  m_Object = &m_Temp.m_double;
+  m_Type = CvType<double>::type;
+}
+
+
+/**
+ * Set the Argument to be the given pointer value.
+ */
+void WrapperBase::Argument::SetToPointer(void* v,
+                                         const CvQualifiedType& pointerType)
+{
+  m_Temp.m_Pointer = v;
+  m_Object = &m_Temp.m_Pointer;
+  m_Type = pointerType;
+}
 
 
 /**
