@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkSimilarity2DTransform.h"
+#include "itkCentereddSimilarity2DTransform.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -28,6 +29,7 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_TRANSFORM_1(Similarity2DTransform);
+    ITK_WRAP_TRANSFORM_1(CenteredSimilarity2DTransform);
   }
 }
 #endif
