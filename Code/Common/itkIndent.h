@@ -13,7 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///a simple helper class to control print indentation
 /**
  * vtkIndent is used to control indentation during the chaining print 
  * process. This way nested objects can correctly indent themselves.
@@ -31,17 +30,35 @@ See COPYRIGHT.txt for copyright details.
 class ITK_EXPORT itkIndent
 {
 public:
+  /**
+   * Create an instance of this class.
+   */
   static itkIndent *New();
+  
+  /**
+   * Destroy this instance.
+   */
   void Delete() {delete this;}
+
+  /** 
+   * Construct the object with an initial indentation level.
+   */
   itkIndent(int ind=0) {m_Indent=ind;}
 
+  /**
+   * Return the name of the class.
+   */
   static const char *GetClassName() {return "itkIndent";}
 
-  /** Determine the next indentation level. Keep indenting by two until the 
-   *  a maximum of forty spaces is reached. */
+  /** 
+   * Determine the next indentation level. Keep indenting by two until the 
+   * a maximum of forty spaces is reached. 
+   */
   itkIndent GetNextIndent();
 
-  /** Print out the indentation. Basically output a bunch of spaces. */
+  /** 
+   * Print out the indentation. Basically output a bunch of spaces. 
+   */
   friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, itkIndent& o); 
 
 private:

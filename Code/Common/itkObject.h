@@ -7,13 +7,12 @@
   Version:   $Revision$
 
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
 
-See COPYRIGHT.txt for copyright details.
+  See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-///highest-level base class for most Insight classes
 /**
  * itkObject is the highest level base class for most itk objects. It
  * implements reference counting, debug flags/methods, and defines an
@@ -32,61 +31,91 @@ See COPYRIGHT.txt for copyright details.
 class ITK_EXPORT itkObject 
 {
 public:
-  /** Smart pointer typedef support */
+  /** 
+   * Smart pointer typedef support.
+   */
   typedef itkSmartPointer<itkObject> Pointer;
 
-  /** Create an object with Debug turned off, modified time initialized to
-   *  zero, and reference count set to 1. */
+  /** 
+   * Create an object with Debug turned off, modified time initialized to
+   * zero, and reference count set to 1. 
+   */
   static itkObject::Pointer New();
 
-  /** Delete an itk object.  This method should always be used to delete an
-   *  object when the new operator was used to create it. Using the C++
-   *  delete method will not work with reference counting. */
+  /** 
+   * Delete an itk object.  This method should always be used to delete an
+   * object when the new operator was used to create it. Using the C
+   *  delete method will not work with reference counting. 
+   */
   virtual void Delete();
 
-  /** Return the name of this class as a string. Used by the object factory
+  /** 
+   * Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
-   * used for debugging and other output information. */
+   * used for debugging and other output information. 
+   */
   static const char *GetClassName() {return "itkObject";}
 
 #ifdef _WIN32
-  /** avoid dll boundary problems */
+  /** 
+   * Used to avoid dll boundary problems. 
+   */
   void* operator new( size_t tSize, const char *, int);
   void* operator new( size_t tSize );
   void operator delete( void* p );
 #endif 
   
-  /** Cause the object to print itself out */
+  /** 
+   * Cause the object to print itself out.
+   */
   void Print(std::ostream& os);
 
-  /** Overload operator<< to cause the object to print itself out */
+  /** 
+   * Overload operator<< to cause the object to print itself out 
+   */
   std::ostream& operator<< (std::ostream& os) {this->Print(os); return os;}
     
-  /** Turn debugging output on. */
+  /** 
+   * Turn debugging output on. 
+   */
   virtual void DebugOn();
 
-  /** Turn debugging output off. */
+  /** 
+   * Turn debugging output off. 
+   */
   virtual void DebugOff();
   
-  /** Get the value of the debug flag. */
+  /** 
+   * Get the value of the debug flag. 
+   */
   bool GetDebug();
   
-  /** Set the value of the debug flag. A non-zero value turns debugging on. */
+  /** 
+   * Set the value of the debug flag. A non-zero value turns debugging on.
+   */
   void SetDebug(bool debugFlag);
   
-  /** This method is called when itkErrorMacro executes. It allows 
-   *  the debugger to break on error. */
+  /** 
+   * This method is called when itkErrorMacro executes. It allows 
+   * the debugger to break on error. 
+   */
   static void BreakOnError();
   
-  /** Return this objects modified time. */
+  /** 
+   * Return this objects modified time. 
+   */
   virtual unsigned long GetMTime();
 
-  /** Update the modification time for this object. Many filters rely on the
-   *  modification time to determine if they need to recompute their data. */
+  /** 
+   * Update the modification time for this object. Many filters rely on the
+   * modification time to determine if they need to recompute their data. 
+   */
   virtual void Modified();
   
-  /** This is a global flag that controls whether any debug, warning
-   *  or error messages are displayed. */
+  /** 
+   * This is a global flag that controls whether any debug, warning
+   *  or error messages are displayed. 
+   */
   static void SetGlobalWarningDisplay(bool flag);
   static void GlobalWarningDisplayOn()
     {itkObject::SetGlobalWarningDisplay(1);}
@@ -94,22 +123,31 @@ public:
     {itkObject::SetGlobalWarningDisplay(0);}
   static bool  GetGlobalWarningDisplay();
   
-  /** Increase the reference count (mark as used by another object). */
+  /** 
+   * Increase the reference count (mark as used by another object). 
+   */
   void Register();
 
-  /** Decrease the reference count (release by another object). */
+  /** 
+   * Decrease the reference count (release by another object). 
+   */
   virtual void UnRegister();
 
-  /** Gets the reference count (use with care) */
-  int GetReferenceCount() 
-    {return m_ReferenceCount;}
+  /** 
+   * Gets the reference count (use with care) 
+   */
+  int GetReferenceCount() {return m_ReferenceCount;}
 
-  /** Sets the reference count (use with care) */
+  /** 
+   * Sets the reference count (use with care) 
+   */
   void SetReferenceCount(int);
 
-  /** A callback for when the destructor is called. Scripting
-   *  languages use this to know when a C++ object has been freed.
-   *  This is not intended for any use other than scripting. */
+  /** 
+   * A callback for when the destructor is called. Scripting
+   * languages use this to know when a C++ object has been freed.
+   * This is not intended for any use other than scripting. 
+   */
   void SetDeleteMethod(void (*f)(void *));
   
 protected:
@@ -118,10 +156,12 @@ protected:
   itkObject(const itkObject&) {};
   void operator=(const itkObject&) {};
 
-  /** Methods invoked by print to print information about the object
-   *  including superclasses. Typically not called by the user (use Print()
-   *  instead) but used in the hierarchical print process to combine the
-   *  output of several classes. */
+  /** 
+   * Methods invoked by Print() to print information about the object
+   * including superclasses. Typically not called by the user (use Print()
+   * instead) but used in the hierarchical print process to combine the
+   * output of several classes. 
+   */
   virtual void PrintSelf(std::ostream& os, itkIndent indent);
   virtual void PrintHeader(std::ostream& os, itkIndent indent);
   virtual void PrintTrailer(std::ostream& os, itkIndent indent);

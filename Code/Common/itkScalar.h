@@ -14,13 +14,13 @@
   ==========================================================================*/
 
 /**
- * itkScalar is a templated class that holds a single scalar value.  itkScalar
- * can be used as the data type held at each pixel in an itkImage or at each
- * vertex of an itkMesh. The template parameter can be any data type that
- * behaves like a primitive (or atomic) data type (int, short, float, complex).
- * itk filters that rely on scalar data assume the data type held at each
- * pixel or each vertex responds to GetScalar()/SetScalar() methods. If not,
- * a compile time error will occur.
+ * itkScalar is a templated class that holds a single scalar value.
+ * itkScalar can be used as the data type held at each pixel in an itkImage
+ * or at each vertex (or cell) of an itkMesh. The template parameter can be
+ * any data type that behaves like a primitive (or atomic) data type (int,
+ * short, float, complex).  itk filters that rely on scalar data assume the
+ * data type held at each pixel or each vertex responds to
+ * GetScalar()/SetScalar() methods. If not, a compile time error will occur.
  *
  * For efficiency sake, itkScalar does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
@@ -33,8 +33,7 @@
  * \sa itkTensor
  * \sa itkScalarTensor
  * \sa itkVectorTensor
- * \sa itkScalarVectorTensor
- */
+ * \sa itkScalarVectorTensor */
 
 // To compile / test this class
 // Windows: cl itkDataTypeTest.cxx; .\itkDataTypeTest.exe
@@ -61,13 +60,13 @@ class itkScalar {
    * Get the scalar value.
    * \sa SetScalar
    */
-  T GetScalar() const { return m_Scalar; };
+  T GetScalar() const { return m_Scalar; }
 
   /**
    * Set the scalar value.
    * \sa GetScalar
    */
-  void SetScalar(const T &val) { m_Scalar = val; };
+  void SetScalar(const T &val) { m_Scalar = val; }
 
  private:
   T m_Scalar;
