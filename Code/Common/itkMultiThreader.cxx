@@ -1,0 +1,700 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMultiThreader.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+
+#include "itkMultiThreader.h"
+#include "itkObjectFactory.h"
+
+// These are the includes necessary for multithreaded rendering on an SGI
+// using the sproc() call
+#ifdef ITK_USE_SPROC
+#include <sys/resource.h>
+#include <sys/prctl.h>
+#include <wait.h>
+#include <errno.h>
+#endif
+
+#ifdef ITK_USE_PTHREADS
+#include <pthread.h>
+#endif
+
+namespace itk {
+
+// Initialize static member that controls global maximum number of threads
+static int MultiThreaderGlobalMaximumNumberOfThreads = 0;
+
+void MultiThreader::SetGlobalMaximumNumberOfThreads(int val)
+{
+  if (val == MultiThreaderGlobalMaximumNumberOfThreads)
+    {
+    return;
+    }
+  MultiThreaderGlobalMaximumNumberOfThreads = val;
+}
+
+int MultiThreader::GetGlobalMaximumNumberOfThreads()
+{
+  return MultiThreaderGlobalMaximumNumberOfThreads;
+}
+
+// 0 => Not initialized.
+static int MultiThreaderGlobalDefaultNumberOfThreads = 0;
+
+void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
+{
+  if (val == MultiThreaderGlobalDefaultNumberOfThreads)
+    {
+    return;
+    }
+  MultiThreaderGlobalDefaultNumberOfThreads = val;
+}
+
+int MultiThreader::GetGlobalDefaultNumberOfThreads()
+{
+  if (MultiThreaderGlobalDefaultNumberOfThreads == 0)
+    {
+    int num;
+#ifdef ITK_USE_SPROC
+    // Default the number of threads to be the number of available
+    // processors if we are using sproc()
+    num = prctl( PR_MAXPPROCS );
+#endif
+
+#ifdef ITK_USE_PTHREADS
+    // Default the number of threads to be the number of available
+    // processors if we are using pthreads()
+#ifdef _SC_NPROCESSORS_ONLN
+    num = sysconf( _SC_NPROCESSORS_ONLN );
+#elif defined(_SC_NPROC_ONLN)
+    num = sysconf( _SC_NPROC_ONLN );
+#else
+    num = 1;
+#endif
+#endif
+
+#ifdef _WIN32
+    {
+      SYSTEM_INFO sysInfo;
+      GetSystemInfo(&sysInfo);
+      num = sysInfo.dwNumberOfProcessors;
+    }
+#endif
+
+#ifndef _WIN32
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+    // If we are not multithreading, the number of threads should
+    // always be 1
+    num = 1;
+#endif  
+#endif  
+#endif
+  
+    // Lets limit the number of threads to 8
+    if (num > 8)
+      {
+      num = 8;
+      }
+
+    MultiThreaderGlobalDefaultNumberOfThreads = num;
+    }
+
+
+  return MultiThreaderGlobalDefaultNumberOfThreads;
+}
+
+// Constructor. Default all the methods to NULL. Since the
+// ThreadInfoArray is static, the ThreadIDs can be initialized here
+// and will not change.
+MultiThreader::MultiThreader()
+{
+  int i;
+
+  for ( i = 0; i < ITK_MAX_THREADS; i++ )
+    {
+    m_ThreadInfoArray[i].ThreadID           = i;
+    m_ThreadInfoArray[i].ActiveFlag         = NULL;
+    m_ThreadInfoArray[i].ActiveFlagLock     = NULL;
+    m_MultipleMethod[i]                     = NULL;
+    m_SpawnedThreadActiveFlag[i]            = 0;
+    m_SpawnedThreadActiveFlagLock[i]        = NULL;
+    m_SpawnedThreadInfoArray[i].ThreadID    = i;
+    }
+
+  m_SingleMethod = NULL;
+  m_NumberOfThreads = 
+    MultiThreader::GetGlobalDefaultNumberOfThreads();
+
+}
+
+// Destructor. Nothing allocated so nothing needs to be done here.
+MultiThreader::~MultiThreader()
+{
+}
+
+// Set the user defined method that will be run on NumberOfThreads threads
+// when SingleMethodExecute is called.
+void MultiThreader::SetSingleMethod( ThreadFunctionType f, 
+					void *data )
+{ 
+  m_SingleMethod = f;
+  m_SingleData   = data;
+}
+
+// Set one of the user defined methods that will be run on NumberOfThreads
+// threads when MultipleMethodExecute is called. This method should be
+// called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
+// required user defined methods
+void MultiThreader::SetMultipleMethod( int index, 
+					  ThreadFunctionType f, void *data )
+{ 
+  // You can only set the method for 0 through NumberOfThreads-1
+  if ( index >= m_NumberOfThreads ) {
+    itkErrorMacro( << "Can't set method " << index << 
+    " with a thread count of " << m_NumberOfThreads );
+    }
+  else
+    {
+    m_MultipleMethod[index] = f;
+    m_MultipleData[index]   = data;
+    }
+}
+
+// Execute the method set as the SingleMethod on NumberOfThreads threads.
+void MultiThreader::SingleMethodExecute()
+{
+  int                thread_loop = 0;
+
+#ifdef _WIN32
+  DWORD              threadId;
+  HANDLE             process_id[ITK_MAX_THREADS];
+#endif
+
+#ifdef ITK_USE_SPROC
+  siginfo_t          info_ptr;
+  int                process_id[ITK_MAX_THREADS];
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_t          process_id[ITK_MAX_THREADS];
+#endif
+
+  if ( !m_SingleMethod )
+    {
+    itkErrorMacro( << "No single method set!" );
+    return;
+    }
+
+  // obey the global maximum number of threads limit
+  if (MultiThreaderGlobalMaximumNumberOfThreads &&
+      m_NumberOfThreads > MultiThreaderGlobalMaximumNumberOfThreads)
+    {
+    m_NumberOfThreads = MultiThreaderGlobalMaximumNumberOfThreads;
+    }
+  
+    
+  // We are using sproc (on SGIs), pthreads(on Suns), or a single thread
+  // (the default)  
+
+#ifdef _WIN32
+  // Using CreateThread on a PC
+  //
+  // We want to use CreateThread to start m_NumberOfThreads - 1 
+  // additional threads which will be used to call this->SingleMethod().
+  // The parent thread will also call this routine.  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the waitid call
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    process_id[thread_loop] = 
+      CreateThread(NULL, 0, m_SingleMethod, 
+	     ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+    if (process_id == NULL)
+      {
+      itkErrorMacro("Error in thread creation !!!");
+      } 
+    }
+  
+  // Now, the parent thread calls this->SingleMethod() itself
+  m_ThreadInfoArray[0].UserData = m_SingleData;
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
+
+  // The parent thread has finished this->SingleMethod() - so now it
+  // waits for each of the other processes to exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    WaitForSingleObject(process_id[thread_loop], INFINITE);
+    }
+
+  // close the threads
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    CloseHandle(process_id[thread_loop]);
+    }
+#endif
+
+#ifdef ITK_USE_SPROC
+  // Using sproc() on an SGI
+  //
+  // We want to use sproc to start m_NumberOfThreads - 1 additional
+  // threads which will be used to call this->SingleMethod(). The
+  // parent thread will also call this routine.  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the waitid call
+
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    process_id[thread_loop] = 
+      sproc( this->SingleMethod, PR_SADDR, 
+	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+    if ( process_id[thread_loop] == -1)
+      {
+      itkErrorMacro("sproc call failed. Code: " << errno << endl);
+      }
+    }
+  
+  // Now, the parent thread calls this->SingleMethod() itself
+  m_ThreadInfoArray[0].UserData = m_SingleData;
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  this->SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+
+  // The parent thread has finished this->SingleMethod() - so now it
+  // waits for each of the other processes to exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    waitid( P_PID, (id_t) process_id[thread_loop], &info_ptr, WEXITED );
+    }
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  // Using POSIX threads
+  //
+  // We want to use pthread_create to start m_NumberOfThreads-1 additional
+  // threads which will be used to call this->SingleMethod(). The
+  // parent thread will also call this routine.  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the pthread_join call
+
+  pthread_attr_t attr;
+
+#ifdef ITK_HP_PTHREADS
+  pthread_attr_create( &attr );
+#else  
+  pthread_attr_init(&attr);
+  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
+  
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+
+#ifdef ITK_HP_PTHREADS
+    pthread_create( &(process_id[thread_loop]),
+		    attr, this->SingleMethod,  
+		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+#else
+    int                threadError;
+    threadError =
+      pthread_create( &(process_id[thread_loop]), &attr, this->SingleMethod,  
+		      ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+    if (threadError != 0)
+      {
+      itkErrorMacro(<< "Unable to create a thread.  pthread_create() returned "
+                    << threadError);
+      }
+#endif
+    }
+  
+  // Now, the parent thread calls this->SingleMethod() itself
+  m_ThreadInfoArray[0].UserData = m_SingleData;
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  this->SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+
+  // The parent thread has finished this->SingleMethod() - so now it
+  // waits for each of the other processes to exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    pthread_join( process_id[thread_loop], NULL );
+    }
+#endif
+
+#ifndef _WIN32
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+  // There is no multi threading, so there is only one thread.
+  m_ThreadInfoArray[0].UserData    = m_SingleData;
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  this->SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
+#endif
+#endif
+#endif
+}
+
+void MultiThreader::MultipleMethodExecute()
+{
+  int                thread_loop;
+
+#ifdef _WIN32
+  DWORD              threadId;
+  HANDLE             process_id[ITK_MAX_THREADS];
+#endif
+
+#ifdef ITK_USE_SPROC
+  siginfo_t          info_ptr;
+  int                process_id[ITK_MAX_THREADS];
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_t          process_id[ITK_MAX_THREADS];
+#endif
+
+
+  // obey the global maximum number of threads limit
+  if (MultiThreaderGlobalMaximumNumberOfThreads &&
+      m_NumberOfThreads > MultiThreaderGlobalMaximumNumberOfThreads)
+    {
+    m_NumberOfThreads = MultiThreaderGlobalMaximumNumberOfThreads;
+    }
+
+  for ( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)NULL)
+      {
+      itkErrorMacro( << "No multiple method set for: " << thread_loop );
+      return;
+      }
+    }
+
+  // We are using sproc (on SGIs), pthreads(on Suns), CreateThread
+  // on a PC or a single thread (the default)  
+
+#ifdef _WIN32
+  // Using CreateThread on a PC
+  //
+  // We want to use CreateThread to start m_NumberOfThreads - 1 
+  // additional threads which will be used to call the NumberOfThreads-1
+  // methods defined in this->MultipleMethods[](). The parent thread
+  // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the waitid call
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData = 
+      m_MultipleData[thread_loop];
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    process_id[thread_loop] = 
+      CreateThread(NULL, 0, m_MultipleMethod[thread_loop], 
+	     ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+    if (process_id == NULL)
+      {
+      itkErrorMacro("Error in thread creation !!!");
+      } 
+    }
+  
+  // Now, the parent thread calls the last method itself
+  m_ThreadInfoArray[0].UserData = m_MultipleData[0];
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]) );
+
+  // The parent thread has finished its method - so now it
+  // waits for each of the other processes (created with sproc) to
+  // exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    WaitForSingleObject(process_id[thread_loop], INFINITE);
+    }
+
+  // close the threads
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    CloseHandle(process_id[thread_loop]);
+    }
+#endif
+
+#ifdef ITK_USE_SPROC
+  // Using sproc() on an SGI
+  //
+  // We want to use sproc to start m_NumberOfThreads - 1 additional
+  // threads which will be used to call the NumberOfThreads-1 methods
+  // defined in m_MultipleMethods[](). The parent thread
+  // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the waitid call
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData = 
+      m_MultipleData[thread_loop];
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+    process_id[thread_loop] = 
+      sproc( m_MultipleMethod[thread_loop], PR_SADDR, 
+	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+    }
+  
+  // Now, the parent thread calls the last method itself
+  m_ThreadInfoArray[0].UserData = m_MultipleData[0];
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]) );
+
+  // The parent thread has finished its method - so now it
+  // waits for each of the other processes (created with sproc) to
+  // exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    waitid( P_PID, (id_t) process_id[thread_loop], &info_ptr, WEXITED );
+    }
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  // Using POSIX threads
+  //
+  // We want to use pthread_create to start m_NumberOfThreads - 1 
+  // additional
+  // threads which will be used to call the NumberOfThreads-1 methods
+  // defined in m_MultipleMethods[](). The parent thread
+  // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
+  // it will wait for all the children to finish. 
+  //
+  // First, start up the m_NumberOfThreads-1 processes.  Keep track
+  // of their process ids for use later in the pthread_join call
+
+  pthread_attr_t attr;
+
+#ifdef ITK_HP_PTHREADS
+  pthread_attr_create( &attr );
+#else  
+  pthread_attr_init(&attr);
+  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
+
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    m_ThreadInfoArray[thread_loop].UserData = 
+      m_MultipleData[thread_loop];
+    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+#ifdef ITK_HP_PTHREADS
+    pthread_create( &(process_id[thread_loop]),
+		    attr, m_MultipleMethod[thread_loop],  
+		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+#else
+    pthread_create( &(process_id[thread_loop]),
+		    &attr, m_MultipleMethod[thread_loop],  
+		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+#endif
+    }
+  
+  // Now, the parent thread calls the last method itself
+  m_ThreadInfoArray[0].UserData = m_MultipleData[0];
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]) );
+
+  // The parent thread has finished its method - so now it
+  // waits for each of the other processes to exit
+  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    {
+    pthread_join( process_id[thread_loop], NULL );
+    }
+#endif
+
+#ifndef _WIN32
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+  // There is no multi threading, so there is only one thread.
+  m_ThreadInfoArray[0].UserData    = m_MultipleData[0];
+  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+  (m_MultipleMethod[0])( (void *)(&m_ThreadInfoArray[0]) );
+#endif
+#endif
+#endif
+}
+
+int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
+{
+  int id;
+
+  // avoid a warning
+  ThreadFunctionType tf;
+  tf = f; tf= tf;
+  
+#ifdef _WIN32
+  DWORD              threadId;
+#endif
+
+  id = 0;
+
+  while ( id < ITK_MAX_THREADS )
+    {
+    if ( m_SpawnedThreadActiveFlagLock[id] == NULL )
+      {
+      m_SpawnedThreadActiveFlagLock[id] = MutexLock::New();
+      }
+    m_SpawnedThreadActiveFlagLock[id]->Lock();
+    if (m_SpawnedThreadActiveFlag[id] == 0)
+      {
+      // We've got a useable thread id, so grab it
+      m_SpawnedThreadActiveFlag[id] = 1;
+      m_SpawnedThreadActiveFlagLock[id]->Unlock();
+      break;
+      }
+    m_SpawnedThreadActiveFlagLock[id]->Unlock();
+      
+    id++;
+    }
+
+  if ( id >= ITK_MAX_THREADS )
+    {
+    itkErrorMacro( << "You have too many active threads!" );
+    return -1;
+    }
+
+
+  m_SpawnedThreadInfoArray[id].UserData        = UserData;
+  m_SpawnedThreadInfoArray[id].NumberOfThreads = 1;
+  m_SpawnedThreadInfoArray[id].ActiveFlag = 
+    &m_SpawnedThreadActiveFlag[id];
+  m_SpawnedThreadInfoArray[id].ActiveFlagLock = 
+    m_SpawnedThreadActiveFlagLock[id];
+
+  // We are using sproc (on SGIs), pthreads(on Suns or HPs), 
+  // CreateThread (on win32), or generating an error  
+
+#ifdef _WIN32
+  // Using CreateThread on a PC
+  //
+  m_SpawnedThreadProcessID[id] = 
+      CreateThread(NULL, 0, f, 
+	     ((void *)(&m_SpawnedThreadInfoArray[id])), 0, &threadId);
+  if (m_SpawnedThreadProcessID[id] == NULL)
+    {
+    itkErrorMacro("Error in thread creation !!!");
+    } 
+#endif
+
+#ifdef ITK_USE_SPROC
+  // Using sproc() on an SGI
+  //
+  m_SpawnedThreadProcessID[id] = 
+    sproc( f, PR_SADDR, ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
+
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  // Using POSIX threads
+  //
+  pthread_attr_t attr;
+
+#ifdef ITK_HP_PTHREADS
+  pthread_attr_create( &attr );
+#else  
+  pthread_attr_init(&attr);
+  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#endif
+  
+#ifdef ITK_HP_PTHREADS
+  pthread_create( &(m_SpawnedThreadProcessID[id]),
+		  attr, f,  
+		  ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
+#else
+  pthread_create( &(m_SpawnedThreadProcessID[id]),
+		  &attr, f,  
+		  ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
+#endif
+
+#endif
+
+#ifndef _WIN32
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+  // There is no multi threading, so there is only one thread.
+  // This won't work - so give an error message.
+  itkErrorMacro( << "Cannot spawn thread in a single threaded environment!" );
+  m_SpawnedThreadActiveFlagLock[id]->Delete();
+  id = -1;
+#endif
+#endif
+#endif
+
+  return id;
+}
+
+void MultiThreader::TerminateThread( int ThreadID )
+{
+
+  if ( !m_SpawnedThreadActiveFlag[ThreadID] ) {
+    return;
+  }
+
+  m_SpawnedThreadActiveFlagLock[ThreadID]->Lock();
+  m_SpawnedThreadActiveFlag[ThreadID] = 0;
+  m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
+
+#ifdef _WIN32
+  WaitForSingleObject(m_SpawnedThreadProcessID[ThreadID], INFINITE);
+  CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
+#endif
+
+#ifdef ITK_USE_SPROC
+  siginfo_t info_ptr;
+
+  waitid( P_PID, (id_t) m_SpawnedThreadProcessID[ThreadID], 
+	  &info_ptr, WEXITED );
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  pthread_join( m_SpawnedThreadProcessID[ThreadID], NULL );
+#endif
+
+#ifndef _WIN32
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+  // There is no multi threading, so there is only one thread.
+  // This won't work - so give an error message.
+  itkErrorMacro(<< "Cannot terminate thread in single threaded environment!");
+#endif
+#endif
+#endif
+
+  m_SpawnedThreadActiveFlagLock[ThreadID]->Delete();
+  m_SpawnedThreadActiveFlagLock[ThreadID] = NULL;
+
+}
+
+// Print method for the multithreader
+void MultiThreader::PrintSelf(std::ostream& os, Indent indent)
+{
+  Superclass::PrintSelf(os,indent); 
+
+  os << indent << "Thread Count: " << m_NumberOfThreads << "\n";
+  os << indent << "Global Maximum Number Of Threads: " << 
+    MultiThreaderGlobalMaximumNumberOfThreads << std::endl;
+
+}
+
+} // end namespace itk
