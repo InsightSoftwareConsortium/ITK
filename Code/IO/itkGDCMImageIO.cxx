@@ -139,20 +139,6 @@ bool GDCMImageIO::CanReadFile(const char* filename)
     return false;
     }
 
-  bool extensionFound = false;
-  std::string::size_type sprPos = fname.rfind(".dcm");  //acr nema ??
-  if ((sprPos != std::string::npos)
-      && (sprPos == fname.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  if( !extensionFound )
-    {
-    itkDebugMacro(<<"The filename extension is not recognized");
-    return false;
-    }
-
   //Check for file existence:
   if ( ! this->OpenGDCMFileForReading(file, filename))
     {
