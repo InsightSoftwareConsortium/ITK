@@ -15,8 +15,12 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {GradientAnisotropicDiffusionImageFilterOutput.png}
+//    5 0.25 3
+//  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
-//
 //  The \doxygen{GradientAnisotropicDiffusionImageFilter}  implements an
 //  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
 //  equation for scalar-valued images \cite{Perona1990}.  
