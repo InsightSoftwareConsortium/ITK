@@ -136,6 +136,9 @@ namespace itk
     // Add header info to metadictionary
     
     itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+    std::string classname(this->GetNameOfClass());
+    itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
+                                          classname);
     itk::EncapsulateMetaData<std::string>(thisDic,
                                          ITK_OnDiskStorageTypeName,
                                          std::string("SHORT"));

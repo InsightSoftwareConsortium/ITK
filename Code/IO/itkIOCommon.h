@@ -117,30 +117,19 @@ public:
 };
   
 
- const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName";
- const char *const ITK_ImageFileBaseName = "ITK_ImageFileBaseName";
- const char *const ITK_VoxelUnits = "ITK_VoxelUnits";
- const char *const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
- const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
- const char *const ITK_FileNotes = "ITK_FileNotes";
- const char *const ITK_Orientation = "ITK_Orientation";
- const char *const ITK_FileOriginator = "ITK_FileOriginator";
- const char *const ITK_OriginationDate = "ITK_OriginationDate";
- const char *const ITK_PatientID = "ITK_PatientID";
- const char *const ITK_ExperimentDate = "ITK_ExperimentDate";
- const char *const ITK_ExperimentTime = "ITK_ExperimentTime";
- const char *const ANALYZE_ScanNumber = "ANALYZE_ScanNumber";
- const char *const ANALYZE_O_MAX = "ANALYZE_O_MAX";
- const char *const ANALYZE_O_MIN = "ANALYZE_O_MIN";
- const char *const ANALYZE_S_MAX = "ANALYZE_S_MAX";
- const char *const ANALYZE_S_MIN = "ANALYZE_S_MIN";
- const char *const ANALYZE_CAL_MAX = "ANALYZE_CAL_MAX";
- const char *const ANALYZE_CAL_MIN = "ANALYZE_CAL_MIN";
- const char *const ANALYZE_GLMAX = "ANALYZE_GLMAX";
- const char *const ANALYZE_GLMIN = "ANALYZE_GLMIN";
- const char *const ANALYZE_AUX_FILE_NAME = "ANALYZE_AUX_FILE_NAME";
- const char *const ANALYZE_CALIBRATIONUNITS = "ANALYZE_CALIBRATIONUNITS";
-
+ extern const char *const ITK_OnDiskStorageTypeName ;
+ extern const char *const ITK_ImageFileBaseName ;
+ extern const char *const ITK_VoxelUnits;
+ extern const char *const ITK_OnDiskBitPerPixel;
+ extern const char *const SPM_ROI_SCALE;
+ extern const char *const ITK_FileNotes;
+ extern const char *const ITK_Orientation;
+ extern const char *const ITK_FileOriginator;
+ extern const char *const ITK_OriginationDate;
+ extern const char *const ITK_PatientID;
+ extern const char *const ITK_ExperimentDate;
+ extern const char *const ITK_ExperimentTime;
+ extern const char *const ITK_InputFilterName;
 } // end namespace itk
 
 #endif // __itkIOCommon_h

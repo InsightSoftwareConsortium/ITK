@@ -198,6 +198,17 @@ namespace itk
       struct dsr m_hdr;
       ImageIOBase::ByteOrder m_MachineByteOrder;
   };
+  extern const char *const ANALYZE_ScanNumber;
+  extern const char *const ANALYZE_O_MAX;
+  extern const char *const ANALYZE_O_MIN;
+  extern const char *const ANALYZE_S_MAX;
+  extern const char *const ANALYZE_S_MIN;
+  extern const char *const ANALYZE_CAL_MAX;
+  extern const char *const ANALYZE_CAL_MIN;
+  extern const char *const ANALYZE_GLMAX;
+  extern const char *const ANALYZE_GLMIN;
+  extern const char *const ANALYZE_AUX_FILE_NAME;
+  extern const char *const ANALYZE_CALIBRATIONUNITS;
 
 } // end namespace itk
 

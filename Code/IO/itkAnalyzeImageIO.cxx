@@ -27,6 +27,17 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
+  const char *const ANALYZE_ScanNumber = "ANALYZE_ScanNumber";
+  const char *const ANALYZE_O_MAX = "ANALYZE_O_MAX";
+  const char *const ANALYZE_O_MIN = "ANALYZE_O_MIN";
+  const char *const ANALYZE_S_MAX = "ANALYZE_S_MAX";
+  const char *const ANALYZE_S_MIN = "ANALYZE_S_MIN";
+  const char *const ANALYZE_CAL_MAX = "ANALYZE_CAL_MAX";
+  const char *const ANALYZE_CAL_MIN = "ANALYZE_CAL_MIN";
+  const char *const ANALYZE_GLMAX = "ANALYZE_GLMAX";
+  const char *const ANALYZE_GLMIN = "ANALYZE_GLMIN";
+  const char *const ANALYZE_AUX_FILE_NAME = "ANALYZE_AUX_FILE_NAME";
+  const char *const ANALYZE_CALIBRATIONUNITS = "ANALYZE_CALIBRATIONUNITS";
   //An array of the Analyze v7.5 known DataTypes
   const char DataTypes[12][10]=  {
     "UNKNOWN","BINARY","CHAR","SHORT", "INT","FLOAT",
@@ -538,34 +549,27 @@ namespace itk
 
   bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   {
-
-    //m_FileName=FileNameToWrite;
-    this->SetFileName(FileNameToWrite);
-    if(  m_FileName == "" )
-      {
-      return false;
-      }
-
+    std::string filename(FileNameToWrite);
     // Data file name given?
-    std::string::size_type imgPos = m_FileName.rfind(".img");
+    std::string::size_type imgPos = filename.rfind(".img");
     if ((imgPos != std::string::npos)
-        && (imgPos == m_FileName.length() - 4))
+        && (imgPos == filename.length() - 4))
       {
       return true;
       }
 
     // Header file given?
-    std::string::size_type hdrPos = m_FileName.rfind(".hdr");
+    std::string::size_type hdrPos = filename.rfind(".hdr");
     if ((hdrPos != std::string::npos)
-        && (hdrPos == m_FileName.length() - 4))
+        && (hdrPos == filename.length() - 4))
       {
       return true;
       }
 
     // Compressed image given?
-    std::string::size_type imggzPos = m_FileName.rfind(".img.gz");
+    std::string::size_type imggzPos = filename.rfind(".img.gz");
     if ((imggzPos != std::string::npos)
-        && (imggzPos == m_FileName.length() - 7))
+        && (imggzPos == filename.length() - 7))
       {
       return true;
       }
@@ -798,9 +802,8 @@ namespace itk
   // a StateMachine could provide a better implementation
   bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   {
-    //m_FileName=FileNameToRead;
-    this->SetFileName(FileNameToRead);
-    const std::string HeaderFileName = GetHeaderFileName( m_FileName );
+    std::string filename(FileNameToRead);
+    const std::string HeaderFileName = GetHeaderFileName(filename);
     //
     // only try to read HDR files
     std::string ext = GetExtension(HeaderFileName);
@@ -925,6 +928,9 @@ namespace itk
       char temp[348];
       //Important hk fields.
       itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+      std::string classname(this->GetNameOfClass());
+      itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
+                                            classname);
 
       strncpy(temp,this->m_hdr.hk.data_type,10);//Note this is necessary because the array is not necessarily null terminated.
       temp[10]='\0'; //NOTE: Need to encapsulate for string because the Borland compiler can't figure it out.

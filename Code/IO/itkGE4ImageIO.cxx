@@ -32,7 +32,6 @@ namespace itk
   // Default constructor
   GE4ImageIO::GE4ImageIO()
   {
-    //Purposefully left blank
   }
 
   GE4ImageIO::~GE4ImageIO()
