@@ -55,10 +55,13 @@ Element2DMembrane<TBaseClass>
     // Compute B elements
     B[0][p]   = shapeDgl[0][i];
     B[0][p+1] = 0.0;
+
     B[1][p]   = 0.0;
     B[1][p+1] = shapeDgl[0][i];
+
     B[2][p]   = shapeDgl[1][i];
     B[2][p+1] = 0.0;
+
     B[3][p]   = 0.0;
     B[3][p+1] = shapeDgl[1][i];
   }
