@@ -35,6 +35,9 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   m_DistanceMax = 12;
   m_Epsilon = 0;
   m_Polarity = 0;
+  m_InverseNumberOfBoundaryPoints = 0;
+  m_BoundaryPointsPerUpdate = 0;
+  m_BoundaryPointsBeforeUpdate = 0;
 }
 
 template< unsigned int dim >

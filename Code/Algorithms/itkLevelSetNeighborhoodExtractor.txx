@@ -65,9 +65,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   os << indent << "Input level set: " << m_InputLevelSet.GetPointer();
   os << std::endl;
   os << indent << "Level set value: " << m_LevelSetValue << std::endl;
-  os << indent << "Narrow bandwidth: " << m_NarrowBandwidth;
-  os << std::endl;
-  os << indent << "Narrowbanding: " << m_NarrowBanding;
+  os << indent << "Narrow bandwidth: " << m_NarrowBandwidth << std::endl;
+  os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
   os << indent << "Input narrow band: ";
   os << m_InputNarrowBand.GetPointer() << std::endl;
 }

@@ -30,6 +30,7 @@ template<class TInputImage>
 MRASlabIdentifier<TInputImage>
 ::MRASlabIdentifier()
 {
+  m_Image = 0;
   m_NumberOfMinimumsPerSlice = 10 ;
   // default slicing axis is z
   m_SlicingDirection = 2 ;
@@ -184,7 +185,14 @@ MRASlabIdentifier<TInputImage>
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Image: " << m_Image << std::endl;
+  if (m_Image)
+    {
+    os << indent << "Image: " << m_Image << std::endl;
+    }
+    else
+    {
+    os << indent << "Image: " << "(None)" << std::endl;
+    }
   os << indent << "NumberOfMinimumsPerSlice: " << m_NumberOfMinimumsPerSlice << std::endl;
   os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
 }

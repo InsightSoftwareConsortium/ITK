@@ -82,8 +82,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
      << static_cast<typename NumericTraits<unsigned char>::PrintType>(m_ObjectLabel)
       << std::endl;
   os << indent << "StepThreshold = " << m_StepThreshold << std::endl;
-  os << indent << "Gradient = " << m_Gradient << std::endl;
-
+  if (m_Gradient)
+    {
+    os << indent << "Gradient = " << m_Gradient << std::endl;
+    }
+  else
+    {
+    os << indent << "Gradient = " << "(None)" << std::endl;
+    }
 }/* End PrintSelf. */
 
 /* Set default value of parameters and initialize local data container 
