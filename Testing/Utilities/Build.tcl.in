@@ -128,21 +128,28 @@ while { ![eof $Build] } \
 
     # Take a stab at getting a file name out of the line
     # For GCC, we get /path/to/source.cxx:##
-    if { [string match "*SourceLogLine] } \
+    # or ../../../Insight/Code/Common
+    set Found 0
+    if { !$Found && [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
     {
-      # GCC
-      if { [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
-      {
-	set ErrorList($i,SourceFile) $SourceFile
-	set ErrorList($i,SourceLineNumber) $LineNumber
-      }
-      # Irix compiler
-      # cc-1552 CC: WARNING File = /home/blezek/src/Insight/Code/Common/itkAffineMutualInformationVW.txx, Line = 250
-      if { [regexp "${SourceDirectory}/(\[^,\]*), Line = (\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
-      {
-	set ErrorList($i,SourceFile) $SourceFile
-	set ErrorList($i,SourceLineNumber) $LineNumber
-      }
+      set ErrorList($i,SourceFile) $SourceFile
+      set ErrorList($i,SourceLineNumber) $LineNumber
+      set Found 1
+    }
+    if { !$Found && [regexp {/Insight/([^:]*):([0-9]*)} $LogLine dummy SourceFile LineNumber] } \
+    {
+      set ErrorList($i,SourceFile) $SourceFile
+      set ErrorList($i,SourceLineNumber) $LineNumber
+      set Found 1
+    }
+    
+    # Irix compiler
+    # cc-1552 CC: WARNING File = /home/blezek/src/Insight/Code/Common/itkAffineMutualInformationVW.txx, Line = 250
+    if { !$Found && [regexp "${SourceDirectory}/(\[^,\]*), Line = (\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
+    {
+      set ErrorList($i,SourceFile) $SourceFile
+      set ErrorList($i,SourceLineNumber) $LineNumber
+      set Found 1
     }
     
     lappend ErrorList(Append) $i
