@@ -10,6 +10,7 @@ itkGiplImageIOFactory.cxx
 itkGiplImageIO.cxx
 itkImageIOBase.cxx
 itkImageIOFactory.cxx
+itkIOCommon.cxx
 itkMetaImageIOFactory.cxx
 itkMetaImageIO.cxx
 itkNumericSeriesFileIterator.cxx
