@@ -26,7 +26,7 @@ int main()
 {
   println("Testing derivative operator");
   itk::DerivativeOperator<float, 3, vnl_vector<float> > d;
-  d.SetOrder(3);
+  d.SetOrder(2);
   d.SetDirection(1);
   d.CreateDirectional();
   d.Print(std::cout);

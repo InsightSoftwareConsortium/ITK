@@ -83,7 +83,8 @@ int main()
   Set.count("apple");
   Set.find("kiwi");
   HashSetType::iterator hsh_it = Set.begin();
-  HashSetType::const_iterator hst_const_it = Set.end();  
+  HashSetType::const_iterator hst_const_it;
+  hst_const_it = Set.end();  
   HashSetType SetCopy;
   SetCopy = Set;
   //  SetCopy == Set; -- Removed until I can track down why the IRIX compiler
@@ -124,7 +125,8 @@ int main()
   months.count("january");
   months.find("june");
   HashMapType::iterator map_it = months.begin();
-  HashMapType::const_iterator map_const_it = months.end();  
+  HashMapType::const_iterator map_const_it;
+  map_const_it = months.end();  
   HashMapType MapCopy;
   MapCopy = months;
   //  MapCopy == months;  -- Removed until I can track down why IRIX compiler

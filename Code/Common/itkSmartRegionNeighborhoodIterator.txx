@@ -154,7 +154,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( temp[i] == this->GetSize(i) ) temp[i]= 0;
+              if ( temp[i] == (int)this->GetSize(i) ) temp[i]= 0;
               else break;
             }
         } 
@@ -219,7 +219,7 @@ SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( temp[i] == this->GetSize(i) ) temp[i]= 0;
+              if ( temp[i] == (int)this->GetSize(i) ) temp[i]= 0;
               else break;
             }
         }
