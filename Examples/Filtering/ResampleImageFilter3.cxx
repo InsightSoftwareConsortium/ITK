@@ -239,7 +239,7 @@ int main( int argc, char * argv[] )
   
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = atan(1.0) / 45.0;
-  transform->Rotate2D( 30.0 * degreesToRadians, false );
+  transform->Rotate2D( -30.0 * degreesToRadians, false );
   // Software Guide : EndCodeSnippet
 
 

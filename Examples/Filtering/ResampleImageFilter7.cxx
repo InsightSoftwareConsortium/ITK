@@ -155,7 +155,7 @@ int main( int argc, char * argv[] )
 
   const double degreesToRadians = atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
-  transform->Rotate2D( angle, false );
+  transform->Rotate2D( -angle, false );
 
 
   TransformType::OutputVectorType translation2;
