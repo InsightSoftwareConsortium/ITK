@@ -137,22 +137,6 @@ public:
     return *this;
     }
 
-  /** 
-   * Return object by reference.
-   */
-  T &operator * () const 
-    { 
-    return *m_Pointer; 
-    }
-
-  /** 
-   * Return pointer to object.
-   */
-  operator T * () const 
-    { 
-    return m_Pointer; 
-    }
-
 private:
   void Register()
     { 
