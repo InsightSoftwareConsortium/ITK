@@ -108,6 +108,11 @@ protected:
                      const KernelIteratorType kernelBegin,
                      const KernelIteratorType kernelEnd);
 
+
+  /** Print out internal state */
+  void PrintSelf ( std::ostream& os, Indent indent ) const;
+
+
 private:
   GrayscaleMorphologicalOpeningImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

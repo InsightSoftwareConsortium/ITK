@@ -106,5 +106,16 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 
+template<class TInputImage, class TOutputImage, class TKernel>
+void
+GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Kernel   = " << m_Kernel << std::endl;
+}
+
+
 }// end namespace itk
 #endif
