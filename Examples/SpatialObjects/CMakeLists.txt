@@ -4,11 +4,20 @@
 PROJECT(SpatialObjectsExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
+ADD_EXECUTABLE(ArrowSpatialObject ArrowSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(ArrowSpatialObject ITKCommon ITKIO )
+
 ADD_EXECUTABLE(BlobSpatialObject BlobSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(BlobSpatialObject ITKCommon ITKIO )
 
+ADD_EXECUTABLE(CylinderSpatialObject CylinderSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(CylinderSpatialObject ITKCommon ITKIO ITKSpatialObject)
+
 ADD_EXECUTABLE(EllipseSpatialObject EllipseSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(EllipseSpatialObject ITKCommon ITKIO )
+
+ADD_EXECUTABLE(GaussianSpatialObject GaussianSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(GaussianSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(ImageSpatialObject ImageSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(ImageSpatialObject ITKCommon ITKIO )
@@ -18,6 +27,9 @@ TARGET_LINK_LIBRARIES(LandmarkSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(LineSpatialObject LineSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(LineSpatialObject ITKCommon ITKIO )
+
+ADD_EXECUTABLE(MeshSpatialObject MeshSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(MeshSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(ReadWriteSpatialObject ITKCommon ITKIO )
@@ -30,6 +42,9 @@ TARGET_LINK_LIBRARIES(SpatialObjectHierarchy ITKCommon ITKIO )
 
 ADD_EXECUTABLE(SpatialObjectTransforms SpatialObjectTransforms.cxx)
 TARGET_LINK_LIBRARIES(SpatialObjectTransforms ITKCommon ITKIO )
+
+ADD_EXECUTABLE(SpatialObjectTreeContainer SpatialObjectTreeContainer.cxx)
+TARGET_LINK_LIBRARIES(SpatialObjectTreeContainer ITKCommon ITKIO )
 
 ADD_EXECUTABLE(SurfaceSpatialObject SurfaceSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(SurfaceSpatialObject ITKCommon ITKIO )
