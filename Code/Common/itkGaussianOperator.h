@@ -67,7 +67,7 @@ public:
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
   
   /** Constructor. */
-  GaussianOperator() : m_Variance(1), m_MaximumError(.01) { }
+  GaussianOperator() : m_Variance(1), m_MaximumError(.01), m_MaximumKernelWidth(30) { }
 
   /** Copy constructor */
   GaussianOperator(const Self &other)
@@ -115,6 +115,17 @@ public:
   double GetMaximumError()
     {    return m_MaximumError;  }
 
+  /** Sets a limit for growth of the kernel.  Small maximum error values with
+   *  large variances will yield very large kernel sizes.  This value can be
+   *  used to truncate a kernel in such instances.  A warning will be given on
+   *  truncation of the kernel. */
+  void SetMaximumKernelWidth( int n )
+    {    m_MaximumKernelWidth = n; }
+
+  /** Returns the maximum allowed kernel width. */
+  int GetMaximumKernelWidth() const
+    {   return m_MaximumKernelWidth; }
+  
   /** Prints some debugging information. */
   virtual void PrintSelf(std::ostream &os, Indent i) const
   {
@@ -153,6 +164,15 @@ private:
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
   double m_MaximumError;
+
+  /** Maximum kernel size allowed.  This value is used to truncate a kernel 
+   *  that has grown too large.  A warning is given when the specified maximum
+   *  error causes the kernel to exceed this size. */
+  int m_MaximumKernelWidth;
+
+  /** For compatibility with itkWarningMacro */
+  const char *GetNameOfClass()
+    { return "itkGaussianOperator"; }
   
 };
 
