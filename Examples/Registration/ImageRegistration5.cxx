@@ -613,24 +613,23 @@ int main( int argc, char **argv )
   //
   //  \code{optimizer->SetMaximumStepLength( 1.0 );}
   //
-  //  The registration takes now $96$ iterations and produce as result the
+  //  The registration takes now $92$ iterations and produce as result the
   //  parameters:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174493, 109.657, 129.124, 12.9047, 15.8471]
+  //  [0.174474, 109.658, 129.124, 12.9044, 15.8459]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.174493$   radians
-  //  \item Center        = $( 109.657     , 129.124      )$ millimeters
-  //  \item Translation   = $(  12.9047    ,  15.8471     )$ millimeters
+  //  \item Angle         =                     $0.174474$   radians
+  //  \item Center        = $( 109.658     , 129.124      )$ millimeters
+  //  \item Translation   = $(  12.9044    ,  15.8459     )$ millimeters
   //  \end{itemize}
   //  
-  // 
   //  These values reasonably match the miss-registration intentionally
   //  introduced in the moving image. Since $10$ degrees is about $0.174532$
   //  radians. The horizontal translation is well resolved while the vertical
@@ -672,13 +671,16 @@ int main( int argc, char **argv )
   // \label{fig:ImageRegistration5Plots2}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration5Plotss} shows the plots of the main
+  //  Figure \ref{fig:ImageRegistration5Plots2} shows the plots of the main
   //  output parameters of the registration process for the rotation and
   //  translations combined. The metric values at every iteration are shown on
   //  the top. The angle values are shown in the plot at left while the
   //  translation components of the registration are presented in the plot at
-  //  right.
- //
+  //  right. It can be seen from the smoothness of these plots that a larger
+  //  step length could have been easily supported by the optimizer. You may
+  //  want to play with this value in order to get a better feeling of how to
+  //  tune this parameters.
+  //
   //  Software Guide : EndLatex 
 
 
