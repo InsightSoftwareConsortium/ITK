@@ -227,7 +227,6 @@ VersorRigid3DTransform<TScalarType>
       offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
       }
     }
-std::cout << "ComputeMatrixAndOffset(), offset = " << offset << std::endl;
   this->SetOffset( offset );
 
 }
