@@ -47,17 +47,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /** \class VectorAnisotropicDiffusionFunction
- * 
- * Requirements:
- *      1) Image PixelType must have an internal typedef of ValueType,
- *            i.e. TImage::PixelType::ValueType must be defined as the
- *                 as the type of one value (element/component) of a pixel.
- *                 Since we are talking about vector anisotropic diffusion,
- *                 this is the type of an element of the vector (float, etc.)
+ *
+
+   This class implements a vector-valued version of AnisotropicDiffusionFunction.
+   Vector components are diffused independently of one another using a
+   conductance term that is linked across the components. Refer to the the
+   documentation of AnisotropicDiffusionFunction for an overview of anisotropic
+   diffusion.  The way that the conductance term is calculated is specific to the 
+   specific type of diffusion function.
+
+   \par Data type requirements
+   This filter was designed to process itk::Images of itk::Vector type.  The code 
+   relies on various typedefs and overloaded operators defined in itk::Vector.
+   It is perfectly reasonable, however, to apply this filter to images of other,
+   user-defined types as long as the appropriate typedefs and operator overloads
+   are in place.  As a general rule, follow the example of itk::Vector in
+   defining your data types.  But the following guidelines should get you started:
+
+   \par (1)
+   The input/output itk::Image::PixelType must have an internal typedef of
+   ValueType. i.e. TImage::PixelType::ValueType must be defined as the type of
+   the components of a pixel.
+
+   \par (2)
+   The input/output itk::Image::PixelType must overload the +/- operators as
+   follows:  (a1, b1, c1) + (a2, b2, c2) = (a1 + a2, b1 + b2, c1 + c2)
+
+   \par How 
+   
  *
  *  \ingroup Operators
- *
- */ 
+ * */
 template <class TImage>
 class VectorAnisotropicDiffusionFunction :
     public AnisotropicDiffusionFunction<TImage>

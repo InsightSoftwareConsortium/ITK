@@ -48,46 +48,98 @@ namespace itk {
 
 /**
  * \class AnisotropicDiffusionFunction
- * \brief Base class for anisotropic diffusion equation objects.
  *
+ * This class is a virtual base for anisotropic diffusion function objects.  It 
+ * is a component object in the finite difference solver hierarchy (see
+ * itkFiniteDifferenceImageFilter for an overview).
+ *
+ * \par Overview of anisotropic diffusion
  * Anisotropic diffusion methods are a tools for calculating multi-scale
  * descriptions of images. Embed an image \f$U(\mathbf{x})\f$ in a higher
  * dimensional function of derived images, \f$U(\mathbf{x}, t)\f$.  This higher
  * dimensional function represents the solution of the heat diffusion equation,
  *
+ * \par
  * \f[\frac{d U(\mathbf{x})}{d t} = \nabla \cdot c \nabla U(\mathbf{x})\f]
  *
+ * \par
  * with constant \f$c\f$ and initial condition
  * \f$U(\mathbf{x}, 0) = U_0(\mathbf{x})\f$, the original image.
  *
+ * \par
  * Extending to the case where \f$c\f$ is not a constant, but a function of
  * \f$\mathbf{x}\f$, gives
  *
+ * \par
  * \f[\frac{d U(\mathbf{x})}{d t} = C(\mathbf{x})\Delta U(\mathbf{x})
  * + \nabla C(\mathbf{x}) \nabla U(\mathbf{x})\f]
  *
+ * \par
  * Our choice of \f$C\f$ now varies the strength of diffusion anisotropically.
  * Typically, \f$C\f$ is chosen as some function of image features to
  * selectively preserve or remove those features.  For example, edges tend to
  * be preserved over smoother regions where \f$C\f$ is inversely scaled
  * according to gradient magnitude as in
  *
+ * \par
  * \f[C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}\f].
  *
+ * \par
  * Several variations on the scheme presented above are implemented in Itk as
  * subclasses of this equation.  The equations are solved using an iterative,
  * finite forward difference technique (see the FiniteDifferenceImageFilter
  * class).
  *
+ * \par How to use this class
+ * This class must be subclassed to provide the CalculateUpdate() methods of
+ * FiniteDifferenceFunction and the function
+ * CalculateAverageGradientMagnitudeSquared(), which is called before each
+ * iteration to recalibrate the conductance term.
+ *
+ * \par Parameters
+ *  The parameters defined in this class apply to the basic anisotropic
+ *  diffusion equation described in AnisotropicDiffusionFunction.  Variations
+ *  on the basic equation will be more or less sensitive to these parameters.
+ *  For example, functions that perform higher-order derivative calculations
+ *  may require smaller time-steps than those that only do first-derivative
+ *  calculations. Wherever possibe, reasonable parameters settings are
+ *  suggested in the documentation of a specific equation implementation.
+ *
+ * \par TimeStep
+ * In the anisotropic diffusion filter hierarchy, the time step is set
+ * explicitly by the user.  The time step referred to here corresponds exactly
+ * to /f$ \Delta t /f$ in the finite difference update equation described in
+ * FiniteDifferenceImageFilter (see itkFiniteDifferenceImageFilter for more
+ * information).  Appropriate time steps for solving this type of p.d.e. depend 
+ * on the dimensionality of the image and the order of the equation.  Typical
+ * values are less than 0.250.  A stable value for most 2 and 3d functions is
+ * 0.125.
+ *
+ * \par Conductance Parameter
+ * The conductance parameter controls the sensitivity of the conductance term
+ * in the basic anisotropic diffusion equation.  It affect the conductance term
+ * in different ways depending on the particular variation on the basic
+ * equation. As a general rule, the lower the value, the more strongly the
+ * diffusion equation preserves image features (such as high gradients or
+ * curvature).  A high value for conductance will cause the filter to diffuse
+ * image features more readily.  Typical values range from 0.5 to 2.0 for data
+ * like the Visible Human color data, but the correct value for your
+ * application is wholly dependent on the results you want from a specific data
+ * set and the number or iterations you perform.
+ * 
+ * \par Iterations
+
+ 
+
+ 
+ * \sa VectorAnisotropicDiffusionFunction
+ * \sa ScalarAnisotropicDiffusionFunction
  * \sa GradientAnisotropicDiffusionFunction
  * \sa CurvatureAnisotropicDiffusionFunction
  * \sa VectorGradientAnisotropicDiffusionFunction
- * 
- *
- * \ingroup Operators
- *
- * \todo Documentation, references
- */
+ * \ingroup Functions
+ * \todo Automatically generate the time step value from image dimensionality
+ *  and order of the equations */
 template <class TImage>
 class AnisotropicDiffusionFunction :
     public FiniteDifferenceFunction<TImage>
@@ -117,22 +169,22 @@ public:
   /** Inherit some parameters from the superclass type */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /** This method is called before each iteration to recalculate the */
+  /** This method is called before each iteration.  It calculates a scalar
+      value that is the average of the gradient magnitude squared at each pixel 
+      in the output image (intermediate solution). The average gradient magnitude
+      value is typically used in the anisotropic diffusion equations to
+      calibrate the conductance term. */
   virtual void CalculateAverageGradientMagnitudeSquared(ImageType *) = 0;
 
-  /** Required by FiniteDifferenceImageFilter to set the initial value
-   * of the time step for an iteration.
-   * \deprecated */
-  //  virtual TimeStepType GetInitialTimeStep() const
-  //  {    return this->GetTimeStep();  }
-
-  /** Set/Get the time step. */
+  /** Set/Get the time step. For this class of anisotropic diffusion filters,
+      the time-step is supplied by the user and remains fixed for all
+      updates. */
   void SetTimeStep(const TimeStepType &t)
     { m_TimeStep = t; }
   const TimeStepType &GetTimeStep() const
     { return m_TimeStep; }
 
-  /** Set/Get the conduction parameter. */
+  /** Set/Get the conductance parameter.  The conductance parameter*/
   void SetConductanceParameter(const double &c)
     { m_ConductanceParameter = c * c ; }
   const double &GetConductanceParameter() const
@@ -144,26 +196,19 @@ public:
   void SetAverageGradientMagnitudeSquared(const double &c)
     { m_AverageGradientMagnitudeSquared = c; }
 
-  /**
-   * Returns the time step supplied by the user.  We don't need to use the
-   * global data supplied since we are returning a fixed value.
-   */
+  /** Returns the time step supplied by the user.  We don't need to use the
+   * global data supplied since we are returning a fixed value.  */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
     { return this->GetTimeStep(); }
 
-  /**
-   * The anisotropic diffusion classes don't use this particular parameter
-   * so it's safe to return a null value.
-   */
+  /** The anisotropic diffusion classes don't use this particular parameter
+   * so it's safe to return a null value. */
   virtual void *GetGlobalDataPointer() const
     {  return 0; }
 
-  /**
-   * Does nothing.  No global data is used in this class of equations.
-   */
+  /** Does nothing.  No global data is used in this class of equations.   */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
     { /* do nothing */ }
-
   
 protected:
   AnisotropicDiffusionFunction()

@@ -63,7 +63,7 @@ namespace itk
  * 
  * \ingroup ImageEnhancement 
  * \ingroup ImageFeatureExtraction 
- *
+ * \todo Support for double precision data.
  */
 
 template <class TInputImage, class TOutputImage >
