@@ -74,8 +74,16 @@ MeanShiftModeCacheMethod< TMeasurementVector >
      << m_TotalTableSize << std::endl ;
   os << indent << "Number of cache rebuildings: " 
      << m_TimesOfRebuilding << std::endl ;
-  os << indent << "Average cache table size: " 
-     << (float)(m_TotalTableSize / m_TimesOfRebuilding) << std::endl ;
+  os << indent << "Average cache table size: " ;
+  if ( m_TimesOfRebuilding > 0 )
+    {
+    os << (float)(m_TotalTableSize / m_TimesOfRebuilding) << std::endl ;
+    }
+  else
+    {
+    os << m_TotalTableSize << std::endl ;
+    }
+
   os << indent << "Number of cache rebuildings caused by hit ratio threshold: " 
      << m_TimesOfRebuildingByHitRatio << std::endl ;
   os << indent << "Number of cache rebuildings caused by consecutive failures: " 

@@ -42,7 +42,26 @@ MeanShiftModeSeekerBase< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input sample: " << m_InputSample << std::endl;
+  os << indent << "InputSample: " ;
+  if ( m_InputSample != 0 )
+    {
+    os << m_InputSample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "CacheMethod: " ;
+  if ( m_CacheMethod != 0 )
+    {
+    os << m_CacheMethod << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "Maximum iterations: " << m_MaximumIteration << std::endl ;
 }
 
