@@ -447,7 +447,8 @@ IndexType& index )
     {
       neighIndex[j] = index[j] + s;
 
-      if( neighIndex[j] > (signed long) m_OutputSize[j] - 1 )
+      if( neighIndex[j] > (signed long) m_OutputSize[j] - 1 || 
+          neighIndex[j] < 0 )
       {
         continue;
       }
