@@ -116,8 +116,9 @@ char* MET_ReadSubType(std::istream &_fp)
     }
   _fp.seekg(pos);
 
-  char* ret = new char[value.size()];
-  strcpy(ret,value.c_str());
+  char* ret = new char[value.size()+1];
+  strncpy(ret,value.c_str(),value.size());
+  ret[value.size()] = '\0';
   return ret;
 }
 
