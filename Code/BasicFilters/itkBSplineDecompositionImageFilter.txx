@@ -244,7 +244,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   this->CopyImageToImage();   // Coefficients are initialized to the input data
 
   OutputImagePointer output = this->GetOutput();
-  for (int n=0; n < ImageDimension; n++)
+  for (unsigned int n=0; n < ImageDimension; n++)
     {
     m_IteratorDirection = n;
     // Loop through each dimension
@@ -387,7 +387,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   m_DataLength = inputPtr->GetBufferedRegion().GetSize();
 
   unsigned long maxLength = 0;
-  for ( int n = 0; n < ImageDimension; n++ )
+  for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
     if ( m_DataLength[n] > maxLength )
       {
