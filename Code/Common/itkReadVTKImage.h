@@ -13,11 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * ReadVTKImage reads VTK-formatted data files. This class requires
- * that the VTK dataset type is STRUCTURED_POINTS, and only the scalar
- * point data is read (1-4 components).
- */
 #ifndef __itkReadVTKImage_h
 #define __itkReadVTKImage_h
 
@@ -26,14 +21,25 @@
 namespace itk
 {
 
+/** \class ReadVTKImage
+ * \brief Read VTK-formatted image files.
+ *
+ * ReadVTKImage reads VTK-formatted data files. This class requires
+ * that the VTK dataset type is STRUCTURED_POINTS, and only the scalar
+ * point data is read (1-4 components).
+ */
 template <class TOutputImage>
 class ITK_EXPORT ReadVTKImage : public ImageSource<TOutputImage>
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ReadVTKImage        Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef ReadVTKImage        Self;
   typedef SmartPointer<Self>  Pointer;
 
   /** 

@@ -13,12 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * RandomImageSource generates an image of random scalar values.
- * The output image may be of any dimension. The scalar values are
- * inserted into the image via a scalar iterator (i.e., the pixel type
- * must support GetScalar()/SetScalar()).
- */
 #ifndef __itkRandomImageSource_h
 #define __itkRandomImageSource_h
 
@@ -27,14 +21,26 @@
 namespace itk
 {
 
+/** \class RandomImageSource
+ * \brief Generate an n-dimensional image of random image values.
+ *
+ * RandomImageSource generates an image of random scalar values.
+ * The output image may be of any dimension. The scalar values are
+ * inserted into the image via a scalar iterator (i.e., the pixel type
+ * must support GetScalar()/SetScalar()).
+ */
 template <class TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef RandomImageSource   Self;
+
   /** 
    * Smart pointer typedef support.
    */
-  typedef RandomImageSource   Self;
   typedef SmartPointer<Self>  Pointer;
   
   /** 

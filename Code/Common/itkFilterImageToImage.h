@@ -13,10 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * FilterImageToImage is the base class for all process objects that output
- * image data, and require image data as input.
- */
 #ifndef __itkFilterImageToImage_h
 #define __itkFilterImageToImage_h
 
@@ -25,14 +21,25 @@
 namespace itk
 {
 
+/** \class FilterImageToImage
+ * \brief 
+ *
+ * FilterImageToImage is the base class for all process objects that output
+ * image data, and require image data as input. Specifically, this class
+ * defines the SetInput() method for defining the input to a filter.
+ */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT FilterImageToImage : public ImageSource<TOutputImage>
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef FilterImageToImage  Self;
+
   /** 
    * Smart pointer typedef support 
    */
-  typedef FilterImageToImage  Self;
   typedef SmartPointer<Self>  Pointer;
 
   /**
