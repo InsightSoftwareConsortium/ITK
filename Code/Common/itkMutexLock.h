@@ -47,7 +47,7 @@ typedef int MutexType;
 
 /** \class SimpleMutexLock 
  * \brief Simple mutual exclusion locking class.
- * .SECTION Description
+ 
  * SimpleMutexLock allows the locking of variables which are accessed 
  * through different threads.  This header file also defines 
  * SimpleMutexLock which is not a subclass of Object.
@@ -90,7 +90,7 @@ protected:
 
 /** \class MutexLock 
  * \brief Mutual exclusion locking class.
- * .SECTION Description
+ *
  * MutexLock allows the locking of variables which are accessed 
  * through different threads.  This header file also defines 
  * SimpleMutexLock which is not a subclass of itkObject.
