@@ -57,7 +57,7 @@ private:
    */
   CvQualifiedTypes m_Arguments;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 } // namespace _cxx_

@@ -51,7 +51,7 @@ protected:
    */
   CvQualifiedType m_PointedToType;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 } // namespace _cxx_

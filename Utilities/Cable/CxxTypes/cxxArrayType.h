@@ -56,7 +56,7 @@ private:
    */
   unsigned long m_Length;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 } // namespace _cxx_

@@ -81,7 +81,7 @@ private:
    */
   CvQualifiedTypes m_ConversionOperators;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 

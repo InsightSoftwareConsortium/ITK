@@ -51,7 +51,7 @@ private:
    */
   CvQualifiedType m_ReferencedType;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 

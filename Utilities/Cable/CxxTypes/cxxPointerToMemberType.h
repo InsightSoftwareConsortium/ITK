@@ -50,7 +50,7 @@ private:
    */
   const ClassType* m_ClassType;
   
-  friend TypeSystem;
+  friend class TypeSystem;
 };
 
 } // namespace _cxx_

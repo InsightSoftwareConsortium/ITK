@@ -56,7 +56,7 @@ private:
    */
   Id m_Id;
   
-  friend TypeSystem;
+  friend class TypeSystem;
   
   static const char* fundamentalTypeNames[NumberOfTypes];
 };
