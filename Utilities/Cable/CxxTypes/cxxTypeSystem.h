@@ -60,6 +60,7 @@ public:
   const ArrayType*           GetArrayType(const CvQualifiedType&,
                                           unsigned long);
   ClassType*                 GetClassType(const String&,
+                                          bool isAbstract = false,
                                           const ClassTypes& = ClassTypes());
   const FunctionType*        GetFunctionType(const CvQualifiedType&,
                                              const CvQualifiedTypes&);

@@ -83,8 +83,7 @@ TypeSystem
  */
 ClassType*
 TypeSystem
-::GetClassType(const String& name,
-               const ClassTypes& parents)
+::GetClassType(const String& name, bool isAbstract, const ClassTypes& parents)
 {
   // Look for an existing copy of this type.
   ClassTypeMap::const_iterator i = m_ClassTypeMap.find(name);
@@ -97,7 +96,7 @@ TypeSystem
   else
     {
     // This is a new type.  Generate an entry and return it.
-    ClassType* newClassType = new ClassType(name, parents);
+    ClassType* newClassType = new ClassType(name, isAbstract, parents);
     m_ClassTypeMap[name] = newClassType;
     return newClassType;
     }

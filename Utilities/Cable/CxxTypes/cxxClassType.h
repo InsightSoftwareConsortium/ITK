@@ -68,6 +68,8 @@ public:
   virtual RepresentationType GetRepresentationType() const;
   static ClassType* SafeDownCast(Type*);
   static const ClassType* SafeDownCast(const Type*);
+
+  bool IsAbstract() const;
   
   String GetName() const;
   ClassTypes::const_iterator ParentsBegin() const;
@@ -77,7 +79,7 @@ public:
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 protected:
-  ClassType(const String&, const ClassTypes&);
+  ClassType(const String&, bool isAbstract, const ClassTypes&);
   ClassType(const Self&) {}
   void operator=(const Self&) {}
   virtual ~ClassType() {}
@@ -87,6 +89,11 @@ private:
    * The name of the class.
    */
   String m_Name;
+  
+  /**
+   * Flag for whether the class is abstract.
+   */
+  bool m_Abstract;
   
   /**
    * The immediate public superclasses of this class.

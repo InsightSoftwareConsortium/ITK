@@ -80,6 +80,15 @@ const ClassType* ClassType::SafeDownCast(const Type* t)
 
 
 /**
+ * Return whether the class is abstract.
+ */
+bool ClassType::IsAbstract() const
+{
+  return m_Abstract;
+}
+
+
+/**
  * Get the name of the class.
  */
 String ClassType::GetName() const
@@ -149,9 +158,10 @@ String ClassType::GenerateName(const String& indirection,
  * Constructor for ClassType just takes the name of the class.  This name
  * may include template parameters of an instantiation.
  */
-ClassType::ClassType(const String& name,
+ClassType::ClassType(const String& name, bool isAbstract,
                      const ClassTypes& parents):
   m_Name(name),
+  m_Abstract(isAbstract),
   m_Parents(parents)
 {
 }
