@@ -523,7 +523,7 @@ int main( int argc, char *argv[] )
   //  for segmenting some brain structures shown in
   //  Figure~\ref{fig:GeodesicActiveContourImageFilterOutput2} using the filter
   //  GeodesicActiveContourLevelSetImageFilter. 
-  //  \label{tab:FastMarchingImageFilterOutput2}}
+  //  \label{tab:GeodesicActiveContourImageFilterOutput2}}
   //  \end{table}
   //
   //  Figure~\ref{fig:GeodesicActiveContourImageFilterOutput} presents the
