@@ -220,10 +220,10 @@ int main(int argc, char ** argv)
   //  The buffer is passed to the \doxygen{ImportImageFilter} with the
   //  \code{SetImportPointer()}. Note that the last argument of this method
   //  specifies who will be responsible for deleting the memory block once it
-  //  is no longer in use. A \code{true} value indicates that the
+  //  is no longer in use. A \code{false} value indicates that the
   //  \doxygen{ImportImageFilter} will not try to delete the buffer when its
-  //  destructor is called. A \code{false} value, on the other hand, will allow the
-  //  filter to delete the memory block.
+  //  destructor is called. A \code{true} value, on the other hand, will allow the
+  //  filter to delete the memory block upon destruction of the import filter.
   //
   //  For the \doxygen{ImportImageFilter} to appropriately delete the
   //  memory block, the memory must be allocated with the C++
@@ -236,11 +236,11 @@ int main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const bool userPromiseToDeleteTheBuffer = false;
+  const bool importImageFilterWillOwnTheBuffer = true;
 
   importFilter->SetImportPointer( localBuffer, 
                                   numberOfPixels, 
-                                  userPromiseToDeleteTheBuffer );
+                                  importImageFilterWillOwnTheBuffer );
   // Software Guide : EndCodeSnippet
 
 
@@ -275,8 +275,8 @@ int main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Note that we do not call \code{delete} on the buffer since we pass
-  //  \code{false} as the last argument of \code{SetImportPointer()}. Now the
-  //  buffer is owned by the \code{ImportImageFilter}.
+  //  \code{true} as the last argument of \code{SetImportPointer()}. Now the
+  //  buffer is owned by the \code{ImportImageFilter}. 
   //
   //  Software Guide : EndLatex
 
