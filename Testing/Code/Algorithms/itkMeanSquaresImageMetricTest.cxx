@@ -190,9 +190,16 @@ int itkMeanSquaresImageMetricTest(int, char**)
 
     // exercise the other functions
     metric->GetValue( parameters );
-    metric->GetDerivative( parameters );
+    metric->GetDerivative( parameters, derivative );
 
     }
+
+//-------------------------------------------------------
+// exercise Print() method
+//-------------------------------------------------------
+  metric->Print( std::cout );
+
+
 
 //-------------------------------------------------------
 // exercise misc member functions
