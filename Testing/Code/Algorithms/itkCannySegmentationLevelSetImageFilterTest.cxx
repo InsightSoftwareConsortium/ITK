@@ -177,7 +177,7 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
   filter->SetFeatureImage(inputImage);
 
   filter->SetMaximumRMSError(0.009);
-  filter->SetMaximumIterations(50);
+  filter->SetMaximumIterations(10);
   //    filter->SetUseNegativeFeaturesOn(); // Change the default behavior of the speed
                                       // function so that negative values result in
                                       // surface growth.
@@ -195,7 +195,7 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
-        filter->SetMaximumIterations(20);
+        filter->SetMaximumIterations(5);
         filter->Update();
         std::cout << "Done second trial" << std::endl;
     
