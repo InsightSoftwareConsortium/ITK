@@ -451,6 +451,23 @@ DerivativeType& derivatives ) const
 }
 
 
+
+/*
+ * Reinitialize the seed of the random number generator
+ */
+template < class TFixedImage, class TMovingImage  >
+void
+MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::ReinitializeSeed()
+{
+  // This method should be the same used in the ImageRandomIterator
+  vnl_sample_reseed();
+}
+
+  
+
+
+
 } // end namespace itk
 
 

@@ -220,6 +220,9 @@ private:
    */
   void CalculateDerivatives( const FixedImagePointType& , DerivativeType& ) const;
 
+  /** Reinitialize the seed of the random number generator */
+  static void ReinitializeSeed();
+
   typedef typename Superclass::CoordinateRepresentationType  
     CoordinateRepresentationType;
   typedef CentralDifferenceImageFunction< MovingImageType, 
