@@ -9,13 +9,13 @@ source [file join Testing Utilities Utility.tcl.in]
 
 set Model Experimental
 set DateStamp ""
-if { $argc == 2 } \
+if { $argc == 1 } \
 {
   set Model [lindex $argv 0]
-  set DateStamp [lindex $argv 1]
-  set Year [string range $DateStamp 0 3]
-  set Month [string range $DateStamp 4 5]
-  set Day [string range $DateStamp 6 7]
+  # set DateStamp [lindex $argv 1]
+  # set Year [string range $DateStamp 0 3]
+  # set Month [string range $DateStamp 4 5]
+  # set Day [string range $DateStamp 6 7]
 }
 
 # Begin the XML output
@@ -28,26 +28,107 @@ puts $Out "<Update>"
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
 
-proc GetLog { File } \
+proc SplitLog { Log } \
 {
-  global cvs
-  return "[exec $cvs log -N -r $File | grep -v "access list:" | grep -v "RCS File:" | grep -v "Working File:" | grep -v "head:" | grep -v "branch:" | grep -v "locks:" | grep -v "keyword substitution:" | grep -v "total revisions:" | grep -v "description:" | grep -v "\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-" | grep -v ^$ ]";
+  set Result ""
+  set Buffer ""
+  foreach Line [split $Log "\n"] \
+  {
+    switch -glob -- $Line \
+    {
+      "=========================================================================*" - \
+      "--------------------------*" \
+      {
+	lappend Result $Buffer
+	set Buffer ""
+      }
+      default \
+      {
+	append Buffer "$Line\n"
+      }
+    }
+  }
+  return [lrange $Result 1 end]
+}
+
+proc LoadCVSInformation { File } \
+{
+  global UseDates Yesterday Today cvs FileStatus YesterdayTS
+
+  #  puts stderr $YesterdayTS
+
+  set Log [exec $cvs log -N $File]
+  # puts stderr "Log of $File: $Log"
+
+  regexp "head: (\[0-9.\]+)" $Log dummy FileStatus($File,Head)
+  regexp "total revisions: (\[0-9\]+);\tselected revisions: (\[0-9\])" $Log dummy FileStatus($File,TotalRevisions) FileStatus($File,SelectedRevisions)
+
+  set FileStatus($File,SelectedRevisions) 0
+  
+  set FileStatus($File,LastReportedRevision) $FileStatus($File,Head)
+  set Logs [SplitLog $Log]
+  set i 0
+  set HaveOne 0
+  foreach SubLog $Logs \
+  {
+    set SplitLog [split $SubLog "\n"]
+    regexp "date: (\[0-9\]+)/(\[0-9\]+)/(\[0-9\]+) (\[^;\]+);" [lindex $SplitLog 1] Date Year Month Day Time 
+    regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy FileStatus($File,LastReportedRevision)
+    set FileStatus($File,RevisionLog,$i,PreviousRevision) $FileStatus($File,LastReportedRevision)
+    regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy FileStatus($File,RevisionLog,$i,Revision)
+
+    if { $i != 0 } \
+    {
+      set FileStatus($File,RevisionLog,[expr $i - 1],PreviousRevision) $FileStatus($File,RevisionLog,$i,Revision)
+    }
+
+    #
+    # Check to see if the date is still today
+    # Always capture at least one revision...
+    if { [clock scan "$Time $Month/$Day/$Year"] < $YesterdayTS && $HaveOne} \
+    {
+      break
+    }
+    set HaveOne 1
+
+
+    regexp "date: (\[^;\]+);  author: (\[^;\]+);" [lindex $SplitLog 1] dummy FileStatus($File,RevisionLog,$i,Date) FileStatus($File,RevisionLog,$i,Author)
+    foreach l [lrange $SplitLog 2 end] \
+    {
+      if { $l != {} } \
+      {
+	append FileStatus($File,RevisionLog,$i,Comment) "$l\n"
+      }
+    }
+    incr i
+    incr FileStatus($File,SelectedRevisions)
+
+    
+  }
+  
 }
   
 # Do the update
 # Update to a particular time, but to do later.
 # clock format [clock scan today] -format "%Y-%m-%d 23:00 %Z" -gmt 1
 
-set UpdateCommand "$cvs update -d -P -A"
+set UpdateCommand "$cvs -n update -d -P -A"
 
+set UseDates 0
 if { $Model == "Nightly" } \
 {
   # For the moment, just get latest source
   # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
-  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00"]
-  set Yesterday [clock format [expr [clock seconds] - 24 * 60 * 60] -format "%Y-%m-%d 3:00"]
-  puts "Today $Today, Yesterday $Yesterday"
-  set UpdateCommand "$UpdateCommand -D $Today"
+  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00:00"]
+
+  set Yesterday [clock format [expr [clock seconds] - 24 * 60 * 60] -format "%Y-%m-%d 3:00:00"]
+
+  set YesterdayTS [clock scan [clock format [expr [clock seconds] - 24 * 60 * 60] -format "3:00:00 %m/%d/%Y"]]
+
+  
+  # puts "Today $Today, Yesterday $Yesterday"
+  # set UpdateCommand "$UpdateCommand -D $Today"
+  set UseDates 1
 }
   
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
@@ -66,59 +147,55 @@ while { ![eof $Update] } \
   set Line [gets $Update]
   if { [regexp "^U " $Line] || [regexp "^P " $Line] } \
   {
-    set FileStatus([lindex $Line 1]) Updated
+    set FileStatus([lindex $Line 1],Status) Updated
     lappend Files [lindex $Line 1]
   }
   if { [regexp "^C " $Line] } \
   {
-    set FileStatus([lindex $Line 1]) Conflicting
+    set FileStatus([lindex $Line 1],Status) Conflicting
     lappend Files [lindex $Line 1]
   }
   if { [regexp "^M " $Line] } \
   {
-    set FileStatus([lindex $Line 1]) Modified
+    set FileStatus([lindex $Line 1],Status) Modified
     lappend Files [lindex $Line 1]
   }
   
 }
 close $Update
-catch { file delete -force update.tmp }
+# catch { file delete -force update.tmp }
 
 # Get a little bit of info for each file
 foreach File $Files \
 {
-  set lastRevision [lindex [exec $cvs log -N -r $File | grep "revision "] 1]
-  set allRevisions  [exec $cvs log -N -r:$lastRevision  $File | grep "revision "]
-  set priorRevision [lindex $allRevisions 3]
-  set Log [GetLog $File]
-
-  puts $Out "\t<$FileStatus($File)>"
+  LoadCVSInformation $File
+  # parray FileStatus "*$File*"
+  puts $Out "\t<$FileStatus($File,Status)>"
   puts $Out "\t\t<File Directory=\"[file dir $File]\">[file tail $File]</File>"
   puts $Out "\t\t<FullName>$File</FullName>"
 
-  set Log [GetLog $File]
-  # Try to get autor and date
-  set Date ""
-  set Author ""
-  regexp "date:(\[^;\]*)" $Log a Date
-  regexp "author:(\[^;\]*)" $Log a Author
-  set Author [string trim $Author]
-  set Date [string trim $Date]
-  lappend AuthorList($Author) $File
-
   lappend DirectoryList([file dir $File]) [file tail $File]
-  
-  puts $Out "\t\t<CheckinDate>[XMLSafeString [string trim $Date]]</CheckinDate>"
-  puts $Out "\t\t<Author>[XMLSafeString [string trim $Author]]</Author>"
+  lappend AuthorList($FileStatus($File,RevisionLog,0,Author)) $File
   
   
-  puts $Out "\t\t<Log>[XMLSafeString $Log]</Log>"
-  puts $Out "\t\t<Revision>$lastRevision</Revision>"
-  if { $priorRevision != "" } \
+  puts $Out "\t\t<CheckinDate>[XMLSafeString $FileStatus($File,RevisionLog,0,Date)]</CheckinDate>"
+  puts $Out "\t\t<Author>[XMLSafeString $FileStatus($File,RevisionLog,0,Author)]</Author>"
+  
+  
+  puts $Out "\t\t<Log>[XMLSafeString $FileStatus($File,RevisionLog,0,Comment)]</Log>"
+  puts $Out "\t\t<Revision>$FileStatus($File,Head)</Revision>"
+  puts $Out "\t\t<PriorRevision>$FileStatus($File,LastReportedRevision)</PriorRevision>"
+
+  for { set i 0 } { $i < $FileStatus($File,SelectedRevisions) } { incr i } \
   {
-    puts $Out "\t\t<PriorRevision>$priorRevision</PriorRevision>"
+    puts $Out "\t\t<Revisions>"
+    foreach Field [list Revision PreviousRevision Author Date Comment] \
+    {
+      puts $Out "\t\t\t<$Field>$FileStatus($File,RevisionLog,$i,$Field)</$Field>"
+    }    
+    puts $Out "\t</Revisions>"
   }
-  puts $Out "\t</$FileStatus($File)>"
+  puts $Out "\t</$FileStatus($File,Status)>"
 
 }
 
