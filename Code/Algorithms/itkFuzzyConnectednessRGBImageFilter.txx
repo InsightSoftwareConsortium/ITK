@@ -285,7 +285,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
-::ExcuteSegment()
+::GenerateData()
 {
   IndexType current;
   unsigned short fmax;
@@ -388,6 +388,14 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 	}
   }
 
+  MakeSegmentObject();
+}
+
+template <class TInputImage, class TOutputImage>
+void 
+FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
+::UpdateThreshold(double x){
+  SetThreshold(x);
   MakeSegmentObject();
 }
 
