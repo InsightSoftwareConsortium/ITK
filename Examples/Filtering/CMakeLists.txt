@@ -31,6 +31,9 @@ TARGET_LINK_LIBRARIES(BinaryMedianImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFilter.cxx )
 TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(VotingBinaryIterativeHoleFillingImageFilter VotingBinaryIterativeHoleFillingImageFilter.cxx )
+TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
 
@@ -245,6 +248,30 @@ ADD_TEST( VotingBinaryHoleFillingImageFilterTest3 ${FILTERING_EXAMPLES2}
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
         3 3
+)
+ADD_TEST( VotingBinaryIterativeHoleFillingImageFilterTest1 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter1.png
+            ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
+  VotingBinaryIterativeHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
+        1 1 10
+)
+ADD_TEST( VotingBinaryIterativeHoleFillingImageFilterTest2 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter2.png
+            ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
+  VotingBinaryIterativeHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
+        2 2 10
+)
+ADD_TEST( VotingBinaryIterativeHoleFillingImageFilterTest3 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter3.png
+            ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
+  VotingBinaryIterativeHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
+        3 3 10
 )
 ADD_TEST( BinomialBlurImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/BinomialBlurImageFilter.png
