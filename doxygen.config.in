@@ -42,7 +42,7 @@ OUTPUT_LANGUAGE       = English
 # top of each HTML page. The value NO (the default) enables the index and 
 # the value YES disables it. 
 
-DISABLE_INDEX         = NO
+DISABLE_INDEX         = YES
 
 # If the EXTRACT_ALL tag is set to YES doxygen will assume all entities in 
 # documentation are documented, even if no documentation was available. 
@@ -339,14 +339,14 @@ HTML_HEADER           = "@ITK_SOURCE_DIR@/Documentation/DoxygenHeader.html"
 # each generated HTML page. If it is left blank doxygen will generate a 
 # standard footer.
 
-HTML_FOOTER           = 
+HTML_FOOTER           = "@ITK_SOURCE_DIR@/Documentation/DoxygenFooter.html"
 
 # The HTML_STYLESHEET tag can be used to specify a user defined cascading 
 # style sheet that is used by each HTML page. It can be used to 
 # fine-tune the look of the HTML output. If the tag is left blank doxygen 
 # will generate a default style sheet 
 
-HTML_STYLESHEET       = 
+HTML_STYLESHEET       =  "@ITK_SOURCE_DIR@/Documentation/DoxygenStyle.css"
 
 # If the HTML_ALIGN_MEMBERS tag is set to YES, the members of classes, 
 # files or namespaces will be aligned in HTML using tables. If set to 
