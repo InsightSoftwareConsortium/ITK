@@ -17,6 +17,7 @@
 #ifndef __itkImageMoments_h
 #define __itkImageMoments_h
 
+#include "itkAffineTransform.h"
 #include "itkMacro.h"
 
 #include "vnl/vnl_vector_fixed.h"
@@ -63,47 +64,155 @@ class ImageMoments
 {
 public:
 
-    // Abbreviated types for use in this class
+    /// Standard self typedef
+    typedef ImageMoments<TPixel, VRank>            Self;
+
     /// Standard scalar type within this class.
     typedef double                                 ScalarType;
+
     /// Standard vector type within this class.
     typedef vnl_vector_fixed<double,VRank>         VectorType;
+
     /// Standard matrix type within this class.
     typedef vnl_matrix_fixed<double,VRank,VRank>   MatrixType;
-    /// Standard image type within this class.
-    typedef typename Image<TPixel, VRank>::Pointer ImageType;
 
-    
-    // Compute moments for a new or modified image
+    /// Standard image type within this class.
+    typedef Image<TPixel, VRank>::Pointer ImageType;
+
+    /// Standard affine transform type for this class
+    typedef AffineTransform<double, VRank> AffineTransformType;
+
+    /**
+     * Compute moments of a new or modified image.
+     *
+     * This method computes the moments of the image given as a
+     * parameter and stores them in the object.  The values of these
+     * moments and related parameters can then be retrieved by using
+     * other methods of this object.
+     *
+     *  FIXME: Algorithm works for rank 3 images only.
+     *
+     */
     void ComputeMoments(ImageType &image);
 
-    // Get sum of intensities
+    /**
+     * Return the total mass (or zeroth moment) of an image.
+     *
+     * This method returns the sun of pixel intensities (also known as
+     * the zeroth moment or the total mass) of the image whose moments
+     * were last computed by this object.
+     */
     ScalarType GetTotalMass();
 
-    // Get first moments about origin, in index coordinates
+    /**
+     * Return first moments about origin, in index coordinates.
+     *
+     * This method returns the first moments around the origin of the
+     * image whose moments were last computed by this object.  For
+     * simplicity, these moments are computed in index coordinates
+     * rather than physical coordinates.
+     */
     VectorType GetFirstMoments();
 
-    // Get second moments about origin, in index coordinates
+    /**
+     * Return second moments about origin, in index coordinates.
+     *
+     * This method returns the second moments around the origin
+     * of the image whose moments were last computed by this object.
+     * For simplicity, these moments are computed in index coordinates
+     * rather than physical coordinates.
+     */
     MatrixType GetSecondMoments();
 
-    // Get center of gravity, in physical coordinates
+    /**
+     * Return center of gravity, in physical coordinates.
+     *
+     * This method returns the center of gravity of the image whose
+     * moments were last computed by this object.  The center of
+     * gravity is computed in physical coordinates.
+     */
     VectorType GetCenterOfGravity();
 
-    // Get second central moments, in physical coordinates
+    /**
+     * Return second central moments, in physical coordinates.
+     *
+     * This method returns the central second moments of the image
+     * whose moments were last computed by this object.  The central
+     * moments are computed in physical coordinates.
+     */
     MatrixType GetCentralMoments();
 
-    // Get principal moments, in physical coordinates
+    /**
+     * Return principal moments, in physical coordinates.
+     *
+     * This method returns the principal moments of the image whose
+     * moments were last computed by this object.  The moments are
+     * returned as a vector, with the principal moments ordered from
+     * smallest to largest.  The moments are computed in physical
+     * coordinates.  
+     */
     VectorType GetPrincipalMoments();
 
-    // Get principal axes, in physical coordinates
+    /**
+     * Return principal axes, in physical coordinates.
+     *
+     * This method returns the principal axes of the image whose
+     * moments were last computed by this object.  The moments are
+     * returned as an orthogonal matrix, each row of which corresponds
+     * to one principal moment; for example, the principal axis
+     * corresponding to the smallest principal moment is the vector
+     * m[0], where m is the value returned by this method.  The matrix
+     * of principal axes is guaranteed to be a proper rotation; that
+     * is, to have determinant +1 and to preserve parity.  (Unless you
+     * have foolishly made one or more of the spacing values negative;
+     * in that case, _you_ get to figure out the consequences.)  The
+     * moments are computed in physical coordinates.
+     *
+     */
     MatrixType GetPrincipalAxes();
 
-    /* Constructors  */
+    /**
+     * Get the affine transform from principal axes to physical axes
+     *
+     * This method returns an affine transform which transforms from
+     * the principal axes coordinate system to physical coordinates.
+     *
+     */
+    AffineTransformType GetPrincipalAxesToPhysicalTransform(void);
+
+    /**
+     * Get the affine transform from physical axes to principal axes
+     *
+     * This method returns an affine transform which transforms from
+     * the physical coordinate system to the principal axes coordinate
+     * system.
+     *
+     */
+    AffineTransformType GetPhysicalToPrincipalAxesTransform(void);
+
+    /** 
+     * Construct an ImageMoments object.
+     *
+     * This method constructs a new ImageMoments object that contains no
+     * stored moments information; this information can be added later
+     * by calling the ComputeMoments method.
+     */    
     ImageMoments();            // Create w/o summing moments
+
+    /**
+     * Compute moments of an image and save in an ImageMoments object.
+     *
+     * This method constructs a new ImageMoments object and stores in
+     * it the moments of the image given as argument.  The values of
+     * these moments and related parameters can be retrieved by using
+     * other methods of the object constructed.
+     */
     ImageMoments(              // Create and sum moments of an image
 	ImageType &image);
 
-    /* Destructor */
+    /**
+     * Destroy an ImageMoments object.
+     */
     ~ImageMoments();
 
 private:

@@ -21,30 +21,17 @@
 
 namespace itk
 { 
-  template<class TPixel, int VRank> const char* 
-  ImageMoments<TPixel, VRank>::notvalid
-  = "No valid image moments are available.";
+    template<class TPixel, int VRank> const char* 
+    ImageMoments<TPixel, VRank>::notvalid
+    = "No valid image moments are available.";
 
-    /** 
-     * Construct an ImageMoments object.
-     *
-     * This method constructs a new ImageMoments object that contains no
-     * stored moments information; this information can be added later
-     * by calling the ComputeMoments method.
-     */    
+    // Construct without computing moments
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::ImageMoments(void) {
 	m_valid = 0;
     }
 
-    /**
-     * Compute moments of an image and save in an ImageMoments object.
-     *
-     * This method constructs a new ImageMoments object and stores in
-     * it the moments of the image given as argument.  The values of
-     * these moments and related parameters can be retrieved by using
-     * other methods of the object constructed.
-     */
+    // Construct and compute moments
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::
     ImageMoments(
@@ -53,26 +40,14 @@ namespace itk
 	    ComputeMoments(image);
 	}
 
-    /**
-     * Destroy an ImageMoments object.
-     */
+    // Destructor
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::
     ~ImageMoments()
     {
     }
 
-    /**
-     * Compute moments of a new or modified image.
-     *
-     * This method computes the moments of the image given as a
-     * parameter and stores them in the object.  The values of these
-     * moments and related parameters can then be retrieved by using
-     * other methods of this object.
-     *
-     *  FIXME: Algorithm works for rank 3 images only.
-     *
-     */
+    // Compute moments for a new or modified image
     template<class TPixel, int VRank>
     void
     ImageMoments<TPixel, VRank>::
@@ -195,13 +170,8 @@ namespace itk
 	m_valid = 1;
     }
 
-    /**
-     * Return the total mass (or zeroth moment) of an image.
-     *
-     * This method returns the sun of pixel intensities (also known as
-     * the zeroth moment or the total mass) of the image whose moments
-     * were last computed by this object.
-     */
+
+    // Get sum of intensities
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::ScalarType
     ImageMoments<TPixel,VRank>::
@@ -211,14 +181,7 @@ namespace itk
 	return m_m0;
     }
 
-    /**
-     * Return first moments about origin, in index coordinates.
-     *
-     * This method returns the first moments around the origin of the
-     * image whose moments were last computed by this object.  For
-     * simplicity, these moments are computed in index coordinates
-     * rather than physical coordinates.
-     */
+    // Get first moments about origin, in index coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::VectorType
     ImageMoments<TPixel,VRank>::
@@ -228,14 +191,7 @@ namespace itk
 	return m_m1;
     }
 
-    /**
-     * Return second moments about origin, in index coordinates.
-     *
-     * This method returns the second moments around the origin
-     * of the image whose moments were last computed by this object.
-     * For simplicity, these moments are computed in index coordinates
-     * rather than physical coordinates.
-     */
+    // Get second moments about origin, in index coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::MatrixType
     ImageMoments<TPixel,VRank>::
@@ -245,13 +201,7 @@ namespace itk
 	return m_m2;
     }
 
-    /**
-     * Return center of gravity, in physical coordinates.
-     *
-     * This method returns the center of gravity of the image whose
-     * moments were last computed by this object.  The center of
-     * gravity is computed in physical coordinates.
-     */
+    // Get center of gravity, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::VectorType
     ImageMoments<TPixel, VRank>::
@@ -261,13 +211,7 @@ namespace itk
 	return m_cg;
     }
 
-    /**
-     * Return second central moments, in physical coordinates.
-     *
-     * This method returns the central second moments of the image
-     * whose moments were last computed by this object.  The central
-     * moments are computed in physical coordinates.
-     */
+    // Get second central moments, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::MatrixType
     ImageMoments<TPixel, VRank>::
@@ -277,15 +221,7 @@ namespace itk
 	return m_cm;
     }
 
-    /**
-     * Return principal moments, in physical coordinates.
-     *
-     * This method returns the principal moments of the image whose
-     * moments were last computed by this object.  The moments are
-     * returned as a vector, with the principal moments ordered from
-     * smallest to largest.  The moments are computed in physical
-     * coordinates.  
-     */
+    // Get principal moments, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::VectorType
     ImageMoments<TPixel, VRank>::
@@ -295,20 +231,7 @@ namespace itk
 	return m_pm;
     }
 
-    /**
-     * Return principal axes, in physical coordinates.
-     *
-     * This method returns the principal axes of the image whose
-     * moments were last computed by this object.  The moments are
-     * returned as an orthogonal matrix, each row of which corresponds
-     * to one principal moment; for example, the principal axis
-     * corresponding to the smallest principal moment is the vector
-     * m[0], where m is the value returned by this method.  The matrix
-     * of principal axes is guaranteed to be a proper rotation; that
-     * is, to have determinant +1 and to preserve parity.  (Unless you
-     * have foolishly made one or more of the spacing values negative;
-     * in that case, _you_ get to figure out the consequences.)  The
-     * moments are computed in physical coordinates.  */
+    // Get principal axes, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::MatrixType
     ImageMoments<TPixel, VRank>::
