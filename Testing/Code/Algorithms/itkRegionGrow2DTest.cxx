@@ -347,8 +347,8 @@ unsigned int test_regiongrowKLM1D()
 
   ImageType::Pointer image  = ImageType::New();
 
-  int numPixels = 100;
-  int numPixelsHalf = 50;
+  unsigned int numPixels = 100;
+  unsigned int numPixelsHalf = 50;
   ImageType::SizeType imageSize;
   imageSize.Fill( numPixels );
 
@@ -370,7 +370,7 @@ unsigned int test_regiongrowKLM1D()
 
   typedef ImageType::PixelType::VectorType ImageData;
   ImageData   pixelData;
-  int k = 0;
+  unsigned int k = 0;
   while ( inIt != inItEnd ) {
     pixelData[0] = static_cast<unsigned char>( k );
     pixelData[1] = static_cast<unsigned char>( numPixels - k - 1 );
@@ -582,7 +582,7 @@ unsigned int test_regiongrowKLM1D()
   std::cout << std::endl << "Third test, merge to " << nregions <<
     " regions" << std::endl;
 
-  int numPixelsQtr = numPixelsHalf / 2;
+  unsigned int numPixelsQtr = numPixelsHalf / 2;
   k = 0;
   inIt.GoToBegin();
   while ( inIt != inItEnd ) {
@@ -847,7 +847,7 @@ unsigned int test_regiongrowKLM2D()
   ImageType::SizeType imageSize;
   imageSize[0] = 10;
   imageSize[1] = 20;
-  int numPixels = 200;
+  unsigned int numPixels = 200;
 
   ImageType::IndexType index;
   index.Fill(0);
@@ -1086,7 +1086,7 @@ unsigned int test_regiongrowKLM2D()
     "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e45 );
-  int nregions = 8;
+  unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions( nregions );
 
   // Kick off the Region grow function
@@ -1313,7 +1313,7 @@ unsigned int test_regiongrowKLM3D()
   imageSize[0] = 10;
   imageSize[1] = 20;
   imageSize[2] = 3;
-  int numPixels = 10 * 20 * 3;
+  unsigned int numPixels = 10 * 20 * 3;
 
   ImageType::IndexType index;
   index.Fill(0);
@@ -1681,7 +1681,7 @@ unsigned int test_regiongrowKLM3D()
     "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda( 1e45 );
-  int nregions = 8;
+  unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions( nregions );
 
   // Kick off the Region grow function
@@ -1909,7 +1909,7 @@ unsigned int test_regiongrowKLM4D()
   imageSize[1] = 3 * multVal;
   imageSize[2] = 5 * multVal;
   imageSize[3] = 7 * multVal;
-  int numPixels = imageSize[0] * imageSize[1]  * imageSize[2]  * imageSize[3];
+  unsigned int numPixels = imageSize[0] * imageSize[1]  * imageSize[2]  * imageSize[3];
 
   ImageType::IndexType index;
   index.Fill(0);
@@ -1969,7 +1969,7 @@ unsigned int test_regiongrowKLM4D()
 
   KLMFilter->SetMaximumLambda( 0 );
 
-  int nregions = 3;
+  unsigned int nregions = 3;
   KLMFilter->SetMaximumNumberOfRegions( nregions );
 
   // Kick off the Region grow function
@@ -2136,7 +2136,7 @@ unsigned int test_regiongrowKLM4D()
     pixelLabel = labelIt2.Get();
     pixelIn = inIt.Get();
 
-    if(pixelLabel != pixelIn[0])
+    if(pixelLabel != static_cast<LabelType>(pixelIn[0]))
       {
       std::cout << "k = " << k
                 << " pixelLabel = " << pixelLabel
