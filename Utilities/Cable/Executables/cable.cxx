@@ -4,8 +4,8 @@
 #include "parseConfigXML.h"
 #include "parseSourceXML.h"
 
-extern void generateTcl(Namespace* globalNamespace);
-extern void displayTree(Namespace* globalNamespace);
+extern void generateTcl(Namespace* globalNamespace, WrapperConfiguration*);
+extern void displayTree(Namespace* globalNamespace, WrapperConfiguration*);
 
 
 /**
@@ -16,7 +16,7 @@ struct WrapperGenerator
   char* languageName;            // Name of wrapping language.
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
-  void (*generate)(Namespace*);  // Generation function.
+  void (*generate)(Namespace*, WrapperConfiguration*);  // Generation function.
 };
 
 
@@ -36,58 +36,75 @@ WrapperGenerator wrapperGenerators[] =
  */
 FILE* inputFile = NULL;
 
+/**
+ * If the command line override's the configuration file's output name,
+ * this is set to the new file name.
+ */
+char* outputFile = NULL;
+
 void processCommandLine(int argc, char* argv[]);
 
 /**
  * Program entry point.
  */
-int main(int argc, char* argv[]) try
+int main(int argc, char* argv[])
 {
+  try {
   processCommandLine(argc, argv);
-
+  
   // Store the configuration.
-  WrapperConfiguration::Pointer configuration
-    = ParseConfigXML(inputFile);
+  WrapperConfiguration::Pointer configuration =
+    ParseConfigXML(inputFile);
 
-  fclose(inputFile);
+  // If needed, override output file name.
+  if(outputFile)
+    {
+    configuration->SetOutputFile(outputFile);
+    }
   
-  /**
-   * Parse the source XML input.
-   */
-  Namespace::Pointer globalNamespace
-    = ParseSourceXML(configuration->GetSourceXML());
+  // Parse the source XML input.
+  Namespace::Pointer globalNamespace =
+    ParseSourceXML(configuration->GetSourceXML());
+
+  // Make sure all the types requested were in the translation unit.
+  if(!configuration->FindTypes(globalNamespace))
+    {
+    fprintf(stderr, "Not all types defined in namespace...these are missing:\n");
+    configuration->PrintMissingTypes(stderr);
+    exit(1);
+    }
   
-  /**
-   * Generate all wrappers requested.
-   */
+  // Generate all wrappers requested.
   for(WrapperGenerator* wrapperGenerator = wrapperGenerators;
       wrapperGenerator->languageName;
       ++wrapperGenerator)
     {
     if(wrapperGenerator->flag)
       {
-      printf("Generating %s wrappers...\n", wrapperGenerator->languageName);
-      wrapperGenerator->generate(globalNamespace);
+      fprintf(stderr, "Generating %s wrappers...\n",
+              wrapperGenerator->languageName);
+      wrapperGenerator->generate(globalNamespace, configuration);
       }
     }
-  printf("Done.\n");
-
+  fprintf(stderr, "Done.\n");
+  }
+  catch(String s)
+    {
+    fprintf(stderr, "main(): Caught exception:\n%s\n", s.c_str());
+    return 1;
+    }
+  catch(char* s)
+    {
+    fprintf(stderr, "main(): Caught exception:\n%s\n", s);
+    return 1;
+    }
+  catch(...)
+    {
+    fprintf(stderr, "main(): Caught unknown exception!\n");
+    return 1;
+    }
+  
 return 0;
-}
-catch(String s)
-{
-  fprintf(stderr, "main(): Caught exception:\n%s\n", s.c_str());
-  exit(1);
-}
-catch(char* s)
-{
-  fprintf(stderr, "main(): Caught exception:\n%s\n", s);
-  exit(1);
-}
-catch(...)
-{
-  fprintf(stderr, "main(): Caught unknown exception!\n");
-  exit(1);
 }
 
 
@@ -118,6 +135,12 @@ void processCommandLine(int argc, char* argv[])
         }
       }
 
+    if(strcmp("-o", argv[curArg]) == 0)
+      {
+      found = true;
+      outputFile = argv[++curArg];
+      }
+    
     /**
      * Assume the option specifies input.
      */
@@ -134,7 +157,7 @@ void processCommandLine(int argc, char* argv[])
 
   if(!inputFile)
     {
-    printf("Using standard input.\n");
+    fprintf(stderr, "Using standard input.\n");
     inputFile = stdin;
     }
 }

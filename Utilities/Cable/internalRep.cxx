@@ -8,7 +8,7 @@
 /**
  * Convert the given string to a valid C identifier.
  */
-static String GetValid_C_Identifier(const String& in_name)
+String GetValid_C_Identifier(const String& in_name)
 {
   static const char* builtin[][2]
     = { {"+", "__plus"},
@@ -857,7 +857,7 @@ Context
 {
   String name = this->GetName();
   const Context* c = this->GetContext().RealPointer();
-  while(c)
+  while(c && c->GetContext())
     {
     name = c->GetName() + "::" + name;
     c = c->GetContext().RealPointer();

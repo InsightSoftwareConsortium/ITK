@@ -1304,8 +1304,9 @@ void Initialize(void)
  * Checks the tag name, and calls the appropriate handler with an
  * Attributes container.
  */
-void StartElement(void *, const char *name, const char **atts) try
+void StartElement(void *, const char *name, const char **atts)
 {
+  try{
   if(beginHandlers.count(name) > 0)
     {
     Attributes attributes;
@@ -1319,22 +1320,23 @@ void StartElement(void *, const char *name, const char **atts) try
     {
     throw UnknownElementTagException(__FILE__, __LINE__, name);
     }
-}
-catch (const ParseException& e)
-{
-  e.PrintLocation(stderr);
-  e.Print(stderr);
-  exit(1);
-}
-catch (const String& e)
-{
-  fprintf(stderr, "Caught exceptoin in StartElement():\n%s\n", e.c_str());
-  exit(1);
-}
-catch (...)
-{
-  fprintf(stderr, "Caught unknown exception in StartElement().\n");
-  exit(1);
+  }
+  catch (const ParseException& e)
+    {
+    e.PrintLocation(stderr);
+    e.Print(stderr);
+    exit(1);
+    }
+  catch (const String& e)
+    {
+    fprintf(stderr, "Caught exceptoin in StartElement():\n%s\n", e.c_str());
+    exit(1);
+    }
+  catch (...)
+    {
+    fprintf(stderr, "Caught unknown exception in StartElement().\n");
+    exit(1);
+    }
 }
 
 
@@ -1342,8 +1344,9 @@ catch (...)
  * Called at the end of an element in the XML source opened when
  * StartElement was called.
  */
-void EndElement(void *, const char *name) try
+void EndElement(void *, const char *name)
 {
+  try {
   if(endHandlers.count(name) > 0)
     {
     endHandlers[name]();
@@ -1352,21 +1355,21 @@ void EndElement(void *, const char *name) try
     {
     throw UnknownElementTagException(__FILE__, __LINE__, name);
     }
+  }
+  catch (const ParseException& e)
+    {
+    e.PrintLocation(stderr);
+    e.Print(stderr);
+    exit(1);
+    }
+  catch (const String& e)
+    {
+    fprintf(stderr, "Caught exceptoin in EndElement():\n%s\n", e.c_str());
+    exit(1);
+    }
+  catch (...)
+    {
+    fprintf(stderr, "Caught unknown exception in EndElement().\n");
+    exit(1);
+    }
 }
-catch (const ParseException& e)
-{
-  e.PrintLocation(stderr);
-  e.Print(stderr);
-  exit(1);
-}
-catch (const String& e)
-{
-  fprintf(stderr, "Caught exceptoin in EndElement():\n%s\n", e.c_str());
-  exit(1);
-}
-catch (...)
-{
-  fprintf(stderr, "Caught unknown exception in EndElement().\n");
-  exit(1);
-}
-

@@ -119,6 +119,14 @@ public:
     {
       return (this->GetAsInteger(a) != 0);
     }
+
+  /**
+   * Check if an attribute is available.
+   */
+  bool Have(String a) const
+    {
+      return (m_Attrs.count(a) > 0);
+    }
   
 private:
   std::map<String, String>  m_Attrs;

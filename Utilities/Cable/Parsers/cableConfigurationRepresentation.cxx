@@ -127,9 +127,9 @@ WrapType
  */
 WrapperConfiguration::Pointer
 WrapperConfiguration
-::New(const String& fileName)
+::New(const String& source, const String& dest)
 {
-  return new WrapperConfiguration(fileName);
+  return new WrapperConfiguration(source, dest);
 }
 
 
@@ -140,13 +140,37 @@ FILE*
 WrapperConfiguration
 ::GetSourceXML(void) const
 {
-  FILE* f = fopen(m_FileName.c_str(), "rt");
+  FILE* f = fopen(m_Source.c_str(), "rt");
   if(!f)
     {
-    throw String("Error opening XML source file: ")+m_FileName+"\n";
+    throw String("Error opening XML source file: ")+m_Source+"\n";
     }
   
   return f;
+}
+
+
+/**
+ * Return a FILE pointer to the output file specified in the configuration.
+ */
+FILE*
+WrapperConfiguration
+::GetOutputFile(void) const
+{
+  if(m_Dest.length() == 0)
+    {
+    return stdout;
+    }
+  else
+    {
+    FILE* f = fopen(m_Dest.c_str(), "rt");
+    if(!f)
+      {
+      throw String("Error opening output file: ")+m_Dest+"\n";
+      }
+    
+    return f;
+    }
 }
 
 
@@ -157,13 +181,102 @@ void
 WrapperConfiguration
 ::Print(FILE* file) const
 {
-  fprintf(file, "<WrapperConfiguration source=\"%s\">\n",
-          m_FileName.c_str());
+  fprintf(file, "<WrapperConfiguration source=\"%s\" dest=\"%s\">\n",
+          m_Source.c_str(), m_Dest.c_str());
   for(WrapTypesConstIterator w = m_WrapTypes.begin();
       w != m_WrapTypes.end(); ++w)
     {
-    (*w)->Print(file);
+    w->second->Print(file);
     }
   fprintf(file, "</WrapperConfiguration>\n");
 }
 
+
+/**
+ * Print out the list of names of WrapType s that do not know about
+ * their Class definitions.
+ */
+void
+WrapperConfiguration
+::PrintMissingTypes(FILE* file) const
+{
+  for(WrapTypesConstIterator w = m_WrapTypes.begin();
+      w != m_WrapTypes.end(); ++w)
+    {
+    if(!w->second->HaveClass())
+      {
+      fprintf(file, "%s\n", w->first.c_str());
+      }
+    }
+}
+
+
+/**
+ * Given a namespace, try to find the Class representations of all the
+ * WrapTypes.  Return whether they were all found.
+ *
+ * This is done by walking all the namespaces and classes, and comparing
+ * the fully qualified names with those needed.  When a match is found,
+ * the entry is set.
+ */
+bool
+WrapperConfiguration
+::FindTypes(Namespace* globalNamespace)
+{
+  this->FindTypesInNamespace(globalNamespace);
+
+  // Check if all types have been found.
+  for(WrapTypesConstIterator w = m_WrapTypes.begin();
+      w != m_WrapTypes.end(); ++w)
+    {
+    if(!w->second->HaveClass())
+      {
+      return false;
+      }
+    }
+  return true;
+}
+
+
+/**
+ * Helper to FindTypes to walk a Namespace.
+ */
+void
+WrapperConfiguration
+::FindTypesInNamespace(Namespace* ns)
+{
+  for(ClassesIterator c = ns->GetClasses().begin();
+      c != ns->GetClasses().end(); ++c)
+    {
+    this->FindTypesInClass(*c);
+    }
+  for(NamespacesIterator n = ns->GetNamespaces().begin();
+      n != ns->GetNamespaces().end(); ++n)
+    {
+    this->FindTypesInNamespace(*n);
+    }
+}
+
+
+/**
+ * Helper to FindTypes to walk a Class.
+ */
+void
+WrapperConfiguration
+::FindTypesInClass(Class* cl)
+{
+  String name = cl->GetQualifiedName();
+  
+  // See if this class a desired type.
+  if((m_WrapTypes.count(name) > 0)
+     && !m_WrapTypes[name]->HaveClass())
+    {
+    m_WrapTypes[name]->SetClass(cl);
+    }
+  
+  for(ClassesIterator c = cl->GetClasses().begin();
+      c != cl->GetClasses().end(); ++c)
+    {
+    this->FindTypesInClass(*c);    
+    }
+}

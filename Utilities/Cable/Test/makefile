@@ -8,3 +8,7 @@ vect3Test: vect3Test.C
 
 itkDirectory.xml:
 	$(CXX) -fxml $(INSIGHT_INCLUDES) -o junk -c /home/kingb2/Insight/Code/Common/itkDirectory.cxx > itkDirectory.xml ; rm junk
+
+test1.xml: test1.cxx
+	$(CXX) -fxml -o junk -c test1.cxx >test1.xml; rm junk
+

@@ -1,12 +1,8 @@
 #ifndef _configRep_h
 #define _configRep_h
 
-#include <string>
-#include <vector>
-#include <cstdio>
-#include "referenceCount.h"
-
-typedef std::string String;
+#include <map>
+#include "internalRep.h"
 
 /**
  * Top-level base class for all configuration objects.
@@ -121,6 +117,11 @@ public:
   void SetDelete(Delete* d) { m_Delete = d; }
   Delete::Pointer GetDelete(void) { return m_Delete; }
   Delete::ConstPointer GetDelete(void) const { return m_Delete.RealPointer(); }
+
+  bool HaveClass(void) const { return (m_Class != NULL); }
+  void SetClass(Class* c) { m_Class = c; }
+  Class::Pointer GetClass(void) { return m_Class; }
+  Class::ConstPointer GetClass(void) const { return m_Class.RealPointer(); }
   
   void Print(FILE*) const;
   
@@ -134,11 +135,12 @@ private:
   String m_Name;
   Create::Pointer m_Create;
   Delete::Pointer m_Delete;
+  Class::Pointer  m_Class;
 };
 
-typedef std::vector<WrapType::Pointer>  WrapTypesContainer;
-typedef WrapTypesContainer::iterator    WrapTypesIterator;
-typedef WrapTypesContainer::const_iterator    WrapTypesConstIterator;
+typedef std::map<String, WrapType::Pointer>  WrapTypesContainer;
+typedef WrapTypesContainer::iterator         WrapTypesIterator;
+typedef WrapTypesContainer::const_iterator   WrapTypesConstIterator;
 
 /**
  * A collection of all configuration information for the wrappers.
@@ -150,9 +152,12 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& fileName);
+  static Pointer New(const String& source, const String& dest);
 
   FILE* GetSourceXML(void) const;
+  
+  void SetOutputFile(const String& dest) { m_Dest = dest; }
+  FILE* GetOutputFile(void) const;
   
   void SetDefaultCreate(Create* c) { m_DefaultCreate = c; }
   Create::Pointer GetDefaultCreate(void) { return m_DefaultCreate; }
@@ -164,18 +169,28 @@ public:
   Delete::ConstPointer GetDefaultDelete(void) const
     { return m_DefaultDelete.RealPointer(); }
 
-  void AddWrapType(WrapType* w) { m_WrapTypes.push_back(w); }
+  void AddWrapType(WrapType* w) { m_WrapTypes[w->GetName()] = w; }
 
   void Print(FILE*) const;
+  void PrintMissingTypes(FILE*) const;
+  
+  bool FindTypes(Namespace*);
   
 protected:
-  WrapperConfiguration(const String& fileName): m_FileName(fileName) {}
+  WrapperConfiguration(const String& source,
+                       const String& dest):
+    m_Source(source), m_Dest(dest) {}
   WrapperConfiguration(const Self&) {}
   void operator=(const Self&) {}
   virtual ~WrapperConfiguration() {}
-  
+
 private:
-  String m_FileName;
+  void FindTypesInNamespace(Namespace*);
+  void FindTypesInClass(Class*);
+
+private:
+  String m_Source;
+  String m_Dest;
   Create::Pointer m_DefaultCreate;
   Delete::Pointer m_DefaultDelete;
   WrapTypesContainer  m_WrapTypes;
