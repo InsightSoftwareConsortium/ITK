@@ -9,6 +9,7 @@ itkCommonHeaderTest
 itkImageAdaptorTest
 itkImageIteratorTest
 itkIteratorTests
+itkMatrixTest
 itkMeshInstanceTest
 itkMeshTest
 itkNeighborhoodOperatorTest
