@@ -79,6 +79,7 @@ public:
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  typedef typename Superclass::MatrixType           MatrixType;
   
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
