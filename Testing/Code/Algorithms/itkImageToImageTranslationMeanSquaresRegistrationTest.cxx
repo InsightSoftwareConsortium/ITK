@@ -13,7 +13,7 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImageToImageTranslationMeanSquaresRegistration.h"
 
@@ -36,8 +36,8 @@ int main()
   std::cout << "ImageToImageTranslationMeanSquares Registration Test \n \n";
 
   /*Allocate Images*/
-  typedef itk::Image<unsigned char,2>           ReferenceType;
-  typedef itk::Image<unsigned char,2>           TargetType;
+  typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
+  typedef itk::PhysicalImage<unsigned char,2>           TargetType;
 
   typedef itk::ImageToImageTranslationMeanSquaresRegistration<ReferenceType,TargetType> RegistrationType;
 
