@@ -295,7 +295,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  The output of this process is shown on figure
-  //  \ref{fig:ThresholdTransferFunctionAbove}.  The examples in this section
+  //  \ref{fig:ThresholdTransferFunctionOutside}.  The examples in this section
   //  also illustrate the limitations of this filter for performing
   //  segmentation by itself. These limitations are particularly noticeable in
   //  noisy images and in images lacking spatial uniformity as is the case of
