@@ -186,16 +186,15 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  Optimizer = OptimizerType::New();
 
-
   // Declaration of the CostFunction adaptor
   LMCostFunction::Pointer costFunction = LMCostFunction::New();
+
   typedef LMCostFunction::ParametersType ParametersType;
   ParametersType  parameters(LMCostFunction::SpaceDimension);
   costFunction->GetValue(parameters);
   
   std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << "\n";
-
-
+ 
   try 
     {
     Optimizer->SetCostFunction( costFunction.GetPointer() );
