@@ -72,6 +72,10 @@ public:
    * It invokes start and end methods and handles releasing data. */
   virtual void Write();
 
+  /** Aliased to Write() method. */
+  virtual void Update()
+    {this->Write();}
+  
 protected:
   Writer();
   ~Writer();

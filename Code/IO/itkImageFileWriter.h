@@ -125,6 +125,10 @@ public:
   virtual void Write();
   virtual void Write(const ImageIORegion& region);
 
+  /** Aliased to Write() method. */
+  virtual void Update()
+    {this->Write();}
+  
 protected:
   ImageFileWriter();
   ~ImageFileWriter();
