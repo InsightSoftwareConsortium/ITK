@@ -55,6 +55,7 @@ MetaSurface::
 ~MetaSurface()
 {
   Clear();
+  
   M_Destroy();
 }
 
@@ -109,6 +110,14 @@ Clear(void)
   if(META_DEBUG) std::cout << "MetaSurface: Clear" << std::endl;
   MetaObject::Clear();
   m_NPoints = 0;
+  // Delete the list of pointers to tubes.
+  PointListType::iterator it = m_PointList.begin();
+  while(it != m_PointList.end())
+  {
+    SurfacePnt* pnt = *it;
+    it++;
+    delete pnt;
+  }
   m_PointList.clear();
   strcpy(m_PointDim, "x y z v1x v1y v1z r g b");
   m_ElementType = MET_FLOAT;
