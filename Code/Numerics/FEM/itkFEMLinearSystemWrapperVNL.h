@@ -47,6 +47,9 @@ public:
   /* superclass */
   typedef LinearSystemWrapper SuperClass;
 
+  /* vector holding typedef */
+  typedef std::vector< vnl_sparse_matrix<Float>* > VectorHolder;
+
   /* constructor & destructor */
   LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(0), m_Vectors(0), m_Solutions(0) {}
   virtual ~LinearSystemWrapperVNL();
@@ -95,3 +98,5 @@ private:
 }} // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLinearSystemWrapperVNL_h
+
+
