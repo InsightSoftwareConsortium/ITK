@@ -19,7 +19,7 @@
 //
 // \index{itk::ThresholdSegmentationLevelSetImageFilter}
 //
-// The ThresholdSegmentationLevelSetImageFilter is an extension of threshold
+// The \doxygen{ThresholdSegmentationLevelSetImageFilter} is an extension of threshold
 // connected-component segmentation to the level-set framework.  The goal is to
 // define a range of intensity values that classify the tissue type of interest
 // and then base the propagation term of the level-set equation on that
@@ -369,7 +369,9 @@ int main( int argc, char *argv[] )
   //
   //  Let's run this application with the same data and parameters as the
   //  example given for \code{itk::ConnectedThreshold} in
-  //  section~\ref{sec:ConnectedThreshold}.
+  //  section~\ref{sec:ConnectedThreshold}. We will use a value of 5 as the
+  //  initial distance of the surface from the seed points.  The algorithm is
+  //  relatively insensitive to this initialization.
   //  Compare the results in
   //  figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter} with those in
   //  figure~\ref{fig:ConnectedThresholdOutput}. Notice how the smoothness 
