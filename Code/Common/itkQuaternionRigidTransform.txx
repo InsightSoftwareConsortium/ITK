@@ -28,9 +28,9 @@ template <class TScalarType>
 QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform():Superclass(SpaceDimension,ParametersDimension) 
 {
-  m_Offset.Fill( 0 );
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
   m_RotationMatrix = m_Rotation.rotation_matrix();
+  m_InverseMatrix  = m_RotationMatrix.GetTranspose();
   m_Parameters.Fill(0);
   m_Parameters[3] = 1.0;
 }
@@ -43,9 +43,7 @@ QuaternionRigidTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Offset: " << m_Offset   << std::endl;
   os << indent << "Rotation: " << m_Rotation << std::endl;
-  os << indent << "DirectMatrix: " << m_RotationMatrix   << std::endl;
   os << indent << "Parameters: " << m_Parameters   << std::endl;
 }
 
@@ -61,89 +59,8 @@ SetRotation(const VnlQuaternionType &rotation )
   // this is done to compensate for the transposed representation
   // between VNL and ITK
   m_RotationMatrix  = m_InverseRotation.rotation_matrix();
+  m_InverseMatrix = m_RotationMatrix.GetTranspose();
   return;
-}
-
-// Transform a point
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::OutputPointType
-QuaternionRigidTransform<TScalarType>::
-TransformPoint(const InputPointType &point) const 
-{
-
-  return m_RotationMatrix * point + m_Offset;
-
-}
-
-
-// Transform a vector
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::OutputVectorType
-QuaternionRigidTransform<TScalarType>::
-TransformVector(const InputVectorType &vect) const 
-{
-  return  m_RotationMatrix * vect;
-}
-
-
-// Transform a vnl_vector_fixed
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::OutputVnlVectorType
-QuaternionRigidTransform<TScalarType>::
-TransformVector(const InputVnlVectorType &vect) const 
-{
-  return  m_RotationMatrix * vect;
-}
-
-
-// Transform a CovariantVector
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::OutputCovariantVectorType
-QuaternionRigidTransform<TScalarType>::
-TransformCovariantVector(const InputCovariantVectorType &vect) const 
-{
-  // Covariant vectors are transformed like contravariant
-  // vectors under orthogonal transformations.
-  return  m_RotationMatrix * vect;
-}
-
-
-
-// Back transform a point
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::InputPointType
-QuaternionRigidTransform<TScalarType>::
-BackTransform(const OutputPointType &point) const 
-{
-  return m_InverseMatrix * (point - m_Offset);
-}
-
-// Back transform a vector
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::InputVectorType
-QuaternionRigidTransform<TScalarType>::
-BackTransform(const OutputVectorType &vect ) const 
-{
-  return  m_InverseMatrix * vect;
-}
-
-// Back transform a vnl_vector
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::InputVnlVectorType
-QuaternionRigidTransform<TScalarType>::
-BackTransform(const OutputVnlVectorType &vect ) const 
-{
-  return  m_InverseMatrix * vect;
-}
-
-
-// Back Transform a CovariantVector
-template<class TScalarType>
-typename QuaternionRigidTransform<TScalarType>::InputCovariantVectorType
-QuaternionRigidTransform<TScalarType>::
-BackTransform(const OutputCovariantVectorType &vect) const 
-{
-  return m_RotationMatrix * vect;
 }
 
 

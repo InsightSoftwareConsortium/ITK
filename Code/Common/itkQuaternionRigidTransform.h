@@ -18,10 +18,8 @@
 #define __itkQuaternionRigidTransform_h
 
 #include <iostream>
-#include "itkTransform.h"
+#include "itkRigid3DTransform.h"
 #include "vnl/vnl_quaternion.h"
-#include "itkPoint.h"
-#include "itkMatrix.h"
 
 namespace itk
 {
@@ -34,12 +32,12 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT QuaternionRigidTransform :
-        public Transform< TScalarType, 3, 3> // Dimensions of input and output spaces
+        public Rigid3DTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs.   */
   typedef QuaternionRigidTransform Self;
-  typedef Transform< TScalarType, 3, 3>     Superclass;
+  typedef Rigid3DTransform< TScalarType >     Superclass;
 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -48,7 +46,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuaternionRigidTransform, Transform );
+  itkTypeMacro( QuaternionRigidTransform, Rigid3DTransform );
 
   /** Scalar type.   */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -60,6 +58,7 @@ public:
   typedef typename Superclass::OutputVnlVectorType   OutputVnlVectorType;
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
   /** Parameters type.   */
   typedef typename Superclass::ParametersType  ParametersType;
   
@@ -80,7 +79,7 @@ public:
                       Superclass::OutputSpaceDimension);
 
   /** Standard matrix type for this class. */
-  typedef Matrix<ScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
+  typedef Superclass::MatrixType MatrixType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
@@ -89,11 +88,6 @@ public:
   typedef typename Superclass::InputPointType    InputPointType;
   typedef typename Superclass::OutputPointType   OutputPointType;
   
-  /** Get the offset of an QuaternionRigidTransform.
-   * This method returns the value of the offset of the
-   * QuaternionRigidTransform.   **/
-  const OffsetType & GetOffset(void) const
-    { return m_Offset; }
 
   /** Get the rotation from an QuaternionRigidTransform.
    * This method returns the value of the rotation of the
@@ -101,49 +95,11 @@ public:
   const VnlQuaternionType & GetRotation(void) const
     { return m_Rotation; }
 
-  /** Get the rotation Matrix from an QuaternionRigidTransform.
-   *
-   * This method returns the value of the rotation of the
-   * QuaternionRigidTransform.   **/
-  const MatrixType & GetRotationMatrix(void) const
-    { return m_RotationMatrix; }
-
-  /** Set the offset of a QuaternionRigidTransform.
-   *
-   * This method sets the offset of a QuaternionRigidTransform to a
-   * value specified by the user.   **/
-  void SetOffset(const OffsetType &offset)
-    { m_Offset = offset; return; }
 
   /** Set the rotation of the rigid transform.
    * This method sets the rotation of a QuaternionRigidTransform to a
    * value specified by the user. */
   void SetRotation(const VnlQuaternionType &rotation);
-
-  /** Transform by a rigid transformation.
-   * This method applies the affine transform given by self to a
-   * given point or vector, returning the transformed point or
-   * vector. */
-  OutputPointType     TransformPoint(const InputPointType  &point ) const;
-  OutputVectorType    TransformVector(const InputVectorType &vector) const;
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
-
-  OutputCovariantVectorType TransformCovariantVector(
-                                 const InputCovariantVectorType &vector) const;
-
-  /**
-   * Back transform by an rigid 3D transform
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
-   **/
-  inline InputPointType      BackTransform(const OutputPointType  &point ) const;
-  inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
-  inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
-
-  inline InputCovariantVectorType BackTransform(
-                                     const OutputCovariantVectorType &vector) const;
 
 
   /** Set the transformation from a container of parameters.
@@ -166,19 +122,9 @@ protected:
   ~QuaternionRigidTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Matrix representation of the rotation
-   * Should be protected in order to be modified
-   * by derived classes that instantiate an interface
-   * to rotation computation. */
-   MatrixType          m_RotationMatrix;
-   MatrixType          m_InverseMatrix;
-
 private:
   QuaternionRigidTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Offset of the transformation. */
-  OffsetType          m_Offset;
 
   /** Rotation of the transformation. */
   VnlQuaternionType   m_Rotation;
