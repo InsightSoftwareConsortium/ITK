@@ -93,8 +93,9 @@ public:
         std::cout << std::endl << std::endl;
         break;
       case  Command::IterationEvent:
-        std::cout << m_Optimizer->GetCurrentPosition() << "  ";
-        std::cout << m_Optimizer->GetValue() << std::endl;
+        std::cout << m_Optimizer->GetCurrentIteration() << " = ";
+        std::cout << m_Optimizer->GetValue() << " : ";
+        std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
         break;
       case  Command::EndEvent:
         std::cout << std::endl << std::endl;
