@@ -190,7 +190,7 @@ itkVectorNeighborhoodOperatorImageFilterTest
 itkNaryAddImageFilterTest 
 itkDerivativeImageFilterTest 
 itkDiscreteGaussianImageFilterTest 
-itkWarpImageFilterTest itkWarpImageFilterTest
+itkWarpImageFilterTest
 )
 
 
