@@ -43,8 +43,8 @@ namespace itk
     void SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>
     ::GenerateData()
     {
-    Initialize();
-    ComputeCellParameters();
+    this->Initialize();
+    this->ComputeCellParameters();
     InsertNewCells();
     }
 
@@ -63,6 +63,9 @@ namespace itk
     ::ComputeCellParameters()
     {
     InputMeshPointer inputMesh = this->GetInput(0);
+
+    // Ensure that cells will be deallocated by the Mesh.
+    inputMesh->SetCellsAllocationMethod( TInputMesh::CellsAllocatedDynamicallyCellByCell );
 
     SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
     simplexVisitor->mesh = inputMesh;
@@ -94,7 +97,7 @@ namespace itk
         }
       else if ((m_SelectionMethod == 1) &&
         ((curvatureIt.Value() > m_Threshold * rangeCurvature &&  areaIt.Value() > 0.05 * rangeCellSize )
-        || areaIt.Value() > m_Threshold * rangeCellSize  ) )
+       || areaIt.Value() > m_Threshold * rangeCellSize  ) )
         {
         doRefinement = true;
         }
@@ -106,7 +109,7 @@ namespace itk
         InputCellAutoPointer poly;
         inputMesh->GetCell(curvatureIt.Index(), poly);
 
-        InputPointType cellCenter = ComputeCellCenter( poly );
+        InputPointType cellCenter = this->ComputeCellCenter( poly );
 
         typename InputPolygonType::PointIdIterator pointIds = poly->PointIdsBegin();
 
@@ -180,53 +183,61 @@ namespace itk
 
         prod = dot_product( v1.Get_vnl_vector() , v2.Get_vnl_vector() );
 
-        if (prod < 0) {
+        if (prod < 0) 
+          {
           inputMesh->SwapNeighbors( firstNewIndex, lineOneFirstIdx, lineOneSecondIdx);
           firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
           }
 
-      prod = dot_product(secondNewNormal.GetVectorFromOrigin().Get_vnl_vector() ,
-        lineTwoFirstNormal.GetVectorFromOrigin().Get_vnl_vector() );
-      if (prod < 0) {
-        inputMesh->SwapNeighbors( secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
-        secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
-        }
+        prod = dot_product(secondNewNormal.GetVectorFromOrigin().Get_vnl_vector() ,
+                        lineTwoFirstNormal.GetVectorFromOrigin().Get_vnl_vector() );
+        if (prod < 0) 
+          {
+          inputMesh->SwapNeighbors( secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
+          secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
+          }
 
-    this->GetInput(0)->AddEdge( firstNewIndex, secondNewIndex );
+        this->GetInput(0)->AddEdge( firstNewIndex, secondNewIndex );
 
-    // splitting cell
-    unsigned long newPointIndex = 0;
-    NewSimplexCellPointer.TakeOwnership( new OutputPolygonType );
+        // splitting cell
+        unsigned long newPointIndex = 0;
+        OutputPolygonType * polygon = new OutputPolygonType;
+        NewSimplexCellPointer.TakeOwnership( polygon );
 
-    pointIds = poly->PointIdsBegin();
-    unsigned long firstPointId = *pointIds++;
+        pointIds = poly->PointIdsBegin();
+        unsigned long firstPointId = *pointIds++;
 
-    while (*pointIds != lineTwoSecondIdx )
-      {
-      NewSimplexCellPointer->SetPointId( newPointIndex++, *pointIds++ );
-      }
+        while (*pointIds != lineTwoSecondIdx )
+          {
+          NewSimplexCellPointer->SetPointId( newPointIndex++, *pointIds++ );
+          }
 
-    NewSimplexCellPointer->SetPointId( newPointIndex++, secondNewIndex );
-    NewSimplexCellPointer->SetPointId( newPointIndex++, firstNewIndex );
-    this->GetInput(0)->ReplaceFace( curvatureIt.Index(), NewSimplexCellPointer );
+        NewSimplexCellPointer->SetPointId( newPointIndex++, secondNewIndex );
+        NewSimplexCellPointer->SetPointId( newPointIndex++, firstNewIndex );
+        this->GetInput(0)->ReplaceFace( curvatureIt.Index(), NewSimplexCellPointer );
 
-    NewSimplexCellPointer.TakeOwnership( new OutputPolygonType );
-    newPointIndex = 0;
+        OutputPolygonType * polygon2 = new OutputPolygonType;
+        NewSimplexCellPointer.TakeOwnership( polygon2 );
+        newPointIndex = 0;
 
-    while ( pointIds != poly->PointIdsEnd() )
-      {
-      NewSimplexCellPointer->SetPointId( newPointIndex++, *pointIds++ );
-      }
-    NewSimplexCellPointer->SetPointId( newPointIndex++, firstPointId );
-    NewSimplexCellPointer->SetPointId( newPointIndex++, firstNewIndex );
-    NewSimplexCellPointer->SetPointId( newPointIndex++, secondNewIndex );
-    this->GetInput(0)->AddFace( NewSimplexCellPointer );
+        while ( pointIds != poly->PointIdsEnd() )
+          {
+          NewSimplexCellPointer->SetPointId( newPointIndex++, *pointIds++ );
+          }
+        NewSimplexCellPointer->SetPointId( newPointIndex++, firstPointId );
+        NewSimplexCellPointer->SetPointId( newPointIndex++, firstNewIndex );
+        NewSimplexCellPointer->SetPointId( newPointIndex++, secondNewIndex );
+        this->GetInput(0)->AddFace( NewSimplexCellPointer );
 
-    this->GetInput(0)->BuildCellLinks();
+        this->GetInput(0)->BuildCellLinks();
 
-    ModifyNeighborCells(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
-    ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);     
+        ModifyNeighborCells(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
+        ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);     
 
+        if( this->GetInput(0)->GetCellsAllocationMethod() == TInputMesh::CellsAllocatedDynamicallyCellByCell )
+          {
+          delete poly.GetPointer();
+          }
         } // end if cell must be modified
       areaIt++;
       curvatureIt++;
@@ -257,21 +268,21 @@ namespace itk
     std::set<unsigned long> cells2 =   this->GetInput(0)->GetCellLinks()->GetElement(id2);
     std::set<unsigned long>::iterator cellIt = cells1.begin();
 
-    std::set<unsigned long> *result = new std::set<unsigned long>();
+    std::set<unsigned long> result;
 
     while (cellIt != cells1.end() )
       {
       std::set<unsigned long>::iterator found = std::find(cells2.begin(), cells2.end(), *cellIt);
       if ( found != cells2.end() )
         {
-        result->insert(*cellIt);
+        result.insert(*cellIt);
         }
       cellIt++;
       }
 
-    cellIt = result->begin();
+    cellIt = result.begin();
 
-    while ( cellIt != result->end() )
+    while ( cellIt != result.end() )
       {
       InputCellAutoPointer nextCell;
       this->GetInput(0)->GetCell(*cellIt, nextCell );
