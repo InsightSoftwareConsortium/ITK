@@ -68,7 +68,7 @@ public:
    * Node class that is used to specify points that define
    * the geometry of the element.
    */
-  typedef TNodeClass NodeClass;
+  typedef typename TNodeClass NodeClass;
 
   /**
    * Total number of degrees of freedom in an element
