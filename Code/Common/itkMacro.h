@@ -374,7 +374,7 @@ virtual type *Get##name () const \
 #define itkSetVectorMacro(name,type,count) \
   virtual void Set##name(type data[]) \
   { \
-    int i; \
+    unsigned int i; \
     for (i=0; i<count; i++) { if ( data[i] != this->m_##name[i] ) { break; }} \
     if ( i < count ) \
       { \

@@ -33,7 +33,7 @@ Image<TPixel, VImageDimension>
 
   memset( m_OffsetTable, 0, VImageDimension*sizeof(unsigned long) );
 
-  int i;
+  unsigned int i;
   for (i=0; i < VImageDimension; i++)
     {
     m_Spacing[i] = 1.0;
@@ -64,9 +64,9 @@ Image<TPixel, VImageDimension>
 ::Allocate()
 {
   unsigned long num=1;
-  unsigned long prod=1;
+  //unsigned long prod=1;
   
-  for (int i=0; i < VImageDimension; i++)
+  for (unsigned int i=0; i < VImageDimension; i++)
     {
     m_OffsetTable[i] = num;
     num *= m_BufferSize[i];
