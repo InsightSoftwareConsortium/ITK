@@ -77,7 +77,7 @@ public:
   /** Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::min(). */
   itkSetClampMacro(Min, OutputImagePixelType,
-                   NumericTraits<OutputImagePixelType>::min(),
+                   NumericTraits<OutputImagePixelType>::NonpositiveMin(),
                    NumericTraits<OutputImagePixelType>::max());
   
   /** Get the minimum possible pixel value. */
@@ -86,7 +86,7 @@ public:
   /** Set the maximum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::max(). */
   itkSetClampMacro(Max, OutputImagePixelType,
-                   NumericTraits<OutputImagePixelType>::min(),
+                   NumericTraits<OutputImagePixelType>::NonpositiveMin(),
                    NumericTraits<OutputImagePixelType>::max());
   
   /** Get the maximum possible pixel value. */

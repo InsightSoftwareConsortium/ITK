@@ -48,9 +48,8 @@ RandomImageSource<TOutputImage>
     m_Origin[i] = 0.0;
     }
 
-  m_Min = NumericTraits<OutputImagePixelType>::min();
+  m_Min = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_Max = NumericTraits<OutputImagePixelType>::max();
-
 }
 
 template <class TOutputImage>
@@ -71,8 +70,8 @@ RandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  std::cout << "Max: " << m_Max << std::endl;
-  std::cout << "Min: " << m_Min << std::endl;
+  std::cout << "Max: " << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << std::endl;
+  std::cout << "Min: " << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << std::endl;
   unsigned int i;
   os << indent << "Origin: [";
   for (i=0; i < TOutputImage::ImageDimension - 1; i++)
