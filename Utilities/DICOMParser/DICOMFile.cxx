@@ -1,21 +1,19 @@
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( disable : 4710 )
+#pragma warning ( push, 3 )
+#endif 
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#if 0
-#include <strstream>
-#else
 #include <stdio.h>
-#endif
 #include <string>
 
 #include "DICOMFile.h"
 
-DICOMFile::DICOMFile() : inputStream()
+DICOMFile::DICOMFile() : InputStream()
 {
   /* Are we little or big endian?  From Harbison&Steele.  */
   union
@@ -40,11 +38,37 @@ DICOMFile::~DICOMFile()
   this->Close();
 }
 
+DICOMFile::DICOMFile(const DICOMFile& in)
+{
+  if (strcmp(in.PlatformEndian, "LittleEndian") == 0)
+    {
+    PlatformEndian = "LittleEndian";
+    }
+  else
+    {
+    PlatformEndian = "BigEndian";
+    }
+  InputStream = in.InputStream;
+}
+
+void DICOMFile::operator=(const DICOMFile& in)
+{
+  if (strcmp(in.PlatformEndian, "LittleEndian") == 0)
+    {
+    PlatformEndian = "LittleEndian";
+    }
+  else
+    {
+    PlatformEndian = "BigEndian";
+    }
+  InputStream = in.InputStream;
+}
+
 bool DICOMFile::Open(const std::string& filename)
 {
-  inputStream.open(filename.c_str(), std::ios::binary | std::ios::in);
+  InputStream.open(filename.c_str(), std::ios::binary | std::ios::in);
 
-  if (inputStream.is_open())
+  if (InputStream.is_open())
     {
     return true;
     }
@@ -56,26 +80,26 @@ bool DICOMFile::Open(const std::string& filename)
 
 void DICOMFile::Close()
 {
-  inputStream.close();
+  InputStream.close();
 }
 
 long DICOMFile::Tell() 
 {
-  long loc = inputStream.tellg();
+  long loc = InputStream.tellg();
   // std::cout << "Tell: " << loc << std::endl;
   return loc;
 }
 
 void DICOMFile::SkipToPos(long increment) 
 {
-  inputStream.seekg(increment, std::ios::beg);
+  InputStream.seekg(increment, std::ios::beg);
 }
 
 long DICOMFile::GetSize() 
 {
   long curpos = this->Tell();
 
-  inputStream.seekg(0,std::ios::end);
+  InputStream.seekg(0,std::ios::end);
 
   long size = this->Tell();
   // std::cout << "Tell says size is: " << size << std::endl;
@@ -86,17 +110,17 @@ long DICOMFile::GetSize()
 
 void DICOMFile::Skip(long increment) 
 {
-  inputStream.seekg(increment, std::ios::cur);
+  InputStream.seekg(increment, std::ios::cur);
 }
 
 void DICOMFile::SkipToStart() 
 {
-  inputStream.seekg(0, std::ios::beg);
+  InputStream.seekg(0, std::ios::beg);
 }
 
 void DICOMFile::Read(void* ptr, long nbytes) 
 {
-  inputStream.read((char*)ptr, nbytes);
+  InputStream.read((char*)ptr, nbytes);
   // std::cout << (char*) ptr << std::endl;
 }
 
@@ -230,3 +254,6 @@ char* DICOMFile::ReadAsciiCharArray(int len)
   return val;
 }
 
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif

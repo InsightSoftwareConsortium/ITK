@@ -1,9 +1,13 @@
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+#ifndef __DICOMFILE_H_
+#define __DICOMFILE_H_
 
-//#include <stdio.h>
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( push, 3 )
+#endif 
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -187,8 +191,8 @@ class DICOMFile
   //
   static ushort swapShort(ushort v)
   {
-    return (v << 8)
-      | (v >> 8);
+    return ushort((v << 8)
+      | (v >> 8));
   }
   
   // 
@@ -196,10 +200,10 @@ class DICOMFile
   //
   static ulong swapLong(ulong v)
     {
-    return (v << 24) 
+    return ulong((v << 24) 
       | (v << 8) & 0x00ff0000
       | (v >> 8) & 0x0000ff00
-      | (v >> 24);
+      | (v >> 24));
     }
 
   char* GetPlatformEndian() {return this->PlatformEndian;}
@@ -215,7 +219,7 @@ class DICOMFile
   //
   // FILE* Fptr;
   
-  std::ifstream inputStream;
+  std::ifstream InputStream;
   
   //
   // Flag for swaping bytes.
@@ -226,4 +230,17 @@ class DICOMFile
   // Platform endianness
   //
   char* PlatformEndian;
+
+ private:
+  DICOMFile(const DICOMFile&);
+  void operator=(const DICOMFile&);  
+
 };
+
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif
+
+#endif __DICOMFILE_H_
+
+
