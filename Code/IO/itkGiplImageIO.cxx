@@ -76,6 +76,7 @@ GiplImageIO::GiplImageIO()
 {
   m_ByteOrder = BigEndian;
   m_GzFile = NULL;
+  m_IsCompressed = false;
 }
 
 
