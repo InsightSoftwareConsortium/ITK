@@ -33,21 +33,26 @@ namespace eval itk {
   # Procedure to drive configuration of all packages.
   proc ConfigureItkTclPackages {version} {
     # Configure ITK Tcl packages.
-    ConfigureTclPackage VXLNumericsTcl $version Numerics
-    ConfigureTclPackage ITKCommonTcl   $version Common
-    ConfigureTclPackage ITKIOTcl   $version IO
+    ConfigureTclPackage VXLNumericsTcl     $version Numerics
+    ConfigureTclPackage ITKNumericsTcl     $version Numerics
+    ConfigureTclPackage ITKCommonTcl       $version Common
+    ConfigureTclPackage ITKIOTcl           $version IO
+    ConfigureTclPackage ITKBasicFiltersTcl $version BasicFilters
+    ConfigureTclPackage ITKAlgorithmsTcl   $version Algorithms
     
     package ifneeded itk $version "
       package require itknumerics $version
       package require itkcommon $version
       package require itkio $version
       package require itkbasicfilters $version
+      package require itkalgorithms $version
       package require itkutils $version
       package provide itk $version
     "
 
     package ifneeded itknumerics $version "
       package require VXLNumericsTcl $version
+      package require ITKNumericsTcl $version
       package provide itknumerics $version
     "
 
@@ -59,6 +64,11 @@ namespace eval itk {
     package ifneeded itkbasicfilters $version "
       package require ITKBasicFiltersTcl $version
       package provide itkbasicfilters $version
+    "
+
+    package ifneeded itkalgorithms $version "
+      package require ITKAlgorithmsTcl $version
+      package provide itkalgorithms $version
     "
 
     package ifneeded itkio $version "

@@ -1,22 +1,19 @@
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Algorithms)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Algorithms)
 
-ADD_LIBRARY(ITKAlgorithmsTcl SHARED)
-CABLE_CLASS_SET(Scalar float)
-CABLE_CLASS_SET(Dimension 2 3)
-CABLE_CLASS_SET(Image "itk::Image<$Scalar,$Dimension>")
-CABLE_CLASS_SET(Filter "itk::CurvatureFlowImageFilter<$Image, $Image >")
+ADD_LIBRARY(ITKAlgorithmsTcl)
 
-CABLE_WRAP_TCL(ITKAlgorithmsTcl
-  $Filter
-  "itk::LevelSetImageFilter<$Image >"
-  "itkSmartPointer_:itk::SmartPointer<$Filter >"
+ITK_WRAP_TCL(ITKAlgorithmsTcl
+  wrap_ITKAlgorithms.cxx
 )
 
-LINK_LIBRARIES(
-ITKCommon
-ITKBasicFilters
-VXLNumerics
-${CABLE_TCL_LIBRARY}
-${TCL_LIBRARY}
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl
+  ITKCommon
+  ITKIO
+  ITKBasicFilters
+  ITKNumerics
+  VXLNumerics
+  ${CABLE_TCL_LIBRARY}
 )
+

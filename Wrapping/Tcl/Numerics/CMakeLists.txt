@@ -1,5 +1,12 @@
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Numerics)
 
+ADD_LIBRARY(ITKNumericsTcl)
+ITK_WRAP_TCL(ITKNumericsTcl
+  wrap_ITKNumerics.cxx
+)
+
+TARGET_LINK_LIBRARIES(ITKNumericsTcl ITKNumerics ${CABLE_TCL_LIBRARY})
+
 ADD_LIBRARY(VXLNumericsTcl)
 ITK_WRAP_TCL(VXLNumericsTcl
   wrap_VXLNumerics.cxx
@@ -16,4 +23,4 @@ ITK_WRAP_TCL(VXLNumericsTcl
   wrap_vnl_vector_ref.cxx
 )
 
-LINK_LIBRARIES(VXLNumerics ${CABLE_TCL_LIBRARY})
+TARGET_LINK_LIBRARIES(VXLNumericsTcl VXLNumerics ${CABLE_TCL_LIBRARY})

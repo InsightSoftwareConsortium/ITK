@@ -6,13 +6,16 @@ CONFIGURE_FILE(
 INCLUDE_DIRECTORIES(${ITK_BINARY_DIR}/Wrapping/Tcl/Executable)
 ADD_EXECUTABLE(itktcl itkTclAppInit.cxx)
 TARGET_LINK_LIBRARIES(itktcl
-  VXLNumericsTcl
-  ITKCommonTcl
+  ITKAlgorithmsTcl
   ITKBasicFiltersTcl
   ITKIOTcl
+  ITKNumericsTcl
+  ITKCommonTcl
+  VXLNumericsTcl
   ITKIO
-  ITKCommon
   ITKBasicFilters
+  ITKNumerics
+  ITKCommon
   VXLNumerics
   itkpng
   itkzlib
