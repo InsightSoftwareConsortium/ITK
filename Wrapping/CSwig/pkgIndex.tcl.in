@@ -1,0 +1,104 @@
+# Insight Toolkit (ITK) Tcl package configuration.
+
+namespace eval itk {
+  #
+  # This procedure will help configure other ITK Tcl packages.
+  # Call it with:
+  #   package = the name of the package
+  #   version = the version number of the package
+  #
+  proc ConfigureTclPackage {libName version} {
+    set libPrefix "@ITK_CSWIG_LIBNAME_PREFIX@"
+    set libPath "@ITK_CSWIG_PACKAGE_DIR@"
+    set libExt [info sharedlibextension]
+    set libFile [file join $libPath "$libPrefix$libName$libExt"]
+    set package [string tolower $libName]
+    
+    package ifneeded $package $version "
+      if {\[catch { load \"$libFile\" } errorMessage \]} { puts \$errorMessage }
+    "
+  }
+  
+  # Procedure to drive configuration of all packages.
+  proc ConfigureItkTclPackages {version} {
+    # Configure ITK Tcl packages.
+    ConfigureTclPackage VXLNumericsTcl     $version
+    ConfigureTclPackage ITKNumericsTcl     $version
+    ConfigureTclPackage ITKCommonTcl       $version
+    ConfigureTclPackage ITKIOTcl           $version
+    ConfigureTclPackage ITKBasicFiltersTcl $version
+    ConfigureTclPackage ITKAlgorithmsTcl   $version
+    
+    package ifneeded InsightToolkit $version "
+      package require itknumerics $version
+      package require itkcommon $version
+      package require itkio $version
+      package require itkbasicfilters $version
+      package require itkalgorithms $version
+      package require itkutils $version
+      package provide InsightToolkit $version
+    "
+
+    package ifneeded itknumerics $version "
+      package require vxlnumericstcl $version
+      package require itknumericstcl $version
+      package provide itknumerics $version
+    "
+
+    package ifneeded itkcommon $version "
+      package require itkcommontcl $version
+      package provide itkcommon $version
+    "
+
+    package ifneeded itkbasicfilters $version "
+      package require itkbasicfilterstcl $version
+      package provide itkbasicfilters $version
+    "
+
+    package ifneeded itkalgorithms $version "
+      package require itkalgorithmstcl $version
+      package provide itkalgorithms $version
+    "
+
+    package ifneeded itkio $version "
+      package require itkiotcl $version
+      package provide itkio $version
+    "
+
+    package ifneeded itkutils $version "
+      set src \[file join \"@ITK_CSWIG_SCRIPT_DIR@\" itkutils.tcl\]
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkutils $version }
+    "
+
+    package ifneeded itkinteraction $version "
+      set src \[file join \"@ITK_CSWIG_SCRIPT_DIR@\" itkinteraction.tcl\]
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkinteraction $version }
+    "
+
+    package ifneeded itkdata $version "
+      set src \[file join \"@ITK_CSWIG_SCRIPT_DIR@\" itkdata.tcl\]
+      namespace eval itk::data {
+        set defaultDataRoot \"@ITK_CSWIG_DATA_ROOT@\"
+      }
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itkdata $version }
+    "
+
+    package ifneeded itktesting $version "
+      set src \[file join \"@ITK_CSWIG_SCRIPT_DIR@\" itktesting.tcl\]
+      namespace eval itk::testing {
+        set defaultTestRoot \"@ITK_CSWIG_TEST_ROOT@\"
+      }
+      if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
+      else { package provide itktesting $version }
+    " 
+  }
+  
+  # Make sure the procedure can be called.
+  namespace export ConfigureItkTclPackages
+}
+
+# Configure packages with version @ITK_VERSION_STRING@.
+itk::ConfigureItkTclPackages @ITK_VERSION_STRING@

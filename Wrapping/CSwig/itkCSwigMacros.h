@@ -1,14 +1,4 @@
-
-
-// compile with
-
-// define the group that is being defined in this file.
-// a group is a set of classes that are wrapped in the same
-// file.   A group is part of a package, and the package
-// name is specified with a command line -D option, something
-// like this:
-//  -DITK_WRAP_PACKAGE="ITKCommonTcl" 
-//  -DITK_WRAP_PACKAGE="ITKCommonPython" 
+#include "itkConfigure.h"
 
 #define ITK_WRAP_GROUP(x) #x
 

@@ -85,7 +85,8 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
    ARGS -fxml-start=_cable_  
         -DCSWIG -DCABLE_CONFIGURATION ${Source}/${Input} -fxml=${Bin}/${Output} ${SWIG_INC}
    TARGET ${Library}
-   OUTPUTS ${Bin}/${Output} )
+   OUTPUTS ${Bin}/${Output}
+   DEPENDS ${GCCXML})
 ENDMACRO(GCCXML_CREATE_XML_FILE)
 
 
@@ -97,7 +98,7 @@ MACRO(CINDEX_CREATE_IDX_FILE Bin Input Output Library)
    ARGS ${Bin}/${Input} ${Bin}/${Output}
    TARGET ${Library}
    OUTPUTS ${Bin}/${Output} 
-   DEPENDS ${Bin}/${Input}
+   DEPENDS ${Bin}/${Input} ${CABLE_INDEX}
 )
 ENDMACRO(CINDEX_CREATE_IDX_FILE)
 
@@ -111,10 +112,10 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG}
      ARGS -c ${CINDEX} ${IGNORE_WARNINGS} 
-          -o ${Bin}/${OutputTclCxx} -tcl -c++ ${Bin}/${InputXml}
+          -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml}
+     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG}
      )
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
@@ -132,7 +133,7 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml}
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}
      )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
 
@@ -151,7 +152,7 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
           -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml}
+     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG}
      )
 ENDMACRO(CSWIG_CREATE_JAVA_CXX_FILE)
 
@@ -223,3 +224,45 @@ ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
 
 SUBDIRS(SwigRuntime VXLNumerics Common Numerics BasicFilters IO Algorithms)
+
+IF(UNIX)
+  SET(ITK_CSWIG_LIBNAME_PREFIX "lib")
+ELSE(UNIX)
+  SET(ITK_CSWIG_LIBNAME_PREFIX "")
+ENDIF(UNIX)
+
+SET(ITK_CSWIG_PACKAGE_DIR_BUILD "${ITK_LIBRARY_PATH}")
+
+#-----------------------------------------------------------------------------
+# Configure pkgIndex.tcl for the build tree.
+SET(ITK_CSWIG_CONFIGURATION_TYPES ${CMAKE_CONFIGURATION_TYPES})
+SET(ITK_CSWIG_DATA_ROOT "${ITK_DATA_ROOT}")
+SET(ITK_CSWIG_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
+SET(ITK_CSWIG_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/CSwig")
+
+IF(ITK_CSWIG_CONFIGURATION_TYPES)
+  FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
+    SET(ITK_CSWIG_PACKAGE_DIR "${ITK_CSWIG_PACKAGE_DIR_BUILD}/${config}")
+    CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
+                   "${ITK_BINARY_DIR}/Wrapping/CSwig/${config}/pkgIndex.tcl"
+                   @ONLY IMMEDIATE)
+  ENDFOREACH(config)
+ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
+  SET(ITK_CSWIG_PACKAGE_DIR "${ITK_CSWIG_PACKAGE_DIR_BUILD}")
+  CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
+                 "${ITK_BINARY_DIR}/Wrapping/CSwig/pkgIndex.tcl"
+                 @ONLY IMMEDIATE)
+ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
+
+#-----------------------------------------------------------------------------
+# Configure pkgIndex.tcl for the install tree.
+
+SET(ITK_CSWIG_SCRIPT_DIR "[file dirname [info script]]")
+SET(ITK_CSWIG_PACKAGE_DIR "[file dirname [info script]]")
+SET(ITK_CSWIG_DATA_ROOT "[file dirname [info script]]/Data")
+SET(ITK_CSWIG_TEST_ROOT "<NO_DEFAULT>")
+CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/pkgIndex.tcl.in"
+               "${ITK_BINARY_DIR}/Wrapping/CSwig/InstallOnly/Hide/pkgIndex.tcl"
+               IMMEDIATE @ONLY)
+INSTALL_FILES(/lib/InsightToolkit FILES
+              "${ITK_BINARY_DIR}/Wrapping/CSwig/InstallOnly/Hide/pkgIndex.tcl")
