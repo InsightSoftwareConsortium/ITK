@@ -137,10 +137,10 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 template< class TInputSample, class THistogramMeasurement >
 inline float
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
-::CalculateOverlapp(int binId,
-                    float dotProduct, float scale,
-                    float marginalDistance,
-                    bool firstHalf)
+::CalculateOverlap(int binId,
+                   float dotProduct, float scale,
+                   float marginalDistance,
+                   bool firstHalf)
 {
   float minWeight ;
   float maxWeight ;
