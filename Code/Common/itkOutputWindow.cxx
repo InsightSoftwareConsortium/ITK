@@ -14,7 +14,7 @@
 
 =========================================================================*/
 #include "itkOutputWindow.h"
-#ifdef _WIN32
+#ifdef _MSC_VER
 #include "itkWin32OutputWindow.h"
 #endif
 #include "itkObjectFactory.h"
@@ -96,7 +96,7 @@ OutputWindow
      */
     if( ! OutputWindow::m_Instance )
       {
-#ifdef _WIN32    
+#ifdef _MSC_VER
       OutputWindow::m_Instance = Win32OutputWindow::New();
 #else
       OutputWindow::m_Instance = OutputWindow::New();
