@@ -122,6 +122,41 @@ int main()
   }
 
   {
+    std::cout << "Test for setting Right part...";
+    VersorType qa;
+    VectorType xa;
+    
+    ValueType angle = atan(1.0)*30.0/45.0;
+    ValueType sin2a = sin( angle/2.0 );
+    
+    xa[0] = 0.7;
+    xa[1] = 0.3;
+    xa[2] = 0.1;
+    
+    xa.Normalize();
+
+    xa *= sin2a;
+
+    qa.Set( xa );
+        
+    ValueType cos2a = cos( angle/2.0 );
+
+    if( fabs(qa.GetW()-cos2a) > epsilon ) 
+      {
+      std::cout << "Error in W ! " << std::endl;
+      std::cout << "W= " << qa.GetW();
+      std::cout << " it should be " << cos2a << endl;
+      return EXIT_FAILURE;
+      } 
+    if( fabs(qa.GetAngle()-angle) > epsilon ) 
+      {
+      std::cout << "Error in Angle ! " << std::endl;
+      return EXIT_FAILURE;
+      } 
+
+    std::cout << " PASSED !" << std::endl;
+  }
+  {
     std::cout << "Test for Transforming a vector...";
     VersorType qa;
     VectorType xa;
