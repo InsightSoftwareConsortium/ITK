@@ -22,6 +22,7 @@
 #include "itkGrayscaleConnectedClosingImageFilter.h"
 #include "itkGrayscaleGeodesicErodeImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk {
 
@@ -89,6 +90,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
     {
     itkWarningMacro(<< "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches maximum value in image.  Resulting image will have a constant value.");
     this->GetOutput()->FillBuffer( maxValue );
+    this->UpdateProgress(1.0);
     return;
     }
   
@@ -112,6 +114,11 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     erode
        = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(erode,1.0f);
 
   // set up the erode filter
   erode->RunOneIterationOff();             // run to convergence

@@ -22,6 +22,7 @@
 #include "itkHMaximaImageFilter.h"
 #include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk {
 
@@ -82,6 +83,11 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
     dilate
        = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(dilate,1.0f);
 
   // set up the dilate filter
   dilate->RunOneIterationOff();             // run to convergence

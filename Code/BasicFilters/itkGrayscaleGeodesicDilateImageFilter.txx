@@ -23,7 +23,9 @@
 #include "itkNumericTraits.h"
 #include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkProgressAccumulator.h"
 #include "itkProgressReporter.h"
+#include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
@@ -178,6 +180,8 @@ void
 GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  IterationReporter iterate(this, 0, 1);
+
   // If the filter is configured to run a single iteration, then
   // delegate to the superclass' version of GenerateData. This will
   // engage the multithreaded version of the GenerateData.
@@ -186,6 +190,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     {
     Superclass::GenerateData();
     m_NumberOfIterationsUsed = 1;
+    iterate.CompletedStep();
     return;
     }
 
@@ -208,20 +213,17 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   singleIteration->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   
-  // Guess at the number of iterations (worst case estimate)
-  double guess = 0.0;
-  for (unsigned int i = 0; i < this->GetOutput()->GetRequestedRegion().GetSize().GetSizeDimension(); i++)
-    {
-    guess += vnl_math_sqr(static_cast<double>(this->GetOutput()->GetRequestedRegion().GetSize()[i]));
-    }
-  unsigned int maxSize = static_cast<unsigned int>(::sqrt(guess));
-  ProgressReporter progress(this, 0, maxSize, maxSize);
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(singleIteration,1.0f);
 
   // run until convergence
   while (!done)
     {
     // run one iteration
     singleIteration->Update();
+    iterate.CompletedStep();
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
@@ -262,7 +264,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 
       // Keep track of how many iterations have be done
       m_NumberOfIterationsUsed++;
-      progress.CompletedPixel();
       }
     }
 

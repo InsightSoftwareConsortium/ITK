@@ -22,6 +22,7 @@
 #include "itkHMinimaImageFilter.h"
 #include "itkGrayscaleGeodesicErodeImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk {
 
@@ -82,6 +83,11 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     erode
        = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(erode,1.0f);
 
   // set up the erode filter
   erode->RunOneIterationOff();             // run to convergence

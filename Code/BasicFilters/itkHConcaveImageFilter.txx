@@ -66,6 +66,10 @@ HConcaveImageFilter<TInputImage, TOutputImage>
   // Allocate the output
   this->AllocateOutputs();
   
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
   // Delegate to a H-Minima filter.
   //
   //
@@ -74,6 +78,7 @@ HConcaveImageFilter<TInputImage, TOutputImage>
 
   hmin->SetInput( this->GetInput() );
   hmin->SetHeight( m_Height );
+
 
   // Need to subtract the input from the H-Minima image
   typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
@@ -87,6 +92,9 @@ HConcaveImageFilter<TInputImage, TOutputImage>
   subtract->GraftOutput( this->GetOutput() );
 
   // run the algorithm
+  progress->RegisterInternalFilter(hmin,.9f);
+  progress->RegisterInternalFilter(subtract,.1f);
+
   subtract->Update();
 
   // graft the output of the subtract filter back onto this filter's

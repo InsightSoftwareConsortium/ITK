@@ -64,6 +64,10 @@ void
 HConvexImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
   // Allocate the output
   this->AllocateOutputs();
   
@@ -88,6 +92,9 @@ HConvexImageFilter<TInputImage, TOutputImage>
   subtract->GraftOutput( this->GetOutput() );
 
   // run the algorithm
+  progress->RegisterInternalFilter(hmax,.9f);
+  progress->RegisterInternalFilter(subtract,.1f);
+
   subtract->Update();
 
   // graft the output of the subtract filter back onto this filter's

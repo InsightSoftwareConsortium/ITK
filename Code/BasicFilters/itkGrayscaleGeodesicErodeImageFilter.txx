@@ -24,6 +24,8 @@
 #include "itkGrayscaleGeodesicErodeImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"
+#include "itkProgressAccumulator.h"
+#include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
@@ -178,6 +180,8 @@ void
 GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  IterationReporter iterate(this, 0, 1);
+
   // If the filter is configured to run a single iteration, then
   // delegate to the superclass' version of GenerateData. This will
   // engage the multithreaded version of the GenerateData.
@@ -186,11 +190,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     {
     Superclass::GenerateData();
     m_NumberOfIterationsUsed = 1;
+    iterate.CompletedStep();
     return;
     }
-
-
-  //ProgressReporter progress(this, 0, ????);
 
 
   // Filter was configured to run until convergence. We need to
@@ -211,11 +213,17 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   singleIteration->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(singleIteration,1.0f);
+
   // run until convergence
   while (!done)
     {
     // run one iteration
     singleIteration->Update();
+    iterate.CompletedStep();
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
@@ -289,10 +297,11 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId) 
 {
+  
   // Set up the progress reporter
   ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels());
-  
+
   // Set up the boundary condition to have no upwind derivatives
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
