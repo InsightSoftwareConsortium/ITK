@@ -76,7 +76,9 @@ namespace itk
  * computing the moments and doing so simplifies memory management for
  * the caller.
  *
- * FIXME: It's not yet clear how multi-echo images should be handled here.
+ * \ingroup Operators
+ *
+ * \todo It's not yet clear how multi-echo images should be handled here.
  *
  */
 template < class TImage >

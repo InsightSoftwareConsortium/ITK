@@ -175,6 +175,8 @@ public:
  * \sa MutualInformationImageToImageMetric
  * \sa QuaternionRigidRegistrationTransform
  *
+ * \ingroup RigidImageRegistration
+ *
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT 

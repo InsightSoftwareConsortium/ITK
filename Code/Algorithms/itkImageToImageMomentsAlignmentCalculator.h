@@ -53,6 +53,8 @@ namespace itk
  * \Compute initial parameters for an affine transformation.
  *  The two inputs are images that we want to adjust.
  *  The output is the transformation that aligns the two images
+ * 
+ * \ingroup Operators
  */
 
 template <class TReference, class TTarget>          

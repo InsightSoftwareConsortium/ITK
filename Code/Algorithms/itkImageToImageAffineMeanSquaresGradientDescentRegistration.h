@@ -129,7 +129,7 @@ public:
  * from the Metric type, to reduce the number of redundant
  * template parameters
  *
- *  \ingroup RegistrationAlgorithms
+ *  \ingroup AffineImageRegistration 
  */
 
 

@@ -54,6 +54,8 @@ namespace itk
  * If only Maximum or Minimum value is needed, just call
  * ComputeMaximum() (ComputeMinimum()) otherwise Compute() will compute both. 
  *
+ * \ingroup Operators
+ *
  */
 
 template <class TInputImage>            

@@ -103,6 +103,8 @@ public:
  * the Image is considered the Reference given that is the one that is
  * mapped under the transformation each time a value is required.
  *
+ * \ingroup ModelImageRegistration
+ *
  */
 
 template <class TReference, class TTarget>
