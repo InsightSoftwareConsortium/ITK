@@ -75,30 +75,63 @@ namespace itk
  * \ingroup Transforms
  *
  */
-template <class TScalarType,         // Only float and double make sense
-          int NDimensions = 3>       // Number of dimensions
-class ITK_EXPORT KernelTransform : public Transform<TScalarType, NDimensions>
+template <class TScalarType=double,  // Only float and double make sense
+          int NDimensions = 3,
+          class TParameters, class TJacobianType>       // Number of dimensions
+class ITK_EXPORT KernelTransform : public Transform<TScalarType, 
+          NDimensions,NDimensions,TParameters,TJacobianType>
 {
 public:
   /**
    * Standard Self typedef
    */
-  typedef KernelTransform<TScalarType, NDimensions> Self;
-  
+  typedef KernelTransform Self;
+
+
+  /// Dimension of the domain space
+  enum { SpaceDimension = NDimensions };
+
+
   /**
    * Standard Superclass typedef
    */
-  typedef Transform<TScalarType, NDimensions> Superclass;
+  typedef Transform<TScalarType, NDimensions,
+                    NDimensions, TParameters,
+                    TJacobianType>              Superclass;
   
+
+  /** 
+   * Smart pointer typedef support 
+   */
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro( AffineTransform, Transform );
+
+
+  /** 
+   * New macro for creation of through a Smart Pointer
+   */
+  itkNewMacro( Self );
+
+
   /**
    * Standard coordinate point type for this class
    */
-  typedef typename Superclass::PointType   PointType;
+  typedef typename Superclass::InputPointType   InputPointType;
+  typedef typename Superclass::OutputPointType  OutputPointType;
   
+
   /**
    * Standard vector type for this class
    */
-  typedef typename Superclass::VectorType  VectorType;
+  typedef typename Superclass::InputVectorType   InputVectorType;
+  typedef typename Superclass::OutputVectorType  OutputVectorType;
+
 
   /**
    * PointList typedef. This type is used for maintaining lists of points,
@@ -110,15 +143,15 @@ public:
                                   TScalarType,
                                   TScalarType> PointSetTraitsType;
 
-  typedef PointSet<PointType, NDimensions, PointSetTraitsType> PointSetType;
+  typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> PointSetType;
   typedef typename PointSetType::Pointer PointSetPointer;
   typedef typename PointSetType::PointsContainerConstIterator PointsIterator;
   
   /**
    * VectorSet typedef
    */
-  typedef itk::VectorContainer<unsigned long,VectorType> VectorSetType;
-  typedef typename VectorSetType::Pointer           VectorSetPointer;
+  typedef itk::VectorContainer<unsigned long,InputVectorType> VectorSetType;
+  typedef typename VectorSetType::Pointer        VectorSetPointer;
 
   /**
    * Get the source landmarks list, which we will denote \f$ p \f$
@@ -154,60 +187,81 @@ public:
   /**
    * Compute the position of point in the new space
    */
-  virtual PointType TransformPoint(const PointType& thisPoint) const;
+  virtual OutputPointType TransformPoint(const InputPointType& thisPoint) const;
   
   /**
    * Compute the position of vector in the new space
    */
-  virtual VectorType TransformVector(const VectorType& thisVector) const;
+  virtual OutputVectorType TransformVector(const InputVectorType& thisVector) const;
   
   /**
    * 'I' (identity) matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
-  
+
+
+
+protected:
+
   /**
    * Default constructor
    */
   KernelTransform();
+
+
   /**
    * Destructor
    */
   virtual ~KernelTransform();
 
-protected:
+
   /**
    * 'G' matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
+   
+  
   /**
    * 'L' matrix typedef
    */
   typedef vnl_matrix<TScalarType> LMatrixType;
+
+  
   /**
    * 'K' matrix typedef
    */
   typedef vnl_matrix<TScalarType> KMatrixType;
+
+  
   /**
    * 'P' matrix typedef
    */
   typedef vnl_matrix<TScalarType> PMatrixType;
+
+  
   /**
    * 'Y' matrix typedef
    */
   typedef vnl_matrix<TScalarType> YMatrixType;
+
+  
   /**
    * 'W' matrix typedef
    */
   typedef vnl_matrix<TScalarType> WMatrixType;
+
+  
   /**
    * Row matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, 1, NDimensions> RowMatrixType;
+
+  
   /**
    * Column matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
+  
 
   /**
    * Compute G(x)
@@ -217,83 +271,99 @@ protected:
    *    Thin plate spline
    *    Volume spline
    */
-  virtual GMatrixType ComputeG(const VectorType & x) const = 0;
+  virtual GMatrixType ComputeG(const InputVectorType & x) const = 0;
+  
   
   /**
    * Compute K matrix
    */
   void ComputeK();
   
+  
   /**
    * Compute L matrix
    */
   void ComputeL();
+  
   
   /**
    * Compute P matrix
    */
   void ComputeP();
   
+  
   /**
    * Compute Y matrix
    */
   void ComputeY();
+  
   
   /**
    * Compute displacements \f$ q_i - p_i \f$
    */
   void ComputeD();
   
+  
   /**
    * The list of source landmarks, denoted 'p'
    */
   PointSetPointer m_SourceLandmarks;
+  
   
   /**
    * The list of target landmarks, denoted 'q'
    */
   PointSetPointer m_TargetLandmarks;
 
+  
   /**
    * The list of displacements.
    * d[i] = q[i] - p[i];
    */
   VectorSetPointer m_Displacements;
 
+
   /**
    * The L matrix
    */
   LMatrixType m_LMatrix;
+
 
   /**
    * The K matrix
    */
   KMatrixType m_KMatrix;
   
+
   /**
    * The P matrix
    */
   PMatrixType m_PMatrix;
   
+
   /**
    * The Y matrix
    */
   YMatrixType m_YMatrix;
+
   
   /**
    * The W matrix
    */
   WMatrixType m_WMatrix;
   
+
   /**
    * Has the W matrix been computed?
    */
   bool m_WMatrixComputed;
   
+
   /**
    * Identity matrix
    */
-  static IMatrixType m_I;
+  IMatrixType m_I;
+
 
 };
 
