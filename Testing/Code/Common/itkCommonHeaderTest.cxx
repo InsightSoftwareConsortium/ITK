@@ -225,6 +225,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTimeProbe.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkTimeStamp.h"
+#include "itkTorusInteriorExteriorSpatialFunction.txx"
 #include "itkTransform.txx"
 #include "itkTranslationTransform.txx"
 #include "itkTriangleCell.txx"
