@@ -26,8 +26,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMesh.h"
 #include "itkSimplexMesh.h"
 #include "itkSimplexMeshGeometry.h"
-#include "itkRegularSphereMeshSource.h"
-#include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTimeProbe.h"
 
@@ -41,36 +39,14 @@ int itkSimplexMeshTest(int argc, char *argv[] )
   typedef itk::SimplexMesh<double,3,MeshTraits> SimplexMeshType;
 
 
-  // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
-
-  // Declare the type of the gradient image
-  typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
-
-  SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
-  PointType center; center.Fill(0);
-  PointType::ValueType scaleInit[3] = {10,10,10};
-  VectorType scale = scaleInit;
-
-  mySphereMeshSource->SetCenter(center);
-  mySphereMeshSource->SetResolution(2); 
-  mySphereMeshSource->SetScale(scale);
-
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
-  simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
-  simplexFilter->Update();
-  
-  SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
-  simplexMesh->DisconnectPipeline();
+  SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
   NeighborsListType* neighbors;
   NeighborsListType::iterator nIt, nEnd;
   
   for (int i=0; i < 9; i++)
-  {  
+    {  
     itk::TimeProbe * timeProbe = new itk::TimeProbe(); 
     
     timeProbe->Start();
@@ -82,11 +58,9 @@ int itkSimplexMeshTest(int argc, char *argv[] )
     std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
  
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe->GetMeanTime() << std::endl;
-  }
+    }
 
     
-  
-//  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
