@@ -233,7 +233,7 @@ LevelSetFunction<TImageType>
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
   
-  if (vnl_math_abs(m_CurvatureWeight) > 0.0)
+  if (vnl_math_abs(d->m_MaxCurvatureChange) > 0.0)
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
