@@ -70,12 +70,15 @@ public:
          bool isConst,
          const CvQualifiedType& returnType,
          const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual bool IsStatic() const;
   virtual String GetPrototype() const;
+  String GetInclassPrototype() const;
+  String GetCallName() const;
   void Call(const Arguments&) const;
 private:
   const WrapperBase* m_Wrapper;
   MethodWrapper m_MethodWrapper;
-  CvQualifiedType m_ReturnType;
+  CvQualifiedType m_FunctionType;
 };
 
 

@@ -59,40 +59,84 @@ Method::Method(WrapperBase* wrapper,
                const ParameterTypes& parameterTypes):
   FunctionBase(name, parameterTypes),
   m_Wrapper(wrapper),
-  m_MethodWrapper(methodWrapper),
-  m_ReturnType(returnType)
+  m_MethodWrapper(methodWrapper)
 {
+  // Construct the function type associated with the method.  This does not
+  // include the implicit object parameter.
+  CvQualifiedTypes parameterTypes;  
+  for(ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+      arg != m_ParameterTypes.end(); ++arg)
+    {
+    parameterTypes.push_back((*arg)->GetCvQualifiedType(false, false));
+    }
+  m_FunctionType = TypeInfo::GetFunctionType(returnType, parameterTypes,
+                                             isConst, false);
+
   // Add the implicit object parameter to the front of the parameter list.
   CvQualifiedType wrappedType = wrapper->GetWrappedTypeRepresentation()
     ->GetCvQualifiedType(isConst, false);
   const Type* implicit = TypeInfo::GetReferenceType(wrappedType).GetType();
   m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
+
 }
 
+  
+/**
+ * Return whether the method is static.
+ */
+bool Method::IsStatic() const
+{
+  return false;
+}
 
 /**
  * Get a string representation of the method's function prototype.
  */
 String Method::GetPrototype() const
 {
-  String prototype = m_ReturnType.GetName() + " ";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  CvQualifiedType implicit = ReferenceType::SafeDownCast(*arg++)->GetReferencedType();
-  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
-  while(arg != m_ParameterTypes.end())
+  String name = m_Wrapper->GetWrappedTypeRepresentation()->Name()+"::"+this->GetCallName();
+  String prototype = m_FunctionType.GenerateDeclaration(name);
+  if(this->IsStatic())
     {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
+    prototype = "static "+prototype;
     }
-  prototype += ")";
-  
-  if(implicit.IsConst())
-    {
-    prototype += " const";
-    }
-  
   return prototype;
+}
+
+String Method::GetInclassPrototype() const
+{
+  String prototype = m_FunctionType.GenerateDeclaration(this->GetCallName());
+  if(this->IsStatic())
+    {
+    prototype = "static "+prototype;
+    }
+  return prototype;
+}
+
+
+/**
+ * Get the name of the method as it would be called with the standard
+ * obj.method() syntax.  This is used to add the operator keyword to
+ * the name, if necessary.
+ */
+String Method::GetCallName() const
+{
+  if(m_Name.length() == 0)
+    {
+    return "";
+    }
+  
+  char ch = m_Name[0];
+  if(((ch >= 'A') && (ch <= 'Z'))
+     || ((ch >= 'a') && (ch <= 'z'))
+     || (ch == '_'))
+    {
+    return m_Name;
+    }
+  else
+    {
+    return "operator"+m_Name;
+    }
 }
 
 

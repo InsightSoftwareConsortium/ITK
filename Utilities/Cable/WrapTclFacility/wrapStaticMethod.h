@@ -61,6 +61,7 @@ public:
                const String& name,
                const CvQualifiedType& returnType,
                const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual bool IsStatic() const;
 };
 
 

@@ -66,4 +66,13 @@ StaticMethod::StaticMethod(WrapperBase* wrapper,
 }
 
 
+/**
+ * Return whether the method is static.
+ */
+bool StaticMethod::IsStatic() const
+{
+  return true;
+}
+
+
 } // namespace _wrap_
