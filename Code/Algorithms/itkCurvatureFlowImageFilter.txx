@@ -60,7 +60,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   typename CurvatureFlowFunctionType::Pointer cffp;
   cffp = CurvatureFlowFunctionType::New();
 
-  this->SetDifferenceEquation( static_cast<FiniteDifferenceEquationType *>( 
+  this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>( 
     cffp.GetPointer() ) );
 
 }
@@ -95,13 +95,13 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
     {
     CurvatureFlowFunctionType *f = 
       dynamic_cast<CurvatureFlowFunctionType *>
-      (this->GetDifferenceEquation().GetPointer());
+      (this->GetDifferenceFunction().GetPointer());
     f->SetTimeStep( m_TimeStep );
     this->Superclass::InitializeIteration();           
     }
   catch( ... )
     {
-    itkErrorMacro(<<"DifferenceEquation not of type CurvatureFlowFunction");
+    itkErrorMacro(<<"DifferenceFunction not of type CurvatureFlowFunction");
     throw ExceptionObject( __FILE__, __LINE__ );
     }
 
@@ -170,8 +170,8 @@ DataObject * ptr )
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
-  typename FiniteDifferenceEquationType::RadiusType radius
-    = this->GetDifferenceEquation()->GetRadius();
+  typename FiniteDifferenceFunctionType::RadiusType radius
+    = this->GetDifferenceFunction()->GetRadius();
 
   for( int j = 0; j < ImageDimension; j++ )
     {

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradient2DAnisotropicDiffusionEquation.txx
+  Module:    itkGradient2DAnisotropicDiffusionFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,14 +38,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkGradient2DAnisotropicDiffusionEquation_txx_
-#define __itkGradient2DAnisotropicDiffusionEquation_txx_
+#ifndef __itkGradient2DAnisotropicDiffusionFunction_txx_
+#define __itkGradient2DAnisotropicDiffusionFunction_txx_
 
 namespace itk {
 
 template<class TImage>
-Gradient2DAnisotropicDiffusionEquation<TImage>
-::Gradient2DAnisotropicDiffusionEquation()
+Gradient2DAnisotropicDiffusionFunction<TImage>
+::Gradient2DAnisotropicDiffusionFunction()
 {
   RadiusType r;
   r[0] = 2;
@@ -69,8 +69,8 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-Gradient2DAnisotropicDiffusionEquation<TImage>::PixelType
-Gradient2DAnisotropicDiffusionEquation<TImage>
+Gradient2DAnisotropicDiffusionFunction<TImage>::PixelType
+Gradient2DAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
@@ -111,8 +111,8 @@ Gradient2DAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-Gradient2DAnisotropicDiffusionEquation<TImage>::PixelType
-Gradient2DAnisotropicDiffusionEquation<TImage>
+Gradient2DAnisotropicDiffusionFunction<TImage>::PixelType
+Gradient2DAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {

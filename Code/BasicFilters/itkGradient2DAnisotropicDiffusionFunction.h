@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientNDAnisotropicDiffusionEquation.h
+  Module:    itkGradient2DAnisotropicDiffusionFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,52 +38,51 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkGradientNDAnisotropicDiffusionEquation_h_
-#define __itkGradientNDAnisotropicDiffusionEquation_h_
+#ifndef __itkGradient2DAnisotropicDiffusionFunction_h_
+#define __itkGradient2DAnisotropicDiffusionFunction_h_
 
-#include "itkScalarAnisotropicDiffusionEquation.h"
+#include "itkScalarAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 
 namespace itk {
 
-/** \class GradientNDAnisotropicDiffusionEquation
+/** \class Gradient2DAnisotropicDiffusionFunction
  *  
  * This class implements an anisotropic equation with a conductance term that
  * varies spatially according to the gradient magnitude of the image.  See
- * AnisotropicDiffusionEquation for more information on anisotropic diffusion
+ * AnisotropicDiffusionFunction for more information on anisotropic diffusion
  * equations.
- *
  * The conductance term of the equation has the following form:
  *
  * \f[C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}\f].
  *
- * Edge features tend to be preserved in the resulting, diffused image.
+ * Edge features tend to be preserved in the processed image.
  *
- * This class implements the general case where image dimension is arbitrary.
+ * This class implements a special case where the image has is two dimensional.
  *
- * \sa AnisotropicDiffusionEquation
- * \sa Gradient2DAnisotropicDiffusionEquation
+ * \sa AnisotropicDiffusionFunction
+ * \sa GradientNDAnisotropicDiffusionFunction
  * \ingroup Operators
- */ 
+ */
 template <class TImage>
-class GradientNDAnisotropicDiffusionEquation :
-    public ScalarAnisotropicDiffusionEquation<TImage>
+class Gradient2DAnisotropicDiffusionFunction :
+    public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientNDAnisotropicDiffusionEquation Self;
-  typedef ScalarAnisotropicDiffusionEquation<TImage> Superclass;
+  typedef Gradient2DAnisotropicDiffusionFunction Self;
+  typedef ScalarAnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
-  itkTypeMacro( GradientNDAnisotropicDiffusionEquation,
-                ScalarAnisotropicDiffusionEquation );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( Gradient2DAnisotropicDiffusionFunction,
+                ScalarAnisotropicDiffusionFunction );
   
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
@@ -93,12 +92,12 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType
                    BoundaryNeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Inherit some parameters from the superclass type. */
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /** Compute the equation value. */
+  /** Update this equation. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
@@ -116,8 +115,8 @@ public:
     }
   
 protected:
-  GradientNDAnisotropicDiffusionEquation();
-  ~GradientNDAnisotropicDiffusionEquation() {}
+  Gradient2DAnisotropicDiffusionFunction();
+  ~Gradient2DAnisotropicDiffusionFunction() {}
 
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
@@ -125,26 +124,28 @@ protected:
   /** Boundary Inner product function. */
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
-  /** Slices for the ND neighborhood. */
-  std::slice  x_slice[ImageDimension];
-  std::slice xa_slice[ImageDimension][ImageDimension];
-  std::slice xd_slice[ImageDimension][ImageDimension];
+  /** Slices for the 2D neighborhood.
+   * 0  1  2  3  4
+   * 5  6 *7* 8  9
+   * 10 11 12 13 14 */
+  std::slice  x_slice; // (6,3,1)
+  std::slice  y_slice; // (2,3,5)
+  std::slice xa_slice; // (7,3,1)
+  std::slice ya_slice; // (3,3,5)
+  std::slice xd_slice; // (5,3,1)
+  std::slice yd_slice; // (1,3,5)
 
-  /** Derivative operator. */
-  DerivativeOperator<PixelType, ImageDimension> dx_op;
+  /** Derivative operators. */
+  DerivativeOperator<PixelType, 2> dx_op;
+  DerivativeOperator<PixelType, 2> dy_op;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_k;
-
-  unsigned long m_Center;
-  unsigned long m_Stride[ImageDimension];
-
-  static double m_MIN_NORM;
   
 private:
-  GradientNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  Gradient2DAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
 };
 
 
@@ -152,7 +153,7 @@ private:
 }// end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientNDAnisotropicDiffusionEquation.txx"
+#include "itkGradient2DAnisotropicDiffusionFunction.txx"
 #endif
 
 #endif

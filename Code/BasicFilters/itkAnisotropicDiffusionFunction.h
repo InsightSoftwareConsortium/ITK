@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAnisotropicDiffusionEquation.h
+  Module:    itkAnisotropicDiffusionFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,16 +38,16 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkAnisotropicDiffusionEquation_h_
-#define __itkAnisotropicDiffusionEquation_h_
+#ifndef __itkAnisotropicDiffusionFunction_h_
+#define __itkAnisotropicDiffusionFunction_h_
 
 
-#include "itkFiniteDifferenceEquation.h"
+#include "itkFiniteDifferenceFunction.h"
 
 namespace itk {
 
 /**
- * \class AnisotropicDiffusionEquation
+ * \class AnisotropicDiffusionFunction
  * \brief Base class for anisotropic diffusion equation objects.
  *
  * Anisotropic diffusion methods are a tools for calculating multi-scale
@@ -79,9 +79,9 @@ namespace itk {
  * finite forward difference technique (see the FiniteDifferenceImageFilter
  * class).
  *
- * \sa GradientAnisotropicDiffusionEquation
- * \sa CurvatureAnisotropicDiffusionEquation
- * \sa VectorGradientAnisotropicDiffusionEquation
+ * \sa GradientAnisotropicDiffusionFunction
+ * \sa CurvatureAnisotropicDiffusionFunction
+ * \sa VectorGradientAnisotropicDiffusionFunction
  * 
  *
  * \ingroup Operators
@@ -89,13 +89,13 @@ namespace itk {
  * \todo Documentation, references
  */
 template <class TImage>
-class AnisotropicDiffusionEquation :
-    public FiniteDifferenceEquation<TImage>
+class AnisotropicDiffusionFunction :
+    public FiniteDifferenceFunction<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef AnisotropicDiffusionEquation Self;
-  typedef FiniteDifferenceEquation<TImage> Superclass;
+  typedef AnisotropicDiffusionFunction Self;
+  typedef FiniteDifferenceFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -103,7 +103,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( AnisotropicDiffusionEquation, FiniteDifferenceEquation );
+  itkTypeMacro( AnisotropicDiffusionFunction, FiniteDifferenceFunction );
   
   /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType ImageType;
@@ -166,16 +166,16 @@ public:
 
   
 protected:
-  AnisotropicDiffusionEquation()
+  AnisotropicDiffusionFunction()
     {
       m_AverageGradientMagnitudeSquared = 0.0;
       m_ConductanceParameter     = 1.0;     // default value
       m_TimeStep                 = 0.125f;  // default value
     }
-  ~AnisotropicDiffusionEquation() {}
+  ~AnisotropicDiffusionFunction() {}
 
 private:
-  AnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  AnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   double m_AverageGradientMagnitudeSquared;

@@ -56,7 +56,7 @@ DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
   typename DemonsRegistrationFunctionType::Pointer drfp;
   drfp = DemonsRegistrationFunctionType::New();
 
-  this->SetDifferenceEquation( static_cast<FiniteDifferenceEquationType *>(
+  this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
     drfp.GetPointer() ) );
 
 }

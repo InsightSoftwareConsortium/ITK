@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkGradientAnisotropicDiffusionImageFilter_h_
 
 #include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkGradientNDAnisotropicDiffusionEquation.h"
+#include "itkGradientNDAnisotropicDiffusionFunction.h"
 
 namespace itk {
 
@@ -80,9 +80,9 @@ public:
 protected:
   GradientAnisotropicDiffusionImageFilter()
     {
-      GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p
-        = GradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-      this->SetDifferenceEquation(p);
+      GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
+        = GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+      this->SetDifferenceFunction(p);
     }
   ~GradientAnisotropicDiffusionImageFilter() {}
 

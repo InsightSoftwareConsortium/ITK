@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorCurvatureNDAnisotropicDiffusionEquation.txx
+  Module:    itkVectorCurvatureNDAnisotropicDiffusionFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,18 +38,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkVectorCurvatureNDAnisotropicDiffusionEquation_txx_
-#define __itkVectorCurvatureNDAnisotropicDiffusionEquation_txx_
+#ifndef __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx_
+#define __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx_
 
 namespace itk {
 
 template<class TImage>
-double VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
+double VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 ::m_MIN_NORM = 1.0e-10;
   
 template<class TImage>
-VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
-::VectorCurvatureNDAnisotropicDiffusionEquation()
+VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
+::VectorCurvatureNDAnisotropicDiffusionFunction()
 {
   unsigned int i, j;
   RadiusType r;
@@ -94,8 +94,8 @@ VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-VectorCurvatureNDAnisotropicDiffusionEquation<TImage>::PixelType
-VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
+VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
@@ -218,8 +218,8 @@ VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-VectorCurvatureNDAnisotropicDiffusionEquation<TImage>::PixelType
-VectorCurvatureNDAnisotropicDiffusionEquation<TImage>
+VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {

@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkPDEDeformableRegistrationFunction_h_
 #define _itkPDEDeformableRegistrationFunction_h_
 
-#include "itkFiniteDifferenceEquation.h"
+#include "itkFiniteDifferenceFunction.h"
 
 namespace itk {
 
@@ -61,12 +61,12 @@ namespace itk {
  */
 template<class TReference, class TTarget, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFunction : 
-  public FiniteDifferenceEquation<TDeformationField>
+  public FiniteDifferenceFunction<TDeformationField>
 {
 public:
   /** Standard class typedefs. */
   typedef PDEDeformableRegistrationFunction    Self;
-  typedef FiniteDifferenceEquation<TDeformationField>    Superclass;
+  typedef FiniteDifferenceFunction<TDeformationField>    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -75,7 +75,7 @@ public:
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( PDEDeformableRegistrationFunction, 
-    FiniteDifferenceEquation );
+    FiniteDifferenceFunction );
 
   /** Reference image type. */
   typedef TReference   ReferenceType;

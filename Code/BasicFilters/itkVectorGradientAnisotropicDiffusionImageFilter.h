@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkExceptionObject.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkVectorGradientNDAnisotropicDiffusionEquation.h"
+#include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
 
 namespace itk {
 
@@ -82,9 +82,9 @@ public:
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
     {
-      VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-        = VectorGradientNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-      this->SetDifferenceEquation(p);
+      VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p        
+        = VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+      this->SetDifferenceFunction(p);
     }
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
 

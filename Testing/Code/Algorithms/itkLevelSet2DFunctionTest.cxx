@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSet2DEquationTest.cxx
+  Module:    itkLevelSet2DFunctionTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -39,8 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "itkImageRegionIterator.h"
-#include "itkLevelSetEquation.h"
-#include "itkLevelSet2DEquation.h"
+#include "itkLevelSetFunction.h"
+#include "itkLevelSet2DFunction.h"
 #include "itkDenseFiniteDifferenceImageFilter.h"
 //#include "itkRawImageWriter.h"
 
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * This test exercises the dense p.d.e. solver framework
  * itkDenseFiniteDifferenceImageFilter and the two-dimensional level
  * set surface modeling function object.  It shows how to subclass
- * the DenseFiniteDifferenceImageFilter and the LevelSet2DEquation to
+ * the DenseFiniteDifferenceImageFilter and the LevelSet2DFunction to
  * create a very simple level set surface evolution application.
  * 
  * This application morphs a circle to a square using the level-set surface
@@ -106,20 +106,20 @@ void evaluate_function(itk::Image<float, 2> *im,
 namespace itk {
 
 /**
- * \class MorphEquation
- * Subclasses LevelSet2DEquation, supplying the ``PropagationSpeed'' term.
+ * \class MorphFunction
+ * Subclasses LevelSet2DFunction, supplying the ``PropagationSpeed'' term.
  * 
- * See LevelSetEquation for more information.
+ * See LevelSetFunction for more information.
  */
-class MorphEquation : public LevelSet2DEquation< Image<float, 2> >
+class MorphFunction : public LevelSet2DFunction< Image<float, 2> >
 {
 public:
   void SetDistanceTransform (Image<float, 2> *d)
     { m_DistanceTransform = d; }
   
-  typedef MorphEquation Self;
+  typedef MorphFunction Self;
 
-  typedef LevelSet2DEquation< Image<float, 2> > Superclass;
+  typedef LevelSet2DFunction< Image<float, 2> > Superclass;
   typedef Superclass::RadiusType RadiusType;
   
    /** 
@@ -131,7 +131,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphEquation, LevelSet2DEquation );
+  itkTypeMacro( MorphFunction, LevelSet2DFunction );
   
   /**
    * Method for creation through the object factory.
@@ -139,9 +139,9 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~MorphEquation() {}
+  ~MorphFunction() {}
 
-  MorphEquation()
+  MorphFunction()
     {
       RadiusType r;
       r[0] = r[1] = 1;
@@ -185,7 +185,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphEquation, LevelSet2DEquation );
+  itkTypeMacro( MorphFunction, LevelSet2DFunction );
   
   /**
    * Method for creation through the object factory.
@@ -196,7 +196,7 @@ public:
 
   void SetDistanceTransform(Image<float, 2> *im)
     {
-      ((MorphEquation *)(this->GetDifferenceEquation().GetPointer()))
+      ((MorphFunction *)(this->GetDifferenceFunction().GetPointer()))
         ->SetDistanceTransform(im);
     }
 
@@ -205,11 +205,11 @@ protected:
   ~MorphFilter() {}
   MorphFilter()
     {
-      MorphEquation::Pointer p = MorphEquation::New();
+      MorphFunction::Pointer p = MorphFunction::New();
       p->SetPropagationWeight(-1.0);
       p->SetAdvectionWeight(0.0);
       p->SetCurvatureWeight(1.0);
-      this->SetDifferenceEquation(p);
+      this->SetDifferenceFunction(p);
 
     }
   MorphFilter(const Self &) {}

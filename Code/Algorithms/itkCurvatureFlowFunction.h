@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkCurvatureFlowFunction_h_
 #define __itkCurvatureFlowFunction_h_
 
-#include "itkFiniteDifferenceEquation.h"
+#include "itkFiniteDifferenceFunction.h"
 #include "itkMacro.h"
 
 namespace itk {
@@ -61,12 +61,12 @@ namespace itk {
 */
 template <class TImage>
 class CurvatureFlowFunction :
-    public FiniteDifferenceEquation<TImage>
+    public FiniteDifferenceFunction<TImage>
 {
 public:
   /**  Standard class typedefs. */
   typedef CurvatureFlowFunction Self;
-  typedef FiniteDifferenceEquation<TImage> Superclass;
+  typedef FiniteDifferenceFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 

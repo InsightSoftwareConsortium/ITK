@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientNDAnisotropicDiffusionEquation.txx
+  Module:    itkGradientNDAnisotropicDiffusionFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,18 +38,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkGradientNDAnisotropicDiffusionEquation_txx_
-#define __itkGradientNDAnisotropicDiffusionEquation_txx_
+#ifndef __itkGradientNDAnisotropicDiffusionFunction_txx_
+#define __itkGradientNDAnisotropicDiffusionFunction_txx_
 
 namespace itk {
 
 template<class TImage>
-double GradientNDAnisotropicDiffusionEquation<TImage>
+double GradientNDAnisotropicDiffusionFunction<TImage>
 ::m_MIN_NORM = 1.0e-10;
   
 template<class TImage>
-GradientNDAnisotropicDiffusionEquation<TImage>
-::GradientNDAnisotropicDiffusionEquation()
+GradientNDAnisotropicDiffusionFunction<TImage>
+::GradientNDAnisotropicDiffusionFunction()
 {
   unsigned int i, j;
   RadiusType r;
@@ -94,8 +94,8 @@ GradientNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-GradientNDAnisotropicDiffusionEquation<TImage>::PixelType
-GradientNDAnisotropicDiffusionEquation<TImage>
+GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+GradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
@@ -159,8 +159,8 @@ GradientNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-GradientNDAnisotropicDiffusionEquation<TImage>::PixelType
-GradientNDAnisotropicDiffusionEquation<TImage>
+GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+GradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {

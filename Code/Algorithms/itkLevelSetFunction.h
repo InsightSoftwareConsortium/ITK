@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetEquation.h
+  Module:    itkLevelSetFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,16 +38,16 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkLevelSetEquation_h_
-#define __itkLevelSetEquation_h_
+#ifndef __itkLevelSetFunction_h_
+#define __itkLevelSetFunction_h_
 
-#include "itkFiniteDifferenceEquation.h"
+#include "itkFiniteDifferenceFunction.h"
 #include "itkVector.h"
 #include "itkNeighborhoodInnerProduct.h"
 
 namespace itk {
 
-/** \class LevelSetEquation
+/** \class LevelSetFunction
  *
  * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
  * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
@@ -56,12 +56,12 @@ namespace itk {
  * level set arch proposal
  */
 template <class TImageType>
-class LevelSetEquation : public FiniteDifferenceEquation<TImageType>
+class LevelSetFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
   /** Standard class typedefs. */
-  typedef LevelSetEquation Self;
-  typedef FiniteDifferenceEquation<TImageType> Superclass;
+  typedef LevelSetFunction Self;
+  typedef FiniteDifferenceFunction<TImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( LevelSetEquation,  FiniteDifferenceEquation );
+  itkTypeMacro( LevelSetFunction,  FiniteDifferenceFunction );
 
   /** The image dimension. */
   enum { ImageDimension = Superclass::ImageDimension };
@@ -143,17 +143,17 @@ public:
     { return m_EpsilonMagnitude; }
       
 protected:
-  LevelSetEquation()
+  LevelSetFunction()
     {
       m_EpsilonMagnitude = 1.0e-5;
       m_AdvectionWeight = m_PropagationWeight = m_CurvatureWeight =
         NumericTraits<ScalarValueType>::Zero;
     }
-  ~LevelSetEquation() {}
+  ~LevelSetFunction() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
   {
-    os << indent << "LevelSetEquation";
+    os << indent << "LevelSetFunction";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
   }
 
@@ -183,7 +183,7 @@ protected:
   ScalarValueType m_CurvatureWeight;
 
 private:
-  LevelSetEquation(const Self&); //purposely not implemented
+  LevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
 
@@ -192,7 +192,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquation.txx"
+#include "itkLevelSetFunction.txx"
 #endif
 
 #endif

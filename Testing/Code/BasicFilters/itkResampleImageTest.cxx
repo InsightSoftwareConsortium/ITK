@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 enum {NDimensions = 2};
 
-typedef short                  PixelType;
+typedef float                  PixelType;
 typedef itk::Image<PixelType, NDimensions>     ImageType;
 typedef ImageType::IndexType                ImageIndexType;
 typedef ImageType::Pointer                  ImagePointerType;

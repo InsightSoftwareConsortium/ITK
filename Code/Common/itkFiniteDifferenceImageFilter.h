@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkFiniteDifferenceImageFilter_h_
 
 #include "itkImageToImageFilter.h"
-#include "itkFiniteDifferenceEquation.h"
+#include "itkFiniteDifferenceFunction.h"
 
 namespace itk {
 
@@ -105,22 +105,22 @@ public:
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef FiniteDifferenceEquation<TOutputImage> FiniteDifferenceEquationType;
-  typedef typename FiniteDifferenceEquationType::TimeStepType TimeStepType;
+  typedef FiniteDifferenceFunction<TOutputImage> FiniteDifferenceFunctionType;
+  typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
     
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstMacro(ElapsedIterations, unsigned int);
 
-  /** This method returns a pointer to a FiniteDifferenceEquation object that
+  /** This method returns a pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
-  itkGetConstReferenceObjectMacro(DifferenceEquation,
-                                  FiniteDifferenceEquationType );
+  itkGetConstReferenceObjectMacro(DifferenceFunction,
+                                  FiniteDifferenceFunctionType );
 
-  /** This method sets the pointer to a FiniteDifferenceEquation object that
+  /** This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
-  itkSetObjectMacro(DifferenceEquation, FiniteDifferenceEquationType );
+  itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType );
 
 protected:
   FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {}
@@ -174,7 +174,7 @@ protected:
    * otherwise prepare for the next iteration.
    * */
   virtual void InitializeIteration()
-    { m_DifferenceEquation->InitializeIteration(); }
+    { m_DifferenceFunction->InitializeIteration(); }
   
   /** Virtual method for resolving a single time step from a set of time steps
    * returned from processing threads.
@@ -204,7 +204,7 @@ private:
   unsigned int m_ElapsedIterations;
 
   /** The function that will be used in calculating updates for each pixel. */
-  typename FiniteDifferenceEquationType::Pointer m_DifferenceEquation;
+  typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction;
 };
   
 }// end namespace itk

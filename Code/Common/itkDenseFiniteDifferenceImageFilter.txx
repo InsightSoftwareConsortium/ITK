@@ -113,7 +113,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
   int threadCount;
   TimeStepType dt;
-  
+
   // Set up for multithreaded processing.
   DenseFDThreadStruct str;
   str.Filter = this;
@@ -206,9 +206,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   typedef typename OutputImageType::SizeValueType   SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
   typedef typename OutputImageType::IndexValueType  IndexValueType;
-  typedef typename FiniteDifferenceEquationType::BoundaryNeighborhoodType
+  typedef typename FiniteDifferenceFunctionType::BoundaryNeighborhoodType
     BoundaryIteratorType;
-  typedef typename FiniteDifferenceEquationType::NeighborhoodType
+  typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
   typedef ImageRegionIterator<UpdateBufferType> UpdateIteratorType;
 
@@ -222,8 +222,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // that are outside the boundary and within the neighborhood radius so will
   // have to treat them differently).  We also determine the size of the non-
   // boundary region that will be processed.
-  const typename FiniteDifferenceEquationType::Pointer df
-    = this->GetDifferenceEquation();
+  const typename FiniteDifferenceFunctionType::Pointer df
+    = this->GetDifferenceFunction();
   const IndexType bStart = output->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = output->GetBufferedRegion().GetSize();
   const IndexType rStart = regionToProcess.GetIndex();
@@ -318,6 +318,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
     }
 
   // Process each of the boundary faces.
+
   BoundaryIteratorType bD;
   UpdateIteratorType   bU;
   for (std::vector<RegionType>::iterator fIt = faceList.begin();
@@ -341,7 +342,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // ask it to free the global data memory.
   timeStep = df->ComputeGlobalTimeStep(globalData);
   df->ReleaseGlobalDataPointer(globalData);
-  
+
   return timeStep;
 }
 

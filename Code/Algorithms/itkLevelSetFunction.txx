@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetEquation.txx
+  Module:    itkLevelSetFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,14 +38,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkLevelSetEquation_txx_
-#define __itkLevelSetEquation_txx_
+#ifndef __itkLevelSetFunction_txx_
+#define __itkLevelSetFunction_txx_
 
 namespace itk {
   
 template <class TImageType>
-typename LevelSetEquation<TImageType>::VectorType
-LevelSetEquation<TImageType>::InitializeZeroVectorConstant()
+typename LevelSetFunction<TImageType>::VectorType
+LevelSetFunction<TImageType>::InitializeZeroVectorConstant()
 {
   VectorType ans;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -57,9 +57,9 @@ LevelSetEquation<TImageType>::InitializeZeroVectorConstant()
 }
 
 template <class TImageType>
-typename LevelSetEquation<TImageType>::VectorType
-LevelSetEquation<TImageType>::m_ZeroVectorConstant =
-LevelSetEquation<TImageType>::InitializeZeroVectorConstant();
+typename LevelSetFunction<TImageType>::VectorType
+LevelSetFunction<TImageType>::m_ZeroVectorConstant =
+LevelSetFunction<TImageType>::InitializeZeroVectorConstant();
   
 
 } // end namespace itk

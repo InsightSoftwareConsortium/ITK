@@ -65,7 +65,7 @@ namespace itk {
   * be performed and the timestep between each update.
   *
   * This filter make use of the multi-threaded finite difference solver
-  * hierarchy.  Updates are computed using a CurvatureFlowEquation object. A
+  * hierarchy.  Updates are computed using a CurvatureFlowFunction object. A
   * zero flux Neumann boundary condition when computing derivatives near the
   * data boundary.
   *
@@ -82,7 +82,7 @@ namespace itk {
   * Cambridge Press, Chapter 16, Second edition, 1999.
   *
   * \sa DenseFiniteDifferenceImageFilter
-  * \sa CurvatureFlowEquation
+  * \sa CurvatureFlowFunction
   *
   * \ingroup ImageEnhancement Multithreaded Streamed
   * 
@@ -112,9 +112,9 @@ public:
   /** OutputImage type. */
   typedef typename Superclass::OutputImageType OutputImageType;
 
-  /** FiniteDifferenceEquation type. */
-  typedef typename Superclass::FiniteDifferenceEquationType
-    FiniteDifferenceEquationType;
+  /** FiniteDifferenceFunction type. */
+  typedef typename Superclass::FiniteDifferenceFunctionType
+    FiniteDifferenceFunctionType;
 
   /** CurvatureFlowFunction type. */
   typedef CurvatureFlowFunction<OutputImageType>

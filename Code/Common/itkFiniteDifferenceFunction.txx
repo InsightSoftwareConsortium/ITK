@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarAnisotropicDiffusionEquation.h
+  Module:    $RCSfile: itkAcosImageAdaptor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,62 +38,32 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkScalarAnisotropicDiffusionEquation_h_
-#define __itkScalarAnisotropicDiffusionEquation_h_
-
-
-#include "itkAnisotropicDiffusionEquation.h"
+#ifndef __itkFiniteDifferenceFunction_txx_
+#define __itkFiniteDifferenceFunction_txx_
 
 namespace itk {
-
-/**
- * \todo DOCUMENT!
- * \ingroup Operators
- */ 
-template <class TImage>
-class ScalarAnisotropicDiffusionEquation :
-    public AnisotropicDiffusionEquation<TImage>
-{
-public:
- /** Standard class typedefs. */
-  typedef ScalarAnisotropicDiffusionEquation Self;
-  typedef AnisotropicDiffusionEquation<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-  /** Inherit some parameters from the superclass type. */
-  enum { ImageDimension = Superclass::ImageDimension };
-
-  /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
-  typedef typename Superclass::TimeStepType TimeStepType;
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarAnisotropicDiffusionEquation,
-                AnisotropicDiffusionEquation);
   
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+template <class TImageType>
+typename FiniteDifferenceFunction<TImageType>::FloatOffsetType
+FiniteDifferenceFunction<TImageType>::m_ZeroOffset
+= FiniteDifferenceFunction<TImageType>::InitializeZeroOffset();
 
-  virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
+template <class TImageType>
+typename FiniteDifferenceFunction<TImageType>::FloatOffsetType
+FiniteDifferenceFunction<TImageType>
+::InitializeZeroOffset()
+{
+  FloatOffsetType ans;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+      ans[i] = 0.0f;
+    }
 
-protected:
-  ScalarAnisotropicDiffusionEquation() {}
-  ~ScalarAnisotropicDiffusionEquation() {}
+  return ans;
+}
+  
+  
+} // end namespace itk
 
-private:
-  ScalarAnisotropicDiffusionEquation(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
-
-}// end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarAnisotropicDiffusionEquation.txx"
-#endif
 
 #endif

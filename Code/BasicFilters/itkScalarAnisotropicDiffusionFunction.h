@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorAnisotropicDiffusionEquation.h
+  Module:    itkScalarAnisotropicDiffusionFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,72 +38,62 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkVectorAnisotropicDiffusionEquation_h_
-#define __itkVectorAnisotropicDiffusionEquation_h_
+#ifndef __itkScalarAnisotropicDiffusionFunction_h_
+#define __itkScalarAnisotropicDiffusionFunction_h_
 
-#include "itkAnisotropicDiffusionEquation.h"
-#include "itkVector.h"
+
+#include "itkAnisotropicDiffusionFunction.h"
 
 namespace itk {
 
-/** \class VectorAnisotropicDiffusionEquation
- * 
- * Requirements:
- *      1) Image PixelType must have an internal typedef of ValueType,
- *            i.e. TImage::PixelType::ValueType must be defined as the
- *                 as the type of one value (element/component) of a pixel.
- *                 Since we are talking about vector anisotropic diffusion,
- *                 this is the type of an element of the vector (float, etc.)
- *
- *  \ingroup Operators
- *
+/**
+ * \todo DOCUMENT!
+ * \ingroup Operators
  */ 
 template <class TImage>
-class VectorAnisotropicDiffusionEquation :
-    public AnisotropicDiffusionEquation<TImage>
+class ScalarAnisotropicDiffusionFunction :
+    public AnisotropicDiffusionFunction<TImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorAnisotropicDiffusionEquation   Self;
-  typedef AnisotropicDiffusionEquation<TImage> Superclass;
+ /** Standard class typedefs. */
+  typedef ScalarAnisotropicDiffusionFunction Self;
+  typedef AnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
+  /** Inherit some parameters from the superclass type. */
+  enum { ImageDimension = Superclass::ImageDimension };
+
+  /** Inherit some parameters from the superclass type. */
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::TimeStepType TimeStepType;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ScalarAnisotropicDiffusionFunction,
+                AnisotropicDiffusionFunction);
+  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
-  itkTypeMacro(VectorAnisotropicDiffusionEquation,
-               AnisotropicDiffusionEquation);
-  
-  /** Inherit some parameters from the superclass type */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
-
-  /** Inherit some parameters from the superclass type */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = PixelType::VectorDimension };
-
-  /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
 protected:
-  VectorAnisotropicDiffusionEquation() {}
-  ~VectorAnisotropicDiffusionEquation() {}
+  ScalarAnisotropicDiffusionFunction() {}
+  ~ScalarAnisotropicDiffusionFunction() {}
 
 private:
-  VectorAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  ScalarAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
 
 }// end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorAnisotropicDiffusionEquation.txx"
+#include "itkScalarAnisotropicDiffusionFunction.txx"
 #endif
 
 #endif

@@ -115,9 +115,9 @@ public:
   typedef typename Superclass::DeformationFieldPointer  
     DeformationFieldPointer;
 
-  /** FiniteDifferenceEquation type. */
-  typedef typename Superclass::FiniteDifferenceEquationType
-    FiniteDifferenceEquationType;
+  /** FiniteDifferenceFunction type. */
+  typedef typename Superclass::FiniteDifferenceFunctionType
+    FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
   typedef DemonsRegistrationFunction<ReferenceType,TargetType,

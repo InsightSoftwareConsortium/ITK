@@ -82,8 +82,8 @@ public:
   /** Convenient typedefs */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::FiniteDifferenceEquationType
-   FiniteDifferenceEquationType;
+  typedef typename Superclass::FiniteDifferenceFunctionType
+   FiniteDifferenceFunctionType;
   
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */

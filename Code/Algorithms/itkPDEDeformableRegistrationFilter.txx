@@ -206,14 +206,14 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
     {
     PDEDeformableRegistrationFunctionType *f = 
       dynamic_cast<PDEDeformableRegistrationFunctionType *>
-      (this->GetDifferenceEquation().GetPointer());
+      (this->GetDifferenceFunction().GetPointer());
     f->SetReference( refPtr );
     f->SetTarget( targetPtr );
     this->Superclass::InitializeIteration();           
     }
   catch( ... )
     {
-    itkErrorMacro(<<"FiniteDifferenceEquation not of type PDEDeformableRegistrationFilterFunction");
+    itkErrorMacro(<<"FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
     throw ExceptionObject( __FILE__, __LINE__ );
     }
 

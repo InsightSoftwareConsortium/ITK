@@ -13,7 +13,7 @@ SOURCE_GROUP("XML Files" "[.]xml$")
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 
 # Walk into these directories before Testing or Auxiliary
-SUBDIRS(Utilities Code)
+SUBDIRS(Utilities Code Examples/StreamedWatershedSegmentation)
 
 # Include the standard Dart testing module
 INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)

@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkAnisotropicDiffusionImageFilter_h_
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
-#include "itkAnisotropicDiffusionEquation.h"
+#include "itkAnisotropicDiffusionFunction.h"
 #include "itkNumericTraits.h"
 
 namespace itk {
@@ -134,9 +134,9 @@ protected:
   /** Prepare for the iteration process. */
   virtual void InitializeIteration()
     {
-      AnisotropicDiffusionEquation<UpdateBufferType> *f = 
-        dynamic_cast<AnisotropicDiffusionEquation<UpdateBufferType> *>
-        (this->GetDifferenceEquation().GetPointer());
+      AnisotropicDiffusionFunction<UpdateBufferType> *f = 
+        dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
+        (this->GetDifferenceFunction().GetPointer());
       f->SetConductanceParameter(m_ConductanceParameter);
       
       if (m_GradientMagnitudeIsFixed == false)

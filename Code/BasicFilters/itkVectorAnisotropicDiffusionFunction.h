@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCurvatureAnisotropicDiffusionImageFilter.h
+  Module:    itkVectorAnisotropicDiffusionFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,66 +38,72 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkCurvatureAnisotropicDiffusionImageFilter_h_
-#define __itkCurvatureAnisotropicDiffusionImageFilter_h_
+#ifndef __itkVectorAnisotropicDiffusionFunction_h_
+#define __itkVectorAnisotropicDiffusionFunction_h_
 
-#include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkCurvatureNDAnisotropicDiffusionFunction.h"
+#include "itkAnisotropicDiffusionFunction.h"
+#include "itkVector.h"
 
 namespace itk {
 
-
-/**
- * \class CurvatureAnisotropicDiffusionImageFilter
+/** \class VectorAnisotropicDiffusionFunction
+ * 
+ * Requirements:
+ *      1) Image PixelType must have an internal typedef of ValueType,
+ *            i.e. TImage::PixelType::ValueType must be defined as the
+ *                 as the type of one value (element/component) of a pixel.
+ *                 Since we are talking about vector anisotropic diffusion,
+ *                 this is the type of an element of the vector (float, etc.)
  *
- * \ingroup ImageEnhancement 
+ *  \ingroup Operators
  *
- *\todo Document.
- */
-template <class TInputImage, class TOutputImage>
-class CurvatureAnisotropicDiffusionImageFilter
-  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
+ */ 
+template <class TImage>
+class VectorAnisotropicDiffusionFunction :
+    public AnisotropicDiffusionFunction<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvatureAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-   Superclass;
+  typedef VectorAnisotropicDiffusionFunction   Self;
+  typedef AnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /** Standard method for creation through object factory. */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time information. */
-  itkTypeMacro(CurvatureAnisotropicDiffusionImageFilter,
-               AnisotropicDiffusionImageFilter);
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(VectorAnisotropicDiffusionFunction,
+               AnisotropicDiffusionFunction);
   
-  /** Extract superclass information. */
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
-  
-  /** Extract superclass image dimension. */
+  /** Inherit some parameters from the superclass type */
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
+  typedef typename Superclass::RadiusType       RadiusType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+
+  /** Inherit some parameters from the superclass type */
   enum { ImageDimension = Superclass::ImageDimension };
-  
+  enum { VectorDimension = PixelType::VectorDimension };
+
+  /** Compute the average gradient magnitude squared. */
+  virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
+
 protected:
-  CurvatureAnisotropicDiffusionImageFilter()
-    {
-      CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
-          = CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
-      this->SetDifferenceFunction(q);
-    }
-  ~CurvatureAnisotropicDiffusionImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os, indent.GetNextIndent());
-    }
+  VectorAnisotropicDiffusionFunction() {}
+  ~VectorAnisotropicDiffusionFunction() {}
 
 private:
-  CurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
+  VectorAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
-} // end namspace itk
+}// end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkVectorAnisotropicDiffusionFunction.txx"
+#endif
 
 #endif

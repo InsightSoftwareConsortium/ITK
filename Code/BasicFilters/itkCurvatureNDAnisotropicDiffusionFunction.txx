@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCurvatureNDAnisotropicDiffusionEquation.txx
+  Module:    itkCurvatureNDAnisotropicDiffusionFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,18 +38,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkCurvatureNDAnisotropicDiffusionEquation_txx_
-#define __itkCurvatureNDAnisotropicDiffusionEquation_txx_
+#ifndef __itkCurvatureNDAnisotropicDiffusionFunction_txx_
+#define __itkCurvatureNDAnisotropicDiffusionFunction_txx_
 
 namespace itk {
 
 template<class TImage>
-double CurvatureNDAnisotropicDiffusionEquation<TImage>
+double CurvatureNDAnisotropicDiffusionFunction<TImage>
 ::m_MIN_NORM = 1.0e-10;
  
 template<class TImage>
-CurvatureNDAnisotropicDiffusionEquation<TImage>
-::CurvatureNDAnisotropicDiffusionEquation()
+CurvatureNDAnisotropicDiffusionFunction<TImage>
+::CurvatureNDAnisotropicDiffusionFunction()
 {
   unsigned int i, j;
   RadiusType r;
@@ -94,8 +94,8 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-CurvatureNDAnisotropicDiffusionEquation<TImage>::PixelType
-CurvatureNDAnisotropicDiffusionEquation<TImage>
+CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+CurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
@@ -179,8 +179,8 @@ CurvatureNDAnisotropicDiffusionEquation<TImage>
 }
 
 template<class TImage>
-CurvatureNDAnisotropicDiffusionEquation<TImage>::PixelType
-CurvatureNDAnisotropicDiffusionEquation<TImage>
+CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+CurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {

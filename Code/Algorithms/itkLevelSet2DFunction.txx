@@ -38,22 +38,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkLevelSet2DEquation_txx_
-#define __itkLevelSet2DEquation_txx_
+#ifndef __itkLevelSet2DFunction_txx_
+#define __itkLevelSet2DFunction_txx_
 
-#include "itkLevelSet2DEquation.h"
+#include "itkLevelSet2DFunction.h"
 
 namespace itk {
 
 template< class TImageType >
-double LevelSet2DEquation<TImageType>::m_WaveDT = 0.20;
+double LevelSet2DFunction<TImageType>::m_WaveDT = 0.20;
 
 template < class TImageType >
-double LevelSet2DEquation<TImageType>::m_DT     = 0.25;
+double LevelSet2DFunction<TImageType>::m_DT     = 0.25;
 
 template< class TImageType >
-typename LevelSet2DEquation< TImageType >::TimeStepType
-LevelSet2DEquation<TImageType>
+typename LevelSet2DFunction< TImageType >::TimeStepType
+LevelSet2DFunction<TImageType>
 ::ComputeGlobalTimeStep(void *GlobalData) const
 {
   TimeStepType dt;
@@ -90,7 +90,7 @@ LevelSet2DEquation<TImageType>
  
 template< class TImageType >
 void
-LevelSet2DEquation< TImageType>
+LevelSet2DFunction< TImageType>
 ::Initialize(const RadiusType &r)
 {
   this->SetRadius(r);
@@ -137,8 +137,8 @@ LevelSet2DEquation< TImageType>
 }
   
 template< class TImageType >
-typename LevelSet2DEquation< TImageType >::PixelType
-LevelSet2DEquation< TImageType >
+typename LevelSet2DFunction< TImageType >::PixelType
+LevelSet2DFunction< TImageType >
 ::ComputeUpdate(const NeighborhoodType &it, void *gd,
                 const FloatOffsetType& offset) const
 {
@@ -290,8 +290,8 @@ LevelSet2DEquation< TImageType >
 
 
 template< class TImageType >
-typename LevelSet2DEquation< TImageType >::PixelType
-LevelSet2DEquation< TImageType >
+typename LevelSet2DFunction< TImageType >::PixelType
+LevelSet2DFunction< TImageType >
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *gd,
                 const FloatOffsetType& offset) const
 {

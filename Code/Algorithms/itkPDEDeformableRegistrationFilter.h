@@ -117,9 +117,9 @@ public:
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
 
-  /** FiniteDifferenceEquation type. */
-  typedef typename Superclass::FiniteDifferenceEquationType
-    FiniteDifferenceEquationType;
+  /** FiniteDifferenceFunction type. */
+  typedef typename Superclass::FiniteDifferenceFunctionType
+    FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
   typedef PDEDeformableRegistrationFunction<ReferenceType,TargetType,

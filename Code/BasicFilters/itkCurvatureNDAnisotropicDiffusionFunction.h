@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorCurvatureNDAnisotropicDiffusionEquation.h
+  Module:    itkCurvatureNDAnisotropicDiffusionFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,40 +38,42 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkVectorCurvatureNDAnisotropicDiffusionEquation_h_
-#define __itkVectorCurvatureNDAnisotropicDiffusionEquation_h_
+#ifndef __itkCurvatureNDAnisotropicDiffusionFunction_h_
+#define __itkCurvatureNDAnisotropicDiffusionFunction_h_
 
-#include "itkVectorAnisotropicDiffusionEquation.h"
+#include "itkScalarAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkVectorNeighborhoodInnerProduct.h"
+#include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 
 namespace itk {
 
-/** \class VectorCurvatureNDAnisotropicDiffusionEquation
+/**
+ * \class CurvatureNDAnisotropicDiffusionFunction
  *  
- * \sa AnisotropicDiffusionEquation
- * \sa VectorCurvature2DAnisotropicDiffusionEquation
+ *  
+ * \sa AnisotropicDiffusionFunction
+ * \sa Curvature2DAnisotropicDiffusionFunction
  * \ingroup Operators
  * \todo DOCUMENT! References
  */ 
 template <class TImage>
-class VectorCurvatureNDAnisotropicDiffusionEquation :
-    public VectorAnisotropicDiffusionEquation<TImage>
+class CurvatureNDAnisotropicDiffusionFunction :
+    public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
- /** Standard itk Self & Superclass typedefs */
-  typedef VectorCurvatureNDAnisotropicDiffusionEquation Self;
-  typedef VectorAnisotropicDiffusionEquation<TImage> Superclass;
+  /** Standard class typedefs. */
+  typedef CurvatureNDAnisotropicDiffusionFunction Self;
+  typedef ScalarAnisotropicDiffusionFunction<TImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( VectorCurvatureNDAnisotropicDiffusionEquation,
-                VectorAnisotropicDiffusionEquation );
+  /** Run-time type information (and related methods) */
+  itkTypeMacro( CurvatureNDAnisotropicDiffusionFunction,
+                ScalarAnisotropicDiffusionFunction );
   
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
@@ -82,13 +84,11 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType
     BoundaryNeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename PixelType::ValueType ScalarValueType;
-  
-  /** Extract the image and vector dimension. */
-  enum { ImageDimension = Superclass::ImageDimension };
-  enum { VectorDimension = Superclass::VectorDimension };
 
-  /** Compute the equation value. */
+  /** Inherit some parameters from the superclass type. */
+  enum { ImageDimension = Superclass::ImageDimension };
+
+  /** Compute incremental update. */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void *globalData,
                                   const FloatOffsetType& offset = m_ZeroOffset
@@ -106,18 +106,18 @@ public:
     }
   
 protected:
-  VectorCurvatureNDAnisotropicDiffusionEquation();
-  ~VectorCurvatureNDAnisotropicDiffusionEquation() {}
+  CurvatureNDAnisotropicDiffusionFunction();
+  ~CurvatureNDAnisotropicDiffusionFunction() {}
 
 private:
-  VectorCurvatureNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  CurvatureNDAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   /** Inner product function. */
-  VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
   /** Boundary Inner product function. */
-  SmartVectorNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
+  SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
@@ -125,19 +125,14 @@ private:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
-  DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
+  DerivativeOperator<PixelType, ImageDimension> dx_op;
 
   /** Modified global average gradient magnitude term. */
-  double m_k;
+  PixelType m_k;
 
-  /**
-   *
-   */
+  /** */
   static double m_MIN_NORM;
-
-  /**
-   * 
-   */
+  
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
 
@@ -148,7 +143,7 @@ private:
 }// end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorCurvatureNDAnisotropicDiffusionEquation.txx"
+#include "itkCurvatureNDAnisotropicDiffusionFunction.txx"
 #endif
 
 #endif

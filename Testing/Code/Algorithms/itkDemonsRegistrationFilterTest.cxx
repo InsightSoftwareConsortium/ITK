@@ -210,7 +210,7 @@ int main()
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(
-    registrator->GetDifferenceEquation().GetPointer() );
+    registrator->GetDifferenceFunction().GetPointer() );
   fptr->Print( std::cout );
 
   ShowProgressObject progressWatch(registrator);

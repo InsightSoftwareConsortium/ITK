@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFiniteDifferenceEquation.h
+  Module:    itkFiniteDifferenceFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceEquation_h_
-#define __itkFiniteDifferenceEquation_h_
+#ifndef __itkFiniteDifferenceFunction_h_
+#define __itkFiniteDifferenceFunction_h_
 
 #include "itkLightObject.h"
 #include "itkConstNeighborhoodIterator.h"
@@ -50,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /**
- * \class FiniteDifferenceEquation
+ * \class FiniteDifferenceFunction
  *
  * This class implements an abstract equation that plugs into finite difference
  * solver filters.
@@ -62,17 +62,17 @@ namespace itk {
  * \ingroup Operators
  */
 template<class TImageType>
-class FiniteDifferenceEquation : public LightObject
+class FiniteDifferenceFunction : public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef FiniteDifferenceEquation Self;
+  typedef FiniteDifferenceFunction Self;
   typedef LightObject Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods) */
-  itkTypeMacro( FiniteDifferenceEquation, LightObject );
+  itkTypeMacro( FiniteDifferenceFunction, LightObject );
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -182,11 +182,11 @@ public:
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const =0;
   
 protected:
-  FiniteDifferenceEquation() {}
-  ~FiniteDifferenceEquation() {}
+  FiniteDifferenceFunction() {}
+  ~FiniteDifferenceFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
-    os << indent << "FiniteDifferenceEquation";
+    os << indent << "FiniteDifferenceFunction";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
   }
 
@@ -197,7 +197,7 @@ protected:
   static FloatOffsetType m_ZeroOffset;
 
 private:
-  FiniteDifferenceEquation(const Self&); //purposely not implemented
+  FiniteDifferenceFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** Used internally for the sole purpose of initialization of the static
@@ -209,7 +209,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceEquation.txx"
+#include "itkFiniteDifferenceFunction.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSet2DEquation.h
+  Module:    itkLevelSet2DFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,15 +38,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkLevelSet2DEquation_h_
-#define __itkLevelSet2DEquation_h_
+#ifndef __itkLevelSet2DFunction_h_
+#define __itkLevelSet2DFunction_h_
 
-#include "itkLevelSetEquation.h"
+#include "itkLevelSetFunction.h"
 #include "itkDerivativeOperator.h"
 
 namespace itk {
 
-/** \class LevelSet2DEquation
+/** \class LevelSet2DFunction
  *
  * \f$\phi_{t} = \alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi
  * + \beta G(\mathbf{x})\mid\nabla\phi\mid + \gamma Z(\mathbf{x})\kappa\f$
@@ -62,13 +62,13 @@ namespace itk {
  *       calculating the time step.
  */
 template <class TImageType>
-class LevelSet2DEquation
-  : public LevelSetEquation<TImageType>
+class LevelSet2DFunction
+  : public LevelSetFunction<TImageType>
 {
 public:
   /** Standard class typedefs. */
-  typedef LevelSet2DEquation Self;
-  typedef LevelSetEquation<TImageType> Superclass;
+  typedef LevelSet2DFunction Self;
+  typedef LevelSetFunction<TImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( LevelSet2DEquation, LevelSetEquation );
+  itkTypeMacro( LevelSet2DFunction, LevelSetFunction );
 
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
@@ -145,11 +145,11 @@ protected:
     ScalarValueType m_MaxPropagationChange;
   };
   
-  LevelSet2DEquation() {}
-  ~LevelSet2DEquation() {}
+  LevelSet2DFunction() {}
+  ~LevelSet2DFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
-    os << indent << "LevelSet2DEquation";
+    os << indent << "LevelSet2DFunction";
     Superclass::PrintSelf(os, indent.GetNextIndent() );
     }
 
@@ -158,7 +158,7 @@ protected:
   static double m_DT;
 
 private:
-  LevelSet2DEquation(const Self&); //purposely not implemented
+  LevelSet2DFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /** First order derivative operator. */
@@ -182,7 +182,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSet2DEquation.txx"
+#include "itkLevelSet2DFunction.txx"
 #endif
 
 #endif

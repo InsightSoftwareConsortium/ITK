@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkExceptionObject.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
-#include "itkVectorCurvatureNDAnisotropicDiffusionEquation.h"
+#include "itkVectorCurvatureNDAnisotropicDiffusionFunction.h"
 
 namespace itk {
 
@@ -81,9 +81,9 @@ public:
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()
     {
-      VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
-        = VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-      this->SetDifferenceEquation(q);
+      VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
+        = VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+      this->SetDifferenceFunction(q);
     }
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
 
