@@ -77,20 +77,24 @@ IF(RUN_CONFIGURE)
                ${ITK_BINARY_DIR}/Code/Numerics/vxl)
   EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/configure 
                ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
-ELSE(RUN_CONFIGURE)
-  CONFIGURE_FILE_NOAUTOCONF(
+ENDIF(RUN_CONFIGURE)
+
+IF(NOT UNIX)
+  IF(WIN32)
+    CONFIGURE_FILE_NOAUTOCONF(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
-  CONFIGURE_FILE_NOAUTOCONF(
+    CONFIGURE_FILE_NOAUTOCONF(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
-  CONFIGURE_FILE_NOAUTOCONF(
+    CONFIGURE_FILE_NOAUTOCONF(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
-  CONFIGURE_FILE_NOAUTOCONF(
+    CONFIGURE_FILE_NOAUTOCONF(
         ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
-ENDIF(RUN_CONFIGURE)
+  ENDIF(WIN32)
+ENDIF(NOT UNIX)
 
 
 CONFIGURE_FILE(
