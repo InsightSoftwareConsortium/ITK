@@ -80,6 +80,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMObjectFactory.h
   itkFEMMacro.h
   itkFEMUtility.h
+  itkFEMException.h
   
   ReadMe.txt
 

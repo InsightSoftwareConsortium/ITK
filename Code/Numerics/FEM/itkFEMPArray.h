@@ -42,8 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkFEMPArray_h
 #define __itkFEMPArray_h
 
-#include "itkFEMMacro.h"
 #include "itkFEMP.h"
+#include "itkFEMException.h"
 #include <vector>
 
 namespace itk {
@@ -145,9 +145,12 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
 
     /**
-     * We din't find an object with that GN.
+     * We din't find an object with that GN. Throw an exception.
      */
-    if(i==end()) return 0;
+    if(i==end())
+    {
+      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find()",typeid(T).name(),gn);
+    }
   }
 
   /**
@@ -174,7 +177,11 @@ FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
       ( *( i=static_cast<Superclass::const_iterator>(&this->operator[](gn)) ) )->GN!=gn )
   {
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
-    if(i==end()) return 0;
+    if(i==end())
+    {
+      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
+    }
+
   }
 
   return &(*(*i));

@@ -112,9 +112,7 @@ public:
         return &m_node4->uY;
         break;
     }
-
-    /** if DOF is out of range we return NULL pointer */
-    return 0;
+    return Element::uDOF(i);
   }
 
   /**

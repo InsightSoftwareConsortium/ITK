@@ -67,12 +67,20 @@ HexahedronC03D::HexahedronC03D(  Node::ConstPointer ns_[],
    * If the node class was incorrect a bad_cast exception is thrown
    */
   std::cout << "TS: HexahedronC03D"<< std::endl;
-  
-  for (int j=0; j < 8; j++) {
-    m_nodes[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
+
+  try
+  {
+    for (int j=0; j < 8; j++) {
+      m_nodes[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
+    }
+
+    m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
+  }
+  catch ( bad_cast )
+  {
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"HexahedronC03D::HexahedronC03D()");
   }
 
-  m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
 
 }
 
@@ -561,26 +569,31 @@ void HexahedronC03D::Read(std::istream& f, void* info)
    * Read and set the material pointer
    */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(this->m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n)) ) )
-  {
-    throw std::runtime_error("Global element properties number not found!");
-  }
+  this->m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n));
 
+  try
+  {
   /**
    * Read and set each of the eight expected GNN
    */
-  for (int k=0; k < 8; k++) {
-    SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    if ( !(this->m_nodes[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n)) ) )
+    for (int k=0; k < 8; k++)
     {
-      throw std::runtime_error("Global node number not found!");
+      SkipWhiteSpace(f); f>>n; if(!f) goto out;
+      this->m_nodes[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n));
     }
+  }
+  catch ( FEMExceptionObjectNotFound e )
+  {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"HexahedronC03D::Read()",e.m_baseClassName,e.m_GN);
   }
 
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading element!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"HexahedronC03D::Read()","Error reading FEM element!");
+  }
 
 }
 
@@ -612,7 +625,10 @@ void HexahedronC03D::Write( std::ostream& f, int ofid ) const {
   }
   
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing element!"); }
+  if (!f) {
+    throw FEMExceptionIO(__FILE__,__LINE__,"HexahedronC03D::Write()","Error writing FEM element!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(HexahedronC03D)

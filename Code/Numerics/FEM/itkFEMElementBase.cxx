@@ -53,6 +53,20 @@ namespace fem {
 
 
 
+Element::Disp* Element::uDOF(int i) const
+{
+  /**
+   * If we got here we throw an exception. This means that some
+   * derived implementation of uDOF function called parent function
+   * because the i was out of range.
+   */
+  throw FEMExceptionSolution(__FILE__,__LINE__,"Element::uDOF()","DOF number was out of range!");
+}
+
+
+
+
+
 #ifdef _FEM_Build_Visualization_Routines_
 /** Global scale factor for drawing on the DC */
 double& Element::DC_Scale=Node::DC_Scale;

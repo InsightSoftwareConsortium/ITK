@@ -104,10 +104,8 @@ public:
       return &m_node2->uY;
       break;
     }
-
-    /** if DOF is out of range we return NULL pointer */
-    return 0;
-  };
+    return Element::uDOF(i);
+  }
 
   /**
    * Read data for this class from input stream

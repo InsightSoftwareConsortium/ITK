@@ -103,9 +103,7 @@ public:
       return 0;
       break;
     }
-  
-    /** if DOF is out of range we return NULL pointer */
-    return 0;
+    return Element::uDOF(i);
   }
 
   /**

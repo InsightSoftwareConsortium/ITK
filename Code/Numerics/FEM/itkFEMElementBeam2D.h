@@ -110,7 +110,7 @@ public:
       return &m_node2->urotZ;
       break;
     }
-    return 0; /** DOF is out of range we return NULL pointer */
+    return Element::uDOF(i);
   }
 
   /**

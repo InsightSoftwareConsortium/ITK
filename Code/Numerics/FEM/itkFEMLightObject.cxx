@@ -67,7 +67,7 @@ void FEMLightObject::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading FEM object!"); }
+  if( !f ) { throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error reading FEM object!"); }
 
 }
 
@@ -103,7 +103,10 @@ void FEMLightObject::Write( std::ostream& f, int ofid ) const
   f<<"\t"<<GN<<"\t% Global object number\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing FEM object!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error writing FEM object!");
+  }
 
 }
 

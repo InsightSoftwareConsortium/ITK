@@ -53,7 +53,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 #include <stdexcept>
-#include <cassert>
 
 namespace itk {
 namespace fem {
@@ -142,7 +141,7 @@ start:
    * Catch possible exceptions while 
    * reading object's data from stream
    */
-  catch (exception) {
+  catch (...) {
     #ifndef FEM_USE_SMART_POINTERS
     delete a;  // if something went wrong, we need to destroy the already created object
     #endif
@@ -277,14 +276,23 @@ void Solver::Write( std::ostream& f ) {
  * Assign a global freedom numbers to each DOF in a system.
  */
 void Solver::GenerateGFN() {
-  
-  // first we have to clear the global freedom numbers (GFN) in all DOF
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) {  // step over all elements
-    for(int j=0; j<(*e)->N(); j++) {  // step over all DOF in this element
-      // error checking
-      assert((*e)->uDOF(j));      // if pointer to DOF displacement was 0, nodes were not properly defined
-      (*e)->uDOF(j)->GFN=-1;      // reset the GFN for all displacements
+
+  try
+  {
+    // first we have to clear the global freedom numbers (GFN) in all DOF
+    for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
+    {
+      for(int j=0; j<(*e)->N(); j++) // step over all DOF in this element
+      {
+        (*e)->uDOF(j)->GFN=-1; // reset the GFN for all displacements
+      }
     }
+  }
+  catch ( FEMExceptionSolution e )
+  {
+    FEMExceptionSolution e1(__FILE__,__LINE__,"Solver::GenerateGFN()","");
+    e1.SetDescription(e.GetDescription());
+    throw e1;
   }
 
   /**
@@ -369,8 +377,13 @@ void Solver::AssembleK() {
       for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
-        assert( (*e)->uDOF(j)->GFN >= 0 ); assert( (*e)->uDOF(j)->GFN < NGFN );
-        assert( (*e)->uDOF(k)->GFN >= 0 ); assert( (*e)->uDOF(k)->GFN < NGFN );
+        if ( (*e)->uDOF(j)->GFN < 0 ||
+             (*e)->uDOF(j)->GFN >= NGFN ||
+             (*e)->uDOF(k)->GFN < 0 ||
+             (*e)->uDOF(k)->GFN >= NGFN  )
+        {
+          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
+        }
 
         /*
          * Here we finaly update the corresponding element
@@ -400,7 +413,11 @@ void Solver::AssembleK() {
       int gfn=q->node->uDOF(q->dof)->GFN;
 
       /** error checking. all GFN should be =>0 and <NGFN */
-      assert( gfn >=0 ); assert( gfn <NGFN );
+      if ( gfn<0 || gfn>=NGFN )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
+      }
+
       K(gfn, NGFN+(*c)->Index)=q->value;
       K(NGFN+(*c)->Index, gfn)=q->value;  // this is a symetric matrix...
 
@@ -443,12 +460,19 @@ void Solver::AssembleF(int dim) {
       // yep, we have a nodal load
 
       // size of a force vector in load must match number of DOFs in node
-      assert( (l1->F.size() % l1->node->N())==0 );
+      if ( (l1->F.size() % l1->node->N())!=0 )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
+      }
 
       // we simply copy the load to the force vector
-      for(int dof=0; dof < (l1->node->N()); dof++) {
+      for(int dof=0; dof < (l1->node->N()); dof++)
+      {
         // error checking
-        assert( l1->node->uDOF(dof)->GFN >= 0 ); assert( l1->node->uDOF(dof)->GFN < NGFN );
+        if ( l1->node->uDOF(dof)->GFN < 0 || l1->node->uDOF(dof)->GFN >= NGFN )
+        {
+          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+        }
 
         /**
          * If using the extra dim parameter, we can apply the force to different isotropic dimension
@@ -485,7 +509,11 @@ void Solver::AssembleF(int dim) {
           for(int j=0; j<Ne; j++)    // step over all DOF
           {
             // error checking
-            assert( el0->uDOF(j)->GFN >= 0 ); assert( el0->uDOF(j)->GFN < NGFN );
+            if ( el0->uDOF(j)->GFN < 0 || el0->uDOF(j)->GFN >= NGFN )
+            {
+              throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+            }
+
             // update the master force vector (take care of the correct isotropic dimensions)
             F(el0->uDOF(j)->GFN)+=Fe(j+dim*Ne);
           }
@@ -504,7 +532,10 @@ void Solver::AssembleF(int dim) {
 
           for(int j=0; j<Ne; j++)        // step over all DOF
           {
-            assert( (*e)->uDOF(j)->GFN >= 0 ); assert( (*e)->uDOF(j)->GFN < NGFN );
+            if ( (*e)->uDOF(j)->GFN < 0 || (*e)->uDOF(j)->GFN >= NGFN )
+            {
+              throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
+            }
 
             // update the master force vector (take care of the correct isotropic dimensions)
             F((*e)->uDOF(j)->GFN)+=Fe(j+dim*Ne);

@@ -67,11 +67,19 @@ TetrahedronC03D::TetrahedronC03D(  Node::ConstPointer ns_[],
    * we were given the pointers to the right node class.
    * if the node class was incorrect a bad_cast exception is thrown
    */
-  for (int j=0; j < 4; j++) {
-    m_nodes[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
+  try
+  {
+    for (int j=0; j < 4; j++) {
+      m_nodes[j] = &dynamic_cast<const NodeXYZ&>(*ns_[j]);
+    }
+
+    m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
+  }
+  catch ( bad_cast )
+  {
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"TetrahedronC03D::TetrahedronC03D()");
   }
 
-  m_mat = &dynamic_cast<const MaterialStandard&>(*p_);
 }
 
 
@@ -438,25 +446,30 @@ void TetrahedronC03D::Read( std::istream& f, void* info )
   /** first call the parent's read function */
   Superclass::Read(f,info);
 
-  /** read and set the material pointer */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(this->m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n)) ) )
+  try
   {
-    throw std::runtime_error("Global element properties number not found!");
-  }
-
-  /** read and set each of the four expected GNN */
-  for (int k=0; k < 4; k++) {
+    /** read and set the material pointer */
     SkipWhiteSpace(f); f>>n; if(!f) goto out;
-    if ( !(this->m_nodes[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n)) ) )
-    {
-      throw std::runtime_error("Global node number not found!");
+    this->m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n));
+
+    /** read and set each of the four expected GNN */
+    for (int k=0; k < 4; k++) {
+      SkipWhiteSpace(f); f>>n; if(!f) goto out;
+      this->m_nodes[k]=dynamic_cast<const NodeXYZ*>( &*nodes->Find(n));
     }
   }
+  catch ( FEMExceptionObjectNotFound e )
+  {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"TetrahedronC03D::Read()",e.m_baseClassName,e.m_GN);
+  }
+
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading element!"); }
+  if( !f )
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"TetrahedronC03D::Read()","Error reading FEM element!");
+  }
 
 }
 
@@ -487,8 +500,9 @@ void TetrahedronC03D::Write( std::ostream& f, int ofid ) const {
   /** Check for errors */
   if (!f) 
   { 
-    throw std::runtime_error("Error writing element!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"TetrahedronC03D::Write()","Error writing FEM element!");
   }
+
 }
 
 FEM_CLASS_REGISTER(TetrahedronC03D)

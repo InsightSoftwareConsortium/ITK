@@ -42,12 +42,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkElementC1IsoCurve2D_h
 #define __itkElementC1IsoCurve2D_h
 
+#include "itkFEMElementBase.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
 #include "itkFEMNode2DIsotropic.h"
 #include "itkFEMMaterialStandard.h"
-#include "itkFEMElementBase.h"
 #include <math.h>
 
 namespace itk {
@@ -122,7 +122,7 @@ public:
       return &pos_node2->v;
       break;  
     }
-    return 0;
+    return Element::uDOF(i);
   };
 
   int current_match_index;

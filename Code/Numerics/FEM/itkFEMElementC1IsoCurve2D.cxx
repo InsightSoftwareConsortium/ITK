@@ -58,18 +58,26 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
               Node::ConstPointer cn_,
               Node::ConstPointer pn1_,
               Node::ConstPointer pn2_, 
-              Material::ConstPointer mat_ ) :
+              Material::ConstPointer mat_ )
+{
   /**
    * Initialize the pointers to nodes and check that
    * we were given the pointers to the right node class.
    * if the node class was incorrect a bad_cast exception is thrown
    */
-  cur_node (&dynamic_cast<const Node2DIsotropic&>(*cn_)),
-  neg_node1(&dynamic_cast<const Node2DIsotropic&>(*nn1_)),
-  pos_node1(&dynamic_cast<const Node2DIsotropic&>(*pn1_)),
-  pos_node2(&dynamic_cast<const Node2DIsotropic&>(*pn2_)),
-  mat(&dynamic_cast<const MaterialStandard&>(*mat_))
-{
+  try
+  {
+    cur_node=&dynamic_cast<const Node2DIsotropic&>(*cn_);
+    neg_node1=&dynamic_cast<const Node2DIsotropic&>(*nn1_);
+    pos_node1=&dynamic_cast<const Node2DIsotropic&>(*pn1_);
+    pos_node2=&dynamic_cast<const Node2DIsotropic&>(*pn2_);
+    mat=&dynamic_cast<const MaterialStandard&>(*mat_);
+  }
+  catch ( bad_cast )
+  {
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"C1IsoCurve2D::C1IsoCurve2D()");
+  }
+
   ControlVec.resize(N(),NI());
   ControlVec[0][0]=neg_node1->X;
   ControlVec[0][1]=neg_node1->Y;
@@ -79,6 +87,7 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
   ControlVec[2][1]=pos_node1->Y;
   ControlVec[3][0]=pos_node2->X;
   ControlVec[3][1]=pos_node2->Y;
+
 }
 
 
@@ -158,37 +167,28 @@ void C1IsoCurve2D::Read( std::istream& f, void* info )
   
   /** read and set the material pointer */
   SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n)) ) )
+  mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n));
+
+  try
   {
-    throw std::runtime_error("Global element properties number not found!");
+    /** read and set all four nodes */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    neg_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    cur_node=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    pos_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    pos_node2=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n));
+  }
+  catch ( FEMExceptionObjectNotFound e )
+  {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"C1IsoCurve2D::Read()",e.m_baseClassName,e.m_GN);
   }
 
-  /** read and set all four nodes */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(neg_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n)) ) )
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(cur_node=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n)) ) )
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(pos_node1=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n)) ) )
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(pos_node2=dynamic_cast<const Node2DIsotropic*>( &*nodes->Find(n)) ) )
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  
   ControlVec.resize(N(),NI());
   ControlVec[0][0]=neg_node1->X;
   ControlVec[0][1]=neg_node1->Y;
@@ -201,7 +201,9 @@ void C1IsoCurve2D::Read( std::istream& f, void* info )
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading element!"); }
+  if( !f ) {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Bar2D::Read()","Error reading FEM element!");
+  }
 
 }
 
@@ -226,7 +228,9 @@ void C1IsoCurve2D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<cur_node->GN<<"\t% node 1 ID\n";
 
   /** Check for errors */
-  if (!f) { throw std::runtime_error("Error writing element!"); }
+  if (!f) {
+    throw FEMExceptionIO(__FILE__,__LINE__,"C1IsoCurve2D::Write()","Error writing FEM element!");
+  }
 }
 
 

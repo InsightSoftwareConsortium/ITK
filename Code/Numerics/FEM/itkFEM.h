@@ -54,3 +54,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
+
+#include "itkFEMException.h"

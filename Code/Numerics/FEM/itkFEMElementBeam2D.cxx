@@ -61,16 +61,25 @@ namespace fem {
 /**
  * Construct a Beam2D element by specifying two nodes and propertites
  */
-Beam2D::Beam2D(  Node::ConstPointer n1_, Node::ConstPointer n2_, Material::ConstPointer mat_ ) :
+Beam2D::Beam2D(  Node::ConstPointer n1_, Node::ConstPointer n2_, Material::ConstPointer mat_ )
+{
   /**
    * Initialize the pointers to nodes and check that
    * we were given the pointers to the right node class.
    * If the node class was incorrect a bad_cast exception is thrown.
    */
-  m_node1(&dynamic_cast<const NodeXYrotZ&>(*n1_)),
-  m_node2(&dynamic_cast<const NodeXYrotZ&>(*n2_)),
-  m_mat(&dynamic_cast<const MaterialStandard&>(*mat_))
-{
+  try
+  {
+    m_node1=&dynamic_cast<const NodeXYrotZ&>(*n1_);
+    m_node2=&dynamic_cast<const NodeXYrotZ&>(*n2_);
+    m_mat=&dynamic_cast<const MaterialStandard&>(*mat_);
+  }
+  catch ( bad_cast )
+  {
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"Beam2D::Beam2D()");
+  }
+
+
 }
 
 
@@ -238,32 +247,30 @@ void Beam2D::Read( std::istream& f, void* info )
   /** first call the parent's read function */
   Superclass::Read(f,info);
 
-  /** read and set the properties pointer */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_mat=dynamic_cast<MaterialStandard*>( &*mats->Find(n)) ) )
+  try
   {
-    throw std::runtime_error("Global element properties number not found!");
-  }
+    /** read and set the properties pointer */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_mat=dynamic_cast<MaterialStandard*>( &*mats->Find(n));
   
-  /** read and set first GNN */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node1=dynamic_cast<NodeXYrotZ*>( &*nodes->Find(n)) ) )
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
+    /** read and set first GNN */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node1=dynamic_cast<NodeXYrotZ*>( &*nodes->Find(n));
 
-  /** read and set second GNN */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node2=dynamic_cast<NodeXYrotZ*>( &*nodes->Find(n)) ) ) 
+    /** read and set second GNN */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node2=dynamic_cast<NodeXYrotZ*>( &*nodes->Find(n));
+  }
+  catch ( FEMExceptionObjectNotFound e )
   {
-    throw std::runtime_error("Global node number not found!");
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Beam2D::Read()",e.m_baseClassName,e.m_GN);
   }
 
 out:
 
   if( !f )
   { 
-    throw std::runtime_error("Error reading element!");
+    throw FEMExceptionIO(__FILE__,__LINE__,"Beam2D::Read()","Error reading FEM element!");
   }
 
 }
@@ -291,7 +298,10 @@ void Beam2D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_node2->GN<<"\t% NodeXYrotZ 2 ID\n";
 
   /** Check for errors */
-  if (!f) { throw std::runtime_error("Error writing element!"); }
+  if (!f)
+  {
+    throw FEMExceptionIO(__FILE__,__LINE__,"Beam2D::Write()","Error writing FEM element!");
+  }
 
 }
 

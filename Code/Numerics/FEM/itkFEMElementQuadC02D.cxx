@@ -64,18 +64,27 @@ QuadC02D::QuadC02D(  Node::ConstPointer n1_,
           Node::ConstPointer n2_,
           Node::ConstPointer n3_,
           Node::ConstPointer n4_,
-          Material::ConstPointer p_):
-  /**
-   * Initialize the pointers to nodes and check that
-   * we were given the pointers to the right node class.
-   * if the node class was incorrect a bad_cast exception is thrown
-   */
-  m_node1(&dynamic_cast<const NodeXY&>(*n1_)),
-  m_node2(&dynamic_cast<const NodeXY&>(*n2_)),
-  m_node3(&dynamic_cast<const NodeXY&>(*n3_)),
-  m_node4(&dynamic_cast<const NodeXY&>(*n4_)),
-  m_mat(&dynamic_cast<const MaterialStandard&>(*p_))
-{}
+          Material::ConstPointer p_)
+{
+  try
+  {
+    /**
+     * Initialize the pointers to nodes and check that
+     * we were given the pointers to the right node class.
+     * if the node class was incorrect a bad_cast exception is thrown
+     */
+    m_node1=&dynamic_cast<const NodeXY&>(*n1_);
+    m_node2=&dynamic_cast<const NodeXY&>(*n2_);
+    m_node3=&dynamic_cast<const NodeXY&>(*n3_);
+    m_node4=&dynamic_cast<const NodeXY&>(*n4_);
+    m_mat=&dynamic_cast<const MaterialStandard&>(*p_);
+  }
+  catch ( bad_cast )
+  {
+    throw FEMExceptionWrongClass(__FILE__,__LINE__,"QuadC02D::QuadC02D()");
+  }
+
+}
 
 
 
@@ -697,43 +706,41 @@ void QuadC02D::Read( std::istream& f, void* info )
   /** first call the parent's read function */
   Superclass::Read(f,info);
 
-  /**
-   * Read and set the material pointer
-   */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n)) ) )
-    throw std::runtime_error("Global element properties number not found!");
-
-  /**
-   * Read and set each of the four expected GNN
-   */
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node1=dynamic_cast<const NodeXY*>( &*nodes->Find(n)) ) )
+  try
   {
-    throw std::runtime_error("Global node number not found!");
+    /**
+     * Read and set the material pointer
+     */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_mat=dynamic_cast<const MaterialStandard*>( &*mats->Find(n));
+
+    /**
+     * Read and set each of the four expected GNN
+     */
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node1=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node2=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node3=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+
+    SkipWhiteSpace(f); f>>n; if(!f) goto out;
+    m_node4=dynamic_cast<const NodeXY*>( &*nodes->Find(n));
+  }
+  catch ( FEMExceptionObjectNotFound e )
+  {
+    throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"QuadC02D::Read()",e.m_baseClassName,e.m_GN);
   }
 
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node2=dynamic_cast<const NodeXY*>( &*nodes->Find(n)) ) ) 
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node3=dynamic_cast<const NodeXY*>( &*nodes->Find(n)) ) ) 
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
-
-  SkipWhiteSpace(f); f>>n; if(!f) goto out;
-  if ( !(m_node4=dynamic_cast<const NodeXY*>( &*nodes->Find(n)) ) ) 
-  {
-    throw std::runtime_error("Global node number not found!");
-  }
 
 out:
 
-  if( !f ) { throw std::runtime_error("Error reading element!"); }
+  if( !f )
+  { 
+    throw FEMExceptionIO(__FILE__,__LINE__,"QuadC02D::Read()","Error reading FEM element!");
+  }
 
 }
 
@@ -762,7 +769,11 @@ void QuadC02D::Write( std::ostream& f, int ofid ) const {
   f<<"\t"<<m_node4->GN<<"\t% NodeXY 4 ID\n";
 
   /** check for errors */
-  if (!f) { throw std::runtime_error("Error writing element!"); }
+  if (!f)
+  { 
+    throw FEMExceptionIO(__FILE__,__LINE__,"QuadC02D::Write()","Error writing FEM element!");
+  }
+
 }
 
 FEM_CLASS_REGISTER(QuadC02D)

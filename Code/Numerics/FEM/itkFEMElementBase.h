@@ -175,7 +175,9 @@ public:
    * elements share that DOF and are connected together.
    *
    * Normally this function is overriden by defining a simple switch statement that returns
-   * pointers to members in nodes object that define the element.
+   * pointers to members in nodes object that define the element. If an error occurs
+   * (when i is out of range for example), derived function should call
+   * implementation in base class (this one).
    */
   virtual Disp* uDOF(int i) const = 0;
 
