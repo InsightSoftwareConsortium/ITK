@@ -55,7 +55,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  const unsigned int numberOfClasses = atoi( argv[3] );
+  //const unsigned int numberOfClasses = atoi( argv[3] );
 
 
 
