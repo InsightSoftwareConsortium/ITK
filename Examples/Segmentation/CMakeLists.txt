@@ -25,4 +25,7 @@ TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKCommon ITKNumerics VXLNumerics 
 ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
 TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
+TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+
 
