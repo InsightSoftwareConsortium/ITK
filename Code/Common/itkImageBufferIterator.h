@@ -71,7 +71,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index.
    */
-  typedef itk::Index<VImageDimension> IndexType;
+  typedef Index<VImageDimension> IndexType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
@@ -79,7 +79,7 @@ public:
    * Note that we have to rescope Size back to itk::Size to that is it not
    * confused with ImageIterator::Size.
    */
-  typedef itk::Size<VImageDimension> SizeType;
+  typedef Size<VImageDimension> SizeType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
@@ -87,7 +87,7 @@ public:
    * Note that we have to rescope Image back to itk::Image so that is it not
    * confused with ImageIterator::Image.
    */
-  typedef itk::Image<TPixel, VImageDimension, TPixelContainer> ImageType;
+  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
@@ -103,7 +103,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index.
    */
-  typedef itk::ImageRegion<VImageDimension> RegionType;
+  typedef ImageRegion<VImageDimension> RegionType;
 
   /**
    * Default constructor. Needed since we provide a cast constructor.

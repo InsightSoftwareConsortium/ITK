@@ -156,7 +156,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
     LevelSetPointer inputBuffer = this->GetInputBuffer();
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
 
-    typedef itk::Index<TLevelSet::ImageDimension> IndexType;
+    typedef Index<TLevelSet::ImageDimension> IndexType;
 
     inCurvature->SetInputImage( inputBuffer );
     inEntropy->SetInputImage( inputBuffer );
