@@ -213,7 +213,7 @@ ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1b ${BASIC_FILTERS_TESTS}
             1)
 
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.png
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
   itkVectorGradientMagnitudeImageFilterTest2
             ${ITK_DATA_ROOT}/Input/VHFColor.mhd
