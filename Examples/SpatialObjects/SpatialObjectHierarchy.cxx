@@ -104,7 +104,7 @@ int main( int , char *[] )
 // creates an internal list.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet  
-  delete childrenList
+  delete childrenList;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
