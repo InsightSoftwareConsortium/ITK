@@ -47,7 +47,6 @@ MetaSceneConverter<NDimensions,PixelType>
 {
   // default behaviour of scene converter is not to save transform 
   // with each spatial object.
-  m_UseTransform = false ;
 }
 
 /** Destructor */ 
@@ -62,26 +61,23 @@ void
 MetaSceneConverter<NDimensions,PixelType>
 ::SetTransform(MetaObject* obj, TransformType* transform)
 {
-  if ( m_UseTransform )
+  unsigned int offset = 
+    transform->GetNumberOfParameters() - NDimensions ;
+  for ( unsigned int i = 0 ; 
+        i < transform->GetNumberOfParameters() ;
+        i++)
     {
-      unsigned int offset = 
-        transform->GetNumberOfParameters() - NDimensions ;
-      for ( unsigned int i = 0 ; 
-            i < transform->GetNumberOfParameters() ;
-            i++)
+      if ( i < offset )
         {
-          if ( i < offset )
-            {
-              m_Orientation[i] = transform->GetParameters()[i] ;
-            }
-          else
-            {
-              m_Position[i - offset] = transform->GetParameters()[i] ;
-            }
+          m_Orientation[i] = transform->GetParameters()[i] ;
         }
-      obj->Orientation(m_Orientation) ;
-      obj->Position(m_Position) ;
+      else
+        {
+          m_Position[i - offset] = transform->GetParameters()[i] ;
+        }
     }
+  obj->Orientation(m_Orientation) ;
+  obj->Position(m_Position) ;
 }
 
 template <unsigned int NDimensions, class PixelType> 
@@ -89,31 +85,28 @@ void
 MetaSceneConverter<NDimensions,PixelType>
 ::SetTransform(SpatialObjectType* so, MetaObject* meta)
 {
-  if ( m_UseTransform )
+  typename SpatialObjectType::TransformType::Pointer transform = 
+    SpatialObjectType::TransformType::New() ;
+  
+  unsigned int numberOfParams = transform->GetNumberOfParameters() ;
+  
+  typename SpatialObjectType::TransformType::ParametersType 
+    params(numberOfParams) ;
+  unsigned int offset = 
+    numberOfParams - NDimensions ;
+  for ( unsigned int i = 0 ; i < numberOfParams ; i++ )
     {
-      SpatialObjectType::TransformType::Pointer transform = 
-        SpatialObjectType::TransformType::New() ;
-
-      unsigned int numberOfParams = transform->GetNumberOfParameters() ;
-
-      SpatialObjectType::TransformType::ParametersType 
-        params(numberOfParams) ;
-      unsigned int offset = 
-        numberOfParams - NDimensions ;
-      for ( unsigned int i = 0 ; i < numberOfParams ; i++ )
+      if ( i < offset )
         {
-          if ( i < offset )
-            {
-              params[i] = *(meta->Orientation() + i) ;
-            }
-          else
-            {
-              params[i] = *(meta->Position() + (i - offset)) ;
-            }
+          params[i] = *(meta->Orientation() + i) ;
         }
-
-      so->GetTransform()->SetParameters(params) ;
+      else
+        {
+          params[i] = *(meta->Position() + (i - offset)) ;
+        }
     }
+  
+  so->GetTransform()->SetParameters(params) ;
 }
 
 /** Convert a metaScene into a Composite Spatial Object 

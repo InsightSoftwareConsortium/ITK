@@ -42,12 +42,6 @@ public:
                  unsigned int depth=MaximumDepth,
                  char * spatialObjectTypeName=NULL);
 
-  void SetUseTransform(bool arg) 
-  { m_UseTransform = arg ; }
-
-  bool GetUseTransform() 
-  { return m_UseTransform ; }
-
 private:
 
   typedef itk::SpatialObject<NDimensions> SpatialObjectType;
@@ -65,7 +59,6 @@ private:
   void SetTransform(MetaObject* obj, TransformType* transform) ;
   void SetTransform(SpatialObjectType* so, MetaObject* obj) ;
 
-  bool m_UseTransform ;
   float m_Orientation[100] ;
   float m_Position[10] ;
 
