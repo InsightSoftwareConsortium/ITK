@@ -562,6 +562,8 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   enum { name = 0 };" \
                "ITK_NUMERIC_LIMITS= \
                   std::numeric_limits" \
+               "ITK_TYPENAME= \
+                  typename" \
                "FEM_ABSTRACT_CLASS(thisClass,parentClass)= \
                   public:                                               \
                     /** Standard "Self" typedef.*/                      \
