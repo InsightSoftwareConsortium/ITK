@@ -160,7 +160,7 @@ DataObject * ptr )
 
   /*
    * NewOutputRequestedRegion = OldOutputRequestedRegion +
-   * radius * m_Iterations padding on each edge
+   * radius * m_NumberOfIterations padding on each edge
    */
   typename OutputImageType::RegionType outputRequestedRegion =
     outputPtr->GetRequestedRegion();
