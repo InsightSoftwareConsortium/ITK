@@ -95,11 +95,7 @@ namespace itk
  *
  * This class also supports the specification of a center of rotation (center)
  * and a translation that is applied with respect to that centered rotation.
- * At any point, even when center and translation are being set, only the
- * matrix and offset form are assured to be valid.   For example, when an
- * offset is specified, we make no attempt to assure that the value used for
- * translation is updated; however, when the translation is changed, we ensure
- * that the value of the offset is correspondingly updated.
+ * By default the center of rotation is set to the origin.
  *
  * \ingroup Transforms
  *
@@ -231,19 +227,20 @@ public:
       this->Modified();  
     }
 
-  /** Get inverse matrix of an AffineTransform
-   *
-   * This method returns the value of the inverse matrix of
-   * the AffineTransform.  It's not clear that this is useful
-   * except for debugging the class itself.
-   *
-   * \todo Do something reasonable if the transform is singular.  */
-  bool GetInverse(Self* inverse) const;
+ /** Create inverse of an affine transformation   
+    *   
+    * This populates the parameters an affine transform such that
+    * the transform is the inverse of self. If self is not invertible,   
+    * an exception is thrown.
+    * Note that by default the inverese transform is centered at 
+    * the origin.   
+    * \deprecated Use GetInverse() instead. */   
+ bool GetInverse(Self* inverse) const;
 
   /** Set offset (origin) of an Affine Transform.
    *
    * This method sets the offset of an AffineTransform to a
-   * value specified by the user.  The offset is ...?
+   * value specified by the user.
    * This updates Translation wrt current center.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
@@ -255,6 +252,8 @@ public:
    *
    * This method sets the matrix of an AffineTransform to a
    * value specified by the user. 
+   * This updates the Offset wrt to current translation
+   * and center.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetMatrix(const MatrixType &matrix)
@@ -265,7 +264,8 @@ public:
    *
    * This method sets the center of rotation of an AffineTransform 
    * to a fixed point - this point is not a "parameter" of the transform.
-   * This updates Offset to reflect current translation.
+   * This updates translation wrt to current offset and matrix.
+   * That is, changing the center does not change the transform.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetCenter(const InputPointType & center)
@@ -274,8 +274,7 @@ public:
 
   /** Set translation of an AffineTransform
    *
-   * This method sets the center of rotation of an AffineTransform 
-   * to a fixed point - this point is not a "parameter" of the transform. 
+   * This method sets the translation of an AffineTransform.
    * This updates Offset to reflect current translation.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
@@ -286,8 +285,8 @@ public:
 
   /** Set the transformation from a container of parameters.
    * The first (NDimension x NDimension) parameters define the
-   * matrix and the last NDimension parameters the offset. 
-   * Translation is updated based on current center. */
+   * matrix and the last NDimension parameters the translation. 
+   * Offset is updated based on current center. */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the Transformation Parameters. */
@@ -303,7 +302,7 @@ public:
    * self.  If pre is false or omitted, then other is post-composed
    * with self; that is the resulting transformation consists of
    * first applying self to the source, followed by other. 
-   * This updates the Translation based on current center */
+   * This updates the Translation based on current center. */
   void Compose(const Self * other, bool pre=0);
 
   /** Compose affine transformation with a translation
@@ -323,7 +322,8 @@ public:
    * negative, then the parity of the image changes.  If any of the
    * factors is zero, then the transformation becomes a projection
    * and is not invertible.  The scaling is precomposed with self if
-   * pre is true, and postcomposed otherwise. */
+   * pre is true, and postcomposed otherwise. 
+   * Note that the scaling is applied centered at the origin. */
   void Scale(const OutputVectorType &factor, bool pre=0);
   void Scale(const TScalarType &factor, bool pre=0);
 
@@ -340,7 +340,8 @@ public:
    * All coordinates other than axis1 and axis2 are unchanged;
    * a rotation of pi/2 radians will carry +axis1 into +axis2.
    * The rotation is precomposed with self if pre is true, and
-   * postcomposed otherwise. */
+   * postcomposed otherwise. 
+   * Note that the rotation is applied centered at the origin. */
   void Rotate(int axis1, int axis2, TScalarType angle, bool pre=0);
 
   /** Compose 2D affine transformation with a rotation
@@ -350,6 +351,7 @@ public:
    * in radians.  The center of rotation is the origin.  The
    * rotation is precomposed with self if pre is true, and
    * postcomposed otherwise.
+   * Note that the rotation is applied centered at the origin.
    *
    * \warning Only to be use in two dimensions
    *
@@ -364,6 +366,7 @@ public:
    * axis.  The rotation angle is in radians; the axis of rotation
    * goes through the origin.  The rotation is precomposed with self
    * if pre is true, and postcomposed otherwise.
+   * Note that the rotation is applied centered at the origin.
    *
    * \warning Only to be used in dimension 3
    *
@@ -379,7 +382,9 @@ public:
    * otherwise.  The transformation is given by
    *
    * y[axis1] = x[axis1] + coef*x[axis2]
-   * y[axis2] =                 x[axis2]. **/
+   * y[axis2] =                 x[axis2]. 
+   *
+   * Note that the shear is applied centered at the origin. */
   void Shear(int axis1, int axis2, TScalarType coef, bool pre=0);
 
   /** Transform by an affine transformation
@@ -450,7 +455,9 @@ public:
     *   
     * This method creates and returns a new AffineTransform object   
     * which is the inverse of self.  If self is not invertible,   
-    * an exception is thrown.   
+    * an exception is thrown.
+    * Note that by default the inverese transform is centered at 
+    * the origin.   
     * \deprecated Use GetInverse() instead. */   
    typename AffineTransform::Pointer Inverse(void) const; 
 
