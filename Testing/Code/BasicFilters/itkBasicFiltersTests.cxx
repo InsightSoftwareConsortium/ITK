@@ -140,7 +140,6 @@ void RegisterTests()
   REGISTER_TEST(itkPathToImageFilterTest );
   REGISTER_TEST(itkPermuteAxesImageFilterTest );
   REGISTER_TEST(itkPromoteDimensionImageTest);
-  REGISTER_TEST(itkPlaheImageFilterTest );
   REGISTER_TEST(itkRGBToVectorAdaptImageFilterTest );
   REGISTER_TEST(itkRecursiveGaussianImageFiltersTest );
   REGISTER_TEST(itkReflectImageFilterTest );

@@ -124,7 +124,6 @@ ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS} it
 ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS} itkPathToChainCodePathFilterTest)
 ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS} itkPathToImageFilterTest)
 ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
-ADD_TEST(itkPlaheImageFilterTest ${BASIC_FILTERS_TESTS} itkPlaheImageFilterTest)
 ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToVectorAdaptImageFilterTest)
 ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersTest)
 ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterTest)
@@ -483,7 +482,6 @@ itkPathToChainCodePathFilterTest.cxx
 itkPathToImageFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkPermuteAxesImageFilterTest.cxx
-itkPlaheImageFilterTest.cxx
 itkRGBToVectorAdaptImageFilterTest.cxx
 itkRecursiveGaussianImageFiltersTest.cxx
 itkReflectImageFilterTest.cxx
