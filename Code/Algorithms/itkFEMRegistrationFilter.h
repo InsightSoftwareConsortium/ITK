@@ -366,11 +366,11 @@ public:
 //  itkSetMacro( Load, ImageMetricLoadType* );
   itkGetMacro( Load, ImageMetricLoadType* );
 
-protected :
-
   /** de/constructor */
   FEMRegistrationFilter( ); 
   ~FEMRegistrationFilter(); 
+
+protected :
 
   void PrintSelf(std::ostream& os, Indent indent) const 
   { 
