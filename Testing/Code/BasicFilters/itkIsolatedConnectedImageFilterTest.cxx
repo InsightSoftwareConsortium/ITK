@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
+#include "itkNumericTraits.h"
 
 int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -59,13 +60,21 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   
   // Test GetMacros
   PixelType lower = filter->GetLower();
-  std::cout << "filter->GetLower(): " << lower << std::endl;
+  std::cout << "filter->GetLower(): "
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(lower)
+            << std::endl;
   PixelType isolatedValueTolerance = filter->GetIsolatedValueTolerance();
-  std::cout << "filter->GetIsolatedValueTolerance(): " << isolatedValueTolerance << std::endl;
+  std::cout << "filter->GetIsolatedValueTolerance(): " 
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance)
+            << std::endl;
   PixelType upperValueLimit = filter->GetUpperValueLimit();
-  std::cout << "filter->GetUpperValueLimit(): " << upperValueLimit << std::endl;
+  std::cout << "filter->GetUpperValueLimit(): "
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit)
+            << std::endl;
   PixelType replaceValue = filter->GetReplaceValue();
-  std::cout << "filter->GetReplaceValue(): " << replaceValue << std::endl;
+  std::cout << "filter->GetReplaceValue(): "
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue)
+            << std::endl;
   
 
   try
