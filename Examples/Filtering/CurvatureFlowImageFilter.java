@@ -27,8 +27,8 @@ public class CurvatureFlowImageFilter
     outputCast.SetOutputMinimum(  0  );
     outputCast.SetOutputMaximum( 255 );
 
-    filter.SetNumberOfIterations( 10 );
-    filter.SetTimeStep(           0.025 );
+    filter.SetNumberOfIterations( Integer.parseInt( argv[2] ) );
+    filter.SetTimeStep(           Float.parseFloat( argv[3] ) );
 
     reader.SetFileName( argv[0] );
     writer.SetFileName( argv[1] );
