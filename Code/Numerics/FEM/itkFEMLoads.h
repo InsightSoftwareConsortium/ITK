@@ -34,3 +34,6 @@
 
 #include "itkFEMLoadTest.h"
 #include "itkFEMLoadImplementationTest.h"
+
+#include "itkFEMLoadLandmark.h"
+#include "itkFEMLoadImplementationGenericLandmarkLoad.h"
