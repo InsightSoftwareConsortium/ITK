@@ -26,7 +26,7 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-int itkFEMElementTest(int ac, char** av)
+int itkFEMElementTest(int ac, char* av[] )
 {
   // NOTE TO THE USER: if you would like to run the menu-based test,
   // you will need to change the two paths below to point to the

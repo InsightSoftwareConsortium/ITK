@@ -46,7 +46,7 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-int itkFEMElementTest(int, char**);
+int itkFEMElementTest(int, char* [] );
 //void PrintResults(Solver&, int, char);
 void PrintK(Solver&, int, char);
 void PrintF(Solver&, int, char);
