@@ -69,6 +69,7 @@ PrintInfo() const
   MetaObject::PrintInfo();
   std::cout << "ParentPoint = " << m_ParentPoint << std::endl;
   std::cout << "Root = " << m_Root << std::endl;
+  std::cout << "Artery = " << m_Artery << std::endl;
   std::cout << "PointDim = " << m_PointDim << std::endl;
   std::cout << "NPoints = " << m_NPoints << std::endl;
   char str[255];
@@ -109,15 +110,28 @@ NPoints(void) const
 }
 
 void MetaVesselTube::
-Root(int root)
+Root(bool root)
 {
   m_Root = root;
 }
     
-int MetaVesselTube:: 
+bool MetaVesselTube:: 
 Root(void) const
 {
   return m_Root;
+}
+
+
+void MetaVesselTube::
+Artery(bool artery)
+{
+  m_Artery = artery;
+}
+    
+bool MetaVesselTube:: 
+Artery(void) const
+{
+  return m_Artery;
 }
 
 
@@ -150,7 +164,8 @@ Clear(void)
   m_PointList.clear();
 
   m_ParentPoint= -1;
-  m_Root = 0;
+  m_Root = false;
+  m_Artery = true;
   m_NPoints = 0;
   strcpy(m_PointDim, "x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
   m_ElementType = MET_FLOAT;
@@ -180,7 +195,11 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "Root", MET_INT, false);
+  MET_InitReadField(mF, "Root", MET_STRING, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Artery", MET_STRING, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -214,10 +233,29 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_Root>0)
+  if(m_Root)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Root", MET_INT,m_Root);
+    MET_InitWriteField(mF, "Root", MET_STRING, strlen("True"), "True");
+    m_Fields.push_back(mF);
+    }
+  else
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Root", MET_STRING, strlen("False"), "False");
+    m_Fields.push_back(mF);
+    }
+
+  if(m_Artery)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Artery", MET_STRING, strlen("True"), "True");
+    m_Fields.push_back(mF);
+    }
+  else
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Artery", MET_STRING, strlen("False"), "False");
     m_Fields.push_back(mF);
     }
 
@@ -263,10 +301,32 @@ M_Read(void)
     m_ParentPoint= (int)mF->value[0];
   }
 
+  m_Root = false;
   mF = MET_GetFieldRecord("Root", &m_Fields);
   if(mF->defined)
   {
-    m_Root= (int)mF->value[0];
+    if(*((char *)(mF->value)) == 'T' || *((char*)(mF->value)) == 't')
+      {
+      m_Root = true;
+      }
+    else
+      {
+      m_Root = false;
+      }
+  }
+
+  m_Artery = true;
+  mF = MET_GetFieldRecord("Artery", &m_Fields);
+  if(mF->defined)
+  {
+    if(*((char *)(mF->value)) == 'T' || *((char*)(mF->value)) == 't')
+      {
+      m_Artery = true;
+      }
+    else
+      {
+      m_Artery = false;
+      }
   }
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);

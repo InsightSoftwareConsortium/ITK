@@ -31,6 +31,8 @@ template< unsigned int TDimension, typename TTubePointType >
 TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()  
 { 
+  m_Root = false;
+  m_Artery = true;
   m_ParentPoint = -1;
   this->SetDimension(TDimension);
   this->SetTypeName("TubeSpatialObject");
@@ -114,6 +116,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
   os << indent << "End Type : " << m_EndType << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
+  os << indent << "Root : " << m_Root << std::endl; 
+  os << indent << "Artery : " << m_Artery << std::endl; 
   Superclass::PrintSelf( os, indent ); 
 } 
  

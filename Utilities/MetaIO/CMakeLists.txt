@@ -19,6 +19,7 @@ ADD_LIBRARY(ITKMetaIO
   metaUtils.cxx
   metaVesselTube.cxx
   metaTransform.cxx
+  metaTubeGraph.cxx
 )
 
 #SUBDIRS(tests)

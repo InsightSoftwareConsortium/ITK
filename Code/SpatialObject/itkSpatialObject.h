@@ -88,7 +88,8 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
   
   typedef Point < ScalarType, TDimension > PointType; 
-  typedef Point < ScalarType, TDimension > InputType; // Spatial Function Iterator needs it 
+  // Spatial Function Iterator needs the following typedef 
+  typedef Point < ScalarType, TDimension > InputType; 
   typedef PointType * PointPointer; 
   
   typedef Vector< ScalarType, TDimension > VectorType; 

@@ -136,11 +136,23 @@ public:
   itkSetMacro(ParentPoint,int);
   itkGetMacro(ParentPoint,int);
 
+  /** Set/Get a flag for vessel which are a "root" of a 
+   *  vascular network in the scene */
+  itkSetMacro(Root, bool);
+  itkGetMacro(Root, bool);
+
+  /** Set/Get a flag for vessel which are an Artery */
+  itkSetMacro(Artery, bool);
+  itkGetMacro(Artery, bool);
+
 protected:
 
   PointListType     m_Points;
   int               m_ParentPoint;
   unsigned int      m_EndType;
+
+  bool              m_Root;
+  bool              m_Artery;
 
   TubeSpatialObject();
   virtual ~TubeSpatialObject();

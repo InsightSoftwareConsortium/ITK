@@ -126,8 +126,14 @@ class MetaVesselTube : public MetaObject
     //    Root(...)
     //       Optional Field
     //       Set if this VesselTube is a root
-    void  Root(int root);
-    int   Root(void) const;
+    void  Root(bool root);
+    bool  Root(void) const;
+
+    //    Artery(...)
+    //       Optional Field
+    //       Set if this VesselTube is a root
+    void  Artery(bool artery);
+    bool  Artery(void) const;
 
 
     //    ParentPoint(...)
@@ -163,9 +169,11 @@ class MetaVesselTube : public MetaObject
 
     bool  M_Write(void);
 
-    int m_ParentPoint;  // "ParentPoint = "     -1
+    int   m_ParentPoint;  // "ParentPoint = "     -1
 
-    int m_Root;         // "Root = "            0
+    bool  m_Root;         // "Root = "            false
+
+    bool  m_Artery;         // "Artery = "            true
 
     int m_NPoints;      // "NPoints = "         0
 

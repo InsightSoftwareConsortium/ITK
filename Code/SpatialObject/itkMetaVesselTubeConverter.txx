@@ -52,6 +52,8 @@ MetaVesselTubeConverter<NDimensions>
   tub->GetProperty()->SetName(tube->Name());
   tub->SetParentPoint(tube->ParentPoint());
   tub->SetId(tube->ID());
+  tub->SetRoot(tube->Root());
+  tub->SetArtery(tube->Artery());
   tub->SetParentId(tube->ParentID());
   tub->GetProperty()->SetRed(tube->Color()[0]);
   tub->GetProperty()->SetGreen(tube->Color()[1]);
@@ -198,6 +200,8 @@ MetaVesselTubeConverter<NDimensions>
 
   tube->Color(color);
   tube->ID( spatialObject->GetId());
+  tube->Root( spatialObject->GetRoot());
+  tube->Artery( spatialObject->GetArtery());
 
   if(spatialObject->GetParent())
   {

@@ -26,6 +26,7 @@
 #include <metaMesh.h>
 #include <metaArrow.h>
 #include <metaTransform.h>
+#include <metaTubeGraph.h>
 
 //
 // MetaScene Constructors
@@ -197,6 +198,14 @@ Read(const char *_headerName)
       transform->SetEvent(m_Event);
       transform->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(transform);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"TubeGraph",9))
+    {
+      MetaTubeGraph* tubeGraph = new MetaTubeGraph();
+      tubeGraph->SetEvent(m_Event);
+      tubeGraph->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(tubeGraph);
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
