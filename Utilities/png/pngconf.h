@@ -16,6 +16,8 @@
 #ifndef PNGCONF_H
 #define PNGCONF_H
 
+#include "pngDllConfig.h"
+
 /* This is the size of the compression buffer, and thus the size of
  * an IDAT chunk.  Make this whatever size you feel is best for your
  * machine.  One of these will be allocated per png_struct.  When this
@@ -312,9 +314,11 @@
  * stdlib.h like it should (I think).  Or perhaps this is a C++
  * "feature"?
  */
+#if 0
 #ifdef __TURBOC__
 #  include <mem.h>
 #  include "alloc.h"
+#endif
 #endif
 
 #if defined(_MSC_VER) && (defined(WIN32) || defined(_Windows) || \

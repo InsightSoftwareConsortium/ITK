@@ -1,4 +1,8 @@
 PROJECT(ITKPNG)
+INCLUDE_REGULAR_EXPRESSION("^png.*$")
+
+INCLUDE_DIRECTORIES(${ITKPNG_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${ITKPNG_BINARY_DIR})
 
 # source files for png
 SET(PNG_SRCS
@@ -8,20 +12,24 @@ pngerror.c  pngpread.c  pngrutil.c  pngvcrd.c   pngwutil.c
 pnggccrd.c  pngread.c   pngset.c   pngwio.c
 )
 
-CONFIGURE_FILE(
-${ITKPNG_SOURCE_DIR}/.NoDartCoverage 
-${ITKPNG_BINARY_DIR}/.NoDartCoverage)
-
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
-    ADD_DEFINITIONS(-DPNG_BUILD_DLL -DZLIB_DLL -DPNG_NO_MODULEDEF)
+    ADD_DEFINITIONS(-DPNG_BUILD_DLL)
+    SET(PNG_NO_MODULEDEF 1)
   ELSE(BUILD_SHARED_LIBS)
-    ADD_DEFINITIONS(-DPNG_STATIC)
+    SET(PNG_STATIC 1)
   ENDIF(BUILD_SHARED_LIBS)
 ENDIF(WIN32)
 
+CONFIGURE_FILE(${ITKPNG_SOURCE_DIR}/.NoDartCoverage
+               ${ITKPNG_BINARY_DIR}/.NoDartCoverage)
+CONFIGURE_FILE(${ITKPNG_SOURCE_DIR}/pngDllConfig.h.in
+               ${ITKPNG_BINARY_DIR}/pngDllConfig.h)
+
 ADD_LIBRARY(itkpng ${PNG_SRCS})
-TARGET_LINK_LIBRARIES(itkpng itkzlib)
+TARGET_LINK_LIBRARIES(itkpng ${ITK_ZLIB_LIBRARIES})
 
 INSTALL_TARGETS(/lib/InsightToolkit itkpng)
-INSTALL_FILES(/include/InsightToolkit/Utilities/png "(\\.h)$")
+INSTALL_FILES(/include/InsightToolkit/Utilities/png .h
+  png pngconf pngDllConfig
+)
