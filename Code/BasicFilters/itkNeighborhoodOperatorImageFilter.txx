@@ -42,9 +42,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkNeighborhoodOperatorImageFilter_txx
 
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkRegionNonBoundaryNeighborhoodIterator.h"
-#include "itkRegionBoundaryNeighborhoodIterator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkNeighborhoodInnerProduct.h"
+#include "itkImageRegionIterator.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstSmartNeighborhoodIterator.h"
+
 namespace itk
 {
 
@@ -53,27 +55,62 @@ void
 NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typedef RegionNonBoundaryNeighborhoodIterator<OutputImageType > RNI;
-  typedef RegionBoundaryNeighborhoodIterator<OutputImageType>  RBI;
-  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
-    Neighborhood<OutputPixelType, ImageDimension> > SNIP;
-  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
-    Neighborhood<OutputPixelType, ImageDimension> > SBIP;
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
+    BFC;
+  typedef typename BFC::FaceListType FaceListType;
 
-  NeighborhoodAlgorithm::ApplyOperatorToEach<SNIP, RNI> f1;
-  NeighborhoodAlgorithm::ApplyOperatorToEach<SBIP, RBI> f2;
-  
+  NeighborhoodInnerProduct<InputImageType>      innerProduct;
+  SmartNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
+  BFC faceCalculator;
+  FaceListType faceList;
+
   // Allocate output
   OutputImageType *output = this->GetOutput();
-  InputImageType *input  = this->GetInput();
+  InputImageType *input   = this->GetInput();
  
   // Need to allocate output buffer memory.
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
+ 
+  // Calculate the image region boundaries
+  faceList = faceCalculator(input, input->GetRequestedRegion(),
+                     m_Operator.GetRadius());
+  typename FaceListType::iterator fit = faceList.begin();
 
-  // Filter
-  f1(input, output, m_Operator);
-  f2(input, output, m_Operator);
+  // Process non-boundary region
+  ConstNeighborhoodIterator<InputImageType>
+    nit(m_Operator.GetRadius(), input, *fit);
+  ImageRegionIterator<OutputImageType> it(output, *fit);
+  nit.GoToBegin();
+  it = it.Begin();
+  //  nit.Print(std::cout);
+  while( ! nit.IsAtEnd() )
+    {
+      it.Value() = innerProduct(nit, m_Operator);
+      ++nit;
+      ++it;
+    }
+
+  // Process each of the boundary faces.  These are N-d regions which border
+  // the edge of the buffer.
+  ConstSmartNeighborhoodIterator<InputImageType> bit;
+  for (++fit; fit != faceList.end(); ++fit)
+    { 
+      bit =
+        ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
+                                                       input, *fit);
+      //  bit.Print(std::cout);
+      it = ImageRegionIterator<OutputImageType>(output, *fit);
+      bit.GoToBegin();
+      it = it.Begin();
+      while ( ! bit.IsAtEnd() )
+        {
+          it.Value() = smartInnerProduct(bit, m_Operator);
+          ++bit;
+          ++it;
+        }
+     }
+
 }
 
 } // end namespace itk

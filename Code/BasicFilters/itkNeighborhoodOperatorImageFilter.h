@@ -62,6 +62,9 @@ namespace itk
  * The output of this filter is an image region equal in size and
  * dimension to the input.
  *
+ * \todo Add method to request buffered (for convolution) input region to
+ * support data streaming.
+ *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
@@ -83,10 +86,10 @@ public:
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename  TInputImage::PixelType         InputPixelType;
+  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
   enum { ImageDimension = TOutputImage::ImageDimension };
   
   /**
@@ -98,8 +101,8 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef       SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /**
    * Typedef for generic boundary condition pointer
@@ -150,7 +153,7 @@ private:
   /**
    * Pointer to the internal operator used to filter the image.
    */
-  Neighborhood<OutputPixelType, ImageDimension> m_Operator;
+  Neighborhood<InputPixelType, ImageDimension> m_Operator;
 
   /**
    * Pointer to a persistent boundary condition object used
