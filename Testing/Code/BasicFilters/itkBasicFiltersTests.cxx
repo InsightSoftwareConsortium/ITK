@@ -132,6 +132,7 @@ void RegisterTests()
   REGISTER_TEST(itkReflectImageFilterTest );
   REGISTER_TEST(itkReflectiveImageRegionIteratorTest  );
   REGISTER_TEST(itkRegionOfInterestImageFilterTest  );
+  REGISTER_TEST(itkRelabelComponentImageFilterTest );
   REGISTER_TEST(itkResampleImageTest );
   REGISTER_TEST(itkRescaleIntensityImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );

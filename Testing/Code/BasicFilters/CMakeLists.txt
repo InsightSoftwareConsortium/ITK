@@ -288,6 +288,13 @@ ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 
+ADD_TEST(itkRelabelComponentImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RelabelComponentImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
+  itkRelabelComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png 130 145)
+
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1a ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1a.png
             ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png
@@ -421,6 +428,7 @@ itkRecursiveGaussianImageFiltersTest.cxx
 itkReflectImageFilterTest.cxx
 itkReflectiveImageRegionIteratorTest.cxx
 itkRegionOfInterestImageFilterTest.cxx
+itkRelabelComponentImageFilterTest.cxx
 itkResampleImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
