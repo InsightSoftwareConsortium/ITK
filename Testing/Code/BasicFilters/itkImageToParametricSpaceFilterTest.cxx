@@ -34,7 +34,7 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   typedef ImageType::IndexType                IndexType;
 
   // Make the Mesh PointData type be an Image Index.
-  typedef IndexType                         MeshPixelType;
+  typedef itk::Point<float,2>                 MeshPixelType;
   
   // Declare the types of the Mesh
   typedef itk::Mesh<MeshPixelType>  MeshType;
