@@ -184,6 +184,12 @@ public:
    * filters that preceed this one). */
   virtual void PropagateRequestedRegion(DataObject *output);
 
+  /** An opportunity to Allocate/Deallocate bulk data. Some filters may wish
+   *  to reuse the existing bulk data. The default implementation applies Initialize()
+   *  to each Output. DataObject::Initialize() frees its bulk data.
+   */
+  virtual void PrepareOutputs();
+
   /** Actually generate new output  */
   virtual void UpdateOutputData(DataObject *output);
 

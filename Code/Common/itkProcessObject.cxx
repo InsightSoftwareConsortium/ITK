@@ -729,6 +729,25 @@ ProcessObject
  */
 void 
 ProcessObject
+::PrepareOutputs()
+{  
+  unsigned int idx;
+  
+  for (idx = 0; idx < m_Outputs.size(); idx++)
+    {
+    if (m_Outputs[idx])
+      {
+      m_Outputs[idx]->PrepareForNewData(); 
+      }
+    }
+}
+
+
+/**
+ *
+ */
+void 
+ProcessObject
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
   std::vector<DataObjectPointer>::size_type idx;
@@ -769,16 +788,13 @@ ProcessObject
   m_Updating = false;     
     
   /**
-   * Initialize all the outputs
+   * Prepare all the outputs. This may Allocate/Deallocate bulk data.
    */
-  for (idx = 0; idx < m_Outputs.size(); idx++)
-    {
-    if (m_Outputs[idx])
-      {
-      m_Outputs[idx]->PrepareForNewData(); 
-      }
-    }
- 
+  this->PrepareOutputs();
+
+  /**
+   * Tell all Observers that the filter is starting
+   */
   this->InvokeEvent( StartEvent() );
 
   /**
@@ -808,7 +824,9 @@ ProcessObject
     this->UpdateProgress(1.0);
     }
 
-  // Notify end event observers
+  /**
+   * Notify end event observers
+   */
   this->InvokeEvent( EndEvent() );
 
   /**
