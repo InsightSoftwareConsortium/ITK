@@ -137,7 +137,7 @@ IntensityContainer& intensities )
 
   double range = (double) refImage->GetOffsetTable()[ImageDimension];
 
-  for( int s = 0; s < m_NumberOfSamples; s++ )
+  for( unsigned int s = 0; s < m_NumberOfSamples; s++ )
     {
 
     double uRand = vnl_sample_uniform( 0.0, 1.0 ) * range;
@@ -193,7 +193,7 @@ IntensityContainer& intensities )
 
   VectorType refVec;
 
-  for( int s = 0; s < m_NumberOfSamples; s++ )
+  for( unsigned int s = 0; s < m_NumberOfSamples; s++ )
     {
     IndexType index = indices[s];
 
@@ -250,7 +250,7 @@ VectorContainer& derivatives )
   typename TTestImage::SizeType size = 
     m_TestImage->GetLargestPossibleRegion().GetSize();
 
-  for( int s = 0; s < m_NumberOfSamples; s++ )
+  for( unsigned int s = 0; s < m_NumberOfSamples; s++ )
   {
     IndexType index = indices[s];
     bool inRange = true;
@@ -320,13 +320,13 @@ bool resample)
   double dLogSumTest = 0.0;
   double dLogSumJoint = 0.0;
 
-  for( int nB = 0; nB < m_NumberOfSamples; nB++ )
+  for( unsigned int nB = 0; nB < m_NumberOfSamples; nB++ )
     {
     double dSumRef  = 0.0;
     double dSumTest = 0.0;
     double dSumJoint = 0.0;
 
-    for( int nA = 0; nA < m_NumberOfSamples; nA++ )
+    for( unsigned int nA = 0; nA < m_NumberOfSamples; nA++ )
       {
       double valueRef;
       double valueTest;
@@ -390,11 +390,11 @@ bool resample)
 
   // calculate the derivatives
 
-  for( int nA = 0; nA < m_NumberOfSamples; nA++ )
+  for( unsigned int nA = 0; nA < m_NumberOfSamples; nA++ )
     {  
-    for( int idim = 0; idim < ImageDimension; idim++ )
+    for( unsigned int idim = 0; idim < ImageDimension; idim++ )
       {
-      for( int jdim = 0; jdim < ImageDimension; jdim++ )
+      for( unsigned int jdim = 0; jdim < ImageDimension; jdim++ )
         {
         (m_TestMatrixDerivA[nA])[idim][jdim] = 
           (m_TestDerivativesA[nA])[idim] * (m_SpatialSamplesA[nA])[jdim];
@@ -409,14 +409,14 @@ bool resample)
   double dLogSumTest = 0.0;
   double dLogSumJoint = 0.0;
 
-  for( int nB = 0; nB < m_NumberOfSamples; nB++ )
+  for( unsigned int nB = 0; nB < m_NumberOfSamples; nB++ )
     {
     double dDenominatorTest = 0.0;
     double dDenominatorJoint = 0.0;
 
     double dSumRef = 0.0;
 
-    for( int nA = 0; nA < m_NumberOfSamples; nA++ )
+    for( unsigned int nA = 0; nA < m_NumberOfSamples; nA++ )
       {
       double valueRef;
       double valueTest;
@@ -454,7 +454,7 @@ bool resample)
         }
       }
 
-    for( int nA = 0; nA < m_NumberOfSamples; nA++ )
+    for( unsigned int nA = 0; nA < m_NumberOfSamples; nA++ )
       {
       double valueRef;
       double valueTest;
