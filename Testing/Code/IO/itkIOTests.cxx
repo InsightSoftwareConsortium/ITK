@@ -39,6 +39,7 @@ void RegisterTests()
   REGISTER_TEST(itkImageSeriesWriterTest);
   REGISTER_TEST(itkIOPrintTest);
   REGISTER_TEST(itkJPEGImageIOTest);
+  REGISTER_TEST(itkMeshSpatialObjectIOTest);
   REGISTER_TEST(itkMetaImageIOTest);
   REGISTER_TEST(itkNumericSeriesFileNamesTest);
   REGISTER_TEST(itkPolygonGroupSpatialObjectXMLFileTest);
@@ -64,6 +65,7 @@ void RegisterTests()
   REGISTER_TEST(testMetaSurface);
   REGISTER_TEST(testMetaTube);
   REGISTER_TEST(testMetaGroup);
+  REGISTER_TEST(testMetaMesh);
   REGISTER_TEST(itkBrains2MaskTest);
   REGISTER_TEST(itkGEImageIOFactoryTest);
   REGISTER_TEST(itkTIFFImageIOTest);

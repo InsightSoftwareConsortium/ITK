@@ -20,6 +20,7 @@ itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
+itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
@@ -42,6 +43,7 @@ testMetaBlob.cxx
 testMetaSurface.cxx
 testMetaLandmark.cxx
 testMetaLine.cxx
+testMetaMesh.cxx
 testMetaScene.cxx
 itkReadWriteSpatialObjectTest.cxx
 )
@@ -60,8 +62,10 @@ ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob)
 ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
 ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark)
+ADD_TEST(testMetaMesh ${IO_TESTS} testMetaMesh )
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
+ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest)
 
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
