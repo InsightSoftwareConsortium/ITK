@@ -57,7 +57,7 @@ void VTKImageIO::Read(void* buffer)
 void
 VTKImageIO::SetOrigin(unsigned int i, double origin)
 {
-  if ( i < 0 || i > 2 ) {return;}
+  if ( i > 2 ) {return;}
   
   if ( m_Origin[i] != origin )
     {
@@ -66,24 +66,24 @@ VTKImageIO::SetOrigin(unsigned int i, double origin)
     }
 }
 
-const double
+double
 VTKImageIO::GetOrigin(unsigned int i) const
 {
-  i = (i < 0 ? 0 : (i > 2 ? 2 : i));
+  i = (i > 2 ? 2 : i);
   return m_Origin[i];
 }
 
-const double
+double
 VTKImageIO::GetSpacing(unsigned int i) const
 {
-  i = (i < 0 ? 0 : (i > 2 ? 2 : i));
+  i = (i > 2 ? 2 : i);
   return m_Spacing[i];
 }
 
 void
 VTKImageIO::SetSpacing(unsigned int i, double spacing)
 {
-  if ( i < 0 || i > 2 ) {return;}
+  if ( i > 2 ) {return;}
   
   if ( m_Spacing[i] != spacing )
     {

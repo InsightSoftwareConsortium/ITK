@@ -106,13 +106,13 @@ public:
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
    * is required when writing the image. */
   virtual void SetOrigin(unsigned int i, double origin) {}
-  virtual const double GetOrigin(unsigned int i) const
+  virtual double GetOrigin(unsigned int i) const
     { return 0.0; }
 
   /** Set/Get the image spacing on an axis-by-axis basis. The
    * SetSpacing() method is required when writing the image. */
   virtual void SetSpacing(unsigned int i, double spacing) {}
-  virtual const double GetSpacing(unsigned int i) const
+  virtual double GetSpacing(unsigned int i) const
     { return 1.0; }
 
  /*-------- This part of the interfaces deals with reading data ----- */
