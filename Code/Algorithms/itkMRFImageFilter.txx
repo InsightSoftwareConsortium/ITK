@@ -403,8 +403,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //the MRF classification
   LabelledImagePixelType outLabelledPix;
 
-  //Set a variable to store the offset index
-  LabelledImageIndexType offsetIndex3D = {{ 0, 0, 0}};
+  //Set a variable to store the offset
+  LabelledImageOffsetType offset3D = {{ 0, 0, 0}};
+
+  //Set a variable to store the index
+  LabelledImageIndexType index3D;
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
@@ -441,12 +444,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             //More elegant solution would be to use neighborhood
             //operators but it is currently unstable for VC++
 
-            offsetIndex3D[0] = m_WidthOffset[k] ;
-            offsetIndex3D[1] = m_HeightOffset[k] ;
-            offsetIndex3D[2] = m_DepthOffset[k]  ;
-            offsetIndex3D += labelledImageIt.GetIndex();
+            offset3D[0] = m_WidthOffset[k] ;
+            offset3D[1] = m_HeightOffset[k] ;
+            offset3D[2] = m_DepthOffset[k]  ;
+            index3D = labelledImageIt.GetIndex();
+	    index3D += offset3D;
 
-            labelledPixel = m_LabelledImage->GetPixel( offsetIndex3D );
+            labelledPixel = m_LabelledImage->GetPixel( index3D );
                 
             //Assuems that the MRF label is an image with 1 value
             //per pixel and is treated as a vector with 1 entry pervector

@@ -171,6 +171,11 @@ public:
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
   /**
+   * Type definition for the classified image offset type.
+   */
+  typedef typename TClassifiedImage::OffsetType       LabelledImageOffsetType;
+
+  /**
    * Type definitions for classifier to be used for the MRF lavbelling.
    */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
