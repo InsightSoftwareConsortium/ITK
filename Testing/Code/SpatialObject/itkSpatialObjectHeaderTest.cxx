@@ -28,7 +28,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLandmarkSpatialObject.txx"
 #include "itkLineSpatialObject.txx"
 #include "itkLineSpatialObjectPoint.txx"
-#include "itkNDimensionalSpatialObject.txx"
 #include "itkPlaneSpatialObject.txx"
 #include "itkScene.txx"
 #include "itkSpatialObject.txx"
