@@ -153,7 +153,7 @@ Read(const char *_headerName)
 
   if(META_DEBUG) std::cout << "MetaEllipse: Read: Opening stream" << std::endl;
  
-  m_ReadStream->open(m_FileName, std::ios::binary);
+  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   
   if(!m_ReadStream->is_open())
   {
@@ -192,7 +192,7 @@ Write(const char *_headName)
 
   M_SetupWriteFields();
 
-  m_WriteStream->open(m_FileName, std::ios::binary);
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -217,7 +217,7 @@ Append(const char *_headName)
 
   M_SetupWriteFields();
 
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app );
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
   if(!m_WriteStream->is_open())
   {
     return false;
