@@ -22,7 +22,7 @@
 
 namespace itk{ 
 
-/** \class MaxDecisionRule
+/** \class MaximumDecisionRule
  *  \brief A Decision rule that choose the class that has maximum value
  */
  
@@ -36,7 +36,7 @@ public:
   typedef SmartPointer<Self> Pointer;
 
  /** Run-time type information (and related methods) */
-  itkTypeMacro(MaxDecisionRule, DecisionRuleBase);
+  itkTypeMacro(MaximumDecisionRule, DecisionRuleBase);
 
   /** Standard New() method support */
   itkNewMacro(Self) ;
