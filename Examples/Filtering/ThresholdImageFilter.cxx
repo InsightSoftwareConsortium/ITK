@@ -20,7 +20,7 @@
 // \begin{figure}
 // \center
 // \includegraphics[height=5cm]{ThresholdTransferFunctionBelow.eps}
-// \includegraphics[height=5cm]{ThresholdImageFilterOutputBelow.jpg}
+// \includegraphics[height=5cm]{ThresholdImageFilterOutputBelow.eps}
 // \caption{Effect of using the threshold-below mode.}
 // \label{fig:ThresholdTransferFunctionBelow}
 // \end{figure}
@@ -28,7 +28,7 @@
 // \begin{figure}
 // \center
 // \includegraphics[height=5cm]{ThresholdTransferFunctionAbove.eps}
-// \includegraphics[height=5cm]{ThresholdImageFilterOutputAbove.jpg}
+// \includegraphics[height=5cm]{ThresholdImageFilterOutputAbove.eps}
 // \caption{Effect of using the threshold-above mode.}
 // \label{fig:ThresholdTransferFunctionAbove}
 // \end{figure}
@@ -36,7 +36,7 @@
 // \begin{figure}
 // \center
 // \includegraphics[height=5cm]{ThresholdTransferFunctionOutside.eps}
-// \includegraphics[height=5cm]{ThresholdImageFilterOutputOutside.jpg}
+// \includegraphics[height=5cm]{ThresholdImageFilterOutputOutside.eps}
 // \caption{Effect of using the threshold-outside mode.}
 // \label{fig:ThresholdTransferFunctionOutside}
 // \end{figure}

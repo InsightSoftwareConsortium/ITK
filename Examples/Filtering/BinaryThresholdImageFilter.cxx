@@ -219,8 +219,8 @@ int main( int argc, char ** argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySlice.jpg}
-  // \includegraphics[width=6cm]{BinaryThresholdImageFilterOutput.jpg}
+  // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=6cm]{BinaryThresholdImageFilterOutput.eps}
   // \caption{Effect of the BinaryThresholdImageFilter on a slice from a MRI
   // Proton Density image  of the brain.}
   // \label{fig:BinaryThresholdImageFilterInputOutput}
