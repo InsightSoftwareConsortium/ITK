@@ -81,7 +81,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   pt = m_SpatialObject->GetIndexToWorldTransform()->TransformPoint(pt);
   for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
     {
-    index[i]=pt[i];
+    index[i]=static_cast<typename IndexType::IndexValueType>(pt[i]);
     }
 
   IteratorType it = IteratorType(m_Image,m_SpatialObject,index);
