@@ -26,6 +26,7 @@
 
 #include "itkMesh.h"
 #include "itkAutomaticTopologyMeshSource.h"
+#include "PrintMesh.h"
 
 int
 itkAutomaticTopologyMeshSourceTest(int, char* [] )
@@ -39,7 +40,9 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   typedef MeshSourceType::IdentifierType                 IdentifierType;
   typedef MeshSourceType::IdentifierArrayType            IdentifierArrayType;
 
-  MeshSourceType::Pointer meshSource = MeshSourceType::New();
+  MeshSourceType::Pointer meshSource;
+
+  meshSource = MeshSourceType::New();
 
   // Begin using various AddPoint functions to add the vertices of a
   // cube.
@@ -240,6 +243,8 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   // Print out the resulting mesh data.
   std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
 
+  PrintMesh( meshSource->GetOutput() );
+
   // Check that the right number of points has been added.
 
   int numPoints = meshSource->GetOutput()->GetNumberOfPoints();
@@ -253,18 +258,15 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   // Check that the right number of cells has been added.
 
   int numCells = meshSource->GetOutput()->GetNumberOfCells();
-  if( numCells != 64 )
+  if( numCells != 68 )
     {
     std::cerr << "Mesh shows "
               << numCells
-              << " cells, but 64 were added." << std::endl;
+              << " cells, but 68 were added." << std::endl;
     return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
 
 }
-
-
-
 
