@@ -28,6 +28,8 @@ PyBuffer<TImage>
 {
     this->obj = NULL;
     this->m_Importer = ImporterType::New();
+    
+    import_libnumarray();
 }
 
 template<typename TImage>
