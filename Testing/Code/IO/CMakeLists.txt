@@ -11,6 +11,7 @@ ENDIF( CXX_TEST_PATH )
 SET(IOTest_SRCS
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
+itkGiplImageIOTest.cxx
 itkMetaImageIOTest.cxx
 itkPNGImageIOTest.cxx
 itkVOLImageIOTest.cxx

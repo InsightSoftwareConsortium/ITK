@@ -25,6 +25,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkDicomImageIO.h"
 #include "itkDicomImageIOFactory.h"
+#include "itkGiplImageIO.h"
+#include "itkGiplImageIOFactory.h"
 #include "itkImageFileReader.txx"
 #include "itkImageFileWriter.txx"
 #include "itkImageIOBase.h"
