@@ -37,7 +37,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GeodesicActiveContourImageFilter()
 {
 
-  this->ProcessObject::SetNumberOfRequiredInputs( SetDimension + 2 );
+  this->ProcessObject::SetNumberOfRequiredInputs( 3 );
   m_Extender = ExtenderType::New();
   m_InflationStrength = 0.0;
 
