@@ -28,7 +28,11 @@ template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
 ::SimpleFuzzyConnectednessScalarImageFilter()
 {
-
+  m_Mean = 0.0;
+  m_Diff_Mean = 0.0;
+  m_Variance = 0.0;
+  m_Diff_Variance = 0.0;
+;
 }
 
 template <class TInputImage, class TOutputImage>
