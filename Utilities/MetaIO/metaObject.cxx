@@ -383,7 +383,7 @@ PrintInfo(void) const
 
      if((*it)->type == MET_STRING)
      {
-       printf("%s",(*it)->value);
+       printf("%s",(char *) (*it)->value);
      }
      else if(
        (*it)->type == MET_ASCII_CHAR ||
