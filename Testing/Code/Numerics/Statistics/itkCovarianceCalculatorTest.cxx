@@ -19,7 +19,9 @@
 #include "itkCovarianceCalculator.h"
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_vector.h"
+#include "itkFixedArray.h"
+#include "itkVector.h"
+#include "itkMeanCalculator.h"
 
 int itkCovarianceCalculatorTest(int, char**) 
 {
@@ -28,11 +30,15 @@ int itkCovarianceCalculatorTest(int, char**)
   std::string whereFail = "" ;
 
   // Now generate an image
-  typedef itk::Image< float, 3 > FloatImage ;
-  FloatImage::Pointer image = FloatImage::New() ;
-  FloatImage::RegionType region ;
-  FloatImage::SizeType size ;
-  FloatImage::IndexType index ;
+  enum { MeasurementVectorSize = 1 } ;
+  typedef float MeasurementType ;
+  typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > 
+    MeasurementVectorType ;
+  typedef itk::Image< MeasurementVectorType, 3 > ImageType ;
+  ImageType::Pointer image = ImageType::New() ;
+  ImageType::RegionType region ;
+  ImageType::SizeType size ;
+  ImageType::IndexType index ;
   index.Fill(0) ;
   size.Fill(5) ;
   region.SetIndex(index) ;
@@ -42,43 +48,35 @@ int itkCovarianceCalculatorTest(int, char**)
   image->SetBufferedRegion(region) ;
   image->Allocate() ;
 
-  typedef itk::ImageRegionIterator< FloatImage > ImageIterator ;
-  ImageIterator iter(image, region) ;
-
-  unsigned int count = 0 ;
-  double sum = 0.0 ;
-  // fill the image and calculate sum
-  while (!iter.IsAtEnd())
-    {
-      iter.Set(count) ;
-      sum += iter.Get() ;
-      ++iter ;
-      ++count ;
-    }
-
-  double mean = sum / static_cast< double>(count) ;
-  vnl_vector< double > meanVector ;
-  meanVector.resize(1) ;
-  meanVector[0] = mean ;
-  // calculates variance
-  iter.GoToBegin() ;
-  double variance = 0.0 ;
-  double diff ;
-  while (!iter.IsAtEnd())
-    {
-      diff = iter.Get() - mean ;
-      variance += diff * diff ; 
-      ++iter ;
-    }
-  variance /= static_cast< double>(count) ;
-
   // creates an ImageToListAdaptor object
-  typedef  itk::Statistics::ImageToListAdaptor< FloatImage,
-    itk::Statistics::ScalarImageAccessor< FloatImage > >
+  typedef  itk::Statistics::ImageToListAdaptor< ImageType >
     ImageToListAdaptorType ;
 
   ImageToListAdaptorType::Pointer sample = ImageToListAdaptorType::New() ;
   sample->SetImage(image) ;
+
+  typedef itk::Statistics::MeanCalculator< ImageToListAdaptorType > 
+    MeanCalculatorType ;
+  MeanCalculatorType::Pointer meanCalculator = MeanCalculatorType::New() ;
+  meanCalculator->SetSample(sample) ;
+  meanCalculator->Update() ;
+  MeanCalculatorType::OutputType* mean = meanCalculator->GetOutput() ;
+  // calculates variance
+  double count = 0.0 ;
+  double variance = 0.0 ;
+  double diff ;
+  typedef itk::ImageRegionIterator< ImageType > ImageIterator ;
+  ImageIterator iter(image, region) ;
+  iter.GoToBegin() ;
+  while (!iter.IsAtEnd())
+    {
+      diff = iter.Get()[0] - float((*mean)[0]) ;
+      variance += diff * diff ; 
+      count++ ; 
+      ++iter ;
+    }
+  variance /= static_cast< double>(count) ;
+
 
   typedef itk::Statistics::CovarianceCalculator< ImageToListAdaptorType > 
     CalculatorType;
@@ -86,10 +84,10 @@ int itkCovarianceCalculatorTest(int, char**)
   CalculatorType::Pointer calculator = CalculatorType::New() ;
   
   calculator->SetSample(sample) ;
-  calculator->SetMean(meanVector) ;
+  calculator->SetMean(meanCalculator->GetOutput()) ;
   calculator->Update() ;
 
-  if (calculator->GetOutput()(0,0) != variance)
+  if (calculator->GetOutput()->GetVnlMatrix().get(0,0) != variance)
     {
       pass = false ;
     }
