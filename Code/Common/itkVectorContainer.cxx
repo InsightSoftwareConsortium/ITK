@@ -29,16 +29,30 @@ itkVectorContainer< TElementIdentifier , TElement >
   
 
 /**
- * Just pass the indexing operator through to the STL vector's version.
+ * Read the element from the given index.
+ * It is assumed that the index exists.
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::Element&
+itkVectorContainer< TElementIdentifier , TElement >::Element
 itkVectorContainer< TElementIdentifier , TElement >
-::operator[](ElementIdentifier id)
+::GetElement(ElementIdentifier id)
 {
   return this->Vector::operator[](id);
 }
-  
+
+
+/**
+ * Set the element value at the given index.
+ * It is assumed that the index exists.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+itkVectorContainer< TElementIdentifier , TElement >
+::SetElement(ElementIdentifier id, Element element)
+{
+  this->Vector::operator[](id) = element;
+}
+
 
 /**
  * Check if the index range of the STL vector is large enough to allow the
@@ -50,6 +64,28 @@ itkVectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id)
 {
   return ((id >= 0) && (id < this->Vector::size()));
+}
+
+
+/**
+ * Check if the given index is in range of the STL vector.  If it is not,
+ * return false.  Otherwise, set the element through the pointer (if it isn't
+ * NULL), and return true.
+ */
+template <typename TElementIdentifier, typename TElement>
+bool
+itkVectorContainer< TElementIdentifier , TElement >
+::GetElementIfIndexExists(ElementIdentifier id, Element* element)
+{
+  if((id >= 0) && (id < this->Vector::size()))
+    {
+    if(element != NULL)
+      {
+      *element = this->Vector::operator[](id);
+      }
+    return true;
+    }
+  return false;
 }
 
 

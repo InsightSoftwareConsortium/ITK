@@ -64,7 +64,7 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
@@ -78,13 +78,13 @@ public:
    * Get the cell vertex corresponding to the given Id.
    * The Id can range from 0 to GetNumberOfVertices()-1.
    */  
-  virtual Vertex::Pointer GetCellVertex(CellFeatureId);
+  virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
 
   /**
    * Get the cell edge corresponding to the given Id.
    * The Id can range from 0 to GetNumberOfEdges()-1.
    */  
-  virtual Edge::Pointer GetCellEdge(CellFeatureId);
+  virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
    * Standard part of itkObject class.  Used for debugging output.

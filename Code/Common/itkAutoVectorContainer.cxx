@@ -26,36 +26,37 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 {
   return new Self;
 }
-  
+
+
+/**
+ * Read the element from the given index.
+ * It is assumed that the index exists.
+ */
+template <typename TElementIdentifier, typename TElement>
+itkAutoVectorContainer< TElementIdentifier , TElement >::Element
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::GetElement(ElementIdentifier id)
+{
+  return this->Vector::operator[](id);
+}
+
 
 /**
  * This is an "auto" vector, so the underlying STL vector may need to be
  * expanded to allow the given index to be valid.
  *
- * Once it is known that the index exists, just pass the indexing operator
- * through to the STL vector's version.
+ * Set the element value at the given index.
+ * It is assumed that the index exists.
  */
 template <typename TElementIdentifier, typename TElement>
-itkAutoVectorContainer< TElementIdentifier , TElement >::Element&
+void
 itkAutoVectorContainer< TElementIdentifier , TElement >
-::operator[](ElementIdentifier id)
+::SetElement(ElementIdentifier id, Element element)
 {
-  if(id >= this->Vector::size())
-    {
-    /**
-     * The vector must be expanded.  If doubling in size is enough to
-     * allow the new index, do so.  Otherwise, expand just enough to
-     * allow the new index.
-     */
-    if((id+1) < (2*this->Vector::size()))
-      this->Vector::resize(2*this->Vector::size());
-    else
-      this->Vector::resize(id+1);
-    }
-  
-  return this->Vector::operator[](id);
+  if(id >= this->Vector::size()) CreateIndex(id);
+  this->Vector::operator[](id) = element;
 }
-  
+
 
 /**
  * Check if the index range of the STL vector is large enough to allow the
@@ -67,6 +68,28 @@ itkAutoVectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id)
 {
   return ((id >= 0) && (id < this->Vector::size()));
+}
+
+
+/**
+ * Check if the given index is in range of the STL vector.  If it is not,
+ * return false.  Otherwise, set the element through the pointer (if it isn't
+ * NULL), and return true.
+ */
+template <typename TElementIdentifier, typename TElement>
+bool
+itkAutoVectorContainer< TElementIdentifier , TElement >
+::GetElementIfIndexExists(ElementIdentifier id, Element* element)
+{
+  if((id >= 0) && (id < this->Vector::size()))
+    {
+    if(element != NULL)
+      {
+      *element = this->Vector::operator[](id);
+      }
+    return true;
+    }
+  return false;
 }
 
 

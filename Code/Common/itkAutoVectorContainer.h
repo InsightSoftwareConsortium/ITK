@@ -87,8 +87,10 @@ public:
    * Declare the public interface routines.
    */
   static Pointer New(void);
-  virtual Element& operator[](ElementIdentifier);
+  virtual Element GetElement(ElementIdentifier);
+  virtual void SetElement(ElementIdentifier, Element);
   virtual bool IndexExists(ElementIdentifier);
+  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*);
   virtual void CreateIndex(ElementIdentifier);
   virtual void DeleteIndex(ElementIdentifier);
 };

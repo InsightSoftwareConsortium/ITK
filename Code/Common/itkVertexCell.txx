@@ -58,7 +58,7 @@ itkVertexCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkVertexCell< TPixelType , TMeshType >::Cell::Pointer
 itkVertexCell< TPixelType , TMeshType >
-::GetBoundaryFeature(int, CellFeatureId)
+::GetBoundaryFeature(int, CellFeatureIdentifier)
 {
   return Cell::Pointer(NULL);
 }

@@ -65,7 +65,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Cell::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetBoundaryFeature(int dimension, CellFeatureId featureId)
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
@@ -137,7 +137,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Vertex::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureId vertexId)
+::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);
@@ -153,7 +153,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Edge::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellEdge(CellFeatureId edgeId)
+::GetCellEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
 
@@ -171,7 +171,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Face::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellFace(CellFeatureId faceId)
+::GetCellFace(CellFeatureIdentifier faceId)
 {
   Face::Pointer face(Face::New());
   

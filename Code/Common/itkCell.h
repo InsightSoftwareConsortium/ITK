@@ -63,11 +63,11 @@ public:
    */
   typedef TPixelType  PixelType;
   typedef TMeshType   MeshType;
-  typedef itkMesh< PixelType , MeshType >     Mesh;
-  typedef typename MeshType::PointIdentifier  PointIdentifier;
-  typedef typename MeshType::CellIdentifier   CellIdentifier;
-  typedef typename MeshType::CoordRep         CoordRep;
-  typedef typename MeshType::CellFeatureId    CellFeatureId;
+  typedef itkMesh< PixelType , MeshType >     	      Mesh;
+  typedef typename MeshType::PointIdentifier  	      PointIdentifier;
+  typedef typename MeshType::CellIdentifier   	      CellIdentifier;
+  typedef typename MeshType::CoordRep         	      CoordRep;
+  typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
   enum { PointDimension = MeshType::PointDimension };
   
   /**
@@ -83,7 +83,7 @@ public:
   /**
    * A useful rename.
    */
-  typedef CellFeatureId CellFeatureCount;  
+  typedef CellFeatureIdentifier CellFeatureCount;  
 
   /**
    * Public interface routines.
@@ -102,7 +102,7 @@ public:
   /**
    * Get the boundary feature corresponding to the given dimension and Id.
    */
-  virtual Pointer GetBoundaryFeature(int dimension, CellFeatureId)=0;
+  virtual Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier)=0;
   
   /**
    * Set the point list used by the cell.  It is assumed that the argument

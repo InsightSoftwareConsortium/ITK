@@ -62,14 +62,14 @@ public:
   static Pointer New(void);
   virtual int GetCellDimension(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
-  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
    * Line-specific interface.
    */
   virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual Vertex::Pointer GetCellVertex(CellFeatureId);
+  virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
 
   /**
    * Standard part of itkObject class.  Used for debugging output.

@@ -28,14 +28,28 @@ itkMapContainer< TElementIdentifier , TElement >
 
 
 /**
- * Just pass the indexing operator through to the STL map's version.
+ * Get the element at the specified index.  There is no check for
+ * existence performed.
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::Element&
+itkMapContainer< TElementIdentifier , TElement >::Element
 itkMapContainer< TElementIdentifier , TElement >
-::operator[](ElementIdentifier id)
+::GetElement(ElementIdentifier id)
 {
   return Map::operator[](id);
+}
+
+
+/**
+ * Set the given index value to the given element.  If the index doesn't
+ * exist, it is automatically created.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+itkMapContainer< TElementIdentifier , TElement >
+::SetElement(ElementIdentifier id, Element element)
+{
+  Map::operator[](id) = element;
 }
 
 
@@ -49,6 +63,28 @@ itkMapContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id)
 {
   return (this->Map::count(id) > 0);
+}
+
+
+/**
+ * If the given index doesn't exist in the map, return false.
+ * Otherwise, set the element through the pointer (if it isn't null), and
+ * return true.
+ */
+template <typename TElementIdentifier, typename TElement>
+bool
+itkMapContainer< TElementIdentifier , TElement >
+::GetElementIfIndexExists(ElementIdentifier id, Element* element)
+{
+  if(this->Map::count(id) > 0)
+    {
+    if(element != NULL)
+      {
+      *element = Map::operator[](id);
+      }
+    return true;
+    }
+  return false;
 }
 
 

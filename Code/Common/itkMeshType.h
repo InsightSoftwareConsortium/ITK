@@ -62,7 +62,7 @@ template <
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting.
    */
-  typename TCellFeatureId = unsigned long,
+  typename TCellFeatureIdentifier = unsigned long,
 
   /**
    * The container for use in storing the cell identifiers of those cells
@@ -73,8 +73,9 @@ template <
    */
   typename TPointCellLinksContainer = itkSetContainer< TCellIdentifier >
   >
-struct itkMeshType
+class itkMeshType
 {
+public:
   /**
    * Just save all the template parameters.
    */
@@ -84,7 +85,7 @@ struct itkMeshType
   typedef TCellIdentifier      	    CellIdentifier;
   typedef TPointIdentifier     	    PointIdentifier;
   typedef TBoundaryIdentifier  	    BoundaryIdentifier;
-  typedef TCellFeatureId       	    CellFeatureId;
+  typedef TCellFeatureIdentifier    CellFeatureIdentifier;
   typedef TPointCellLinksContainer  PointCellLinksContainer;
 };
 
