@@ -41,9 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkGradientMagnitudeImageFilter_txx
 #define _itkGradientMagnitudeImageFilter_txx
 
-#include "itkRegionNeighborhoodIterator.h"
-#include "itkRegionBoundaryNeighborhoodIterator.h"
-#include "itkRegionNonBoundaryNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstSmartNeighborhoodIterator.h"
+#include "itkNeighborhoodInnerProduct.h"
+#include "itkImageRegionIterator.h"
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -51,20 +52,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
-template<class TInnerProduct, class TIterator>
+ 
+template< class TInputImage, class TOutputImage >
 void
-GradientMagnitudeStrategy<TInnerProduct, TIterator>
-::operator()(ImageType *in, ImageType *out) const
+GradientMagnitudeImageFilter< TInputImage, TOutputImage >
+::GenerateData()
 {
   unsigned int i;
-  ScalarValueType a, g;
-  TInnerProduct IP;
-  NeighborhoodAlgorithm::CalculateOutputWrapOffsetModifiers<ImageType> OM;
-  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
+  OutputPixelType a, g;
+  ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
+
+  ConstNeighborhoodIterator<TInputImage> nit;
+  ConstSmartNeighborhoodIterator<TInputImage> bit;
+  ImageRegionIterator<TOutputImage> it;
+
+  NeighborhoodInnerProduct<TInputImage> IP;
+  SmartNeighborhoodInnerProduct<TInputImage> SIP;
+
+  // Allocate output
+  typename OutputImageType::Pointer output = this->GetOutput();
+  typename  InputImageType::Pointer input  = this->GetInput();
+  output->SetBufferedRegion(output->GetRequestedRegion());
+  output->Allocate();
   
   // Set up operators
-  DerivativeOperator<PixelType, ImageDimension> op;
+  DerivativeOperator<OutputPixelType, ImageDimension> op;
    op.SetDirection(0);
    op.SetOrder(1);
    op.CreateDirectional();
@@ -73,67 +85,72 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
   Size<ImageDimension> radius;
   for (i = 0; i < ImageDimension; ++i) radius[i]  = op.GetRadius()[0];
 
-  // Create an iterator. The output buffer pointer of the iterator is set
-  // up to account for any differences in the buffer size of the two images.
-  Offset<ImageDimension> mod;
-  TIterator it(radius, in, in->GetRequestedRegion());
-  it.SetOutputBuffer(out->GetBufferPointer() +
-                     out->ComputeOffset(it.GetRegion().GetIndex()));
-  mod = OM(in, out);
-  it.SetOutputWrapOffsetModifier(mod);
+  // Find the data-set boundary "faces"
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
+    FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
+  faceList = bC(input, input->GetRequestedRegion(), radius);
 
-  it.OverrideBoundaryCondition(&nbc);
-  
-  // Slice the iterator
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
+    FaceListType::iterator fit;
+  fit = faceList.begin();
+
+  // Process non-boundary face
+  nit = ConstNeighborhoodIterator<TInputImage>(radius, input, *fit);
+  it  = ImageRegionIterator<TOutputImage>(output, *fit);
+
   std::slice x_slice[ImageDimension];
-  const unsigned long center = it.Size() / 2;
+  const unsigned long center = nit.Size() / 2;
   for (i = 0; i < ImageDimension; ++i)
     {
-      x_slice[i] = std::slice( center - it.GetStride(i) * radius[i],
-                               op.GetSize()[0], it.GetStride(i));
+      x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
+                               op.GetSize()[0], nit.GetStride(i));
     }
 
-  // Process
-  for (it = it.Begin(); !it.IsAtEnd(); ++it)
+  nit.GoToBegin();
+  it = it.Begin();
+
+  while( ! nit.IsAtEnd() )
     {
-      a = NumericTraits<ScalarValueType>::Zero;
+      a = NumericTraits<OutputPixelType>::Zero;
       for (i = 0; i < ImageDimension; ++i)
         {
-          g = IP(x_slice[i], it, op);
+          g = IP(x_slice[i], nit, op);
           a += g * g;
         }
-      *(it.GetOutputBuffer()) = ::sqrt(a);     
+      it.Value() = ::sqrt(a);
+      ++nit;
+      ++it;
     }
-}
- 
-template< class TInputImage, class TOutputImage >
-void
-GradientMagnitudeImageFilter< TInputImage, TOutputImage >
-::GenerateData()
-{
-  typedef RegionBoundaryNeighborhoodIterator<TOutputImage>    RBI;
-  typedef RegionNonBoundaryNeighborhoodIterator<TOutputImage> RNI;
-  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI,
-    NeighborhoodOperator<OutputPixelType, ImageDimension> > SNIP;
-  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI,
-    NeighborhoodOperator<OutputPixelType, ImageDimension> > SBIP;
   
-  GradientMagnitudeStrategy<SNIP, RNI> f1;
-  GradientMagnitudeStrategy<SBIP, RBI> f2;
-  
-  // Allocate output
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename InputImageType::Pointer input  = this->GetInput();
+  // Process each of the boundary faces.  These are N-d regions which border
+  // the edge of the buffer.
+  for (++fit; fit != faceList.end(); ++fit)
+    { 
+      bit =
+        ConstSmartNeighborhoodIterator<InputImageType>(radius,
+                                                       input, *fit);
+      it = ImageRegionIterator<OutputImageType>(output, *fit);
+      bit.OverrideBoundaryCondition(&nbc);
+      bit.GoToBegin();
+      it = it.Begin();
 
-  // Need to allocate output buffer memory.
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
+      while ( ! bit.IsAtEnd() )
+        {
+          a = NumericTraits<OutputPixelType>::Zero;
+          for (i = 0; i < ImageDimension; ++i)
+            {
+              g = SIP(x_slice[i], bit, op);
+              a += g * g;
+            }
+          it.Value() = ::sqrt(a);          
+          ++bit;
+          ++it;
+        }
+      }
 
-  // Filter
-  f1(input, output);
-  f2(input, output);
 }
-  
+
 } // end namespace itk
 
 #endif
