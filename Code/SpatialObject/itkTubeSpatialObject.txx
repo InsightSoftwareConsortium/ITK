@@ -107,7 +107,7 @@ TubeSpatialObject< TDimension >
 { 
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
-  os << indent << "nb of points: "<< m_Points.size() << std::endl;
+  os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
  
