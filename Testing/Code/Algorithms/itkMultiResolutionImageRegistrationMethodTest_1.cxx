@@ -252,6 +252,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char**)
   metric->SetMovingImageStandardDeviation( 5.0 );
   metric->SetFixedImageStandardDeviation( 5.0 );
   metric->SetNumberOfSpatialSamples( 50 );
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   /******************************************************************
    * Set up the registrator.

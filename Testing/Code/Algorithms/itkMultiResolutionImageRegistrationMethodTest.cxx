@@ -108,6 +108,8 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char**)
     MovingImagePyramidType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
   
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
