@@ -34,6 +34,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   : m_Kernel()
 {
   m_ObjectValue = NumericTraits<PixelType>::One;
+  this->SetNumberOfThreads(1);
 }
   
 template <class TInputImage, class TOutputImage, class TKernel>
