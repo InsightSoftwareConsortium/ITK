@@ -153,22 +153,29 @@ int main( int argc, char ** argv )
   //  created as a static C++ object instead of using \code{New()} and
   //  SmartPointers. The radius of the neighborhood associated with the
   //  structuring element is defined with the \code{SetRadius()} method and the
-  //  resulting structuring element is passed to the mathematical morphology
-  //  filter through the \code{SetKernel()} method, as illustrated below.
+  //  \code{CreateStructuringElement()} method is invoked in order to
+  //  initialize the operator.  The resulting structuring element is passed to
+  //  the mathematical morphology filter through the \code{SetKernel()} method,
+  //  as illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
+  //  \index{itk::BinaryBallStructuringElement!CreateStructuringElement()}
   //  \index{itk::BinaryDilateImageFilter!SetKernel()}
   //  \index{itk::BinaryErodeImageFilter!SetKernel()}
   //  \index{SetRadius()!itk::BinaryBallStructuringElement}
   //  \index{SetKernel()!itk::BinaryDilateImageFilter}
   //  \index{SetKernel()!itk::BinaryErodeImageFilter}
+  //  \index{SetRadius()!itk::BinaryBallStructuringElement}
+  //  \index{CreateStructuringElement()!itk::BinaryBallStructuringElement}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   StructuringElementType  structuringElement;
 
-  structuringElement.SetRadius( 2 );  // 5x5 structuring element
+  structuringElement.SetRadius( 1 );  // 3x3 structuring element
+
+  structuringElement.CreateStructuringElement();
 
   binaryErode->SetKernel(  structuringElement );
   binaryDilate->SetKernel( structuringElement );
@@ -251,6 +258,24 @@ int main( int argc, char ** argv )
 
   writerErosion->SetInput( binaryErode->GetOutput() );
   writerErosion->Update();
+
+  //  Software Guide : BeginLatex
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=4cm]{BinaryThresholdImageFilterOutput.eps}
+  // \includegraphics[width=4cm]{MathematicalMorphologyBinaryErosionOutput.eps}
+  // \includegraphics[width=4cm]{MathematicalMorphologyBinaryDilationOutput.eps}
+  // \caption{Effect of Erosion and Dilation in a binary image.}
+  // \label{fig:MathematicalMorphologyBinaryFilters}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:MathematicalMorphologyBinaryFilters} illustrates the
+  //  effect of the erosion and dilation filters on a bianry image from a MRI
+  //  brain slice. The figure shows how these operations can be used to remove
+  //  spurious details from segmented images.
+  //
+  //  Software Guide : EndLatex 
 
 
   return 0;
