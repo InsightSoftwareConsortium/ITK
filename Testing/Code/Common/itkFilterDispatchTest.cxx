@@ -37,6 +37,7 @@ See COPYRIGHT.txt for copyright details.
  */
 
 #include <iostream>
+#include <strstream>
 
 #include <itkImage.h>
 #include <itkFilterImageToImage.h>
@@ -130,12 +131,12 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if((ImageDimension == 2) || (ImageDimension == 3))
     {
-    std::cout << "Error: N-d filter implementation called for "
-              << ImageDimension
-              << "-d filter, even though specific implementation exists."
-              << std::endl;
-    std::cout << "The test has failed." << std::endl;
-    exit(1);
+    std::strstream err;
+    err << "Error: N-d filter implementation called for "
+        << ImageDimension
+        << "-d filter, even though specific implementation exists."
+        << std::endl;
+    throw std::string(err.str());
     }
 }	 
 
@@ -154,11 +155,11 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 2)
     {
-    std::cout << "Error: 2-d filter implementation called for "
-              << ImageDimension
-              << "-d filter." << std::endl;
-    std::cout << "The test has failed." << std::endl;
-    exit(1);
+    std::strstream err;
+    err << "Error: 2-d filter implementation called for "
+        << ImageDimension
+        << "-d filter." << std::endl;
+    throw std::string(err.str());
     }
 }
 
@@ -177,11 +178,11 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 3)
     {
-    std::cout << "Error: 3-d filter implementation called for "
-              << ImageDimension
-              << "-d filter." << std::endl;
-    std::cout << "The test has failed." << std::endl;
-    exit(1);
+    std::strstream err;
+    err << "Error: 3-d filter implementation called for "
+        << ImageDimension
+        << "-d filter." << std::endl;
+    throw std::string(err.str());    
     }
 }
 
@@ -205,6 +206,8 @@ void ExampleImageFilter<TInputImage, TOutputImage>
  */
 int main(void)
 {  
+  bool passed = true;
+  
   // Define an image of each dimension.
   typedef itk::Image<float, 2> Image2d;
   typedef itk::Image<float, 3> Image3d;
@@ -224,22 +227,37 @@ int main(void)
   Filter5d::Pointer filter5d = Filter5d::New();
 
   // Try running each of the filters.  If the wrong Execute() method is
-  // invoked by one of these calls, the program will terminate with an
-  // error.
-  std::cout << "Executing 2-d filter: ";
-  filter2d->Update();
+  // invoked by one of these calls, a std::string() exception will be
+  // thrown with the error description.  
+  try
+    {
+    std::cout << "Executing 2-d filter: ";
+    filter2d->Update();
+    
+    std::cout << "Executing 3-d filter: ";
+    filter3d->Update();
+    
+    std::cout << "Executing 4-d filter: ";
+    filter4d->Update();
+    
+    std::cout << "Executing 5-d filter: ";
+    filter5d->Update();
+    }
+  catch (std::string err)
+    {
+    std::cout << err;
+    passed = false;
+    }
 
-  std::cout << "Executing 3-d filter: ";
-  filter3d->Update();
-
-  std::cout << "Executing 4-d filter: ";
-  filter4d->Update();
-
-  std::cout << "Executing 5-d filter: ";
-  filter5d->Update();
-  
-  std::cout << "The test has passed." << std::endl;
-  
-  return 0;
+  if(passed)
+    {
+    std::cout << "The test has passed." << std::endl;
+    return 0;
+    }
+  else
+    {
+    std::cout << "The test has failed." << std::endl;
+    return 1;
+    }
 }
 
