@@ -1,6 +1,7 @@
 # create the ITKAlgorithmsTcl libraries
 SET(WRAP_SOURCES
     wrap_itkCurvatureFlowImageFilter
+    wrap_itkDemonsRegistrationFilter
     wrap_itkHistogramMatchingImageFilter
     wrap_itkImageRegistrationMethod
     wrap_itkImageToImageMetric
@@ -20,6 +21,7 @@ SET(WRAP_SOURCES
     wrap_itkShapeDetectionLevelSetImageFilter
     wrap_itkCurvesLevelSetImageFilter
     wrap_itkNarrowBandLevelSetImageFilter
+    wrap_itkPDEDeformableRegistrationFilter
     wrap_itkNarrowBandCurvesLevelSetImageFilter
     wrap_itkWatershedImageFilter
 )

@@ -23,6 +23,7 @@ namespace _cable_
   const char* const groups[] =
   {
     ITK_WRAP_GROUP(itkCurvatureFlowImageFilter),
+    ITK_WRAP_GROUP(itkDemonsRegistrationFilter),
     ITK_WRAP_GROUP(itkHistogramMatchingImageFilter),
     ITK_WRAP_GROUP(itkImageRegistrationMethod),
     ITK_WRAP_GROUP(itkImageToImageMetric),
@@ -41,6 +42,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkNarrowBandLevelSetImageFilter),     
     ITK_WRAP_GROUP(itkNarrowBandCurvesLevelSetImageFilter),
     ITK_WRAP_GROUP(itkMattesMutualInformationImageToImageMetric),
+    ITK_WRAP_GROUP(itkPDEDeformableRegistrationFilter),
     ITK_WRAP_GROUP(itkRecursiveMultiResolutionPyramidImageFilter),
     ITK_WRAP_GROUP(itkWatershedImageFilter)
   };
