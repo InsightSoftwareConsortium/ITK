@@ -748,6 +748,7 @@ public:
   dicom_stl::string GetFileName( const dicom_stl::string &instanceUID );
   
  protected:
+  int FileCount;
   int BitsAllocated;
   bool ByteSwapData;
   float PixelSpacing[3];

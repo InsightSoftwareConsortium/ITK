@@ -136,6 +136,7 @@ struct gt_pair_float_string
 
 DICOMAppHelper::DICOMAppHelper()
 {
+  this->FileCount = 0;
   this->BitsAllocated = 8;
   this->ByteSwapData = false;
   this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0;
@@ -541,6 +542,13 @@ void DICOMAppHelper::InstanceUIDCallback(DICOMParser *parser,
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
 
+  // An anonymized UID, generate one
+  if (newStdString == "0.0.0.0")
+    {
+    char fakeUID[2048];
+    sprintf (fakeUID, "%d.%d.%d.%d", 0, 0, 0, ++this->FileCount);
+    newStdString = fakeUID;
+    }
   // cache the instance UID
   this->InstanceUID = newStdString;
   
@@ -623,6 +631,14 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *,
 
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
+
+  // An anonymized UID, set the the UID to 0.0.0,1
+  if (newStdString == "0.0.0.0")
+    {
+    char fakeUID[2048];
+    sprintf (fakeUID, "%d.%d.%d.%d", 0, 0, 0, 1);
+    newStdString = fakeUID;
+    }
 
 #ifdef DEBUG_DICOM_APP_HELPER  
   dicom_stream::cout << "Series UID: " << newStdString << dicom_stream::endl;
