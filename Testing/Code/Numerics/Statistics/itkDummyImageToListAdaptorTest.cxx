@@ -17,20 +17,41 @@
 #include <time.h>
 
 #include "itkFixedArray.h"
-#include "itkImageAdaptor.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkPixelTraits.h"
+
+#include "itkImageToListAdaptor.h"
+#include "itkScalarToArrayCastImageFilter.h"
+
+#include "itkImage.h"
 #include "itkObject.h"
 #include "itkMacro.h"
 #include "itkPixelTraits.h"
 
-#include "itkListSampleBase.h"
-#include "itkImageToListAdaptor.h"
-#include "itkScalarToArrayCastImageFilter.h"
+template< class TImage >
+class DefaultMeasurementVectorSpecification
+{
+public:
+  typedef typename TImage::PixelType MeasurementVectorType ;
+} ; // end of class
 
-// #ifdef VCL_CAN_DO_PARTIAL_SPECIALIZATION
-template < class TImage, class TMeasurementVector = typename TImage::PixelType >
-class DummyImageToListAdaptor : 
+template< class TImage >
+class FixedArrayMeasurementVectorSpecification
+{
+public:
+  typedef typename TImage::PixelType PixelType ;
+  typedef typename itk::PixelTraits< PixelType >::ValueType MeasurementType ;
+  itkStaticConstMacro( MeasurementVectorSize, unsigned int, 
+                       itk::PixelTraits< PixelType >::Dimension ) ;
+  typedef typename itk::FixedArray< MeasurementType, MeasurementVectorSize >
+  MeasurementVectorType ;
+} ; // end of class
+
+template < class TImage, 
+           class TMeasurementVectorSpecification = 
+           DefaultMeasurementVectorSpecification< TImage > >
+class ITK_EXPORT DummyImageToListAdaptor : 
 //   public itk::Statistics::ListSampleBase< 
 //   itk::FixedArray< typename MyPixelTraits< typename TImage::PixelType >::ValueType, 
 //                    MyPixelTraits< typename TImage::PixelType >::Dimension > >
@@ -51,41 +72,14 @@ public:
   itkStaticConstMacro( MeasurementVectorSize, unsigned int, 
                        itk::PixelTraits< PixelType >::Dimension ) ;
 
-  typedef TMeasurementVector MeasurementVectorType ;
+  typedef typename TMeasurementVectorSpecification::MeasurementVectorType MeasurementVectorType ;
 
-  void SetImage( TImage* image )
-    {
-    m_Image = image ;
-    m_ImageBuffer = m_Image->GetPixelContainer() ;
-    if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 ) 
-      {
-      m_UseBuffer = false ;
-      }
-    else
-      { 
-      m_UseBuffer = true ;
-      }
-    }
+  void SetImage( TImage* image ) ;
 
-  MeasurementVectorType& GetMeasurementVector(int id)
-    {
-      if( m_UseBuffer )
-        {
-        return *(reinterpret_cast< TMeasurementVector* >
-                 ( &(*m_ImageBuffer)[id] ) ) ;
-        }
-      else
-        {
-        return *(reinterpret_cast< TMeasurementVector* >
-                 ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
-        }
-    }
+  MeasurementVectorType& GetMeasurementVector(int id) ;
   
 protected:
-  DummyImageToListAdaptor() 
-    {
-    m_Image = 0 ;
-    }
+  DummyImageToListAdaptor() ;
   
   virtual ~DummyImageToListAdaptor() {}
 
@@ -99,6 +93,46 @@ private:
 } ;
 
 
+template< class TImage, class TMeasurementVectorSpecification >
+DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
+::DummyImageToListAdaptor()
+{
+  m_Image = 0 ;
+}
+
+template< class TImage, class TMeasurementVectorSpecification >
+void
+DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
+::SetImage( TImage* image )
+{
+  m_Image = image ;
+  m_ImageBuffer = m_Image->GetPixelContainer() ;
+  if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 ) 
+    {
+    m_UseBuffer = false ;
+    }
+  else
+    { 
+    m_UseBuffer = true ;
+    }
+}
+
+template< class TImage, class TMeasurementVectorSpecification >
+DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >::MeasurementVectorType&
+DummyImageToListAdaptor< TImage, TMeasurementVectorSpecification >
+::GetMeasurementVector(int id)
+{
+  if( m_UseBuffer )
+    {
+    return *(reinterpret_cast< MeasurementVectorType* >
+             ( &(*m_ImageBuffer)[id] ) ) ;
+    }
+  else
+    {
+    return *(reinterpret_cast< MeasurementVectorType* >
+             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
+    }
+}
 
 int itkDummyImageToListAdaptorTest(int, char* [] ) 
 {
@@ -150,7 +184,8 @@ int itkDummyImageToListAdaptorTest(int, char* [] )
     }
 
   typedef DummyImageToListAdaptor< ScalarImageType, 
-    itk::FixedArray< ScalarPixelType , 1 > > ScalarListType ;
+    FixedArrayMeasurementVectorSpecification< ScalarImageType> 
+    > ScalarListType ;
   ScalarListType::Pointer sList = ScalarListType::New() ;
   sList->SetImage( scalarImage ) ;
 
