@@ -34,6 +34,9 @@ all: generateWrappers
 %.o: %.cxx
 	$(CXX) $(DEBUG) $(INCLUDES) -c $<
 
+%.o: %.c
+	$(CC) $(DEBUG) $(INCLUDES) -c $< -o $@
+
 generateWrappers: $(GENERATOR_OBJS)
 	$(CXX) -o generateWrappers $(GENERATOR_OBJS)
 
