@@ -140,6 +140,8 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
     {
     result = 1; // it's inside the shell
     }
+  else 
+    {
     result = 0; // it's not inside the shell
     }
 
