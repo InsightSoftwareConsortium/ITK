@@ -64,6 +64,20 @@ public:
   bool operator != (T* r) const { return (m_Pointer!=r); }
   
   /**
+   * Allow assignment.
+   */
+  SmartPointer& operator = (const SmartPointer& r)
+    {
+      if(m_Pointer != r.m_Pointer)
+        {
+        this->Unregister();
+        m_Pointer = r.m_Pointer;
+        this->Register();
+        }
+      return *this;
+    }  
+
+  /**
    * Allow assignment.  Conversion operator below allows this to take
    * a normal pointer, or another smart pointer to T or a descendent of T.
    */
