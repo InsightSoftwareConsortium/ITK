@@ -49,7 +49,6 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
-  FixedPointSetType::PointIdentifier pointId = 0;
   FixedPointSetType::PointType  point;
 
   unsigned int id = 0;
@@ -75,8 +74,6 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   movingPointSet->GetPoints()->Reserve( numberOfPoints );
   movingPointSet->GetPointData()->Reserve( numberOfPoints );
-
-  pointId = 0;
 
   id = 0;
   for(unsigned int i=0;i<numberOfPoints/2;i++)
