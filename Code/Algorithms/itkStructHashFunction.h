@@ -4,9 +4,9 @@
 namespace itk
 {
 
-/** /class StructHashFunction
+/** \class StructHashFunction
  *
- *  /brief Generic hash function for an arbitrary struct (or class).
+ *  \brief Generic hash function for an arbitrary struct (or class).
  *
  *  This regards the input key as a string of bytes, and applies a
  *  hash function similar to one that has been used in perl.  If the

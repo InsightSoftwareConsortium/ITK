@@ -50,8 +50,8 @@ public:
     ) const;
 };
 
-/** \class itkAutomaticTopologyMeshSource.h
- * \brief Convenience class for generating simple meshes.  
+/** \class AutomaticTopologyMeshSource
+ * \brief Convenience class for generating meshes.  
  *
  * This generates an N-dimensional mesh consisting of some combination
  * of vertices, line segments, triangles, quadrilaterals, tetrahedra,
@@ -78,11 +78,12 @@ public:
  * objects, then the points are added to the mesh if necessary.
  *
  * The different ways of specifying a cell are
- *  -# An IdentifierArrayType (= itk::Array<IdentifierType>) of point identifiers.
- *     These point identifiers are the ones returned by calls to
- *     AddPoint().
- *  -# A parameter list of point identifiers (for instance, <tt>this->AddLine(0,
- *     1)</tt>, if 0 and 1 are point identifiers).
+ * 
+ *  -# An IdentifierArrayType (= itk::Array<IdentifierType>) of point
+ *     identifiers.  These point identifiers are the ones returned by
+ *     calls to AddPoint().
+ *  -# A parameter list of point identifiers (for instance, 
+ *     <tt>this->AddLine(0, 1)</tt>, if 0 and 1 are point identifiers).
  *  -# A parameter list of itk::Point objects (the function then
  *     generates the identifiers).
  *  -# A parameter list of C-style arrays, with each such array giving
@@ -135,20 +136,32 @@ public:
   typedef SmartPointer<const Self>      ConstPointer;
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef          TOutputMesh                 MeshType;
-  typedef typename MeshType::PointType         PointType;
-  typedef typename MeshType::CellType          CellType;
-  typedef typename MeshType::Pointer           MeshPointer;
-  typedef typename PointType::CoordRepType     CoordinateType;
-  typedef typename CellType::CellAutoPointer   CellAutoPointer;
+  typedef          TOutputMesh               MeshType;
+  typedef typename MeshType::PointType       PointType;
+  typedef typename MeshType::CellType        CellType;
+  typedef typename MeshType::Pointer         MeshPointer;
+  typedef typename PointType::CoordRepType   CoordinateType;
+  typedef typename CellType::CellAutoPointer CellAutoPointer;
+
+  /** Useful Boundary aliases. */
+  typedef CellType                           BoundaryType;
+  typedef CellAutoPointer                    BoundaryAutoPointer;
 
   /** Different kinds of cells. */
-  typedef VertexCell< CellType >               VertexCell;
-  typedef LineCell< CellType >                 LineCell;
-  typedef TriangleCell< CellType >             TriangleCell;
-  typedef QuadrilateralCell< CellType >        QuadrilateralCell;
-  typedef TetrahedronCell< CellType >          TetrahedronCell;
-  typedef HexahedronCell< CellType >           HexahedronCell;
+  typedef VertexCell< CellType >             VertexCell;
+  typedef LineCell< CellType >               LineCell;
+  typedef TriangleCell< CellType >           TriangleCell;
+  typedef QuadrilateralCell< CellType >      QuadrilateralCell;
+  typedef TetrahedronCell< CellType >        TetrahedronCell;
+  typedef HexahedronCell< CellType >         HexahedronCell;
+
+  /** Different kinds of boundaries. */
+  typedef VertexBoundary< CellType >         VertexBoundary;
+  typedef LineBoundary< CellType >           LineBoundary;
+  typedef TriangleBoundary< CellType >       TriangleBoundary;
+  typedef QuadrilateralBoundary< CellType >  QuadrilateralBoundary;
+  typedef TetrahedronBoundary< CellType >    TetrahedronBoundary;
+  typedef HexahedronBoundary< CellType >     HexahedronBoundary;
 
   /** This class requires that the mesh being built use unsigned long
    * as the identifier type for all its elements. */
@@ -352,6 +365,7 @@ private:
 
   PointHashMap m_PointsHashTable;
   CellHashMap  m_CellsHashTable;
+  size_t       m_NumberOfBoundaries[4];
   MeshPointer  m_OutputMesh;   // Retained for convenience.
   
 };
