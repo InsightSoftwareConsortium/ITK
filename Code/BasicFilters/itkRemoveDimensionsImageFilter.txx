@@ -117,6 +117,7 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
   OutputImagePointer outputPtr = this->GetOutput();
   OutputImageRegionType outputRegion = outputPtr->GetLargestPossibleRegion();
   outputPtr->SetBufferedRegion(outputPtr->GetLargestPossibleRegion());
+  outputPtr->Allocate();
 
   //check if m_RemoveDimensionsIndex is consistent with input and output
   //image dimensions, and with the m_RemoveDimensionsIndex.  If they arent 
@@ -134,8 +135,7 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
       inputSize[i] = 1;
       }
     }
-
-  /*
+/* 
   if (zeroCount == m_RemoveDimensionsIndex.GetIndexDimension())
     {
     //This exceptionMacro call is crashing for some reason.
@@ -148,17 +148,17 @@ RemoveDimensionsImageFilter<TInputImage,outputImageDimension>
   inputRegion.SetIndex(inputIndex);
   inputRegion.SetSize(inputSize);
 
-  // Define  and setup the iterators.
+  // Define and setup the iterators.
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
   OutputIterator outIt(outputPtr, outputRegion);
   InputIterator inIt(inputPtr, inputRegion);
   
   //walk the input and output and set the output.
-  for (outIt.GoToBegin(), inIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt, i++ )
+  for (outIt.GoToBegin(), inIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
     {
     //copy the input pixel to the output
-    outIt.Set( inIt.Get());    //The code is crashing here for some odd reason.
+    outIt.Set( inIt.Get());
     }
 
 }
