@@ -91,7 +91,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   if( m_NumberOfPixelsCounted )
     {
-    measure = -sfm / sqrt( sff * smm );
+    const RealType factor = -1.0 / sqrt( sff * smm );
+    measure = sfm * factor;
     }
   else
     {
@@ -150,10 +151,17 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeF = DerivativeType( ParametersDimension );
+  derivativeF.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeM = DerivativeType( ParametersDimension );
+  derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   typename MovingImageType::TransformPointer movingImageTransform = 
                                  m_MovingImage->GetPhysicalToIndexTransform();
@@ -161,6 +169,32 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   ti.GoToBegin();
   gi.GoToBegin();
 
+  // First compute the sums
+  while(!ti.IsAtEnd())
+    {
+
+    index = ti.GetIndex();
+    
+    InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = ti.Get();
+      sff += fixedValue  * fixedValue;
+      smm += movingValue * movingValue;
+      sfm += fixedValue  * movingValue;
+      m_NumberOfPixelsCounted++;
+      }
+
+    ++ti;
+    }
+
+  // Compute contributions to derivatives
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
 
@@ -175,8 +209,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       {
       const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue     = ti.Get();
-      sff += fixedValue  * fixedValue;
-      smm += movingValue * movingValue;
 
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
@@ -197,14 +229,17 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
-        RealType sum = NumericTraits< RealType >::Zero;
+        RealType sumF = NumericTraits< RealType >::Zero;
+        RealType sumM = NumericTraits< RealType >::Zero;
         for(unsigned int dim=0; dim<dimension; dim++)
           {
-          sum += fixedValue * jacobian( dim, par ) * gradient[dim];
+          const RealType differential = jacobian( dim, par ) * gradient[dim];
+          sumF += fixedValue  * differential;
+          sumM += movingValue * differential;
           }
-        derivative[par] += sum;
+        derivativeF[par] += sumF;
+        derivativeM[par] += sumM;
         }
-      m_NumberOfPixelsCounted++;
       }
 
     ++ti;
@@ -215,7 +250,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] /= factor;
+      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
       }
     }
   else
@@ -279,12 +314,46 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
+  DerivativeType derivativeF = DerivativeType( ParametersDimension );
+  derivativeF.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeM = DerivativeType( ParametersDimension );
+  derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+
   typename MovingImageType::TransformPointer movingImageTransform = 
                                  m_MovingImage->GetPhysicalToIndexTransform();
 
   ti.GoToBegin();
   gi.GoToBegin();
 
+  // First compute the sums
+  while(!ti.IsAtEnd())
+    {
+
+    index = ti.GetIndex();
+    
+    InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+    OutputPointType transformedPoint = m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = ti.Get();
+      sff += fixedValue  * fixedValue;
+      smm += movingValue * movingValue;
+      sfm += fixedValue  * movingValue;
+      m_NumberOfPixelsCounted++;
+      }
+
+    ++ti;
+    }
+
+
+  // Compute contributions to derivatives
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {
 
@@ -299,9 +368,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       {
       const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
       const RealType fixedValue     = ti.Get();
-      sff += fixedValue  * fixedValue;
-      smm += movingValue * movingValue;
-      sfm += fixedValue  * movingValue;
 
       const TransformJacobianType & jacobian =
                           m_Transform->GetJacobian( inputPoint ); 
@@ -322,16 +388,18 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
-        RealType sum = NumericTraits< RealType >::Zero;
+        RealType sumF = NumericTraits< RealType >::Zero;
+        RealType sumM = NumericTraits< RealType >::Zero;
         for(unsigned int dim=0; dim<dimension; dim++)
           {
-          sum += fixedValue * jacobian( dim, par ) * gradient[dim];
+          const RealType differential = jacobian( dim, par ) * gradient[dim];
+          sumF += fixedValue  * differential;
+          sumM += movingValue * differential;
           }
-        derivative[par] += sum;
+        derivativeF[par] += sumF;
+        derivativeM[par] += sumM;
         }
-      m_NumberOfPixelsCounted++;
       }
-
     ++ti;
     }
   if( m_NumberOfPixelsCounted )
@@ -339,9 +407,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     const RealType factor = -1.0 / sqrt( sff * smm );
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] /= factor;
+      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
       }
-    value = -sfm / sqrt( sff * smm );
+    value = sfm * factor;
     }
   else
     {
