@@ -1068,7 +1068,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 /**
  * Releasing the memory of Cells aobjects for which normal pointers 
  * are stored. The method used for memory release is based on information 
- * provided by the user who is the only who know how the memory was allocated.
+ * provided by the user who is the only who know how the memory was allocated.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
@@ -1158,7 +1158,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 /**
  * Releasing the memory of Boundary Cells objects for which normal pointers 
  * are stored. The method used for memory release is based on information 
- * provided by the user who is the only who know how the memory was allocated.
+ * provided by the user who is the only who know how the memory was allocated.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
@@ -1186,7 +1186,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 /**
  * Releasing the memory of Boundary Cells objects for which normal pointers 
  * are stored. The method used for memory release is based on information 
- * provided by the user who is the only who know how the memory was allocated.
+ * provided by the user who is the only who know how the memory was allocated.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
