@@ -15,8 +15,6 @@ LINK_DIRECTORIES(
 LINK_LIBRARIES(
 VXLNumerics
 ITKCommon
-dl
-pthread
 )
 
 TESTS(

@@ -19,8 +19,6 @@ LINK_LIBRARIES (
 ITKBasicFilters 
 ITKCommon
 VXLNumerics
-dl
-pthread
 )
 
 TESTS(
