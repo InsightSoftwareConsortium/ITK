@@ -287,7 +287,7 @@ public:
    *  the internals of the algorithm. */
   typedef Image<StatusType, itkGetStaticConstMacro(ImageDimension)> StatusImageType;
   
-  /** Memory pre-allocator used to manage layer nodes in a multi-threaded
+  /** Memory pre-allocator used to manage layer nodes in a multithreaded
    *  environment. */
   typedef ObjectStore<LayerNodeType> LayerNodeStorageType;
   
@@ -295,7 +295,7 @@ public:
   
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
-   *   the sparse field is 2 * NumberOfLayers +1*/
+   *   the sparse field is 2 * NumberOfLayers + 1 */
   itkSetMacro(NumberOfLayers, StatusType);
   itkGetMacro(NumberOfLayers, StatusType);
 
@@ -349,13 +349,14 @@ protected:
   
   /** This image is a copy of the input with m_IsoSurfaceValue subtracted from
    * each pixel.  This way we only need to consider the zero level set in our
-   * calculations.  Makes the implementation easier and more efficient. */
+   * calculations.  Makes the implementation easier and more efficient.
+   * This is used only during the initialization of the level set. */
   typename OutputImageType::Pointer m_ShiftedImage;
   
   /** An array which contains all of the layers needed in the sparse
    * field. Layers are organized as follows: m_Layer[0] = active layer, 
-   * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
-   */
+   * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2.
+   * This is used only during the initialization of the level set. */
   LayerListType m_Layers;
   
   /** The number of layers to use in the sparse field.  Sparse field will
@@ -367,9 +368,9 @@ protected:
   typename StatusImageType::Pointer m_StatusImage;
   typename OutputImageType::Pointer m_OutputImage;
   
-  //
-  typename StatusImageType::Pointer m_StatusImageNew;
-  typename OutputImageType::Pointer m_OutputImageNew;
+  /** Images used temporarily during the initialization of the thread data structures. */
+  typename StatusImageType::Pointer m_StatusImageTemp;
+  typename OutputImageType::Pointer m_OutputImageTemp;
   
   /** Storage for layer node objects. */
   typename LayerNodeStorageType::Pointer m_LayerNodeStore;
@@ -383,7 +384,7 @@ protected:
   ValueType m_RMSChange;
   
   /** Reimplement the GenerateData() function from FiniteDifferenceImageFilter
-   *  for more effective multiprocessing */
+   *  for more effective multithreading */
   virtual void GenerateData();
   
   /** Copies the input to the output image.  Processing occurs on the output
@@ -415,7 +416,7 @@ protected:
   
   /** */
   void ProcessStatusList(LayerType *InputList, StatusType ChangeToStatus,
-                          StatusType SearchForStatus, int ThreadId);
+                         StatusType SearchForStatus, int ThreadId);
   
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
@@ -431,7 +432,7 @@ protected:
    *  propagation is inwards (more negative).  "InOrOut" == 0 indicates this
    *  propagation is outwards (more positive). */   
   void PropagateLayerValues(StatusType from, StatusType to, StatusType promote,
-                             int InOrOut);
+                            int InOrOut);
   
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
@@ -440,7 +441,7 @@ protected:
   virtual void InitializeBackgroundPixels();
   
   /** Each thread allocates and initializes the data it will use by itself.
-   *  This maintains the memory locality of data w.r.t. the thread in s shared
+   *  This maintains the memory locality of data w.r.t. the thread in a shared
    *  memory environment.*/
   void ThreadedAllocateData(int ThreadId);
   void ThreadedInitializeData(int ThreadId, const ThreadRegionType & ThreadRegion);
@@ -487,8 +488,9 @@ protected:
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration.*/
   inline virtual ValueType CalculateUpdateValue(const IndexType &idx,
-                                                 const TimeStepType &dt,
-                             const ValueType &value, const ValueType &change)
+                                                const TimeStepType &dt,
+                                                const ValueType &value,
+                                                const ValueType &change)
     {
       return (value + dt * change);
     }
@@ -507,66 +509,91 @@ protected:
   }
   
   /** This method does the actual work of calculating change over a region
-   * supplied by the multithreading mechanism.  */
+   *  supplied by the multithreading mechanism.  */
   virtual TimeStepType ThreadedCalculateChange(int ThreadId);
 
-  /** */
+  /** Updates the values (in the output-image) of the nodes in the active layer
+   *  and constructs the up/down lists for nodes that are moving out of the
+   *  active layer. */
   void ThreadedUpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
                                        LayerType *StatusDownList, int ThreadId);
   
-  /** */
+  /** Make a copy of the nodes in the FromList and insert them into the ToList. */
   void CopyInsertList(int ThreadId, LayerPointerType FromListPtr,
                       LayerPointerType ToListPtr);
 
-  /** */
+  /** Delete all nodes in the List */
   void ClearList(int ThreadId, LayerPointerType ListPtr);
 
-  /** */
+  /** Make a copy of the nodes given to one thread by its neighbors to process
+   *  and insert them into the thread's own list. */
   void CopyInsertInterNeighborNodeTransferBufferLayers(int ThreadId,
-                 LayerPointerType InputList, int InOrOut, int BufferLayerNumber);
-
-  /** */
+                                                       LayerPointerType InputList,
+                                                       int InOrOut,
+                                                       int BufferLayerNumber);
+  
+  /** Delete all nodes in a thread's own lists which its used to transfer nodes
+   *  to neighboring threads. */
   void ClearInterNeighborNodeTransferBufferLayers(int ThreadId, int InOrOut,
                                                   int BufferLayerNumber);
   
-  /** */
-  void ThreadedProcessFirstLayerStatusLists(int OnputLayerNumber,
-                         int OutputLayerNumber, StatusType SearchForStatus,
-                             int InOrOut, int BufferLayerNumber, int ThreadId);
-
+  /** Performs two tasks. The situation here is that ThreadedProcessStatusList
+   *  has been called just once after the active layer values have been updated and the
+   *  UpLists and DownLists formed. Some nodes are now moving into the active layer.
+   *  The two tasks performed are:
+   *  1. modify the status-image like it is performed by the ThreadedProcessStatusList.
+   *  2. Update the values in the output-image for those nodes that are moving IN the
+   *  active layer. */
+  void ThreadedProcessFirstLayerStatusLists(int InputLayerNumber,
+                                            int OutputLayerNumber,
+                                            StatusType SearchForStatus,
+                                            int InOrOut,
+                                            int BufferLayerNumber, int ThreadId);
+  
   /** */
   void ThreadedProcessStatusList(int InputLayerNumber, int OutputLayerNumber,
-           StatusType ChangeToStatus, StatusType SearchForStatus, int InOrOut,
+                                 StatusType ChangeToStatus, StatusType SearchForStatus,
+                                 int InOrOut,
                                  int BufferLayerNumber, int ThreadId);
-
+  
   /** */
   void ThreadedProcessOutsideList(int InputLayerNumber, StatusType ChangeToStatus,
-               int InOrOut, int BufferLayerNumber, int ThreadId);
+                                  int InOrOut, int BufferLayerNumber, int ThreadId);
   
   /** */
-  void ThreadedPropagateLayerValues (StatusType from, StatusType to, StatusType promote,
-                                     int InorOut, int ThreadId);
-
+  void ThreadedPropagateLayerValues(StatusType from, StatusType to, StatusType promote,
+                                    int InorOut, int ThreadId);
+  
   /** Split the volume uniformly along the chosen dimension for post processing
    *  the output. */
-  void GetThreadRegionSplitUniformly  (int ThreadId, ThreadRegionType& ThreadRegion);
-
+  void GetThreadRegionSplitUniformly(int ThreadId, ThreadRegionType& ThreadRegion);
+  
   /** */
-  void ThreadedPostProcessOutput (int ThreadId, const ThreadRegionType & regionToProcess);
+  void ThreadedPostProcessOutput(int ThreadId, const ThreadRegionType & regionToProcess);
   
-  /** Check if the load is fairly balanced among the threads. */
+  /** Check if the load is fairly balanced among the threads.
+   *  This is performed by just one thread while all other threads wait.
+   *  This need NOT be performed every iteration because the level-set surface moves slowly
+   *  and it is correct to believe that during an iteration the movement is small enough that
+   *  the small gain obtained by load balancing (if any) does not warrant the overhead for
+   *  calling this method.
+   *  How often this is done is controlled by a parameter LOAD_BALANCE_ITERATION_FREQUENCY
+   *  which is defined in the IterateThreaderCallback() function.
+   *  A parameter that defines a degree of unbalancedness of the load among threads is
+   *  MAX_PIXEL_DIFFERENCE_PERCENT which is defined in CheckLoadBalance(). */
   virtual void CheckLoadBalance();
-
-  /** Redistribute an unbalanced load among the threads */
-  virtual void ThreadedLoadBalance (int ThreadId);
   
-  /** Thread synchronization method. */
+  /** Redistribute an load among the threads to obtain a more balanced load distribution.
+   *  This is performed in parallel by all the threads. */
+  virtual void ThreadedLoadBalance(int ThreadId);
+  
+  /** Thread synchronization methods. */
   void WaitForAll();
   void SignalNeighborsAndWait (int ThreadId);
   void SignalNeighbor  (int SemaphoreArrayNumber, int ThreadId);
   void WaitForNeighbor (int SemaphoreArrayNumber, int ThreadId);
   
-  /**  For debugging.  Writes the active layer set (points closest to evolving
+  /**  For debugging.  Writes the active layer set (grid-points closest to evolving
    *  interface) to a file. */
   //  void WriteActivePointsToFile ();
   
@@ -576,28 +603,30 @@ protected:
   /** The dimension along which to distribute the load. */
   int m_SplitAxis;
   
-  /** The length of the dimension along which to split the load. */
+  /** The length of the dimension along which to distribute the load. */
   int m_ZSize;
-
-  /** */
+  
+  /** A boolean variable stating if the boundaries had been changed during
+   *  CheckLoadBalance() */
   bool m_BoundaryChanged;
-
-  /** */
+  
+  /** The boundaries defining thread regions */
   int * m_Boundary;
 
-  /** */
+  /** Histogram of number of pixels in each Z plane for the entire 3D volume */
   int * m_GlobalZHistogram;
 
-  /** */
+  /** The mapping from a z-value to the thread in whose region the z-value lies */
   int * m_MapZToThreadNumber;
 
-  /** */
+  /** Cumulative frequency of number of pixels in each Z plane for the entire 3D
+   *  volume  */
   int * m_ZCumulativeFrequency;
 
-  /** */
+  /** A global barrier used for synchronization between all threads. */
   typename Barrier::Pointer m_Barrier;
 
-  /** */
+  /** Local data for each individual thread. */
   struct ThreadData
   {
     char pad1 [128];
@@ -623,20 +652,25 @@ protected:
      *  boundaries */
     LayerPointerType** m_InterNeighborNodeTransferBufferLayers[2];
     
+    /** A pointer to the GlobalData struct obtained from the difference function.
+     *  Every thread has its own copy of the struct */
     void * globalData;
     
     /** Local histogram with each thread */
     int * m_ZHistogram;
     
+    /** Semaphores used for signalling and waiting neighbor threads.
+     *  Strictly speaking the semaphores are NOT just accessed by the thread that owns them
+     *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
     typename Semaphore::Pointer m_Semaphore[2];
     
-    /** Indicates whether to use m_SemaphoreArray[0] or m_SemaphoreArray[1] */
+    /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for signalling/waiting */
     int m_SemaphoreArrayNumber;
     
     char pad2 [128];
   };
   
-  /** An array storing the individual structures for each thread. */
+  /** An array storing the individual (local) data structures for each thread. */
   ThreadData *m_Data;
   
   /** Used to check if there are too few pixels remaining. If yes, then we can
