@@ -85,8 +85,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
   typedef ConstShapedNeighborhoodIterator<TOutputImage> NeighborhoodIteratorType;
   SizeType kernelRadius;
   kernelRadius.Fill(1);
-  NeighborhoodIteratorType nit
-    = NeighborhoodIteratorType(kernelRadius, output,
+  NeighborhoodIteratorType nit;
+  nit  = NeighborhoodIteratorType(kernelRadius, output,
                                output->GetRequestedRegion());
   nit.OverrideBoundaryCondition(&BC); // assign the boundary condition
 
