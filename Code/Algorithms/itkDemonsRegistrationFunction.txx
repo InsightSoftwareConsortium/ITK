@@ -44,8 +44,8 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_IntensityDifferenceThreshold = 0.001;
   m_MovingImage = NULL;
   m_FixedImage = NULL;
-  m_FixedImageSpacing = NULL;
-  m_FixedImageOrigin = NULL;
+  m_FixedImageSpacing.Fill( 1.0 );
+  m_FixedImageOrigin.Fill( 0.0 );
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 

@@ -78,6 +78,7 @@ public:
   typedef typename Superclass::FixedImagePointer  FixedImagePointer;
   typedef typename FixedImageType::IndexType      IndexType;
   typedef typename FixedImageType::SizeType       SizeType;
+  typedef typename FixedImageType::SpacingType    SpacingType;
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
@@ -162,8 +163,8 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   /** Cache fixed image information. */
-  const double *                  m_FixedImageSpacing;
-  const double *                  m_FixedImageOrigin;
+  SpacingType                     m_FixedImageSpacing;
+  PointType                       m_FixedImageOrigin;
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;

@@ -121,7 +121,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
     gradientFilter->SetInput( m_MovingImage );
 
-    const double * spacing = m_MovingImage->GetSpacing();
+    const typename MovingImageType::SpacingType&
+      spacing = m_MovingImage->GetSpacing();
     double maximumSpacing=0.0;
     for(unsigned int i=0; i<MovingImageDimension; i++)
       {
