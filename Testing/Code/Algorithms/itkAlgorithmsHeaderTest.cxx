@@ -63,6 +63,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMRASlabIdentifier.txx"
 #include "itkMRFImageFilter.txx"
 #include "itkMRIBiasFieldCorrectionFilter.txx"
+#include "itkMattesMutualInformationImageToImageMetric.txx"
 #include "itkMeanSquaresImageToImageMetric.txx"
 #include "itkMeanSquaresPointSetToImageMetric.txx"
 #include "itkMinMaxCurvatureFlowFunction.txx"
