@@ -29,7 +29,7 @@
 #include <map>
 #include <string>
 #include <iostream>
-
+#include "itkMultiThreader.h"
 
 typedef int (*MainFuncPointer)(int , char**);
 std::map<std::string, MainFuncPointer> StringToTestFunctionMap;
@@ -78,6 +78,19 @@ int main(int ac, char** av)
     }
   else
     {
+    if (strcmp(av[1], "--with-threads") == 0)
+      {
+      int numThreads = atoi(av[2]);
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numThreads);
+      av += 2;
+      ac -= 2;
+      }
+    else if (strcmp(av[1], "--without-threads") == 0)
+      {
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
+      av += 1;
+      ac -= 1;
+      }
     testToRun = av[1];
     }
   std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.find(testToRun);
