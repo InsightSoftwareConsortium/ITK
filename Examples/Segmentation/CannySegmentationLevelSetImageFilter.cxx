@@ -60,7 +60,7 @@
 // with a few iterations of an anisotropic diffusion filter.
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
+// \includegraphics[width=\textwidth]{CannySegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \caption[CannySegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the CannySegmentationLevelSetImageFilter
 // applied to a segmentation task.}
@@ -294,10 +294,10 @@ int main( int argc, char *argv[] )
   //  the upper right-hand side of the mask has been removed.
   //
   //  \begin{figure}
-  //  \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  //  \includegraphics[width=4cm]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
-  //  \includegraphics[width=4cm]{CannySegmentationLevelSetImageFilterVentricle1.eps}
-  //  \includegraphics[width=4cm]{CannySegmentationLevelSetImageFilterVentricle2.eps}
+  //  \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
+  //  \includegraphics[width=0.24\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
+  //  \includegraphics[width=0.24\textwidth]{CannySegmentationLevelSetImageFilterVentricle1.eps}
+  //  \includegraphics[width=0.24\textwidth]{CannySegmentationLevelSetImageFilterVentricle2.eps}
   //  \caption[Segmentation results of CannyLevelSetImageFilter]{Results of
   //  applying \code{CannySegmentationLevelSetImageFilter} to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the

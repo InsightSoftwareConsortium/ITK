@@ -328,10 +328,10 @@ int main( int argc, char *argv[] )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{NeighborhoodConnectedImageFilterOutput1.eps}
-  // \includegraphics[width=4cm]{NeighborhoodConnectedImageFilterOutput2.eps}
-  // \includegraphics[width=4cm]{NeighborhoodConnectedImageFilterOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput1.eps}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput2.eps}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput3.eps}
   // \caption[Segmentation results of the
   // NeighborhoodConnectedImageFilter]{Segmentation results of the
   // NeighborhoodConnectedImageFilter for various seed points.}

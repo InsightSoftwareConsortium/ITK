@@ -25,7 +25,7 @@
 // \doxygen{BinaryMask3DMeshSource} in the hybrid segmentation framework. 
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{DeformableModelCollaborationDiagram.eps}
+// \includegraphics[width=\textwidth]{DeformableModelCollaborationDiagram.eps}
 // \caption[Deformable model collaboration diagram]{Collaboration
 // diagram of the DeformableMesh3DFilter applied to a segmentation task.}
 // \label{fig:DeformableModelCollaborationDiagram}

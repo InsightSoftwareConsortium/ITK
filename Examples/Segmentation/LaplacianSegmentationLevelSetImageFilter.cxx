@@ -53,7 +53,7 @@
 // anisotropic diffusion filter.
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{LaplacianSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
+// \includegraphics[width=\textwidth]{LaplacianSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \caption[LaplacianSegmentationLevelSetImageFilter collaboration
 // diagram]{An image processing pipeline using
 // LaplacianSegmentationLevelSetImageFilter for segmentation.}
@@ -276,9 +276,9 @@ int main( int argc, char *argv[] )
   //  the upper right-hand side of the mask has been removed.
   //
   //  \begin{figure}
-  //  \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  //  \includegraphics[width=4cm]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
-  //  \includegraphics[width=4cm]{LaplacianSegmentationLevelSetImageFilterVentricle.eps}
+  //  \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  //  \includegraphics[width=0.32\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle.eps}
+  //  \includegraphics[width=0.32\textwidth]{LaplacianSegmentationLevelSetImageFilterVentricle.eps}
   //  \caption[Segmentation results of LaplacianLevelSetImageFilter]{Results of
   //  applying LaplacianSegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the

@@ -179,8 +179,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=7cm]{BrainT1Slice.eps}
-  // \includegraphics[width=7cm]{HybridSegmentationFuzzyVoronoiOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainT1Slice.eps}
+  // \includegraphics[width=0.44\textwidth]{HybridSegmentationFuzzyVoronoiOutput.eps}
   // \caption{Segmentation results for the hybrid segmentation approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput}
   // \end{figure}
@@ -190,8 +190,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=7cm]{FatMRISlice.eps}
-  // \includegraphics[width=7cm]{HybridSegmentationFuzzyVoronoiOutput2.eps}
+  // \includegraphics[width=0.44\textwidth]{FatMRISlice.eps}
+  // \includegraphics[width=0.44\textwidth]{HybridSegmentationFuzzyVoronoiOutput2.eps}
   // \caption{Another segmentation result for the hybrid segmentation approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput2}
   // \end{figure}

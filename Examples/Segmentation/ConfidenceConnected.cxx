@@ -390,10 +390,10 @@ int main( int argc, char *argv[] )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{ConfidenceConnectedOutput1.eps}
-  // \includegraphics[width=4cm]{ConfidenceConnectedOutput2.eps}
-  // \includegraphics[width=4cm]{ConfidenceConnectedOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput1.eps}
+  // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput2.eps}
+  // \includegraphics[width=0.24\textwidth]{ConfidenceConnectedOutput3.eps}
   // \caption{Segmentation results of the ConfidenceConnected filter for various seed points.}
   // \label{fig:ConfidenceConnectedOutput}
   // \end{figure}

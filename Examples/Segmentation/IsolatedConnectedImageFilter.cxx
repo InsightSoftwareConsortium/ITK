@@ -297,9 +297,9 @@ int main( int argc, char *argv[] )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=5cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=5cm]{IsolatedConnectedImageFilterOutput0.eps}
-  // \includegraphics[width=5cm]{IsolatedConnectedImageFilterOutput1.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0.eps}
+  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1.eps}
   // \caption{Segmentation results of the IsolatedConnectedImageFilter.}
   // \label{fig:IsolatedConnectedImageFilterOutput}
   // \end{figure}

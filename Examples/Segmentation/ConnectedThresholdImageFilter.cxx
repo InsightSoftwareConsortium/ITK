@@ -334,10 +334,10 @@ int main( int argc, char *argv[])
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=4cm]{ConnectedThresholdOutput1.eps}
-  // \includegraphics[width=4cm]{ConnectedThresholdOutput2.eps}
-  // \includegraphics[width=4cm]{ConnectedThresholdOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1.eps}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2.eps}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3.eps}
   // \caption{Segmentation results of the ConnectedThreshold filter for various seed points.}
   // \label{fig:ConnectedThresholdOutput}
   // \end{figure}
