@@ -7,7 +7,7 @@
 
 #include <metaImageTypes.h>
 #include <metaImageUtils.h>
-#include <zlib.h>
+
 /*!    MetaImage (.h and .cpp)
  *
  * Description:

@@ -9,7 +9,7 @@
 #include <metaUtils.h>
 #include <metaObject.h>
 #include <metaImage.h>
-
+#include <zlib.h>
 
 //
 // MetaImage Constructors
