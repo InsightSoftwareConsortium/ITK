@@ -61,14 +61,18 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Create an object and return a pointer to it as an
-   * itkLightObject. */
+   * itk::LightObject. */
   virtual SmartPointer<LightObject> CreateObject() = 0;
+  
+private:
+  CreateObjectFunctionBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 };
 
 
 /** \class CreateObjectFunction
  * \brief CreateObjectFunction is used to create callback functions that
- * create itkObjects for use with the itkObjectFactory.
+ * create ITK Objects for use with the itk::ObjectFactory.
  * 
  * \ingroup ITKSystemObjects
  */
@@ -82,12 +86,12 @@ public:
     
   /** Methods from itk:LightObject. */
   static Pointer New() { return new Self;}
-  LightObject::Pointer CreateObject()
-    {
-    return LightObject::Pointer(T::New());
-    }
+  LightObject::Pointer CreateObject() { return T::New(); }
   };
 
+private:
+  CreateObjectFunction(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented  
 } // end namespace itk
 
 #endif

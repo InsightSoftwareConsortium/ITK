@@ -148,6 +148,10 @@ public:
 protected:
   SimpleMutexLock   m_SimpleMutexLock;
   void PrintSelf(std::ostream& os, Indent indent) const;
+  
+private:
+  MutexLock(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 
