@@ -23,6 +23,10 @@ SET(DICOMPARSER_LIBRARY ITKDICOMParser)
 SET(DICOMPARSER_STANDALONE 0)
 SUBDIRS(DICOMParser)
 
+IF(ITK_DISABLE_CXX_TESTING)
+  SET(BUILD_TESTING OFF)
+ENDIF(ITK_DISABLE_CXX_TESTING)
+
 #------------------------------------------------------------------------------
 # Configure vxl/vnl as needed
 IF(NOT ITK_USE_SYSTEM_VXL)
