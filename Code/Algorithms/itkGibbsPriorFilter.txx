@@ -739,6 +739,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 //    int randomPixel = (int) size*rand()/32768;
 
   int i = 0;
+  double * dist = new double[m_NumClasses];
   while ( !inputImageIt.IsAtEnd() )
     {
     offsetIndex3D[2] = i / frame;
@@ -753,7 +754,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
     inputImageIt.Set(ChangedPixelVec);
     //		m_ErrorCounter++;
     }
-    double *dist = m_ClassifierPtr->GetPixelDistance( ChangedPixelVec );
+
+    m_ClassifierPtr->GetPixelDistance( ChangedPixelVec, dist );
     double minDist = 1e+20;
     int pixLabel = -1;
     
@@ -788,6 +790,8 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
     ++labelledImageIt;
     ++inputImageIt;
   }
+
+  delete [] dist;
 
 }//ApplyGibbslabeller
 

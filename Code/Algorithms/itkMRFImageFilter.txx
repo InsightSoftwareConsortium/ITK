@@ -71,7 +71,11 @@ template<class TInputImage, class TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::~MRFImageFilter(void)
 {
-        
+    delete [] m_WidthOffset;
+    delete [] m_HeightOffset;
+    delete [] m_DepthOffset;
+    delete [] m_Beta3x3x3;
+    if( m_LabelStatus ) delete [] m_LabelStatus;
 }
 
 /**
@@ -428,6 +432,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
+  double * dist = new double[m_NumClasses];
+ 
   for( int d = 0; d < m_imgDepth; d++ )
   {
     for( int j = 0; j < m_imgHeight; j++ )
@@ -443,7 +449,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         //flag check suspended
 
         inputPixelVec = inputImageIt.Get();
-        double *dist = m_ClassifierPtr->GetPixelDistance( inputPixelVec );
+        m_ClassifierPtr->GetPixelDistance( inputPixelVec, dist );
                       
         for( unsigned int index = 0; index <= m_NumClasses ;index++ ) 
           neighborInfluence[index]=0;
@@ -537,6 +543,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     }// end imageHeight
   }// end imageDepth
 
+  delete [] dist;
   delete[] neighborInfluence;
 }//ApplyICMlabeller
 

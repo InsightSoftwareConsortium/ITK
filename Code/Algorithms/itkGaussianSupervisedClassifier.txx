@@ -54,13 +54,17 @@ GaussianSupervisedClassifier<TInputImage,TClassifiedImage>
   m_Epsilon   = 1e-100;
   m_DoubleMax = 1e+20;
   m_validTrainingFlag = false;
+ 
+  m_Covariance = NULL;
+  m_InvCovariance = NULL;
 }
 
 template<class TInputImage, class TClassifiedImage>
 GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::~GaussianSupervisedClassifier(void)
 {
-
+  if ( m_Covariance ) delete [] m_Covariance;
+  if ( m_InvCovariance ) delete [] m_InvCovariance;
 }
 
 /**
@@ -153,6 +157,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   m_NumSamples.resize(m_NumClasses,1);
   m_NumSamples.fill(NULL);
 
+  // delete previous allocation first
+  if ( m_Covariance ) delete [] m_Covariance;
   //Number of covariance matrices are equal to number of classes
   m_Covariance = (MatrixType *) new MatrixType[m_NumClasses];  
 
@@ -263,6 +269,9 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   }// end class index loop
 
 
+  // delete previous allocation first
+  if ( m_InvCovariance ) delete [] m_InvCovariance;
+
   //Calculate the inverse of the covariance matrix 
   //Number of inverse covariance matrices are equal to number of classes
   m_InvCovariance = (MatrixType *) new MatrixType[m_NumClasses];
@@ -362,7 +371,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::GetPixelClass(InputImageVectorType &inPixelVec)
 {
 
-  double *pixProbability = GetPixelDistance( inPixelVec );
+  double * pixProbability = new double[m_NumClasses];
+  GetPixelDistance( inPixelVec, pixProbability );
   double minDist = pixProbability[0];
   m_ClassifiedPixelIndex = 1;
 
@@ -376,16 +386,18 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     }
   }// end for
 
+  delete [] pixProbability;
+
   return m_ClassifiedPixelIndex;
 }// end GetPixelClass
 
 template<class TInputImage, class TClassifiedImage>
-double *
+void
 GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
-::GetPixelDistance( InputImageVectorType &inPixelVec )
+::GetPixelDistance( 
+InputImageVectorType &inPixelVec,
+double * pixDistance )
 {
-
-  double *pixDistance = new double[m_NumClasses];
 
   for( unsigned int classIndex = 0; classIndex < m_NumClasses; classIndex++ ) 
   {
@@ -407,7 +419,6 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     pixDistance[classIndex] = tmpMat[0][0];
   }
 
-  return pixDistance;
 }// end Pixel Distance
 
 } // namespace itk

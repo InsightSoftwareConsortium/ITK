@@ -199,7 +199,8 @@ public:
    * of numbers representing the distances between a input data and 
    * the various possible classes.
    */
-  virtual double *GetPixelDistance(InputImageVectorType &inPixelVec)=0;
+  virtual void GetPixelDistance(InputImageVectorType &inPixelVec,
+    double * results )=0;
 
   /**
    * Set a training image (for supervised classifier)

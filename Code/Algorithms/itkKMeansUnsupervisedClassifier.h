@@ -282,7 +282,8 @@ public:
    * has not been implemented and returns a null 
    * value. 
    */
-  virtual double *GetPixelDistance(InputImageVectorType &inPixelVec){return 0;}
+  virtual void GetPixelDistance(
+    InputImageVectorType &inPixelVec, double * results ){}
 
   /**
    * Print out the results on the screen for visual feedback

@@ -169,7 +169,8 @@ public:
    * the probabilties of a given data item belonging
    * to a certain class
    */
-  virtual double *GetPixelDistance( InputImageVectorType &inPixelVec )=0;
+  virtual void GetPixelDistance( InputImageVectorType &inPixelVec,
+    double * results )=0;
   
   /**
   * Prints out the results using STL cout function.

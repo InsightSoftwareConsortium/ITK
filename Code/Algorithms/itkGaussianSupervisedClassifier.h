@@ -228,7 +228,8 @@ public:
    * stands for the matrix transpose operation.
    *
    */
-  double *GetPixelDistance(InputImageVectorType &inPixelVec);
+  void GetPixelDistance(InputImageVectorType &inPixelVec,
+    double * results);
 
   /**
    * Prints out the results using STL cout function.
