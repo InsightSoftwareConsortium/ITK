@@ -200,7 +200,14 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   os << indent << "ElapsedIterations: " << m_ElapsedIterations;
   os << std::endl;
-  os << indent << "DifferenceFunction: " << m_DifferenceFunction;
+  if (m_DifferenceFunction)
+    {
+    os << indent << "DifferenceFunction: " << m_DifferenceFunction;
+    }
+  else
+    {
+    os << indent << "DifferenceFunction: " << "(None)" << std::endl;
+    }
   os << std::endl;
 }
 

@@ -164,7 +164,7 @@ public:
   itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType );
 
 protected:
-  FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {}
+  FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {m_DifferenceFunction = 0;}
   ~FiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
