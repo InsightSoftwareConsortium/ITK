@@ -685,11 +685,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImageRegionIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  for ( unsigned int i=0; i<size; i++ ) 
+  for ( unsigned int r=0; r<size; r++ ) 
     {
-    m_Region[i] = 0;
-    m_RegionCount[i] = 1;
-    valid_region_counter[i] = 0;
+    m_Region[r] = 0;
+    m_RegionCount[r] = 1;
+    valid_region_counter[r] = 0;
     }
 
   LabelType i = NumericTraits< LabelType >::Zero;
