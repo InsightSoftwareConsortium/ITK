@@ -45,6 +45,99 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 
+//
+//  The following section of code implements a Command observer
+//  that will monitor the evolution of the registration process.
+//
+#include "itkCommand.h"
+class CommandIterationUpdate : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdate   Self;
+  typedef  itk::Command             Superclass;
+  typedef  itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandIterationUpdate() {};
+public:
+  typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
+  typedef   const OptimizerType   *           OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+  {
+    OptimizerPointer optimizer = 
+                      dynamic_cast< OptimizerPointer >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+      std::cout << optimizer->GetCurrentIteration() << "   ";
+      std::cout << optimizer->GetValue() << "   ";
+      std::cout << optimizer->GetCurrentPosition();
+  }
+};
+
+// Software Guide : BeginLatex
+//
+// A command for reducing maximum and minimum length parameter of
+// optimizer
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+template <typename TRegistration>
+class RegistrationInterfaceCommand : public itk::Command 
+{
+public:
+  typedef  RegistrationInterfaceCommand   Self;
+  typedef  itk::Command                   Superclass;
+  typedef  itk::SmartPointer<Self>        Pointer;
+  itkNewMacro( Self );
+protected:
+  RegistrationInterfaceCommand() {};
+public:
+  typedef   TRegistration                              RegistrationType;
+  typedef   RegistrationType *                         RegistrationPointer;
+  typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
+  typedef   OptimizerType *                            OptimizerPointer;
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+  {
+    std::cout << "in here" << std::endl;
+  }
+
+  void Execute(itk::Object * object, const itk::EventObject & event)
+  {
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+
+    RegistrationPointer registration =
+                        dynamic_cast<RegistrationPointer>( object );
+
+    if ( registration->GetCurrentLevel() == 0 )
+      {
+      return;
+      }
+
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
+                       registration->GetOptimizer() );
+
+    optimizer->SetMaximumStepLength( 
+      0.1 * optimizer->GetMaximumStepLength() );
+
+    optimizer->SetMinimumStepLength(
+      0.1 * optimizer->GetMinimumStepLength() );
+
+  }
+};
+// Software Guide : EndCodeSnippet
 
 
 int main( int argc, char **argv )
@@ -66,14 +159,28 @@ int main( int argc, char **argv )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
+  //  Software Guide : BeginLatex
+  //  
+  //  Floating point internal image type required for
+  //  the image pyramids.
+  //
+  //  Software Guide : EndLatex 
+  
+  // Software Guide : BeginCodeSnippet
+  typedef   float     InternalPixelType;
+
+  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  // Software Guide : EndCodeSnippet
+
+
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
-                                    MovingImageType,
+                                    InternalImageType,
                                     double             > InterpolatorType;
   typedef itk::MattesMutualInformationImageToImageMetric< 
-                                          FixedImageType, 
-                                          MovingImageType >    MetricType;
+                                          InternalImageType, 
+                                          InternalImageType >    MetricType;
 
 
   //  Software Guide : BeginLatex
@@ -84,8 +191,8 @@ int main( int argc, char **argv )
   //
   // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    FixedImageType, 
-                                    MovingImageType    > RegistrationType;
+                                    InternalImageType, 
+                                    InternalImageType    > RegistrationType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -96,13 +203,13 @@ int main( int argc, char **argv )
   //
   // Software Guide : BeginCodeSnippet 
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<
-                                    FixedImageType,
-                                    FixedImageType  >    FixedImagePyramidType;
+                                    InternalImageType,
+                                    InternalImageType  >    FixedImagePyramidType;
 
  
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<
-                                    MovingImageType,
-                                    MovingImageType  >   MovingImagePyramidType;
+                                    InternalImageType,
+                                    InternalImageType  >   MovingImagePyramidType;
 
   // Software Guide: EndCodeSnippet
 
@@ -130,9 +237,6 @@ int main( int argc, char **argv )
 
   MovingImagePyramidType::Pointer movingImagePyramid =
       MovingImagePyramidType::New();
-
-  registration->SetFixedImagePyramid( fixedImagePyramid );
-  registration->SetMovingImagePyramid( movingImagePyramid );  
   // Software Guide : EndCodeSnippet
 
 
@@ -145,14 +249,46 @@ int main( int argc, char **argv )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
-  registration->SetMovingImage(   movingImageReader->GetOutput()   );
+  //  Software Guide : BeginLatex
+  //  
+  //  Need to cast input image to the internal image type.
+  //
+  //  Software Guide : EndLatex 
 
-  fixedImageReader->Update();
+  // Software Guide : BeginCodeSnippet
+  typedef itk::CastImageFilter< 
+                        FixedImageType, InternalImageType > FixedCastFilterType;
+  
+  typedef itk::CastImageFilter< 
+                        MovingImageType, InternalImageType > MovingCastFilterType;
+
+  FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
+
+  MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The output of the readers is connected as input to the cast
+  //  filters. The inputs to the registration method are taken from the
+  //  cast filters. 
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  fixedCaster->SetInput(  fixedImageReader->GetOutput() );
+  movingCaster->SetInput( movingImageReader->GetOutput() );
+
+  registration->SetFixedImage(    fixedCaster->GetOutput()    );
+  registration->SetMovingImage(   movingCaster->GetOutput()   );
+  // Software Guide : EndCodeSnippet
+
+
+  fixedCaster->Update();
 
   registration->SetFixedImageRegion( 
-       fixedImageReader->GetOutput()->GetBufferedRegion() );
-  
+       fixedCaster->GetOutput()->GetBufferedRegion() );
+   
 
 
   typedef RegistrationType::ParametersType ParametersType;
@@ -164,12 +300,17 @@ int main( int argc, char **argv )
   registration->SetInitialTransformParameters( initialParameters );
 
   metric->SetNumberOfHistogramBins( 50 );
-  metric->SetNumberOfSpatialSamples( 100 );
+  metric->SetNumberOfSpatialSamples( 1000 );
 
-  optimizer->SetMaximumStepLength( 4.00 );  
-  optimizer->SetMinimumStepLength( 0.01 );
+  optimizer->SetMaximumStepLength( 16.00 );  
+  optimizer->SetMinimumStepLength( 2.5 );
   optimizer->SetNumberOfIterations( 200 );
 
+  //
+  // Create the Command observer and register it with the optimizer.
+  //
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
   //  Software Guide : BeginLatex
   //  
@@ -178,7 +319,21 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  registration->SetNumberOfLevels( 2 );
+  registration->SetNumberOfLevels( 3 );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Set up an registration interface command and connect it
+  //  to the registration method.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
+
+  CommandType::Pointer command = CommandType::New();
+  registration->AddObserver( itk::IterationEvent(), command );
   // Software Guide : EndCodeSnippet
 
   try 
@@ -275,7 +430,6 @@ int main( int argc, char **argv )
   writer->Update();
 
 
-
   //  Software Guide : BeginLatex
   // 
   // \begin{figure}
@@ -299,63 +453,20 @@ int main( int argc, char **argv )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations2.eps}
-  // \caption{Sequence of translations during the registration process. Left,
-  // iterations form 0 to 200. Right iterations from 150 to 200.}
-  // \label{fig:ImageRegistration2TraceTranslations}
+  // \includegraphics[height=6cm]{ImageRegistration4TraceTranslations.eps}
+  // \includegraphics[height=6cm]{ImageRegistration4TraceMetric.eps}
+  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration2TraceTranslations} presents the
+  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) presents the
   //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The left plot shows iterations $0$ to $200$ while the
-  //  right figure zooms into iterations $150$ to $200$. The area covered by
-  //  the right figure has been highlighted by a rectangle in the left image.
-  //  It can be seen that after a certain number of iterations the optimizer
-  //  oscillates within a one or two pixels of the true solution. 
-  //  At this point it is
-  //  clear that more iterations will not help. Instead it is time to modify
-  //  some of the parameters of the registration process. For example, 
-  //  reducing the learning rate of the optimizer and continuing the
-  //  registration so that smaller steps are taken.
-  //
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric2.eps}
-  // \caption{Sequence of metric values during the registration process. Left,
-  // iterations form 0 to 300. Right, iterations from 100 to 200.}
-  // \label{fig:ImageRegistration2TraceMetric}
-  // \end{figure}
-  //
-  //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
+  //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
-  //  The left plot shows values when iterations are extended from $0$ to $300$
-  //  while the right figure zooms into iterations $100$ to $200$. 
-  //  The fluctuations in the measure value is due to the stochastic
-  //  nature in which the measure is computed. At each call of 
-  //  \code{GetValue()}, two new sets of intensity samples is randomly 
-  //  taken from the image to compute the density and entrophy estimates.
-  //  Even with the fluctuations, overall the measure initially increases
-  //  with the number of iterations.
-  //  After about 150 iterations the metric value oscilates
-  //  without further noticeable convergence. 
-  //  The trace plots in Figure \ref{fig:ImageRegistration2TraceMetric}
-  //  highlights one of the difficulties with using this particular metric:
-  //  the stochastic oscillations makes it difficult to determine
-  //  convergence and limits the use of more sophisticated optimizations
-  //  methods. As explained above,
-  //  the reduction of the learning rate as the registration progresses
-  //  is very important to get precise results.
   //
-  //  This example highlight the importance of tracking the evolution of the
-  //  registration method in order to get some insight on the characteristics
-  //  of the particular problem at hand and the components being used. 
-  //  The behavior revealed by these plots
-  //  usually helps to identify possible improvements in the setup of the
-  //  registration parameters. 
   //
   //  Software Guide : EndLatex 
+
 
   return 0;
 
