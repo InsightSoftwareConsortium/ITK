@@ -61,7 +61,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCenteredTransformInitializer.txx"
 #include "itkCentralDifferenceImageFunction.txx"
 #include "itkChainCodePath.txx"
-#include "itkChainCodePath2D.txx"
+#include "itkChainCodePath2D.h"
 #include "itkColorTable.txx"
 #include "itkCommand.h"
 #include "itkConceptChecking.h"
