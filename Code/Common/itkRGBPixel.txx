@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkRGBPixel.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
