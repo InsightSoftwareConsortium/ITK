@@ -46,16 +46,7 @@ void LaplacianSegmentationLevelSetFunction<TImageType, TFeatureImageType>
   // the speed image.
   //
   // unfortunately functions are not filters so we can't graft back
-  this->GetSpeedImage()->CopyInformation( filter->GetOutput() );
-  this->GetSpeedImage()
-    ->SetPixelContainer( filter->GetOutput()->GetPixelContainer() );
-  this->GetSpeedImage()
-    ->SetRequestedRegion( filter->GetOutput()->GetRequestedRegion() );
-  this->GetSpeedImage()
-    ->SetBufferedRegion( filter->GetOutput()->GetBufferedRegion() );
-  this->GetSpeedImage()
-    ->SetLargestPossibleRegion( filter->GetOutput()
-                                ->GetLargestPossibleRegion() );
+  this->GetSpeedImage()->Graft( filter->GetOutput() );
 }
 
 } // end namespace itk
