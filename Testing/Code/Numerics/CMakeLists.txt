@@ -1,6 +1,9 @@
 SUBDIRS(vxl)
 SUBDIRS(Statistics)
-SUBDIRS(FEM)
+
+IF (HAS_FEM)
+  SUBDIRS(FEM)
+ENDIF(HAS_FEM)
 
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
