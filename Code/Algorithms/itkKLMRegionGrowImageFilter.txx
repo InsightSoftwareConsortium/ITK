@@ -82,7 +82,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Region grow segmentation" << std::endl;
+  os << indent << "KLM Region grow segmentation object" << std::endl;
+  os << indent << "KLM Region grow image filter object" << std::endl;
+  os << indent << "Maximum value of lambda parameter: " << m_MaxLambda << std::endl;
 
 }// end PrintSelf
 
