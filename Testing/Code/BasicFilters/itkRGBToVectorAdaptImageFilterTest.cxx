@@ -144,6 +144,8 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
     std::cerr << "Vector pixel = " << v << std::endl;
     std::cerr << "does not match " << std::endl; 
     std::cerr << "RGB    pixel = " << c << std::endl;
+    std::cerr << "myImage->GetRequestedRegion()" << myImage->GetRequestedRegion() << std::endl;
+    std::cerr << "adaptImageToVector->GetRequestedRegion()" << adaptImageToVector->GetOutput()->GetRequestedRegion() << std::endl;
     passed = false;
     break;
     }
