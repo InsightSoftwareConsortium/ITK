@@ -136,6 +136,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkKernelFunction.h"
 #include "itkKernelTransform.txx"
 #include "itkLaplacianOperator.txx"
+#include "itkLevelSet.h"
 #include "itkLevelSetCurvatureFunction.txx"
 #include "itkLightObject.h"
 #include "itkLightProcessObject.h"
