@@ -140,7 +140,7 @@ int itkHistogramImageToImageMetricTest(int , char*[] )
 
     // Test SetPaddingValue() and GetPaddingValue().
     metric->SetPaddingValue(-1);
-    metric->UsePaddingValue(true);
+    metric->SetUsePaddingValue(true);
 
     if (metric->GetPaddingValue() != -1)
     {
