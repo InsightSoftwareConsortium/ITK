@@ -41,8 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Note: This header is inteded for multiple inclusion!  The include
 // blockers are missing on purpose.
 
-#include "wrapPointerToPointerMap.h"
-
 namespace _wrap_
 {
 
@@ -99,12 +97,6 @@ public:
   Wrapper(Tcl_Interp* interp);  
   void InitializeForInterpreter();  
   static Wrapper* GetForInterpreter(Tcl_Interp*);
-  
-private:
-  /**
-   * Map from a Tcl interpreter to the Wrapper of _wrap_WRAPPED_TYPE for it.
-   */
-  static PointerToPointerMap interpreterWrapperMap;
   
 private:
   // Everything in the class below here must be implemented by the
@@ -171,23 +163,23 @@ Wrapper< _wrap_WRAPPED_TYPE >
 Wrapper< _wrap_WRAPPED_TYPE >*
 Wrapper< _wrap_WRAPPED_TYPE >::GetForInterpreter(Tcl_Interp* interp)
 {
-  if(interpreterWrapperMap.Contains(interp))
+  // See if the interpreter has already been given a WrapperFacility.
+  ClientData data =
+    Tcl_GetAssocData(interp, "WrapTclWrapper: " _wrap_WRAPPED_TYPE_NAME, 0);
+  
+  if(data)
     {
-    return static_cast<Wrapper*>(interpreterWrapperMap.Get(interp));
+    return static_cast<Wrapper*>(static_cast<WrapperBase*>(data));
     }
-  else
-    {
-    Wrapper* newWrapper = new Wrapper(interp);
-    interpreterWrapperMap.Set(interp, newWrapper);
-    return newWrapper;
-    }
+  
+  // No, we must create a new WrapperFacility for this interpreter.
+  Wrapper* newWrapper = new Wrapper(interp);
+  Tcl_SetAssocData(interp, "WrapTclWrapper: " _wrap_WRAPPED_TYPE_NAME,
+                   &InterpreterFreeCallback,
+                   static_cast<WrapperBase*>(newWrapper));
+  return newWrapper;
 }
 
-
-/**
- * Map from a Tcl interpreter to the Wrapper of _wrap_WRAPPED_TYPE for it.
- */
-PointerToPointerMap Wrapper< _wrap_WRAPPED_TYPE >::interpreterWrapperMap;
 
 // We only want the Initialization functions once per file that
 // includes this header.
@@ -234,14 +226,17 @@ void InitializeGroupForInterpreter(Tcl_Interp* interp)
   // Make sure the global group stuff has been initialized.
   InitializeGroup();
 
-  // Use a map even though we only need a set to prevent the extra
-  // instantiation.
-  static PointerToPointerMap interpreters;
-  if(!interpreters.Contains(interp))
+  // See if the group has already been initialized for the interpreter.
+  ClientData data =
+    Tcl_GetAssocData(interp, "WrapTclGroup: " _wrap_WRAPPER_GROUP_NAME, 0);
+  
+  if(!data)
     {
+    // Mark the interpreter as initialized for this group.
+    Tcl_SetAssocData(interp, "WrapTclGroup: " _wrap_WRAPPER_GROUP_NAME, 0,
+                     reinterpret_cast<ClientData>(1));
     InitializeConversions(interp);
-    interpreters.Set(interp, 0);
-    }
+    }  
 }
 
 } // anonymous namespace

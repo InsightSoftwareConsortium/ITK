@@ -141,7 +141,10 @@ WrapperFacility* WrapperFacility::GetForInterpreter(Tcl_Interp* interp)
     }
   
   // No, we must create a new WrapperFacility for this interpreter.
-  return new WrapperFacility(interp);
+  WrapperFacility* newWrapperFacility = new WrapperFacility(interp);
+  Tcl_SetAssocData(interp, "WrapTclFacility", &InterpreterFreeCallback,
+                   newWrapperFacility);
+  return newWrapperFacility;
 }
 
   
@@ -232,9 +235,6 @@ WrapperFacility::~WrapperFacility()
  */
 void WrapperFacility::InitializeForInterpreter()
 {
-  Tcl_SetAssocData(m_Interpreter, "WrapTclFacility",
-                   &InterpreterFreeCallback, this);
-  
   Tcl_CreateObjCommand(m_Interpreter, "wrap::ListMethods",
                        &ListMethodsCommandFunction, 0, 0);
   Tcl_CreateObjCommand(m_Interpreter, "wrap::TypeOf",

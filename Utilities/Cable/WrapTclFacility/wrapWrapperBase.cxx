@@ -545,5 +545,16 @@ int WrapperBase::ObjectWrapperDispatchFunction(ClientData clientData,
 }
 
 
+/**
+ * When a Tcl interpreter is deleted, this is called for each of the
+ * registered wrappers to free them.
+ */
+void WrapperBase::InterpreterFreeCallback(ClientData data,
+                                          Tcl_Interp* interp)
+{
+  delete static_cast<WrapperBase*>(data);
+}
+
+
 } // namespace _wrap_
 

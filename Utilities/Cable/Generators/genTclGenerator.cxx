@@ -82,6 +82,8 @@ void TclGenerator::Generate()
     " */\n"
     "\n"
     "#include \"WrapTclFacility/wrapCalls.h\"\n"
+    "\n"
+    "#define _wrap_WRAPPER_GROUP_NAME \"" << m_CableConfiguration->GetGroupName().c_str() << "\"\n"
     "\n";
   
   if(m_GlobalNamespace)

@@ -26,7 +26,6 @@ wrapFunctionBase
 wrapFunctionSelector
 wrapInit
 wrapMethod
-wrapPointerToPointerMap
 wrapStaticMethod
 wrapTclCxxObject
 wrapTypeInfo

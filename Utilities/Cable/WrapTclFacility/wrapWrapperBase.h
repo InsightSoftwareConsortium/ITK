@@ -106,6 +106,7 @@ protected:
                                           int, Tcl_Obj*CONST[]);  
   static int ObjectWrapperDispatchFunction(ClientData, Tcl_Interp*,
                                            int, Tcl_Obj*CONST[]);
+  static void InterpreterFreeCallback(ClientData, Tcl_Interp*);
 protected:
   /**
    * The Tcl interpreter to which this wrapper is attached.
