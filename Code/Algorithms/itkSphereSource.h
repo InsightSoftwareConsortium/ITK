@@ -55,24 +55,25 @@ public:
   /** 
    * Hold on to the type information specified by the template parameters.
    */
-  typedef typename OutputMeshType::MeshTraits OMeshTraits;
-  typedef typename OMeshTraits::PixelType   PixelType;  
+  typedef typename OutputMeshType::MeshTraits   OMeshTraits;
+  typedef typename OutputMeshType::PointType    OPointType;
+  typedef typename OMeshTraits::PixelType       OPixelType;  
 
   /** 
    * Some typedefs.
    */
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer  PointsContainer;
-  typedef typename OutputMeshType::PointType  PointType;
+  typedef typename OutputMeshType::PointsContainerPointer  PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer   PointsContainer;
+  typedef typename OutputMeshType::PointType     PointType;
   
 /**
  * Define the triangular cell types which forms the surface of the model
  * and will be used in FEM application.
  */
 
-  typedef itk::TriangleCell<PixelType, CellTraits>     TriCell;
+  typedef itk::TriangleCell<OPixelType, CellTraits> TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
 //  bool GetCenter(PointType*) const;
@@ -82,9 +83,14 @@ public:
  * the test easier
  */
 
-  void SetResolution(int a, int b);
-  void SetCenter(int a, int b, int c);
-  void SetScale(float a, float b, float c);
+  itkSetMacro(ResolutionX, int);
+  itkSetMacro(ResolutionY, int);
+
+  itkSetMacro(m_Center, OPointType);
+  itkSetMacro(m_Scale,  OPointType);
+
+  itkSetMacro(Squareness1, double);
+  itkSetMacro(Squareness2, double);
 
 protected:
   SphereSource();
@@ -93,15 +99,21 @@ protected:
   void GenerateData();
 
 // model center
-  int m_Center[3]; 
+  OPointType m_Center; 
 
 // model resolutions
-  int m_Resolution[2];
+  int m_ResolutionX;
+
+  int m_ResolutionY;
 
 // model scales
-  float m_Scale[3];
+  OPointType m_Scale;
   
 // new parameters will be added when the class is stable
+// model shapes
+  double m_Squareness1;
+
+  double m_Squareness2;
 
 };
 
