@@ -202,7 +202,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions.  We operate
   // on the output region because input has been copied to output.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
     FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType FaceListType;
 
