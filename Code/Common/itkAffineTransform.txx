@@ -50,8 +50,9 @@ namespace itk
 {
 
 // Constructor with default arguments
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 AffineTransform()
 {
   m_Matrix.SetIdentity();
@@ -60,10 +61,13 @@ AffineTransform()
   m_Singular = false;
 }
 
+
+
 // Constructor with explicit arguments
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::
-AffineTransform(const MatrixType &matrix, const VectorType &offset)
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
 {
   m_Matrix = matrix;
   m_Offset = offset;
@@ -71,10 +75,13 @@ AffineTransform(const MatrixType &matrix, const VectorType &offset)
 }
 
 
+
+
 // Copy Constructor
-template <class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>
-::AffineTransform( const AffineTransform<ScalarType, NDimensions> & other )
+template <class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+AffineTransform( const AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType> & other )
 {
   m_Matrix    = other.m_Matrix;
   m_Offset    = other.m_Offset;
@@ -82,9 +89,12 @@ AffineTransform<ScalarType, NDimensions>
   m_Singular  = other.m_Singular;
 }
 
+
+
 // Destructor
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 ~AffineTransform()
 {
   return;
@@ -92,10 +102,11 @@ AffineTransform<ScalarType, NDimensions>::
 
 
 // Assignment Operator
-template <class ScalarType, unsigned int NDimensions>
-const AffineTransform<ScalarType, NDimensions> &
-AffineTransform<ScalarType, NDimensions>
-::operator=( const Self & other )
+template <class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+const AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType> &
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+operator=( const Self & other )
 {
   m_Matrix   = other.m_Matrix;
   m_Offset   = other.m_Offset;
@@ -105,10 +116,12 @@ AffineTransform<ScalarType, NDimensions>
 }
 
 
+
 // Print self
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 std::ostream &
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 PrintSelf(std::ostream &s) const
 {
   unsigned int i, j;
@@ -125,20 +138,21 @@ PrintSelf(std::ostream &s) const
 
 
 // Compose with another affine transformation
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
-Compose(const Self &other, bool pre)
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+Compose(const Self * other, bool pre)
 {
   if (pre) 
     {
-    m_Offset = m_Matrix * other.m_Offset + m_Offset;
-    m_Matrix = m_Matrix * other.m_Matrix;
+    m_Offset = m_Matrix * other->m_Offset + m_Offset;
+    m_Matrix = m_Matrix * other->m_Matrix;
     }
   else 
     {
-    m_Offset = other.m_Matrix * m_Offset + other.m_Offset;
-    m_Matrix = other.m_Matrix * m_Matrix;
+    m_Offset = other->m_Matrix * m_Offset + other->m_Offset;
+    m_Matrix = other->m_Matrix * m_Matrix;
     }
   RecomputeInverse();
 
@@ -147,10 +161,11 @@ Compose(const Self &other, bool pre)
 
 
 // Compose with a translation
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
-Translate(const VectorType &offset, bool pre)
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+Translate(const OutputVectorType &offset, bool pre)
 {
   if (pre) 
     {
@@ -167,9 +182,10 @@ Translate(const VectorType &offset, bool pre)
 
 
 // Compose with isotropic scaling
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Scale(const ScalarType &factor, bool pre) 
 {
   if (pre) 
@@ -186,11 +202,13 @@ Scale(const ScalarType &factor, bool pre)
 }
 
 
+
 // Compose with anisotropic scaling
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
-Scale(const VectorType &factor, bool pre) 
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+Scale(const InputVectorType &factor, bool pre) 
 {
   MatrixType trans;
   unsigned int i, j;
@@ -216,10 +234,13 @@ Scale(const VectorType &factor, bool pre)
   return;
 }
 
+
+
 // Compose with elementary rotation
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Rotate(int axis1, int axis2, double angle, bool pre) 
 {
   MatrixType trans;
@@ -252,11 +273,12 @@ Rotate(int axis1, int axis2, double angle, bool pre)
 
 
 // Compose with 2D rotation
-// FIXME: Find a way to generate a compile-time error
+// \todo Find a way to generate a compile-time error
 // is this is used with NDimensions != 2.
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Rotate2D(double angle, bool pre)
 {
   MatrixType trans;
@@ -279,13 +301,15 @@ Rotate2D(double angle, bool pre)
 }
 
 
+
 // Compose with 3D rotation
-// FIXME: Find a way to generate a compile-time error
+// \todo Find a way to generate a compile-time error
 // is this is used with NDimensions != 3.
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
-Rotate3D(const VectorType &axis, double angle, bool pre)
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+Rotate3D(const InputVectorType &axis, double angle, bool pre)
 {
   MatrixType trans;
   ScalarType r, x1, x2, x3;
@@ -330,9 +354,10 @@ Rotate3D(const VectorType &axis, double angle, bool pre)
 
 
 // Compose with elementary rotation
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Shear(int axis1, int axis2, double coef, bool pre)
 {
   MatrixType trans;
@@ -362,9 +387,10 @@ Shear(int axis1, int axis2, double coef, bool pre)
 
 
 // Transform a point
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::OutputPointType
-AffineTransform<ScalarType, NDimensions>::
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::OutputPointType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 TransformPoint(const InputPointType &point) const 
 {
   return m_Matrix * point + m_Offset;
@@ -372,31 +398,34 @@ TransformPoint(const InputPointType &point) const
 
 
 // Transform a vector
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VectorType
-AffineTransform<ScalarType, NDimensions>::
-TransformVector(const VectorType &vect) const 
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::OutputVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TransformVector(const InputVectorType &vect) const 
 {
   return m_Matrix * vect;
 }
 
 
 // Transform a vnl_vector_fixed
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VnlVectorType
-AffineTransform<ScalarType, NDimensions>::
-TransformVector(const VnlVectorType &vect) const {
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::OutputVnlVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TransformVector(const InputVnlVectorType &vect) const {
   return m_Matrix * vect;
 }
 
 
 // Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::CovariantVectorType
-AffineTransform<ScalarType, NDimensions>::
-TransformVector(const CovariantVectorType &vec) const 
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::OutputCovariantVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+TransformCovariantVector(const InputCovariantVectorType &vec) const 
 {
-  CovariantVectorType  result;    // Converted vector
+  OutputCovariantVectorType  result;    // Converted vector
 
   for (unsigned int i = 0; i < NDimensions; i++) 
     {
@@ -411,9 +440,10 @@ TransformVector(const CovariantVectorType &vec) const
 
 
 // Back transform a point
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::InputPointType
-AffineTransform<ScalarType, NDimensions>::
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::InputPointType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputPointType &point) const 
 {
   InputPointType result;       // Converted point
@@ -436,43 +466,43 @@ BackTransform(const OutputPointType &point) const
   return result;
 }
 
+
+
+
 // Back transform a vector
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VectorType
-AffineTransform<ScalarType, NDimensions>::
-BackTransform(const VectorType &vect ) const 
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::InputVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+BackTransform(const OutputVectorType &vect ) const 
 {
   return m_Inverse * vect;
 }
+
+
+
 
 // Back transform a vnl_vector
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VnlVectorType
-AffineTransform<ScalarType, NDimensions>::
-BackTransform(const VnlVectorType &vect ) const 
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::InputVnlVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+BackTransform(const OutputVnlVectorType &vect ) const 
 {
   return m_Inverse * vect;
 }
 
-
-// Back transform a given point which is represented as type VectorType
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::VectorType
-AffineTransform<ScalarType, NDimensions>::
-BackTransformPoint(const VectorType &point) const
-{
-  return m_Inverse * (point - m_Offset);
-}
 
 
 // Back Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::CovariantVectorType
-AffineTransform<ScalarType, NDimensions>::
-BackTransform(const CovariantVectorType &vec) const 
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::InputCovariantVectorType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+BackTransform(const OutputCovariantVectorType &vec) const 
 {
 
-  CovariantVectorType result;    // Converted vector
+  InputCovariantVectorType result;    // Converted vector
 
   for (unsigned int i = 0; i < NDimensions; i++) 
     {
@@ -486,10 +516,13 @@ BackTransform(const CovariantVectorType &vec) const
 }
 
 
+
+
 // Back transform a given point which is represented as type PointType
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>::InputPointType
-AffineTransform<ScalarType, NDimensions>::
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::InputPointType
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransformPoint(const OutputPointType &point) const
 {
   InputPointType result;       // Converted point
@@ -513,25 +546,32 @@ BackTransformPoint(const OutputPointType &point) const
 }
 
 
+
+
+
 // Create and return an inverse transformation
-template<class ScalarType, unsigned int NDimensions>
-AffineTransform<ScalarType, NDimensions>
-AffineTransform<ScalarType, NDimensions>::
-Inverse()
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::Pointer
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+Inverse( void ) const
 {
-  Self result;
-  result.m_Matrix   =   m_Inverse;
-  result.m_Inverse  =   m_Matrix;
-  result.m_Offset   = -(m_Inverse * m_Offset);
-  result.m_Singular =   false;
+  Pointer result = New();
+  result->m_Matrix   =   m_Inverse;
+  result->m_Inverse  =   m_Matrix;
+  result->m_Offset   = -(m_Inverse * m_Offset);
+  result->m_Singular =   false;
   return result;
 }
 
 
+
+
 // Compute a distance between two affine transforms
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 double
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Metric(const Self &other) const
 {
   double result = 0.0, term;
@@ -549,10 +589,13 @@ Metric(const Self &other) const
   return sqrt(result);
 }
 
+
+
 // Compute a distance between self and the identity transform
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 double
-AffineTransform<ScalarType, NDimensions>::
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 Metric(void) const
 {
   double result = 0.0, term;
@@ -578,11 +621,14 @@ Metric(void) const
   return sqrt(result);
 }
 
+
+
 // Recompute the inverse matrix (internal)
-template<class ScalarType, unsigned int NDimensions>
+template<class ScalarType, unsigned int NDimensions,
+         class TParameters, class TJacobianType >
 void
-AffineTransform<ScalarType, NDimensions>::
-RecomputeInverse()
+AffineTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+RecomputeInverse( void )
 {
   m_Singular = false;
   try 

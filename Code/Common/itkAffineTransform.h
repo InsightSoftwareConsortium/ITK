@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMatrix.h"
 #include "itkTransform.h"
 #include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 
 
@@ -108,87 +109,124 @@ namespace itk
  *
  * NDimensions   The number of dimensions of the vector space.
  *
- * FIXME: Is there any real value in allowing the user to template
+ * \ingroup Transforms
+ *
+ *
+ * \todo Is there any real value in allowing the user to template
  * over the scalar type?  Perhaps it should always be double, unless
  * there's a compatibility problem with the Point class.
  *
- * \ingroup Transforms
+ *
+ * \todo Add methods to transform (or back transform)
+ *   many points or vectors at once?
+ *
+ * \todo  Add reflection?
+ *
  *
  **/
 
 template <
-    class TScalarType,          // Data type for scalars (float or double)
-    unsigned int NDimensions >  // Number of dimensions
-class AffineTransform : public Transform< TScalarType, NDimensions >
+ class TScalarType=double,         // Data type for scalars (e.g. float or double)
+ unsigned int NDimensions=3,       // Number of dimensions in the input space
+ class TParameters = Point< double, NDimensions*(NDimensions+1) >,
+ class TJacobianType = Matrix<double,NDimensions,NDimensions*(NDimensions+1) > 
+      >  
+class AffineTransform : public Transform< TScalarType,
+                                          NDimensions, 
+                                          NDimensions,
+                                          TParameters,
+                                          TJacobianType >
 {
 public:
 
     /**
      * Standard Self Typedef
      */
-    typedef AffineTransform Self;
+    typedef AffineTransform  Self;
 
     /// Standard scalar type for this class
     typedef TScalarType ScalarType;
 
     /// Dimension of the domain space
-    enum { SpaceDimension     = NDimensions };
+    enum { SpaceDimension = NDimensions };
 
-    /// Standard vector type for this class
-    typedef Vector<TScalarType, SpaceDimension> VectorType;
 
-    /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
+    /**
+     * Standard "Superclass" typedef.
+     */
+    typedef Transform< TScalarType, NDimensions,
+                       NDimensions, TParameters, 
+                       TJacobianType >             Superclass;
 
-    /// Standard vnl_vector type for this class
-    typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
 
-    /// Standard matrix type for this class
-    typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
+    /** 
+     * Smart pointer typedef support 
+     */
+    typedef SmartPointer<Self>        Pointer;
+    typedef SmartPointer<const Self>  ConstPointer;
 
-    /// Standard coordinate point type for this class
+
+    /** 
+     * Run-time type information (and related methods).
+     */
+    itkTypeMacro( AffineTransform, Transform );
+
+
+    /** 
+     * New macro for creation of through a Smart Pointer
+     */
+    itkNewMacro( Self );
+
+
+
+    /**
+     * Standard vector type for this class
+     */
+    typedef Vector<TScalarType, SpaceDimension>  InputVectorType;
+    typedef Vector<TScalarType, SpaceDimension>  OutputVectorType;
+
+
+    /**
+     * Standard covariant vector type for this class
+     */
+    typedef CovariantVector<TScalarType, SpaceDimension>  InputCovariantVectorType;
+    typedef CovariantVector<TScalarType, SpaceDimension>  OutputCovariantVectorType;
+
+
+    /**
+     * Standard vnl_vector type for this class
+     */
+    typedef vnl_vector_fixed<TScalarType, SpaceDimension>  InputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, SpaceDimension>  OutputVnlVectorType;
+
+
+    /**
+     * Standard coordinate point type for this class
+     */
     typedef Point<TScalarType, SpaceDimension> InputPointType;
     typedef Point<TScalarType, SpaceDimension> OutputPointType;
 
+    
+    /**
+     * Standard matrix type for this class
+     */
+    typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
 
     /**
-     * Construct an AffineTransform object
-     *
-     * This method constructs a new AffineTransform object and
-     * initializes the matrix and offset parts of the transformation
-     * to values specified by the caller.  If the arguments are
-     * omitted, then the AffineTransform is initialized to an identity
-     * transformation in the appropriate number of dimensions.
-     **/
-    AffineTransform(const MatrixType &matrix, const VectorType &offset);
-    AffineTransform();      
+     * Standard offset type for this class
+     */
+    typedef     OutputVectorType    OffsetType;
 
-    /**
-     * Copy an AffineTransform object
-     *
-     * This method creates a new AffineTransform object and 
-     * initializes it to be a copy of an existing AffineTransform.
-     **/
-    AffineTransform(const AffineTransform<ScalarType, NDimensions> & other);
-
-    /**
-     * Destroy an AffineTransform object
-     **/
-    ~AffineTransform();
 
     /**
      * Get offset of an AffineTransform
      *
-     * This method returns the value of the offset of the
-     * AffineTransform.
+     * This method returns the offset value of the AffineTransform.
+     *
      **/
-    const VectorType & GetOffset() const
+    const OffsetType & GetOffset(void) const
         { return m_Offset; }
 
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
 
     /**
      * Get matrix of an AffineTransform
@@ -198,6 +236,7 @@ public:
      **/
     const MatrixType & GetMatrix() const
         { return m_Matrix; }
+
 
     /**
      * Set the transformation to an Identity
@@ -209,6 +248,7 @@ public:
     { m_Matrix.SetIdentity();
       m_Offset.Fill( 0.0 ); }
 
+
     /**
      * Get inverse matrix of an AffineTransform
      *
@@ -216,7 +256,7 @@ public:
      * the AffineTransform.  It's not clear that this is useful
      * except for debugging the class itself.
      *
-     * FIXME: Do something reasonable if the transform is singular.
+     * \todo Do something reasonable if the transform is singular.
      **/
     const MatrixType & GetInverse() const
         { if( m_Singular )
@@ -225,14 +265,17 @@ public:
           }
           return m_Inverse; }
 
+
     /**
      * Set offset of an Affine Transform
      *
      * This method sets the offset of an AffineTransform to a
      * value specified by the user.
      **/
-    void SetOffset(const VectorType &offset)
+    void SetOffset(const OffsetType &offset)
         { m_Offset = offset; return; }
+
+
 
     /**
      * Set matrix of an AffineTransform
@@ -243,6 +286,8 @@ public:
     void SetMatrix(const MatrixType &matrix)
         { m_Matrix = matrix; RecomputeInverse(); return; }
 
+
+    
     /**
      * Compose with another AffineTransform
      *
@@ -254,8 +299,11 @@ public:
      * self.  If pre is false or omitted, then other is post-composed
      * with self; that is the resulting transformation consists of
      * first applying self to the source, followed by other.
+     *
      **/
-    void Compose(const Self &other, bool pre=0);
+    void Compose(const Self * other, bool pre=0);
+
+
 
     /**
      * Compose affine transformation with a translation
@@ -263,8 +311,11 @@ public:
      * This method modifies self to include a translation of the
      * origin.  The translation is precomposed with self if pre is
      * true, and postcomposed otherwise.
+     * 
      **/
-    void Translate(const VectorType &offset, bool pre=0);
+    void Translate(const OutputVectorType &offset, bool pre=0);
+
+
 
     /**
      * Compose affine transformation with a scaling
@@ -277,9 +328,13 @@ public:
      * factors is zero, then the transformation becomes a projection
      * and is not invertible.  The scaling is precomposed with self if
      * pre is true, and postcomposed otherwise.
+     *
+     *
      **/
-    void Scale(const VectorType &factor, bool pre=0);
+    void Scale(const OutputVectorType &factor, bool pre=0);
     void Scale(const ScalarType &factor, bool pre=0);
+
+
 
     /**
      * Compose affine transformation with an elementary rotation
@@ -299,6 +354,8 @@ public:
      **/
     void Rotate(int axis1, int axis2, double angle, bool pre=0);
 
+
+
     /**
      * Compose 2D affine transformation with a rotation
      *
@@ -307,8 +364,15 @@ public:
      * in radians.  The center of rotation is the origin.  The
      * rotation is precomposed with self if pre is true, and
      * postcomposed otherwise.
+     *
+     * \warning Only to be use in two dimensions
+     *
+     * \todo Find a way to generate a compile-time error
+     *       is this is used with NDimensions != 2.
      **/
     void Rotate2D(double angle, bool pre=0);
+
+
 
     /**
      * Compose 3D affine transformation with a rotation
@@ -318,8 +382,15 @@ public:
      * axis.  The rotation angle is in radians; the axis of rotation
      * goes through the origin.  The rotation is precomposed with self
      * if pre is true, and postcomposed otherwise.
+     *
+     * \warning Only to be used in dimension 3
+     *
+     * \todo Find a way to generate a compile-time error
+     * is this is used with NDimensions != 3.
      **/
-    void Rotate3D(const VectorType &axis, double angle, bool pre=0);
+    void Rotate3D(const OutputVectorType &axis, double angle, bool pre=0);
+
+
 
     /**
      * Compose affine transformation with a shear
@@ -335,7 +406,7 @@ public:
      **/
     void Shear(int axis1, int axis2, double coef, bool pre=0);
 
-    // Add reflection?
+
 
     /**
      * Transform by an affine transformation
@@ -346,12 +417,14 @@ public:
      * an affine point, whereas the TransformVector method transforms
      * its argument as a vector.
      **/
-    OutputPointType  TransformPoint (const InputPointType  &point ) const;
-    VectorType       TransformVector(const VectorType &vector) const;
-    VnlVectorType    TransformVector(const VnlVectorType &vector) const;
+    OutputPointType     TransformPoint (const InputPointType  &point ) const;
+    OutputVectorType    TransformVector(const InputVectorType &vector) const;
+    OutputVnlVectorType TransformVector(const InputVnlVectorType &vector) const;
 
-    CovariantVectorType TransformVector(
-                                   const CovariantVectorType &vector) const;
+    OutputCovariantVectorType TransformCovariantVector(
+                               const InputCovariantVectorType &vector) const;
+
+
 
     /**
      * Back transform by an affine transformation
@@ -361,14 +434,12 @@ public:
      * self.  If no such point exists, an exception is thrown.
      **/
     inline InputPointType      BackTransform(const OutputPointType  &point ) const;
-    inline VectorType          BackTransform(const VectorType &vector) const;
-    inline VnlVectorType       BackTransform(const VnlVectorType &vector) const;
+    inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
+    inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
 
-    inline CovariantVectorType BackTransform(
-                                       const CovariantVectorType &vector) const;
+    inline InputCovariantVectorType BackTransform(
+                                 const OutputCovariantVectorType &vector) const;
 
-    // FIXME: Add methods to transform (or back transform)
-    // many points or vectors at once?
 
     /**
      * Back transform a point by an affine transform
@@ -379,7 +450,14 @@ public:
      * pointer to) a brand new point created with new.
      **/
     InputPointType  BackTransformPoint(const OutputPointType  &point) const;
-    VectorType      BackTransformPoint(const VectorType       &point) const;
+
+    /**
+     * \todo The validity of this method has to be verified
+     */
+    OutputVectorType  BackTransformPoint(const InputVectorType & point) const;
+
+
+
 
     /**
      * Find inverse of an affine transformation
@@ -388,7 +466,10 @@ public:
      * which is the inverse of self.  If self is not invertible,
      * an exception is thrown.
      **/
-    AffineTransform Inverse();
+    AffineTransform::Pointer Inverse(void) const;
+
+
+
 
     /**
      * Compute distance between two affine transformations
@@ -405,6 +486,9 @@ public:
      *
      **/
     double Metric(const Self &other) const;
+
+
+
 
     /** Compute distance to the identity transform
      *
@@ -424,7 +508,40 @@ public:
     std::ostream & PrintSelf(std::ostream &s) const;
     
 
+
 protected:
+
+    /**
+     * Construct an AffineTransform object
+     *
+     * This method constructs a new AffineTransform object and
+     * initializes the matrix and offset parts of the transformation
+     * to values specified by the caller.  If the arguments are
+     * omitted, then the AffineTransform is initialized to an identity
+     * transformation in the appropriate number of dimensions.
+     **/
+    AffineTransform(const MatrixType &matrix, const OutputVectorType &offset);
+    AffineTransform();      
+
+
+    /**
+     * Copy an AffineTransform object
+     *
+     * This method creates a new AffineTransform object and 
+     * initializes it to be a copy of an existing AffineTransform.
+     **/
+    AffineTransform(const Self & other);
+
+    /**
+     * Destroy an AffineTransform object
+     **/
+    virtual ~AffineTransform();
+
+    /**
+     * Assignment operator
+     **/
+    const Self & operator=( const Self & );
+
 
     /**
      * Recompute inverse of the transformation matrix
@@ -433,10 +550,14 @@ protected:
 
 
 private:
-    MatrixType   m_Matrix;       // Matrix of the transformation
-    VectorType   m_Offset;       // Offset of the transformation
-    MatrixType   m_Inverse;      // Inverse of the matrix
-    bool         m_Singular;     // Is m_Inverse singular?
+
+    MatrixType         m_Matrix;       // Matrix of the transformation
+    
+    OffsetType         m_Offset;       // Offset of the transformation
+    
+    MatrixType         m_Inverse;      // Inverse of the matrix
+    
+    bool               m_Singular;     // Is m_Inverse singular?
 
 
 }; //class AffineTransform
@@ -451,10 +572,14 @@ private:
  * the conventional homogeneous coordinate representation,
  * except that the last row is omitted.
  **/
-template<class ScalarType, unsigned int NDimensions>
+template<class TScalarType, unsigned int NDimensions,
+ class TParameters, class TJacobianType >
 inline
 std::ostream &
-operator<< (std::ostream &s, AffineTransform<ScalarType, NDimensions> &affine)
+operator<< (std::ostream &s, AffineTransform< TScalarType,
+                                              NDimensions, 
+                                              TParameters,
+                                              TJacobianType > &affine)
 {
     return affine.PrintSelf(s);
 }
@@ -468,3 +593,8 @@ operator<< (std::ostream &s, AffineTransform<ScalarType, NDimensions> &affine)
 #endif
 
 #endif /* __itkAffineTransform_h */
+
+
+
+
+
