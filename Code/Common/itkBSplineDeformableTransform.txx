@@ -58,10 +58,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // Initialize coeffient images
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    m_CoefficientImage[j] = ImageType::New();
-    m_CoefficientImage[j]->SetRegions( m_GridRegion );
-    m_CoefficientImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-    m_CoefficientImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+    m_WrappedImage[j] = ImageType::New();
+    m_WrappedImage[j]->SetRegions( m_GridRegion );
+    m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+    m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+    m_CoefficientImage[j] = NULL;
     }
 
   // Setup variables for computing interpolation
@@ -141,7 +142,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     // set regions for each coefficient and jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_CoefficientImage[j]->SetRegions( m_GridRegion );
+      m_WrappedImage[j]->SetRegions( m_GridRegion );
       m_JacobianImage[j]->SetRegions( m_GridRegion );
       }
 
@@ -184,7 +185,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     // set spacing for each coefficient and jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_CoefficientImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+      m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
       m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
       }
 
@@ -207,7 +208,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     // set spacing for each coefficient and jacobianimage
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_CoefficientImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+      m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
       m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
       }
 
@@ -245,9 +246,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    m_CoefficientImage[j]->GetPixelContainer()->
+    m_WrappedImage[j]->GetPixelContainer()->
       SetImportPointer( dataPointer, numberOfPixels );
     dataPointer += numberOfPixels;
+    m_CoefficientImage[j] = m_WrappedImage[j];
     }
 
   /**
@@ -282,6 +284,25 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   return (*m_InputParametersPointer);
 }
 
+  
+// Set the B-Spline coefficients using input images
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void 
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::SetCoefficientImage( ImagePointer images[] )
+{
+  if ( images[0] )
+    {
+    this->SetGridRegion( images[0]->GetBufferedRegion() );
+    this->SetGridSpacing( images[0]->GetSpacing() );
+    this->SetGridOrigin( images[0]->GetOrigin() );
+
+    for( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      m_CoefficientImage[j] = images[j];
+      }
+    }
+}  
 
 // Print self
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -290,17 +311,40 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
 
+  unsigned int j;
+
   this->Superclass::PrintSelf(os,indent);
 
   os << indent << "GridRegion: " << m_GridRegion << std::endl;
   os << indent << "GridOrigin: " << m_GridOrigin << std::endl;
   os << indent << "GridSpacing: " << m_GridSpacing << std::endl;
+
+  os << indent << "CoefficientImage: [ ";
+  for ( j = 0; j < SpaceDimension - 1; j++ )
+    {
+    os << m_CoefficientImage[j].GetPointer() << ", ";
+    }
+  os << m_CoefficientImage[j].GetPointer() << " ]" << std::endl;
+
+  os << indent << "WrappedImage: [ ";
+  for ( j = 0; j < SpaceDimension - 1; j++ )
+    {
+    os << m_WrappedImage[j].GetPointer() << ", ";
+    }
+  os << m_WrappedImage[j].GetPointer() << " ]" << std::endl;
  
   os << indent << "InputParametersPointer: " 
      << m_InputParametersPointer << std::endl;
   os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
   os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
-  os << indent << "BulkTransform: " << m_BulkTransform << std::endl;
+  os << indent << "BulkTransform: " << m_BulkTransform.GetPointer() << std::endl;
+
+  if ( m_BulkTransform )
+    {
+    os << indent << "BulkTransformType: " 
+       << m_BulkTransform->GetNameOfClass() << std::endl;
+    }
+     
 }
 
 // Transform a point
@@ -358,69 +402,83 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     transformedPoint = point;
     }
 
-
-  ContinuousIndexType index;
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
-    }
-
-  // NOTE: if the support region does not lie totally within the grid
-  // we assume zero displacement and return the input point
-  inside = this->InsideValidRegion( index );
-  if ( !inside )
-    {
-    outputPoint = transformedPoint;
-    return;
-    }
-
-  // Compute interpolation weights
-  m_WeightsFunction->Evaluate( index, weights, supportIndex );
-
-  // For each dimension, correlate coefficient with weights
-  RegionType supportRegion;
-  supportRegion.SetSize( m_SupportSize );
-  supportRegion.SetIndex( supportIndex );
-
-  outputPoint.Fill( NumericTraits<ScalarType>::Zero );
-
-  typedef ImageRegionConstIterator<ImageType> IteratorType;
-  IteratorType m_Iterator[ SpaceDimension ];
-  unsigned long counter = 0;
-  PixelType * basePointer = m_CoefficientImage[0]->GetBufferPointer();
-
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    m_Iterator[j] = IteratorType( m_CoefficientImage[j], supportRegion );
-    }
-
-  while ( ! m_Iterator[0].IsAtEnd() )
+  if ( m_CoefficientImage[0] )
     {
 
-    // multiply weigth with coefficient
+    ContinuousIndexType index;
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      outputPoint[j] += static_cast<ScalarType>( 
-        weights[counter] * m_Iterator[j].Get());
+      index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
       }
 
-    // populate the indices array
-    indices[counter] = &(m_Iterator[0].Value()) - basePointer;
+    // NOTE: if the support region does not lie totally within the grid
+    // we assume zero displacement and return the input point
+    inside = this->InsideValidRegion( index );
+    if ( !inside )
+      {
+      outputPoint = transformedPoint;
+      return;
+      }
 
-    // go to next coefficient in the support region
-    ++ counter;
+    // Compute interpolation weights
+    m_WeightsFunction->Evaluate( index, weights, supportIndex );
+
+    // For each dimension, correlate coefficient with weights
+    RegionType supportRegion;
+    supportRegion.SetSize( m_SupportSize );
+    supportRegion.SetIndex( supportIndex );
+
+    outputPoint.Fill( NumericTraits<ScalarType>::Zero );
+
+    typedef ImageRegionConstIterator<ImageType> IteratorType;
+    IteratorType m_Iterator[ SpaceDimension ];
+    unsigned long counter = 0;
+    const PixelType * basePointer = m_CoefficientImage[0]->GetBufferPointer();
+
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      ++( m_Iterator[j] );
+      m_Iterator[j] = IteratorType( m_CoefficientImage[j], supportRegion );
       }
-    }
+
+    while ( ! m_Iterator[0].IsAtEnd() )
+      {
+
+      // multiply weigth with coefficient
+      for ( j = 0; j < SpaceDimension; j++ )
+        {
+        outputPoint[j] += static_cast<ScalarType>( 
+          weights[counter] * m_Iterator[j].Get());
+        }
+
+      // populate the indices array
+      indices[counter] = &(m_Iterator[0].Value()) - basePointer;
+
+      // go to next coefficient in the support region
+      ++ counter;
+      for ( j = 0; j < SpaceDimension; j++ )
+        {
+        ++( m_Iterator[j] );
+        }
+      }
   
-  // return results
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    outputPoint[j] += transformedPoint[j];
-    }
+    // return results
+    for ( j = 0; j < SpaceDimension; j++ )
+      {
+      outputPoint[j] += transformedPoint[j];
+      }
 
+    }
+    else
+    {
+
+    itkWarningMacro( << "B-spline coefficients have not been set" );
+
+    for ( j = 0; j < SpaceDimension; j++ )
+      {
+      outputPoint[j] = transformedPoint[j];
+      }
+
+    }
 
 }
 

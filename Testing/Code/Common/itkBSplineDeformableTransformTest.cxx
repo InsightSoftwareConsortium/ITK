@@ -33,7 +33,7 @@
  * This module test the functionality of the BSplineDeformableTransform class.
  *
  */
-int itkBSplineDeformableTransformTest(int, char * [] )
+int itkBSplineDeformableTransformTest1()
 {
 
   // Comment the following if you want to use the itk text output window
@@ -452,4 +452,139 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << "Test passed." << std::endl;  
   return EXIT_SUCCESS;
 
+}
+
+int itkBSplineDeformableTransformTest2()
+{
+
+ /**
+  * This function tests the Set/GetCoefficientImage interface
+  */ 
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+
+  unsigned int j;
+
+  /**
+   * Define a vector field as Dimension number of images
+   */
+  const unsigned int Dimension = 2;
+  typedef double PixelType;
+  typedef itk::Image<PixelType,Dimension>  ImageType;
+
+  // Set up field spacing, origin, region
+  double spacing[Dimension];
+  double origin[Dimension];
+  ImageType::SizeType size;
+  ImageType::RegionType region;
+
+  for ( j = 0; j < Dimension; j++ )
+    {
+    spacing[j] = 10.0;
+    origin[j]  = -10.0;
+    }
+
+  size[0] = 5;
+  size[1] = 7;
+
+  region.SetSize( size );
+
+  ImageType::Pointer field[Dimension];
+  for ( j = 0; j < Dimension; j++ )
+    {
+    field[j] = ImageType::New();
+    field[j]->SetSpacing( spacing );
+    field[j]->SetOrigin( origin );
+    field[j]->SetRegions( region );
+    field[j]->Allocate();
+    }
+
+  // fill the field with a constant displacment
+  itk::Vector<double,Dimension> v;
+  v[0] = 5;
+  v[1] = 7;
+
+  for ( j = 0; j < Dimension; j++ )
+    {
+    field[j]->FillBuffer( v[j] );
+    }
+
+  // Set up the transform
+  const unsigned int SplineOrder = 3;
+  typedef double CoordRep;
+  typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder> TransformType;
+  TransformType::InputPointType inputPoint;
+  TransformType::OutputPointType outputPoint;
+  
+  TransformType::Pointer transform = TransformType::New();
+
+  // This should generate a warning about parameters not being set
+  inputPoint.Fill( 0.0 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  // Set the coefficient images
+  transform->SetCoefficientImage( field );
+
+  // Exercise get and print methods
+  transform->Print( std::cout );
+  std::cout << "CoefficientImage[0]: " 
+            << transform->GetCoefficientImage()[0].GetPointer() << std::endl;
+
+  /**
+   * Transform some points
+   */
+  try
+    {
+
+    // try a point inside the valide region
+    inputPoint.Fill( 10.0 );
+    outputPoint = transform->TransformPoint( inputPoint );
+    std::cout << " InputPoint: " << inputPoint;
+    std::cout << " OutputPoint: " << outputPoint;
+    std::cout << std::endl;
+
+    // try a point on the valid region boundary
+    inputPoint.Fill( 0.0 );
+    outputPoint = transform->TransformPoint( inputPoint );
+    std::cout << " InputPoint: " << inputPoint;
+    std::cout << " OutputPoint: " << outputPoint;
+    std::cout << std::endl;
+
+    // try a point on the valid region boundary
+    inputPoint[0] = 19.9;
+    inputPoint[1] = 30.0;
+    outputPoint = transform->TransformPoint( inputPoint );
+    std::cout << " InputPoint: " << inputPoint;
+    std::cout << " OutputPoint: " << outputPoint;
+    std::cout << std::endl;
+
+    // try a point outside the valid region
+    inputPoint[0] = 20.0;
+    inputPoint[1] = 30.0;
+    outputPoint = transform->TransformPoint( inputPoint );
+    std::cout << " InputPoint: " << inputPoint;
+    std::cout << " OutputPoint: " << outputPoint;
+    std::cout << std::endl;
+
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
+
+ std::cout << "Test passed." << std::endl;
+ return EXIT_SUCCESS;
+}
+
+int itkBSplineDeformableTransformTest(int, char * [] )
+{
+  bool failed;
+
+  failed = itkBSplineDeformableTransformTest1();
+  if ( failed ) { return EXIT_FAILURE; }
+
+  failed = itkBSplineDeformableTransformTest2();
+  if ( failed ) { return EXIT_FAILURE; }
+
+  return EXIT_SUCCESS;
 }

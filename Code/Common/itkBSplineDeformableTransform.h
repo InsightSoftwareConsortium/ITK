@@ -58,7 +58,46 @@ namespace itk
  * For efficiency, this transform does not make a copy of the parameters.
  * It only keeps a pointer to the input parameters and assumes that the memory
  * is managed by the caller.
- * 
+ *
+ * The following illustrates the typical usage of this class:
+ * \verbatim
+ * typedef BSplineDeformableTransform<double,2,3> TransformType;
+ * TransformType::Pointer transform = TransformType::New();
+ *
+ * transform->SetGridRegion( region );
+ * transform->SetGridSpacing( spacing );
+ * transform->SetGridOrigin( origin );
+ *
+ * // NB: the region must be set first before setting the parameters
+ *
+ * TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
+ *
+ * // Fill the parameters with values
+ *
+ * transform->SetParameters( parameters )
+ *
+ * outputPoint = transform->TransformPoint( inputPoint );
+ *
+ * \endverbatim
+ *
+ * An alternative way to set the B-spline coefficients is via array of
+ * images. The grid region, spacing and origin information is taken
+ * directly from the first image. It is assumed that the subsequent images
+ * are the same buffered region. The following illustrates the API:
+ * \verbatim
+ *
+ * TransformType::ImageConstPointer images[2];
+ *
+ * // Fill the images up with values
+ *
+ * transform->SetCoefficientImages( images ); 
+ * outputPoint = transform->TransformPoint( inputPoint );
+ *
+ * \endverbatim
+ *
+ * Warning: use either the SetParameters() or SetCoefficientImage()
+ * API. Mixing the two modes may results in unexpected results.
+ *
  * The class is templated coordinate representation type (float or double),
  * the space dimension and the spline order.
  *
@@ -145,6 +184,29 @@ public:
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;
+
+  /** Parameters as SpaceDimension number of images. */
+  typedef typename ParametersType::ValueType PixelType;
+  typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
+  typedef typename ImageType::Pointer ImagePointer;
+
+  /** Get the array of coefficient images. */
+  virtual ImagePointer * GetCoefficientImage()
+    { return m_CoefficientImage; }
+
+  /** Set the array of coefficient images.
+   *
+   * This is an alternative API for setting the BSpline coefficients
+   * as an array of SpaceDimension images. The grid region spacing 
+   * and origin is taken from the first image. It is assume that
+   * the buffered region of all the subsequent images are the same 
+   * as the first image. Note that no error checking is done.
+   *
+   * Warning: use either the SetParameters() or SetCoefficientImage()
+   * API. Mixing the two modes may results in unexpected results.
+   *
+   */
+  virtual void SetCoefficientImage( ImagePointer images[] );  
 
   /** Typedefs for specifying the extend to the grid. */
   typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
@@ -267,12 +329,12 @@ private:
   bool          m_SplineOrderOdd;
   SizeType      m_SupportSize;
   IndexType     m_ValidRegionLast;
-
-  /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType PixelType;
-  typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
   
-  typename ImageType::Pointer   m_CoefficientImage[NDimensions];
+  /** Array holding images wrapped from the flat parameters. */
+  ImagePointer   m_WrappedImage[NDimensions];
+
+  /** Array of images representing the B-spline coefficients in each dimension. */
+  ImagePointer   m_CoefficientImage[NDimensions];
 
   /** Jacobian as SpaceDimension number of images. */
   typedef typename JacobianType::ValueType JacobianPixelType;
