@@ -140,7 +140,7 @@ CABLE_WRAP_TCL(ITKCommonTestTcl
   "itk::NeighborhoodIterator<$Image>"
   "itk::NeighborhoodOperator<$Float, $Dimension>"
   "itk::NthElementImageAdaptor<$Image, $Double>"
-  "itk::NthElementPixelAccessor<$Float, $Container>"
+  "itk::NthElementPixelAccessor<$Float, $VecPix>"
   "itk::Object"
   "itk::ObjectFactory<$Image>"
   "itk::ObjectFactoryBase"
