@@ -48,7 +48,7 @@ CurvatureFlowFunction<TImage>
  * Compute the global time step
  */
 template<class TImage>
-CurvatureFlowFunction<TImage>::TimeStepType
+typename CurvatureFlowFunction<TImage>::TimeStepType
 CurvatureFlowFunction<TImage>
 ::ComputeGlobalTimeStep( void *gd ) const
 {
@@ -81,7 +81,7 @@ CurvatureFlowFunction<TImage>
  * data boundary.
  */
 template<class TImage>
-CurvatureFlowFunction<TImage>::PixelType
+typename CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * gd,
                 const FloatOffsetType& offset) const
@@ -181,7 +181,7 @@ CurvatureFlowFunction<TImage>
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>
-CurvatureFlowFunction<TImage>::PixelType
+typename CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * gd,
                 const FloatOffsetType& offset) const

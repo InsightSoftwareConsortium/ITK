@@ -109,7 +109,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer  inputPtr  = 
+  typename Superclass::InputImagePointer  inputPtr  = 
     const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
@@ -141,7 +141,7 @@ DataObject * ptr )
   outputPtr = dynamic_cast<OutputImageType*>( ptr );
 
   // get input image pointer
-  InputImagePointer  inputPtr  = 
+  typename Superclass::InputImagePointer  inputPtr  = 
     const_cast< InputImageType * >( this->GetInput() );
   if ( !inputPtr || !outputPtr )
     {
