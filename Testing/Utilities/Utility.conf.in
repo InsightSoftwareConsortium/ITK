@@ -59,7 +59,7 @@ SetConfiguration SourceDirectory [list @fullSrcDir@ ]
 SetConfiguration Site [list @SITE@ ]
 SetConfiguration BuildName [list @BUILDNAME@ ]
 
-SetConfiguration Xalan [list [file join @fullSrcDir@ Code Insight3DParty xalan xalan.jar]]
+SetConfiguration Xalan [list [file join @fullSrcDir@ Testing Utilities xalan xalan.jar]]
 
 set XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
 set HTMLDir [file join Testing HTML]

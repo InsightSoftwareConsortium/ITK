@@ -315,11 +315,11 @@
       </td>
       <td align="right">
         <xsl:choose>
-          <xsl:when test="Testing/PassedCount">
-            <xsl:attribute name="BGColor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+          <xsl:when test="(Testing/NotRunCount + Testing/FailedCount) > 0">
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
           </xsl:otherwise>
         </xsl:choose>
         <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/PassedCount"/></a></b>
