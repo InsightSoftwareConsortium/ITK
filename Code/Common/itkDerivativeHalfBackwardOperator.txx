@@ -21,15 +21,11 @@ std::vector<TPixel>
 DerivativeHalfBackwardOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  // Only sets the scalar component of the data.  This works fine for native
-  // types and for itk::Scalar<>.
   std::vector<TPixel> coeff(3);
-  ScalarTraits<TPixel>::SetScalar(coeff[0], -1.0f *
-                                  NumericTraits<ScalarValueType>::One);
-  ScalarTraits<TPixel>::SetScalar(coeff[1],
-                                  NumericTraits<ScalarValueType>::One);
-  ScalarTraits<TPixel>::SetScalar(coeff[2],
-                                  NumericTraits<ScalarValueType>::Zero);
+  coeff[0] = -1.0f *  NumericTraits<TPixelScalarValueType>::One;
+  coeff[1] =  NumericTraits<TPixelScalarValueType>::One;
+  coeff[2] =  NumericTraits<TPixelScalarValueType>::Zero;
+
   return coeff;
 }
   
