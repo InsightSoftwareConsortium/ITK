@@ -100,6 +100,12 @@ public:
   itkGetStringMacro(UIDPrefix);
   itkSetStringMacro(UIDPrefix);
 
+  /** Preserve the original DICOM UID of the input files
+   */
+  itkSetMacro(KeepOriginalUID,bool);
+  itkGetMacro(KeepOriginalUID,bool);
+  itkBooleanMacro(KeepOriginalUID);
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
@@ -116,6 +122,7 @@ protected:
   std::string m_StudyInstanceUID;
   std::string m_SeriesInstanceUID;
   std::string m_FrameOfReferenceInstanceUID;
+  bool m_KeepOriginalUID;
 
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   ::gdcmHeader *m_GdcmHeader;
