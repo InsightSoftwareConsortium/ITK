@@ -138,7 +138,8 @@ Convolve(Neighborhood<TPixel, VDimension> &A,
       while( jLoopNotDone )
         {
           // Innermost jLoop (columns)
-          for (jLoop[0] = 0; jLoop[0] < overlap[0]; ++jLoop[0], --Bp[0], ++Ap[0])
+          for (jLoop[0] = 0; jLoop[0] < overlap[0]; ++jLoop[0], --Bp[0],
+                 ++Ap[0])
             {
                       *Np += *Ap[0] * *Bp[0];
             }
