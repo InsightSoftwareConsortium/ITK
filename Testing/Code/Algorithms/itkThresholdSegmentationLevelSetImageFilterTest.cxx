@@ -15,8 +15,8 @@
 
 =========================================================================*/
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
-#include "itkImageFileWriter.h"
-#include "itkRawImageIO.h"
+//#include "itkImageFileWriter.h"
+//#include "itkRawImageIO.h"
 #include "itkCastImageFilter.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
@@ -163,27 +163,27 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
     filter->Update();
 
     // Write the output for debugging purposes
-    itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
-      = itk::ImageFileWriter<TSIFTN::ImageType>::New();
-    itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
-    io->SetFileTypeToBinary();
-    io->SetFileDimensionality(3);
-    io->SetByteOrderToLittleEndian();
-    writer->SetImageIO(io);
+    //    itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
+    //      = itk::ImageFileWriter<TSIFTN::ImageType>::New();
+    //    itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
+    //    io->SetFileTypeToBinary();
+    //    io->SetFileDimensionality(3);
+    //    io->SetByteOrderToLittleEndian();
+    //    writer->SetImageIO(io);
 
 
-    itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
-      caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
-    caster->SetInput(seedImage);
-    caster->Update();
+    //    itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
+    //    caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
+    //    caster->SetInput(seedImage);
+    //    caster->Update();
 
-    //       writer->SetInput(caster->GetOutput());
+    //    writer->SetInput(caster->GetOutput());
     //    writer->SetInput(filter->GetSpeedImage());
     //    writer->SetInput(filter->GetFeatureImage());
     //    writer->SetInput(inputImage);
-    writer->SetInput(filter->GetOutput());
-    writer->SetFileName("output.raw");
-    writer->Write();
+    //    writer->SetInput(filter->GetOutput());
+    //    writer->SetFileName("output.raw");
+    //    writer->Write();
     
   }
   catch (itk::ExceptionObject &e)
