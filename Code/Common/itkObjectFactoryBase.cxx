@@ -314,7 +314,7 @@ ObjectFactoryBase
   /**
    * Attempt to load each file in the directory as a shared library
    */
-  for ( int i = 0; i < dir->GetNumberOfFiles(); i++ )
+  for ( unsigned int i = 0; i < dir->GetNumberOfFiles(); i++ )
     {
     const char* file = dir->GetFile(i);
     /**
