@@ -64,6 +64,7 @@ public:
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
   FunctorType& GetFunctor() { return m_Functor; };
+  const FunctorType& GetFunctor() const { return m_Functor; };
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
