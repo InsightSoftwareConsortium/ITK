@@ -14,12 +14,10 @@
 
 =========================================================================*/
 
-
-
 #include <itkLevenbergMarquardtOptimizer.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-
+#include <itkVectorContainer.h>
 
 
 typedef vnl_matrix<double> MatrixType;
@@ -28,52 +26,76 @@ typedef vnl_vector<double> VectorType;
 
 
 /** 
- *  The objectif function is the quadratic form:
+ *   TODO: Comment this example with the initial equation we have to solve
  *
- *  1/2 x^T A x - b^T x
- *
- *  Where A is represented as an itkMatrix and 
- *  b is represented as a itkVector
- *
- *  The system in this example is:
- *
- *     | 3  2 ||x|   | 2|   |0|
- *     | 2  6 ||y| + |-8| = |0|
- *
- *
- *   the solution is the vector | 2 -2 |
+ *   the solution is the vector | 3 2 |
  *
  */ 
-class CostFunction {
+class CostFunction : public itk::LightObject{
 public:
+  typedef CostFunction Self;
+  typedef itk::LightObject  Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
+  itkNewMacro( Self );
+
   enum { SpaceDimension =  2 };
   enum { RangeDimension =  9 };
+  typedef itk::VectorContainer<unsigned int,double> ParametersType;
+  typedef itk::VectorContainer<unsigned int,double> DerivativeType;
+  typedef itk::VectorContainer<unsigned int,double> VectorMeasureType;
+
   CostFunction() {
-  
+    m_Parameters = ParametersType::New(); 
+    m_Parameters->Reserve(2);
   }
 
-  void GetValue( const VectorType & v, VectorType & values ) 
+  const ParametersType::Pointer & GetParameters(void) const 
+  { 
+    return m_Parameters;
+  }
+
+  void GetValue( VectorMeasureType::Pointer & values ) 
   {
-    std::cout << "GetValue( " << v << " ) = ";
-    double a = v[0];
-    double b = v[1];
-    VectorType diffs( RangeDimension );
-    unsigned int k = 0;
+    std::cout << "GetValue( ";
+    ParametersType::Iterator it = m_Parameters->Begin();
+    
+    double a = it.Value();
+    it++;
+    double b = it.Value();
+
+    it = m_Parameters->Begin();
+    while ( it != m_Parameters->End() )
+    { 
+      std::cout << it.Value() << " ";
+      it++;
+    }
+    std::cout << ") = ";
+
+    it = values->Begin();
     for(int y = -1; y<=1; y++) 
     {
       const double yp = y*y*b;
       for(int x = -1; x<=1; x++) 
       {
-          values[k++] = a * x*x + yp - (3.0 * x*x + 2 * y*y );
+        it.Value() = a * x*x + yp - (3.0 * x*x + 2 * y*y );
+        std::cout << it.Value() << " ";
+        it++;
       }
     }
-    std::cout << values << std::endl;
-  }
 
-  
+    std::cout << std::endl;
+ 
+ }
+
+DerivativeType::Pointer GetDerivative(void) 
+  {
+   
+ }
 
 private:
 
+  ParametersType::Pointer   m_Parameters;
 
 };
 
@@ -81,9 +103,9 @@ private:
 
 int main() 
 {
-
-
-  typedef  itk::LevenbergMarquardtOptimizer< 
+  std::cout << "Levenberg Marquardt optimizer test \n \n"; 
+  
+  typedef  itk::LevenbergMarquardtOptimizer< \
                                 CostFunction >  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
@@ -120,12 +142,18 @@ int main()
   vnlOptimizer.set_verbose( true ); // activate verbose mode
 
   vnlOptimizer.set_check_derivatives( 3 );
-      
-  VectorType initialValue(2);       // constructor requires vector size
+    
+  typedef itk::VectorContainer<unsigned int,double> ParametersType ;
+  typedef ParametersType::Pointer ParametersPointer;
+  ParametersPointer initialValue = ParametersType::New();
+  initialValue->Reserve(2);
 
-  initialValue[0] =  2;             // We start not so far from  | 3  2 |
-  initialValue[1] =  1;
-
+  ParametersType::Iterator it;
+  // We start not so far from  | 3 2 |
+  it = initialValue->Begin();
+  it.Value() = 2;
+  it++;     
+  it.Value() = 1;
 
   itkOptimizer->StartOptimization( initialValue );
 
@@ -133,7 +161,11 @@ int main()
   std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
-  std::cout << "Solution        = " << initialValue << std::endl;    
+
+  it = costFunction.GetParameters()->Begin();
+  std::cout << "Solution        = (" << it.Value() << "," ;
+  it++;
+  std::cout << it.Value() << ")" << std::endl;  
 
   return 0;
 

@@ -14,17 +14,8 @@
 
 =========================================================================*/
 
-
-
 #include <itkConjugateGradientOptimizer.h>
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-
-
-
-typedef vnl_matrix<double> MatrixType;
-typedef vnl_vector<double> VectorType;
-
+#include <itkVectorContainer.h>
 
 
 /** 
@@ -44,47 +35,98 @@ typedef vnl_vector<double> VectorType;
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class CostFunction {
+class CostFunction : public itk::LightObject 
+{
 public:
+
+  typedef CostFunction Self;
+  typedef itk::LightObject  Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
+  itkNewMacro( Self );
+
   enum { SpaceDimension=2 };
-  CostFunction():m_A(2,2),m_b(2) {
-    
-    m_A[0][0] =  3;
-    m_A[0][1] =  2;
-    m_A[1][0] =  2;
-    m_A[1][1] =  6;
+  typedef itk::VectorContainer<unsigned int,double> ParametersType;
+  typedef itk::VectorContainer<unsigned int,double> DerivativeType;
+  typedef double MeasureType ;
 
-    m_b[0]    =  2;
-    m_b[1]    = -8;
 
-  }
-  double GetValue( const VectorType & v ) 
+  CostFunction() 
   {
-    std::cout << "GetValue( " << v << " ) = ";
-    VectorType Av = m_A * v;
-    double val = ( inner_product<double>( Av , v ) )/2.0;
-    val -= inner_product< double >( m_b , v );
-    std::cout << val << std::endl;
+    m_Parameters = ParametersType::New(); 
+    m_Parameters->Reserve(2);
+  }
+
+  const ParametersType::Pointer & GetParameters(void) const 
+  { 
+    return m_Parameters;
+  }
+
+  double GetValue( void ) 
+  { 
+    std::cout << "GetValue ( " ;
+
+    ParametersType::ConstIterator it = m_Parameters->Begin();
+    
+    double x = it.Value();
+    it++;
+    double y = it.Value();
+
+    it = m_Parameters->Begin();
+    while ( it != m_Parameters->End() )
+    { 
+      std::cout << it.Value() << " ";
+      it++;
+    }
+    std::cout << ") = ";
+
+    double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+
+    std::cout << val << std::endl; 
     return val;
   }
-  VectorType GetDerivative( const VectorType & v ) 
+
+  DerivativeType::Pointer GetDerivative( void ) 
   {
-    std::cout << "GetDerivative( " << v << " ) = ";
-    VectorType grad = m_A * v  - m_b;
-    std::cout << grad << std::endl;
+    std::cout << "GetDerivative ( " ;
+    ParametersType::ConstIterator it;
+
+    it = m_Parameters->Begin();
+    double x = it.Value();
+    it++;
+    double y = it.Value();
+    it = m_Parameters->Begin();
+    while ( it != m_Parameters->End() )
+    { 
+      std::cout << it.Value() << " ";
+      it++;
+    }
+    std::cout << ") = ";
+
+    DerivativeType::Pointer grad = DerivativeType::New();
+    grad->Reserve(2);
+    DerivativeType::Iterator dit;
+    std::cout << "(" ; 
+    dit = grad->Begin();
+    dit.Value() = 3*x + 2*y -2;
+    std::cout << dit.Value() <<" ";
+    dit++;
+    dit.Value() = 2*x + 6*y +8;
+    std::cout << dit.Value() << ")" << std::endl;
     return grad;
   }
 
 private:
-  MatrixType        m_A;
-  VectorType        m_b;
+
+  ParametersType::Pointer   m_Parameters;
+
 };
 
 
 
 int main() 
 {
-
+  std::cout << "Conjugate Gradient Optimizer Test \n \n";
 
   typedef  itk::ConjugateGradientOptimizer< 
                                 CostFunction >  OptimizerType;
@@ -124,19 +166,29 @@ int main()
 
   vnlOptimizer.set_check_derivatives( 3 );
       
-  VectorType initialValue(2);       // constructor requires vector size
+  typedef itk::VectorContainer<unsigned int,double> ParametersType ;
+  typedef ParametersType::Pointer ParametersPointer;
+  ParametersPointer initialValue = ParametersType::New();
+  initialValue->Reserve(2);
 
-  initialValue[0] =  100;             // We start not so far from  | 2 -2 |
-  initialValue[1] = -100;
-
+  ParametersType::Iterator it;
+  // We start not so far from  | 2 -2 |
+  it = initialValue->Begin();
+  it.Value() = 100;
+  it++;     
+  it.Value() = -100;
 
   itkOptimizer->StartOptimization( initialValue );
 
-  std::cout << "End condition   = " << vnlOptimizer.get_failure_code() << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations() << std::endl;
+  std::cout << "End condition   = " << vnlOptimizer.get_failure_code()    << std::endl;
+  std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations()  << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
-  std::cout << "Solution        = " << initialValue << std::endl;    
+
+  it = costFunction.GetParameters()->Begin();
+  std::cout << "Solution        = (" << it.Value() << "," ;
+  it++;
+  std::cout << it.Value() << ")" << std::endl;  
 
   return 0;
 
