@@ -22,6 +22,8 @@
 
 #include "itkImageToImageFilter.h"
 
+#include "itkConceptChecking.h"
+
 namespace itk
 {
 
@@ -55,6 +57,9 @@ public:
 
   /** Typedef to describe the type of pixel. */
   typedef typename TImage::PixelType PixelType;
+  
+  /** The pixel type must support comparison operators. */
+  itkConceptMacro(PixelTypeComparable, (Concept::Comparable<PixelType>));
   
   /** Set the "outside" pixel value. The default value 
    * NumericTraits<PixelType>::Zero. */
