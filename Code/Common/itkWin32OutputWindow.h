@@ -19,6 +19,8 @@
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
 #include <windows.h>
+#undef max
+#undef min
 
 namespace itk
 {

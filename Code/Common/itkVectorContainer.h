@@ -116,8 +116,12 @@ public:
    */
   itkNewMacro(Self);
   
+  class Iterator;
   class ConstIterator;
+  friend class Iterator;
+  friend class ConstIterator;
   
+
   /**
    * Simulate STL-map style iteration where dereferencing the iterator
    * gives access to both the index and the value.

@@ -28,6 +28,8 @@ typedef shl_t LibHandle;
 } // end namespace itk
 #elif defined(_WIN32)
 # include "windows.h"
+#undef max
+#undef min
 namespace itk
 {
 typedef HMODULE LibHandle;

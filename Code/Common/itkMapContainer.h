@@ -112,7 +112,10 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
+  class Iterator;
+  class ConstIterator;
+  friend class Iterator;
+  friend class ConstIterator;
   /**
    * The non-const iterator type for the map.
    */
