@@ -10,9 +10,6 @@ SOURCE_GROUP("XML Files" "\.xml$")
 # Include the include and link libraries
 INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
 
-# Include the standard Dart testing module
-INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)
-
 # Walk into these directories before Testing or Unsupported.
 SUBDIRS(Utilities Code)
 
