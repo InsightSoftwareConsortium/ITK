@@ -135,7 +135,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ParallelSparseFieldLevelSetImageFilter()
 {
   m_IsoSurfaceValue = m_ValueZero;
-  m_NumberOfLayers = 1;
+  m_NumberOfLayers = 3;
   m_RMSChange = m_ValueOne;
   m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
