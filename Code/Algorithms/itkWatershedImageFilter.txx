@@ -112,7 +112,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
     thresholded_input->GetRequestedRegion();
   thresholded_input->SetRequestedRegion(thresholded_input->GetBufferedRegion());
 
-  RegionBoundaryNeighborhoodIterator<InputScalarType, ImageDimension>
+  RegionBoundaryNeighborhoodIterator<InputImageType>
     bni(unaryRadius, thresholded_input, expandedOutputRegion);
   maxImageValue += NumericTraits<InputScalarType>::One;
   for (bni = bni.Begin(); bni < bni.End(); ++bni)
@@ -154,7 +154,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage>
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::CopyOutputToOutput(TOutputImage *output, TOutputImage *input)
+::CopyOutputToOutput(OutputImageType *output, OutputImageType *input)
 {
   typedef typename TOutputImage::PixelType PixelType;
   ImageRegionIterator<PixelType, ImageDimension>
@@ -383,8 +383,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage>
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::CreateSegmentTable(SegmentTableType &segments, TInputImage *input,
-                     TOutputImage *output, const OutputScalarType
+::CreateSegmentTable(SegmentTableType &segments, InputImageType *input,
+                     OutputImageType *output, const OutputScalarType
                      UNLABELED_PIXEL) 
 {
   int i;
@@ -399,10 +399,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
     {                   
       hoodRadius[i]  = 1;
     }
-  RegionNeighborhoodIterator<typename TOutputImage::PixelType,
-    ImageDimension> searchIt(hoodRadius, input, output->GetRequestedRegion());
-  RegionNeighborhoodIterator<typename TOutputImage::PixelType,
-    ImageDimension> labelIt(hoodRadius, output, output->GetRequestedRegion());
+  RegionNeighborhoodIterator<OutputImageType> searchIt(hoodRadius, input, output->GetRequestedRegion());
+  RegionNeighborhoodIterator<OutputImageType> labelIt(hoodRadius, output, output->GetRequestedRegion());
 
   unsigned long hoodCenter = searchIt.size() >> 1;
   unsigned long hoodSize   = searchIt.size();
@@ -479,7 +477,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >  
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::FindMinMax(TInputImage* img, InputScalarType &minImageValue,
+::FindMinMax(InputImageType* img, InputScalarType &minImageValue,
              InputScalarType &maxImageValue)
 {
   ImageRegionIterator<InputScalarType, ImageDimension>
@@ -498,7 +496,7 @@ template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
 ::MinimumThresholdImage(const InputScalarType minimumValue,
-                   TInputImage *in, TInputImage *out)
+                   InputImageType *in, InputImageType *out)
 {
   ImageRegionIterator<InputScalarType, ImageDimension>
     it_in(in, out->GetRequestedRegion());
@@ -517,7 +515,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::CreateBasicSegmentation2D( TInputImage *input, TOutputImage *output,
+::CreateBasicSegmentation2D( InputImageType *input, OutputImageType *output,
                       const OutputScalarType UNLABELED_PIXEL)
 {
   FlatRegionTableType flatRegionTable;
@@ -529,7 +527,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::ConnectPlateausWithBasins( TInputImage *input, TOutputImage *output,
+::ConnectPlateausWithBasins( InputImageType *input, OutputImageType *output,
                              const FlatRegionTableType &flatRegionTable)
 {
   // Assumes all pixels are labeled in the image.  Steps through the
@@ -556,7 +554,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::TraceUnlabeledPixels2D( TInputImage *input, TOutputImage *output,
+::TraceUnlabeledPixels2D( InputImageType *input, OutputImageType *output,
                       const OutputScalarType UNLABELED_PIXEL)
 {
   OutputScalarType newLabel;
@@ -570,10 +568,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
       zeroRadius[i] = 0;
     }
 
-  RandomAccessNeighborhoodIterator<typename TInputImage::PixelType,
-    ImageDimension> valueIt(hoodRadius, input, output->GetRequestedRegion());
-  RandomAccessNeighborhoodIterator<typename TOutputImage::PixelType,
-    ImageDimension> labelIt(zeroRadius, output, output->GetRequestedRegion());
+  RandomAccessNeighborhoodIterator<InputImageType> valueIt(hoodRadius, input, output->GetRequestedRegion());
+  RandomAccessNeighborhoodIterator<OutputImageType> labelIt(zeroRadius, output, output->GetRequestedRegion());
   
   ImageRegionIterator<typename TInputImage::PixelType, ImageDimension>
     it(output, output->GetRequestedRegion());
@@ -638,8 +634,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::LabelSPMandFlatPixels( TInputImage *input,
-         TOutputImage *output,
+::LabelSPMandFlatPixels( InputImageType *input,
+         OutputImageType *output,
          const OutputScalarType UNLABELED_PIXEL,
          FlatRegionTableType &flatRegionTable)
 {
@@ -660,10 +656,8 @@ WatershedImageFilter<TInputImage, TOutputImage>
     {                   
       hoodRadius[i]  = 1; // Radius of 1 gives the 8-neighbors in 2D case
     }                   
-  RegionNeighborhoodIterator<typename TInputImage::PixelType,
-    ImageDimension> searchIt ( hoodRadius, input, input->GetRequestedRegion());
-  RegionNeighborhoodIterator<typename TOutputImage::PixelType,
-    ImageDimension> labelIt ( hoodRadius, output, input->GetRequestedRegion());
+  RegionNeighborhoodIterator<InputImageType> searchIt ( hoodRadius, input, input->GetRequestedRegion());
+  RegionNeighborhoodIterator<OutputImageType> labelIt ( hoodRadius, output, input->GetRequestedRegion());
   
   unsigned int hoodSize   = searchIt.size();
   unsigned int hoodCenter = hoodSize >> 1;
@@ -757,7 +751,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 WatershedImageFilter<TInputImage, TOutputImage>
-::RelabelImage(TOutputImage *img, const LabelTableType &map)
+::RelabelImage(OutputImageType *img, const LabelTableType &map)
 {
   LabelTableType::const_iterator temp;
   ImageRegionIterator<typename TOutputImage::PixelType, ImageDimension>

@@ -69,14 +69,24 @@ public:
   itkNewMacro(Self);
 
   /**
+   * The type of input image.
+   */
+  typedef TInputImage InputImageType;
+  
+  /**
+   * The type of output image.
+   */
+  typedef TOutputImage OutputImageType;
+  
+  /**
    * Typedef support for the input image scalar value type.
    */
-  typedef typename TInputImage::ScalarValueType InputScalarType;
+  typedef typename InputImageType::ScalarValueType InputScalarType;
 
   /**
    * Typedef support for the output image scalar value type.
    */
-  typedef typename TOutputImage::ScalarValueType OutputScalarType;
+  typedef typename OutputImageType::ScalarValueType OutputScalarType;
   
   /**
    * Structure for storing merge information.
@@ -147,23 +157,23 @@ public:
   /**
    * Standard super class typedef support.
    */
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
 
   /**
    * Dimension of the input image.  Output image dimension must be the same
    * but cannot be enforced by templating over the image type.
    */
-  enum {ImageDimension = TInputImage::ImageDimension };
+  enum {ImageDimension = InputImageType::ImageDimension };
   
   /**
    * Typedef support for the input image scalar value type.
    */
-  typedef typename TInputImage::ScalarValueType InputScalarType;
+  typedef typename InputImageType::ScalarValueType InputScalarType;
 
   /**
    * Typedef support for the output image scalar value type.
    */
-  typedef typename TOutputImage::ScalarValueType OutputScalarType;
+  typedef typename OutputImageType::ScalarValueType OutputScalarType;
   
   /** 
    * Smart pointer typedef support 
@@ -200,14 +210,14 @@ public:
   /**
    * Set and get basic output methods.
    */
-  typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
+  typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>::Pointer
   GetBasicOutput()
   {
-    return static_cast<WatershedSegmentBasicOutput<TInputImage, TOutputImage>*
+    return static_cast<WatershedSegmentBasicOutput<InputImageType, OutputImageType>*
       >(this->ProcessObject::GetOutput(1).GetPointer());
   }
 
-  void SetBasicOutput(WatershedSegmentBasicOutput<TInputImage, TOutputImage>
+  void SetBasicOutput(WatershedSegmentBasicOutput<InputImageType, OutputImageType>
                       *output)
   {
     this->ProcessObject::SetNthOutput(1, output);
@@ -225,8 +235,8 @@ public:
 protected:
   WatershedImageFilter() :  m_Level(0.0f), m_Threshold(0.0f)
   {
-    WatershedSegmentBasicOutput<TInputImage, TOutputImage>::Pointer
-      output = WatershedSegmentBasicOutput<TInputImage, TOutputImage>::New();
+    WatershedSegmentBasicOutput<InputImageType, OutputImageType>::Pointer
+      output = WatershedSegmentBasicOutput<InputImageType, OutputImageType>::New();
     output->SetSource(this);
     this->ProcessObject::SetNumberOfOutputs(2);
     this->ProcessObject::SetNthOutput(1,output.GetPointer());
@@ -284,7 +294,7 @@ protected:
   /**
    * Structure storing information about a segment merge.
    */
-  typedef typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>
+  typedef typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>
   ::MergeType MergeType;
 
 
@@ -333,7 +343,7 @@ protected:
   /**
    * List for storing sequences of segment merges.
    */
-  typedef typename WatershedSegmentBasicOutput<TInputImage, TOutputImage>::MergeListType
+  typedef typename WatershedSegmentBasicOutput<InputImageType, OutputImageType>::MergeListType
   MergeListType;
   
   /**
@@ -344,7 +354,7 @@ protected:
    * maxima), are connected with the basin adjacent to their lowest boundary
    * pixel (pixel just outside the flat region with the smallest value).
    */
-  static void CreateBasicSegmentation2D(TInputImage *, TOutputImage *, const
+  static void CreateBasicSegmentation2D(InputImageType *, OutputImageType *, const
                           OutputScalarType);
 
   /**
@@ -352,7 +362,7 @@ protected:
    * and all flat regions (groups of pixels with at least one neighbor that has 
    * the same value).
    */
-  static void LabelSPMandFlatPixels(TInputImage *, TOutputImage *, const
+  static void LabelSPMandFlatPixels(InputImageType *, OutputImageType *, const
                     OutputScalarType, FlatRegionTableType &);
   
   /**
@@ -360,7 +370,7 @@ protected:
    * minimum and associates all pixels along the path to that local minimum
    * with the label of the local minimum.
    */
-  static void TraceUnlabeledPixels2D( TInputImage *, TOutputImage *,
+  static void TraceUnlabeledPixels2D( InputImageType *, OutputImageType *,
                                       const OutputScalarType);
 
   /**
@@ -369,13 +379,13 @@ protected:
    * bordering the region) with a basin by associating each plateau with the
    * label of its smallest-valued neighbor pixel.
    */
-  static void ConnectPlateausWithBasins( TInputImage *, TOutputImage *,
+  static void ConnectPlateausWithBasins( InputImageType *, OutputImageType *,
                                          const FlatRegionTableType &);
 
   /**
    * Finds the minimum value and the maximum value in an image.
    */
-  static void FindMinMax(TInputImage *,
+  static void FindMinMax(InputImageType *,
                          InputScalarType &, InputScalarType &);
 
   /**
@@ -383,7 +393,7 @@ protected:
    * threshold value to that of the threshold value.
    */
   static void MinimumThresholdImage(const InputScalarType,
-                                    TInputImage *, TInputImage *);
+                                    InputImageType *, InputImageType *);
 
   /**
    * Resolves dependencies among label equivalencies.  Returns a hash table
@@ -401,15 +411,15 @@ protected:
    * Relabels the regions in an image by replacing labels according to a lookup 
    * table of (unique) equivalencies.
    */
-  static void RelabelImage(TOutputImage *, const LabelTableType &);
+  static void RelabelImage(OutputImageType *, const LabelTableType &);
 
   /**
    * Creates a table of information about each segment's minimum value,
    * neighboring segments, and edge information between each neighboring
    * segment.
    */
-  static void CreateSegmentTable(SegmentTableType &, TInputImage *,
-                                 TOutputImage *, const OutputScalarType);
+  static void CreateSegmentTable(SegmentTableType &, InputImageType *,
+                                 OutputImageType *, const OutputScalarType);
 
   /**
    * Debugging code.
@@ -463,10 +473,10 @@ protected:
                                                 InputScalarType &);
 
 
-  static void CopyOutputToOutput(TOutputImage *,TOutputImage *);
+  static void CopyOutputToOutput(OutputImageType *,OutputImageType *);
   
 private:
-  friend class RelabelWatershedImageFilter<TInputImage,TOutputImage>;
+  friend class RelabelWatershedImageFilter<InputImageType,OutputImageType>;
   
   /**
    * A Percentage of the maximum pixel value in the input image.  This
