@@ -49,7 +49,7 @@ namespace itk
  *      writing has been done, destroying the object will set the Tcl
  *      interpreter's result to the value of the string:
  *
- *    $obj Print [itk::TclStringStream [wrap::Interpreter]]
+ *    $obj Print [itk::TclStringStream [cable::Interpreter]]
  *
  * In this example, the destructor is invoked after the call to
  * Print(std::ostream&), which sets the Tcl result to the string
@@ -57,7 +57,7 @@ namespace itk
  * TclStringStream can be hidden in a Tcl procedure:
  *
  *    proc itkTclResultStream {} {
- *      return [itk::TclStringStream [wrap::Interpreter]]
+ *      return [itk::TclStringStream [cable::Interpreter]]
  *    }
  *
  *    $obj Print [itkTclResultStream]
