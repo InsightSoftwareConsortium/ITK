@@ -90,7 +90,12 @@ public:
   /**
    * Typedef of the Point used to represent coordinates
    */
-   typedef typename TTransformation::PointType   PointType;
+   typedef typename TTransformation::InputPointType   InputPointType;
+
+  /**
+   * Typedef of the Point used to represent coordinates
+   */
+   typedef typename TTransformation::OutputPointType   OutputPointType;
 
 
    /**
@@ -195,12 +200,12 @@ public:
     * \sa Evaluate();
     *
     */
-   bool IsInside( const PointType & point );
+   bool IsInside( const InputPointType & point );
 
 protected:
 
-  InterpolatorPointer       m_Interpolator;
-  mutable PointType         m_CurrentPoint;
+  InterpolatorPointer           m_Interpolator;
+  mutable OutputPointType       m_CurrentPoint;
 
   ImageMapper();
   ~ImageMapper(){};

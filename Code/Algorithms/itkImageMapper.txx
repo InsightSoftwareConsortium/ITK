@@ -87,7 +87,7 @@ ImageMapper<TImage,TTransformation>
 template <class TImage, class TTransformation> 
 bool
 ImageMapper<TImage,TTransformation>
-::IsInside( const PointType & point ) 
+::IsInside( const InputPointType & point ) 
 { 
 
   m_CurrentPoint = this->GetTransformation()->Transform( point );
