@@ -33,7 +33,7 @@ namespace Statistics{
 /** \class ImageToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK Image
  *
- * After calling SetImage(Image::Pointer) method to plug in the image object,
+ * After calling SetImage(Image*) method to plug in the image object,
  * users can use Sample interfaces to access Image data.
  * However, the resulting data are a list of measurement vectors. The type of
  * data is measurement vector. For example, if the pixel type of Image object 
