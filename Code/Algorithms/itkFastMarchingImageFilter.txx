@@ -292,6 +292,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   unsigned long NumPoints = 0;
   unsigned long InvalidPoints = 0;
 
+  this->UpdateProgress( 0.0 ); // Send first progress event
+
   while ( !m_TrialHeap.empty() )
     {
     // get the node with the smallest value
