@@ -233,7 +233,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       bool inRange = true;
       for( int j = 0; j < SetDimension; j++ )
         {
-        if( node.index[j] > m_OutputSize[j] )
+        if( node.index[j] > (signed long) m_OutputSize[j] )
           {
           inRange = false;
           break;
@@ -274,7 +274,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       bool inRange = true;
       for( int j = 0; j < SetDimension; j++ )
       {
-       if( node.index[j] > m_OutputSize[j] )
+       if( node.index[j] > (signed long) m_OutputSize[j] )
         {
           inRange = false;
           break;
@@ -406,7 +406,7 @@ IndexType& index )
     }
 
     // updaet right neighbor
-    if( index[j] < m_OutputSize[j] - 1 )
+    if( index[j] < (signed long) m_OutputSize[j] - 1 )
     {
       neighIndex[j] = index[j] + 1;
     }
@@ -447,7 +447,7 @@ IndexType& index )
     {
       neighIndex[j] = index[j] + s;
 
-      if( neighIndex[j] > m_OutputSize[j] - 1 )
+      if( neighIndex[j] > (signed long) m_OutputSize[j] - 1 )
       {
         continue;
       }

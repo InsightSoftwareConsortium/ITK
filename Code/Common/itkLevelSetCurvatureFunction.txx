@@ -54,16 +54,16 @@ LevelSetCurvatureFunction<TInputImage>
 {
   this->Superclass::SetInputImage( ptr );
 
-  m_ImageSize = 
+  typename TInputImage::SizeType size =
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
   m_ImageSizeOK = true;
   for( int j = 0; j < ImageDimension; j++ )
     {
+    m_ImageSize[j] = (signed long) size[j];
     if( m_ImageSize[j] < 5 )
       {
       m_ImageSizeOK = false;
-      break;
       }
 
     }

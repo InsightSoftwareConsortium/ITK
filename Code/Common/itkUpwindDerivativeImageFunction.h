@@ -162,7 +162,7 @@ protected:
   mutable double          m_Derivative;
 
 private:
-  Size<ImageDimension>    m_ImageSize;
+  signed long             m_ImageSize[ImageDimension];
   bool                    m_ImageSizeOK;
 
   mutable IndexType       m_NeighIndex;

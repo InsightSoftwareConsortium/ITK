@@ -159,7 +159,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  Size<ImageDimension>    m_ImageSize;
+  signed long             m_ImageSize[ImageDimension];
   bool                    m_ImageSizeOK;
 
   double                  m_Speed;

@@ -151,8 +151,13 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   m_InsidePoints = NodeContainer::New();
   m_OutsidePoints = NodeContainer::New();
 
-  m_ImageSize = 
+  typename TLevelSet::SizeType size =
     m_InputLevelSet->GetLargestPossibleRegion().GetSize();
+
+  for( int j = 0; j < SetDimension; j++ )
+		{
+		m_ImageSize[j] = (signed long) size[j];
+		}
 
 }
 

@@ -161,23 +161,24 @@ protected:
 
 private:
 
-  Size<ImageDimension>                                      m_ImageSize;
-  bool                                                      m_ImageSizeOK;
+  signed long                                 m_ImageSize[ImageDimension];
+  bool                                        m_ImageSizeOK;
 
-  mutable double                                            m_Curvature;
-  mutable double                                            m_Magnitude;
-  double                                                    m_EpsilonMagnitude;
-  mutable bool                                              m_BorderPixel;
+  mutable double                              m_Curvature;
+  mutable double                              m_Magnitude;
+  double                                      m_EpsilonMagnitude;
+  mutable bool                                m_BorderPixel;
 
-  mutable vnl_vector_fixed<double,ImageDimension>           m_FirstDerivative;
+  mutable vnl_vector_fixed<double,ImageDimension>           
+                                              m_FirstDerivative;
   mutable vnl_matrix_fixed<double,ImageDimension,ImageDimension>
-                                                            m_SecondDerivative;
+                                              m_SecondDerivative;
 
-  mutable IndexType                                         m_NeighIndex;
-  mutable IndexType                                         m_RightIndex;
-  mutable IndexType                                         m_LeftIndex;
-  mutable double                                            m_CenterValue;
-  mutable double                                            m_DiffValue;
+  mutable IndexType                           m_NeighIndex;
+  mutable IndexType                           m_RightIndex;
+  mutable IndexType                           m_LeftIndex;
+  mutable double                              m_CenterValue;
+  mutable double                              m_DiffValue;
 
   mutable vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
                                                             m_Variable;

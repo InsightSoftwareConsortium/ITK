@@ -125,8 +125,8 @@ unsigned int dim ) const
   
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] < m_ImageStart[j] ||
-        index[j] >= m_ImageStart[j] + m_ImageSize[j] - 1 )
+    if( index[j] < (signed long) m_ImageStart[j] ||
+        index[j] >= (signed long) (m_ImageStart[j] + m_ImageSize[j]) - 1 )
       {
       return ( derivative );
       }
@@ -136,8 +136,8 @@ unsigned int dim ) const
 
 
   // bounds checking
-  if( index[dim] < m_ImageStart[dim] + 1 ||
-      index[dim] >= m_ImageStart[dim] + m_ImageSize[dim] - 1 )
+  if( index[dim] < (signed long) m_ImageStart[dim] + 1 ||
+      index[dim] >= (signed long) m_ImageStart[dim] + m_ImageSize[dim] - 2 )
     {
       return ( derivative );
     }

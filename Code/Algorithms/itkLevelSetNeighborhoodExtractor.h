@@ -228,7 +228,7 @@ private:
   double                                        m_NarrowBandwidth;
   NodeContainerPointer                          m_InputNarrowBand;
 
-  typename LevelSetImageType::SizeType          m_ImageSize;
+  signed long                                   m_ImageSize[SetDimension];
   typename LevelSetImageType::ScalarValueType   m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
