@@ -67,8 +67,8 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   
   if ( m_TimeStep >  1.0 / pow(2.0, static_cast<double>(ImageDimension))  )
     {
-    f->SetTimeStep(1.0 / pow(2.0, static_cast<double>(ImageDimension))); 
-    itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which will introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() << ", which is the maximum value for which the solution is theoretically stable.");
+    //    f->SetTimeStep(1.0 / pow(2.0, static_cast<double>(ImageDimension))); 
+    itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution." );
     }
   
   if (m_GradientMagnitudeIsFixed == false && (this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
