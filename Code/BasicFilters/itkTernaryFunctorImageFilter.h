@@ -53,15 +53,15 @@ public:
   /** Some typedefs. */
   typedef TFunction   FunctorType;
   typedef TInputImage1 Input1ImageType;
-  typedef typename Input1ImageType::Pointer Input1ImagePointer;
+  typedef typename Input1ImageType::ConstPointer Input1ImagePointer;
   typedef typename Input1ImageType::RegionType Input1ImageRegionType; 
   typedef typename Input1ImageType::PixelType Input1ImagePixelType; 
   typedef TInputImage2 Input2ImageType;
-  typedef typename Input2ImageType::Pointer Input2ImagePointer;
+  typedef typename Input2ImageType::ConstPointer Input2ImagePointer;
   typedef typename Input2ImageType::RegionType Input2ImageRegionType; 
   typedef typename Input2ImageType::PixelType Input2ImagePixelType; 
   typedef TInputImage2 Input3ImageType;
-  typedef typename Input3ImageType::Pointer Input3ImagePointer;
+  typedef typename Input3ImageType::ConstPointer Input3ImagePointer;
   typedef typename Input3ImageType::RegionType Input3ImageRegionType; 
   typedef typename Input3ImageType::PixelType Input3ImagePixelType; 
   typedef TOutputImage OutputImageType;
@@ -70,19 +70,19 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Connect one of the operands for pixel-wise addition. */
-   void SetInput1( TInputImage1 *image1);
+   void SetInput1( const TInputImage1 *image1);
 
   /** Connect one of the operands for pixel-wise addition. */
-  void SetInput2( TInputImage2 *image2);
+  void SetInput2( const TInputImage2 *image2);
 
   /** Connect one of the operands for pixel-wise addition. */
-  void SetInput3( TInputImage3 *image3);
+  void SetInput3( const TInputImage3 *image3);
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer). */
-  FunctorType& GetFunctor() { return m_Functor; };
+  FunctorType& GetFunctor(void) { return m_Functor; };
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -90,7 +90,7 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(FunctorType& functor)
+  void SetFunctor(const FunctorType& functor)
     {
     if ( m_Functor != functor )
       {
