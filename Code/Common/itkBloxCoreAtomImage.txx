@@ -149,7 +149,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
   // Create a seed position for the spatial function iterator we'll use shortly
-  TBoundaryPointImage::IndexType seedPos;
+  typename TBoundaryPointImage::IndexType seedPos;
   // Normalize the origin gradient
   TFunctionVectorType seedVec = spatialFunctionGradient.normalize();
   

@@ -38,7 +38,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
   // How big is the input image?
-  TInputImage::SizeType size = inputPtr->GetLargestPossibleRegion().GetSize();
+  typename TInputImage::SizeType size = inputPtr->GetLargestPossibleRegion().GetSize();
 
   // Create a region object native to the output image type
   OutputImageRegionType outputRegion;
