@@ -21,12 +21,14 @@
 #define __itkImageToImageFilter_h
 
 #include "itkImageSource.h"
+#include "itkConceptChecking.h"
+#include "itkImageToImageFilterDetail.h"
 
 namespace itk
 {
-
+  
 /** \class ImageToImageFilter
- * \brief 
+ * \brief Base class for filters that take an image as input and produce an image as output.
  *
  * ImageToImageFilter is the base class for all process objects that output
  * image data and require image data as input. Specifically, this class
@@ -83,13 +85,18 @@ public:
   typedef typename InputImageType::RegionType     InputImageRegionType; 
   typedef typename InputImageType::PixelType      InputImagePixelType; 
   
+  /** ImageDimension enumeration */
+  enum { InputImageDimension = TInputImage::ImageDimension };
+  enum { OutputImageDimension = TOutputImage::ImageDimension };
+
   /** Set/Get the image input of this process object.  */
   virtual void SetInput( const InputImageType *image);
   virtual void SetInput( unsigned int, const TInputImage * image);
   InputImageConstPointer GetInput(void);
   InputImageConstPointer GetInput(unsigned int idx);
-  
-protected:
+
+
+ protected:
   ImageToImageFilter();
   ~ImageToImageFilter();
 
@@ -108,11 +115,59 @@ protected:
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
+
+
+  /** Typedef for the region copier function object. */
+  typedef
+     ImageToImageFilterDetail::ImageRegionCopier<InputImageDimension,
+                                        OutputImageDimension> RegionCopierType;
   
+  /** Set the function object used for copying output regions (start
+   * index and size) to input regions. These methods are protected because
+   * the general user should not be changing the region copier.*/
+  itkSetMacro(RegionCopier, RegionCopierType);
+  itkGetMacro(RegionCopier, RegionCopierType);
+
 private:
   ImageToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Function object used for dispatching to various routines to
+   * copy an output region (start index and size) to an input region.
+   * For most filters, this is a trivial copy because most filters
+   * require the input dimension to match the output dimension.
+   * However, some filters like itk::ExtractImageFilter can
+   * support output images of a lower dimension that the input.
+   *
+   * This function object is used by the default implementation of
+   * GenerateInputRequestedRegion(). It can also be used in routines
+   * like ThreadedGenerateData() where a filter may need to map the
+   * the output region for a particular thread to an input region.
+   *
+   * The default copier uses a "dispatch pattern" to call one of three
+   * overloaded functions depending on whether the input and output
+   * images are the same dimension, the input is a higher dimension
+   * that the output, or the input is of a lower dimension than the
+   * output. The use of an overloaded function is required for proper
+   * compilation of the various cases.
+   * 
+   * For the latter two cases, trivial implementations are used.  If
+   * the input image is a higher dimension than the output, the output
+   * region information is copied into the first portion of the input
+   * region and the rest of the input region is set to zero.  If the
+   * input region is a lower dimension than the output, the first
+   * portion of the output region is copied to the input region.
+   *
+   * If a filter needs a different default behavior, it can call the
+   * SetRegionCopier() method passing in a subclass of the
+   * ImageToImageDetail::RegionCopier function object. This would
+   * typically be done in the constructor of the filter. The
+   * ExtractImageFilter overrides this function object so that if the
+   * input image is a higher dimension than the output image, the
+   * filter can control "where" in the input image the output subimage
+   * is extracted (as opposed to mapping to first few dimensions of
+   * the input). */
+  RegionCopierType m_RegionCopier;
 };
 
 } // end namespace itk

@@ -31,6 +31,7 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 ImageToImageFilter<TInputImage,TOutputImage>
 ::ImageToImageFilter()
+  : m_RegionCopier()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
@@ -108,6 +109,8 @@ ImageToImageFilter<TInputImage,TOutputImage>
                      (this->ProcessObject::GetInput(idx).GetPointer());
 }
 
+
+
 //-----------------------------------------------------------------------
 //
 template<class TInputImage, class TOutputImage>
@@ -122,11 +125,21 @@ ImageToImageFilter<TInputImage,TOutputImage>
     if (this->GetInput(idx))
       {
       InputImagePointer input =
-          const_cast< TInputImage * > ( this->GetInput(idx).GetPointer() );
-      input->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+        const_cast< TInputImage * > ( this->GetInput(idx).GetPointer() );
+
+      // Use the function object RegionCopier to copy the output region
+      // to the input.  The default region copier has default implementations
+      // to handle the cases where the input and output are the same
+      // dimension, the input a higher dimension than the output, and the
+      // input a lower dimension than the output.
+      InputImageRegionType inputRegion;
+      m_RegionCopier(inputRegion, this->GetOutput()->GetRequestedRegion());
+      input->SetRequestedRegion( inputRegion );
       }
     }  
 }
+
+
 
 } // end namespace itk
 
