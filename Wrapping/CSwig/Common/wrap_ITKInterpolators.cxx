@@ -24,28 +24,22 @@
 #include "itkCSwigImages.h"
 #include "itkCSwigMacros.h"
 
-// Create a macro that will wrap 2 super classes up
-// and the class
-#define ITK_WRAP_OBJECT2_WITH_SUPERCLASS_2(name, arg1, arg2, wrapname) \
-ITK_WRAP_OBJECT2_WITH_SUPERCLASS(name, arg1, arg2, wrapname); \
-typedef itk::name<arg1,arg2 >::Superclass::Superclass::Self wrapname##_Superclass2
-
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(ITKInterpolators);
   namespace wrappers
   {
     // wrap InterpolateImageFunction and two super classes up
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS_2(InterpolateImageFunction, image::F2,
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::F2,
                                        double, 
                                        itkInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS_2(InterpolateImageFunction, image::F3, 
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::F3, 
                                        double, 
                                        itkInterpolateImageFunctionF3D);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS_2(InterpolateImageFunction, image::US2, 
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::US2, 
                                        double, 
                                        itkInterpolateImageFunctionUS2D);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS_2(InterpolateImageFunction, image::US3,
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::US3,
                                        double, 
                                        itkInterpolateImageFunctionUS3D);
     

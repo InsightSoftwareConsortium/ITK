@@ -26,11 +26,14 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkFunctionBase);
   namespace wrappers
   {
+    namespace point
+    {
+    typedef ::itk::Point< float, 2 > F2;
+    typedef ::itk::Point< float, 3 > F3;
+    }
     // wrap FunctionBase 
-    ITK_WRAP_OBJECT2(FunctionBase, 
-                itk::Point< float, 2>, double, itkFunctionBaseF2D);
-    ITK_WRAP_OBJECT2(FunctionBase, 
-                itk::Point< float, 3>, double, itkFunctionBaseF3D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::F2, double, itkFunctionBaseF2D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::F3, double, itkFunctionBaseF3D);
   }
 }
 
