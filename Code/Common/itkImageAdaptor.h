@@ -42,13 +42,18 @@ namespace itk
  */
 
 template <class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor : public DataObject 
+class ITK_EXPORT ImageAdaptor : public ImageBase 
 {
 public:
   /**
    * Standard "Self" typedef.
    */
   typedef ImageAdaptor  Self;
+
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageBase Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -103,7 +108,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ImageAdaptor, ImageSource);
+  itkTypeMacro(ImageAdaptor, ImageBase);
 
   /**
    * Method for creation through the object factory.
