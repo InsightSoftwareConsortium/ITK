@@ -263,7 +263,9 @@ int main( int argc, char ** argv )
   //  \end{figure}
   //
   //  Figure \ref{fig:ResampleImageFilterOutput11} shows the effect of this
-  //  rotation and scaling on a slice of a brain MRI.
+  //  rotation, translation and scaling on a slice of a brain MRI. The scale
+  //  applied for producing this figure was $1.2$ and the rotation angle was
+  //  $10^{\circ}$. 
   //
   //  Software Guide : EndLatex 
 
