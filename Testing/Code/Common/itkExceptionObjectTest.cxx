@@ -64,7 +64,7 @@ int lookup(const int& i)
 }
 
 
-main()
+int main()
 {
   // SOME BASIC TESTS OF THE itk::ExceptionObject 's
   
