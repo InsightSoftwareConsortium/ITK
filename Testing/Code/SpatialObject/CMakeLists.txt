@@ -28,8 +28,10 @@ ADD_TEST( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS} itkSpatialObjectTreeContainerTest )
 ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkSurfaceSpatialObjectTest )
 ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkTubeSpatialObjectTest )
+ADD_TEST( itkArrowSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkArrowSpatialObjectTest )
 
 SET(SpatialObject_SRCS
+  itkArrowSpatialObjectTest.cxx
   itkSpatialObjectPrintTest.cxx
   itkTubeSpatialObjectTest.cxx
   itkImageSpatialObjectTest.cxx

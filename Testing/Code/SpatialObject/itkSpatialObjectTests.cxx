@@ -22,4 +22,5 @@ void RegisterTests()
   REGISTER_TEST(itkPlaneSpatialObjectTest);
   REGISTER_TEST(itkSceneSpatialObjectTest);
   REGISTER_TEST(itkSpatialObjectTreeContainerTest);
+  REGISTER_TEST(itkArrowSpatialObjectTest);
 }
