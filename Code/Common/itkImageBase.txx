@@ -233,9 +233,9 @@ ImageBase<VImageDimension>
   else
     {
     // pointer could not be cast back down
-    std::cerr << "itk::ImageBase::CopyInformation() cannot cast "
-              << typeid(data).name() << " to "
-              << typeid(ImageBase*).name() << std::endl;
+    itkErrorMacro( << "itk::ImageBase::CopyInformation() cannot cast "
+                   << typeid(data).name() << " to "
+                   << typeid(ImageBase*).name() );
     }
 }
 
@@ -345,9 +345,7 @@ ImageBase<VImageDimension>
   else
     {
     // pointer could not be cast back down
-    std::cerr << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast "
-              << typeid(data).name() << " to "
-              << typeid(ImageBase*).name() << std::endl;
+    itkErrorMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(ImageBase*).name() );
     }
 }
 
