@@ -25,7 +25,7 @@ ENDIF(WIN32)
 
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
-TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib MetaIO)
+TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib ITKMetaIO)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
 INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")

@@ -1,6 +1,4 @@
-PROJECT(MetaIO)
-
-SET ( MetaIO_SRCS
+ADD_LIBRARY(ITKMetaIO
   metaTypes.h
   metaUtils.cxx
   metaObject.cxx
@@ -14,8 +12,4 @@ SET ( MetaIO_SRCS
   metaLine.cxx
 )
 
-ADD_LIBRARY (
-  MetaIO ${MetaIO_SRCS}
-)
-
-INSTALL_TARGETS(/lib/InsightToolkit MetaIO)
+INSTALL_TARGETS(/lib/InsightToolkit ITKMetaIO)

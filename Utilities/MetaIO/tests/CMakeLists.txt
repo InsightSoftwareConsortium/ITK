@@ -1,4 +1,4 @@
-LINK_LIBRARIES( MetaIO )
+LINK_LIBRARIES( ITKMetaIO )
 
 SET( testMeta1Utils_SRCS testMeta1Utils.cxx )
 ADD_EXECUTABLE( testMeta1Utils ${testMeta1Utils_SRCS} )
