@@ -79,12 +79,12 @@ public:
   /**
    * Execute method will print data at each iteration
    */
-  void Execute(itk::LightObject *caller, unsigned long event)
+  void Execute(itk::Object *caller, unsigned long event)
   {
-    Execute( (const itk::LightObject *)caller, event);
+    Execute( (const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::LightObject *caller, unsigned long event)
+  void Execute(const itk::Object *caller, unsigned long event)
   {
     switch( event )
     {
