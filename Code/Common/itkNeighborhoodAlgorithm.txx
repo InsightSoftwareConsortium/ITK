@@ -55,9 +55,9 @@ InnerProduct<TContainer, TArray>
 ::operator()(TContainer &d, TArray &v) const
 {
   ScalarType sum = NumericTraits<ScalarType>::Zero;
-  InternalType *it;
+  ScalarType *it;
   typename TContainer::Iterator this_it;
-  const InternalType *_end = &(v[v.Size()]);
+  const ScalarType *_end = &(v[v.Size()]);
   
   for (it = &(v[0]), this_it = d.begin(); it < _end; ++it, ++this_it)
     {
@@ -72,11 +72,11 @@ InnerProduct<TContainer, TArray>
 ::operator()(std::slice &s, TContainer &d, TArray &v) const
 {
   ScalarType sum = NumericTraits<ScalarType>::Zero;
-  InternalType *it;
+  ScalarType *it;
   typename TContainer::SliceIteratorType slice_it(&d, s);
 
   slice_it = slice_it.Begin();;
-  const InternalType *itEnd = &(v[v.Size()]);
+  const ScalarType *itEnd = &(v[v.Size()]);
   for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
       sum += *it * *slice_it;
