@@ -75,7 +75,7 @@ int main( int argc, char **argv )
   //
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
+  typedef  itk::ImageFileReader< InputImageType > ReaderType;
   typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -152,7 +152,7 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
   VoronoiSegmentationFilterType::Pointer voronoisegmenter = 
-                                 VoronoiSegmentationImageFilter::New();
+                                 VoronoiSegmentationFilterType::New();
   
   voronoisegmenter->SetInput( reader->GetOutput() );
   voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
