@@ -290,6 +290,21 @@ Examples of these types of segmentation methods in ITK include: curvature flow-b
  
  */
 
+
+/**
+\defgroup Iterators Iterators
+Iterators are the mechanism used to walk over the content of a particular data object.
+They allow to define paths and directions along which the data should be walked through.
+*/
+
+/**
+\defgroup ImageIterators Image Iterators
+\ingroup Iterators
+Image Iterators allow to go through the content of an image in a predefined way.
+*/
+
+
+
 /**
   \defgroup Numerics Numerics
  
