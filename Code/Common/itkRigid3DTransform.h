@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkTransform.h"
 #include "itkExceptionObject.h"
 #include "vnl/vnl_quaternion.h"
+#include "itkMatrix.h"
 
 
 
@@ -62,11 +63,12 @@ namespace itk
  *
  **/
 
-template <
-    class TScalarType=double,    // Data type for scalars (float or double)
-    unsigned int NDimensions=3 > // Number of dimensions
+template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT Rigid3DTransform : 
-            public Transform< TScalarType, NDimensions >
+            public Transform< TScalarType, 
+                              3, 3,       // Dimensions of input and output spaces
+                              Point< double, 7 >, // a quaternion plus a vector
+                              Matrix<double, 3, 7 > >
 {
 public:
 
@@ -78,51 +80,63 @@ public:
     /// Standard scalar type for this class
     typedef TScalarType ScalarType;
 
-    /// Dimension of the domain space
-    enum { SpaceDimension     = NDimensions };
+    /// Dimension of the space
+    enum { SpaceDimension = 3 };
+
+
+    /**
+     * Standard "Superclass" typedef.
+     */
+    typedef Transform< TScalarType, 3, 3,
+                       Point< double, 7 >, 
+                       Matrix< double, 3, 7 > >   Superclass;
+
+
+    /** 
+     * Smart pointer typedef support 
+     */
+    typedef SmartPointer<Self>        Pointer;
+    typedef SmartPointer<const Self>  ConstPointer;
+
+
+    /** 
+     * Run-time type information (and related methods).
+     */
+    itkTypeMacro( Rigid3DTransform, Transform );
+
+
+    /** 
+     * New macro for creation of through a Smart Pointer
+     */
+    itkNewMacro( Self );
+
 
     /// Standard matrix type for this class
-    typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> MatrixType;
+    typedef Matrix<ScalarType, SpaceDimension, SpaceDimension> MatrixType;
 
     /// Standard vector type for this class
-    typedef Vector<TScalarType, SpaceDimension> VectorType;
+    typedef Vector<TScalarType, SpaceDimension> OffsetType;
+
+    /// Standard vector type for this class
+    typedef Vector<TScalarType, SpaceDimension> InputVectorType;
+    typedef Vector<TScalarType, SpaceDimension> OutputVectorType;
 
     /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
+    typedef CovariantVector<TScalarType, SpaceDimension> InputCovariantVectorType;
+    typedef CovariantVector<TScalarType, SpaceDimension> OutputCovariantVectorType;
 
     /// Standard vnl_vector type for this class
-    typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
+    typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
 
     /// Standard coordinate point type for this class
     typedef Point<TScalarType, SpaceDimension>    InputPointType;
+    typedef Point<TScalarType, SpaceDimension>    OutputPointType;
 
-    /// The output space is also 3D
-    typedef InputPointType                        OutputPointType;
 
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
-    /**
-     * Construct an Rigid3DTransform object
-     *
-     **/
-    Rigid3DTransform(
-              const VectorType &offset, 
-              const VnlQuaternionType & rotation);
-    Rigid3DTransform();
-
-    /**
-     * Copy a Rigid3DTransform object
-     *
-     * This method creates a new Rigid3DTransform object and
-     * initializes it to be a copy of an existing Rigid3DTransform.
-     **/
-    Rigid3DTransform(const Self & other);
-
-    /**
-     * Destroy an Rigid3DTransform object
-     **/
-    ~Rigid3DTransform();
 
     /**
      * Get offset of an Rigid3DTransform
@@ -130,7 +144,7 @@ public:
      * This method returns the value of the offset of the
      * Rigid3DTransform.
      **/
-    const VectorType & GetOffset() const
+    const OffsetType & GetOffset(void) const
         { return m_Offset; }
 
 
@@ -140,7 +154,7 @@ public:
      * This method returns the value of the rotation of the
      * Rigid3DTransform.
      **/
-    const VnlQuaternionType & GetRotation() const
+    const VnlQuaternionType & GetRotation(void) const
         { return m_Rotation; }
 
     /**
@@ -149,33 +163,38 @@ public:
      * This method returns the value of the rotation of the
      * Rigid3DTransform.
      **/
-    const MatrixType & GetRotationMatrix() const
+    const MatrixType & GetRotationMatrix(void) const
       { return m_DirectMatrix; }
 
 
     /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
-
-
-    /**
-     * Set offset of an Translation Transform
+     * Set offset of a Rigid3D Transform
      *
      * This method sets the offset of an Rigid3DTransform to a
      * value specified by the user.
      **/
-    void SetOffset(const VectorType &offset)
+    void SetOffset(const OffsetType &offset)
         { m_Offset = offset; return; }
 
 
     /**
-     * Set Rotatoin of an Translation Transform
+     * Set Rotation of the Rigid transform
      *
      * This method sets the rotation of an Rigid3DTransform to a
      * value specified by the user.
      **/
     void SetRotation(const VnlQuaternionType &rotation);
+
+
+    /**
+     * Set Rotation of the Rigid transform
+     *
+     * This method sets the rotation of an Rigid3DTransform to a
+     * value specified by the user using the axis of rotation an
+     * the angle
+     **/
+    void SetRotation(const Vector<TScalarType,3> &axis, double angle);
+
 
 
     /**
@@ -199,7 +218,7 @@ public:
      * origin.  The translation is precomposed with self if pre is
      * true, and postcomposed otherwise.
      **/
-    void Translate(const VectorType &offset, bool pre=0);
+    void Translate(const OffsetType &offset, bool pre=0);
 
     /**
      * Compose the transformation with a rotation
@@ -209,7 +228,7 @@ public:
      * true, and postcomposed otherwise.
      **/
     void Rotate(const VnlQuaternionType &offset, bool pre=0);
-    void Rotate(const VectorType & axis, TScalarType angle );
+    void Rotate(const InputVectorType & axis, TScalarType angle );
 
     /**
      * Transform by an affine transformation
@@ -219,11 +238,11 @@ public:
      * vector.
      **/
     OutputPointType     TransformPoint(const InputPointType  &point ) const;
-    VectorType    TransformVector(const VectorType &vector) const;
-    VnlVectorType TransformVector(const VnlVectorType &vector) const;
+    OutputVectorType    TransformVector(const InputVectorType &vector) const;
+    OutputVnlVectorType TransformVnlVector(const InputVnlVectorType &vector) const;
 
-    CovariantVectorType TransformVector(
-                                   const CovariantVectorType &vector) const;
+    OutputCovariantVectorType TransformVector(
+                                   const InputCovariantVectorType &vector) const;
 
     /**
      * Back transform by an affine transformation
@@ -233,11 +252,11 @@ public:
      * self.  If no such point exists, an exception is thrown.
      **/
     inline InputPointType      BackTransform(const OutputPointType  &point ) const;
-    inline VectorType          BackTransform(const VectorType &vector) const;
-    inline VnlVectorType       BackTransform(const VnlVectorType &vector) const;
+    inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
+    inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
 
-    inline CovariantVectorType BackTransform(
-                                       const CovariantVectorType &vector) const;
+    inline InputCovariantVectorType BackTransform(
+                                       const OutputCovariantVectorType &vector) const;
     /**
      * Print contents of an Rigid3DTransform
      **/
@@ -250,7 +269,7 @@ public:
      * which is the inverse of self.  If self is not invertible,
      * an exception is thrown.
      **/
-    Rigid3DTransform Inverse();
+    Rigid3DTransform Inverse( void ) const;
    
     /**
      * Set the center of Rotation of the transformation
@@ -263,10 +282,37 @@ public:
     const double* GetCenterOfRotation(void);
 
 
+protected:
+    /**
+     * Construct an Rigid3DTransform object
+     *
+     **/
+    Rigid3DTransform();
+
+    /**
+     * Copy a Rigid3DTransform object
+     *
+     * This method creates a new Rigid3DTransform object and
+     * initializes it to be a copy of an existing Rigid3DTransform.
+     **/
+    Rigid3DTransform(const Self & other);
+
+    /**
+     * Destroy an Rigid3DTransform object
+     **/
+    ~Rigid3DTransform();
+
+
+    /**
+     * Assignment operator
+     **/
+    const Self & operator=( const Self & );
+
+
 private:
 
     // Offset of the transformation
-    VectorType          m_Offset;   
+    OffsetType          m_Offset;   
 
     // Rotation of the transformation
     VnlQuaternionType   m_Rotation; 
@@ -289,13 +335,13 @@ private:
  * Rigid3DTransform as n vector.
  **/
                                                               
- template<class ScalarType, unsigned int NDimensions>
+ template<class ScalarType >
  inline
  std::ostream &
- operator<< (std::ostream &s, Rigid3DTransform<ScalarType, NDimensions> &affine)
+ operator<< (std::ostream &s, Rigid3DTransform<ScalarType > &rigid)
  {
-   s << m_Offset << std::endl;
-   s << m_Rotation << std::endl;
+   s << rigid.m_Offset << std::endl;
+   s << rigid.m_Rotation << std::endl;
    return s;
  }
 
