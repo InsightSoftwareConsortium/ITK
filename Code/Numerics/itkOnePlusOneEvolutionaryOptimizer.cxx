@@ -29,6 +29,7 @@ OnePlusOneEvolutionaryOptimizer
 {
   m_Initialized = false ;
   m_Epsilon = (double) 1.5e-4  ; 
+  m_RandomGenerator = 0 ;
 }
 
 OnePlusOneEvolutionaryOptimizer

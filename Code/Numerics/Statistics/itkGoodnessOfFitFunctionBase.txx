@@ -29,6 +29,7 @@ GoodnessOfFitFunctionBase< TInputHistogram >
   m_Epsilon = 1e-20 ;
   m_LogEpsilon = log(m_Epsilon) ;
 
+  m_UseExpectedHistogram = true ;
   m_ObservedHistogram = 0 ;
   m_ExpectedHistogram = 0 ;
 }
