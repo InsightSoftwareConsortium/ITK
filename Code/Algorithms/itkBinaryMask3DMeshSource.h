@@ -21,6 +21,7 @@
 #include "itkMesh.h"
 #include "itkMeshSource.h"
 #include "itkVector.h"
+#include "itkCellInterface.h"
 #include "itkTriangleCell.h"
 #include "itkCovariantVector.h"
 #include "itkDefaultStaticMeshTraits.h"
@@ -74,7 +75,8 @@ public:
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  typedef TriangleCell<OPixelType, CellTraits> TriCell;
+  typedef CellInterface<OPixelType, CellTraits>  TCellInterface;
+  typedef TriangleCell<TCellInterface> TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
 
