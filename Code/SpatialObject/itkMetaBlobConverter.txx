@@ -145,6 +145,12 @@ MetaBlobConverter<NDimensions>
   }
   Blob->NPoints(Blob->GetPoints().size());
 
+  
+  for(unsigned int i=0;i<NDimensions;i++)
+  {
+    Blob->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+  }
+
   return Blob;
 }
 
