@@ -61,7 +61,7 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template <class TScalarType,         // Data type for scalars (float or double)
+template <class TScalarType = double,   // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions
 class ElasticBodySplineKernelTransform : public KernelTransform<TScalarType, NDimensions,
                                                   vnl_vector<TScalarType>,
