@@ -58,20 +58,29 @@ public:
   itkTypeMacro( Self, Superclass );
 
   /** Return a SpatialObjectPoint given its position in the list */
-  virtual const SpatialObjectPointType* GetPoint(unsigned long itkNotUsed(id)) const
+  virtual const SpatialObjectPointType* 
+    GetPoint(unsigned long itkNotUsed(id)) const
     {
-    itkWarningMacro(<<"PointBasedSpatialObject::GetPoint() is not implemented in the base class" << std::endl);
+    itkWarningMacro(<<"PointBasedSpatialObject::GetPoint() is not implemented"
+                    <<" in the base class" << std::endl);
     return 0;
     }
 
   /** Return the number of points in the list */
   virtual unsigned long GetNumberOfPoints(void) const
     {
+    itkWarningMacro(<<"PointBasedSpatialObject::GetNumberOfPoints() is not"
+                    <<" implemented in the base class" << std::endl);
     return 0;
     }
 
   /**  */
-  bool ComputeLocalBoundingBox() const {return false;}
+  bool ComputeLocalBoundingBox() const 
+    {
+    itkWarningMacro(<<"PointBasedSpatialObject::ComputeLocalBoundingBox() is"
+                    <<" not implemented in the base class" << std::endl);
+    return false;
+    }
 
 protected:
 
