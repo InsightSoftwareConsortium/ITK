@@ -101,6 +101,7 @@ public:
   /** Set/Get if the distance should be squared. Default is true for computation speed */
   itkSetMacro(ComputeSquaredDistance,bool);
   itkGetMacro(ComputeSquaredDistance,bool);
+  itkBooleanMacro(ComputeSquaredDistance);
 
 protected:
   EuclideanDistancePointMetric();
