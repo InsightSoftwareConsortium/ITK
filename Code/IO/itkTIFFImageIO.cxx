@@ -733,10 +733,22 @@ public:
 
   static toff_t TIFFSeek(thandle_t fd, toff_t off, int whence) 
     {
+#ifdef __sgi
+    int need;
+#endif
     std::ostream *out = reinterpret_cast<std::ostream *>(fd);
     switch (whence) 
       {
       case SEEK_SET:
+#ifdef __sgi
+        out->seekp(0, std::ios::end);
+        need = static_cast<int>(off) - static_cast<int>(out->tellp());
+        if (need > 0)
+          {
+          char buf[1] = {'\0'};
+          for (int ii = 0; ii < need; ii++) out->write(buf,1);
+          }
+#endif
         out->seekp(off, std::ios::beg);
         break;
       case SEEK_END:
@@ -877,13 +889,15 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
-  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP,
-    TIFFDefaultStripSize(tif, rowsperstrip));
-  if (resolution > 0) {
+  TIFFSetField(tif,
+               TIFFTAG_ROWSPERSTRIP,
+               TIFFDefaultStripSize(tif, rowsperstrip));
+  if (resolution > 0)
+    {
     TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution);
     TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-  }
+    }
 
 
 
@@ -908,13 +922,13 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
   int row = 0;
   for (unsigned int idx2 = 0; idx2 < height; idx2++)
     {
-       if ( TIFFWriteScanline(tif, const_cast<unsigned char*>(outPtr), row, 0) < 0)
-        {
-        std::cout << "TIFFImageIO: error out of disk space" << std::endl;
-        break;
-        }
-      outPtr += rowLength;
-      row ++;
+    if ( TIFFWriteScanline(tif, const_cast<unsigned char*>(outPtr), row, 0) < 0)
+      {
+      std::cout << "TIFFImageIO: error out of disk space" << std::endl;
+      break;
+      }
+    outPtr += rowLength;
+    row ++;
     }
 
   TIFFClose(tif);
