@@ -265,13 +265,41 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
         TOutputImage::Pointer  outputImage(   GetOutput()        );
     
  
-  // Initialize the output image
-  outputImage->SetImageSize( inputImage->GetImageSize()  );
-  outputImage->SetBufferSize( inputImage->GetBufferSize() );
-  outputImage->Allocate();
-  outputImage->SetImageStartIndex( inputImage->GetImageStartIndex() );
-  outputImage->SetBufferStartIndex( inputImage->GetBufferStartIndex() );
- 
+  bool needToAllocate = false;
+
+
+  const unsigned long * inputImageSize   = inputImage->GetImageSize();
+  const unsigned long * outputImageSize  = outputImage->GetImageSize();
+  const unsigned long * inputBufferSize  = inputImage->GetBufferSize();
+  const unsigned long * outputBufferSize = outputImage->GetImageSize();
+
+  unsigned int i = 0;
+
+  for( i=0; i < TInputImage::ImageDimension; i++ ) 
+  {
+    if( inputImageSize[i] != outputImageSize[i] )
+    {
+	  needToAllocate = true;
+	  break;
+	}	
+
+	if( inputBufferSize[i] != outputBufferSize[i] )
+	{
+	  needToAllocate = true;
+	  break;
+	}	    
+
+  }
+
+
+  if( needToAllocate )
+  {       
+    outputImage->SetImageSize( inputImage->GetImageSize()  );
+    outputImage->SetBufferSize( inputImage->GetBufferSize() );
+    outputImage->Allocate();
+    outputImage->SetImageStartIndex( inputImage->GetImageStartIndex() );
+    outputImage->SetBufferStartIndex( inputImage->GetBufferStartIndex() );
+  }
  
   const unsigned int imageDimension = inputImage->GetImageDimension();
 
