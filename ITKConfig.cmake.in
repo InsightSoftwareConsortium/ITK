@@ -1,3 +1,62 @@
+#-----------------------------------------------------------------------------
+#
+# ITKConfig.cmake - ITK CMake configuration file for external projects.
+#
+# The following variables are defined to help external projects use ITK:
+#
+# ITK_VERSION_STRING    - The ITK version number in "major.minor" format.
+#
+# ITK_INCLUDE_DIRS      - Include directories for ITK headers.
+# ITK_LIBRARY_DIRS      - Link directories for ITK libraries.
+# ITK_DEFINITIONS       - Preprocessor macros needed for including ITK headers.
+# ITK_LIBRARIES         - Link libraries for all of ITK.
+#
+# ITK_Common_LIBS       - Link libraries for Common components of ITK.
+# ITK_BasicFilters_LIBS - Link libraries for BasicFilters components of ITK.
+# ITK_Numerics_LIBS     - Link libraries for Numerics components of ITK.
+# ITK_Algorithms_LIBS   - Link libraries for Algorithms components of ITK.
+# ITK_Statistics_LIBS   - Link libraries for Statistics components of ITK.
+# ITK_IO_LIBS           - Link libraries for IO components of ITK.
+# ITK_FEM_LIBS          - Link libraries for FEM components of ITK.
+#
+# ITK_C_COMPILER        - The C compiler used to build ITK.
+# ITK_C_FLAGS           - The C compiler flags used to build ITK.
+# ITK_CXX_COMPILER      - The C++ compiler used to build ITK.
+# ITK_CXX_FLAGS         - The C++ compiler flags used to build ITK.
+# ITK_BUILD_SHARED      - True if ITK libraries were built as shared libraries.
+#
+# Since ITK is written in C++, the same compiler and settings that
+# were used to build ITK should be used to build the external project.
+# The following variables are set if the current C++ compiler settings
+# differ from those used to build ITK.  The project including this
+# file should complain if either of these variables are set, as it is
+# unlikely that the build will succeed:
+#
+# ITK_CXX_FLAGS_MISMATCH    - True if CMAKE_CXX_FLAGS do not match ITK's.
+# ITK_CXX_COMPILER_MISMATCH - True if CMAKE_CXX_COMPILER does not match ITK's.
+#
+# Only the variables listed above should be used by a third-party
+# project.  Others may be removed or replaced in the future.
+#
+# This file can be included by a project using ITK like this:
+#
+# INCLUDE(${ITK_DIR}/ITKConfig.cmake)
+#
+# Then, in order to use ITK classes, use these lines:
+#
+# INCLUDE_DIRECTORIES(${ITK_INCLUDE_DIRS})
+# LINK_DIRECTORIES(${ITK_LIBRARY_DIRS})
+# ADD_DEFINITIONS(${ITK_DEFINITIONS})
+#
+# To link an executable that uses ITK components, use
+#
+# TARGET_LINK_LIBRARIES(MyExecutable ${ITK_LIBRARIES})
+#
+# Advanced users can fine-tune the libraries that are linked by using
+# the ITK_*_LIBS settings described above.
+#
+#-----------------------------------------------------------------------------
+
 # The ITK include file directories.
 SET(ITK_INCLUDE_DIRS "@ITK_INCLUDE_DIRS@")
 
@@ -26,19 +85,13 @@ SET(ITK_CXX_FLAGS "@CMAKE_CXX_FLAGS@")
 SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
 
 # Whether ITK was built with shared libraries.
-SET(ITK_BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
+SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 
 # The thread libraries used to build ITK.
 SET(ITK_THREAD_LIBS "@CMAKE_THREAD_LIBS@")
 
 # The dl libraries used to build ITK.
 SET(ITK_DL_LIBS "@CMAKE_DL_LIBS@")
-
-# Whether ITK was built with Tcl wrapping.
-SET(ITK_WRAP_TCL "@ITK_WRAP_TCL@")
-
-# Whether ITK was built with CMAKE_USE_PTHREADS.
-SET(ITK_USE_PTHREADS "@CMAKE_USE_PTHREADS@")
 
 # The list of libraries needed for using components of each library.
 SET(ITK_stdlib_LIBS        "@ITK_stdlib_LIB@")
@@ -58,6 +111,11 @@ SET(ITK_IO_LIBS ITKIO      ITKMetaIO       ${ITK_Common_LIBS}
 SET(ITK_FEM_LIBS           ITKFEM          ${ITK_BasicFilters_LIBS}
                                            ${ITK_Numerics_LIBS}
                                            ${ITK_IO_LIBS})
+
+# A list of all libraries for ITK.
+SET(ITK_LIBRARIES ${ITK_Algorithms_LIBS}
+                  ${ITK_Statistics_LIBS}
+                  ${ITK_FEM_LIBS})
 
 # Check if the compiler matches the one used to build ITK.
 IF(CMAKE_CXX_COMPILER STRLESS ITK_CXX_COMPILER)
