@@ -57,7 +57,7 @@ class ITK_EXPORT BinaryMaskToNarrowBandPointSetFilter :
 public:
   /** Standard class typedefs. */
   typedef BinaryMaskToNarrowBandPointSetFilter  Self;
-  typedef  ProcessObject                Superclass;
+  typedef ImageToMeshFilter                Superclass;
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
 
