@@ -4,8 +4,8 @@
 
 const unsigned int HEIGHT = (128);
 const unsigned int WIDTH  = (128);
-const unsigned int LOW    = (34);
-const unsigned int HIGH   = (94);
+const int LOW    = (34);
+const int HIGH   = (94);
 
 int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
 {
