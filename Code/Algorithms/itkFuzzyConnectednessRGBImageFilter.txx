@@ -18,11 +18,10 @@
 
 #include "vnl/vnl_math.h"
 #include "itkSimpleImageRegionIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk{
 
-const int MAXUSHORT = 65535;
-const double myPI = 3.1415926;
 
 /**
  *
@@ -110,12 +109,10 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 			  + s02*(m_Var_inverse[0][2]+m_Var_inverse[2][0])
 			  + s12*(m_Var_inverse[1][2]+m_Var_inverse[2][1]);
 
-  double tmp2 = 8*myPI*myPI*myPI;
 
   if(m_Weight == 1)
   {
-//    return( MAXUSHORT*(exp(-0.5*tmp1))/sqrt(tmp2*m_Var_Det) );
-    return( MAXUSHORT*(exp(-0.5*tmp1)) );
+    return( (NumericTraits<unsigned short>::max())*(exp(-0.5*tmp1)) );
   }
   else{
     save[0] = f1[0]-f2[0];
@@ -145,9 +142,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 			    + s02*(m_Diff_Var_inverse[0][2]+m_Diff_Var_inverse[2][0])
 			    + s12*(m_Diff_Var_inverse[1][2]+m_Diff_Var_inverse[2][1]);
 
-//	return( MAXUSHORT*(m_Weight*exp(-0.5*tmp1)/sqrt(tmp2*m_Var_Det)  
-//	                  +(1-m_Weight)*exp(-0.5*tmp3)/sqrt(tmp2*m_Diff_Var_Det)) );
-	return( MAXUSHORT*(m_Weight*exp(-0.5*tmp1)  
+	return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
 	                  +(1-m_Weight)*exp(-0.5*tmp3)) );
 	}
 }
@@ -244,7 +239,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
   UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
   
-  double activeThreshold = MAXUSHORT * m_Threshold;
+  double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
 
 
   SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, regionIN);
@@ -360,7 +355,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   m_SegmentObject->Allocate();  
 
   PushNeighbors(m_Seed);
-  m_FuzzyScene->SetPixel(m_Seed,MAXUSHORT);
+  m_FuzzyScene->SetPixel(m_Seed,NumericTraits<unsigned short>::max());
 
   while(! m_Queue.empty())
   {

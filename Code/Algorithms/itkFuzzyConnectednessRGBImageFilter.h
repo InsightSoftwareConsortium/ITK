@@ -186,7 +186,7 @@ protected:
 
 private:
   double m_Mean[3];
-  double m_Var[3][3];
+  double m_Var[3][3]; //covariance matrix of the RGB channels.(estimated)
   double m_Diff_Mean[3];
   double m_Diff_Var[3][3];
   double m_Var_inverse[3][3];
