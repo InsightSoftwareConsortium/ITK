@@ -37,8 +37,8 @@ INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 
 #-----------------------------------------------------------------------------
 # Output directories.
-SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
-SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
+SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
+SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 SET(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
 SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
@@ -60,7 +60,9 @@ UTILITY_SOURCE(GCCXML gccxml Utilities/CableSwig/GCC_XML/xml.c)
 
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
-OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
+# Java support is not complete and the option should not be used
+# until it has been completed.
+#OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
 
 SET(ITK_NEEDS_SHARED_LIBS 0)
 IF(ITK_CSWIG_TCL)
