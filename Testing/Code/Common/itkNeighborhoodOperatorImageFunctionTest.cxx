@@ -32,7 +32,7 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   typedef float  PixelType; 
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::GaussianOperator<PixelType,3>      NeighborhoodOperatorType;
-  typedef itk::NeighborhoodOperatorImageFunction< ImageType,double> FunctionType;
+  typedef itk::NeighborhoodOperatorImageFunction< ImageType,PixelType> FunctionType;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
