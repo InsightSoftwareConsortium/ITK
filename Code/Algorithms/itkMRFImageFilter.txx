@@ -44,11 +44,7 @@ template<class TInputImage, class TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::~MRFImageFilter(void)
 {
-  delete [] m_WidthOffset;
-  delete [] m_HeightOffset;
-  delete [] m_DepthOffset;
-  delete [] m_Beta3x3x3;
-  if( m_LabelStatus ) delete [] m_LabelStatus;
+
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -240,7 +236,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_ImageHeight = static_cast<int>(inputImageSize[1]);
   m_ImageDepth  = static_cast<int>(inputImageSize[2]);
  
-  m_LabelStatus = new unsigned int[m_ImageWidth*m_ImageHeight*m_ImageDepth]; 
+  m_LabelStatus.resize( m_ImageWidth*m_ImageHeight*m_ImageDepth ); 
+  
   for( int index = 0; 
        index < ( m_ImageWidth * m_ImageHeight * m_ImageDepth ); 
        index++ ) 
@@ -263,10 +260,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   //Allocate memory for the weights of the 3D MRF algorithm
   // and corresponding memory offsets.
-  m_WidthOffset     = (int *)   new int   [m_KernelSize];
-  m_HeightOffset    = (int *)   new int   [m_KernelSize];
-  m_DepthOffset     = (int *)   new int   [m_KernelSize];
-  m_Beta3x3x3       = (double *)new double[m_KernelSize];
+  m_WidthOffset.resize(  m_KernelSize );
+  m_HeightOffset.resize( m_KernelSize );
+  m_DepthOffset.resize(  m_KernelSize );
+
+  m_Beta3x3x3.resize( m_KernelSize );
 
 
   for( int i = 0; i < 9; i++ ) 
@@ -316,10 +314,12 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_KernelSize = kernelSize;
   //Allocate memory for the weights of the 3D MRF algorithm
   // and corresponding memory offsets.
-  m_WidthOffset     = (int *)   new int   [m_KernelSize];
-  m_HeightOffset    = (int *)   new int   [m_KernelSize];
-  m_DepthOffset     = (int *)   new int   [m_KernelSize];
-  m_Beta3x3x3       = (double *)new double[m_KernelSize];
+
+  m_WidthOffset.resize(  m_KernelSize );
+  m_HeightOffset.resize( m_KernelSize );
+  m_DepthOffset.resize(  m_KernelSize );
+
+  m_Beta3x3x3.resize( m_KernelSize );
 
   for( unsigned int i = 0; i < m_KernelSize; i++ ) 
     m_Beta3x3x3[i] = *betaMatrix++;
@@ -333,10 +333,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_KernelSize = betaMatrix.size();
   //Allocate memory for the weights of the 3D MRF algorithm
   // and corresponding memory offsets.
-  m_WidthOffset     = (int *)   new int   [m_KernelSize];
-  m_HeightOffset    = (int *)   new int   [m_KernelSize];
-  m_DepthOffset     = (int *)   new int   [m_KernelSize];
-  m_Beta3x3x3       = (double *)new double[m_KernelSize];
+  
+  m_WidthOffset.resize(  m_KernelSize );
+  m_HeightOffset.resize( m_KernelSize );
+  m_DepthOffset.resize(  m_KernelSize );
+  m_Beta3x3x3.resize( m_KernelSize );
 
   for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
     m_Beta3x3x3[i] = betaMatrix[i];
@@ -407,7 +408,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //---------------------------------------------------------------------
 
   int offset;
-  double *neighborInfluence = (double *) new double[m_NumberOfClasses + 1];
+  std::vector<double> neighborInfluence;
+  neighborInfluence.resize( m_NumberOfClasses + 1 ); 
 
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
@@ -427,7 +429,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   int imageFrame = m_ImageWidth * m_ImageHeight;
 
-  double * dist = new double[m_NumberOfClasses];
+  std::vector<double> dist;
+  dist.resize( m_NumberOfClasses );   
  
   for( int d = 0; d < m_ImageDepth; d++ )
     {
@@ -444,7 +447,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         //flag check suspended
 
         inputPixelVec = inputImageIt.Get();
-        m_ClassifierPtr->GetPixelDistance( inputPixelVec, dist );
+        m_ClassifierPtr->GetPixelDistance( inputPixelVec, &(*(dist.begin())) );
                       
         for( unsigned int index = 0; index <= m_NumberOfClasses ;index++ ) 
           neighborInfluence[index]=0;
@@ -536,10 +539,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         }//end imageWidth
       }// end imageHeight
     }// end imageDepth
-
-  delete [] dist;
-  delete[] neighborInfluence;
-
 
 }//ApplyICMlabeller
 

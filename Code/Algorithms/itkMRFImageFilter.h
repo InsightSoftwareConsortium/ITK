@@ -225,14 +225,15 @@ private:
   
   typedef typename TInputImage::SizeType InputImageSizeType;
  
-  unsigned int           m_NumberOfClasses;
-  unsigned int           m_MaximumNumberOfIterations;
-  unsigned int           m_KernelSize;
-  unsigned int           *m_LabelStatus;
+  unsigned int              m_NumberOfClasses;
+  unsigned int              m_MaximumNumberOfIterations;
+  unsigned int              m_KernelSize;
+
   
-  double                 m_ErrorTolerance;
-  double                 *m_ClassProbability; //Class liklihood
-  double                 *m_Beta3x3x3;
+  double                    m_ErrorTolerance;
+  double                    *m_ClassProbability; //Class liklihood
+  std::vector<unsigned int> m_LabelStatus; 
+  std::vector<double>       m_Beta3x3x3;
 
   /** Pointer to the classifier to be used for the MRF lavbelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
@@ -246,10 +247,10 @@ private:
   int                    m_ImageWidth;
   int                    m_ImageHeight;
   int                    m_ImageDepth;
-
-  int                    *m_WidthOffset;
-  int                    *m_HeightOffset;
-  int                    *m_DepthOffset;
+  
+  std::vector<int>       m_WidthOffset;
+  std::vector<int>       m_HeightOffset;
+  std::vector<int>       m_DepthOffset;
 
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();
