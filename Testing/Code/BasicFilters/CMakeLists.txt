@@ -154,6 +154,7 @@ ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterT
 ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS}  itkReflectiveImageRegionIteratorTest )
 ADD_TEST(itkRegionOfInterestImageFilterTest ${BASIC_FILTERS_TESTS}  itkRegionOfInterestImageFilterTest )
 ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS} itkResampleImageTest)
+ADD_TEST(itkResamplePhasedArray3DSpecialCoordinatesImageTest ${BASIC_FILTERS_TESTS} itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS} itkRescaleIntensityImageFilterTest)
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleImageFilterTest)
 ADD_TEST(itkShiftScaleInPlaceImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScaleInPlaceImageFilterTest)
@@ -620,6 +621,7 @@ itkRelabelComponentImageFilterTest.cxx
 itkRemoveBoundaryObjectsTest.cxx
 itkRemoveBoundaryObjectsTest2.cxx
 itkResampleImageTest.cxx
+itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx

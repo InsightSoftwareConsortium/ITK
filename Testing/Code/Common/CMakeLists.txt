@@ -109,6 +109,7 @@ ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS} itkPathFunctionsTest)
 ADD_TEST(itkPathIteratorTest ${COMMON_TESTS} itkPathIteratorTest)
 ADD_TEST(itkPCAShapeSignedDistanceFunctionTest ${COMMON_TESTS} itkPCAShapeSignedDistanceFunctionTest)
 ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS} itkPeriodicBoundaryConditionTest)
+ADD_TEST(itkPhasedArray3DSpecialCoordinatesImageTest ${COMMON_TESTS} itkPhasedArray3DSpecialCoordinatesImageTest)
 ADD_TEST(itkPixelAccessTest ${COMMON_TESTS} itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
@@ -284,6 +285,7 @@ itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx
 itkPeriodicBoundaryConditionTest.cxx
+itkPhasedArray3DSpecialCoordinatesImageTest.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
 itkPointSetTest.cxx

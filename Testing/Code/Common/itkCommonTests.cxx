@@ -97,6 +97,7 @@ REGISTER_TEST(itkPathFunctionsTest );
 REGISTER_TEST(itkPathIteratorTest );
 REGISTER_TEST(itkPCAShapeSignedDistanceFunctionTest );
 REGISTER_TEST(itkPeriodicBoundaryConditionTest );
+REGISTER_TEST(itkPhasedArray3DSpecialCoordinatesImageTest );
 REGISTER_TEST(itkPixelAccessTest );
 REGISTER_TEST(itkPointGeometryTest );
 REGISTER_TEST(itkPointSetTest );
