@@ -184,10 +184,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   if (regionsize > 0)  // Find out home many regions we have,
     {
       result = regionsize / size;
-      if ((regionsize % size) != 0)
-	{
 	  result++;
-	}
       if (offset > 0)
 	{
 	  result = result - (offset/size);
