@@ -133,7 +133,7 @@ public:
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
-      optimizer->SetMinimumStepLength( 2.5 );
+      optimizer->SetMinimumStepLength(  0.50 );
       }
     else
       {
@@ -396,7 +396,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The array of scale is then passed to the optimizer using the
+  //  The array of scales is then passed to the optimizer using the
   //  \code{SetScales()} method.
   //
   //  \index{itk::Optimizer!SetScales()}
@@ -415,13 +415,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The step lenght has to be proportionate to the expected values of the
+  //  The step length has to be proportionate to the expected values of the
   //  parameters in the search space. Since the expected values of the matrix
   //  coefficients are around $1.0$ the initial step of the optimization should
   //  be a small number compared to $1.0$. As a guideline it is useful to think
   //  of the matrix coefficients as combinations of $cos(\theta)$ and
   //  $sin(\theta)$ this leads to use values close to the expected rotation
-  //  measured in radians.
+  //  measured in radians. A rotation of $1$ degree is about $0.017$ radians.
   //
   //  Software Guide : EndLatex 
 
@@ -430,7 +430,7 @@ int main( int argc, char **argv )
   optimizer->SetMaximumStepLength( 10.0     ); 
   optimizer->SetMinimumStepLength(  0.00001 );
 
-  optimizer->SetNumberOfIterations( 500     );
+  optimizer->SetNumberOfIterations(    50   );
   // Software Guide : EndCodeSnippet
 
   //
@@ -451,22 +451,7 @@ int main( int argc, char **argv )
 
 
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Set the number of resolution levels - uses default schedule
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
   registration->SetNumberOfLevels( 3 );
-  // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Set up an registration interface command and connect it
-  //  to the registration method.
-  //
-  //  Software Guide : EndLatex 
 
 
   try 
@@ -504,16 +489,47 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  Let's execute this example using the same multi-modality images as
-  //  before.  The registration converged after 24 iterations and produce as
-  //  result the parameters:
+  //  before.  The registration converged after $5$ iterations in the first
+  //  level, $7$ in the second level and $4$ in the third level. The final
+  //  results when printed as an array of parameters appears as
   //
   //  \begin{verbatim}
-  //  Translation X = 13.10
-  //  Translation Y = 17.19
+  // [1.00164, 0.00147688, 0.00168372, 1.0027, 12.6296, 16.4768]
   //  \end{verbatim}
+  //
+  //  By reordering them as coefficient of matrix $M$ and vector $T$
+  //  they can now be seen as
+  //
+  //  \begin{equation}
+  //  M = 
+  //  \left[ 
+  //  \begin{array}{cc}
+  //  1.00164 & 0.0014 \\ 
+  //  0.00168 & 1.0027 \\  
+  //  \end{array}
+  //  \right]
+  //  \mbox{ and }
+  //  T =
+  //  \left[ 
+  //  \begin{array}{c}
+  //  12.6296  \\ 
+  //  16.4768  \\  
+  //  \end{array} 
+  //  \right] 
+  //  \end{equation}
+  //
+  //  this last presentation of the  values makes easier to interpret the
+  //  effect of the transform. The matrix $M$ is responsible for scaling,
+  //  rotation and shearing while $T$ is responsible for eventual translations.
+  //  It can be seen that the translation values in this case match closely the
+  //  true misaligment introduced in the moving image. 
   // 
-  //  These values are very close match to the true misaligment introduced in
-  //  the moving image.
+  //  It is important to note that once the images are registered at a
+  //  sub-pixel level, any further improvement of the registration relies
+  //  heavily on the quality of the interpolator. It may be reasonable then to
+  //  use a coarse and fast interpolator in the lower resolution levels and
+  //  switch to a high quality but slow interpolator in the final resolution
+  //  level.
   //
   //  Software Guide : EndLatex 
 
@@ -575,10 +591,10 @@ int main( int argc, char **argv )
   // \label{fig:MultiResImageRegistration2Output}
   // \end{figure}
   //
-  //  The result of the resampling the moving image is presented in the left
-  //  side of Figure \ref{fig:MultiResImageRegistration2Output}. The center and right
-  //  parts of the figure present a checkerboard composite of the fixed and
-  //  moving images before and after registration.
+  //  The result of resampling the moving image is presented in the left side
+  //  of Figure \ref{fig:MultiResImageRegistration2Output}. The center and
+  //  right parts of the figure present a checkerboard composite of the fixed
+  //  and moving images before and after registration.
   //
   //  Software Guide : EndLatex 
 
