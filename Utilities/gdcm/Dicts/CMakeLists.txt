@@ -2,7 +2,7 @@
 # DICOM dictionary stuff
 
 
-INSTALL_FILES(/share/gdcm/ .dic
+INSTALL_FILES(/include/InsightToolkit/gdcm/ .dic
   dicomV3
   dicomVR
   dicomTS

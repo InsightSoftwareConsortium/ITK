@@ -68,5 +68,5 @@ ELSE(UNIX)
   ENDIF(NOT BORLAND)
 ENDIF(UNIX)
 
-INSTALL_FILES(/include/InsightToolkit "\\.h$")
+INSTALL_FILES(/include/InsightToolkit/gdcm/src "\\.h$")
 INSTALL_TARGETS(/lib/InsightToolkit itkgdcm)
