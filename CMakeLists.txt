@@ -1,14 +1,19 @@
+# This is the root ITK CMakeLists file.
+
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
+
 SOURCE_GROUP("XML Files" "\.xml$")
 
+# set up subdirectories
 SUBDIRS(Utilities Code Testing Examples)
+# Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
 IF(BUILD_UNSUPPORTED)
 SUBDIRS(Unsupported)
 ENDIF(BUILD_UNSUPPORTED)
 
-
+# set project include directories
 INCLUDE_DIRECTORIES(
 ${ITK_BINARY_DIR} 
 ${ITK_SOURCE_DIR}/Code/Numerics
@@ -19,42 +24,36 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
-IF(UNIX)
-  LINK_LIBRARIES(${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS})
-ENDIF(UNIX)
-
+# set link libraries
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Code/Common 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl )
 
+# set link libraries for project
+IF(UNIX)
+  LINK_LIBRARIES(${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS})
+ENDIF(UNIX)
 
+
+# find programs used by testing
 # look for the make program
 IF(NOT UNIX) 
   FIND_PROGRAM(MAKEPROGRAM msdev )
 ENDIF(NOT UNIX)
-FIND_PROGRAM(MAKEPROGRAM gmake )
-FIND_PROGRAM(MAKEPROGRAM make )
-
+FIND_PROGRAM(MAKEPROGRAM gmake make )
 FIND_PROGRAM(CVSCOMMAND cvs )
-
 FIND_PROGRAM(GREPCOMMAND grep )
-
-FIND_PROGRAM(COMPRESSIONCOMMAND gzip)
-FIND_PROGRAM(COMPRESSIONCOMMAND compress)
-FIND_PROGRAM(COMPRESSIONCOMMAND zip )
-
+FIND_PROGRAM(COMPRESSIONCOMMAND NAMES gzip compress zip )
 FIND_PROGRAM(GUNZIPCOMMAND gunzip )
+FIND_PROGRAM(JAVACOMMAND java )
+
+# find a tcl shell command
 IF (UNIX)
   FIND_PROGRAM(TCLSHCOMMAND cygtclsh80 )
 ENDIF(UNIX)
-FIND_PROGRAM(JAVACOMMAND java )
-FIND_PROGRAM(TCLSHCOMMAND tclsh )
-FIND_PROGRAM(TCLSHCOMMAND tclsh83)
-FIND_PROGRAM(TCLSHCOMMAND tclsh8.3)
-FIND_PROGRAM(TCLSHCOMMAND tclsh82)
-FIND_PROGRAM(TCLSHCOMMAND tclsh8.2)
-FIND_PROGRAM(TCLSHCOMMAND tclsh80 )
-FIND_PROGRAM(TCLSHCOMMAND tclsh8.0 )
+FIND_PROGRAM(TCLSHCOMMAND 
+             NAMES tclsh tclsh83 tclsh8.3 tclsh82 tclsh8.2 tclsh80 tclsh8.0 
+             )
 FIND_PROGRAM(HOSTNAME hostname /usr/bsd /usr/sbin /usr/bin /bin /sbin)
 FIND_PROGRAM(NSLOOKUP nslookup /usr/bin /usr/sbin /usr/local/bin)
 
@@ -74,9 +73,11 @@ CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Code/doxygen.config.in
 ${ITK_BINARY_DIR}/Code/doxygen.config)
 
+# make directories in the binary tree
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME})
 
+# run VXL configure scripts
 IF(RUN_CONFIGURE)
   EXEC_PROGRAM(${ITK_SOURCE_DIR}/Code/Numerics/vxl/configure 
                ${ITK_BINARY_DIR}/Code/Numerics/vxl)
@@ -84,6 +85,7 @@ IF(RUN_CONFIGURE)
                ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
 ENDIF(RUN_CONFIGURE)
 
+# for win32 vc60, just copy files
 IF(NOT UNIX)
   IF(WIN32)
     CONFIGURE_FILE_NOAUTOCONF(
@@ -101,7 +103,7 @@ IF(NOT UNIX)
   ENDIF(WIN32)
 ENDIF(NOT UNIX)
 
-
+# configure files
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
 ${ITK_BINARY_DIR}/Testing/Utilities/Utility.conf )
@@ -126,12 +128,12 @@ CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
 ${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl COPYONLY)
 
-
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
 ${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl COPYONLY)
 
 
+# add testing targets
 ADD_CUSTOM_TARGET(Nightly 
 "${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start Build Test Submit")
 ADD_CUSTOM_TARGET(NightlyBuild 
@@ -156,7 +158,6 @@ ADD_CUSTOM_TARGET(ExperimentalSubmit
 "${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Submit")
 ADD_CUSTOM_TARGET(Experimental 
 "${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Start Build Test Submit")
-
 
 # Find the CABLE utility.
 UTILITY_SOURCE(CABLE cable Utilities/Cable/Executables)
