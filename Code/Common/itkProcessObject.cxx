@@ -274,10 +274,11 @@ ProcessObject
     this->SetNthOutput(idx, newOutput);
 
     // If we had an output object before, copy the requested region
-    // ivars to the the new output
+    // ivars and release data flag to the the new output
     if (oldOutput)
       {
       newOutput->SetRequestedRegion( oldOutput );
+      newOutput->SetReleaseDataFlag( oldOutput->GetReleaseDataFlag() );
       }
     }
 

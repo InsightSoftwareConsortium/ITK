@@ -220,6 +220,9 @@ DataObject
 {
   itkDebugMacro( "disconnecting from the pipeline." );
 
+  // set our release data flag to off by default
+  const_cast<DataObject*>(this)->ReleaseDataFlagOff();
+  
   // disconnect ourselves from the current process object
   if (m_Source)
     {
@@ -230,33 +233,48 @@ DataObject
 }
 
 
-void
+bool
 DataObject
 ::DisconnectSource(ProcessObject *arg, unsigned int idx) const
 {
-  itkDebugMacro( "disconnecting source  " << arg
-                 << ", source output index " << idx);
-
   if ( m_Source == arg && m_SourceOutputIndex == idx)
     {
+    itkDebugMacro( "disconnecting source  " << arg
+                   << ", source output index " << idx);
+
     m_Source = 0;
     m_SourceOutputIndex = 0;
     this->Modified();
+    return true;
+    }
+  else
+    {
+    itkDebugMacro( "could not disconnect source  " << arg
+                   << ", source output index " << idx);
+    return false;
     }
 }
 
-void
+bool
 DataObject
 ::ConnectSource(ProcessObject *arg, unsigned int idx) const
 {
-  itkDebugMacro( "connecting source  " << arg
-                 << ", source output index " << idx);
-
   if ( m_Source != arg || m_SourceOutputIndex != idx)
     {
+    itkDebugMacro( "connecting source  " << arg
+                   << ", source output index " << idx);
+
     m_Source = arg;
     m_SourceOutputIndex = idx;
     this->Modified();
+    return true;
+    }
+  else
+    {
+    itkDebugMacro( "could not connect source  " << arg
+                   << ", source output index " << idx);
+
+    return false;
     }
 }
 
