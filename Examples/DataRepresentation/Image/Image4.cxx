@@ -107,6 +107,27 @@ int main()
 
 
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  // The spacing information can be retrieved from an image by using the
+  // \code{GetSpacing()} method. This method returns a pointer to a static
+  // array of \code{double}. The returned pointer can then be used to read the
+  // content of the array.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  const double * sp = image->GetSpacing();  
+
+  std::cout << "Spacing = ";
+  std::cout << sp[0] << ", " << sp[1] << ", " << sp[2] << std::endl;
+  // Software Guide : EndCodeSnippet
+
+
+
+
   // Software Guide : BeginLatex
   //
   // Image origin is managed in a similar way to the spacing.
@@ -137,6 +158,26 @@ int main()
 
   image->SetOrigin( origin );
   // Software Guide : EndCodeSnippet 
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The origin can also be retrieved from an image by using the
+  //  \code{GetOrigin()} method. This will return a pointer to an internal
+  //  array of \code{doubles}. The pointer can be used to read the content of
+  //  the array.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  const double * orgn = image->GetOrigin();
+
+  std::cout << "Origin = ";
+  std::cout << orgn[0] << ", " << orgn[1] << ", " << orgn[2] << std::endl;
+  // Software Guide : EndCodeSnippet
+
 
 
   // Software Guide : BeginLatex
