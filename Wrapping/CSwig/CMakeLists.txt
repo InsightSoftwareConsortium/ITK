@@ -350,15 +350,18 @@ ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
 # *** Step 1 has to be done carefully to avoid missing out files ***
 IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
 
-  FIND_PATH(PYTHON_NUMERIC_INCLUDE arrayobject.h
-    /usr/include/python2.3/Numeric/
-    DOC "Directory where the arrayobject.h header file can be found. This file is part of the Numeric package"
-    )
+  # Deal with numarray package  Options
+  SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
+  OPTION(ITK_USE_PYTHON_NUMARRAY "Use the numarray python package" OFF)
+  MARK_AS_ADVANCED(ITK_USE_PYTHON_NUMARRAY)
+  IF( ITK_USE_PYTHON_NUMARRAY )
+      FIND_PACKAGE( NUMARRAY )
+  ENDIF( ITK_USE_PYTHON_NUMARRAY )
 
-  IF(PYTHON_NUMERIC_INCLUDE)
-    INCLUDE_DIRECTORIES( ${PYTHON_NUMERIC_INCLUDE} )
-    SET(SWIG_INC ${SWIG_INC} -I${PYTHON_NUMERIC_INCLUDE}) 
-  ENDIF(PYTHON_NUMERIC_INCLUDE)
+  IF(PYTHON_NUMARRAY_FOUND)
+    INCLUDE_DIRECTORIES( ${PYTHON_NUMARRAY_INCLUDE_DIR} )
+    SET(SWIG_INC ${SWIG_INC} -I${PYTHON_NUMARRAY_INCLUDE_DIR}) 
+  ENDIF(PYTHON_NUMARRAY_FOUND)
 
 
   ADD_CUSTOM_TARGET(itkpython_pyc ALL echo "...")
