@@ -323,9 +323,6 @@ public:
    * pointer to) a brand new point created with new. */
   InputPointType  BackTransformPoint(const OutputPointType  &point) const;
 
-  /** \todo The validity of this method has to be verified   */
-  OutputVectorType  BackTransformPoint(const InputVectorType & point) const;
-
   /** Find inverse of an affine transformation
    *
    * This method creates and returns a new AffineTransform object
