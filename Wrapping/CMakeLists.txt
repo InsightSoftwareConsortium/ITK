@@ -7,27 +7,24 @@ ENDIF(GCCXML)
 
 # Find CABLE.
 INCLUDE(${ITK_SOURCE_DIR}/Wrapping/FindCABLE.cmake)
-IF(CABLE_USE_FILE)
-  INCLUDE(${CABLE_USE_FILE})
-
-  IF(CABLE_CXX_MISMATCH)
+IF(CABLE_FOUND)
+  IF(CABLE_CXX_COMPILER_MISMATCH)
     MESSAGE(SEND_ERROR
             "The selected CABLE was built with "
             "\"${CABLE_CXX_COMPILER}\""
             ", but the current compiler is \"${CMAKE_CXX_COMPILER}\".")
     SET(ITK_WRAP_TCL 0)
-  ENDIF(CABLE_CXX_MISMATCH)
+  ENDIF(CABLE_CXX_COMPILER_MISMATCH)
 
   # Make sure Tcl is supported by the CABLE that was found.
   IF(NOT CABLE_TCL_LIBRARY)
     MESSAGE(SEND_ERROR "The selected CABLE does not support Tcl!")
     SET(ITK_WRAP_TCL 0)
   ENDIF(NOT CABLE_TCL_LIBRARY)
-
-ELSE(CABLE_USE_FILE)
-  MESSAGE(SEND_ERROR "Wrapping is enabled, but CABLE_USE_FILE is not found!")
+ELSE(CABLE_FOUND)
+  MESSAGE(SEND_ERROR "Wrapping is enabled, but CABLE is not found!")
   SET(ITK_WRAP_TCL 0)
-ENDIF(CABLE_USE_FILE)
+ENDIF(CABLE_FOUND)
 
 IF (CMAKE_MAJOR_VERSION MATCHES "^1$")
   IF (CMAKE_MINOR_VERSION MATCHES "^[56]$")
