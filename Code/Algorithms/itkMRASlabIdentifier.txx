@@ -199,6 +199,9 @@ MRASlabIdentifier<TInputImage>
     }
   os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
+  os << indent << "Background Pixel Minimum Intensity Threshold: " 
+     << m_BackgroundMinimumThreshold << std::endl ;
+  os << indent << "Tolerance: " << m_Tolerance << std::endl;
 }
 
 } // end namespace itk
