@@ -169,6 +169,36 @@ int itkMetaDataDictionaryTest(int , char * [])
   MyDictionary.Print(std::cout);
 
 
+  std::cout << "Exercise the Iterator access" << std::endl;
+  {
+    itk::MetaDataDictionary::Iterator itr = MyDictionary.Begin();
+    itk::MetaDataDictionary::Iterator end = MyDictionary.End();
+
+    while( itr != end )
+    {
+      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Value = ";
+      itr->second->Print( std::cout );
+      std::cout << std::endl;
+      ++itr;
+    }
+  }
+  std::cout << "Exercise the const Iterator access" << std::endl;
+  {
+    const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
+    itk::MetaDataDictionary::ConstIterator itr = MyConstDictionary.Begin();
+    itk::MetaDataDictionary::ConstIterator end = MyConstDictionary.End();
+
+    while( itr != end )
+    {
+      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Value = ";
+      itr->second->Print( std::cout );
+      std::cout << std::endl;
+      ++itr;
+    }
+  }
+
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete [] StrandedMemory;
   return 0;
