@@ -2,19 +2,26 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+#include "itkMesh.h"
+#include "itkTriangleCell.h"
+#include "itkSphereSource.h"
 #include <iostream>
 #include <string>
 #include <math.h>
 
-#define   IMGWIDTH            20
-#define   IMGHEIGHT           20
-#define   NFRAMES             1
-#define   NUMBANDS            1  
-#define   NDIMENSION          3
-#define   NUM_CLASSES         3
-#define   MAX_NUM_ITER        20
-
 int main(){
+
+	typedef itk::SphereSource<itk::Mesh<float>>	fSphereSourceType;
+	fSPhereSourceType::Pointer	mySphereSource = fSphereSourceType::New();
+
+	mySphereSource->SetCenter(0, 0, 0);
+	mySphereSource->SetResolution(1, 10);
+	mySphereSource->SetScalar(1.0, 1.0, 1.0);
+
+	mySphereSource->Modified();
+	mySphereSource->Update();
+
   
   return 0;
 
