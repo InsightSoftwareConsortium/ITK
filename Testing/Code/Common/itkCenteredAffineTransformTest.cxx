@@ -55,8 +55,6 @@ int itkCenteredAffineTransformTest(
     /* FIXME: This code exercises most of the methods but doesn't
        actually check that the results are correct. */
     any = 0;
-    std::cout << "The CenteredAffineTransform class is still being implemented"
-              << std::endl;
 
     /* Create a 2D identity transformation and show its parameters */
     typedef itk::Point<double,6> ParametersType;
@@ -239,22 +237,6 @@ int itkCenteredAffineTransformTest(
         image =itk::Image<unsigned char, 3>::New();
     image->SetOrigin (origin);
     image->SetSpacing(spacing);
-
-    /* Generate index-to-physical transform */
-    Affine3DType::Pointer i2p = 
-          dynamic_cast<Affine3DType *>(
-                   image->GetIndexToPhysicalTransform().GetPointer()  );
-
-    std::cout << "Index to physical transformation:" << std::endl;
-    i2p->Print( std::cout );
-
-    /* Generate physical-to-index transform */
-    Affine3DType::Pointer p2i = 
-        dynamic_cast<Affine3DType *>(
-                 image->GetPhysicalToIndexTransform().GetPointer()  );
-
-    std::cout << "Physical to index transformation:" << std::endl;
-    p2i->Print( std::cout );
 
 
     /* Test output of GetJacobian */
