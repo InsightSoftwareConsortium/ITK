@@ -3,9 +3,16 @@
 #define __DICOM_APP_HELPER_H_
 
 #include <fstream>
-#include <string.h>
+// #include <string.h>
 #include "DICOMTypes.h"
 #include "DICOMParser.h"
+
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <iostream>
+
+//#include <pair>
 
 struct ltstr
 {
@@ -197,6 +204,25 @@ class DICOMAppHelper
 
   bool RescaledImageDataIsFloat();
 
+  bool RescaledImageDataIsSigned();
+
+  int GetSliceNumber()
+    {
+    return this->SliceNumber;
+    }
+
+  void ClearSliceNumberMap()
+    { 
+    this->SliceNumberMap.clear();
+    }
+
+  void ClearSeriesUIDMap()
+    {
+    this->SeriesUIDMap.clear();
+    }
+
+  void GetSliceNumberFilenamePairs(std::vector<std::pair<int, std::string> > & v);
+
  protected:
   int BitsAllocated;
   bool ByteSwapData;
@@ -219,7 +245,7 @@ class DICOMAppHelper
   
   // map from series UID to vector of files in the series 
   std::map<char*, std::vector<char*>, ltstr > SeriesUIDMap;  
-  std::map<char*, int > SliceNumberMap;  
+  std::map<char*, int, ltstr> SliceNumberMap;  
   
   typedef std::map<std::pair<doublebyte, doublebyte>, DICOMTagInfo> TagMapType;
   TagMapType TagMap;
