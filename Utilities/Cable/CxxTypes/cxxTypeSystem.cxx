@@ -329,37 +329,37 @@ TypeSystem
 ::~TypeSystem()
 {
   // First free all type representations in the maps.
-  for(ArrayTypeMap::iterator i = m_ArrayTypeMap->begin();
+  for(ArrayTypeMap::const_iterator i = m_ArrayTypeMap->begin();
       i != m_ArrayTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(ClassTypeMap::iterator i = m_ClassTypeMap->begin();
+  for(ClassTypeMap::const_iterator i = m_ClassTypeMap->begin();
       i != m_ClassTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(FunctionTypeMap::iterator i = m_FunctionTypeMap->begin();
+  for(FunctionTypeMap::const_iterator i = m_FunctionTypeMap->begin();
       i != m_FunctionTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(FundamentalTypeMap::iterator i = m_FundamentalTypeMap->begin();
+  for(FundamentalTypeMap::const_iterator i = m_FundamentalTypeMap->begin();
       i != m_FundamentalTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(PointerTypeMap::iterator i = m_PointerTypeMap->begin();
+  for(PointerTypeMap::const_iterator i = m_PointerTypeMap->begin();
       i != m_PointerTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(PointerToMemberTypeMap::iterator i = m_PointerToMemberTypeMap->begin();
+  for(PointerToMemberTypeMap::const_iterator i = m_PointerToMemberTypeMap->begin();
       i != m_PointerToMemberTypeMap->end(); ++i)
     {
     delete i->second;
     }
-  for(ReferenceTypeMap::iterator i = m_ReferenceTypeMap->begin();
+  for(ReferenceTypeMap::const_iterator i = m_ReferenceTypeMap->begin();
       i != m_ReferenceTypeMap->end(); ++i)
     {
     delete i->second;
