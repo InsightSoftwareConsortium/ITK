@@ -195,7 +195,14 @@ public:
       m_Segmenter->SetInputImage(
                 const_cast<InputImageType *>( input ) );
     }
-  
+
+  virtual void SetInput( unsigned int i, const TInputImage * image)
+  {
+    if (i != 0)
+      { itkExceptionMacro(<< "Filter has only one input."); }
+    else
+      { this->SetInput(image); }
+  }
   /** Set/Get the input thresholding parameter.  Units are a percentage of
    * the maximum depth in the image. */
   void SetThreshold(double);
