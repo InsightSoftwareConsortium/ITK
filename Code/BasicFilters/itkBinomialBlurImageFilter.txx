@@ -137,7 +137,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   double pixelA, pixelB;
 
   // walk the output image forwards and compute blur
-  for (int rep = 0; rep < m_Repetitions; rep++)
+  for (unsigned int rep = 0; rep < m_Repetitions; rep++)
     {
     num_reps++;
 
@@ -159,13 +159,16 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
         if (index[dim] < (startIndex[dim] + size[dim] - 1))
           {
           // Figure out the location of the "neighbor" pixel
-          for (int i = 0; i < NDimensions; i++)
+          for (unsigned int i = 0; i < NDimensions; i++)
             {
-            if ( i == dim )
-              indexShift.m_Index[i] = index.m_Index[i] + 1;
-            else
-              indexShift.m_Index[i] = index.m_Index[i];
-            
+              if ( i == dim ) 
+              {
+                indexShift.m_Index[i] = index.m_Index[i] + 1;
+              }
+              else
+              {
+                indexShift.m_Index[i] = index.m_Index[i];
+              }
             }
 
           // Average the pixel of interest and shifted pixel
@@ -199,12 +202,16 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
         if (index[dim] > startIndex[dim])
           {    
           // Figure out the location of the "neighbor" pixel
-          for (int i = 0; i < NDimensions; i++)
+          for (unsigned int i = 0; i < NDimensions; i++)
             {
-            if ( i == dim )
-              indexShift.m_Index[i] = index.m_Index[i] - 1;
-            else
-              indexShift.m_Index[i] = index.m_Index[i];
+              if ( i == dim ) 
+              {
+                indexShift.m_Index[i] = index.m_Index[i] - 1;
+              }
+              else
+              {
+                indexShift.m_Index[i] = index.m_Index[i];
+              }
             }
 
           /*
