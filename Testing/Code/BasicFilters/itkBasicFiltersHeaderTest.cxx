@@ -69,6 +69,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSinImageFilter.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 #include "itkSqrtImageFilter.h"
+#include "itkStreamingImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkTanImageFilter.h"
 #include "itkTernaryAddImageFilter.h"
