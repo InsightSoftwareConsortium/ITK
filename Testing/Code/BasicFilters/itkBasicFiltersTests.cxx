@@ -83,6 +83,7 @@ void RegisterTests()
   REGISTER_TEST(itkSimilarityIndexImageFilterTest );
   REGISTER_TEST(itkSigmoidImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );
+  REGISTER_TEST(itkShiftScaleInPlaceImageFilterTest );
   REGISTER_TEST(itkShrinkImageTest );
   REGISTER_TEST(itkStatisticsImageFilterTest );
   REGISTER_TEST(itkConstantPadImageTest );
