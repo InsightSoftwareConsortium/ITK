@@ -19,18 +19,17 @@
 //
 // \index{Iterators!speed}
 // The ``WithIndex'' family of iterators was designed for algorithms that
-// depend on the image index locations of values they work with.  Unlike
-// \doxygen{ImageRegionIterator}, which calculates an index only if and when
-// it is asked for, \doxygen{ImageRegionIteratorWithIndex} maintains its
-// index location as a member variable that is updated each time the iterator
-// is incremented or decremented.  A penalty is therefore introduced on the
-// iteration speed, but the iterator is more efficient in cases where it is
-// heavily queried for the index.
+// use both the value and the location of image pixels in calculations.  Unlike
+// \doxygen{ImageRegionIterator}, which calculates an index only when
+// asked for, \doxygen{ImageRegionIteratorWithIndex} maintains its
+// index location as a member variable that is updated during the increment or
+// decrement process. Iteration speed is penalized, but the index queries are
+// more efficient.
 //
 // \index{itk::ImageRegionIteratorWithIndex!example of using|(}
 //
 // The following example illustrates the use of
-// \doxygen{ImageRegionIteratorWithIndex}.  This algorithm mirrors
+// \doxygen{ImageRegionIteratorWithIndex}.  The algorithm mirrors
 // a 2D image across its $x$-axis (see \doxygen{FlipImageFilter} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
 // method.
@@ -114,9 +113,8 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Next we create the iterator that walks the output image. Instead of using
-// an iterator on the input, we will copy the values directly using image
-// indicies.
+// Next we create the iterator that walks the output image.  This algorithm
+// requires no iterator for the input image.
 //
 // Software Guide : EndLatex
 
@@ -126,7 +124,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide: BeginLatex
 //
-// This axis flipping algorithm works by iterating through the output image, querying
+// The axis-flipping algorithm works by iterating through the output image, querying
 // the iterator for its index, and copying the value from the input at an index
 // mirrored across the $x$-axis.
 //

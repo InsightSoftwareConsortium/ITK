@@ -19,12 +19,12 @@
 //
 // \index{Iterators!and image slices}
 //
-// The \doxygen{ImageSliceIteratorWithIndex} is an extension of the
+// The \doxygen{ImageSliceIteratorWithIndex} is an extension of
 // \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.  A \emph{slice} is a 2D
-// plane spanned by two vectors pointing along coordinate axes.  The two
-// coordinate directions which define the slice plane are set as member
-// variables.
+// plane spanned by two vectors pointing along orthogonal coordinate axes.  The
+// slice orientation of the slice iterator is defined by specifying its two
+// spanning axes.
 // 
 // \begin{itemize}
 // \index{itk::ImageSliceIteratorWithIndex!SetFirstDirection()}
@@ -186,7 +186,7 @@ int main( int argc, char *argv[] )
 // The \code{direction} array is now used to define the projection image size
 // based on the input image size.  The output image is created so that its
 // common dimension(s) with the input image are the same size.  For example, if
-// we project along the X axis of the input, the size and origin of the Y axes
+// we project along the $x$-axis of the input, the size and origin of the $y$-axes
 // of the input and output will match.  This makes the code slightly more
 // complicated, but prevents a counter-intuitive rotation of the output.
 //

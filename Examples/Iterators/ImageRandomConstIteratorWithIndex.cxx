@@ -25,12 +25,13 @@
 // \index{itk::ImageRandomConstIteratorWithIndex!begin and end positions}
 //
 // The user must specify a sample size when creating this iterator. The sample
-// size defines the end position for the iterator.  \code{IsAtEnd()} returns
+// size, rather than a specific image index, defines the end position for the
+// iterator.  \code{IsAtEnd()} returns 
 // \code{true} when the current sample number equals the sample size.
 // \code{IsAtBegin()} returns \code{true} when the current sample number equals
-// zero.  Another important difference from other iterators is that
+// zero.  An important difference from other image iterators is that
 // \doxygen{ImageRandomConstIteratorWithIndex} may visit the same pixel
-// location more than once.
+//  more than once.
 //
 // \index{itk::ImageRandomConstIteratorWithIndex!example of using|(}
 // \index{itk::ImageRandomConstIteratorWithIndex!and statistics}

@@ -18,18 +18,18 @@
 // Software Guide : BeginLatex
 //
 // \index{Iterators!speed}
-// The \doxygen{ImageRegionIterator} has been optimized for iteration speed.
-// It is the first choice for iterative, pixel-wise operations where location
-// in the image is not important and no special iteration path through the
-// image is required.  \doxygen{ImageRegionIterator} is the most commonly
-// used and least specialized of the ITK image iterator classes.  It implements
-// all of the methods described in the preceding section.
+// The \doxygen{ImageRegionIterator} is optimized for
+// iteration speed and is the first choice for iterative, pixel-wise operations
+// when location in the image is not
+// important. \doxygen{ImageRegionIterator} is the least specialized of the ITK
+// image iterator classes.  It implements all of the methods described in the
+// preceding section.
 //
 // The following example illustrates the use of
 // \doxygen{ImageRegionConstIterator} and \doxygen{ImageRegionIterator}.
 // Most of the code constructs introduced apply to other ITK iterators as
 // well. This simple application crops a subregion from an image by copying
-// pixel values into to a second image.
+// its pixel values into to a second, smaller image.
 //
 // \index{Iterators!and image regions}
 // \index{itk::ImageRegionIterator!example of using|(}
@@ -59,8 +59,8 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Next we define a pixel type and corresponding image type. ITK iterator classes
-// expect the image type as their template parameter.
+// Next we define a pixel type and corresponding image type.  The image type is
+// used to define the iterators.  
 //
 // Software Guide : EndLatex
 
@@ -78,10 +78,10 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
 // Software Guide : BeginLatex
-// 
-// Information about the subregion to copy is read from the command line. The
-// subregion is defined by an \doxygen{ImageRegion} object, with a starting
-// grid index and a size (section~\ref{sec:ImageSection}).
+//
+// Our cropping algorithm will create an output image whose size matches the
+// selected region of the input image.  Information necessary to define the
+// selected region, a starting index and a size, is read from the command line.
 //
 // Software Guide : EndLatex
 
@@ -105,9 +105,9 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 // 
-// The destination region is now defined by using the same size as the input
-// region and a different start index. The starting index is the corner of the
-// newly generated image.
+// The destination region in the output image is defined using the input region
+// size, but a different start index.  The starting index for the destination
+// region is the corner of the newly generated image.
 //
 // Software Guide : EndLatex
 
@@ -149,12 +149,10 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginLatex
 //
 // After reading the input image and checking that the desired subregion is, in
-// fact, contained in the input, we allocate an output image.  It is fundamental
-// to correct some of the basic image information during the copying process.
-// In particular, the starting index of the output region is now filled up with
-// zero values and the coordinates of the physical origin are computed as a 
-// shift from the origin of the input image. This is quite important since it 
-// will allow later to register the extracted region against the original image.
+// fact, contained in the input, we allocate an output image.  It is important
+// to transfer the pixel spacing information and compute the new physical
+// origin of the output image. This data is necessary in case the extracted
+// region must later be registered against the original image.
 //
 // Software Guide : EndLatex
 
@@ -186,12 +184,12 @@ int main( int argc, char *argv[] )
 //
 // \index{Iterators!construction of}
 // \index{Iterators!and image regions}
-// The necessary images and region definitions are now in place.  All that is
-// left is to create the iterators and perform the copy.  Note that image
-// iterators are not smart pointers so their constructors are called directly.
-// Also notice how the input and output iterators are defined over the
-// \emph{same region}.  Though the images are different sizes, they both
-// contain the same target subregion.
+// The necessary images and region definitions are now in place.  All that is left
+// is to create the iterators and do the copying.  Note that iterators are
+// not smart pointers so their constructors can be called directly.  Also
+// notice how the input and output iterators are defined over the \emph{same
+// region}.  Though the images are different sizes, they both contain the same
+// target subregion.
 //
 // Software Guide : EndLatex
 
@@ -213,11 +211,11 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginLatex
 //
 // \index{Iterators!image dimensionality}
-// The \code{for} loop above is a common construct in ITK.  The beauty of these
-// four lines of code is that they are equally valid for one, two, three, or
-// even ten dimensional data.  Consider the ugly alternative of ten nested
-// \code{for} loops for traversing an image, which would also require explicit
-// knowledge of the size of each image dimension.
+//  The \code{for} loop above is a common
+// construct in ITK.  The beauty of these four lines of code is that they are
+// equally valid for one, two, three, or even ten dimensional data, and no
+// knowledge of the size of the image is necessary.  Consider the ugly
+// alternative of ten nested \code{for} loops for traversing an image.
 //
 // Software Guide : EndLatex
   

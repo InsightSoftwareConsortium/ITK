@@ -20,16 +20,17 @@
 // The \doxygen{ImageLinearIteratorWithIndex} is designed for line-by-line
 // processing of an image.  It walks a linear path along a selected image
 // direction parallel to one of the coordinate axes of the image. This
-// iterator allows developers to work with an image as a set of parallel lines
-// spanning the selected image dimension.
+// iterator conceptually breaks an image into a set of parallel lines
+// that span the selected image dimension.
 //
 // \index{Iterators!and image lines}
 //
-// Like all other ITK image iterators, movement is constrained to within an
-// image region, $R$.  The line $\ell$ through which the iterator moves is
-// defined by a selected direction and an origin.  The origin itself can be
-// iterated across the pixels along the lower boundary of $R$.  The line $\ell$
-// extends from the origin to the upper boundary of $R$.
+// Like all image iterators, movement of the
+// \doxygen{ImageLinearIteratorWithIndex} is constrained within an
+// image region $R$.  The line $\ell$ through which the iterator moves is
+// defined by selecting a direction and an origin.   The line $\ell$
+// extends from the origin to the upper boundary of $R$. The origin can be
+// moved to any position along the lower boundary of $R$. 
 //    
 // Several additional methods are defined for this iterator to control movement
 // of the iterator along the line $\ell$ and movement of the origin of $\ell$.
@@ -74,11 +75,11 @@
 // \end{itemize}
 //
 // The following code example shows how to use the
-// \doxygen{ImageLinearIteratorWithIndex}.  It implements the same
-// algorithm as in the previous example, flipping an image across its $x$-axis.
-// Two line iterators are iterated in opposite directions across the $x$-axis.
-// After a line is processed, the iterators are stepped to the next line (down the
-// $y$-axis).
+// \doxygen{ImageLinearIteratorWithIndex}.  It implements the same algorithm as
+// in the previous example, flipping an image across its $x$-axis.  Two line
+// iterators are iterated in opposite directions across the $x$-axis.  After each
+// line is traversed, the iterator origins are stepped down the $y$-axis to the
+// next line.
 //
 // \index{itk::ImageLinearIteratorWithIndex!example of using|(}
 //
@@ -162,13 +163,13 @@ int main( int argc, char *argv[] )
 //
 // Next we create the two iterators.  The const iterator walks the input image,
 // and the non-const iterator walks the output image.  The iterators are
-// initialized over the same region.  The direction of iteration is set to 0,
-// the x dimension.
+// initialized over the same region.  The direction of iteration is set to $0$,
+// the $x$-dimension.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  ConstIteratorType inputIt(  inputImage,  inputImage->GetRequestedRegion() );
+  ConstIteratorType inputIt( inputImage, inputImage->GetRequestedRegion() );
   IteratorType outputIt( outputImage, inputImage->GetRequestedRegion() );
 
   inputIt.SetDirection(0);
