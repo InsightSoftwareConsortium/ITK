@@ -94,6 +94,12 @@ public:
   /** Returns the latest modified time of the object, and all of its component. */
   unsigned long GetMTime( void ) const;
 
+  /** Set the slice position */
+  void SetSlicePosition(unsigned int dimension, int position) {m_SlicePosition[dimension]=position;}
+
+  /** Get the slice position */
+  int GetSlicePosition(unsigned int dimension) {return m_SlicePosition[dimension];}
+
 protected:
 
   ImagePointer m_Image;
@@ -102,6 +108,8 @@ protected:
   virtual ~ImageSpatialObject();
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
+
+  int* m_SlicePosition;
 };
 
 } // end of namespace itk

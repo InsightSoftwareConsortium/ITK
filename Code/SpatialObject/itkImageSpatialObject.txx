@@ -32,6 +32,11 @@ ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 {
   strcpy(m_TypeName,"ImageSpatialObject");
   m_Image = ImageType::New();
+  m_SlicePosition = new int(NDimensions);
+  for(unsigned int i=0;i<NDimensions;i++)
+  {
+    m_SlicePosition[i]=0;
+  }
   ComputeBounds();
 }
 
@@ -40,6 +45,7 @@ template< unsigned int NDimensions, class TransformType, class PixelType, unsign
 ImageSpatialObject< NDimensions, TransformType, PixelType, PipelineDimension >
 ::~ImageSpatialObject()
 {
+  delete m_SlicePosition;
 }
 
 /** Return true if the given point is inside the image */
