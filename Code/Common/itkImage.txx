@@ -60,7 +60,7 @@ itkImage<TPixel, TImageDimension>
   unsigned long num=1;
   const unsigned long *size = this->GetSize();
   
-  for (int i=0; i < this->GetDimension(); i++)
+  for (unsigned int i=0; i < this->GetDimension(); i++)
     {
     num *= size[i];
     }
