@@ -1,0 +1,8 @@
+NDims = 3
+DimSize = 256 256 3
+ElementSpacing = 0.85935 0.85935 1
+Position = 0 0 0
+ElementByteOrderMSB = False
+ElementType = MET_USHORT
+HeaderSize = -1
+ElementDataFile = DicomSeries/Image%04d.dcm 75 77 1
