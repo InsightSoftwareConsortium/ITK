@@ -261,7 +261,28 @@ int main( int argc, char ** argv )
     }
 
 
-  
+ 
+  //  Software Guide : BeginLatex
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
+  // \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
+  // \caption{Effect of a rotation on the resampling filter. Input image at left), Output image at right.}
+  // \label{fig:ResampleImageFilterOutput9}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ResampleImageFilterOutput9} presents the actual input and
+  //  outpu images of this example as shown by a correct viewer which takes
+  //  spacing into account. Note the \emph{clockwise} versus
+  //  \emph{counter-clockwise} effect discussed previously between the
+  //  representation in figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6} and figure
+  //  \ref{fig:ResampleImageFilterOutput9}.
+  //
+  //  Software Guide : EndLatex 
+
+ 
 
   return 0;
 
