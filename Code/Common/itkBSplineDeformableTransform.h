@@ -212,8 +212,8 @@ public:
   typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
   typedef typename RegionType::IndexType IndexType;
   typedef typename RegionType::SizeType  SizeType;
-  typedef FixedArray<double,itkGetStaticConstMacro(SpaceDimension)> SpacingType;
-  typedef FixedArray<double,itkGetStaticConstMacro(SpaceDimension)> OriginType;
+  typedef typename ImageType::SpacingType SpacingType;
+  typedef typename ImageType::PointType OriginType;
 
   /** This method specifies the region over which the grid resides. */
   virtual void SetGridRegion( const RegionType& region );
