@@ -1,6 +1,6 @@
 /**
 
-  \page NeighborhoodIterators Neighborhood Iterators
+  \page NeighborhoodIteratorsPage Neighborhood Iterators
 
 
   \section Introduction
@@ -12,7 +12,7 @@
   image is produced with the resulting means, this new image contains a lower
   amount of high frequencies and a cause of that a reduced amount of noise.
 
-  This code in classicla \em texbook notation can look like:
+  This code in classical \em texbook notation can look like:
 
   \code
 
