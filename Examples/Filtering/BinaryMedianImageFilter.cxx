@@ -15,11 +15,11 @@
 
 =========================================================================*/
 
-//  Software Guide : eginCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {BinaryMedianImageFilterOutput.png}
 //    2
-//  Software Guide : ndCommandLineArgs
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
