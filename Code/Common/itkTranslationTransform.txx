@@ -59,7 +59,7 @@ TranslationTransform<TScalarType, NDimensions>
 
 // Get the parameters
 template <class TScalarType, unsigned int NDimensions>
-const TranslationTransform<TScalarType, NDimensions>::ParametersType &
+const typename TranslationTransform<TScalarType, NDimensions>::ParametersType &
 TranslationTransform<TScalarType, NDimensions>
 ::GetParameters( void ) const
 {
@@ -109,7 +109,7 @@ Translate(const OutputVectorType &offset, bool )
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::OutputPointType
+typename TranslationTransform<TScalarType, NDimensions>::OutputPointType
 TranslationTransform<TScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -119,7 +119,7 @@ TransformPoint(const InputPointType &point) const
 
 // Transform a vector
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::OutputVectorType
+typename TranslationTransform<TScalarType, NDimensions>::OutputVectorType
 TranslationTransform<TScalarType, NDimensions>::
 TransformVector(const InputVectorType &vect) const 
 {
@@ -129,7 +129,7 @@ TransformVector(const InputVectorType &vect) const
 
 // Transform a vnl_vector_fixed
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::OutputVnlVectorType
+typename TranslationTransform<TScalarType, NDimensions>::OutputVnlVectorType
 TranslationTransform<TScalarType, NDimensions>::
 TransformVector(const InputVnlVectorType &vect) const 
 {
@@ -139,7 +139,7 @@ TransformVector(const InputVnlVectorType &vect) const
 
 // Transform a CovariantVector
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::OutputCovariantVectorType
+typename TranslationTransform<TScalarType, NDimensions>::OutputCovariantVectorType
 TranslationTransform<TScalarType, NDimensions>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
@@ -150,7 +150,7 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 // Back transform a point
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::InputPointType
+typename TranslationTransform<TScalarType, NDimensions>::InputPointType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const {
   return point - m_Offset;
@@ -161,7 +161,7 @@ BackTransform(const OutputPointType &point) const {
 
 // Back transform a vector
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::InputVectorType
+typename TranslationTransform<TScalarType, NDimensions>::InputVectorType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
@@ -173,7 +173,7 @@ BackTransform(const OutputVectorType &vect ) const
 
 // Back transform a vnl_vector
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::InputVnlVectorType
+typename TranslationTransform<TScalarType, NDimensions>::InputVnlVectorType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
@@ -183,7 +183,7 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 // Back Transform a CovariantVector
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::InputCovariantVectorType
+typename TranslationTransform<TScalarType, NDimensions>::InputCovariantVectorType
 TranslationTransform<TScalarType, NDimensions>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
@@ -194,7 +194,7 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 // Create and return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
-TranslationTransform<TScalarType, NDimensions>::Pointer
+typename TranslationTransform<TScalarType, NDimensions>::Pointer
 TranslationTransform<TScalarType, NDimensions>::
 Inverse(void) const
 {
@@ -207,7 +207,7 @@ Inverse(void) const
 
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions>
-const TranslationTransform<TScalarType, NDimensions>::JacobianType & 
+const typename TranslationTransform<TScalarType, NDimensions>::JacobianType & 
 TranslationTransform< TScalarType, NDimensions >::
 GetJacobian( const InputPointType & ) const
 {

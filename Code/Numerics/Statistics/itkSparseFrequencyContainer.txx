@@ -30,11 +30,11 @@ SparseFrequencyContainer< TFrequencyValue >
 }
 
 template< class TFrequencyValue >
-SparseFrequencyContainer< TFrequencyValue >::FrequencyType
+typename SparseFrequencyContainer< TFrequencyValue >::FrequencyType
 SparseFrequencyContainer< TFrequencyValue >
 ::GetFrequency(const InstanceIdentifier id) const
 {
-  FrequencyContainerType::const_iterator iter = 
+  typename FrequencyContainerType::const_iterator iter = 
     m_FrequencyContainer.find(id) ;
   if ( iter != m_FrequencyContainer.end() )
     {

@@ -20,7 +20,7 @@
 namespace itk {
 
 template<class TImage>
-ConstNeighborhoodIterator<TImage>::OffsetType
+typename ConstNeighborhoodIterator<TImage>::OffsetType
 ConstNeighborhoodIterator<TImage>
 ::ComputeInternalIndex(unsigned int n) const
 {
@@ -181,8 +181,8 @@ ConstNeighborhoodIterator<TImage>
 ::operator++()
 {
   unsigned int i;
-  Iterator it;
-  const Iterator _end = Superclass::End();
+  typename Superclass::Iterator it;
+  const typename Superclass::Iterator _end = Superclass::End();
 
   // Increment pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
@@ -222,8 +222,8 @@ ConstNeighborhoodIterator<TImage>
 ::operator--()
 {
   unsigned int i;
-  Iterator it;
-  const Iterator _end = Superclass::End();
+  typename Superclass::Iterator it;
+  const typename Superclass::Iterator _end = Superclass::End();
   
   // Decrement pointers.
   for (it = Superclass::Begin(); it < _end; ++it)
@@ -326,7 +326,7 @@ template<class TImage>
 void ConstNeighborhoodIterator<TImage>
 ::SetPixelPointers(const IndexType &pos)
 {
-  const Iterator _end = Superclass::End();
+  const typename Superclass::Iterator _end = Superclass::End();
   InternalPixelType * Iit;
   ImageType *ptr = const_cast<ImageType *>(m_ConstImage.GetPointer());
   const SizeType size = this->GetSize();
@@ -334,7 +334,7 @@ void ConstNeighborhoodIterator<TImage>
   const SizeType radius = this->GetRadius();
 
   unsigned int i;
-  Iterator Nit;
+  typename Superclass::Iterator Nit;
   SizeType loop;
   for (i=0; i<Dimension; ++i) loop[i]=0;
 

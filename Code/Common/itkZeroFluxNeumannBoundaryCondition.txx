@@ -19,7 +19,7 @@
 namespace itk
 {
 template<class TImage>
-ZeroFluxNeumannBoundaryCondition<TImage>::PixelType
+typename ZeroFluxNeumannBoundaryCondition<TImage>::PixelType
 ZeroFluxNeumannBoundaryCondition<TImage>
 ::operator()(const OffsetType& point_index, const OffsetType& boundary_offset,
              const NeighborhoodType *data) const

@@ -38,7 +38,7 @@ DenseFrequencyContainer< TFrequencyValue >
 }
 
 template< class TFrequencyValue >
-DenseFrequencyContainer< TFrequencyValue >::FrequencyType
+typename DenseFrequencyContainer< TFrequencyValue >::FrequencyType
 DenseFrequencyContainer< TFrequencyValue >
 ::GetFrequency(const InstanceIdentifier id) const
 {

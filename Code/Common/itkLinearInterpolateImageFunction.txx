@@ -59,7 +59,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
  * Evaluate at image index position
  */
 template<class TInputImage, class TCoordRep>
-LinearInterpolateImageFunction< TInputImage, TCoordRep >
+typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
@@ -101,8 +101,8 @@ const ContinuousIndexType& index) const
    * neighbors. The weight for each neighbour is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
-  RealType value = 0.0f;
-  RealType totalOverlap = 0.0f;
+  typename Superclass::RealType value = 0.0f;
+  typename Superclass::RealType totalOverlap = 0.0f;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
@@ -133,7 +133,7 @@ const ContinuousIndexType& index) const
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
-      value += overlap * static_cast<RealType>( m_Image->GetPixel( neighIndex ) );
+      value += overlap * static_cast<typename Superclass::RealType>( m_Image->GetPixel( neighIndex ) );
       totalOverlap += overlap;
       }
 

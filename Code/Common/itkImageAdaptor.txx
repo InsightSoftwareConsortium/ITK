@@ -262,7 +262,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
+const typename ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer() const
 {
@@ -274,7 +274,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
+typename ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferPointer()
 {
@@ -329,7 +329,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const ImageAdaptor<TImage, TAccessor>::RegionType &
+const typename ImageAdaptor<TImage, TAccessor>::RegionType &
 ImageAdaptor<TImage , TAccessor>
 ::GetBufferedRegion( void ) const
 {
@@ -356,7 +356,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const ImageAdaptor<TImage, TAccessor>::RegionType &
+const typename ImageAdaptor<TImage, TAccessor>::RegionType &
 ImageAdaptor<TImage , TAccessor>
 ::GetLargestPossibleRegion( void ) const
 {
@@ -395,7 +395,7 @@ ImageAdaptor<TImage, TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const ImageAdaptor<TImage, TAccessor>::RegionType &
+const typename ImageAdaptor<TImage, TAccessor>::RegionType &
 ImageAdaptor<TImage , TAccessor>
 ::GetRequestedRegion( void ) const
 {
