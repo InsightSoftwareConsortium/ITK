@@ -45,7 +45,7 @@ namespace Functor {
   public:
     VectorCast() {}
     ~VectorCast() {}
-    inline TOutput operator()( const TInput & A )
+    inline TOutput operator()( const TInput & A ) const
       {
       typedef typename TOutput::ValueType OutputValueType;
 
