@@ -14,7 +14,7 @@
 ==========================================================================*/
 
 #include "itkVector.h" 
-#include <math.h>
+#include <vnl/vnl_math.h>
 
 
 
