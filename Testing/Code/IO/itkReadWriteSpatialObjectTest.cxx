@@ -122,9 +122,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     v[0] = i;
     v[1] = 2*i;
     v[2] = 3*i;
-    p.SetMinEigenValue(v);
-    p.SetMedEigenValue(v);
-    p.SetMaxEigenValue(v);
+    p.SetMinEigenVector(v);
+    p.SetMedEigenVector(v);
+    p.SetMaxEigenVector(v);
     delete v;
     v = new float[5];
     for(unsigned int j=0;j<5;j++)
@@ -607,19 +607,19 @@ int itkReadWriteSpatialObjectTest(int, char*[])
         int ind;
         for(ind = 0;ind<3;ind++)
           {
-          if((*jdti).GetMinEigenValue()[ind]!=value*(ind+1))
+          if((*jdti).GetMinEigenVector()[ind]!=value*(ind+1))
             {
-            std::cout<<" [FAILED] : GetMinEigenValue : found " << ( *jdti).GetMinEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            std::cout<<" [FAILED] : GetMinEigenVector : found " << ( *jdti).GetMinEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
             return EXIT_FAILURE;
             }
-          if((*jdti).GetMedEigenValue()[ind]!=value*(ind+1))
+          if((*jdti).GetMedEigenVector()[ind]!=value*(ind+1))
             {
-            std::cout<<" [FAILED] : GetMedEigenValue : found " << ( *jdti).GetMedEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            std::cout<<" [FAILED] : GetMedEigenVector : found " << ( *jdti).GetMedEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
             return EXIT_FAILURE;
             }
-          if((*jdti).GetMaxEigenValue()[ind]!=value*(ind+1))
+          if((*jdti).GetMaxEigenVector()[ind]!=value*(ind+1))
             {
-            std::cout<<" [FAILED] : GetMaxEigenValue : found " << ( *jdti).GetMaxEigenValue()[ind] << " instead of " << value*(ind+1) <<std::endl;
+            std::cout<<" [FAILED] : GetMaxEigenVector : found " << ( *jdti).GetMaxEigenVector()[ind] << " instead of " << value*(ind+1) <<std::endl;
             return EXIT_FAILURE;
             }
           }

@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkDTITubeSpatialObjectPoint_h
 #define __itkDTITubeSpatialObjectPoint_h
 
@@ -78,34 +77,34 @@ public:
   float GetLambda3() const {return m_Lambda3;}
 
   /** Set/Get the minimum eigen value */
-  void SetMinEigenValue(float* val)
+  void SetMinEigenVector(float* val)
     {
     for(unsigned int i=0;i<3;i++)
       {
       m_MinEV[i] = val[i];
       }
     }
-  const float* GetMinEigenValue() const {return m_MinEV;}
+  const float* GetMinEigenVector() const {return m_MinEV;}
 
   /** Set/Get the medium eigen value */
-  void SetMedEigenValue(float* val)
+  void SetMedEigenVector(float* val)
     {
     for(unsigned int i=0;i<3;i++)
       {
       m_MedEV[i] = val[i];
       }
     }
-  const float* GetMedEigenValue() const {return m_MedEV;}
+  const float* GetMedEigenVector() const {return m_MedEV;}
 
   /** Set/Get the maximum eigen value */
-  void SetMaxEigenValue(float* val)
+  void SetMaxEigenVector(float* val)
     {
     for(unsigned int i=0;i<3;i++)
       {
       m_MaxEV[i] = val[i];
       }
     }
-  const float* GetMaxEigenValue() const {return m_MaxEV;}
+  const float* GetMaxEigenVector() const {return m_MaxEV;}
 
   /** Set/Get the MRI field */
   void SetMRI(float* mri)

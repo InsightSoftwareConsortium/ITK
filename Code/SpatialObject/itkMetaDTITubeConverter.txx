@@ -94,19 +94,19 @@ MetaDTITubeConverter<NDimensions>
       {
       ev[i]=(*it2)->m_MinEV[i];
       }
-    pnt.SetMinEigenValue(ev);
+    pnt.SetMinEigenVector(ev);
 
     for(unsigned int i=0;i<3;i++)
       {
       ev[i]=(*it2)->m_MedEV[i];
       }
-    pnt.SetMedEigenValue(ev);
+    pnt.SetMedEigenVector(ev);
 
     for(unsigned int i=0;i<3;i++)
       {
       ev[i]=(*it2)->m_MaxEV[i];
       }
-    pnt.SetMaxEigenValue(ev);
+    pnt.SetMaxEigenVector(ev);
 
     delete ev;
     
@@ -197,9 +197,9 @@ MetaDTITubeConverter<NDimensions>
 
     for(unsigned int d=0;d<3;d++)
       {
-      pnt->m_MinEV[d]=(*i).GetMinEigenValue()[d];
-      pnt->m_MedEV[d]=(*i).GetMedEigenValue()[d];
-      pnt->m_MaxEV[d]=(*i).GetMaxEigenValue()[d];  
+      pnt->m_MinEV[d]=(*i).GetMinEigenVector()[d];
+      pnt->m_MedEV[d]=(*i).GetMedEigenVector()[d];
+      pnt->m_MaxEV[d]=(*i).GetMaxEigenVector()[d];  
       }
     for(unsigned int d=0;d<5;d++)
       {
