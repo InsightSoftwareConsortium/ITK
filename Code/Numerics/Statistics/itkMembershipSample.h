@@ -26,7 +26,7 @@
 #include "itkExceptionObject.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class MembershipSample
  * \brief Container for storing the instance-identifiers of other sample with 
@@ -51,14 +51,12 @@ namespace itk{
   
 template< class TSample >
 class ITK_EXPORT MembershipSample : 
-      public Sample< typename TSample::MeasurementType, 
-                     TSample::MeasurementVectorSize >
+    public Sample< typename TSample::MeasurementVectorType >
 {
 public:
   /** Standard class typedefs. */
   typedef MembershipSample Self;
-  typedef Sample< typename TSample::MeasurementType, 
-                  TSample::MeasurementVectorSize > Superclass ;
+  typedef Sample< typename TSample::MeasurementVectorType > Superclass ;
   typedef SmartPointer< Self > Pointer ;
 
   /** Standard macros */ 
@@ -71,8 +69,8 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
-//    typedef typename TSample::SizeType SizeType ;
-//    typedef typename TSample::SizeValueType SizeValueType ;
+  //    typedef typename TSample::SizeType SizeType ;
+  //    typedef typename TSample::SizeValueType SizeValueType ;
   
   /** MeasurementVectorSize enum from super class */
   enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
@@ -238,7 +236,7 @@ private:
 } ; // end of class
 
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 
