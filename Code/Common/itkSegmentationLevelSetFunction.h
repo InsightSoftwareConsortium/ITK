@@ -122,6 +122,18 @@ public:
    * Advection field term.  See LevelSetFunction for more information. */
   virtual void AllocateAdvectionImage();
 
+  /** Determines whether Positive or Negative speed terms will cause surface
+   * expansion.  This method flips the sign of all of the speed, advection, etc
+   * terms.  By convention, filters should be written so that POSITIVE speed
+   * terms cause surface expansion.  Calling this method will
+   * toggle between the standard POSITIVE EXPANSION convention and the
+   * nonstandard NEGATIVE EXPANSION convention.
+   *
+   * IMPORTANT:  When adding terms to the level-set equation through
+   * subclassing you may need to override this function so that your new terms
+   * will be properly adjusted. */
+  virtual void ReverseExpansionDirection();
+  
 protected:
   /** The image whose features will be used to create a speed image */
   typename FeatureImageType::ConstPointer m_FeatureImage;

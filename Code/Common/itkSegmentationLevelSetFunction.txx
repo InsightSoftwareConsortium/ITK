@@ -23,6 +23,14 @@ namespace itk {
 
 template <class TImageType, class TFeatureImageType>
 void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+::ReverseExpansionDirection()
+{
+  this->SetPropagationWeight( -1.0 * this->GetPropagationWeight() );
+  this->SetAdvectionWeight( -1.0 * this->GetAdvectionWeight() );
+}
+
+template <class TImageType, class TFeatureImageType>
+void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::Initialize(const RadiusType &r)
 {
   Superclass::Initialize(r);  
