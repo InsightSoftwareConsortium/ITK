@@ -235,6 +235,19 @@ public:
    * DataObject to be modified. */
   void SetPixelContainer( PixelContainer *container );
 
+  /** Graft the data and information from one image to another. This
+   * is a convenience method to setup a second image with all the meta
+   * information of another image and use the same pixel
+   * container. Note that this method is different than just using two
+   * SmartPointers to the same image since separate DataObjects are
+   * still maintained. This method is similar to
+   * ImageSource::GraftOutput(). The implementation in ImageBase
+   * simply calls CopyInformation() and copies the region ivars.
+   * The implementation here refers to the superclass' implementation
+   * and then copies over the pixel container. */
+  virtual void Graft(const ImageBase<VImageDimension> *data);
+
+  
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor( void )
     { return AccessorType(); }

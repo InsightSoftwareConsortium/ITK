@@ -86,6 +86,40 @@ ImageAdaptor<TImage , TAccessor>
     }
 }
 
+
+//----------------------------------------------------------------------------
+template<class TImage, class TAccessor>
+void 
+ImageAdaptor<TImage, TAccessor>
+::Graft(const Superclass *data)
+{
+  // call the superclass' implementation
+  Superclass::Graft( data );
+
+  if ( data )
+    {
+    // Attempt to cast data to an ImageAdaptor
+    const Self *imgData;
+
+    imgData = dynamic_cast<const Self *>(data);
+
+    if (imgData)
+      {
+      // Now copy anything remaining that is needed
+      this->SetPixelContainer(
+        const_cast<Self *>(imgData)->GetPixelContainer() );
+      }
+    else
+      {
+      // pointer could not be cast back down
+      itkExceptionMacro( << "itk::ImageAdaptor::Graft() cannot cast "
+                         << typeid(data).name() << " to "
+                         << typeid(const Self *).name() );
+      }
+    }
+}
+
+
 /**
  *
  */

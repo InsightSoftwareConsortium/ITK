@@ -97,6 +97,39 @@ Image<TPixel, VImageDimension>
     }
 }
     
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
+::Graft(const ImageBase<VImageDimension> *data)
+{
+  // call the superclass' implementation
+  Superclass::Graft( data );
+
+  if ( data )
+    {
+    // Attempt to cast data to an Image
+    const Image<TPixel, VImageDimension> *imgData;
+
+    imgData = dynamic_cast<const Image<TPixel, VImageDimension>*>(data);
+
+    if (imgData)
+      {
+      // Now copy anything remaining that is needed
+      this->SetPixelContainer(
+        const_cast<Image<TPixel, VImageDimension>::PixelContainer *>
+        (imgData->GetPixelContainer()) );
+      }
+    else
+      {
+      // pointer could not be cast back down
+      itkExceptionMacro( << "itk::Image::Graft() cannot cast "
+                         << typeid(data).name() << " to "
+                         << typeid(const Self *).name() );
+      }
+    }
+}
+
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>

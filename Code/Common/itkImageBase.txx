@@ -169,6 +169,24 @@ ImageBase<VImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::Graft(const ImageBase<VImageDimension> *data)
+{
+  // Copy the meta-information
+  Superclass::CopyInformation(data);
+
+  if (data)
+    {
+    // Copy the remaining region information. Subclasses are
+    // responsible for copying the pixel container.
+    this->SetBufferedRegion( data->GetBufferedRegion() );
+    this->SetRequestedRegion( data->GetRequestedRegion() );
+    }
+}
+
 
 
 

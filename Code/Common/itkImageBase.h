@@ -259,6 +259,18 @@ public:
    * LargestPossibleRegion from the input parameter. */
   virtual void CopyInformation(const DataObject *data);
 
+  /** Graft the data and information from one image to another. This
+   * is a convenience method to setup a second image with all the meta
+   * information of another image and use the same pixel
+   * container. Note that this method is different than just using two
+   * SmartPointers to the same image since separate DataObjects are
+   * still maintained. This method is similar to
+   * ImageSource::GraftOutput(). The implementation in ImageBase
+   * simply calls CopyInformation() and copies the region ivars.
+   * Subclasses of ImageBase are responsible for copying the pixel
+   * container. */
+  virtual void Graft(const ImageBase<VImageDimension> *data);
+
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline
    * mechanism to propagate information and initialize the meta data
