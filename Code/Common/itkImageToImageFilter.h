@@ -108,6 +108,11 @@ public:
    */
   itkTypeMacro(ImageToImageFilter,ImageSource);
 
+  /**
+   * Superclass typedefs.
+   */
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
   /** 
    * Some typedefs.
    */
