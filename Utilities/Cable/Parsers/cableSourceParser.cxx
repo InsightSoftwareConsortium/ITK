@@ -740,13 +740,14 @@ Parser
 ::begin_Converter(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
+  bool is_const = atts.GetAsBoolean("const");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Converter::Pointer newConverter = Converter::New(access);
+  Converter::Pointer newConverter = Converter::New(access, is_const);
   
   this->CurrentClass()->AddMethod(newConverter);
   this->PushElement(newConverter);
@@ -799,13 +800,14 @@ Parser
 {
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
+  bool is_const = atts.GetAsBoolean("const");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  OperatorMethod::Pointer newOperatorMethod = OperatorMethod::New(name, access);
+  OperatorMethod::Pointer newOperatorMethod = OperatorMethod::New(name, access, is_const);
   
   this->CurrentClass()->AddMethod(newOperatorMethod);
   this->PushElement(newOperatorMethod);
@@ -833,13 +835,14 @@ Parser
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
   bool is_static = atts.GetAsBoolean("static");
+  bool is_const = atts.GetAsBoolean("const");
   Access access;
   
   if(accessStr == access_public)         access = Public;
   else if(accessStr == access_protected) access = Protected;
   else                                   access = Private;
   
-  Method::Pointer newMethod = Method::New(name, access, is_static);
+  Method::Pointer newMethod = Method::New(name, access, is_static, is_const);
   
   this->CurrentClass()->AddMethod(newMethod);
   this->PushElement(newMethod);

@@ -222,9 +222,9 @@ Namespace
  */
 Method::Pointer
 Method
-::New(const String& name, Access access, bool is_static)
+::New(const String& name, Access access, bool is_static, bool is_const)
 {
-  return new Method(name, access, is_static);
+  return new Method(name, access, is_static, is_const);
 }
 
 
@@ -255,9 +255,9 @@ Destructor
  */
 Converter::Pointer
 Converter
-::New(Access access)
+::New(Access access, bool is_const)
 {
-  return new Converter(access);
+  return new Converter(access, is_const);
 }
 
 
@@ -266,9 +266,9 @@ Converter
  */
 OperatorMethod::Pointer
 OperatorMethod
-::New(const String& name, Access access)
+::New(const String& name, Access access, bool is_const)
 {
-  return new OperatorMethod(name, access);
+  return new OperatorMethod(name, access, is_const);
 }
 
 
@@ -1471,5 +1471,222 @@ BaseClass
   fprintf(file,
           "</BaseClass>\n");
 }
+
+
+/**
+ * Parse a ::-separated qualified name into its components.  Write each
+ * qualifier out through the QualifiersInserter.  The given name
+ * may not end in a ::, but if it begins in a ::, then the first qualifier
+ * will be the empty string.
+ *
+ * Returns false only if there was an error parsing the name.
+ */
+bool
+Context
+::ParseQualifiedName(const String& name, QualifiersInserter qualifiers) const
+{  
+  String qualifier = "";
+  for(String::const_iterator c = name.begin(); c != name.end(); ++c)
+    {
+    if(*c == ':')
+      {
+      // This is the first ':' of a '::' seperator.
+      // Output current qualifier.  This may be empty only if the string
+      // begins with a :: seperator.
+      *qualifiers++ = qualifier;
+      
+      // Reset for next qualifier.
+      qualifier = "";
+      
+      // Move past the '::' seperator (it shouldn't be the last character).
+      if((++c != name.end()) && (*c == ':')
+         && (++c != name.end()) && (*c != ':'))
+        {
+        // Handle this first character now.  The loop will handle the rest.
+        qualifier.insert(qualifier.end(), *c);        
+        }
+      else
+        {
+        // Invalid qualified identifier.
+        return false;
+        }
+      }
+    else if(*c == '<')
+      {
+      // We have hit the opening of a template argument block.  We must
+      // take all characters until the matching '>' character.
+      qualifier.insert(qualifier.end(), '<');
+      unsigned int depth = 1;
+      while(++c != name.end())
+        {
+        qualifier.insert(qualifier.end(), *c);
+        if(*c == '<')
+          {
+          ++depth;
+          }
+        else if(*c == '>')
+          {
+          if(--depth == 0)
+            { break; }
+          }
+        }
+      }
+    else
+      {
+      // This is just another character.  Add it to the qualifier.
+      qualifier.insert(qualifier.end(), *c);
+      }
+    }
+  
+  // Output the last qualifier.  This should never be empty unless the
+  // string was empty.
+  if(qualifier.length() > 0)
+    *qualifiers++ = qualifier;
+  
+  return true;
+}
+
+
+/**
+ * Lookup the given class starting in this namespace's scope.
+ */
+Class*
+Namespace
+::LookupClass(const String& name) const
+{
+  // Parse the name into its qualifiers.
+  Qualifiers qualifierList;
+  
+  if(this->ParseQualifiedName(name, std::back_inserter(qualifierList)))
+    {
+    // The name was valid, but may or may not exist.  Try to look it up.
+    Context* result = this->LookupName(qualifierList.begin(), qualifierList.end());
+    if(result->IsClass() || result->IsStruct() || result->IsUnion())
+      {
+      return dynamic_cast<Class*>(result);
+      }
+    else
+      {
+      return NULL;
+      }
+    }
+  else
+    {
+    // The name was invalid, and failed to parse.
+    return NULL;
+    }
+}
+
+
+/**
+ * Lookup the given name starting in this namespace's scope.
+ *
+ * This internal version takes iterators into a Qualifiers describing
+ * the name.
+ */
+Context*
+Namespace
+::LookupName(QualifiersConstIterator first,
+             QualifiersConstIterator last) const
+{
+  // If there is no name, we cannot look it up.
+  if(first == last)
+    {
+    return NULL;
+    }
+  
+  // Get an iterator to the second member of the list (may be the end).
+  QualifiersConstIterator second = first; ++second;
+  
+  // Try to look up the highest level qualifier in this namespace.
+  Namespace::Pointer nsKey = Namespace::New(*first);
+  
+  NamespaceContainer::const_iterator namespaceIter = m_Namespaces.find(nsKey);
+  if(namespaceIter != m_Namespaces.end())
+    {
+    // We have found a nested namespace.
+    Namespace* ns = namespaceIter->RealPointer();
+    if(second == last)
+      {
+      // This was the last qualifier.  This is the target.
+      return ns;
+      }
+    else
+      {
+      // Lookup the rest of the name in the nested namespace.
+      return ns->LookupName(second, last);
+      }
+    }
+  
+  // There was no namespace with the given name.  Try looking up
+  // a class with that name.
+  Class::Pointer classKey = Class::New(*first, Public);
+  ClassContainer::const_iterator classIter = m_Classes.find(classKey);
+  if(classIter != m_Classes.end())
+    {
+    // We have found a class.
+    Class* c = classIter->RealPointer();
+    if(second == last)
+      {
+      // This was the last qualifier.  This is the target.
+      return c;
+      }
+    else
+      {
+      // Lookup the rest of the name in the class.
+      return c->LookupName(second, last);
+      }
+    }
+  
+  // Didn't find the first qualifier in our scope.
+  return NULL;
+}
+
+
+
+/**
+ * Lookup the given name starting in this class's scope.
+ *
+ * This internal version takes iterators into a Qualifiers describing
+ * the name.
+ */
+Context*
+Class
+::LookupName(QualifiersConstIterator first,
+             QualifiersConstIterator last) const
+{
+  // If there is no name, we cannot look it up.
+  if(first == last)
+    {
+    return NULL;
+    }
+  
+  // Get an iterator to the second member of the list (may be the end).
+  QualifiersConstIterator second = first; ++second;
+  
+  // Try to look up the highest level qualifier in this class.
+  Class::Pointer classKey = Class::New(*first, Public);
+  
+  ClassContainer::const_iterator classIter = m_Classes.find(classKey);
+  if(classIter != m_Classes.end())
+    {
+    // We have found a class.
+    Class* c = classIter->RealPointer();
+    if(second == last)
+      {
+      // This was the last qualifier.  This is the target.
+      return c;
+      }
+    else
+      {
+      // Lookup the rest of the name in the class.
+      return c->LookupName(second, last);
+      }
+    }
+  
+  // Didn't find the first qualifier in our scope.
+  return NULL;
+}
+
 
 } // namespace source

@@ -582,13 +582,19 @@ public:
   
   String GetQualifiedName() const;
   
+  typedef std::vector<String>  Qualifiers;
+  typedef Qualifiers::const_iterator QualifiersConstIterator;
+  typedef std::back_insert_iterator<Qualifiers>  QualifiersInserter;
+
+  bool ParseQualifiedName(const String&, QualifiersInserter) const;
+  
 protected:
   Context(const String& name): Named(name) {}
   Context(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Context() { }
   
-private:
+protected:
   ClassContainer     m_Classes;
   Pointer            m_Context;
 };
@@ -910,6 +916,12 @@ public:
   
   virtual void Print(FILE*, unsigned int) const;
   
+  typedef Context::Qualifiers  Qualifiers;
+  typedef Context::QualifiersConstIterator QualifiersConstIterator;
+  typedef Context::QualifiersInserter QualifiersInserter;  
+  
+  Class* LookupClass(const String&) const;
+  Context* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Namespace(const String& name): Context(name) {}
   Namespace(const Self&): Context("") {}
@@ -932,19 +944,21 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access, bool is_static);
+  static Pointer New(const String& name, Access access,
+                     bool is_static, bool is_const);
 
   virtual TypeOfObject GetTypeOfObject() const { return Method_id; }
   virtual const char* GetClassName() const { return "Method"; }
   
   bool IsStatic() const { return m_Static; }
+  bool IsConst() const { return m_Const; }
   Access GetAccess() const  { return m_Access; }
 
   virtual void Print(FILE*, unsigned int) const;
   
 protected:
-  Method(const String& in_name, Access access, bool is_static):
-    Function(in_name), m_Access(access), m_Static(is_static) {}
+  Method(const String& in_name, Access access, bool is_static, bool is_const):
+    Function(in_name), m_Access(access), m_Static(is_static), m_Const(is_const) {}
   Method(const Self&): Function("") {}
   void operator=(const Self&) {}
   virtual ~Method() {}
@@ -952,6 +966,7 @@ protected:
 private:
   Access m_Access;
   bool m_Static;
+  bool m_Const;
 };
 
 
@@ -974,8 +989,8 @@ public:
   
 protected:
   Constructor(Access access):
-    Method("", access, false) {}
-  Constructor(const Self&): Method("", Public, false) {}
+    Method("", access, false, false) {}
+  Constructor(const Self&): Method("", Public, false, false) {}
   void operator=(const Self&) {}
   virtual ~Constructor() {}
 };
@@ -1000,8 +1015,8 @@ public:
   
 protected:
   Destructor(Access access):
-    Method("", access, false) {}
-  Destructor(const Self&): Method("", Public, false) {}
+    Method("", access, false, false) {}
+  Destructor(const Self&): Method("", Public, false, false) {}
   void operator=(const Self&) {}
   virtual ~Destructor() {}
 };
@@ -1018,7 +1033,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(Access access);
+  static Pointer New(Access access, bool is_const);
 
   virtual TypeOfObject GetTypeOfObject() const { return Converter_id; }
   virtual const char* GetClassName() const { return "Converter"; }
@@ -1026,9 +1041,9 @@ public:
   virtual void Print(FILE*, unsigned int) const;
   
 protected:
-  Converter(Access access):
-    Method("", access, false) {}
-  Converter(const Self&): Method("", Public, false) {}
+  Converter(Access access, bool is_const):
+    Method("", access, false, is_const) {}
+  Converter(const Self&): Method("", Public, false, false) {}
   void operator=(const Self&) {}
   virtual ~Converter() {}
 };
@@ -1044,7 +1059,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access);
+  static Pointer New(const String& name, Access access, bool is_const);
 
   virtual TypeOfObject GetTypeOfObject() const { return OperatorMethod_id; }
   virtual const char* GetClassName() const { return "OperatorMethod"; }
@@ -1054,9 +1069,9 @@ public:
   virtual void Print(FILE*, unsigned int) const;
   
 protected:
-  OperatorMethod(const String& name, Access access):
-    Method(name, access, false) {}
-  OperatorMethod(const Self&): Method("", Public, false) {}
+  OperatorMethod(const String& name, Access access, bool is_const):
+    Method(name, access, false, is_const) {}
+  OperatorMethod(const Self&): Method("", Public, false, false) {}
   void operator=(const Self&) {}
   virtual ~OperatorMethod() {}
 };
@@ -1121,6 +1136,11 @@ public:
   void PrintMethods(FILE*, unsigned int) const;
   void PrintBaseClasses(FILE*, unsigned int) const;
   
+  typedef Context::Qualifiers  Qualifiers;
+  typedef Context::QualifiersConstIterator QualifiersConstIterator;
+  typedef Context::QualifiersInserter QualifiersInserter;  
+  
+  Context* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:  
   Class(const String& name, Access access): Context(name), m_Access(access) {}
   Class(const Self&): Context("") {}
