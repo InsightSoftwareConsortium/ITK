@@ -82,6 +82,13 @@ vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
 {
 }
 
+vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
+{
+  delete [] values;
+  delete [] vectors;
+}
+
+
 //------------------------------------------------------------
 //: Here is where the fortran converted code gets called.  The
 // sparse matrix M is assumed to be symmetric.  The n smallest
@@ -214,6 +221,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   nvalues = n;
   vectors = new vnl_vector<double>[n];
   values = new double[n];
+
   for (int i=0; i<n; ++i) {
     values[i] = temp_vals[i];
     // cout << "value " << temp_vals[i]
