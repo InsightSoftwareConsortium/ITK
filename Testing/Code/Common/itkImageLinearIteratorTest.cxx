@@ -295,6 +295,100 @@ int main()
 
 
 
+  // Verification of the Iterator in a subregion of the image
+  {
+  std::cout << "Verifying Iterator in a Region smaller than the whole image... ";
+
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
+    
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
+
+    ImageType::RegionType region;
+    region.SetIndex( start );
+    region.SetSize( size );
+
+    IteratorType cbot( myImage, region );
+
+    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
+
+    while( !cbot.IsAtEnd() )
+      {
+      while( !cbot.IsAtEndOfLine() )
+        {
+        ImageType::IndexType index =  cbot.GetIndex();
+        ImageType::PixelType pixel =  cbot.Get();
+
+        if( index != pixel )
+          {
+          std::cerr << "Iterator in region test failed" << std::endl;
+          std::cerr << pixel << " should be" << index << std::endl;
+          return EXIT_FAILURE;
+          }
+
+        ++cbot;
+        }
+      cbot.NextLine(); 
+      }
+
+    std::cout << "   Done ! " << std::endl;
+  }
+
+
+
+  // Verification of the Const Iterator in a subregion of the image
+  {
+  std::cout << "Verifying Const Iterator in a Region smaller than the whole image... ";
+
+    ImageType::IndexType start;
+    start[0] = 10;
+    start[1] = 12;
+    start[2] = 14;
+    
+    ImageType::SizeType size;
+    size[0] = 11;
+    size[1] = 12;
+    size[2] = 13;
+
+    ImageType::RegionType region;
+    region.SetIndex( start );
+    region.SetSize( size );
+
+    ConstIteratorType cbot( myImage, region );
+
+    cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
+    cbot.GoToBegin();
+
+    while( !cbot.IsAtEnd() )
+      {
+      while( !cbot.IsAtEndOfLine() )
+        {
+        ImageType::IndexType index =  cbot.GetIndex();
+        ImageType::PixelType pixel =  cbot.Get();
+
+        if( index != pixel )
+          {
+          std::cerr << "Iterator in region test failed" << std::endl;
+          std::cerr << pixel << " should be" << index << std::endl;
+          return EXIT_FAILURE;
+          }
+
+        ++cbot;
+        }
+      cbot.NextLine(); 
+      }
+
+    std::cout << "   Done ! " << std::endl;
+  }
+
+
+
 
     std::cout << "Test passed" << std::endl;
 
