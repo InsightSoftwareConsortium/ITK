@@ -149,7 +149,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
         this->Fe(Gpos,Gsol); // FIXME
         tempe=fabs(0.0);
       }
-      catch( itk::ExceptionObject & e )
+      catch( ... )
       { 
       // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
@@ -255,7 +255,6 @@ int FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID()
 {
 
   std::string clsnm = std::string("FiniteDifferenceFunctionLoad(")+typeid(TMoving).name()+","+typeid(TFixed).name()+")";
-
   static const int CLID_ = FEMOF::Register( FiniteDifferenceFunctionLoad::NewB,clsnm.c_str());
 
   return CLID_;
