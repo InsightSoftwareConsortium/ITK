@@ -21,7 +21,7 @@
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkAddImageFilter.h"
+#include "itkNaryAddImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkSqrtImageFilter.h"
 
@@ -91,76 +91,63 @@ void
 SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  int i;
-  typename TOutputImage::Pointer output = this->GetOutput();
+  // Define the filter types used.
+  typedef NeighborhoodOperatorImageFilter<InputImageType,
+                                          OutputImageType> OpFilter;
+  typedef MultiplyImageFilter<OutputImageType,
+                              OutputImageType,
+                              OutputImageType> MultFilter;
+  typedef NaryAddImageFilter<OutputImageType, OutputImageType> AddFilter;
+  typedef SqrtImageFilter<OutputImageType, OutputImageType> SqrtFilter;
   
-  typename TOutputImage::Pointer gradMagSquare;
-  typename TOutputImage::Pointer tmp;
-
+  int i;  
+  
+  typename TOutputImage::Pointer output = this->GetOutput();  
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
-
-  ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
   
   // Create the sobel operator
-  SobelOperator<OutputPixelType, ImageDimension> oper;
-
-  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
-    ::Pointer filter[ImageDimension];
-  MultiplyImageFilter<OutputImageType, OutputImageType, OutputImageType>::Pointer multFilter[ImageDimension];
-  AddImageFilter<OutputImageType, OutputImageType, OutputImageType>::Pointer addFilter[ImageDimension];
-  SqrtImageFilter<OutputImageType, OutputImageType>::Pointer sqrtFilter =  SqrtImageFilter<OutputImageType, OutputImageType>::New();
-
-  //create a set of filters
-  for ( i = 0; i< ImageDimension; i ++)
-    {
-    filter[i] = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
-    multFilter[i] = MultiplyImageFilter<OutputImageType, OutputImageType, OutputImageType>::New();
-    addFilter[i] = AddImageFilter<OutputImageType, OutputImageType, OutputImageType>::New();
-    }
-
-  //
-  //calculate the gradient magnitude square
-  for ( i = 0; i < ImageDimension; i++)
-    {
-    oper.SetDirection(i);
-    oper.CreateOperator();
+  SobelOperator<OutputPixelType, ImageDimension> opers[ImageDimension];
+  ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
   
-    //Set Boundary Condition
-    filter[i]->OverrideBoundaryCondition(&nbc);
-      
-    //
-    // set up the mini-pipline
-    //
-    filter[i]->SetOperator(oper);
-    filter[i]->SetInput(this->GetInput());
-
-    // execute the mini-pipeline
-    filter[i]->Update();
-    tmp = filter[i]->GetOutput();
-    multFilter[i]->SetInput1(tmp);
-    multFilter[i]->SetInput2(tmp);
-    multFilter[i]->Update();
-    }
-      
-  gradMagSquare = multFilter[0] ->GetOutput();
-  
-  for( i = 1; i < ImageDimension; i ++)
+  // Setup mini-pipelines along each axis.
+  typename OpFilter::Pointer opFilter[ImageDimension];
+  typename MultFilter::Pointer multFilter[ImageDimension];
+  typename AddFilter::Pointer addFilter = AddFilter::New();
+  typename SqrtFilter::Pointer sqrtFilter =  SqrtFilter::New();  
+  for(i=0; i < ImageDimension; ++i)
     {
-    addFilter[i]->SetInput1(gradMagSquare);
-    addFilter[i]->SetInput2(multFilter[i] ->GetOutput());
-    addFilter[i]->Update();
-
-    gradMagSquare = addFilter[i]->GetOutput();
+    // Create the filters for this axis.
+    opFilter[i] = OpFilter::New();
+    multFilter[i] = MultFilter::New();
+    
+    // Set boundary condition and operator for this axis.
+    opers[i].SetDirection(i);
+    opers[i].CreateOperator();
+    opFilter[i]->OverrideBoundaryCondition(&nbc);
+    opFilter[i]->SetOperator(opers[i]);
+    
+    // Setup the mini-pipeline for this axis.
+    opFilter[i]->SetInput(this->GetInput());
+    multFilter[i]->SetInput1(opFilter[i]->GetOutput());
+    multFilter[i]->SetInput2(opFilter[i]->GetOutput());
+    
+    // All axes' mini-pipelines come together in addFilter.
+    addFilter->SetInput(i, multFilter[i]->GetOutput());
     }
-
-  //calculate the gradient magnitude
-  sqrtFilter->SetInput(gradMagSquare);
+  
+  // calculate the gradient magnitude
+  sqrtFilter->SetInput(addFilter->GetOutput());
+  
+  // setup the mini-pipeline to calculate the correct regions and
+  // write to the appropriate bulk data block
+  sqrtFilter->GraftOutput( this->GetOutput() );
+  
+  // execute the mini-pipeline
   sqrtFilter->Update();
-
-  // graft the output of the mini-pipeline back onto the filter's output.
-  // this copies back the region ivars and meta-dataig
-      
+  
+  // graft the mini-pipeline output back onto this filter's output.
+  // this is needed to get the appropriate regions passed back.
   this->GraftOutput(sqrtFilter->GetOutput());
 }
 
