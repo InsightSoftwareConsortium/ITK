@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates how to import data in to the \doxygen{Image}.  This
-// is particularly useful for interfacing with other software systems which use
+// is particularly useful for interfacing with other software systems that use
 // a different data structure for representing images. It is quite common to
 // use a contiguous block of memory as buffer for the image pixel data. The
 // current example assumes this is the case and uses this block of memory to
@@ -174,7 +174,7 @@ int main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  We allocate now the memory block that will contain the pixel data to be
+  //  We allocate the memory block that will contain the pixel data to be
   //  passed to the \code{ImportImageFilter}. Note that we use exactly the same
   //  size that was promised to the filter with the \code{SetRegion()} method.
   //  In a practical application you may get this buffer from some other
@@ -197,7 +197,7 @@ int main(int argc, char ** argv)
   //  Here we fill up the buffer with a binary sphere. We use good old-time
   //  \code{for()} loops here... it looks just like FORTAN. Note that ITK does
   //  not use \code{for()} loops in its internal code for accessing pixels. All
-  //  the pixel access tasks are performed using \doxygen{ImageIterator}s which
+  //  the pixel access tasks are performed using \doxygen{ImageIterator}s that
   //  support managing $ND$ images.
   //
   //  Software Guide : EndLatex 
@@ -208,13 +208,13 @@ int main(int argc, char ** argv)
 
   for(unsigned int z=0; z < size[2]; z++)
     {
-    const double dz = static_cast<double>( z ) - size[2]/2.0;
+    const double dz = static_cast<double>( z ) - static_cast<double>(size[2])/2.0;
     for(unsigned int y=0; y < size[1]; y++)
       {
-      const double dy = static_cast<double>( y ) - size[1]/2.0;
+      const double dy = static_cast<double>( y ) - static_cast<double>(size[1])/2.0;
       for(unsigned int x=0; x < size[0]; x++)
         {
-        const double dx = static_cast<double>( x ) - size[0]/2.0;
+        const double dx = static_cast<double>( x ) - static_cast<double>(size[0])/2.0;
         const double d2 = dx*dx + dy*dy + dz*dz;
         *it++ = ( d2 < radius2 ) ? 255 : 0;
         }
@@ -236,6 +236,13 @@ int main(int argc, char ** argv)
   //  destructor is called. A \code{false} on the other hand will allow the
   //  filter to delete the memory block.
   //
+  //  For the \doxygen{ImportImageFilter} to approriately delete the memory block,
+  //  the memory must be allocated with the C++ new operator.  Memory allocated with
+  //  with other memory allocation mechanisms, such as the C malloc or calloc,
+  //  will not be deleted properly by the \doxygen{ImportImageFilter}.  In other
+  //  words, it is the application programmers responsiblility to ensure
+  //  that \doxygen{ImportImageFilter} is only given responsibilty to delete the
+  //  C++ new operator allocated memory.
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -283,9 +290,9 @@ int main(int argc, char ** argv)
   //
   //  Note that we do not call \code{delete} on the buffer since we pass
   //  \code{false} to the last argument of \code{SetImportPointer()}. Now the
-  //  buffer is owned by the \code{ImportImageFilter}. 
+  //  C++ new operator allocated buffer is owned by the \code{ImportImageFilter}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

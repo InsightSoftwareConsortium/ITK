@@ -221,7 +221,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // An \doxygen{Point}, like an \doxygen{Index}, is a relatively small and
-  // simple object.  for this reason it is not reference counted like the large
+  // simple object.  For this reason it is not reference counted like the large
   // data objects in ITK and as a consequence it is not managed by
   // \doxygen{SmartPointer}s.  Point objects are simply declared as instances
   // of any other C++ class.  Once the point is declared, its components can be
@@ -275,10 +275,12 @@ int main()
   // Software Guide : EndLatex
 
 
-  // Software Guide : BeginCodeSnippet 
-  image->TransformPhysicalPointToIndex( point, pixelIndex ); 
-
-  ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
+  // Software Guide : BeginCodeSnippet
+  const bool isValidPixel=image->TransformPhysicalPointToIndex( point, pixelIndex ); 
+  if(isValidPixel==true)
+  {
+     ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
+  }
   // Software Guide : EndCodeSnippet 
 
 
@@ -289,8 +291,6 @@ int main()
   // massive access to pixel data is required.
   //
   // Software Guide : EndLatex
-
-
 
   return 0;
 

@@ -76,8 +76,8 @@ int main()
   // later to manage partitions of an image in order to process
   // selected regions. 
   //   
-  // The starting point of the image is defined by an \doxygen{Index} class,
-  // which is an N-Dimensional array where each component is an integer
+  // The starting point of the image is defined by an \doxygen{Index} class
+  // that is an N-Dimensional array where each component is an integer
   // indicating the grid coordinates of the initial pixel of the image.
   //
   // \index{itk::Image!Size}
@@ -95,7 +95,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The image size is defined by an \doxygen{Size} class which is simply an
+  // The image size is defined by an \doxygen{Size} class that is simply an
   // array of the same dimension of the image. The components of the array are
   // integeres indicating the extent in pixels of the image along every
   // dimension.
@@ -116,7 +116,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // Having defined the starting index and the image size, these
-  // two parameters are used to create an ImageRegion object which
+  // two parameters are used to create an ImageRegion object that
   // basically handles both concepts together. The region is initalized
   // with the starting index and size of the image.
   //
