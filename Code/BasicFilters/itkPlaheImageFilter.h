@@ -55,18 +55,18 @@ namespace itk
  * 
  * \ingroup ImageEnhancement
  */
-template <class TPixel, unsigned int VImageDimension = 2>
+template <class TImageType>
 class ITK_EXPORT PlaheImageFilter :
-  public ImageToImageFilter< Image<TPixel, VImageDimension>,
-                             Image<TPixel, VImageDimension> >
+  public ImageToImageFilter< TImageType, TImageType >
 {
 public:
   /** Standard class typedefs.*/ 
   typedef PlaheImageFilter Self;
-  typedef ImageToImageFilter< Image<TPixel, VImageDimension>,
-                              Image<TPixel, VImageDimension> > Superclass;
+  typedef ImageToImageFilter< TImageType, TImageType > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> constPointer;
+
+  enum { ImageDimension = TImageType::ImageDimension };
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,18 +75,15 @@ public:
   itkTypeMacro(PlaheImageFilter, ImageToImageFilter);
 
   /** Image type typedef support. */
-  typedef Image<TPixel, VImageDimension> ImageType;
+  typedef TImageType ImageType;
 
-  /** A function which is used in GenerateData(). */
-  float CumulativeFunction(float u, float v);
-   
   /** Standard Get/Set macros for filter parameters. */
   itkSetMacro(Alpha, float);
   itkGetMacro(Alpha, float);
   itkSetMacro(Beta, float);
   itkGetMacro(Beta, float);
-  itkSetVectorMacro(Window, unsigned int, VImageDimension);
-  itkGetVectorMacro(Window, const unsigned int, VImageDimension);
+  itkSetVectorMacro(Window, unsigned int, ImageDimension);
+  itkGetVectorMacro(Window, const unsigned int, ImageDimension);
 
 protected:
   PlaheImageFilter(){}
@@ -109,8 +106,11 @@ private:
   /** The window size of the Plahe algorithm.
    * This parameter defines the size of neighborhood 
    * around the evaluated pixel. */
-  unsigned int m_Window[VImageDimension];
+  unsigned int m_Window[ImageType::ImageDimension];
 
+  /** A function which is used in GenerateData(). */
+  float CumulativeFunction(float u, float v);
+   
 };
 
 } // end namespace itk

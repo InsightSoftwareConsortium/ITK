@@ -51,22 +51,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <class TPixel, unsigned int VImageDimension>
+template <class TImageType>
 float
-PlaheImageFilter<TPixel, VImageDimension>
+PlaheImageFilter<TImageType>
 ::CumulativeFunction(float u, float v)
 {
   // Calculate cumulative function
   return 0.5*vnl_math_sgn(u-v)*pow(abs(2*(u-v)),m_Alpha) + m_Beta*v;
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <class TImageType>
 void
-PlaheImageFilter<TPixel, VImageDimension>
+PlaheImageFilter<TImageType>
 ::GenerateData()
 {
   
-  typedef Image<TPixel, VImageDimension> ImageType;
+  typedef TImageType ImageType;
   ImageType::Pointer input = this->GetInput();
   ImageType::Pointer output = this->GetOutput();
   
@@ -79,7 +79,7 @@ PlaheImageFilter<TPixel, VImageDimension>
 
   //Set the kernel value of PLAHE algorithm
   float kernel = 1;
-  for (i = 0; i < VImageDimension; i++)
+  for (i = 0; i < ImageDimension; i++)
     {
     kernel = kernel * (this->GetWindow())[i];
     }
@@ -90,7 +90,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   ImageType::IndexType index;
   ImageType::SizeType size;
   region = input->GetRequestedRegion();
-  for ( i = 0; i < VImageDimension; i++)
+  for ( i = 0; i < ImageDimension; i++)
     {
     index[i] = 0;
     size[i]  = input->GetBufferedRegion().GetSize()[i];
@@ -114,7 +114,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   
   // Allocate a float type image which has the same size with an input image.
   // This image store normalized pixel values [-0.5 0.5] of the input image.
-  typedef Image<float, VImageDimension> ImageFloatType;
+  typedef Image<float, ImageDimension> ImageFloatType;
   ImageFloatType::Pointer inputFloat = ImageFloatType::New();
   inputFloat->SetBufferedRegion(region);
   inputFloat->SetRequestedRegion( region );
@@ -122,7 +122,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   inputFloat->Allocate();
 
   // iterator which traverse the float type image
-  ImageRegionIterator<Image<float, VImageDimension> > itFloat(inputFloat, region); 
+  ImageRegionIterator<ImageType> itFloat(inputFloat, region); 
 
   float iscale = max - min;
   float scale = (float)1/iscale;
@@ -196,8 +196,8 @@ PlaheImageFilter<TPixel, VImageDimension>
     }
 
 
-  int radius[VImageDimension];
-  for ( i = 0; i < VImageDimension; i++)
+  int radius[ImageDimension];
+  for ( i = 0; i < ImageDimension; i++)
     {
     // Radius of window (neighborhood of the evaluated pixel)
     radius[i] = (long)(m_Window[i]-1)/2;
@@ -214,11 +214,11 @@ PlaheImageFilter<TPixel, VImageDimension>
   // Iterators which will travel the center area, not boundary of the image.
   // "it" is for input image and itOut is for output image
   ImageRegionIteratorWithIndex<ImageFloatType> it(inputFloat, region);
-  ImageRegionIterator<Image<TPixel, VImageDimension> > itOut(output, region);
+  ImageRegionIterator<ImageType> itOut(output, region);
  
   // Assign the size of the window
   float sum;
-  for ( i = 0; i < VImageDimension; i++)
+  for ( i = 0; i < ImageDimension; i++)
     {
     size[i] = 2*radius[i] + 1;
     }
@@ -237,14 +237,13 @@ PlaheImageFilter<TPixel, VImageDimension>
     {
     count.clear();
     // Assign start index of the window
-    for ( i = 0; i < VImageDimension; i++)
+    for ( i = 0; i < ImageDimension; i++)
       {
       index[i] = it.GetIndex()[i] - radius[i];
       }
     region.SetIndex(index);
     region.SetSize(size);
-    ImageRegionIterator<Image<float, VImageDimension> >
-      itWin(inputFloat, region);
+    ImageRegionIterator< ImageType > itWin(inputFloat, region);
     itWin.GoToBegin();
 
     while ( !itWin.IsAtEnd() )
@@ -262,20 +261,22 @@ PlaheImageFilter<TPixel, VImageDimension>
       ++itWin;
       }
 
-    
+    typedef ImageType::PixelType PixelType;    
+
     // if CumulativeArray is properly assign, use it, 
     // if not, use CumulativeFunction()
     if (array.second)
       {
       sum = 0;
       itMap = count.begin();
+
       f = it.Get();
       while ( itMap != count.end()  )
         {
         sum = sum + itMap->second*CumulativeArray[f][itMap->first];
         ++itMap;
         }
-      itOut.Set( (TPixel)(iscale*(sum+0.5) + min) );
+      itOut.Set( (PixelType)(iscale*(sum+0.5) + min) );
       ++itOut;
       ++it;
       }
@@ -289,7 +290,7 @@ PlaheImageFilter<TPixel, VImageDimension>
         sum = sum + itMap->second*CumulativeFunction(f,itMap->first);
         ++itMap;
         }
-      itOut.Set((TPixel)(iscale*(sum+0.5) + min));
+      itOut.Set((PixelType)(iscale*(sum+0.5) + min));
       ++itOut;
       ++it;
       }
@@ -297,9 +298,9 @@ PlaheImageFilter<TPixel, VImageDimension>
     
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <class TImageType>
 void
-PlaheImageFilter<TPixel, VImageDimension>
+PlaheImageFilter<TImageType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
