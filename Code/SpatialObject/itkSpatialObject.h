@@ -237,7 +237,7 @@ public:
    *  the modification time of the children */
   unsigned long GetObjectMTime( void ) const
     {
-    Object::GetMTime();
+    return Superclass::GetMTime();
     }
 
   /** Set the region object that defines the size and starting index
