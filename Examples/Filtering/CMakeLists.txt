@@ -266,5 +266,14 @@ ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
         .25 20
 )
 
+ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/RGBCurvatureAnisotropicDiffusionImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/RGBCurvatureAnisotropicDiffusionImageFilter.png
+  RGBCurvatureAnisotropicDiffusionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/RGBCurvatureAnisotropicDiffusionImageFilter.png
+        .25 20
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
