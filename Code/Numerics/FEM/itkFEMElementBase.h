@@ -278,6 +278,20 @@ public:
     }
     return GetDegreeOfFreedom(pt*GetNumberOfDegreesOfFreedomPerPoint()+dof_at_pt);
   }
+
+  /**
+   * Interpolate the known solution at a given point in local co-ordinates.
+   * Returns zero, if either pt or dof_at_pt parameter is out of range.
+   *
+   * \param vnl_vector<Float> LocalCoords  - vector containing the local coordinates.
+   * \param unsigned int which_dof  - which of the degrees of freedom to interpolate.
+   */
+  
+  virtual Float InterpolateSolutionAtLocalCoordinate(vnl_vector<Float> LocalCoords, unsigned int which_dof ) const
+  {
+    return 0.0;
+  }
+
   /**
    * Sets a global DOF id that is associated with given point in an element.
    *
