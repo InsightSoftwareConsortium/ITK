@@ -152,6 +152,12 @@ namespace itk
       Dictionary[key]=temp;
     }
 
+  template <class T>
+    inline void EncapsulateMetaData(MetaDataDictionary &Dictionary, const char *key, const T &invalue)
+    {
+      EncapsulateMetaData(Dictionary, std::string(key), invalue);
+    }
+
   /**
    * FindValInDictionary provides a shortcut for pulling a value of type
    * T out of a MetaDataDictionary.
@@ -181,6 +187,13 @@ namespace itk
       //                                 SmartPointer    MetaDataObject<T>*
       return true;
     }
+
+  template <class T>
+    inline bool ExposeMetaData(MetaDataDictionary &Dictionary, const char *key, T &outval)
+    {
+      return ExposeMetaData(Dictionary, std::string(key), outval);
+    }
+
 } // end namespace itk
 
 /**
