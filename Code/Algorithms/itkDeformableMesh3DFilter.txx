@@ -115,6 +115,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   d[1] = 0.0;
   d[2] = 0.0; 
 
+  int j = 0;
   while( points != myPoints->End() ) {
     for (int i=0; i<3; i++ ) locations.Value()[i] = m_Scale[i] * points.Value()[i];
     ++points;
@@ -127,6 +128,22 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++derives;
     displacements.Value() = d;
     ++displacements;
+    m_Forces->SetPointData(j, 0.0);
+    j++;
+  }
+
+  const unsigned long *tp;
+  PixelType x = 0.0;
+  PixelType* x_pt;
+  x_pt = &x;
+  while( cells != myCells->End() ) {
+    tp = cells.Value()->GetPointIds();
+    for ( int i=0; i<3; i++ ) {
+      m_Forces->GetPointData((int)(tp[i]), x_pt);
+      x = x + 1.0;
+      m_Forces->SetPointData((int)(tp[i]), x);
+    }
+    ++cells;
   }
 
   this->SetDefaultStiffnessMatrix();
@@ -445,10 +462,11 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
-  ImageIndexType coord;
+  ImageIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
   InputPointType v1, v2;
+  PixelType mag, num_for;
 
-  typename TInputMesh::PointType vec_nor, vec_loc, vec_for;
+  typename TInputMesh::PointType vec_nor, vec_loc, vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
 
   InputPointsContainerPointer       myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator      locations = myLocations->Begin();
@@ -456,27 +474,75 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer       myForces = m_Forces->GetPoints();
   InputPointsContainerIterator      forces = myForces->Begin();
 
+  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator   forcedata = myForceData->Begin();
+
   InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator      normals = myNormals->Begin();
 
   /* New gradient fit method testing. */
-
-  locations = myLocations->Begin();
-  forces = myForces->Begin();
-
   while( forces != myForces->End() ) {
     vec_loc = locations.Value();
     vec_nor = normals.Value();
+    num_for = 1/forcedata.Value();
 
     coord[0] = (int) (vec_loc[0]);
     coord[1] = (int) (vec_loc[1]);
-    coord[2] = (int) (vec_loc[2]); 
-    vec_for[0] = m_Gradient->GetPixel(coord)[0]*vec_nor[0];
-    vec_for[1] = m_Gradient->GetPixel(coord)[1]*vec_nor[1]; 
-    vec_for[2] = m_Gradient->GetPixel(coord)[2]*vec_nor[2]; 
+    coord[2] = (int) (vec_loc[2]);
+
+    coord2[0] = (ceil) (vec_loc[0]);
+    coord2[1] = (ceil) (vec_loc[1]);
+    coord2[2] = (ceil) (vec_loc[2]);
+
+    tmp_co_1[0] = coord2[0];
+    tmp_co_1[1] = coord[1];
+    tmp_co_1[2] = coord[2];
+
+    tmp_co_2[0] = coord[0];
+    tmp_co_2[1] = coord2[1];
+    tmp_co_2[2] = coord[2];
+
+    tmp_co_3[0] = coord[0];
+    tmp_co_3[1] = coord[1];
+    tmp_co_3[2] = coord2[2];
+
+    if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
+        (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) ) {      
+      vec_for[0] = m_Gradient->GetPixel(coord)[0];
+      vec_for[1] = m_Gradient->GetPixel(coord)[1];
+      vec_for[2] = m_Gradient->GetPixel(coord)[2];
+
+      tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
+
+      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0];
+      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1];
+      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2];
+    } else {
+      vec_for[0] = 0;
+      vec_for[1] = 0;
+      vec_for[2] = 0;
+    }
+
+    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
+    vec_for[0] = mag*vec_nor[0]/*num_for*/;
+    vec_for[1] = mag*vec_nor[1]/*num_for*/; 
+    vec_for[2] = mag*vec_nor[2]/*num_for*/; 
+
+    mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
+    if (mag > 0.5) 
+      for (int i=0; i<3; i++) vec_for[i] = vec_for[i]/mag;
     forces.Value() = vec_for;
 
     ++forces;
+    ++forcedata;
     ++locations;
     ++normals;
   }
