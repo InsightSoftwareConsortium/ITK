@@ -13,7 +13,6 @@
 void test_cholesky()
 {
   vnl_matrix<double> A(3,3);
-  vnl_sample_reseed(vcl_time(0)); //for quasi-random initialization 
   test_util_fill_random(A.begin(), A.end());
   A = A * A.transpose();
 
