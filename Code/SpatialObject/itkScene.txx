@@ -212,18 +212,84 @@ Scene<SpaceDimension>
 {
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
+
+  typedef typename SpatialObjectType::ChildrenListType ChildListType;
+  ChildListType * cList;
+  typename ChildListType::iterator cIt;
+  typename ChildListType::iterator cItEnd;
     
   while( it != itEnd )
-  {
+    {
     if( (*it)->GetId() == Id )
-    { 
+      { 
       return *it;
-    }
+      }
+    else
+      {
+      cList = (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
+             GetChildren(SpatialObjectType::MaximumDepth); 
+      cIt = cList->begin();
+      cItEnd = cList->end();
+      while(cIt != cItEnd)
+        {
+        if( (*cIt)->GetId() == Id )
+          {
+          NDimensionalSpatialObject<SpaceDimension> * tmp;
+          tmp = *cIt;
+          delete cList;
+          return tmp;
+          }
+        cIt++;
+        }
+
+      delete cList;
+      }
+
     it++;
-  }
+    }
+
   return NULL;
 }
+template <unsigned int SpaceDimension>
+bool
+Scene<SpaceDimension>
+::FixHierarchy(void)
+  {
+  typename ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator oldIt;
+  typename ObjectListType::iterator itEnd = m_Objects.end();
 
+  bool ret = true;
+  while( it != itEnd)
+    {
+    int pID = (*it)->GetParentId();
+    if(pID >= 0)
+      {
+      SpatialObject<SpaceDimension> * pObj =
+          static_cast<SpatialObject<SpaceDimension> * >
+          (this->GetObjectById(pID));
+      if(pObj == NULL)
+        {
+        ret = false;
+        it++;
+        }
+      else
+        {
+        pObj->AddSpatialObject(dynamic_cast<SpatialObject<SpaceDimension> *>
+                               (*it));
+        oldIt = it;
+        it++;
+        m_Objects.erase( oldIt );
+        }
+      }
+    else
+      {
+      it++;
+      }
+    }
+
+  return ret;
+  }
 
 } // end of namespace itk 
 

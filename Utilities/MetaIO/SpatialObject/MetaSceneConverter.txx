@@ -59,30 +59,14 @@ typename MetaSceneConverter<NDimensions,PixelType>::ScenePointer
 MetaSceneConverter<NDimensions,PixelType>
 ::CreateSpatialObjectScene(MetaScene * mScene)
 {
-
   ScenePointer soScene = SceneType::New();
 
   MetaScene::ObjectListType list = mScene->GetObjectList();
   MetaScene::ObjectListType::iterator it = list.begin();
   MetaScene::ObjectListType::iterator itEnd = list.end();
 
-  std::list<int> ParentIDList; 
-  std::list<int>::iterator ParentID_it;
-
   while(it != itEnd)
   {
-    unsigned int attached = -1;
-    if( ((*it)->ParentID() != -1))
-    {
-      ParentIDList.push_back((*it)->ParentID());
-      ParentID_it = std::find(ParentIDList.begin(), ParentIDList.end(),
-                              (*it)->ParentID());
-      if( *ParentID_it )
-      {
-        attached = *ParentID_it;
-      }
-    }
-
     /** New object goes here */
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
@@ -90,15 +74,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::TubeSpatialObject<NDimensions>::Pointer so =
                tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      { 
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
-      }
+      soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Group",5))
@@ -107,15 +83,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
                groupConverter.MetaGroupToGroupSpatialObject((MetaGroup*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      { 
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
-      }
+      soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Ellipse",5))
@@ -124,15 +92,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
           ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      {
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
-      }
+      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Image",5))
@@ -141,15 +101,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
           imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      {
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
-      }
+      soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Blob",4))
@@ -158,15 +110,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::BlobSpatialObject<NDimensions>::Pointer
       so = blobConverter.MetaBlobToBlobSpatialObject((MetaBlob*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      {
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
-      }
+      soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Surface",7))
@@ -175,15 +119,7 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::SurfaceSpatialObject<NDimensions>::Pointer so =
           surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      {
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
-      }
+      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Line",4))
@@ -192,18 +128,12 @@ MetaSceneConverter<NDimensions,PixelType>
       typename itk::LineSpatialObject<NDimensions>::Pointer so =
           lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
       so->SetReferenceCount(2);
-      if(attached != -1)
-      {
-        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
-            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
-      }
-      else
-      {
-        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
-      }
+      soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
     }
     it++;
   }
+
+  soScene->FixHierarchy();
 
   return soScene;
 }
@@ -255,7 +185,6 @@ MetaSceneConverter<NDimensions,PixelType>
           dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
       group->ParentID((*it)->GetParentId());
       group->Name((*it)->GetProperty()->GetName().c_str());
-      std::cout << "Group id = " << group->ParentID() << std::endl;
       metaScene->AddObject(group);
       }
   

@@ -48,6 +48,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer; 
 
   typedef NDimensionalSpatialObject<SpaceDimension> ObjectType;
+  typedef SpatialObject<SpaceDimension> SpatialObjectType;
 
   typedef std::list< NDimensionalSpatialObject<SpaceDimension> * > 
           ObjectListType; 
@@ -88,6 +89,8 @@ public:
 
   /** Return a SpatialObject in the scene given its ID */
   NDimensionalSpatialObject<> * GetObjectById(int Id);
+
+  bool FixHierarchy(void);
 
 protected: 
 
