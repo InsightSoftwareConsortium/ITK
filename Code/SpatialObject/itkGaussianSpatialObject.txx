@@ -47,7 +47,7 @@ GaussianSpatialObject< TDimension >
 /** The z-score is the root mean square of the z-scores along
  *  each principal axis.   */
 template< unsigned int TDimension >
-GaussianSpatialObject< TDimension >::ScalarType
+typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
@@ -147,12 +147,12 @@ GaussianSpatialObject< TDimension >
 /** Returns the sigma=m_Radius level set of the Gaussian function, as an
  * EllipseSpatialObject.  */
 template< unsigned int TDimension >
-EllipseSpatialObject< TDimension >::Pointer 
+typename EllipseSpatialObject< TDimension >::Pointer 
 GaussianSpatialObject< TDimension >
 ::GetEllipsoid() const
 {
   typedef itk::EllipseSpatialObject< TDimension > EllipseType;
-  EllipseType::Pointer ellipse = EllipseType::New();
+  typename EllipseType::Pointer ellipse = EllipseType::New();
 
   ellipse->SetRadius( m_Radius );
   

@@ -100,7 +100,7 @@ public:
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */
-  EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
+  typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
 protected:
 
