@@ -20,7 +20,13 @@
 
 namespace itk
 {
-
+/**
+ *  \class AvgGradMagSquared
+ * Function object that returns the average gradient magnitude squared
+ * of scalar pixel values in an image region.  This is a helper class for
+ * AnisotropicDiffusionImageFilter.
+ *
+ */
 template <class TPixel, unsigned long VDimension>
 struct ITK_EXPORT AvgGradMagSquared
 {
