@@ -579,7 +579,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
     strcpy(m_FileName, _headerName);
     }
 
-  m_ReadStream->open(m_FileName, std::ios::binary);
+  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   if(!m_ReadStream->is_open())
     {
     std::cout << "MetaImage: Read: Cannot open file" << std::endl;
@@ -647,7 +647,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
             strcpy(fName, s);
             }
 
-          readStreamTemp->open(fName, std::ios::binary);
+          readStreamTemp->open(fName, std::ios::binary | std::ios::in);
           if(!readStreamTemp->is_open())
             {
             std::cout << "MetaImage: Read: cannot open slice" << std::endl;
@@ -705,7 +705,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
           strcpy(fName, s);
           }
         std::cout << "  file = _" << fName << "_" << std::endl;
-        readStreamTemp->open(fName, std::ios::binary);
+        readStreamTemp->open(fName, std::ios::binary | std::ios::in);
         if(!readStreamTemp->is_open())
           {
           std::cout << "MetaImage: Read: cannot construct file _" 
@@ -733,7 +733,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
         strcpy(fName, m_ElementDataFileName);
         }
       std::ifstream* readStreamTemp = new std::ifstream;
-      readStreamTemp->open(fName, std::ios::binary);
+      readStreamTemp->open(fName, std::ios::binary | std::ios::in);
       if(!readStreamTemp->is_open())
         {
         std::cout << "MetaImage: Read: Cannot open data file" << std::endl;
@@ -771,7 +771,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
 
   M_SetupWriteFields();
 
-  m_WriteStream->open(m_FileName, std::ios::binary);
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -816,7 +816,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         for(i=1; i<=m_DimSize[m_NDims-1]; i++)
           {
           sprintf(fName, dataFileName, i);
-          writeStreamTemp->open(fName, std::ios::binary);
+          writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
           writeStreamTemp->write(&(((char *)m_ElementData)[i*sliceNumberOfBytes]),
                                 sliceNumberOfBytes);
           writeStreamTemp->close();
@@ -824,7 +824,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         }
       else
         {
-        writeStreamTemp->open(dataFileName, std::ios::binary);
+        writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
         writeStreamTemp->write((char *)m_ElementData,
              m_Quantity*m_ElementNumberOfChannels*elementNumberOfBytes);
         writeStreamTemp->close();
@@ -1157,7 +1157,7 @@ bool MetaImage
 
   M_SetupWriteFields();
 
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app );
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -1198,7 +1198,7 @@ bool MetaImage
       for(i=1; i<=m_DimSize[m_NDims-1]; i++)
         {
         sprintf(fName, dataFileName, i);
-        writeStreamTemp->open(fName, std::ios::binary);
+        writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
         writeStreamTemp->write(&(((char *)m_ElementData)[i*sliceNumberOfBytes]),
                               sliceNumberOfBytes);
         writeStreamTemp->close();
@@ -1206,7 +1206,7 @@ bool MetaImage
       }
     else
       {
-      writeStreamTemp->open(dataFileName, std::ios::binary);
+      writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
       writeStreamTemp->write((char *)m_ElementData,
            m_Quantity*m_ElementNumberOfChannels*elementNumberOfBytes);
       writeStreamTemp->close();
@@ -1332,7 +1332,7 @@ ReadStream(int ndims, std::ifstream * stream)
   m_ReadStream = stream;
 
 
-  /*m_ReadStream->open(m_FileName, std::ios::binary);
+  /*m_ReadStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_ReadStream->is_open())
   {
     std::cout << "MetaImage: Read: Cannot open file" << std::endl;
@@ -1392,7 +1392,7 @@ ReadStream(int ndims, std::ifstream * stream)
           strcpy(fName, s);
         }
 
-        readStreamTemp->open(fName, std::ios::binary);
+        readStreamTemp->open(fName, std::ios::binary | std::ios::in);
         if(!readStreamTemp->is_open())
         {
           std::cout << "MetaImage: Read: cannot open slice" << std::endl;
@@ -1440,7 +1440,7 @@ ReadStream(int ndims, std::ifstream * stream)
       {
         strcpy(fName, s);
       }
-      readStreamTemp->open(fName, std::ios::binary);
+      readStreamTemp->open(fName, std::ios::binary | std::ios::in);
       if(!readStreamTemp->is_open())
       {
         std::cout << "MetaImage: Read: cannot construct file" << std::endl;
@@ -1468,7 +1468,7 @@ ReadStream(int ndims, std::ifstream * stream)
       if(META_DEBUG) std::cout << "MetaImage: Read: Element file = " << fName << std::endl;
     }
     std::ifstream* readStreamTemp = new std::ifstream;
-    readStreamTemp->open(fName, std::ios::binary);
+    readStreamTemp->open(fName, std::ios::binary | std::ios::in);
     if(!readStreamTemp->is_open())
     {
       std::cout << "MetaImage: Read: Cannot open data file" << std::endl;
