@@ -128,6 +128,8 @@ public:
   void SetEnergyToMin(Float xmin);
   inline LinearSystemWrapper* GetLS(){ return m_ls;}
 
+  Float GetCurrentMaxSolution() { return m_CurrentMaxSolution; }
+
   /** Compute and print the minimum and maximum of the total solution and the last solution.*/
   void PrintMinMaxOfSolution();
    /**
@@ -150,6 +152,7 @@ public:
     SolutionTMinus1Index=2;       // solution
     SumMatrixIndex=0;                   // matrix
     DifferenceMatrixIndex=1;            // matrix
+    m_CurrentMaxSolution=1.0;
   }
 
  
@@ -158,6 +161,7 @@ public:
   Float m_deltaT;
   Float m_rho;
   Float m_alpha;
+  Float m_CurrentMaxSolution;
 
   unsigned int ForceTIndex;
   unsigned int ForceTotalIndex;

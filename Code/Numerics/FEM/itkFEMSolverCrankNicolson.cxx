@@ -604,11 +604,23 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
-  Float mins=0.0, maxs=0.0,CurrentTotSolution,CurrentSolution,CurrentForce;
+  Float maxs=0.0,CurrentTotSolution,CurrentSolution,CurrentForce;
   Float mins2=0.0, maxs2=0.0;
+  Float absmax=0.0;
+
   for(unsigned int i=0;i<NGFN;i++)
   {  
-    
+#ifdef TOTE
+    CurrentSolution=m_ls->GetSolutionValue(i,SolutionTIndex);
+#endif
+    if (CurrentSolution < mins2 ){  
+      mins2=CurrentSolution;
+    }
+    else if (CurrentSolution > maxs2 ) {
+      maxs2=CurrentSolution;
+    } 
+    if (fabs(CurrentSolution) > absmax) absmax=fabs(CurrentSolution);
+
 //  note: set rather than add - i.e. last solution of system not total solution  
 #ifdef LOCE
     CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex)
@@ -620,35 +632,29 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     m_ls->SetVectorValue(i , CurrentForce, ForceTMinus1Index); // now set t minus one force vector correctly
 #endif
 #ifdef TOTE
-    CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
+    CurrentSolution=optimum*CurrentSolution;
     CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
     m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
     m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
     m_ls->SetVectorValue(i,CurrentForce,ForceTMinus1Index);
 #endif
-   
-    if (CurrentSolution < mins2 ){  
-      mins2=CurrentSolution;
-    }
-    else if (CurrentSolution > maxs2 ) {
-      maxs2=CurrentSolution;
-    }
+
     m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
     m_ls->AddVectorValue(i , CurrentForce, ForceTotalIndex);
     CurrentTotSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
-    if (CurrentTotSolution < mins ) { 
-      mins=CurrentTotSolution;
+   
+    if ( fabs(CurrentTotSolution) > maxs ) {
+      maxs=fabs(CurrentTotSolution);
     }
-    else if (CurrentTotSolution > maxs ) {
-      maxs=CurrentTotSolution;
-    }
+
+    
   }  
  
   std::cout << " min cur solution val " << mins2 << std::endl;
   std::cout << " max cur solution val " << maxs2 << std::endl;
-  std::cout << " min tot solution val " << mins << std::endl;
+  std::cout << " scaled max sol val " << absmax * optimum << std::endl;
   std::cout << " max tot solution val " << maxs << std::endl;
-
+  m_CurrentMaxSolution=absmax;
 }
 
 /*
