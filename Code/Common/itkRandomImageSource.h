@@ -53,6 +53,11 @@ public:
    */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
+  /**
+   * typename typedef for the output image ScalarValueType
+   */
+  typedef typename TOutputImage::ScalarValueType OutputImageScalarValueType;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -97,9 +102,9 @@ public:
    * Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::ScalarValueType>::min().
    */
-  itkSetClampMacro(Min,typename TOutputImage::ScalarValueType,
-                   NumericTraits<typename TOutputImage::ScalarValueType>::min(),
-                   NumericTraits<typename TOutputImage::ScalarValueType>::max());
+  itkSetClampMacro(Min, OutputImageScalarValueType,
+                   NumericTraits<OutputImageScalarValueType>::min(),
+                   NumericTraits<OutputImageScalarValueType>::max());
   
   /** 
    * Get the minimum possible pixel value.
@@ -110,14 +115,14 @@ public:
    * Set the maximum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::ScalarValueType>::max().
    */
-  itkSetClampMacro(Max,typename TOutputImage::ScalarValueType,
-                   NumericTraits<typename TOutputImage::ScalarValueType>::min(),
-                   NumericTraits<typename TOutputImage::ScalarValueType>::max());
+  itkSetClampMacro(Max, OutputImageScalarValueType,
+                   NumericTraits<OutputImageScalarValueType>::min(),
+                   NumericTraits<OutputImageScalarValueType>::max());
   
   /** 
    * Get the maximum possible pixel value.
    */
-  itkGetMacro(Max,typename TOutputImage::ScalarValueType);
+  itkGetMacro(Max, OutputImageScalarValueType);
 
 protected:
   RandomImageSource();
