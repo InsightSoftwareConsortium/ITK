@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 
-#include "dbh.h"
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>

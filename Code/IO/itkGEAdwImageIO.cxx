@@ -14,13 +14,12 @@
 
   =========================================================================*/
 #include "itkGEAdwImageIO.h"
-#include "GeAdvWin.h"
 #include "itkIOCommon.h"
 
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
-#include "idbm_hdr_def.h"
+//#include "idbm_hdr_def.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
 #include <iostream>

@@ -35,7 +35,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageIOBase.h"
 #include "itkIPLCommonImageIO.h"
 #include "itkGEImageHeader.h"
-#include "idbm_hdr_def.h"
 
 namespace itk
 {

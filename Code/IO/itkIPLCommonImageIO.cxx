@@ -18,7 +18,7 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
-#include "idbm_hdr_def.h"
+//#include "idbm_hdr_def.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
 #include <iostream>
@@ -118,9 +118,9 @@ namespace itk
 
   void IPLCommonImageIO::ReadImageInformation()
   {
-    const char *FileNameToRead = this->GetFileName();
+    std::string FileNameToRead = this->GetFileName();
     InitializeFILENAMELIST(&m_fnlist);
-    this->m_ImageHeader = this->ReadHeader(FileNameToRead);
+    this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
     //std::cerr << "HEADER SIZE " << m_ImageHeader->offset << std::endl;
     //
     // if anything fails in the header read, just let
@@ -165,7 +165,7 @@ namespace itk
     // GE images are stored in separate files per slice.
     char imagePath[IOCommon::ITK_MAXPATHLEN+1];
     char imageMask[IOCommon::ITK_MAXPATHLEN+1];
-    if(IOCommon::RealPath(FileNameToRead,imagePath) == NULL)
+    if(IOCommon::RealPath(FileNameToRead.c_str(),imagePath) == NULL)
       RAISE_EXCEPTION();
     strcpy(imageMask,imagePath);
     char *lastslash = strrchr(imagePath,'/');
@@ -192,7 +192,7 @@ namespace itk
     {
       break;
     }
-  else if (strcmp(curFname,FileNameToRead) == 0)
+  else if (FileNameToRead == curFname) //strcmp(curFname,FileNameToRead) == 0)
     {
       continue;
     }

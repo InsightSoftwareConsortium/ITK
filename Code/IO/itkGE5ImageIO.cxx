@@ -27,7 +27,6 @@
 #include <string>
 
 #include "pixeldata.h"
-#include "genesis_hdr_def.h"
 #include "itkGEImageHeader.h"
 #include "itkIOCommon.h"
 
@@ -47,7 +46,8 @@ static const char GE_PROD_STR[]="SIGNA";
     
   }
 
-  static int checkGe5xImages (char const * const imageFileTemplate)
+  int GE5ImageIO
+  ::checkGe5xImages (char const * const imageFileTemplate)
   {
     //
     // Does it exist?
