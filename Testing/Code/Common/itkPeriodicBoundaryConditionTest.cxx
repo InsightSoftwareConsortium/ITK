@@ -38,6 +38,8 @@ void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2
 int itkPeriodicBoundaryConditionTest(int, char**)
 {
   typedef itk::Image<int, 2> ImageType;
+  typedef itk::ConstNeighborhoodIterator<ImageType> IteratorType;
+  typedef IteratorType::RadiusType RadiusType;
   unsigned int i;
   
   ImageType::Pointer img = ImageType::New();
@@ -60,8 +62,10 @@ int itkPeriodicBoundaryConditionTest(int, char**)
       std::cout << std::endl;
     };
 
-  itk::ConstNeighborhoodIterator<ImageType>::RadiusType rad = {{ 1, 1}};
-  itk::ConstNeighborhoodIterator<ImageType> it(rad, img, img->GetRequestedRegion());
+  RadiusType rad;
+  RadiusType radTwo;
+  rad[0] = rad[1] = 1;
+  IteratorType it(rad, img, img->GetRequestedRegion());
 
   itk::PeriodicBoundaryCondition<ImageType> bc;
 
@@ -77,8 +81,9 @@ int itkPeriodicBoundaryConditionTest(int, char**)
       PBCTest_PrintNeighborhood(it);
     }
 
-  itk::ConstNeighborhoodIterator<ImageType>::RadiusType rad2 = {{ 2, 2}};
-  itk::ConstNeighborhoodIterator<ImageType> it2(rad2, img, img->GetRequestedRegion());
+  //  RadiusType radTwo;
+  radTwo[0] = radTwo[1] = 2;
+  IteratorType it2(radTwo, img, img->GetRequestedRegion());
 
   it2.OverrideBoundaryCondition(&bc);
 
