@@ -1,4 +1,4 @@
-/*=========================================================================
+*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMacro.h
@@ -282,10 +282,11 @@ static Pointer New(void) \
     virtual const char *GetNameOfClass() const \
         {return #thisClass;}
 
-/** The following is used to output debug, warning, and error messages. */
 namespace itk
 {
-/** Use a global function which actually calls:
+/** 
+ * The following is used to output debug, warning, and error messages. 
+ * Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object #include of OutputWindow
  * while OutputWindow #includes Object. */
