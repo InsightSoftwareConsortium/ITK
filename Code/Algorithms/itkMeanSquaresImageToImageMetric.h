@@ -27,8 +27,8 @@ namespace itk
 /** \class MeanSquaresImageToImageMetric
  * \brief Computes similarity between two objects to be registered
  *
- * This Class is templated over the type of the Images to be compared and
- * over the type of transformation and Iterpolator to be used.
+ * This Class is templated over the type of the fixed and moving
+ * images to be compared.
  *
  * This metric computes the sum of squared differenced between pixels in
  * the moving image and pixels in the fixed image. The spatial correspondance 
@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanSquaresImageToImageMetric, Object);
+  itkTypeMacro(MeanSquaresImageToImageMetric, ImageToImageMetric);
 
  
   /** Types transferred from the base class */
