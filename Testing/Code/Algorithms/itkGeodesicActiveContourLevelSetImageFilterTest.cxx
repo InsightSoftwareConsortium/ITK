@@ -231,7 +231,7 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  // Test case when PropagationScaling and AdvectionScaling are zero
+  // Test case when PropagationScaling is zero
   shapeDetection->SetPropagationScaling( 0.0 );
   shapeDetection->SetCurvatureScaling( 1.0 );
   shapeDetection->SetAdvectionScaling( 0.0 );

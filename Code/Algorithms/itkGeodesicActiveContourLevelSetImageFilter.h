@@ -156,8 +156,7 @@ protected:
   GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** Overridden from Superclass to handle the case when PropagationScaling is zero
-   * and CurvatureScaling is non-zero.*/
+  /** Overridden from Superclass to handle the case when PropagationScaling is zero.*/
   void GenerateData();
 
 private:
