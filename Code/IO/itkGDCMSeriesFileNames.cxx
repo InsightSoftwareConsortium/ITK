@@ -30,18 +30,32 @@ namespace itk
 const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames() 
 {
   // Get the DICOM filenames from the directory
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmSerieHeader *helper = new gdcmSerieHeader();
+#else
+  gdcm::SerieHeader *helper = new gdcm::SerieHeader();
+#endif
   helper->SetDirectory( m_InputDirectory.c_str() );
   helper->OrderGdcmFileList();
   //We assume that there is only one study / one serie
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   std::list<gdcmHeader*> flist = helper->GetGdcmFileList();
+  std::list<gdcmHeader*>::iterator it;
+#else
+  std::list<gdcm::Header*> flist = helper->GetGdcmFileList();
+  std::list<gdcm::Header*>::iterator it;
+#endif
   if( flist.size() )
     {
-    for(std::list<gdcmHeader*>::iterator it = flist.begin(); 
+    for(it = flist.begin(); 
         it != flist.end(); ++it )
       {
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
         gdcmHeader * header = *it;
+#else
+        gdcm::Header * header = *it;
+#endif
         if( !header )
           {
           std::cerr << "GDCMSeriesFileNames got NULL header " << std::endl;

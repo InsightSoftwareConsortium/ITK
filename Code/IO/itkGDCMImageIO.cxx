@@ -21,6 +21,7 @@
 #include "gdcmFile.h"
 #include "gdcmHeader.h"
 #include "gdcmValEntry.h"
+#include "gdcmValEntry.h"
 #include "itkMetaDataObject.h"
 #include <fstream>
 
@@ -152,7 +153,11 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   //We are parsing the header one time here:
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmHeader GdcmHeader( fname );
+#else
+  gdcm::Header GdcmHeader( fname );
+#endif
   if (!GdcmHeader.IsReadable())
     {
     itkExceptionMacro("Gdcm cannot parse file " << filename );
@@ -174,10 +179,18 @@ void GDCMImageIO::Read(void* buffer)
 
   if( !m_GdcmHeader )
     {
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     m_GdcmHeader = new gdcmHeader( m_FileName );
+#else
+    m_GdcmHeader = new gdcm::Header( m_FileName );
+#endif
     }
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmFile GdcmFile( m_FileName );
+#else
+  gdcm::File GdcmFile( m_FileName );
+#endif
   size_t size = GdcmFile.GetImageDataSize();
   //== this->GetImageSizeInComponents()
   unsigned char *Source = (unsigned char*)GdcmFile.GetImageData();
@@ -196,7 +209,11 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmHeader GdcmHeader( m_FileName );
+#else
+  gdcm::Header GdcmHeader( m_FileName );
+#endif
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
@@ -265,20 +282,32 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   //Now copying the gdcm dictionary to the itk dictionary:
    MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   TagDocEntryHT & nameHt = GdcmHeader.GetEntry();
   for (TagDocEntryHT::iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
+#else
+  const gdcm::TagDocEntryHT & nameHt = GdcmHeader.GetTagHT();
+  for (gdcm::TagDocEntryHT::const_iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
+#endif
     {
     // Do not copy field from private (unknown) dictionary.
     // In the longer term we might want to (but we need the Private dictionary
     // from manufacturer)
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     std::string temp = ((gdcmValEntry*)(tag->second))->GetValue();
+#else
+    std::string temp = ((gdcm::ValEntry*)(tag->second))->GetValue();
+#endif
     if( tag->second->GetName() != "unkn" 
-     && tag->second->GetName() != "Acquisition Matrix"
      && temp.find( "gdcm::NotLoaded" ) != 0
      && temp.find( "gdcm::Loaded" ) != 0 )
       {
       EncapsulateMetaData<std::string>(dico, tag->second->GetName(),
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
                          ((gdcmValEntry*)(tag->second))->GetValue() );
+#else
+                         ((gdcm::ValEntry*)(tag->second))->GetValue() );
+#endif
       }
     }
 }
@@ -340,11 +369,16 @@ void GDCMImageIO::Write(const void* buffer)
     {
     std::string temp;
     ExposeMetaData<std::string>(dico, *it, temp);
+    std::cerr << "Reading:" << temp << std::endl;
 
     // Convert DICOM name to DICOM (group,element)
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     gdcmDictEntry *dictEntry =
+#else
+    gdcm::DictEntry *dictEntry =
+#endif
        m_GdcmHeader->GetPubDict()->GetDictEntryByName(*it);
-    m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
+    //m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
   }
   
   /* we should use iterator on map since it is faster and avoid duplicating data
@@ -366,11 +400,19 @@ void GDCMImageIO::Write(const void* buffer)
     ++itr;
     } */
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmFile *myGdcmFile = new gdcmFile( m_GdcmHeader );
   myGdcmFile->GetImageData();  //API problem
   m_GdcmHeader->SetEntryVoidAreaByNumber( (void*)buffer, 
          m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel());//Another API problem
   myGdcmFile->SetImageData((void*)buffer, numberOfBytes );
+#else
+  gdcm::File *myGdcmFile = new gdcm::File( m_GdcmHeader );
+  myGdcmFile->GetImageData();  //API problem
+  m_GdcmHeader->SetEntryByNumber( (char*)buffer, 
+         m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel());//Another API problem
+  myGdcmFile->SetImageData((uint8_t*)buffer, numberOfBytes );
+#endif
 
   myGdcmFile->WriteDcmExplVR( m_FileName );
   delete myGdcmFile;
