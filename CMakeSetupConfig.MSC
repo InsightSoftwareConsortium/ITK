@@ -22,5 +22,6 @@ ${CMAKE_BINARY_DIR}/Testing/Utilities:DashboardManager.tcl:${CMAKE_SOURCE_DIR}/T
 ${CMAKE_BINARY_DIR}/Testing/Utilities:Test.tcl:${CMAKE_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
 ${CMAKE_BINARY_DIR}/Testing/Utilities:Submit.tcl:${CMAKE_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
 ${CMAKE_BINARY_DIR}/Testing/Utilities:ftp.tcl:${CMAKE_SOURCE_DIR}/Testing/Utilities/ftp.tcl.in
+${CMAKE_BINARY_DIR}/Testing/Utilities:Doxygen.tcl:${CMAKE_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
 ${CMAKE_BINARY_DIR}/Testing/Utilities:WindowsUtility.conf:${CMAKE_SOURCE_DIR}/Testing/Utilities/WindowsUtility.conf.in
 
