@@ -19,7 +19,7 @@
 #include "gdcmBinEntry.h"
 #include "gdcmDebug.h"
 #include <fstream>
-#include <ios> // for std::ios_base
+#include <iostream> // for std::ios_base, since <ios> does not exist on gcc/Solaris
 
 namespace gdcm 
 {
