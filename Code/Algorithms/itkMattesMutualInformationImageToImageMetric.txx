@@ -137,8 +137,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * NB: We can't use StatisticsImageFilter to do this because
    * the filter computes the min/max for the largest possible region
    */
-   double fixedImageMin = NumericTraits<double>::max();
-   double fixedImageMax = NumericTraits<double>::NonpositiveMin();
+  double fixedImageMin = NumericTraits<double>::max();
+  double fixedImageMax = NumericTraits<double>::NonpositiveMin();
 
   typedef ImageRegionConstIterator<FixedImageType> FixedIteratorType;
   FixedIteratorType fixedImageIterator( 
@@ -148,17 +148,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         !fixedImageIterator.IsAtEnd(); ++fixedImageIterator )
     {
 
-      double sample = static_cast<double>( fixedImageIterator.Get() );
+    double sample = static_cast<double>( fixedImageIterator.Get() );
 
-      if ( sample < fixedImageMin )
-        {
-          fixedImageMin = sample;
-        }
+    if ( sample < fixedImageMin )
+      {
+      fixedImageMin = sample;
+      }
 
-      if ( sample > fixedImageMax )
-        {
-          fixedImageMax = sample;
-        }
+    if ( sample > fixedImageMax )
+      {
+      fixedImageMax = sample;
+      }
     }
 
 
@@ -166,8 +166,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * Compute the minimum and maximum for the entire moving image
    * in the buffer.
    */
-   double movingImageMin = NumericTraits<double>::max();
-   double movingImageMax = NumericTraits<double>::NonpositiveMin();
+  double movingImageMin = NumericTraits<double>::max();
+  double movingImageMax = NumericTraits<double>::NonpositiveMin();
 
   typedef ImageRegionConstIterator<MovingImageType> MovingIteratorType;
   MovingIteratorType movingImageIterator(
@@ -176,26 +176,26 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   for ( movingImageIterator.GoToBegin(); 
         !movingImageIterator.IsAtEnd(); ++movingImageIterator)
     {
-      double sample = static_cast<double>( movingImageIterator.Get() );
+    double sample = static_cast<double>( movingImageIterator.Get() );
 
-      if ( sample < movingImageMin )
-        {
-          movingImageMin = sample;
-        }
+    if ( sample < movingImageMin )
+      {
+      movingImageMin = sample;
+      }
 
-      if ( sample > movingImageMax )
-        {
-          movingImageMax = sample;
-        }
+    if ( sample > movingImageMax )
+      {
+      movingImageMax = sample;
+      }
     }
 
   m_MovingImageTrueMin = movingImageMin;
   m_MovingImageTrueMax = movingImageMax;
 
   itkDebugMacro( " FixedImageMin: " << fixedImageMin << 
-    " FixedImageMax: " << fixedImageMax << std::endl );
+                 " FixedImageMax: " << fixedImageMax << std::endl );
   itkDebugMacro( " MovingImageMin: " << movingImageMin << 
-    " MovingImageMax: " << movingImageMax << std::endl );
+                 " MovingImageMax: " << movingImageMax << std::endl );
 
 
   /**
@@ -315,7 +315,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_InterpolatorIsBSpline = true;
 
   BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
-     m_Interpolator.GetPointer() );
+    m_Interpolator.GetPointer() );
   if ( !testPtr )
     {
     m_InterpolatorIsBSpline = false;
@@ -394,7 +394,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     (*iter).FixedImageValue = randIter.Get();
     // Translate index to point
     m_FixedImage->TransformIndexToPhysicalPoint( index,
-      (*iter).FixedImagePointValue );
+                                                 (*iter).FixedImagePointValue );
     // Jump to random position
     ++randIter;
 
@@ -450,7 +450,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     double movingImageValue;
 
     this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, 
-      sampleOk, movingImageValue );
+                          sampleOk, movingImageValue );
 
     if( sampleOk )
       {
@@ -515,8 +515,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         *
         */
       for ( int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
-        pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex ) + 2;
-        pdfMovingIndex++ )
+            pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex ) + 2;
+            pdfMovingIndex++ )
         {
 
         double movingImageParzenWindowArg = 
@@ -539,12 +539,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     } // end iterating over fixed image spatial sample container for loop
 
   itkDebugMacro( "Ratio of voxels mapping into moving image buffer: " 
-    << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
+                 << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
 
   if( nSamples < m_NumberOfSpatialSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-      << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
+                       << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
     }
 
 
@@ -649,7 +649,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
         double pRatio = log( jointPDFValue / movingImagePDFValue );
         if( fixedImagePDFValue > 1e-16)
-        sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
+          sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
 
         }  // end if-block to check non-zero bin contribution
       }  // end for-loop over moving index
@@ -667,9 +667,9 @@ template < class TFixedImage, class TMovingImage  >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(
-const ParametersType& parameters,
-MeasureType& value,
-DerivativeType& derivative) const
+  const ParametersType& parameters,
+  MeasureType& value,
+  DerivativeType& derivative) const
 {
 
   // Set output values to zero
@@ -719,7 +719,7 @@ DerivativeType& derivative) const
     double movingImageValue;
 
     this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, 
-      sampleOk, movingImageValue );
+                          sampleOk, movingImageValue );
 
 
     if( sampleOk )
@@ -789,8 +789,8 @@ DerivativeType& derivative) const
         *
         */
       for ( int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
-        pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex ) + 2;
-        pdfMovingIndex++ )
+            pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex ) + 2;
+            pdfMovingIndex++ )
         {
 
         double movingImageParzenWindowArg = 
@@ -811,7 +811,7 @@ DerivativeType& derivative) const
 
         // Compute PDF derivative contribution.
         this->ComputePDFDerivatives( (*fiter).FixedImagePointValue, fixedImageParzenWindowIndex,
-          pdfMovingIndex, movingImageGradientValue, cubicBSplineDerivativeValue );
+                                     pdfMovingIndex, movingImageGradientValue, cubicBSplineDerivativeValue );
 
 
         }  //end parzen windowing for loop
@@ -821,12 +821,12 @@ DerivativeType& derivative) const
     } // end iterating over fixed image spatial sample container for loop
 
   itkDebugMacro( "Ratio of voxels mapping into moving image buffer: " 
-    << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
+                 << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
 
   if( nSamples < m_NumberOfSpatialSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-      << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
+                       << nSamples << " / " << m_NumberOfSpatialSamples << std::endl );
     }
 
 
@@ -948,7 +948,7 @@ DerivativeType& derivative) const
 
         double pRatio = log( jointPDFValue / movingImagePDFValue );
         if( fixedImagePDFValue > 1e-16)
-        sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
+          sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
 
         for( unsigned int parameter=0; parameter < m_NumberOfParameters; ++parameter )
           {
@@ -994,8 +994,8 @@ template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ComputeImageDerivatives( 
-const MovingImagePointType& mappedPoint, 
-ImageDerivativesType& gradient ) const
+  const MovingImagePointType& mappedPoint, 
+  ImageDerivativesType& gradient ) const
 {
   
   if( m_InterpolatorIsBSpline )
@@ -1038,10 +1038,10 @@ template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::TransformPoint( 
-const FixedImagePointType& fixedImagePoint, 
-MovingImagePointType& mappedPoint,
-bool& sampleOk,
-double& movingImageValue ) const
+  const FixedImagePointType& fixedImagePoint, 
+  MovingImagePointType& mappedPoint,
+  bool& sampleOk,
+  double& movingImageValue ) const
 {
 
   bool insideBSValidRegion;
@@ -1053,7 +1053,10 @@ double& movingImageValue ) const
   else
     {
     m_BSplineTransform->TransformPoint( fixedImagePoint,
-      mappedPoint, m_BSplineTransformWeights, m_BSplineTransformIndices, insideBSValidRegion );
+                                        mappedPoint,
+                                        m_BSplineTransformWeights,
+                                        m_BSplineTransformIndices,
+                                        insideBSValidRegion );
     }
 
   // Check if mapped point inside image buffer
@@ -1069,15 +1072,14 @@ double& movingImageValue ) const
   if ( sampleOk )
     {
     movingImageValue = m_Interpolator->Evaluate( mappedPoint );
-    }
 
-  if ( movingImageValue < m_MovingImageTrueMin || 
-    movingImageValue > m_MovingImageTrueMax )
-    {
-    // need to throw out this sample as it will not fall into a valid bin
-    sampleOk = false;
+    if ( movingImageValue < m_MovingImageTrueMin || 
+         movingImageValue > m_MovingImageTrueMax )
+      {
+      // need to throw out this sample as it will not fall into a valid bin
+      sampleOk = false;
+      }
     }
-
 }
 
 
@@ -1088,11 +1090,11 @@ template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ComputePDFDerivatives( 
-const FixedImagePointType& fixedImagePoint, 
-int fixedImageParzenWindowIndex,
-int pdfMovingIndex,
-const ImageDerivativesType& movingImageGradientValue,
-double cubicBSplineDerivativeValue ) const
+  const FixedImagePointType& fixedImagePoint, 
+  int fixedImageParzenWindowIndex,
+  int pdfMovingIndex,
+  const ImageDerivativesType& movingImageGradientValue,
+  double cubicBSplineDerivativeValue ) const
 {
 
   JointPDFDerivativesIndexType    jointPDFDerivativesIndex;
@@ -1102,19 +1104,19 @@ double cubicBSplineDerivativeValue ) const
   jointPDFDerivativesIndex[1] = pdfMovingIndex;
 
   if( !m_TransformIsBSpline )
-  {
+    {
 
-  /**
+    /**
    * Generic version which works for all transforms.
    */
 
-  // Compute the transform Jacobian.
-  typedef typename TransformType::JacobianType JacobianType;
-  const JacobianType& jacobian = 
-    m_Transform->GetJacobian( fixedImagePoint );
+    // Compute the transform Jacobian.
+    typedef typename TransformType::JacobianType JacobianType;
+    const JacobianType& jacobian = 
+      m_Transform->GetJacobian( fixedImagePoint );
 
-  for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++ )
-    {
+    for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++ )
+      {
       double innerProduct = 0.0;
       for ( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
         {
@@ -1122,7 +1124,7 @@ double cubicBSplineDerivativeValue ) const
           movingImageGradientValue[dim];
         }
 
-       // Index into the correct parameter slice of 
+      // Index into the correct parameter slice of 
       // the jointPDFDerivative volume.
       jointPDFDerivativesIndex[2] = mu;
 
@@ -1130,41 +1132,41 @@ double cubicBSplineDerivativeValue ) const
         m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
       pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
 
+      }
+
     }
-
-  }
   else
-  {
+    {
 
-  /**
+    /**
    * If the transform is of type BSplineDeformableTransform,
    * we can obtain a speed up by only processing the affected parameters.
    */
-  for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
-    {
-
-    /* Get correct index in parameter space */
-    long offset = dim * m_NumParametersPerDim;
-
-    for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
+    for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
       {
 
-      /* The array weights contains the Jacobian values in a 1-D array 
+      /* Get correct index in parameter space */
+      long offset = dim * m_NumParametersPerDim;
+
+      for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
+        {
+
+        /* The array weights contains the Jacobian values in a 1-D array 
        * (because for each parameter the Jacobian is non-zero in only 1 of the
        * possible dimensions) which is multiplied by the moving image gradient. */
-      double innerProduct = movingImageGradientValue[dim] * m_BSplineTransformWeights[mu];
+        double innerProduct = movingImageGradientValue[dim] * m_BSplineTransformWeights[mu];
 
-      /* Index into the correct parameter slices of the jointPDFDerivative volume. */
-      jointPDFDerivativesIndex[2] = m_BSplineTransformIndices[mu] + offset;
+        /* Index into the correct parameter slices of the jointPDFDerivative volume. */
+        jointPDFDerivativesIndex[2] = m_BSplineTransformIndices[mu] + offset;
 
-      JointPDFDerivativesValueType & pdfDerivative =
-        m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
-      pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
+        JointPDFDerivativesValueType & pdfDerivative =
+          m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
+        pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
             
-      } //end mu for loop
-    } //end dim for loop
+        } //end mu for loop
+      } //end dim for loop
 
-  } // end if-block transform is BSpline
+    } // end if-block transform is BSpline
 
 }
 
