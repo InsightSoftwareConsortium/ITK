@@ -47,15 +47,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template<unsigned int VImageDimension, class TImageTraits>
-BloxImage<VImageDimension, TImageTraits>
+template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
+BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
 ::BloxImage()
 {
 
 }
 
-template<unsigned int VImageDimension, class TImageTraits>
-BloxImage<VImageDimension, TImageTraits>
+template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
+BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
 ::~BloxImage()
 {
 

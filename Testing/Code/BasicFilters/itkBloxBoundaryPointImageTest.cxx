@@ -49,9 +49,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPoint.h"
 
 // Blox stuff
+#include "itkBloxBoundaryPointPixel.h"
 #include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomAnalyzer.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
@@ -240,7 +239,7 @@ int main()
   for ( bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxPixel::iterator bpiterator;
+    itk::BloxBoundaryPointPixel<3>::iterator bpiterator;
 
     // What position are we at in the list?
     depth = 0;
@@ -251,11 +250,7 @@ int main()
     // Walk through all of the elements at the pixel
     for (bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
       {
-      // Note:
-      // ( (itk::BloxBoundaryPointItem<3>*&)(*bpiterator) ) gives you a pointer to an
-      // itk::BloxBoundaryPointItem
-
-      position = ( (itk::BloxBoundaryPointItem<3>*&)(*bpiterator) )->GetPhysicalPosition();
+      position = (*bpiterator)->GetPhysicalPosition();
       depth++;
       std::cout << "Boundary point at ";
       std::cout << "Position=(" << position[0] << " " << position[1] << " " << position[2] << ") ";

@@ -46,9 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 
-#include "itkBloxPixel.h"
+#include "itkBloxCoreAtomPixel.h"
 #include "itkBloxBoundaryPointItem.h"
-#include "itkBloxCoreAtomItem.h"
 
 namespace itk
 {
@@ -95,7 +94,7 @@ public:
    * Returns TRUE if blox contains core atoms and analysis is valid,
    * other wise returns false
    * */
-  bool Analyze(BloxPixel* bloxPixel);
+  bool Analyze(BloxCoreAtomPixel<NDimensions>* bloxPixel);
 
   BloxCoreAtomAnalyzer();
   ~BloxCoreAtomAnalyzer();

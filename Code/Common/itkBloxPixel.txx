@@ -46,12 +46,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-BloxPixel::BloxPixel()
+template <typename TItemType>
+BloxPixel<TItemType>
+::BloxPixel()
 {
 
 }
 
-BloxPixel::~BloxPixel()
+template <typename TItemType>
+BloxPixel<TItemType>
+::~BloxPixel()
 {
   // We need to clean up memory used by linked list entries
   // Walk through all of the elements at the pixel and delete what we find

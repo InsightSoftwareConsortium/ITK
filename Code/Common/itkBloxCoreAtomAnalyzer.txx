@@ -64,7 +64,7 @@ BloxCoreAtomAnalyzer<NDimensions>
 template <unsigned int NDimensions>
 bool
 BloxCoreAtomAnalyzer<NDimensions>
-::Analyze(BloxPixel* bloxPixel)
+::Analyze(BloxCoreAtomPixel<NDimensions>* bloxPixel)
 {
   if( bloxPixel->empty() )
   {
@@ -73,7 +73,7 @@ BloxCoreAtomAnalyzer<NDimensions>
   }
 
   // The iterator for accessing linked list info
-  itk::BloxPixel::iterator bpiterator;
+  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
 
   // The CMatrix - this is the matrix that we do eigen analysis on
   vnl_matrix_fixed<double, NDimensions, NDimensions> cMatrix;
@@ -88,7 +88,7 @@ BloxCoreAtomAnalyzer<NDimensions>
   for (bpiterator = bloxPixel->begin(); bpiterator != bloxPixel->end(); ++bpiterator)
     {
     // Get the pointer of the blox
-    TCoreAtomItemType* pCoreAtom = (TCoreAtomItemType*&)(*bpiterator);
+    TCoreAtomItemType* pCoreAtom = *bpiterator;
 
     // Get the boundary points
     TBPItemType* pBPOne = pCoreAtom->GetBoundaryPointA();

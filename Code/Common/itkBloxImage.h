@@ -78,9 +78,10 @@ namespace itk
  *
  * */
 
-template <unsigned int VImageDimension=3,
-          class TImageTraits = DefaultImageTraits<BloxPixel, VImageDimension> >
-class ITK_EXPORT BloxImage : public Image<BloxPixel, VImageDimension, TImageTraits>
+template <typename TBloxPixelType,
+          unsigned int VImageDimension=3,
+          class TImageTraits = DefaultImageTraits<TBloxPixelType, VImageDimension> >
+class ITK_EXPORT BloxImage : public Image<TBloxPixelType, VImageDimension, TImageTraits>
 {
 public:
   /**
@@ -91,7 +92,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Image<BloxPixel, VImageDimension, TImageTraits>  Superclass;
+  typedef Image<TBloxPixelType, VImageDimension, TImageTraits>  Superclass;
   
   /** 
    * Smart pointer typedef support.
@@ -103,7 +104,7 @@ public:
    * Pixel typedef support. Used to declare pixel type in filters
    * or other operations.
    */
-  typedef BloxPixel PixelType;
+  typedef TBloxPixelType PixelType;
 
   /** 
    * Internal Pixel representation. Used to maintain a uniform API
@@ -111,7 +112,7 @@ public:
    * representation of data while showing a different external 
    * representation.
    */
-  typedef BloxPixel InternalPixelType;
+  typedef TBloxPixelType InternalPixelType;
 
   /** 
    *  Accessor type that convert data between internal and external

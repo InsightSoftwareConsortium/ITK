@@ -57,7 +57,8 @@ namespace itk
  * \ingroup ImageObjects 
  * */
 
-class BloxPixel : public std::list<BloxItem*>
+template <typename TItemType>
+class BloxPixel : public std::list<TItemType*>
 {
 
 public:

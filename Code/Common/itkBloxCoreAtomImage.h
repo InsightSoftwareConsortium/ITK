@@ -45,9 +45,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
-#include "itkBloxPixel.h"
 #include "itkBloxBoundaryPointItem.h"
+#include "itkBloxBoundaryPointPixel.h"
+#include "itkBloxBoundaryPointImage.h"
 #include "itkBloxCoreAtomItem.h"
+#include "itkBloxCoreAtomPixel.h"
 #include "itkBloxImage.h"
 
 namespace itk
@@ -64,9 +66,11 @@ namespace itk
  * */
 
 template <class TBoundaryPointImage,
-  class TImageTraits = DefaultImageTraits<BloxPixel, TBoundaryPointImage::ImageDimension> >
+  class TImageTraits = DefaultImageTraits<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
+  TBoundaryPointImage::ImageDimension> >
 class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<TBoundaryPointImage::ImageDimension, TImageTraits>
+  public BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
+  TBoundaryPointImage::ImageDimension, TImageTraits>
 {
 public:
   /**
@@ -77,7 +81,8 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef BloxImage<TBoundaryPointImage::ImageDimension, TImageTraits>  Superclass;
+  typedef BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
+                    TBoundaryPointImage::ImageDimension, TImageTraits>  Superclass;
   
   /** 
    * Smart pointer typedef support.
@@ -102,7 +107,7 @@ public:
    * Pixel typedef support. Used to declare pixel type in filters
    * or other operations.
    */
-  typedef BloxPixel PixelType;
+  typedef BloxCoreAtomPixel<NDimensions> PixelType;
 
   /** 
    * Internal Pixel representation. Used to maintain a uniform API

@@ -45,9 +45,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
-#include "itkBloxBoundaryPointItem.h"
-#include "itkBloxCoreAtomItem.h"
-#include "itkBloxCoreAtomImage.h"
 
 namespace itk
 {
@@ -92,12 +89,12 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxPixel::iterator bpiterator;
+    itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
       {
-      this->FindCoreAtomsAtBoundaryPoint( (TBPItemType*&)(*bpiterator) );
+      this->FindCoreAtomsAtBoundaryPoint( *bpiterator );
       }
 
     }
@@ -172,13 +169,13 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     for( ; !( sfi.IsAtEnd() ); ++sfi)
       {
       // The iterator for accessing linked list info
-      itk::BloxPixel::iterator bpiterator;
+      itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
       // Walk through all of the elements at the pixel
       for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)
         {
         // Get the pointer of the blox
-        TBPItemType* pBPTwo = (TBPItemType*&)(*bpiterator);
+        TBPItemType* pBPTwo = *bpiterator;
 
         // Get the physical positions of the two boundary points
         TPositionType P1 = pBPOne->GetPhysicalPosition();
