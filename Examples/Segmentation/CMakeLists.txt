@@ -371,6 +371,13 @@ ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
 
 )
 
+ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES3}
+  CellularSegmentation1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        100 115 200 255 3000
+)
+
+
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples
 ITKAlgorithms
