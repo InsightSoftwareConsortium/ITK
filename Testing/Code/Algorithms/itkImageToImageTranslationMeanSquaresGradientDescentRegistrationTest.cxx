@@ -116,6 +116,10 @@ int main()
   registrationMethod->StartRegistration();
 
 
+  std::cout << std::endl << "After  " << 
+    registrationMethod->GetOptimizer()->GetCurrentNumberOfIterations()
+    << "  Iterations " << std::endl;
+
   // get the results
   RegistrationType::ParametersType solution = 
     registrationMethod->GetOptimizer()->GetCurrentPosition();
