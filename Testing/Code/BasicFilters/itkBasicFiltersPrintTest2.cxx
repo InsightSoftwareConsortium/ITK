@@ -24,6 +24,7 @@
 #include "itkPoint.h"
 #include "itkMesh.h"
 #include "itkMaskImageFilter.h"
+#include "itkMaskNegatedImageFilter.h"
 #include "itkMaximumImageFilter.h"
 #include "itkMeanImageFilter.h"
 #include "itkMedianImageFilter.h"

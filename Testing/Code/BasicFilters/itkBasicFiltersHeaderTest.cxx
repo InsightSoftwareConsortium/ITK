@@ -138,6 +138,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
 #include "itkMaskImageFilter.h"
+#include "itkMaskNegatedImageFilter.h"
 #include "itkMaximumImageFilter.h"
 #include "itkMeanImageFilter.txx"
 #include "itkMedianImageFilter.txx"

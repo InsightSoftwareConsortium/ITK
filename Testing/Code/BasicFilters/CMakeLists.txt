@@ -121,6 +121,7 @@ ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageF
 ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
 
 ADD_TEST(itkMaskImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskImageFilterTest)
+ADD_TEST(itkMaskNegatedImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskNegatedImageFilterTest)
 ADD_TEST(itkMathematicalMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkMathematicalMorphologyImageFilterTest)
 ADD_TEST(itkMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMaximumImageFilterTest)
 ADD_TEST(itkMeanImageFilterTest ${BASIC_FILTERS_TESTS} itkMeanImageFilterTest)
@@ -587,6 +588,7 @@ itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkLogImageFilterAndAdaptorTest.cxx
 itkMaskImageFilterTest.cxx
+itkMaskNegatedImageFilterTest.cxx
 itkMathematicalMorphologyImageFilterTest.cxx
 itkMaximumImageFilterTest.cxx
 itkMeanImageFilterTest.cxx
