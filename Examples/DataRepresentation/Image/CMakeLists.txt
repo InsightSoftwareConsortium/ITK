@@ -13,4 +13,10 @@ TARGET_LINK_LIBRARIES(Image3 ITKCommon)
 ADD_EXECUTABLE(Image4 Image4.cxx )
 TARGET_LINK_LIBRARIES(Image4 ITKCommon)
 
+ADD_EXECUTABLE(RGBImage RGBImage.cxx )
+TARGET_LINK_LIBRARIES(RGBImage ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(VectorImage VectorImage.cxx )
+TARGET_LINK_LIBRARIES(VectorImage ITKCommon)
+
 
