@@ -107,7 +107,7 @@ private:
 
   // To control overloaded versions of ComputeThreshold
   struct DispatchBase {};
-  template<unsigned int VDimension>
+  template<signed int VDimension>
   struct Dispatch : DispatchBase {};
   
   /** This method computes the threshold by averaging the intensity

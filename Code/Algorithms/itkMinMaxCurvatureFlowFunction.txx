@@ -409,7 +409,7 @@ MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<2> &, const BoundaryNeighborhoodType &it) const
 {
-  const unsigned int imageDimension = 2;
+  const signed int imageDimension = 2;
   
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
@@ -472,7 +472,7 @@ MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<3> &, const NeighborhoodType &it) const
 {
-  const unsigned int imageDimension = 3;
+  const signed int imageDimension = 3;
   
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
@@ -581,7 +581,7 @@ MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<3> &, const BoundaryNeighborhoodType &it) const
 {
-  const unsigned int imageDimension = 3;
+  const signed int imageDimension = 3;
   
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
