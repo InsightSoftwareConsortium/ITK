@@ -51,5 +51,7 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
   return ( (m_Alpha * (r*r) * m_I) - ( CV*3.0 ) ) * r;
 }
 
+
+
 } // namespace itk
 #endif

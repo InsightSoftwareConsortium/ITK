@@ -35,17 +35,12 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT Rigid3DTransform : 
-            public Transform< TScalarType, 
-                              3, 3,       // Dimensions of input and output spaces
-                              Point< double, 6 >, // a versor plus a vector
-                              Matrix<double, 3, 6 > >
+        public Transform< TScalarType, 3, 3> // Dimensions of input and output spaces
 {
 public:
   /** Standard class typedefs. */
   typedef Rigid3DTransform Self;
-  typedef Transform< TScalarType, 3, 3,
-                     Point< double, 6 >, 
-                     Matrix< double, 3, 6 > >   Superclass;
+  typedef Transform< TScalarType, 3, 3 > Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -56,8 +51,9 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the space. */
-  enum { InputSpaceDimension = 3,
-         OutputSpaceDimension = 3 };
+  enum  { InputSpaceDimension  = 3 };
+  enum  { OutputSpaceDimension = 3 };
+  enum  { ParametersDimension  = 6 };
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -193,6 +189,9 @@ public:
    * an exception is thrown.
    **/
   Pointer Inverse( void ) const;
+
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   Rigid3DTransform();

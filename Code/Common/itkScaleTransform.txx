@@ -24,10 +24,9 @@ namespace itk
 {
 
 // Constructor with default arguments
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
-ScaleTransform()
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::
+ScaleTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Scale.Fill( 1.0 );
 }
@@ -35,9 +34,8 @@ ScaleTransform()
 
 
 // Destructor
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::
 ~ScaleTransform()
 {
  return;
@@ -45,10 +43,9 @@ ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 
 
 // Set the parameters
-template <class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
+template <class ScalarType, unsigned int NDimensions>
 void
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+ScaleTransform<ScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
@@ -60,10 +57,9 @@ ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 
 
 // Print self
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
+template<class ScalarType, unsigned int NDimensions>
 void
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+ScaleTransform<ScalarType, NDimensions>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -73,10 +69,9 @@ PrintSelf(std::ostream &os, Indent indent) const
 
 
 // Compose with another affine transformation
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
+template<class ScalarType, unsigned int NDimensions>
 void
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+ScaleTransform<ScalarType, NDimensions>::
 Compose(const Self * other, bool )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
@@ -88,10 +83,9 @@ Compose(const Self * other, bool )
 
 
 // Compose with a scale
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
+template<class ScalarType, unsigned int NDimensions>
 void
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+ScaleTransform<ScalarType, NDimensions>::
 Scale(const ScaleType & scale, bool )
 {
   for( unsigned int i=0; i<SpaceDimension; i++ )
@@ -104,11 +98,9 @@ Scale(const ScaleType & scale, bool )
 
 
 // Transform a point
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-              TParameters,TJacobianType>::OutputPointType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::OutputPointType
+ScaleTransform<ScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
   OutputPointType result;
@@ -121,11 +113,9 @@ TransformPoint(const InputPointType &point) const
 
 
 // Transform a vector
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                     TParameters,TJacobianType>::OutputVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::OutputVectorType
+ScaleTransform<ScalarType, NDimensions>::
 TransformVector(const InputVectorType &vect) const 
 {
   OutputVectorType result;
@@ -138,11 +128,9 @@ TransformVector(const InputVectorType &vect) const
 
 
 // Transform a vnl_vector_fixed
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                     TParameters,TJacobianType>::OutputVnlVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::OutputVnlVectorType
+ScaleTransform<ScalarType, NDimensions>::
 TransformVector(const InputVnlVectorType &vect) const 
 {
   OutputVnlVectorType result;
@@ -155,11 +143,9 @@ TransformVector(const InputVnlVectorType &vect) const
 
 
 // Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                      TParameters,TJacobianType>::OutputCovariantVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::OutputCovariantVectorType
+ScaleTransform<ScalarType, NDimensions>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
   // Covariant Vectors are scaled by the inverse
@@ -174,11 +160,9 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 
 // Back transform a point
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                     TParameters,TJacobianType>::InputPointType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::InputPointType
+ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const {
   InputPointType result;
   for( unsigned int i=0; i<SpaceDimension; i++ )
@@ -192,11 +176,9 @@ BackTransform(const OutputPointType &point) const {
 
 
 // Back transform a vector
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                      TParameters,TJacobianType>::InputVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::InputVectorType
+ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
   InputVectorType result;
@@ -211,11 +193,9 @@ BackTransform(const OutputVectorType &vect ) const
 
 
 // Back transform a vnl_vector
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                     TParameters,TJacobianType>::InputVnlVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
+ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
   InputVnlVectorType result;
@@ -228,11 +208,9 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 
 // Back Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,
-                    TParameters,TJacobianType>::InputCovariantVectorType
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
+ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
   // Covariant Vectors are scaled by the inverse
@@ -247,10 +225,9 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 
 // Create and return an inverse transformation
-template<class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::Pointer
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
+template<class ScalarType, unsigned int NDimensions>
+ScaleTransform<ScalarType, NDimensions>::Pointer
+ScaleTransform<ScalarType, NDimensions>::
 Inverse(void) const
 {
   Pointer result = New();
@@ -263,19 +240,16 @@ Inverse(void) const
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
-template<class ScalarType,
-   unsigned int NDimensions,
-         class TParameters,
-   class TJacobianType>
-const ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::JacobianType &
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
+template<class ScalarType, unsigned int NDimensions>
+const ScaleTransform<ScalarType, NDimensions>::JacobianType &
+ScaleTransform<ScalarType, NDimensions>
 ::GetJacobian( const InputPointType & p ) const
 {
   
   m_Jacobian.Fill(0);
-  m_Jacobian[0][0] = p[0];
-  m_Jacobian[1][1] = p[1];
-  m_Jacobian[2][2] = p[2];
+  m_Jacobian(0,0) = p[0];
+  m_Jacobian(1,1) = p[1];
+  m_Jacobian(2,2) = p[2];
   return m_Jacobian;
 
  }

@@ -34,17 +34,13 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT QuaternionRigidTransform :
-            public Transform< TScalarType,
-                              3, 3,       // Dimensions of input and output spaces
-                              Point< double, 7 >, // a versor plus a vector
-                              Matrix<double, 3, 7 > >
+        public Transform< TScalarType, 3, 3> // Dimensions of input and output spaces
 {
 public:
   /** Standard class typedefs.   */
   typedef QuaternionRigidTransform Self;
-  typedef Transform< TScalarType, 3, 3,
-                     Point< double, 7 >,
-                     Matrix< double, 3, 7 > >   Superclass;
+  typedef Transform< TScalarType, 3, 3>     Superclass;
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

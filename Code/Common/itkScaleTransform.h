@@ -34,23 +34,16 @@ namespace itk
  * \ingroup Transforms
  */
 template <
-    class TScalarType=double,          // Data type for scalars (float or double)
-    unsigned int NDimensions=3,
-    class TParameters = Point< double, NDimensions >,
-    class TJacobianType = Matrix<double,NDimensions,NDimensions > 
-    >  // Number of dimensions
+    class TScalarType=float, // Type for cordinate representation type (float or double)
+    unsigned int NDimensions=3  >  // Number of dimensions
 class ScaleTransform : public Transform< TScalarType, 
                                          NDimensions,
-                                         NDimensions,
-                                         TParameters,
-                                         TJacobianType >
+                                         NDimensions >
 {
 public:
   /** Standard class typedefs.   */
   typedef ScaleTransform Self;
-  typedef Transform< TScalarType, NDimensions,
-                     NDimensions, TParameters, 
-                     TJacobianType >             Superclass;
+  typedef Transform< TScalarType, NDimensions, NDimensions >  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

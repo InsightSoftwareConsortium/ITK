@@ -21,15 +21,16 @@
 namespace itk
 {
 
-
+#define MAX_NUM_OF_LANDMARKS 100
 
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-KernelTransform()  
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::
+KernelTransform():Superclass(
+                      NDimensions,
+                      NDimensions * MAX_NUM_OF_LANDMARKS)    
 {
 
   m_I.set_identity();
@@ -42,10 +43,8 @@ KernelTransform()
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,
-                TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::
 ~KernelTransform()
 {
 }
@@ -55,10 +54,9 @@ KernelTransform<TScalarType, NDimensions,
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::GMatrixType
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::GMatrixType
+KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & vect ) const
 {
   //
@@ -74,9 +72,8 @@ ComputeG( const InputVectorType & vect ) const
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters,class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>
 ::ComputeD(void)
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -100,9 +97,8 @@ void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>
 ::ComputeWMatrix(void)
 {
   typedef vnl_svd<TScalarType>  SVDSolverType;
@@ -116,9 +112,8 @@ void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>::
 ComputeL(void)
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -143,9 +138,8 @@ ComputeL(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>::
 ComputeK(void)
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -184,9 +178,8 @@ ComputeK(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>::
 ComputeP()
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -215,9 +208,8 @@ ComputeP()
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+template <class TScalarType, int NDimensions>
+void KernelTransform<TScalarType, NDimensions>::
 ComputeY(void)
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -247,10 +239,9 @@ ComputeY(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::OutputPointType
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
+template <class TScalarType, int NDimensions>
+KernelTransform<TScalarType, NDimensions>::OutputPointType
+KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
   unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
@@ -294,10 +285,31 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   return result;
 }
 
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
+
+
+
+// Compute the Jacobian in one position 
+template <class TScalarType, int NDimensions>
+const KernelTransform<TScalarType,NDimensions>::JacobianType & 
+KernelTransform< TScalarType,NDimensions>::
+GetJacobian( const InputPointType & p ) const
+{
+  
+
+  m_Jacobian.Fill( 0.0 );
+
+  // TODO
+  // The Jacobian should be computable in terms of the matrices
+  // used to Transform points...
+
+  return m_Jacobian;
+
+}
+
+
+template <class TScalarType, int NDimensions>
 void
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+KernelTransform<TScalarType, NDimensions>::
 PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

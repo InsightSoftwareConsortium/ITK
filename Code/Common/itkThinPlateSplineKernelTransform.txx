@@ -36,5 +36,7 @@ ComputeG(const InputVectorType & x) const
   return CV;
 }
 
+
+
 } // namespace itk
 #endif

@@ -38,22 +38,14 @@ namespace itk
  */
 template <
     class TScalarType=double,          // Data type for scalars (float or double)
-    unsigned int NDimensions=3,
-    class TParameters = Point< double, NDimensions >,
-    class TJacobianType = Matrix<double,NDimensions,NDimensions > 
-    >  // Number of dimensions
-class TranslationTransform : public Transform< TScalarType, 
-                                               NDimensions,
-                                               NDimensions,
-                                               TParameters,
-                                               TJacobianType >
+    unsigned int NDimensions=3>        // Number of dimensions
+class TranslationTransform : 
+          public Transform< TScalarType, NDimensions, NDimensions >
 {
 public:
   /** Standard class typedefs. */
   typedef TranslationTransform Self;
-  typedef Transform< TScalarType, NDimensions,
-    NDimensions, TParameters, 
-    TJacobianType >             Superclass;
+  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
       
@@ -143,6 +135,9 @@ public:
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.  */
   TranslationTransform::Pointer Inverse(void) const;
+
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   TranslationTransform();

@@ -39,9 +39,7 @@ namespace itk
 template <
     class TScalarType=double>    // Data type for scalars (float or double)
 class ITK_EXPORT Rigid3DPerspectiveTransform : 
-        public Transform<  TScalarType, 3,
-                           2, Point<TScalarType,6>, 
-                           Matrix<TScalarType,2,6>   > 
+        public Transform<  TScalarType, 3, 2 > 
 {
 public:
   /** Dimension of the domain space. */
@@ -57,11 +55,10 @@ public:
 
   /** Standard class typedefs. */ 
   typedef Rigid3DPerspectiveTransform Self;
-  typedef Transform< TScalarType, 
-    InputSpaceDimension,
-    OutputSpaceDimension, 
-    Point<TScalarType,ParametersDimension>, 
-    Matrix<TScalarType,OutputSpaceDimension,ParametersDimension> > Superclass;
+  typedef Transform<  TScalarType, 
+                      InputSpaceDimension,
+                      OutputSpaceDimension > Superclass;
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -164,6 +161,9 @@ public:
 
   /** Compute the matrix. */
   void ComputeMatrix(void);
+
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
     Rigid3DPerspectiveTransform();

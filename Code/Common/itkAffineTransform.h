@@ -96,22 +96,15 @@ namespace itk
 
 template <
  class TScalarType=double,         // Data type for scalars (e.g. float or double)
- unsigned int NDimensions=3,       // Number of dimensions in the input space
- class TParameters = Point< TScalarType, NDimensions*(NDimensions+1) >,
- class TJacobianType = Matrix<TScalarType,NDimensions,NDimensions*(NDimensions+1) > 
-      >  
+ unsigned int NDimensions=3>       // Number of dimensions in the input space
 class AffineTransform : public Transform< TScalarType,
                                           NDimensions, 
-                                          NDimensions,
-                                          TParameters,
-                                          TJacobianType >
+                                          NDimensions >
 {
 public:
   /** Standard typedefs   */
   typedef AffineTransform  Self;
-  typedef Transform< TScalarType, NDimensions,
-                     NDimensions, TParameters, 
-                     TJacobianType >             Superclass;
+  typedef Transform< TScalarType, NDimensions, NDimensions >  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -391,6 +384,7 @@ private:
   OffsetType         m_Offset;       // Offset of the transformation
   MatrixType         m_Inverse;      // Inverse of the matrix
   bool               m_Singular;     // Is m_Inverse singular?
+
 
 }; //class AffineTransform
 

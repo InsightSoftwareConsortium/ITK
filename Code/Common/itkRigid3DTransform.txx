@@ -26,7 +26,7 @@ namespace itk
 // Constructor with default arguments
 template<class TScalarType>
 Rigid3DTransform<TScalarType>::
-Rigid3DTransform()
+Rigid3DTransform():Superclass(OutputSpaceDimension,ParametersDimension)
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
@@ -214,6 +214,24 @@ Inverse( void ) const
 
 
   
+// Compute the Jacobian in one position 
+template<class TScalarType >
+const Rigid3DTransform<TScalarType>::JacobianType & 
+Rigid3DTransform< TScalarType >::
+GetJacobian( const InputPointType & p ) const
+{
+  
+
+  m_Jacobian.Fill( 0.0 );
+
+  // TODO
+
+  return m_Jacobian;
+
+}
+
+
+ 
 } // namespace
 
 #endif

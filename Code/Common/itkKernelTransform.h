@@ -52,17 +52,14 @@ namespace itk
  *
  */
 template <class TScalarType, // probably only float and double make sense here
-          int NDimensions,   // Number of dimensions
-          class TParameters, class TJacobianType>       
-class ITK_EXPORT KernelTransform : public Transform<TScalarType, 
-          NDimensions,NDimensions,TParameters,TJacobianType>
+          int NDimensions>   // Number of dimensions
+class ITK_EXPORT KernelTransform : 
+                    public Transform<TScalarType, NDimensions,NDimensions>
 {
 public:
   /** Standard class typedefs. */
   typedef KernelTransform Self;
-  typedef Transform<TScalarType, NDimensions,
-                    NDimensions, TParameters,
-                    TJacobianType>              Superclass;
+  typedef Transform<TScalarType, NDimensions, NDimensions >   Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -132,6 +129,10 @@ public:
   
   /** 'I' (identity) matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
+
+
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   KernelTransform();

@@ -26,7 +26,7 @@ namespace itk
 // Constructor with default arguments
 template<class TScalarType>
 Rigid3DPerspectiveTransform<TScalarType>::
-Rigid3DPerspectiveTransform()
+Rigid3DPerspectiveTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix = m_Versor.GetMatrix();
@@ -165,6 +165,25 @@ ComputeMatrix(void)
 
 
  
+// Compute the Jacobian in one position 
+template<class TScalarType >
+const Rigid3DPerspectiveTransform<TScalarType>::JacobianType & 
+Rigid3DPerspectiveTransform< TScalarType >::
+GetJacobian( const InputPointType & p ) const
+{
+  
+
+  m_Jacobian.Fill( 0.0 );
+
+  // TODO
+
+  return m_Jacobian;
+
+}
+
+
+ 
+
 } // namespace
 
 #endif

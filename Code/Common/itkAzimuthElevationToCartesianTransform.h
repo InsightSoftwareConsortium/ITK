@@ -74,22 +74,15 @@ namespace itk
 {
 
 
-template < 
-  class TScalarType=double,         // Data type for scalars (e.g. float or double)
-  unsigned int NDimensions=3,       // Number of dimensions in the input space
-  class TParameters = Point< double, NDimensions*(NDimensions+1) >,
-  class TJacobianType = Matrix<double,NDimensions,NDimensions*(NDimensions+1) >
-  > 
-class AzimuthElevationToCartesianTransform : public AffineTransform< TScalarType,
-                                              NDimensions,
-                                              TParameters,
-                                              TJacobianType >
+template < class TScalarType=float,  // Data type for scalars (e.g. float or double)
+           unsigned int NDimensions=3 >
+class AzimuthElevationToCartesianTransform : 
+                            public AffineTransform< TScalarType, NDimensions >
 {
 public:
   /** Standard class typedefs.   */
   typedef AzimuthElevationToCartesianTransform  Self;
-  typedef AffineTransform<  TScalarType, NDimensions,
-                            TParameters, TJacobianType >  Superclass;
+  typedef AffineTransform<  TScalarType, NDimensions >  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   

@@ -22,6 +22,8 @@
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "itkArray.h"
+#include "itkArray2D.h"
 
 #include "itkObjectFactory.h"
 
@@ -47,9 +49,7 @@ namespace itk
  */
 template <class TScalarType,
           unsigned int NInputDimensions, 
-          unsigned int NOutputDimensions,
-          class TParameters,
-          class TJacobianType >
+          unsigned int NOutputDimensions>
 class ITK_EXPORT  Transform  : public Object
 {
 public:
@@ -73,10 +73,10 @@ public:
   typedef  TScalarType     ScalarType;
 
   /** Type of the input parameters. */
-  typedef  TParameters     ParametersType;
+  typedef  Array< double >                           ParametersType;
 
   /** Type of the Jacobian matrix. */
-  typedef  TJacobianType JacobianType;
+  typedef  Array2D< double >                           JacobianType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
@@ -143,22 +143,27 @@ public:
    *
    * \f]
    * **/
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const = 0;
+
+
+  /** Return the number of parameters that completely define the Transfom  */
+  unsigned int GetNumberOfParameters(void) const 
+                      { return m_Jacobian.cols(); }
+
 
 protected:
-  Transform();
+  Transform(unsigned int Dimension, unsigned int NumberOfParameters);
   virtual ~Transform() {};
 
-  /** Jacobian matrix of the transformation. It is used to compute
-   * derivatives by using the chain rule. */
-  mutable JacobianType                m_Jacobian;     
+
+          ParametersType     m_Parameters;
+
+  mutable JacobianType       m_Jacobian;
 
 private:
   Transform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /**  List of parameters that unambiguosly define the transformation */  
-  ParametersType                      m_Parameters;
 
 };
 

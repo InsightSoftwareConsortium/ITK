@@ -26,7 +26,7 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 QuaternionRigidTransform<TScalarType>
-::QuaternionRigidTransform()
+::QuaternionRigidTransform():Superclass(SpaceDimension,ParametersDimension) 
 {
   m_Offset.Fill( 0 );
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)

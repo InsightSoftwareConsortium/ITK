@@ -38,18 +38,14 @@ namespace itk
 template <class TScalarType = double,   // Data type for scalars (float or double)
           int NDimensions = 3>          // Number of dimensions
 class ElasticBodySplineKernelTransform : 
-          public KernelTransform<  TScalarType, 
-                                   NDimensions,
-                                   vnl_vector<TScalarType>,
-                                   vnl_matrix<TScalarType>   >
+          public KernelTransform<  TScalarType, NDimensions>
 {
 public:
   /** Standard class typedefs. */
   typedef ElasticBodySplineKernelTransform   Self;
   typedef KernelTransform<  TScalarType, 
-                            NDimensions,
-                            vnl_vector<TScalarType>, 
-                            vnl_matrix<TScalarType>      > Superclass;
+                            NDimensions> Superclass;
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
@@ -86,6 +82,7 @@ public:
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
     
+
 protected:
   ElasticBodySplineKernelTransform();
   virtual ~ElasticBodySplineKernelTransform();

@@ -28,36 +28,14 @@ namespace itk
  */
 template < class TScalarType,
            unsigned int NInputDimensions,
-           unsigned int NOutputDimensions,
-           class TParameters,
-           class TJacobianType>
-Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType>
-::Transform()
+           unsigned int NOutputDimensions >
+Transform< TScalarType,NInputDimensions,NOutputDimensions>
+::Transform(unsigned int dimension,unsigned int numberOfParameters):
+                                  m_Parameters(numberOfParameters),
+                                  m_Jacobian(numberOfParameters,dimension)
 {
- 
 }
 
-
-// Compute the Jacobian of the transformation
-// It follows the same order of Parameters vector 
-template < class TScalarType,
-           unsigned int NInputDimensions,
-           unsigned int NOutputDimensions,
-           class TParameters,
-           class TJacobianType>
-const Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType>::JacobianType &
-Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType>
-::GetJacobian( const InputPointType & p ) const
-{
-  
-  // Each transform should redefine this method.
-  // the following is just a default action
-  return m_Jacobian;
-
-}
 
 
 } // end namespace itk
