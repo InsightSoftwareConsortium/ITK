@@ -80,7 +80,7 @@ void Relabeler<TScalarType, TImageDimension>
     return;
     }
   ScalarType max = tree->Back().saliency;
-  ScalarType mergeLimit = m_FloodLevel * max;
+  ScalarType mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
 
   this->UpdateProgress(0.5);
   

@@ -182,7 +182,7 @@ void Segmenter<TInputImage>::GenerateData()
     }
   // threshold the image. 
   Self::Threshold(thresholdImage, input, regionToProcess, regionToProcess,
-                  (m_Threshold * (maximum - minimum)) + minimum);
+                  static_cast<InputPixelType>((m_Threshold * (maximum - minimum)) + minimum));
 
   
   //
