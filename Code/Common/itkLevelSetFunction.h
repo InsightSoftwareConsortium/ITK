@@ -131,7 +131,7 @@ public:
    *  Default implementation returns zero. */ 
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType& ,
-    const FloatOffsetType &, GlobalDataStruct *gd = 0 ) const
+    const FloatOffsetType &, GlobalDataStruct * = 0 ) const
     { return NumericTraits<ScalarValueType>::Zero; }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
