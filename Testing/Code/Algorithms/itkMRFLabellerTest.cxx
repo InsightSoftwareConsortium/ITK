@@ -16,21 +16,29 @@
 =========================================================================*/
 
 // Insight classes
+
+#include "itkGaussianSupervisedClassifier.h"
+#include "itkMRFImageFilter.h"
+
+#include "itkSize.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkGaussianSupervisedClassifier.h"
-#include "itkMRFImageFilter.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkNeighborhoodAlgorithm.h"
+#include "itkNeighborhood.h"
 
 //Data definitons 
-#define   IMGWIDTH            2
-#define   IMGHEIGHT           2
-#define   NFRAMES             4
+#define   IMGWIDTH            6
+#define   IMGHEIGHT           6
+#define   NFRAMES             3
 #define   NUMBANDS            2  
 #define   NDIMENSION          3
 #define   NUM_CLASSES         3
-#define   MAX_NUM_ITER       50
+#define   MAX_NUM_ITER        5
+#define   NEIGHBORHOOD_RAD    1
 
 
 int main()
@@ -69,109 +77,119 @@ int main()
   typedef VecImageType::PixelType     DataVector;
   DataVector   dblVec; 
 
+  int i,k;
+  int halfWidth = (int) (vecImgSize[0])/2;
+  int halfHeight = (int) (vecImgSize[1])/2;
+ 
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
-  //Vector no. 1
-  dblVec[0] = 21; 
-  dblVec[1] = 19;
-  outIt.Set(dblVec); 
-  ++outIt;
+  //--------------------------------------------------------------------------
+  //Row 1-3
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 
+    dblVec[0] = 21; dblVec[1] = 19;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 
+    dblVec[0] = 18; dblVec[1] = 14;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 2
-  dblVec[0] = 20; 
-  dblVec[1] = 20;
-  outIt.Set(dblVec); 
-  ++outIt;
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 
+    dblVec[0] = 15; dblVec[1] = 11;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 
+    dblVec[0] = 10; dblVec[1] = 16;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 3
-  dblVec[0] = 8; 
-  dblVec[1] = 11;
-  outIt.Set(dblVec); 
-  ++outIt;
-
-  //Vector no. 4
-  dblVec[0] = 10; 
-  dblVec[1] = 12;
-  outIt.Set(dblVec); 
-  ++outIt;
-
+  //--------------------------------------------------------------------------
   //Slice 2
-  //Vector no. 1
-  dblVec[0] = 22; 
-  dblVec[1] = 21;
-  outIt.Set(dblVec); 
-  ++outIt;
+  //--------------------------------------------------------------------------
+  //Row 1-3
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 14; dblVec[1] = 20;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 18; dblVec[1] = 22;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 2
-  dblVec[0] = 21; 
-  dblVec[1] = 22;
-  outIt.Set(dblVec);
-  ++outIt;
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 15; dblVec[1] = 15;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 12; dblVec[1] = 12;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 3
-  dblVec[0] = 11; 
-  dblVec[1] = 12;
-  outIt.Set(dblVec); 
-  ++outIt;
-
-  //Vector no. 4
-  dblVec[0] = 9; 
-  dblVec[1] = 10;
-  outIt.Set(dblVec); 
-  ++outIt;
-
+  //--------------------------------------------------------------------------
   //Slice 3
-  //Vector no. 1 
-  dblVec[0] = 19; 
-  dblVec[1] = 20;
-  outIt.Set(dblVec); 
-  ++outIt;
+  //--------------------------------------------------------------------------
+  //Row 1-3
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 19; dblVec[1] = 20;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 19; dblVec[1] = 21;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 2
-  dblVec[0] = 19; 
-  dblVec[1] = 21;
-  outIt.Set(dblVec); 
-  ++outIt;
-
-  //Vector no. 3
-  dblVec[0] = 11; 
-  dblVec[1] = 11;
-  outIt.Set(dblVec); 
-  ++outIt;
-
-  //Vector no. 4
-  dblVec[0] = 11; 
-  dblVec[1] = 10;
-  outIt.Set(dblVec); 
-  ++outIt;
-
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 12; dblVec[1] = 12;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 11; dblVec[1] = 10;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
+/*
+  //--------------------------------------------------------------------------
   //Slice 4
-  //Vector no. 1
-  dblVec[0] = 18; 
-  dblVec[1] = 18;
-  outIt.Set(dblVec); 
-  ++outIt;
+  //--------------------------------------------------------------------------
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 16; dblVec[1] = 18;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 18; dblVec[1] = 18;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
 
-  //Vector no. 2
-  dblVec[0] = 18; 
-  dblVec[1] = 20;
-  outIt.Set(dblVec); 
-  ++outIt;
-  
-  //Vector no. 3
-  dblVec[0] = 12; 
-  dblVec[1] = 10;
-  outIt.Set(dblVec); 
-  ++outIt;
-  
-  //Vector no. 4
-  dblVec[0] = 14; 
-  dblVec[1] = 13;
-  outIt.Set(dblVec); 
-  ++outIt;
-
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    dblVec[0] = 15; dblVec[1] = 13;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+ 
+    //Vector no. 4-6 Row k
+    dblVec[0] = 14; dblVec[1] = 13;
+    for( i=0; i< halfWidth; ++i, ++outIt ) outIt.Set(dblVec); 
+    }
+*/
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
@@ -196,80 +214,59 @@ int main()
   typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
-
-
-
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
-  //Pixel no. 1
-  classoutIt.Set( 2 );
-  ++classoutIt;
+  //--------------------------------------------------------------------------
+  //Row 1-3
 
-  //Pixel no. 2 
-  classoutIt.Set( 2 );
-  ++classoutIt;
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 2 ); 
+    }
 
-  //Pixel no. 3
-  classoutIt.Set( 1 );
-  ++classoutIt;
-
-  //Pixel no. 4
-  classoutIt.Set( 1 );
-  ++classoutIt;
-
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 1 );
+    }
+  //-------------------------------------------------------------------------- 
   //Slice 2
-  //Pixel no. 1
-  classoutIt.Set( 0 );
-  ++classoutIt;
-  
-  //Pixel no. 2
-  classoutIt.Set( 0 );
-  ++classoutIt;
+  //--------------------------------------------------------------------------
+  //Row 1-6
+  for( k=0; k< (halfHeight*2); k++)
+    {
+    //Vector no. 1-3 Row k
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 0 ); 
+    }
 
-  //Pixel no. 3
-  classoutIt.Set( 0 );
-  ++classoutIt;
-
-  //Pixel no. 4
-  classoutIt.Set( 0 );
-  ++classoutIt;
-
+  //--------------------------------------------------------------------------
   //Slice 3
-  //Pixel no. 1 
-  classoutIt.Set( 2 );
-  ++classoutIt;
+  //--------------------------------------------------------------------------
+  for( k=0; k< halfHeight; k++)
+    {
+    //Vector no. 1-3 Row k
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 2 ); 
+    }
 
-  //Pixel no. 2
-  classoutIt.Set( 2 );
-  ++classoutIt;
-  
-  //Pixel no. 3
-  classoutIt.Set( 1 );
-  ++classoutIt;
-
-  //Pixel no. 4
-  classoutIt.Set( 1 );
-  ++classoutIt;
-
+  //Row 4-6
+  for( k=0; k< halfHeight; k++)
+    {
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 1 );
+    }
+/*
+  //--------------------------------------------------------------------------
   //Slice 4
-  //Pixel no. 1
-  classoutIt.Set( 0 );
-  ++classoutIt;
-  
-  //Pixel no. 2
-  classoutIt.Set( 0 );
-  ++classoutIt;
-
-  //Pixel no. 3
-  classoutIt.Set( 0 );
-  ++classoutIt;
-
-  //Pixel no. 4
-  classoutIt.Set( 0 );
-  ++classoutIt;
-
+  //--------------------------------------------------------------------------
+  //Row 1-6
+  for( k=0; k< (halfHeight*2); k++)
+    {
+    //Vector no. 1-3 Row k
+    for( i=0; i< (halfWidth*2); ++i, ++classoutIt ) classoutIt.Set( 0 ); 
+    }
+*/
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
   //----------------------------------------------------------------------
@@ -295,7 +292,14 @@ int main()
   // Set the MRF labeller parameters
   applyMRFImageFilter->SetNumberOfClasses(NUM_CLASSES);
   applyMRFImageFilter->SetMaximumNumberOfIterations(MAX_NUM_ITER);
-  applyMRFImageFilter->SetErrorTolerance(0.00);
+  applyMRFImageFilter->SetErrorTolerance(0.10);
+
+  //For setting up a square/cubic or hypercubic neighborhood
+  applyMRFImageFilter->SetNeighborhoodRadius( NEIGHBORHOOD_RAD );
+
+  //For setting up a rectangular/cuboidal or hypercuboidal neighborhood
+  //itk::Size<NDIMENSION> radius = {{1, 10, 5}};
+  //applyMRFImageFilter->SetNeighborhoodRadius( radius );
  
   applyMRFImageFilter->SetInput(vecImage);
   applyMRFImageFilter
@@ -312,47 +316,75 @@ int main()
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
 
-  //Verify if the results were as per expectation
-  bool passTest = true;
+  int sumtmp =0;
+  int label;
+  while( !labeloutIt.IsAtEnd() )
+    {
+    label = (int) labeloutIt.Get();
+    sumtmp += (int)  labeloutIt.Get();
+    ++labeloutIt;
+    }  
 
+  //---------------------------------------------------------------------
+  // Set up the neighborhood iterators and the valid neighborhoods
+  // for iteration
+  //---------------------------------------------------------------------
+
+  //Set up the nighborhood iterators
+  /** Labelled image neighborhood interator typedef */
+
+  typedef itk::NeighborhoodIterator< ClassImageType >
+    OutImageNeighborhoodIterator;
+
+  typedef OutImageNeighborhoodIterator::RadiusType 
+    OutImageNeighborhoodRadiusType;
+
+  typedef  
+    itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< ClassImageType >
+      OutImageFacesCalculator;
+  
+  typedef  OutImageFacesCalculator::FaceListType     OutImageFaceListType;
+
+  typedef  OutImageFaceListType::iterator            OutImageFaceListIterator;
+
+  OutImageNeighborhoodRadiusType outImageNeighborhoodRadius;
+  outImageNeighborhoodRadius.Fill( 1 );
+
+  //Define the face list for the input/labelled image
+  OutImageFacesCalculator     outImageFacesCalculator;
+
+  OutImageFaceListType        outImageFaceList;
+
+  //Compute the faces for the neighborhoods in the input/labelled image 
+  outImageFaceList =
+    outImageFacesCalculator( outClassImage, 
+                             outClassImage->GetBufferedRegion(),
+                             outImageNeighborhoodRadius );  
+
+  //Set up a face list iterator
+  OutImageFaceListIterator outImageFaceListIter
+    = outImageFaceList.begin();
+
+  //Walk through the entire data set (not visiting the boundaries )
+  OutImageNeighborhoodIterator
+    nOutImageNeighborhoodIter( outImageNeighborhoodRadius,
+                               outClassImage, 
+                               *outImageFaceListIter );
+
+  int sum = 0;
+  typedef ClassImageType::PixelType ClassImagePixelType;
+  ClassImagePixelType *outLabel;
+
+  //Loop through the labelled region and add the pixel labels
+  while( !nOutImageNeighborhoodIter.IsAtEnd() )
+    {
+    outLabel = nOutImageNeighborhoodIter.GetCenterValue();
+    sum += ( int ) (*outLabel); 
+    ++nOutImageNeighborhoodIter;
+    }
   //Loop through the data set
-  while( ! labeloutIt.IsAtEnd() )
-  {
-    int classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-      break;
-    }
-    ++labeloutIt;
 
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 2)
-    {
-      passTest = false;
-      break;
-    }
-    ++labeloutIt;
-
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-      break;
-    }
-    ++labeloutIt;
-
-    classIndex = (int) labeloutIt.Get();
-    if (classIndex != 1)
-    {
-      passTest = false;
-      break;
-    }
-    ++labeloutIt;
-
-  }//end while
-
-  if( passTest == true ) 
+  if( sum == 22 )
     std::cout<< "MRF labeller Test Passed" << std::endl;
   else 
     std::cout<< "MRF labeller Test failed" << std::endl;

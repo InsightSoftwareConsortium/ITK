@@ -131,7 +131,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     m_Covariance[i].resize( VectorDimension, VectorDimension );
     m_Covariance[i].fill( 0 );
     }
-
+  
   for( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
     {
 
@@ -337,6 +337,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     int classifiedIndex = GetPixelClass( inImgVec );
          
     outClassified = ClassifiedImagePixelType ( classifiedIndex );
+
     classifiedIt.Set( outClassified );
     }// end for (looping throught the dataset
 
