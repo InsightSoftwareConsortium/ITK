@@ -20,7 +20,7 @@
 //  \itkpiccaption[MinMaxCurvatureFlow computation]{Elements involved in the
 //  computation of min-max curvature flow.
 //  \label{fig:MinMaxCurvatureFlowFunctionDiagram}}
-//  \parpic(6cm,5cm)[r]{\includegraphics[width=5cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
+//  \parpic(6cm,4cm)[r]{\includegraphics[width=5cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
 //
 //  The MinMax curvature flow filter applies a variant of the curvature flow
 //  algorithm where diffusion is turned on or off depending of the scale of the
