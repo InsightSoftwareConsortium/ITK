@@ -31,11 +31,11 @@
 #include <iostream>
 #include "itkMultiThreader.h"
 
-typedef int (*MainFuncPointer)(int , char**);
+typedef int (*MainFuncPointer)(int , char* [] );
 std::map<std::string, MainFuncPointer> StringToTestFunctionMap;
 
 #define REGISTER_TEST(test) \
-extern int test(int, char**); \
+extern int test(int, char* [] ); \
 StringToTestFunctionMap[#test] = test
 
 void RegisterTests();
@@ -52,7 +52,7 @@ void PrintAvailableTests()
     }
 }
 
-int main(int ac, char** av)
+int main(int ac, char* av[] )
 {
   RegisterTests();
   std::string testToRun;
