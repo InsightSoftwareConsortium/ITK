@@ -296,7 +296,7 @@ int main( int argc, char *argv[])
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
+  //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is usually wise to put update calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //

@@ -18,20 +18,19 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
-// Insight.  It should be read as a \emph{Hello World} in registration. Which
-// means that for now you don't ask: \emph{why ?}. Instead, just use it as an
-// overview of the typical elements involved in solving an image registration
-// problem.
+// Insight.  It should be read as a \emph{Hello World} for ITK
+// registration. Which means that for now you don't ask \emph{why}? Instead,
+// use the example as an introduction to the typical elements involved in
+// solving an image registration problem.
 //
 // \index{itk::Image!Instantiation|textbf}
 // \index{itk::Image!Header|textbf}
 //
 // A registration method requires the following set of components: two input
-// Images, a Transform, a Metric, an Interpolator and an Optimizer. Some of
+// images, a transform, a metric, an interpolator and an optimizer. Some of
 // these components are parametrized by the image type for which the
 // registration is intended.  The following header files provide declarations
-// for common types
-// of these components.
+// for common types of these components.
 //
 // Software Guide : EndLatex 
 
@@ -54,11 +53,8 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 
-
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -94,11 +90,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The Transform that will map one image space into the other is defined
+  //  The transform that will map one image space into the other is defined
   //  below.
   //
   //  Software Guide : EndLatex 
@@ -106,7 +100,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -153,9 +146,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The registration method type is instantiated using the types of the fixed
-  //  and moving images. This class is responsible for interconnecting all the components 
-  //  we have described so far.
+  //  The registration method type is instantiated using the types of the
+  //  fixed and moving images. This class is responsible for interconnecting
+  //  all the components we have described so far.
   //
   //  Software Guide : EndLatex 
 
@@ -183,7 +176,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
   
 
-
   //  Software Guide : BeginLatex
   //
   //  The components are connected to the instance of the registration method.
@@ -206,14 +198,11 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
-
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
-
-
 
 
   //  Software Guide : BeginLatex
@@ -228,7 +217,6 @@ int main( int argc, char *argv[] )
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -250,11 +238,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   fixedImageReader->Update();
-
   registration->SetFixedImageRegion( 
      fixedImageReader->GetOutput()->GetBufferedRegion() );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -284,23 +270,22 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  At this point the registration method is ready to be executed. The
-  //  optimizer is the component that drives the execution of the registration.
-  //  However, the \doxygen{ImageRegistrationMethod} class orchestrates the
-  //  ensemble in order to make sure that everything is in place before the
-  //  control is passed to the optimizer.
+  //  At this point the registration method is ready for execution. The
+  //  optimizer is the component that drives the execution of the
+  //  registration.  However, the \doxygen{ImageRegistrationMethod} class
+  //  orchestrates the ensemble to make sure that everything is in place
+  //  before the control is passed to the optimizer.
   //
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
-  //  from taken steps which are too large.  At each iteration this optimizer
+  //  from taking steps which are too large.  At each iteration this optimizer
   //  will take a step along the direction of the \doxygen{ImageToImageMetric}
   //  derivative. The initial length of the step is defined by the user. Each
-  //  time that the direction of the derivative changes abruptly the optimizer
+  //  time that the direction of the derivative abruptly changes, the optimizer
   //  assumes that a local extrema has been passed and reacts by reducing the
   //  step length by a half. After several reductions of the step length the
   //  optimizer may be moving in a very restricted area of the transform
@@ -323,14 +308,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  In case the optimizer never succeed in reaching the desired precision
-  //  tolerance it is prudent to establish a limit on the number of iterations
-  //  to be performed. This maximum number is defined with the method
-  //  \code{SetNumberOfIterations()}.
+  //  In the case where the optimizer never succeeds in reaching the desired
+  //  precision tolerance it is prudent to establish a limit on the number of
+  //  iterations to be performed. This maximum number is defined with the
+  //  method \code{SetNumberOfIterations()}.
   //
   //  \index{itk::RegularStepGradientDescentOptimizer!SetNumberOfIterations()}
   //
@@ -341,14 +324,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The registration process is triggered by an invokation of the
+  //  The registration process is triggered by an invocation of the
   //  \code{StartRegistration()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
-  //  thrown. We should henceforth place the \code{StartRegistration()} method
+  //  thrown. We should therefore place the \code{StartRegistration()} method
   //  in a \code{try/catch} block as illustrated in the following lines.
   //
   //  Software Guide : EndLatex 
@@ -366,13 +347,12 @@ int main( int argc, char *argv[] )
     } 
   // Software Guide : EndCodeSnippet
 
-
   
   //  Software Guide : BeginLatex
   //  
   // In a real application you may attempt to recover from the error in the
-  // catch block. Here we are simply printing out a message and then terminate
-  // the execution of the program.
+  // catch block. Here we are simply printing out a message and then
+  // terminating the execution of the program.
   //
   //  Software Guide : EndLatex 
 
@@ -389,7 +369,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   ParametersType finalParameters = registration->GetLastTransformParameters();
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -433,7 +412,7 @@ int main( int argc, char *argv[] )
   const double bestValue = optimizer->GetValue();
   // Software Guide : EndCodeSnippet
 
-  //
+
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -463,7 +442,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 17.0001
   //  \end{verbatim}
   // 
-  //  As expected, these values match pretty well the misalignment
+  //  As expected, these values pretty well match the misalignment
   //  intentionally introduced in the moving image.
   //
   // \begin{figure}
@@ -479,13 +458,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  It is common, as a last step of a registration task, to use the resulting
   //  transform to map the moving image into the fixed image space.  This is
   //  easily done with the \doxygen{ResampleImageFilter}. Please refer to
-  //  section \ref{sec:ResampleImageFilter} for details on the use of this
+  //  Section \ref{sec:ResampleImageFilter} for details on the use of this
   //  filter.  First a \code{ResampleImageFilter} type is instantiated using
   //  the image types. It is convenient to use the fixed image type as the
   //  output type since it is likely that the transformed moving image will be
@@ -511,7 +489,6 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer finalTransform = TransformType::New();
-
   finalTransform->SetParameters( finalParameters );
   // Software Guide : EndCodeSnippet
 
@@ -530,13 +507,11 @@ int main( int argc, char *argv[] )
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
-  
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  As described in section \ref{sec:ResampleImageFilter}, the
+  //  As described in Section \ref{sec:ResampleImageFilter}, the
   //  \doxygen{ResampleImageFilter} requires additional parameters to be
   //  specified. In particular the spacing, origin and size of the output
   //  image. The default pixel value is also set to a distinct gray level in
@@ -546,13 +521,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetDefaultPixelValue( 100 );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -570,31 +543,23 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The output of the filter is passed to a writer that will store the image
-  //  in a file. An \doxygen{CastImageFilter} is placed in between in order to
-  //  convert the pixel type of the resampled image to the final type used by
-  //  the writer. The types of the cast and writer filters are instantiated
-  //  below.
+  //  The output of the filter is passed to a writer that will store the
+  //  image in a file. An \doxygen{CastImageFilter} is used to convert the
+  //  pixel type of the resampled image to the final type used by the
+  //  writer. The cast and writer filters are instantiated below.
   //
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char  OutputPixelType;
-
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
   typedef itk::CastImageFilter< 
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -610,9 +575,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   writer->SetFileName( argv[3] );
-  
 
 
   //  Software Guide : BeginLatex
@@ -629,8 +592,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //  
   // \begin{figure}
@@ -643,7 +604,6 @@ int main( int argc, char *argv[] )
   //
   //
   //  Software Guide : EndLatex 
-
 
 
   //  Software Guide : BeginLatex
@@ -662,12 +622,9 @@ int main( int argc, char *argv[] )
                                   OutputImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
-
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resample->GetOutput() );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -680,8 +637,6 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( difference->GetOutput() );  
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -700,9 +655,6 @@ int main( int argc, char *argv[] )
   //  exist. 
   //
   //  Software Guide : EndLatex 
-
-
-
 
 
   if( argc >= 5 )
@@ -736,6 +688,5 @@ int main( int argc, char *argv[] )
 
 
   return 0;
-
 }
 

@@ -17,25 +17,25 @@
 
 // Software Guide : BeginLatex
 //
-// Some of the most challenging cases of image registration is when images of
-// different modalities are involved. In such cases, metrics based on direct
-// comparison of gray levels are not applicable. It has been extensively shown
-// that metrics based on the evaluation of mutual information provide
-// the best mechanisms to overcome the difficulties of multi-modality
+// Some of the most challenging cases of image registration are when images
+// of different modalities are involved. In such cases, metrics based on
+// direct comparison of gray levels are not applicable. It has been
+// extensively shown that metrics based on the evaluation of mutual
+// information is the best way to overcome the difficulties of multi-modality
 // registration.
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
-// The following example illustrates in a minimal program how multiple imaging
-// modalities can be registered using Insight components. The first difference
-// is the use of \doxygen{MutualInformationImageToImageMetric} as the
-// cost-function to be optimized and the second difference is the use of
-// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the way
-// the metric measure is computed, the values are too noisy to work
-// successfully with \doxygen{RegularStepGradientDescentOptimizer}.  Therefore
-// we will use the simpler \doxygen{GradientDescentOptimizer} with a user
-// defined learning rate.  The following headers declare the basic components
-// of the registration method.
+// The following simple example illustrates how multiple imaging modalities
+// can be registered using the ITK registration framework. The first
+// difference is the use of \doxygen{MutualInformationImageToImageMetric} as
+// the cost-function to be optimized and the second difference is the use of
+// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
+// way the metric measure is computed, the values are too noisy to work
+// successfully with \doxygen{RegularStepGradientDescentOptimizer}.
+// Therefore we will use the simpler \doxygen{GradientDescentOptimizer} with
+// a user defined learning rate.  The following headers declare the basic
+// components of the registration method.
 //
 // Software Guide : EndLatex 
 
@@ -50,10 +50,9 @@
 // Software Guide : EndCodeSnippet
 
 
-
 //  Software Guide : BeginLatex
 //  
-//  One way of simplifying the computation of the mutual information is
+//  One way to simplify the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
 //  filter \doxygen{NormalizeImageFilter} is the perfect tool for this task.
 //  It rescales the intensities of the input images in order to produce an
@@ -68,11 +67,11 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Additionally, low pass filtering the images to be registered will
-//  also have to increase robustness against noise. In this example,
-//  we will use the \doxygen{DiscreteGaussianImageFilter} filter for the
-//  purpose. The characteristics of this filter has been discussed
-//  in section \ref{sec:BlurringFilters}.
+//  Additionally, low pass filtering of the images to be registered will also
+//  increase robustness against noise. In this example, we will use the
+//  \doxygen{DiscreteGaussianImageFilter} filter for the purpose. The
+//  characteristics of this filter has been discussed in section
+//  \ref{sec:BlurringFilters}.
 //
 //  Software Guide : EndLatex 
 
@@ -88,8 +87,6 @@
 #include "itkCastImageFilter.h"
 
 
-
-//
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
@@ -127,14 +124,8 @@ public:
 };
 
 
-
-
-
-
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -146,7 +137,7 @@ int main( int argc, char *argv[] )
   
   // Software Guide : BeginLatex
   // 
-  // The types of images should be declared first. 
+  // The moving and fixed images should be instantiated first. 
   //
   // Software Guide : EndLatex 
   //
@@ -160,8 +151,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  It is convenient to declare an internal image type given that mutual
-  //  information will perform better on images with normalized statistical
+  //  It is convenient to work with an internal image type because mutual
+  //  information will perform better on images with a normalized statistical
   //  distribution. The fixed and moving images will be normalized and
   //  converted to this internal type.
   //
@@ -169,18 +160,15 @@ int main( int argc, char *argv[] )
   
   // Software Guide : BeginCodeSnippet
   typedef   float     InternalPixelType;
-
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
   //  
   //  The rest of the image registration components are instantiated as
-  //  illustrated in section \ref{sec:IntroductionImageRegistration} but
-  //  considering the new \code{InternalImageType}.
+  //  illustrated in section \ref{sec:IntroductionImageRegistration} with
+  //  the use of the \code{InternalImageType}.
   //
   //  Software Guide : EndLatex 
 
@@ -197,7 +185,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //  
   //  The mutual information metric type is instantiated using the image
@@ -212,8 +199,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
@@ -222,7 +207,6 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
-  
 
 
   //  Software Guide : BeginLatex
@@ -234,25 +218,22 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   MetricType::Pointer         metric        = MetricType::New();
-  
   registration->SetMetric( metric  );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
   //  
   //  The metric requires a number of parameters to be selected. Among them,
-  //  the standard deviation of the Gaussian kernel for the fixed image density
-  //  estimate, the standard deviation of the kernel for the moving image
-  //  density and the number of samples use to compute the densities and
-  //  entropy values. Details on the concept behind the computation of the
-  //  metric can be found in section \ref{sec:MutualInformationMetric}. Our
-  //  experience with the toolkit has found that a kernel standard deviation of
-  //  $0.4$ works well for images which has normalized to mean of zero and unit
-  //  variance.  We will follow this empricial rule in this example.
+  //  the standard deviation of the Gaussian kernel for the fixed image
+  //  density estimate, the standard deviation of the kernel for the moving
+  //  image density and the number of samples use to compute the densities
+  //  and entropy values. Details on the concepts behind the computation of
+  //  the metric can be found in section
+  //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit has
+  //  found that a kernel standard deviation of $0.4$ works well for images
+  //  which have been normalized to a mean of zero and unit variance.  We
+  //  will follow this empirical rule in this example.
   //
   //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
   //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
@@ -263,11 +244,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageStandardDeviation(  0.4 );
   metric->SetMovingImageStandardDeviation( 0.4 );
-
   metric->SetNumberOfSpatialSamples( 50 );
   // Software Guide : EndCodeSnippet
-
-
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -280,24 +258,19 @@ int main( int argc, char *argv[] )
   movingImageReader->SetFileName( argv[2] );
 
 
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The normalization filters are declared using the fixed and moving image
-  //  types as input and the internal image type as output.
+  //  The normalization filters are instantiated using the fixed and moving
+  //  image types as input and the internal image type as output.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::NormalizeImageFilter< 
                         FixedImageType, InternalImageType > FixedNormalizeFilterType;
-  
   typedef itk::NormalizeImageFilter< 
                         MovingImageType, InternalImageType > MovingNormalizeFilterType;
-
   FixedNormalizeFilterType::Pointer fixedNormalizer = FixedNormalizeFilterType::New();
-
   MovingNormalizeFilterType::Pointer movingNormalizer = MovingNormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -323,9 +296,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The output of the readers are connected as inputs to the normalization
-  //  filters. The outputs of the normalization filters are connected as inputs 
-  //  to the blurring filters. The inputs to the registration method are taken from the
-  //  blurring filters. 
+  //  filters. The outputs of the normalization filters are connected as
+  //  inputs to the blurring filters. The inputs to the registration method
+  //  are taken from the blurring filters.
   //
   //  Software Guide : EndLatex 
 
@@ -342,11 +315,8 @@ int main( int argc, char *argv[] )
 
 
   fixedNormalizer->Update();
-
   registration->SetFixedImageRegion( 
        fixedNormalizer->GetOutput()->GetBufferedRegion() );
-  
-
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
@@ -362,7 +332,7 @@ int main( int argc, char *argv[] )
   //  Since larger values of mutual information indicates better matches than
   //  smaller values, we need to maximize the cost function in this example.
   //  By default the \doxygen{GradientDescentOptimizer} is set to minimize the
-  //  value of the cost-function. It is henceforth necessary to modify its
+  //  value of the cost-function. It is therefore necessary to modify its
   //  default behavior by invoking the \code{MaximizeOn()} method.
   //  Additionally, we need to define the optimizer's step size using the
   //  \code{SetLearningRate()} method.
@@ -376,18 +346,14 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   optimizer->SetLearningRate( 20.0 );
   optimizer->SetNumberOfIterations( 200 );
-
   optimizer->MaximizeOn();
   // Software Guide : EndCodeSnippet
 
 
-  //
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
-
 
 
   try 
@@ -411,7 +377,6 @@ int main( int argc, char *argv[] )
   double bestValue = optimizer->GetValue();
 
 
-  //
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -444,15 +409,14 @@ int main( int argc, char *argv[] )
   //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
   //  images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration2}. The registration has been
-  //  stopped at 200 iterations and produce as result the
+  //  stopped at 200 iterations and produces as result the
   //  parameters:
   //
   //  \begin{verbatim}
   //  Translation X = 12.8804
   //  Translation Y = 16.7718
   //  \end{verbatim}
-  // 
-  //  These values are approximatedly within half pixel of 
+  //  These values are approximatedly within a half pixel of 
   //  the true misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
@@ -493,14 +457,12 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
 
-
   writer->SetFileName( argv[3] );
   
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-
 
 
   //  Software Guide : BeginLatex
@@ -516,9 +478,9 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration2Output}
   // \end{figure}
   //
-  //  The result of the resampling the moving image is presented in the left
+  //  As a result of the resampling the moving image is presented in the left
   //  side of Figure \ref{fig:ImageRegistration2Output}. The center and right
-  //  parts of the figure present a checkerboard composite of the fixed and
+  //  figures present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
   //  Software Guide : EndLatex 
@@ -535,17 +497,16 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration2TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration2TraceTranslations} presents the
-  //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The left plot shows iterations $0$ to $200$ while the
-  //  right figure zooms into iterations $150$ to $200$. The area covered by
-  //  the right figure has been highlighted by a rectangle in the left image.
-  //  It can be seen that after a certain number of iterations the optimizer
-  //  oscillates within one or two pixels of the true solution. 
-  //  At this point it is
-  //  clear that more iterations will not help. Instead it is time to modify
-  //  some of the parameters of the registration process. For example, 
-  //  reducing the learning rate of the optimizer and continuing the
+  //  Figure \ref{fig:ImageRegistration2TraceTranslations} shows the sequence
+  //  of translations followed by the optimizer as it searched the parameter
+  //  space. The left plot shows iterations $0$ to $200$ while the right
+  //  figure zooms into iterations $150$ to $200$. The area covered by the
+  //  right figure has been highlighted by a rectangle in the left image.  It
+  //  can be seen that after a certain number of iterations the optimizer
+  //  oscillates within one or two pixels of the true solution.  At this
+  //  point it is clear that more iterations will not help. Instead it is
+  //  time to modify some of the parameters of the registration process. For
+  //  example, reducing the learning rate of the optimizer and continuing the
   //  registration so that smaller steps are taken.
   //
   // \begin{figure}
@@ -560,34 +521,30 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
-  //  The left plot shows values when iterations are extended from $0$ to $200$
-  //  while the right figure zooms into iterations $100$ to $200$. 
-  //  The fluctuations in the measure value is due to the stochastic
-  //  nature in which the measure is computed. At each call of 
-  //  \code{GetValue()}, two new sets of intensity samples is randomly 
-  //  taken from the image to compute the density and entropy estimates.
-  //  Even with the fluctuations, overall the measure initially increases
-  //  with the number of iterations.
-  //  After about 150 iterations the metric value oscillates
-  //  without further noticeable convergence. 
-  //  The trace plots in Figure \ref{fig:ImageRegistration2TraceMetric}
-  //  highlights one of the difficulties with using this particular metric:
-  //  the stochastic oscillations makes it difficult to determine
-  //  convergence and limits the use of more sophisticated optimizations
-  //  methods. As explained above,
-  //  the reduction of the learning rate as the registration progresses
-  //  is very important in order to get precise results.
+  //  The left plot shows values when iterations are extended from $0$ to
+  //  $200$ while the right figure zooms into iterations $100$ to $200$.  The
+  //  fluctuations in the measure value is due to the stochastic nature in
+  //  which the measure is computed. At each call of \code{GetValue()}, two
+  //  new sets of intensity samples is randomly taken from the image to
+  //  compute the density and entropy estimates.  Even with the fluctuations,
+  //  overall the measure initially increases with the number of iterations.
+  //  After about 150 iterations the metric value oscillates without further
+  //  noticeable convergence.  The trace plots in Figure
+  //  \ref{fig:ImageRegistration2TraceMetric} highlights one of the
+  //  difficulties with using this particular metric: the stochastic
+  //  oscillations makes it difficult to determine convergence and limits the
+  //  use of more sophisticated optimizations methods. As explained above,
+  //  the reduction of the learning rate as the registration progresses is
+  //  very important in order to get precise results.
   //
   //  This example shows the importance of tracking the evolution of the
-  //  registration method in order to get some insight on the characteristics
-  //  of the particular problem at hand and the components being used. 
-  //  The behavior revealed by these plots
-  //  usually helps to identify possible improvements in the setup of the
-  //  registration parameters. 
+  //  registration method in order to obtain insight into the characteristics
+  //  of the particular problem at hand and the components being used.  The
+  //  behavior revealed by these plots usually helps to identify possible
+  //  improvements in the setup of the registration parameters.
   //
   //  Software Guide : EndLatex 
 
   return 0;
-
 }
 

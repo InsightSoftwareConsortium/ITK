@@ -18,13 +18,13 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredAffineTransform}
-// for performing registration in $2D$. The code of this example is for the
-// most part identical to the one presented in
+// for performing registration in $2D$. The example code is for the most part
+// identical to the one presented in
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
 // use of the \doxygen{CenteredAffineTransform} here instead of the
-// \doxygen{CenteredRigid2DTransform}. We will focus then in the most relevant
-// changes in the current code and skip the basic elements already explained in
-// previous examples.
+// \doxygen{CenteredRigid2DTransform}. We will focus then in the most
+// relevant changes in the current code and skip the basic elements already
+// explained in previous examples.
 //
 // \index{itk::CenteredAffineTransform!textbf}
 //
@@ -55,8 +55,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -65,10 +63,8 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 
-
-
 //
-//  The following section of code implements a Command observer
+//  The following piece of code implements an observer
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
@@ -105,15 +101,8 @@ public:
 };
 
 
-
-
-
-
-
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -123,8 +112,6 @@ int main( int argc, char *argv[] )
     std::cerr << "   [stepLength] [maxNumberOfIterations] "<< std::endl;
     return 1;
     }
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -142,12 +129,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The Transform type is instantiated using the code below. The template
+  //  The transform type is instantiated using the code below. The template
   //  parameters of this class are the representation type of the space
   //  coordinates and the space dimension.
   //
@@ -162,17 +146,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-
   typedef itk::MeanSquaresImageToImageMetric< 
                                     FixedImageType, 
                                     MovingImageType >    MetricType;
-
   typedef itk:: LinearInterpolateImageFunction< 
                                     MovingImageType,
                                     double          >    InterpolatorType;
-
   typedef itk::ImageRegistrationMethod< 
                                     FixedImageType, 
                                     MovingImageType >    RegistrationType;
@@ -181,13 +161,10 @@ int main( int argc, char *argv[] )
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
-  
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
-
-
 
 
   //  Software Guide : BeginLatex
@@ -203,23 +180,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
-
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
 
-
-
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
-
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
-
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
-
-
 
 
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
@@ -230,15 +200,13 @@ int main( int argc, char *argv[] )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  In this example, we use again the helper class
   //  \doxygen{CenteredTransformInitializer} in order to compute a reasonable
   //  value for the initial center of rotation and the translation. The
-  //  initializer is set to use the center of mass of each image as the initial
-  //  correspondance correction.
+  //  initializer is set to use the center of mass of each image as the
+  //  initial correspondance correction.
   //
   //  Software Guide : EndLatex 
 
@@ -247,16 +215,11 @@ int main( int argc, char *argv[] )
                                     TransformType, 
                                     FixedImageType, 
                                     MovingImageType >  TransformInitializerType;
-
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
-
   initializer->SetTransform(   transform );
-
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-
   initializer->MomentsOn();
-
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
 
@@ -266,10 +229,9 @@ int main( int argc, char *argv[] )
   std::cout << transform->GetParameters() << std::endl;
 
 
-
   //  Software Guide : BeginLatex
   //  
-  //  We pass now the parameter of the current transform as the initial
+  //  Now we pass the parameter of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex 
@@ -278,9 +240,6 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( 
                                  transform->GetParameters() );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -297,7 +256,6 @@ int main( int argc, char *argv[] )
 
 
   double translationScale = 1.0 / 1000.0;
-
   if( argc > 8 )
     {
     translationScale = atof( argv[8] );
@@ -306,9 +264,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
-
 
   optimizerScales[0] =  1.0;
   optimizerScales[1] =  1.0;
@@ -323,16 +279,14 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  We set also the normal parameters of the optimization method. In this
-  //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}. Below,
-  //  we define the optimization parameters like initial step length, minimal
-  //  step length and number of iterations. These last two act as stopping
-  //  criteria for the optimization.
+  //  We also set the usual parameters of the optimization method. In this
+  //  case we are using an
+  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
+  //  optimization parameters like initial step length, minimal step length
+  //  and number of iterations. These last two act as stopping criteria for
+  //  the optimization.
   //
   //  Software Guide : EndLatex 
 
@@ -355,12 +309,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength ); 
   optimizer->SetMinimumStepLength( 0.001 );
-
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -377,16 +327,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-  //
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -411,14 +355,14 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  Once the optimization converges, we recover the parameters from the
   //  registratino method. This is done through the
-  //  \code{GetLastTransformParameters()} method. We can also recover the final
-  //  value of the metric with the \code{GetValue()} method and the final
-  //  number of iterations with the \code{GetCurrentIteration()} method.
+  //  \code{GetLastTransformParameters()} method. We can also recover the
+  //  final value of the metric with the \code{GetValue()} method and the
+  //  final number of iterations with the \code{GetCurrentIteration()}
+  //  method.
   //
   //  \index{itk::RegistrationMethod!GetValue()}
   //  \index{itk::RegistrationMethod!GetCurrentIteration()}
@@ -430,18 +374,16 @@ int main( int argc, char *argv[] )
   OptimizerType::ParametersType finalParameters = 
                     registration->GetLastTransformParameters();
 
-
   const double finalRotationCenterX = finalParameters[4];
   const double finalRotationCenterY = finalParameters[5];
   const double finalTranslationX    = finalParameters[6];
   const double finalTranslationY    = finalParameters[7];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
   const double bestValue = optimizer->GetValue();
   // Software Guide : EndCodeSnippet
 
-  //
+
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -463,14 +405,13 @@ int main( int argc, char *argv[] )
   //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
   //  \end{itemize}
   //
-  //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees and then translating by $(-13,-17)$..  Both images have
-  //  unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration9}. We execute the code using as
-  //  parameters the following: steplenght=1.0, translationScale= 0.0001 and
-  //  maximum number of iterations = 300. With these images and parameters the
-  //  registration takes $240$ iterations and produce as result the transform
-  //  parameters:
+  //  The second image is the result of intentionally rotating the first
+  //  image by $10$ degrees and then translating by $(-13,-17)$.  Both images
+  //  have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration9}. We execute the code using the
+  //  following parameters: steplenght=1.0, translationScale= 0.0001 and
+  //  maximum number of iterations = 300. With these images and parameters
+  //  the registration takes $240$ iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
@@ -490,16 +431,15 @@ int main( int argc, char *argv[] )
   //  \end{itemize}
   //  
   //  The second component of the matrix values is usually associated with
-  //  $\sin{\theta}$. In this case the value $0.1729$ that indicates a rotation
-  //  of $9.95$ degrees. Which matches pretty well the theoretical value of
-  //  $10.0$ degrees of the miss-registered image.
-  // 
+  //  $\sin{\theta}$. In this case the value $0.1729$ that a rotation
+  //  of $9.95$ degrees. Which is approximately the theoretical value of
+  //  $10.0$ degrees of the mis-registered image.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
-  // \itkcaption[CenteredAffineTransform registration]{Fixed and Moving image
+  // \itkcaption[CenteredAffineTransform registration]{Fixed and moving image
   // provided as input to the registration method using CenteredAffineTransform
   // transform.}
   // \label{fig:FixedMovingImageRegistration9}
@@ -512,14 +452,14 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
   // \itkcaption[CenteredAffineTransform ouput images]{Resampled moving image
-  // (left). Differences between fixed and moving images, before (center) and
-  // after (right) registration with the
+  // (left). Differences between the fixed and moving images, before (center) 
+  // and after (right) registration with the 
   // CenteredAffineTransform transform.}
   // \label{fig:ImageRegistration9Outputs}
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration9Outputs} shows the output of the
-  // registration. The right most image of this Figure shows the squared
+  // registration. The right most image of this figure shows the squared
   // magnitude of pixel differences between the fixed image and the resampled
   // moving image. 
   //
@@ -545,11 +485,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-
-
   //  The following code is used to dump output images to files.
   //  They illustrate the final results of the registration.
-
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
                             FixedImageType >    ResampleFilterType;
@@ -585,9 +522,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
 
-
   writer->SetFileName( argv[3] );
-  
 
 
   caster->SetInput( resample->GetOutput() );
@@ -629,6 +564,5 @@ int main( int argc, char *argv[] )
 
 
   return 0;
-
 }
 

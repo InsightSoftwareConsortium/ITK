@@ -199,7 +199,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the filter can be triggered by the invokation of the
+  //  The execution of the filter can be triggered by the invocation of the
   //  Update() method on the filter or on other downstream filter, for
   //  example a writer.
   //

@@ -18,8 +18,8 @@
 // Software Guide : BeginLatex
 //
 // In this example, we will solve a simple multi-modality problem using
-// another implementation of mutual information. One of main differences between
-// \doxygen{MattesMutualInformationImageToImageMetric} and
+// another implementation of mutual information. One of the main differences
+// between \doxygen{MattesMutualInformationImageToImageMetric} and
 // \doxygen{MutualInformationImageToImageMetric} is that only one spatial
 // sample set is used for the whole registration process instead of using new
 // samples every iteration. The use of a single sample set results in a much
@@ -27,10 +27,11 @@
 // optimizers. In this example, we will use
 // \doxygen{RegularStepGradientDescentOptimizer}.  Another noticeable
 // difference is that pre-normalization of the images is not necessary as the
-// metric rescales internally when building up the discrete density functions.
-// Other differences between the two mutual information implementation are
-// described in detail in section \ref{sec:MutualInformationMetric}. First, we
-// include the header files of the components used in this example:
+// metric rescales internally when building up the discrete density
+// functions.  Other differences between the two mutual information
+// implementation are described in detail in section
+// \ref{sec:MutualInformationMetric}. First, we include the header files of
+// the components used in this example:
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 // Software Guide : EndLatex 
@@ -53,10 +54,8 @@
 #include "itkCastImageFilter.h"
 
 
-
-//
 //  The following section of code implements a Command observer
-//  that will monitor the evolution of the registration process.
+//  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
 class CommandIterationUpdate : public itk::Command 
@@ -92,13 +91,8 @@ public:
 };
 
 
-
-
-
 int main( int argc, char *argv[] )
 {
-
-
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -126,7 +120,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  In this example the image types and all registration components,
-  //  except the metric, are declared as in section 
+  //  except the metric, are declared as in Section 
   //  \ref{sec:IntroductionImageRegistration}.
   //  The Mattes mutual information metric type is 
   //  instantiated using the image types.
@@ -151,7 +145,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
   
 
-
   //  Software Guide : BeginLatex
   //  
   //  The metric is created using the \code{New()} method and then
@@ -161,20 +154,19 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   MetricType::Pointer         metric        = MetricType::New();
-  
   registration->SetMetric( metric  );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The metric requires a two of parameters to be selected: the number
+  //  The metric requires two parameters to be selected: the number
   //  of bins used to compute the entropy and the number of spatial samples
-  //  used to compute the density estimates. In a typical scenario, 50 
-  //  histogram bins is sufficient and the metric is relatively insensitive
+  //  used to compute the density estimates. In typical application, 50 
+  //  histogram bins are sufficient and the metric is relatively insensitive
   //  to changes in the number of bins. The number of spatial samples
   //  to be used depends on the content of the image. If the images are
-  //  smooth and does not contain much detail, then using approximatedly
+  //  smooth and do not contain much detail, then using approximatedly
   //  one percent of the pixels will do. On the other hand, if the images
   //  are detailed, it may be necessary to use a much higher proportion,
   //  say $20$ percent.
@@ -206,7 +198,6 @@ int main( int argc, char *argv[] )
 
   registration->SetFixedImageRegion( 
        fixedImageReader->GetOutput()->GetBufferedRegion() );
-  
 
 
   typedef RegistrationType::ParametersType ParametersType;
@@ -224,7 +215,7 @@ int main( int argc, char *argv[] )
   //  computes the negative mutual information and hence we
   //  need to minimize the cost function in this case. In this
   //  example we will use the same optimization parameters as in
-  //  section \ref{sec:IntroductionImageRegistration}.
+  //  Section \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
 
@@ -232,17 +223,13 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumStepLength( 4.00 );  
   optimizer->SetMinimumStepLength( 0.005 );
   optimizer->SetNumberOfIterations( 200 );
-
   // Software Guide : EndCodeSnippet
 
 
-  //
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
-
 
 
   try 
@@ -266,7 +253,6 @@ int main( int argc, char *argv[] )
   double bestValue = optimizer->GetValue();
 
 
-  //
   // Print out results
   //
   std::cout << "Result = " << std::endl;
@@ -279,17 +265,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example using the same multi-modality images
-  //  as before.
-  //  The registration converged after $24$ iterations and produce as result the
-  //  parameters:
+  //  This example is executed using the same multi-modality images as
+  //  before.  The registration converged after $24$ iterations and produced
+  //  the following results:
   //
   //  \begin{verbatim}
   //  Translation X = 13.1719
   //  Translation Y = 16.9006
   //  \end{verbatim}
-  // 
-  //  These values are very close match to 
+  //  These values are a very close match to 
   //  the true misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
@@ -317,28 +301,20 @@ int main( int argc, char *argv[] )
 
 
   typedef  unsigned char  OutputPixelType;
-
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
   typedef itk::CastImageFilter< 
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
-
-
   writer->SetFileName( argv[3] );
-  
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-
 
 
   //  Software Guide : BeginLatex
@@ -354,7 +330,7 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4Output}
   // \end{figure}
   //
-  //  The result of the resampling the moving image is presented in the left
+  //  The result of resampling the moving image is presented on the left
   //  side of Figure \ref{fig:ImageRegistration4Output}. The center and right
   //  parts of the figure present a checkerboard composite of the fixed and
   //  moving images before and after registration.
@@ -372,23 +348,23 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) presents the
+  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (left) shows the
   //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The right side of the same figure shows the sequence of
-  //  metric values computed as the optimizer searched the parameter space.
-  //  Comparing these trace plot with Figures 
-  //  \ref{fig:ImageRegistration2TraceTranslations} and 
+  //  parameter space. The right side of the same figure shows the sequence
+  //  of metric values computed as the optimizer searched the parameter
+  //  space.  Comparing these trace plot with Figures
+  //  \ref{fig:ImageRegistration2TraceTranslations} and
   //  \ref{fig:ImageRegistration2TraceMetric} we can see that the measures
-  //  produced by \doxygen{MattesMutualInformationImageToImageMetric} is smoother
-  //  than that of \doxygen{MutualInformationImageToImageMetric}. This smoothness
-  //  allows the use of more sophisticated optimizers such as
-  //  the \doxygen{RegularStepGradientDescentOptimizer} which efficiently zones
-  //  into the optimal value.
+  //  produced by \doxygen{MattesMutualInformationImageToImageMetric} is
+  //  smoother than that of
+  //  \doxygen{MutualInformationImageToImageMetric}. This smoothness allows
+  //  the use of more sophisticated optimizers such as the
+  //  \doxygen{RegularStepGradientDescentOptimizer} which efficiently locks
+  //  onto the optimal value.
   //
   //
   //  Software Guide : EndLatex 
 
   return 0;
-
 }
 

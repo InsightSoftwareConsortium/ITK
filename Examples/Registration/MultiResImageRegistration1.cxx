@@ -21,15 +21,15 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 // \index{itk::MultiResolutionImageRegistrationMethod|textbf}
 //
-// This is an example illustrating the use of 
-// \doxygen{MultiResolutionImageRegistrationMethod} to solve our simple
-// multi-modality registration problem. In addition to the 
-// two input Images, a Transform, a Metric, an Interpolator and
-// an Optimizer, the multi-resolution frameworks also require
-// two Image Pyramids for creating the sequence of downsampled images. 
-// First we include the headers of the registration components we
-// will use.
-// Software Guide : EndLatex 
+// This example illustrates the use of
+// \doxygen{MultiResolutionImageRegistrationMethod} to solve a simple
+// multi-modality registration problem. In addition to the two input images,
+// a transform, a metric, an interpolator and an optimizer, the
+// multi-resolution framework also require two image pyramids for creating
+// the sequence of downsampled images.  To begin the example, we include the
+// headers of the registration components we will use.  
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkMultiResolutionImageRegistrationMethod.h"
