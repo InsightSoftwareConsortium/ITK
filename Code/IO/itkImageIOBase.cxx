@@ -50,6 +50,7 @@ void ImageIOBase::Reset(const bool)
     m_Strides[i] = 0;
     }
   m_NumberOfDimensions = 0;
+  m_UseCompression = false;
 }
 
 ImageIOBase::~ImageIOBase()
@@ -770,6 +771,16 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
     os << m_Dimensions[i] << " ";
     }
   os << ")" << std::endl;
+
+  if (m_UseCompression)
+    {
+    os << indent << "Compression: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "Compression: Off" << std::endl;
+    }
+
 }
 
 } //namespace itk

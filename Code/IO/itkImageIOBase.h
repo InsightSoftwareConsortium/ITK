@@ -133,6 +133,10 @@ public:
   itkSetMacro(NumberOfComponents,unsigned int);
   itkGetMacro(NumberOfComponents,unsigned int);
 
+  /** Set/Get a boolean to use the compression or not. */
+  itkSetMacro(UseCompression,bool);
+  itkGetMacro(UseCompression,bool);
+
   /** Convenience method returns the IODataType as a string. This can be
    * used for writing output files. */
   std::string ReturnTypeAsString(IODataType) const;
@@ -266,6 +270,9 @@ protected:
   /** The number of independent dimensions in the image. */
   unsigned int m_NumberOfDimensions;
 
+  /** Should we compress the data? */
+  bool m_UseCompression;
+
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */
   ImageIORegion m_IORegion;
@@ -335,6 +342,7 @@ protected:
 private:
   ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
 
 };
 
