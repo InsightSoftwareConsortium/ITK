@@ -59,18 +59,18 @@ public:
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */ 
-  virtual MeasureType GetValue( const ParametersType & parameters ) = 0;
+  virtual MeasureType GetValue( const ParametersType & parameters ) const = 0;
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
   virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) = 0;
+                                    DerivativeType & derivative ) const = 0;
 
   /** This method returns the value and derivative of the cost function corresponding
     * to the specified parameters    */ 
   virtual void GetValueAndDerivative( const ParametersType & parameters,
                                             MeasureType & value,
-                                            DerivativeType & derivative )
+                                            DerivativeType & derivative ) const 
     {
      value = this->GetValue( parameters );
      this->GetDerivative( parameters, derivative );
