@@ -29,7 +29,7 @@ namespace _wrap_
  * will return something, but they are all cast to this for storage
  * in the table.
  */
-typedef void (*ConversionFunction)(void*);
+typedef void (*ConversionFunction)(const void*);
 
 
 /**
@@ -85,7 +85,7 @@ namespace Converter
 template <typename To>
 struct ObjectIdentity
 {
-  static To Convert(void* in)
+  static To Convert(const void* in)
     {
     return *static_cast<To*>(in);
     }
@@ -102,7 +102,7 @@ struct ObjectIdentity
 template <typename From, typename To>
 struct ObjectDerivedToBase
 {
-  static To Convert(void* in)
+  static To Convert(const void* in)
     {
     return static_cast<To>(*static_cast<From*>(in));
     }
@@ -119,7 +119,7 @@ struct ObjectDerivedToBase
 template <typename From, typename To>
 struct ConversionOperator
 {
-  static To Convert(void* in)
+  static To Convert(const void* in)
     {
     return static_cast<From*>(in)->operator To();
     }
@@ -136,7 +136,7 @@ struct ConversionOperator
 template <typename From, typename To>
 struct ConversionByConstructor
 {
-  static To Convert(void* in)
+  static To Convert(const void* in)
     {
     return To(*static_cast<From*>(in));
     }
@@ -154,7 +154,7 @@ struct ConversionByConstructor
 template <typename From, typename To>
 struct ObjectReinterpret
 {
-  static To Convert(void* in)
+  static To Convert(const void* in)
     {
     return reinterpret_cast<To>(*static_cast<From*>(in));
     }
@@ -173,7 +173,7 @@ struct ObjectReinterpret
 template <typename From, typename To>
 struct PointerDerivedToBase
 {
-  static To* Convert(void* in)
+  static To* Convert(const void* in)
     {
     return static_cast<To*>(static_cast<From*>(in));
     }
@@ -192,7 +192,7 @@ struct PointerDerivedToBase
 template <typename To>
 struct ReferenceIdentity
 {
-  static To& Convert(void* in)
+  static To& Convert(const void* in)
     {
     return *static_cast<To*>(in);
     }
@@ -209,7 +209,7 @@ struct ReferenceIdentity
 template <typename From, typename To>
 struct ReferenceDerivedToBase
 {
-  static To& Convert(void* in)
+  static To& Convert(const void* in)
     {
     return static_cast<To&>(*static_cast<From*>(in));
     }
@@ -232,7 +232,7 @@ struct ConvertTo
 {
   inline static T From(void* object, ConversionFunction cf)
     {
-    return (reinterpret_cast<T(*)(void*)>(cf))(object);
+    return (reinterpret_cast<T(*)(const void*)>(cf))(object);
     }
 };
 
