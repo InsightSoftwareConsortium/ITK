@@ -1,9 +1,11 @@
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Common)
+
 CABLE_CLASS_SET(Scalar float)
 CABLE_CLASS_SET(Dimension 2)
 CABLE_CLASS_SET(Image "itk::Image<$Scalar,$Dimension>")
 CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Scalar>")
 
-ADD_LIBRARY(ITKCommonTcl SHARED)
+ADD_LIBRARY(ITKCommonTcl SHARED itkTclCommand)
 CABLE_CLASS_SET(ItkCommonBase
   itk::Command
   itk::DataObject
@@ -14,6 +16,7 @@ CABLE_CLASS_SET(ItkCommonBase
   itk::Object
   itk::OutputWindow
   itk::ProcessObject
+  itk::TclCommand
   itk::Version
 )
 
