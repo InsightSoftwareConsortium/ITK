@@ -50,7 +50,7 @@ template <
   int VPointDimension = 3,
   typename TCoordRep = float,
   typename TPointsContainer = 
-    VectorContainer< TPointIdentifier,Point<VPointDimension,TCoordRep> >
+    VectorContainer< TPointIdentifier,Point<TCoordRep,VPointDimension> >
   >
 class ITK_EXPORT PointLocator : public Object
 {
@@ -90,7 +90,7 @@ public:
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef typename PointsContainer::Pointer PointsContainerPointer;
-  typedef Point< PointDimension , CoordRepType >  PointType;
+  typedef Point< CoordRepType, PointDimension >  PointType;
 
   /**
    * Some convenience typedefs.
