@@ -514,7 +514,6 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   if ( p < 0.5 )
     {
       n = 0 ;
-      p_n_prev = NumericTraits< double >::Zero ;
       p_n = NumericTraits< double >::Zero ;
       do 
         {

@@ -1340,7 +1340,7 @@ void FEMRegistrationFilter<TReference,TTarget>::FindBracketingTriplet(SolverType
   
   Float ax, bx, cx;
   ax=0.0; bx=1.; cx;
-  Float fc=0.0;
+  Float fc;
   Float fa=fabs(EvaluateResidual(mySolver, ax));
   Float fb=fabs(EvaluateResidual(mySolver, bx));
   
