@@ -645,6 +645,23 @@ SpatialObject< NDimensions, PipelineDimension>
   return m_Children.size();
 } 
 
+/** Return the Modified time of the LocalToGlobalTransform */
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+unsigned long
+SpatialObject< NDimensions, PipelineDimension>
+::GetLocalToGlobalTransformMTime(void)
+{
+  return m_LocalToGlobalTransform->GetMTime();
+}
+
+/** Return the Modified time of the GlobalToLocalTransform */
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+unsigned long
+SpatialObject< NDimensions, PipelineDimension>
+::GetGlobalToLocalTransformMTime(void)
+{
+  return m_GlobalToLocalTransform->GetMTime();
+}
 
 } // end of namespace itk
 

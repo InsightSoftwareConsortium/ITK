@@ -199,6 +199,11 @@ public:
   /** Clear the spatial object by deleting all lists of children and subchildren */
   virtual void Clear(void);
 
+  /** Return the Modified time of the LocalToGlobalTransform */
+  unsigned long GetLocalToGlobalTransformMTime(void);
+
+  /** Return the Modified time of the GlobalToLocalTransform */
+  unsigned long GetGlobalToLocalTransformMTime(void);
 
 protected: 
 

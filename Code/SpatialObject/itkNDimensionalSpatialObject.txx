@@ -345,7 +345,13 @@ NDimensionalSpatialObject<PipelineDimension>
   m_Origin[3]=t;
 }
 
-
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
+::Update(void)
+{
+  this->Modified();
+}
 
 } // end of namespace itk 
 

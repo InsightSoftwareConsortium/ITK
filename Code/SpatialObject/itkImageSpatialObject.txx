@@ -186,6 +186,18 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
   return latestMTime; 
 }
 
+
+/** Set the slice position */
+template< unsigned int NDimensions, class PixelType, unsigned int PipelineDimension >
+void
+ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
+::SetSlicePosition(unsigned int dimension, int position) 
+{
+  m_SlicePosition[dimension]=position;
+  this->Modified();
+}
+
+
 } // end namespace itk
 
 #endif //__ImageSpatialObject_txx

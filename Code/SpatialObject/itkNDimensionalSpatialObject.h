@@ -51,7 +51,6 @@ public:
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-//  typedef vnl_vector<double> VectorType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<PipelineDimension>  IndexType;
@@ -254,6 +253,18 @@ public:
   virtual void SetOrigin(double x, double y);
   virtual void SetOrigin(double x, double y, double z);
   virtual void SetOrigin(double x, double y, double z, double t);
+
+  const double*  GetOrigin(void)const {return m_Origin;}
+
+  /** Specify that the object has been updated */
+  virtual void Update(void);
+
+  /** Return the Modified time of the LocalToGlobalTransform */
+  virtual unsigned long GetLocalToGlobalTransformMTime(void) = 0;
+
+  /** Return the Modified time of the GlobalToLocalTransform */
+  virtual unsigned long GetGlobalToLocalTransformMTime(void) = 0;
+
 
 protected: 
   

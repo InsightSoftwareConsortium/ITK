@@ -93,7 +93,7 @@ public:
   unsigned long GetMTime( void ) const;
 
   /** Set the slice position */
-  void SetSlicePosition(unsigned int dimension, int position) {m_SlicePosition[dimension]=position;}
+  void SetSlicePosition(unsigned int dimension, int position);
 
   /** Get the slice position */
   int GetSlicePosition(unsigned int dimension) {return m_SlicePosition[dimension];}
