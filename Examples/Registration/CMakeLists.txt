@@ -45,6 +45,7 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
+SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -110,7 +111,7 @@ ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration6Test.png
 )
 
-ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES}
+ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES3}
   --compare ${BASELINE}/ImageRegistration9Test.png
             ${TEMP}/ImageRegistration9Test.png
   ImageRegistration9Test
@@ -142,4 +143,8 @@ TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters I
 
 ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
 
