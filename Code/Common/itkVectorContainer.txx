@@ -15,6 +15,8 @@
 =========================================================================*/
 // #include "itkVectorContainer.h"
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 
@@ -113,8 +115,11 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return ((id >= 0) && (id < this->VectorType::size()));
+  return ((!NumericTraits<ElementIdentifier>::is_signed
+	   || (NumericTraits<ElementIdentifier>::is_signed && (id >= 0)))
+	  && (id < this->VectorType::size()));
 }
+
 
 
 /**
@@ -127,7 +132,9 @@ bool
 VectorContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
-  if((id >= 0) && (id < this->VectorType::size()))
+  if((!NumericTraits<ElementIdentifier>::is_signed
+      || (NumericTraits<ElementIdentifier>::is_signed && (id >= 0)))
+     && (id < this->VectorType::size()))
     {
     if(element)
       {
