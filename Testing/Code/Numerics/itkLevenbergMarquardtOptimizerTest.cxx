@@ -307,6 +307,23 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
     return EXIT_FAILURE;
     }
 
+   // Get the final value of the optimizer
+  std::cout << "Testing GetValue() : ";
+  OptimizerType::MeasureType finalValue = Optimizer->GetValue();
+
+  // We compare only the first value for this test
+  if(fabs(finalValue[0]-0.0)>0.01)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "[SUCCESS]" << std::endl;
+    }
+
+
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
@@ -386,11 +403,6 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
   
-
-
- 
-
-
 
   return EXIT_SUCCESS; 
 }

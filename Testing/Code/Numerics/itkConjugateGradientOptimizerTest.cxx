@@ -211,6 +211,19 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Get the final value of the optimizer
+  std::cout << "Testing GetValue() : ";
+  OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
+  if(fabs(finalValue+10.0)>0.01)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "[SUCCESS]" << std::endl;
+    }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
