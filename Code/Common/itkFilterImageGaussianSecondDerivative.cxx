@@ -14,12 +14,13 @@
 
 =========================================================================*/
 #include "itkFilterImageGaussianSecondDerivative.h"
+#include "itkObjectFactory.h"
 
 
 //------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, class TComputation>::Pointer 
-itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, class TComputation>
+itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>::Pointer 
+itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
 ::New()
 {
   itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage,TComputation>* ret = 
@@ -39,7 +40,7 @@ itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, class TComputat
 //   Compute filter for Gaussian kernel
 //----------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, class TComputation>
+void itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
 ::SetUp(TComputation dd)
 {
 

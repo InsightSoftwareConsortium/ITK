@@ -27,8 +27,8 @@
 #include "itkFilterImageGaussian.h"
 
 template <class TInputImage, class TOutputImage, class TComputation>
-class ITK_EXPORT itkImageFilterGaussianSecondDerivative : public
-                  itkImageFilterGaussian<TInputImage,TOutputImage,TComputation> 
+class ITK_EXPORT itkFilterImageGaussianSecondDerivative : public
+                  itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> 
 
 {
   /** 
@@ -54,8 +54,8 @@ protected:
 	virtual void SetUp(TComputation dd);
 
 public:
-	itkImageFilterGaussianSecondDerivative();
-	virtual ~itkImageFilterGaussianSecondDerivative() {};
+	itkFilterImageGaussianSecondDerivative();
+	virtual ~itkFilterImageGaussianSecondDerivative() {};
 
 private:  
 

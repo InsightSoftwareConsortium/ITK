@@ -20,22 +20,21 @@
  * method proposed by R.Deriche in IEEE-PAMI
  * Vol.12, No.1, January 1990, pp 78-87.
  */
+
 #ifndef __itkFilterImageGaussian_h
 #define __itkFilterImageGaussian_h
 
 #include "itkFilterImageToImage.h"
-#include <cmath>
 
 template <class TInputImage, class TOutputImage, class TComputation>
-class ITK_EXPORT itkImageFilterGaussian : public
+class ITK_EXPORT itkFilterImageGaussian : public
                   itkFilterImageToImage<TInputImage,TOutputImage> 
 
 {
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer< itkFilterImageGaussian<TInputImage,TOutputImage> >
-    Pointer;
+  typedef itkSmartPointer< itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> > Pointer;
 
   /** 
    * Create the source with one output initially 
@@ -78,8 +77,8 @@ protected:
 	void FilterDataArray(TComputation *outs,const TComputation *data,unsigned int ln);
 
 public:
-	itkImageFilterGaussian();
-	virtual ~itkImageFilterGaussian() {};
+	itkFilterImageGaussian();
+	virtual ~itkFilterImageGaussian() {};
   itkGetMacro(Sigma,TComputation);
   itkSetMacro(Sigma,TComputation);
 

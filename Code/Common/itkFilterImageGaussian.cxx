@@ -14,16 +14,19 @@
 
 =========================================================================*/
 #include "itkFilterImageGaussian.h"
+#include "itkObjectFactory.h"
+
 
 
 //------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>::Pointer 
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+itkFilterImageGaussian<TInputImage,TOutputImage,TComputation>::Pointer 
+itkFilterImageGaussian<TInputImage,TOutputImage,TComputation>
 ::New()
 {
-  itkFilterImageGaussian<TInputImage,TOutputImage,TComputation>* ret = 
-    itkObjectFactory< itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> >::Create();
+  typedef itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> Self;
+  itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> * ret =
+        itkObjectFactory< Self >::Create();
   if ( ! ret )
   {
     ret = new itkFilterImageGaussian< TInputImage, TOutputImage, TComputation >();
@@ -34,9 +37,10 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 }
 
 
+
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+itkFilterImageGaussian<TInputImage,TOutputImage,TComputation>
 ::itkFilterImageGaussian()
 {
   this->SetSigma( 1.0 );
@@ -50,7 +54,7 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 //   Compute filter for Gaussian kernel
 //----------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+void itkFilterImageGaussian<TInputImage,TOutputImage,TComputation>
 ::SetUp(TComputation dd)
 {
 
@@ -82,7 +86,7 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 // Compute Recursive Filter Coefficients 
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::ComputeFilterCoefficients(bool symmetric) 
 {
 
@@ -127,7 +131,7 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 // the function is called, maybe that can be factorized somehow.
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::FilterDataArray(TComputation *outs,const TComputation *data,unsigned int ln) 
 {
 
@@ -219,7 +223,7 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 // line by line in one of the dimensions
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
+void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::ApplyRecursiveFilter(unsigned int dimensionToFilter) 
 {
 
@@ -233,11 +237,11 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
     throw itkExceptionObject();
   }
 
-  TInputImage::Iterator  *inputIterator = inputImage->Begin();
-  TOutputImage::Iterator *outputIterator = outputImage->Begin();
+  typename TInputImage::Iterator  *inputIterator = inputImage->Begin();
+  typename TOutputImage::Iterator *outputIterator = outputImage->Begin();
 
-  TInputImage::Index complementIndex = inputIterator->GetIndex();
-  TInputImage::Index basisIndex = 
+  typename TInputImage::Index complementIndex = inputIterator->GetIndex();
+  typename TInputImage::Index basisIndex = 
                       complementIndex->GetBasisIndex( dimensionToFilter );
     
 
@@ -276,7 +280,7 @@ itkFilterImageGaussian<TInputImage,TOutputImage, class TComputation>
 
     for( i=0; i<ln; i++ )
     {
-        inps[i++]      = *inputIterator
+        inps[i++]      = *inputIterator;
         inputIterator +=  basisIndex;
     }
 
