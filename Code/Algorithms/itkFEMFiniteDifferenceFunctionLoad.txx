@@ -254,8 +254,11 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
 template<class TMoving,class TFixed> 
 int FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID()
 {
-  static const int CLID_ = FEMOF::Register( FiniteDifferenceFunctionLoad::NewB,(std::string("FiniteDifferenceFunctionLoad(")
-                +typeid(TMoving).name()+","+typeid(TFixed).name()+")").c_str());
+
+  std::string clsnm = std::string("FiniteDifferenceFunctionLoad(")+typeid(TMoving).name()+","+typeid(TFixed).name()+")";
+
+  static const int CLID_ = FEMOF::Register( FiniteDifferenceFunctionLoad::NewB,clsnm.c_str());
+
   return CLID_;
 }
 
