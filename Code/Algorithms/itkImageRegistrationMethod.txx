@@ -39,8 +39,11 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Optimizer    = 0; // has to be provided by the user.
 
 
-  m_InitialTransformParameters = ParametersType(0);
-  m_LastTransformParameters = ParametersType(0);
+  m_InitialTransformParameters = ParametersType(1);
+  m_LastTransformParameters = ParametersType(1);
+
+  m_InitialTransformParameters.Fill( 0.0f );
+  m_LastTransformParameters.Fill( 0.0f );
 
 }
 
@@ -166,6 +169,8 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "Fixed Image " << m_FixedImage.GetPointer() << std::endl;
   os << indent << "Moving Image " << m_MovingImage.GetPointer() << std::endl;
+  os << indent << "Initial Transform Parameters " << m_InitialTransformParameters << std::endl;
+  os << indent << "Last    Transform Parameters " << m_LastTransformParameters << std::endl;
 }
 
 
