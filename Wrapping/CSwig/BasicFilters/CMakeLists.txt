@@ -31,6 +31,8 @@ SET(WRAP_SOURCES
   wrap_itkSmoothingRecursiveGaussianImageFilter
   wrap_itkTernaryMagnitudeImageFilter
   wrap_itkThresholdImageFilter
+  wrap_itkVTKImageExport
+  wrap_itkVTKImageImport  
 )
 
 # loop over cable config files creating two lists:
