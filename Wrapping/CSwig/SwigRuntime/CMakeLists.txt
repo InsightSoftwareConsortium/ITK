@@ -24,14 +24,16 @@ ENDIF(ITK_CSWIG_PYTHON)
 
 
 MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
-   ADD_CUSTOM_COMMAND(
-     SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
-     COMMAND ${GCCXML}
-     ARGS -fxml-start=_cable_ -DCABLE_CONFIGURATION ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
-        -fxml=${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml 
-     TARGET ${LibName}
-     OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml )
-   
+   IF(NOT XML_COMMAND_ADDED)
+     ADD_CUSTOM_COMMAND(
+       SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
+       COMMAND ${GCCXML}
+       ARGS -fxml-start=_cable_ -DCABLE_CONFIGURATION ${WrapITK_SOURCE_DIR}/SwigRuntime/swigrun.h
+          -fxml=${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml 
+       TARGET ${LibName}
+       OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml )
+     SET(XML_COMMAND_ADDED 1)
+   ENDIF(NOT XML_COMMAND_ADDED)
    ADD_CUSTOM_COMMAND(
     SOURCE ${WrapITK_BINARY_DIR}/SwigRuntime/swigrun.xml
     COMMAND ${CSWIG}
