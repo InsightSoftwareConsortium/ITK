@@ -69,6 +69,12 @@ namespace itk
  *
  * \sa ImageContainerInterface
  *
+ * \example DataRepresentation/Image/Image1.cxx
+ * \example DataRepresentation/Image/Image2.cxx
+ * \example DataRepresentation/Image/Image2.cxx
+ * \example DataRepresentation/Image/RGBImage.cxx
+ * \example DataRepresentation/Image/VectorImage.cxx
+ *
  * \ingroup ImageObjects */
 template <class TPixel, unsigned int VImageDimension=2>
 class ITK_EXPORT Image : public ImageBase<VImageDimension>
