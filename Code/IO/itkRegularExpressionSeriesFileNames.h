@@ -104,10 +104,6 @@ public:
   itkGetMacro(NumericSort,bool);
   itkBooleanMacro(NumericSort);
 
-  /** Return the SubMatch of the specified index. */
-  //  The following method is not implemented yet
-  // std::string GetSubMatch (unsigned int);
-
   /** Returns a vector containing the series' file names. The file
     * names are sorted by the sub expression selected by the SubMatch id. */
   const std::vector<std::string> &GetFileNames ();
