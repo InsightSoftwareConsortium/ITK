@@ -17,13 +17,10 @@
 
 
 #include <itkAmoebaOptimizer.h>
+#include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
-
-
-typedef vnl_matrix<double> MatrixType;
-typedef vnl_vector<double> VectorType;
 
 
 
@@ -44,10 +41,26 @@ typedef vnl_vector<double> VectorType;
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class CostFunction {
+class CostFunction : public itk::Object {
 public:
+
+  typedef CostFunction Self;
+  typedef itk::LightObject  Superclass;
+  typedef itk::SmartPointer<Self> Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
+  itkNewMacro( Self );
+
   enum { SpaceDimension=2 };
-  CostFunction():m_A(2,2),m_b(2) {
+
+  typedef vnl_vector_fixed<double,SpaceDimension> ParametersType;
+  typedef vnl_vector_fixed<double,SpaceDimension> DerivativeType;
+  typedef vnl_vector<double>                      VectorType;
+  typedef vnl_matrix<double>                      MatrixType;
+
+  typedef double MeasureType ;
+
+
+  CostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) {
     
     m_A[0][0] =  3;
     m_A[0][1] =  2;
@@ -58,26 +71,32 @@ public:
     m_b[1]    = -8;
 
   }
-  double GetValue( const VectorType & v ) 
+  double GetValue( const ParametersType & parameters ) const
   {
-    std::cout << "GetValue( " << v << " ) = ";
-    VectorType Av = m_A * v;
-    double val = ( inner_product<double>( Av , v ) )/2.0;
-    val -= inner_product< double >( m_b , v );
+    m_Parameters = parameters;
+    std::cout << "GetValue( " << m_Parameters << " ) = ";
+    VectorType Av = m_A * m_Parameters;
+    double val = ( inner_product<double>( Av , m_Parameters ) )/2.0;
+    val -= inner_product< double >( m_b , m_Parameters );
     std::cout << val << std::endl;
     return val;
   }
-  VectorType GetDerivative( const VectorType & v ) 
+  const DerivativeType & GetDerivative( const ParametersType & v ) const
   {
     std::cout << "GetDerivative( " << v << " ) = ";
-    VectorType grad = m_A * v  - m_b;
-    std::cout << grad << std::endl;
-    return grad;
+    m_Parameters = v;
+    m_Gradient = m_A * m_Parameters  - m_b;
+    std::cout << m_Gradient << std::endl;
+    return m_Gradient;
   }
 
 private:
   MatrixType        m_A;
   VectorType        m_b;
+
+  mutable DerivativeType    m_Gradient;
+  mutable ParametersType    m_Parameters;
+
 };
 
 
@@ -98,22 +117,22 @@ int main()
 
 
   // Declaration of the CostFunction adaptor
-  CostFunction costFunction;
+  CostFunction::Pointer costFunction = CostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( &costFunction );
+  itkOptimizer->SetCostFunction( costFunction );
 
 
   vnlOptimizerType & vnlOptimizer = itkOptimizer->GetOptimizer();
 
 
-  VectorType initialValue(2);       // constructor requires vector size
+  OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
 
   initialValue[0] =  1;             // We start not so far from  | 2 -2 |
   initialValue[1] = -1;
 
-
-  itkOptimizer->StartOptimization( initialValue );
+  itkOptimizer->SetInitialPosition( initialValue );
+  itkOptimizer->StartOptimization();
 
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
 
