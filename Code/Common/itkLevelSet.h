@@ -86,11 +86,15 @@ public:
   /** Get/Set level set value. */
   PixelType& GetValue()
     { return m_Value; };
+  const PixelType& GetValue() const
+    { return m_Value; };
   void SetValue( const PixelType& input )
     { m_Value = input; };
 
   /** Get/Set index. */
   IndexType& GetIndex()
+    { return m_Index; }
+  const IndexType& GetIndex() const
     { return m_Index; }
   void SetIndex( const IndexType& input )
     { m_Index = input; };
