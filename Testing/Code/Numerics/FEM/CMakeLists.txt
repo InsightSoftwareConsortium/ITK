@@ -17,8 +17,6 @@ itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
 )
 
-#ADD_TEST(itkFEMElementTestMenu ${FEM_TESTS} itkFEMElementTestMenu)
-
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
 ADD_TEST(itkFEMC0HexahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
 ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
@@ -26,6 +24,7 @@ ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK
 ADD_TEST(itkFEMC0QuadElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad2-strain.fem)
 ADD_TEST(itkFEMC0QuadElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
 ADD_TEST(itkFEMC0QuadElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad6-grav.fem)
+ADD_TEST(itkFEMLoadLandmarkImplementation ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad-lm.fem)
 
 # Edge loads are not re-implemented yet
 #ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
@@ -45,7 +44,6 @@ ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemW
 
 ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
 ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
-#ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS} itkFEMLandmarkLoadImplementationTest)
 
 #ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
@@ -54,13 +52,11 @@ ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
 
 # To run the FEM input menu-based test locally, uncomment the line below
 #ADD_EXECUTABLE(itkFEMElementTestMenu itkFEMElementTest.cxx)
-#ADD_EXECUTABLE(itkFEMExceptionTest itkFEMExceptionTest.cxx)
 #TARGET_LINK_LIBRARIES(itkFEMElementTestMenu ITKCommon ITKNumerics ITKFEM)
+#ADD_EXECUTABLE(itkFEMExceptionTest itkFEMExceptionTest.cxx)
 #TARGET_LINK_LIBRARIES(itkFEMExceptionTest ITKCommon ITKFEM)
 #ADD_EXECUTABLE(itkFEMGenerateMeshTest itkFEMGenerateMeshTest.cxx)
 #TARGET_LINK_LIBRARIES(itkFEMGenerateMeshTest ITKCommon ITKNumerics ITKFEM)
-#ADD_EXECUTABLE(itkFEMLandmarkLoadImplementationTest itkFEMLandmarkLoadImplementationTest.cxx)
-#TARGET_LINK_LIBRARIES(itkFEMLandmarkLoadImplementationTest ITKCommon ITKNumerics ITKFEM)
 
 # To create the standard ITK test program, uncomment the line below
 ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
