@@ -201,6 +201,9 @@ int itkSplineKernelTransformTest(int , char* [] )
   EBSTransform3DType::Pointer ebs3D = EBSTransform3DType::New();
   TPSTransform3DType::Pointer tps3D = TPSTransform3DType::New();
 
+  // Forcibly reinitialize seed to default value; temporary fix
+  TPSTransform3DType::ReinitializeSeed(0x1234abcd);
+  
   // Reserve memory for the number of points
   ebs3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );  
   tps3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );
