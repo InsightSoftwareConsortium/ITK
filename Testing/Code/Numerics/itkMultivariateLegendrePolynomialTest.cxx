@@ -35,6 +35,7 @@ int itkMultivariateLegendrePolynomialTest(int , char* [] )
   const unsigned int degree    = 3;
 
   PolynomialType::DomainSizeType domainSize(dimension);
+  domainSize.fill(2);
 
   PolynomialType polynomial( dimension, degree, domainSize );
 
