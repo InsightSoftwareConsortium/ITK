@@ -10,6 +10,7 @@ itkDataTypeTest
 itkExceptionObjectTest 
 itkExtractMeshConnectedRegionsTest 
 itkFastMarchingTest 
+itkFilterDispatchTest
 itkFilterImageAnisotropicDiffusionTest 
 itkFilterImageSingleOperatorTest 
 itkGeodesicActiveContoursTest 
@@ -33,7 +34,6 @@ itkRegistrationPoints3D2DAffine
 itkRegistrationProcrustes 
 itkScalarTest 
 itkShrinkImageTest 
-itkSmartPointerConstTest 
 itkSmartPointerTest 
 itkSupervisedClassifierTest
 itkTraitsTest  
