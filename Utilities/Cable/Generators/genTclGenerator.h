@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _genTclGenerator_h
 #define _genTclGenerator_h
 
+#include "genUtils.h"
 #include "genGeneratorBase.h"
 #include "cableSourceRepresentation.h"
 #include "genCvTypeGenerator.h"
@@ -52,7 +53,7 @@ namespace gen
 /**
  * Generation class for Tcl wrappers.
  */
-class TclGenerator: public GeneratorBase
+class GENERATORS_EXPORT TclGenerator: public GeneratorBase
 {
 public:
   TclGenerator(const configuration::CableConfiguration*,

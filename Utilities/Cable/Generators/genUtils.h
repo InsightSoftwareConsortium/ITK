@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    genGeneratorBase.h
+  Module:    genUtils.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,65 +38,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _genGeneratorBase_h
-#define _genGeneratorBase_h
+#ifndef _genUtils_h
+#define _genUtils_h
 
-#include "cableConfigurationRepresentation.h"
-#include "cableSourceRepresentation.h"
-#include "genUtils.h"
-#include <iostream>
+// Include cxxUtils.h which does some work for us.
+#include "cxxUtils.h"
 
-namespace gen
-{
-
-/**
- * Class to simplify indentation printing.
- */
-class Indent
-{
-public:
-  Indent(int indent): m_Indent(indent) {}
-  void Print(std::ostream& os) const;
-  Indent Next() const { return Indent(m_Indent+2); }
-  Indent Previous() const { return Indent(m_Indent-2); }
-private:
-  int m_Indent;
-};
-
-std::ostream& operator<<(std::ostream&, const Indent&);
-std::ostream& operator<<(std::ostream& os, const String& str);
-
-/**
- * Defines the interface to all Generator classes.
- */
-class GENERATORS_EXPORT GeneratorBase
-{
-public:
-  GeneratorBase(const configuration::CableConfiguration*,
-                const source::Namespace*,
-                std::ostream&);
-  virtual ~GeneratorBase() {}
-  
-  virtual void Generate()=0;
-protected:
-  /**
-   * The configuration that controls generation.
-   */
-  configuration::CableConfiguration::ConstPointer m_CableConfiguration;
-
-  /**
-   * The global namespace that was parsed from the source file.
-   */
-  source::Namespace::ConstPointer m_GlobalNamespace;
-  
-  /**
-   * The output stream to which the generated output will be written.
-   */
-  std::ostream& m_Output;
-  
-  static String GetOperatorName(const String&);
-};
-
-} // namespace gen
+#if defined(_WIN32) || defined(WIN32) /* Win32 version */
+#  ifdef BUILD_SHARED_LIBRARIES
+#    ifdef CableGenerators_EXPORTS
+#      define GENERATORS_EXPORT __declspec(dllexport)
+#    else
+#      define GENERATORS_EXPORT __declspec(dllimport)
+#    endif
+#  else
+#    define GENERATORS_EXPORT
+#  endif
+#else /* UNIX version */
+#  define GENERATORS_EXPORT
+#endif
 
 #endif

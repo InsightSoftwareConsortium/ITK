@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _genCvTypeGenerator_h
 
 #include "cableSourceRepresentation.h"
+#include "genUtils.h"
 #include <iostream>
 
 namespace gen
@@ -66,7 +67,7 @@ namespace gen
  *   CvType< Foo >::type = TypeInfo::GetClassType("Foo", false, false);
  *   CvType< Foo* >::type = TypeInfo::GetPointerType(CvType< Foo >::type, false, false);
  */
-class CvTypeGenerator
+class GENERATORS_EXPORT CvTypeGenerator
 {
 public:
   void GenerateClasses(std::ostream&) const;
