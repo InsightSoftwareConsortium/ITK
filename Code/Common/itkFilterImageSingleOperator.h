@@ -54,16 +54,11 @@ public:
   typedef FilterImageSingleOperator Self;
 
   /**
-   * Standard parent class typedef support.
+   * Standard super class typedef support.
    */
   typedef FilterImageToImage< Image<TPixel, VDimension>,
     Image<TPixel, VDimension> > Superclass;
   
-  /**
-   * NeighborhoodOperator typedef support.
-   */
-  typedef NeighborhoodOperator<TPixel, VDimension> NeighborhoodOperator;
-
   /** 
    * Smart pointer typedef support 
    */
@@ -89,22 +84,12 @@ public:
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline).
    */
-  void SetOperator(const NeighborhoodOperator &op)
+  void SetOperator(const Neighborhood<TPixel, VDimension> &p)
   {
-    if (m_Operator) delete m_Operator;
-    m_Operator = op.Copy();   
+    m_Operator = p;
     this->Modified();
   }
-
-  /**
-   * Returns a copy of the operator being used
-   * to filter the image.
-   */
-  NeighborhoodOperator GetOperator() const
-  {
-    return m_Operator;
-  }
-
+  
   /**
    * Because FilterImageSingleOperator works on pixel neighborhoods, it will
    * try to get enough information from the input to avoid using artificial
@@ -116,20 +101,16 @@ public:
   void GenerateData();
 
 protected:
-  FilterImageSingleOperator() : m_Operator(0) {}
-  virtual ~FilterImageSingleOperator()
-  {
-    if (m_Operator) delete m_Operator;
-  }
+  FilterImageSingleOperator() {}
+  virtual ~FilterImageSingleOperator() {}
   FilterImageSingleOperator(const Self&) : m_Operator(0) {}
   void operator=(const Self&) {}
     
 private:
   /**
-   * Pointer to the internal operator used to filter the image.  Memory
-   * for the operator is allocated and freed by this filter object.
+   * Pointer to the internal operator used to filter the image.
    */
-  NeighborhoodOperator *m_Operator;
+  Neighborhood<TPixel, VDimension> m_Operator;
 
   /**
    * Flag to indicate whether bounds checking will be necessary or
