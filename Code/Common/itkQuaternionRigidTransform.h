@@ -134,6 +134,9 @@ public:
    * is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+  /** Get the inverse transform */
+  virtual MatrixType GetInverseMatrix() const;
+
 protected:
   QuaternionRigidTransform();
   ~QuaternionRigidTransform(){};

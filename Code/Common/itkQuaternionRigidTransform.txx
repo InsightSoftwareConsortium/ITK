@@ -63,6 +63,8 @@ SetRotation(const VnlQuaternionType &rotation )
   // between VNL and ITK
   m_RotationMatrix  = conjugateRotation.rotation_matrix_transpose();
 
+  m_RotationMatrixMTime.Modified();
+
   //VnlQuaternionType inverseRotation = conjugateRotation.inverse();
   //m_InverseMatrix = inverseRotation.rotation_matrix_transpose();
   return;
@@ -244,6 +246,23 @@ ComputeOffset( void )
 
   this->SetOffset( offset );
 
+}
+
+//
+template<class TScalarType>
+typename QuaternionRigidTransform< TScalarType >::MatrixType
+QuaternionRigidTransform<TScalarType>::
+GetInverseMatrix() const
+{
+  // If the transform has been modified we recompute the inverse
+  if(m_InverseMatrixMTime != m_RotationMatrixMTime)
+    {
+    VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
+    VnlQuaternionType inverseRotation = conjugateRotation.inverse();
+    m_InverseMatrix = inverseRotation.rotation_matrix_transpose();
+    m_InverseMatrixMTime = m_RotationMatrixMTime;
+    }
+  return m_InverseMatrix; 
 }
 
  
