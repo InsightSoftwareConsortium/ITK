@@ -207,7 +207,6 @@ Element::VectorType Element::GetStrainsAtPoint(const VectorType& pt, const Solut
   MatrixType B;
   VectorType e, u;
   MatrixType J, shapeD, shapeDgl;
-  Float w;
   
   this->ShapeFunctionDerivatives(pt, shapeD);
   this->Jacobian(pt, J, &shapeD);
