@@ -25,6 +25,9 @@
 #include "wrapWrapperTable.h"
 #include "wrapException.h"
 
+#include <vector>
+#include <map>
+
 namespace _wrap_
 {
 
@@ -79,13 +82,22 @@ public:
   virtual WrapperFunction GetObjectWrapperFunction() const =0;
   
 protected:
-  int ChainMethod(const String& methodName, ClientData clientData,
-                  int objc, Tcl_Obj* CONST objv[]) const;
+  class MethodBase;
+  typedef std::vector<MethodBase*> CandidateMethods;
+  
+  void AddMethod(MethodBase*);
+  MethodBase* ResolveOverload(const CvQualifiedType& objectType,
+                              const CvQualifiedTypes& argumentTypes,
+                              const CandidateMethods& candidates) const;
   void NoMethodSpecified() const;
-  void UnknownMethod(const String& methodName, int objc, Tcl_Obj*CONST objv[]) const;
+  void UnknownMethod(const CvQualifiedType& objectType,
+                     const String& methodName,
+                     const CvQualifiedTypes& argumentTypes,
+                     const CandidateMethods& = CandidateMethods()) const;
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
-  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
+  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;  
+  int ObjectWrapperDispatch(ClientData ,int, Tcl_Obj* CONST[]) const;
 
 protected:
   /**
@@ -117,7 +129,73 @@ protected:
    * The TypeSystem's representation for this wrapped type.
    */
   const Type*    m_WrappedTypeRepresentation;
+  
+  /**
+   * Map from method name to method wrapper.  Duplicate names are
+   * allowed.
+   */
+  typedef std::multimap<String, MethodBase*> MethodMap;
+  
+  /**
+   * The method dispatch function needs to know about all possible methods.
+   * This is defined here, but must be filled in by calls from a subclass
+   * to AddMethod.
+   */
+  MethodMap m_MethodMap;
 };
+
+
+/**
+ * Base class for all method wrappers.  A subclass of WrapperBase can
+ * define a subclass of this to define a method wrapper corresponding
+ * to the type it wraps.
+ */
+class WrapperBase::MethodBase
+{
+public:
+  typedef std::vector<const Type*> ArgumentTypes;
+  MethodBase(const String& name,
+             const CvQualifiedType& implicit,
+             const CvQualifiedType& returnType,
+             const ArgumentTypes& argumentTypes);
+  virtual ~MethodBase();
+
+  const String& GetName() const;
+  String GetMethodPrototype() const;
+  
+  /**
+   * This is called by the overload resolution algorithm when this
+   * method wrapper has been selected.  It must be defined by
+   * a subclass to actually call a wrapped method.
+   */
+  virtual void Call(int objc, Tcl_Obj* CONST objv[]) const =0;
+protected:
+  /**
+   * The name of the method.
+   */
+  String m_Name;
+  
+  /**
+   * The type to which the method's "this" pointer points.
+   */
+  CvQualifiedType m_This;
+  
+  /**
+   * The return type of the method.
+   */
+  CvQualifiedType m_ReturnType;
+  
+  /**
+   * The argument types of the method.  These may be needed for
+   * overload resolution.
+   */
+  ArgumentTypes m_ArgumentTypes;
+  
+  // We want the WrapperBase to be able to look at our members for
+  // doing overload resolution.
+  friend WrapperBase;
+};
+
 
 } // namespace _wrap_
 
