@@ -245,21 +245,25 @@ BackTransform(const OutputCovariantVectorType &vect) const
   return result;
 }
 
-
-
 // Create and return an inverse transformation
 template<class ScalarType, unsigned int NDimensions>
-typename ScaleTransform<ScalarType, NDimensions>::Pointer
+bool 
 ScaleTransform<ScalarType, NDimensions>::
-Inverse(void) const
+GetInverse(Self* inverse) const
 {
-  Pointer result = New();
+  if(!inverse)
+    {
+    return false;
+    }
+
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    result->m_Scale[i] = 1.0 / m_Scale[i];
+    inverse->m_Scale[i] = 1.0 / m_Scale[i];
     }
-  return result;
+
+  return true;
 }
+
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 

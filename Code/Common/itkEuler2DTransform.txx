@@ -62,7 +62,7 @@ Euler2DTransform<TScalarType>
 
   this->SetOffset( offset );
 
-  ComputeMatrix();
+  this->ComputeMatrix();
 
   itkDebugMacro(<<"After setting parameters ");
 }
@@ -135,7 +135,7 @@ Euler2DTransform<TScalarType>
 ::SetRotation(TScalarType angle)
 {
   m_Angle = angle;
-  ComputeMatrix();
+  this->ComputeMatrix();
 }
 
 
@@ -151,8 +151,7 @@ Euler2DTransform<TScalarType>
   m_RotationMatrix[0][0] =  cx; m_RotationMatrix[0][1] = -sx;
   m_RotationMatrix[1][0] =  sx; m_RotationMatrix[1][1] =  cx;
 
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
-
+  m_RotationMatrixMTime.Modified();
 }
 
 /** Compute the Angle from the Rotation Matrix */

@@ -30,7 +30,7 @@ Rigid3DTransform():Superclass(OutputSpaceDimension,ParametersDimension)
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
+  m_RotationMatrixMTime.Modified();
 }
  
 
@@ -43,7 +43,7 @@ Rigid3DTransform(unsigned int spaceDimension,
 {
   m_Offset.Fill( 0 );
   m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
+  m_RotationMatrixMTime.Modified();
 }
  
 // Destructor
@@ -68,7 +68,6 @@ PrintSelf(std::ostream &os, Indent indent) const
 }
 
 
-  
 // Compose with another affine transformation
 template<class TScalarType>
 void
@@ -91,7 +90,7 @@ SetRotationMatrix(const MatrixType & matrix )
     }
 
   m_RotationMatrix = matrix;
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  m_RotationMatrixMTime.Modified();
   this->Modified(); 
 }
 
@@ -112,7 +111,7 @@ Compose(const Self * other, bool pre )
     m_Offset         = other->m_RotationMatrix * m_Offset + other->m_Offset;
     m_RotationMatrix = other->m_RotationMatrix * m_RotationMatrix;
     }
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  m_RotationMatrixMTime.Modified();
 }
 
 
@@ -178,7 +177,7 @@ typename Rigid3DTransform<TScalarType>::InputPointType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
-  return m_InverseMatrix * (point - m_Offset);
+  return this->GetInverseMatrix() * (point - m_Offset);
 }
 
 // Back transform a vector
@@ -187,7 +186,7 @@ typename Rigid3DTransform<TScalarType>::InputVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-  return  m_InverseMatrix * vect;
+  return  this->GetInverseMatrix() * vect;
 }
 
 // Back transform a vnl_vector
@@ -196,7 +195,7 @@ typename Rigid3DTransform<TScalarType>::InputVnlVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-  return  m_InverseMatrix * vect;
+  return  this->GetInverseMatrix() * vect;
 }
 
 
@@ -210,20 +209,39 @@ BackTransform(const OutputCovariantVectorType &vect) const
 }
 
 
+//
+template<class TScalarType>
+typename Rigid3DTransform< TScalarType >::MatrixType
+Rigid3DTransform<TScalarType>::
+GetInverseMatrix() const
+{
+  // If the transform has been modified we recompute the inverse
+  if(m_InverseMatrixMTime != m_RotationMatrixMTime)
+    {
+    m_InverseMatrix = m_RotationMatrix.GetTranspose();
+    m_InverseMatrixMTime = m_RotationMatrixMTime;
+    }
+  return m_InverseMatrix; 
+}
+
 
 // Create and return an inverse transformation
 template<class TScalarType>
-typename Rigid3DTransform<TScalarType>::Pointer
+bool 
 Rigid3DTransform<TScalarType>::
-Inverse( void ) const
+GetInverse(Self* inverse) const
 {
-  Pointer result = New();
-  result->m_RotationMatrix   =   m_InverseMatrix;
-  result->m_InverseMatrix    =   m_RotationMatrix;
-  result->m_Offset           = -(m_InverseMatrix * m_Offset);
-  return result;
-}
+  if(!inverse)
+    {
+    return false;
+    }
 
+  inverse->m_RotationMatrix   =   this->GetInverseMatrix();
+  inverse->m_InverseMatrix    =   m_RotationMatrix;
+  inverse->m_Offset           = -(this->GetInverseMatrix() * m_Offset);
+
+  return true;
+}
 
   
 // Compute the Jacobian in one position 
@@ -234,7 +252,7 @@ SetIdentity( void )
 {
   m_Offset.Fill( NumericTraits< TScalarType >::Zero );
   m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
+  m_RotationMatrixMTime.Modified();
 }
 
 

@@ -265,7 +265,7 @@ Euler3DTransform<TScalarType>
     m_RotationMatrix = RotationZ*RotationX*RotationY; // Like VTK transformation order
     }
 
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  m_RotationMatrixMTime.Modified();
 
   OffsetType offset;
   for(unsigned int i=0; i<SpaceDimension; i++)

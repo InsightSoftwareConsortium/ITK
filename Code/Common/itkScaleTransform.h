@@ -143,8 +143,8 @@ public:
   /** Find inverse of a scale transformation
    * This method creates and returns a new ScaleTransform object
    * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown. */
-  typename ScaleTransform::Pointer Inverse(void) const;
+   * false is returned. */
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Set the transformation to an Identity
    *

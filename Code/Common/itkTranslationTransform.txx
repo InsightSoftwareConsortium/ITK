@@ -189,20 +189,20 @@ BackTransform(const OutputCovariantVectorType &vect) const
   return vect;
 }
 
-
-
-// Create and return an inverse transformation
+// return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
-typename TranslationTransform<TScalarType, NDimensions>::Pointer
+bool
 TranslationTransform<TScalarType, NDimensions>::
-Inverse(void) const
+GetInverse( Self* inverse) const
 {
-  Pointer result = New();
-  result->m_Offset   = - m_Offset;
-  return result;
-}
+  if(!inverse)
+    {
+    return false;
+    }
 
-  
+  inverse->m_Offset   = - m_Offset;
+  return true;
+}
 
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions>

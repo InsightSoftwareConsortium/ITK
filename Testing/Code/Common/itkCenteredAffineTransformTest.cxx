@@ -89,7 +89,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "Instantiation of a given 2D transform:" << std::endl;
     aff2->Print( std::cout );
 
-    inverse2 = aff2->GetInverse();
+    inverse2 = aff2->GetInverseMatrix();
     std::cout << "Inverse matrix for the given transform:"
               << std::endl << inverse2;
 
@@ -223,8 +223,11 @@ int itkCenteredAffineTransformTest(int, char *[])
     aff3->Print( std::cout );
 
     /* Generate inverse transform */
-    Affine3DType::Pointer inv3;
-    inv3 = aff3->Inverse();
+    Affine3DType::Pointer inv3 = Affine3DType::New();
+    if(!aff3->GetInverse(inv3))
+      {
+      std::cout << "Cannot create inverse transformation" << std::endl;
+      }
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
 

@@ -31,7 +31,6 @@ AffineTransform<TScalarType, NDimensions>::
 AffineTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Matrix.SetIdentity();
-  m_Inverse.SetIdentity();
   m_Offset.Fill( 0 );
   m_Singular = false;
 }
@@ -45,7 +44,6 @@ AffineTransform( unsigned int outputSpaceDimension,
   Superclass(outputSpaceDimension,parametersDimension)
 {
   m_Matrix.SetIdentity();
-  m_Inverse.SetIdentity();
   m_Offset.Fill( 0 );
   m_Singular = false;
 }
@@ -59,7 +57,7 @@ AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
 {
   m_Matrix = matrix;
   m_Offset = offset;
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
 }
 
 
@@ -104,7 +102,7 @@ PrintSelf(std::ostream &os, Indent indent) const
     os << indent.GetNextIndent();
     for (j = 0; j < NDimensions; j++)
       {
-      os << m_Inverse[i][j] << " ";
+      os << this->GetInverseMatrix()[i][j] << " ";
       }
     os << std::endl;
     }
@@ -129,8 +127,7 @@ Compose(const Self * other, bool pre)
     m_Offset = other->m_Matrix * m_Offset + other->m_Offset;
     m_Matrix = other->m_Matrix * m_Matrix;
     }
-  RecomputeInverse();
-
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -149,8 +146,6 @@ Translate(const OutputVectorType &offset, bool pre)
     {
     m_Offset += offset;
     }
-  RecomputeInverse();
-
   return;
 }
 
@@ -170,7 +165,7 @@ Scale(const TScalarType &factor, bool pre)
     m_Matrix *= factor;
     m_Offset *= factor;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -202,7 +197,7 @@ Scale(const OutputVectorType &factor, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -238,7 +233,7 @@ Rotate(int axis1, int axis2, TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -266,7 +261,7 @@ Rotate2D(TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -317,7 +312,7 @@ Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -349,7 +344,7 @@ Shear(int axis1, int axis2, TScalarType coef, bool pre)
     m_Matrix = trans * m_Matrix;
     m_Offset = trans * m_Offset;
     }
-  RecomputeInverse();
+  m_MatrixMTime.Modified();
   return;
 }
 
@@ -396,7 +391,7 @@ TransformCovariantVector(const InputCovariantVectorType &vec) const
     result[i] = NumericTraits<ScalarType>::Zero;
     for (unsigned int j = 0; j < NDimensions; j++) 
       {
-      result[i] += m_Inverse[j][i]*vec[j]; // Inverse transposed
+      result[i] += this->GetInverseMatrix()[j][i]*vec[j]; // Inverse transposed
       }
     }
   return result;
@@ -423,7 +418,7 @@ BackTransform(const OutputPointType &point) const
     result[i] = 0.0;
     for (j = 0; j < NDimensions; j++) 
       {
-      result[i] += m_Inverse[i][j]*temp[j];
+      result[i] += this->GetInverseMatrix()[i][j]*temp[j];
       }
     }
   return result;
@@ -438,7 +433,7 @@ typename AffineTransform<TScalarType, NDimensions>::InputVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-  return m_Inverse * vect;
+  return this->GetInverseMatrix() * vect;
 }
 
 
@@ -450,7 +445,7 @@ typename AffineTransform<TScalarType, NDimensions>::InputVnlVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-  return m_Inverse * vect;
+  return this->GetInverseMatrix() * vect;
 }
 
 
@@ -498,32 +493,35 @@ BackTransformPoint(const OutputPointType &point) const
     result[i] = 0.0;
     for (j = 0; j < NDimensions; j++) 
       {
-      result[i] += m_Inverse[i][j]*temp[j];
+      result[i] += this->GetInverseMatrix()[i][j]*temp[j];
       }
     }
   return result;
 }
 
 
-
-
-
-// Create and return an inverse transformation
+// return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
-typename AffineTransform<TScalarType, NDimensions>::Pointer
+bool
 AffineTransform<TScalarType, NDimensions>::
-Inverse( void ) const
+GetInverse( Self* inverse) const
 {
-  Pointer result = New();
-  result->m_Matrix   =   m_Inverse;
-  result->m_Inverse  =   m_Matrix;
-  result->m_Offset   = -(m_Inverse * m_Offset);
-  result->m_Singular =   false;
-  return result;
+  if(!inverse)
+    {
+    return false;
+    }
+
+  this->GetInverseMatrix();
+  if(m_Singular)
+    {
+    return false;
+    }
+
+  inverse->m_Matrix   =   this->GetInverseMatrix();
+  inverse->m_InverseMatrix  =   m_Matrix;
+  inverse->m_Offset   = -(this->GetInverseMatrix() * m_Offset);
+  return true;
 }
-
-
-
 
 // Compute a distance between two affine transforms
 template<class TScalarType, unsigned int NDimensions>
@@ -579,25 +577,32 @@ Metric(void) const
 
 
 
+
+
 // Recompute the inverse matrix (internal)
 template<class TScalarType, unsigned int NDimensions>
-void
+typename AffineTransform<TScalarType, NDimensions>::MatrixType
 AffineTransform<TScalarType, NDimensions>::
-RecomputeInverse( void )
+GetInverseMatrix( void ) const
 {
-  m_Singular = false;
-  try 
+  // If the transform has been modified we recompute the inverse
+  if(m_InverseMatrixMTime != m_MatrixMTime)
     {
-    m_Inverse  = m_Matrix.GetInverse();
-    }
-  catch(...) 
-    {
-    m_Singular = true;
+    m_Singular = false;
+    try 
+      {
+      m_InverseMatrix  = m_Matrix.GetInverse();
+      }
+    catch(...) 
+      {
+      m_Singular = true;
+      }
+     m_InverseMatrixMTime = m_MatrixMTime;
     }
 
-  this->Modified();
-  return;
+  return m_InverseMatrix;
 }
+
 
 
 
@@ -664,7 +669,7 @@ SetParameters( const ParametersType & parameters )
     }
  
   // Recompute the inverse
-  this->RecomputeInverse();
+  m_MatrixMTime.Modified();
   this->Modified();
 }
 

@@ -130,9 +130,9 @@ public:
    *
    * This method creates and returns a new CenteredEuler3DTransform object
    * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.
+   * false is returned.
    **/
-  Pointer Inverse( void ) const;
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);

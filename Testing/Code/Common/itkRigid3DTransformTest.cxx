@@ -72,7 +72,12 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     translation->SetOffset( ioffset );
 
-    TransformType::Pointer translationInverse = translation->Inverse();
+    TransformType::Pointer translationInverse = TransformType::New();
+    if(!translation->GetInverse(translationInverse))
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
+      return EXIT_FAILURE;
+      }
     std::cout << "translation: " << translation;
     std::cout << "translationInverse: " << translationInverse;
 
@@ -235,7 +240,12 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     rotation->SetOffset( ioffset );
 
-    TransformType::Pointer rotationInverse = rotation->Inverse();
+    TransformType::Pointer rotationInverse = TransformType::New();
+    if(!rotation->GetInverse(rotationInverse))
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
+      return EXIT_FAILURE;
+      }
     std::cout << "rotation: " << rotation;
     std::cout << "rotationInverse: " << rotationInverse;
 

@@ -173,15 +173,16 @@ public:
    *
    * This method creates and returns a new Rigid2DTransform object
    * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.
+   * false is returned.
    **/
-  Pointer Inverse( void ) const;
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+
 
 protected:
   Rigid2DTransform();
@@ -200,8 +201,15 @@ protected:
   // to rotation computation
   MatrixType          m_RotationMatrix;   
 
-  // representation of the inverse rottion
-  MatrixType          m_InverseMatrix; 
+  // representation of the inverse rotation
+  mutable MatrixType    m_InverseMatrix;
+
+  // Return the inverse matrix and recompute it only if necessary
+  MatrixType GetInverseMatrix() const;
+
+  // To avoid recomputation of the inverse if not needed
+  mutable TimeStamp   m_InverseMatrixMTime;
+  TimeStamp           m_RotationMatrixMTime;
 
 private:
   Rigid2DTransform(const Self&); //purposely not implemented

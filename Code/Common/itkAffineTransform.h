@@ -190,7 +190,7 @@ public:
   void SetIdentity( void )
     { m_Matrix.SetIdentity();
       m_Offset.Fill( 0.0 );
-      this->RecomputeInverse();
+      m_MatrixMTime.Modified();
       this->Modified();  
     }
 
@@ -201,10 +201,7 @@ public:
    * except for debugging the class itself.
    *
    * \todo Do something reasonable if the transform is singular.  */
-  const MatrixType & GetInverse() const
-    { if( m_Singular ) { throw ExceptionObject(__FILE__, __LINE__); }
-    return m_Inverse; 
-    }
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Set offset (origin) of an Affine Transform.
    *
@@ -219,7 +216,7 @@ public:
    * This method sets the matrix of an AffineTransform to a
    * value specified by the user. */
   void SetMatrix(const MatrixType &matrix)
-      { m_Matrix = matrix; RecomputeInverse(); this->Modified(); return; }
+      { m_Matrix = matrix; m_MatrixMTime.Modified(); this->Modified(); return; }
 
   /** Set the transformation from a container of parameters.
    * The first (NDimension x NDimension) parameters define the
@@ -349,13 +346,6 @@ public:
    * pointer to) a brand new point created with new. */
   InputPointType  BackTransformPoint(const OutputPointType  &point) const;
 
-  /** Find inverse of an affine transformation
-   *
-   * This method creates and returns a new AffineTransform object
-   * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.   **/
-  typename AffineTransform::Pointer Inverse(void) const;
-
   /** Compute distance between two affine transformations
    *
    * This method computes a ``distance'' between two affine
@@ -382,6 +372,10 @@ public:
    * is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+  /** Get the inverse matrix. 
+   *  m_Singular is set to true if the inverse cannot be computed */
+  MatrixType GetInverseMatrix() const;
+
 protected:
   /** Construct an AffineTransform object
    *
@@ -397,20 +391,23 @@ protected:
   /** Destroy an AffineTransform object   **/
   virtual ~AffineTransform();
 
-  /** Recompute inverse of the transformation matrix   **/
-  void RecomputeInverse();
-
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
+  /** To avoid recomputation of the inverse if not needed */
+  mutable TimeStamp   m_InverseMatrixMTime;
+  TimeStamp           m_MatrixMTime;
+
 private:
+
   AffineTransform(const Self & other);
   const Self & operator=( const Self & );
 
-  MatrixType         m_Matrix;       // Matrix of the transformation
-  OffsetType         m_Offset;       // Offset of the transformation
-  MatrixType         m_Inverse;      // Inverse of the matrix
-  bool               m_Singular;     // Is m_Inverse singular?
+ 
+  MatrixType           m_Matrix;       // Matrix of the transformation
+  OffsetType           m_Offset;       // Offset of the transformation
+  mutable MatrixType   m_InverseMatrix;      // Inverse of the matrix
+  mutable bool         m_Singular;     // Is m_Inverse singular?
 
 
 }; //class AffineTransform

@@ -100,7 +100,6 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
   m_MatrixComponent = matrix;
   this->RecomputeMatrix();
   this->RecomputeOffset();
-  this->Superclass::RecomputeInverse(); 
 }
 
 /** Set the scale of the transformation */
@@ -126,8 +125,7 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
       }
     }
 
-  this->RecomputeMatrix();
-  this->Superclass::RecomputeInverse(); 
+  m_MatrixMTime.Modified();
 }
 
 
@@ -155,7 +153,6 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
     }
  
   this->RecomputeOffset();
-  this->Superclass::RecomputeInverse(); 
 }
 
    
@@ -168,7 +165,6 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
 {
   m_OffsetComponent = offset;
   this->RecomputeOffset();
-  this->Superclass::RecomputeInverse(); 
 }
 
 /** Recompute the affine matrix 
@@ -215,6 +211,7 @@ SetIdentity( void )
     m_ScaleComponent[i] = 1;
     }
   m_ScaleMatrixComponent.SetIdentity();
+  m_MatrixMTime.Modified();
   this->Modified();  
 }
 
@@ -235,7 +232,7 @@ SetMatrix(const MatrixType &matrix)
     m_ScaleComponent[i] = 1;
     }
   m_ScaleMatrixComponent.SetIdentity();
-  Superclass::RecomputeInverse(); 
+  m_MatrixMTime.Modified();
   this->Modified();
 }
 
@@ -323,7 +320,7 @@ SetParameters( const ParametersType & parameters )
   Superclass::SetOffset(offset);
  
   // Recompute the inverse
-  Superclass::RecomputeInverse();
+  m_MatrixMTime.Modified();
   this->Modified();
 }
 

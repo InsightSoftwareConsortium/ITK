@@ -133,8 +133,8 @@ public:
   /** Find inverse of an affine transformation.
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.  */
- typename TranslationTransform::Pointer Inverse(void) const;
+   * false is returned.  */
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;

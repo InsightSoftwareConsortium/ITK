@@ -169,6 +169,10 @@ public:
   virtual unsigned int GetNumberOfParameters(void) const 
                       { return m_Parameters.Size(); }
 
+  /** Return the inverse of the transform.
+   *  The inverse is recomputed if it has been modified */
+  virtual bool GetInverse(Self* inverse) const {return false;}
+
 
 protected:
   Transform(); 

@@ -71,7 +71,13 @@ int itkTranslationTransformTest(int ,char *[] )
   std::cout << "Instantiation of a given 2D transform:" 
             << std::endl << aff2;
 
-  TransformType::Pointer inverse2 = aff2->Inverse();
+  TransformType::Pointer inverse2 = TransformType::New();
+  if(!aff2->GetInverse(inverse2))
+      {
+      std::cout << "Cannot create transform" << std::endl;
+      return EXIT_FAILURE;
+      }
+
   std::cout << "Inverse of the given transform:"
             << std::endl << inverse2;
 

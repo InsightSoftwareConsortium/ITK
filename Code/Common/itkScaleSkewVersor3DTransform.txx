@@ -218,7 +218,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   m_RotationMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
   m_RotationMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
  
-  m_InverseMatrix = m_RotationMatrix.GetInverse();
+  m_RotationMatrixMTime.Modified();
 
   InputPointType center = Superclass::GetCenter();
   OutputVectorType translation = Superclass::GetTranslation();

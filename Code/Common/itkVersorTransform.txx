@@ -48,8 +48,6 @@ void
 VersorTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-
-
   itkDebugMacro( << "Setting paramaters " << parameters );
 
   // Transfer the versor part
@@ -125,8 +123,7 @@ VersorTransform<TScalarType>
   m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
   m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
-
+  m_RotationMatrixMTime.Modified();
 }
 
 

@@ -73,26 +73,23 @@ PrintSelf(std::ostream &os, Indent indent) const
 
 
 
-// Create and return an inverse transformation
+// return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
-typename CenteredAffineTransform<TScalarType, NDimensions>::Pointer
+bool
 CenteredAffineTransform<TScalarType, NDimensions>::
-Inverse( void ) const
+GetInverse( Self* inverse) const
 {
-  Pointer result = New();
-  
-  result->SetMatrix( this->GetMatrix() );
-  result->SetOffset( this->GetOffset() );
-  result->Superclass::Inverse();
-  
-  result->m_Center      =   m_Center;
-  result->m_Translation =  -m_Translation;
-  
-  result->ComputeOffset();
-  
-  return result;
-}
+  if(!Superclass::GetInverse(inverse))
+    {
+    return false;
+    }
 
+  inverse->m_Center      =   m_Center;
+  inverse->m_Translation =  -m_Translation;
+  inverse->ComputeOffset();
+
+  return true;
+}
 
 
 // Set the parameters in order to fit an Identity transform

@@ -135,25 +135,23 @@ PrintSelf(std::ostream &os, Indent indent) const
   os << indent << "Translation: "        << m_Translation   << std::endl;
 }
 
-
-// Create and return an inverse transformation
+// return an inverse transformation
 template<class TScalarType>
-typename CenteredEuler3DTransform<TScalarType>::Pointer
+bool
 CenteredEuler3DTransform<TScalarType>::
-Inverse( void ) const
+GetInverse( Self* inverse) const
 {
-  Pointer result = New();
-  
-  result->SetMatrix( this->GetMatrix() );
-  result->SetOffset( this->GetOffset() );
-  result->Superclass::Inverse();
-  
-  result->m_Center      =   m_Center;
-  result->m_Translation =  -m_Translation;
-  
-  result->ComputeMatrix();
+  if(!Superclass::GetInverse(inverse))
+    {
+    return false;
+    }
 
-  return result;
+  inverse->m_Center      =   m_Center;
+  inverse->m_Translation =  -m_Translation;
+  inverse->ComputeMatrix();
+
+  return true;  
+
 }
 
 

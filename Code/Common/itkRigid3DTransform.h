@@ -183,7 +183,7 @@ public:
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.
    **/
-  Pointer Inverse( void ) const;
+  virtual bool GetInverse(Self* inverse) const;
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);
@@ -194,7 +194,6 @@ public:
 protected:
   Rigid3DTransform();
   ~Rigid3DTransform();
-
   
   /**
    * Print contents of an Rigid3DTransform
@@ -206,10 +205,14 @@ protected:
   // Should be protected in order to be modified 
   // by derived classes that instantiate an interface
   // to rotation computation
-  MatrixType          m_RotationMatrix;   
+  MatrixType          m_RotationMatrix;
+  
+  // Return the inverse matrix and recompute it only if necessary
+  MatrixType GetInverseMatrix() const;
 
-  // representation of the inverse rottion
-  MatrixType          m_InverseMatrix; 
+  // To avoid recomputation of the inverse if not needed
+  mutable TimeStamp   m_InverseMatrixMTime;
+  TimeStamp           m_RotationMatrixMTime;
 
 private:
   Rigid3DTransform(const Self&); //purposely not implemented
@@ -217,6 +220,10 @@ private:
 
   // Offset of the transformation
   OffsetType          m_Offset;   
+  
+  // representation of the inverse rottion
+  mutable MatrixType          m_InverseMatrix;
+  
 
 }; //class Rigid3DTransform
 

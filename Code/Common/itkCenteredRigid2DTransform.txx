@@ -241,14 +241,14 @@ CenteredRigid2DTransform<TScalarType>
   m_RotationMatrix[0][0]= ca; m_RotationMatrix[0][1]=-sa;
   m_RotationMatrix[1][0]= sa; m_RotationMatrix[1][1]= ca;
 
+  m_RotationMatrixMTime.Modified();
+
   OffsetType offset;
 
   offset[0] = tx + sa * cy + ( 1.0 - ca ) * cx;
   offset[1] = ty - sa * cx + ( 1.0 - ca ) * cy;
 
   this->SetOffset( offset );
-
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
   this->Modified();
 }

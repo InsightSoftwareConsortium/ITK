@@ -234,7 +234,7 @@ VersorRigid3DTransform<TScalarType>
   m_RotationMatrix[2][1] = 2.0 * ( yz + xw );
   m_RotationMatrix[1][2] = 2.0 * ( yz - xw );
  
-  m_InverseMatrix = m_RotationMatrix.GetTranspose();
+  m_RotationMatrixMTime.Modified();
 
   OffsetType offset; 
   for(unsigned int i=0; i<3; i++)
