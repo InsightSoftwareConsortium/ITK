@@ -79,14 +79,14 @@ ImageToImageMomentsAlignmentCalculator< TReference, TTarget>
   ImageMomentsCalculatorType    ReferenceMoments(m_Reference);
   ImageMomentsCalculatorType    TargetMoments(m_Target);
 
-  AffineTransformType ReferenceTransform;
-  AffineTransformType TargetTransform;
-  ReferenceTransform = ReferenceMoments.GetPrincipalAxesToPhysicalAxesTransform();
-  TargetTransform    = TargetMoments.GetPrincipalAxesToPhysicalAxesTransform();
+  AffineTransformPointer referenceTransform;
+  AffineTransformPointer targetTransform;
+  referenceTransform = ReferenceMoments.GetPrincipalAxesToPhysicalAxesTransform();
+  targetTransform    = TargetMoments.GetPrincipalAxesToPhysicalAxesTransform();
 
-  m_OutputTransform = TargetTransform;
+  m_OutputTransform = targetTransform;
 
-  m_OutputTransform.Compose( ReferenceTransform.Inverse(),false) ;
+  m_OutputTransform->Compose(referenceTransform->Inverse(), false);
 
 }
 

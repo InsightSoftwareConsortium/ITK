@@ -67,6 +67,9 @@ public:
   /** The type of affine transformation. */  
   typedef AffineTransform<double, ImageDimension> AffineTransformType;
 
+  /** The type of affine transformation. */
+  typedef typename AffineTransformType::Pointer AffineTransformPointer;
+
   /** Set the target. */
   void SetTarget( TargetType * );
    
@@ -77,7 +80,7 @@ public:
   void Execute(void);
 
   /** Get the tranformation. */
-  itkGetMacro(OutputTransform ,AffineTransformType);
+  itkGetObjectMacro(OutputTransform ,AffineTransformType);
 
 protected:
   ImageToImageMomentsAlignmentCalculator();
@@ -90,7 +93,7 @@ private:
   
   ReferenceConstPointer     m_Reference;
   TargetConstPointer        m_Target;
-  AffineTransformType       m_OutputTransform;
+  AffineTransformPointer    m_OutputTransform;
 
 };  
 
