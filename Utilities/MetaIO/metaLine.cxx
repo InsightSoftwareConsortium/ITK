@@ -421,7 +421,7 @@ M_Read(void)
       for(k=0; k<m_NDims; k++)
       {
         *m_ReadStream >> v[k];
-        char c = m_ReadStream->get();
+        m_ReadStream->get();
       }
 
       float* x = new float[m_NDims];
@@ -438,7 +438,7 @@ M_Read(void)
         for(int j=0; j<m_NDims; j++)
         {
           *m_ReadStream >> v[j];
-          char c = m_ReadStream->get();
+          m_ReadStream->get();
         }
 
         float* n = new float[m_NDims];
@@ -452,7 +452,7 @@ M_Read(void)
       for(k=0; k<4; k++)
       {
         *m_ReadStream >> v[k];
-        char c = m_ReadStream->get();
+        m_ReadStream->get();
         pnt->m_Color[k] = v[k];
       }
 

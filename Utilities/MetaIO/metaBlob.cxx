@@ -493,8 +493,8 @@ M_Write(void)
     MET_SizeOfType(m_ElementType, &elementSize);
 
     char* data = new char[m_NDims*m_NPoints*elementSize];
-    unsigned int i=0;
-    unsigned int d=0;
+    int i=0;
+    int d=0;
     while(it != m_PointList.end())
     {
       for(d = 0; d < m_NDims; d++)
