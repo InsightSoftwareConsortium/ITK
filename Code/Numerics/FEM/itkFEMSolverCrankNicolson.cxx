@@ -399,7 +399,7 @@ void SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
   FindBracketingTriplet(&ax, &bx, &cx);
   Float xmin=1.0;
   //if (fb!=0.0)
-  Float f0=1.0,f1=1.0,f2=1.0,f3=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0,fmin=1.0;
+  Float f1=1.0,f2=1.0,x0=1.0,x1=1.0,x2=1.0,x3=1.0;
 
   Float R=0.6180339;
   Float C=(1.0-R);
@@ -421,18 +421,16 @@ void SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIters)
     iters++;
     if (f2 < f1){
       x0=x1; x1=x2; x2=R*x1+C*x3;
-      f0=f1; f1=f2; f2=fabs(EvaluateResidual(x2));
+      f1=f2; f2=fabs(EvaluateResidual(x2));
     } else {
       x3=x2; x2=x1; x1=R*x2+C*x0;
-      f3=f2; f2=f1; f1=fabs(EvaluateResidual(x1));
+      f2=f1; f1=fabs(EvaluateResidual(x1));
     }
   }
   if (f1<f2){
     xmin=x1;
-    fmin=f1;
   } else {
     xmin=x2;
-    fmin=f2;
   }
   
   SetEnergyToMin(xmin);
