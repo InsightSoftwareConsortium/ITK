@@ -49,7 +49,7 @@ void
 FilterImageWatershedSegment<TInputImage, TOutputImage>
 ::PrintMergeHeap(const MergeListType &table)
 {
-  for (MergeListType::const_iterator it = table.begin();
+  for (typename MergeListType::const_iterator it = table.begin();
        it != table.end(); ++it)
     {
       std::cout << (*it).FromLabel << " -> " << (*it).ToLabel
@@ -177,7 +177,7 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   std::stack<LabelPairType> pairStack;
   LabelPairType temp;
 
-  for (MergeListType::const_iterator it = list.begin();
+  for (typename MergeListType::const_iterator it = list.begin();
        ((*it).Saliency <= floodLevel) &&( it != list.end()); ++it)
     {
       temp.first = (*it).FromLabel;
@@ -202,14 +202,14 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   SegmentTableType::iterator toSeg, fromSeg;
   EdgeTableType::iterator edge_it, retVal;
   SegmentTableType::data_type neighbSeg;
-  MergeListType::value_type tempMerge;
+  typename MergeListType::value_type tempMerge;
   OutputScalarType toSegLabel, tempLabel, fromSegLabel;
   InputScalarType tempEdgeVal;
   std::stack<OutputScalarType> purgeStack;
 
   if (heap.empty()) return;
   
-  MergeListType::value_type topMerge = heap.front();
+  typename MergeListType::value_type topMerge = heap.front();
   while( (! heap.empty()) && (topMerge.Saliency <= floodLevel) )
     {
       pop_heap<MergeListType::iterator, merge_comp>
@@ -348,7 +348,7 @@ FilterImageWatershedSegment<TInputImage, TOutputImage>
   //  4) l > Depth of A
   //
   SegmentTableType::data_type neighbSeg;
-  MergeListType::value_type tempMerge;
+  typename MergeListType::value_type tempMerge;
   for (SegmentTableType::const_iterator segment_ptr = segments.begin();
        segment_ptr != segments.end(); ++segment_ptr)
     {
