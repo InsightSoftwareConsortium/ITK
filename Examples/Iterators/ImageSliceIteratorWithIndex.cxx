@@ -27,11 +27,11 @@
 // spanning axes.
 // 
 // \begin{itemize}
-// \index{itk::ImageSliceIteratorWithIndex!SetFirstDirection()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!SetFirstDirection()}
 // \item \textbf{\code{SetFirstDirection()}} Specifies the first coordinate axis
 // direction of the slice plane.
 //
-// \index{itk::ImageSliceIteratorWithIndex!SetSecondDirection()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!SetSecondDirection()}
 // \item \textbf{\code{SetSecondDirection()}} Specifies the second coordinate axis
 // direction of the slice plane.
 // \end{itemize}
@@ -40,25 +40,25 @@
 //
 // \begin{itemize}
 // 
-// \index{itk::ImageSliceIteratorWithIndex!NextSlice()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!NextSlice()}
 // \item \textbf{\code{NextSlice()}} Moves the iterator to the beginning pixel
 // location of the next slice in the image.  The origin of the next slice is
 // calculated by incrementing the current origin index along the fastest
 // increasing dimension of the image subspace which excludes the first and
 // second dimensions of the iterator.
 //
-// \index{itk::ImageSliceIteratorWithIndex!PreviousSlice()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!PreviousSlice()}
 // \item \textbf{\code{PreviousSlice()}} Moves the iterator to the \emph{last
 // valid pixel location} in the previous slice.  The origin of the previous
 // slice is calculated by decrementing the current origin index along the
 // fastest increasing dimension of the image subspace which excludes the first
 // and second dimensions of the iterator.
 //
-// \index{itk::ImageSliceIteratorWithIndex!IsAtReverseEndOfSlice()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!IsAtReverseEndOfSlice()}
 // \item \textbf{\code{IsAtReverseEndOfSlice()}} Returns true if the iterator
 // points to \emph{one position before} the beginning pixel of the current slice.
 //
-// \index{itk::ImageSliceIteratorWithIndex!IsAtEndOfSlice()}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!IsAtEndOfSlice()}
 // \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points
 // to \emph{one position past} the last valid pixel of the current slice.
 // 
@@ -69,7 +69,7 @@
 // coordinate axis direction of the slice plane (see also
 // Section~\ref{sec:itkImageLinearIteratorWithIndex}).
 //
-// \index{itk::ImageSliceIteratorWithIndex!example of using|(}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!example of using|(}
 // The next code example calculates the maximum intensity projection along one
 // of the coordinate axes of an image volume.  The algorithm is straightforward
 // using \doxygen{ImageSliceIteratorWithIndex} because we can coordinate
@@ -310,7 +310,7 @@ int main( int argc, char *argv[] )
 // \end{figure}
 // 
 //  
-// \index{itk::ImageSliceIteratorWithIndex!example of using|)}
+// \index{itk::Image\-Slice\-Iterator\-With\-Index!example of using|)}
 //
 // Software Guide : EndLatex
 
