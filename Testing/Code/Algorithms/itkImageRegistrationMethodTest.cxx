@@ -111,14 +111,13 @@ int itkImageRegistrationMethodTest(int, char**)
     return EXIT_FAILURE; \
     } 
 
+  TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1), initialParameters );
   TEST_INITIALIZATION_ERROR( Metric, NULL, metric );
   TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
   TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
   TEST_INITIALIZATION_ERROR( FixedImage, NULL, fixedImage );
   TEST_INITIALIZATION_ERROR( MovingImage, NULL, movingImage );
   TEST_INITIALIZATION_ERROR( Interpolator, NULL, interpolator );
-  TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1),
-    initialParameters );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
