@@ -41,6 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkClassifier_txx
 #define _itkClassifier_txx
 
+#include "itkCommand.h"
+
 namespace itk
 {
 
@@ -71,6 +73,20 @@ Classifier<TInputImage,TClassifiedImage>
   Superclass::PrintSelf(os,indent);
 
 }// end PrintSelf
+
+
+/**
+ * Update the progress. If a ProgressMethod exists execute it.
+ */
+template <class TInputImage, class TClassifiedImage>
+void
+Classifier<TInputImage,TClassifiedImage>
+::UpdateProgress( float amount )
+{
+  this->SetProgress( amount );
+  this->InvokeEvent( Command::ProgressEvent );
+  
+}
 
 
 } // namespace itk

@@ -50,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkSupervisedClassifier.h"
 #include <math.h>
 #include <float.h>
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 
 
 namespace itk
@@ -166,9 +166,9 @@ public:
   typedef typename TInputImage::PixelType      InputImagePixelType;
   typedef typename TClassifiedImage::PixelType ClassifiedImagePixelType;  
   typedef
-    ImageRegionIteratorWithIndex< TInputImage >  InputImageIterator;
+    ImageRegionIterator< TInputImage >  InputImageIterator;
   typedef
-    ImageRegionIteratorWithIndex< TClassifiedImage > TrainingImageIterator;
+    ImageRegionIterator< TClassifiedImage > TrainingImageIterator;
 
   /**
    * Type definition for the vector associated with

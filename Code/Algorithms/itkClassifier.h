@@ -207,6 +207,20 @@ public:
    */
   virtual void SetTrainingImage( TrainingImageType image ) {};
 
+  /**
+   * Set the progress
+   */
+  itkSetClampMacro( Progress, float, 0.0, 1.0 );
+
+  /**
+   * Get the progress
+   */
+  itkGetMacro( Progress, float );
+
+  /**
+   * Update the progress
+   */
+  void UpdateProgress( float amount );
 
 protected:
   Classifier();
@@ -220,6 +234,8 @@ protected:
 private:
   InputImageType      m_InputImage;
   ClassifiedImageType m_ClassifiedImage;
+
+  float               m_Progress;
 
 }; // class Classifier
 

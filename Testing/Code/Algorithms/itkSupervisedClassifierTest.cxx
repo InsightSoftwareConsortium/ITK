@@ -55,6 +55,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   MAX_NUM_ITER       50
 
 
+// class to support progress feeback
+template<class TClassifier>
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(TClassifier * o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  TClassifier::Pointer m_Process;
+};
+
+
+
 int main()
 {
 
@@ -261,6 +275,17 @@ int main()
 	  GaussianSupervisedClassifierType;
   GaussianSupervisedClassifierType::Pointer 
 	  applyClassifier = GaussianSupervisedClassifierType::New();
+
+  typedef ShowProgressObject<GaussianSupervisedClassifierType> 
+    ProgressType;
+
+  ProgressType progressWatch(applyClassifier);
+  itk::SimpleMemberCommand<ProgressType>::Pointer command;
+  command = itk::SimpleMemberCommand<ProgressType>::New();
+  command->SetCallbackFunction(&progressWatch,
+                               &ProgressType::ShowProgress);
+  applyClassifier->AddObserver(itk::Command::ProgressEvent, command);
+
 
   // Set the Classifier parameters
   applyClassifier->SetNumberOfClasses(NUM_CLASSES);

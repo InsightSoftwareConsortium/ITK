@@ -155,8 +155,9 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     m_Covariance[i].fill( NULL );
     }
 
-  for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
+  for( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
     {
+
     unsigned int classIndex = trainingImageIt.Get();
         
     // Training data assumed =1 band; also the class indices go
@@ -336,9 +337,25 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   InputImageVectorType      inImgVec;
   ClassifiedImagePixelType  outClassified;
 
-  m_NumberOfClasses = this->GetNumberOfClasses();
-  for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt ) 
+  // support progress methods/callbacks
+  unsigned long totalPixels = 
+    inputImage->GetBufferedRegion().GetNumberOfPixels();
+  unsigned long updateVisits = totalPixels / 10;
+  if( updateVisits < 1 ) 
     {
+    updateVisits = 1;
+    }
+  int k = 0;
+
+  m_NumberOfClasses = this->GetNumberOfClasses();
+  for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt, ++k ) 
+    {
+
+    if ( !( k % updateVisits ) )
+      {
+      this->UpdateProgress((float)k / (float)totalPixels);
+      }
+
     inImgVec = inIt.Get();
     int classifiedIndex = GetPixelClass( inImgVec );
          
