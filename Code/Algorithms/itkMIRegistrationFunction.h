@@ -144,18 +144,6 @@ public:
                      const FloatOffsetType &offset = FloatOffsetType(0.0));
 
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
-  virtual PixelType  ComputeInverseUpdate(const NeighborhoodType &neighborhood,
-                     void *globalData,
-                     const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
-
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
-  virtual PixelType  ComputeForwardAndInverseUpdate(const NeighborhoodType &neighborhood,
-                     void *globalData,
-                     const FloatOffsetType &offset = FloatOffsetType(0.0)) const;
-
 
   void SetMinNorm(float ts=1.0) { m_minnorm=ts;}
 
