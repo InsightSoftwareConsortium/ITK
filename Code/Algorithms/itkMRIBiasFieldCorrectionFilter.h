@@ -327,10 +327,6 @@ public:
   itkSetMacro( BiasFieldDegree, int );
   itkGetMacro( BiasFieldDegree, int );
 
-  /** Get the bias field domain size. */
-  BiasFieldType::DomainSizeType GetBiasFieldDomainSize()
-  { return m_BiasFieldDomainSize ; }
-
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
   void SetInitialBiasFieldCoefficients

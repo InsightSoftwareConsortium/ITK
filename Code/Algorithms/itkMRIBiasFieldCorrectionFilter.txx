@@ -70,7 +70,6 @@ typename MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
 MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 ::GetValue( const ParametersType & parameters ) const
 {
-
   if ( m_Image.IsNull() )
     {
     itkExceptionMacro(<<"Image is null");
