@@ -130,8 +130,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
   /** Returns the smart pointer to the internal Subsample object. */
-  SubsamplePointer GetSubsample()
-  { return m_Subsample ; }
+  SubsampleType* GetSubsample()
+  { return m_Subsample.GetPointer() ; }
 
   /** Nonterminal node generation routine */ 
   virtual KdTreeNodeType* GenerateNonterminalNode(int beginIndex,
