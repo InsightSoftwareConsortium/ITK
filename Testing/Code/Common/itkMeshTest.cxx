@@ -29,6 +29,12 @@
 #include <iostream>
 #include <string>
 
+namespace itkMeshTestTypes { 
+  // this namespace helps to isolate the types defined blow
+  // when all the code is included in the test driver.
+ 
+
+  
 /**
  * Some typedefs to make things easier.
  */
@@ -136,9 +142,15 @@ typedef itk::CellInterfaceVisitorImplementation<
   QuadraticTriangleCellType,
   VisitCells> QuadraticTriangleCellVisitor;
 
+}
+
 
 int itkMeshTest(int, char* [] )
 {
+
+  using namespace itkMeshTestTypes; // open the namespace here.
+                                    // this is safe because only happens localy.
+  
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
   
