@@ -157,6 +157,8 @@ IF(USE_FLTK)
   IF(FLTK_VERSION_1.0.11)
     MESSAGE(SEND_ERROR "FLTK Version 1.0.11 is no longer supported in ITK. Please upgrade to FLTK version 1.1")
   ENDIF(FLTK_VERSION_1.0.11)
+ELSE(USE_FLTK)
+  SET (HAS_FLTK 0)
 ENDIF(USE_FLTK)
 
 # Copy the UseITK.cmake file to the binary tree for backward compatability.
