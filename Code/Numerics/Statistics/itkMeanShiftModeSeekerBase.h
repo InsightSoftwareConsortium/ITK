@@ -28,8 +28,26 @@ namespace itk{
 namespace Statistics{
   
 /** \class MeanShiftModeSeekerBase
- * \brief Calculates the covariance matrix of the target sample data.
+ * \brief Evolves the mode. This is the base class for any mean shift
+ * mode seeking algorithm classes.
  *
+ * Any subclass of this class should implement the ComputeMode
+ * method. That is the only one requirement. To use this class, user
+ * should plug in the input sample using SetInputSample, then call
+ * Evolve function with a measurement vector (query point).
+ *
+ * There are some operational options. Users can set a cache method to
+ * accelates the evolving process. If the cache method already has a
+ * pair of a query point and its new mode point, the ComputeMode uses
+ * the cached value insteady recalculating the mode. By setting the
+ * maximum iteration number (SetMaximumIteration method), when the
+ * evolving process exceedes, the process will stop and return the
+ * current mode point as the result. With this option turned off (by
+ * setting it to 0 or leave it alone after instantiating this class), the
+ * evolving process runs until it converges.
+ *
+ * \sa MeanShiftModeCacheMethod, SampleMeanShiftBlurringFilter,
+ * SampleSelectiveMeanShiftBlurringFilter, SampleMeanShiftClusteringFilter
  */
 
 template< class TSample >
@@ -49,9 +67,11 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize) ;
 
+  /** Typedefs from the TSample template argument */
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
+
   typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
   typedef MeanShiftModeCacheMethod< MeasurementVectorType > CacheMethodType ;
 
