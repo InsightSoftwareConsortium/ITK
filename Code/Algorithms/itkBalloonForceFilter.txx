@@ -1139,7 +1139,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   if (m_NumNewNodes > m_NewNodeLimit)
     {
-    std::cout << "Reallocing " << m_NewNodeLimit * 2 << " nodes" << std::endl;
     realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
     for (int i = m_NewNodeLimit; i < 2*m_NewNodeLimit; i++)
       {
