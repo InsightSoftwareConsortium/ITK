@@ -104,7 +104,7 @@ int main( int argc, char ** argv )
     
 // Software Guide : BeginLatex
 //
-// The logic in the inner loop of this example can be rewritten to perform
+// The logic of the inner loop can be rewritten to perform
 // dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such that
 // $E$ positioned at $x$ contains at least one element in $I$.
 //
