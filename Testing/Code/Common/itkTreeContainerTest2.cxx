@@ -261,12 +261,13 @@ TreeType::Pointer CreateTree_2()
 {
   std::cout << "create tree 2" << std::endl;
 
-  TreeType::Pointer tree = TreeType::New(); 
-  tree->SetRoot( new TestData( 9 ) );
+  TreeType::Pointer tree = TreeType::New();
+  TestData* newNode = new TestData(9);
+  InternalList.push_back(newNode);
+  tree->SetRoot(newNode);
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
-
-  TestData* newNode = new TestData(91);
+  newNode = new TestData(91);
   InternalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(92);
