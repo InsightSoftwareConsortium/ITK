@@ -253,7 +253,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
         }
 
       marginalDistance = 
-        sqrt(abs(squaredDistance - dotProduct * dotProduct)) /
+        sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
         ((*m_StandardDeviation) * extent * m_OrthoMargin) ;
 
       dotProduct /= (*m_StandardDeviation) ;

@@ -83,7 +83,7 @@ NeighborhoodSampler< TSample >
       for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
         {
           coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
-          if (abs(coordinateDistance) > (*m_Radius) )
+          if (vnl_math_abs(coordinateDistance) > (*m_Radius) )
             {
               distance = squaredRadius ;
             }
