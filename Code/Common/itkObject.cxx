@@ -130,7 +130,7 @@ Object
   itkDebugMacro(<< this << "UnRegistered, "
   << "ReferenceCount = " << (m_ReferenceCount-1));
 // call the parent
-  this->LightObject::UnRegister();
+  Superclass::UnRegister();
 }
 
 
@@ -143,7 +143,7 @@ Object
 {
   itkDebugMacro(<< "Reference Count set to " << ref);
   // call the parent
-  this->LightObject::SetReferenceCount(ref);
+  Superclass::SetReferenceCount(ref);
 }
 
 
