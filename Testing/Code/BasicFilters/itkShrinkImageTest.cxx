@@ -76,20 +76,22 @@ int main()
     iterator.Set( i );
     }
   
-  // Create a filter
+  // Create a filter, shrink by 2,3
   itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
   
   unsigned int factors[2] = { 2, 3 };
   shrink->SetShrinkFactors(factors);
-  shrink->Update();
+  shrink->UpdateLargestPossibleRegion();
 
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
             << if2->GetSpacing()[1] << std::endl;
   std::cout << "Output spacing: " << shrink->GetOutput()->GetSpacing()[0]
             << ", "
             << shrink->GetOutput()->GetSpacing()[1] << std::endl;
+  std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
 
 
   //
@@ -117,6 +119,38 @@ int main()
       passed = false;
       }
     }
+
+  // Now test shrinking by 2x2
+  factors[1] = 2;
+  shrink->SetShrinkFactors(factors);
+  shrink->UpdateLargestPossibleRegion();
+  std::cout << std::endl << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
+            << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Output spacing: " << shrink->GetOutput()->GetSpacing()[0]
+            << ", "
+            << shrink->GetOutput()->GetSpacing()[1] << std::endl;
+  std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
+  
+  requestedRegion = shrink->GetOutput()->GetRequestedRegion();
+  iterator2 = itk::ImageRegionIterator<ShortImage>(shrink->GetOutput(), requestedRegion);
+
+  for (; !iterator2.IsAtEnd(); ++iterator2)
+    {
+    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
+              << std::endl;
+
+    short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+              + (region.GetSize()[0]
+                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]);
+
+    if ( iterator2.Get() != trueValue )
+      {
+      passed = false;
+      }
+    }
+  
 
   if (passed)
     {
