@@ -130,8 +130,12 @@ public:
 protected:
   DiscreteGaussianImageFilter()
     {
-    this->SetVariance(0.0f);
-    this->SetMaximumError(0.01f);
+    int i;
+    for (i = 0; i < ImageDimension; i++)
+      {
+      m_Variance[i] = 0.0f;
+      m_MaximumError[i] = 0.0f;
+      }
     }
   virtual ~DiscreteGaussianImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
