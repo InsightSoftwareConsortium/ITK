@@ -76,7 +76,7 @@ public:
   /** Return the Otsu's threshold value. */
   itkGetMacro(Threshold,PixelType);
   
-  /** Set/Get the number of histogram bins. */
+  /** Set/Get the number of histogram bins. Default is 128. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, 
                     NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long );
