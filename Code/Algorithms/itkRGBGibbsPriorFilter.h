@@ -57,17 +57,17 @@ public:
    */
   itkTypeMacro(RGBGibbsPriorFilter,MRFImageFilter);
 
-//  typedef typename TInputImage::Pointer              InputImageType;  
+  typedef typename TInputImage::Pointer              InputImageType;  
 
   /**
    * Type definition for the input image pixel type.
    */
-//  typedef typename TInputImage::PixelType            InputPixelType;
+  typedef typename TInputImage::PixelType            InputPixelType;
 
   /**
    * Type definitions for the training image.
    */
-//  typedef typename TClassifiedImage::Pointer         TrainingImageType;
+  typedef typename TClassifiedImage::Pointer         TrainingImageType;
 
   /**
    * Type definitions for the training image pixel type.
@@ -78,7 +78,7 @@ public:
    * Type definitions for the labelled image.
    * It is derived from the training image.
    */
-//  typedef typename TClassifiedImage::Pointer         LabelledImageType;
+  typedef typename TClassifiedImage::Pointer         LabelledImageType;
       
   /**
    * Type definitions for the classified image pixel type.
@@ -89,12 +89,12 @@ public:
   /**
    * Type definition for the classified image index type.
    */
-//  typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
+  typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
   /**
    * Type definitions for classifier to be used for the MRF lavbelling.
    */
-//  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
+  typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
   /**
    * Pointer to the classifier to be used for the MRF lavbelling.

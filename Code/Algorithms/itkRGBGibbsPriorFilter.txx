@@ -335,7 +335,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 	if (f[j] == m_ObjectLabel) k++;
   }
     
-  BOOL changeflag = (k > 3);
+  bool changeflag = (k > 3);
 
 
   for(int j = 0; j < 2; j++) {
@@ -383,7 +383,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   int f[8];
   int j, neighborcount = 0, simnum = 0, difnum = 0, changenum = 0;
-  BOOL changeflag;
+  bool changeflag;
   float res = 0.0;
 
   LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
