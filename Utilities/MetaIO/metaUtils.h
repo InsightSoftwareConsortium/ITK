@@ -31,9 +31,11 @@
 
 
 
-extern MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,std::vector<MET_FieldRecordType *> * _fields);
+extern MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,
+                           std::vector<MET_FieldRecordType *> * _fields);
  
-extern int MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType *> * _fields);
+extern int MET_GetFieldRecordNumber(const char * _fieldName,
+                           std::vector<MET_FieldRecordType *> * _fields);
 
 extern bool MET_SystemByteOrderMSB(void);
 
@@ -161,8 +163,6 @@ extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,
 
 
 extern const char* MET_ReadType(std::istream & _fp);
-
-extern void MET_ReturnWhenFailed(bool val);
 
 inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
 {
