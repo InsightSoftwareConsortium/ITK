@@ -196,7 +196,46 @@ ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES}
         ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyBinaryFiltersDilate.png
         150 180
 )
+ADD_TEST( MathematicalMorphologyGrayscaleFiltersTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/MathematicalMorphologyGrayscaleFiltersErode.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyGrayscaleFiltersErode.png
+  MathematicalMorphologyGrayscaleFiltersTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyGrayscaleFiltersErode.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MathematicalMorphologyGrayscaleFiltersDilate.png
+)
+ADD_TEST( MeanImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/MeanImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/MeanImageFilter.png
+  MeanImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MeanImageFilter.png
+)
+ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/MedianImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/MedianImageFilter.png
+  MedianImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/MedianImageFilter.png
+        1
+)
+ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/SigmoidImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/SigmoidImageFilter.png
+  SigmoidImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/SigmoidImageFilter.png
+        10 240 10 170
+)
 
+ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/SmoothingRecursiveGaussianImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/SmoothingRecursiveGaussianImageFilter.png
+  SmoothingRecursiveGaussianImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/SmoothingRecursiveGaussianImageFilter.png
+        5
+)
 
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
