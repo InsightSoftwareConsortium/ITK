@@ -28,6 +28,8 @@ void test_resize()
     TEST("size", X.size(), 5);
     // After resize, old data is lost, so the following test must fail:
 //  TEST("resize", X(0)+X(1)+X(2)+X(3)+X(4), 6.0);
+    // avoid UMR from output
+    X(0) = X(1) = X(2) = X(3) = X(4) = 0.0;
     vcl_cout << "X = " << X << vcl_endl;
   }
 
