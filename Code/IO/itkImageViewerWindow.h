@@ -48,6 +48,7 @@ public:
    virtual void CallBackDisplayFunc(void);
    virtual void CallBackReshapeFunc(int w, int h);   
    virtual void CallBackKeyboardFunc(unsigned char key, int x, int y);
+   virtual void CallBackMouseFunc(int button, int state, int x, int y);
 
    virtual void SetBufferSize( int w, int h );
    virtual void SetWindowSize( int w, int h );
@@ -64,10 +65,16 @@ public:
 
    unsigned char GetLastKeyPressed()    const;
    int           GetLastKeyModifiers()  const;
+   int           GetLastMouseButton()   const;
+   int           GetLastMouseState()    const;
+   int           GetLastMousePositionX() const;
+   int           GetLastMousePositionY() const;
 
   /** Define Events for GUI interaction */
-  itkEventMacro( KeyPressedEvent       , AnyEvent );
-  itkEventMacro( ResizeWindowEvent     , AnyEvent );
+  itkEventMacro( UserInteractionEvent  , AnyEvent );
+  itkEventMacro( KeyPressedEvent       , UserInteractionEvent );
+  itkEventMacro( MouseEvent            , UserInteractionEvent );
+  itkEventMacro( ResizeWindowEvent     , UserInteractionEvent );
 
   /** Connect an observer to the current window */
   unsigned long AddObserver(const EventObject & event, Command *);
@@ -83,10 +90,18 @@ private:
 
   BufferPixelType * m_Buffer;
 
+  // Helper class for invoking events. This is needed because
+  // ImageViewerWindow itself does not derives from an itk::Object.
+  Object::Pointer   m_Notifier;
+
+  
+  // State variables to be queried by the viewer after callbacks.
   unsigned char     m_LastKeyPressed;
   int               m_LastKeyModifiers;
-  
-  Object::Pointer   m_Notifier;
+  int               m_LastMouseButton;
+  int               m_LastMouseState;
+  int               m_LastMousePositionX;
+  int               m_LastMousePositionY;
   
 };
 

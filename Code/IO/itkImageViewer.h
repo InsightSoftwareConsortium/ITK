@@ -87,6 +87,9 @@ public:
   /** Callback member for Key pressed in the Window */
   void KeyPressedCallback();
 
+  /** Callback member for mouse button pressed in the Window */
+  void MouseCallback();
+
 protected:
   ImageViewer();
   virtual ~ImageViewer();

@@ -61,6 +61,12 @@ ImageViewerWindow
 
   m_Buffer = new BufferPixelType[ m_Width * m_Height ];
   m_Notifier = Object::New();
+
+  m_LastMouseButton    = 0;
+  m_LastMouseState     = 0;
+  m_LastMousePositionX = 0;
+  m_LastMousePositionY = 0;
+
 }
 
 
@@ -95,6 +101,24 @@ ImageViewerWindow
 
 
 
+
+
+void 
+ImageViewerWindow
+::CallBackMouseFunc(int button, int state, int x, int y)
+{
+  m_LastKeyModifiers        = glutGetModifiers();
+  m_LastMouseButton         = button;
+  m_LastMouseState          = state;
+  m_LastMousePositionX      = x;
+  m_LastMousePositionY      = y;
+  m_Notifier->InvokeEvent( MouseEvent() );
+}
+
+
+
+
+   
 
 
 void 
@@ -209,6 +233,41 @@ ImageViewerWindow
   return m_LastKeyModifiers;
 }
 
+
+
+int
+ImageViewerWindow
+::GetLastMouseButton() const
+{
+  return m_LastMouseButton;
+}
+
+
+
+int
+ImageViewerWindow
+::GetLastMouseState() const
+{
+  return m_LastMouseState;
+}
+
+
+
+int
+ImageViewerWindow
+::GetLastMousePositionX() const
+{
+  return m_LastMousePositionX;
+}
+
+
+
+int
+ImageViewerWindow
+::GetLastMousePositionY() const
+{
+  return m_LastMousePositionY;
+}
 
 
 

@@ -62,12 +62,25 @@ ImageViewer<TInputImage>
 
   typedef SimpleMemberCommand< Self > CommandType;
 
-  CommandType::Pointer command = CommandType::New();
+  CommandType::Pointer keyPressedCommand = CommandType::New();
 
-  command->SetCallbackFunction( this, & Self::KeyPressedCallback );
+  keyPressedCommand->SetCallbackFunction( this, & Self::KeyPressedCallback );
     
   m_Window->AddObserver( ImageViewerWindow::KeyPressedEvent(), 
-                         command.GetPointer() );
+                         keyPressedCommand.GetPointer() );
+
+
+
+  CommandType::Pointer mouseCommand = CommandType::New();
+
+  mouseCommand->SetCallbackFunction( this, & Self::MouseCallback );
+    
+  m_Window->AddObserver( ImageViewerWindow::MouseEvent(), 
+                         mouseCommand.GetPointer() );
+
+
+
+
 
   m_Calculator = CalculatorType::New();
   
@@ -408,6 +421,26 @@ ImageViewer<TInputImage>
  
 
 
+
+/**
+ *  Response to a Key pressed in the window
+ */
+template <class TInputImage>
+void 
+ImageViewer<TInputImage>
+::MouseCallback()
+{
+  const int x = m_Window->GetLastMousePositionX();
+  const int y = m_Window->GetLastMousePositionY();
+  std::cout << "Mouse = " << x << " , " << y << std::endl;
+  // resend the event
+  this->InvokeEvent( ImageViewerWindow::MouseEvent() );
+}
+
+
+
+
+
 /**
  *  Response to a Key pressed in the window
  */
@@ -439,6 +472,21 @@ ImageViewer<TInputImage>
          {
          // Double the size of the image
          }
+       break;
+   case 'x': // for 3D that YZ slices    
+       this->SetDirection( 0 );
+       this->SetSliceNumber( 0 );
+       this->Update();
+       break;
+   case 'y': // for 3D that XZ slices    
+       this->SetDirection( 1 );
+       this->SetSliceNumber( 0 );
+       this->Update();
+       break;
+   case 'z': // for 3D that XY slices    
+       this->SetDirection( 2 );
+       this->SetSliceNumber( 0 );
+       this->Update();
        break;
    }
 }
