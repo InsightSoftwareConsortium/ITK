@@ -78,18 +78,18 @@ EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>
   }
 
   for(unsigned int i = 0; i < VImageDimension; i++)
-  {  
+    {  
     for(unsigned int j = 0; j < VImageDimension; j++)
-    {      
+      {      
       orientationVector[j] = m_orientations[i][j];
-    }
+      }
     distanceSquared += pow((orientationVector * pointVector)/(.5*m_Axes[i]),2);
-  }        
+    }        
 
   if(sqrt(distanceSquared) >= 0 && sqrt(distanceSquared) <= 1)
-  {    
+    {    
     return 1; // Inside the ellipsoid.
-  }
+    }
   else 
     return 0; // Outside the ellipsoid.
 }
@@ -101,18 +101,18 @@ void EllipsoidInteriorExteriorSpatialFunction<T, VImageDimension>::SetOrientatio
   // Initialize orientation vectors.
   m_orientations = new VectorType * [VImageDimension];
   for(unsigned int i = 0; i < VImageDimension; i++)
-  {
+    {
     m_orientations[i] = new VectorType[VImageDimension];
-  }
+    }
 
   // Set orientation vectors (must be orthogonal).
   for(unsigned int i = 0; i < VImageDimension; i++)
-  {
-    for(unsigned int j = 0; j < VImageDimension; j++)
     {
+    for(unsigned int j = 0; j < VImageDimension; j++)
+      {
       m_orientations[i][j] = orientations[i][j];
+      }
     }
-  }
 }
 
 } // end namespace itk
