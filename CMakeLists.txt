@@ -7,6 +7,9 @@ BUILD_SHARED_LIBRARIES()
 
 SOURCE_GROUP("XML Files" "\.xml$")
 
+# Include the include and link libraries
+INCLUDE (${ITK_SOURCE_DIR}/itkCMakeOptions.cmake)
+
 # Include standard Testing module
 INCLUDE (${CMAKE_ROOT}/Modules/Testing.cmake)
 
@@ -30,36 +33,16 @@ IF (BUILD_TESTING)
 ENDIF (BUILD_TESTING)
 
 
-# set up subdirectories
+# Set up subdirectories
 SUBDIRS(Utilities Code)
+
 # Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
 IF(BUILD_UNSUPPORTED)
 SUBDIRS(Unsupported)
 ENDIF(BUILD_UNSUPPORTED)
 
-# set project include directories
-INCLUDE_DIRECTORIES(
-${ITK_BINARY_DIR} 
-${ITK_SOURCE_DIR}/Code/Numerics
-${ITK_SOURCE_DIR}/Code/Common 
-${ITK_BINARY_DIR}/Code/Numerics/vxl 
-${ITK_SOURCE_DIR}/Code/Numerics/vxl 
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
-)
-
-# set link libraries
-LINK_DIRECTORIES(
-${ITK_BINARY_DIR}/Code/Common 
-${ITK_BINARY_DIR}/Code/Numerics/vxl )
-
-# set link libraries for project
-IF(UNIX)
-  LINK_LIBRARIES(${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS})
-ENDIF(UNIX)
-
-
+# Configure files
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/itkConfigure.h.in 
 ${ITK_BINARY_DIR}/itkConfigure.h)
