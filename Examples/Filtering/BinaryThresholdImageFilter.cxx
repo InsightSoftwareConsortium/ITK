@@ -45,11 +45,19 @@
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-
+#include "itkImageFileWriter.h"
+#include "itkPNGImageIO.h"
 
 int main( int argc, char ** argv )
 {
 
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " inputImageFile outputImageFile" << std::endl;  
+    return 1;
+    }
+  
   //  Software Guide : BeginLatex
   //
   //  Then we must decide what pixel types to use for the input and output
@@ -82,7 +90,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The filter type is now instantiated.
+  //  The filter type can be instantiated using the input and output image
+  //  types defined above.
   //
   //  Software Guide : EndLatex 
 
@@ -106,6 +115,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+  // An ImageFileWriter is instantiated in order to write the output image to a
+  // file.
+  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+
 
 
   //  Software Guide : BeginLatex
@@ -120,17 +133,112 @@ int main( int argc, char ** argv )
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
+  WriterType::Pointer writer = WriterType::New();
+
+  itk::PNGImageIO::Pointer pngIO  = itk::PNGImageIO::New();
+
+  writer->SetImageIO( pngIO );
+  writer->SetInput( filter->GetOutput() );
 
   reader->SetFileName( argv[1] );
-  filter->SetInput( reader->GetOutput() );
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The image obtained with the reader is passed as input to the
+  //  BinaryThresholdImageFilter.
+  //
+  //  \index{itk::BinaryThresholdImageFilter!SetInput()}
+  //  \index{itk::FileImageReader!GetOutput()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  filter->SetInput( reader->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The method \code{SetOutsideValue()} defines the intensity value to be
+  //  assigned to those pixels whose intensities are outside the range defined
+  //  by the lower and upper thresholds. The method \code{SetInsideValue()}
+  //  define the intensity value to be assigned to pixels with intensities
+  //  falling inside the threshold range.
+  //  
+  //  \index{itk::BinaryThresholdImageFilter!SetOutsideValue()}
+  //  \index{itk::BinaryThresholdImageFilter!SetInsideValue()}
+  //  \index{SetOutsideValue()!itk::BinaryThresholdImageFilter}
+  //  \index{SetInsideValue()!itk::BinaryThresholdImageFilter}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   filter->SetOutsideValue( 0 );
   filter->SetInsideValue( 255 );
+  // Software Guide : EndCodeSnippet
 
-  filter->SetLowerThreshold(  85 );
-  filter->SetUpperThreshold( 194 );
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The methods \code{SetLowerThreshold()} and \code{SetUpperThreshold()}
+  //  define the range of the input image intensities that will be transformed
+  //  into the \code{InsideValue}. Note that the lower and upper thresholds are
+  //  values of the type of the input image pixels, while the inside and
+  //  outside values are of the type of the output image pixels.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  filter->SetLowerThreshold( 150 );
+  filter->SetUpperThreshold( 180 );
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The execution of the filter is triggered by invoking the \code{Update()}
+  //  method. If the filter's output has been passed as input to subsequent
+  //  filters, the \code{Update()} call on any of the posterior filters in the
+  //  pipeline will indirectly trigger the update of this filter too.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   filter->Update();
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=6cm]{BrainProtonDensitySlice.jpg}
+  // \includegraphics[width=6cm]{BinaryThresholdImageFilterOutput.jpg}
+  // \caption{Effect of the BinaryThresholdImageFilter on a slice from a MRI
+  // Proton Density image  of the brain.}
+  // \label{fig:BinaryThresholdImageFilterInputOutput}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:BinaryThresholdImageFilterInputOutput} illustrate the
+  //  effect of this filter on a MRI proton density image of the brain. This
+  //  figure shows the limitations of this filter for performing segmentation
+  //  by itself. These limitations are particularly noticeable in noisy images
+  //  and in images lacking spatial uniformity as is the case of MRI due to
+  //  field bias.
+  //
+  //  Software Guide : EndLatex 
+
+  writer->SetFileName( argv[2] );
+
+  writer->Update();
+
 
   return 0;
 
