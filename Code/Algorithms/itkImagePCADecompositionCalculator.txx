@@ -27,7 +27,7 @@ namespace itk
     
 /*
  * Constructor
- */
+  */
 template<class TInputImage, class TBasisImage>
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 ::ImagePCADecompositionCalculator()
@@ -41,23 +41,24 @@ void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 ::SetBasisImages(const BasisImagePointerVector _arg)
 { 
-    //itkDebugMacro("setting BasisImages to " << _arg); // Doesn't seem to work!
-    if (this->m_BasisImages != _arg) 
-  { 
-  this->m_BasisImages = _arg; 
-  this->Modified();
-  this->m_BasisMatrixCalculated = false;
-  // We need this modified setter function so that the calculator
-  // can cache the basis set between calculations. Note that computing the
-  // basis matrix from the input images is rather expensive, and the basis
-  // images are likely to be changed less often than the input images. So
-  // it makes sense to try to cache the pre-computed matrix.
-  } 
+  //itkDebugMacro("setting BasisImages to " << _arg); // Doesn't seem to work!
+  if (m_BasisImages.size() != _arg.size() ||
+      !std::equal(m_BasisImages.begin(), m_BasisImages.end(), _arg.begin()))
+    { 
+    this->m_BasisImages = _arg; 
+    this->Modified();
+    this->m_BasisMatrixCalculated = false;
+    // We need this modified setter function so that the calculator
+    // can cache the basis set between calculations. Note that computing the
+    // basis matrix from the input images is rather expensive, and the basis
+    // images are likely to be changed less often than the input images. So
+    // it makes sense to try to cache the pre-computed matrix.
+    } 
 } 
 
 /*
  * Compute the projection
- */
+  */
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
@@ -65,8 +66,8 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 {
   if (!m_BasisMatrixCalculated) 
     {
-     this->CalculateBasisMatrix();
-     }
+    this->CalculateBasisMatrix();
+    }
   this->CalculateImageAsVector();
   m_Projection = m_BasisMatrix * m_ImageAsVector;
 }
@@ -75,7 +76,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 
 /*
  * Convert a vector of basis images into a matrix. Each image is flattened into 1-D.
- */
+  */
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
@@ -91,28 +92,28 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   
   int i = 0;
   for(typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
-    basis_it != m_BasisImages.end(); ++basis_it) 
+      basis_it != m_BasisImages.end(); ++basis_it) 
     {
-    if( (*basis_it)->GetRequestedRegion().GetSize() != m_Size)
-      {
-      itkExceptionMacro("All basis images must be the same size!");
-      }
+      if( (*basis_it)->GetRequestedRegion().GetSize() != m_Size)
+        {
+        itkExceptionMacro("All basis images must be the same size!");
+        }
     
-    ImageRegionConstIterator<BasisImageType> image_it(*basis_it,
-      (*basis_it)->GetRequestedRegion());
-    int j = 0;
-    for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
-      {
-      m_BasisMatrix(i, j++) = image_it.Get();
-      }
-    i++;
-  }
-  m_BasisMatrixCalculated = true;
+      ImageRegionConstIterator<BasisImageType> image_it(*basis_it,
+                                                        (*basis_it)->GetRequestedRegion());
+      int j = 0;
+      for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
+        {
+        m_BasisMatrix(i, j++) = image_it.Get();
+        }
+      i++;
+    }
+m_BasisMatrixCalculated = true;
 }
 
 /*
  * Convert an image into a 1-D vector, changing the pixel type if necessary.
- */
+  */
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
@@ -125,11 +126,11 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   m_ImageAsVector = BasisVectorType(m_NumPixels);
   
   ImageRegionConstIterator<InputImageType> image_it(m_Image,
-    m_Image->GetRequestedRegion());
+                                                    m_Image->GetRequestedRegion());
   int i = 0;
   for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
     {
-    m_ImageAsVector(i++) = static_cast<BasisPixelType> (image_it.Get());
+      m_ImageAsVector(i++) = static_cast<BasisPixelType> (image_it.Get());
     }
 }
 
