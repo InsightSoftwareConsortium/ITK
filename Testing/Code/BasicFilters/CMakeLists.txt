@@ -697,8 +697,19 @@ IF(ITK_CSWIG_PYTHON)
 ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA)
+  ADD_CUSTOM_TARGET(MeanImageFilter.class ALL echo )
+
   SET(JAVACLASSPATH $ENV{CLASSPATH} )
-  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_SOURCE_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+
+  ADD_CUSTOM_COMMAND(
+    OUTPUT  ${ITK_BINARY_DIR}/Examples/Filtering/MeanImageFilter.class
+    DEPENDS ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.java
+    COMMAND ${JAVA_COMPILE}
+    ARGS -classpath "${JAVACLASSPATH}" -d"${ITK_BINARY_DIR}/Examples/Filtering"
+    ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.java
+    COMMENT "Java Class")
+
+  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            MeanImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png )
