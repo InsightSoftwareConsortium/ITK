@@ -38,224 +38,55 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkImage.h"
-#include "itkOffset.h"
-#include "vnl/vnl_vector.h"
-#include "itkNeighborhoodAllocator.h"
-#include "itkNeighborhood.h"
+#include "itkNeighborhoodIteratorTestCommon.txx"
 #include "itkNeighborhoodIterator.h"
-#include "itkRegionNeighborhoodIterator.h"
-#include "itkRegionNonBoundaryNeighborhoodIterator.h"
-#include "itkRandomAccessNeighborhoodIterator.h"
-#include "itkRegionBoundaryNeighborhoodIterator.h"
-#include "itkSmartRegionNeighborhoodIterator.h"
-#include "itkImageRegionIterator.h"
-#include <iostream>
-
-inline void println(char *s) { std::cout << s << std::endl; }
 
 int main()
 {
-  typedef itk::Image<float, 2> ImageType2D;
-  typedef itk::Image<float, 3> ImageType3D;
-  typedef itk::Image<float, 4> ImageTypeND;
+  TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
+  itk::NeighborhoodIterator<TestImageType>::IndexType loc;
+  loc[0] = 4; loc[1] = 4; loc[2] = 2; loc[3] = 1;
 
-  println("Creating some images");
+  itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX;
+  zeroIDX.Fill(0);
   
-  // Create some images  
-  itk::ImageRegion<2> Region2D;
-  itk::ImageRegion<3> Region3D;
-  itk::ImageRegion<4> RegionND;
+  itk::NeighborhoodIterator<TestImageType>::RadiusType radius;
+  radius[0] = radius[1] = radius[2] = radius[3] = 1;
   
-  itk::Size<2>  size2D;
-   size2D[0] = 26;
-   size2D[1] = 26;
+  println("Creating NeighborhoodIterator");
+  itk::NeighborhoodIterator<TestImageType>
+    it(radius, img, img->GetRequestedRegion());
+
+  println("Moving iterator using Superclass::SetLocation()");
+  it.SetLocation(loc);
+  it.Print(std::cout);
+
+  println("Testing SetCenterPixel()");
+  it.SetCenterPixel(zeroIDX);
+
+  println("Testing SetPixel()");
+  it.SetPixel(6,zeroIDX);
+
+  println("Using Superclass::GetNeighborhood()");
+  itk::NeighborhoodIterator<TestImageType>::NeighborhoodType n
+    = it.GetNeighborhood();
   
-  itk::Size<3>  size3D;
-   size3D[0] = 26;
-   size3D[1] = 26;
-   size3D[2] = 3;
+  println("Testing SetNeighborhood()");
+  it.SetNeighborhood(n);
+  it.GetNeighborhood().Print(std::cout);
 
-  itk::Size<4>  sizeND;
-   sizeND[0] = 26;
-   sizeND[1] = 26;
-   sizeND[2] = 3;
-   sizeND[3] = 2;
-  
-  itk::Index<2> orig2D;
-   orig2D[0] = 0;
-   orig2D[1] = 0;
+  println("Testing GetCenterPointer()");
+  std::cout << it.GetCenterPointer() << " = "
+            << *(it.GetCenterPointer()) << std::endl;
 
-  itk::Index<3> orig3D;
-   orig3D[0] = 0;
-   orig3D[1] = 0;
-   orig3D[2] = 0;
+  println("Testing operator=");
+  it = itk::NeighborhoodIterator<TestImageType>(radius, img,
+                                                img->GetRequestedRegion());
 
-  itk::Index<4> origND;
-   origND[0] = 0;
-   origND[1] = 0;
-   origND[2] = 0;
-   origND[3] = 0;
-   
-  Region2D.SetSize(size2D);
-  Region3D.SetSize(size3D);
-  RegionND.SetSize(sizeND);
-  
-  Region2D.SetIndex(orig2D);
-  Region3D.SetIndex(orig3D);
-  RegionND.SetIndex(origND);
-
-  ImageType2D::Pointer image2D = ImageType2D::New();
-  ImageType3D::Pointer image3D = ImageType3D::New();
-  ImageTypeND::Pointer imageND = ImageTypeND::New();
-
-  image2D->SetLargestPossibleRegion(Region2D);
-  image3D->SetLargestPossibleRegion(Region3D);
-  imageND->SetLargestPossibleRegion(RegionND);
-
-  image2D->SetBufferedRegion(Region2D);
-  image3D->SetBufferedRegion(Region3D);
-  imageND->SetBufferedRegion(RegionND);
-
-  image2D->SetRequestedRegion(Region2D);
-  image3D->SetRequestedRegion(Region3D);
-  imageND->SetRequestedRegion(RegionND);
-
-  image2D->Allocate();
-  image3D->Allocate();
-  imageND->Allocate();
-
-  itk::ImageRegionIterator<ImageType2D> it2D(image2D,
-                                          image2D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageType3D> it3D(image3D,
-                                          image3D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageTypeND> itND(imageND,
-                                          imageND->GetRequestedRegion());
-
-  println("Initializing some images");
-  
-  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D) it2D.Set( 1.0f );
-  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) it3D.Set( 1.0f );
-  for (itND = itND.Begin(); itND != itND.End(); ++itND) itND.Set( 1.0f );
-
-  // Set up some neighborhood iterators
-  println("Setting up some neighborhood iterators");
-  itk::Size<2> sz2;
-   sz2[0] = 2;
-   sz2[1] = 1;
-  
-  itk::Size<3> sz3;
-   sz3[0] = 2;
-   sz3[1] = 3;
-   sz3[2] = 1;
-  
-  itk::Size<4> szN;
-   szN[0] = 1;
-   szN[1] = 3;
-   szN[2] = 1;
-   szN[3] = 1;
-
-  itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
-                                 image2D->GetRequestedRegion());
-  itk::SmartRegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
-                                            image3D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
-                                            imageND->GetRequestedRegion());
-
-  println("Done setting up neighborhood iterators");
-  
-  rni2D.Print(std::cout);
-  std::cout << std::endl;
-  rni2D.Begin().Print(std::cout);
-  std::cout << std::endl;
-  rni2D.End().Print(std::cout);
-
-  println("Testing ComputeInternalIndex");
-  rni3D.Print(std::cout);
-  for (unsigned int ia_1 = 0; ia_1 < rni3D.Size(); ++ia_1)
-    {
-      std::cout << ia_1 << "--> " << rni3D.ComputeInternalIndex(ia_1);
-    }
-
-  int i=0;
-  println("2d forward iteration");
-  for (rni2D = rni2D.Begin(); rni2D < rni2D.End(); ++rni2D)
-    {
-      std::cout << rni2D.GetIndex() << std::endl;
-      ++i;
-    }
-  std::cout << i << std::endl;
-
-  println("2d backward iteration");
-  i = 0;
-  rni2D = rni2D.End();
-  --rni2D;
-  for (; rni2D >= rni2D.Begin(); --rni2D)
-    {
-      std::cout << rni2D.GetIndex() << std::endl;
-      ++i;
-    }
-  std::cout << i << std::endl;
-
-  i=0;
-  for (rni3D = rni3D.Begin(); rni3D < rni3D.End(); ++rni3D)
-    { ++i; }
-  std::cout << i << std::endl;
-
-  i=0;
-  for (rniND = rniND.Begin(); rniND < rniND.End(); ++rniND)
-    { ++i; }
-  std::cout << i << std::endl;
-
-
-  println("Testing RandomAccessNeighborhoodIterator");
-  itk::RandomAccessNeighborhoodIterator<ImageType3D>
-    rri3D(sz3, image3D, image3D->GetRequestedRegion());
-
-  println("Testing forward iteration");
-  i =0; 
-  for (rri3D = rri3D.Begin(); rri3D < rri3D.End(); ++rri3D)
-    {++i;}
-  std::cout << i << std::endl;
-
-  println("Testing backward iteration");
-  i=0;
-  rri3D = rri3D.End();
-  --rri3D;
-  for (; rri3D >= rri3D.Begin(); --rri3D)    {++i;}
-  std::cout << i << std::endl;
-
-  println("Testing random access");
-  itk::Offset<3> offset;
-  offset[0] = 12;
-  offset[1] = 11;
-  offset[2] = 2;
-  rri3D = rri3D.Begin() + offset;
-  rri3D.Print(std::cout);
-
-  (rri3D - offset).Print(std::cout);
-
-  rri3D = offset + rri3D.Begin();
-  rri3D.Print(std::cout);
-
-  println("Testing iterator subtraction (distance between iterators)");
-  std::cout << (rri3D - rri3D.Begin()) << std::endl;
- 
-  println("Testing RegionNonBoundaryNeighborhoodIterator");
-  itk::RegionNonBoundaryNeighborhoodIterator<ImageType3D>
-    rnbi3D(sz3, image3D, image3D->GetRequestedRegion());
-
-  rnbi3D.Print(std::cout);
- 
-  println("Testing SmartRegionNeighborhoodIterator");
-  itk::SmartRegionNeighborhoodIterator<ImageType3D> rsbi3D(sz3, image3D,
-                               image3D->GetRequestedRegion());
-  rsbi3D.Print(std::cout);
-  
-  println("Testing RegionBoundaryNeighborhoodIterator");
-   itk::RegionBoundaryNeighborhoodIterator<ImageType3D> rsbni3D
-     (sz3, image3D, image3D->GetRequestedRegion() );
-   rsbni3D.Print(std::cout);
+  println("Testing copy constructor");
+  itk::NeighborhoodIterator<TestImageType> it2(it);
+  it.Print(std::cout);
+  it2.Print(std::cout);
   
   return 0;
 }
