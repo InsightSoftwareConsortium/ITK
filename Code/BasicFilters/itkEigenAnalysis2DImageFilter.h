@@ -94,6 +94,12 @@ public:
   typedef typename EigenVectorType::ValueType   VectorComponentType;
 
   /** 
+   * Superclass typedefs.
+   */
+
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
+  /** 
    * Some typedefs.
    */
   typedef TEigenValueImage EigenValueImageType;
