@@ -64,9 +64,6 @@ public:
   itkTypeMacro( QuaternionRigidTransformGradientDescentOptimizer, 
       GradientDescentOptimizer );
 
-  /** Dimension of the Search Space */
-  enum { SpaceDimension =  4 };
-
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
   typedef Superclass::ParametersType ParametersType;

@@ -76,7 +76,7 @@ unsigned int dim ) const
 
   // bounds checking
   if( index[dim] < static_cast<long>(start[dim]) + 1 ||
-      index[dim] >= (start[dim] + static_cast<long>(size[dim]) - 2 ) )
+      index[dim] > (start[dim] + static_cast<long>(size[dim]) - 2 ) )
     {
       return ( derivative );
     }

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRegistrationMethodTest_13.cxx
+  Module:    itkImageRegistrationMethodTest_14.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,10 +16,10 @@
 =========================================================================*/
 
 #include "itkImageRegistrationMethod.h"
-#include "itkAffineTransform.h"
+#include "itkQuaternionRigidTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkGradientDescentOptimizer.h"
+#include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 
 #include "itkOutputWindow.h"
 #include "itkImageRegionIterator.h"
@@ -49,13 +49,13 @@ double F( itk::Vector<double,3> & v );
  * 
  *  This file tests the combination of:
  *   - MutualInformation
- *   - AffineTransform
- *   - GradientDescentOptimizer
+ *   - QuaternionRigidTransform
+ *   - QuaternionRigidTransformGradientDescentOptimizer
  *   - LinearInterpolateImageFunction
  *
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
- *  One image is scaled and shifted relative to the other.
+ *  One image is rotated and shifted relative to the other.
  */ 
 
 int main()
@@ -77,10 +77,11 @@ int main()
   typedef itk::Image<PixelType,dimension>               MovingImageType;
 
   // Transform Type
-  typedef itk::AffineTransform< double,dimension >  TransformType;
+  typedef itk::QuaternionRigidTransform< double >       TransformType;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer             OptimizerType;
+  typedef itk::QuaternionRigidTransformGradientDescentOptimizer 
+                                                         OptimizerType;
 
   // Metric Type
   typedef itk::MutualInformationImageToImageMetric< 
@@ -108,10 +109,10 @@ int main()
 
   /*********************************************************
    * Set up the two input images.
-   * One image scaled and shifted with respect to the other.
+   * One image rotated (xy plane) and shifted with respect to the other.
    **********************************************************/
   double displacement[dimension] = {7,3,2};
-  double scale[dimension] = { 0.80, 1.0, 1.0 };
+  double angle = 10.0 / 180.0 * vnl_math::pi;
 
   FixedImageType::SizeType size = {{100,100,40}};
   FixedImageType::IndexType index = {{0,0,0}};
@@ -140,7 +141,7 @@ int main()
     }
 
   itk::Point<double,dimension> p;
-  itk::Vector<double,dimension> d;  
+  itk::Vector<double,dimension> d, d2;  
 
   MovingImageIterator mIter( movingImage, region );
   FixedImageIterator  fIter( fixedImage, region );
@@ -156,12 +157,12 @@ int main()
 
     fIter.Set( (PixelType) F(d) );
 
-    for ( j = 0; j < dimension; j++ )
-      {
-      d[j] = d[j] * scale[j] + displacement[j];
-      }  
+      
+    d2[0] =  d[0] * cos(angle) + d[1] * sin(angle) + displacement[0];
+    d2[1] = -d[0] * sin(angle) + d[1] * cos(angle) + displacement[1];
+    d2[2] = d[2] + displacement[2];
 
-    mIter.Set( (PixelType) F(d) );
+    mIter.Set( (PixelType) F(d2) );
 
     ++fIter;
     ++mIter;
@@ -189,7 +190,7 @@ int main()
 
   parametersScales.Fill( 1.0 );
 
-  for ( j = 9; j < 12; j++ )
+  for ( j = 4; j < 7; j++ )
     {
     parametersScales[j] = 0.0001;
     }
@@ -233,9 +234,7 @@ int main()
     transform->GetNumberOfParameters() );
 
   initialParameters.Fill( 0.0 );
-  initialParameters[0] = 1.0;
-  initialParameters[4] = 1.0;
-  initialParameters[8] = 1.0;
+  initialParameters[3] = 1.0;
 
 
   /***********************************************************
@@ -280,23 +279,24 @@ int main()
   RegistrationType::ParametersType trueParameters( 
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
-  trueParameters[ 0] = 1/scale[0];
-  trueParameters[ 4] = 1/scale[1];
-  trueParameters[ 8] = 1/scale[2];
-  trueParameters[ 9] = - displacement[0]/scale[0];
-  trueParameters[10] = - displacement[1]/scale[1];
-  trueParameters[11] = - displacement[2]/scale[2];
+  trueParameters[2] = - sin( angle / 2.0 );
+  trueParameters[3] =   cos( angle / 2.0 );
+  trueParameters[4] = -1.0 * ( displacement[0] * cos(angle) -
+                               displacement[1] * sin(angle) ) ;
+  trueParameters[5] = -1.0 * ( displacement[0] * sin(angle) +
+                               displacement[1] * cos(angle) );
+  trueParameters[6] = -1.0 * displacement[2];
 
   std::cout << "True solution is: " << trueParameters << std::endl;
 
-  for( j = 0; j < 9; j++ )
+  for( j = 0; j < 4; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       pass = false;
       }
     }
-  for( j = 9; j < 12; j++ )
+  for( j = 4; j < 7; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       {

@@ -62,8 +62,11 @@ QuaternionRigidTransformGradientDescentOptimizer
 
   ScalesType scales = this->GetScales();
 
-  DerivativeType transformedGradient(SpaceDimension);
-  for( unsigned int i=0; i<SpaceDimension; i++)
+  const unsigned int spaceDimension = 
+                        m_CostFunction->GetNumberOfParameters();
+
+  DerivativeType transformedGradient( spaceDimension);
+  for ( unsigned int i=0; i< spaceDimension; i++)
     {
     transformedGradient[i] = m_Gradient[i] / scales[i];
     }
@@ -72,7 +75,7 @@ QuaternionRigidTransformGradientDescentOptimizer
 
   // compute new quaternion value
   vnl_quaternion<double> newQuaternion;
-  for( unsigned int j=0; j < 4; j++ )
+  for ( unsigned int j=0; j < 4; j++ )
     {
     newQuaternion[j] = currentPosition[j] + direction * m_LearningRate *
       transformedGradient[j];
@@ -80,15 +83,15 @@ QuaternionRigidTransformGradientDescentOptimizer
 
   newQuaternion.normalize();
 
-  ParametersType newPosition(SpaceDimension);
+  ParametersType newPosition( spaceDimension );
   // update quaternion component of currentPosition
-  for( unsigned int j=0; j < 4; j++ )
+  for ( unsigned int j=0; j < 4; j++ )
     {
     newPosition[j] = newQuaternion[j];
     }
   
   // update the translation component
-  for(unsigned int j=4; j<SpaceDimension; j++)
+  for (unsigned int j=4; j< spaceDimension; j++)
   {
     newPosition[j] = currentPosition[j] + 
       direction * m_LearningRate * transformedGradient[j];

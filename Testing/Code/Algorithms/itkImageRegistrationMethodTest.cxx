@@ -21,14 +21,32 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 
+#include "itkOutputWindow.h"
+
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public:
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
+
 /** 
  *  This program test one instantiation of the itk::ImageRegistrationMethod class
  * 
- *  Only typedef are tested in this file.
+ *  This file tests initialization errors.
  */ 
 
 int main()
 {
+
+  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
 
   bool pass = true;
 
@@ -65,13 +83,11 @@ int main()
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  TransformType::Pointer      trasform      = TransformType::New();
   FixedImageType::Pointer     fixedImage    = FixedImageType::New();  
   MovingImageType::Pointer    movingImage   = MovingImageType::New();  
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
-
-
+  
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
@@ -79,12 +95,44 @@ int main()
   registration->SetMovingImage(   movingImage   );
   registration->SetInterpolator(  interpolator  );
 
+  typedef RegistrationType::ParametersType ParametersType;
+  ParametersType initialParameters( transform->GetNumberOfParameters() );
 
-  if( !pass )
-    {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
+  registration->SetInitialTransformParameters( initialParameters );
+
+  /****************************************************
+   * Test out initialization errors
+   ****************************************************/
+
+#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
+  registration->Set##ComponentName( badComponent ); \
+  try \
+    { \
+    pass = false; \
+    registration->StartRegistration(); \
+    } \
+  catch( itk::ExceptionObject& err ) \
+    { \
+    std::cout << "Caught expected ExceptionObject" << std::endl; \
+    std::cout << err << std::endl; \
+    pass = true; \
+    } \
+  registration->Set##ComponentName( goodComponent ); \
+  \
+  if( !pass ) \
+    { \
+    std::cout << "Test failed." << std::endl; \
+    return EXIT_FAILURE; \
+    } 
+
+  TEST_INITIALIZATION_ERROR( Metric, NULL, metric );
+  TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
+  TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
+  TEST_INITIALIZATION_ERROR( FixedImage, NULL, fixedImage );
+  TEST_INITIALIZATION_ERROR( MovingImage, NULL, movingImage );
+  TEST_INITIALIZATION_ERROR( Interpolator, NULL, interpolator );
+  TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1),
+    initialParameters );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -69,7 +69,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
   if ( !m_Metric )
     {
-    itkExceptionMacro(<<"Transform is not present" );
+    itkExceptionMacro(<<"Metric is not present" );
     }
 
   if ( !m_Optimizer )
@@ -125,7 +125,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     }
   catch( ExceptionObject& err )
     {
-    m_LastTransformParameters = ParametersType(0 );
+    m_LastTransformParameters = ParametersType(0);
 
     // pass exception to caller
     throw err;
