@@ -112,6 +112,9 @@ ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS3}  
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS3}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS3} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkReinitializeLevelSetImageFilterTest)
+ADD_TEST(itkScalarImageKmeansImageFilterTest ${ALGORITHMS_TESTS3} 
+    itkScalarImageKmeansImageFilterTest
+    ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png 4 0.0 30.0 160.0 220.0 )
 ADD_TEST(itkRegularSphereMeshSourceTest ${ALGORITHMS_TESTS2} itkRegularSphereMeshSourceTest)
 ADD_TEST(itkRayCastInterpolateImageFunctionTest ${ALGORITHMS_TESTS2} itkRayCastInterpolateImageFunctionTest)
 ADD_TEST(itkSimplexMeshVolumeCalculatorTest ${ALGORITHMS_TESTS2} itkSimplexMeshVolumeCalculatorTest)
@@ -268,6 +271,7 @@ itkPointSetToImageRegistrationTest_1.cxx
 itkRecursiveMultiResolutionPyramidImageFilterTest.cxx
 itkRegionGrow2DTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx
+itkScalarImageKmeansImageFilterTest.cxx
 itkShapeDetectionLevelSetImageFilterTest.cxx
 itkShapePriorMAPCostFunctionTest.cxx
 itkShapePriorSegmentationLevelSetFunctionTest.cxx
