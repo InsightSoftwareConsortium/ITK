@@ -14,6 +14,7 @@
 #include <metaUtils.h>
 
 #include <stdlib.h>
+#include <string>
 
 char MET_SeperatorChar = '=';
 
@@ -102,24 +103,20 @@ const char* MET_ReadSubType(std::istream &_fp)
   mF->required = false;
   fields.push_back(mF);
 
-  mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "ObjectSubType", MET_STRING, false);
-  mF->required = false;
-  mF->terminateRead = true;
-  fields.push_back(mF);
+  MET_Read(_fp, &fields, '=', true);
 
-  MET_Read(_fp, &fields, '=', false);
+  // Find the line right after the ObjectType
+  char s[1024];
+  _fp.getline( s, 500 );
+  std::string value = s;
+  int position = value.find("=");
+  if(position!=-1)
+    {
+    value = value.substr(position+2,value.size()-position);
+    }
   _fp.seekg(pos);
 
-  mF = MET_GetFieldRecord("ObjectSubType",&fields);
-  if(mF && mF->defined)
-    {
-    return (char *)(mF->value);
-    }
-
-  ((char *)(mF->value))[0] = '\0';
-
-  return (char *)(mF->value);
+  return value.c_str();
 }
 
 
