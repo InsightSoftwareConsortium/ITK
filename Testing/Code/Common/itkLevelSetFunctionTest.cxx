@@ -94,6 +94,7 @@ public:
 
   typedef LevelSetFunction< Image<float, 2> > Superclass;
   typedef Superclass::RadiusType RadiusType;
+  typedef Superclass::GlobalDataStruct GlobalDataStruct;
   
    /** 
    * Smart pointer support for this class.
