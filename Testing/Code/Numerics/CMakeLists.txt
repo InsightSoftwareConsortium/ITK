@@ -1,4 +1,5 @@
 SUBDIRS(vxl)
+SUBDIRS(Statistics)
 
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
