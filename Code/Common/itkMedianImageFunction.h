@@ -44,7 +44,7 @@ class ITK_EXPORT MedianImageFunction :
 public:
   /** Standard class typedefs. */
   typedef MedianImageFunction Self;
-  typedef ImageFunction<TInputImage, NumericTraits<TInputImage::PixelType>::RealType > Superclass;
+  typedef ImageFunction<TInputImage, typename TInputImage::PixelType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
