@@ -202,6 +202,9 @@ public:
    * threads created from SpawnThread.  The UserData is the (void
    * *)arg passed into the SetSingleMethod, SetMultipleMethod, or
    * SpawnThread method. */
+#ifdef ThreadInfoStruct
+#undef ThreadInfoStruct
+#endif
   struct ThreadInfoStruct
   {
 #ifdef ITK_USE_SPROC
