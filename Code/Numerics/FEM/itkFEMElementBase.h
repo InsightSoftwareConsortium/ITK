@@ -68,9 +68,15 @@ class LoadElement;
  * NOTE: This macro must be called in declaration of ALL
  *       derived Element classes.
  */
+#ifndef FEM_USE_SMART_POINTERS
 #define LOAD_FUNCTION() \
   virtual LoadVectorType Fe( LoadElementPointer l ) const \
   { return VisitorDispatcher<Self,LoadElement,LoadVectorType>::Visit(this,l); }
+#else
+#define LOAD_FUNCTION() \
+  virtual LoadVectorType Fe( LoadElementPointer l ) const \
+  { return VisitorDispatcher<Self,FEMLightObject,LoadVectorType>::Visit(this,l); }
+#endif
 
 
 class Element : public FEMLightObject
