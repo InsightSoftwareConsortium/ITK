@@ -30,25 +30,24 @@ ENDIF(ITK_CMAKE_HAS_EXPLICIT_INSTALL_FILES)
 #-----------------------------------------------------------------------------
 # Configure pkgIndex.tcl for the build tree.
 
-IF(CMAKE_BUILD_TOOL MATCHES "^(msdev|devenv)$")
-  SET(ITK_MSDEV_CONFIG_DIRS "Debug;Release;RelWithDebInfo;MinSizeRel")
-ENDIF(CMAKE_BUILD_TOOL MATCHES "^(msdev|devenv)$")
-
+SET(ITK_TCL_CONFIGURATION_TYPES ${CMAKE_CONFIGURATION_TYPES})
 SET(ITK_TCL_DATA_ROOT "${ITK_DATA_ROOT}")
 SET(ITK_TCL_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
 SET(ITK_TCL_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/Tcl")
 
-IF(ITK_MSDEV_CONFIG_DIRS)
-  FOREACH (config ${ITK_MSDEV_CONFIG_DIRS})
+IF(ITK_TCL_CONFIGURATION_TYPES)
+  FOREACH(config ${ITK_TCL_CONFIGURATION_TYPES})
     SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}/${config}")
     CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in"
-                   "${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl" IMMEDIATE @ONLY)
-  ENDFOREACH (config)
-ELSE(ITK_MSDEV_CONFIG_DIRS)
+                   "${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl"
+                   @ONLY IMMEDIATE)
+  ENDFOREACH(config)
+ELSE(ITK_TCL_CONFIGURATION_TYPES)
   SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}")
   CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in"
-                 "${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl" IMMEDIATE @ONLY)
-ENDIF(ITK_MSDEV_CONFIG_DIRS)
+                 "${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl"
+                 @ONLY IMMEDIATE)
+ENDIF(ITK_TCL_CONFIGURATION_TYPES)
 
 #-----------------------------------------------------------------------------
 # Configure pkgIndex.tcl for the install tree.
