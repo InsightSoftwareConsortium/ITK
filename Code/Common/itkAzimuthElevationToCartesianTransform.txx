@@ -153,6 +153,7 @@ BackTransform(const OutputPointType &point) const
     {
     result = static_cast<InputPointType>(TransformAzElToCartesian(point));
     }
+  return result;
 }
 
 
