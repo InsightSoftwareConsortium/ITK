@@ -27,16 +27,19 @@ public:
   FilterWatcher(itk::ProcessObject* o, char *comment="")
   {
     m_Start = 0; m_End = 0; m_Process = o; m_Steps = 0; m_Comment = comment;
+    m_TestAbort = false;
     m_Quiet = false;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer iterationFilterCommand;
+    itk::SimpleMemberCommand<FilterWatcher>::Pointer abortFilterCommand;
   
     startFilterCommand =    itk::SimpleMemberCommand<FilterWatcher>::New();
     endFilterCommand =      itk::SimpleMemberCommand<FilterWatcher>::New();
     progressFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
     iterationFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
+    abortFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
 
     startFilterCommand->SetCallbackFunction(this,
                                             &FilterWatcher::StartFilter);
@@ -46,10 +49,13 @@ public:
                                                &FilterWatcher::ShowProgress);
     iterationFilterCommand->SetCallbackFunction(this,
                                                &FilterWatcher::ShowIteration);
+    abortFilterCommand->SetCallbackFunction(this,
+                                               &FilterWatcher::ShowAbort);
     m_Process->AddObserver(itk::StartEvent(), startFilterCommand);
     m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
     m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
     m_Process->AddObserver(itk::IterationEvent(), iterationFilterCommand);
+    m_Process->AddObserver(itk::AbortEvent(), abortFilterCommand);
   }
 
   virtual ~FilterWatcher() {}
@@ -60,7 +66,18 @@ public:
       {
       std::cout << " | " << m_Process->GetProgress() << std::flush;
       }
+    if (m_TestAbort)
+      {
+      if (m_Process->GetProgress() > .03)
+        {
+        m_Process->AbortGenerateDataOn();
+        }
+      }
     m_Steps++;
+  }
+  virtual void ShowAbort()
+  {
+    std::cout << std::endl << "      ABORT" << std::endl << std::flush;
   }
   virtual void ShowIteration()
   {
@@ -97,12 +114,15 @@ public:
   
   void QuietOn() {m_Quiet = true;};
   void QuietOff() {m_Quiet = false;};
+  void TestAbortOn() {m_TestAbort = true;};
+  void TestAbortOff() {m_TestAbort = true;};
 protected:
   clock_t m_Start;
   clock_t m_End;
   int m_Steps;
   int m_Iterations;
   bool m_Quiet;
+  bool m_TestAbort;
   std::string m_Comment;
   itk::ProcessObject::Pointer m_Process;
 private:
