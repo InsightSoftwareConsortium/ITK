@@ -68,7 +68,7 @@ namespace fem {
  */
 #define HANDLE_ELEMENT_LOADS() \
   /** Pointer type that specifies functions that can handle loads on this element */ \
-  typedef void (*LoadImplementationFunctionPointer)(Self::ConstPointer,Element::LoadPointer, Element::VectorType& ); \
+  typedef void (*LoadImplementationFunctionPointer)(ConstPointer,Element::LoadPointer, Element::VectorType& ); \
   virtual void GetLoadVector( Element::LoadPointer l, Element::VectorType& Fe ) const \
   { VisitorDispatcher<Self,Element::LoadType, LoadImplementationFunctionPointer>::Visit(l)(this,l,Fe); }
 

@@ -88,7 +88,7 @@ void Element::Node::Read(  std::istream& f, void* info )
   /*
    * First call the parent's read function
    */
-  Self::Superclass::Read(f,info);
+  Superclass::Read(f,info);
 
   /*
    * Read and set node coordinates
@@ -117,7 +117,7 @@ void Element::Node::Write( std::ostream& f ) const
   /**
    * First call the parent's write function
    */
-  Self::Superclass::Write(f);
+  Superclass::Write(f);
 
   /**
    * Write actual data (node, and properties numbers)

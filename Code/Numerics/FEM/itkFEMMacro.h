@@ -180,7 +180,7 @@ private:  // everything that follows from here is private by default (like in th
   public:                                    \
     /** Create a new object from the existing one */  \
     virtual Baseclass::Pointer Clone() const \
-      {  Self::Pointer o=new Self(*this);    \
+      { Pointer o=new Self(*this);           \
         o->SetReferenceCount(1);             \
         return o; }                          \
     /** Class ID for FEMObjectFactory */     \
