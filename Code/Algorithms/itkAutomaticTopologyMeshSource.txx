@@ -150,7 +150,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     typename CellType::CellAutoPointer cellPointer;
     cellPointer.TakeOwnership( new LineCell );
 
-    int i;
+    unsigned int i;
     for( i = 0; i < size; i++ )
       {
       IdentifierType pointId = cellArray[i];
