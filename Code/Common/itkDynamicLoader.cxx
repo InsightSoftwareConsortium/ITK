@@ -196,7 +196,7 @@ DynamicLoader
 // ---------------------------------------------------------------
 // 3. Implementation for Windows win32 code
 #ifdef _WIN32
-#include <windows.h>
+#include "itkWindows.h"
 #define ITKDYNAMICLOADER_DEFINED 1
 
 namespace itk

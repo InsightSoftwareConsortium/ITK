@@ -90,7 +90,7 @@ Directory
 // First microsoft compilers
 
 #ifdef _MSC_VER
-#include <windows.h>
+#include "itkWindows.h"
 #include <io.h>
 #include <ctype.h>
 #include <fcntl.h>
