@@ -39,9 +39,15 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   m_NumberOfMatchPoints = 1;
 
   m_QuantileTable.resize( 2, m_NumberOfMatchPoints + 2 );
+  m_QuantileTable.fill(0);
   m_Gradients.resize( m_NumberOfMatchPoints + 1 );
+  m_Gradients.fill(0);
 
   m_ThresholdAtMeanIntensity = true;
+  m_SourceIntensityThreshold = 0;
+  m_ReferenceIntensityThreshold = 0;
+  m_LowerGradient = 0.0;
+  m_UpperGradient = 0.0;
 
 }
 
