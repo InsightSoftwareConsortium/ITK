@@ -21,7 +21,9 @@
 namespace itk
 {
   
-/**
+/** \class CellBoundary
+ * \brief Wrap an ITK cell so that it behaves like a boundary cell.
+ *
  * CellBoundary wraps any ITK Cell type with it's corresponding boundary
  * interface definitions.  It re-implements the boundary interface methods
  * that were defined in CellInterface to actually do something.
