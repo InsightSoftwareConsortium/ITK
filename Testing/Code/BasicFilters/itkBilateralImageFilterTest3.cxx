@@ -76,50 +76,12 @@ int itkBilateralImageFilterTest3(int ac, char* av[] )
     return -1;
     }
 
-  // Code used to generate the baseline image, commented out when run in
-  // regression test mode.
-  // 
-  // itk::PNGImageIO::Pointer io;
-  // io = itk::PNGImageIO::New();
-  //
-  // itk::ImageFileWriter<myImage>::Pointer writer;
-  // writer = itk::ImageFileWriter<myImage>::New();
-  // writer->SetInput( filter3->GetOutput() );
-  // writer->SetFileName( av[2] );
-  // writer->SetImageIO( io );
-  // writer->Update();
-  
+  // Generate test image
+  itk::ImageFileWriter<myImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage>::New();
+    writer->SetInput( filter3->GetOutput() );
+    writer->SetFileName( av[2] );
+    writer->Update();
 
-  // now read the regression image
-  itk::ImageFileReader<myImage>::Pointer baseline 
-    = itk::ImageFileReader<myImage>::New();
-    baseline->SetFileName(av[2]);
-
-  try
-    {
-    baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -1;
-    }
-  
-  // compare the two images
-  itk::ImageRegionIterator<myImage> it(filter3->GetOutput(),filter3->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<myImage> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-   unsigned long status = 0;
-   while (!it.IsAtEnd())
-     {
-     if (it.Get() != rit.Get())
-       {
-       status++;
-       } 
-     ++it;
-     ++rit;  
-     }
-
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
-
-  return status;
+  return 0;
 }
