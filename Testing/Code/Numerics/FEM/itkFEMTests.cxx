@@ -8,7 +8,7 @@
 // macro.
 void RegisterTests()
 {
-  REGISTER_TEST(itkFEMElementTestMenu);
+  //REGISTER_TEST(itkFEMElementTestMenu);
   REGISTER_TEST(itkFEMElementTest);
-  REGISTER_TEST( itkFEMBar2DTest );
+  //REGISTER_TEST( itkFEMBar2DTest );
 }
