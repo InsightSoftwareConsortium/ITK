@@ -83,4 +83,28 @@ public:
 
 }} // end namespace itk::fem
 
+
+
+
+// SGI's compiler requires declaration of specialized functions.
+#ifdef __sgi
+
+#include "itkFEMElement2DC0LinearQuadrilateral.h"
+#include "itkFEMElement3DC0LinearHexahedron.h"
+
+template<>
+void
+itk::fem::GenerateMesh<itk::fem::Element2DC0LinearQuadrilateral>
+::Rectangular( ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
+
+template<>
+void
+itk::fem::GenerateMesh<itk::fem::Element3DC0LinearHexahedron>
+::Rectangular( ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
+
+#endif // #ifndef __sgi
+
+
+
+
 #endif // #ifndef __itkFEMGenerateMesh_h
