@@ -24,14 +24,17 @@
 #include <unistd.h>
 #endif
 #ifdef _WIN32
+#pragma warning ( disable : 4786 )
 #include "itkWindows.h"
 #include <process.h>
 #endif
 
+#ifdef ITK_USE_SPROC
+#include <sys/prctl.h>
+#include <wait.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/mman.h>
-
-#ifdef ITK_USE_SPROC
 #include <sys/resource.h>
 #endif
 
@@ -85,7 +88,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #else
     num = 1;
 #endif
-#if defined(__SVR4) && defined(sun)
+#if defined(__SVR4) && defined(sun) && defined(PTHREAD_MUTEX_NORMAL)
     pthread_setconcurrency(num);
 #endif
 #endif
@@ -213,6 +216,8 @@ void MultiThreader::SetMultipleMethod( int index, ThreadFunctionType f, void *da
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
+  int thread_loop;
+  
 #ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
@@ -254,7 +259,7 @@ void MultiThreader::SingleMethodExecute()
   //
   // First, start up the m_NumberOfThreads-1 processes.  Keep track
   // of their process ids for use later in the waitid call
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
@@ -277,13 +282,13 @@ void MultiThreader::SingleMethodExecute()
   
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     WaitForSingleObject(process_id[thread_loop], INFINITE);
     }
   
   // close the threads
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     CloseHandle(process_id[thread_loop]);
     }
@@ -317,7 +322,7 @@ void MultiThreader::SingleMethodExecute()
   code= setrlimit64 (RLIMIT_STACK, &rlpNew);
   if (code != 0) itkExceptionMacro("setrlimit failed in Multithreader");
   
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
@@ -337,7 +342,7 @@ void MultiThreader::SingleMethodExecute()
   
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     waitid( P_PID, (id_t) process_id[thread_loop], &info_ptr, WEXITED );
     }
@@ -367,7 +372,7 @@ void MultiThreader::SingleMethodExecute()
 #endif
 #endif
   
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
@@ -396,7 +401,7 @@ void MultiThreader::SingleMethodExecute()
   
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for (int thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
     if ( pthread_join( process_id[thread_loop], 0 ) )
       {
