@@ -54,37 +54,31 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
      
   if( !m_FixedImage )
     {
-    std::cout << "FixedImage is not present" << std::endl;
     itkExceptionMacro(<<"FixedImage is not present");
     }
 
   if( !m_MovingSpatialObject )
     {
-    std::cout << "MovingSpatialObject is not present" << std::endl;
     itkExceptionMacro(<<"MovingSpatialObject is not present");
     }
 
   if ( !m_Metric )
     {
-    std::cout << "Metric is not present" << std::endl;
     itkExceptionMacro(<<"Metric is not present" );
     }
 
   if ( !m_Optimizer )
     {
-    std::cout << "Optimizer is not present" << std::endl;
     itkExceptionMacro(<<"Optimizer is not present" );
     }
 
   if( !m_Transform )
     {
-    std::cout << "Transform is not present" << std::endl;
     itkExceptionMacro(<<"Transform is not present");
     }
 
   if( !m_Interpolator )
     {
-    std::cout << "Interpolator is not present" << std::endl;
     itkExceptionMacro(<<"Interpolator is not present");
     }
 
@@ -102,8 +96,8 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
   // Validate initial transform parameters
   if ( m_InitialTransformParameters.Size() != m_Transform->GetNumberOfParameters() )
     {
-    std::cout << " WARNING : Size mismatch between initial parameter and transform" << std::endl;
-    std::cout << "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters() << std::endl;
+    itkWarningMacro( << " WARNING : Size mismatch between initial parameter and transform" );
+    itkWarningMacro( << "Resizing m_InitialTransformParameters to  " << m_Transform->GetNumberOfParameters() );
     m_InitialTransformParameters.set_size(m_Transform->GetNumberOfParameters());
     m_InitialTransformParameters.Fill( 0.0f );
     }
