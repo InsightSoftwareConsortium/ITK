@@ -63,10 +63,10 @@ int main(
 
     const double ACCEPTABLE_ERROR = 1E-10;
 
-    typedef itk::RT3DTransform<> RT3DTransformType;
+    typedef itk::AzimuthElevationToCartesianTransform<> AzimuthElevationToCartesianTransformType;
 
-    RT3DTransformType::Pointer transform = RT3DTransformType::New();
-    transform->SetRT3DParameters(1,5,45,45);
+    AzimuthElevationToCartesianTransformType::Pointer transform = AzimuthElevationToCartesianTransformType::New();
+    transform->SetAzimuthElevationToCartesianParameters(1,5,45,45);
     PointType p;
     p[0] = 3;
     p[1] = 3;
@@ -100,9 +100,9 @@ int main(
       }
     if (!same) 
       {
-      std::cout << "itkRT3DTransformTest failed" <<std::endl;
+      std::cout << "itkAzimuthElevationToCartesianTransformTest failed" <<std::endl;
       return EXIT_FAILURE;
       }
-    std::cout << "itkRT3DTransformTest passed" <<std::endl;
+    std::cout << "itkAzimuthElevationToCartesianTransformTest passed" <<std::endl;
     return EXIT_SUCCESS;
 }
