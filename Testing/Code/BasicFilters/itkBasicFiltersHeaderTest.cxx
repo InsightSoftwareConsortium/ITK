@@ -155,7 +155,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPathToChainCodePathFilter.txx"
 #include "itkPathToImageFilter.txx"
 #include "itkPermuteAxesImageFilter.txx"
-#include "itkPlaheImageFilter.txx"
 #include "itkRandomImageSource.txx"
 #include "itkRecursiveGaussianImageFilter.txx"
 #include "itkRecursiveSeparableImageFilter.txx"
