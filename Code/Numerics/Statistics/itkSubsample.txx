@@ -39,7 +39,7 @@ Subsample< TSample >
 template< class TSample >
 inline Subsample< TSample >::MeasurementVectorType&
 Subsample< TSample >
-::GetMeasurementVector(int index)
+::GetMeasurementVectorByIndex(int index)
 {
   return m_Sample->GetMeasurementVector(m_IdHolder[index]) ;
 }

@@ -24,14 +24,13 @@ namespace itk{
 
 template< class TSample >
 class ITK_EXPORT Subsample : 
-      public Sample< typename TSample::MeasurementType, 
-                     TSample::MeasurementVectorSize >
+      public Sample< typename TSample::MeasurementVectorType >
+
 {
 public:
   /** Standard class typedefs */
   typedef Subsample Self;
-  typedef Sample< typename TSample::MeasurementType, 
-                  TSample::MeasurementVectorSize > Superclass ;
+  typedef Sample< typename TSample::MeasurementVectorType > Superclass ;
   typedef SmartPointer< Self > Pointer ;
 
   /** Run-time type information (and related methods).*/
@@ -68,6 +67,20 @@ public:
   SamplePointer GetSample()
   { return m_Sample ; } 
 
+  void InitializeWithAllInstances()
+  {
+    m_IdHolder.resize(m_Sample->Size()) ;
+    InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin() ;
+    typename TSample::Iterator iter = m_Sample->Begin() ;
+    typename TSample::Iterator last = m_Sample->End() ;
+    
+    while (iter != last)
+      {
+        *idIter++ = iter.GetInstanceIdentifier() ;
+        ++iter ;
+      }
+  }
+
   void AddInstance(InstanceIdentifier id)
   { m_IdHolder.push_back(id) ; }
 
@@ -100,7 +113,7 @@ public:
   
   void Swap(int index1, int index2) ;
   
-  MeasurementVectorType& GetMeasurementVector(int index) ;
+  MeasurementVectorType& GetMeasurementVectorByIndex(int index) ;
   
   InstanceIdentifier GetInstanceIdentifier(int index) ;
 
