@@ -57,65 +57,64 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::ImageSpatialObject<3,Pixel>::New();
   std::cout << "----------ImageSpatialObject " << ImageSpatialObjectObj;
 
-#if 0
-  itk::LandmarkSpatialObject<foo>::Pointer LandmarkSpatialObjectObj =
-    itk::LandmarkSpatialObject<foo>::New();
+  itk::LandmarkSpatialObject<3>::Pointer LandmarkSpatialObjectObj =
+    itk::LandmarkSpatialObject<3>::New();
   std::cout << "----------LandmarkSpatialObject " << LandmarkSpatialObjectObj;
 
-  itk::LineSpatialObject<foo>::Pointer LineSpatialObjectObj =
-    itk::LineSpatialObject<foo>::New();
+  itk::LineSpatialObject<3>::Pointer LineSpatialObjectObj =
+    itk::LineSpatialObject<3>::New();
   std::cout << "----------LineSpatialObject " << LineSpatialObjectObj;
-
-  itk::LineSpatialObjectPoint<foo>::Pointer LineSpatialObjectPointObj =
-    itk::LineSpatialObjectPoint<foo>::New();
+#if 0
+  itk::LineSpatialObjectPoint<3>::Pointer LineSpatialObjectPointObj =
+    itk::LineSpatialObjectPoint<3>::New();
   std::cout << "----------LineSpatialObjectPoint " << LineSpatialObjectPointObj;
-
-  itk::PlaneSpatialObject<foo>::Pointer PlaneSpatialObjectObj =
-    itk::PlaneSpatialObject<foo>::New();
+#endif
+  itk::PlaneSpatialObject<3>::Pointer PlaneSpatialObjectObj =
+    itk::PlaneSpatialObject<3>::New();
   std::cout << "----------PlaneSpatialObject " << PlaneSpatialObjectObj;
-
-  itk::PolygonGroupOrientation<foo>::Pointer PolygonGroupOrientationObj =
-    itk::PolygonGroupOrientation<foo>::New();
+#if 0
+  itk::PolygonGroupOrientation::Pointer PolygonGroupOrientationObj =
+    itk::PolygonGroupOrientation::New();
   std::cout << "----------PolygonGroupOrientation " << PolygonGroupOrientationObj;
-
-  itk::PolygonGroupSpatialObject<foo>::Pointer PolygonGroupSpatialObjectObj =
-    itk::PolygonGroupSpatialObject<foo>::New();
+#endif
+  itk::PolygonGroupSpatialObject<3>::Pointer PolygonGroupSpatialObjectObj =
+    itk::PolygonGroupSpatialObject<3>::New();
   std::cout << "----------PolygonGroupSpatialObject " << PolygonGroupSpatialObjectObj;
 
-  itk::PolygonSpatialObject<foo>::Pointer PolygonSpatialObjectObj =
-    itk::PolygonSpatialObject<foo>::New();
+  itk::PolygonSpatialObject<3>::Pointer PolygonSpatialObjectObj =
+    itk::PolygonSpatialObject<3>::New();
   std::cout << "----------PolygonSpatialObject " << PolygonSpatialObjectObj;
 
-  itk::Scene<foo>::Pointer SceneObj =
-    itk::Scene<foo>::New();
+  itk::Scene<3>::Pointer SceneObj =
+    itk::Scene<3>::New();
   std::cout << "----------Scene " << SceneObj;
 
-  itk::SpatialObject<foo>::Pointer SpatialObjectObj =
-    itk::SpatialObject<foo>::New();
+  itk::SpatialObject<3>::Pointer SpatialObjectObj =
+    itk::SpatialObject<3>::New();
   std::cout << "----------SpatialObject " << SpatialObjectObj;
-
-  itk::SpatialObjectPoint<foo>::Pointer SpatialObjectPointObj =
-    itk::SpatialObjectPoint<foo>::New();
+#if 0
+  itk::SpatialObjectPoint<3>::Pointer SpatialObjectPointObj =
+    itk::SpatialObjectPoint<3>::New();
   std::cout << "----------SpatialObjectPoint " << SpatialObjectPointObj;
-
-  itk::SpatialObjectProperty<foo>::Pointer SpatialObjectPropertyObj =
-    itk::SpatialObjectProperty<foo>::New();
+#endif
+  itk::SpatialObjectProperty<float>::Pointer SpatialObjectPropertyObj =
+    itk::SpatialObjectProperty<float>::New();
   std::cout << "----------SpatialObjectProperty " << SpatialObjectPropertyObj;
 
-  itk::SurfaceSpatialObject<foo>::Pointer SurfaceSpatialObjectObj =
-    itk::SurfaceSpatialObject<foo>::New();
+  itk::SurfaceSpatialObject<3>::Pointer SurfaceSpatialObjectObj =
+    itk::SurfaceSpatialObject<3>::New();
   std::cout << "----------SurfaceSpatialObject " << SurfaceSpatialObjectObj;
-
-  itk::SurfaceSpatialObjectPoint<foo>::Pointer SurfaceSpatialObjectPointObj =
-    itk::SurfaceSpatialObjectPoint<foo>::New();
+#if 0
+  itk::SurfaceSpatialObjectPoint<3>::Pointer SurfaceSpatialObjectPointObj =
+    itk::SurfaceSpatialObjectPoint<3>::New();
   std::cout << "----------SurfaceSpatialObjectPoint " << SurfaceSpatialObjectPointObj;
-
-  itk::TubeSpatialObject<foo>::Pointer TubeSpatialObjectObj =
-    itk::TubeSpatialObject<foo>::New();
+#endif
+  itk::TubeSpatialObject<3>::Pointer TubeSpatialObjectObj =
+    itk::TubeSpatialObject<3>::New();
   std::cout << "----------TubeSpatialObject " << TubeSpatialObjectObj;
-
-  itk::TubeSpatialObjectPoint<foo>::Pointer TubeSpatialObjectPointObj =
-    itk::TubeSpatialObjectPoint<foo>::New();
+#if 0
+  itk::TubeSpatialObjectPoint<3>::Pointer TubeSpatialObjectPointObj =
+    itk::TubeSpatialObjectPoint<3>::New();
   std::cout << "----------TubeSpatialObjectPoint " << TubeSpatialObjectPointObj;
 #endif
 
