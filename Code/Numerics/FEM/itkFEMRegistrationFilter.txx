@@ -842,6 +842,8 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
       Gpt[d]=(double)rindex[d]/(double)m_ImageScaling[d];
     }
     eltp=mySolver.GetElementAtPoint(Gpt);
+    if (eltp)
+    {
     eltp->GetLocalFromGlobalCoordinates(Gpt, Pos);
    
     unsigned int Nnodes= eltp->GetNumberOfNodes();
@@ -859,6 +861,7 @@ void FEMRegistrationFilter<TReference,TTarget>::GetVectorField(SolverType& mySol
       disp[f] =(Float) 1.0*Sol[f]*((Float)m_ImageScaling[f]); 
     }
     m_Field->SetPixel(rindex, disp );
+    }
   }
   } else if (ImageDimension==3){
 
