@@ -19,7 +19,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkPlaheImageFilter.h"
+#include "itkAdaptiveHistogramEqualizationImageFilter.h"
+#include "itkFilterWatcher.h"
 
 int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
@@ -39,7 +40,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   typedef itk::Image< InputPixelType,  ImageDimension >   InputImageType;
   typedef itk::Image< OutputPixelType, ImageDimension >   OutputImageType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::PlaheImageFilter<
+  typedef itk::AdaptiveHistogramEqualizationImageFilter<
                InputImageType >  FilterType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -49,6 +50,8 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   radius.Fill( atoi(argv[3]) );
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
+
   filter->SetInput( reader->GetOutput() );
   filter->SetRadius( radius );
   filter->SetAlpha( atof(argv[4]) );
