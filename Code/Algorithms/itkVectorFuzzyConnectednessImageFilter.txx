@@ -15,10 +15,6 @@
 =========================================================================*/
 #include "itkSimpleImageRegionIterator.h"
 
-const int Tolerance = 13;
-const int CONN = 4096;
-const int SCALE = 8;
-const int FEATURES = 3;
 
 namespace itk{
 
@@ -86,8 +82,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::Initialization()
 {
 
-	m_SpherePointsNum = new int[SCALE+1];
-	m_SpherePointsLoc = new OffsetType[SCALE+1];
+	m_SpherePointsNum = new int[8+1];
+	m_SpherePointsLoc = new OffsetType[8+1];
 
 	m_ObjectsMean = new IntVector[m_Objects];
 	m_ObjectsSeed = new ListType[m_Objects];
@@ -111,7 +107,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	double tt1;
 	double anisotropy_row,anisotropy_col,anisotropy_slice;
 	double const *spaceing;
-	int ppptti1[2*(SCALE+5)][2*(SCALE+5)][2*(SCALE+5)];
+	int ppptti1[2*(8+5)][2*(8+5)][2*(8+5)];
 	IntVector location;
 
 
@@ -138,19 +134,19 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	if(m_Size[2] > 1)
 		anisotropy_slice = anisotropy_slice/tt1;
 
-	for(i=0;i<2*(SCALE+5);i++)
-		for(j=0;j<2*(SCALE+5);j++)
-			for(l=0;l<2*(SCALE+5);l++)
+	for(i=0;i<2*(8+5);i++)
+		for(j=0;j<2*(8+5);j++)
+			for(l=0;l<2*(8+5);l++)
 				ppptti1[i][j][l] = 0;
 
 
-	for(int i = 0;i<=SCALE;i++)
+	for(int i = 0;i<=8;i++)
 		m_SpherePointsNum[i] = 0;
 
-  tti1 = SCALE + 5;
+  tti1 = 8 + 5;
   if (m_Size[2] > 1)
 	{
-	  for (k = 0; k <= SCALE; k++)
+	  for (k = 0; k <= 8; k++)
 		{
 		  for (i = -k - 2; i <= k + 2; i++)
 			for (j = -k - 2; j <= k + 2; j++)
@@ -172,9 +168,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		for (i = -k - 2; i <= k + 2; i++)
 			for (j = -k - 2; j <= k + 2; j++)
 			  for (l = -k - 2; l <= k + 2; l++)
-				if (ppptti1[(SCALE+5) + i][(SCALE+5) + j][(SCALE+5) + l] == 2)
+				if (ppptti1[(8+5) + i][(8+5) + j][(8+5) + l] == 2)
 				  {
-					ppptti1[(SCALE+5) + i][(SCALE+5) + j][(SCALE+5) + l] = 1;
+					ppptti1[(8+5) + i][(8+5) + j][(8+5) + l] = 1;
 					location = l,j,i;
 					m_SpherePointsLoc[k][tti2] = location;
 					tti2 = tti2+1;
@@ -183,7 +179,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	}
   else
 	{
-	  for (k = 0; k <= SCALE; k++)
+	  for (k = 0; k <= 8; k++)
 		{
 		  for (j = -k - 2; j <= k + 2; j++)
 			for (l = -k - 2; l <= k + 2; l++)
@@ -259,7 +255,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 	const float HistThreshold = 0.90;
 	MatrixType      HomogeneityCovarianceMatrix;	
-	itk::Vector<double,FEATURES>    vectorA,vectorB;
+	itk::Vector<double,3>    vectorA,vectorB;
 
 	typedef std::vector<int>        VectorInt;
 
@@ -279,7 +275,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	prow = m_Size[1];
 	pcol = m_Size[0];
 	
-	for(i = 0;i<FEATURES;i++)
+	for(i = 0;i<3;i++)
 		m_HomoMaxDiff[i] = 0;
 
 	for(i = 0;i<pslices ;i++)
@@ -293,7 +289,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 					if(abs(value1[l] - value2[l]) > m_HomoMaxDiff[l])
 						m_HomoMaxDiff[l] = abs(value1[l] - value2[l]);
 			}
@@ -310,7 +306,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 					if(abs(value1[l] - value2[l]) > m_HomoMaxDiff[l])
 						m_HomoMaxDiff[l] = abs(value1[l] - value2[l]);
 			}
@@ -327,15 +323,15 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 					if(abs(value1[l] - value2[l]) > m_HomoMaxDiff[l])
 						m_HomoMaxDiff[l] = abs(value1[l] - value2[l]);
 			}
 
-	for(i = 0;i<FEATURES;i++)
+	for(i = 0;i<3;i++)
 		Histogram[i].resize(m_HomoMaxDiff[i]);
 
-	for(i = 0;i<FEATURES;i++)
+	for(i = 0;i<3;i++)
 		for(j = 0;j<m_HomoMaxDiff[i];j++)
 			Histogram[i][j] = 0;
 
@@ -350,7 +346,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 									
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 				{
 					tti1 = abs(value1[l] - value2[l]);
 					Histogram[l][tti1] = Histogram[l][tti1] +1;
@@ -369,7 +365,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 				{
 					tti1 = abs(value1[l] - value2[l]);
 					Histogram[l][tti1] = Histogram[l][tti1] +1;
@@ -388,14 +384,14 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				value1 =  m_InputImage->GetPixel(index1);
 				value2 =  m_InputImage->GetPixel(index2);
 
-				for(l = 0;l<FEATURES;l++)
+				for(l = 0;l<3;l++)
 				{
 					tti1 = abs(value1[l] - value2[l]);
 					Histogram[l][tti1] = Histogram[l][tti1] +1;
 				}
 			}
 
-	for( i =0;i<FEATURES; i++)
+	for( i =0;i<3; i++)
 	{
 		Hist_sum[i] = 0;
 		for(j = 0;j<m_HomoMaxDiff[i];j++)
@@ -403,7 +399,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	}
 
 
-     for(i = 0;i<FEATURES;i++)
+     for(i = 0;i<3;i++)
 	 {
 	  for(j=0;j<m_HomoMaxDiff[i];j++)
 	    {
@@ -415,7 +411,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			break;
 	    }
 	  }
-    for(i = 0;i<FEATURES;i++)
+    for(i = 0;i<3;i++)
 	{
 	  tti1 = 1;
 	  for(j=0;j<=i-1;j++)
@@ -425,8 +421,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
   /*    To computer the homogeneity covariance matrix     */
 
-  for (int x = 0;x < FEATURES; x++)
-    for(int y = x;y < FEATURES; y++)
+  for (int x = 0;x < 3; x++)
+    for(int y = x;y < 3; y++)
 	{
 		HomogeneityCovarianceMatrix[x][y] = 0;
 		double tt1 = 0;
@@ -496,7 +492,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		HomogeneityCovarianceMatrix[x][y] = HomogeneityCovarianceMatrix[x][y] /(double)count;
 	}
 
-	for (int x = 0;x < FEATURES; x++)
+	for (int x = 0;x < 3; x++)
 	  for(int y = 0;y < x; y++)
 	    HomogeneityCovarianceMatrix[x][y] = HomogeneityCovarianceMatrix[y][x];
 	  
@@ -504,7 +500,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	vnl_matrix<double>  HomoInverseMatrix = HomogeneityCovarianceMatrix.GetInverse();	  
 
 	tti1 = 1;
-	for(int x=0;x<FEATURES;x++)
+	for(int x=0;x<3;x++)
 		tti1 = tti1*m_FeaturesThreshold[x];
 
 	m_HomogeneityMap.resize(tti1);
@@ -513,20 +509,20 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	for(i = 0;i<tti1;i++)
 	{
 		k = i;
-		for(j=0;j<FEATURES;j++)
+		for(j=0;j<3;j++)
 	    {
 		  vectorA[j] = (k % m_FeaturesThreshold[j]);
 	      k = k/m_FeaturesThreshold[j];
 	    }
 		
-		for(int x = 0;x<FEATURES;x++)
+		for(int x = 0;x<3;x++)
 		{
 			vectorB[x] = 0;
-			for(int y = 0;y<FEATURES;y++)
+			for(int y = 0;y<3;y++)
 				vectorB[x] = vectorB[x] + vectorA[y]*HomoInverseMatrix[x][y];
 		}
 		result = 0;
-		for(int x = 0;x<FEATURES;x++)
+		for(int x = 0;x<3;x++)
 			result = result + vectorB[x]*vectorA[x];
 
 		m_HomogeneityMap[i] = (float) exp(-0.5*result);
@@ -537,7 +533,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	/*     compute object-based affinity look-up table  */
 
 	for(l = 0;l<m_Objects;l++)
-		for(int x = 0;x<FEATURES;x++)
+		for(int x = 0;x<3;x++)
 		{
 			m_ObjectsMaxDiff[l][x] = 0;
 			for(i = 0;i<pslices;i++)
@@ -554,13 +550,13 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		}
 	
 	for(l = 0;l<m_Objects;l++)
-		for(int x = 0;x<FEATURES;x++)
+		for(int x = 0;x<3;x++)
 		 m_ObjectsMaxDiff[l][x] = (int) m_ObjectsMaxDiff[l][x]/3;
 
 	for(l = 0;l<m_Objects;l++)
 	{
 		tti1 = 1;
-		for(int x = 0;x<FEATURES;x++)
+		for(int x = 0;x<3;x++)
 			tti1 = tti1*(m_ObjectsMaxDiff[l][x]+1);
 		m_ObjectsMap[l].resize(tti1);
 		 
@@ -568,27 +564,27 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		for(i = 0;i<tti1;i++)
 	    {
 			k = i;
-			for(j=0;j<FEATURES;j++)
+			for(j=0;j<3;j++)
 			{
   			     vectorA[j] = (k % (m_ObjectsMaxDiff[l][j]+1));
 		         k = k/(m_ObjectsMaxDiff[l][j]+1);
 			}
 
-			for(int x = 0;x<FEATURES;x++)
+			for(int x = 0;x<3;x++)
 			{
 				vectorB[x] = 0;
-				for(int y = 0;y<FEATURES;y++)
+				for(int y = 0;y<3;y++)
 					vectorB[x] = vectorB[x] + vectorA[y]*ObjectInverseMatrix[x][y];
 			}
 			result = 0;
-			for(int x = 0;x<FEATURES;x++)
+			for(int x = 0;x<3;x++)
 				result = result + vectorB[x]*vectorA[x];
 
 	        m_ObjectsMap[l][i] = exp(-0.5*result);
 	    }
 	}
 
-	for(i = 0;i<FEATURES;i++)
+	for(i = 0;i<3;i++)
 		Histogram[i].resize(0);
 	
 }
@@ -598,13 +594,13 @@ void
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::Compute_Scale()
 {
-
+	const int Tolerance = 13;
 	int i,j,k,x,y,z,pslices,prow,pcol;
 	int flag,edge_flag;
 	int tti1;
 	IndexType  index1,index2;
 	IntVector  value1,value2, mean;
-	double mask_f[FEATURES]; 
+	double mask_f[3]; 
 	double count_obj,count_nonobj;
 	int slice,row,col;
 	
@@ -630,7 +626,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			  flag = 0;
 			  edge_flag = 0;
 			  
-			  for(i = 0;i<FEATURES;i++)
+			  for(i = 0;i<3;i++)
 				mask_f[i] = 0.0;
 
 			  for (int zz = -1; zz <= 1; zz++)
@@ -645,7 +641,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 					 index2[1] = y;
 					 index2[0] = x;	
 					 
-					 for(i = 0;i<FEATURES;i++)
+					 for(i = 0;i<3;i++)
 					 {
 						if (x >= 0 && y >= 0 && z >= 0 
 							  && x < pcol && y < prow && z < pslices)
@@ -658,11 +654,11 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 					 }
 				  }
 
-			  for(i = 0;i<FEATURES;i++)
+			  for(i = 0;i<3;i++)
 				mean[i] = (int) (mask_f[i]/m_MaskTotal + 0.5);
 
 			  mean = value1;		
-			  for (k = 1; k < SCALE && !flag; k++)
+			  for (k = 1; k < 8 && !flag; k++)
 			  {
 			     count_obj = 0.0;
 				 count_nonobj = 0.0;
@@ -683,9 +679,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 					value1 = m_InputImage->GetPixel(index1);
 
 					tti1 = 0;
-					int temp[FEATURES];
+					int temp[3];
 
-					for(j=0;j<FEATURES;j++)
+					for(j=0;j<3;j++)
 					{
 						temp[j] = abs( value1[j] - mean[j]);
 						tti1 = tti1 + temp[j]*m_PowerValue[j];
@@ -732,7 +728,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	IndexType  index1,index2;
 	IntVector  value1,value2, mean; 
 	int x,y,z,tti1;
-	double temp[FEATURES],sum_temp[FEATURES],sum_total[FEATURES];
+	double temp[3],sum_temp[3],sum_total[3];
 	double tt1,tt2,inv_k,count;
 	double sum_pos,count_pos;
 	int col,row,slice,col1,row1,slice1;
@@ -766,7 +762,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			   int scale2 = (int) m_ScaleArray[slice1 * pcol * prow + row1 * pcol + col1];
 			   int iscale = (scale1<scale2 ? scale1:scale2);
 
-			  for(i=0;i<FEATURES;i++)
+			  for(i=0;i<3;i++)
 			    {
 			      sum_temp[i] = 0;
 			      sum_total[i] = 0;
@@ -785,7 +781,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				  inv_k = exp(inv_half_scale * pow((double) k, 2.0));
 				 	
 				  
-				  for(i = 0;i<FEATURES;i++)
+				  for(i = 0;i<3;i++)
 				    sum_temp[i] = 0;
 				  for (i = 0; i < m_SpherePointsNum[k]; i++) {
 					  int xx = m_SpherePointsLoc[k][i][0];
@@ -819,7 +815,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 						  int edge_flag = 0;
 
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 						  {
 							temp[j] = (value1[j]-value2[j]);
 							if(abs(temp[j]) >= m_FeaturesThreshold[j])
@@ -840,25 +836,25 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						  }
 					      count_pos = count_pos + inv_k;
 					     
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 							sum_temp[j] = sum_temp[j] + sum_pos*temp[j];
 					    }
 				  } 
 
-				  for(j=0;j<FEATURES;j++)
+				  for(j=0;j<3;j++)
 				    sum_total[j] = sum_total[j] + inv_k*sum_temp[j];
 
 			  }
 
 			  tt1 = 0.0;
-			  for(i = 0; i<FEATURES; i++)
+			  for(i = 0; i<3; i++)
 			    tt1 = tt1 + pow(sum_total[i],2);
 			  tt1  = sqrt(tt1);
 			  tt2 =  1 - tt1 / count_pos;
 			  
-			  temp2[slice * prow * pcol + row * pcol + col] = (unsigned short) (CONN * tt2);
+			  temp2[slice * prow * pcol + row * pcol + col] = (unsigned short) (4096 * tt2);
 			  	
-			  m_Xaffinity[slice * prow * pcol + row * pcol + col]= (unsigned short) (CONN * tt2);
+			  m_Xaffinity[slice * prow * pcol + row * pcol + col]= (unsigned short) (4096 * tt2);
 		    }
 
      for (slice = 0; slice < pslices; slice++)
@@ -873,7 +869,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			  int scale2 = (int) m_ScaleArray[slice1 * pcol * prow + row1 * pcol + col1];
 			  int iscale = (scale1<scale2 ? scale1:scale2);
 
-			  for(i=0;i<FEATURES;i++)
+			  for(i=0;i<3;i++)
 			    {
 			      sum_temp[i] = 0;
 			      sum_total[i] = 0;
@@ -891,7 +887,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				  double inv_half_scale = -0.5 / pow(tt1, 2.0);
 				  inv_k = exp(inv_half_scale * pow((double) k, 2.0));
 				 	
-				  for(i = 0;i<FEATURES;i++)
+				  for(i = 0;i<3;i++)
 				    sum_temp[i] = 0;
 				  for (i = 0; i < m_SpherePointsNum[k]; i++) {
 					  int xx = m_SpherePointsLoc[k][i][0];
@@ -925,7 +921,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 						  int edge_flag = 0;
 
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 						  {
 							temp[j] = (value1[j]-value2[j]);
 							if(abs(temp[j]) >= m_FeaturesThreshold[j])
@@ -946,23 +942,23 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						  }
 					      count_pos = count_pos + inv_k;
 					     
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 							sum_temp[j] = sum_temp[j] + sum_pos*temp[j];
 					    }
 				  }
 
-				  for(j=0;j<FEATURES;j++)
+				  for(j=0;j<3;j++)
 				    sum_total[j] = sum_total[j] + inv_k*sum_temp[j];
 
 			  }
 
 			  tt1 = 0.0;
-			  for(i = 0; i<FEATURES; i++)
+			  for(i = 0; i<3; i++)
 			    tt1 = tt1 + pow(sum_total[i],2);
 			  tt1  = sqrt(tt1);
 			  tt2 =  1 - tt1 / count_pos;
 			    
-			  m_Yaffinity[slice * prow * pcol + row * pcol + col] = (unsigned short) (CONN * tt2);
+			  m_Yaffinity[slice * prow * pcol + row * pcol + col] = (unsigned short) (4096 * tt2);
 		    }
 
      for (slice = 0; slice < pslices -1; slice++)
@@ -977,7 +973,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			  int scale2 = (int) m_ScaleArray[slice1 * pcol * prow + row1 * pcol + col1];
 			  int iscale = (scale1<scale2 ? scale1:scale2);
 
-			  for(i=0;i<FEATURES;i++)
+			  for(i=0;i<3;i++)
 			    {
 			      sum_temp[i] = 0;
 			      sum_total[i] = 0;
@@ -995,7 +991,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				  double inv_half_scale = -0.5 / pow(tt1, 2.0);
 				  inv_k = exp(inv_half_scale * pow((double) k, 2.0));
 				 	
-				  for(i = 0;i<FEATURES;i++)
+				  for(i = 0;i<3;i++)
 				    sum_temp[i] = 0;
 				  for (i = 0; i < m_SpherePointsNum[k]; i++) {
 					  int xx = m_SpherePointsLoc[k][i][0];
@@ -1029,7 +1025,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 						  int edge_flag = 0;
 
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 						  {
 							temp[j] = (value1[j]-value2[j]);
 							if(abs(temp[j]) >= m_FeaturesThreshold[j])
@@ -1050,23 +1046,23 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						  }
 					      count_pos = count_pos + inv_k;
 					     
-					      for(j=0;j<FEATURES;j++)
+					      for(j=0;j<3;j++)
 							sum_temp[j] = sum_temp[j] + sum_pos*temp[j];
 					    }
 				  }
 
-				  for(j=0;j<FEATURES;j++)
+				  for(j=0;j<3;j++)
 				    sum_total[j] = sum_total[j] + inv_k*sum_temp[j];
 
 			  }
 
 			  tt1 = 0.0;
-			  for(i = 0; i<FEATURES; i++)
+			  for(i = 0; i<3; i++)
 			    tt1 = tt1 + pow(sum_total[i],2);
 			  tt1  = sqrt(tt1);
 			  tt2 =  1 - tt1 / count_pos;
 			    
-			  m_Zaffinity[slice * prow * pcol + row * pcol + col]= (unsigned short) (CONN * tt2);
+			  m_Zaffinity[slice * prow * pcol + row * pcol + col]= (unsigned short) (4096 * tt2);
 		    }
 
 	  m_HomogeneityMap.resize(0);
@@ -1076,7 +1072,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	  IntVector* ObjectsOffset = new IntVector[m_Objects];
 
 	  for(i = 0;i<m_Objects; i++)
-		for(j = 0;j<FEATURES; j++)
+		for(j = 0;j<3; j++)
 		{
 			ObjectsOffset[i][j] = 1;
 			for(k = 0;k<j;k++)
@@ -1096,7 +1092,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 				{ 
 				  int iscale = m_ScaleArray[slice * prow * pcol + row * pcol + col];
 
-				  for(j=0;j<FEATURES;j++)
+				  for(j=0;j<3;j++)
 						temp[j] = 0;
 				  count = 0.0;
 
@@ -1125,7 +1121,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 						  && x < pcol && y < prow && z < pslices)
 							{
   							    value1 = m_InputImage->GetPixel(index1);
-								for(j=0;j<FEATURES;j++)
+								for(j=0;j<3;j++)
 									temp[j] = temp[j]+inv_k*value1[j];
 						  		count = count + inv_k;
 							}
@@ -1134,7 +1130,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 					}
 
 				  tti1 = 0;
-				  for(j=0;j<FEATURES;j++)
+				  for(j=0;j<3;j++)
 				    {
 				      temp[j] = (int)abs(temp[j]/count - m_ObjectsMean[object][j]);
 				      if (temp[j] > m_ObjectsMaxDiff[object][j])
@@ -1160,7 +1156,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		for (row = 0; row < prow; row++)
 		  for (col = 0; col < pcol; col++)
 		    m_Material[slice * prow * pcol + row * pcol + col] = 
-		          (double) CONN * m_Material[slice * prow * pcol + row * pcol + col] / largest_material;
+		          (double) 4096 * m_Material[slice * prow * pcol + row * pcol + col] / largest_material;
 
 	for(int object = 0;object<m_Objects;object++)
 		m_ObjectsMap[object].resize(0);
@@ -1256,7 +1252,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 		{ 0, 0, -1}
 	};
 
-	ListType           chash[CONN+1];
+	ListType           chash[4096+1];
 	ListType::iterator  iter;
 	int                topIndex;
 	int                pslices,prow,pcol;
@@ -1271,7 +1267,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 	prow = m_Size[1];
 	pcol = m_Size[0];
 
-	for(int i=0 ;i<=CONN;i++)
+	for(int i=0 ;i<=4096;i++)
 		chash[i].clear();
 			
 	if(object_flag == 1)
@@ -1283,12 +1279,12 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			int x = current[0];
 			int y = current[1];
 			int z = current[2];
-			m_ObjectFuzzyScene->SetPixel(current,CONN);
-			chash[CONN].push_front(current);
+			m_ObjectFuzzyScene->SetPixel(current,4096);
+			chash[4096].push_front(current);
 		}
 
 
-		topIndex = CONN;
+		topIndex = 4096;
 		while((topIndex>0) && (chash[topIndex].size() !=0))
 		{
 			current = chash[topIndex].back();
@@ -1382,14 +1378,14 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 					int y = current[1];
 					int z = current[2];
 
-					m_BackgroundFuzzyScene->SetPixel(current,CONN);
-					chash[CONN].push_front(current);
+					m_BackgroundFuzzyScene->SetPixel(current,4096);
+					chash[4096].push_front(current);
 				}
 			}
 		}
 
 
-		topIndex = CONN;
+		topIndex = 4096;
 		while((topIndex>0) && (chash[topIndex].size() !=0))
 		{
 			current = chash[topIndex].front();
@@ -1606,4 +1602,3 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 }
 
 } // end namespace itk
-

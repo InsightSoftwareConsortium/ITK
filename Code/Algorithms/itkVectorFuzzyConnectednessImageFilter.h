@@ -26,13 +26,13 @@
 #include <vector>
 #include <list>
 
+
 namespace itk{
 
 /** \class VectorFuzzyConnectednessImageFilter
  * 
  * 
  */
-
 template <class TInputImage, class TOutputImage>
 class VectorFuzzyConnectednessImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
@@ -130,6 +130,7 @@ protected:
   ~VectorFuzzyConnectednessImageFilter();
 
 private:
+
 
   SizeType                       m_Size;
   OffsetType                     *m_SpherePointsLoc;
