@@ -23,11 +23,6 @@ itkSingleValuedNonLinearVnlOptimizer
 itkVersorTransformOptimizer
 )
 
-LINK_LIBRARIES (
-VXLNumerics
-ITKCommon
-)
-
 SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
 OPTION(BUILD_FEM_CODE "Build the FEM Code" ON)
 IF(BUILD_FEM_CODE)
@@ -35,7 +30,6 @@ IF(BUILD_FEM_CODE)
   SET(HAS_FEM 1 CACHE INTERNAL "Support for FEM")
 ENDIF(BUILD_FEM_CODE)
 
-
-
 ADD_LIBRARY(ITKNumerics ITKNumerics_SRCS)
 
+TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon)
