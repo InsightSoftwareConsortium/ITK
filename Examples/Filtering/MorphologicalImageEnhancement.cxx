@@ -12,6 +12,7 @@
 
 =========================================================================*/
 
+
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the use of Mathematical Morphology filters for
@@ -27,16 +28,18 @@
 
 
 // Software Guide : BeginCodeSnippet
+
 #include "itkImage.h"
+#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkGrayscaleErodeImageFilter.h"
-#include "itkGrayscaleDilateImageFilter.h"
+#include "itkGrayscaleMorphologicalOpeningImageFilter.h"
+#include "itkGrayscaleMorphologicalClosingImageFilter.h"
 #include "itkBinaryBallStructuringElement.h" 
 
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIterator.h"
+#include "itkConstrainedValueAdditionImageFilter.h"
+#include "itkConstrainedValueDifferenceImageFilter.h"
 
 #include "itkRescaleIntensityImageFilter.h"
 
@@ -48,7 +51,7 @@ int main( int argc, char * argv[] )
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile radius " << std::endl;
     return 1;
-    }
+  }
 
 
   //
@@ -57,42 +60,46 @@ int main( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
   
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
+  typedef unsigned char   PixelType;
   typedef unsigned char   WritePixelType;
-  typedef signed int      InternalPixelType;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
-  typedef itk::Image< InternalPixelType, Dimension>  InternalImageType;
-
-  typedef itk::ImageRegionConstIterator< OutputImageType > ConstIteratorType;
-  typedef itk::ImageRegionIterator< InternalImageType>       IteratorType;
+  typedef itk::Image< PixelType,  Dimension >       ImageType;
+    typedef itk::Image< WritePixelType, Dimension > WriteImageType;
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  typedef itk::ImageFileReader< ImageType  >     ReaderType;
+  typedef itk::ImageFileWriter< WriteImageType > WriterType;
 
   // structuring element
   typedef itk::BinaryBallStructuringElement< 
-                    InputPixelType,
+                    PixelType,
                     Dimension  >             StructuringElementType;
 
-// define the erosion and dilation types
-    typedef itk::GrayscaleErodeImageFilter<
-                            InputImageType, 
-                            OutputImageType,
-                            StructuringElementType >  ErodeFilterType;
+// define the opening and closing types
+  typedef itk::GrayscaleMorphologicalOpeningImageFilter<
+                            ImageType,
+                            ImageType,
+                            StructuringElementType >  OpeningFilterType;
 
-  typedef itk::GrayscaleDilateImageFilter<
-                            InputImageType, 
-                            OutputImageType, 
-                            StructuringElementType >  DilateFilterType;
+  typedef itk::GrayscaleMorphologicalClosingImageFilter<
+                            ImageType, 
+                            ImageType, 
+                            StructuringElementType >  ClosingFilterType;
+  
+  // define arithmetic operation filters
+  typedef itk::ConstrainedValueAdditionImageFilter<
+                          ImageType,
+              ImageType,
+              ImageType > AdditionFilterType;
+
+  typedef itk::ConstrainedValueDifferenceImageFilter<
+                          ImageType,
+              ImageType,
+              ImageType > SubstractionFilterType;
 
   // define rescaling filter
   typedef itk::RescaleIntensityImageFilter<
-                          InternalImageType,
+                          ImageType,
               WriteImageType>    RescaleFilterType;
 
   // Creation of Reader and Writer filters
@@ -102,22 +109,26 @@ int main( int argc, char * argv[] )
   // Creation of rescale filter
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
 
-  // Create the erosion and dilation filters
-  ErodeFilterType::Pointer  grayscaleErodeOpening  = ErodeFilterType::New();
-  ErodeFilterType::Pointer  grayscaleErodeClosing  = ErodeFilterType::New();
-  DilateFilterType::Pointer grayscaleDilateOpening = DilateFilterType::New();
-  DilateFilterType::Pointer grayscaleDilateClosing = DilateFilterType::New();
+  // Creation of the Top Hat, Bottom Hat, Internal Addition, and Image Enhacement Filters
+  SubstractionFilterType::Pointer  topHat           = SubstractionFilterType::New();
+  SubstractionFilterType::Pointer  bottomHat        = SubstractionFilterType::New();
+  SubstractionFilterType::Pointer  imageEnhancement = SubstractionFilterType::New();
+  AdditionFilterType::Pointer      internalAddition = AdditionFilterType::New();
+
+  // Create the opening closing filters
+  OpeningFilterType::Pointer  opening  = OpeningFilterType::New();
+  ClosingFilterType::Pointer  closing  = ClosingFilterType::New();
 
   // Create structuring element
   StructuringElementType  structuringElement;
 
-  structuringElement.SetRadius( atoi(argv[3]) );  // argv[3]xargv[3] structuring element
+  structuringElement.SetRadius( atoi(argv[3]) );  // (argv[3]+1) x (argv[3]+1) structuring element
 
   structuringElement.CreateStructuringElement();
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );
-  writer->SetFileName(  argv[2] );
+  writer->SetFileName( argv[2] );
 
   // reading input image
   try
@@ -127,116 +138,47 @@ int main( int argc, char * argv[] )
   catch ( itk::ExceptionObject &err)
     {
   std::cout<<"Problems reading input image"<<std::endl;
-    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl; 
     return -1;
     }
   
-  // Setup the erosion and dilation methods
-  grayscaleErodeOpening->SetKernel(  structuringElement );
-  grayscaleErodeClosing->SetKernel(  structuringElement );
-  grayscaleDilateOpening->SetKernel( structuringElement );
-  grayscaleDilateClosing->SetKernel( structuringElement );
+  // Setup the opening and closing methods
+  opening->SetKernel(  structuringElement );
+  closing->SetKernel(  structuringElement );
 
-  // morphological opening
-  grayscaleErodeOpening->SetInput(  reader->GetOutput() );
-  grayscaleDilateOpening->SetInput( grayscaleErodeOpening->GetOutput() );
-  
-  try
-    {
-    grayscaleDilateOpening->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-  std::cout<<"Problems applying morphological opening"<<std::endl;
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
-    return -1;
-    }
-
-  // morphological closing
-  grayscaleDilateClosing->SetInput(  reader->GetOutput() );
-  grayscaleErodeClosing->SetInput(   grayscaleDilateClosing->GetOutput() );
-
-  try
-    {
-    grayscaleErodeClosing->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-  std::cout<<"Problems applying morphological closing"<<std::endl;
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
-    return -1;
-    }
-
-   // Setup internal image of the same size as input image
-  InternalImageType::Pointer internalImage = InternalImageType::New();
-  internalImage->SetRegions( reader->GetOutput()->GetRequestedRegion() );
-  internalImage->CopyInformation( reader->GetOutput() );
-  internalImage->Allocate();
-
-  ConstIteratorType originalImageIt(   reader->GetOutput(), reader->GetOutput()->GetRequestedRegion()  );
-  ConstIteratorType openingImageIt(    grayscaleDilateOpening->GetOutput(), reader->GetOutput()->GetRequestedRegion()  );
-  ConstIteratorType closingImageIt(    grayscaleErodeClosing->GetOutput(),  reader->GetOutput()->GetRequestedRegion()  );
-  
-  IteratorType      outputIt(  internalImage,  internalImage->GetRequestedRegion() );
-
-  for ( originalImageIt.GoToBegin(), openingImageIt.GoToBegin(), 
-    closingImageIt.GoToBegin(), outputIt.GoToBegin(); !originalImageIt.IsAtEnd();
-        ++originalImageIt, ++openingImageIt, ++closingImageIt, ++outputIt)
-    {
-    // top hat
-    signed int topHat = originalImageIt.Get() - openingImageIt.Get();
-    if (topHat<0)
-    {
-      topHat = 0;
-    }
-    // bottom hat
-    signed int bottomHat = closingImageIt.Get() - originalImageIt.Get();
-    if (bottomHat<0)
-    {
-      bottomHat = 0;
-    }
-    // adding original image to top hat
-    signed int addOriginalImageToTopHat = originalImageIt.Get() + topHat;
-    if (addOriginalImageToTopHat>255)
-    {
-      addOriginalImageToTopHat = 255;
-    }
-
-    // substracting oi+th-bh
-    signed int value = addOriginalImageToTopHat - bottomHat;
-    if (value<0)
-    {
-      value = 0;
-    }
-    outputIt.Set( value  );
-    }
-
-
-  // rescaling
-  rescaleFilter->SetInput( internalImage );
+  // Setup minnimum and maximum of rescale filter
   rescaleFilter->SetOutputMinimum( 0 );
   rescaleFilter->SetOutputMaximum( 255 );
 
-  // writing output
 
-  writer->SetInput( rescaleFilter->GetOutput() );
+  // creation of the pipeline. The enhancement operation is given by:
+  // Original Image + Top Hat Image - Bottom Hat Image
+  opening->SetInput(           reader->GetOutput()           );
+  closing->SetInput(           reader->GetOutput()           );
+  topHat->SetInput1(           reader->GetOutput()           );
+  topHat->SetInput2(           opening->GetOutput()          );
+  bottomHat->SetInput1(        closing->GetOutput()          );
+  bottomHat->SetInput2(        reader->GetOutput()           );
+  internalAddition->SetInput1( reader->GetOutput()           );
+  internalAddition->SetInput2( topHat->GetOutput()           );
+  imageEnhancement->SetInput1( internalAddition->GetOutput() );
+  imageEnhancement->SetInput2( bottomHat->GetOutput()        );
+  rescaleFilter->SetInput(     imageEnhancement->GetOutput() );
+  writer->SetInput(            rescaleFilter->GetOutput()    );
   
   try
-  {
-      writer->Update();
-  }
+    {
+    writer->Update();
+    }
   catch( itk::ExceptionObject & err )
-  {
+    {
     std::cout<<"ExceptionObject caught !"<<std::endl;
     std::cout<< err <<std::endl;
     return -1;
-  }
+    }
   
   return 0;
 
-// Software Guide : EndCodeSnippet
 }
 
