@@ -59,13 +59,8 @@ namespace itk
  * with the image region.  Apply the mirror()'d operator for
  * non-symmetric NeighborhoodOperators.
  *
- * The output of this filter is an image region equal in size and
- * dimension to the input.
  * 
  * \ingroup ImageFilters
- *
- * \todo Add method to request buffered (for convolution) input region to
- * support data streaming.
  *
  * \sa Image
  * \sa Neighborhood
@@ -142,6 +137,17 @@ public:
    */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
     { m_BoundsCondition = i; }
+
+  /**
+   * NeighborhoodOperatorImageFilter needs a larger input requested
+   * region than the output requested region.  As such,
+   * NeighborhoodOperatorImageFilter needs to provide an implementation for
+   * GenerateInputRequestedRegion() in order to inform the pipeline
+   * execution model.
+   *
+   * \sa ProcessObject::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
 
 protected:
   NeighborhoodOperatorImageFilter() {}
