@@ -50,7 +50,7 @@ ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemW
 
 # To create the standard ITK test program, uncomment the line below
 ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
-TARGET_LINK_LIBRARIES(itkFEMTests VXLNumerics ITKCommon ITKNumerics ITKFEM)
 IF(UNIX)
   TARGET_LINK_LIBRARIES (itkFEMTests -lm )
 ENDIF(UNIX)
+TARGET_LINK_LIBRARIES(itkFEMTests VXLNumerics ITKCommon ITKNumerics ITKFEM)
