@@ -59,6 +59,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialObjectTreeContainer.h"
 #include "itkSpatialObjectTreeContainer.txx"
 #include "itkSpatialObjectTreeNode.h"
+#include "itkAffineGeometryFrame.h"
+#include "itkAffineGeometryFrame.txx"
 
 int main ( int , char*  )
 {
