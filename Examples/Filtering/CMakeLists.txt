@@ -237,5 +237,34 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
         3
 )
 
+ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/VectorGradientAnisotropicDiffusionImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/VectorGradientAnisotropicDiffusionImageFilter.png
+  VectorGradientAnisotropicDiffusionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/VectorGradientAnisotropicDiffusionImageFilterOriginal.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/VectorGradientAnisotropicDiffusionImageFilter.png
+        .25 5
+)
+
+ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/VectorCurvatureAnisotropicDiffusionImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/VectorCurvatureAnisotropicDiffusionImageFilter.png
+  VectorCurvatureAnisotropicDiffusionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/VectorCurvatureAnisotropicDiffusionImageFilterOriginal.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/VectorCurvatureAnisotropicDiffusionImageFilter.png
+        .25 5
+)
+
+ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/RGBGradientAnisotropicDiffusionImageFilter.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/RGBGradientAnisotropicDiffusionImageFilter.png
+  RGBGradientAnisotropicDiffusionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${ITK_BINARY_DIR}/Testing/Temporary/RGBGradientAnisotropicDiffusionImageFilter.png
+        .25 20
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
