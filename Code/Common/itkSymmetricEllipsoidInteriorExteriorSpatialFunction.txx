@@ -45,8 +45,8 @@ typename SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::
 SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 ::Evaluate(const InputType& position) const
 {
-  double uniqueTerm = 0;  // Term in ellipsoid equation for unique axis    
-  double symmetricTerm = 0;  // Term in ellipsoid equation for symmetric axes  
+  double uniqueTerm;     // Term in ellipsoid equation for unique axis    
+  double symmetricTerm;  // Term in ellipsoid equation for symmetric axes  
   Vector<double, VDimension> pointVector;
   Vector<double, VDimension> symmetricVector;
   

@@ -291,7 +291,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
     offsetIndex3D[1]--;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    f[neighborcount] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   }
 
   k = 0;
@@ -365,7 +365,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int j;
   unsigned int neighborcount = 0;
   int simnum    = 0;
-  int difnum    = 0;
   int changenum = 0;
   bool changeflag;
   double res = 0.0;
@@ -460,10 +459,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
         }
       simnum++;
       } 
-    else 
-      {
-      difnum++;
-      }
   }
    
   if (changenum < 3) 

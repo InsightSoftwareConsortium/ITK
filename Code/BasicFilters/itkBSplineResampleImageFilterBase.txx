@@ -286,7 +286,6 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     {   
     for (inK = 0; inK < inTraverseSize; inK++)
       {
-      outK = 2 * inK;
       out.Set( static_cast<OutputImagePixelType> (in[inK]) );
       ++out;
       out.Set( static_cast<OutputImagePixelType> (in[inK]) );

@@ -153,14 +153,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     { //no scanline
     if(RorL)
       {
-      endx=rightP[0];
-      beginx+=leftDx*(rightP[1]-beginy);
       beginy=rightP[1];
       }
     else
       {
-      beginx=leftP[0];
-      endx+=rightDx*(leftP[1]-beginy); 
       beginy=leftP[1];
       }
     }
@@ -247,14 +243,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       { //no scanline
       if(RorL)
         {
-        endx=rightP[0];
-        beginx+=leftDx*(rightP[1]-beginy);
         beginy=rightP[1];
         }
       else
         {
-        beginx=leftP[0];
-        endx+=rightDx*(leftP[1]-beginy); 
         beginy=leftP[1];
         }
       }
@@ -673,14 +665,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     { //no scanline
     if(RorL)
       {
-      endx=rightP[0];
-      beginx+=leftDx*(rightP[1]-beginy);
       beginy=rightP[1];
       }
     else
       {
-      beginx=leftP[0];
-      endx+=rightDx*(leftP[1]-beginy); 
       beginy=leftP[1];
       }
     }
@@ -767,14 +755,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       { //no scanline
       if(RorL)
         {
-        endx=rightP[0];
-        beginx+=leftDx*(rightP[1]-beginy);
         beginy=rightP[1];
         }
       else
         {
-        beginx=leftP[0];
-        endx+=rightDx*(leftP[1]-beginy); 
         beginy=leftP[1];
         }
       }
@@ -870,7 +854,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     if(x1>x2)
       {
       save=x1; x1=x2; x2=save;
-      save=y1; y1=y2; y2=save;
+      y1=y2;
       }
     curr=(float)y1;
     float offset=(float)dy/dx;
@@ -887,7 +871,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     { 
     if(y1>y2)
       {
-      save=x1; x1=x2; x2=save;
+      x1=x2;
       save=y1; y1=y2; y2=save;
       }
     curr=(float)x1;

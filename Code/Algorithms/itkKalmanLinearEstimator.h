@@ -163,13 +163,11 @@ KalmanLinearEstimator<T,VEstimatorDimension>
 
   ValueType denominator = 1.0/(1.0 +  dot_product( aux , newPredictor ) );
 
-  unsigned pos = 0;
   for( unsigned int col=0; col<VEstimatorDimension; col++) 
     {
     for( unsigned int row=0; row<VEstimatorDimension; row++) 
       {
       m_Variance(col,row) -= aux(col)*aux(row)*denominator;
-      pos++;
       }
     }
 }

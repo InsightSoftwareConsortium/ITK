@@ -93,7 +93,8 @@ TobogganImageFilter<TInputImage>
       // Start labeling
       std::vector<IndexType> Visited;
       InputImagePixelType MinimumNeighborValue = inIt.Get();
-      OutputImagePixelType MinimumNeighborClass = CurrentLabel;
+
+      OutputImagePixelType MinimumNeighborClass;
       OutputImagePixelType LabelForRegion = CurrentLabel;
       IndexType MinimumNeighborIndex;
       IndexType CurrentPositionIndex;

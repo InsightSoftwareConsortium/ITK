@@ -266,7 +266,6 @@ KLMSegmentationRegion
   if( m_RegionBorderVector.empty() )
     {
     m_RegionBorderVector.insert(regionBorderVectorIt,pBorderCandidate);
-    index++;
     }
 
   // If there are many region borders

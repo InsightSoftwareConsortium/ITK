@@ -923,7 +923,6 @@ clip_line(FortuneEdge *task)
       y1 = (task->m_C) - (task->m_A)*x1;
       id1 = -1;
       }
-    x2 = m_Pxmax;
     if ( (s2 != NULL) && ((s2->m_Coord[0]) <m_Pxmax) )
       {
       x2 = s2->m_Coord[0];

@@ -113,7 +113,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
     }
 
   // Check to see if it meet's the angle criterior
-  OutputType result = 0;
+  OutputType result;
   if( dotprod > (1 - m_Epsilon) )
     {
     result = 1; // it's inside the shell

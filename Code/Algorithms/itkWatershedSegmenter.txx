@@ -905,7 +905,6 @@ void Segmenter<TInputImage>
                                                tempEdgeTable) );
           
           edge_table_entry_ptr = edgeHash.find(segment_label);
-          segment_ptr = segments->Lookup(segment_label);
         }
       else if (searchIt.GetPixel(hoodCenter) < segment_ptr->min)
         {

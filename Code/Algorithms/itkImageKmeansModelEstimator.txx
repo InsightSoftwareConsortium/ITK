@@ -151,7 +151,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
     m_NumberOfCodewords = m_Codebook.rows();
     m_VectorDimension     = m_Codebook.cols();
     // Set the initial and final codebook size
-    initCodebookSize  = m_NumberOfCodewords;
     finalCodebookSize = m_NumberOfCodewords;
 
     }// end(if valid codebook clause)

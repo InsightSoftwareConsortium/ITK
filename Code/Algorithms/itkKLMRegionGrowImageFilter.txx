@@ -196,7 +196,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int rowGridSize        = this->GetRowGridSize();
   int colGridSize        = this->GetColGridSize();
   int labelValue         = 0;
-  int newRegionLabel     = 0;
+  int newRegionLabel;
 
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end, col_start, col_end;
@@ -303,7 +303,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int colGridSize        = this->GetColGridSize();
   int sliceGridSize      = this->GetSliceGridSize();
   int labelValue         = 0;
-  int newRegionLabel     = 0;
+  int newRegionLabel;
 
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end;
@@ -460,7 +460,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int rowGridSize        = this->GetRowGridSize();
   int colGridSize        = this->GetColGridSize();
   int labelValue         = 0;
-  int newRegionLabel     = 0;
+  int newRegionLabel;
 
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end, col_start, col_end;
@@ -552,7 +552,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int colGridSize        = this->GetColGridSize();
   int sliceGridSize      = this->GetSliceGridSize();
   int labelValue         = 0;
-  int newRegionLabel     = 0;
+  int newRegionLabel;
 
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end;
@@ -1893,8 +1893,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   
   RegionBorderVecIt 
     newRegionBordersIt    = pnewRegion->GetRegionBorderItBegin();
-  RegionBorderVecIt 
-    endOfNewRegionBorders = pnewRegion->GetRegionBorderItEnd();
 
   // Refresh the old region iterators
   oldRegionBordersIt    = poldRegion->GetRegionBorderItBegin();
@@ -2053,8 +2051,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // If anything is remaining in pold_region_borders add it to the
   // end of the pnew_region_borders list.
 
-  endOfNewRegionBorders = pnewRegion->GetRegionBorderItEnd();
-
   while ( oldRegionBordersIt != endOfOldRegionBorders )
     {
 
@@ -2077,8 +2073,6 @@ void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::UpdateBordersDynamicPointer()
 {
-  int numberOfDeletedBorders = 0;
-
   BordersDynamicPointerIterator 
     bordersDynamicPointerIt = m_BordersDynamicPointer.begin();
 
@@ -2089,7 +2083,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         ( m_BordersDynamicPointer[k].m_Pointer->GetRegion2() == NULL ) )
       {  
         m_BordersDynamicPointer.erase( bordersDynamicPointerIt + k);
-        numberOfDeletedBorders++; 
         k=0;
         m_NumberOfBorders -=  1;
       }
@@ -2180,8 +2173,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
  
   int labelvalue = m_RegionsPointer[ 0 ]->GetRegionLabel(); //Get the first region value
   uniqueLabelsVec.push_back( labelvalue );
-  uniqueLabelsVecIterator = uniqueLabelsVec.begin();  
-
 
   for ( unsigned int i = 1; i < numBlocks; i++ )
     {
@@ -2320,7 +2311,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
  
   int labelvalue = m_RegionsPointer[ 0 ]->GetRegionLabel(); //Get the first region value
   uniqueLabelsVec.push_back( labelvalue );
-  uniqueLabelsVecIterator = uniqueLabelsVec.begin();  
 
   for ( unsigned int i = 1; i < numBlocks; i++ )
     {

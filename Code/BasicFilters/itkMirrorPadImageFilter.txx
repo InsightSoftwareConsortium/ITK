@@ -315,7 +315,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 {
   long sizeTemp;  // Holder for current size calculation.
   int ctr;        // Generic loop counter.
-  long offset=0;  // Offset for times when we need to shorten both ends.
+  long offset;    // Offset for times when we need to shorten both ends.
   
   // Handle the pre-region.  Within the pre-region, the first and last
   // groups may be truncated and only contain the back part of the input
@@ -390,7 +390,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 {
   long sizeTemp;  // Holder for current size calculation.
   int ctr;        // Generic loop counter.
-  int offset=0;   // Offset for when we have to shorten both ends.
+  int offset;     // Offset for when we have to shorten both ends.
 
   // Handle the post region.  The post region has a number of
   // areas of size equal to the input region, followed by one
@@ -636,7 +636,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  unsigned int dimCtr, i=0;
+  unsigned int dimCtr, i;
   int regCtr;
   int numRegions=1; // number of regions in our decomposed space.
   int goodInput, goodOutput;
