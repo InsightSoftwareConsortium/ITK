@@ -42,13 +42,13 @@ NaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
 template <class TInputImage, class TOutputImage, class TFunction>
 void
 NaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
-::SetInput( unsigned int index, TInputImage * image ) 
+::SetInput( unsigned int index, const TInputImage * image ) 
 {
   if( index+1 > this->GetNumberOfInputs() )
   {
     this->SetNumberOfRequiredInputs( index + 1 );
   }
-  SetNthInput(index, image);
+  SetNthInput(index, const_cast< TInputImage *>( image ) );
 }
 
 
