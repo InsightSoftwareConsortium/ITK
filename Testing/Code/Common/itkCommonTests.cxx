@@ -27,6 +27,7 @@ REGISTER_TEST(itkCovariantVectorGeometryTest );
 REGISTER_TEST(itkDataTypeTest );
 REGISTER_TEST(itkDynamicMeshTest );
 REGISTER_TEST(itkEuler2DTransformTest );
+REGISTER_TEST(itkEuler3DTransformTest );
 REGISTER_TEST(itkExceptionObjectTest );
 REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkImageAdaptorTest );

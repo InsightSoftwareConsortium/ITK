@@ -34,6 +34,7 @@ ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeomet
 ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
 ADD_TEST(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest)
+ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
@@ -113,6 +114,7 @@ itkCovariantVectorGeometryTest.cxx
 itkDataTypeTest.cxx
 itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
+itkEuler3DTransformTest.cxx
 itkExceptionObjectTest.cxx
 itkHashTableTest.cxx
 itkImageAdaptorTest.cxx
