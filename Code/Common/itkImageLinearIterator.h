@@ -52,7 +52,7 @@ namespace itk
  * ImageLinearIterator is a templated class to represent a multi-dimensional
  * iterator. ImageLinearIterator is templated over the image type
  * ImageLinearIterator is constrained to walk only within the 
- * specified region.
+ * specified region and along a line parallel to one of the coordinate axis.
  *
  * ImageLinearIterator is a multi-dimensional iterator, requiring more
  * information be specified before the iterator can be used than conventional
@@ -68,16 +68,32 @@ namespace itk
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ iterates across a row, constraining
- * the movement to within a region of image. When the iterator reaches
- * the boundary of the region along a row, the iterator automatically
- * wraps to the next row, starting at the first pixel in the row that is
- * part of the region. This allows for simple processing loops of the form:
+ * a multidimensional image. operator++ iterates across a preselected direction 
+ * constraining the movement to within a region of image. The user can verify
+ * when the iterator reaches the boundary of the region along this direction, 
+ * by calling the IsAtEndOfLine() method. Then it is possible to pass to the
+ * next line starting at the first pixel in the row that is part of the region 
+ * by calling the NextLine() method.
  *
- *      for (it = image->RegionBegin(); it != image->RegionEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
+ * This is the typical use of this iterator in a loop:
+ *
+ * \code
+ *  
+ * ImageLinearIterator<ImageType> it( image, image->GetRequestedRegion() );
+ * 
+ * it.SetDirection(2);
+ * it.Begin();
+ * while( !it.IsAtEnd() )
+ * {
+ *   while( !it.IsAtEndOfLine() )
+ *   {
+ *      it.Set( 100.0 );
+ *      ++it;
+ *   }
+ *   it.NextLine();
+ *  } 
+ *
+ *  \endcode
  *
  */
 template<typename TImage>
@@ -151,7 +167,8 @@ public:
     { this->ImageIteratorWithIndex<TImage>::operator=(it); }
 
   /**
-   * Go to the next line
+   * Go to the next line inside the defined region
+   * and be positioned at the starting point on this line
    * \sa operator++
    * \sa EndOfLine
    * \sa End
@@ -159,7 +176,7 @@ public:
   void NextLine(void);
 
   /**
-   * Test if the index is at the end of line
+   * Test if the index is at the end of line on the predefined region
    */
   inline bool IsAtEndOfLine(void) 
     {
