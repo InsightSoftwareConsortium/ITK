@@ -38,7 +38,7 @@ MeanCalculator< TSample >
 }
 
 template< class TSample >
-MeanCalculator< TSample >::OutputType*
+typename MeanCalculator< TSample >::OutputType*
 MeanCalculator< TSample >
 ::GetOutput()
 {
