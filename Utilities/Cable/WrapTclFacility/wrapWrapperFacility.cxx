@@ -284,8 +284,8 @@ int WrapperFacility::DeleteCommand(int objc, Tcl_Obj* CONST objv[]) const
       }
     else
       {
-      Tcl_AppendResult(m_Interpreter, "Don't know about object with name ",
-                       const_cast<char*>(objectName.c_str()), NULL);
+      Tcl_AppendResult(m_Interpreter, "Don't know about object with name \"",
+                       const_cast<char*>(objectName.c_str()), "\"", NULL);
       return TCL_ERROR;
       }
     }
