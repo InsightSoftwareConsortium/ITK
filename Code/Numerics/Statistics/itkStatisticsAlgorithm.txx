@@ -111,7 +111,7 @@ inline void FindSampleBound(TSample* ,
   typename TSample::MeasurementVectorType temp ;
 
   min = max = temp = begin.GetMeasurementVector() ;
-  while (begin != end)
+  while (true)
     {
       for (dimension= 0 ; dimension < Dimension ; dimension++) 
         {
@@ -125,6 +125,10 @@ inline void FindSampleBound(TSample* ,
             }
         }
       ++begin ;
+      if (begin == end)
+        {
+          break ;
+        }
       temp = begin.GetMeasurementVector() ;
     } // end of while
 }
