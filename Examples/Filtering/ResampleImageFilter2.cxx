@@ -47,7 +47,7 @@
 //  interpret the process of the ResampleImageFilter you should be aware of the
 //  origin and spacing settings of both the input and output images.
 //
-//  \index{itk::ResampleImageFilter|Image internal transform}
+//  \index{itk::ResampleImageFilter!Image internal transform}
 //
 //  Software Guide : EndLatex 
 
