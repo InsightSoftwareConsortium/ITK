@@ -95,6 +95,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkWatershedEquivalenceRelabeler.txx"
 #include "itkWatershedEquivalencyTable.txx"
 #include "itkWatershedImageFilter.txx"
+#include "itkWatershedMiniPipelineProgressCommand.h"
 #include "itkWatershedOneWayEquivalencyTable.txx"
 #include "itkWatershedRelabeler.txx"
 #include "itkWatershedSegmentTable.txx"
