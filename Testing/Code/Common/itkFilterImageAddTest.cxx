@@ -61,17 +61,9 @@ int main()
 
 
   // Declare Iterator types apropriated for each image 
-  typedef itk::ImageRegionSimpleIterator<
-                      myImageType1::PixelType, 
-                      myImageType1::ImageDimension  >   myIteratorType1;
-
-  typedef itk::ImageRegionSimpleIterator<
-                      myImageType2::PixelType, 
-                      myImageType2::ImageDimension>     myIteratorType2;
-
-  typedef itk::ImageRegionSimpleIterator<
-                      myImageType3::PixelType, 
-                      myImageType3::ImageDimension>     myIteratorType3;
+  typedef itk::ImageRegionSimpleIterator<myImageType1>  myIteratorType1;
+  typedef itk::ImageRegionSimpleIterator<myImageType2>  myIteratorType2;
+  typedef itk::ImageRegionSimpleIterator<myImageType3>  myIteratorType3;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
