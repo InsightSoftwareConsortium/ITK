@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkWarpImageFilter.h"
+#include "itkVectorCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "vnl/vnl_math.h"
 
@@ -249,10 +250,15 @@ int main()
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
+  typedef itk::VectorCastImageFilter<FieldType,FieldType> VectorCasterType;
+  VectorCasterType::Pointer vcaster = VectorCasterType::New();
+
+  vcaster->SetInput( warper->GetDeformationField() );
+
   WarperType::Pointer warper2 = WarperType::New();
 
   warper2->SetInput( warper->GetInput() );
-  warper2->SetDeformationField( warper->GetDeformationField() );
+  warper2->SetDeformationField( vcaster->GetOutput() );
   warper2->SetEdgePaddingValue( warper->GetEdgePaddingValue() );
 
   typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
