@@ -27,6 +27,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryImageFilter.h"
+#include "itkBinaryMagnitudeImageFilter.h"
 #include "itkBinaryMorphologicalDialationFilter.h"
 #include "itkBinaryMorphologicalErosionFilter.h"
 #include "itkBinaryMorphologicalFilterBase.h"
