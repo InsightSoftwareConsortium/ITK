@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkChainCodePath2D.txx
+  Module:    itkChainCodePath2D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkChainCodePath2D_txx
-#define _itkChainCodePath2D_txx
-
 #include "itkChainCodePath2D.h"
 #include "itkNumericTraits.h"
 #include <string>
@@ -161,6 +158,3 @@ ChainCodePath2D
 
 
 } // end namespace itk
-
-#endif
-

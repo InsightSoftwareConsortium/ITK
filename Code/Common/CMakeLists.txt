@@ -2,6 +2,7 @@
 SET(ITKCommon_SRCS
   itkBarrier.cxx
   itkBloxItem.cxx
+  itkChainCodePath2D.cxx
   itkCommand.h
   itkConditionVariable.cxx
   itkDataObject.cxx 
