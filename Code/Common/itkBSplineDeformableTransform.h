@@ -240,6 +240,9 @@ public:
   /** Return the number of parameters per dimension */
   unsigned int GetNumberOfParametersPerDimension(void) const;
 
+  /** Return the region of the grid wholly within the support region */
+  itkGetConstMacro( ValidRegion, RegionType );
+
 protected:
   BSplineDeformableTransform();
   ~BSplineDeformableTransform();

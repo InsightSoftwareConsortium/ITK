@@ -357,6 +357,7 @@ int itkBSplineDeformableTransformTest(int, char **)
   std::cout << transform->GetGridRegion() << std::endl;
   std::cout << transform->GetGridSpacing() << std::endl;
   std::cout << transform->GetGridOrigin() << std::endl;
+  std::cout << transform->GetValidRegion() << std::endl;
  
   /**
    * Parameters should remain even when the transform has been destroyed
