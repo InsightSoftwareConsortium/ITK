@@ -69,7 +69,7 @@ namespace itk
 
 template <class TInputImage, 
           class TOutputImage, 
-          class TCoordType = TInputImage::PixelType, 
+          class TCoordType = ITK_TYPENAME TInputImage::PixelType, 
           class InterpolatorType = BSplineInterpolateImageFunction<TInputImage, TCoordType> > 
 class ITK_EXPORT InterpolateImagePointsFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
