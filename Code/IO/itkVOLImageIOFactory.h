@@ -54,7 +54,6 @@ public:
 protected:
   VOLImageIOFactory();
   ~VOLImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   VOLImageIOFactory(const Self&); //purposely not implemented

@@ -51,7 +51,6 @@ public:
 protected:
   ImageIOFactory();
   ~ImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   ImageIOFactory(const Self&); //purposely not implemented

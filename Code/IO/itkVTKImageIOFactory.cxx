@@ -25,13 +25,6 @@
 namespace itk
 {
 
-
-void VTKImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
-  
-
 VTKImageIOFactory::VTKImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",

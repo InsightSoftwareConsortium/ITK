@@ -22,12 +22,6 @@
   
 namespace itk
 {
-void DicomImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
-  
-
 DicomImageIOFactory::DicomImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",

@@ -54,7 +54,6 @@ public:
 protected:
   MetaImageIOFactory();
   ~MetaImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   MetaImageIOFactory(const Self&); //purposely not implemented

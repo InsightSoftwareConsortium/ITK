@@ -57,7 +57,6 @@ public:
 protected:
   VTKImageIOFactory();
   ~VTKImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   VTKImageIOFactory(const Self&); //purposely not implemented

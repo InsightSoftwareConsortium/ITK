@@ -22,12 +22,6 @@
   
 namespace itk
 {
-void MetaImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
-  
-
 MetaImageIOFactory::MetaImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",

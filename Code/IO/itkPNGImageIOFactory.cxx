@@ -31,11 +31,6 @@ itk::ObjectFactoryBase* itkLoad()
   
 namespace itk
 {
-void PNGImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
-  
 
 PNGImageIOFactory::PNGImageIOFactory()
 {

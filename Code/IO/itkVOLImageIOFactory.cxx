@@ -22,11 +22,6 @@
 namespace itk
 {
 
-  
-void VOLImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-  
-}
 VOLImageIOFactory::VOLImageIOFactory()
 {
   

@@ -54,7 +54,6 @@ public:
 protected:
   DicomImageIOFactory();
   ~DicomImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   DicomImageIOFactory(const Self&); //purposely not implemented
