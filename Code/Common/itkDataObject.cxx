@@ -121,14 +121,7 @@ bool
 DataObject
 ::ShouldIReleaseData() const
 {
-  if ( m_GlobalReleaseDataFlag || m_ReleaseDataFlag )
-    {
-    return true;
-    }
-  else
-    {
-    return false;
-    }
+  return ( m_GlobalReleaseDataFlag || m_ReleaseDataFlag );
 }
 
 //----------------------------------------------------------------------------
