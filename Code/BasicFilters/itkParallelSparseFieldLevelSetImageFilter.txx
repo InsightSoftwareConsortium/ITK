@@ -972,6 +972,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     
     delete [] m_Data[ThreadId].m_ZHistogram;
     
+    if (m_Data[ThreadId].globalData != 0)
+      {
+      this->GetDifferenceFunction()->ReleaseGlobalDataPointer (m_Data[ThreadId].globalData);
+      m_Data[ThreadId].globalData= 0;
+      }
+
     // 1. delete nodes on the thread layers
     for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
       {
@@ -1047,6 +1053,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
   
   delete [] m_Data;
+  m_Data= 0;
 }
 
 template<class TInputImage, class TOutputImage>
@@ -2519,11 +2526,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for (ThreadId=0; ThreadId < m_NumOfThreads; ThreadId++)
     {
       os << indent << "ThreadId: " << ThreadId << std::endl;
-      for (i=0; i < m_Data[ThreadId].m_Layers.size(); i++)
+      if (m_Data != 0)
         {
-        os << indent << "m_Layers[" << i << "]: size="
-           << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
-        os << indent << m_Data[ThreadId].m_Layers[i];
+        for (i=0; i < m_Data[ThreadId].m_Layers.size(); i++)
+          {
+          os << indent << "m_Layers[" << i << "]: size="
+             << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
+          os << indent << m_Data[ThreadId].m_Layers[i];
+          }
         }
     }
 }
