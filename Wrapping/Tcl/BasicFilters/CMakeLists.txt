@@ -5,6 +5,7 @@ ADD_LIBRARY(ITKBasicFiltersTcl)
 
 ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_ITKBasicFilters.cxx
+  wrap_itkAnisotropicDiffusionImageFilter.cxx
   wrap_itkBinaryThresholdImageFilter.cxx
   wrap_itkCastImageFilter.cxx
   wrap_itkConfidenceConnectedImageFilter.cxx

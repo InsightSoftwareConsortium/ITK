@@ -22,6 +22,7 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
+    ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter),
     ITK_WRAP_GROUP(itkBinaryThresholdImageFilter),
     ITK_WRAP_GROUP(itkCastImageFilter),
     ITK_WRAP_GROUP(itkConfidenceConnectedImageFilter),
