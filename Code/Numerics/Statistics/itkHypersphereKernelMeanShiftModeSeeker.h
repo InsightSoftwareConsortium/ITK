@@ -20,6 +20,9 @@
 
 #include "itkMeanShiftModeSeekerBase.h"
 
+#include "itkNumericTraits.h"
+#include "itkFixedArray.h"
+
 namespace itk{ 
 namespace Statistics{
   
@@ -54,7 +57,8 @@ public:
 //                       itkGetStaticConstMacro( MeasurementVectorSize ) > 
 //   MeasurementVectorSumType ;
 
-  typedef FixedArray< NumericTraits< MeasurementType >::RealType,
+  typedef typename NumericTraits< MeasurementType >::RealType RealMeasurementType ;
+  typedef FixedArray< RealMeasurementType,
                       itkGetStaticConstMacro( MeasurementVectorSize ) > 
   MeasurementVectorSumType ;
 
