@@ -178,6 +178,7 @@ public:
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
   typedef ConstNeighborhoodIterator<RealVectorImageType> ConstNeighborhoodIteratorType;
+  typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;  
   
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -263,6 +264,16 @@ protected:
                             int threadId );
 
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  typedef typename InputImageType::Superclass ImageBaseType;
+
+  /** Get access to the input image casted as real pixel values */
+  itkGetConstObjectMacro( RealValuedInputImage, ImageBaseType );
+
+  /** Get/Set the neighborhood radius used for gradient computation */
+  itkGetConstReferenceMacro( NeighborhoodRadius, RadiusType );
+  itkSetMacro( NeighborhoodRadius, RadiusType );
+  
 
   TRealType NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const
   {
@@ -429,14 +440,13 @@ private:
   bool m_UsePrincipleComponents;
   int m_RequestedNumberOfThreads;
 
-  typedef typename InputImageType::Superclass ImageBaseType;
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
   
   VectorGradientMagnitudeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename ConstNeighborhoodIteratorType::RadiusType m_NeighborhoodRadius;  
+  RadiusType    m_NeighborhoodRadius;  
 };
   
 } // end namespace itk
