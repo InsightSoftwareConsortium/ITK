@@ -91,6 +91,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkEllipsoidInteriorExteriorSpatialFunction.txx"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.txx"
 #include "itkEuler2DTransform.txx"
+#include "itkEuler3DTransform.txx"
 #include "itkEventObject.h"
 #include "itkExceptionObject.h"
 #include "itkExpImageAdaptor.h"
