@@ -732,7 +732,7 @@ void Solver::ApplyBC(int dim)
         /* error checking. all GFN should be =>0 and <NGFN */
         if ( gfn>=NGFN )
         {
-          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
+          throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::ApplyBC()","Illegal GFN!");
         }
 
         /* set the proper values in matster stiffnes matrix */
