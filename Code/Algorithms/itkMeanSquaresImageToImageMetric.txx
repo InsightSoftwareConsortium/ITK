@@ -42,6 +42,8 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
+  std::cout << "GetValue( " << parameters << " ) = ";
+
   typename TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
   itk::Point<double, TTarget::ImageDimension> Point;  
 
@@ -102,7 +104,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   } 
 
   m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
-  std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
+  std::cout<<" m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
 }
