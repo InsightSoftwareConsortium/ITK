@@ -43,7 +43,8 @@ namespace itk
  * as a vector image with a single element for every vector. The classified
  * image is treated as a single band scalar image.
  *
- * \ingroup UnSupervisedClassificationFilters 
+ * \deprecated Class has been replaced by a  more flexible classifier framework. 
+ * \ingroup UnSupervisedClassificationFilters Deprecated
  */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT UnsupervisedClassifier 

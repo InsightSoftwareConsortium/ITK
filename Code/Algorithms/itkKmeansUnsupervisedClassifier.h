@@ -116,7 +116,8 @@ namespace itk
  * support for generating a classified image. This class can be extended by
  * overriding the virtual GetPixelDistance() function.
  *
- * \ingroup UnSupervisedClassificationFilters 
+ * \deprecated Class has been replaced by a  more flexible classifier framework. 
+ * \ingroup UnSupervisedClassificationFilters Deprecated
  */
 template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT KmeansUnsupervisedClassifier 
