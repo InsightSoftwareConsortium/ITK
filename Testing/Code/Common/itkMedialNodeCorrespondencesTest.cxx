@@ -523,7 +523,6 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // The test passes if the number of pairs found is 21.
   int numberOfPairs = nodePairProcess->GetNumberOfNodePairs();
-  bool pairSuccess = true;
 
   // Print results of test.
   if(numberOfPairs == 21)
@@ -534,7 +533,6 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfPairs = " 
       << numberOfPairs << " , not 21" << std::endl;
-    pairSuccess = false;
     return EXIT_FAILURE;
     }
 
@@ -562,7 +560,6 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // The test passes if the number of triplets found is 0.
   int numberOfTriplets = nodeTripletProcess->GetNumberOfNodeTriplets();
-  bool tripletSuccess = true;
 
   // Print results of test.
   if(numberOfTriplets == 0)
@@ -573,7 +570,6 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfTriplets = " 
       << numberOfTriplets << " , not 0" << std::endl;
-    tripletSuccess = false;
     return EXIT_FAILURE;
     }
 
