@@ -121,7 +121,9 @@ std::istream& operator>>( std::istream& i, TestData& t ) {
     return i;
 }
 
+
 typedef TestData* NodeType;
+std::list<TestData*> InternalList;// used to delete the pointer in the tree
 typedef itk::TreeContainer<NodeType> TreeType;
 
 class TreeChangeListener : public itk::Command {
@@ -197,23 +199,42 @@ TreeType::Pointer CreateTree_1()
 
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
-  it.Add( new TestData(1) );
-  it.Add( new TestData(11) );
-  it.Add( new TestData(12) );
-  it.Add( new TestData(13) );
-  it.Add( new TestData(14) );
-
+  TestData* newNode = new TestData(1);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(11);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(12);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(13);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(14);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
   it.GoToChild(0);
-  it.Add( new TestData(111) );
-  it.Add( new TestData(112) );
-  it.Add( new TestData(113) );
-
+  newNode = new TestData(111);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(112);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(113);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
   it.GoToParent();
   it.GoToChild(1);
-  it.Add( new TestData(121) );
-  it.Add( new TestData(122) );
-  it.Add( new TestData(123) );
-
+  newNode = new TestData(121);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(122);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(123);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
   tree->RemoveObserver( tag );
   
   std::cout << "end create tree" << std::endl;
@@ -244,12 +265,23 @@ TreeType::Pointer CreateTree_2()
   tree->SetRoot( new TestData( 9 ) );
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
-  it.Add( new TestData(91) );
-  it.Add( new TestData(92) );
+
+  TestData* newNode = new TestData(91);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(92);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
   it.GoToChild( 0 );
-  it.Add( new TestData(991) );
-  it.Add( new TestData(912) );
-  it.Add( new TestData(913) );
+  newNode = new TestData(991);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(912);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
+  newNode = new TestData(913);
+  InternalList.push_back(newNode);
+  it.Add(newNode);
 
   std::cout << "end create tree 2" << std::endl;
   return tree;
@@ -366,6 +398,19 @@ int itkTreeContainerTest2(int, char* [])
   unsigned long tag = tree->AddObserver( ev, treeChangeListener );
   tree->Clear();
   tree->RemoveObserver( tag );
+
+  // Delete the list of pointer to TestData
+  std::list<TestData*>::iterator it = InternalList.begin();
+
+  while(it != InternalList.end())
+    {
+    std::list<TestData*>::iterator it2 = it;
+    it++;
+    TestData* t = *it2;
+    InternalList.erase(it2);
+    delete t;
+    }
+
   if ( testCounter == 10 )
     {
     std::cout << "TEST DONE" << std::endl;
