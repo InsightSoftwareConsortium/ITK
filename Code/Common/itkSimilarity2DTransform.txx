@@ -99,7 +99,18 @@ Similarity2DTransform<TScalarType>
 ::SetRotation(TScalarType angle)
 {
   m_Angle = angle;
-  ComputeMatrix();
+  this->ComputeMatrix();
+}
+
+
+// Set Scale Part
+template <class TScalarType>
+void
+Similarity2DTransform<TScalarType>
+::SetScale(TScalarType scale)
+{
+  m_Scale = scale;
+  this->ComputeMatrix();
 }
 
 
