@@ -85,34 +85,16 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
      << m_Steps << std::endl;
 }
 
-/* initialization for the segmentation */
-template <class TInputImage, class TOutputImage>
-void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
-::InitializeSegment(void)
-{
-  m_WorkingVD=VoronoiDiagram::New();
-  m_VDGenerator=VoronoiDiagramGenerator::New();
-  
-  VoronoiDiagram::PointType VDsize;
-  VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
-  VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
-  m_VDGenerator->SetBoundary(VDsize);
-  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
-  m_StepsRuned = 0;
-}
-
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
 {
-  std::cout << "\t\t\tGetPixelIndexFromPolygon" << std::endl;
-  std::cout << "\t\t\t\tVertex list length = " << vertlist.size() << std::endl;
   IndexType idx;
   PointType currP;
   PointType leftP;
   PointType rightP;
+
   currP = vertlist.front();
   vertlist.pop_front();
   leftP = vertlist.front();
@@ -123,7 +105,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     vertlist.pop_front();
     leftP=vertlist.front();
     }
-  std::cout << "@1" << std::endl;
   rightP=vertlist.back();
   while(currP[1] > rightP[1])
     {
@@ -135,28 +116,23 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   leftP=vertlist.front();
   PointTypeDeque tmpQ; 
   tmpQ.clear();
-  std::cout << "@2" << std::endl;
   if(leftP[0]>rightP[0])
     {
-    std::cout << "@3" << std::endl;
     while(!(vertlist.empty()))
       {
       tmpQ.push_back(vertlist.front());
       vertlist.pop_front(); 
       }
-    std::cout << "@4" << std::endl;
     while(!(tmpQ.empty()))
       {
       vertlist.push_front(tmpQ.front());
       tmpQ.pop_front();
       }
     }
-  std::cout << "@5" << std::endl;
   tmpQ.clear();
   leftP=vertlist.front();
   rightP=vertlist.back();
-  std::cout << "@5.1" << std::endl;
-  
+
   double beginy=currP[1];
   int intbeginy=(int)ceil(beginy); 
   idx[1]=intbeginy;
@@ -212,8 +188,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       {
       beginx=leftP[0];
       }
-    std::cout << "ceil(beginx) = " << ceil(beginx) << std::endl;
-    std::cout << "floor(endx) = " << floor(endx) << std::endl;
     for(i=ceil(beginx);i<=floor(endx);i++)
       {
       idx[0]=i;
@@ -228,10 +202,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     beginx+=offset*leftDx;
     while(idx[1]<=intendy)
       {
-      std::cout << "@5.2" << std::endl;
       for(i=ceil(beginx);i<=floor(endx);i++)
         {
-        std::cout << "@5.3" << std::endl;
         idx[0]=i;
         (*PixelPool).push_back(idx);
         }
@@ -242,11 +214,9 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     beginy=endy;
     }
 
-  std::cout << "@6" << std::endl;
   int vsize=vertlist.size();
   while(vsize>2)
     {
-    std::cout << "@7" << std::endl;
     vsize--;
     if(RorL)
       {
@@ -354,7 +324,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     endx+=offset*rightDx;
     while(idx[1]<=intendy)
       {
-      std::cout << "@8" << std::endl;
       for(i=ceil(beginx);i<=floor(endx);i++)
         {
         idx[0]=i;
@@ -372,7 +341,6 @@ void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::ClassifyDiagram(void)
 {
-  std::cout << "\tClassifyDiagram" << std::endl;
   CellPointer currCell; 
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
@@ -381,7 +349,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   IndexList PixelPool;
   for(int i=0;i<m_NumberOfSeeds;i++)
     {
-    std::cout << "\t\tPass #1, Seed number " << i << std::endl;
     currCell = m_WorkingVD->GetCellId(i);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
@@ -400,7 +367,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   m_NumberOfBoundary = 0;
   for(int i=0;i<m_NumberOfSeeds;i++)
     {
-    std::cout << "\t\tPass #2, Seed number " << i << std::endl;
     if(m_Label[i] == 0)
       {
       NeighborIdIterator itend = m_WorkingVD->NeighborIdsEnd(i);
@@ -425,7 +391,6 @@ void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::GenerateAddingSeeds(void)
 {
-  std::cout << "\tGenerateAddingSeeds" << std::endl;
   EdgeIterator eit;
   EdgeIterator eitend =	m_WorkingVD->EdgeEnd();  
   PointType adds;
@@ -451,7 +416,6 @@ void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 ::RunSegmentOneStep(void)
 {
-  std::cout << "RunSegmentOneStep" << std::endl;
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
   m_SeedsToAdded.clear();
@@ -516,7 +480,24 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   this->GetOutput()
     ->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
   this->GetOutput()->Allocate();
-  
+
+  // Create the diagram generators.  This was in the InitializeSegmentation()
+  // method.  But that method does not fit into the pipeline mechanism.
+  // I am assuming that these need to generated each time the filter
+  // executes.  - JVM
+  m_WorkingVD=VoronoiDiagram::New();
+  m_VDGenerator=VoronoiDiagramGenerator::New();
+
+  // This ivar should be necessary
+  m_Size = this->GetInput()->GetRequestedRegion().GetSize();
+
+  VoronoiDiagram::PointType VDsize;
+  VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
+  VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
+  m_VDGenerator->SetBoundary(VDsize);
+  m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
+  m_StepsRuned = 0;
+
   this->RunSegment();
   if(m_OutputBoundary)
     {

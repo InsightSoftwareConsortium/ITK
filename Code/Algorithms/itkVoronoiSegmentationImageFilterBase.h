@@ -173,11 +173,6 @@ public:
   itkGetMacro(MeanDeviation, double);
 
   /**
-   * stuff need to be take care of before segmentation
-   */
-  virtual void InitializeSegment();
-
-  /**
    * take a prior from other segmentation node, should be an
    * binary object.
    */
