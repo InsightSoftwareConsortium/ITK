@@ -1,0 +1,147 @@
+# Put in this directory
+# Year Month Day - TimeZone - Hour:Minute
+# e.g. 20000926-EDT-16:02
+# or Year Month Day Hour Minute
+# clock format [clock seconds] -format %Y%m%d%H%M
+
+# Must be run from root directory of Insight build, only by make
+
+source Testing/Utilities/Utility.conf
+source Testing/Utilities/Utility.tcl
+
+set BuildStamp [clock format [clock seconds] -format %Y%m%d%H%M]
+
+set HTMLDir [file join Testing HTML]
+set BuildTempDir [file join Testing Temporary]
+set SiteDir [file join $HTMLDir TestingResults $Site]
+set BuildNameDir [file join $SiteDir $BuildName]
+set BuildStampDir [file join $BuildNameDir $BuildStamp]
+set XMLDir [file join $BuildStampDir XML]
+
+# We can assume that Testing/HTML/TestingResults/@SITE@ is built
+file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $BuildTempDir $XMLDir
+
+set BuildLogFilename [file join $BuildTempDir Build.log.[pid]]
+set BuildLogCompressedFilename [file join $BuildTempDir Build.log.compressed.[pid]]
+
+
+# Begin the XML output
+set Out [open [file join $XMLDir Build.xml] w]
+
+puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+# puts $Out {<!DOCTYPE Insight>}
+puts $Out {<Build>}
+puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
+
+
+# Do the build
+set BuildStatus [catch { exec $MakeCommand >& $BuildLogFilename } ]
+
+set Build [open $BuildLogFilename r]
+
+set Cache ""
+catch { unset ErrorList }
+set ErrorList(Counter) 0
+set ErrorList(Append) ""
+set ErrorList(Buffer) ""
+set PostContextCount 5
+set BufferLength 5
+
+set Line 0
+while { ![eof $Build] } \
+{
+  # Get a line and write it out
+  set LogLine [gets $Build]
+
+  set hasError [regexp -nocase ".*error.*" $LogLine]
+  set hasWarning [regexp -nocase ".*warning.*" $LogLine]
+
+  if { $hasError } \
+  {
+    set Type Error
+  }
+  if { $hasWarning } \
+  {
+    set Type Warning
+  }
+  if { $hasError || $hasWarning } \
+  {
+    set i $ErrorList(Counter)
+    incr ErrorList(Counter)
+    set ErrorList($i,Type) $Type
+    set ErrorList($i,Text) $LogLine
+    set ErrorList($i,Line) $Line
+    set ErrorList($i,PreContext) $ErrorList(Buffer)
+    set ErrorList($i,PostContext) ""
+    set ErrorList($i,ContextCounter) 0
+    lappend ErrorList(Append) $i
+  }
+
+  # Add to the PreContextBuffer
+  set l [llength $ErrorList(Buffer)]
+  if { $l > $BufferLength } \
+  {
+    set ErrorList(Buffer) [lrange $ErrorList(Buffer) 1 [expr $l - 2]]
+  }
+  lappend ErrorList(Buffer) $LogLine
+
+  # Go through all in the ErrorList to append to, and do it
+  set AppendList $ErrorList(Append)
+  foreach i $AppendList \
+  {
+    if { $ErrorList($i,Line) != $Line } \
+    {
+      lappend ErrorList($i,PostContext) $LogLine
+      incr ErrorList($i,ContextCounter) 
+
+      # Remove this error for the append list
+      if { $ErrorList($i,ContextCounter) > $PostContextCount } \
+      {
+	set ErrorList(Append) [lremove $ErrorList(Append) $i]
+      }
+    }
+  }
+  incr Line
+}
+
+set LogCompressionStatus [ catch { CompressFile $BuildLogFilename $BuildLogCompressedFilename } CompressionResult ]
+if { $LogCompressionStatus } \
+{
+  error $CompressionResult
+}
+
+for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
+{
+  puts $Out "\t<$ErrorList($i,Type)>"
+  puts $Out "\t\t<BuildLogLine>[XMLSafeString $ErrorList($i,Line)]</BuildLogLine>"
+  puts $Out "\t\t<Text>[XMLSafeString $ErrorList($i,Text)]</Text>"
+  puts $Out "\t\t<PreContext>"
+  foreach l $ErrorList($i,PreContext) \
+  {
+    puts $Out [XMLSafeString $l]
+  }
+  puts $Out "\t\t</PreContext>"
+  puts $Out "\t\t<PostContext>"
+  foreach l $ErrorList($i,PostContext) \
+  {
+    puts $Out [XMLSafeString $l]
+  }
+  puts $Out "\t\t</PostContext>"
+  puts $Out "</$ErrorList($i,Type)>"
+  puts $Out "\n"
+}
+
+set BuildLog [open $BuildLogCompressedFilename r]
+fconfigure $BuildLog -translation binary
+
+puts $Out "\t<Log Encoding=\"base64\" Compression=\"$CompressionType\">"
+puts $Out [Base64Encode [read $BuildLog ]]
+# puts $Out [Base64Encode [read $BuildLog]]
+puts $Out "\t</Log>"
+puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+puts $Out "</Build>"
+
+close $BuildLog
+close $Out
+exit
+

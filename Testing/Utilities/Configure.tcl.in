@@ -1,0 +1,61 @@
+#!/bin/sh
+# Dummy line to execute tclsh or wish as needed. \
+exec tclsh "$0" ${1+"$@"}
+
+source Testing/Utilities/Build.conf
+
+source ../Insight/Testing/Utilities/Utility.tcl
+cd ../Insight
+
+set Out stdout
+
+puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+puts $Out {<!DOCTYPE Insight>}
+puts $Out {<Configure>}
+puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
+
+if { $CVSCommand != "" } \
+{
+  catch { exec $CVSCommand -n update >& Configure.log }
+}
+
+
+set In [open Configure.log r]
+
+while { ![eof $In] } \
+{
+  set Line [gets $In]
+  if { [regexp {^[U] } $Line ] > 0 } \
+  {
+    set file [string trimleft $Line {U }]
+    set lastRevision [lindex [exec $CVSCommand log -N -r $file | $GrepCommand "revision "] 1]
+    set allRevisions  [exec $CVSCommand log -N -r:$lastRevision $file | $GrepCommand "revision "]
+    set priorRevision [lindex $allRevisions 3]
+    set Comment [exec $CVSCommand log -N -r $file | $GrepCommand -v "access list:" | $GrepCommand -v "RCS file:" | $GrepCommand -v "Working file:" | $GrepCommand -v "head:" | $GrepCommand -v "branch:" | $GrepCommand -v "locks:" | $GrepCommand -v "keyword substitution:" | $GrepCommand -v "total revisions:" | $GrepCommand -v "description:" | $GrepCommand -v "\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-" | $GrepCommand -v ^$ ]
+    set Info [exec $CVSCommand log -N -r $file | grep "date:"]
+    set Author [string trim [lindex $Info 4] ";"]
+    set Date [string trim [lrange $Info 1 2] ";"]
+    set State [string trim [lindex $Info 6] ";"]
+
+    puts $Out "\t<Change>"
+    puts $Out "\t\t<Filename>[XMLSafeString $file]</Filename>"
+    puts $Out "\t\t<CurrentRevision>[XMLSafeString $lastRevision]</CurrentRevision>"
+    puts $Out "\t\t<PriorRevision>[XMLSafeString $priorRevision]</PriorRevision>"
+    puts $Out "\t\t<Info>"
+    puts $Out "\t\t\t<Author>[XMLSafeString $Author]</Author>"
+    puts $Out "\t\t\t<Date>[XMLSafeString $Date]</Date>"
+    puts $Out "\t\t\t<State>[XMLSafeString $State]</State>"
+    puts $Out "\t\t</Info>"
+    puts $Out "\t\t<Comment>"
+    puts $Out [XMLSafeString $Comment]
+    puts $Out "\t\t</Comment>"
+    puts $Out "\t<Change>"
+  }
+}
+  
+puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+
+puts $Out "</Configure>"
+
+exit
+

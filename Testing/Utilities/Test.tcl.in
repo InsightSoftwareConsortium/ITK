@@ -1,0 +1,78 @@
+
+source Testing/Utilities/Utility.conf
+source Testing/Utilities/Utility.tcl
+
+
+set HTMLDir [file join Testing HTML]
+set TempDir [file join Testing Temporary]
+
+set SiteDir [file join $HTMLDir TestingResults $Site]
+set BuildNameDir [file join $SiteDir $BuildName]
+
+# Find the build name directory
+set Status [catch { set BuildStampDirs [glob [file join $BuildNameDir *] ] } Result]
+if { $Status == 1 } \
+{
+  puts stderr "Could not find any builds in the $BuildNameDir to do testing $Result"
+  exit 1
+}
+
+set BuildStampDir [lindex [lsort $BuildStampDirs] end]
+set XMLDir [file join $BuildStampDir XML]
+
+# We can assume that Testing/HTML/TestingResults/@SITE@ is built
+file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
+
+
+set Out [open [file join $XMLDir Test.xml] w]
+
+puts $Out {<?xml version="1.0" encoding="UTF-8"?>}
+puts $Out {<!DOCTYPE Insight>}
+puts $Out {<Testing>}
+puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
+
+# For the moment, walk the tree of directories and run the tests
+
+set Queue [glob [file join Testing *]]
+while { [llength $Queue] != 0 } \
+{
+  # pop off first item
+  set Filename [lindex $Queue 0]
+  set Queue [lrange $Queue 1 end]
+
+  if { [file isdirectory $Filename] } \
+  {
+    catch { set Queue [concat $Queue [glob $Filename/*]] }
+    continue;
+  }
+  if { [file executable $Filename] } \
+  {
+    set Status [catch { exec $Filename } Result]
+    if { $Status == 0 } \
+    {
+      set Status passed
+    } \
+    else \
+    {
+      set Status failed
+    }
+    puts $Out "\t<Test>"
+    puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
+    puts $Out "\t\t<Status>$Status</Status>"
+    puts $Out "\t\t<Results>"
+    puts $Out "\t\t\t<Measurement>"
+    puts $Out "\t\t\t\t<Value>[XMLSafeString $Result]</Value>"
+    puts $Out "\t\t\t</Measurement>"
+    puts $Out "\t\t</Results>"
+    puts $Out "\t</Test>"
+
+  }
+}
+
+puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
+
+puts $Out "</Testing>"
+
+close $Out
+exit
+

@@ -1,0 +1,12 @@
+# Automatically configured options for Build/Test process
+
+set MakeCommand @MAKECOMMAND@
+set CompressionCommand @COMPRESSIONCOMMAND@
+set CompressionType @COMPRESSIONCOMMAND@
+set CVSCommand @CVSCOMMAND@
+set GrepCommand @GREPCOMMAND@
+
+set SourceDirectory @top_srcdir@
+
+set Site @SITE@
+set BuildName @BUILDNAME@

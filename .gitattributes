@@ -1,4 +1,5 @@
 .git*            export-ignore
 
+Configure.tcl.in  crlf=input
 configure        crlf=input
 install-sh       crlf=input

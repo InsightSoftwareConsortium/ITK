@@ -1,0 +1,257 @@
+proc CompressFile { In Out } \
+{
+  global CompressionCommand CompressionType
+  if { $In == $Out } \
+  {
+    error "CompressFile, can not compress a file to itself $In"
+  }
+  switch -glob $CompressionCommand \
+  {
+    *gzip \
+    {
+      set CompressionType gzip
+      return [exec $CompressionCommand -c $In > $Out]
+    }
+    *compress \
+    {
+      set CompressionType compress
+      return [exec $CompressionCommand -c $In > $Out]
+    }
+    *zip \
+    {
+      set CompressionType zip
+      return [exec $CompressionCommand - $In > $Out]
+    }
+    default \
+    {
+      set CompressionType none
+      return [file copy -force $In $Out]
+    }
+  }
+}
+proc XMLSafeString { string } \
+{
+  # Here is where all substitutions should be done
+  # regsub -all "\"" $string {%quot;} string
+  regsub -all "&" $string {&amp;} string
+  regsub -all "<" $string {&lt;} string
+  regsub -all ">" $string {&gt;} string
+  # regsub -all "'" $string {%apos;} string
+  return $string
+}
+
+proc GetDirectories { dir } \
+{
+  set result ""
+  foreach f [glob $dir]
+  {
+    if { [file isdirectory $f] } \
+    {
+      lappend result $f
+    }
+  }
+  return $result
+}
+
+
+proc InitBase64 {} \
+{
+  global Base64
+  
+  if { [info exists Base64(0)] } { return }
+  set String "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+  
+  set count [string length $String]
+  for { set i 0 } { $i < $count } { incr i } \
+  {
+    set Base64($i) [string index $String $i]
+  }
+  set Base64(Pad) "="
+}
+
+proc _toU8 { num } \
+{
+  return [expr ( $num + 0x100 ) % 0x100]
+}
+ 
+proc Base64Encode { String } \
+{
+  global Base64
+  InitBase64
+  
+  set length [string length $String]
+  set result ""
+  set index 0
+  set count 0
+  while { $length > 2 } \
+  {
+    binary scan [string index $String $index] c current0
+    set current0 [_toU8 $current0]
+    incr index
+    binary scan [string index $String $index] c current1
+    set current1 [_toU8 $current1]
+    incr index
+    binary scan [string index $String $index] c current2
+    set current2 [_toU8 $current2]
+    incr index
+
+    # puts "$current0 $current1 $current2"
+        
+    append result $Base64([expr $current0 >> 2])   
+    append result $Base64([expr (($current0 & 0x03) << 4) + ($current1 >> 4 )])
+    append result $Base64([expr (($current1 & 0x0f ) << 2) + ($current2 >> 6) ])
+    append result $Base64([expr $current2 & 0x3f])
+    incr length -3
+  }
+
+  
+  if { $length != 0 } \
+  {
+    # puts "length = $length"
+    binary scan [string index $String $index] c current0
+    set current0 [_toU8 $current0]
+    incr index
+    append result $Base64([expr $current0 >> 2])
+    if { $length > 1 } \
+    {
+      binary scan [string index $String $index] c current1
+      set current1 [_toU8 $current1]
+      incr index
+      append result $Base64([expr (($current0 & 0x03) << 4) + ($current1 >> 4)])
+      append result $Base64([expr ($current1 & 0x0f) << 2])
+      append result $Base64(Pad)      
+    } \
+    else \
+    {
+      append result $Base64([expr ($current0 & 0x03) << 4])
+      append result $Base64(Pad)
+      append result $Base64(Pad)
+    }
+  }
+# if (length != 0) {
+#                 result[i++] = base64_table[current[0] >> 2];
+#                 if (length > 1) {
+#                         result[i++] = base64_table[((current[0] & 0x03) << 4) + (current[1] >> 4)];
+#                         result[i++] = base64_table[(current[1] & 0x0f) << 2];
+#                         result[i++] = base64_pad;
+#                 }
+#                 else {
+#                         result[i++] = base64_table[(current[0] & 0x03) << 4];
+#                         result[i++] = base64_pad;
+#                         result[i++] = base64_pad;
+#                 }
+#           }
+  # Break result into 78 character counts
+  set length [string length $result]
+  set ret ""
+  set index 0
+  while { $length > 60 } \
+  {
+    append ret "[string range $result 0 59]\n"
+    set result [string range $result 60 end]
+    incr length -60
+  }
+  if { $length != 0 } \
+  {
+    append ret $result
+  }
+  return $ret
+}
+
+proc Base64EncodeFileToFile { In Out } \
+{
+  global Base64
+  InitBase64
+  set length 0
+  set result ""
+  set index 0
+  set count 0
+  
+  while { ![eof $In] } \
+  {
+    append String [read $In 2049]
+    incr length [string length $String]
+    while { $length > 2 } \
+    {
+      binary scan [string index $String $index] c current0
+      set current0 [_toU8 $current0]
+      incr index
+      binary scan [string index $String $index] c current1
+      set current1 [_toU8 $current1]
+      incr index
+      binary scan [string index $String $index] c current2
+      set current2 [_toU8 $current2]
+      incr index
+
+      set result ""
+      append result $Base64([expr $current0 >> 2])   
+      append result $Base64([expr (($current0 & 0x03) << 4) + ($current1 >> 4 )])
+      append result $Base64([expr (($current1 & 0x0f ) << 2) + ($current2 >> 6) ])
+      append result $Base64([expr $current2 & 0x3f])
+      incr length -3
+      incr count 4
+      puts -nonewline $Out $result
+      if { $count >= 78 } \
+      {
+	puts $Out ""
+	set count 0
+      }
+    }
+  }    
+
+  set result ""
+  if { $length != 0 } \
+  {
+    # puts "length = $length"
+    binary scan [string index $String $index] c current0
+    set current0 [_toU8 $current0]
+    incr index
+    append result $Base64([expr $current0 >> 2])
+    if { $length > 1 } \
+    {
+      binary scan [string index $String $index] c current1
+      set current1 [_toU8 $current1]
+      incr index
+      append result $Base64([expr (($current0 & 0x03) << 4) + ($current1 >> 4)])
+      append result $Base64([expr ($current1 & 0x0f) << 2])
+      append result $Base64(Pad)
+    } \
+    else \
+    {
+      append result $Base64([expr ($current0 & 0x03) << 4])
+      append result $Base64(Pad)
+      append result $Base64(Pad)
+    }
+    incr count 3
+  }
+  puts $Out $result
+}
+
+proc lremove { l item } \
+{
+  # Return a list with all instances of the item removed
+  set ret ""
+  foreach element $l \
+  {
+    if { [string compare $element $item] != 0 } \
+    {
+      lappend ret $element
+    }
+  }
+  return $ret
+}
+
+      
+proc Grep { match file } \
+{
+  set result ""
+  foreach line [split $file "\n"] \
+  {
+    if { [regexp $match $line] } \
+    {
+      lappend result $line
+    }
+  }
+  return $result
+}
+
