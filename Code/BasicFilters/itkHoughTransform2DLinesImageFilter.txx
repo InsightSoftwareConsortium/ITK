@@ -75,6 +75,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_OutputImage->SetSpacing(m_InputImage->GetSpacing());
   
   m_OutputImage->Allocate();
+  m_OutputImage->FillBuffer(0);
 
   ImageRegionConstIteratorWithIndex< InputImageType >  image_it( m_InputImage,  m_InputImage->GetRequestedRegion() );
   image_it.Begin();
@@ -132,10 +133,10 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 
   m_SimplifyAccumulator->SetRegions( region );
   
-  m_SimplifyAccumulator->SetOrigin(m_OutputImage->GetOrigin());
-  m_SimplifyAccumulator->SetSpacing(m_OutputImage->GetSpacing());
-  
+  m_SimplifyAccumulator->SetOrigin(m_InputImage->GetOrigin());
+  m_SimplifyAccumulator->SetSpacing(m_InputImage->GetSpacing());
   m_SimplifyAccumulator->Allocate();
+  m_SimplifyAccumulator->FillBuffer(0);
 
   Index<2> m_Index;
   Index<2> m_MaxIndex;
