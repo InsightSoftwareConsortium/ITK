@@ -69,7 +69,7 @@
 // \caption[ThresholdSegmentationLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the ThresholdSegmentationLevelSetImageFilter
 // applied to a segmentation task.}
-// \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram1}
+// \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
 // Let's start by including the appropriate header file.
