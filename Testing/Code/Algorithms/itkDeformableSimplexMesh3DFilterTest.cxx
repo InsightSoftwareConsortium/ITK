@@ -25,8 +25,6 @@
 
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkSimplexMeshGeometry.h"
-#include "itkSimplexMesh.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkImage.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
