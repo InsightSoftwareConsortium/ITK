@@ -8,15 +8,18 @@
 #include "itkVector.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+//#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
 
 /** \class GradientVectorFlowImageFilter
  * \brief 
- *
- *
+ * This class computes a diffusion of the gradient vectors for graylevel or binary 
+ * edge map derive from the image. It enlarges the capture range of the gradient
+ * force and make external force derived from the gradient work effectively in the
+ * framework of deformable model.
  *
  * \ingroup ImageFilters
  * \ingroup ImageSegmentation */
@@ -51,8 +54,9 @@ public:
   typedef typename OutputImageType::RegionType RegionType;
 
   /** Image and Image iterator definition. */
-  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
+//  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
   typedef ImageRegionIterator<InputImageType>      InputImageIterator;
+  typedef ImageRegionConstIteratorWithIndex<InputImageType>  InputImageConstIterator;
   typedef ImageRegionIterator<OutputImageType>     OutputImageIterator;
 
   /** Image dimension. */
@@ -66,26 +70,24 @@ public:
   typedef typename LaplacianFilterType::Pointer LaplacianFilterPointer;
 
   /** Routines. */
-  
-
-  /** Set/Get routines. */
-//  itkSetMacro(OutputImage, OutputImagePointer);
-//  itkGetMacro(OutputImage, OutputImagePointer);
 
   itkSetMacro(LaplacianFilter, LaplacianFilterPointer);
 
   itkSetMacro(TimeStep, double);
-
-//  itkSetMacro(Steps, double[ImageDimension]);
+  itkGetMacro(TimeStep, double);
 
   itkSetMacro(NoiseLevel, double);
+  itkGetMacro(NoiseLevel, double);
+
+  itkSetMacro(IterationNum, int);
+  itkGetMacro(IterationNum, int);
 
 protected:
   GradientVectorFlowImageFilter();
   ~GradientVectorFlowImageFilter() {}
   GradientVectorFlowImageFilter(const Self&) {}
   void operator=(const Self&) {}
-//  void PrintSelf(std::ostream& os, Indent indent) const;
+//  void PrintSelf(std::ostream& os, Indent indent) const; 
 
   virtual void GenerateData();
 
@@ -95,14 +97,16 @@ protected:
 
 private:
   // parameters;
-  double m_TimeStep;
-  double m_Steps[ImageDimension];
-  double m_NoiseLevel;
+  double m_TimeStep; //the timestep of each iteration
+  double m_Steps[ImageDimension]; // set to be 1 in all directions in most cases
+  double m_NoiseLevel; // the noise level of the image
+  int m_IterationNum;  // the iteration number
 
   LaplacianFilterPointer m_LaplacianFilter;
   typename Superclass::InputImagePointer m_IntermediateImage;
   InternalImagePointer m_InternalImages[ImageDimension];
-  
+  InternalImagePointer m_BImage;  // store the "b" value for every pixel
+  typename Superclass::InputImagePointer m_CImage; // store the $c_i$ value for every pixel
 };
 
 } // end namespace itk
