@@ -20,7 +20,7 @@ namespace fem {
  * Compute the image based gravity load - implemented in the derived class.
  */
 template<class TReference,class TTarget>
-vnl_vector<LoadImagePairBase<TReference , TTarget>::Float> LoadImagePairBase<TReference , TTarget>::Fg(vnl_vector<Float> InVec) 
+vnl_vector<typename LoadImagePairBase<TReference , TTarget>::Float> LoadImagePairBase<TReference , TTarget>::Fg(vnl_vector<Float> InVec) 
 {
   
   vnl_vector<Float> OutVec(ImageDimension,0.0);
