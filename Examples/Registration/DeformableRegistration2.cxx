@@ -18,6 +18,7 @@
 #include "itkImageFileReader.h" 
 #include "itkImageFileWriter.h" 
 
+#include "itkImageRegionIterator.h"
 
 // Software Guide : BeginLatex
 //
@@ -419,6 +420,92 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
     }
+
+
+  if( argc > 5 ) // if a fifth line argument has been provided...
+    {
+
+  typedef DeformationFieldType  VectorImage2DType;
+  typedef DeformationFieldType::PixelType Vector2DType;
+
+  VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
+
+  VectorImage2DType::RegionType  region2D = vectorImage2D->GetBufferedRegion();
+  VectorImage2DType::IndexType   index2D  = region2D.GetIndex();
+  VectorImage2DType::SizeType    size2D   = region2D.GetSize(); 
+
+
+  typedef itk::Vector< float,       3 >  Vector3DType;
+  typedef itk::Image< Vector3DType, 3 >  VectorImage3DType;
+
+  typedef itk::ImageFileWriter< VectorImage3DType > WriterType;
+
+  WriterType::Pointer writer3D = WriterType::New();
+
+  VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
+  
+  VectorImage3DType::RegionType  region3D;
+  VectorImage3DType::IndexType   index3D;
+  VectorImage3DType::SizeType    size3D;
+
+  index3D[0] = index2D[0];
+  index3D[1] = index2D[1];
+  index3D[2] = 0;
+  
+  size3D[0]  = size2D[0];
+  size3D[1]  = size2D[1];
+  size3D[2]  = 1;
+
+  region3D.SetSize( size3D );
+  region3D.SetIndex( index3D );
+
+  vectorImage3D->SetRegions( region3D );
+  vectorImage3D->Allocate();
+  
+  typedef itk::ImageRegionConstIterator< VectorImage2DType > Iterator2DType;
+
+  typedef itk::ImageRegionIterator< VectorImage3DType > Iterator3DType;
+
+  Iterator2DType  it2( vectorImage2D, region2D );
+  Iterator3DType  it3( vectorImage3D, region3D );
+
+  it2.GoToBegin();
+  it3.GoToBegin();
+
+  Vector2DType vector2D;
+  Vector3DType vector3D;
+
+  vector3D[2] = 0; // set Z component to zero.
+
+  while( !it2.IsAtEnd() )
+    {
+    vector2D = it2.Get();
+    vector3D[0] = vector2D[0];  
+    vector3D[1] = vector2D[1];  
+    it3.Set( vector3D );
+    ++it2;
+    ++it3;
+    }
+
+
+  writer3D->SetInput( vectorImage3D );
+
+  writer3D->SetFileName( argv[5] );
+
+  try
+    {
+    writer3D->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return -1;
+    }
+
+
+  }
+
+
 
   return 0;
 }
