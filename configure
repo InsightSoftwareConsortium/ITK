@@ -2893,6 +2893,13 @@ fi
 
 
 
+# For remote builds you have to configure at least one
+# file in each directory, so configure can make the directories.
+# So, for some directories with no Makefiles, a mkdir file is created
+# from dummy.in
+# Also, for each directory with a Makefile, an initial targets.make
+# must be created in that directory for non-gmake make programs that
+# abort when they can not find an included makefile part
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -3006,7 +3013,24 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile Code/Makefile Code/tools/Makefile  Code/config/system.make Code/config/Insight.make Code/config/InsightRules.make Code/config/build.rules Code/Insight3DParty/mkdir Code/Insight3DParty/vxl/Makefile Code/Common/Makefile Testing/mkdir Testing/Code/mkdir Testing/Code/Common/Makefile" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "Makefile
+Code/Makefile
+Code/targets.make:Code/config/dummy.in 
+Code/tools/Makefile
+Code/config/system.make 
+Code/config/Insight.make 
+Code/config/InsightRules.make 
+Code/config/build.rules
+Code/Insight3DParty/mkdir:Code/config/dummy.in
+Code/Insight3DParty/vxl/Makefile
+Code/Insight3DParty/vxl/targets.make:Code/config/dummy.in 
+Code/Common/Makefile
+Code/Common/targets.make:Code/config/dummy.in 
+Testing/mkdir:Code/config/dummy.in
+Testing/Code/mkdir:Code/config/dummy.in
+Testing/Code/Common/Makefile
+Testing/Code/Common/targets.make:Code/config/dummy.in 
+" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -3114,7 +3138,24 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile Code/Makefile Code/tools/Makefile  Code/config/system.make Code/config/Insight.make Code/config/InsightRules.make Code/config/build.rules Code/Insight3DParty/mkdir Code/Insight3DParty/vxl/Makefile Code/Common/Makefile Testing/mkdir Testing/Code/mkdir Testing/Code/Common/Makefile"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile
+Code/Makefile
+Code/targets.make:Code/config/dummy.in 
+Code/tools/Makefile
+Code/config/system.make 
+Code/config/Insight.make 
+Code/config/InsightRules.make 
+Code/config/build.rules
+Code/Insight3DParty/mkdir:Code/config/dummy.in
+Code/Insight3DParty/vxl/Makefile
+Code/Insight3DParty/vxl/targets.make:Code/config/dummy.in 
+Code/Common/Makefile
+Code/Common/targets.make:Code/config/dummy.in 
+Testing/mkdir:Code/config/dummy.in
+Testing/Code/mkdir:Code/config/dummy.in
+Testing/Code/Common/Makefile
+Testing/Code/Common/targets.make:Code/config/dummy.in 
+"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -3186,3 +3227,7 @@ rm -fr confdefs* $ac_clean_files
 test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
 
+# force a rebuild of rulesgen which will rebuild targets.make
+# this has to be done because configure generates empty targets.make files
+# for makes other than gnu.
+rm -f Code/tools/rulesgen

@@ -518,5 +518,34 @@ fi
 
 AC_SUBST(EXTRA_GCC_FLAG)
 
-AC_OUTPUT(Makefile Code/Makefile Code/tools/Makefile  Code/config/system.make Code/config/Insight.make Code/config/InsightRules.make Code/config/build.rules Code/Insight3DParty/mkdir Code/Insight3DParty/vxl/Makefile Code/Common/Makefile Testing/mkdir Testing/Code/mkdir Testing/Code/Common/Makefile)
+# For remote builds you have to configure at least one
+# file in each directory, so configure can make the directories.
+# So, for some directories with no Makefiles, a mkdir file is created
+# from dummy.in
+# Also, for each directory with a Makefile, an initial targets.make
+# must be created in that directory for non-gmake make programs that
+# abort when they can not find an included makefile part
+AC_OUTPUT(
+Makefile
+Code/Makefile
+Code/targets.make:Code/config/dummy.in 
+Code/tools/Makefile
+Code/config/system.make 
+Code/config/Insight.make 
+Code/config/InsightRules.make 
+Code/config/build.rules
+Code/Insight3DParty/mkdir:Code/config/dummy.in
+Code/Insight3DParty/vxl/Makefile
+Code/Insight3DParty/vxl/targets.make:Code/config/dummy.in 
+Code/Common/Makefile
+Code/Common/targets.make:Code/config/dummy.in 
+Testing/mkdir:Code/config/dummy.in
+Testing/Code/mkdir:Code/config/dummy.in
+Testing/Code/Common/Makefile
+Testing/Code/Common/targets.make:Code/config/dummy.in 
+)
 
+# force a rebuild of rulesgen which will rebuild targets.make
+# this has to be done because configure generates empty targets.make files
+# for makes other than gnu.
+rm -f Code/tools/rulesgen
