@@ -38,6 +38,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   typedef LineType::Pointer       LinePointer;
   typedef itk::GroupSpatialObject<3>       GroupType;
   typedef GroupType::Pointer      GroupPointer;
+  typedef itk::LandmarkSpatialObject<3>    LandmarkType;
+  typedef LandmarkType::Pointer   LandmarkPointer;
 
   typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
 
@@ -58,6 +60,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   BlobType::PointListType    list4;
   SurfaceType::PointListType list5;
   LineType::PointListType    list6;
+  LandmarkType::PointListType    list7;
 
   for( unsigned int i=0; i<10; i++)
   {
@@ -101,7 +104,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   }
 
   // Blob point list
-  for( unsigned int i=0; i<10; i++)
+  for( unsigned int i=0; i<3; i++)
   {
     BlobPointType p;
     p.SetPosition(i,i,i);
@@ -114,7 +117,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
 
   // Surface point list
-  for( unsigned int i=0; i<10; i++)
+  for( unsigned int i=0; i<3; i++)
   {
     SurfacePointType p;
     p.SetPosition(i,i,i);
@@ -132,7 +135,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   }
    
   // Line point list
-  for( unsigned int i=0; i<10; i++)
+  for( unsigned int i=0; i<3; i++)
   {
     LinePointType p;
     p.SetPosition(i,i,i);
@@ -150,6 +153,15 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetNormal(normal1,0);
     p.SetNormal(normal2,1);
     list6.push_back(p);
+  }
+
+  // Landmark poin tlist
+  for( unsigned int i=0; i<3; i++)
+  {
+    LinePointType p;
+    p.SetPosition(i,i,i);
+    p.SetColor(1,0,0,1);
+    list7.push_back(p);
   }
 
   /** Create a Tube  composed of 3 tubes */
@@ -174,14 +186,14 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   GroupPointer tubeN1 = GroupType::New();
   tubeN1->GetProperty()->SetName("tube network 1");
   tubeN1->SetId(0);
-  tubeN1->AddSpatialObject( tube1.GetPointer() );
-  tubeN1->AddSpatialObject( tube2.GetPointer() );
+  tubeN1->AddSpatialObject( tube1 );
+  tubeN1->AddSpatialObject( tube2 );
 
 
   GroupPointer tubeN2 = GroupType::New();
   tubeN2->SetId(1);
   tubeN2->GetProperty()->SetName("tube network 2");
-  tubeN2->AddSpatialObject( tube3.GetPointer() );
+  tubeN2->AddSpatialObject( tube3 );
 
   EllipsePointer ellipse = EllipseType::New();
   ellipse->SetRadius(9);
@@ -199,6 +211,10 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   LinePointer line = LineType::New();
   line->SetPoints(list6);
   line->GetProperty()->SetName("Line 1");
+
+  LandmarkPointer landmark = LandmarkType::New();
+  landmark->SetPoints(list7);
+  landmark->GetProperty()->SetName("Landmark 1");
 
   typedef ImageType::ImageType itkImageType;
   typedef itkImageType::Pointer     ImagePointer;
@@ -240,17 +256,18 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   image->GetProperty()->SetName("Image 1");
   image->SetImage(itkImage);
 
-  tubeN2->AddSpatialObject( image.GetPointer() );
-  tubeN2->AddSpatialObject( ellipse.GetPointer() );
+  tubeN2->AddSpatialObject( image );
+  tubeN2->AddSpatialObject( ellipse );
 
-  tubeN1->AddSpatialObject( tubeN2.GetPointer() );
-  tubeN1->AddSpatialObject( blob.GetPointer() );
-  tubeN1->AddSpatialObject( line.GetPointer() );
-  tubeN1->AddSpatialObject( surface.GetPointer() );
+  tubeN1->AddSpatialObject( tubeN2 );
+  tubeN1->AddSpatialObject( blob );
+  tubeN1->AddSpatialObject( line );
+  tubeN1->AddSpatialObject( surface );
+  tubeN1->AddSpatialObject( landmark );
 
   std::cout<<"Testing Number of children: ";
   
-  if( tubeN1->GetNumberOfChildren() != 6 )
+  if( tubeN1->GetNumberOfChildren() != 7 )
   {
     std::cout<< tubeN1->GetNumberOfChildren()  << "[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -263,8 +280,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   std::cout<<"Testing Writing SceneSpatialObject: ";
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(tubeN1.GetPointer());
-  writer->SetFullFileName("Tube-Ellipse.meta");
+  writer->SetInput(tubeN1);
+  writer->SetFullFileName("Objects.meta");
   writer->Update();
 
   std::cout<<"[PASSED]"<<std::endl;
@@ -273,7 +290,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFullFileName("Tube-Ellipse.meta");
+  reader->SetFileName("Objects.meta");
   reader->Update();
   
   ReaderType::ScenePointer myScene = reader->GetScene();
@@ -288,9 +305,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     std::cout<<" [PASSED]"<<std::endl;
   }
   std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfObjects(1) != 7)
+  if(myScene->GetNumberOfObjects(1) != 9)
   {
-    std::cout << "found " << myScene->GetNumberOfObjects(1) << "instead of 7" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfObjects(1) << "instead of 9" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
@@ -572,8 +589,63 @@ int itkReadWriteSpatialObjectTest(int, char*[])
       }
     }
   }
-  delete mySceneChildren;
 
+  std::cout<<" [PASSED]"<<std::endl; 
+
+  std::cout<<"Testing Landmark validity:";
+
+  for(i = mySceneChildren->begin(); i != mySceneChildren->end(); i++)
+  {
+    LandmarkType::PointListType::const_iterator j;
+    if(!strcmp((*i)->GetTypeName(),"LandmarkSpatialObject"))
+    {
+      unsigned int value = 0;
+      for(j = dynamic_cast<LandmarkType*>(*i)->GetPoints().begin(); 
+          j != dynamic_cast<LandmarkType*>(*i)->GetPoints().end(); 
+          j++)
+      {
+        for(unsigned int d=0;d<3;d++)
+        {
+          if((*j).GetPosition()[d]!=value)
+          {
+            std::cout<<" [FAILED]"<<std::endl;
+            return EXIT_FAILURE;
+          }
+        }
+        value++;
+      }
+    }
+  }
+  delete mySceneChildren;
+  std::cout<<" [PASSED]"<<std::endl; 
+
+  // Now testing to read/write a scene
+  std::cout << "Writing Scene:";
+
+  typedef itk::SceneSpatialObject<3> SceneType;
+  SceneType::Pointer scene2 = SceneType::New();
+  scene2->AddSpatialObject(ellipse);
+  scene2->AddSpatialObject(surface);
+
+  WriterType::Pointer writer2 = WriterType::New();
+  writer2->SetInput(scene2);
+  writer2->SetFullFileName("Scene.meta");
+  writer2->Update();
+
+  std::cout<<"[PASSED]"<<std::endl;
+
+  std::cout<<"Reading Scene: ";
+
+  ReaderType::Pointer reader2 = ReaderType::New();
+  reader2->SetFileName("Scene.meta");
+  reader2->Update();
+  
+  ReaderType::ScenePointer myScene2 = reader2->GetScene();
+
+  if(myScene2->GetNumberOfObjects() != 2)
+    {
+    std::cout << myScene2->GetNumberOfObjects() <<" : [FAILED]" << std::endl;
+    }
 
   std::cout<<" [PASSED]"<<std::endl; 
 
