@@ -116,7 +116,10 @@ public:
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
 
+  
   /** The function type which will calculate the curvature flow */
   typedef CurvatureFlowFunction<OutputImageType> CurvatureFunctionType;
   

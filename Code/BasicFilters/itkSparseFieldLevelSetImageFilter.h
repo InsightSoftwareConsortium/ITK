@@ -224,6 +224,9 @@ public:
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  /**Typedefs from the superclass */
+  typedef typename Superclass::TimeStepType TimeStepType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -307,10 +310,6 @@ protected:
   virtual void InitializeBackgroundPixels();
  
   
-private:
-  SparseFieldLevelSetImageFilter(const Self&);//purposely not implemented
-  void operator=(const Self&);      //purposely not implemented
-
   /** Constructs the sparse field layers and initializes their values. */
   void Initialize();
   
@@ -436,6 +435,11 @@ private:
    *  determine halting criteria.  Valid only for the previous iteration, not
    *  during the current iteration.  Calculated in ApplyUpdate. */
   ValueType m_RMSChange;  
+
+private:
+  SparseFieldLevelSetImageFilter(const Self&);//purposely not implemented
+  void operator=(const Self&);      //purposely not implemented
+
 };
   
   
