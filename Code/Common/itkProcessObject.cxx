@@ -809,7 +809,6 @@ ProcessObject
         }
       }
     }
-  m_Updating = false;     
     
   /**
    * Prepare all the outputs. This may Allocate/Deallocate bulk data.
@@ -884,6 +883,9 @@ ProcessObject
    * so validate it again here.
    */
   m_InformationTime.Modified();
+
+  // Mark that we are no longer updating the data in this filter
+  m_Updating = false;
 }
 
 
