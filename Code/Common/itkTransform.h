@@ -157,7 +157,7 @@ public:
    * Standard coordinate point type for this class
    */
   typedef Point<TScalarType, InputSpaceDimension> InputPointType;
-  typedef Point<TScalarType, InputSpaceDimension> OutputPointType;
+  typedef Point<TScalarType, OutputSpaceDimension> OutputPointType;
 
 
   /**
