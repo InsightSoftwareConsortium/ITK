@@ -89,6 +89,8 @@ void RegisterTests()
   REGISTER_TEST(itkGrayscaleFillholeImageFilterTest );
   REGISTER_TEST(itkHardConnectedComponentImageFilterTest );
   REGISTER_TEST(itkHausdorffDistanceImageFilterTest );
+  REGISTER_TEST(itkHConvexConcaveImageFilterTest );
+  REGISTER_TEST(itkHMaximaMinimaImageFilterTest );
   REGISTER_TEST(itkHoughTransform2DCirclesImageTest );
   REGISTER_TEST(itkHoughTransform2DLinesImageTest );
   REGISTER_TEST(itkImageAdaptorNthElementTest );

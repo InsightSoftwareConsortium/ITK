@@ -226,6 +226,24 @@ ADD_TEST(itkGrayscaleConnectedOpeningImageFilterTest2 ${BASIC_FILTERS_TESTS}
                ${ITK_DATA_ROOT}/Input/cthead1.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png 150 86)
 
+ADD_TEST(itkHConvexConcaveImageFilterTest ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HConvexConcaveImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png itkHConvexConcaveImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png 50)
+
+ADD_TEST(itkHMaximaMinimaImageFilterTest ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png itkHMaximaMinimaImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cake_easy.png 
+               ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png 35)
+
+ADD_TEST(itkHMaximaMinimaImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest2.png 
+               ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png itkHMaximaMinimaImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cake_hard.png 
+               ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png 35)
+
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png
@@ -353,6 +371,8 @@ itkGrayscaleConnectedClosingImageFilterTest.cxx
 itkGrayscaleFillholeImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkHausdorffDistanceImageFilterTest.cxx
+itkHConvexConcaveImageFilterTest.cxx
+itkHMaximaMinimaImageFilterTest.cxx
 itkHoughTransform2DCirclesImageTest.cxx
 itkHoughTransform2DLinesImageTest.cxx
 itkImageAdaptorNthElementTest.cxx
