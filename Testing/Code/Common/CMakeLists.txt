@@ -17,4 +17,6 @@ itkImportImageTest \
 itkMeshTest \
 itkMeshInstanceTest \
 itkPixelAccessTest \
-itkExtractMeshConnectedRegionsTest 
+itkExtractMeshConnectedRegionsTest \
+itkMutualInformationTest
+
