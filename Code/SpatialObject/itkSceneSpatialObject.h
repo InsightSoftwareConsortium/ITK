@@ -96,6 +96,9 @@ public:
   void FixIdValidity(void);
   int GetNextAvailableId();
 
+  /** Clear function : Remove all the objects in the scene */
+  void Clear();
+
 protected: 
 
   /** List of the children object plug to the SceneSpatialObject spatial object. */

@@ -389,6 +389,15 @@ SceneSpatialObject<SpaceDimension>
   return Id;
 }
 
+/** Clear function : Remove all the objects in the scene */
+template <unsigned int SpaceDimension>
+void
+SceneSpatialObject<SpaceDimension>
+::Clear()
+{
+  m_Objects.clear();
+}
+
 
 } // end of namespace itk 
 
