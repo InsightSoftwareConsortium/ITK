@@ -30,7 +30,6 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
       if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
         {
         m_InBounds[i] = ans = false;
-        break;
         }
     }
   return ans;
