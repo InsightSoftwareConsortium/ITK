@@ -44,7 +44,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _WIN32
 #include <unistd.h>
 #endif
-
+#ifdef _WIN32
+#include "itkWindows.h"
+#endif
 // These are the includes necessary for multithreaded rendering on an SGI
 // using the sproc() call
 #ifdef ITK_USE_SPROC
@@ -109,7 +111,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #endif
 #endif
 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#if defined(_WIN32)
     {
       SYSTEM_INFO sysInfo;
       GetSystemInfo(&sysInfo);
