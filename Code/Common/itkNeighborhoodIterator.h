@@ -115,7 +115,7 @@ namespace itk {
  * in the mask is moved around the image, the neighboring pixel pointers
  * (offsets) are moved accordingly.
  *
- * A /em pixel /em neighborhood is defined as a central pixel location and an
+ * A \em pixel \em neighborhood is defined as a central pixel location and an
  * N-dimensional radius extending outward from that location.
  
  * Pixels in a neighborhood can be accessed through a NeighborhoodIterator
