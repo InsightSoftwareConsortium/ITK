@@ -51,7 +51,7 @@ namespace itk
  * \brief Function implementation of an ellipsoid
  *
  * Implements a function that returns 1 for points inside or on the surface
- * of a ellipsoid, 0 for points outside the ellipsoid. The orientation of the 
+ * of a ellipsoid and 0 for points outside the ellipsoid. The orientation of the 
  * n-dimensional ellipsoid axes are defined by n orthogonal vectors.
  *
  **/
