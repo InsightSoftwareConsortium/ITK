@@ -25,6 +25,7 @@
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -123,11 +124,18 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   lower = mean - m_Multiplier * sqrt(variance);
   upper = mean + m_Multiplier * sqrt(variance);
   
+  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+    {
+    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+    }
+  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+    {
+    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+    }
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
 
-  itkDebugMacro(<< "Lower intensity = " << lower);
-  itkDebugMacro(<< "Upper intensity = " << upper);
+  itkDebugMacro(<< "Lower intensity = " << lower << ", Upper intensity = " << upper);
   
   IteratorType it = IteratorType ( outputImage, function, m_Seed );
   while( !it.IsAtEnd())
@@ -167,11 +175,18 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     lower = mean - m_Multiplier * sqrt(variance);
     upper = mean + m_Multiplier * sqrt(variance);
   
+  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+    {
+    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+    }
+  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+    {
+    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+    }
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
     
-    itkDebugMacro(<< "Lower intensity = " << lower);
-    itkDebugMacro(<< "Upper intensity = " << upper);
+    itkDebugMacro(<< "Lower intensity = " << lower << ", Upper intensity = " << upper);
     
     // Rerun the segmentation
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
