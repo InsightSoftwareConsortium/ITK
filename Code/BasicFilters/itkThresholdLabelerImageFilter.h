@@ -47,7 +47,7 @@ public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits<TOutput>::One; }
   ~ThresholdLabeler() {};
 
-  typedef typename std::vector<TInput> ThresholdVector;
+  typedef std::vector<TInput> ThresholdVector;
 
   /** Set the vector of thresholds. */
   void SetThresholds( const ThresholdVector & thresholds )
@@ -116,7 +116,7 @@ public:
   typedef typename TOutputImage::PixelType  OutputPixelType;
 
   /** Threshold vector types. */
-  typedef typename std::vector<InputPixelType> ThresholdVector;
+  typedef std::vector<InputPixelType> ThresholdVector;
 
   /** The input pixel type must support comparison operators. */
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
