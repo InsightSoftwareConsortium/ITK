@@ -68,6 +68,8 @@ int main( int argc, char * argv [] )
     std::cerr << argv[0];
     std::cerr << " inputScalarImage inputLabeledImage";
     std::cerr << " outputLabeledImage numberOfClasses";
+    std::cerr << " numberOfIterations smoothingFactor";
+    std::cerr << " neighborhoodRadius ";
     std::cerr << " mean1 mean2 ... meanN " << std::endl;
     return EXIT_FAILURE;
     }
@@ -76,9 +78,12 @@ int main( int argc, char * argv [] )
   const char * inputLabelImageFileName = argv[2];
   const char * outputImageFileName     = argv[3];
 
-  const unsigned int numberOfClasses   = atoi( argv[4] );
+  const unsigned int numberOfIterations = atoi( argv[4] );
+  const double       smoothingFactor    = atof( argv[5] );
+  const unsigned int neighborhoodRadius = atoi( argv[6] );
+  const unsigned int numberOfClasses    = atoi( argv[7] );
 
-  const unsigned int numberOfArgumentsBeforeMeans = 5;
+  const unsigned int numberOfArgumentsBeforeMeans = 8;
 
   if( argc < numberOfClasses + numberOfArgumentsBeforeMeans )
     {
@@ -104,7 +109,7 @@ int main( int argc, char * argv [] )
   
 // Software Guide : BeginCodeSnippet
   typedef signed short        PixelType;
-  const unsigned int          Dimension = 3;
+  const unsigned int          Dimension = 2;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
 
@@ -192,7 +197,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginCodeSnippet
   mrfFilter->SetNumberOfClasses( numberOfClasses );
-  mrfFilter->SetMaximumNumberOfIterations( 200 );
+  mrfFilter->SetMaximumNumberOfIterations( numberOfIterations );
   mrfFilter->SetErrorTolerance( 1e-7 );
 // Software Guide : EndCodeSnippet
 
@@ -208,7 +213,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex 
  
 // Software Guide : BeginCodeSnippet
-  mrfFilter->SetSmoothingFactor( 1.0 );
+  mrfFilter->SetSmoothingFactor( smoothingFactor );
 // Software Guide : EndCodeSnippet
 
 
@@ -226,7 +231,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  mrfFilter->SetNeighborhoodRadius( 2 );
+  mrfFilter->SetNeighborhoodRadius( neighborhoodRadius );
 // Software Guide : EndCodeSnippet
 
 
