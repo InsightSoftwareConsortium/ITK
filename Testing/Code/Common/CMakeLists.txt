@@ -43,7 +43,7 @@ ADD_TEST(itkImageRegionExclusionIteratorWithIndexTest itkCommonTests itkImageReg
 ADD_TEST(itkImageSliceIteratorTest itkCommonTests itkImageSliceIteratorTest)
 ADD_TEST(itkIteratorTests itkCommonTests itkIteratorTests)
 ADD_TEST(itkLightObjectTest itkCommonTests itkLightObjectTest)
-ADD_TEST(itkLevelSetFunctionTest itkLevelSetFunctionTest)
+ADD_TEST(itkLevelSetFunctionTest itkCommonTests itkLevelSetFunctionTest)
 ADD_TEST(itkMatrixTest itkCommonTests itkMatrixTest)
 ADD_TEST(itkMapContainerTest itkCommonTests itkMapContainerTest)
 ADD_TEST(itkMemoryLeakTest itkCommonTests itkMemoryLeakTest)
