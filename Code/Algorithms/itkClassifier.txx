@@ -84,7 +84,7 @@ Classifier<TInputImage,TClassifiedImage>
 ::UpdateProgress( float amount )
 {
   this->SetProgress( amount );
-  this->InvokeEvent( Command::ProgressEvent );
+  this->InvokeEvent( ProgressEvent() );
   
 }
 
