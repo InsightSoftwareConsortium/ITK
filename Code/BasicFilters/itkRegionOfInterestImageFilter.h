@@ -100,7 +100,7 @@ protected:
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+  void ThreadedGenerateData(const RegionType& outputRegionForThread,
                             int threadId );
   
 private:
