@@ -17,6 +17,8 @@
 #include "itkImage.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkBSplineInterpolateImageFunction.h"
+#include "itkBSplineResampleImageFunction.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigImages.h"
@@ -70,6 +72,37 @@ namespace _cable_
     ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::US3,
                      double, 
                      itkNearestNeighborInterpolateImageFunctionUS3D);
+    
+    // wrap BSplineInterpolateImageFunction 
+    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F2,
+                     double, 
+                     itkBSplineInterpolateImageFunctionF2D);
+    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F3, 
+                     double, 
+                     itkBSplineInterpolateImageFunctionF3D);
+    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US2,
+                     double, 
+                     itkBSplineInterpolateImageFunctionUS2D);
+    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US3,
+                     double, 
+                     itkBSplineInterpolateImageFunctionUS3D);
+
+ 
+    // wrap BSplineResampleImageFunction 
+    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F2,
+                     double, 
+                     itkBSplineResampleImageFunctionF2D);
+    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F3, 
+                     double, 
+                     itkBSplineResampleImageFunctionF3D);
+    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::US2,
+                     double, 
+                     itkBSplineResampleImageFunctionUS2D);
+    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::US3,
+                     double, 
+                     itkBSplineResampleImageFunctionUS3D);
+
+
 
   }
 }
