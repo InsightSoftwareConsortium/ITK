@@ -112,7 +112,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     // Set the value in the hash table 
     identifierPlusOne = identifier + 1;
 
-    CellType::CellAutoPointer cellPointer;
+    typename CellType::CellAutoPointer cellPointer;
     cellPointer.TakeOwnership( new VertexCell );
     cellPointer->SetPointId( 0, cellArray[0] );
     m_OutputMesh->SetCell( identifier, cellPointer ); 
@@ -147,7 +147,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     // Set the value in the hash table 
     identifierPlusOne = identifier + 1;
 
-    CellType::CellAutoPointer cellPointer;
+    typename CellType::CellAutoPointer cellPointer;
     cellPointer.TakeOwnership( new LineCell );
 
     int i;
