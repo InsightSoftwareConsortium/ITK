@@ -48,30 +48,36 @@
 
 static doublereal c_b9 = 0.;
 static integer c__1 = 1;
-static integer c__9 = 9;
+/* static integer c__9 = 9; */
 static integer c__11 = 11;
-static integer c__3 = 3;
+/* static integer c__3 = 3; */
 static doublereal c_b275 = .001;
 static doublereal c_b276 = .9;
 static doublereal c_b277 = .1;
-static integer c__5 = 5;
+/* static integer c__5 = 5; */
 
 /* ================    L-BFGS-B (version 2.1)   ========================== */
-/* Subroutine */ int setulb_(n, m, x, l, u, nbd, f, g, factr, pgtol, wa, iwa, 
-    task, iprint, csave, lsave, isave, dsave, task_len, csave_len)
-integer *n, *m;
-doublereal *x, *l, *u;
-integer *nbd;
-doublereal *f, *g, *factr, *pgtol, *wa;
-integer *iwa;
-char *task;
-integer *iprint;
-char *csave;
-logical *lsave;
-integer *isave;
-doublereal *dsave;
-ftnlen task_len;
-ftnlen csave_len;
+/* Subroutine */ 
+int setulb_(integer *n,
+      integer *m,
+      const doublereal *x, 
+      doublereal *l,
+      doublereal *u,
+      integer *nbd,
+      doublereal *f,
+      doublereal *g,
+      doublereal *factr,
+      doublereal *pgtol,
+      doublereal *wa,
+      integer *iwa,
+      char *task,
+      integer *iprint,
+      char *csave,
+      logical *lsave,
+      integer *isave,
+      doublereal *dsave,
+      ftnlen task_len,
+      ftnlen csave_len)
 {
     /* System generated locals */
     integer i__1;
@@ -80,8 +86,46 @@ ftnlen csave_len;
     integer s_cmp();
 
     /* Local variables */
-    static integer lsnd, lsgo, lygo, l1, l2, l3, ld, lr, lt;
-    extern /* Subroutine */ int mainlb_();
+    static integer lsnd, lsgo, lygo, /* l1,  l2, l3, */ ld, lr, lt;
+    //    extern /* Subroutine */ int mainlb_();
+    static int mainlb_(integer *n, 
+    integer *m,
+    doublereal *x, 
+    doublereal *l, 
+    doublereal *u,
+    integer *nbd,
+    doublereal *f, 
+    doublereal *g, 
+    doublereal *factr, 
+    doublereal *pgtol, 
+    doublereal *ws, 
+    doublereal *wy, 
+    doublereal *sy, 
+    doublereal *ss, 
+    doublereal *yy, 
+    doublereal *wt, 
+    doublereal *wn, 
+    doublereal *snd, 
+    doublereal *z__, 
+    doublereal *r__, 
+    doublereal *d__, 
+    doublereal *t,
+    doublereal *wa,
+    doublereal *sg, 
+    doublereal *sgo, 
+    doublereal *yg,
+    doublereal *ygo,
+    integer *index, 
+    integer *iwhere, 
+    integer *indx2,
+    char *task,
+    integer *iprint,
+    char *csave,
+    logical *lsave,
+    integer *isave,
+    doublereal *dsave,
+    ftnlen task_len,
+    ftnlen csave_len);
     static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
 
 /*     ************ */
@@ -302,9 +346,9 @@ ftnlen csave_len;
     isave[19] = isave[18] + *m;
     isave[20] = isave[19] + *m;
     }
-    l1 = isave[1];
+    /* l1 = isave[1];
     l2 = isave[2];
-    l3 = isave[3];
+    l3 = isave[3]; */
     lws = isave[4];
     lwy = isave[5];
     lsy = isave[6];
@@ -322,7 +366,7 @@ ftnlen csave_len;
     lsgo = isave[18];
     lyg = isave[19];
     lygo = isave[20];
-    mainlb_(n, m, &x[1], &l[1], &u[1], &nbd[1], f, &g[1], factr, pgtol, &wa[
+    mainlb_(n, m, (doublereal *)&x[1], &l[1], &u[1], &nbd[1], f, &g[1], factr, pgtol, &wa[
         lws], &wa[lwy], &wa[lsy], &wa[lss], &wa[lyy], &wa[lwt], &wa[lwn], 
         &wa[lsnd], &wa[lz], &wa[lr], &wa[ld], &wa[lt], &wa[lwa], &wa[lsg],
          &wa[lsgo], &wa[lyg], &wa[lygo], &iwa[1], &iwa[*n + 1], &iwa[(*n 
@@ -332,24 +376,50 @@ ftnlen csave_len;
 } /* setulb_ */
 
 /* ======================= The end of setulb ============================= */
-/* Subroutine */ int mainlb_(n, m, x, l, u, nbd, f, g, factr, pgtol, ws, wy, 
-    sy, ss, yy, wt, wn, snd, z__, r__, d__, t, wa, sg, sgo, yg, ygo, 
-    index, iwhere, indx2, task, iprint, csave, lsave, isave, dsave, 
-    task_len, csave_len)
-integer *n, *m;
-doublereal *x, *l, *u;
-integer *nbd;
-doublereal *f, *g, *factr, *pgtol, *ws, *wy, *sy, *ss, *yy, *wt, *wn, *snd, *
-    z__, *r__, *d__, *t, *wa, *sg, *sgo, *yg, *ygo;
-integer *index, *iwhere, *indx2;
-char *task;
-integer *iprint;
-char *csave;
-logical *lsave;
-integer *isave;
-doublereal *dsave;
-ftnlen task_len;
-ftnlen csave_len;
+/* Subroutine */ 
+static int mainlb_ 
+//(n, m, x, l, u, nbd, f, g, factr, pgtol, ws, wy, 
+// sy, ss, yy, wt, wn, snd, z__, r__, d__, t, wa, sg, sgo, yg, ygo, 
+// index, iwhere, indx2, task, iprint, csave, lsave, isave, dsave, 
+//    task_len, csave_len)
+     (integer *n, 
+      integer *m,
+      doublereal *x, 
+      doublereal *l, 
+      doublereal *u,
+      integer *nbd,
+      doublereal *f, 
+      doublereal *g, 
+      doublereal *factr, 
+      doublereal *pgtol, 
+      doublereal *ws, 
+      doublereal *wy, 
+      doublereal *sy, 
+      doublereal *ss, 
+      doublereal *yy, 
+      doublereal *wt, 
+      doublereal *wn, 
+      doublereal *snd, 
+      doublereal *z__, 
+      doublereal *r__, 
+      doublereal *d__, 
+      doublereal *t,
+      doublereal *wa,
+      doublereal *sg, 
+      doublereal *sgo, 
+      doublereal *yg,
+      doublereal *ygo,
+      integer *index, 
+      integer *iwhere, 
+      integer *indx2,
+      char *task,
+      integer *iprint,
+      char *csave,
+      logical *lsave,
+      integer *isave,
+      doublereal *dsave,
+      ftnlen task_len,
+      ftnlen csave_len)
 {
     /* Format strings */
 /*
