@@ -216,8 +216,8 @@ protected:
   void GenerateInputRequestedRegion();
   
 private:
-  double m_FloodLevel;
   bool m_Merge;
+  double m_FloodLevel;
   bool m_ConsumeInput;
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
   
