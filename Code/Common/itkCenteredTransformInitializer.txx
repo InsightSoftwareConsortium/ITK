@@ -84,7 +84,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {
-      rotationCenter[i]    = movingCenter[i];
+      rotationCenter[i]    = fixedCenter[i];
       translationVector[i] = movingCenter[i] - fixedCenter[i];
       }
     }
@@ -125,7 +125,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {
-      rotationCenter[i]    = centerMoving[i];
+      rotationCenter[i]    = centerFixed[i];
       translationVector[i] = centerMoving[i] - centerFixed[i];
       }
 
