@@ -22,6 +22,8 @@
 #include <stdio.h>
 #include <zlib.h>
 
+#include <itksys/SystemTools.hxx>
+
 static const unsigned char DEF_WHITE_MASK=255;
 namespace itk
 {
@@ -393,7 +395,7 @@ Brains2MaskImageIO
           "",                 // program
           "",                 // module
           "",                 // version
-          this->m_FileName.c_str(),   // name
+          itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name
           3,                  // num_dims
           xsize,              // xsize
           1.0,                // x_res
