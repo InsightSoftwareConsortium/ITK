@@ -2622,6 +2622,35 @@ void Document::SetMaxSizePrintEntry(long newSize)
 
 
 /**
+ * \brief   Handle broken private tag from Philips NTSCAN
+ *          where the endianess is being switch to BigEndian for no
+ *          apparent reason
+ * @return  no return
+ */
+void Document::HandleBrokenEndian(uint16_t group, uint16_t elem)
+{
+   // Endian reversion. Some files contain groups of tags with reversed endianess.
+   static int reversedEndian = 0;
+   // try to fix endian switching in the middle of headers
+   if ((group == 0xfeff) && (elem == 0x00e0))
+   {
+     // start endian swap mark for group found
+     reversedEndian++;
+     SwitchSwapToBigEndian();
+     // fix the tag
+     group = 0xfffe;
+     elem = 0xe000;
+   } 
+   else if ((group == 0xfffe) && (elem == 0xe00d) && reversedEndian) 
+   {
+     // end of reversed endian group
+     reversedEndian--;
+     SwitchSwapToBigEndian();
+   }
+
+}
+
+/**
  * \brief   Read the next tag but WITHOUT loading it's value
  *          (read the 'Group Number', the 'Element Number',
  *           gets the Dict Entry
@@ -2646,6 +2675,7 @@ DocEntry* Document::ReadNextDocEntry()
       return 0;
    }
 
+   HandleBrokenEndian(group, elem);
    DocEntry *newEntry = NewDocEntryByNumber(group, elem);
    FindDocEntryVR(newEntry);
 
