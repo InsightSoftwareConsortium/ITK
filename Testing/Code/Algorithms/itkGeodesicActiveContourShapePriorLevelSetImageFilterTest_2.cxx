@@ -326,7 +326,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   filter->SetOptimizer( optimizer );
   filter->SetInitialParameters( parameters );
 
-  filter->SetMaximumRMSError( 0.10 );
+  filter->SetMaximumRMSError( 0.05 );
   filter->SetMaximumIterations( 200 );
 
   /**

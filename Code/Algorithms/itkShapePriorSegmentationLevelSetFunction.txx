@@ -98,6 +98,7 @@ typename ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::ComputeGlobalTimeStep( void * gd ) const
 {
+/*
   TimeStepType dt = Superclass::ComputeGlobalTimeStep( gd );
 
   ShapePriorGlobalDataStruct *d = (ShapePriorGlobalDataStruct *) gd;
@@ -117,6 +118,39 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
     {
     return dt;
     }
+*/
+
+  TimeStepType dt;
+
+  ShapePriorGlobalDataStruct *d = (ShapePriorGlobalDataStruct *) gd;
+
+  d->m_MaxAdvectionChange += d->m_MaxPropagationChange + d->m_MaxShapePriorChange;
+  
+  if (vnl_math_abs(m_CurvatureWeight) > 0.0)
+    {
+    if (d->m_MaxAdvectionChange > 0.0)
+      {
+      dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
+                        ( m_DT/ vnl_math_abs(m_CurvatureWeight) ));
+      }
+    else
+      {
+      dt = m_DT / vnl_math_abs(m_CurvatureWeight);
+      }
+    }
+  else
+    {
+    if (d->m_MaxAdvectionChange > 0.0)
+      {
+      dt = m_WaveDT / d->m_MaxAdvectionChange;
+      }
+    else 
+      {
+      dt = 0.0;
+      }
+    }
+
+  return dt;
 
 }
 
