@@ -105,7 +105,7 @@ public:
 
 
     /// Run-time type information (and related methods).
-    itkTypeMacro( AffineTransform, Transform );
+    itkTypeMacro( TranslationTransform, Transform );
 
 
     /// New macro for creation of through a Smart Pointer
