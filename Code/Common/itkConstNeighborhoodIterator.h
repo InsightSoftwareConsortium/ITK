@@ -28,6 +28,7 @@
 #include "itkMacro.h"
 #include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
+#include "itkExceptionObject.h"
 
 namespace itk {
 
@@ -199,9 +200,19 @@ public:
   virtual bool IsAtEnd() const
     {
       if ( this->GetCenterPointer() > m_End )
-        {std::cout << "PAST END!!!!!" <<  std::endl;
-        throw ExceptionObject(__FILE__, __LINE__); }
-      return ( this->GetCenterPointer() == m_End );   }
+        {
+        ExceptionObject e(__FILE__, __LINE__);
+        std::ostrstream msg;
+        msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
+            << " is greater than End = " << m_End
+            << std::endl
+            << "  " << *this
+            << std::ends;
+        e.SetDescription(msg.str());
+        throw e;
+        }
+      return ( this->GetCenterPointer() == m_End );
+    }
   
   /** Increments the pointers in the ConstNeighborhoodIterator,
    * wraps across boundaries automatically, accounting for
