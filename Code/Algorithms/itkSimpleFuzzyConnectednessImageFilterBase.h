@@ -75,8 +75,8 @@ namespace itk{
  *    and Applications in Image Segmentation", J. Udupa and S. Samarasekera
  *  Graphical Models and Image Processing, Vol.58, No.3. pp 246-261, 1996.
  *
- * \ingroup FuzzyConnectednessSegmentation  
- */
+ * \ingroup FuzzyConnectednessSegmentation  */
+
 template <class TInputImage, class TOutputImage>
 class SimpleFuzzyConnectednessImageFilterBase:
   public ImageToImageFilter<TInputImage,TOutputImage>
@@ -108,7 +108,7 @@ public:
   typedef std::queue<IndexType> QueueType;
   typedef typename TOutputImage::RegionType RegionType;
   
-  /** Set/Get the weight of the first term(standard statistics) in the
+  /** Set/Get the weight of the first term (standard statistics) in the
    * affinity computation. */
   itkSetMacro(Weight, double);
   itkGetMacro(Weight, double);
@@ -117,17 +117,17 @@ public:
   itkSetMacro(Threshold, double);
   itkGetMacro(Threshold, double);
 
-  /** Setting the beginning point, believed to be inside the object. */
+  /** Setting the starting point, believed to be inside the object. */
   void SetSeed(const IndexType & seed);
   
-  /** Update the binary result. (needed after update the threshold) */
+  /** Update the binary result (needed after an update the threshold). */
   void MakeSegmentObject();
 
-  /** \todo Document */
+  /** Extract the FuzzyScene not thresholded. */
   FuzzyScene GetFuzzyScene(void)
     { return m_FuzzyScene; };
 
-  /** A simple combining of set threshold and make segmentobject. */
+  /** A simple combination of SetThreshold and MakeSegmentObject methods. */
   void UpdateThreshold(const double x);
   
 protected:
@@ -150,8 +150,7 @@ protected:
 
   void PushNeighbors(const IndexType &center);
 
-  /** Define the fuzzy affinity function between two pixels, need to be
-   * implement by the sub-classes. */
+  /** Define the fuzzy affinity function between two pixels. */
   virtual double FuzzyAffinity(const PixelType f1, const PixelType f2)
     { return 0; }
 
@@ -159,7 +158,7 @@ protected:
 };
 
 
-} // end namespace itk
+} /** end namespace itk. */
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSimpleFuzzyConnectednessImageFilterBase.txx"
