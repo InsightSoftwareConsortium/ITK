@@ -46,12 +46,19 @@ class Array2D : public vnl_matrix< TValueType >
 public:
  
   /** The element type stored at each location in the Array2D. */
-  typedef TValueType  ValueType;
+  typedef TValueType              ValueType;
+  typedef Array2D                 Self;
+  typedef vnl_matrix<TValueType>  VnlMatrixType;
   
 public:
 
   Array2D();
   Array2D(unsigned int rows,unsigned int cols);
+  Array2D( const Self & array );
+  Array2D( const VnlMatrixType & matrix );
+
+  const Self & operator=( const Self & array );
+  const Self & operator=( const VnlMatrixType & matrix );
 
   void Fill (TValueType const& v) { fill(v); }
 

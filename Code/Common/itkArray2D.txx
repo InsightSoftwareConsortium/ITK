@@ -44,6 +44,59 @@ Array2D<TValueType >
 
 
 
+/**
+ * Constructor from a vnl_matrix
+ */
+template < typename TValueType >
+Array2D<TValueType >
+::Array2D( const VnlMatrixType & matrix ):
+     vnl_matrix<TValueType>( matrix )
+{
+}
+
+
+
+/**
+ * Copy Constructor 
+ */
+template < typename TValueType >
+Array2D<TValueType >
+::Array2D( const Self & array )
+     :vnl_matrix<TValueType>( array )
+{
+}
+
+
+
+/**
+ * Assignment Operator from Array
+ */
+template < typename TValueType >
+const Array2D<TValueType > &
+Array2D<TValueType >
+::operator=( const Self & array )
+{
+  this->VnlMatrixType::operator=( array );
+  return *this;
+}
+
+
+
+/**
+ * Assignment Operator from vnl_matrix
+ */
+template < typename TValueType >
+const Array2D<TValueType > &
+Array2D<TValueType >
+::operator=( const VnlMatrixType & matrix )
+{
+  this->VnlMatrixType::operator=( matrix );
+  return *this;
+}
+
+
+  
+
 
 } // namespace itk
 
