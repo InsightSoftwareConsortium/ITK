@@ -37,23 +37,22 @@ public:
    */
   typedef ImageSource<TOutputImage>  Superclass;
 
-  /** 
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
 
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
-	/**
-	 * A useful constructor
-	 */
-	FilterFileIOToImage(std::string fileName);
+  /**
+   * A useful constructor
+   */
+  FilterFileIOToImage(std::string fileName);
 
-  /** 
+  /**
    * Run-time type information (and related methods).
    */
   itkTypeMacro(FilterFileIOToImage, ImageSource);
@@ -68,14 +67,30 @@ public:
    */
   typedef ImageRegion<TOutputImage::ImageDimension>  Region;
 
+  /**
+   * Set m_IO
+   */
+  void SetIO(FileIO* io);
+
 	/**
-	 * Set m_IO
+	 * Get m_IO
 	 */
-	void SetIO(FileIO* io);
+	FileIO* GetIO();
+
+	/**
+	 * Set m_FileToLoad
+	 */
+	itkSetStringMacro(FileToLoad);
 
 protected:
   void GenerateData();
-	FileIO* m_IO;
+  FilterFileIOToImage();
+	~FilterFileIOToImage();
+	void LoadFile();
+
+  FileIO* m_IO;
+	LightObject::Pointer m_LightObjectIO;
+	std::string m_FileToLoad;
 };
 
 } //namespace ITK
