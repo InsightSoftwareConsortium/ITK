@@ -22,7 +22,7 @@
 #include "itkFEMMaterialBase.h"
 #include "itkFEMLoadBase.h"
 
-#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/algo/vnl_svd.h"
 
@@ -81,6 +81,23 @@ public:
   GFN2DispMapType GFN2Disp;
 
   /**
+   * Definition of matrix class that is used within Solver.
+   * \note This should be sparse matrix, since the matrices in solver are very large.
+   */
+  typedef vnl_sparse_matrix<Float> MatrixType;
+
+  /**
+   * Definition of vector class that is used within Solver.
+   */
+  typedef vnl_vector<Float> VectorType;
+
+  /**
+   * Definition of class that is used to solve linear system of equations.
+   */
+  typedef vnl_svd<Float> EQSType;
+   
+
+  /**
    * Reads the whole system (nodes, materials and elements) from input stream
    */
   void Read( std::istream& f );
@@ -134,11 +151,6 @@ public:
 protected:
 
   /**
-   * Pointer to the equation solver object
-   */
-  vnl_svd<Float>* EQS;
-
-  /**
    * Number of global degrees of freedom in a system
    */
   int NGFN;
@@ -161,28 +173,28 @@ public:
   /**
    * Default constructor
    */
-  Solver() : EQS(0) {}
+  Solver() {}
 
   /**
    * Default destructor. We need to destroy the equation solver object
    * before destruction of the Solver.
    */
-  ~Solver() { delete EQS; }
+  ~Solver() {}
 
   /**
    * Assembled master stiffnes matrix (NDOF+size_of_MFC= size_of_K), includes the MFC
    */
-  vnl_matrix<Float> K;
+  MatrixType K;
 
   /**
    * Assembled master load vector (NDOF+size_of_MFC= size_of_F)
    */
-  vnl_vector<Float> F;
+  VectorType F;
   
   /**
    * Solution of master equation (after the solve is called) (size_of_F = size_of_u)
    */
-  vnl_vector<Float> u;
+  VectorType u;
 
 };
 

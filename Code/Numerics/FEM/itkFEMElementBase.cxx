@@ -41,6 +41,17 @@ Element::Displacement* Element::uDOF(int i) const
 
 
 
+vnl_matrix<Element::Float> Element::Me() const
+{
+  /*
+   * If the function is not overiden, we return 0 matrix. This means that
+   * by default the elements are static.
+   */
+  return vnl_matrix<Float>(N(),N(),0.0);
+}
+
+
+
 
 #ifdef FEM_BUILD_VISUALIZATION
 /** Global scale factor for drawing on the DC */

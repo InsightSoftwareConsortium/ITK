@@ -29,6 +29,9 @@
 #include "itkFEMUtility.h"
 #include "itkFEMObjectFactory.h"
 
+#include <vnl/vnl_sparse_matrix_linear_system.h>
+#include <vxl/vnl/algo/vnl_lsqr.h>
+
 namespace itk {
 namespace fem {
 
@@ -334,8 +337,8 @@ void Solver::AssembleK() {
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  K.resize(NGFN+NMFC,NGFN+NMFC);
-  K.fill(0.0);
+  K=MatrixType(NGFN+NMFC,NGFN+NMFC);
+//  K.fill(0.0);
 
   /**
    * Step over all elements
@@ -550,29 +553,10 @@ void Solver::AssembleF(int dim) {
 
 
 /**
- * decompose matrix using svd, qr, whatever ...
+ * Decompose matrix using svd, qr, whatever ... if needed
  */  
-void Solver::DecomposeK() {
-
-
-  /**
-   * First we delete the existing equation solver object.
-   */
-  delete EQS;
-  EQS=0;
-
-  /**
-   * We can only create the solver object if NGFN>0...
-   */
-  if (NGFN<=0)
-  {
-    return;
-  }
-
-  /**
-   * Create the equation solver object
-   */
-  EQS=new vnl_svd<Float>(K);
+void Solver::DecomposeK()
+{
 
 }
 
@@ -584,15 +568,20 @@ void Solver::DecomposeK() {
  */  
 void Solver::Solve() {
 
-  /**
-   * Check if the solver object has been properly defined
+  /*
+   * Solve the sparse system of linear equation and store the result in vector u.
+   * Here we use the iterative least squares solver.
    */
-  if (!EQS) return;
+  vnl_sparse_matrix_linear_system<double> ls(K,F);
+  vnl_lsqr lsq(ls);
+  u.resize(NGFN+NMFC); u.fill(0.0);
 
-  /**
-   * Initialize the master displacement vector and solve for the displacements
+  /*
+   * Set max number of iterations to 3*size of the K matrix.
+   * FIXME: There should be a better way to determine the number of iterations needed.
    */
-  u=EQS->solve(F);
+  lsq.set_max_iterations(3*(NGFN+NMFC));
+  lsq.minimize(u);
 
 }
 

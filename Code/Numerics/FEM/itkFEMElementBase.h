@@ -91,6 +91,13 @@ public:
   virtual vnl_matrix<Float> Ke() const = 0;
 
   /**
+   * Compute and return element mass matrix in global coordinate system.
+   * This is needed if dynamic problems (parabolic or hyperbolix d.e.)
+   * need to be solved.
+   */
+  virtual vnl_matrix<Float> Me() const;
+
+  /**
    * Easy access of LoadElement pointer type. When using SmartPointers,
    * this is a pointer to FEMLightObject to avoid cyclic references between
    * LoadElement and Element classes.
