@@ -3,6 +3,10 @@
 #include "itkScalar.h"
 #include "itkVector.h"
 
+// Important note: many compilers define macros like min() and max(). This
+// program will fail if that's the case. (For example, the 
+// std::numeric_limits<>::min() collides with the min() macro.)
+
 main ()
 {
   // Test some numeric traits
