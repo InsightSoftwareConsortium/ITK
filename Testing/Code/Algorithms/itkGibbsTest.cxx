@@ -1,16 +1,17 @@
+#include <iostream>
+#include <string>
+#include <math.h>
+
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
-
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkSimpleImageRegionIterator.h"
 #include "itkGaussianSupervisedClassifier.h"
-#include "itkGibbsPriorFilter.h"
-#include <iostream>
-#include <string>
-#include <math.h>
+#include "itkRGBGibbsPriorFilter.h"
 
 #define   IMGWIDTH            20
 #define   IMGHEIGHT           20
@@ -18,12 +19,12 @@
 #define   NUMBANDS            1  
 #define   NDIMENSION          3
 #define   NUM_CLASSES         3
-#define   MAX_NUM_ITER        20
+#define   MAX_NUM_ITER        1
 
 //using namespace itk;
 
-int main(){
-	unsigned short TestImage [400]={
+//time_t btime,etime;
+const unsigned short TestingImage [400]={
 297,277,317,289,300,312,306,283,282,308,308,342,335,325,315,300,304,318,307,308,
 
 319,276,311,282,309,273,308,277,296,313,308,333,322,317,302,330,339,340,325,315,
@@ -64,7 +65,22 @@ int main(){
 
 328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
 };
-  
+
+int main(){
+std::cout<< "Gibbs Prior Test Begins: " << std::endl;
+  time(&btime);
+
+// for local testing on image files (256*256*1 RGB)
+//  unsigned char TestImage[65536*3];
+  unsigned short outImage[400];
+//  FILE *input;
+
+//  FILE *output=fopen("../../../../insight/local_copy/Jaw_gibbs_uint8.raw", "wb");
+/*
+  input = fopen("../../../../insight/local_copy/Jaw_top_uint8.raw", "rb");
+  fread(TestImage, 3, 65536, input);
+  fclose(input);
+*/  
   typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType; 
 
   VecImageType::Pointer vecImage = VecImageType::New();
@@ -85,9 +101,10 @@ int main(){
   typedef VecImageType::PixelType::VectorType VecPixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
+  typedef itk::SimpleImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
+  outIt.GoToBegin();
 
   //Set up the vector to store the image  data
   typedef VecImageType::PixelType     DataVector;
@@ -100,7 +117,9 @@ int main(){
   //Vector 1
   int i = 0;
   while ( !outIt.IsAtEnd() ) { 
-    dblVec[0] = TestImage[i]; 
+    dblVec[0] = (unsigned short) TestingImage[i];
+//	dblVec[1] = (unsigned short) TestImage[i+65536];
+//	dblVec[2] = (unsigned short) TestImage[i+65536*2];
 	outIt.Set(dblVec); 
 	++outIt;
 	i++;
@@ -109,7 +128,7 @@ int main(){
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType; 
+  typedef itk::Image<unsigned short, NDIMENSION > ClassImageType; 
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
@@ -129,35 +148,39 @@ int main(){
 
   unsigned int ClassImageDimension = NDIMENSION;
 
-  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
+  typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
-
-
+  classoutIt.GoToBegin();
 
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
   //Slice 1
   //Pixel no. 1
+
   i = 0;
   while ( !classoutIt.IsAtEnd() ) {  
-	if ( (i%IMGWIDTH<7) && (i%IMGWIDTH>2) && 
-		(i/IMGWIDTH<7) && (i/IMGWIDTH>2)) {
+	if ( (i%IMGWIDTH<8) && (i%IMGWIDTH>4) && 
+		(i/IMGWIDTH<8) && (i/IMGWIDTH>4)) {
 	  classoutIt.Set( 1 );
 	} else {
-	  if ( (i%IMGWIDTH<17) && (i%IMGWIDTH>12) && 
-		  (i/IMGWIDTH<17) && (i/IMGWIDTH>12)) {
+	  if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) && 
+		  (i/IMGWIDTH<18) && (i/IMGWIDTH>14)) {
 	    classoutIt.Set( 2 );
-	  }
-	  else {
-		classoutIt.Set( 0 );
-	  }
+	  }/* else {
+		if ( (i%IMGWIDTH<20) && (i%IMGWIDTH>10) && 
+		  (i/IMGWIDTH<139) && (i/IMGWIDTH>129)) {
+			classoutIt.Set( 3 );
+		}*/
+		else {
+			classoutIt.Set( 0 );
+		}
+	  //}
 	}
 	++classoutIt;
 	i++;
   }
-
 
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
@@ -178,13 +201,13 @@ int main(){
 	  myGaussianClassifier = GaussianSupervisedClassifierType::New();
 
   //Set the Gibbs Prior labeller
-  typedef itk::GibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
+  typedef itk::RGBGibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
   GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
 
   // Set the MRF labeller parameters
   applyGibbsImageFilter->SetNumberOfClasses(NUM_CLASSES);
-  applyGibbsImageFilter->SetMaxNumIter(MAX_NUM_ITER);
-  applyGibbsImageFilter->SetErrorTollerance(0.00);
+  applyGibbsImageFilter->SetMaximumNumberOfIterations(MAX_NUM_ITER);
+//  applyGibbsImageFilter->SetErrorTollerance(0.00);
   applyGibbsImageFilter->SetClusterSize(10);
   applyGibbsImageFilter->SetBoundaryGradient(6);
   applyGibbsImageFilter->SetObjectLabel(1);
@@ -195,29 +218,45 @@ int main(){
 
   //Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);  
-  
-  //Kick off the MRF labeller function
+
+  time(&etime);
+
+  std::cout<<"Ininialization done in: "<<etime-btime<<" seconds."<<std::endl;  
+  //Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
-  
+
   ClassImageType::Pointer  outClassImage = applyGibbsImageFilter->GetOutput();
 
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
 
   i = 0;
+  int j0 = 0;
+  int j1 = 0;
   while ( !labeloutIt.IsAtEnd() ) {
-	TestImage[i] = labeloutIt.Get()*32000;
+//	outImage[i] = labeloutIt.Get();
+	if (labeloutIt.Get() == 0) {
+	  j0++;
+	  outImage[i] = 0;
+	}
+	if (labeloutIt.Get() == 1) {
+	  j1++;
+	  outImage[i] = 65535;
+	}
 	i++;
 	++labeloutIt;
   }
-/*
-  FILE *output=fopen("new.raw", "wb");
-  fwrite(TestImage, 2, IMGWIDTH*IMGHEIGHT, output);
-  fclose(output);
+
+  std::cout<< "j0:" << j0 << std::endl;
+  std::cout<< "j1:" << j1 << std::endl;
+
+//  FILE *output=fopen("new.raw", "wb");
+//  fwrite(outImage, 2, IMGWIDTH*IMGHEIGHT, output);
+//  fclose(output);
   //Verify if the results were as per expectation
-*/  
+  
   bool passTest = true;
-  int j = 0;
+/*  int j = 0;
   i = 0;
   labeloutIt.GoToBegin();
   while ( !labeloutIt.IsAtEnd() ) {
@@ -226,12 +265,13 @@ int main(){
 	i++;
 	++labeloutIt;
   }
-
-  if (j<95) passTest = false;
-  if( passTest == true ) 
+*/
+  passTest = ((j1>85) && (j1 < 115));
+  if( passTest ) 
     std::cout<< "Gibbs Prior Test Passed" << std::endl;
   else 
     std::cout<< "Gibbs Prior Test failed" << std::endl;
+
 
   return 0;
 }
