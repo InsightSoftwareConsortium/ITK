@@ -126,9 +126,10 @@ void ImageSeriesReader<TOutputImage>
     m_NumberOfDimensionsInImage = reader1->GetImageIO()->GetNumberOfDimensions();
     // collapse the number of dimensions in image if any of the last
     // dimensions are one
-    for (i = m_NumberOfDimensionsInImage-1; i >= 0; --i)
+    int d;
+    for (d = static_cast<int>(m_NumberOfDimensionsInImage)-1; d >= 0; --d)
       {
-      if (dimSize[i] == 1)
+      if (dimSize[d] == 1)
         {
         m_NumberOfDimensionsInImage--;
         }
