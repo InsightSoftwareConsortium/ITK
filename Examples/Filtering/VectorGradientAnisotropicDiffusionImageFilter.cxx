@@ -21,7 +21,8 @@
 //  version of the classic Perona-Malik anisotropic diffusion equation for
 //  vector-valued images. Typically in vector-valued diffusion, vector
 //  components are diffused independently of one another using a conductance
-//  term that is linked across the components. 
+//  term that is linked across the components. The diffusion equation was
+//  illustrated in \ref{sec:GradientAnisotropicDiffusionImageFilter}
 //
 //  This filter is designed to process images of \code{itk::Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
@@ -248,7 +249,7 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. The images show the x component of the gradient before (left)
+  //  the brain. The images show the $X$ component of the gradient before (left)
   //  and after (right) the application of the filter. In this example the
   //  filter was run with a time step of 0.25, and 5 iterations.  
   //
