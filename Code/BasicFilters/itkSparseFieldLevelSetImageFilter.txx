@@ -337,10 +337,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     outputIt.SetLocation(layerIt->m_Value);
     statusIt.SetLocation(layerIt->m_Value);
 
-    //
-    //      new_value = dt * (*updateIt) + outputIt.GetCenterPixel();
-    //
-      
     new_value = this->CalculateUpdateValue(layerIt->m_Value,
                                            dt,
                                            outputIt.GetCenterPixel(),
@@ -379,7 +375,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      rms_change_accumulator += vnl_math_sqr(new_value-outputIt.GetCenterPixel());
+       //rms_change_accumulator += (*updateIt) * (*updateIt);
+
       outputIt.SetCenterPixel( new_value );
 
       // Search the neighborhood for inside indicies.
@@ -390,8 +388,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         if (neighbor_status == 1)
           {
           temp_value = new_value - m_ConstantGradientValue;
-          if ( temp_value >  outputIt.GetPixel(idx) )
-            {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+
+          // Keep the smallest possible value for the new active node.  This
+          // places the new active layer node closest to the zero level-set.
+          if ( temp_value < outputIt.GetPixel(idx) )
+            {
+            outputIt.SetPixel(idx, temp_value, bounds_status);
+            }
           }
         }
       node = m_LayerNodeStore->Borrow();
@@ -406,7 +409,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       m_LayerNodeStore->Return( release_node );
       }
 
-    else if (new_value < LOWER_ACTIVE_THRESHOLD)
+    else if (new_value <= LOWER_ACTIVE_THRESHOLD)
       { // This index will move DOWN into a negative (inside) layer.
 
       // First check for active layer neighbors moving in the opposite
@@ -427,8 +430,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         ++updateIt;
         continue;              
         }
-          
+      
       rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      //rms_change_accumulator += (*updateIt) * (*updateIt);
+      
       outputIt.SetCenterPixel( new_value );
           
       // Search the neighborhood for outside indicies.
@@ -439,8 +444,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         if (neighbor_status == 2)
           {
           temp_value = new_value + m_ConstantGradientValue;
-          if ( temp_value <  outputIt.GetPixel(idx) )
-            {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+
+          // Keep the largest possible value for this active set node.  This
+          // places the node closest to the active layer.
+          if ( temp_value > outputIt.GetPixel(idx) )
+            {
+            outputIt.SetPixel(idx, temp_value, bounds_status);
+            }
           }
         }
       node = m_LayerNodeStore->Borrow();
@@ -457,6 +467,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     else
       {
       rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      //rms_change_accumulator += (*updateIt) * (*updateIt);
       outputIt.SetCenterPixel( new_value );
       ++layerIt;
       }
@@ -598,14 +609,14 @@ void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::InitializeBackgroundPixels()
 {
-  // Assign background pixels INSIDE the sparse field layers to a new level set
-  // with value greater than the innermost layer.  Assign background pixels
-  // OUTSIDE the sparse field layers to a new level set with value less than
-  // the outermost layer.
+  // Assign background pixels OUTSIDE the sparse field layers to a new level set
+  // with value greater than the outermost layer.  Assign background pixels
+  // INSIDE the sparse field layers to a new level set with value less than
+  // the innermost layer.
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
   
-  const ValueType inside_value  = max_layer + m_ConstantGradientValue;
-  const ValueType outside_value = -(max_layer + m_ConstantGradientValue);
+  const ValueType outside_value  = max_layer + m_ConstantGradientValue;
+  const ValueType inside_value = -(max_layer + m_ConstantGradientValue);
   
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
                                                      this->GetOutput()->GetRequestedRegion());
@@ -624,11 +635,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       {
       if (shiftedIt.Get() > m_ValueZero)
         {
-        outputIt.Set(inside_value);
+        outputIt.Set(outside_value);
         }
       else
         {
-        outputIt.Set(outside_value);
+        outputIt.Set(inside_value);
         }
       }
     }
