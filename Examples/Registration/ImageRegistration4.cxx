@@ -119,15 +119,6 @@ int main( int argc, char **argv )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-
-  //  Software Guide : BeginLatex
-  //  
-  //  In this example the image types and all registration components
-  //  apart from the metric is declared as in section 
-  //  \ref{sec:IntroductionImageRegistration}.
-  //
-  //  Software Guide : EndLatex 
-
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
@@ -139,6 +130,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
+  //  In this example the image types and all registration components
+  //  apart from the metric is declared as in section 
+  //  \ref{sec:IntroductionImageRegistration}.
   //  The Mattes mutual information metric type is 
   //  instantiated using the image types.
   //
@@ -235,7 +229,7 @@ int main( int argc, char **argv )
   //  computes the negative mutual information and hence we
   //  need to minimize the cost function in this case. In this
   //  example we will use the same optimizer parameters as in
-  //  section \ref{sec:sec:IntroductionImageRegistration}.
+  //  section \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
 
@@ -384,6 +378,14 @@ int main( int argc, char **argv )
   //  sequence of translations followed by the optimizer as it searched the
   //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
+  //  Comparing these trace plot with Figures 
+  //  \ref{fig:ImageRegistration2TraceTranslations} and 
+  //  \ref{fig:ImageRegistration2TraceMetric} we can see that the measures
+  //  produce by \code{MattesMutualInformationImageToImageMetric} is smoother
+  //  than that of \code{MutualInformationImageToImageMetric}. This smoothness
+  //  allows the use of more sophisticated optimizers such as
+  //  the \code{RegularStepGradientDescentOptimizer} which efficiently zones
+  //  into the optimal value.
   //
   //
   //  Software Guide : EndLatex 
