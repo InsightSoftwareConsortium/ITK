@@ -17,6 +17,7 @@
 #ifndef _itkMultiResolutionMutualInformationAffineRegistration_txx
 #define _itkMultiResolutionMutualInformationAffineRegistration_txx
 
+#ifdef COMPILE_LONG_NAMES_REGISTRATION_CLASSES
 #include "itkMultiResolutionMutualInformationAffineRegistration.h"
 
 namespace itk
@@ -113,4 +114,5 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 
 } // namespace itk
 
+#endif
 #endif

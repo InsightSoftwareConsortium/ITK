@@ -17,6 +17,7 @@
 #ifndef _itkMeanSquaresPointSetToImageMetric_txx
 #define _itkMeanSquaresPointSetToImageMetric_txx
 
+#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
 #include "itkMeanSquaresPointSetToImageMetric.h"
 
 namespace itk
@@ -144,4 +145,5 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 } // end namespace itk
 
 
+#endif
 #endif

@@ -17,6 +17,7 @@
 #ifndef _itkPatternIntensityPointSetToImageMetric_txx
 #define _itkPatternIntensityPointSetToImageMetric_txx
 
+#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
 #include "itkPatternIntensityPointSetToImageMetric.h"
 
 namespace itk
@@ -149,4 +150,5 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 } // end namespace itk
 
 
+#endif
 #endif

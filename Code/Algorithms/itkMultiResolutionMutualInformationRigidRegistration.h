@@ -17,6 +17,8 @@
 #ifndef __itkMultiResolutionMutualInformationRigidRegistration_h
 #define __itkMultiResolutionMutualInformationRigidRegistration_h
 
+#ifdef COMPILE_LONG_NAMES_REGISTRATION
+
 #include "itkImageToImageRigidMutualInformationGradientDescentRegistration.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkMultiResolutionRegistration.h"
@@ -187,4 +189,5 @@ private:
 #include "itkMultiResolutionMutualInformationRigidRegistration.txx"
 #endif
 
+#endif
 #endif

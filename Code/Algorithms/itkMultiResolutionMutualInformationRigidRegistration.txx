@@ -17,6 +17,7 @@
 #ifndef _itkMultiResolutionMutualInformationRigidRegistration_txx
 #define _itkMultiResolutionMutualInformationRigidRegistration_txx
 
+#ifdef COMPILE_LONG_NAMES_REGISTRATION
 #include "itkMultiResolutionMutualInformationRigidRegistration.h"
 
 namespace itk
@@ -113,4 +114,5 @@ MultiResolutionMutualInformationRigidRegistration<TReference,TTarget>
 
 } // namespace itk
 
+#endif
 #endif

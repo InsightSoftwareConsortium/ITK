@@ -17,6 +17,8 @@
 #ifndef __itkMeanSquaresPointSetToImageMetric_h
 #define __itkMeanSquaresPointSetToImageMetric_h
 
+#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
+
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
@@ -109,6 +111,7 @@ private:
 #include "itkMeanSquaresPointSetToImageMetric.txx"
 #endif
 
+#endif
 #endif
 
 

@@ -17,6 +17,7 @@
 #ifndef _itkNormalizedCorrelationPointSetToImageMetric_txx
 #define _itkNormalizedCorrelationPointSetToImageMetric_txx
 
+#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 
 namespace itk
@@ -153,4 +154,5 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 } // end namespace itk
 
 
+#endif
 #endif
