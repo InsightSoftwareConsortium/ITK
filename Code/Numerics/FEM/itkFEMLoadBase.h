@@ -81,10 +81,6 @@ public:
       m_node(node_), m_el(el_) {}
   };
 
-
-  /** global load number */
-  int GN;
-
 };
 
 

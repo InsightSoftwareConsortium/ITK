@@ -166,11 +166,11 @@ public:
   Node2DIsotropic::ConstPointer cur_node;
 
   /** pointer to negative side of pos_node */
-  Node2DIsotropic::ConstPointer neg_node1;  
+  Node2DIsotropic::ConstPointer neg_node1;
   
   /** pointer to negative sides of cur_node */
-  Node2DIsotropic::ConstPointer pos_node1;  
-  Node2DIsotropic::ConstPointer pos_node2;  
+  Node2DIsotropic::ConstPointer pos_node1;
+  Node2DIsotropic::ConstPointer pos_node2;
 
   /**
    * Pointer to geometric and material properties of the element

@@ -546,9 +546,26 @@ void Solver::AssembleF(int dim) {
  */  
 void Solver::DecomposeK() {
 
-  // Create the equation solver object
+
+  /**
+   * First we delete the existing equation solver object.
+   */
   delete EQS;
+  EQS=0;
+
+  /**
+   * We can only create the solver object if NGFN>0...
+   */
+  if (NGFN<=0)
+  {
+    return;
+  }
+
+  /**
+   * Create the equation solver object
+   */
   EQS=new vnl_svd<Float>(K);
+
 }
 
 
@@ -559,12 +576,15 @@ void Solver::DecomposeK() {
  */  
 void Solver::Solve() {
 
-  // check if the solver object has been properly defined
+  /**
+   * Check if the solver object has been properly defined
+   */
   if (!EQS) return;
 
-  // initialize the master displacement vector and solve for the displacements
+  /**
+   * Initialize the master displacement vector and solve for the displacements
+   */
   u=EQS->solve(F);
-//  std::cout<<u<<"\n";
 
 }
 
@@ -577,10 +597,13 @@ void Solver::Solve() {
  */  
 void Solver::UpdateDisplacements() {
 
-  // check for errors
+  /** Check for errors */
   if(u.size()!=NGFN+NMFC) return;
 
-  // copy the resulting displacements to node objects
+  /**
+   * Copy the resulting displacements from 
+   * solution vector back to node objects.
+   */
   for(int i=0;i<NGFN;i++)
     GFN2Disp[i]->value=u(i);
 

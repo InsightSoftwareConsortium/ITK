@@ -62,8 +62,8 @@ C1IsoCurve2D::C1IsoCurve2D(  Node::ConstPointer nn1_,
    * we were given the pointers to the right node class.
    * if the node class was incorrect a bad_cast exception is thrown
    */
-  neg_node1(&dynamic_cast<const Node2DIsotropic&>(*nn1_)),
   cur_node (&dynamic_cast<const Node2DIsotropic&>(*cn_)),
+  neg_node1(&dynamic_cast<const Node2DIsotropic&>(*nn1_)),
   pos_node1(&dynamic_cast<const Node2DIsotropic&>(*pn1_)),
   pos_node2(&dynamic_cast<const Node2DIsotropic&>(*pn2_)),
   mat(&dynamic_cast<const MaterialStandard&>(*mat_))
