@@ -54,10 +54,11 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
 
   double meanOld, freqOld;
 
-  unsigned int j, k;
+  unsigned int k;
+  int j;
 
   // from the upper threshold down
-  for(j=m_NumberOfThresholds-1; j>=0; j--)
+  for(j=static_cast<int>(m_NumberOfThresholds-1); j>=0; j--)
     {
     // if this threshold can be incremented (i.e. we're not at the end of the histogram)
     if (thresholdIndexes[j] < numberOfHistogramBins - 2 - (m_NumberOfThresholds-1 - j) )
