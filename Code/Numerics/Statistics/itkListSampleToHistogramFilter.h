@@ -49,17 +49,12 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
-  typedef TListSample ListSampleType ;
-  typedef typename TListSample::Pointer ListSamplePointer ;
-  typedef THistogram HistogramType ;
-  typedef typename THistogram::Pointer HistogramPointer ;
-
   /** plug in the ListSample object */
-  void SetListSample(ListSamplePointer list)
+  void SetListSample(TListSample* list)
   { m_List = list ; }
 
   /** plug in the Histogram object */
-  void SetHistogram(HistogramPointer histogram)
+  void SetHistogram(THistogram* histogram)
   { m_Histogram = histogram ;  }
 
   /** starts import procedure */
@@ -69,8 +64,8 @@ protected:
   ListSampleToHistogramFilter() ;
   virtual ~ListSampleToHistogramFilter() {}
 private:
-  ListSamplePointer m_List ;
-  HistogramPointer m_Histogram ;
+  TListSample* m_List ;
+  THistogram* m_Histogram ;
 } ; // end of class
 
   } // end of namespace Statistics 
