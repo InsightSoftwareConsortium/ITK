@@ -83,7 +83,8 @@ KdTreeGenerator< TSample >
       upperBound[d] = NumericTraits< MeasurementType >::max() ;
     }
 
-  KdTreeNodeType* root = this->GenerateTreeLoop(0, m_Subsample->Size(), lowerBound, upperBound) ;
+  KdTreeNodeType* root = 
+    this->GenerateTreeLoop(0, m_Subsample->Size(), lowerBound, upperBound, 0) ;
   m_Tree->SetRoot(root) ;
 }
 
@@ -105,7 +106,8 @@ KdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
                           int endIndex,
                           MeasurementVectorType &lowerBound,
-                          MeasurementVectorType &upperBound)
+                          MeasurementVectorType &upperBound,
+                          int level)
 {
   typedef typename KdTreeType::KdTreeNodeType NodeType ;
   MeasurementType dimensionLowerBound ;
@@ -150,11 +152,11 @@ KdTreeGenerator< TSample >
   dimensionUpperBound = upperBound[partitionDimension] ;
 
   upperBound[partitionDimension] = partitionValue ;
-  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound);
+  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound ;
 
   lowerBound[partitionDimension] = partitionValue ;
-  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound ) ;
+  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound, level + 1) ;
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
   return new KdTreeNonterminalNode< TSample >(partitionDimension, 
@@ -169,10 +171,12 @@ KdTreeGenerator< TSample >
 ::GenerateTreeLoop(int beginIndex,
                    int endIndex,
                    MeasurementVectorType &lowerBound,
-                   MeasurementVectorType &upperBound) 
+                   MeasurementVectorType &upperBound,
+                   int level) 
 {
   if (endIndex - beginIndex <= m_BucketSize) 
     {
+
       // numberOfInstances small, make a terminal node
       if (endIndex == beginIndex)
         {
@@ -189,6 +193,7 @@ KdTreeGenerator< TSample >
 
               ptr->AddInstanceIdentifier(m_Subsample->GetInstanceIdentifier(j)) ;
             }
+
           // return a terminal node
           return ptr ; 
         }
@@ -196,7 +201,7 @@ KdTreeGenerator< TSample >
   else 
     {
       return this->GenerateNonterminalNode(beginIndex, endIndex, 
-                                           lowerBound, upperBound) ;
+                                           lowerBound, upperBound, level + 1) ;
     }
 }
 

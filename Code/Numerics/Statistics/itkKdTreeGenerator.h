@@ -88,11 +88,13 @@ protected:
                                                   MeasurementVectorType 
                                                   &lowerBound,
                                                   MeasurementVectorType 
-                                                  &upperBound) ;
+                                                  &upperBound,
+                                                  int level) ;
 
   KdTreeNodeType* GenerateTreeLoop(int beginIndex, int endIndex, 
                                    MeasurementVectorType &lowerBound,
-                                   MeasurementVectorType &upperBound) ;
+                                   MeasurementVectorType &upperBound,
+                                   int level) ;
 
   void DumpVector(MeasurementVectorType &vec) ;
 
