@@ -42,6 +42,7 @@ void
 SwathChainCodePathFilter<TPath, TImage>
 ::GenerateData( void )
 {
+  itkWarningMacro("Filter not implemented in this version of ITK.");
   /*
   OffsetType offset;
   OffsetType tempOffset;
