@@ -125,6 +125,17 @@ int main()
     ++ti;
   }
 
+  // set image origin to be center of the image
+  double transCenter[2];
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    transCenter[j] = -0.5 * double(size[j] - 1);
+    }
+
+  imgReference->SetOrigin( transCenter );
+  imgTarget->SetOrigin( transCenter );
+
+
 //-----------------------------------------------------------
 // Set up a the registrator
 //-----------------------------------------------------------
@@ -136,16 +147,6 @@ int main()
   // connect the images
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
-
-  // set the transformation centers
-  RegistrationType::PointType transCenter;
-  for( unsigned int j = 0; j < 2; j++ )
-    {
-    transCenter[j] = double(size[j]) / 2;
-    }
-
-  registrationMethod->SetTargetTransformationCenter( transCenter );
-  registrationMethod->SetReferenceTransformationCenter( transCenter );
 
   // set translation scale
   const double transScale = 100;
@@ -188,11 +189,6 @@ int main()
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
       {
-      std::cout << j << " ";
-      std::cout << solution[j] << " ";
-      std::cout << trueParameters[j] << " ";
-      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
-      std::cout << std::endl;
       pass = false;
       }
     }
@@ -200,11 +196,6 @@ int main()
     {
     if( vnl_math_abs( solution[j] * transScale - trueParameters[j] ) > 1.0 )
       {
-      std::cout << j << " ";
-      std::cout << solution[j] << " ";
-      std::cout << trueParameters[j] << " ";
-      std::cout << vnl_math_abs( solution[j] - trueParameters[j] ) << " ";
-      std::cout << std::endl;
       pass = false;
       }
     }
