@@ -203,9 +203,9 @@ Rigid3DTransform<TScalarType>::
 Inverse( void ) const
 {
   Pointer result = New();
-  result->m_DirectMatrix   =   m_Inverse;
-  result->m_InverseMatrix  =   m_Matrix;
-  result->m_Offset         = -(m_Inverse * m_Offset);
+  result->m_DirectMatrix   =   m_InverseMatrix;
+  result->m_InverseMatrix  =   m_DirectMatrix;
+  result->m_Offset         = -(m_InverseMatrix * m_Offset);
   return result;
 }
 
