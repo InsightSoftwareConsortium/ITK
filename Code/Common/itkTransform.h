@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkTransform_h
 #define __itkTransform_h
 
-#include "itkLightObject.h"
+#include "itkObject.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkCovariantVector.h"
@@ -75,7 +75,7 @@ template <class TScalarType,
           unsigned int NOutputDimensions,
           class TParameters,
           class TJacobianType >
-class ITK_EXPORT  Transform  : public LightObject
+class ITK_EXPORT  Transform  : public Object
 {
 public:
   /**
@@ -92,7 +92,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef LightObject Superclass;
+  typedef Object Superclass;
 
 
   /** 
@@ -105,7 +105,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro( Transform, LightObject );
+  itkTypeMacro( Transform, Object );
 
 
   /** 
