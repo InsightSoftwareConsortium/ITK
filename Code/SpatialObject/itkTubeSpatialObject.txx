@@ -208,9 +208,11 @@ TubeSpatialObject< TDimension, PipelineDimension >
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
 
-  if( m_Points.size() == 0 ) 
-  return true; 
-    
+  if( m_Points.size() == 0 )
+  {
+    return false; 
+  }
+  
   PointType point; 
   VectorType t;
   double l; 
@@ -251,6 +253,69 @@ TubeSpatialObject< TDimension, PipelineDimension >
   j = i; 
   j++; 
   (*i).SetTangent( (*j).GetTangent() ); 
+  return true; 
+} 
+
+/** Compute the normal of the tangent of the centerline of the tube */ 
+template< unsigned int TDimension , unsigned int PipelineDimension >
+bool  
+TubeSpatialObject< TDimension, PipelineDimension >  
+::CalcNormal( void ) 
+{ 
+  itkDebugMacro( "Computing the normal vectors of the tube" );
+
+  if( m_Points->size() == 0 )
+  {
+    return false; 
+  }
+
+  vnl_vector< double > t(2);
+  vnl_vector< double > n1(2);
+  vnl_vector< double > n2(2); 
+    
+  PointListType::iterator it1,it2; 
+  it1 = m_Points->begin(); 
+
+  while(it1 != m_Points->end())
+  {
+    t = *(*it1)->GetTangent(); 
+
+    if (TDimension == 2)
+    { 
+      t = *(*it1)->GetTangent(); 
+      n1(0) = -t(1);
+      n1(1) = t(0);
+      (*it1)->SetV1(n1);
+    }
+
+    it1++;
+  }
+
+  it1 = m_Points->begin();
+  it2 = it1;
+  it2++;
+  n1 = *(*it2)->GetV1();
+  (*it1)->SetV1(n1);
+   
+  if (TDimension == 3)
+  {
+    n2 = *(*it2)->GetV2();
+    (*it1)->SetV2(n2);
+  }
+   
+  it1 = m_Points->end();
+  it1--;
+  it2 = it1;
+  it2--;
+  n1 = *(*it2)->GetV1();
+  (*it1)->SetV1(n1);
+   
+  if (TDimension == 3)
+  {
+    n2 = *(*it2)->GetV2();
+    (*it1)->SetV2(n2);  
+  }
+
   return true; 
 } 
 

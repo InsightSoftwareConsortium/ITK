@@ -77,9 +77,11 @@ public:
   /** Remove the list of tube points */
   void Clear(void);
 
-  /** Calculate the normalized tangent, and orthogonal 
-   *  vector of the tube.*/
+  /** Calculate the normalized tangent */
   bool CalcTangent( void );
+
+   /** Calculate the normal vector of the tube.*/
+  bool CalcNormal( void );
 
   /** Returns true if the tube is evaluable at the requested point, 
    *  false otherwise. */
