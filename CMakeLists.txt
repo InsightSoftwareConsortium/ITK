@@ -27,10 +27,21 @@ $(DL_LIBS) \
 BEGIN MAKE VERBATIM
 
 CompleteDashboard:
+	$(MAKE) StartDashboard
+	$(MAKE) DashboardUpdate
 	$(MAKE) DashboardBuild
 	$(MAKE) DashboardTest
 	$(MAKE) DashboardCoverage
-	$(MAKE) Dashboard
+	$(MAKE) FinishDashboard
+
+StartDashboard:
+	$(MAKE) -C Testing/HTML/TestingResults/Dashboard StartDashboard
+
+EndDashboard:
+	$(MAKE) -C Testing/HTML/TestingResults/Dashboard EndDashboard
+	
+DashboardUpdate:
+	$(MAKE) -C Testing/HTML/TestingResults/Dashboard DashboardUpdate
 
 Dashboard:
 	$(MAKE) -C Testing/HTML/TestingResults/Dashboard Dashboard

@@ -10,20 +10,15 @@ set SiteDir [file join $HTMLDir TestingResults Sites $Site]
 set BuildNameDir [file join $SiteDir $BuildName]
 
 # Find the build name directory
-set Status [catch { set BuildStampDirs [glob [file join $BuildNameDir *] ] } Result]
-if { $Status == 1 } \
+set BuildStampDir [GetLastBuildDirectory]
+if { $BuildStampDir == "" } \
 {
   puts stderr "Could not find any builds in the $BuildNameDir to do testing $Result"
   exit 1
 }
 
-set BuildStampDir [lindex [lsort $BuildStampDirs] end]
 set BuildStamp [file tail $BuildStampDir]
 set XMLDir [file join $BuildStampDir XML]
-
-# We can assume that Testing/HTML/TestingResults/@SITE@ is built
-file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $TempDir $XMLDir
-
 
 set Out [open [file join $XMLDir Test.xml] w]
 

@@ -18,15 +18,31 @@ RemakeDashboard: clean Dashboard
 clean:
 	$(shell rm -f Dashboard.xml Dashboard.html)
 	$(foreach dir, $(BuildStamps), \
-	@echo "sanoethusnaotehusnth"; \
 	$(MAKE) -C $(dir) clean; \
 	)
 
-Dashboard: $(BuildStamps) $(DashboardDependancies)
+Update.xml:
+	echo '$(XMLHEADER)' > Update.xml
+	echo '<Update></Update>' >> Update.xml	
+
+UpdateSummary.xml: Update.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT UpdateSummary.xml -IN Update.xml -XSL $(topdir)/Testing/Utilities/XSL/UpdateSummary.xsl	
+
+Update.html: Update.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT Update.html -IN Update.xml -XSL $(topdir)/Testing/Utilities/XSL/Update.xsl	
+
+
+
+
+Dashboard: EndDashboard
+
+
+EndDashboard: $(BuildStamps) $(DashboardDependancies) Update.html UpdateSummary.xml
 	@echo '$(XMLHEADER)' > Dashboard.xml
 	@echo '$(XMLHEADER)' > DashboardByTest.xml
 	@echo '<Dashboard>' >> Dashboard.xml
 	@echo '<Dashboard>' >> DashboardByTest.xml
+	grep -v "<?xml" UpdateSummary.xml >> Dashboard.xml
 	$(foreach dir,$(BuildStamps), \
 	$(MAKE) -C $(dir) all; \
 	echo '<Instance>' >> Dashboard.xml; \

@@ -35,3 +35,9 @@ SummaryByTest.xml: XML/Test.xml $(topdir)/Testing/Utilities/XSL/SummaryByTest.xs
 CoverageSummary.xml: XML/Coverage.xml $(topdir)/Testing/Utilities/XSL/CoverageSummary.xsl
 	$(JAVA) -jar $(XALAN) -Q -OUT $@ -IN $< -XSL $(topdir)/Testing/Utilities/XSL/CoverageSummary.xsl
 
+
+
+# Dummy rule to stop nasty warnings
+XML/Coverage.xml:
+	echo '$(XMLHEADER)' >  XML/Coverage.xml
+	echo '<Coverage></Coverage>' >> XML/Coverage.xml

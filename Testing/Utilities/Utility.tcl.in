@@ -8,6 +8,18 @@ proc MakeDateStamp {} \
   return [clock format [clock seconds] -format %Y%m%d]
 }
 
+proc GetLastBuildDirectory {} \
+{
+  global Site BuildName
+  set HTMLDir [file join Testing HTML]
+  set SiteDir [file join $HTMLDir TestingResults Sites $Site]
+  set BuildNameDir [file join $SiteDir $BuildName]
+
+  set BuildStampDirs ""
+  catch { set BuildStampDirs [glob [file join $BuildNameDir *]] }
+  return [lindex [lsort $BuildStampDirs] end]
+}  
+
 
 proc CompressFile { In Out } \
 {
