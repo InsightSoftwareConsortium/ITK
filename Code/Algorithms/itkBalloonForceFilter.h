@@ -158,7 +158,7 @@ public:
 
 protected:
   BalloonForceFilter();
-  ~BalloonForceFilter() {}
+  ~BalloonForceFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();

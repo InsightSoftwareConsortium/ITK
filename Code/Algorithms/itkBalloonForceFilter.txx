@@ -35,9 +35,26 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Step = 0;
   m_GradientBegin = 0;
   m_DistanceToBoundary = 100;
+  m_Center.Fill(0);
+  m_Stiffness.Fill(0);
+  m_TimeStep = 0.0;
+  m_DistanceForGradient = 0.0;
+  m_Resolution = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
+}
+
+template <typename TInputMesh, typename TOutputMesh>
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::~BalloonForceFilter()
+{
+  unsigned int i;
+  for (i = 0; i < m_NewNodeLimit; i++)
+    {
+    delete m_NewNodes[i];
+    }
+  delete []m_NewNodes;
 }
 
 /*
