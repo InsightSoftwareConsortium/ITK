@@ -373,6 +373,35 @@ public:
     return this->GetNode(local_dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(local_dof%this->GetNumberOfDegreesOfFreedomPerNode());
   }
 
+  /**
+   * Return the pointer to the Material object used by the element.
+   * All derived classes, which use objects of Material class should
+   * override this method to provide access to the material from the
+   * base class.
+   *
+   * \note Derived Element classes don't have to use a material
+   * class, but since the majority of the final Element classes
+   * uses Material classes to specify phhysical constants that the
+   * element depends on, we provide this virtual function that
+   * enables easy access to this pointer from the base class. If the
+   * derived class does not override this function, the returned pointer
+   * is 0 by default, signaling that there is no Material object.
+   * 
+   * \sa SetMaterial
+   */
+  virtual Material::ConstPointer GetMaterial(void) const { return 0; }
+
+  /**
+   * Set the pointer to the Material object used by the element.
+   * All derived classes, which use objects of Material class should
+   * override this method to provide access to the material from the
+   * base class.
+   *
+   * \sa GetMaterial
+   */
+  virtual void SetMaterial(Material::ConstPointer) {} // FIXME: maybe we should throw an exception instead
+
+
 
 
 //////////////////////////////////////////////////////////////////////////

@@ -105,6 +105,8 @@ public:
    * Pointer to material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
+  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
+  virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
 
 }; // class Element2DStress
 
