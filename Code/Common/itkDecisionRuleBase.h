@@ -51,10 +51,9 @@ class ITK_EXPORT DecisionRuleBase : public Object
                                 &discriminantScores) = 0 ;
 
  protected:
-  DecisionRuleBase() {}
-  virtual ~DecisionRuleBase() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {}
+  DecisionRuleBase();
+  virtual ~DecisionRuleBase();
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
  private:
   

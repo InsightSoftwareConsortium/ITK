@@ -3,6 +3,7 @@ SOURCE_FILES(ITKCommon_SRCS
 itkBloxItem
 itkCommand 
 itkDataObject 
+itkDecisionRuleBase
 itkDirectory 
 itkDynamicLoader 
 itkEventObject 
@@ -18,6 +19,7 @@ itkLightProcessObject
 itkKLMSegmentationBorder
 itkKLMSegmentationRegion
 itkMeshRegion 
+itkMinimumDecisionRule
 itkMultiThreader 
 itkMutexLock 
 itkNumericTraits 
