@@ -243,7 +243,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // expected number of parameters
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
-    itkExceptionMacro(<<"Mismatched between parameters size and region size");
+    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
+                      << " and region size " << m_GridRegion.GetNumberOfPixels() );
     }
 
   // Keep a reference to the input parameters
