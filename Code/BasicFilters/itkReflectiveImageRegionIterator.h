@@ -73,12 +73,13 @@ public:
   typedef typename TImage::RegionType RegionType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ReflectiveImageRegionIterator();
+  ReflectiveImageRegionIterator() ;
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ReflectiveImageRegionIterator(TImage *ptr,
                             const RegionType& region);
+   
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ReflectiveImageRegionIterator. Many routines return an ImageIterator but
@@ -99,17 +100,12 @@ public:
    * \sa operator++(int) */
   Self & operator++();
 
-  /** Reset iterator */
-  void GoToBegin();
+  /** Move an iterator to the beginning of the region. */
+  virtual void GoToBegin(void);
 
 private:
-  bool m_Reflecting[TImage::ImageDimension];
-  bool m_Done[TImage::ImageDimension];
-  IndexType m_BeginRegionIndex;
-  IndexType m_EndRegionIndex;
-  unsigned int m_Fastest;
-
-  void IncrementLoop (unsigned int dim);
+  bool m_IsFirstPass[TImage::ImageDimension];
+  
 };
 
 } // end namespace itk

@@ -17,6 +17,7 @@
 #ifndef _itkReflectiveImageRegionIterator_txx
 #define _itkReflectiveImageRegionIterator_txx
 
+
 #include "itkReflectiveImageRegionIterator.h"
 
 namespace itk
@@ -24,77 +25,48 @@ namespace itk
 
 template<class TImage>
 ReflectiveImageRegionIterator<TImage>
-::ReflectiveImageRegionIterator()
+::ReflectiveImageRegionIterator() : ImageIteratorWithIndex<TImage>() 
 {
   this->GoToBegin();
 }
+
+
 
 template<class TImage>
 ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator(TImage *ptr, const RegionType& region) :
   ImageIteratorWithIndex<TImage>(ptr, region)
 {
-  for(unsigned int i = 0;i < TImage::ImageDimension; i++) 
-    {
-    m_Reflecting[i] = false;
-    m_Done[i] = false;
-    }
-  m_Fastest = 0;
-  m_BeginRegionIndex = region.GetIndex();
-  m_EndRegionIndex = m_BeginRegionIndex + region.GetSize();
+  this->GoToBegin();
 }
+
+
+template<class TImage>
+void
+ReflectiveImageRegionIterator<TImage>
+::GoToBegin( void ) 
+{
+  ImageIteratorWithIndex<TImage>::GoToBegin();
+
+  for(unsigned int i=0;i<TImage::ImageDimension;i++) 
+    {
+    m_IsFirstPass[i] = true;
+    }
+
+}
+
+
+
 
 template<class TImage>
 bool
 ReflectiveImageRegionIterator<TImage>
 ::IsReflected(unsigned int dim) const
 {
-  return m_Reflecting[dim];
+  return !m_IsFirstPass[ dim ];
 }
 
-template<class TImage>
-void
-ReflectiveImageRegionIterator<TImage>
-::GoToBegin()
-{
-  Superclass::GoToBegin();
-  for(unsigned int i = 0;i < TImage::ImageDimension; i++) 
-    {
-    m_Reflecting[i] = false;
-    m_Done[i] = false;
-    }
-  m_Fastest = 0;
-}
 
-template<class TImage>
-void
-ReflectiveImageRegionIterator<TImage>
-::IncrementLoop(unsigned int dim)
-{
-  // Stop the recursion
-  if (dim == TImage::ImageDimension)
-    {
-    return;
-    }
-  // Don't increment the Fastest dimension here
-  if (dim != m_Fastest)
-    {
-    if (m_PositionIndex[dim] < m_EndRegionIndex[dim])
-      {
-      m_PositionIndex[dim]++;
-      }
-    if (m_PositionIndex[dim] == m_EndRegionIndex[dim])
-      {
-      m_Done[dim] = true;
-      m_PositionIndex[dim] = m_BeginRegionIndex[dim];
-      this->IncrementLoop(dim + 1);
-      }
-    }
-  else
-    {
-    this->IncrementLoop(dim + 1);
-    }
-}
 
 //----------------------------------------------------------------------
 //  Advance along the line
@@ -104,64 +76,47 @@ ReflectiveImageRegionIterator<TImage> &
 ReflectiveImageRegionIterator<TImage>
 ::operator++()
 {
-  int i;
-
-  // Which way should the inner most index be moved?
-  if (m_Reflecting[m_Fastest])
-    {
-    m_PositionIndex[m_Fastest]--;
-    }
-  else
-    {
-    m_PositionIndex[m_Fastest]++;
-    }
-
-  // Finished forward?
-  if (m_PositionIndex[m_Fastest] == m_EndRegionIndex[m_Fastest])
-    {
-    m_Reflecting[m_Fastest] = true;
-    m_PositionIndex[m_Fastest]--;
-    }
-  // Finished backward?
-  else if (m_PositionIndex[m_Fastest] < m_BeginRegionIndex[m_Fastest])
-    {
-    m_Reflecting[m_Fastest] = false;
-    m_PositionIndex[m_Fastest] = m_BeginRegionIndex[m_Fastest];
-    m_Done[m_Fastest] = true;
-    this->IncrementLoop(0);
-    }
-
-  // Shall we increment the fastest index
-  bool allDone = true;
-  for(i = 0; i < TImage::ImageDimension; i++) 
-    {
-    if (!m_Done[i])
+  
+  m_Remaining = false;
+  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
+    {    
+    if( m_IsFirstPass[ in ] ) 
       {
-      allDone = false;
-      }
-    }
-  if (allDone)
-    {
-    m_Fastest++;
-    if (m_Fastest < TImage::ImageDimension)
-      {
-      m_Reflecting[m_Fastest] = false;
-      m_PositionIndex[m_Fastest] = m_BeginRegionIndex[m_Fastest];
-      for(i = 0; i < TImage::ImageDimension; i++) 
+      m_PositionIndex[ in  ]++;
+      if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
         {
-        m_Done[i] = false;
+        m_Position += m_OffsetTable[in];
+        m_Remaining = true;
+        break;
+        }
+      else 
+        {
+        m_PositionIndex[ in ] = m_EndIndex[ in ]-1; 
+        m_IsFirstPass[ in ] = false;
+        m_Remaining = true;
+        break;
+        }
+      }
+    else 
+      {
+      m_PositionIndex[ in  ]--;
+      if( m_PositionIndex[ in ] >= m_BeginIndex[ in ] )
+        {
+        m_Position -= m_OffsetTable[in];
+        m_Remaining = true;
+        break;
+        }
+      else 
+        {
+        m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+        m_IsFirstPass[ in ] = true;
         }
       }
     }
 
-  if (m_Fastest < TImage::ImageDimension)
-    {
-    this->SetIndex(m_PositionIndex);
-    }
-  else
+  if( !m_Remaining ) // It will not advance here otherwise
     {
     m_Position = m_End;
-    m_Remaining = false;
     }
 
   return *this;
