@@ -39,7 +39,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFEMRegistrationFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
-//#include "itkFEMRegistrationFilter.txx"
 #include "itkGeodesicActiveContourImageFilter.txx"
 #include "itkGibbsPriorFilter.txx"
 #include "itkGradientVectorFlowImageFilter.txx"
