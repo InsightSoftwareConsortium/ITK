@@ -168,7 +168,6 @@ public:
   /** The type used for the advection field */
   typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
     
-  
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBandLevelSetImageFilter, NarrowBandImageFilterBase);
 
@@ -190,10 +189,12 @@ public:
     m_SegmentationFunction->SetFeatureImage(f);
   }
   virtual FeatureImageType * GetFeatureImage()
-  { return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) ); }
+  {
+    return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) );
+  }
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
-   */
+      */
   virtual void SetInitialImage(InputImageType *f)
   {
     this->SetInput(f);
