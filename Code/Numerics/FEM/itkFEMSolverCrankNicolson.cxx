@@ -405,7 +405,7 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
   FindBracketingTriplet(&ax, &bx, &cx);
   Float xmin,fmin;
   //if (fb!=0.0)
-  Float f,f2,x0,x1,x2,x3;
+  Float f1,f2,x0,x1,x2,x3;
 
   Float R=0.6180339;
   Float C=(1.0-R);
