@@ -7,5 +7,4 @@ itkExceptionObjectTest \
 itkImageMomentsTest \
 itkMeshTest \
 itkMeshInstanceTest \
-blow \
 itkExtractMeshConnectedRegionsTest 
