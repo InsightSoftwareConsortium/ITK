@@ -42,25 +42,32 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  itk::Point<double, TTarget::ImageDimension> point;  
+  typename TargetType::PointType point;  
 
   double ReferenceValue;
   double TargetValue;
 
-  typedef  typename  TargetType::PointContainerPointer     
-                                              PointsContainerType;
+  typedef  typename  TargetType::PointsContainerPointer     
+                                              PointsContainerPointerType;
 
   typedef  typename  TargetType::PointDataContainerPointer 
+                                              PointsDataContainerPointerType;
+
+  typedef  typename  TargetType::PointsContainer     
+                                              PointsContainerType;
+
+  typedef  typename  TargetType::PointDataContainer 
                                               PointsDataContainerType;
 
-  typename  PointsContainerType::Iterator     pt;
-  typename  PointsDataContainerType::Iterator vl;
 
-  PointsContainerType       points = m_Target->GetPoints();
-  PointsDataContainerType   data   = m_Target->GetPointsData();
+  typename  PointsContainerType::Iterator       pt;
+  typename  PointsDataContainerType::Iterator   vl;
 
-  pt = points.Begin();
-  vl = data.Begin();
+  PointsContainerPointerType       points = m_Target->GetPoints();
+  PointsDataContainerPointerType   data   = m_Target->GetPointData();
+
+  pt = points->Begin();
+  vl = data->Begin();
 
   m_MatchMeasure = 0;
   
@@ -93,7 +100,6 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
 
     if(insidePoint) 
     {
-      TargetValue = ti.Get();
       count++;
       sab  += ReferenceValue  *  TargetValue;
       saa  += ReferenceValue  *  ReferenceValue;
