@@ -13,8 +13,10 @@ cxxTypeSystem
 cxxTypedefType
 )
 
-SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN CxxTypes_SRCS cxxDllAllocator)
+IF (WIN32)
+  SOURCE_FILES(CxxTypes_SRCS cxxDllAllocator)
+  ADD_DEFINITIONS(-D_cxx_LIBRARY)
+ENDIF (WIN32)
 
 ADD_LIBRARY(CxxTypes CxxTypes_SRCS)
 
-WIN32_DEFINES(-D_cxx_LIBRARY)

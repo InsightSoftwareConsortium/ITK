@@ -13,8 +13,7 @@ itkWriter
 ADD_LIBRARY(ITKBasicFilters ITKBasicFilters_SRCS)
 
 # We want to do manual instantiation for this library.
-UNIX_DEFINES(-DITK_MANUAL_INSTANTIATION)
-WIN32_DEFINES(-DITK_MANUAL_INSTANTIATION)
+ADD_DEFINITIONS(-DITK_MANUAL_INSTANTIATION)
 
 # Put everything in the "BasicFilters" package (related to CABLE, everything
 # will still be put in the ITKBasicFilters library).
