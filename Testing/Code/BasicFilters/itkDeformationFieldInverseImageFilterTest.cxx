@@ -38,7 +38,7 @@ int itkDeformationFieldInverseImageFilterTest( int argc, char * argv[] )
   const     unsigned int   Dimension = 2;
   typedef   float          VectorComponentType;
 
-  typedef   itk::Vector< VectorComponentType >    VectorType;
+  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
 
   typedef itk::Image< VectorType,  Dimension >   DeformationFieldType;
 
