@@ -32,14 +32,16 @@ int main()
 
   bool pass = true;
 
+  const unsigned int dimension = 3;
+
   // Fixed Image Type
-  typedef itk::Image<float,3>                            FixedImageType;
+  typedef itk::Image<float,dimension>                    FixedImageType;
 
   // Moving Image Type
-  typedef itk::Image<char,3>                             MovingImageType;
+  typedef itk::Image<char,dimension>                     MovingImageType;
 
   // Transform Type
-  typedef itk::TranslationTransform< double >            TransformType;
+  typedef itk::TranslationTransform< double, dimension > TransformType;
 
   // Optimizer Type
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
