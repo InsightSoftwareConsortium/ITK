@@ -134,6 +134,31 @@ ImportImageContainer< TElementIdentifier , TElement >
 
 
 /**
+ * Tell the container to try to minimize its memory usage for storage of
+ * the current number of elements.  
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+ImportImageContainer< TElementIdentifier , TElement >
+::Initialize(void)
+{
+  if (m_ImportPointer)
+    {
+    if (m_ContainerManageMemory)
+      {
+      delete [] m_ImportPointer;
+      }
+    m_ImportPointer = 0;
+    m_ContainerManageMemory = true;
+    m_Capacity = 0;
+    m_Size = 0;
+    
+    this->Modified();
+    }
+}
+
+
+/**
  * Set the pointer from which the image data is imported.  "num" is
  * the number of pixels in the block of memory. If
  * "LetContainerManageMemory" is false, then the application retains

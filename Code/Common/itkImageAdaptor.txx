@@ -84,6 +84,20 @@ ImageAdaptor<TImage , TAccessor>
 }
 
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::Initialize()
+{
+  // call the superclass' method first; then delegate
+  Superclass::Initialize();
+
+  // delegation to internal image
+  m_Image->Initialize();
+}
+
+
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>

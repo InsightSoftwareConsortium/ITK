@@ -73,7 +73,9 @@ int main()
   random = itk::RandomImageSource<FloatImage2DType>::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
-
+  random->ReleaseDataFlagOn();
+  random->DebugOn();
+  
   float spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
   float origin[2] = {15, 400};
@@ -87,6 +89,11 @@ int main()
   itk::ThresholdImageFilter<FloatImage2DType>::Pointer threshold;
   threshold = itk::ThresholdImageFilter<FloatImage2DType>::New();
   threshold->SetInput(random->GetOutput());
+
+  // Call update multiple times to make sure that the RandomImageSource
+  // is releasing and regenerating its data
+  threshold->Update();
+  threshold->Modified();
   threshold->Update();
 
   std::cout << "Input spacing: " << random->GetOutput()->GetSpacing()[0]
@@ -114,7 +121,7 @@ int main()
   itk::OutputWindow::GetInstance()->DisplayText( "Ending Test #1: filter goes out of scope" );
   itk::OutputWindow::GetInstance()->DisplayText( "End of Test #1 -----------------------------------" );
   }
-  
+
   // Test #2, user keeps an extra handle to an output
   itk::OutputWindow::GetInstance()->DisplayText( "Test #2: User keeps an extra hold on an output  -----------------" );
   {

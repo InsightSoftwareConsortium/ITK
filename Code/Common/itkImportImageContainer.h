@@ -161,6 +161,11 @@ public:
   void Squeeze(void);
   
   /**
+   * Tell the container to release any of its allocated memory.
+   */
+  void Initialize(void);
+
+  /**
    * Standard part of every itk Object.
    */
   itkTypeMacro(ImportImageContainer, Object);

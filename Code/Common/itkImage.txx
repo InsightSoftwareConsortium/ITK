@@ -89,6 +89,23 @@ Image<TPixel, VImageDimension, TImageTraits>
   m_Buffer->Reserve(num);
 }
 
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void 
+Image<TPixel, VImageDimension, TImageTraits>
+::Initialize()
+{
+  //
+  // We don't modify ourselves because the "ReleaseData" methods depend upon
+  // no modification when initialized.
+  //
+
+  // Call the superclass which should initialize the BufferedRegion ivar.
+  Superclass::Initialize();
+
+  // Release the memory for the buffer
+  m_Buffer->Initialize();
+}
+
 
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 void 

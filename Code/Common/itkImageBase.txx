@@ -108,10 +108,23 @@ ImageBase<VImageDimension>
  *
  */
 template<unsigned int VImageDimension>
+void
 ImageBase<VImageDimension>
-::~ImageBase()
+::Initialize()
 {
-  this->Initialize();
+  //
+  // We don't modify ourselves because the "ReleaseData" methods depend upon
+  // no modification when initialized.
+  //
+
+  // Call the superclass which should initialize the BufferedRegion ivar.
+  Superclass::Initialize();
+
+  // Clear the offset table
+  memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
+
+  // Clear the BufferedRegion ivar
+  m_BufferedRegion = RegionType();
 }
 
 
@@ -119,12 +132,12 @@ ImageBase<VImageDimension>
  *
  */
 template<unsigned int VImageDimension>
-void 
 ImageBase<VImageDimension>
-::Initialize()
+::~ImageBase()
 {
-  this->DataObject::Initialize();
+  this->Initialize();
 }
+
 
 /**
  *

@@ -244,6 +244,12 @@ public:
   inline void Allocate();
 
 
+  /** 
+   * Restore the data object to its initial state. This means releasing
+   * memory.
+   */
+  virtual void Initialize();
+
   /**
    * Set a pixel.
    */

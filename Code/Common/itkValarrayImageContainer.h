@@ -188,6 +188,12 @@ public:
    */
   void Squeeze(void)
     { this->ValarrayType::resize( this->ValarrayType::size() ); };
+
+  /**
+   * Tell the container to release any of its allocated memory.
+   */
+  void Initialize(void)
+  { this->ValarrayType::resize( 0 ); };
   
   /**
    * Standard part of every itk Object.
