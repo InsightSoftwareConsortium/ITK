@@ -277,6 +277,14 @@ public:
   {
     return *(this->operator[]((this->size())>>1));
   }
+
+  /**
+   * Returns the central pointer of the neighborhood.
+   */
+  TPixel *CenterPointer() const
+  {
+    return (this->operator[]((this->size())>>1));
+  }
   
   /**
    * Sets the internal pointer to a memory buffer that is incremented
