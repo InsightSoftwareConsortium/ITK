@@ -74,12 +74,14 @@ int main()
   movingImageSource->SetNormalized( true );
   movingImageSource->SetScale( 1.0f );
 
-  MovingImageType::SizeType size = {{100,100}};
-  MovingImageType::IndexType index = {{0,0}};
-  MovingImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  fixedImageSource->SetSize(    fixedImageSize    );
+  fixedImageSource->SetOrigin(  fixedImageOrigin  );
+  fixedImageSource->SetSpacing( fixedImageSpacing );
+  fixedImageSource->SetNormalized( true );
+  fixedImageSource->SetScale( 1.0f );
 
+  movingImageSource->Update();
+  fixedImageSource->Update();
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
