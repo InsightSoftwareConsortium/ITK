@@ -528,7 +528,8 @@ fi
 
 AC_SUBST(EXTRA_GCC_FLAG)
 
-AC_CONFIG_SUBDIRS(Code/Insight3DParty/vxl/vcl)
+AC_CONFIG_SUBDIRS(Code/Numerics/vxl)
+AC_CONFIG_SUBDIRS(Code/Numerics/vxl/vcl)
 
 # *****************************************
 # 

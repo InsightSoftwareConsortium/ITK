@@ -3014,7 +3014,9 @@ fi
 
 
 
-subdirs="Code/Insight3DParty/vxl/vcl"
+subdirs="Code/Numerics/vxl"
+
+subdirs="Code/Numerics/vxl Code/Numerics/vxl/vcl"
 
 
 # *****************************************
@@ -3097,7 +3099,7 @@ fi
 # Extract the first word of "hostname", so it can be a program name with args.
 set dummy hostname; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3101: checking for $ac_word" >&5
+echo "configure:3103: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_HOSTNAME'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3133,7 +3135,7 @@ fi
 # Extract the first word of "nslookup", so it can be a program name with args.
 set dummy nslookup; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3137: checking for $ac_word" >&5
+echo "configure:3139: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_NSLOOKUP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3202,7 +3204,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3206: checking for $ac_word" >&5
+echo "configure:3208: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MAKECOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3242,7 +3244,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3246: checking for $ac_word" >&5
+echo "configure:3248: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CVSCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3282,7 +3284,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3286: checking for $ac_word" >&5
+echo "configure:3288: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GREPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3322,7 +3324,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3326: checking for $ac_word" >&5
+echo "configure:3328: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_COMPRESSIONCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3362,7 +3364,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3366: checking for $ac_word" >&5
+echo "configure:3368: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_TCLSHCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3402,7 +3404,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3406: checking for $ac_word" >&5
+echo "configure:3408: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GUNZIPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3451,7 +3453,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3455: checking for $ac_word" >&5
+echo "configure:3457: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_JAVACOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3962,7 +3964,7 @@ if test "$no_recursion" != yes; then
     esac
   done
 
-  for ac_config_dir in Code/Insight3DParty/vxl/vcl; do
+  for ac_config_dir in Code/Numerics/vxl Code/Numerics/vxl/vcl; do
 
     # Do not complain, so a configure script can configure whichever
     # parts of a large source tree are present.
