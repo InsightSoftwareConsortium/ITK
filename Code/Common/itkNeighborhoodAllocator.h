@@ -132,7 +132,7 @@ inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPi
                                 & a)
 {
     o << "NeighborhoodAllocator { this = " << &a << ", begin = "
-      << a.begin()
+      << static_cast<const void *>(a.begin())
       << ", size=" << a.size()
       << " }";
       //      << ", contents:{ ";
