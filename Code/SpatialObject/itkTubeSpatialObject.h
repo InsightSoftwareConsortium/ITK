@@ -83,6 +83,10 @@ public:
       {return &(m_Points[id]);}
   
   /** Return a point in the list given the index */
+  virtual SpatialObjectPointType* GetPoint(unsigned long id) 
+      {return &(m_Points[id]);}
+  
+  /** Return a point in the list given the index */
   virtual void SetPoint(unsigned long id, const TubePointType & pnt) 
       {m_Points[id] = pnt;}
   

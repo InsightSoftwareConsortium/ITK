@@ -66,6 +66,14 @@ public:
     return 0;
     }
 
+  virtual SpatialObjectPointType* 
+    GetPoint(unsigned long itkNotUsed(id)) 
+    {
+    itkWarningMacro(<<"PointBasedSpatialObject::GetPoint() is not implemented"
+                    <<" in the base class" << std::endl);
+    return 0;
+    }
+
   /** Return the number of points in the list */
   virtual unsigned long GetNumberOfPoints(void) const
     {
