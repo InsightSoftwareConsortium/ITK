@@ -81,7 +81,7 @@ ShrinkImage<TInputImage,TOutputImage>
     }
 
   // support progress methods/callbacks
-  unsigned long updateVisits;
+  unsigned long updateVisits = 0;
   if ( threadId == 0 )
     {
     updateVisits = 
