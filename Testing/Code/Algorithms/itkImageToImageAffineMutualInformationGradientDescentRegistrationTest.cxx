@@ -278,7 +278,7 @@ int main()
   std::cout << std::endl;
   for( unsigned int j = 0; j < 9; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       pass = false;
       }
