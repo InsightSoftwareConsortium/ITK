@@ -53,6 +53,7 @@ template < class TTarget, class TMapper >
 PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 ::PatternIntensityPointSetToImageMetric()
 {
+  m_Lambda = 1.0;
 }
 
 
@@ -119,6 +120,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
    ++vl;
   }
 
+
   if(count == 0) 
   {
     std::cerr << "All the mapped image is outside !" << std::endl;
@@ -127,6 +129,8 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
 
   // The sign is changed because the optimization method looks for minima
   m_MatchMeasure = -m_MatchMeasure;
+  
+  
   return m_MatchMeasure;
 
 }
