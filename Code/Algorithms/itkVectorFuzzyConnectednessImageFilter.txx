@@ -32,8 +32,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::VectorFuzzyConnectednessImageFilter()
   : m_CirclePointsLoc(0),
     m_CirclePointsNum(0),
-    m_NumberOfObjects(1),
     m_SuppressBckgFlag(0),
+    m_NumberOfObjects(1),
     m_Threshold(0.0)
 {
   m_HomoCovariance.SetIdentity();
@@ -203,7 +203,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         }
     }
 
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {sum[i] = 0;}
 
   ImageRegionConstIterator<TInputImage> it(m_InputImage, m_InputImage->GetRequestedRegion());
@@ -211,15 +211,15 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   while(!it.IsAtEnd())
     {
       value = it.Get();
-      for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+      for(unsigned int i = 0;i<VectorDimension;i++)
         {sum[i] = sum[i] + value[i];}
       ++it;
     }
   int volume_size = 1;
-  for(int i = 0;i<ImageDimension;i++)
+  for(unsigned int i = 0;i<ImageDimension;i++)
     {volume_size = volume_size*static_cast<int>(m_Size[i]);}
 
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {m_Mean[i] = static_cast<int>(sum[i]/volume_size);}
 }
 
@@ -246,7 +246,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   ImageRegionConstIterator <InputImageType> it(m_InputImage,m_InputImage->GetRequestedRegion());
  
   int volume_size = 1;
-  for(int i = 0;i<ImageDimension;i++)
+  for(unsigned int i = 0;i<ImageDimension;i++)
     {volume_size = volume_size*static_cast<int>(m_Size[i]);}
 
   m_ScaleArray.resize(volume_size);
@@ -267,12 +267,12 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
           for (int i = 0; i < neighborhoodSize; ++i)
             {
               value2 = iterN.GetPixel(i);
-              for (int j = 0;j<static_cast<int>(VectorDimension); j++)
+              for (unsigned int j = 0;j<VectorDimension; j++)
                 {
                   sum_vector[j] += static_cast<double>(value2[j]);
                 }
             }
-          for (int j = 0;j<static_cast<int>(VectorDimension); j++)
+          for (unsigned int j = 0;j<VectorDimension; j++)
             {
               mean_neighbor[j] = static_cast<typename InputVectorType::ValueType>(sum_vector[j]/(double)neighborhoodSize);
             }
@@ -297,20 +297,20 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
                   index2[0] = x;
                   value2 = m_InputImage->GetPixel(index2);
 
-                  for(int j=0;j<static_cast<int>(VectorDimension);j++)
+                  for(unsigned int j=0;j<VectorDimension;j++)
                     {
                       value1[j] = vnl_math_abs( value2[j] - mean_neighbor[j]);
                     } 
-                  for(int xx = 0;xx<static_cast<int>(VectorDimension);xx++)
+                  for(unsigned int xx = 0;xx<VectorDimension;xx++)
                     {
                       sum_vector[xx] = 0;
-                      for(int yy = 0;yy<static_cast<int>(VectorDimension);yy++)
+                      for(unsigned int yy = 0;yy<VectorDimension;yy++)
                         {
                           sum_vector[xx] = sum_vector[xx] + value1[yy]*m_HomoCovariance[xx][yy];
                         }
                     }
                   result = 0; 
-                  for(int xx = 0;xx<static_cast<int>(VectorDimension);xx++)
+                  for(unsigned int xx = 0;xx<VectorDimension;xx++)
                     {
                       result = result + sum_vector[xx]*value1[xx];
                     }
@@ -336,7 +336,8 @@ void
 VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 ::Compute_Filter()
 {
-  int i,j,k,x,y;
+  unsigned int i, j;
+  int k,x,y;
   char iscale;
   double tt1,tt2,inv_k,count;
   double weight[MAX_SCALE][MAX_SCALE];
@@ -376,7 +377,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         }
     }
 
-  for( i = 0;i<static_cast<int>(VectorDimension);i++)
+  for( i = 0;i<VectorDimension;i++)
     {zeroValue[i] = 0;}
 
   typename std::vector<char>::iterator itscale;
@@ -390,7 +391,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       index = it.GetIndex();
       iscale =  *itscale;
       count = 0.0;
-      for(i = 0;i<static_cast<int>(VectorDimension);i++)
+      for(i = 0;i<VectorDimension;i++)
         {sum[i] = 0;}
 
       if((m_SuppressBckgFlag==1)&&(value[0]<m_Mean[0]))
@@ -411,7 +412,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
                           index[0] = x;
                           value = m_InputImage->GetPixel(index1);
 
-                          for(j=0;j<static_cast<int>(VectorDimension);j++)
+                          for(j=0;j<VectorDimension;j++)
                             {
                               sum[j] = sum[j] + tt1*value[j];
                             } 
@@ -419,7 +420,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
                         }
                     }
                 }
-              for(i = 0;i<static_cast<int>(VectorDimension);i++)
+              for(i = 0;i<VectorDimension;i++)
                 {
                   mean[i] = static_cast<int>(sum[i]/count);
                 }
@@ -441,20 +442,20 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   itk::Vector<double,VectorDimension> temp_vector;
 
   /* Homogeneity feature-based affinity */
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       temp[i]  = vnl_math_abs(value1[i] - value2[i]);
     }
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       temp_vector[i] = 0;
-      for(int j = 0;j<static_cast<int>(VectorDimension);j++)
+      for(unsigned int j = 0;j<VectorDimension;j++)
         {
           temp_vector[i] = temp_vector[i] + ((double)temp[j])*m_HomoCovariance[i][j];
         }
     }
   result = 0;
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       result = result + temp_vector[i]*(double)temp[i];
     }
@@ -462,20 +463,20 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
   /* Object feature-based affinity */
   /* first voxel  */
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       temp[i] = vnl_math_abs(value1[i]-m_ObjectMeans[object][i]);
     }
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       temp_vector[i] = 0;
-      for(int j = 0;j<static_cast<int>(VectorDimension);j++)
+      for(unsigned int j = 0;j<VectorDimension;j++)
         {
           temp_vector[i] = temp_vector[i] + (double)temp[j]*m_ObjectCovariances[object][i][j];
         }
     }
   result = 0;
-  for(int i = 0;i<static_cast<int>(VectorDimension);i++)
+  for(unsigned int i = 0;i<VectorDimension;i++)
     {
       result = result + temp_vector[i]*(double)temp[i];
     } 
