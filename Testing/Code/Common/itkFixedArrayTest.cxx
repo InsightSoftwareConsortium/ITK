@@ -93,7 +93,44 @@ int itkFixedArrayTest(int, char* [] )
       return EXIT_FAILURE;
       }
     } 
- 
+  
+  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.Begin();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::Iterator it = array20.Begin();
+  while (it != array20.End())
+    {
+    std::cout << *it << std::endl;
+    ++it;
+    }
 
+  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.End();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::Iterator bit = array20.End();
+  while (--bit >= array20.Begin())
+    {
+    std::cout << *bit << std::endl;
+    }
+
+  std::cout << "FixedArray<unsigned int, 20>::ConstIterator it = array20.End();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::ConstIterator cit = array20.Begin();
+  while (cit != array20.End())
+    {
+    std::cout << *cit << std::endl;
+    ++cit;
+    }
+
+  // Try all index types
+#define TRY_INDEX_CONST(T) {T in = 10; if (array20[in] != 10) {std::cerr << "index failed" << std::endl; return EXIT_FAILURE;}}
+      TRY_INDEX_CONST(short);
+      TRY_INDEX_CONST(unsigned short);
+      TRY_INDEX_CONST(int);
+      TRY_INDEX_CONST(unsigned int);
+      TRY_INDEX_CONST(long);
+      TRY_INDEX_CONST(unsigned long);
+#define TRY_INDEX(T) {T in = 10; array20[in] = 10;}
+      TRY_INDEX(short);
+      TRY_INDEX(unsigned short);
+      TRY_INDEX(int);
+      TRY_INDEX(unsigned int);
+      TRY_INDEX(long);
+      TRY_INDEX(unsigned long);
   return 0;
 }
