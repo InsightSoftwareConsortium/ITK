@@ -177,8 +177,8 @@ void LinearSystemWrapperDenseVNL::Solve(void)
    * Solve the system of linear equation and store the result in m_Solutions(0).
    * Here we use the SVD method.
    */
-  std::cout << "k=[" << (*((*m_Matrices)[0])) << "];" << std::endl;
-  std::cout << "f=[" << (*((*m_Vectors)[0])) << "];" << std::endl;
+//  std::cout << "k=[" << (*((*m_Matrices)[0])) << "];" << std::endl;
+//  std::cout << "f=[" << (*((*m_Vectors)[0])) << "];" << std::endl;
 
   vnl_svd<Float> svd( (*((*m_Matrices)[0])) ); 
   (*((*m_Solutions)[0])) = svd.solve( (*((*m_Vectors)[0])) ); 
