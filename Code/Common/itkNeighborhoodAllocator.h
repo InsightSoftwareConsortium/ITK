@@ -79,7 +79,7 @@ public:
   NeighborhoodAllocator(const Self& other) : m_ElementCount(0), m_Data(0)
   {
     this->resize(other.m_ElementCount);
-    for (int i = 0; i < other.m_ElementCount; ++i)
+    for (unsigned int i = 0; i < other.m_ElementCount; ++i)
       this->operator[](i) = other[i];
     m_ElementCount = other.m_ElementCount;
   }
@@ -90,7 +90,7 @@ public:
   const Self& operator=(const Self& other)
   {
     this->resize(other.m_ElementCount);
-    for (int i = 0; i < other.m_ElementCount; ++i)
+    for (unsigned int i = 0; i < other.m_ElementCount; ++i)
       this->operator[](i) = other[i];
     m_ElementCount = other.m_ElementCount;
     return *this;

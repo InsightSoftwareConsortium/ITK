@@ -321,13 +321,13 @@ void CalculateOutputWrapOffsetModifiers<TImage>
 
 
 
-template<class TPixel, unsigned int VDimension, class TAllocator>
+template<class TPixel, int VDimension, class TAllocator>
 Neighborhood<TPixel, VDimension, TAllocator>
 ConvolveND(Neighborhood<TPixel, VDimension, TAllocator> &A,
          Neighborhood<TPixel, VDimension, TAllocator> &B, int Mode)
 {
   typedef Neighborhood<TPixel, VDimension, TAllocator> NeighborhoodType;
- 
+  
   int iDim;
   unsigned long BOffset[VDimension];
   int iLoop[VDimension];

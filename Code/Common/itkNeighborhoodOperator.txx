@@ -25,7 +25,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
   CoefficientVector coefficients;
 
   coefficients = this->GenerateCoefficients();
-  for (int i = 0; i<VDimension; ++i)
+  for (unsigned int i = 0; i<VDimension; ++i)
     {
       if (i == this->GetDirection())
         {
@@ -57,7 +57,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::CreateToRadius(const unsigned long sz)
 {
   SizeType k;
-  for (int i = 0; i< VDimension; i++)
+  for (unsigned int i = 0; i< VDimension; i++)
     {
       k[i] = sz;
     }
@@ -69,7 +69,7 @@ void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>
 ::FillCenteredDirectional(const CoefficientVector &coeff)
 {
-  int i;
+  unsigned int i;
   unsigned long start;
   std::slice* temp_slice;
   CoefficientVector::const_iterator it;

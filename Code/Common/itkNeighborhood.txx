@@ -23,7 +23,7 @@ Neighborhood<TPixel, VDimension, TContainer>
   unsigned long stride = 0;
 
   size_t accum = 1;
-  for (int i=0; i<VDimension; ++i)
+  for (unsigned int i=0; i<VDimension; ++i)
     {
       if (i == axis) stride = accum;
       accum *= m_Size[i];
@@ -38,7 +38,7 @@ Neighborhood<TPixel, VDimension, TContainer>
 ::SetRadius(const unsigned long s)
 {
   SizeType k;
-  for (int i = 0; i< VDimension; i++)
+  for (unsigned int i = 0; i< VDimension; i++)
     {
       k[i] = s;
     }
@@ -66,7 +66,7 @@ template<class TPixel, unsigned int VDimension, class TContainer>
 void Neighborhood<TPixel, VDimension, TContainer>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  int i;
+  unsigned int i;
   os << indent << "Neighborhood { this = " << this << ", m_Size = { ";
   for (i=0; i<VDimension; ++i) os << m_Size[i] << " ";
   os << "}, m_Radius = { ";

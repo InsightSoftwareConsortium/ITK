@@ -21,7 +21,7 @@ void
 NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
-  int i;
+  unsigned int i;
   os << indent;
   os << "NeighborhoodIterator {this= " << this;
   os << ", m_Region = { Start = {";

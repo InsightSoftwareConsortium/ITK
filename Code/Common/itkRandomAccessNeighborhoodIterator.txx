@@ -42,7 +42,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
   Self it( *this );
 
   // Calculate the end index
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
@@ -60,7 +60,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> 
 RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor>
 ::operator+=(const Index<VDimension> & idx)
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
   unsigned long accumulator = 0;
@@ -105,7 +105,7 @@ RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor,
 RandomAccessNeighborhoodIterator<TPixel, VDimension, TAccessor, TDerefAccessor> 
 ::operator-=(const Index<VDimension> & idx)
 {
-  int i;
+  unsigned int i;
   Iterator it;
   const Iterator _end = this->end();
   unsigned long accumulator = 0;
