@@ -131,7 +131,7 @@ std::cout << "Begin Assembly." << std::endl;
                     (*e)->GetDegreeOfFreedom(k), 
                     rhsval, DifferenceMatrixIndex );
 
-         // if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
+          //if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
         }
       }
 
