@@ -16,3 +16,4 @@ TARGET_LINK_LIBRARIES(itktcl
   ${TK_LIBRARY}
 )
 
+INSTALL_TARGETS(/lib/InsightToolkit itktcl)

@@ -26,3 +26,6 @@ ITK_WRAP_TCL(VXLNumericsTcl
 )
 
 TARGET_LINK_LIBRARIES(VXLNumericsTcl VXLNumerics ${CABLE_TCL_LIBRARY})
+
+INSTALL_TARGETS(/lib/InsightToolkit ITKNumericsTcl)
+INSTALL_TARGETS(/lib/InsightToolkit VXLNumericsTcl)

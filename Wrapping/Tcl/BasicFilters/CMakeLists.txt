@@ -28,3 +28,4 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
 )
 
 TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl ITKBasicFilters ${CABLE_TCL_LIBRARY})
+INSTALL_TARGETS(/lib/InsightToolkit ITKBasicFiltersTcl)

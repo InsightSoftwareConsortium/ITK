@@ -24,3 +24,4 @@ TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl
   ${CABLE_TCL_LIBRARY}
 )
 
+INSTALL_TARGETS(/lib/InsightToolkit ITKAlgorithmsTcl)
