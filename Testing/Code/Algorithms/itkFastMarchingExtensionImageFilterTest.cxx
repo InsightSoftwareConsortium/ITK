@@ -79,6 +79,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   catch ( itk::ExceptionObject & err )
     {
     passed = true;
+    marcher->ResetPipeline();
     std::cout << err << std::endl;
     }
   if ( !passed ) { return EXIT_FAILURE; }
@@ -99,6 +100,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   catch ( itk::ExceptionObject & err )
     {
     passed = true;
+    marcher->ResetPipeline();
     std::cout << err << std::endl;
     }
   if ( !passed ) { return EXIT_FAILURE; }
@@ -118,6 +120,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   catch ( itk::ExceptionObject & err )
     {
     passed = false;
+    marcher->ResetPipeline();
     std::cout << err << std::endl;
     }
   if ( !passed ) { return EXIT_FAILURE; }
