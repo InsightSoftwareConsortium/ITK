@@ -206,12 +206,13 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   std::cout << "File " << "\t\tSensitivity(p) " <<  "\tSpecificity(q)" << std::endl;
   std::cout << "-----" << "\t\t-------------- " <<  "\t--------------" << std::endl;
-  for (i = 0; i < stapler->GetNumberOfFiles(); i++)
+  unsigned int j;
+  for (j = 0; j < stapler->GetNumberOfFiles(); j++)
     {
-    avg_q += stapler->GetSpecificity(i);
-    avg_p += stapler->GetSensitivity(i);
-    std::cout << i << ": " << stapler->GetFileName(i) << "\t" << stapler->GetSensitivity(i) << "\t\t"
-              << stapler->GetSpecificity(i) << std::endl;
+    avg_q += stapler->GetSpecificity(j);
+    avg_p += stapler->GetSensitivity(j);
+    std::cout << j << ": " << stapler->GetFileName(j) << "\t" << stapler->GetSensitivity(j) << "\t\t"
+              << stapler->GetSpecificity(j) << std::endl;
     }
   avg_p /= static_cast<double>( stapler->GetNumberOfFiles() );
   avg_q /= static_cast<double>( stapler->GetNumberOfFiles() );
