@@ -140,7 +140,6 @@ public:
   vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_add); // M + s
   vnl_matrix (vnl_matrix<T> const &, T,                     vnl_tag_sub); // M - s
   vnl_matrix (vnl_matrix<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // M * M
-  vnl_matrix (vnl_matrix<T> const &, vnl_tag_grab); // magic
 // </internal>
 #endif
 
