@@ -18,4 +18,5 @@ void RegisterTests()
   REGISTER_TEST(itkRawImageIOTest2);
   REGISTER_TEST(itkRawImageIOTest3);
   REGISTER_TEST(itkRawImageIOTest4);
+  REGISTER_TEST(itkImageSeriesIOTest);
 }

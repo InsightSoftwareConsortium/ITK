@@ -2,18 +2,19 @@ SET(IO_TESTS ${CXX_TEST_PATH}/itkIOTests)
 SET(IO_HEADER_TEST ${CXX_TEST_PATH}/itkIOHeaderTest)
 
 SET(IOTest_SRCS
+itkAnalyzeImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
-itkAnalyzeImageIOTest.cxx
 itkGiplImageIOTest.cxx
+itkImageSeriesIOTest.cxx
 itkMetaImageIOTest.cxx
 itkPNGImageIOTest.cxx
-itkVOLImageIOTest.cxx
-itkVTKImageIOTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
+itkVOLImageIOTest.cxx
+itkVTKImageIOTest.cxx
 )
 
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)

@@ -42,7 +42,7 @@ int itkRawImageIOTest2(int argc, char * argv [])
   // Create a source object (in this case a reader)
   itk::RawImageIO<RGBPixelType>::Pointer io;
   io = itk::RawImageIO<RGBPixelType>::New();
-  io->SetFilePrefix(argv[1]);
+  io->SetFileName(argv[1]);
   unsigned int dim[3] = {570,670,1};
   double spacing[3] = {0.8, 0.8, 1.5};
   double origin[3] = {0.0,0.0,0.0};
