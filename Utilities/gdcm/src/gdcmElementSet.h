@@ -23,6 +23,7 @@
 #include "gdcmDocEntrySet.h"
 #include <map>
 #include <iostream>
+#include <fstream>
 
 class ValEntry;
 class BinEntry;

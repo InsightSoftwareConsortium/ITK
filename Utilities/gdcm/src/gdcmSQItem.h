@@ -22,6 +22,7 @@
 #include "gdcmElementSet.h"
 
 #include <list>
+#include <fstream>
 
 namespace gdcm 
 {
