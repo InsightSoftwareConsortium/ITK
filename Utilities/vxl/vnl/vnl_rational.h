@@ -45,7 +45,7 @@
 
 #include <vcl_iostream.h>
 #include <vcl_cassert.h>
-
+#include <vcl_cmath.h>
 //: Infinite precision rational numbers
 //
 // The  vnl_rational  class  provides  infinite  precision rational numbers and
