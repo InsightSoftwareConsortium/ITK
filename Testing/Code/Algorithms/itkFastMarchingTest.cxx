@@ -104,12 +104,16 @@ int itkFastMarchingTest(int, char**)
 
     output = (float) iterator.Get();
 
+    if (distance == 0)
+      {
+      continue;
+      }
     if ( vnl_math_abs( output ) / distance > 1.42 )
       {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << vnl_math_abs( output ) / distance << " ";
-        std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
-        passed = false;
+      std::cout << iterator.GetIndex() << " ";
+      std::cout << vnl_math_abs( output ) / distance << " ";
+      std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
+      passed = false;
       }
     
     }
