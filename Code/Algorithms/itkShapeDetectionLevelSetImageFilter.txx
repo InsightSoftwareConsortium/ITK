@@ -33,6 +33,9 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 
   /* Use negative features by default. */
   this->SetUseNegativeFeatures( true );
+
+  /* Turn off interpolation. */
+  this->InterpolateSurfaceLocationOff();
 }
  
 template <class TInputImage, class TFeatureImage, class TOutputType>
