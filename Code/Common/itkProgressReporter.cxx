@@ -37,7 +37,7 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
       {
       // throw an exception to be catched outside the external 
       // loop of GenerateData() and ThreadedGenerateData().
-      throw ProcessAbort();
+      throw ProcessAborted();
       }
   
     float numPixels = numberOfPixels;
