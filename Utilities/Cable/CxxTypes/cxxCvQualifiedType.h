@@ -43,6 +43,7 @@ public:
   String GetName() const { return this->GenerateName(""); }
   const Type* GetType() const { return m_Type; }
   CvQualifiedType GetMoreQualifiedType(bool isConst, bool isVolatile) const;
+  bool IsEquallyOrMoreCvQualifiedThan(const CvQualifiedType&) const;
   String GenerateName(const String& indirection,
                       bool isConst = false, bool isVolatile = false) const;
   

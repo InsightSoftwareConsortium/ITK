@@ -82,6 +82,19 @@ CvQualifiedType CvQualifiedType::GetMoreQualifiedType(bool isConst,
 
 
 /**
+ * Return whether this CvQualifiedType is equally or more cv-qualified at
+ * the top level.
+ */
+bool
+CvQualifiedType
+::IsEquallyOrMoreCvQualifiedThan(const CvQualifiedType& cvType) const
+{
+  return !((cvType.IsConst() && !m_Const)
+           || (cvType.IsVolatile() && !m_Volatile));
+}
+
+
+/**
  * Return the type name with its cv-qualifiers.
  */
 String CvQualifiedType::GenerateName(const String& indirection,
