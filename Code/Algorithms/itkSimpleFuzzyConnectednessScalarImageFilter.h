@@ -71,12 +71,12 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class SimpleFuzzyConnectednessScalarImageFilter:
-  public SimpleSimpleFuzzyConnectednessScalarImageFilterBase<TInputImage,TOutputImage>
+  public SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessScalarImageFilter       Self;
-  typedef SimpleSimpleFuzzyConnectednessScalarImageFilterBase<TInputImage,TOutputImage>   
+  typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   
                                               Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -86,7 +86,7 @@ public:
 
   /** Run-time type information (and related methods).  */
   itkTypeMacro(SimpleFuzzyConnectednessScalarImageFilter,
-               SimpleSimpleFuzzyConnectednessScalarImageFilterBase);
+               SimpleFuzzyConnectednessImageFilterBase);
 
   /** Region, size, and pixel types. */
   typedef typename Superclass::IndexType IndexType;
