@@ -46,6 +46,9 @@ int main()
 
   //  Software Guide : BeginLatex
   //
+  //  \piccaption[2]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
+  //  \parpic(6cm,4cm)[r]{\includegraphics[width=4cm]{PointSetWithVectors.eps}}
+  //
   //  The \code{itk::Vector} class is templated over the type used to represent
   //  the spatial coordinates and over the space dimension.  Since the
   //  PixelType is independent of the PointType, we are free to select any
@@ -88,13 +91,6 @@ int main()
   //  values to the points. The components of the vectors in this example are
   //  computed to represent the tangents to the circle as shown in figure
   //  \ref{fig:PointSetWithVectors}.
-  //
-  //  \begin{figure}
-  //  \centering
-  //  \includegraphics[width=5cm]{PointSetWithVectors.eps}
-  //  \par
-  //  \caption{\label{fig:PointSetWithVectors}PointSet with Vectors as PixelType}
-  //  \end{figure}
   //
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}
