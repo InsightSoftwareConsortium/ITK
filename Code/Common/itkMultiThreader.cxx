@@ -155,7 +155,7 @@ MultiThreader::MultiThreader()
     {
     m_ThreadInfoArray[i].ThreadID           = i;
     m_ThreadInfoArray[i].ActiveFlag         = NULL;
-    m_ThreadInfoArray[i].ActiveFlagLock     = NULL;
+    m_ThreadInfoArray[i].ActiveFlagLock     = 0;
     m_MultipleMethod[i]                     = NULL;
     m_MultipleData[i]                       = NULL;
     m_SpawnedThreadActiveFlag[i]            = 0;
@@ -315,7 +315,7 @@ void MultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
+  m_SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
 
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
@@ -378,7 +378,10 @@ void MultiThreader::SingleMethodExecute()
   // waits for each of the other processes to exit
   for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
-    pthread_join( process_id[thread_loop], NULL );
+    if ( pthread_join( process_id[thread_loop], NULL ) )
+      {
+      itkErrorMacro(<< "Unable to join thread " << thread_loop);
+      }
     }
 #endif
 
@@ -619,9 +622,8 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 
   m_SpawnedThreadInfoArray[id].UserData        = UserData;
   m_SpawnedThreadInfoArray[id].NumberOfThreads = 1;
-  m_SpawnedThreadInfoArray[id].ActiveFlag = 
-    &m_SpawnedThreadActiveFlag[id];
-  m_SpawnedThreadInfoArray[id].ActiveFlagLock = 
+  m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
+  m_SpawnedThreadInfoArray[id].ActiveFlagLock =
     m_SpawnedThreadActiveFlagLock[id];
 
   // We are using sproc (on SGIs), pthreads(on Suns or HPs), 

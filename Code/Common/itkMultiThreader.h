@@ -231,7 +231,7 @@ public:
     int                 ThreadID;
     int                 NumberOfThreads;
     int                 *ActiveFlag;
-    MutexLock           *ActiveFlagLock;
+    MutexLock::Pointer  ActiveFlagLock;
     void                *UserData;
   };
 
