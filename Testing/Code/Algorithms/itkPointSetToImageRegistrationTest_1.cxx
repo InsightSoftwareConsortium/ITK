@@ -24,6 +24,7 @@
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
 #include "itkCommandIterationUpdate.h"
+#include "itkImageRegistrationMethodImageSource.h"
 
 #include <iostream>
 
@@ -50,45 +51,25 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   typedef double                   CoordinateRepresentationType;
 
   //Allocate Images
-  typedef itk::Image<PixelType,ImageDimension>         MovingImageType;
-  typedef itk::Image<PixelType,ImageDimension>         FixedImageType;
+  typedef itk::Image<PixelType,ImageDimension>   MovingImageType;
+  typedef itk::Image<PixelType,ImageDimension>   FixedImageType;
 
-  // Declare Gaussian Sources
-  typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
-  typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
-  typedef MovingImageSourceType::Pointer               MovingImageSourcePointer;
-  typedef FixedImageSourceType::Pointer                FixedImageSourcePointer;
+  // ImageSource
+  typedef itk::testhelper::ImageRegistrationMethodImageSource<
+                                  PixelType,
+                                  PixelType,
+                                  ImageDimension >   ImageSourceType;
 
-  // Note: the following declarations are classical arrays
-  unsigned long fixedImageSize[]     = {  100,  100 };
-  unsigned long movingImageSize[]    = {  100,  100 }; 
+  ImageSourceType::Pointer    imageSource   = ImageSourceType::New();
 
-  float         fixedImageSpacing[]  = { 1.0f, 1.0f }; 
-  float         movingImageSpacing[] = { 1.0f, 1.0f }; 
+  itk::Size<ImageDimension> size;
+  size[0] = 100;
+  size[1] = 100;
+  
+  imageSource->GenerateImages( size );
 
-  float         fixedImageOrigin[]   = { 0.0f, 0.0f }; 
-  float         movingImageOrigin[]  = { 0.0f, 0.0f }; 
-
-  MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource  = FixedImageSourceType::New();
-
-  fixedImageSource->SetSize(    fixedImageSize    );
-  fixedImageSource->SetOrigin(  fixedImageOrigin  );
-  fixedImageSource->SetSpacing( fixedImageSpacing );
-  fixedImageSource->SetNormalized( false );
-  fixedImageSource->SetScale( 250.0f );
-
-  movingImageSource->SetSize(    movingImageSize    );
-  movingImageSource->SetOrigin(  movingImageOrigin  );
-  movingImageSource->SetSpacing( movingImageSpacing );
-  movingImageSource->SetNormalized( false );
-  movingImageSource->SetScale( 250.0f );
-
-  movingImageSource->Update();  // Force the filter to run
-  fixedImageSource->Update();   // Force the filter to run
-
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
+  MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
+  FixedImageType::ConstPointer  fixedImage  = imageSource->GetFixedImage();
 
 //-----------------------------------------------------------
 // Create the point set and load it with data by sampling 
@@ -97,15 +78,16 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   typedef itk::PointSet< float, 2 >   FixedPointSetType;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
-  const unsigned int numberOfPoints = 100;
+  const unsigned int numberOfPoints = 10000;
 
   fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
 
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
-  itk::ImageRegionIterator< FixedImageType > it( fixedImage, 
-                                            fixedImage->GetBufferedRegion() );
+  typedef itk::ImageRegionConstIterator< FixedImageType > ImageIteratorType;
+
+  ImageIteratorType it( fixedImage, fixedImage->GetBufferedRegion() );
 
   const unsigned int skip = 
       fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
@@ -207,9 +189,9 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   
   unsigned long   numberOfIterations =   50;
   double          translationScale   =  1.0;
-  double          maximumStepLenght  =  10.0; // no step will be larger than this
-  double          minimumStepLenght  =   0.1; // convergence criterion
-  double          gradientTolerance  =   0.01; // convergence criterion
+  double          maximumStepLenght  =  1.0;  // no step will be larger than this
+  double          minimumStepLenght  =  0.01; // convergence criterion
+  double          gradientTolerance  =  1e-6; // convergence criterion
 
 
   optimizer->SetScales( scales );
@@ -253,7 +235,8 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
     }
 
 
-  try {
+  try 
+    {
     registration->StartRegistration();
     }
   catch( itk::ExceptionObject & e )
