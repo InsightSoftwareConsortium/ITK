@@ -215,7 +215,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
-  typename TInputMesh::TriCell::Pointer insertCell(TInputMesh::TriCell::New());
+  TriCell::Pointer insertCell(TriCell::New());
   unsigned long tripoints[3];
   const unsigned long *tp;
   float x;
@@ -692,7 +692,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   typename TInputMesh::PointsContainerPointer		myDisplacements = Displacements->GetPoints();
   typename TInputMesh::PointsContainer::Iterator	displacements = myDisplacements->Begin();
   
-  typename TInputMesh::TriCell::Pointer				insertCell(TInputMesh::TriCell::New()); 
+  typename TriCell::Pointer				insertCell(TriCell::New()); 
 
 //  const int npoints = Locations->GetNumberOfPoints();
 //  m_NumNewNodes = m_NumNewNodes + m_NumNewNodes;
@@ -761,7 +761,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 	Locations->SetCell(p, insertCell);
 	Locations->SetCellData(p, (PT)1.0);
 	p++;
-	insertCell = TInputMesh::TriCell::New();
+	insertCell = TriCell::New();
 	tripoints[2] = (Resolution[0]-1)*Resolution[1]+j; 
 	tripoints[1] = m_NumNodes-1; 
     tripoints[0] = tripoints[2]-j+jn; 
@@ -769,7 +769,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 	Locations->SetCell(p, insertCell);
 	Locations->SetCellData(p, (PT)2.0);
 	p++;
-	insertCell = TInputMesh::TriCell::New();
+	insertCell = TriCell::New();
   }
 	
   m_NumCells = p;
