@@ -95,6 +95,13 @@ public:
    */
   itkNewMacro(Self);  
 
+  /**
+   * Declaration of Pixel Type
+   */
+  typedef typename Superclass::PixelType PixelType;
+
+
+
 protected:
 
   /**

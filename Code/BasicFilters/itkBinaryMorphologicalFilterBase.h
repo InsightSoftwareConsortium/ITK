@@ -112,6 +112,7 @@ public:
   typedef typename TInputImage::SizeType SizeType ;
   typedef typename TInputImage::IndexType IndexType ;
   typedef typename TInputImage::PixelType PixelType ;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   
   enum { ImageDimension = TInputImage::ImageDimension } ;
 
