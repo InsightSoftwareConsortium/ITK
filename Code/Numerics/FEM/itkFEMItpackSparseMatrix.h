@@ -246,7 +246,12 @@ private:
   //integer m_IER;
 };
 
-
+/**
+ * \class FEMExceptionItpackSparseMatrixSbagn
+ * \brief handles errors that occur when unfinalizing the matrix
+ * \sa ItpackSparseMatrix
+ * \sa FEMException
+ */
 class FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
 public:
@@ -265,6 +270,12 @@ public:
   
 };
 
+/**
+ * \class FEMExceptionItpackSparseMatrixSbagn
+ * \brief handles errors that occur when building the matrix
+ * \sa ItpackSparseMatrix
+ * \sa FEMException
+ */
 class FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:

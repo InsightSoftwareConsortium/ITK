@@ -497,6 +497,12 @@ private:
 
 };
 
+/**
+ * \class FEMExceptionItpackSolver
+ * \brief handles errors that occur in itpack solving routines
+ * \sa LinearSystemWrapperItpack
+ * \sa FEMException
+ */
 class FEMExceptionItpackSolver : public FEMException
 {
 public:
