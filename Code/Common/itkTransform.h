@@ -115,6 +115,10 @@ public:
    * and update the internal transformation. */
   virtual void SetParameters(const ParametersType &) {};
 
+  /** Get the Transformation Parameters. */
+  const ParametersType& GetParameters() 
+    { return m_Parameters; }
+
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
