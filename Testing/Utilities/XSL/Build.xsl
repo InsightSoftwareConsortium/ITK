@@ -72,13 +72,13 @@
       </b>
       <a>
         <xsl:attribute name="href">
-          <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="SourceFile"/>
+          <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="SourceFile"/>?annotate=HEAD
         </xsl:attribute>
         CVS Access
       </a>
       <xsl:if test="SourceFileTail != ''">
         <a>
-          <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/><xsl:value-of select="SourceFileTail"/>-source.html</xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/><xsl:value-of select="translate ( SourceFileTail, '.', '_' )"/>-source.html</xsl:attribute>
         Doxygen
         </a>
       </xsl:if>
