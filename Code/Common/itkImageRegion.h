@@ -163,6 +163,26 @@ public:
   }
   
   /**
+   * Test if an index is inside
+   */
+  bool
+  IsInside(const IndexType &index) const
+  {
+    for(unsigned int i=0; i<ImageDimension; i++)
+    {
+      if( index[i] < m_Index[i] ) 
+      {
+        return false;
+      }
+      if( index[i] >= m_Index[i] + m_Size[i] ) 
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+ 
+  /**
    * Get the number of pixels contained in this region. This just
    * multiplies the size components.
    */
