@@ -43,6 +43,14 @@ GDCMImageIO::GDCMImageIO()
   m_FileType = Binary;  //default...always true
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
+  // UIDPrefix is the ITK root id tacked with a ".1"
+  // allowing to designate a subspace of the id space for ITK generated DICOM
+  m_UIDPrefix = "1.2.826.0.1.3680043.2.1125." "1";
+
+  // Purely internal use no user access:
+  m_StudyInstanceUID = "";
+  m_SeriesInstanceUID = "";
+  m_FrameOfReferenceInstanceUID = "";
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   m_GdcmHeader = NULL;
 #endif
@@ -582,20 +590,25 @@ void GDCMImageIO::Write(const void* buffer)
   myGdcmHeader->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
   myGdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
 
-  static int imageNumber = 0;
-  std::string itkradical = "1.2.826.0.1.3680043.2.1125";
-  std::string uid = gdcm::Util::CreateUniqueUID( itkradical );
-  itksys_ios::ostringstream s;
-  s << uid << "." << imageNumber++;
+  // UID generation part:
+  // We only create *ONE* Study/Series.Frame of Reference Instance UID
+  if( m_StudyInstanceUID.empty() )
+  {
+    // As long as user maintain there gdcmIO they will keep the same
+    // Study/Series instance UID.
+    m_StudyInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
+    m_SeriesInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
+    m_FrameOfReferenceInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
+  }
+  std::string uid = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
 
-  std::string SOPInstanceUID = s.str();
   //std::cerr << "Replacing:" << value << " by " << uid << std::endl;
-  std::cerr << "Replacing:" << SOPInstanceUID << std::endl;
-  myGdcmHeader->ReplaceOrCreateByNumber( SOPInstanceUID, 0x0008, 0x0018); //[SOP Instance UID]
-  myGdcmHeader->ReplaceOrCreateByNumber( SOPInstanceUID, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
-  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".1", 0x0020, 0x000d); //[Study Instance UID]
-  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".2", 0x0020, 0x000e); //[Series Instance UID]
-  myGdcmHeader->ReplaceOrCreateByNumber( uid + ".3", 0x0020, 0x0052); //[Frame of Reference UID] 
+  //std::cerr << "Replacing:" << SOPInstanceUID << std::endl;
+  myGdcmHeader->ReplaceOrCreateByNumber( uid, 0x0008, 0x0018); //[SOP Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( m_SeriesInstanceUID, 0x0020, 0x000e); //[Series Instance UID]
+  myGdcmHeader->ReplaceOrCreateByNumber( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
 
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];

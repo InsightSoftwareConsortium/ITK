@@ -93,6 +93,13 @@ public:
   itkGetMacro(RescaleSlope, double);
   itkGetMacro(RescaleIntercept, double);
 
+  /** Macro to access the DICOM UID prefix. By default this is the ITK
+   *  root id. This default can be overriden if the exam is for example
+   *  part of an existing study.
+   */
+  itkGetStringMacro(UIDPrefix);
+  itkSetStringMacro(UIDPrefix);
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
@@ -104,6 +111,12 @@ protected:
 
   double m_RescaleSlope;
   double m_RescaleIntercept;
+
+  std::string m_UIDPrefix;
+  std::string m_StudyInstanceUID;
+  std::string m_SeriesInstanceUID;
+  std::string m_FrameOfReferenceInstanceUID;
+
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   ::gdcmHeader *m_GdcmHeader;
 #endif
