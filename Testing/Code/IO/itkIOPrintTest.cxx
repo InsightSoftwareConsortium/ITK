@@ -29,6 +29,7 @@
 #include "itkIPLCommonImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkJPEGImageIO.h"
 #include "itkMetaImageIO.h"
 #include "itkPNGImageIO.h"
 #include "itkRawImageIO.h"
@@ -80,6 +81,11 @@ int itkIOPrintTest(int , char* [])
   Giplio = itk::GiplImageIO::New();
   reader->SetImageIO(Giplio);
   std::cout << "---------------Gipl" << reader;
+
+  itk::JPEGImageIO::Pointer JPEGio;
+  JPEGio = itk::JPEGImageIO::New();
+  reader->SetImageIO(JPEGio);
+  std::cout << "---------------JPEG" << reader;
 
   itk::MetaImageIO::Pointer Metaio;
   Metaio = itk::MetaImageIO::New();

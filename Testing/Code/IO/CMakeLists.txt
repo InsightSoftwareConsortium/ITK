@@ -13,6 +13,7 @@ itkDICOMImageSeriesTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesWriterTest.cxx
+itkJPEGImageIOTest.cxx
 itkMetaImageIOTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
@@ -98,6 +99,12 @@ ADD_TEST(itkGiplImageIOTest ${IO_TESTS}
   itkGiplImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.gipl
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+ADD_TEST(itkJPEGImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.png
+  itkJPEGImageIOTest 
+            ${ITK_DATA_ROOT}/Input/cthead1.jpg
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.png)
 ADD_TEST(itkDicomImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDicomImageIOTest.png
             ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png

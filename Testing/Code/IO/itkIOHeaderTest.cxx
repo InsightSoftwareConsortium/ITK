@@ -55,6 +55,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIORegion.h"
 #include "itkImageSeriesReader.txx"
 #include "itkImageSeriesWriter.txx"
+#include "itkJPEGImageIO.h"
+#include "itkJPEGImageIOFactory.h"
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkMvtSunf.h"
