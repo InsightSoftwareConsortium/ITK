@@ -19,8 +19,8 @@
 
 #include "itkOtsuMultipleThresholdsCalculator.h"
 
-namespace itk{
-  namespace Statistics{
+namespace itk
+{
 
 template<class TInputHistogram>
 OtsuMultipleThresholdsCalculator<TInputHistogram>
@@ -45,14 +45,15 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 template<class TInputHistogram>
 bool 
 OtsuMultipleThresholdsCalculator<TInputHistogram>
-::IncrementThresholds(InstanceIdentifierVectorType& thresholdIndexes, MeasurementType globalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency)
+::IncrementThresholds(InstanceIdentifierVectorType& thresholdIndexes, MeanType globalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency)
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
   unsigned long numberOfHistogramBins = histogram->Size();
   unsigned long numberOfClasses = classMean.size();
 
-  double meanOld, freqOld;
+  MeanType meanOld;
+  FrequencyType freqOld;
 
   unsigned int k;
   int j;
@@ -71,13 +72,13 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
       
       classFrequency[j] += histogram->GetFrequency(thresholdIndexes[j]);
       
-      if (classFrequency[j] != 0.0)
+      if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
         {
-        classMean[j] = (meanOld * freqOld + histogram->GetMeasurementVector(thresholdIndexes[j])[0] * histogram->GetFrequency(thresholdIndexes[j])) / classFrequency[j];
+        classMean[j] = (meanOld * static_cast<MeanType>(freqOld) + static_cast<MeanType>(histogram->GetMeasurementVector(thresholdIndexes[j])[0]) * static_cast<MeanType>(histogram->GetFrequency(thresholdIndexes[j]))) / static_cast<MeanType>(classFrequency[j]);
         }
       else
         {
-        classMean[j] = 0.0;
+        classMean[j] = NumericTraits<MeanType>::Zero;
         }
       
       // set higher thresholds adjacent to their previous ones, and update mean and frequency of the respective classes
@@ -85,7 +86,14 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
         {
         thresholdIndexes[k] = thresholdIndexes[k-1] + 1;
         classFrequency[k] = histogram->GetFrequency(thresholdIndexes[k]);
-        classMean[k] = histogram->GetMeasurementVector(thresholdIndexes[k])[0] * classFrequency[k];
+        if (NumericTraits<FrequencyType>::IsPositive(classFrequency[k]))
+          {
+          classMean[k] = static_cast<MeanType>(histogram->GetMeasurementVector(thresholdIndexes[k])[0]);
+          }
+        else
+          {
+          classMean[k] = NumericTraits<MeanType>::Zero;
+          }
         }
       
       // update mean and frequency of the highest class
@@ -95,16 +103,16 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
       for(k=0; k<numberOfClasses-1; k++)
         {
         classFrequency[numberOfClasses-1] -= classFrequency[k];
-        classMean[numberOfClasses-1] -= classMean[k] * classFrequency[k];
+        classMean[numberOfClasses-1] -= classMean[k] * static_cast<MeanType>(classFrequency[k]);
         }
 
-      if (classFrequency[numberOfClasses-1] != 0.0)
+      if (NumericTraits<FrequencyType>::IsPositive(classFrequency[numberOfClasses-1]))
         {
-        classMean[numberOfClasses-1] /= classFrequency[numberOfClasses-1];
+        classMean[numberOfClasses-1] /= static_cast<MeanType>(classFrequency[numberOfClasses-1]);
         }
       else
         {
-        classMean[numberOfClasses-1] = 0.0;
+        classMean[numberOfClasses-1] = NumericTraits<MeanType>::Zero;
         }
 
       // exit the for loop if a threshold has been incremented
@@ -144,14 +152,15 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   // compute global mean
   typename TInputHistogram::ConstIterator iter = histogram->Begin() ;
   typename TInputHistogram::ConstIterator end = histogram->End() ;
-  double globalMean = 0.0;
-  double globalFrequency = static_cast<double>(histogram->GetTotalFrequency());
+
+  MeanType globalMean = NumericTraits<MeanType>::Zero;
+  FrequencyType globalFrequency = histogram->GetTotalFrequency();
   while (iter != end)
     {
-    globalMean += iter.GetMeasurementVector()[0] * iter.GetFrequency();
+    globalMean += static_cast<MeanType>(iter.GetMeasurementVector()[0]) * static_cast<MeanType>(iter.GetFrequency());
     ++iter ;
     }
-  globalMean /= globalFrequency ;
+  globalMean /= static_cast<MeanType>(globalFrequency);
 
   unsigned long numberOfClasses = m_NumberOfThresholds + 1;
 
@@ -167,45 +176,52 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   InstanceIdentifierVectorType maxVarThresholdIndexes = thresholdIndexes;
 
   // compute frequency and mean of initial classes
-  double sum = 0.0;
+  FrequencyType freqSum = NumericTraits<FrequencyType>::Zero;
   FrequencyVectorType classFrequency(numberOfClasses);
   for (j=0; j<numberOfClasses-1; j++)
     {
     classFrequency[j] = histogram->GetFrequency(thresholdIndexes[j]);
-    sum += classFrequency[j];
+    freqSum += classFrequency[j];
     }
-  classFrequency[numberOfClasses-1] = globalFrequency - sum;
+  classFrequency[numberOfClasses-1] = globalFrequency - freqSum;
   
-  sum = 0.0;
+  MeanType meanSum = NumericTraits<MeanType>::Zero;
   MeanVectorType classMean(numberOfClasses);
   for (j=0; j < numberOfClasses-1; j++)
     {
-    classMean[j] = histogram->GetMeasurementVector(j)[0] * classFrequency[j];
-    sum += classMean[j] * classFrequency[j];
+    if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
+      {
+      classMean[j] = static_cast<MeanType>(histogram->GetMeasurementVector(j)[0]);
+      }
+    else
+      {
+      classMean[j] = NumericTraits<MeanType>::Zero;
+      }
+    meanSum += classMean[j] * static_cast<MeanType>(classFrequency[j]);
     }
 
-  if (classFrequency[numberOfClasses-1] != 0.0)
+  if (NumericTraits<FrequencyType>::IsPositive(classFrequency[numberOfClasses-1]))
     {
-    classMean[numberOfClasses-1] = (globalMean * globalFrequency - sum) / classFrequency[numberOfClasses-1];
+    classMean[numberOfClasses-1] = (globalMean * static_cast<MeanType>(globalFrequency) - meanSum) / static_cast<MeanType>(classFrequency[numberOfClasses-1]);
     }
   else
     {
-    classMean[numberOfClasses-1] = 0.0;
+    classMean[numberOfClasses-1] = NumericTraits<MeanType>::Zero;
     }
   
-  double maxVarBetween = 0.0;
+  VarianceType maxVarBetween = NumericTraits<VarianceType>::Zero;
   for (j=0; j<numberOfClasses; j++)
     {
-    maxVarBetween += classFrequency[j] * (globalMean - classMean[j]) * (globalMean - classMean[j]);
+    maxVarBetween += static_cast<VarianceType>(classFrequency[j]) * static_cast<VarianceType>((globalMean - classMean[j]) * (globalMean - classMean[j]));
     }
 
   // explore all possible threshold configurations and choose the one that yields maximum between-class variance
   while (Self::IncrementThresholds(thresholdIndexes, globalMean, classMean, classFrequency))
     {
-    double varBetween = 0.0;
+    VarianceType varBetween = NumericTraits<VarianceType>::Zero;
     for (j=0; j<numberOfClasses; j++)
       {
-      varBetween += classFrequency[j] * (globalMean - classMean[j]) * (globalMean - classMean[j]);
+      varBetween += static_cast<VarianceType>(classFrequency[j]) * static_cast<VarianceType>((globalMean - classMean[j]) * (globalMean - classMean[j]));
       }
 
     if (varBetween > maxVarBetween)
@@ -241,7 +257,6 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   os << std::endl;
 }
 
-} // end namespace Statistics
 } // end namespace itk
 
 #endif

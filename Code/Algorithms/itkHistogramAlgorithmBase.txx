@@ -19,8 +19,8 @@
 
 #include "itkHistogramAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk
+{ 
 
 template< class TInputHistogram >
 HistogramAlgorithmBase< TInputHistogram >
@@ -56,7 +56,6 @@ HistogramAlgorithmBase< TInputHistogram >
   // subclasses should override this function.
 }
 
-} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

@@ -22,8 +22,8 @@
 #include "itkObjectFactory.h"
 #include "itkObject.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk
+{ 
   
 /** \class itkHistogramAlgorithmBase
  * \brief base class for algorithms operating on histograms
@@ -82,7 +82,6 @@ private:
   typename TInputHistogram::ConstPointer m_InputHistogram ;
 } ; // end of class
     
-  } // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -22,10 +22,8 @@
 
 namespace itk
 {
-namespace Statistics
-{
 
-/** \class itkOtsuMultipleThresholdsCalculator
+/** \class OtsuMultipleThresholdsCalculator
  * \brief Computes Otsu's thresholds for a histogram.
  * 
  * You plug in the target histogram using SetInputHistogram method and 
@@ -35,7 +33,7 @@ namespace Statistics
  * The thresholds are computed so that the between-class variance is
  * maximized.
  *
- * \ingroup Statistics
+ * \ingroup Calculators
  */
 
 template< class TInputHistogram >
@@ -52,7 +50,10 @@ public:
   typedef typename TInputHistogram::MeasurementType MeasurementType;
   typedef typename TInputHistogram::FrequencyType FrequencyType;
 
-  typedef std::vector<MeasurementType> MeanVectorType;
+  typedef typename NumericTraits<MeasurementType>::RealType MeanType;
+  typedef typename NumericTraits<MeasurementType>::RealType VarianceType;
+
+  typedef std::vector<MeanType> MeanVectorType;
   typedef std::vector<FrequencyType> FrequencyVectorType;
 
   typedef typename TInputHistogram::InstanceIdentifier InstanceIdentifierType;
@@ -81,7 +82,7 @@ protected:
   void GenerateData() ;
                          
   /** Increment the thresholds of one position */
-  bool IncrementThresholds(InstanceIdentifierVectorType& thresholdIds, MeasurementType totalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency);
+  bool IncrementThresholds(InstanceIdentifierVectorType& thresholdIds, MeanType totalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency);
 
 private:
   /** Internal thresholds storage */
@@ -90,7 +91,6 @@ private:
 
 } ; // end of class
                                                                                                                                       
-  } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
