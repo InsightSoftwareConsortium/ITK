@@ -110,19 +110,16 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTa
     m_Parameters[ k ] = 0;
   }
 
-  typename TransformationType::Pointer transformation =
-            this->GetMetric()->GetMapper()->GetTransform();
-
 
   typename OptimizerType::Pointer optimizer;
   optimizer = this->GetOptimizer();
 
-  ParametersType  parametersScale;
+  typename OptimizerType::TransformType::ParametersType  parametersScale;
   parametersScale.Fill( 1.0 );
 
   optimizer->SetCostFunction( this->GetMetric() );
   optimizer->SetMinimize();
-  optimizer->SetScale( parametersScale );
+  optimizer->GetTransform()->SetScale( parametersScale );
 
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
