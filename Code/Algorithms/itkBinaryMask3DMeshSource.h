@@ -19,13 +19,13 @@
 
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkMesh.h"
-#include "itkMeshSource.h"
+#include "itkImageToMeshFilter.h"
 #include "itkVector.h"
 #include "itkCellInterface.h"
 #include "itkTriangleCell.h"
 #include "itkCovariantVector.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -69,12 +69,12 @@ namespace itk
  *
  *  */
 template <class TOutputMesh>
-class ITK_EXPORT BinaryMask3DMeshSource : public MeshSource<TOutputMesh>
+class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<Image<unsigned short, 3>,TOutputMesh>
 {
 public:
   /** Standard "Self" typedef. */
   typedef BinaryMask3DMeshSource         Self;
-  typedef MeshSource<TOutputMesh>  Superclass;
+  typedef ProcessObject  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryMask3DMeshSource, MeshSource);
+  itkTypeMacro(BinaryMask3DMeshSource, ImageToMeshFilter);
 
   /** Hold on to the type information specified by the template parameters. */
   typedef TOutputMesh OutputMeshType;
@@ -107,19 +107,22 @@ public:
   typedef typename TriCell::SelfAutoPointer TriCellAutoPointer;
 
   /** Input Image Type Definition. */
-  typedef Image<unsigned short, 3> BinaryImageType;
-  typedef typename BinaryImageType::Pointer         BinaryImagePointer;
+  typedef Image<unsigned short, 3> InputImageType;
+  typedef typename InputImageType::Pointer         InputImagePointer;
      
   /** Type definition for the classified image index type. */
-  typedef typename BinaryImageType::IndexType       BinaryImageIndexType;
+  typedef typename InputImageType::IndexType       InputImageIndexType;
 
-  typedef ImageRegionIterator<BinaryImageType> BinaryImageIterator;
-
-  itkSetMacro(BinaryImage, BinaryImageType::Pointer);
+  typedef ImageRegionConstIterator<InputImageType> InputImageIterator;
+  
   itkSetMacro(ObjectValue, unsigned char);
 
   itkGetMacro(NumberOfNodes, unsigned long);
   itkGetMacro(NumberOfCells, unsigned long);
+
+  /** accept the input image */
+  virtual void SetInput( const InputImageType * inputImage );
+
 
 protected:
   BinaryMask3DMeshSource();
@@ -127,12 +130,13 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
-
+  virtual void GenerateOutputInformation(){}; // do nothing
+  
 private:
   BinaryMask3DMeshSource(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typedef typename BinaryImageType::SizeType BinaryImageSizeType;
+  typedef typename InputImageType::SizeType InputImageSizeType;
 
   void CreateMesh();
   void XFlip ( unsigned char *tp );  // 7 kinds of transfermation
@@ -184,12 +188,12 @@ private:
   int m_LastFrameIndex;
   unsigned char m_PointFound;
   unsigned char m_ObjectValue;
-
-  BinaryImageType::Pointer m_BinaryImage;
 };
 
 } // end namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryMask3DMeshSource.txx"
 #endif
+
 #endif

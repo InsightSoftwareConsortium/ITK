@@ -27,13 +27,11 @@ template<class TOutputMesh>
 BinaryMask3DMeshSource<TOutputMesh>
 ::BinaryMask3DMeshSource()
 {
+  // Modify superclass default values, can be overridden by subclasses
+  this->SetNumberOfRequiredInputs(1);
+
   m_NumberOfCells = 0;
   m_NumberOfNodes = 0;
-
-  /** Create the output. */
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
-  this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
   m_NodeLimit = 2000;
   m_CellLimit = 4000;
@@ -96,6 +94,17 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
+  
+template<class TOutputMesh>
+void
+BinaryMask3DMeshSource<TOutputMesh>
+::SetInput(const InputImageType* image)
+{ 
+  this->ProcessObject::SetNthInput(0, 
+                                   const_cast< InputImageType * >( image ) );
+}
+
+/** Generate the data */
 template<class TOutputMesh>
 void
 BinaryMask3DMeshSource<TOutputMesh>
@@ -103,8 +112,6 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   this->InitializeLUT();
   this->CreateMesh();
-//  this->GetOutput()->GetPoints()->Reserve(m_NumberOfNodes);
-//  this->GetOutput()->GetCells()->Reserve(m_NumberOfCells);
 }
 
 template<class TOutputMesh>
@@ -1013,20 +1020,47 @@ void
 BinaryMask3DMeshSource<TOutputMesh>
 ::CreateMesh()
 {
-  BinaryImageIterator it1( m_BinaryImage, m_BinaryImage->GetBufferedRegion() );
-  BinaryImageIterator it2( m_BinaryImage, m_BinaryImage->GetBufferedRegion() );
-  BinaryImageIterator it3( m_BinaryImage, m_BinaryImage->GetBufferedRegion() );
-  BinaryImageIterator it4( m_BinaryImage, m_BinaryImage->GetBufferedRegion() );
+  if (this->GetNumberOfInputs() < 1)
+    {
+    std::cout << "BinaryMask3DMeshSource : Binary image mask not set" << std::endl;
+    return;
+    }
+
+  // Initialize variables
+  m_NumberOfCells = 0;
+  m_NumberOfNodes = 0;
+  m_NodeLimit = 2000;
+  m_CellLimit = 4000;
+  m_LastRowIndex = 0;
+  m_LastVoxelIndex = 0;
+  m_LastFrameIndex = 0;
+  m_CurrentRowIndex = 0;
+  m_CurrentFrameIndex = 0;
+  m_CurrentFrame = 0;
+  m_CurrentRow = 0;
+  m_LastRow = 0;
+  m_LastRowNum = 0;
+  m_LastFrameNum = 0;
+  m_LastFrame = 0;
+  m_CurrentRowNum = 200;
+  m_CurrentFrameNum = 2000;
+
+  InputImageType::ConstPointer m_InputImage = static_cast<const InputImageType * >(this->ProcessObject::GetInput(0) );
+
+  InputImageIterator it1( m_InputImage, m_InputImage->GetBufferedRegion() );
+  InputImageIterator it2( m_InputImage, m_InputImage->GetBufferedRegion() );
+  InputImageIterator it3( m_InputImage, m_InputImage->GetBufferedRegion() );
+  InputImageIterator it4( m_InputImage, m_InputImage->GetBufferedRegion() );
 
   it1.GoToBegin();
   it2.GoToBegin();
   it3.GoToBegin();
   it4.GoToBegin();
 
-  BinaryImageSizeType binaryImageSize = m_BinaryImage->GetBufferedRegion().GetSize();
-  m_ImageWidth  = binaryImageSize[0];
-  m_ImageHeight = binaryImageSize[1];
-  m_ImageDepth  = binaryImageSize[2];
+  InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
+  m_ImageWidth  = inputImageSize[0];
+  m_ImageHeight = inputImageSize[1];
+  m_ImageDepth  = inputImageSize[2];
   int frame = m_ImageWidth * m_ImageHeight;
   int row = m_ImageWidth;
 
@@ -1123,6 +1157,12 @@ BinaryMask3DMeshSource<TOutputMesh>
       }
     i++;    
     }
+
+  // This indicates that the current BufferedRegion is equal to the 
+  // requested region. This action prevents useless rexecutions of
+  // the pipeline.
+  this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
+
   
 }
 
@@ -2248,9 +2288,6 @@ BinaryMask3DMeshSource<TOutputMesh>
         }
       }
 
-//    if ( (m_CurrentRowIndex > 2) && (m_CurrentRow[m_CurrentRowIndex-1][0] < m_CurrentRow[m_CurrentRowIndex-2][0]) )
-//      std::cout << "disorder" << std::endl;
-
     if ( currentframetmp[i][0] != 0 )
       {
       m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
@@ -2287,8 +2324,6 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   int i;
   OPointType new_p;
-//  unsigned long currentrowtmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
-//  unsigned long currentframetmp[4][2] = {{0,0},{0,0},{0,0},{0,0}};
 
   for ( i=0; i<3; i++ )
     {
@@ -2297,9 +2332,15 @@ BinaryMask3DMeshSource<TOutputMesh>
       {
       m_PointFound = 1;
 
-      new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
-      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
-      new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
+      typename InputImageType::IndexType indTemp;
+      indTemp[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
+      indTemp[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
+      indTemp[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
+
+      // We transform the point to the physical space since the mesh does not have the notion
+      // of spacing and origin
+      this->GetInput(0)->TransformIndexToPhysicalPoint(indTemp,new_p);
+
       this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
       switch ( nodesid[i] )
@@ -2311,8 +2352,6 @@ BinaryMask3DMeshSource<TOutputMesh>
           m_CurrentVoxel[6] = m_NumberOfNodes;
           currentframetmp[1][1] = m_NumberOfNodes;
           currentframetmp[1][0] = (index%(m_ImageWidth*m_ImageHeight))*13+2;
-//        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+2;  
-//        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
           break;
         case 10:
           m_CurrentVoxel[10] = m_NumberOfNodes;
@@ -2321,42 +2360,28 @@ BinaryMask3DMeshSource<TOutputMesh>
           m_CurrentVoxel[11] = m_NumberOfNodes;
           currentrowtmp[3][1] = m_NumberOfNodes;
           currentrowtmp[3][0] = (index%m_ImageWidth)*13+10;
-//        m_CurrentRow[m_CurrentRowIndex][1] = m_NumberOfNodes;
-//        m_CurrentRow[m_CurrentRowIndex++][0] = (index%m_ImageWidth)*13+10;
           break;
         case 3:
           currentrowtmp[0][1] = m_NumberOfNodes;
           currentrowtmp[0][0] = (index%m_ImageWidth)*13+1;
-//        m_CurrentRow[m_CurrentRowIndex][1] = m_NumberOfNodes;
-//        m_CurrentRow[m_CurrentRowIndex++][0] = (index%m_ImageWidth)*13+1;
           break;
         case 7:
           currentrowtmp[1][1] = m_NumberOfNodes;
           currentrowtmp[1][0] = (index%m_ImageWidth)*13+5;
           currentframetmp[2][1] = m_NumberOfNodes;
           currentframetmp[2][0] = (index%(m_ImageWidth*m_ImageHeight))*13+3;
-//        m_CurrentRow[m_CurrentRowIndex][0] = (index%m_ImageWidth)*13+5;
-//        m_CurrentRow[m_CurrentRowIndex++][1] = m_NumberOfNodes;
-//        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+3;
-//        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
           break;
         case 12:
           currentrowtmp[2][1] = m_NumberOfNodes;
           currentrowtmp[2][0] = (index%m_ImageWidth)*13+9;
-//        m_CurrentRow[m_CurrentRowIndex][0] = (index%m_ImageWidth)*13+9;
-//        m_CurrentRow[m_CurrentRowIndex++][1] = m_NumberOfNodes;
           break;
         case 5:
           currentframetmp[0][1] = m_NumberOfNodes;
           currentframetmp[0][0] = (index%(m_ImageWidth*m_ImageHeight))*13+1;
-//        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+1;
-//        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
           break;
         case 8:
           currentframetmp[3][1] = m_NumberOfNodes;
           currentframetmp[3][0] = (index%(m_ImageWidth*m_ImageHeight))*13+4;
-//        m_CurrentFrame[m_CurrentFrameIndex][0] = (index%(m_ImageWidth*m_ImageHeight))*13+4;
-//        m_CurrentFrame[m_CurrentFrameIndex++][1] = m_NumberOfNodes;
           break;
         case 1:
           m_CurrentVoxel[1] = m_NumberOfNodes;
@@ -2371,32 +2396,10 @@ BinaryMask3DMeshSource<TOutputMesh>
           m_CurrentVoxel[13] = m_NumberOfNodes;
           break;
         }
-
-//      if ( (m_CurrentRowIndex > 1) && (m_CurrentRow[m_CurrentRowIndex][0] < m_CurrentRow[m_CurrentRowIndex-1][0]) )
-//      std::cout << "disorder" << std::endl;
-/*
-  if ( m_CurrentRowIndex == m_CurrentRowNum ) {
-  m_CurrentRowNum += 100;
-  m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
-  for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-  }
-
-  if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
-  m_CurrentFrameNum += 1000;
-  m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
-  for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-  }
-*/
       globalnodesid[i] = m_NumberOfNodes;
       m_AvailableNodes[ nodesid[i] ] = 0;
       m_CurrentVoxel[ nodesid[i] ] = m_NumberOfNodes;
       m_NumberOfNodes++;
-/*
-  if ( m_NumberOfNodes == m_NodeLimit ) {
-  m_NodeLimit += 1000;
-  this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
-  } 
-*/
       }
     else
       {
@@ -2446,38 +2449,6 @@ BinaryMask3DMeshSource<TOutputMesh>
       i--;
       }
     }
-
-//  if ((globalnodesid[0] > 10000) || (globalnodesid[1] > 10000) || (globalnodesid[2] > 10000))
-//    std::cout << " abnormal " << std::endl;
-/*
-  i = 0;
-  while (i < 4) {
-  if ( currentrowtmp[i][0] != 0 ) {
-  m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
-  m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
-  if ( m_CurrentRowIndex == m_CurrentRowNum ) {
-  m_CurrentRowNum += 100;
-  m_CurrentRow = (unsigned long **) realloc(m_CurrentRow, sizeof(unsigned long *) * m_CurrentRowNum);
-  for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ ) m_CurrentRow[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-  }
-  }
-
-//    if ( (m_CurrentRowIndex > 2) && (m_CurrentRow[m_CurrentRowIndex-1][0] < m_CurrentRow[m_CurrentRowIndex-2][0]) )
-//      std::cout << "disorder" << std::endl;
-
-if ( currentframetmp[i][0] != 0 ) {
-m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
-m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
-if ( m_CurrentFrameIndex == m_CurrentFrameNum ) {
-m_CurrentFrameNum += 1000;
-m_CurrentFrame = (unsigned long **) realloc(m_CurrentFrame, sizeof(unsigned long *) * m_CurrentFrameNum);
-for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ ) m_CurrentFrame[j] = (unsigned long *) malloc(sizeof(unsigned long) * 2);
-}
-}
-
-i++;
-}
-*/
 }
 
 template<class TOutputMesh>
@@ -2596,6 +2567,7 @@ BinaryMask3DMeshSource<TOutputMesh>
   return result;
 }
 
+/** PrintSelf */
 template<class TOutputMesh>
 void
 BinaryMask3DMeshSource<TOutputMesh>
@@ -2617,12 +2589,6 @@ BinaryMask3DMeshSource<TOutputMesh>
      << "NumberOfCells: "
      << m_NumberOfCells
      << std::endl;
-
-  os << indent
-     << "BinaryImage: "
-     << &m_BinaryImage
-     << std::endl;
-
 }
 
 } /** end namespace itk. */
