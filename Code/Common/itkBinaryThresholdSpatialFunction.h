@@ -18,6 +18,7 @@
 #define _itkBinaryThresholdSpatialFunction_h
 
 #include "itkSpatialFunction.h"
+#include "itkImageBase.h"
 
 namespace itk
 {
@@ -39,14 +40,14 @@ namespace itk
 template <typename TFunction>
 class ITK_EXPORT BinaryThresholdSpatialFunction : 
   public SpatialFunction< bool, 
-                          ITK_TYPENAME TFunction::ImageDimension, 
+                          ::itk::GetImageDimension<TFunction>::ImageDimension, 
                           ITK_TYPENAME TFunction::InputType >
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryThresholdSpatialFunction Self;
   typedef SpatialFunction< bool, 
-                           ITK_TYPENAME TFunction::ImageDimension, 
+                           ::itk::GetImageDimension<TFunction>::ImageDimension, 
                            ITK_TYPENAME TFunction::InputType > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
