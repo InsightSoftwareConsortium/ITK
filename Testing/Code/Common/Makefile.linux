@@ -9,6 +9,7 @@
 #
 #############################################################
 
+VPATH = $(INSIGHT_HOME)/Code/Common
 
 RESULT = $(HOME_LIB)/libInsight.a
 
@@ -29,7 +30,7 @@ RESULT = $(HOME_LIB)/libInsight.a
 #
 #################################################
 
-INCLUDES = -I.  
+INCLUDES = -I.  -I$(INSIGHT_HOME)/Code/Common -I$(INSIGHT_HOME)/Code/Insight3DParty/vxl
 
 
 #################################################
@@ -38,10 +39,12 @@ INCLUDES = -I.
 #
 #################################################
 
-COPTIONS =   -Wall   -O3  -DITK_MANUAL_INSTANTIATION \
-             -fno-implicit-templates
+COPTIONS =   -Wall        \
+             -O3          \
+             -DVCL_USE_NATIVE_STL \
+             -fguiding-decls
 
-COMPOPTIONS =   $(COPTIONS)   $(MACHINEOPT)
+COMPOPTIONS =   $(COPTIONS)   
 
 
 
@@ -58,18 +61,69 @@ COMPOPTIONS =   $(COPTIONS)   $(MACHINEOPT)
 ################################################
 #
 #	Object Files
+# The library includes only the non_templated
+# classes. The others should be instantiated for
+# each application
 #
 ################################################
 
-OBJS =	itkDataObject.o itkDirectory.o itkDynamicLoader.o \
-        itkFilterImageToImage.o itkImage.o itkImageBase.o \
-        itkImageIterator.o itkImageSource.o itkIndent.o \
-        itkMeshBase.o itkObject.o itkObjectFactoryBase.o \
-        itkOutputWindow.o itkProcessObject.o itkRandomImageSource.o \
-        itkReadVTKImage.o itkShrinkImage.o itkTimeStamp.o \
-        itkVersion.o itkWriteImage.o itkWriteVTKImage.o itkWriter.o 
 
-#       itkWin32OutputWindow.o
+OBJS =	itkObject.o \
+        itkObjectFactoryBase.o \
+        itkOutputWindow.o \
+        itkProcessObject.o \
+        itkRegistrator3D2D.o \
+        itkRegistrator3D2DBatch.o \
+        itkRegistrator3D2DRecursive.o \
+        itkTimeStamp.o \
+        itkVersion.o \
+        itkWriter.o \
+        itkMeshBase.o \
+        itkIndent.o \
+        itkImageBase.o \
+        itkExceptionObject.o \
+        itkDynamicLoader.o \
+        itkDirectory.o \
+        itkDataObject.o 
+
+#        itkWin32OutputWindow.o \
+
+
+
+#####################################################
+#
+#   The following Classes are templated
+#   This is just a reference to keep track of them
+#
+#   itkPixelTraits.h
+#   itkRandomImageSource.h
+#   itkReadVTKImage.h
+#   itkScalar.h
+#   itkScalarVector.h
+#   itkShrinkImage.h
+#   itkSmartPointer.h
+#   itkVector.h
+#   itkWriteImage.h
+#   itkWriteVTKImage.h
+#   itkNumericTraits.h
+#   itkMesh.h
+#   itkKalmanFilter.h
+#   itkIndex.h
+#   itkImageSource.h
+#   itkImageScalarIterator.h
+#   itkImageIterator.h
+#   itkImageIteratorPlain.h
+#   itkImageIteratorOriented.h
+#   itkImage.h
+#   itkFilterImageToImage.h
+#   itkFilterGaussian.h
+#   itkFilterGaussianFirstDerivative.h
+#   itkFilterGaussianSecondDerivative.h
+#   itkCreateObjectFunction.h
+#
+#
+#####################################################
+
 
 
 #######################################################
