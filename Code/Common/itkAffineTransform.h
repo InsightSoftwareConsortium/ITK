@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineTransform.h
+  Module:    $RCSFile: itkAffineTransform.h.v $
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,152 +13,454 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+
 #ifndef __itkAffineTransform_h
 #define __itkAffineTransform_h
 
-#include "itkObject.h"
-#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
-#include "itkVectorContainer.h"
-#include "itkAffineTransform.h"
+#include "itkCovariantVector.h"
+
+#include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_matrix_fixed.h"
 
 
 namespace itk
 {
-  
-/** \class AffineTransform
- * \brief Generic Affine Transformation for a registration method
- *
- * This Class define the generic interface for an Affine Transformation 
- * It provides Transform() and InverseTransform() methods that works 
- * over Points and Vectors.
- *
- */
 
-template <unsigned int NDimensions>
-class ITK_EXPORT  AffineTransform : 
-        public Transform<
-                  VectorContainer<unsigned int,double> >
+/**
+ * Affine transformation of a vector space (e.g. space coordinates)
+ *
+ * This class allows the definition and manipulation of affine
+ * transformations of an n-dimensional affine space (and its
+ * associated vector space) onto itself.  One common use is to define
+ * and manipulate Euclidean coordinate transformations in two and
+ * three dimensions, but other uses are possible as well.
+ *
+ * An affine transformation is defined mathematically as a linear
+ * transformation plus a constant offset.  If A is a constant n x n
+ * matrix and b is a constant n-vector, then y = Ax+b defines an
+ * affine transformation from the n-vector x to the n-vector y.
+ *
+ * The difference between two points is a vector and transforms
+ * linearly, using the matrix only.  That is, (y1-y2) = A*(x1-x2).
+ * FIXME: There are also convariant (and contravariant) vectors
+ * which transform in still other fashions, but there have not yet
+ * been implemented (and won't be until someone needs them.
+ *
+ * The AffineTransform class determines whether to transform an object
+ * as a point or a vector by examining its type.  An object of type
+ * Point transforms as a point; an object of type Vector transforms as
+ * a vector.  (Prior to 2001-01-02, there were distinct methods for
+ * transforming as a point and as a vector, independent of the Insight
+ * or vnl data type used to represent them.  This usage is still
+ * supported but is deprecated.)
+ *
+ * One common use of affine transformations is to define coordinate
+ * conversions in two- and three-dimensional space.  In this
+ * application, x is a two- or three-dimensional vector containing the
+ * "source" coordinates of a point, y is a vector containing the
+ * "target" coordinates, the matrix A defines the scaling and rotation
+ * of the coordinate systems from the source to the target, and b
+ * defines the translation of the origin from the source to the
+ * target.  More generally, A can also define anisotropic scaling and
+ * shearing transformations.  Any good textbook on computer graphics
+ * will discuss coordinate transformations in more detail.  Several of
+ * the methods in this class are designed for this purpose and use the
+ * language appropriate to coordinate conversions.
+ *
+ * Any two affine transformations may be composed and the result is
+ * another affine transformation.  However, the order is important.
+ * Given two affine transformations T1 and T2, we will say that
+ * "precomposing T1 with T2" yields the transformation which applies
+ * T1 to the source, and then applies T2 to that result to obtain the
+ * target.  Conversely, we will say that "postcomposing T1 with T2"
+ * yields the transformation which applies T2 to the source, and then
+ * applies T1 to that result to obtain the target.  (Whether T1 or T2
+ * comes first lexicographically depends on whether you choose to
+ * write mappings from right-to-left or vice versa; we avoid the whole
+ * problem by referring to the order of application rather than the
+ * textual order.)
+ *
+ * There are two template parameters for this class:
+ *
+ * ScalarT       The type to be used for scalar numeric values.  Either
+ *               float or double.
+ *
+ * NDimensions   The number of dimensions of the vector space.
+ *
+ * FIXME: Is there any real value in allowing the user to template
+ * over the scalar type?  Perhaps it should always be double, unless
+ * there's a compatibility problem with the Point class.
+ *
+ **/
 
+template <
+    class TScalarType,         // Data type for scalars (float or double)
+    int NDimensions >          // Number of dimensions
+class AffineTransform
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
-  typedef AffineTransform  Self;
+
+    /**
+     * Standard Self Typedef
+     */
+    typedef AffineTransform Self;
+
+    /// Standard scalar type for this class
+    typedef TScalarType ScalarType;
+
+    /// Standard vector type for this class
+    typedef vnl_vector_fixed<TScalarType, NDimensions> VectorType;
+
+    /// Standard matrix type for this class
+    typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> MatrixType;
 
 
-  /**
-   * Standard "Superclass" typedef.
-   */
-  typedef Transform< 
-                       VectorContainer< unsigned int, double> > Superclass;
+    /// Standard coordinate point type for this class
+    typedef itk::Point<TScalarType, NDimensions> PointType;
 
+    /**
+     * Construct an AffineTransform object
+     *
+     * This method constructs a new AffineTransform object and
+     * initializes the matrix and offset parts of the transformation
+     * to values specified by the caller.  If the arguments are
+     * omitted, then the AffineTransform is initialized to an identity
+     * transformation in the appropriate number of dimensions.
+     **/
+    AffineTransform(const MatrixType &matrix, const VectorType &offset);
+    AffineTransform();      
 
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+    /**
+     * Copy an AffineTransform object
+     *
+     * This method creates a new AffineTransform object and 
+     * initializes it to be a copy of an existing AffineTransform.
+     **/
+    AffineTransform(const AffineTransform<ScalarType, NDimensions> & other);
 
+    /**
+     * Destroy an AffineTransform object
+     **/
+    ~AffineTransform();
 
-  /** 
-   * Type of the input parameters
-   */
-  typedef    VectorContainer<unsigned int, double>   ParametersType;
+    /**
+     * Get offset of an AffineTransform
+     *
+     * This method returns the value of the offset of the
+     * AffineTransform.
+     **/
+    VectorType GetOffset() const
+        { return m_Offset; }
 
+    /**
+     * Assignment operator
+     **/
+    const Self & operator=( const Self & );
 
- /** 
-   * Pointer Type to input parameters
-   */
-  typedef    typename ParametersType::Pointer  ParametersPointer;
+    /**
+     * Get matrix of an AffineTransform
+     *
+     * This method returns the value of the matrix of the
+     * AffineTransform.
+     **/
+    MatrixType GetMatrix() const
+        { return m_Matrix; }
 
+    /**
+     * Get inverse matrix of an AffineTransform
+     *
+     * This method returns the value of the inverse matrix of
+     * the AffineTransform.  It's not clear that this is useful
+     * except for debugging the class itself.
+     *
+     * FIXME: Do something reasonable if the transform is singular.
+     **/
+    MatrixType GetInverse() const
+        { return m_Inverse; }
 
- /** 
-   * Affine Transform Type
-   */
-  typedef  AffineTransform<double,NDimensions>      AffineTransformType;
+    /**
+     * Set offset of an Affine Transform
+     *
+     * This method sets the offset of an AffineTransform to a
+     * value specified by the user.
+     **/
+    void SetOffset(const VectorType &offset)
+        { m_Offset = offset; return; }
 
+    /**
+     * Set matrix of an AffineTransform
+     *
+     * This method sets the matrix of an AffineTransform to a
+     * value specified by the user.
+     **/
+    void SetMatrix(const MatrixType &matrix)
+        { m_Matrix = matrix; RecomputeInverse(); return; }
 
- /** 
-   * Point Type
-   */
-  typedef  typename AffineTransformType::PointType     PointType;
+    /**
+     * Compose with another AffineTransform
+     *
+     * This method composes self with another AffineTransform of the
+     * same dimension, modifying self to be the composition of self
+     * and other.  If the argument pre is true, then other is
+     * precomposed with self; that is, the resulting transformation
+     * consists of first applying other to the source, followed by
+     * self.  If pre is false or omitted, then other is post-composed
+     * with self; that is the resulting transformation consists of
+     * first applying self to the source, followed by other.
+     **/
+    void Compose(const Self &other, bool pre=0);
 
+    /**
+     * Compose affine transformation with a translation
+     *
+     * This method modifies self to include a translation of the
+     * origin.  The translation is precomposed with self if pre is
+     * true, and postcomposed otherwise.
+     **/
+    void Translate(const VectorType &offset, bool pre=0);
 
- /** 
-   * Vector Type
-   */
-  typedef  typename AffineTransformType::VectorType   VectorType;
+    /**
+     * Compose affine transformation with a scaling
+     *
+     * This method modifies self to magnify the source by a given
+     * factor along each axis.  If all factors are the same, or only a
+     * single factor is given, then the scaling is isotropic;
+     * otherwise it is anisotropic.  If an odd number of factors are
+     * negative, then the parity of the image changes.  If any of the
+     * factors is zero, then the transformation becomes a projection
+     * and is not invertible.  The scaling is precomposed with self if
+     * pre is true, and postcomposed otherwise.
+     **/
+    void Scale(const VectorType &factor, bool pre=0);
+    void Scale(const ScalarType &factor, bool pre=0);
 
+    /**
+     * Compose affine transformation with an elementary rotation
+     *
+     * This method composes self with a rotation that affects two
+     * specified axes, replacing the current value of self.  The
+     * rotation angle is in radians.  The axis of rotation goes
+     * through the origin.  The transformation is given by
+     *
+     * y[axis1] =  cos(angle)*x[axis1] + sin(angle)*x[axis2]
+     * y[axis2] = -sin(angle)*x[axis1] + cos(angle)*x[axis2].
+     *
+     * All coordinates other than axis1 and axis2 are unchanged.
+     * The rotation is precomposed with self if pre is true, and
+     * postcomposed otherwise.
+     **/
+    void Rotate(int axis1, int axis2, double angle, bool pre=0);
 
- /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(AffineTransform, Transform);
+    /**
+     * Compose 2D affine transformation with a rotation
+     *
+     * This method composes self, which must be a 2D affine
+     * transformation, with a clockwise rotation through a given angle
+     * in radians.  The center of rotation is the origin.  The
+     * rotation is precomposed with self if pre is true, and
+     * postcomposed otherwise.
+     **/
+    void Rotate2D(double angle, bool pre=0);
 
+    /**
+     * Compose 3D affine transformation with a rotation
+     *
+     * This method composes self, which must be a 3D affine
+     * transformation, with a clockwise rotation around a specified
+     * axis.  The rotation angle is in radians; the axis of rotation
+     * goes through the origin.  The rotation is precomposed with self
+     * if pre is true, and postcomposed otherwise.
+     **/
+    void Rotate3D(const VectorType &axis, double angle, bool pre=0);
 
-  /**
-   * Method for creation through the object factory.
-   */
-  itkNewMacro(Self);
-  
+    /**
+     * Compose affine transformation with a shear
+     *
+     * This method composes self with a shear transformation,
+     * replacing the original contents of self.  The shear is
+     * precomposed with self if pre is true, and postcomposed
+     * otherwise.  The transformation is given by
+     *
+     * y[axis1] = x[axis1] + coef*x[axis2]
+     * y[axis2] =                 x[axis2].
+     *
+     **/
+    void Shear(int axis1, int axis2, double coef, bool pre=0);
 
-  /**
-   * Transform a Point using the Affine transformation
-   */
-   PointType Transform( const PointType & point );
+    // Add reflection?
 
+    /**
+     * Transform by an affine transformation
+     *
+     * This method applies the affine transform given by self to a
+     * given point or vector, returning the transformed point or
+     * vector.
+     **/
+    PointType  Transform(const PointType  &point ) const;
+    VectorType Transform(const VectorType &vector) const;
 
-  /**
-   * Transform a Vector using the Affine transformation
-   */
-   VectorType Transform( const VectorType & point );
+    Vector<TScalarType, NDimensions> 
+      Transform(const Vector<TScalarType, NDimensions> &vector) const;
 
+    CovariantVector<TScalarType, NDimensions> 
+      Transform(const CovariantVector<TScalarType, NDimensions> &vector) const;
 
-  /**
-   * Inverse Transform a Point using the Affine transformation
-   */
-   PointType InverseTransform( const PointType & point );
+    /**
+     * Back transform by an affine transformation
+     *
+     * This method finds the point or vector that maps to a given
+     * point or vector under the affine transformation defined by
+     * self.  If no such point exists, an exception is thrown.
+     **/
+    PointType  BackTransform(const PointType  &point ) const;
+    VectorType BackTransform(const VectorType &vector) const;
 
+    Vector<TScalarType, NDimensions> 
+      BackTransform(const Vector<TScalarType, NDimensions> &vector) const;
 
-  /**
-   * Inverse Transform a Vector using the Affine transformation
-   */
-   VectorType InverseTransform( const VectorType & point );
+    CovariantVector<TScalarType, NDimensions> 
+      BackTransform(const CovariantVector<TScalarType, NDimensions> &vector) const;
 
+    // FIXME: Add methods to transform (or back transform)
+    // many points or vectors at once?
 
-  /**
-   * Set the Transformation Parameters
-   * and update the internal transformation
-   */
-   void SetParameters(const ParametersType *);
+    /**
+     * Transform a point by an affine transformation (deprecated)
+     *
+     * This method applies the affine transform given by self to a
+     * given point, returning the transformed point.  The returned
+     * value is a (pointer to a) brand new point created with new.
+     *
+     * The TransformPoint method is deprecated (as of 2001-01-02)
+     * but will be retained a little while for compatibility.
+     **/
+    PointType  TransformPoint(const PointType  &point);
+    VectorType TransformPoint(const VectorType &vector);
 
+    /**
+     * Back transform a point by an affine transform (deprecated)
+     *
+     * This method finds the point that maps to a given point under
+     * the affine transformation defined by self.  If no such point
+     * exists, an exception is thrown.  The returned value is (a
+     * pointer to) a brand new point created with new.
+     *
+     * The BackTransformPoint method was deprecated on 2001-01-02
+     * but will be retained a little while for compatibility.
+     **/
+    PointType  BackTransformPoint(const PointType  &point);
+    VectorType BackTransformPoint(const VectorType &point);
 
+    /**
+     * Transform a vector by an affine transformation (deprecated)
+     *
+     * This method applies the affine transform given by self to a
+     * given vector or difference of two points, returning the
+     * transformed vector.
+     *
+     * The TransformVector method is deprecated (as of 2001-01-02)
+     * but will be retained a little while for compatibility.
+     **/
+    PointType  TransformVector(const PointType  &point);
+    VectorType TransformVector(const VectorType &point);
+
+    /**
+     * Back transform a vector by an affine transform (deprecated)
+     *
+     * This method finds the vector that maps to a given vector under
+     * the affine transformation defined by self.  If no such vector
+     * exists, an exception is thrown.
+     *
+     * The BackTransformVector method is deprecated (as of 2001-01-02)
+     * but will be retained a little while for compatibility.
+     **/
+    PointType  BackTransformVector(const PointType  &point);
+    VectorType BackTransformVector(const VectorType &point);
+
+    // FIXME: Add transformation of a matrix?
+
+    /**
+     * Find inverse of an affine transformation
+     *
+     * This method creates and returns a new AffineTransform object
+     * which is the inverse of self.  If self is not invertible,
+     * an exception is thrown.
+     **/
+    AffineTransform Inverse();
+
+    /**
+     * Compute distance between two affine transformations
+     *
+     * This method computes a ``distance'' between two affine
+     * transformations.  This distance is guaranteed to be a metric,
+     * but not any particular metric.  (At the moment, the algorithm
+     * is to collect all the elements of the matrix and offset into a
+     * vector, and compute the euclidean (L2) norm of that vector.
+     * Some metric which could be used to estimate the distance between
+     * two points transformed by the affine transformation would be
+     * more useful, but I don't have time right now to work out the
+     * mathematical details.)
+     *
+     **/
+    double Metric(const Self &other) const;
+
+    /** Compute distance to the identity transform
+     *
+     * This method computes the distance from self to the identity
+     * transformation, using the same metric as the one-argument form
+     * of the Metric() method.
+     *
+     **/
+    double Metric(void) const;
+
+    /**
+     * Print contents of an AffineTransform
+     **/
+    std::ostream & PrintSelf(std::ostream &s) const;
+    
 
 protected:
 
-  AffineTransform();
-  virtual ~AffineTransform() {};
-  AffineTransform(const Self&);
-  const Self & operator=(const Self&);
+    /**
+     * Recompute inverse of the transformation matrix
+     **/
+    void RecomputeInverse();
 
 
 private:
+    MatrixType m_Matrix;       // Matrix of the transformation
+    VectorType m_Offset;       // Offset of the transformation
+    MatrixType m_Inverse;      // Inverse of the matrix
+    bool       m_Singular;     // Is m_Inverse singular?
 
-  AffineTransformType      m_AffineTransform;
-  ParametersType::Pointer       m_Parameters;
+}; //class AffineTransform
 
-};
 
-} // end namespace itk
+/**
+ * Print the matrix and offset of an AffineTransform
+ *
+ * This method prints the matrix and offset of the
+ * AffineTransform as an n x (n+1) matrix, with the
+ * offset as the last column.  This is the same as
+ * the conventional homogeneous coordinate representation,
+ * except that the last row is omitted.
+ **/
+template<class ScalarType, int NDimensions>
+inline
+std::ostream &
+operator<< (std::ostream &s, AffineTransform<ScalarType, NDimensions> &affine)
+{
+    return affine.PrintSelf(s);
+}
+
+
+}  // namespace itk
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAffineTransform.txx"
 #endif
 
-#endif
-
-
-
+#endif /* __itkAffineTransform_h */
