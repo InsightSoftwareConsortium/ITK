@@ -18,6 +18,7 @@
 #define _itkBinaryMask3DMeshSource_txx
 
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -46,8 +47,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
-//  this->GetOutput()->GetCells()->Reserve(m_CellLimit);
+  this->GetOutput()->GetCells()->Reserve(m_CellLimit);
 
+  m_ObjectValue = NumericTraits< unsigned short >::Zero;
 }
 
 template<class TOutputMesh>
