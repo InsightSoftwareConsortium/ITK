@@ -25,6 +25,7 @@
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
+#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"

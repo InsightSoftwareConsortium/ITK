@@ -34,6 +34,7 @@
 #include "itkFEMElement2DC1Beam.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
+#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
@@ -71,6 +72,10 @@ void LoadImplementationsRegister(void)
   // Loads acting on QuadrilateralStress element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
+
+  // Loads acting on QuadrilateralMembrane element
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane,LoadLandmark,LoadImplementationGenericLandmarkLoad::HandleLoad);
 
   // Loads acting on TriangularStress element
   REGISTER_LOAD_EX(Element2DC0LinearTriangularStress,LoadGravConst,LoadImplementationGenericBodyLoad::HandleLoad);
