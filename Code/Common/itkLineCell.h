@@ -105,7 +105,10 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(LineCell, CellInterface);
-
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(LINE_CELL);
 protected:
   /**
    * Store number of points needed for a line segment.

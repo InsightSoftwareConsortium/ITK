@@ -17,6 +17,28 @@
 #include <algorithm>
 
 ITK_NAMESPACE_BEGIN
+  
+template <typename TPixelType, typename TMeshType>
+void
+Mesh< TPixelType , TMeshType >
+::PrintSelf(std::ostream& os, Indent indent)
+{
+  Object::PrintSelf(os, indent);
+  os << indent << "Number Of Points: " 
+     << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->size() : 0) << std::endl;
+    os << indent << "Number Of Cell Links: " 
+       << ((m_CellLinksContainer) ?  m_CellLinksContainer->size() : 0) << std::endl;
+    os << indent << "Number Of Cells: " 
+       << ((m_CellsContainer) ?  m_CellsContainer->size() : 0) << std::endl;
+    os << indent << "Size of Cell Data Container: " 
+       << ((m_CellDataContainer) ?  m_CellDataContainer->size() : 0) << std::endl;
+    os << indent << "Size of boundary container vector: " << m_BoundariesContainers.size() << std::endl;
+    os << indent << "Size of boundaries data container vector: " 
+       << m_BoundaryDataContainers.size() << std::endl;
+    os << indent << "Number of explicet cell boundary assignments: " 
+       << m_BoundaryAssignmentsContainers.size() << std::endl;
+}
+
 
 /**
  * Access routine to set the points container.
@@ -46,6 +68,10 @@ Mesh< TPixelType , TMeshType >
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Points container of " << m_PointsContainer );
+  if(m_PointsContainer == 0)
+    {
+    this->SetPointsContainer(PointsContainer::New());
+    }
   return m_PointsContainer;
 }
 
@@ -726,8 +752,7 @@ unsigned long
 Mesh< TPixelType , TMeshType >
 ::GetNumberOfPoints(void)
 {  
-  // IMPLEMENT ME
-  return 0;
+  return m_PointsContainer->size();
 }
 
 
@@ -739,8 +764,7 @@ unsigned long
 Mesh< TPixelType , TMeshType >
 ::GetNumberOfCells(void)
 {  
-  // IMPLEMENT ME
-  return 0;
+  return m_CellsContainer->size();;
 }
 
 
@@ -1088,6 +1112,33 @@ Mesh< TPixelType , TMeshType >
   return false;
 }
 
+/**
+ * Dynamically build the links from points back to their using cells.  This
+ * information is stored in the cell links container, not in the points.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+Mesh< TPixelType , TMeshType >
+::Accept(Cell::MultiVisitor* mv)
+{
+  if(!m_CellsContainer)
+    {
+    return;
+    }
+  for(CellsContainerIterator i = m_CellsContainer->Begin();
+      i != m_CellsContainer->End(); ++i)
+    {
+    if((*i).second.GetPointer())
+      {
+      (*i).second->Accept((*i).first, mv);
+      }
+    else
+      {
+      itkDebugMacro("Null cell at " << (*i).first);
+      }
+    }
+}
+
 
 /**
  * Dynamically build the links from points back to their using cells.  This
@@ -1162,5 +1213,6 @@ Mesh< TPixelType , TMeshType >
     BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
   m_PointLocator(NULL)
 {}
+
 
 ITK_NAMESPACE_END

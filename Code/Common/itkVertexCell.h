@@ -98,7 +98,10 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(VertexCell, CellInterface);
-
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(VERTEX_CELL);
 protected:
   /**
    * Store the number of points needed for a vertex.

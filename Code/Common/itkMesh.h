@@ -16,6 +16,7 @@
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
+#include "itkObject.h"
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
@@ -24,11 +25,12 @@
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
-
 #include <vector>
 #include <set>
 
+
 ITK_NAMESPACE_BEGIN
+
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -125,9 +127,13 @@ public:
    * Create types that are iterators for each of the container types.
    */
   typedef typename
-          PointsContainer::ConstIterator        PointsContainerIterator;
+          PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename
-          CellsContainer::ConstIterator         CellsContainerIterator;
+          PointsContainer::Iterator             PointsContainerIterator;
+  typedef typename
+          CellsContainer::ConstIterator         CellsContainerConstIterator;
+  typedef typename
+          CellsContainer::Iterator              CellsContainerIterator;
   typedef typename
           CellLinksContainer::ConstIterator     CellLinksContainerIterator;
   typedef typename
@@ -303,7 +309,10 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
+  /**
+   * Provide a print self method for mesh.
+   */
+  void PrintSelf(std::ostream& os, Indent indent);
   /**
    * Define Set/Get access routines for each internal container.
    */
@@ -397,6 +406,12 @@ public:
   Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
                                            CellFeatureIdentifier) const;
   
+  /**
+   *  This method iterates over all the cells in the mesh and has
+   *  each cell Accept the MultiVisitor. See MultiVisitor for more 
+   *  information.  (Note, this follows the Visitor Design Pattern)
+   */
+  void Accept(Cell::MultiVisitor* mv);
 
   /**
    * Mesh-level operation interface.

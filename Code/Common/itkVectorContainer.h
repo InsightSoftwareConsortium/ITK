@@ -117,7 +117,11 @@ public:
   /**
    * The type created by the dereference of a ConstIterator.
    */
-  typedef std::pair< const ElementIdentifier , Element >  ValueType;
+  typedef std::pair< const ElementIdentifier , Element >  ConstValueType;
+  /**
+   * The type created by the dereference of a Iterator.
+   */
+  typedef std::pair< ElementIdentifier , Element >  ValueType;
   
   /**
    * A const iterator simulates the STL map container style iterator
@@ -136,7 +140,7 @@ public:
       iter(r), pos(p) {}
     ConstIterator(const Self& r): iter(r.iter), pos(r.pos) {}
     ConstIterator& operator=(const Self& r) { iter = r.iter; }
-    const ValueType operator* () const { return ValueType(pos, *iter); }
+    const ConstValueType operator* () const { return ConstValueType(pos, *iter); }
     ConstIterator& operator++()    { ++iter; ++pos; return *this; }
     ConstIterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
     ConstIterator& operator--()    { --iter; --pos; return *this; }
@@ -149,6 +153,42 @@ public:
      * The real STL vector iterator.
      */
     Vector::const_iterator iter;
+    
+    /**
+     * The simulated other-half of the ValueType pair.
+     */
+    ElementIdentifier pos;
+  };
+  /**
+   * A non const iterator simulates simulates the STL map container style
+   * iterator to make it look like the index is stored in the container
+   * with the element in a pair.
+   */
+  class Iterator
+  {
+  public:
+    /**
+     * Standard "Self" typedef.
+     */
+    typedef Iterator Self;
+
+    Iterator(ElementIdentifier p, const Vector::iterator& r):
+      iter(r), pos(p) {}
+    Iterator(const Self& r): iter(r.iter), pos(r.pos) {}
+    Iterator& operator=(const Self& r) { iter = r.iter; }
+    ValueType operator* ()  { return ValueType(pos, *iter); }
+    Iterator& operator++()    { ++iter; ++pos; return *this; }
+    Iterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
+    Iterator& operator--()    { --iter; --pos; return *this; }
+    Iterator  operator--(int) { Self tmp = *this; --iter; --pos; return tmp; }
+    bool operator==(const Self& r)  { return (iter == r.iter); }
+    bool operator!=(const Self& r)  { return (iter != r.iter); }
+    
+  private:
+    /**
+     * The real STL vector iterator.
+     */
+    Vector::iterator iter;
     
     /**
      * The simulated other-half of the ValueType pair.
@@ -170,6 +210,8 @@ public:
   void DeleteIndex(ElementIdentifier);
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
+  Iterator Begin(void);
+  Iterator End(void);  
   unsigned long Size(void) const;
   void Reserve(ElementIdentifier);
   void Squeeze(void);

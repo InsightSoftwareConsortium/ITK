@@ -87,7 +87,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
-  Map::operator[](id) = element;
+  this->Map::insert(id, element);
   this->Modified();
 }
 
@@ -175,6 +175,30 @@ template <typename TElementIdentifier, typename TElement>
 MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) const
+{
+  return this->Map::end();
+}
+
+
+/**
+ * Get a begin const iterator for the map.
+ */
+template <typename TElementIdentifier, typename TElement>
+MapContainer< TElementIdentifier , TElement >::Iterator
+MapContainer< TElementIdentifier , TElement >
+::Begin(void) 
+{
+  return this->Map::begin();
+}
+
+
+/**
+ * Get an end const iterator for the map.
+ */
+template <typename TElementIdentifier, typename TElement>
+MapContainer< TElementIdentifier , TElement >::Iterator
+MapContainer< TElementIdentifier , TElement >
+::End(void) 
 {
   return this->Map::end();
 }

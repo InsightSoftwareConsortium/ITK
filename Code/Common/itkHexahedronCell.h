@@ -121,7 +121,10 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(HexahedronCell, CellInterface);
-
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(HEXAHEDRON_CELL);
 protected:
   /**
    * Store the number of points needed for a hexahedron.

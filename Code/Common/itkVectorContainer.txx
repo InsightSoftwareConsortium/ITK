@@ -151,14 +151,10 @@ VectorContainer< TElementIdentifier , TElement >
   if(id >= this->Vector::size())
     {
     /**
-     * The vector must be expanded.  If doubling in size is enough to
-     * allow the new index, do so.  Otherwise, expand just enough to
-     * allow the new index.
+     * The vector must be expanded to fit the
+     * new id.
      */
-    if((id+1) < (2*this->Vector::size()))
-      this->Vector::resize(2*this->Vector::size());
-    else
-      this->Vector::resize(id+1);
+    this->Vector::resize(id+1);
     this->Modified();
     }
   else if(id >= 0)
@@ -208,6 +204,30 @@ VectorContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
   return ConstIterator(this->Vector::size()-1, this->Vector::end());
+}
+
+
+/**
+ * Get a begin const iterator for the vector.
+ */
+template <typename TElementIdentifier, typename TElement>
+VectorContainer< TElementIdentifier , TElement >::Iterator
+VectorContainer< TElementIdentifier , TElement >
+::Begin(void) 
+{
+  return Iterator(0, this->Vector::begin());
+}
+
+
+/**
+ * Get an end const iterator for the vector.
+ */
+template <typename TElementIdentifier, typename TElement>
+VectorContainer< TElementIdentifier , TElement >::Iterator
+VectorContainer< TElementIdentifier , TElement >
+::End(void) 
+{
+  return Iterator(this->Vector::size()-1, this->Vector::end());
 }
 
 

@@ -20,8 +20,27 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
+#include <map>
+#include "itkCellInterfaceVisitor.h"
+
+
+// Define a macro for CellInterface sub-classes to use
+// to define the Accept and GetTopologyId virtuals used
+// by the MultiVisitor class
+#define itkCellVisitMacro(TopologyId) \
+  static int GetTopologyId() {return TopologyId;}\
+  virtual void Accept(unsigned long cellid, MultiVisitor* mv)\
+    {\
+      CellInterfaceVisitor<TPixelType, TCellType>::Pointer v = mv->GetVisitor(TopologyId);\
+      if(v)\
+        {\
+        v->VisitFromCell(cellid, this);\
+        }\
+    }
 
 ITK_NAMESPACE_BEGIN
+
+  
 
 /** \class CellInterface
  * Define an abstract interface for cells.  Actual cell types derive from
@@ -101,6 +120,93 @@ public:
    * Allow const iteration over the point ID list.
    */
   typedef const PointIdentifier*  PointIdConstIterator;
+  /** 
+   *  Cell Visitor interfaces
+   */
+  enum {HEXAHEDRON_CELL=0, QUADRILATERAL_CELL, 
+        TRIANGLE_CELL, LINE_CELL, TETRAHEDRON_CELL, VERTEX_CELL,
+        LAST_ITK_CELL, MAX_ITK_CELLS=255};
+  static int GetNextUserCellId(); // never return > MAX_INTERFACE
+
+ 
+  /* 
+   * A visitor that can visit different cell types in a mesh.
+   * CellInterfaceVisitor instances can be registered for each
+   * type of cell that needs to be visited.
+   */
+  class MultiVisitor : public LightObject
+  { 
+  public:
+    /**
+     *  Visitor type, because VisualC++ 6.0 does not like
+     *  Visitor being a nested type of CellInterfaceVisitor
+     */
+    typedef CellInterfaceVisitor<TPixelType, TCellType> Visitor;
+
+    /**
+     * Standard "Self" typedef.
+     */
+    typedef MultiVisitor       Self;
+    
+    /**
+     * Smart pointer typedef support.
+     */
+    typedef SmartPointer<Self>  Pointer;
+  
+    /**
+     * Method for creation through the object factory.
+     */
+    itkNewMacro(Self);
+  
+    /** 
+     * Run-time type information (and related methods).
+     */
+    itkTypeMacro(MultiVisitor,LightObject);
+  
+    /* 
+     * Get the Visitor for the given id
+     */
+  public:
+    Visitor::Pointer GetVisitor(int id)
+      {
+        if(id <= LAST_ITK_CELL)
+	  {
+	  return m_Visitors[id];
+	  }
+	else
+	  {
+	  std::map<int, Visitor::Pointer>:: iterator pos = m_UserDefined.find(id);
+	  if(pos != m_UserDefined.end())
+	    {
+	    return (*pos).second;
+	    }
+	  }
+        return 0;
+      }
+    void AddVisitor(Visitor* v)
+      {
+        int id = v->GetCellTopologyId();
+	if(id <= LAST_ITK_CELL)
+	  {
+	  m_Visitors[id] = v;
+	  }
+	else
+	  {
+	  m_UserDefined.insert(std::map<int, Visitor::Pointer>::value_type(id,
+								   v));
+	  }
+      }
+    ~MultiVisitor()
+      {
+      }
+  protected:
+    Visitor::Pointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size from the enum
+    std::map<int, Visitor::Pointer> m_UserDefined; // user defined cell types go here
+  };
+  /**
+   * This must be implemented by all sub-classes of CellInterface
+   */
+  virtual void Accept(unsigned long cellId, MultiVisitor*)= 0; 
   
   /**
    * Public interface routines.

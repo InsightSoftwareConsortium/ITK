@@ -115,6 +115,10 @@ public:
    */
   itkTypeMacro(TriangleCell, CellInterface);
   
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(TRIANGLE_CELL);
 protected:
   /**
    * Store the number of points needed for a triangle.

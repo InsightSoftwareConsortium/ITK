@@ -113,7 +113,10 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(QuadrilateralCell, CellInterface);
-  
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(QUADRILATERAL_CELL);
 protected:
   /**
    * Store the number of points needed for a quadrilateral.

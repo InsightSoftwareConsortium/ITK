@@ -116,6 +116,10 @@ public:
    * The const iterator type for the map.
    */
   typedef Map::const_iterator  ConstIterator;
+  /**
+   * The non-const iterator type for the map.
+   */
+  typedef Map::iterator  Iterator;
   
   /**
    * Declare the public interface routines.
@@ -131,6 +135,8 @@ public:
   void DeleteIndex(ElementIdentifier);
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
+  Iterator Begin(void);
+  Iterator End(void);  
   unsigned long Size(void) const;
   void Reserve(ElementIdentifier);
   void Squeeze(void);

@@ -122,7 +122,10 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(TetrahedronCell, CellInterface);
-
+  /**
+   * Visitor interface
+   */
+  itkCellVisitMacro(TETRAHEDRON_CELL);
 protected:
   /**
    * Store the number of points needed for a tetrahedron.
