@@ -317,7 +317,7 @@ void vnl_levenberg_marquardt::diagnose_outcome() const
 void vnl_levenberg_marquardt::diagnose_outcome(vcl_ostream& s) const
 {
 #define whoami "vnl_levenberg_marquardt"
-  //if (!verbose_) return;
+  if (!verbose_) return;
   switch (failure_code_) {
     //  case -1:
     // have already warned.
