@@ -370,19 +370,6 @@ public:
     // many points or vectors at once?
 
     /**
-     * Transform a point by an affine transformation (deprecated)
-     *
-     * This method applies the affine transform given by self to a
-     * given point, returning the transformed point.  The returned
-     * value is a (pointer to a) brand new point created with new.
-     *
-     * The TransformPoint method is deprecated (as of 2001-01-02)
-     * but will be retained a little while for compatibility.
-     **/
-    OutputPointType  TransformPoint(const OutputPointType  &point);
-    VectorType TransformPoint(const VectorType &vector);
-
-    /**
      * Back transform a point by an affine transform (deprecated)
      *
      * This method finds the point that maps to a given point under
