@@ -166,7 +166,8 @@ SimplexMeshVolumeCalculator<TInputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "ToDo: implement PrinSelf!!!";    
+  os << indent << "Volume = " << m_Volume << std::endl;
+  os << indent << "Mesh   = " << m_Mesh << std::endl;
 }
 
 } // end of namspace itk
