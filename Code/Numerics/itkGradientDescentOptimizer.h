@@ -56,7 +56,7 @@ namespace itk
  *
  * \f[ 
  *        p_{n+1} = p_n 
- *                + mbox{learningRate} 
+ *                + \mbox{learningRate} 
                   * \frac{\partial f(p_n) }{\partial p_n} 
  * \f]
  *
