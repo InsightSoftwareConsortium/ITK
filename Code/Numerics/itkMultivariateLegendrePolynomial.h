@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkMultivariateLegendrePolynomial_h
 #define __itkMultivariateLegendrePolynomial_h
 
+#include <algorithm>
 #include <vector>
 #include <vnl/vnl_vector.h>
 
@@ -209,6 +210,7 @@ public:
         
         return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
       }
+    return 0 ;
   }
 
   /**
@@ -242,7 +244,7 @@ public:
     
     void Begin() 
     {
-      fill(m_Index.begin(), m_Index.end(), 0) ;
+      std::fill(m_Index.begin(), m_Index.end(), 0) ;
     }
     
     bool IsAtEnd()
@@ -272,6 +274,7 @@ public:
                 }
             }
         }
+        return *this ;
     }
     
     double Get()
