@@ -50,18 +50,23 @@ void
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::SetLowerThreshold(const InputPixelType threshold)
 {
-  typename InputPixelObjectType::Pointer lower = this->GetLowerThresholdInput();
-  if (! lower )
+  // first check to see if anything changed
+  typename InputPixelObjectType::Pointer lower=this->GetLowerThresholdInput();
+  if (lower && lower->Get() == threshold)
     {
-    // someone wiped out our input object, create a new default one
-    lower = InputPixelObjectType::New();
-    this->ProcessObject::SetNthInput(1, lower);
+    return;
     }
-  if (lower->Get() != threshold)
-    {
-    lower->Set(threshold);
-    this->Modified();
-    }
+  
+  // create a data object to use as the input and to store this
+  // threshold. we always create a new data object to use as the input
+  // since we do not want to change the value in any current input
+  // (the current input could be the output of another filter or the
+  // current input could be used as an input to several filters)
+  lower = InputPixelObjectType::New();
+  this->ProcessObject::SetNthInput(1, lower);
+
+  lower->Set(threshold);
+  this->Modified();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -137,18 +142,23 @@ void
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::SetUpperThreshold(const InputPixelType threshold)
 {
-  typename InputPixelObjectType::Pointer upper = this->GetUpperThresholdInput();
-  if (! upper )
+  // first check to see if anything changed
+  typename InputPixelObjectType::Pointer upper=this->GetUpperThresholdInput();
+  if (upper && upper->Get() == threshold)
     {
-    // someone wiped out our input object, create a new default one
-    upper = InputPixelObjectType::New();
-    this->ProcessObject::SetNthInput(2, upper);
+    return;
     }
-  if (upper->Get() != threshold)
-    {
-    upper->Set(threshold);
-    this->Modified();
-    }
+  
+  // create a data object to use as the input and to store this
+  // threshold. we always create a new data object to use as the input
+  // since we do not want to change the value in any current input
+  // (the current input could be the output of another filter or the
+  // current input could be used as an input to several filters)
+  upper = InputPixelObjectType::New();
+  this->ProcessObject::SetNthInput(2, upper);
+
+  upper->Set(threshold);
+  this->Modified();
 }
 
 template <class TInputImage, class TOutputImage>
