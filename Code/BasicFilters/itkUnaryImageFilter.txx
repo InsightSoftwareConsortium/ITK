@@ -54,6 +54,7 @@ template <class TInputImage, class TOutputImage, class TFunction  >
 UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 ::UnaryImageFilter()
 {
+  this->SetNumberOfRequiredInputs( 1 );
 }
 
 

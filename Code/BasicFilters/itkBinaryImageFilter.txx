@@ -55,6 +55,7 @@ template <class TInputImage1, class TInputImage2,
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::BinaryImageFilter()
 {
+  this->SetNumberOfRequiredInputs( 2 );
 }
 
 
