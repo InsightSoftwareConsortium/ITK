@@ -177,7 +177,9 @@ int main()
   pyramid->SetStartingShrinkFactors( factors.Begin() );
 
   // check the schedule;
-  schedule = ScheduleType( numLevels, ImageDimension );
+  ScheduleType temp( numLevels, ImageDimension );
+  temp.Fill(0);
+  schedule = temp;
   for( k = 0; k < numLevels; k++ )
     {
     unsigned int denominator = 1 << k;

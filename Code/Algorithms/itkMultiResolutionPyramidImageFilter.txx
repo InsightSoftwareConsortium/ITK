@@ -64,7 +64,9 @@ unsigned int num )
   if( m_NumberOfLevels < 1 ) m_NumberOfLevels = 1;
 
   // resize the schedules
-  m_Schedule = ScheduleType( m_NumberOfLevels, ImageDimension );
+  ScheduleType temp( m_NumberOfLevels, ImageDimension );
+  temp.Fill( 0.0 );
+  m_Schedule = temp;
 
   // determine initial shrink factor
   unsigned int startfactor = 1;
