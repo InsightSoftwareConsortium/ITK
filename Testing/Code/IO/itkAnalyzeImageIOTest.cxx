@@ -18,56 +18,151 @@ PURPOSE.  See the above copyright notices for more information.
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
-#include "iplitk/itkAnalyzeImageIOFactory.h"
+
+#include "itkImageRegionIterator.h"
+#include <iostream>
+
+#include "itkLaplacianImageFilter.h"
+#include "itkImageFileWriter.h"
+#include "itkImageIOFactory.h"
+#include "itkMetaImageIOFactory.h"
+#include "itkPNGImageIOFactory.h"
+#include "itkMetaImageIO.h"
+#include "itkPNGImageIO.h"
+#include "itkAnalyzeImageIOFactory.h"
+#include "itkAnalyzeImageIO.h"
+
+
+const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
+const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
+const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
+const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
+
+typedef itk::Image<unsigned char, 3> ImageType ;
+typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+
+static int makeImage(const char *filename,  
+                     ImageType::Pointer &img)
+{
+
+  //Allocate Images
+  enum { ImageDimension = ImageType::ImageDimension };
+
+  const ImageType::SizeType size = {{10,10,10}};
+  const ImageType::IndexType index = {{0,0,0}};
+  ImageType::RegionType region;
+  region.SetSize( size );
+  region.SetIndex( index );
+
+  img = ImageType::New();
+  img->SetLargestPossibleRegion( region );
+  img->SetBufferedRegion( region );
+  img->SetRequestedRegion( region );
+  img->Allocate();
+
+  { //Fill in entire image 
+      itk::ImageRegionIterator<ImageType> ri(img,region);
+      while(!ri.IsAtEnd())
+      {
+          ri.Set( RPI );
+          ++ri;
+      }
+  }
+  { //Fill in left half
+      const ImageType::IndexType RPIindex = {{0,0,0}};
+      const ImageType::SizeType RPIsize = {{5,10,10}};
+      ImageType::RegionType RPIregion;
+      RPIregion.SetSize( RPIsize );
+      RPIregion.SetIndex( RPIindex );
+      itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+      while(!RPIiterator.IsAtEnd())
+      {
+          RPIiterator.Set( RPIiterator.Get()|LEFT );
+          ++RPIiterator;
+      }
+  }
+  { //Fill in anterior half
+      const ImageType::IndexType RPIindex = {{0,5,0}};
+      const ImageType::SizeType RPIsize = {{10,5,10}};
+      ImageType::RegionType RPIregion;
+      RPIregion.SetSize( RPIsize );
+      RPIregion.SetIndex( RPIindex );
+      itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+      while(!RPIiterator.IsAtEnd())
+      {
+          RPIiterator.Set( RPIiterator.Get()|ANTERIOR );
+          ++RPIiterator;
+      }
+  }
+  { //Fill in superior half
+      const ImageType::IndexType RPIindex = {{0,0,5}};
+      const ImageType::SizeType RPIsize = {{10,10,5}};
+      ImageType::RegionType RPIregion;
+      RPIregion.SetSize( RPIsize );
+      RPIregion.SetIndex( RPIindex );
+      itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+      while(!RPIiterator.IsAtEnd())
+      {
+          RPIiterator.Set( RPIiterator.Get()|SUPERIOR );
+          ++RPIiterator;
+      }
+  }
+
+  //itk::AnalyzeImageIOFactory::RegisterOneFactory();
+
+  typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
+  itk::ImageFileWriter< ImageType >::Pointer ImageWriterPointer = 
+    ImageWriterType::New();
+
+    //Set the output filename
+    ImageWriterPointer->SetFileName(filename);
+
+    //Attach input image to the writer.
+    ImageWriterPointer->SetInput( img );
+    //Determine file type and instantiate appropriate ImageIO class if not
+    //explicitly stated with SetImageIO, then write to disk.
+    try {
+        ImageWriterPointer->Write();
+    }
+    catch ( itk::ExceptionObject & ex )
+    {
+        std::string message;
+        message = "Problem found while writing image ";
+        message += filename;
+        message += "\n";
+        message += ex.GetLocation();
+        message += "\n";
+        message += ex.GetDescription();
+        std::cerr << message << std::endl;
+        return -1;
+    }
+
+  return 0;
+}
 
 int itkAnalyzeImageIOTest(int ac, char** av)
 {
-  if(ac < 2)
-  {
-    std::cerr << "Usage: " << av[0] << " Image\n";
-    return EXIT_FAILURE;
-  }
+  const char fname[] = "test.hdr";
+  ImageType::Pointer img;
+  ImageType::Pointer input;
 
-  // ATTENTION THIS IS THE PIXEL TYPE FOR
-  // THE RESULTING IMAGE
-  typedef unsigned short PixelType;
+  if(makeImage(fname,img) != 0)
+    return -1;
 
-  typedef itk::Image<PixelType, 3> myImage;
-
-  itk::ImageFileReader<myImage>::Pointer reader
-    = itk::ImageFileReader<myImage>::New();
-
-  // Register on factory capable of creating AnalyzeImage readers
-  itk::AnalyzeImageIOFactory::RegisterOneFactory();
-
-  reader->DebugOn();
-  reader->SetFileName(av[1]);
-
+  //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  itk::ImageFileReader<ImageType>::Pointer imageReader =
+    itk::ImageFileReader<ImageType>::New();
   try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  myImage::Pointer image = reader->GetOutput();
-
-  image->Print(std::cout );
-
-  myImage::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
-
-  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
-
-  unsigned long numberOfPixels = region.GetNumberOfPixels();
-  for(unsigned int i=0; i < numberOfPixels; i++ )
-  {
-    std::cout << i << " : " << *data++ << std::endl;
-  }
-  return EXIT_SUCCESS;
+    {
+      imageReader->SetFileName(fname) ;
+      imageReader->Update() ;
+      input = imageReader->GetOutput() ;
+    }
+  catch (itk::ExceptionObject e)
+    {
+      e.Print(std::cerr) ;
+      return -1;
+    }
+  
+  return 0;
 }

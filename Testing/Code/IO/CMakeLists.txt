@@ -11,6 +11,7 @@ ENDIF( CXX_TEST_PATH )
 SET(IOTest_SRCS
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
+itkAnalyzeImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkMetaImageIOTest.cxx
 itkPNGImageIOTest.cxx
@@ -40,7 +41,7 @@ IF (HAS_VTK)
   ADD_DEFINITIONS(-DITK_HAS_VTK)
   TARGET_LINK_LIBRARIES( itkIOTests
       vtkRendering
-      vtkGraphics	  
+      vtkGraphics         
       vtkImaging
       vtkIO
       vtkFiltering
