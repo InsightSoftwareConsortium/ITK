@@ -92,7 +92,6 @@ CovarianceCalculator< TSample >
         {
           diff[i] = measurements[i] - (*m_Mean)[i] ;
         }
-
       for ( row = 0; row < MeasurementVectorSize ; row++)
         {
           for ( col = 0; col < row + 1 ; col++)
@@ -112,8 +111,8 @@ CovarianceCalculator< TSample >
             m_Output.GetVnlMatrix()(row, col) ;
         } 
     }
-  
-  m_Output.GetVnlMatrix() /= totalFrequency ;
+
+  m_Output.GetVnlMatrix() /= (totalFrequency - 1.0f);
 }
 
 
