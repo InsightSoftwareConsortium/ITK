@@ -185,6 +185,11 @@ void TclGenerator::GeneratePackageInitializer()
   String::iterator c = tclName.begin();
   if(c != tclName.end())
     {
+    char ch = *c;
+    if((ch >= 'a') && (ch <= 'z'))
+      {
+      *c = (ch+('A'-'a'));
+      }
     for(++c; c != tclName.end(); ++c)
       {
       char ch = *c;
