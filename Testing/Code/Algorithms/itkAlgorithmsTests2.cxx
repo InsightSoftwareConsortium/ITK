@@ -18,6 +18,12 @@ void RegisterTests()
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
   REGISTER_TEST(itkVoronoiPartitioningImageFilterTest );
   REGISTER_TEST(itkWatershedImageFilterTest );
-  REGISTER_TEST(itkFFTTest);
+  REGISTER_TEST(itkVnlFFTTest);
+#if defined(USE_FFTW)
+  REGISTER_TEST(itkFFTWFFTTest);
+#endif
+#if defined(USE_SCSL)
+  REGISTER_TEST(itkSCSLFFTTest);
+#endif
 }
 

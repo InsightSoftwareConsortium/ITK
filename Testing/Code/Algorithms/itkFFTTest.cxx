@@ -19,11 +19,9 @@
 #include "itkImageRegionIterator.h"
 
 
-#define USE_VNLFFT
-#ifdef USE_VNLFFT
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
-#endif
+
 #ifdef USE_FFTW
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
 #include "itkFFTWRealToComplexConjugateImageFilter.h"
@@ -167,12 +165,11 @@ test_fft(unsigned int *dims)
 
 }
 
-int itkFFTTest(int, char *[])
+int itkVnlFFTTest(int, char *[])
 {
   unsigned int dims1[] = { 4,4,4 };
   unsigned int dims2[] = { 3,5,4 };
   int rval;
-#ifdef USE_VNLFFT
   std::cerr << "Vnl float,1 (4,4,4)" << std::endl;
   if((rval = test_fft<float,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
@@ -233,8 +230,15 @@ int itkFFTTest(int, char *[])
       itk::VnlFFTRealToComplexConjugateImageFilter<double,3> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
-#endif
+  return rval == 0 ? 0 : -1;
+}
+
 #ifdef USE_FFTW
+int itkFFTWFFTTest(int, char *[])
+{
+  unsigned int dims1[] = { 4,4,4 };
+  unsigned int dims2[] = { 3,5,4 };
+  int rval;
   std::cerr << "FFTW:float,1 (4,4,4)" << std::endl;
   if((rval = test_fft<float,1,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> ,
@@ -295,8 +299,16 @@ int itkFFTTest(int, char *[])
       itk::FFTWRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
+  return rval == 0 ? 0 : -1;
+}
 #endif
-#ifdef USE_SCSL
+
+#if defined(USE_SCSL)
+int itkSCSLFFTTest(int, char *[])
+{
+  unsigned int dims1[] = { 4,4,4 };
+  unsigned int dims2[] = { 3,5,4 };
+  int rval;
   std::cerr << "SCSL:float,1 (4,4,4)" << std::endl;
   if((rval = test_fft<float,1,
       itk::SCSLRealToComplexConjugateImageFilter<float,1> ,
@@ -357,6 +369,7 @@ int itkFFTTest(int, char *[])
       itk::SCSLRealToComplexConjugateImageFilter<double,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,3> >(dims2)) != 0)
     rval++;;
-#endif
   return rval == 0 ? 0 : -1;
 }
+#endif
+

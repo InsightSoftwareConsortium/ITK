@@ -106,7 +106,16 @@ ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
-ADD_TEST(itkFFTTest ${ALGORITHMS_TESTS2} itkFFTTest)
+ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS2} itkVnlFFTTest)
+IF(USE_FFTW)
+       ADD_TEST(itkFFTWFFTTest ${ALGORITHMS_TESTS2} itkFFTWFFTTest)
+ENDIF(USE_FFTW)
+
+IF(USE_SCSL)
+       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS2} itkSCSLFFTTest)        
+ENDIF(USE_SCSL)
+
+
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
