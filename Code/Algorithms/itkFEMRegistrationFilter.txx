@@ -2075,6 +2075,22 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
   return fabs((double)fmin); 
 }
 
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::
+PrintSelf(std::ostream& os, Indent indent) const 
+{ 
+  Superclass::PrintSelf( os, indent );
+
+  if (m_Load)
+    {
+    os << indent << "Load = " << m_Load;
+    }
+  else
+    {
+    os << indent << "Load = " << "(None)" << std::endl;
+    }
+}
+
 }} // end namespace itk::fem
 
 

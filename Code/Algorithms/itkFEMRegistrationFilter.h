@@ -427,19 +427,7 @@ protected :
   itkGetMacro( Load, ImageMetricLoadType* );
 
 
-  void PrintSelf(std::ostream& os, Indent indent) const 
-  { 
-  Superclass::PrintSelf( os, indent );
-
-  if (m_Load)
-    {
-    os << indent << "Load = " << m_Load;
-    }
-  else
-    {
-    os << indent << "Load = " << "(None)" << std::endl;
-    }
-  }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private :
 
