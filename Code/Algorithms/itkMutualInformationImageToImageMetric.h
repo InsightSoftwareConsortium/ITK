@@ -222,6 +222,7 @@ private:
 
   /** Reinitialize the seed of the random number generator */
   static void ReinitializeSeed();
+  static void ReinitializeSeed(int);
 
   typedef typename Superclass::CoordinateRepresentationType  
     CoordinateRepresentationType;

@@ -186,6 +186,7 @@ public:
 
   /** Reinitialize the seed of the random number generator  */
   static void ReinitializeSeed();
+  static void ReinitializeSeed(int);
 
 private:
   void RandomJump();

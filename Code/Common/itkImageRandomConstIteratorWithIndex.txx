@@ -75,6 +75,14 @@ ImageRandomConstIteratorWithIndex<TImage>
   vnl_sample_reseed();
 }
 
+template<class TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>
+::ReinitializeSeed(int seed)
+{
+  vnl_sample_reseed(seed);
+}
+
 /** Execute an acrobatic random jump */
 template<class TImage>
 void
