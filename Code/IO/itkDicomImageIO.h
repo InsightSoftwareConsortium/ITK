@@ -80,6 +80,7 @@ public:
   virtual void Write(const void* buffer);
 
 
+protected:
   DicomImageIO();
   ~DicomImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
