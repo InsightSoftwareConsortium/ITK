@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "configurationParser.h"
-#include "sourceParser.h"
+#include "cableConfigurationParser.h"
+#include "cableSourceParser.h"
 
 #include "genCxxGenerator.h"
 #include "genTclGenerator.h"
