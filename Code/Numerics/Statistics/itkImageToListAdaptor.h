@@ -181,7 +181,7 @@ public:
     }
     
     bool operator==(const Iterator &it)
-    { return !(this != it);}
+    { return !(*this != it);}
     
     Iterator& operator = (const Iterator &iter)
     { 
