@@ -27,6 +27,7 @@ int testMetaImage(int , char * [])
 
   MetaImage tIm2("test.mha");
 
+  int im2Zero = 0;
   std::cout << "Header size = " << tIm2.HeaderSize() << std::endl;
   tIm2.HeaderSize(tIm2.HeaderSize());
   tIm2.Modality(MET_MOD_CT);
@@ -34,9 +35,9 @@ int testMetaImage(int , char * [])
   std::cout << "DimSize = " << tIm2.DimSize() << std::endl;
   std::cout << "Quantity = " << tIm2.Quantity() << std::endl;
   std::cout << "SubQuantity = " << tIm2.SubQuantity() << std::endl;
-  std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(0) << std::endl;
+  std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(im2Zero) << std::endl;
   std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
-  std::cout << "SequenceID[0] = " << tIm2.SequenceID(0) << std::endl;
+  std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << std::endl;
   float* sequID = new float[1];
   sequID[0]=1;
   tIm2.SequenceID(sequID);
@@ -46,8 +47,7 @@ int testMetaImage(int , char * [])
   std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << std::endl;
   tIm2.ElementSizeValid(tIm2.ElementSizeValid());
   std::cout << "ElementSize = " << tIm2.ElementSize() << std::endl;
-  int im2Size = 0;
-  std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Size) << std::endl;
+  std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Zero) << std::endl;
 
   tIm2.ElementSize(0,1.0f);
   float* elmtSize = new float[2];
