@@ -5,3 +5,6 @@ itkNumericsHeaderTest
 itkNumericsTest
 )
 
+LINK_LIBRARIES (
+ITKCommon
+)
