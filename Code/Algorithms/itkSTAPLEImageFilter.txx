@@ -148,7 +148,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
     // Now recreate W using the new p's and q's
     // Need an iterator on each D
     // const double g_t = 0.1;  // prior likelihood that a pixel is incl.in segmentation
-    double alpha1, beta1, alpha2, beta2;
+    double alpha1, beta1;
     
     for (i = 0; i < number_of_input_files; ++i)
       {
@@ -159,7 +159,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
     
     for (out.GoToBegin(); !out.IsAtEnd(); ++out)
       {
-      alpha1 = alpha2 = beta1 = beta2 = 1.0;
+      alpha1 = beta1 = 1.0;
       for (i =0; i < number_of_input_files; ++i)
         {
         if (D_it[i].Get() > m_ForegroundValue - epsilon && D_it[i].Get() < m_ForegroundValue + epsilon) // Dij == 1

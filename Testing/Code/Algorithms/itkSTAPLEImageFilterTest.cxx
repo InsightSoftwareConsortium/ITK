@@ -136,7 +136,7 @@ int Stapler<VDimension>::Execute()
 int itkSTAPLEImageFilterTest( int argc, char * argv[])
 {
   unsigned int i;
-  StaplerBase *stapler = 0;
+  StaplerBase *stapler;
 
   if (argc < 5)
     {
