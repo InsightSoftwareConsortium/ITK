@@ -9,7 +9,7 @@
 //
 
 #include "vnl_generalized_eigensystem.h"
-
+#include <vcl_cmath.h> // required for sgi CC 7.30 >
 #include <vcl_iostream.h>
 
 #include <vnl/vnl_fortran_copy.h>

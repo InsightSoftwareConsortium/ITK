@@ -16,6 +16,11 @@
 #elif defined(VCL_GCC) && !VCL_CXX_HAS_HEADER_IOS
 # include "gcc-295/vcl_ios.h"
 
+#elif defined(VCL_SGI_CC_730)
+# define vcl_generic_ios_STD std
+# include "vcl_iostream.h" // should do it
+# include "generic/vcl_ios.h"
+
 #elif !VCL_CXX_HAS_HEADER_IOS
 # include "vcl_iostream.h" // should do it
 # define vcl_generic_ios_STD /* */
