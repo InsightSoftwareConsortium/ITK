@@ -79,8 +79,12 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   // exercise Get methods
   std::cout << "OutsideValue: " << filter->GetOutsideValue() << std::endl;
   std::cout << "InsideValue: " << filter->GetInsideValue() << std::endl;
-  std::cout << "UpperThreshold: " << filter->GetUpperThreshold() << std::endl;
-  std::cout << "LowerThreshold: " << filter->GetLowerThreshold() << std::endl;
+  std::cout << "UpperThreshold: "
+            << itk::NumericTraits<InputPixelType>::PrintType(filter->GetUpperThreshold())
+            << std::endl;
+  std::cout << "LowerThreshold: "
+            << itk::NumericTraits<InputPixelType>::PrintType(filter->GetLowerThreshold())
+            << std::endl;
 
   // Connect the input images
   filter->SetInput( source->GetOutput() ); 
