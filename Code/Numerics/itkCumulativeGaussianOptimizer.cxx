@@ -214,12 +214,6 @@ CumulativeGaussianOptimizer
   return extendedArray;
 }
 
-void CumulativeGaussianOptimizer::SetCostFunction(CostFunctionType::Pointer costFunction)
-{
-  m_CostFunction = CostFunctionType::New();
-  m_CostFunction = costFunction;
-}
-
 void
 CumulativeGaussianOptimizer
 ::SetDataArray(MeasureType * cumGaussianArray)
@@ -294,7 +288,7 @@ CumulativeGaussianOptimizer
     m_FinalSampledArray->put(i, sampledGaussianArray->get(i));
     }
   // Calculate the least square error as a measure of goodness of fit.
-  m_FitError = m_CostFunction->CalculateFitError(sampledGaussianArray);
+  m_FitError = static_cast<CostFunctionType*>(m_CostFunction.GetPointer())->CalculateFitError(sampledGaussianArray);
 
 
   delete sampledGaussianArray;

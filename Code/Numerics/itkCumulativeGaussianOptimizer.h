@@ -83,9 +83,6 @@ public:
   /** Start the optimizer. */
   void StartOptimization();
   
-  /** Set the cost function. */
-  void SetCostFunction(CostFunctionType::Pointer costFunction);
-
   /** Print an array. */
   void PrintArray(MeasureType * array);
 
@@ -131,9 +128,6 @@ private:
 
   /** Original data array. */
   MeasureType * m_CumulativeGaussianArray;
-
-  /** Pointer to the cost function. */
-  CostFunctionType::Pointer m_CostFunction;
 
   /** Extend the tails of the Gaussian. */
   MeasureType * ExtendGaussian(MeasureType * originalArray, MeasureType * extendedArray, int startingPointForInsertion);
