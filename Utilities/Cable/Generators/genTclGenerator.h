@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "genGeneratorBase.h"
 #include "cableSourceRepresentation.h"
+#include "genCvTypeGenerator.h"
 
 namespace gen
 {
@@ -54,16 +55,19 @@ namespace gen
 class TclGenerator: public GeneratorBase
 {
 public:
-  TclGenerator(const configuration::CableConfiguration* in_config,
+  TclGenerator(const configuration::Package* in_package,
                const source::Namespace* in_globalNamespace):
-    GeneratorBase(in_config), m_GlobalNamespace(in_globalNamespace) {}
+    GeneratorBase(in_package), m_GlobalNamespace(in_globalNamespace) {}
   virtual ~TclGenerator() {}
   
-  static GeneratorBase* GetInstance(const configuration::CableConfiguration*,
+  static GeneratorBase* GetInstance(const configuration::Package*,
                                     const source::Namespace*);  
   
   virtual void Generate();  
 private:
+  typedef std::vector<String> WrapperList;
+  typedef std::vector<source::Method*> Methods;
+  
   void GeneratePackage(const configuration::Package*);  
   void GenerateIncludes(std::ostream&, const configuration::Headers*);  
   void GenerateNamespace(std::ostream&,
@@ -71,11 +75,27 @@ private:
   void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*,
                           const configuration::PackageNamespace*);
   void GenerateClassWrapper(std::ostream&, const source::Class*);
+  void WriteWrapperClassDefinition(std::ostream&, const source::Class*,
+                                   const Methods&) const;
+  void WriteArgumentAs(std::ostream&, const cxx::CvQualifiedType&,
+                       unsigned int) const;
+  void FindCvTypes(const configuration::PackageNamespace*);
+  void FindCvTypes(const configuration::WrapperSet*,
+                   const configuration::PackageNamespace*);
+  void FindCvTypes(const source::Class*);
+  void FindCvTypes(const source::Method*, const source::Namespace*);
 
   /**
    * The global namespace that was parsed from the source file.
    */
   const source::Namespace* m_GlobalNamespace;
+  
+  /**
+   * Generator to write out CxxType representation construction code.
+   */
+  CvTypeGenerator  m_CvTypeGenerator;
+  
+  WrapperList m_WrapperList;
 };
 
 } // namespace gen
