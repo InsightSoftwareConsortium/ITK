@@ -313,6 +313,7 @@ void Segmenter<TInputImage>
   ImageRegionIterator<OutputImageType>              labelIt;
 
   typename BoundaryType::face_t::Pointer face;
+  typedef typename BoundaryType::flat_hash_t    flats_t;
   typename BoundaryType::flat_hash_t    *flats;
   typename BoundaryType::flat_hash_t::iterator flats_it;
   typename BoundaryType::flat_region_t   flr;
@@ -355,9 +356,7 @@ void Segmenter<TInputImage>
                        flr.value      = (*flrt_it).second.value;
                        flr.offset_list.push_back(
                               face->ComputeOffset(faceIt.GetIndex()));
-                       flats->insert(
-               typename BoundaryType::flat_hash_t::value_type(labelIt.Get(),
-                                                                        flr));
+                       flats->insert(flats_t::value_type(labelIt.Get(), flr));
                        flr.offset_list.clear();
                      }
                    else // YES
@@ -789,7 +788,7 @@ void Segmenter<TInputImage>
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
   InputPixelType minVal;
-  unsigned int i, nSize, nCenter, nPos;
+  unsigned int i, nSize, nPos;
   typename InputImageType::OffsetType  moveIndex;
   unsigned long newLabel;
   std::stack< unsigned long * > updateStack;
@@ -810,7 +809,6 @@ void Segmenter<TInputImage>
     labelIt(zeroRad, output, region);
   ImageRegionIterator<OutputImageType> it(output, region);
   nSize   = valueIt.Size();
-  nCenter = nSize >> 1;  
 
   //
   // Sweep through the image and trace all unlabeled
