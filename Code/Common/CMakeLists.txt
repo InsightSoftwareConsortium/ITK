@@ -22,6 +22,7 @@ SET(ITKCommon_SRCS
   itkLightProcessObject.cxx 
   itkMeshRegion.cxx 
   itkMinimumDecisionRule.cxx 
+  itkMaximumDecisionRule.cxx 
   itkMultiThreader.cxx 
   itkMutexLock.cxx  
   itkNumericTraits.cxx  
