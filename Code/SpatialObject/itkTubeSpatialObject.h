@@ -135,6 +135,11 @@ protected:
 
   /** Method to print the object.*/
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  
+  /** TimeStamps */
+  mutable unsigned long m_OldMTime;
+  mutable unsigned long m_IndexToWorldTransformMTime;
+  
 };
 
 } // end namespace itk

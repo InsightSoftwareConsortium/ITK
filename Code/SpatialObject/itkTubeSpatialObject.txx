@@ -38,6 +38,8 @@ TubeSpatialObject< TDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1);
+  m_OldMTime = 0;
+  m_IndexToWorldTransformMTime = 0;
   m_EndType = 0; // default end-type is flat
 } 
  
@@ -123,6 +125,17 @@ TubeSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing tube bounding box" );
 
+  // Check if the IndexToWorldTransform or the object itself has been modified
+  if( (this->GetMTime() == m_OldMTime)
+     && (m_IndexToWorldTransformMTime == this->GetIndexToWorldTransform()->GetMTime())
+    )
+    {
+    return true; // if not modified we return
+    }
+ 
+  m_OldMTime = this->GetMTime();
+  m_IndexToWorldTransformMTime = this->GetIndexToWorldTransform()->GetMTime();
+   
   if( m_BoundingBoxChildrenName.empty() 
     || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
     {
@@ -172,13 +185,12 @@ TubeSpatialObject< TDimension >
   typename PointListType::const_iterator end = m_Points.end(); 
   typename PointListType::const_iterator min;
   
-  typename TransformType::Pointer inverse = TransformType::New();
-  if(!GetIndexToWorldTransform()->GetInverse(inverse))
+  if(!GetIndexToWorldTransform()->GetInverse(m_InternalInverseTransform))
     {
     return false;
     }
 
-  PointType transformedPoint = inverse->TransformPoint(point);
+  PointType transformedPoint = m_InternalInverseTransform->TransformPoint(point);
        
   this->ComputeLocalBoundingBox();
 
