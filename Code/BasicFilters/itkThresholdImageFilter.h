@@ -81,7 +81,7 @@ public:
   /** 
    * Get the "outside" pixel value.
    */
-  itkGetMacro(OutsideValue,int);
+  itkGetMacro(OutsideValue,PixelType);
                  
   /** 
    * Some typedefs to handle the second output.

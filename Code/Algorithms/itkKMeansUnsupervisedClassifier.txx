@@ -295,7 +295,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( emptycells == 0 ) 
     {
       for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
-        for( int j = 0; j < m_VecDim; j++ ) 
+        for( unsigned int j = 0; j < m_VecDim; j++ ) 
           m_Codebook[i][j] = m_Centroid[i][j];
 
       olddistortion = distortion;
@@ -344,7 +344,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
                 
         // find centroid, reinitialize 
 
-        for( int j = 0; j < m_VecDim; j++ )
+        for(unsigned int j = 0; j < m_VecDim; j++ )
           m_Codebook[n][j] = m_Centroid[bestcodeword][j];
 
         m_CodewordHist[bestcodeword][0] = 0;
@@ -375,7 +375,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   int    bestcodeword;
   double *tempVec = ( double * ) new double[m_VecDim];
 
-  double *centroidVecTemp = ( double * ) new double[m_VecDim];
+  // unused: double *centroidVecTemp = ( double * ) new double[m_VecDim];
 
   // initialize codeword histogram and distortion 
   for ( unsigned int i = 0; i < m_CurrentNcodewords; i++ ) 
@@ -412,11 +412,10 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   ImageSizeType size = inputImage->GetBufferedRegion().GetSize();
 
-  unsigned long *temp 
-    =new unsigned long [TInputImage::ImageDimension];;
+  // unused:  unsigned long *temp =new unsigned long [TInputImage::ImageDimension];
 
-  int totalNumVecsInInput = 1;
-  for( int i = 0; i < TInputImage::ImageDimension; i++ ) 
+  unsigned int totalNumVecsInInput = 1;
+  for( unsigned int i = 0; i < TInputImage::ImageDimension; i++ ) 
     totalNumVecsInInput *= (unsigned long) size[i];
 
   //-----------------------------------------------------------------
@@ -513,12 +512,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 
   for ( int i = 0; i < numDesired; i++ ) 
   {
-    for(int j = 0; j < m_VecDim; j++ )
+    for(unsigned int j = 0; j < m_VecDim; j++ )
       inCodebookData[j] = m_Codebook[i][j];
 
     perturb(inCodebookData, scale, newCodebookData);
 
-    for(int j=0; j< m_VecDim; j++)
+    for(unsigned int j=0; j< m_VecDim; j++)
       m_Codebook[i+currentSize][j] = newCodebookData[j];
   }
 

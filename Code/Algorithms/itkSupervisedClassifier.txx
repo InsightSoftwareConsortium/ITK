@@ -114,18 +114,3 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
 
 
 } // namespace itk
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

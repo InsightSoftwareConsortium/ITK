@@ -45,7 +45,7 @@ int main()
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
   VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
   VecImageType::RegionType region;
@@ -179,7 +179,7 @@ int main()
   typedef itk::Image<unsigned short,NDIMENSION> ClassImageType; 
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
-  ClassImageType::SizeType classImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
   ClassImageType::IndexType classindex = ClassImageType::IndexType::ZeroIndex;
   ClassImageType::RegionType classregion;

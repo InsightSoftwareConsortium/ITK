@@ -66,9 +66,9 @@ int main()
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << *iterator2 << std::endl;
-    if ( *iterator2 != (shrink->GetShrinkFactor() * iterator2.GetIndex()[0]
-          + region.GetSize()[0]
-          *shrink->GetShrinkFactor()*iterator2.GetIndex()[1]))
+    if ( *iterator2 != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
+                        + (region.GetSize()[0]
+                           * shrink->GetShrinkFactor() * iterator2.GetIndex()[1])))
       {
       passed = false;
       }

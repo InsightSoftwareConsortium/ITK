@@ -23,13 +23,17 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_TrainingImage(0),
       m_LabelledImage(0),
       m_NumClasses(0),
-      m_LabelStatus(0),
-      m_ErrorCounter(0),
       m_MaxNumIter(50),
+      m_LabelStatus(0),
+      m_ErrorTollerance(0),
+      m_ClassProbability(0),
+      m_Beta3x3x3(0),
       m_ClassifierPtr(0),
+      m_ErrorCounter(0),
+      m_Offset(0),
       m_kWidth(3), // Default values of the kernel size of the beta matrix
       m_kHeight(3), 
-      m_kDepth(3) 
+      m_kDepth(3)
 {
   m_KernelSize = m_kWidth * m_kHeight * m_kDepth;
   SetBeta( 0 );
@@ -299,7 +303,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_DepthOffset     = (int *)   new int   [m_KernelSize];
   m_Beta3x3x3       = (double *)new double[m_KernelSize];
 
-  for( int i = 0; i < m_KernelSize; i++ ) 
+  for( unsigned int i = 0; i < m_KernelSize; i++ ) 
     m_Beta3x3x3[i] = *betaMatrix++;
 }// end SetBeta
 
@@ -316,7 +320,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_DepthOffset     = (int *)   new int   [m_KernelSize];
   m_Beta3x3x3       = (double *)new double[m_KernelSize];
 
-  for( int i = 0; i < betaMatrix.size(); i++ ) 
+  for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
     m_Beta3x3x3[i] = betaMatrix[i];
 }// end SetBeta
 
@@ -328,7 +332,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 {
 
   int maxNumPixelError =  
-    m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth;
+    (int)(m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth);
 
   int numIter = 0;
   do
@@ -339,10 +343,10 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     MinimizeFunctional();
     numIter += 1;
 
-    for(int index=0; 
+    for(unsigned int index=0; 
         index<( m_imgWidth * m_imgHeight * m_imgDepth ); index++ )
     {
-      if(m_LabelStatus[index] ==1) m_ErrorCounter +=1;
+      if(m_LabelStatus[index] == 1) m_ErrorCounter +=1;
     }
   } 
   while(( numIter < m_MaxNumIter ) && ( m_ErrorCounter >maxNumPixelError ) ); 
@@ -397,11 +401,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   LabelledImagePixelType outLabelledPix;
 
   //Set a variable to store the offset index
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D = {{ 0, 0, 0}};
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
-  for(int d = 0; d < m_imgDepth; d++ )
+  for( int d = 0; d < m_imgDepth; d++ )
   {
     for( int j = 0; j < m_imgHeight; j++ )
     {
@@ -418,10 +422,10 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         inputPixelVec = inputImageIt.Get();
         double *dist = m_ClassifierPtr->GetPixelDistance( inputPixelVec );
                       
-        for( int index = 0; index <= m_NumClasses ;index++ ) 
+        for( unsigned int index = 0; index <= m_NumClasses ;index++ ) 
           neighborInfluence[index]=0;
 
-        for(int k=0;k<m_KernelSize;k++)
+        for(unsigned int k=0;k<m_KernelSize;k++)
         {
           int widthOffset  = i + m_WidthOffset[k];
           int heightOffset = j + m_HeightOffset[k];
@@ -453,13 +457,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
         }// end for 3x3x3 neighborhood processing
 
-        for( int index = 1; index <= m_NumClasses; index++ )
+        for( unsigned int index = 1; index <= m_NumClasses; index++ )
           dist[index - 1] = neighborInfluence[index] - dist[index - 1] ;
 
         double maxDist = -1e+20;
         int pixLabel = -1;
 
-        for( int index = 0; index < m_NumClasses; index++ )
+        for( unsigned int index = 0; index < m_NumClasses; index++ )
         {
           if ( dist[index] > maxDist )
           {
@@ -480,7 +484,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
           outLabelledPix = pixLabel;
           labelledImageIt.Set( outLabelledPix );
 
-          for( int k = 0; k < m_KernelSize; k++ )
+          for( unsigned int k = 0; k < m_KernelSize; k++ )
           {
             int widthOffset  = i + m_WidthOffset[k];
             int heightOffset = j + m_HeightOffset[k];

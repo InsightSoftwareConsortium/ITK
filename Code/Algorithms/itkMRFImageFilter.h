@@ -175,11 +175,6 @@ public:
    */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
 
-  /**
-   * Pointer to the classifier to be used for the MRF lavbelling.
-   */
-  typename ClassifierType::Pointer m_ClassifierPtr;
-
   typedef typename TInputImage::PixelType      InputImagePixelType;
   typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
   typedef typename TClassifiedImage::PixelType LabelledImagePixelType;
@@ -340,6 +335,11 @@ private:
   double                 m_ErrorTollerance;
   double                 *m_ClassProbability; //Class liklihood
   double                 *m_Beta3x3x3;
+
+  /**
+   * Pointer to the classifier to be used for the MRF lavbelling.
+   */
+  typename ClassifierType::Pointer m_ClassifierPtr;
 
 
   int                    m_ErrorCounter;

@@ -101,8 +101,8 @@ int main ( int argc, char* argv[] )
   // itk::Mesh<int>::Pointer B = COF->CreateObject();
 
   // DataAccessor
-  float f = 100.0;
-  double d = itk::DataAccessor<float, double>::Get ( f );
+  // unused: float f = 100.0;
+  // unused: double d = itk::DataAccessor<float, double>::Get ( f );
 
   // BackwardDifferenceOperator
   // Bad

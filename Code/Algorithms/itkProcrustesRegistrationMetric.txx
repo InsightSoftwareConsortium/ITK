@@ -76,8 +76,8 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
 
     // TODO: This should be converted to using iterators through the
     // coordinates of the point.
-    const CoordinatesType * transformed = transformedPoint;
-    const CoordinatesType * target      = targetPoint.Value();
+    const CoordinatesType * transformed = transformedPoint.GetDataPointer();
+    const CoordinatesType * target      = targetPoint.Value().GetDataPointer();
 
     for(unsigned int i=0; i<NDimension; i++)
     {

@@ -18,9 +18,9 @@ namespace itk
 
 template<class TInputImage, class TClassifiedImage>
 UnsupervisedClassifier<TInputImage,TClassifiedImage>
-::UnsupervisedClassifier( void )
+::UnsupervisedClassifier( void ):
+  m_NumClasses(0)
 {
-  m_NumClasses      = NULL;
 }
 
 template<class TInputImage, class TClassifiedImage>

@@ -23,8 +23,7 @@
 template< class T, unsigned int N >
 void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
 {
-  unsigned int iTemp, ArrayLength, i;
-  int iDim;
+  unsigned int iDim, ArrayLength, i;
   itk::Size<N> Index;
   unsigned long int Location[N];
   unsigned int mult;
@@ -35,41 +34,48 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
   Index = (I->GetRequestedRegion()).GetSize();
   data.Begin();
   
-  for (ArrayLength=1, iTemp = 0; iTemp<N; iTemp++)
+  for (ArrayLength=1, iDim = 0; iDim<N; ++iDim)
 	{
-	  Location[iTemp] =0;
-	  ArrayLength*=Index[iTemp];
+	  Location[iDim] =0;
+	  ArrayLength*=Index[iDim];
 	}
   
-  for (i=0; i<ArrayLength; i++, ++data)
+  for (i=0; i<ArrayLength; ++i, ++data)
 	{
-	  for (iDim=0, mult=1, value=0; iDim<N; iDim++, mult*=10)
+	  for (iDim=0, mult=1, value=0; iDim<N; ++iDim, mult*=10)
 		{
 		  value += mult *  Location[N-iDim-1];
 		}
 	  *data = value;
-	  
-	  for (iDim=(int) (N-1); iDim>=0; iDim--)
-		{
-		  Location[iDim]++;
-		  if (Location[iDim]==Index[(N-1)-iDim]) Location[iDim]=0;
-		  else break;
-		}
-	  
+          
+	  iDim = N-1;
+          bool done=false;
+          while(!done)
+            {
+            ++Location[iDim];
+            if(Location[iDim] == Index[(N-1)-iDim])
+              { Location[iDim] = 0; }
+            else
+              { done = true; }
+            if(iDim == 0)
+              { done = true; }
+            else
+              { --iDim; }
+            }
 	}
 }
 
-template< class T, unsigned int TDimension >
-void PrintRegion(itk::SmartPointer< itk::Image<T, TDimension> > I)
+template< class T, unsigned int VDimension >
+void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
 {
-  int iDim;
-  long rsz[TDimension];
-  long Location[TDimension];
+  unsigned int iDim;
+  long rsz[VDimension];
+  long Location[VDimension];
   
   memcpy(rsz, I->GetRequestedRegion().GetSize().m_Size,
-         sizeof(unsigned long) * TDimension);
-  memset(Location, 0, sizeof(unsigned long) * TDimension); 
-  for (iDim = 0; iDim < TDimension; ++iDim)
+         sizeof(unsigned long) * VDimension);
+  memset(Location, 0, sizeof(unsigned long) * VDimension); 
+  for (iDim = 0; iDim < VDimension; ++iDim)
     {
       std::cout << "iDim = " << iDim << std::endl;
       std::cout << "\tRegionSize = "
@@ -79,22 +85,29 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, TDimension> > I)
            << I->GetRequestedRegion().GetIndex()[iDim] << std::endl;
     }
   
-  itk::ImageRegionIterator<T, TDimension> iter( I, I->GetRequestedRegion());
+  itk::ImageRegionIterator<T, VDimension> iter( I, I->GetRequestedRegion());
     
   for (iter.Begin(); ! iter.IsAtEnd(); ++iter)
     {
       std::cout << *iter << " ";
-      
-      for (iDim=TDimension-1; iDim>=0; iDim--)
-		{
-		  Location[iDim]++;
-		  if (Location[iDim]==rsz[TDimension-1 -iDim])
-            {
-              std::cout << std::endl;
-              Location[iDim]=0;
-            }
-		  else break;
-		}
+
+      iDim=VDimension-1;
+      bool done=false;
+      while(!done)
+        {
+        ++Location[iDim];
+        if(Location[iDim]==rsz[(VDimension-1)-iDim])
+          {
+          std::cout << std::endl;
+          Location[iDim]=0;
+          }
+        else
+          { done = true; }
+        if(iDim == 0)
+          { done = true; }
+        else
+          { --iDim; }
+        }
     }
 }
 

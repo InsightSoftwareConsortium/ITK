@@ -51,7 +51,7 @@ int main()
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
   VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
   VecImageType::RegionType region;

@@ -281,7 +281,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
    std::slice x_slice[D];
    std::slice xa_slice[D];
    std::slice xd_slice[D];
-   for (int i = 0; i< D; ++i)
+   for (unsigned int i = 0; i< D; ++i)
      {
        stride[i]   = it.GetStride(i);
        x_slice[i]  = std::slice(center - stride[i], 3, stride[i]);
@@ -294,9 +294,9 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   const TIterator it_end = it.End();
   for (it = it.Begin(); it < it_end; ++it)
     {
-      for (int i = 0; i < D; ++i) // calculate all derivatives
+      for (unsigned int i = 0; i < D; ++i) // calculate all derivatives
         {
-          for (int j = 0; j<N; ++j)
+          for (unsigned int j = 0; j<N; ++j)
             {
               IP.SetVisibleComponent(j);
               dx_forward[i][j] = (it.GetPixel(center - stride[i]))[j]
@@ -308,14 +308,14 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
               dx_dim[i][j] = IP(xd_slice[i],it, dx_op);
             }
         }
-      for (int i = 0; i < D; ++i) // approximate gradient magnitudes
+      for (unsigned int i = 0; i < D; ++i) // approximate gradient magnitudes
         {
           GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
           GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
 
-          for (int j = 0; j < N; ++j)
+          for (unsigned int j = 0; j < N; ++j)
             {
-              for (int m = 0; m < D; ++m)
+              for (unsigned int m = 0; m < D; ++m)
                 {
                   if ( m != i)
                     {
@@ -330,17 +330,17 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
             }
         }
 
-      for (int i = 0; i < D; ++i)  // calculate conductance terms
+      for (unsigned int i = 0; i < D; ++i)  // calculate conductance terms
         {
           Cx[i] = exp( GradMag[i] / k );
           Cxd[i]= exp( GradMag_d[i] / k );
         }
       
-      for (int j = 0; j<N; ++j)    // update values
+      for (unsigned int j = 0; j<N; ++j)    // update values
         {
           delta[j] = NumericTraits<VectorValueType>::Zero;
           
-          for (int i = 0; i < D; ++i)
+          for (unsigned int i = 0; i < D; ++i)
             {
               dx_forward[i][j]  *= Cx[i];
               dx_backward[i][j] *= Cxd[i];

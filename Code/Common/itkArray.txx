@@ -159,7 +159,6 @@ Array<TValueType, VLength>
 }
 
 
-
 /**
  * Get an Iterator for the beginning of the Array.
  */
@@ -168,7 +167,7 @@ typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>
 ::Begin()
 {
-  return (Iterator)m_InternalArray;
+  return Iterator(m_InternalArray);
 }
 
 
@@ -180,7 +179,7 @@ typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>
 ::Begin() const
 {
-  return (ConstIterator)m_InternalArray;
+  return ConstIterator(m_InternalArray);
 }
 
 
@@ -192,7 +191,7 @@ typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>
 ::End()
 {
-  return (Iterator)(m_InternalArray+Length);
+  return Iterator(m_InternalArray+Length);
 }
 
 
@@ -204,7 +203,55 @@ typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>
 ::End() const
 {
-  return (ConstIterator)(m_InternalArray+Length);
+  return ConstIterator(m_InternalArray+Length);
+}
+
+
+/**
+ * Get a begin ReverseIterator.
+ */
+template <typename TValueType, unsigned long VLength>
+typename Array<TValueType, VLength>::ReverseIterator
+Array<TValueType, VLength>
+::rBegin() 
+{
+  return ReverseIterator(m_InternalArray+Length);
+}
+
+
+/**
+ * Get a begin ConstReverseIterator.
+ */
+template <typename TValueType, unsigned long VLength>
+typename Array<TValueType, VLength>::ConstReverseIterator
+Array<TValueType, VLength>
+::rBegin() const
+{
+  return ConstReverseIterator(m_InternalArray+Length);
+}
+
+
+/**
+ * Get an end ReverseIterator.
+ */
+template <typename TValueType, unsigned long VLength>
+typename Array<TValueType, VLength>::ReverseIterator
+Array<TValueType, VLength>
+::rEnd() 
+{
+  return ReverseIterator(m_InternalArray);
+}
+
+
+/**
+ * Get an end ConstReverseIterator.
+ */
+template <typename TValueType, unsigned long VLength>
+typename Array<TValueType, VLength>::ConstReverseIterator
+Array<TValueType, VLength>
+::rEnd() const 
+{
+  return ConstReverseIterator(m_InternalArray);
 }
 
 

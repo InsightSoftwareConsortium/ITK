@@ -48,7 +48,7 @@ int main()
   typedef itk::Image<itk::Vector<double,1>,NDIMENSION> ImageType; 
   ImageType::Pointer image  = ImageType::New();
 
-  ImageType::SizeType ImageSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
   ImageType::IndexType index = ImageType::IndexType::ZeroIndex;
   ImageType::RegionType region;

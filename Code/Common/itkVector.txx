@@ -264,7 +264,7 @@ vnl_vector_ref< T >
 Vector<T, TVectorDimension>
 ::Get_vnl_vector( void ) 
 {
-  vnl_vector_ref< T > vector_ref( TVectorDimension, ( T * )(*this) );
+  vnl_vector_ref< T > vector_ref( TVectorDimension, this->GetDataPointer() );
   return vector_ref;
 }
  

@@ -23,9 +23,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_MaxLambda(1000),
   m_nBorders(0),
   m_NumRegions(0),
+  m_InitRegionArea(0),
   m_pRegions(NULL),
   m_pBorders(NULL),
-  m_InitRegionArea(0),
   m_pBordersDynPtrs(NULL),
   m_pBordersCandidateDynPtr(NULL),
   m_pBorderCandidate(NULL)
@@ -182,9 +182,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // region intensity. After the updated region intensity is found,
   // each pixel is updated with the mean approximation value.
   //--------------------------------------------------------------------
-  for( int r = 0; r < nRowSquareBlocks; r++ )
+  for(unsigned int r = 0; r < nRowSquareBlocks; r++ )
   {
-    for( int c = 0; c < nColSquareBlocks; c++, labelValue++ )
+    for(unsigned int c = 0; c < nColSquareBlocks; c++, labelValue++ )
     {
       newRegionLabel = m_pRegions[labelValue].GetRegionLabel();
 
@@ -198,7 +198,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       typedef typename OutputImagePixelType::ValueType OutputValueType;
 
       //Get the mean value in the right format
-      for (int j = 0; j < vecDim; j++ )
+      for (unsigned int j = 0; j < vecDim; j++ )
         outMeanValue[j]  = (OutputValueType) tmpMeanValue[j][0];
 
       row_start = r;
@@ -209,9 +209,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       // Loop through the each atomic region to fill the 
       // mean approximated pixel value after the region growing operation.
 
-      for ( int nrow = row_start; nrow < row_end; nrow++ ) 
+      for (unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
       {
-        for ( int ncol = col_start; ncol < col_end; ncol++ ) 
+        for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
         {
           offset      = nrow * m_imgWidth + ncol;
           tempImgIt   = outImgIt + offset;
@@ -288,9 +288,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // each pixel is updated with the mean approximation value.
   //--------------------------------------------------------------------
   //--------------------------------------------------------------------
-  for(int r= 0; r < nRowSquareBlocks; r++)
+  for(unsigned int r= 0; r < nRowSquareBlocks; r++)
   {
-    for(int c=0; c<nColSquareBlocks;c++,labelValue++)
+    for(unsigned int c=0; c<nColSquareBlocks;c++,labelValue++)
     {
       newRegionLabel = m_pRegions[labelValue].GetRegionLabel();
 
@@ -302,9 +302,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       col_end   = col_start + colGridSize;
 
       //Loop through the region to fill the new region label
-      for (int nrow = row_start; nrow < row_end; nrow++ ) 
+      for (unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
       {
-        for (int ncol = col_start; ncol < col_end; ncol++ ) 
+        for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
         {
           offset = nrow * m_imgWidth + ncol;
           tempImgIt = outImgIt + offset;
@@ -440,13 +440,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Label the regions
   //----------------------------------------------------------------------
 
-  int rowGridSize        = this->GetRowGridSize();
-  int colGridSize        = this->GetColGridSize();
+  unsigned int rowGridSize        = this->GetRowGridSize();
+  unsigned int colGridSize        = this->GetColGridSize();
   int labelValue         = 0;
 
-  for( int r = 0; r < nRowSquareBlocks; r++ )
+  for( unsigned int r = 0; r < nRowSquareBlocks; r++ )
     {
-    for( int c = 0; c < nColSquareBlocks; c++, labelValue++ )
+    for( unsigned int c = 0; c < nColSquareBlocks; c++, labelValue++ )
       {
       CalculateInitRegionStats(r * rowGridSize,
                                c * colGridSize,
@@ -514,11 +514,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   pcurrentBorder      = m_pBorders;
   m_TotalBorderLength = 0;
-  int borderCounter   = 0;
+  unsigned int borderCounter   = 0;
 
-  for ( int r = nRowSquareBlocks - 1; r >= 1; r-- )
+  for ( unsigned int r = nRowSquareBlocks - 1; r >= 1; r-- )
   {
-    for ( int c = 0; c < nColSquareBlocks; c++ ) 
+    for ( unsigned int c = 0; c < nColSquareBlocks; c++ ) 
     {
       //Length of the border 
       pcurrentBorder->SetBorderLength( colGridSize );
@@ -571,9 +571,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // nborder = ( ncol_square_blocks - 1 ) * nrow_square_blocks +
   //           ( nrow_square_blocks - 1 ) * ncol_square_blocks; 
     
-  for ( int r = 0; r < nRowSquareBlocks; r++ ) 
+  for (unsigned  int r = 0; r < nRowSquareBlocks; r++ ) 
   {
-    for ( int c = nColSquareBlocks - 1; c >= 1; c-- ) 
+    for (unsigned  int c = nColSquareBlocks - 1; c >= 1; c-- ) 
     {
       //Length of the border 
       pcurrentBorder->SetBorderLength(rowGridSize);
@@ -643,12 +643,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // static border objects
   m_pBordersDynPtrs = new SegmentationBorderPtr [m_nBorders];
 
-  for( int k = 0; k < m_nBorders; k++ )
+  for( unsigned int k = 0; k < m_nBorders; k++ )
     m_pBordersDynPtrs[ k ].m_Pointer = ( m_pBorders + k );
 
   // For DEBUG purposes
 #if DEBUG
-  for( int k = 0; k < m_nBorders; k++ )
+  for( unsigned int k = 0; k < m_nBorders; k++ )
     std::cout << m_pBordersDynPtrs[ k ].m_Pointer << std::endl;
 #endif
 
@@ -720,15 +720,15 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_InitRegionMean.resize( vecDim, 1 );
   m_InitRegionMean.fill(NULL);
 
-  for ( int nrow = row_start; nrow < row_end; nrow++ ) 
+  for ( unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
   {
-    for ( int ncol = col_start; ncol < col_end; ncol++ ) 
+    for ( unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
     {
       int offset    = nrow * m_imgWidth + ncol;
       tempImgIt     = inImgIt + offset;
       inputPixelVec = *tempImgIt;
 
-      for ( int j = 0; j < vecDim; j++ )
+      for ( unsigned int j = 0; j < vecDim; j++ )
         m_InitRegionMean[j][0] += inputPixelVec[j];
     }
   }
@@ -788,8 +788,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   pRegion1->SetRegionArea( mergedRegionArea );
   pRegion1->SetMeanRegionIntensity( mergedRegionMean );
 
-  unsigned int mergedRegionLabel = 
-    m_pBordersCandidateDynPtr->m_Pointer->GetRegion1()->GetRegionLabel(); 
+  // unused  unsigned int mergedRegionLabel = m_pBordersCandidateDynPtr->m_Pointer->GetRegion1()->GetRegionLabel(); 
 
   //---------------------------------------------------------------
   // Remove the common region border from region 1
@@ -847,7 +846,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   std::cout <<"     Rearranged Data Structure List      "<<std::endl;
   std::cout <<"++++++++++++++++++++++++++++++++++++++++"<<std::endl;
 
-  for(int k=0; k < m_nBorders; k++)
+  for(unsigned int k=0; k < m_nBorders; k++)
   {
     //std::cout<<"Stats for Border No: " << (k+1) << std::endl;
     //m_pBordersDynPtrs[k].m_Pointer->PrintBorderInfo() ;                       
@@ -903,8 +902,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       throw ExceptionObject();
     }
 
-    int tmpReg1Label = ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel();
-    int tmpReg2Label = ( *oldRegionBordersIt )->GetRegion2()->GetRegionLabel();
+    // unused: int tmpReg1Label = ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel();
+    // unused: int tmpReg2Label = ( *oldRegionBordersIt )->GetRegion2()->GetRegionLabel();
 
     //For DEBUG purposes
 #ifdef DEBUG
@@ -1173,11 +1172,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int endOfChain;
   for ( int i = numBlocks - 1; i >= 0; i-- ) // faster when going backward
   {
-    int ncurrBlock = i + 1;
-    int nequivBlock = m_pRegions[ ncurrBlock - 1 ].GetRegionLabel(); 
+    unsigned int ncurrBlock = (unsigned int)(i + 1);
+    unsigned int nequivBlock = m_pRegions[ ncurrBlock - 1 ].GetRegionLabel(); 
 
     // Bounds checking 
-    if( nequivBlock > numBlocks || nequivBlock <= 0 )
+    if( nequivBlock > numBlocks || nequivBlock == 0 )
     {
       throw ExceptionObject();
     }
@@ -1194,7 +1193,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         nequivBlock = m_pRegions[ ncurrBlock - 1 ].GetRegionLabel(); 
         
         // bounds checking 
-        if( nequivBlock > numBlocks || nequivBlock <= 0 )
+        if( nequivBlock > numBlocks || nequivBlock == 0 )
         {
           throw ExceptionObject();
         }
@@ -1205,7 +1204,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
       // Then re-walk the chain to change the label of each chain
       // member to be the last one just retrieved (end_of_chain) 
-      ncurrBlock = i + 1;
+      ncurrBlock = (unsigned int)(i + 1);
       nequivBlock = m_pRegions[ ncurrBlock - 1 ].GetRegionLabel(); 
 
       while ( nequivBlock != ncurrBlock ) 
@@ -1236,7 +1235,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   uniqueLabelsVecIterator = uniqueLabelsVec.begin();  
 
 
-  for ( int i = 1; i < numBlocks; i++ )
+  for ( unsigned int i = 1; i < numBlocks; i++ )
   {
     int labelvalue = m_pRegions[ i ].GetRegionLabel();
     bool uniqueLabelsFlag = false;
@@ -1260,7 +1259,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   }
 
   //Unique labels have been identified now remap them
-  for ( int i = 0; i < numBlocks; i++ )
+  for ( unsigned int i = 0; i < numBlocks; i++ )
   {
     int labelvalue = m_pRegions[ i ].GetRegionLabel();
     int newLabelValue = 1;
@@ -1293,7 +1292,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmRegionStats()
 {
   //Print the stats associated with all the regions
-  for( int k = 0; k < m_NumRegions; k++ )
+  for( unsigned int k = 0; k < m_NumRegions; k++ )
   {
     std::cout<<"Stats for Region No: " << ( k + 1 ) << std::endl;
     m_pRegions[ k ].PrintRegionInfo();                                                    
@@ -1309,7 +1308,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmBorderStats()
 {
   //Print the stats associated with all the regions
-  for( int k = 0; k < m_nBorders; k++)
+  for( unsigned int k = 0; k < m_nBorders; k++)
   {
     std::cout<<"Stats for Border No: " << ( k + 1 ) << std::endl;
     m_pBorders[ k ].PrintBorderInfo();                                                    
@@ -1326,7 +1325,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 {
 
   //Print the stats associated with all the regions
-  for( int k = 0; k < m_nBorders; k++ )
+  for( unsigned int k = 0; k < m_nBorders; k++ )
   {
     std::cout<<"Stats for Border No: " << ( k + 1 ) << std::endl;
     m_pBordersDynamicPtrs[ k ].m_Pointer->PrintBorderInfo() ;                 

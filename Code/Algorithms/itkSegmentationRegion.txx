@@ -20,10 +20,10 @@ template<class TInputImage, class TOutputImage>
 SegmentationRegion<TInputImage,TOutputImage>
 ::SegmentationRegion(void):
   m_RegionLabel(0),
-  m_UniqueLabel(0),
-  m_RegionArea(0)
+  m_RegionArea(0),
+  m_UniqueLabel(0)
 {
-  m_MeanVec     = 0;
+  m_MeanVec = 0;
 }
 
 template<class TInputImage, class TOutputImage>

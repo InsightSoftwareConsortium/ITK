@@ -33,7 +33,7 @@ public:
   enum { Length = Last-First+1 };
 };
 
-
+  
 /** \class Array
  *
  * Simulates a standard C array, except that copy semantics are used instead
@@ -84,8 +84,43 @@ public:
   /**
    * A const iterator through the array.
    */
-
   typedef const ValueType*  ConstIterator;
+
+  /**
+   * A reverse iterator through the array.
+   */
+  class ReverseIterator
+  {
+  public:
+    explicit ReverseIterator(Iterator i): m_Iterator(i) {}
+    Iterator operator++()        { return --m_Iterator; }
+    Iterator operator++(int)     { return m_Iterator--; }
+    Iterator operator--()        { return ++m_Iterator; }
+    Iterator operator--(int)     { return m_Iterator++; }
+    Iterator operator->() const  { return (m_Iterator-1); }
+    ValueType& operator*() const { return *(m_Iterator-1); }
+  private:
+    Iterator m_Iterator;
+  };
+  
+  
+  /**
+   * A const reverse iterator through the array.
+   */
+  class ConstReverseIterator
+  {
+  public:
+    explicit ConstReverseIterator(ConstIterator i): m_Iterator(i) {}
+    ConstIterator operator++()         { return --m_Iterator; }
+    ConstIterator operator++(int)      { return m_Iterator--; }
+    ConstIterator operator--()         { return ++m_Iterator; }
+    ConstIterator operator--(int)      { return m_Iterator++; }
+    ConstIterator operator->() const   { return (m_Iterator-1); }
+    const ValueType& operator*() const { return *(m_Iterator-1); }
+  private:
+    ConstIterator m_Iterator;
+  };  
+  
   
   /**
    * A pointer to the ValueType.
@@ -176,14 +211,17 @@ public:
   const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
   //@}
 
-  operator ValueType* ()
-    { return m_InternalArray; }
-  operator const ValueType* () const
-    { return m_InternalArray; }
+  ValueType* GetDataPointer() { return m_InternalArray; }
+  const ValueType* GetDataPointer() const { return m_InternalArray; }
+  
   Iterator      Begin();
   ConstIterator Begin() const;
   Iterator      End();
   ConstIterator End() const;
+  ReverseIterator      rBegin();
+  ConstReverseIterator rBegin() const;
+  ReverseIterator      rEnd();
+  ConstReverseIterator rEnd() const;
   SizeType      Size() const;
   void Fill(const ValueType&);
   
@@ -230,7 +268,7 @@ public:
      * Constructor copies only the array pointer since this is a reference type.
      */
     Reference(Array& r) : m_InternalArray(r.Begin()) {}
-    Reference(Reference& r) : m_InternalArray(r.Begin()) {}
+    Reference(const Reference& r) : m_InternalArray(r.m_InternalArray) {}
     Reference(ValueType r[Length]) : m_InternalArray(r) {}
 
     /**
@@ -297,34 +335,56 @@ public:
     const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
     //@}
     
-    operator ValueType* () const
-      { return m_InternalArray; }
-    operator const ValueType* () const
-      { return m_InternalArray; }
+    ValueType* GetDataPointer() { return m_InternalArray; }
+    const ValueType* GetDataPointer() const { return m_InternalArray; }
 
     /**
      * Get an Iterator for the beginning of the Array.
      */
-    Iterator      Begin() 
-      { return (Iterator)m_InternalArray; }
+    Iterator Begin()
+      { return Iterator(m_InternalArray); }
 
     /**
      * Get a ConstIterator for the beginning of the Array.
      */
-    ConstIterator Begin() const 
-      { return (ConstIterator)m_InternalArray; }
+    ConstIterator Begin() const
+      { return ConstIterator(m_InternalArray); }
 
     /**
      * Get an Iterator for the end of the Array.
      */
-    Iterator      End() 
-      { return (Iterator)(m_InternalArray+Length); }
+    Iterator End()
+      { return Iterator(m_InternalArray+Length); }
 
     /**
      * Get a ConstIterator for the end of the Array.
      */
-    ConstIterator End() const 
-      { return (ConstIterator)(m_InternalArray+Length); }
+    ConstIterator End() const
+      { return ConstIterator(m_InternalArray+Length); }
+
+    /**
+     * Get a begin ReverseIterator.
+     */
+    ReverseIterator rBegin()
+      { return ReverseIterator(m_InternalArray+Length); }
+
+    /**
+     * Get a begin ConstReverseIterator.
+     */
+    ConstReverseIterator rBegin() const
+      { return ConstReverseIterator(m_InternalArray+Length); }
+
+    /**
+     * Get an end ReverseIterator.
+     */
+    ReverseIterator rEnd()
+      { return ReverseIterator(m_InternalArray); }
+
+    /**
+     * Get an end ConstReverseIterator.
+     */
+    ConstReverseIterator rEnd() const 
+      { return ConstReverseIterator(m_InternalArray); }
 
     /**
      * Get the size of the Array.
@@ -399,20 +459,31 @@ public:
     const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
     //@}
     
-    operator const ValueType* () const
-      { return m_InternalArray; }
+    const ValueType* GetDataPointer() const { return m_InternalArray; }
     
     /**
      * Get a ConstIterator for the beginning of the Array.
      */
     ConstIterator  Begin() const 
-      { return (ConstIterator)m_InternalArray; }
+      { return ConstIterator(m_InternalArray); }
     
     /**
      * Get a ConstIterator for the end of the Array.
      */
     ConstIterator  End() const
-      { return (ConstIterator)(m_InternalArray+Length); }
+      { return ConstIterator(m_InternalArray+Length); }
+    
+    /**
+     * Get a begin ConstReverseIterator.
+     */
+    ConstReverseIterator  rBegin() const 
+      { return ConstReverseIterator(m_InternalArray+Length); }
+    
+    /**
+     * Get an end ConstReverseIterator.
+     */
+    ConstReverseIterator  rEnd() const
+      { return ConstReverseIterator(m_InternalArray); }
     
     /**
      * Get the size of the Array.
