@@ -20,6 +20,7 @@
 
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
@@ -226,8 +227,8 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 template< typename TSourceImage >
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
 {
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter() called");
  
@@ -238,7 +239,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 void
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::SetInput1(const SourceImageType * image1 ) 
 {
   // Process object is not const-correct so the const casting is required.
@@ -247,7 +248,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 void
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::SetInput2(const BoundaryPointImageType * image2 ) 
 {
   // Process object is not const-correct so the const casting is required.
@@ -256,7 +257,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 void
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::GenerateData()
 {
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::GenerateData() called");
@@ -288,7 +289,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   for ( bpIt.GoToBegin(); !bpIt.IsAtEnd(); ++bpIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
+    BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bpIt.Value().begin(); bpiterator != bpIt.Value().end(); ++bpiterator)
@@ -301,7 +302,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       //---------Create and initialize a sampling spatial function-----------
 
       // Symmetric Ellipsoid spatial function typedef
-      typedef itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
+      typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
   
       // Point position typedef
       typedef TFunctionType::InputType TSymEllipsoidFunctionVectorType;
@@ -319,9 +320,9 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
       // Set the orientation of the ellipsoid to the current boundary point gradient
-      itk::Vector<double, NDimensions> orientation;
+      Vector<double, NDimensions> orientation;
       
-      itk::CovariantVector<double, NDimensions> gradientNormalized;
+      CovariantVector<double, NDimensions> gradientNormalized;
       double gradientNorm = (*bpiterator)->GetGradient().GetNorm();
 
       gradientNormalized = (*bpiterator)->GetGradient()/gradientNorm;
@@ -339,19 +340,14 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // Create a seed position for the spatial function iterator we'll use shortly
       typename TSourceImage::IndexType seedIndex;
 
-      TSourceImage::IndexValueType position[NDimensions] = {NULL};
-
       for(unsigned int i=0; i< NDimensions; i++)
-        position[i] = spatialFunctionOrigin[i];
-
-      seedIndex.SetIndex(position);
+        seedIndex[i] = spatialFunctionOrigin[i];
 
       // Create and initialize a spatial function iterator
-      typedef itk::FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
+      typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, TFunctionType> TIteratorType;
       TIteratorType sfi = TIteratorType(sourcePtr, spatialFunc, seedIndex);
 
       // The index of the pixel
-    
       TVectorType indexPosition;
 
       for(int i = 0; i < m_NumberOfBins; ++i)
@@ -470,7 +466,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 void
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -480,7 +476,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 bool 
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue)
 {      
   if(binNumber >= 0 && binNumber < m_NumberOfBins)
@@ -497,7 +493,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 double 
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::FindAccumulatorMinimum()
 {
   double minimum = m_NormalizedAccumulator[0];
@@ -515,7 +511,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 double 
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::FindAccumulatorMaximum()
 {
   double maximum = m_NormalizedAccumulator[0];
@@ -536,12 +532,12 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 int
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::FitProfile()
 {
   m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
 
-  typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
+  typedef LevenbergMarquardtOptimizer OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
   
@@ -564,7 +560,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
   Optimizer->SetCostFunction( costFunction.GetPointer() );
     }
-  catch( itk::ExceptionObject & e )
+  catch( ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -605,7 +601,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
     Optimizer->StartOptimization();
     }
-  catch( itk::ExceptionObject & e )
+  catch( ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
@@ -662,7 +658,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
 template< typename TSourceImage >
 void
-itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::NormalizeSplatAccumulator()
 {  
    m_NormalizedAccumulator = new double[m_NumberOfBins];

@@ -45,12 +45,12 @@ namespace itk
  * \ingroup ImageEnhancement
  */
 template< typename TSourceImage >
-class ITK_EXPORT itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter :
+class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter :
 public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<TSourceImage::ImageDimension> >
 {
 public:
   /** Standard class typedefs */
-  typedef itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter  Self;
+  typedef BloxBoundaryPointImageToBloxBoundaryProfileImageFilter  Self;
   typedef ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<TSourceImage::ImageDimension> >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
+  itkTypeMacro(BloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
   enum {NDimensions = TSourceImage::ImageDimension};
@@ -138,18 +138,18 @@ public:
     }
 
 protected:
-  itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
-  virtual ~itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter() {};
+  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
+  virtual ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryProfileImage */
   void GenerateData();
 
 private:
-  itkBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
+  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename BoundaryPointImagePointer m_BoundaryPointImage;
+  // typename BoundaryPointImagePointer m_BoundaryPointImage;
   const double* m_BPImageOrigin;
   const double* m_BPImageSpacing;
     
