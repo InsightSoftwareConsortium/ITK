@@ -33,6 +33,8 @@ typedef std::vector<Header* > GdcmHeaderVector;
 SerieHeader::SerieHeader()
 {
    CoherentGdcmFileList.clear();
+   // Later will contains: 0020 000e UI REL Series Instance UID
+   CurrentSerieUID = "";
 }
 
 SerieHeader::~SerieHeader()
@@ -57,8 +59,32 @@ SerieHeader::~SerieHeader()
  */
 void SerieHeader::AddFileName(std::string const & filename)
 {
-   Header *header = new Header( filename );
-   CoherentGdcmFileList.push_back( header );
+   //directly use string and not const char*:
+   Header *header = new Header( filename ); 
+   if( header->IsReadable() )
+   {
+      // 0020 000e UI REL Series Instance UID
+      std::string uid =  header->GetEntryByNumber (0x0020, 0x000e);
+      if( CurrentSerieUID == "" )
+      {
+         // Set the current one
+         CurrentSerieUID = uid;
+      }
+      if( CurrentSerieUID == uid )
+      {
+         // Current Serie UID and DICOM header seems to match add the file:
+         CoherentGdcmFileList.push_back( header );
+      }
+      else
+      {
+         dbg.Verbose(0, "Wrong Serie Instance UID should be:", CurrentSerieUID.c_str());
+      }
+   }
+   else
+   {
+      dbg.Verbose(0, "Could not read file: ", filename.c_str() );
+      delete header;
+   }
 }
 
 /**
@@ -67,7 +93,14 @@ void SerieHeader::AddFileName(std::string const & filename)
  */
 void SerieHeader::AddGdcmFile(Header *file)
 {
-   CoherentGdcmFileList.push_back( file );
+   if( file->IsReadable() )
+   {
+      CoherentGdcmFileList.push_back( file );
+   }
+   else
+   {
+      dbg.Verbose(0, "Could not add file: ", file->GetFileName().c_str() );
+   }
 }
 
 /**
@@ -81,16 +114,7 @@ void SerieHeader::SetDirectory(std::string const & dir)
    for( DirList::const_iterator it = filenames_list.begin(); 
         it != filenames_list.end(); ++it)
    {
-      //directly use string and not const char*:
-      Header *header = new Header( *it ); 
-      if( header->IsReadable() )
-      {
-         CoherentGdcmFileList.push_back( header );
-      }
-      else
-      {
-         delete header;
-      }
+      AddFileName( *it );
    }
 }
 
@@ -134,7 +158,7 @@ bool SerieHeader::ImagePositionPatientOrdering()
 //based on Jolinda's algorithm
 {
    //iop is calculated based on the file file
-   float *cosines = new float[6];
+   float cosines[6];
    float normal[3];
    float ipp[3];
    float dist;
@@ -172,7 +196,6 @@ bool SerieHeader::ImagePositionPatientOrdering()
     
          if( dist == 0 )
          {
-            delete[] cosines;
             return false;
          }
 
@@ -195,7 +218,6 @@ bool SerieHeader::ImagePositionPatientOrdering()
 
          if( dist == 0 )
          {
-            delete[] cosines;
             return false;
          }
       
@@ -241,7 +263,6 @@ bool SerieHeader::ImagePositionPatientOrdering()
 
    distlist.clear();
    CoherentGdcmFileVector.clear();
-   delete[] cosines;
 
    return true;
 }

@@ -35,6 +35,8 @@ namespace gdcm
 class GDCM_EXPORT SerieHeader 
 {
 public:
+   typedef std::list<Header* > GdcmHeaderList;
+
     SerieHeader();
     ~SerieHeader();
 
@@ -48,8 +50,6 @@ public:
    ///          Assumes the list is not empty.
    Header* GetGdcmHeader() { return CoherentGdcmFileList.front(); }
 
-   typedef std::list<Header* > GdcmHeaderList;
-
    /// \brief Gets the *coherent* File List
    /// @return the *coherent* File List
    const GdcmHeaderList& GetGdcmFileList() { return CoherentGdcmFileList; }
@@ -60,6 +60,9 @@ private:
    bool FileNameOrdering();
    
    GdcmHeaderList CoherentGdcmFileList;
+   /// Ref to the current Serie Instance UID to avoid mixing two series
+   /// within the same directory
+   std::string    CurrentSerieUID;
 };
 
 } // end namespace gdcm
