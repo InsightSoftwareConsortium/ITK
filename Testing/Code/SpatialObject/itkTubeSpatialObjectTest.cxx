@@ -375,7 +375,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   netCount = net->GetReferenceCount();
 
   std::cout<<"References test...";
-  if( tubeCount != 2 )
+  if( tubeCount != 1 )
     {
     std::cout<<"[FAILED]: Problem in Tube initialization of references count" << tubeCount <<std::endl;
     return EXIT_FAILURE;
@@ -384,14 +384,14 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     TubePointer localTube = tube;
     tubeCount = tube->GetReferenceCount();
-    if( tubeCount != 3 )
+    if( tubeCount != 2 )
       {
       std::cout<<"[FAILED]: Problem in Tube with incrementation of references count"<<std::endl;
       return EXIT_FAILURE;
       }
     }
 
-  if( netCount != 2 )
+  if( netCount != 1 )
     {
     std::cout<<"[FAILED]: Problem in TubeNetwork initialization of references count"<<std::endl;
     return EXIT_FAILURE;
@@ -400,7 +400,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     GroupPointer localNet = net;
     netCount = net->GetReferenceCount();
-    if( netCount != 3 )
+    if( netCount != 2 )
       {
       std::cout<<"[FAILED]: Problem in TubeNetwork with incrementation of references count"<<std::endl;
       return EXIT_FAILURE;
@@ -410,13 +410,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tubeCount = tube->GetReferenceCount();
   netCount = net->GetReferenceCount();
 
-  if( tubeCount != 2 )
+  if( tubeCount != 1 )
     {
       std::cout<<"[FAILED]: Problem in Tube with decrementation of references count"<<std::endl;
       return EXIT_FAILURE;
     }
 
-  if( netCount != 2 )
+  if( netCount != 1 )
     {
       std::cout<<"[FAILED]: Problem in TubeNetwork with decrementation of references count"<<std::endl;
       return EXIT_FAILURE;
