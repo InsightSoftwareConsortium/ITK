@@ -312,6 +312,7 @@ extern int itrssi_(integer *n, integer *nnb, integer *ia, integer *ja, doublerea
  */
 extern integer bisrch_(integer *n, integer *k, integer *l);
 
+
 /**
  * Computes the solution to the chebyshev equation
  * \param qa ratio of pseudo-residuals
@@ -322,6 +323,7 @@ extern integer bisrch_(integer *n, integer *k, integer *l);
  * \param sme estimate for smallest eigen-value of iteration matrix
  */
 extern doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, integer *ip, doublereal *cme, doublereal *sme);
+
 
 /**
  * Computes estimate for largest eigenvalue for conjugate gradient acceleration
@@ -335,39 +337,67 @@ extern doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, intege
  */
 extern int chgcon_(doublereal *tri, doublereal *gamold, doublereal *rhoold, integer *ibmth);
 
-/*
- *
- *
+
+/**
+ * Computes new chebyshev acceleration parameters adaptively
+ * \param dtnrm numerator or rayleigh quotient
+ * \param ibmth indicator of basic method being accelerated by si
+ *        1 = jacobi
+ *        2 = reduced system
+ *        3 = symmetric sor
  */
 extern int chgsi_(doublereal *dtnrm, integer *ibmth);
 
-/*
- *
- *
+
+/**
+ * Tests for jacobi si whether sme should be changed when caseII = false
+ * if the test is positive, the new value of sme is computed
+ * \param oldnrm square of the norm of the pseudo-residual at the last iteration
+ * \param icnt number of iterations since last change of parameters
  */
 extern logical chgsme_(doublereal *oldnrm, integer *icnt);
 
-/*
- *
- *
+
+/**
+ * overwrite double precision dy with double precision da*dx + dy
+ *  \param n length of da
+ *  \param da array of da values
+ *  \param dx array of dx values
+ *  \param incx increment size for dx array
+ *  \param dy array of dy values
+ *  \param incd increment size for dy array
  */
 extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-/*
- *
- *
+
+/**
+ * copy dx to dy
+ * \param n length of dx
+ * \param dx array of values
+ * \param incx increment size for dx array
+ * \param dy array of values
+ * \param incd increment size for dy array
  */
 extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-/*
- *
- *
+
+/**
+ * returns dot product of dx and dy
+ * \param n length of dx
+ * \param dx array of values
+ * \param incx increment size for dx array
+ * \param dy array of values
+ * \param incd increment size for dy array
  */
 extern doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
 
-/*
- *
- *
+
+/**
+ * subroutine that computes the determinant of a symmetric tridiagonal matrix
+ * given by tri. det(tri - xlmda*i) = 0
+ * \param n order of tridiagonal system
+ * \param tri symmetric tridiagonal matrix of order n
+ * \param xlmda argument for characteristic equation
  */
 extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
 
@@ -379,12 +409,118 @@ extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
   */
 extern int dfault_(integer *iparm, doublereal *rparm);
 
+/**
+ * this routine initializes the itpack common blocks from the information
+ * contained in IPARM and RPARM.  echall_ also prints the values of all the
+ * parameters in IPARM and RPARM
+ * \param nn Order of linear system
+ * \param ia array of row offsets
+ * \param ja array of column indices
+ * \param a array of matrix values
+ * \param rhs array of right hand side of system
+ * \param iparm integer array of parameters
+ * \param rparm doublereal array of parameters
+ * \param icall indicator of which parameters are being printed
+ * \note in this implementation...all printing is disabled
+ */
 extern int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iparm, doublereal *rparm, integer *icall);
+
+
+/*     THIS ROUTINE INITIALIZES THE ITPACK COMMON BLOCKS FROM THE */
+/*     INFORMATION CONTAINED IN IPARM AND RPARM. */
+
+/* ... PARAMETER LIST: */
+
+/*          IPARM */
+/*           AND */
+/*          RPARM  ARRAYS OF PARAMETERS SPECIFYING OPTIONS AND */
+/*                    TOLERANCES */
+/*          IMTHD  INDICATOR OF METHOD */
+/*                    IMTHD = 1,  JCG */
+/*                    IMTHD = 2,  JSI */
+/*                    IMTHD = 3,  SOR */
+/*                    IMTHD = 4,  SSORCG */
+/*                    IMTHD = 5,  SSORSI */
+/*                    IMTHD = 6,  RSCG */
+/*                    IMTHD = 7,  RSSI */
+
+/**
+ * this routine initiazes the itpack common blocks from IPARM and RPARM
+ * \param iparm integer array of parameters
+ * \param rparm doublereal array of parameters
+ * \param imthd indicator of method
+ *        1 = jcg
+ *        2 = jsi
+ *        3 = sor
+ *        4 = ssorcg
+ *        5 = ssorsi
+ *        6 = rscg
+ *        7 = rssi
+ */
 extern int echout_(integer *iparm, doublereal *rparm, integer *imthd);
+
+
+/**
+ * computes the largest eigenvalue of symmetric tridiagnoncal matrix 
+ * for conjugate gradient acceleration
+ * \param n order of tridiagonal system
+ * \param tri symmetric tridiagonal matrix of order n
+ * \param d__ array of eqrt1s (negative diagonal elements)
+ * \param e2 array of eqrt1s (super diagonal elements)
+ * \param ier error flag (0 = success)
+ */
 extern doublereal eigvns_(integer *n, doublereal *tri, doublereal *d__, doublereal *e2, integer *ier);
+
+
+/**
+ * computes the largest eigenvalue of a symmetric tridiagonal matrix for conjugate gradient acceleration
+ * modified imsl routine zbrent is used
+ * \param n order of tridiagonal system
+ * \param tri symmetric tridiagonal matrix of order n
+ * \param start initial lower bound of interval containing root
+ * \param zeta stopping criteria
+ * \param ier error flag (0 = success)
+ */
 extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal *zeta, integer *itmax, integer *ier);
+
+
+/**
+ * smallest or largest m eigenvalue of a symmetric tridiagonal matrix
+ * \param d__ input vector of lenght n, contains diagonal elements of matrix
+ *            the computed eigenvalues replace the first m components
+ * \param e2 input vector of lenght n containing the squares of the off-diagonal elements of the matrix
+ * \param n order of the matrix
+ * \param m number of smallest eigenvalues desired
+ * \param isw positive definite flag (0 = not pd, 1 = pd)
+ * \param ier error flag (601 = interates not monotone increasing, 602 = not really pd)
+ */
 extern int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, integer *m, integer *isw, integer *ierr);
+
+
+/** 
+ * finds the smallest integer, ipstr, greater than 5 such that
+ * ipstr * (omega-1)**(ipstr-1) <= 0.5
+ * \param omega relaxation factor for sor method
+ */
 extern integer ipstr_(doublereal *omega);
+
+
+/**
+ * this routine produces teh iteration summary line at the end of each iteration
+ * if level = 5, the latest approx to the solution is printed
+ * \param nn order of system
+ * \param a iteration matrix
+ * \param u solution estimate
+ * \param wk work array of length nn
+ * \param imthd indicator of method
+ *        1 = jcg
+ *        2 = jsi
+ *        3 = sor
+ *        4 = ssorcg
+ *        5 = ssorsi
+ *        6 = rscg
+ *        7 = rssi
+ */
 extern int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, integer *imthdd);
 
 /**
