@@ -112,7 +112,7 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
 }
 
 // This method will only test if the header looks like a
-//GDCM image file.
+// GDCM image file.
 bool GDCMImageIO::CanReadFile(const char* filename) 
 { 
   std::ifstream file;
@@ -334,6 +334,7 @@ void GDCMImageIO::Write(const void* buffer)
   const unsigned long numberOfBytes = this->GetImageSizeInBytes();
 
   gdcmFile GdcmFile( m_GdcmHeader );
+  GdcmFile.GetImageData();  //FIXME: annoyance in gdcm
   GdcmFile.SetImageData((void*)buffer, numberOfBytes );
   GdcmFile.WriteDcmExplVR(m_FileName);
 
