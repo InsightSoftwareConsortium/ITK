@@ -1,17 +1,18 @@
 // this file defines the SegmentationExamples for the test driver
 // and all it expects is that you have a function called RegisterTests
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <iostream>
 #include "itkTestMain.h" 
+#include <iostream>
 
 
 void RegisterTests()
 {
-REGISTER_TEST(LaplacianSegmentationLevelSetImageFilterTest);
+REGISTER_TEST(CellularSegmentation1Test);
 }
 
 #undef main
-#define main LaplacianSegmentationLevelSetImageFilterTest
-#include "LaplacianSegmentationLevelSetImageFilter.cxx"
+#define main CellularSegmentation1Test
+#include "CellularSegmentation1.cxx"
+

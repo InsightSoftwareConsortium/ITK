@@ -9,9 +9,9 @@
 
 void RegisterTests()
 {
-REGISTER_TEST(LaplacianSegmentationLevelSetImageFilterTest);
+REGISTER_TEST(VectorConfidenceConnectedTest);
 }
 
 #undef main
-#define main LaplacianSegmentationLevelSetImageFilterTest
-#include "LaplacianSegmentationLevelSetImageFilter.cxx"
+#define main VectorConfidenceConnectedTest
+#include "VectorConfidenceConnected.cxx"

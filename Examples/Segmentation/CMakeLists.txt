@@ -74,6 +74,8 @@ SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
 SET(SEGMENTATION_EXAMPLES5 ${CXX_TEST_PATH}/SegmentationExamples5)
 SET(SEGMENTATION_EXAMPLES6 ${CXX_TEST_PATH}/SegmentationExamples6)
 SET(SEGMENTATION_EXAMPLES7 ${CXX_TEST_PATH}/SegmentationExamples7)
+SET(SEGMENTATION_EXAMPLES8 ${CXX_TEST_PATH}/SegmentationExamples8)
+SET(SEGMENTATION_EXAMPLES9 ${CXX_TEST_PATH}/SegmentationExamples9)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -361,7 +363,7 @@ ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
         2.0 10 0.001 0.15 0
 )
 
-ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES4}
+ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
@@ -385,7 +387,7 @@ ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
         10 2.0 1 127.5 15
 )
 
-ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES7}
+ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected1.png
             ${TEMP}/VectorConfidenceConnected1.png
   VectorConfidenceConnectedTest
@@ -394,7 +396,7 @@ ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES7}
         70 120 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES7}
+ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected2.png
             ${TEMP}/VectorConfidenceConnected2.png
   VectorConfidenceConnectedTest
@@ -403,7 +405,7 @@ ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES7}
         23 93 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES7}
+ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected3.png
             ${TEMP}/VectorConfidenceConnected3.png
   VectorConfidenceConnectedTest
@@ -486,6 +488,24 @@ ITKStatistics
 
 ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples7
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples8 SegmentationExamples8.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples8
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples9 SegmentationExamples9.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples9
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
