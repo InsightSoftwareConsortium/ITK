@@ -130,6 +130,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     origin[i]  = m_ImageIO->GetOrigin()[i];
     }
 
+  output->SetSpacing( spacing );   // Set the image spacing
+  output->SetOrigin( origin );     // Set the image origin
+
   typedef typename TOutputImage::IndexType   IndexType;
 
   IndexType start;
