@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkCommandIterationUpdate.h"
 
 /** 
- *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
+ *  This test uses two 3D-Gaussians (standard deviation RegionSize/2)
  * 
  *  One of the images is subsampled in order to obtain a PoinSet.
  *  The PointSet is considered the Target and the other image is
@@ -82,6 +82,9 @@ int main()
   typedef itk::CommandIterationUpdate<  RegistrationType::OptimizerType  >
                                                                  CommandIterationType;
 
+  typedef RegistrationType::OptimizerType::TransformType          OptimizerParametersScaleTransformType;
+  typedef OptimizerParametersScaleTransformType::ParametersType   ScaleTransformParametersType;
+
 
   ReferenceType::SizeType size = {{100,100,100}};
   ReferenceType::IndexType index = {{0,0,0}};
@@ -107,9 +110,9 @@ int main()
 
 
   itk::Point<double,ImageDimension> center;
-  center[0] = (double)region.GetSize()[0]/2.0;
-  center[1] = (double)region.GetSize()[1]/2.0;
-  center[2] = (double)region.GetSize()[2]/2.0;
+  center[0] = static_cast<double>( region.GetSize()[0] ) / 2.0;
+  center[1] = static_cast<double>( region.GetSize()[1] ) / 2.0;
+  center[2] = static_cast<double>( region.GetSize()[2] ) / 2.0;
 
   const double s = (double)region.GetSize()[0]/2.0;
 
@@ -118,9 +121,9 @@ int main()
 
   /* Set the displacement */
   itk::Vector<double,ImageDimension> displacement;
-  displacement[0] = 7;
-  displacement[1] = 3;
-  displacement[2] = 3;
+  displacement[0] = 7.0;
+  displacement[1] = 3.0;
+  displacement[2] = 3.0;
 
   ReferenceIteratorType ri(imgReference,region);
   ReferenceIteratorType ti(imgTarget,region);
@@ -156,7 +159,6 @@ int main()
     ++ti;
   }
 
-  
   // Subsample the target image to produce a point set
   PointSetType::Pointer pointSetTarget = PointSetType::New();
 
@@ -172,6 +174,7 @@ int main()
 
   unsigned int counter   = 0;
   unsigned int numPoints = 0;
+
 
   ti.GoToBegin();
   while(!ti.IsAtEnd() && numPoints < numberOfSamples )
@@ -195,7 +198,6 @@ int main()
 
 
 
-
   
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
@@ -206,15 +208,33 @@ int main()
   registrationMethod->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
                                                    iterationCommand ); 
 
+  ScaleTransformParametersType  parametersScale;
+  parametersScale[0] = 1.00;
+  parametersScale[1] = 1.00;
+  parametersScale[2] = 1.00;
+  parametersScale[3] = 0.01;
+  parametersScale[4] = 0.01;
+  parametersScale[5] = 0.01;
+  
 
-
+  
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(pointSetTarget);
 
-  registrationMethod->GetOptimizer()->SetNumberOfIterations( 100 );
+  registrationMethod->GetMetric()->SetLambda( 10.0 );
+
+  RegistrationType::OptimizerType::Pointer optimizer = 
+                                  registrationMethod->GetOptimizer();
+
+  optimizer->GetTransform()->SetParameters( parametersScale );
+  optimizer->SetMinimize();
+  optimizer->SetGradientMagnitudeTolerance( 1e-6 );
+  optimizer->SetMaximumStepLength( 0.01 );
+  optimizer->SetMinimumStepLength( 1e-6 );
+  optimizer->SetNumberOfIterations( 100 );
+
 
   registrationMethod->StartRegistration();
-
 
 
   // get the results
@@ -225,7 +245,7 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[ImageDimension] = { -7, -3, -3 };
+  double trueParameters[ImageDimension] = { -displacement[0], -displacement[1], -displacement[2] };
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
