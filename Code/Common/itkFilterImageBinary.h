@@ -22,7 +22,7 @@
 namespace itk
 {
   
-/** \class FilterBinary
+/** \class FilterImageBinary
  * \brief Implements pixel-wise generic operation of two images.
  *
  * This class is parametrized over the types of the two 
