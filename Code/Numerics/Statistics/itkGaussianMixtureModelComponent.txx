@@ -152,7 +152,7 @@ GaussianMixtureModelComponent< TSample >
 
   unsigned int i, j ;
   double temp ;
-  double changes = 0.0 ;
+  double changes ;
   bool changed = false ;
   ParametersType parameters = this->GetFullParameters() ;
   int paramIndex  = 0 ;

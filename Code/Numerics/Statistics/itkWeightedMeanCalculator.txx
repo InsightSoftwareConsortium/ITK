@@ -88,7 +88,6 @@ WeightedMeanCalculator< TSample >
             {
               m_Output[dim] += measurements[dim] * weight ;
             }
-          ++measurementVectorIndex ;
           ++iter ;
         }
       m_Output /= totalWeight ;
