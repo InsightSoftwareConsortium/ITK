@@ -7,7 +7,7 @@ blezek:Dan Blezek:blezek@crd.ge.com
 blue:Rusty Blue:blue@crd.ge.com
 burgiss
 cates:Josh Cates:cates@cs.utah.edu
-celina
+celina:Celina  Imielinska:ci42@columbia.edu
 chandra
 chenting
 danny
@@ -16,7 +16,7 @@ gee
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
 hughett:Paul Hughett:hughett@mercur.uphs.upenn.edu
 ibanez:Luis Ibanez:ibanez@cs.unc.edu
-jin
+jin:Yinpeng Jin:yj76@columbia.edu
 jjomier
 jrgold
 kellyae:Anne Kelly:kellyae@crd.ge.com
