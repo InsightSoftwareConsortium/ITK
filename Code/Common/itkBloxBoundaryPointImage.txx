@@ -69,13 +69,6 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
 {
   m_SourceOrigin = m_SourceImage->GetOrigin();
   m_SourceSpacing = m_SourceImage->GetSpacing();
-
-  itkDebugMacro(<< "m_SourceOrigin = " << m_SourceOrigin[0] << "," 
-                << m_SourceOrigin[1] << "," << m_SourceOrigin[2]);
-
-  itkDebugMacro(<< "m_SourceSpacing = " << m_SourceSpacing[0] << "," 
-                << m_SourceSpacing[1] << "," << m_SourceSpacing[2]);
-
 }
 
 template<class TSourceImage, class TImageTraits>
