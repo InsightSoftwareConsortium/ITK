@@ -63,7 +63,7 @@ class TriangleMeshToSimplexMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
     /** Run-time type information (and related methods). */
     itkTypeMacro(TriangleMeshToSimplexMeshFilter,MeshToMeshFilter);
 
-    typedef TInputMesh                                           InputMeshType;
+    typedef TInputMesh                                                    InputMeshType;
     typedef typename TInputMesh::Pointer                                  InputMeshPointer;
     typedef typename TInputMesh::PointType                                InputPointType;
     typedef typename TInputMesh::BoundaryAssignmentsContainerPointer      InputBoundaryAssignmentsContainerPointer;
@@ -83,27 +83,27 @@ class TriangleMeshToSimplexMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
     typedef typename TInputMesh::CellType                                 InputCellType;
     typedef typename InputCellType::CellAutoPointer                       InputCellAutoPointer;
     typedef typename TInputMesh::CellAutoPointer                          CellAutoPointer;
-    typedef typename itk::LineCell<InputCellType>                         LineType;
-    typedef typename itk::PolygonCell<InputCellType>                      PolygonType;
-    typedef typename itk::TriangleCell<InputCellType>                     TriangleType;
-    typedef typename itk::VertexCell<InputCellType>                       VertexType;
+    typedef          itk::LineCell<InputCellType>                         LineType;
+    typedef          itk::PolygonCell<InputCellType>                      PolygonType;
+    typedef          itk::TriangleCell<InputCellType>                     TriangleType;
+    typedef          itk::VertexCell<InputCellType>                       VertexType;
 
-    typedef typename std::pair<unsigned long,unsigned long>               EdgeIdentifierType;
-    typedef typename std::set<unsigned long>                              IndexSetType;
-    typedef typename itk::MapContainer<unsigned long, EdgeIdentifierType> EdgeNeighborListType;
-    typedef typename itk::MapContainer<EdgeIdentifierType, unsigned long> LineCellIndexType;
+    typedef          std::pair<unsigned long,unsigned long>               EdgeIdentifierType;
+    typedef          std::set<unsigned long>                              IndexSetType;
+    typedef          itk::MapContainer<unsigned long, EdgeIdentifierType> EdgeNeighborListType;
+    typedef          itk::MapContainer<EdgeIdentifierType, unsigned long> LineCellIndexType;
 
-    typedef typename itk::MapContainer<unsigned long, IndexSetType>       VertexNeighborListType;
-    typedef typename itk::MapContainer<EdgeIdentifierType,unsigned long>  EdgeMapType;
+    typedef          itk::MapContainer<unsigned long, IndexSetType>       VertexNeighborListType;
+    typedef          itk::MapContainer<EdgeIdentifierType,unsigned long>  EdgeMapType;
     typedef typename EdgeMapType::Pointer                                 EdgeMapPointer;
 
-    typedef typename itk::VectorContainer<unsigned long,unsigned long>    IdVectorType;
+    typedef          itk::VectorContainer<unsigned long,unsigned long>    IdVectorType;
     typedef typename IdVectorType::Pointer                                IdVectorPointer;
 
     typedef typename TOutputMesh::CellType                                OutputCellType;
     typedef typename TOutputMesh::CellAutoPointer                         OutputCellAutoPointer;
-    typedef typename itk::LineCell<OutputCellType>                        OutputLineType;
-    typedef typename itk::PolygonCell<OutputCellType>                     OutputPolygonType;
+    typedef          itk::LineCell<OutputCellType>                        OutputLineType;
+    typedef          itk::PolygonCell<OutputCellType>                     OutputPolygonType;
 
   protected:
 

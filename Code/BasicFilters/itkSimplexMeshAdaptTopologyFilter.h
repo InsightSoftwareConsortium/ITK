@@ -69,7 +69,7 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
     /** Run-time type information (and related methods). */
     itkTypeMacro(SimplexMeshAdaptTopologyFilter,MeshToMeshFilter);
 
-    typedef TInputMesh                                     InputMeshType;
+    typedef TInputMesh                                              InputMeshType;
     typedef typename InputMeshType::Pointer                         InputMeshPointer;
     typedef typename InputMeshType::PointType                       InputPointType;
     typedef typename InputMeshType::VectorType                      InputVectorType;
@@ -79,17 +79,17 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
     typedef typename InputCellType::PointIdIterator                 InputCellPointIdIterator;
     typedef typename InputCellType::CellAutoPointer                 InputCellAutoPointer;
     typedef typename InputMeshType::CellAutoPointer                 CellAutoPointer;
-    typedef typename itk::PolygonCell<InputCellType>                InputPolygonType;
+    typedef          itk::PolygonCell<InputCellType>                InputPolygonType;
     typedef typename InputPolygonType::PointIdIterator              InputPolygonPointIdIterator;
 
 
-    typedef  TOutputMesh                                    OutputMeshType;
+    typedef  TOutputMesh                                            OutputMeshType;
     typedef typename OutputMeshType::Pointer                        OutputMeshPointer;
     typedef typename OutputMeshType::CellType                       OutputCellType;
-    typedef typename itk::PolygonCell<OutputCellType>               OutputPolygonType;
+    typedef          itk::PolygonCell<OutputCellType>               OutputPolygonType;
 
-    typedef typename itk::MapContainer<unsigned long, double> DoubleValueMapType;
-    typedef typename DoubleValueMapType::Iterator             DoubleContainerIterator;
+    typedef          itk::MapContainer<unsigned long, double>       DoubleValueMapType;
+    typedef typename DoubleValueMapType::Iterator                   DoubleContainerIterator;
 
 
     /** 
@@ -226,7 +226,7 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
       };
 
     // cell visitor stuff
-    typedef typename itk::CellInterfaceVisitorImplementation<InputPixelType,
+    typedef itk::CellInterfaceVisitorImplementation<InputPixelType,
       InputCellTraitsType,
       InputPolygonType,
       SimplexCellVisitor>

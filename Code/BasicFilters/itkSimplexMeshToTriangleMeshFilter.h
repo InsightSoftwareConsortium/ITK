@@ -63,7 +63,7 @@ class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
     itkTypeMacro(SimplexMeshToTriangleMeshFilter,MeshToMeshFilter);
 
 
-    typedef TInputMesh                                     InputMeshType;
+    typedef TInputMesh                                              InputMeshType;
     typedef typename InputMeshType::Pointer                         InputMeshPointer;
     typedef typename InputMeshType::PointType                       InputPointType;
     typedef typename InputMeshType::PixelType                       InputPixelType;
@@ -77,14 +77,14 @@ class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
     typedef typename InputMeshType::NeighborListType::iterator      InputNeighborsIterator;
 
 
-    typedef typename itk::AutomaticTopologyMeshSource<TOutputMesh>  AutoMeshSourceType;
+    typedef          itk::AutomaticTopologyMeshSource<TOutputMesh>  AutoMeshSourceType;
 
     typedef typename InputMeshType::CellType                        SimplexCellType;
-    typedef typename itk::PolygonCell<SimplexCellType>              SimplexPolygonType;
+    typedef          itk::PolygonCell<SimplexCellType>              SimplexPolygonType;
 
     // stores the center for each simplex mesh cell, key is the point id
-    typedef typename itk::MapContainer<unsigned long, InputPointType> PointMapType;
-    typedef typename PointMapType::Pointer                             PointMapPointer;
+    typedef          itk::MapContainer<unsigned long, InputPointType> PointMapType;
+    typedef typename PointMapType::Pointer                            PointMapPointer;
 
 
     /** 
@@ -147,15 +147,15 @@ class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
         PointMapPointer m_CenterMap; 
       };
 
-    typedef typename itk::CellInterfaceVisitorImplementation<InputPixelType,
+    typedef itk::CellInterfaceVisitorImplementation<InputPixelType,
       InputCellTraitsType,
       SimplexPolygonType,
       SimplexCellVisitor>
       SimplexVisitorInterfaceType;
 
-    typedef typename SimplexVisitorInterfaceType::Pointer SimplexVisitorInterfacePointer;
-    typedef typename SimplexCellType::MultiVisitor      CellMultiVisitorType;
-    typedef typename CellMultiVisitorType::Pointer    CellMultiVisitorPointer;
+    typedef typename SimplexVisitorInterfaceType::Pointer  SimplexVisitorInterfacePointer;
+    typedef typename SimplexCellType::MultiVisitor         CellMultiVisitorType;
+    typedef typename CellMultiVisitorType::Pointer         CellMultiVisitorPointer;
 
 
   protected:
