@@ -24,7 +24,6 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
-ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS} itkAnalyzeImageIOTest)
 ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
@@ -87,6 +86,8 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+  ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}
+    itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR})
   ADD_TEST(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
   ADD_TEST(itkAnalyzeIOBigEndianCompressed.img ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
