@@ -43,7 +43,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPNGImageIO.h"
 #include "itkVersion.h"
 
-extern "C" __declspec( dllexport )  itk::ObjectFactoryBase* itkLoad()
+extern "C" 
+#ifdef _WIN32
+__declspec( dllexport ) 
+#endif  
+itk::ObjectFactoryBase* itkLoad()
 {
   return itk::PNGImageIOFactory::New();
 }
