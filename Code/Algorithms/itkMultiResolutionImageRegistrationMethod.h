@@ -111,7 +111,10 @@ public:
   typedef  typename MetricType::TransformParametersType    ParametersType;
 
   /** Method that initiates the registration. */
-  void StartRegistration(void);
+  void StartRegistration();
+
+  /** Method to stop the registration. */
+  void StopRegistration();
 
   /** Set/Get the Fixed image. */
   itkSetObjectMacro( FixedImage, FixedImageType );
@@ -196,6 +199,8 @@ private:
 
   unsigned long                    m_NumberOfLevels;
   unsigned long                    m_CurrentLevel;
+
+  bool                             m_Stop;
   
 };
 

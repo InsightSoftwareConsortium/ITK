@@ -46,6 +46,8 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_NumberOfLevels = 1;
   m_CurrentLevel = 0;
 
+  m_Stop = false;
+
   m_InitialTransformParameters = ParametersType(1);
   m_InitialTransformParametersOfNextLevel = ParametersType(1);
   m_LastTransformParameters = ParametersType(1);
@@ -145,6 +147,18 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 /**
+ * Stop the Registration Process
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::StopRegistration( void )
+{
+  m_Stop = true;
+}
+
+
+/**
  * Starts the Registration Process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -153,9 +167,10 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartRegistration( void )
 { 
 
+  m_Stop = false;
 
-  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
-   m_CurrentLevel++ )
+  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels &&
+   !m_Stop; m_CurrentLevel++ )
     {
 
     // Invoke an iteration event.
