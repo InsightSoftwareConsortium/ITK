@@ -56,13 +56,13 @@ MeanCalculator< TSample >
 
   while (iter != end)
     {
-      double frequency = iter.GetFrequency() ;
-      totalFrequency += frequency ;
-      for (int dim = 0 ; dim < MeasurementVectorSize ; dim++)
-        {
-          m_Output[dim] += iter.GetMeasurementVector()[dim] * frequency ;
-        }
-      ++iter ;
+    double frequency = iter.GetFrequency() ;
+    totalFrequency += frequency ;
+    for (int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+      {
+      m_Output[dim] += iter.GetMeasurementVector()[dim] * frequency ;
+      }
+    ++iter ;
     }
   
   m_Output /= totalFrequency ;
