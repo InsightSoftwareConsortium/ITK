@@ -15,11 +15,11 @@
 =========================================================================*/
 #ifndef __itkCommand_h
 #define __itkCommand_h
+
 #include "itkLightObject.h"
 
 namespace itk
 {
-
 
 /** \class Command
  * \brief superclass for callback/observer methods
@@ -47,9 +47,10 @@ public:
 
   virtual void Execute(LightObject *caller, unsigned long event) = 0;
 
-  // all the currently defined events
-  // developers can use -- Command::UserEvent + int to
-  // specify their own events. 
+  /**
+   * All the currently defined events are enumerated here.  developers
+   * can use: "Command::UserEvent + int" to specify their own events.  
+   */
   enum EventIds {
     NoEvent = 0,
     DeleteEvent,
@@ -150,6 +151,7 @@ public:
         }
       return new Self;
     }
+
   /**
    *  Set the callback function along with the object that it will
    *  be invoked on.
@@ -160,13 +162,15 @@ public:
       m_This = object;
       m_MemberFunction = memberFunction;
     }
+
   /**
-   *  Call the member function
+   *  Invoke the member function.
    */
   virtual void Execute(LightObject *caller, unsigned long event)
     { 
       ((*m_This).*(m_MemberFunction))(caller, event);
     }
+
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
@@ -209,6 +213,7 @@ public:
         }
       return new Self;
     }
+
   void SetCallbackFunction(T* object,  
                            TMemberFunctionPointer memberFunction)
     {
@@ -220,6 +225,7 @@ public:
     { 
       ((*m_This).*(m_MemberFunction))();
     }
+
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
@@ -266,23 +272,27 @@ public:
         }
       return new Self;
     }
+
   /**
-   * Set the client data that will be passed into the C function when it is called.
+   * Set the client data that will be passed into the C function when 
+   * it is called.
    */
   void SetClientData(void *cd) {m_ClientData = cd;}
+
   /**
    * Set the C callback function pointer to be called at Execute time.
    */
   void SetCallback(FunctionPointer f)
-    {m_Callback = f;};
+    {m_Callback = f;}
+
   /**
    * Set the callback to delete the client data.
    */
   void SetClientDataDeleteCallback(DeleteDataFunctionPointer f)
-    {m_ClientDataDeleteCallback = f;};
+    {m_ClientDataDeleteCallback = f;}
   
   /**
-   * Execute the callback function
+   * Execute the callback function.
    */
   void Execute(LightObject *caller, unsigned long event)
     {
@@ -291,6 +301,7 @@ public:
       m_Callback(caller, event, m_ClientData );
       }
     };
+
 protected:
   CStyleCommand()
     { 
