@@ -20,13 +20,14 @@
 #include "vnl/vnl_sample.h"
 #include <stdio.h>
 
-const int WIDTH = 256;
-const int HEIGHT = 256;
-
-typedef itk::Image<unsigned short,2> UShortImage;
-typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage> VorSeg;
 
 int itkVoronoiSegmentationImageFilterTest(int, char**){
+  const int WIDTH = 256;
+  const int HEIGHT = 256;
+
+  typedef itk::Image<unsigned short,2> UShortImage;
+  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage> VorSeg;
+
   VorSeg::Pointer testVorseg(VorSeg::New());
   UShortImage::Pointer inputIMG = UShortImage::New();
   UShortImage::SizeType size={{WIDTH,HEIGHT}};
