@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <vector>
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -66,7 +67,6 @@ public:
   /** Standard New() method support */
   itkNewMacro(Self) ;
 
-  
   unsigned int Evaluate(std::vector< double > discriminantScores) ;
 
 protected:
