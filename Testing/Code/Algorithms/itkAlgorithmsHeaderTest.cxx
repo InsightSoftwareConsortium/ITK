@@ -60,7 +60,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkKalmanLinearEstimator.h"
 #include "itkLaplacianSegmentationLevelSetFunction.txx"
 #include "itkLaplacianSegmentationLevelSetImageFilter.txx"
-#include "itkLevelSetImageFilter.txx"
 #include "itkLevelSetNeighborhoodExtractor.txx"
 #include "itkLevelSetVelocityNeighborhoodExtractor.txx"
 #include "itkMRASlabIdentifier.txx"
