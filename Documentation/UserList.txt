@@ -16,7 +16,7 @@ gash
 gee
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
 hughett
-ibanez
+ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin
 jjomier
 jrgold
