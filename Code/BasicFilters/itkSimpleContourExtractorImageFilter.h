@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSimpleContourExtractorImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkSimpleContourExtractorImageFilter_h
 #define __itkSimpleContourExtractorImageFilter_h
 
@@ -8,16 +24,17 @@
 namespace itk
 {
 /** \class SimpleContourExtractorImageFilter
-* \brief Applies an averaging filter to an image
+* \brief Computes an image of contours from
 *
-* Computes an image which will be the contour of the first image. A pixel of the source image
-* is considered to belong to the contour, if its pixel value is equal to the input Foreground value
-* and it has in its neighborhood at least one pixel which its pixel value is equal to the input background
-* value. The output image will have pixels which will be set to the output foreground value if they
-* belong to the contour, otherwise they will be set to the ouput background value.
+* Computes an image which will be the contour of the first image. A
+* pixel of the source image  is considered to belong to the contour,
+* if its pixel value is equal to the input Foreground value  and it
+* has in its neighborhood at least one pixel which its pixel value is
+* equal to the input background  value. The output image will have
+* pixels which will be set to the output foreground value if they
+* belong to the contour, otherwise they will be set to the ouput
+* background value. 
 * The neighborhood "radius" is set thanks to the radius params.
-*
-* A mean filter is one of the family of linear filters.  
 *
 * \sa Image
 * \sa Neighborhood
@@ -26,10 +43,10 @@ namespace itk
 * 
 * \ingroup IntensityImageFilters
   */
-  template <class TInputImage, class TOutputImage>
-    class ITK_EXPORT SimpleContourExtractorImageFilter :
+template <class TInputImage, class TOutputImage>
+class ITK_EXPORT SimpleContourExtractorImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
-  {
+{
 public:
   /** Extract dimension from input and output image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -63,40 +80,51 @@ public:
   
   typedef typename InputImageType::SizeType InputSizeType;
   
-  /** Set the radius of the neighborhood used to identify border pixel. */
+  /** Set the radius of the neighborhood used to identify border
+   * pixel. */
   itkSetMacro(Radius, InputSizeType);
   
-  /** Get the radius of the neighborhood used to identify border pixel. */
+  /** Get the radius of the neighborhood used to identify border
+   * pixel. */
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
-  /** Set the foreground value used in order to identify a foreground pixel in the input image. */
+  /** Set the foreground value used in order to identify a foreground
+   * pixel in the input image. */
   itkSetMacro(InputForegroundValue, InputPixelType);
 
-  /** Get the foreground value used in order to identify a foreground pixel in the input image. */
+  /** Get the foreground value used in order to identify a foreground
+   * pixel in the input image. */
   itkGetConstReferenceMacro(InputForegroundValue, InputPixelType);
 
-  /** Set the background value used in order to identify a background pixel in the input image. */
+  /** Set the background value used in order to identify a background
+   * pixel in the input image. */
   itkSetMacro(InputBackgroundValue, InputPixelType);
   
-  /** Get the background value used in order to identify a background pixel in the input image. */
+  /** Get the background value used in order to identify a background
+   * pixel in the input image. */
   itkGetConstReferenceMacro(InputBackgroundValue, InputPixelType);
 
-  /** Set the foreground value used in order to identify a foreground pixel in the output image. */
+  /** Set the foreground value used in order to identify a foreground
+   * pixel in the output image. */
   itkSetMacro(OutputForegroundValue, OutputPixelType);
 
-  /** Get the foreground value used in order to identify a foreground pixel in the output image. */
+  /** Get the foreground value used in order to identify a foreground
+   * pixel in the output image. */
   itkGetConstReferenceMacro(OutputForegroundValue, OutputPixelType);
 
-  /** Set the background value used in order to identify a background pixel in the output image. */
+  /** Set the background value used in order to identify a background
+   * pixel in the output image. */
   itkSetMacro(OutputBackgroundValue, OutputPixelType);
 
-  /** Get the background value used in order to identify a background pixel in the output image. */
+  /** Get the background value used in order to identify a background
+   * pixel in the output image. */
   itkGetConstReferenceMacro(OutputBackgroundValue, OutputPixelType);
   
-  /** SimpleContourExtractorImageFilter needs a larger input requested region than
-  * the output requested region.  As such, SimpleContourExtractorImageFilter needs
-  * to provide an implementation for GenerateInputRequestedRegion()
-  * in order to inform the pipeline execution model.
+  /** SimpleContourExtractorImageFilter needs a larger input requested
+  * region than the output requested region.  As such,
+  * SimpleContourExtractorImageFilter needs to provide an
+  * implementation for GenerateInputRequestedRegion() in order to
+  * inform the pipeline execution model. 
   *
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
@@ -106,18 +134,19 @@ protected:
   virtual ~SimpleContourExtractorImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** SimpleContourExtractorImageFilter can be implemented as a multithreaded filter.
-  * Therefore, this implementation provides a ThreadedGenerateData()
-  * routine which is called for each processing thread. The output
-  * image data is allocated automatically by the superclass prior to
-  * calling ThreadedGenerateData().  ThreadedGenerateData can only
-  * write to the portion of the output image specified by the
-  * parameter "outputRegionForThread"
-  *
-  * \sa ImageToImageFilter::ThreadedGenerateData(),
-  *     ImageToImageFilter::GenerateData() */
+  /** SimpleContourExtractorImageFilter can be implemented as a
+     * multithreaded filter. Therefore, this implementation provides a
+     * ThreadedGenerateData() routine which is called for each
+     * processing thread. The output image data is allocated
+     * automatically by the superclass prior to calling
+     * ThreadedGenerateData().  ThreadedGenerateData can only write to
+     * the portion of the output image specified by the parameter
+     * "outputRegionForThread" 
+     *
+     * \sa ImageToImageFilter::ThreadedGenerateData(),
+     *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-    int threadId );
+                              int threadId );
   
 private:
   SimpleContourExtractorImageFilter(const Self&); //purposely not implemented
@@ -128,7 +157,7 @@ private:
   InputPixelType m_InputBackgroundValue;
   OutputPixelType m_OutputForegroundValue;
   OutputPixelType m_OutputBackgroundValue;
-  };
+};
   
 } // end namespace itk
 
