@@ -157,8 +157,8 @@ itkTetrahedronCell< TPixelType , TMeshType >
 {
   Edge::Pointer edge(Edge::New());
 
-  edge->SetCellPoint(0, m_PointIds[ m_Edges[edgeId][0] ]);
-  edge->SetCellPoint(1, m_PointIds[ m_Edges[edgeId][1] ]);
+  for(int i=0; i < Edge::NumberOfPoints; ++i)
+    edge->SetCellPoint(i, m_PointIds[ m_Edges[edgeId][i] ]);
   
   return edge;
 }
@@ -175,9 +175,8 @@ itkTetrahedronCell< TPixelType , TMeshType >
 {
   Face::Pointer face(Face::New());
   
-  face->SetCellPoint(0, m_PointIds[ m_Faces[faceId][0] ]);
-  face->SetCellPoint(1, m_PointIds[ m_Faces[faceId][1] ]);
-  face->SetCellPoint(2, m_PointIds[ m_Faces[faceId][2] ]);  
+  for(int i=0; i < Face::NumberOfPoints; ++i)
+    face->SetCellPoint(i, m_PointIds[ m_Faces[faceId][i] ]);
   
   return face;
 }

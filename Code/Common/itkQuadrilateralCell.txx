@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTetrahedronCell.txx
+  Module:    itkQuadrilateralCell.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,15 +13,14 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkTetrahedronCell.h"
-
+// #include "itkQuadrilateralCell.h"
 
 /**
  *
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::Pointer
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::Pointer
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::New(void)
 {
   return new Self;
@@ -33,7 +32,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 int
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -44,15 +43,14 @@ itkTetrahedronCell< TPixelType , TMeshType >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::CellFeatureCount
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
     {
     case 0: return GetNumberOfVertices();
     case 1: return GetNumberOfEdges();
-    case 2: return GetNumberOfFaces();
     default: return 0;
     }
 }
@@ -63,15 +61,14 @@ itkTetrahedronCell< TPixelType , TMeshType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::Cell::Pointer
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::Cell::Pointer
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
     case 0: return Cell::Pointer(GetCellVertex(featureId));
     case 1: return Cell::Pointer(GetCellEdge(featureId));
-    case 2: return Cell::Pointer(GetCellFace(featureId));
     default: return Cell::Pointer(NULL);
     }
 }
@@ -83,7 +80,7 @@ itkTetrahedronCell< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::SetCellPoints(PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -92,12 +89,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
- * Tetrahedron-specific:
- * Get the number of vertices defining the tetrahedron.
+ * Quadrilateral-specific:
+ * Get the number of vertices defining the quadrilateral.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::CellFeatureCount
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetNumberOfVertices(void)
 {
   return NumberOfVertices;
@@ -105,12 +102,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
- * Tetrahedron-specific:
- * Get the number of edges defined for the tetrahedron.
+ * Quadrilateral-specific:
+ * Get the number of edges defined for the quadrilateral.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::CellFeatureCount
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetNumberOfEdges(void)
 {
   return NumberOfEdges;
@@ -118,25 +115,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
- * Tetrahedron-specific:
- * Get the number of faces defined for the tetrahedron.
- */
-template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::CellFeatureCount
-itkTetrahedronCell< TPixelType , TMeshType >
-::GetNumberOfFaces(void)
-{
-  return NumberOfFaces;
-}
-
-
-/**
- * Tetrahedron-specific:
+ * Quadrilateral-specific:
  * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::Vertex::Pointer
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::Vertex::Pointer
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
@@ -147,50 +131,27 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
- * Tetrahedron-specific:
+ * Quadrilateral-specific:
  * Get the edge specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::Edge::Pointer
-itkTetrahedronCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TMeshType >::Edge::Pointer
+itkQuadrilateralCell< TPixelType , TMeshType >
 ::GetCellEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
-
-  for(int i=0; i < Edge::NumberOfPoints; ++i)
-    edge->SetCellPoint(i, m_PointIds[ m_Edges[edgeId][i] ]);
+  
+  edge->SetCellPoint(0, m_PointIds[ m_Edges[edgeId][0] ]);
+  edge->SetCellPoint(1, m_PointIds[ m_Edges[edgeId][1] ]);
   
   return edge;
 }
 
 
 /**
- * Tetrahedron-specific:
- * Get the face specified by the given cell feature Id.
- */
-template <typename TPixelType, typename TMeshType>
-itkTetrahedronCell< TPixelType , TMeshType >::Face::Pointer
-itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellFace(CellFeatureIdentifier faceId)
-{
-  Face::Pointer face(Face::New());
-  
-  for(int i=0; i < Face::NumberOfPoints; ++i)
-    face->SetCellPoint(i, m_PointIds[ m_Faces[faceId][i] ]);
-  
-  return face;
-}
-
-
-/**
- * Define the tetrahedron's topology data.
+ * Define the quadrilateral's topology data.
  */
 template <typename TPixelType, typename TMeshType>
 const int
-itkTetrahedronCell< TPixelType , TMeshType >
-::m_Edges[6][2] = { {0,1}, {1,2}, {2,0}, {0,3}, {1,3}, {2,3} };
-
-template <typename TPixelType, typename TMeshType>
-const int
-itkTetrahedronCell< TPixelType , TMeshType >
-::m_Faces[4][3] = { {0,1,3}, {1,2,3}, {2,0,3}, {0,2,1} };
+itkQuadrilateralCell< TPixelType , TMeshType >
+::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
