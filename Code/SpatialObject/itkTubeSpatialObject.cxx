@@ -135,7 +135,6 @@ namespace itk
     // its next, and previous neighbor, in order to be more accurate during 
     // the selection process.
 
-    unsigned long id;
     double minSquareDist=999999.0;
     double tempSquareDist;
     PointListType::iterator it = m_Points->begin();
