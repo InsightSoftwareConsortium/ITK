@@ -28,7 +28,7 @@
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
    #include <winsock.h>  // for gethostname & gethostbyname
    #undef GetCurrentTime
 #else
@@ -665,7 +665,7 @@ std::string Util::GetIPAddress()
 #  define HOST_NAME_MAX 255
    // In this case we should maybe check the string was not truncated.
    // But I don't known how to check that...
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
    // with WinSock DLL we need to initialise the WinSock before using gethostname
    WORD wVersionRequested = MAKEWORD(1,0);
    WSADATA WSAData;
@@ -701,7 +701,7 @@ std::string Util::GetIPAddress()
          }
          // str now contains one local IP address 
  
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
    WSACleanup();
 #endif
 
