@@ -28,6 +28,7 @@ itkObject.cxx
 itkObjectFactoryBase.cxx  
 itkOutputWindow.cxx  
 itkProcessObject.cxx  
+itkProgressReporter.cxx  
 itkQuadraticTriangleCellTopology.cxx
 itkQuadrilateralCellTopology.cxx
 itkRegion.cxx 
