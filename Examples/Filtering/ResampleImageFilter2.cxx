@@ -320,10 +320,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's consider now the effect of the output spacing on the process of image
-  //  resampling.   
-  //  In order to simplify the analysis, let's put the origin back to zero in
-  //  both the input and output images. 
+  //  Let's consider now the effect of the output spacing on the process of
+  //  image resampling.   In order to simplify the analysis, let's put the
+  //  origin back to zero in both the input and output images. 
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //

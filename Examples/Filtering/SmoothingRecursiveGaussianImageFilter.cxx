@@ -22,11 +22,11 @@
 //  Gaussian increases. This is due to the larger size of the kernel which
 //  results in a higher number of computations per pixel.
 //
-//  The \code{RecursiveGaussianImageFilter} implements an approximation of
+//  The \doxygen{RecursiveGaussianImageFilter} implements an approximation of
 //  convolution with the Gaussian and its derivatives by using
 //  IIR\footnote{Infinte Impulsional Response} filters. In practice this filter
 //  requires a constant number of operations for approximating the convolution.
-//  This is independent of the sigma value.
+//  This is independent of the sigma value \cite{Deriche1990,Deriche1993}.
 //
 //  \index{itk::RecursiveGaussianImageFilter|textbf}
 //
@@ -123,7 +123,7 @@ int main( int argc, char ** argv )
   //  in order to produce smoothing in all directions. We create then a pair of
   //  filters since we have a $2D$ image to process here. The filters are
   //  created by invoking the \code{New()} method and assigning the result to a
-  //  SmartPointer.
+  //  \doxygen{SmartPointer}.
   //
   //  \index{itk::RecursiveGaussianImageFilter!New()}
   //  \index{itk::RecursiveGaussianImageFilter!Pointer}
@@ -154,7 +154,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{RecursiveGaussianImageFilter} can approximate the convolution
+  //  The \doxygen{RecursiveGaussianImageFilter} can approximate the convolution
   //  with the gaussian or with its first and second derivatives. We should
   //  hence select here one of these options by  using the \code{SetOrder()}
   //  method. Note that the argument is an \code{enum} whose values can be
@@ -193,7 +193,7 @@ int main( int argc, char ** argv )
   //          \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } }
   //  \end{equation}
   //
-  //  The \code{RecursiveGaussianImageFilter} has a \code{boolean} flag that
+  //  The \doxygen{RecursiveGaussianImageFilter} has a \code{boolean} flag that
   //  allows to select between both normalization options. This is done with
   //  the method \code{SetNormalizeAcrossScale()}. For analyzing an image
   //  across Scale-Space you want to enable this flag. In current example it
@@ -306,10 +306,10 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:RecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain using a sigma value of 3 (left) and a value of 5 (right). The
-  //  figure shows how the attenuation of noise can be regulated by selecting
-  //  an apropriate sigma.  This type of scale-tunable filter is suitable for
-  //  performing Scale-Space analysis.
+  //  the brain using a sigma value of $3$ (left) and a value of $5$ (right).
+  //  The figure shows how the attenuation of noise can be regulated by
+  //  selecting an apropriate sigma.  This type of scale-tunable filter is
+  //  suitable for performing Scale-Space analysis.
   //
   //  Software Guide : EndLatex 
 

@@ -17,11 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The MinMaxCurvatureFlow image filter applies a variant of the CurvatureFlow
-//  algorithm. The basic difference is that the term speed is choosen as
-//  $\min(\kappa,0)$ or $\max(\kappa,0)$ depending on the average intensity
-//  of the pixel neighborhood. This prevents small oscilations from happening
-//  on regions of the contour containing wiggeling sections. The speed is given by
+//  The \doxygen{MinMaxCurvatureFlowImageFilter} applies a variant of the
+//  \doxygen{CurvatureFlowImageFilter} algorithm. The basic difference is that
+//  the term speed is choosen as $\min(\kappa,0)$ or $\max(\kappa,0)$ depending
+//  on the average intensity of the pixel neighborhood. This prevents small
+//  oscilations from happening on regions of the contour containing wiggeling
+//  sections. The speed is given by
 //
 //  \begin{equation}
 //  I_t = F |\nabla I|
@@ -100,9 +101,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The MinMaxCurvatureFlow filter type is now instantiated using both the
-  //  input image and the output image types. The filter is then created using
-  //  the \code{New()} method.
+  //  The \doxygen{MinMaxCurvatureFlowImageFilter} type is now instantiated
+  //  using both the input image and the output image types. The filter is then
+  //  created using the \code{New()} method.
   //
   //  \index{itk::MinMaxCurvatureFlowImageFilter!instantiation}
   //  \index{itk::MinMaxCurvatureFlowImageFilter!New()}
@@ -144,14 +145,15 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The MinMaxCurvatureFlow filter requires the two normal parameters of the
-  //  CurvatureFlow image, the number of iterations to be performed and the
-  //  time step used in the computation of the level set evolution. In addition
-  //  the them, the radius of the neighborhood is also required. This last
-  //  parameter is passes using the \code{SetStencilRadius()} method. Note that
-  //  the radius is provided as an integer number since it is refering to a
-  //  number of pixels from the center to the border of the neighborhood. Then
-  //  the filter can be executed by invoking \code{Update()}.
+  //  The \doxygen{MinMaxCurvatureFlowImageFilter} requires the two normal
+  //  parameters of the CurvatureFlow image, the number of iterations to be
+  //  performed and the time step used in the computation of the level set
+  //  evolution. In addition the them, the radius of the neighborhood is also
+  //  required. This last parameter is passes using the
+  //  \code{SetStencilRadius()} method. Note that the radius is provided as an
+  //  integer number since it is refering to a number of pixels from the center
+  //  to the border of the neighborhood. Then the filter can be executed by
+  //  invoking \code{Update()}.
   //
   //  \index{itk::MinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::MinMaxCurvatureFlowImageFilter!SetTimeStep()}
@@ -173,13 +175,13 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 10, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $10$, more
   //  iterations will result in further smoothing and will increase linearly
-  //  the computing time. The radius of the stencil can be typically 1. The
-  //  edge-preserving is not an absolute on this filter, some degradation will
-  //  ocurr on the edges and will accentuate as the number of iterations are
-  //  increased. 
+  //  the computing time. The radius of the stencil can be typically $1$. The
+  //  \emph{edge-preserving} characteristic is not perfect on this filter, some
+  //  degradation will ocurr on the edges and will accentuate as the number of
+  //  iterations are increased. 
   //
   //  Software Guide : EndLatex 
 
@@ -235,9 +237,9 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:MinMaxCurvatureFlowImageFilterInputOutput} illustrates
   //  the effect of this filter on a MRI proton density image of the brain. In
-  //  this example the filter was run with a time step of 0.25, 10 iterations
-  //  and a radius of 1.  The figure shows how homogeneous regions are smoothed
-  //  and edges are preserved.
+  //  this example the filter was run with a time step of $0.25$, $10$
+  //  iterations and a radius of $1$.  The figure shows how homogeneous regions
+  //  are smoothed and edges are preserved.
   //
   //
   //  Software Guide : EndLatex 

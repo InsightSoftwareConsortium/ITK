@@ -17,9 +17,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Bilateral image filter performs smoothing by using both domain and
-//  range neighborhoods.  Pixels that are close to a pixel in the image domain
-//  and similar to a pixel in the image range are used to calculate the
+//  The \doxygen{BilateralImageFilter} performs smoothing by using both domain
+//  and range neighborhoods.  Pixels that are close to a pixel in the image
+//  domain and similar to a pixel in the image range are used to calculate the
 //  filtered value. Two gaussian kernels (one in the image domain and one in
 //  the image range) are used to smooth the image. The result is an image that
 //  is smoothed in homogeneous regions yet has edges preserved. The result is

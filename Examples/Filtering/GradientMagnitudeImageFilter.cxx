@@ -19,10 +19,10 @@
 //
 //  The magnitude of the image gradient is extensively used in image analysis
 //  mainly to help in the determination of object countours and the separation
-//  of homogeneous regions. The \code{itk::GradientMagnitudeImageFilter}
-//  computes the magnitude of the image gradient at each pixel location by a
-//  simple finite differences approach. For example, in the case of 2D the
-//  computation is equivalent to convolving the image with masks of type
+//  of homogeneous regions. The \doxygen{GradientMagnitudeImageFilter} computes
+//  the magnitude of the image gradient at each pixel location by a simple
+//  finite differences approach. For example, in the case of $2D$ the computation
+//  is equivalent to convolving the image with masks of type
 //
 //  \begin{center}
 //  \begin{picture}(200,50)
@@ -38,7 +38,7 @@
 //  adding the sum of their squares and computing the square root of the sum.
 //
 //  This filter will work on images of any dimension thanks to the internal
-//  use of NeighborhoodIterators and NeighborhoodOperators.
+//  use of \code{NeighborhoodIterators} and \code{NeighborhoodOperators}.
 //
 //  \index{itk::GradientMagnitudeImageFilter|textbf}
 //
@@ -132,7 +132,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a SmartPointer.
+  //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::GradientMagnitudeImageFilter!New()}
   //  \index{itk::GradientMagnitudeImageFilter!Pointer}

@@ -17,13 +17,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  The mean filter is commonly used as an approach for noise reduction. The
-//  filter computes the value of each output pixel by taking a neighborhood of
-//  the input pixel and finding the statistical mean of the values in the
-//  neighborhood. The following figure illustrates the local effect of this
-//  filter in a $2D$ case. The statistical mean of the neighborhood on the left
-//  is passed as the output value associated with the pixel at the center of
-//  the neighborhood.
+//  The \doxygen{MeanImageFilter} is commonly used as an approach for noise
+//  reduction. The filter computes the value of each output pixel by taking a
+//  neighborhood of the input pixel and finding the statistical mean of the
+//  values in the neighborhood. The following figure illustrates the local
+//  effect of this filter in a $2D$ case. The statistical mean of the
+//  neighborhood on the left is passed as the output value associated with the
+//  pixel at the center of the neighborhood.
 //
 //
 //  \begin{center}
@@ -46,9 +46,9 @@
 //
 //  Note that this filter is sensitive to the presence of outliers in the
 //  neighborhood.  This filter will work on images of any dimension thanks to
-//  the internal use of SmartNeighborhoodIterators and NeighborhoodOperators.
-//  The size of the neighborhood over which the mean is computed can be set by
-//  the user.
+//  the internal use of \doxygen{SmartNeighborhoodIterator}s and
+//  \doxygen{NeighborhoodOperator}s.  The size of the neighborhood over which
+//  the mean is computed can be set by the user.
 //
 //  \index{itk::MeanImageFilter|textbf}
 //

@@ -17,15 +17,15 @@
 
 //  Software Guide : BeginLatex
 //
-//  The median filter is commonly used as a robust approach for noise
-//  reduction. This filter is particularly efficient against salt-and-pepper
-//  noise. Said in other words, it is robust to the presence of graylevel
-//  outliers. The filter computes the value of each output pixel by taking a
-//  neighborhood of the input pixel and finding the statistical median of the
-//  values in the neighborhood. The following figure illustrates the local
-//  effect of this filter in a $2D$ case. The statistical median of the
-//  neighborhood on the left is passed as the output value associated with the
-//  pixel at the center of the neighborhood.
+//  The \doxygen{MedianImageFilter} is commonly used as a robust approach for
+//  noise reduction. This filter is particularly efficient against
+//  \emph{salt-and-pepper} noise. Said in other words, it is robust to the
+//  presence of graylevel outliers. The filter computes the value of each
+//  output pixel by taking a neighborhood of the input pixel and finding the
+//  statistical median of the values in the neighborhood. The following figure
+//  illustrates the local effect of this filter in a $2D$ case. The statistical
+//  median of the neighborhood on the left is passed as the output value
+//  associated with the pixel at the center of the neighborhood.
 //
 //
 //  \begin{center}
@@ -46,8 +46,9 @@
 //
 //
 //  This filter will work on images of any dimension thanks to the internal use
-//  of NeighborhoodIterators and NeighborhoodOperators. The size of the
-//  neighborhood over which the median is computed can be set by the user.
+//  of \doxygen{NeighborhoodIterator}s and \doxygen{NeighborhoodOperator}s. The
+//  size of the neighborhood over which the median is computed can be set by
+//  the user.
 //
 //  \index{itk::MedianImageFilter|textbf}
 //

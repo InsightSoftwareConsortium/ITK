@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Curvature anisotropic diffusion image filter performs anisotropic
+//  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} performs anisotropic
 //  diffusion on an image using a modified curvature diffusion equation (MCDE).
 //
 //  MCDE does not exhibit the edge enhancing properties of classic anisotropic
@@ -156,11 +156,12 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  This filter requires three parameters, the number of
-  //  iterations to be performed, the time step used in the computation of
-  //  the level set evolution and the value of conductance. These parameters are set using the methods
-  //  \code{SetIterations()}, \code{SetTimeStep()} and  \code{SetConductance} respectively.
-  //  The filter can be executed by invoking \code{Update()}.
+  //  This filter requires three parameters, the number of iterations to be
+  //  performed, the time step used in the computation of the level set
+  //  evolution and the value of conductance. These parameters are set using
+  //  the methods \code{SetIterations()}, \code{SetTimeStep()} and
+  //  \code{SetConductance} respectively.  The filter can be executed by
+  //  invoking \code{Update()}.
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
@@ -184,7 +185,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 5, more
+  //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The conductance parameter is usually around $3.0$.
   //
@@ -239,8 +240,8 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:CurvatureAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. In this example the filter was run with a time step of 0.25,
-  //  5 iterations and a conductance value of 3.0.  The figure shows how
+  //  the brain. In this example the filter was run with a time step of $0.25$,
+  //  $5$ iterations and a conductance value of $3.0$.  The figure shows how
   //  homogeneous regions are smoothed and edges are preserved.
   //
   //

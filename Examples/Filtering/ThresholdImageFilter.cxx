@@ -41,9 +41,9 @@
 // \label{fig:ThresholdTransferFunctionOutside}
 // \end{figure}
 //
-// This example illustrates the use of the \code{ThresholdImageFilter}.  This
-// filter can be used to transform the intensity levels of an image in three
-// different ways. 
+// This example illustrates the use of the \doxygen{ThresholdImageFilter}.
+// This filter can be used to transform the intensity levels of an image in
+// three different ways. 
 //
 // \begin{itemize}
 //
@@ -146,7 +146,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  An \code{ImageFileReader} class is also instantiated in order to read
+  //  An \doxygen{ImageFileReader} class is also instantiated in order to read
   //  image data from a file. 
   //
   //  Software Guide : EndLatex 
@@ -155,10 +155,16 @@ int main( int argc, char ** argv )
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   // Software Guide : EndCodeSnippet
 
-
-  // An ImageFileWriter is instantiated in order to write the output image to a
+  //  Software Guide : BeginLatex
+  //  
+  // An \doxygen{ImageFileWriter} is instantiated in order to write the output image to a
   // file.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< ImageType >  WriterType;
+  // Software Guide : EndCodeSnippet
 
 
 
@@ -185,7 +191,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  The image obtained with the reader is passed as input to the
-  //  \code{ThresholdImageFilter}.
+  //  \doxygen{ThresholdImageFilter}.
   //
   //  \index{itk::ThresholdImageFilter!SetInput()}
   //  \index{itk::FileImageReader!GetOutput()}

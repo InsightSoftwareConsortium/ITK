@@ -17,21 +17,21 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Curvature anisotropic diffusion image filter performs anisotropic
-//  diffusion on a vector image using a modified curvature diffusion equation
-//  (MCDE).  The MCDE is the same described in
+//  The \doxygen{VectorCurvatureAnisotropicDiffusionImageFilter} performs
+//  anisotropic diffusion on a vector image using a modified curvature
+//  diffusion equation (MCDE).  The MCDE is the same described in
 //  \ref{sec:CurvatureAnisotropicDiffusionImageFilter}.
 //
 //  Typically in vector-valued diffusion, vector components are diffused
 //  independently of one another using a conductance term that is linked across
 //  the components. 
 //
-//  This filter is designed to process images of \code{itk::Vector} type.  The
+//  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
-//  \code{itk::Vector}. It is perfectly reasonable, however, to apply this
+//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this
 //  filter to images of other, user-defined types as long as the appropriate
 //  typedefs and operator overloads are in place.  As a general rule, follow
-//  the example of \code{itk::Vector} in defining your data types.
+//  the example of \doxygen{Vector} in defining your data types.
 //
 //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter|textbf}
 //
@@ -174,8 +174,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 5, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time.
   //

@@ -19,8 +19,8 @@
 //
 //  Resampling an image is a very important task in image analysis. It is
 //  especially important in the frame of image registration. The
-//  \code{itk::ResampleImageFilter} implements image resampling through the use
-//  of \code{itk::Transforms}. The inputs expected by this filter are an image,
+//  \doxygen{ResampleImageFilter} implements image resampling through the use
+//  of \doxygen{Transform}s. The inputs expected by this filter are an image,
 //  a transform and an interpolator. The space coordinates of the image are
 //  mapped through the transform in order to generate a new image. The extent
 //  and spacing of the resulting image are selected by the user. Resampling is
@@ -336,10 +336,10 @@ int main( int argc, char ** argv )
   //  shows the two same images placed on a equally scaled coordinate system.
   //  It becomes clear here that an identity transform is being used to map the
   //  image data, and that simply, we has requested to resample additional
-  //  empty space around the image. The input image is 181x217 pixels in size
-  //  and we have requested an output of 300x300 pixels. In this case, the
-  //  input and output images both have spacing of $1mm \times 1mm$ and origin
-  //  of $(0.0,0.0)$.
+  //  empty space around the image. The input image is $181 \times 217$ pixels
+  //  in size and we have requested an output of $300 \times 300$ pixels. In
+  //  this case, the input and output images both have spacing of $1mm \times
+  //  1mm$ and origin of $(0.0,0.0)$.
   //
   //
   //  Software Guide : EndLatex 

@@ -20,9 +20,9 @@
 //  \piccaption[2]{Discretized Gaussian.\label{fig:DiscretizedGaussian}}
 //  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
 //
-//  The discrete Gaussian image filter computes the convolution of the input
-//  image with a Gaussian kernel by taking advantage of its separability. A
-//  one-dimensional Gaussian function is discretized on a convolution kernel.
+//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
+//  input image with a Gaussian kernel by taking advantage of its separability.
+//  A one-dimensional Gaussian function is discretized on a convolution kernel.
 //  The size of the kernel is extended until there are enough discrete points
 //  in the Gaussian to ensure that a user-provided minimum error is reached.
 //  Since the size of the kernel is unkown a priory it is necesary to impose a

@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Now that the principles behind the \code{ResampleImageFilter} has been
+//  Now that the principles behind the \doxygen{ResampleImageFilter} have been
 //  layed out, let's have some fun with it!
 //
 //  Figure \ref{fig:ResampleImageFilterTransformComposition6} illustrates the
@@ -29,7 +29,7 @@
 //  dimension.
 //
 //  The transform applied is a rotation of $30$ degrees. It is important to
-//  note here that the transform supplied to the \code{ResampleImageFilter} is
+//  note here that the transform supplied to the \doxygen{ResampleImageFilter} is
 //  a \emph{clockwise} rotation. This transform rotates the \emph{coordinate
 //  system} of the output image 30 degrees clockwise.  When the two images are
 //  relocated in a common coordinate system --- as in Figure
@@ -58,8 +58,8 @@
 //
 //  The following code implements the conditions illustrated in Figure
 //  \ref{fig:ResampleImageFilterTransformComposition6} with the only difference
-//  of the output spacing being 40 times smaller and a number of pixels 40 times
-//  larger in both dimensions. Without these changes, few detail will be
+//  of the output spacing being $40$ times smaller and a number of pixels $40$
+//  times larger in both dimensions. Without these changes, few detail will be
 //  recognizable on the images.  Note that the spacing and origin of the input
 //  image should be prepared in advance by using other means since this filter
 //  cannot alter in any way the actual content of the input image.
@@ -192,7 +192,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output image size is defined to be 40 times the one illustrated on
+  //  The output image size is defined to be $40$ times the one illustrated on
   //  the Figure \ref{fig:ResampleImageFilterTransformComposition6}.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
@@ -246,13 +246,13 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  In a second step, a rotation of 30 degrees is performed.  In the AffineTransform, 
-  //  angles are specified in \emph{radians}. Also, a second boolean argument is used
-  //  to specify if the current
-  //  modification of the transform should be pre-composed or post-composed
-  //  with the current transform content. In this case the argument is set to
-  //  \code{false} to indicate that the rotation should be applied \emph{after}
-  //  the current transform content.
+  //  In a second step, a rotation of $30$ degrees is performed.  In the
+  //  \doxygen{AffineTransform}, angles are specified in \emph{radians}. Also,
+  //  a second boolean argument is used to specify if the current modification
+  //  of the transform should be pre-composed or post-composed with the current
+  //  transform content. In this case the argument is set to \code{false} to
+  //  indicate that the rotation should be applied \emph{after} the current
+  //  transform content.
   //
   //  \index{itk::AffineTransform!Rotate2D()}
   //  \index{itk::AffineTransform!Composition}
@@ -334,7 +334,7 @@ int main( int argc, char ** argv )
   //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 ) = (90.0,190.0)$ 
   //  millimeters.
   //  
-  //  This point $P$ is now mapped through the AffineTransform into the input
+  //  This point $P$ is now mapped through the \doxygen{AffineTransform} into the input
   //  image space.  The operation requires to subtract the origin, apply a $30$
   //  degrees rotation and add the origin back. Let's follow those steps.
   //  Subtracting the origin from $P$ leads to $P1=(40.0,60.0)$, the rotation

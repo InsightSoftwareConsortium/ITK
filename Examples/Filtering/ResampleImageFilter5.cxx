@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \code{Similarity2DTransform}. A
+//  This example illustrates the use of the \doxygen{Similarity2DTransform}. A
 //  similarity transform involves rotation, translation and scaling. Since the
 //  parameterization of rotations is difficult to get in a generic $ND$ case, a
 //  particular implementation is available for $2D$.
@@ -106,7 +106,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  A transform object is constructed by calling \code{New()} and passing the
-  //  result to a \code{SmartPointer}.
+  //  result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::Similarity2DTransform!New()}
   //  \index{itk::Similarity2DTransform!Pointer}
@@ -232,7 +232,7 @@ int main( int argc, char ** argv )
   //  Note that the order in which rotation, scaling and translation are
   //  defined is irrelevant in this transform. This is not the case in the
   //  Affine transform which is very generic and allow different combinations
-  //  for initialization. In the \code{Similarity2DTransform} transform the
+  //  for initialization. In the \doxygen{Similarity2DTransform} transform the
   //  rotation and scaling will always be applied before the translation.
   //
   //  \index{itk::Similarity2DTransform!SetScale()}

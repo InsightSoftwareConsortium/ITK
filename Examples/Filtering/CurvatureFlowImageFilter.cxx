@@ -17,12 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The CurvatureFlow image filter performs anisotropic diffusion on the image.
-//  Diffusion is controled by a factor dependent on the image gradient.  This
-//  limits diffusion from happening in regions of high gradients that are
-//  typically associated with edges on the image. The result is to smooth pixel
-//  values on the homogeneous regions while leaving the contours almost
-//  unmodified.
+//  The \doxygen{CurvatureFlowImageFilter} performs anisotropic diffusion on
+//  the image.  Diffusion is controled by a factor dependent on the image
+//  gradient.  This limits diffusion from happening in regions of high
+//  gradients that are typically associated with edges on the image. The result
+//  is to smooth pixel values on the homogeneous regions while leaving the
+//  contours almost unmodified.
 //
 //  This filter assimilates each iso-contour of the graylevel image as a level
 //  set. The level sets evolved under the control of a diffusion equation where
@@ -127,7 +127,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a SmartPointer.
+  //  assigning the result to a \doxygen{SmartPointer}.
   //
   //  \index{itk::CurvatureFlowImageFilter!New()}
   //  \index{itk::CurvatureFlowImageFilter!Pointer}
@@ -184,8 +184,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 10, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $10$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The edge-preserving is not an absolute on this
   //  filter, some degradation will ocurr on the edges and will accentuate as
@@ -245,9 +245,9 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:CurvatureFlowImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. In this
-  //  example the filter was run with a time step of 0.25 and 10 iterations.
-  //  The figure shows how homogeneous regions are smoothed and edges are
-  //  preserved.
+  //  example the filter was run with a time step of $0.25$ and $10$
+  //  iterations.  The figure shows how homogeneous regions are smoothed and
+  //  edges are preserved.
   //
   //
   //  Software Guide : EndLatex 

@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \code{DanielssonDistanceMapImageFilter}.  This filter generates a distance
+// \doxygen{DanielssonDistanceMapImageFilter}.  This filter generates a distance
 // map form the input image. As secondary outputs, a Voronoi partition if the
 // input elements is produced, as well as a vector image with the components of
 // the distance vector to the closest point. The input to the map is assumed to
@@ -60,7 +60,7 @@ int main( int argc, char ** argv )
   //  Then we must decide what pixel types to use for the input and output
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
-  //  or said in N-D terms, the maximum extension along all the dimensions.
+  //  or said in $N-D$ terms, the maximum extension along all the dimensions.
   //  The input and output image types are now defined using their respective
   //  pixel type and dimension.
   //
@@ -116,7 +116,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The input to the filter is taken from a reader and its output is passed
-  //  to a \code{RescaleIntensityImageFilter} and then to a writer.
+  //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer.
   //
   //  \index{itk::DanielssonDistanceMapImageFilter!SetInput()}
   //  \index{itk::DanielssonDistanceMapImageFilter!GetOutput()}
@@ -163,7 +163,7 @@ int main( int argc, char ** argv )
   //  the effect of this filter on a binary image with a set of points. The
   //  input image is shown at left, the distance map at the center and the
   //  Voronoi partition at right. This filter computes distance maps in
-  //  N-dimensions and is therefore capable of producing N-D Voronoi
+  //  N-dimensions and is therefore capable of producing $N-D$ Voronoi
   //  partitions.
   //
   //  \index{Voronoi partitions|textbf}

@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The BinaryMinMaxCurvatureFlow image filter applies a variant of the
+//  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of the
 //  MinMaxCurvatureFlow algorithm. The basic difference is that the
 //  neighborhood average is not compared against zero but against a user
 //  provided threshold. The diffusion speed is given by
@@ -29,9 +29,9 @@
 //  where $F$ is defined as
 //
 //  \begin{equation}
-//  F = \left\{ \begin{array} {r@{\quad:\quad}l}
-//         \min(\kappa,0) & \mbox{Average} < \mbox{Threshold} \\ \max(\kappa,0) & \mbox{Average} \ge \mbox{Threshold} 
-//             \end{array} \right.
+//  F = \left\{ \begin{array} {r@{\quad:\quad}l} \min(\kappa,0) &
+//  \mbox{Average} < \mbox{Threshold} \\ \max(\kappa,0) & \mbox{Average} \ge
+//  \mbox{Threshold} \end{array} \right.
 //  \end{equation}
 //
 //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter|textbf}
@@ -142,11 +142,11 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The BinaryMinMaxCurvatureFlow filter requires the same parameters of the
-  //  MinMaxCurvatureFlowImageFilter plus the value of the threshold against
-  //  which the neighborhood average will be compared. The threshold is passed
-  //  using the \code{SetThreshold()} method. Then the filter can be executed
-  //  by invoking \code{Update()}.
+  //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} requires the same
+  //  parameters of the MinMaxCurvatureFlowImageFilter plus the value of the
+  //  threshold against which the neighborhood average will be compared. The
+  //  threshold is passed using the \code{SetThreshold()} method. Then the
+  //  filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!Update()}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!SetTimeStep()}
@@ -173,10 +173,10 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 10, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $10$, more
   //  iterations will result in further smoothing and will increase linearly
-  //  the computing time. The radius of the stencil can be typically 1. The
+  //  the computing time. The radius of the stencil can be typically $1$. The
   //  value of the threshold should be selected according to the gray levels of
   //  the object of interest and the gray level of its background. 
   //
@@ -224,8 +224,8 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput} illustrates
   //  the effect of this filter on a MRI proton density image of the brain. In
-  //  this example the filter was run with a time step of 0.25, 10 iterations,
-  //  a stencil radius of 1 and a threshold of 128.  
+  //  this example the filter was run with a time step of $0.25$, $10$ iterations,
+  //  a stencil radius of $1$ and a threshold of $128$.  
   //
   //  Software Guide : EndLatex 
 

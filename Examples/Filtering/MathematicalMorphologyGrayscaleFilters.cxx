@@ -17,9 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following section illustrates the use of filters for grayscale images.
-//  The filter names clearly specify the type of image on which it operates.
-//  The header files required for a minimal example on the use of mathematical
+//  The following section illustrates the use of filters for performing basic
+//  Mathematical Morphology operations on grayscale images. The
+//  \doxygen{GrayscaleErodeImageFilter} and
+//  \doxygen{GrayscaleDilateImageFilter} are covered in this example. The
+//  filter names clearly specify the type of image on which they operate.  The
+//  header files required for a minimal example on the use of mathematical
 //  morphology filters are presented below.
 //
 //  \index{itk::GrayscaleDilateImageFilter!header|textbf}
@@ -86,10 +89,10 @@ int main( int argc, char ** argv )
   //  should be applied on the neighborhood. The implementation on Insight
   //  follows the typical rule of minimum for erosion and maximum for dilation. 
   //
-  //  The structuring element is implemented as a NeighborhoodOperator. In
-  //  particular, the default structuring element is the
-  //  \code{BinaryBallStructuringElement} class. This class is instantiated
-  //  using the pixel type and dimension of the input image.
+  //  The structuring element is implemented as a
+  //  \doxygen{NeighborhoodOperator}. In particular, the default structuring
+  //  element is the \doxygen{BinaryBallStructuringElement} class. This class is
+  //  instantiated using the pixel type and dimension of the input image.
   //
   //  Software Guide : EndLatex 
 

@@ -17,9 +17,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Gradient anisotropic diffusion image filter  implements an
-//  N-dimensional version of the classic Perona-Malik anisotropic diffusion
-//  equation for scalar-valued images.  
+//  The \doxygen{GradientAnisotropicDiffusionImageFilter}  implements an
+//  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
+//  equation for scalar-valued images \cite{Perona1990}.  
 //
 //  The conductance term for this implementation is chosen as a function of the
 //  gradient magnitude of the image at each point, reducing the strength of
@@ -31,7 +31,7 @@
 //
 //  The numerical implementation of this equation is similar to that described
 //  in the Perona-Malik paper \cite{Perona1990}, but uses a more robust technique
-//  for gradient magnitude estimation and has been generalized to N-dimensions.
+//  for gradient magnitude estimation and has been generalized to $N$-dimensions.
 //
 //  \index{itk::GradientAnisotropicDiffusionImageFilter|textbf}
 //
@@ -163,8 +163,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 5, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time.
   //
@@ -173,10 +173,7 @@ int main( int argc, char ** argv )
 
 
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvatur flow filter.
+  //  The output of the filter is rescaled here and then sent to a writer.
   //
 
   typedef unsigned char WritePixelType;
@@ -219,8 +216,8 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:GradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. In this example the filter was run with a time step of 0.25,
-  //  and 5 iterations.  The figure shows how homogeneous regions are smoothed
+  //  the brain. In this example the filter was run with a time step of $0.25$,
+  //  and $5$ iterations.  The figure shows how homogeneous regions are smoothed
   //  and edges are preserved.
   //
   //

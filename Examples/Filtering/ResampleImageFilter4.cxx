@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to rotate an image around its center.
-//  In this particular case an \code{itk::AffineTransform} is used to map the
+//  In this particular case an \doxygen{AffineTransform} is used to map the
 //  input space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
@@ -86,7 +86,7 @@ int main( int argc, char ** argv )
   //
   //  The transform type is instantiated using the coordinate representation
   //  type and the space dimension. Then a transform object is constructed with
-  //  the \code{New()} method and passed to a smart pointer.
+  //  the \code{New()} method and passed to a \doxygen{SmartPointer}.
   //
   //  \index{itk::AffineTransform!instantiation}
   //  \index{itk::AffineTransform!New()}

@@ -17,30 +17,32 @@
 
 //  Software Guide : BeginLatex
 //
-//  Due to the use of generic programming in the toolkit, most of the types are
-//  resolved at compiling time. Few decisions on type conversion are left to
-//  run time. It is up to the user to anticipate the pixel type conversions
-//  required in the data pipeline. It is not desirable in medical imaging to
-//  let PixelTypes to be transparent since this may lead to unadvertedly
-//  loosing valuable information.
+//  Due to the use of
+//  \href{http://www.boost.org/more/generic_programming.html}{Generic
+//  Programming} in the toolkit, most of the types are resolved at compiling
+//  time. Few decisions on type conversion are left to run time. It is up to
+//  the user to anticipate the pixel type conversions required in the data
+//  pipeline. It is not desirable in medical imaging to let PixelTypes to be
+//  transparent since this may lead to unadvertedly loosing valuable
+//  information.
 //
-//  This section introduces the mechanisms for implementing explicit
-//  casting on the images that flow through the pipeline. The following four
-//  filters are treated in this section \code{CastImageFilter}, 
-//  \code{RescaleIntensityImageFilter},  
-//  \code{ShiftScaleImageFilter} and \code{NormalizeImageFilter}.  These filters
-//  are totally independent between them. There are presented together here
-//  only with the purpose of comparing their individual features.
+//  This section introduces the mechanisms for implementing explicit casting on
+//  the images that flow through the pipeline. The following four filters are
+//  treated in this section \doxygen{CastImageFilter},
+//  \doxygen{RescaleIntensityImageFilter},  \doxygen{ShiftScaleImageFilter} and
+//  \doxygen{NormalizeImageFilter}.  These filters are totally independent
+//  between them. There are presented together here only with the purpose of
+//  comparing their individual features.
 //
-//  The \code{itk::CastImageFilter} is a very simple filter that will act
+//  The \doxygen{CastImageFilter} is a very simple filter that will act
 //  pixel-wise on an input image by casting every pixel value to the pixel type
 //  of the output image. Note that this filter do not perform any arithmetical
 //  operation on the intensities. The actual effect of the filter is just
-//  equivalent to blindly performing C-Style casting on every pixel.
+//  equivalent to blindly performing \code{C-Style} casting on every pixel.
 //
 //  \code{ outputPixel = static\_cast<OutputPixelType>( inputPixel ) }
 //
-//  The \code{itk::RescaleIntensityImageFilter} acts by linearly scaling the
+//  The \doxygen{RescaleIntensityImageFilter} acts by linearly scaling the
 //  pixels values in such a way that the minimum and maximum values of the
 //  input image will be mapped to a minimum and maximum values provided by the
 //  user. This is a typical action for forcing the dynamic range of the image
@@ -50,14 +52,14 @@
 //  \[ outputPixel = ( inputPixel - inpMin) \times 
 //                    \frac{(inpMax-inpMin)}{(outMax - outMin )} + outMin \]
 //
-//  The \code{itk::ShiftScaleImageFilter} also applies a linear transformation
-//  to the intensities of the input image. However the transformation is
-//  specified by the user in the form of a multiplying factor and a value to be
-//  added. This can be expresses as 
+//  The \doxygen{ShiftScaleImageFilter} also applies a linear transformation to
+//  the intensities of the input image. However the transformation is specified
+//  by the user in the form of a multiplying factor and a value to be added.
+//  This can be expresses as 
 //
 //  \[  outputPixel = inputPixel \times Scale + Shift \].
 //
-//  The \code{itk::NormalizeImageFilter} applies a linear transformation to the
+//  The \doxygen{NormalizeImageFilter} applies a linear transformation to the
 //  intensities of the input image. The parameters of the transformation are
 //  computed internally in such a way that the statistical distribution of gray
 //  levels on the output image will have zero mean and a variance of one. This
@@ -162,7 +164,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Object filters are created by invoking the \code{New()} operator and
-  //  assigning the result to SmartPointers.
+  //  assigning the result to \doxygen{SmartPointer}s.
   //
   //  \index{itk::ShiftScaleImageFilter!New()}
   //  \index{itk::RescaleIntensityImageFilter!New()}
@@ -216,12 +218,12 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  We proceed now to setup the parameters required by each particular
-  //  filter. The \code{CastImageFilter} and the \code{NormalizeImageFilter} do
-  //  not require any parameters. The \code{RescaleIntensityImageFilter}, on
-  //  the other hand, requires the user to provide the desired minimum and
-  //  maximum pixel values of the output image. This is done by using the
-  //  \code{SetOutputMinimum()} and \code{SetOutputMaximum()} methods as
-  //  illustrated below.
+  //  filter. The \doxygen{CastImageFilter} and the
+  //  \doxygen{NormalizeImageFilter} do not require any parameters. The
+  //  \doxygen{RescaleIntensityImageFilter}, on the other hand, requires the
+  //  user to provide the desired minimum and maximum pixel values of the
+  //  output image. This is done by using the \code{SetOutputMinimum()} and
+  //  \code{SetOutputMaximum()} methods as illustrated below.
   //
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{itk::RescaleIntensityImageFilter!SetOutputMaximum()}
@@ -240,10 +242,10 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{ShiftScaleImageFilter} requires the user to provide a factor to
-  //  multiply all the pixels values and an additional value to be added after
-  //  the multiplication. The methos \code{SetShift()} and \code{SetScale()}
-  //  are used for this purpose.
+  //  The \doxygen{ShiftScaleImageFilter} requires the user to provide a factor
+  //  to multiply all the pixels values and an additional value to be added
+  //  after the multiplication. The methos \code{SetShift()} and
+  //  \code{SetScale()} are used for this purpose.
   //
   //  \index{itk::ShiftScaleImageFilter!SetShift()}
   //  \index{itk::ShiftScaleImageFilter!SetScale()}

@@ -20,7 +20,8 @@
 //  The vector anisotropic diffusion approach can equally well be applied to
 //  color images. As in the vector case, each RGB component is diffused
 //  independently. The following example illustrates the use of the Vector
-//  curvature anisotropic diffusion filter on an image with RGB pixel type.
+//  curvature anisotropic diffusion filter on an image with \doxygen{RGBPixel}
+//  type.
 //
 //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!RGB Images}
 //
@@ -66,7 +67,7 @@
 //  \code{float} representation. However for input and output purposes
 //  \code{unsigned char} RGB components are commonly used. It is then necessary
 //  to cast the type of color components along the pipeline before writing them
-//  to a file. The \code{itk::VectorCastImageFilter} is used to achieve this
+//  to a file. The \doxygen{VectorCastImageFilter} is used to achieve this
 //  goal.
 //
 //  Software Guide : EndLatex 
@@ -180,7 +181,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The filter output is now casted to \code{unsigned char} RGB components by
-  //  using the \code{VectorCastImageFilter}
+  //  using the \doxygen{VectorCastImageFilter}
   //
   //  \index{itk::VectorCastImageFilter!instantiation}
   //  \index{itk::VectorCastImageFilter!New()}
@@ -231,8 +232,9 @@ int main( int argc, char ** argv )
   //  \ref{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
-  //  run with a time step of 0.25, and 20 iterations.  The input image has
-  //  570x670 pixels and the processing took 4 minutes on a Pentium 4 2Ghz. 
+  //  run with a time step of $0.25$, and $20$ iterations.  The input image has
+  //  $570 \times 670$ pixels and the processing took $4$ minutes on a Pentium
+  //  4 2Ghz. 
   //
   //  Software Guide : EndLatex 
 

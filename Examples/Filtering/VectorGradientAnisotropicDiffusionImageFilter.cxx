@@ -17,19 +17,20 @@
 
 //  Software Guide : BeginLatex
 //
-//  The Gradient anisotropic diffusion image filter implements an N-dimensional
-//  version of the classic Perona-Malik anisotropic diffusion equation for
-//  vector-valued images. Typically in vector-valued diffusion, vector
-//  components are diffused independently of one another using a conductance
-//  term that is linked across the components. The diffusion equation was
-//  illustrated in \ref{sec:GradientAnisotropicDiffusionImageFilter}
+//  The \doxygen{VectorGradientAnisotropicDiffusionImageFilter} implements an
+//  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
+//  equation for vector-valued images. Typically in vector-valued diffusion,
+//  vector components are diffused independently of one another using a
+//  conductance term that is linked across the components. The diffusion
+//  equation was illustrated in
+//  \ref{sec:GradientAnisotropicDiffusionImageFilter}
 //
-//  This filter is designed to process images of \code{itk::Vector} type.  The
+//  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
-//  \code{itk::Vector}. It is perfectly reasonable, however, to apply this
-//  filter to images of other, user-defined types as long as the appropriate
-//  typedefs and operator overloads are in place.  As a general rule, follow
-//  the example of \code{itk::Vector} in defining your data types.
+//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this filter
+//  to images of other, user-defined types as long as the appropriate typedefs
+//  and operator overloads are in place.  As a general rule, follow the example
+//  of \doxygen{Vector} in defining your data types.
 //
 //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter|textbf}
 //
@@ -172,8 +173,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are 0.25 in $2D$ images and 0.125 in
-  //  $3D$ images. The number of iterations can be usually around 5, more
+  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time.
   //
@@ -249,9 +250,9 @@ int main( int argc, char ** argv )
   //
   //  Figure \ref{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. The images show the $X$ component of the gradient before (left)
-  //  and after (right) the application of the filter. In this example the
-  //  filter was run with a time step of 0.25, and 5 iterations.  
+  //  the brain. The images show the $X$ component of the gradient before
+  //  (left) and after (right) the application of the filter. In this example
+  //  the filter was run with a time step of $0.25$, and $5$ iterations.  
   //
   //  Software Guide : EndLatex 
 
