@@ -95,6 +95,8 @@ namespace itk
  *
  *  \endcode
  *
+ * \example  itkImageLinearIteratorTest.cxx
+ *
  */
 template<typename TImage>
 class ImageLinearIterator : public ImageIteratorWithIndex<TImage>
