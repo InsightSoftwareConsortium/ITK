@@ -28,6 +28,26 @@
 #include <map>
 
 
+
+// Add this for the SGI compiler which does not seem
+// to provide a default implementation as it should.
+bool operator==(const itkObjectFactoryBase::OverrideInformation& rhs, 
+		const itkObjectFactoryBase::OverrideInformation& lhs)
+{
+  return (rhs.m_Description == lhs.m_Description
+	  && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
+}
+
+// Add this for the SGI compiler which does not seem
+// to provide a default implementation as it should.
+bool operator<(const itkObjectFactoryBase::OverrideInformation& rhs, 
+		const itkObjectFactoryBase::OverrideInformation& lhs)
+{
+  return (rhs.m_Description < lhs.m_Description
+	  && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
+}
+
+
 // Create a sub class to shrink the size of the symbols
 // Also, so a forward reference can be put in itkObjectFactoryBase.h
 // and a pointer member can be used.  This avoids other

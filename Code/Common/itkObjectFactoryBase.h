@@ -214,13 +214,4 @@ private:
   std::string m_LibraryPath;
 };
 
-
-bool operator==(const itkObjectFactoryBase::OverrideInformation& rhs, 
-		const itkObjectFactoryBase::OverrideInformation& lhs)
-      {
-	return (rhs.m_Description == lhs.m_Description
-		&& rhs.m_OverrideWithName == lhs.m_OverrideWithName);
-      }
-
-
 #endif
