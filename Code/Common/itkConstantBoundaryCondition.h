@@ -74,18 +74,16 @@ namespace itk
  * 
  * \sa ImageBoundaryCondition
  */
-template<class TImage,
-         class TNeighborhoodType = Neighborhood<ITK_TYPENAME TImage::PixelType*,
-                                                TImage::ImageDimension > >
+template<class TImage>
 class ConstantBoundaryCondition
-  : public ImageBoundaryCondition<TImage, TNeighborhoodType>
+  : public ImageBoundaryCondition<TImage>
 {
 public:
   /**
    * Self & superclass typedefs
    */ 
   typedef ConstantBoundaryCondition Self;
-  typedef ImageBoundaryCondition<TImage, TNeighborhoodType> Superclass;
+  typedef ImageBoundaryCondition<TImage> Superclass;
 
   /**
    * Extract information from the image type
@@ -96,6 +94,7 @@ public:
   typedef typename ScalarTraits<PixelType>::ValueType PixelScalarValueType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
   
   /**
    * Default constructor.
@@ -109,7 +108,7 @@ public:
    */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType& boundary_offset,
-                               const TNeighborhoodType *data) const
+                               const NeighborhoodType *data) const
   { return m_Constant; }
 
   void SetConstant(const PixelType &c)

@@ -42,11 +42,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkZeroFluxNeumannBoundaryCondition_txx
 namespace itk
 {
-template<class TImage, class TNeighborhoodType>
-ZeroFluxNeumannBoundaryCondition<TImage, TNeighborhoodType>::PixelType
-ZeroFluxNeumannBoundaryCondition<TImage, TNeighborhoodType>
+template<class TImage>
+ZeroFluxNeumannBoundaryCondition<TImage>::PixelType
+ZeroFluxNeumannBoundaryCondition<TImage>
 ::operator()(const OffsetType& point_index, const OffsetType& boundary_offset,
-             const TNeighborhoodType *data) const
+             const NeighborhoodType *data) const
 {
   int linear_index = 0;
   

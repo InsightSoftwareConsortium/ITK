@@ -60,7 +60,6 @@ namespace itk
  * of the phantom pixel is relative to the "upper left-hand corner" of
  * the neighborhood (as opposed to its center). 
  *
- * CONCEPT: ImageBoundaryCondition
  * 
  * Associated Types                 Description
  * ----------------                 -----------
@@ -70,9 +69,7 @@ namespace itk
  *                                   that points to the pixel values in
  *                                   an image neighborhood.
  */
-template <class TImageType,
-          class TNeighborhoodType = Neighborhood<ITK_TYPENAME TImageType::PixelType*,
-                                                 TImageType::ImageDimension > >
+template <class TImageType>
 class ITK_EXPORT ImageBoundaryCondition
 {
 public:
@@ -84,6 +81,11 @@ public:
   enum { ImageDimension = TImageType::ImageDimension };
   typedef Index<ImageDimension> IndexType;
   typedef Offset<ImageDimension> OffsetType;
+
+  /**
+   * Type of the data container passed to this function object.
+   */
+  typedef Neighborhood<PixelPointerType, ImageDimension> NeighborhoodType;
 
   /**
    * Default constructor.
@@ -98,7 +100,7 @@ public:
    */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType &boundary_offset,
-                                 const TNeighborhoodType *data) const = 0;
+                                 const NeighborhoodType *data) const = 0;
 };
   
 }// end namespace itk
