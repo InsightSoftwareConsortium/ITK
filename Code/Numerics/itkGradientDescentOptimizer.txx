@@ -93,7 +93,23 @@ GradientDescentOptimizer<TCostFunction>
   while( !m_Stop ) 
   {
 
-    m_CostFunction->GetValueAndDerivative( GetCurrentPosition(), m_Value, m_Gradient );
+    try
+      {
+      m_CostFunction->GetValueAndDerivative( 
+        GetCurrentPosition(), m_Value, m_Gradient );
+      }
+    catch(...)
+      {
+       // An exception has occurred. 
+       // Terminate immediately.
+       m_StopCondition = MetricError;
+       StopOptimization();
+
+       // Pass exception to caller
+       throw;
+      }
+
+
     if( m_Stop )
     {
       break;

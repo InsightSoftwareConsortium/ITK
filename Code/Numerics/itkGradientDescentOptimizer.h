@@ -142,7 +142,8 @@ public:
    * Codes of stopping conditions
    */
   typedef enum {
-    MaximumNumberOfIterations
+    MaximumNumberOfIterations,
+    MetricError
   } StopConditionType;
 
   
