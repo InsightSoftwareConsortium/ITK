@@ -52,7 +52,6 @@ SpatialObject< TDimension >
   SetParent(NULL);
   m_Id = -1;
   m_ParentId = -1;
-  m_SceneManageMemory = false;
 }
 
 /** Destructor */
@@ -227,7 +226,6 @@ SpatialObject< TDimension >
   os << indent << "Index to World Transform: " << m_IndexToWorldTransform << std::endl;
   os << indent << "World to Index Transform: " << m_WorldToIndexTransform << std::endl;
   os << std::endl << std::endl;
-  os << indent << "Scene Manages memory" << m_SceneManageMemory << std::endl;
   os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth << std::endl;
   os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName << std::endl;
   os << "Object properties: " << std::endl;

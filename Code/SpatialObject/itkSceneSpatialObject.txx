@@ -44,11 +44,6 @@ void
 SceneSpatialObject<SpaceDimension>
 ::AddSpatialObject( SpatialObject<SpaceDimension> * pointer )
 {
-  // When an object is added to the scene, the reference count is increased 
-  // when the objet is removed or the scene is deleted, the reference count
-  // is decreased.
-  //pointer->SetReferenceCount(pointer->GetReferenceCount()+1);
-  pointer->SetSceneManageMemory(true);
   m_Objects.push_back( pointer );
   this->Modified();
 }
