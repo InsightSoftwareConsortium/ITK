@@ -351,6 +351,9 @@ int main(int argc, char *argv[])
     X->WriteDisplacementField(1);
     // If this were a 3D example, you might also want to call this line:
     // X->WriteDisplacementField(2);
+
+    // We can also write it as a multicomponent vector field
+    X->WriteDisplacementFieldMultiComponent();
     }
 //  Software Guide : EndCodeSnippet
 
