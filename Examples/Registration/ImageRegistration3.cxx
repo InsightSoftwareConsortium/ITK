@@ -378,7 +378,7 @@ int main( int argc, char **argv )
   optimizer->SetMinimumStepLength( 0.01 );
   optimizer->SetNumberOfIterations( 200 );
 
-  optimizer->MaximizeOn();
+  optimizer->MaximizeOff();
 
 
 
