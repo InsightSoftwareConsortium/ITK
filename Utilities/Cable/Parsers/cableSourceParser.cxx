@@ -1493,9 +1493,9 @@ void
 Parser
 ::begin_CvQualifiers(const Attributes& atts)
 {
-  CvQualifiers::Pointer cv = CvQualifiers::New(atts.GetAsInteger("const"),
-						 atts.GetAsInteger("volatile"),
-						 atts.GetAsInteger("restrict"));
+  CvQualifiers::Pointer cv = CvQualifiers::New(atts.GetAsBoolean("const"),
+                                  						 atts.GetAsBoolean("volatile"),
+						                                   atts.GetAsBoolean("restrict"));
   this->CurrentType()->SetCvQualifiers(cv);
 }
 

@@ -31,6 +31,7 @@ Attributes
   else
     {
     throw MissingAttributeException(a.c_str());
+    return NULL;
     }
 }
 
@@ -42,7 +43,7 @@ int
 Attributes
 ::GetAsInteger(const String& a) const
 {
-  return std::atoi(this->Get(a));
+  return atoi(this->Get(a));
 }
 
 

@@ -1,13 +1,13 @@
 #ifndef _configRep_h
 #define _configRep_h
 
+#include "referenceCount.h"
+
 #include <string>
 #include <set>
 #include <map>
 #include <vector>
 #include <list>
-
-#include "referenceCount.h"
 
 namespace configuration
 {

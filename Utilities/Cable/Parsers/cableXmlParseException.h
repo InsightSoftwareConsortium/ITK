@@ -1,6 +1,8 @@
 #ifndef _xmlParseException_h
 #define _xmlParseException_h
 
+#pragma warning (disable: 4786)
+
 #include "xmlparse.h"
 
 #include <iostream>

@@ -183,7 +183,11 @@ void
 Set
 ::Add(const Set* elementSet)
 {
-  m_Elements.insert(elementSet->Begin(), elementSet->End());
+  for(ElementContainer::const_iterator e = elementSet->Begin();
+      e != elementSet->End(); ++e)
+    {
+    m_Elements.insert(*e);
+    }
 }
 
 

@@ -1,6 +1,8 @@
 #ifndef _referenceCount_h
 #define _referenceCount_h
 
+#pragma warning (disable: 4786)
+
 class Object;
 
 /**
@@ -10,7 +12,7 @@ template <class T>
 class SmartPointer
 {
 public:
-  SmartPointer(): m_Pointer(NULL) {}
+  SmartPointer(): m_Pointer(0) {}
   SmartPointer(const SmartPointer& p): m_Pointer(p.m_Pointer)
     {
       this->Register();
@@ -59,15 +61,7 @@ public:
         this->Register();
         }
       return *this;
-    }
-  
-  /**
-   * Allow access to members of T as if this were a normal pointer.
-   */
-  T* operator -> ()
-    { 
-    return m_Pointer; 
-    }
+    }  
 
   /**
    * Allow access to members of T as if this were a normal pointer.
@@ -86,30 +80,6 @@ public:
     }
 
   /**
-   * Let smart pointer look like normal pointer to T.
-   */
-  operator T* ()
-    {
-      return m_Pointer;
-    }
-  
-  /**
-   * Allow implicit test for NULL.
-   */
-  operator bool ()
-    {
-      return m_Pointer;
-    }
-
-  /**
-   * Allow implicit test for NULL.
-   */
-  operator bool () const
-    {
-      return m_Pointer;
-    }
-
-  /**
    * Allow read access to real pointer to make casting easier.
    */
   T* RealPointer(void) const
@@ -117,14 +87,6 @@ public:
       return m_Pointer;
     }
 
-  /**
-   * Allow read access to real pointer to make casting easier.
-   */
-  T* RealPointer(void)
-    {
-      return m_Pointer;
-    }
-  
 private:
 
   /**

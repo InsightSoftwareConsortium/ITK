@@ -1,13 +1,13 @@
 #ifndef _sourceRep_h
 #define _sourceRep_h
 
+#include "referenceCount.h"
+
 #include <cstdio>
 #include <string>
 #include <vector>
 #include <set>
 #include <strstream>
-
-#include "referenceCount.h"
 
 #define NoPointedToTypeException  ("PointerType has no pointed-to type.")
 #define NoReferencedTypeException  ("ReferenceType has no referenced type.")
@@ -110,7 +110,7 @@ public:
    */
   virtual void SetInternalType(Type*)
     {
-      strstream e;
+      std::strstream e;
       e << "Object not expecting internal type setting: "
         << int(this->GetTypeOfObject()) << std::ends;
       throw String(e.str());
@@ -122,7 +122,7 @@ public:
    */
   virtual void SetInternalQualifiedName(QualifiedName*)
     {
-      strstream e;
+      std::strstream e;
       e << "Object not expecting internal name setting: "
         << int(this->GetTypeOfObject()) << std::ends;
       throw String(e.str());
@@ -154,7 +154,7 @@ protected:
   void AssertComplete(const char* source_file, unsigned long source_line) const
     {
       if(this->CheckComplete()) return;
-      strstream e;
+      std::strstream e;
       e << "Incomplete object encountered at:" << std::endl
         << source_file << ": " << source_line << std::ends;
       throw String(e.str());
@@ -257,12 +257,12 @@ typedef SmartPointer<Function>   FunctionPointer;
 typedef SmartPointer<Method>     MethodPointer;
 typedef SmartPointer<BaseClass>  BaseClassPointer;
 
-typedef vector<ArgumentPointer>                  ArgumentContainer;
-typedef set<ClassPointer, NamedCompare>          ClassContainer;
-typedef set<NamespacePointer, NamedCompare>      NamespaceContainer;
-typedef multiset<FunctionPointer, NamedCompare>  FunctionContainer;
-typedef multiset<MethodPointer, NamedCompare>    MethodContainer;
-typedef vector<BaseClassPointer>                 BaseClassContainer;
+typedef std::vector<ArgumentPointer>                  ArgumentContainer;
+typedef std::set<ClassPointer, NamedCompare>          ClassContainer;
+typedef std::set<NamespacePointer, NamedCompare>      NamespaceContainer;
+typedef std::multiset<FunctionPointer, NamedCompare>  FunctionContainer;
+typedef std::multiset<MethodPointer, NamedCompare>    MethodContainer;
+typedef std::vector<BaseClassPointer>                 BaseClassContainer;
 
 typedef ArgumentContainer::const_iterator   ArgumentsIterator;
 typedef ClassContainer::const_iterator      ClassesIterator;
@@ -358,7 +358,7 @@ public:
    * Shouldn't be called for others, so throw an exception by default.
    */
   virtual String GetIndirectionWithCV() const
-    { throw NotIndirectionException; }
+    { throw NotIndirectionException; return String(""); }
   
   /**
    * Get the cv-unqualified indirection string for this type.  Only
@@ -366,7 +366,7 @@ public:
    * Shouldn't be called for others, so throw an exception by default.
    */
   virtual String GetIndirectionWithoutCV() const
-    { throw NotIndirectionException; }
+    { throw NotIndirectionException; return String(""); }
   
   void SetCvQualifiers(CvQualifiers* cv)
     { m_CvQualifiers = cv; }
@@ -487,7 +487,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const string& name);
+  static Pointer New(const String& name);
   
   virtual TypeOfObject GetTypeOfObject() const { return Function_id; }
   virtual const char* GetClassName() const { return "Function"; }
@@ -523,7 +523,7 @@ public:
   void PrintFunctionPrototypeInfo(FILE*, unsigned long) const;
   
 protected:
-  Function(const string& name): Named(name) {}
+  Function(const String& name): Named(name) {}
   Function(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Function() {}
@@ -568,7 +568,7 @@ public:
   String GetQualifiedName() const;
   
 protected:
-  Context(const string& name): Named(name) {}
+  Context(const String& name): Named(name) {}
   Context(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Context() { }
@@ -928,7 +928,7 @@ public:
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  Method(const string& in_name, Access access, bool is_static):
+  Method(const String& in_name, Access access, bool is_static):
     Function(in_name), m_Access(access), m_Static(is_static) {}
   Method(const Self&): Function("") {}
   void operator=(const Self&) {}
@@ -1039,7 +1039,7 @@ public:
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  OperatorMethod(const string& name, Access access):
+  OperatorMethod(const String& name, Access access):
     Method(name, access, false) {}
   OperatorMethod(const Self&): Method("", Public, false) {}
   void operator=(const Self&) {}
@@ -1067,7 +1067,7 @@ public:
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  OperatorFunction(const string& name): Function(name) {}
+  OperatorFunction(const String& name): Function(name) {}
   OperatorFunction(const Self&): Function("") {}
   void operator=(const Self&) {}
   virtual ~OperatorFunction() {}
@@ -1107,7 +1107,7 @@ public:
   void PrintBaseClasses(FILE*, unsigned long) const;
   
 protected:  
-  Class(const string& name, Access access): Context(name), m_Access(access) {}
+  Class(const String& name, Access access): Context(name), m_Access(access) {}
   Class(const Self&): Context("") {}
   void operator=(const Self&) {}
   virtual ~Class() {}
@@ -1138,7 +1138,7 @@ public:
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  Struct(const string& name, Access access): Class(name, access) {}
+  Struct(const String& name, Access access): Class(name, access) {}
   Struct(const Self&): Class("", Public) {}
   void operator=(const Self&) {}
   virtual ~Struct() {}
@@ -1164,7 +1164,7 @@ public:
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
-  Union(const string& name, Access access): Class(name, access) {}
+  Union(const String& name, Access access): Class(name, access) {}
   Union(const Self&): Class("", Public) {}
   void operator=(const Self&) {}
   virtual ~Union() {}

@@ -1,7 +1,7 @@
-#include <cstdio>
-
 #include "sourceRep.h"
 #include "configRep.h"
+
+#include <cstdio>
 
 /**
  * Display the declaration tree in a human-readable form.

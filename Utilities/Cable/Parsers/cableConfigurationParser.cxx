@@ -1179,16 +1179,17 @@ ElementCombinationGenerator
 ::~ElementCombinationGenerator()
 {
   // Free the string portions that were allocated.
-  for(Portions::iterator i=m_Portions.begin(); i != m_Portions.end(); ++i)
+  for(Portions::iterator portion = m_Portions.begin();
+      portion != m_Portions.end(); ++portion)
     {
-    delete *i;
+    delete *portion;
     }
   
   // Free the substitutions that were allocated.
-  for(Substitutions::iterator i = m_Substitutions.begin();
-      i != m_Substitutions.end(); ++i)
+  for(Substitutions::iterator sub = m_Substitutions.begin();
+      sub != m_Substitutions.end(); ++sub)
     {
-    delete i->second;
+    delete sub->second;
     }
 }
 

@@ -1,9 +1,9 @@
 #ifndef _configurationParser_h
 #define _configurationParser_h
 
+#include "configRep.h"
 #include "xmlParseException.h"
 #include "xmlAttributes.h"
-#include "configRep.h"
 
 #include <stack>
 

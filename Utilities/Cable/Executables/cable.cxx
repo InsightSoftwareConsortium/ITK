@@ -1,8 +1,8 @@
-#include <iostream>
-#include <fstream>
-
 #include "configurationParser.h"
 #include "sourceParser.h"
+
+#include <iostream>
+#include <fstream>
 
 typedef std::string String;
 typedef source::Namespace       Namespace;
@@ -11,9 +11,9 @@ typedef configuration::Package  Package;
 //extern void GenerateTcl(const Namespace* globalNamespace,
 //                        const Package*,
 //                        const char* outputDirectory);
-extern void DisplayTree(const Namespace* globalNamespace,
-                        const Package*,
-                        const char* outputDirectory);
+//extern void DisplayTree(const Namespace* globalNamespace,
+                        //const Package*,
+                        //const char* outputDirectory);
 
 
 /**
@@ -37,7 +37,7 @@ struct WrapperGenerator
 WrapperGenerator wrapperGenerators[] =
 {
 //  { "TCL", "-tcl", false, GenerateTcl, "Tcl"},
-  { "(display tree)", "-display", false, DisplayTree, ""},
+//  { "(display tree)", "-display", false, DisplayTree, ""},
   { 0, 0, 0, 0 }
 };
 
