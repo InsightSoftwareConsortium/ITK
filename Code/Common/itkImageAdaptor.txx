@@ -184,13 +184,23 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const double * 
+const typename ImageAdaptor<TImage, TAccessor>::SpacingType&
 ImageAdaptor<TImage , TAccessor>
 ::GetSpacing( void ) const
 {
   return m_Image->GetSpacing();
 }
 
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetSpacing(const SpacingType& spacing )
+{
+  // delegation to internal image
+  m_Image->SetSpacing( spacing );
+}
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -210,6 +220,17 @@ ImageAdaptor<TImage , TAccessor>
 {
   // delegation to internal image
   m_Image->SetSpacing( spacing );
+}
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetOrigin(const PointType& origin )
+{
+  // delegation to internal image
+  m_Image->SetOrigin( origin );
 }
 
 
@@ -237,7 +258,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const double * 
+const typename ImageAdaptor<TImage, TAccessor>::PointType& 
 ImageAdaptor<TImage , TAccessor>
 ::GetOrigin( void ) const
 {

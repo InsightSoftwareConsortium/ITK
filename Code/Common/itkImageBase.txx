@@ -33,12 +33,8 @@ ImageBase<VImageDimension>
 ::ImageBase()
 {
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
-  unsigned int i;
-  for (i=0; i < VImageDimension; i++)
-    {
-    m_Spacing[i] = 1.0;
-    m_Origin[i] = 0.0;
-    }
+  m_Spacing.Fill(1.0);
+  m_Origin.Fill(0.0);
 }
 
 
@@ -80,7 +76,7 @@ ImageBase<VImageDimension>
  *
  */
 template<unsigned int VImageDimension>
-const double * 
+const typename ImageBase<VImageDimension>::SpacingType&
 ImageBase<VImageDimension>
 ::GetSpacing() const
 {
@@ -92,12 +88,13 @@ ImageBase<VImageDimension>
  *
  */
 template<unsigned int VImageDimension>
-const double * 
+const typename ImageBase<VImageDimension>::PointType& 
 ImageBase<VImageDimension>
 ::GetOrigin() const
 {
   return m_Origin;
 }
+
 
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
@@ -333,6 +330,9 @@ ImageBase<VImageDimension>
   os << indent << "RequestedRegion: " << std::endl;
   m_RequestedRegion.PrintSelf(os, indent.GetNextIndent());
 
+  os << indent << "Spacing: " << m_Spacing << std::endl;
+
+  os << indent << "Origin: " << m_Origin << std::endl;
 }
 
 } // end namespace itk

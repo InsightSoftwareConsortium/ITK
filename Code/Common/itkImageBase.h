@@ -25,6 +25,8 @@
 #include "itkIndex.h"
 #include "itkOffset.h"
 #include "itkSize.h"
+#include "itkFixedArray.h"
+#include "itkPoint.h"
 #include "itkImageRegion.h"
 
 namespace itk
@@ -108,6 +110,14 @@ public:
   /** Region typedef support. A region is used to specify a subset of an image. */
   typedef ImageRegion<VImageDimension>  RegionType;
 
+  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+   * spacing is the geometric distance between image samples. */
+  typedef FixedArray<double, VImageDimension> SpacingType;
+
+  /** Origin typedef support.  The origin is the geometric coordinates
+   * of the index (0,0). */
+  typedef Point<double, VImageDimension> PointType;
+
   /** Restore object to initialized state. */
   void Initialize();
 
@@ -119,13 +129,13 @@ public:
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
    * For ImageBase and Image, the default data spacing is unity. */
-  virtual const double* GetSpacing() const;
+  virtual const SpacingType& GetSpacing() const;
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer
    * to a double array.  For ImageBase and Image, the default origin is 
    * 0. */
-  virtual const double * GetOrigin() const;
+  virtual const PointType& GetOrigin() const;
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -287,8 +297,8 @@ protected:
 
 protected:
   /** Origin and spacing of physical coordinates. */
-  double                m_Spacing[VImageDimension];
-  double                m_Origin[VImageDimension];
+  SpacingType  m_Spacing;
+  PointType   m_Origin;
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
