@@ -28,7 +28,7 @@ public:
   itkNewMacro(TextOutput);
   virtual void DisplayText(const char* s)
     {
-      std::cerr << s << std::endl;
+      std::cout << s << std::endl;
     }
 };
 
@@ -60,7 +60,7 @@ int main(int ac, char** av)
 
   FilterType::IndexType seed; seed[0] = 165; seed[1] = 165;
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
-  //FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
+  //  FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
   filter->SetSeed(seed);
   filter->SetMultiplier(2.5);
   filter->SetReplaceValue(255);
@@ -77,20 +77,6 @@ int main(int ac, char** av)
     return -1;
     }
 
-  itk::ImageRegionIterator<myImage> it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
-  std::cout << "P5" << std::endl;
-  std::cout << filter->GetOutput()->GetBufferedRegion().GetSize()[0]
-            << "  " << filter->GetOutput()->GetBufferedRegion().GetSize()[1]
-            << std::endl;
-  std::cout << "255" << std::endl;
-  
-  while (!it.IsAtEnd())
-     {
-     std::cout << it.Get();
-     ++it;
-     }
-
-#if 0  
   // now read the regression image
   itk::ImageFileReader<myImage>::Pointer baseline 
     = itk::ImageFileReader<myImage>::New();
@@ -120,5 +106,4 @@ int main(int ac, char** av)
     ++rit;  
     }
   return status;
-#endif
 }
