@@ -41,7 +41,7 @@ int main()
 
   MatrixType matrix;
 
-  matrix.set_identity();
+  matrix.SetIdentity();
 
   VectorType v1;
   v1 = 3,4,5;
@@ -76,8 +76,8 @@ int main()
   std::cout << resultVnlVector[2] << std::endl;
 
   MatrixType matrix2;
-  matrix2.set_identity();
-  matrix2(0,0) = 10;
+  matrix2.SetIdentity();
+  matrix2.GetVnlMatrix()(0,0) = 10;
 
   MatrixType matrixProduct;
 
