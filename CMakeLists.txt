@@ -15,6 +15,7 @@ SUBDIRS(Utilities Code)
 INCLUDE (${CMAKE_ROOT}/Modules/Dart.cmake)
 IF (BUILD_TESTING)
   SUBDIRS(Testing)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif COPYONLY)
 ENDIF (BUILD_TESTING)
 
 
