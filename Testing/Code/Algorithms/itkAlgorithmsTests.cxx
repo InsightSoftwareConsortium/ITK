@@ -37,6 +37,7 @@ REGISTER_TEST(itkImageRegistrationMethodTest_12);
 REGISTER_TEST(itkImageRegistrationMethodTest_13);
 REGISTER_TEST(itkImageRegistrationMethodTest_14);
 REGISTER_TEST(itkImageRegistrationMethodTest_15);
+REGISTER_TEST(itkImageRegistrationMethodTest_16);
 REGISTER_TEST(itkInterpolateTest );
 REGISTER_TEST(itkKalmanLinearEstimatorTest );
 REGISTER_TEST(itkKmeansModelEstimatorTest );
