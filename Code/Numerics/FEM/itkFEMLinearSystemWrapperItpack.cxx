@@ -608,7 +608,7 @@ void LinearSystemWrapperItpack::Solve(void)
   }
   m_IPARM[7] = NW;
   IWKSP = new integer [ 3*N ];
-  WKSP = new doublereal [ NW ];
+  WKSP = new doublereal [ NW+2 ];
 
   integer i;
   for (i=0; i<NW; i++) 
