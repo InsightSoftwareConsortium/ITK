@@ -95,7 +95,113 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
                      (this->ProcessObject::GetInput(idx));
 }
 
+//----------------------------------------------------------------------------
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetSpacing(const double spacing[OutputImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<OutputImageDimension; i++)
+    {
+    if ( spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < OutputImageDimension ) 
+    { 
+    for (i=0; i<OutputImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    }
+}
 
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetSpacing(const float spacing[OutputImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<OutputImageDimension; i++)
+    {
+    if ( (double)spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < OutputImageDimension ) 
+    { 
+    for (i=0; i<OutputImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    }
+}
+
+template <class TInputSpatialObject, class TOutputImage>
+const double * 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::GetSpacing() const
+{
+  return m_Spacing;
+}
+
+//----------------------------------------------------------------------------
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetOrigin(const double origin[OutputImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<OutputImageDimension; i++)
+    {
+    if ( origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < OutputImageDimension ) 
+    { 
+    for (i=0; i<OutputImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    }
+}
+
+template <class TInputSpatialObject, class TOutputImage>
+void 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::SetOrigin(const float origin[OutputImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<OutputImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < OutputImageDimension ) 
+    { 
+    for (i=0; i<OutputImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    }
+}
+
+template <class TInputSpatialObject, class TOutputImage>
+const double * 
+SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+::GetOrigin() const
+{
+  return m_Origin;
+}
+
+//----------------------------------------------------------------------------
 
 /** Update */
 template <class TInputSpatialObject, class TOutputImage>

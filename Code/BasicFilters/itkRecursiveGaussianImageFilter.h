@@ -59,7 +59,7 @@ public:
   itkTypeMacro( RecursiveGaussianImageFilter, RecursiveSeparableImageFilter );
 
   /** Set/Get the Sigma, measured in world coordinates, of the Gaussian
-   * kernel. */   
+   * kernel.  The default is 1.0.  */   
   itkGetMacro( Sigma, RealType );
   itkSetMacro( Sigma, RealType );
 
@@ -77,20 +77,22 @@ public:
       that larger sigmas will not result in the image fading away.
 
       \f[    
-            \frac{ 1 }{ \sigma  sqrt{ 2 \pi } };
+            \frac{ 1 }{ \sigma  \sqrt{ 2 \pi } };
       \f]
 
       When the flag is OFF the normalization will conserve contant the 
       integral of the image intensity. 
       \f[    
-            \frac{ 1 }{ \sigma^2  sqrt{ 2 \pi } };
+            \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } };
       \f]
-      For analyzing an image across Scale Space you want to enable this flag.  */
+      For analyzing an image across Scale Space you want to enable
+      this flag.  It is disabled by default.  */
   itkSetMacro( NormalizeAcrossScale, bool );
   itkGetMacro( NormalizeAcrossScale, bool );
 
   /** Set/Get the Order of the Gaussian to convolve with. 
-      \li ZeroOrder is equivalent to convolving with a Gaussian
+      \li ZeroOrder is equivalent to convolving with a Gaussian.  This
+      is the default.
       \li FirstOrder is equivalet to convolving with the first derivative of a Gaussian
       \li SecondOrder is equivalet to convolving with the second derivative of a Gaussian
     */

@@ -74,6 +74,26 @@ public:
   virtual void GenerateOutputInformation() {}; // do nothing
   virtual void GenerateData() ; // do nothing
 
+  /** Spacing (size of a pixel) of the output image. The
+   * spacing is the geometric distance between image samples.
+   * It is stored internally as double, but may be set from
+   * float. \sa GetSpacing() */
+  virtual void SetSpacing( const double spacing[OutputImageDimension] );
+  virtual void SetSpacing( const float spacing[OutputImageDimension] );
+  virtual const double* GetSpacing() const;
+
+  /** The origin of the output image. The origin is the geometric
+   * coordinates of the index (0,0,...,0).  It is stored internally
+   * as double but may be set from float.
+   * \sa GetOrigin() */
+  virtual void SetOrigin( const double origin[OutputImageDimension] );
+  virtual void SetOrigin( const float origin[OutputImageDimension] );
+  virtual const double * GetOrigin() const;
+
+  /** The spatial object being transformed can be part of a hierarchy.
+   * How deep in the hierarchy should we descend in generating the
+   * image?  A ChildrenDepth of 0 means to only include the object
+   * itself. */
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetMacro(ChildrenDepth, unsigned int);
 
@@ -85,7 +105,9 @@ protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter();
 
-  SizeType          m_Size;
+  SizeType     m_Size;
+  double       m_Spacing[OutputImageDimension];
+  double       m_Origin[OutputImageDimension];
   unsigned int m_ChildrenDepth;
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

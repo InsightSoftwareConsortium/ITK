@@ -81,20 +81,21 @@ public:
   
   /** The variance, in terms of pixels, for the discrete Gaussian
    * kernel.  Sets the variance independently for each dimension, but
-   * see also SetVariance(const double v). */
+   * see also SetVariance(const double v). The default is 0.0 in each
+   * dimension. */
   itkSetVectorMacro(Variance, double, ImageDimension);
   itkSetVectorMacro(Variance, float, ImageDimension);
   itkGetVectorMacro(Variance, const double, ImageDimension);
 
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
-   * MaximumError. */
+   * MaximumError. The default is 0.01 in each dimension. */
   itkSetVectorMacro(MaximumError, double, ImageDimension);
   itkSetVectorMacro(MaximumError, float, ImageDimension);
   itkGetVectorMacro(MaximumError, const double, ImageDimension);
 
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
-   *  even if MaximumError demands it. */
+   *  even if MaximumError demands it. The default is 32 pixels. */
   itkGetMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
 
