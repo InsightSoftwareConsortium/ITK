@@ -25,6 +25,8 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
 
+#include "itkImageLinearConstIteratorWithIndex.h"
+
 /* Uncomment to write out image files */
 /*
 #include "itkRescaleIntensityImageFilter.h"
@@ -360,8 +362,8 @@ int itkShapeDetectionLevelSetImageFilterTest_2(int, char* [] )
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   ImageType::SizeType imageSize;
-  imageSize[0] = 128;
-  imageSize[1] = 128;
+  imageSize[0] = 32;
+  imageSize[1] = 32;
 
   ImageType::RegionType imageRegion;
   imageRegion.SetSize( imageSize );
@@ -379,9 +381,9 @@ int itkShapeDetectionLevelSetImageFilterTest_2(int, char* [] )
   inputImage->FillBuffer( background );
 
   ImageType::IndexType squareStart;
-  squareStart.Fill( 20 );
+  squareStart.Fill( 5 );
   ImageType::SizeType squareSize;
-  squareSize.Fill( 60 );
+  squareSize.Fill( 15 );
   ImageType::RegionType squareRegion;
   squareRegion.SetIndex( squareStart );
   squareRegion.SetSize( squareSize );
@@ -434,8 +436,8 @@ int itkShapeDetectionLevelSetImageFilterTest_2(int, char* [] )
 
   // Choose an initial contour that is wholly within the square to be segmented.
   InternalImageType::IndexType seedPosition;
-  seedPosition[0] = 47;
-  seedPosition[1] = 47;
+  seedPosition[0] = 12;
+  seedPosition[1] = 12;
 
   NodeType node;
   node.SetValue( -5.0 );
@@ -447,6 +449,26 @@ int itkShapeDetectionLevelSetImageFilterTest_2(int, char* [] )
   fastMarching->SetTrialPoints( seeds );
   fastMarching->SetSpeedConstant( 1.0 );
   fastMarching->SetOutputSize( imageSize );
+
+  fastMarching->Update();
+
+  // print out initial level set
+  typedef itk::ImageLinearIteratorWithIndex<InternalImageType> LinearIterator;
+  LinearIterator liter( fastMarching->GetOutput(), fastMarching->GetOutput()->GetBufferedRegion() );
+ 
+  liter.SetDirection( 0 );
+  liter.GoToBegin();
+
+  while ( !liter.IsAtEnd() )
+    {
+    while( !liter.IsAtEndOfLine() )
+      {
+      std::cout << liter.Get() << " ";
+      ++liter;
+      }
+    std::cout << std::endl;
+    liter.NextLine();
+    }
 
   /**
    * Set up and run the shape detection filter
