@@ -391,7 +391,7 @@ void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 ExcuteSegment(void){
 
-  InitializeSegment();
+ // InitializeSegment();
   bool ok = 1;
   if(m_Steps == 0){
     ExcuteSegmentOneStep();
