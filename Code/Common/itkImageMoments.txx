@@ -157,8 +157,8 @@ namespace itk
 	}
 
 	/* Convert cg and central moments to physical units */
-	float const *org = image->GetOrigin();
-	float const *spc = image->GetSpacing();
+	double const *org = image->GetOrigin();
+	double const *spc = image->GetSpacing();
 	for (int r = 0; r < VRank; r++) {
 	    m_cg[r] = spc[r] * m_cg[r] + org[r];
 	    m_cm[r][r] *= spc[r] * spc[r];

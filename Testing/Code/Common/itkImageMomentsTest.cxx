@@ -25,14 +25,16 @@ main(
     int argc,
     char *argv[])
 {
-    /* Define acceptable (absolute) error in computed results */
-    /* FIXME:  There's no theory to back up this choice of limit. */
-    double maxerr = 1.0e-7;
+    /* Define acceptable (absolute) error in computed results.
+       All the calculations are done in double and are well-conditioned,
+       so we should be able to get within a few epsilon of the right
+       values.  So choose maxerr to be 10*epsilon for IEEE 754 double. */
+    double maxerr = 1.0e-15;
 
     /* Define the image size and physical coordinates */
     itk::Size<3> size = {20, 40, 80};
-    float origin [3] = { 0.5,   0.5,   0.5};
-    float spacing[3] = { 0.1,   0.05 , 0.025};
+    double origin [3] = { 0.5,   0.5,   0.5};
+    double spacing[3] = { 0.1,   0.05 , 0.025};
 
     /* Define positions of the test masses in index coordinates */
     unsigned short mass = 1;           // Test mass
