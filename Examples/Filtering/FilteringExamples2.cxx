@@ -12,6 +12,7 @@ REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
 REGISTER_TEST(ThresholdImageFilterTest);
 REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(VectorIndexSelectionTest);
 REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 }
 #undef main
@@ -37,6 +38,10 @@ REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 #undef main
 #define main VectorGradientAnisotropicDiffusionImageFilterTest
 #include "VectorGradientAnisotropicDiffusionImageFilter.cxx"
+
+#undef main
+#define main VectorIndexSelectionTest
+#include "VectorIndexSelection.cxx"
 
 #undef main
 #define main ResampleVolumesToBeIsotropicTest

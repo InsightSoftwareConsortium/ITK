@@ -127,6 +127,9 @@ TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(IsoSurfaceExtraction IsoSurfaceExtraction.cxx )
 TARGET_LINK_LIBRARIES(IsoSurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
+TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
+
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 
@@ -453,6 +456,15 @@ ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLE
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilterOriginal.png
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
         0.125 5
+)
+
+ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VectorIndexSelection.png
+            ${TEMP}/VectorIndexSelection.png
+  VectorIndexSelectionTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/VectorIndexSelection.png
+        1
 )
 
 ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
