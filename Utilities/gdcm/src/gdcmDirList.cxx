@@ -126,7 +126,7 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
    // bility of your programs.
 
    struct stat buf;
-   dirent *d = 0;
+   dirent *d;
    for (d = readdir(dir); d; d = readdir(dir))
    {
       fileName = dirName + d->d_name;

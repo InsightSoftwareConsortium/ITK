@@ -164,7 +164,7 @@ Dict *DictSet::GetNextEntry()
 std::string DictSet::BuildDictPath() 
 {
    std::string resultPath;
-   const char *envPath = 0;
+   const char *envPath;
    envPath = getenv("GDCM_DICT_PATH");
 
    if (envPath && (strlen(envPath) != 0)) 

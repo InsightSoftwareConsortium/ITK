@@ -771,12 +771,12 @@ void Document::Initialize()
 void Document::ParseDES(DocEntrySet *set, long offset, 
                         long l_max, bool delim_mode)
 {
-   DocEntry *newDocEntry = 0;
+   DocEntry *newDocEntry;
    ValEntry *newValEntry;
    BinEntry *newBinEntry;
    SeqEntry *newSeqEntry;
    VRKey vr;
-   bool used = false;
+   bool used;
 
    while (true)
    {

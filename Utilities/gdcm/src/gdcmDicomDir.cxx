@@ -821,7 +821,6 @@ void DicomDir::SetElements(std::string const &path, VectDocument const &list)
          || first )
       {
          SetElement(path, GDCM_DICOMDIR_SERIE, *it);
-         first = true;
       }
       
       // Always Deal with 'IMAGE' Elements  
