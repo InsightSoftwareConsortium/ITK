@@ -40,11 +40,21 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
   m_SmoothingFilters[0]->SetInput( this->GetInput() );
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
   {
-    m_SmoothingFilters[ i ]->SetInput( m_SmoothingFilters[i-1]->GetOutput() );
+    m_SmoothingFilters[ i ]->SetInput( 
+                              m_SmoothingFilters[i-1]->GetOutput() );
   }
-  m_DerivativeFilter->SetInput( m_SmoothingFilters[ImageDimension-2]->GetOutput() );
+  m_DerivativeFilter->SetInput( 
+                       m_SmoothingFilters[ImageDimension-2]->GetOutput() );
   
+
+  m_OutputAdaptor = OutputAdaptorType::New();
+
+  m_OutputAdaptor->SetImage( GetOutput() );
+
+  m_DerivativeFilter->SetOutput( m_OutputAdaptor );
+
   this->SetSigma( 1.0 );
+
 }
 
 
@@ -83,19 +93,37 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
   std::cout << std::endl;
 
   const typename TInputImage::Pointer   inputImage(    GetInput()   );
-        typename TOutputImage::Pointer  outputImage(   GetOutput()  );
 
-  outputImage->SetLargestPossibleRegion( 
+  m_OutputAdaptor->SetLargestPossibleRegion( 
       inputImage->GetLargestPossibleRegion() );
 
-  outputImage->SetBufferedRegion( 
+  m_OutputAdaptor->SetBufferedRegion( 
       inputImage->GetBufferedRegion() );
 
-  outputImage->SetRequestedRegion( 
+  m_OutputAdaptor->SetRequestedRegion( 
       inputImage->GetRequestedRegion() );
 
-  outputImage->Allocate();
+  m_OutputAdaptor->Allocate();
 
+  for( unsigned int dim=0; dim < ImageDimension; dim++ )
+  {
+	unsigned int i=0; 
+	unsigned int j=0;
+    while(  i< ImageDimension)
+    {
+      if( i == dim ) 
+      {
+        j++;
+      }
+      m_SmoothingFilters[ i ]->SetDirection( j );
+	  i++;
+	  j++;
+    }
+    m_DerivativeFilter->SetDirection( dim );
+    m_OutputAdaptor->SelectNthElement( dim );
+    m_DerivativeFilter->Update();
+  }
+  
 
 }
 

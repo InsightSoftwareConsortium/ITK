@@ -17,6 +17,7 @@
 #define __itkGradientRecursiveGaussianImageFilter_h
 
 #include "itkFirstDerivativeRecursiveGaussianImageFilter.h"
+#include "itkNthElementImageAdaptor.h"
 
 namespace itk
 {
@@ -52,6 +53,17 @@ public:
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>        ConstPointer;
 
+  
+  /** 
+   *  Output Image Nth Element Adaptor
+   *  This adaptor allows to use conventional scalar 
+   *  smoothing filters to compute each one of the 
+   *  components of the gradient image pixels.
+   */
+  typedef NthElementImageAdaptor< TOutputImage,
+                                  typename TInputImage::PixelType >  
+                                                     OutputAdaptorType;
+ 
 
   /** 
    *  Smoothing filter type
@@ -67,7 +79,7 @@ public:
    */
   typedef FirstDerivativeRecursiveGaussianImageFilter<
                                   TInputImage,
-                                  TInputImage,
+                                  OutputAdaptorType,
                                   TComputation>    DerivativeFilterType;
 
   /** 
@@ -81,6 +93,11 @@ public:
    */
   typedef typename DerivativeFilterType::Pointer   DerivativeFilterPointer;                                  
                                   
+  /** 
+   *  Pointer to the Output Image Adaptor
+   */
+  typedef typename OutputAdaptorType::Pointer      OutputAdaptorPointer;                                  
+ 
   /** 
    * Image Dimension
    */
@@ -118,6 +135,7 @@ private:
   
   SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer    m_DerivativeFilter;
+  OutputAdaptorPointer       m_OutputAdaptor;
 
 };
 
