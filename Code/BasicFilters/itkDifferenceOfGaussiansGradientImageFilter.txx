@@ -7,8 +7,7 @@
 
 namespace itk
 {
-
-template<class TInputImage, class TScalarType, class TVectorType>
+template<typename TInputImage, typename TScalarType, typename TVectorType>
 DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType >
 ::DifferenceOfGaussiansGradientImageFilter()
 {
@@ -17,7 +16,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType 
   m_Width = 2;
 }
 
-template<class TInputImage, class TScalarType, class TVectorType>
+template<typename TInputImage, typename TScalarType, typename TVectorType>
 void
 DifferenceOfGaussiansGradientImageFilter< TInputImage, TScalarType, TVectorType >
 ::GenerateData()

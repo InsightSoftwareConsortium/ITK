@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkDifferenceOfGaussiansGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkCovariantVector.h"
 #include "itkScalarVector.h"
 
 namespace itk
@@ -54,10 +53,10 @@ namespace itk
  *
  * */
 
-template<class TInputImage, class TScalarType, class TVectorType>
+template<typename TInputImage, typename TScalarType, typename TVectorType>
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter :
 public ImageToImageFilter<TInputImage,
-  PhysicalImage<ScalarVector< TScalarType, TVectorType, TInputImage::ImageDimension> ,
+  PhysicalImage<ScalarVector< TScalarType, TVectorType, TInputImage::ImageDimension>,
   TInputImage::ImageDimension> >
 {
 public:
@@ -65,19 +64,20 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef DifferenceOfGaussiansGradientImageFilter Self;
+  typedef typename DifferenceOfGaussiansGradientImageFilter Self;
 
-   /**
+  /**
    * Output image typedef. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles.
    */
-  typedef PhysicalImage<ScalarVector< TScalarType, TVectorType, TInputImage::ImageDimension> ,
+  typedef typename PhysicalImage<ScalarVector<
+    TScalarType, TVectorType, TInputImage::ImageDimension> ,
     TInputImage::ImageDimension> TOutputImage;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef typename ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
 
   /** 
    * Smart pointer typedef support.
