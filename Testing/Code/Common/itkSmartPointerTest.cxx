@@ -21,13 +21,13 @@ class itkTestObject
 public:
   typedef itkSmartPointer<itkTestObject> Pointer;
   static itkTestObject::Pointer New();
-  void Register()
+  virtual void Register()
     {
     std::cout << "Register " << *this << " count:" 
               << (m_ReferenceCount+1) << "  " << std::endl;
     m_ReferenceCount++;
     }
-  void UnRegister()
+  virtual void UnRegister()
     {
     std::cout << "UnRegister " << this << " count:" 
               << (m_ReferenceCount-1) << "  " << std::endl;
@@ -71,10 +71,25 @@ itkTestObject::Pointer itkTestObject::New()
   return itkTestObject::Pointer(new itkTestObject);
 }
 
+class itkTestObjectSubClass : public itkTestObject
+{
+public:
+  typedef itkSmartPointer<itkTestObjectSubClass> Pointer;
+  static itkTestObjectSubClass::Pointer New();
+};
+
+
+itkTestObjectSubClass::Pointer itkTestObjectSubClass::New()
+{
+  return itkTestObjectSubClass::Pointer(new itkTestObjectSubClass);
+}
 
 
 int main()
 {
+  itkTestObject::Pointer to = itkTestObjectSubClass::New();
+  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>((itkTestObject*)to);
+  
   std::cout <<"second test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
