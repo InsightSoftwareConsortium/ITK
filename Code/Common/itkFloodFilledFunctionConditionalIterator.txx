@@ -49,7 +49,7 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
   tempPtr->SetBufferedRegion( tempRegion );
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
-
+  tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
   m_IsAtEnd = false;
 }
 
@@ -73,14 +73,14 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
       if ( this->IsPixelIncluded( m_IndexStack.top() ) )
         {
         // if it is, mark as inside
-        tempPtr->GetPixel( m_IndexStack.top() ) = 2;
+        tempPtr->SetPixel( m_IndexStack.top(), 2);
         // kick out of this function, since we found a new pixel
         return;
         }
       else
         {
         // pixel is not inside the function, mark it
-        tempPtr->GetPixel( m_IndexStack.top() ) = 1;
+        tempPtr->SetPixel( m_IndexStack.top(), 1);
         // pop off this pixel
         m_IndexStack.pop();
         continue;
@@ -123,7 +123,8 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
           continue;
 
         // Now check the neighbor and see if it hasn't been examined yet
-        if(tempPtr->GetPixel(tempIndex)==0) // if pixel hasn't been checked
+        if(tempPtr->GetPixel(tempIndex)==0 &&
+           this->IsPixelIncluded(tempIndex)) // if pixel hasn't been checked and is inside
           {
           // push it onto the stack, this is the next pixel we'll look at
           m_FoundUncheckedNeighbor=true;
@@ -145,8 +146,10 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
       {
       // Mark the pixel as finished
       if( tempPtr->GetPixel( m_IndexStack.top() )==2 )
-        tempPtr->GetPixel( m_IndexStack.top() )= 3;
-
+        {
+        tempPtr->SetPixel( m_IndexStack.top(), 3);
+        }
+      
       // Move the stack up
       m_IndexStack.pop();
       }
