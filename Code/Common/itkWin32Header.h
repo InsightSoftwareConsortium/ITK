@@ -28,6 +28,7 @@ See COPYRIGHT.txt for copyright details.
 #pragma warning ( disable : 4305 )
 #pragma warning ( disable : 4309 )
 #pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4800 )
 
 #ifdef ITKDLL
 #define ITK_EXPORT __declspec( dllexport ) 
