@@ -314,8 +314,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::InitialFit()
 {
   int i; 
-  IndexType coord = {0, 0, 0};
-  IndexType extend = {0, 0, 0};
+  IndexType coord = IndexType::ZeroIndex;
+  IndexType extend = IndexType::ZeroIndex;
   double xs, ys, zs; 
   InputPointType x, y, z, f, n, extends;
 
@@ -383,8 +383,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   int i, l=0;
   unsigned short label; 
-  IndexType coord = {0, 0, 0};
-  IndexType extend = {0, 0, 0};
+  IndexType coord = IndexType::ZeroIndex;
+  IndexType extend = IndexType::ZeroIndex;
   double max, fo, t, xs, ys, zs; 
   InputPointType x, y, z, f, n, extends;
 
@@ -500,8 +500,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   int i;
   unsigned short label; 
-  IndexType coord = {0, 0, 0};
-  IndexType extend = {0, 0, 0};
+  IndexType coord = IndexType::ZeroIndex;
+  IndexType extend = IndexType::ZeroIndex;
   double max, fo, t, xs, ys, zs; 
 
   InputPointType x, y, z, f, n, extends;
@@ -811,7 +811,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   
   InputCellDataContainerPointer       myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumCells);
-  InputCellDataContainerIterator      outcelldata = myOutCellData->Begin();
    
   typename TriCell::Pointer           insertCell = TriCell::New(); 
 
@@ -897,12 +896,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     s[0] += m_TimeStep*ds[0]; 
     s[1] += m_TimeStep*ds[1]; 
     s[2] += m_TimeStep*ds[2]; 
-    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
-    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
-    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
-    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
-    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = s[2];
-    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = s[2];
+    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = static_cast<int>(s[1]);
+    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = static_cast<int>(s[1]);
+    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = static_cast<int>(s[0]);
+    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = static_cast<int>(s[0]);
+    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = static_cast<int>(s[2]);
+    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = static_cast<int>(s[2]);
 //if ( i < m_NumNodes - 2 ) {
 //disable for shrink test
     if (s[0] < 0) {
@@ -1231,7 +1230,7 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
-  IndexType coord = {0, 0, 0};
+  IndexType coord = IndexType::ZeroIndex;
 //  float grad[3];
   InputPointType v1, v2;
 
@@ -1581,15 +1580,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
-    InputPointsContainerIterator    derives = myDerives->Begin();
 
     InputCellsContainerPointer      myCells = m_Locations->GetCells();
     myCells->Reserve(m_NumCells);
-    InputCellsContainerIterator     cells = myCells->Begin(); 
   
     InputCellDataContainerPointer   myCellData = m_Locations->GetCellData();
     myCellData->Reserve(m_NumCells);
-    InputCellDataContainerIterator  celldata = myCellData->Begin();
 
     for (j = 0; j < m_XResolution; j++) length[j] = length[j]*0.5;
   }

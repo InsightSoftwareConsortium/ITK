@@ -64,7 +64,6 @@ namespace itk
     m_NumberOfClasses(0),
     m_MaximumNumberOfIterations(10),
     m_ClassifierPtr(0),
-//      m_ErrorCounter(0),
     m_BoundaryGradient(7),
     m_GibbsNeighborsThreshold(1),
     m_BoundaryWt(1),
@@ -244,7 +243,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
         {
         if (signs[i] == 0) 
           {
-          if (abs(m_LowPoint[rgb] - neighbors[i]) < m_BoundaryGradient) 
+          if (static_cast<unsigned int>(abs(m_LowPoint[rgb] - neighbors[i]))
+              < m_BoundaryGradient) 
             {
             numx++;
             x += neighbors[i];
@@ -260,7 +260,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
         {
         if (signs[i] == 1) 
           {
-          if (abs(m_LowPoint[rgb] - neighbors[i]) > m_BoundaryGradient) 
+          if (static_cast<unsigned int>(abs(m_LowPoint[rgb] - neighbors[i])) > m_BoundaryGradient) 
             {
             numx--;
             x -= neighbors[i];
@@ -316,16 +316,15 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GibbsTotalEnergy(int i)
 {
-  LabelledImageIndexType offsetIndex3D = {0, 0, 0};
+  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
   int frame = m_imgWidth * m_imgHeight;
   int rowsize = m_imgWidth;
 
   float energy[2];
-  float difenergy, maxenergy;
+  float difenergy;
   int label, originlabel, f[8], j, k, neighborcount=0;
-  maxenergy = 1e+20;
 
   offsetIndex3D[2] = i / frame;
   offsetIndex3D[1] = (i % frame) / m_imgHeight;
@@ -363,12 +362,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   k = 0;
   for(j=0;j<8;j++) 
     {
-    if (f[j] == m_ObjectLabel) k++;
+    if (f[j] == static_cast<int>(m_ObjectLabel)) k++;
     }
     
   bool changeflag = (k > 3);
 
-  for(int j = 0; j < 2; j++) 
+  for(unsigned int j = 0; j < 2; j++) 
     {
     energy[j] = 0;
     energy[j] += GibbsEnergy(i,       0, j);
@@ -418,7 +417,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   bool changeflag;
   float res = 0.0;
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
   LabelledImagePixelType labelledPixel;
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
@@ -583,17 +582,7 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::ApplyGPImageFilter()
 {
-
-//  int maxNumPixelError =  
-//    (int)(m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth);
-
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int rowsize = m_imgWidth;
-
-  int numIter = 0;
-
   MinimizeFunctional(); // minimize f_1 and f_3;
-
 }// ApplyMRFImageFilter
 
 template<class TInputImage, class TClassifiedImage>
@@ -616,7 +605,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   itkDebugMacro(<<"Region eraser finished in: "<<etime-btime<<" seconds."); 
 
   int size = m_imgWidth * m_imgHeight * m_imgDepth;
-  int frame = m_imgWidth * m_imgHeight;
   int rowsize = m_imgWidth;
 
   m_Temp = 0;
@@ -669,15 +657,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   //Varible to store the origin pixel vector value
   InputImageVectorType ChangedPixelVec;
 
-  //Variable to store the labelled pixel vector
-  LabelledImagePixelType labelledPixel;
-
   //Variable to store the output pixel vector label after
   //the MRF classification
   LabelledImagePixelType outLabelledPix;
 
   //Set a variable to store the offset index
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
 
   double * dist = new double[m_NumberOfClasses];
 
@@ -711,21 +696,18 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     double minDist = 1e+20;
     int pixLabel = -1;
 
-    for( int index = 0; index < m_NumberOfClasses; index++ ) 
+    for( unsigned int index = 0; index < m_NumberOfClasses; index++ ) 
       {
       if ( dist[index] < minDist ) 
         {
         minDist = dist[index];
-        pixLabel = index;
+        pixLabel = static_cast<int>(index);
         }// if
       }// for
 
-    labelledPixel = 
-      ( LabelledImagePixelType ) labelledImageIt.Get();
-
     //Check if the label has changed then set the change flag in all the 
     //neighborhood of the current pixel
-    if( pixLabel != m_ObjectLabel ) 
+    if( pixLabel != static_cast<int>(m_ObjectLabel) ) 
       {
       outLabelledPix = 1-m_ObjectLabel;
       labelledImageIt.Set( outLabelledPix );
@@ -753,16 +735,11 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::RegionEraser()
 {
-  int i, j, k, size = m_imgWidth * m_imgHeight * m_imgDepth, count=0;
+  int i, j, k, size = m_imgWidth * m_imgHeight * m_imgDepth;
   m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
   m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
   unsigned short *valid_region_counter;
   valid_region_counter = (unsigned short*) malloc(sizeof(unsigned short)*size/100);
-
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
-
-  int frame = m_imgWidth * m_imgHeight;
-  int rowsize = m_imgWidth;
 
   LabelledImageIterator  
     labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
@@ -787,7 +764,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     if ( m_Region[i] == 0 ) 
       {
       label = labelledImageIt.Get();
-      if (LabelRegion(i, ++l, label) > m_ClusterSize) 
+      if (LabelRegion(i, ++l, label) > static_cast<int>(m_ClusterSize)) 
         {
         valid_region_counter[k] = l;
         k++;
@@ -829,11 +806,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::LabelRegion(int i, int l, int change)
 {
   int count = 1, m;
-  int size = m_imgWidth * m_imgHeight * m_imgDepth;
   int frame = m_imgWidth * m_imgHeight;
   int rowsize = m_imgWidth;
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
 
   m_Region[i] = l;
 

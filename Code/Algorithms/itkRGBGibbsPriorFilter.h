@@ -159,17 +159,23 @@ private:
   RGBGibbsPriorFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  typedef typename TInputImage::SizeType InputImageSizeType;
-  typename ClassifierType::Pointer m_ClassifierPtr;
-
   InputImageType    m_InputImage;
-  InputImageType    m_MediumImage;
   TrainingImageType   m_TrainingImage;
   LabelledImageType   m_LabelledImage;
-
+  unsigned int m_NumberOfClasses;
+  unsigned int m_MaximumNumberOfIterations;
+  typename ClassifierType::Pointer m_ClassifierPtr;
+  unsigned int m_BoundaryGradient;
+  int m_GibbsNeighborsThreshold; 
   float m_BoundaryWt; 
   float m_GibbsPriorWt; 
   int m_StartRadius;
+  int m_RecursiveNum;
+  unsigned int *m_LabelStatus;
+
+  typedef typename TInputImage::SizeType InputImageSizeType;
+  InputImageType    m_MediumImage;
+
   float m_NewRegionThreshold;
   int m_Temp;
 
@@ -177,23 +183,17 @@ private:
    
   int m_StartPoint[3]; 
   int m_StartModelSize; 
-  int m_GibbsNeighborsThreshold; 
-  int m_BoundaryGradient;
-  int m_RecursiveNum;
-  unsigned int      *m_LabelStatus;
 
-  int                   m_imgWidth;
-  int                   m_imgHeight;
-  int                   m_imgDepth;
-  int         m_ClusterSize;
-  int         m_ObjectLabel;
-  int         m_VecDim;
-  int         m_NumberOfClasses;
-  unsigned int          m_MaximumNumberOfIterations;
-  InputPixelType    m_LowPoint;
+  int m_imgWidth;
+  int m_imgHeight;
+  int m_imgDepth;
+  unsigned int m_ClusterSize;
+  unsigned int m_ObjectLabel;
+  int m_VecDim;
+  InputPixelType m_LowPoint;
 
-  unsigned short    *m_Region;
-  unsigned short    *m_RegionCount;
+  unsigned short *m_Region;
+  unsigned short *m_RegionCount;
 
   void  GibbsTotalEnergy(int i);
   float GibbsEnergy(int i, int k, int k1);
