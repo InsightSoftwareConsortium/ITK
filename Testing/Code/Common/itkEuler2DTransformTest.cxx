@@ -155,6 +155,22 @@ int itkEuler2DTransformTest(int,char *[] )
   }
   std::cout << " [ PASSED ] " << std::endl;
 
+
+  std::cout << "Testing Angle from matrix : ";
+  eulerTransform->SetIdentity();
+  eulerTransform->SetRotation(0.2);
+  
+  EulerTransformType::Pointer t2 = EulerTransformType::New();
+  t2->SetIdentity();
+  t2->Compose(eulerTransform);
+  if(t2->GetParameters()[0]-0.2>0.0001)
+    {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
   return EXIT_SUCCESS;
 
 }
