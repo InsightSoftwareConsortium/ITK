@@ -18,9 +18,21 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of the
-//  MinMaxCurvatureFlow algorithm. The basic difference is that the
-//  neighborhood average is not compared against zero but against a user
-//  provided threshold. The diffusion speed is given by
+//  CurvatureFlow algorithm. Which means that the speed of propagation is
+//  proportional to the curvature $\kappa$ of iso-contours. This filter adds
+//  however, the restriction that negative curvatures are only accepted in
+//  regions of the image having low intensities. The user should provide an
+//  intensity threshold over which negative curvatures are not considered for
+//  the propagation.  
+//
+//  In practice the algorithm do the following for each pixel. First, the
+//  curvature $\kappa$ is computed on the current pixel. If the computed
+//  curvature is null this is returned as value.  Otherwise, an average of
+//  neighbor pixel intensities is computed and it is compared against a
+//  user-provided threshold. If this average is less than the threshold then
+//  the algorithm returns $\min(\kappa,0)$. If the average intensity is greater
+//  or equal than user-provided threshold, then the returned value is
+//  $\max(\kappa,0)$.
 //
 //  \begin{equation}
 //  I_t = F |\nabla I|

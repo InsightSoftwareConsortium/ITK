@@ -17,6 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
+//
+//  \piccaption[MinMaxCurvatureFlow computation]{Elements involved in the
+//  computation of MinMax curvature flow.
+//  \label{fig:MinMaxCurvatureFlowFunctionDiagram}}
+//  \parpic(7cm,6cm)[r]{\includegraphics[width=6cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
+//
 //  The \doxygen{MinMaxCurvatureFlowImageFilter} applies a variant of the
 //  \doxygen{CurvatureFlowImageFilter} algorithm. The basic difference is that
 //  the term speed is choosen as $\min(\kappa,0)$ or $\max(\kappa,0)$ depending
@@ -32,13 +38,33 @@
 //
 //  \begin{equation}
 //  F = \left\{ \begin{array} {r@{\quad:\quad}l}
-//         \min(\kappa,0) & \mbox{Average} < Threshold \\ \max(\kappa,0) & \mbox{Average} \ge Threshold 
+//         \max(\kappa,0) & \mbox{Average} < Threshold \\ \min(\kappa,0) & \mbox{Average} \ge Threshold 
 //             \end{array} \right.
 //  \end{equation}
 //
-// The average is computed over a neighborhood of the pixel and the threshold
-// is calculated by the algorithm as some average pixel value in the gradient
-// direction. The integer radius of this neighborhood is selected by the user.
+// The $Average$ is computed over a neighborhood of the pixel and the
+// $Threshold$ is calculated as the average of pixel intensities along the
+// direction perpendicular to the gradient. This can be seen as the mean value
+// of the pixels lying on the iso-contour of the current pixel. With this
+// calculation, if the pixel in question happens to be down-hill on the
+// intensity topography, the average along the iso-countour will produce a
+// threshold value lower than the average intensity on the neighbor and will
+// make that only negative curvatures will be considered for contributing to
+// the force. If the pixels happens to be up-hill on the intensities, its
+// average along the iso-contour will presumably be higher that the average of
+// the neighborhood, and hence only positive curvatures will be considered for
+// contributing to the force. The final effect of this approach is that a
+// notion of scale is included in the computation of the force applied to the
+// contour. Only those directions of movement that are consistent with a
+// larger-scale view of the contour will have an effect on the applied force.
+//
+//
+// Figure~\ref{fig:MinMaxCurvatureFlowFunctionDiagram} shows the main elements
+// involved in the computation. The set of square pixels represent the
+// neighborhood over which the average intensity is being computed. The gray
+// pixels are those lying close to the direction perpendicular to the gradient.
+// The average of these pixels is used as the threshold value in the equation
+// above. The integer radius of the neighborhood is selected by the user.
 //
 //  \index{itk::MinMaxCurvatureFlowImageFilter|textbf}
 //
