@@ -23,6 +23,7 @@
  */
 #include "itkFEMLoadBase.h"
 #include "itkFEMLoadNode.h"
+#include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadPoint.h"

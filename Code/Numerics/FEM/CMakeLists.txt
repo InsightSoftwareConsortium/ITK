@@ -33,6 +33,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMMaterialStandard.cxx
 
   itkFEMLoadBase.cxx
+  itkFEMLoadBC.cxx
   itkFEMLoadBCMFC.cxx
   itkFEMLoadNode.cxx
   itkFEMLoadElementBase.cxx
@@ -103,6 +104,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMLoads.h
   itkFEMLoadBase.h
+  itkFEMLoadBC.h
   itkFEMLoadBCMFC.h
   itkFEMLoadNode.h
   itkFEMLoadElementBase.h
