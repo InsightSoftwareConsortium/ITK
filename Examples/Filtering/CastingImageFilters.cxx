@@ -50,14 +50,14 @@
 //  The linear transformation applied by this filter can be expressed as 
 //
 //  \[ outputPixel = ( inputPixel - inpMin) \times 
-//                    \frac{(inpMax-inpMin)}{(outMax - outMin )} + outMin \]
+//                    \frac{(outMax - outMin )}{(inpMax-inpMin)} + outMin \]
 //
 //  The ShiftScaleImageFilter also applies a linear transformation to
 //  the intensities of the input image, but the transformation is specified
 //  by the user in the form of a multiplying factor and a value to be added.
 //  This can be expressed as 
 //
-//  \[  outputPixel = inputPixel \times Scale + Shift \].
+//  \[  outputPixel = \left( inputPixel  + Shift \right) \times Scale\].
 //
 //  The parameters of the linear transformation applied by the
 //  NormalizeImageFilter are computed internally such that the
