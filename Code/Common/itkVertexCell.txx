@@ -226,9 +226,9 @@ VertexCell< TCellInterface >
 template <typename TCellInterface>
 bool
 VertexCell< TCellInterface >
-::EvaluatePosition(CoordRepType x[VertexCell::PointDimension],
+::EvaluatePosition(CoordRepType x[Self::PointDimension],
                                 PointsContainer* points,
-                                CoordRepType closestPoint[VertexCell::PointDimension],
+                                CoordRepType closestPoint[Self::PointDimension],
                                 CoordRepType pcoord[2],
                                 double* minDist2,
                                 InterpolationWeightType* weights)

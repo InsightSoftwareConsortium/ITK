@@ -54,7 +54,7 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension>&
 Vector<T, TVectorDimension>
-::operator= (const ValueType r[Vector::Dimension])
+::operator= (const ValueType r[Self::Dimension])
 {
   BaseArray::operator=(r);
   return *this;
