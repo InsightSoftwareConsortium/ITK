@@ -25,6 +25,19 @@ CHECK_INCLUDE_FILES("memory.h" HAVE_MEMORY_H)
 CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/include/log4cxx/config_auto.h.in
                ${PROJECT_BINARY_DIR}/include/log4cxx/config_auto.h)
 
+INCLUDE_DIRECTORIES(
+${log4cxx_SOURCE_DIR}/include
+${log4cxx_BINARY_DIR}/include
+)
+
+IF(WIN32)
+  IF(NOT CYGWIN)
+    IF(BORLAND)
+    ELSE(BORLAND)
+       LINK_LIBRARIES( wsock32 comctl32 )
+    ENDIF(BORLAND)
+  ENDIF(NOT CYGWIN)
+ENDIF(WIN32)
 
 
 IF(NOT BUILD_SHARED_LIBS)
