@@ -61,20 +61,20 @@
 #include <vcl_iostream.h>
 //#include <vcl_alloc.h>
 //#include "vcl_alloc.h" --> #include "alloc.h"
-#include "alloc.h"
+#include "vcl_alloc.h"
 #include <vcl_algorithm.h>
 #include <vcl_iterator.h>
 #include <vcl_functional.h>
 #include <vcl_vector.h>
 //#include "vcl_pair.h" --> #include "pair.h"
-#include "pair.h"
+#include <utility>
 #include <vcl_exception.h>
 #include <vcl_memory.h>
 
 // The following #define's are for itk compatability:
 #define vcl_pair std::pair 
 #define vcl_alloc std::alloc
-#define vcl_simple_alloc std::simple_alloc
+#define vcl_simple_alloc vcl_simple_alloc
 #define __CONST_CAST(x,y) const_cast<x>(y)
 //
 
@@ -657,10 +657,10 @@ vcl_hashtable_const_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::
 }
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
-inline forward_iterator_tag
+inline std::forward_iterator_tag
 iterator_category (const vcl_hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>&)
 {
-  return forward_iterator_tag();
+  return std::forward_iterator_tag();
 }
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
@@ -678,10 +678,10 @@ distance_type(const vcl_hashtable_iterator<Value, Key, HashFcn, ExtractKey, Equa
 }
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
-inline forward_iterator_tag
+inline std::forward_iterator_tag
 iterator_category (const vcl_hashtable_const_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>&)
 {
-  return forward_iterator_tag();
+  return std::forward_iterator_tag();
 }
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>

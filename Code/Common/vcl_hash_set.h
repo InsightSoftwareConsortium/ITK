@@ -39,6 +39,37 @@
 #define vcl_emulation_hash_set_h
 
 #include "vcl_hashtable.h"
+#include <functional>
+
+# if defined(xxxVCL_SUNPRO_CC) || defined (_MSC_VER)
+template <class T>
+struct vcl_identity : public vcl_unary_function<T, T> {
+  public:
+    const T& operator()(const T& x) const { return x; }
+};
+
+template <class _Pair>
+struct vcl_Select1st : public vcl_unary_function<_Pair, typename _Pair::first_type> {
+  typename _Pair::first_type const & operator()(_Pair const & __x) const {
+    return __x.first;
+  }
+};
+ 
+template <class _Pair>
+struct vcl_Select2nd : public vcl_unary_function<_Pair, typename _Pair::second_type> {
+  typename _Pair::second_type const & operator()(_Pair const & __x) const {
+    return __x.second;
+  }
+};
+
+// Add select* to std.
+namespace std {
+  template <class _Pair>
+  struct select1st : public vcl_Select1st<_Pair> { };
+  template <class _Pair> struct select2nd : public vcl_Select2nd<_Pair> { };
+};
+# endif
+
 
 // The following are added for itk compatability:
 #define __WORKAROUND_RENAME(X) X
@@ -54,7 +85,7 @@
 
 template <class Value, VCL_DFL_TMPL_PARAM_STLDECL(HashFcn,vcl_hash<Value>),
           VCL_DFL_TMPL_PARAM_STLDECL(EqualKey,vcl_equal_to<Value>),
-          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,vcl_alloc) >
+          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::allocator<char> ) >
 class vcl_hash_set
 {
 private:
@@ -120,8 +151,8 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==<>(const vcl_hash_set<Value,HashFcn,EqualKey,Alloc>&,
-                         const vcl_hash_set<Value,HashFcn,EqualKey,Alloc>&);
+  friend bool operator==VCL_NULL_TMPL_ARGS(const vcl_hash_set<Value,HashFcn,EqualKey,Alloc>&,
+                           const vcl_hash_set<Value,HashFcn,EqualKey,Alloc>&);
 
   iterator begin() const { return rep.begin(); }
   iterator end() const { return rep.end(); }
@@ -129,7 +160,7 @@ public:
 public:
   vcl_pair<iterator, bool> insert(const value_type& obj)
     {
-#ifdef VC50
+#ifdef _MSC_VER
       vcl_pair< ht::iterator, bool> p = rep.insert_unique(obj);
 #else
       vcl_pair<typename ht::iterator, bool> p = rep.insert_unique(obj);
@@ -140,7 +171,7 @@ public:
   void insert(const_iterator f, const_iterator l) { rep.insert_unique(f, l); }
   vcl_pair<iterator, bool> insert_noresize(const value_type& obj)
     {
-#ifdef VC50
+#ifdef _MSC_VER
 	  vcl_pair<ht::iterator, bool> p = rep.insert_unique_noresize(obj);
 #else
       vcl_pair<typename ht::iterator, bool> p = rep.insert_unique_noresize(obj);
@@ -171,7 +202,7 @@ public:
 
 template <class Value, VCL_DFL_TMPL_PARAM_STLDECL(HashFcn,vcl_hash<Value>),
           VCL_DFL_TMPL_PARAM_STLDECL(EqualKey,vcl_equal_to<Value>),
-          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,vcl_alloc) >
+          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::allocator<char> ) >
 class vcl_hash_multiset
 {
 private:
@@ -234,7 +265,7 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==<>(const vcl_hash_multiset<Value,HashFcn,EqualKey,Alloc>&,
+  friend bool operator==VCL_NULL_TMPL_ARGS(const vcl_hash_multiset<Value,HashFcn,EqualKey,Alloc>&,
                          const vcl_hash_multiset<Value,HashFcn,EqualKey,Alloc>&);
 
   iterator begin() const { return rep.begin(); }
@@ -301,11 +332,11 @@ inline void swap(__hash_set__<Value, HashFcn, EqualKey, Alloc>& a,
 # ifndef __STL_DEFAULT_TYPE_PARAM
 // provide a "default" vcl_hash_set adaptor
 template <class Value, class HashFcn, class EqualKey >
-class vcl_hash_set : public __hash_set__<Value, HashFcn, EqualKey, vcl_alloc>
+class vcl_hash_set : public __hash_set__<Value, HashFcn, EqualKey, std::allocator<char> >
 {
   typedef vcl_hash_set<Value, HashFcn, EqualKey> self;
 public:
-  typedef __hash_set__<Value, HashFcn, EqualKey, vcl_alloc> super;
+  typedef __hash_set__<Value, HashFcn, EqualKey, std::allocator<char> > super;
   __IMPORT_CONTAINER_TYPEDEFS(super)
   typedef typename super::key_type key_type;
   typedef typename super::hasher hasher;
@@ -343,11 +374,11 @@ inline bool operator==(const vcl_hash_set<Value, HashFcn,EqualKey>& hs1,
 
 // provide a "default" vcl_hash_multiset adaptor
 template <class Value, class HashFcn, class EqualKey >
-class vcl_hash_multiset : public __hash_multiset__<Value, HashFcn, EqualKey, vcl_alloc>
+class vcl_hash_multiset : public __hash_multiset__<Value, HashFcn, EqualKey, std::allocator<char> >
 {
   typedef vcl_hash_multiset<Value, HashFcn, EqualKey> self;
 public:
-  typedef __hash_multiset__<Value, HashFcn, EqualKey, vcl_alloc> super;
+  typedef __hash_multiset__<Value, HashFcn, EqualKey, std::allocator<char> > super;
   __IMPORT_CONTAINER_TYPEDEFS(super)
   typedef typename super::key_type key_type;
   typedef typename super::hasher hasher;

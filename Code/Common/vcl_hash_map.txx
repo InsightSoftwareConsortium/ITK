@@ -3,7 +3,7 @@
 #include "vcl_hash_map.h"
 #include "vcl_hash.txx"
 //#include "vcl_pair.txx"
-#include <pair.h>
+#include <utility>
 #include <functional>
 #include "vcl_functional.txx"
 

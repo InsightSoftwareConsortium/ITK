@@ -47,7 +47,7 @@
 //#include <vcl_alloc.h>
 #include "vcl_hashtable.h"
 //#include "vcl_alloc.h" --> #include "alloc.h", itk compatability
-#include "alloc.h"
+#include "vcl_alloc.h"
 
 
 // Added for itk compatability
@@ -99,7 +99,7 @@
 template <class Key, class T,
           VCL_DFL_TMPL_PARAM_STLDECL(HashFcn,vcl_hash<Key>),
           VCL_DFL_TMPL_PARAM_STLDECL(EqualKey,vcl_equal_to<Key>),
-          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,vcl_alloc) >
+          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::allocator<char> ) >
 class vcl_hash_map
 {
 private:
@@ -156,7 +156,7 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==<>(const vcl_hash_map<Key,T,HashFcn,EqualKey,Alloc>&,
+  friend bool operator==VCL_NULL_TMPL_ARGS(const vcl_hash_map<Key,T,HashFcn,EqualKey,Alloc>&,
                          const vcl_hash_map<Key,T,HashFcn,EqualKey,Alloc>&);
 
   iterator begin() { return rep.begin(); }
@@ -204,7 +204,7 @@ public:
 
 template <class Key, class T, VCL_DFL_TMPL_PARAM_STLDECL(HashFcn,vcl_hash<Key>),
           VCL_DFL_TMPL_PARAM_STLDECL(EqualKey,vcl_equal_to<Key>),
-          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,vcl_alloc) >
+          VCL_DFL_TYPE_PARAM_STLDECL(Alloc,std::allocator<char> ) >
 class vcl_hash_multimap
 {
 private:
@@ -260,7 +260,7 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==<>(const vcl_hash_multimap<Key,T,HashFcn,EqualKey,Alloc>&,
+  friend bool operator==VCL_NULL_TMPL_ARGS(const vcl_hash_multimap<Key,T,HashFcn,EqualKey,Alloc>&,
                          const vcl_hash_multimap<Key,T,HashFcn,EqualKey,Alloc>&);
 
   iterator begin() { return rep.begin(); }
@@ -329,12 +329,12 @@ inline void swap(VCL_hash_multimap__<Key, T, HashFcn, EqualKey, Alloc>& a,
 
 // provide a "default" vcl_hash_map adaptor
 template <class Key, class T, class HashFcn, class EqualKey >
-class vcl_hash_map : public VCL_hash_map__<Key, T, HashFcn, EqualKey, vcl_alloc >
+class vcl_hash_map : public VCL_hash_map__<Key, T, HashFcn, EqualKey, std::allocator<char>  >
 {
   typedef vcl_hash_map<Key, T, HashFcn, EqualKey> self;
 public:
-//rick  typedef typename VCL_hash_map__<Key, T, HashFcn, EqualKey, vcl_alloc> super;
-  typedef VCL_hash_map__<Key, T, HashFcn, EqualKey, vcl_alloc> super;
+//rick  typedef typename VCL_hash_map__<Key, T, HashFcn, EqualKey, std::allocator> super;
+  typedef VCL_hash_map__<Key, T, HashFcn, EqualKey, std::allocator<char> > super;
   VCL_IMPORT_CONTAINER_TYPEDEFS(super)
   typedef typename super::key_type key_type;
   typedef typename super::hasher hasher;
@@ -373,11 +373,11 @@ inline bool operator==(const vcl_hash_map<Key, T, HashFcn,EqualKey>& hm1,
 
 // provide a "default" vcl_hash_multimap adaptor
 template <class Key, class T, class HashFcn, class EqualKey >
-class vcl_hash_multimap : public VCL_hash_multimap__<Key, T, HashFcn, EqualKey, vcl_alloc>
+class vcl_hash_multimap : public VCL_hash_multimap__<Key, T, HashFcn, EqualKey, std::allocator<char> >
 {
   typedef vcl_hash_multimap<Key, T, HashFcn, EqualKey> self;
 public:
-  typedef VCL_hash_multimap__<Key, T, HashFcn, EqualKey, vcl_alloc> super;
+  typedef VCL_hash_multimap__<Key, T, HashFcn, EqualKey, std::allocator<char> > super;
   VCL_IMPORT_CONTAINER_TYPEDEFS(super)
   typedef typename super::key_type key_type;
   typedef typename super::hasher hasher;
