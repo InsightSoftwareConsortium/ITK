@@ -99,11 +99,11 @@ int main( int argc, char **argv )
 {
 
 
-  if( argc < 5 )
+  if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY " << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold" << std::endl;
     return 1;
     }
 
@@ -258,9 +258,12 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
+  const InternalPixelType lowerThreshold = atof( argv[5] );
+  const InternalPixelType upperThreshold = atof( argv[6] );
+
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetLower( 123  );
-  confidenceConnected->SetUpper(  55  );
+  confidenceConnected->SetLower(  lowerThreshold  );
+  confidenceConnected->SetUpper(  upperThreshold  );
   // Software Guide : EndCodeSnippet
 
 
@@ -331,16 +334,17 @@ int main( int argc, char **argv )
   //  Let's now run this example using as input the image
   //  \code{BrainProtonDensitySlice.png} provided in the directory
   //  \code{Insight/Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seeds in the appropriate locations. For example
+  //  structures by providing seeds in the appropriate locations and defining
+  //  values for the lower and upper thresholds. For example
   //
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Output Image \\
+  //  Structure & Seed Index & Lower & Upper & Output Image \\
   //  \hline
-  //  White matter & $(60,116)$ & Second from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
-  //  Ventricle    & $(81,112)$ & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
-  //  Gray matter  & $(107,69)$ & Fourth from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
+  //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
+  //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
+  //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure \ref{fig:ConnectedThresholdOutput} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
