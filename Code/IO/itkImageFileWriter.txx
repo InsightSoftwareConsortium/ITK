@@ -148,7 +148,7 @@ void
 ImageFileWriter<TInputImage>
 ::GenerateData()
 {
-  typename InputImagePointer output = this->GetInput();
+  InputImagePointer output = this->GetInput();
 
   itkDebugMacro(<<"Writing file" << m_FileName);
   
