@@ -168,7 +168,44 @@ Algorithms are classes that implement a procedure.
 */  
 
 
+/**
 
+  \defgroup PipeLine Pipeline Architecture
+  Insight is commited to support large sets of data, for that reason the basic
+  architecture of the toolkit included a data pipeline mechanism that allows to
+  process data by sequentially sending subregions to process objects.
+  
+*/
+
+/**
+  \defgroup DataObjects Data Objects
+ 
+ Data Objects are the basic data holder objects designed to carry data around. Data Objects
+ are passed between process objects serving as links or connections in the data
+ pipeline.
+ 
+ */
+
+/**
+  \defgroup Numerics Numerics
+ 
+  Insight provides support for numerical operations at two levels. The first
+  level makes use of an external library known as VXL developped by the VXL
+  consortium. This library provides support for linear algebra, optimization
+  and lot more. The second level is a reduced number of classes that respond to
+  more particular needs of the Insight toolkit. This category includes things
+  like numerical optimizers specifically designed to fit in the registration
+  framework, Statistical classes designed to be used for classification and
+  segmentation.
+
+ 
+ */
+
+
+/**
+ \defgroup ThreadSafe Thread Safe classes
+ \ingroup ThreadSafety
+*/  
 
 /**
 
@@ -180,10 +217,6 @@ Algorithms are classes that implement a procedure.
 
 */  
 
-/**
- \defgroup ThreadSafe Thread Safe classes
- \ingroup ThreadSafety
-*/  
 
 /**
  \defgroup ThreadUnSafe Thread Unsafe classes
