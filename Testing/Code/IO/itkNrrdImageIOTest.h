@@ -94,9 +94,9 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
     {
     writer->SetFileName(fn.c_str());
     if (compression==true)
-      { writer->CompressionOn(); }
+      { writer->UseCompressionOn(); }
     else
-      { writer->CompressionOff();}
+      { writer->UseCompressionOff();}
     reader->SetFileName(fn.c_str());
     //writer->SetFileName("testDebug.mhd");
     //reader->SetFileName("testDebug.mhd");
