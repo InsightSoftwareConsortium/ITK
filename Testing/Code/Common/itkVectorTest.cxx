@@ -16,7 +16,10 @@ See COPYRIGHT.txt for copyright details.
 #include <iostream>
 #include "itkVector.h"
 
-bool different(float a, float b)
+// Define floating point type to use for the test.
+typedef double Real;
+
+bool different(Real a, Real b)
 {
   return fabs(a-b) > 1e-6;
 }
@@ -25,14 +28,14 @@ int main()
 {
   bool passed = true;
 
-  typedef itk::Vector<float, 2> FloatVector;
+  typedef itk::Vector<Real, 2> RealVector;
 
-  FloatVector s;
-  FloatVector t;
-  FloatVector r;
+  RealVector s;
+  RealVector t;
+  RealVector r;
 
   int i = 4;
-  float f = 2.1;
+  Real f = 2.1;
   
   s.Fill(3.0);
   if (different(s[0], 3.0) || different(s[1], 3.0))
@@ -106,7 +109,7 @@ int main()
   
 
   s -= t;
-  if (different(s[0], 5.9) || different(s[1], 5.9))
+  if (different(s[0], 3.8) || different(s[1], 3.8))
     {
     passed = false;
     }
