@@ -93,7 +93,7 @@ int itkBilateralImageFilterTest2(int ac, char** av)
   // compare the two images
   itk::ImageRegionIterator<myImage> it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
   itk::ImageRegionIterator<myImage> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-   int status = 0;
+   unsigned long status = 0;
    while (!it.IsAtEnd())
      {
      if (it.Get() != rit.Get())
