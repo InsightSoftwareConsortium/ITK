@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVTKImageWriter.h"
 #include "itkPoint.h"
 
 // Spatial function stuff
@@ -137,19 +136,6 @@ int main()
     }
 
   printf("Spatial function iterator created, sphere drawn\n");
-  
-  // Note: uncomment the following code to write the gradient magnitude output to
-  // a VTK format file
-  /*
-  //-----------------------Write image to file----------------------------
-	itk::VTKImageWriter< itk::Image<unsigned char, dim> >::Pointer writer;
-	writer = itk::VTKImageWriter< itk::Image<unsigned char, dim> >::New();
-	
-	writer->SetInput(sourceImage);
-	writer->SetFileName("sourceImage.vtk");
-	writer->SetFileTypeToBinary();
-	writer->Write();
-  */
 
   return EXIT_SUCCESS;
 }

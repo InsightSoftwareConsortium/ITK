@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVTKImageWriter.h"
 #include "itkPoint.h"
 
 // Blox stuff

@@ -46,7 +46,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVTKImageWriter.h"
 #include "itkPoint.h"
 
 // Blox stuff
@@ -193,20 +192,6 @@ int main()
   itk::Image<unsigned char, dim>::Pointer gradientMagImage = gradMagFilter->GetOutput();
 
   gradMagFilter->Update();
-
-  // Note: uncomment the following code to write the gradient magnitude output to
-  // a VTK format file
-
-  /*
-  // Write the gradient magnitude information
-	itk::VTKImageWriter< itk::Image<unsigned char, dim> >::Pointer writer;
-	writer = itk::VTKImageWriter< itk::Image<unsigned char, dim> >::New();
-	
-	writer->SetInput(gradientMagImage);
-	writer->SetFileName("gradientMagImage.vtk");
-	writer->SetFileTypeToBinary();
-	writer->Write();
-  */
 
   return EXIT_SUCCESS;
 }
