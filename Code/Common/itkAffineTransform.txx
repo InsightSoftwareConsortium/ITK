@@ -216,7 +216,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Rotate(int axis1, int axis2, double angle, bool pre) 
+Rotate(int axis1, int axis2, TScalarType angle, bool pre) 
 {
   MatrixType trans;
   unsigned int i, j;
@@ -254,7 +254,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Rotate2D(double angle, bool pre)
+Rotate2D(TScalarType angle, bool pre)
 {
   MatrixType trans;
 
@@ -284,7 +284,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Rotate3D(const InputVectorType &axis, double angle, bool pre)
+Rotate3D(const InputVectorType &axis, TScalarType angle, bool pre)
 {
   MatrixType trans;
   ScalarType r, x1, x2, x3;
@@ -333,7 +333,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-Shear(int axis1, int axis2, double coef, bool pre)
+Shear(int axis1, int axis2, TScalarType coef, bool pre)
 {
   MatrixType trans;
   unsigned int i, j;
@@ -545,11 +545,11 @@ Inverse( void ) const
 // Compute a distance between two affine transforms
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
-double
+AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::ScalarType
 AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 Metric(const Self * other) const
 {
-  double result = 0.0, term;
+  ScalarType result = 0.0, term;
 
   for (unsigned int i = 0; i < NDimensions; i++) 
     {
@@ -569,11 +569,11 @@ Metric(const Self * other) const
 // Compute a distance between self and the identity transform
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
-double
-AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+AffineTransform<TScalarType, NDimensions, TParameters, TJacobianType>::ScalarType
+AffineTransform<TScalarType, NDimensions, TParameters, TJacobianType>::
 Metric(void) const
 {
-  double result = 0.0, term;
+  ScalarType result = 0.0, term;
 
   for (unsigned int i = 0; i < NDimensions; i++) 
     {

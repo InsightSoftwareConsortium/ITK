@@ -121,8 +121,8 @@ namespace itk
 template <
  class TScalarType=double,         // Data type for scalars (e.g. float or double)
  unsigned int NDimensions=3,       // Number of dimensions in the input space
- class TParameters = Point< double, NDimensions*(NDimensions+1) >,
- class TJacobianType = Matrix<double,NDimensions,NDimensions*(NDimensions+1) > 
+ class TParameters = Point< TScalarType, NDimensions*(NDimensions+1) >,
+ class TJacobianType = Matrix<TScalarType,NDimensions,NDimensions*(NDimensions+1) > 
       >  
 class AffineTransform : public Transform< TScalarType,
                                           NDimensions, 
@@ -277,7 +277,7 @@ public:
    * a rotation of pi/2 radians will carry +axis1 into +axis2.
    * The rotation is precomposed with self if pre is true, and
    * postcomposed otherwise. */
-  void Rotate(int axis1, int axis2, double angle, bool pre=0);
+  void Rotate(int axis1, int axis2, TScalarType angle, bool pre=0);
 
   /** Compose 2D affine transformation with a rotation
    *
@@ -291,7 +291,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    *       is this is used with NDimensions != 2. */
-  void Rotate2D(double angle, bool pre=0);
+  void Rotate2D(TScalarType angle, bool pre=0);
 
   /** Compose 3D affine transformation with a rotation
    *
@@ -305,7 +305,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    * is this is used with NDimensions != 3. */
-  void Rotate3D(const OutputVectorType &axis, double angle, bool pre=0);
+  void Rotate3D(const OutputVectorType &axis, TScalarType angle, bool pre=0);
 
   /** Compose affine transformation with a shear
    *
@@ -316,7 +316,7 @@ public:
    *
    * y[axis1] = x[axis1] + coef*x[axis2]
    * y[axis2] =                 x[axis2]. **/
-  void Shear(int axis1, int axis2, double coef, bool pre=0);
+  void Shear(int axis1, int axis2, TScalarType coef, bool pre=0);
 
   /** Transform by an affine transformation
    *
@@ -372,12 +372,12 @@ public:
    * two points transformed by the affine transformation would be
    * more useful, but I don't have time right now to work out the
    * mathematical details.) */
-  double Metric(const Self * other) const;
+  ScalarType Metric(const Self * other) const;
 
   /** This method computes the distance from self to the identity
    * transformation, using the same metric as the one-argument form
    * of the Metric() method. **/
-  double Metric(void) const;
+  ScalarType Metric(void) const;
 
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
