@@ -427,10 +427,10 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   int iFilter;                        // Index of Sobel filters for each dimension
   bool maximumFound = false;
   bool firstIteration = true;
-  unsigned int nIterations = 0;
   unsigned int iDimension;
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
+  unsigned int nIterations = 0;
   std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::endl;
 #endif
 
@@ -551,8 +551,9 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   while (! maximumFound) 
     {
-
+#ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
     nIterations++;
+#endif
 
     if (! firstIteration) 
       {

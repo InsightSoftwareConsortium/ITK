@@ -55,7 +55,7 @@ namespace itk {
       m_Histogram->Initialize(size, m_LowerBound, m_UpperBound);
       
       // Next, find the minimum radius that encloses all the offsets.
-      int minRadius = 0;
+      unsigned int minRadius = 0;
       typename OffsetVector::ConstIterator offsets;
       for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
         {
