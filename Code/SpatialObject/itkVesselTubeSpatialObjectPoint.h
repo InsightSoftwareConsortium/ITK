@@ -109,9 +109,6 @@ protected:
   /** Third of 3 alpha values */
   float m_Alpha3;
 
-  /** The radius of the tube point */
-  float m_R;
-
   /** The medialness of the tube point */
   float m_Medialness;
 
