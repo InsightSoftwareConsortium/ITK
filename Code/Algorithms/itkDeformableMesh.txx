@@ -23,24 +23,24 @@
 
 namespace itk
 {
-template <typename PixelType>
-DeformableMesh<PixelType>
+template <typename TPixelType>
+DeformableMesh<TPixelType>
 ::DeformableMesh()
 {
 }
 
-template <typename PixelType>
+template <typename TPixelType>
 void
-DeformableMesh<PixelType>
+DeformableMesh<TPixelType>
 ::SetResolution(int a, int b)
 {
   Resolution[0] = a;
   Resolution[1] = b;
 }
 
-template <typename PixelType>
+template <typename TPixelType>
 void
-DeformableMesh<PixelType>
+DeformableMesh<TPixelType>
 ::SetScale(float a, float b, float c)
 {
   Scale[0] = a;
@@ -48,9 +48,9 @@ DeformableMesh<PixelType>
   Scale[2] = c;
 }
 
-template <typename PixelType>
+template <typename TPixelType>
 void
-DeformableMesh<PixelType>
+DeformableMesh<TPixelType>
 ::SetCenter(int a, int b, int c)
 {
   Center[0] = a;
@@ -58,9 +58,9 @@ DeformableMesh<PixelType>
   Center[2] = c;
 }
 
-template <typename PixelType>
+template <typename TPixelType>
 void
-DeformableMesh<PixelType>
+DeformableMesh<TPixelType>
 ::SetDefault()
 {
   Scale[0] = 1.0;
@@ -70,9 +70,9 @@ DeformableMesh<PixelType>
   Resolution[1] = 18;
 }
 
-template <typename PixelType>
+template <typename TPixelType>
 void
-DeformableMesh<PixelType>
+DeformableMesh<TPixelType>
 ::Allocate()
 {
 //  CoordRepType PointCoords[38][3];
@@ -139,7 +139,7 @@ DeformableMesh<PixelType>
 	++point;
   }
   p = 0;
-  Cell::Pointer testCell(TriCell::New());
+  TriCellPointer testCell(TriCell::New());
 
   for(int i=0; i < Resolution[0]-1 ; i++) {
 	for (int j=0; j<Resolution[1]; j++) {

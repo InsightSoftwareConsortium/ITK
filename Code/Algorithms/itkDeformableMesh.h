@@ -16,8 +16,8 @@ namespace itk
  * mesh data, and require mesh data as input. Specifically, this class
  * defines the SetInput() method for defining the input to a filter.
  */
-template <class PixelType>
-class ITK_EXPORT DeformableMesh : public Mesh<PixelType>
+template <class TPixelType>
+class ITK_EXPORT DeformableMesh : public Mesh<TPixelType>
 {
 public:
   /**
@@ -25,6 +25,11 @@ public:
    */
   typedef DeformableMesh  Self;
 
+  /**
+   * Standard template parameter typedef.
+   */
+  typedef TPixelType PixelType;
+  
   /**
    * Standard "Superclass" typedef.
    */
@@ -35,6 +40,12 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
 
+  /**
+   * Typedefs are not inherited.
+   * Get typedef from superclass.
+   */
+  typedef Superclass::CellType CellType;
+  
   /**
    * Method for creation through the object factory.
    */
@@ -52,6 +63,7 @@ public:
  */
 
   typedef itk::TriangleCell<PixelType, CellType>	   TriCell;
+  typedef typename TriCell::Pointer TriCellPointer;
 
 
 /**
