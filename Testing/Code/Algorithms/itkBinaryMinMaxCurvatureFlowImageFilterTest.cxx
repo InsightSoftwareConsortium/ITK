@@ -26,7 +26,8 @@
 
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
-class ShowProgressObject
+namespace
+{class ShowProgressObject
 {
 public:
   ShowProgressObject(itk::ProcessObject* o)
@@ -35,6 +36,8 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
+}
+
 
 #define MAXRUNS 5 // maximum number of runs
 

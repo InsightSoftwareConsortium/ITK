@@ -20,7 +20,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkCommand.h"
 
-
+namespace
+{
 // The following classe is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
@@ -34,6 +35,7 @@ public:
 };
 
 
+}
 
 int itkGeodesicActiveContoursTest(int, char**)
 {
