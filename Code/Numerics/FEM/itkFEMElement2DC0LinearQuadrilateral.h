@@ -46,10 +46,10 @@ public:
    * where (rho c) is constant.  Implementation is similar to GetStiffnessMatrix.
    *
    *
-   * \param Me Reference to the resulting stiffnes matrix.
+   * 
    *
    */
-  void GetMassMatrix( MatrixType& Me ) const;
+  MatrixType Me() const;
 
 
 //////////////////////////////////////////////////////////////////////////
