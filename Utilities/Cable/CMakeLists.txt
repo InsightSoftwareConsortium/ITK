@@ -1,4 +1,5 @@
 PROJECT(CABLE)
+INCLUDE_REGULAR_EXPRESSION("^(cable|gen|xml).*$")
 
 SUBDIRS(Expat Parsers Generators Executables)
 
