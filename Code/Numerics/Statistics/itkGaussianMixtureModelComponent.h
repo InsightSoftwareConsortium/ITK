@@ -58,11 +58,10 @@ public:
 
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType ;
-  typedef typename Superclass::MembershipFunctionPointer MembershipFunctionPointer ;
   typedef typename Superclass::WeightArrayType WeightArrayType ;
+  typedef typename Superclass::ParametersType ParametersType ;
 
   typedef GaussianDensityFunction< MeasurementVectorType > NativeMembershipFunctionType ;
-  typedef NativeMembershipFunctionType::Pointer NativeMembershipFunctionPointer ;
   
   typedef WeightedMeanCalculator< TSample > MeanEstimatorType ;
   typedef WeightedCovarianceCalculator< TSample > CovarianceEstimatorType ;
@@ -70,27 +69,21 @@ public:
   typedef typename MeanEstimatorType::OutputType MeanType ;
   typedef typename CovarianceEstimatorType::OutputType CovarianceType ;
 
-  void SetSample(SamplePointer sample) ;
+  void SetSample(TSample* sample) ;
 
-  void SetInitialMean(MeanType* mean) ;
-
-  MeanType* GetInitialMean() ;
-
-  void SetInitialCovariance(CovarianceType* covariance) ;
-
-  CovarianceType* GetInitialCovariance() ;
-
+  void SetParameters(ParametersType &parameters) ;
+  
 protected:
   GaussianMixtureModelComponent() ;
   virtual ~GaussianMixtureModelComponent() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+  
+  double CalculateParametersChange() ;
 
   void GenerateData() ;
 
 private:
-  NativeMembershipFunctionPointer m_GaussianDensityFunction ;
-  MeanType* m_InitialMean ;
-  CovarianceType* m_InitialCovariance ;
+  NativeMembershipFunctionType::Pointer m_GaussianDensityFunction ;
   MeanType m_Mean ;
   CovarianceType m_Covariance ;
   MeanEstimatorType::Pointer m_MeanEstimator ;
