@@ -38,6 +38,10 @@ namespace itk
   * It stores and recomputes geometric properties of simplex mesh vertices, i.e. the normal vector,
   * the barycentric coordinates of the point related to its three neighbor vertices, simplex angle
   * circumsphere and circumcirlce radius and center.
+  *
+  *
+  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+  *
   */
   class ITKCommon_EXPORT SimplexMeshGeometry
     {
