@@ -63,6 +63,7 @@
 #include "vcl_compiler.h"
 #include <functional>
 #include <algorithm>
+#include <iterator>
 
 namespace itk
 {
@@ -464,17 +465,10 @@ public:
       insert_equal_noresize(*f++);
   }
 
-#if defined(WIN32)
-  static void distance(const_iterator f, const_iterator l, size_type& n) {
-    while (f != l) { ++f; ++n; }
-  }
-#endif
-
-
  void insert_unique(const_iterator f, const_iterator l)
   {
     size_type n = 0;
-    distance(f, l, n);
+    std::distance(f, l, n);
     resize(num_elements + n);
     for ( ; n > 0; --n)
       insert_unique_noresize(*f++);
@@ -483,7 +477,7 @@ public:
   void insert_equal(const_iterator f, const_iterator l)
   {
     size_type n = 0;
-    distance(f, l, n);
+    std::distance(f, l, n);
     resize(num_elements + n);
     for ( ; n > 0; --n)
       insert_equal_noresize(*f++);
