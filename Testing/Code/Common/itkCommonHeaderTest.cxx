@@ -266,6 +266,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSmartPointer.h"
 #include "itkSmartPointerForwardReference.txx"
 #include "itkSobelOperator.txx"
+#include "itkSparseImage.txx"
 #include "itkSpatialFunction.txx"
 #include "itkSphereSignedDistanceFunction.txx"
 #include "itkSphereSpatialFunction.txx"
