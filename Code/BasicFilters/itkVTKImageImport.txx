@@ -257,27 +257,17 @@ VTKImageImport<TOutputImage, TVTKRealType>
     region.SetIndex(index);
     region.SetSize(size);
     output->SetBufferedRegion(region);
-    output->Allocate();
     
     void* data = (m_BufferPointerCallback)(m_CallbackUserData);
     OutputPixelType* importPointer = reinterpret_cast<OutputPixelType*>(data);
-    OutputPixelType* bufferPointer =
-      output->GetPixelContainer()->GetBufferPointer();
-    unsigned long bufferSize = output->GetPixelContainer()->Size();
-    unsigned long dataSize = bufferSize;
-    if(importSize < bufferSize)
-      {
-      itkExceptionMacro(<<"Import and Buffer sizes do not match: "
-                        << importSize << " v. " << bufferSize);
-      dataSize = importSize;
-      }
-    else if(importSize > bufferSize)
-      {
-      itkExceptionMacro(<<"Import and Buffer sizes do not match: "
-                        << importSize << " v. " << bufferSize);
-      }
-    memcpy(bufferPointer, importPointer,
-           dataSize*sizeof(OutputPixelType));
+
+    // pass the pointer down to the output container during each
+    // Update() since a call to Initialize() causes the container to
+    // forget the pointer.  Note that we tell the container NOT to
+    // manage memory itself.  We leave the responsibility of
+    // deallocating the pixel data to VTK.
+    output->GetPixelContainer()
+      ->SetImportPointer( importPointer, importSize, false );
     }
 }
 
