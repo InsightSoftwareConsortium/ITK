@@ -25,6 +25,7 @@ SET(WRAP_SOURCES
   wrap_itkImageToImageFilter
   wrap_itkIndex
   wrap_itkLevelSet
+  wrap_itkNeighborhood
   wrap_itkPoint
   wrap_itkSize
   wrap_itkScaleTransform
