@@ -285,13 +285,120 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                       unsigned int imgHeight,
                       unsigned int imgDepth)
 {
-}
+  //Get the pointer to the output image
+  OutputImageType outputPtr = this->GetOutput(); 
+
+  // Get the vector dimension from the TInputImage paramete
+  unsigned int vecDim = OutputImagePixelType::GetVectorDimension();
+
+  //--------------------------------------------------------------------
+  // Set the iterators for the output image
+  //--------------------------------------------------------------------
+  OutputImageIterator  
+    outputImageIt( outputPtr, outputPtr->GetBufferedRegion() );
+
+  OutputImageIterator  outputIt    = outputImageIt.Begin();
+
+  OutputImagePixelType *tempImgIt  = &(outputIt.Value()); // dangerous!
+  OutputImagePixelType *outImgIt   = &(outputIt.Value()); // dangerous!
+  
+  //---------------------------------------------------------------------
+  //Calculate the initial number of regions 
+  //--------------------------------------------------------------------- 
+  unsigned int nRowSquareBlocks = imgWidth/( this->GetRowGridSize() );
+  unsigned int nColSquareBlocks = imgHeight/( this->GetColGridSize() ); 
+  unsigned int nSliceSquareBlocks = imgDepth/( this->GetSliceGridSize() ); 
+
+
+  m_NumRegions           = nRowSquareBlocks * 
+                           nColSquareBlocks *
+                           nSliceSquareBlocks;
+
+  int rowGridSize        = this->GetRowGridSize();
+  int colGridSize        = this->GetColGridSize();
+  int sliceGridSize      = this->GetSliceGridSize();
+  int labelValue         = 0;
+  int newRegionLabel     = 0;
+
+  VecDblType tmpMeanValue;
+  unsigned int row_start, row_end;
+  unsigned int col_start, col_end;
+  unsigned int slice_start, slice_end, offset;
+  unsigned int imageSize = imgWidth * imgHeight;
+
+  //--------------------------------------------------------------------
+  // walk through the entire region and get the mean approximations
+  //
+  // This is needed as the region labels associated each atomic
+  // block (as it was for during the initialization stage), have changed.
+  // The new region label points to the region that has the uptodate
+  // region intensity. After the updated region intensity is found,
+  // each pixel is updated with the mean approximation value.
+  //--------------------------------------------------------------------
+  for(unsigned int s = 0; s < nSliceSquareBlocks; s++ )
+    {
+    for(unsigned int r = 0; r < nRowSquareBlocks; r++ )
+      {
+      for(unsigned int c = 0; c < nColSquareBlocks; c++, labelValue++ )
+        {
+        newRegionLabel = m_pRegions[labelValue]->GetRegionLabel();
+
+        // Subtract 1 from the newRegionLabels as the regions are indexed
+        // in the memory starting from zero.
+        // Get the new mean value of the region.
+        tmpMeanValue   = m_pRegions[newRegionLabel-1]->GetMeanRegionIntensity();
+
+        OutputImageVectorType outMeanValue;
+
+        typedef typename OutputImagePixelType::ValueType OutputValueType;
+
+        //Get the mean value in the right format
+        for (unsigned int j = 0; j < vecDim; j++ )
+          outMeanValue[j]  = (OutputValueType) tmpMeanValue[j][0];
+
+        row_start   = r;
+        row_end     = row_start + rowGridSize;
+        col_start   = c;
+        col_end     = col_start + colGridSize;
+        slice_start = s;
+        slice_end   = slice_start + sliceGridSize;
+
+        // Loop through the each atomic region to fill the 
+        // mean approximated pixel value after the region growing operation.
+        for (unsigned int nslice = slice_start; nslice < slice_end; nslice++ )
+          {
+          for (unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
+            {
+            for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
+              {
+              offset      = nslice * imageSize + 
+                            nrow * m_imgWidth + ncol;
+
+              tempImgIt   = outImgIt + offset;
+              *tempImgIt = outMeanValue;
+              }
+            }
+          }//end Loop through the region to fill approx image
+                                                        
+        }//end for stepping through the col region blocks
+      }//end for stepping through the row region blocks  
+    }//end for stepping through the slice region blocks
+
+} //End GenerateOutputImage()
 //----------------------------------------------------------------------
+
 template<class TInputImage, class TOutputImage>
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GetLabelledImage()
 {
+
+  //---------------------------------------------------------------------
+  //Get the image width/height/depth
+  //--------------------------------------------------------------------- 
+
+  enum { imageDimension = TInputImage::ImageDimension };
+
   //--------------------------------------------------------------------
   // Allocate the memory for the labelled image
   //--------------------------------------------------------------------
@@ -309,6 +416,34 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   labelImagePtr->SetLargestPossibleRegion( labelImageRegion );
   labelImagePtr->SetBufferedRegion( labelImageRegion );
   labelImagePtr->Allocate();
+
+  //Generate the output approximation image
+  if( ( imageDimension == 2 ) || ( m_imgDepth == 1 ) ) 
+    {
+
+    // 2D generate output label routine for the region grwoing algorithm 
+    labelImagePtr = localfn_generate_labeled2Dimage( labelImagePtr );
+
+    }
+
+  if( ( imageDimension > 2 ) && ( m_imgDepth > 1 ) ) 
+    {
+    // 3D initialization routine for the region growing algorithm
+    labelImagePtr = localfn_generate_labeled3Dimage( labelImagePtr );
+
+    }
+
+
+  return labelImagePtr;
+
+}// end GetLabelledImage()
+//----------------------------------------------------------------------
+
+template<class TInputImage, class TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::localfn_generate_labeled2Dimage( LabelImageType *labelImagePtr )
+{
 
   //---------------------------------------------------------------------
   //Get the iterators for the label image
@@ -378,11 +513,100 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   //Return the reference to the labelled image
   return labelImagePtr;
-
-}// end GetLabelledImage()
-
+} // end localfn_generate_labeled2Dimage
 //----------------------------------------------------------------------
 
+template<class TInputImage, class TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::localfn_generate_labeled3Dimage( LabelImageType *labelImagePtr )
+{
+  //---------------------------------------------------------------------
+  //Get the iterators for the label image
+  //---------------------------------------------------------------------
+  LabelImageIterator  
+    labelImageIt(labelImagePtr, labelImagePtr->GetBufferedRegion());
+
+  LabelImageIterator  labelIt    = labelImageIt.Begin();
+  LabelImagePixelType *tempImgIt = &(labelIt.Value()); // dangerous!
+  LabelImagePixelType *outImgIt  = &(labelIt.Value()); // dangerous!
+
+    //---------------------------------------------------------------------
+  // Loop through the regions and fill the regions with the labels
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  //Calculate the initial number of regions 
+  //--------------------------------------------------------------------- 
+  unsigned int nRowSquareBlocks = m_imgWidth/( this->GetRowGridSize() );
+  unsigned int nColSquareBlocks = m_imgHeight/( this->GetColGridSize() ); 
+  unsigned int nSliceSquareBlocks = m_imgDepth/( this->GetSliceGridSize() ); 
+
+  m_NumRegions           = nRowSquareBlocks * nColSquareBlocks;
+  int rowGridSize        = this->GetRowGridSize();
+  int colGridSize        = this->GetColGridSize();
+  int sliceGridSize      = this->GetSliceGridSize();
+  int labelValue         = 0;
+  int newRegionLabel     = 0;
+  unsigned int imageSize = m_imgWidth * m_imgHeight;
+
+  VecDblType tmpMeanValue;
+  unsigned int row_start, row_end;
+  unsigned int col_start, col_end;
+  unsigned int slice_start, slice_end, offset;
+
+  //--------------------------------------------------------------------
+  // walk through the entire region and get the new unique labels
+  // representing the final segmentation.
+  //
+  // This is needed as the region labels associated each atomic
+  // block (as it was during the initialization stage), have changed.
+  // The new region label points to the region that has the uptodate
+  // region intensity. After the updated region intensity is found,
+  // each pixel is updated with the mean approximation value.
+  //--------------------------------------------------------------------
+  //--------------------------------------------------------------------
+  for(unsigned int s = 0; s < nSliceSquareBlocks; s++ )
+    {
+    for(unsigned int r= 0; r < nRowSquareBlocks; r++)
+      {
+      for(unsigned int c=0; c<nColSquareBlocks;c++,labelValue++)
+        {
+        newRegionLabel = m_pRegions[labelValue]->GetRegionLabel();
+
+        OutputImageVectorType outMeanValue;
+
+        row_start   = r * rowGridSize;
+        row_end     = row_start + rowGridSize;
+        col_start   = c * colGridSize;
+        col_end     = col_start + colGridSize;
+        slice_start = s * sliceGridSize;
+        slice_end   = slice_start + sliceGridSize;
+
+        //Loop through the region to fill the new region label
+        for (unsigned int nslice = slice_start; nslice < slice_end; nslice++ )
+          {
+          for (unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
+            {
+            for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
+              {
+              offset     = nslice * imageSize + 
+                            nrow * m_imgWidth + ncol;
+              tempImgIt  = outImgIt + offset;
+              *tempImgIt = newRegionLabel;
+              }
+            }
+          }
+                                                        
+        }//end col for loop
+      }//end row for loop
+    }//end slice for loop
+
+  //Return the reference to the labelled image
+  return labelImagePtr;
+
+}// End localfn_generate_labeled3Dimage()
+
+//----------------------------------------------------------------------
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
@@ -1085,25 +1309,31 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       }//end row loop
     }//end slice loop
 
+    // End Slice border processing
+
   // For DEBUG purposes
 #if DEBUG
      PrintAlgorithmRegionStats();
      PrintAlgorithmBorderStats();
 #endif
+  unsigned int actualBorderLength =
+    ( nRowSquareBlocks - 1 ) * nColSquareBlocks * nSliceSquareBlocks * 
+      colGridSize * sliceGridSize +
+    ( nColSquareBlocks - 1 ) * nRowSquareBlocks * nSliceSquareBlocks * 
+      rowGridSize * sliceGridSize +
+    ( nSliceSquareBlocks - 1 ) * nRowSquareBlocks * nColSquareBlocks * 
+      rowGridSize * colGridSize;
 
   // Verification of the initialization process
-  if ( m_TotalBorderLength != 
-       ( ( nRowSquareBlocks - 1 ) * m_imgWidth * m_imgDepth +
-         ( nColSquareBlocks - 1 ) * m_imgHeight * m_imgDepth +
-         ( nSliceSquareBlocks - 1 ) * m_imgHeight * m_imgWidth  )  )
-  {
+  if ( m_TotalBorderLength != actualBorderLength )
+    {
     std::cout << "Initialization is incorrect" << std::endl;
     throw ExceptionObject(__FILE__, __LINE__);
-  }// end if
+    }// end if
   else
-  {
+    {
     std::cout << "Passed initialization." << std::endl;
-  }// end else
+    }// end else
 
   // Allocate memory to store the array of pointers that point to the
   // static border objects

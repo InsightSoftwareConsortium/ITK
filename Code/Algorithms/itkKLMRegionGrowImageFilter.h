@@ -412,6 +412,19 @@ protected:
   void initializeKLM(unsigned int imgWidth,
                      unsigned int imgHeight,
                      unsigned int imgDepth );
+
+  /**
+   * Generate the labeled image for a 2D image 
+   */
+  LabelImagePointer localfn_generate_labeled2Dimage(
+    LabelImageType *labelImagePtr );
+
+  /**
+   * Generate the labeled image for a 3D image 
+   */
+  LabelImagePointer localfn_generate_labeled3Dimage(
+    LabelImageType *labelImagePtr );
+
 private:
   typedef typename TInputImage::SizeType InputImageSize;
   typedef typename KLMSegmentationRegion<TInputImage,TOutputImage>::Pointer 
