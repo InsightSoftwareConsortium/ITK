@@ -20,7 +20,6 @@
 #include "itkTobogganImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
-static void foo() { int i; i = 1; i = i+ 1; }
 namespace itk {
 
 template<class TInputImage>
@@ -67,7 +66,6 @@ void
 TobogganImageFilter<TInputImage>
 ::GenerateData( )
 {
-  foo ();
   InputImagePointer inputImage  = (InputImageType*) this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
   
