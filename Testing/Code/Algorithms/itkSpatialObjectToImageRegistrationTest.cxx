@@ -299,11 +299,11 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   TransformType::ParametersType m_ParametersScale;
   m_ParametersScale.resize(3);
 
-  m_ParametersScale[0]=1000; // angle scale
+  m_ParametersScale[0]=100; // angle scale
 
   for(unsigned int i=1;i<3;i++)
   {
-    m_ParametersScale[i] = 2; // offset scale
+    m_ParametersScale[i] = 1; // offset scale
   }
 
   optimizer->SetScales( m_ParametersScale );
@@ -325,8 +325,9 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   generator->Initialize(12345);
 
   optimizer->SetNormalVariateGenerator(generator);
-  optimizer->Initialize(10);
-  optimizer->SetMaximumIteration(1000);
+  optimizer->Initialize( 1.02, 1.1 );
+  optimizer->SetEpsilon( 0.01 ) ;
+  optimizer->SetMaximumIteration( 500 );
 
   typedef itk::IterationCallback<OptimizerType> IterationCallbackType;
   IterationCallbackType::Pointer callback = IterationCallbackType::New();
@@ -346,6 +347,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   {
     if(finalParameters[i]>1) // if we are not within 1 pixel the registration fails
     {
+    std::cout<<"Test failed!"<<std::endl;
       return EXIT_FAILURE;
     }
   }
