@@ -161,7 +161,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
       (
         0.2125 * static_cast<double>(*inputData++) +
         0.7154 * static_cast<double>(*inputData++) +
-        0.0720 * static_cast<double>(*inputData++)  
+        0.0721 * static_cast<double>(*inputData++)  
       ) * static_cast<double>(*inputData++);
     OutputComponentType val = static_cast<OutputComponentType>( tempval );
     OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -207,7 +207,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
       (
         0.2125 * static_cast<double>(*inputData++) +
         0.7154 * static_cast<double>(*inputData++) +
-        0.072 * static_cast<double>(*inputData++) 
+        0.0721 * static_cast<double>(*inputData++) 
       ) * static_cast<double>(*inputData++);
       OutputComponentType val = static_cast<OutputComponentType>( tempval );
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
