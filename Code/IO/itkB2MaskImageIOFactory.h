@@ -54,7 +54,6 @@ public:
 protected:
   B2MaskImageIOFactory();
   ~B2MaskImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   B2MaskImageIOFactory(const Self&); //purposely not implemented

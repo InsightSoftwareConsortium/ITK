@@ -22,12 +22,6 @@
   
 namespace itk
 {
-void B2MaskImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
-{
-
-}
-
-
 B2MaskImageIOFactory::B2MaskImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",

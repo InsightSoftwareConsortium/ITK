@@ -140,11 +140,7 @@ readOctree (std::ifstream & octreestream,
 void B2MaskImageIO::Read(void* buffer)
 {
   const unsigned int dimensions = this->GetNumberOfDimensions();
-  unsigned int numberOfPixels = 1;
-  for( unsigned int dim=0; dim< dimensions; dim++ )
-    {
-    numberOfPixels *= m_Dimensions[ dim ];
-    }
+
   std::ifstream   local_InputStream;
   { //Just fast forward throuth the file header
   itk::B2IPLHeaderInfo DummyHeader;
@@ -404,7 +400,7 @@ B2MaskImageIO
     );
   output.write(buf,strlen(buf));
   unsigned octreeHdr[6];
-  OctreeNode *tree = 0;
+  OctreeNode *tree;
   OctreeBase::Pointer octBasePtr;
   if(m_PixelType == CHAR)
     {
