@@ -45,7 +45,7 @@ std::string::size_type b,e;
   Superclass::Read(f, info);
 
   // clear the data already inside the object
-  E=0.0; A=0.0; I=0.0; ni=0.0; h=1.0;
+  E=0.0; A=0.0; I=0.0; nu=0.0; h=1.0;
 
   /*
    * Next we read any known constant from stream. This allows a user to
@@ -95,9 +95,9 @@ std::string::size_type b,e;
       continue;
     }
 
-    if (s=="ni") {
+    if (s=="nu") {
       SkipWhiteSpace(f); f>>d; if(!f) goto out;
-      ni=d;
+      nu=d;
       continue;
     }
 
@@ -147,7 +147,7 @@ void MaterialLinearElasticity::Write( std::ostream& f ) const
   f<<"\tE  : "<<E<<"\t% Young modulus\n";
   f<<"\tA  : "<<A<<"\t% Beam crossection area\n";
   f<<"\tI  : "<<I<<"\t% Moment of inertia\n";
-  f<<"\tni : "<<ni<<"\t% Poisson's ratio\n";
+  f<<"\tnu : "<<nu<<"\t% Poisson's ratio\n";
   f<<"\th : "<<h<<"\t% Plate thickness\n";
   f<<"\tEND:\t% End of material definition\n";
 

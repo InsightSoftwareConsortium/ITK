@@ -60,7 +60,7 @@ public:
   /**
    * Poisson's ratio
    */
-  double ni;
+  double nu;
   
   /*
    * ... we can add properties here as required without the influence on the already defined elements

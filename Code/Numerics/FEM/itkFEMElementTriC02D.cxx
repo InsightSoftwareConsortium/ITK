@@ -72,10 +72,10 @@ vnl_matrix<TriC02D::Float> TriC02D::Ke() const {
   int i, j;
 
   /** Material properties matrix */
-  Float disot = (m_mat->E*(1-m_mat->ni))/((1+m_mat->ni)*(1-2*m_mat->ni));
+  Float disot = (m_mat->E*(1-m_mat->nu))/((1+m_mat->nu)*(1-2*m_mat->nu));
     
   D[0][0] = disot;
-  D[0][1] = disot * (m_mat->ni) / (1 - m_mat->ni);
+  D[0][1] = disot * (m_mat->nu) / (1 - m_mat->nu);
   D[0][2] = 0;
 
   D[1][0] = D[0][1];
@@ -84,7 +84,7 @@ vnl_matrix<TriC02D::Float> TriC02D::Ke() const {
 
   D[2][0] = 0;
   D[2][1] = 0;
-  D[2][2] = disot * (1-2*m_mat->ni)/(2*(1-m_mat->ni));
+  D[2][2] = disot * (1-2*m_mat->nu)/(2*(1-m_mat->nu));
   
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);

@@ -45,7 +45,7 @@ std::string::size_type b,e;
   Superclass::Read(f, info);
 
   /**  clear the data already inside the object */
-  E=0.0; A=0.0; I=0.0; ni=0.0;
+  E=0.0; A=0.0; I=0.0; nu=0.0;
 
   /**
    * Next we read any known constant from stream. This allows a user to
@@ -100,10 +100,10 @@ std::string::size_type b,e;
       continue;
     }
 
-    if (s=="ni") {
-      /** read and set ni */
+    if (s=="nu") {
+      /** read and set nu */
       SkipWhiteSpace(f); f>>d; if(!f) goto out;
-      ni=d;
+      nu=d;
       continue;
     }
     if (s=="END") {
@@ -146,7 +146,7 @@ void MaterialStandard::Write( std::ostream& f ) const {
   f<<"\tE  : "<<E<<"\t% Young modulus\n";
   f<<"\tA  : "<<A<<"\t% Crossection area\n";
   f<<"\tI  : "<<I<<"\t% Moment of inertia\n";
-  f<<"\tni : "<<ni<<"\t% Poisson's ratio\n";
+  f<<"\tnu : "<<nu<<"\t% Poisson's ratio\n";
   f<<"\tEND:\t% End of material definition\n";
 
   /** check for errors */

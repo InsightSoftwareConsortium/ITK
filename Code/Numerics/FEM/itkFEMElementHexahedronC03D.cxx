@@ -82,24 +82,24 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
 
   /**
    * Material properties matrix.  This should be acommodate the
-   * real situation, using E and ni.
+   * real situation, using E and nu.
    */
   D.fill(0.0); 
-  Float fac = m_mat->E / ((1 + m_mat->ni) * (1 - 2 * m_mat->ni));
+  Float fac = m_mat->E / ((1 + m_mat->nu) * (1 - 2 * m_mat->nu));
   
   /** Set the elements in the top left quadrant */
   for (j=0; j < 3; j++) {
     for (int k=0; k < 3; k++) {
-      D[j][k] = m_mat->ni;
+      D[j][k] = m_mat->nu;
     }
   }
 
   /** Set the diagonal elements */
   for (int k=0; k < 3; k++) {
-    D[k][k] = 1 - m_mat->ni;
+    D[k][k] = 1 - m_mat->nu;
   }
   for (int k=3; k < 6; k++) {
-    D[k][k] = (1 - (2 * m_mat->ni)) * 0.5;
+    D[k][k] = (1 - (2 * m_mat->nu)) * 0.5;
   }
 
   /** Multiply by the factor */

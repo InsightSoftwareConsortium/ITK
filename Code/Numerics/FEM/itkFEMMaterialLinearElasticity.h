@@ -60,7 +60,7 @@ public:
   /**
    * Poisson's ratio
    */
-  double ni;
+  double nu;
 
   /**
    * Thickness
