@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // This example uses the \doxygen{NeighborhoodIterator} to implement a simple
-// Sobel edge detection algorithm \cite{Gonzales1993}.  The algorithm uses the
+// Sobel edge detection algorithm \cite{Gonzalez1993}.  The algorithm uses the
 // neighborhood iterator to iterate through an input image and calculate a
 // series of finite difference derivatives.  Since the derivative results
 // cannot be written back to the input image without affecting later
