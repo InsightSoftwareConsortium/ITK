@@ -26,7 +26,7 @@ public:
   typedef Point<double, NDimensions> PositionType;
   
   BloxBoundaryProfilePixel();
-  ~BloxBoundaryProfilePixel();
+  virtual ~BloxBoundaryProfilePixel();
 };
 
 } // end namespace itk

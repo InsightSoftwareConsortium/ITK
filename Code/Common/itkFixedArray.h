@@ -193,7 +193,7 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
     }
   else
     {
-    for (unsigned int i=0; i < VLength - 1; ++i)
+    for (int i=0; i < static_cast<int>(VLength) - 1; ++i)
       {
       os << arr[i] << ", ";
       }

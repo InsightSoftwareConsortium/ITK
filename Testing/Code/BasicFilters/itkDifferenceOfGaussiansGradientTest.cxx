@@ -157,7 +157,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // Test the get/set macro for width
   DOGFilter->SetWidth(4);
   unsigned int theWidth = DOGFilter->GetWidth();
-
+  std::cout << "DOGFilter->GetWidth(): " << theWidth << std::endl;
+  
   // Get the output of the gradient filter
   TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 

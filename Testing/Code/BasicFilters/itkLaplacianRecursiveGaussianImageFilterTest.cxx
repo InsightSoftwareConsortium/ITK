@@ -92,7 +92,8 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
 
   // Test itkGetMacro
   bool bNormalizeAcrossScale = lapFilter->GetNormalizeAcrossScale();
-
+  std::cout << "lapFilter->GetNormalizeAcrossScale(): "
+            << bNormalizeAcrossScale << std::endl;
 
   try
     {

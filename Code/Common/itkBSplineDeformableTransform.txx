@@ -240,7 +240,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    * are assumed to be maintained by the caller.
    */
   //PixelType * dataPointer = static_cast<PixelType *>( parameters.data_block() );
-  PixelType * dataPointer = (PixelType *)( parameters.data_block() );
+  PixelType * dataPointer = const_cast<PixelType *>(( parameters.data_block() ));
   unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )

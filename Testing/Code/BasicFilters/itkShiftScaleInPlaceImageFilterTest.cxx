@@ -113,8 +113,11 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
   //SetScale();
   inPlaceFilter->GetScale();
   long value = inPlaceFilter->GetUnderflowCount();
+  std::cout << "inPlaceFilter->GetUnderflowCount(): " << value << std::endl;
+  
   long value2 = inPlaceFilter-> GetOverflowCount();
-
+  std::cout << "inPlaceFilter->GetOverflowCount(): " << value2 << std::endl;
+  
   try
     {
     // update the in place filter
