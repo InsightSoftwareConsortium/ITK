@@ -17,12 +17,12 @@
 #define __itkNumericTraits_h
 
 #include "itkMacro.h"
+#undef min
+#undef max
 
 #if defined(_MSC_VER) || (defined(__sgi) && !defined(__GNUC__))
 #include <limits>
 #define ITK_NUMERIC_LIMITS std::numeric_limits
-#undef min
-#undef max
 #else
 #include "vnl/vnl_numeric_limits.h"
 #define ITK_NUMERIC_LIMITS vnl_numeric_limits
