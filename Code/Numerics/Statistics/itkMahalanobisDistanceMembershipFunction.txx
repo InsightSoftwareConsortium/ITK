@@ -161,7 +161,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Mean: [" ;
-  for (i=0; i < VectorDimension - 1; i++)
+  for (i=0; (i + 1) < VectorDimension; i++)
     {
     os << m_Mean[i] << ", ";
     }
