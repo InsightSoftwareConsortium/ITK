@@ -139,10 +139,10 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   // training data
 
   m_Means.resize(m_NumberOfClasses, VectorDimension);
-  m_Means.fill(NULL);
+  m_Means.fill(0);
 
   m_NumberOfSamples.resize(m_NumberOfClasses,1);
-  m_NumberOfSamples.fill(NULL);
+  m_NumberOfSamples.fill(0);
 
   // delete previous allocation first
   if ( m_Covariance ) delete [] m_Covariance;
@@ -152,7 +152,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   for(unsigned int i = 0; i < m_NumberOfClasses; i++ )
     {
     m_Covariance[i].resize( VectorDimension, VectorDimension );
-    m_Covariance[i].fill( NULL );
+    m_Covariance[i].fill( 0 );
     }
 
   for( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
@@ -223,7 +223,7 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
     MatrixType tempMeanSq;
     tempMeanSq.resize( VectorDimension, VectorDimension );
-    tempMeanSq.fill(NULL);
+    tempMeanSq.fill(0);
 
     for( unsigned int band_x = 0; band_x < VectorDimension; band_x++)
       {

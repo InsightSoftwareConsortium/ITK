@@ -141,7 +141,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     m_Codebook.resize( initCodebookSize, m_VectorDimension );
 
     // initialize m_Codebook to 0 (it now has only one row) 
-    m_Codebook.fill(NULL);
+    m_Codebook.fill( 0 );
 
     } // end (else not valid codebook clause)
 
@@ -150,13 +150,13 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   //and the codebook distorsion
 
   m_Centroid.resize( finalCodebookSize, m_VectorDimension );
-  m_Centroid.fill( NULL );
+  m_Centroid.fill( 0 );
 
   m_CodewordHistogram.resize( m_NumberOfCodewords, 1 ); 
-  m_CodewordHistogram.fill( NULL );
+  m_CodewordHistogram.fill( 0 );
 
   m_CodewordDistortion.resize( m_NumberOfCodewords, 1 );  
-  m_CodewordDistortion.fill( NULL );
+  m_CodewordDistortion.fill( 0 );
 
 } // end Allocate function
 
@@ -406,7 +406,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     }
 
   // initialize centroid if it exists 
-  m_Centroid.fill( NULL );
+  m_Centroid.fill( 0 );
 
   // perform encoding using partial distortion method 
   *distortion = 0.0;

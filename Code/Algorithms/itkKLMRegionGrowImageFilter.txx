@@ -1555,7 +1555,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //algorithm
 
   m_InitRegionMean.resize( vecDim, 1 );
-  m_InitRegionMean.fill(NULL);
+  m_InitRegionMean.fill(0);
 
   for ( unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
     {
@@ -1626,7 +1626,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //algorithm
 
   m_InitRegionMean.resize( vecDim, 1 );
-  m_InitRegionMean.fill(NULL);
+  m_InitRegionMean.fill(0);
 
   unsigned int imgSize = m_ImgWidth * m_ImgHeight;
 
