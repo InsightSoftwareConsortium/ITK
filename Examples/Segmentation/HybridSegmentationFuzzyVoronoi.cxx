@@ -43,11 +43,11 @@ int main( int argc, char **argv )
 {
 
 
-  if( argc < 6 )
+  if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY estimateMean estimateVariance" << std::endl;
+    std::cerr << " inputImage  outputImage seedX seedY estimateMean estimateVariance [meanTolerance varTolerance]" << std::endl;
     return 1;
     }
 
@@ -178,6 +178,16 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=6cm]{FatMRISlice.eps}
+  // \includegraphics[width=6cm]{HybridSegmentationFuzzyVoronoiOutput2.eps}
+  // \caption{Another segmentation results for the hybrid segmentation approach.}
+  // \label{fig:HybridSegmentationFuzzyVoronoiOutput2}
+  // \end{figure}
+  //
+  //  Software Guide : EndLatex 
 
 
   //
@@ -216,7 +226,12 @@ int main( int argc, char **argv )
 
   const float  mean     = atof(argv[5]);
   const float  variance = atof(argv[6]);
-
+  float meantol = 0.2;
+  float vartol = 2.0;
+  if (argc == 9){
+    meantol=atof(argv[7]);
+    vartol=atof(argv[8]);
+  }
   
 
 
@@ -276,9 +291,10 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
+  
   // Software Guide : BeginCodeSnippet
-  voronoisegmenter->SetMeanPercentError(0.2);
-  voronoisegmenter->SetSTDPercentError(2.0);
+  voronoisegmenter->SetMeanPercentError(meantol);
+  voronoisegmenter->SetSTDPercentError(vartol);
   voronoisegmenter->SetMinRegion(5);
   voronoisegmenter->SetInput( reader->GetOutput() );
   voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
@@ -350,6 +366,17 @@ int main( int argc, char **argv )
   //  \end{verbatim}
   //
   //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput} shows the input
+  //  image and the binary mask resulting from the segmentation.
+  //
+  //  We used a default Mean and Variance tolerence level in the previous example data,
+  //  for some other data, you might have to define another set of parameter in order to generate
+  //  reasonable segmentation.
+  // 
+  //  \begin{verbatim}
+  //  HybridSegmentationFuzzyVoronoi FatMRISlice.png Output.png 80 200 140 300 0.3 3.0
+  //  \end{verbatim}
+  //
+  //  Figure \ref{fig:HybridSegmentationFuzzyVoronoiOutput2} shows the input
   //  image and the binary mask resulting from the segmentation.
   //
   //  Software Guide : EndLatex 
