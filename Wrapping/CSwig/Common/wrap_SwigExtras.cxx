@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_itkVersorTransform.cxx
+  Module:    wrap_SwigExtras.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,20 +14,24 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkVersorTransform.h"
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
+#include <vector>
+#include <string>
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 
-#define ITK_WRAP_TRANSFORM_1(x) \
-  ITK_WRAP_OBJECT1(x, double, itk##x)
-    
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(itkVersorTransformGroup);
-  namespace wrappers
+  const char* const group = "SwigExtras";
+  namespace renames
   {
-    ITK_WRAP_TRANSFORM_1(VersorTransform);
+    typedef std::vector<std::string>::vector StringVector;
   }
 }
+
+
 #endif

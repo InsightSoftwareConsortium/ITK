@@ -25,6 +25,7 @@
  */
  
 %typemap(throws) std::exception {
-   SWIG_exception(SWIG_RuntimeError, _e.what());
+   SWIG_exception(SWIG_RuntimeError, const_cast<char*>(_e.what()));
 }
 
+%include std_string.i

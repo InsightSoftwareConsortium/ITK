@@ -25,7 +25,8 @@ typedef itk::name<arg1 >::Pointer::SmartPointer wrapname##_Pointer
 // same as ITK_WRAP_OBJECT1 but also wraps the super class 
 #define ITK_WRAP_OBJECT1_WITH_SUPERCLASS(name, arg1, wrapname) \
 ITK_WRAP_OBJECT1(name, arg1, wrapname); \
-typedef itk::name<arg1 >::Superclass::Self wrapname##_Superclass
+typedef itk::name<arg1 >::Superclass::Self wrapname##_Superclass; \
+typedef itk::name<arg1 >::Superclass::Pointer::SmartPointer wrapname##_Superclass_Pointer
 
 // same as ITK_WRAP_OBJECT1 but for two template parameters
 #define ITK_WRAP_OBJECT2(name, arg1, arg2, wrapname) \
@@ -34,7 +35,8 @@ typedef itk::name<arg1, arg2 >::Pointer::SmartPointer wrapname##_Pointer
 
 #define ITK_WRAP_OBJECT2_WITH_SUPERCLASS(name, arg1, arg2, wrapname) \
 ITK_WRAP_OBJECT2(name, arg1, arg2, wrapname); \
-typedef itk::name<arg1,arg2 >::Superclass::Self wrapname##_Superclass
+typedef itk::name<arg1,arg2 >::Superclass::Self wrapname##_Superclass; \
+typedef itk::name<arg1,arg2 >::Superclass::Pointer::SmartPointer wrapname##_Superclass_Pointer
 
 // same as ITK_WRAP_OBJECT2 but for three template parameters
 #define ITK_WRAP_OBJECT3(name, arg1, arg2, arg3, wrapname) \
@@ -43,7 +45,8 @@ typedef itk::name<arg1, arg2, arg3 >::Pointer::SmartPointer wrapname##_Pointer
 
 #define ITK_WRAP_OBJECT3_WITH_SUPERCLASS(name, arg1, arg2, arg3, wrapname) \
 ITK_WRAP_OBJECT3(name, arg1, arg2, arg3, wrapname); \
-typedef itk::name<arg1,arg2, arg3 >::Superclass::Self wrapname##_Superclass
+typedef itk::name<arg1,arg2, arg3 >::Superclass::Self wrapname##_Superclass; \
+typedef itk::name<arg1,arg2, arg3 >::Superclass::Pointer::SmartPointer wrapname##_Superclass_Pointer
 
 // same as ITK_WRAP_OBJECT4 but for three template parameters
 #define ITK_WRAP_OBJECT4(name, arg1, arg2, arg3, arg4, wrapname) \
@@ -52,5 +55,6 @@ typedef itk::name<arg1, arg2, arg3, arg4 >::Pointer::SmartPointer wrapname##_Poi
 
 #define ITK_WRAP_OBJECT4_WITH_SUPERCLASS(name, arg1, arg2, arg3, arg4, wrapname) \
 ITK_WRAP_OBJECT4(name, arg1, arg2, arg3, arg4, wrapname); \
-typedef itk::name<arg1,arg2, arg3, arg4 >::Superclass::Self wrapname##_Superclass
+typedef itk::name<arg1,arg2, arg3, arg4 >::Superclass::Self wrapname##_Superclass; \
+typedef itk::name<arg1,arg2, arg3, arg4 >::Superclass::Pointer::SmartPointer wrapname##_Superclass_Pointer
 

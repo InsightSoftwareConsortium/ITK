@@ -14,3 +14,12 @@ Tcl_Interp* GetInterp(Tcl_Interp* interp)
 }
 %}
 #endif
+
+/* See wrap_SwigExtras.cxx. */
+%include stl.i
+%template(StringVector) std::vector<string>;
+#ifdef SWIGJAVA
+%pragma(java) jniclasscode=%{
+  static { InsightToolkit.itkbase.LoadLibrary("ITKCommonJava"); }
+%}
+#endif

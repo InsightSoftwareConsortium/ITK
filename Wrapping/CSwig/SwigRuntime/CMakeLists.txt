@@ -11,7 +11,8 @@
 
 SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/swigrunTcl.cxx GENERATED)
 SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/swigrunPython.cxx GENERATED)
-SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/swigrunJava.cxx GENERATED)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 IF(ITK_CSWIG_TCL)
   ADD_LIBRARY(SwigRuntimeTcl SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunTcl.cxx)
@@ -25,11 +26,6 @@ IF(ITK_CSWIG_PYTHON)
   TARGET_LINK_LIBRARIES(SwigRuntimePython ${PYTHON_LIBRARY})
   INSTALL_TARGETS(/lib/InsightToolkit SwigRuntimePython)
 ENDIF(ITK_CSWIG_PYTHON)
-
-IF(ITK_CSWIG_JAVA)
-  ADD_LIBRARY(SwigRuntimeJava SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/swigrunJava.cxx)
-  TARGET_LINK_LIBRARIES(SwigRuntimeJava ${JAVA_AWT_LIBRARY})
-ENDIF(ITK_CSWIG_JAVA)
 
 
 MACRO(CREATE_SWIG_RUNTIME LangOption LibName LangPostFix)
@@ -61,5 +57,20 @@ IF(ITK_CSWIG_PYTHON)
 ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA)
-   CREATE_SWIG_RUNTIME(-java SwigRuntimeJava Java)
+  SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx GENERATED)
+  ADD_LIBRARY(SwigRuntimeJava SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx JavaCWD.cxx)
+  INSTALL_TARGETS(/lib/InsightToolkit SwigRuntimeJava)
+  MAKE_DIRECTORY(${WrapITK_BINARY_DIR}/Java/InsightToolkit)
+  ADD_CUSTOM_COMMAND(
+        COMMENT "run native swig on SwigExtras.i"
+        SOURCE ${WrapITK_SOURCE_DIR}/SwigRuntime/JavaCWD.i
+        COMMAND ${CSWIG} 
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx
+        -outdir ${WrapITK_BINARY_DIR}/Java/InsightToolkit
+        -package InsightToolkit
+        -java -c++ ${WrapITK_SOURCE_DIR}/SwigRuntime/JavaCWD.i
+        TARGET ${LIBRARY_NAME}Java
+        OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx
+        DEPENDS ${WrapITK_SOURCE_DIR}/SwigRuntime/JavaCWD.i ${CSWIG})
 ENDIF(ITK_CSWIG_JAVA)
+

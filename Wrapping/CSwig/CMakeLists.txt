@@ -9,6 +9,8 @@ SET(ITK_PYTHON_NEEDS_DEPENDS 1)
 IF(${CMAKE_MAKE_PROGRAM} MATCHES make)
   SET(ITK_PYTHON_NEEDS_DEPENDS 0)
 ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES make)
+SET(ITK_TOP ${ITK_SOURCE_DIR})
+SET(ITK_SWIG_DEFAULT_LIB ${ITK_TOP}/Utilities/CableSwig/Swig/Lib )
 
 FIND_PROGRAM(PYTHON_EXECUTABLE
   NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
@@ -34,7 +36,7 @@ IF(CMAKE_SYSTEM MATCHES "IRIX.*")
 ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 
 
-SET(IGNORE_WARNINGS -w362 -w389 -w503 -w508 -w509)
+SET(IGNORE_WARNINGS -w362 -w389 -w503 -w508 -w509 -w516)
 # define macros for wrapping commands
 MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
 # if the make program is not an IDE then include
@@ -115,7 +117,9 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG}
      ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
-          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+          -I${ITK_SWIG_DEFAULT_LIB}
+          -I${ITK_SWIG_DEFAULT_LIB}/tcl
+          -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
@@ -140,14 +144,15 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
      ARGS ${ITK_SWG_FILE}
-          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
-          -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
+          -I${ITK_SWIG_DEFAULT_LIB}
+          -I${ITK_SWIG_DEFAULT_LIB}/python
+          -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+          -outdir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
      DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
-
 
 MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
    SET(CINDEX)
@@ -158,10 +163,12 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
-          -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
-          -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
-          -o ${Bin}/${OutputTclCxx} -java -c++ ${Bin}/${InputXml}
+     ARGS -I${ITK_SWIG_DEFAULT_LIB}
+          -I${ITK_SWIG_DEFAULT_LIB}/java
+          -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+          -outdir ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit
+          -o ${Bin}/${OutputTclCxx} -package InsightToolkit -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
      DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
@@ -209,7 +216,6 @@ IF(CSWIG_MISSING_VALUES)
 ENDIF(CSWIG_MISSING_VALUES)
 
 
-SET(ITK_TOP ${ITK_SOURCE_DIR})
 IF(ITK_CSWIG_PYTHON)
   INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH} )
 ENDIF(ITK_CSWIG_PYTHON)
@@ -232,8 +238,12 @@ SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/IO)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Algorithms)
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
+SET(ITK_KITS VXLNumerics Common Numerics BasicFilters IO Algorithms )
+SUBDIRS(SwigRuntime ${ITK_KITS} Tests)
+IF(ITK_CSWIG_JAVA) 
+  SUBDIRS(Java)
+ENDIF(ITK_CSWIG_JAVA) 
 
-SUBDIRS(SwigRuntime VXLNumerics Common Numerics BasicFilters IO Algorithms Tests)
 
 IF(UNIX)
   SET(ITK_CSWIG_LIBNAME_PREFIX "lib")
@@ -398,7 +408,8 @@ IF(UNIX)
   # make install.  Good luck figuring out how this works.
   CONFIGURE_FILE(${WrapITK_SOURCE_DIR}/pythonfiles.sh.in
     ${WrapITK_BINARY_DIR}/pythonfiles.sh @ONLY IMMEDIATE)
-  EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh)
+  EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh
+               OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
   INSTALL_FILES(/lib/InsightToolkit FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
   
   # Install the package python files.
@@ -414,3 +425,182 @@ IF(UNIX)
   INSTALL_FILES(/lib/InsightToolkit/python FILES
     "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py")
 ENDIF(UNIX)
+
+
+MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_SOURCES ITK_LINK_LIBRARIES)
+  # loop over cable config files creating two lists:
+  # WRAP_TCL_SOURCES: list of generated files
+  SET(INDEX_FILE_CONTENT "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${LIBRARY_NAME}Java\")\n")
+  FOREACH(Source ${WRAP_SOURCES})
+    SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} ${Source}Tcl.cxx)
+    SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${Source}Python.cxx)
+    SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} ${Source}Java.cxx)
+    STRING(REGEX REPLACE wrap_ "" JAVA_DEP ${Source})
+    SET(${LIBRARY_NAME}_JAVA_DEPENDS_INIT ${${LIBRARY_NAME}_JAVA_DEPENDS_INIT} ${JAVA_DEP}.java)
+    SET(ALL_IDX_FILES ${ALL_IDX_FILES} ${WrapITK_BINARY_DIR}/${DIRECTORY}/${Source}.idx )
+    SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/${DIRECTORY}/${Source}.idx\n")
+  ENDFOREACH(Source)
+  SET(${LIBRARY_NAME}_JAVA_DEPENDS  "${${LIBRARY_NAME}_JAVA_DEPENDS_INIT}" CACHE INTERNAL "" FORCE)
+  # add the package wrappers for python and tcl (not used in java)
+  SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_${LIBRARY_NAME}TclTcl.cxx)
+  SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_${LIBRARY_NAME}PythonPython.cxx)
+  SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} wrap_${LIBRARY_NAME}JavaJava.cxx)
+  IF(ITK_EXTRA_TCL_WRAP)
+    SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} ${ITK_EXTRA_TCL_WRAP}Tcl.cxx)
+  ENDIF(ITK_EXTRA_TCL_WRAP)
+  IF(ITK_EXTRA_PYTHON_WRAP)
+    SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${ITK_EXTRA_PYTHON_WRAP}Python.cxx)
+  ENDIF(ITK_EXTRA_PYTHON_WRAP)
+
+  # set the generated sources as generated
+  SET_SOURCE_FILES_PROPERTIES(
+    ${WRAP_TCL_SOURCES} 
+    ${WRAP_PYTHON_SOURCES} 
+    ${WRAP_JAVA_SOURCES} GENERATED )
+  SET(EXTRA_LIBS ${ITK_LINK_LIBRARIES})
+  IF("${ITK_LINK_LIBRARIES}" MATCHES "^$")
+    SET(EXTRA_LIBS ${LIBRARY_NAME})
+  ENDIF("${ITK_LINK_LIBRARIES}" MATCHES "^$")
+  IF(ITK_CSWIG_TCL)
+    IF(ITK_SWIG_FILE)
+      SET(SWIG_INC ${SWIG_INC} -I${TCL_INCLUDE_PATH}) 
+      SET_SOURCE_FILES_PROPERTIES(${ITK_SWIG_FILE_CXX}Tcl.cxx GENERATED)
+      SET(WRAP_FILE ${ITK_SWIG_FILE_CXX}Tcl.cxx )
+    ENDIF(ITK_SWIG_FILE)
+      
+    ADD_LIBRARY(${LIBRARY_NAME}Tcl SHARED 
+      ${WRAP_TCL_SOURCES} 
+      ${ITK_EXTRA_TCL_SOURCES} 
+      ${WRAP_FILE}
+      ${EXTRA_SOURCES})
+    SET_TARGET_PROPERTIES(${LIBRARY_NAME}Tcl PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}Tcl ${EXTRA_LIBS} SwigRuntimeTcl ${TCL_LIBRARY})
+    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Tcl )
+    IF(ITK_SWIG_FILE)
+      ADD_CUSTOM_COMMAND(
+        COMMENT "run native swig on ${ITK_SWIG_FILE}"
+        SOURCE ${ITK_SWIG_FILE}
+        COMMAND ${CSWIG} 
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
+        -c++ ${ITK_SWIG_FILE}
+        TARGET ${LIBRARY_NAME}Tcl
+        OUTPUTS ${WRAP_FILE}
+        DEPENDS ${ITK_SWIG_FILE} ${CSWIG})
+    ENDIF(ITK_SWIG_FILE)
+  ENDIF(ITK_CSWIG_TCL)
+
+  IF(ITK_CSWIG_PYTHON)  
+    IF(ITK_SWIG_FILE)
+      SET(SWIG_INC ${SWIG_INC} -I${PYTHON_INCLUDE_PATH})
+      SET_SOURCE_FILES_PROPERTIES(${ITK_SWIG_FILE_CXX}Python.cxx GENERATED)
+      SET(WRAP_FILE ${ITK_SWIG_FILE_CXX}Python.cxx )
+    ENDIF(ITK_SWIG_FILE)
+    
+    ADD_LIBRARY(_${LIBRARY_NAME}Python MODULE
+      ${WRAP_PYTHON_SOURCES}
+      ${ITK_EXTRA_PYTHON_SOURCES}
+      ${WRAP_FILE}
+      ${EXTRA_SOURCES})
+    IF(ITK_PYTHON_NEEDS_DEPENDS)
+      ADD_DEPENDENCIES(_${LIBRARY_NAME}Python _${DEPEND_LIBRARY}Python)
+    ENDIF(ITK_PYTHON_NEEDS_DEPENDS)
+    SET_TARGET_PROPERTIES( _${LIBRARY_NAME}Python PROPERTIES PREFIX "")
+    TARGET_LINK_LIBRARIES(_${LIBRARY_NAME}Python ${EXTRA_LIBS} SwigRuntimePython ${PYTHON_LIBRARY})
+    INSTALL_TARGETS(/lib/InsightToolkit _${LIBRARY_NAME}Python) 
+    IF(ITK_SWIG_FILE)
+      ADD_CUSTOM_COMMAND(
+        COMMENT "run native swig on ${ITK_SWIG_FILE}"
+        SOURCE ${ITK_SWIG_FILE}
+        COMMAND ${CSWIG} 
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
+         -outdir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}"
+         -python -c++ ${ITK_SWIG_FILE}
+        TARGET _${LIBRARY_NAME}Python
+        OUTPUTS ${WRAP_FILE}
+        DEPENDS ${ITK_SWIG_FILE} ${CSWIG})
+    ENDIF(ITK_SWIG_FILE)
+  ENDIF(ITK_CSWIG_PYTHON)
+
+  IF(ITK_CSWIG_JAVA)  
+    IF(ITK_SWIG_FILE)
+      SET(SWIG_INC ${SWIG_INC} -I${TCL_INCLUDE_PATH}) 
+      SET_SOURCE_FILES_PROPERTIES(${ITK_SWIG_FILE_CXX}Java.cxx GENERATED)
+      SET(WRAP_FILE ${ITK_SWIG_FILE_CXX}Java.cxx )
+    ENDIF(ITK_SWIG_FILE)
+    MAKE_DIRECTORY("${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit")
+    ADD_LIBRARY(${LIBRARY_NAME}Java MODULE 
+      ${WRAP_JAVA_SOURCES} 
+      ${ITK_EXTRA_JAVA_SOURCES} 
+      ${WRAP_FILE}
+      ${EXTRA_SOURCES})
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}Java ${JAVA_LIBRARY} ${EXTRA_LIBS} )   
+    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Java)
+    IF(ITK_SWIG_FILE)
+      ADD_CUSTOM_COMMAND(
+        COMMENT "run native swig on ${ITK_SWIG_FILE}"
+        SOURCE ${ITK_SWIG_FILE}
+        COMMAND ${CSWIG} 
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
+        -outdir ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit
+        -package InsightToolkit -java -c++ ${ITK_SWIG_FILE}
+        TARGET ${LIBRARY_NAME}Java
+        OUTPUTS ${WRAP_FILE}
+        DEPENDS ${ITK_SWIG_FILE} ${CSWIG})
+    ENDIF(ITK_SWIG_FILE)
+  ENDIF(ITK_CSWIG_JAVA)
+  
+  CONFIGURE_FILE(
+    ${WrapITK_SOURCE_DIR}/Master.mdx.in
+    ${WrapITK_BINARY_DIR}/${DIRECTORY}/${LIBRARY_NAME}.mdx IMMEDIATE
+    )
+  
+  FOREACH(Source ${WRAP_SOURCES})
+    IF(ITK_CSWIG_TCL)
+      # tcl 
+      WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        ${Source} ${LIBRARY_NAME}Tcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_CSWIG_TCL)
+    
+    IF(ITK_CSWIG_PYTHON)
+      # python
+      WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY} 
+        ${Source} _${LIBRARY_NAME}Python "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_CSWIG_PYTHON)
+    
+    IF(ITK_CSWIG_JAVA)
+      # java
+      WRAP_JAVA_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        ${Source} ${LIBRARY_NAME}Java "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_CSWIG_JAVA)
+  ENDFOREACH(Source)
+  
+  
+  # wrap the package files for tcl and python
+  IF(ITK_CSWIG_TCL)
+    # tcl 
+    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+      wrap_${LIBRARY_NAME}Tcl ${LIBRARY_NAME}Tcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    IF(ITK_EXTRA_TCL_WRAP)
+      WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        "${ITK_EXTRA_TCL_WRAP}" ${LIBRARY_NAME}Tcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_EXTRA_TCL_WRAP)
+  ENDIF(ITK_CSWIG_TCL)
+   
+  IF(ITK_CSWIG_PYTHON)
+    # python
+    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+      wrap_${LIBRARY_NAME}Python _${LIBRARY_NAME}Python "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    IF(ITK_EXTRA_PYTHON_WRAP)
+      WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        ${ITK_EXTRA_PYTHON_WRAP} _${LIBRARY_NAME}Python "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_EXTRA_PYTHON_WRAP)
+
+  ENDIF(ITK_CSWIG_PYTHON)
+
+  IF(ITK_CSWIG_JAVA)
+    # python
+    WRAP_JAVA_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+      wrap_${LIBRARY_NAME}Java ${LIBRARY_NAME}Java "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+  ENDIF(ITK_CSWIG_JAVA)
+
+ENDMACRO(ITK_WRAP_LIBRARY)

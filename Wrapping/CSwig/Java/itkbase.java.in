@@ -1,0 +1,64 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkbase.java.in
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+package InsightToolkit;
+
+public class itkbase
+{
+  private static String buildDir = "@ITK_JAVA_BUILD_DIR@";
+  private static String installDir = "@ITK_JAVA_INSTALL_DIR@";
+  private static String libDir = installDir;
+
+  static
+    {
+    // Detect whether we are in the build or install tree.
+    String sep = System.getProperty("path.separator");
+    String[] path = System.getProperty("java.class.path").split(sep);
+    for(int i = 0; i < path.length; ++i)
+      {
+      if(path[i].endsWith("InsightToolkit.jar"))
+        {
+        int index = path[i].lastIndexOf("InsightToolkit.jar");
+        String self = path[i].substring(0, index);
+        if((new java.io.File(self+"itk_build_tree.mark")).exists())
+          {
+          libDir = buildDir;
+          break;
+          }
+        }
+      }
+
+    // Load JavaCWD helper code.
+    sep = System.getProperty("file.separator");
+    String lib = System.mapLibraryName("SwigRuntimeJava");
+    Runtime.getRuntime().load(libDir + sep + lib);
+    }
+
+  // Method called by wrapper code to load native libraries.
+  public static void LoadLibrary(String name)
+    {
+    // Change to directory containing libraries so dependents are found.
+    String old = JavaCWD.GetCWD();
+    JavaCWD.SetCWD(libDir);
+    String sep = System.getProperty("file.separator");
+    String lib = System.mapLibraryName(name);
+    Runtime.getRuntime().load(libDir + sep + lib);
+    JavaCWD.SetCWD(old);
+    }
+}

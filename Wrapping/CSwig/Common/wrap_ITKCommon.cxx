@@ -56,7 +56,7 @@ namespace _cable_
 #endif
     "SwigExtras",
     ITK_WRAP_GROUP(itkVector),
-    ITK_WRAP_GROUP(itkVersorTransform)
+    ITK_WRAP_GROUP(itkVersorTransformGroup)
   };
 }
 #endif

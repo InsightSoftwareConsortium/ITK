@@ -45,69 +45,10 @@ SET(WRAP_SOURCES
   wrap_itkVTKImageImport
 )
 
+SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
+  "${WrapITK_BINARY_DIR}/Numerics/ITKNumerics.mdx"
+  "${WrapITK_BINARY_DIR}/Common/ITKCommon.mdx"
+  "${WrapITK_BINARY_DIR}/BasicFilters/ITKBasicFilters.mdx"
+  )
 
-# loop over cable config files creating two lists:
-# WRAP_TCL_SOURCES: list of generated files
-FOREACH(Source ${WRAP_SOURCES})
-   SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} ${Source}Tcl.cxx)
-   SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${Source}Python.cxx)
-   SET(ALL_IDX_FILES ${ALL_IDX_FILES} ${WrapITK_BINARY_DIR}/BasicFilters/${Source}.idx )
-   SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/BasicFilters/${Source}.idx\n")
-ENDFOREACH(Source)
-
-SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_ITKBasicFiltersTclTcl.cxx)
-SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKBasicFiltersPythonPython.cxx)
-
-# set the generated sources as generated
-SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
-
-IF(ITK_CSWIG_TCL)
-  ADD_LIBRARY(ITKBasicFiltersTcl SHARED ${WRAP_TCL_SOURCES})
-  SET_TARGET_PROPERTIES(ITKBasicFiltersTcl PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
-  TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl ITKBasicFilters VXLNumericsTcl ITKNumericsTcl ITKCommonTcl SwigRuntimeTcl ${TCL_LIBRARY})
-  INSTALL_TARGETS(/lib/InsightToolkit ITKBasicFiltersTcl)
-ENDIF(ITK_CSWIG_TCL)
-
-IF(ITK_CSWIG_PYTHON)
-  ADD_LIBRARY(_ITKBasicFiltersPython MODULE ${WRAP_PYTHON_SOURCES})
-  IF(ITK_PYTHON_NEEDS_DEPENDS)
-    ADD_DEPENDENCIES(_ITKBasicFiltersPython _ITKNumericsPython _ITKCommonPython)
-  ENDIF(ITK_PYTHON_NEEDS_DEPENDS)
-  SET_TARGET_PROPERTIES( _ITKBasicFiltersPython PROPERTIES PREFIX "")
-  TARGET_LINK_LIBRARIES(_ITKBasicFiltersPython ITKBasicFilters SwigRuntimePython ${PYTHON_LIBRARY})
-  INSTALL_TARGETS(/lib/InsightToolkit _ITKBasicFiltersPython)
-ENDIF(ITK_CSWIG_PYTHON)
-
-
-CONFIGURE_FILE(
-${WrapITK_SOURCE_DIR}/Master.mdx.in
-${WrapITK_BINARY_DIR}/BasicFilters/ITKBasicFilters.mdx IMMEDIATE
-)
-
-SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumericsTcl.mdx"
-                       "${WrapITK_BINARY_DIR}/Numerics/ITKNumericsTcl.mdx"
-                       "${WrapITK_BINARY_DIR}/Common/ITKCommonTcl.mdx"
-                       "${WrapITK_BINARY_DIR}/BasicFilters/ITKBasicFilters.mdx"
-)
-
-FOREACH(Source ${WRAP_SOURCES})
-  IF(ITK_CSWIG_TCL)
-    WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
-                     ${Source} ITKBasicFiltersTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-    ENDIF(ITK_CSWIG_TCL)
-
-  IF(ITK_CSWIG_PYTHON)
-    WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
-                        ${Source} _ITKBasicFiltersPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-  ENDIF(ITK_CSWIG_PYTHON)
-ENDFOREACH(Source)
-
-IF(ITK_CSWIG_TCL)
-  WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
-                   wrap_ITKBasicFiltersTcl ITKBasicFiltersTcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_CSWIG_TCL)
-   
-IF(ITK_CSWIG_PYTHON)
-  WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/BasicFilters ${WrapITK_BINARY_DIR}/BasicFilters
-                      wrap_ITKBasicFiltersPython _ITKBasicFiltersPython "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
-ENDIF(ITK_CSWIG_PYTHON)
+ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKBasicFilters BasicFilters "_ITKNumericsPython;_ITKCommonPython" "" "")
