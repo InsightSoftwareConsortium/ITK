@@ -70,5 +70,23 @@ namespace eval itk {
     return $command
   } 
 
+  # Tcl procedure to list the wrapped classes.
+  proc listClasses {} {
+    set cmds {}
+    foreach c [info commands ::itk::*] {
+      if { ! [regexp {(<)|(_Pointer$)|(_Superclass$)|(^::itk::[^A-Z])} $c] } {
+        lappend cmds $c
+      }
+    }
+    set cmds [lsort $cmds]
+    foreach c $cmds {
+      puts $c
+    }
+  }
+
+  proc listMethods {obj} {
+    cable::ListMethods $obj
+  }
+
   namespace export create result createImageViewer2D
 }
