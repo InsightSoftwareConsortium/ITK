@@ -75,10 +75,10 @@ public:
   typedef  TScalarType     ScalarType;
 
   /** Type of the input parameters. */
-  typedef  Superclass::ParametersType                 ParametersType;
+  typedef  typename Superclass::ParametersType                 ParametersType;
 
   /** Type of the Jacobian matrix. */
-  typedef  Superclass::JacobianType                   JacobianType;
+  typedef  typename Superclass::JacobianType                   JacobianType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, InputSpaceDimension>  InputVectorType;
