@@ -21,6 +21,7 @@
 
 #include "gdcmDictEntry.h"
 #include <iostream>
+#include <fstream>
 
 class Header;
 class ValEntry;
