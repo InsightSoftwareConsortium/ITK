@@ -99,6 +99,8 @@ public:
   /** Type of the segmentation function */
   typedef ThresholdSegmentationLevelSetFunction<OutputImageType,
                                                 FeatureImageType> ThresholdFunctionType;
+typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
+
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
@@ -135,7 +137,7 @@ protected:
   ThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
    void operator=(const Self&); //purposely not implemented
 private:
-  typename ThresholdFunctionType::Pointer m_ThresholdFunction;  
+  ThresholdFunctionPointer m_ThresholdFunction;
 };
 
 } // end namespace itk
