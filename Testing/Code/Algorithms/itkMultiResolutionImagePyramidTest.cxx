@@ -59,7 +59,7 @@ double F( double x, double y, double z )
   double r = vnl_math_sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
-    value = 2 * ( vnl_math_abs( x ) + 
+    value = 2 * ( vnl_math_abs( x ) +
       0.8 * vnl_math_abs( y ) +
       0.5 * vnl_math_abs( z ) );
     }
@@ -168,7 +168,7 @@ int main()
 
   // check the schedule
   ScheduleType schedule;
-  int j, k;
+  unsigned int j, k;
 
   schedule.resize( numLevels, ImageDimension );
   for( k = 0; k < numLevels; k++ )
@@ -180,7 +180,7 @@ int main()
       if( schedule[k][j] == 0 )
         {
         schedule[k][j] = 1;
-        } 
+        }
       }
     }
 
@@ -197,8 +197,8 @@ int main()
   numLevels = 4;
   factors[0] = 8; factors[1] = 4; factors[2] = 2;
   pyramid->SetNumberOfLevels( numLevels );
-  pyramid->SetStartingShrinkFactors( factors.Begin() ); 
-  
+  pyramid->SetStartingShrinkFactors( factors.Begin() );
+
   // check the schedule;
   schedule.resize( numLevels, ImageDimension );
   for( k = 0; k < numLevels; k++ )
@@ -210,7 +210,7 @@ int main()
       if( schedule[k][j] == 0 )
         {
         schedule[k][j] = 1;
-        } 
+        }
       }
     }
 
@@ -235,7 +235,7 @@ int main()
   unsigned int currentLevel = 1;
   pyramid->SetCurrentLevel( currentLevel );
   pyramid->Update();
- 
+
   pyramid->Print( std::cout );
 
   // check the output image information
@@ -255,11 +255,11 @@ int main()
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    if( outputOrigin[j] != inputOrigin[j] ) 
+    if( outputOrigin[j] != inputOrigin[j] )
       {
       break;
       }
-    if( outputSpacing[j] !=  
+    if( outputSpacing[j] !=
       inputSpacing[j] * (double) schedule[currentLevel][j] )
       {
       break;
