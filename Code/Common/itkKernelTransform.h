@@ -165,7 +165,8 @@ public:
 
   typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> PointSetType;
   typedef typename PointSetType::Pointer PointSetPointer;
-  typedef typename PointSetType::PointsContainerConstIterator PointsIterator;
+  typedef typename PointSetType::PointsContainerIterator PointsIterator;
+  typedef typename PointSetType::PointsContainerConstIterator PointsConstIterator;
   
   /**
    * VectorSet typedef
@@ -176,28 +177,28 @@ public:
   /**
    * Get the source landmarks list, which we will denote \f$ p \f$
    */
-  PointSetPointer GetSourceLandmarks(void) const;
+  itkGetObjectMacro( SourceLandmarks, PointSetType );
   
   /**
    * Set the source landmarks list
    */
-  void SetSourceLandmarks(const PointSetType * p);
+  itkSetObjectMacro( SourceLandmarks, PointSetType );
   
   /**
    * Get the target landmarks list, which we will denote  \f$ q \f$
    */
-  PointSetPointer GetTargetLandmarks(void) const;
+  itkGetObjectMacro( TargetLandmarks, PointSetType );
   
   /**
    * Set the target landmarks list
    */
-  void SetTargetLandmarks(const PointSetType * q);
+  itkSetObjectMacro( TargetLandmarks, PointSetType );
   
   /**
    * Get the displacements list, which we will denote \f$ d \f$,
    * where \f$ d_i = q_i - p_i \f$
    */
-  VectorSetPointer GetDisplacements(void) const;
+  itkGetObjectMacro( Displacements, VectorSetType );
   
   /**
    * Compute W matrix
@@ -208,11 +209,6 @@ public:
    * Compute the position of point in the new space
    */
   virtual OutputPointType TransformPoint(const InputPointType& thisPoint) const;
-  
-  /**
-   * Compute the position of vector in the new space
-   */
-  virtual OutputVectorType TransformVector(const InputVectorType& thisVector) const;
   
   /**
    * 'I' (identity) matrix typedef

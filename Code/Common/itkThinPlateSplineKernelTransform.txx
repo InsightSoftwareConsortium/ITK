@@ -60,14 +60,14 @@ ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG(const InputVectorType & x) const
 {
-  RowMatrixType xRV; // row vector rep. of x
-  ColumnMatrixType xCV; // column vector rep. of x
-  TScalarType r; // Euclidean norm of x
 
-  xRV.set_row(0, x.Get_vnl_vector());
-  xCV = xRV.transpose();
-  r = (xCV.get_column(0)).magnitude();
-  return r * m_I;
+  IMatrixType CV;
+  CV.fill(0.0);
+  for(unsigned int i=0; i<NDimensions; i++)
+    {
+    CV[i][i] = x[i] * x[i];
+    }
+  return CV;
 }
 
 } // namespace itk

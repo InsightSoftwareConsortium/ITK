@@ -53,13 +53,8 @@ template <class TScalarType, int NDimensions,
 KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 KernelTransform()  
 {
-  static bool IMatrixInitialized = false;
 
-  if (!IMatrixInitialized)
-  {
-    m_I.set_identity();
-    IMatrixInitialized = true;
-  }
+  m_I.set_identity();
   m_SourceLandmarks = PointSetType::New();
   m_TargetLandmarks = PointSetType::New();
   m_Displacements   = VectorSetType::New();
@@ -77,66 +72,6 @@ KernelTransform<TScalarType, NDimensions,
 {
 }
 
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::PointSetPointer
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::GetSourceLandmarks(void) const
-{
-  return m_SourceLandmarks;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::PointSetPointer
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::GetTargetLandmarks(void) const
-{
-  return m_TargetLandmarks;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void 
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::SetSourceLandmarks(const PointSetType * p)
-{
-  m_SourceLandmarks = p;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-void 
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::SetTargetLandmarks(const PointSetType * q)
-{
-  m_TargetLandmarks = q;
-}
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::VectorSetPointer
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::GetDisplacements(void) const
-{
-  return m_Displacements;
-}
 
 
 /**
@@ -214,12 +149,16 @@ ComputeL(void)
 
   ComputeP();
   ComputeK();
+
   m_LMatrix.resize( NDimensions*(numLandmarks+NDimensions+1),
                     NDimensions*(numLandmarks+NDimensions+1) );
+  m_LMatrix.fill( 0.0 );
+
   m_LMatrix.update( m_KMatrix, 0, 0 );
   m_LMatrix.update( m_PMatrix, 0, m_KMatrix.columns() );
   m_LMatrix.update( m_PMatrix.transpose(), m_KMatrix.rows(), 0);
-  m_LMatrix.update(O2, m_KMatrix.rows(), m_KMatrix.columns());
+  m_LMatrix.update( O2, m_KMatrix.rows(), m_KMatrix.columns());
+
 }
 
 
@@ -238,6 +177,8 @@ ComputeK(void)
 
   m_KMatrix.resize( NDimensions * numLandmarks,
                     NDimensions * numLandmarks );
+
+  m_KMatrix.fill( 0.0 );
 
   PointsIterator p1  = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
@@ -279,12 +220,13 @@ ComputeP()
   I.set_identity();
   m_PMatrix.resize( NDimensions*numLandmarks,
                     NDimensions*(NDimensions+1) );
+  m_PMatrix.fill( 0.0 );
   for (i = 0; i < numLandmarks; i++)
   {
     m_SourceLandmarks->GetPoint(i, &p);
     for (j = 0; j < NDimensions; j++)
       {
-      temp = I * p.Get_vnl_vector()[j];
+      temp = I * p[j];
       m_PMatrix.update(temp, i*NDimensions, j*NDimensions);
       }
     m_PMatrix.update(I, i*NDimensions, j*NDimensions);
@@ -308,6 +250,8 @@ ComputeY(void)
 
   m_YMatrix.resize( NDimensions*(numLandmarks+NDimensions+1), 1);
 
+  m_YMatrix.fill( 0.0 );
+    
   for (i = 0; i < numLandmarks; i++)
   {
     for (j = 0; j < NDimensions; j++)
@@ -341,7 +285,12 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   InputVectorType argumentG;
   InputPointType p;
 
-  d = d*0;
+  b.fill(0.0);
+  c.fill(0.0);
+  d.fill(0.0);
+  A.fill(0.0);
+  Ax.fill(0.0);
+
   for (i = 0; i < numLandmarks; i++)
     {
     c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
@@ -372,56 +321,6 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 
 
 
-
-/**
- *
- */
-template <class TScalarType, int NDimensions,
-          class TParameters, class TJacobianType>
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::OutputVectorType
-KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::TransformVector(const InputVectorType& thisVector) const
-{
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
-  int i, j;
-  ColumnMatrixType c, d, Ax;
-  InputVectorType result;
-  InputVectorType GArgument;
-  vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
-  InputVectorType thisVectorCopy = thisVector;
-  InputPointType p;
-
-  d = d*0;
-  for (i = 0; i < numLandmarks; i++)
-    {
-    m_SourceLandmarks->GetPoint(i, &p);
-    c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
-    for (j = 0; j < NDimensions; j++)
-      {
-      GArgument[j] = thisVectorCopy.Get_vnl_vector()[j] -
-        p.Get_vnl_vector()[j];
-      }
-    d = d + ComputeG(GArgument) * c;
-  }
-  A.update(m_WMatrix.extract(NDimensions, 1,
-                              numLandmarks*NDimensions, 0), 0, 0);
-  A.update(m_WMatrix.extract(NDimensions, 1,
-                              (numLandmarks+1)*NDimensions, 0), 0, 1);
-  A.update(m_WMatrix.extract(NDimensions, 1,
-                              (numLandmarks+2)*NDimensions, 0), 0, 2);
-  for (j = 0; j < NDimensions; j++)
-    {
-    Ax.put(j, 0, thisVector[j]);
-    }
-  Ax = A*Ax;
-  d = d + Ax;
-  for (i = 0; i < NDimensions; i++)
-    {
-    result[i] = thisVector[i] + d.get(i, 0);
-    }
-
-  return result;
-}
 
 /**
  *

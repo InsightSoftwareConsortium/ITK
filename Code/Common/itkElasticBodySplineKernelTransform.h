@@ -42,8 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkElasticBodySplineKernelTransform_h
 
 #include "itkKernelTransform.h"
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
 
 
 namespace itk
@@ -74,7 +72,7 @@ public:
   /**
    * Standard Self typedef
    */
-  typedef ElasticBodySplineKernelTransform<TScalarType, NDimensions> Self;
+  typedef ElasticBodySplineKernelTransform   Self;
 
 
 
@@ -132,13 +130,13 @@ public:
   /**
    * Set alpha
    */
-	void SetAlpha(TScalarType newAlpha);
+	itkSetMacro( Alpha, TScalarType );
   
 
   /**
    * Get alpha
    */
-  TScalarType GetAlpha(void) const;
+	itkGetMacro( Alpha, TScalarType );
   
   
   /**
