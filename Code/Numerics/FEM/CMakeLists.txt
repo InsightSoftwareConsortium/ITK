@@ -168,12 +168,12 @@ ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 
   
 # Define source groups that look nice in DSP files
-SOURCE_GROUP("Elements" itkFEMElement*)
-SOURCE_GROUP("Nodes" itkFEMNode*)
-SOURCE_GROUP("Loads" itkFEMLoad*)
-SOURCE_GROUP("Materials" itkFEMMaterial*)
-SOURCE_GROUP("Linear Systems" itkFEMLinearSystem*)
-SOURCE_GROUP("Source Files Template" ./*.txx)
+SOURCE_GROUP("Elements" REGULAR_EXPRESSION itkFEMElement*)
+SOURCE_GROUP("Nodes" REGULAR_EXPRESSION itkFEMNode*)
+SOURCE_GROUP("Loads" REGULAR_EXPRESSION itkFEMLoad*)
+SOURCE_GROUP("Materials" REGULAR_EXPRESSION itkFEMMaterial*)
+SOURCE_GROUP("Linear Systems" REGULAR_EXPRESSION itkFEMLinearSystem*)
+SOURCE_GROUP("Source Files Template" REGULAR_EXPRESSION ./*.txx)
 
 
 # Include the ITPACK library within FEM
@@ -188,7 +188,7 @@ SET(FEM_SRCS ${FEM_SRCS}
 )
 ENDIF(WIN32)
 ENDIF(NOT UNIX)
-SOURCE_GROUP("ITPACK" itpack*)
+SOURCE_GROUP("ITPACK" REGULAR_EXPRESSION itpack*)
 
 
 
