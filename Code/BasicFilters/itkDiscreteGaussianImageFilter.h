@@ -122,6 +122,26 @@ public:
       m_MaximumError.Fill(v);
     }
 
+  void SetVariance (const double *v)
+    {
+      ArrayType dv;
+      for (unsigned int i = 0; i < ImageDimension; i++)
+        {
+        dv[i] = v[i];
+        }
+      this->SetVariance(dv);
+    }
+
+  void SetVariance (const float *v)
+    {
+      ArrayType dv;
+      for (unsigned int i = 0; i < ImageDimension; i++)
+        {
+        dv[i] = v[i];
+        }
+      this->SetVariance(dv);
+    }
+
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
