@@ -264,12 +264,6 @@ public:
   const PixelType & Value(void) const  
     { return *(m_Buffer+m_Offset); }
  
-  /** Return a reference to the pixel 
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
-    { return *(m_Buffer+m_Offset); }
-
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region. */
   Self Begin(void) const;
