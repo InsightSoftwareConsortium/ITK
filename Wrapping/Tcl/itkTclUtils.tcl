@@ -1,4 +1,4 @@
-package require WrapTclFacility 1.0
+package require WrapTclFacility 0.01
 
 proc ItkNew {type} {
   set tptr [itkSmartPointer_$type [$type New]]
