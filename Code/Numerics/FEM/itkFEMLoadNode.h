@@ -35,7 +35,7 @@ namespace fem {
  *
  * You must provide a pointer to an element object and a number
  * of point on which on which the load acts. Force vector F should have
- * element->GetNumberOfDegreesOfFreedomPerPoint() dimensions.
+ * element->GetNumberOfDegreesOfFreedomPerNode() dimensions.
  */
 class LoadNode : public Load {
 FEM_CLASS(LoadNode,Load)
@@ -65,7 +65,7 @@ public:
 
   /**
    * Force applied on the node. Dimension of F should equal
-   * element->GetNumberOfDegreesOfFreedomPerPoint().
+   * element->GetNumberOfDegreesOfFreedomPerNode().
    */
   vnl_vector<Float> F;
 

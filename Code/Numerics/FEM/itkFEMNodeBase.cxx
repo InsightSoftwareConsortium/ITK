@@ -52,9 +52,9 @@ unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
        e!=this->m_elements.end();
        e++ )
   {
-    if ( (*e)->GetNumberOfDegreesOfFreedomPerPoint() > ndof )
+    if ( (*e)->GetNumberOfDegreesOfFreedomPerNode() > ndof )
     {
-      ndof=(*e)->GetNumberOfDegreesOfFreedomPerPoint();
+      ndof=(*e)->GetNumberOfDegreesOfFreedomPerNode();
       el=(*e);
     }
   }
@@ -78,7 +78,7 @@ unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
     throw FEMException(__FILE__, __LINE__, "FEM error");
   }
 
-  return el->GetDegreeOfFreedomAtPoint(pt,i);
+  return el->GetDegreeOfFreedomAtNode(pt,i);
 
 }
 

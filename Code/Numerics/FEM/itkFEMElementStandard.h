@@ -40,14 +40,17 @@ namespace fem {
  *   NumberOfPoints - number of points that define the element
  *                    (e.g. four for quadrilateral)
  *
- *   NumberOfDOFsPerPoint - number of DOFs that exist at every point
- *                          within an element. This is basically the
- *                          number of parameters that the unknown
- *                          function has.
+ *   NumberOfDegreesOfFreedomPerNode - number of degrees of freedom at each
+ *                    node. This is also equal to the number of unknown
+ *                    functions that must be solved for at every point within
+ *                    an element.
  *
  *   NodeClass - class of Node objects that the element uses.
+ *
+ *   NumberOfNodes - number of nodes in an element. Defaults to number
+ *                   of points.
  */
-template<unsigned int VNumberOfPoints,unsigned int VNumberOfDOFsPerPoint, class TNodeClass>
+template<unsigned int VNumberOfPoints,unsigned int VNumberOfDegreesOfFreedomPerNode, class TNodeClass>
 class ElementStandard : public Element
 {
 FEM_CLASS_SP(ElementStandard,Element)
@@ -59,11 +62,17 @@ public:
   enum { NumberOfPoints=VNumberOfPoints };
 
   /**
-   * Number of degrees of freedom that exist at every point
+   * Number of nodes (points that hold degrees of freedom)
+   * that define the element. In linear element number of
+   * nodes is always equal to  number of points.
+   */
+  enum { NumberOfNodes=NumberOfPoints };
+
+  /**
+   * Number of unknown variables that exist at every point
    * within an element.
    */
-  enum { NumberOfDOFsPerPoint=VNumberOfDOFsPerPoint };
-
+  enum { NumberOfDegreesOfFreedomPerNode=VNumberOfDegreesOfFreedomPerNode };
 
   /**
    * Node class that is used to specify points that define
@@ -74,7 +83,7 @@ public:
   /**
    * Total number of degrees of freedom in an element
    */
-  enum { NDOF=NumberOfPoints*NumberOfDOFsPerPoint };
+  enum { NDOF=NumberOfNodes*NumberOfDegreesOfFreedomPerNode };
 
   /**
    * Default constructor just clears the ivars
@@ -94,7 +103,7 @@ public:
    */
   virtual unsigned int GetNumberOfPoints(void) const
   { return NumberOfPoints; }
-  virtual Node::ConstPointer GetPoint(unsigned int pt) const
+  virtual PointIDType GetPoint(unsigned int pt) const
   {
     if(pt>=NumberOfPoints)
     {
@@ -102,12 +111,20 @@ public:
     }
     return this->m_node[pt];
   }
+  virtual void SetPoint(unsigned int pt, PointIDType node)
+  {
+    if(pt>=NumberOfPoints)
+    {
+      return;
+    }
+    this->m_node[pt]=dynamic_cast<const NodeClass*>(&*node);
+  }
 
   /*
    * Methods and typedefs related to Node management 
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerPoint( void ) const
-  { return NumberOfDOFsPerPoint; }
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
+  { return NumberOfDegreesOfFreedomPerNode; }
 
   virtual DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
   { 
@@ -123,18 +140,20 @@ public:
 
 
 
-
+  
   /**
    * Array of pointers to node objects that define the element
    */
   typename NodeClass::ConstPointer m_node[NumberOfPoints];
 
+
+
 private:
+
   /**
    * Array that stores DOF ids for the element class.
    */
   DegreeOfFreedomIDType m_dof[NDOF];
-
 
 };
 

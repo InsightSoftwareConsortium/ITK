@@ -457,16 +457,16 @@ void Solver::AssembleF(int dim) {
       // yep, we have a nodal load
 
       // size of a force vector in load must match number of DOFs in node
-      if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerPoint())!=0 )
+      if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerNode())!=0 )
       {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
       }
 
       // we simply copy the load to the force vector
-      for(unsigned int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()); dof++)
+      for(unsigned int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerNode()); dof++)
       {
         // error checking
-        if ( l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) >= NGFN )
+        if ( l1->m_element->GetDegreeOfFreedomAtNode(l1->m_pt,dof) >= NGFN )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
         }
@@ -477,7 +477,7 @@ void Solver::AssembleF(int dim) {
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
          * number of dimensions.
          */
-        m_ls->AddVectorValue(l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()*dim]);
+        m_ls->AddVectorValue(l1->m_element->GetDegreeOfFreedomAtNode(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerNode()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array

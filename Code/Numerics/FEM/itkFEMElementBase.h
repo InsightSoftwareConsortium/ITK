@@ -25,6 +25,7 @@
 #include "itkVisitorDispatcher.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+#include <set>
 
 namespace itk {
 namespace fem {
@@ -149,6 +150,25 @@ public:
   virtual LoadVectorType Fe(LoadElementPointer l) const = 0;
 
   /**
+   * Interpolate the known solution at a given point in local co-ordinates.
+   * Returns zero, if either pt or dof_at_pt parameter is out of range.
+   *
+   * \param LocalCoords  - vector containing the local coordinates.
+   * \param which_dof  - which of the degrees of freedom to interpolate.
+   */
+  virtual Float InterpolateSolutionAtLocalCoordinate(vnl_vector<Float> LocalCoords, unsigned int which_dof ) const
+  {
+    return 0.0;
+  }
+
+
+
+//////////////////////////////////////////////////////////////////////////
+  /*
+   * Methods related to IO and drawing
+   */
+
+  /**
    * \class ReadInfoType
    * \brief Additional information that is required when reading elements
             from stream.
@@ -184,14 +204,16 @@ public:
    * Methods that define geometry of an element
    * FIXME: These should be implemented in Cell/Mesh
    */
+  typedef Node::ConstPointer PointIDType;
   virtual unsigned int GetNumberOfPoints(void) const = 0;
-  virtual Node::ConstPointer GetPoint(unsigned int pt) const = 0;
+  virtual PointIDType GetPoint(unsigned int pt) const = 0;
+  virtual void SetPoint(unsigned int pt, PointIDType node) = 0;
 
 
-  
+
 //////////////////////////////////////////////////////////////////////////
   /*
-   * Methods and typedefs related to Node management 
+   * Methods and typedefs related to node management 
    */
 
   /**
@@ -209,6 +231,15 @@ public:
   enum{ InvalidDegreeOfFreedomID = 0xffffffff };
 
   /**
+   * Type used to store an array of global point IDs that define a node.
+   *
+   * \sa GetNodeDefinition
+   */
+  typedef std::multiset<PointIDType> NodeDefinitionType;
+
+
+
+  /**
    * Return the total number of degrees of freedom defined in a derived
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point. If a derived
@@ -216,20 +247,11 @@ public:
    * this function must be overriden in derived class.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedom( void ) const
-  { return this->GetNumberOfPoints() * this->GetNumberOfDegreesOfFreedomPerPoint(); }
-
-  /**
-   * Return number of DOFs present at each point within an Element. This is
-   * basically the number of unknowns that we want to solve for at each point
-   * within an element. It's related to the dimensionality of a problem.
-   *
-   * /note This function must be overriden in all derived classes.
-   */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerPoint(void) const = 0;
+  { return this->GetNumberOfPoints() * this->GetNumberOfDegreesOfFreedomPerNode(); }
 
   /**
    * Method to get DOF ids. Returns the global id of the DOF with given
-   * local id. If id is out of range it returns invalid DOF id.
+   * local id. If id is out of range the function returns invalid DOF id.
    *
    * \param local_dof Number of DOF within an element (local id of DOF).
    *
@@ -254,59 +276,117 @@ public:
    */
   virtual void ClearDegreesOfFreedom(void);
 
+
   /**
-   * Returns a global DOF id that is associated with given point in an element.
-   * Since there are usually many DOFs present at each point, you can
+   * Return the total number of nodes in an elememnt. A node is a point in
+   * the element that stores one or more degrees of freedom.
+   *
+   * In linear elements nodes are typically colocated with geometrical points,
+   * so the number of nodes is equal to the number of points. This is also
+   * the default implementation here. If you need to define a more complex
+   * element which has additional nodes, you need to override this function
+   * in a derived class.
+   */
+  virtual unsigned int GetNumberOfNodes( void ) const
+  {
+    return this->GetNumberOfPoints();
+  }
+
+  /**
+   * Return the number of degrees of freedom at each node. This is also
+   * equal to number of unknowns that we want to solve for at each point
+   * within an element.
+   *
+   * /note This function must be overriden in all derived classes.
+   */
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const = 0;
+
+  /**
+   * Returns a global DOF id that is associated with given node in an element.
+   * Since there are in general many DOFs present at each node, you can
    * specify which one, by providing the dof parameter.
    *
-   * Function returnes InvalidDegreeOfFreedomID, if any of the parameters is
-   * out of range.
+   * Function returns InvalidDegreeOfFreedomID, if any of the parameters is
+   * out of range. This functionality must be preserved when overriding the
+   * function.
    *
-   * By default, local DOF ids in all derived cells are numbered starting from
-   * 0 for first DOF at first point, then 1 for second DOF at first point,
-   * and so on. If more complex DOFs exist in a cell, this function should
-   * be overriden.
+   * Typically, local DOF ids in all elements are numbered
+   * starting from 0 for first DOF at first node, then 1 for second DOF at
+   * first node, and so on. If more complex DOFs exist in a cell, this
+   * function should be overriden.
    *
-   * \param pt Local index of a point within a cell (0 - number_of_points-1).
-   * \param dof_at_pt Number of DOF present at point pt (0 - number_of_dofs_at_point-1).
+   * \param nd Local index of a node within an element (0 - number_of_nodes-1).
+   * \param dof_at_nd Number of DOF present at point pt (0 - number_of_dofs_at_node-1).
    */
-  virtual DegreeOfFreedomIDType GetDegreeOfFreedomAtPoint( unsigned int pt, unsigned int dof_at_pt ) const
+  virtual DegreeOfFreedomIDType GetDegreeOfFreedomAtNode( unsigned int nd, unsigned int dof_at_nd ) const
   {
-    if (dof_at_pt>=GetNumberOfDegreesOfFreedomPerPoint() || pt>=GetNumberOfPoints())
+    if (dof_at_nd>=this->GetNumberOfDegreesOfFreedomPerNode() || nd>=this->GetNumberOfNodes())
     {
       return InvalidDegreeOfFreedomID;
     }
-    return GetDegreeOfFreedom(pt*GetNumberOfDegreesOfFreedomPerPoint()+dof_at_pt);
+    return this->GetDegreeOfFreedom(nd*this->GetNumberOfDegreesOfFreedomPerNode()+dof_at_nd);
   }
 
   /**
-   * Interpolate the known solution at a given point in local co-ordinates.
-   * Returns zero, if either pt or dof_at_pt parameter is out of range.
+   * Sets a global DOF id that is associated with given node in an element.
    *
-   * \param vnl_vector<Float> LocalCoords  - vector containing the local coordinates.
-   * \param unsigned int which_dof  - which of the degrees of freedom to interpolate.
+   * If either nd or dof_at_nd parameter is out of range, this function
+   * does nothing. This functionality must be preserved when overriding the
+   * function.
+   *
+   * \sa GetDegreeOfFreedomAtNode
    */
-  
-  virtual Float InterpolateSolutionAtLocalCoordinate(vnl_vector<Float> LocalCoords, unsigned int which_dof ) const
+  virtual void SetDegreeOfFreedomAtNode( unsigned int nd, unsigned int dof_at_nd, DegreeOfFreedomIDType global_dof )
   {
-    return 0.0;
-  }
-
-  /**
-   * Sets a global DOF id that is associated with given point in an element.
-   *
-   * Function does nothing, if either pt or dof_at_pt parameter is out of range.
-   *
-   * \sa GetDegreeOfFreedomAtPoint
-   */
-  virtual void SetDegreeOfFreedomAtPoint( unsigned int pt, unsigned int dof_at_pt, DegreeOfFreedomIDType global_dof )
-  {
-    if (dof_at_pt>=GetNumberOfDegreesOfFreedomPerPoint() || pt>=GetNumberOfPoints())
+    if (dof_at_nd>=this->GetNumberOfDegreesOfFreedomPerNode() || nd>=this->GetNumberOfNodes())
     {
       return;
     }
-    SetDegreeOfFreedom(pt*GetNumberOfDegreesOfFreedomPerPoint()+dof_at_pt, global_dof);
+    this->SetDegreeOfFreedom(nd*this->GetNumberOfDegreesOfFreedomPerNode()+dof_at_nd, global_dof);
   }
+
+  /**
+   * Return a set of global point IDs, that define the n-th node in an 
+   * element.
+   *
+   * Each node in an element must be somehow uniquely associated with a set
+   * of geometrical points. This is required to determine if two nodes
+   * in different elements correspond to the same point in space, and must
+   * therefore also share its DOFs.
+   *
+   * In a linear elements each node is only associated with the geometrical
+   * point at which it is defined. So the set contains only one global point
+   * id. This is the default implementation provided in this class.
+   *
+   * If an element has additional nodes, you must override this function and
+   * provide proper mapping from node number to set of global point id.
+   *
+   * Example: In quadratic elements, a node is typically located at a middle
+   * point on an edge. An edge is defined with two points. So this node is
+   * also uniquely defined with two global point ids that define that
+   * edge. And this is exactly what this function should return.
+   *
+   * \sa NodeDefinitionType
+   *
+   * \note This function is only used to determine which nodes are shared
+   *       between elements in a mesh. It does not store the actual
+   *       coordinates of a node. The node coordinates must be calculated
+   *       manually where they are required in a derived class from the
+   *       given coordinates of geometrical points.
+   *
+   * \param n Node number within the element.
+   *          Must be 0 <= n < GetNumberOfNodes().
+   * \param def A reference to the multiset object which will return the
+   *            global point ids of the n-th node.
+   */
+  virtual void GetNodeDefinition(unsigned int n, NodeDefinitionType& def) const
+  {
+    def.clear();
+    if( n>=this->GetNumberOfPoints() ) { return; }
+    def.insert(this->GetPoint(n));
+  }
+
+
 
   /**
    * Links the DOFs in a current element with the elements

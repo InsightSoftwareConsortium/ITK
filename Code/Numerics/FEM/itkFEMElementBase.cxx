@@ -75,7 +75,7 @@ void Element::LinkDegreesOfFreedom(void)
   // Step over all points in current cell
   for( unsigned int pt=0;pt<this->GetNumberOfPoints();pt++ )
   {
-    Node::ConstPointer n=this->GetPoint(pt);
+    PointIDType n=this->GetPoint(pt);
 
     // Step over all elements that also use point pt
     // FIXME: This needs to be changed when the Mesh is used.
@@ -103,26 +103,26 @@ void Element::LinkDegreesOfFreedom(void)
         // since they have to be the same. Note that neighboring point
         // may contain more or less DOFs. If it has more, we simply ignore
         // the rest, if it has less, we'll get invalid DOF id from
-        // GetDegreeOfFreedomAtPoint function.
-        for(unsigned int d=0; d<this->GetNumberOfDegreesOfFreedomPerPoint(); d++)
+        // GetDegreeOfFreedomAtNode function.
+        for(unsigned int d=0; d<this->GetNumberOfDegreesOfFreedomPerNode(); d++)
         {
           // Get the DOF from the point at neighboring element
-          DegreeOfFreedomIDType global_dof = el->GetDegreeOfFreedomAtPoint(ptn,d);
+          DegreeOfFreedomIDType global_dof = el->GetDegreeOfFreedomAtNode(ptn,d);
 
           // Set the corresponding DOF in current element only if
           // we find a valid DOF id in the neighboring element
           if( global_dof!=InvalidDegreeOfFreedomID )
           {
             // Error checking
-            if( this->GetDegreeOfFreedomAtPoint(pt,d)!=InvalidDegreeOfFreedomID && 
-                this->GetDegreeOfFreedomAtPoint(pt,d)!=global_dof)
+            if( this->GetDegreeOfFreedomAtNode(pt,d)!=InvalidDegreeOfFreedomID && 
+                this->GetDegreeOfFreedomAtNode(pt,d)!=global_dof)
             {
               // Something got screwed.
               // FIXME: Write a better error handler or remove it completely,
               //        since this should never happen.
               throw FEMException(__FILE__, __LINE__, "FEM error");
             }
-            this->SetDegreeOfFreedomAtPoint(pt,d,global_dof);
+            this->SetDegreeOfFreedomAtNode(pt,d,global_dof);
           }
 
         } // end for d
@@ -136,15 +136,15 @@ void Element::LinkDegreesOfFreedom(void)
     // Now all DOFs in current object for point i are matched with those
     // in the neghboring elements. However, if none of the neighboring
     // objects defines these DOFs, we need to create them.
-    for(unsigned int d=0;d<this->GetNumberOfDegreesOfFreedomPerPoint();d++) // step over all DOFs at point pt
+    for(unsigned int d=0;d<this->GetNumberOfDegreesOfFreedomPerNode();d++) // step over all DOFs at point pt
     {
-      if( this->GetDegreeOfFreedomAtPoint(pt,d)==InvalidDegreeOfFreedomID )
+      if( this->GetDegreeOfFreedomAtNode(pt,d)==InvalidDegreeOfFreedomID )
       {
-        /* 
+        /*
          * Found a undefined DOF. We need obtain a unique id,
          * which we set with the SetDegreeOfFreedom function.
          */
-        SetDegreeOfFreedomAtPoint(pt,d,Element::CreateNewGlobalDOF());
+        SetDegreeOfFreedomAtNode(pt,d,Element::CreateNewGlobalDOF());
       }
 
     } // end for d

@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
+
 #include "itkFEMLoadBase.h"
 
 namespace itk {
