@@ -12,7 +12,7 @@
         <table border="4" cellpading="0" cellspacing="2" width="100%">
           <tr>
             <td width="140">
-              <img src="../../Images/Logo.gif" border="0"></img>
+              <img src="../../Icons/Logo.gif" border="0"></img>
             </td>
             <td>
               <h1>Insight testing dashboard</h1>
@@ -23,27 +23,27 @@
               <table width="100%" halign="center">
                 <tr>
                   <td>
-                    <a href="Update.html"><img src="../../Images/Updates.gif" border="0"></img></a>
+                    <a href="Update.html"><img src="../../Icons/Updates.gif" border="0"></img></a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="BuildError.html"><img src="../../Images/Errors.gif" border="0"></img></a>
+                    <a href="BuildError.html"><img src="../../Icons/Errors.gif" border="0"></img></a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="BuildWarning.html"><img src="../../Images/Warnings.gif" border="0"></img></a>
+                    <a href="BuildWarning.html"><img src="../../Icons/Warnings.gif" border="0"></img></a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="Test.html"><img src="../../Images/Tests.gif" border="0"></img></a>
+                    <a href="Test.html"><img src="../../Icons/Tests.gif" border="0"></img></a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="Coverage.html"><img src="../../Images/Coverage.gif" border="0"></img></a>
+                    <a href="Coverage.html"><img src="../../Icons/Coverage.gif" border="0"></img></a>
                   </td>
                 </tr>
               </table>
