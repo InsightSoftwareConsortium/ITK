@@ -31,7 +31,7 @@ namespace itk
  * 
  * \ingroup SpatialFunctions
  */
-template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
+template <unsigned int VImageDimension=3,typename TInput=Point<double,VImageDimension> >
 class ITK_EXPORT SphereSpatialFunction
 : public InteriorExteriorSpatialFunction<VImageDimension,TInput>
 {
