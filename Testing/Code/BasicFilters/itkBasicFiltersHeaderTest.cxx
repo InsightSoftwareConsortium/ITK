@@ -107,6 +107,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkResampleImageFilter.txx"
 #include "itkRescaleIntensityImageFilter.txx"
 #include "itkScalarAnisotropicDiffusionFunction.txx"
+#include "itkScalarToArrayCastImageFilter.h"
 #include "itkShiftScaleImageFilter.txx"
 #include "itkShrinkImageFilter.txx"
 #include "itkSimilarityIndexImageFilter.txx"
