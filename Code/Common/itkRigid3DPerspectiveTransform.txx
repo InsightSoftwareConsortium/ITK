@@ -147,51 +147,23 @@ SetRotation(const Vector<TScalarType,3> & axis, double angle )
   SetRotation( q );
 }
 
+
 // Transform a point
 template<class TScalarType>
 Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
 Rigid3DPerspectiveTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
-  /*
-  std::cout << "Rigid3DPerspectiveTransform = " << (void *)this << std::endl;
-  std::cout << "Width " << m_Width          << std::endl;
-  std::cout << "Height" << m_Height         << std::endl;
-  std::cout << "Focal " << m_FocalDistance  << std::endl;
-  std::cout << "Input point = " << point << std::endl;
-  */
   
   InputPointType rigid =  m_DirectMatrix * point + m_Offset;
   
-  //  std::cout << "Rigid point = " << rigid << std::endl;
-  
   OutputPointType result;
-  TScalarType factor = m_Height / (rigid[0]-m_FocalDistance);
+  
+  TScalarType factor = m_Height / (rigid[2]+m_FocalDistance);
+  
   result[0] = rigid[0] * factor + m_Width  / 2.0;
   result[1] = rigid[1] * factor + m_Height / 2.0;
-  // std::cout << "Mapped point = " << result << std::endl;
-  // std::cout << std::endl;
-  return result;
-}
-
-// Transform a vector
-template<class TScalarType>
-Rigid3DPerspectiveTransform<TScalarType>::OutputVectorType
-Rigid3DPerspectiveTransform<TScalarType>::
-TransformVector(const InputVectorType &point) const 
-{
-  OutputVectorType result;
-  return result;
-}
-
- 
-// Transform a vnl_vector
-template<class TScalarType>
-Rigid3DPerspectiveTransform<TScalarType>::OutputVnlVectorType
-Rigid3DPerspectiveTransform<TScalarType>::
-TransformVnlVector(const InputVnlVectorType &point) const 
-{
-  OutputVnlVectorType result;
+  
   return result;
 }
 

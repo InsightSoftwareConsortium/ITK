@@ -151,17 +151,11 @@ public:
     typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
     typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
 
-    /// Standard vnl vector type for this class
-    typedef vnl_vector_fixed<TScalarType, InputSpaceDimension>  InputVnlVectorType;
-    typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension>  OutputVnlVectorType;
 
     /// Standard coordinate point type for this class
     typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
     typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
 
-    /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
-    typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
 
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
@@ -280,23 +274,6 @@ public:
      * given point, returning the transformed point 
      **/
     OutputPointType  TransformPoint(const InputPointType  &point ) const;
-
-    /**
-     * Transform by a Rigid3DPerspectiveTransform
-     *
-     * This method applies the transform given by self to a
-     * given vector, returning the transformed vector.
-     **/
-    OutputVectorType  TransformVector(const InputVectorType  &vect ) const;
-
-    /**
-     * Transform by a Rigid3DPerspectiveTransform
-     *
-     * This method applies the transform given by self to a
-     * given vnl_vector, returning the transformed vnl_vector.
-     **/
-    OutputVnlVectorType  TransformVnlVector(const InputVnlVectorType  &vect ) const;
-
 
 
     /**
