@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //  
 //  This example illustrates how to save an image using the
-//  \doxgen{ImageSeriesWriter}. This class allows to save a 3D volume as a set
+//  \doxygen{ImageSeriesWriter}. This class allows to save a 3D volume as a set
 //  of files containting one 2D slice per file.
 //
 //  \index{itk::ImageFileReader!header}
