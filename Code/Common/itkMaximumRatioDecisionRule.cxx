@@ -16,6 +16,8 @@
 =========================================================================*/
 #include "itkMaximumRatioDecisionRule.h"
 
+namespace itk {
+
 MaximumRatioDecisionRule::MaximumRatioDecisionRule()
 {
 }
@@ -29,16 +31,23 @@ void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
   double APrioriRatio ;
   for (i = 0 ; i < m_NumberOfClasses ; i++)
     {
-      for (j = 0 ; j < m_NumberOfClasses ; j++)
+    for (j = 0 ; j < m_NumberOfClasses ; j++)
+      {
+      if ( values[i] > 0 )
         {
-          APrioriRatio = (double)values[j] / 
-            (double)values[i] ;
-          m_APrioriRatioMatrix.put(i, j, APrioriRatio) ;
+        APrioriRatio = (double)values[j] / 
+          (double)values[i] ;
         }
+      else
+        {
+        APrioriRatio = NumericTraits< double >::max() ;
+        }
+        m_APrioriRatioMatrix.put(i, j, APrioriRatio) ;
+      }
     }
 }
 
-
+} // end of namespace
 
 
 

@@ -19,7 +19,11 @@
 
 #include <vector>
 #include "vnl/vnl_matrix.h"
+
+#include "itkNumericTraits.h"
 #include "itkDecisionRuleBase.h"
+
+namespace itk {
 
 /** \class MaximumRatioDecisionRule
  *  \brief this rule returns  \f$i\f$ if
@@ -30,14 +34,14 @@
  * or the size of a class)
  */
  
-class MaximumRatioDecisionRule : 
-  public itk::DecisionRuleBase
+class ITK_EXPORT MaximumRatioDecisionRule : 
+    public DecisionRuleBase
 {
- public:
+public:
   /** Standard class typedefs */ 
   typedef MaximumRatioDecisionRule Self ;
-  typedef itk::DecisionRuleBase Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
+  typedef DecisionRuleBase Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumRatioDecisionRule, DecisionRuleBase);
@@ -52,48 +56,57 @@ class MaximumRatioDecisionRule :
 
   void SetAPriori(APrioriVectorType& values) ;
 
- protected:
+protected:
   MaximumRatioDecisionRule() ;
   virtual ~MaximumRatioDecisionRule() {}
   
- private:
+private:
   unsigned int m_NumberOfClasses ;
   vnl_matrix< double > m_APrioriRatioMatrix ;
 } ; // end of class
 
 inline unsigned int 
 MaximumRatioDecisionRule::Evaluate(std::vector< double > 
-                                             &discriminantScores)
+                                   &discriminantScores)
 {
   unsigned int i, j ;
   double temp ;
 
   for (i = 0 ; i < m_NumberOfClasses ; i++)
     {
-      j = 0 ;
-      while ( j < m_NumberOfClasses )
+    j = 0 ;
+    while ( j < m_NumberOfClasses )
+      {
+      if ( j != i )
         {
-          if ( j != i )
-            {
-              temp = discriminantScores[i] / discriminantScores[j] ;
-              if ( temp < m_APrioriRatioMatrix.get(i,j) )
-                {
-                  break ;
-                }
-            }
+        if ( discriminantScores[j] != 0.0 )
+          {
+          temp = discriminantScores[i] / discriminantScores[j] ;
+          }
+        else
+          {
+          temp = NumericTraits< double >::max() ;
+          }
 
-          ++j ;
-
-          if ( j == m_NumberOfClasses )
-            {
-              return i ;
-            }
+        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+          {
+          break ;
+          }
         }
+
+      ++j ;
+
+      if ( j == m_NumberOfClasses )
+        {
+        return i ;
+        }
+      }
     }
 
   return i ;
 }
 
+} // end of namespace
 #endif
 
 
