@@ -33,6 +33,7 @@ void RegisterTests()
   REGISTER_TEST(itkConstrainedValueAdditionImageFilterTest );
   REGISTER_TEST(itkConstrainedValueDifferenceImageFilterTest );
   REGISTER_TEST(itkContourDirectedMeanDistanceImageFilterTest );
+  REGISTER_TEST(itkContourMeanDistanceImageFilterTest );
   REGISTER_TEST(itkGrayscaleMorphologicalClosingImageFilterTest );
   REGISTER_TEST(itkGrayscaleMorphologicalOpeningImageFilterTest );
   REGISTER_TEST(itkSimpleContourExtractorImageFilterTest );
