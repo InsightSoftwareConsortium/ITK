@@ -17,6 +17,7 @@
 #define _wrapConversionTable_h
 
 #include "wrapUtils.h"
+#include "wrapException.h"
 #include <map>
 
 namespace _wrap_
@@ -44,7 +45,6 @@ class _wrap_EXPORT ConversionTable
 {
 public:  
   ConversionTable();
-  
   bool Exists(const CvQualifiedType& from, const Type* to) const;
   void SetConversion(const CvQualifiedType& from,
                      const Type* to, ConversionFunction);
@@ -66,6 +66,150 @@ private:
   typedef std::map<const Tcl_Interp*, ConversionTable*>  InterpreterConversionTableMap;
   static InterpreterConversionTableMap interpreterConversionTableMap;  
 };
+
+
+/**
+ * Conversion functions are defined in the Converter namespace.
+ */
+namespace Converter
+{
+
+/**
+ * A conversion function for the identity conversion of an object.
+ */
+template <typename To>
+struct ObjectIdentity
+{
+  static To Convert(void* in)
+    {
+    return *static_cast<To*>(in);
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ObjectIdentity::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for a derived-to-base object conversion.
+ */
+template <typename From, typename To>
+struct ObjectDerivedToBase
+{
+  static To Convert(void* in)
+    {
+    return static_cast<To>(*static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ObjectDerivedToBase::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for a derived-to-base pointer conversion.
+ */
+template <typename From, typename To>
+struct PointerDerivedToBase
+{
+  static To* Convert(void* in)
+    {
+    return static_cast<To*>(static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&PointerDerivedToBase::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for a derived-to-base reference conversion.
+ */
+template <typename From, typename To>
+struct ReferenceDerivedToBase
+{
+  static To& Convert(void* in)
+    {
+    return static_cast<To&>(*static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ReferenceDerivedToBase::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for calling a type conversion operator.
+ */
+template <typename From, typename To>
+struct ConversionOperator
+{
+  static To Convert(void* in)
+    {
+    return static_cast<From*>(in)->operator To();
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ConversionOperator::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for performing conversion by constructor.
+ */
+template <typename From, typename To>
+struct ConversionByConstructor
+{
+  static To Convert(void* in)
+    {
+    return To(*static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ConversionByConstructor::Convert);
+    }
+};
+
+
+/**
+ * A conversion function for performing a reinterpret_cast on an object.
+ * This is used for type conversions like pointer to integer.
+ */
+template <typename From, typename To>
+struct ObjectReinterpret
+{
+  static To Convert(void* in)
+    {
+    return reinterpret_cast<To>(*static_cast<From*>(in));
+    }
+  inline static ConversionFunction GetConversionFunction()
+    {
+    return reinterpret_cast<ConversionFunction>(&ObjectReinterpret::Convert);
+    }
+};
+
+
+} // namespace Converter
+
+
+/**
+ * A function to actually call the given ConversionFunction on the given
+ * object to produce the given output type.
+ */
+template <class T>
+struct ConvertTo
+{
+  inline static T From(void* object, ConversionFunction cf)
+    {
+    return (reinterpret_cast<T(*)(void*)>(cf))(object);
+    }
+};
+
 
 } // namespace _wrap_
 
