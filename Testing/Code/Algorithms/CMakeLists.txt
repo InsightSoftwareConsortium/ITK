@@ -105,3 +105,8 @@ ADD_EXECUTABLE(itkVectorFuzzyConnectednessImageFilterTest itkVectorFuzzyConnecte
 ADD_EXECUTABLE(itkVoronoiDiagram2DTest itkVoronoiDiagram2DTest)
 ADD_EXECUTABLE(itkVoronoiSegmentationImageFilterTest itkVoronoiSegmentationImageFilterTest)
 ADD_EXECUTABLE(itkWatershedImageFilterTest itkWatershedImageFilterTest)
+
+IF(ITK_WRAP_TCL)
+  ADD_TEST(itkCurvatureFlowTestTcl.tcl ${TCL_TCLSH}
+    ${ITK_SOURCE_DIR}/Testing/Code/Algorithms/itkCurvatureFlowTestTcl.tcl)
+ENDIF(ITK_WRAP_TCL)
