@@ -82,9 +82,10 @@ public:
   itkTypeMacro(MinMaxCurvatureFlowImageFilter,
                CurvatureFlowImageFilter);
 
-  /** FiniteDifferenceFunction type. */
+  /** Inherit typedefs from Superclass. */
   typedef typename Superclass::FiniteDifferenceFunctionType
     FiniteDifferenceFunctionType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** MinMaxCurvatureFlowFunction type. */
   typedef MinMaxCurvatureFlowFunction<OutputImageType>

@@ -60,6 +60,7 @@ public:
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** Extract superclass dimension. */
   enum { ImageDimension = Superclass::ImageDimension };  
