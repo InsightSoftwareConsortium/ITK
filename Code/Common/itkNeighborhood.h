@@ -23,6 +23,8 @@
 #include "itkIndent.h"
 #include "itkSliceIterator.h"
 #include "vnl/vnl_vector.h"
+#include "itkOffset.h"
+#include <vector>
 
 namespace itk {
   
@@ -77,6 +79,9 @@ public:
   /** Radius typedef support. */
   typedef Size<VDimension> RadiusType;
 
+  /** Offset type used to reference neighbor locations */
+  typedef Offset<VDimension> OffsetType;
+  
   /** External slice iterator type typedef support. */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
   
@@ -87,23 +92,11 @@ public:
   virtual ~Neighborhood() {}
     
   /** Copy constructor. */
-  Neighborhood(const Self& other)
-  {
-    m_Radius     = other.m_Radius;
-    m_Size       = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-  }
+  Neighborhood(const Self& other);
 
   /** Assignment operator. */
-  Self &operator=(const Self& other)
-  {
-    m_Radius     = other.m_Radius;
-    m_Size       = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-    return *this;
-  }
+  Self &operator=(const Self& other);
 
-  /** Comparison operator. */
   /** Comparison operator. */
   bool
   operator==(const Self& other) const
@@ -142,7 +135,8 @@ public:
   /** Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
-  unsigned long GetStride(const unsigned long) const;
+  unsigned GetStride(const unsigned axis) const
+  {     return m_StrideTable[axis];  }
   
   /** STL-style iterator support. */
   Iterator End()
@@ -195,6 +189,24 @@ public:
     { return m_DataBuffer; }
   const AllocatorType &GetBufferReference() const
     { return m_DataBuffer; }
+
+  /** Get pixel value by offset */
+  TPixel &operator[](const OffsetType &o)
+  {    return this->operator[](this->GetNeighborhoodIndex(o)); }
+  const TPixel &operator[](const OffsetType &o) const
+  { return this->operator[](this->GetNeighborhoodIndex(o)); }
+
+  /** Returns the itk::Offset from the center of the Neighborhood to
+      the requested neighbor index. */
+  virtual OffsetType GetOffset(unsigned int i) const
+  {    return m_OffsetTable[i];  }
+
+  virtual unsigned int GetNeighborhoodIndex(const OffsetType &) const;
+
+  unsigned int GetCenterNeighborhoodIndex() const
+  { return  static_cast<unsigned int>(this->Size()/2); }
+    
+  std::slice GetSlice(unsigned int) const;
   
 protected:
   /** Sets the length along each dimension. */
@@ -210,7 +222,14 @@ protected:
 
   /** Standard itk object method. */
   virtual void PrintSelf(std::ostream&, Indent) const;
-  
+
+  /** Computes the entries for the stride table */
+  virtual void ComputeNeighborhoodStrideTable();
+
+  /** Fills entries into the offset lookup table. Called once on
+      initialization. */
+  virtual void ComputeNeighborhoodOffsetTable();
+
 private:
   /** Number of neighbors to include (symmetrically) along each axis.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1). */
@@ -222,6 +241,14 @@ private:
 
   /** The buffer in which data is stored. */
   AllocatorType m_DataBuffer;
+
+  /** A lookup table for keeping track of stride lengths in a neighborhood
+      i.e. the memory offsets between pixels along each dimensional axis */
+  unsigned int m_StrideTable[VDimension];
+
+  /** */
+  std::vector<OffsetType> m_OffsetTable;
+
 };
 
 template <class TPixel, unsigned int VDimension, class TContainer>
