@@ -88,7 +88,9 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // Compute the offset table size
   m_OffsetTableSize = 1;
   for(dim=0;dim<ImageDimension;dim++)
+    {
     m_OffsetTableSize *= m_WindowSize;
+    }
 
   // Allocate the offset table
   m_OffsetTable = new unsigned int[m_OffsetTableSize];
@@ -96,7 +98,9 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   // Allocate the weights tables
   m_WeightOffsetTable = new unsigned int *[m_OffsetTableSize];
   for(unsigned int i=0;i<m_OffsetTableSize;i++)
+    {
     m_WeightOffsetTable[i] = new unsigned int[ImageDimension];
+    }
 }
 
 /**
@@ -113,7 +117,9 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
 
   // Clear the weights tables
   for(unsigned int i=0; i < m_OffsetTableSize; i++)
+    {
     delete [] m_WeightOffsetTable[i];
+    }
   delete[] m_WeightOffsetTable;
 }
 
@@ -251,8 +257,10 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     if(distance[dim] == 0.0)
       {
       for( unsigned int i = 0; i < m_WindowSize; i++)
+        {
         xWeight[dim][i] = 
           static_cast<int>(i) == VRadius - 1 ? 1 : 0;
+        }
       }
     else
       {
