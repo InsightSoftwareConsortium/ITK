@@ -61,8 +61,8 @@ namespace itk {
  *     or the DilateValue.
  *   - Replace the original value with the specified value
  *
- * \sa MorphologyImageFilter, BinaryFunctionDilateImageFilter
- * \sa BinaryDilateImageFilter
+ * \sa MorphologyImageFilter
+ * \sa BinaryErodeImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage, class TKernel>
