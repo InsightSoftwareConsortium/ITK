@@ -118,7 +118,7 @@ Matrix<T, NRows, NColumns>
  *  Product by a vnl_matrix
  */
 template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix<T>
+vnl_matrix_fixed<T,NRows,NColumns> 
 Matrix<T, NRows, NColumns>
 ::operator*( const vnl_matrix<T> & matrix ) const
 {
@@ -197,11 +197,12 @@ Matrix<T, NRows, NColumns>
  *  Returns the inverse matrix
  */
 template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix<T> 
+vnl_matrix_fixed<T,NColumns,NRows>
 Matrix<T, NRows, NColumns>
 ::GetInverse( void ) const
 {
-  return vnl_matrix_inverse<T>( m_Matrix );
+  vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
+  return temp;
 }
 
 
@@ -209,7 +210,7 @@ Matrix<T, NRows, NColumns>
  *  Returns the transposed matrix
  */
 template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix<T> 
+vnl_matrix_fixed<T,NColumns,NRows>
 Matrix<T, NRows, NColumns>
 ::GetTranspose( void ) const
 {

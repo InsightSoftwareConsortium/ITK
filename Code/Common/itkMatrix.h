@@ -58,7 +58,7 @@ public:
   Self operator*(const Self & matrix) const;
  
   /** Matrix by vnl_matrix multiplication.  */
-  vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
+  vnl_matrix_fixed<T,NRows,NColumns> operator*(const vnl_matrix<T> & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
   void operator*=(const Self & matrix);
@@ -110,10 +110,10 @@ public:
   inline const Self & operator=( const Self & matrix);
 
   /** Return the inverse matrix. */
-  inline vnl_matrix<T> GetInverse( void ) const;
+  inline vnl_matrix_fixed<T,NColumns,NRows> GetInverse( void ) const;
  
   /** Return the transposed matrix. */
-  inline vnl_matrix<T> GetTranspose( void ) const;
+  inline vnl_matrix_fixed<T,NColumns,NRows> GetTranspose( void ) const;
 
   /** Default constructor. */
   Matrix() : m_Matrix(NumericTraits<T>::Zero) {};
