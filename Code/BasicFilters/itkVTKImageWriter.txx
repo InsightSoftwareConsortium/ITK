@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkVTKImageWriter_txx
 
 #include "itkVTKImageWriter.h"
+#include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkByteSwapper.h"
 #include <fstream>
