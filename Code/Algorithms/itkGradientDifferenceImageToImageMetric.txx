@@ -365,8 +365,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     FixedIteratorType fixedIterator( m_FixedSobelFilters[iDimension]->GetOutput(),
                                      this->GetFixedImageRegion() );
 
-    typename FixedImageType::IndexType index;
-
     typedef  itk::ImageRegionConstIteratorWithIndex< MovedGradientImageType > 
                                                                 MovedIteratorType;
 
