@@ -216,7 +216,7 @@ public:
   void GetBufferPointer2( InternalPixelPointerType  & );
   
   /** Set the spacing (size of a pixel) of the image. */
-  virtual void SetSpacing( const SpacingType& values );
+  virtual void SetSpacing( const SpacingType values );
   virtual void SetSpacing( const double values[ImageDimension] );
   virtual void SetSpacing( const float values[ImageDimension] );
   
@@ -231,7 +231,7 @@ public:
   virtual const PointType& GetOrigin() const;
 
   /** Set the origin of the image. */
-  virtual void SetOrigin( const PointType & values);
+  virtual void SetOrigin( const PointType values);
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
   
