@@ -280,6 +280,7 @@ void IPLCommonImageIO::ReadImageInformation()
   std::string _imagePath =
     itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
 
+  FileNameToRead = _imagePath;
   if(_imagePath == "")
     RAISE_EXCEPTION();
   strncpy(imagePath,_imagePath.c_str(),sizeof(imagePath));
@@ -307,16 +308,16 @@ void IPLCommonImageIO::ReadImageInformation()
   for(i = 0, numfiles = dir->GetNumberOfFiles(); i < numfiles; i++) 
     {
     const char *curFname =  dir->GetFile(i);
+    char fullPath[IOCommon::ITK_MAXPATHLEN+1];
+    sprintf(fullPath,"%s/%s",imagePath,curFname);
     if(curFname == 0)
       {
       break;
       }
-    else if (FileNameToRead == curFname) //strcmp(curFname,FileNameToRead) == 0)
+    else if (FileNameToRead == fullPath) //strcmp(curFname,FileNameToRead) == 0)
       {
       continue;
       }
-    char fullPath[IOCommon::ITK_MAXPATHLEN+1];
-    sprintf(fullPath,"%s/%s",imagePath,curFname);
     try 
       {
       curImageHeader = this->ReadHeader(fullPath);
