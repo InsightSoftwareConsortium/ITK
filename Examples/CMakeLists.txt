@@ -3,4 +3,5 @@ SUBDIRS(
   Filtering
   IO
   Registration
+  Segmentation
 )
