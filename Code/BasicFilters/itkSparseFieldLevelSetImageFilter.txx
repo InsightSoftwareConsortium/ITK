@@ -239,6 +239,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
+  // DEBUG
+  //  statusIt.NeedToUseBoundaryConditionOff();
+  /// DEBUG
+
+  
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and update the status image value at that index.
   // Also examine the neighbors of the index to determine which need to go onto
@@ -303,6 +308,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion());
 
+  // DEBUG ----------
+  //  outputIt.NeedToUseBoundaryConditionOff();
+  //  statusIt.NeedToUseBoundaryConditionOff();
+  // DEBUG ---------
+
+
+  
   counter =0;
   rms_change_accumulator = m_ValueZero;
   layerIt = m_Layers[0]->Begin();
@@ -683,7 +695,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   NeighborhoodIterator<StatusImageType>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion() );
-
+  
   // For all indicies in the "from" layer...
   for (fromIt = m_Layers[from]->Begin();
        fromIt != m_Layers[from]->End();  ++fromIt)
@@ -795,7 +807,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
                                                  this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   TimeStepType timeStep;
   center = outputIt.Size() /2;
-  
+
+
+  //  outputIt.NeedToUseBoundaryConditionOff();
+
   m_UpdateBuffer.clear();
   m_UpdateBuffer.reserve(m_Layers[0]->Size());
 
@@ -904,6 +919,14 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt(m_NeighborList.GetRadius(), m_StatusImage,
              this->GetOutput()->GetRequestedRegion() );
 
+
+  // DEBUG
+  //  outputIt.NeedToUseBoundaryConditionOff();
+  //  statusIt.NeedToUseBoundaryConditionOff();
+  // DEBUG----
+
+
+  
   toIt  = m_Layers[to]->Begin();
   while ( toIt != m_Layers[to]->End() )
     {
@@ -975,8 +998,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::PostProcessOutput()
 {
   // Assign background pixels INSIDE the sparse field layers to a new level set
-  // with value greater than the innermost layer.  Assign background pixels
-  // OUTSIDE the sparse field layers to a new level set with value less than
+  // with value less than the innermost layer.  Assign background pixels
+  // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
   

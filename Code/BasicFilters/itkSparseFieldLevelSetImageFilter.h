@@ -182,13 +182,13 @@ private:
  *
  * \par OUTPUTS
  * The output of the filter is the distance transform embedding of the
- * isosurface as the zero level set.  Values outside the surface will be
- * negative and values inside the surface will be positive.  The distance
+ * isosurface as the zero level set.  Values INSIDE the surface will be
+ * NEGATIVE and values OUTSIDE the surface will be POSITIVE.  The distance
  * transform only holds for those indicies in layers around the active layer.
  * Elsewhere, the values are a fixed positive or negative that is one greater
  * than the layer of greatest magnitude.  In other words, if there are three
- * layers, then inside values increase only to 4.0 and outside values only to
- * -4.0.
+ * layers, then inside values reach a minimum of -4.0 and outside values a
+ * maximum of 4.0.
  *
  * \par PARAMETERS
  * The NumberOfLayers parameter controls the number of layers inside and
