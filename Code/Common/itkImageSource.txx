@@ -190,6 +190,11 @@ ImageSource<TOutputImage>
     outputPtr->Allocate();
     }
 
+  // Call a method that can be overridden by a subclass to perform
+  // some calculations prior to splitting the main computations into
+  // separate threads
+  this->BeforeThreadedGenerateData();
+  
   // Set up the multithreaded processing
   ThreadStruct str;
   str.Filter = this;
@@ -197,8 +202,12 @@ ImageSource<TOutputImage>
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
   
-  // multithread the execution
+  // <ultithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
+
+  // Call a method that can be overridden by a subclass to perform
+  // some calculations after all the threads have completed
+  this->AfterThreadedGenerateData();
 }
 
 

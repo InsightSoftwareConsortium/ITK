@@ -115,36 +115,45 @@ protected:
   
   
   /**
-   * A version of GenerateData specific for image processing filters.  This
-   * implementation will split the processing across multiple threads. Each
-   * thread will call the method ThreadedGenerateData().  If an image
-   * processing filter cannot be threaded, the filter should provide
-   * an implementation of GenerateData().  If a filter provides GenerateData,
-   * then that version GenerateData is responsible for allocating the output
-   * data.  If a filter provides a ThreadedGenerateData() instead, then
-   * then the output data will be allocated automatically prior to calling
-   * ThreadedGenerateData().
+   * A version of GenerateData() specific for image processing
+   * filters.  This implementation will split the processing across
+   * multiple threads. The buffer is allocated by this method. Then
+   * the BeforeThreadedGenerateData() method is called (if
+   * provided). Then, a series of threads are spawned each calling
+   * ThreadedGenerateData(). After all the threads have completed
+   * processing, the AfterThreadedGenerateData() method is called (if
+   * provided). If an image processing filter cannot be threaded, the
+   * filter should provide an implementation of GenerateData(). That
+   * implementation is responsible for allocating the output buffer.
+   * If a filter an be threaded, it should NOT provide a
+   * GenerateData() method but should provide a ThreadedGenerateData()
+   * instead.
    *
    * \sa ThreadedGenerateData()
    */
   virtual void GenerateData();
 
   /**
-   * If an imaging filter can be implemented as a multithreaded algorithm,
-   * the filter will provide an implementation of ThreadedGenerateData().
-   * This superclass will automatically split the output image into a number
-   * of pieces, spawn multiple threads, and call ThreadedGenerateData()
-   * in each thread. If an image processing filter cannot support threading,
-   * that filter should provide an implementation of the GenerateData()
-   * method instead of providing an implementation of ThreadedGenerateData().
-   * If a filter provides a GenerateData() method as its implementation, then
-   * the filter is responsible for allocating the output data.  If a filter
-   * provides a ThreadedGenerateData() method as its implementation, then
-   * the output memory will allocated automatically by this superclass.
-   * The ThreadedGenerateData() method should only produce the output specified
-   * by "outputThreadRegion" parameter. ThreadedGenerateData() cannot write
-   * to any other portion of the output image (as this is responsibility of
-   * a different thread).
+   * If an imaging filter can be implemented as a multithreaded
+   * algorithm, the filter will provide an implementation of
+   * ThreadedGenerateData().  This superclass will automatically split
+   * the output image into a number of pieces, spawn multiple threads,
+   * and call ThreadedGenerateData() in each thread. Prior to spawing
+   * threads, the BeforeThreadedGenerateData() method is called. After
+   * all the threads have completed, the AfterThreadedGenerateData()
+   * method is called. If an image processing filter cannot support
+   * threading, that filter should provide an implementation of the
+   * GenerateData() method instead of providing an implementation of
+   * ThreadedGenerateData().  If a filter provides a GenerateData()
+   * method as its implementation, then the filter is responsible for
+   * allocating the output data.  If a filter provides a
+   * ThreadedGenerateData() method as its implementation, then the
+   * output memory will allocated automatically by this superclass.
+   * The ThreadedGenerateData() method should only produce the output
+   * specified by "outputThreadRegion"
+   * parameter. ThreadedGenerateData() cannot write to any other
+   * portion of the output image (as this is responsibility of a
+   * different thread).
    *
    * \sa GenerateData(), SplitRequestedRegion()
    */
@@ -152,6 +161,34 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+  /**
+   * If an imaging filter needs to perform processing after the buffer
+   * has been allocated but before threads are spawned, the filter can
+   * can provide an implementation for BeforeThreadedGenerateData(). The
+   * execution flow in the default GenerateData() method will be:
+   *      1) Allocate the output buffer
+   *      2) Call BeforeThreadedGenerateData()
+   *      3) Spawn threads, calling ThreadedGenerateData() in each thread.
+   *      4) Call AfterThreadedGenerateData()
+   * Note that this flow of control is only available if a filter provides
+   * a ThreadedGenerateData() method and NOT a GenerateData() method.
+   */
+  virtual void BeforeThreadedGenerateData() {};
+  
+  /**
+   * If an imaging filter needs to perform processing after all
+   * processing threads have completed, the filter can can provide an
+   * implementation for AfterThreadedGenerateData(). The execution
+   * flow in the default GenerateData() method will be:
+   *      1) Allocate the output buffer
+   *      2) Call BeforeThreadedGenerateData()
+   *      3) Spawn threads, calling ThreadedGenerateData() in each thread.
+   *      4) Call AfterThreadedGenerateData()
+   * Note that this flow of control is only available if a filter provides
+   * a ThreadedGenerateData() method and NOT a GenerateData() method.
+   */
+  virtual void AfterThreadedGenerateData() {};
+  
   /**
    * Split the output's RequestedRegion into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The
