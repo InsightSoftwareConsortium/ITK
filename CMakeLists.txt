@@ -1,4 +1,5 @@
 PROJECT(ITK)
+INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
 
 SUBDIRS(Utilities Code Testing Examples)
 
