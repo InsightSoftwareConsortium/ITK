@@ -18,6 +18,7 @@
 #ifndef __itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter_txx
 #define __itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter_txx
 
+#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
@@ -340,7 +341,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // Create a seed position for the spatial function iterator we'll use shortly
       typename TSourceImage::IndexType seedIndex;
 
-      TSourceImage::IndexValueType position[NDimensions] = {NULL};
+      typename TSourceImage::IndexValueType position[NDimensions] = {NULL};
 
       for(unsigned int i=0; i< NDimensions; i++)
         position[i] = spatialFunctionOrigin[i];
