@@ -187,12 +187,16 @@ template <typename TValueType, unsigned int VLength>
 std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr)
 {
   os << "[";
-  for (unsigned int i=0; i < VLength - 1; ++i)
+  if ( VLength == 1 )
     {
-    os << arr[i] << ", ";
+    os << arr[0] ;
     }
-  if (VLength >= 1)
+  else
     {
+    for (unsigned int i=0; i < VLength - 1; ++i)
+      {
+      os << arr[i] << ", ";
+      }
     os << arr[VLength-1];
     }
   os << "]";
