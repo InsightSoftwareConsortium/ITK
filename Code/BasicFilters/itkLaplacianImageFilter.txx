@@ -21,6 +21,8 @@
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkLaplacianOperator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkProgressAccumulator.h"
+
 namespace itk
 {
 
@@ -123,6 +125,14 @@ LaplacianImageFilter< TInputImage, TOutputImage >
   typename NOIF::Pointer filter = NOIF::New();
   
   filter->OverrideBoundaryCondition(&nbc);
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+  // Register the filter with the with progress accumulator using
+  // equal weight proportion
+  progress->RegisterInternalFilter(filter,1.0f);
 
   //
   // set up the mini-pipline

@@ -53,6 +53,8 @@ namespace itk
  *
  * \ingroup 
  */
+class ProgressReporter;
+
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BSplineCenteredResampleImageFilterBase : 
   public BSplineResampleImageFilterBase<TInputImage, TOutputImage>  
@@ -83,13 +85,15 @@ protected:
   virtual void Reduce1DImage( 
         const std::vector<double> & In, 
         OutputImageIterator & Iter, 
-        unsigned int traverseSize
+        unsigned int traverseSize,
+        ProgressReporter &progress
         );
 
   virtual void Expand1DImage( 
         const std::vector<double> & In, 
         OutputImageIterator & Iter, 
-        unsigned int traverseSize
+        unsigned int traverseSize,
+        ProgressReporter &progress
         );
 
 protected:

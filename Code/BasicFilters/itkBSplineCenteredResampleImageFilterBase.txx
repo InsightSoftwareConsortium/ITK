@@ -20,8 +20,8 @@
 #ifndef _itkBSplineCenteredResampleImageFilterBase_txx
 #define _itkBSplineCenteredResampleImageFilterBase_txx
 #include "itkBSplineCenteredResampleImageFilterBase.h"
-
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 namespace itk
 {
 
@@ -42,8 +42,8 @@ template <class TInputImage, class TOutputImage>
 void
 BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
 }
@@ -231,7 +231,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
       err.SetDescription( "SplineOrder for Centered pyramid filter must be 0 through 4. Requested spline order has not been implemented." );
       throw err;
       break;
-      }
+    }
 }
 
 /** Reduce1DImage - reduces the vector of data (in) by a 
@@ -241,7 +241,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 ::Reduce1DImage( const std::vector<double> & in, OutputImageIterator & out, 
-        unsigned int inTraverseSize )
+                 unsigned int inTraverseSize, ProgressReporter &progress )
 {
   long i1, i2;
 
@@ -254,7 +254,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 
   // TODO:  Need to allocate this once as a scratch variable instead of each time through.
   std::vector<double> temp;
-   temp.resize(inTraverseSize);
+  temp.resize(inTraverseSize);
   
   for (inK = 0; inK < inTraverseSize; inK++) 
     {
@@ -292,6 +292,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
     double outVal = ( temp[i1] + temp[i1 + 1])/2.0;
     out.Set( static_cast<OutputImagePixelType> (outVal)  );
     ++out;
+    progress.CompletedPixel();
     }
   
   
@@ -304,7 +305,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 ::Expand1DImage( const std::vector<double> & in, OutputImageIterator & out, 
-        unsigned int inTraverseSize )
+                 unsigned int inTraverseSize, ProgressReporter &progress )
 {
   long i1, i2;
 
@@ -386,6 +387,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
     ++out;
     out.Set( static_cast<OutputImagePixelType> (outVal) );
     --out;
+    progress.CompletedPixel();
     
     }
   // out[0] /= 2.0;

@@ -26,8 +26,7 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"   // Used for the output iterator needs to match filter program
-
-
+#include "itkProgressReporter.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
@@ -141,14 +140,16 @@ protected:
   virtual void Reduce1DImage( 
         const std::vector<double> & In, 
         OutputImageIterator & Iter, 
-        unsigned int traverseSize
+        unsigned int traverseSize,
+        ProgressReporter &progress
         );
 
   /** The basic operator for expanding a line of data by a factor of 2 */
   virtual void Expand1DImage( 
         const std::vector<double> & In, 
         OutputImageIterator & Iter, 
-        unsigned int traverseSize
+        unsigned int traverseSize,
+        ProgressReporter &progress
         );
 
   BSplineResampleImageFilterBase();

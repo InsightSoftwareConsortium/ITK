@@ -22,6 +22,8 @@
 #define __itkBSplineResampleImageFilterBase_txx
 
 #include "itkBSplineResampleImageFilterBase.h"
+#include "itkProgressReporter.h"
+
 namespace itk
 {
 
@@ -45,16 +47,15 @@ template <class TInputImage, class TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-
 }
 
 /**
-* Intilizes the Pyramid Spline Filter parameters for an "l2" filter
+* Intializes the Pyramid Spline Filter parameters for an "l2" filter
 */
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
@@ -62,7 +63,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 {
   switch (SplineOrder) 
     {
-    
+  
     case 0 :
       m_gSize = 1; 
       m_hSize = 1;
@@ -162,7 +163,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
       err.SetDescription( "SplineOrder for l2 pyramid filter must be between 0 and 3. Requested spline order has not been implemented." );
       throw err;
       break;
-  }
+    }
 }
 
 
@@ -188,7 +189,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::Reduce1DImage( const std::vector<double> & in,   OutputImageIterator & out, 
-        unsigned int inTraverseSize )
+                 unsigned int inTraverseSize, ProgressReporter &progress )
 {
   
   int i1, i2;
@@ -219,44 +220,45 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
         }
       out.Set( static_cast<OutputImagePixelType> ( ( in[inK] + in[i2] ) / 2.0 ) );
       ++out;
+      progress.CompletedPixel();
       }
     }
 
   else
     {
-      for (outK = 0; outK < outTraverseSize; outK++) 
-        {
-        inK = 2L * outK;
+    for (outK = 0; outK < outTraverseSize; outK++) 
+      {
+      inK = 2L * outK;
 
-        outVal = in[inK] * m_g[0];
+      outVal = in[inK] * m_g[0];
       
-        for (int i = 1; i < m_gSize; i++) 
+      for (int i = 1; i < m_gSize; i++) 
+        {
+        // Calculate indicies for left and right of symmetrical filter.
+        i1 = inK - i;
+        i2 = inK + i;
+        // reflect at boundaries if necessary
+        if (i1 < 0) 
           {
-          // Calculate indicies for left and right of symmetrical filter.
-          i1 = inK - i;
-          i2 = inK + i;
-          // reflect at boundaries if necessary
-          if (i1 < 0) 
-            {
-            i1 = (-i1) % inModK;
-            // Removed because i1 can never be greater than inModK, right?
-            //if (i1 > inModK) 
-              //i1=inModK-i1;  //TODO: I don't think this is correct.
-            }
-          if (i2 > (int) inModK) 
-            {
-            i2 = i2 % inModK;
-            // Removed because i1 can never be greater than inModK, right?
-            //if (i2 > inModK) 
-              //i2=inModK-i2;  //TODO: I don't think this is correct.
-            }
-          outVal = outVal + m_g[i]*(in[i1] + in[i2]);
+          i1 = (-i1) % inModK;
+          // Removed because i1 can never be greater than inModK, right?
+          //if (i1 > inModK) 
+          //i1=inModK-i1;  //TODO: I don't think this is correct.
           }
-        out.Set( static_cast<OutputImagePixelType> (outVal) );
-        ++out;
+        if (i2 > (int) inModK) 
+          {
+          i2 = i2 % inModK;
+          // Removed because i1 can never be greater than inModK, right?
+          //if (i2 > inModK) 
+          //i2=inModK-i2;  //TODO: I don't think this is correct.
+          }
+        outVal = outVal + m_g[i]*(in[i1] + in[i2]);
         }
+      out.Set( static_cast<OutputImagePixelType> (outVal) );
+      ++out;
+      progress.CompletedPixel();
+      }
     }
-  
 }
 
 /** Expand1DImage - expands the vector of data (in) by a 
@@ -266,7 +268,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::Expand1DImage( const std::vector<double> & in, OutputImageIterator & out, 
-        unsigned int inTraverseSize )
+                 unsigned int inTraverseSize, ProgressReporter &progress )
 {
   int i1, i2;
 
@@ -291,6 +293,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
       out.Set( static_cast<OutputImagePixelType> (in[inK]) );
       ++out;
       }
+    progress.CompletedPixel();
     }
 
   else
@@ -326,6 +329,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     
       out.Set( static_cast<OutputImagePixelType> (outVal) );
       ++out;
+      progress.CompletedPixel();
       }
     }
 
@@ -384,6 +388,8 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 //  ConstInputImageIterator inIterator1;
 //  ConstOutputImageIterator inIterator2;
 
+  unsigned int count = scratchRegion.GetNumberOfPixels() * ImageDimension;
+  ProgressReporter progress(this,0,count,10);
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
@@ -427,7 +433,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
         // Copies one line of input to m_Scratch
         this->CopyInputLineToScratch( inIterator1 );
 
-        this->Reduce1DImage(  m_Scratch, outIterator,  startSize[n] );
+        this->Reduce1DImage(  m_Scratch, outIterator,  startSize[n], progress );
         inIterator1.NextLine();
         outIterator.NextLine();
         }
@@ -439,7 +445,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
         // Copies one line of input to m_Scratch
         this->CopyOutputLineToScratch( inIterator2 );
 
-        this->Reduce1DImage(  m_Scratch, outIterator,  startSize[n] );
+        this->Reduce1DImage(  m_Scratch, outIterator,  startSize[n], progress );
         inIterator2.NextLine();
         outIterator.NextLine();
         }
@@ -448,7 +454,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     // After first loop the input image is scratchImage
     //workingImage = scratchImage;
     
-  }
+    }
 
 }
 
@@ -468,7 +474,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   startSize = inputPtr->GetLargestPossibleRegion().GetSize();
   
 
- // Initilize scratchImage space and allocate memory
+  // Initilize scratchImage space and allocate memory
   InitializeScratch(startSize);
   typename TOutputImage::Pointer scratchImage;
   scratchImage =  TOutputImage::New();
@@ -506,6 +512,8 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   typename TInputImage::ConstPointer workingImage;
   workingImage = inputPtr;
 
+  unsigned int count = scratchRegion.GetNumberOfPixels() * ImageDimension;
+  ProgressReporter progress(this,0,count,10);
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
@@ -514,18 +522,18 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     ConstInputImageIterator inIterator1( workingImage, validRegion);
     ConstOutputImageIterator inIterator2( scratchImage, validRegion);
     if (n==0)
-    {
+      {
       // First time through the loop we use the InputImage
       inIterator1.GoToBegin();
       inIterator1.SetDirection( n);
-    }
+      }
     else
-    {
+      {
       // After first time through the loop we use the scratch image which is of 
       // the output type.
       inIterator2.GoToBegin();
       inIterator2.SetDirection( n);
-    }
+      }
     
     // Setup iterators and bounds for output image.
     currentSize[n] = currentSize[n] * 2;  // expand by a factor of 2
@@ -544,33 +552,33 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     outIterator.SetDirection(n);
     
     if (n==0)
-    {
+      {
       while (!inIterator1.IsAtEnd() )
         {
         // Copies one line of input to m_Scratch
         this->CopyInputLineToScratch( inIterator1 );
 
-        this->Expand1DImage(  m_Scratch, outIterator,  startSize[n] );
+        this->Expand1DImage(  m_Scratch, outIterator,  startSize[n], progress );
         inIterator1.NextLine();
         outIterator.NextLine();
+
         }
-    }
+      }
     else
-    {
+      {
       while (!inIterator2.IsAtEnd() )
         {
         // Copies one line of input to m_Scratch
         this->CopyOutputLineToScratch( inIterator2 );
 
-        this->Expand1DImage(  m_Scratch, outIterator,  startSize[n] );
+        this->Expand1DImage(  m_Scratch, outIterator,  startSize[n], progress );
         inIterator2.NextLine();
         outIterator.NextLine();
         }
-    }
+      }
       
     
     }
-
 }
 
 // Allocate scratch space
@@ -593,7 +601,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::CopyLineToScratch(ConstInputImageIterator & Iter)
-  {
+{
   unsigned int j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
@@ -601,13 +609,13 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     ++Iter;
     ++j;
     }
-  }
+}
 
 
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::CopyInputLineToScratch(ConstInputImageIterator & Iter)
-  {
+{
   unsigned int j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
@@ -615,12 +623,12 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     ++Iter;
     ++j;
     }
-  }
+}
 
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::CopyOutputLineToScratch(ConstOutputImageIterator & Iter)
-  {
+{
   unsigned int j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
@@ -628,7 +636,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     ++Iter;
     ++j;
     }
-  }
+}
 
 
 } // namespace itk
