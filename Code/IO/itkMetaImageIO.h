@@ -147,6 +147,8 @@ private:
   
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
   
+  bool GetSeparatorCharacter(std::ifstream & ifs) const;
+
   ComponentType m_MetaPixelType;
 
   double m_Spacing[10];

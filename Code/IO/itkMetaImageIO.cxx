@@ -86,7 +86,29 @@ MetaImageIO::GetOrigin() const
   return m_Origin;
 }
 
- 
+
+bool 
+MetaImageIO::GetSeparatorCharacter(std::ifstream & ifs) const
+{
+  bool found = false;
+  const int limit = 100;  // the separator character is
+                          // expected in a range of 100
+                          // character from the token.
+  int counter = 0;
+  while( counter < limit ) 
+    {
+    char inp = ifs.get();
+    if( inp == '=' )
+      {
+      found = true;
+      break;
+      }
+    counter++;
+    }
+  return found;
+}
+
+
 
 // This method will only test if the header looks like a
 // MetaImage.  Some code is redundant with ReadImageInformation
@@ -98,7 +120,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   std::ifstream inputStream;
 
-  inputStream.open( filename );
+  inputStream.open( filename, std::ios::in | std::ios::binary );
 
   if( inputStream.fail() )
   {
@@ -122,10 +144,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp(key,"NDims")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) ) 
       {
-      //missing "=" 
       return false;
       }
     inputStream >> dimensions;
@@ -135,10 +155,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp(key,"ElementByteOrderMSB")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) ) 
       {
-      //missing "=" 
       return false;
       }
     inputStream >> key;
@@ -162,10 +180,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp(key,"DimSize")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) )
       {
-      //missing "=" 
       return false;
       }
     unsigned int sizeInADimension;
@@ -179,10 +195,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp(key,"ElementSize")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) )
       {
-      //missing "=" 
       return false;
       }
     float spacingInADimension;
@@ -196,10 +210,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp(key,"ElementNBits")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) )
       {
-      //missing "=" 
       return false;
       }
     unsigned long elmentNumberOfBits;
@@ -211,10 +223,8 @@ bool MetaImageIO::CanReadFile( const char* filename )
   
   if( strcmp(key,"ElementType")==0 ) 
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) )
       {
-      //missing "=" 
       return false;
       }
     char elementType[512];
@@ -225,16 +235,13 @@ bool MetaImageIO::CanReadFile( const char* filename )
 
   if( strcmp( key, "ElementDataFile" ) == 0 )
     {
-    inputStream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( inputStream ) )
       {
-      //missing "=" 
       return false;
       }
     inputStream >> key;
     if( strcmp( key, "LOCAL" ) != 0 ) 
       {
-      //missing "=" 
       return false;
       }
     // end of header : succesful read
@@ -335,7 +342,7 @@ void MetaImageIO::Load(void* buffer)
   {
     for(unsigned int bytes=0; bytes<pixelSize; bytes++)
     {
-      m_Ifstream.get(*p);
+      *p = m_Ifstream.get();
       p++;
     }
   }
@@ -349,8 +356,7 @@ void MetaImageIO::Load(void* buffer)
 
 void MetaImageIO::ReadImageInformation()
 {
-  m_Ifstream.open( m_FileName.c_str() );
-
+  m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( m_Ifstream.fail() )
   {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -378,8 +384,7 @@ void MetaImageIO::ReadImageInformation()
   if( strcmp(key,"NDims")==0 ) 
     {
     unsigned int dimension;
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after NDims");
@@ -393,8 +398,7 @@ void MetaImageIO::ReadImageInformation()
 
   if( strcmp(key,"DimSize")==0 ) 
     {
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after DimSize");
@@ -410,8 +414,7 @@ void MetaImageIO::ReadImageInformation()
 
   if( strcmp(key,"ElementSize")==0 ) 
     {
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after ElementSize");
@@ -427,8 +430,7 @@ void MetaImageIO::ReadImageInformation()
 
   if( strcmp(key,"ElementNBits")==0 ) 
     {
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after ElementNBits");
@@ -443,8 +445,7 @@ void MetaImageIO::ReadImageInformation()
   
   if( strcmp(key,"ElementType")==0 ) 
     {
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after ElementType");
@@ -510,8 +511,7 @@ void MetaImageIO::ReadImageInformation()
 
   if( strcmp( key, "ElementDataFile" ) == 0 )
     {
-    m_Ifstream >> key;
-    if( strcmp( key, "=" ) != 0 ) 
+    if( !GetSeparatorCharacter( m_Ifstream ) )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Missing \"=\" after ElementDataFile");
