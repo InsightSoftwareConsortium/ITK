@@ -525,6 +525,8 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   virtual const type* Get##name ();" \
                "itkGetConstReferenceMacro(name,type)= \
                   virtual const type& Get##name ();" \
+               "itkGetConstReferenceObjectMacro(name,type)= \
+                  virtual const type::Pointer& Get##name () const;" \
                "itkBooleanMacro(name)= \
                   virtual void name##On (); \
                   virtual void name##Off ();" \
