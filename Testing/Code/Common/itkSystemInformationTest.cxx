@@ -74,7 +74,8 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
       os << "----------------------------------------------------------------\n";
       }
     const int bufferSize = 4096;
-    char buffer[bufferSize];
+    char bufferIn[bufferSize];
+    char bufferOut[bufferSize];
     // This copy loop is very sensitive on certain platforms with
     // slightly broken stream libraries (like HPUX).  Normally, it is
     // incorrect to not check the error condition on the fin.read()
@@ -82,10 +83,40 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
     // error occurred.  Therefore, the loop should be safe everywhere.
     while(fin)
       {
-      fin.read(buffer, bufferSize);
+      fin.read(bufferIn, bufferSize);
       if(fin.gcount())
         {
-        os.write(buffer, fin.gcount());
+        // convert buffer to an XML safe form
+        const char *s = bufferIn;
+        char *x = bufferOut;
+        *x = '\0';
+        // replace all special characters
+        while (*s)
+          {
+          switch (*s)
+            {
+            case '&':
+              strcat(x, "&amp;"); x += 5;
+              break;
+            case '"':
+              strcat(x, "&quot;"); x += 6;
+              break;
+            case '\'':
+              strcat(x, "&apos;"); x += 6;
+              break;
+            case '<':
+              strcat(x, "&lt;"); x += 4;
+              break;
+            case '>':
+              strcat(x, "&gt;"); x += 4;
+              break;
+            default:
+              *x = *s; x++;
+              *x = '\0'; // explicitly terminate the new string
+            }
+          s++;
+          }
+        os.write(bufferOut, fin.gcount());
         }
       }
     os.flush();
