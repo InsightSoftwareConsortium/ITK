@@ -48,7 +48,7 @@ set Coverage(SourceDirectory) [pwd]
 set Counter 0
 
 
-set Queue [glob [file join Code *]]
+set Queue [glob [file join Code *] [file join CMake *]]
 set id "File[incr Counter]"
 set TopLevelID $id
 set Coverage($id,FileList) [list]
