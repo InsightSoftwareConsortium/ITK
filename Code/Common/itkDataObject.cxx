@@ -216,18 +216,23 @@ DataObject
 //
 void 
 DataObject
-::DisconnectPipeline() const
+::DisconnectPipeline() 
 {
   itkDebugMacro( "disconnecting from the pipeline." );
 
-  // set our release data flag to off by default
-  const_cast<DataObject*>(this)->ReleaseDataFlagOff();
-  
   // disconnect ourselves from the current process object
   if (m_Source)
     {
     m_Source->SetNthOutput(m_SourceOutputIndex, 0);
     }
+
+  // set our release data flag to off by default (purposely done after
+  // we have disconnected from the pipeline so the new output of the
+  // source can copy our original ReleaseDataFlag)
+  this->ReleaseDataFlagOff();
+
+  // reset our PipelineMTime (there is now nothing upstream from us)
+  m_PipelineMTime = 0;
 
   this->Modified(); 
 }

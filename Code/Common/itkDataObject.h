@@ -149,7 +149,7 @@ public:
    * downstream will not propagate back past this data object.  To completely
    * isolate this data object from the pipeline, the application must remove
    * this data object from any filters which it is connected as the input. */
-  void DisconnectPipeline() const;
+  void DisconnectPipeline();
   
   /** Get the process object that generated this data object.
    * If there is no process object, then the data object has
