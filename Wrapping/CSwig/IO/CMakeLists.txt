@@ -3,6 +3,7 @@ SET(WRAP_SOURCES
     wrap_IOBase
     wrap_itkImageFileReader
     wrap_itkImageFileWriter
+    wrap_itkImageSeriesReader
 )
 
 # loop over cable config files creating two lists:

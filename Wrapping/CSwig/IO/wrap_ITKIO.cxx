@@ -28,6 +28,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkTkImageViewer2D),
 #endif
     ITK_WRAP_GROUP(itkImageFileWriter)
+    ITK_WRAP_GROUP(itkImageSeriesReader)
   };
 }
 #endif
