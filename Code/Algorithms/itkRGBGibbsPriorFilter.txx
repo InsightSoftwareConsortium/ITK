@@ -210,37 +210,47 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 	  j++;
 	}
 
-	for (i=0; i<4; i++) signs[i] = 0;	
+	for (unsigned int ii=0; ii<4; ii++) 
+  {
+    signs[ii] = 0;	
+  }
 
 // calculate the minimum points of piecewise smoothness  
 	m_LowPoint[rgb] = origin;
 	change = 1;
 	x = origin;
 	numx = 1;
-	while ( change > 0 ) {
+	while ( change > 0 ) 
+  {
+    unsigned int i;
 	  change = 0;
-	  for (i=0; i<4; i++) {
-		if (signs[i] == 0) {
-		  if (abs(m_LowPoint[rgb] - neighbors[i]) < m_BoundaryGradient) {
-			numx++;
-			x += neighbors[i];
-			signs[i]++;
-			change++;
-		  }
-		}
+	  for (i=0; i<4; i++) 
+    {
+      if (signs[i] == 0) 
+      {
+        if (abs(m_LowPoint[rgb] - neighbors[i]) < m_BoundaryGradient) {
+        numx++;
+        x += neighbors[i];
+        signs[i]++;
+        change++;
+        }
+      }
 	  }
 
 	  m_LowPoint[rgb] = x/numx;
 
-	  for (i=0; i<4; i++) {
-		if (signs[i] == 1) {
-		  if (abs(m_LowPoint[rgb] - neighbors[i]) > m_BoundaryGradient) {
-			numx--;
-			x -= neighbors[i];
-			signs[i]--;
-			change++;
-		  }
-		}
+	  for (i=0; i<4; i++) 
+    {
+      if (signs[i] == 1) 
+      {
+        if (abs(m_LowPoint[rgb] - neighbors[i]) > m_BoundaryGradient) 
+        {
+          numx--;
+          x -= neighbors[i];
+          signs[i]--;
+          change++;
+        }
+      }
 	  }
 
 	  m_LowPoint[rgb] = x/numx;
