@@ -167,13 +167,17 @@ public:
     {
       OptimizerPointer optimizer = 
         dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
+      if( typeid( event ) == typeid( itk::FunctionEvaluationIterationEvent() ) )
         {
-        return;
+        std::cout << m_IterationNumber++ << "   ";
+        std::cout << optimizer->GetCachedValue() << "   ";
+        std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
         }
-      std::cout << m_IterationNumber++ << "   ";
-      std::cout << optimizer->GetCachedValue() << "   ";
-      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+      else if( typeid( event ) == typeid( itk::GradientEvaluationIterationEvent() ) )
+        {
+        std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
+        }
+
     }
 private:
   unsigned long m_IterationNumber;
@@ -309,6 +313,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
   CommandIterationUpdateAmoeba::Pointer observer = 
     CommandIterationUpdateAmoeba::New();
   itkOptimizer->AddObserver( itk::IterationEvent(), observer );
+  itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
 
 
   try 
