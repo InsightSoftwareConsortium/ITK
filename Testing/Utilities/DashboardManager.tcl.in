@@ -243,7 +243,8 @@ foreach Command $Commands \
       puts $DashboardFile "</Information>"
 
       XMLConcat $DashboardFile UpdateSummary.xml
-      
+
+      set DashboardStamp [file tail $DashboardDir]
       foreach NightlyBuild $NightlyBuilds \
       {
 	puts $DashboardTargets $NightlyBuild
@@ -252,14 +253,13 @@ foreach Command $Commands \
 	set CurrentDir [pwd]
 	cd [file join $Dir $NightlyBuild]
 
-	
 	foreach XML [list Build Test Coverage] \
 	{
 	  if { ![file exists [file join XML $XML.xml]] } \
 	  {
 	    continue
 	  }
-	  set XalanCmd " $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]"
+	  set XalanCmd " $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardStamp \"string('$DashboardStamp')\""
 	  puts "Xalan on $XML: [catch { eval exec $XalanCmd } Result]"
 	  puts $XalanCmd
 	  puts $Result
