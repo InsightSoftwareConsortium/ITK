@@ -2096,7 +2096,6 @@ unsigned int test_regiongrowKLM4D()
   OutputImageIterator outIt2( outImage2, outImage2->GetBufferedRegion() );
   OutputImageIterator outItEnd2 = outIt2.End();
 
-  k = 0;
   inIt.GoToBegin();
   while ( outIt2 != outItEnd2 )
     {
@@ -2111,7 +2110,6 @@ unsigned int test_regiongrowKLM4D()
 
     ++outIt2;
     ++inIt;
-    ++k;
 
     } //end while iterator loop
 
