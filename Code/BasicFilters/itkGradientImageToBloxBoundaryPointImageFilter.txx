@@ -17,6 +17,7 @@
 #ifndef __itkGradientImageToBloxBoundaryPointImageFilter_txx
 #define __itkGradientImageToBloxBoundaryPointImageFilter_txx
 
+#include "itkProgressReporter.h"
 #include "itkGradientImageToBloxBoundaryPointImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
@@ -210,6 +211,9 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
+  // Create a progress reporter
+  ProgressReporter progress(this, 0, inputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Position to figure out pixel location
   TPositionType inputPosition;
 
@@ -262,7 +266,11 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       outputPtr->GetPixel(bloxIndex).push_back(pItem);
       numBPadded++;
       }
+
+    progress.CompletedPixel();
     }
+
+  outputPtr->SetNumBoundaryPoints(numBP);
  
   itkDebugMacro(<< "Finished looking for boundary points\n"
                 << "I found " << numBP << " points\n"

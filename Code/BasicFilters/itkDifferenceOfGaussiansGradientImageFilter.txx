@@ -18,6 +18,7 @@
 #define __itkDifferenceOfGaussiansGradientImageFilter_txx
 
 #include <math.h>
+#include "itkProgressReporter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkImageRegionIterator.h"
 
@@ -60,6 +61,9 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
   // to what we just defined
   outputPtr->SetBufferedRegion( outputRegion );
   outputPtr->Allocate();
+
+  // Create a progress reporter
+  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Create an iterator that will walk the output region
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
@@ -126,6 +130,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
       for (int i = 0; i < NDimensions; ++i)
         outputPtr->GetPixel(outputIndex)[i] = 0.0;
       }
+    progress.CompletedPixel();
     }
 
   itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() finished");

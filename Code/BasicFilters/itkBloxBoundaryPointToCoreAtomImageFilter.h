@@ -129,6 +129,12 @@ private:
   double m_DistanceMax;
   double m_Epsilon;
   bool m_Polarity;
+
+  /**Parameters for progress update*/
+  float m_InverseNumberOfBoundaryPoints;
+  unsigned long m_CurrentBoundaryPoint;
+  unsigned long m_BoundaryPointsPerUpdate;
+  unsigned long m_BoundaryPointsBeforeUpdate;
 };
 
 } // end namespace itk

@@ -73,6 +73,12 @@ public:
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
+  /** Set the number of boundary points in the image (done by a filter) */
+  itkSetMacro(NumBoundaryPoints, unsigned long int);
+
+  /** Get the number of boundary points in the image */
+  itkGetConstMacro(NumBoundaryPoints, unsigned long int);
+
 protected:
   BloxBoundaryPointImage();
   virtual ~BloxBoundaryPointImage();
@@ -81,6 +87,9 @@ protected:
 private:
   BloxBoundaryPointImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** The total number of boundary points stored in the image */
+  unsigned long int m_NumBoundaryPoints;
 };
 
 } // end namespace itk

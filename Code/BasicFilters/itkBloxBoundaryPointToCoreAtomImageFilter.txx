@@ -66,6 +66,34 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   // To avoid appending data, empty the output image
   m_OutputPtr->EmptyImage();
 
+  //---- Set up the progress update ----
+ 
+  float numBoundaryPoints = m_InputPtr->GetNumBoundaryPoints();
+  float numUpdates = 100.0;
+    
+  // Make sure we have at least one pixel.
+  if(numBoundaryPoints < 1)
+    {
+    numBoundaryPoints = 1;
+    }
+    
+  // We cannot update more times than there are BoundaryPoints.
+  if(numUpdates > numBoundaryPoints)
+    {
+    numUpdates = numBoundaryPoints;
+    }
+    
+  // Calculate the interval for updates.
+  m_BoundaryPointsPerUpdate = static_cast<unsigned long>(numBoundaryPoints/numUpdates);
+  m_InverseNumberOfBoundaryPoints = 1.0 / numBoundaryPoints;
+    
+  // Set the progress to 0.  The filter is just starting.
+  this->UpdateProgress(0);
+
+  m_BoundaryPointsBeforeUpdate = m_BoundaryPointsPerUpdate;
+
+  m_CurrentBoundaryPoint = 0;
+
   this->FindCoreAtoms();
 }
 
@@ -74,12 +102,11 @@ void
 BloxBoundaryPointToCoreAtomImageFilter< dim >
 ::FindCoreAtoms()
 {
-  
   // Create an iterator to walk the source image
   typedef ImageRegionConstIterator<TInputImage> ImageIteratorType;
 
   ImageIteratorType imageIt ( m_InputPtr,
-                               m_InputPtr->GetRequestedRegion() );
+                              m_InputPtr->GetRequestedRegion() );
 
   // Iterate through the entire image (all pixels) and look for core atoms
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
@@ -91,6 +118,13 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
       {
       this->FindCoreAtomsAtBoundaryPoint( *bpiterator );
+
+      if(--m_BoundaryPointsBeforeUpdate == 0)
+        {
+        m_BoundaryPointsBeforeUpdate = m_BoundaryPointsPerUpdate;
+        m_CurrentBoundaryPoint += m_BoundaryPointsPerUpdate;
+        this->UpdateProgress(m_CurrentBoundaryPoint * m_InverseNumberOfBoundaryPoints);
+        }
       }
     }
 
@@ -164,8 +198,9 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   if( m_InputPtr->TransformPhysicalPointToIndex(seedPos, seedIndex) )
     {
     // Create and initialize a spatial function iterator
-    typedef itk::FloodFilledSpatialFunctionConditionalConstIterator<TInputImage, FunctionType> SphereItType;
-    SphereItType sfi = SphereItType(m_InputPtr, spatialFunc, seedIndex);
+    typedef itk::FloodFilledSpatialFunctionConditionalConstIterator<TInputImage, FunctionType> ConicItType;
+    ConicItType sfi = ConicItType(m_InputPtr, spatialFunc, seedIndex);
+    sfi.SetIntersectInclusionStrategy();
 
     // Walk the spatial function
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
@@ -249,6 +284,11 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   os << indent << "Maximum core atom search distance: " << m_DistanceMax << std::endl;
   os << indent << "Core atom search epsilon: " << m_Epsilon << std::endl;
   os << indent << "Core atom search polarity: " << m_Polarity << std::endl;
+
+  os << indent << "Inverse number of boundary points: " << m_InverseNumberOfBoundaryPoints << std::endl;
+  os << indent << "Current boundary point: " << m_CurrentBoundaryPoint << std::endl;
+  os << indent << "Boundary points per update: " << m_BoundaryPointsPerUpdate << std::endl;
+  os << indent << "Boundary points before update: " << m_BoundaryPointsBeforeUpdate << std::endl;
 }
 
 } // end namespace

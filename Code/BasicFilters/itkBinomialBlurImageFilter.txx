@@ -18,12 +18,13 @@
 #define __itkBinomialBlurImageFilter_txx
 
 #include "vnl/vnl_vector_fixed.h"
+#include "itkProgressReporter.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkBinomialBlurImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionReverseIterator.h"
+#include "itkBinomialBlurImageFilter.h"
 
 namespace itk
 {
@@ -130,6 +131,9 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionReverseIterator<TTempImage> TempReverseIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
+
+  // Create a progress reporter
+  ProgressReporter progress(this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2);
   
   // Copy the input image to the temporary image
   TempIterator tempIt = TempIterator(tempPtr,
@@ -194,6 +198,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           pixelA = pixelA / 2.0;
 
           tempPtr->SetPixel(index, pixelA);
+          progress.CompletedPixel();
           }
 
         ++tempIt;
@@ -228,14 +233,6 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
               }
             }
 
-          /*
-          itkDebugMacro(<< "Dimension = " << dim << ", reverse pass");
-          itkDebugMacro(<< "Index = (" << index[0] << "," << index[1] << ","
-                        << index[2] << ")");
-          itkDebugMacro(<< "shiftIndex = (" << indexShift[0] << "," << indexShift[1] << ","
-                        << indexShift[2] << ")");
-          */
-
           // Average the pixel of interest and shifted pixel
           pixelA = tempPtr->GetPixel(index);
           pixelB = tempPtr->GetPixel(indexShift);
@@ -244,6 +241,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           pixelA = pixelA / 2;
 
           tempPtr->SetPixel(index, pixelA);
+          progress.CompletedPixel();
           }
 
         ++tempReverseIt;
