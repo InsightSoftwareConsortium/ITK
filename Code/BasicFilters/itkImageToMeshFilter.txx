@@ -70,9 +70,12 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
 template <class TInputImage, class TOutputMesh>
 void 
 ImageToMeshFilter<TInputImage,TOutputMesh>
-::SetInput(unsigned int idx, InputImageType *input)
+::SetInput(unsigned int idx,const InputImageType *input)
 {
-  this->ProcessObject::SetNthInput(idx, input);
+  // process object is not const-correct, the const_cast
+  // is required here.
+  this->ProcessObject::SetNthInput(idx, 
+                        const_cast< InputImageType * >(input) );
 }
 
 
@@ -83,9 +86,9 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
 template <class TInputImage, class TOutputMesh>
 ImageToMeshFilter<TInputImage,TOutputMesh>::InputImagePointer
 ImageToMeshFilter<TInputImage,TOutputMesh>
-::GetInput(unsigned int idx) 
+::GetInput(unsigned int idx) const
 {
-  return dynamic_cast<InputImageType*>
+  return dynamic_cast<const InputImageType*>
                      (this->ProcessObject::GetInput(idx).GetPointer());
 }
 

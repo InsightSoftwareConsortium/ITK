@@ -52,7 +52,7 @@ public:
 
   /** Some Image related typedefs. */
   typedef   TInputImage                             InputImageType;
-  typedef   typename InputImageType::Pointer        InputImagePointer;
+  typedef   typename InputImageType::ConstPointer   InputImagePointer;
   typedef   typename InputImageType::RegionType     InputImageRegionType; 
   typedef   typename InputImageType::PixelType      InputImagePixelType; 
 
@@ -61,10 +61,10 @@ public:
   typedef   typename OutputMeshType::Pointer        OutputMeshPointer;
 
   /** Set the input image of this process object.  */
-  void SetInput(unsigned int idx, InputImageType *input);
+  void SetInput(unsigned int idx, const InputImageType *input);
 
   /** Get the input image of this process object.  */
-  InputImagePointer GetInput(unsigned int idx);
+  InputImagePointer GetInput(unsigned int idx) const;
 
   /** Get the output Mesh of this process object.  */
   OutputMeshPointer GetOutput(void);
