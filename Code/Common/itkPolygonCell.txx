@@ -137,8 +137,8 @@ PolygonCell< TPixelType , TCellTraits >
     m_Edges.resize(m_PointIds.size());
     for(int i = 1;i < m_PointIds.size(); i++)
       {
-      m_Edges[i][0]=i-1;
-      m_Edges[i][1]=i;
+      m_Edges[i-1][0]=i-1;
+      m_Edges[i-1][1]=i;
       }
     m_Edges[m_PointIds.size()-1][0]=m_PointIds.size()-1;
     m_Edges[m_PointIds.size()-1][1]=0;
