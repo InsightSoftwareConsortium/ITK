@@ -62,7 +62,7 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     + s02*(m_VarianceInverse[0][2]+m_VarianceInverse[2][0])
     + s12*(m_VarianceInverse[1][2]+m_VarianceInverse[2][1]);
 
-  if(m_Weight == 1)
+  if(this->GetWeight() == 1)
     {
     return( (NumericTraits<unsigned short>::max())*(exp(-0.5*tmp1)) );
     }
@@ -95,8 +95,8 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
       + s02*(m_Diff_VarianceInverse[0][2]+m_Diff_VarianceInverse[2][0])
       + s12*(m_Diff_VarianceInverse[1][2]+m_Diff_VarianceInverse[2][1]);
 
-    return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
-                                                    +(1-m_Weight)*exp(-0.5*tmp3)) );
+    return( (NumericTraits<unsigned short>::max())*(this->GetWeight()*exp(-0.5*tmp1)  
+                                                    +(1-this->GetWeight())*exp(-0.5*tmp3)) );
     }
 }
 
@@ -132,7 +132,7 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     /m_VarianceDet;  
   m_VarianceInverse[2][2]=(m_Variance[0][0]*m_Variance[1][1]-m_Variance[1][0]*m_Variance[0][1])
     /m_VarianceDet;  
-  if((int)(m_Weight*100+0.5) > 1){ //need to use the difference information.
+  if((int)(this->GetWeight()*100+0.5) > 1){ //need to use the difference information.
 
   m_Diff_VarianceDet = m_Diff_Variance[0][0]*m_Diff_Variance[1][1]*m_Diff_Variance[2][2]
     +m_Diff_Variance[1][0]*m_Diff_Variance[2][1]*m_Diff_Variance[0][2]

@@ -56,15 +56,15 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
 
   if(inweight < 0)
     {
-    m_Weight = 0;
+    this->SetWeight(0);
     }
   else if(inweight > 1)
     {
-    m_Weight = 1;
+    this->SetWeight(1);
     }
   else 
     {
-    m_Weight = inweight;
+    this->SetWeight(inweight);
     }
 }
 
@@ -74,7 +74,7 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
 ::FuzzyAffinity(const PixelType f1,const PixelType f2)
 {
   double tmp1 = 0.5 * (f1 + f2) - m_Mean;
-  if(m_Weight == 1)
+  if(this->GetWeight() == 1)
     {
     return( (NumericTraits<unsigned short>::max())* 
             (exp(-0.5 * tmp1 * tmp1 / m_Variance)));
@@ -82,8 +82,8 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   else{
   double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
   return( (NumericTraits<unsigned short>::max()) *
-          (m_Weight * exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
-           (1 - m_Weight) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
+          (this->GetWeight() * exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
+           (1 - this->GetWeight()) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
   }
 }
 
