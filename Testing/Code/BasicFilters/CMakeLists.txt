@@ -300,6 +300,20 @@ ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
 
+ADD_TEST(itkGrayscaleMorphologicalClosingImageFilterTest ${BASIC_FILTERS_TESTS2} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleMorphologicalClosingImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalClosingImageFilterTest.png 
+   itkGrayscaleMorphologicalClosingImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalClosingImageFilterTest.png )
+
+ADD_TEST(itkGrayscaleMorphologicalOpeningImageFilterTest ${BASIC_FILTERS_TESTS2} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleMorphologicalOpeningImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png 
+   itkGrayscaleMorphologicalOpeningImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png )
+
 ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} 
      --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleFillholeImageFilterTest.png 
                ${ITK_TEST_OUTPUT_DIR}/GrayscaleFillholeImageFilterTest.png itkGrayscaleFillholeImageFilterTest 
@@ -674,6 +688,8 @@ itkComplexToRealFilterAndAdaptorTest.cxx
 itkComplexToImaginaryFilterAndAdaptorTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
+itkGrayscaleMorphologicalClosingImageFilterTest.cxx
+itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx
