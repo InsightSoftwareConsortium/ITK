@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkCommand_h
 #define __itkCommand_h
 
-#include "itkLightObject.h"
+#include "itkObject.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -52,7 +52,7 @@ namespace itk
  *
  * Command is an implementation of the command design pattern that is used
  * in callbacks (such as StartMethod(), ProgressMethod(), and EndMethod()) in
- * ITK. itkLightObject implements a Subject/Observer pattern. When a subject 
+ * ITK. itkObject implements a Subject/Observer pattern. When a subject 
  * needs to notify a observer, it does so using a itkCommand.  The Execute 
  * method is called to run the command.
  *
@@ -60,7 +60,7 @@ namespace itk
  */
   
 // The superclass that all commands should be subclasses of
-class ITK_EXPORT Command : public LightObject
+class ITK_EXPORT Command : public Object
 {
 public:
   /**
@@ -77,14 +77,14 @@ public:
   /**
    * Abstract method that defines the action to be taken by the command.
    */
-  virtual void Execute(LightObject *caller, unsigned long event) = 0;
+  virtual void Execute(Object *caller, unsigned long event) = 0;
 
   /**
    * Abstract method that defines the action to be taken by the command.
    * This variant is expected to be used when requests comes from a 
-   * const LightObject
+   * const Object
    */
-  virtual void Execute(const LightObject *caller, unsigned long event) = 0;
+  virtual void Execute(const Object *caller, unsigned long event) = 0;
 
 
   /**
@@ -169,10 +169,10 @@ class MemberCommand : public Command
 {
 public:
   /* 
-   * pointer to a member function that takes a LightObject* and the event
+   * pointer to a member function that takes a Object* and the event
    */
-  typedef  void (T::*TMemberFunctionPointer)(LightObject*, unsigned long);
-  typedef  void (T::*TConstMemberFunctionPointer)(const LightObject*, unsigned long);
+  typedef  void (T::*TMemberFunctionPointer)(Object*, unsigned long);
+  typedef  void (T::*TConstMemberFunctionPointer)(const Object*, unsigned long);
   
   /**
    * Standard "Self" typedef.
@@ -210,7 +210,7 @@ public:
   /**
    *  Invoke the member function.
    */
-  virtual void Execute(LightObject *caller, unsigned long event)
+  virtual void Execute(Object *caller, unsigned long event)
     { 
       if( m_MemberFunction ) 
       {
@@ -221,7 +221,7 @@ public:
   /**
    *  Invoke the member function with a const object
    */
-  virtual void Execute( const LightObject *caller, unsigned long event)
+  virtual void Execute( const Object *caller, unsigned long event)
     { 
       if( m_ConstMemberFunction ) 
       {
@@ -279,7 +279,7 @@ public:
       m_MemberFunction = memberFunction;
     }
   
-  virtual void Execute(LightObject *, unsigned long)
+  virtual void Execute(Object *, unsigned long)
     { 
       if( m_MemberFunction ) 
       {
@@ -287,7 +287,7 @@ public:
       }
     }
 
-  virtual void Execute(const LightObject *, unsigned long)
+  virtual void Execute(const Object *, unsigned long)
     { 
       if( m_MemberFunction ) 
       {
@@ -312,7 +312,7 @@ protected:
  *  \brief Command subclass that calls a pointer to a C function
  *
  *  CStyleCommand calls a pointer to a C function with the following
- *  arguments void func(LightObject *,void *clientdata)
+ *  arguments void func(Object *,void *clientdata)
  *  The clientdata is data that the command wants passed to itself
  *  each time.
  * 
@@ -322,8 +322,8 @@ protected:
 class CStyleCommand : public Command
 {
 public:
-  typedef  void (*FunctionPointer)(LightObject*, unsigned long, void*);
-  typedef  void (*ConstFunctionPointer)(const LightObject*, unsigned long, void*);
+  typedef  void (*FunctionPointer)(Object*, unsigned long, void*);
+  typedef  void (*ConstFunctionPointer)(const Object*, unsigned long, void*);
   typedef  void (*DeleteDataFunctionPointer)(void*);
 
   /**
@@ -366,7 +366,7 @@ public:
   /**
    * Execute the callback function.
    */
-  void Execute(LightObject *caller, unsigned long event)
+  void Execute(Object *caller, unsigned long event)
     {
     if (m_Callback)
       {
@@ -375,9 +375,9 @@ public:
     };
 
   /**
-   * Execute the callback function with a const LightObject
+   * Execute the callback function with a const Object
    */
-  void Execute(const LightObject *caller, unsigned long event)
+  void Execute(const Object *caller, unsigned long event)
     {
     if (m_ConstCallback)
       {
