@@ -208,6 +208,10 @@ template< class T, unsigned int TVectorDimension >
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
                                     const Vector<T,TVectorDimension> & v); 
 
+template< class T, unsigned int TVectorDimension >  
+ITK_EXPORT std::istream& operator>>(std::istream& is, 
+                                    Vector<T,TVectorDimension> & v); 
+
 } // end namespace itk
   
 

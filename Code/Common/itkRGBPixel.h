@@ -21,6 +21,8 @@
 #undef RGBPixel
 #endif
 
+#include <itkIndent.h>
+
 namespace itk
 {
 
@@ -111,6 +113,18 @@ private:
   ComponentType  m_Blue;
 
 };
+
+
+template< typename TComponent  >  
+ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+                                    const RGBPixel<TComponent> & c); 
+
+template< typename TComponent  >  
+ITK_EXPORT std::istream& operator>>(std::istream& is, 
+                                          RGBPixel<TComponent> & c); 
+
+
+
 
 } // end namespace itk
 

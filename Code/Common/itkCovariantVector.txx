@@ -299,6 +299,24 @@ operator<<(std::ostream& os,
   {
     os <<  cvt[i] << "  ";
   }
+  return os;
+}
+
+
+
+/**
+ * Read content
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+std::istream &
+operator>>(std::istream& is, 
+    CovariantVector<T,TCovariantVectorDimension> & cvt ) 
+{
+  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
+  {
+    is >>  cvt[i];
+  }
+  return is;
 }
 
 

@@ -297,7 +297,24 @@ operator<<(std::ostream& os,const Vector<T,TVectorDimension> & vct )
   {
     os <<  vct[i] << "  ";
   }
+  return os;
 }
+
+
+/**
+ * Read content from an istream
+ */
+template<class T, unsigned int TVectorDimension>
+std::istream &
+operator>>(std::istream& is, Vector<T,TVectorDimension> & vct ) 
+{
+  for( unsigned int i=0; i<TVectorDimension; i++)
+  {
+    is >>  vct[i];
+  }
+  return is;
+}
+
 
 
 } // end namespace itk

@@ -188,6 +188,10 @@ template< class T, unsigned int TPointDimension >
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
                                     const Point<T,TPointDimension> & v); 
 
+template< class T, unsigned int TPointDimension >  
+ITK_EXPORT std::istream& operator>>(std::istream& is, 
+                                    Point<T,TPointDimension> & v); 
+
 } // end namespace itk
   
 

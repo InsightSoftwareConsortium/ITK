@@ -233,6 +233,22 @@ operator<<(std::ostream& os,const Point<T,TPointDimension> & vct )
   {
     os <<  vct[i] << "  ";
   }
+  return os;
+}
+
+
+/**
+ * Read content from an istream
+ */
+template<class T, unsigned int TPointDimension>
+std::istream &
+operator>>(std::istream& is, Point<T,TPointDimension> & vct ) 
+{
+  for( unsigned int i=0; i<TPointDimension; i++)
+  {
+    is >>  vct[i];
+  }
+  return is;
 }
 
 

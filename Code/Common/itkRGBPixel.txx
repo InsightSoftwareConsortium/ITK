@@ -163,5 +163,42 @@ RGBPixel< TComponent >
 }
 
 
+/**
+ * Print content to an ostream
+ */
+template<class TComponent>
+std::ostream &
+operator<<(std::ostream& os,const RGBPixel<TComponent> & c ) 
+{
+  os <<  c.GetRed() << "  ";
+  os <<  c.GetGreen() << "  ";
+  os <<  c.GetBlue();
+  return os;
+}
+
+
+/**
+ * Read content from an istream
+ */
+template<class TComponent>
+std::istream &
+operator>>(std::istream& is, RGBPixel<TComponent> & c ) 
+{
+  TComponent tmp;
+  
+  is >> tmp;
+  c.SetRed( tmp );
+  
+  is >> tmp;
+  c.SetGreen( tmp );
+  
+  is >> tmp;
+  c.SetBlue( tmp );
+
+  return is;
+}
+
+
+
 
 } // end namespace itk
