@@ -107,7 +107,9 @@ public:
    * transform is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
-  void ComputeZYX(bool compute) {m_ComputeZYX = compute;}
+  /** Set/Get the order of the computation. Default ZXY */
+  itkSetMacro(ComputeZYX,bool);
+  itkGetMacro(ComputeZYX,bool);
 
   virtual void SetRotationMatrix(const MatrixType &matrix);
 
@@ -126,8 +128,7 @@ protected:
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrixAndOffset(void);
 
-  void ComputeMatrix(void);
-  void ComputeAnglesFromMatrix(void);
+ void ComputeAnglesFromMatrix(void);
 
 private:
   Euler3DTransform(const Self&); //purposely not implemented
