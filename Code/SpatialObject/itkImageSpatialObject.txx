@@ -26,7 +26,7 @@ namespace itk
 {
   template< unsigned int NDimensions, class TransformType, class PixelType >
   ImageSpatialObject< NDimensions, TransformType, PixelType >
-  ::ImageSpatialObject< NDimensions, TransformType, PixelType >()
+  ::ImageSpatialObject()
   {
     m_Image = ImageType::New();
     ComputeBounds();
@@ -34,7 +34,7 @@ namespace itk
 
   template< unsigned int NDimensions, class TransformType, class PixelType >
   ImageSpatialObject< NDimensions, TransformType, PixelType >
-  ::~ImageSpatialObject< NDimensions, TransformType, PixelType >()
+  ::~ImageSpatialObject()
   {
     m_Image->Delete();
   }

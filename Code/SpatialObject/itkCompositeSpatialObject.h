@@ -53,6 +53,8 @@ public:
   typedef SmartPointer< Self > Pointer; 
   typedef SmartPointer< const Self > ConstPointer; 
   typedef std::list< SuperclassPointer > ChildrenListType; 
+  typedef typename Superclass::PointType PointType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
      
   /** Method for creation through the object factory */ 
   itkNewMacro(Self); 
