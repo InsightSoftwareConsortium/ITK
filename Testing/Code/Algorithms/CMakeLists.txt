@@ -113,6 +113,8 @@ ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS3}  itkPointSetT
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS3} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkReinitializeLevelSetImageFilterTest)
 ADD_TEST(itkScalarImageKmeansImageFilterTest ${ALGORITHMS_TESTS3} 
+   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkScalarImageKmeansImageFilterTestOutput.png
+             ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 
     itkScalarImageKmeansImageFilterTest
     ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png 
     ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 
