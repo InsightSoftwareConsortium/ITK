@@ -252,8 +252,8 @@ class A
   static const int x = 27;
 };
 
-void f(const int&) {}
-int main() { f(A::x); return 0; }
+int f(const void* x) { x?1:0; }
+int main() { return f(&A::x); }
 #endif // VCL_STATIC_CONST_INIT_NO_DEFN
 
 //-------------------------------------
