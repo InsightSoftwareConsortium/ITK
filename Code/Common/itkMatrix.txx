@@ -19,6 +19,7 @@
 #include "itkNumericTraits.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_transpose.h"
+#include "vnl/vnl_matrix.txx"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * vect[c];
+       sum += m_Matrix(r,c) * vect[c];
     }
     result[r] = sum;
   }
@@ -64,7 +65,7 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * pnt[c];
+       sum += m_Matrix(r,c) * pnt[c];
     }
     result[r] = sum;
   }
@@ -88,12 +89,92 @@ Matrix<T, NRows, NColumns>
     T sum = NumericTraits<T>::Zero;   
     for( unsigned int c=0; c<NColumns; c++ ) 
     {
-       sum += (*this)(r,c) * covect[c];
+       sum += m_Matrix(r,c) * covect[c];
     }
     result[r] = sum;
   }
   return result;
 }
+
+ 
+ 
+/**
+ *  Product by a matrix
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+Matrix<T, NRows, NColumns>
+Matrix<T, NRows, NColumns>
+::operator*( const Matrix<T, NRows, NColumns> & matrix ) const
+{
+  Self result;
+  result = m_Matrix * matrix.m_Matrix;
+  return result;
+}
+
+ 
+/**
+ *  Product by a vnl_matrix
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+vnl_matrix<T>
+Matrix<T, NRows, NColumns>
+::operator*( const vnl_matrix<T> & matrix ) const
+{
+  return m_Matrix * matrix;
+}
+
+
+ 
+/**
+ *  Product by a matrix
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+void
+Matrix<T, NRows, NColumns>
+::operator*=( const Matrix<T, NRows, NColumns> & matrix ) 
+{
+  m_Matrix *= matrix.m_Matrix;
+}
+
+ 
+/**
+ *  Product by a vnl_matrix
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+void
+Matrix<T, NRows, NColumns>
+::operator*=( const vnl_matrix<T> & matrix ) 
+{
+  m_Matrix *= matrix;
+}
+
+
+
+/**
+ *  Product by a vnl_vector
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+vnl_vector<T>
+Matrix<T, NRows, NColumns>
+::operator*( const vnl_vector<T> & vc ) const
+{
+  return m_Matrix * vc;
+}
+
+
+
+/**
+ *  Assignment
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+const Matrix<T, NRows, NColumns> &
+Matrix<T, NRows, NColumns>
+::operator=( const Matrix<T, NRows, NColumns> & matrix )
+{
+  m_Matrix = matrix.m_Matrix;
+  return *this;
+}
+
 
 
  
@@ -105,7 +186,7 @@ const Matrix<T, NRows, NColumns> &
 Matrix<T, NRows, NColumns>
 ::operator=( const vnl_matrix<T> & matrix )
 {
-  vnl_matrix_fixed<T,NRows,NColumns>::operator=( matrix );
+  m_Matrix = matrix;
   return *this;
 }
 
@@ -118,8 +199,9 @@ vnl_matrix<T>
 Matrix<T, NRows, NColumns>
 ::GetInverse( void ) const
 {
-  return vnl_matrix_inverse<T>( *this );
+  return vnl_matrix_inverse<T>( m_Matrix );
 }
+
 
 /**
  *  Returns the transposed matrix
@@ -129,7 +211,7 @@ vnl_matrix<T>
 Matrix<T, NRows, NColumns>
 ::GetTranspose( void ) const
 {
-  return vnl_matrix<T>::transpose();
+  return m_Matrix.transpose();
 }
 
  
