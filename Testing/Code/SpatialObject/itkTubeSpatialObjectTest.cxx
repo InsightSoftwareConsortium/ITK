@@ -27,7 +27,7 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkAffineTransform.h"
-#include "itkTubePoint.h"
+#include "itkTubeSpatialObjectPoint.h"
 #include "itkTubeSpatialObject.h"
 #include "itkTubeNetworkSpatialObject.h"
 #include "itkExceptionObject.h"
@@ -44,7 +44,7 @@ int itkTubeSpatialObjectTest(int, char **)
   typedef itk::Matrix< ScalarType, 3, 3>              Matrix;
   typedef itk::TubeSpatialObject<3>                   TubeType;
   typedef itk::SmartPointer< TubeType >               TubePointer;
-  typedef TubeType::TubePointType                         TubePointType;
+  typedef TubeType::TubePointType                     TubePointType;
   typedef TubePointType::Pointer                      TubePointPointer;
   typedef itk::TubeNetworkSpatialObject<3>            TubeNetType;
   typedef itk::SmartPointer< TubeNetType >            TubeNetPointer;
@@ -80,7 +80,7 @@ int itkTubeSpatialObjectTest(int, char **)
   for( unsigned int i=0; i<10; i++)
     {
     TubePointPointer p = TubePointType::New();
-    p->SetCenterLinePoint(i,i,i);
+    p->SetPosition(i,i,i);
     p->SetRadius(1);
     list->push_back(p);
     }
@@ -440,4 +440,5 @@ int itkTubeSpatialObjectTest(int, char **)
   delete list;
 
   return EXIT_SUCCESS;
+
 }
