@@ -16,7 +16,7 @@
 #ifndef _itkMeshSource_txx
 #define _itkMeshSource_txx
 
-// #include "itkMeshSource.h"
+#include "itkMeshSource.h"
 
 namespace itk
 {

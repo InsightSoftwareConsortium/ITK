@@ -16,9 +16,7 @@
 #ifndef _itkTernaryImageFilter_txx
 #define _itkTernaryImageFilter_txx
 
-// #include "itkTernaryImageFilter.h"
-
-
+#include "itkTernaryImageFilter.h"
 #include <itkSimpleImageRegionIterator.h>
 
 namespace itk
