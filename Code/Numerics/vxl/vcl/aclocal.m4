@@ -1004,9 +1004,6 @@ AC_LANG_CPLUSPLUS
 VCL_COMPILE_CXX
 
 AC_TRY_LINK([
-#ifdef __GNUC__
-#pragma interface
-#endif
 template <class T>
 inline
 T dot(T const *a, T const *b)
