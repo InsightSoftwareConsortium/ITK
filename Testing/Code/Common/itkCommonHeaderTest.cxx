@@ -31,6 +31,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCellBoundary.h"
 #include "itkCellInterface.h"
 #include "itkCellInterfaceVisitor.h"
+#include "itkCenteredAffineRegistrationTransform.h"
+#include "itkCentralDerivativeImageFunction.h"
 #include "itkColorTable.h"
 #include "itkCommand.h"
 #include "itkConceptChecking.h"
@@ -139,7 +141,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTanImageAdaptor.h"
 #include "itkTetrahedronCell.h"
 #include "itkTimeStamp.h"
-#include "itkTransform.h"
 #include "itkTransformation.h"
 #include "itkTranslationRegistrationTransform.h"
 #include "itkTriangleCell.h"
@@ -160,7 +161,7 @@ See COPYRIGHT.txt for copyright details.
 
 int main ( int argc, char* argv )
 {
-  
+
   return 0;
 }
 
