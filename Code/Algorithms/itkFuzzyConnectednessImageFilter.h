@@ -66,6 +66,9 @@ namespace itk{
  * A fuzzy connectedness scene was first computed, which is the fuzzy connectedness value 
  * to a preset seed point believed to be inside the object of interest.
  * then a threshold was applied to obtain the binary segmented object.
+ * The fuzzy affinity here was defined as a gaussian function of the pixel difference
+ * and the difference of the estimated object mean and the mean of the two input
+ * pixels.
  * 
  * Usage:
  *
