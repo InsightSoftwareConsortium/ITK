@@ -17,6 +17,8 @@
 #ifndef _itkClassifierBase_h
 #define _itkClassifierBase_h
 
+#include <vector>
+
 #include "itkLightProcessObject.h"
 #include "itkMembershipFunctionBase.h"
 #include "itkDecisionRuleBase.h"
@@ -104,11 +106,11 @@ public:
   typedef typename TDataContainer::ValueType MeasurementVectorType ;
   
   /** Typedefs for membership funciton */
-  typedef typename Statistics::MembershipFunctionBase< MeasurementVectorType > 
+  typedef Statistics::MembershipFunctionBase< MeasurementVectorType > 
     MembershipFunctionType;
   typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
-  typedef typename std::vector< MembershipFunctionPointer > 
+  typedef std::vector< MembershipFunctionPointer > 
     MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
