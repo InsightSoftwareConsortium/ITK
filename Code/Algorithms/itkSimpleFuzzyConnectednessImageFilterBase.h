@@ -25,7 +25,7 @@
 
 namespace itk{
 
-/** /class SimpleFuzzyConnectednessImageFilterBase
+/** \class SimpleFuzzyConnectednessImageFilterBase
  * \brief Base class for FuzzyConnectednessImageFilter object.
  *
  * Fuzzy connectedness image filter works on multi-dimensional image.

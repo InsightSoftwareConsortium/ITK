@@ -26,8 +26,9 @@
 
 namespace itk{
 
-/** /class SimpleFuzzyConnectednessRGBImageFilter
- * 
+/** \class SimpleFuzzyConnectednessRGBImageFilter
+ * \brief Perform segmentation on RGB images using method of fuzzy connectedness.
+ *
  * Perform the segmentation for three channels (RGB) image 
  * via thresholding of a fuzzy connectedness scene. 
  * Used as a node of the segmentation toolkit.

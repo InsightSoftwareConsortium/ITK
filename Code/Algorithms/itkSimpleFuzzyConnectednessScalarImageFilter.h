@@ -25,7 +25,8 @@
 
 namespace itk{
 
-/** /class FuzzyConnectednessRGBImageFilter
+/** \class SimpleFuzzyConnectednessScalarImageFilter
+ * \brief Perform segmentation on grayscale images using method of fuzzy connectedness.
  * 
  * Perform the segmentation for a single channel (Grayscale) image 
  * via thresholding of a fuzzy connectedness scene.
