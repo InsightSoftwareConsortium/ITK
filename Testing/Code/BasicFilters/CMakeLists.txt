@@ -129,6 +129,7 @@ ADD_TEST(itkMinimumMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumMaxim
 ADD_TEST(itkMirrorPadImageTest ${BASIC_FILTERS_TESTS} itkMirrorPadImageTest)
 ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilterTest)
 ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterTest)
+ADD_TEST(itkNaryMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryMaximumImageFilterTest)
 ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS} itkNarrowBandTest)
 ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS} itkNarrowBandImageFilterBaseTest)
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
@@ -564,6 +565,7 @@ itkMinimumMaximumImageFilterTest.cxx
 itkMirrorPadImageTest.cxx
 itkMultiplyImageFilterTest.cxx
 itkNaryAddImageFilterTest.cxx
+itkNaryMaximumImageFilterTest.cxx
 itkNeighborhoodConnectedImageFilterTest.cxx
 itkNeighborhoodOperatorImageFilterTest.cxx
 itkNoiseImageFilterTest.cxx
