@@ -11,7 +11,8 @@
         <h2>Coverage started on <xsl:value-of select="Site/Coverage/StartDateTime"/></h2>
         <h4>
           Coverage: <xsl:value-of select="Site/Coverage/PercentCoverage"/>%<br/>
-         <xsl:value-of select="Site/Coverage/LOCTested"/> Tested lines of <xsl:value-of select="Site/Coverage/LOCUntested"/> of <xsl:value-of select="Site/Coverage/LOC"/> Total Lines of Code
+         <xsl:value-of select="Site/Coverage/LOCTested"/> Tested lines
+         <xsl:value-of select="Site/Coverage/LOCUntested"/> Untested lines <xsl:value-of select="Site/Coverage/LOC"/> Total Lines of Code
         </h4>
         <xsl:value-of select="count(File[@Covered='true'])"/> Files Covered
         <xsl:value-of select="count(Directory//File)"/> Files Not Covered

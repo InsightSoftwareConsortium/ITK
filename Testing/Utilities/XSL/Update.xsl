@@ -18,7 +18,7 @@
 <a><xsl:attribute name="HREF">#Modified</xsl:attribute><xsl:value-of select="count(Modified)"/></a><xsl:text> Modified files </xsl:text><a><xsl:attribute name="HREF">#Conflicting</xsl:attribute><xsl:value-of select="count(Conflicting)"/></a> <xsl:text> Conflicting files</xsl:text> 
 
 <br/>
-<h3>Modified by <a><xsl:attribute name="href">#directory</xsl:attribute>directory</a></h3>
+<h3>Modified files listed by <a><xsl:attribute name="href">#directory</xsl:attribute>directory</a></h3>
 
   <xsl:for-each select="Directory">
   <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> modified files<br/>
@@ -26,7 +26,7 @@
 <hr/>
 
 <h3>Modified by <a><xsl:attribute name="href">#author</xsl:attribute>author</a></h3>
-  <xsl:for-each select="Author">
+<xsl:for-each select="Author">
   <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> modified files<br/>
   </xsl:for-each>
 
@@ -95,9 +95,15 @@
 
 <xsl:template match="Author|Directory">
   <br/>
-  <h4><a><xsl:attribute name="name"><xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="Name"/></a></h4><br/>
+  <h4>
+    <a>
+      <xsl:attribute name="name"><xsl:value-of select="Name"/></xsl:attribute>
+      <xsl:value-of select="Name"/>
+    </a>
+  </h4>
+  <br/>
   <xsl:for-each select="File">
-  <a><xsl:attribute name="href">#<xsl:value-of select="@Directory"/></xsl:attribute><xsl:value-of select="@Directory"/></a>/<a><xsl:attribute name="href">#<xsl:value-of select="@Directory"/>/<xsl:value-of select="."/></xsl:attribute><xsl:value-of select="."/></a>
+    <a><xsl:attribute name="href">#<xsl:value-of select="@Directory"/></xsl:attribute><xsl:value-of select="@Directory"/></a><xsl:text>  /  </xsl:text><a><xsl:attribute name="href">#<xsl:value-of select="@Directory"/>/<xsl:value-of select="."/></xsl:attribute><xsl:value-of select="."/></a>
   <br/>
   </xsl:for-each>
 </xsl:template>

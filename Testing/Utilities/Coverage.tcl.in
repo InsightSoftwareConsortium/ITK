@@ -47,9 +47,30 @@ set Coverage(SourceDirectory) [pwd]
 
 set Counter 0
 
+proc GCov { file } \
+{
+  set dir [pwd]
+  cd [file dir $file]
+  catch { exec gcov [file tail $file] }
+  cd $dir
+}
 
-set Queue [glob [file join Code *] [file join CMake *]]
-set Queue [list Code CMake]
+proc AddFile { file } \
+{
+  global Files
+  lappend Files([file tail $file]) $file
+}
+
+
+
+# First run gcov on each *.da file
+# Next index all *.cxx, *.h, *.txx, *.c
+cd $BuildRoot
+FileMap [glob *] [list *.bb] GCov
+FileMap [glob *] [list *.gcov] AddFile
+
+cd $SourceDirectory
+set Queue [glob *]
 set id "File[incr Counter]"
 set TopLevelID $id
 set Coverage($id,FileList) [list]
@@ -58,7 +79,8 @@ set Coverage($id,Name) .
 set Coverage($id,FullPath) .
 set Coverage(.,ID) $id
 
-# puts $Queue
+
+
 while { [llength $Queue] != 0 } \
 {
   set Filename [lindex $Queue 0]
@@ -76,7 +98,6 @@ while { [llength $Queue] != 0 } \
     set Coverage($id,Name) [file tail $Filename]
     set Coverage($id,FullPath) $Filename
     set Coverage($Filename,ID) $id
-    # puts $Filename
     set ParentID $Coverage([file dir $Filename],ID)
     lappend Coverage($ParentID,DirList) $id
 
@@ -84,7 +105,6 @@ while { [llength $Queue] != 0 } \
     catch { set Queue [concat $Queue [glob $Filename/*]] }
     continue;
   }
-  # puts "Looking at $Filename"
   switch [file extension $Filename] \
   {
     .h - 
@@ -92,48 +112,34 @@ while { [llength $Queue] != 0 } \
     .txx - 
     .cxx 
     {
-      set Dir [pwd]
-      set BuildDir [file join $BuildRoot [file dirname $Filename]]
-      if { [file exists $BuildDir] } \
+      if { [info exists Files([file tail $Filename].gcov)] } \
       {
-	cd $BuildDir
-
-	set l [llength [file split [file dirname $Filename]]]
-	set path .
-	for { set i 0 } { $i < $l } { incr i } \
+	set FN [file tail $Filename].gcov
+	if { [llength $Files($FN)] > 1 } \
 	{
-	  # puts "Running gcov with a path of $path: gcov -o $path [file tail $Filename]"
-	  set Status [catch { exec gcov -o $path [file tail $Filename] } Result]
-	  if { $Status == 0 } \
+	  # Try to find the matching one
+	  foreach d $Files($FN) \
 	  {
-	    break
+	    if { [string match [file dir $d] [file dir $Filename]] } \
+	    {
+	      set Files($FN) $d
+	      break
+	    }
 	  }
-	  set path ../$path
 	}
 	  
 	set FileCovered 0
 	set FileCoverage 0.0
-	foreach l [split $Result "\n"] \
-	{
-	  if { [file tail [lindex $l 8]] == [file tail $Filename] } \
-	  {
-	    # puts "Coverage [lindex $l 0]"
-	    set FileCovered 1
-	    set FileCoverage [string trim [lindex $l 0] "%"]
-	  }
-	}
-	set Result [Grep [file tail $Filename] [split $Result "\n"]]
 
 	set id "File[incr Counter]"
 	set Coverage($id,Coverage) $FileCoverage
-	set Coverage($id,Covered) $FileCovered
+	set Coverage($id,Covered) false
 	set Coverage($id,Name) [file tail $Filename]
 	set Coverage($id,FullPath) $Filename
+	set Coverage($id,GCovFullPath) $Files($FN)
 	set ParentID $Coverage([file dir $Filename],ID)
 	lappend Coverage($ParentID,FileList) $id
 
-	# puts "Coverage on $Filename was $FileCoverage"
-	cd $Dir
       }
     }
   }
@@ -153,14 +159,16 @@ proc LOC { id } \
   global Coverage
   set file $Coverage($id,FullPath)
 
-  set gcov [file join $Coverage(BuildDirectory) $file.gcov]
+  set gcov $Coverage($id,GCovFullPath)
   set Untested 0
   set Tested 0
-  set Coverage($id,GCovFile) ""
+  
+  # puts "Testing (in [pwd]) $gcov [file exists $gcov]"
+  
   if { [file exists $gcov] } \
   {
-    set Coverage($id,GCovFile) $file.gcov
-    set f [open $gcov]
+    # puts "Opening $gcov"
+    set f [open $gcov r]
     while { ![eof $f] } \
     {
       set l [gets $f]
@@ -215,6 +223,7 @@ proc RollUpCoverage { id } \
   set Coverage($id,FileCount) $DirFiles
 }
 
+cd $BuildRoot
 RollUpCoverage $TopLevelID
 
 # parray Coverage
@@ -247,7 +256,7 @@ proc EmitXML { id Out indent } \
   foreach File $Coverage($id,FileList) \
   {
     set Covered false
-    if { $Coverage($File,Covered) } \
+    if { ( $Coverage($File,Untested) + $Coverage($File,Tested) ) > 0 } \
     {
       set Covered true
     }
@@ -257,9 +266,9 @@ proc EmitXML { id Out indent } \
     puts $Out "[Indent $indent]<LOCTested>$Coverage($File,Tested)</LOCTested>"
     puts $Out "[Indent $indent]<LOCUntested>$Coverage($File,Untested)</LOCUntested>"
     puts $Out "[Indent $indent]<PercentCoverage>[PercentCoverage $Coverage($File,Tested) $Coverage($File,Untested)]</PercentCoverage>"
-    if { $Coverage($File,GCovFile) != "" } \
+    if { $Coverage($File,GCovFullPath) != "" } \
     {
-      puts $Out "[Indent $indent]<GCovFile>$Coverage($File,GCovFile)</GCovFile>"
+      puts $Out "[Indent $indent]<GCovFile>$Coverage($File,GCovFullPath)</GCovFile>"
     }
     incr indent -1
     puts $Out "[Indent $indent]</File>"

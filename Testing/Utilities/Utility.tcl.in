@@ -21,7 +21,7 @@ proc FileMap { Queue PatternList Map } \
       {
 	continue
       }
-      catch { set Queue [concat $Queue [glob $Filename/*]] }
+      catch { set Queue [concat $Queue [glob [file join $Filename *]]] }
       continue;
     }
     foreach Pattern $PatternList \
