@@ -61,10 +61,13 @@ ENDIF(NOT ITK_USE_SYSTEM_VXL)
 # Include directories needed for .cxx files in ITK.  These include
 # directories will NOT be available to user projects.
 SET(ITK_INCLUDE_DIRS_BUILD_TREE_CXX)
-IF(NOT ITK_USE_SYSTEM_VXL)
+IF(ITK_USE_SYSTEM_VXL)
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE_CXX ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
+    ${VXL_NETLIB_INCLUDE_DIR})
+ELSE(ITK_USE_SYSTEM_VXL)
   SET(ITK_INCLUDE_DIRS_BUILD_TREE_CXX ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
     ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib)
-ENDIF(NOT ITK_USE_SYSTEM_VXL)
+ENDIF(ITK_USE_SYSTEM_VXL)
 
 #-----------------------------------------------------------------------------
 # Include directories from the install tree.
