@@ -271,12 +271,8 @@ ImageBase<VImageDimension>
 
   if (imgData)
     {
+    // only copy the RequestedRegion if the parameter object is an image
     m_RequestedRegion = imgData->GetRequestedRegion();
-    }
-  else
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(ImageBase*).name() );
     }
 }
 

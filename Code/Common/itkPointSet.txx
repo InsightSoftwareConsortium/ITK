@@ -415,15 +415,9 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 
   if (mesh)
     {
+    // only copy the RequestedRegion if the parameter is another PointSet
     m_RequestedRegion = mesh->m_RequestedRegion;
     m_RequestedNumberOfRegions = mesh->m_RequestedNumberOfRegions;
-    }
-  else
-    {
-    // pointer could not be cast back down
-    std::cerr << "itk::PointSet::SetRequestedRegion(DataObject*) cannot cast "
-              << typeid(data).name() << " to "
-              << typeid(PointSet*).name() << std::endl;
     }
 }
 
