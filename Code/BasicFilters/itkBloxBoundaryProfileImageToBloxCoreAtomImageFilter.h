@@ -56,7 +56,6 @@ public:
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   typedef BloxCoreAtomImage<dim>                  TOutputImage;
   typedef BloxCoreAtomImage<dim>                  OutputImageType;
@@ -78,7 +77,7 @@ public:
   typedef typename SourceImageType::IndexType           SourceImageIndexType;
 
   /** Image size typedef */
-  typedef Size<itkGetStaticConstMacro(ImageDimension)> SizeType;
+  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
