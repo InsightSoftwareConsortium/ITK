@@ -77,7 +77,7 @@ public:
     typedef Matrix<double,VRank,VRank>   MatrixType;
 
     /// Standard image type within this class.
-    typedef typename Image<TPixel, VRank>::Pointer ImageType;
+    typedef typename PhysicalImage<TPixel, VRank>::Pointer ImageType;
 
     /// Standard affine transform type for this class
     typedef AffineTransform<double, VRank> AffineTransformType;
