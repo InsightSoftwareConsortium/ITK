@@ -77,11 +77,11 @@ public:
   typedef typename CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
 
   /** MedialNode typedef. */
-  typedef BloxCoreAtomPixel<NDimensions> MedialNodeType;
+  typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
 
   /** UnaryMetric typedef. */
-  typedef UnaryMedialNodeMetric<NDimensions> UnaryMetricType;
-  typedef typename UnaryMedialNodeMetric<NDimensions>::Pointer UnaryMetricPointer;
+  typedef UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)> UnaryMetricType;
+  typedef typename UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>::Pointer UnaryMetricPointer;
 
   /** Get the image output of this process object. */
   CorrespondenceMatrixType * GetOutput(void);

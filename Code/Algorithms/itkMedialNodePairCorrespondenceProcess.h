@@ -84,20 +84,20 @@ public:
   typedef typename CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
 
   /** Typedef for correspondence data structure. (output) */
-  typedef CorrespondingMedialNodeClique<NDimensions,2> NodeType;
+  typedef CorrespondingMedialNodeClique<itkGetStaticConstMacro(NDimensions),2> NodeType;
   typedef CorrespondenceDataStructure<NodeType,2> DataStructureType;
   typedef typename CorrespondenceDataStructure<NodeType,2>::Pointer DataStructurePointerType;
   typedef CorrespondenceDataStructureIterator<DataStructureType> IteratorType;
 
   /** Typedef for binary node metric. */
-  typedef BinaryMedialNodeMetric<NDimensions> BinaryMetricType;
-  typedef typename BinaryMedialNodeMetric<NDimensions>::Pointer BinaryMetricPointer;
+  typedef BinaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)> BinaryMetricType;
+  typedef typename BinaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>::Pointer BinaryMetricPointer;
 
   /** Typedef for medial nodes. */
-  typedef BloxCoreAtomPixel<NDimensions> MedialNodeType;
+  typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
 
   /** The type used to store the position of the BloxPixel. */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
 
   /** Get the image output of this process object.  */
   DataStructureType * GetOutput(void);
