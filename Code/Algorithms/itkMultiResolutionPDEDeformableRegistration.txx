@@ -188,11 +188,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 ::GenerateData()
 {
 
-  // allocate memory for the results
-  DeformationFieldPointer outputPtr = this->GetOutput();
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  outputPtr->Allocate();
-
   // get a pointer to the MovingImage and test images
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
@@ -232,6 +227,17 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
       (int) m_MovingImagePyramid->GetNumberOfLevels() );
     fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
       (int) m_FixedImagePyramid->GetNumberOfLevels() );
+
+    /** We can release data from the previous level since they
+      * are no longer required. */
+    if ( movingLevel > 0 )
+      {
+      m_MovingImagePyramid->GetOutput( movingLevel - 1 )->ReleaseData();
+      }
+    if( fixedLevel > 0 )
+      {
+      m_FixedImagePyramid->GetOutput( fixedLevel - 1 )->ReleaseData();
+      }
 
     if( m_CurrentLevel == 0 )
       {
@@ -307,7 +313,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
         // some of the last shrink factors are not one
         // graft the output of the expander filter to
         // to output of this filter
-        m_FieldExpander->GraftOutput( outputPtr );
 
         // resample the field to the same size as the fixed image
         m_FieldExpander->SetSize( 
@@ -327,18 +332,23 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
         // all the last shrink factors are all ones
         // graft the output of registration filter to
         // to output of this filter
-        m_RegistrationFilter->GraftOutput( outputPtr );
         m_RegistrationFilter->UpdateLargestPossibleRegion();
         this->GraftOutput( m_RegistrationFilter->GetOutput() );
 
         }
       
-      } // end if m_CurrentLevel
-    } // end m_CurrentLevel loop
+      // Release memory
+      m_MovingImagePyramid->GetOutput( movingLevel )->ReleaseData();
+      m_FixedImagePyramid->GetOutput( fixedLevel )->ReleaseData();
+      m_FieldExpander->GetOutput()->ReleaseData();
+      m_RegistrationFilter->GetOutput()->ReleaseData();
 
+      } // end if m_CurrentLevel not last
+    } // end m_CurrentLevel loop
 
    // Reset the m_CurrentLevel to zero
    m_CurrentLevel = 0;
+
 }
 
 
