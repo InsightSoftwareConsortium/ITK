@@ -37,7 +37,7 @@ namespace function {
     ~Atan() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)atan((double) A);
+      return (TOutput)atan(A);
     }
   }; 
 

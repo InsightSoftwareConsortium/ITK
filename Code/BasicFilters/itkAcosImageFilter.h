@@ -37,7 +37,7 @@ namespace function {
     ~Acos() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)acos((double) A);
+      return (TOutput)acos(A);
     }
   }; 
 

@@ -37,7 +37,7 @@ namespace function {
     ~Log() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)log((double)A);
+      return (TOutput)log(A);
     }
   }; 
 

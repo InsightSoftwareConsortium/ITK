@@ -37,7 +37,7 @@ namespace function {
     ~Sin() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)sin((double)A);
+      return (TOutput)sin(A);
     }
   }; 
 
