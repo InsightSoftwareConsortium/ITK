@@ -51,6 +51,7 @@ public:
   unsigned short BitsPerSample;
   unsigned short Photometrics;
   unsigned short PlanarConfig;
+  unsigned short Orientation;
   unsigned long int TileDepth;
 };
 
@@ -108,6 +109,8 @@ int TIFFReaderInternal::Initialize()
       {
       return 0;
       }
+    TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
+                          &this->Orientation);
     TIFFGetField(this->Image, TIFFTAG_SAMPLESPERPIXEL, 
                  &this->SamplesPerPixel);
     TIFFGetField(this->Image, TIFFTAG_COMPRESSION, &this->Compression);
@@ -191,6 +194,15 @@ void TIFFImageIO::ReadGenericImage( void *out,
         break;
         }
           
+      if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+        {
+        image = reinterpret_cast<unsigned char*>(out) + row * isize;
+        }
+      else
+        {
+        image = reinterpret_cast<unsigned char*>(out) + isize * (height - (row + 1));
+        }
+
       for (cc = 0; cc < isize; 
            cc += m_InternalImage->SamplesPerPixel )
         {
@@ -447,8 +459,10 @@ void TIFFImageIO::Read(void* buffer)
     int xx, yy;
     uint32* ssimage = tempImage;
     unsigned char *fimage = (unsigned char *)buffer;
+
     for ( yy = 0; yy < height; yy ++ )
       {
+      ssimage = tempImage + (height - yy - 1) * width;
       for ( xx = 0; xx < width; xx++ )
         {
         unsigned char red   = static_cast<unsigned char>(TIFFGetR(*ssimage));
@@ -768,6 +782,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
   TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, scomponents);
   TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, bps); // Fix for stype
   TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
 
   if ( scomponents > 3 )
     {
