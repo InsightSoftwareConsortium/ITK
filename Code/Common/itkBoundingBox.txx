@@ -162,17 +162,17 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
           ci != m_PointsContainer->End(); ++ci )
       {
       point = ci->Value();     //point value
-    for (unsigned int i=0; i<PointDimension; i++)
-      {
-    if ( point[i] < m_Bounds[2*i] )
-      {
-      m_Bounds[2*i] = point[i];
-      }
-    if ( point[i] > m_Bounds[2*i+1] )
-      {
-      m_Bounds[2*i+1] = point[i];
-      }
-    }
+      for (unsigned int i=0; i<PointDimension; i++)
+        {
+        if ( point[i] < m_Bounds[2*i] )
+          {
+          m_Bounds[2*i] = point[i];
+          }
+        if ( point[i] > m_Bounds[2*i+1] )
+          {
+          m_Bounds[2*i+1] = point[i];
+          }
+        }
       }//for all points in container
 
     m_BoundsMTime.Modified();
@@ -235,7 +235,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     {
     for (unsigned int i=0; i<PointDimension; i++)
       {
-      dist2 += (m_Bounds[2*i]-m_Bounds[2*i+1]) * (m_Bounds[2*i]-m_Bounds[2*i+1]);
+      dist2 += (m_Bounds[2*i]-m_Bounds[2*i+1]) * 
+               (m_Bounds[2*i]-m_Bounds[2*i+1]);
       }
     }
 
