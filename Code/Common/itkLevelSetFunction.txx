@@ -199,7 +199,7 @@ LevelSetFunction< TImageType >
       gradMag += dx[i] * dx[i];
     }
 
-  curve /= gradMag * vnl_math_sqrt(gradMag);
+  curve /= gradMag * vcl_sqrt(gradMag);
   
   curvature_term = curve;
   curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
@@ -277,7 +277,7 @@ LevelSetFunction< TImageType >
         vnl_math_max(globalData->m_MaxPropagationChange,
                                          vnl_math_abs(propagation_term));
       
-      propagation_term *= vnl_math_sqrt( propagation_gradient );
+      propagation_term *= vcl_sqrt( propagation_gradient );
     }
   else propagation_term = ZERO;
 
