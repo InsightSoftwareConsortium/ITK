@@ -1,7 +1,7 @@
 #include "sourceRep.h"
 
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 #include <strstream>
 
 namespace source

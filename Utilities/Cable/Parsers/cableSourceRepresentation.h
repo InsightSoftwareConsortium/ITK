@@ -3,7 +3,7 @@
 
 #include "referenceCount.h"
 
-#include <cstdio>
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <set>

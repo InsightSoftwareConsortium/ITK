@@ -1,6 +1,6 @@
 #include "xmlAttributes.h"
 
-#include <cstdlib>
+#include <stdlib.h>
 
 namespace xml
 {
