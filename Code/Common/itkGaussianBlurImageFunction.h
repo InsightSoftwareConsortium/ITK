@@ -97,8 +97,8 @@ public:
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.*/
-  void SetSigma( const double sigma[itkGetStaticConstMacro(ImageDimension)] );
-  void SetSigma( const float sigma[itkGetStaticConstMacro(ImageDimension)] );
+  void SetSigma( const double sigma[ImageDimension] );
+  void SetSigma( const float sigma[ImageDimension] );
   void SetSigma( const double sigma);
   const double* GetSigma() const {return m_Sigma;}
   
@@ -108,7 +108,7 @@ public:
    * SetInputImage again to update cached values. */
   virtual void SetInputImage( const InputImageType * ptr );
 
-  void SetExtent( const double extent[itkGetStaticConstMacro(ImageDimension)] );
+  void SetExtent( const double extent[ImageDimension] );
   void SetExtent( const double extent);
   const double* GetExtent() const {return m_Extent;}
 
@@ -123,11 +123,11 @@ protected:
 
   void RecomputeGaussianKernel();
   void RecomputeContinuousGaussianKernel(
-           const double offset[itkGetStaticConstMacro(ImageDimension)] ) const;
+           const double offset[ImageDimension] ) const;
 
 private:
   
-  double                        m_Sigma[itkGetStaticConstMacro(ImageDimension)];
+  double                        m_Sigma[ImageDimension];
   OperatorImageFunctionPointer  m_OperatorImageFunction;
   mutable OperatorArrayType     m_OperatorArray;
   mutable OperatorArrayType     m_ContinuousOperatorArray;
@@ -135,8 +135,8 @@ private:
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  double m_MaximumError[itkGetStaticConstMacro(ImageDimension)];
-  double m_Extent[itkGetStaticConstMacro(ImageDimension)];
+  double m_MaximumError[ImageDimension];
+  double m_Extent[ImageDimension];
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */

@@ -173,7 +173,7 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
 template<class TMoving,class TFixed>
 typename ImageMetricLoad<TMoving , TFixed>::VectorType 
 ImageMetricLoad<TMoving , TFixed>::Fe
-(ImageMetricLoad<TMoving , TFixed>::VectorType  Gpos,ImageMetricLoad<TMoving , TFixed>::VectorType  Gsol) 
+( VectorType  Gpos, VectorType  Gsol) 
 {
 // We assume the vector input is of size 2*ImageDimension.
 // The 0 to ImageDimension-1 elements contain the position, p,
@@ -279,7 +279,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
 template<class TMoving,class TFixed>
 typename ImageMetricLoad<TMoving , TFixed>::Float 
 ImageMetricLoad<TMoving , TFixed>::GetMetric
-(ImageMetricLoad<TMoving , TFixed>::VectorType  InVec) 
+( VectorType  InVec) 
 {
 // We assume the vector input is of size 2*ImageDimension.
 // The 0 to ImageDimension-1 elements contain the position, p,
@@ -344,8 +344,8 @@ ImageMetricLoad<TMoving , TFixed>::GetMetric
 template<class TMoving,class TFixed>
 typename ImageMetricLoad<TMoving , TFixed>::VectorType 
 ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
-(ImageMetricLoad<TMoving , TFixed>::VectorType  Gpos,
- ImageMetricLoad<TMoving , TFixed>::VectorType  Gsol ) 
+( VectorType  Gpos,
+  VectorType  Gsol ) 
 {
 
   typename MetricBaseType::MeasureType     measure;
@@ -414,8 +414,8 @@ ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
 template<class TMoving,class TFixed>
 typename ImageMetricLoad<TMoving , TFixed>::VectorType 
 ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
-(ImageMetricLoad<TMoving , TFixed>::VectorType  Gpos,
- ImageMetricLoad<TMoving , TFixed>::VectorType  Gsol ) 
+( VectorType  Gpos,
+  VectorType  Gsol ) 
 {
 
 //discrete orthogonal polynomial fitting

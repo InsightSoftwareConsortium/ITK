@@ -499,7 +499,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer 
 Mesh<TPixelType, VDimension, TMeshTraits>
-::GetCellBoundingBox(CellIdentifier cellId, Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer bbox)
+::GetCellBoundingBox(CellIdentifier cellId, BoundingBoxPointer bbox)
 {
   bbox->SetPoints(this->GetPoints());
   return bbox;

@@ -406,7 +406,8 @@ protected :
 
  
   /** Re-size the vector field (smaller to larger). */
-  typename FieldType::Pointer ExpandVectorField(ExpandFactorsType* expandFactors, FieldType* f);
+  typedef  typename FieldType::Pointer FieldPointer;
+  FieldPointer ExpandVectorField(ExpandFactorsType* expandFactors, FieldType* f);
   
 
   /** This is used for changing between mesh resolutions. */

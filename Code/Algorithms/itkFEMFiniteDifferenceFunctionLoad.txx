@@ -174,8 +174,8 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
 template<class TMoving,class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving , TFixed>::FEMVectorType 
 FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
-(FiniteDifferenceFunctionLoad<TMoving , TFixed>::FEMVectorType  Gpos,
- FiniteDifferenceFunctionLoad<TMoving , TFixed>::FEMVectorType  Gsol) 
+( FEMVectorType  Gpos,
+  FEMVectorType  Gsol) 
 {
 
 // We assume the vector input is of size 2*ImageDimension.

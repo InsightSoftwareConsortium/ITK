@@ -18,7 +18,7 @@
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"
 
-#include <iostream.h>
+#include <iostream>
 
 /**
  * Generate test data with the Cumulative Gaussian Cost Function

@@ -592,12 +592,12 @@ private:
 #  define __node__            hashtable_node<Value>
 #  define __reference__       Value&
 # else
-#  define __difference_type__  hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::difference_type
-#  define __size_type__        hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::size_type
-#  define __value_type__       hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::value_type
-#  define __key_type__         hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::key_type
-#  define __node__             hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::node
-#  define __reference__        hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::reference
+#  define __difference_type__  typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::difference_type
+#  define __size_type__        typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::size_type
+#  define __value_type__       typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::value_type
+#  define __key_type__         typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::key_type
+#  define __node__             typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::node
+#  define __reference__        typename hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::reference
 # endif
 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>

@@ -17,10 +17,10 @@
 #ifndef __itkGradientMagnitudeRecursiveGaussianImageFilter_h
 #define __itkGradientMagnitudeRecursiveGaussianImageFilter_h
 
-#include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
 #include "itkPixelTraits.h"
+#include "itkRecursiveGaussianImageFilter.h"
 
 namespace itk
 {

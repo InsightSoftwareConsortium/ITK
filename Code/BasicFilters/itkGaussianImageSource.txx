@@ -172,7 +172,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetSpacing(const float spacing[TOutputImage::ImageDimension] )
+::SetSpacing(const float spacing[NDimensions] )
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)
@@ -195,7 +195,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetSpacing(const double spacing[TOutputImage::ImageDimension] )
+::SetSpacing(const double spacing[NDimensions] )
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)
@@ -218,7 +218,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetOrigin(const float origin[TOutputImage::ImageDimension] )
+::SetOrigin(const float origin[NDimensions] )
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)
@@ -241,7 +241,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetOrigin(const double origin[TOutputImage::ImageDimension] )
+::SetOrigin(const double origin[NDimensions] )
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)
@@ -264,7 +264,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetSize(const unsigned long size[TOutputImage::ImageDimension] )
+::SetSize(const unsigned long size[NDimensions] )
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)

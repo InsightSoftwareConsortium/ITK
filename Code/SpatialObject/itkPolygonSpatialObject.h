@@ -48,8 +48,7 @@ public:
   bool IsClosed();
   unsigned int NumberOfPoints() const;
   /** Method returns the Point closest to the given point */
-  PolygonSpatialObject<TDimension>::PointType 
-  ClosestPoint(PolygonSpatialObject<TDimension>::PointType &curPoint);
+  PointType ClosestPoint(PointType &curPoint);
   /** Method returns area of polygon described by points */
   double MeasureArea();
   /** Method returns the volume of the strand */

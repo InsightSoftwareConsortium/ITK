@@ -90,7 +90,7 @@ MRASlabIdentifier<TInputImage>
     iter.GoToBegin() ;
 
     std::priority_queue<ImagePixelType> mins ;
-    for ( unsigned int i = 0 ; i < m_NumberOfSamples ; ++i )
+    for ( int i = 0 ; i < m_NumberOfSamples ; ++i )
       {
       mins.push( NumericTraits< ImagePixelType >::max() ) ;
       }

@@ -165,7 +165,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetImage( ImageSpatialObject< TDimension,  PixelType >::ImageType * image )
+::SetImage( ImageType * image )
 {
   m_Image = image;
   m_Image->Modified();

@@ -1635,7 +1635,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteWarpedImage(const cha
 
 
 template<class TMovingImage,class TFixedImage>
-typename FEMRegistrationFilter<TMovingImage,TFixedImage>::FieldType::Pointer 
+typename FEMRegistrationFilter<TMovingImage,TFixedImage>::FieldPointer 
 FEMRegistrationFilter<TMovingImage,TFixedImage>::ExpandVectorField( ExpandFactorsType* expandFactors, FieldType* field)
 {
 // re-size the vector field

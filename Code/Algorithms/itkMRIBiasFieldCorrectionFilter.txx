@@ -368,7 +368,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 
 
 template<class TInputImage, class TOutputImage, class TMaskImage>
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::BiasFieldType
+typename MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::BiasFieldType
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::EstimateBiasField(InputImageRegionType region, 
                     unsigned int degree,
@@ -423,7 +423,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     bias.GetCoefficients() ;
   typename EnergyFunctionType::ParametersType 
     initialPosition( noOfBiasFieldCoefficients );
-  for(unsigned int i=0; i < noOfBiasFieldCoefficients; i++ )
+  for( int i=0; i < noOfBiasFieldCoefficients; i++ )
     {
     initialPosition[i] = tempCoefficients[i];
     }

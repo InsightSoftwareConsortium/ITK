@@ -64,6 +64,14 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 }
 
 
+template <typename TInputImage, typename TOutputImage>
+void
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+}
 
 /**
  * Set value of Sigma
@@ -143,7 +151,6 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 /**
  * Compute filter for Gaussian kernel
  */
@@ -217,9 +224,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     ot.GoToBegin();
     while( !it.IsAtEnd() )
       {
-      const RealType value = it.Get() / spacing;
-      const RealType cumulated = ot.Get() + value * value;
-      ot.Set( cumulated );
+      ot.Value() += vnl_math_sqr( it.Get() / spacing );
       ++it;
       ++ot;
       }
@@ -246,19 +251,8 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     ++ot;
     }
 
-
-
 }
 
-
-template <typename TInputImage, typename TOutputImage>
-void
-GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-}
 
 
 } // end namespace itk

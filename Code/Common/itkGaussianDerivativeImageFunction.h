@@ -108,12 +108,12 @@ public:
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.*/
-  void SetSigma( const double sigma[itkGetStaticConstMacro(ImageDimension2)] );
+  void SetSigma( const double sigma[ImageDimension2] );
   void SetSigma( const double sigma);
   const double* GetSigma() const {return m_Sigma;}
  
   /** Set the extent of the kernel */
-  void SetExtent( const double extent[itkGetStaticConstMacro(ImageDimension2)] );
+  void SetExtent( const double extent[ImageDimension2] );
   void SetExtent( const double extent);
   const double* GetExtent() const {return m_Extent;}
 
@@ -136,12 +136,12 @@ protected:
 
   void RecomputeGaussianKernel();
   void RecomputeContinuousGaussianKernel(
-           const double offset[itkGetStaticConstMacro(ImageDimension2)]) const;
+           const double offset[ImageDimension2]) const;
 
 
 private:
 
-  double                        m_Sigma[itkGetStaticConstMacro(ImageDimension2)];
+  double                        m_Sigma[ImageDimension2];
 
   /** Array of 1D operators. Contains a derivative kernel and a gaussian kernel for
    *  each dimension */
@@ -150,7 +150,7 @@ private:
 
   /** OperatorImageFunction */
   OperatorImageFunctionPointer  m_OperatorImageFunction;
-  double m_Extent[itkGetStaticConstMacro(ImageDimension2)];
+  double m_Extent[ImageDimension2];
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;

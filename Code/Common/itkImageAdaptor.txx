@@ -196,7 +196,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const double spacing[TImage::ImageDimension] )
+::SetSpacing(const double spacing[ImageDimension] )
 {
   // delegation to internal image
   m_Image->SetSpacing( spacing );
@@ -206,7 +206,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const float spacing[TImage::ImageDimension] )
+::SetSpacing(const float spacing[ImageDimension] )
 {
   // delegation to internal image
   m_Image->SetSpacing( spacing );
@@ -217,7 +217,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const double origin[TImage::ImageDimension] )
+::SetOrigin(const double origin[ImageDimension] )
 {
   // delegation to internal image
   m_Image->SetOrigin( origin );
@@ -228,7 +228,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetOrigin(const float origin[TImage::ImageDimension] )
+::SetOrigin(const float origin[ImageDimension] )
 {
   // delegation to internal image
   m_Image->SetOrigin( origin );
