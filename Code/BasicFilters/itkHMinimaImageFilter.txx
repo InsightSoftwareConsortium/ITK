@@ -74,7 +74,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>
     ShiftFilterType;
   typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
   shift->SetInput( this->GetInput() );
-  shift->SetShift( static_cast<ShiftFilterType::RealType>(m_Height) );
+  shift->SetShift( static_cast<typename ShiftFilterType::RealType>(m_Height) );
 
   // Delegate to a geodesic erosion filter.
   //

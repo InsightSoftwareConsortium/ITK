@@ -107,7 +107,7 @@ HConcaveImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Depth of local minima (contrast): "
-     << static_cast<NumericTraits<InputImagePixelType>::PrintType>(m_Height)
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height)
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
