@@ -17,7 +17,32 @@
 
 namespace itk
 {
+/**
+ * Get the interpolation order of the cell.  Usually linear.
+ */
+template <typename TPixelType, typename TCellType>
+int
+CellInterface< TPixelType , TCellType >
+::GetInterpolationOrder(void)
+{
+  return 1;
+}
+  
 
+/**
+ * Get the point id list used by the cell in a form suitable to pass to
+ * SetPointIds(first) on another cell.  This is equivalent to
+ * PointIdsBegin() const.
+ */
+template <typename TPixelType, typename TCellType>
+CellInterface< TPixelType , TCellType >::PointIdConstIterator
+CellInterface< TPixelType , TCellType >
+::GetPointIds(void) const
+{
+  return this->PointIdsBegin();
+}
+ 
+  
 /**
  * By default, a cell is not a boundary.
  */

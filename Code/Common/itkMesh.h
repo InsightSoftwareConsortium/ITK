@@ -90,6 +90,7 @@ public:
   enum { PointDimension = MeshType::PointDimension };
   enum { MaxTopologicalDimension = MeshType::MaxTopologicalDimension };
   typedef typename MeshType::CoordRep                 CoordRep;  
+  typedef typename MeshType::InterpolationWeight      InterpolationWeight;
   typedef typename MeshType::PointIdentifier          PointIdentifier;
   typedef typename MeshType::CellIdentifier           CellIdentifier;
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
@@ -210,7 +211,7 @@ protected:
    * An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers.
    */
-  PointsContainerPointer  m_Points;
+  PointsContainerPointer  m_PointsContainer;
 
   /**
    * An object containing data associated with the mesh's points.
@@ -218,20 +219,20 @@ protected:
    * the points.  The data for a point can be accessed through its point
    * identifier.
    */
-  PointDataContainerPointer  m_PointData;
+  PointDataContainerPointer  m_PointDataContainer;
 
   /**
    * An object containing parent cell links for each point.  Since a point
    * can be used by multiple cells, each point identifier accesses another
    * container which holds the cell identifiers
    */
-  CellLinksContainerPointer  m_CellLinks;
+  CellLinksContainerPointer  m_CellLinksContainer;
   
   /**
    * An object containing cells used by the mesh.  Individual cellss are
    * accessed through cell identifiers.
    */
-  CellsContainerPointer  m_Cells;
+  CellsContainerPointer  m_CellsContainer;
   
   /**
    * An object containing data associated with the mesh's cells.
@@ -239,7 +240,7 @@ protected:
    * the cells.  The data for a cell can be accessed through its cell
    * identifier.
    */
-  CellDataContainerPointer  m_CellData;
+  CellDataContainerPointer  m_CellDataContainer;
   
   /**
    * Since multiple cells can be assigned the same boundary (when they are
@@ -252,7 +253,7 @@ protected:
    */
   typedef std::vector< BoundariesContainerPointer >
         BoundariesContainerVector;
-  BoundariesContainerVector  m_Boundaries;
+  BoundariesContainerVector  m_BoundariesContainers;
 
   /**
    * If any information is to be stored with boundaries, it is placed in
@@ -263,7 +264,7 @@ protected:
    */
   typedef std::vector< BoundaryDataContainerPointer >
         BoundaryDataContainerVector;
-  BoundaryDataContainerVector  m_BoundaryData;
+  BoundaryDataContainerVector  m_BoundaryDataContainers;
 
   typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
@@ -282,7 +283,7 @@ protected:
    */
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
-  BoundaryAssignmentsContainerVector  m_BoundaryAssignments;
+  BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
   
   /**
    * Define the mesh's public interface.  This includes access routines along
@@ -392,13 +393,27 @@ public:
    * Mesh-level operation interface.
    */
 
-  unsigned long GetBoundaryFeatureNeighbors(
+  void PassStructure(Self* in_mesh);
+  unsigned long GetNumberOfPoints(void);
+  unsigned long GetNumberOfCells(void);
+  void GetCellBoundingBox(CellIdentifier cellId,
+			  CoordRep bounds[PointDimension*2]);
+  bool FindClosestPoint(CoordRep coords[PointDimension],
+			PointIdentifier* pointId);
+  // FindCell(.........)
+  void ComputeBoundingBox(void);
+  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
+  CoordRep* GetCenter(CoordRep center[PointDimension]);
+  CoordRep GetBoundingBoxDiagonalLength2(void);
+  void ReInitialize(void);
+  
+  unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
     std::set<CellIdentifier>* cellSet);
-
-  bool GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier,
-				      CellFeatureIdentifier,
-				      Boundary::Pointer*) const;
+  
+  bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
+					  CellFeatureIdentifier,
+					  Boundary::Pointer*) const;
 
   void BuildCellLinks(void);
   

@@ -20,15 +20,42 @@ namespace itk
 
 /**
  * Standard CellInterface:
+ */
+template <typename TPixelType, typename TCelltype>
+HexahedronCell< TPixelType , TCelltype >::Cell::Pointer
+HexahedronCell< TPixelType , TCelltype >
+::MakeCopy(void)
+{
+  Cell::Pointer newCell(Self::New());
+  newCell->SetPointIds(this->GetPointIds());
+  return newCell;
+}
+
+  
+/**
+ * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCelltype>
 int
 HexahedronCell< TPixelType , TCelltype >
-::GetCellDimension(void)
+::GetDimension(void)
 {
   return CellDimension;
 }
+
+
+/**
+ * Standard CellInterface:
+ * Get the number of points required to define the cell.
+ */
+template <typename TPixelType, typename TCelltype>
+int
+HexahedronCell< TPixelType , TCelltype >
+::GetNumberOfPoints(void)
+{
+  return NumberOfPoints;
+}  
 
 
 /**
@@ -63,9 +90,9 @@ HexahedronCell< TPixelType , TCelltype >
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId));
-    case 1: return Cell::Pointer(GetCellEdge(featureId));
-    case 2: return Cell::Pointer(GetCellFace(featureId));
+    case 0: return Cell::Pointer(GetVertex(featureId));
+    case 1: return Cell::Pointer(GetEdge(featureId));
+    case 2: return Cell::Pointer(GetFace(featureId));
     default: return Cell::Pointer(NULL);
     }
 }
@@ -73,32 +100,35 @@ HexahedronCell< TPixelType , TCelltype >
 
 /**
  * Standard CellInterface:
- * Set the cell's internal point list to the list of identifiers provided.
+ * Set the point id list used by the cell.  It is assumed that the given
+ * iterator can be incremented and safely de-referenced enough times to 
+ * get all the point ids needed by the cell.
  */
 template <typename TPixelType, typename TCelltype>
 void
 HexahedronCell< TPixelType , TCelltype >
-::SetCellPoints(const PointIdentifier *ptList)
+::SetPointIds(PointIdConstIterator first)
 {
+  PointIdConstIterator ii(first);
   for(int i=0; i < NumberOfPoints ; ++i)
-    m_PointIds[i] = ptList[i];
+    m_PointIds[i] = *ii++;
 }
 
 
 /**
  * Standard CellInterface:
- * Use this to set all the points in the cell.  It is assumed that the
- * range [first, last) is exactly the size needed for this cell type.
- * The position *last is NOT referenced, so it can safely be one beyond
- * the end of an array.
+ * Set the point id list used by the cell.  It is assumed that the range
+ * of iterators [first, last) contains the correct number of points needed to
+ * define the cell.  The position *last is NOT referenced, so it can safely
+ * be one beyond the end of an array or other container.
  */
 template <typename TPixelType, typename TCelltype>
 void
 HexahedronCell< TPixelType , TCelltype >
-::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
+::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
-  const PointIdentifier *ii = first;
+  PointIdConstIterator ii(first);
   
   while(ii != last)
     m_PointIds[localId++] = *ii++;
@@ -112,7 +142,7 @@ HexahedronCell< TPixelType , TCelltype >
 template <typename TPixelType, typename TCelltype>
 void
 HexahedronCell< TPixelType , TCelltype >
-::SetCellPoint(int localId, PointIdentifier ptId)
+::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
 }
@@ -123,7 +153,7 @@ HexahedronCell< TPixelType , TCelltype >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIterator
+HexahedronCell< TPixelType , TCelltype >::PointIdIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsBegin(void)
 {
@@ -137,7 +167,7 @@ HexahedronCell< TPixelType , TCelltype >
  * by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointConstIterator
+HexahedronCell< TPixelType , TCelltype >::PointIdConstIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsBegin(void) const
 {
@@ -150,7 +180,7 @@ HexahedronCell< TPixelType , TCelltype >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIterator
+HexahedronCell< TPixelType , TCelltype >::PointIdIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
@@ -164,7 +194,7 @@ HexahedronCell< TPixelType , TCelltype >
  * by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointConstIterator
+HexahedronCell< TPixelType , TCelltype >::PointIdConstIterator
 HexahedronCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
@@ -219,10 +249,10 @@ HexahedronCell< TPixelType , TCelltype >
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Vertex::Pointer
 HexahedronCell< TPixelType , TCelltype >
-::GetCellVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
-  vert->SetCellPoint(0, m_PointIds[vertexId]);
+  vert->SetPointId(0, m_PointIds[vertexId]);
   
   return vert;
 }
@@ -236,12 +266,12 @@ HexahedronCell< TPixelType , TCelltype >
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Edge::Pointer
 HexahedronCell< TPixelType , TCelltype >
-::GetCellEdge(CellFeatureIdentifier edgeId)
+::GetEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
 
   for(int i=0; i < Edge::NumberOfPoints; ++i)
-    edge->SetCellPoint(i, m_PointIds[ m_Edges[edgeId][i] ]);
+    edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
   
   return edge;
 }
@@ -255,12 +285,12 @@ HexahedronCell< TPixelType , TCelltype >
 template <typename TPixelType, typename TCelltype>
 HexahedronCell< TPixelType , TCelltype >::Face::Pointer
 HexahedronCell< TPixelType , TCelltype >
-::GetCellFace(CellFeatureIdentifier faceId)
+::GetFace(CellFeatureIdentifier faceId)
 {
   Face::Pointer face(Face::New());
   
   for(int i=0; i < Face::NumberOfPoints; ++i)
-    face->SetCellPoint(i, m_PointIds[ m_Faces[faceId][i] ]);
+    face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
   
   return face;
 }

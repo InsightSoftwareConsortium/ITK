@@ -28,7 +28,8 @@ namespace itk
  * uses generic programming to allow container type substitution, so
  * polymorphism is not needed to use containers through this interface.  This
  * means that a container conforming to this interface need not be derived
- * from it.  However, the container must derive from itkObject in order to
+ * from it, and that their methods should not be virtual.
+ * However, the container must derive from itk::Object in order to
  * support the reference counting, modification time, and debug information
  * required by this interface.
  *
@@ -160,12 +161,24 @@ public:
   /**
    * Get a begin const iterator for the container.
    */  
-  ConstIterator Begin()=0;
+  virtual ConstIterator Begin()=0;
   
   /**
    * Get an end const iterator for the container.
    */
-  ConstIterator End()=0;
+  virtual ConstIterator End()=0;
+
+  /**
+   * Get the number of elements currently stored in the container.
+   */
+  virtual unsigned long Size(void) const =0;
+
+  /**
+   * Tell the container to try to minimize its memory usage for storage of
+   * the current number of elements.  This is NOT guaranteed to decrease
+   * memory usage.
+   */
+  virtual void Squeeze(void)=0;
   
   /**
    * Standard part of every itk Object.

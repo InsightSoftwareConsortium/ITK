@@ -180,4 +180,30 @@ MapContainer< TElementIdentifier , TElement >
   return this->Map::end();
 }
 
+
+/**
+ * Get the number of elements currently stored in the map.
+ */
+template <typename TElementIdentifier, typename TElement>
+unsigned long
+MapContainer< TElementIdentifier , TElement >
+::Size(void) const
+{
+  return this->Map::size();
+}
+
+
+/**
+ * Tell the container to try to minimize its memory usage for storage of
+ * the current number of elements.  This is NOT guaranteed to decrease
+ * memory usage.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+MapContainer< TElementIdentifier , TElement >
+::Squeeze(void)
+{
+}
+
+
 } // namespace itk

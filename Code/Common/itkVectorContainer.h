@@ -171,6 +171,8 @@ public:
   void DeleteIndex(ElementIdentifier);
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
+  unsigned long Size(void) const;
+  void Squeeze(void);
   
   /**
    * Standard part of every itk Object.

@@ -13,29 +13,29 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::Mesh<int>             Mesh;
-typedef Mesh::CellType           CellType;
+typedef itk::Mesh<int>  Mesh;
+typedef Mesh::CellType  CellType;
 
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itk::LineBoundary<int, CellType>       LineBoundary;
-typedef itk::TetrahedronCell<int, CellType>    TetraCell;
-typedef itk::HexahedronCell<int, CellType>     HexaCell;
+typedef itk::LineBoundary<int, CellType>     LineBoundary;
+typedef itk::TetrahedronCell<int, CellType>  TetraCell;
+typedef itk::HexahedronCell<int, CellType>   HexaCell;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
  * so we can only use information from it, like get its pointer type.
  */
-typedef Mesh::Cell               Cell;
-typedef Cell                     Boundary;
+typedef Mesh::Cell  Cell;
+typedef Cell        Boundary;
 
 /**
  * The type of point stored in the mesh.
  */
-typedef Mesh::Point              Point;
+typedef Mesh::Point  Point;
 
 int main(void)
 {
@@ -81,7 +81,7 @@ int main(void)
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
-  testCell->SetCellPoints(tetraPoints);
+  testCell->SetPointIds(tetraPoints);
 
   /**
    * Add the test cell to the mesh.
@@ -94,7 +94,7 @@ int main(void)
    */
   testCell = HexaCell::New();
 
-  testCell->SetCellPoints(hexaPoints);
+  testCell->SetPointIds(hexaPoints);
 
   mesh->SetCell(1, testCell);
 
@@ -118,8 +118,8 @@ int main(void)
    * across its first edge, so don't add the tetrahedron as a using cell.
    */
   boundLine->AddUsingCell(1);
-  boundLine->SetCellPoint(0,0);
-  boundLine->SetCellPoint(1,1);
+  boundLine->SetPointId(0,0);
+  boundLine->SetPointId(1,1);
   
   mesh->SetBoundary(1,   	 // Topological dimension of boundary.
 		    0,     	 // Boundary identifier.
@@ -135,7 +135,7 @@ int main(void)
    * explicit assignment which removes this.
    */
   std::set<Mesh::CellIdentifier>  neighborSet;
-  mesh->GetBoundaryFeatureNeighbors(
+  mesh->GetCellBoundaryFeatureNeighbors(
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
     0,              // CellFeatureIdentifier

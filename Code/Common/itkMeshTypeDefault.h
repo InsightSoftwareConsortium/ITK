@@ -42,13 +42,17 @@ namespace itk
  *
  * TCoordRep =
  *    Numerical type to store each coordinate value.
+ *
+ * TInterpolationWeight =
+ *    Numerical type to store interpolation weights.
  */
   
 template <
   typename TPixelType,
   int VPointDimension = 3,
   int VMaxTopologicalDimension = 3,
-  typename TCoordRep = double
+  typename TCoordRep = double,
+  typename TInterpolationWeight = double
   >
 class MeshTypeDefault
 {
@@ -65,6 +69,7 @@ public:
   enum { PointDimension = VPointDimension };
   enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TCoordRep  CoordRep;
+  typedef TInterpolationWeight  InterpolationWeight;
   
   /**
    * The type to be used to identify a point.  This should be the index type

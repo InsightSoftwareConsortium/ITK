@@ -211,4 +211,29 @@ VectorContainer< TElementIdentifier , TElement >
   return ConstIterator(this->Vector::size()-1, this->Vector::end());
 }
 
+
+/**
+ * Get the number of elements currently stored in the vector.
+ */
+template <typename TElementIdentifier, typename TElement>
+unsigned long
+VectorContainer< TElementIdentifier , TElement >
+::Size(void) const
+{
+  return this->Vector::size();
+}
+
+
+/**
+ * Tell the container to try to minimize its memory usage for storage of
+ * the current number of elements.  This is NOT guaranteed to decrease
+ * memory usage.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+VectorContainer< TElementIdentifier , TElement >
+::Squeeze(void)
+{
+}
+
 } // namespace itk

@@ -20,15 +20,42 @@ namespace itk
 
 /**
  * Standard CellInterface:
+ */
+template <typename TPixelType, typename TCelltype>
+LineCell< TPixelType , TCelltype >::Cell::Pointer
+LineCell< TPixelType , TCelltype >
+::MakeCopy(void)
+{
+  Cell::Pointer newCell(Self::New());
+  newCell->SetPointIds(this->GetPointIds());
+  return newCell;
+}
+
+  
+/**
+ * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
 template <typename TPixelType, typename TCellType>
 int
 LineCell< TPixelType , TCellType >
-::GetCellDimension(void)
+::GetDimension(void)
 {
   return CellDimension;
 }
+
+
+/**
+ * Standard CellInterface:
+ * Get the number of points required to define the cell.
+ */
+template <typename TPixelType, typename TCelltype>
+int
+LineCell< TPixelType , TCelltype >
+::GetNumberOfPoints(void)
+{
+  return NumberOfPoints;
+}  
 
 
 /**
@@ -61,7 +88,7 @@ LineCell< TPixelType , TCellType >
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetCellVertex(featureId));
+    case 0: return Cell::Pointer(GetVertex(featureId));
     default: return Cell::Pointer(NULL);
     }
 }
@@ -69,32 +96,35 @@ LineCell< TPixelType , TCellType >
 
 /**
  * Standard CellInterface:
- * Set the cell's internal point list to the list of identifiers provided.
+ * Set the point id list used by the cell.  It is assumed that the given
+ * iterator can be incremented and safely de-referenced enough times to 
+ * get all the point ids needed by the cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCelltype>
 void
-LineCell< TPixelType , TCellType >
-::SetCellPoints(const PointIdentifier *ptList)
+LineCell< TPixelType , TCelltype >
+::SetPointIds(PointIdConstIterator first)
 {
+  PointIdConstIterator ii(first);
   for(int i=0; i < NumberOfPoints ; ++i)
-    m_PointIds[i] = ptList[i];
+    m_PointIds[i] = *ii++;
 }
 
 
 /**
  * Standard CellInterface:
- * Use this to set all the points in the cell.  It is assumed that the
- * range [first, last) is exactly the size needed for this cell type.
- * The position *last is NOT referenced, so it can safely be one beyond
- * the end of an array.
+ * Set the point id list used by the cell.  It is assumed that the range
+ * of iterators [first, last) contains the correct number of points needed to
+ * define the cell.  The position *last is NOT referenced, so it can safely
+ * be one beyond the end of an array or other container.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCelltype>
 void
-LineCell< TPixelType , TCellType >
-::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
+LineCell< TPixelType , TCelltype >
+::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
-  const PointIdentifier *ii = first;
+  PointIdConstIterator ii(first);
   
   while(ii != last)
     m_PointIds[localId++] = *ii++;
@@ -105,10 +135,10 @@ LineCell< TPixelType , TCellType >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCelltype>
 void
-LineCell< TPixelType , TCellType >
-::SetCellPoint(int localId, PointIdentifier ptId)
+LineCell< TPixelType , TCelltype >
+::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
 }
@@ -119,7 +149,7 @@ LineCell< TPixelType , TCellType >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIterator
+LineCell< TPixelType , TCelltype >::PointIdIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsBegin(void)
 {
@@ -133,7 +163,7 @@ LineCell< TPixelType , TCelltype >
  * by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointConstIterator
+LineCell< TPixelType , TCelltype >::PointIdConstIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsBegin(void) const
 {
@@ -146,7 +176,7 @@ LineCell< TPixelType , TCelltype >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIterator
+LineCell< TPixelType , TCelltype >::PointIdIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
@@ -160,7 +190,7 @@ LineCell< TPixelType , TCelltype >
  * by the cell.
  */
 template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointConstIterator
+LineCell< TPixelType , TCelltype >::PointIdConstIterator
 LineCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
@@ -189,10 +219,10 @@ LineCell< TPixelType , TCellType >
 template <typename TPixelType, typename TCellType>
 LineCell< TPixelType , TCellType >::Vertex::Pointer
 LineCell< TPixelType , TCellType >
-::GetCellVertex(CellFeatureIdentifier vertexId)
+::GetVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
-  vert->SetCellPoint(0, m_PointIds[vertexId]);
+  vert->SetPointId(0, m_PointIds[vertexId]);
   
   return vert;  
 }

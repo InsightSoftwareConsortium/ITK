@@ -75,22 +75,25 @@ public:
   /**
    * Implement the standard CellInterface.
    */
-  virtual int GetCellDimension(void);
+  virtual Cell::Pointer MakeCopy(void);
+  virtual int GetDimension(void);
+  virtual int GetNumberOfPoints(void);
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
-  virtual void SetCellPoints(const PointIdentifier *ptList);
-  virtual void SetCellPoints(const PointIdentifier* first,
-			     const PointIdentifier* last);
-  virtual void SetCellPoint(int localId, PointIdentifier);
-  virtual PointIterator      PointIdsBegin(void);
-  virtual PointConstIterator PointIdsBegin(void) const;
-  virtual PointIterator      PointIdsEnd(void);
-  virtual PointConstIterator PointIdsEnd(void) const; 
+  virtual void SetPointIds(PointIdConstIterator first);
+  virtual void SetPointIds(PointIdConstIterator first,
+			   PointIdConstIterator last);
+  virtual void SetPointId(int localId, PointIdentifier);
+  virtual PointIdIterator      PointIdsBegin(void);
+  virtual PointIdConstIterator PointIdsBegin(void) const;
+  virtual PointIdIterator      PointIdsEnd(void);
+  virtual PointIdConstIterator PointIdsEnd(void) const; 
   
   /**
    * Vertex-specific interface.
    */
-  virtual PointIdentifier GetCellPoint(void);
+  virtual void SetPointId(PointIdentifier);
+  virtual PointIdentifier GetPointId(void);
 
   /**
    * Standard part of every itk Object.
