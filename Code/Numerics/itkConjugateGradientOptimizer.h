@@ -60,6 +60,11 @@ public:
   /** Plug in a Cost Function into the optimizer  */
   virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
 
+  /** Return the number of iterations performed so far */
+  unsigned long GetNumberOfIterations(void) const;
+  unsigned long GetCurrentIteration(void) const;
+
+
 protected:
   ConjugateGradientOptimizer();
   virtual ~ConjugateGradientOptimizer();

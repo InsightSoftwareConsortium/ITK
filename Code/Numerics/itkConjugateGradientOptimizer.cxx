@@ -119,6 +119,33 @@ ConjugateGradientOptimizer
 }
 
 
+/**
+ * Get the maximum number of evaluations of the function.
+ * In vnl this is used instead of a maximum number of iterations
+ * given that an iteration could imply several evaluations.
+ */
+unsigned long 
+ConjugateGradientOptimizer
+::GetNumberOfIterations( void ) const
+{
+  return m_VnlOptimizer->get_max_function_evals();
+}
+
+
+/**
+ * Get the number of iterations in the last optimization.
+ */
+unsigned long 
+ConjugateGradientOptimizer
+::GetCurrentIteration( void ) const
+{
+  return m_VnlOptimizer->get_num_iterations();
+}
+
+
+
+
+
 } // end namespace itk
 
 #endif
