@@ -14,6 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkWin32Header.h"
+
 #include <fstream>
 
 #include "itkPoint.h"
@@ -45,7 +47,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[])
     }
 
 
-  int i, j ;
+  int i ;
   char* dataFileName = argv[1] ;
   int dataSize = 2000 ;
   int bucketSize = 10 ;
