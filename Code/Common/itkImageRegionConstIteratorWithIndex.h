@@ -40,9 +40,10 @@ namespace itk
  * information, ImageRegionConstIteratorWithIndex holds a reference to the
  * image over which it is traversing.
  *
- * ImageRegionConstIteratorWithIndex assumes a particular layout of the image data. The
- * is arranged in a 1D array as if it were [][][][slice][row][col] with
- * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
+ * ImageRegionConstIteratorWithIndex assumes a particular layout of
+ * the image data. The is arranged in a 1D array as if it were
+ * [][][][slice][row][col] with Index[0] = col, Index[1] = row,
+ * Index[2] = slice, etc.
  *
  * operator++ provides a simple syntax for walking around a region of
  * a multidimensional image. operator++ iterates across a row, constraining
@@ -51,9 +52,6 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- * \example itkImageIteratorTest
- * \example itkIteratorTests
- * \example itkIteratorsForwardBackwardsTest
  *
  * \code
  * 
@@ -155,6 +153,10 @@ public:
    * \sa operator++ */
   Self & operator--();
 };
+
+/** \example itkImageIteratorTest.cpp */
+/** \example itkIteratorTests.cpp */
+/** \example itkIteratorsForwardBackwardsTest.cpp */
 
 } // end namespace itk
 
