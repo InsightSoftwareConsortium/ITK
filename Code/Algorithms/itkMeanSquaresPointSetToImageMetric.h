@@ -28,14 +28,11 @@ namespace itk
  * \brief Computes similarity between pixel values of a point set and 
  * intensity values of an image.
  *
- * This metric computes the correlation between point values in the fixed
- * point-set and pixel values in the moving image. The correlation is
- * normalized by the autocorrelation values of both the point-set and the
- * moving image. The spatial correspondence between the point-set and the image
- * is established through a Transform. Pixel values are taken from the fixed
- * point-set. Their positions are mapped to the moving image and result in
- * general in non-grid position on it.  Values at these non-grid position of
- * the moving image are interpolated using a user-selected Interpolator.
+ * This metric computes the average squared differences between pixels
+ * in the point set and the transformed set of pixels.
+ *
+ * Spatial correspondance between both images is established through a 
+ * Transform. 
  *
  * \ingroup RegistrationMetrics
  */
