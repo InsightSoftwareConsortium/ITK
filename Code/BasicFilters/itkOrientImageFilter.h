@@ -135,11 +135,21 @@ public:
   typedef FlipImageFilter< TInputImage > FlipperType;
   typedef typename FlipperType::FlipAxesArrayType  FlipAxesArrayType;
 
+  
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+
+  /** The dimensions of the input image must equal those of the
+      output image. */
+  itkConceptMacro(SameDimension,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+
+  /** The dimension of the input image must be 3. */
+  itkConceptMacro(DimensionShouldBe3,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),3>));
 
   /** Standard New method. */
   itkNewMacro(Self);
