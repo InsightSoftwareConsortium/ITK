@@ -47,6 +47,9 @@ TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
 TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(DeformableModel2 DeformableModel2.cxx )
+TARGET_LINK_LIBRARIES(DeformableModel2 ITKAlgorithms ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
 TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
 
