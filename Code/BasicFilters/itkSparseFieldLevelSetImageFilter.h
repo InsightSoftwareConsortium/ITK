@@ -19,363 +19,427 @@
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
-#include "itkSparseLevelSetNode.h"
+#include "itkSparseFieldLayer.h"
+#include "itkObjectStore.h"
+#include <vector>
+#include "itkSmartNeighborhoodIterator.h"
 
 namespace itk {
 
 /**
- * \class SparseFieldLevelSetImageFilter
+ * A data structure used in the SparseFieldLevelSetImageFilter to construct
+ * lists of indicies and other values.
+ */
+template <class TValueType>
+class SparseFieldLevelSetNode
+{
+public:
+  TValueType m_Value;
+  SparseFieldLevelSetNode *Next;
+  SparseFieldLevelSetNode *Previous;
+};
+
+/**
+ * \class SparseFieldCityBlockNeighborList
  *
- *  This layer of the level set solver hierarchy implements
- *  the iterative algorithm for "sparse" iteration, ie. iteration
- *  over active pixels (and related pixels)  in the input and output at each 
- *  change calculation and update step.  This is in contrast to a "dense" 
- *  iteration over all the pixels.
+ * \brief A convenience class for storing indicies which reference neighbor
+ * pixels within a neighborhood.
+ * 
+ * \par
+ * This class creates and stores indicies for use in finding neighbors within
+ * an itk::NeighborhoodIterator object.  Both an array of unsigned integer
+ * indicies and an array of N dimensional offsets (from the center of the
+ * neighborhood) are created and stored.  The indicies and offsets correspond
+ * to the "city-block" neighbors, that is, 4-neighbors in 2d, 6-neighbors in
+ * 3d, etc.
  *
- *  The virtual methods CalculateChange() and ApplyUpdate() specific to sparse
- *  iterations are defined in this object.  This class also implements
- *  threading of the calculations and the updates.
+ * \par
+ * Order of reference is lowest index to highest index in the neighborhood.
+ * For example, for 4 connectivity, the indicies refer to the following
+ * neighbors:
+ * \code
+ *
+ *  * 1 *
+ *  2 * 3
+ *  * 4 * 
+ *
+ * \endcode
+ * */
+template <class TNeighborhoodType>
+class SparseFieldCityBlockNeighborList
+{
+public:
+  typedef TNeighborhoodType NeighborhoodType;
+  typedef typename NeighborhoodType::OffsetType OffsetType;
+  typedef typename NeighborhoodType::RadiusType RadiusType;
+  enum { Dimension = NeighborhoodType::Dimension };
+
+  const RadiusType &GetRadius() const
+  { return m_Radius; }
+  
+  const unsigned int &GetArrayIndex(unsigned int i) const
+  { return m_ArrayIndex[i]; }
+
+  const OffsetType &GetNeighborhoodOffset(unsigned int i) const
+  { return m_NeighborhoodOffset[i]; }
+
+  const unsigned int &GetSize() const
+  { return m_Size; }
+  
+  SparseFieldCityBlockNeighborList();
+  ~SparseFieldCityBlockNeighborList() {}
+
+  void Print(std::ostream &os) const;
+  
+private:
+  unsigned int m_Size;
+  RadiusType m_Radius;
+  std::vector<unsigned int> m_ArrayIndex;
+  std::vector<OffsetType>   m_NeighborhoodOffset;
+};
+
+  
+/**
+ *  \class SparseFieldLevelSetImageFilter
+ *
+ *  \brief This class implements a finite difference partial differential
+ *  equation solver for evolving surfaces embedded in volumes as level-sets.
+ *
+ *  \par
+ *  The ``sparse field'' approach to the level-set model is a logical extension
+ *  of the classical narrow band technique, which seeks to minimize
+ *  computational effort by restricting calculations to those pixels in a
+ *  region of interest around the moving surface (the \f$k\f$-level curve). The
+ *  sparse field method uses a narrow band that is exactly the width needed to
+ *  calculate changes on the level curve for the next time step.  Because the
+ *  band of grid points under consideration is so sparse, this approach has
+ *  several advantages: the algorithm does exactly the number of calculations
+ *  needed to determine the next position of the \f$k\f$-level curve, and the
+ *  distance transform around the level curve can be recomputed at each
+ *  iteration.
+ *
+ * \par 
+ *  The sparse field algorithm works by constructing a linked list of indicies
+ *  that are adjacent to the \f$k\f$-level set.  These indicies are called the
+ *  ``active set''.  The values at these active set indicies define the
+ *  position of the \f$k\f$-level curve.  The active set indicies are shifted
+ *  to follow the distance transform embedding of the \f$k\f$-level curve as
+ *  their values move in and out of a fixed numerical range about \f$k\f$. In
+ *  this way, the active set is maintained as only those pixels adjacent to the
+ *  evolving surface.  Calculations are then done only at indicies contained in
+ *  the active set.
+ *
+ * \par
+ *  The city-block neighborhoods of the active set indicies are maintained as
+ *  separate lists called ``layers''.  At each iteration, the values at the
+ *  layers are reinitialized as the distance transform from the active set.
+ *  The number of layers can be adjusted according to the footprint needed for
+ *  the calculations on the level curve.
  *  
- *  This filter is applicable to 2D/3D image data.
+ * \par
+ *  Briefly, the sparse field solver algorithm is as follows:
  *
- * \ingroup ImageFilters
+ * \par
+ *  1. For each active layer index \f$x_j\f$: Compute the change at
+ *  \f$u_{x_j}\f$, the grid point in the embedding, based on local
+ *  geometry and external forces and using a stable numerical scheme.
+ *
+ *  2. For each active layer index \f$x_j\f$, add the change to the grid point
+ *  value and redefine the active set indicies and those of its layers based on
+ *  any value changes which have moved outside of the numerical range allowed
+ *  for the active set.
+ *
+ *  3. Starting with the first layers adjacent to the active set and moving
+ *  outwards, reconstruct the distance transform by setting values in the
+ *  layers according to their neighbors.  At the very outer layers, add or
+ *  remove indicies which have come into or moved out of the sparse field.
+ *
+ * \par HOW TO USE THIS CLASS
+ *  Typically, this class should be subclassed with additional functionality
+ *  for specific applications.  It is possible, however to use this solver as a
+ *  filter directly by instantiating it and supplying it with an appropriate
+ *  LevelSetFunction object via the SetDifferenceFunction method.  See the
+ *  subclasses and their associated documentation for more information on using
+ *  this class.  Also see the FiniteDifferenceImageFilter documentation for a
+ *  general overview of this class of solvers.
+ *
+ * \par INPUTS
+ * This filter takes an itk::Image as input.  The appropriate type of input
+ * image is entirely determined by the application.  As a rule, however, the
+ * input type is immediately converted to the output type before processing.
+ * This is because the input is not assumed to be a real value type and must be
+ * converted to signed, real values for the calculations.  The input values
+ * will also be shifted by the \f$k\f$ isosurface value so that the algorithm
+ * only needs to consider the zero level set.
+ *
+ * \par OUTPUTS
+ * The output of the filter is the distance transform embedding of the
+ * isosurface as the zero level set.  Values outside the surface will be
+ * negative and values inside the surface will be positive.  The distance
+ * transform only holds for those indicies in layers around the active layer.
+ * Elsewhere, the values are a fixed positive or negative that is one greater
+ * than the layer of greatest magnitude.  In other words, if there are three
+ * layers, then inside values increase only to 4.0 and outside values only to
+ * -4.0.
+ *
+ * \par PARAMETERS
+ * The NumberOfLayers parameter controls the number of layers inside and
+ * outside of the active set (see description above).  The sparse field will
+ * contain 2*NumberOfLayers+1 lists of indices: the active set and city block
+ * neighbors inside and outside the active set.   It is important to
+ * specify enough layers to cover the footprint of your calculations.
+ * Curvature calculations in three dimensions, for example, require 3 layers.
+ * In two dimensions, a minimum of 2 layers is probably required.  Higher order
+ * derivatives and other geometrical measures may require more layers.  If too
+ * few layers are specified, then the calculations will pull values from the
+ * background, which may consist of arbitrary or random values.
+ *
+ * \par
+ * The IsoSurfaceValue indicates which value in the input represents the
+ * interface of interest.  By default, this value is zero.  When the solver
+ * initializes, it will subtract the IsoSurfaceValue from all values, in the
+ * input, shifting the isosurface of interest to zero in the output.
+ *
+ * \par IMPORTANT!
+ *  Read the documentation for FiniteDifferenceImageFilter before attempting to
+ *  use this filter.  The solver requires that you specify a
+ *  FiniteDifferenceFunction to use for calculations.  This is set using the
+ *  method SetDifferenceFunction in the parent class.
+ *
+ * \par REFERENCES
+ * Whitaker, Ross. A Level-Set Approach to 3D Reconstruction from Range Data.
+ * International Journal of Computer Vision.  V. 29 No. 3, 203-231. 1998.
+ *
+ * \par
+ * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
  */
 template <class TInputImage, class TOutputImage>
-class SparseFieldLevelSetImageFilter  
-  : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT SparseFieldLevelSetImageFilter :
+    public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /**
-   * Standard itk Self & Superclass typedefs
-   */
-  typedef SparseFieldLevelSetImageFilter Self;
+ /** Standard class typedefs */
+  typedef SparseFieldLevelSetImageFilter  Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
-
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::FiniteDifferenceFunctionType
-   FiniteDifferenceFunctionType;
-
-  typedef typename InputImageType::IndexType  IndexType;
-
-  /**
-   * Dimensionality of input and output data is assumed to be the same.
-   * It is inherited from the superclass.
-   */
-  enum { ImageDimension = Superclass::ImageDimension };
-
-  /**
-   * The pixel type of the output image will be used in computations.
-   * Inherited from the superclass.
-   */
-  typedef typename Superclass::PixelType PixelType;
-
-  /**
-   * The value type of a time step.  Inherited from the superclass.
-   */
-  typedef typename Superclass::TimeStepType TimeStepType;
-
-  /** 
-   * Smart pointer support for this class.
-   */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-
-
-  /**
-   * Some typedefs specific for this class
-   */
-  //typedef ImageIndexValue<PixelType, ImageDimension>   LevelSetNodeType;
-
-  typedef SparseLevelSetNode<PixelType, ImageDimension> LevelSetNodeType;
-  typedef std::list<LevelSetNodeType *> LevelSetNodeListType;
-  typedef typename LevelSetNodeListType::iterator LevelSetNodeListIteratorType;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
-  typedef Image<unsigned int, ImageDimension>   ByteImageType;
-  
-
-  /**
-   *  Set the maximum number of nodes needed to pre-allocated
-   */
-  void SetMaxPreAllocateNodes(long int num)
-  {
-    m_MaxPreAllocateNodes = num;
-  }
-
-  /**
-   *  Get the maximum number of nodes needed to pre-allocated
-   */
-  void GetMaxPreAllocateNodes(long int num)
-  {
-    return m_MaxPreAllocateNodes;
-  }
-
-  /**
-   * Set the number of inside/outside layers
-   */
-  void SetNumberOfLayers(int num)
-    {
-      this->m_NumberOfLayers = num;
-    }
-
-  /**
-   * Get the number of inside/outside layers
-   */
-  int GetNumberOfLayers(void)
-    {
-      return this->m_NumberOfLayers;
-    }
-
-  /**
-   * Set the iso-surface value
-   */
-  void SetIsoValue(int num)
-    {
-      this->m_IsoValue = num;
-    }
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(SparseFieldLevelSetImageFilter, ImageToImageFilter );
-  
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(SparseFieldLevelSetImageFilter, FiniteDifferenceImageFilter);
+
+  /** Information derived from the image types. */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::IndexType IndexType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
+
+  /** The data type used in numerical computations.  Derived from the output
+   *  image type. */
+  typedef typename OutputImageType::ValueType ValueType;
+
+  /** Node type used in sparse field layer lists. */
+  typedef SparseFieldLevelSetNode<IndexType> LayerNodeType;
+  
+  /** A list type used in the algorithm. */
+  typedef SparseFieldLayer<LayerNodeType> LayerType;
+  typedef typename LayerType::Pointer LayerPointerType;
+
+  /** A type for a list of LayerPointerTypes */
+  typedef std::vector<LayerPointerType> LayerListType;
+  
+  /** Type used for storing status information */
+  typedef char StatusType;
+  
+  /** The type of the image used to index status information.  Necessary for
+   *  the internals of the algorithm. */
+  typedef Image<StatusType, ImageDimension> StatusImageType;
+
+  /** Memory pre-allocator used to manage layer nodes in a multi-threaded
+   *  environment. */
+  typedef ObjectStore<LayerNodeType> LayerNodeStorageType;
+
+  /** Container type used to store updates to the active layer. */
+  typedef std::vector<ValueType> UpdateBufferType;
+
+  /** Set/Get the number of layers to use in the sparse field.  Argument is the
+   *  number of layers on ONE side of the active layer, so the total layers in
+   *   the sparse field is 2 * NumberOfLayers +1*/
+  itkSetMacro(NumberOfLayers, StatusType);
+  itkGetMacro(NumberOfLayers, StatusType);
+
+  /** Set/Get the value of the isosurface to use in the input image. */
+  itkSetMacro(IsoSurfaceValue, ValueType);
+  itkGetMacro(IsoSurfaceValue, ValueType);
+
+  /** Get the RMS change calculated in the PREVIOUS iteration.  This value is
+   *  the square root of the average square of the change value of all pixels
+   *  updated during the previous iteration. */
+  itkGetMacro(RMSChange, ValueType);
+    
 protected:
-  SparseFieldLevelSetImageFilter()
-    {
-      m_NumberOfLayers = 4;
-      m_MaxPreAllocateNodes = 0;
-      m_IsoValue = 0;
-      m_StatusImage = OutputImageType::New();
-      
-     } 
+  SparseFieldLevelSetImageFilter();
+  ~SparseFieldLevelSetImageFilter();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  ~SparseFieldLevelSetImageFilter() {}
-  SparseFieldLevelSetImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  /**This function allows a subclass to override the way in which updates to
+   * output values are applied during each iteration.  The default simply
+   * follows the standard finite difference scheme of scaling the change by the
+   * timestep and adding to the value of the previous iteration.*/
+  inline virtual ValueType CalculateUpdateValue(const IndexType &idx,
+                                         const TimeStepType &dt,
+                                         const ValueType &value,
+                                         const ValueType &change)
+  { return (value + dt * change); }
 
+  /**This method packages the output(s) into a consistent format.  The default
+   * implementation produces a volume with the final solution values in the
+   * sparse field, and inside and outside values elsewhere as appropriate. */
+  virtual void PostProcessOutput();
+
+  /**This method pre-processes pixels inside and outside the sparse field
+   * layers.  The default is to set them to positive and negative values,
+   * respectively. This is not necessary as part of the calculations, but
+   * produces a more intuitive output for the user. */
+  virtual void InitializeBackgroundPixels();
+ 
+  
 private:
-  /**
-   * Structure for passing information into static callback methods.  Used in
-   * the subclasses' threading mechanisms.
-   */
-  struct SparseFieldLevelSetThreadStruct
-  {
-    SparseFieldLevelSetImageFilter *Filter;
-    TimeStepType TimeStep;
-    TimeStepType *TimeStepList;
-    bool *ValidTimeStepList;
-  };
+  SparseFieldLevelSetImageFilter(const Self&);//purposely not implemented
+  void operator=(const Self&);      //purposely not implemented
+
+  /** Constructs the sparse field layers and initializes their values. */
+  void Initialize();
   
-  /**
-   * The type of region used for multithreading
-   */
-  typedef typename OutputImageType::RegionType ThreadRegionType;
+  /** Copies the input to the output image.  Processing occurs on the output
+   * image, so the data type of the output image determines the precision of
+   * the calculations (i.e. double or float).  This method overrides the
+   * parent class method to do some additional processing. */
+  void CopyInputToOutput(); 
 
-  /**
-   *  Allocate updatebuffer that might be used during calculate_change.
-   *  Here it is a dummy function.
-   */
-  void AllocateUpdateBuffer(){ }
+  /** Reserves memory in the update buffer. Called before each iteration. */
+  void AllocateUpdateBuffer();
+
+  /** Applies the update buffer values to the active layer and reconstructs the
+   *  sparse field layers for the next iteration. */
+  void ApplyUpdate(TimeStepType dt);
+
+  /** Traverses the active layer list and calculates the change at these
+   *  indicies to be applied in the current iteration. */
+  TimeStepType CalculateChange();
+
+  /** Initializes a layer of the sparse field using a previously initialized
+   * layer. Builds the list of nodes in m_Layer[to] using m_Layer[from].
+   * Marks values in the m_StatusImage. */
+  void ConstructLayer(StatusType from, StatusType to);
+
+  /** Constructs the active layer and initialize the first layers inside and
+   * outside of the active layer.  The active layer defines the position of the
+   * zero level set by its values, which are constrained within a range around
+   *  zero. */
+  void ConstructActiveLayer();
+
+  /** Initializes the values of the active layer set. */
+  void InitializeActiveLayerValues();
   
+  /** Adjusts the values in a single layer "to" using values in a neighboring
+   *  layer "from".  The list of indicies in "to" are traversed and assigned
+   *  new values appropriately. Any indicies in "to" without neighbors in
+   *  "from" are moved into the "promote" layer (or deleted if "promote" is
+   *  greater than the number of layers). "InOrOut" == 1 indicates this
+   *  propagation is inwards (more negative).  "InOrOut" == 2 indicates this
+   *  propagation is outwards (more positive). */   
+  void PropagateLayerValues(StatusType from, StatusType to,
+                            StatusType promote, int InOrOut);
+
+  /** Adjusts the values associated with all the index layers of the sparse
+   * field by propagating out one layer at a time from the active set. This
+   * method also takes care of deleting nodes from the layers which have been
+   * marked in the status image as having been moved to other layers.*/
+  void PropagateAllLayerValues();
+
+  /** Updates the active layer values using m_UpdateBuffer. Also creates an
+   *  "up" and "down" list for promotion/demotion of indicies leaving the
+   *  active set. */
+  void UpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
+                               LayerType *StatusDownList);
+  /** */
+  void ProcessStatusList(LayerType *InputList, LayerType *OutputList,
+                         StatusType ChangeToStatus, StatusType SearchForStatus);
+
+  /** */
+  void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
   
-  /**
-   * This method applies changes from the m_ActiveLists to the output and 
-   * update all the lists  using the ThreadedApplyUpdate() method and a 
-   * multithreading mechanism.  "dt" is  the time step to use for the 
-   * update of each pixel. 
-   */
-  virtual void ApplyUpdate(TimeStepType dt);
-
-  /**
-   * This callback method uses ImageSource::SplitRequestedRegion to acquire an
-   * output region that it passes to ThreadedApplyUpdate for processing.
-   */
-  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
+  /** Connectivity information for examining neighbor pixels.   */
+  SparseFieldCityBlockNeighborList<SmartNeighborhoodIterator<OutputImageType> >
+    m_NeighborList;
   
-  /**
-   * This method populates an update buffer with changes for each pixel in the
-   * output using the ThreadedCalculateChange() method and a multithreading
-   * mechanism. Returns value is a time step to be used for the update.
-   */
-  virtual TimeStepType CalculateChange();
+  /** The constant gradient to maintain between isosurfaces in the
+      spare-field of the level-set image.  This value defaults to 1.0 */
+  static double m_ConstantGradientValue;
 
-  /**
-   * This callback method uses SplitUpdateContainer to acquire a region
-   * which it then passes to ThreadedCalculateChange for processing.
-   */
-  static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
+  /** Multiplicative identity of the ValueType. */
+  static ValueType m_ValueOne;
+
+  /** Additive identity of the ValueType. */
+  static ValueType m_ValueZero;
+
+  /** Special status value which indicates pending change to another sparse
+   *  field layer. */
+  static StatusType m_StatusChanging;
+
+  /** Special status value which indicates a pending change to a more positive
+   *  sparse field. */
+  static StatusType m_StatusActiveChangingUp;
+
+  /** Special status value which indicates a pending change to a more negative
+   *  sparse field. */
+  static StatusType m_StatusActiveChangingDown;
+
+  /** Special status value used as a default for indicies which have no
+      meaningful status. */
+  static StatusType m_StatusNull;
+    
+  /** This image is a copy of the input with m_IsoSurfaceValue subtracted from
+   * each pixel.  This way we only need to consider the zero level set in our
+   * calculations.  Makes the implementation easier and more efficient. */
+  typename OutputImageType::Pointer m_ShiftedImage;
+
+  /** An array which contains all of the layers needed in the sparse
+   * field. Layers are organized as follows: m_Layer[0] = active layer, 
+   * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
+  */
+  LayerListType m_Layers;
+
+  /** The number of layers to use in the sparse field.  Sparse field will
+   * consist of m_NumberOfLayers layers on both sides of a single active layer.
+   * This active layer is the interface of interest, i.e. the zero level set.*/
+  StatusType m_NumberOfLayers;
+
+  /** An image of status values used internally by the algorithm. */
+  typename StatusImageType::Pointer m_StatusImage;
+
+  /** Storage for layer node objects. */
+  typename LayerNodeStorageType::Pointer m_LayerNodeStore;
   
-  /**
-   * Split the UpdateBuffer into "num" pieces, returning region "i" as
-   * "splitRegion". This method is called "num" times to return non-overlapping
-   * regions. The method returns the number of pieces that the UpdateBuffer
-   * can be split into by the routine. i.e. return value is less than or equal
-   * to "num".
-   * \sa ImageSource
-   */
-  //  virtual
-  //  int SplitUpdateContainer(int i, int num, ThreadRegionType& splitRegion);
+  /** The value in the input which represents the isosurface of interest. */
+  ValueType m_IsoSurfaceValue;
 
-  /**
-   *  Does the actual work of updating the output from the UpdateContainer over
-   *  an output region supplied by the multithreading mechanism.
-   *  \sa ApplyUpdate
-   *  \sa ApplyUpdateThreaderCallback
-   */ 
-  virtual
-  void ThreadedApplyUpdate(TimeStepType dt,
-                           const ThreadRegionType &regionToProcess,
-                           int threadId);
-  // FOR ALL: iterator(output, splitRegion), iterator(update, splitRegion)
+  /** The update buffer used to store change values computed in
+   *  CalculateChange. */
+  UpdateBufferType m_UpdateBuffer;
 
-  /**
-   * Does the actual work of calculating change over a region supplied by
-   * the multithreading mechanism.
-   * \sa CalculateChange
-   * \sa CalculateChangeThreaderCallback
-   */
-  virtual
-  TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
-                                       int threadId);
-  // FOR ALL : iterator(input, splitRegion), iterator(update, splitRegion)
-
-
-  /* 
-   * This does initialization for the node lists and pre-allocate memory
-   * for the free lists which would be used when memory allocation necessary
-   * in updating the lists.   
-   */  
-  virtual void Initialize() ;
-
-  /**
-   * this routine assumes that input image has been set to some
-   *  inside-outside function, and then it sets the values of the
-   * active pixels and also constructs the list of active, inside, 
-   * and outside pixels
-   */
-  virtual void ConstructLists();
-
-
-  /**
-   * Judge which thread region the pixel belongs to
-   */
-  int  GetThreadNum(IndexType index);
-
-  /**
-   *  Judge if a pixel is on the boundary
-   */
-  int  IsOnBoundary(IndexType index);
-
-  /**
-   *  Get the status of the layers
-   */
-  int GetStatus(int layer, int index)
-    {
-      if (layer == INSIDE) return ACTIVE_STATUS * (index+1) +1;
-      else if(layer == OUTSIDE) return ACTIVE_STATUS * (index+1) -1;
-      else return ACTIVE_STATUS;
-    }
-
-  /**
-   *  Get A free memory unit from the free memory pool of each thread
-   */
-  LevelSetNodeType *  GetFreeItem(int threadId);
-
-
-  /**
-   * The buffer that stores the status information of the image.
-   */
-
-   typename OutputImageType::Pointer  m_StatusImage;
-   
-
-   /*
-    * Declare the variable node lists on different layers of the interested 
-    * levelsets
-    */
-
-  //This is the overall list over the whole requested region
-
-  LevelSetNodeListType * m_ActiveList;
-  LevelSetNodeListType * m_InsideList;
-  LevelSetNodeListType * m_OutsideList;
-  //  LevelSetNodeListType * m_BoundaryActiveList;
-
-  // These are sublists for each thread region
-  LevelSetNodeListType * m_ActiveLists;
-  //LevelSetNodeListType * m_BourdaryActiveLists;
-  LevelSetNodeListType ** m_InsideLists;
-  LevelSetNodeListType ** m_OutsideLists;
-
-  /**
-   * This is the pre-allocated memory pool for each thread
-   */
-  LevelSetNodeListType * m_FreeLists;
-  
-  //These lists are used in updating the lists for each thread
-  LevelSetNodeListType ** m_StatusUpLists;
-  LevelSetNodeListType ** m_StatusDownLists;
-
-  /**
-   *  This defines the amount of memory to be pre-allocated 
-   */
-  long int m_MaxPreAllocateNodes;
-  
-  /**
-   *  The number of inside/outside layers. The number of inside layers and 
-   *  outside layers are the same
-   */
-  int m_NumberOfLayers;
-
-  /**
-   *  The status array of the layers
-   *  
-   */
-  int * m_InStatus;
-  int * m_OutStatus;
-
-  /**
-   *  The iso-surface we want to extract from the image data
-   *  
-   */
-
-  PixelType m_IsoValue;
-
-  /**
-   *  The value of the pixel/voxels beyond the active layer and its 
-   *  neighbored layers.
-   *  
-   */
-  float OUTSIDE_VALUE;
-
-
-
-  /**
-   *  Some constant variables
-   */
-  static  int ACTIVE_STATUS;
-  static  int CHANGING_STATUS;
-  static  int UP_STATUS;
-  static  int DOWN_STATUS;
-  static  int INSIDE;
-  static  int OUTSIDE;
-  static  int ACTIVE;
-
-  static  float DIFFERENCE_FACTOR;
-  static  float CHANGE_FACTOR;
-
-
+  /** The RMS change calculated from each update.  Can be used by a subclass to
+   *  determine halting criteria.  Valid only for the previous iteration, not
+   *  during the current iteration.  Calculated in ApplyUpdate. */
+  ValueType m_RMSChange;  
 };
   
-
-}// end namespace itk
+  
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSparseFieldLevelSetImageFilter.txx"

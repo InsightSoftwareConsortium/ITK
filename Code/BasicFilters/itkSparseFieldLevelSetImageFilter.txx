@@ -18,572 +18,753 @@
 #define __itkSparseFieldLevelSetImageFilter_txx_
 
 #include "itkSparseFieldLevelSetImageFilter.h"
-#include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkZeroCrossingImageFilter.h"
-#include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkOffset.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkVector.h"
-#include "itkSubtractImageFilter.h"
-
-
-#include <list>
+#include "itkImageRegionConstIterator.h"
 
 namespace itk {
 
-  // Initialize the static members
-  template<class TInputImage, class TOutputImage>
-   int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ACTIVE_STATUS = 10;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CHANGING_STATUS = 200;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UP_STATUS = 300;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DOWN_STATUS = 400;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::INSIDE = 1;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::OUTSIDE = -1;
-  template<class TInputImage, class TOutputImage>
-    int SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ACTIVE = 0;
-  template<class TInputImage, class TOutputImage>
-    float SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DIFFERENCE_FACTOR = 1.0;
- template<class TInputImage, class TOutputImage>
-    float SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>:: CHANGE_FACTOR = 0.5;
-
-
-template<class TInputImage, class TOutputImage>
-void SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::Initialize()
+template <class TNeighborhoodType>
+SparseFieldCityBlockNeighborList<TNeighborhoodType>
+::SparseFieldCityBlockNeighborList()
 {
+  typedef typename NeighborhoodType::ImageType ImageType;
+  typename ImageType::Pointer dummy_image = ImageType::New();
 
-
-  /* Initialize the lists  */
-
-  int ThreadNum = this->GetNumberOfThreads();
-
-  OUTSIDE_VALUE  = CHANGE_FACTOR * (2 * m_NumberOfLayers +1);
-
-  m_InStatus = new int[m_NumberOfLayers];
-  m_OutStatus = new int[m_NumberOfLayers];
-
-  for(int i = 0; i < m_NumberOfLayers; i++)
-    {
-      m_InStatus[i] = GetStatus(INSIDE, i);
-      m_OutStatus[i] = GetStatus(OUTSIDE,i);
-    }
-
-  m_ActiveLists = new LevelSetNodeListType[ThreadNum];
-  //  m_BoundaryActiveLists = new LevelSetNodeListType[ThreadNum];
-
-  m_InsideLists = new LevelSetNodeListType *[ThreadNum];
-  m_OutsideLists = new LevelSetNodeListType *[ThreadNum];
-
-  m_StatusUpLists = new LevelSetNodeListType *[ThreadNum];
-  m_StatusDownLists = new LevelSetNodeListType *[ThreadNum];
-
-  m_FreeLists = new LevelSetNodeListType[ThreadNum];
-
-  m_ActiveList = new  LevelSetNodeListType;
-  m_InsideList = new  LevelSetNodeListType[m_NumberOfLayers];
-  m_OutsideList = new  LevelSetNodeListType[m_NumberOfLayers];
-
-  typename OutputImageType::Pointer output = this->GetOutput();
-  
-  
-  //This is pre-allocate nodes that possible use. The FreeLists are only used
-  // in ThreadedApplyUpdate(). New memory is only possibly needed in updating
-  // the innermost and outermost layers.
-
-
-  if(m_MaxPreAllocateNodes == 0)
-    for(int i = 0; i < ImageDimension; i++)
-      m_MaxPreAllocateNodes +=( (output->GetRequestedRegion()).GetSize())[i]; 
-
-  m_MaxPreAllocateNodes =  (m_MaxPreAllocateNodes/ImageDimension) *
-    (m_MaxPreAllocateNodes/ImageDimension)/ThreadNum;
-
-  for(int i = 0; i < ThreadNum; i ++)
-    {
-      m_StatusUpLists[i] = new LevelSetNodeListType[2];
-      m_StatusDownLists[i] = new LevelSetNodeListType[2];
-      m_InsideLists[i] = new LevelSetNodeListType[m_NumberOfLayers];
-      m_OutsideLists[i] = new LevelSetNodeListType[m_NumberOfLayers];
-     
-
-      /* PreAllocate Memory */
-      for(int j = 0; j < m_MaxPreAllocateNodes; j ++)
-        m_FreeLists[i].push_back(new LevelSetNodeType());
-    }
-
-
-  //If the iso-surface value is set different from zero, then subtract 
-  // it from the image, making it convenient to ccnstruct lists.
-
-  ImageRegionIterator<InputImageType>  sit(this->GetInput(),
-                                            this->GetInput()->GetRequestedRegion());  
-  ImageRegionIterator<InputImageType>  oit(this->GetOutput(),
-                                            this->GetOutput()->GetRequestedRegion());  
-
-
-  if(m_IsoValue != 0)
-
-    {
-      while(!sit.IsAtEnd()) 
-        { 
-          sit.Value() = sit.Value() - m_IsoValue;
-          oit.Value() = sit.Value();
-          ++sit;
-          ++oit;
-        } 
-    } 
-
-  //allocate buffer for m_StatusImage
-
-  m_StatusImage->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
-  m_StatusImage->SetRequestedRegion(output->GetRequestedRegion());
-  m_StatusImage->SetBufferedRegion(output->GetBufferedRegion());
-  m_StatusImage->Allocate();
-
-  itkDebugMacro(<<"constructing lists");
-  ConstructLists();
-  itkDebugMacro(<<"finished constructing lists");
-}
-
-
-//When the split method changes, this will also change.
-
-template<class TInputImage, class TOutputImage>
-int
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> 
-::GetThreadNum(IndexType Index)
-{
-  int splitAxis = ImageDimension - 1;
-  int threadCount = this->GetNumberOfThreads();
-  typename OutputImageType::Pointer output = this->GetOutput();
-
-   typename OutputImageType::SizeType requestedRegionSize
-    = output->GetRequestedRegion().GetSize();
-  
-
-  int threadNum =  Index[splitAxis]/(requestedRegionSize[splitAxis]/threadCount);
-
-   return threadNum;
-}
- 
-
-template<class TInputImage, class TOutputImage>
-void
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> 
-::ConstructLists()
-{
-
-  typedef typename OutputImageType::PixelType PixelType;
-  typedef typename OutputImageType::RegionType RegionType;
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::SizeValueType   SizeValueType;
-  //  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::IndexValueType  IndexValueType;
-  typedef typename FiniteDifferenceFunctionType::BoundaryNeighborhoodType
-    BoundaryIteratorType;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType
-    NeighborhoodIteratorType;
-
-  //typename InputImageType::Pointer  m_StatusImage;
-
-  // calculate the zeroCrossing of the input image
-
-  ZeroCrossingImageFilter<InputImageType, InputImageType>::Pointer zeroCrossingFilter = ZeroCrossingImageFilter<InputImageType, InputImageType>::New();
-  zeroCrossingFilter->SetInput(this->GetInput());
-  zeroCrossingFilter->Update();
-
-  ImageRegionIterator<OutputImageType> ait;
-  ImageRegionIterator<OutputImageType> it;
+  unsigned int i, nCenter;
+  int d;
+  OffsetType zero_offset;
     
-  ait = ImageRegionIterator<OutputImageType>(m_StatusImage, m_StatusImage->GetRequestedRegion());
-  it  = ImageRegionIterator<OutputImageType>(zeroCrossingFilter->GetOutput(),zeroCrossingFilter->GetOutput()->GetRequestedRegion());
-
-  while(!ait.IsAtEnd())
+  for (i = 0; i < Dimension; ++i)
     {
-      ait.Value() = it.Value();
-      ++ait;
-      ++it;
+      m_Radius[i] = 1;
+      zero_offset[i] = 0;
     }
+  NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
+  nCenter = it.Size() / 2;
 
+  m_Size = 2 * Dimension;
+  m_ArrayIndex.reserve(m_Size);
+  m_NeighborhoodOffset.reserve(m_Size);
 
-  // Any problem here ?
-  //  m_StatusImage = zeroCrossingFilter->GetOutput();
-  
-  
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::Pointer input  = this->GetInput();
+  for (i = 0; i < m_Size; ++i)
+    { m_NeighborhoodOffset.push_back(zero_offset); }
 
-
-  SizeType radius;
-  for(int i = 0; i < ImageDimension; i++)  radius[i] = 1;
-
-  //  ZeroFluxNeumannBoundaryCondition<OutputImageType> nbc;
-  RandomAccessNeighborhoodIterator<OutputImageType> nit;
-  RandomAccessNeighborhoodIterator<OutputImageType> oit;
-  RandomAccessNeighborhoodIterator<OutputImageType> bit;
-
-  
-  PixelType zero = NumericTraits<PixelType>::Zero;
-
-  // Construct the active lists
-
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>::
-    FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType> bC;
-  faceList = bC(m_StatusImage, m_StatusImage->GetRequestedRegion(),  radius);
-
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>::
-    FaceListType::iterator fit;
-  
-
-  fit = faceList.begin();
-  
-
-  nit = RandomAccessNeighborhoodIterator<OutputImageType>(radius, m_StatusImage, *fit);
-  oit = RandomAccessNeighborhoodIterator<OutputImageType>(radius, output, *fit);
-  
-  ait = ImageRegionIterator<OutputImageType>(m_StatusImage, *fit);
-  
-  it = ImageRegionIterator<OutputImageType>(output, *fit);
-
-  nit.GoToBegin();
-  oit.GoToBegin();
-  ait.GoToBegin();
-  it.GoToBegin();
-
-  int idx;
-  IndexType pixelIndex;
-  LevelSetNodeType  *newItem;
-
-  //construct the activeList from the non-boundary region;
-  while(!ait.IsAtEnd())
+  for (d = Dimension - 1, i = 0; d >= 0; --d, ++i)
     {
-      if(ait.Value() != zero || it.Value() == zero)
-        {
-          pixelIndex = ait.GetIndex();
-          idx = GetThreadNum(pixelIndex);
-          newItem = new LevelSetNodeType(pixelIndex, zero);
-          m_ActiveLists[idx].push_back(newItem);
-          m_ActiveList->push_back(newItem);
-
-          ait.Value() = ACTIVE_STATUS;
-          //it.Value() = zero;
-
-        }
-      else if(it.Value() > zero)
-        it.Value() = OUTSIDE_VALUE;
-      else
-        it.Value() = -OUTSIDE_VALUE;
-
-      ++ait;
-      ++it;
+      m_ArrayIndex.push_back( nCenter - it.GetStride(d) );
+      m_NeighborhoodOffset[i][d] = -1;
     }
-
-
-  //Add active pixels on the boundary to the activeList
-  for(++fit; fit!=faceList.end(); ++fit)
+  for (d = 0; d < Dimension; ++d, ++i)
     {
-      
-      ait = ImageRegionIterator<OutputImageType>(m_StatusImage, *fit);
-      it  = ImageRegionIterator<OutputImageType>(output, *fit);
-      
-      while(!ait.IsAtEnd())
-        {
-          if(ait.Value() || it.Value() == zero)
-            {
-              pixelIndex = ait.GetIndex();
-              idx = GetThreadNum(pixelIndex);
-              //newItem = new LevelSetNodeType(pixelIndex, zero);
-              //m_ActiveLists[idx].push_back(newItem);
-              //m_ActiveList->push_back(newItem);
-              ait.Value() = ACTIVE_STATUS;
-              //it.Value() = zero;
-            }
-          else if(it.Value() > zero)
-            it.Value() = OUTSIDE_VALUE;
-          else
-            it.Value() = -OUTSIDE_VALUE;
-
-          ++ait;
-          ++it;
-        }
+      m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
+      m_NeighborhoodOffset[i][d] = 1;
     }
-  
-  
-
-  int displacement[2 * ImageDimension];
-  Offset<ImageDimension> idxOffset[2 * ImageDimension];
-
-  //set offset of neighbors to the center pixel
-  
-  for(int i = 0; i < 2 * ImageDimension; i++)
-    for( int j = 0; j < ImageDimension; j++)
-      idxOffset[i][j] = 0;
-
-  for ( int i = 0 ; i < 2 * ImageDimension; i+= 2)
-    {
-      
-      displacement[i] = - nit.GetStride(i/2);
-      displacement[i+1] = nit.GetStride(i/2);
-      
-      idxOffset[i][i/2] = - 1;
-      idxOffset[i+1][i/2] = 1;
- 
-    }
-
-  // Now construct the insideLayer[0] & outsideLayer[0]
-
-  Offset<ImageDimension> offset; 
-  IndexType startIndex = nit.GetIndex();
-  int center = nit.Size()/2;
-  LevelSetNodeType * currentItem;
-
-
-  //initialize the value of active layer pixel/voxels
-  LevelSetNodeListIteratorType iit;
-  PixelType dpx[ImageDimension], dmx[ImageDimension], vec[ImageDimension];
-  float MIN_NORM = 1.0e-6;
-  float len = 0;
-  PixelType dist;
-
-  iit = m_ActiveList->begin();
-  while(iit!= m_ActiveList->end())
-    {
-
-      //nit.GoToBegin();
-      oit.GoToBegin();
-      currentItem = *iit;
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      //nit +=  offset;
-      oit +=  offset;
-      
-      for(int i = 0; i < ImageDimension; i++)
-        {
-          dpx[i] = oit.GetPixel(center + oit.GetStride(i)) -
-            oit.GetCenterPixel();
-
-          dmx[i] = oit.GetCenterPixel() - oit.GetPixel(center -
-                                                       oit.GetStride(i));
-          if(vnl_math_abs(dpx[i]) > vnl_math_abs(dmx[i]))
-            vec[i] = dpx[i];
-          else
-            vec[i] = dmx[i];
-          len += vec[i] * vec[i];
-        }
-
-      len = vnl_math_sqrt(len) + MIN_NORM;
-      dist = oit.GetCenterPixel()/len;
-      dist = vnl_math_min(vnl_math_max(-CHANGE_FACTOR,dist), CHANGE_FACTOR);
-      oit.SetCenterPixel(dist);
-      ++iit;
-
-    }
-
-  while(!m_ActiveList->empty())
-    {
-
-      nit.GoToBegin();
-      oit.GoToBegin();
-
-      currentItem = m_ActiveList->front();
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      nit +=  offset;
-      oit +=  offset;
-
-
-
-      for (int i = 0; i < 2 * ImageDimension; i ++)
-        {
-          int neighbor = center + displacement[i];
-          PixelType n_status = nit.GetPixel(neighbor);
-          
-          if(n_status == zero)
-            {
-              if(oit.GetPixel(neighbor) > zero )
-                {
-                  idx = GetThreadNum(pixelIndex+ idxOffset[i]);
-
-
-                  newItem = new LevelSetNodeType(pixelIndex + idxOffset[i], zero);
-
-                  m_InsideLists[idx][0].push_back(newItem);
-                  m_InsideList[0].push_back(newItem);
-                  
-                  nit.SetPixel(neighbor, m_InStatus[0]);
-                  oit.SetPixel(neighbor, DIFFERENCE_FACTOR);
-                }
-              else if(oit.GetPixel(neighbor) < zero )
-                {
-                  
-                  idx = GetThreadNum(pixelIndex+ idxOffset[i]);
-                  newItem = new LevelSetNodeType(pixelIndex + idxOffset[i], zero);
-                  
-                  m_OutsideLists[idx][0].push_back(newItem);
-                  m_OutsideList[0].push_back(newItem);
-
-
-                  nit.SetPixel(neighbor, m_OutStatus[0]);
-                  oit.SetPixel(neighbor, -DIFFERENCE_FACTOR);
-                }
-            }
-        }
-
-      m_ActiveList->pop_front();
-    }
-  
-
-
-
-  //construct other inside/outside lists
-
-  for(int k = 1; k < m_NumberOfLayers; k ++)
-    {
-
-      while(! m_InsideList[k -1].empty())
-        {
-          nit.GoToBegin();
-          oit.GoToBegin();
-          currentItem = m_InsideList[k-1].front();
-          pixelIndex = currentItem->GetIndex();
-
-          
-          offset = pixelIndex - startIndex;
-          nit +=  offset;
-          oit +=  offset;
-          
-          if(!IsOnBoundary(pixelIndex))
-            for (int i = 0; i < 2 * ImageDimension; i ++)
-              {
-                int neighbor = center + displacement[i];
-                
-                if( nit.GetPixel(neighbor) == zero )
-                  {
-                    idx = GetThreadNum(pixelIndex + idxOffset[i]);
-                    newItem = new LevelSetNodeType(pixelIndex + idxOffset[i], zero);
-                    
-                    m_InsideLists[idx][k].push_back(newItem);
-                    m_InsideList[k].push_back(newItem);
-                    
-                    nit.SetPixel(neighbor, m_InStatus[k]);
-                    oit.SetPixel(neighbor, DIFFERENCE_FACTOR*(k+1) );
-                  }
-              }
-          m_InsideList[k -1].pop_front();
-
-
-        }
-
-      
-      while(! m_OutsideList[k -1].empty())
-        {
-          nit.GoToBegin();
-          oit.GoToBegin();
-          currentItem = m_OutsideList[k-1].front();
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          nit +=  offset;
-          oit +=  offset;
-
-
-          if(!IsOnBoundary(pixelIndex))
-            for (int i = 0; i < 2 * ImageDimension; i ++)
-              {
-                int neighbor = center + displacement[i];
- 
-                if( nit.GetPixel(neighbor) == zero )
-                  {
-                    idx = GetThreadNum(pixelIndex+ idxOffset[i]);
-                    newItem = new LevelSetNodeType(pixelIndex + idxOffset[i], zero);
-
-                    
-                    m_OutsideLists[idx][k].push_back(newItem);
-                    m_OutsideList[k].push_back(newItem);
-                    
-                    nit.SetPixel(neighbor, m_OutStatus[k]);
-                    oit.SetPixel(neighbor, -1.0*DIFFERENCE_FACTOR*(k+1) );
-                  }
-              }
-          m_OutsideList[k -1].pop_front();
-         
-
-        }
-
-    }
-
-  ApplyUpdate(0.0);
-
-#ifdef DEBUG
-  
-  for (int threadId =0; threadId< this->GetNumberOfThreads();threadId++)
-    {
-      for(int i= 0; i < m_NumberOfLayers; i++)
-        {
-          itkDebugMacro(<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size());
-          itkDebugMacro(<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size());
-        }
-      itkDebugMacro(<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size());
-    }
-  
-#endif
-
-
-
 }
 
+template <class TNeighborhoodType>
+void
+SparseFieldCityBlockNeighborList<TNeighborhoodType>
+::Print(std::ostream &os) const
+{
+  os << "SparseFieldCityBlockNeighborList: " << std::endl;
+  for (unsigned i = 0; i < this->GetSize(); ++i)
+    {
+      os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl;
+      os << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i]
+         << std::endl;
+    }
+}
+
+template<class TInputImage, class TOutputImage>
+double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_ConstantGradientValue = 1.0;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_ValueOne = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+                              TOutputImage>::ValueType >::One;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_ValueZero = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+                               TOutputImage>::ValueType >::Zero;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_StatusNull = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
+                               TOutputImage>::StatusType >::NonpositiveMin();
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_StatusChanging = -1;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_StatusActiveChangingUp = -2;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_StatusActiveChangingDown = -3;
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::SparseFieldLevelSetImageFilter()
+{
+  m_IsoSurfaceValue = m_ValueZero;
+  m_NumberOfLayers = 1;
+  m_LayerNodeStore = LayerNodeStorageType::New();
+  m_LayerNodeStore->SetGrowthStrategyToExponential();
+  m_RMSChange = m_ValueZero;
+}
+
+template<class TInputImage, class TOutputImage>
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::~SparseFieldLevelSetImageFilter()
+{}
 
 template<class TInputImage, class TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdate(TimeStepType dt)
 {
-  // Set up for multithreaded processing.
-  SparseFieldLevelSetThreadStruct str;
-  str.Filter = this;
-  str.TimeStep = dt;
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
-  this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
-                                            &str);
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  unsigned int i, j, k, t;
+  const int UP = 1;
+  const int DOWN = 2;
+  StatusType up_to, up_search;
+  StatusType down_to, down_search;
   
+  LayerPointerType UpList[2];
+  LayerPointerType DownList[2];
+  for (i = 0; i < 2; ++i)
+    {
+      UpList[i]   = LayerType::New();
+      DownList[i] = LayerType::New();
+    }
+  
+  // Process the active layer.  This step will update the values in the active
+  // layer as well as the values at indicies that *will* become part of the
+  // active layer when they are promoted/demoted.  Also records promotions,
+  // demotions in the m_StatusLayer for current active layer indicies
+  // (i.e. those indicies which will move inside or outside the active
+  // layers).
+  this->UpdateActiveLayerValues(dt, UpList[0], DownList[0]);
+
+  // Process the status up/down lists.  This is an iterative process which
+  // proceeds outwards from the active layer.  Each iteration generates the
+  // list for the next iteration.
+  
+  // First process the status lists generated on the active layer.
+  this->ProcessStatusList(UpList[0], UpList[1], 2, 1);
+  this->ProcessStatusList(DownList[0], DownList[1], 1, 2);
+  
+  down_to = up_to = 0;
+  up_search       = 3;
+  down_search     = 4;
+  j = 1;
+  k = 0;
+  while( down_search < m_Layers.size() )
+    {
+      this->ProcessStatusList(UpList[j], UpList[k], up_to, up_search);
+      this->ProcessStatusList(DownList[j], DownList[k], down_to, down_search);
+
+      if (up_to == 0) up_to += 1;
+      else            up_to += 2;
+      down_to += 2;
+
+      up_search   += 2;
+      down_search += 2;
+
+      // Swap the lists so we can re-use the empty one.
+      t = j;
+      j = k;
+      k = t;      
+    }
+
+  // Process the outermost inside/outside layers in the sparse field.
+  this->ProcessStatusList(UpList[j], UpList[k], up_to, m_StatusNull);
+  this->ProcessStatusList(DownList[j], DownList[k], down_to, m_StatusNull);
+  
+  // Now we are left with the lists of indicies which must be
+  // brought into the outermost layers.  Bring UpList into last inside layer
+  // and DownList into last outside layer.
+  this->ProcessOutsideList(UpList[k], m_Layers.size() -2);
+  this->ProcessOutsideList(DownList[k], m_Layers.size() -1);
+
+  // Finally, we update all of the layer values (excluding the active layer,
+  // which has already been updated).
+  this->PropagateAllLayerValues();
+  
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus)
+{
+  unsigned int i;
+  LayerNodeType *node;
+  
+  // Push each index in the input list into its appropriate status layer
+  // (ChangeToStatus) and update the status image value at that index.
+  while ( ! OutsideList->Empty() )
+    {
+      m_StatusImage->SetPixel(OutsideList->Front()->m_Value, ChangeToStatus); 
+      node = OutsideList->Front();
+      OutsideList->PopFront();
+      m_Layers[ChangeToStatus]->PushFront(node);
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ProcessStatusList(LayerType *InputList, LayerType *OutputList,
+                    StatusType ChangeToStatus, StatusType SearchForStatus)
+{
+  unsigned int i;
+  bool bounds_status;
+  LayerNodeType *node;
+  StatusType neighbor_status;
+  SmartNeighborhoodIterator<StatusImageType>
+    statusIt(m_NeighborList.GetRadius(), m_StatusImage,
+             this->GetOutput()->GetRequestedRegion());
+
+  // Push each index in the input list into its appropriate status layer
+  // (ChangeToStatus) and update the status image value at that index.
+  // Also examine the neighbors of the index to determine which need to go onto
+  // the output list (search for SearchForStatus).
+  while ( ! InputList->Empty() )
+    {
+      statusIt.SetLocation(InputList->Front()->m_Value);
+      statusIt.SetCenterPixel(ChangeToStatus);
+
+      node = InputList->Front();  // Must unlink from the input list 
+      InputList->PopFront();      // _before_ transferring to another list.
+      m_Layers[ChangeToStatus]->PushFront(node);
+     
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+          neighbor_status = statusIt.GetPixel(m_NeighborList.GetArrayIndex(i));
+          if (neighbor_status == SearchForStatus)
+            { // mark this pixel so we don't add it twice.
+              statusIt.SetPixel(m_NeighborList.GetArrayIndex(i),
+                                   m_StatusChanging, bounds_status);
+              if (bounds_status == true)
+                {
+                  node = m_LayerNodeStore->Borrow();
+                  node->m_Value = statusIt.GetIndex() +
+                              m_NeighborList.GetNeighborhoodOffset(i);
+                  OutputList->PushFront( node );
+                } // else this index was out of bounds.
+            }
+        }
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::UpdateActiveLayerValues(TimeStepType dt,
+                          LayerType *UpList, LayerType *DownList)
+{
+  // This method scales the update buffer values by the time step and adds
+  // them to the active layer pixels.  New values at an index which fall
+  // outside of the active layer range trigger that index to be placed on the
+  // "up" or "down" status list.  The neighbors of any such index are then
+  // assigned new values if they are determined to be part of the active list
+  // for the next iteration (i.e. their values will be raised or lowered into
+  // the active range).
+  const ValueType LOWER_ACTIVE_THRESHOLD = - (m_ConstantGradientValue / 2.0);
+  const ValueType UPPER_ACTIVE_THRESHOLD =    m_ConstantGradientValue / 2.0 ;
+  ValueType new_value, temp_value, rms_change_accumulator;
+  LayerNodeType *node, *release_node;
+  StatusType neighbor_status;
+  unsigned int i, idx, counter;
+  bool bounds_status, flag;
+  
+  typename LayerType::Iterator         layerIt;
+  typename UpdateBufferType::const_iterator updateIt;
+
+  SmartNeighborhoodIterator<OutputImageType>
+    outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
+             this->GetOutput()->GetRequestedRegion());
+
+  SmartNeighborhoodIterator<StatusImageType>
+    statusIt(m_NeighborList.GetRadius(), m_StatusImage,
+             this->GetOutput()->GetRequestedRegion());
+
+  counter =0;
+  rms_change_accumulator = m_ValueZero;
+  layerIt = m_Layers[0]->Begin();
+  updateIt = m_UpdateBuffer.begin();
+  while (layerIt != m_Layers[0]->End() )
+    {
+      outputIt.SetLocation(layerIt->m_Value);
+      statusIt.SetLocation(layerIt->m_Value);
+
+      //
+      //      new_value = dt * (*updateIt) + outputIt.GetCenterPixel();
+      //
+      
+      new_value = this->CalculateUpdateValue(layerIt->m_Value,
+                                             dt,
+                                             outputIt.GetCenterPixel(),
+                                             *updateIt);
+
+      // If this index needs to be moved to another layer, then search its
+      // neighborhood for indicies that need to be pulled up/down into the
+      // active layer. Set those new active layer values appropriately,
+      // checking first to make sure they have not been set by a more
+      // influential neighbor.
+
+      //   ...But first make sure any neighbors in the active layer are not
+      // moving to a layer in the opposite direction.  This step is necessary
+      // to avoid the creation of holes in the active layer.  The fix is simply
+      // to not change this value and leave the index in the active set.
+
+      if (new_value > UPPER_ACTIVE_THRESHOLD)
+        { // This index will move UP into a positive (outside) layer.
+
+          // First check for active layer neighbors moving in the opposite
+          // direction.
+          flag = false;
+          for (i = 0; i < m_NeighborList.GetSize(); ++i)
+            {
+              if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
+                  == m_StatusActiveChangingDown)
+                {
+                  flag = true;
+                  break;
+                }
+            }
+          if (flag == true)
+            {
+              ++layerIt;
+              ++updateIt;
+              continue;
+            }
+
+          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+          outputIt.SetCenterPixel( new_value );
+
+          // Search the neighborhood for inside indicies.
+          for (i = 0; i < m_NeighborList.GetSize(); ++i)
+            {
+              idx = m_NeighborList.GetArrayIndex(i);
+              neighbor_status = statusIt.GetPixel( idx );
+              if (neighbor_status == 1)
+                {
+                  temp_value = new_value - m_ConstantGradientValue;
+                  if ( temp_value >  outputIt.GetPixel(idx) )
+                    {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+                }
+            }
+          node = m_LayerNodeStore->Borrow();
+          node->m_Value = layerIt->m_Value;
+          UpList->PushFront(node);
+          statusIt.SetCenterPixel(m_StatusActiveChangingUp);
+
+          // Now remove this index from the active list.
+          release_node = layerIt.GetPointer();
+          ++layerIt;          
+          m_Layers[0]->Unlink(release_node);
+          m_LayerNodeStore->Return( release_node );
+        }
+
+      else if (new_value < LOWER_ACTIVE_THRESHOLD)
+        { // This index will move DOWN into a negative (inside) layer.
+
+          // First check for active layer neighbors moving in the opposite
+          // direction.
+          flag = false;
+          for (i = 0; i < m_NeighborList.GetSize(); ++i)
+            {
+              if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
+                  == m_StatusActiveChangingUp)
+                {
+                  flag = true;
+                  break;
+                }
+            }
+          if (flag == true)
+            {
+              ++layerIt;
+              ++updateIt;
+              continue;              
+            }
+          
+          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+          outputIt.SetCenterPixel( new_value );
+          
+          // Search the neighborhood for outside indicies.
+          for (i = 0; i < m_NeighborList.GetSize(); ++i)
+            {
+              idx = m_NeighborList.GetArrayIndex(i);
+              neighbor_status = statusIt.GetPixel( idx );
+              if (neighbor_status == 2)
+                {
+                  temp_value = new_value + m_ConstantGradientValue;
+                  if ( temp_value <  outputIt.GetPixel(idx) )
+                    {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+                }
+            }
+          node = m_LayerNodeStore->Borrow();
+          node->m_Value = layerIt->m_Value;
+          DownList->PushFront(node);
+          statusIt.SetCenterPixel(m_StatusActiveChangingDown);
+
+          // Now remove this index from the active list.
+          release_node = layerIt.GetPointer();
+          ++layerIt;
+          m_Layers[0]->Unlink(release_node);
+          m_LayerNodeStore->Return( release_node );
+        }
+      else
+        {
+          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+          outputIt.SetCenterPixel( new_value );
+          ++layerIt;
+        }
+      ++updateIt;
+      ++counter;
+    }
+  
+  // Determine the average change during this iteration.
+  if (counter == 0)
+    { m_RMSChange = m_ValueZero; }
+  else
+    {
+      m_RMSChange = vnl_math_sqrt(rms_change_accumulator / static_cast<ValueType>(counter));
+    }
 }
 
 template<class TInputImage, class TOutputImage>
-ITK_THREAD_RETURN_TYPE
+void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::ApplyUpdateThreaderCallback( void * arg )
+::CopyInputToOutput()
 {
-  SparseFieldLevelSetThreadStruct * str;
-  int total, threadId, threadCount;
+  // This method is the first step in initializing the level-set image, which
+  // is also the output of the filter.  The input is passed through a
+  // zero crossing filter, which produces zero's at pixels closest to the zero
+  // level set and one's elsewhere.  The actual zero level set values will be
+  // adjusted in the Initialize() step to more accurately represent the
+  // position of the zero level set.
 
-  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
+  // First need to subtract the iso-surface value from the input image.
+  m_ShiftedImage = OutputImageType::New();
+  m_ShiftedImage->SetRegions(this->GetOutput()->GetRequestedRegion());
+  m_ShiftedImage->Allocate();
 
-  str = (SparseFieldLevelSetThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
-
-  // Execute the actual method with appropriate output region
-  // first find out how many pieces extent can be split into.
-  // Using the SplitRequestedRegion method from itk::ImageSource.
-  ThreadRegionType splitRegion;
-  total = str->Filter->SplitRequestedRegion(threadId, threadCount,
-                                            splitRegion);
+  ImageRegionConstIterator<InputImageType> inputIt(this->GetInput(),
+                                   this->GetOutput()->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType> shiftedIt(m_ShiftedImage,
+                                   this->GetOutput()->GetRequestedRegion());
+  for (inputIt = inputIt.Begin(), shiftedIt = shiftedIt.Begin();
+       ! inputIt.IsAtEnd(); ++inputIt, ++shiftedIt)
+    { shiftedIt.Set(static_cast<ValueType>(inputIt.Get()) - m_IsoSurfaceValue );}
   
-  if (threadId < total)
-    {
-    str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
-    }
+  ZeroCrossingImageFilter<OutputImageType, OutputImageType>::Pointer
+    zeroCrossingFilter = ZeroCrossingImageFilter<OutputImageType,
+    OutputImageType>::New();
+  zeroCrossingFilter->SetInput(m_ShiftedImage);
+  zeroCrossingFilter->GraftOutput(this->GetOutput());
+  zeroCrossingFilter->SetBackgroundValue(m_ValueOne);
+  zeroCrossingFilter->SetForegroundValue(m_ValueZero);
 
-  return ITK_THREAD_RETURN_VALUE;
+  zeroCrossingFilter->Update();
+
+  this->GraftOutput(zeroCrossingFilter->GetOutput());
 }
+  
+template<class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::Initialize()
+{
+  unsigned int i;
+
+  // Allocate the status image.
+  m_StatusImage = StatusImageType::New();
+  m_StatusImage->SetRegions(this->GetOutput()->GetRequestedRegion());
+  m_StatusImage->Allocate();
+
+  // Initialize the status image to contain all m_StatusNull values.
+  ImageRegionIterator<StatusImageType>
+    statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
+  for (statusIt = statusIt.Begin(); ! statusIt.IsAtEnd(); ++statusIt)
+    { statusIt.Set( m_StatusNull ); }
+
+  // Allocate the layers for the sparse field.
+  m_Layers.reserve(2*m_NumberOfLayers + 1);
+  for (i = 0; i< m_Layers.capacity(); ++i)
+    {      m_Layers.push_back( LayerType::New() );    }
+
+  // Throw an exception if we don't have enough layers.
+  if (m_Layers.size() < 3)
+    {
+      ExceptionObject e(__FILE__, __LINE__);
+      std::ostrstream msg;
+      msg << (char *) this->GetNameOfClass()
+          << "::Initialize()" << std::ends;
+      e.SetLocation(msg.str());
+      e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
+      throw e;      
+    }
+  
+  // Construct the active layer and initialize the first layers inside and
+  // outside of the active layer.
+  this->ConstructActiveLayer();
+
+  // Construct the rest of the non active set layers using the first two
+  // layers. Inside layers are odd numbers, outside layers are even numbers.
+  for (i = 1; i < m_Layers.size() - 2; ++i)
+    {      this->ConstructLayer(i, i+2);    }
+  
+  // Set the values in the output image for the active layer.
+  this->InitializeActiveLayerValues();
+ 
+  // Initialize layer values using the active layer as seeds.
+  this->PropagateAllLayerValues();
+
+  // Initialize pixels inside and outside the sparse field layers to positive
+  // and negative values, respectively.  This is not necessary for the
+  // calculations, but is useful for presenting a more intuitive output to the
+  // filter.  See PostProcessOutput method for more information.
+ this->InitializeBackgroundPixels();
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::InitializeBackgroundPixels()
+{
+  // Assign background pixels INSIDE the sparse field layers to a new level set
+  // with value greater than the innermost layer.  Assign background pixels
+  // OUTSIDE the sparse field layers to a new level set with value less than
+  // the outermost layer.
+  const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
+  
+  const ValueType inside_value  = max_layer + m_ConstantGradientValue;
+  const ValueType outside_value = -(max_layer + m_ConstantGradientValue);
+  
+  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
+                         this->GetOutput()->GetRequestedRegion());
+
+  ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(),
+                         this->GetOutput()->GetRequestedRegion());
+
+  ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage,
+                         this->GetOutput()->GetRequestedRegion());
+  
+  for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
+         shiftedIt = shiftedIt.Begin();
+       ! outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt)
+    {
+      if (statusIt.Get() == m_StatusNull)
+        {
+          if (shiftedIt.Get() > m_ValueZero)
+            {
+              outputIt.Set(inside_value);
+            }
+          else
+            {
+              outputIt.Set(outside_value);
+            }
+        }
+    }
+  
+};
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ConstructActiveLayer()
+{
+  // We find the active layer by searching for 0's in the zero crossing image
+  // (output image).  The first inside and outside layers are also constructed
+  // by searching the neighbors of the active layer in the (shifted) input image.
+  // Negative neighbors not in the active set are assigned to the inside,
+  // positive neighbors are assigned to the outside.
+  //
+  unsigned int i;
+  SmartNeighborhoodIterator<OutputImageType>
+    shiftedIt(m_NeighborList.GetRadius(), m_ShiftedImage,
+              this->GetOutput()->GetRequestedRegion());
+  SmartNeighborhoodIterator<OutputImageType>
+    outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
+             this->GetOutput()->GetRequestedRegion());
+  SmartNeighborhoodIterator<StatusImageType>
+    statusIt(m_NeighborList.GetRadius(), m_StatusImage,
+             this->GetOutput()->GetRequestedRegion());
+  IndexType center_index, offset_index;
+  LayerNodeType *node;
+  bool bounds_status;
+  ValueType value;
+  StatusType layer_number;
+
+  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+    {
+      if ( outputIt.GetCenterPixel() == m_ValueZero )
+        {
+          // Grab the neighborhood in the status image.
+          center_index = outputIt.GetIndex();
+          statusIt.SetLocation( center_index );
+          
+          // Borrow a node from the store and set its value.
+          node = m_LayerNodeStore->Borrow();
+          node->m_Value = center_index;
+
+          // Add the node to the active list and set the status in the status
+          // image.
+          m_Layers[0]->PushFront( node );
+          statusIt.SetCenterPixel( 0 );
+
+          // Grab the neighborhood in the image of shifted input values.
+          shiftedIt.SetLocation( center_index );
+          
+          // Search the neighborhood pixels for first inside & outside layer
+          // members.  Construct these lists and set status list values. 
+          for (i = 0; i < m_NeighborList.GetSize(); ++i)
+            {
+              offset_index = center_index
+                             + m_NeighborList.GetNeighborhoodOffset(i);
+
+              if ( outputIt.GetPixel(m_NeighborList.GetArrayIndex(i)) != m_ValueZero)
+                {
+                  value = shiftedIt.GetPixel(m_NeighborList.GetArrayIndex(i));
+
+                  if ( value < m_ValueZero ) // Assign to first inside layer.
+                    { layer_number = 1; }
+                  else // Assign to first outside layer
+                    { layer_number = 2; }
+                  
+                  statusIt.SetPixel( m_NeighborList.GetArrayIndex(i),
+                                     layer_number, bounds_status );
+                  if ( bounds_status == true ) // In bounds.
+                    {
+                      node = m_LayerNodeStore->Borrow();
+                      node->m_Value = offset_index;
+                      m_Layers[layer_number]->PushFront( node );
+                    } // else do nothing.
+                }
+            }
+        }
+    }
+}
+
+template<class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ConstructLayer(StatusType from, StatusType to)
+{
+  unsigned int i;
+  LayerNodeType *node;
+  bool boundary_status;
+  typename LayerType::ConstIterator fromIt;
+  SmartNeighborhoodIterator<StatusImageType>
+    statusIt(m_NeighborList.GetRadius(), m_StatusImage,
+             this->GetOutput()->GetRequestedRegion() );
+
+  // For all indicies in the "from" layer...
+  for (fromIt = m_Layers[from]->Begin();
+       fromIt != m_Layers[from]->End();  ++fromIt)
+    {
+      // Search the neighborhood of this index in the status image for
+      // unassigned indicies. Push those indicies onto the "to" layer and
+      // assign them values in the status image.  Status pixels outside the
+      // boundary will be ignored.
+      statusIt.SetLocation( fromIt->m_Value );
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+          if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) )
+               == m_StatusNull )
+            {
+              statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to,
+                                boundary_status);
+              if (boundary_status == true) // in bounds
+                {
+                  node = m_LayerNodeStore->Borrow();
+                  node->m_Value = statusIt.GetIndex()
+                    + m_NeighborList.GetNeighborhoodOffset(i);
+                  m_Layers[to]->PushFront( node );
+                }
+            }
+        }
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::InitializeActiveLayerValues()
+{
+  const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
+  const ValueType MIN_NORM      = 1.0e-6;
+  unsigned int i, center, stride;
+  bool boundary_status;
+  typename LayerType::ConstIterator activeIt;
+  ConstSmartNeighborhoodIterator<OutputImageType>
+    shiftedIt( m_NeighborList.GetRadius(), m_ShiftedImage,
+               this->GetOutput()->GetRequestedRegion() );
+  
+  center = shiftedIt.Size() /2;
+  typename OutputImageType::Pointer output = this->GetOutput();
+
+  ValueType dx_forward, dx_backward, length, distance;
+
+  // For all indicies in the active layer...
+  for (activeIt = m_Layers[0]->Begin();
+       activeIt != m_Layers[0]->End(); ++activeIt)
+    {
+      // Interpolate on the (shifted) input image values at this index to
+      // assign an active layer value in the output image.
+      shiftedIt.SetLocation( activeIt->m_Value );
+
+      length = m_ValueZero;
+      for (i = 0; i < ImageDimension; ++i)
+        {
+          stride = shiftedIt.GetStride(i);
+          
+          dx_forward = shiftedIt.GetPixel(center + stride)
+            - shiftedIt.GetCenterPixel();
+          dx_backward = shiftedIt.GetCenterPixel()
+            - shiftedIt.GetPixel(center - stride);
+
+          if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
+            { length += dx_forward * dx_forward;         }
+          else
+            { length += dx_backward * dx_backward;       }
+        }
+      length = vnl_math_sqrt(length) + MIN_NORM;
+      distance = shiftedIt.GetCenterPixel() / length;
+
+      output->SetPixel( activeIt->m_Value , 
+          vnl_math_min(vnl_math_max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
+    }
+  
+}
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::AllocateUpdateBuffer()
+{
+  // Preallocate the update buffer.  NOTE: There is currently no way to
+  // downsize a std::vector. This means that the update buffer will grow
+  // dynamically but not shrink.  In newer implementations there may be a
+  // squeeze method which can do this.  Alternately, we can implement our own
+  // strategy for downsizing.
+  m_UpdateBuffer.clear();
+  m_UpdateBuffer.reserve(m_Layers[0]->Size());
+}
+
 
 template <class TInputImage, class TOutputImage>
 typename
@@ -591,871 +772,28 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::TimeStepType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::CalculateChange()
 {
-  int threadCount;
-  TimeStepType dt;
-  
-  // Set up for multithreaded processing.
-  SparseFieldLevelSetThreadStruct str;
-  str.Filter = this;
-  str.TimeStep = NumericTraits<TimeStepType>::Zero;  // Not used during the
-                                                  // calculate change step.
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
-  this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback,
-                                            &str);
-
-  // Initialize the list of time step values that will be generated by the
-  // various threads.  There is one distinct slot for each possible thread,
-  // so this data structure is thread-safe.
-  threadCount = this->GetMultiThreader()->GetNumberOfThreads();  
-  str.TimeStepList = new TimeStepType[threadCount];                 
-  str.ValidTimeStepList = new bool[threadCount];
-  for (int i =0; i < threadCount; ++i)
-    {      str.ValidTimeStepList[i] = false;    } 
-
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
-
-  // Resolve the single value time step to return
-  dt = this->ResolveTimeStep(str.TimeStepList, str.ValidTimeStepList, threadCount);
-  delete [] str.TimeStepList;
-  delete [] str.ValidTimeStepList;
-
-  return  dt;
-}
-
-template <class TInputImage, class TOutputImage>
-ITK_THREAD_RETURN_TYPE
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::CalculateChangeThreaderCallback( void * arg )
-{
-  SparseFieldLevelSetThreadStruct * str;
-  int total, threadId, threadCount;
-
-  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
-
-  str = (SparseFieldLevelSetThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
-
-  // Execute the actual method with appropriate output region
-  // first find out how many pieces extent can be split into.
-  // Using the SplitRequestedRegion method from itk::ImageSource.
-  ThreadRegionType splitRegion;
-
-  total = str->Filter->SplitRequestedRegion(threadId, threadCount,
-                                            splitRegion);
-
-  if (threadId < total)
-    { 
-      str->TimeStepList[threadId]
-        = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
-      str->ValidTimeStepList[threadId] = true;
-    }
-  
-  return ITK_THREAD_RETURN_VALUE;  
-}
-
-template <class TInputImage, class TOutputImage>
-void
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
-                           int threadId)
-{
-
-  OutputImageType * output = this->GetOutput();
-  LevelSetNodeType * currentItem;
-  LevelSetNodeType * tempItem;
-  IndexType         pixelIndex;
-  LevelSetNodeListIteratorType it;
-  LevelSetNodeListIteratorType tempIt;
-  PixelType new_value, this_value, change;
-  float scale, min_scale,diff1, diff2, total_change;
-
-
-
-  // Define radius of neighborhood
-  typename OutputImageType::SizeType radius;
-  for(int i = 0; i < ImageDimension; i++)  radius[i] = 1;
-
-  //define neighborhood iterators
-  RandomAccessNeighborhoodIterator<OutputImageType> ait(radius, m_StatusImage, regionToProcess);
-
-  RandomAccessNeighborhoodIterator<OutputImageType> oit(radius, output, regionToProcess);
-
-  //define offset and displacements
-  Offset<ImageDimension> offset; 
-  IndexType startIndex = ait.GetIndex();
-  int center = ait.Size()/2;
-  
-  int  displacement[2 * ImageDimension];
-  Offset<ImageDimension>   idxOffset[2 * ImageDimension];
-  //set offset of neighbors to the center pixel
-
-  for(int i = 0; i < 2 * ImageDimension; i++)
-    {
-      for( int j = 0; j < ImageDimension; j++)
-        idxOffset[i][j] = 0;
-    }
- 
-  for ( int i = 0 ; i < 2 * ImageDimension; i+= 2)
-    {
-      int tmp = ait.GetStride(i/2);
-      displacement[i] =  -1 * tmp;
-       displacement[i+1] = tmp;
-      
-      idxOffset[i][i/2] = - 1;
-      idxOffset[i+1][i/2] = 1;
- 
-    }
-
-  //CALCULATE status up & down lists for the active layer
-
-  int flag;
-
-  it = m_ActiveLists[threadId].begin();
-  while( it != m_ActiveLists[threadId].end())
-    {
-      
-      flag = 0;
-
-      ait.GoToBegin();
-      oit.GoToBegin();
-          
-      currentItem = *it;
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      ait += offset;
-      oit += offset;
-      
-      change = currentItem->GetValue();
-      new_value = oit.GetCenterPixel() + dt * change;
-
-      // oit.SetCenterPixel(new_value);      
-      
-      if(new_value > CHANGE_FACTOR)
-        {
-              
-          // judge if there is a neighbored active pixel that would move in
-          // opposite direction. If yes, then do nothing; otherwise, change the
-          // status and value of the neighbored outside pixels  
-
-          for(int i = 0; i < ImageDimension * 2; i++)
-            {
-              if(  ait.GetPixel(center + displacement[i]) == DOWN_STATUS)
-                {
-                  flag = 1;
-                  break;
-                }
-            }
-
-          if(!flag)
-            {
-
-              oit.SetCenterPixel(new_value);  
-              ait.SetCenterPixel(UP_STATUS);
-
-              tempIt = it;
-              ++it;
-              m_ActiveLists[threadId].erase(tempIt);
-              m_StatusUpLists[threadId][0].push_back(currentItem);
-
-            }
-          else
-            ++it;  // anything wrong here?  how to assgn its value ?
-          
-        }                  
-      else if(new_value <= (CHANGE_FACTOR* -1.0))
-        {
-
-          // judge if there is a neighbored active pixel that would move in
-          // opposite direction. If yes, then do nothing; otherwise, change the
-          // status and value of the neighbored outside pixels  
-
-
-          for(int i = 0; i < ImageDimension * 2; i++)
-            {
-              if( ait.GetPixel(center + displacement[i]) == UP_STATUS)
-                {
-                  flag = 1;
-                  break;
-                }
-            }
-
-          if(!flag)
-            {
-
-              oit.SetCenterPixel(new_value);  
-              ait.SetCenterPixel(DOWN_STATUS);
-
-              tempIt = it;
-              ++it;
-              m_ActiveLists[threadId].erase(tempIt);
-
-              m_StatusDownLists[threadId][0].push_back(currentItem);
-              
-            }
-          else
-            ++it;
-        }
-      
-      else 
-        {
-          oit.SetCenterPixel(new_value);  
-          ++it;
-        }
-    }
-
-  // itkDebugMacro(<<"active status up"<< m_StatusUpLists[threadId][0].size() );
-  // itkDebugMacro(<<"active status down"<< m_StatusDownLists[threadId][0].size() );
-
-  //Process the status lists for active layer: update the 1st inside layer,
-  //create status up list for 1st outside layer and update the value
-
-  while(! m_StatusUpLists[threadId][0].empty())
-    {
-      currentItem = m_StatusUpLists[threadId][0].front();
-
-      ait.GoToBegin();
-      oit.GoToBegin();
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      ait += offset;
-      oit += offset;
-
-      m_StatusImage->SetPixel(pixelIndex, m_InStatus[0]);
-      m_InsideLists[threadId][0].push_back(currentItem);
-
-      new_value = oit.GetCenterPixel();
-      
-      for(int i = 0; i < ImageDimension * 2; i++)
-        {
-          if( ait.GetPixel(center + displacement[i]) ==
-              m_OutStatus[0] )
-            
-            {
-              ait.SetPixel(center + displacement[i], CHANGING_STATUS);
-              this_value = new_value -1.0;
-              oit.SetPixel(center + displacement[i], this_value);
-              //append to the status up list of the first outside layer
-              tempItem = GetFreeItem(threadId); // to be written;
-              tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-              m_StatusUpLists[threadId][1].push_back(tempItem);
-              
-            }
-          else if( ait.GetPixel(center + displacement[i]) ==
-                   CHANGING_STATUS )
-            {
-              this_value = new_value -1.0;
-              if(this_value > oit.GetPixel(center + displacement[i]) ) 
-                oit.SetPixel(center + displacement[i], this_value);
-             
-            }
-          
-        }
-      
-      
-      m_StatusUpLists[threadId][0].pop_front();
-    }
-
-
-
-
-  //Process the status down list for active layer: update the 1st outside layer,
-  //create status up list for 1st inside layer and update the value
-
-  while(! m_StatusDownLists[threadId][0].empty())
-    {
-      ait.GoToBegin();
-      oit.GoToBegin();
-
-      currentItem = m_StatusDownLists[threadId][0].front();
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      ait += offset;
-      oit += offset;
-
-      m_StatusImage->SetPixel(pixelIndex, m_OutStatus[0]);
-      m_OutsideLists[threadId][0].push_back(currentItem);
-
-      new_value = oit.GetCenterPixel();
-
-      for(int i = 0; i < ImageDimension * 2; i++)
-        {
-          if( ait.GetPixel(center + displacement[i]) ==
-              m_InStatus[0] )
-            {
-              ait.SetPixel(center + displacement[i], CHANGING_STATUS);
-              this_value = new_value + 1.0;
-              oit.SetPixel(center + displacement[i],this_value);
-
-              //append to the status down list of the first inside layer
-              tempItem = GetFreeItem(threadId); // to be written;
-              tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-              m_StatusDownLists[threadId][1].push_back(tempItem);
-              
-            }
-          else if ( ait.GetPixel(center + displacement[i]) ==
-                    CHANGING_STATUS )
-            {
-              
-              this_value = new_value + 1.0;
-              if(this_value < oit.GetPixel(center + displacement[i]) ) 
-                oit.SetPixel(center + displacement[i], this_value);
-            }
-          
-        }
-      m_StatusDownLists[threadId][0].pop_front();
-    }
-  
-  //create status up lists for outside layers and 
-  //update the previous lists;
-
-  int tmp_status, current_status;
-  LevelSetNodeListType * status;
-  int j;
-  int k = 1;
-  status = & m_StatusUpLists[threadId][1];
-  
-  for( j = 0; j < m_NumberOfLayers-1 ; j++)
-    {
-
-      //      itkDebugMacro(<<"outside "<<j <<" up: "<<status->size() ); 
-
-      //This is to re-use the status list
-      if( k == 0) 
-        k = 1;
-      else
-        k = 0;
-
-      while(! status->empty())
-        {
-          
-          
-          ait.GoToBegin();
-          
-          currentItem = status->front();
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          ait += offset;
-
-          //build the status list for next outside layer
-          
-          if(!IsOnBoundary(pixelIndex))
-          for(int i = 0; i < ImageDimension * 2; i++)
-            {
-
-              if( ait.GetPixel(center + displacement[i]) ==
-                  m_OutStatus[j+1] )
-                {
-                  ait.SetPixel(center + displacement[i], CHANGING_STATUS);
-
-                  //append to the status up list of the first outside layer
-                  tempItem = GetFreeItem(threadId);
-                  tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-                  m_StatusUpLists[threadId][k].push_back(tempItem);
-
-                }
-            }
-          
-          if( j == 0)
-            {
-              m_ActiveLists[threadId].push_back(currentItem);
-              ait.SetCenterPixel(ACTIVE_STATUS);
-            }
-
-          else
-            {
-              m_OutsideLists[threadId][j-1].push_back(currentItem);
-              ait.SetCenterPixel(m_OutStatus[j-1]);
-            }
-
-          status->pop_front();
-        }
-  
-      status = & m_StatusUpLists[threadId][k];
-    }
-
-  // now j = m_NumberOfLayers-1
- 
-  while(!status->empty())
-    {
-      ait.GoToBegin();
-      oit.GoToBegin();
-      currentItem = status->front();
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      ait += offset;
-      oit += offset;
-
-      ait.SetCenterPixel(m_OutStatus[j-1]);
-      m_OutsideLists[threadId][j-1].push_back(currentItem);
-      
-      if(!IsOnBoundary(pixelIndex))
-      for(int i = 0; i < ImageDimension * 2; i++)
-            {
-
-              if( ait.GetPixel(center + displacement[i]) == 0)
-                {
-                  ait.SetPixel(center + displacement[i], m_OutStatus[j]);
-
-                  //append to the status up list of the first outside layer
-                  tempItem = GetFreeItem(threadId);
-                  tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-                  m_OutsideLists[threadId][j].push_back(tempItem);
-
-                }
-            }
-
-      status->pop_front();
-    }
-
-  
-    //create status up lists for outside layers and 
-  //update the previous lists;
-
-  k = 1;
-  status = &m_StatusDownLists[threadId][1];
-
-
-  for( j = 0; j < m_NumberOfLayers -1; j++)
-    {
-
-      // itkDebugMacro(<<"inside "<<j <<" down: "<<status->size() ); 
-      //This is to re-use the status list
-      if( k == 0) 
-        k = 1;
-      else
-        k = 0;
-      
-      while(! status->empty())
-        {
-
-          ait.GoToBegin();
-          
-          currentItem = status->front();
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          ait += offset;
-
-          //build the status list for next outside layer
-
-          if(!IsOnBoundary(pixelIndex))
-          for(int i = 0; i < ImageDimension * 2; i++)
-            {
-
-              if( ait.GetPixel(center + displacement[i]) == m_InStatus[j+1])
-                {
-                  ait.SetPixel(center + displacement[i], CHANGING_STATUS);
-
-                  //append to the status up list of the first outside layer
-                  tempItem = GetFreeItem(threadId);
-                  tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-                  m_StatusDownLists[threadId][k].push_back(tempItem);
-
-                }
-            }
-
-          if( j == 0)
-            {
-              m_ActiveLists[threadId].push_back(currentItem);
-              ait.SetCenterPixel(ACTIVE_STATUS);
-            }
-
-          else
-            {
-              m_InsideLists[threadId][j-1].push_back(currentItem);
-              ait.SetCenterPixel(m_InStatus[j -1]);
-            }
-
-          status->pop_front();
-        }
-  
-      status = & m_StatusDownLists[threadId][k];
-    }
-  
-
-  while(!status->empty())
-    {
-      ait.GoToBegin();
-      oit.GoToBegin();
-      currentItem = status->front();
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      ait += offset;
-      oit += offset;
-
-      ait.SetCenterPixel(m_InStatus[j-1]);
-      m_InsideLists[threadId][j-1].push_back(currentItem);
-      
-      if(!IsOnBoundary(pixelIndex))
-      for(int i = 0; i < ImageDimension * 2; i++)
-            {
-
-              if( ait.GetPixel(center + displacement[i]) == 0 )
-                {
-                  ait.SetPixel(center + displacement[i], m_InStatus[j]);
-
-                  //append to the status up list of the first outside layer
-                  tempItem = GetFreeItem(threadId);
-                  tempItem->SetIndex(pixelIndex + idxOffset[i]); 
-                  m_InsideLists[threadId][j].push_back(tempItem);
-
-                }
-            }
-
-      status->pop_front();
-    }
-
-
-  // Now we need to update value of the outside/inside lists
-
-
-  int total_active_neighbors;
-  PixelType neighbor_value;
-
-  PixelType zero = NumericTraits<PixelType>::Zero;
-
-
-  //statusUpLists[0] --outsideLists[m_NumberOfLayers-1];
-  //   ...
-  //statusUpLists[m_NumberOfLayers] --activeList
-  //   ...
-  //statusUpLists[2 * m_NumberOfLayers]--insideLists[m_NumberOfLayers-1]
-
-  //Deal with outside lists
-
-  // ait = RandomAccessNeighborhoodIterator<OutputImageType>(radius, m_StatusImage, regionToProcess);
-
-  //oit = RandomAccessNeighborhoodIterator<OutputImageType>(radius, output, regionToProcess);
-
-
-  // update the outside lists and its value;
-  for( int j = 0; j < m_NumberOfLayers; j ++)
-    {
-      it = m_OutsideLists[threadId][j].begin();
-
-
-      while(it!= m_OutsideLists[threadId][j].end())
-        {
-
-          ait.GoToBegin();
-          oit.GoToBegin();
-
-          currentItem = *it;
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          ait += offset;
-          oit += offset;
-
-          //if a pixel was marked a different status, then we just remove it
-          // from the current list
-
-
-          if(ait.GetCenterPixel() != m_OutStatus[j])
-            {
-              tempIt = it;
-              ++it;
-              m_OutsideLists[threadId][j].erase(tempIt);
-
-              m_FreeLists[threadId].push_back(currentItem);
-              continue;
-            }
-
-         if(IsOnBoundary(pixelIndex))
-             {
-               ++it;
-               continue;
-             }
-
-          total_active_neighbors = 0;
-          neighbor_value = -NumericTraits<PixelType>::max();
-          
-          for(int k = 0; k < ImageDimension *2; k ++)
-            {
-
-              int temp_status;
-              if(j == 0)
-                temp_status = ACTIVE_STATUS;
-              else
-                temp_status = m_OutStatus[j-1];
-
-              if(ait.GetPixel(center + displacement[k]) == temp_status)
-                {
-                  this_value = oit.GetPixel(center + displacement[k]);
-                  if(this_value > neighbor_value)
-                    neighbor_value = this_value;
-                  total_active_neighbors++;
-                }
-              
-            } 
-
-          if(total_active_neighbors == 0)
-            {
-
-              //if we can not find an active neighbor for this pixel, we just
-              //demote it to next outward layer 
-   
-              if(j ==m_NumberOfLayers -1 )
-                {
-                  ait.SetCenterPixel(0);
-                  oit.SetCenterPixel(-OUTSIDE_VALUE);
-                  tempIt = it;
-                  ++it;
-                  m_OutsideLists[threadId][j].erase(tempIt);
-                  m_FreeLists[threadId].push_back(currentItem);
-                }
-              else
-                {
-                  ait.SetCenterPixel(m_OutStatus[(j+1)]);
-                  tempIt = it;
-                  ++it;
-                  m_OutsideLists[threadId][j].erase(tempIt);
-                  m_OutsideLists[threadId][j+1].push_back(currentItem);
-
-                }
-            }
-          else
-            {
-              
-              oit.SetCenterPixel(neighbor_value - DIFFERENCE_FACTOR);
-              ++it;
-                           
-            }//total_active_neighbors != 0
-        } // end of dealing with outside[i]
-    
-      
-  //update the  inside lists and update its value
-      it = m_InsideLists[threadId][j].begin();
-  
-      while(it!= m_InsideLists[threadId][j].end())
-        {
-
-          ait.GoToBegin();
-          oit.GoToBegin();
-
-          currentItem = *it;
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          ait += offset;
-          oit += offset;
-          
-          if(ait.GetCenterPixel() != m_InStatus[j])
-            {
-              tempIt = it;
-              ++it;
-              m_InsideLists[threadId][j].erase(tempIt);
-              
-              m_FreeLists[threadId].push_back(currentItem);
-         
-              continue;
-            }
-          
-          if(IsOnBoundary(pixelIndex))
-             {
-               ++it;
-               continue;
-             }
-          total_active_neighbors = 0;
-          neighbor_value = NumericTraits<PixelType>::max();
-          
-          for(int k = 0; k < ImageDimension *2; k ++)
-            {
-              int temp_status;
-              if(j == 0)
-                temp_status = ACTIVE_STATUS;
-              else
-                temp_status = m_InStatus[j-1];
-
-              if(ait.GetPixel(center + displacement[k]) == temp_status)
-                {
-                  this_value = oit.GetPixel(center + displacement[k]);
-                  if(this_value < neighbor_value)
-                    neighbor_value = this_value;
-                  total_active_neighbors++;
-                }
-
-            } 
-
-          if(total_active_neighbors == 0)
-            {
-
-             if(j ==m_NumberOfLayers -1 )
-                {
-                  ait.SetCenterPixel(zero);
-                  oit.SetCenterPixel(OUTSIDE_VALUE);
-                  tempIt = it;
-                  ++it;
-                  m_InsideLists[threadId][j].erase(tempIt);
-                  m_FreeLists[threadId].push_back(currentItem);
-                }
-              else
-                {
-              
-                  ait.SetCenterPixel(m_InStatus[j+1]);
-                  tempIt = it;
-                  ++it;
-                  m_InsideLists[threadId][j].erase(tempIt);
-                  m_InsideLists[threadId][j+1].push_back(currentItem);
-
-                }
-            }
-          else
-            {
-               oit.SetCenterPixel(neighbor_value + DIFFERENCE_FACTOR);
-               ++it;
-            }
-              
-        } // end of dealing with inside[j]
-    }
-
-#ifdef DEBUG  
-  itkDebugMacro(<<"active layer");
-
-  it = m_ActiveLists[threadId].begin();
-  while(it != m_ActiveLists[threadId].end())
-    {
-      oit.GoToBegin();
-      
-      currentItem = *it;
-      pixelIndex = currentItem->GetIndex();
-      offset = pixelIndex - startIndex;
-      
-      oit += offset;
-      
-      itkDebugMacro( <<oit.GetCenterPixel()<<" " );
-      ++it;
-
-    }
-  
-  for(int i = 0; i < m_NumberOfLayers; i++)
-    {
-      itkDebugMacro(<<"outside layer "<<i<< );
-      it = m_OutsideLists[threadId][i].begin();
-      while(it != m_OutsideLists[threadId][i].end())
-        {
-          oit.GoToBegin();
-          
-          currentItem = *it;
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          
-          oit += offset;
-           ++it;
-          itkDebugMacro(<<oit.GetCenterPixel()<<" ");
-        }
-    }
-
-  for(int i = 0; i < m_NumberOfLayers; i++)
-    {
-      itkDebugMacro(<<"Inside layer "<<i);
-      it = m_InsideLists[threadId][i].begin();
-      while(it != m_InsideLists[threadId][i].end())
-        {
-          oit.GoToBegin();
-          
-          currentItem = *it;
-          pixelIndex = currentItem->GetIndex();
-          offset = pixelIndex - startIndex;
-          
-          oit += offset;
-           ++it;
-          itkDebugMacro(<<oit.GetCenterPixel()<<" ");
-        }
-    }
-  
- for (int threadId =0; threadId< this->GetNumberOfThreads();threadId++)
-   {
-     for(int i= 0; i < m_NumberOfLayers; i++)
-       {
-         itkDebugMacro(<<"thread "<<threadId<<" outside "<<i<<": "<<m_OutsideLists[threadId][i].size() );
-         itkDebugMacro(<<"thread "<<threadId<<" inside "<<i<<": "<<m_InsideLists[threadId][i].size() );
-       }
-     itkDebugMacro(<<"thread "<<threadId<<" active list "<<m_ActiveLists[threadId].size());
-   }
-  
-#endif
-
-}
-
-template <class TInputImage, class TOutputImage>
-typename
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::TimeStepType
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int
-                          threadId)
-{
-  typedef typename OutputImageType::RegionType RegionType;
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::SizeValueType   SizeValueType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::IndexValueType  IndexValueType;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType
-    NeighborhoodIteratorType;
-
-  typename OutputImageType::Pointer output = this->GetOutput();
-  unsigned int i, j;
-  TimeStepType timeStep;
-  void *globalData;
-
-  // First we analyze the regionToProcess to determine if any of its faces are
-  // along a buffer boundary (we have no data in the buffer for pixels
-  // that are outside the boundary and within the neighborhood radius so will
-  // have to treat them differently).  We also determine the size of the non-
-  // boundary region that will be processed.
   const typename FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
-  const SizeType  radius = df->GetRadius();
+  void *globalData = df->GetGlobalDataPointer();
 
-  
-  /*  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
-    FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
-  faceList = bC(input, regionToProcess, radius);
+  typename LayerType::ConstIterator layerIt;
+  SmartNeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
+                this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+  TimeStepType timeStep;
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
-    FaceListType::iterator fit;
-  fit = faceList.begin();
-  */
+  m_UpdateBuffer.clear();
+  m_UpdateBuffer.reserve(m_Layers[0]->Size());
 
-  RandomAccessNeighborhoodIterator<OutputImageType> nit(radius, output, regionToProcess);
-
-    
-  LevelSetNodeType * currentItem;
-  IndexType  pixelIndex;
-  IndexType  startIndex;
-  Offset<ImageDimension> offset;
-
-
-  // Here use the smart iterator to avoid the boundary conditions
- 
-  nit.GoToBegin();
-  startIndex = nit.GetIndex();
-  
-  LevelSetNodeListIteratorType lit;
-  
-  lit = m_ActiveLists[threadId].begin();
-  globalData =  globalData = df->GetGlobalDataPointer();
-
-  PixelType tmpV;
-  while( lit != m_ActiveLists[threadId].end()  && !nit.IsAtEnd() )
+  // Calculates the update values for the active layer indicies in this
+  // iteration.  Iterates through the active layer index list, applying 
+  // the level set function to the output image (level set image) at each
+  // index.  Update values are stored in the update buffer.
+  for (layerIt = m_Layers[0]->Begin(); layerIt != m_Layers[0]->End(); ++layerIt)
     {
-      nit.GoToBegin();
-      currentItem = *lit;
-      pixelIndex = currentItem->GetIndex();
-
-      if(!IsOnBoundary(pixelIndex))
-        {
-          offset = pixelIndex - startIndex;
-          nit += offset;
-          tmpV = df->ComputeUpdate(nit, globalData);
-        }
-      else
-        tmpV = 0;
-
-      currentItem->SetValue(tmpV);
-      ++lit;
+      outputIt.SetLocation(layerIt->m_Value);      
+      m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData) );
     }
-
-
+  
   // Ask the finite difference function to compute the time step for
   // this iteration.  We give it the global data pointer to use, then
   // ask it to free the global data memory.
@@ -1463,69 +801,178 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   df->ReleaseGlobalDataPointer(globalData);
   
-  return timeStep;
+  return timeStep;                            
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::PropagateAllLayerValues()
+{
+  unsigned int i;
+
+  // Update values in the first inside and first outside layers using the
+  // active layer as a seed. Inside layers are odd numbers, outside layers are
+  // even numbers. 
+  this->PropagateLayerValues(0, 1, 3, 1); // first inside
+  this->PropagateLayerValues(0, 2, 4, 2); // first outside
+
+  // Update the rest of the layers.
+  for (i = 1; i < m_Layers.size() - 2; ++i)
+    {   this->PropagateLayerValues(i, i+2, i+4, (i+2)%2);    }
 }
 
 template <class TInputImage, class TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::PropagateLayerValues(StatusType from, StatusType to,
+                       StatusType promote, int InOrOut)
+{
+  unsigned int i;
+  ValueType value, value_temp, delta;
+  bool boundary_status, found_neighbor_flag;
+  typename LayerType::Iterator toIt;
+  LayerNodeType *node;
+  unsigned int past_end = m_Layers.size() - 1;
+  
+  // Are we propagating values inward (more negative) or outward (more
+  // positive)?
+  if (InOrOut == 1) delta = - m_ConstantGradientValue;
+  else delta = m_ConstantGradientValue;
+ 
+  SmartNeighborhoodIterator<OutputImageType>
+    outputIt(m_NeighborList.GetRadius(), this->GetOutput(),
+             this->GetOutput()->GetRequestedRegion() );
+  SmartNeighborhoodIterator<StatusImageType>
+    statusIt(m_NeighborList.GetRadius(), m_StatusImage,
+             this->GetOutput()->GetRequestedRegion() );
+
+  toIt  = m_Layers[to]->Begin();
+  while ( toIt != m_Layers[to]->End() )
+    {
+      statusIt.SetLocation( toIt->m_Value );
+
+      // Is this index marked for deletion? If the status image has
+      // been marked with another layer's value, we need to delete this node
+      // from the current list then skip to the next iteration.
+      if (statusIt.GetCenterPixel() != to)
+        {
+          node = toIt.GetPointer();
+          ++toIt;
+          m_Layers[to]->Unlink( node );
+          m_LayerNodeStore->Return( node );
+          continue;
+        }
+      
+      outputIt.SetLocation( toIt->m_Value );
+
+      value = m_ValueZero;
+      found_neighbor_flag = false;
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+          // If this neighbor is in the "from" list, compare its absolute value
+          // to to any previous values found in the "from" list.  Keep only the
+          // value with the greatest magnitude.
+          if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == from )
+            {
+              found_neighbor_flag = true;
+              value_temp = outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
+              if ( ::vnl_math_abs(value_temp) > ::vnl_math_abs(value) )
+                { value = value_temp; }
+            }
+        }
+      if (found_neighbor_flag == true)
+        {
+          // Set the new value using the largest magnitude
+          // found in our "from" neighbors.
+          outputIt.SetCenterPixel( value + delta );
+          ++toIt;
+        }
+      else
+        {
+          // Did not find any neighbors on the "from" list, then promote this
+          // node.  A "promote" value past the end of my sparse field size
+          // means delete the node instead.  Change the status value in the
+          // status image accordingly.
+          node  = toIt.GetPointer();
+          ++toIt;
+          m_Layers[to]->Unlink( node );
+          if ( promote > past_end )
+            {
+              m_LayerNodeStore->Return( node );
+              statusIt.SetCenterPixel(m_StatusNull);
+            }
+          else
+            {
+              m_Layers[promote]->PushFront( node );
+              statusIt.SetCenterPixel(promote);
+            }
+        }
+    }
+}
+
+
+template<class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::PostProcessOutput()
+{
+  // Assign background pixels INSIDE the sparse field layers to a new level set
+  // with value greater than the innermost layer.  Assign background pixels
+  // OUTSIDE the sparse field layers to a new level set with value less than
+  // the outermost layer.
+  const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
+  
+  const ValueType inside_value  = max_layer + m_ConstantGradientValue;
+  const ValueType outside_value = -( max_layer + m_ConstantGradientValue);
+
+  
+  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
+                                this->GetOutput()->GetRequestedRegion());
+
+  ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(),
+                         this->GetOutput()->GetRequestedRegion());
+
+  for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin();
+       ! outputIt.IsAtEnd(); ++outputIt, ++statusIt)
+    {
+      if (statusIt.Get() == m_StatusNull)
+        {
+          if (outputIt.Get() > m_ValueZero)
+            {
+              outputIt.Set(inside_value);
+            }
+          else
+            {
+              outputIt.Set(outside_value);
+            }
+        }
+    }
+}
+
+
+
+template<class TInputImage, class TOutputImage>
+void
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  os << indent << "SparseFieldLevelSetImageFilter";
-  Superclass::PrintSelf(os, indent.GetNextIndent());
-}
+  Superclass::PrintSelf(os, indent);
 
-
-
-template <class TInputImage, class TOutputImage>
-int
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::IsOnBoundary(IndexType index)
-{
-  typename TInputImage::Pointer input = this->GetInput();
-  typename InputImageType::SizeType  size = (input->GetBufferedRegion()).GetSize();
-  
-  for( int i = 0; i< ImageDimension; i++)
+  unsigned int i;
+  os << indent << "m_IsoSurfaceValue" << m_IsoSurfaceValue << std::endl;
+  os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
+  for (i=0; i < m_Layers.size(); i++)
     {
-      if(index[i] == 0 || index[i] == size[i] - 1)
-        return 1;
+      os << indent << "m_Layers[" << i << "]: size="
+         << m_Layers[i]->Size() << std::endl;
+      os << indent << m_Layers[i];
     }
-  return 0;
-
+  os << indent << "m_UpdateBuffer: size=" << m_UpdateBuffer.size()
+     << " capacity=" << m_UpdateBuffer.capacity() << std::endl;
 }
 
-
-template <class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::LevelSetNodeType *
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::GetFreeItem(int threadId)
-{
-  LevelSetNodeType* tempItem;
-  
-  if(!m_FreeLists[threadId].empty())
-    {
-      tempItem = m_FreeLists[threadId].front();
-      m_FreeLists[threadId].pop_front();
-      return tempItem;
-    }
-  itkDebugMacro(<<"allocating new memory");
-  for(int j = 0; j < m_MaxPreAllocateNodes; j ++)
-    m_FreeLists[threadId].push_back(new LevelSetNodeType());
-      
-  
-  tempItem = m_FreeLists[threadId].front();
-  m_FreeLists[threadId].pop_front();
-  
-  return tempItem;
-  
-}
-
-
-}// end namespace itk
-
-
-
-
-
+} // end namespace itk
 
 #endif
