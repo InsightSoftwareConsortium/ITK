@@ -143,7 +143,8 @@ namespace itk
        * \return nothing
        */
       void  DefineHeaderObjectDataType(void);
-//      void ReorientIfNecessary(char *p);
+#if defined(REORIENT_IMAGES)
+      void ReorientIfNecessary(char *p);
       struct ipl_dimensions {
         unsigned int slicestride;
         unsigned int rowstride;
@@ -163,7 +164,8 @@ namespace itk
        * \return nothing
        */
       void GetAllDimensions(ipl_dimensions &dim);
-
+      ipl_dimensions m_old_dim,m_new_dim;
+#endif
       /**
        * \author Hans J. Johnson
        * Check the endedness of the header file.
@@ -174,7 +176,6 @@ namespace itk
       /**  All of the information read in from the header file */
       struct dsr m_hdr;
       ImageIOBase::ByteOrder m_MachineByteOrder;
-      ipl_dimensions m_old_dim,m_new_dim;
   };
 
 } // end namespace itk

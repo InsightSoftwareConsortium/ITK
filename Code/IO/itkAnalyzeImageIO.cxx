@@ -201,7 +201,7 @@ namespace itk
   AnalyzeImageIO::SwapBytesIfNecessary( void* buffer, 
                                         unsigned long numberOfPixels )
   {
-    if ( m_MachineByteOrder == LittleEndian ) 
+    if ( m_ByteOrder == LittleEndian ) 
       {
         switch(m_PixelType) 
           {
@@ -322,18 +322,21 @@ namespace itk
     //dimensions.  If the Image dimensions is greater
     //than 16000 then the image is almost certainly byte-swapped-- Hans
 
+    ImageIOBase::ByteOrder systemOrder;
+    if(ByteSwapper<int>::SystemIsBigEndian())
+      systemOrder = BigEndian;
+    else
+      systemOrder = LittleEndian;
+
     if((temphdr.hk.extents == 16384) ||
        (temphdr.hk.sizeof_hdr == 348)) 
       { 
-        // If machine endedness matches file.
-        returnvalue = (ByteSwapper<int>::SystemIsBigEndian() == true ) ? 
-          LittleEndian : BigEndian ;
+        returnvalue = systemOrder;
       }
     else 
       { 
         // File does not match machine
-        returnvalue = ( ByteSwapper<int>::SystemIsBigEndian() == true )? 
-          BigEndian : LittleEndian ;
+        returnvalue = systemOrder == BigEndian ? LittleEndian : BigEndian;
       }
     return returnvalue;
   }
@@ -341,64 +344,12 @@ namespace itk
   void
   AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
   {
-    if ( m_MachineByteOrder == LittleEndian ) 
+    if ( m_ByteOrder == LittleEndian ) 
       {
         // NOTE: If machine order is little endian, and the data needs to be 
         // swapped, the SwapFromBigEndianToSystem is equivalent to 
         // SwapFromSystemToBigEndian.
-        ByteSwapper<int>::SwapFromSystemToBigEndian(&imageheader->hk.sizeof_hdr);
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( (&imageheader->hk.data_type[0]),10 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.db_name[0]),18 );
-        ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.extents );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->hk.session_error );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.regular );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.hkey_un0 );
-
-        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian( &imageheader->dime.dim[0], 8 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.vox_units[0]),4 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.cal_units[0]),8 );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.unused1 );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.datatype );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.bitpix );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.dim_un0 );
-
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian( &imageheader->dime.pixdim[0],8 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.vox_offset );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.roi_scale );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused1 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused2 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_max );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_min );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.compressed );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.verified );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmin );
-
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.descrip[0]),80 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.aux_file[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &(imageheader->hk.orient );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.originator[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.generated[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.scannum[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.patient_id[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_date[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_time[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.hist_un0[0]),24 );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.views );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.vols_added );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.start_field );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.field_skip );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omin );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smin );
-      }
-    else if ( m_MachineByteOrder == BigEndian )      
-      {
-        //NOTE: If machine order is little endian, and the data needs to be 
-        // swapped, the SwapFromLittleEndianToSystem is equivalent to 
-        // SwapFromSystemToLittleEndian.
-        ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.sizeof_hdr );
+        ByteSwapper<int>::SwapFromSystemToLittleEndian(&imageheader->hk.sizeof_hdr);
         //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( (&imageheader->hk.data_type[0]),10 );
         //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.db_name[0]),18 );
         ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.extents );
@@ -445,6 +396,58 @@ namespace itk
         ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smax );
         ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smin );
       }
+    else if ( m_ByteOrder == BigEndian )      
+      {
+        //NOTE: If machine order is little endian, and the data needs to be 
+        // swapped, the SwapFromBigEndianToSystem is equivalent to 
+        // SwapFromSystemToLittleEndian.
+        ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.sizeof_hdr );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( (&imageheader->hk.data_type[0]),10 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.db_name[0]),18 );
+        ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.extents );
+        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->hk.session_error );
+        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.regular );
+        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.hkey_un0 );
+
+        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian( &imageheader->dime.dim[0], 8 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.vox_units[0]),4 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.cal_units[0]),8 );
+        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.unused1 );
+        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.datatype );
+        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.bitpix );
+        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.dim_un0 );
+
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian( &imageheader->dime.pixdim[0],8 );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.vox_offset );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.roi_scale );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused1 );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused2 );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_max );
+        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_min );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.compressed );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.verified );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmax );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmin );
+
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.descrip[0]),80 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.aux_file[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &(imageheader->hk.orient );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.originator[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.generated[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.scannum[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.patient_id[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_date[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_time[0]),24 );
+        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.hist_un0[0]),24 );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.views );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.vols_added );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.start_field );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.field_skip );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omax );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omin );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smax );
+        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smin );
+      }
     else      
       {
         ExceptionObject exception(__FILE__, __LINE__);
@@ -460,12 +463,14 @@ namespace itk
     //by default, only have 3 dimensions
     this->SetNumberOfDimensions(3);
     m_PixelType         = UCHAR;
-    //Set m_MachineByteOrder to the ByteOrder of the machine
-    m_ByteOrder         = ( ByteSwapper<int>::SystemIsBigEndian() == true ) ? 
-      LittleEndian : BigEndian ;
-    //The file byte order
-    m_MachineByteOrder  = ( ByteSwapper<int>::SystemIsBigEndian() == true )?
-      LittleEndian : BigEndian ;
+    // Set m_MachineByteOrder to the ByteOrder of the machine
+    // Start out with file byte order == system byte order
+    // this will be changed if we're reading a file to whatever
+    // the file actually contains.
+    if(ByteSwapper<int>::SystemIsBigEndian())
+      m_MachineByteOrder = m_ByteOrder = BigEndian;
+    else
+      m_MachineByteOrder = m_ByteOrder = LittleEndian;
 
     // Set all values to a default value
     // Must check again -- memset!!!!
@@ -753,6 +758,7 @@ namespace itk
       }
   }
 
+#if defined(REORIENT_IMAGES)
   void AnalyzeImageIO::GetAllDimensions(ipl_dimensions &dim) 
   {
     //
@@ -769,7 +775,6 @@ namespace itk
     dim.zsize = this->GetDimensions(2);
   }
 
-#if 0
   //Convert images into canonical Coronal view
   //////////////////////////////////////////////////////////////////////////
   // Programmer: Kent Williams
@@ -958,21 +963,6 @@ namespace itk
         }
     }
 #endif
-#ifdef __OMIT_THIS_CODE__ /*A method for handeling compresssed images is needed*/
-    std::ifstream   local_InputStream;
-    local_InputStream.open( ImageFileName.c_str(), std::ios::in | std::ios::binary );
-    if( !local_InputStream )
-      {
-        itkExceptionMacro("Error opening image data file for reading.");
-      }
-    local_InputStream.read( p, this->GetImageSizeInBytes() );
-    bool success = !local_InputStream.bad();
-    if( !success )
-      {
-        itkExceptionMacro("Error reading image data.");
-      }
-    local_InputStream.close();
-#endif
     SwapBytesIfNecessary( buffer, numberOfPixels );
   }
 
@@ -1010,13 +1000,11 @@ namespace itk
         throw exception;
       }
     local_InputStream.close();
+
     // if the machine and file endianess are different
     // perform the byte swapping on it
-    this->m_MachineByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
-    if( this->m_MachineByteOrder != this->m_ByteOrder  ) 
-      {
-        this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
-      }
+    this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_hdr);
+    this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
     return true;
   }
 
@@ -1044,7 +1032,7 @@ namespace itk
 
     // if the machine and file endianess are different
     // perform the byte swapping on it
-    this->m_MachineByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
+    this->m_ByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
     if( this->m_MachineByteOrder != this->m_ByteOrder  ) 
       {
         this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
@@ -1112,6 +1100,7 @@ namespace itk
     //
     // figure out re-orientation required if not in Coronal
     this->ComputeStrides();
+#if defined(REORIENT_IMAGES)
     this->GetAllDimensions(this->m_old_dim);
     //
     // flip the dimensions, then store the new stride stuff
@@ -1135,6 +1124,7 @@ namespace itk
         this->GetAllDimensions(this->m_new_dim);
         break;
       }
+#endif
     return;
   }
 
