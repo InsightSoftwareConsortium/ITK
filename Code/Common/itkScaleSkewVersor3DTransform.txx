@@ -185,7 +185,7 @@ ScaleSkewVersor3DTransform<TScalarType>
 }
 
 template <class TScalarType>
-typename const ScaleSkewVersor3DTransform<TScalarType>::MatrixType &
+const typename ScaleSkewVersor3DTransform<TScalarType>::MatrixType &
 ScaleSkewVersor3DTransform<TScalarType>
 ::GetMatrix( void ) const
 {
