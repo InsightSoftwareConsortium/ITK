@@ -2,6 +2,7 @@ SET(KIT BasicFilters)
 CREATE_TEST_SOURCELIST(Tests itk${KIT}Tests.cxx 
   itkChangeInformationImageFilterTest.cxx
   itkCannyEdgeDetectionImageFilterTest.cxx
+  itkComposeRGBImageFilterTest.cxx
   itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
   itkSobelEdgeDetectionImageFilterTest.cxx
   itkDivideImageFilterTest.cxx
