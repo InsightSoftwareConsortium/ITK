@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include <iostream>
 
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main()
 {
   std::cout << "Creating an image" << std::endl;
-  typedef itk::PhysicalImage<unsigned short, 3> ScalarImage;
+  typedef itk::Image<unsigned short, 3> ScalarImage;
   ScalarImage::Pointer  o3 = ScalarImage::New();
 
   double origin3D[3] = { 5, 2.1, 8.1};
