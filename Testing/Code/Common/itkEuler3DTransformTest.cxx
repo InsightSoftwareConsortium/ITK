@@ -214,12 +214,12 @@ int itkEuler3DTransformTest(int,char *[] )
     if ( p == 0 )
       {
       std::cout << "true" << std::endl;
-      eulerTransform->ComputeZYX( true );
+      eulerTransform->SetComputeZYX( true );
       }
     else
       {
       std::cout << "false" << std::endl;
-      eulerTransform->ComputeZYX( false );
+      eulerTransform->SetComputeZYX( false );
       }
 
     parameters.Fill( 0.0 );
@@ -302,11 +302,11 @@ int itkEuler3DTransformTest(int,char *[] )
 
   std::cout << "Testing Angle from matrix (ZYX) : ";
   eulerTransform->SetIdentity();
-  eulerTransform->ComputeZYX(true);
+  eulerTransform->SetComputeZYX(true);
   eulerTransform->SetRotation(0.2,0.1,0.3);
   
   t2->SetIdentity();
-  t2->ComputeZYX(true);
+  t2->SetComputeZYX(true);
   t2->Compose(eulerTransform);
   
   if( (fabs(t2->GetParameters()[0]-0.2)>0.0001)

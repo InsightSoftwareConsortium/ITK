@@ -484,7 +484,7 @@ int main( int argc, char ** argv )
 
   TransformType::Pointer transform = TransformType::New();
 
-  transform->ComputeZYX(true);
+  transform->SetComputeZYX(true);
 
   TransformType::OutputVectorType translation;
 
