@@ -81,7 +81,7 @@ int Util::CountSubstring (const std::string& str,
                           const std::string& subStr)
 {
    int count = 0;   // counts how many times it appears
-   unsigned int x = 0;       // The index position in the string
+   std::string::size_type x = 0;       // The index position in the string
 
    do
    {
