@@ -85,7 +85,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 
   Self::ImageRegionCopy(imgT, input);
 
-  GaussianOperator<ImageDimension> *oper;
+  GaussianOperator<double, ImageDimension> *oper;
   NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
 
   swapPtrA = imgT;
@@ -93,7 +93,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Filter
-      oper = new GaussianOperator<ImageDimension>;
+      oper = new GaussianOperator<double,ImageDimension>;
       oper->SetDirection(i);
       oper->SetVariance(m_Variance[i]);
       oper->SetMaximumError(m_MaximumError[i]);
@@ -106,7 +106,6 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
       filter->Update();
 
       //      delete oper;       pipeline problems cause seg fault? --3/13/01
-      //      filter->Delete();
 
       swapPtrC = swapPtrB;
       swapPtrB = swapPtrA;
