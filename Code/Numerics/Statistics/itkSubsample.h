@@ -18,13 +18,15 @@
 #define __itkSubsample_h
 
 #include "itkSample.h"
+#include "itkMacro.h"
+#include "itkObjectFactory.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 class ITK_EXPORT Subsample : 
-      public Sample< typename TSample::MeasurementVectorType >
+    public Sample< typename TSample::MeasurementVectorType >
 {
 public:
   /** Standard class typedefs */
@@ -48,8 +50,6 @@ public:
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
   typedef MeasurementVectorType ValueType ;
-//    typedef typename TSample::SizeType SizeType ;
-//    typedef typename TSample::SizeValueType SizeValueType ;
 
   /** MeasurementVectorSize constant from super class */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
@@ -77,9 +77,9 @@ public:
     m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
     while (iter != last)
       {
-        *idIter++ = iter.GetInstanceIdentifier() ;
-        m_TotalFrequency += iter.GetFrequency() ;
-        ++iter ;
+      *idIter++ = iter.GetInstanceIdentifier() ;
+      m_TotalFrequency += iter.GetFrequency() ;
+      ++iter ;
       }
   }
 
@@ -214,7 +214,7 @@ private:
 } ; // end of class
 
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 
