@@ -41,7 +41,7 @@ int itkNormalizedCorrelationImageMetricTest(int, char**)
 
   const unsigned int ImageDimension = 2;
 
-  typedef unsigned char            PixelType;
+  typedef double                   PixelType;
 
   typedef double                   CoordinateRepresentationType;
 
