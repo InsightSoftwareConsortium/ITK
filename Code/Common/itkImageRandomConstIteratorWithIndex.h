@@ -166,6 +166,9 @@ public:
   void SetNumberOfSamples( unsigned long number );
   unsigned long GetNumberOfSamples( void ) const;
 
+  /** Reinitialize the seed of the random number generator  */
+  static void ReinitializeSeed();
+
 private:
     unsigned long  m_NumberOfSamplesRequested;
     unsigned long  m_NumberOfSamplesDone;

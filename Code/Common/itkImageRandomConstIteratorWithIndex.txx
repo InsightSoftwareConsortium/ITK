@@ -138,6 +138,15 @@ ImageRandomConstIteratorWithIndex<TImage>
 }
 
 
+/** Reinitialize the seed of the random number generator */
+template<class TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>
+::ReinitializeSeed()
+{
+  vnl_sample_reseed();
+}
+
 
 
 
