@@ -21,6 +21,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk
 {
@@ -100,21 +101,28 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
     zerocrossingFilter =
     ZeroCrossingImageFilter<TInputImage,TOutputImage>::New(); 
   
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
   //Construct the mini-pipeline
   
   // Apply the Gaussian filter
   gaussianFilter->SetVariance(m_Variance);
   gaussianFilter->SetMaximumError(m_MaximumError);
   gaussianFilter->SetInput(input);
+  progress->RegisterInternalFilter(gaussianFilter, 1.0f/3.0f);
 
   // Calculate the laplacian of the smoothed image
   laplacianFilter->SetInput(gaussianFilter->GetOutput());
+  progress->RegisterInternalFilter(laplacianFilter, 1.0f/3.0f);
 
   // Find the zero-crossings of the laplacian
   zerocrossingFilter->SetInput(laplacianFilter->GetOutput());
   zerocrossingFilter->SetBackgroundValue( m_BackgroundValue );
   zerocrossingFilter->SetForegroundValue( m_ForegroundValue );
   zerocrossingFilter->GraftOutput( this->GetOutput() );
+  progress->RegisterInternalFilter(zerocrossingFilter, 1.0f/3.0f);
   zerocrossingFilter->Update();
 
   // Graft the output of the mini-pipeline back onto the filter's output.
