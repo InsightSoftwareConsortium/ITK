@@ -206,7 +206,7 @@ void SolverCrankNicolson::Solve()
   /* FIXME Initialize the solution vector */
   m_ls->InitializeSolution(SolutionTIndex);
   m_ls->Solve();  
-  AddToDisplacements(); 
+// call this externally    AddToDisplacements(); 
 }
 
 
@@ -215,7 +215,7 @@ void SolverCrankNicolson::Solve()
  * Copy solution vector u to the corresponding nodal values, which are
  * stored in node objects). This is standard post processing of the solution.
  */  
-void SolverCrankNicolson::AddToDisplacements() 
+void SolverCrankNicolson::AddToDisplacements(Float optimum) 
 {
   /*
    * Copy the resulting displacements from 
@@ -231,7 +231,7 @@ void SolverCrankNicolson::AddToDisplacements()
     else if (temp > maxs2 )  maxs2=temp;
 //  note: set rather than add - i.e. last solution of system not total solution
     m_ls->SetVectorValue(i,m_ls->GetSolutionValue(i,SolutionTIndex),SolutionTMinus1Index);    
-    m_ls->AddSolutionValue(i,m_ls->GetSolutionValue(i,SolutionTIndex),TotalSolutionIndex);
+    m_ls->AddSolutionValue(i,optimum*m_ls->GetSolutionValue(i,SolutionTIndex),TotalSolutionIndex);
     
     temp=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (temp < mins )  mins=temp;

@@ -88,7 +88,7 @@ public:
    * add solution vector u to the corresponding nodal values, which are
    * stored in node objects). This is standard post processing of the solution
    */
-  void AddToDisplacements();
+  void AddToDisplacements(Float optimum=1.0);
   void PrintDisplacements(); 
   void PrintForce();
   
