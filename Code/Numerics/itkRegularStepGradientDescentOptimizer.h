@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkRegularStepGradientDescentOptimizer_h
 #define __itkRegularStepGradientDescentOptimizer_h
 
-#include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkRegularStepGradientDescentBaseOptimizer.h"
 
 namespace itk
 {
@@ -49,14 +49,14 @@ namespace itk
 /** \class RegularStepGradientDescentOptimizer
  * \brief Implement a gradient descent optimizer
  *
- * \ingroup Numerics
+ * \ingroup Numerics  Optimizers
  *
  */
 
   
 template <class TCostFunction>
 class ITK_EXPORT RegularStepGradientDescentOptimizer : 
-        public SingleValuedNonLinearOptimizer< TCostFunction >
+        public RegularStepGradientDescentBaseOptimizer< TCostFunction >
 
 {
 public:
@@ -68,7 +68,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SingleValuedNonLinearOptimizer<TCostFunction> Superclass;
+  typedef RegularStepGradientDescentBaseOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -86,28 +86,28 @@ public:
   /**
    * Dimension of the Search Space
    */
-  enum { SpaceDimension = TCostFunction::SpaceDimension };
+  enum { SpaceDimension = Superclass::SpaceDimension };
  
 
   /**
    *  Parameters type.
    *  it defines a position in the optimization search space
    */
-  typedef typename TCostFunction::ParametersType ParametersType;
+  typedef typename Superclass::ParametersType ParametersType;
 
 
   /**
    *  Measure type.
    *  it defines a type used to return the cost function value 
    */
-  typedef typename TCostFunction::MeasureType MeasureType;
+  typedef typename Superclass::MeasureType MeasureType;
 
 
   /**
    *  Derivative type.
    *  it defines a type used to return the cost function derivative 
    */
-  typedef typename TCostFunction::DerivativeType DerivativeType;
+  typedef typename Superclass::DerivativeType DerivativeType;
 
 
 
@@ -115,7 +115,7 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro( RegularStepGradientDescentOptimizer, 
-      SingleValuedNonLinearOptimizer );
+                RegularStepGradientDescentBaseOptimizer );
 
 
   /**
@@ -125,96 +125,26 @@ public:
   
 
 
-  /**
-   * Codes of stopping conditions
-   */
-  typedef enum {
-    GradientMagnitudeTolerance=1,
-    StepTooSmall,
-    ImageNotAvailable,
-    SamplesNotAvailable,
-    MaximumNumberOfIterations
-  } StopConditionType;
-
-  /**
-   * Select to Minimize the cost function
-   */
-  void    SetMinimize(void) 
-              { m_Maximize = false; }
-
-  /**
-   * Select to Maximize the cost function
-   */
-  void    SetMaximize(void)
-              { m_Maximize = true; }
-
-  /**
-   * Advance one step following the gradient direction
-   */
-  void    AdvanceOneStep( void );
-
-  /**
-   * Test a precondition
-   */
-  bool    Precondition( void );
-
-  /**
-   * Start Optimization
-   */
-  void    StartOptimization( void );
-
-  /**
-   * Resume previously stopped optimization with current parameters
-   * \sa StopOptimization
-   */
-  void    ResumeOptimization( void );
-
-  /**
-   * Stop optimization
-   * \sa ResumeOptimization
-   */
-  void    StopOptimization( void );
-
-  itkSetMacro( MaximumStepLength, double );
-  itkSetMacro( MinimumStepLength, double );
-  itkSetMacro( NumberOfIterations, unsigned long );
-  itkSetMacro( GradientMagnitudeTolerance, double );
-
-  itkGetConstMacro( CurrentStepLength, double);
-  itkGetConstMacro( MaximumStepLength, double );
-  itkGetConstMacro( MinimumStepLength, double );
-  itkGetConstMacro( NumberOfIterations, unsigned long );
-  itkGetConstMacro( GradientMagnitudeTolerance, double );
-  itkGetConstMacro( CurrentIteration, unsigned int );
-  itkGetConstMacro( StopCondition, StopConditionType );
-  itkGetConstMacro( Value, MeasureType );
-
-  itkSetObjectMacro( CostFunction, CostFunctionType );
-
 protected:
-  RegularStepGradientDescentOptimizer();
+
+  RegularStepGradientDescentOptimizer() {};
   virtual ~RegularStepGradientDescentOptimizer() {};
 
+  /**
+   * Advance one step along the corrected gradient taking into
+   * account the steplength represented by factor.
+   * This method is invoked by AdvanceOneStep. It is expected
+   * to be overrided by optimization methods in non-vector spaces
+   * \sa AdvanceOneStep
+   */
+  virtual void StepAlongGradient( 
+                  double factor, 
+                  const DerivativeType & transformedGradient );
+
 private:
+
   RegularStepGradientDescentOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-  DerivativeType                m_Gradient; 
-  DerivativeType                m_PreviousGradient; 
-
-  bool                          m_Stop;
-  bool                          m_Maximize;
-  MeasureType                   m_Value;
-  double                        m_GradientMagnitudeTolerance;
-  double                        m_MaximumStepLength;
-  double                        m_MinimumStepLength;
-  double                        m_CurrentStepLength;
-  StopConditionType             m_StopCondition;
-  unsigned long                 m_NumberOfIterations;
-  unsigned long                 m_CurrentIteration;
-
-  CostFunctionPointer           m_CostFunction;
-
 
 };
 
