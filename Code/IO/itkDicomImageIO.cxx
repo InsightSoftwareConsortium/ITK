@@ -26,10 +26,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// If you're not Mark Foskey, then he left this here by mistake.
-// Please complain to mark_foskey@unc.edu.
-#define OH(var) #var "=" << var << " "
-
 // Convert a subtag into an unsigned int.
 static inline unsigned int
 BytePairToUnsigned(unsigned char* bytePair)
@@ -477,7 +473,6 @@ void DicomImageIO::ReadImageInformation()
   ////0x0020 and 0x0032 >> tag before value of Origin
   m_Origin.clear();
   m_Origin.insert(m_Origin.end(), 3, 0.0);  // Default for origin.
-  std::cout << "*** ORIGIN: " << OH(i) << OH(max) << std::endl;
   if(DicomImageIO::GoToTag(inFile, 0x0020, 0x0032, i, max, tagcurrent))
   {
     for(i=0;i<4;i++)
@@ -513,7 +508,6 @@ void DicomImageIO::ReadImageInformation()
       len=chain[0]+chain[1]*256+chain[2]*256*256+chain[3]*256*256*256;
     }
 
-    std::cout << OH(len) << std::endl;
     if (len > 0) {
       char dummy;
       inFile
@@ -624,7 +618,6 @@ void DicomImageIO::ReadImageInformation()
       // The VR is not specified and the length is, using 4 bytes.
       len=chain[0]+chain[1]*256+chain[2]*256*256+chain[3]*256*256*256;
     }
-    std::cout << OH(len) << std::endl;
     if (len > 0) {
       char dummy;
       inFile >> m_Spacing[0] >> dummy >> m_Spacing[1];
