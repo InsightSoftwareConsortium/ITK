@@ -220,6 +220,14 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
 //-------------------------------------------------------
 // exercise misc member functions
 //-------------------------------------------------------
+  std::cout << "FixedImage: " << metric->GetFixedImage() << std::endl;
+  std::cout << "MovingImage: " << metric->GetMovingImage() << std::endl;
+  std::cout << "Transform: " << metric->GetTransform() << std::endl;
+  std::cout << "Interpolator: " << metric->GetInterpolator() << std::endl;
+  std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << std::endl;
+  std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << std::endl;
+  std::cout << "ScaleGradient: " << metric->GetScaleGradient() << std::endl;
+
   std::cout << "Check case when Target is NULL" << std::endl;
   metric->SetFixedImage( NULL );
   try 
@@ -253,7 +261,34 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
     }
  
+ bool pass;
+#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
+  metric->Set##ComponentName( badComponent ); \
+  try \
+    { \
+    pass = false; \
+    metric->Initialize(); \
+    } \
+  catch( itk::ExceptionObject& err ) \
+    { \
+    std::cout << "Caught expected ExceptionObject" << std::endl; \
+    std::cout << err << std::endl; \
+    pass = true; \
+    } \
+  metric->Set##ComponentName( goodComponent ); \
+  \
+  if( !pass ) \
+    { \
+    std::cout << "Test failed." << std::endl; \
+    return EXIT_FAILURE; \
+    } 
 
+  TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
+  TEST_INITIALIZATION_ERROR( FixedImage, NULL, fixedImage );
+  TEST_INITIALIZATION_ERROR( MovingImage, NULL, movingImage );
+  TEST_INITIALIZATION_ERROR( Interpolator, NULL, interpolator );
+ 
+  std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
 
 }
