@@ -44,7 +44,7 @@ std::string::size_type b,e;
   Superclass::Read(f, info);
 
   // clear the data already inside the object
-  E=0.0; A=0.0; I=0.0; nu=0.0; h=1.0;
+  E=0.0; A=0.0; I=0.0; nu=0.0; h=1.0; RhoC=1.0;
 
   /*
    * Next we read any known constant from stream. This allows a user to

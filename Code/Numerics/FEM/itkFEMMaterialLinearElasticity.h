@@ -71,6 +71,11 @@ public:
    * ... we can add properties here as required without the influence on the already defined elements
    */
 
+  /**
+   * Density times Heat Capacity
+   */
+  double RhoC;
+
 };
 
 FEM_CLASS_INIT(MaterialLinearElasticity)
