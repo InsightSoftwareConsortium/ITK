@@ -117,7 +117,7 @@ bool JPEGImageIO::CanReadFile(const char* file)
     }
 
   // read the first two bytes
-  char magic[2];
+  unsigned char magic[2];
   int n = static_cast<int>(fread(magic, sizeof(magic), 1, JPEGfp.m_FilePointer));
   if (n != 1) 
     {
@@ -126,8 +126,8 @@ bool JPEGImageIO::CanReadFile(const char* file)
   
   // check for the magic stuff:
   // 0xFF followed by 0xD8
-  if( ( (static_cast<unsigned char>(magic[0]) != 0xFF) || 
-        (static_cast<unsigned char>(magic[1]) != 0xD8) ) )
+  if( magic[0] != 0xFF || 
+      magic[1] != 0xD8 )
     {
     return false;
     }
@@ -208,7 +208,7 @@ void JPEGImageIO::Read(void* buffer)
   jpeg_start_decompress(&cinfo);
 
   unsigned long rowbytes = cinfo.output_components * cinfo.output_width;
-  unsigned char *tempImage = static_cast<unsigned char*>(buffer);
+  JSAMPLE *tempImage = static_cast<JSAMPLE*>(buffer);
 
 
   JSAMPROW *row_pointers = new JSAMPROW [cinfo.output_height];
@@ -241,7 +241,12 @@ JPEGImageIO::JPEGImageIO()
 {
   this->SetNumberOfDimensions(2);
   m_PixelType = SCALAR;
+// 12bits is not working right now, but this should be doable
+#if BITS_IN_JSAMPLE == 8 
   m_ComponentType = UCHAR;
+#else
+  m_ComponentType = UINT;
+#endif
   m_UseCompression = false;
   m_Quality = 95;
   m_Progressive = true;
@@ -393,9 +398,10 @@ void JPEGImageIO::Write(const void* buffer)
     itkExceptionMacro(<<"JPEG Writer can only write 2-dimensional images");
     }
 
-  if(this->GetComponentType() != UCHAR)
+  if ( this->GetComponentType() != UCHAR
+    || this->GetComponentType() != UINT)
     {
-    itkExceptionMacro(<<"JPEG supports unsigned char only");
+    itkExceptionMacro(<<"JPEG supports unsigned char/int only");
     }
   
   this->WriteSlice(m_FileName, buffer);
@@ -403,7 +409,7 @@ void JPEGImageIO::Write(const void* buffer)
 
 void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 {
-  const unsigned char *outPtr = ( (const unsigned char*) buffer);
+  const JSAMPLE *outPtr = ( (const JSAMPLE*) buffer);
 
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(),"wb");
@@ -477,7 +483,7 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   for (ui = 0; ui < height; ui++)
     {
     row_pointers[ui] = const_cast<JSAMPROW>(outPtr);
-    outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
+    outPtr = const_cast<JSAMPLE *>(outPtr) + rowInc;
     }
   jpeg_write_scanlines(&cinfo, row_pointers, height);
   
