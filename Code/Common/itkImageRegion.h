@@ -82,7 +82,7 @@ public:
   /** 
    * Return the region type. Images are described with structured regions.
    */
-  virtual int GetRegionType()
+  virtual int GetRegionType() const
     {return Superclass::ITK_STRUCTURED_REGION;}
 
   /**

@@ -59,7 +59,7 @@ public:
    * Subclasses must return a region type describing whether the region
    * is structured or unstructured.
    */
-  virtual int GetRegionType() = 0;
+  virtual int GetRegionType() const = 0;
 
 protected:
 
