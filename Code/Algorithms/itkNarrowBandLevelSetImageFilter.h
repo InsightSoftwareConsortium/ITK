@@ -227,7 +227,7 @@ public:
   bool GetUseNegativeFeatures() const
   {
     itkWarningMacro( << "GetUseNegativeFeatures has been deprecated.  Please use GetReverseExpansionDirection() instead" );
-    if ( this->GetUseNegativeFeatures() == false)
+    if ( this->GetReverseExpansionDirection() == false)
       {
       return true;
       }
