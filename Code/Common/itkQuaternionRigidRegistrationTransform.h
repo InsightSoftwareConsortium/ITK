@@ -162,12 +162,6 @@ private:
    */
   mutable JacobianType                m_Jacobian; 
 
-  /**
-   * Cached results for calculating the Jacobian
-   */
-  double                              m_Magnitude;
-
-
 };
 
 } // end namespace itk

@@ -99,11 +99,6 @@ QuaternionRigidRegistrationTransform<TScalarType,TParameters>
     quaternion[i] = m_Parameters[counter++];
   }
 
-  // normalize the quaternion
-  m_Magnitude = quaternion.magnitude();
-  if( m_Magnitude ) quaternion.normalize();
-
-
   // get the translation
   typename RigidTransformType::VectorType  translation;
   for( unsigned int i=0; i<SpaceDimension; i++)
@@ -153,12 +148,6 @@ GetJacobian( const InputPointType & p ) const
   m_Jacobian[2][1] =   m_Jacobian[0][3];
   m_Jacobian[2][2] =   m_Jacobian[0][0];
   m_Jacobian[2][3] = - m_Jacobian[0][1];
-
-  // scale quaternion parameters with m_Magnitude
-  for( unsigned int i = 0; i < 4; i++ )
-    {
-    m_Jacobian.GetVnlMatrix().scale_column( i, m_Magnitude );
-    }
   
   // compute derivatives for the translation part
   unsigned int blockOffset = 4;
