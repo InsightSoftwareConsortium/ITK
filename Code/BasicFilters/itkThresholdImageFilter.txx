@@ -40,6 +40,7 @@ ThresholdImageFilter<TImage>
   m_OutsideValue = NumericTraits<PixelType>::Zero;
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
+  this->InPlaceOff();
 }
 
 

@@ -34,6 +34,7 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::BinaryFunctorImageFilter()
 {
   this->SetNumberOfRequiredInputs( 2 );
+  this->InPlaceOff();
 }
 
 

@@ -20,7 +20,7 @@
 #ifndef __itkThresholdImageFilter_h
 #define __itkThresholdImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 
 #include "itkConceptChecking.h"
 
@@ -40,12 +40,12 @@ namespace itk
  * \ingroup IntensityImageFilters
  */
 template <class TImage>
-class ITK_EXPORT ThresholdImageFilter:public ImageToImageFilter<TImage,TImage>
+class ITK_EXPORT ThresholdImageFilter:public InPlaceImageFilter<TImage,TImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ThresholdImageFilter         Self;
-  typedef ImageToImageFilter<TImage,TImage>  Superclass;
+  typedef InPlaceImageFilter<TImage,TImage>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThresholdImageFilter, ImageToImageFilter);
+  itkTypeMacro(ThresholdImageFilter, InPlaceImageFilter);
 
   /** Typedef to describe the type of pixel. */
   typedef typename TImage::PixelType PixelType;

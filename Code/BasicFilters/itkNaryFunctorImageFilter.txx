@@ -34,6 +34,7 @@ NaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
   // This number will be incremented each time an image
   // is added over the two minimum required
   this->SetNumberOfRequiredInputs( 2 );
+  this->InPlaceOff();
 }
 
 

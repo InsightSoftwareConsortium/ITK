@@ -33,6 +33,7 @@ template < class TInputImage1, class TInputImage2,
 TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
 ::TernaryFunctorImageFilter()
 {
+  this->InPlaceOff();
 }
 
 

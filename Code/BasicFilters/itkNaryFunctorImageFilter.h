@@ -17,7 +17,7 @@
 #ifndef __itkNaryFunctorImageFilter_h
 #define __itkNaryFunctorImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkImageIterator.h"
 
 namespace itk
@@ -38,13 +38,13 @@ namespace itk
 
 template <class TInputImage, class TOutputImage, class TFunction >
 class ITK_EXPORT NaryFunctorImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage> 
+    public InPlaceImageFilter<TInputImage,TOutputImage> 
 
 {
 public:
   /** Standard class typedefs. */
   typedef NaryFunctorImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NaryFunctorImageFilter, ImageToImageFilter);
+  itkTypeMacro(NaryFunctorImageFilter, InPlaceImageFilter);
 
   /** Some typedefs. */
   typedef TFunction   FunctorType;

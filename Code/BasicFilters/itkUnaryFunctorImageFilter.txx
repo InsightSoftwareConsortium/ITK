@@ -33,6 +33,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
 ::UnaryFunctorImageFilter()
 {
   this->SetNumberOfRequiredInputs( 1 );
+  this->InPlaceOff();
 }
 
 /** 
