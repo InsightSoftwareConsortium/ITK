@@ -68,13 +68,24 @@ proc LoadCVSInformation { File } \
   set FileStatus($File,LastReportedRevision) $FileStatus($File,Head)
   set Logs [SplitLog $Log]
   set i 0
+  set LastReported $FileStatus($File,Head)
   set HaveOne 0
   foreach SubLog $Logs \
   {
     set SplitLog [split $SubLog "\n"]
-    regexp "date: (\[0-9\]+)/(\[0-9\]+)/(\[0-9\]+) (\[^;\]+);" [lindex $SplitLog 1] Date Year Month Day Time 
-    regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy FileStatus($File,LastReportedRevision)
-    set FileStatus($File,RevisionLog,$i,PreviousRevision) $FileStatus($File,LastReportedRevision)
+    regexp "date: (\[0-9\]+)/(\[0-9\]+)/(\[0-9\]+) (\[^;\]+);" [lindex $SplitLog 1] Date Year Month Day Time
+    
+    regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy LastReported
+
+    if { $i == 1 } \
+    {
+      set FileStatus($File,LastReportedRevision) $LastReported
+    }
+
+     
+    
+    set FileStatus($File,RevisionLog,$i,PreviousRevision) $LastReported
+    
     regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy FileStatus($File,RevisionLog,$i,Revision)
 
     if { $i != 0 } \

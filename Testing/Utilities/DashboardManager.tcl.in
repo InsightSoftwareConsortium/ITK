@@ -248,11 +248,15 @@ foreach Command $Commands \
       puts "Found $NightlyBuilds"
       set Dir [pwd]
       cd $DashboardDir
+      puts "Now in [pwd]"
 
       # Build the UpdateSummary
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir} Result
+      puts "Running $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir"
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate } Result
+      puts "UpdateSummary: $Result"
       # Build the DoxygenSummary
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir} Result
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd]} Result
+      puts "Doxygen: $Result"
 
       set DashboardTargets [open DashboardTargets.txt w]
       set DashboardFile [open Dashboard.xml w]
