@@ -279,7 +279,8 @@ protected:
   {
     unsigned int i, j;
     vnl_matrix<TRealType> g(ImageDimension, ImageDimension);
-    vnl_vector_fixed<TRealType, VectorDimension> d_phi_du[ImageDimension];
+    vnl_vector_fixed<TRealType, VectorDimension>
+      d_phi_du[itk::GetImageDimension<TInputImage>::ImageDimension];
     
     // Calculate the directional derivatives for each vector component using
     // central differences.
