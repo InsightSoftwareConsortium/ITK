@@ -18,9 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define _itkVnlFFTComplexConjugateToRealImageFilter_txx
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
-#include <iostream>
-#include "itkIndent.h"
-#include "itkMetaDataObject.h"
 #include <complex>
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
@@ -79,7 +76,7 @@ namespace itk
       case 1:
         for(i = 0; i < inputXSize; i++)
           {
-          signal[i] = myConj(in[i]);
+          signal[i] = std::complex<TPixel>(in[i].real(),-in[i].imag());
           }
         for(; i < outputSize[0]; i++)
           {
@@ -95,7 +92,7 @@ namespace itk
           unsigned int YStrideConj = ((outputSize[1] - i) % outputSize[1]) * inputXSize;
           for(j = 0; j < inputXSize; j++)
             {
-            signal[YStride + j] = myConj(in[YStrideIn+j]);
+            signal[YStride + j] = std::complex<TPixel>(in[YStride + j].real(),-in[YStride + j].imag());
             DEBUG_PRINT(std::cerr << signal[YStride + j] << " ";)
             }
           for(;j < outputSize[0]; j++)
@@ -125,7 +122,7 @@ namespace itk
             for(k = 0; k < inputXSize; k++)
               {
               signal[ZStride + YStride + k] =
-                myConj(in[ZStrideIn + YStrideIn + k]);
+                std::complex<TPixel>(in[ZStrideIn + YStrideIn + k].real(),-(in[ZStrideIn + YStrideIn + k].imag()));
               DEBUG_PRINT(std::cerr << signal[ZStride + YStride + k] << " ";)
               }
             for(;k < outputSize[0]; k++)
