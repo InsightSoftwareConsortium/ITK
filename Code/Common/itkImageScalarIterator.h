@@ -24,6 +24,7 @@
 #define __itkImageScalarIterator_h
 
 #include "itkImageIterator.h"
+#include "itkPixelTraits.h"
 
 template<class TPixel, unsigned int TImageDimension=2>
 class itkImageScalarIterator : public itkImageIterator<TPixel,TImageDimension> {
@@ -32,9 +33,29 @@ public:
    * Dereference the iterator, returns a reference to the pixel. Used to set
    * or get the value referenced by the index.
    */
-  TPixel& operator*() const  
-    { return itkPixelTraits<TPixel>::GetScalar(*( m_Image + m_Offset )); }
+  TPixel::ScalarType& operator*()
+    { 
+    return itkScalarTraits<TPixel>::GetScalar(*( m_Image + m_Offset )); 
+    }
+  
+  /**
+   * Define operator= for native types.
+   */
+  void operator=(const TPixel::ScalarType v)
+    { 
+    }
+  
+  /**
+   * Define operator= for native types.
+   */
+  void operator=(const double v)
+    { 
+    }
+  
   
 };
 
 #endif 
+
+
+

@@ -52,6 +52,16 @@ public:
    * Add two indices. This method models a random access ImageIterator.
    * No bounds checking is performed.
    */
+  bool
+  operator!=(const itkImageIterator<TPixel,TImageDimension> &it) const
+    {
+    return true;
+    }
+
+  /**
+   * Add two indices. This method models a random access ImageIterator.
+   * No bounds checking is performed.
+   */
   const itkImageIterator<TPixel, TImageDimension>
   operator+(const Index &vec)
     {
@@ -308,10 +318,9 @@ protected:
       }
   }
 
-private:
+protected: //made protected so other iterators can access 
   Index          m_Index;
   unsigned long  m_Offset;
-
   TPixel        *m_Image;
   unsigned long  m_ImageSize[TImageDimension];
   unsigned long  m_RegionSize[TImageDimension];

@@ -50,6 +50,12 @@ public:
   typedef typename T ValueType;
 
   /**
+   * ScalarType can be used to declare a variable that is the same type
+   * as the data held in an itkScalar.
+   */
+  typedef typename T ScalarType;
+
+  /**
    * Get the dimension (size) of this scalar. The method is necessary
    * to satisfy the pixel manipulation API.
    */
@@ -58,14 +64,14 @@ public:
   
   /**
    * Get the scalar value.
-   * \sa SetScalar
+   * \sa SetScalar()
    */
-  T GetScalar() const 
+  T& GetScalar()
     { return m_Scalar; }
 
   /**
    * Set the scalar value.
-   * \sa GetScalar
+   * \sa GetScalar()
    */
   void SetScalar(const T &val) { m_Scalar = val; }
 

@@ -14,9 +14,10 @@
 
 =========================================================================*/
 /**
- * itkRandomImageSource generates an image of the specified size consisting
- * of random values. All the components of the output image are set to
- * random values.
+ * itkRandomImageSource generates an image of random scalar values.
+ * The output image may be of any dimension. The scalar values are
+ * inserted into the image via a scalar iterator (i.e., the pixel type
+ * must support GetScalar()/SetScalar()).
  */
 #ifndef __itkRandomImageSource_h
 #define __itkRandomImageSource_h

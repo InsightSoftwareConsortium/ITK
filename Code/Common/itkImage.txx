@@ -162,6 +162,7 @@ itkImage<TPixel, TImageDimension>
 {
   Iterator ind;
   long indexOrigin[TImageDimension];
+  unsigned long size = this->GetSize();
 
   memset(indexOrigin, 0, TImageDimension*sizeof(long));
   
@@ -177,7 +178,7 @@ itkImage<TPixel, TImageDimension>
   Iterator::Index index;
   for (int i=0; i < TImageDimension; i++)
     {
-    indexOrigin[i] = indexOrigin[i] + m_Size[i] - 1;
+    indexOrigin[i] = indexOrigin[i] + size[i] - 1;
     }
   indexOrigin[TImageDimension-1]++;
   index.SetIndex( indexOrigin );
@@ -192,6 +193,7 @@ itkImage<TPixel, TImageDimension>
 ::ScalarBegin()
 {
   ScalarIterator ind;
+  long indexOrigin[TImageDimension];
   
   // Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
   // ImageSize, RegionSize of the image into the interator
@@ -220,8 +222,8 @@ itkImage<TPixel, TImageDimension>
 ::ScalarEnd()
 {
   ScalarIterator ind;
-  
   long indexOrigin[TImageDimension];
+  const unsigned long *size = this->GetSize();
 
   memset(indexOrigin, 0, TImageDimension*sizeof(long));
   
@@ -237,7 +239,7 @@ itkImage<TPixel, TImageDimension>
   ScalarIterator::Index index;
   for (int i=0; i < TImageDimension; i++)
     {
-    indexOrigin[i] = indexOrigin[i] + m_Size[i] - 1;
+    indexOrigin[i] = indexOrigin[i] + size[i] - 1;
     }
   indexOrigin[TImageDimension-1]++;
   index.SetIndex( indexOrigin );

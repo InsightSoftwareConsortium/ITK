@@ -45,7 +45,7 @@ public:
    * Support the GetScalar / SetScalar methods. These are the
    * default implemnentations if the template is not specialized.
    */
-  static itkNumericTraits<T>::ValueType& GetScalar(T& v) {return v.GetScalar();}
+  static itkNumericTraits<T::ValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
   //static ScalarType& GetScalar(T& v) {return v.GetScalar();}
   static void SetScalar(T& v, ScalarType const&d) {v.SetScalar(d);}
 };

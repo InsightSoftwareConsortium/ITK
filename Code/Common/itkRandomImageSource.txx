@@ -57,30 +57,25 @@ void
 itkRandomImageSource<TOutputImage>
 ::Execute()
 {
+  typedef TOutputImage::ScalarValueType scalarType;
+
   TOutputImage *image=this->GetOutput(0);
-  unsigned int imageDimension = image->GetImageDimension();
+  unsigned int N = image->GetImageDimension();
   TOutputImage::Index ind;
   long index[2];
-  TOutputImage::PixelType pixel;
 
-  TOutputImage::ScalarValueType min = 
-    itkNumericTraits<TOutputImage::ScalarValueType>::min();
-  TOutputImage::ScalarValueType max = 
-    itkNumericTraits<TOutputImage::ScalarValueType>::max();
-  TOutputImage::ScalarValueType value;
-  unsigned int pixelDimension = pixel.GetPixelDimension();
+  scalarType min = itkNumericTraits<scalarType>::min();
+  scalarType max = itkNumericTraits<scalarType>::max();
+  scalarType value;
+  TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
+  TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
 
-  itkDebugMacro(<<"Generating random image");
+  itkDebugMacro(<<"Generating a random image of scalars");
   
-  index[0] = 0;
-  index[1] = 0;
-  ind.SetIndex(index);
-  
-  pixel.SetScalar(min);
-
-  value = (min + max) / 2.0;
-
-  
- // for (int j=0; j<imageSize; j++)
+  for ( scalarIterator=image->ScalarBegin(); 
+        scalarIterator != scalarEnd; ++scalarIterator )
+    {
+    *scalarIterator = (min + max) / 2.0;
+    }
   
 }
