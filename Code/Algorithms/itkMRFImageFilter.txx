@@ -373,8 +373,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::ApplyMRFImageFilter()
 {
 
+  int imgSize = m_imgWidth * m_imgHeight * m_imgDepth;
   int maxNumPixelError =  
-    (int)(m_ErrorTolerance * m_imgWidth * m_imgHeight * m_imgDepth);
+    (int)(m_ErrorTolerance * imgSize);
 
   unsigned int numIter = 0;
   do
@@ -385,8 +386,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     MinimizeFunctional();
     numIter += 1;
 
-    for(int index=0; 
-        index<( m_imgWidth * m_imgHeight * m_imgDepth ); index++ )
+    for(int index=0; index < imgSize; index++ )
       {
       if(m_LabelStatus[index] == 1) m_ErrorCounter +=1;
       }
@@ -483,9 +483,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
               ( heightOffset >= 0 ) && ( heightOffset < m_imgHeight ) &&
               ( depthOffset >= 0) && ( depthOffset <m_imgDepth ) )
             {
-            //More elegant solution would be to use neighborhood
-            //operators but it is currently unstable for VC++
 
+            //Generate the index offsets
             offset3D[0] = m_WidthOffset[k] ;
             offset3D[1] = m_HeightOffset[k] ;
             offset3D[2] = m_DepthOffset[k]  ;
