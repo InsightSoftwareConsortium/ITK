@@ -37,14 +37,14 @@
 //  Software Guide : BeginLatex
 //  
 //  The filter used to extract a region from an image is the
-//  \doxygen{ExtractImageFilter}. Its header is included below.
+//  \doxygen{RegionOfInterestImageFilter}. Its header is included below.
 //
-//  \index{itk::ExtractImageFilter!header}
+//  \index{itk::RegionOfInterestImageFilter!header}
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkExtractImageFilter.h"
+#include "itkRegionOfInterestImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -100,14 +100,14 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{ExtractImageFilter} type is instantiated using the input and
+  //  The \doxygen{RegionOfInterestImageFilter} type is instantiated using the input and
   //  output image types. A filter object is created with the \code{New()}
   //  method and assigned to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ExtractImageFilter< InputImageType, OutputImageType > FilterType;
+  typedef itk::RegionOfInterestImageFilter< InputImageType, OutputImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -115,7 +115,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The \doxygen{ExtractImageFilter} requires a region to be defined by the
+  //  The \doxygen{RegionOfInterestImageFilter} requires a region to be defined by the
   //  user. The region is specified by an \doxygen{Index} indicating the pixel
   //  where the region starts and an \doxygen{Size} indication how many pixels
   //  the region has along each dimension. In this example, the specification
@@ -157,15 +157,15 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  Then the region is passed to the filter using the
-  //  \code{SetExtractionRegion()} method.
+  //  \code{SetRegionOfInterest()} method.
   //
-  //  \index{itk::ExtractImageFilter!SetExtractionRegion()}
+  //  \index{itk::RegionOfInterestImageFilter!SetRegionOfInterest()}
   //
   //  Software Guide : EndLatex 
 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetExtractionRegion( wantedRegion );
+  filter->SetRegionOfInterest( wantedRegion );
   // Software Guide : EndCodeSnippet
 
 
@@ -228,7 +228,6 @@ int main( int argc, char ** argv )
 
   writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
 
 
