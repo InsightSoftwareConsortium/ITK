@@ -408,10 +408,11 @@ ElementByteOrderSwap(void)
     case 8:
       {
       int i;
+      char* data = (char*)m_ElementData;
       for(i=0; i<m_Quantity*m_ElementNumberOfChannels; i++)
         {
-        ((unsigned int *)m_ElementData)[i] =
-              MET_ByteOrderSwap8(((unsigned int *)m_ElementData)[i]);
+        MET_ByteOrderSwap8(data);
+        data += 8;
         }
       break;
       }

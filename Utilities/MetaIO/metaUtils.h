@@ -52,12 +52,25 @@ inline unsigned long MET_ByteOrderSwapLong(unsigned int x)
           ((x>>24) & 0x000000ff));
   }
 
-inline unsigned long MET_ByteOrderSwap8(unsigned long x)
+inline void MET_ByteOrderSwap8(void* x)
   {
-  return (((x<<24) & 0xf000f000) |
-          ((x<<8) & 0x0f000f00) |
-          ((x>>8) & 0x00f000f0) |
-          ((x>>24) & 0x000f000f));
+  char one_byte;
+  char* p = reinterpret_cast<char*>(x); 
+  one_byte    = p[0];
+  p[0] = p[7];
+  p[7] = one_byte;
+
+  one_byte    = p[1];
+  p[1] = p[6];
+  p[6] = one_byte;
+
+  one_byte    = p[2];
+  p[2] = p[5];
+  p[5] = one_byte;
+
+  one_byte    = p[3];
+  p[3] = p[4];
+  p[4] = one_byte;
   }
 
 extern bool MET_StringToType(const char *_str, MET_ValueEnumType *_type);
