@@ -64,7 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   REGIONGROW_SLICE_GRIDSIZE  1
 
 static unsigned int test_regiongrowKLM2D();
-static unsigned int test_regiongrowKLM3D();
+// static unsigned int test_regiongrowKLM3D();
 
 //
 // This test mutual information registration

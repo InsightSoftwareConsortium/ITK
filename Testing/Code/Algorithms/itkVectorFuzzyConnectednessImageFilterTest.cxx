@@ -107,6 +107,8 @@ int main()
 
   itk::Size<3> size; 
 
+  std::cout << "VectorDimension: " << FuzzyImage::VectorDimension << std::endl;
+  
   size[0] = WIDTH; 
   size[1] = HEIGHT; 
   size[2] = LENGTH; 
@@ -177,6 +179,7 @@ int main()
       ++ot;
   } 
 
+  std::cout<<std::endl;
   return 0;
 }
 

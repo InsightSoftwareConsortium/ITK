@@ -116,7 +116,7 @@ int main()
   denoiser->AddObserver( itk::ProgressEvent(), command);
 
   denoiser->Update();
-
+return(0);
 
   std::cout << "Run CurvatureFlowImageFilter using streamer" << std::endl;
   typedef itk::CastImageFilter<ImageType,ImageType> CasterType;

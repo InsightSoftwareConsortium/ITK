@@ -50,7 +50,7 @@ int main()
   typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
 
 
-  unsigned short *TestImage = new unsigned short[WIDTH*HEIGHT];
+//  unsigned short *TestImage = new unsigned short[WIDTH*HEIGHT];
   unsigned char  *Test = new unsigned char[WIDTH*HEIGHT*DEPTH];
 
 
@@ -229,7 +229,6 @@ int main()
   m_spheresource->SetResolutionY(30);
   m_spheresource->SetSquareness1(0.5);
   m_spheresource->SetSquareness2(0.5);
-  int ry = 5;
   m_spheresource->SetScale(m_scale);
   m_spheresource->Update();
 
@@ -353,9 +352,7 @@ int main()
     m_bfilter->ComputeOutput();
   
   }
-
-//  FILE *output=fopen("../../../../insight/ftp/colon/df_colon.raw", "wb");  
-//  FILE *dmoutput=fopen("../../../../insight/ftp/colon/dm_colon.dm", "w+"); 
+  
   points = m_bfilter->GetOutput()->GetPoints();
   pointsit = points->Begin();
   cells = m_bfilter->GetOutput()->GetCells();
@@ -367,47 +364,13 @@ int main()
     i++;
   }
 
-//  int num_pt = m_bfilter->GetOutput()->GetNumberOfPoints();
-//  fprintf(dmoutput, "%d\n", num_pt);
-//  fprintf(dmoutput, "%d %d\n", 30, ry);
-
   i = 0;
   while ( pointsit != points->End() ) {
     node = pointsit.Value();
-//  if ((k > 40) && (k<80) ) //node[2] = 1;
-//  else { 
-//    if (k < 80) node[2] = 2;
-//    else node[2] = 3;
-//  }
     Test[((int)(node[2]))*WIDTH*HEIGHT+((int)(node[1]))*WIDTH+((int)(node[0]))]=255;
-//  fprintf(dmoutput, "%f %f %f\n", node[0], node[1], node[2]);
     ++pointsit;
     i++;
   }
-/*
-  i=0;
-  int num_cell = m_bfilter->GetOutput()->GetNumberOfCells();
-  fprintf(dmoutput, "%d\n", num_cell);
-  while( i < m_bfilter->GetOutput()->GetNumberOfCells()) {
-    tp = cellsit.Value()->GetPointIds();
-//  type = celldatait.Value();
-    fprintf(dmoutput, "%d %d %d %f\n", tp[0], tp[1], tp[2], 1.0);
-    ++cellsit;
-//  ++celldatait;
-    i++;
-  }
-*/
-//  fwrite(Test, 1, HEIGHT*WIDTH*DEPTH, output);
-//  fclose(output);
-//  fclose(dmoutput);
-//  }
-//  time(&btime);
-//  m_bfilter->Update();
-//  time(&etime);
-
-//  std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
-  
-// All objects should be automatically destroyed at this point
   return 0;
 
 }

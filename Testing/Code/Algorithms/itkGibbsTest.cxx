@@ -72,7 +72,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
 // for local testing on image files (256*256*1 RGB)
 //  unsigned char TestImage[65536*3];
-  unsigned short outImage[400];
+//  unsigned short outImage[400];
 //  FILE *input;
 
 //  FILE *output=fopen("../../../../insight/local_copy/Jaw_gibbs_uint8.raw", "wb");
@@ -85,7 +85,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  VecImageType::SizeType vecImgSize = { {IMGWIDTH , IMGHEIGHT, NFRAMES} };
 
   VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
   VecImageType::RegionType region;
@@ -131,7 +131,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   typedef itk::Image<unsigned short, NDIMENSION > ClassImageType; 
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
-  ClassImageType::SizeType classImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
+  ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES} };
 
   ClassImageType::IndexType classindex = ClassImageType::IndexType::ZeroIndex;
   ClassImageType::RegionType classregion;
@@ -145,8 +145,6 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
   // setup the iterators
   typedef ClassImageType::PixelType ClassImagePixelType;
-
-  unsigned int ClassImageDimension = NDIMENSION;
 
   typedef  itk::SimpleImageRegionIterator<ClassImageType>  ClassImageIterator;
 
@@ -237,11 +235,11 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 //  outImage[i] = labeloutIt.Get();
   if (labeloutIt.Get() == 0) {
     j0++;
-    outImage[i] = 0;
+//    outImage[i] = 0;
   }
   if (labeloutIt.Get() == 1) {
     j1++;
-    outImage[i] = 65535;
+//    outImage[i] = 65535;
   }
   i++;
   ++labeloutIt;
