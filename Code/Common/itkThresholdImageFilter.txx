@@ -27,7 +27,7 @@ template <class TImage>
 ThresholdImageFilter<TImage>
 ::ThresholdImageFilter()
 {
-  m_OutsideValue = NumericTraits<TImage::PixelType>::Zero;
+  m_OutsideValue = NumericTraits<typename TImage::PixelType>::Zero;
 
   typename TImage::Pointer output = TImage::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(2);
@@ -59,12 +59,7 @@ ThresholdImageFilter<TImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int i;
-  
   itkDebugMacro(<<"Actually executing");
-
-
-
 }
 
 } // end namespace itk
