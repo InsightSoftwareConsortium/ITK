@@ -149,7 +149,7 @@ public:
     {
     
       std::cout << " target " << m_target << std::endl;
-      for (int i=0; i<m_target.size(); i++) 
+      for (unsigned int i=0; i<m_target.size(); i++) 
       {
         m_target[i]/=spacing[i];
         m_source[i]/=spacing[i];
