@@ -46,7 +46,7 @@ class ITK_EXPORT InterpolateImageFunction :
 public:
   /** Standard class typedefs. */
   typedef InterpolateImageFunction Self;
-  typedef ImageFunction<TInputImage,double,TCoordRep> Superclass;
+  typedef ImageFunction<TInputImage,typename NumericTraits<typename TInputImage::PixelType>::RealType,TCoordRep> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
