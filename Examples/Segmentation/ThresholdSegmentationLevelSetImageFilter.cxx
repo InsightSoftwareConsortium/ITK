@@ -57,7 +57,7 @@
 // \label{fig:ThresholdSegmentationSpeedTerm}}
 // \parpic(7.0cm,4.5cm)[r]{\includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1.eps}}
 //
-// The threshold segmentation} filter expects two inputs.  The first is an
+// The threshold segmentation filter expects two inputs.  The first is an
 // initial level set in the form of an \doxygen{Image}. The second input is
 // the feature image $g$.  For many applications, this filter requires little
 // or no preprocessing of its input.  Smoothing the input image is not
