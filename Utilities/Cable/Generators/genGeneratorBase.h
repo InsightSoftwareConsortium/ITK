@@ -82,6 +82,7 @@ protected:
   configuration::Package::ConstPointer m_Package;
   
   static bool MakeDirectory(const char*);
+  static String GetOperatorName(const String&);
 };
 
 } // namespace gen

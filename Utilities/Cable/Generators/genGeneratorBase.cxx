@@ -148,4 +148,27 @@ bool GeneratorBase::MakeDirectory(const char* path)
   return true;
 }
 
+#define TEST_OPERATOR(op, id) \
+  if(name == #op) return #id
+
+/**
+ * Try to translate an operator name into a valid C identifier.  If there is
+ * no translation, the empty string is returned.
+ */
+String GeneratorBase::GetOperatorName(const String& name)
+{
+  TEST_OPERATOR(=, assign);
+  TEST_OPERATOR(+, plus);
+  TEST_OPERATOR(+=, aplus);
+  TEST_OPERATOR(-, minus);
+  TEST_OPERATOR(-=, aminus);
+  TEST_OPERATOR(*, multiply);
+  TEST_OPERATOR(*=, amultiply);
+  TEST_OPERATOR(/, divide);
+  TEST_OPERATOR(/=, adivide);
+  return "";
+}
+
+#undef TEST_OPERATOR
+
 } // namespace gen
