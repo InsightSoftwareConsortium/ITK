@@ -98,6 +98,15 @@ int main( int , char *[] )
     it++;
     }
 // Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// Do NOT forget to delete the list of children since the \code{GetChildren()} function
+// creates an internal list.
+// Software Guide : EndLatex 
+// Software Guide : BeginCodeSnippet  
+  delete childrenList
+// Software Guide : EndCodeSnippet
+
 // Software Guide : BeginLatex
 //
 // An object can also be removed by using the \code{RemoveSpatialObject()}
