@@ -1,6 +1,8 @@
 #include <itkSPSAOptimizer.h>
 #include <vnl/vnl_math.h>
 
+#include "vnl/vnl_sample.h"
+
 /** 
  *  The objective function is the quadratic form:
  *
@@ -89,6 +91,10 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
 
 int itkSPSAOptimizerTest(int, char* [] ) 
 {
+#if __CYGWIN__
+  vnl_sample_reseed(0x1234abcd);
+#endif
+
   std::cout << "SPSAOptimizer Test ";
   std::cout << std::endl << std::endl;
 
