@@ -290,8 +290,8 @@ ImageBase<VImageDimension>
   for (i=0; i< VImageDimension; i++)
     {
     if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
-         ((requestedRegionIndex[i] + requestedRegionSize[i])
-          > (largestPossibleRegionIndex[i]+largestPossibleRegionSize[i])))
+         ((requestedRegionIndex[i] + (int)requestedRegionSize[i])
+          > (largestPossibleRegionIndex[i]+(int)largestPossibleRegionSize[i])))
       {
       itkErrorMacro( << "Region does not lie within the image" );
       retval = false;
