@@ -191,7 +191,7 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
   filter->SetPropagationScaling(0.5);
   filter->SetCurvatureScaling(1.0);
   filter->SetAdvectionScaling(1.0);
-  filter->SetThreshold(10);
+  filter->SetThreshold(.4);
   filter->SetVariance(1.0);
   
   try {
