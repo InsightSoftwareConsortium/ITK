@@ -320,7 +320,7 @@ public:
   /**
    * Get the pixel value
    */
-  PixelType & Get(void) const  
+  PixelType Get(void) const  
     { return m_PixelAccessor.Get(*(m_Buffer+m_Offset)); }
   
   /**
