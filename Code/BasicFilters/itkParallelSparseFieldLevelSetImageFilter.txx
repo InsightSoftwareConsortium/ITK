@@ -95,19 +95,19 @@ double ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueOne = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueOne = NumericTraits<ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                       TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueZero = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueZero = NumericTraits<ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                              TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_StatusNull = NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage,
+::m_StatusNull = NumericTraits<ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage,
                                         TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
@@ -116,7 +116,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusChanging = -1;
 
 template<class TInputImage, class TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingUp = -2;
 

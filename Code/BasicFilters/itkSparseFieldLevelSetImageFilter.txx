@@ -92,19 +92,19 @@ double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueOne = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueOne = NumericTraits<ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage,
                                                             TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ValueZero = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
+::m_ValueZero = NumericTraits<ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage,
                                                              TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_StatusNull = NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage,
+::m_StatusNull = NumericTraits<ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage,
                                                               TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
