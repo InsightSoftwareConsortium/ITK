@@ -183,7 +183,7 @@ public:
   /** 
    * Definition of the Point type used for settin the origin
    */
-  typedef typename AffineTransformType::PointType    PointType;
+  typedef typename AffineTransformType::OffsetType OriginOffsetType;
 
   /** 
    * Run-time type information (and related methods).
@@ -299,7 +299,7 @@ public:
    */
   virtual void SetOrigin( const double values[ImageDimension] );
   virtual void SetOrigin( const float values[ImageDimension] );
-  virtual void SetOrigin( const PointType & point );
+  virtual void SetOrigin( const OriginOffsetType & origin );
 
   /** 
    * Get the origin of the image. The origin is the geometric
@@ -316,7 +316,7 @@ public:
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType GetIndexToPhysicalTransform(void) const;
+  AffineTransformType::Pointer GetIndexToPhysicalTransform(void) const;
 
   /** 
    * Get the physical-to-index coordinate transformation
@@ -325,7 +325,7 @@ public:
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType GetPhysicalToIndexTransform(void) const;
+  AffineTransformType::Pointer GetPhysicalToIndexTransform(void) const;
 
   /**
    * Get the cotinuous index from a physical point
@@ -348,7 +348,7 @@ public:
     typedef TransformType::OutputPointType OutputPointType ;
     
     TransformType::MatrixType matrix;
-    TransformType::VectorType offset;
+    TransformType::OffsetType offset;
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
         for (unsigned int j = 0; j < VImageDimension; j++)
@@ -377,9 +377,8 @@ public:
    * is templated over coordinate value type (TCoordRep), using float or
    * double for the coorinate value type is recommended.
    *
-   * TO DO:
-   * In future, when MS Visual C++ supports out-of-class member templates,
-   * move function definition to itkImage.txx file.
+   * \todo In future, when MS Visual C++ supports out-of-class member 
+   * templates, move function definition to itkImage.txx file.
    *
    * \sa AffineTransform 
    */
@@ -392,7 +391,7 @@ public:
     typedef TransformType::OutputPointType OutputPointType ;
     
     TransformType::MatrixType matrix;
-    TransformType::VectorType offset;
+    TransformType::OffsetType offset;
     
     for (unsigned int i = 0; i < VImageDimension; i++)
       {

@@ -154,7 +154,7 @@ public:
   /** 
    * Definition of the Point type used for settin the origin
    */
-  typedef typename AffineTransformType::PointType    PointType;
+  typedef typename AffineTransformType::OffsetType OriginOffsetType;
 
   /** 
    * Run-time type information (and related methods).
@@ -315,7 +315,7 @@ public:
    */
   virtual void SetOrigin( const double values[TImage::ImageDimension] );
   virtual void SetOrigin( const float values[TImage::ImageDimension] );
-  virtual void SetOrigin( const PointType & point );
+  virtual void SetOrigin( const OriginOffsetType & origin );
 
   /**
    * Set Internal Image
