@@ -103,7 +103,7 @@ int testBinaryMinMaxCurvatureFlow(
   typedef itk::Image<PixelType, ImageDimension> ImageType;
   typedef itk::ImageRegionIterator<ImageType> IteratorType;
   typedef itk::BinaryMinMaxCurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
-  DenoiserType::Pointer denoiser = DenoiserType::New();
+  typename DenoiserType::Pointer denoiser = DenoiserType::New();
 
   int j;
 
@@ -117,10 +117,10 @@ int testBinaryMinMaxCurvatureFlow(
   PixelType background = 255.0;             // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
-  ImageType::Pointer circleImage = ImageType::New();
+  typename ImageType::Pointer circleImage = ImageType::New();
 
 
-  ImageType::RegionType region;
+  typename ImageType::RegionType region;
   region.SetSize( size );
 
   circleImage->SetLargestPossibleRegion( region );
@@ -132,7 +132,7 @@ int testBinaryMinMaxCurvatureFlow(
 
   for ( ; !circleIter.IsAtEnd() ; ++circleIter )
     {
-    ImageType::IndexType index = circleIter.GetIndex();
+    typename ImageType::IndexType index = circleIter.GetIndex();
     float value;
 
     double lhs = 0.0;
@@ -179,7 +179,7 @@ int testBinaryMinMaxCurvatureFlow(
   denoiser->AddObserver( itk::ProgressEvent(), command);
 
 
-  ImageType::Pointer swapPointer = circleImage;
+  typename ImageType::Pointer swapPointer = circleImage;
 
   for ( int j = 0; j < numberOfRuns; j++ )
     {
@@ -223,7 +223,7 @@ int testBinaryMinMaxCurvatureFlow(
   for ( ; !outIter.IsAtEnd(); ++outIter )
     {
 
-    ImageType::IndexType index = outIter.GetIndex();
+    typename ImageType::IndexType index = outIter.GetIndex();
     PixelType value = outIter.Get();
 
     double lhs = 0.0;
