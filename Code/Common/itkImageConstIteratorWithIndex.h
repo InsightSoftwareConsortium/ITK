@@ -55,7 +55,8 @@ namespace itk
  * \ingroup ImageIterators
  */
 template<typename TImage>
-class ImageConstIteratorWithIndex {
+class ITK_EXPORT ImageConstIteratorWithIndex
+{
 public:
   /** Standard class typedefs. */
   typedef ImageConstIteratorWithIndex Self;

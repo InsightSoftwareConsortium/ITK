@@ -42,7 +42,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageRegionReverseIterator : public ImageRegionReverseConstIterator<TImage>
+class ITK_EXPORT ImageRegionReverseIterator : public ImageRegionReverseConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */

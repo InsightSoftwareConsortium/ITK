@@ -34,7 +34,7 @@ namespace itk {
    * of the (key,value) pair to be stored in
    * a MetaDataDictionary
    */
-  class MetaDataObjectBase
+  class ITK_EXPORT MetaDataObjectBase
   {
     public:
         typedef MetaDataObjectBase Self;

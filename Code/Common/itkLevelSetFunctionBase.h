@@ -32,7 +32,7 @@ namespace itk {
  * \ingroup Functions
  */
 template <class TImageType>
-class LevelSetFunctionBase : public FiniteDifferenceFunction<TImageType>
+class ITK_EXPORT LevelSetFunctionBase : public FiniteDifferenceFunction<TImageType>
 {
 public:
   /** Standard class typedefs. */

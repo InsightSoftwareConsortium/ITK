@@ -46,7 +46,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 template < typename TCellInterface >
-class PolygonCell: public TCellInterface
+class ITK_EXPORT PolygonCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */

@@ -32,7 +32,7 @@ namespace itk
  * */
 
 template <unsigned int VImageDimension>
-class BloxBoundaryPointItem: public BloxItem
+class ITK_EXPORT BloxBoundaryPointItem: public BloxItem
 {
 public:
   /** The type of vector used to store the position of the BoundaryPointItem * */

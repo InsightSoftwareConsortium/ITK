@@ -57,7 +57,8 @@ namespace itk
  * \ingroup ImageIterators
  */
 template<typename TImage>
-class ImageReverseConstIterator {
+class ITK_EXPORT ImageReverseConstIterator
+{
 public:
   /** Standard class typedefs. */
   typedef ImageReverseConstIterator Self;

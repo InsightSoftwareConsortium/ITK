@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ImageObjects
  */
 template<class TImage>
-class  PeriodicBoundaryCondition
+class ITK_EXPORT  PeriodicBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:

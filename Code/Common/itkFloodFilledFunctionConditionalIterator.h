@@ -33,7 +33,7 @@ namespace itk
  *
  */
 template<class TImage, class TFunction>
-class FloodFilledFunctionConditionalIterator: public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+class ITK_EXPORT FloodFilledFunctionConditionalIterator: public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class typedefs. */

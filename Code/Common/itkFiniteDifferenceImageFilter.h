@@ -119,7 +119,7 @@ namespace itk {
  * \ingroup LevelSetSegmentation
  * \sa DenseFiniteDifferenceImageFilter */
 template <class TInputImage, class TOutputImage>
-class FiniteDifferenceImageFilter  
+class ITK_EXPORT FiniteDifferenceImageFilter  
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

@@ -36,7 +36,7 @@ namespace itk
  * */
 
 template <unsigned int VImageDimension>
-class BloxCoreAtomItem: public BloxItem
+class ITK_EXPORT BloxCoreAtomItem: public BloxItem
 {
 public:
   /** The point type used to store the position of the CoreAtomItem. */

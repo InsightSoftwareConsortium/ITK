@@ -43,7 +43,7 @@ namespace itk
 template <
   typename TCell
   >
-class CellBoundary: public TCell
+class ITK_EXPORT CellBoundary: public TCell
 {
 public:
   /** Standard class typedefs. */

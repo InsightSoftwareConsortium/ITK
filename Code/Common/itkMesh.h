@@ -98,7 +98,7 @@ template <
   unsigned int VDimension = 3,
   typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension, VDimension >
   >
-class Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
+class ITK_EXPORT Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
   /** Standard typedefs. */

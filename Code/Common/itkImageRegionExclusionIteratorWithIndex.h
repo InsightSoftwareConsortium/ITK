@@ -42,7 +42,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageRegionExclusionIteratorWithIndex : public ImageRegionExclusionConstIteratorWithIndex<TImage>
+class ITK_EXPORT ImageRegionExclusionIteratorWithIndex : public ImageRegionExclusionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */

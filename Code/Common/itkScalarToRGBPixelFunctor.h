@@ -39,7 +39,7 @@ namespace Functor {
  *
  */
 template< class TScalar >
-class ScalarToRGBPixelFunctor
+class ITK_EXPORT ScalarToRGBPixelFunctor
 {
 public:
   ScalarToRGBPixelFunctor();

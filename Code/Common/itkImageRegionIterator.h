@@ -42,7 +42,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageRegionIterator : public ImageRegionConstIterator<TImage>
+class ITK_EXPORT ImageRegionIterator : public ImageRegionConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */

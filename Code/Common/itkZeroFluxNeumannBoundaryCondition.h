@@ -55,7 +55,7 @@ namespace itk
  * \ingroup ImageObjects
  */
 template<class TImage>
-class  ZeroFluxNeumannBoundaryCondition
+class ITK_EXPORT  ZeroFluxNeumannBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:

@@ -41,7 +41,7 @@ namespace itk
    * to work around those deficiencies.
    */
   template <class MetaDataObjectType>
-    class MetaDataObject: public itk::MetaDataObjectBase
+    class ITK_EXPORT MetaDataObject: public itk::MetaDataObjectBase
     {
       public:
         typedef MetaDataObject Self;

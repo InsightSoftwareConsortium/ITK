@@ -10,7 +10,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-class BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDimensions> >
+class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDimensions> >
 {
 public:
   /** The type of boundary profile item we process. */

@@ -36,7 +36,7 @@ namespace itk
 template <
     class TScalarType=float, // Type for cordinate representation type (float or double)
     unsigned int NDimensions=3  >  // Number of dimensions
-class ScaleTransform : public Transform< TScalarType, 
+class ITK_EXPORT ScaleTransform : public Transform< TScalarType, 
                                          NDimensions,
                                          NDimensions >
 {

@@ -42,7 +42,7 @@ namespace itk
  *
  */
 template<typename TImage>
-class ImageSliceIteratorWithIndex : public ImageSliceConstIteratorWithIndex<TImage>
+class ITK_EXPORT ImageSliceIteratorWithIndex : public ImageSliceConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */

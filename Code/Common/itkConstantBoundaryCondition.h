@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ImageObjects
  */
 template<class TImage>
-class ConstantBoundaryCondition
+class ITK_EXPORT ConstantBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:

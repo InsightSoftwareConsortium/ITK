@@ -39,7 +39,7 @@ namespace itk
  * */
 
 template <unsigned int NDimensions>
-class BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
+class ITK_EXPORT BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
 {
 public:
 

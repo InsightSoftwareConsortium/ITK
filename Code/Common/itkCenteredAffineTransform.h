@@ -38,7 +38,7 @@ namespace itk
 template <
  class TScalarType=double,         // Data type for scalars (e.g. float or double)
  unsigned int NDimensions=3>       // Number of dimensions in the input space
-class CenteredAffineTransform : public AffineTransform< TScalarType, NDimensions >
+class ITK_EXPORT CenteredAffineTransform : public AffineTransform< TScalarType, NDimensions >
 {
 public:
   /** Standard typedefs   */

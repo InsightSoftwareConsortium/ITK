@@ -42,7 +42,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class QuadraticEdgeCell: public TCellInterface
+class ITK_EXPORT QuadraticEdgeCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */

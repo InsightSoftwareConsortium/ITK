@@ -41,7 +41,7 @@ namespace itk
  * \ingroup MeshObjects
  */
 template < typename TCellInterface >
-class TetrahedronCell: public TCellInterface, private TetrahedronCellTopology
+class ITK_EXPORT TetrahedronCell: public TCellInterface, private TetrahedronCellTopology
 {
 public:
   /** Standard class typedefa. */

@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ImageIterators
  */
 template<class TImage>
-class ConditionalIterator : public ConditionalConstIterator<TImage>
+class ITK_EXPORT ConditionalIterator : public ConditionalConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */

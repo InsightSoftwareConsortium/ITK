@@ -31,7 +31,7 @@ namespace itk
  */
 template <class TScalarType,         // Data type for scalars (float or double)
           unsigned int NDimensions = 3>          // Number of dimensions
-class VolumeSplineKernelTransform : 
+class ITK_EXPORT VolumeSplineKernelTransform : 
                 public KernelTransform<   TScalarType, NDimensions>
 {
 public:

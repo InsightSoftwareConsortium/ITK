@@ -76,7 +76,7 @@ namespace itk
 
 template < class TScalarType=float,  // Data type for scalars (e.g. float or double)
            unsigned int NDimensions=3 >
-class AzimuthElevationToCartesianTransform : 
+class ITK_EXPORT AzimuthElevationToCartesianTransform : 
                             public AffineTransform< TScalarType, NDimensions >
 {
 public:

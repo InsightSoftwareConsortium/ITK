@@ -43,7 +43,7 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class HexahedronCell: public TCellInterface, private HexahedronCellTopology
+class ITK_EXPORT HexahedronCell: public TCellInterface, private HexahedronCellTopology
 {
 public:
   /** Standard class typedefs. */
