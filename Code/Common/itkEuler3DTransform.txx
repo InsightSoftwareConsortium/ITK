@@ -162,17 +162,34 @@ GetJacobian( const InputPointType & p ) const
 
   m_Jacobian.Fill(0.0);
 
-  m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*p[1]+(-cz*sy*sx+sz*cx)*p[2];
-  m_Jacobian[0][1] = (sz*sy*cx-cz*sx)*p[1]+(-sz*sy*sx-cz*cx)*p[2];
-  m_Jacobian[0][2] = (cy*cx)*p[1]+(-cy*sx)*p[2];  
-  
-  m_Jacobian[1][0] = (-cz*sy)*p[0]+(cz*cy*sx)*p[1]+(cz*cy*cx)*p[2];
-  m_Jacobian[1][1] = (-sz*sy)*p[0]+(sz*cy*sx)*p[1]+(sz*cy*cx)*p[2];
-  m_Jacobian[1][2] = (-cy)*p[0]+(-sy*sx)*p[1]+(-sy*cx)*p[2];
-  
-  m_Jacobian[2][0] = (-sz*cy)*p[0]+(-sz*sy*sx-cz*cx)*p[1]+(-sz*sy*cx+cz*sx)*p[2];
-  m_Jacobian[2][1] = (cz*cy)*p[0]+(cz*sy*sx-sz*cx)*p[1]+(cz*sy*cx+sz*sx)*p[2];  
-  m_Jacobian[2][2] = 0;
+  if ( m_ComputeZYX )
+    {
+    m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*p[1]+(-cz*sy*sx+sz*cx)*p[2];
+    m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*p[1]+(-sz*sy*sx-cz*cx)*p[2];
+    m_Jacobian[2][0] = (cy*cx)*p[1]+(-cy*sx)*p[2];  
+    
+    m_Jacobian[0][1] = (-cz*sy)*p[0]+(cz*cy*sx)*p[1]+(cz*cy*cx)*p[2];
+    m_Jacobian[1][1] = (-sz*sy)*p[0]+(sz*cy*sx)*p[1]+(sz*cy*cx)*p[2];
+    m_Jacobian[2][1] = (-cy)*p[0]+(-sy*sx)*p[1]+(-sy*cx)*p[2];
+    
+    m_Jacobian[0][2] = (-sz*cy)*p[0]+(-sz*sy*sx-cz*cx)*p[1]+(-sz*sy*cx+cz*sx)*p[2];
+    m_Jacobian[1][2] = (cz*cy)*p[0]+(cz*sy*sx-sz*cx)*p[1]+(cz*sy*cx+sz*sx)*p[2];  
+    m_Jacobian[2][2] = 0;
+    }
+  else
+    {
+    m_Jacobian[0][0] = (-sz*cx*sy)*p[0] + (sz*sx)*p[1] + (sz*cx*cy)*p[2];
+    m_Jacobian[1][0] = (cz*cx*sy)*p[0] + (-cz*sx)*p[1] + (-cz*cx*cy)*p[2];
+    m_Jacobian[2][0] = (sx*sy)*p[0] + (cx)*p[1] + (-sx*cy)*p[2];  
+    
+    m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*p[0] + (cz*cy-sz*sx*sy)*p[2];
+    m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*p[0] + (sz*cy+cz*sx*sy)*p[2];
+    m_Jacobian[2][1] = (-cx*cy)*p[0] + (-cx*sy)*p[2];
+    
+    m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*p[0] + (-cz*cx)*p[1] + (-sz*sy+cz*sx*cy)*p[2];
+    m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*p[0] + (-sz*cx)*p[1] + (cz*sy+sz*sx*cy)*p[2];
+    m_Jacobian[2][2] = 0;
+    }
  
   // compute derivatives for the translation part
   unsigned int blockOffset = 3;  

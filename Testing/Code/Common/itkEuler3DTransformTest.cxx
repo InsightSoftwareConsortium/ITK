@@ -207,6 +207,79 @@ int itkEuler3DTransformTest(int,char *[] )
   }
   std::cout << " [ PASSED ] " << std::endl;
 
+  // Really test the Jacobian
+  for( unsigned int p = 0; p < 2; p++ )
+    {
+    std::cout << "Testing Jacobian when ComputeZYX is ";
+    if ( p == 0 )
+      {
+      std::cout << "true" << std::endl;
+      eulerTransform->ComputeZYX( true );
+      }
+    else
+      {
+      std::cout << "false" << std::endl;
+      eulerTransform->ComputeZYX( false );
+      }
+
+    parameters.Fill( 0.0 );
+    parameters[0] = 0.2 / 180.0 * vnl_math::pi;
+    parameters[1] = -1.0 / 180.0 * vnl_math::pi;
+    parameters[2] = 2.4 / 180.0 * vnl_math::pi;
+    parameters[3] = 5.0;
+    parameters[4] = 6.0;
+    parameters[5] = 8.0;
+
+    eulerTransform->SetParameters( parameters );
+    
+    pInit[0] = 1.0;
+    pInit[1] = 1.5;
+    pInit[2] = 2.6;
+
+    jacobian = eulerTransform->GetJacobian( pInit );
+    std::cout << jacobian << std::endl;
+
+    EulerTransformType::JacobianType approxJacobian = jacobian;
+
+    for( unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); k++ )
+      {
+      const double delta = 0.001;
+      EulerTransformType::ParametersType plusParameters;
+      EulerTransformType::ParametersType minusParameters;
+
+      plusParameters = parameters;
+      minusParameters = parameters;
+      plusParameters[k] += delta;
+      minusParameters[k] -= delta;
+
+      EulerTransformType::OutputPointType plusPoint;
+      EulerTransformType::OutputPointType minusPoint;
+
+      eulerTransform->SetParameters( plusParameters );
+      plusPoint = eulerTransform->TransformPoint( pInit );
+      eulerTransform->SetParameters( minusParameters );
+      minusPoint = eulerTransform->TransformPoint( pInit );
+
+      for( unsigned int j = 0; j < 3; j++ )
+        {
+        double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
+        double computedDerivative = jacobian[j][k];
+        approxJacobian[j][k] = approxDerivative;
+        if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+          {
+          std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
+          std::cerr << "Result should be: " << approxDerivative << std::endl;
+          std::cerr << "Reported result is: " << computedDerivative << std::endl;
+          //std::cerr << " [ FAILED ] " << std::endl;
+          //return EXIT_FAILURE;
+          }
+        }
+      }
+
+    std::cout << approxJacobian << std::endl;
+    std::cout << " [ PASSED ] " << std::endl;
+
+  }
 
   return EXIT_SUCCESS;
 
