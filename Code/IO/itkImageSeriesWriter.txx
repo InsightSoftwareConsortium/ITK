@@ -18,7 +18,6 @@
 #define _itkImageSeriesWriter_txx
 
 #include "itkImageSeriesWriter.h"
-#include "itkImageFileWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
@@ -128,28 +127,23 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 ImageSeriesWriter<TInputImage,TOutputImage>
-::GenerateData(void)
+::GenerateNumericFileNamesAndWrite(void)
 {
+
+  itkWarningMacro("This functionality has been DEPRECATED. NumericSeriesFileName for generating the filenames");
+
   const InputImageType * inputImage = this->GetInput();
 
-  itkDebugMacro(<<"Writing a series of files");
-  
+  if( !inputImage )
+    {
+    itkExceptionMacro(<<"Input image is NULL");
+    }
+
   // We need two regions. One for the input, one for the output.
   ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
   ImageRegion<TOutputImage::ImageDimension> outRegion;
 
-  // The size of the output will match the input sizes, up to the
-  // dimension of the input.
-  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
-    {
-    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
-    }
-
-  // Allocate an image for output and create an iterator for it
   typename OutputImageType::Pointer outputImage = OutputImageType::New();
-    outputImage->SetRegions(outRegion);
-    outputImage->Allocate();
-  ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
 
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
@@ -163,8 +157,10 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   outputImage->SetOrigin(origin);
   outputImage->SetSpacing(spacing);
 
-  
-  typedef ImageFileWriter<TOutputImage> WriterType;
+   // Allocate an image for output and create an iterator for it
+    outputImage->SetRegions(outRegion);
+    outputImage->Allocate();
+  ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
 
   unsigned long fileNumber = m_StartIndex;
   char fileName[IOCommon::ITK_MAXPATHLEN+1];
@@ -220,6 +216,123 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
     progress.CompletedPixel();
     fileNumber += m_IncrementIndex;
+    offset += pixelsPerFile;
+    }
+
+}
+
+//---------------------------------------------------------
+template <class TInputImage,class TOutputImage>
+void 
+ImageSeriesWriter<TInputImage,TOutputImage>
+::GenerateData(void)
+{
+
+  itkDebugMacro(<<"Writing a series of files");
+  if( m_FileNames.empty() )
+    {
+    // this method will be deprecated. It is here only to maintain the old API
+    this->GenerateNumericFileNamesAndWrite();
+    return;
+    }
+
+  const InputImageType * inputImage = this->GetInput();
+
+  if( !inputImage )
+    {
+    itkExceptionMacro(<<"Input image is NULL");
+    }
+
+  // We need two regions. One for the input, one for the output.
+  ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
+  ImageRegion<TOutputImage::ImageDimension> outRegion;
+
+  // The size of the output will match the input sizes, up to the
+  // dimension of the input.
+  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
+    {
+    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
+    }
+
+  // Allocate an image for output and create an iterator for it
+  typename OutputImageType::Pointer outputImage = OutputImageType::New();
+    outputImage->SetRegions(outRegion);
+    outputImage->Allocate();
+  ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
+
+  // Set the origin and spacing of the output
+  double spacing[TOutputImage::ImageDimension];
+  double origin[TOutputImage::ImageDimension];
+  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
+    {
+    origin[i] = inputImage->GetOrigin()[i];
+    spacing[i] = inputImage->GetSpacing()[i];
+    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
+    }
+  outputImage->SetOrigin(origin);
+  outputImage->SetSpacing(spacing);
+
+  
+  Index<TInputImage::ImageDimension> inIndex;
+  unsigned long pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
+
+
+  unsigned int expectedNumberOfFiles = 1;
+  for (unsigned int n = TOutputImage::ImageDimension;
+       n < TInputImage::ImageDimension;
+       n++)
+    {
+    expectedNumberOfFiles *= inRegion.GetSize(n);
+    }
+
+
+   if( m_FileNames.size() != expectedNumberOfFiles )
+     {
+     itkExceptionMacro(<<"The number of filenames passed is " << m_FileNames.size() << " but " << expectedNumberOfFiles << " were expected ");
+     return;
+     }
+
+
+
+  itkDebugMacro( <<"Number of files to write = " << m_FileNames.size() );
+
+
+  ProgressReporter progress(this, 0, 
+                            expectedNumberOfFiles,
+                            expectedNumberOfFiles);
+
+  // For each "slice" in the input, copy the region to the output,
+  // build a filename and write the file.
+
+  typename InputImageType::OffsetValueType offset = 0;
+  for (unsigned int slice=0; slice < m_FileNames.size(); slice++)
+    {
+    // Select a "slice" of the image. 
+    inIndex = inputImage->ComputeIndex(offset);
+    inRegion.SetIndex(inIndex);
+    ImageRegionConstIterator<InputImageType> it (inputImage,
+                                                 inRegion);
+
+    // Copy the selected "slice" into the output image.
+    ot.GoToBegin();
+    while (!ot.IsAtEnd())
+      {
+      ot.Set(it.Get());
+      ++it;
+      ++ot;
+      }
+
+    typename WriterType::Pointer writer = WriterType::New();
+    writer->SetInput(outputImage);
+    if (m_ImageIO)
+      {
+      writer->SetImageIO(m_ImageIO);
+      }
+
+    writer->SetFileName( m_FileNames[slice].c_str() );
+    writer->Update();
+
+    progress.CompletedPixel();
     offset += pixelsPerFile;
     }
 

@@ -22,6 +22,9 @@
 #include "itkExceptionObject.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
+#include "itkImageFileWriter.h"
+#include <vector>
+#include <string>
 
 namespace itk
 {
@@ -93,6 +96,8 @@ public:
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef TOutputImage OutputImageType;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
+  typedef ImageFileWriter<TOutputImage> WriterType;
+  typedef std::vector< std::string >   FileNamesContainer;
   
   /** Set/Get the image input of this writer.  */
   void SetInput(const InputImageType *input);
@@ -137,6 +142,39 @@ public:
    * IncrementIndex. */
   itkSetStringMacro(SeriesFormat);
   itkGetStringMacro(SeriesFormat);
+  
+  /** Set/Get the vector of strings that contains the file names. Files
+   * are processed in sequential order. */
+  void SetFileNames (const FileNamesContainer &name)
+  {
+    if ( m_FileNames != name)
+      {
+      m_FileNames = name;
+      this->Modified();        
+      }
+  };
+  const FileNamesContainer  & GetFileNames() const
+  {
+    return m_FileNames;
+  }
+
+  /** Set the first file name to be processed. This deletes previous
+   * filenames. */
+  void SetFileName (std::string const &name)
+  {
+    m_FileNames.clear();
+    m_FileNames.push_back(name);
+    this->Modified();
+  }
+
+  /** Add a single filename to the list of files. To add a vector of
+   * filenames, use the AddFileNames method. */
+  void AddFileName (std::string const &name)
+  {
+    m_FileNames.push_back(name);
+    this->Modified();
+  }
+
 
 protected:
   ImageSeriesWriter();
@@ -146,6 +184,10 @@ protected:
   /** Does the real work. */
   void GenerateData(void);
 
+  /** Transition method used for DEPRECATING old functionality.
+   *  This method should be removed after release ITK 1.8 */
+  void GenerateNumericFileNamesAndWrite(void);
+  
   ImageIOBase::Pointer m_ImageIO;
   bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
   
@@ -153,9 +195,17 @@ private:
   ImageSeriesWriter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  std::string m_SeriesFormat;
-  unsigned long m_StartIndex;
-  unsigned long m_IncrementIndex;
+  /** A list of filenames to be processed. */
+  FileNamesContainer                   m_FileNames;
+
+  /** These variables are used for generating filenames using a numeric
+   * approach This functionality is being DEPRECATED since it belongs to a
+   * NumericSeriesFileNames class. Removing this functionality from here allows
+   * to use additional SeriesFileNames such as the DICOM filenames generators.
+   * */
+  std::string     m_SeriesFormat;
+  unsigned long   m_StartIndex;
+  unsigned long   m_IncrementIndex;
 };
 
   
