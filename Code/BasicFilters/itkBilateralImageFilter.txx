@@ -175,7 +175,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   OutputPixelRealType centerPixel;
-  OutputPixelRealType val, normFactor, rangeGaussian, rangeDistanceSq,
+  OutputPixelRealType val, exparg, normFactor, rangeGaussian, rangeDistanceSq,
     rangeDistance, pixel, gaussianProduct;
   double rangeGaussianDenom;
   double rangeVariance = m_RangeSigma * m_RangeSigma;
@@ -218,16 +218,20 @@ BilateralImageFilter<TInputImage, TOutputImage>
         rangeDistanceSq = rangeDistance*rangeDistance;
 
         // range Gaussian value
-        rangeGaussian = exp(-0.5*rangeDistanceSq / rangeVariance)
-          / rangeGaussianDenom;
+        exparg = 0.5*rangeDistanceSq / rangeVariance;
+        // x^2/sigma^2 < 9 gets 99.9 % of the gaussian
+        if (exparg < 400000.5 )
+          {
+          rangeGaussian = exp(-exparg) / rangeGaussianDenom;
+          // normalization factor so filter integrates to one
+          // (product of the domain and the range gaussian)
 
-        // normalization factor so filter integrates to one
-        // (product of the domain and the range gaussian)
-        gaussianProduct = (*k_it) * rangeGaussian;
-        normFactor += gaussianProduct;
+          gaussianProduct = (*k_it) * rangeGaussian;
+          normFactor += gaussianProduct;
       
-        // Input Image * Domain Gaussian * Range Gaussian 
-        val += pixel * gaussianProduct;
+          // Input Image * Domain Gaussian * Range Gaussian 
+          val += pixel * gaussianProduct;
+          }
         }
       // normalize the value
       val /= normFactor;
