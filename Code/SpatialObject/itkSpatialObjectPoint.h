@@ -30,7 +30,7 @@ namespace itk
 *
 * This class contains all the functions necessary to define a point
 *
-* \also TubeSpatialObjectPoint SurfaceSpatialObjectPoint
+* \sa TubeSpatialObjectPoint SurfaceSpatialObjectPoint
 */ 
 template < unsigned int TPointDimension = 3 >
 class SpatialObjectPoint 
