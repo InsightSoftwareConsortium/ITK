@@ -21,7 +21,7 @@
 
 #include "metaTube.h"
 #include "itkTubeSpatialObject.h"
-#include "itkNDimensionalSpatialObject.h"
+#include "itkSpatialObject.h"
 
 template <unsigned int NDimensions = 3>
 class MetaTubeConverter

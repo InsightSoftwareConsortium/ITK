@@ -124,19 +124,18 @@ MetaTube*
 MetaTubeConverter<NDimensions>
 ::TubeSpatialObjectToMetaTube(SpatialObjectType * spatialObject)
 { 
-  unsigned int dim = spatialObject->GetDimension();
-  MetaTube* tube = new MetaTube(dim);
+  MetaTube* tube = new MetaTube(NDimensions);
 
   // fill in the tube information
    
   typename SpatialObjectType::PointListType::const_iterator i;
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
   {
-    TubePnt* pnt = new TubePnt(dim);
+    TubePnt* pnt = new TubePnt(NDimensions);
     //TubePnt pnt(NDimensions);
 
     //float x[NDimensions];
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_X[d] = (*i).GetPosition()[d];
     }
@@ -153,12 +152,12 @@ MetaTubeConverter<NDimensions>
     pnt->m_Branchness=(*i).GetBranchness();
     pnt->m_Mark=(*i).GetMark();
 
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_V1[d]=(*i).GetV1()[d];
     }
 
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_V2[d]=(*i).GetV2()[d];
     }
@@ -171,7 +170,7 @@ MetaTubeConverter<NDimensions>
     tube->GetPoints().push_back(pnt); 
   }
     
-  if(dim == 2)
+  if(NDimensions == 2)
   {
     tube->PointDim("x y r rn mn bn mk v1x v1y v2x v2y a1 a2 red green blue alpha");
   }
@@ -193,7 +192,7 @@ MetaTubeConverter<NDimensions>
   tube->ParentPoint(spatialObject->GetParentPoint());
   tube->NPoints(tube->GetPoints().size());
 
-  for(unsigned int i=0;i<dim;i++)
+  for(unsigned int i=0;i<NDimensions;i++)
   {
     tube->ElementSpacing(i,spatialObject->GetSpacing()[i]);
   }

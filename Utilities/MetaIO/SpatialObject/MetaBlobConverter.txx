@@ -99,17 +99,16 @@ MetaBlob*
 MetaBlobConverter<NDimensions>
 ::BlobSpatialObjectToMetaBlob(SpatialObjectType * spatialObject)
 { 
-  unsigned int dim = spatialObject->GetDimension();
-  MetaBlob* Blob = new MetaBlob(dim);
+  MetaBlob* Blob = new MetaBlob(NDimensions);
 
   // fill in the Blob information
    
   typename SpatialObjectType::PointListType::const_iterator i;
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
   {
-    BlobPnt* pnt = new BlobPnt(dim);
+    BlobPnt* pnt = new BlobPnt(NDimensions);
 
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_X[d]=(*i).GetPosition()[d];
     }
@@ -122,7 +121,7 @@ MetaBlobConverter<NDimensions>
     Blob->GetPoints().push_back(pnt); 
   }
     
-  if(dim == 2)
+  if(NDimensions == 2)
   {
     Blob->PointDim("x y red green blue alpha");
   }

@@ -106,22 +106,21 @@ MetaSurface*
 MetaSurfaceConverter<NDimensions>
 ::SurfaceSpatialObjectToMetaSurface(SpatialObjectType * spatialObject)
 { 
-  unsigned int dim = spatialObject->GetDimension();
-  MetaSurface* Surface = new MetaSurface(dim);
+  MetaSurface* Surface = new MetaSurface(NDimensions);
 
   // fill in the Surface information
    
   typename SpatialObjectType::PointListType::const_iterator i;
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
   {
-    SurfacePnt* pnt = new SurfacePnt(dim);
+    SurfacePnt* pnt = new SurfacePnt(NDimensions);
    
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_X[d]=(*i).GetPosition()[d];
     }  
 
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_V[d]=(*i).GetNormal()[d];
     }  
@@ -134,11 +133,11 @@ MetaSurfaceConverter<NDimensions>
     Surface->GetPoints().push_back(pnt); 
   }
     
-  if(dim == 2)
+  if(NDimensions == 2)
   {
     Surface->PointDim("x y v1 v2 red green blue alpha");
   }
-  else if (dim == 3)
+  else if (NDimensions == 3)
   {
     Surface->PointDim("x y z v1 v2 v3 red green blue alpha");
   }

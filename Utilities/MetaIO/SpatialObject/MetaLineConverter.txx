@@ -110,24 +110,23 @@ MetaLine*
 MetaLineConverter<NDimensions>
 ::LineSpatialObjectToMetaLine(SpatialObjectType * spatialObject)
 { 
-  unsigned int dim = spatialObject->GetDimension();
-  MetaLine* Line = new MetaLine(dim);
+  MetaLine* Line = new MetaLine(NDimensions);
 
   // fill in the Line information
    
   typename SpatialObjectType::PointListType::const_iterator i;
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
   {
-    LinePnt* pnt = new LinePnt(dim);
+    LinePnt* pnt = new LinePnt(NDimensions);
     
-    for(unsigned int d=0;d<dim;d++)
+    for(unsigned int d=0;d<NDimensions;d++)
     {
       pnt->m_X[d]=(*i).GetPosition()[d];
     }
 
-    for(unsigned int n=0;n<dim-1;n++)
+    for(unsigned int n=0;n<NDimensions-1;n++)
     {
-      for(unsigned int d=0;d<dim;d++)
+      for(unsigned int d=0;d<NDimensions;d++)
       {
         pnt->m_V[n][d]=((*i).GetNormal(n))[d];
       }
@@ -141,11 +140,11 @@ MetaLineConverter<NDimensions>
     Line->GetPoints().push_back(pnt); 
   }
     
-  if(dim == 2)
+  if(NDimensions == 2)
   {
     Line->PointDim("x y v1x v1y v2x v2y red green blue alpha");
   }
-  else if(dim == 3)
+  else if(NDimensions == 3)
   {
     Line->PointDim("x y z v1x v1y v1z v2x v2y v2z red green blue alpha");
   }

@@ -36,9 +36,8 @@ MetaEllipseConverter<NDimensions>
 ::MetaEllipseToEllipseSpatialObject(MetaEllipse * ellipse)
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
-  unsigned int dim = spatialObject->GetDimension();
   typename SpatialObjectType::ArrayType radius;
-  for(unsigned int i=0;i<dim;i++)
+  for(unsigned int i=0;i<NDimensions;i++)
   {
     radius[i]=ellipse->Radius()[i];
   }
@@ -55,12 +54,10 @@ MetaEllipse*
 MetaEllipseConverter<NDimensions>
 ::EllipseSpatialObjectToMetaEllipse(SpatialObjectType * spatialObject)
 { 
+  MetaEllipse* ellipse = new MetaEllipse(NDimensions);
 
-  unsigned int dim = spatialObject->GetDimension();
-  MetaEllipse* ellipse = new MetaEllipse(dim);
-
-  float* radius = new float[dim];
-  for(unsigned int i=0;i<dim;i++)
+  float* radius = new float[NDimensions];
+  for(unsigned int i=0;i<NDimensions;i++)
   {
     radius[i] = spatialObject->GetRadius()[i];
   }

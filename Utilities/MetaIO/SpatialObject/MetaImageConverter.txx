@@ -37,8 +37,6 @@ MetaImageConverter<NDimensions,PixelType>
 ::MetaImageToImageSpatialObject(MetaImage * image)
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
-  unsigned int dim = spatialObject->GetDimension();
-
   typedef itk::Image<PixelType,NDimensions>  ImageType;
 
   typedef typename ImageType::Pointer     ImagePointer;
@@ -89,10 +87,6 @@ MetaImage*
 MetaImageConverter<NDimensions,PixelType>
 ::ImageSpatialObjectToMetaImage(SpatialObjectType * spatialObject)
 { 
-  //MetaImage* Image = new MetaImage();
-  unsigned int dim = spatialObject->GetDimension();
-  //Image->Allocate(dim);
-
   typedef itk::Image<PixelType,NDimensions>  ImageType;
   typedef typename ImageType::Pointer     ImagePointer;
   typedef typename ImageType::SizeType    SizeType;

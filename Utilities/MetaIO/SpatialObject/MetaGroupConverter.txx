@@ -36,7 +36,6 @@ MetaGroupConverter<NDimensions>
 ::MetaGroupToGroupSpatialObject(MetaGroup * group)
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
-  unsigned int dim = spatialObject->GetDimension();
   spatialObject->GetProperty()->SetName((char*)group->Name());
   spatialObject->SetParentId(group->ParentID());
   spatialObject->SetId(group->ID());
@@ -49,9 +48,7 @@ MetaGroup*
 MetaGroupConverter<NDimensions>
 ::GroupSpatialObjectToMetaGroup(SpatialObjectType * spatialObject)
 { 
-
-  unsigned int dim = spatialObject->GetDimension();
-  MetaGroup* group = new MetaGroup(dim);
+  MetaGroup* group = new MetaGroup(NDimensions);
 
   group->ParentID(spatialObject->GetParentId());
   group->ID(spatialObject->GetId());
