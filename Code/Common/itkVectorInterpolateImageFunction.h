@@ -51,7 +51,7 @@ struct GetDimension
  * InterpolateImageFunction.
  * 
  * \sa InterpolateImageFunction
- * \ingroup ImageFunctions
+ * \ingroup ImageFunctions ImageInterpolators
  */
 template <
 class TInputImage,

@@ -37,7 +37,7 @@ namespace itk
  *
  * \sa VectorLinearInterpolateImageFunction
  *
- * \ingroup ImageFunctions
+ * \ingroup ImageFunctions ImageInterpolators 
  */
 template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT LinearInterpolateImageFunction : 

@@ -35,7 +35,7 @@ namespace itk
  * \warning This function work only for Vector images. For
  * scalar images use LinearInterpolateImageFunction.
  *
- * \ingroup ImageFunctions
+ * \ingroup ImageFunctions ImageInterpolators
  * 
  */
 template <class TInputImage, class TCoordRep = float>

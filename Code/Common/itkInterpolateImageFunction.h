@@ -35,7 +35,7 @@ namespace itk
  * use VectorInterpolateImageFunctions. 
  *
  * \sa VectorInterpolateImageFunction
- * \ingroup ImageFunctions
+ * \ingroup ImageFunctions ImageInterpolators
  * 
  * */
 template <class TInputImage, class TCoordRep = float>
