@@ -8,7 +8,6 @@
 #include "itkVector.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkSimpleImageRegionIterator.h"
-#include <itkCovariantVector.h>
 
 namespace itk
 {
@@ -43,13 +42,12 @@ public:
   /** Some typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef LapacianImageFilter<TInputImage, TInputImage> LapacianFilterType;
+
   typedef typename TInputImage::IndexType IndexType;
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::PixelType PixelType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType RegionType;
-  typedef typename LapacianFilterType::Pointer LapacianFilterPointer;
 
   /** Image and Image iterator definition. */
   typedef SimpleImageRegionIterator<InputImageType> InputImageIterator;
@@ -58,20 +56,25 @@ public:
   /** Image dimension. */
   enum { ImageDimension = TInputImage::ImageDimension };
 
-  typedef ConvariantVector<double, ImageDimension> GradientType;
+  typedef itk::Image<double, ImageDimension>  InternalImageType;
+  typedef typename InternalImageType::Pointer InternalImagePointer;
+  typedef SimpleImageRegionIterator<InternalImageType> InternalImageIterator;
+
+  typedef LaplacianImageFilter<InternalImageType, InternalImageType> LaplacianFilterType;
+  typedef typename LaplacianFilterType::Pointer LaplacianFilterPointer;
 
   /** Routines. */
   
 
   /** Set/Get routines. */
-  itkSetMacro(OutputImage, OutputImagePointer);
-  itkGetMacro(OutputImage, OutputImagePointer);
+//  itkSetMacro(OutputImage, OutputImagePointer);
+//  itkGetMacro(OutputImage, OutputImagePointer);
 
-  itkSetMacro(LapacianFilter, LapacianFilterPointer);
+  itkSetMacro(LaplacianFilter, LaplacianFilterPointer);
 
   itkSetMacro(TimeStep, double);
 
-  itkSetMacro(Steps, double[ImageDimension]);
+//  itkSetMacro(Steps, double[ImageDimension]);
 
   itkSetMacro(NoiseLevel, double);
 
@@ -80,9 +83,13 @@ protected:
   ~GradientVectorFlowImageFilter() {}
   GradientVectorFlowImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+//  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
+
+  void InitInterImage();
+  void UpdateInterImage();
+  void UpdatePixels();
 
 private:
   // parameters;
@@ -90,8 +97,9 @@ private:
   double m_Steps[ImageDimension];
   double m_NoiseLevel;
 
-  LapacianFilterPointer m_LapacianFilter;
+  LaplacianFilterPointer m_LaplacianFilter;
   InputImagePointer m_IntermediateImage;
+  InternalImagePointer m_InternalImages[ImageDimension];
   
 };
 
