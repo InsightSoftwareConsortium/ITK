@@ -36,7 +36,12 @@ namespace itk
  */
 
 template <typename TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT ImportImageFilter : public ImageSource<Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > >
+class ITK_EXPORT ImportImageFilter:
+    public ImageSource<Image<TPixel,
+                             VImageDimension,
+                             DefaultImageTraits< TPixel,
+                                                 VImageDimension,
+                                                 ImportImageContainer<unsigned long, TPixel> > > >
 {
 public:
   /**
@@ -47,7 +52,11 @@ public:
   /**
    * Typedef for the output image.  
    */
-  typedef Image<TPixel, VImageDimension, ImportImageContainer<unsigned long, TPixel> > OutputImageType;
+  typedef Image<TPixel,
+                VImageDimension,
+                DefaultImageTraits< TPixel,
+                                    VImageDimension,
+                                    ImportImageContainer<unsigned long, TPixel> > > OutputImageType;
   
   /** 
    * Index typedef support. An index is used to access pixel values.
