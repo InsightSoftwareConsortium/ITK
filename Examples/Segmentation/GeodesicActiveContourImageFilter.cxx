@@ -368,7 +368,7 @@ int main( int argc, char **argv )
   //  \code{SetInflationStrength()} method. In our current example, we take
   //  this value from the command line arguments.
   //
-  //  \index{GeodesicActiveContourImageFilter!SetInflationStrength()}
+  //  \index{itk::GeodesicActiveContourImageFilter!SetInflationStrength()}
   //
   //  Software Guide : EndLatex 
 
