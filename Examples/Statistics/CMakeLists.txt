@@ -94,3 +94,6 @@ TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO ITKCommon )
 ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
 
+ADD_EXECUTABLE(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
+TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO ITKCommon )
+
