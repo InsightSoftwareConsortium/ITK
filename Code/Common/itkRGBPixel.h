@@ -53,7 +53,7 @@ class RGBPixel: public FixedArray<TComponent,3>
 public:
   /** Standard class typedefs. */
   typedef RGBPixel  Self;
-  typedef FixedArray<TComponent, 3> Super;
+  typedef FixedArray<TComponent, 3> SuperClass;
   
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, 3);
@@ -63,7 +63,8 @@ public:
   
   /**  Define the component type. */
   typedef TComponent ComponentType;
-
+  typedef typename SuperClass::ValueType ValueType;
+  
   /** Default constructor has nothing to do. */
   RGBPixel() {Fill(0);}
   RGBPixel (const ComponentType& r);
