@@ -120,6 +120,10 @@ public:
   typedef typename PointsContainer::Pointer          PointsContainerPointer;
   typedef typename PointsContainer::Iterator         PointsContainerIterator;
 
+  typedef typename OutputMeshType::PointDataContainer   PointDataContainer; 
+  typedef typename PointDataContainer::Pointer          PointDataContainerPointer;
+  typedef typename PointDataContainer::Iterator         PointDataContainerIterator;
+
   enum { PointDimension = TOutputMesh::PointDimension };
 
   /** 
@@ -132,6 +136,18 @@ public:
    */
   void GenerateOutputInformation(void);
 
+  /** 
+   * Select if the indices of input image pixels will be 
+   * stored as data at each one of the mesh points.
+   * That assumes that the type of PointData in the output
+   * mesh is capable of accepting an itk::Index through
+   * an operator=().
+   *
+   * Default value = true
+   */
+  itkSetMacro( ComputeIndices, bool );
+
+
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter();
@@ -142,6 +158,12 @@ protected:
  
 private:
 
+  /**
+   * This variable defines if the indices of input image pixels 
+   * will be stored as Data at each one of the mesh points.
+   */
+  bool      m_ComputeIndices;
+  
 };
 
 } // end namespace itk
