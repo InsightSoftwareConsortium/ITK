@@ -35,19 +35,9 @@ public:
   typedef RGBPixel<unsigned char> AbsType;
   typedef RGBPixel<unsigned short> AccumulateType;
   typedef RGBPixel<double> RealType;
-  static RGBPixel<unsigned char> ZeroValue()
-      {
-      RGBPixel<unsigned char> value;
-      value.Fill( NumericTraits<unsigned char>::Zero );
-      return value;
-      }
-  static RGBPixel<unsigned char> One()
-      {
-      RGBPixel<unsigned char> value;
-      value.Fill( NumericTraits<unsigned char>::One );
-      return value;
-      }
-
+  static const RGBPixel<unsigned char> ITKCommon_EXPORT Zero;
+  static const RGBPixel<unsigned char> ITKCommon_EXPORT One;
+  
 };
 
 } // end namespace itk

@@ -14,26 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkNumericTraits.h"
+#include "itkNumericTraitsRGBPixel.h"
 
 namespace itk
 {
 
-const RGBPixel<unsigned char> NumericTraits< RGBPixel<unsigned char> >::Zero()
-{
-  RGBPixel<unsigned char> value;
-  value.Fill( NumericTraits<unsigned char>::Zero );
-  return value;
-};
-
-const RGBPixel<unsigned char> NumericTraits< RGBPixel<unsigned char> >::One()
-{
-  RGBPixel<unsigned char> value;
-  value.Fill( NumericTraits<unsigned char>::One );
-  return value;
-};
-
-
-
+const RGBPixel<unsigned char>  NumericTraits<RGBPixel<unsigned char> >::Zero = RGBPixel<unsigned char>( NumericTraits<unsigned char>::Zero );
+const RGBPixel<unsigned char>  NumericTraits<RGBPixel<unsigned char> >::One = RGBPixel<unsigned char>( NumericTraits<unsigned char>::One );
  
 } // end namespace itk

@@ -34,7 +34,7 @@ TileImageFilter<TInputImage, TOutputImage>
 ::TileImageFilter()
 {
   m_Layout.Fill(0);
-  m_DefaultPixelValue = NumericTraits<OutputPixelType>::ZeroValue();
+  m_DefaultPixelValue = NumericTraits<OutputPixelType>::Zero;
 }
 
 template<class TInputImage, class TOutputImage>
