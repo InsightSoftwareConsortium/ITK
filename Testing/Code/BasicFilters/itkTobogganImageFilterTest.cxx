@@ -28,7 +28,7 @@
 #include "itkImageRegionIterator.h"
 
 
-void itkTobogganImageFilterTest(int ac, char** av)
+int itkTobogganImageFilterTest(int ac, char** av)
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
@@ -138,7 +138,7 @@ void itkTobogganImageFilterTest(int ac, char** av)
   std::cout << "Found " << status << " pixel(s) different" << std::endl;
   if ( status > 1 )
     {
-    exit ( 1 );
+    return EXIT_FAILURE;
     }
-  exit ( 0 );
+  return EXIT_SUCCESS;
 }
