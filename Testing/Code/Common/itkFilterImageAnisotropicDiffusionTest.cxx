@@ -17,17 +17,19 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkFilterImageAnisotropicDiffusion.h"
-#include "itkUUImageToImageFilterDriver.h"
-#include "itkScalar.h"
+#include "itkNullImageToImageFilterDriver.h"
 
+/**
+ * This program tests the FilterImageAnisotropicDiffusion object by driving it
+ * with a null input and output.  Returns 1 on success and 2 on failure.
+ */
 main(int argc, char *argv[])
 {
   try
     {
       // Set up filter
-      itk::FilterImageAnisotropicDiffusion<itk::Scalar<float>, 4>::Pointer
-        filter = itk::FilterImageAnisotropicDiffusion<itk::Scalar<float>,
-        4>::New();
+      itk::FilterImageAnisotropicDiffusion<float, 4>::Pointer
+        filter = itk::FilterImageAnisotropicDiffusion<float, 4>::New();
       filter->SetIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
@@ -38,9 +40,8 @@ main(int argc, char *argv[])
       sz[1] = 25;//atoi(argv[2]);
       sz[2] = 10;//atoi(argv[3]);
       sz[3] = 5;//atoi(argv[4]);
-      itk::UUImageToImageFilterDriver< itk::Image<itk::Scalar<float>, 4>,
-                                        itk::Image<itk::Scalar<float>, 4> >
-        test1;
+      itk::NullImageToImageFilterDriver< itk::Image<float, 4>,
+        itk::Image<float, 4> > test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();

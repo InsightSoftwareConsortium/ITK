@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkUUImageToImageFilterDriver.h
+  Module:    itkNullImageToImageFilterDriver.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,9 +12,15 @@
 
   See COPYRIGHT.txt for copyright details.
 
-=========================================================================*/
-#ifndef __itkUUImageToImageFilterDriver_h
-#define __itkUUImageToImageFilterDriver_h
+  =========================================================================*/
+
+/**
+ * This file contains classes that can be used to drive an image-to-image
+ * type filter in or out of an itk pipeline for testing purposes.
+ */
+
+#ifndef __itkNullImageToImageFilterDriver_h
+#define __itkNullImageToImageFilterDriver_h
 
 #include <iostream>
 #include "itkImage.h"
@@ -29,46 +35,9 @@ extern "C" {
 #include "time.h"
 }
 
-template< class T, unsigned int TDimension >
-void PrintRegion(itk::SmartPointer< itk::Image<T, TDimension> > I)
-{
-  int iDim, i, ArrayLength;
-  int nnf[TDimension];
-  unsigned long rsz[TDimension];
-  unsigned long Location[TDimension];
-  
-  memcpy(rsz, I->GetRequestedRegion().GetSize().m_Size,
-         sizeof(unsigned long) * TDimension);
-  memset(Location, 0, sizeof(unsigned long) * TDimension); 
-  for (iDim = 0; iDim < TDimension; ++iDim)
-    {
-      cout << "iDim = " << iDim << endl;
-      cout << "\tRegionSize = "
-           << I->GetRequestedRegion().GetSize().m_Size[iDim]
-           << endl;
-      cout << "\tRegionStartIndex = "
-           << I->GetRequestedRegion().GetIndex()[iDim] << endl;
-    }
-  
-  itk::ImageRegionIterator<T, TDimension> iter( I, I->GetRequestedRegion());
-    
-  for (iter.Begin(); ! iter.IsAtEnd(); ++iter)
-    {
-      cout << itk::ScalarTraits<T>::GetScalar(*iter) << " ";
-      
-      for (iDim=TDimension-1; iDim>=0; iDim--)
-		{
-		  Location[iDim]++;
-		  if (Location[iDim]==rsz[TDimension-1 -iDim])
-            {
-              cout << endl;
-              Location[iDim]=0;
-            }
-		  else break;
-		}
-    }
-}
-
+/**
+ * Fills an itk::image with a sequence of integer values.
+ */
 template< class T, unsigned int N >
 void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
 {
@@ -109,18 +78,52 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
 
 namespace itk { 
 
+/**
+ * \class NullImageSource
+ * \brief itk::Image source that outputs an image of a specified data type,
+ * size, and dimension.
+ * 
+ * itk::Image source that outputs an image of a specified data type, size, and
+ * dimension.  The image is filled with a non-random, but otherwise arbitrary
+ * sequence of values. 
+ *
+ * This object can be executed by the pipeline or be set up and executed
+ * "manually".
+ */
 template <class TOutputImage>
 class ITK_EXPORT NullImageSource: public ImageSource<TOutputImage>
 {
 public:
+  /**
+   * Standard typedefs.
+   */
   typedef NullImageSource Self;
   typedef SmartPointer<Self> Pointer;
   typedef ImageSource<TOutputImage> Superclass;
+  
+  /**
+   * Provides for creation through the itk object factory.
+   */
   itkNewMacro(Self);
+
+  /**
+   * Sets the image size.
+   */
   void SetImageSize(const typename TOutputImage::Size s) {m_ImageSize = s;}
+
+  /**
+   * Returns an image pointer that represents the output of a non-pipeline
+   * execution of this filter
+   */
   typename TOutputImage::Pointer GetNonPipelineOutput()
   { return  m_NonPipelineOutput; }
+
+  /**
+   * Manually execute this process object.  Requires that the NonPipelineOutput 
+   * member variable be set.
+   */
   void NonPipelineExecute();
+  
 protected:
   virtual void GenerateData();
   virtual void GenerateOutputInformation();
@@ -130,6 +133,10 @@ private:
   typename TOutputImage::Pointer m_NonPipelineOutput;
 };
 
+
+/**
+ * Method required by the itk pipeline to set up the output image.  
+ */  
 template <class TOutputImage>
 void
 NullImageSource<TOutputImage>::GenerateOutputInformation()
@@ -143,6 +150,9 @@ NullImageSource<TOutputImage>::GenerateOutputInformation()
   output->SetLargestPossibleRegion( largestPossibleRegion );
 }
 
+/**
+ * Execution method required by the itk pipeline.
+ */
 template <class TOutputImage>
 void
 NullImageSource<TOutputImage>::GenerateData()
@@ -153,10 +163,11 @@ NullImageSource<TOutputImage>::GenerateData()
   image->Allocate();
   FillRegionSequential<typename TOutputImage::PixelType,
     TOutputImage::ImageDimension>(image);
-  //  PrintRegion<typename TOutputImage::PixelType,
-  //    TOutputImage::ImageDimension>(image);
 }
 
+/**
+ * Non-pipeline method for execution of the process object.
+ */
 template <class TOutputImage>
 void
 NullImageSource<TOutputImage>::NonPipelineExecute()
@@ -177,38 +188,84 @@ NullImageSource<TOutputImage>::NonPipelineExecute()
 }
 
 
+/**
+ * \class NullImageWriter
+ * \brief itk::Image writer object that does nothing.
+ * This itk::Image writer object does nothing.  It can be used to drive an itk
+ * pipeline where the output is not important.
+ */
 template <class TInputImage>
 class ITK_EXPORT NullImageWriter: public WriteImage<TInputImage>
 {
 public:
+  /**
+   * Standard itk typedefs.
+   */
   typedef NullImageWriter Self;
   typedef SmartPointer<Self> Pointer;
+
+  /**
+   * Object factory creation method.
+   */
   itkNewMacro(Self);
+  
 protected:
   void WriteData() {};
   void NonPipelineExecute() {};
 };
 
+
+/**
+ * \class NullImageToImageFilterDriver
+ * \brief Drives an image-to-image type itk process object with null inputs and 
+ *  null outputs.
+ *
+ * Uses NullImageSource and NullImageWriter as inputs and outputs to a
+ * user-supplied itk::FilterImageToImage.  A user can set the size, data-type,
+ * and dimensionality of the image.  Reports total filter execution time to std 
+ * out.
+ */
+
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT UUImageToImageFilterDriver
+class ITK_EXPORT NullImageToImageFilterDriver
 {
 public:
-  UUImageToImageFilterDriver() {};
+  NullImageToImageFilterDriver() {};
+
+  /**
+   * Set the image-to-image filter to drive.
+   */
   void SetFilter(FilterImageToImage<TInputImage, TOutputImage> *p)
   {
     m_Filter = p;
   }
+
+  /**
+   * Cause the pipeline to execute by updating the writer.
+   */
   void Execute();
+
+  /**
+   * Set the size of the input image.
+   */
   void SetImageSize(const typename TInputImage::Size s) {m_ImageSize = s;}
+
+  /**
+   * Drive the filter without using the itk pipeline.
+   */
   void NonPipelineExecute();
+  
 private:
   FilterImageToImage<TInputImage, TOutputImage> *m_Filter;
   typename TInputImage::Size m_ImageSize;
 };
 
+/**
+ *  Drive the filter without using the itk pipeline
+ */
 template <class TInputImage, class TOutputImage>
 void
-UUImageToImageFilterDriver<TInputImage, TOutputImage>
+NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::NonPipelineExecute()
 {
   // Isolate from pipeline bugs and instability of developing pipeline
@@ -227,17 +284,21 @@ UUImageToImageFilterDriver<TInputImage, TOutputImage>
   m_Filter->Update();  
 }
 
+
+/**
+ * Drive the filter using the itk pipeline.
+ */
 template <class TInputImage, class TOutputImage>
 void
-UUImageToImageFilterDriver<TInputImage, TOutputImage>
+NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::Execute()
 {
-    NullImageSource< TInputImage >::Pointer source = NullImageSource<
-      TInputImage >::New();
-
-   NullImageWriter< TOutputImage >::Pointer sink = NullImageWriter<
+  NullImageSource< TInputImage >::Pointer source = NullImageSource<
+    TInputImage >::New();
+  
+  NullImageWriter< TOutputImage >::Pointer sink = NullImageWriter<
     TOutputImage >::New();
-
+  
   source->SetImageSize(m_ImageSize);
   m_Filter->SetInput(source->GetOutput());
   sink->SetInput(m_Filter->GetOutput());
@@ -247,5 +308,6 @@ UUImageToImageFilterDriver<TInputImage, TOutputImage>
   std::cout << "Approximate filtering time was " << stop-start
             << " clock cycles"  << std::endl;
 }
-}
+
+}  // end namespace itk
 #endif
