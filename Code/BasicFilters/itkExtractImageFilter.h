@@ -100,21 +100,33 @@ public:
   void SetExtractionRegion(InputImageRegionType extractRegion);
   itkGetMacro(ExtractionRegion, InputImageRegionType);
 
-
-  /** ExtractImageFilter produces an image which is a different resolution
-   * than its input image.  As such, ExtractImageFilter needs to
-   * provide an implementation for GenerateOutputInformation() in order
-   * to inform the pipeline execution model.  The original
-   * documentation of this method is below.
-   * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation();
-
-  virtual void CallCopyRegion(InputImageRegionType &destRegion,
-                              const OutputImageRegionType &srcRegion);
 protected:
   ExtractImageFilter();
   ~ExtractImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** ExtractImageFilter can produce an image which is a different
+   * resolution than its input image.  As such, ExtractImageFilter
+   * needs to provide an implementation for
+   * GenerateOutputInformation() in order to inform the pipeline
+   * execution model.  The original documentation of this method is
+   * below.
+   *
+   * \sa ProcessObject::GenerateOutputInformaton()  */
+  virtual void GenerateOutputInformation();
+
+  /** This function calls the actual region copier to do the mapping from
+   * output image space to input image space.  It uses a 
+   * Function object used for dispatching to various routines to
+   * copy an output region (start index and size) to an input region.
+   * For most filters, this is a trivial copy because most filters
+   * require the input dimension to match the output dimension.
+   * However, some filters like itk::ExtractImageFilter can
+   * support output images of a lower dimension that the input.
+   *
+   * \sa ImageToImageFilter::CallCopyRegion() */
+  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
+                              const OutputImageRegionType &srcRegion);
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

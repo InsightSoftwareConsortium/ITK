@@ -56,8 +56,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ExtractImageFilter<TInputImage,TOutputImage>
-::CallCopyRegion(InputImageRegionType &destRegion,
-                 const OutputImageRegionType &srcRegion)
+::CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
+                                    const OutputImageRegionType &srcRegion)
 {
   ExtractImageFilterRegionCopierType extractImageRegionCopier;
   extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);
@@ -103,7 +103,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
 
 
 /** 
- * ExtractImageFilter produces an image which is a different resolution
+ * ExtractImageFilter can produce an image which is a different resolution
  * than its input image.  As such, ExtractImageFilter needs to provide an
  * implementation for GenerateOutputInformation() in order to inform
  * the pipeline execution model.  The original documentation of this
@@ -222,7 +222,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
   
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
-  this->CallCopyRegion(inputRegionForThread, outputRegionForThread);
+  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
   
   // Define the iterators.
   typedef ImageRegionIterator<TOutputImage> OutputIterator;

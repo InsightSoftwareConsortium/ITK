@@ -29,6 +29,11 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.  It is also parameterized by the
  * operation to be applied, using a Functor style.
+ *
+ * UnaryFunctorImageFilter allows the output dimension of the filter
+ * to be larger than the input dimension. Thus subclasses of the
+ * UnaryFunctorImageFilter (like the CastImageFilter) can be used
+ * to promote a 2D image to a 3D image, etc.
  * 
  * \ingroup   IntensityImageFilters     Multithreaded
  */
@@ -81,6 +86,16 @@ public:
 protected:
   UnaryFunctorImageFilter();
   virtual ~UnaryFunctorImageFilter() {};
+
+  /** UnaryFunctorImageFilter can produce an image which is a different
+   * resolution than its input image.  As such, UnaryFunctorImageFilter
+   * needs to provide an implementation for
+   * GenerateOutputInformation() in order to inform the pipeline
+   * execution model.  The original documentation of this method is
+   * below.
+   *
+   * \sa ProcessObject::GenerateOutputInformaton()  */
+  virtual void GenerateOutputInformation();
 
   /** UnaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
