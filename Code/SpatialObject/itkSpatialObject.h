@@ -18,10 +18,10 @@
 #ifndef __itkSpatialObject_h 
 #define __itkSpatialObject_h 
  
+#include "itkAffineGeometryFrame.h"
 #include "itkDataObject.h"
 #include "itkBoundingBox.h"
 #include "itkPoint.h"
-#include "itkAffineTransform.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkSmartPointer.h" 
 #include "itkVector.h"
@@ -34,6 +34,7 @@
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkObjectFactory.h"
+#include "itkSpatialObjectTreeNode.h"
 
 namespace itk  
 { 
@@ -56,7 +57,10 @@ namespace itk
 * IsEvaluableAt(), and IsInside(), each of which has a meaning
 * specific to each particular object type.
 */ 
- 
+
+template <unsigned int TDimension> class SpatialObjectTreeNode;
+
+
 template< unsigned int TDimension = 3> 
 class SpatialObject 
   :public DataObject
@@ -101,9 +105,14 @@ public:
                        VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
+  typedef AffineGeometryFrame<double,TDimension> AffineGeometryFrameType;
+  typedef typename AffineGeometryFrameType::Pointer AffineGeometryFramePointer;
+
+  /** Return type for the list of children */
   typedef std::list< Pointer > ChildrenListType; 
-  typedef ChildrenListType* ChildrenListPointer; 
-   
+  typedef ChildrenListType* ChildrenListPointer;
+
+
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<TDimension>  IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
@@ -117,6 +126,8 @@ public:
   typedef SpatialObjectProperty< float > PropertyType; 
   typedef typename PropertyType::Pointer  PropertyPointer; 
 
+  typedef SpatialObjectTreeNode<TDimension> TreeNodeType;
+
   /** Return true if the object has a parent object. Basically, only
    *  the root object , or some isolated objects should return false. */
   virtual bool HasParent( void ) const;
@@ -125,7 +136,7 @@ public:
   virtual const char* GetTypeName(void) const {return m_TypeName.c_str();}
 
   /** Dimension of the object.  This constant is used by functions that are
-   * templated over spatialObject type when they need compile time access 
+   * templated over SpatialObject type when they need compile time access 
    * to the dimension of the object. */
   itkStaticConstMacro(ObjectDimension, unsigned int, TDimension);
 
@@ -135,34 +146,46 @@ public:
   /** Run-time type information (and related methods). */ 
   itkTypeMacro( Self, Superclass );
 
-
-  /** Transform points from the internal data coordinate system
-   * of the object (typically the indices of the image from which
-   * the object was defined) to "physical" space (which accounts
-   * for the spacing, orientation, and offset of the indices)
-   */ 
-  void SetIndexToObjectTransform( TransformType * transform ); 
-  TransformType * GetIndexToObjectTransform( void ); 
-  const TransformType * GetIndexToObjectTransform( void ) const; 
-
-  /** Transforms points from the object-specific "physical" space
-   * to the "physical" space of its parent object.   
-   */
-  void SetObjectToParentTransform( TransformType * transform ); 
-  TransformType * GetObjectToParentTransform( void );
-  const TransformType * GetObjectToParentTransform( void ) const;
+  /** Set/Get the AffineGeometryFrame */
+  itkGetConstObjectMacro(AffineGeometryFrame,AffineGeometryFrameType);
+  itkSetObjectMacro(AffineGeometryFrame,AffineGeometryFrameType);
 
   /** This defines the transformation from the global coordinate frame.
    *  By setting this transform, the local transform is computed */
   void SetObjectToWorldTransform( TransformType * transform );
-  TransformType * GetObjectToWorldTransform( void );
-  const TransformType * GetObjectToWorldTransform( void ) const;
+  itkGetObjectMacro(ObjectToWorldTransform,TransformType);
+  itkGetConstObjectMacro(ObjectToWorldTransform,TransformType);
 
-  TransformType * GetIndexToWorldTransform( void );
-  const TransformType * GetIndexToWorldTransform( void ) const;
+  //TransformType * GetObjectToWorldTransform( void );
+  //const TransformType * GetObjectToWorldTransform( void ) const;
 
-  TransformType * GetWorldToIndexTransform( void );
-  const TransformType * GetWorldToIndexTransform( void ) const;
+  //TransformType * GetIndexToWorldTransform( void );
+  //const TransformType * GetIndexToWorldTransform( void ) const;
+  itkGetObjectMacro(IndexToWorldTransform,TransformType);
+  itkGetConstObjectMacro(IndexToWorldTransform,TransformType);
+
+  //TransformType * GetWorldToIndexTransform( void );
+  //const TransformType * GetWorldToIndexTransform( void ) const;
+  itkGetObjectMacro(WorldToIndexTransform,TransformType);
+  itkGetConstObjectMacro(WorldToIndexTransform,TransformType);
+  
+  /** Helper function */
+  //itkGetObjectMacro(ObjectToParentTransform,TransformType);
+  //itkGetConstObjectMacro(ObjectToParentTransform,TransformType);
+
+  /** Compute the World transform when the local transform is set
+   *  This function should be called each time the local transform
+   *  has been modified */
+  void ComputeObjectToWorldTransform(void);
+
+  /** Compute the Local transform when the global transform is set */
+  void ComputeObjectToParentTransform(void);
+
+  /** Return the Modified time of the LocalToWorldTransform */
+  unsigned long GetTransformMTime( void );
+
+  /** Return the Modified time of the WorldToLocalTransform */
+  unsigned long GetWorldTransformMTime( void );
 
   /** Returns the value at a point */
   virtual bool ValueAt( const PointType & point, double & value,
@@ -193,93 +216,17 @@ public:
     return this->IsInside( point );
   };
 
-  /** Set the pointer to the parent object in the tree hierarchy
-   *  used for the spatial object patter. */
-  void SetParent(Self * parent);
-
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt( const PointType & point,
                      short unsigned int order,
                      OutputVectorType & value,
                      unsigned int depth=0,
                      char * name = NULL);
-  
-  /** 
-   * Compute an axis-aligned bounding box for an object and its selected
-   * children, down to a specified depth.  After computation, the
-   * resulting bounding box is stored in this->m_Bounds.  
-   *
-   * By default, the bounding box children depth is maximum, meaning that
-   * the bounding box for the object and all its recursive children is computed. 
-   * This depth can be set (before calling ComputeBoundingBox) using
-   * SetBoundingBoxChildrenDepth().
-   *
-   * By calling SetBoundingBoxChildrenName(), it is possible to
-   * restrict the bounding box computation to objects of a specified
-   * type or family of types.  The spatial objects included in the
-   * computation are those whose typenames share, as their initial
-   * substring, the string specified via SetBoundingBoxChildrenName().
-   * The root spatial object (on which the method is called) is not
-   * treated specially.  If its typename does not match the bounding
-   * box children name, then it is not included in the bounding box
-   * computation, but its descendents that match the string are
-   * included.
-   */
-  virtual bool ComputeBoundingBox() const;
-  
-  /** Get the bounding box of the object.
-   *  This function calls ComputeBoundingBox() */
-  virtual BoundingBoxType * GetBoundingBox() const; 
+
 
   /** Returns the latest modified time of the spatial object, and 
    * any of its components. */
   unsigned long GetMTime( void ) const;
-
-  /** Compute the World transform when the local transform is set
-   *  This function should be called each time the local transform
-   *  has been modified */
-  void ComputeObjectToWorldTransform(void);
-
-  /** Compute the Local transform when the global transform is set */
-  void ComputeObjectToParentTransform(void);
-
-  /** Add an object to the list of children. */ 
-  void AddSpatialObject( Self * pointer ); 
-     
-  /** Remove the object passed as arguments from the list of 
-   * children. May this function 
-   * should return a false value if the object to remove is 
-   * not found in the list. */ 
-  void RemoveSpatialObject( Self * object ); 
-
-  /** Return a pointer to the parent object in the hierarchy tree */ 
-  virtual const Self * GetParent( void ) const; 
-
-  /** Return a pointer to the parent object in the hierarchy tree */ 
-  virtual Self * GetParent( void ) {return m_Parent;} 
-
-  /** Returns a list of pointer to the children affiliated to this object. 
-   * A depth of 0 returns the immediate childred. A depth of 1 returns the
-   * children and those children's children. */ 
-  virtual ChildrenListType * GetChildren( unsigned int depth=0, 
-                                          char * name=NULL ) const;
-
-  /** Returns the number of children currently assigned to the object. */ 
-  unsigned int GetNumberOfChildren( unsigned int depth=0, 
-                                    char * name=NULL  ) const;
-
-  /** Set the list of pointers to children to the list passed as argument. */ 
-  void SetChildren( ChildrenListType & children ); 
-
-  /** Clear the spatial object by deleting all lists of children
-   * and subchildren */
-  virtual void Clear( void );
-
-  /** Return the Modified time of the LocalToWorldTransform */
-  unsigned long GetTransformMTime( void );
-
-  /** Return the Modified time of the WorldToLocalTransform */
-  unsigned long GetWorldTransformMTime( void );
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -433,9 +380,128 @@ public:
   /** Get/Set the ID */
   itkGetConstMacro(Id,int);
   itkSetMacro(Id,int);
+  
+  /** Set/Get the parent Identification number*/
+  itkSetMacro(ParentId, int);
+  itkGetMacro(ParentId, int);
 
   /** Specify that the object has been updated */
   virtual void Update(void);
+
+  /** Set the tree container */
+  void SetTreeNode(TreeNodeType* node) {m_TreeNode = node;}
+
+  /** Return a raw pointer to the node container */
+  typename TreeNode<Pointer>::Pointer GetTreeNode() {return m_TreeNode;}
+
+
+
+
+
+
+
+  /** Theses functions are just calling the AffineGeometryFrame functions */
+
+
+  /** Set the spacing of the spatial object. */
+  void SetSpacing( const double spacing[itkGetStaticConstMacro(ObjectDimension)] )
+  { this->GetIndexToObjectTransform()->SetScaleComponent(spacing);}
+  /** Get the spacing of the spatial object. */
+  virtual const double* GetSpacing() const 
+  {return this->GetIndexToObjectTransform()->GetScaleComponent();}
+  /** Set the spacing of the spatial object using the type from the image. */
+  void SetSpacing( const SpacingType & spacing );
+
+
+ /** Transform points from the internal data coordinate system
+   * of the object (typically the indices of the image from which
+   * the object was defined) to "physical" space (which accounts
+   * for the spacing, orientation, and offset of the indices)
+   */ 
+  void SetIndexToObjectTransform( TransformType * transform ); 
+  TransformType * GetIndexToObjectTransform( void ); 
+  const TransformType * GetIndexToObjectTransform( void ) const; 
+
+  /** Transforms points from the object-specific "physical" space
+   * to the "physical" space of its parent object.   
+   */
+  void SetObjectToParentTransform( TransformType * transform ); 
+  TransformType * GetObjectToParentTransform( void );
+  const TransformType * GetObjectToParentTransform( void ) const;
+
+  /** Transforms points from the object-specific "physical" space
+   * to the "physical" space of its parent object.   
+   */
+  void SetObjectToNodeTransform( TransformType * transform ); 
+  TransformType * GetObjectToNodeTransform( void );
+  const TransformType * GetObjectToNodeTransform( void ) const;
+
+
+  /** Theses functions are just calling the itkSpatialObjectTreeNode functions */
+
+  /** Add an object to the list of children. */ 
+  void AddSpatialObject( Self * pointer ); 
+     
+  /** Remove the object passed as arguments from the list of 
+   * children. May this function 
+   * should return a false value if the object to remove is 
+   * not found in the list. */ 
+  void RemoveSpatialObject( Self * object ); 
+
+  /** Return a pointer to the parent object in the hierarchy tree */ 
+  virtual const Self * GetParent( void ) const; 
+
+  /** Return a pointer to the parent object in the hierarchy tree */ 
+  virtual Self * GetParent( void );
+
+  /** Returns a list of pointer to the children affiliated to this object. 
+   * A depth of 0 returns the immediate childred. A depth of 1 returns the
+   * children and those children's children. */ 
+  virtual ChildrenListType * GetChildren( unsigned int depth=0, 
+                                          char * name=NULL ) const;
+
+  /** Returns the number of children currently assigned to the object. */ 
+  unsigned int GetNumberOfChildren( unsigned int depth=0, 
+                                   char * name=NULL  ) const;
+
+  /** Set the list of pointers to children to the list passed as argument. */ 
+  void SetChildren( ChildrenListType & children ); 
+
+  /** Clear the spatial object by deleting all lists of children
+   * and subchildren */
+  virtual void Clear( void );
+  
+  /** 
+   * Compute an axis-aligned bounding box for an object and its selected
+   * children, down to a specified depth.  After computation, the
+   * resulting bounding box is stored in this->m_Bounds.  
+   *
+   * By default, the bounding box children depth is maximum, meaning that
+   * the bounding box for the object and all its recursive children is computed. 
+   * This depth can be set (before calling ComputeBoundingBox) using
+   * SetBoundingBoxChildrenDepth().
+   *
+   * By calling SetBoundingBoxChildrenName(), it is possible to
+   * restrict the bounding box computation to objects of a specified
+   * type or family of types.  The spatial objects included in the
+   * computation are those whose typenames share, as their initial
+   * substring, the string specified via SetBoundingBoxChildrenName().
+   * The root spatial object (on which the method is called) is not
+   * treated specially.  If its typename does not match the bounding
+   * box children name, then it is not included in the bounding box
+   * computation, but its descendents that match the string are
+   * included.
+   */
+  virtual bool ComputeBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const 
+    {std::cout << "SpatialObject::ComputeLocalBoundingBox Not Implemented!" << std::endl;
+     return false;
+    }
+  
+  /** Get the bounding box of the object.
+   *  This function calls ComputeBoundingBox() */
+  virtual BoundingBoxType * GetBoundingBox() const; 
+
 
   /** Set/Get the depth at which the bounding box is computed */
   itkSetMacro(BoundingBoxChildrenDepth, unsigned int);
@@ -445,31 +511,28 @@ public:
    *  bounding box */
   itkSetMacro(BoundingBoxChildrenName, std::string);
   itkGetMacro(BoundingBoxChildrenName, std::string);
+
+  /** Set the pointer to the parent object in the tree hierarchy
+   *  used for the spatial object patter. */
+  void SetParent(Self * parent);
+
+
+  /** These function are just calling the node container transforms */
+  void SetNodeToParentNodeTransform( TransformType * transform );
+  TransformType * GetNodeToParentNodeTransform( void );
+  const TransformType * GetNodeToParentNodeTransform( void ) const;
   
-  /** Set/Get the parent Identification number*/
-  itkSetMacro(ParentId, int);
-  itkGetMacro(ParentId, int);
 
-  /** Set the spacing of the spatial object. */
-  void SetSpacing( const double spacing[itkGetStaticConstMacro(ObjectDimension)] )
-  { m_IndexToObjectTransform->SetScaleComponent(spacing);}
-  /** Get the spacing of the spatial object. */
-  virtual const double* GetSpacing() const 
-  {return m_IndexToObjectTransform->GetScaleComponent();}
-
-  /** Set the spacing of the spatial object using the type from the image. */
-  void SetSpacing( const SpacingType & spacing );
 
 protected: 
  
   BoundingBoxPointer  m_Bounds; 
   mutable unsigned long       m_BoundsMTime;
 
-  TransformPointer    m_IndexToObjectTransform;
   TransformPointer    m_ObjectToParentTransform;
   TransformPointer    m_ObjectToWorldTransform; 
   TransformPointer    m_IndexToWorldTransform; 
-  TransformPointer    m_WorldToIndexTransform; 
+  TransformPointer    m_WorldToIndexTransform;
 
   /** Constructor. */ 
   SpatialObject(); 
@@ -479,17 +542,13 @@ protected:
 
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
 
-  /** List of the children object plug to the composite 
-   *  spatial object. */
-  ChildrenListType m_Children; 
-
   /** Calculate the offsets needed to move from one pixel to the next
    * along a row, column, slice, volume, etc. These offsets are based
    * on the size of the BufferedRegion. This should be called after
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
 
-  mutable Self* m_Parent;
+  //mutable Self* m_Parent;
 
   std::string m_TypeName;
 
@@ -508,6 +567,13 @@ protected:
   /** Object Identification Number */
   int m_Id;
   int m_ParentId;
+
+  /** Pointer to the tree container */
+  typename TreeNode<Pointer>::Pointer m_TreeNode;
+
+  /** Pointer to the AffineGeometryFrame */
+  AffineGeometryFramePointer  m_AffineGeometryFrame;
+
 }; 
 
 } // end of namespace itk
