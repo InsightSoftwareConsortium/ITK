@@ -30,6 +30,22 @@ template < class TScalarType,
            unsigned int NInputDimensions,
            unsigned int NOutputDimensions >
 Transform< TScalarType,NInputDimensions,NOutputDimensions>
+::Transform():
+        m_Parameters(1),
+        m_Jacobian(NInputDimensions,1)
+{
+    // This particular constructor is provided for implementing
+    // an Identity Transform
+}
+
+
+/**
+ * Constructor
+ */
+template < class TScalarType,
+           unsigned int NInputDimensions,
+           unsigned int NOutputDimensions >
+Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform(unsigned int dimension,unsigned int numberOfParameters):
                                   m_Parameters(numberOfParameters),
                                   m_Jacobian(dimension,numberOfParameters)
