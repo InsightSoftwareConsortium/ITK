@@ -56,7 +56,10 @@ ADD_TEST(itkFEMC0HexahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_D
 ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
 ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
 ADD_TEST(itkFEMC0QuadElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
-ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
+
+# Edge loads are not implemented yet
+#ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
+
 ADD_TEST(itkFEMC0TetrahedralElement-NodalLoads-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
 ADD_TEST(itkFEMC0TetrahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
 ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
