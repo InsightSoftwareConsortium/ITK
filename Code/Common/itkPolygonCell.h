@@ -51,12 +51,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class PolygonCell: public CellInterface< TPixelType , TCellTraits >
-{
 /** \class PolygonCell
  * PolygonCell represents a polygon for a Mesh.
  *  the points of the polygon can be dynamically changed.
@@ -71,6 +65,14 @@ class PolygonCell: public CellInterface< TPixelType , TCellTraits >
  *     Type information of mesh containing cell.
  * \ingroup MeshObjects
  */
+
+
+template <
+  typename TPixelType,
+  typename TCellTraits
+  >
+class PolygonCell: public CellInterface< TPixelType , TCellTraits >
+{
 
 public:
   /**
@@ -194,8 +196,12 @@ protected:
   ~PolygonCell() {}
 };
 
+
 /** \class PolygonBoundary
  * Create a boundary-wrapped version of the PolygonCell.
+ *
+ * \ingroup MeshObjects
+ *
  */
 template <typename TPixelType, typename TCellTraits>
 class PolygonBoundary:
