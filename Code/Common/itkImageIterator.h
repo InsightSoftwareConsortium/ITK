@@ -116,6 +116,7 @@ public:
    * provide a copy constructor.
    */
   ImageIterator()
+    :m_DataAccessor()
   {
     m_Buffer = 0;
     m_Offset = 0;

@@ -27,6 +27,7 @@ namespace itk
 template<class TPixel, unsigned int VImageDimension, class TPixelContainer>
 Image<TPixel, VImageDimension, TPixelContainer>
 ::Image()
+: m_DataAccessor ()
 {
   m_Buffer = PixelContainer::New();
 }
