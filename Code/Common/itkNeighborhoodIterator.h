@@ -20,6 +20,8 @@
 #include <cstring>
 #include <iostream>
 #include "itkImage.h"
+#include "itkSize.h"
+#include "itkImageRegion.h"
 #include "itkMacro.h"
 #include "itkNeighborhoodBase.h"
 
@@ -99,6 +101,16 @@ public:
    * itk::Image typedef support.
    */
   typedef Image<TPixel, VDimension> Image;
+
+  /**
+   * itk::Size typedef support
+   */
+  typedef itk::Size<VDimension> Size;
+
+  /**
+   * Region typedef support.
+   */
+  typedef ImageRegion<VDimension> Region;
   
   /**
    * itk::Index typedef support.
@@ -125,18 +137,17 @@ public:
   * dimension to walk a particular image and a particular region of
   * that image.
   */
-  NeighborhoodIterator(const unsigned long radius[VDimension],
+  NeighborhoodIterator(const Size &radius,
                        Image * ptr,
-                       const Index &start,
-                       const unsigned long bound[VDimension]
+                       const Region &region
                        )
     : m_OutputBuffer(0)
   {
     this->SetRadius(radius);
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
-    this->SetStartIndex(start);
-    this->SetLocation(start);
+    this->SetStartIndex(region.GetIndex());
+    this->SetLocation(region.GetIndex());
   }
   
   /**
@@ -347,7 +358,7 @@ protected:
    * method must be defined in each subclass because
    * each subclass may handle loop boundaries differently.
    */
-  virtual void SetBound(const unsigned long *) = 0;
+  virtual void SetBound(const Size &) = 0;
 
   /**
    * Default method for setting the values of the internal pointers
