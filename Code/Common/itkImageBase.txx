@@ -142,12 +142,17 @@ void
 ImageBase<VImageDimension>
 ::CopyInformation(DataObject *data)
 {
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to an ImageBase
   ImageBase *imgData;
   
   imgData = dynamic_cast<ImageBase*>(data);
 
   if (imgData)
     {
+    // Copy the meta data for this data type
     m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
     }
   else

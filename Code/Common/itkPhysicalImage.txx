@@ -220,8 +220,8 @@ PhysicalImage<TPixel, VImageDimension, TImageTraits>
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 PhysicalImage<TPixel, VImageDimension, TImageTraits>::AffineTransformType
-PhysicalImage<TPixel, VImageDimension, TImageTraits>::
-GetIndexToPhysicalTransform(void) const
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
+::GetIndexToPhysicalTransform(void) const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::VectorType offset;
@@ -246,8 +246,8 @@ GetIndexToPhysicalTransform(void) const
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 PhysicalImage<TPixel, VImageDimension, TImageTraits>::AffineTransformType
-PhysicalImage<TPixel, VImageDimension, TImageTraits>::
-GetPhysicalToIndexTransform(void) const
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
+::GetPhysicalToIndexTransform(void) const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::VectorType offset;
@@ -265,6 +265,51 @@ GetPhysicalToIndexTransform(void) const
   AffineTransformType result(matrix, offset);
 
   return result;
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension, class TImageTraits>
+void
+PhysicalImage<TPixel, VImageDimension, TImageTraits>
+::CopyInformation(DataObject *data)
+{
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to a PhysicalImage
+  Self *phyData;
+  
+  phyData = dynamic_cast<Self*>(data);
+
+  if (phyData)
+    {
+    // Copy the origin and spacing
+    this->SetSpacing( phyData->GetSpacing() );
+    this->SetOrigin( phyData->GetOrigin() );
+    }
+  else
+    {
+    // Attempt to cast data to an Image. This is a special case.  While an
+    // Image does not have any real meta-data, a PhysicalImage does know
+    // how to extract spacing an origin from an Image.
+    Superclass *imgData;
+
+    imgData = dynamic_cast<Superclass*>(data);
+
+    if (imgData)
+      {
+      // Copy the origin and spacing
+      this->SetSpacing( imgData->GetSpacing() );
+      this->SetOrigin( imgData->GetOrigin() );
+      }
+    else
+      {
+      // pointer could not be cast back down
+      std::cerr << "itk::PhysicalImage::CopyInformation() cannot cast "
+                << typeid(data).name() << " to "
+                << typeid(PhysicalImage*).name() << std::endl;
+      }
+    }
 }
 
 } // end namespace itk

@@ -262,10 +262,24 @@ public:
     return index;
   }
 
+  /**
+   * Copy information from the specified data set.  This method is
+   * part of the pipeline execution model. By default, a ProcessObject
+   * will copy meta-data from the first input to all of its
+   * outputs. See ProcessObject::GenerateOutputInformation().  Each
+   * subclass of DataObject is responsible for being able to copy
+   * whatever meta-data it needs from from another DataObject.
+   * ImageBase has more meta-data than its DataObject.  Thus, it must
+   * provide its own version of CopyInformation() in order to copy the
+   * LargestPossibleRegion from the input parameter.
+   */
+  virtual void CopyInformation(DataObject *data);
 
+  /**
+   * Other pipeline methods
+   */
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
   

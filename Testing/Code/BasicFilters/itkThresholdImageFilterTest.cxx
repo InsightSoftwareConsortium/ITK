@@ -74,6 +74,11 @@ int main()
   random->SetMin(0.0);
   random->SetMax(1000.0);
 
+  float spacing[2] = {0.7, 2.1};
+  random->SetSpacing( spacing );
+  float origin[2] = {15, 400};
+  random->SetOrigin( origin );
+    
   std::ostrstream *os;
 
   // Test #1, filter goes out of scope
@@ -83,6 +88,13 @@ int main()
   threshold = itk::ThresholdImageFilter<FloatImage2DType>::New();
   threshold->SetInput(random->GetOutput());
   threshold->Update();
+
+  std::cout << "Input spacing: " << random->GetOutput()->GetSpacing()[0]
+            << ", "
+            << random->GetOutput()->GetSpacing()[1] << std::endl;
+  std::cout << "Output spacing: " << threshold->GetOutput()->GetSpacing()[0]
+            << ", "
+            << threshold->GetOutput()->GetSpacing()[1] << std::endl;
 
   os = new std::ostrstream();
   *os << "Filter: " << threshold.GetPointer() << std::ends;

@@ -194,10 +194,22 @@ public:
   virtual unsigned long GetActualMemorySize();
 
   virtual void SetRequestedRegionToLargestPossibleRegion() = 0;
-  virtual void CopyInformation(DataObject *data) = 0;
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() = 0;
   virtual bool VerifyRequestedRegion() = 0;
 
+  /**
+   * Copy information from the specified data set.  This method is
+   * part of the pipeline execution model. By default, a ProcessObject
+   * will copy meta-data from the first input to all of its
+   * outputs. See ProcessObject::GenerateOutputInformation().  Each
+   * subclass of DataObject is responsible for being able to copy
+   * whatever meta-data it needs from from another DataObject.
+   * The default implementation of this method is empty. If a subclass
+   * overrides this method, it should always call its superclass'
+   * version.
+   */
+  virtual void CopyInformation(DataObject *data) {};
+  
   /**
    * Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method is

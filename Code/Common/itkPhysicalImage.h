@@ -277,6 +277,23 @@ public:
    */
   AffineTransformType GetPhysicalToIndexTransform(void) const;
 
+
+  /**
+   * Copy information from the specified data set.  This method is
+   * part of the pipeline execution model. By default, a ProcessObject
+   * will copy meta-data from the first input to all of its
+   * outputs. See ProcessObject::GenerateOutputInformation().  Each
+   * subclass of DataObject is responsible for being able to copy
+   * whatever meta-data it needs from from another DataObject.
+   * PhysicalImage has more meta-data than its superclasses Image or
+   * ImageBase.  Thus, it must provide its own version of
+   * CopyInformation() in order to set its Spacing and Origin to match
+   * the input parameter.  Note, PhysicalImage only knows how extract
+   * information from another PhysicalImage or from an Image.  If
+   * "data" is another datatype, this method may not do anything.
+   */
+  virtual void CopyInformation(DataObject *data);
+
 protected:
   PhysicalImage();
   virtual ~PhysicalImage();

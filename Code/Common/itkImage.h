@@ -297,7 +297,7 @@ public:
    */
   virtual const double * GetOrigin() const;
   
-  
+
 protected:
   Image();
   virtual ~Image();

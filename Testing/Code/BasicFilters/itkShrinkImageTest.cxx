@@ -76,10 +76,17 @@ int main()
   itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
-
+  
   unsigned int factors[2] = { 2, 3 };
   shrink->SetShrinkFactors(factors);
   shrink->Update();
+
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
+            << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Output spacing: " << shrink->GetOutput()->GetSpacing()[0]
+            << ", "
+            << shrink->GetOutput()->GetSpacing()[1] << std::endl;
+
 
   //
   // The rest of this code determines whether the shrink code produced
