@@ -51,8 +51,7 @@ public:
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
-  typedef SpatialObjectPoint< TDimension >            BlobPointType;
-  typedef typename BlobPointType*                     BlobPointPointer; 
+  typedef SpatialObjectPoint< TDimension >            BlobPointType; 
   typedef std::list < BlobPointType >                 PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;

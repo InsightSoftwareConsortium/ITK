@@ -48,7 +48,6 @@ public:
   typedef SmartPointer < const Self >                   ConstPointer;
   typedef double                                        ScalarType;
   typedef SurfaceSpatialObjectPoint< TDimension >       SurfacePointType;
-  typedef typename SurfacePointType*                    SurfacePointPointer; 
   typedef std::list < SurfacePointType >                PointListType;
   typedef typename Superclass::PointType                PointType;
   typedef VectorContainer<unsigned long,PointType>      PointContainerType;

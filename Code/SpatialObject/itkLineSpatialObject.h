@@ -52,7 +52,6 @@ public:
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef LineSpatialObjectPoint< TDimension >        LinePointType;
-  typedef typename LinePointType*                     LinePointPointer; 
   typedef std::list < LinePointType >                 PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;

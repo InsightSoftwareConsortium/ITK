@@ -51,7 +51,6 @@ public:
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
   typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
-  typedef typename TubePointType*                      TubePointPointer; 
   typedef std::list < TubePointType >                  PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
