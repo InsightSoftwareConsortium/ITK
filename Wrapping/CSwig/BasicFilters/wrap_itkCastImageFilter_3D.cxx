@@ -81,6 +81,11 @@ namespace _cable_
                                      itkCastImageFilterF3SI3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::SI3, image::F3,
                                      itkCastImageFilterSI3F3);
+    //Unsigned char to/from unsigned short 3D
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::US3, image::UC3,
+                                     itkCastImageFilterUS3UC3);
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::UC3, image::US3,
+                                     itkCastImageFilterUC3US3);
   }
 }
 #endif

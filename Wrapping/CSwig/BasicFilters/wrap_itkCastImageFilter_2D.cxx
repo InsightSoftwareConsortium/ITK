@@ -81,6 +81,12 @@ namespace _cable_
                                      itkCastImageFilterF2SI2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::SI2, image::F2,
                                      itkCastImageFilterSI2F2);
+    //Unsigned char to/from unsigned short 2D
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::US2, image::UC2,
+                                     itkCastImageFilterUS2UC2);
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(CastImageFilter, image::UC2, image::US2,
+                                     itkCastImageFilterUC2US2);
+ 
   }
 }
 #endif
