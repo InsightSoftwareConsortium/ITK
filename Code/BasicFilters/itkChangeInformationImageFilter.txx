@@ -184,6 +184,7 @@ ChangeInformationImageFilter<TInputImage>
   os << indent << "ChangeSpacing: " << (m_ChangeSpacing ? "On" : "Off") << std::endl;
   os << indent << "ChangeOrigin: " << (m_ChangeOrigin ? "On" : "Off") << std::endl;
   os << indent << "ChangeRegion: " << (m_ChangeRegion ? "On" : "Off") << std::endl;
+  os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
   if (m_ReferenceImage)
     {
     os << indent << "ReferenceImage: " << m_ReferenceImage.GetPointer() << std::endl;
