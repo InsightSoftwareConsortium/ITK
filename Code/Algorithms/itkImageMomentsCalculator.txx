@@ -97,7 +97,7 @@ ComputeMoments( const ImageType * image )
 
     for(unsigned int i=0; i<ImageDimension; i++)
     {
-      m_M1[i] += indexPosition[i] * value; 
+      m_M1[i] += static_cast<double>( indexPosition[i] ) * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
       {
         double weight = value * static_cast<double>( indexPosition[i] ) * 
