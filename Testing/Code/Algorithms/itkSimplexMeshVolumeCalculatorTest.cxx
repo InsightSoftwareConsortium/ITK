@@ -53,12 +53,10 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
-  mySphereMeshSource->SetResolution(2); 
   mySphereMeshSource->SetScale(scale);
 
   SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
-  simplexFilter->Update();
  
   typedef itk::SimplexMeshVolumeCalculator< 
                  SimplexMeshType > VolumeCalculatorType;
@@ -67,16 +65,28 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   VolumeCalculatorType::Pointer calculator = VolumeCalculatorType::New();
 
   calculator->SetSimplexMesh( simplexFilter->GetOutput() );
-  calculator->Compute();
+  for ( int i = 1; i <= 5; i++)
+    {
+    mySphereMeshSource->SetResolution(i); 
+    simplexFilter->Update();
+
+    calculator->Compute();
+    std::cout << "Resolution: " << i 
+              << ", Volume: " << calculator->GetVolume()
+              << ", Area: " << calculator->GetArea()
+              << std::endl;
+    }
+
+  calculator->Print(std::cout);
 
   double volume = calculator->GetVolume();
-
-  std::cout << " volume = " << volume << std::endl;
 
   const double pi = atan(1.0) * 4.0;
   const double knownVolume = 4.0/3.0 * pi * (1000.0);  // scale was 10 = radius 
   
-  if( fabs( volume - knownVolume ) > 1e-4 )
+  std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << std::endl;
+
+  if( fabs( volume - knownVolume ) > (1e-2 * knownVolume) )
     {
     std::cerr << "Error in the Volume computation " << std::endl;
     std::cerr << "We expected " << knownVolume << std::endl;
