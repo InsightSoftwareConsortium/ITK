@@ -75,7 +75,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer input =
-        const_cast< TInputImage * >( this->GetInput() );
+      const_cast< TInputImage * >( this->GetInput() );
     input->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -157,7 +157,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
 
-    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << " , sqrt(variance) = " << sqrt(variance));
+  itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << " , sqrt(variance) = " << sqrt(variance));
 
 
   // Segment the image, the iterator walks the output image (so Set()
@@ -272,10 +272,10 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     
     }  // end iteration loop
 
-    if( this->GetAbortGenerateData() )
-      {
-      throw ProcessAborted(__FILE__,__LINE__);
-      }
+  if( this->GetAbortGenerateData() )
+    {
+    throw ProcessAborted(__FILE__,__LINE__);
+    }
 }
 
 

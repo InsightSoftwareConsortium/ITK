@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkProgressAccumulator.h"
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 
 namespace itk {
@@ -117,31 +118,35 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
   RealType distance12, distance21;
 
-  {
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
   typedef DirectedHausdorffDistanceImageFilter<InputImage1Type,InputImage2Type>
-    FilterType;
+    Filter12Type;
 
-  typename FilterType::Pointer filter = FilterType::New();
+  typename Filter12Type::Pointer filter12 = Filter12Type::New();
 
-  filter->SetInput1( this->GetInput1() );
-  filter->SetInput2( this->GetInput2() );
-  filter->Update();
+  filter12->SetInput1( this->GetInput1() );
+  filter12->SetInput2( this->GetInput2() );
 
-  distance12 = filter->GetDirectedHausdorffDistance();
-  }
-
-  {
   typedef DirectedHausdorffDistanceImageFilter<InputImage2Type,InputImage1Type>
-    FilterType;
+    Filter21Type;
 
-  typename FilterType::Pointer filter = FilterType::New();
+  typename Filter21Type::Pointer filter21 = Filter21Type::New();
 
-  filter->SetInput1( this->GetInput2() );
-  filter->SetInput2( this->GetInput1() );
-  filter->Update();
+  filter21->SetInput1( this->GetInput2() );
+  filter21->SetInput2( this->GetInput1() );
 
-  distance21 = filter->GetDirectedHausdorffDistance();
-  }
+  // Register the filter with the with progress accumulator using
+  // equal weight proportion
+  progress->RegisterInternalFilter(filter12,.5f);
+  progress->RegisterInternalFilter(filter21,.5f);
+
+  filter12->Update();
+  distance12 = filter12->GetDirectedHausdorffDistance();
+  filter21->Update();
+  distance21 = filter21->GetDirectedHausdorffDistance();
 
   if ( distance12 > distance21 )
     {

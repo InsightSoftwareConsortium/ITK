@@ -20,6 +20,7 @@
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -46,8 +47,12 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Upper: " << m_Upper << std::endl;
-  os << indent << "Lower: " << m_Lower << std::endl;
+  os << indent << "Upper: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
+     << std::endl;
+  os << indent << "Lower: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
+     << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
@@ -99,10 +104,13 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
     function->SetRadius (m_Radius);
   IteratorType it = IteratorType ( outputImage, function, m_Seeds );
 
+  ProgressReporter progress( this, 0,
+                             outputImage->GetRequestedRegion().GetNumberOfPixels());
   while( !it.IsAtEnd())
     {
     it.Set(m_ReplaceValue);
     ++it;
+    progress.CompletedPixel();
     }
 }
 
