@@ -42,9 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "itkPhysicalImage.h"
-#include "itkIndex.h"
 #include "itkSize.h"
-
 #include "itkLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -55,6 +53,7 @@ typedef itk::PhysicalImage<unsigned short, 3>              ImageType;
 typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 typedef InterpolatorType::IndexType                 IndexType;
 typedef InterpolatorType::PointType                 PointType;
+typedef InterpolatorType::ContinuousIndexType       ContinuousIndexType;
 
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 40, 80}};
@@ -65,15 +64,16 @@ double spacing[3] = { 0.1,   0.05 , 0.025};
  * This function convert points from Image space to
  * geometric space
  */ 
-PointType ConvertImageToGeometricPoint( const PointType& ipoint )
+PointType ConvertContinuousIndexToPoint( 
+const ContinuousIndexType& index )
 {
-	PointType opoint;
+	PointType point;
   for( int j = 0; j < PointType::PointDimension; j++ )
 		{
-		opoint[j] = ipoint[j] * spacing[j] + origin[j];
+		point[j] = index[j] * spacing[j] + origin[j];
 		}
 
-  return opoint;
+  return point;
 }
 
 /**
@@ -115,8 +115,47 @@ double trueValue )
 
 }
 
+/**
+ * Test a continuous index. Returns true if test has passed,
+ * returns false otherwise
+ */
+bool TestContinuousIndex(
+const InterpolatorType * interp,
+const ContinuousIndexType& index,
+bool isInside,
+double trueValue )
+{
 
-int
+  std::cout << " Index: " << index;
+
+  bool bvalue = interp->IsInsideBuffer( index );
+  std::cout << " Inside: " << bvalue;
+
+  if( bvalue != isInside )
+		{
+    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    return false;
+    }
+
+  if( isInside )
+		{
+		double value = interp->Evaluate( index );
+    std::cout << " Value: " << value;
+
+    if( vnl_math_abs( value - trueValue ) > 1e-9 )
+			{
+			std::cout << "*** Error: value should be " << trueValue << std::endl;
+      return false;
+			}
+		}
+
+  std::cout << std::endl;
+  return true;
+
+}
+
+
+int 
 main(
     int argc,
     char *argv[])
@@ -161,56 +200,73 @@ main(
     interp->SetImageOrigin( image->GetOrigin() );
 
 
-    /* Test evaluation at geometric points */
-    std::cout << "Evaluate at geometric points: " << std::endl;
-    PointType point, ipoint;
+    /* Test evaluation at continuous indices and corresponding
+       gemetric points */
+    std::cout << "Evaluate at: " << std::endl;
+    ContinuousIndexType cindex;
+    PointType point;
     bool passed;
 
     // an integer position inside the image
     double darray1[3] = { 10, 20, 40};
-    ipoint = PointType(darray1);
-    point = ConvertImageToGeometricPoint( ipoint );
+    cindex = ContinuousIndexType(darray1);
+    passed = TestContinuousIndex( interp, cindex, true, 70 );
+
+    if( !passed ) flag = 1;
+    
+    point = ConvertContinuousIndexToPoint( cindex );
     passed = TestGeometricPoint( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
     
     // position at the image border
     double darray2[3] = {0, 20, 40};
-    ipoint = PointType(darray2);
-    point = ConvertImageToGeometricPoint( ipoint );
+    cindex = ContinuousIndexType(darray2);
+    passed = TestContinuousIndex( interp, cindex, true, 60 );
+
+    if( !passed ) flag = 1;
+
+    point = ConvertContinuousIndexToPoint( cindex );
     passed = TestGeometricPoint( interp, point, true, 60 );
 
     if( !passed ) flag = 1;
 
     // position near image border
     double darray3[3] = {19, 20, 40};
-    ipoint = PointType(darray3);
-    point = ConvertImageToGeometricPoint( ipoint );
+    cindex = ContinuousIndexType(darray3);
+    passed = TestContinuousIndex( interp, cindex, true, 79 );
+
+    if( !passed ) flag = 1;
+
+    point = ConvertContinuousIndexToPoint( cindex );
     passed = TestGeometricPoint( interp, point, true, 79 );
 
     if( !passed ) flag = 1;
 
     // position outside the image
     double darray4[3] = {20, 20, 40};
-    ipoint = PointType(darray4);
-    point = ConvertImageToGeometricPoint( ipoint );
+    cindex = ContinuousIndexType(darray4);
+    passed = TestContinuousIndex( interp, cindex, false, 0 );
+
+    if( !passed ) flag = 1;
+
+    point = ConvertContinuousIndexToPoint( cindex );
     passed = TestGeometricPoint( interp, point, false, 0 );
 
     if( !passed ) flag = 1;
 
     // at non-integer position 
     double darray5[3] = {5.25, 12.5, 42.0};
-    ipoint = PointType(darray5);
-    point = ConvertImageToGeometricPoint( ipoint );
+    cindex = ContinuousIndexType(darray5);
+    passed = TestContinuousIndex( interp, cindex, true, 59.75 );
+
+    if( !passed ) flag = 1;
+
+    point = ConvertContinuousIndexToPoint( cindex );
     passed = TestGeometricPoint( interp, point, true, 59.75 );
 
     if( !passed ) flag = 1;
 
-
-    //
-    // FIXME: added test for image point
-    // after it has been implemented
-    ///
 
     /* Return results of test */
     if (flag != 0) {
