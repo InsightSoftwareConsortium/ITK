@@ -36,7 +36,7 @@
 #include "itkImageSpatialObject.h"
 
 
-int itkImageSpatialObjectTest(int, char** const)
+int itkImageSpatialObjectTest(int, char* [])
 {
   #define NDimensions 3
 

@@ -25,7 +25,7 @@
 #include "itkBlobSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 
-int itkBlobSpatialObjectTest(int, char** const)
+int itkBlobSpatialObjectTest(int, char* [])
 {
   typedef itk::BlobSpatialObject<3>    BlobType;
   typedef BlobType::Pointer            BlobPointer;
