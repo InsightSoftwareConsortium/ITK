@@ -98,28 +98,6 @@ typename ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::ComputeGlobalTimeStep( void * gd ) const
 {
-/*
-  TimeStepType dt = Superclass::ComputeGlobalTimeStep( gd );
-
-  ShapePriorGlobalDataStruct *d = (ShapePriorGlobalDataStruct *) gd;
-
-  if ( d->m_MaxShapePriorChange > 0.0 )
-    {
-    if ( d->m_MaxAdvectionChange > 0.0 || d->m_MaxPropagationChange > 0.0 )
-      {
-      return vnl_math_min( dt, m_DT / d->m_MaxShapePriorChange );
-      }
-    else
-      {
-      return m_DT / d->m_MaxShapePriorChange;
-      }
-    }
-  else
-    {
-    return dt;
-    }
-*/
-
   TimeStepType dt;
 
   ShapePriorGlobalDataStruct *d = (ShapePriorGlobalDataStruct *) gd;
@@ -130,25 +108,31 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
-                        ( m_DT/ vnl_math_abs(m_CurvatureWeight) ));
+      dt = vnl_math_min((m_WaveDT / d->m_MaxAdvectionChange),
+                        (    m_DT / d->m_MaxCurvatureChange ));
       }
     else
       {
-      dt = m_DT / vnl_math_abs(m_CurvatureWeight);
+      dt = m_DT / d->m_MaxCurvatureChange;
       }
     }
   else
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = m_WaveDT / d->m_MaxAdvectionChange;
+      dt = m_WaveDT / d->m_MaxAdvectionChange; 
       }
     else 
       {
       dt = 0.0;
       }
     }
+  
+  // reset the values  
+  d->m_MaxAdvectionChange  = 0;
+  d->m_MaxPropagationChange= 0;
+  d->m_MaxCurvatureChange = 0;
+  d->m_MaxShapePriorChange = 0;
 
   return dt;
 
