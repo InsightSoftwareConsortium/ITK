@@ -74,24 +74,5 @@ void RegisterTests()
   REGISTER_TEST(itkTriangleMeshToSimplexMeshFilter2Test);
   REGISTER_TEST(itkTriangleMeshToSimplexMeshFilterTest);
   REGISTER_TEST(itkTwoOutputExampleImageFilterTest );
-  REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
-  REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
-  REGISTER_TEST(itkVectorExpandImageFilterTest );
-  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest1 );
-  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest2 );
-  REGISTER_TEST(itkVectorNeighborhoodOperatorImageFilterTest );
-  REGISTER_TEST(itkVectorResampleImageFilterTest );
-  REGISTER_TEST(itkVectorRescaleIntensityImageFilterTest );
-  REGISTER_TEST(itkVotingBinaryHoleFillingImageFilterTest );
-  REGISTER_TEST(itkVotingBinaryImageFilterTest );
-  REGISTER_TEST(itkVotingBinaryIterativeHoleFillingImageFilterTest );
-  REGISTER_TEST(itkWarpImageFilterTest );
-  REGISTER_TEST(itkWarpMeshFilterTest );
-  REGISTER_TEST(itkWarpVectorImageFilterTest );
-  REGISTER_TEST(itkWeightedAddImageFilterTest);
-  REGISTER_TEST(itkWrapPadImageTest );
-  REGISTER_TEST(itkXorImageFilterTest );
-  REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
-  REGISTER_TEST(itkZeroCrossingImageFilterTest );
 }
 
