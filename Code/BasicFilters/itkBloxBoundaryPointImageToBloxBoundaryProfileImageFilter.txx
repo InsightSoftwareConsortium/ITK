@@ -59,7 +59,7 @@ public:
 
   typedef Superclass::MeasureType MeasureType;
            
-  enum { SpaceDimension = 4 }; // number of parameters 
+  itkStaticConstMacro(SpaceDimension, unsigned int, 4); // number of parameters 
   
   BoundaryProfileCostFunction(){}
 
