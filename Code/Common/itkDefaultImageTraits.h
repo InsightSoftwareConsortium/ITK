@@ -29,7 +29,8 @@ namespace itk
  * \sa Image
  */
 template <typename TPixelType,
-          unsigned int VImageDimension>
+          unsigned int VImageDimension,
+          typename TPixelContainer = ValarrayImageContainer<unsigned long, TPixelType> >
 class DefaultImageTraits
 {
 public:
@@ -46,7 +47,7 @@ public:
   /**
    * The container of Pixels for the image.
    */
-  typedef ValarrayImageContainer<unsigned long, PixelType>  PixelContainer;
+  typedef TPixelContainer PixelContainer;
 
   /** 
    * Index typedef support. An index is used to access pixel values.
