@@ -26,13 +26,13 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(AnisotropicDiffusionImageFilter, image::F2, image::F2,
+    ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::F2, image::F2,
                                      AnisotropicDiffusionImageFilterF2);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(AnisotropicDiffusionImageFilter, image::F3, image::F3,
+    ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::F3, image::F3,
                                      AnisotropicDiffusionImageFilterF3);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(AnisotropicDiffusionImageFilter, image::US2, image::US2,
+    ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::US2, image::US2,
                                      AnisotropicDiffusionImageFilterUS2);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(AnisotropicDiffusionImageFilter, image::US3, image::US3,
+    ITK_WRAP_OBJECT2(AnisotropicDiffusionImageFilter, image::US3, image::US3,
                                      AnisotropicDiffusionImageFilterUS3);
     
   }
