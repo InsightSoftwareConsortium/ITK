@@ -411,13 +411,13 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
            ${ITK_TEST_OUTPUT_DIR}/ImageRegistration5TclTest.png )
 
-  ADD_TEST(VoronoiSegmentationPython ${ITKWISH_EXECUTABLE}
+  ADD_TEST(VoronoiSegmentationTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Segmentation/VoronoiSegmentation.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
            ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
            ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationTcl.png  0.3 0.3 )
 
-  ADD_TEST(VoronoiSegmentationPython ${ITKWISH_EXECUTABLE}
+  ADD_TEST(WatershedSegmentation1Tcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Segmentation/WatershedSegmentation1.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
            ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1Tcl.mhd )
