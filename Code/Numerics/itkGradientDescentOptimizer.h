@@ -55,9 +55,9 @@ namespace itk
  * p(n+1) = p(n) + learningRate * d f(p(n)) / d p(n)
  *
  * \f[ 
- *        p\{n+1} = p\n 
+ *        p_{n+1} = p_n 
  *                + mbox{learningRate} 
-                  * \frac{\partial f(p\n) }{\partial p\n} 
+                  * \frac{\partial f(p_n) }{\partial p_n} 
  * \f]
  *
  * The learning rate is a fixed scalar defined via SetLearningRate().
