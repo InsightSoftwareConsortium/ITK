@@ -22,6 +22,7 @@
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkFilterWatcher.h"
 
 int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -44,6 +45,8 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::ConfidenceConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher filterWatch(filter);
+
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
