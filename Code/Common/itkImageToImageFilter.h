@@ -100,6 +100,8 @@ public:
   ImageToImageFilter();
   ~ImageToImageFilter();
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
   /** What is the input requested region that is required to produce the
    * output requested region? The base assumption for image processing
    * filters is that the input requested region can be set to match the
