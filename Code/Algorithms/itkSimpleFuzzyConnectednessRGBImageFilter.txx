@@ -88,12 +88,12 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     s12 = save[1]*save[2];
     s22 = save[2]*save[2];
 
-    double tmp3 = s00*(m_Diff_VarianceianceInverse[0][0])
-      + s11*(m_Diff_VarianceianceInverse[1][1])
-      + s22*(m_Diff_VarianceianceInverse[2][2])
-      + s01*(m_Diff_VarianceianceInverse[0][1]+m_Diff_VarianceianceInverse[1][0])
-      + s02*(m_Diff_VarianceianceInverse[0][2]+m_Diff_VarianceianceInverse[2][0])
-      + s12*(m_Diff_VarianceianceInverse[1][2]+m_Diff_VarianceianceInverse[2][1]);
+    double tmp3 = s00*(m_Diff_VarianceInverse[0][0])
+      + s11*(m_Diff_VarianceInverse[1][1])
+      + s22*(m_Diff_VarianceInverse[2][2])
+      + s01*(m_Diff_VarianceInverse[0][1]+m_Diff_VarianceInverse[1][0])
+      + s02*(m_Diff_VarianceInverse[0][2]+m_Diff_VarianceInverse[2][0])
+      + s12*(m_Diff_VarianceInverse[1][2]+m_Diff_VarianceInverse[2][1]);
 
     return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
                                                     +(1-m_Weight)*exp(-0.5*tmp3)) );
@@ -134,30 +134,30 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
                       /m_VarianceDet;  
   if((int)(m_Weight*100+0.5) > 1){ //need to use the difference information.
 
-  m_Diff_VarianceianceDet = m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[1][1]*m_Diff_Varianceiance[2][2]
-    +m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[2][1]*m_Diff_Varianceiance[0][2]
-    +m_Diff_Varianceiance[0][1]*m_Diff_Varianceiance[1][2]*m_Diff_Varianceiance[2][0]
-    -m_Diff_Varianceiance[2][0]*m_Diff_Varianceiance[1][1]*m_Diff_Varianceiance[0][2]
-    -m_Diff_Varianceiance[0][1]*m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[2][2]
-    -m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[1][2]*m_Diff_Varianceiance[2][1];
-  m_Diff_VarianceianceInverse[0][0]=(m_Diff_Varianceiance[1][1]*m_Diff_Varianceiance[2][2]-m_Diff_Varianceiance[2][1]*m_Diff_Varianceiance[1][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[0][1]=-(m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[2][2]-m_Diff_Varianceiance[2][0]*m_Diff_Varianceiance[1][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[0][2]=(m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[2][1]-m_Diff_Varianceiance[2][0]*m_Diff_Varianceiance[1][1])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[1][0]=-(m_Diff_Varianceiance[0][1]*m_Diff_Varianceiance[2][2]-m_Diff_Varianceiance[2][1]*m_Diff_Varianceiance[0][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[1][1]=(m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[2][2]-m_Diff_Varianceiance[2][0]*m_Diff_Varianceiance[0][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[1][2]=-(m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[2][1]-m_Diff_Varianceiance[2][0]*m_Diff_Varianceiance[0][1])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[2][0]=(m_Diff_Varianceiance[0][1]*m_Diff_Varianceiance[1][2]-m_Diff_Varianceiance[1][1]*m_Diff_Varianceiance[0][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[2][1]=-(m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[1][2]-m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[0][2])
-                      /m_Diff_VarianceianceDet;  
-  m_Diff_VarianceianceInverse[2][2]=(m_Diff_Varianceiance[0][0]*m_Diff_Varianceiance[1][1]-m_Diff_Varianceiance[1][0]*m_Diff_Varianceiance[0][1])
-                      /m_Diff_VarianceianceDet;  
+  m_Diff_VarianceDet = m_Diff_Variance[0][0]*m_Diff_Variance[1][1]*m_Diff_Variance[2][2]
+    +m_Diff_Variance[1][0]*m_Diff_Variance[2][1]*m_Diff_Variance[0][2]
+    +m_Diff_Variance[0][1]*m_Diff_Variance[1][2]*m_Diff_Variance[2][0]
+    -m_Diff_Variance[2][0]*m_Diff_Variance[1][1]*m_Diff_Variance[0][2]
+    -m_Diff_Variance[0][1]*m_Diff_Variance[1][0]*m_Diff_Variance[2][2]
+    -m_Diff_Variance[0][0]*m_Diff_Variance[1][2]*m_Diff_Variance[2][1];
+  m_Diff_VarianceInverse[0][0]=(m_Diff_Variance[1][1]*m_Diff_Variance[2][2]-m_Diff_Variance[2][1]*m_Diff_Variance[1][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[0][1]=-(m_Diff_Variance[1][0]*m_Diff_Variance[2][2]-m_Diff_Variance[2][0]*m_Diff_Variance[1][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[0][2]=(m_Diff_Variance[1][0]*m_Diff_Variance[2][1]-m_Diff_Variance[2][0]*m_Diff_Variance[1][1])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[1][0]=-(m_Diff_Variance[0][1]*m_Diff_Variance[2][2]-m_Diff_Variance[2][1]*m_Diff_Variance[0][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[1][1]=(m_Diff_Variance[0][0]*m_Diff_Variance[2][2]-m_Diff_Variance[2][0]*m_Diff_Variance[0][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[1][2]=-(m_Diff_Variance[0][0]*m_Diff_Variance[2][1]-m_Diff_Variance[2][0]*m_Diff_Variance[0][1])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[2][0]=(m_Diff_Variance[0][1]*m_Diff_Variance[1][2]-m_Diff_Variance[1][1]*m_Diff_Variance[0][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[2][1]=-(m_Diff_Variance[0][0]*m_Diff_Variance[1][2]-m_Diff_Variance[1][0]*m_Diff_Variance[0][2])
+                      /m_Diff_VarianceDet;  
+  m_Diff_VarianceInverse[2][2]=(m_Diff_Variance[0][0]*m_Diff_Variance[1][1]-m_Diff_Variance[1][0]*m_Diff_Variance[0][1])
+                      /m_Diff_VarianceDet;  
   }
   
   Superclass::GenerateData();            
