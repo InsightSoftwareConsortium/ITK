@@ -45,16 +45,10 @@ QuaternionRigidTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Rotation: " << m_Rotation << std::endl;
-
-  os << indent << "Center: " << std::endl;
-  for (unsigned int i = 0; i < SpaceDimension; i++) 
-    {
-    os << m_Center[i] << std::endl;
-    }
-
-
-  os << indent << "Parameters: " << m_Parameters   << std::endl;
+  os << indent << "Rotation:    " << m_Rotation    << std::endl;
+  os << indent << "Center:      " << m_Center      << std::endl;
+  os << indent << "Translation: " << m_Translation << std::endl;
+  os << indent << "Parameters:  " << m_Parameters  << std::endl;
 }
 
 
