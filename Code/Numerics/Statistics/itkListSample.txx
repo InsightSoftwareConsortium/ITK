@@ -30,9 +30,9 @@ ListSample< TMeasurementVector >
 
 
 template< class TMeasurementVector >
-typename ListSample< TMeasurementVector >::MeasurementVectorType 
+const typename ListSample< TMeasurementVector >::MeasurementVectorType &
 ListSample< TMeasurementVector >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const 
 {
   if ( id < m_InternalContainer.size() )
     {

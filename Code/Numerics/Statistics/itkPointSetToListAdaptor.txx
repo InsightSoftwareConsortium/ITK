@@ -74,9 +74,9 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-inline typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType
+inline const typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType & 
 PointSetToListAdaptor< TPointSet >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const
 {
   m_PointSet->GetPoint(id, &m_TempPoint) ;
   return (MeasurementVectorType&) m_TempPoint ;

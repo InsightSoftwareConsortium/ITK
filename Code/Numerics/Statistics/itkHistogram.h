@@ -126,12 +126,12 @@ public:
                   MeasurementVectorType& upperBound) ;
 
   /** returns the index of histogram corresponding to measurement value */
-  IndexType& GetIndex(const MeasurementVectorType& measurement) ;
+  const IndexType & GetIndex(const MeasurementVectorType& measurement) const;
   
   /** returns the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
    * This method uses ImageBase::ComputeIndex() method */
-  IndexType& GetIndex(const InstanceIdentifier &id) ;
+  const IndexType & GetIndex(const InstanceIdentifier &id) const;
 
   /** returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
@@ -255,10 +255,10 @@ public:
                          const FrequencyType value) ;
   
   /** Method to get measurement from the histogram using an instance identifier */
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
   
   /** Method to get measurement from the histogram */
-  MeasurementVectorType GetMeasurementVector(const IndexType &index) ;
+  const MeasurementVectorType & GetMeasurementVector(const IndexType &index) const;
   
   /** Method to get measurement from the histogram */
   MeasurementType GetMeasurement(const unsigned long n,
@@ -331,7 +331,7 @@ public:
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
 
-    MeasurementVectorType GetMeasurementVector() const
+    const MeasurementVectorType & GetMeasurementVector() const
     { 
       return m_Histogram->GetMeasurementVector(m_Id) ;
     } 
@@ -390,8 +390,10 @@ private:
   InstanceIdentifier          m_OffsetTable[VMeasurementVectorSize + 1] ;
   FrequencyContainerPointer   m_FrequencyContainer ;
   unsigned int                m_NumberOfInstances ;
-  MeasurementVectorType       m_TempMeasurementVector ;
-  IndexType                   m_TempIndex ;
+
+  mutable MeasurementVectorType   m_TempMeasurementVector ;
+  mutable IndexType               m_TempIndex ;
+
 } ; // end of class
 
 } // end of namespace Statistics 

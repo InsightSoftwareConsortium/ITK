@@ -89,7 +89,7 @@ public:
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
   typedef MeasurementVectorType ValueType ;
 
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
 protected:
   ScalarImageToListAdaptor() {}
@@ -99,7 +99,7 @@ protected:
 private:
   ScalarImageToListAdaptor(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
-  MeasurementVectorType m_TempVector ;
+  mutable MeasurementVectorType m_TempVector ;
 } ; // end of class ScalarImageToListAdaptor
 
 } // end of namespace Statistics

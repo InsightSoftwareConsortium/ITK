@@ -102,9 +102,9 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 }
 
 template < class TImage, class TMeasurementVector >
-inline TMeasurementVector
+inline const TMeasurementVector &
 ImageToListAdaptor< TImage, TMeasurementVector >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const
 {
   if ( m_UseBuffer )
     {

@@ -152,7 +152,7 @@ public:
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
-  inline MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  inline const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
   /** Computes the image region (rectangular) that enclose the ball
    * defined by the mv (center) and the radius. */
@@ -178,10 +178,10 @@ private:
 
   NormalizationFactorsType m_NormalizationFactors ;
 
-  MeasurementVectorType m_TempVector ;
-  PointType m_TempPoint ;
-  ImageIndexType m_TempIndex ;
-  RangeDomainMeasurementVectorType m_TempRangeVector ;
+  mutable MeasurementVectorType m_TempVector ;
+  mutable PointType m_TempPoint ;
+  mutable ImageIndexType m_TempIndex ;
+  mutable RangeDomainMeasurementVectorType m_TempRangeVector ;
 } ; // end of class JointDomainImageToListAdaptor
 
 } // end of namespace Statistics

@@ -129,7 +129,7 @@ public:
   
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
   
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
@@ -173,7 +173,7 @@ public:
     FrequencyType GetFrequency() const
     { return  m_Sample->GetFrequency(m_Id) ; }
     
-    MeasurementVectorType GetMeasurementVector()
+    const MeasurementVectorType & GetMeasurementVector() const
     { return m_Sample->GetMeasurementVector(m_Id) ; } 
     
     InstanceIdentifier GetInstanceIdentifier() const

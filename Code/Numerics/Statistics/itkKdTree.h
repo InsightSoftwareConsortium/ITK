@@ -466,7 +466,7 @@ public:
 
   /** Returns the measurement vector identified by the instance
    * identifier that is an identifier defiend for the input sample */
-  MeasurementVectorType GetMeasurementVector(InstanceIdentifier id)
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const
   { return m_Sample->GetMeasurementVector(id) ; }
 
   /** Returns the frequency of the measurement vector identified by 

@@ -29,9 +29,9 @@ ScalarImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-typename ScalarImageToListAdaptor< TImage >::MeasurementVectorType
+const typename ScalarImageToListAdaptor< TImage >::MeasurementVectorType &
 ScalarImageToListAdaptor< TImage >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const
 {
   if( m_UseBuffer )
     {

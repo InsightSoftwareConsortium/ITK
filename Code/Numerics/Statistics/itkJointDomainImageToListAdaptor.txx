@@ -50,9 +50,9 @@ JointDomainImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-inline typename JointDomainImageToListAdaptor< TImage >::MeasurementVectorType
+inline const typename JointDomainImageToListAdaptor< TImage >::MeasurementVectorType &
 JointDomainImageToListAdaptor< TImage >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const
 {
   m_TempIndex = this->GetImage()->ComputeIndex( id ) ;
   

@@ -93,7 +93,7 @@ public:
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
   /** sets the "dim" dimensional component value of the measurement vector
    * that is specified by "id". */
@@ -145,7 +145,7 @@ public:
     FrequencyType GetFrequency() const
     { return 1 ;}
 
-    MeasurementVectorType GetMeasurementVector()
+    const MeasurementVectorType & GetMeasurementVector() const
     { return (MeasurementVectorType&) *m_Iter ;} 
 
     InstanceIdentifier GetInstanceIdentifier() const

@@ -104,7 +104,7 @@ public:
 
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
-  MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id)
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const
   { return m_Sample->GetMeasurementVector(id) ; }
 
   /** returns the frequency of the instance which is identified by the 'id' */
@@ -150,7 +150,7 @@ public:
     FrequencyType GetFrequency() const
     { return  m_Sample->GetFrequency(*m_Iter) ; }
     
-    MeasurementVectorType GetMeasurementVector() 
+    const MeasurementVectorType & GetMeasurementVector() const
     { return m_Sample->GetMeasurementVector(*m_Iter) ; } 
     
     InstanceIdentifier GetInstanceIdentifier() const   

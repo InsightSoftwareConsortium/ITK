@@ -118,9 +118,9 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer>
-inline typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&
+inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType &
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetIndex(const MeasurementVectorType& measurement)
+::GetIndex(const MeasurementVectorType& measurement) const
 {
   // now using somthing similar to binary search to find
   // index.
@@ -182,9 +182,9 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
-inline typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&
+inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetIndex(const InstanceIdentifier &id) 
+::GetIndex(const InstanceIdentifier &id)  const
 {
   InstanceIdentifier id2 = id ;
 
@@ -354,26 +354,27 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementVectorType
+inline const typename Histogram< TMeasurement, VMeasurementVectorSize, 
+                           TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetMeasurementVector(const IndexType &index) 
+::GetMeasurementVector(const IndexType &index) const
 {
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    m_TempMeasurementVector[i] =  (m_Min[i][index[i]] + m_Max[i][index[i]])/2;
+    MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
+    m_TempMeasurementVector[i] =  value / 2.0;
     }
   return m_TempMeasurementVector ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
-inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementVectorType
+inline const typename Histogram< TMeasurement, VMeasurementVectorSize, 
+                           TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetMeasurementVector(const InstanceIdentifier &id)
+::GetMeasurementVector(const InstanceIdentifier &id) const
 {
-  return GetMeasurementVector(GetIndex(id)) ;
+  return this->GetMeasurementVector( this->GetIndex(id) ) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -443,7 +444,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer>
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementType
+                           TFrequencyContainer >::MeasurementType 
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurement(const unsigned long n, const unsigned int dimension) const
 {

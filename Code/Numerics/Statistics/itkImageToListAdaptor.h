@@ -112,7 +112,7 @@ public:
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
 
-  inline virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  inline virtual const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
   inline FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
@@ -146,7 +146,7 @@ public:
     FrequencyType GetFrequency() const
     { return 1 ;}
 
-    MeasurementVectorType GetMeasurementVector()
+    const MeasurementVectorType & GetMeasurementVector() const
     { return m_Container->GetMeasurementVector(m_Id) ;} 
 
     InstanceIdentifier GetInstanceIdentifier() const
