@@ -19,8 +19,6 @@
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkShiftScaleImageFilter.h"
 
-#define INNER_MASK 2
-
 namespace itk {
 
 
@@ -147,6 +145,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
                       const ThreadRegionType &regionToProcess,
                       int itkNotUsed(threadId))
 {
+  const int INNER_MASK = 2;
   typename NarrowBandType::ConstIterator it;
   typename OutputImageType::Pointer image=this->GetOutput();
   typename OutputImageType::PixelType oldvalue;
