@@ -95,7 +95,7 @@ public:
    */
    typedef AffineRegistrationTransform<double, ImageDimension, 
                                        ParametersType> TransformationType;
-    
+	  
   /**
    *  Type of the Mapper
    */

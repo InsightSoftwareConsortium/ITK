@@ -64,6 +64,10 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 
   m_Mapper->GetTransformation()->SetParameters( parameters );
 
+  double sab = 0.0;
+  double saa = 0.0;
+  double sbb = 0.0;
+
   while(!ti.IsAtEnd())
   {
     index = ti.GetIndex();
@@ -88,8 +92,9 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
     {
       TargetValue = ti.Get();
       count++;
-      const double diff = ReferenceValue - TargetValue; 
-      m_MatchMeasure += diff * diff; 
+      sab  += ReferenceValue  *  TargetValue;
+      saa  += ReferenceValue  *  ReferenceValue;
+      sbb  += TargetValue     *  TargetValue;
     }  
   
    ++ti;
@@ -101,7 +106,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
     return 100000;
   } 
 
-  m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
+  m_MatchMeasure = sab / sqrt( saa * sbb );
   std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
