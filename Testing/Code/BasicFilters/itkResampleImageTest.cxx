@@ -57,11 +57,12 @@ int itkResampleImageTest(int, char* [] )
   // Fill image with a ramp
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
   PixelType value;
-  for (; !iter.IsAtEnd(); ++iter) {
+  for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter) 
+    {
     index = iter.GetIndex();
     value = index[0] + index[1];
     iter.Set(value);
-  }
+    }
 
   // Create an affine transformation
   AffineTransformType::Pointer aff = AffineTransformType::New();
@@ -101,16 +102,22 @@ int itkResampleImageTest(int, char* [] )
   itk::ImageRegionIteratorWithIndex<ImageType>
       iter2(resample->GetOutput(), region2);
   PixelType pixval;
-  for (; !iter2.IsAtEnd(); ++iter2) {
+  const double tolerance = 1e-30;
+  for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2) 
+    {
     index  = iter2.GetIndex();
     value  = iter2.Get();
     pixval = value;
-    if ( static_cast<PixelType>( (index[0] + index[1]) / 2.0 ) != pixval ) {
+    PixelType expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
+    if ( fabs( expectedValue - pixval ) > tolerance ) 
+      {
       std::cout << "Error in resampled image: Pixel " << index
-                << " = " << value << std::endl;
+                << "value    = " << value << "  "
+                << "pixval   = " << pixval << "  "
+                << "expected = " << expectedValue << std::endl;
       passed = false;
+      }
     }
-  }
 
   // Report success or failure
   if (!passed) {

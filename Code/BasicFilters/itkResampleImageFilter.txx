@@ -167,7 +167,11 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Support for progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
         
+  typedef typename InterpolatorType::OutputType OutputType;
+
   // Walk the output region
+  const PixelType minValue =  itk::NumericTraits<PixelType >::min();
+  const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
   for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
     // Determine the index of the current output pixel
@@ -180,8 +184,20 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputPoint) )
       {
-      const PixelType pixval = 
-        static_cast<PixelType>( m_Interpolator->Evaluate(inputPoint));
+      PixelType pixval;
+      const OutputType value = m_Interpolator->Evaluate(inputPoint);
+      if( value < static_cast<OutputType>( minValue ) )
+        {
+        pixval = minValue;
+        }
+      else if( value > static_cast<OutputType>( maxValue ) )
+        {
+        pixval = maxValue;
+        }
+      else 
+        {
+        pixval = static_cast<PixelType>( value );
+        }
       outIt.Set( pixval );      
       }
     else
