@@ -114,7 +114,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char**)
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
-  // choose set inside the shape to be segmented.
+  // Choose an initial contour that is wholly within the square to be segmented.
   InternalImageType::IndexType seedPosition;
   seedPosition[0] = 47;
   seedPosition[1] = 47;

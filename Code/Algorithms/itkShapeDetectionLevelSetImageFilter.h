@@ -60,7 +60,7 @@ namespace itk {
  *    See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
  *    for more information on Inputs.
  *
- *    \par
+ *    \par PARAMETERS
  *    The method SetUseNegatiiveFeatures() can be used to switch from propagating outwards (true)
  *    versus propagting inwards (false). 
  *
