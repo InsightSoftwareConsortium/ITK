@@ -22,6 +22,82 @@
 namespace itk
 {
 
+
+
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage>
+::ImageIterator()
+{
+}
+
+
+
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage>
+::ImageIterator(const Self& it):
+        ImageConstIterator<TImage>(it)
+{
+}
+
+
+
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage>
+::ImageIterator(TImage *ptr, const RegionType & region ):
+                                  ImageConstIterator<TImage>( ptr, region )
+{
+}
+ 
+
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage>
+::ImageIterator(const ImageConstIterator<TImage> & it):
+                                  ImageConstIterator<TImage>( it )
+{
+}
+
+
+   
+//----------------------------------------------------------------------
+//    Assignment Operator
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage> &
+ImageIterator<TImage>
+::operator=(const ImageConstIterator<TImage> & it)
+{
+  this->ImageConstIterator<TImage>::operator=( it );
+  return *this;
+} 
+  
+
+ 
+//----------------------------------------------------------------------
+//    Assignment Operator
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIterator<TImage> &
+ImageIterator<TImage>
+::operator=(const Self& it)
+{
+  this->ImageConstIterator<TImage>::operator=( it );
+  return *this;
+} 
+  
+
+
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 template<class TImage>
@@ -60,6 +136,12 @@ ImageIterator<TImage>
   return it;
 }
 
+
+
+
 } // end namespace itk
+
+
+
 
 #endif
