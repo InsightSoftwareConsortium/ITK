@@ -509,7 +509,11 @@ int main( int argc, char *argv[] )
   const double bestValue = optimizer->GetValue();
 
 
-
+  std::cout << "Registration done !" << std::endl;
+  std::cout << "Number of iterations = " << numberOfIterations << std::endl;
+  std::cout << "Translation along X  = " << TranslationAlongX << std::endl;
+  std::cout << "Translation along Y  = " << TranslationAlongY << std::endl;
+  std::cout << "Optimal metric value = " << bestValue << std::endl;
 
   //
   // Prepare the resampling filter in order to map the moving image.

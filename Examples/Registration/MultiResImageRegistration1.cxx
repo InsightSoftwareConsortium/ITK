@@ -228,7 +228,7 @@ public:
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  void Execute(const itk::Object * , const itk::EventObject & )
     { return; }
 
 };

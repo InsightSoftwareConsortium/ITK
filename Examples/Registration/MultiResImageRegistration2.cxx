@@ -145,7 +145,7 @@ public:
       }
 
   }
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  void Execute(const itk::Object * , const itk::EventObject & )
     { return; }
 
 };
@@ -361,30 +361,22 @@ int main( int argc, char *argv[] )
   //  \begin{equation}
   //  \left[ 
   //  \begin{array}{c}
-  //  {P'}_x  \\  
-  //  {P'}_y  \\    
-  //  \end{array} 
+  //  {P'}_x  \\  {P'}_y  \\  \end{array} 
   //  \right]
   //  =
   //  \left[ 
   //  \begin{array}{cc}
-  //  M_{11} & M_{12} \\ 
-  //  M_{21} & M_{22} \\  
-  //  \end{array}
+  //  M_{11} & M_{12} \\ M_{21} & M_{22} \\  \end{array}
   //  \right]
   //  \cdot 
   //  \left[ 
   //  \begin{array}{c}
-  //  P_x  \\ 
-  //  P_y  \\  
-  //  \end{array} 
+  //  P_x  \\ P_y  \\  \end{array} 
   //  \right]
   //  +
   //  \left[ 
   //  \begin{array}{c}
-  //  T_x  \\ 
-  //  T_y  \\  
-  //  \end{array} 
+  //  T_x  \\ T_y  \\  \end{array} 
   //  \right] 
   //  \end{equation}
   //
