@@ -215,6 +215,32 @@ public:
     { memcpy(m_Size, val, sizeof(SizeValueType)*VDimension); }
 
   /**
+   * Set an element of the Size.
+   * sets the value of one of the elements in the Size
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed
+   * \sa SetSize()
+   * \sa GetElement()
+   */
+  void SetElement(unsigned long element, SizeValueType val )
+    { m_Size[ element ] = val;  }
+
+  /**
+   * Get an element of the Size.
+   * gets the value of one of the elements in the size
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed
+   * \sa GetSize()
+   * \sa SetElement()
+   */
+  SizeValueType GetElement( unsigned long element )
+    { return m_Size[ element ]; }
+
+
+
+  /**
    * Size is an "aggregate" class.  Its data is public (m_Size)
    * allowing for fast and convenient instantiations/assignments.
    *

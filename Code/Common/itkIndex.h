@@ -267,6 +267,31 @@ public:
     { memcpy(m_Index, val, sizeof(IndexValueType)*VIndexDimension); }
 
   /**
+   * Set an element of the index.
+   * sets the value of one of the elements in the index
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed
+   * \sa SetIndex()
+   * \sa GetElement()
+   */
+  void SetElement(unsigned long element, IndexValueType val )
+    { m_Index[ element ] = val;  }
+
+  /**
+   * Get an element of the index.
+   * gets the value of one of the elements in the index.
+   * This method is mainly intended to facilitate the access to elements
+   * from Tcl and Python where C++ notation is not very convenient.
+   * \warning No bound checking is performed
+   * \sa GetIndex()
+   * \sa SetElement()
+   */
+  IndexValueType GetElement( unsigned long element )
+    { return m_Index[ element ]; }
+
+
+  /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
    * values of "dim" are 0, ..., VIndexDimension-1.
