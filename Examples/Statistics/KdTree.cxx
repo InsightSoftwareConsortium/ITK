@@ -18,8 +18,8 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::Statistics::KdTree}
-// \index{itk::Statistics::KdTreeGenerator}
-// \index{itk::Statistics::WeightedCentroidKdTreeGenerator}
+// \index{itk::Statistics::KdTree\-Generator}
+// \index{itk::Statistics::Weighted\-Centroid\-KdTree\-Generator}
 //
 // The \subdoxygen{Statistics}{KdTree} implements a data structure that
 // separates samples in a $k$-dimension space.  The \code{std::vector} class
