@@ -51,6 +51,13 @@ LINK_DIRECTORIES(.)
 # ITK build configuration options.
 OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 SET(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+
+# if the source for CableSwig is found in the Utilities directory
+# then use that 
+UTILITY_SOURCE(CSWIG cswig Utilities/CableSwig/Executables/cableSwigMain.cxx)
+UTILITY_SOURCE(CABLE_INDEX cableidx Utilities/CableSwig/Executables/cableidx.cxx)
+UTILITY_SOURCE(GCCXML gccxml Utilities/CableSwig/GCC_XML/xml.c)
+
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
