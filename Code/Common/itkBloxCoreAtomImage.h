@@ -132,8 +132,10 @@ private:
   BloxCoreAtomImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** The number of medial nodes found. */
   int m_MedialNodeCount;
 
+  /** List of pointers to all the medial nodes. */
   NodePointerListPointer m_NodePointerList;
 
 };
