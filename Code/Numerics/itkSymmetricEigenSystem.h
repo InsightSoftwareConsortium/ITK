@@ -94,6 +94,7 @@ public:
 protected:
   SymmetricEigenSystem();
   virtual ~SymmetricEigenSystem();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Produces the eigen vectors and values. */
   void GenerateData() ;
