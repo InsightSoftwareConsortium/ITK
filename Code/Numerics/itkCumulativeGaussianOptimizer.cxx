@@ -212,12 +212,20 @@ void CumulativeGaussianOptimizer::SetCostFunction(CostFunctionType::Pointer cost
   m_CostFunction = costFunction;
 }
 
+void
+CumulativeGaussianOptimizer
+::SetDataArray(MeasureType * cumGaussianArray)
+{
+  m_CumulativeGaussianArray = new MeasureType();
+  m_CumulativeGaussianArray = cumGaussianArray;
+}
+
 void 
 CumulativeGaussianOptimizer
-::StartOptimization(MeasureType * cumGaussianArray)
+::StartOptimization()
 {
   // Declare arrays.
-  int cumGaussianArraySize = cumGaussianArray->GetNumberOfElements();
+  int cumGaussianArraySize = m_CumulativeGaussianArray->GetNumberOfElements();
   int sampledGaussianArraySize = cumGaussianArraySize;
   int cumGaussianArrayCopySize = cumGaussianArraySize;
   
@@ -229,19 +237,19 @@ CumulativeGaussianOptimizer
 
   // Make a copy of the Cumulative Gaussian sampled data array.
   for(int j = 0; j < cumGaussianArraySize; j++)
-    cumGaussianArrayCopy->put(j, cumGaussianArray->get(j));
+    cumGaussianArrayCopy->put(j, m_CumulativeGaussianArray->get(j));
   
   // Take the derivative of the data array resulting in a Gaussian array.
   MeasureType * derivative = new MeasureType();
   derivative->resize(cumGaussianArraySize - 1);
 
   for(int i=1; i < derivative->GetNumberOfElements()+1; i++)
-    derivative->put(i-1, cumGaussianArray->get(i) - cumGaussianArray->get(i-1) );
+    derivative->put(i-1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i-1) );
 
-  cumGaussianArray = derivative;
+  m_CumulativeGaussianArray = derivative;
   
   // Iteratively recalculate and resample the Gaussian array.
-  FindParametersOfGaussian(cumGaussianArray);
+  FindParametersOfGaussian(m_CumulativeGaussianArray);
   
   // Generate new Gaussian array with final parameters.
   for(int i = 0; i < sampledGaussianArraySize; i++)

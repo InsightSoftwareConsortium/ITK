@@ -78,8 +78,10 @@ public:
   itkGetMacro(FinalSampledArray, MeasureType*);
   itkGetMacro(FitError, double);
 
+  void SetDataArray(MeasureType * dataArray);
+
   /** Start the optimizer. */
-  void StartOptimization(MeasureType * cumGaussianArray);
+  void StartOptimization();
   
   /** Set the cost function. */
   void SetCostFunction(CostFunctionType::Pointer costFunction);
@@ -126,6 +128,9 @@ private:
 
   /** Array of values computed from the final parameters of the Cumulative Gaussian. */
   MeasureType * m_FinalSampledArray;
+
+  /** Original data array. */
+  MeasureType * m_CumulativeGaussianArray;
 
   /** Pointer to the cost function. */
   CostFunctionType::Pointer m_CostFunction;
