@@ -122,6 +122,8 @@ REGISTER_TEST(itkTimeProbesTest );
 REGISTER_TEST(itkTransformTest );
 REGISTER_TEST(itkThreadDefsTest );
 REGISTER_TEST(itkTranslationTransformTest );
+REGISTER_TEST(itkTreeContainerTest );
+REGISTER_TEST(itkTreeContainerTest2 );
 REGISTER_TEST(itkVarianceImageFunctionTest );
 REGISTER_TEST(itkVectorGeometryTest );
 REGISTER_TEST(itkVectorMeanImageFunctionTest );

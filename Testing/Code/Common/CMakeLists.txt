@@ -132,6 +132,8 @@ ADD_TEST(itkTimeProbesTest ${COMMON_TESTS} itkTimeProbesTest)
 ADD_TEST(itkTransformTest ${COMMON_TESTS} itkTransformTest)
 ADD_TEST(itkThreadDefsTest ${COMMON_TESTS} itkThreadDefsTest)
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS} itkTranslationTransformTest)
+ADD_TEST(itkTreeContainerTest ${COMMON_TESTS} itkTreeContainerTest)
+ADD_TEST(itkTreeContainerTest2 ${COMMON_TESTS} itkTreeContainerTest2)
 ADD_TEST(itkVarianceImageFunctionTest ${COMMON_TESTS} itkVarianceImageFunctionTest)
 ADD_TEST(itkVectorGeometryTest ${COMMON_TESTS} itkVectorGeometryTest)
 ADD_TEST(itkVectorMeanImageFunctionTest ${COMMON_TESTS} itkVectorMeanImageFunctionTest)
@@ -304,6 +306,8 @@ itkThreadDefsTest.cxx
 itkTimeProbesTest.cxx
 itkTransformTest.cxx
 itkTranslationTransformTest.cxx
+itkTreeContainerTest.cxx
+itkTreeContainerTest2.cxx
 itkVectorGeometryTest.cxx
 itkVarianceImageFunctionTest.cxx
 itkVectorMeanImageFunctionTest.cxx
