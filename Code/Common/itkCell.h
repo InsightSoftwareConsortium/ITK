@@ -160,9 +160,15 @@ protected:
    */
 
   /**
-   * Get the geometrical position of a point.
+   * Constructor to initialize internal data.
+   */
+  itkCell();
+  
+  /**
+   * Get the geometric position of a point.
    */
 //  bool GetPointPosition(Mesh* mesh, int localId, Point*)=0;
+  
 private:
   int m_ReferenceCount;     // Number of uses of this object by other objects.
 };

@@ -35,7 +35,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 itkVectorContainer< TElementIdentifier , TElement >::Element
 itkVectorContainer< TElementIdentifier , TElement >
-::GetElement(ElementIdentifier id)
+::GetElement(ElementIdentifier id) const
 {
   return this->Vector::operator[](id);
 }
@@ -61,7 +61,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkVectorContainer< TElementIdentifier , TElement >
-::IndexExists(ElementIdentifier id)
+::IndexExists(ElementIdentifier id) const
 {
   return ((id >= 0) && (id < this->Vector::size()));
 }
@@ -75,7 +75,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkVectorContainer< TElementIdentifier , TElement >
-::GetElementIfIndexExists(ElementIdentifier id, Element* element)
+::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
   if((id >= 0) && (id < this->Vector::size()))
     {

@@ -54,19 +54,19 @@ public:
   /**
    * This is an "indexed" container, so we provide the indexing methods.
    */
-  virtual Element GetElement(ElementIdentifier)=0;
+  virtual Element GetElement(ElementIdentifier) const =0;
   virtual void SetElement(ElementIdentifier, Element)=0;
   
   /**
    * Test if there is an entry in the container corresponding to the given
    * index.
    */
-  virtual bool IndexExists(ElementIdentifier)=0;
+  virtual bool IndexExists(ElementIdentifier) const =0;
 
   /**
    * Combine the GetElement and IndexExists into one method.
    */
-  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*)=0;
+  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const =0;
   
   /**
    * Create an entry in the container corresponding to the given index.

@@ -134,3 +134,15 @@ itkCell< TPixelType , TMeshType >
     delete this;
     }
 }
+
+
+/**
+ * Constructor.
+ * Just initialize the reference count.
+ */
+template <typename TPixelType, typename TMeshType>
+itkCell< TPixelType , TMeshType >
+::itkCell(): m_ReferenceCount(0)
+{
+}
+

@@ -34,9 +34,9 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 itkMapContainer< TElementIdentifier , TElement >::Element
 itkMapContainer< TElementIdentifier , TElement >
-::GetElement(ElementIdentifier id)
+::GetElement(ElementIdentifier id) const
 {
-  return Map::operator[](id);
+  return this->Map::find(id)->second;
 }
 
 
@@ -60,7 +60,7 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkMapContainer< TElementIdentifier , TElement >
-::IndexExists(ElementIdentifier id)
+::IndexExists(ElementIdentifier id) const
 {
   return (this->Map::count(id) > 0);
 }
@@ -74,13 +74,13 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkMapContainer< TElementIdentifier , TElement >
-::GetElementIfIndexExists(ElementIdentifier id, Element* element)
+::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
   if(this->Map::count(id) > 0)
     {
     if(element != NULL)
       {
-      *element = Map::operator[](id);
+      *element = this->Map::find(id)->second;
       }
     return true;
     }
