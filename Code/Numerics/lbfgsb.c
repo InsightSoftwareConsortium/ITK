@@ -43,6 +43,8 @@
  */
 
 #include "f2c.h"
+#include "netlib.h"
+#include "math.h"
 
 /* Table of constant values */
 
@@ -55,1153 +57,20 @@ static doublereal c_b275 = .001;
 static doublereal c_b276 = .9;
 static doublereal c_b277 = .1;
 /* static integer c__5 = 5; */
+//Reordering function calls could prevent the need for defining these statics before use.
+static int dtrsl_( doublereal *t, integer *ldt, integer *n, doublereal *b, integer *job, integer *info);
+static int hpsolb_( integer *n, doublereal *t, integer *iorder, integer *iheap);
+static int dcsrch_( doublereal *f, doublereal *g, doublereal *stp, doublereal *ftol,
+    doublereal *gtol, doublereal *xtol, doublereal *stpmin, doublereal *stpmax,
+    char *task, integer *isave, doublereal *dsave, ftnlen task_len);
+static int dcstep_( doublereal *stx, doublereal *fx, doublereal *dx,
+    doublereal *sty, doublereal *fy, doublereal *dy, doublereal *stp, doublereal *fp, doublereal *dp,
+    logical *brackt, doublereal *stpmin, doublereal *stpmax);
+
 /* Subroutine */
-static int mainlb_
-     (integer *n,
-      integer *m,
-      doublereal *x,
-      doublereal *l,
-      doublereal *u,
-      integer *nbd,
-      doublereal *f,
-      doublereal *g,
-      doublereal *factr,
-      doublereal *pgtol,
-      doublereal *ws,
-      doublereal *wy,
-      doublereal *sy,
-      doublereal *ss,
-      doublereal *yy,
-      doublereal *wt,
-      doublereal *wn,
-      doublereal *snd,
-      doublereal *z__,
-      doublereal *r__,
-      doublereal *d__,
-      doublereal *t,
-      doublereal *wa,
-      doublereal *sg,
-      doublereal *sgo,
-      doublereal *yg,
-      doublereal *ygo,
-      integer *index,
-      integer *iwhere,
-      integer *indx2,
-      char *task,
-      integer *iprint,
-      char *csave,
-      logical *lsave,
-      integer *isave,
-      doublereal *dsave,
-      ftnlen task_len,
-      ftnlen csave_len)
-{
-    /* Format strings */
-/*
-    static char fmt_1002[] = "(/,\002At iterate\002,i5,4x,\002f= \002,1p,d12\
-.5,4x,\002|proj g|= \002,1p,d12.5)";
-    static char fmt_1003[] = "(2(1x,i4),5x,\002-\002,5x,\002-\002,3x,\002\
--\002,5x,\002-\002,5x,\002-\002,8x,\002-\002,3x,1p,2(1x,d10.3))";
-    static char fmt_1001[] = "(//,\002ITERATION \002,i5)";
-    static char fmt_1005[] = "(/,\002 Singular triangular system detected\
-;\002,/,\002   refresh the lbfgs memory and restart the iteration.\002)";
-    static char fmt_1006[] = "(/,\002 Nonpositive definiteness in Cholesky f\
-actorization in formk;\002,/,\002   refresh the lbfgs memory and restart the\
- iteration.\002)";
-    static char fmt_1008[] = "(/,\002 Bad direction in the line search;\002,\
-/,\002   refresh the lbfgs memory and restart the iteration.\002)";
-    static char fmt_1004[] = "(\002  ys=\002,1p,e10.3,\002  -gs=\002,1p,e10.\
-3,\002 BFGS update SKIPPED\002)";
-    static char fmt_1007[] = "(/,\002 Nonpositive definiteness in Cholesky f\
-actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
- iteration.\002)";
-*/
-
-    /* System generated locals */
-    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
-        ss_dim1, ss_offset, yy_dim1, yy_offset, wt_dim1, wt_offset,
-        wn_dim1, wn_offset, snd_dim1, snd_offset, i__1;
-    doublereal d__1, d__2;
-/*    olist o__1; */
-
-    /* Builtin functions */
-    integer s_cmp();
-    /* Subroutine */ int s_copy();
- /*   integer f_open(), s_wsfe(), do_fio(), e_wsfe(); */
-
-    /* Local variables */
-    static integer head;
-    static doublereal fold;
-    static integer nact;
-    static doublereal ddum;
-    extern doublereal ddot_();
-    static integer info;
-    static doublereal time;
-    static integer nfgv, ifun, iter, nint;
-    static char word[3];
-    static doublereal time1, time2;
-    static integer i__, iback, k;
-    extern /* Subroutine */ int dscal_();
-    static doublereal gdold;
-    static integer nfree;
-    static logical boxed;
-    static integer itail;
-    static doublereal theta;
-    extern /* Subroutine */ int freev_(), dcopy_();
-    static doublereal dnorm;
-    extern /* Subroutine */ int timer_(), formk_();
-    static integer nskip, iword;
-    extern /* Subroutine */ int formt_(), subsm_();
-    static doublereal xstep, stpmx;
-    extern /* Subroutine */ int prn1lb_(), prn2lb_(), prn3lb_();
-    static doublereal gd, dr, rr;
-    static integer ileave;
-    extern /* Subroutine */ int errclb_();
-    static integer itfile;
-    static doublereal cachyt, epsmch;
-    static logical updatd;
-    static doublereal sbtime;
-    extern /* Subroutine */ int active_();
-    static logical prjctd;
-    static integer iupdat;
-    extern doublereal dpmeps_();
-    static logical cnstnd;
-    static doublereal sbgnrm;
-    static integer nenter;
-    static doublereal lnscht;
-    extern /* Subroutine */ int cauchy_(), cmprlb_(), lnsrlb_(), matupd_();
-    static integer nintol;
-    extern /* Subroutine */ int projgr_();
-    static doublereal dtd;
-    static integer col;
-    static doublereal tol;
-    static logical wrk;
-    static doublereal stp, cpu1, cpu2;
-
-    /* Fortran I/O blocks */
-/*
-    static cilist io___62 = { 0, 6, 0, fmt_1002, 0 };
-    static cilist io___63 = { 0, 0, 0, fmt_1003, 0 };
-    static cilist io___64 = { 0, 6, 0, fmt_1001, 0 };
-    static cilist io___66 = { 0, 6, 0, fmt_1005, 0 };
-    static cilist io___68 = { 0, 6, 0, fmt_1006, 0 };
-    static cilist io___69 = { 0, 6, 0, fmt_1005, 0 };
-    static cilist io___71 = { 0, 6, 0, fmt_1008, 0 };
-    static cilist io___75 = { 0, 6, 0, fmt_1004, 0 };
-    static cilist io___76 = { 0, 6, 0, fmt_1007, 0 };
-*/
-
-
-/*     ************ */
-
-/*     Subroutine mainlb */
-
-/*     This subroutine solves bound constrained optimization problems by */
-/*       using the compact formula of the limited memory BFGS updates. */
-
-/*     n is an integer variable. */
-/*       On entry n is the number of variables. */
-/*       On exit n is unchanged. */
-
-/*     m is an integer variable. */
-/*       On entry m is the maximum number of variable metric */
-/*          corrections allowed in the limited memory matrix. */
-/*       On exit m is unchanged. */
-
-/*     x is a double precision array of dimension n. */
-/*       On entry x is an approximation to the solution. */
-/*       On exit x is the current approximation. */
-
-/*     l is a double precision array of dimension n. */
-/*       On entry l is the lower bound of x. */
-/*       On exit l is unchanged. */
-
-/*     u is a double precision array of dimension n. */
-/*       On entry u is the upper bound of x. */
-/*       On exit u is unchanged. */
-
-/*     nbd is an integer array of dimension n. */
-/*       On entry nbd represents the type of bounds imposed on the */
-/*         variables, and must be specified as follows: */
-/*         nbd(i)=0 if x(i) is unbounded, */
-/*                1 if x(i) has only a lower bound, */
-/*                2 if x(i) has both lower and upper bounds, */
-/*                3 if x(i) has only an upper bound. */
-/*       On exit nbd is unchanged. */
-
-/*     f is a double precision variable. */
-/*       On first entry f is unspecified. */
-/*       On final exit f is the value of the function at x. */
-
-/*     g is a double precision array of dimension n. */
-/*       On first entry g is unspecified. */
-/*       On final exit g is the value of the gradient at x. */
-
-/*     factr is a double precision variable. */
-/*       On entry factr >= 0 is specified by the user.  The iteration */
-/*         will stop when */
-
-/*         (f^k - f^{k+1})/max{|f^k|,|f^{k+1}|,1} <= factr*epsmch */
-
-/*         where epsmch is the machine precision, which is automatically */
-/*         generated by the code. */
-/*       On exit factr is unchanged. */
-
-/*     pgtol is a double precision variable. */
-/*       On entry pgtol >= 0 is specified by the user.  The iteration */
-/*         will stop when */
-
-/*                 max{|proj g_i | i = 1, ..., n} <= pgtol */
-
-/*         where pg_i is the ith component of the projected gradient. */
-/*       On exit pgtol is unchanged. */
-
-/*     ws, wy, sy, and wt are double precision working arrays used to */
-/*       store the following information defining the limited memory */
-/*          BFGS matrix: */
-/*          ws, of dimension n x m, stores S, the matrix of s-vectors; */
-/*          wy, of dimension n x m, stores Y, the matrix of y-vectors; */
-/*          sy, of dimension m x m, stores S'Y; */
-/*          ss, of dimension m x m, stores S'S; */
-/*        yy, of dimension m x m, stores Y'Y; */
-/*          wt, of dimension m x m, stores the Cholesky factorization */
-/*                                  of (theta*S'S+LD^(-1)L'); see eq. */
-/*                                  (2.26) in [3]. */
-
-/*     wn is a double precision working array of dimension 2m x 2m */
-/*       used to store the LEL^T factorization of the indefinite matrix */
-/*                 K = [-D -Y'ZZ'Y/theta     L_a'-R_z'  ] */
-/*                     [L_a -R_z           theta*S'AA'S ] */
-
-/*       where     E = [-I  0] */
-/*                     [ 0  I] */
-
-/*     snd is a double precision working array of dimension 2m x 2m */
-/*       used to store the lower triangular part of */
-/*                 N = [Y' ZZ'Y   L_a'+R_z'] */
-/*                     [L_a +R_z  S'AA'S   ] */
-
-/*     z(n),r(n),d(n),t(n),wa(8*m) are double precision working arrays. */
-/*       z is used at different times to store the Cauchy point and */
-/*       the Newton point. */
-
-/*     sg(m),sgo(m),yg(m),ygo(m) are double precision working arrays. */
-
-/*     index is an integer working array of dimension n. */
-/*       In subroutine freev, index is used to store the free and fixed */
-/*          variables at the Generalized Cauchy Point (GCP). */
-
-/*     iwhere is an integer working array of dimension n used to record */
-/*       the status of the vector x for GCP computation. */
-/*       iwhere(i)=0 or -3 if x(i) is free and has bounds, */
-/*                 1       if x(i) is fixed at l(i), and l(i) .ne. u(i) */
-/*                 2       if x(i) is fixed at u(i), and u(i) .ne. l(i) */
-/*                 3       if x(i) is always fixed, i.e.,  u(i)=x(i)=l(i) */
-/*                -1       if x(i) is always free, i.e., no bounds on it. */
-
-/*     indx2 is an integer working array of dimension n. */
-/*       Within subroutine cauchy, indx2 corresponds to the array iorder. */
-/*       In subroutine freev, a list of variables entering and leaving */
-/*       the free set is stored in indx2, and it is passed on to */
-/*       subroutine formk with this information. */
-
-/*     task is a working string of characters of length 60 indicating */
-/*       the current job when entering and leaving this subroutine. */
-
-/*     iprint is an INTEGER variable that must be set by the user. */
-/*       It controls the frequency and type of output generated: */
-/*        iprint<0    no output is generated; */
-/*        iprint=0    print only one line at the last iteration; */
-/*        0<iprint<99 print also f and |proj g| every iprint iterations; */
-/*        iprint=99   print details of every iteration except n-vectors; */
-/*        iprint=100  print also the changes of active set and final x; */
-/*        iprint>100  print details of every iteration including x and g; */
-/*       When iprint > 0, the file iterate.dat will be created to */
-/*                        summarize the iteration. */
-
-/*     csave is a working string of characters of length 60. */
-
-/*     lsave is a logical working array of dimension 4. */
-
-/*     isave is an integer working array of dimension 23. */
-
-/*     dsave is a double precision working array of dimension 29. */
-
-
-/*     Subprograms called */
-
-/*       L-BFGS-B Library ... cauchy, subsm, lnsrlb, formk, */
-
-/*        errclb, prn1lb, prn2lb, prn3lb, active, projgr, */
-
-/*        freev, cmprlb, matupd, formt. */
-
-/*       Minpack2 Library ... timer, dpmeps. */
-
-/*       Linpack Library ... dcopy, ddot. */
-
-
-/*     References: */
-
-/*       [1] R. H. Byrd, P. Lu, J. Nocedal and C. Zhu, ``A limited */
-/*       memory algorithm for bound constrained optimization'', */
-/*       SIAM J. Scientific Computing 16 (1995), no. 5, pp. 1190--1208. */
-
-/*       [2] C. Zhu, R.H. Byrd, P. Lu, J. Nocedal, ``L-BFGS-B: FORTRAN */
-/*       Subroutines for Large Scale Bound Constrained Optimization'' */
-/*       Tech. Report, NAM-11, EECS Department, Northwestern University, */
-/*       1994. */
-
-/*       [3] R. Byrd, J. Nocedal and R. Schnabel "Representations of */
-/*       Quasi-Newton Matrices and their use in Limited Memory Methods'', */
-/*       Mathematical Programming 63 (1994), no. 4, pp. 129-156. */
-
-/*       (Postscript files of these papers are available via anonymous */
-/*        ftp to eecs.nwu.edu in the directory pub/lbfgs/lbfgs_bcm.) */
-
-/*                           *  *  * */
-
-/*     NEOS, November 1994. (Latest revision June 1996.) */
-/*     Optimization Technology Center. */
-/*     Argonne National Laboratory and Northwestern University. */
-/*     Written by */
-/*                        Ciyou Zhu */
-/*     in collaboration with R.H. Byrd, P. Lu-Chen and J. Nocedal. */
-
-
-/*     ************ */
-    /* Parameter adjustments */
-    --indx2;
-    --iwhere;
-    --index;
-    --t;
-    --d__;
-    --r__;
-    --z__;
-    --g;
-    --nbd;
-    --u;
-    --l;
-    --x;
-    --ygo;
-    --yg;
-    --sgo;
-    --sg;
-    --wa;
-    snd_dim1 = 2 * *m;
-    snd_offset = 1 + snd_dim1 * 1;
-    snd -= snd_offset;
-    wn_dim1 = 2 * *m;
-    wn_offset = 1 + wn_dim1 * 1;
-    wn -= wn_offset;
-    wt_dim1 = *m;
-    wt_offset = 1 + wt_dim1 * 1;
-    wt -= wt_offset;
-    yy_dim1 = *m;
-    yy_offset = 1 + yy_dim1 * 1;
-    yy -= yy_offset;
-    ss_dim1 = *m;
-    ss_offset = 1 + ss_dim1 * 1;
-    ss -= ss_offset;
-    sy_dim1 = *m;
-    sy_offset = 1 + sy_dim1 * 1;
-    sy -= sy_offset;
-    wy_dim1 = *n;
-    wy_offset = 1 + wy_dim1 * 1;
-    wy -= wy_offset;
-    ws_dim1 = *n;
-    ws_offset = 1 + ws_dim1 * 1;
-    ws -= ws_offset;
-    --lsave;
-    --isave;
-    --dsave;
-
-    /* Function Body */
-    if (s_cmp(task, "START", (ftnlen)60, (ftnlen)5) == 0) {
-    timer_(&time1);
-/*        Generate the current machine precision. */
-    epsmch = dpmeps_();
-/*        Initialize counters and scalars when task='START'. */
-/*           for the limited memory BFGS matrices: */
-    col = 0;
-    head = 1;
-    theta = 1.;
-    iupdat = 0;
-    updatd = FALSE_;
-/*           for operation counts: */
-    iter = 0;
-    nfgv = 0;
-    nint = 0;
-    nintol = 0;
-    nskip = 0;
-    nfree = *n;
-/*           for stopping tolerance: */
-    tol = *factr * epsmch;
-/*           for measuring running time: */
-    cachyt = 0.;
-    sbtime = 0.;
-    lnscht = 0.;
-/*           'word' records the status of subspace solutions. */
-    s_copy(word, "---", (ftnlen)3, (ftnlen)3);
-/*           'info' records the termination information. */
-    info = 0;
-    if (*iprint >= 1) {
-/*                                open a summary file 'iterate.dat' */
-/*
-        o__1.oerr = 0;
-        o__1.ounit = 8;
-        o__1.ofnmlen = 11;
-        o__1.ofnm = "iterate.dat";
-        o__1.orl = 0;
-        o__1.osta = "unknown";
-        o__1.oacc = 0;
-        o__1.ofm = 0;
-        o__1.oblnk = 0;
-        f_open(&o__1);
-        itfile = 8;
-*/
-    }
-/*        Check the input arguments for errors. */
-    errclb_(n, m, factr, &l[1], &u[1], &nbd[1], task, &info, &k, (ftnlen)
-        60);
-    if (s_cmp(task, "ERROR", (ftnlen)5, (ftnlen)5) == 0) {
-        prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &
-            nintol, &nskip, &nact, &sbgnrm, &c_b9, &nint, word, &
-            iback, &stp, &xstep, &k, &cachyt, &sbtime, &lnscht, (
-            ftnlen)60, (ftnlen)3);
-        return 0;
-    }
-    prn1lb_(n, m, &l[1], &u[1], &x[1], iprint, &itfile, &epsmch);
-/*        Initialize iwhere & project x onto the feasible set. */
-    active_(n, &l[1], &u[1], &nbd[1], &x[1], &iwhere[1], iprint, &prjctd,
-        &cnstnd, &boxed);
-/*        The end of the initialization. */
-    } else {
-/*          restore local variables. */
-    prjctd = lsave[1];
-    cnstnd = lsave[2];
-    boxed = lsave[3];
-    updatd = lsave[4];
-    nintol = isave[1];
-    itfile = isave[3];
-    iback = isave[4];
-    nskip = isave[5];
-    head = isave[6];
-    col = isave[7];
-    itail = isave[8];
-    iter = isave[9];
-    iupdat = isave[10];
-    nint = isave[12];
-    nfgv = isave[13];
-    info = isave[14];
-    ifun = isave[15];
-    iword = isave[16];
-    nfree = isave[17];
-    nact = isave[18];
-    ileave = isave[19];
-    nenter = isave[20];
-    theta = dsave[1];
-    fold = dsave[2];
-    tol = dsave[3];
-    dnorm = dsave[4];
-    epsmch = dsave[5];
-    cpu1 = dsave[6];
-    cachyt = dsave[7];
-    sbtime = dsave[8];
-    lnscht = dsave[9];
-    time1 = dsave[10];
-    gd = dsave[11];
-    stpmx = dsave[12];
-    sbgnrm = dsave[13];
-    stp = dsave[14];
-    gdold = dsave[15];
-    dtd = dsave[16];
-/*        After returning from the driver go to the point where execution */
-/*        is to resume. */
-    if (s_cmp(task, "FG_LN", (ftnlen)5, (ftnlen)5) == 0) {
-        goto L666;
-    }
-    if (s_cmp(task, "NEW_X", (ftnlen)5, (ftnlen)5) == 0) {
-        goto L777;
-    }
-    if (s_cmp(task, "FG_ST", (ftnlen)5, (ftnlen)5) == 0) {
-        goto L111;
-    }
-    if (s_cmp(task, "STOP", (ftnlen)4, (ftnlen)4) == 0) {
-        if (s_cmp(task + 6, "CPU", (ftnlen)3, (ftnlen)3) == 0) {
-/*                                          restore the previous iterate. */
-        dcopy_(n, &t[1], &c__1, &x[1], &c__1);
-        dcopy_(n, &r__[1], &c__1, &g[1], &c__1);
-        *f = fold;
-        }
-        goto L999;
-    }
-    }
-/*     Compute f0 and g0. */
-    s_copy(task, "FG_START", (ftnlen)60, (ftnlen)8);
-/*          return to the driver to calculate f and g; reenter at 111. */
-    goto L1000;
-L111:
-    nfgv = 1;
-/*     Compute the infinity norm of the (-) projected gradient. */
-    projgr_(n, &l[1], &u[1], &nbd[1], &x[1], &g[1], &sbgnrm);
-    if (*iprint >= 1) {
-/*
-    s_wsfe(&io___62);
-    do_fio(&c__1, (char *)&iter, (ftnlen)sizeof(integer));
-    do_fio(&c__1, (char *)&(*f), (ftnlen)sizeof(doublereal));
-    do_fio(&c__1, (char *)&sbgnrm, (ftnlen)sizeof(doublereal));
-    e_wsfe();
-    io___63.ciunit = itfile;
-    s_wsfe(&io___63);
-    do_fio(&c__1, (char *)&iter, (ftnlen)sizeof(integer));
-    do_fio(&c__1, (char *)&nfgv, (ftnlen)sizeof(integer));
-    do_fio(&c__1, (char *)&sbgnrm, (ftnlen)sizeof(doublereal));
-    do_fio(&c__1, (char *)&(*f), (ftnlen)sizeof(doublereal));
-    e_wsfe();
-*/
-    }
-    if (sbgnrm <= *pgtol) {
-/*                                terminate the algorithm. */
-    s_copy(task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", (
-        ftnlen)60, (ftnlen)48);
-    goto L999;
-    }
-/* ----------------- the beginning of the loop -------------------------- */
-L222:
-    if (*iprint >= 99) {
-/*
-    s_wsfe(&io___64);
-    i__1 = iter + 1;
-    do_fio(&c__1, (char *)&i__1, (ftnlen)sizeof(integer));
-    e_wsfe();
-*/
-    }
-    iword = -1;
-
-    if (! cnstnd && col > 0) {
-/*                                            skip the search for GCP. */
-    dcopy_(n, &x[1], &c__1, &z__[1], &c__1);
-    wrk = updatd;
-    nint = 0;
-    goto L333;
-    }
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-
-/*     Compute the Generalized Cauchy Point (GCP). */
-
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-    timer_(&cpu1);
-    cauchy_(n, &x[1], &l[1], &u[1], &nbd[1], &g[1], &indx2[1], &iwhere[1], &t[
-        1], &d__[1], &z__[1], m, &wy[wy_offset], &ws[ws_offset], &sy[
-        sy_offset], &wt[wt_offset], &theta, &col, &head, &wa[1], &wa[(*m
-        << 1) + 1], &wa[(*m << 2) + 1], &wa[*m * 6 + 1], &nint, &sg[1], &
-        yg[1], iprint, &sbgnrm, &info, &epsmch);
-    if (info != 0) {
-/*         singular triangular system detected; refresh the lbfgs memory. */
-    if (*iprint >= 1) {
-/*
-        s_wsfe(&io___66);
-        e_wsfe();
-*/
-    }
-    info = 0;
-    col = 0;
-    head = 1;
-    theta = 1.;
-    iupdat = 0;
-    updatd = FALSE_;
-    timer_(&cpu2);
-    cachyt = cachyt + cpu2 - cpu1;
-    goto L222;
-    }
-    timer_(&cpu2);
-    cachyt = cachyt + cpu2 - cpu1;
-    nintol += nint;
-/*     Count the entering and leaving variables for iter > 0; */
-/*     find the index set of free and active variables at the GCP. */
-    freev_(n, &nfree, &index[1], &nenter, &ileave, &indx2[1], &iwhere[1], &
-        wrk, &updatd, &cnstnd, iprint, &iter);
-    nact = *n - nfree;
-L333:
-/*     If there are no free variables or B=theta*I, then */
-/*                                        skip the subspace minimization. */
-    if (nfree == 0 || col == 0) {
-    goto L555;
-    }
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-
-/*     Subspace minimization. */
-
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-    timer_(&cpu1);
-/*     Form  the LEL^T factorization of the indefinite */
-/*       matrix    K = [-D -Y'ZZ'Y/theta     L_a'-R_z'  ] */
-/*                     [L_a -R_z           theta*S'AA'S ] */
-/*       where     E = [-I  0] */
-/*                     [ 0  I] */
-    if (wrk) {
-    formk_(n, &nfree, &index[1], &nenter, &ileave, &indx2[1], &iupdat, &
-        updatd, &wn[wn_offset], &snd[snd_offset], m, &ws[ws_offset], &
-        wy[wy_offset], &sy[sy_offset], &theta, &col, &head, &info);
-    }
-    if (info != 0) {
-/*          nonpositive definiteness in Cholesky factorization; */
-/*          refresh the lbfgs memory and restart the iteration. */
-    if (*iprint >= 1) {
-/*
-        s_wsfe(&io___68);
-        e_wsfe();
-*/
-    }
-    info = 0;
-    col = 0;
-    head = 1;
-    theta = 1.;
-    iupdat = 0;
-    updatd = FALSE_;
-    timer_(&cpu2);
-    sbtime = sbtime + cpu2 - cpu1;
-    goto L222;
-    }
-/*        compute r=-Z'B(xcp-xk)-Z'g (using wa(2m+1)=W'(xcp-x) */
-/*                                                   from 'cauchy'). */
-    cmprlb_(n, m, &x[1], &g[1], &ws[ws_offset], &wy[wy_offset], &sy[sy_offset]
-        , &wt[wt_offset], &z__[1], &r__[1], &wa[1], &index[1], &theta, &
-        col, &head, &nfree, &cnstnd, &info);
-    if (info != 0) {
-    goto L444;
-    }
-/*       call the direct method. */
-    subsm_(n, m, &nfree, &index[1], &l[1], &u[1], &nbd[1], &z__[1], &r__[1], &
-        ws[ws_offset], &wy[wy_offset], &theta, &col, &head, &iword, &wa[1]
-        , &wn[wn_offset], iprint, &info);
-L444:
-    if (info != 0) {
-/*          singular triangular system detected; */
-/*          refresh the lbfgs memory and restart the iteration. */
-    if (*iprint >= 1) {
-/*
-        s_wsfe(&io___69);
-        e_wsfe();
-*/
-    }
-    info = 0;
-    col = 0;
-    head = 1;
-    theta = 1.;
-    iupdat = 0;
-    updatd = FALSE_;
-    timer_(&cpu2);
-    sbtime = sbtime + cpu2 - cpu1;
-    goto L222;
-    }
-    timer_(&cpu2);
-    sbtime = sbtime + cpu2 - cpu1;
-L555:
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-
-/*     Line search and optimality tests. */
-
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-/*     Generate the search direction d:=z-x. */
-    i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-    d__[i__] = z__[i__] - x[i__];
-/* L40: */
-    }
-    timer_(&cpu1);
-L666:
-    lnsrlb_(n, &l[1], &u[1], &nbd[1], &x[1], f, &fold, &gd, &gdold, &g[1], &
-        d__[1], &r__[1], &t[1], &z__[1], &stp, &dnorm, &dtd, &xstep, &
-        stpmx, &iter, &ifun, &iback, &nfgv, &info, task, &boxed, &cnstnd,
-        csave, &isave[22], &dsave[17], (ftnlen)60, (ftnlen)60);
-    if (info != 0 || iback >= 20) {
-/*          restore the previous iterate. */
-    dcopy_(n, &t[1], &c__1, &x[1], &c__1);
-    dcopy_(n, &r__[1], &c__1, &g[1], &c__1);
-    *f = fold;
-    if (col == 0) {
-/*             abnormal termination. */
-        if (info == 0) {
-        info = -9;
-/*                restore the actual number of f and g evaluations etc. */
-        --nfgv;
-        --ifun;
-        --iback;
-        }
-        s_copy(task, "ABNORMAL_TERMINATION_IN_LNSRCH", (ftnlen)60, (
-            ftnlen)30);
-        ++iter;
-        goto L999;
-    } else {
-/*             refresh the lbfgs memory and restart the iteration. */
-        if (*iprint >= 1) {
-/*
-        s_wsfe(&io___71);
-        e_wsfe();
-*/
-        }
-        if (info == 0) {
-        --nfgv;
-        }
-        info = 0;
-        col = 0;
-        head = 1;
-        theta = 1.;
-        iupdat = 0;
-        updatd = FALSE_;
-        s_copy(task, "RESTART_FROM_LNSRCH", (ftnlen)60, (ftnlen)19);
-        timer_(&cpu2);
-        lnscht = lnscht + cpu2 - cpu1;
-        goto L222;
-    }
-    } else if (s_cmp(task, "FG_LN", (ftnlen)5, (ftnlen)5) == 0) {
-/*          return to the driver for calculating f and g; reenter at 666. */
-    goto L1000;
-    } else {
-/*          calculate and print out the quantities related to the new X. */
-    timer_(&cpu2);
-    lnscht = lnscht + cpu2 - cpu1;
-    ++iter;
-/*        Compute the infinity norm of the projected (-)gradient. */
-    projgr_(n, &l[1], &u[1], &nbd[1], &x[1], &g[1], &sbgnrm);
-/*        Print iteration information. */
-    prn2lb_(n, &x[1], f, &g[1], iprint, &itfile, &iter, &nfgv, &nact, &
-        sbgnrm, &nint, word, &iword, &iback, &stp, &xstep, (ftnlen)3);
-    goto L1000;
-    }
-L777:
-/*     Test for termination. */
-    if (sbgnrm <= *pgtol) {
-/*                                terminate the algorithm. */
-    s_copy(task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", (
-        ftnlen)60, (ftnlen)48);
-    goto L999;
-    }
-/* Computing MAX */
-    d__1 = abs(fold), d__2 = abs(*f), d__1 = max(d__1,d__2);
-    ddum = max(d__1,1.);
-    if (fold - *f <= tol * ddum) {
-/*                                        terminate the algorithm. */
-    s_copy(task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", (
-        ftnlen)60, (ftnlen)47);
-    if (iback >= 10) {
-        info = -5;
-    }
-/*           i.e., to issue a warning if iback>10 in the line search. */
-    goto L999;
-    }
-/*     Compute d=newx-oldx, r=newg-oldg, rr=y'y and dr=y's. */
-    i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-    r__[i__] = g[i__] - r__[i__];
-/* L42: */
-    }
-    rr = ddot_(n, &r__[1], &c__1, &r__[1], &c__1);
-    if (stp == 1.) {
-    dr = gd - gdold;
-    ddum = -gdold;
-    } else {
-    dr = (gd - gdold) * stp;
-    dscal_(n, &stp, &d__[1], &c__1);
-    ddum = -gdold * stp;
-    }
-    if (dr <= epsmch * ddum) {
-/*                            skip the L-BFGS update. */
-    ++nskip;
-    updatd = FALSE_;
-    if (*iprint >= 1) {
-/*
-        s_wsfe(&io___75);
-        do_fio(&c__1, (char *)&dr, (ftnlen)sizeof(doublereal));
-        do_fio(&c__1, (char *)&ddum, (ftnlen)sizeof(doublereal));
-        e_wsfe();
-*/
-    }
-    goto L888;
-    }
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-
-/*     Update the L-BFGS matrix. */
-
-/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
-    updatd = TRUE_;
-    ++iupdat;
-/*     Update matrices WS and WY and form the middle matrix in B. */
-    matupd_(n, m, &ws[ws_offset], &wy[wy_offset], &sy[sy_offset], &ss[
-        ss_offset], &d__[1], &r__[1], &itail, &iupdat, &col, &head, &
-        theta, &rr, &dr, &stp, &dtd);
-/*     Form the upper half of the pds T = theta*SS + L*D^(-1)*L'; */
-/*        Store T in the upper triangular of the array wt; */
-/*        Cholesky factorize T to J*J' with */
-/*           J' stored in the upper triangular of wt. */
-    formt_(m, &wt[wt_offset], &sy[sy_offset], &ss[ss_offset], &col, &theta, &
-        info);
-    if (info != 0) {
-/*          nonpositive definiteness in Cholesky factorization; */
-/*          refresh the lbfgs memory and restart the iteration. */
-    if (*iprint >= 1) {
-/*
-        s_wsfe(&io___76);
-        e_wsfe();
-*/
-    }
-    info = 0;
-    col = 0;
-    head = 1;
-    theta = 1.;
-    iupdat = 0;
-    updatd = FALSE_;
-    goto L222;
-    }
-/*     Now the inverse of the middle matrix in B is */
-/*       [  D^(1/2)      O ] [ -D^(1/2)  D^(-1/2)*L' ] */
-/*       [ -L*D^(-1/2)   J ] [  0        J'          ] */
-L888:
-/* -------------------- the end of the loop ----------------------------- */
-    goto L222;
-L999:
-    timer_(&time2);
-    time = time2 - time1;
-    prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &nintol,
-        &nskip, &nact, &sbgnrm, &time, &nint, word, &iback, &stp, &xstep,
-        &k, &cachyt, &sbtime, &lnscht, (ftnlen)60, (ftnlen)3);
-L1000:
-/*     Save local variables. */
-    lsave[1] = prjctd;
-    lsave[2] = cnstnd;
-    lsave[3] = boxed;
-    lsave[4] = updatd;
-    isave[1] = nintol;
-    isave[3] = itfile;
-    isave[4] = iback;
-    isave[5] = nskip;
-    isave[6] = head;
-    isave[7] = col;
-    isave[8] = itail;
-    isave[9] = iter;
-    isave[10] = iupdat;
-    isave[12] = nint;
-    isave[13] = nfgv;
-    isave[14] = info;
-    isave[15] = ifun;
-    isave[16] = iword;
-    isave[17] = nfree;
-    isave[18] = nact;
-    isave[19] = ileave;
-    isave[20] = nenter;
-    dsave[1] = theta;
-    dsave[2] = fold;
-    dsave[3] = tol;
-    dsave[4] = dnorm;
-    dsave[5] = epsmch;
-    dsave[6] = cpu1;
-    dsave[7] = cachyt;
-    dsave[8] = sbtime;
-    dsave[9] = lnscht;
-    dsave[10] = time1;
-    dsave[11] = gd;
-    dsave[12] = stpmx;
-    dsave[13] = sbgnrm;
-    dsave[14] = stp;
-    dsave[15] = gdold;
-    dsave[16] = dtd;
-    return 0;
-} /* mainlb_ */
-
-/* ======================= The end of mainlb ============================= */
-
-/* ================    L-BFGS-B (version 2.1)   ========================== */
-/* Subroutine */
-int setulb_(integer *n,
-      integer *m,
-      const doublereal *x,
-      doublereal *l,
-      doublereal *u,
-      integer *nbd,
-      doublereal *f,
-      doublereal *g,
-      doublereal *factr,
-      doublereal *pgtol,
-      doublereal *wa,
-      integer *iwa,
-      char *task,
-      integer *iprint,
-      char *csave,
-      logical *lsave,
-      integer *isave,
-      doublereal *dsave,
-      ftnlen task_len,
-      ftnlen csave_len)
-{
-    /* System generated locals */
-    integer i__1;
-
-    /* Builtin functions */
-    integer s_cmp();
-
-    /* Local variables */
-    static integer lsnd, lsgo, lygo, /* l1,  l2, l3, */ ld, lr, lt;
-    static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
-
-
-/*     ************ */
-
-/*     Subroutine setulb */
-
-/*     This subroutine partitions the working arrays wa and iwa, and */
-/*       then uses the limited memory BFGS method to solve the bound */
-/*       constrained optimization problem by calling mainlb. */
-/*       (The direct method will be used in the subspace minimization.) */
-
-/*     n is an integer variable. */
-/*       On entry n is the dimension of the problem. */
-/*       On exit n is unchanged. */
-
-/*     m is an integer variable. */
-/*       On entry m is the maximum number of variable metric corrections */
-/*         used to define the limited memory matrix. */
-/*       On exit m is unchanged. */
-
-/*     x is a double precision array of dimension n. */
-/*       On entry x is an approximation to the solution. */
-/*       On exit x is the current approximation. */
-
-/*     l is a double precision array of dimension n. */
-/*       On entry l is the lower bound on x. */
-/*       On exit l is unchanged. */
-
-/*     u is a double precision array of dimension n. */
-/*       On entry u is the upper bound on x. */
-/*       On exit u is unchanged. */
-
-/*     nbd is an integer array of dimension n. */
-/*       On entry nbd represents the type of bounds imposed on the */
-/*         variables, and must be specified as follows: */
-/*         nbd(i)=0 if x(i) is unbounded, */
-/*                1 if x(i) has only a lower bound, */
-/*                2 if x(i) has both lower and upper bounds, and */
-/*                3 if x(i) has only an upper bound. */
-/*       On exit nbd is unchanged. */
-
-/*     f is a double precision variable. */
-/*       On first entry f is unspecified. */
-/*       On final exit f is the value of the function at x. */
-
-/*     g is a double precision array of dimension n. */
-/*       On first entry g is unspecified. */
-/*       On final exit g is the value of the gradient at x. */
-
-/*     factr is a double precision variable. */
-/*       On entry factr >= 0 is specified by the user.  The iteration */
-/*         will stop when */
-
-/*         (f^k - f^{k+1})/max{|f^k|,|f^{k+1}|,1} <= factr*epsmch */
-
-/*         where epsmch is the machine precision, which is automatically */
-/*         generated by the code. Typical values for factr: 1.d+12 for */
-/*         low accuracy; 1.d+7 for moderate accuracy; 1.d+1 for extremely */
-/*         high accuracy. */
-/*       On exit factr is unchanged. */
-
-/*     pgtol is a double precision variable. */
-/*       On entry pgtol >= 0 is specified by the user.  The iteration */
-/*         will stop when */
-
-/*                 max{|proj g_i | i = 1, ..., n} <= pgtol */
-
-/*         where pg_i is the ith component of the projected gradient. */
-/*       On exit pgtol is unchanged. */
-
-/*     wa is a double precision working array of length */
-/*       (2mmax + 4)nmax + 12mmax^2 + 12mmax. */
-
-/*     iwa is an integer working array of length 3nmax. */
-
-/*     task is a working string of characters of length 60 indicating */
-/*       the current job when entering and quitting this subroutine. */
-
-/*     iprint is an integer variable that must be set by the user. */
-/*       It controls the frequency and type of output generated: */
-/*        iprint<0    no output is generated; */
-/*        iprint=0    print only one line at the last iteration; */
-/*        0<iprint<99 print also f and |proj g| every iprint iterations; */
-/*        iprint=99   print details of every iteration except n-vectors; */
-/*        iprint=100  print also the changes of active set and final x; */
-/*        iprint>100  print details of every iteration including x and g; */
-/*       When iprint > 0, the file iterate.dat will be created to */
-/*                        summarize the iteration. */
-
-/*     csave is a working string of characters of length 60. */
-
-/*     lsave is a logical working array of dimension 4. */
-/*       On exit with 'task' = NEW_X, the following information is */
-/*                                                             available: */
-/*         If lsave(1) = .true.  then  the initial X has been replaced by */
-/*                                     its projection in the feasible set; */
-/*         If lsave(2) = .true.  then  the problem is constrained; */
-/*         If lsave(3) = .true.  then  each variable has upper and lower */
-/*                                     bounds; */
-
-/*     isave is an integer working array of dimension 44. */
-/*       On exit with 'task' = NEW_X, the following information is */
-/*                                                             available: */
-/*         isave(22) = the total number of intervals explored in the */
-/*                         search of Cauchy points; */
-/*         isave(26) = the total number of skipped BFGS updates before */
-/*                         the current iteration; */
-/*         isave(30) = the number of current iteration; */
-/*         isave(31) = the total number of BFGS updates prior the current */
-/*                         iteration; */
-/*         isave(33) = the number of intervals explored in the search of */
-/*                         Cauchy point in the current iteration; */
-/*         isave(34) = the total number of function and gradient */
-/*                         evaluations; */
-/*         isave(36) = the number of function value or gradient */
-/*                                  evaluations in the current iteration; */
-/*         if isave(37) = 0  then the subspace argmin is within the box; */
-/*         if isave(37) = 1  then the subspace argmin is beyond the box; */
-/*         isave(38) = the number of free variables in the current */
-/*                         iteration; */
-/*         isave(39) = the number of active constraints in the current */
-/*                         iteration; */
-/*         n + 1 - isave(40) = the number of variables leaving the set of */
-/*                           active constraints in the current iteration; */
-/*         isave(41) = the number of variables entering the set of active */
-/*                         constraints in the current iteration. */
-
-/*     dsave is a double precision working array of dimension 29. */
-/*       On exit with 'task' = NEW_X, the following information is */
-/*                                                             available: */
-/*         dsave(1) = current 'theta' in the BFGS matrix; */
-/*         dsave(2) = f(x) in the previous iteration; */
-/*         dsave(3) = factr*epsmch; */
-/*         dsave(4) = 2-norm of the line search direction vector; */
-/*         dsave(5) = the machine precision epsmch generated by the code; */
-/*         dsave(7) = the accumulated time spent on searching for */
-/*                                                         Cauchy points; */
-/*         dsave(8) = the accumulated time spent on */
-/*                                                 subspace minimization; */
-/*         dsave(9) = the accumulated time spent on line search; */
-/*         dsave(11) = the slope of the line search function at */
-/*                                  the current point of line search; */
-/*         dsave(12) = the maximum relative step length imposed in */
-/*                                                           line search; */
-/*         dsave(13) = the infinity norm of the projected gradient; */
-/*         dsave(14) = the relative step length in the line search; */
-/*         dsave(15) = the slope of the line search function at */
-/*                                 the starting point of the line search; */
-/*         dsave(16) = the square of the 2-norm of the line search */
-/*                                                      direction vector. */
-
-/*     Subprograms called: */
-
-/*       L-BFGS-B Library ... mainlb. */
-
-
-/*     References: */
-
-/*       [1] R. H. Byrd, P. Lu, J. Nocedal and C. Zhu, ``A limited */
-/*       memory algorithm for bound constrained optimization'', */
-/*       SIAM J. Scientific Computing 16 (1995), no. 5, pp. 1190--1208. */
-
-/*       [2] C. Zhu, R.H. Byrd, P. Lu, J. Nocedal, ``L-BFGS-B: a */
-/*       limited memory FORTRAN code for solving bound constrained */
-/*       optimization problems'', Tech. Report, NAM-11, EECS Department, */
-/*       Northwestern University, 1994. */
-
-/*       (Postscript files of these papers are available via anonymous */
-/*        ftp to eecs.nwu.edu in the directory pub/lbfgs/lbfgs_bcm.) */
-
-/*                           *  *  * */
-
-/*     NEOS, November 1994. (Latest revision June 1996.) */
-/*     Optimization Technology Center. */
-/*     Argonne National Laboratory and Northwestern University. */
-/*     Written by */
-/*                        Ciyou Zhu */
-/*     in collaboration with R.H. Byrd, P. Lu-Chen and J. Nocedal. */
-
-
-/*     ************ */
-    /* Parameter adjustments */
-    --iwa;
-    --g;
-    --nbd;
-    --u;
-    --l;
-    --x;
-    --wa;
-    --lsave;
-    --isave;
-    --dsave;
-
-    /* Function Body */
-    if (s_cmp(task, "START", (ftnlen)60, (ftnlen)5) == 0) {
-    isave[1] = *m * *n;
-/* Computing 2nd power */
-    i__1 = *m;
-    isave[2] = i__1 * i__1;
-/* Computing 2nd power */
-    i__1 = *m;
-    isave[3] = i__1 * i__1 << 2;
-    isave[4] = 1;
-    isave[5] = isave[4] + isave[1];
-    isave[6] = isave[5] + isave[1];
-    isave[7] = isave[6] + isave[2];
-    isave[8] = isave[7] + isave[2];
-    isave[9] = isave[8] + isave[2];
-    isave[10] = isave[9] + isave[2];
-    isave[11] = isave[10] + isave[3];
-    isave[12] = isave[11] + isave[3];
-    isave[13] = isave[12] + *n;
-    isave[14] = isave[13] + *n;
-    isave[15] = isave[14] + *n;
-    isave[16] = isave[15] + *n;
-    isave[17] = isave[16] + (*m << 3);
-    isave[18] = isave[17] + *m;
-    isave[19] = isave[18] + *m;
-    isave[20] = isave[19] + *m;
-    }
-    /* l1 = isave[1];
-    l2 = isave[2];
-    l3 = isave[3]; */
-    lws = isave[4];
-    lwy = isave[5];
-    lsy = isave[6];
-    lss = isave[7];
-    lyy = isave[8];
-    lwt = isave[9];
-    lwn = isave[10];
-    lsnd = isave[11];
-    lz = isave[12];
-    lr = isave[13];
-    ld = isave[14];
-    lt = isave[15];
-    lwa = isave[16];
-    lsg = isave[17];
-    lsgo = isave[18];
-    lyg = isave[19];
-    lygo = isave[20];
-    mainlb_(n, m, (doublereal *)&x[1], &l[1], &u[1], &nbd[1], f, &g[1], factr, pgtol, &wa[
-        lws], &wa[lwy], &wa[lsy], &wa[lss], &wa[lyy], &wa[lwt], &wa[lwn],
-        &wa[lsnd], &wa[lz], &wa[lr], &wa[ld], &wa[lt], &wa[lwa], &wa[lsg],
-         &wa[lsgo], &wa[lyg], &wa[lygo], &iwa[1], &iwa[*n + 1], &iwa[(*n
-        << 1) + 1], task, iprint, csave, &lsave[1], &isave[22], &dsave[1],
-         (ftnlen)60, (ftnlen)60);
-    return 0;
-} /* setulb_ */
-
-/* ======================= The end of setulb ============================= */
-/* Subroutine */ int active_(n, l, u, nbd, x, iwhere, iprint, prjctd, cnstnd,
-    boxed)
-integer *n;
-doublereal *l, *u;
-integer *nbd;
-doublereal *x;
-integer *iwhere, *iprint;
-logical *prjctd, *cnstnd, *boxed;
+static int active_( integer *n, doublereal *l, doublereal *u, integer *nbd,
+doublereal *x, integer *iwhere, integer *iprint,
+logical *prjctd, logical *cnstnd, logical *boxed)
 {
     /* Format strings */
 /*
@@ -1211,9 +80,6 @@ y at the bounds\002)";
 
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
- /*   integer s_wsle(), do_lio(), e_wsle(), s_wsfe(), do_fio(), e_wsfe(); */
 
     /* Local variables */
     static integer nbdd, i__;
@@ -1335,22 +201,15 @@ y at the bounds\002)";
 } /* active_ */
 
 /* ======================= The end of active ============================= */
-/* Subroutine */ int bmv_(m, sy, wt, col, v, p, info)
-integer *m;
-doublereal *sy, *wt;
-integer *col;
-doublereal *v, *p;
-integer *info;
+/* Subroutine */
+static int bmv_( integer *m, doublereal *sy, doublereal *wt,
+integer *col, doublereal *v, doublereal *p, integer *info)
 {
     /* System generated locals */
     integer sy_dim1, sy_offset, wt_dim1, wt_offset, i__1, i__2;
 
-    /* Builtin functions */
-    double sqrt();
-
     /* Local variables */
     static integer i__, k;
-    extern /* Subroutine */ int dtrsl_();
     static integer i2;
     static doublereal sum;
 
@@ -1482,25 +341,15 @@ integer *info;
 } /* bmv_ */
 
 /* ======================== The end of bmv =============================== */
-/* Subroutine */ int cauchy_(n, x, l, u, nbd, g, iorder, iwhere, t, d__, xcp,
-    m, wy, ws, sy, wt, theta, col, head, p, c__, wbp, v, nint, sg, yg,
-    iprint, sbgnrm, info, epsmch)
-integer *n;
-doublereal *x, *l, *u;
-integer *nbd;
-doublereal *g;
-integer *iorder, *iwhere;
-doublereal *t, *d__, *xcp;
-integer *m;
-doublereal *wy, *ws, *sy, *wt, *theta;
-integer *col, *head;
-doublereal *p, *c__, *wbp, *v;
-integer *nint;
-doublereal *sg, *yg;
-integer *iprint;
-doublereal *sbgnrm;
-integer *info;
-doublereal *epsmch;
+/* Subroutine */
+static int cauchy_(
+integer *n, doublereal *x, doublereal *l, doublereal *u, integer *nbd,
+doublereal *g, integer *iorder, integer *iwhere, doublereal *t,
+doublereal *d__, doublereal *xcp, integer *m, doublereal *wy, doublereal *ws,
+doublereal *sy, doublereal *wt, doublereal *theta, integer *col, integer *head,
+doublereal *p, doublereal *c__, doublereal *wbp, doublereal *v, integer *nint,
+doublereal *sg, doublereal *yg, integer *iprint, doublereal *sbgnrm,
+integer *info, doublereal *epsmch)
 {
     /* Format strings */
 /*
@@ -1524,32 +373,24 @@ oint \002,1p,2(1x,d11.4))";
         wt_dim1, wt_offset, i__1, i__2;
     doublereal d__1;
 
-    /* Builtin functions */
-/*    integer s_wsle(), do_lio(), e_wsle(), s_wsfe(), e_wsfe(), do_fio(); */
-
     /* Local variables */
     static doublereal dibp;
-    extern doublereal ddot_();
     static integer iter;
     static doublereal zibp, tsum, dibp2;
     static integer i__, j;
     static logical bnded;
-    extern /* Subroutine */ int dscal_();
     static doublereal neggi;
     static integer nfree;
     static doublereal bkmin;
     static integer nleft;
-    extern /* Subroutine */ int dcopy_(), daxpy_();
     static doublereal f1, f2, f2_org__, dt, tj, tl;
     static integer nbreak, ibkmin;
     static doublereal tu;
-    extern /* Subroutine */ int hpsolb_();
     static integer pointr;
     static doublereal tj0;
     static logical xlower, xupper;
     static integer ibp;
     static doublereal dtm;
-    extern /* Subroutine */ int bmv_();
     static doublereal wmc, wmp, wmw;
     static integer col2;
 
@@ -2129,15 +970,12 @@ L999:
 } /* cauchy_ */
 
 /* ====================== The end of cauchy ============================== */
-/* Subroutine */ int cmprlb_(n, m, x, g, ws, wy, sy, wt, z__, r__, wa, index,
-    theta, col, head, nfree, cnstnd, info)
-integer *n, *m;
-doublereal *x, *g, *ws, *wy, *sy, *wt, *z__, *r__, *wa;
-integer *index;
-doublereal *theta;
-integer *col, *head, *nfree;
-logical *cnstnd;
-integer *info;
+/* Subroutine */
+static int cmprlb_( integer *n, integer *m, doublereal *x, doublereal *g,
+    doublereal *ws, doublereal *wy, doublereal *sy, doublereal *wt,
+    doublereal *z__, doublereal *r__, doublereal *wa, integer *index,
+    doublereal *theta, integer *col, integer *head, integer *nfree,
+    logical *cnstnd, integer *info)
 {
     /* System generated locals */
     integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
@@ -2147,7 +985,6 @@ integer *info;
     static integer i__, j, k;
     static doublereal a1, a2;
     static integer pointr;
-    extern /* Subroutine */ int bmv_();
 
 /*     ************ */
 
@@ -2232,19 +1069,13 @@ integer *info;
 } /* cmprlb_ */
 
 /* ======================= The end of cmprlb ============================= */
-/* Subroutine */ int errclb_(n, m, factr, l, u, nbd, task, info, k, task_len)
-integer *n, *m;
-doublereal *factr, *l, *u;
-integer *nbd;
-char *task;
-integer *info, *k;
-ftnlen task_len;
+/* Subroutine */
+static int errclb_( integer *n, integer *m, doublereal *factr, doublereal *l,
+    doublereal *u, integer *nbd, char *task, integer *info, integer *k,
+    ftnlen task_len)
 {
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
-    /* Subroutine */ int s_copy();
 
     /* Local variables */
     static integer i__;
@@ -2307,14 +1138,12 @@ ftnlen task_len;
 } /* errclb_ */
 
 /* ======================= The end of errclb ============================= */
-/* Subroutine */ int formk_(n, nsub, ind, nenter, ileave, indx2, iupdat,
-    updatd, wn, wn1, m, ws, wy, sy, theta, col, head, info)
-integer *n, *nsub, *ind, *nenter, *ileave, *indx2, *iupdat;
-logical *updatd;
-doublereal *wn, *wn1;
-integer *m;
-doublereal *ws, *wy, *sy, *theta;
-integer *col, *head, *info;
+/* Subroutine */
+static int formk_(
+    integer *n, integer *nsub, integer *ind, integer *nenter, integer *ileave, integer *indx2, integer *iupdat,
+    logical *updatd, doublereal *wn, doublereal *wn1, integer *m,
+    doublereal *ws, doublereal *wy, doublereal *sy, doublereal *theta,
+    integer *col, integer *head, integer *info)
 {
     /* System generated locals */
     integer wn_dim1, wn_offset, wn1_dim1, wn1_offset, ws_dim1, ws_offset,
@@ -2322,11 +1151,9 @@ integer *col, *head, *info;
 
     /* Local variables */
     static integer dend, pend;
-    extern doublereal ddot_();
     static integer upcl;
     static doublereal temp1, temp2, temp3, temp4;
     static integer i__, k;
-    extern /* Subroutine */ int dpofa_(), dcopy_(), dtrsl_();
     static integer ipntr, jpntr, k1, m2, dbegin, is, js, iy, jy, pbegin, is1,
         js1, col2;
 
@@ -2696,12 +1523,9 @@ integer *col, *head, *info;
 } /* formk_ */
 
 /* ======================= The end of formk ============================== */
-/* Subroutine */ int formt_(m, wt, sy, ss, col, theta, info)
-integer *m;
-doublereal *wt, *sy, *ss;
-integer *col;
-doublereal *theta;
-integer *info;
+/* Subroutine */
+static int formt_( integer *m, doublereal *wt, doublereal *sy, doublereal *ss,
+integer *col, doublereal *theta, integer *info)
 {
     /* System generated locals */
     integer wt_dim1, wt_offset, sy_dim1, sy_offset, ss_dim1, ss_offset, i__1,
@@ -2710,7 +1534,6 @@ integer *info;
     /* Local variables */
     static doublereal ddum;
     static integer i__, j, k;
-    extern /* Subroutine */ int dpofa_();
     static integer k1;
 
 /*     ************ */
@@ -2784,17 +1607,13 @@ integer *info;
 } /* formt_ */
 
 /* ======================= The end of formt ============================== */
-/* Subroutine */ int freev_(n, nfree, index, nenter, ileave, indx2, iwhere,
-    wrk, updatd, cnstnd, iprint, iter)
-integer *n, *nfree, *index, *nenter, *ileave, *indx2, *iwhere;
-logical *wrk, *updatd, *cnstnd;
-integer *iprint, *iter;
+/* Subroutine */
+static int freev_(
+integer *n, integer *nfree, integer *index, integer *nenter, integer *ileave, integer *indx2, integer *iwhere,
+logical *wrk, logical *updatd, logical *cnstnd, integer *iprint, integer *iter)
 {
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
-  /*  integer s_wsle(), do_lio(), e_wsle(); */
 
     /* Local variables */
     static integer iact, i__, k;
@@ -2934,10 +1753,8 @@ integer *iprint, *iter;
 } /* freev_ */
 
 /* ======================= The end of freev ============================== */
-/* Subroutine */ int hpsolb_(n, t, iorder, iheap)
-integer *n;
-doublereal *t;
-integer *iorder, *iheap;
+/* Subroutine */
+static int hpsolb_( integer *n, doublereal *t, integer *iorder, integer *iheap)
 {
     /* System generated locals */
     integer i__1;
@@ -3049,38 +1866,22 @@ L30:
 } /* hpsolb_ */
 
 /* ====================== The end of hpsolb ============================== */
-/* Subroutine */ int lnsrlb_(n, l, u, nbd, x, f, fold, gd, gdold, g, d__, r__,
-     t, z__, stp, dnorm, dtd, xstep, stpmx, iter, ifun, iback, nfgv, info,
-     task, boxed, cnstnd, csave, isave, dsave, task_len, csave_len)
-integer *n;
-doublereal *l, *u;
-integer *nbd;
-doublereal *x, *f, *fold, *gd, *gdold, *g, *d__, *r__, *t, *z__, *stp, *dnorm,
-     *dtd, *xstep, *stpmx;
-integer *iter, *ifun, *iback, *nfgv, *info;
-char *task;
-logical *boxed, *cnstnd;
-char *csave;
-integer *isave;
-doublereal *dsave;
-ftnlen task_len;
-ftnlen csave_len;
+/* Subroutine */
+static int lnsrlb_( integer *n, doublereal *l, doublereal *u, integer *nbd,
+doublereal *x, doublereal *f, doublereal *fold, doublereal *gd, doublereal *gdold,
+doublereal *g, doublereal *d__, doublereal *r__, doublereal *t, doublereal *z__,
+doublereal *stp, doublereal *dnorm, doublereal *dtd, doublereal *xstep, doublereal *stpmx,
+integer *iter, integer *ifun, integer *iback, integer *nfgv, integer *info,
+char *task, logical *boxed, logical *cnstnd, char *csave, integer *isave,
+doublereal *dsave, ftnlen task_len, ftnlen csave_len)
 {
     /* System generated locals */
     integer i__1;
     doublereal d__1;
 
-    /* Builtin functions */
-    integer s_cmp();
-    double sqrt();
-    /* Subroutine */ int s_copy();
-
     /* Local variables */
-    extern doublereal ddot_();
     static integer i__;
-    extern /* Subroutine */ int dcopy_();
     static doublereal a1, a2;
-    extern /* Subroutine */ int dcsrch_();
 
 /*     ********** */
 
@@ -3206,21 +2007,18 @@ L556:
 } /* lnsrlb_ */
 
 /* ======================= The end of lnsrlb ============================= */
-/* Subroutine */ int matupd_(n, m, ws, wy, sy, ss, d__, r__, itail, iupdat,
-    col, head, theta, rr, dr, stp, dtd)
-integer *n, *m;
-doublereal *ws, *wy, *sy, *ss, *d__, *r__;
-integer *itail, *iupdat, *col, *head;
-doublereal *theta, *rr, *dr, *stp, *dtd;
+/* Subroutine */
+static int matupd_( integer *n, integer *m,
+doublereal *ws, doublereal *wy, doublereal *sy, doublereal *ss, doublereal *d__, doublereal *r__,
+integer *itail, integer *iupdat, integer *col, integer *head,
+doublereal *theta, doublereal *rr, doublereal *dr, doublereal *stp, doublereal *dtd)
 {
     /* System generated locals */
     integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
         ss_dim1, ss_offset, i__1, i__2;
 
     /* Local variables */
-    extern doublereal ddot_();
     static integer j;
-    extern /* Subroutine */ int dcopy_();
     static integer pointr;
 
 /*     ************ */
@@ -3313,11 +2111,9 @@ doublereal *theta, *rr, *dr, *stp, *dtd;
 } /* matupd_ */
 
 /* ======================= The end of matupd ============================= */
-/* Subroutine */ int prn1lb_(n, m, l, u, x, iprint, itfile, epsmch)
-integer *n, *m;
-doublereal *l, *u, *x;
-integer *iprint, *itfile;
-doublereal *epsmch;
+/* Subroutine */
+static int prn1lb_( integer *n, integer *m, doublereal *l, doublereal *u, doublereal *x,
+integer *iprint, integer *itfile, doublereal *epsmch)
 {
 #if 0
     /* Format strings */
@@ -3341,9 +2137,6 @@ the projected gradient\002,/,\002f     = function value\002,/,/,\002        \
 */
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
-    integer s_wsfe(), do_fio(), e_wsfe(), s_wsle(), do_lio(), e_wsle();
 
     /* Local variables */
     static integer i__;
@@ -3451,17 +2244,11 @@ the projected gradient\002,/,\002f     = function value\002,/,/,\002        \
 } /* prn1lb_ */
 
 /* ======================= The end of prn1lb ============================= */
-/* Subroutine */ int prn2lb_(n, x, f, g, iprint, itfile, iter, nfgv, nact,
-    sbgnrm, nint, word, iword, iback, stp, xstep, word_len)
-integer *n;
-doublereal *x, *f, *g;
-integer *iprint, *itfile, *iter, *nfgv, *nact;
-doublereal *sbgnrm;
-integer *nint;
-char *word;
-integer *iword, *iback;
-doublereal *stp, *xstep;
-ftnlen word_len;
+/* Subroutine */
+static int prn2lb_( integer *n, doublereal *x, doublereal *f, doublereal *g,
+integer *iprint, integer *itfile, integer *iter, integer *nfgv, integer *nact,
+doublereal *sbgnrm, integer *nint, char *word, integer *iword, integer *iback,
+doublereal *stp, doublereal *xstep, ftnlen word_len)
 {
 #if 0
     /* Format strings */
@@ -3473,10 +2260,6 @@ p,2(1x,d10.3))";
 
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
-    /* Subroutine */ int s_copy();
-    integer s_wsle(), do_lio(), e_wsle(), s_wsfe(), do_fio(), e_wsfe();
 
     /* Local variables */
     static integer imod, i__;
@@ -3585,22 +2368,13 @@ p,2(1x,d10.3))";
 } /* prn2lb_ */
 
 /* ======================= The end of prn2lb ============================= */
-/* Subroutine */ int prn3lb_(n, x, f, task, iprint, info, itfile, iter, nfgv,
-    nintol, nskip, nact, sbgnrm, time, nint, word, iback, stp, xstep, k,
-    cachyt, sbtime, lnscht, task_len, word_len)
-integer *n;
-doublereal *x, *f;
-char *task;
-integer *iprint, *info, *itfile, *iter, *nfgv, *nintol, *nskip, *nact;
-doublereal *sbgnrm, *time;
-integer *nint;
-char *word;
-integer *iback;
-doublereal *stp, *xstep;
-integer *k;
-doublereal *cachyt, *sbtime, *lnscht;
-ftnlen task_len;
-ftnlen word_len;
+/* Subroutine */
+static int prn3lb_( integer *n, doublereal *x, doublereal *f, char *task,
+integer *iprint, integer *info, integer *itfile, integer *iter, integer *nfgv, integer *nintol, integer *nskip, integer *nact,
+doublereal *sbgnrm, doublereal *time, integer *nint, char *word, integer *iback,
+doublereal *stp, doublereal *xstep, integer *k,
+doublereal *cachyt, doublereal *sbtime, doublereal *lnscht, ftnlen task_len,
+ftnlen word_len)
 {
 #if 0
     /* Format strings */
@@ -3648,10 +2422,6 @@ x,\002-\002,10x,\002-\002)";
 
     /* System generated locals */
     integer i__1;
-
-    /* Builtin functions */
-    integer s_cmp(), s_wsfe(), e_wsfe(), do_fio(), s_wsle(), do_lio(), e_wsle(
-        );
 
     /* Local variables */
     static integer i__;
@@ -3872,11 +2642,9 @@ L999:
 } /* prn3lb_ */
 
 /* ======================= The end of prn3lb ============================= */
-/* Subroutine */ int projgr_(n, l, u, nbd, x, g, sbgnrm)
-integer *n;
-doublereal *l, *u;
-integer *nbd;
-doublereal *x, *g, *sbgnrm;
+/* Subroutine */
+static int projgr_( integer *n, doublereal *l, doublereal *u, integer *nbd,
+doublereal *x, doublereal *g, doublereal *sbgnrm)
 {
     /* System generated locals */
     integer i__1;
@@ -3941,15 +2709,12 @@ doublereal *x, *g, *sbgnrm;
 } /* projgr_ */
 
 /* ======================= The end of projgr ============================= */
-/* Subroutine */ int subsm_(n, m, nsub, ind, l, u, nbd, x, d__, ws, wy, theta,
-     col, head, iword, wv, wn, iprint, info)
-integer *n, *m, *nsub, *ind;
-doublereal *l, *u;
-integer *nbd;
-doublereal *x, *d__, *ws, *wy, *theta;
-integer *col, *head, *iword;
-doublereal *wv, *wn;
-integer *iprint, *info;
+/* Subroutine */
+static int subsm_( integer *n, integer *m, integer *nsub, integer *ind,
+doublereal *l, doublereal *u, integer *nbd,
+doublereal *x, doublereal *d__, doublereal *ws, doublereal *wy, doublereal *theta,
+integer *col, integer *head, integer *iword,
+doublereal *wv, doublereal *wn, integer *iprint, integer *info)
 {
     /* Format strings */
 /*
@@ -3967,14 +2732,10 @@ OX\002)";
     integer ws_dim1, ws_offset, wy_dim1, wy_offset, wn_dim1, wn_offset, i__1,
         i__2;
 
-    /* Builtin functions */
-/*    integer s_wsfe(), e_wsfe(), do_fio(), s_wsle(), do_lio(), e_wsle(); */
-
     /* Local variables */
     static doublereal temp1, temp2;
     static integer i__, j, k;
     static doublereal alpha;
-    extern /* Subroutine */ int dtrsl_();
     static integer m2;
     static doublereal dk;
     static integer js, jy, pointr, ibd, col2;
@@ -4305,27 +3066,19 @@ OX\002)";
 } /* subsm_ */
 
 /* ====================== The end of subsm =============================== */
-/* Subroutine */ int dcsrch_(f, g, stp, ftol, gtol, xtol, stpmin, stpmax,
-    task, isave, dsave, task_len)
-doublereal *f, *g, *stp, *ftol, *gtol, *xtol, *stpmin, *stpmax;
-char *task;
-integer *isave;
-doublereal *dsave;
-ftnlen task_len;
+/* Subroutine */
+static int dcsrch_(
+doublereal *f, doublereal *g, doublereal *stp, doublereal *ftol, doublereal *gtol, doublereal *xtol, doublereal *stpmin, doublereal *stpmax,
+char *task, integer *isave, doublereal *dsave, ftnlen task_len)
 {
     /* System generated locals */
     doublereal d__1;
-
-    /* Builtin functions */
-    integer s_cmp();
-    /* Subroutine */ int s_copy();
 
     /* Local variables */
     static integer stage;
     static doublereal finit, ginit, width, ftest, gtest, stmin, stmax, width1,
          fm, gm, fx, fy, gx, gy;
     static logical brackt;
-    extern /* Subroutine */ int dcstep_();
     static doublereal fxm, fym, gxm, gym, stx, sty;
 
 /*     ********** */
@@ -4616,8 +3369,8 @@ ftnlen task_len;
     *stp = min(*stp,*stpmax);
 /*     If further progress is not possible, let stp be the best */
 /*     point obtained during the search. */
-    if (brackt && (*stp <= stmin || *stp >= stmax) || brackt && stmax - stmin
-        <= *xtol * stmax) {
+    if (   ( brackt && (*stp <= stmin || *stp >= stmax) )
+        || ( brackt && (stmax - stmin <= *xtol * stmax) ) ) {
     *stp = stx;
     }
 /*     Obtain another function and derivative. */
@@ -4649,17 +3402,13 @@ L1000:
 } /* dcsrch_ */
 
 /* ====================== The end of dcsrch ============================== */
-/* Subroutine */ int dcstep_(stx, fx, dx, sty, fy, dy, stp, fp, dp, brackt,
-    stpmin, stpmax)
-doublereal *stx, *fx, *dx, *sty, *fy, *dy, *stp, *fp, *dp;
-logical *brackt;
-doublereal *stpmin, *stpmax;
+/* Subroutine */
+static int dcstep_( doublereal *stx, doublereal *fx, doublereal *dx,
+    doublereal *sty, doublereal *fy, doublereal *dy, doublereal *stp, doublereal *fp, doublereal *dp,
+    logical *brackt, doublereal *stpmin, doublereal *stpmax)
 {
     /* System generated locals */
     doublereal d__1, d__2, d__3;
-
-    /* Builtin functions */
-    double sqrt();
 
     /* Local variables */
     static doublereal sgnd, stpc, stpf, stpq, p, q, gamma, r__, s, theta;
@@ -4930,45 +3679,9 @@ doublereal *stpmin, *stpmax;
 } /* dcstep_ */
 
 /* ====================== The end of dcstep ============================== */
-/* Subroutine */ int timer_(ttime)
-doublereal *ttime;
-{
-/*
-    static real temp;
-    extern doublereal etime_();
-    static real tarray[2];
-*/
-
-/*     ********* */
-
-/*     Subroutine timer */
-
-/*     This subroutine is used to determine user time. In a typical */
-/*     application, the user time for a code segment requires calls */
-/*     to subroutine timer to determine the initial and final time. */
-
-/*     The subroutine statement is */
-
-/*       subroutine timer(ttime) */
-
-/*     where */
-
-/*       ttime is an output variable which specifies the user time. */
-
-/*     Argonne National Laboratory and University of Minnesota. */
-/*     MINPACK-2 Project. */
-
-/*     Modified October 1990 by Brett M. Averick. */
-
-/*     ********** */
-/*     The first element of the array tarray specifies user time */
-/*    temp = etime_(tarray);  */
-/*    *ttime = (doublereal) tarray[0]; */
-    return 0;
-} /* timer_ */
 
 /* ====================== The end of dnrm2 =============================== */
-doublereal dpmeps_()
+static doublereal dpmeps_(void)
 {
     /* Initialized data */
 
@@ -5093,209 +3806,17 @@ L70:
 
 /* ====================== The end of dpmeps ============================== */
 
-/* Subroutine */ int dcopy_(n, dx, incx, dy, incy)
-integer *n;
-doublereal *dx;
-integer *incx;
-doublereal *dy;
-integer *incy;
-{
-    /* System generated locals */
-    integer i__1;
-
-    /* Local variables */
-    static integer i__, m, ix, iy, mp1;
-
-
-/*     copies a vector, x, to a vector, y. */
-/*     uses unrolled loops for increments equal to one. */
-/*     jack dongarra, linpack, 3/11/78. */
-
-
-    /* Parameter adjustments */
-    --dy;
-    --dx;
-
-    /* Function Body */
-    if (*n <= 0) {
-    return 0;
-    }
-    if (*incx == 1 && *incy == 1) {
-    goto L20;
-    }
-
-/*        code for unequal increments or equal increments */
-/*          not equal to 1 */
-
-    ix = 1;
-    iy = 1;
-    if (*incx < 0) {
-    ix = (-(*n) + 1) * *incx + 1;
-    }
-    if (*incy < 0) {
-    iy = (-(*n) + 1) * *incy + 1;
-    }
-    i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-    dy[iy] = dx[ix];
-    ix += *incx;
-    iy += *incy;
-/* L10: */
-    }
-    return 0;
-
-/*        code for both increments equal to 1 */
-
-
-/*        clean-up loop */
-
-L20:
-    m = *n % 7;
-    if (m == 0) {
-    goto L40;
-    }
-    i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__) {
-    dy[i__] = dx[i__];
-/* L30: */
-    }
-    if (*n < 7) {
-    return 0;
-    }
-L40:
-    mp1 = m + 1;
-    i__1 = *n;
-    for (i__ = mp1; i__ <= i__1; i__ += 7) {
-    dy[i__] = dx[i__];
-    dy[i__ + 1] = dx[i__ + 1];
-    dy[i__ + 2] = dx[i__ + 2];
-    dy[i__ + 3] = dx[i__ + 3];
-    dy[i__ + 4] = dx[i__ + 4];
-    dy[i__ + 5] = dx[i__ + 5];
-    dy[i__ + 6] = dx[i__ + 6];
-/* L50: */
-    }
-    return 0;
-} /* dcopy_ */
-
-/* ====================== The end of dcopy =============================== */
-
-/* Subroutine */ int dpofa_(a, lda, n, info)
-doublereal *a;
-integer *lda, *n, *info;
-{
-    /* System generated locals */
-    integer a_dim1, a_offset, i__1, i__2, i__3;
-
-    /* Builtin functions */
-    double sqrt();
-
-    /* Local variables */
-    extern doublereal ddot_();
-    static integer j, k;
-    static doublereal s, t;
-    static integer jm1;
-
-
-/*     dpofa factors a double precision symmetric positive definite */
-/*     matrix. */
-
-/*     dpofa is usually called by dpoco, but it can be called */
-/*     directly with a saving in time if  rcond  is not needed. */
-/*     (time for dpoco) = (1 + 18/n)*(time for dpofa) . */
-
-/*     on entry */
-
-/*        a       double precision(lda, n) */
-/*                the symmetric matrix to be factored.  only the */
-/*                diagonal and upper triangle are used. */
-
-/*        lda     integer */
-/*                the leading dimension of the array  a . */
-
-/*        n       integer */
-/*                the order of the matrix  a . */
-
-/*     on return */
-
-/*        a       an upper triangular matrix  r  so that  a = trans(r)*r */
-/*                where  trans(r)  is the transpose. */
-/*                the strict lower triangle is unaltered. */
-/*                if  info .ne. 0 , the factorization is not complete. */
-
-/*        info    integer */
-/*                = 0  for normal return. */
-/*                = k  signals an error condition.  the leading minor */
-/*                     of order  k  is not positive definite. */
-
-/*     linpack.  this version dated 08/14/78 . */
-/*     cleve moler, university of new mexico, argonne national lab. */
-
-/*     subroutines and functions */
-
-/*     blas ddot */
-/*     fortran sqrt */
-
-/*     internal variables */
-
-/*     begin block with ...exits to 40 */
-
-
-    /* Parameter adjustments */
-    a_dim1 = *lda;
-    a_offset = 1 + a_dim1 * 1;
-    a -= a_offset;
-
-    /* Function Body */
-    i__1 = *n;
-    for (j = 1; j <= i__1; ++j) {
-    *info = j;
-    s = 0.;
-    jm1 = j - 1;
-    if (jm1 < 1) {
-        goto L20;
-    }
-    i__2 = jm1;
-    for (k = 1; k <= i__2; ++k) {
-        i__3 = k - 1;
-        t = a[k + j * a_dim1] - ddot_(&i__3, &a[k * a_dim1 + 1], &c__1, &
-            a[j * a_dim1 + 1], &c__1);
-        t /= a[k + k * a_dim1];
-        a[k + j * a_dim1] = t;
-        s += t * t;
-/* L10: */
-    }
-L20:
-    s = a[j + j * a_dim1] - s;
-/*     ......exit */
-    if (s <= 0.) {
-        goto L40;
-    }
-    a[j + j * a_dim1] = sqrt(s);
-/* L30: */
-    }
-    *info = 0;
-L40:
-    return 0;
-} /* dpofa_ */
-
-/* ====================== The end of dpofa =============================== */
-
-/* Subroutine */ int dtrsl_(t, ldt, n, b, job, info)
-doublereal *t;
-integer *ldt, *n;
-doublereal *b;
-integer *job, *info;
+/* Subroutine */
+static int dtrsl_( doublereal *t, integer *ldt, integer *n,
+doublereal *b, integer *job, integer *info)
 {
     /* System generated locals */
     integer t_dim1, t_offset, i__1, i__2;
 
     /* Local variables */
     static integer case__;
-    extern doublereal ddot_();
     static doublereal temp;
     static integer j;
-    extern /* Subroutine */ int daxpy_();
     static integer jj;
 
 
@@ -5467,3 +3988,1069 @@ L150:
     return 0;
 } /* dtrsl_ */
 
+/* Subroutine */
+static int mainlb_ (integer *n, integer *m, doublereal *x, doublereal *l,
+      doublereal *u, integer *nbd, doublereal *f, doublereal *g,
+      doublereal *factr, doublereal *pgtol, doublereal *ws, doublereal *wy,
+      doublereal *sy, doublereal *ss, doublereal *yy, doublereal *wt,
+      doublereal *wn, doublereal *snd, doublereal *z__, doublereal *r__,
+      doublereal *d__, doublereal *t, doublereal *wa, doublereal *sg,
+      doublereal *sgo, doublereal *yg, doublereal *ygo, integer *index,
+      integer *iwhere, integer *indx2, char *task, integer *iprint, char *csave,
+      logical *lsave, integer *isave, doublereal *dsave, ftnlen task_len,
+      ftnlen csave_len)
+{
+    /* Format strings */
+/*
+    static char fmt_1002[] = "(/,\002At iterate\002,i5,4x,\002f= \002,1p,d12\
+.5,4x,\002|proj g|= \002,1p,d12.5)";
+    static char fmt_1003[] = "(2(1x,i4),5x,\002-\002,5x,\002-\002,3x,\002\
+-\002,5x,\002-\002,5x,\002-\002,8x,\002-\002,3x,1p,2(1x,d10.3))";
+    static char fmt_1001[] = "(//,\002ITERATION \002,i5)";
+    static char fmt_1005[] = "(/,\002 Singular triangular system detected\
+;\002,/,\002   refresh the lbfgs memory and restart the iteration.\002)";
+    static char fmt_1006[] = "(/,\002 Nonpositive definiteness in Cholesky f\
+actorization in formk;\002,/,\002   refresh the lbfgs memory and restart the\
+ iteration.\002)";
+    static char fmt_1008[] = "(/,\002 Bad direction in the line search;\002,\
+/,\002   refresh the lbfgs memory and restart the iteration.\002)";
+    static char fmt_1004[] = "(\002  ys=\002,1p,e10.3,\002  -gs=\002,1p,e10.\
+3,\002 BFGS update SKIPPED\002)";
+    static char fmt_1007[] = "(/,\002 Nonpositive definiteness in Cholesky f\
+actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
+ iteration.\002)";
+*/
+
+    /* System generated locals */
+    integer ws_dim1, ws_offset, wy_dim1, wy_offset, sy_dim1, sy_offset,
+        ss_dim1, ss_offset, yy_dim1, yy_offset, wt_dim1, wt_offset,
+        wn_dim1, wn_offset, snd_dim1, snd_offset, i__1;
+    doublereal d__1, d__2;
+/*    olist o__1; */
+
+ /*   integer f_open(), s_wsfe(), do_fio(), e_wsfe(); */
+
+    /* Local variables */
+    static integer head;
+    static doublereal fold;
+    static integer nact;
+    static doublereal ddum;
+    static integer info;
+    static doublereal time;
+    static integer nfgv, ifun, iter, nint;
+    static char word[3];
+    static doublereal time1, time2;
+    static integer i__, iback, k;
+    static doublereal gdold;
+    static integer nfree;
+    static logical boxed;
+    static integer itail;
+    static doublereal theta;
+    static doublereal dnorm;
+    static integer nskip, iword;
+    static doublereal xstep, stpmx;
+    static doublereal gd, dr, rr;
+    static integer ileave;
+    static integer itfile;
+    static doublereal cachyt, epsmch;
+    static logical updatd;
+    static doublereal sbtime;
+    static logical prjctd;
+    static integer iupdat;
+    static logical cnstnd;
+    static doublereal sbgnrm;
+    static integer nenter;
+    static doublereal lnscht;
+    static integer nintol;
+    static doublereal dtd;
+    static integer col;
+    static doublereal tol;
+    static logical wrk;
+    static doublereal stp, cpu1, cpu2;
+
+    /* Fortran I/O blocks */
+/*
+    static cilist io___62 = { 0, 6, 0, fmt_1002, 0 };
+    static cilist io___63 = { 0, 0, 0, fmt_1003, 0 };
+    static cilist io___64 = { 0, 6, 0, fmt_1001, 0 };
+    static cilist io___66 = { 0, 6, 0, fmt_1005, 0 };
+    static cilist io___68 = { 0, 6, 0, fmt_1006, 0 };
+    static cilist io___69 = { 0, 6, 0, fmt_1005, 0 };
+    static cilist io___71 = { 0, 6, 0, fmt_1008, 0 };
+    static cilist io___75 = { 0, 6, 0, fmt_1004, 0 };
+    static cilist io___76 = { 0, 6, 0, fmt_1007, 0 };
+*/
+
+
+/*     ************ */
+
+/*     Subroutine mainlb */
+
+/*     This subroutine solves bound constrained optimization problems by */
+/*       using the compact formula of the limited memory BFGS updates. */
+
+/*     n is an integer variable. */
+/*       On entry n is the number of variables. */
+/*       On exit n is unchanged. */
+
+/*     m is an integer variable. */
+/*       On entry m is the maximum number of variable metric */
+/*          corrections allowed in the limited memory matrix. */
+/*       On exit m is unchanged. */
+
+/*     x is a double precision array of dimension n. */
+/*       On entry x is an approximation to the solution. */
+/*       On exit x is the current approximation. */
+
+/*     l is a double precision array of dimension n. */
+/*       On entry l is the lower bound of x. */
+/*       On exit l is unchanged. */
+
+/*     u is a double precision array of dimension n. */
+/*       On entry u is the upper bound of x. */
+/*       On exit u is unchanged. */
+
+/*     nbd is an integer array of dimension n. */
+/*       On entry nbd represents the type of bounds imposed on the */
+/*         variables, and must be specified as follows: */
+/*         nbd(i)=0 if x(i) is unbounded, */
+/*                1 if x(i) has only a lower bound, */
+/*                2 if x(i) has both lower and upper bounds, */
+/*                3 if x(i) has only an upper bound. */
+/*       On exit nbd is unchanged. */
+
+/*     f is a double precision variable. */
+/*       On first entry f is unspecified. */
+/*       On final exit f is the value of the function at x. */
+
+/*     g is a double precision array of dimension n. */
+/*       On first entry g is unspecified. */
+/*       On final exit g is the value of the gradient at x. */
+
+/*     factr is a double precision variable. */
+/*       On entry factr >= 0 is specified by the user.  The iteration */
+/*         will stop when */
+
+/*         (f^k - f^{k+1})/max{|f^k|,|f^{k+1}|,1} <= factr*epsmch */
+
+/*         where epsmch is the machine precision, which is automatically */
+/*         generated by the code. */
+/*       On exit factr is unchanged. */
+
+/*     pgtol is a double precision variable. */
+/*       On entry pgtol >= 0 is specified by the user.  The iteration */
+/*         will stop when */
+
+/*                 max{|proj g_i | i = 1, ..., n} <= pgtol */
+
+/*         where pg_i is the ith component of the projected gradient. */
+/*       On exit pgtol is unchanged. */
+
+/*     ws, wy, sy, and wt are double precision working arrays used to */
+/*       store the following information defining the limited memory */
+/*          BFGS matrix: */
+/*          ws, of dimension n x m, stores S, the matrix of s-vectors; */
+/*          wy, of dimension n x m, stores Y, the matrix of y-vectors; */
+/*          sy, of dimension m x m, stores S'Y; */
+/*          ss, of dimension m x m, stores S'S; */
+/*        yy, of dimension m x m, stores Y'Y; */
+/*          wt, of dimension m x m, stores the Cholesky factorization */
+/*                                  of (theta*S'S+LD^(-1)L'); see eq. */
+/*                                  (2.26) in [3]. */
+
+/*     wn is a double precision working array of dimension 2m x 2m */
+/*       used to store the LEL^T factorization of the indefinite matrix */
+/*                 K = [-D -Y'ZZ'Y/theta     L_a'-R_z'  ] */
+/*                     [L_a -R_z           theta*S'AA'S ] */
+
+/*       where     E = [-I  0] */
+/*                     [ 0  I] */
+
+/*     snd is a double precision working array of dimension 2m x 2m */
+/*       used to store the lower triangular part of */
+/*                 N = [Y' ZZ'Y   L_a'+R_z'] */
+/*                     [L_a +R_z  S'AA'S   ] */
+
+/*     z(n),r(n),d(n),t(n),wa(8*m) are double precision working arrays. */
+/*       z is used at different times to store the Cauchy point and */
+/*       the Newton point. */
+
+/*     sg(m),sgo(m),yg(m),ygo(m) are double precision working arrays. */
+
+/*     index is an integer working array of dimension n. */
+/*       In subroutine freev, index is used to store the free and fixed */
+/*          variables at the Generalized Cauchy Point (GCP). */
+
+/*     iwhere is an integer working array of dimension n used to record */
+/*       the status of the vector x for GCP computation. */
+/*       iwhere(i)=0 or -3 if x(i) is free and has bounds, */
+/*                 1       if x(i) is fixed at l(i), and l(i) .ne. u(i) */
+/*                 2       if x(i) is fixed at u(i), and u(i) .ne. l(i) */
+/*                 3       if x(i) is always fixed, i.e.,  u(i)=x(i)=l(i) */
+/*                -1       if x(i) is always free, i.e., no bounds on it. */
+
+/*     indx2 is an integer working array of dimension n. */
+/*       Within subroutine cauchy, indx2 corresponds to the array iorder. */
+/*       In subroutine freev, a list of variables entering and leaving */
+/*       the free set is stored in indx2, and it is passed on to */
+/*       subroutine formk with this information. */
+
+/*     task is a working string of characters of length 60 indicating */
+/*       the current job when entering and leaving this subroutine. */
+
+/*     iprint is an INTEGER variable that must be set by the user. */
+/*       It controls the frequency and type of output generated: */
+/*        iprint<0    no output is generated; */
+/*        iprint=0    print only one line at the last iteration; */
+/*        0<iprint<99 print also f and |proj g| every iprint iterations; */
+/*        iprint=99   print details of every iteration except n-vectors; */
+/*        iprint=100  print also the changes of active set and final x; */
+/*        iprint>100  print details of every iteration including x and g; */
+/*       When iprint > 0, the file iterate.dat will be created to */
+/*                        summarize the iteration. */
+
+/*     csave is a working string of characters of length 60. */
+
+/*     lsave is a logical working array of dimension 4. */
+
+/*     isave is an integer working array of dimension 23. */
+
+/*     dsave is a double precision working array of dimension 29. */
+
+
+/*     Subprograms called */
+
+/*       L-BFGS-B Library ... cauchy, subsm, lnsrlb, formk, */
+
+/*        errclb, prn1lb, prn2lb, prn3lb, active, projgr, */
+
+/*        freev, cmprlb, matupd, formt. */
+
+/*       Minpack2 Library ... timer, dpmeps. */
+
+/*       Linpack Library ... dcopy, ddot. */
+
+
+/*     References: */
+
+/*       [1] R. H. Byrd, P. Lu, J. Nocedal and C. Zhu, ``A limited */
+/*       memory algorithm for bound constrained optimization'', */
+/*       SIAM J. Scientific Computing 16 (1995), no. 5, pp. 1190--1208. */
+
+/*       [2] C. Zhu, R.H. Byrd, P. Lu, J. Nocedal, ``L-BFGS-B: FORTRAN */
+/*       Subroutines for Large Scale Bound Constrained Optimization'' */
+/*       Tech. Report, NAM-11, EECS Department, Northwestern University, */
+/*       1994. */
+
+/*       [3] R. Byrd, J. Nocedal and R. Schnabel "Representations of */
+/*       Quasi-Newton Matrices and their use in Limited Memory Methods'', */
+/*       Mathematical Programming 63 (1994), no. 4, pp. 129-156. */
+
+/*       (Postscript files of these papers are available via anonymous */
+/*        ftp to eecs.nwu.edu in the directory pub/lbfgs/lbfgs_bcm.) */
+
+/*                           *  *  * */
+
+/*     NEOS, November 1994. (Latest revision June 1996.) */
+/*     Optimization Technology Center. */
+/*     Argonne National Laboratory and Northwestern University. */
+/*     Written by */
+/*                        Ciyou Zhu */
+/*     in collaboration with R.H. Byrd, P. Lu-Chen and J. Nocedal. */
+
+
+/*     ************ */
+    /* Parameter adjustments */
+    --indx2;
+    --iwhere;
+    --index;
+    --t;
+    --d__;
+    --r__;
+    --z__;
+    --g;
+    --nbd;
+    --u;
+    --l;
+    --x;
+    --ygo;
+    --yg;
+    --sgo;
+    --sg;
+    --wa;
+    snd_dim1 = 2 * *m;
+    snd_offset = 1 + snd_dim1 * 1;
+    snd -= snd_offset;
+    wn_dim1 = 2 * *m;
+    wn_offset = 1 + wn_dim1 * 1;
+    wn -= wn_offset;
+    wt_dim1 = *m;
+    wt_offset = 1 + wt_dim1 * 1;
+    wt -= wt_offset;
+    yy_dim1 = *m;
+    yy_offset = 1 + yy_dim1 * 1;
+    yy -= yy_offset;
+    ss_dim1 = *m;
+    ss_offset = 1 + ss_dim1 * 1;
+    ss -= ss_offset;
+    sy_dim1 = *m;
+    sy_offset = 1 + sy_dim1 * 1;
+    sy -= sy_offset;
+    wy_dim1 = *n;
+    wy_offset = 1 + wy_dim1 * 1;
+    wy -= wy_offset;
+    ws_dim1 = *n;
+    ws_offset = 1 + ws_dim1 * 1;
+    ws -= ws_offset;
+    --lsave;
+    --isave;
+    --dsave;
+
+    /* Function Body */
+    if (s_cmp(task, "START", (ftnlen)60, (ftnlen)5) == 0) {
+/*        Generate the current machine precision. */
+    epsmch = dpmeps_();
+/*        Initialize counters and scalars when task='START'. */
+/*           for the limited memory BFGS matrices: */
+    col = 0;
+    head = 1;
+    theta = 1.;
+    iupdat = 0;
+    updatd = FALSE_;
+/*           for operation counts: */
+    iter = 0;
+    nfgv = 0;
+    nint = 0;
+    nintol = 0;
+    nskip = 0;
+    nfree = *n;
+/*           for stopping tolerance: */
+    tol = *factr * epsmch;
+/*           for measuring running time: */
+    cachyt = 0.;
+    sbtime = 0.;
+    lnscht = 0.;
+/*           'word' records the status of subspace solutions. */
+    s_copy(word, "---", (ftnlen)3, (ftnlen)3);
+/*           'info' records the termination information. */
+    info = 0;
+    if (*iprint >= 1) {
+/*                                open a summary file 'iterate.dat' */
+/*
+        o__1.oerr = 0;
+        o__1.ounit = 8;
+        o__1.ofnmlen = 11;
+        o__1.ofnm = "iterate.dat";
+        o__1.orl = 0;
+        o__1.osta = "unknown";
+        o__1.oacc = 0;
+        o__1.ofm = 0;
+        o__1.oblnk = 0;
+        f_open(&o__1);
+        itfile = 8;
+*/
+    }
+/*        Check the input arguments for errors. */
+    errclb_(n, m, factr, &l[1], &u[1], &nbd[1], task, &info, &k, (ftnlen)
+        60);
+    if (s_cmp(task, "ERROR", (ftnlen)5, (ftnlen)5) == 0) {
+        prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &
+            nintol, &nskip, &nact, &sbgnrm, &c_b9, &nint, word, &
+            iback, &stp, &xstep, &k, &cachyt, &sbtime, &lnscht, (
+            ftnlen)60, (ftnlen)3);
+        return 0;
+    }
+    prn1lb_(n, m, &l[1], &u[1], &x[1], iprint, &itfile, &epsmch);
+/*        Initialize iwhere & project x onto the feasible set. */
+    active_(n, &l[1], &u[1], &nbd[1], &x[1], &iwhere[1], iprint, &prjctd,
+        &cnstnd, &boxed);
+/*        The end of the initialization. */
+    } else {
+/*          restore local variables. */
+    prjctd = lsave[1];
+    cnstnd = lsave[2];
+    boxed = lsave[3];
+    updatd = lsave[4];
+    nintol = isave[1];
+    itfile = isave[3];
+    iback = isave[4];
+    nskip = isave[5];
+    head = isave[6];
+    col = isave[7];
+    itail = isave[8];
+    iter = isave[9];
+    iupdat = isave[10];
+    nint = isave[12];
+    nfgv = isave[13];
+    info = isave[14];
+    ifun = isave[15];
+    iword = isave[16];
+    nfree = isave[17];
+    nact = isave[18];
+    ileave = isave[19];
+    nenter = isave[20];
+    theta = dsave[1];
+    fold = dsave[2];
+    tol = dsave[3];
+    dnorm = dsave[4];
+    epsmch = dsave[5];
+    cpu1 = dsave[6];
+    cachyt = dsave[7];
+    sbtime = dsave[8];
+    lnscht = dsave[9];
+    time1 = dsave[10];
+    gd = dsave[11];
+    stpmx = dsave[12];
+    sbgnrm = dsave[13];
+    stp = dsave[14];
+    gdold = dsave[15];
+    dtd = dsave[16];
+/*        After returning from the driver go to the point where execution */
+/*        is to resume. */
+    if (s_cmp(task, "FG_LN", (ftnlen)5, (ftnlen)5) == 0) {
+        goto L666;
+    }
+    if (s_cmp(task, "NEW_X", (ftnlen)5, (ftnlen)5) == 0) {
+        goto L777;
+    }
+    if (s_cmp(task, "FG_ST", (ftnlen)5, (ftnlen)5) == 0) {
+        goto L111;
+    }
+    if (s_cmp(task, "STOP", (ftnlen)4, (ftnlen)4) == 0) {
+        if (s_cmp(task + 6, "CPU", (ftnlen)3, (ftnlen)3) == 0) {
+/*                                          restore the previous iterate. */
+        dcopy_(n, &t[1], &c__1, &x[1], &c__1);
+        dcopy_(n, &r__[1], &c__1, &g[1], &c__1);
+        *f = fold;
+        }
+        goto L999;
+    }
+    }
+/*     Compute f0 and g0. */
+    s_copy(task, "FG_START", (ftnlen)60, (ftnlen)8);
+/*          return to the driver to calculate f and g; reenter at 111. */
+    goto L1000;
+L111:
+    nfgv = 1;
+/*     Compute the infinity norm of the (-) projected gradient. */
+    projgr_(n, &l[1], &u[1], &nbd[1], &x[1], &g[1], &sbgnrm);
+    if (*iprint >= 1) {
+/*
+    s_wsfe(&io___62);
+    do_fio(&c__1, (char *)&iter, (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char *)&(*f), (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *)&sbgnrm, (ftnlen)sizeof(doublereal));
+    e_wsfe();
+    io___63.ciunit = itfile;
+    s_wsfe(&io___63);
+    do_fio(&c__1, (char *)&iter, (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char *)&nfgv, (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char *)&sbgnrm, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *)&(*f), (ftnlen)sizeof(doublereal));
+    e_wsfe();
+*/
+    }
+    if (sbgnrm <= *pgtol) {
+/*                                terminate the algorithm. */
+    s_copy(task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", (
+        ftnlen)60, (ftnlen)48);
+    goto L999;
+    }
+/* ----------------- the beginning of the loop -------------------------- */
+L222:
+    if (*iprint >= 99) {
+/*
+    s_wsfe(&io___64);
+    i__1 = iter + 1;
+    do_fio(&c__1, (char *)&i__1, (ftnlen)sizeof(integer));
+    e_wsfe();
+*/
+    }
+    iword = -1;
+
+    if (! cnstnd && col > 0) {
+/*                                            skip the search for GCP. */
+    dcopy_(n, &x[1], &c__1, &z__[1], &c__1);
+    wrk = updatd;
+    nint = 0;
+    goto L333;
+    }
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+
+/*     Compute the Generalized Cauchy Point (GCP). */
+
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+    cauchy_(n, &x[1], &l[1], &u[1], &nbd[1], &g[1], &indx2[1], &iwhere[1], &t[
+        1], &d__[1], &z__[1], m, &wy[wy_offset], &ws[ws_offset], &sy[
+        sy_offset], &wt[wt_offset], &theta, &col, &head, &wa[1], &wa[(*m
+        << 1) + 1], &wa[(*m << 2) + 1], &wa[*m * 6 + 1], &nint, &sg[1], &
+        yg[1], iprint, &sbgnrm, &info, &epsmch);
+    if (info != 0) {
+/*         singular triangular system detected; refresh the lbfgs memory. */
+    if (*iprint >= 1) {
+/*
+        s_wsfe(&io___66);
+        e_wsfe();
+*/
+    }
+    info = 0;
+    col = 0;
+    head = 1;
+    theta = 1.;
+    iupdat = 0;
+    updatd = FALSE_;
+    cachyt = cachyt + cpu2 - cpu1;
+    goto L222;
+    }
+    cachyt = cachyt + cpu2 - cpu1;
+    nintol += nint;
+/*     Count the entering and leaving variables for iter > 0; */
+/*     find the index set of free and active variables at the GCP. */
+    freev_(n, &nfree, &index[1], &nenter, &ileave, &indx2[1], &iwhere[1], &
+        wrk, &updatd, &cnstnd, iprint, &iter);
+    nact = *n - nfree;
+L333:
+/*     If there are no free variables or B=theta*I, then */
+/*                                        skip the subspace minimization. */
+    if (nfree == 0 || col == 0) {
+    goto L555;
+    }
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+
+/*     Subspace minimization. */
+
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+/*     Form  the LEL^T factorization of the indefinite */
+/*       matrix    K = [-D -Y'ZZ'Y/theta     L_a'-R_z'  ] */
+/*                     [L_a -R_z           theta*S'AA'S ] */
+/*       where     E = [-I  0] */
+/*                     [ 0  I] */
+    if (wrk) {
+    formk_(n, &nfree, &index[1], &nenter, &ileave, &indx2[1], &iupdat, &
+        updatd, &wn[wn_offset], &snd[snd_offset], m, &ws[ws_offset], &
+        wy[wy_offset], &sy[sy_offset], &theta, &col, &head, &info);
+    }
+    if (info != 0) {
+/*          nonpositive definiteness in Cholesky factorization; */
+/*          refresh the lbfgs memory and restart the iteration. */
+    if (*iprint >= 1) {
+/*
+        s_wsfe(&io___68);
+        e_wsfe();
+*/
+    }
+    info = 0;
+    col = 0;
+    head = 1;
+    theta = 1.;
+    iupdat = 0;
+    updatd = FALSE_;
+    sbtime = sbtime + cpu2 - cpu1;
+    goto L222;
+    }
+/*        compute r=-Z'B(xcp-xk)-Z'g (using wa(2m+1)=W'(xcp-x) */
+/*                                                   from 'cauchy'). */
+    cmprlb_(n, m, &x[1], &g[1], &ws[ws_offset], &wy[wy_offset], &sy[sy_offset]
+        , &wt[wt_offset], &z__[1], &r__[1], &wa[1], &index[1], &theta, &
+        col, &head, &nfree, &cnstnd, &info);
+    if (info != 0) {
+    goto L444;
+    }
+/*       call the direct method. */
+    subsm_(n, m, &nfree, &index[1], &l[1], &u[1], &nbd[1], &z__[1], &r__[1], &
+        ws[ws_offset], &wy[wy_offset], &theta, &col, &head, &iword, &wa[1]
+        , &wn[wn_offset], iprint, &info);
+L444:
+    if (info != 0) {
+/*          singular triangular system detected; */
+/*          refresh the lbfgs memory and restart the iteration. */
+    if (*iprint >= 1) {
+/*
+        s_wsfe(&io___69);
+        e_wsfe();
+*/
+    }
+    info = 0;
+    col = 0;
+    head = 1;
+    theta = 1.;
+    iupdat = 0;
+    updatd = FALSE_;
+    sbtime = sbtime + cpu2 - cpu1;
+    goto L222;
+    }
+    sbtime = sbtime + cpu2 - cpu1;
+L555:
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+
+/*     Line search and optimality tests. */
+
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+/*     Generate the search direction d:=z-x. */
+    i__1 = *n;
+    for (i__ = 1; i__ <= i__1; ++i__) {
+    d__[i__] = z__[i__] - x[i__];
+/* L40: */
+    }
+L666:
+    lnsrlb_(n, &l[1], &u[1], &nbd[1], &x[1], f, &fold, &gd, &gdold, &g[1], &
+        d__[1], &r__[1], &t[1], &z__[1], &stp, &dnorm, &dtd, &xstep, &
+        stpmx, &iter, &ifun, &iback, &nfgv, &info, task, &boxed, &cnstnd,
+        csave, &isave[22], &dsave[17], (ftnlen)60, (ftnlen)60);
+    if (info != 0 || iback >= 20) {
+/*          restore the previous iterate. */
+    dcopy_(n, &t[1], &c__1, &x[1], &c__1);
+    dcopy_(n, &r__[1], &c__1, &g[1], &c__1);
+    *f = fold;
+    if (col == 0) {
+/*             abnormal termination. */
+        if (info == 0) {
+        info = -9;
+/*                restore the actual number of f and g evaluations etc. */
+        --nfgv;
+        --ifun;
+        --iback;
+        }
+        s_copy(task, "ABNORMAL_TERMINATION_IN_LNSRCH", (ftnlen)60, (
+            ftnlen)30);
+        ++iter;
+        goto L999;
+    } else {
+/*             refresh the lbfgs memory and restart the iteration. */
+        if (*iprint >= 1) {
+/*
+        s_wsfe(&io___71);
+        e_wsfe();
+*/
+        }
+        if (info == 0) {
+        --nfgv;
+        }
+        info = 0;
+        col = 0;
+        head = 1;
+        theta = 1.;
+        iupdat = 0;
+        updatd = FALSE_;
+        s_copy(task, "RESTART_FROM_LNSRCH", (ftnlen)60, (ftnlen)19);
+        lnscht = lnscht + cpu2 - cpu1;
+        goto L222;
+    }
+    } else if (s_cmp(task, "FG_LN", (ftnlen)5, (ftnlen)5) == 0) {
+/*          return to the driver for calculating f and g; reenter at 666. */
+    goto L1000;
+    } else {
+/*          calculate and print out the quantities related to the new X. */
+    lnscht = lnscht + cpu2 - cpu1;
+    ++iter;
+/*        Compute the infinity norm of the projected (-)gradient. */
+    projgr_(n, &l[1], &u[1], &nbd[1], &x[1], &g[1], &sbgnrm);
+/*        Print iteration information. */
+    prn2lb_(n, &x[1], f, &g[1], iprint, &itfile, &iter, &nfgv, &nact, &
+        sbgnrm, &nint, word, &iword, &iback, &stp, &xstep, (ftnlen)3);
+    goto L1000;
+    }
+L777:
+/*     Test for termination. */
+    if (sbgnrm <= *pgtol) {
+/*                                terminate the algorithm. */
+    s_copy(task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", (
+        ftnlen)60, (ftnlen)48);
+    goto L999;
+    }
+/* Computing MAX */
+    d__1 = abs(fold), d__2 = abs(*f), d__1 = max(d__1,d__2);
+    ddum = max(d__1,1.);
+    if (fold - *f <= tol * ddum) {
+/*                                        terminate the algorithm. */
+    s_copy(task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", (
+        ftnlen)60, (ftnlen)47);
+    if (iback >= 10) {
+        info = -5;
+    }
+/*           i.e., to issue a warning if iback>10 in the line search. */
+    goto L999;
+    }
+/*     Compute d=newx-oldx, r=newg-oldg, rr=y'y and dr=y's. */
+    i__1 = *n;
+    for (i__ = 1; i__ <= i__1; ++i__) {
+    r__[i__] = g[i__] - r__[i__];
+/* L42: */
+    }
+    rr = ddot_(n, &r__[1], &c__1, &r__[1], &c__1);
+    if (stp == 1.) {
+    dr = gd - gdold;
+    ddum = -gdold;
+    } else {
+    dr = (gd - gdold) * stp;
+    dscal_(n, &stp, &d__[1], &c__1);
+    ddum = -gdold * stp;
+    }
+    if (dr <= epsmch * ddum) {
+/*                            skip the L-BFGS update. */
+    ++nskip;
+    updatd = FALSE_;
+    if (*iprint >= 1) {
+/*
+        s_wsfe(&io___75);
+        do_fio(&c__1, (char *)&dr, (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char *)&ddum, (ftnlen)sizeof(doublereal));
+        e_wsfe();
+*/
+    }
+    goto L888;
+    }
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+
+/*     Update the L-BFGS matrix. */
+
+/* ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc */
+    updatd = TRUE_;
+    ++iupdat;
+/*     Update matrices WS and WY and form the middle matrix in B. */
+    matupd_(n, m, &ws[ws_offset], &wy[wy_offset], &sy[sy_offset], &ss[
+        ss_offset], &d__[1], &r__[1], &itail, &iupdat, &col, &head, &
+        theta, &rr, &dr, &stp, &dtd);
+/*     Form the upper half of the pds T = theta*SS + L*D^(-1)*L'; */
+/*        Store T in the upper triangular of the array wt; */
+/*        Cholesky factorize T to J*J' with */
+/*           J' stored in the upper triangular of wt. */
+    formt_(m, &wt[wt_offset], &sy[sy_offset], &ss[ss_offset], &col, &theta, &
+        info);
+    if (info != 0) {
+/*          nonpositive definiteness in Cholesky factorization; */
+/*          refresh the lbfgs memory and restart the iteration. */
+    if (*iprint >= 1) {
+/*
+        s_wsfe(&io___76);
+        e_wsfe();
+*/
+    }
+    info = 0;
+    col = 0;
+    head = 1;
+    theta = 1.;
+    iupdat = 0;
+    updatd = FALSE_;
+    goto L222;
+    }
+/*     Now the inverse of the middle matrix in B is */
+/*       [  D^(1/2)      O ] [ -D^(1/2)  D^(-1/2)*L' ] */
+/*       [ -L*D^(-1/2)   J ] [  0        J'          ] */
+L888:
+/* -------------------- the end of the loop ----------------------------- */
+    goto L222;
+L999:
+    time = time2 - time1;
+    prn3lb_(n, &x[1], f, task, iprint, &info, &itfile, &iter, &nfgv, &nintol,
+        &nskip, &nact, &sbgnrm, &time, &nint, word, &iback, &stp, &xstep,
+        &k, &cachyt, &sbtime, &lnscht, (ftnlen)60, (ftnlen)3);
+L1000:
+/*     Save local variables. */
+    lsave[1] = prjctd;
+    lsave[2] = cnstnd;
+    lsave[3] = boxed;
+    lsave[4] = updatd;
+    isave[1] = nintol;
+    isave[3] = itfile;
+    isave[4] = iback;
+    isave[5] = nskip;
+    isave[6] = head;
+    isave[7] = col;
+    isave[8] = itail;
+    isave[9] = iter;
+    isave[10] = iupdat;
+    isave[12] = nint;
+    isave[13] = nfgv;
+    isave[14] = info;
+    isave[15] = ifun;
+    isave[16] = iword;
+    isave[17] = nfree;
+    isave[18] = nact;
+    isave[19] = ileave;
+    isave[20] = nenter;
+    dsave[1] = theta;
+    dsave[2] = fold;
+    dsave[3] = tol;
+    dsave[4] = dnorm;
+    dsave[5] = epsmch;
+    dsave[6] = cpu1;
+    dsave[7] = cachyt;
+    dsave[8] = sbtime;
+    dsave[9] = lnscht;
+    dsave[10] = time1;
+    dsave[11] = gd;
+    dsave[12] = stpmx;
+    dsave[13] = sbgnrm;
+    dsave[14] = stp;
+    dsave[15] = gdold;
+    dsave[16] = dtd;
+    return 0;
+} /* mainlb_ */
+
+/* ======================= The end of mainlb ============================= */
+
+/* ================    L-BFGS-B (version 2.1)   ========================== */
+/* Subroutine */
+int setulb_(integer *n, integer *m, const doublereal *x, doublereal *l,
+      doublereal *u, integer *nbd, doublereal *f, doublereal *g,
+      doublereal *factr, doublereal *pgtol, doublereal *wa, integer *iwa,
+      char *task, integer *iprint, char *csave, logical *lsave,
+      integer *isave, doublereal *dsave, ftnlen task_len, ftnlen csave_len)
+{
+    /* System generated locals */
+    integer i__1;
+
+    /* Local variables */
+    static integer lsnd, lsgo, lygo, /* l1,  l2, l3, */ ld, lr, lt;
+    static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
+
+
+/*     ************ */
+
+/*     Subroutine setulb */
+
+/*     This subroutine partitions the working arrays wa and iwa, and */
+/*       then uses the limited memory BFGS method to solve the bound */
+/*       constrained optimization problem by calling mainlb. */
+/*       (The direct method will be used in the subspace minimization.) */
+
+/*     n is an integer variable. */
+/*       On entry n is the dimension of the problem. */
+/*       On exit n is unchanged. */
+
+/*     m is an integer variable. */
+/*       On entry m is the maximum number of variable metric corrections */
+/*         used to define the limited memory matrix. */
+/*       On exit m is unchanged. */
+
+/*     x is a double precision array of dimension n. */
+/*       On entry x is an approximation to the solution. */
+/*       On exit x is the current approximation. */
+
+/*     l is a double precision array of dimension n. */
+/*       On entry l is the lower bound on x. */
+/*       On exit l is unchanged. */
+
+/*     u is a double precision array of dimension n. */
+/*       On entry u is the upper bound on x. */
+/*       On exit u is unchanged. */
+
+/*     nbd is an integer array of dimension n. */
+/*       On entry nbd represents the type of bounds imposed on the */
+/*         variables, and must be specified as follows: */
+/*         nbd(i)=0 if x(i) is unbounded, */
+/*                1 if x(i) has only a lower bound, */
+/*                2 if x(i) has both lower and upper bounds, and */
+/*                3 if x(i) has only an upper bound. */
+/*       On exit nbd is unchanged. */
+
+/*     f is a double precision variable. */
+/*       On first entry f is unspecified. */
+/*       On final exit f is the value of the function at x. */
+
+/*     g is a double precision array of dimension n. */
+/*       On first entry g is unspecified. */
+/*       On final exit g is the value of the gradient at x. */
+
+/*     factr is a double precision variable. */
+/*       On entry factr >= 0 is specified by the user.  The iteration */
+/*         will stop when */
+
+/*         (f^k - f^{k+1})/max{|f^k|,|f^{k+1}|,1} <= factr*epsmch */
+
+/*         where epsmch is the machine precision, which is automatically */
+/*         generated by the code. Typical values for factr: 1.d+12 for */
+/*         low accuracy; 1.d+7 for moderate accuracy; 1.d+1 for extremely */
+/*         high accuracy. */
+/*       On exit factr is unchanged. */
+
+/*     pgtol is a double precision variable. */
+/*       On entry pgtol >= 0 is specified by the user.  The iteration */
+/*         will stop when */
+
+/*                 max{|proj g_i | i = 1, ..., n} <= pgtol */
+
+/*         where pg_i is the ith component of the projected gradient. */
+/*       On exit pgtol is unchanged. */
+
+/*     wa is a double precision working array of length */
+/*       (2mmax + 4)nmax + 12mmax^2 + 12mmax. */
+
+/*     iwa is an integer working array of length 3nmax. */
+
+/*     task is a working string of characters of length 60 indicating */
+/*       the current job when entering and quitting this subroutine. */
+
+/*     iprint is an integer variable that must be set by the user. */
+/*       It controls the frequency and type of output generated: */
+/*        iprint<0    no output is generated; */
+/*        iprint=0    print only one line at the last iteration; */
+/*        0<iprint<99 print also f and |proj g| every iprint iterations; */
+/*        iprint=99   print details of every iteration except n-vectors; */
+/*        iprint=100  print also the changes of active set and final x; */
+/*        iprint>100  print details of every iteration including x and g; */
+/*       When iprint > 0, the file iterate.dat will be created to */
+/*                        summarize the iteration. */
+
+/*     csave is a working string of characters of length 60. */
+
+/*     lsave is a logical working array of dimension 4. */
+/*       On exit with 'task' = NEW_X, the following information is */
+/*                                                             available: */
+/*         If lsave(1) = .true.  then  the initial X has been replaced by */
+/*                                     its projection in the feasible set; */
+/*         If lsave(2) = .true.  then  the problem is constrained; */
+/*         If lsave(3) = .true.  then  each variable has upper and lower */
+/*                                     bounds; */
+
+/*     isave is an integer working array of dimension 44. */
+/*       On exit with 'task' = NEW_X, the following information is */
+/*                                                             available: */
+/*         isave(22) = the total number of intervals explored in the */
+/*                         search of Cauchy points; */
+/*         isave(26) = the total number of skipped BFGS updates before */
+/*                         the current iteration; */
+/*         isave(30) = the number of current iteration; */
+/*         isave(31) = the total number of BFGS updates prior the current */
+/*                         iteration; */
+/*         isave(33) = the number of intervals explored in the search of */
+/*                         Cauchy point in the current iteration; */
+/*         isave(34) = the total number of function and gradient */
+/*                         evaluations; */
+/*         isave(36) = the number of function value or gradient */
+/*                                  evaluations in the current iteration; */
+/*         if isave(37) = 0  then the subspace argmin is within the box; */
+/*         if isave(37) = 1  then the subspace argmin is beyond the box; */
+/*         isave(38) = the number of free variables in the current */
+/*                         iteration; */
+/*         isave(39) = the number of active constraints in the current */
+/*                         iteration; */
+/*         n + 1 - isave(40) = the number of variables leaving the set of */
+/*                           active constraints in the current iteration; */
+/*         isave(41) = the number of variables entering the set of active */
+/*                         constraints in the current iteration. */
+
+/*     dsave is a double precision working array of dimension 29. */
+/*       On exit with 'task' = NEW_X, the following information is */
+/*                                                             available: */
+/*         dsave(1) = current 'theta' in the BFGS matrix; */
+/*         dsave(2) = f(x) in the previous iteration; */
+/*         dsave(3) = factr*epsmch; */
+/*         dsave(4) = 2-norm of the line search direction vector; */
+/*         dsave(5) = the machine precision epsmch generated by the code; */
+/*         dsave(7) = the accumulated time spent on searching for */
+/*                                                         Cauchy points; */
+/*         dsave(8) = the accumulated time spent on */
+/*                                                 subspace minimization; */
+/*         dsave(9) = the accumulated time spent on line search; */
+/*         dsave(11) = the slope of the line search function at */
+/*                                  the current point of line search; */
+/*         dsave(12) = the maximum relative step length imposed in */
+/*                                                           line search; */
+/*         dsave(13) = the infinity norm of the projected gradient; */
+/*         dsave(14) = the relative step length in the line search; */
+/*         dsave(15) = the slope of the line search function at */
+/*                                 the starting point of the line search; */
+/*         dsave(16) = the square of the 2-norm of the line search */
+/*                                                      direction vector. */
+
+/*     Subprograms called: */
+
+/*       L-BFGS-B Library ... mainlb. */
+
+
+/*     References: */
+
+/*       [1] R. H. Byrd, P. Lu, J. Nocedal and C. Zhu, ``A limited */
+/*       memory algorithm for bound constrained optimization'', */
+/*       SIAM J. Scientific Computing 16 (1995), no. 5, pp. 1190--1208. */
+
+/*       [2] C. Zhu, R.H. Byrd, P. Lu, J. Nocedal, ``L-BFGS-B: a */
+/*       limited memory FORTRAN code for solving bound constrained */
+/*       optimization problems'', Tech. Report, NAM-11, EECS Department, */
+/*       Northwestern University, 1994. */
+
+/*       (Postscript files of these papers are available via anonymous */
+/*        ftp to eecs.nwu.edu in the directory pub/lbfgs/lbfgs_bcm.) */
+
+/*                           *  *  * */
+
+/*     NEOS, November 1994. (Latest revision June 1996.) */
+/*     Optimization Technology Center. */
+/*     Argonne National Laboratory and Northwestern University. */
+/*     Written by */
+/*                        Ciyou Zhu */
+/*     in collaboration with R.H. Byrd, P. Lu-Chen and J. Nocedal. */
+
+
+/*     ************ */
+    /* Parameter adjustments */
+    --iwa;
+    --g;
+    --nbd;
+    --u;
+    --l;
+    --x;
+    --wa;
+    --lsave;
+    --isave;
+    --dsave;
+
+    /* Function Body */
+    if (s_cmp(task, "START", (ftnlen)60, (ftnlen)5) == 0) {
+    isave[1] = *m * *n;
+/* Computing 2nd power */
+    i__1 = *m;
+    isave[2] = i__1 * i__1;
+/* Computing 2nd power */
+    i__1 = *m;
+    isave[3] = i__1 * i__1 << 2;
+    isave[4] = 1;
+    isave[5] = isave[4] + isave[1];
+    isave[6] = isave[5] + isave[1];
+    isave[7] = isave[6] + isave[2];
+    isave[8] = isave[7] + isave[2];
+    isave[9] = isave[8] + isave[2];
+    isave[10] = isave[9] + isave[2];
+    isave[11] = isave[10] + isave[3];
+    isave[12] = isave[11] + isave[3];
+    isave[13] = isave[12] + *n;
+    isave[14] = isave[13] + *n;
+    isave[15] = isave[14] + *n;
+    isave[16] = isave[15] + *n;
+    isave[17] = isave[16] + (*m << 3);
+    isave[18] = isave[17] + *m;
+    isave[19] = isave[18] + *m;
+    isave[20] = isave[19] + *m;
+    }
+    /* l1 = isave[1];
+    l2 = isave[2];
+    l3 = isave[3]; */
+    lws = isave[4];
+    lwy = isave[5];
+    lsy = isave[6];
+    lss = isave[7];
+    lyy = isave[8];
+    lwt = isave[9];
+    lwn = isave[10];
+    lsnd = isave[11];
+    lz = isave[12];
+    lr = isave[13];
+    ld = isave[14];
+    lt = isave[15];
+    lwa = isave[16];
+    lsg = isave[17];
+    lsgo = isave[18];
+    lyg = isave[19];
+    lygo = isave[20];
+    mainlb_(n, m, (doublereal *)&x[1], &l[1], &u[1], &nbd[1], f, &g[1], factr, pgtol, &wa[
+        lws], &wa[lwy], &wa[lsy], &wa[lss], &wa[lyy], &wa[lwt], &wa[lwn],
+        &wa[lsnd], &wa[lz], &wa[lr], &wa[ld], &wa[lt], &wa[lwa], &wa[lsg],
+         &wa[lsgo], &wa[lyg], &wa[lygo], &iwa[1], &iwa[*n + 1], &iwa[(*n
+        << 1) + 1], task, iprint, csave, &lsave[1], &isave[22], &dsave[1],
+         (ftnlen)60, (ftnlen)60);
+    return 0;
+} /* setulb_ */
+
+/* ======================= The end of setulb ============================= */
