@@ -189,7 +189,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     FaceListType::iterator fit;
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 100, 0.0f, 0.5f );
   
   // Process the non-boundady region and then each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
@@ -586,7 +586,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     FaceListType::iterator fit;
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 100, 0.5f, 0.5f);
   
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
