@@ -17,6 +17,8 @@
 #include "itkTobogganImageFilter.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -45,28 +47,33 @@ int itkTobogganImageFilterTest(int ac, char** av)
   typedef itk::Image<float, 2> FloatImageType;
   typedef itk::Image<unsigned char, 2> OutputImageType;
   typedef itk::Image<unsigned long, 2> LongImageType;
-  itk::ImageFileReader<InputImageType>::Pointer input 
-    = itk::ImageFileReader<InputImageType>::New();
-  input->SetFileName(av[1]);
+  
   
   // Create a pipeline
-  typedef itk::CastImageFilter<FloatImageType, LongImageType> InCastType;
+  typedef itk::CastImageFilter<InputImageType, FloatImageType> InCastType;
   typedef itk::RecursiveGaussianImageFilter<InputImageType,FloatImageType> GaussianFilterType;
   typedef itk::GradientMagnitudeImageFilter<FloatImageType,FloatImageType> GradientMagnitudeFilterType;
-  typedef itk::TobogganImageFilter<LongImageType> FilterType;
+  typedef itk::TobogganImageFilter<FloatImageType> FilterType;
   typedef itk::CastImageFilter<LongImageType, OutputImageType> CastType;
+  typedef itk::DiscreteGaussianImageFilter<FloatImageType,FloatImageType> DGIFType;
+  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<FloatImageType,FloatImageType> GMGaussianType;
   
   FilterType::Pointer toboggan = FilterType::New();
   GaussianFilterType::Pointer gaussian = GaussianFilterType::New();
   GradientMagnitudeFilterType::Pointer magnitude = GradientMagnitudeFilterType::New();
   CastType::Pointer cast = CastType::New();
   InCastType::Pointer incast = InCastType::New();
+  DGIFType::Pointer discretegaussian = DGIFType::New();
+  GMGaussianType::Pointer gmgaussian = GMGaussianType::New();
+  
+  itk::ImageFileReader<InputImageType>::Pointer input 
+    = itk::ImageFileReader<InputImageType>::New();
 
-  gaussian->SetInput ( input->GetOutput() );
-  gaussian->SetSigma ( 1.5 );
-  magnitude->SetInput ( gaussian->GetOutput() );
-  incast->SetInput ( magnitude->GetOutput() );
-  toboggan->SetInput ( incast->GetOutput() );
+  input->SetFileName(av[1]);
+  incast->SetInput ( input->GetOutput() );
+  gmgaussian->SetInput ( incast->GetOutput() );
+  gmgaussian->SetSigma ( 15.0 );
+  toboggan->SetInput ( gmgaussian->GetOutput() );
   cast->SetInput ( toboggan->GetOutput() );
   try
     {
@@ -112,15 +119,21 @@ int itkTobogganImageFilterTest(int ac, char** av)
   itk::ImageRegionIterator<OutputImageType> it(cast->GetOutput(),cast->GetOutput()->GetBufferedRegion());
   itk::ImageRegionIterator<OutputImageType> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
   int status = 0;
+  unsigned long int classes = 0;
   while (!it.IsAtEnd())
     {
     if (it.Get() != rit.Get())
       {
       status++;
-      } 
+      }
+    if ( it.Get() > classes )
+      {
+      classes = it.Get();
+      }
     ++it;
     ++rit;  
     }
+  std::cout << "Found " << classes << " Different objects" << std::endl;
   if ( status )
     {
     std::cerr << "Found " << status << " pixels different" << std::endl;
