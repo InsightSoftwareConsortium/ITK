@@ -117,7 +117,7 @@ namespace itk
  * itk::statistics namespace. While this algorithm (GLA/LBG based algorithm) is 
  * memory efficient, the other algorithm is time efficient. 
  *
- * \sa KdTreeBasedKmeansEstimator, WeightedCenteroidKdTreeGenerator, KdTree
+ * \sa KdTreeBasedKmeansEstimator, WeightedCentroidKdTreeGenerator, KdTree
  *
  * \ingroup ClassificationFilters 
  */
