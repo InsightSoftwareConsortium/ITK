@@ -95,6 +95,10 @@ public:
    void GetValueAndDerivative( const ParametersType & parameters,
                                MeasureType& Value, DerivativeType& Derivative);
  
+   /** Get and Set Lambda. This factor controls the capture radius */
+   itkSetMacro(Lambda,double);
+   itkGetConstMacro(Lambda,double);
+
 protected:
   PatternIntensityImageToImageMetric();
   virtual ~PatternIntensityImageToImageMetric() {};
@@ -103,6 +107,7 @@ private:
   PatternIntensityImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  double m_Lambda;
 };
 
 } // end namespace itk

@@ -32,6 +32,7 @@ template < class TTarget, class TMapper >
 PatternIntensityImageToImageMetric<TTarget,TMapper>
 ::PatternIntensityImageToImageMetric()
 {
+  m_Lambda = 1.0;
 }
 
 /**
@@ -81,7 +82,7 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
       TargetValue = ti.Get();
       count++;
       const double diff = ReferenceValue - TargetValue; 
-      m_MatchMeasure += 1.0 / ( 1.0 + diff * diff ); 
+      m_MatchMeasure += 1.0 / ( 1.0 + diff * diff * m_Lambda ); 
       }  
 
     ++ti;
