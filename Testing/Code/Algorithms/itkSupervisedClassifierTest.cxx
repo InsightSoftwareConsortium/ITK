@@ -294,6 +294,7 @@ int main()
   //Run the gaussian classifier algorithm
   applyClassifier->ClassifyImage();
 
+  //Get the classified image
   ClassImageType::Pointer outClassImage =  
     applyClassifier->GetClassifiedImage();
 
