@@ -21,7 +21,7 @@
 
 #include "itkBinaryThresholdImageFunction.h"
 
-int main()
+int itkBinaryThresholdImageFunctionTest(int, char**)
 {
   std::cout << "itkBinaryThresholdImageFunctionTest Start" << std::endl;
 

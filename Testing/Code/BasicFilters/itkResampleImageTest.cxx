@@ -38,7 +38,7 @@ typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
 typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 
 
-int main()
+int itkResampleImageTest(int, char**)
 {
   // Create and configure an image
   ImagePointerType image = ImageType::New();

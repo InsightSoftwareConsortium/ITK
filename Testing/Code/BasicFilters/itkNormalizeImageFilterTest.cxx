@@ -25,7 +25,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkFilterWatcher.h"
 
-int main()
+int main(int, char**)
 {
   std::cout << "itkNormalizeImageFilterTest Start" << std::endl;
 

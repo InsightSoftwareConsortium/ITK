@@ -82,7 +82,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkNonThreadedShrinkImageFilter.h"
-#include "itkNormalizeImageFilter.h"
+//#include "itkNormalizeImageFilter.h"
 #include "itkPadImageFilter.h"
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkPermuteAxesImageFilter.h"

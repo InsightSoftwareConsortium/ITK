@@ -31,7 +31,7 @@
 #include <itkAddImageFilter.h>
 
 
-int main()
+int itkImageAdaptorPipeLineTest(int, char**)
 {
 
   //-------------------------------------------------------------

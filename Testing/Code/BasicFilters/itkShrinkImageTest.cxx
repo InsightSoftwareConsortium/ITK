@@ -21,7 +21,7 @@
 #include "itkFileOutputWindow.h"
 
 
-int main()
+int itkShrinkImageTest(int, char**)
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);

@@ -23,7 +23,7 @@ template class itk::Array<float>;
 
 
 
-int main(void)
+int itkArray2Test(int, char**)
 {
 
   typedef itk::Array<float>  FloatArrayType;

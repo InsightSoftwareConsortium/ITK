@@ -21,7 +21,7 @@
 #include <itkDanielssonDistanceMapImageFilter.h>
 
 
-int main() 
+int itkDanielssonDistanceMapImageFilterTest(int, char**) 
 {
   
   std::cout << "Test ITK Danielsson Distance Map" << std::endl << std::endl;

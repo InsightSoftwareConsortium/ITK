@@ -65,7 +65,7 @@ float cdf_baseline[] =
 };
 
 extern "C"
-int testFunctions()
+int test_functions()
 {
   int n;
   float chisq;
@@ -116,4 +116,4 @@ int testFunctions()
   return 0;
 }
 
-TESTMAIN(testFunctions);
+TESTMAIN(test_functions);

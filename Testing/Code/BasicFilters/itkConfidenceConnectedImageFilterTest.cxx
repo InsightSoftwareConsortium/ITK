@@ -33,7 +33,7 @@ public:
     }
 };
 
-int main(int ac, char** av)
+int itkConfidenceConnectedImageFilterTest(int ac, char** av)
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(TextOutput::New());

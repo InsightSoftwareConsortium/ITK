@@ -18,7 +18,7 @@
 #include "itkImageFileReader.h"
 #include "itkVOLImageIOFactory.h"
 
-int main(int ac, char** av)
+int itkVOLImageIOTest(int ac, char** av)
 {
 
   if(ac < 2)

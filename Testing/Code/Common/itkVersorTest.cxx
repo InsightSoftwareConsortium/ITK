@@ -34,7 +34,7 @@
 //   Main code
 //
 //-------------------------
-int main() 
+int itkVersorTest(int, char**) 
 {
 
   typedef   double          ValueType;

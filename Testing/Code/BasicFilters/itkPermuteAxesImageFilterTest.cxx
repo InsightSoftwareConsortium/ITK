@@ -46,7 +46,7 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-int main()
+int itkPermuteAxesImageFilterTest(int, char**)
 {
 
   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());

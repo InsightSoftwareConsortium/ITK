@@ -111,7 +111,7 @@ private:
 
 
 
-int main() 
+int itkGradientDescentOptimizerTest(int, char**) 
 {
   std::cout << "Gradient Descent Optimizer Test ";
   std::cout << std::endl << std::endl;

@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkGaussianImageSource.h"
 
 
-int main() 
+int itkPlaheImageFilterTest(int, char**) 
 {
 
   // Define the dimension of the images

@@ -24,7 +24,7 @@
 #include <itkImageLinearIteratorWithIndex.h>
 
 
-int main() 
+int itkReflectImageFilterTest(int, char**) 
 {
 
   // Define the dimension of the image

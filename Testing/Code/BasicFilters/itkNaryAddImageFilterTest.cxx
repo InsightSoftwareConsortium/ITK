@@ -114,7 +114,7 @@ void PrintImage( myInputImageType * image, const char *text )
 
 
 
-int main() 
+int itkNaryAddImageFilterTest(int, char**) 
 {
 
   // Create two images

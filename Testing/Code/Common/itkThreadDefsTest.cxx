@@ -18,7 +18,7 @@
 #include "itkObject.h"
 #include <vector>
 
-int main ()
+int itkThreadDefsTest (int, char**)
 {
 #if defined(_NOTHREADS) && defined(ITK_USE_PTHREADS)
   std::cout << "ERROR: _NOTHREADS is defined and ITK_USE_PTHREADS is defined." << std::endl;

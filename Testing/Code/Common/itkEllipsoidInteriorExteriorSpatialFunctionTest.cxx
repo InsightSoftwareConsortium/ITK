@@ -16,7 +16,7 @@
 =========================================================================*/
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 
-int main()
+int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char**)
 {
   std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
@@ -38,13 +38,13 @@ int main()
   axes[2] = 20;
   spatialFunc->SetAxes(axes);
 
-  // Define function domain, which encapsulates ellipsoid.
+  // Define function doitkEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
   int xExtent = 50;
   int yExtent = 50;
   int zExtent = 50;
 
   // Define and set the center of the ellipsoid in the center of
-  // the function domain
+  // the function doitkEllipsoidInteriorExteriorSpatialFunctionTest
   TEllipsoidFunctionVectorType center;
   center[0] = xExtent/2;
   center[1] = yExtent/2;
@@ -63,7 +63,7 @@ int main()
  
   // Evaluate all points in the spatial function and count the number of
   // pixels that are inside the sphere.
-  double testPosition[dimension];  // position of a pixel in the function domain
+  double testPosition[dimension];  // position of a pixel in the function doitkEllipsoidInteriorExteriorSpatialFunctionTest
 
   bool functionValue;  // Value of pixel at a given position
   int interiorPixelCounter = 0;  // Count pixels inside ellipsoid

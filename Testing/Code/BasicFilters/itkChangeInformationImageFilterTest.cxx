@@ -54,7 +54,7 @@ void PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer im
     }
 }
 
-int main()
+int itkChangeInformationImageFilterTest(int, char**)
 {
 
 

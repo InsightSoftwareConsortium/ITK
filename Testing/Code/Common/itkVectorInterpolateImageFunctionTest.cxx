@@ -156,7 +156,7 @@ OutputType trueValue )
 
 }
 
-int main()
+int itkVectorInterpolateImageFunctionTest(int, char**)
 {
   int flag = 0;
 

@@ -23,7 +23,7 @@
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
 
-int main() 
+int itkBinaryDilateImageFilterTest(int, char**) 
 {
   unsigned int i;
   

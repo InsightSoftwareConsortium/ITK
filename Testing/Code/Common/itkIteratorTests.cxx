@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include <time.h>
 
-int main()
+int itkIteratorTests(int, char**)
 {
   std::cout << "Creating an image" << std::endl;
   typedef itk::Image<unsigned short, 3> ScalarImage;

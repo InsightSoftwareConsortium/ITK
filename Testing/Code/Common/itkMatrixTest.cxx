@@ -25,7 +25,7 @@
 #include "vnl/vnl_vector_fixed.h"
 
 
-int main() 
+int itkMatrixTest(int, char**) 
 {
 
 

@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkRawImageIO.h"
 
-int main()
+int itkRawImageIOTest(int, char**)
 {
   typedef itk::Image<unsigned short,2> ImageType;
 

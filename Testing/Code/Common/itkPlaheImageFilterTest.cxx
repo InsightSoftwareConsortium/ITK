@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #define dimension 2
 
-int main()
+int itkPlaheImageFilterTest(int, char**)
 {
   
   typedef itk::Image<unsigned short, dimension>           ImageType;

@@ -23,7 +23,9 @@
 
 typedef  itk::Vector<double,2>     VectorType;
 
-
+namespace
+{
+  
 void PrintVector( const VectorType & v )
 {
   for( unsigned int i=0; i<VectorType::VectorDimension; i++)
@@ -32,9 +34,10 @@ void PrintVector( const VectorType & v )
   }
   std::cout << std::endl;
 }
+}
 
 
-int main(int argc,char *argv[])
+int itkTranslationTransformTest(int argc,char **argv)
 {
   int any = 0;       // Any errors detected in testing?
 

@@ -24,7 +24,7 @@
 
 
 
-int main(int argc,char *argv[])
+int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
 {
 
 

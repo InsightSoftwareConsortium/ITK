@@ -18,7 +18,7 @@
 
 #include "itkRGBPixel.h"
 
-int main(void)
+int itkRGBPixelTest(int, char**)
 {
   int i, j;
   

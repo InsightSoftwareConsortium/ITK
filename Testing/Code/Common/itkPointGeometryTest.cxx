@@ -42,7 +42,7 @@
 //   Main code
 //
 //-------------------------
-int main() 
+int itkPointGeometryTest(int, char**) 
 {
 
   VectorType va;

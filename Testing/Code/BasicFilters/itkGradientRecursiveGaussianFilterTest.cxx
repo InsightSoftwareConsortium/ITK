@@ -24,7 +24,7 @@
 #include <itkCovariantVector.h>
 
 
-int main() 
+int itkGradientRecursiveGaussianFilterTest(int, char**) 
 {
 
   // Define the dimension of the images

@@ -23,7 +23,7 @@
 #include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
 
-int main()
+int itkStatisticsImageFilterTest(int, char**)
 {
   std::cout << "itkStatisticsImageFilterTest Start" << std::endl;
 

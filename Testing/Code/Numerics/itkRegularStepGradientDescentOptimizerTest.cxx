@@ -110,7 +110,7 @@ private:
 
 
 
-int main() 
+int itkRegularStepGradientDescentOptimizerTest(int, char**) 
 {
   std::cout << "RegularStepGradientDescentOptimizer Test ";
   std::cout << std::endl << std::endl;

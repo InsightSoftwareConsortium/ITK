@@ -22,7 +22,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int main() 
+int itkBinaryMagnitudeImageFilterTest(int, char**) 
 {
 
   // Define the dimension of the images

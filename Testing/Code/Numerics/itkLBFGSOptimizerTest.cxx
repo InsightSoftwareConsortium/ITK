@@ -114,7 +114,7 @@ private:
 
 
 
-int main() 
+int itkLBFGSOptimizerTest(int, char**) 
 {
   std::cout << "Conjugate Gradient Optimizer Test \n \n";
 

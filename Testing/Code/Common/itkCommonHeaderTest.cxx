@@ -227,7 +227,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itk_hashtable.h"
 #include "vcl_alloc.h"
 
-int main ( int argc, char* argv )
+int main ( int argc, char** argv )
 {
   
   return 0;

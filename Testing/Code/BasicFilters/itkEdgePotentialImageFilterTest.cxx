@@ -21,7 +21,7 @@
 #include "itkImageRegionIterator.h"
 
 
-int main() 
+int itkEdgePotentialImageFilterTest(int, char**) 
 {
 
   // Define the dimension of the images

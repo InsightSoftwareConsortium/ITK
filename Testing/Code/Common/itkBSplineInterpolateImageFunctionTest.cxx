@@ -343,9 +343,9 @@ int test3DSpline()
 }
 
 int 
-main(
+itkBSplineInterpolateImageFunctionTest(
     int argc,
-    char *argv[])
+    char **argv)
 {
   int flag = 0;           /* Did this test program work? */
 

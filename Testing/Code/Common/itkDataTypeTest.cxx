@@ -20,7 +20,7 @@
 
 // using namespace itk;
 
-int main()
+int itkDataTypeTest(int, char**)
 {
   int status = 0;
   itk::Vector<int, 4> v;

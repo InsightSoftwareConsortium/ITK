@@ -20,7 +20,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkNullImageToImageFilterDriver.txx"
 
-int main(int argc, char *argv[])
+int itkVectorNeighborhoodOperatorImageFilterTest(int argc, char **argv)
 {
   try
     {

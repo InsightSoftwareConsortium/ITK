@@ -34,9 +34,9 @@ void PrintPoint( const PointType & p )
   std::cout << std::endl;
 }
 
-int main(
+int itkAzimuthElevationToCartesianTransformTest(
     int argc,
-    char *argv[])
+    char **argv)
 {
 
     const CoordinateRepresentationType ACCEPTABLE_ERROR = 1E-10;

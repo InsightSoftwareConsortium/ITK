@@ -63,7 +63,7 @@ typedef Mesh::PointType  PointType;
 
 
 
-int main(void)
+int itkMeshTest(int, char**)
 {
   /**
    * Define the 3d geometric positions for 8 points in a cube.

@@ -23,7 +23,7 @@
 
 
 
-int main()
+int itkImageLinearIteratorTest(int, char**)
 {
   std::cout << "Creating an image of indices" << std::endl;
 

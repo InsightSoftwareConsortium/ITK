@@ -22,7 +22,7 @@
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
 
-int main()
+int itkConstantPadImageTest(int, char**)
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);

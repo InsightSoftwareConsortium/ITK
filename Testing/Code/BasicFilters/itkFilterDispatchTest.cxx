@@ -205,7 +205,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
  * Filter dispatch test creates several ExampleImageFilter instantiations
  * and calls them to check if the dispatch rules are working correctly.
  */
-int main(void)
+int itkFilterDispatchTest(int, char**)
 {  
   bool passed = true;
   

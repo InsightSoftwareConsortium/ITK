@@ -9,13 +9,18 @@ LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
-ADD_EXECUTABLE(itkConvertBufferTest itkConvertBufferTest)
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest)
-ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
-ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
-ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
-ADD_EXECUTABLE(itkVTKImageIOTest itkVTKImageIOTest)
-ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
+
+SOURCE_FILES(IOTest_SRCS
+itkConvertBufferTest
+itkMetaImageIOTest
+itkPNGImageIOTest
+itkVOLImageIOTest
+itkVTKImageIOTest
+itkRawImageIOTest)
+ 
+ADD_EXECUTABLE(itkIOTests itkIOTests.cxx IOTest_SRCS)
+
 
 ##Add tests that depend on finding data
 FIND_PATH(VW_RAW_DATA_PATH
@@ -23,7 +28,7 @@ avfCROP.1023c.raw
 ${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
 
 IF(VW_RAW_DATA_PATH)
-ADD_TEST(itkRawImageIOTest2 itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
+ADD_TEST(itkRawImageIOTest2 itkIOTests itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
 ADD_EXECUTABLE(itkRawImageIOTest2 itkRawImageIOTest2)
 ENDIF(VW_RAW_DATA_PATH)
 

@@ -24,7 +24,9 @@
 typedef  itk::Matrix<double,2,2>   MatrixType;
 typedef  itk::Vector<double,2>     VectorType;
 
-
+namespace
+{
+  
 void PrintVector( const VectorType & v )
 {
   for( unsigned int i=0; i<VectorType::VectorDimension; i++)
@@ -33,11 +35,12 @@ void PrintVector( const VectorType & v )
   }
   std::cout << std::endl;
 }
+}
 
 
-int main(
+int itkAffineTransformTest(
     int argc,
-    char *argv[])
+    char **argv)
 {
 
 

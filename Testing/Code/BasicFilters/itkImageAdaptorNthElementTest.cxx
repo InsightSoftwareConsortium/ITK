@@ -32,7 +32,7 @@
 #include <itkVector.h>
 
 
-int main()
+int itkImageAdaptorNthElementTest(int, char**)
 {
 
   //-------------------------------------------------------------

@@ -22,7 +22,7 @@
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkXMLFileOutputWindow.h"
 
-int main()
+int itkStreamingImageFilterTest2(int, char**)
 {
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);

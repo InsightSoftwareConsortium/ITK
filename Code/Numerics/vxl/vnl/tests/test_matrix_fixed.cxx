@@ -11,7 +11,7 @@
 bool verbose_malloc = false;
 int malloc_count = 0;
 
-void testvnl_matrix_fixed()
+int test_matrix_fixed()
 {
   verbose_malloc = true;
   double datablock[9] = {
@@ -48,6 +48,7 @@ void testvnl_matrix_fixed()
 
   vcl_cout << "Number of mallocs = " << malloc_count << vcl_endl;
   vnl_test_perform( malloc_count == 2 );
+  return 1;
 }
 
 
@@ -92,4 +93,4 @@ void operator delete(void* s)
   free(s);
 }
 
-TESTMAIN(testvnl_matrix_fixed);
+TESTMAIN(test_matrix_fixed);

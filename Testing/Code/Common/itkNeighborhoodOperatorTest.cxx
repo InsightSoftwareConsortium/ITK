@@ -22,10 +22,12 @@
 #include "itkLaplacianOperator.h"
 #include "itkSobelOperator.h"
 #include "itkSize.h"
+namespace
+{
+  void println(const char *c) { std::cout << std::endl << c << std::endl; }
+}
 
-void println(const char *c) { std::cout << std::endl << c << std::endl; }
-
-int main()
+int itkNeighborhoodOperatorTest(int, char**)
 {
   println("Testing derivative operator");
   itk::DerivativeOperator<float, 3, vnl_vector<float> > d;

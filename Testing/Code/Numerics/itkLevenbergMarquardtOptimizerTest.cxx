@@ -43,7 +43,7 @@ const double rc = 29.0;
  *
  *   the solution is the vector | 2 3 4 |
  *
- *   (x,y) values are sampled over a rectangular domain
+ *   (x,y) values are sampled over a rectangular doitkLevenbergMarquardtOptimizerTest
  *   whose size is defined by XRange and YRange
  *
  */ 
@@ -57,7 +57,7 @@ public:
   itkNewMacro( Self );
 
   enum { XRange = 1,
-         YRange = 1 };   // size of the domain to sample the cost function
+         YRange = 1 };   // size of the doitkLevenbergMarquardtOptimizerTest to sample the cost function
          
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
@@ -76,7 +76,7 @@ public:
     m_Derivative.resize(SpaceDimension,RangeDimension);
     m_TheoreticalData.resize(RangeDimension);
     
-    // Compute points of the function over a square domain
+    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
     {
@@ -109,7 +109,7 @@ public:
     std::cout << b << " , ";
     std::cout << c << ") = ";
 
-    // Compute points of the function over a square domain
+    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
     {
@@ -144,7 +144,7 @@ public:
     std::cout << b << " , ";
     std::cout << c << ") = " << std::endl;
 
-    // Compute points of the function over a square domain
+    // Compute points of the function over a square doitkLevenbergMarquardtOptimizerTest
     unsigned valueindex = 0;
     for( int y = -YRange; y<=YRange; y++ ) 
     {
@@ -192,7 +192,7 @@ private:
 
 
 
-int main() 
+int itkLevenbergMarquardtOptimizerTest(int, char**) 
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n"; 
   

@@ -47,7 +47,7 @@
  *  only code conformance.
  */ 
 
-int main()
+int itkOptimizersHierarchyTest(int, char**)
 {
   bool pass = true;
 

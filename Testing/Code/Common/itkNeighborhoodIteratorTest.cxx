@@ -17,7 +17,7 @@
 #include "itkNeighborhoodIteratorTestCommon.txx"
 #include "itkNeighborhoodIterator.h"
 
-int main()
+int itkNeighborhoodIteratorTest(int, char**)
 {
   TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::NeighborhoodIterator<TestImageType>::IndexType loc;

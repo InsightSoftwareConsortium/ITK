@@ -4,7 +4,7 @@
 #include "itkVectorContainer.h"
 #include "itkBoundingBox.h"
 
-int main( void )
+int itkModifiedTimeTest( int, char** )
 {
 
   typedef itk::Point< double, 3 > Point;

@@ -65,18 +65,18 @@ int lookup(const int& i)
 }
 
 
-int main()
+int itkExceptionObjectTest(int, char**)
 {
   // SOME BASIC TESTS OF THE itk::ExceptionObject 's
   
   itk::RangeError E;
-  E.SetLocation("main()");
+  E.SetLocation("itkExceptionObjectTest(int, char**)");
   E.SetDescription("E");
   std::cout << E << std::endl;
   itk::RangeError F(E);
   std::cout << F << std::endl;
   itk::RangeError G;
-  G.SetLocation("main()");
+  G.SetLocation("itkExceptionObjectTest(int, char**)");
   G.SetDescription("G");
   std::cout << "F==G? " << (F==G) << std::endl;
   E = F = G;
@@ -84,7 +84,7 @@ int main()
   std::cout << "F==G? " << (F==G) << std::endl;
 
   itk::RangeError *Ep  = new itk::RangeError;
-  Ep->SetLocation("main()");
+  Ep->SetLocation("itkExceptionObjectTest(int, char**)");
   Ep->SetDescription("Ep");
   itk::RangeError *Fp = new itk::RangeError;
   *Fp = *Ep;

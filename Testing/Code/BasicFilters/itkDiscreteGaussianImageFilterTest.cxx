@@ -21,7 +21,7 @@
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
 
-int main(int argc, char *argv[])
+int itkDiscreteGaussianImageFilterTest(int argc, char **argv)
 {
   try
     {

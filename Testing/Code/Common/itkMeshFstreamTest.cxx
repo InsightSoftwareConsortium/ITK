@@ -18,7 +18,7 @@
 #include <fstream>
 #include <itkMesh.h>
 
-int main() 
+int itkMeshFstreamTest(int, char**) 
 {
 
   

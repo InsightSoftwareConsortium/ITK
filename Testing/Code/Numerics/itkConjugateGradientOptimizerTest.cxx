@@ -116,7 +116,7 @@ private:
 
 
 
-int main() 
+int itkConjugateGradientOptimizerTest(int, char**) 
 {
   std::cout << "Conjugate Gradient Optimizer Test \n \n";
 

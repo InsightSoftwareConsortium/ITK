@@ -34,7 +34,7 @@
 #include "itkGradientToMagnitudeImageFilter.h"
 
 // Main for testing BloxImage/BloxPixel storage
-int main()
+int itkDifferenceOfGaussiansGradientTest(int, char**)
 {
   const unsigned int dim = 3;
 

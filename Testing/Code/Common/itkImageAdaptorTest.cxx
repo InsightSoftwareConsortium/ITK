@@ -59,7 +59,7 @@ typedef itk::ImageRegionIteratorWithIndex< myRedAdaptorType >  myRedIteratorType
 //   Main code
 //
 //-------------------------
-int main() {
+int itkImageAdaptorTest(int, char**) {
 
 
   myImageType::SizeType size;

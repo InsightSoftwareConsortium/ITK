@@ -20,8 +20,10 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkSmartNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-
-void println(const char *c) { std::cout << std::endl << c << std::endl; }
+namespace
+{
+  void println(const char *c) { std::cout << std::endl << c << std::endl; }
+}
 
 template <class TPixel>
 void printn(itk::NeighborhoodAllocator<TPixel> &n, const itk::Size<2> &sz)
@@ -57,7 +59,7 @@ void filln(itk::Image<float, 2> *img)
 
 
 
-int main()
+int itkBoundaryConditionTest(int, char**)
 {
 
  typedef itk::Image<float, 2> ImageType2D;

@@ -26,6 +26,8 @@
 // Check that val represents the correct pixel value.  This routine
 // allows the pad region to extend to twice the size of the input.
 //
+namespace
+{
 int VerifyPixel(int row, int col, int val) 
 {
   int nextVal;
@@ -78,9 +80,9 @@ int VerifyPixel(int row, int col, int val)
   nextVal = 8*colVal+rowVal;
   return (val == nextVal);
 }
+}
 
-
-int main()
+int itkMirrorPadImageTest(int, char**)
 {
 //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
 //  fow->SetInstance(fow);

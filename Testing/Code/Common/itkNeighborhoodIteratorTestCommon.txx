@@ -26,9 +26,9 @@
 typedef itk::Image<itk::Index<4>, 4> TestImageType;
 typedef itk::Offset<4> OffsetType;
 
-
+namespace{
 inline void println(char *s) { std::cout << s << std::endl; }
-
+}
 template<class TIteratorType>
 void printnb( const TIteratorType &nb, bool full)
 {
@@ -81,7 +81,8 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
     }
 }
 
-
+namespace
+{
 TestImageType::Pointer GetTestImage(int x, int y, int z, int a)
 {
   itk::Size<4>  sizeND;
@@ -108,6 +109,6 @@ TestImageType::Pointer GetTestImage(int x, int y, int z, int a)
   return  imageND;
 }
 
-
+}
 
 #endif

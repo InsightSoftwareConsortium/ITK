@@ -21,7 +21,7 @@
 #include "itkDefaultConvertPixelTraits.h"
 #include <iostream>
 
-int main()
+int itkConvertBufferTest(int, char**)
 { 
   unsigned int k;
   int piInit[3] = {3,1,4};

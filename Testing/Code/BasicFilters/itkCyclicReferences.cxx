@@ -46,7 +46,7 @@ public:
 // of deletion of objects to insure that the output is in the correct order.
 // (Deletion of the smart pointers occurs automatically as scope is exited.)
 //
-int main()
+int itkCyclicReferences(int, char**)
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(new TextOutput);

@@ -35,7 +35,7 @@ typedef ContainerType::Pointer    ContainerPointer;
 
 
 
-int main(void)
+int itkMapContainerTest(int, char**)
 {
   
   /**
