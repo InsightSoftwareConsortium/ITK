@@ -34,7 +34,8 @@ PolygonCell< TCellInterface >
 ::MakeCopy(CellAutoPointer & cellPointer) const
 {
   cellPointer.TakeOwnership( new Self );
-  cellPointer->SetPointIds(this->GetPointIds());
+  const unsigned long numberOfPoints = cellPointer->GetNumberOfPoints();
+  cellPointer->SetPointIds(0, numberOfPoints, this->GetPointIds());
 }
 
 
