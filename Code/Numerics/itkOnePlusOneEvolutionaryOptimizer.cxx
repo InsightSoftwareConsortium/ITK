@@ -31,6 +31,12 @@ OnePlusOneEvolutionaryOptimizer
   m_Initialized = false ;
   m_Epsilon = (double) 1.5e-4  ; 
   m_RandomGenerator = 0 ;
+  m_MaximumIteration = 20 ;
+  m_InitialRadius = 1;
+  m_GrowthFactor = 1.05;
+  m_ShrinkFactor = pow(m_GrowthFactor, -0.25) ;
+  m_CurrentCost = 0;
+  m_CurrentIteration = 0;
 }
 
 OnePlusOneEvolutionaryOptimizer

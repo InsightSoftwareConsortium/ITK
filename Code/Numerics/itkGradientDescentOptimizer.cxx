@@ -37,6 +37,8 @@ GradientDescentOptimizer
    m_NumberOfIterations = 100;
    m_CurrentIteration = 0;
    m_Maximize = false;
+   m_Value = 0.0;
+   m_StopCondition = MaximumNumberOfIterations;
 }
 
 

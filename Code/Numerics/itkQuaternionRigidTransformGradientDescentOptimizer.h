@@ -72,10 +72,8 @@ public:
   virtual void AdvanceOneStep( void );
 
 protected:
-  QuaternionRigidTransformGradientDescentOptimizer();
+  QuaternionRigidTransformGradientDescentOptimizer() {};
   virtual ~QuaternionRigidTransformGradientDescentOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
 
 private:
   QuaternionRigidTransformGradientDescentOptimizer(const Self&); //purposely not implemented

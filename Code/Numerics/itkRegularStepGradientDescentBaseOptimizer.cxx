@@ -39,9 +39,11 @@ RegularStepGradientDescentBaseOptimizer
   m_GradientMagnitudeTolerance = 1e-4;
   m_NumberOfIterations = 100;
   m_CurrentIteration   =   0;
+  m_Value = 0;
   m_Maximize = false;
   m_CostFunction = 0;
-
+  m_CurrentStepLength   =   0;
+  m_StopCondition = MaximumNumberOfIterations;
   m_Gradient.Fill( 0.0f );
   m_PreviousGradient.Fill( 0.0f );
   

@@ -25,23 +25,6 @@ namespace itk
 {
 
 /**
- * Constructor
- */
-QuaternionRigidTransformGradientDescentOptimizer
-::QuaternionRigidTransformGradientDescentOptimizer()
-{
-}
-
-
-void
-QuaternionRigidTransformGradientDescentOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-
-
-/**
  * Advance one Step following the gradient direction
  */
 void
