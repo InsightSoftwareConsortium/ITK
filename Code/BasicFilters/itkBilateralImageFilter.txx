@@ -50,7 +50,7 @@ BilateralImageFilter<TInputImage,TOutputImage>
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*sqrt(m_DomainVariance[i]));
+      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*m_DomainSigma[i]);
     }
 
   // get a copy of the input requested region (should equal the output
@@ -107,7 +107,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   for (i = 0; i < ImageDimension; i++)
     {
     radius[i] =
-      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*sqrt(m_DomainVariance[i]));
+      (typename TInputImage::SizeType::SizeValueType) ceil(2.5*m_DomainSigma[i]);
     domainKernelSize[i] = 2*radius[i] + 1;
     }
 
@@ -125,7 +125,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   for (i=0; i < ImageDimension; i++)
     {
     mean[i] = this->GetInput()->GetSpacing()[i]*radius[i]; // center pixel pos
-    sigma[i] = sqrt(m_DomainVariance[i]);
+    sigma[i] = m_DomainSigma[i];
     }
   gaussianImage->SetSigma( sigma );
   gaussianImage->SetMean( mean );
@@ -185,13 +185,13 @@ BilateralImageFilter<TInputImage, TOutputImage>
   KernelIteratorType k_it;
   const KernelConstIteratorType kernelEnd = gaussianKernel.End();
   
-  InputPixelType centerPixel;
+  OutputPixelRealType centerPixel;
   OutputPixelRealType val, normFactor, rangeGaussian, rangeDistanceSq;
   double rangeGaussianDenom;
 
   
   // denominator (normalization factor) for Gaussian used for range
-  rangeGaussianDenom = 1.0 / sqrt(2.0*3.1415927*sqrt(m_RangeVariance));
+  rangeGaussianDenom = sqrt(2.0*3.1415927*m_RangeSigma);
 
   // walk the interior face and the corresponding section of the output
   n_iter.GoToBegin();
@@ -205,7 +205,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
       }
 
     // Setup
-    centerPixel = n_iter.GetCenterPixel();
+    centerPixel = static_cast<OutputPixelRealType>(n_iter.GetCenterPixel());
     val = 0.0;
     normFactor = 0.0;
     
@@ -215,12 +215,12 @@ BilateralImageFilter<TInputImage, TOutputImage>
       {
       // distance squared between neighborhood pixel and neighborhood center
       rangeDistanceSq
-        = static_cast<OutputPixelRealType>(n_iter.GetPixel(i) - centerPixel)
-        * static_cast<OutputPixelRealType>(n_iter.GetPixel(i) - centerPixel);
-
+        = (static_cast<OutputPixelRealType>(n_iter.GetPixel(i)) - centerPixel)
+        * (static_cast<OutputPixelRealType>(n_iter.GetPixel(i)) - centerPixel);
+        
       // range Gaussian value
-      rangeGaussian = exp(-0.5*rangeDistanceSq / m_RangeVariance)
-         * rangeGaussianDenom;
+      rangeGaussian = exp(-0.5*rangeDistanceSq / (m_RangeSigma * m_RangeSigma))
+        / rangeGaussianDenom;
 
       // normalization factor so filter integrates to one
       normFactor += (*k_it) * rangeGaussian;
@@ -268,12 +268,12 @@ BilateralImageFilter<TInputImage, TOutputImage>
         {
         // distance squared between neighborhood pixel and neighborhood center
         rangeDistanceSq
-          = static_cast<OutputPixelRealType>(n_iter.GetPixel(i) - centerPixel)
-          * static_cast<OutputPixelRealType>(n_iter.GetPixel(i) - centerPixel);
+          = (static_cast<OutputPixelRealType>(n_iter.GetPixel(i))-centerPixel)
+          * (static_cast<OutputPixelRealType>(n_iter.GetPixel(i))-centerPixel);
 
         // range Gaussian value
-        rangeGaussian = exp(-0.5*rangeDistanceSq / m_RangeVariance)
-          * rangeGaussianDenom;
+        rangeGaussian = exp(-0.5*rangeDistanceSq / (m_RangeSigma*m_RangeSigma))
+          / rangeGaussianDenom;
 
         // normalization factor so filter integrates to one
         normFactor += (*k_it) * rangeGaussian;
@@ -301,8 +301,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
   {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "DomainVariance: " << m_DomainVariance << std::endl;
-  os << indent << "RangeVariance: " << m_RangeVariance << std::endl;
+  os << indent << "DomainSigma: " << m_DomainSigma << std::endl;
+  os << indent << "RangeSigma: " << m_RangeSigma << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
 }
 

@@ -30,7 +30,7 @@ namespace itk
  * \brief Blurs an image while preserving edges
  *
  * This filter uses bilateral filtering to blur an image using both
- * domain and range "neighorhoods". Pixels that are close to a pixel
+ * domain and range "neighborhoods". Pixels that are close to a pixel
  * in the image domain and similar to a pixel in the image range are
  * used to calculate the filtered value. Two gaussian kernels (one in
  * the image domain and one in the image range) are used to smooth
@@ -44,6 +44,9 @@ namespace itk
  * kernel for the image domain is evaluated using CIE distances).
  * A separate version of this filter will be designed for color
  * and vector images.
+ *
+ * Bilateral filtering is capable of reducing the noise in an image
+ * by an order of magnitude while maintaining edges.
  *
  * The bilateral operator used here was described by Tomasi and
  * Manduchi (Bilateral Filtering for Gray and ColorImages. IEEE
@@ -113,31 +116,33 @@ public:
   /** Gaussian image type */
   typedef Image<double, ImageDimension> GaussianImageType;
   
-  /** Standard get/set macros for filter parameters. */
-  itkSetVectorMacro(DomainVariance, double, ImageDimension);
-  itkSetVectorMacro(DomainVariance, float, ImageDimension);
-  itkGetVectorMacro(DomainVariance, const double, ImageDimension);
-  itkSetMacro(RangeVariance, double);
-  itkGetMacro(RangeVariance, const double);
+  /** Standard get/set macros for filter parameters.
+   * DomainSigma is specified in the same units as the Image spacing.
+   * RangeSigma is specified in the units of intensity. */
+  itkSetVectorMacro(DomainSigma, double, ImageDimension);
+  itkSetVectorMacro(DomainSigma, float, ImageDimension);
+  itkGetVectorMacro(DomainSigma, const double, ImageDimension);
+  itkSetMacro(RangeSigma, double);
+  itkGetMacro(RangeSigma, const double);
   itkGetMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   
-  /** Convenience get/set methods for setting all dimensional parameters to the
+  /** Convenience get/set methods for setting all domain parameters to the
    * same values.  */
-  void SetDomainVariance(const double v)
+  void SetDomainSigma(const double v)
     {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
-    this->SetDomainVariance(vArray);
+    this->SetDomainSigma(vArray);
     }
   
-  /** Convenience get/set methods for setting all dimensional parameters to the
+  /** Convenience get/set methods for setting all domain parameters to the
    * same values.  */
-  void SetDomainVariance(const float v)
+  void SetDomainSigma(const float v)
     {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
-    this->SetDomainVariance(vArray);
+    this->SetDomainSigma(vArray);
     }
   
   /** BilateralImageFilter needs a larger input requested region than
@@ -149,14 +154,16 @@ public:
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
 protected:
+  /** Constructor.  Default value for DomainSigma is 4. Default value
+   * RangeSigma is 50. */
   BilateralImageFilter()
     {
     int i;
     for (i = 0; i < ImageDimension; i++)
       {
-      m_DomainVariance[i] = 1.0f;
+      m_DomainSigma[i] = 4.0f;
       }
-    m_RangeVariance = 1.0f;
+    m_RangeSigma = 50.0f;
     m_FilterDimensionality = ImageDimension;
     }
   virtual ~BilateralImageFilter() {}
@@ -172,11 +179,13 @@ private:
   BilateralImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** The variance of the gaussian blurring kernel in the image range */
-  double m_RangeVariance;
+  /** The standard deviation of the gaussian blurring kernel in the image
+      range. Units are intensity. */
+  double m_RangeSigma;
   
-  /** The variance of the gaussian blurring kernel in each dimensional direction. */
-  double m_DomainVariance[ImageDimension];
+  /** The standard deviation of the gaussian blurring kernel in each
+      dimensional direction. Units match image spacing units. */
+  double m_DomainSigma[ImageDimension];
 
   /** Number of dimensions to process. Default is all dimensions */
   unsigned int m_FilterDimensionality;
