@@ -75,6 +75,7 @@ int itkCovarianceCalculatorTest(int, char* [] )
   meanCalculator->SetInputSample(sample.GetPointer()) ;
   meanCalculator->Update() ;
   MeanCalculatorType::OutputType* mean = meanCalculator->GetOutput() ;
+
   // calculates variance
   count = 0 ;
   double variance = 0.0 ;
@@ -103,6 +104,20 @@ int itkCovarianceCalculatorTest(int, char* [] )
     pass = false ;
     }
  
+  // Testing one pass covariance calculation without a given mean
+  calculator->SetMean(0) ;
+  calculator->Update() ;
+
+  if (calculator->GetOutput()->GetVnlMatrix().get(0,0) != variance)
+    {
+    pass = false ;
+    }
+  
+  if ((*calculator->GetMean())[0] != (*meanCalculator->GetOutput())[0])
+    {
+    pass = false ;
+    }
+
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;
@@ -111,8 +126,6 @@ int itkCovarianceCalculatorTest(int, char* [] )
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }
 
 
