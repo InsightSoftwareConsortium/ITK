@@ -16,6 +16,7 @@ itkHeaderTest
 itkImageIteratorTest 
 itkImageMomentsTest 
 itkImportImageTest 
+itkInterpolateTest 
 itkIteratorTests 
 itkLevelSetShapeDetectionTest 
 itkMeshInstanceTest 
