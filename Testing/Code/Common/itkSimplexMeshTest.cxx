@@ -24,7 +24,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include <time.h>
 
 #include "itkMesh.h"
-#include "itkHexahedronCell.h"
 #include "itkSimplexMesh.h"
 #include "itkSimplexMeshGeometry.h"
 #include "itkDefaultDynamicMeshTraits.h"
@@ -38,8 +37,9 @@ int itkSimplexMeshTest(int , char *[] )
 
   typedef itk::SimplexMesh<double,3,MeshTraits>           SimplexMeshType;
 
+  typedef itk::SimplexMeshGeometry                        SimplexMeshGeometryType;
+
   typedef SimplexMeshType::CellType                       CellInterfaceType;
-  typedef itk::HexahedronCell< CellInterfaceType >        HexaCellType;
 
   SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
 
@@ -54,11 +54,6 @@ int itkSimplexMeshTest(int , char *[] )
     = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
         {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
   
-  /**
-   * List the points that the hexahedron will use from the mesh.
-   */
-  unsigned long hexaPoints[8] = {0,1,2,3,4,5,6,7};
- 
 
   /**
    * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -77,6 +72,7 @@ int itkSimplexMeshTest(int , char *[] )
   for(int i=0; i < 8 ; ++i)
     {
     simplexMesh->SetPoint(i, PointType(testPointCoords[i]));
+    simplexMesh->SetGeometryData(i, new SimplexMeshGeometryType );
     }
 
   /** 
@@ -84,15 +80,57 @@ int itkSimplexMeshTest(int , char *[] )
    */
    simplexMesh->SetCellsAllocationMethod( SimplexMeshType::CellsAllocatedDynamicallyCellByCell );
 
-  /**
-   * Create an hexahedron cell
-   */
-  CellAutoPointer testCell; 
-  testCell.TakeOwnership( new HexaCellType ); // polymorphism
-  testCell->SetPointIds(hexaPoints);
-  simplexMesh->SetCell(1, testCell ); // Internally transfers ownership to the mesh
+
+   /**
+    * Excercise the AddEdge method
+    */
+  simplexMesh->AddEdge( 0, 1 );
+  simplexMesh->AddEdge( 0, 3 );
+  simplexMesh->AddEdge( 0, 4 );
+  simplexMesh->AddEdge( 1, 2 );
+  simplexMesh->AddEdge( 1, 5 );
+  simplexMesh->AddEdge( 2, 3 );
+  simplexMesh->AddEdge( 2, 6 );
+  simplexMesh->AddEdge( 3, 7 );
+  simplexMesh->AddEdge( 4, 5 );
+  simplexMesh->AddEdge( 4, 7 );
+  simplexMesh->AddEdge( 5, 6 );
+  simplexMesh->AddEdge( 6, 7 );
+
+   /**
+    * Excercise the AddNeighbor method
+    */
+  simplexMesh->AddNeighbor( 0, 1 );
+  simplexMesh->AddNeighbor( 0, 3 );
+  simplexMesh->AddNeighbor( 0, 4 );
+  simplexMesh->AddNeighbor( 1, 2 );
+  simplexMesh->AddNeighbor( 1, 5 );
+  simplexMesh->AddNeighbor( 2, 3 );
+  simplexMesh->AddNeighbor( 2, 6 );
+  simplexMesh->AddNeighbor( 3, 7 );
+  simplexMesh->AddNeighbor( 4, 5 );
+  simplexMesh->AddNeighbor( 4, 7 );
+  simplexMesh->AddNeighbor( 5, 6 );
+  simplexMesh->AddNeighbor( 6, 7 );
 
 
+  // Now add the symmetric relationships
+  simplexMesh->AddNeighbor( 1, 0 );
+  simplexMesh->AddNeighbor( 3, 0 );
+  simplexMesh->AddNeighbor( 4, 0 );
+  simplexMesh->AddNeighbor( 2, 1 );
+  simplexMesh->AddNeighbor( 5, 1 );
+  simplexMesh->AddNeighbor( 3, 2 );
+  simplexMesh->AddNeighbor( 6, 2 );
+  simplexMesh->AddNeighbor( 7, 3 );
+  simplexMesh->AddNeighbor( 5, 4 );
+  simplexMesh->AddNeighbor( 7, 4 );
+  simplexMesh->AddNeighbor( 6, 5 );
+  simplexMesh->AddNeighbor( 7, 6 );
+
+
+
+    
   itk::TimeProbe timeProbe;
 
   for (int i=0; i < 2; i++)
