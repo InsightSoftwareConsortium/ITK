@@ -58,7 +58,7 @@ int itkCovarianceCalculatorTest(int, char**)
   typedef itk::Statistics::MeanCalculator< ImageToListAdaptorType > 
     MeanCalculatorType ;
   MeanCalculatorType::Pointer meanCalculator = MeanCalculatorType::New() ;
-  meanCalculator->SetSample(sample) ;
+  meanCalculator->SetInputSample(sample) ;
   meanCalculator->Update() ;
   MeanCalculatorType::OutputType* mean = meanCalculator->GetOutput() ;
   // calculates variance
@@ -83,7 +83,7 @@ int itkCovarianceCalculatorTest(int, char**)
 
   CalculatorType::Pointer calculator = CalculatorType::New() ;
   
-  calculator->SetSample(sample) ;
+  calculator->SetInputSample(sample) ;
   calculator->SetMean(meanCalculator->GetOutput()) ;
   calculator->Update() ;
 

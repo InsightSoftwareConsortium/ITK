@@ -81,7 +81,7 @@ int itkMeanCalculatorTest(int, char**)
 
   CalculatorType::Pointer calculator = CalculatorType::New() ;
   
-  calculator->SetSample(sample) ;
+  calculator->SetInputSample(sample) ;
   calculator->Update() ;
 
   CalculatorType::OutputType* meanOutput = calculator->GetOutput() ;
