@@ -1,0 +1,45 @@
+// The following text is included in the main documentation page by doxygen
+/*! \mainpage vnl : Numeric Library
+* The numerics library, vnl is intended to provide an environment for numerical
+* programming which combines the ease of use of packages like Mathematica and
+* Matlab with the speed of C and the elegance of C++.
+* It provides a C++ interface to the high-quality Fortran routines made available
+* in the public domain by numerical analysis researchers.
+*
+* Matrix and vector classes include
+* - vnl_vector<T>  : Standard vector class
+* - vnl_matrix<T>  : Standard matrix class
+* - vnl_vector_ref<T> : (wrap memory chunk as a vector)
+* - vnl_matrix_fixed : Base for several fixed size matrices
+*
+* Matrix decompositions include
+* - vnl_svd : Singular value decomposition
+* - vnl_qr : QR decomposition
+* - vnl_cholesky : Cholesky decomposition (for symmetric matrices)
+* - vnl_symmetric_eigensystem : Eigen-decomposition
+* - vnl_real_eigensystem : Eigen-decomposition
+* - vnl_complex_eigensystem : Eigen-decomposition
+* - vnl_generalised_eigensystem : Eigen-decomposition
+*
+* Optimisation routines include
+* - vnl_amoeba : Downlhill simplex algorithm
+* - vnl_brent
+* - vnl_conjugate_gradient
+* - vnl_lbfgs
+* - vnl_levenberg_marquardt
+* - vnl_powell
+*
+* Support for manipulating polynomials
+* - vnl_real_polynomial
+* - vnl_rnpoly_solve
+* - vnl_cpoly_roots
+*
+* Useful utility functions
+* - Common functions (in vnl_math)
+* - vnl_fft_1d : 1D Fast Fourier Transform
+* - vnl_fft_2d : 2D Fast Fourier Transform
+* - vnl_gamma
+* - vnl_gamma_p,vnl_gamma_q
+* - vnl_erf
+* - vnl_cum_prob_chi2 : CDF of chi-squared distribution
+*/
