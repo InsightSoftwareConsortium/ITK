@@ -81,9 +81,6 @@ public:
   itkTypeMacro( LevelSetFunction, FiniteDifferenceFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-
-  /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Convenient typedefs. */
@@ -93,7 +90,6 @@ public:
   typedef                      PixelType  ScalarValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** The vector type that will be used in the calculations. */
