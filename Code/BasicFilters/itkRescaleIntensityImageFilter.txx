@@ -100,7 +100,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
   this->GetFunctor().SetMinimum( m_OutputMinimum );
   this->GetFunctor().SetMaximum( m_OutputMaximum );
   this->GetFunctor().SetFactor( m_Scale );
-  this->GetFunctor().SetOffset( m_Scale );
+  this->GetFunctor().SetOffset( m_Shift );
   
 }
 
