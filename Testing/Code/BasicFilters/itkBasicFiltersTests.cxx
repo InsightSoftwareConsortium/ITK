@@ -68,6 +68,7 @@ void RegisterTests()
   REGISTER_TEST(itkMirrorPadImageTest );
   REGISTER_TEST(itkExtractImageTest );
   REGISTER_TEST(itkSinImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkSparseFieldLayerTest);
   REGISTER_TEST(itkSpatialFunctionImageEvaluatorFilterTest );
   REGISTER_TEST(itkSqrtImageFilterAndAdaptorTest );
   REGISTER_TEST(itkStreamingImageFilterTest );
