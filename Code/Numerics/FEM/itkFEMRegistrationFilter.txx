@@ -654,7 +654,6 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   Float LastE=9.e9 , deltE=1.e9;
 
   unsigned int iters=0;
-  //Float LastISim=9.e9, InitDeltE=0.0;
   bool Done=false;
   unsigned int DLS=m_DoLineSearchOnImageEnergy;
   unsigned int LSF=m_LineSearchFrequency;
@@ -670,7 +669,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    mySolver.Solve();  
   
   
-   Float mint=1.0,ImageSimilarity=0.0;
+   Float mint=1.0; //,ImageSimilarity=0.0;
    if (DLS > 0 && iters > 0  && (iters % LSF) == 0) 
    {
      std::cout << " line search ";
@@ -688,12 +687,11 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
      Done=true;
      m_MinE=LastE;
    }
-   else //if ( minct < NumMins )
+   else 
    {  
-     //if (LastE >= m_MinE) minct++; else 
      m_MinE=LastE;
      //LastISim = ImageSimilarity;
-   } //else iters=m_Maxiters;
+   } 
    
    std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
