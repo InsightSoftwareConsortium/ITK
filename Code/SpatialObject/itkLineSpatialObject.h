@@ -90,7 +90,7 @@ public:
                  unsigned int depth=0, char * name=NULL ) const;
 
   /** Compute the boundaries of the line.*/
-  bool ComputeBoundingBox() const;
+  bool ComputeLocalBoundingBox() const;
 
 protected:
 

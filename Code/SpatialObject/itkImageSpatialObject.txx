@@ -125,13 +125,8 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 {
-
-  if( this->GetMTime() > m_BoundsMTime )
-    { 
-    bool ret = Superclass::ComputeBoundingBox();
-
     if( m_BoundingBoxChildrenName.empty() 
         || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
@@ -146,25 +141,16 @@ ImageSpatialObject< TDimension,  PixelType >
         pointHigh[i] = size[i];
         }
      
-      if(!ret)
-        {
+      pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
+      pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
+
         m_Bounds->SetMinimum(pointLow);
         m_Bounds->SetMaximum(pointHigh);
-        }
-      else
-        {
-        m_Bounds->ConsiderPoint(pointLow);
-        m_Bounds->ConsiderPoint(pointHigh);
-        }
+   
 
       return true;
       }
   
-    m_BoundsMTime = this->GetMTime();
-
-    return ret;
-    }
-
   return false;
 }
 
@@ -172,24 +158,24 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetImage( const ImageType * image )
+::SetImage(const ImageType * image )
 {
   m_Image = image;
-  typename TransformType::OffsetType offset;
-  typename TransformType::OutputVectorType scaling;
-  typename ImageType::PointType      origin;
-  typename ImageType::SpacingType    spacing;
-  origin = m_Image->GetOrigin();
-  spacing = m_Image->GetSpacing();
-  for( unsigned int d=0; d<TDimension; d++)
-    {
-    scaling[d] = spacing[d];
-    offset[d]  = origin[d];
-    }
-  this->GetIndexToObjectTransform()->Scale( scaling );
-  this->GetIndexToObjectTransform()->SetOffset( offset );
-  this->ComputeObjectToParentTransform();
-  this->Modified();
+  typename TransformType::OffsetType offset; 
+  typename TransformType::OutputVectorType scaling; 
+  typename ImageType::PointType      origin; 
+  typename ImageType::SpacingType    spacing; 
+  origin = m_Image->GetOrigin(); 
+  spacing = m_Image->GetSpacing(); 
+  for( unsigned int d=0; d<TDimension; d++) 
+    { 
+    scaling[d] = spacing[d]; 
+    offset[d]  = origin[d]; 
+    } 
+  this->GetIndexToObjectTransform()->Scale( scaling ); 
+  this->GetIndexToObjectTransform()->SetOffset( offset ); 
+  this->ComputeObjectToParentTransform(); 
+  this->Modified(); 
   this->ComputeBoundingBox();
 }
 

@@ -120,39 +120,26 @@ MeshSpatialObject< TMesh >
 template <class TMesh>
 bool
 MeshSpatialObject< TMesh >
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 {
-  itkDebugMacro( "Computing tube bounding box" );
+  if( m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    {
+    PointType pnt;
+    PointType pnt2;
 
-  if( this->GetMTime() > m_BoundsMTime )
-    { 
-    bool ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
       {
-      PointType pnt;
-      PointType pnt2;
-
-      for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
-        {
-        pnt[i] = m_Mesh->GetBoundingBox()->GetBounds()[2*i];
-        pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2*i+1];
-        }
-      
-      if(!ret)
-        {
-        m_Bounds->SetMinimum(pnt);
-        m_Bounds->SetMaximum(pnt2);
-        }
-      else
-        {
-        m_Bounds->ConsiderPoint(pnt);
-        m_Bounds->ConsiderPoint(pnt2);
-        }
+      pnt[i] = m_Mesh->GetBoundingBox()->GetBounds()[2*i];
+      pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2*i+1];
       }
+      
+    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+         
+    m_Bounds->SetMinimum(pnt);
+    m_Bounds->SetMaximum(pnt2);
 
-    m_BoundsMTime = this->GetMTime();
     }
   return true;
 }

@@ -106,45 +106,36 @@ LandmarkSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 LandmarkSpatialObject< TDimension >  
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing blob bounding box" );
-  bool ret = false;
-
-  if( this->GetMTime() > m_BoundsMTime )
+ 
+  if( m_BoundingBoxChildrenName.empty() || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
     {
-    ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
-      {
-      typename PointListType::const_iterator it  = m_Points.begin();
-      typename PointListType::const_iterator end = m_Points.end();
+    typename PointListType::const_iterator it  = m_Points.begin();
+    typename PointListType::const_iterator end = m_Points.end();
   
-      if(it == end)
-        {
-        return ret;
-        }
-      else
-        {
-        if(!ret)
-          {
-          m_Bounds->SetMinimum((*it).GetPosition());
-          m_Bounds->SetMaximum((*it).GetPosition());
-          it++;
-          }
-        while(it!= end) 
-          {  
-          m_Bounds->ConsiderPoint((*it).GetPosition());
-          it++;
-          }
-        ret = true;
+    if(it == end)
+      {
+      return false;
+      }
+    else
+      {     
+      PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+      m_Bounds->SetMinimum(pt);
+      m_Bounds->SetMaximum(pt);
+      it++;
+
+      while(it!= end) 
+        {  
+        PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        m_Bounds->ConsiderPoint(pt);
+        it++;
         }
       }
-
-    m_BoundsMTime = this->GetMTime();
     }
 
-  return ret;
+  return true;
 } 
 
 /** Test if the given point is inside the blob

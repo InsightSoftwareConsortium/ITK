@@ -95,16 +95,10 @@ LineSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 LineSpatialObject< TDimension >  
-::ComputeBoundingBox() const
+::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
-  bool ret = false;
-
-  if( this->GetMTime() > m_BoundsMTime )
-    {
-    ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
+  if( m_BoundingBoxChildrenName.empty() 
         || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       typename PointListType::const_iterator it  = m_Points.begin();
@@ -112,29 +106,26 @@ LineSpatialObject< TDimension >
   
       if(it == end)
         {
-        return ret;
+        return false;
         }
       else
         {
-        if(!ret)
-          {
-          m_Bounds->SetMinimum((*it).GetPosition());
-          m_Bounds->SetMaximum((*it).GetPosition());
-          it++;
-          }
+        PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        m_Bounds->SetMinimum(pt);
+        m_Bounds->SetMaximum(pt);
+        it++;
+
         while(it!= end)
-          {     
-          m_Bounds->ConsiderPoint((*it).GetPosition());
+          { 
+          PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+          m_Bounds->ConsiderPoint(pt);
           it++;
           }
-        ret = true;
+      
         }
       }
 
-    m_BoundsMTime = this->GetMTime();
-    }
-
-  return ret;
+  return true;
 } 
 
 /** Check if a given point is inside a line
