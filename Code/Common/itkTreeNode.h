@@ -114,7 +114,7 @@ protected:
   TreeNode();
   virtual ~TreeNode();
   TValueType m_Data;
-  Pointer m_Parent;
+  Self* m_Parent;
   ChildrenListType m_Children;
 };
 

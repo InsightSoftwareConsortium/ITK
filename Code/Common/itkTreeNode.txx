@@ -38,11 +38,12 @@ TreeNode<TValueType>::~TreeNode()
     m_Parent->Remove(this);
     }
     
- for ( int i=m_Children.size() - 1; i >= 0; i-- )
+ for ( int i=m_Children.size() ; i > 0; i-- )
    {
-   delete m_Children[i];
+   m_Children[i-1] = 0;
    }
   m_Children.clear();
+  m_Parent = NULL;
   m_Data = 0;
 }
 
