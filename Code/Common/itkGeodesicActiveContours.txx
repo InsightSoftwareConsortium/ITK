@@ -32,7 +32,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
 {
   m_Extender = ExtenderType::New();
 
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     m_DerivImages[j] = NULL;  
     }
@@ -87,7 +87,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
 
   // this filter requires all of the input images to
   // be in the buffer
-  for( int k = 0; k < SetDimension; k++ )
+  for( unsigned int k = 0; k < SetDimension; k++ )
     {
     DerivImagePointer ptr = this->GetInput( k+1 );
     ptr->SetRequestedRegionToLargestPossibleRegion();
@@ -105,7 +105,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
 ::GenerateDataFull()
 {
   
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     if ( !m_DerivImages[j] )
       {
@@ -183,7 +183,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
         DerivIteratorType;
     DerivIteratorType derivIt[SetDimension];
 
-    for( int j = 0; j < SetDimension; j++ )
+    for( unsigned int j = 0; j < SetDimension; j++ )
       {
       derivIt[j] = DerivIteratorType( m_DerivImages[j], 
         m_DerivImages[j]->GetBufferedRegion() );
@@ -200,7 +200,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
     outIt = outIt.Begin();
     inIt = inIt.Begin();
     speedIt = speedIt.Begin();
-    for( int j = 0; j < SetDimension; j++ )
+    for( unsigned int j = 0; j < SetDimension; j++ )
       {
       derivIt[j] = derivIt[j].Begin();
       }
@@ -224,7 +224,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
         GetScalar( *speedIt );
       updateValue *= speed;
 
-      for( int j = 0; j < SetDimension; j++ )
+      for( unsigned int j = 0; j < SetDimension; j++ )
         {
         deriv = (double) ScalarTraits<DerivPixelType>::
           GetScalar( *(derivIt[j]) );
@@ -244,7 +244,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
       ++outIt;
       ++inIt;
       ++speedIt;
-      for( int j = 0; j < SetDimension; j++ )
+      for( unsigned int j = 0; j < SetDimension; j++ )
         {
         ++(derivIt[j]);
         }
@@ -394,7 +394,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
 
         updateValue *= speed;
 
-        for( int j = 0; j < SetDimension; j++ )
+        for( unsigned int j = 0; j < SetDimension; j++ )
           {
           typedef typename TDerivImage::PixelType DerivPixelType;
           deriv = (double) ScalarTraits<DerivPixelType>::

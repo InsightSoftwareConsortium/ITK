@@ -542,7 +542,7 @@ protected:
   /**
    * Array of loop counters used during iteration.
    */
-  long m_Loop[VDimension];
+  unsigned long m_Loop[VDimension];
 
   /**
    * A pointer to an output buffer that, if set, is moved in synch with

@@ -22,7 +22,7 @@ unsigned long
 NeighborhoodBase<TPixel, VDimension>
 ::GetStride(const unsigned long axis) const
 {
-  unsigned long stride;
+  unsigned long stride = 0;
 
   size_t accum = 1;
   for (unsigned int i=0; i<VDimension; ++i)
@@ -69,14 +69,15 @@ void NeighborhoodBase<TPixel, VDimension>
 ::PrintSelf()            // Note -- Debugging function for development
 {                    //         that should probably be removed at
                      //         some point.  jc 10-05-00  
+  unsigned int i;
   std::cout << "NeighborhoodBase" << std::endl;
   std::cout << "        this = " << this << std::endl;
   std::cout << "  VDimension = " << VDimension << std::endl;
   std::cout << "    m_Radius = { ";
-  for (unsigned int i = 0; i<VDimension; i++) std::cout << m_Radius[i] << " ";
+  for (i = 0; i<VDimension; i++) std::cout << m_Radius[i] << " ";
   std::cout << "}" << std::endl;
   std::cout << "    m_Size   = { ";
-  for (unsigned int i = 0; i<VDimension; i++) std::cout << m_Size[i] << " ";
+  for (i = 0; i<VDimension; i++) std::cout << m_Size[i] << " ";
   std::cout << "}" << std::endl;
 }
 

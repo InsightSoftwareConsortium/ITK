@@ -54,9 +54,9 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   else
     {
       register unsigned int i;
-      int OverlapLow[VDimension];
-      int OverlapHigh[VDimension];
-      int temp[VDimension];
+      unsigned int OverlapLow[VDimension];
+      unsigned int OverlapHigh[VDimension];
+      unsigned int temp[VDimension];
       bool flag;
       
       // Calculate overlap & initialize index
@@ -126,10 +126,10 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
     }
   else
     {
-      register int i;
-      int OverlapLow[VDimension];
-      int OverlapHigh[VDimension];
-      int temp[VDimension];
+      register unsigned int i;
+      unsigned int OverlapLow[VDimension];
+      unsigned int OverlapHigh[VDimension];
+      unsigned int temp[VDimension];
       bool flag;
       
       // Calculate overlap & initialize index
@@ -177,7 +177,7 @@ template<class TPixel, unsigned int VDimension>
 void SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::PrintSelf()
 {
-  int i;
+  unsigned int i;
   //NeighborhoodBase<TPixel, VDimension>::PrintSelf();
   std::cout << "SmartRegionNeighborhoodIterator" << std::endl;
   std::cout << "        this = " << this << std::endl;
@@ -251,7 +251,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  for (int i = 0; i< VDimension; ++i)
+  for (unsigned int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }

@@ -190,12 +190,12 @@ protected:
   /**
    * Lower threshold of in-bounds loop counter values.
    */
-  long int m_InnerBoundsLow[VDimension];
+  unsigned long int m_InnerBoundsLow[VDimension];
   
   /**
    * Upper threshold of in-bounds loop counter values.
    */
-  long int m_InnerBoundsHigh[VDimension];
+  unsigned long int m_InnerBoundsHigh[VDimension];
   
   /**
    * Denotes which of the iterators dimensional sides spill outside
