@@ -169,7 +169,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
       int nonZeroCount = 0;
       for (i=0; i < InputImageDimension; ++i)
         {
-        if (m_ExtractionRegion.GetSize[i])
+        if (m_ExtractionRegion.GetSize()[i])
           {
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
