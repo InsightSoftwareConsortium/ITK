@@ -178,7 +178,7 @@ main( int argc, char *argv[] )
 
 
     /* Compute and report max abs error in computed */
-    double tmerr = abs(ttm - ctm);  // Error in total mass
+    double tmerr = fabs(ttm - ctm);  // Error in total mass
     double cgerr = 0.0;             // Error in center of gravity
     double pmerr = 0.0;             // Error in moments
     double paerr = 0.0;             // Error in axes
