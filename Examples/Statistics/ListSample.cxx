@@ -51,10 +51,12 @@
 int main()
 {
   // Software Guide : BeginLatex
+  //
   // The following code snippet defines the measurement vector type as
   // three component \code{float} \doxygen{Vector}. The
   // \code{MeasurementVectorType} is the measurement vector type in the
   // \code{SampleType}. An object is instantiated at the third line. 
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -63,13 +65,16 @@ int main()
   SampleType::Pointer sample = SampleType::New() ;
   // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginLatex In the above code snippet, the namespace
+  // Software Guide : BeginLatex
+  //
+  // In the above code snippet, the namespace
   // specifier for ListSample is \code{itk::Statistics::} instead of the
   // usual namespace specifier for other ITK classes, \code{itk::}.
   //
   // The newly instantiated object does not have any data in it.  We
   // have two different ways of storing data elements. The first method
   // is using the \code{PushBack} method.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

@@ -33,7 +33,7 @@
 // products.
 //
 // The basic ITK convolution filtering routine is to step through the image
-// with a neighborhood iterator and use \doxygen{NeighborhoodInnerProduct} to
+// with a neighborhood iterator and use NeighborhoodInnerProduct to
 // find the inner product of each neighborhood with the desired kernel. The
 // resulting values are written to an output image.  This example uses a
 // neighborhood operator called the \doxygen{SobelOperator}, but all
@@ -144,7 +144,6 @@ int main( int argc, char ** argv )
     {
     out.Set( innerProduct( it, sobelOperator ) );
     }
-  
 // Software Guide : EndCodeSnippet
   
 // Software Guide : BeginLatex

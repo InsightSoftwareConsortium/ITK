@@ -19,7 +19,7 @@
 //
 // \index{Iterators!and image slices}
 //
-// The \doxygen{ImageSliceIteratorWithIndex} is an extension of
+// The \doxygen{ImageSliceIteratorWithIndex} class is an extension of
 // \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.  
 // A \emph{slice} is a 2D

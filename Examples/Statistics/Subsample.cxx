@@ -161,7 +161,7 @@ int main()
   // for example, swaps two instance identifiers of the first data element
   // and the second element in the Subsample. Internally, the \code{Swap()}
   // method changes the instance identifiers in the first and second
-  // position. Using indexes, we can print out the effects of the
+  // position. Using indices, we can print out the effects of the
   // \code{Swap()} method. We use the
   // \code{GetMeasurementVectorByIndex(index)} to get the measurement vector
   // at the index position. However, if we want to use the common methods of

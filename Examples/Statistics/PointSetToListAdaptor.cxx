@@ -31,7 +31,7 @@
 // PointSetToListAdaptor object are points from the PointSet
 // object that is plugged into the adaptor object.
 //
-// To use an PointSetToListAdatpor class, we include the header file for the
+// To use an PointSetToListAdaptor class, we include the header file for the
 // class.
 //
 // Software Guide : EndLatex 
@@ -78,10 +78,10 @@ int main()
   // dimension, we have to modify the \code{TMeshTraits} (one of the optional
   // template arguments for the \code{PointSet} class). The easiest way of
   // create a custom mesh traits instance is to specialize the existing
-  // \doxygen{DefaultStaticMeshTraits}. By specifying the TCoordRep template
-  // argument, we can change the coordinate value type of a point.  By
-  // specifying the VPointDimension template argument, we can change the
-  // dimension of the point. As mentioned earlier, a
+  // \doxygen{DefaultStaticMeshTraits}. By specifying the \code{TCoordRep}
+  // template argument, we can change the coordinate value type of a point.
+  // By specifying the \code{VPointDimension} template argument, we can
+  // change the dimension of the point. As mentioned earlier, a
   // \code{PointSetToListAdaptor} object cares only about the points, and the
   // type of measurement vectors is the type of points. Therefore, we can
   // define the measurment vector type as in the following code snippet.

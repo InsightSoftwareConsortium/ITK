@@ -24,12 +24,10 @@
 // measurement vector. It needs another Sample object for storing measurement
 // vectors. A \code{MembershipSample} object stores a subset of instance
 // identifiers from another Sample object.  \emph{Any} subclass of Sample can
-// be the source Sample object.  The
-// \subdoxygen{Statistics}{MembershipSample} class is useful for storing
-// classification results from a test Sample object. The
-// MembershipSample class can be considered as an associative
-// container that stores measurement vectors, frequency values, and
-// \emph{class labels}.
+// be the source Sample object.  The MembershipSample class is useful for
+// storing classification results from a test Sample object. The
+// MembershipSample class can be considered as an associative container that
+// stores measurement vectors, frequency values, and \emph{class labels}.
 //
 // To use a MembershipSample object, we include the header files for the
 // class itself and the Sample class. We will use the

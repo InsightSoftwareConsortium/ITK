@@ -22,7 +22,7 @@
 // \index{itk::Statistics::GaussianDensityFunction}
 //
 // The Gaussian probability density function
-// (\subdoxygen{Statistics}{GaussianDensityFunction} requires two
+// \subdoxygen{Statistics}{GaussianDensityFunction} requires two
 // distribution parameters---the mean vector and the covariance matrix.
 //
 // We include the header files for the class and the \doxygen{Vector}.

@@ -38,9 +38,9 @@
 // offers the \emph{quick select} algorithm.
 //
 // Among the subclasses of the \subdoxygen{Statistics}{Sample}, only the
-// \subdoxygen{Statistics}{Subsample} allows users to change the order
-// of the measurement vector. Therefore, we must create a
-// Subsample to do any sorting or selecting.
+// class \subdoxygen{Statistics}{Subsample} allows users to change the order
+// of the measurement vector. Therefore, we must create a Subsample to do any
+// sorting or selecting.
 //
 // We include the header files for the \subdoxygen{Statistics}{ListSample}
 // and the \code{Subsample} classes.
@@ -53,7 +53,7 @@
 #include "itkSubsample.h"
 // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex 
+// Software Guide : BeginLatex
 //
 // The sorting and selecting related functions are in the include file
 // \code{itkStatisticsAlgorithm.h}. 
@@ -178,11 +178,11 @@ int main()
   // only to the range specified by the beginning index and the ending
   // index. The ending index should be the actual last index plus one.
   // 
-  // The \subdoxygen{Statistics}{InsertSort} function does not require any
-  // other optional argument. The following function call will sort the
-  // all measurement vectors in the \code{subsample}. The beginning
-  // index is \code{0}, and the ending index is the number of the
-  // measurement vectors in the \code{subsample}.
+  // The \doxygen{InsertSort} function does not require any other optional
+  // arguments. The following function call will sort the all measurement
+  // vectors in the \code{subsample}. The beginning index is \code{0}, and
+  // the ending index is the number of the measurement vectors in the
+  // \code{subsample}.
   //
   // Software Guide : EndLatex
 

@@ -27,7 +27,7 @@
 // sample.
 //
 // We include the header files for the ListSample and the
-// \subdoxygen{Statistics}{NeighborhoodSample} classes.
+// NeighborhoodSample classes.
 //
 // Software Guide : EndLatex 
 

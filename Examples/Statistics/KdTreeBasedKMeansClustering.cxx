@@ -101,7 +101,7 @@
 // Software Guide : BeginLatex
 //
 // To generate the clusters, we must create k instances of
-// \subdoxygen{Statistaics}{EuclideanDistance} function as the membership
+// \subdoxygen{Statistics}{EuclideanDistance} function as the membership
 // functions for each cluster and plug that---along with a sample---into an
 // \subdoxygen{Statistics}{SampleClassifier} object to get a
 // \subdoxygen{Statistics}{MembershipSample} that stores pairs of measurement

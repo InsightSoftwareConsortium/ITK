@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::EuclideanDistance}
 //
-// The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDinstance}
+// The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDistance}
 // requires as template parameter the type of the measurement vector. We can
 // use this function for any subclass of the \doxygen{FixedArray}. As a
 // subclass of the \subdoxygen{Statistics}{DistanceMetric}, it has two basic
@@ -97,7 +97,7 @@ int main()
   // Software Guide : EndCodeSnippet 
 
 
-  // Software Guide : BeginLatex 
+  // Software Guide : BeginLatex
   //
   // In the following code snippet, we show the uses of the three different
   // \code{Evaluate()} methods.  

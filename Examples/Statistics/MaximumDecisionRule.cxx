@@ -24,7 +24,7 @@
 // method.
 //
 // To begin the example, we include the header files for the class and the
-// \doxygen{MaximumDecisionRule}. We also include the header file for thte
+// MaximumDecisionRule. We also include the header file for thte
 // \code{std::vector} class that will be the container for the discriminant
 // scores.  
 //
