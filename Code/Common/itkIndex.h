@@ -119,8 +119,8 @@ public:
   static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
 
 public:
-friend  std::ostream& operator<<(std::ostream& os,
-			     const itkIndex<TIndexDimension> &ind);
+friend  std::ostream& operator<< <> (std::ostream& os, 
+              const itkIndex<TIndexDimension> &ind);
 private:
   long m_Index[TIndexDimension];
 };
