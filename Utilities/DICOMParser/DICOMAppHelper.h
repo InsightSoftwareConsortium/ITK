@@ -27,7 +27,7 @@ class DICOMAppHelper
 {
  public:
   DICOMAppHelper();
-  ~DICOMAppHelper();
+  virtual ~DICOMAppHelper();
   
   void SetFileName(const char* filename);
   

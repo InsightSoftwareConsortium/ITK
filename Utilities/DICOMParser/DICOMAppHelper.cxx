@@ -446,7 +446,7 @@ void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
     {
     this->PixelSpacing[0] = this->PixelSpacing[1] = fval;
     }
-  else if (group = 0x0018 && element == 0x0050)
+  else if (group == 0x0018 && element == 0x0050)
     {
     this->PixelSpacing[2] = fval;
     }
