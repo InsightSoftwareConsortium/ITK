@@ -37,13 +37,20 @@ SceneSpatialObject<SpaceDimension>
 ::~SceneSpatialObject()
 {
   //We decrease the reference count of all the object added to the scene
-  typename ObjectListType::iterator it = m_Objects.begin();
- 
-  while(it!=m_Objects.end())
+  //i.e. the flag  SceneManageMemory is set to true;
+  ObjectListType * objects = this->GetObjects();
+  typename ObjectListType::iterator it = objects->begin();
+
+  while(it!=objects->end())
     {
-    (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);
+    if((*it)->GetSceneManageMemory())
+      {
+      (*it)->SetReferenceCount((*it)->GetReferenceCount()-1);
+      }
     it++;
     } 
+
+  delete objects;
 }
 
 /** Add a spatial object to the SceneSpatialObject */
@@ -56,6 +63,7 @@ SceneSpatialObject<SpaceDimension>
   // when the objet is removed or the scene is deleted, the reference count
   // is decreased.
   pointer->SetReferenceCount(pointer->GetReferenceCount()+1);
+  pointer->SetSceneManageMemory(true);
   m_Objects.push_back( pointer );
   this->Modified();
 }

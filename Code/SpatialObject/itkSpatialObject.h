@@ -452,6 +452,10 @@ public:
   virtual const double* GetSpacing() const 
   {return m_IndexToObjectTransform->GetScaleComponent();}
 
+  /** Set/Get a flag to tell if the scene manages the memory */
+  itkSetMacro(SceneManageMemory,bool);
+  itkGetMacro(SceneManageMemory,bool);
+
 protected: 
  
   BoundingBoxPointer  m_Bounds; 
@@ -500,6 +504,9 @@ protected:
   /** Object Identification Number */
   int m_Id;
   int m_ParentId;
+
+  /** Scene memory management */
+  bool m_SceneManageMemory;
 }; 
 
 } // end of namespace itk
