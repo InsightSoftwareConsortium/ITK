@@ -22,7 +22,7 @@
  * This program tests the FilterImageAnisotropicDiffusion object by driving it
  * with a null input and output.  Returns 0 on success and 1 on failure.
  */
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   try
     {
