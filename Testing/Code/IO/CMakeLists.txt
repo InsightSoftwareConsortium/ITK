@@ -1,5 +1,6 @@
 
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
 
 SET(IOTest_SRCS
 itkConvertBufferTest.cxx
@@ -12,7 +13,7 @@ itkRawImageIOTest.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 )
- 
+
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOTests ITKIO)
 
