@@ -67,7 +67,7 @@ const IndexType& index )
   /* Check if indices are within image; immediately return 0 if not */
   for( int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] < 0 || (unsigned long)index[j] >= m_ImageSize[j] - 1 )
+    if( (unsigned long)index[j] >= m_ImageSize[j] - 1 )
       {
         return 0;
       }
