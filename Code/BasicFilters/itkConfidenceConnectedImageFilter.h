@@ -54,7 +54,7 @@ namespace itk{
  * \ingroup RegionGrowingSegmentation
  */
 template <class TInputImage, class TOutputImage>
-class ConfidenceConnectedImageFilter:
+class ITK_EXPORT ConfidenceConnectedImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:

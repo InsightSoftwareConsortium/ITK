@@ -56,7 +56,7 @@ namespace itk {
  * \ingroup ImageEnhancement
  */ 
 template <class TImage>
-class GradientNDAnisotropicDiffusionFunction :
+class ITK_EXPORT GradientNDAnisotropicDiffusionFunction :
     public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:

@@ -39,7 +39,7 @@ namespace itk
  * \ingroup Iterators 
  */
 template<typename TImage>
-class ReflectiveImageRegionConstIterator : public ImageConstIteratorWithIndex<TImage>
+class ITK_EXPORT ReflectiveImageRegionConstIterator : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */

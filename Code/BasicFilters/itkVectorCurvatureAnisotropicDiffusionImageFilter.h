@@ -30,7 +30,7 @@ namespace itk {
  *\todo Document.
  */
 template <class TInputImage, class TOutputImage>
-class VectorCurvatureAnisotropicDiffusionImageFilter
+class ITK_EXPORT VectorCurvatureAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:

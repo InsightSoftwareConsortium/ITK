@@ -31,7 +31,7 @@ namespace itk {
  * \todo Convert this class to ND and write a NDGradientAnis....Function
  */ 
 template <class TImage>
-class VectorGradientNDAnisotropicDiffusionFunction :
+class ITK_EXPORT VectorGradientNDAnisotropicDiffusionFunction :
     public VectorAnisotropicDiffusionFunction<TImage>
 {
 public:

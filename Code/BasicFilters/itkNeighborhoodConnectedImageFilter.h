@@ -32,7 +32,7 @@ namespace itk{
  * \ingroup RegionGrowingSegmentation 
  */
 template <class TInputImage, class TOutputImage>
-class NeighborhoodConnectedImageFilter:
+class ITK_EXPORT NeighborhoodConnectedImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:

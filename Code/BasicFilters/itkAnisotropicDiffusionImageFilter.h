@@ -61,7 +61,7 @@ namespace itk {
  *  \sa VectorCurvatureAnisotropicDiffusionImageFilter
  * \ingroup ImageEnhancement */
 template <class TInputImage, class TOutputImage>
-class AnisotropicDiffusionImageFilter
+class ITK_EXPORT AnisotropicDiffusionImageFilter
   : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:

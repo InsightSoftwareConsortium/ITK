@@ -32,7 +32,7 @@ namespace itk {
  * \todo DOCUMENT! References
  */ 
 template <class TImage>
-class VectorCurvatureNDAnisotropicDiffusionFunction :
+class ITK_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction :
     public VectorAnisotropicDiffusionFunction<TImage>
 {
 public:

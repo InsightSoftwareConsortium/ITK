@@ -131,7 +131,7 @@ namespace itk {
  * \todo Automatically generate the time step value from image dimensionality
  *  and order of the equations */
 template <class TImage>
-class AnisotropicDiffusionFunction :
+class ITK_EXPORT AnisotropicDiffusionFunction :
     public FiniteDifferenceFunction<TImage>
 {
 public:

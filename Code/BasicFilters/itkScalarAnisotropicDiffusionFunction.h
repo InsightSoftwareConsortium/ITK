@@ -36,7 +36,7 @@ namespace itk {
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement */
 template <class TImage>
-class ScalarAnisotropicDiffusionFunction :
+class ITK_EXPORT ScalarAnisotropicDiffusionFunction :
     public AnisotropicDiffusionFunction<TImage>
 {
 public:

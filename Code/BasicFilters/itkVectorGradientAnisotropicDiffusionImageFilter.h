@@ -31,7 +31,7 @@ namespace itk {
  *\todo Document.
  */
 template <class TInputImage, class TOutputImage>
-class VectorGradientAnisotropicDiffusionImageFilter
+class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:

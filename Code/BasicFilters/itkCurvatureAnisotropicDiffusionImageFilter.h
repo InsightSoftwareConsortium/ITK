@@ -40,7 +40,7 @@ namespace itk {
  * \sa CurvatureNDAnisotropicDiffusionFunction
  * \ingroup ImageEnhancement */
 template <class TInputImage, class TOutputImage>
-class CurvatureAnisotropicDiffusionImageFilter
+class ITK_EXPORT CurvatureAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:

@@ -32,7 +32,7 @@ namespace itk{
  * \ingroup RegionGrowingSegmentation 
  */
 template <class TInputImage, class TOutputImage>
-class ConnectedThresholdImageFilter:
+class ITK_EXPORT ConnectedThresholdImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:

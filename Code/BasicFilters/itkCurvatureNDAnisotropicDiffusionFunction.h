@@ -68,7 +68,7 @@ namespace itk {
  * \ingroup ImageEnhancement
  * \todo References */
 template <class TImage>
-class CurvatureNDAnisotropicDiffusionFunction :
+class ITK_EXPORT CurvatureNDAnisotropicDiffusionFunction :
     public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
