@@ -98,7 +98,7 @@ public:
    * graphs etc.  */
   DataObjectPointerArray& GetInputs() 
     {return m_Inputs;}
-  unsigned int GetNumberOfInputs() const
+  std::vector<DataObjectPointer>::size_type GetNumberOfInputs() const
     {return m_Inputs.size();}
   
   /** Return an array with all the outputs of this process object.
@@ -106,7 +106,7 @@ public:
    * graphs etc.  */
   DataObjectPointerArray& GetOutputs()
     { return m_Outputs; }
-  unsigned int GetNumberOfOutputs() const
+  std::vector<DataObjectPointer>::size_type GetNumberOfOutputs() const
     {return m_Outputs.size();}
       
   /** Set the AbortGenerateData flag for the process object. Process objects

@@ -54,6 +54,9 @@
 // clients of class 'type2'
 // #pragma warning ( disable : 4251 )
 
+// C++ exception specification ignored except to indicate...
+#pragma warning ( disable : 4267 )
+
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
 #if !defined(CABLE_CONFIGURATION)
