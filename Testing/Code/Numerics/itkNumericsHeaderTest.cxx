@@ -44,6 +44,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "itkSingleValuedVnlCostFunctionAdaptor.h"
+#include "itkSymmetricEigenSystem.txx"
 #include "itkVersorTransformOptimizer.h"
 
 int main ( int argc, char* argv )
