@@ -93,6 +93,14 @@ public:
    */
   typedef TImage Image;
 
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef Image::PixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
+
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
@@ -102,7 +110,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageLinearIterator(const SmartPointer<Image> &ptr,
+  ImageLinearIterator(const Image *ptr,
                             const Region& region)
     : ImageIteratorWithIndex<TImage>( ptr, region ) {}
 
