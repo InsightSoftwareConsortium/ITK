@@ -115,7 +115,7 @@ private:
  
   bool         m_ValidInverseCovarianceFlag;
 
-  itkStaticConstMacro(VectorDimension, unsigned int, TVector::VectorDimension);
+  itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
   typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
 
   mutable ColumnVectorType      m_TempVec;

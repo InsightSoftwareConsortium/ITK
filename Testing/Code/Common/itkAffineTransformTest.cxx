@@ -29,7 +29,7 @@ namespace
   
 void PrintVector( const VectorType & v )
 {
-  for( unsigned int i=0; i<VectorType::VectorDimension; i++)
+  for( unsigned int i=0; i<VectorType::Dimension; i++)
   {
     std::cout << v[i] << ", ";
   }

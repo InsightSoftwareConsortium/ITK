@@ -65,7 +65,7 @@ public:
   typedef T ValueType;
 
   /** Dimension of the vector space. */
-  itkStaticConstMacro(VectorDimension, unsigned int, NVectorDimension);
+  itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
 
   /** I am a vector type. */
   typedef Self VectorType;

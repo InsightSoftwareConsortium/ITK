@@ -150,12 +150,12 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 const OutputPixelType& value )
 {
   unsigned int i;
-  for( i = 0; i < OutputPixelType::VectorDimension; i++ )
+  for( i = 0; i < OutputPixelType::Dimension; i++ )
     {
     if( value[i] != m_EdgePaddingValue[i] ) { break; };
     }
 
-  if( i < OutputPixelType::VectorDimension )
+  if( i < OutputPixelType::Dimension )
     {
     this->Modified();
     m_EdgePaddingValue = value;

@@ -55,6 +55,7 @@ REGISTER_TEST(itkPointGeometryTest );
 REGISTER_TEST(itkPointSetTest );
 REGISTER_TEST(itkRandomAccessNeighborhoodIteratorTest );
 REGISTER_TEST(itkRGBPixelTest );
+REGISTER_TEST(itkRGBInterpolateImageFunctionTest );
 REGISTER_TEST(itkRigid2DTransformTest );
 REGISTER_TEST(itkRigid3DTransformTest );
 REGISTER_TEST(itkRigid3DPerspectiveTransformTest );

@@ -18,7 +18,7 @@
 #define _itkVectorInterpolateImageFunction_h
 
 #include "itkImageFunction.h"
-#include "itkVector.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -30,9 +30,9 @@ namespace itk
  * own dimension, this class is needed as a work-around.
  */
 template <typename T>
-struct GetVectorDimension
+struct GetDimension
 {
-  itkStaticConstMacro(VectorDimension, int, T::VectorDimension);
+  itkStaticConstMacro(Dimension, int, T::Dimension);
 }; 
 
   
@@ -41,12 +41,12 @@ struct GetVectorDimension
  *
  * VectorInterpolateImageFunction is the base for all ImageFunctions that
  * interpolates image with vector pixel types. This function outputs
- * a return value of type Vector<double,VectorDimension>.
+ * a return value of type Vector<double,Dimension>.
  *
  * This class is templated input image type and the coordinate
  * representation type.
  *
- * \warning This heirarchy of functions work only for images 
+ * \warning This hierarchy of functions work only for images 
  * with Vector-based pixel types. For scalar images use 
  * InterpolateImageFunction.
  * 
@@ -61,14 +61,14 @@ class TPixelType = typename TInputImage::PixelType
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
     TInputImage, 
-    Vector< ITK_TYPENAME NumericTraits<typename TPixelType::ValueType>::RealType, 
-      ::itk::GetVectorDimension<TPixelType>::VectorDimension>,
+    FixedArray< ITK_TYPENAME NumericTraits<typename TPixelType::ValueType>::RealType, 
+      ::itk::GetDimension<TPixelType>::Dimension>,
     TCoordRep > 
 {
 public:
   /** Extract the vector dimension from the pixel template parameter. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      TPixelType::VectorDimension);
+  itkStaticConstMacro(Dimension, unsigned int,
+                      TPixelType::Dimension);
   
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -77,7 +77,7 @@ public:
   /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
   typedef ImageFunction<TInputImage,
-    Vector<double, itkGetStaticConstMacro(VectorDimension)>, TCoordRep > Superclass;
+    FixedArray<double, itkGetStaticConstMacro(Dimension)>, TCoordRep > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -100,7 +100,7 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /** Output type is Vector<double,VectorDimension>. */
+  /** Output type is FixedArray<RealType,Dimension>. */
   typedef typename Superclass::OutputType OutputType;
 
   /** CoordRep typedef support. */
@@ -142,7 +142,7 @@ public:
     {
     OutputType output;
     PixelType input = m_Image->GetPixel( index );
-    for( unsigned int k = 0; k < VectorDimension; k++ )
+    for( unsigned int k = 0; k < Dimension; k++ )
       {
       output[k] = static_cast<double>( input[k] );
       }

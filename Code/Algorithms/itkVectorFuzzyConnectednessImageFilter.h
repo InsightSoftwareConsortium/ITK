@@ -178,7 +178,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(VectorDimension, unsigned int,
-                      InputPixelType::VectorDimension);
+                      InputPixelType::Dimension);
 
   /** Vector and matrix related typedefs. */
   typedef   Matrix<double,itkGetStaticConstMacro(VectorDimension),

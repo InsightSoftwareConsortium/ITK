@@ -48,6 +48,9 @@ public:
   /** Length constant */
   itkStaticConstMacro(Length, unsigned int, VLength);
   
+  /** Dimension constant */
+  itkStaticConstMacro(Dimension, unsigned int, VLength);
+  
   /** The element type stored at each location in the FixedArray. */
   typedef TValueType  ValueType;
   

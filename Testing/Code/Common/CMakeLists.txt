@@ -62,6 +62,7 @@ ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
 ADD_TEST(itkRandomAccessNeighborhoodIteratorTest ${COMMON_TESTS} itkRandomAccessNeighborhoodIteratorTest)
 ADD_TEST(itkRGBPixelTest ${COMMON_TESTS} itkRGBPixelTest)
+ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkRigid2DTransformTest ${COMMON_TESTS} itkRigid2DTransformTest)
 ADD_TEST(itkRigid3DTransformTest ${COMMON_TESTS} itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS} itkRigid3DPerspectiveTransformTest)
@@ -135,6 +136,7 @@ itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
 itkRandomAccessNeighborhoodIteratorTest.cxx
 itkRGBPixelTest.cxx
+itkRGBInterpolateImageFunctionTest.cxx
 itkScaleTransformTest.cxx
 itkSliceIteratorTest.cxx
 itkSmartNeighborhoodIteratorTest.cxx

@@ -72,8 +72,7 @@ public:
   /** Inherit some parameters from the superclass type */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension );
-  itkStaticConstMacro(VectorDimension, unsigned int, 
-                      PixelType::VectorDimension );
+  itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension );
 
   /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);

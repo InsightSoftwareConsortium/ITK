@@ -143,7 +143,7 @@ private:
 
   /** Dimension of the each individual pixel vector. */
   itkStaticConstMacro(VectorDimension, unsigned int,
-                      InputImagePixelType::VectorDimension);
+                      InputImagePixelType::Dimension);
   typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
 
   MatrixType            m_NumberOfSamples;

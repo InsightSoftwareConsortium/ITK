@@ -72,8 +72,7 @@ class CovariantVector : public FixedArray<T,NVectorDimension> {
   typedef T ValueType;
 
   /** Dimension of the Space */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      NVectorDimension);
+  itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
 
   /** I am a covariant vector. */
   typedef Self CovariantVectorType;

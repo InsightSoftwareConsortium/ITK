@@ -50,7 +50,7 @@ namespace Functor {
       typedef typename TOutput::ValueType OutputValueType;
 
       TOutput value;
-      for( unsigned int k = 0; k < TOutput::VectorDimension; k++ )
+      for( unsigned int k = 0; k < TOutput::Dimension; k++ )
         { value[k] = static_cast<OutputValueType>( A[k] ); }
       return value;
     }

@@ -63,8 +63,8 @@ public:
   typedef typename Superclass::RealType       RealType;
     
   /** Grab the vector dimension from the superclass. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                       Superclass::VectorDimension);
+  itkStaticConstMacro(Dimension, unsigned int,
+                       Superclass::Dimension);
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
@@ -75,7 +75,7 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /** Output type is Vector<double,VectorDimension> */
+  /** Output type is Vector<double,Dimension> */
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate the function at a ContinuousIndex position

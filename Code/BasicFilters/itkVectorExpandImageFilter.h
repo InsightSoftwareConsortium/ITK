@@ -113,7 +113,7 @@ public:
   typedef typename InputPixelType::ValueType   InputValueType;
 
   /** Determine the vector dimension. */
-  enum { VectorDimension = InputPixelType::VectorDimension };
+  enum { VectorDimension = InputPixelType::Dimension };
 
   /** Typedef support for the interpolation function */
   typedef double CoordRepType;

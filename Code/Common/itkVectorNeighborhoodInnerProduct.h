@@ -53,7 +53,7 @@ class VectorNeighborhoodInnerProduct
   
   /** Extract the image and vector dimension from the image template parameter. */
   itkStaticConstMacro(VectorDimension, unsigned int,
-                      PixelType::VectorDimension);
+                      PixelType::Dimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   
   /** Operator typedef */
@@ -83,7 +83,7 @@ public:
   
   /** Extract the image and vector dimension from the image template parameter. */
   itkStaticConstMacro(VectorDimension, unsigned int,
-                      PixelType::VectorDimension);
+                      PixelType::Dimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   
   /** Operator typedef */
