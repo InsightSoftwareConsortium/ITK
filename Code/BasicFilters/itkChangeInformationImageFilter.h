@@ -76,14 +76,14 @@ public:
   typedef typename TInputImage::OffsetType OutputImageOffsetType;
   typedef typename TInputImage::OffsetType InputImageOffsetType;
 
+  /** Image related typedefs. */
+  enum { ImageDimension = TInputImage::ImageDimension } ;
+
   /** Typedef of double containers */
   typedef FixedArray<double, ImageDimension> ArrayType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);
-
-  /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
