@@ -975,7 +975,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       MET_SizeOfType(m_ElementType, &elementSize);
       int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
 
-      m_CompressedElementData = this->PerformCompression((unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
+      m_CompressedElementData = this->PerformCompression(
+            (unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
       }
     //Now that we know the size of the compresse stream we write the header
     M_SetupWriteFields();
@@ -1054,7 +1055,9 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
           else
             {
             // Compress the data
-            m_CompressedElementData = this->PerformCompression( &(((unsigned char *)m_ElementData)[(i-1)*sliceNumberOfBytes]),sliceNumberOfBytes);
+            m_CompressedElementData = this->PerformCompression( 
+                 &(((unsigned char *)m_ElementData)[(i-1)*sliceNumberOfBytes]),
+                 sliceNumberOfBytes);
             // Write the compressed data
             writeStreamTemp->write( (char *)m_CompressedElementData,
                                   m_CompressedDataSize);  
@@ -1087,7 +1090,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         } 
         else
         {
-        m_CompressedElementData = this->PerformCompression((unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
+        m_CompressedElementData = this->PerformCompression(
+              (unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
         m_WriteCompressedDataSize = false;
         writeStreamTemp->write( (char *)m_CompressedElementData,
                              m_CompressedDataSize); 
@@ -1196,7 +1200,7 @@ InitializeEssential(int _nDims,
     {
     m_AutoFreeElementData = true;
     MET_SizeOfType(m_ElementType, &i);
-    m_ElementData = new char[m_Quantity*m_ElementNumberOfChannels*i]; //calloc(m_Quantity*m_ElementNumberOfChannels, i);
+    m_ElementData = new char[m_Quantity*m_ElementNumberOfChannels*i]; 
     if(m_ElementData == NULL)
       {
       m_AutoFreeElementData = false;
@@ -1321,6 +1325,16 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
+  i = MET_GetFieldRecordNumber("AnatomicalOrientation", &m_Fields);
+  if(i < 0)
+    {
+    const char * str = AnatomicalOrientationAcronym();
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "AnatomicalOrientation",
+                       MET_STRING, strlen(str), str);
+    m_Fields.push_back(mF);
+    }
+
   bool valid = false;
   for(i=0; i<4; i++)
     {
@@ -1366,7 +1380,6 @@ M_SetupWriteFields(void)
     }
 
   mF = new MET_FieldRecordType;
-
   MET_TypeToString(m_ElementType, s);
   MET_InitWriteField(mF, "ElementType", MET_STRING, strlen(s), s);
   m_Fields.push_back(mF);
@@ -1414,8 +1427,8 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   // If compressed we inflate
   if(m_CompressedData)
     {
-    // if m_CompressedDataSize is not defined we assume the size of the file is the size of the 
-    // compressed data
+    // if m_CompressedDataSize is not defined we assume the size of the
+    // file is the size of the compressed data
     if(m_CompressedDataSize==0)
       {
       _fstream->seekg(0, std::ios::end);
@@ -1457,7 +1470,8 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
       {
       std::cout << "MetaImage: M_ReadElements: data not read completely" 
                 << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "   ideal = " << readSize << " : actual = " << gc 
+                << std::endl;
       return false;
       }
     }
