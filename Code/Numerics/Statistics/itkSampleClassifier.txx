@@ -49,6 +49,14 @@ SampleClassifier< TSample >
 template< class TSample >
 void
 SampleClassifier< TSample >
+::SetMembershipFunctionClassLabels(std::vector< unsigned int > labels)
+{
+  m_ClassLabels = labels ;
+}
+
+template< class TSample >
+void
+SampleClassifier< TSample >
 ::GenerateData()
 {
   unsigned int i ;
@@ -67,16 +75,34 @@ SampleClassifier< TSample >
     this->GetMembershipFunctions() ;
   
 
-  while (iter != end)
+  if ( m_ClassLabels.size() != mfs.size() )
     {
-      measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < numberOfClasses ; i++)
+      while (iter != end)
         {
-          discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+          measurements = iter.GetMeasurementVector() ;
+          for (i = 0 ; i < numberOfClasses ; i++)
+            {
+              discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+            }
+          classLabel = rule->Evaluate(discriminantScores) ;
+          m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
+          ++iter ;
         }
-      classLabel = rule->Evaluate(discriminantScores) ;
-      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-      ++iter ;
+    }
+  else
+    {
+      while (iter != end)
+        {
+          measurements = iter.GetMeasurementVector() ;
+          for (i = 0 ; i < numberOfClasses ; i++)
+            {
+              discriminantScores[i] = (mfs[i])->Evaluate(measurements) ;
+            }
+          classLabel = rule->Evaluate(discriminantScores) ;
+          m_Output->AddInstance(m_ClassLabels[classLabel], 
+                                iter.GetInstanceIdentifier()) ;
+          ++iter ;
+        }
     }
 }
 
@@ -97,7 +123,6 @@ SampleClassifier< TSample >
 
   os << indent << "Sample: " << m_Sample << std::endl;
   os << indent << "Output: " << m_Output << std::endl;
-  //  os << indent << "Accesor: " << m_Accessor << std::endl;
 }
   } // end of namespace Statistics 
 } // end of namespace itk

@@ -101,6 +101,17 @@ public:
   /** Returns the target data */
   SamplePointer GetSample() ;
 
+  /** Sets the user given class labels for membership functions.
+   * If users do not provide class labels for membership functions by calling
+   * this function, then the index of the membership function vector for a
+   * membership function will be used as class label of measurement vectors
+   * belong to the membership function */ 
+  void SetMembershipFunctionClassLabels(std::vector< unsigned int > labels) ;
+
+  /** Gets the user given class labels */
+  std::vector< unsigned int > GetMembershipFunctionClassLabels() 
+  { return m_ClassLabels ; }
+
   /** Returns the classification result */
   OutputPointer GetOutput() ;
 
@@ -117,6 +128,9 @@ private:
 
   /** Output pointer (MembershipSample) */
   OutputPointer m_Output ;
+
+  /** User given class labels for membership functions */
+  std::vector< unsigned int > m_ClassLabels ;
 } ; // end of class
 
 
