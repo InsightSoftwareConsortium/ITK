@@ -28,12 +28,17 @@
 namespace itk {
 
 /** \class MaximumRatioDecisionRule
- *  \brief this rule returns  \f$i\f$ if
+ *  \brief This rule returns  \f$i\f$ if
  *   \f$\frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
  *   \frac{K_{j}}{K_{i}}\f$ for all \f$j \not= i\f$,
  * where the \f$i\f$ is the index of a class which has 
  * membership function \f$f_{i}\f$ and its prior value 
- * (usually, the a priori probability or the size of a class) is \f$K_{i}\f$
+ * (usually, the a priori probability or the size of a class) is
+ * \f$K_{i}\f$
+ * 
+ * Users should set the a priori values before calling the Evaluate method.
+ * 
+ * \sa MaximumDecisionRule, MinimumDecisionRule 
  */
  
 class ITKCommon_EXPORT MaximumRatioDecisionRule : 
@@ -56,6 +61,7 @@ public:
 
   unsigned int Evaluate(std::vector< double > &discriminantScores) ;
 
+  /** Sets the a priori probabilities */
   void SetAPriori(APrioriVectorType& values) ;
 
 protected:
@@ -63,7 +69,10 @@ protected:
   virtual ~MaximumRatioDecisionRule() {}
   
 private:
+  /** Number of classes */
   unsigned int m_NumberOfClasses ;
+
+  /** a priori probability ratio matrix: internal use */
   vnl_matrix< double > m_APrioriRatioMatrix ;
 } ; // end of class
 
