@@ -129,6 +129,8 @@ public:
   void SetEnergyToMin(Float xmin);
   inline LinearSystemWrapper* GetLS(){ return m_ls;}
 
+  /** Compute and print the minimum and maximum of the total solution and the last solution.*/
+  void PrintMinMaxOfSolution();
    /**
    * Default constructor which sets the indices for the matrix and vector storage.
    * Time step and other parameters are also initialized.
