@@ -1,3 +1,4 @@
+PROJECT=ITK
 
 SUBDIRS = \
 Code \
@@ -23,4 +24,4 @@ UNIX_LIBRARIES = \
 $(DL_LIBS) \
 -lm
 
-ME=ITK
+

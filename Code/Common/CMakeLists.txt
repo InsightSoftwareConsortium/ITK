@@ -1,4 +1,4 @@
-ME = ITKCommon
+LIBRARY = ITKCommon
 
 COMPILE_CLASSES =\
 itkDataObject \
