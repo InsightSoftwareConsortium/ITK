@@ -59,7 +59,7 @@ public:
   /**
    * Generate a uniform rectangular mesh by creating specific elements.
    *
-   * \param clid Pointer to an element object which will copied to create
+   * \param e0   Pointer to an element object which will copied to create
    *             other elements in a mesh.
    * \param S    Reference to the Solver object that will hold the mesh. All
    *             existing elements, nodes, loads and materials in Solver
