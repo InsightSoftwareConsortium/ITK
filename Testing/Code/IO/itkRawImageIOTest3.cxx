@@ -56,7 +56,7 @@ int itkRawImageIOTest3(int, char**)
 
   PixelType value = itk::NumericTraits< PixelType >::Zero;
   ii.GoToBegin();
-  while( ii.IsAtEnd() )
+  while( !ii.IsAtEnd() )
     {
     ii.Set( value );
     ++value;
@@ -64,6 +64,7 @@ int itkRawImageIOTest3(int, char**)
     }
 
   RawImageIOType::Pointer io = RawImageIOType::New();
+  io->SetByteOrderToBigEndian();
 
   // Write out the image
   itk::ImageFileWriter<ImageType>::Pointer writer;
