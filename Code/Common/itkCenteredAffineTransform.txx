@@ -30,12 +30,7 @@ template<class TScalarType, unsigned int NDimensions>
 CenteredAffineTransform<TScalarType, NDimensions>::
 CenteredAffineTransform():Superclass(SpaceDimension,ParametersDimension)
 {
-  m_Center.Fill( 0 );
-  m_Translation.Fill( 0 );
 }
-
-
-
 
 // Destructor
 template<class TScalarType, unsigned int NDimensions>
@@ -44,71 +39,6 @@ CenteredAffineTransform<TScalarType, NDimensions>::
 {
   return;
 }
-
-
-
-// Print self
-template<class TScalarType, unsigned int NDimensions>
-void
-CenteredAffineTransform<TScalarType, NDimensions>::
-PrintSelf(std::ostream &os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  unsigned int i, j;
-  
-  os << indent << "Center: " << std::endl;
-  for (i = 0; i < NDimensions; i++) 
-    {
-    os << m_Center[i] << std::endl;
-    }
-
-  os << indent << "Translation: " << std::endl;
-  for (j = 0; j < NDimensions; j++) 
-    {
-    os << m_Translation[j] << std::endl;
-    }
-}
-
-
-
-
-// return an inverse transformation
-template<class TScalarType, unsigned int NDimensions>
-bool
-CenteredAffineTransform<TScalarType, NDimensions>::
-GetInverse( Self* inverse) const
-{
-  if(!Superclass::GetInverse(inverse))
-    {
-    return false;
-    }
-
-  inverse->m_Center      =   m_Center;
-  inverse->m_Translation =  -m_Translation;
-  inverse->ComputeOffset();
-
-  return true;
-}
-
-
-// Set the parameters in order to fit an Identity transform
-template<class TScalarType, unsigned int NDimensions>
-void
-CenteredAffineTransform<TScalarType, NDimensions>::
-SetIdentity( void ) 
-{ 
-  this->Superclass::SetIdentity();
-  m_Center.Fill( 0.0 );
-  m_Translation.Fill( 0.0 );
-  this->ComputeOffset();
-  this->Modified();  
-}
-
-
-
-
-
 
 // Get parameters
 template<class TScalarType, unsigned int NDimensions>
@@ -133,16 +63,18 @@ GetParameters( void ) const
 
  
   // Transfer the rotation center 
+  InputPointType center = this->GetCenter();
   for(unsigned int j=0; j<NDimensions; j++) 
     {
-    m_Parameters[par] = m_Center[j];
+    m_Parameters[par] = center[j];
     ++par;
     }
   
   // Transfer the translation
+  OutputVectorType translation = this->GetTranslation();
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    m_Parameters[par] = m_Translation[k];
+    m_Parameters[par] = translation[k];
     ++par;
     }
 
@@ -180,21 +112,22 @@ SetParameters( const ParametersType & parameters )
   this->SetMatrix( matrix );
 
   // Transfer the rotation center 
+  InputPointType center;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    m_Center[i] = m_Parameters[par];
+    center[i] = m_Parameters[par];
     ++par;
     }
+  this->SetCenter(center);
   
   // Transfer the translation
+  OutputVectorType translation;
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    m_Translation[k] = m_Parameters[par];
+    translation[k] = m_Parameters[par];
     ++par;
     }
-
-  this->ComputeOffset();
-
+  this->SetTranslation(translation);
 }
 
 
@@ -246,58 +179,6 @@ GetJacobian( const InputPointType & p ) const
   return m_Jacobian;
 
 }
-
-
- 
-template<class TScalarType, unsigned int NDimensions>
-void
-CenteredAffineTransform<TScalarType, NDimensions>::
-SetCenter( const InputPointType & center )
-{
-  m_Center = center;
-  this->ComputeOffset();
-}
-
-
-
-
-template<class TScalarType, unsigned int NDimensions>
-void
-CenteredAffineTransform<TScalarType, NDimensions>::
-SetTranslation( const OutputVectorType & translation )
-{
-  m_Translation = translation;
-  this->ComputeOffset();
-}
-
-
-
-
-// Compute Offset
-template<class TScalarType, unsigned int NDimensions>
-void
-CenteredAffineTransform<TScalarType, NDimensions>::
-ComputeOffset( void ) 
-{
-
-  const MatrixType & matrix = this->GetMatrix();
-  
-  OffsetType offset;
-  for(unsigned int i=0; i<SpaceDimension; i++)
-    {
-    offset[i] = m_Translation[i] + m_Center[i];
-    for(unsigned int j=0; j<SpaceDimension; j++)
-      {
-      offset[i] -= matrix[i][j] * m_Center[j];
-      }
-    }
-
-  this->SetOffset( offset );
-
-}
-
-
-
 
 } // namespace
 

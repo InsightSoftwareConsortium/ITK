@@ -79,11 +79,6 @@ public:
 
 
   
-  /** Set the transformation to an Identity
-   *
-   * This sets the matrix to identity and the Offset to null. */
-  void SetIdentity( void );
-
   /** Set/Get the transformation from a container of parameters.
    * The first (NDimension x NDimension) parameters define the
    * matrix, the next N parameters define the center of rotation
@@ -95,17 +90,6 @@ public:
   void SetParameters( const ParametersType & parameters );
   const ParametersType& GetParameters(void) const;
 
- 
-  /** Find inverse of an affine transformation
-   *
-   * This method creates and returns a new CenteredAffineTransform object
-   * which is the inverse of self.  If self is not invertible,
-   * an exception is thrown.   **/
-  bool GetInverse(Self* inverse) const;
-
-  /** Print contents of an CenteredAffineTransform */
-  void PrintSelf(std::ostream &s, Indent indent) const;
-
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
@@ -113,19 +97,6 @@ public:
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
-  /** Set and Get the center of rotation */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
-
-  /** Set and Get the Translation to be applied after rotation */
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
- 
-  /** Compute the offset using the rotation center, the matrix
-   *  and the final translation. This method MUST be called before
-   *  using the transform for any mapping. */
-  virtual void ComputeOffset(void);
 
 protected:
   /** Construct an CenteredAffineTransform object **/
@@ -137,12 +108,6 @@ protected:
 private:
   CenteredAffineTransform(const Self & other);
   const Self & operator=( const Self & );
-
-
-  InputPointType      m_Center;
-
-  OutputVectorType    m_Translation;
-
 
 }; //class CenteredAffineTransform
 
