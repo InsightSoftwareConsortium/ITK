@@ -1176,7 +1176,7 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
   if (debug)
     vcl_cerr << __FILE__ ": vnl_matrix<T>::read_ascii: Determining file dimensions: ";
 
-  int c = ' ';
+  int c;
   for (;;) {
     // Clear whitespace, looking for a newline
     while (1) {

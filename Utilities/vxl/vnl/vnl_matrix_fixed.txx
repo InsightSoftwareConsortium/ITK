@@ -679,7 +679,7 @@ void vnl_matrix_fixed<T,nrows,ncols>::inplace_transpose()
   {
     T t = (*this)(i,j);
     (*this)(i,j) = (*this)(j,i);
-    t = (*this)(j,i) = t;
+    (*this)(j,i) = t;
   }
 }
 
