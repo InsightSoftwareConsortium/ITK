@@ -23,7 +23,7 @@
 
 #include "itkObject.h"
 #include "itkBloxCoreAtomItem.h"
-#include "itkBloxBoundaryPointItemBase.h"
+#include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "itkBloxPixel.h"
@@ -50,7 +50,7 @@ public:
   typedef BloxCoreAtomItem<NDimensions> TCoreAtomItemType;
 
   /** The type of boundary point item we process. */
-  typedef BloxBoundaryPointItemBase<NDimensions> TBPItemType;
+  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
 
   /** The type used to store the position of the BoundaryPointItem. */
   typedef Point<double, NDimensions> TPositionType;
