@@ -183,7 +183,7 @@ public:
   Pointer Inverse( void ) const;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void);
+  virtual void SetIdentity(void);
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
