@@ -4,10 +4,10 @@
  
   \section Introduction Introduction
 
-  Image Iterator are the mechanism used in ITK for walking through the image
+  ImageIterators are the mechanism used in ITK for walking through the image
   data. 
 
-  You have probably learn image processing with the classical access to the
+  You probably learned image processing with the classical access to the
   image data using <b>"for loops"</b> like:
   
 
@@ -35,9 +35,9 @@
 
   \endcode
 
-  ImageIterators helps you to get closer to the algorithmic abstraction.
-  They don't attach the user's code to a particular implementation of the
-  image class.
+  ImageIterators gets you closer to this algorithmic abstraction.
+  They abstract the low-level processing of images from the particular 
+  implementation of the image class.
   
   Here is how an image iterator is used in ITK:
 
@@ -56,42 +56,79 @@
   }
 
   \endcode
+
+  This code can also be written as:
+
+  \code
+  ImageType::Pointer im = GetAnImageSomeHow();
+
+  ImageIterator  it( im, im->GetRequestedRegion() );
   
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
+  {
+    it.Set( 10 );
+  }
+
+  \endcode
+
   One important advantage of ImageIterators is that they provide support for
   the N-Dimensional images in ITK. Otherwise it would be impossible (or at 
   least very hard) to write algorithms that work independent of the image
   dimension.
 
-  Iterators know a lot about the internal composition of the image, and that
-  reliefs the user from the need of taking care about those details. Your
-  algorithm can go through all the pixels without even knowing what the
-  dimension of the image is.
+  Another advantage of ImageIterators is that they support walking a region
+  of an image.  In fact, one argument of an ImageIterator's constructor 
+  defines the region or portion of an image to traverse.
+
+  Iterators know a lot about the internal composition of the image, 
+  relieving the user from these details. Your algorithm can go through
+  all the pixels of an image without ever knowing the dimension of the image.
 
   \section IteratorTypes  Types of Iterators
 
   The order in which the image pixels are visited can be quite important for
-  some image processing algorithms, others may not care about the order of on
-  which pixels are accessed and just want to do it as fast as possible. 
+  some image processing algorithms and may be inconsequential to other
+  algorithms as long as pixels are accessed as fast as possible.
   
-  In order to better match these variety of requirements ITK implements a set 
-  of different ImageIterators, always following the "C" philosophy of :
+  To address these diverse requirements, ITK implements a set 
+  of ImageIterators, always following the "C" philosophy of :
   
   "You only pay for what you use"
   
   Here is a list of the different ImageIterators implemented in ITK:
 
   - ImageRegionItertor
+  - ImageRegionReverseIterator
   - SimpleImageRegionIterator
   - ImageLinearIterator
   - ImageSliceIterator 
+
+  A second group of iterators support a moving neighborhood. Here the 
+  neighborhood can "iterate" over an image and a calculation can iterate
+  over the neighborhood.  This allows N-dimensional implementations of 
+  convolution and finite differences to be implemented succintly.  
+  This class of iterators is described in detail on the page 
+  \ref NeighborhoodIterators.
+
+  \section ImageIterator Concepts
+  \subsection Regions
+  \subsection Positioning
+  \subsection Half Open Intervals - Begin/End
+  \subsection Dereferencing
+
+  \section Iterator API
+  \subsection operator++
+  \subsection operator--
+  \subsection Begin()
+  \subsection End()
+  \subsection GotoBegin()
+  \subsection GotoEnd()
+  \subsection IsAtBegin()
+  \subsection IsAtEnd()
   
-  There is also a group of specialized iterators that support the concept
-  of a moving neighborhood, this is quite common in image processing, one
-  of the classical uses is when you write a 3x3 pixels filter that will compute
-  the mean value of the pixels in that neighborhood of 9 pixels. These group
-  of iterator is described in detail on the page \ref NeighborhoodIterators.
 
   \subsection ImageRegionIterator
+  \subsection ImageRegionReverseIterator
   \subsection SimpleImageRegionIterator
   \subsection ImageLinearIterator
   \subsection ImageSliceIterator
