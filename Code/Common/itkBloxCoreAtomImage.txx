@@ -17,7 +17,6 @@
 #ifndef __itkBloxCoreAtomImage_txx
 #define __itkBloxCoreAtomImage_txx
 
-#include <iostream>
 #include "itkBloxCoreAtomImage.h"
 
 #include "itkImageRegionIterator.h"

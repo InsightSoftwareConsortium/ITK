@@ -17,7 +17,6 @@
 #ifndef __itkBloxBoundaryPointImage_txx
 #define __itkBloxBoundaryPointImage_txx
 
-#include <iostream>
 #include "itkImageRegionIterator.h"
 #include "itkBloxBoundaryPointImage.h"
 
