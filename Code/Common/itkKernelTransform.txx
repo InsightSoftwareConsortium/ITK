@@ -21,7 +21,6 @@
 namespace itk
 {
 
-#define MAX_NUM_OF_LANDMARKS 100
 
 /**
  *
@@ -30,7 +29,12 @@ template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::
 KernelTransform():Superclass(
                       NDimensions,
-                      NDimensions * MAX_NUM_OF_LANDMARKS)    
+                      NDimensions ) 
+// the second NDimensions is associated is provided as
+// a tentative number for initializing the Jacobian.
+// The matrix can be resized at run time so this number
+// here is irrelevant. The correct size of the Jacobian
+// will be NDimension X NDimension.NumberOfLandMarks.
 {
 
   m_I.set_identity();
@@ -75,13 +79,13 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeD(void)
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   
   PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator tp  = m_TargetLandmarks->GetPoints()->Begin();
   PointsIterator end = m_SourceLandmarks->GetPoints()->End();
 
-  m_Displacements->Reserve( numLandmarks );
+  m_Displacements->Reserve( numberOfLandmarks );
   VectorSetType::Iterator vt = m_Displacements->Begin();
 
   while( sp != end )
@@ -100,12 +104,16 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeWMatrix(void)
 {
+
   typedef vnl_svd<TScalarType>  SVDSolverType;
 
-  ComputeL();
-  ComputeY();
+  this->ComputeL();
+  this->ComputeY();
   SVDSolverType svd( m_LMatrix, 1e-8 );
   m_WMatrix = svd.solve( m_YMatrix );
+
+  this->ReorganizeW();
+
 }
 
 /**
@@ -115,15 +123,15 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeL(void)
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   vnl_matrix<TScalarType> O2(NDimensions*(NDimensions+1),
                              NDimensions*(NDimensions+1), 0);
 
-  ComputeP();
-  ComputeK();
+  this->ComputeP();
+  this->ComputeK();
 
-  m_LMatrix.resize( NDimensions*(numLandmarks+NDimensions+1),
-                    NDimensions*(numLandmarks+NDimensions+1) );
+  m_LMatrix.resize( NDimensions*(numberOfLandmarks+NDimensions+1),
+                    NDimensions*(numberOfLandmarks+NDimensions+1) );
   m_LMatrix.fill( 0.0 );
 
   m_LMatrix.update( m_KMatrix, 0, 0 );
@@ -141,13 +149,13 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeK(void)
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   GMatrixType G;
 
-  ComputeD();
+  this->ComputeD();
 
-  m_KMatrix.resize( NDimensions * numLandmarks,
-                    NDimensions * numLandmarks );
+  m_KMatrix.resize( NDimensions * numberOfLandmarks,
+                    NDimensions * numberOfLandmarks );
 
   m_KMatrix.fill( 0.0 );
 
@@ -181,16 +189,16 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeP()
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
   InputPointType p;
 
   I.set_identity();
-  m_PMatrix.resize( NDimensions*numLandmarks,
+  m_PMatrix.resize( NDimensions*numberOfLandmarks,
                     NDimensions*(NDimensions+1) );
   m_PMatrix.fill( 0.0 );
-  for (unsigned int i = 0; i < numLandmarks; i++)
+  for (unsigned int i = 0; i < numberOfLandmarks; i++)
   {
     m_SourceLandmarks->GetPoint(i, &p);
     for (unsigned int j = 0; j < NDimensions; j++)
@@ -211,15 +219,15 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeY(void)
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   VectorSetType::ConstIterator displacement = m_Displacements->Begin();
 
-  m_YMatrix.resize( NDimensions*(numLandmarks+NDimensions+1), 1);
+  m_YMatrix.resize( NDimensions*(numberOfLandmarks+NDimensions+1), 1);
 
   m_YMatrix.fill( 0.0 );
     
-  for (unsigned int i = 0; i < numLandmarks; i++)
+  for (unsigned int i = 0; i < numberOfLandmarks; i++)
   {
     for (unsigned int j = 0; j < NDimensions; j++)
     {
@@ -230,9 +238,52 @@ ComputeY(void)
 
   for (unsigned int i = 0; i < NDimensions*(NDimensions+1); i++) 
   {
-    m_YMatrix.put(numLandmarks*NDimensions+i, 0, 0);
+    m_YMatrix.put(numberOfLandmarks*NDimensions+i, 0, 0);
   }
 }
+
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>
+::ReorganizeW(void) 
+{
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+
+  // The deformable (non-affine) part of the registration goes here
+  m_DMatrix.resize(NDimensions,numberOfLandmarks);
+  unsigned int ci = 0;
+  for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
+    {
+    for(unsigned int dim=0; dim < NDimensions; dim++ )
+      {
+      m_DMatrix(dim,lnd) = m_WMatrix(ci++,0);
+      }
+    }
+
+  // This matrix holds the rotational part of the Affine component
+  for(unsigned int j=0; j < NDimensions; j++ )
+    {
+    for(unsigned int i=0; i < NDimensions; i++ )
+      {
+      m_AMatrix(i,j) = m_WMatrix(ci++,0);
+      }
+    }
+
+  // This vector holds the translational part of the Affine component
+  for(unsigned int k=0; k < NDimensions; k++ )
+    {
+    m_BVector(k) = m_WMatrix(ci++,0);
+    }
+
+  // release WMatrix memory by assigning a small one.
+  m_WMatrix = WMatrixType(1,1);   
+
+}
+
 
 
 /**
@@ -243,45 +294,48 @@ KernelTransform<TScalarType, NDimensions>::OutputPointType
 KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
-  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
-  ColumnMatrixType b, c, d, Ax;
-  vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
+  unsigned long numberOfLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+
   OutputPointType result;
-  InputVectorType argumentG;
-  InputPointType p;
 
-  b.fill(0.0);
-  c.fill(0.0);
-  d.fill(0.0);
-  A.fill(0.0);
-  Ax.fill(0.0);
+  typedef typename OutputPointType::ValueType ValueType;
 
-  for (unsigned int i = 0; i < numLandmarks; i++)
+  result.Fill( NumericTraits< ValueType >::Zero );
+
+  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
+
+  for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
     {
-    c.update(m_WMatrix.extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
-    m_SourceLandmarks->GetPoint(i, &p);
-    argumentG = thisPoint - p;
-    d = d + ComputeG(argumentG) * c;
+    const GMatrixType & Gmatrix = ComputeG( thisPoint - sp->Value() );
+    for(unsigned int dim=0; dim < NDimensions; dim++ )
+      {
+      for(unsigned int odim=0; odim < NDimensions; odim++ )
+        {
+        result[ odim ] += Gmatrix(dim, odim ) * m_DMatrix(dim,lnd);
+        }
+      }
+    ++sp;
     }
-  for (unsigned int i = 0; i < NDimensions; i++)
+
+  // Add the rotational part of the Affine component
+  for(unsigned int j=0; j < NDimensions; j++ )
     {
-    A.update(m_WMatrix.extract(NDimensions, 1,
-                                (numLandmarks+i)*NDimensions, 0), 0, i);
+    for(unsigned int i=0; i < NDimensions; i++ )
+      {
+      result[i] += m_AMatrix(i,j) * thisPoint[j];
+      }
     }
-  b.update(m_WMatrix.extract(NDimensions, 1,
-                              (numLandmarks+NDimensions)*NDimensions, 0),
-           0, 0);
-  for (unsigned int j = 0; j < NDimensions; j++)
+
+  
+ 
+  // This vector holds the translational part of the Affine component
+  for(unsigned int k=0; k < NDimensions; k++ )
     {
-    Ax.put(j, 0, thisPoint[j]);
+    result[k] += m_BVector(k) + thisPoint[k];
     }
-  Ax = A*Ax;
-  d = d + Ax + b;
-  for (unsigned int j = 0; j < NDimensions; j++)
-    {
-    result[j] = thisPoint[j] + d.get(j, 0);
-    }
+
   return result;
+
 }
 
 

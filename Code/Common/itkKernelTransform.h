@@ -157,6 +157,15 @@ protected:
   /** 'W' matrix typedef. */
   typedef vnl_matrix<TScalarType> WMatrixType;
   
+  /** 'D' matrix typedef. Deformation component */
+  typedef vnl_matrix<TScalarType> DMatrixType;
+  
+  /** 'A' matrix typedef. Rotational part of the Affine component */
+  typedef vnl_matrix_fixed<TScalarType,NDimensions,NDimensions> AMatrixType;
+  
+  /** 'B' matrix typedef. Translational part of the Affine component */
+  typedef vnl_vector_fixed<TScalarType,NDimensions> BMatrixType;
+  
   /** Row matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, 1, NDimensions> RowMatrixType;
   
@@ -185,7 +194,13 @@ protected:
   
   /** Compute displacements \f$ q_i - p_i \f$. */
   void ComputeD();
-  
+
+  /** Reorganize the components of W into 
+    D (deformable), A (rotation part of affine) 
+    and B (translational part of affine ) components.
+    \warning This method release the memory of the W Matrix  */
+  void ReorganizeW(void);
+
   /** The list of source landmarks, denoted 'p'. */
   PointSetPointer m_SourceLandmarks;
   
@@ -210,6 +225,19 @@ protected:
   
   /** The W matrix. */
   WMatrixType m_WMatrix;
+
+  /** The Deformation matrix.
+      This is an auxiliary matrix that will hold the
+      Deformation (non-affine) part of the transform.
+      Those are the coefficients that will multiply the
+      Kernel function */
+  DMatrixType m_DMatrix;
+
+  /** Rotatinoal/Shearing part of the Affine component of the Transformation */
+  AMatrixType m_AMatrix;
+
+  /** Translational part of the Affine component of the Transformation */
+  BMatrixType m_BVector;
 
   /** The G matrix. 
     It is made mutable because m_GMatrix was made an ivar
