@@ -48,6 +48,7 @@ SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   // looping.
   m_MaximumRMSError   = 0.02;
   m_MaximumIterations = 1000;
+  m_UseNegativeFeatures = false;
 }
 
 template <class TInputImage, class TOutputImage>
