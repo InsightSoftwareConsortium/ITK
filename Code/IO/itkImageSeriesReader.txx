@@ -123,7 +123,6 @@ void ImageSeriesReader<TOutputImage>
        i += (m_ReverseOrder ? -1 : 1))
     {
     
-    std::cout << m_FileNames[i] << std::endl;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(m_FileNames[i].c_str());
     reader->UpdateLargestPossibleRegion();
