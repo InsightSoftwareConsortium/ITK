@@ -49,8 +49,8 @@ WeightedMeanCalculator< TSample >
 {
   m_Output.Fill(0.0) ;
 
-  typename TSample::Iterator iter = this->GetSample()->Begin() ;
-  typename TSample::Iterator end = this->GetSample()->End() ;
+  typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
+  typename TSample::Iterator end = this->GetInputSample()->End() ;
   double totalWeight = 0.0 ;
   double weight = 0.0 ;
   unsigned int dim = 0 ;
