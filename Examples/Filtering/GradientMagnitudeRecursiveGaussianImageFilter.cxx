@@ -85,7 +85,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef    short    InputPixelType;
+  typedef    float    InputPixelType;
   typedef    float    OutputPixelType;
   // Software Guide : EndCodeSnippet
 
