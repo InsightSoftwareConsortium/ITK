@@ -172,6 +172,11 @@ public:
     return m_Derivative;
   }
 
+  unsigned int GetNumberOfParameters(void) const
+  {
+    return SpaceDimension;
+  }
+
 private:
 
   mutable MeasureType       m_Measure;
