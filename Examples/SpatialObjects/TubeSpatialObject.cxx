@@ -147,7 +147,7 @@ int main( int , char *[] )
   while(it != tube->GetPoints().end())
     {
     std::cout << std::endl;
-    std::cout << "Tube #" << i << std::endl;
+    std::cout << "Point #" << i << std::endl;
     std::cout << "Position: " << (*it).GetPosition() << std::endl;
     std::cout << "Radius: " << (*it).GetRadius() << std::endl;
     std::cout << "Tangent: " << (*it).GetTangent() << std::endl;
