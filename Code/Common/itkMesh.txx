@@ -69,7 +69,7 @@ Mesh<TPixelType,TMeshType>
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Points container of " << m_PointsContainer );
-  if(m_PointsContainer == 0)
+  if( !m_PointsContainer )
     {
     this->SetPoints(PointsContainer::New());
     }
@@ -330,7 +330,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a points container exists.
    */
-  if(m_PointsContainer == 0)
+  if( !m_PointsContainer )
     {
     this->SetPoints(PointsContainer::New());
     }
@@ -357,7 +357,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * If the points container doesn't exist, then the point doesn't either.
    */
-  if(m_PointsContainer == 0)
+  if( !m_PointsContainer )
     {
     return false;
     }
@@ -382,7 +382,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a point data container exists.
    */
-  if(m_PointDataContainer == 0)
+  if( !m_PointDataContainer )
     {
     this->SetPointData(PointDataContainer::New());
     }
@@ -410,7 +410,7 @@ Mesh<TPixelType,TMeshType>
    * If the point data container doesn't exist, then the point data doesn't
    * either.
    */
-  if(m_PointDataContainer == 0)
+  if( !m_PointDataContainer )
     return false;
   
   /**
@@ -432,7 +432,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a cells container exists.
    */
-  if(m_CellsContainer == 0)
+  if( !m_CellsContainer )
     {
     this->SetCells(CellsContainer::New());
     }
@@ -459,7 +459,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
    */
-  if(m_CellsContainer == 0)
+  if( !m_CellsContainer )
     return false;
   
   /**
@@ -482,7 +482,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a cell data container exists.
    */
-  if(m_CellDataContainer == 0)
+  if( !m_CellDataContainer )
     {
     this->SetCellData(CellDataContainer::New());
     }
@@ -510,7 +510,7 @@ Mesh<TPixelType,TMeshType>
    * If the cell data container doesn't exist, then the cell data doesn't
    * either.
    */
-  if(m_CellDataContainer == 0)
+  if( !m_CellDataContainer )
     return false;
   
   /**
@@ -532,7 +532,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a boundaries container exists.
    */
-  if(m_BoundariesContainers[dimension] == 0)
+  if( !m_BoundariesContainers[dimension] )
     {
     this->SetBoundaries(dimension, BoundariesContainer::New());
     }
@@ -561,7 +561,7 @@ Mesh<TPixelType,TMeshType>
    * If the boundaries container doesn't exist, then the boundary
    * doesn't exist.
    */
-  if(m_BoundariesContainers[dimension] == 0)
+  if( !m_BoundariesContainers[dimension] )
     return false;
   
   /**
@@ -585,7 +585,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a boundary data container exists.
    */
-  if(m_BoundaryDataContainers[dimension] == 0)
+  if( !m_BoundaryDataContainers[dimension] )
     {
     this->SetBoundaryData(dimension, BoundaryDataContainer::New());
     }
@@ -614,7 +614,7 @@ Mesh<TPixelType,TMeshType>
    * If the boundary data container doesn't exist, then the boundary
    * data doesn't either.
    */
-  if(m_BoundaryDataContainers[dimension] == 0)
+  if( !m_BoundaryDataContainers[dimension] )
     return false;
   
   /**
@@ -639,7 +639,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure a boundary assignment container exists for the given dimension.
    */
-  if(m_BoundaryAssignmentsContainers[dimension] == 0)
+  if( !m_BoundaryAssignmentsContainers[dimension] )
     {
     this->SetBoundaryAssignments(
       dimension, BoundaryAssignmentsContainer::New());
@@ -669,7 +669,7 @@ Mesh<TPixelType,TMeshType>
    * If the boundary assignments container for the given dimension doesn't
    * exist, then the boundary assignment doesn't either.
    */
-  if(m_BoundaryAssignmentsContainers[dimension] == 0)
+  if( !m_BoundaryAssignmentsContainers[dimension] )
     return false;
   
   /**
@@ -696,7 +696,7 @@ Mesh<TPixelType,TMeshType>
    * If the boundary assignments container for the given dimension doesn't
    * exist, then the boundary assignment doesn't either.
    */
-  if(m_BoundaryAssignmentsContainers[dimension] == 0)
+  if( !m_BoundaryAssignmentsContainers[dimension] )
     return false;
   
   /**
@@ -724,7 +724,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure the cell container exists and contains the given cell Id.
    */
-  if(m_CellsContainer == 0) return 0;
+  if( !m_CellsContainer ) return 0;
   if(!m_CellsContainer->IndexExists(cellId)) return 0;
   
   /**
@@ -895,7 +895,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Sanity check on mesh status.
    */
-  if((m_PointsContainer == 0) || (m_CellsContainer == 0) ||
+  if( !m_PointsContainer || !m_CellsContainer ||
      (!m_CellsContainer->IndexExists(cellId)))
     {
     /**
@@ -942,7 +942,7 @@ Mesh<TPixelType,TMeshType>
    * operations through point neighboring information to get the neighbors.
    * This requires that the CellLinks be built.
    */
-  if(m_CellLinksContainer == 0)
+  if( !m_CellLinksContainer )
     {
     this->BuildCellLinks();
     }
@@ -1109,7 +1109,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure we have a cells and a points container.
    */
-  if((m_PointsContainer == 0) || (m_CellsContainer == 0))
+  if( !m_PointsContainer || !m_CellsContainer )
     {
     /**
      * TODO: Throw EXCEPTION here?
@@ -1120,7 +1120,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * Make sure the cell links container exists.
    */
-  if(m_CellLinksContainer == 0)
+  if( !m_CellLinksContainer )
     {
     this->SetCellLinks(CellLinksContainer::New());
     }

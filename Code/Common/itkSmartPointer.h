@@ -95,6 +95,22 @@ public:
      { 
      return m_Pointer; 
      }
+   /*
+    * Cast to bool
+    */
+   operator bool () const 
+     { 
+       return m_Pointer != (T*)0; 
+     }
+
+   bool operator == (T const* ptr)
+     {
+       return m_Pointer == ptr;
+     }
+   bool operator != (T* ptr)
+     {
+       return m_Pointer != ptr;
+     }
 
   /** 
    * Access function to pointer.
@@ -195,7 +211,6 @@ std::ostream& operator<< (std::ostream& os, SmartPointer<T> p)
   p.Print(os); 
   return os;
 }
-
 } // end namespace itk
   
 #endif
