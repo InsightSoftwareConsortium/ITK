@@ -51,12 +51,11 @@ namespace itk
 {
 
 /** \class SpatialFunctionImageEvaluatorFilter
- * \brief Evaluates an SpatialFunction onto a source image
+ * \brief Evaluates a SpatialFunction onto a source image
  *
  * SpatialFunctionImageEvaluatorFilter walks an input image and evaluates
- * the function at every pixel location. Since implicit functions exist
- * in "real" space, rather than index space, the source image must be a
- * Image.
+ * the function at every pixel location. The output of the spatial function
+ * and the pixel type of the output image must be compatible.
  *
  * Like its parent ImageToImageFilter, this class functions in the filtering
  * pipeline and produces a unique output image.
@@ -104,15 +103,9 @@ public:
   /** Typedef describing vector info. */
   typedef typename TFunctionType::InputType TPositionType;
 
-  /** Set the internal implicit function. */
+  /** Set the internal spatial function. */
   void SetFunction( TFunctionType* pFunction )
     {m_pFunction = pFunction;};
-
-  /** Gets and sets for member variables. */
-  itkSetMacro( InteriorValue, PixelType );
-  itkGetMacro( InteriorValue, PixelType );
-  itkSetMacro( ExteriorValue, PixelType );
-  itkGetMacro( ExteriorValue, PixelType );
 
 protected:
   SpatialFunctionImageEvaluatorFilter();

@@ -67,27 +67,9 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
 {
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() called");
 
-  // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput(0);
-  OutputImagePointer outputPtr = this->GetOutput(0);
-
-  // Make sure we're getting everything
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
-
-  // How big is the input image?
-  typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-
-  // Create a region object native to the output image type
-  OutputImageRegionType outputRegion;
-
-  // Resize the output region
-  outputRegion.SetSize( inputSize );
-
-  // Set the largest legal region size (i.e. the size of the whole image)
-  // to what we just defined
-  outputPtr->SetLargestPossibleRegion( outputRegion );
-  outputPtr->SetBufferedRegion( outputRegion );
-  outputPtr->SetRequestedRegion( outputRegion );
+  // Allocate the output image
+  typename TOutputImage::Pointer outputPtr = this->GetOutput();
+  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
@@ -96,40 +78,23 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   OutputIterator outIt = OutputIterator(outputPtr,
                                         outputPtr->GetRequestedRegion());
 
-  // Define a few indices that will be used to translate from an input pixel
-  // to an output pixel
-  typename TOutputImage::IndexType outputIndex;
-
-  const double* origin;
-  const double* spacing;
-
-  // Get the origin and spacing from the input image
-  origin = inputPtr->GetOrigin();
-  spacing = inputPtr->GetSpacing();
-
-  // Set the origin and spacing of the output image
-  outputPtr->SetOrigin(origin);
-  outputPtr->SetSpacing(spacing);
-
-  TPositionType outputPosition;
-
+  // The value produced by the spatial function
   double value;
 
-  // walk the output image, and sample the input image
+  // The position at which the function is evaluated
+  Point<double, TOutputImage::ImageDimension> evalPoint;
+
+  // Walk the output image, evaluating the spatial function at each pixel
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
-    // determine the index of the output pixel
-    outputPosition = outIt.GetIndex();
-
-    for (int ii = 0; ii < NDimensions; ++ii)
-      outputPosition[ii] = outputIndex[ii]*spacing[ii]+origin[ii];
-
-    value = m_pFunction->Evaluate(&outputVector);
+    TOutputImage::IndexType index = outIt.GetIndex();
+    outputPtr->TransformIndexToPhysicalPoint(index, evalPoint );
+    value = m_pFunction->Evaluate(evalPoint);
 
     // Set the pixel value to the function value
     outIt.Set( (PixelType) value);
     
-    } // end switch
+    }
 
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
 }
