@@ -34,7 +34,7 @@ class ITK_EXPORT LaplacianSegmentationLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef LaplacianSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType> Superclass;
+  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   typedef TFeatureImageType FeatureImageType;

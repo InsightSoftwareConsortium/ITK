@@ -62,7 +62,7 @@ class ITK_EXPORT ShapeDetectionLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef ShapeDetectionLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType> Superclass;
+  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   typedef TFeatureImageType FeatureImageType;
