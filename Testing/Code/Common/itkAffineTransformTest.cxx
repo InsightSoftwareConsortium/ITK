@@ -114,6 +114,7 @@ int main(
               << std::endl;
     PrintVector( vector2 );
 
+
     /* Try composition of two transformations */
     aff2->Compose( aff2 );
     std::cout << "Result of a composition:" << std::endl;
@@ -251,6 +252,22 @@ int main(
 
     std::cout << "Physical to index transformation:" << std::endl;
     p2i->Print( std::cout );
+
+
+    /* Test output of GetJacobian */
+    Affine3DType::Pointer jaff = Affine3DType::New();
+    Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
+    Affine3DType::OffsetType jaffVector = jaff->GetOffset();
+
+    Affine3DType::InputPointType jpoint;
+    jpoint[0] = 5.0;
+    jpoint[1] = 10.0;
+    jpoint[2] = 15.0; 
+    Affine3DType::JacobianType jaffJacobian = jaff->GetJacobian( jpoint );
+
+    std::cout << "GetJacobian: " << std::endl;
+    std::cout << jaffJacobian << std::endl;
+    
 
     return any;
 }
