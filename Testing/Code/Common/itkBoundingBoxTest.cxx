@@ -25,7 +25,6 @@ int itkBoundingBoxTest ( int argc, char** argv )
   BB::Pointer myBox = BB::New();
 
   BB::PointsContainerPointer Points = BB::PointsContainer::New();
-  BB::PointsContainerPointer NewPoints = BB::PointsContainer::New();
 
   int i;
   itk::Point<double, 1> P;
@@ -104,7 +103,7 @@ int itkBoundingBoxTest ( int argc, char** argv )
     }
   std::cout << "GetDiagonalLength2 passed" << std::endl;
   
-  NewPoints = myBox->GetPoints();
+  BB::PointsContainerConstPointer NewPoints = myBox->GetPoints();
 
   // End with a Print.
   myBox->Print( std::cout );

@@ -79,6 +79,15 @@ int itkPointSetTest(int, char**)
   bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
 
-  return 0;  
+
+  /**
+   *  Test the internal bounding box
+   */
+  std::cout << "Internal bounding box " << std::endl;
+  BoundingBox::ConstPointer bbox2 = pset->GetBoundingBox();
+  std::cout << bbox2 << std::endl;
+
+  return EXIT_SUCCESS;  
+
 }
 

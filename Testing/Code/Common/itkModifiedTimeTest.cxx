@@ -17,23 +17,21 @@ int itkModifiedTimeTest( int, char** )
 
   BoundingBox::Pointer bb = BoundingBox::New();
   
-  PointsContainer::Pointer pc = bb->GetPoints();
+  PointsContainer::Pointer pc = PointsContainer::New();
 
-  if( !pc )
-    {
-    pc = PointsContainer::New();
-    pc->InsertElement(0,p);
-    pc->InsertElement(1,q);
-    pc->Modified();
-    bb->SetPoints(pc);
-    }
+  pc->InsertElement(0,p);
+  pc->InsertElement(1,q);
+  pc->Modified();
+
+  bb->SetPoints(pc);
 
   const unsigned long bbBeforeTime = bb->GetMTime();
   const unsigned long pcBeforeTime = pc->GetMTime();
 
+
   std::cout<<"BB time before modification: "<< bbBeforeTime <<std::endl;
   std::cout<<"PC time before modification: "<< pcBeforeTime <<std::endl;
-  pc = bb->GetPoints(); // not necessary, but just to make sure we got the right pointer
+
   pc->InsertElement(2,r);
   pc->Modified(); // call the Modified function to update the modified time of the container
   
