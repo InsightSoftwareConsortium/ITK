@@ -26,8 +26,8 @@
 // In this example, the Sobel edge-detection routine is rewritten using
 // convolution filtering.  Convolution filtering is a standard image processing
 // technique that can be implemented numerically as the inner product of all
-// image neighborhoods with a convolution kernel \cite{Gonzalez1993}
-// \cite{Castleman1993}.  In ITK, we use a class of objects called
+// image neighborhoods with a convolution kernel \cite{Gonzales1993}
+// \cite{Castleman1996}.  In ITK, we use a class of objects called
 // \emph{neighborhood operators} as convolution kernels and a special function
 // object called \doxygen{NeighborhoodInnerProduct} to calculate inner
 // products.
