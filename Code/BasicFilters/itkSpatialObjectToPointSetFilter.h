@@ -77,6 +77,12 @@ public:
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetMacro(ChildrenDepth, unsigned int);
 
+
+  /* Set the sampling factor of the object. The resulting pointset will have a size
+   * inversely proportional to the sampling factor.*/
+  itkSetMacro(SamplingFactor, unsigned int);
+  itkGetMacro(SamplingFactor, unsigned int);
+
 protected:
   SpatialObjectToPointSetFilter();
   ~SpatialObjectToPointSetFilter();
@@ -91,6 +97,8 @@ protected:
 private:
   SpatialObjectToPointSetFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  unsigned int m_SamplingFactor; //default 1
 
 
 };

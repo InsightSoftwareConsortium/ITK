@@ -29,6 +29,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
 {
   this->SetNumberOfRequiredInputs(1);
   m_ChildrenDepth = 0;
+  m_SamplingFactor = 1;
 }
 
 /** Destructor */
@@ -106,14 +107,14 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   typename OutputPointSetType::Pointer  outputPointSet = this->GetOutput();                                             
  
   // Look for the number of points to allocate
-  unsigned long numberOfPoints = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints();
+  unsigned long numberOfPoints = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints()/m_SamplingFactor;
 
   ChildrenListType* children = inputObject->GetChildren(m_ChildrenDepth);
   typename ChildrenListType::const_iterator it = children->begin();
 
   for(;it!=children->end();it++)
     {
-    numberOfPoints += static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
+    numberOfPoints += static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints()/m_SamplingFactor;
     }
   
   outputPointSet->SetPointData( OutputPointSetType::PointDataContainer::New() );
@@ -126,7 +127,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
 
   // add the object it itself
   unsigned long n = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints();
-  for(unsigned int i=0;i<n;i++)
+  for(unsigned int i=0;i<n;i+=m_SamplingFactor)
     {
     typename InputSpatialObjectType::PointType transformedPoint
       =  inputObject->GetIndexToWorldTransform()->TransformPoint(inputObject->GetPoint(i)->GetPosition());
@@ -144,7 +145,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   for(;it!=children->end();it++)
     {
     unsigned long n = static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
-    for(unsigned int i=0;i<n;i++)
+    for(unsigned int i=0;i<n;i+=m_SamplingFactor)
       {
       typename InputSpatialObjectType::PointType transformedPoint
       =  inputObject->GetIndexToWorldTransform()->TransformPoint(static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetPoint(i)->GetPosition());
@@ -171,6 +172,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
+  os << indent << "Sampling Factor : " << m_SamplingFactor << std::endl;
 }
 
 
