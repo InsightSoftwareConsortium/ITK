@@ -102,7 +102,6 @@ protected:
 private:
   SymmetricEigenSystem(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** the target matrix */
   MatrixType* m_Matrix ;
