@@ -115,7 +115,7 @@ int main( int argc, char ** argv )
 // The face calculator object introduced in
 // section~\ref{sec:NeighborhoodExample3} is created and used as before.
 //
-// Software Guide : BeginCodeSnippet   
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType> FaceCalculatorType;
