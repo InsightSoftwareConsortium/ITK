@@ -21,6 +21,7 @@ ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrati
 ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
 ADD_TEST(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
+#ADD_TEST(itkFEMRegistrationFilterTest ${ALGORITHMS_TESTS} itkFEMRegistrationFilterTest)
 ADD_TEST(itkGeodesicActiveContoursTest ${ALGORITHMS_TESTS} itkGeodesicActiveContoursTest)
 ADD_TEST(itkGradientVectorFlowImageFilterTest ${ALGORITHMS_TESTS} itkGradientVectorFlowImageFilterTest)
 ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${ALGORITHMS_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
@@ -85,6 +86,7 @@ itkDemonsRegistrationFilterTest.cxx
 itkExtractMeshConnectedRegionsTest.cxx
 itkFastMarchingTest.cxx
 itkFastMarchingExtensionImageFilterTest.cxx
+#itkFEMRegistrationFilterTest.cxx
 itkGeodesicActiveContoursTest.cxx
 itkGradientVectorFlowImageFilterTest.cxx
 itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
