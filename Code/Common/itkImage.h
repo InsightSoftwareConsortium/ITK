@@ -299,7 +299,7 @@ public:
     {
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
-      point[i] = static_cast<TCoordRep>(m_Origin[i] + m_Spacing[i] * index[i]);
+      point[i] = static_cast<TCoordRep>( m_Spacing[i] * index[i] + m_Origin[i] );
       }
     }
 

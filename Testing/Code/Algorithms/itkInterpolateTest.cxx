@@ -40,8 +40,6 @@ namespace
   
 /* Define the image size and physical coordinates */
 SizeType size = {{20, 40, 80}};
-double origin [3] = { 0.5,   0.5,   0.5};
-double spacing[3] = { 0.1,   0.05 , 0.025};
 
 }
 
@@ -135,6 +133,9 @@ itkInterpolateTest(
 
     std::cout << "Testing image interpolation methods:\n";
 
+    double origin [3] = { 0.5L,   0.5L,   0.5L};
+    double spacing[3] = { 0.1L,   0.05L , 0.025L};
+
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();
     ImageType::RegionType region;
@@ -179,7 +180,7 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
     
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
@@ -191,7 +192,7 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
 
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 60 );
 
     if( !passed ) flag = 1;
@@ -203,7 +204,7 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
 
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 79 );
 
     if( !passed ) flag = 1;
@@ -215,7 +216,7 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
 
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType>( interp, point, false, 0 );
 
     if( !passed ) flag = 1;
@@ -227,7 +228,7 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
 
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
 
     if( !passed ) flag = 1;

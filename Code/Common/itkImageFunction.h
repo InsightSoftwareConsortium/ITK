@@ -129,35 +129,56 @@ public:
   /** Check if an index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  inline bool IsInsideBuffer( const IndexType & index ) const;
+  inline bool IsInsideBuffer( const IndexType & index ) const
+    { 
+      for ( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        if ( index[j] < m_StartIndex[j] ) { return false; };
+        if ( index[j] > m_EndIndex[j] ) { return false; };
+        }
+      return true;
+    }
             
   /** Check if a continuous index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  inline bool IsInsideBuffer( const ContinuousIndexType & index ) const;
+  inline bool IsInsideBuffer( const ContinuousIndexType & index ) const
+    { 
+      for ( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        if ( index[j] < m_StartContinuousIndex[j] ) { return false; };
+        if ( index[j] > m_EndContinuousIndex[j] ) { return false; };
+        }
+      return true;
+    }
 
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  inline bool IsInsideBuffer( const PointType & point ) const;
+  inline bool IsInsideBuffer( const PointType & point ) const
+    { 
+    ContinuousIndexType index;
+    m_Image->TransformPhysicalPointToContinuousIndex( point, index );
+    return this->IsInsideBuffer( index );
+    }
 
-  /** Point/Index/ContinuousIndex conversion functions.
-   * \warning For efficiency, no validity checking of the
-   * input image pointer is done. */
-  inline void ConvertPointToContinuousIndex(
-    const PointType& point, ContinuousIndexType& index ) const;
+  /** Convert point to nearest index. */
+  void ConvertPointToNearestIndex( const PointType & point,
+    IndexType & index ) const
+    {
+    ContinuousIndexType cindex;
+    m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
+    this->ConvertContinuousIndexToNearestIndex( cindex, index );
+    }
 
-  inline void ConvertContinuousIndexToPoint(
-    const ContinuousIndexType& index, PointType& point ) const;
-
-  inline void ConvertIndexToPoint(
-    const IndexType& index, PointType& point ) const;
-
-  inline void ConvertPointToNearestIndex(
-    const PointType& point, IndexType& index ) const;
-
-  inline void ConvertContinuousIndexToNearestIndex(
-    const ContinuousIndexType &cindex, IndexType& index ) const;
+  /** Convert continuous index to nearest index. */
+  void ConvertContinuousIndexToNearestIndex( const ContinuousIndexType & cindex,
+    IndexType & index ) const
+    {
+    typedef typename IndexType::IndexValueType ValueType;
+    for ( unsigned int j = 0; j < ImageDimension; j++ )
+      { index[j] = static_cast<ValueType>( vnl_math_rnd( cindex[j] ) ); }
+    }
   
 protected:
   ImageFunction();
@@ -167,13 +188,11 @@ protected:
   /** Const pointer to the input image. */
   InputImageConstPointer  m_Image;
 
-  /** Cache some image information */
-  const double * m_Origin;
-  const double * m_Spacing;
-  PointType      m_GeometricStart;
-  PointType      m_GeometricEnd;
-  IndexType      m_BufferStart;
-  IndexType      m_BufferEnd;
+  /** Cache some values for testing if indices are inside buffered region. */
+  IndexType               m_StartIndex;
+  IndexType               m_EndIndex;
+  ContinuousIndexType     m_StartContinuousIndex;
+  ContinuousIndexType     m_EndContinuousIndex;
 
 private:
   ImageFunction(const Self&); //purposely not implemented

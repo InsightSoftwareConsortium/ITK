@@ -237,6 +237,7 @@ int threadId )
     {
     // get the output image index
     index = outputIt.GetIndex();
+    outputPtr->TransformIndexToPhysicalPoint( index, point );
 
     // get the required displacement
     displacement = fieldIt.Get();
@@ -244,7 +245,6 @@ int threadId )
     // compute the required input image point
     for(unsigned int j = 0; j < ImageDimension; j++ )
       {
-      point[j] = (double) index[j] * m_OutputSpacing[j] + m_OutputOrigin[j];
       point[j] += displacement[j];
       }
 

@@ -287,7 +287,7 @@ int test1DCubicSpline()
   
     if( !passed ) flag += 1;
   
-    interp->ConvertContinuousIndexToPoint( cindex, point );
+    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType1D, PointType1D>( interp, point, b_Inside[ii], truth[ii]  );
   
     if( !passed ) flag += 1;
@@ -353,7 +353,7 @@ int test2DSpline()
   
       if( !passed ) flag += 1;
   
-      interp->ConvertContinuousIndexToPoint( cindex, point );
+      image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorType2D, PointType2D>( interp, point, b_Inside[ii], truth[ii][splineOrder ]  );
   
       if( !passed ) flag += 1;
@@ -419,7 +419,7 @@ int test3DSpline()
   
       if( !passed ) flag += 1;
   
-      interp->ConvertContinuousIndexToPoint( cindex, point );
+      image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorType3D, PointType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
   
       if( !passed ) flag += 1;
@@ -559,7 +559,7 @@ int testInteger3DSpline()
   
       if( !passed ) flag += 1;
   
-      interp->ConvertContinuousIndexToPoint( cindex, point );
+      image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorIntegerType3D, PointIntegerType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
   
       if( !passed ) flag += 1;

@@ -86,7 +86,7 @@ public:
   virtual OutputType Evaluate( const PointType& point ) const
     {
     ContinuousIndexType index;
-    this->ConvertPointToContinuousIndex( point, index );
+    m_Image->TransformPhysicalPointToContinuousIndex( point, index );
     return ( this->EvaluateAtContinuousIndex( index ) );
     }
 

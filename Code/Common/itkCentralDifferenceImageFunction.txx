@@ -88,7 +88,7 @@ unsigned int dim ) const
   neighIndex[dim] -= 2;
   derivative -= m_Image->GetPixel( neighIndex );
 
-  derivative *= 0.5 / m_Spacing[dim];
+  derivative *= 0.5 / m_Image->GetSpacing()[dim];
 
 
   return ( derivative );
