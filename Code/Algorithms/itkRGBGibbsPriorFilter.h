@@ -79,6 +79,11 @@ public:
   /** Type definition for the classified image index type. */
   typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
 
+  /** Type used as identifier for the Labels 
+   \warning -1 cannot be used as the identifier for unlabeled pixels
+   the NumericTraits<>::max() value is used for indicating unlabeled pixels */
+  typedef unsigned int                               LabelType;
+
   /**
    * Type definitions for classifier to be used for the Gibbs lavbelling.
    */
@@ -119,7 +124,7 @@ public:
   itkSetMacro(ClusterSize, unsigned int);
 
   /** Set the label for the object region. */ 
-  itkSetMacro(ObjectLabel, unsigned int);
+  itkSetMacro( ObjectLabel, LabelType );
 
   /** Extract the input image dimension. */
   enum {ImageDimension = TInputImage::ImageDimension };
@@ -163,27 +168,27 @@ private:
   InputImageType      m_InputImage;    /** the input */
   TrainingImageType   m_TrainingImage; /** image to train the filter. */
   LabelledImageType   m_LabelledImage; /** output */
-  unsigned int m_NumberOfClasses; /** the number of class need to be classified. */
-  unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
+  unsigned int        m_NumberOfClasses; /** the number of class need to be classified. */
+  unsigned int        m_MaximumNumberOfIterations; /** number of the iteration. */
   typename ClassifierType::Pointer m_ClassifierPtr;
-  int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
-  double m_BoundaryWeight; /** weight for H_1 */
-  double m_GibbsPriorWeight; /** weight for H_2 */
-  int   m_StartRadius;  /** define the start region of the object. */
-  int m_RecursiveNum;     /** number of SA iterations. */
-  unsigned int      *m_LabelStatus; /** array for the state of each pixel. */
+  unsigned int      m_BoundaryGradient; /** the threshold for the existence of a boundary. */
+  double            m_BoundaryWeight; /** weight for H_1 */
+  double            m_GibbsPriorWeight; /** weight for H_2 */
+  int               m_StartRadius;  /** define the start region of the object. */
+  int               m_RecursiveNum;     /** number of SA iterations. */
+  LabelType       * m_LabelStatus; /** array for the state of each pixel. */
 
   InputImageType      m_MediumImage;   /** the medium image to store intermedium result */
 
-  int   m_Temp;         /** for SA algo. */
+  unsigned int      m_Temp;         /** for SA algo. */
   IndexType m_StartPoint; /** the seed of object */
 
-  int         m_ImageWidth; /** image size. */
-  int         m_ImageHeight;
-  int         m_ImageDepth;
-  unsigned int m_ClusterSize; /** region size smaller than the threshold will be erased. */
-  unsigned int m_ObjectLabel; /** the label for object region. */
-  int         m_VecDim;      /** the channel number in the image. */
+  unsigned int      m_ImageWidth; /** image size. */
+  unsigned int      m_ImageHeight;
+  unsigned int      m_ImageDepth;
+  unsigned int      m_ClusterSize; /** region size smaller than the threshold will be erased. */
+  LabelType         m_ObjectLabel; /** the label for object region. */
+  unsigned int      m_VecDim;      /** the channel number in the image. */
   InputPixelType    m_LowPoint;  /** the point give lowest value of H-1 in neighbor. */
 
   unsigned short    *m_Region;   /** for region erase. */
@@ -195,10 +200,14 @@ private:
   double m_CliqueWeight_3;  /** for future usage */
   double m_CliqueWeight_4;  /** for future usage */
 
-  void  GibbsTotalEnergy(int i); /** calculate H_2. */
-  double GibbsEnergy(int i, int k, int k1); /** calculate the energy in each cluster. */
+  /** calculate H_2. */
+  void  GibbsTotalEnergy(int i); 
+
+  /** calculate the energy in each cluster. */
+  double GibbsEnergy(unsigned int i, unsigned int k, unsigned int k1); 
+
   int Sim(int a, int b);         /** method to return 1 when a equal to b. */
-  int LabelRegion(int i, int l, int change);  /** help to erase the small region. */
+  unsigned int LabelRegion(int i, int l, int change);  /** help to erase the small region. */
   void  RegionEraser();                       /** erase the small region. */
   void  GenerateMediumImage();                /** create the intermedium image. */
   void  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1. */
