@@ -36,7 +36,8 @@ int testMetaImage(int , char * [])
   std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
   std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << std::endl;
   std::cout << "ElementSize = " << tIm2.ElementSize() << std::endl;
-  std::cout << "ElementSize(0) = " << tIm2.ElementSize(0) << std::endl;
+  int im2Size = 0;
+  std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Size) << std::endl;
   std::cout << "ElementType = " << tIm2.ElementType() << std::endl;
   std::cout << "ElementNumberOfChannels = " << tIm2.ElementNumberOfChannels() << std::endl;
   std::cout << "ElementMinMaxValid = " << tIm2.ElementMinMaxValid() << std::endl;
