@@ -103,10 +103,8 @@ private:
   /** return true if tag([0][1]) = tagvalue1 and tag([2][3]) = tagvalue2*/ 
   bool IfEqual(unsigned char * tag, int tagvalue1, int tagvalue2) const;
   
-  std::ifstream   m_Ifstream;
-
-  std::ofstream   m_Ofstream;
-  
+  // Position after ReadImageInformation.
+  size_t m_InputPosition;
 };
 
 } // end namespace itk

@@ -39,7 +39,6 @@ DicomImageIO::DicomImageIO()
 /** Destructor */
 DicomImageIO::~DicomImageIO()
 {
-  m_Ifstream.close();
 }
 
 
@@ -370,10 +369,32 @@ void DicomImageIO::Read(void* buffer)
     numberOfPixels *= m_Dimensions[ dim ];
     }
 
+  std::ifstream inFile;
+  
+  inFile.open(m_FileName.c_str(), std::ios::in | std::ios::binary );
+  if( !inFile )
+  {
+    ExceptionObject exception(__FILE__, __LINE__);
+    std::string msg = "File \"" + m_FileName + "\" cannot be read.";
+    exception.SetDescription(msg.c_str());
+    throw exception;
+  }
+
+  inFile.seekg(m_InputPosition);
+  if( !inFile )
+  {
+    ExceptionObject exception(__FILE__, __LINE__);
+    itk::OStringStream msg;
+    msg << "Cannot seek to position " << m_InputPosition
+        << " in file \"" << m_FileName.c_str() << "\".";
+    exception.SetDescription(msg.str().c_str());
+    throw exception;
+  }
+
   char * p = static_cast<char *>(buffer);
-  m_Ifstream.read( p, this->GetImageSizeInBytes() );
-  bool success = !m_Ifstream.bad();
-  m_Ifstream.close();
+  inFile.read( p, this->GetImageSizeInBytes() );
+  bool success = !inFile.bad();
+  inFile.close();
   if( !success )
     {
     itkExceptionMacro("Error reading image data.");
@@ -400,41 +421,42 @@ void DicomImageIO::ReadImageInformation()
   char * value;
   char * spac1value,* spac2value;
   Tag tagcurrent;
- 
- 
-  m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary );
-  if( m_Ifstream.fail() )
+
+  std::ifstream inFile;
+  inFile.open(m_FileName.c_str(), std::ios::in | std::ios::binary );
+  if( !inFile )
   {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
+    std::string msg = "File \"" + m_FileName + "\" cannot be read.";
+    exception.SetDescription(msg.c_str());
     throw exception;
   }
 
   this->SetNumberOfDimensions( 2 );
   i=0;
   //0x7FE0 and 0x0010 is the last tag before data pixel
-  if(DicomImageIO::GoToTheEndOfHeader(m_Ifstream,i,tagcurrent))
+  if(DicomImageIO::GoToTheEndOfHeader(inFile,i,tagcurrent))
   {
     max=i;
     //start the reading of the Stream from the begining
-    m_Ifstream.seekg(0);
+    inFile.seekg(0);
     i=0;
   }   
 
   ////0x0028 and 0x0010 >> tag before the number of rows 
-  if(DicomImageIO::GoToTag(m_Ifstream,0x0028,0x0010,
+  if(DicomImageIO::GoToTag(inFile,0x0028,0x0010,
                                              i,max,tagcurrent))
   { 
     for(i=0;i<4;i++)
     {
-      m_Ifstream >> chaine [i];
+      inFile >> chaine [i];
     }
     if(strcmp("US20",chaine)||strcmp("2000",chaine))
     {
       rows=0;
       for(i=0;i<2;i++)
       {
-        m_Ifstream >> c;
+        inFile >> c;
         rows=rows+c*(unsigned int)pow((double)256,(double)i);
       }
       m_Dimensions[1]=rows;
@@ -453,19 +475,19 @@ void DicomImageIO::ReadImageInformation()
     throw exception;  
   }
   ////0x0028 and 0x0011 >> tag before the number of columns 
-  if(DicomImageIO::GoToTag(m_Ifstream,0x0028,0x0011,
+  if(DicomImageIO::GoToTag(inFile,0x0028,0x0011,
                                             i,max,tagcurrent))
    {
     for(i=0;i<4;i++)
     {
-      m_Ifstream >> chaine [i];
+      inFile >> chaine [i];
     }
     if(strcmp("US20",chaine)||strcmp("2000",chaine))
     {
       columns=0;
       for(i=0;i<2;i++)
       {
-        m_Ifstream >> c;
+        inFile >> c;
         columns=columns+c*(unsigned int)pow((double)256,(double)i);
       }
       m_Dimensions[0]=columns;
@@ -485,12 +507,12 @@ void DicomImageIO::ReadImageInformation()
   }
 
   ////0x0028 and 0x0030 >> tag before value of spacing
-  if(DicomImageIO::GoToTag( m_Ifstream,0x0028,0x0030,
+  if(DicomImageIO::GoToTag( inFile,0x0028,0x0030,
                                              i,max,tagcurrent))
   {
     for(i=0;i<4;i++)
     {
-      m_Ifstream >> chaine [i];
+      inFile >> chaine [i];
     }
     if((chaine[0]=='D') && (chaine[1]=='S'))
     {
@@ -499,14 +521,14 @@ void DicomImageIO::ReadImageInformation()
       {
        len=0; 
        c=chaine[3];
-       i=m_Ifstream.tellg();
+       i=inFile.tellg();
        while(c>44)
        {
          len++;
-         m_Ifstream >> c;
+         inFile >> c;
        }
        //we put the cursor back to read data spacing
-       m_Ifstream.seekg(i-len+8);
+       inFile.seekg(i-len+8);
         
       }
       else
@@ -525,7 +547,7 @@ void DicomImageIO::ReadImageInformation()
     j = 0;
     for(i=0;i<len;i++)
     {
-      m_Ifstream >> c;
+      inFile >> c;
       value[i]=c;
       if(value[i]=='\\')
       {
@@ -557,8 +579,8 @@ void DicomImageIO::ReadImageInformation()
           else
           {
             //one byte was red too many
-            i=m_Ifstream.tellg();
-            m_Ifstream.seekg(--i);
+            i=inFile.tellg();
+            inFile.seekg(--i);
           }
         }
       }
@@ -573,22 +595,22 @@ void DicomImageIO::ReadImageInformation()
     //if no data about spacing exits >> then set the value to 1
     m_Spacing[0]=1;
     m_Spacing[1]=1;
-    m_Ifstream.seekg(0);
+    inFile.seekg(0);
     i=0;
   }
   ////0x0028 and 0x0100 >> tag before the number of allocated bits
-  if(DicomImageIO::GoToTag(m_Ifstream,0x0028,0x0100,i,max,tagcurrent))
+  if(DicomImageIO::GoToTag(inFile,0x0028,0x0100,i,max,tagcurrent))
   {
     for(i=0;i<4;i++)
     {
-      m_Ifstream >> chaine [i];
+      inFile >> chaine [i];
     }
     if(strcmp("US20",chaine)||strcmp("2000",chaine))
     {
       allocatedbits=0;
       for(i=0;i<2;i++)
       {
-        m_Ifstream >> c;
+        inFile >> c;
         allocatedbits=allocatedbits+c*(unsigned int)pow((double)256,(double)i);
       }
     }
@@ -607,18 +629,18 @@ void DicomImageIO::ReadImageInformation()
   }
 
   ////0x0028 and 0x0103 >> tag before the number of pixel representation
-  if(DicomImageIO::GoToTag(m_Ifstream,0x0028,0x0103,i,max,tagcurrent))
+  if(DicomImageIO::GoToTag(inFile,0x0028,0x0103,i,max,tagcurrent))
   {
     for(i=0;i<4;i++)
     {
-      m_Ifstream >> chaine [i];
+      inFile >> chaine [i];
     }
     if(strcmp("US20",chaine)||strcmp("2000",chaine))
     {
       representation=0;
       for(i=0;i<2;i++)
       {
-        m_Ifstream >> c;
+        inFile >> c;
         representation=representation+c*(unsigned int)pow((double)256,(double)i);
       }
     }
@@ -674,14 +696,14 @@ void DicomImageIO::ReadImageInformation()
     }
   }
   //then go to the end of the header, at the begining of the data
-  if(!DicomImageIO::GoToTag(m_Ifstream,0x7FE0,0x0010,i,max,tagcurrent))
+  if(!DicomImageIO::GoToTag(inFile,0x7FE0,0x0010,i,max,tagcurrent))
   {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("error_dicom_no_end_of_the_header");
     throw exception;  
   }
-  m_Ifstream >> chaine[0];
-  m_Ifstream >> chaine[1];
+  inFile >> chaine[0];
+  inFile >> chaine[1];
   if (chaine[0]=='O' && chaine[1]=='W')
   {
     j=4;
@@ -692,8 +714,10 @@ void DicomImageIO::ReadImageInformation()
   }
   for(i=0;i<j;i++)
   {
-    m_Ifstream >> c;
+    inFile >> c;
   }
+  
+  m_InputPosition = inFile.tellg();
 }
 
 
