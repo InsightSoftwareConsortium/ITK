@@ -89,6 +89,15 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     ++ti;
     }
 
+  if( !m_NumberOfPixelsCounted )
+    {
+    itkExceptionMacro(<<"All the points mapped to outside of the moving image");
+    }
+  else
+    {
+    measure /= m_NumberOfPixelsCounted;
+    }
+
   return measure;
 
 }
