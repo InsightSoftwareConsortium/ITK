@@ -93,7 +93,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // The array can be assigned to the image using 
-  // the \texttt{SetSpacing()} method.
+  // the \code{SetSpacing()} method.
   //
   // Software Guide : EndLatex
 
@@ -159,7 +159,7 @@ int main()
   // objects in ITK and as a consequence it is not managed by SmartPointers.
   // Point objects are simply declared as instances of any other C++ class.
   // Once the point is declared, its components can be accessed using 
-  // traditional array notation. In particular the \texttt{[]} operator
+  // traditional array notation. In particular the \code{[]} operator
   // is available. For efficiency reasons, no bound checking is performed
   // on the index used to access a particular point component. It is the
   // user's responsibility to make sure that the index is in the range
@@ -180,7 +180,7 @@ int main()
   // The image can map this point to an index using the values of the
   // current spacing and origin. An index object must be provided to
   // receive the results of the mapping. The index object can be 
-  // instantiated by using the \texttt{IndexType} defined in the Image
+  // instantiated by using the \code{IndexType} defined in the Image
   // type.
   // Software Guide : EndLatex
 
@@ -191,12 +191,12 @@ int main()
 
   // Software Guide : BeginLatex
   // 
-  // The \texttt{TransformPhysicalPointToIndex()} method of the image class
+  // The \code{TransformPhysicalPointToIndex()} method of the image class
   // will compute the pixel index closest to the point provided. The method
   // checks for this index to be contained inside the current buffered pixel 
   // data. The method returns a boolean indicating whether the resulting 
   // index falls inside the buffered region or not. The output index should 
-  // not be used when the returned value of the method is \texttt{false}.
+  // not be used when the returned value of the method is \code{false}.
   //
   // The following lines illustrate the point to index mapping and the subsequent
   // use of the pixel index for accessing pixel data from the image. 
@@ -213,7 +213,7 @@ int main()
 
   // Software Guide : BeginLatex
   // 
-  // Remember that \texttt{GetPixel()} and \texttt{SetPixel()} are very 
+  // Remember that \code{GetPixel()} and \code{SetPixel()} are very 
   // inefficient methods for accessing pixel data. Image iterators should be
   // used when massive access to pixel data is required.
   //

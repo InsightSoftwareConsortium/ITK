@@ -79,9 +79,9 @@ int main( int argc, char ** argv )
   // Software Guide : BeginLatex
   //
   // The reader type can now be used to create one reader object.
-  // A smart pointer defined by the \texttt{::Pointer} notation
+  // A smart pointer defined by the \code{::Pointer} notation
   // is used to receive the reference to the newly created reader.
-  // The \texttt{New()} method of the reader type is invoked 
+  // The \code{New()} method of the reader type is invoked 
   // to create the reader object.
   //
   // Software Guide : EndLatex 
@@ -97,7 +97,7 @@ int main( int argc, char ** argv )
   //
   // The minimum information required by the reader is the filename
   // of the image to be loaded in memory. This is provided through
-  // the \texttt{::SetFileName()} method.
+  // the \code{::SetFileName()} method.
   //
   // Software Guide : EndLatex 
 
@@ -115,7 +115,7 @@ int main( int argc, char ** argv )
   // Reader objects perform as sources on the pipeline. They respond
   // to the update mechanisms. This means that the image file is only 
   // read into memory when an update request is made to the reader. 
-  // In the present example we are explicitly invoking the \texttt{Update()} 
+  // In the present example we are explicitly invoking the \code{Update()} 
   // method because the output of the reader is not connected to any 
   // other filter. On a normal application the output of the reader will
   // be connected as input of another image filter and the update calls
@@ -134,7 +134,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginLatex
   //
   // Access to the newly read image can be gained by calling the 
-  // \texttt{GetOutput()} method on the reader. This method can 
+  // \code{GetOutput()} method on the reader. This method can 
   // also be called before the update request is sent to the reader.
   // The reference to the image will be equally valid even though
   // the image will lack any pixel data content.

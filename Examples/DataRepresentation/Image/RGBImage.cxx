@@ -126,7 +126,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginLatex
   //
   // Or using the subindex notation since the RGBPixel inherits the 
-  // \texttt{[]} operator from the itk::Array class.
+  // \code{[]} operator from the itk::Array class.
   //
   // Software Guide : EndLatex 
 

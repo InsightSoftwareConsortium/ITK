@@ -71,7 +71,7 @@ int main()
   // of integers that define the position of the pixel along
   // each dimension of the image. The IndexType is automatically
   // defined in the ImageType and can be accessed using the 
-  // scope operator like \texttt{::IndexType}. The length of
+  // scope operator like \code{::IndexType}. The length of
   // the array will match the dimension of the associated image.
   //
   // The following code illustrates the declaration of an index
@@ -121,7 +121,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // While the \texttt{GetPixel()} method allows to read the
+  // While the \code{GetPixel()} method allows to read the
   // value of the pixel.
   //
   // Software Guide : EndLatex 
@@ -133,7 +133,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Please note that \texttt{GetPixel() } returns the pixel value
+  // Please note that \code{GetPixel() } returns the pixel value
   // by copy not by reference. Hence, the method can not be used
   // for indirectly modifying the image content.
   //

@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the itk::Image class.
+// This example illustrates the use of the \code{itk::Image} class.
 // The following code is the minimal procedure required to 
 // instantiate, declare and create an image class.\\
 //
@@ -51,9 +51,9 @@ int main()
   
   // Software Guide : BeginLatex
   //
-  // The image can then be created by invoking the New() operator
+  // The image can then be created by invoking the \code{New()} operator
   // from the corresponding image type and assigning the result
-  // to a SmartPointer.
+  // to a \code{SmartPointer}.
   //
   // Software Guide : EndLatex 
   //
@@ -118,7 +118,7 @@ int main()
   // Finally the region is passed to the image object in order to
   // define its extent and origin. So far, no memory allocation has
   // been made for the pixel data. It is then necessary to invoke
-  // the Allocate() method on the image. Allocate does not require
+  // the \code{Allocate()} method on the image. Allocate does not require
   // any arguments since all the information needed for memory 
   // allocation has already been provided by the region.
   // Software Guide : EndLatex 
