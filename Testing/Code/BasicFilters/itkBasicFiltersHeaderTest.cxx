@@ -38,6 +38,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConnectedThresholdImageFilter.txx"
 #include "itkConstantPadImageFilter.txx"
 #include "itkCosImageFilter.h"
+#include "itkCropImageFilter.txx"
 #include "itkCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.txx"
 #include "itkDanielssonDistanceMapImageFilter.txx"
