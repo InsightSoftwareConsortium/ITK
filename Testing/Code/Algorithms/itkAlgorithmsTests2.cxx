@@ -8,6 +8,8 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+  REGISTER_TEST(itkNarrowBandCurvesLevelSetImageFilterTest );
+  REGISTER_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DFilterTest   );
