@@ -43,6 +43,7 @@ itkDeformableTest
 itkVectorFuzzyConnectednessImageFilterTest
 itkVoronoi2DDiagramTest
 itkVoronoiSegmentationImageFilterTest
+itkWatershedImageFilterTest
 )
 
 ADD_EXECUTABLE(itkCurvatureFlowTest itkCurvatureFlowTest)
@@ -73,6 +74,7 @@ ADD_EXECUTABLE(itkDeformableTest itkDeformableTest)
 ADD_EXECUTABLE(itkVectorFuzzyConnectednessImageFilterTest itkVectorFuzzyConnectednessImageFilterTest)
 ADD_EXECUTABLE(itkVoronoi2DDiagramTest itkVoronoi2DDiagramTest)
 ADD_EXECUTABLE(itkVoronoiSegmentationImageFilterTest itkVoronoiSegmentationImageFilterTest)
+ADD_EXECUTABLE(itkWatershedImageFilterTest itkWatershedImageFilterTest)
 
 # This library has no non-templated code, so no source files are listed
 ADD_LIBRARY(ITKAlgorithmsTest)
