@@ -5,11 +5,11 @@
 # destination directory: destination file: full path to source file
 # When CMakeSetup is run for the MSC compiler, it will
 # copy all of the files from source to destination.
-# ${CMAKE_CONFIG_DIR} will be replaced with the build directory
-# ${srcdir} will be replaced with the source code directory
+# ${CMAKE_BINARY_DIR} will be replaced with the build directory
+# ${CMAKE_SOURCE_ROOT} will be replaced with the source code directory
 #
 #  itk configure file, just copy the .h.in to the .h
-${CMAKE_CONFIG_DIR}:itkConfigure.h:${srcdir}/itkConfigure.h.in
+${CMAKE_BINARY_DIR}:itkConfigure.h:${CMAKE_SOURCE_ROOT}/itkConfigure.h.in
 
 # for the vcl configure copy the vc60.h config file 
-${CMAKE_CONFIG_DIR}/Code/Insight3DParty/vxl/vcl:vcl_config.h:${srcdir}/Code/Insight3DParty/vxl/vcl/vcl_config-vc60.h
+${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl/vcl:vcl_config.h:${CMAKE_SOURCE_ROOT}/Code/Insight3DParty/vxl/vcl/vcl_config-vc60.h
