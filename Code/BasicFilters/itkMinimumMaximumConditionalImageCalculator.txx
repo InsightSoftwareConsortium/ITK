@@ -191,6 +191,9 @@ MinimumMaximumConditionalImageCalculator<TInputImage,TMaskImage>
     m_Region.Print(os,indent.GetNextIndent());
   os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
 
+  os << indent << "Mask Value: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_MaskValue)
+     << std::endl;
   os << indent << "Mask Image: " << std::endl;
     m_MaskImage->Print(os, indent.GetNextIndent());
 }
