@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkDicomImageIOFactory.h"
 
 int itkDicomImageIOTest(int ac, char* av[])
 {
@@ -42,6 +43,7 @@ int itkDicomImageIOTest(int ac, char* av[])
 
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
+  itk::DicomImageIOFactory::RegisterOneFactory();
   
   reader->SetFileName(av[1]);
   
