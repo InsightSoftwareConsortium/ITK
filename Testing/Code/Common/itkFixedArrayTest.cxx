@@ -66,6 +66,7 @@ int itkFixedArrayTest(int, char* [] )
   Print_Array(array3, std::cout);
 
   itk::FixedArray<int, 3> array4;
+  array4.Fill(0);
   Print_Array(array4, std::cout);
   
   // Test operator!= and operator==
