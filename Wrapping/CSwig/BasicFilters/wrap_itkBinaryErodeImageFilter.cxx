@@ -21,22 +21,15 @@
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 #include "itkCSwigImages.h"
+#include "itkCSwigBinaryBallStructuringElement.h"
 
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(itkBinaryErodeImageFilter);
   namespace wrappers
   {
-    namespace structuringElement 
-    {
-      typedef itk::BinaryBallStructuringElement<float, 2 >::Self             F2;
-      typedef itk::BinaryBallStructuringElement<float, 3 >::Self             F3;
-      typedef itk::BinaryBallStructuringElement<unsigned char, 2 >::Self     UC2;
-      typedef itk::BinaryBallStructuringElement<unsigned char, 3 >::Self     UC3;
-      typedef itk::BinaryBallStructuringElement<unsigned short, 2 >::Self    US2;
-      typedef itk::BinaryBallStructuringElement<unsigned short, 3 >::Self    US3;
-    }
-
+    // NOTE: since both the BinaryDilateImageFilter and BinaryErodeImageFilter derive from the same superclass, only one of
+    //       them should do the wrapping WITH_SUPERCLASS.
     //===========2D Wrapped Filters==============
     ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::F2 , image::F2 , structuringElement::F2,   itkBinaryErodeImageFilterF2F2  );
     ITK_WRAP_OBJECT3_WITH_SUPERCLASS(BinaryErodeImageFilter, image::UC2, image::UC2, structuringElement::UC2,  itkBinaryErodeImageFilterUC2UC2);
