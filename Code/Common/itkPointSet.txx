@@ -84,6 +84,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 }
 
 
+
 /**
  * Access routine to get the points container.
  */
@@ -99,6 +100,20 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     this->SetPoints(PointsContainer::New());
     }
   return m_PointsContainer;
+}
+
+
+/**
+ * Access routine to get the points container.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainerConstPointer
+PointSet<TPixelType, VDimension, TMeshTraits>
+::GetPoints(void) const
+{
+  itkDebugMacro(<< this->GetClassName() << " (" << this
+                << "): returning Points container of " << m_PointsContainer );
+  return m_PointsContainer.GetPointer();
 }
 
 
@@ -132,6 +147,22 @@ PointSet<TPixelType, VDimension, TMeshTraits>
                 << "): returning PointData container of "
                 << m_PointDataContainer );
   return m_PointDataContainer;
+}
+
+
+
+/**
+ * Access routine to get the point data container.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainerConstPointer
+PointSet<TPixelType, VDimension, TMeshTraits>
+::GetPointData(void) const
+{
+  itkDebugMacro(<< this->GetClassName() << " (" << this
+                << "): returning PointData container of "
+                << m_PointDataContainer );
+  return m_PointDataContainer.GetPointer();
 }
 
 

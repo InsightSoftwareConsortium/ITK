@@ -144,10 +144,12 @@ public:
   /**
    * Create types that are pointers to each of the container types.
    */
-  typedef typename PointsContainer::Pointer        PointsContainerPointer;
-  typedef typename PointDataContainer::Pointer     PointDataContainerPointer;
-  typedef typename PointLocatorType::Pointer       PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer        BoundingBoxPointer;
+  typedef typename PointsContainer::Pointer          PointsContainerPointer;
+  typedef typename PointsContainer::ConstPointer     PointsContainerConstPointer;
+  typedef typename PointDataContainer::Pointer       PointDataContainerPointer;
+  typedef typename PointDataContainer::ConstPointer  PointDataContainerConstPointer;
+  typedef typename PointLocatorType::Pointer         PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer          BoundingBoxPointer;
 
   /**
    * Create types that are iterators for each of the container types.
@@ -209,9 +211,11 @@ public:
    */
   void SetPoints(PointsContainer*);
   PointsContainerPointer GetPoints(void);
+  PointsContainerConstPointer GetPoints(void) const;
 
   void SetPointData(PointDataContainer*);
   PointDataContainerPointer GetPointData(void);
+  PointDataContainerConstPointer GetPointData(void) const;
 
   /**
    * Access routines to fill the Points container, and get information
