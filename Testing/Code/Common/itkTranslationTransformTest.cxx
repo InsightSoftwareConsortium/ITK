@@ -140,7 +140,7 @@ int main(int argc,char *argv[])
   vnl_vector_fixed<double, 2> x2, y2;
   x2[0] = 1;
   x2[1] = 2;
-  y2 = aff2->TransformVnlVector(x2);
+  y2 = aff2->TransformVector(x2);
   std::cout << "Transform a vnl_vector:" << std::endl
             << y2[0] << " , " << y2[1] << std::endl;
 

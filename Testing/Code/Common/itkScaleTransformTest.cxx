@@ -226,7 +226,7 @@ int main(int argc,char *argv[])
         q[j] = p[j] * iscale[j];
       }
       TransformType::OutputVnlVectorType r;
-      r = scaleTransform->TransformVnlVector( p );
+      r = scaleTransform->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
         if( fabs( q[i] - r[i] ) > epsilon )

@@ -110,7 +110,7 @@ int main(
         vector2[i]    = 0.0;
     }
     std::cout << "Instantiation of a given 2D transform:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     inverse2 = aff2->GetInverse();
     std::cout << "Inverse matrix for the given transform:"
@@ -141,7 +141,7 @@ int main(
     /* Try composition of two transformations */
     aff2->Compose( aff2 );
     std::cout << "Result of a composition:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with a translation */
     VectorType trans;
@@ -149,12 +149,12 @@ int main(
     trans[1] = 2;
     aff2->Translate(trans);
     std::cout << "Result of a translation:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with an isotropic scaling */
     aff2->Scale(.3, 1);
     std::cout << "Result of isotropic scaling:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with an anisotropic scaling */
     VectorType scale;
@@ -162,22 +162,22 @@ int main(
     scale[1] = .2;
     aff2->Scale(scale);
     std::cout << "Result of anisotropic scaling:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with a general N-D rotation */
     aff2->Rotate(0, 1, 0.57, 1);
     std::cout << "Result of general rotation:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with a 2-D rotation */
     aff2->Rotate(0, 1, -0.57, 1);
     std::cout << "Result of 2-D rotation:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Compose with a shear */
     aff2->Shear(1, 0, .2);
     std::cout << "Result of shear:" << std::endl;
-    aff2->PrintSelf( std::cout );
+    aff2->Print( std::cout );
 
     /* Transform a point */
     itk::Point<double, 2> u2, v2;
@@ -242,13 +242,13 @@ int main(
     axis[2] = .707;
     aff3->Rotate3D(axis, 1.0, 1);
     std::cout << "Create and rotate a 3D transform:" << std::endl;
-    aff3->PrintSelf( std::cout );
+    aff3->Print( std::cout );
 
     /* Generate inverse transform */
     Affine3DType::Pointer inv3;
     inv3 = aff3->Inverse();
     std::cout << "Create an inverse transformation:" << std::endl;
-    inv3->PrintSelf( std::cout );
+    inv3->Print( std::cout );
 
     /* Create an image for testing index<->physical transforms */
     std::cout << "Creating image for testing index<->physical transforms"
@@ -263,12 +263,12 @@ int main(
     /* Generate index-to-physical transform */
     Affine3DType::Pointer i2p = image->GetIndexToPhysicalTransform();
     std::cout << "Index to physical transformation:" << std::endl;
-    i2p->PrintSelf( std::cout );
+    i2p->Print( std::cout );
 
     /* Generate physical-to-index transform */
     Affine3DType::Pointer p2i = image->GetPhysicalToIndexTransform();
     std::cout << "Physical to index transformation:" << std::endl;
-    p2i->PrintSelf( std::cout );
+    p2i->Print( std::cout );
 
     return any;
 }

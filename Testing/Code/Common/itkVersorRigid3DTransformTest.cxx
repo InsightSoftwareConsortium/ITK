@@ -230,7 +230,7 @@ int main()
       q = versor.Transform( p );
 
       TransformType::OutputVnlVectorType r;
-      r = rotation->TransformVnlVector( p );
+      r = rotation->TransformVector( p );
       for(unsigned int i=0; i<3; i++)
       {
         if( fabs( q[i] - r[i] ) > epsilon )

@@ -200,7 +200,7 @@ int main(int argc,char *argv[])
       p[1] =  7;
       p[2] = 15;
       TransformType::OutputVnlVectorType q;
-      q = translation->TransformVnlVector( p );
+      q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
         if( fabs( q[i] - p[i] ) > epsilon )
