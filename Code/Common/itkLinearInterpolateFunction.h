@@ -25,13 +25,12 @@ namespace itk
  * \class LinearInterpolateFunction
  * \brief Linearly interpolate an image.
  *
- * LinearInterpolateFunction linearly interpolates an image at 
- * non-integer pixel position. This class is template over
- * the input image type.
+ * LinearInterpolateFunction linearly interpolates image intensity at
+ * a integer or non-integer pixel position. This class is templated
+ * over the input image type.
  *
  * This function works for N-dimensional images.
- *
- */
+ * */
 template <class TInputImage >
 class ITK_EXPORT LinearInterpolateFunction : 
   public ImageFunction<TInputImage,double> 
@@ -74,24 +73,34 @@ public:
 
   /** 
    * Set the input image.
+   *
+   * Specify the image to be interpolated.
+   *
+   * This method is NOT thread safe.
    */
   virtual void SetInputImage( InputImageType * ptr );
 
   /**
-   * Evalulate the function at specified index.
+   * Evaluate the function at specified index.
+   *
+   * Returns the image intensity at a specified integer
+   * coordinate position, or zero if the indicated position
+   * is outside the image.
+   *
+   * This method is believed to be thread safe.
    */
   virtual double Evaluate( const IndexType& index );
 
   /**
-   * Evalulate the function at non-integer coordinates.
+   * Evaluate the function at non-integer coordinates.
+   *
+   * Returns the linearly interpolated image intensity at a specified
+   * coordinate position, which need not be integer-valued.  Pixels
+   * outside the image are considered to be zero.
+   *
+   * This method is believed to be thread safe.
    */
   virtual double Evaluate( double * dblIndex );
-
-  /**
-   * Get the evaluated function value.
-   */
-  double GetValue() const
-    { return m_Value; }
 
 protected:
   LinearInterpolateFunction(){};
@@ -104,14 +113,8 @@ protected:
 
 private:
 
-  Size<ImageDimension>        m_ImageSize; 
-  unsigned long               m_Neighbors;
-
-  double                      m_Lower[ImageDimension];
-  double                      m_Upper[ImageDimension];
-  double                      m_Distance[ImageDimension];
-
-  double                      m_Value;
+  Size<ImageDimension>   m_ImageSize;  // Dimensions of the image
+  unsigned long          m_Neighbors;  // Size of interpolation neighborhood
 
 };
 

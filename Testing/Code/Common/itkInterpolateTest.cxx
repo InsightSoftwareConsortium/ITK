@@ -35,7 +35,7 @@ main(
 {
     int flag = 0;           /* Did this test program work? */
 
-    std::cout << "Testing image interpolation methods:\n";
+    std::cerr << "Testing image interpolation methods:\n";
 
     /* Define the image size and physical coordinates */
     SizeType size = {{20, 40, 80}};
@@ -72,22 +72,22 @@ main(
     interp->SetInputImage(image);
 
     /* Test evaluation at integer coordinates */
+    std::cerr << "Evaluate at integer coordinates: ";
     IndexType idx = {{10, 20,40}};
     double value1 = interp->Evaluate(idx);
-    std::cout << "Evaluate at integer coordinates: "
-              << value1 << std::endl;
+    std::cerr << value1 << std::endl;
     if (value1 != 70)  {
-        std::cout << "*** Error: correct value is 70" << std::endl;
+        std::cerr << "*** Error: correct value is 70" << std::endl;
         flag = 1;
     }
 
     /* Test evaluation at non-integer coordinates */
+    std::cerr << "Evaluate at non-integer coordinates: ";
     double point[3] = {5.25, 12.5, 42.0};
     double value2 = interp->Evaluate(point);
-    std::cout << "Evaluate at non-integer coordinates: "
-              << value2 << std::endl;
+    std::cerr << value2 << std::endl;
     if (value2 != 59.75) {
-        std::cout << "*** Error: correct value is 59.75" << std::endl;
+        std::cerr << "*** Error: correct value is 59.75" << std::endl;
         flag = 1;
     }
 

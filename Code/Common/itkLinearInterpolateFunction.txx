@@ -12,6 +12,9 @@
   See COPYRIGHT.txt for copyright details.
 
 ==========================================================================*/
+
+#include <iostream>          
+
 #include "itkPixelTraits.h"
 #include "itkIndex.h"
 #include "vnl/vnl_math.h"
@@ -32,9 +35,7 @@ LinearInterpolateFunction<TInputImage>
   m_ImageSize =
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
-  m_Value = 0.0;
-
-  m_Neighbors = vnl_math_rnd( ldexp(1.0,ImageDimension) );
+  m_Neighbors = 1UL << ImageDimension;
 
 }
 
@@ -61,30 +62,21 @@ LinearInterpolateFunction<TInputImage>
 ::Evaluate(
 const IndexType& index )
 {
-  m_Value = 0.0;
-  double dblIndex[ImageDimension];
-  bool inRange = true;
+  double value = 0.0;    // Value of interpolated pixel
 
+  /* Check if indices are within image; immediately return 0 if not */
   for( int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] < 0 || index[j] >= m_ImageSize[j] - 1 )
+    if( index[j] < 0 || (unsigned long)index[j] >= m_ImageSize[j] - 1 )
       {
-      dblIndex[j] = (double) index[j];
-      inRange = false;
+        return 0;
       }
     }
 
-  if( inRange )
-    {
-    m_Value = (double) ScalarTraits<PixelType>::
-      GetScalar( this->GetInputImage()->GetPixel( index ) );
-    return ( m_Value );
-    }
-  else
-    {
-    return ( this->Evaluate( dblIndex ) );
-    }
-
+  /* Otherwise return the appropriate pixel value */
+  value = (double) ScalarTraits<PixelType>::
+    GetScalar( this->GetInputImage()->GetPixel( index ) );
+  return ( value );
 }
 
 
@@ -97,83 +89,86 @@ LinearInterpolateFunction<TInputImage>
 ::Evaluate(
 double * dblIndex )
 {
+  int j;        // Index over coordinates
 
-  for( int j = 0; j < ImageDimension; j++ )
-    {
-    m_Lower[j] = floor( dblIndex[j] );
-    if( m_Lower[j] < 0 || m_Lower[j] >= m_ImageSize[j] )
-      {
-      m_Lower[j] = -1.0;
-      }
+  /* Prepare coordinates; check whether inside image or not.
+     If completely outside image, return 0 immediately. */
+  long base[ImageDimension];            // Base of interp neighborhood
+  double alpha[ImageDimension];         // Interpolation parameter
+  bool partial = false;                 // Partially inside image?
 
-    m_Upper[j] = ceil( dblIndex[j] );
-    if( m_Upper[j] < 0 || m_Upper[j] >= m_ImageSize[j] )
-      {
-      m_Upper[j] = -1.0;
-      }
-
-    m_Distance[j] = dblIndex[j] - floor( dblIndex[j] );
-
-    }
+  for (j = 0; j < ImageDimension; j++) {
+    base[j]  = (long)floor(dblIndex[j]);
+    alpha[j] = dblIndex[j] - base[j];
+    if ( base[j] < -1 || (unsigned long)base[j] >= m_ImageSize[j] ) {
+      // Completely outside
+      return 0; }
+    else if ( base[j] < 0 || (unsigned long)base[j] >= m_ImageSize[j]-1) {
+      // Overlaps the boundary
+      partial = true; }
+  }
 
   IndexType neighIndex;
-
-  m_Value = 0.0;
-
+  double value = 0.0;            // Interpolated pixel value
   typename InputImageType::Pointer image = this->GetInputImage();
 
-  for( int counter = 0; counter < m_Neighbors; counter++)
-    {
-    int useUpper = counter;
-    double neighValue = 1.0;
+  /* Case 1: Interpolation neighborhood overlaps the image boundary */
+  if (partial) {
+    for (unsigned int counter = 0; counter < m_Neighbors; counter++) {
+      double alf = 1.0;          // Inter parameter for each neighbor
+      int upper = counter;       // Each bit indicates upper/lower neighbor
+      for (j = 0; j < ImageDimension; j++) {
 
-    // use bitfield in counter to determine which neighbor
-    // to use
-    for( int j = 0; j < ImageDimension; j++ )
-      {
-      if( useUpper & 1 )
-        {
-        if( m_Upper[j] < 0 )
-          {
-          neighValue = 0.0;
-          break;
+        neighIndex[j] = base[j];
+
+        if (upper & 1) {
+          if ( base[j] >= 0 &&
+               (unsigned long)base[j] > m_ImageSize[j] - 2 ) {
+            alf = 0.0; 
+            break; }
+          else {
+            neighIndex[j] += 1;
+            alf *= alpha[j]; }
           }
-
-        neighIndex[j] = (long) m_Upper[j];
-        neighValue *= m_Distance[j];
+        else {
+          if ( base[j] < 0 ) {
+            alf = 0.0;
+            break;  }
+          else
+            alf *= 1.0 - alpha[j];
         }
-      else
-        {
-        if( m_Lower[j] < 0 )
-          {
-          neighValue = 0.0;
-          }
-
-        neighIndex[j] = (long) m_Lower[j];
-        neighValue *= 1.0 - m_Distance[j];
-
-        }
-
-      if ( !neighValue )
-        {
-        break;
-        }
-
-      useUpper >>= 1;
-
+        upper >>= 1;
       }
 
-    if( neighValue )
-      {
-      neighValue *= (double) ScalarTraits<PixelType>::
-        GetScalar( image->GetPixel( neighIndex ) );
-      m_Value += neighValue;
-
-      }
-
+      value += alf * (double) ScalarTraits<PixelType>::
+          GetScalar( image->GetPixel( neighIndex ) );
     }
+  }
 
-  return ( m_Value );
+  /* Case 2: Interpolation neighborhood is completely inside the image */
+  else {
+    for (unsigned int counter = 0; counter < m_Neighbors; counter++) {
+      double alf = 1.0;              // Interp parameter for each neighbor
+      unsigned int upper = counter;  // Each bit indicates upper/lower neighbor
+      for (j = 0; j < ImageDimension; j++) {
+
+        if (upper & 1) {
+          neighIndex[j] = base[j] + 1;
+          alf *= alpha[j];
+        }
+        else {
+          neighIndex[j] = base[j];
+          alf *= 1.0 - alpha[j];
+        }
+        upper >>= 1;
+      }
+
+      value += alf * (double) ScalarTraits<PixelType>::
+          GetScalar( image->GetPixel( neighIndex ) );
+    }
+  }
+
+  return ( value );
 
 }
 
