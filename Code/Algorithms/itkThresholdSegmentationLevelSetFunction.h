@@ -21,12 +21,28 @@
 
 namespace itk {
 
-
-/**
+/** \class ThresholdSegmentationLevelSetFunction
+ *    
+ * \brief This function is used in ThresholdSegmentationLevelSetImageFilter to
+ * segment structures in images based on intensity values.
  *
+ * \par  SegmentationLevelSetFunction is a subclass of the generic LevelSetFunction.
+ * It useful for segmentations based on intensity values in an image.  It works
+ * by constructing a speed term (feature image) with positive values inside an
+ * intensity window (between a low and high threshold) and negative values
+ * outside that intensity window.  The evolving level set front will lock onto
+ * regions that are at the edges of the intensity window.
  *
- * Assumes a strictly POSITIVE feature image
- */
+ *  \par
+ *  Image $f$ is thresholded pixel by pixel using upper threshold
+ *  $U$ and lower threshold $L$ according to the following formula.
+ *
+ * \par
+ *  \f$  f(x) = \left\{ \begin{array}{ll} x - L & \mbox{if $x < (U-L)/2 + L$} \\ U
+ *  - x & \mbox{otherwise} \end{array} \right. \f$ 
+ *
+ * \sa SegmentationLevelSetImageFunction
+ *  \sa ThresholdSegmentationLevelSetImageFilter */
 template <class TImageType, class TFeatureImageType = TImageType>
 class ITK_EXPORT ThresholdSegmentationLevelSetFunction
   : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
@@ -48,6 +64,7 @@ public:
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::ScalarValueType ScalarValueType;
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
+  typedef typename Superclass::RadiusType RadiusType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -64,12 +81,32 @@ public:
   { return m_LowerThreshold; }
 
   virtual void CalculateSpeedImage();
+
+  virtual void Initialize(const RadiusType &r)
+  {
+    Superclass::Initialize(r);
+    
+    this->SetAdvectionWeight( NumericTraits<ScalarValueType>::Zero);
+    this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::One);
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
+  }
   
 protected:
+  ThresholdSegmentationLevelSetFunction()  {}
+  virtual ~ThresholdSegmentationLevelSetFunction() {}
 
+  ThresholdSegmentationLevelSetFunction(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
+  void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent );
+    os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
+    os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
+  }
+  
   FeatureScalarType m_UpperThreshold;
   FeatureScalarType m_LowerThreshold;
-  
 };
   
 } // end namespace itk
