@@ -145,37 +145,6 @@ Image<TPixel, VImageDimension>
 }
 
 
-//----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void
-Image<TPixel, VImageDimension>
-::CopyInformation(const DataObject *data)
-{
-  // Standard call to the superclass' method
-  Superclass::CopyInformation(data);
-
-  // Attempt to cast data to an ImageBase.  All subclasses of ImageBase
-  // respond to GetSpacing(), GetOrigin()
-  const ImageBase<VImageDimension> *phyData;
-  
-  phyData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
-
-  if (phyData)
-    {
-    // Copy the origin and spacing
-    this->SetSpacing( phyData->GetSpacing() );
-    this->SetOrigin( phyData->GetOrigin() );
-    }
-  else
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::Image::CopyInformation() cannot cast "
-                      << typeid(data).name() << " to "
-                      << typeid(ImageBase<VImageDimension>*).name() );
-    }
-}
-
-
 /**
  *
  */

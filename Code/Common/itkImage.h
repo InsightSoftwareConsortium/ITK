@@ -337,24 +337,6 @@ public:
       }
     }
 
-  /** \brief Copy information from the specified data set.
-   *
-   * This method is part of the pipeline execution model. By default,
-   * a ProcessObject will copy meta-data from the first input to all
-   * of its outputs. See ProcessObject::GenerateOutputInformation().
-   * Each subclass of DataObject is responsible for being able to copy
-   * whatever meta-data it needs from from another DataObject.  Image
-   * has more meta-data than its superclasses Image or ImageBase.
-   * Thus, it must provide its own version of CopyInformation() in
-   * order to set its Spacing and Origin to match the input parameter.
-   * This implementation of CopyInformation() casts the input
-   * parameter to an ImageBase. If successful, this method call
-   * GetSpacing() and GetOrigin() on its input (since all subclasses
-   * of ImageBase are guarenteed to respond to GetSpacing() and
-   * GetOrigin()). If "data" is another datatype, this method may not
-   * do anything.   */
-  virtual void CopyInformation(const DataObject *data);
-
 protected:
   Image();
   void PrintSelf(std::ostream& os, Indent indent) const;

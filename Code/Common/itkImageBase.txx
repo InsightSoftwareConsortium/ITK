@@ -141,22 +141,27 @@ ImageBase<VImageDimension>
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
-  // Attempt to cast data to an ImageBase
-  const ImageBase<VImageDimension> *imgData;
+  if (data)
+    {
+    // Attempt to cast data to an ImageBase
+    const ImageBase<VImageDimension> *imgData;
   
-  imgData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
+    imgData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
 
-  if (imgData)
-    {
-    // Copy the meta data for this data type
-    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
-    }
-  else
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::ImageBase::CopyInformation() cannot cast "
-                       << typeid(data).name() << " to "
-                       << typeid(ImageBase*).name() );
+    if (imgData)
+      {
+      // Copy the meta data for this data type
+      m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
+      m_Spacing = imgData->m_Spacing;
+      m_Origin = imgData->m_Origin;
+      }
+    else
+      {
+      // pointer could not be cast back down
+      itkExceptionMacro( << "itk::ImageBase::CopyInformation() cannot cast "
+                         << typeid(data).name() << " to "
+                         << typeid(const ImageBase*).name() );
+      }
     }
 }
 
