@@ -41,13 +41,10 @@ public:
   //
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
-  void PrintSelf(std::ostream& os,Indent indent);
-
 
 protected:
   VnlFFTRealToComplexConjugateImageFilter() { }
   ~VnlFFTRealToComplexConjugateImageFilter() { }
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   VnlFFTRealToComplexConjugateImageFilter(const Self&); //purposely not implemented

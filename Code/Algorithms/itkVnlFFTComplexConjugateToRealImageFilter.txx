@@ -193,13 +193,5 @@ namespace itk
   }
 
 
-  template <typename TPixel, unsigned int Dimension>
-  void
-  VnlFFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
-  PrintSelf(std::ostream& os,Indent indent) const
-  {
-  }
 }
-#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
-
 #endif

@@ -52,7 +52,6 @@ public:
 protected:
   VnlFFTComplexConjugateToRealImageFilter()  { }
   virtual ~VnlFFTComplexConjugateToRealImageFilter(){ }
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   VnlFFTComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
