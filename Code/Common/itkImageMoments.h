@@ -178,7 +178,7 @@ public:
      * the principal axes coordinate system to physical coordinates.
      *
      */
-    AffineTransformType GetPrincipalAxesToPhysicalTransform(void);
+    AffineTransformType GetPrincipalAxesToPhysicalAxesTransform(void) const;
 
     /**
      * Get the affine transform from physical axes to principal axes
@@ -188,7 +188,7 @@ public:
      * system.
      *
      */
-    AffineTransformType GetPhysicalToPrincipalAxesTransform(void);
+    AffineTransformType GetPhysicalAxesToPrincipalAxesTransform(void) const;
 
     /** 
      * Construct an ImageMoments object.

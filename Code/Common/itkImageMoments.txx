@@ -25,12 +25,14 @@ namespace itk
     ImageMoments<TPixel, VRank>::notvalid
     = "No valid image moments are available.";
 
+    //----------------------------------------------------------------------
     // Construct without computing moments
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::ImageMoments(void) {
 	m_valid = 0;
     }
 
+    //-----------------------------------------------------------------------
     // Construct and compute moments
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::
@@ -40,6 +42,7 @@ namespace itk
 	    ComputeMoments(image);
 	}
 
+    //----------------------------------------------------------------------
     // Destructor
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::
@@ -47,6 +50,7 @@ namespace itk
     {
     }
 
+    //----------------------------------------------------------------------
     // Compute moments for a new or modified image
     template<class TPixel, int VRank>
     void
@@ -171,6 +175,7 @@ namespace itk
     }
 
 
+    //---------------------------------------------------------------------
     // Get sum of intensities
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::ScalarType
@@ -181,6 +186,7 @@ namespace itk
 	return m_m0;
     }
 
+    //--------------------------------------------------------------------
     // Get first moments about origin, in index coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::VectorType
@@ -191,6 +197,7 @@ namespace itk
 	return m_m1;
     }
 
+    //--------------------------------------------------------------------
     // Get second moments about origin, in index coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel,VRank>::MatrixType
@@ -201,6 +208,7 @@ namespace itk
 	return m_m2;
     }
 
+    //--------------------------------------------------------------------
     // Get center of gravity, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::VectorType
@@ -211,6 +219,7 @@ namespace itk
 	return m_cg;
     }
 
+    //--------------------------------------------------------------------
     // Get second central moments, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::MatrixType
@@ -221,6 +230,7 @@ namespace itk
 	return m_cm;
     }
 
+    //--------------------------------------------------------------------
     // Get principal moments, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::VectorType
@@ -231,6 +241,7 @@ namespace itk
 	return m_pm;
     }
 
+    //--------------------------------------------------------------------
     // Get principal axes, in physical coordinates
     template<class TPixel, int VRank>
     ImageMoments<TPixel, VRank>::MatrixType
@@ -241,6 +252,53 @@ namespace itk
 	return m_pa;
     }
 
+    //--------------------------------------------------------------------
+    // Get principal axes to physical axes transform
+    template<class TPixel, int VRank>
+    ImageMoments<TPixel, VRank>::AffineTransformType
+    ImageMoments<TPixel, VRank>::
+    GetPrincipalAxesToPhysicalAxesTransform(void) const
+    {
+        AffineTransformType::MatrixType matrix;
+        AffineTransformType::VectorType offset;
+        for (int i = 0; i < VRank; i++) {
+            for (int j = 0; j < VRank; j++)
+                matrix[j][i] = m_pa[i][j];    // Note the transposition
+            offset[i]    = m_cg [i];
+        }
+
+        AffineTransformType result(matrix, offset);
+        result.SetMatrix(matrix);
+        result.SetOffset(offset);
+
+        return result;
+    }
+
+
+    //--------------------------------------------------------------------
+    // Get physical axes to principal axes transform
+
+    template<class TPixel, int VRank>
+    ImageMoments<TPixel, VRank>::AffineTransformType
+    ImageMoments<TPixel, VRank>::
+    GetPhysicalAxesToPrincipalAxesTransform(void) const
+    {
+        AffineTransformType::MatrixType matrix;
+        AffineTransformType::VectorType offset;
+        for (int i = 0; i < VRank; i++) {
+            for (int j = 0; j < VRank; j++)
+                matrix[j][i] = m_pa[i][j];    // Note the transposition
+            offset[i]    = m_cg [i];
+        }
+
+        AffineTransformType result(matrix, offset);
+        result.SetMatrix(matrix);
+        result.SetOffset(offset);
+
+        return result.Inverse();
+    }
+
+    //--------------------------------------------------------------------
     /**
      * This private and interim method reports a error by printing
      * a given char string to standard error and aborting.  This

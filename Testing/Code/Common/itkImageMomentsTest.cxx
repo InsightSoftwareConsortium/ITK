@@ -14,11 +14,12 @@
 
 =========================================================================*/
 
+#include "itkAffineTransform.h"
 #include "itkImage.h"
+#include "itkImageMoments.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 
-#include "itkImageMoments.h"
 
 int 
 main(
@@ -123,6 +124,28 @@ main(
     std::cout << "True principal axes = \n";
     std::cout << "   " << tpa << "\n";
 
+    /* Compute transforms between principal and physical axes */
+    /* FIXME: Automatically check correctness of these results? */
+    itk::ImageMoments<unsigned short, 3>::AffineTransformType
+        pa2p = moments.GetPrincipalAxesToPhysicalAxesTransform();
+    std::cout << "\nPrincipal axes to physical axes transform:\n";
+    std::cout << pa2p << std::endl;
+    itk::ImageMoments<unsigned short, 3>::AffineTransformType
+        p2pa = moments.GetPhysicalAxesToPrincipalAxesTransform();
+    std::cout << "\nPhysical axes to principal axes transform:\n";
+    std::cout << p2pa << std::endl;
+
+    /* Do some error checking on the transforms */
+    double dist = pa2p.Metric(pa2p);
+    std::cout << "Distance from self to self = " << dist << std::endl;
+    itk::ImageMoments<unsigned short, 3>::AffineTransformType
+        p2pa2p;
+    p2pa2p.Compose(p2pa);
+    p2pa2p.Compose(pa2p);
+    double trerr = p2pa2p.Metric();
+    std::cout << "Distance from composition to identity = ";
+    std::cout << trerr << std::endl;
+
     /* Compute and report max abs error in computed */
     double tmerr = abs(ttm - ctm);  // Error in total mass
     double cgerr = 0.0;             // Error in center of gravity
@@ -138,16 +161,18 @@ main(
                 paerr = abs(cpa[i][j] - tpa[i][j]);
         }
     }
-    std::cout << "\nMaximum absolute errors in:\n";
-    std::cout << "   Total mass        = " << tmerr << "\n";
-    std::cout << "   Center of gravity = " << cgerr << "\n";
-    std::cout << "   Principal moments = " << pmerr << "\n";
-    std::cout << "   Principal axes    = " << paerr << "\n";
+    std::cout << "\nErrors found in:\n";
+    std::cout << "   Total mass        = " << tmerr << std::endl;
+    std::cout << "   Center of gravity = " << cgerr << std::endl;
+    std::cout << "   Principal moments = " << pmerr << std::endl;
+    std::cout << "   Principal axes    = " << paerr << std::endl;
+    std::cout << "   Transformations   = " << trerr << std::endl;
 
     /* Return error if differences are too large */
     int stat = 
         tmerr > maxerr || cgerr > maxerr ||
-        pmerr > maxerr || paerr > maxerr;
+        pmerr > maxerr || paerr > maxerr ||
+        trerr > maxerr;
     if (stat)
         std::cout << "\n*** Errors are larger than defined maximum value.\n";
     else
