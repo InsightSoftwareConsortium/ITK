@@ -31,37 +31,80 @@
 
 #include "itkImageBase.h"
 #include "itkImageIterator.h"
+#include "itkImageScalarIterator.h"
 #include "itkPixelTraits.h"
 #include <vector>
 
-template <class T, unsigned int TImageDimension=2>
+template <class TPixel, unsigned int TImageDimension=2>
 class ITK_EXPORT itkImage : public itkImageBase
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef typename itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
+  typedef typename itkSmartPointer< itkImage<TPixel, TImageDimension> > Pointer;
 
   /** 
    * Pixel typedef support. Used to declare pixel type in filters
    * or other operations.
    */
-  typedef typename T PixelType;
+  typedef typename TPixel PixelType;
 
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native
    * type that the scalar portion of the pixels are composed of; usually 
    * something like float, int, etc.  
    */
-  typedef typename itkScalarTraits<T>::ValueType ScalarValueType;
+  typedef typename itkScalarTraits<TPixel>::ValueType ScalarValueType;
 
   /** 
    * Pixel (vector) value typedef support. The vector value is the native
    * type that the vector portion of the pixels are composed of; usually 
    * something like float, int, etc.  
    */
-  typedef typename itkVectorTraits<T>::ValueType VectorValueType;
+  typedef typename itkVectorTraits<TPixel>::ValueType VectorValueType;
+
+  /** 
+   * Iterator typedef support. An iterator is used to traverse
+   * the image.
+   */
+  typedef typename itkImageIterator<TPixel, TImageDimension> Iterator;
+
+  /** 
+   * Index typedef support. An index is used to access pixel values.
+   */
+  typedef typename itkIndex<TImageDimension> Index;
+  
+  /** 
+   * Scalar iterator typedef support. An iterator is used to traverse
+   * the image using GetScalar().
+   */
+  typedef typename itkImageScalarIterator<TPixel,TImageDimension> ScalarIterator;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImage, itkImageBase);
+
+  /** 
+   * Create an empty image. 
+   */
+  static Pointer New();
+
+  /**
+   * Allocate the image memory. Dimension and Size must be set a priori.
+   */
+  void Allocate();
+
+  /**
+   * Set a pixel.
+   */
+  void SetPixel(const Index &index, const TPixel& value);
+  
+  /**
+   * Get a pixel.
+   */
+  const TPixel& GetPixel(const Index &index);
 
   /** 
    * Image dimension typedef support. Used to help declare pixel types
@@ -70,22 +113,6 @@ public:
   static unsigned int GetImageDimension() 
     { return TImageDimension; }
   
-  /** 
-   * Iterator typedef support. An iterator is used to traverse
-   * the image.
-   */
-  typedef typename itkImageIterator<T, TImageDimension> Iterator;
-
-  /** 
-   * Index typedef support. An index is used to access pixel values.
-   */
-  typedef typename itkIndex<TImageDimension> Index;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(itkImage, itkImageBase);
-
   /**
    * Return an Iterator for the beginning of the image. The index of this
    * iterator is set to m_ImageIndexOrigin.
@@ -119,25 +146,21 @@ public:
    */
   Iterator RegionEnd();
   
-  /** 
-   * Create an empty image. 
+  /**
+   * Return a scalar iterator for the beginning of the image. The index of this
+   * iterator is set to m_ImageIndexOrigin.
+   * \sa End(), RegionBegin(), RegionEnd()
    */
-  static Pointer New();
+  ScalarIterator ScalarBegin();
 
   /**
-   * Allocate the image memory. Dimension and Size must be set a priori.
+   * Return a scalar iterator for the end of the image.  The iterator points to
+   * one pixel past the end of the image.  The index of this pixel is
+   * [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
+   * m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+   * \sa Begin(), RegionBegin(), RegionEnd()
    */
-  void Allocate();
-
-  /**
-   * Set a pixel.
-   */
-  void SetPixel(const Index &index, const T& value);
-  
-  /**
-   * Get a pixel.
-   */
-  const T& GetPixel(const Index &index);
+  ScalarIterator ScalarEnd();
 
 protected:
   itkImage();
@@ -147,7 +170,7 @@ protected:
   void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:
-  std::vector<T> *m_Data;
+  std::vector<TPixel> *m_Data;
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

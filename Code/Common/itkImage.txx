@@ -17,31 +17,31 @@
 #include "itkObjectFactory.h"
 
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>::Pointer 
-itkImage<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+itkImage<TPixel, TImageDimension>::Pointer 
+itkImage<TPixel, TImageDimension>
 ::New()
 {
-  itkImage<T, TImageDimension>* ret = 
-    itkObjectFactory<itkImage<T, TImageDimension> >::Create();
+  itkImage<TPixel, TImageDimension>* ret = 
+    itkObjectFactory<itkImage<TPixel, TImageDimension> >::Create();
   if ( ret )
     {
     return ret;
     }
-  return new itkImage<T, TImageDimension>;
+  return new itkImage<TPixel, TImageDimension>;
 }
 
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+itkImage<TPixel, TImageDimension>
 ::itkImage()
 {
   m_Data = 0;
   this->SetDimension( TImageDimension );
 }
 
-template<class T, unsigned int TImageDimension>
-itkImage<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+itkImage<TPixel, TImageDimension>
 ::~itkImage()
 {
   if (m_Data != 0)
@@ -52,8 +52,9 @@ itkImage<T, TImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-void itkImage<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+void 
+itkImage<TPixel, TImageDimension>
 ::Allocate()
 {
   unsigned long num=1;
@@ -66,7 +67,7 @@ void itkImage<T, TImageDimension>
   
   if (m_Data == 0)
     { 
-    m_Data = new std::vector<T>(num);
+    m_Data = new std::vector<TPixel>(num);
     }
   else
     {
@@ -75,9 +76,10 @@ void itkImage<T, TImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-void itkImage<T, TImageDimension>
-::SetPixel(const Index &ind, const T& value)
+template<class TPixel, unsigned int TImageDimension>
+void 
+itkImage<TPixel, TImageDimension>
+::SetPixel(const Index &ind, const TPixel& value)
 {
   // add bounds checking for the region/image
   unsigned long offset=0;
@@ -99,8 +101,8 @@ void itkImage<T, TImageDimension>
 }
 
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-const T& itkImage<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+const TPixel& itkImage<TPixel, TImageDimension>
 ::GetPixel(const Index &ind)
 {
   // add bounds checking for the region/image
@@ -122,8 +124,9 @@ const T& itkImage<T, TImageDimension>
   return ( (*m_Data)[offset] );
 }
 
-template <class T, unsigned int TImageDimension>
-itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
+template <class TPixel, unsigned int TImageDimension>
+itkImageIterator<TPixel, TImageDimension> 
+itkImage<TPixel, TImageDimension>
 ::Begin()
 {
   Iterator ind;
@@ -152,8 +155,9 @@ itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
 // pixel is [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
 //           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
 //
-template <class T, unsigned int TImageDimension>
-itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
+template <class TPixel, unsigned int TImageDimension>
+itkImageIterator<TPixel, TImageDimension> 
+itkImage<TPixel, TImageDimension>
 ::End()
 {
   Iterator ind;
@@ -182,9 +186,69 @@ itkImageIterator<T, TImageDimension> itkImage<T, TImageDimension>
   return ind;
 }
 
+template <class TPixel, unsigned int TImageDimension>
+itkImageScalarIterator<TPixel, TImageDimension> 
+itkImage<TPixel, TImageDimension>
+::ScalarBegin()
+{
+  ScalarIterator ind;
+  
+  // Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
+  // ImageSize, RegionSize of the image into the interator
+  ind.SetPointer( m_Data->begin() );
+  ind.SetImageSize( this->GetSize() );
+  ind.SetRegionSize( this->GetSize() );
+  ind.SetImageIndexOrigin( indexOrigin );
+  ind.SetRegionIndexOrigin( indexOrigin );
+
+  // set the default i,j,k of the index for the iterator
+  ScalarIterator::Index index;
+  index.SetIndex( indexOrigin );
+  ind.SetIndex( index );
+  
+  return ind;
+}
+
 //----------------------------------------------------------------------------
-template<class T, unsigned int TImageDimension>
-void itkImage<T, TImageDimension>
+// The End() of the image is one pixel past the last pixel.  The index of this
+// pixel is [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
+//           m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+//
+template <class TPixel, unsigned int TImageDimension>
+itkImageScalarIterator<TPixel, TImageDimension> 
+itkImage<TPixel, TImageDimension>
+::ScalarEnd()
+{
+  ScalarIterator ind;
+  
+  long indexOrigin[TImageDimension];
+
+  memset(indexOrigin, 0, TImageDimension*sizeof(long));
+  
+  // Set the BasePointer, Pointer, RegionBasePointer, RegionPointer,
+  // ImageSize, RegionSize of the image into the interator
+  ind.SetPointer( m_Data->end() );
+  ind.SetImageSize( this->GetSize() );
+  ind.SetRegionSize( this->GetSize() );
+  ind.SetImageIndexOrigin( indexOrigin );
+  ind.SetRegionIndexOrigin( indexOrigin );
+
+  // set the default i,j,k of the index for the iterator
+  ScalarIterator::Index index;
+  for (int i=0; i < TImageDimension; i++)
+    {
+    indexOrigin[i] = indexOrigin[i] + m_Size[i] - 1;
+    }
+  indexOrigin[TImageDimension-1]++;
+  index.SetIndex( indexOrigin );
+  ind.SetIndex( index );
+  
+  return ind;
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int TImageDimension>
+void itkImage<TPixel, TImageDimension>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkImageBase::PrintSelf(os,indent);

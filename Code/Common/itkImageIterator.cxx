@@ -22,12 +22,12 @@
    * bounds, an exception (itkBoundsError) is thrown.
    * \sa itkClampedImageIterator
    */
-template<class T, unsigned int TImageDimension>
-const itkImageIterator<T, TImageDimension>
-itkImageIterator<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+const itkImageIterator<TPixel, TImageDimension>
+itkImageIterator<TPixel, TImageDimension>
 ::Add(const Index &vec)
 {
-  itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
+  itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index + vec;
 
   const long *tmpIndex = result.m_Index.GetIndex();
@@ -51,9 +51,9 @@ itkImageIterator<T, TImageDimension>
    * This method models a random access ImageIterator. If the iterator would
    * be outside of the bounds, and exception (itkBoundsError) is thrown.
    */
-template<class T, unsigned int TImageDimension>
-const itkImageIterator<T, TImageDimension> &
-itkImageIterator<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+const itkImageIterator<TPixel, TImageDimension> &
+itkImageIterator<TPixel, TImageDimension>
 ::Increment(const Index &vec)
 {
   m_Index += vec;
@@ -79,12 +79,12 @@ itkImageIterator<T, TImageDimension>
    * random access ImageIterator. If the iterator would be outside the bounds,
    * an exception (itkBoundsError) is thrown.
    */
-template<class T, unsigned int TImageDimension>
-const itkImageIterator<T, TImageDimension>
-itkImageIterator<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+const itkImageIterator<TPixel, TImageDimension>
+itkImageIterator<TPixel, TImageDimension>
 ::Subtract(const Index &vec)
 {
-  itkImageIterator<T, TImageDimension> result( *this ); // copy all the ivars
+  itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index - vec;
 
   const long *tmpIndex = result.m_Index.GetIndex();
@@ -108,9 +108,9 @@ itkImageIterator<T, TImageDimension>
    * models a random access ImageIterator. If the iterator would be outside
    * the bounds, an exception (itkBoundsError) is thrown.
    */
-template<class T, unsigned int TImageDimension>
-const itkImageIterator<T, TImageDimension> &
-itkImageIterator<T, TImageDimension>
+template<class TPixel, unsigned int TImageDimension>
+const itkImageIterator<TPixel, TImageDimension> &
+itkImageIterator<TPixel, TImageDimension>
 ::Decrement(const Index &vec)
 {
   m_Index -= vec;
