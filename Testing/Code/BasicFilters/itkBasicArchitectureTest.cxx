@@ -53,7 +53,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
-public:
+public: 
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
   virtual void DisplayText(const char* s)
     {
       std::cout << s << std::endl;
@@ -129,8 +133,7 @@ public:
 int main()
 {
   // Comment the following if you want to use the itk text output window
-  TextOutput::Pointer textWindPtr = TextOutput::New();
-  itk::OutputWindow::SetInstance(textWindPtr);
+  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
