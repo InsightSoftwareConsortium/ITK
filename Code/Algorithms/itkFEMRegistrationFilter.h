@@ -139,12 +139,6 @@ public:
 /** Instantiate the load class with the correct image type. */
   typedef  ImageMetricLoad<ImageType,ImageType>     ImageMetricLoadType;
   
-  /**
-   * Easy access to the FEMObjectFactory. We create a new class
-   * whose name is shorter and it's not templated...
-   */
-  class FEMOF : public FEMObjectFactory<FEMLightObject>{};
-  
   /* Main functions */
  
   /** Read the configuration file to set up the example parameters */
@@ -372,12 +366,11 @@ public:
 //  itkSetMacro( Load, ImageMetricLoadType* );
   itkGetMacro( Load, ImageMetricLoadType* );
 
+protected :
+
   /** de/constructor */
   FEMRegistrationFilter( ); 
   ~FEMRegistrationFilter(); 
-
-protected :
-
 
   void PrintSelf(std::ostream& os, Indent indent) const 
   { 
