@@ -187,7 +187,7 @@ pixel intensity similarity critereon. ITK provides a intensity and edge-based re
 
 /**
  \defgroup MRFAlgorithms Markov Random Field-based Algorithms
- \ingroup RegionBasedAlgorithms
+ \ingroup RegionBasedSegmentation
 Markov Random Field (MRF)-based algorithms assume that the segmented image is Markovian in nature, i.e., adjacent 
 pixels are likely to be of the same class. These methods typically combine intensity-based algorithms with MRF prior 
 models also known as Gibbs prior models.
