@@ -92,14 +92,14 @@ public:
   // <internal>
   // These constructors are here so that operator* etc can take
   // advantage of the C++ return value optimization.
-  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_add); // v + v
-  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_sub); // v - v
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_mul); // v * s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_div); // v / s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_add); // v + s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_sub); // v - s
-  vnl_vector (vnl_matrix<T> const &, vnl_vector<T> const &, vnl_tag_mul); // M * v
-  vnl_vector (vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
+  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, const vnl_tag_add &); // v + v
+  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, const vnl_tag_sub &); // v - v
+  vnl_vector (vnl_vector<T> const &, T,                     const vnl_tag_mul &); // v * s
+  vnl_vector (vnl_vector<T> const &, T,                     const vnl_tag_div &); // v / s
+  vnl_vector (vnl_vector<T> const &, T,                     const vnl_tag_add &); // v + s
+  vnl_vector (vnl_vector<T> const &, T,                     const vnl_tag_sub &); // v - s
+  vnl_vector (vnl_matrix<T> const &, vnl_vector<T> const &, const vnl_tag_mul &); // M * v
+  vnl_vector (vnl_vector<T> const &, vnl_matrix<T> const &, const vnl_tag_mul &); // v * M
   // </internal>
 #endif
 

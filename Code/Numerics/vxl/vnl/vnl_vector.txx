@@ -165,7 +165,7 @@ vnl_vector<T>::vnl_vector (T const* datablck, unsigned len)
 //------------------------------------------------------------
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_tag_add)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, const vnl_tag_add &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   if (u.size() != v.size())
@@ -175,7 +175,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_t
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_tag_sub)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, const vnl_tag_sub &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   if (u.size() != v.size())
@@ -185,7 +185,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_t
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_mul)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, const vnl_tag_mul &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   for (unsigned int i=0; i<num_elmts; ++i)
@@ -193,7 +193,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_mul)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_div)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, const vnl_tag_div &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   for (unsigned int i=0; i<num_elmts; ++i)
@@ -201,7 +201,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_div)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_add)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, const vnl_tag_add &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   for (unsigned int i=0; i<num_elmts; ++i)
@@ -209,7 +209,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_add)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_sub)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, const vnl_tag_sub &)
 {
   vnl_vector_alloc_blah(u.num_elmts);
   for (unsigned int i=0; i<num_elmts; ++i)
@@ -217,7 +217,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_sub)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_matrix<T> const &M, vnl_vector<T> const &v, vnl_tag_mul)
+vnl_vector<T>::vnl_vector (vnl_matrix<T> const &M, vnl_vector<T> const &v, const vnl_tag_mul &)
 {
   vnl_vector_alloc_blah(M.rows());
   if (M.cols() != v.size())
@@ -231,7 +231,7 @@ vnl_vector<T>::vnl_vector (vnl_matrix<T> const &M, vnl_vector<T> const &v, vnl_t
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (vnl_vector<T> const &v, vnl_matrix<T> const &M, vnl_tag_mul)
+vnl_vector<T>::vnl_vector (vnl_vector<T> const &v, vnl_matrix<T> const &M, const vnl_tag_mul &)
 {
   vnl_vector_alloc_blah(M.cols());
   if (v.size() != M.rows())
