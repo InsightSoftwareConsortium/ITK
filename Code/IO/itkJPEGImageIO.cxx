@@ -391,13 +391,18 @@ void JPEGImageIO::Write(const void* buffer)
     {
     itkExceptionMacro(<<"JPEG Writer can only write 2-dimensional images");
     }
+
+  if(this->GetComponentType() != UCHAR)
+    {
+    itkExceptionMacro(<<"JPEG supports unsigned char only");
+    }
   
   this->WriteSlice(m_FileName, buffer);
 }
 
 void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 {
-  const unsigned char *outPtr = ( (const unsigned char *) buffer);
+  const unsigned char *outPtr = ( (const unsigned char*) buffer);
 
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(),"wb");
@@ -405,21 +410,6 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   if(!fp)
     {
     itkExceptionMacro("Unable to open file " << fileName);
-    }
-
-  //int bitDepth;
-  switch (this->GetComponentType())
-    {
-    case UCHAR:
-      //bitDepth = 8;
-      break;
-
-    case USHORT:
-      //bitDepth = 16;
-      break;
-
-    default:
-      itkExceptionMacro(<<"JPEG supports unsigned char and unsigned short");
     }
 
   // Call the correct templated function for the output
