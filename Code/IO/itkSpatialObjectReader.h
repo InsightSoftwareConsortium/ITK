@@ -68,7 +68,7 @@ public:
   GroupPointer GetGroup(void) {return m_Group;}
 
   /** Set/GetEvent */
-  const MetaEvent* GetEvent() {return m_MetaToSpatialConverter.GetEvent()};
+  const MetaEvent* GetEvent() {return m_MetaToSpatialConverter.GetEvent();}
   void SetEvent(MetaEvent* event) {m_MetaToSpatialConverter.SetEvent(event);} 
 
 protected:
