@@ -143,6 +143,26 @@ namespace itk
        * \return nothing
        */
       void  DefineHeaderObjectDataType(void);
+      void ReorientIfNecessary(char *p);
+      struct ipl_dimensions {
+        unsigned int slicestride;
+        unsigned int rowstride;
+        unsigned int componentstride;
+        unsigned int pixelsize;
+        //
+        // xsize,ysize,zsize == size in each direction in pixesls
+        unsigned int xsize;
+        unsigned int ysize;
+        unsigned int zsize;
+      };
+      /**
+       * \author Kent Williams
+       * Get values needed to re-orient image data to
+       * Coronal scan order
+       * \param dim - structure to fill in
+       * \return nothing
+       */
+      void AnalyzeImageIO::GetAllDimensions(ipl_dimensions &dim);
 
       /**
        * \author Hans J. Johnson
@@ -154,6 +174,7 @@ namespace itk
       /**  All of the information read in from the header file */
       struct dsr m_hdr;
       ImageIOBase::ByteOrder m_MachineByteOrder;
+      ipl_dimensions m_old_dim,m_new_dim;
   };
 
 } // end namespace itk

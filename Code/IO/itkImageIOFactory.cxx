@@ -17,6 +17,7 @@
 
 #include "itkImageIOFactory.h"
 #include "itkDicomImageIOFactory.h"
+#include "itkAnalyzeImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
@@ -93,6 +94,7 @@ ImageIOFactory::RegisterBuiltInFactories()
       ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
       ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
       ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
+      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
       firstTime = false;
       }
   }

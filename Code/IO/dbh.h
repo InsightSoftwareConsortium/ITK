@@ -135,6 +135,12 @@ extern "C"
    * [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
    *
    */
+#define ITKA_TRANSVERSE 0
+#define ITKA_CORONAL    1
+#define ITKA_SAGITTAL   2
+#define ITKA_TRANSVERSE_FLIPPED 3
+#define ITKA_CORONAL_FLIPPED 4
+#define ITKA_SAGITTAL_FLIPPED 5
 /*
  *
  * (c) Copyright, 1986-1995

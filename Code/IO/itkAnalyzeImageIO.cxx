@@ -1,18 +1,18 @@
 /*=========================================================================
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkAnalyzeImageIO.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkAnalyzeImageIO.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) 2002 Insight Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+  This software is distributed WITHOUT ANY WARRANTY; without even
+  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.  See the above copyright notices for more information.
 
-=========================================================================*/
+  =========================================================================*/
 
 #include "itkAnalyzeImageIO.h"
 #include "itkExceptionObject.h"
@@ -23,12 +23,12 @@ PURPOSE.  See the above copyright notices for more information.
 #include <zlib.h>
 
 #include <cstdio>
+#include <stdlib.h>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
 //An array of the Analyze v7.5 known DataTypes
-static const char DataTypes[10][12]=
-{
+static const char DataTypes[10][12]=  {
   "UNKNOWN","BINARY","CHAR","SHORT",
   "INT","FLOAT","COMPLEX","DOUBLE","RGB", "USHORT"
 };
@@ -41,8 +41,7 @@ static const short int DataTypeKey[11]={0,1,2,4,8,16,32,64,128,255,6};
 //Written by Hans J. Johnson
 //Copied from uiig ANALYZE file reader
 // Acceptable values for hdr.dime.datatype
-enum DataTypeKeyValues
-{
+enum DataTypeKeyValues  {
   ANALYZE_DT_UNKNOWN        =0,
   ANALYZE_DT_BINARY         =1,
   ANALYZE_DT_UNSIGNED_CHAR  =2,
@@ -56,8 +55,7 @@ enum DataTypeKeyValues
   ANALYZE_DT_ALL            =255
 };
 
-enum DataTypeIndex
-{
+enum DataTypeIndex  {
   ANALYZE_DT_INDEX_UNKNOWN       =0,
   ANALYZE_DT_INDEX_BINARY        =1,
   ANALYZE_DT_INDEX_UNSIGNED_CHAR =2,
@@ -74,8 +72,7 @@ enum DataTypeIndex
 
 //GetExtension from uiig library.
 static std::string
-GetExtension( const std::string& filename )
-{
+GetExtension( const std::string& filename ) {
 
   // This assumes that the final '.' in a file name is the delimiter
   // for the file's extension type
@@ -88,8 +85,7 @@ GetExtension( const std::string& filename )
 
   // For backwards compatiabity.  If a filename has no extension
   // it assumes it is an Analyze file.  This is done for GEC's stuff
-  if( it == filename.max_size() || fileExt[0] == '/' )
-  {
+  if( it == filename.max_size() || fileExt[0] == '/' )    {
     std::string fileExt( "" );
     return( fileExt );
   }
@@ -103,35 +99,28 @@ GetExtension( const std::string& filename )
 
 //GetRootName from uiig library.
 static std::string
-GetRootName( const std::string& filename )
-{
+GetRootName( const std::string& filename ) {
   const std::string fileExt = GetExtension(filename);
 
   // Create a base filename
   // i.e Image.hdr --> Image
-  if( fileExt.length() > 0 )
-  {
+  if( fileExt.length() > 0 ) {
     const std::string::size_type it = filename.find_last_of( fileExt );
     std::string baseName( filename, 0, it-fileExt.length() );
     return( baseName );
-  }
-
-  // Case when the extension is nothing (Analyze)
-  else
-  {
+  } else {
+    // Case when the extension is nothing (Analyze)
     return( filename );
   }
 }
 
 
 static std::string
-GetHeaderFileName( const std::string & filename )
-{
+GetHeaderFileName( const std::string & filename ) {
   std::string ImageFileName = GetRootName(filename);
   std::string fileExt = GetExtension(filename);
   //If file was named xxx.img.gz then remove both the gz and the img endings.
-  if(!fileExt.compare("gz"))
-  {
+  if(!fileExt.compare("gz"))    {
     ImageFileName=GetRootName(GetRootName(filename));
   }
   ImageFileName += ".hdr";
@@ -144,18 +133,13 @@ static std::string GetImageFileName( const std::string& filename )
   // Why do we add ".img" here?  Look in fileutils.h
   std::string fileExt = GetExtension(filename);
   std::string ImageFileName = GetRootName(filename);
-  if(!fileExt.compare("gz"))
-  {
+  if(!fileExt.compare("gz"))    {
     //First strip both extensions off
     ImageFileName=GetRootName(GetRootName(filename));
     ImageFileName += ".img.gz";
-  }
-  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )
-  {
+  }  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )    {
     ImageFileName += ".img";
-  }
-  else
-  {
+  }  else    {
     //uiig::Reporter* reporter = uiig::Reporter::getReporter();
     //std::string temp="Error, Can not determine compressed file image name. ";
     //temp+=filename;
@@ -169,296 +153,247 @@ static std::string GetImageFileName( const std::string& filename )
 namespace itk
 {
   void
-    AnalyzeImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
-    {
-      switch(m_PixelType)
-      {
-        case CHAR:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
-                  (char*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
-                  (char *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case UCHAR:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
-                  (unsigned char*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
-                  (unsigned char *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case SHORT:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
-                  (short*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
-                  (short *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case USHORT:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-                  (unsigned short*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-                  (unsigned short *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case INT:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<int>::SwapRangeFromSystemToLittleEndian(
-                  (int*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<int>::SwapRangeFromSystemToBigEndian(
-                  (int *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case UINT:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian(
-                  (unsigned int*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(
-                  (unsigned int *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case LONG:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<long>::SwapRangeFromSystemToLittleEndian(
-                  (long*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<long>::SwapRangeFromSystemToBigEndian(
-                  (long *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case ULONG:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<unsigned long>::SwapRangeFromSystemToLittleEndian(
-                  (unsigned long*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<unsigned long>::SwapRangeFromSystemToBigEndian(
-                  (unsigned long *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case FLOAT:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<float>::SwapRangeFromSystemToLittleEndian(
-                  (float*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<float>::SwapRangeFromSystemToBigEndian(
-                  (float *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        case DOUBLE:
-          {
-            if ( m_MachineByteOrder == LittleEndian )
-            {
-              ByteSwapper<double>::SwapRangeFromSystemToLittleEndian(
-                  (double*)buffer, numberOfPixels );
-            }
-            else if ( m_MachineByteOrder == BigEndian )
-            {
-              ByteSwapper<double>::SwapRangeFromSystemToBigEndian(
-                  (double *)buffer, numberOfPixels );
-            }
-            break;
-          }
-        default:
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Pixel Type Unknown");
-          throw exception;
-      }
-    }
-
-  ImageIOBase::ByteOrder
-    AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
-    {
-      ImageIOBase::ByteOrder returnvalue;
-      // Machine and header endianess is same
-
-      //checking hk.extents only is NOT a good idea. Many programs do not set
-      //hk.extents correctly. Doing an additional check on hk.sizeof_hdr
-      //increases chance of correct result.   --Juerg·Tschirrin Univeristy of Iowa
-      //All properly constructed analyze images should have the extents feild
-      //set.  It is part of the file format standard.  While most headers of analyze·
-      //images are 348 bytes long, The Analyze file format allows the header to have other lenghts.
-      //This code will fail in the unlikely event that the extents feild is not set (invalid anlyze file
-      //anyway) and the header is not the normal size.·
-      //Other peices of code have used a huristic on the image dimensions.  If the Image dimensions is greater
-      //than 16000 then the image is almost certainly byte-swapped-- Hans
-      if((temphdr.hk.extents == 16384)||(temphdr.hk.sizeof_hdr == 348)) //If macine endedness matches file.
-      {
-        returnvalue= ( ByteSwapper<int>::SystemIsBigEndian() == true )? LittleEndian : BigEndian ;
-      }
-      else //File does not match machine
-      {
-        returnvalue= ( ByteSwapper<int>::SystemIsBigEndian() == true )? BigEndian : LittleEndian ;
-      }
-      return returnvalue;
-    }
-
-  void
-    AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
-    {
-      if ( m_MachineByteOrder == LittleEndian )
-      {
-        //NOTE: If machine order is little endian, and the data needs to be swapped,
-        //      the SwapFromBigEndianToSystem is equivalent to SwapFromSystemToBigEndian.
-        ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.sizeof_hdr );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( (&imageheader->hk.data_type[0]),10 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.db_name[0]),18 );
-        ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.extents );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->hk.session_error );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.regular );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.hkey_un0 );
-
-        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian( &imageheader->dime.dim[0], 8 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.vox_units[0]),4 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.cal_units[0]),8 );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.unused1 );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.datatype );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.bitpix );
-        ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.dim_un0 );
-
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian( &imageheader->dime.pixdim[0],8 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.vox_offset );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.roi_scale );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused1 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused2 );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_max );
-        ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_min );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.compressed );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.verified );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmin );
-
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.descrip[0]),80 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.aux_file[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &(imageheader->hk.orient );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.originator[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.generated[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.scannum[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.patient_id[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_date[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_time[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.hist_un0[0]),24 );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.views );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.vols_added );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.start_field );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.field_skip );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omin );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smax );
-        ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smin );
-      }
-      else if ( m_MachineByteOrder == BigEndian )
-      {
-        //NOTE: If machine order is little endian, and the data needs to be swapped,
-        //      the SwapFromLittleEndianToSystem is equivalent to SwapFromSystemToLittleEndian.
-        ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.sizeof_hdr );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( (&imageheader->hk.data_type[0]),10 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.db_name[0]),18 );
-        ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.extents );
-        ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->hk.session_error );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &imageheader->hk.regular );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &imageheader->hk.hkey_un0 );
-
-        ByteSwapper<short int>::SwapRangeFromSystemToLittleEndian( &imageheader->dime.dim[0], 8 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.vox_units[0]),4 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.cal_units[0]),8 );
-        ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.unused1 );
-        ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.datatype );
-        ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.bitpix );
-        ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.dim_un0 );
-
-        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian( &imageheader->dime.pixdim[0],8 );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.vox_offset );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.roi_scale );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.funused1 );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.funused2 );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.cal_max );
-        ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.cal_min );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.compressed );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.verified );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.glmax );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.glmin );
-
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.descrip[0]),80 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.aux_file[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &(imageheader->hk.orient );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.originator[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.generated[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.scannum[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.patient_id[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.exp_date[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.exp_time[0]),24 );
-        //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.hist_un0[0]),24 );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.views );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.vols_added );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.start_field );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.field_skip );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.omax );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.omin );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smax );
-        ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smin );
-      }
-      else
-      {
+  AnalyzeImageIO::SwapBytesIfNecessary( void* buffer, 
+                                        unsigned long numberOfPixels )
+  {
+    if ( m_MachineByteOrder == LittleEndian ) {
+      switch(m_PixelType) {
+      case CHAR:
+        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char*)buffer,
+                                                             numberOfPixels );
+        break;
+      case UCHAR:
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian
+          ((unsigned char*)buffer, numberOfPixels );
+        break;
+      case SHORT:
+        ByteSwapper<short>::SwapRangeFromSystemToLittleEndian
+          ((short*)buffer, numberOfPixels );
+        break;
+      case USHORT:
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian
+          ((unsigned short*)buffer, numberOfPixels );
+        break;
+      case INT:
+        ByteSwapper<int>::SwapRangeFromSystemToLittleEndian
+          ((int*)buffer, numberOfPixels );
+        break;
+      case UINT:
+        ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian
+          ((unsigned int*)buffer, numberOfPixels );
+        break;
+      case LONG:
+        ByteSwapper<long>::SwapRangeFromSystemToLittleEndian
+          ((long*)buffer, numberOfPixels );
+        break;
+      case ULONG:
+        ByteSwapper<unsigned long>::SwapRangeFromSystemToLittleEndian
+          ((unsigned long*)buffer, numberOfPixels );
+        break;
+      case FLOAT:
+        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float*)buffer,
+                                                              numberOfPixels );
+        break;
+      case DOUBLE:
+        ByteSwapper<double>::SwapRangeFromSystemToLittleEndian
+          ((double*)buffer, numberOfPixels );
+        break;
+      default:
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Machine Endian Type Unknown");
+        exception.SetDescription("Pixel Type Unknown");
+        throw exception;
+      }
+    } else {
+      switch(m_PixelType) {
+      case CHAR:
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer,
+                                                          numberOfPixels );
+        break;
+      case UCHAR:
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian
+          ((unsigned char *)buffer, numberOfPixels );
+        break;
+      case SHORT:
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian
+          ((short *)buffer, numberOfPixels );
+        break;
+      case USHORT:
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian
+          ((unsigned short *)buffer, numberOfPixels );
+        break;
+      case INT:
+        ByteSwapper<int>::SwapRangeFromSystemToBigEndian
+          ((int *)buffer, numberOfPixels );
+        break;
+      case UINT:
+        ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian
+          ((unsigned int *)buffer, numberOfPixels );
+        break;
+      case LONG:
+        ByteSwapper<long>::SwapRangeFromSystemToBigEndian
+          ((long *)buffer, numberOfPixels );
+        break;
+      case ULONG:
+        ByteSwapper<unsigned long>::SwapRangeFromSystemToBigEndian
+          ((unsigned long *)buffer, numberOfPixels );
+        break;
+      case FLOAT:
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian
+          ((float *)buffer, numberOfPixels );
+        break;
+      case DOUBLE:
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian
+          ((double *)buffer, numberOfPixels );
+        break;
+      default:
+        ExceptionObject exception(__FILE__, __LINE__);
+        exception.SetDescription("Pixel Type Unknown");
         throw exception;
       }
     }
+  }
+
+  ImageIOBase::ByteOrder
+  AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
+  {
+    ImageIOBase::ByteOrder returnvalue;
+    // Machine and header endianess is same
+
+    //checking hk.extents only is NOT a good idea. Many programs do not set
+    //hk.extents correctly. Doing an additional check on hk.sizeof_hdr
+    //increases chance of correct result. --Juerg·Tschirrin Univeristy of Iowa
+    //All properly constructed analyze images should have the extents feild
+    //set.  It is part of the file format standard.  While most headers of 
+    // analyze·images are 348 bytes long, The Analyze file format allows the 
+    // header to have other lengths.
+    //This code will fail in the unlikely event that the extents feild is 
+    //not set (invalid anlyze file anyway) and the header is not the normal
+    //size.·Other peices of code have used a heuristic on the image 
+    //dimensions.  If the Image dimensions is greater
+    //than 16000 then the image is almost certainly byte-swapped-- Hans
+
+    if((temphdr.hk.extents == 16384) ||
+       (temphdr.hk.sizeof_hdr == 348)) { 
+      // If machine endedness matches file.
+      returnvalue = (ByteSwapper<int>::SystemIsBigEndian() == true ) ? 
+        LittleEndian : BigEndian ;
+    } else { 
+      // File does not match machine
+      returnvalue = ( ByteSwapper<int>::SystemIsBigEndian() == true )? 
+        BigEndian : LittleEndian ;
+    }
+    return returnvalue;
+  }
+
+  void
+  AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
+  {
+    if ( m_MachineByteOrder == LittleEndian ) {
+      // NOTE: If machine order is little endian, and the data needs to be 
+      // swapped, the SwapFromBigEndianToSystem is equivalent to 
+      // SwapFromSystemToBigEndian.
+      ByteSwapper<int>::SwapFromSystemToBigEndian(&imageheader->hk.sizeof_hdr);
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( (&imageheader->hk.data_type[0]),10 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.db_name[0]),18 );
+      ByteSwapper<int  >::SwapFromSystemToBigEndian( &imageheader->hk.extents );
+      ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->hk.session_error );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.regular );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &imageheader->hk.hkey_un0 );
+
+      ByteSwapper<short int>::SwapRangeFromSystemToBigEndian( &imageheader->dime.dim[0], 8 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.vox_units[0]),4 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.cal_units[0]),8 );
+      ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.unused1 );
+      ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.datatype );
+      ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.bitpix );
+      ByteSwapper<short int>::SwapFromSystemToBigEndian( &imageheader->dime.dim_un0 );
+
+      ByteSwapper<float>::SwapRangeFromSystemToBigEndian( &imageheader->dime.pixdim[0],8 );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.vox_offset );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.roi_scale );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused1 );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.funused2 );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_max );
+      ByteSwapper<float>::SwapFromSystemToBigEndian( &imageheader->dime.cal_min );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.compressed );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.verified );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmax );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->dime.glmin );
+
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.descrip[0]),80 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.aux_file[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToBigEndian( &(imageheader->hk.orient );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.originator[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.generated[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.scannum[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.patient_id[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_date[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.exp_time[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToBigEndian( &(imageheader->hk.hist_un0[0]),24 );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.views );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.vols_added );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.start_field );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.field_skip );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omax );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.omin );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smax );
+      ByteSwapper<int>::SwapFromSystemToBigEndian( &imageheader->hist.smin );
+    }    else if ( m_MachineByteOrder == BigEndian )      {
+      //NOTE: If machine order is little endian, and the data needs to be 
+      // swapped, the SwapFromLittleEndianToSystem is equivalent to 
+      // SwapFromSystemToLittleEndian.
+      ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.sizeof_hdr );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( (&imageheader->hk.data_type[0]),10 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.db_name[0]),18 );
+      ByteSwapper<int  >::SwapFromSystemToLittleEndian( &imageheader->hk.extents );
+      ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->hk.session_error );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &imageheader->hk.regular );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &imageheader->hk.hkey_un0 );
+
+      ByteSwapper<short int>::SwapRangeFromSystemToLittleEndian( &imageheader->dime.dim[0], 8 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.vox_units[0]),4 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.cal_units[0]),8 );
+      ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.unused1 );
+      ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.datatype );
+      ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.bitpix );
+      ByteSwapper<short int>::SwapFromSystemToLittleEndian( &imageheader->dime.dim_un0 );
+
+      ByteSwapper<float>::SwapRangeFromSystemToLittleEndian( &imageheader->dime.pixdim[0],8 );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.vox_offset );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.roi_scale );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.funused1 );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.funused2 );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.cal_max );
+      ByteSwapper<float>::SwapFromSystemToLittleEndian( &imageheader->dime.cal_min );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.compressed );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.verified );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.glmax );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->dime.glmin );
+
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.descrip[0]),80 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.aux_file[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapFromSystemToLittleEndian( &(imageheader->hk.orient );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.originator[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.generated[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.scannum[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.patient_id[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.exp_date[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.exp_time[0]),24 );
+      //Here for completeness ByteSwapper<char >::SwapRangeFromSystemToLittleEndian( &(imageheader->hk.hist_un0[0]),24 );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.views );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.vols_added );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.start_field );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.field_skip );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.omax );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.omin );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smax );
+      ByteSwapper<int>::SwapFromSystemToLittleEndian( &imageheader->hist.smin );
+    }    else      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Machine Endian Type Unknown");
+      throw exception;
+    }
+  }
 
 
   // Default constructor
@@ -468,9 +403,11 @@ namespace itk
     this->SetNumberOfDimensions(3);
     m_PixelType         = UCHAR;
     //Set m_MachineByteOrder to the ByteOrder of the machine
-    m_ByteOrder         = ( ByteSwapper<int>::SystemIsBigEndian() == true )? LittleEndian : BigEndian ;
+    m_ByteOrder         = ( ByteSwapper<int>::SystemIsBigEndian() == true ) ? 
+      LittleEndian : BigEndian ;
     //The file byte order
-    m_MachineByteOrder  = ( ByteSwapper<int>::SystemIsBigEndian() == true )? LittleEndian : BigEndian ;
+    m_MachineByteOrder  = ( ByteSwapper<int>::SystemIsBigEndian() == true )?
+      LittleEndian : BigEndian ;
 
     // Set all values to a default value
     // Must check again -- memset!!!!
@@ -507,18 +444,20 @@ namespace itk
     this->m_hdr.dime.cal_units[0]='\0';
 
     this->m_hdr.dime.unused1=0;
-    /*Acceptable data values are DT_NONE, DT_UNKOWN, DT_BINARY, DT_UNSIGNED_CHAR */
-    /* DT_SIGNED_SHORT, DT_SIGNED_INT, DT_FLOAT, DT_COMPLEX, DT_DOUBLE, DT_RGB, DT_ALL */
+    // Acceptable data values are DT_NONE, DT_UNKOWN, DT_BINARY, 
+    // DT_UNSIGNED_CHAR
+    // DT_SIGNED_SHORT, DT_SIGNED_INT, DT_FLOAT, DT_COMPLEX, DT_DOUBLE, 
+    // DT_RGB, DT_ALL
     //this->m_hdr.dime.datatype=DataTypeKey[DT_INDEX_UNKNOWN];
 
     //this->m_hdr.dime.bitpix=DataTypeSizes[DT_INDEX_UNKNOWN];/*bits per pixel*/
     this->m_hdr.dime.dim_un0=0;
 
-    /*Set the voxel dimension fields:
-      A value of 0.0 for these fields implies that the value is unknown.
-      Change these values to what is appropriate for your data
-      or pass additional commathis->m_hdr.dime.dim[0] line arguments    */
-    this->m_hdr.dime.pixdim[0]=1.0;//x_dimension
+    //Set the voxel dimension fields:
+    //A value of 0.0 for these fields implies that the value is unknown.
+    //Change these values to what is appropriate for your data
+    //or pass additional commathis->m_hdr.dime.dim[0] line arguments
+       this->m_hdr.dime.pixdim[0]=1.0;//x_dimension
     this->m_hdr.dime.pixdim[1]=1.0;//y_dimension
     this->m_hdr.dime.pixdim[2]=1.0;//z_dimension
     this->m_hdr.dime.pixdim[3]=1.0;//t_dimension
@@ -526,8 +465,9 @@ namespace itk
     this->m_hdr.dime.pixdim[5]=1.0;
     this->m_hdr.dime.pixdim[6]=1.0;
     this->m_hdr.dime.pixdim[7]=1.0;
-    /*Assume zero offset in .img file, byte at which pixel data starts in the HeaderObj file */
-    /*byte offset in the HeaderObj file which voxels start */
+    // Assume zero offset in .img file, byte at which pixel data starts in 
+    // the HeaderObj file
+    //byte offset in the HeaderObj file which voxels start
     this->m_hdr.dime.vox_offset=0.0;
 
     this->m_hdr.dime.roi_scale=0.0;
@@ -550,7 +490,7 @@ namespace itk
     /*3-transverse flipped*/
     /*4-coronal flipped*/
     /*5-sagittal flipped*/
-    this->m_hdr.hist.orient='\0';
+    this->m_hdr.hist.orient='\1'; // canonical orientation is coronal flipped
 
     this->m_hdr.hist.originator[0]='\0';
     this->m_hdr.hist.generated[0]='\0';
@@ -583,14 +523,13 @@ namespace itk
   bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   {
     m_FileName=FileNameToWrite;
-    if(   m_FileName != "" &&
-        (
-         m_FileName.find(".img") < m_FileName.length() ||  /*DataFile Name Given*/
-         m_FileName.find(".hdr") < m_FileName.length() || /*HeaderFile Name Given*/
-         m_FileName.find(".img.gz") < m_FileName.length() /*Compressed Images*/
-        )
-      )
-    {
+    if(m_FileName != "" &&
+       // DataFile Name Given*/
+       (m_FileName.find(".img") < m_FileName.length() ||  
+        // HeaderFile Name Given
+        m_FileName.find(".hdr") < m_FileName.length() || 
+        //Compressed Images
+        m_FileName.find(".img.gz") < m_FileName.length())) {
       return true;
     }
     return false;
@@ -598,63 +537,61 @@ namespace itk
 
   const std::type_info& AnalyzeImageIO::GetPixelType() const
   {
-    switch(m_PixelType)
-    {
-      case CHAR:
-        return typeid(char);
-      case UCHAR:
-        return typeid(unsigned char);
-      case SHORT:
-        return typeid(short);
-      case USHORT:
-        return typeid(unsigned short);
-      case INT:
-        return typeid(int);
-      case UINT:
-        return typeid(unsigned int);
-      case LONG:
-        return typeid(long);
-      case ULONG:
-        return typeid(unsigned long);
-      case FLOAT:
-        return typeid(float);
-      case DOUBLE:
-        return typeid(double);
-      default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
-        throw exception;
+    switch(m_PixelType) {
+    case CHAR:
+      return typeid(char);
+    case UCHAR:
+      return typeid(unsigned char);
+    case SHORT:
+      return typeid(short);
+    case USHORT:
+      return typeid(unsigned short);
+    case INT:
+      return typeid(int);
+    case UINT:
+      return typeid(unsigned int);
+    case LONG:
+      return typeid(long);
+    case ULONG:
+      return typeid(unsigned long);
+    case FLOAT:
+      return typeid(float);
+    case DOUBLE:
+      return typeid(double);
+    default:
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Pixel Type Unknown");
+      throw exception;
     }
   }
 
   unsigned int AnalyzeImageIO::GetComponentSize() const
   {
-    switch(m_PixelType)
-    {
-      case CHAR:
-        return sizeof(char);
-      case UCHAR:
-        return sizeof(unsigned char);
-      case SHORT:
-        return sizeof(short);
-      case USHORT:
-        return sizeof(unsigned short);
-      case INT:
-        return sizeof(int);
-      case UINT:
-        return sizeof(unsigned int);
-      case LONG:
-        return sizeof(long);
-      case ULONG:
-        return sizeof(unsigned long);
-      case FLOAT:
-        return sizeof(float);
-      case DOUBLE:
-        return sizeof(double);
-      default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
-        throw exception;
+    switch(m_PixelType) {
+    case CHAR:
+      return sizeof(char);
+    case UCHAR:
+      return sizeof(unsigned char);
+    case SHORT:
+      return sizeof(short);
+    case USHORT:
+      return sizeof(unsigned short);
+    case INT:
+      return sizeof(int);
+    case UINT:
+      return sizeof(unsigned int);
+    case LONG:
+      return sizeof(long);
+    case ULONG:
+      return sizeof(unsigned long);
+    case FLOAT:
+      return sizeof(float);
+    case DOUBLE:
+      return sizeof(double);
+    default:
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Pixel Type Unknown");
+      throw exception;
     }
     return 1;
   }
@@ -677,82 +614,194 @@ namespace itk
   void  AnalyzeImageIO::DefineHeaderObjectDataType()
   {
     enum DataTypeIndex eNewType;
-    switch(m_PixelType)
-    {
-      case CHAR:
-      case UCHAR:
-        eNewType=ANALYZE_DT_INDEX_UNSIGNED_CHAR;
-        break;
-      case SHORT:
-        eNewType=ANALYZE_DT_INDEX_SIGNED_SHORT;
-        break;
-      case USHORT:
-        eNewType = ANALYZE_DT_INDEX_UNSIGNED_SHORT;
-        break;
-      case INT:
-        eNewType=ANALYZE_DT_INDEX_SIGNED_INT;
-        break;
-      case FLOAT:
-        eNewType=ANALYZE_DT_INDEX_FLOAT;
-        break;
-      case DOUBLE:
-        eNewType=ANALYZE_DT_INDEX_DOUBLE;
-        break;
-        //case DATA_COMPLEX_FLOAT:
-        //  eNewType=ANALYZE_DT_INDEX_COMPLEX;
-        //  break;
-        //case DATA_RGBTRIPLE:
-        //  eNewType=ANALYZE_DT_INDEX_RGB;
-        //  break;
-        //case DATA_BINARY:
-        //  eNewType=ANALYZE_DT_INDEX_BINARY;
-        //  break;
-        //  case
-        //       DATA_UNKNOWN:
-        //        eNewType=ANALYZE_DT_INDEX_UNKNOWN;
-        //  break;
-      default:
-        eNewType=ANALYZE_DT_INDEX_UNKNOWN;
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
-        throw exception;
+    switch(m_PixelType) {
+    case CHAR:
+    case UCHAR:
+      eNewType=ANALYZE_DT_INDEX_UNSIGNED_CHAR;
+      break;
+    case SHORT:
+      eNewType=ANALYZE_DT_INDEX_SIGNED_SHORT;
+      break;
+    case USHORT:
+      eNewType = ANALYZE_DT_INDEX_UNSIGNED_SHORT;
+      break;
+    case INT:
+      eNewType=ANALYZE_DT_INDEX_SIGNED_INT;
+      break;
+    case FLOAT:
+      eNewType=ANALYZE_DT_INDEX_FLOAT;
+      break;
+    case DOUBLE:
+      eNewType=ANALYZE_DT_INDEX_DOUBLE;
+      break;
+      //case DATA_COMPLEX_FLOAT:
+      //  eNewType=ANALYZE_DT_INDEX_COMPLEX;
+      //  break;
+      //case DATA_RGBTRIPLE:
+      //  eNewType=ANALYZE_DT_INDEX_RGB;
+      //  break;
+      //case DATA_BINARY:
+      //  eNewType=ANALYZE_DT_INDEX_BINARY;
+      //  break;
+      //  case
+      //       DATA_UNKNOWN:
+      //        eNewType=ANALYZE_DT_INDEX_UNKNOWN;
+      //  break;
+    default:
+      eNewType=ANALYZE_DT_INDEX_UNKNOWN;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Pixel Type Unknown");
+      throw exception;
     }
     m_hdr.dime.datatype=DataTypeKey[eNewType];
     m_hdr.dime.bitpix=DataTypeSizes[eNewType];
     strcpy(m_hdr.hk.data_type,DataTypes[eNewType]);
-    switch(m_hdr.dime.datatype)
-    {
-      case ANALYZE_DT_INDEX_BINARY:
-        m_hdr.dime.glmax=1;  /*max value for all of the data set*/
-        m_hdr.dime.glmin=0;  /*min value for all of the data set*/
-        break;
-      case ANALYZE_DT_INDEX_UNSIGNED_CHAR:
-        m_hdr.dime.glmax=255;/*max value for all of the data set*/
-        m_hdr.dime.glmin=0;  /*min value for all of the data set*/
-        break;
-      case ANALYZE_DT_INDEX_SIGNED_SHORT:
-        //m_hdr.dime.glmax=0;/*max value for all of the data set*/
-        //m_hdr.dime.glmin=0;/*min value for all of the data set*/
-        break;
-      case ANALYZE_DT_INDEX_FLOAT:
-        //m_hdr.dime.glmax=0;/*max value for all of the data set*/
-        //m_hdr.dime.glmin=0;/*min value for all of the data set*/
-        break;
-      case ANALYZE_DT_INDEX_DOUBLE:
-        //m_hdr.dime.glmax=0;/*max value for all of the data set*/
-        //m_hdr.dime.glmin=0;/*min value for all of the data set*/
-        break;
-      case ANALYZE_DT_INDEX_RGB:
-        m_hdr.dime.glmax=255;/*max value for all of the data set*/
-        m_hdr.dime.glmin=0;/*min value for all of the data set*/
-        break;
-      default:
-        m_hdr.dime.glmax=0;  /*max value for all of the
-                               data set*/
-        m_hdr.dime.glmin=0;  /*min value for all of
-                               the data set*/
-        break;
+    switch(m_hdr.dime.datatype) {
+    case ANALYZE_DT_INDEX_BINARY:
+      m_hdr.dime.glmax=1;  /*max value for all of the data set*/
+      m_hdr.dime.glmin=0;  /*min value for all of the data set*/
+      break;
+    case ANALYZE_DT_INDEX_UNSIGNED_CHAR:
+      m_hdr.dime.glmax=255;/*max value for all of the data set*/
+      m_hdr.dime.glmin=0;  /*min value for all of the data set*/
+      break;
+    case ANALYZE_DT_INDEX_SIGNED_SHORT:
+      //m_hdr.dime.glmax=0;/*max value for all of the data set*/
+      //m_hdr.dime.glmin=0;/*min value for all of the data set*/
+      break;
+    case ANALYZE_DT_INDEX_FLOAT:
+      //m_hdr.dime.glmax=0;/*max value for all of the data set*/
+      //m_hdr.dime.glmin=0;/*min value for all of the data set*/
+      break;
+    case ANALYZE_DT_INDEX_DOUBLE:
+      //m_hdr.dime.glmax=0;/*max value for all of the data set*/
+      //m_hdr.dime.glmin=0;/*min value for all of the data set*/
+      break;
+    case ANALYZE_DT_INDEX_RGB:
+      m_hdr.dime.glmax=255;/*max value for all of the data set*/
+      m_hdr.dime.glmin=0;/*min value for all of the data set*/
+      break;
+    default:
+      m_hdr.dime.glmax=0;  /*max value for all of the
+                             data set*/
+      m_hdr.dime.glmin=0;  /*min value for all of
+                             the data set*/
+      break;
     }
+  }
+
+  void AnalyzeImageIO::GetAllDimensions(ipl_dimensions &dim) {
+    //
+    // strides -- how many bytes offset to the next
+    // slice, row, etc
+    dim.slicestride = this->GetSliceStride();
+    dim.rowstride = this->GetRowStride();
+    dim.componentstride = this->GetComponentStride();
+    dim.pixelsize = this->GetPixelSize();
+    //
+    // xsize,ysize,zsize == size in each direction in pixesls
+    dim.xsize = this->GetDimensions(0);
+    dim.ysize = this->GetDimensions(1);
+    dim.zsize = this->GetDimensions(2);
+  }
+
+  //Convert images into canonical Coronal view
+  //////////////////////////////////////////////////////////////////////////
+  // Programmer: Kent Williams
+  //       Date: 01/30/03
+  //   Function: ReorientIfNecessary
+  //  Algorithm: Brute Force array shuffle
+  // Func. Ret.: None
+  //     Output: Shuffled array
+  //      Input: Image array
+  //////////////////////////////////////////////////////////////////////////
+  void AnalyzeImageIO::ReorientIfNecessary(char *p) {
+    //
+    // CASE NOT YET HANDLED: RGB images, where R G and B
+    // volumes are sent sequentially
+    if(this->m_hdr.hist.orient == ITKA_CORONAL)
+      return;
+    //
+    // allocate a buffer to hold image temporarily
+    char *swapbuffer = new char[this->GetImageSizeInBytes()];
+
+    // copy data local, and then put back re-oriented
+    // data into the buffer
+    memcpy(swapbuffer, p, this->GetImageSizeInBytes());
+    // loop indices
+    unsigned int x,y,z;
+
+#define ComponentAddress(a,dims,z,y,x) \
+        ((a)+((z)*dims.slicestride)+\
+        ((y)*dims.rowstride)+((x)*dims.componentstride))
+
+    switch(this->m_hdr.hist.orient) {
+    case ITKA_TRANSVERSE:
+      for(z = 0; z < this->m_new_dim.zsize; z++) {
+        for(y = 0; y < this->m_new_dim.ysize; y++) {
+          for(x = 0; x < this->m_new_dim.xsize; x++) {
+            // swapbuffer[z][y][x] = p[y][z][x]
+            memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
+                   ComponentAddress(swapbuffer,this->m_old_dim,y,z,x),
+                   this->m_new_dim.pixelsize);
+          }
+        }
+      }
+      break;
+    case ITKA_SAGITTAL:
+      for(z = 0; z < this->m_new_dim.zsize; z++) {
+        for(y = 0; y < this->m_new_dim.ysize; y++) {
+          for(x = 0; x < this->m_new_dim.xsize; x++) {
+            // swapbuffer[z][y][x] = p[x][y][z]
+            memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
+                   ComponentAddress(swapbuffer,this->m_old_dim,x,y,z),
+                   this->m_new_dim.pixelsize);
+          }
+        }
+      }
+      break;
+    case ITKA_TRANSVERSE_FLIPPED:
+      for(z = 0; z < this->m_new_dim.zsize; z++) {
+        for(y = 0; y < this->m_new_dim.ysize; y++) {
+          for(x = 0; x < this->m_new_dim.xsize; x++) {
+            // swapbuffer[z][y][x] = p[y][z][x]
+            memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
+                   ComponentAddress(swapbuffer,this->m_old_dim,y,
+                                    this->m_old_dim.zsize - 1 - z,x),
+                   this->m_new_dim.pixelsize);
+          }
+        }
+      }
+      break;
+    case ITKA_CORONAL_FLIPPED:
+      for(z = 0; z < this->m_new_dim.zsize; z++) {
+        for(y = 0; y < this->m_new_dim.ysize; y++) {
+          for(x = 0; x < this->m_new_dim.xsize; x++) {
+            // swapbuffer[z][y][x] = p[y][z][x]
+            memcpy(ComponentAddress(p,this->m_old_dim,z,y,x),
+                   ComponentAddress(swapbuffer,this->m_old_dim,
+                                    this->m_old_dim.zsize - 1 - z,y,x),
+                   this->m_new_dim.pixelsize);
+          }
+        }
+      }
+      break;
+      break;
+    case ITKA_SAGITTAL_FLIPPED:
+      for(z = 0; z < this->m_new_dim.zsize; z++) {
+        for(y = 0; y < this->m_new_dim.ysize; y++) {
+          for(x = 0; x < this->m_new_dim.xsize; x++) {
+            // swapbuffer[z][y][x] = p[x][y][z]
+            memcpy(ComponentAddress(p,this->m_new_dim,z,y,x),
+                   ComponentAddress(swapbuffer,this->m_old_dim,x,y,
+                                    this->m_old_dim.zsize - 1 - z),
+                   this->m_new_dim.pixelsize);
+          }
+        }
+      }
+      break;
+    }
+    delete [] swapbuffer;
   }
 
   void AnalyzeImageIO::Read(void* buffer)
@@ -760,30 +809,33 @@ namespace itk
     const unsigned int dimensions = this->GetNumberOfDimensions();
     unsigned int numberOfPixels = 1;
     for( unsigned int dim=0; dim< dimensions; dim++ )
-    {
-      numberOfPixels *= m_Dimensions[ dim ];
-    }
+      {
+        numberOfPixels *= m_Dimensions[ dim ];
+      }
 
     char * const p = static_cast<char *>(buffer);
     //4 cases to handle
     //1: given .hdr and image is .img
     //2: given .img
     //3: given .img.gz
-    //4: given .hdr and image is .img.gz  /*Special processing needed for this case only*/
+    //4: given .hdr and image is .img.gz  
+    //   Special processing needed for this case onl
     // NOT NEEDED const std::string fileExt = GetExtension(m_FileName);
-    std::string ImageFileName = GetImageFileName( m_FileName ); /* Returns proper name for cases 1,2,3 */
-    //NOTE: gzFile operations act just like FILE * operations when the files are not in gzip fromat.
-    //      This greatly simplifies the following code, and gzFile types are used everywhere.
-    //      In addition, it has the added benifit of reading gzip compressed image files that
-    //      do not have a .gz ending.
+
+    /* Returns proper name for cases 1,2,3 */
+    std::string ImageFileName = GetImageFileName( m_FileName ); 
+    //NOTE: gzFile operations act just like FILE * operations when the files 
+    // are not in gzip fromat.
+    // This greatly simplifies the following code, and gzFile types are used 
+    // everywhere.
+    // In addition, it has the added benifit of reading gzip compressed image 
+    // files that do not have a .gz ending.
     gzFile file_p = ::gzopen( ImageFileName.c_str(), "rb" );
-    if( file_p == NULL )
-    {
+    if( file_p == NULL ) {
       /* Do a separate check to take care of case #4 */
       ImageFileName += ".gz";
       file_p = ::gzopen( ImageFileName.c_str(), "rb" );
-      if( file_p == NULL )
-      {
+      if( file_p == NULL ) {
         ExceptionObject exception(__FILE__, __LINE__);
         std::string message="Analyze Data File can not be read: The following files were attempted:\n ";
         message += GetImageFileName( m_FileName );
@@ -795,26 +847,43 @@ namespace itk
       }
     }
 
-    // Seek through the file to the correct position, This is only necessary when readin in sub-volumes
-    // const long int total_offset = static_cast<long int>(tempX * tempY * start_slice * m_dataSize)
-    //  + static_cast<long int>(tempX * tempY * total_z * start_time * m_dataSize);
+    // Seek through the file to the correct position, This is only necessary 
+    // when readin in sub-volumes
+    // const long int total_offset = static_cast<long int>(tempX * tempY * 
+    //                                start_slice * m_dataSize)
+    //    + static_cast<long int>(tempX * tempY * total_z * start_time * 
+    //          m_dataSize);
     // ::gzseek( file_p, total_offset, SEEK_SET );
+
+    // read image in
     ::gzread( file_p, p, this->GetImageSizeInBytes());
     gzclose( file_p );
-
+    this->ReorientIfNecessary(p);
+#if 0
+    {
+      unsigned int i;
+      for(i = 0; i < this->GetImageSizeInBytes(); i++) {
+        if(i % 10 == 0)
+          fprintf(stderr,"\n");
+        if(i % 100 == 0)
+          fprintf(stderr,"\n");
+        fprintf(stderr,"%02x ",(unsigned int)((unsigned char)p[i]));
+      }
+    }
+#endif
 #ifdef __OMIT_THIS_CODE__ /*A method for handeling compresssed images is needed*/
     std::ifstream   local_InputStream;
     local_InputStream.open( ImageFileName.c_str(), std::ios::in | std::ios::binary );
     if( !local_InputStream )
-    {
-      itkExceptionMacro("Error opening image data file for reading.");
-    }
+      {
+        itkExceptionMacro("Error opening image data file for reading.");
+      }
     local_InputStream.read( p, this->GetImageSizeInBytes() );
     bool success = !local_InputStream.bad();
     if( !success )
-    {
-      itkExceptionMacro("Error reading image data.");
-    }
+      {
+        itkExceptionMacro("Error reading image data.");
+      }
     local_InputStream.close();
 #endif
     SwapBytesIfNecessary( buffer, numberOfPixels );
@@ -830,15 +899,13 @@ namespace itk
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ifstream   local_InputStream;
     local_InputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
-    if( local_InputStream.fail() )
-    {
+    if( local_InputStream.fail() ) {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("File cannot be read");
       throw exception;
     }
-    local_InputStream.read( &(this->m_hdr), sizeof(struct dsr) );
-    if( local_InputStream.eof() )
-    {
+    local_InputStream.read( (char *)&(this->m_hdr), sizeof(struct dsr) );
+    if( local_InputStream.eof() ) {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Unexpected end of file");
       throw exception;
@@ -847,8 +914,7 @@ namespace itk
     // if the machine and file endianess are different
     // perform the byte swapping on it
     this->m_MachineByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
-    if( this->m_MachineByteOrder != this->m_ByteOrder  )
-    {
+    if( this->m_MachineByteOrder != this->m_ByteOrder  ) {
       this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
     }
     return true;
@@ -858,16 +924,15 @@ namespace itk
   {
     const std::string HeaderFileName = GetHeaderFileName( m_FileName );
     std::ifstream   local_InputStream;
-    local_InputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
-    if( local_InputStream.fail() )
-    {
+    local_InputStream.open(HeaderFileName.c_str(),
+                           std::ios::in | std::ios::binary);
+    if( local_InputStream.fail()) {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("File cannot be read");
       throw exception;
     }
-    local_InputStream.read( &(this->m_hdr), sizeof(struct dsr) );
-    if( local_InputStream.eof() )
-    {
+    local_InputStream.read( (char *)(&(this->m_hdr)), sizeof(struct dsr) );
+    if( local_InputStream.eof() ) {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Unexpected end of file");
       throw exception;
@@ -877,60 +942,89 @@ namespace itk
     // if the machine and file endianess are different
     // perform the byte swapping on it
     this->m_MachineByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
-    if( this->m_MachineByteOrder != this->m_ByteOrder  )
-    {
+    if( this->m_MachineByteOrder != this->m_ByteOrder  ) {
       this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
     }
 
     this->SetNumberOfDimensions(this->m_hdr.dime.dim[0]);
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
-    {
-      //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
+#if 0
+    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+      //NOTE: Analyze dim[0] are the number of dims, 
+      //and dim[1..7] are the actual dims.
       m_Dimensions[ dim ] = this->m_hdr.dime.dim[dim+1];
     }
-    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
-    {
+    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
       m_Spacing[ dim ]    = this->m_hdr.dime.pixdim[dim+1];;
     }
     unsigned long elmentNumberOfBits;
     elmentNumberOfBits= this->m_hdr.dime.bitpix;
-
-    switch( this->m_hdr.dime.datatype )
-    {
-      case ANALYZE_DT_BINARY:
-        m_ComponentType = CHAR;
-        m_PixelType = CHAR;
-        break;
-      case ANALYZE_DT_UNSIGNED_CHAR:
-        m_ComponentType = CHAR;
-        m_PixelType = CHAR;
-        break;
-      case ANALYZE_DT_SIGNED_SHORT:
-        m_ComponentType = SHORT;
-        m_PixelType = SHORT;
-        break;
-      case ANALYZE_DT_UNSIGNED_SHORT:
-        m_ComponentType = USHORT;
-        m_PixelType = USHORT;
-        break;
-      case ANALYZE_DT_SIGNED_INT:
-        m_ComponentType = INT;
-        m_PixelType = INT;
-        break;
-      case ANALYZE_DT_FLOAT:
-        m_ComponentType = FLOAT;
-        m_PixelType = FLOAT;
-        break;
-      case ANALYZE_DT_DOUBLE:
-        m_ComponentType = DOUBLE;
-        m_PixelType = DOUBLE;
-        break;
-      case ANALYZE_DT_RGB:
-        // DEBUG -- Assuming this is a triple, not quad
-        //image.setDataType( uiig::DATA_RGBQUAD );
-        break;
-      default:
-        break;
+#endif
+    switch( this->m_hdr.dime.datatype ) {
+    case ANALYZE_DT_BINARY:
+      m_ComponentType = CHAR;
+      m_PixelType = CHAR;
+      break;
+    case ANALYZE_DT_UNSIGNED_CHAR:
+      m_ComponentType = CHAR;
+      m_PixelType = CHAR;
+      break;
+    case ANALYZE_DT_SIGNED_SHORT:
+      m_ComponentType = SHORT;
+      m_PixelType = SHORT;
+      break;
+    case ANALYZE_DT_UNSIGNED_SHORT:
+      m_ComponentType = USHORT;
+      m_PixelType = USHORT;
+      break;
+    case ANALYZE_DT_SIGNED_INT:
+      m_ComponentType = INT;
+      m_PixelType = INT;
+      break;
+    case ANALYZE_DT_FLOAT:
+      m_ComponentType = FLOAT;
+      m_PixelType = FLOAT;
+      break;
+    case ANALYZE_DT_DOUBLE:
+      m_ComponentType = DOUBLE;
+      m_PixelType = DOUBLE;
+      break;
+    case ANALYZE_DT_RGB:
+      // DEBUG -- Assuming this is a triple, not quad
+      //image.setDataType( uiig::DATA_RGBQUAD );
+      break;
+    default:
+      break;
+    }
+    //
+    // set up the dimension stuff
+    for(unsigned int dim = 0; dim < this->GetNumberOfDimensions(); dim++) {
+      this->SetDimensions(dim,this->m_hdr.dime.dim[dim+1]);
+      this->SetSpacing(dim,this->m_hdr.dime.pixdim[dim+1]);
+    }
+    //
+    // figure out re-orientation required if not in Coronal
+    this->ComputeStrides();
+    this->GetAllDimensions(this->m_old_dim);
+    //
+    // flip the dimensions, then store the new stride stuff
+    // for use in this->Read()
+    switch(this->m_hdr.hist.orient) {
+    case ITKA_TRANSVERSE:
+    case ITKA_TRANSVERSE_FLIPPED:
+      this->SetDimensions(this->m_old_dim.ysize,0);
+      this->SetDimensions(this->m_old_dim.zsize,1);
+      this->SetDimensions(this->m_old_dim.xsize,2);
+      this->ComputeStrides();
+      this->GetAllDimensions(this->m_new_dim);
+      break;
+    case ITKA_SAGITTAL:
+    case ITKA_SAGITTAL_FLIPPED:
+      this->SetDimensions(this->m_old_dim.zsize,0);
+      this->SetDimensions(this->m_old_dim.ysize,1);
+      this->SetDimensions(this->m_old_dim.xsize,2);
+      this->ComputeStrides();
+      this->GetAllDimensions(this->m_new_dim);
+      break;
     }
     return;
   }
@@ -941,90 +1035,86 @@ namespace itk
    *
    */
   void
-    AnalyzeImageIO
-    ::WriteImageInformation(void)
-    {
-      const std::string HeaderFileName = GetHeaderFileName( m_FileName );
-      std::ofstream   local_OutputStream;
-      local_OutputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
-      if( local_OutputStream.fail() )
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        std::string ErrorMessage="File cannot be written";
-        ErrorMessage+=HeaderFileName;
-        exception.SetDescription(ErrorMessage.c_str());
-        throw exception;
-      }
-      for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
-      {
-        //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
-        this->m_hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
-      }
-      //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
-      this->m_hdr.dime.dim[0]= 4;
-      for( int dim=this->GetNumberOfDimensions();dim < this->m_hdr.dime.dim[0]; dim++ )
-      {
-        //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
-        this->m_hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
-      }
-      for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
-      {
-        //NOTE: Analyze pixdim[0] is ignored, and the number of dims are taken from dims[0], and pixdim[1..7] are the actual pixdims.
-        this->m_hdr.dime.pixdim[dim+1]= m_Spacing[ dim ];
-      }
-      //The next funciton sets bitpix, and datatype, and data_type fields
-      //Along with gl_min and gl_max feilds.
-      this->DefineHeaderObjectDataType();
-
-      local_OutputStream.write( &(this->m_hdr), sizeof(struct dsr) );
-      if( local_OutputStream.eof() )
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Unexpected end of file");
-        throw exception;
-      }
-      local_OutputStream.close();
-      return;
+  AnalyzeImageIO
+  ::WriteImageInformation(void)
+  {
+    const std::string HeaderFileName = GetHeaderFileName( m_FileName );
+    std::ofstream   local_OutputStream;
+    local_OutputStream.open( HeaderFileName.c_str(), 
+                             std::ios::in | std::ios::binary );
+    if( local_OutputStream.fail() ) {
+      ExceptionObject exception(__FILE__, __LINE__);
+      std::string ErrorMessage="File cannot be written";
+      ErrorMessage+=HeaderFileName;
+      exception.SetDescription(ErrorMessage.c_str());
+      throw exception;
     }
+    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+      //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
+      this->m_hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
+    }
+    //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
+    this->m_hdr.dime.dim[0]= 4;
+    for( int dim=this->GetNumberOfDimensions();dim < this->m_hdr.dime.dim[0]; 
+         dim++ ) {
+      //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
+      this->m_hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
+    }
+    for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ ) {
+      //NOTE: Analyze pixdim[0] is ignored, and the number of dims are taken from dims[0], and pixdim[1..7] are the actual pixdims.
+      this->m_hdr.dime.pixdim[dim+1]= m_Spacing[ dim ];
+    }
+    //The next funciton sets bitpix, and datatype, and data_type fields
+    //Along with gl_min and gl_max feilds.
+    this->DefineHeaderObjectDataType();
+
+    local_OutputStream.write( (const char *)&(this->m_hdr), 
+                              sizeof(struct dsr) );
+    if( local_OutputStream.eof() ) {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Unexpected end of file");
+      throw exception;
+    }
+    local_OutputStream.close();
+    return;
+  }
 
 
   /**
    *
    */
   void
-    AnalyzeImageIO
-    ::Write( const void* buffer)
-    {
-      //Write the image Information before writing data
-      this->WriteImageInformation();
-      const unsigned int dimensions = this->GetNumberOfDimensions();
-      unsigned int numberOfPixels = 1;
-      for( unsigned int dim=0; dim< dimensions; dim++ )
-      {
-        numberOfPixels *= m_Dimensions[ dim ];
+  AnalyzeImageIO
+  ::Write( const void* buffer)
+  {
+    //Write the image Information before writing data
+    this->WriteImageInformation();
+    const unsigned int dimensions = this->GetNumberOfDimensions();
+    unsigned int numberOfPixels = 1;
+    for( unsigned int dim=0; dim< dimensions; dim++ ) {
+      numberOfPixels *= m_Dimensions[ dim ];
+    }
+
+    //NOTE: voidp is defined by zlib.h
+    //NOTE: This should not need to be a const_cast, but this seems to make it work.
+    //      and overall access rights are maintained.
+    const ::voidp p = const_cast<const ::voidp >(buffer);
+    const std::string ImageFileName = GetImageFileName( m_FileName );
+    const std::string fileExt=GetExtension( m_FileName );
+    // Check case where image is acually a compressed image
+    if(!fileExt.compare( "gz" )) {
+      // Open the *.img.gz file for writing.
+      gzFile  file_p = ::gzopen( ImageFileName.c_str(), "wb" );
+      if( file_p==NULL ) {
+        ExceptionObject exception(__FILE__, __LINE__);
+        std::string ErrorMessage="Error, Can not write compressed image file for ";
+        ErrorMessage+=m_FileName;
+        exception.SetDescription(ErrorMessage.c_str());
+        throw exception;
       }
 
-      //NOTE: voidp is defined by zlib.h
-      //NOTE: This should not need to be a const_cast, but this seems to make it work.
-      //      and overall access rights are maintained.
-      const ::voidp p = const_cast<const ::voidp >(buffer);
-      const std::string ImageFileName = GetImageFileName( m_FileName );
-      const std::string fileExt=GetExtension( m_FileName );
-      if(!fileExt.compare( "gz" ))   //Check case where image is acually a compressed image
-      {
-        // Open the *.img.gz file for writing.
-        gzFile  file_p = ::gzopen( ImageFileName.c_str(), "wb" );
-        if( file_p==NULL )
-        {
-          ExceptionObject exception(__FILE__, __LINE__);
-          std::string ErrorMessage="Error, Can not write compressed image file for ";
-          ErrorMessage+=m_FileName;
-          exception.SetDescription(ErrorMessage.c_str());
-          throw exception;
-        }
-
 #ifdef __OMIT_UNTIL_RGB_IS_NEEEDED
-        if ( image.getDataType() == uiig::DATA_RGBTRIPLE )
+      if ( image.getDataType() == uiig::DATA_RGBTRIPLE )
         {
           // Analyze RGB images are stored in channels, where all the red components are stored
           // first, followed by the green and blue components for each plane of the volume.
@@ -1034,20 +1124,16 @@ namespace itk
 
           // NOTE: Do NOT change this.  The math here is necessary for CImageStrided to
           // read files correctly
-          for( register unsigned int l=0; l<tempT; l++ )
-          {
+          for( register unsigned int l=0; l<tempT; l++ ) {
             unsigned int volumeOffset = l*m_uiVolumeOffset;
-            for( register unsigned int k=0; k<tempZ; k++ )
-            {
+            for( register unsigned int k=0; k<tempZ; k++ ) {
               unsigned int planeVolOffset = k*m_uiPlaneOffset + volumeOffset;
 
               // Reading the red channel
               {
-                for( register unsigned int j=0; j<tempY; j++ )
-                {
+                for( register unsigned int j=0; j<tempY; j++ ) {
                   unsigned int rowOffset =    j*m_uiRowOffset;
-                  for ( register unsigned int i=0; i<tempX; i++ )
-                  {
+                  for ( register unsigned int i=0; i<tempX; i++ ) {
                     //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
                     //in bytes
                     ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
@@ -1057,25 +1143,22 @@ namespace itk
 
               // Reading the green channel
               {
-                for( register unsigned int j=0; j<tempY; j++ )
-                {
+                for( register unsigned int j=0; j<tempY; j++ ) {
                   unsigned int rowOffset =    j*m_uiRowOffset;
                   for ( register unsigned int i=0; i<tempX; i++ )
-                  {
-                    //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
-                    //in bytes
-                    ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 1, sizeof(unsigned char) );
-                  }
+                    {
+                      //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
+                      //in bytes
+                      ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 1, sizeof(unsigned char) );
+                    }
                 }
               }
 
               // Reading the blue channel
               {
-                for( register unsigned int j=0; j<tempY; j++ )
-                {
+                for( register unsigned int j=0; j<tempY; j++ ) {
                   unsigned int rowOffset =    j*m_uiRowOffset;
-                  for ( register unsigned int i=0; i<tempX; i++ )
-                  {
+                  for ( register unsigned int i=0; i<tempX; i++ ) {
                     //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
                     //in bytes
                     ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3) + 2, sizeof(unsigned char) );
@@ -1085,53 +1168,51 @@ namespace itk
 
             }
           }
-        }
-        else
+        } else
 #endif
-        {
-          ::gzwrite( file_p,p,this->GetImageSizeInBytes());
-        }
-        ::gzclose( file_p );
-        //Remove FileNameToRead.img so that it does not get confused with FileNameToRead.img.gz
-        //The following is a hack that can be used to remove ambiguity when an
-        //uncompressed image is read, and then written as compressed.
-        //This results in one *.hdr file being assosiated with a *.img and a *.img.gz image file.
-        //DEBUG -- Will this work under windows?
-        std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
-        unusedbaseimgname+=".img";
-        ::remove(unusedbaseimgname.c_str());
+          {
+            ::gzwrite( file_p,p,this->GetImageSizeInBytes());
+          }
+      ::gzclose( file_p );
+      //Remove FileNameToRead.img so that it does not get confused with 
+      //FileNameToRead.img.gz
+      //The following is a hack that can be used to remove ambiguity when an
+      //uncompressed image is read, and then written as compressed.
+      //This results in one *.hdr file being assosiated with a *.img and a 
+      // *.img.gz image file.
+      //DEBUG -- Will this work under windows?
+      std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
+      unusedbaseimgname+=".img";
+      ::remove(unusedbaseimgname.c_str());
+    } else {
+      //No compression
+      std::ofstream   local_OutputStream;
+      local_OutputStream.open( ImageFileName.c_str(), std::ios::out | std::ios::binary );
+      if( !local_OutputStream ) {
+        ExceptionObject exception(__FILE__, __LINE__);
+        std::string ErrorMessage="Error opening image data file for writing.";
+        ErrorMessage+=m_FileName;
+        exception.SetDescription(ErrorMessage.c_str());
+        throw exception;
       }
-      else //No compression
-      {
-        std::ofstream   local_OutputStream;
-        local_OutputStream.open( ImageFileName.c_str(), std::ios::out | std::ios::binary );
-        if( !local_OutputStream )
-        {
-          ExceptionObject exception(__FILE__, __LINE__);
-          std::string ErrorMessage="Error opening image data file for writing.";
-          ErrorMessage+=m_FileName;
-          exception.SetDescription(ErrorMessage.c_str());
-          throw exception;
-        }
-        local_OutputStream.write( p, this->GetImageSizeInBytes() );
-        bool success = !local_OutputStream.bad();
-        local_OutputStream.close();
-        if( !success )
-        {
-          ExceptionObject exception(__FILE__, __LINE__);
-          std::string ErrorMessage="Error writing image data.";
-          ErrorMessage+=m_FileName;
-          exception.SetDescription(ErrorMessage.c_str());
-          throw exception;
-        }
-        //Remove FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
-        //The following is a hack that can be used to remove ambiguity when an
-        //uncompressed image is read, and then written as compressed.
-        //This results in one *.hdr file being assosiated with a *.img and a *.img.gz image file.
-        //DEBUG -- Will this work under windows?
-        std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
-        unusedbaseimgname+=".img.gz";
-        ::remove(unusedbaseimgname.c_str());
+      local_OutputStream.write((const char *)p, this->GetImageSizeInBytes() );
+      bool success = !local_OutputStream.bad();
+      local_OutputStream.close();
+      if( !success ) {
+        ExceptionObject exception(__FILE__, __LINE__);
+        std::string ErrorMessage="Error writing image data.";
+        ErrorMessage+=m_FileName;
+        exception.SetDescription(ErrorMessage.c_str());
+        throw exception;
       }
+      //Remove FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
+      //The following is a hack that can be used to remove ambiguity when an
+      //uncompressed image is read, and then written as compressed.
+      //This results in one *.hdr file being assosiated with a *.img and a *.img.gz image file.
+      //DEBUG -- Will this work under windows?
+      std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
+      unusedbaseimgname+=".img.gz";
+      ::remove(unusedbaseimgname.c_str());
     }
+  }
 } // end namespace itk

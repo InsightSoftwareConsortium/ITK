@@ -7,6 +7,8 @@ SET(ITKIO_SRCS
 itkWriter.cxx
 itkImageIOBase.cxx
 itkImageIOFactory.cxx
+itkAnalyzeImageIO.cxx
+itkAnalyzeImageIOFactory.cxx
 itkMetaImageIOFactory.cxx
 itkMetaImageIO.cxx
 itkPNGImageIOFactory.cxx
