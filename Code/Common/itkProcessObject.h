@@ -127,24 +127,17 @@ public:
    * Set/Get the AbortExecute flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
-  void SetAbortExecute(bool flag) 
-    {itkSetMacro(m_AbortExecute,flag);}
-  bool GetAbortExecute(bool flag) const
-    {itkGetMacro(flag);}
-  void AbortExecuteOn() 
-    {this->SetAbortExecute(true);}
-  void AbortExecuteOff() 
-    {this->SetAbortExecute(false);}
+  itkSetMacro(AbortExecute,bool);
+  itkGetMacro(AbortExecute,bool);
+  itkBooleanMacro(AbortExecute); 
   
   /** 
    * Set/Get the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution.
    */
-  void SetProgress(float progress) 
-    {itkSetClampMacro(m_Progress,progress,0.0,1.0);}
-  float GetProgress() const
-    {itkGetMacro(m_Progress);}
+  itkSetClampMacro(Progress,float,0.0,1.0);
+  itkGetMacro(Progress,float);
 
   /** 
    * Update the progress of the process object. If a ProgressMethod exists,
@@ -255,19 +248,15 @@ protected:
   virtual void SetNthInput(unsigned int num, itkDataObject *input);
   virtual void AddInput(itkDataObject *input);
   virtual void RemoveInput(itkDataObject *input);
-  void SetNumberOfRequiredInputs(unsigned int num)
-    {itkSetMacro(m_NumberOfRequiredInputs,num);}
-  unsigned int GetNumberOfRequiredInputs()
-    {itkGetMacro(m_NumberOfRequiredInputs);}
+  itkSetMacro(NumberOfRequiredInputs,int);
+  itkGetMacro(NumberOfRequiredInputs,int);
 
   // protected methods for setting outputs.
   virtual void SetNthOutput(unsigned int num, itkDataObject *output);
   virtual void AddOutput(itkDataObject *output);
   virtual void RemoveOutput(itkDataObject *output);
-  void SetNumberOfRequiredOutputs(unsigned int num)
-    {itkSetMacro(m_NumberOfRequiredOutputs,num);}
-  unsigned int GetNumberOfRequiredOutputs()
-    {itkGetMacro(m_NumberOfRequiredOutputs);}
+  itkSetMacro(NumberOfRequiredOutputs,unsigned int);
+  itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
   // Execute the algorithm
   virtual void Execute() {};

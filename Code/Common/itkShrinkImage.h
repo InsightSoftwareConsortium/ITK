@@ -44,12 +44,12 @@ public:
   /** 
    * Set the shrink factor. The default value is 1.
    */
-  void SetShrinkFactor(unsigned int f) {itkSetMacro(m_ShrinkFactor,f);}
+  itkSetMacro(ShrinkFactor,unsigned int);
   
   /** 
    * Get the shrink factor.
    */
-  unsigned int GetShrinkFactor() {itkGetMacro(m_ShrinkFactor);}
+  itkGetMacro(ShrinkFactor,unsigned int);
                  
 protected:
   itkShrinkImage();

@@ -49,8 +49,7 @@ public:
   /**
    * Return the number of files in the current directory.
    */
-  int GetNumberOfFiles() const
-    { itkGetMacro(m_NumberOfFiles;) }
+  itkGetMacro(NumberOfFiles,int);
 
   /**
    * Return the file at the given index, the indexing is 0 based

@@ -45,14 +45,12 @@ public:
   /** 
    * Specify the name of the input file.
    */
-  void SetFileName(const char *str) 
-    {itkSetStringMacro(m_FileName,str);}
+  itkSetStringMacro(FileName);
   
   /** 
    * Get the name of the input file.
    */
-  const char *GetFileName() const
-    {itkGetStringMacro(m_FileName);}
+  itkGetStringMacro(FileName);
   
 protected:
   itkReadVTKImage();

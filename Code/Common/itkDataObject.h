@@ -57,8 +57,7 @@ public:
    * Set/Get the source object creating this data object. 
    */
   void SetSource(itkProcessObject *s);
-  itkProcessObject *GetSource() 
-    {itkGetObjectMacro( m_Source);}
+  itkGetObjectMacro(Source,itkProcessObject);
   
   /** 
    * Set the dimension (number of independent variables) of the data.
@@ -70,8 +69,7 @@ public:
   /** 
    * Get the dimension of the data.
    */
-  int GetDimension() const
-    {itkGetMacro(m_Dimension);}
+  itkGetMacro(Dimension,unsigned int);
 
   /** 
    * Restore the data object to its initial state. This means releasing
@@ -83,14 +81,9 @@ public:
    * Turn on/off a flag to control whether this object's data is released
    * after being used by a filter. 
    */
-  void SetReleaseDataFlag(const bool flag) 
-    {itkSetMacro(m_ReleaseDataFlag,flag);};
-  bool GetReleaseDataFlag() const 
-    {itkGetMacro(m_ReleaseDataFlag);}
-  void ReleaseDataFlagOn() 
-    {this->SetReleaseDataFlag(true);}
-  void ReleaseDataFlagOff() 
-    {this->SetReleaseDataFlag(false);}
+  itkSetMacro(ReleaseDataFlag,bool);
+  itkGetMacro(ReleaseDataFlag,bool);
+  itkBooleanMacro(ReleaseDataFlag);
 
   /** 
    * Turn on/off a flag to control whether every object releases its data
@@ -142,8 +135,7 @@ public:
   // More internal methods to update the pipeline.
   void SetPipelineMTime(unsigned long time) 
     {m_PipelineMTime = time; }
-  unsigned long GetPipelineMTime() const
-    {itkGetMacro(m_PipelineMTime);}
+  itkGetMacro(PipelineMTime,unsigned long);
 
   virtual int GetExtentType() 
     {return ITK_UNSTRUCTURED_EXTENT;}

@@ -41,26 +41,22 @@ public:
   /** 
    * Specify the name of the output file.
    */
-  void SetFileName(const char *str) 
-    {itkSetStringMacro(m_FileName,str);}
+  itkSetStringMacro(FileName);
   
   /** 
    * Get the name of the output file.
    */
-  const char *GetFileName() const
-    {itkGetStringMacro(m_FileName);}
+  itkGetStringMacro(FileName);
   
   /** 
    * Specify the output file type as either ASCII or binary.
    */
-  void SetFileType(int type) 
-    {itkSetClampMacro(m_FileType,type,ITK_ASCII,ITK_BINARY);}
+  itkSetClampMacro(FileType,int,ITK_ASCII,ITK_BINARY);
   
   /** 
    * Get the file type.
    */
-  int GetFileType() const
-    {itkGetMacro(m_FileType);}
+  itkGetMacro(FileType,int);
   
   /** 
    * Specify the output file type as ASCII (the default).

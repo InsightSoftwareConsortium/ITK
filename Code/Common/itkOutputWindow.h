@@ -60,10 +60,9 @@ public:
    * is displayed, the user is asked if they want to keep getting
    * messages.
    */
-  void SetPromptUser(bool flag) {itkSetMacro(m_PromptUser,flag);}
-  bool GetPromptUser() const {itkGetMacro(m_PromptUser);}
-  void PromptUserOn() {this->SetPromptUser(true);}
-  void PromptUserOff() {this->SetPromptUser(false);}
+  itkSetMacro(PromptUser,bool);
+  itkGetMacro(PromptUser,bool);
+  itkBooleanMacro(PromptUser);
 
 protected:
   itkOutputWindow();
