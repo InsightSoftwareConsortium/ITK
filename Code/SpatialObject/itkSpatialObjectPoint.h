@@ -38,7 +38,8 @@ class SpatialObjectPoint
 
 public:
 
-  /** Constructor. This one defines the # of dimensions in the SpatialObjectPoint */
+  /** Constructor. This one defines the # of dimensions in the 
+   * SpatialObjectPoint */
   SpatialObjectPoint( void );
 
   /** Default destructor. */

@@ -99,7 +99,8 @@ PolygonSpatialObject<TDimension>
   if(it == itend)
     { 
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
+    exception.SetDescription(
+      "PolygonSpatialObject: ClosestPoint called using an empty point list");
     throw exception;
     }
     
