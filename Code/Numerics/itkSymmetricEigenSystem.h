@@ -19,6 +19,8 @@
 
 #include "itkObject.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkObjectFactory.h"
+#include "itkObject.h"
 #include "itkFixedArray.h"
 #include "itkMatrix.h"
 #include "itkObjectFactory.h"
