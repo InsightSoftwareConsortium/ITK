@@ -891,70 +891,70 @@ IF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
     SET(JAVACLASSPATH ${TMPJAVACLASSPATH})
   ENDIF(WIN32)
  
-  ADD_TEST(MeanImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(MeanImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            MeanImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterJavaTest.png  
            1 )  
 
-  ADD_TEST(MedianImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(MedianImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            MedianImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterJavaTest.png  
            1 )  
 
-  ADD_TEST(CannyEdgeDetectionImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(CannyEdgeDetectionImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            CannyEdgeDetectionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 
            5 0.125 )  
 
-  ADD_TEST(CastImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(CastImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            CastImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CastImageFilterJavaTest.png )  
 
- ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+ ADD_TEST(CurvatureFlowImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            CurvatureFlowImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterJavaTest.png 
            5 0.125 )  
 
-  ADD_TEST(CurvatureAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(CurvatureAnisotropicDiffusionImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            CurvatureAnisotropicDiffusionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterJavaTest.png 
            5 0.125 3.0)  
 
-  ADD_TEST(GradientAnisotropicDiffusionImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(GradientAnisotropicDiffusionImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            GradientAnisotropicDiffusionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterJavaTest.png 
            5 0.125 3.0)  
 
-  ADD_TEST(ThresholdImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(ThresholdImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            ThresholdImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilterJavaTest.png  
            0 150)  
 
-  ADD_TEST(BinaryThresholdImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(BinaryThresholdImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            BinaryThresholdImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterJavaTest.png 
            150 180 0 255 )  
 
-  ADD_TEST(BinaryDilateImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(BinaryDilateImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            BinaryDilateImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterJavaTest.png )  
 
-  ADD_TEST(BinaryErodeImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(BinaryErodeImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            BinaryErodeImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterJavaTest.png )  
 
-  ADD_TEST(SigmoidImageFilterJava ${JAVACOMMAND} -classpath "${JAVACLASSPATH}"
+  ADD_TEST(SigmoidImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            SigmoidImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterJavaTest.png  
