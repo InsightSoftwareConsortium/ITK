@@ -35,6 +35,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkGradientAnisotropicDiffusionImageFilter),
     ITK_WRAP_GROUP(itkGradientRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkGradientMagnitudeRecursiveGaussianImageFilter),
+    ITK_WRAP_GROUP(itkIsolatedConnectedImageFilter),
     ITK_WRAP_GROUP(itkLaplacianImageFilter),
     ITK_WRAP_GROUP(itkMeanImageFilter),
     ITK_WRAP_GROUP(itkMedianImageFilter),
