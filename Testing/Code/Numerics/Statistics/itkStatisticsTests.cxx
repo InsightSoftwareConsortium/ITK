@@ -30,5 +30,4 @@ void RegisterTests()
   REGISTER_TEST(itkStatisticsAlgorithmTest);
   REGISTER_TEST(itkSubsampleTest);
   REGISTER_TEST(itkWeightedMeanCalculatorTest);
-  REGISTER_TEST(itkDummyImageToListAdaptorTest);
 }
