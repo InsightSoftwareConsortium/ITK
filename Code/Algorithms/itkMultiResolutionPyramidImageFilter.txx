@@ -310,7 +310,15 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     shrinker->SetShrinkFactors( factors );
 
     shrinker->GraftOutput( outputPtr );
+
     shrinker->Update();
+/*
+    // ensure only the requested region is updated
+    shrinker->GetOutput()->UpdateOutputInformation();
+    shrinker->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
+    shrinker->GetOutput()->PropagateRequestedRegion();
+    shrinker->GetOutput()->UpdateOutputData();
+*/
    
     this->GraftNthOutput( ilevel, shrinker->GetOutput() );
 
