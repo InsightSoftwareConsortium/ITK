@@ -21,11 +21,29 @@ See COPYRIGHT.txt for copyright details.
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
 
+//
+// Disable some common warnings in MS VC++
+//
+
+// 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #pragma warning ( disable : 4244 )
+
+// 'identifier' : truncation from 'type1' to 'type2'
 #pragma warning ( disable : 4305 )
+
+// 'conversion' : truncation of constant value
 #pragma warning ( disable : 4309 )
+
+// 'identifier' : identifier was truncated to 'number' characters in the
+// debug information
 #pragma warning ( disable : 4786 )
+
+// 'type' : forcing value to bool 'true' or 'false' (performance warning)
 #pragma warning ( disable : 4800 )
+
+// 'identifier' : class 'type' needs to have dll-interface to be used by
+// clients of class 'type2'
+#pragma warning ( disable : 4251 )
 
 #ifdef ITKDLL
 #define ITK_EXPORT __declspec( dllexport ) 
@@ -42,3 +60,4 @@ See COPYRIGHT.txt for copyright details.
 #endif
 
 #endif
+
