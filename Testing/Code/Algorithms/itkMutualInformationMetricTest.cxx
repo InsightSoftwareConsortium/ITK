@@ -137,7 +137,7 @@ int main()
 // Set up the metric
 //------------------------------------------------------------
   typedef itk::MutualInformationImageToImageMetric<
-    TargetType, MapperType, double, double > MetricType;
+    TargetType, MapperType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 
@@ -197,15 +197,14 @@ int main()
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
     parameters[4] = trans;
-    metric->SetParameters( parameters );
-    metric->GetValueAndDerivative( measure, derivative );
+    metric->GetValueAndDerivative( parameters, measure, derivative );
 
     printf( "%f\t%f\t%f\n", trans, measure,
       derivative[4] );
 
     // exercise the other functions
-    metric->GetValue();
-    metric->GetDerivative();
+    metric->GetValue( parameters );
+    metric->GetDerivative( parameters );
 
     }
 
