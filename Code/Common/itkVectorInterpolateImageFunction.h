@@ -62,11 +62,14 @@ namespace itk
  * \ingroup ImageFunctions
  * 
  * */
-template <class TInputImage>
+template <
+class TInputImage,
+class TPixelType = typename TInputImage::PixelType
+>
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
     TInputImage, 
-    Vector<double,TInputImage::PixelType::VectorDimension> > 
+    Vector<double, TPixelType::VectorDimension> > 
 {
 public:
   /**
@@ -78,7 +81,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageFunction<TInputImage,
-    Vector<double,TInputImage::PixelType::VectorDimension> > Superclass;
+    Vector<double, TPixelType::VectorDimension> > Superclass;
 
   /** 
    * Smart pointer typedef support.
