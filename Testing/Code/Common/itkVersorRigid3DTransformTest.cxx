@@ -75,7 +75,6 @@ int main()
     parameters[3] = versor.GetW();
     parameters[4] = 0.0;
     parameters[5] = 0.0;
-    parameters[6] = 0.0;
 
     transform->SetParameters( parameters );
 
