@@ -17,25 +17,24 @@
 #ifndef __itkScalarToArrayCastImageFilter_h
 #define __itkScalarToArrayCastImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
   
 /** \class ScalarToArrayCastImageFilter
  *
- * \brief Casts input vector pixels to output vector pixel type.
+ * \brief Creates the output image with vector type pixels filled with
+ * the intensity values from one or more input images with scalar
+ * pixels.
  *
  * This filter is templated over the input image type and 
- * output image type.
- * 
- * The filter expect the input image' pixel type is of scalar type and 
- * the output image' pixel type is one dimensional array (subclasses of 
- * FixedArray) of the scalar type.
+ * output image type. The each dimension of the output image pixel is
+ * filled with each input image pixel's scalar pixel value. This
+ * filter can be used to cast a scalar image to a vector image if
+ * there is only one input image.
  *
- * \sa FixedArray
- *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup Multithreaded
  */
 
 
@@ -56,6 +55,7 @@ public:
 
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType ;
   typedef typename TOutputImage::PixelType OutputImagePixelType ;
+
 protected:
   ScalarToArrayCastImageFilter() ;
   virtual ~ScalarToArrayCastImageFilter() {}
@@ -66,7 +66,6 @@ protected:
 private:
   ScalarToArrayCastImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 } // end namespace itk
