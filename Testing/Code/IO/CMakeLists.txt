@@ -10,6 +10,7 @@ LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
 ADD_EXECUTABLE(itkTestConvertBuffer itkTestConvertBuffer)
 ADD_EXECUTABLE(itkTestLoadPNG itkTestLoadPNG)
+ADD_EXECUTABLE(itkTestLoadMeta itkTestLoadMeta)
 #ADD_EXECUTABLE(itkTestRawImageIO itkTestRawImageIO)
 
 
