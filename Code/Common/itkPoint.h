@@ -211,7 +211,7 @@ public:
     * with a different representation type.  Casting is done with C-Like rules  */
 
   template < typename TCoordRepB >
-  RealType SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  RealType SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa ) const
   {
     RealType sum = NumericTraits< RealType >::Zero;
     for(unsigned int i=0; i<NPointDimension; i++ )
@@ -228,7 +228,7 @@ public:
   /** Compute the Euclidean Distance from this point to another point
     * with a different representation type.  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
-  RealType EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  RealType EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa ) const
   {
   const double distance = sqrt( 
     static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) ) ;
