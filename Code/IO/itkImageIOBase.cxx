@@ -449,9 +449,9 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
 }
 
 template <class TComponent>
-static void WriteBuffer(std::ostream& os, TComponent *buffer, unsigned int num)
+static void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int num)
 {
-  TComponent *ptr = buffer;
+  const TComponent *ptr = buffer;
   for (unsigned int i=0; i < num; i++)
     {
     if ( !(i%6) && i ) os << "\n";
@@ -459,76 +459,86 @@ static void WriteBuffer(std::ostream& os, TComponent *buffer, unsigned int num)
     }
 }
 
-void ImageIOBase::WriteBufferAsASCII(std::ostream& os, void *buffer, 
+void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer, 
                                      IODataType ctype, unsigned int numComp)
 {
   switch (ctype)
     {
     case UCHAR:
       {
-      unsigned char *buf = reinterpret_cast<unsigned char*>(buffer);
+      typedef const unsigned char * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
     case CHAR:
       {
-      char *buf = reinterpret_cast<char*>(buffer);
+      typedef const char * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case USHORT:
       {
-      unsigned short *buf = reinterpret_cast<unsigned short*>(buffer);
+      typedef const unsigned short * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case SHORT:
       {
-      short *buf = reinterpret_cast<short*>(buffer);
+      typedef const short * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case UINT:
       {
-      unsigned int *buf = reinterpret_cast<unsigned int*>(buffer);
+      typedef const unsigned int * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case INT:
       {
-      int *buf = reinterpret_cast<int*>(buffer);
+      typedef const int * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case ULONG:
       {
-      unsigned long *buf = reinterpret_cast<unsigned long*>(buffer);
+      typedef const unsigned long * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case LONG:
       {
-      long *buf = reinterpret_cast<long*>(buffer);
+      typedef const long * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case FLOAT:
       {
-      float *buf = reinterpret_cast<float*>(buffer);
+      typedef const float * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;
 
     case DOUBLE:
       {
-      double *buf = reinterpret_cast<double*>(buffer);
+      typedef const double * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
       }
       break;

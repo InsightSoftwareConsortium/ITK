@@ -370,7 +370,7 @@ bool PNGImageIO::CanWriteFile(const char*)
   return false;
 }
 
-void PNGImageIO::Write(void* buffer)
+void PNGImageIO::Write(const void* buffer)
 {
   ImageIORegion ioRegion = this->GetIORegion();
 
@@ -405,10 +405,10 @@ void PNGImageIO::Write(void* buffer)
 
 }
 
-void PNGImageIO::WriteSlice(std::string& fileName, void* buffer, 
+void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer, 
                             unsigned long offset)
 {
-  unsigned char *outPtr = (unsigned char *) buffer;
+  const unsigned char *outPtr = (const unsigned char *) buffer;
 
   std::cout << "File: " << fileName.c_str() << std::endl;
   // use this class so return will call close

@@ -64,14 +64,14 @@ public:
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(void* buffer);
+  virtual void Write(const void* buffer);
 
 protected:
   PNGImageIO();
   ~PNGImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void WriteSlice(std::string& fileName, void* buffer,
+  void WriteSlice(std::string& fileName, const void* buffer,
                   unsigned long offset);
 
 private:

@@ -126,7 +126,7 @@ public:
   virtual bool CanWriteFile(const char*);
 
   /** Writes the data to disk from the memory buffer provided. */
-  virtual void Write(void* buffer);
+  virtual void Write(const void* buffer);
 
 protected:
   RawImageIO();

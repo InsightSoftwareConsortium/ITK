@@ -198,7 +198,7 @@ public:
   
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(void* buffer) = 0;
+  virtual void Write( const void* buffer) = 0;
 
 protected:
   ImageIOBase();
@@ -292,7 +292,7 @@ protected:
   unsigned int GetSliceStride () const;
 
   /** Convenient method to write a buffer as ASCII text. */
-  void WriteBufferAsASCII(std::ostream& os, void *buffer, IODataType ctype,
+  void WriteBufferAsASCII(std::ostream& os, const void *buffer, IODataType ctype,
                           unsigned int numComp);
 
   /** Convenient method to read a buffer as ASCII text. */

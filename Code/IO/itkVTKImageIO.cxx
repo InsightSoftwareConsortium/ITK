@@ -355,7 +355,7 @@ bool VTKImageIO::CanWriteFile(const char*)
   return false;
 }
 
-void VTKImageIO::Write(void* buffer)
+void VTKImageIO::Write(const void* buffer)
 {
   std::ofstream file;
   if ( ! this->OpenVTKFileForWriting(file,m_FileName.c_str()) )
@@ -412,7 +412,7 @@ void VTKImageIO::Write(void* buffer)
     }
   else //binary
     {
-    file.write(static_cast<char*>(buffer), this->GetImageSizeInBytes());
+    file.write(static_cast<const char*>(buffer), this->GetImageSizeInBytes());
     }
 }
 

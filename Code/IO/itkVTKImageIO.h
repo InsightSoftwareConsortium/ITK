@@ -60,7 +60,7 @@ public:
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(void* buffer);
+  virtual void Write(const void* buffer);
 
 protected:
   VTKImageIO();
