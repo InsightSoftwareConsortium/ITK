@@ -102,6 +102,7 @@ ADD_TEST(itkSemaphoreTest ${COMMON_TESTS} itkSemaphoreTest)
 ADD_TEST(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkShapedNeighborhoodIteratorTest)
 ADD_TEST(itkSimilarity2DTransformTest ${COMMON_TESTS} itkSimilarity2DTransformTest)
 ADD_TEST(itkSliceIteratorTest ${COMMON_TESTS} itkSliceIteratorTest)
+ADD_TEST(itkSparseImageTest ${COMMON_TESTS} itkSparseImageTest)
 ADD_TEST(itkSpatialFunctionTest ${COMMON_TESTS} itkSpatialFunctionTest)
 ADD_TEST(itkSphereSignedDistanceFunctionTest ${COMMON_TESTS} itkSphereSignedDistanceFunctionTest)
 ADD_TEST(itkSmartPointerTest ${COMMON_TESTS} itkSmartPointerTest)
@@ -267,6 +268,7 @@ itkShapedNeighborhoodIteratorTest.cxx
 itkSemaphoreTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkSliceIteratorTest.cxx
+itkSparseImageTest.cxx
 itkSmartPointerTest.cxx
 itkSTLContainerAdaptorTest.cxx
 itkSpatialFunctionTest.cxx

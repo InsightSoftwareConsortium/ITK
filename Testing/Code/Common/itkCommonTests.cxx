@@ -102,6 +102,7 @@ REGISTER_TEST(itkSemaphoreTest );
 REGISTER_TEST(itkShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkSimilarity2DTransformTest );
 REGISTER_TEST(itkSliceIteratorTest );
+REGISTER_TEST(itkSparseImageTest );
 REGISTER_TEST(itkSpatialFunctionTest );
 REGISTER_TEST(itkSphereSignedDistanceFunctionTest );
 REGISTER_TEST(itkSmartPointerTest );
