@@ -213,9 +213,9 @@ ImageBase<VImageDimension>
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase
-  const ImageBase *imgData;
+  const ImageBase<VImageDimension> *imgData;
   
-  imgData = dynamic_cast<const ImageBase*>(data);
+  imgData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
 
   if (imgData)
     {
