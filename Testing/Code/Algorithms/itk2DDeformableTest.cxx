@@ -223,7 +223,6 @@ int itk2DDeformableTest(int, char**)
     ++bitb;
   }
 
-  */
   //////////////////////////////////////////////////////////////////////////
 
   itk::ShrinkImageFilter< myImageType, myImageType >::Pointer dshrink;
