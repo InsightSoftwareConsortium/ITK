@@ -43,7 +43,7 @@ int itkShiftScaleImageFilterTest(int, char**)
   double fillValue = -100.0;
   inputImage->SetRegions( region );
   inputImage->Allocate();
-  inputImage->FillBuffer(fillValue);
+  inputImage->FillBuffer( static_cast< TestInputImage::PixelType >( fillValue ) );
 
   typedef itk::ShiftScaleImageFilter<TestInputImage,TestOutputImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
@@ -69,8 +69,8 @@ int itkShiftScaleImageFilterTest(int, char**)
   double minValue = -128.0;
   double maxValue = 127.0;
 
-  source->SetMin(minValue);
-  source->SetMax(maxValue);
+  source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
+  source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
   std::cout << source;
   
   filter->SetInput(source->GetOutput());
