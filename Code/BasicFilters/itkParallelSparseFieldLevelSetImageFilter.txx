@@ -2275,7 +2275,18 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // compute lower bound on the index
   typename TOutputImage::IndexType threadRegionIndex = ThreadRegion.GetIndex();
-  threadRegionIndex[m_SplitAxis] += (ThreadId == 0 ? 0 : m_Boundary[ThreadId-1]);
+  if (ThreadId != 0)
+    {
+    if (m_Boundary[ThreadId-1] < m_Boundary[m_NumOfThreads -1])
+      {
+      threadRegionIndex[m_SplitAxis] += m_Boundary[ThreadId-1] + 1;
+      }
+    else
+      {
+      threadRegionIndex[m_SplitAxis] += m_Boundary[ThreadId-1];
+      }
+    }
+  
   ThreadRegion.SetIndex (threadRegionIndex);
   
   // compute the size of the region
