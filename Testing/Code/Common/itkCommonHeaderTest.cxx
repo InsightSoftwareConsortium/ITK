@@ -143,6 +143,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPolygonCell.h"
 #include "itkProcessObject.h"
 #include "itkQuadrilateralCell.h"
+#include "itkQuaternionRigidTransform.h"
 #include "itkRGBPixel.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkRedPixelAccessor.h"
