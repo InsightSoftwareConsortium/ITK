@@ -21,6 +21,9 @@
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 #include <string>
+#ifdef MAXPATHLEN
+#undef MAXPATHLEN
+#endif
 
 namespace itk
 {
