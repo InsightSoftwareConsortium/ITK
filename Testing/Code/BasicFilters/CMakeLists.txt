@@ -666,12 +666,32 @@ ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 IF(ITK_CSWIG_TCL)
 
+  ADD_TEST(CannyEdgeDetectionImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterTclTest.png 5 0.125)
+
   ADD_TEST(CastImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CastImageFilterTclTest.png )
 
-  ADD_TEST(BinaryDilateImageFilterTcl ${ITKWISH_EXECUTABLE}
+  ADD_TEST(CurvatureFlowImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureFlowImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterTclTest.png 5 0.125)
+
+  ADD_TEST(CurvatureAnisotropicDiffusionImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureAnisotropicDiffusionImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterTclTest.png 5 0.125 3.0)
+
+  ADD_TEST(GradientAnisotropicDiffusionImageFilterTcl ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/GradientAnisotropicDiffusionImageFilter.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTclTest.png 5 0.125 3.0)
+
+ ADD_TEST(BinaryDilateImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryDilateImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterTclTest.png )
@@ -711,17 +731,32 @@ ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON)
 
+  ADD_TEST(CannyEdgeDetectionImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterPythonTest.png  5 0.125)
+
   ADD_TEST(CastImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CastImageFilterPythonTest.png )
 
-  ADD_TEST(BinaryDilateImageFilterPython ${PYTHON_EXECUTABLE}
-           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryDilateImageFilter.py
+  ADD_TEST(CurvatureFlowImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureFlowImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-           ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterPythonTest.png )
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterPythonTest.png 5 0.125)
 
-  ADD_TEST(BinaryErodeImageFilterPython ${PYTHON_EXECUTABLE}
+  ADD_TEST(CurvatureAnisotropicDiffusionImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureAnisotropicDiffusionImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilterPythonTest.png 5 0.125 3.0)
+
+  ADD_TEST(GradientAnisotropicDiffusionImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/GradientAnisotropicDiffusionImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterPythonTest.png 5 0.125 3.0)
+
+ ADD_TEST(BinaryErodeImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryErodeImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterPythonTest.png )
