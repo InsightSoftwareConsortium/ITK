@@ -79,7 +79,9 @@ public:
   /** Default constructor. */
   ConstSmartNeighborhoodIterator()
     : Superclass()
-    { this->ResetBoundaryCondition(); }
+    { for (unsigned int i=0; i < Dimension; i++)
+       { m_InBounds[i] = false; }
+      this->ResetBoundaryCondition(); }
 
   /** Copy constructor */
   ConstSmartNeighborhoodIterator(const Self& orig);
@@ -92,6 +94,8 @@ public:
                                  const RegionType& region)
     : Superclass()
     { this->Initialize(radius, ptr, region);
+      for (unsigned int i=0; i < Dimension; i++)
+         { m_InBounds[i] = false; }
       this->ResetBoundaryCondition(); }
 
   /** Assignment operator */

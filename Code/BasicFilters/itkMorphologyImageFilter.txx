@@ -29,6 +29,7 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::MorphologyImageFilter()
+  : m_Kernel()
 {
 }
   
