@@ -27,11 +27,6 @@ REGISTER_TEST(MedianImageFilterTest);
 REGISTER_TEST(MinMaxCurvatureFlowImageFilterTest);
 REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(ResampleImageFilterTest);
-REGISTER_TEST(ResampleImageFilter2Test);
-REGISTER_TEST(ResampleImageFilter3Test);
-REGISTER_TEST(ResampleImageFilter4Test);
-REGISTER_TEST(ResampleImageFilter5Test);
 }
 
 #undef main
@@ -118,23 +113,4 @@ REGISTER_TEST(ResampleImageFilter5Test);
 #define main RGBGradientAnisotropicDiffusionImageFilterTest
 #include "RGBGradientAnisotropicDiffusionImageFilter.cxx"
 
-#undef main
-#define main ResampleImageFilterTest
-#include "ResampleImageFilter.cxx"
-
-#undef main
-#define main ResampleImageFilter2Test
-#include "ResampleImageFilter2.cxx"
-
-#undef main
-#define main ResampleImageFilter3Test
-#include "ResampleImageFilter3.cxx"
-
-#undef main
-#define main ResampleImageFilter4Test
-#include "ResampleImageFilter4.cxx"
-
-#undef main
-#define main ResampleImageFilter5Test
-#include "ResampleImageFilter5.cxx"
 
