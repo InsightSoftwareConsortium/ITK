@@ -151,18 +151,16 @@ int main( int argc, char * argv[] )
 //  Software Guide : BeginLatex
 //
 //  Since we are using a BSpline of order 3, the coverage of the BSpling grid
-//  should exceed by one the spatial extent of the image. We choose here to use
-//  a $10 \times 10$ BSpline grid, from which only a $8 \times 8$ sub-grid will
-//  be covering the input image. If we use an input image of size $256 \times
-//  256$ pixels, and pixel spacing $1.0 \times 1.0$ then we need the $8\times8$
-//  BSpline grid to cover a physical extent of $256 \times 256$ mm. This can be
-//  achieved by setting the pixel spacing of the BSpline grid to $32.0 \times
-//  32.0$. The origin of the BSpline grid must be set at the origin of the
-//  desired output image, this may seem counter-intuitive since the size of the
-//  grid region is larger by two than the valid internal region.  However, this
-//  adjustment has been setup internally in the Transform in order to relief
-//  users from having to perform the shift computation in order to set the
-//  origin of the grid. All this is done with the following lines of code.
+//  should exceed by one the spatial extent of the image on the lower region of
+//  image indices, and by two grid points on the upper region of image indices.
+//  We choose here to use a $8 \times 8$ BSpline grid, from which only a $5
+//  \times 5$ sub-grid will be covering the input image. If we use an input
+//  image of size $500 \times 500$ pixels, and pixel spacing $2.0 \times 2.0$
+//  then we need the $5 \times 5$ BSpline grid to cover a physical extent of $1000
+//  \times 1000$ mm. This can be achieved by setting the pixel spacing of the
+//  BSpline grid to $250.0 \times 250.0$ mm. The origin of the BSpline grid
+//  must be set at one grid position away from the origin of the desired output
+//  image. All this is done with the following lines of code.
 // 
 //  \index{BSplineDeformableTransform}
 //
@@ -174,15 +172,24 @@ int main( int argc, char * argv[] )
   RegionType bsplineRegion;
   RegionType::SizeType   size;
 
-  const unsigned int numberOfGridNodes = 10;
+  const unsigned int numberOfGridNodesOutsideTheImageSupport = 3;
 
+  const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
+
+  const unsigned int numberOfGridNodes = 
+                        numberOfGridNodesInsideTheImageSupport +
+                        numberOfGridNodesOutsideTheImageSupport;
+
+  const unsigned int numberOfGridCells = 
+                        numberOfGridNodesInsideTheImageSupport - 1;
+                        
   size.Fill( numberOfGridNodes );
   bsplineRegion.SetSize( size );
 
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing[0] = fixedSpacing[0] * fixedSize[0] / ( numberOfGridNodes - 2 );
-  spacing[1] = fixedSpacing[1] * fixedSize[1] / ( numberOfGridNodes - 2 );
+  spacing[0] = floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
+  spacing[1] = floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
