@@ -1183,7 +1183,9 @@ namespace itk
       //DEBUG -- Will this work under windows?
       std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
       unusedbaseimgname+=".img";
+#if 0                           // problem under Borland C++
       ::remove(unusedbaseimgname.c_str());
+#endif
     } else {
       //No compression
       std::ofstream   local_OutputStream;
@@ -1212,7 +1214,9 @@ namespace itk
       //DEBUG -- Will this work under windows?
       std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
       unusedbaseimgname+=".img.gz";
+#if 0                           // problem under Borland C++?
       ::remove(unusedbaseimgname.c_str());
+#endif
     }
   }
 } // end namespace itk
