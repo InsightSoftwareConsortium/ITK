@@ -19,8 +19,7 @@ namespace eval itk {
   #
   proc ConfigureTclPackage {package version subdir} {
     set libPrefix "${ITK_LIBNAME_PREFIX}"
-    set libPath [file join "${ITK_TCL_PACKAGE_DIR}" \
-                           "${ITK_MSDEV_CONFIG_DIR}"]
+    set libPath "${ITK_TCL_PACKAGE_DIR}"
     set libName $package
     set libExt [info sharedlibextension]
     set libFile [file join $libPath "$libPrefix$libName$libExt"]
