@@ -85,6 +85,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPointSetToImageMetric.txx"
 #include "itkPointSetToImageRegistrationMethod.txx"
 #include "itkRGBGibbsPriorFilter.txx"
+#include "itkRayCastInterpolateImageFunction.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.txx"
 #include "itkRegionGrowImageFilter.txx"
 #include "itkRegistrationMethod.txx"
