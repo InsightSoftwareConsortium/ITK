@@ -40,6 +40,25 @@ SpatialObjectWriter<NDimensions,PixelType>
 {
 }
 
+/** Set the precision at which the transform should be written */
+template <unsigned int NDimensions, class PixelType>
+void
+SpatialObjectWriter<NDimensions,PixelType>
+::SetTransformPrecision(unsigned int precision)
+{
+  m_MetaToSpatialConverter.SetTransformPrecision(precision);
+}
+
+
+/** Get the precision at which the transform should be written */
+template <unsigned int NDimensions, class PixelType>
+unsigned int
+SpatialObjectWriter<NDimensions,PixelType>
+::GetTransformPrecision()
+{
+  return m_MetaToSpatialConverter.GetTransformPrecision();
+}
+
 
 template <unsigned int NDimensions, class PixelType>
 void

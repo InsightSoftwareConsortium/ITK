@@ -54,6 +54,7 @@ MetaSceneConverter<NDimensions,PixelType>
   // with each spatial object.
   m_Event = NULL;
   m_BinaryPoints = false;
+  m_TransformPrecision = 6;
 }
 
 /** Destructor */ 
@@ -85,6 +86,7 @@ MetaSceneConverter<NDimensions,PixelType>
     }
   obj->Orientation(m_Orientation) ;
   obj->Position(m_Position) ;
+  obj->SetDoublePrecision(m_TransformPrecision);
 }
 
 template <unsigned int NDimensions, class PixelType> 

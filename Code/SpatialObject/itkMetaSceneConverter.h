@@ -52,6 +52,9 @@ public:
   // Set if the points should be saved in binary/ASCII
   void SetBinaryPoints(bool binary) {m_BinaryPoints = binary;}
 
+  void SetTransformPrecision(unsigned int precision){m_TransformPrecision = precision;}
+  unsigned int GetTransformPrecision(){return m_TransformPrecision;}
+
 private:
 
   typedef itk::SpatialObject<NDimensions> SpatialObjectType;
@@ -69,12 +72,13 @@ private:
   void SetTransform(MetaObject* obj, TransformType* transform) ;
   void SetTransform(SpatialObjectType* so, MetaObject* obj) ;
 
-  float m_Orientation[100] ;
-  float m_Position[10] ;
-  float m_CenterOfRotation[10] ;
+  double m_Orientation[100] ;
+  double m_Position[10] ;
+  double m_CenterOfRotation[10] ;
 
   MetaEvent* m_Event;
   bool  m_BinaryPoints;
+  unsigned int m_TransformPrecision;
 
 };
 

@@ -46,7 +46,6 @@ public:
   typedef Object Superclass;
   itkTypeMacro(Self, Superclass);
 
-
   /** Load a tube file. */
   void Update(void);
 
@@ -65,6 +64,9 @@ public:
 
   itkSetMacro(BinaryPoints,bool);
   itkGetMacro(BinaryPoints,bool);
+
+  void SetTransformPrecision(unsigned int precision);
+  unsigned int GetTransformPrecision();
 
 protected:
   std::string m_FullFileName;
