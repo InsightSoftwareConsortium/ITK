@@ -182,8 +182,11 @@ private:
   /** The global timestep. */
   TimeStepType                    m_TimeStep;
 
-  /** Constant used to guard against division by zero. */
-  double                          m_EpsilonDenominator;
+  /** Threshold below which the denominator term is considered zero. */
+  double                          m_DenominatorThreshold;
+
+  /** Threshold below which two intensity value are assumed to match. */
+  double                          m_IntensityDifferenceThreshold;
 
 };
 

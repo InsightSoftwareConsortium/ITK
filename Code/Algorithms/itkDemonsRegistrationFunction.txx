@@ -40,7 +40,8 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   this->SetRadius(r);
 
   m_TimeStep = 1.0;
-  m_EpsilonDenominator = 1e-9;
+  m_DenominatorThreshold = 1e-9;
+  m_IntensityDifferenceThreshold = 0.001;
   m_MovingImage = NULL;
   m_FixedImage = NULL;
   m_FixedImageSpacing = NULL;
@@ -72,8 +73,10 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   os << m_MovingImageInterpolator.GetPointer() << std::endl;
   os << indent << "FixedImageGradientCalculator: ";
   os << m_FixedImageGradientCalculator.GetPointer() << std::endl;
-  os << indent << "EpsilonDenominator: ";
-  os << m_EpsilonDenominator << std::endl;
+  os << indent << "DenominatorThreshold: ";
+  os << m_DenominatorThreshold << std::endl;
+  os << indent << "IntensityDifferenceThreshold: ";
+  os << m_IntensityDifferenceThreshold << std::endl;
 
 }
 
@@ -132,7 +135,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   for( int j = 0; j < ImageDimension; j++ )
     {
     fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
-    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] );
+    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
     } 
 
   // Get moving image related information
@@ -159,7 +162,8 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double denominator = vnl_math_sqr( speedValue ) + 
     fixedGradientSquaredMagnitude;
 
-  if ( denominator < m_EpsilonDenominator )
+  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
+    denominator < m_DenominatorThreshold )
     {
     for( j = 0; j < ImageDimension; j++ )
       {
@@ -170,7 +174,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * fixedGradient[j] * m_FixedImageSpacing[j] / 
+    update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) / 
       denominator;
     }
 
