@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGenericClassifier.txx
+  Module:    itkSampleClassifier.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,22 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGenericClassifier_txx
-#define __itkGenericClassifier_txx
+#ifndef __itkSampleClassifier_txx
+#define __itkSampleClassifier_txx
 
 namespace itk{ 
   namespace Statistics{
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::GenericClassifier()
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::SampleClassifier()
 {
   m_Output = OutputType::New() ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::SetSample(SamplePointer sample)
 {
   m_Sample = sample ;
@@ -37,8 +37,8 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::SamplePointer
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >::SamplePointer
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GetSample()
 {
   return m_Sample ;
@@ -46,7 +46,7 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 unsigned int 
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::AddMembershipCalculator(MembershipCalculatorPointer function)
 {
   m_MembershipCalculators.push_back(function) ;
@@ -55,15 +55,15 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::SetDecisionRule(DecisionRulePointer decisionRule)
 {
   m_DecisionRule = decisionRule ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::DecisionRulePointer
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >::DecisionRulePointer
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GetDecisionRule()
 {
   return m_DecisionRule ;
@@ -72,27 +72,30 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GenerateData()
 {
   unsigned int i ;
 
   typename TSample::Iterator iter = GetSample()->Begin() ;
-  typename TSample::Iterator last = GetSample()->End() ;
+  typename TSample::Iterator end = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
   
   std::vector< double > discriminantScores ;
-  discriminantScores.resize(m_MembershipCalculators.size()) ;
+  unsigned int numberOfClasses = m_MembershipCalculators.size() ;
+  discriminantScores.resize(numberOfClasses) ;
   unsigned int classLabel ;
+  m_Output->SetNumberOfClasses(numberOfClasses) ;
   typename TDecisionRule::Pointer rule = this->GetDecisionRule() ;
-  while (iter != last)
+
+  while (iter != end)
     {
       measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < m_MembershipCalculators.size() ; i++)
+      for (i = 0 ; i < numberOfClasses ; i++)
         {
           discriminantScores[i] = (m_MembershipCalculators[i])->Evaluate(measurements) ;
         }
-
+      
       classLabel = rule->Evaluate(discriminantScores) ;
       m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
@@ -100,8 +103,8 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >::OutputPointer
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >::OutputPointer
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GetOutput() 
 {
   return m_Output ;
@@ -109,7 +112,7 @@ GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   unsigned int i ;

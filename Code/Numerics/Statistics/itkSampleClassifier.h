@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGenericClassifier.h
+  Module:    itkSampleClassifier.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGenericClassifier_h
-#define __itkGenericClassifier_h
+#ifndef __itkSampleClassifier_h
+#define __itkSampleClassifier_h
 
 #include <vector>
 
@@ -26,7 +26,7 @@
 namespace itk{ 
   namespace Statistics{
 
-/** \class GenericClassifier 
+/** \class SampleClassifier 
  *  \brief Integration point for MembershipCalculator, DecisionRule, and 
  * target sample data.
  *
@@ -61,17 +61,17 @@ namespace itk{
  */
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-class ITK_EXPORT GenericClassifier : 
+class ITK_EXPORT SampleClassifier : 
       public Object
 {
 public:
   /** Standard class typedef*/
-  typedef GenericClassifier Self;
+  typedef SampleClassifier Self;
   typedef Object Superclass;
   typedef SmartPointer<Self> Pointer;
 
  /** Standard macros */
-  itkTypeMacro(GenericClassifier, Object);
+  itkTypeMacro(SampleClassifier, Object);
   itkNewMacro(Self) ;
 
   /** TSample template argument related typedefs */
@@ -109,7 +109,7 @@ public:
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipCalculator(MembershipCalculatorPointer function) ;
 
-  size_t GetNumberOfClasses() 
+  int GetNumberOfClasses() 
   { return m_MembershipCalculators.size() ; }
 
   MembershipCalculatorVectorType GetMembershipCalculatorVector()
@@ -129,8 +129,8 @@ public:
   OutputPointer GetOutput() ;
 
 protected:
-  GenericClassifier() ;
-  virtual ~GenericClassifier() {}
+  SampleClassifier() ;
+  virtual ~SampleClassifier() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
@@ -153,7 +153,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGenericClassifier.txx"
+#include "itkSampleClassifier.txx"
 #endif
 
 #endif
