@@ -37,7 +37,7 @@ spathak:Sayan Pathak:spathak@insightful.com
 stetten:George Stetten:george@stetten.com
 tamburo:Robert Tamburo:rjtst21@pitt.edu
 tessa:Tessa Sundaram:tessa@mail.med.upenn.edu
-turek:Matt Turek:turek@crd.ge.com
+turek:Matt Turek:turekm@cs.rpi.edu
 turner:Wes Turner:turner@crd.ge.com
 vikram:Vikram Chalana:vikram@insightful.com
 whitaker:Ross Whitaker:whitaker@serrano.cs.utah.edu
