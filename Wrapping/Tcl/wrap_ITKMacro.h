@@ -25,11 +25,21 @@
 // Useful group reference macro.
 #define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE "_" #x
 
+// CSWIG does not support wrapper namespaces
 // Wrapper configuration namespace helpers.
-#define ITK_WRAP_NAMESPACE_OPEN \
-  namespace _cable_ { namespace wrappers { namespace itk {  
-#define ITK_WRAP_NAMESPACE_CLOSE } } }
-#define ITK_WRAP_NAMESPACE_USING using namespace _cable_::wrappers::itk;
+#ifdef CSWIG
+#  define ITK_WRAP_NAMESPACE_OPEN \
+  namespace _cable_ { namespace wrappers {
+#  define ITK_WRAP_NAMESPACE_CLOSE } } 
+#  define ITK_WRAP_NAMESPACE_USING using namespace _cable_::wrappers;
+# 
+// Cable supports internal namespaces
+#else
+#  define ITK_WRAP_NAMESPACE_OPEN \
+namespace _cable_ { namespace wrappers { namespace itk {
+#  define ITK_WRAP_NAMESPACE_CLOSE } } }
+#  define ITK_WRAP_NAMESPACE_USING using namespace _cable_::wrappers::itk;
+#endif
 
 // Configure the group setting for a group of wrappers.
 #define ITK_WRAP_CONFIG_GROUP(g) \

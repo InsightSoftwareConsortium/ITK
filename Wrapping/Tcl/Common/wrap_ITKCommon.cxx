@@ -27,7 +27,9 @@ namespace _cable_
     ITK_WRAP_GROUP(ITKInterpolators),
     ITK_WRAP_GROUP(ITKRegions),
     ITK_WRAP_GROUP(ITKTransforms),
+#ifndef CSWIG
     ITK_WRAP_GROUP(ITKUtils),
+#endif
     ITK_WRAP_GROUP(itkArray),
     ITK_WRAP_GROUP(itkContinuousIndex),
     ITK_WRAP_GROUP(itkDifferenceImageFilter),
@@ -36,7 +38,6 @@ namespace _cable_
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkFixedArray),
     ITK_WRAP_GROUP(itkImage),
-    ITK_WRAP_GROUP(itkImageToImageFilter),
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
