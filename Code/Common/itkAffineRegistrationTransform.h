@@ -142,10 +142,13 @@ public:
   /**
    *  Set the Scale for translations
    */
-  void SetTranslationScale(const double &scale)
-                    { m_TranslationScale = scale; }
+  itkSetMacro( TranslationScale , TScalarType );
    
-
+  /**
+   *  Get the Scale for translations
+   */
+  itkGetMacro( TranslationScale , TScalarType );
+ 
   /**
    * Compute the Jacobian of the transformation
    *
@@ -165,11 +168,27 @@ protected:
 
 private:
 
+  /**
+   *  Internal transformation
+   */
   AffineTransformType                 m_AffineTransform;
+  
+  /**
+   *  List of parameters that unambiguosly define the transformation
+   */  
   ParametersType                      m_Parameters;
 
-  double                              m_TranslationScale;
+  /**
+   *  Scale of the translations. It is used to bring translations
+   *  and rotations to a similar scale. It should be set to the 
+   *  value of the maximum expected translation.
+   */  
+  TScalarType                         m_TranslationScale;
 
+  /**
+   * Jacobian matrix of the transformation. It is used to compute
+   * derivatives by using the chain rule.
+   */
   mutable JacobianType                m_Jacobian;     
 
 };

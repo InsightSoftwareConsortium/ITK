@@ -55,7 +55,7 @@ template <class TScalarType,unsigned int NDimensions, class TParameters>
 AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::AffineRegistrationTransform()
 { 
-  m_TranslationScale = 1;
+  m_TranslationScale = 1.0;
 }
 
 
@@ -66,7 +66,8 @@ template <class TScalarType,unsigned int NDimensions, class TParameters>
 AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::AffineRegistrationTransform( const Self & other )
 {
-  m_AffineTransform = other.m_AffineTransform;
+  m_AffineTransform  = other.m_AffineTransform;
+  m_TranslationScale = other.m_TranslationScale;
 }
 
 
@@ -79,6 +80,7 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
   m_AffineTransformation = other.m_AffineTransformation;
+  m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
 
