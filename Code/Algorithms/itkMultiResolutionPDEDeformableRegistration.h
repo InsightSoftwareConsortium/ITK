@@ -193,6 +193,9 @@ public:
   virtual const unsigned int * GetNumberOfIterations() const
   { return &(m_NumberOfIterations[0]); }
 
+  /** Stop the registration after the current iteration. */
+  virtual void StopRegistration();
+
 protected:
   MultiResolutionPDEDeformableRegistration();
   ~MultiResolutionPDEDeformableRegistration() {}
@@ -236,6 +239,9 @@ private:
   unsigned int               m_NumberOfLevels;
   unsigned int               m_CurrentLevel;
   std::vector<unsigned int>  m_NumberOfIterations;
+
+  /** Flag to indicate user stop registration request. */
+  bool                      m_StopRegistrationFlag;
 
 };
 

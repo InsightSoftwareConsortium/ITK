@@ -144,6 +144,10 @@ public:
   const double * GetStandardDeviations(void) 
   { return (double *) m_StandardDeviations; }
 
+  /** Stop the registration after the current iteration. */
+  virtual void StopRegistration()
+    { m_StopRegistrationFlag = true; }
+
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
@@ -152,10 +156,16 @@ protected:
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
-  {
-    if (this->GetElapsedIterations() == this->GetNumberOfIterations() ) return true;
-    else return false;
-  }
+    {
+
+    if ( m_StopRegistrationFlag )
+      {
+      m_StopRegistrationFlag = false;
+      return true;
+      }
+
+    return this->Superclass::Halt();
+    }
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
@@ -201,6 +211,9 @@ private:
 
   /** Maximum error for Gaussian operator approximation. */
   double                    m_MaximumError;
+
+  /** Flag to indicate user stop registration request. */
+  bool                      m_StopRegistrationFlag;
 
 };
 

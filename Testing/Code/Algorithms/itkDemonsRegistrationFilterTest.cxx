@@ -39,10 +39,14 @@ public:
     {m_Process = o;}
   void ShowProgress()
     {
-    std::cout << "Progress: " << m_Process->GetProgress() << "   ";
-    std::cout << "Metric: "   << m_Process->GetMetric()   << "   ";
-    std::cout << "RMSChange: " << m_Process->GetRMSChange() << "    ";
-    std::cout << std::endl;}
+    std::cout << "Progress: " << m_Process->GetProgress() << "  ";
+    std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
+    std::cout << "Metric: "   << m_Process->GetMetric()   << "  ";
+    std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
+    std::cout << std::endl;
+    if ( m_Process->GetElapsedIterations() == 150 )
+      { m_Process->StopRegistration(); }
+    }
   typename TRegistration::Pointer m_Process;
 };
 }
@@ -174,7 +178,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetInitialDeformationField( caster->GetOutput() );
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
-  registrator->SetNumberOfIterations( 150 );
+  registrator->SetNumberOfIterations( 200 );
   registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
 

@@ -55,6 +55,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     }
   m_CurrentLevel = 0;
 
+  m_StopRegistrationFlag = false;
+
 }
 
 
@@ -166,6 +168,9 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   os << m_MovingImagePyramid.GetPointer() << std::endl;
   os << indent << "FixedImagePyramid: ";
   os << m_FixedImagePyramid.GetPointer() << std::endl;
+
+  os << indent << "StopRegistrationFlag: ";
+  os << m_StopRegistrationFlag << std::endl;
 
 }
 
@@ -338,6 +343,14 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
 }
 
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+::StopRegistration()
+{
+  m_RegistrationFilter->StopRegistration();
+  m_StopRegistrationFlag = true;
+}
 
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 bool
@@ -355,9 +368,10 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     {
     return true;
     }
-  else if ( m_CurrentLevel == 0)
+  else if ( m_StopRegistrationFlag )
     {
-    return false; 
+    m_StopRegistrationFlag = false;
+    return true;
     }
   else
     { 

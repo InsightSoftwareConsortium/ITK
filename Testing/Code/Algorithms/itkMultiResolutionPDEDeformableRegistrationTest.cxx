@@ -52,6 +52,21 @@ public:
   itk::ProcessObject::Pointer m_Process;
   std::string m_Prefix;
 };
+
+template<typename TRegistration>
+class PDERegistrationController
+{
+public:
+  PDERegistrationController(TRegistration* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {
+    if ( m_Process->GetCurrentLevel() == 3 )
+      { m_Process->StopRegistration(); }
+    }
+  typename TRegistration::Pointer m_Process;
+};
+
 }
 
 
@@ -234,7 +249,15 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   CommandType::Pointer command = CommandType::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressPDEObject::ShowIteration);
-  registrator->AddObserver(itk::IterationEvent(), command);
+  registrator->AddObserver(itk::IterationEvent(), command );
+
+  PDERegistrationController<RegistrationType> controller(registrator);
+  typedef itk::SimpleMemberCommand< PDERegistrationController<RegistrationType> > 
+    ControllerType;
+  ControllerType::Pointer controllerCommand = ControllerType::New();
+  controllerCommand->SetCallbackFunction( 
+    &controller, &PDERegistrationController<RegistrationType>::ShowProgress );
+  registrator->AddObserver(itk::ProgressEvent(), controllerCommand );
 
   ShowProgressPDEObject innerWatch(registrator->GetRegistrationFilter() );
   innerWatch.m_Prefix = "    ";

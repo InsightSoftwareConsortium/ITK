@@ -51,6 +51,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
   m_TempField = DeformationFieldType::New();
   m_MaximumError = 0.1;
+  m_StopRegistrationFlag = false;
 
 }
 
@@ -155,6 +156,8 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     os << m_StandardDeviations[j] << ", ";
     }
   os << m_StandardDeviations[j] << "]" << std::endl;
+  os << indent << "StopRegistrationFlag: ";
+  os << m_StopRegistrationFlag << std::endl;
 
 }
 
@@ -190,13 +193,6 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   f->SetMovingImage( movingPtr );
 
   this->Superclass::InitializeIteration();           
-
-  // progress feedback
-  if ( this->GetNumberOfIterations() != 0 )
-    {
-    this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                         /((float)(this->GetNumberOfIterations())));
-    }
 
 }
 
