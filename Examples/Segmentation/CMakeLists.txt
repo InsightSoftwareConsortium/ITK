@@ -244,6 +244,33 @@ ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 0.5 -0.3 2.0 0.05
 )
 
+ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
+            ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
+  ThresholdSegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
+        81 112 5 210 250
+)
+
+ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png
+            ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
+  ThresholdSegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
+        60 116 5 150 180
+)
+
+ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png
+            ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
+  ThresholdSegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
+        107 69 5 180 210
+)
+
 ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png

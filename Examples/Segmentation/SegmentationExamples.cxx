@@ -17,6 +17,7 @@ REGISTER_TEST(GibbsPriorImageFilter1Test);
 REGISTER_TEST(IsolatedConnectedImageFilterTest);
 REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
 REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
+REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
 REGISTER_TEST(WatershedSegmentation1Test);
 }
 
@@ -51,6 +52,10 @@ REGISTER_TEST(WatershedSegmentation1Test);
 #undef main
 #define main ShapeDetectionLevelSetFilterTest
 #include "ShapeDetectionLevelSetFilter.cxx"
+
+#undef main
+#define main ThresholdSegmentationLevelSetImageFilterTest
+#include "ThresholdSegmentationLevelSetImageFilter.cxx"
 
 #undef main
 #define main WatershedSegmentation1Test
