@@ -256,17 +256,17 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   image->SetImage(itkImage);
 
   tubeN2->AddSpatialObject( image );
-  //tubeN2->AddSpatialObject( ellipse );
 
   tubeN1->AddSpatialObject( tubeN2 );
   tubeN1->AddSpatialObject( blob );
   tubeN1->AddSpatialObject( line );
   tubeN1->AddSpatialObject( surface );
   tubeN1->AddSpatialObject( landmark );
+  tubeN1->AddSpatialObject( ellipse );
 
   std::cout<<"Testing Number of children: ";
   
-  if( tubeN1->GetNumberOfChildren() != 7 )
+  if( tubeN1->GetNumberOfChildren() != 8 )
     {
     std::cout<< tubeN1->GetNumberOfChildren()  << "[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -280,7 +280,13 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(tubeN1);
-  writer->SetFullFileName("Objects.meta");
+  writer->SetFileName("Objects.meta");
+  writer->SetBinaryPoints(false);
+  if(writer->GetBinaryPoints())
+    {
+    std::cout<<"[FAILURE]"<<std::endl;
+    return EXIT_FAILURE;
+    }
   writer->Update();
    
 
@@ -305,9 +311,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     }
 
   std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfObjects(1) != 8)
+  if(myScene->GetNumberOfObjects(1) != 9)
     {
-    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 8" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 9" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
@@ -374,6 +380,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
 
   std::cout<<"Testing Ellipse parameters:";
+  bool gotEllipse = false;
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
@@ -386,8 +393,15 @@ int itkReadWriteSpatialObjectTest(int, char*[])
           std::cout<<" [FAILED]"<<std::endl; 
           return EXIT_FAILURE;
           }
+        gotEllipse = true;
         }
       }
+    }
+
+  if(!gotEllipse)
+    {
+    std::cout<<" [FAILED] : No ellipse!"<<std::endl; 
+    return EXIT_FAILURE;
     }
 
   std::cout<<" [PASSED]"<<std::endl; 
@@ -629,7 +643,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput(scene2);
-  writer2->SetFullFileName("Scene.meta");
+  writer2->SeFileName("Scene.meta");
   writer2->Update();
 
   std::cout<<"[PASSED]"<<std::endl;
