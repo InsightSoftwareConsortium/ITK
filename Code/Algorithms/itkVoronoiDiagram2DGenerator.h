@@ -153,18 +153,18 @@ private:
    * and some public variables/methods not for external access. */ 
   class FortuneSite{
   public:
-    PointType m_coord;
-    int m_sitenbr;
+    PointType m_Coord;
+    int m_Sitenbr;
     FortuneSite(){};
     ~FortuneSite(){};
   };
 
   class FortuneEdge{
   public:
-    float m_a, m_b, m_c;  // explicit line function: ax + by = c;
-    FortuneSite *m_ep[2];
-    FortuneSite *m_reg[2];
-    int m_edgenbr;
+    float m_A, m_B, m_C;  // explicit line function: Ax + By = C;
+    FortuneSite *m_Ep[2];
+    FortuneSite *m_Reg[2];
+    int m_Edgenbr;
     FortuneEdge(){};
     ~FortuneEdge(){};
   };
@@ -173,35 +173,35 @@ private:
   public:
     FortuneHalfEdge *m_Left;
     FortuneHalfEdge *m_Right;
-    FortuneEdge *m_edge;
+    FortuneEdge *m_Edge;
     bool m_RorL;
-    FortuneSite *m_vert;
-    double m_ystar;
-    FortuneHalfEdge *m_next;
+    FortuneSite *m_Vert;
+    double m_Ystar;
+    FortuneHalfEdge *m_Next;
     FortuneHalfEdge(){};
     ~FortuneHalfEdge(){};
   };
 
-  double f_pxmin;
-  double f_pxmax;
-  double f_pymin;
-  double f_pymax;
-  double f_deltax;
-  double f_deltay;
-  double f_sqrtNSites;
-  unsigned int f_PQcount;
-  int f_PQmin;
-  unsigned int f_PQhashsize;
-  unsigned int f_nedges;
-  unsigned int f_nvert;
-  FortuneSite *f_bottomSite;
-  std::vector<FortuneHalfEdge> f_PQHash;
-  unsigned int f_ELhashsize;
-  FortuneHalfEdge f_ELleftend;
-  FortuneHalfEdge f_ELrightend;
-  std::vector<FortuneHalfEdge *> f_ELHash;
-  FortuneEdge f_DELETED;
-  std::vector<FortuneSite> f_SeedSites;
+  double m_Pxmin;
+  double m_Pxmax;
+  double m_Pymin;
+  double m_Pymax;
+  double m_Deltax;
+  double m_Deltay;
+  double m_SqrtNSites;
+  unsigned int m_PQcount;
+  int m_PQmin;
+  unsigned int m_PQhashsize;
+  unsigned int m_Nedges;
+  unsigned int m_Nvert;
+  FortuneSite *m_BottomSite;
+  std::vector<FortuneHalfEdge> m_PQHash;
+  unsigned int m_ELhashsize;
+  FortuneHalfEdge m_ELleftend;
+  FortuneHalfEdge m_ELrightend;
+  std::vector<FortuneHalfEdge *> m_ELHash;
+  FortuneEdge m_DELETED;
+  std::vector<FortuneSite> m_SeedSites;
   
   bool differentPoint(PointType p1,PointType p2);
   bool almostsame(CoordRepType p1,CoordRepType p2);
