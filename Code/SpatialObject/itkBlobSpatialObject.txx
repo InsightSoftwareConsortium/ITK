@@ -223,7 +223,7 @@ BlobSpatialObject< TDimension >
   itkDebugMacro( "Getting the value of the blob at " << point );
   if( IsInside(point, 0, name) )
     {
-    value = 1;
+    value = this->GetDefaultInsideValue();
     return true;
     }
   else
@@ -235,7 +235,7 @@ BlobSpatialObject< TDimension >
       }
     else
       {
-      value = 0;
+      value = this->GetDefaultOutsideValue();
       return false;
       }
     }

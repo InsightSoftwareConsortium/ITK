@@ -191,7 +191,7 @@ EllipseSpatialObject< TDimension >
   itkDebugMacro( "Getting the value of the ellipse at " << point );
   if( IsInside(point, 0, name) )
     {
-    value = 1;
+    value = this->GetDefaultInsideValue();
     return true;
     }
   else
@@ -203,7 +203,7 @@ EllipseSpatialObject< TDimension >
       }
     else
       {
-      value = 0;
+      value = this->GetDefaultOutsideValue();
       return false;
       }
     }

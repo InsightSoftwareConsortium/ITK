@@ -148,7 +148,7 @@ ImageSpatialObject< TDimension,  PixelType >
       }
     else
       {
-      value = 0;
+      value = this->GetDefaultOutsideValue();
       return false;
       }
     }
