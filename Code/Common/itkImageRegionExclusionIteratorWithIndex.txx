@@ -21,124 +21,57 @@
 
 namespace itk
 {
-  
 
-   
-//----------------------------------------------------------------------
-//  Set the region to exclude from the walk
-//----------------------------------------------------------------------
-template<class TImage>
-void
+
+
+template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage>
-::SetExclusionRegion( const RegionType & region )
+::ImageRegionExclusionIteratorWithIndex()
+    : ImageRegionExclusionConstIteratorWithIndex<TImage>() 
 {
-  
-  if( !m_Region.IsInside( region ) )
-    {
-    itkGenericExceptionMacro(<< "Attempt to set a exclusion region that is NOT contained inside the iterator region");
-    }
-  m_ExclusionRegion      = region;
-  m_ExclusionBegin       = m_ExclusionRegion.GetIndex();
-  typename Superclass::SizeType exclusionSize = m_ExclusionRegion.GetSize();
-  
-  for(unsigned int i=0; i<TImage::ImageDimension; ++i)
-    {
-    m_ExclusionEnd[i] = m_ExclusionBegin[i] + exclusionSize[i];
-    }
 
+
+}
+
+
+
+template< typename TImage >
+ImageRegionExclusionIteratorWithIndex<TImage>
+::ImageRegionExclusionIteratorWithIndex(ImageType *ptr, const RegionType& region) :
+    ImageRegionExclusionConstIteratorWithIndex<TImage>(   ptr, region ) 
+{
+
+
+}
+
+
+ 
+template< typename TImage >
+ImageRegionExclusionIteratorWithIndex<TImage>
+::ImageRegionExclusionIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
+                                        ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
+{ 
 }
 
  
+template< typename TImage >
+ImageRegionExclusionIteratorWithIndex<TImage>
+::ImageRegionExclusionIteratorWithIndex( const ImageRegionExclusionConstIteratorWithIndex<TImage> &it):
+                                        ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
+{ 
+}
 
-//----------------------------------------------------------------------
-//  Advance along the line
-//----------------------------------------------------------------------
-template<class TImage>
+ 
+template< typename TImage >
 ImageRegionExclusionIteratorWithIndex<TImage> &
 ImageRegionExclusionIteratorWithIndex<TImage>
-::operator++()
-{
-  
-  m_Remaining = false;
-  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-    {
-    m_PositionIndex[ in  ]++;
-    
-    // if entering the exclusion region... jump over it
-    if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
-      {
-      m_PositionIndex[ in ]  = m_ExclusionEnd[ in ];
-      m_Position            += m_OffsetTable[in] * 
-                               m_ExclusionRegion.GetSize()[ in ];
-      }
-
-    if( m_PositionIndex[ in ] < m_EndIndex[ in ] )
-      {
-      m_Position += m_OffsetTable[in];
-      m_Remaining = true;
-      break;
-      }
-    else 
-      {
-      m_Position -= m_OffsetTable[ in ] * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-      m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
-      }
-    }
-
-  if( !m_Remaining ) // It will not advance here otherwise
-    {
-    m_Position = m_End;
-    }
-
+::operator=( const ImageRegionExclusionConstIteratorWithIndex<TImage> &it)
+{ 
+  this->ImageRegionExclusionConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
 
 
-//----------------------------------------------------------------------
-//  Advance along the line in reverse direction
-//----------------------------------------------------------------------
-template<class TImage>
-ImageRegionExclusionIteratorWithIndex<TImage> &
-ImageRegionExclusionIteratorWithIndex<TImage>
-::operator--()
-{
-  
-  m_Remaining = false;
-  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-    {
-      
-      if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
-        {
-
-        m_PositionIndex[ in  ]--;
-        m_Position -= m_OffsetTable[in];
-
-        // if entering the exclusion region... jump over it
-        if( m_ExclusionRegion.IsInside( m_PositionIndex ) )
-          {
-          m_PositionIndex[ in ]  = m_ExclusionBegin[ in ]-1;
-          m_Position            -= m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
-          }
-
-        m_Remaining = true;
-        break;
-        }
-      else 
-        {
-        m_PositionIndex[ in  ]--;
-        m_Position += m_OffsetTable[ in ] * ( static_cast<long>(m_Region.GetSize()[in])-1 );
-        m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
-        }
-
-    }
-
-  if( !m_Remaining ) // It will not advance here otherwise
-    {
-    m_Position = m_End;
-    }
-
-  return *this;
-}
 
 } // end namespace itk
 

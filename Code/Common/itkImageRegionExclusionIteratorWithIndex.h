@@ -17,121 +17,60 @@
 #ifndef __itkImageRegionExclusionIteratorWithIndex_h
 #define __itkImageRegionExclusionIteratorWithIndex_h
 
+#include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageIteratorWithIndex.h"
 
 namespace itk
 {
 
 /** \class ImageRegionExclusionIteratorWithIndex
- * \brief Multi-dimensional image iterator which walks a region 
- * excluding a second region completly contained in the first.
+ * \brief Multi-dimensional image iterator which only walks a region.
  * 
- * ImageRegionExclusionIteratorWithIndex is a templated class to represent a
- * multi-dimensional iterator. ImageRegionExclusionIteratorWithIndex is templated
- * over the image type.  ImageRegionExclusionIteratorWithIndex is constrained to
- * walk only within the specified region. The exclusion regions has to be set
- * after construction. By default the exclusion region is empty and the 
- * iterator will behave as the itk::ImageRegionIteratorWithIndex with a penalty
- * in performace due to internal extra checking.
+ * ImageRegionExclusionIteratorWithIndex is a templated class to represent a multi-dimensional
+ * iterator. ImageRegionExclusionIteratorWithIndex is templated over the image type
+ * ImageRegionExclusionIteratorWithIndex is constrained to walk only within the 
+ * specified region and along a line parallel to one of the coordinate axis.
  *
- * ImageRegionExclusionIteratorWithIndex is a multi-dimensional iterator,
- * requiring more information be specified before the iterator can be
- * used than conventional iterators. Whereas the std::vector::iterator
- * from the STL only needs to be passed a pointer to establish the
- * iterator, the multi-dimensional image iterator needs a pointer, the
- * size of the buffer, the size of the region, the start index of the
- * buffer, and the start index of the region. To gain access to this
- * information, ImageRegionExclusionIteratorWithIndex holds a reference to the
- * image over which it is traversing.
+ * Most of the functionality is inherited from the ImageRegionExclusionConstIteratorWithIndex.
+ * The current class only adds write access to image pixels.
  *
- * ImageRegionExclusionIteratorWithIndex assumes a particular layout of the image data. The
- * is arranged in a 1D array as if it were [][][][slice][row][col] with
- * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
- *
- * operator++ provides a simple syntax for walking around a region of
- * a multidimensional image. operator++ iterates across a row, constraining
- * the movement to within a region of image. When the iterator reaches
- * the boundary of the region along a row, the iterator automatically
- * wraps to the next row, starting at the first pixel in the row that is
- * part of the region. This allows for simple processing loops of the form:
- *
- * \example itkImageRegionExclusionIteratorWithIndex
- *
- * \code
  * 
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.SetExclusionRegion( exclusionRegion );
- *
- *  it.GoToBegin();
- *
- *  while( ! it.IsAtEnd() ) 
- *  {  
- *    it.Set( 100.0 + it.Get() );
- *    ++it;
- *  }
- *
- * \endcode
- *
- *  It also can be used for walking in the reverse direction like
- *
- * \code
- * 
- *  IteratorType it( image, image->GetRequestedRegion() );
- *
- *  it.SetExclusionRegion( exclusionRegion );
- *  it.GoToEnd();
- *
- *  while( !it.IsAtBegin() ) 
- *  {  
- *    it.Set( 100.0 );
- *    --it;
- *  }
- *
- * \endcode
+ * \sa ImageRegionExclusionConstIteratorWithIndex
  *
  * \ingroup ImageIterators
+ *
+ *
  */
 template<typename TImage>
-class ImageRegionExclusionIteratorWithIndex : public ImageIteratorWithIndex<TImage>
+class ImageRegionExclusionIteratorWithIndex : public ImageRegionExclusionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ImageRegionExclusionIteratorWithIndex Self;
-  typedef ImageIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRegionExclusionConstIteratorWithIndex<TImage>  Superclass;
   
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType  IndexType;
+   /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType              IndexType;
+  typedef typename Superclass::IndexValueType         IndexValueType;
+  typedef typename Superclass::SizeType               SizeType;
+  typedef typename Superclass::SizeValueType          SizeValueType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::OffsetValueType        OffsetValueType;
+  typedef typename Superclass::RegionType             RegionType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelContainer         PixelContainer;
+  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType      InternalPixelType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef typename Superclass::AccessorType           AccessorType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Image back to itk::Image to that is it not
-   * confused with ImageIterator::Image. */
-  typedef TImage ImageType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
-  
-  /** Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRegionExclusionIteratorWithIndex() : ImageIteratorWithIndex<TImage>() {}
+  ImageRegionExclusionIteratorWithIndex();
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionExclusionIteratorWithIndex(TImage *ptr,
-                            const RegionType& region)
-    : ImageIteratorWithIndex<TImage>(ptr, region) {}
+  ImageRegionExclusionIteratorWithIndex(ImageType *ptr, const RegionType& region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionExclusionIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -139,42 +78,24 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionExclusionIteratorWithIndex. */
-  ImageRegionExclusionIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
-    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
+  ImageRegionExclusionIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
+  
+  /** Set the pixel value */
+  void Set( const PixelType & value) const  
+    { m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(m_Position)),value); }
 
-  /** Increment (prefix) the fastest moving dimension of the iterator's index.
-   * This operator will constrain the iterator within the region (i.e. the
-   * iterator will automatically wrap from the end of the row of the region
-   * to the beginning of the next row of the region) up until the iterator
-   * tries to moves past the last pixel of the region.  Here, the iterator
-   * will be set to be one pixel past the end of the region.
-   * \sa operator++(int) */
-  Self & operator++();
-
-  /** Decrement (prefix) the fastest moving dimension of the iterator's index.
-   * This operator will constrain the iterator within the region (i.e. the
-   * iterator will automatically wrap from the beginning of the row of the region
-   * to the end of the next row of the region) up until the iterator
-   * tries to moves past the first pixel of the region.  Here, the iterator
-   * will be set to be one pixel past the beginning of the region.
-   * \sa operator--(int) */
-  Self & operator--();
-
-
-  /** Method to define the Exclusion region. The iterator will skip pixels 
-   * inside this region. 
-   * \warning The exclusion region must be completly containe inside the
-   * normal region used to construct the iterator. A border of at least on
-   * pixels should exist between the normal region and the exclusion region.
-   */
-  void SetExclusionRegion( const RegionType & region );
-
-private:
-
-  RegionType      m_ExclusionRegion;
-
-  IndexType       m_ExclusionBegin;
-  IndexType       m_ExclusionEnd;
+  /** Return a reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  PixelType & Value(void) 
+    { return *(const_cast<InternalPixelType *>(m_Position)); }
+ 
+protected:
+  /** the construction from a const iterator is declared protected
+      in order to enforce const correctness. */
+  ImageRegionExclusionIteratorWithIndex( const ImageRegionExclusionConstIteratorWithIndex<TImage> &it);
+  Self & operator=(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it);
+ 
 
 };
 
@@ -185,3 +106,6 @@ private:
 #endif
 
 #endif 
+
+
+
