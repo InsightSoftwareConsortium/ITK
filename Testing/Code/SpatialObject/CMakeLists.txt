@@ -10,7 +10,7 @@ CREATE_TEST_SOURCELIST(Tests itk${KIT}Tests.cxx
 )
 
 ADD_EXECUTABLE(itk${KIT}Tests ${Tests})
-TARGET_LINK_LIBRARIES(itk${KIT}Tests ITKCommon)
+TARGET_LINK_LIBRARIES(itk${KIT}Tests ITKCommon ITKIO)
 
 SET (TestsToRun ${Tests})
 REMOVE (TestsToRun itk${KIT}Tests.cxx)

@@ -21,7 +21,7 @@
 
 #include "itkEllipseSpatialObject.h"
 
-int itkEllipseSpatialObjectTest(int, char**)
+int itkEllipseSpatialObjectTest(int, char** const)
 {
   typedef itk::EllipseSpatialObject<4>   EllipseType;
   

@@ -26,7 +26,7 @@
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
-int itkLineSpatialObjectTest(int, char**)
+int itkLineSpatialObjectTest(int, char** const)
 {
   typedef itk::LineSpatialObject<3>      LineType;
   typedef LineType::Pointer              LinePointer;

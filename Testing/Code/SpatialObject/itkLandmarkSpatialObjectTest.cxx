@@ -25,7 +25,7 @@
 #include "itkLandmarkSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 
-int itkLandmarkSpatialObjectTest(int, char**)
+int itkLandmarkSpatialObjectTest(int, char** const)
 {
   typedef itk::LandmarkSpatialObject<3>    LandmarkType;
   typedef LandmarkType::Pointer            LandmarkPointer;

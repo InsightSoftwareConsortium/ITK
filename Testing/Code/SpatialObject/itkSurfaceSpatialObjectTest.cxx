@@ -29,7 +29,7 @@
 #include "itkSurfaceSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
-int itkSurfaceSpatialObjectTest(int, char**)
+int itkSurfaceSpatialObjectTest(int, char** const)
 {
   typedef itk::SurfaceSpatialObject<3>      SurfaceType;
   typedef SurfaceType::Pointer              SurfacePointer;

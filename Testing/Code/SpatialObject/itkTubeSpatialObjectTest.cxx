@@ -34,7 +34,7 @@
 
 #include <vnl/vnl_math.h>
 
-int itkTubeSpatialObjectTest(int, char **) 
+int itkTubeSpatialObjectTest(int, char ** const) 
 {
   typedef double                                      ScalarType;
   typedef bool                                        OutputType;
