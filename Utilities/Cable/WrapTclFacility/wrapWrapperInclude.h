@@ -14,6 +14,7 @@
 
 =========================================================================*/
 
+#include <set>
 #include <map>
 
 namespace _wrap_
@@ -472,21 +473,47 @@ Wrapper< _wrap_WRAPPED_TYPE >
 // includes this header.
 #ifndef _wrap_INITIALIZE_FUNCTION
 #define _wrap_INITIALIZE_FUNCTION
+namespace
+{
 /**
  * Initializes this file's CvType<> specializations.
  */
-static void InitializeTypeRepresentations();
+void InitializeTypeRepresentations();
+
+/**
+ * Initialize the given interpreter to do conversions for this file's
+ * CvType<> specializations.
+ */
+void InitializeConversions(Tcl_Interp* interp);
 
 /**
  * Makes sure that InitializeTypeRepresentations is called exactly once.
  */
-static void Initialize()
+void InitializeGroup()
 {
   static bool initialized = false;
   if(initialized) { return; }
   InitializeTypeRepresentations();
   initialized = true;
 }
+
+
+/**
+ * Makes sure that InitializeConversions is called exactly once per
+ * interpreter.
+ */
+void InitializeGroupForInterpreter(Tcl_Interp* interp)
+{
+  InitializeGroup();
+  static std::set<Tcl_Interp*> interpreters;
+  if(interpreters.find(interp) == interpreters.end())
+    {
+    InitializeConversions(interp);
+    interpreters.insert(interp);
+    }
+}
+
+} // anonymous namespace
 #endif
 
 
