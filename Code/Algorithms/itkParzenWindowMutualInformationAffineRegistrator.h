@@ -16,7 +16,7 @@
 #define _itkParzenWindowMutualInformationAffineRegistrator_h
 
 #include "itkMutualInformationImageMetric.h"
-#include "itkAffineMutualInformationImageMetric.h"
+#include "itkMutualInformationAffineRegistrator.h"
 #include "itkParzenWindowAffineMutualInformationMetric.h"
 
 namespace itk
@@ -74,7 +74,7 @@ class TTestImage,
 class TDerivImage
 >
 class ITK_EXPORT ParzenWindowMutualInformationAffineRegistrator :
-  public MutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
+  public MutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 {
 public:
   /**
@@ -86,7 +86,7 @@ public:
    * Standard "Superclass" typedef
    */
   typedef 
-    MutualInformationImageMetric<TRefImage,TTestImage,TDerivImage> 
+    MutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage> 
       Superclass;
 
   /**
