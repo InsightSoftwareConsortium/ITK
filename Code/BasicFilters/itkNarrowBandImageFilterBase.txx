@@ -53,7 +53,6 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::Initialize () 
 {
-  
   m_Step = 0;
   
   ClearNarrowBand(); 
@@ -70,6 +69,15 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // partitions. This assumes that the band will not be changed until another
   // call to Initialize(). Any reinitialization function also must call the
   // SplitRegions function.
+  
+  
+  // Allocation of flag variable to check if a given thread touch the outer part
+  // of the narrowband. If this part is touched, band should be reinitialized.
+  m_TouchedForThread = new bool[this->GetNumberOfThreads()];
+  for (unsigned int i = 0; i < this->GetNumberOfThreads(); i++)
+    {
+    m_TouchedForThread[i] = false;
+    } 
 }
 
 template <class TInputImage, class TOutputImage>
@@ -77,6 +85,12 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::InitializeIteration()
 {
+  //Set m_Touched flag from threads information
+  for (unsigned int i = 0; i < this->GetNumberOfThreads(); i++)
+    {
+    m_Touched = (m_Touched || m_TouchedForThread[i]);
+    m_TouchedForThread[i] = false;
+    }
   //Check if we have to reinitialize the narrowband
   if (m_Touched || ((this->GetElapsedIterations() >0)
                     && (this->m_Step == m_ReinitializationFrequency )))
@@ -101,6 +115,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   NarrowBandFDThreadStruct str;
   str.Filter = this;
   str.TimeStep = dt;
+
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
@@ -142,9 +157,9 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate(TimeStepType dt,
                       const ThreadRegionType &regionToProcess,
-                      int itkNotUsed(threadId))
+                      int threadId)
 {
-  const int INNER_MASK = 2;
+  const signed char INNER_MASK = 2;
   typename NarrowBandType::ConstIterator it;
   typename OutputImageType::Pointer image=this->GetOutput();
   typename OutputImageType::PixelType oldvalue;
@@ -154,9 +169,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     oldvalue = image->GetPixel(it->m_Index);
     newvalue = oldvalue + dt * it->m_Data;
     //Check whether solution is out the inner band or not
-    m_Touched = ((m_Touched) || ( !(it->m_NodeState & INNER_MASK)
+    m_TouchedForThread[threadId] = ( m_TouchedForThread[threadId] || ( !(it->m_NodeState & INNER_MASK)
                                   && ( (oldvalue>0)!=(newvalue>0))));
-    image->SetPixel(it->m_Index, image->GetPixel(it->m_Index)+dt * it->m_Data);
+    image->SetPixel(it->m_Index, newvalue);
     
     }
 }
@@ -291,6 +306,14 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   
   return timeStep;
 }
+
+template <class TInputImage, class TOutputImage>
+void
+NarrowBandImageFilterBase<TInputImage, TOutputImage>
+::PostProcessOutput( ) 
+{
+  delete [] m_TouchedForThread;
+}  
 
 template <class TInputImage, class TOutputImage>
 void

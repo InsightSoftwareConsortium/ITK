@@ -197,18 +197,18 @@ public:
   
   virtual void CopyInputToOutput ();
   
-protected: 
+protected:
   typename NarrowBandType::Pointer m_NarrowBand;
   NarrowBandImageFilterBase() 
   {
     m_NarrowBand = NarrowBandType::New();
-    m_NarrowBand->SetTotalRadius(3);
-    m_NarrowBand->SetInnerRadius(1);
+    m_NarrowBand->SetTotalRadius(4);
+    m_NarrowBand->SetInnerRadius(2);
     m_ReinitializationFrequency = 6;
     m_IsoSurfaceValue = 0.0;
     m_Step    = 0;
     m_Touched = false;
-    m_CheckFrequency = 1;
+    m_TouchedForThread = NULL;
   }
   
   virtual ~NarrowBandImageFilterBase() {}
@@ -242,14 +242,19 @@ protected:
   */
   virtual void InitializeIteration();
   
+  /** This method allows deallocation of data and further post processing
+  */
+  virtual void PostProcessOutput();
+  
   /* This function clears all pixels from the narrow band */
   void ClearNarrowBand ();
   
+  /* Variables to control reinitialization */
   unsigned int m_ReinitializationFrequency;
-  unsigned int m_CheckFrequency;
   unsigned int m_Step;
-  ValueType m_IsoSurfaceValue;
   bool m_Touched;
+  bool * m_TouchedForThread;
+  ValueType m_IsoSurfaceValue;
 
 private:
   NarrowBandImageFilterBase(const Self&); //purposely not implemented
