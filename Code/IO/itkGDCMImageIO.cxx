@@ -255,7 +255,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     }
   else
     {
-    itkExceptionMacro(<<"Unrecognized type:" << type);
+    itkExceptionMacro(<<"Unrecognized type:" << type << " in file " << m_FileName);
     }
 
   // set values in case we don't find them
