@@ -306,6 +306,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 #endif
     if( tag->second->GetName() != "unkn" 
      && temp.find( "gdcm::NotLoaded" ) != 0
+     && temp.find( "gdcm::Binary" ) != 0
      && temp.find( "gdcm::Loaded" ) != 0 )
       {
       EncapsulateMetaData<std::string>(dico, tag->second->GetName(),
