@@ -23,8 +23,8 @@
 //  Software Guide : EndLatex 
 
 
-#include "itkDICOMImageIO2.h"
 #include "itkImageSeriesReader.h"
+#include "itkDICOMImageIO2.h"
 #include "itkDICOMSeriesFileNames.h"
 #include "itkImageFileWriter.h"
 
