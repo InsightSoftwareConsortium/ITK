@@ -28,12 +28,67 @@ ListSample< TMeasurementVector >
 {
 }
 
+
+template< class TMeasurementVector >
+typename ListSample< TMeasurementVector >::MeasurementVectorType& 
+ListSample< TMeasurementVector >
+::GetMeasurementVector(const InstanceIdentifier &id)
+{
+  if ( id < m_InternalContainer.size() )
+    {
+      return m_InternalContainer[id] ;
+    }
+}
+
+template< class TMeasurementVector >
+void 
+ListSample< TMeasurementVector >
+::SetMeasurement(const InstanceIdentifier &id, 
+                 const unsigned int &dim,
+                 const MeasurementType &value)
+{
+  if ( id < m_InternalContainer.size() )
+    {
+      m_InternalContainer[id][dim] = value ;
+    }
+}
+
+template< class TMeasurementVector >
+void
+ListSample< TMeasurementVector >
+::SetMeasurementVector(const InstanceIdentifier &id, 
+                       const MeasurementVectorType &mv)
+{
+  if ( id < m_InternalContainer.size() )
+    {
+      m_InternalContainer[id] = mv ;
+    }
+}
+
+template< class TMeasurementVector >
+typename ListSample< TMeasurementVector >::FrequencyType 
+ListSample< TMeasurementVector >
+::GetFrequency(const InstanceIdentifier &id) const
+{
+  if ( id < m_InternalContainer.size() )
+    {
+      return 1.0 ;
+    }
+  else
+    {
+      return 0.0 ;
+    }
+}
+
 template< class TMeasurementVector >
 void 
 ListSample< TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+  std::cout << indent << "Internal Data Container: " 
+            << &m_InternalContainer << std::endl ;
 }
 } // end of namespace Statistics
 } // end of namespace itk 
