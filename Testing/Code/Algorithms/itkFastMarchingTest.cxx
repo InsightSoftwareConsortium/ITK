@@ -135,6 +135,7 @@ int itkFastMarchingTest(int, char* [] )
 
   speedImage->Print( std::cout );
   marcher->SetInput( speedImage );
+  marcher->SetStoppingValue( 100.0 );
 
   // turn on debugging
   marcher->DebugOn();

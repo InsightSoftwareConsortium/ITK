@@ -17,8 +17,23 @@
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkCommand.h"
 
 #include "vnl/vnl_math.h"
+
+namespace{
+// The following class is used to support callbacks
+// on the filter in the pipeline that follows later
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(itk::ProcessObject* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  itk::ProcessObject::Pointer m_Process;
+};
+}
 
 int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 {
@@ -29,6 +44,15 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
     FloatImage> MarcherType;
 
   MarcherType::Pointer marcher = MarcherType::New();
+
+  ShowProgressObject progressWatch(marcher);
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
+  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  command->SetCallbackFunction(&progressWatch,
+                               &ShowProgressObject::ShowProgress);
+  marcher->AddObserver( itk::ProgressEvent(), command);
+
+
   bool passed;
   
   // setup trial points
@@ -111,6 +135,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
     }
 
   marcher->SetInput( speedImage );
+  marcher->SetStoppingValue( 100.0 );
 
   // deliberately cause an exception by not setting AuxAliveValues
   passed = false;
