@@ -71,9 +71,10 @@ int itkStreamingImageFilterTest(int, char* [] )
 
 
   // Test itkGetConstReferenceMacro and itkGetObjectMacro
-  unsigned int value = streamer->GetNumberOfStreamDivisions();
+  const unsigned int & value = streamer->GetNumberOfStreamDivisions();
   std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << std::endl;
   streamer->GetRegionSplitter();
+  //SplitterType * streamer->GetRegionSplitter();
 
   //
   // The rest of this code determines whether the shrink code produced
