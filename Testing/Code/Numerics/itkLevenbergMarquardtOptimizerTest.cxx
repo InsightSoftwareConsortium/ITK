@@ -36,8 +36,8 @@ const double rc = 29.0;
  *
  *   This example minimize the equation:
  *
- *   [   (  a * x +  b * y +  c ) 
- *      -( 11 * x + 17 * y + 29 ) ] ^ 2
+ *   sum { [   (  a * x +  b * y +  c ) 
+ *            -( 11 * x + 17 * y + 29 ) ] ^ 2  }
  *  
  *   for the (a,b,c) parameters
  *
@@ -56,8 +56,8 @@ public:
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
 
-  enum { XRange = 1,
-         YRange = 1 };   // size of the region to sample the cost function
+  enum { XRange = 2,
+         YRange = 2 };   // size of the region to sample the cost function
          
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
@@ -85,13 +85,9 @@ public:
         {
         const double xd = (double)x;
         m_TheoreticalData[valueindex] = ra*xd + rb*yd + rc;
-        std::cout << m_TheoreticalData[valueindex] << "  ";
         valueindex++;
         }
       }
-
-    std::cout << std::endl;
-
   }
 
 
@@ -105,7 +101,7 @@ public:
 
     std::cout << a << " , ";
     std::cout << b << " , ";
-    std::cout << c << ") = ";
+    std::cout << c << ")  " << std::endl;
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
@@ -117,13 +113,10 @@ public:
         const double xd = (double)x;
         double value = a * xd + b * yd + c;
         value       -= m_TheoreticalData[valueindex];
-        m_Measure[valueindex] = value * value;
-        std::cout << m_Measure[valueindex] << "  ";
+        m_Measure[valueindex] = value;
         valueindex++;
         }
       }
-
-    std::cout << std::endl;
 
     return m_Measure; 
  }
@@ -132,7 +125,7 @@ public:
                             DerivativeType  & derivative ) const
   {
     
-    std::cout << "GetDerivative( ";
+    std::cout << std::endl << "GetDerivative( ";
     double a = parameters[0];
     double b = parameters[1];
     double c = parameters[2];
@@ -140,8 +133,6 @@ public:
     std::cout << a << " , ";
     std::cout << b << " , ";
     std::cout << c << ") = " << std::endl;
-
-    MeasureType value = this->GetValue( parameters );
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
@@ -151,25 +142,15 @@ public:
       for( int x = -XRange; x<=XRange; x++ ) 
       {
         const double xd = (double)x;
-        const double sqrtvalue = vnl_math_sqrt( value[valueindex] );
-        m_Derivative[0][valueindex] =  2.0 * sqrtvalue * xd;
-        m_Derivative[1][valueindex] =  2.0 * sqrtvalue * yd;
-        m_Derivative[2][valueindex] =  2.0 * sqrtvalue * 1.0;
+        m_Derivative[0][valueindex] =  xd;
+        m_Derivative[1][valueindex] =  yd;
+        m_Derivative[2][valueindex] =  1.0;
         valueindex++;
       }
     }
 
-    for(unsigned int dim1=0; dim1 < SpaceDimension; dim1++)
-    {
-      std::cout << std::endl;
-      for(unsigned int dim2=0; dim2 < RangeDimension; dim2++)
-      {
-//        std::cout << m_Derivative[dim1][dim2] << " ";
-      }
-    }
-    std::cout << std::endl;
-
     derivative = m_Derivative;
+
   }
 
   unsigned int GetNumberOfParameters(void) const
@@ -212,7 +193,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   ParametersType  parameters(LMCostFunction::SpaceDimension);
   costFunction->GetValue(parameters);
   
-  std::cout << costFunction->GetNumberOfValues() << "\n";
+  std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << "\n";
 
 
   try 
@@ -258,10 +239,10 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << std::endl;
+    std::cerr << "An error ocurred during Optimization" << std::endl;
+    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -375,6 +356,7 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char** argv )
   std::cout << "Max_Iterations   = " << Max_Iterations << std::endl;
 
 
+  
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << "Running using the Gradient computed by vnl " << std::endl;
@@ -386,8 +368,9 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char** argv )
     {
     return EXIT_FAILURE;
     }
+ 
 
-
+  
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << "Running using the Gradient provided by the Cost function" << std::endl;
@@ -399,6 +382,7 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char** argv )
     {
     return EXIT_FAILURE;
     }
+  
 
   return EXIT_SUCCESS; 
 }
