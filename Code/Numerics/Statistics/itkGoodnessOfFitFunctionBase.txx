@@ -35,6 +35,8 @@ GoodnessOfFitFunctionBase< TInputHistogram >
 
   m_UseExpectedHistogram = false ;
   m_TotalObservedScale = 0 ;
+  
+  m_Output = 0.0 ;
 }
 
 template< class TInputHistogram >
@@ -43,16 +45,34 @@ GoodnessOfFitFunctionBase< TInputHistogram >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent) ;
-  
-  os << indent << "Observed Histogram " << m_ObservedHistogram << std::endl ;
-  os << indent << "Expected Histogram " << m_ExpectedHistogram << std::endl ;
-  os << indent << "Output " << m_Output << std::endl ;
-  os << indent << "Total Observed Scale   " << m_TotalObservedScale 
+
+  os << indent << "ObservedHistogram: " ;
+  if ( m_ObservedHistogram != 0 )
+    {
+    os << m_ObservedHistogram << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "ExpectedHistogram: " ;
+  if ( m_ExpectedHistogram != 0 )
+    {
+    os << m_ExpectedHistogram << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "Output: " << m_Output << std::endl ;
+  os << indent << "Total Observed Scale: " << m_TotalObservedScale 
      << std::endl ;
-  os << indent << "Use Expected Histogram " << m_UseExpectedHistogram 
+  os << indent << "Use Expected Histogram: " << m_UseExpectedHistogram 
      << std::endl ;
-  os << indent << "Epsilon                " << m_Epsilon << std::endl ;
-  os << indent << "Log(Epsilon)           " <<  m_LogEpsilon << std::endl ;
+  os << indent << "Epsilon: " << m_Epsilon << std::endl ;
+  os << indent << "Log(Epsilon): " <<  m_LogEpsilon << std::endl ;
 }
 
 template< class TInputHistogram >
