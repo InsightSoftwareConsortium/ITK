@@ -110,6 +110,9 @@ int main()
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
 
+  registrationMethod->GetOptimizer()->SetLearningRate(2e4);
+  registrationMethod->GetOptimizer()->SetNumberOfIterations(200);
+
   registrationMethod->StartRegistration();
 
 
