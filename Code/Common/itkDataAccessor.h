@@ -38,22 +38,22 @@ public:
 
  /** 
    * External typedef. It defines the external aspect
-   * that this class will exhibit
+   * that this class will exhibit.
    */
   typedef TExternalType ExternalType;
 
   /** 
    * Internal typedef. It defines the internal real
-   * representation of data
+   * representation of data.
    */
   typedef TInternalType InternalType;
 
 
-  static inline void Set( TInternalType & output, const TExternalType & input ) 
-    {  output = (TInternalType) input; }
+  static inline void Set(TInternalType & output, const TExternalType & input) 
+    {output = (TInternalType) input;}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {  return (TExternalType)input; }
+    {return (TExternalType)input;}
 
 };
 
