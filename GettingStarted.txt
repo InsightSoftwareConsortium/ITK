@@ -2,14 +2,15 @@
 Welcome to the Insight Registration and Segmentation Toolkit (ITK)
 -----------------------------------------------------------------
 
-This is the second public (beta) release of ITK (Release-0_7). The ITK
-developer community appreciates any feedback that you may have regarding this
+This is the third public release of ITK (Release-1-0). The ITK developer
+community appreciates any feedback that you may have regarding this
 software. Join the ITK user mailing list (instructions later) and post your
-feedback there. Warning: since the software is young, and this is a beta
+feedback there. Warning: since the software is young, and this is an early
 release, the API to the software will likely change in the future.
 
 Here are suggested steps for the ITK beginner. Please refer to
-http://www.itk.org for more information.
+http://www.itk.org for more information. Another document, found in
+Insight/Documentation/InsightStart.pdf is highly recommended.
 
 1) Get the software. We strongly suggest that you obtain the pre-packaged
    source code distributions (binaries/executables are not yet available).  
@@ -18,18 +19,18 @@ http://www.itk.org for more information.
 
    You may also obtain CVS access. (This requires the CVS executable and
    access to ITK's source code through your repository.) To check out the ITK
-   beta, use the following procedure:
+   version 1,0 release, use the following procedure:
 
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
          (respond with password "insight")
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight co \
-            -r Release-0_7 Insight
+            -r Release-1-0 Insight
 
-   The current development version of ITK is available using the
-   following process. Please realize that the development version is
-   inherently less stable than the beta release. If you access the
-   development version, you will want to monitor code quality at the
-   ITK Dashboard http://public.kitware.com/dashboard.php?name=itk.
+   The current development version of ITK is available using the following
+   process. Please realize that the development version is inherently less
+   stable than official releases. If you access the development version, you
+   will want to monitor code quality at the ITK Dashboard
+   http://public.kitware.com/dashboard.php?name=itk.
 
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
          (respond with password "insight")
