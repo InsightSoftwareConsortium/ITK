@@ -149,6 +149,22 @@ public:
       - static_cast<long>(m_Region.GetSize()[0]);
   }
 
+  /** Constructor that can be used to cast from an ImageConstIterator to an
+   * ImageRegionConstIterator. Many routines return an ImageIterator but for a
+   * particular task, you may want an ImageRegionConstIterator.  Rather than
+   * provide overloaded APIs that return different types of Iterators, itk
+   * returns ImageIterators and uses constructors to cast from an
+   * ImageIterator to a ImageRegionConstIterator. */
+  ImageRegionConstIterator( const ImageConstIterator<TImage> &it)
+  {
+    this->ImageConstIterator<TImage>::operator=(it);
+    IndexType ind = this->GetIndex();
+    m_SpanEndOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
+      - (ind[0] - m_Region.GetIndex()[0]);
+    m_SpanBeginOffset = m_SpanEndOffset
+      - static_cast<long>(m_Region.GetSize()[0]);
+  }
+
 
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
