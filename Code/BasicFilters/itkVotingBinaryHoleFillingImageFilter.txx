@@ -48,17 +48,17 @@ void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  unsigned int threshold = 1.0;
-                                  ;
+  unsigned int threshold = 1;
+  
   InputSizeType radius = this->GetRadius();
 
-  for(unsigned int i=0; i<Dimension; i++)
+  for(unsigned int i=0; i<InputImageDimension; i++)
     {
     threshold *= (2*radius[i] + 1 );
     }
 
   // remove central pixel and take 50%
-  threshold = (threshold - 1 ) / 2.0; 
+  threshold = static_cast<unsigned int>( (threshold - 1 ) / 2.0 ); 
 
   // add the majority threshold.
   threshold += this->GetMajorityThreshold();
@@ -67,6 +67,13 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
   this->SetSurvivalThreshold(0);
 
   this->m_NumberOfPixelsChanged = 0;
+
+  int numberOfThreads = this->GetNumberOfThreads();
+  this->m_Count.SetSize(numberOfThreads);
+  for(unsigned int i=0; i<numberOfThreads; i++)
+    {
+    this->m_Count[i] = 0;
+    }
 }
 
 
@@ -99,6 +106,8 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
   const InputPixelType foregroundValue = this->GetForegroundValue();
   const unsigned int   birthThreshold  = this->GetBirthThreshold();
 
+  unsigned int numberOfPixelsChanged = 0;
+
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
@@ -130,6 +139,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
         if( count >= birthThreshold )
           {
           it.Set( static_cast<OutputPixelType>( foregroundValue ) );
+          numberOfPixelsChanged++;
           }
         else 
           {
@@ -145,7 +155,26 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
       progress.CompletedPixel();
       }
     }
+  this->m_Count[threadId] = numberOfPixelsChanged;
 }
+
+
+
+template< class TInputImage, class TOutputImage>
+void
+VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
+::AfterThreadedGenerateData()
+{
+  this->m_NumberOfPixelsChanged = 0;
+  int numberOfThreads = this->GetNumberOfThreads();
+  this->m_Count.SetSize(numberOfThreads);
+  for(unsigned int t=0; t<numberOfThreads; t++)
+    {
+    this->m_NumberOfPixelsChanged += this->m_Count[t];
+    }
+}
+
+
 
 /**
  * Standard "PrintSelf" method

@@ -116,6 +116,11 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
+  /** Methods to be called before and after the invokation of
+   * ThreadedGenerateData(). */
+  void BeforeThreadedGenerateData();
+  void AfterThreadedGenerateData();
+  
 private:
   VotingBinaryHoleFillingImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -125,6 +130,9 @@ private:
   unsigned int m_MajorityThreshold;
 
   unsigned int m_NumberOfPixelsChanged;
+
+  // Auxiliary array for multi-threading
+  Array<unsigned int>     m_Count;
 };
   
 } // end namespace itk
