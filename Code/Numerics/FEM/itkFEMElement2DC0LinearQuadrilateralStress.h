@@ -31,9 +31,9 @@ namespace fem {
  * \class Element2DC0LinearQuadrilateralStress
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
  */
-class Element2DC0LinearQuadrilateralStress : public Element2DStress<Element2DC0LinearQuadrilateral<2> >
+class Element2DC0LinearQuadrilateralStress : public Element2DStress<Element2DC0LinearQuadrilateral>
 {
-FEM_CLASS(Element2DC0LinearQuadrilateralStress,Element2DStress<Element2DC0LinearQuadrilateral<2> >)
+FEM_CLASS(Element2DC0LinearQuadrilateralStress,Element2DStress<Element2DC0LinearQuadrilateral>)
 public:
 
   HANDLE_ELEMENT_LOADS();

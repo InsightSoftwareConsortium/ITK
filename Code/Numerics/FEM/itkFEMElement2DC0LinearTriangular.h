@@ -29,32 +29,13 @@ namespace fem {
 /**
  * \class Element2DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
- *
- * This class is templated over number of unknowns per point. This
- * constant must be defined in derived classes, when the physics of
- * the problem is known.
  */
-template<unsigned int VNumberOfDegreesOfFreedomPerNode>
-class Element2DC0LinearTriangular : public ElementStd<3,VNumberOfDegreesOfFreedomPerNode,2>
+class Element2DC0LinearTriangular : public ElementStd<3,2>
 {
-typedef ElementStd<3,VNumberOfDegreesOfFreedomPerNode,2> TemplatedParentClass;
+typedef ElementStd<3,2> TemplatedParentClass;
 FEM_ABSTRACT_CLASS( Element2DC0LinearTriangular, TemplatedParentClass )
 public:
 
-
-  // Repeat typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
-  typedef typename Superclass::MatrixType MatrixType;
-  typedef typename Superclass::VectorType VectorType;
-  typedef typename Superclass::LoadElementType LoadElementType;
-  typedef typename Superclass::LoadElementPointer LoadElementPointer;
-  typedef typename Superclass::NodeIDType NodeIDType;
-  typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::ReadInfoType ReadInfoType;
-  enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
-  enum{ NumberOfNodes=Superclass::NumberOfNodes };
-  enum{ NumberOfDegreesOfFreedomPerNode=Superclass::NumberOfDegreesOfFreedomPerNode };
-  enum{ NDOF=Superclass::NDOF };
 
 //////////////////////////////////////////////////////////////////////////
   /*
@@ -93,7 +74,6 @@ public:
   void Draw(CDC* pDC, Solution::ConstPointer sol) const;
 #endif
 
-private:
   /**
    * Constants for integration rules.
    */
@@ -110,18 +90,6 @@ private:
 
 
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy( void );
-#endif // #ifdef _MSC_VER
-
 }} // end namespace itk::fem
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DC0LinearTriangular.txx"
-#endif
 
 #endif  // #ifndef __itkFEMElement2DC0LinearTriangular_h

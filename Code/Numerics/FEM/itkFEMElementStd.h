@@ -43,14 +43,6 @@ namespace fem {
  *   VNumberOfNodes - Number of nodes that define the element
  *                    (e.g. four for quadrilateral)
  * 
- *   VNumberOfDegreesOfFreedomPerNode - Number of degrees of freedom at each
- *                    node. This is also equal to the number of unknown
- *                    functions that must be solved for at every point within
- *                    an element. Typically this number is only known, when
- *                    implementing the physical portion of the element's
- *                    functions. Therefore the abstract geometrical elements
- *                    are normally templated over this number.
- *
  *   VNumberOfSpatialDimensions - Number of dimensions of space in which the
  *                    element is defined. This is also the size of a vector
  *                    returned by GetNodeCoordinates() member funtion.
@@ -60,7 +52,7 @@ namespace fem {
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element class.
  */
-template<unsigned int VNumberOfNodes, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass=ElementNew>
+template<unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass=ElementNew>
 class ElementStd : public TBaseClass
 {
 FEM_ABSTRACT_CLASS(ElementStd,TBaseClass)
@@ -86,18 +78,6 @@ public:
   enum { NumberOfNodes=VNumberOfNodes };
 
   /**
-   * Number of unknown variables that exist at every point
-   * within an element. Also equal to number of degrees of
-   * freedon at each node.
-   */
-  enum { NumberOfDegreesOfFreedomPerNode=VNumberOfDegreesOfFreedomPerNode };
-
-  /**
-   * Total number of degrees of freedom in an element
-   */
-  enum { NDOF=NumberOfNodes*NumberOfDegreesOfFreedomPerNode };
-
-  /**
    * Number of dimensions of space in which element can exist.
    */
   enum { NumberOfSpatialDimensions=VNumberOfSpatialDimensions };
@@ -118,9 +98,6 @@ public:
    */
   virtual unsigned int GetNumberOfNodes( void ) const
   { return NumberOfNodes; }
-
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-  { return NumberOfDegreesOfFreedomPerNode; }
 
   virtual NodeIDType GetNode(unsigned int n) const
   {

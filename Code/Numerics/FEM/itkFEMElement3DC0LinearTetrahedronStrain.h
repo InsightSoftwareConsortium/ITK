@@ -31,9 +31,9 @@ namespace fem {
  * \class TetrahedronPlaneStrain
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
  */
-class Element3DC0LinearTetrahedronStrain : public Element3DC0LinearTetrahedron<3>
+class Element3DC0LinearTetrahedronStrain : public Element3DC0LinearTetrahedron
 {
-FEM_CLASS(Element3DC0LinearTetrahedronStrain,Element3DC0LinearTetrahedron<3>)
+FEM_CLASS(Element3DC0LinearTetrahedronStrain,Element3DC0LinearTetrahedron)
 public:
 
   HANDLE_ELEMENT_LOADS();
@@ -78,6 +78,11 @@ public:
    */
   virtual void GetMaterialMatrix(MatrixType& D) const;
 
+  /**
+   * 3D strain elements have 3 DOFs per node.
+   */
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
+  { return 3; }
 
 public:
 

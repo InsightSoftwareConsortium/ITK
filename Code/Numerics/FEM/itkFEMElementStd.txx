@@ -26,8 +26,8 @@ namespace fem {
 
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, VNumberOfSpatialDimensions, TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::ElementStd()
 {
   // Set all node ids to 0 (undefined).
@@ -38,9 +38,9 @@ ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, VNumberOfSpatialDi
 }
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
 void
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, VNumberOfSpatialDimensions, TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::Read( std::istream& f, void* info )
 {
   int n;
@@ -76,9 +76,9 @@ out:
 }
 
 
-template<unsigned int VNumberOfPoints, unsigned int VNumberOfDegreesOfFreedomPerNode, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
+template<unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
 void
-ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, VNumberOfSpatialDimensions, TBaseClass>
+ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::Write( std::ostream& f, int clid ) const
 {
 

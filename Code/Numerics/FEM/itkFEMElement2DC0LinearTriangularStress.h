@@ -33,9 +33,9 @@ namespace fem {
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DStress.
  */
-class Element2DC0LinearTriangularStress : public Element2DStress<Element2DC0LinearTriangular<2> >
+class Element2DC0LinearTriangularStress : public Element2DStress<Element2DC0LinearTriangular>
 {
-FEM_CLASS(Element2DC0LinearTriangularStress,Element2DStress<Element2DC0LinearTriangular<2> >)
+FEM_CLASS(Element2DC0LinearTriangularStress,Element2DStress<Element2DC0LinearTriangular>)
 public:
 
   HANDLE_ELEMENT_LOADS();

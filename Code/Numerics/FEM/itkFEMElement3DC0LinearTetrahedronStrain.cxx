@@ -22,13 +22,14 @@
 
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
 #include "itkFEMUtility.h"
+#include "vnl/vnl_math.h"
 
 namespace itk {
 namespace fem {
 
 
 Element3DC0LinearTetrahedronStrain
-::Element3DC0LinearTetrahedronStrain() : Element3DC0LinearTetrahedron<3>(), m_mat(0) {}
+::Element3DC0LinearTetrahedronStrain() : Superclass(), m_mat(0) {}
 
 Element3DC0LinearTetrahedronStrain
 ::Element3DC0LinearTetrahedronStrain(
@@ -97,7 +98,7 @@ void Element3DC0LinearTetrahedronStrain
   }
   
   // FIXME: Multiply by 1/sqrt(6) so that the B^TDB gets divided by 6
-  B = B / sqrt(6.0);  
+  B = B / sqrt(6.0);
 }
 
 

@@ -28,7 +28,7 @@ namespace fem {
 
 
 Element3DC0LinearHexahedronStrain
-::Element3DC0LinearHexahedronStrain() : Element3DC0LinearHexahedron<3>(), m_mat(0) {}
+::Element3DC0LinearHexahedronStrain() : Superclass(), m_mat(0) {}
 
 Element3DC0LinearHexahedronStrain
 ::Element3DC0LinearHexahedronStrain(

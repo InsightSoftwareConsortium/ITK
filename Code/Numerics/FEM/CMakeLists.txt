@@ -30,11 +30,16 @@ SOURCE_FILES(FEM_SRCS
   itkFEMElementHexahedronC03D.cxx
   itkFEMElementC1IsoCurve2D.cxx
 
+  itkFEMElement2DC0LinearQuadrilateral.cxx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
+  itkFEMElement2DC0LinearTriangular.cxx
   itkFEMElement2DC0LinearTriangularStress.cxx
+  itkFEMElement2DC0QuadraticTriangular.cxx
   itkFEMElement2DC0QuadraticTriangularStress.cxx
-  itkFEMElement3DC0LinearHexahedronStrain.cxx  
-  itkFEMElement3DC0LinearTetrahedronStrain.cxx  
+  itkFEMElement3DC0LinearHexahedron.cxx
+  itkFEMElement3DC0LinearHexahedronStrain.cxx
+  itkFEMElement3DC0LinearTetrahedron.cxx
+  itkFEMElement3DC0LinearTetrahedronStrain.cxx
 
   itkFEMMaterialBase.cxx
   itkFEMMaterialStandard.cxx
@@ -126,12 +131,6 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMElementStd.txx
   itkFEMElement2DStress.txx
-  itkFEMElement2DC0LinearQuadrilateral.txx
-  itkFEMElement2DC0LinearTriangular.txx
-  itkFEMElement2DC0QuadraticTriangular.txx
-  itkFEMElement3DC0LinearHexahedron.txx
-  itkFEMElement3DC0LinearTetrahedron.txx
-
 
   itkFEMMaterials.h
   itkFEMMaterialBase.h
