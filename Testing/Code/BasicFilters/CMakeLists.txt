@@ -168,6 +168,13 @@ ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png)
 
+ADD_TEST(itkLaplacianRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
+  itkLaplacianRecursiveGaussianImageFilterTest
+             ${ITK_DATA_ROOT}/Input/cthead1.png
+             ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
+
 ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
@@ -177,11 +184,11 @@ ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
 
 ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/PasteImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
   itkPasteImageFilterTest
             ${ITK_DATA_ROOT}/Input/cthead1.png
             ${ITK_DATA_ROOT}/Input/cake_easy.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/PasteImageFilterTest.png)
+            ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png)
 
 ENDIF(ITK_DATA_ROOT)
 
@@ -252,6 +259,7 @@ itkInterpolateImagePointsFilterTest.cxx
 itkIsolatedConnectedImageFilterTest.cxx
 itkJoinImageFilterTest.cxx
 itkLaplacianImageFilterTest.cxx
+itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkLogImageFilterAndAdaptorTest.cxx
 itkMaskImageFilterTest.cxx
