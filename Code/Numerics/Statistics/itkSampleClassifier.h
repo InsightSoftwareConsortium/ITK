@@ -22,6 +22,7 @@
 #include "itkObject.h"
 #include "itkExceptionObject.h"
 #include "itkSubsample.h"
+#include "itkMembershipSample.h"
 #include "itkClassifierBase.h"
 
 namespace itk{ 
