@@ -94,7 +94,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
             << uintNumberOfIterations 
             << std::endl;
 
-  PixelType pixelReplaceValue = filter->GetReplaceValue();
+  OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): "
             << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue)
             << std::endl;
