@@ -52,7 +52,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
 
   /** 
    * Set the source object creating this data object. 
@@ -64,18 +64,6 @@ public:
    */
   itkGetObjectMacro(Source,ProcessObject);
   
-  /** 
-   * Set the dimension (number of independent variables) of the data.
-   * This method has the side effect of allocating memory related to
-   * dimension size (e.g., WholeExtent).
-   */
-  virtual void SetDimension(unsigned int dim);
-
-  /** 
-   * Get the dimension of the data.
-   */
-  itkGetMacro(Dimension,unsigned int);
-
   /** 
    * Restore the data object to its initial state. This means releasing
    * memory.
@@ -134,7 +122,7 @@ public:
   /**
    * Methods to update the pipeline.
    */
-  virtual void UpdateInformation();
+  virtual void UpdateInformation() = 0;
   virtual void PropagateUpdateExtent();
   virtual void TriggerAsynchronousUpdate();
   virtual void UpdateData();
@@ -151,9 +139,7 @@ public:
    */
   typedef enum {ITK_UNSTRUCTURED_EXTENT,ITK_STRUCTURED_EXTENT} ExtentType;
   
-  virtual int GetExtentType() 
-    {return DataObject::ITK_UNSTRUCTURED_EXTENT;}
-  void SetUpdateExtentToWholeExtent();
+  virtual int GetExtentType() = 0;
   virtual void PrepareForNewData() 
     {this->Initialize();};
   void DataHasBeenGenerated();
@@ -161,23 +147,12 @@ public:
   unsigned long GetEstimatedPipelineMemorySize();
   virtual unsigned long GetEstimatedMemorySize();
   virtual unsigned long GetActualMemorySize();
-  void CopyInformation(DataObject *data);
-  virtual bool UpdateExtentIsOutsideOfTheExtent();
-  virtual bool VerifyUpdateExtent();
 
-  /**
-   * Get the whole extent of this data object
-   */
-  const int *GetWholeExtent() const
-    {return m_WholeExtent;}
-      
-  /**
-   * Get the maximum number of pieces thaT this data can be
-   * separated into.
-   */
-  int GetMaximumNumberOfPieces() const
-    {return m_MaximumNumberOfPieces;}
-      
+  virtual void SetUpdateExtentToWholeExtent() = 0;
+  virtual void CopyInformation(DataObject *data) = 0;
+  virtual bool UpdateExtentIsOutsideOfTheExtent() = 0;
+  virtual bool VerifyUpdateExtent() = 0;
+
   /** 
    * Handle the source/data loop. 
    */
@@ -198,6 +173,9 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
+  // Was the update extent propagated down the pipeline
+  bool m_LastUpdateExtentWasOutsideOfTheExtent;
+
 private:
   ProcessObject *m_Source; ///Who generated this data as output?
 
@@ -214,37 +192,10 @@ private:
   // if the WholeExtent were updated.
   unsigned long m_EstimatedWholeMemorySize;
 
-  unsigned int m_Dimension; ///The dimension of the data (1, 2, 3, or n-D)
-
-  // If the ExtentType is ITK_STRUCTURED_EXTENT, then these three extent 
-  // variables represent the whole extent, the extent currently in memory, 
-  // and the requested update extent. The extent is given as m_Dimension 
-  // min/max pairs (i.e., the image is n-dimensional).
-  int *m_WholeExtent;
-  int *m_Extent;
-  int *m_UpdateExtent;
-
-  // If the ExtentType is ITK_UNSTRUCTURED_EXTENT, then these three variables
-  // represent the maximum number of pieces that the data object can be
-  // broken into, which piece out of how many is currently in the extent, and
-  // the number of pieces and the specific piece requested for the
-  // update. Data objects that do not support any division of the data can
-  // simply leave the MaximumNumberOfPieces as 1. The NumberOfPieces and
-  // Piece are similar to the Extent. The UpdateNumberOfPieces and
-  // UpdatePiece are similar to the UpdateExtent. The WholeExtent is always
-  // piece = 0 and number of pieces = 1;
-  int m_MaximumNumberOfPieces;
-  int m_NumberOfPieces;
-  int m_Piece;
-  int m_UpdateNumberOfPieces;
-  int m_UpdatePiece;
-
   // How many upstream filters are local to the process.
   // This supports distributed processing (i.e., asynchronous updates).
   float m_Locality;  
 
-  // Was the update extent propagated down the pipeline
-  bool m_LastUpdateExtentWasOutsideOfTheExtent;
 
   
   /**

@@ -342,6 +342,12 @@ public:
     return index;
   }
 
+  virtual void UpdateInformation();
+  virtual void SetUpdateExtentToWholeExtent();
+  virtual void CopyInformation(DataObject *data);
+  virtual bool UpdateExtentIsOutsideOfTheExtent();
+  virtual bool VerifyUpdateExtent();
+
 protected:
   Image();
   virtual ~Image();

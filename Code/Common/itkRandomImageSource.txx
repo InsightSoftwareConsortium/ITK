@@ -91,10 +91,10 @@ RandomImageSource<TOutputImage>
 
   itkDebugMacro(<<"Generating a random image of scalars");
 
-//  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
-//    {
-//    *scalarIterator = (min + max) / 2.0;
-//    }
+  for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
+    {
+    *scalarIterator = (min + max) / 2.0;
+    }
 }
 
 } // end namespace itk

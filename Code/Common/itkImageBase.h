@@ -47,7 +47,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);
+//  itkNewMacro(Self);
 
   /** 
    * Run-time type information (and related methods).
@@ -58,6 +58,12 @@ public:
    * Restore object to initialized state.
    */
   void Initialize();
+
+  /** 
+   * Return the extent type.
+   */
+  virtual int GetExtentType()
+    {return DataObject::ITK_STRUCTURED_EXTENT;}
 
 protected:
   ImageBase();

@@ -96,6 +96,19 @@ public:
    */
   itkTypeMacro(Mesh, Object);
 
+  /** 
+   * Return the extent type.
+   */
+  virtual int GetExtentType()
+    {return DataObject::ITK_UNSTRUCTURED_EXTENT;}
+
+  /**
+   * Get the maximum number of pieces that this data can be
+   * separated into.
+   */
+  int GetMaximumNumberOfPieces() const
+    {return m_MaximumNumberOfPieces;}
+      
   /** \typedef PixelType
    * Hold on to the type information specified by the template parameters.
    */
@@ -469,6 +482,12 @@ public:
    */
   void Accept(CellMultiVisitor* mv);
 
+  virtual void UpdateInformation();
+  virtual void SetUpdateExtentToWholeExtent();
+  virtual void CopyInformation(DataObject *data);
+  virtual bool UpdateExtentIsOutsideOfTheExtent();
+  virtual bool VerifyUpdateExtent();
+
 protected:
   /**
    * Constructor for use by New() method.
@@ -477,8 +496,23 @@ protected:
   ~Mesh() {}
   Mesh(const Self&) {}
   void operator=(const Self&) {}
-
   void PrintSelf(std::ostream& os, Indent indent);
+  
+  
+  // If the ExtentType is ITK_UNSTRUCTURED_EXTENT, then these three variables
+  // represent the maximum number of pieces that the data object can be
+  // broken into, which piece out of how many is currently in the extent, and
+  // the number of pieces and the specific piece requested for the
+  // update. Data objects that do not support any division of the data can
+  // simply leave the MaximumNumberOfPieces as 1. The NumberOfPieces and
+  // Piece are similar to the Extent. The UpdateNumberOfPieces and
+  // UpdatePiece are similar to the UpdateExtent. The WholeExtent is always
+  // piece = 0 and number of pieces = 1;
+  int m_MaximumNumberOfPieces;
+  int m_NumberOfPieces;
+  int m_Piece;
+  int m_UpdateNumberOfPieces;
+  int m_UpdatePiece;
 
 }; // End Class: Mesh
 

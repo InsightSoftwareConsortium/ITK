@@ -38,6 +38,11 @@ Mesh<TPixelType,TMeshType>
        << m_BoundaryDataContainers.size() << std::endl;
     os << indent << "Number of explicet cell boundary assignments: " 
        << m_BoundaryAssignmentsContainers.size() << std::endl;
+
+  os << indent << "Update Number Of Pieces: " << m_UpdateNumberOfPieces << std::endl;
+  os << indent << "Update Piece: " << m_UpdatePiece << std::endl;
+  os << indent << "Maximum Number Of Pieces: " << m_MaximumNumberOfPieces << std::endl;
+
 }
 
 
@@ -1171,7 +1176,114 @@ Mesh<TPixelType,TMeshType>
 {
   m_PointLocator = PointLocatorType::New();
   m_BoundingBox  = BoundingBoxType::New();
+  
+  // If we used pieces instead of 3D extent, then assume this object was
+  // created by the user and this is piece 0 of 1 pieces.
+  m_Piece          =  0;
+  m_NumberOfPieces =  1;
+  m_UpdatePiece          =   0;
+  m_UpdateNumberOfPieces =   1;
+  m_MaximumNumberOfPieces = 1;
+
 }
+
+
+//----------------------------------------------------------------------------
+void 
+template <typename TPixelType, typename TMeshType>
+Mesh<TPixelType,TMeshType>
+::UpdateInformation()
+{
+  if (m_Source)
+    {
+    m_Source->UpdateInformation();
+    }
+  // If we don't have a source, then let's make our whole
+  // extent equal to our extent. 
+  else
+    {
+    memcpy( m_WholeExtent, m_Extent, m_Dimension*2*sizeof(int) );
+    }
+  
+  // Now we should know what our whole extent is. If our update extent
+  // was not set yet, (or has been set to something invalid - with no 
+  // data in it ) then set it to the whole extent.
+  if ( m_UpdatePiece == -1 && m_UpdateNumberOfPieces == 0 )
+    {
+    this->SetUpdateExtentToWholeExtent();
+    }
+  
+  m_LastUpdateExtentWasOutsideOfTheExtent = 0;
+}
+
+//----------------------------------------------------------------------------
+void 
+template <typename TPixelType, typename TMeshType>
+Mesh<TPixelType,TMeshType>
+::SetUpdateExtentToWholeExtent()
+{
+  m_UpdateNumberOfPieces  = 1;
+  m_UpdatePiece           = 0;
+}
+
+//----------------------------------------------------------------------------
+void 
+template <typename TPixelType, typename TMeshType>
+Mesh<TPixelType,TMeshType>
+::CopyInformation(DataObject *data)
+{
+  m_MaximumNumberOfPieces = data->GetMaximumNumberOfPieces();
+}
+
+//----------------------------------------------------------------------------
+bool 
+template <typename TPixelType, typename TMeshType>
+Mesh<TPixelType,TMeshType>
+::UpdateExtentIsOutsideOfTheExtent()
+{
+  unsigned int i;
+
+  if ( m_UpdatePiece != m_Piece ||
+       m_UpdateNumberOfPieces != m_NumberOfPieces )
+    {
+    return true;
+    }
+
+  return false;
+}
+
+bool 
+template <typename TPixelType, typename TMeshType>
+Mesh<TPixelType,TMeshType>
+::VerifyUpdateExtent()
+{
+  bool retval = true;
+  unsigned int i;
+
+  // Are we asking for more pieces than we can get?
+  if ( m_UpdateNumberOfPieces > m_MaximumNumberOfPieces )
+    {
+    itkErrorMacro( << "Cannot break object into " <<
+    m_UpdateNumberOfPieces << ". The limit is " <<
+    m_MaximumNumberOfPieces );
+    retval = false;
+    }
+
+  if ( m_UpdatePiece >= m_UpdateNumberOfPieces ||
+       m_UpdatePiece < 0 )
+    {
+    itkErrorMacro( << "Invalid update piece " << m_UpdatePiece
+    << ". Must be between 0 and " 
+    << m_UpdateNumberOfPieces - 1);
+    retval = false;
+    }
+
+  return retval;
+}
+
+
+
+
 
 
 } // end namespace itk

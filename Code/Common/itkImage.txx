@@ -98,4 +98,99 @@ Image<TPixel, VImageDimension>
   os << indent << "Data: " << m_Buffer << std::endl;
 }
 
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
+::UpdateInformation()
+{
+  if (this->GetSource())
+    {
+    this->GetSource()->UpdateInformation();
+    }
+  // If we don't have a source, then let's make our Image
+  // span our buffer
+  else
+    {
+    m_ImageStartIndex = m_BufferStartIndex;
+    memcpy( m_ImageSize, m_BufferSize, VImageDimension*sizeof(unsigned long) );
+    }
+  
+  m_LastUpdateExtentWasOutsideOfTheExtent = 0;
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
+::SetUpdateExtentToWholeExtent()
+{
+  m_RegionStartIndex = m_ImageStartIndex;
+  memcpy( m_RegionSize, m_ImageSize, VImageDimension*sizeof(unsigned long) );
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void 
+Image<TPixel, VImageDimension>
+::CopyInformation(DataObject *data)
+{
+  Image *imgData;
+  
+  try
+    {
+    imgData = dynamic_cast<Image*>(data);
+
+    m_ImageStartIndex = imgData->GetImageStartIndex();
+    memcpy( m_ImageSize, imgData->GetImageSize(), VImageDimension*sizeof(unsigned long) );
+    }
+  catch (...)
+    {
+    return;
+    }
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+bool 
+Image<TPixel, VImageDimension>
+::UpdateExtentIsOutsideOfTheExtent()
+{
+  unsigned int i;
+
+  for (i=0; i< VImageDimension; i++)
+    {
+    if ( (m_RegionStartIndex[i] < m_BufferStartIndex[i]) ||
+         ((m_RegionStartIndex[i] + m_RegionSize[i]) > (m_BufferStartIndex[i] + m_BufferSize[i])) )
+      {
+      return true;
+      }
+    }
+
+  return false;
+}
+
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+bool 
+Image<TPixel, VImageDimension>
+::VerifyUpdateExtent()
+{
+  bool retval = true;
+  unsigned int i;
+
+  // Is the region within the image?
+  for (i=0; i< VImageDimension; i++)
+    {
+    if ( (m_RegionStartIndex[i] < m_ImageStartIndex[i]) ||
+         ((m_RegionStartIndex[i] + m_RegionSize[i]) > (m_ImageStartIndex[i] + m_ImageSize[i])) )
+      {
+      itkErrorMacro( << "Region does not lie within the image" );
+      retval = false;
+      }
+    }
+
+  return retval;
+}
+
 } // end namespace itk
