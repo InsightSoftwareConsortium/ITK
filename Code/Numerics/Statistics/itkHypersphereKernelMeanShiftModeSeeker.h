@@ -42,6 +42,7 @@ public:
   typedef HypersphereKernelMeanShiftModeSeeker Self;
   typedef MeanShiftModeSeekerBase< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(HypersphereKernelMeanShiftModeSeeker, 

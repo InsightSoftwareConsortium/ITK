@@ -38,6 +38,7 @@ public:
   typedef DensityFunction Self;
   typedef MembershipFunctionBase< TMeasurementVector > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(DensityFunction, MembershipFunctionBase);

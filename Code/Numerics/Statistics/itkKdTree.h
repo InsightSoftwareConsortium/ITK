@@ -94,7 +94,7 @@ struct KdTreeNode
 
   /** Returs the number of measurement vectors under this node including
    * its children */
-  virtual unsigned int Size() = 0 ;
+  virtual unsigned int Size() const = 0 ;
 
   /** Returns the vector sum of the all measurement vectors under this node */
   virtual void GetWeightedCentroid(CentroidType &centroid) = 0 ;
@@ -103,7 +103,7 @@ struct KdTreeNode
   virtual void GetCentroid(CentroidType &centroid) = 0 ;
 
   /** Retuns the instance identifier of the index-th measurement vector */
-  virtual InstanceIdentifier GetInstanceIdentifier(size_t index) = 0 ;
+  virtual InstanceIdentifier GetInstanceIdentifier(size_t index) const = 0 ;
 
   /** Add an instance to this node */
   virtual void AddInstanceIdentifier(InstanceIdentifier id) = 0 ;
@@ -150,7 +150,7 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   Superclass* Right()
   { return m_Right ; }
 
-  unsigned int Size()
+  unsigned int Size() const
   { return 0 ; }
 
   void GetWeightedCentroid(CentroidType &)
@@ -159,7 +159,7 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   void GetCentroid(CentroidType &)
   { /* do nothing */ }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t)
+  InstanceIdentifier GetInstanceIdentifier(size_t) const
   { return 0 ; }
 
   void AddInstanceIdentifier(InstanceIdentifier) {}
@@ -213,7 +213,7 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
   Superclass* Right()
   { return m_Right ; }
 
-  unsigned int Size()
+  unsigned int Size() const
   { return m_Size ; }
 
   void GetWeightedCentroid(CentroidType &centroid)
@@ -222,7 +222,7 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
   void GetCentroid(CentroidType &centroid)
   { centroid = m_Centroid ; }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t)
+  InstanceIdentifier GetInstanceIdentifier(size_t) const
   { return 0 ; }
 
   void AddInstanceIdentifier(InstanceIdentifier) {}
@@ -273,7 +273,7 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   Superclass* Right()
   { return 0 ; }
 
-  unsigned int Size()
+  unsigned int Size() const
   { return static_cast<unsigned int>( m_InstanceIdentifiers.size() ); }
 
   void GetWeightedCentroid(CentroidType &)
@@ -282,7 +282,7 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   void GetCentroid(CentroidType &)
   { /* do nothing */ } 
 
-  InstanceIdentifier GetInstanceIdentifier(size_t index)
+  InstanceIdentifier GetInstanceIdentifier(size_t index) const
   { return m_InstanceIdentifiers[index] ; }
 
   void AddInstanceIdentifier(InstanceIdentifier id) 
@@ -326,6 +326,7 @@ public:
   typedef KdTree Self ;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTree, Object);
@@ -445,7 +446,7 @@ public:
   TSample* GetSample()
   { return m_Sample ; }
 
-  unsigned long Size()
+  unsigned long Size() const
   { return m_Sample->Size() ; }
 
   /** Returns the pointer to the empty terminal node. A KdTree object

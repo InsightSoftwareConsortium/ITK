@@ -51,6 +51,7 @@ public:
   typedef GaussianDensityFunction Self;
   typedef DensityFunction< TMeasurementVector > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(GaussianDensityFunction, DensityFunction);

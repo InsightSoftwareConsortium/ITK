@@ -42,6 +42,7 @@ public:
   typedef MembershipFunctionBase Self;
   typedef FunctionBase< TVector, double > Superclass ;
   typedef SmartPointer< Self > Pointer ;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);

@@ -72,7 +72,7 @@ Subsample< TSample >
 template< class TSample >
 inline typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
-::GetInstanceIdentifier(int index)
+::GetInstanceIdentifier(int index) const
 {
   return m_IdHolder[index] ;
 }

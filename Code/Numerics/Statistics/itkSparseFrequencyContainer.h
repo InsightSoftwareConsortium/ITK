@@ -40,6 +40,7 @@ public:
   typedef SparseFrequencyContainer  Self;
   typedef Object Superclass;
   typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(SparseFrequencyContainer, Object);

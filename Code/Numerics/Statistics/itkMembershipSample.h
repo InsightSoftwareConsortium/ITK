@@ -56,6 +56,7 @@ public:
   typedef MembershipSample Self;
   typedef Sample< typename TSample::MeasurementVectorType > Superclass ;
   typedef SmartPointer< Self > Pointer ;
+  typedef SmartPointer< const Self > ConstPointer ;
 
   /** Standard macros */ 
   itkTypeMacro(MembershipSample, Sample);

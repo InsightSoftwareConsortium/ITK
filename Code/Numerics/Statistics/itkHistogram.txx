@@ -362,7 +362,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
     MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
-    m_TempMeasurementVector[i] =  value / 2.0;
+    m_TempMeasurementVector[i] =  static_cast< MeasurementType >( value / 2.0 );
     }
   return m_TempMeasurementVector ;
 }
@@ -399,7 +399,7 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const IndexType &index, const FrequencyType value) 
 {
-  this->SetFrequency(GetInstanceIdentifier(index), value) ;
+  this->SetFrequency( this->GetInstanceIdentifier(index), value) ;
 }
   
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -408,7 +408,7 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  this->SetFrequency(GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -417,7 +417,7 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const IndexType &index, const FrequencyType value)
 {
-  this->IncreaseFrequency(GetInstanceIdentifier(index), value) ;
+  this->IncreaseFrequency( this->GetInstanceIdentifier(index), value) ;
 }
   
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -426,7 +426,7 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  this->IncreaseFrequency(GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  this->IncreaseFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
 }
 
 
@@ -438,7 +438,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetFrequency(const IndexType &index) const
 {
-  return ( GetFrequency(GetInstanceIdentifier(index)) ) ;
+  return ( this->GetFrequency( this->GetInstanceIdentifier(index)) ) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 

@@ -55,6 +55,7 @@ public:
   typedef MeanShiftModeCacheMethod Self;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(MeanShiftModeCacheMethod, Object);

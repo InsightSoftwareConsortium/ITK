@@ -49,6 +49,7 @@ public:
   typedef WeightedMeanCalculator Self;
   typedef SampleAlgorithmBase< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(WeightedMeanCalculator, SampleAlgorithmBase);

@@ -70,6 +70,7 @@ public:
   typedef ImageToListAdaptor Self;
   typedef ListSampleBase< TMeasurementVector > Superclass;
   typedef SmartPointer< Self > Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListAdaptor, ListSampleBase) ;

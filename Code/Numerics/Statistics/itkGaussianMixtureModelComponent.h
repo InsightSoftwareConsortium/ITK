@@ -46,6 +46,7 @@ public:
   typedef GaussianMixtureModelComponent Self;
   typedef MixtureModelComponentBase< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);

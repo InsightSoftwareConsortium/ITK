@@ -98,9 +98,9 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 }
 
 template< class TInputSample, class TClassMaskSample >
-typename SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >::OutputType*
+const typename SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >::OutputType*
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
-::GetOutput()
+::GetOutput() const
 {
   return m_Output.GetPointer() ;
 }

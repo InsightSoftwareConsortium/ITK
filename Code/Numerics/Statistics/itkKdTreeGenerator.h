@@ -67,6 +67,7 @@ public:
   typedef KdTreeGenerator Self ;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTreeGenerator, Object);

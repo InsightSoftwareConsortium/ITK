@@ -71,6 +71,7 @@ public:
   typedef SampleClassifier Self;
   typedef ClassifierBase< TSample > Superclass;
   typedef SmartPointer< Self > Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
  /** Standard macros */
   itkTypeMacro(SampleClassifier, Object);

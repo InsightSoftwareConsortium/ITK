@@ -58,6 +58,7 @@ public:
   typedef MixtureModelComponentBase Self;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(MixtureModelComponentBase, Object);

@@ -69,6 +69,7 @@ public:
   typedef ListSampleToHistogramGenerator Self;
   typedef Object Superclass;
   typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ListSampleToHistogramGenerator, Object) ;
@@ -96,7 +97,7 @@ public:
   void SetNumberOfBins(HistogramSizeType sizes)
   { m_Sizes = sizes ; }
 
-  HistogramType* GetOutput()
+  const HistogramType* GetOutput() const
   { return m_Histogram ; }
 
   void Update() 

@@ -153,7 +153,7 @@ protected:
     virtual ~CandidateVector() {} 
 
     /** returns the number of candidate = k */
-    int Size()
+    int Size() const
     { return static_cast<int>( m_Candidates.size() ); }
 
     /** Initialize the centroids with the argument.

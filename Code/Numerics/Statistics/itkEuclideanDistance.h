@@ -43,6 +43,7 @@ public:
   typedef EuclideanDistance Self;
   typedef DistanceMetric< TVector > Superclass;
   typedef SmartPointer< Self > Pointer ; 
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Length of the vector */
   itkStaticConstMacro(VectorLength, unsigned int, TVector::Length); 

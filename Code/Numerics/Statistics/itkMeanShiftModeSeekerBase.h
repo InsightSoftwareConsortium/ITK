@@ -59,6 +59,7 @@ public:
   typedef MeanShiftModeSeekerBase Self;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(MeanShiftModeSeekerBase, Object);

@@ -109,9 +109,9 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 
 
 template< class TInputSample, class TClassMaskSample >
-typename MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputPointer
+const typename MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputType *
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::GetOutput()
+::GetOutput() const
 {
   return m_Output ;
 }

@@ -50,6 +50,7 @@ public:
   typedef CovarianceCalculator Self;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(CovarianceCalculator, Object);

@@ -46,6 +46,7 @@ public:
   typedef MeanCalculator Self;
   typedef Object Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(MeanCalculator, Object);

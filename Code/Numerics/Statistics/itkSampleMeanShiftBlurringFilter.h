@@ -45,6 +45,7 @@ public:
   typedef SampleMeanShiftBlurringFilter Self ;
   typedef SampleAlgorithmBase< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer ;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(SampleMeanShiftBlurringFilter, SampleAlgorithmBase);

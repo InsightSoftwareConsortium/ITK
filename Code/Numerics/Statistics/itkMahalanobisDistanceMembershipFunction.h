@@ -48,6 +48,7 @@ public:
   typedef MahalanobisDistanceMembershipFunction Self;
   typedef MembershipFunctionBase< TVector > Superclass ;
   typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
