@@ -370,6 +370,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   else 
     {
     std::cout<< "Gibbs Prior Test failed" << std::endl;
+    return 1;
     }
 
   return 0;
