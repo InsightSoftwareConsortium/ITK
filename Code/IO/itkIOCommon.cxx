@@ -17,14 +17,21 @@
 #include "itkIOCommon.h"
 #include <sys/stat.h>
 
-namespace itk
-{
-  // CODE STOLEN STRAIGHT FROM CMAKE
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <string.h>
 #include <windows.h>
 #include <direct.h>
 #define _unlink unlink
+#else
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#endif
+
+namespace itk
+{
+  // CODE STOLEN STRAIGHT FROM CMAKE
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 inline int Mkdir(const char* dir)
 {
   return _mkdir(dir);
@@ -42,9 +49,6 @@ inline int Chdir(const char* dir)
   #endif
 }
 #else
-#include <sys/types.h>
-#include <fcntl.h>
-#include <unistd.h>
 inline int Mkdir(const char* dir)
 {
   return mkdir(dir, 00777);
