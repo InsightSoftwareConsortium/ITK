@@ -21,7 +21,7 @@
 namespace itk
 {
   
-/** \class FilterSub
+/** \class FilterImageSub
  * \brief Implements an operator for pixel-wise substraction of two images.
  *
  * This class is parametrized over the types of the two 
