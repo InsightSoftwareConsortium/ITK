@@ -18,7 +18,7 @@
 #define __itkMultiResolutionPyramidImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "vnl/vnl_matrix.h"
+#include "itkArray2D.h"
 
 namespace itk
 {
@@ -121,7 +121,7 @@ public:
   itkTypeMacro(MultiResolutionPyramidImageFilter, ImageToImageFilter);
 
   /** ScheduleType typedef support. */
-  typedef vnl_matrix<unsigned int>  ScheduleType;
+  typedef Array2D<unsigned int>  ScheduleType;
 
   /** ImageDimension enumeration. */
   enum{ ImageDimension = TInputImage::ImageDimension };

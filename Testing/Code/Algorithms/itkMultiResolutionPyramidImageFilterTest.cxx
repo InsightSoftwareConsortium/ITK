@@ -145,10 +145,9 @@ int main()
   pyramid->SetNumberOfLevels( numLevels );
 
   // check the schedule
-  ScheduleType schedule;
+  ScheduleType schedule( numLevels, ImageDimension );
   unsigned int j, k;
 
-  schedule.resize( numLevels, ImageDimension );
   for( k = 0; k < numLevels; k++ )
     {
     unsigned int denominator = 1 << k;
@@ -178,7 +177,7 @@ int main()
   pyramid->SetStartingShrinkFactors( factors.Begin() );
 
   // check the schedule;
-  schedule.resize( numLevels, ImageDimension );
+  schedule = ScheduleType( numLevels, ImageDimension );
   for( k = 0; k < numLevels; k++ )
     {
     unsigned int denominator = 1 << k;

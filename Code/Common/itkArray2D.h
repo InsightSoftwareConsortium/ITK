@@ -50,6 +50,7 @@ public:
   
 public:
 
+  Array2D();
   Array2D(unsigned int rows,unsigned int cols);
 
   void Fill (TValueType const& v) { fill(v); }
@@ -67,12 +68,12 @@ std::ostream & operator<<(std::ostream &os, const Array2D<TValueType> &arr)
 {
   const unsigned int numberOfColumns = arr.cols();
   const unsigned int numberOfRows    = arr.rows();
-  const unsigned int lastColumn = numberOfColumns - 1;
+  const signed int lastColumn = (signed int) numberOfColumns - 1;
 
   for (unsigned int r=0; r < numberOfRows; ++r)
     {
     os << "[";
-    for (unsigned int c=0; c < lastColumn; ++c)
+    for ( signed int c=0; c < lastColumn; ++c)
       {
       os << arr(r,c) << ", ";
       }
