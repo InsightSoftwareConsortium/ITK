@@ -39,6 +39,9 @@ NightlyTest:
 NightlyCoverage:
 	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Coverage
 
+NightlySubmit:
+	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly Submit
+
 NightlyDashboardStart:
 	$(TCLSH) Testing/Utilities/DashboardManager.tcl Nightly DashboardStart
 

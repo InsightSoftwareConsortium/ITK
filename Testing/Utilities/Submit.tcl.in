@@ -16,6 +16,11 @@ source Testing/Utilities/ftp.tcl
 
 package require http
 
+set Model Experimental
+if { $argc == 1 } \
+{
+  set Model [lindex argv 0]
+}
 
 set dropSite           "public.kitware.com"
 set dropLocation       "/incoming"
@@ -30,14 +35,13 @@ set SiteDir [file join $HTMLDir TestingResults Sites $Site]
 set BuildNameDir [file join $SiteDir $BuildName]
 
 # Find the build name directory
-set Status [catch { set BuildStampDirs [glob [file join $BuildNameDir *] ] } Result]
-if { $Status == 1 } \
+set BuildStampDir [GetLastBuildDirectory $Model]
+if { $BuildStampDir == "" } \
 {
   puts stderr "Could not find any builds in the $BuildNameDir: $Result"
   exit 1
 }
 
-set BuildStampDir [lindex [lsort $BuildStampDirs] end]
 set BuildStamp [file tail $BuildStampDir]
 set XMLDir [file join $BuildStampDir XML]
 set FTPprefix [file join $Site $BuildName $BuildStamp XML]
@@ -79,3 +83,4 @@ foreach XMLFile $XMLFiles {
 }
  
 ftp::Close $conn
+exit

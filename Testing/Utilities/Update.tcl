@@ -40,7 +40,7 @@ proc GetLog { File } \
 
 set UpdateCommand "$cvs update -d -P -A"
 
-if { $DateStamp != "" } \
+if { $Model == "Nightly" } \
 {
   # For the moment, just get latest source
   # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
