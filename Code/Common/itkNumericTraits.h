@@ -20,7 +20,7 @@
 #undef min
 #undef max
 
-#if (defined(_MSC_VER) && !defined(__ICL))  || (defined(__sgi) && !defined(__GNUC__))
+#if (defined(_MSC_VER))  || (defined(__sgi) && !defined(__GNUC__))
 #include <limits>
 #define ITK_NUMERIC_LIMITS std::numeric_limits
 #else
