@@ -79,8 +79,8 @@ CurvatureFlowFunction<TImage>
       it.GetPixel(center - stride[i]) );
 
     // compute second order derivatives
-    secderiv[i] = it.GetPixel(center + stride[i]) - 
-      2 * it.GetPixel(center) + it.GetPixel( center - stride[i] );
+    secderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
+      2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
 
     // compute cross derivatives
     for( j = i + 1; j < ImageDimension; j++ )
@@ -173,8 +173,8 @@ CurvatureFlowFunction<TImage>
       it.GetPixel(center - stride[i]) );
 
     // compute second order derivatives
-    secderiv[i] = it.GetPixel(center + stride[i]) - 
-      2 * it.GetPixel(center) + it.GetPixel( center - stride[i] );
+    secderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
+      2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
 
     // compute cross derivatives
     for( j = i + 1; j < ImageDimension; j++ )
