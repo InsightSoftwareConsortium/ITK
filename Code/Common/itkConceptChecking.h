@@ -95,6 +95,8 @@ namespace Detail
 template <typename T> struct UniqueType {};
 template <int> struct UniqueType_int {};
 template <unsigned int> struct UniqueType_unsigned_int {};
+template <bool> struct UniqueType_bool {};
+
 
 /**
  * Concept checks may require a variable to be declared but not used.
@@ -305,6 +307,23 @@ struct MultiplicativeOperators
   itkConceptConstraintsMacro();
 };
 
+/** Concept requiring T to be signed. */
+template <typename T>
+struct Signed
+{
+  struct Constraints
+  {
+    typedef Detail::UniqueType_bool<true> TrueT;
+    typedef Detail::UniqueType_bool<NumericTraits<T>::is_signed> SignedT;
+    void constraints()
+      {
+        SignedT a = TrueT();
+        Detail::IgnoreUnusedVariable(a);
+      }
+  };
+  
+  itkConceptConstraintsMacro();
+};
   
 /** Concept requiring T1 and T2 to be the same type. */
 template <typename T1, typename T2>
