@@ -13,7 +13,6 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include <iostream>
 #include "itkPhysicalImage.h"
 #include "itkSimpleImageRegionIterator.h"
 
@@ -21,14 +20,16 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAffineRegistrationTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 
-/** 
+#include <iostream>
+
+/**
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
  *
  *  This test computes the mutual information value and derivatives
- *  for various shift values in (-10,10).  
+ *  for various shift values in (-10,10).
  *
- */ 
+ */
 
 int main()
 {
@@ -61,9 +62,9 @@ int main()
   imgTarget->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::SimpleImageRegionIterator<ReferenceType> 
+  typedef  itk::SimpleImageRegionIterator<ReferenceType>
     ReferenceIteratorType;
-  typedef  itk::SimpleImageRegionIterator<TargetType> 
+  typedef  itk::SimpleImageRegionIterator<TargetType>
     TargetIteratorType;
 
   itk::Point<double,2> center;
@@ -113,16 +114,15 @@ int main()
 //-----------------------------------------------------------
   enum{ ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
   typedef itk::Vector<double,ParametersDimension> ParametersType;
-  typedef itk::AffineRegistrationTransform< double, ImageDimension, ParametersType > 
-    TransformationType;
+  typedef itk::AffineRegistrationTransform<
+    double, ImageDimension, ParametersType > TransformationType;
 
   TransformationType::Pointer transformer = TransformationType::New();
-
 
 //------------------------------------------------------------
 // Set up a mapper
 //------------------------------------------------------------
-  typedef itk::ImageMapper< ReferenceType, TransformationType > 
+  typedef itk::ImageMapper< ReferenceType, TransformationType >
      MapperType;
 
   MapperType::Pointer mapper = MapperType::New();
@@ -159,8 +159,8 @@ int main()
 //------------------------------------------------------------
   ParametersType parameters;
 
-  // set the parameters to the identity 
-  ParametersType::Iterator it = parameters.Begin(); 
+  // set the parameters to the identity
+  ParametersType::Iterator it = parameters.Begin();
 
      // initialize the linear/matrix part
   for( unsigned int row = 0; row < ImageDimension; row++ )
@@ -185,22 +185,22 @@ int main()
 
 
 //---------------------------------------------------------
-// Print out mutual information values 
+// Print out mutual information values
 // for parameters[4] = {-10,10}
 //---------------------------------------------------------
 
   MetricType::MeasureType measure;
   MetricType::DerivativeType derivative;
 
-  printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" ); 
+  printf("%s\t%s\t%s\n", "param[4]", "MI", "dMI/dparam[4]" );
 
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
     parameters[4] = trans;
     metric->SetParameters( parameters );
     metric->GetValueAndDerivative( measure, derivative );
-    
-    printf( "%f\t%f\t%f\n", trans, measure, 
+
+    printf( "%f\t%f\t%f\n", trans, measure,
       derivative[4] );
 
     // exercise the other functions
@@ -209,7 +209,7 @@ int main()
 
     }
 
-
   return EXIT_SUCCESS;
 
 }
+
