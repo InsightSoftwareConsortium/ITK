@@ -38,6 +38,8 @@ namespace _cable_
     ITK_WRAP_GROUP(itkRecursiveSeparableImageFilter),
     ITK_WRAP_GROUP(itkResampleImageFilter),
     ITK_WRAP_GROUP(itkRescaleIntensityImageFilter),
+    ITK_WRAP_GROUP(itkShiftScaleImageFilter),
+    ITK_WRAP_GROUP(itkStatisticsImageFilter),
     ITK_WRAP_GROUP(itkSobelEdgeDetectionImageFilter),
     ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter)
   };

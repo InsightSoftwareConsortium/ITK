@@ -21,6 +21,8 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_itkRecursiveSeparableImageFilter.cxx
   wrap_itkResampleImageFilter.cxx
   wrap_itkRescaleIntensityImageFilter.cxx
+  wrap_itkShiftScaleImageFilter.cxx
+  wrap_itkStatisticsImageFilter.cxx
   wrap_itkSobelEdgeDetectionImageFilter.cxx
   wrap_itkTernaryMagnitudeImageFilter.cxx
 )
