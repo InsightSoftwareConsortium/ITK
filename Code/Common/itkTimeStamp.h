@@ -114,11 +114,6 @@ public:
   int operator<(TimeStamp& ts) 
     {return (m_ModifiedTime < ts.m_ModifiedTime);}
 
-  /** 
-   * Allow for typcasting to unsigned long. 
-   */
-  operator unsigned long() 
-    {return m_ModifiedTime;}
 
   /** 
    * Allow for typcasting to unsigned long. 
