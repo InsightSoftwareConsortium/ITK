@@ -157,17 +157,6 @@
               </a>
             </td>
           </xsl:when>
-          <xsl:when test="contains(Status,'notrun')">
-            <td>
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
-              <a href="#" onMouseout="hidetip()" style="text-decoration:none">
-                <xsl:attribute name="onMouseover">
-                  showtip(this,event,'<xsl:value-of select="SiteName"/> -- <xsl:value-of select="BuildName"/>')
-                </xsl:attribute>
-                <xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text>
-              </a>
-            </td>
-          </xsl:when>
           <xsl:when test="contains(Status,'failed')">
             <td>
               <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
@@ -186,6 +175,17 @@
               </a>
             </td>
           </xsl:when>
+          <xsl:otherwise>
+            <td>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
+              <a href="#" onMouseout="hidetip()" style="text-decoration:none">
+                <xsl:attribute name="onMouseover">
+                  showtip(this,event,'<xsl:value-of select="SiteName"/> -- <xsl:value-of select="BuildName"/>')
+                </xsl:attribute>
+                <xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text>
+              </a>
+            </td>
+          </xsl:otherwise>
         </xsl:choose>
       </xsl:for-each>
       <td><xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text></td>

@@ -13,6 +13,7 @@
   <xsl:param name="DashboardPath"/>
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:param name="PreviousDashboardStamp" select="string('')"/>
+  <xsl:param name="CreationDate" select="string('')"/>
   <xsl:variable name="DashboardDir" select="concat('../', $DashboardStamp)"/>
   <xsl:variable name="IconDir" select="string('../../Icons')"/>
 
@@ -21,7 +22,7 @@
   <xsl:template match="/Dashboard">
     <xsl:call-template name="TestOverview"/>
     <xsl:call-template name="InsightHeader">
-      <xsl:with-param name="Title">Insight Dashboard</xsl:with-param>
+      <xsl:with-param name="Title">Insight Dashboard - <xsl:value-of select="$CreationDate"/></xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
       <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       <xsl:with-param name="HomeIcon">HomeBlue.gif</xsl:with-param>

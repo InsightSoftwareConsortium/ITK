@@ -336,8 +336,11 @@ foreach Command $Commands \
       {
 	if { [NeedToRemake $XML] } \
 	{
+	  set CreationDate [clock format [clock seconds]]
 	  puts -nonewline "\tBuilding $XML.html "
-	  puts [catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] } Result]
+	  flush stdout
+	  puts [catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html.[pid] -XSL [file join $XSLDir $XML.xsl] -PARAM CreationDate $CreationDate -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] } Result]
+	  catch { file rename -force -- $XML.html.[pid] $XML.html }
 	  set Result [string trim $Result]
 	  if { $Result != "" } { puts "\t$Result" }
 	} \
@@ -351,7 +354,7 @@ foreach Command $Commands \
       # puts stderr [pwd]
       # cd $DashboardDir
       cd ..
-      puts stderr [pwd]
+      puts [pwd]
       file delete -force MostRecentResults-Nightly
       catch { exec ln -s [file tail $DashboardDir] MostRecentResults-Nightly } Result
       puts $Result

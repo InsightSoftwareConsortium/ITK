@@ -32,7 +32,7 @@
 
   <xsl:template name="ErrorLog">
       <xsl:call-template name="InsightHeader">
-        <xsl:with-param name="Title">Insight Errors</xsl:with-param>
+        <xsl:with-param name="Title">Insight Errors <xsl:value-of select="Site/@Name"/> -- <xsl:value-of select="Site/@BuildName"/></xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
         <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
@@ -49,7 +49,7 @@ Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
   <xsl:template name="WarningLog">
     <redirect:write select="concat(string('{$TestDocDir}'), '/BuildWarning.html' )">
       <xsl:call-template name="InsightHeader">
-        <xsl:with-param name="Title">Insight Warnings</xsl:with-param>
+        <xsl:with-param name="Title">Insight Warnings <xsl:value-of select="Site/@Name"/> -- <xsl:value-of select="Site/@BuildName"/></xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
         <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>

@@ -17,7 +17,7 @@
   <xsl:template match="/">
     <xsl:call-template name="Summary"/>
     <xsl:call-template name="InsightHeader">
-      <xsl:with-param name="Title">Test Log</xsl:with-param>
+      <xsl:with-param name="Title">Test Log <xsl:value-of select="/Site/@Name"/> -- <xsl:value-of select="/Site/@BuildName"/></xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
       <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
