@@ -297,6 +297,17 @@ PlaheImageFilter<TPixel, VImageDimension>
     
 }
 
+template <class TPixel, unsigned int VImageDimension>
+void
+PlaheImageFilter<TPixel, VImageDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  std::cout << "Window: " << m_Window << std::endl;
+  std::cout << "Alpha: " << m_Alpha << std::endl;
+  std::cout << "Beta: " << m_Beta << std::endl;
+}
 } // end namespace
 
 

@@ -89,6 +89,8 @@ void
 ImportImageFilter<TPixel, VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
+  int i;  
+
   Superclass::PrintSelf(os,indent);
 
   if (m_ImportPointer)
@@ -100,7 +102,22 @@ ImportImageFilter<TPixel, VImageDimension>
     os << indent << "Imported pointer: (None)" << std::endl;
     }
   os << indent << "Import buffer size: " << m_Size << std::endl;
+  os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Source manage memory: " << (m_SourceManageMemory ? "true" : "false") << std::endl;
+
+  os << indent << "Spacing: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Spacing[i] << ", ";
+    }
+  os << m_Spacing[i] << "]" << std::endl;
+
+  os << indent << "Origin: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Origin[i] << ", ";
+    }
+  os << m_Origin[i] << "]" << std::endl;
 }
 
 

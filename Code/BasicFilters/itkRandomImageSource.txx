@@ -92,6 +92,29 @@ RandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  std::cout << "Max: " << m_Max << std::endl;
+  std::cout << "Min: " << m_Min << std::endl;
+  unsigned int i;
+  os << indent << "Origin: [";
+  for (i=0; i < TOutputImage::ImageDimension - 1; i++)
+    {
+    os << m_Origin[i] << ", ";
+    }
+  os << m_Origin[i] << "]" << std::endl;
+
+  os << indent << "Spacing: [";
+  for (i=0; i < TOutputImage::ImageDimension - 1; i++)
+    {
+    os << m_Spacing[i] << ", ";
+    }
+  os << m_Spacing[i] << "]" << std::endl;
+
+  os << indent << "Size: [";
+  for (i=0; i < TOutputImage::ImageDimension - 1; i++)
+    {
+    os << m_Size[i] << ", ";
+    }
+  os << m_Size[i] << "]" << std::endl;
 }
 
 //----------------------------------------------------------------------------

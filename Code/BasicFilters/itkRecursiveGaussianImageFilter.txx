@@ -137,8 +137,15 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
 }
 
+template <class TInputImage, class TOutputImage, class TComputation>
+void
+RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 
-
+  std::cout << "Sigma: " << m_Sigma << std::endl; 
+}
 
 } // end namespace itk
 

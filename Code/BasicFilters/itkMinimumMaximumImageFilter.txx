@@ -124,7 +124,16 @@ MinimumMaximumImageFilter<TInputImage>
   itkDebugMacro(<< "MinimumMaximumImageFilter::GenerateData() finished");
 }
 
+template <class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 
+  std::cout << "Minimum: " << m_Minimum << std::endl;
+  std::cout << "Maximum: " << m_Maximum << std::endl;
+}
 } // end namespace itk
 
 #endif

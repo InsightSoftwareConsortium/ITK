@@ -90,6 +90,7 @@ public:
 protected:
   MinimumMaximumImageFilter() {}
   virtual ~MinimumMaximumImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 

@@ -88,7 +88,18 @@ public:
   itkSetVectorMacro(Window, unsigned int, VImageDimension);
   itkGetVectorMacro(Window, const unsigned int, VImageDimension);
 
+protected:
+  PlaheImageFilter(){}
+  virtual ~PlaheImageFilter(){}
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Standard pipeline method.*/
+  void GenerateData();
+
 private:
+  PlaheImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /** The beta parameter of the Plahe. */
   float m_Alpha;
 
@@ -100,16 +111,6 @@ private:
    * around the evaluated pixel. */
   unsigned int m_Window[VImageDimension];
 
-protected:
-  PlaheImageFilter(){};
-  virtual ~PlaheImageFilter(){};
-
-  /** Standard pipeline method.*/
-  void GenerateData();
-
-private:
-  PlaheImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

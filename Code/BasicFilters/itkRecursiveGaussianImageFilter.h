@@ -84,6 +84,7 @@ public:
 protected:
   RecursiveGaussianImageFilter();
   virtual ~RecursiveGaussianImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
