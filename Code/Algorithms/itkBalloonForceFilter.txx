@@ -1512,9 +1512,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   IPixelType v, v1, v2, v3;
   m_ACD = (int**) malloc(sizeof(int *)*m_ImageHeight/2);
 
-  for (i=0; i<m_ImageHeight/2; i++) {
-  m_ACD[i] = (int*) malloc(sizeof(int)*m_ImageWidth/2);
-  }
+  for (i=0; i<m_ImageHeight/2; i++) 
+    {
+    m_ACD[i] = (int*) malloc(sizeof(int)*m_ImageWidth/2);
+    }
   
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator  locations = myLocations->Begin();
@@ -1539,91 +1540,123 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
         }
       }
 
-    for (; i < m_Resolution; i++) {
+    for (; i < static_cast<unsigned int>( m_Resolution ); i++) 
+      {
       v = locations.Value();
       ++locations;
       ++displacements;
       l = (int)(v[0]/2);
       m = (int)(v[1]/2);
+
+      int ii = static_cast<int>( i );
+
       if (m_ACD[m][l] == -1) 
         {
-        m_ACD[m][l] = i;
+        m_ACD[m][l] = ii;
         }
       else 
         {
-      if (((i - m_ACD[m][l]) > m_Resolution/10) && 
-        ((m_Resolution-i+m_ACD[m][l])>m_Resolution/10)) {
+      if (((ii - m_ACD[m][l]) > m_Resolution/10) && 
+        ((m_Resolution-ii+m_ACD[m][l])>m_Resolution/10)) 
+        {
         locationscopy1 = locationscopy;
         n = 0;
         v1[0] = 0;
         v1[1] = 0;
   //      v1[2] = 0;
-        if ( (i - m_ACD[m][l]) < 0.5*m_Resolution ) {
-        if (m_ACD[m][l] == 0) PixelType1 = m_Resolution - 1;
-        else PixelType1 = m_ACD[m][l] - 1;
-        if (i == m_Resolution - 1) PixelType2 = 0;
-        else PixelType2 = i + 1;
-        while (n<m_Resolution) {
-          v = locationscopy1.Value();
-          if ((n>m_ACD[m][l]) && (n<i)) {
-          v1[0] += v[0];
-          v1[1] += v[1];
-          } else {
-          if ( n == PixelType1) v2 = locationscopy1.Value();
-          if ( n == PixelType2 ) v3 = locationscopy1.Value();
+        if ( (ii - m_ACD[m][l]) < 0.5*m_Resolution ) 
+          {
+        if (m_ACD[m][l] == 0) 
+          {
+          PixelType1 = m_Resolution - 1;
           }
+        else 
+          {
+          PixelType1 = m_ACD[m][l] - 1;
+          }
+        if (ii == m_Resolution - 1) 
+          { 
+          PixelType2 = 0; 
+          }
+        else 
+          { 
+          PixelType2 = ii + 1;
+          }
+        while (n<m_Resolution) 
+          {
+          v = locationscopy1.Value();
+          if ((n>m_ACD[m][l]) && (n<ii)) 
+            {
+            v1[0] += v[0];
+            v1[1] += v[1];
+            } 
+          else 
+            {
+            if ( n == PixelType1) v2 = locationscopy1.Value();
+            if ( n == PixelType2 ) v3 = locationscopy1.Value();
+            }
           ++locationscopy1;
           n++;
         }
-        v1[0] = v1[0]/(i-m_ACD[m][l]-1);
-        v1[1] = v1[1]/(i-m_ACD[m][l]-1);
+        v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
+        v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
         s = 1;
-        if (s > 0) {
+        if (s > 0) 
+          {
           locationscopy1 = locationscopy;
           dpcopy1 = dpcopy;
           n = 0;
-          while (n<m_Resolution) {
-          if ((n>m_ACD[m][l]) && (n<i)) {
-            v1 = locationscopy1.Value();
-            locationscopy1.Value() = v;
-            v2 = dpcopy1.Value();
-            v2[0] += v[0] - v1[0];
-            v2[1] += v[1] - v1[1];
-  //          v2[2] += v[2] - v1[2];
-            dpcopy1.Value() = v2;
-          } 
-            if ( n == m_ACD[m][l] ) {
-            v = locationscopy1.Value();
-          }
+          while (n<m_Resolution) 
+            {
+            if ((n>m_ACD[m][l]) && (n<ii)) 
+              {
+              v1 = locationscopy1.Value();
+              locationscopy1.Value() = v;
+              v2 = dpcopy1.Value();
+              v2[0] += v[0] - v1[0];
+              v2[1] += v[1] - v1[1];
+    //          v2[2] += v[2] - v1[2];
+              dpcopy1.Value() = v2;
+              } 
+            if ( n == m_ACD[m][l] ) 
+              {
+              v = locationscopy1.Value();
+              }
           ++locationscopy1;
           ++dpcopy1;
           n++;
           }
         }
-        } else {
-          while (n<m_Resolution) {
-          PixelType1 = m_ACD[m][l] + 1;
-          PixelType2 = i - 1;
-          v = locationscopy1.Value();
-          if ((n<m_ACD[m][l]) && (n>i)) {
-          v1[0] += v[0];
-          v1[1] += v[1];
-          } else{
-          if ( n == PixelType1 ) v2 = locationscopy1.Value();
-          if ( n == PixelType2 ) v3 = locationscopy1.Value();
-          }
+        } 
+        else 
+          {
+          while (n<m_Resolution) 
+            {
+            PixelType1 = m_ACD[m][l] + 1;
+            PixelType2 = ii - 1;
+            v = locationscopy1.Value();
+            if ((n<m_ACD[m][l]) && (n>ii)) 
+              {
+              v1[0] += v[0];
+              v1[1] += v[1];
+              }
+            else
+              {
+              if ( n == PixelType1 ) v2 = locationscopy1.Value();
+              if ( n == PixelType2 ) v3 = locationscopy1.Value();
+              }
           ++locationscopy1;
           n++;
-        }
-        v1[0] = v1[0]/(i-m_ACD[m][l]-1);
-        v1[1] = v1[1]/(i-m_ACD[m][l]-1);
+          }
+        v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
+        v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
         s = -1;
         if (s < 0) {
           locationscopy1 = locationscopy;
           dpcopy1 = dpcopy;
           n = 0;
           while (n<m_Resolution) {
-            if ( n == i ) {
+            if ( n == ii ) {
             v = locationscopy1.Value();
           }
             ++locationscopy1;
@@ -1631,21 +1664,23 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
           }
           locationscopy1 = locationscopy;
           n = 0;
-          while (n<m_Resolution) {
-          if ((n<m_ACD[m][l]) && (n>i)) {
-            v1 = locationscopy1.Value();
-            locationscopy1.Value() = v;
-            v2 = dpcopy1.Value();
-            v2[0] += v[0] - v1[0];
-            v2[1] += v[1] - v1[1];
-  //          v2[2] += v[2] - v1[2];
-            dpcopy1.Value() = v2;
+          while (n<m_Resolution) 
+            {
+            if ((n<m_ACD[m][l]) && (n>ii)) 
+              {
+              v1 = locationscopy1.Value();
+              locationscopy1.Value() = v;
+              v2 = dpcopy1.Value();
+              v2[0] += v[0] - v1[0];
+              v2[1] += v[1] - v1[1];
+    //          v2[2] += v[2] - v1[2];
+              dpcopy1.Value() = v2;
+              }
+            ++locationscopy1;
+            ++dpcopy1;
+            n++;
+            }
           }
-          ++locationscopy1;
-          ++dpcopy1;
-          n++;
-          }
-        }
         }
         
         m_ModelRestart = 1;
@@ -1656,9 +1691,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     } 
 
   m_ModelRestart = 0;
-  for (i=0; i<m_ImageHeight/2; i++) {
-  free(m_ACD[i]);
-  }
+  for (i=0; i<m_ImageHeight/2; i++) 
+    {
+    free(m_ACD[i]);
+    }
   free(m_ACD);
   
 }
