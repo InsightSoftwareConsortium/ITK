@@ -32,7 +32,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef MeshSource  Superclass;
+  typedef MeshSource<TMeshSource>  Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -50,16 +50,17 @@ public:
    */
   itkTypeMacro(SphereSource, MeshSource);
 
+  typedef TOutputMesh OutputMeshType;
+
   /** 
    * Hold on to the type information specified by the template parameters.
    */
-  typedef TOutputMesh::MeshTraits			OMeshTraits;
-  typedef typename OMeshTraits::PixelType	PixelType;  
+  typedef typename OutputMeshType;::MeshTraits	OMeshTraits;
+  typedef typename OMeshTraits::PixelType		PixelType;  
 
   /** 
    * Some typedefs.
    */
-  typedef TOutputMesh OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits CellTraits;
   
