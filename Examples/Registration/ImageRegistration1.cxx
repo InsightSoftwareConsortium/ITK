@@ -50,6 +50,8 @@
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
+#include "itkCastImageFilter.h"
+#include "itkSquaredDifferenceImageFilter.h"
 
 
 
@@ -61,7 +63,8 @@ int main( int argc, char **argv )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " fixedImageFile  movingImageFile outputImagefile " << std::endl;
+    std::cerr << " fixedImageFile  movingImageFile ";
+    std::cerr << "outputImagefile [differenceImage]" << std::endl;
     return 1;
     }
   
@@ -74,8 +77,8 @@ int main( int argc, char **argv )
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
-  const unsigned int Dimension = 2;
-  typedef float PixelType;
+  const    unsigned int    Dimension = 2;
+  typedef  float           PixelType;
   // Software Guide : EndCodeSnippet
 
   
@@ -484,6 +487,8 @@ int main( int argc, char **argv )
   //  created and initialized with the parameters resulting from the registration 
   //  process. 
   //
+  //  \index{itk::ImageRegistrationMethod!Resampling image}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -513,26 +518,151 @@ int main( int argc, char **argv )
 
 
 
+  //  Software Guide : BeginLatex
+  //  
+  //  As described in section \ref{sec:ResampleFilterType}, the
+  //  \code{ResampleImageFilter} requires additional parameters to be
+  //  specified. In particular the spacing, origin and size of the output
+  //  image.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+
+  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+
+  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resample->SetOutputSpacing( fixedImage->GetSpacing() );
+  resample->SetDefaultPixelValue( 100 );
+  // Software Guide : EndCodeSnippet
+
+
+
+
 
   //  Software Guide : BeginLatex
   //  
   //  The output of the filter is passed to a writer that will store the image
-  //  in a file and the \code{Update()} method of the writer is invoked in
-  //  order to trigger the execution of the pipeline.
+  //  in a file. A \code{CastImageFilter} is placed in between in order to
+  //  convert the pixel type of the resampled image to the final type used by
+  //  the writer. The types of the cast and writer filters are instantiated
+  //  below.
   //
   //  Software Guide : EndLatex 
   
-  typedef itk::ImageFileWriter< FixedImageType >  WriterType;
+  // Software Guide : BeginCodeSnippet
+  typedef  unsigned char  OutputPixelType;
 
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  
+  typedef itk::CastImageFilter< 
+                    FixedImageType,
+                    OutputImageType > CastFilterType;
+                    
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The corresponding filters are created by invoking their \code{New()}
+  //  method.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   WriterType::Pointer writer = WriterType::New();
+  CastFilterType::Pointer caster = CastFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+
 
   writer->SetFileName( argv[3] );
   
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \code{Update()} method of the writer is invoked in order to trigger
+  //  the execution of the pipeline.
+  //
+  //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
-  writer->SetInput( resample->GetOutput() );
+  caster->SetInput( resample->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
   writer->Update();
   // Software Guide : EndCodeSnippet
 
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  The fixed image and the transformed moving image can easily be compared
+  //  using the \code{itk::SquaredDiffernceImageFilter}. This pixel-wise filter
+  //  compute the square value of the difference between homologous pixels of
+  //  its input images.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::SquaredDifferenceImageFilter< 
+                                FixedImageType, 
+                                FixedImageType, 
+                                OutputImageType > DifferenceFilterType;
+
+
+  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resample->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Its output can be passed to another writer.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  WriterType::Pointer writer2 = WriterType::New();
+  writer2->SetInput( difference->GetOutput() );  
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  if( argc >= 5 )
+    {
+    writer2->SetFileName( argv[4] );
+    writer2->Update();
+    }
+
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=4cm]{ImageRegistration1Output.eps}
+  // \includegraphics[width=4cm]{ImageRegistration1DifferenceA.eps}
+  // \includegraphics[width=4cm]{ImageRegistration1DifferenceB.eps}
+  // \caption{Mapped moving image and its difference with the fixed image before and after registration}
+  // \label{fig:ImageRegistration1Output}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ImageRegistration1Output} left shows the result of
+  //  resampling the moving image in order to map it onto the fixed image
+  //  space. The center image shows the squared differences between the fixed
+  //  image and the moving image. The right image shows the squared differences
+  //  between the fixed image and the transformed moving image. Both difference
+  //  images are displayed negated in order to accentuate the pixels where
+  //  differences exist.
+  //
+  //  Software Guide : EndLatex 
 
 
   return 0;
