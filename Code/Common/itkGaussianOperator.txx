@@ -17,6 +17,7 @@
 #ifndef _itkGaussianOperator_txx
 #define _itkGaussianOperator_txx
 #include "itkGaussianOperator.h"
+#include "itkOutputWindow.h"
 #include "itkMacro.h"
 namespace itk
 {
@@ -44,17 +45,16 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   sum += coeff[1]* 2.0;
 
   for (i=2; sum < cap; i++)
-  {
+    {
     coeff.push_back(et* ModifiedBesselI(i, m_Variance));
     sum += coeff[i] *2.0;
     if (coeff[i] <= 0.0) break;  // failsafe
     if (coeff.size() > m_MaximumKernelWidth )
       {
-        itkWarningMacro("Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth << " and has been truncated to " << coeff.size() << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
-        break;
+      itkWarningMacro("Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth << " and has been truncated to " << coeff.size() << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
+      break;
       }  
-  }
-
+    }
   // Normalize the coefficients so that their sum is one.
   for (it = coeff.begin(); it < coeff.end(); ++it)
     {
