@@ -37,12 +37,11 @@
 #include "itkShrinkImageFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 
-
-int itkDeformableTest(int, char* [] )
+int itkDeformableTest(int, char** )
 {
-  int WIDTH = 72;
-  int HEIGHT = 72;
-  int DEPTH = 72;
+  int WIDTH = 32;
+  int HEIGHT = 32;
+  int DEPTH = 32;
   
   // Define the dimension of the images
   const unsigned int myDimension = 3;
@@ -149,13 +148,13 @@ int itkDeformableTest(int, char* [] )
     ++bit;
   }
 
-  size[0] = 36;
-  size[1] = 36;
-  size[2] = 36;
+  size[0] = 16;
+  size[1] = 16;
+  size[2] = 16;
 
-  start[0] = 18;
-  start[1] = 18;
-  start[2] = 18;
+  start[0] = 8;
+  start[1] = 8;
+  start[2] = 8;
 
   // Create one iterator for an internal region
   region.SetSize( size );
@@ -175,19 +174,6 @@ int itkDeformableTest(int, char* [] )
   }
 
   //////////////////////////////////////////////////////////////////////////
-
-  itk::ShrinkImageFilter< myImageType, myImageType >::Pointer dshrink;
-  dshrink = itk::ShrinkImageFilter< myImageType, myImageType >::New();
-  dshrink->SetInput( inputImage );
-  dshrink->SetNumberOfThreads(4);
-
-  unsigned int dfactors[3] = { 1, 1, 1 };
-  dshrink->SetShrinkFactors(dfactors);
-  dshrink->UpdateLargestPossibleRegion();
-
-  myImageType::RegionType drequestedRegion;
-  drequestedRegion = dshrink->GetOutput()->GetRequestedRegion();
-
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
                                             myGradientImageType
@@ -200,7 +186,7 @@ int itkDeformableTest(int, char* [] )
   myGToMFilterType::Pointer gtomfilter = myGToMFilterType::New();
 
   // Connect the input images
-  grfilter->SetInput( dshrink->GetOutput() ); 
+  grfilter->SetInput( inputImage ); 
 
   // Set sigma
   grfilter->SetSigma( 1.0 );
@@ -219,26 +205,13 @@ int itkDeformableTest(int, char* [] )
 
   std::cout << "The gradient map created!" << std::endl;
 
-//  the gvf is temproraily disabled since the problem related with gradientimagefilter
+//  the gvf is temproraily disabled to speede up the test process
 //  m_GVFFilter->Update();
 
 //  std::cout << "GVF created! " << std::endl;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // construct the deformable mesh
-
-  itk::ShrinkImageFilter< binaryImageType, binaryImageType >::Pointer shrink;
-  shrink = itk::ShrinkImageFilter< binaryImageType, binaryImageType >::New();
-  shrink->SetInput( biimg );
-  shrink->SetNumberOfThreads(4);
-
-  unsigned int factors[3] = { 1, 1, 1 };
-  shrink->SetShrinkFactors(factors);
-  shrink->UpdateLargestPossibleRegion();
-
-  binaryImageType::RegionType requestedRegion;
-  requestedRegion = shrink->GetOutput()->GetRequestedRegion();
-
   myMeshSource::Pointer m_bmmeshsource = myMeshSource::New();
 
   DFilter::Pointer m_dfilter = DFilter::New();
@@ -246,7 +219,7 @@ int itkDeformableTest(int, char* [] )
 //  m_dfilter->SetGradient(m_GVFFilter->GetOutput());
   m_dfilter->SetGradient(gfilter->GetOutput());
 
-  m_bmmeshsource->SetBinaryImage( shrink->GetOutput() );
+  m_bmmeshsource->SetBinaryImage( biimg );
   m_bmmeshsource->SetObjectValue( 255 );
 
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
@@ -262,7 +235,7 @@ int itkDeformableTest(int, char* [] )
   m_dfilter->SetStiffness(m_stiff);
   m_dfilter->SetGradientMagnitude(0.8);
   m_dfilter->SetTimeStep(0.01);
-  m_dfilter->SetStepThreshold(60);
+  m_dfilter->SetStepThreshold(50);
   m_dfilter->SetScale(m_scale);
   std::cout << "Deformable mesh fitting...";
   m_dfilter->Update();
