@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkRigid3DPerspectiveTransform_h
 #define __itkRigid3DPerspectiveTransform_h
 
@@ -48,7 +47,7 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 7);
 
   /** Standard class typedefs. */ 
   typedef Rigid3DPerspectiveTransform Self;
@@ -160,11 +159,27 @@ public:
    *  given point, returning the transformed point. */
   OutputPointType  TransformPoint(const InputPointType  &point ) const;
 
+  /** Return the rotation matrix */
+  const MatrixType & GetRotationMatrix() const {return m_RotationMatrix;}
+
   /** Compute the matrix. */
   void ComputeMatrix(void);
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  
+  /** Set the distance from the object to the plane */
+  itkGetConstMacro(ObjectToPlaneDistance,float);
+  itkSetMacro(ObjectToPlaneDistance,float);
+
+  /** Set a fixed offset: this allow to center the object to be transformed */
+  itkGetConstMacro(FixedOffset,OffsetType);
+  itkSetMacro(FixedOffset,OffsetType);
+
+  /** Set the center of Rotation */
+  itkSetMacro(CenterOfRotation,InputPointType);
+  itkGetMacro(CenterOfRotation,InputPointType);
+
 
 protected:
     Rigid3DPerspectiveTransform();
@@ -192,6 +207,16 @@ private:
 
   /** Matrix representation of the rotation. */
   MatrixType          m_RotationMatrix;   
+
+  /** Define the Object to Plane Distance */
+  float m_ObjectToPlaneDistance;
+  
+  /** Fixed offset*/
+  OffsetType m_FixedOffset;
+
+  /** Center of rotation */
+  InputPointType m_CenterOfRotation;
+
 
 }; //class Rigid3DPerspectiveTransform:
 
