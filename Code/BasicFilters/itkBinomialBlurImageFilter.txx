@@ -57,13 +57,13 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     inputIndex[i] -= m_Repetitions;
     if (inputIndex[i] < inputLargestPossibleRegionIndex[i])
       {
-      inputIndex[i] < inputLargestPossibleRegionIndex[i];
+      inputIndex[i] = inputLargestPossibleRegionIndex[i];
       }
 
     inputSize[i] += m_Repetitions;
-    if (inputSize[i] < inputLargestPossibleRegionSize[i])
+    if (inputSize[i] > inputLargestPossibleRegionSize[i])
       {
-      inputSize[i] < inputLargestPossibleRegionSize[i];
+      inputSize[i] = inputLargestPossibleRegionSize[i];
       }
     }
 
