@@ -24,7 +24,7 @@ namespace itk
 template <class TCostFunction>
 ConjugateGradientOptimizer<TCostFunction>
 ::ConjugateGradientOptimizer():
-  m_ConjugateGradient( m_CostFunction )
+  m_ConjugateGradient(m_CostFunction)
 {
 }
 
@@ -38,6 +38,19 @@ ConjugateGradientOptimizer<TCostFunction>
 ::GetOptimizer()
 {
   return m_ConjugateGradient;
+}
+
+
+
+/**
+ * Start the optimization
+ */
+template <class TCostFunction>
+void
+ConjugateGradientOptimizer<TCostFunction>
+::StartOptimization( VectorType & initialValue )
+{
+  m_ConjugateGradient.minimize( initialValue );
 }
 
 

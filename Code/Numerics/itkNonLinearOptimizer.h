@@ -22,7 +22,7 @@ namespace itk
 {
   
 /** \class NonLinearOptimizer
- * \brief Wrap of the vnl_nonlinear_minimizer to be adapted for Registration
+ * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
  */
 
@@ -61,7 +61,7 @@ public:
 
 protected:
 
-  NonLinearOptimizer();
+  NonLinearOptimizer() {};
   virtual ~NonLinearOptimizer() {};
   NonLinearOptimizer(const Self&) {}
   void operator=(const Self&) {}
@@ -70,9 +70,6 @@ protected:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNonLinearOptimizer.txx"
-#endif
 
 #endif
 

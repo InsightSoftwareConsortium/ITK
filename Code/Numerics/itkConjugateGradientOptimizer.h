@@ -16,21 +16,21 @@
 #ifndef __itkConjugateGradientOptimizer_h
 #define __itkConjugateGradientOptimizer_h
 
-#include "itkNonLinearOptimizer.h"
+#include "itkSingleValuedNonLinearOptimizer.h"
 #include "vnl/algo/vnl_conjugate_gradient.h"
 
 namespace itk
 {
   
 /** \class ConjugateGradientOptimizer
- * \brief Wrap of the vnl_conjugate_gradient to be adapted for Registration
+ * \brief Wrap of the vnl_conjugate_gradient 
  *
  */
 
   
 template <class TCostFunction>
 class ITK_EXPORT ConjugateGradientOptimizer : 
-    public NonLinearOptimizer<TCostFunction> 
+        public SingleValuedNonLinearOptimizer< TCostFunction >
 
 {
 public:
@@ -42,7 +42,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<TCostFunction> Superclass;
+  typedef   SingleValuedNonLinearOptimizer Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -51,12 +51,17 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
 
+  /**
+   * Internal Optimizer Type
+   */
+  typedef   vnl_conjugate_gradient InternalOptimizerType;
+
 
  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro( ConjugateGradientOptimizer, 
-      NonLinearOptimizer );
+      SingleValuedNonLinearOptimizer );
 
 
   /**
@@ -70,60 +75,13 @@ public:
    */
   vnl_conjugate_gradient & GetOptimizer(void);
  
-  
-  /** \class VnlCostFunction
-   * \brief Adaptor between the CostFunction and the vnl_cost_function classes
-   *
-   */
-
-  class VnlCostFunction : public vnl_cost_function
-  {
-  public:
-      VnlCostFunction() { m_CostFunction=0; }    
-
-      SetCostFunction( TCostFunction * ) 
-        { m_CostFunction = costFunction; }
-      
-
-      /** 
-       *  Delegate computation of the value to the CostFunction
-       */
-      virtual double f( const vnl_vector<double> & parameters ) {
-        return m_CostFunction->GetValue( parameters );
-      }
-      
-      /** 
-       *  Delegate computation of the gradient to the CostFunction
-       */
-      virtual void gradf(const vnl_vector<double> & parameters,
-                               vnl_vector<double> & gradient ) {
-        gradient = m_CostFunction->GetDerivative( parameters );
-      }
-      
-      /** 
-       *  Delegate computation of value and gradient to the CostFunction
-       */
-      virtual void compute(const vnl_vector<double> & x,
-                                 double * f, 
-                                 vnl_vector<double> * g ) {
-        // delegate the computation to the CostFunction
-        f = m_CostFunction->GetValue( parameters );
-        g = m_CostFunction->GetDerivative();
-      }
- 
-  private:
-      TCostFunction   * m_CostFunction;
-  };  // end of Class CostFunction
-
-
   /**
-   * Set the cost Function of type TCostFunction
+   * Start optimization with an initial value
+   * (it cannot be const VectorType because vnl_ layer
+   * uses a non-const reference
    */
-  SetCostFunction( TCostFunction * costFunction ) 
-    { m_CostFunction->SetCostFunction( costFunction ); }
-    
-  
-
+  void StartOptimization( VectorType & );
+ 
 protected:
 
   ConjugateGradientOptimizer();
@@ -131,9 +89,13 @@ protected:
   ConjugateGradientOptimizer(const Self&) {}
   void operator=(const Self&) {}
 
-  vnl_conjugate_gradient     m_ConjugateGradient;
+private:
 
-  VnlCostFunction            m_CostFunction;
+  /**
+   *  The vnl optimization method for Conjugate Gradient
+   */
+  InternalOptimizerType     m_ConjugateGradient;
+
 
 };
 

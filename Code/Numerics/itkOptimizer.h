@@ -61,7 +61,7 @@ public:
 
 protected:
 
-  Optimizer();
+  Optimizer() {};
   virtual ~Optimizer() {};
   Optimizer(const Self&) {}
   void operator=(const Self&) {}
@@ -70,10 +70,6 @@ protected:
 };
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOptimizer.txx"
-#endif
 
 #endif
 
