@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkArray.h"
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
+#include "itkVector.h"
 
 
 namespace itk
@@ -221,6 +222,13 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
    * system has orthogonal axis and equal scales. 
    */
   ValueType operator*(const Self &vec) const;
+
+  /**
+   * operator*.  Performs the scalar product with a vector (contravariant).
+   * This scalar product is invariant under affine transformations
+   */
+  ValueType operator*(const Vector<T,TCovariantVectorDimension> &vec) const;
+
 
 
   /**

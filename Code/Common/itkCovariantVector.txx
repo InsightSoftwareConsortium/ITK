@@ -241,7 +241,24 @@ CovariantVector<T, TCovariantVectorDimension>
 ::operator*( const Self & other ) const
 {
   T value = NumericTraits<T>::Zero;
-  for( unsigned int i=0; i<TVectorDimension; i++) 
+  for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
+  {
+    value += (*this)[i] * other[i];
+  }
+  return value;
+}
+
+
+/**
+ *
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+typename CovariantVector<T, TCovariantVectorDimension>::ValueType
+CovariantVector<T, TCovariantVectorDimension>
+::operator*( const Vector<T,TCovariantVectorDimension> & other ) const
+{
+  T value = NumericTraits<T>::Zero;
+  for( unsigned int i=0; i<TCovariantVectorDimension; i++) 
   {
     value += (*this)[i] * other[i];
   }
@@ -302,9 +319,9 @@ CovariantVector<T, TCovariantVectorDimension>
 /**
  * Set a vnl_vector
  */
-template<class T, unsigned int TVectorDimension>
+template<class T, unsigned int TCovariantVectorDimension >
 void
-CovariantVector<T, TVectorDimension>
+CovariantVector<T, TCovariantVectorDimension >
 ::Set_vnl_vector( const vnl_vector<T> & v)
 {
   for(unsigned int i=0;i<v.size();i++) 
