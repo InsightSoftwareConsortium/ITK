@@ -44,6 +44,7 @@ void main()
   itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::Pointer random;
   random = itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::New();
 
+  
   // Create a filter
   itk::ShrinkImage< itk::Image<itk::Scalar<float>,2>, itk::Image<itk::Scalar<float>,2> >::Pointer shrink;
   shrink = itk::ShrinkImage< itk::Image<itk::Scalar<float>,2>, itk::Image<itk::Scalar<float>,2> >::New();

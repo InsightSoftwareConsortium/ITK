@@ -1,6 +1,6 @@
 LIBRARY = ITKCommon
 
-COMPILE_CLASSES =\
+SOURCE_FILES =\
 itkDataObject \
 itkDirectory \
 itkDynamicLoader \
@@ -21,5 +21,5 @@ itkTimeStamp \
 itkVersion \
 itkWriter
 
-WIN32_CLASSES =\
+WIN32_SOURCE_FILES =\
 itkWin32OutputWindow 
