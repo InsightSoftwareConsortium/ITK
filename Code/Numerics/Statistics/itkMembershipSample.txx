@@ -68,14 +68,6 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-unsigned int
-MembershipSample< TSample >
-::GetNumberOfInstances() const
-{
-  return m_Sample->GetNumberOfInstances() ;
-}
-
-template< class TSample >
 inline void 
 MembershipSample< TSample >
 ::AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) 
@@ -145,14 +137,6 @@ MembershipSample< TSample >
 }
   
 template< class TSample >
-inline unsigned int 
-MembershipSample< TSample >
-::Size(const unsigned int &dimension) const
-{
-  return m_Sample->Size(dimension) ;
-}
-
-template< class TSample >
 inline typename MembershipSample< TSample >::MeasurementVectorType&
 MembershipSample< TSample >
 ::GetMeasurementVector(const InstanceIdentifier &id)
@@ -180,9 +164,9 @@ MembershipSample< TSample >
 template< class TSample >
 inline typename MembershipSample< TSample >::FrequencyType
 MembershipSample< TSample >
-::GetTotalFrequency(const unsigned int &dimension) const
+::GetTotalFrequency() const
 {
-  return m_Sample->GetTotalFrequency(dimension) ;
+  return m_Sample->GetTotalFrequency() ;
 }
 
 template< class TSample >

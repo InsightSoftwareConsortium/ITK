@@ -142,15 +142,8 @@ public:
    * This method uses ImageBase::ComputeIndex() method */
   InstanceIdentifier GetInstanceIdentifier(const IndexType &index) const ;
   
-  /** Get the total number of instances in this container */
-  unsigned int GetNumberOfInstances() const ;
-
   /** Returns the number of instances (bins or cells) in this container */
   unsigned int Size() const ;
-
-  /** Returns the number of bins along the "dimension" */
-  unsigned int Size(const unsigned int &dimension) const 
-  { return static_cast< int >(m_Size[dimension]) ; }
 
   /** Method to get m_Size */
   SizeType GetSize() const
@@ -271,12 +264,12 @@ public:
   MeasurementType& GetMeasurement(const unsigned long n,
                                   const unsigned int dimension) const ;
 
+  /** returns the total frequency*/
+  FrequencyType GetTotalFrequency() const ;
+
   /** returns the frequency of the'dimension' dimension's 'n'th element. */
   FrequencyType GetFrequency(const unsigned long n,
                              const unsigned int dimension) const ;
-
-  /** returns the frequency of the 'dimension' dimension */
-  FrequencyType GetTotalFrequency(const unsigned int &dimension) const ;
 
   /** returns 'p'th percentile value.
    * Let assume n = the index of the bin where the p-th percentile value is,

@@ -58,23 +58,6 @@ ImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-inline unsigned int
-ImageToListAdaptor< TImage >
-::Size(const unsigned int &) const
-{
-  return m_PixelContainer->Size() ;
-}
-
-template < class TImage >
-inline unsigned int
-ImageToListAdaptor< TImage >
-::GetNumberOfInstances() const
-{
-  return this->Size() ;
-}
-
-
-template < class TImage >
 inline void
 ImageToListAdaptor< TImage >
 ::SetMeasurementVector(const InstanceIdentifier id,
@@ -103,7 +86,7 @@ ImageToListAdaptor< TImage >
 template < class TImage >
 typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
-::GetTotalFrequency(const unsigned int &) const
+::GetTotalFrequency() const
 { 
   return this->Size() ; 
 }

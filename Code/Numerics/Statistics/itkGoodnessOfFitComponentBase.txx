@@ -357,7 +357,7 @@ GoodnessOfFitComponentBase< TInputHistogram >
   //  std::cout << "DEBUG: update expected histogram" << std::endl ;
   // this->UpdateObservedHistogram() ;
 
-  float totalObservedFrequency = m_ObservedHistogram->GetTotalFrequency(0) ;
+  float totalObservedFrequency = m_ObservedHistogram->GetTotalFrequency() ;
   HistogramType::Iterator e_iter = m_ExpectedHistogram->Begin() ;
   HistogramType::Iterator e_last = m_ExpectedHistogram->End() ;
   int i = 0 ;

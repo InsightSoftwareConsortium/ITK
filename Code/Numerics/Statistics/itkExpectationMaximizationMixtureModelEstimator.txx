@@ -259,7 +259,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   int numberOfComponents = m_ComponentVector.size() ;
   long sampleSize = m_Sample->Size() ;
-  double totalFrequency = (double) (m_Sample->GetTotalFrequency(0)) ;
+  double totalFrequency = (double) (m_Sample->GetTotalFrequency()) ;
   long i, j ;
   double tempSum ;
   bool updated = false ;

@@ -134,7 +134,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   m_Covariance.GetVnlMatrix().
     fill_diagonal( m_StandardDeviation * m_StandardDeviation ) ;
 
-  if ( this->GetResampledSample()->GetTotalFrequency(0) > 0 )
+  if ( this->GetResampledSample()->GetTotalFrequency() > 0 )
     {
       m_ProbabilityDensityFunction->SetCovariance(&m_Covariance) ;
       m_CovarianceCalculator->Update() ;

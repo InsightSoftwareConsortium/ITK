@@ -102,8 +102,6 @@ public:
   typedef unsigned long InstanceIdentifier ;
 
   virtual unsigned int Size() const = 0 ;
-  virtual unsigned int Size(const unsigned int &dimension) const = 0 ;
-  virtual unsigned int GetNumberOfInstances() const = 0 ;
 
   /** retunrs the measurement of the instance which is identified by the 'id'*/
   virtual MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) = 0 ;
@@ -112,7 +110,7 @@ public:
   virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
 
   /** returns the total frequency for the 'd' dimension*/
-  virtual FrequencyType GetTotalFrequency(const unsigned int &dimension) const 
+  virtual FrequencyType GetTotalFrequency() const 
     = 0 ;
   
 protected:

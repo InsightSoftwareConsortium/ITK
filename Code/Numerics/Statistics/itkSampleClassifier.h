@@ -90,6 +90,8 @@ public:
   typedef typename Superclass::MembershipFunctionPointerVector 
     MembershipFunctionPointerVector ;
 
+  typedef unsigned int ClassLabelType ;
+  typedef std::vector< ClassLabelType > ClassLabelVectorType ;
   /** Sets the target data that will be classified by this */
   void SetSample(TSample* sample) ;
 
@@ -101,10 +103,10 @@ public:
    * this function, then the index of the membership function vector for a
    * membership function will be used as class label of measurement vectors
    * belong to the membership function */ 
-  void SetMembershipFunctionClassLabels(std::vector< unsigned int > labels) ;
+  void SetMembershipFunctionClassLabels( ClassLabelVectorType& labels) ;
 
   /** Gets the user given class labels */
-  std::vector< unsigned int > GetMembershipFunctionClassLabels() 
+  ClassLabelVectorType& GetMembershipFunctionClassLabels() 
   { return m_ClassLabels ; }
 
   /** Returns the classification result */
@@ -126,7 +128,7 @@ private:
   typename OutputType::Pointer m_Output ;
 
   /** User given class labels for membership functions */
-  std::vector< unsigned int > m_ClassLabels ;
+  ClassLabelVectorType m_ClassLabels ;
 } ; // end of class
 
 

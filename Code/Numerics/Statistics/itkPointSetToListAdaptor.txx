@@ -59,31 +59,6 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-unsigned int
-PointSetToListAdaptor< TPointSet >
-::Size(const unsigned int &) const
-{
-  return m_PointsContainer->Size() ;
-}
-
-template < class TPointSet >
-unsigned int
-PointSetToListAdaptor< TPointSet >
-::GetNumberOfInstances() const
-{
-  return this->Size() ;
-}
-
-//  template < class TPointSet >
-//  inline void 
-//  PointSetToListAdaptor< TPointSet >
-//  ::SetMeasurementVector(const InstanceIdentifier id,
-//                         const MeasurementVectorType& measurementVector)
-//  {
-//    m_PointSet->SetPoint(id, measurementVectyor) ;
-//  }
-
-template < class TPointSet >
 inline typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType&
 PointSetToListAdaptor< TPointSet >
 ::GetMeasurementVector(const InstanceIdentifier &id)
@@ -103,7 +78,7 @@ PointSetToListAdaptor< TPointSet >
 template < class TPointSet >
 typename PointSetToListAdaptor< TPointSet >::FrequencyType
 PointSetToListAdaptor< TPointSet >
-::GetTotalFrequency(const unsigned int &) const
+::GetTotalFrequency() const
 { 
   return this->Size() ; 
 }

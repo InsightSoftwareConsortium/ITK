@@ -106,10 +106,6 @@ public:
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
 
-  unsigned int Size(const unsigned int &dimension) const ;
-
-  unsigned int GetNumberOfInstances() const ;
-
   void SetMeasurementVector(const InstanceIdentifier id,
                             const MeasurementVectorType &measurementVector) ;
   
@@ -121,7 +117,7 @@ public:
 
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
-  FrequencyType GetTotalFrequency(const unsigned int &dimension) const ;
+  FrequencyType GetTotalFrequency() const ;
 
   class Iterator;
   friend class Iterator;

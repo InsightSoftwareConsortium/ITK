@@ -95,8 +95,6 @@ public:
   
   unsigned int GetNumberOfClasses() const ;
 
-  unsigned int GetNumberOfInstances() const ;
-
   void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) ;
   
   unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
@@ -113,9 +111,6 @@ public:
   /** returns the number of elements in each dimension */
   unsigned int Size(void) const ;
   
-  /** returns the number of elements in the 'dimension' dimension. */
-  unsigned int Size(const unsigned int &dimension) const;
-  
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
   MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
@@ -129,7 +124,7 @@ public:
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
   
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency(const unsigned int &d) const ;
+  FrequencyType GetTotalFrequency() const ;
 
   void Resize(unsigned int n) 
   {

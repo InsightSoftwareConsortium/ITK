@@ -53,7 +53,7 @@ SampleClassifier< TSample >
 template< class TSample >
 void
 SampleClassifier< TSample >
-::SetMembershipFunctionClassLabels(std::vector< unsigned int > labels)
+::SetMembershipFunctionClassLabels(ClassLabelVectorType& labels)
 {
   m_ClassLabels = labels ;
 }

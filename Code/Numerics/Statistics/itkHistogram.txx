@@ -230,15 +230,6 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
-          class TFrequencyContainer >
-unsigned int
-Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetNumberOfInstances() const
-{
-  return m_NumberOfInstances ;
-}
-
-template< class TMeasurement, unsigned int VMeasurementVectorSize,
          class TFrequencyContainer >
 inline typename Histogram<TMeasurement, VMeasurementVectorSize, 
   TFrequencyContainer>::MeasurementType&
@@ -490,7 +481,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
            TFrequencyContainer >::FrequencyType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetTotalFrequency(const unsigned int &) const
+::GetTotalFrequency() const
 {
   return m_FrequencyContainer->GetTotalFrequency() ;
 }
@@ -502,12 +493,12 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::Quantile(const unsigned int dimension, const double &p)
 {
   InstanceIdentifier n ;
-  const unsigned int size = this->Size(dimension) ;
+  const unsigned int size = this->GetSize(dimension) ;
   double p_n_prev ;
   double p_n ;
   double f_n ;
   double cumulated = 0 ;
-  double totalFrequency = double(GetTotalFrequency(dimension)) ;
+  double totalFrequency = double(this->GetTotalFrequency()) ;
   double binProportion ;
   double min, max, interval ;
 
@@ -517,7 +508,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
       p_n = NumericTraits< double >::Zero ;
       do 
         {
-          f_n = GetFrequency(n, dimension) ;
+          f_n = this->GetFrequency(n, dimension) ;
           cumulated += f_n ;
           p_n_prev = p_n ;
           p_n = cumulated / totalFrequency ;

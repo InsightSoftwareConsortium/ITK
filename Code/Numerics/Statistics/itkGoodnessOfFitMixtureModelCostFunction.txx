@@ -119,7 +119,7 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 
       component->Resample() ;
 
-      if ( component->GetResampledSample()->GetTotalFrequency(0) == 0 ) 
+      if ( component->GetResampledSample()->GetTotalFrequency() == 0 ) 
         {
           return NumericTraits< double >::max() ;
         }

@@ -96,13 +96,6 @@ public:
     return static_cast<unsigned int>( m_IdHolder.size() );
   }
 
-  unsigned int Size(const unsigned int &) const
-  {
-    return static_cast<unsigned int>( m_IdHolder.size() );
-  }
-
-  unsigned int GetNumberOfInstances() const ;
-
   void Clear()
   { 
     m_IdHolder.clear() ;
@@ -119,7 +112,7 @@ public:
   { return m_Sample->GetFrequency(id) ; }
   
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency(const unsigned int &) const
+  FrequencyType GetTotalFrequency() const
   { return m_TotalFrequency ; }
   
   void Swap(int index1, int index2) ;
