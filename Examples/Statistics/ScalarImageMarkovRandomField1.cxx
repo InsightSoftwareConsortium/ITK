@@ -18,6 +18,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}, {BrainT1Slice_labelled.png}
+//    OUTPUTS: {ScalarImageMarkovRandomField1Output.png}
+//    50 3 3 14.8 91.6 134.9
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example shows how to use the Markov Random Field approach for
@@ -70,8 +76,8 @@ int main( int argc, char * argv [] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
     std::cerr << " inputScalarImage inputLabeledImage";
-    std::cerr << " outputLabeledImage numberOfClasses";
-    std::cerr << " numberOfIterations smoothingFactor";
+    std::cerr << " outputLabeledImage numberOfIterations";
+    std::cerr << " smoothingFactor numberOfClasses";
     std::cerr << " mean1 mean2 ... meanN " << std::endl;
     return EXIT_FAILURE;
     }
@@ -207,7 +213,9 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// We also set the Smoothing factor. This factor will multiply the weights that
+// The smoothing factor represents the tradeoff between fidelity to the 
+// observed image and the smoothness of the segmented image. Typical smoothing
+// factors have values between 1~5. This factor will multiply the weights that
 // define the influecnce of neighbors on the classification of a given pixel.
 // The higher the value, the more uniform will be the regions resulting from
 // the classification refinement.
@@ -219,52 +227,6 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-
-// Software Guide : BeginLatex
-//
-// and we set the neighborhood radius that will define the size of the clique
-// to be used in the computation of the neighbors' influence in the
-// classification of any given pixel. Note that despite the fact that we call
-// this a radius, it is actually the half size of an hypercube. That is, the
-// actual region of influence will not be circular but rather an N-Dimensional
-// box. For example, a neighborhood radius of 2 in a 3D image will result in a
-// clique of size 5x5x5 pixels, and a radius of 1 will result in a clique of
-// size 3x3x3 pixels.
-// 
-// Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
-  mrfFilter->SetNeighborhoodRadius( 1 );
-// Software Guide : EndCodeSnippet
-
-
-// Software Guide : BeginLatex
-//
-// We should now set the weights used for the neighbors. This is done by
-// passing an array of values that contains the linear sequence of weights for
-// the neighbors. For example, in a neighborhood of size 3x3x3, we should
-// provide a linear array of 9 weight values. The values are packaged in a
-// \code{std::vector} and are supposed to be \code{double}. The following lines
-// illustrate a typical set of values for a 3x3x3 neighborhood. The array is
-// arranged and then passed to the filter by using the method
-// \code{SetMRFNeighborhoodWeight()}.
-// 
-// Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
-  std::vector< double > weights;
-  weights.push_back(1.5);
-  weights.push_back(2.0);
-  weights.push_back(1.5);
-  weights.push_back(2.0);
-  weights.push_back(0.0); // This is the central pixel
-  weights.push_back(2.0);
-  weights.push_back(1.5);
-  weights.push_back(2.0);
-  weights.push_back(1.5);
-
-  mrfFilter->SetMRFNeighborhoodWeight( weights );
-// Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginLatex
@@ -324,6 +286,7 @@ int main( int argc, char * argv [] )
   typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
 
 
+  double meanDistance = 0;
   vnl_vector<double> centroid(1); 
   for( unsigned int i=0; i < numberOfClasses; i++ )
     {
@@ -337,8 +300,97 @@ int main( int argc, char * argv [] )
     membershipFunction->SetCentroid( centroid );
 
     classifier->AddMembershipFunction( membershipFunction );
+    meanDistance += static_cast< double > (centroid[0]);
     }
+  meanDistance /= numberOfClasses;
 // Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+//
+// We set the Smoothing factor. This factor will multiply the weights that
+// define the influecnce of neighbors on the classification of a given pixel.
+// The higher the value, the more uniform will be the regions resulting from
+// the classification refinement.
+// 
+// Software Guide : EndLatex 
+ 
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetSmoothingFactor( smoothingFactor );
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
+// and we set the neighborhood radius that will define the size of the clique
+// to be used in the computation of the neighbors' influence in the
+// classification of any given pixel. Note that despite the fact that we call
+// this a radius, it is actually the half size of an hypercube. That is, the
+// actual region of influence will not be circular but rather an N-Dimensional
+// box. For example, a neighborhood radius of 2 in a 3D image will result in a
+// clique of size 5x5x5 pixels, and a radius of 1 will result in a clique of
+// size 3x3x3 pixels.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  mrfFilter->SetNeighborhoodRadius( 1 );
+// Software Guide : EndCodeSnippet
+
+
+// Software Guide : BeginLatex
+//
+// We should now set the weights used for the neighbors. This is done by
+// passing an array of values that contains the linear sequence of weights for
+// the neighbors. For example, in a neighborhood of size 3x3x3, we should
+// provide a linear array of 9 weight values. The values are packaged in a
+// \code{std::vector} and are supposed to be \code{double}. The following lines
+// illustrate a typical set of values for a 3x3x3 neighborhood. The array is
+// arranged and then passed to the filter by using the method
+// \code{SetMRFNeighborhoodWeight()}.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  std::vector< double > weights;
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(0.0); // This is the central pixel
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+// Software Guide : EndCodeSnippet
+
+
+// Software Guide : BeginLatex
+// We now scale weights so that the smoothing function and the image fidelity
+// functions have comparable value. This is necessary since the label
+// image and the input image can have different dynamic ranges. The fidelity
+// function is usually computed using a distance function, such as the
+// \doxygen{DistanceToCentroidMembershipFunction} or one of the other 
+// membership functions. They tend to have values in the order of the means
+// specified. 
+// Software Guide : EndLatex 
+    
+// Software Guide : BeginCodeSnippet
+  double totalWeight = 0;
+  for(std::vector< double >::const_iterator wcIt = weights.begin(); 
+      wcIt != weights.end(); ++wcIt )
+    {
+    totalWeight += *wcIt;
+    }
+  for(std::vector< double >::iterator wIt = weights.begin(); 
+      wIt != weights.end(); wIt++ )
+    {
+    *wIt = static_cast< double > ( (*wIt) * meanDistance / (2 * totalWeight));
+    }
+
+  mrfFilter->SetMRFNeighborhoodWeight( weights );
+// Software Guide : EndCodeSnippet
+
 
 
 
@@ -402,18 +454,29 @@ int main( int argc, char * argv [] )
     }
 // Software Guide : EndCodeSnippet
 
-  
+  std::cout << "Number of Iterations : " << mrfFilter->GetNumberOfIterations() 
+    << std::endl;
+  std::cout << "Stop condition: (1) Maximum number of iterations (2) Error tolerance:  " 
+    << mrfFilter->GetStopCondition() << std::endl;
 
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure} \center
+  // \includegraphics[width=0.44\textwidth]{ScalarImageMarkovRandomField1Output.eps}
+  // \itkcaption[Output of the ScalarImageMarkovRandomField]{Effect of the
+  // MRF filter on a T1 slice of the brain.}
+  // \label{fig:ScalarImageMarkovRandomFieldInputOutput}
+  // \end{figure}
+  //
+  //  Figure \ref{fig:ScalarImageMarkovRandomFieldInputOutput}
+  //  illustrates the effect of this filter with three classes.
+  //  In this example the filter was run with a smoothing factor of 3.
+  //  The labelled image was produced by ScalarImageKmeansClassifier.cxx
+  //  and the means were estimated by ScalarImageKmeansModelEstimator.cxx.
+  //
+  //  Software Guide : EndLatex 
 
-// Software Guide : BeginLatex
-//
-// The execution of this example in one the input image ####, produces the
-// result illustrated in figure ####
-//
-// Software Guide : EndLatex 
-
-
-  return 0;
+  return EXIT_SUCCESS;
   
 }
 
