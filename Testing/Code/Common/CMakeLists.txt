@@ -1,5 +1,7 @@
 TESTS = \
 itkAffineTransformTest \
+itkBoundingBoxTest \
+itkByteSwapTest \
 itkIteratorTests \
 itkFilterImageAnisotropicDiffusionTest \
 itkFilterImageSingleOperatorTest \

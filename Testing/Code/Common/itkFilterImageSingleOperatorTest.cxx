@@ -49,7 +49,7 @@ main(int argc, char *argv[])
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
-      return 2;
+      return 1;
     } 
-  return 1;   
+  return 0;   
 }
