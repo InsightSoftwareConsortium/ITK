@@ -32,7 +32,7 @@ namespace Statistics{
 /** \class ImageJointDomainTraits
  *  \brief This class provides the type defintion for the measurement
  *  vector in the joint domain (range domain -- pixel values + spatial
- *  domain -- pixel index).
+ *  domain -- pixel's physical coordinates).
  *
  * \sa JointDomainImageToListAdaptor
  */
@@ -62,30 +62,28 @@ struct ImageJointDomainTraits
  *  image pixel's range domain value (pixel value) and spatial domain
  *  value (pixel's physical coordiantes).
  *
- * After calling SetImage(Image::Pointer) method to plug in the image object,
- * users can use Sample interfaces to access Image data.
- * However, the resulting data are a list of measurement vectors. The type of
- * data is measurement vector. For example, if the pixel type of Image object 
- * is STL vector< float > and each pixel has two different types of 
- * measurements, intensity and gradient magnitude, this adaptor has
- * measurement vector of type ITK Point< float, 2>, and one element of the Point
- * is intensity and the other is gradient magnitude.
+ * This class is a derived class of the ImageToListAdaptor. This class
+ * overrides the GetMeasurementVector method. The GetMeasurementVector
+ * returns a measurement vector that consist of a pixel's physical
+ * coordinates and intensity value. For example, if the image
+ * dimension is 3, and the pixel value is two component vector, the
+ * measurement vector is a 5 component vector. The first three
+ * component will be x, y, z physical coordinates (not index) and the
+ * rest two component is the pixel values. The type of component is
+ * float or which is determined by the ImageJointDomainTraits
+ * class. When the pixel value type is double, the component value
+ * type of a measurement vector is double. In other case, the
+ * component value type is float becase the physical coordinate value
+ * type is float. Since the measurment vector is a composition of
+ * spatial domain and range domain, for many statistical analysis, we
+ * want to normalize the values from both domains. For this purpose,
+ * there is the SetNormalizationFactors method. With the above example
+ * (5 component measurement vector), you can specify a 5 component
+ * normalization factor array. With such factors, the
+ * GetMeasurementVector method returns a measurement vector whose each
+ * component is divided by the corresponding component of the factor array. 
  *
- * There are two concepts of dimensions for this container. One is for Image 
- * object, and the other is for measurement vector dimension.
- * Only when using ITK Index to access data, the former concept is applicable
- * Otherwise, dimensions means dimensions of measurement vectors. 
- *
- * From the above example, there were two elements in a pixel and each pixel
- * provides [] operator for accessing its elements. However, in many cases,
- * The pixel might be a scalar value such as int or float. In this case,
- * The pixel doesn't support [] operator. To deal with this problem,
- * This class has two companion classes, JointDomainAccessor and VectorAccessor.
- * If the pixel type is a scalar type, then you don't have change the third
- * template argument. If you have pixel type is vector one and supports
- * [] operator, then replace third argument with VectorAccessor
- *
- * \sa Sample, ListSampleBase
+ * \sa Sample, ListSampleBase, ImageToListAdaptor
  */
 
 template < class TImage >
@@ -148,14 +146,23 @@ public:
 
   typedef FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >
   NormalizationFactorsType ;
-  
+
+  /** Sets the normalization factors */
   void SetNormalizationFactors(NormalizationFactorsType& factors) ;
 
+  /** Gets the measurement vector specified by the instance
+   * identifier. This method overrides superclass method. */
   inline MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+
+  /** Computes the image region (rectangular) that enclose the ball
+   * defined by the mv (center) and the radius. */
   inline void ComputeRegion(const MeasurementVectorType& mv, 
                             const double radius,
                             ImageRegionType& region) ;
 
+  /** Fills he result id vectors with instances that fall within a
+   * ball specified by the mv (center) and radius. This method utilizes
+   * the ComputRegion */
   inline void Search(const MeasurementVectorType& mv, 
                      const double radius, 
                      InstanceIdentifierVectorType& result) ;
