@@ -57,7 +57,6 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   //
   // Can you open it?
   std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
-  std::cout << "foo1" << std::endl;
   if(!f.is_open())
     return false;
   //
@@ -66,22 +65,17 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   // the size the file should be and compares it with the actual size.
   // if it's not reading a GEAdw file, chances are overwhelmingly good
   // that this operation will fail somewhere along the line.
-  std::cout << "foo2" << std::endl;
   if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&matrixX,false) != 0)
     return false;
     
-  std::cout << "foo3" << std::endl;
   if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_Y,&matrixY,false) != 0)
     return false;
 
-  std::cout << "foo4" << std::endl;
   if(this->GetIntAt(f,GE_ADW_VARIABLE_HDR_LENGTH,&varHdrSize,false) != 0)
     return false;
 
-  std::cout << "foo5" << std::endl;
   imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
 
-  std::cout << "foo6" << std::endl;
   if ( imageSize != itksys::SystemTools::FileLength(FileNameToRead) )
     {
     return false;
