@@ -70,7 +70,7 @@ public:
   /**
    * Extract some parameters from the image type
    */
-  typedef Superclass::ImageType ImageType;
+  typedef typename Superclass::ImageType ImageType;
   enum { ImageDimension = Superclass::ImageDimension };
   typedef typename Superclass::PixelType        PixelType;
   typedef double TimeStepType;
