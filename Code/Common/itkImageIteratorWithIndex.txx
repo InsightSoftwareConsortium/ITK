@@ -66,8 +66,8 @@ ImageIteratorWithIndex<TImage>
 //----------------------------------------------------------------------
 template<class TImage>
 ImageIteratorWithIndex<TImage>
-::ImageIteratorWithIndex(const SmartPointer<TImage> &ptr,
-              const Region & region )
+::ImageIteratorWithIndex(const TImage *ptr,
+                         const Region & region )
 {
   m_Image = ptr;
 
