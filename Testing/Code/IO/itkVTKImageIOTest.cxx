@@ -40,6 +40,7 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
     }
   itk::RandomImageSource<ImageType>::Pointer random;
   random = itk::RandomImageSource<ImageType>::New();
+  low = hi = static_cast<TScalar>(127);
   random->SetMin(low);
   random->SetMax(hi);
   random->SetSize(size);
