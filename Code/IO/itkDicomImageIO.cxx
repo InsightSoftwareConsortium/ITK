@@ -522,6 +522,7 @@ void DicomImageIO::ReadImageInformation()
     }
     // we build a table of char 
     value = (char *) malloc (sizeof(char)*len);
+    j = 0;
     for(i=0;i<len;i++)
     {
       m_Ifstream >> c;
