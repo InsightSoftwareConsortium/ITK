@@ -21,6 +21,17 @@
 
 namespace itk
 {
+
+template<class TImage, class TFunction>
+FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
+::FloodFilledSpatialFunctionConditionalConstIterator(ImageType *imagePtr,
+                                     FunctionType *fnPtr,
+                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex)
+{
+  // The default inclusion strategy is "center"
+  this->SetCenterInclusionStrategy();
+}
+
 template<class TImage, class TFunction>
 bool
 FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>

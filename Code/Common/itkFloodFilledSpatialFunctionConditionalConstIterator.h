@@ -64,7 +64,7 @@ public:
    * particular region of that image. */
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                      FunctionType *fnPtr,
-                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
+                                     IndexType startIndex);
   /** Default Destructor. */
   virtual ~FloodFilledSpatialFunctionConditionalConstIterator() {};
 
