@@ -91,7 +91,7 @@ unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 {
   if ( m_FileName == "" && m_FilePattern == "" )
     {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
     return 0;
     }
 
@@ -121,7 +121,7 @@ void RawImageIO<TPixel,VImageDimension>::ComputeInternalFileName(unsigned long s
 
   if ( m_FileName == "" && m_FilePattern == "" )
     {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
     return;
     }
 
@@ -151,7 +151,7 @@ void RawImageIO<TPixel,VImageDimension>::OpenFile()
 {
   if ( m_FileName == "" && m_FilePattern == "")
     {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
     return;
     }
 
@@ -170,7 +170,7 @@ void RawImageIO<TPixel,VImageDimension>::OpenFile()
 #endif
   if ( m_File.fail() )
     {
-    itkErrorMacro(<< "Could not open file: " << m_FileName);
+    itkExceptionMacro(<< "Could not open file: " << m_FileName);
     return;
     }
 }
@@ -202,7 +202,7 @@ void RawImageIO<TPixel,VImageDimension>
   m_File.seekg((long)streamStart, std::ios::beg);
   if ( m_File.fail() )
     {
-    itkErrorMacro(<<"File seek failed");
+    itkExceptionMacro(<<"File seek failed");
     return;
     }
 
@@ -212,7 +212,7 @@ void RawImageIO<TPixel,VImageDimension>
   m_File.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
   if ( m_File.fail() )
     {
-    itkErrorMacro(<<"Read failed: Wanted " << m_Strides[m_FileDimensionality + 1] << " bytes, but read " << m_File.gcount() << " bytes.");
+    itkExceptionMacro(<<"Read failed: Wanted " << m_Strides[m_FileDimensionality + 1] << " bytes, but read " << m_File.gcount() << " bytes.");
     return;
     }
   

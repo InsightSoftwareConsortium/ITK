@@ -352,7 +352,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   if ( !inputPtr  )
     {
-    itkErrorMacro( << "Input has not been set" );
+    itkExceptionMacro( << "Input has not been set" );
     }
 
   const double * inputSpacing = inputPtr->GetSpacing();
@@ -434,7 +434,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   TOutputImage * ptr = static_cast<TOutputImage*>( refOutput );
   if( !ptr )
     {
-    itkErrorMacro( << "Could not cast refOutput to TOutputImage*." );
+    itkExceptionMacro( << "Could not cast refOutput to TOutputImage*." );
     }
 
   // compute requested regions for the other outputs
@@ -502,7 +502,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   InputImagePointer  inputPtr = this->GetInput();
   if ( !inputPtr )
     {
-    itkErrorMacro( << "Input has not been set." );
+    itkExceptionMacro( << "Input has not been set." );
     }
 
   // compute baseIndex and baseSize

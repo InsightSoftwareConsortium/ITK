@@ -389,7 +389,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   else
     {
     // pointer could not be cast back down
-    itkErrorMacro(<< "itk::PointSet::CopyInformation() cannot cast "
+    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
                   << typeid(data).name() << " to "
                   << typeid(PointSet*).name() );
     }
@@ -445,7 +445,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   // Are we asking for more regions than we can get?
   if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
     {
-    itkErrorMacro( << "Cannot break object into " <<
+    itkExceptionMacro( << "Cannot break object into " <<
     m_RequestedNumberOfRegions << ". The limit is " <<
     m_MaximumNumberOfRegions );
     retval = false;
@@ -454,7 +454,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   if ( m_RequestedRegion >= m_RequestedNumberOfRegions ||
        m_RequestedRegion < 0 )
     {
-    itkErrorMacro( << "Invalid update region " << m_RequestedRegion
+    itkExceptionMacro( << "Invalid update region " << m_RequestedRegion
                    << ". Must be between 0 and " 
                    << m_RequestedNumberOfRegions - 1);
     retval = false;

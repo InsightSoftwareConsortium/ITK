@@ -197,17 +197,17 @@ MultiResolutionPDEDeformableRegistration<TReference,TTarget,TDeformationField>
 
   if( !reference || !target )
     {
-    itkErrorMacro( << "Reference and/or Target not set" );
+    itkExceptionMacro( << "Reference and/or Target not set" );
     }
 
   if( !m_ReferencePyramid || !m_TargetPyramid )
     {
-    itkErrorMacro( << "Reference and/or Target Pyramid not set" );
+    itkExceptionMacro( << "Reference and/or Target Pyramid not set" );
     }
 
   if( !m_RegistrationFilter )
     {
-    itkErrorMacro( << "Registration filter not set" );
+    itkExceptionMacro( << "Registration filter not set" );
     }
   
   // setup the filters

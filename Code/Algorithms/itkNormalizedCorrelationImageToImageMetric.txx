@@ -91,7 +91,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 
   if(count == 0) 
     {
-    itkErrorMacro(<< "All the mapped image is outside !" );
+    itkExceptionMacro(<< "All the mapped image is outside !" );
     return 100000;
     } 
 

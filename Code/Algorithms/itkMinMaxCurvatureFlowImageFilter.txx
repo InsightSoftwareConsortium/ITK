@@ -76,7 +76,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
     }
   catch( ... )
     {
-    itkErrorMacro(<<"DifferenceFunction not of type MinMaxCurvatureFlowFunction");
+    itkExceptionMacro(<<"DifferenceFunction not of type MinMaxCurvatureFlowFunction");
     throw ExceptionObject( __FILE__, __LINE__ );
     }
   

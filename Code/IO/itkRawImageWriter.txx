@@ -109,7 +109,7 @@ RawImageWriter<TInputImage>
   //
   if ( !this->GetFileName() )
     {
-    itkErrorMacro(<<"No FileName specified! Can't write!");
+    itkExceptionMacro(<<"No FileName specified! Can't write!");
     return;
     }
   
@@ -124,7 +124,7 @@ RawImageWriter<TInputImage>
 
   if ( f.fail() )
     {
-    itkErrorMacro(<< "Unable to open file: "<< this->GetFileName());
+    itkExceptionMacro(<< "Unable to open file: "<< this->GetFileName());
     return;
     }
 

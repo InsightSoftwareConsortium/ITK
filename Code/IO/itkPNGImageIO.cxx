@@ -103,11 +103,11 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case RGB:
     case RGBA:
       {
-      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
       }
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
+      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -133,7 +133,7 @@ unsigned int PNGImageIO::GetComponentSize() const
     case RGBA:
     case UNKNOWN:
       {
-      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return 0;
       }
     }
@@ -148,7 +148,7 @@ void PNGImageIO::Read(void* buffer)
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    itkErrorMacro("Error PNGImageIO could not open file: " 
+    itkExceptionMacro("Error PNGImageIO could not open file: " 
                   << this->GetFileName());
     return;
     }
@@ -157,7 +157,7 @@ void PNGImageIO::Read(void* buffer)
   bool is_png = !png_sig_cmp(header, 0, 8);
   if(!is_png)
     {
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   png_structp png_ptr = png_create_read_struct
@@ -165,7 +165,7 @@ void PNGImageIO::Read(void* buffer)
      NULL, NULL);
   if (!png_ptr)
     {
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   
@@ -174,7 +174,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr,
                             (png_infopp)NULL, (png_infopp)NULL);
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
 
@@ -183,7 +183,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
                             (png_infopp)NULL);
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   

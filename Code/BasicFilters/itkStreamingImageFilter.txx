@@ -91,7 +91,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
    */
   if (this->GetNumberOfInputs() < this->GetNumberOfRequiredInputs())
     {
-    itkErrorMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << this->GetNumberOfInputs() << " are specified");
+    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << this->GetNumberOfInputs() << " are specified");
     return;
     }
   this->SetAbortGenerateData(0);

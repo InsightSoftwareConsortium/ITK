@@ -118,7 +118,7 @@ ImageFileWriter<TInputImage>
   // make sure input is available
   if ( input == 0 )
     {
-    itkErrorMacro(<< "No input to writer!");
+    itkExceptionMacro(<< "No input to writer!");
     return;
     }
 
@@ -126,7 +126,7 @@ ImageFileWriter<TInputImage>
   //
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
-    itkErrorMacro(<<"No filename or file prefix specified");
+    itkExceptionMacro(<<"No filename or file prefix specified");
     return;
     }
 
@@ -142,7 +142,7 @@ ImageFileWriter<TInputImage>
   
   if ( m_ImageIO == 0 )
     {
-    itkErrorMacro(<<"No ImageIO set, or none could be created.");
+    itkExceptionMacro(<<"No ImageIO set, or none could be created.");
     return;
     }
 

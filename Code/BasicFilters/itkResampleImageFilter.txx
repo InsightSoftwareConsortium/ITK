@@ -168,7 +168,7 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
 
   if( !m_Interpolator )
     {
-    itkErrorMacro(<< "Interpolator not set");
+    itkExceptionMacro(<< "Interpolator not set");
     throw ExceptionObject(__FILE__,__LINE__ );
     }
 

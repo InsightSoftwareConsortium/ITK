@@ -240,7 +240,7 @@ ImageSource<TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId )
 {
-  itkErrorMacro("subclass should override this method!!!");
+  itkExceptionMacro("subclass should override this method!!!");
 }
 
 // Callback routine used by the threading library. This routine just calls

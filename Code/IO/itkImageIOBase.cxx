@@ -114,7 +114,7 @@ const std::type_info& ImageIOBase::GetPixelType() const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
+      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -195,7 +195,7 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     }
   else
     {
-    itkErrorMacro("Pixel type currently not supported.");
+    itkExceptionMacro("Pixel type currently not supported.");
     this->SetPixelType(ImageIOBase::UNKNOWN);
     this->SetComponentType(ImageIOBase::UNKNOWN);
     return false;
@@ -303,7 +303,7 @@ ImageIOBase::ConvertToTypeInfo(IODataType t ) const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     default:
-      itkErrorMacro ("Invalid type: " << m_PixelType );
+      itkExceptionMacro ("Invalid type: " << m_PixelType );
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -338,7 +338,7 @@ ImageIOBase::GetSizeOfType(IODataType t) const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << t);
+      itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return 0;
 
@@ -373,7 +373,7 @@ unsigned int ImageIOBase::GetPixelSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
+      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -408,7 +408,7 @@ unsigned int ImageIOBase::GetComponentSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
+      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -444,7 +444,7 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
     case RGBA:
       return (s = "rgba");
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << t);
+      itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return (s="unknown");
 

@@ -170,7 +170,7 @@ void MultiThreader::SetMultipleMethod( int index,
 { 
   // You can only set the method for 0 through NumberOfThreads-1
   if ( index >= m_NumberOfThreads ) {
-    itkErrorMacro( << "Can't set method " << index << 
+    itkExceptionMacro( << "Can't set method " << index << 
     " with a thread count of " << m_NumberOfThreads );
     }
   else
@@ -201,7 +201,7 @@ void MultiThreader::SingleMethodExecute()
 
   if ( !m_SingleMethod )
     {
-    itkErrorMacro( << "No single method set!" );
+    itkExceptionMacro( << "No single method set!" );
     return;
     }
 
@@ -244,7 +244,7 @@ void MultiThreader::SingleMethodExecute()
 //                      (unsigned int *)&threadId);
     if (process_id == NULL)
       {
-      itkErrorMacro("Error in thread creation !!!");
+      itkExceptionMacro("Error in thread creation !!!");
       } 
     }
   
@@ -287,7 +287,7 @@ void MultiThreader::SingleMethodExecute()
        ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if ( process_id[thread_loop] == -1)
       {
-      itkErrorMacro("sproc call failed. Code: " << errno << std::endl);
+      itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
       }
     }
   
@@ -342,7 +342,7 @@ void MultiThreader::SingleMethodExecute()
           ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if (threadError != 0)
       {
-      itkErrorMacro(<< "Unable to create a thread.  pthread_create() returned "
+      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
                     << threadError);
       }
 #endif
@@ -359,7 +359,7 @@ void MultiThreader::SingleMethodExecute()
     {
     if ( pthread_join( process_id[thread_loop], NULL ) )
       {
-      itkErrorMacro(<< "Unable to join thread " << thread_loop);
+      itkExceptionMacro(<< "Unable to join thread " << thread_loop);
       }
     }
 #endif
@@ -406,7 +406,7 @@ void MultiThreader::MultipleMethodExecute()
     {
     if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)NULL)
       {
-      itkErrorMacro( << "No multiple method set for: " << thread_loop );
+      itkExceptionMacro( << "No multiple method set for: " << thread_loop );
       return;
       }
     }
@@ -435,7 +435,7 @@ void MultiThreader::MultipleMethodExecute()
        ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
     if (process_id == NULL)
       {
-      itkErrorMacro("Error in thread creation !!!");
+      itkExceptionMacro("Error in thread creation !!!");
       } 
     }
   
@@ -594,7 +594,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 
   if ( id >= ITK_MAX_THREADS )
     {
-    itkErrorMacro( << "You have too many active threads!" );
+    itkExceptionMacro( << "You have too many active threads!" );
     return -1;
     }
 
@@ -616,7 +616,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
        ((void *)(&m_SpawnedThreadInfoArray[id])), 0, &threadId);
   if (m_SpawnedThreadProcessID[id] == NULL)
     {
-    itkErrorMacro("Error in thread creation !!!");
+    itkExceptionMacro("Error in thread creation !!!");
     } 
 #endif
 
@@ -659,7 +659,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
-  itkErrorMacro( << "Cannot spawn thread in a single threaded environment!" );
+  itkExceptionMacro( << "Cannot spawn thread in a single threaded environment!" );
   m_SpawnedThreadActiveFlagLock[id] = 0;
   id = -1;
 #endif
@@ -701,7 +701,7 @@ void MultiThreader::TerminateThread( int ThreadID )
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
-  itkErrorMacro(<< "Cannot terminate thread in single threaded environment!");
+  itkExceptionMacro(<< "Cannot terminate thread in single threaded environment!");
 #endif
 #endif
 #endif

@@ -77,7 +77,7 @@ public:
   /** Cause the object to print itself out. */
   void Print(std::ostream& os) const;
 
-  /** This method is called when itkErrorMacro executes. It allows 
+  /** This method is called when itkExceptionMacro executes. It allows 
    * the debugger to break on error.  */
   static void BreakOnError();
   

@@ -40,7 +40,7 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
   // Make sure that we have a file to 
   if ( filename == "" )
     {
-    itkErrorMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<<"A FileName must be specified.");
     return false;
     }
 
@@ -64,7 +64,7 @@ bool VTKImageIO::OpenVTKFile(std::ofstream& os, const char* filename,
 #endif
   if ( os.fail() )
     {
-    itkErrorMacro(<< "Could not open file: " << filename);
+    itkExceptionMacro(<< "Could not open file: " << filename);
     return false;
     }
 
@@ -123,7 +123,7 @@ void VTKImageIO::Write(void* buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if ( numDims < 2 || numDims > 3 )
     {
-    itkErrorMacro(<<"VTK Writer can only write 2 or 3-dimensional images");
+    itkExceptionMacro(<<"VTK Writer can only write 2 or 3-dimensional images");
     return;
     }
   ImageIORegion ioRegion = this->GetIORegion();

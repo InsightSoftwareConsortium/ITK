@@ -78,7 +78,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
     }
   catch( ... )
     {
-    itkErrorMacro(<<"DifferenceFunction not of type CurvatureFlowFunction");
+    itkExceptionMacro(<<"DifferenceFunction not of type CurvatureFlowFunction");
     throw ExceptionObject( __FILE__, __LINE__ );
     }
 

@@ -71,7 +71,7 @@ VTKImageImport<TOutputImage>
     }
   else
     {
-    itkErrorMacro(<<"Type currently not supported");
+    itkExceptionMacro(<<"Type currently not supported");
     }
 }
 
@@ -86,7 +86,7 @@ VTKImageImport<TOutputImage>
   OutputImageType* output = dynamic_cast<OutputImageType*>(outputPtr);
   if(!output)
     {
-    itkErrorMacro(<<"Downcast from DataObject to my Image type failed.");
+    itkExceptionMacro(<<"Downcast from DataObject to my Image type failed.");
     return;
     }
   Superclass::PropagateRequestedRegion(output);
@@ -190,7 +190,7 @@ VTKImageImport<TOutputImage>
       (m_NumberOfComponentsCallback)(m_CallbackUserData);
     if(components != 1)
       {
-      itkErrorMacro(<< "Input number of components is " << components
+      itkExceptionMacro(<< "Input number of components is " << components
                     << " but should be 1.");
       }
     }
@@ -200,7 +200,7 @@ VTKImageImport<TOutputImage>
     const char* scalarName = (m_ScalarTypeCallback)(m_CallbackUserData);
     if(scalarName != m_ScalarTypeName)
       {
-      itkErrorMacro(<< "Input scalar type is " << scalarName
+      itkExceptionMacro(<< "Input scalar type is " << scalarName
                     << " but should be " << m_ScalarTypeName.c_str());
       }
     }
@@ -254,13 +254,13 @@ VTKImageImport<TOutputImage>
     unsigned long dataSize = bufferSize;
     if(importSize < bufferSize)
       {
-      itkErrorMacro(<<"Import and Buffer sizes do not match: "
+      itkExceptionMacro(<<"Import and Buffer sizes do not match: "
                     << importSize << " v. " << bufferSize);
       dataSize = importSize;
       }
     else if(importSize > bufferSize)
       {
-      itkErrorMacro(<<"Import and Buffer sizes do not match: "
+      itkExceptionMacro(<<"Import and Buffer sizes do not match: "
                     << importSize << " v. " << bufferSize);
       }
     memcpy(bufferPointer, importPointer,

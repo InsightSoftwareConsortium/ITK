@@ -333,11 +333,11 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 /** This macro is used to print error information (i.e., usually a condition
  * that results in program failure). This macro is normally coupled with
  * exceptions. Example usage looks like:
- * itkErrorMacro(<< "this is error info" << this->SomeVariable); */
+ * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #ifdef ITK_LEAN_AND_MEAN
-#define itkErrorMacro(x)
+#define itkExceptionMacro(x)
 #else
-#define itkErrorMacro(x) \
+#define itkExceptionMacro(x) \
 { if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n" \
