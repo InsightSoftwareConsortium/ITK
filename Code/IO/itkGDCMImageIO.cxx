@@ -61,7 +61,6 @@ GDCMImageIO::~GDCMImageIO()
 
 bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os, 
                                          const char* filename)
-                                       
 {
   // Make sure that we have a file to 
   if ( filename == "" )
@@ -464,15 +463,25 @@ void GDCMImageIO::Write(const void* buffer)
   gdcm::File *header = new gdcm::File();
   gdcm::FileHelper *gfile = new gdcm::FileHelper( header );
 
+  std::string value;
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  // Using real iterators (instead of the GetKeys() method)
+#if defined(_MSC_VER) && _MSC_VER < 1300
+  // Not using real iterators, but instead the GetKeys() method 
+  // since VS6 is broken and does not export properly iterators
+  // GetKeys will duplicate the entire DICOM header 
+  std::vector<std::string> keys = dico.GetKeys();
+  for( std::vector<std::string>::const_iterator it = keys.begin(); 
+    it != keys.end(); ++it )
+    {
+    const std::string &key = *it; //Needed for bcc32
+#else
+  //Smarter approach using real iterators
   itk::MetaDataDictionary::ConstIterator itr = dict.Begin();
   itk::MetaDataDictionary::ConstIterator end = dict.End();
-
-  std::string value;
-  while( itr != end )
+  while(itr != end)
     {
     const std::string &key = itr->first; //Needed for bcc32
+#endif
     ExposeMetaData<std::string>(dict, key, value);
 
     // Convert DICOM name to DICOM (group,element)
@@ -487,8 +496,8 @@ void GDCMImageIO::Write(const void* buffer)
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
           header->InsertValEntry( value,
-                                           dictEntry->GetGroup(), 
-                                           dictEntry->GetElement());
+                                  dictEntry->GetGroup(), 
+                                  dictEntry->GetElement());
           }
         }
       else
@@ -503,13 +512,15 @@ void GDCMImageIO::Write(const void* buffer)
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
           header->InsertBinEntry( bin,
-                                           decodedLengthActual,
-                                           dictEntry->GetGroup(), 
-                                           dictEntry->GetElement());
+                                  decodedLengthActual,
+                                  dictEntry->GetGroup(), 
+                                  dictEntry->GetElement());
           }
         }
       }
+#if !(defined(_MSC_VER) && _MSC_VER < 1300)
     ++itr;
+#endif
     }
 
   // Handle the dimension of image:

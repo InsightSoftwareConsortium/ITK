@@ -214,7 +214,7 @@ namespace SpatialOrientation
 // |\Sequential indexes are separated by rows memory locations (sweep out a plane)
 // \Sequential indexes are adjacent memory locations (sweep out a row)
 
-#ifndef __TEMPORARILY_INCLUDED_IN_COMPILAITONS__
+#ifndef __TEMPORARILY_INCLUDED_IN_COMPILATIONS__
   typedef enum {
     ITK_ORIGIN_IRP  =0,        /**< Denotes a zeroCorner (image origin) is Inferior Right Posterior */
     ITK_ORIGIN_IRA  =1,        /**< Denotes a zeroCorner (image origin) is Inferior Right Anterior */

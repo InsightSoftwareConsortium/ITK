@@ -19,6 +19,7 @@
 =========================================================================*/
 #ifndef _itkMetaDataObject_txx
 #define _itkMetaDataObject_txx
+
 #include "itkMetaDataObject.h"
 
 template<class MetaDataObjectType>

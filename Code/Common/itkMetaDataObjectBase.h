@@ -17,17 +17,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef MetaDataObjectBase_h_h
-#define MetaDataObjectBase_h_h
+#ifndef __itkMetaDataObjectBase_h
+#define __itkMetaDataObjectBase_h
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
+#include "itkLightObject.h"
 #include <typeinfo>
 #include <iostream>
-#include "itkLightObject.h"
-#include "itkWin32Header.h"
 
 namespace itk {
   /**
@@ -82,5 +77,5 @@ namespace itk {
   };
 }
 
-#endif //MetaDataObjectBase_h_h
+#endif //__itkMetaDataObjectBase_h
 

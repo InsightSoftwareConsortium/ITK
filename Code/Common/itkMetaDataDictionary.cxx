@@ -16,7 +16,8 @@
 =========================================================================*/
 #include "itkMetaDataDictionary.h"
 
-namespace itk{
+namespace itk
+{
 
 MetaDataDictionary
 ::MetaDataDictionary()

@@ -1,36 +1,32 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkMetaDataObject.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMetaDataObject.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Portions of this code are covered under the VTK copyright.
-See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef MetaDataObject_h_h
-#define MetaDataObject_h_h
-
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+#ifndef __itkMetaDataObject_h
+#define __itkMetaDataObject_h
 
 #include "itkMetaDataDictionary.h"
 #include "itkMacro.h"
 #include "itkObjectFactory.h"
 #include "itkCommand.h"
 #include "itkFastMutexLock.h"
-#include <string>
 
+#include <string>
 
 namespace itk
 {
@@ -292,5 +288,5 @@ void \
 #include "itkMetaDataObject.txx"
 #endif
 
-#endif //MetaDataObject_h_h
+#endif //itkMetaDataObject_h
 
