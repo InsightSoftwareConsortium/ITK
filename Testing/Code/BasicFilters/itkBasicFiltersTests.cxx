@@ -88,6 +88,7 @@ void RegisterTests()
   REGISTER_TEST(itkSparseFieldLayerTest);
   REGISTER_TEST(itkSpatialFunctionImageEvaluatorFilterTest );
   REGISTER_TEST(itkSqrtImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkSquaredDifferenceImageFilterTest );
   REGISTER_TEST(itkStreamingImageFilterTest );
   REGISTER_TEST(itkStreamingImageFilterTest2 );
   REGISTER_TEST(itkSubtractImageFilterTest );
