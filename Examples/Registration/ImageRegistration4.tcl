@@ -83,8 +83,8 @@ set finalParameters [$registration GetLastTransformParameters]
 
 # Print them out
 puts "Final Registration Parameters "
-puts "Translation X =  [$finalParameters () 0]"
-puts "Translation Y =  [$finalParameters () 1]"
+puts "Translation X =  [$finalParameters GetElement 0]"
+puts "Translation Y =  [$finalParameters GetElement 1]"
 
 
 # Now, 
@@ -92,7 +92,7 @@ puts "Translation Y =  [$finalParameters () 1]"
 # moving image.
 set resampler [itkResampleImageFilterF2F2_New ]
 
-$resampler SetTransform $transform
+$resampler SetTransform [$transform GetPointer]
 $resampler SetInput     $movingImage
 
 set region [ $fixedImage GetLargestPossibleRegion ]
@@ -103,10 +103,23 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set writer [ itkImageFileWriterF2_New ]
+set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
+$outputCast SetOutputMinimum  0 
+$outputCast SetOutputMaximum 65535
+$outputCast SetInput [$resampler GetOutput]
 
-$writer SetFileName [lindex $argv 3]
-$writer SetInput [ $resampler GetOutput ]
+
+#
+#  Write the resampled image
+#
+set writer [ itkImageFileWriterUS2_New ]
+
+$writer SetFileName [lindex $argv 2]
+$writer SetInput [ $outputCast GetOutput ]
 $writer Update
 
 
+
+
+wm withdraw .
+exit

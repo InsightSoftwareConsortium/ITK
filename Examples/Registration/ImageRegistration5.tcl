@@ -80,11 +80,11 @@ set finalParameters [$registration GetLastTransformParameters]
 
 # Print them out
 puts "Final Registration Parameters "
-puts "Angle in radians  =  [$finalParameters () 0]"
-puts "Rotation Center X =  [$finalParameters () 1]"
-puts "Rotation Center Y =  [$finalParameters () 2]"
-puts "Translation in  X =  [$finalParameters () 3]"
-puts "Translation in  Y =  [$finalParameters () 4]"
+puts "Angle in radians  =  [$finalParameters GetElement 0]"
+puts "Rotation Center X =  [$finalParameters GetElement 1]"
+puts "Rotation Center Y =  [$finalParameters GetElement 2]"
+puts "Translation in  X =  [$finalParameters GetElement 3]"
+puts "Translation in  Y =  [$finalParameters GetElement 4]"
 
 
 # Now, 
@@ -92,7 +92,7 @@ puts "Translation in  Y =  [$finalParameters () 4]"
 # moving image.
 set resampler [itkResampleImageFilterF2F2_New ]
 
-$resampler SetTransform $transform
+$resampler SetTransform [$transform GetPointer]
 $resampler SetInput     $movingImage
 
 set region [ $fixedImage GetLargestPossibleRegion ]
@@ -103,10 +103,18 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set writer [ itkImageFileWriterF2_New ]
+set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
+$outputCast SetOutputMinimum  0 
+$outputCast SetOutputMaximum 65535
+$outputCast SetInput [$resampler GetOutput]
 
-$writer SetFileName [lindex $argv 3]
-$writer SetInput [ $resampler GetOutput ]
+set writer [ itkImageFileWriterUS2_New ]
+
+$writer SetFileName [lindex $argv 2]
+$writer SetInput [ $outputCast GetOutput ]
 $writer Update
 
 
+
+wm withdraw .
+exit
