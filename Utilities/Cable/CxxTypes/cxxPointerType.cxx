@@ -16,16 +16,6 @@ PointerType
 
 
 /**
- * Constructor takes the cv-qualified type to which the pointer points.
- */
-PointerType
-::PointerType(const CvQualifiedType& in_type):
-  m_ReferencedType(in_type)
-{
-}
-
-
-/**
  *
  */
 bool
@@ -33,6 +23,16 @@ PointerType
 ::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
 {
   return false;
+}
+
+
+/**
+ * Constructor takes the cv-qualified type to which the pointer points.
+ */
+PointerType
+::PointerType(const CvQualifiedType& in_type):
+  m_ReferencedType(in_type)
+{
 }
 
 

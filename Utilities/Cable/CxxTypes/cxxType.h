@@ -21,6 +21,9 @@ public:
 
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const = 0;
+
+  Type() {}
+  virtual ~Type() {}
   
   /**
    * Let the CvQualifiedType class call CanConvertTo.

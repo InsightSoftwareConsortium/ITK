@@ -15,6 +15,17 @@ PointerToMemberType
 
 
 /**
+ *
+ */
+bool
+PointerToMemberType
+::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
+{
+  return false;
+}
+
+
+/**
  * Constructor takes cv-qualified type of member, and the type of
  * the class in which the member resides.
  */
@@ -26,16 +37,5 @@ PointerToMemberType
 {
 }
   
-
-/**
- *
- */
-bool
-PointerToMemberType
-::CanConvertTo(const CvQualifiedType&, bool, bool, bool) const
-{
-  return false;
-}
-
 
 } // namespace _cxx_

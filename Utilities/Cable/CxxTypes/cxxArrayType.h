@@ -13,12 +13,17 @@ namespace _cxx_
 class ArrayType: public Type
 {
 public:
+  typedef ArrayType Self;
+  
   virtual RepresentationType GetRepresentationType() const;
 
-  ArrayType(const CvQualifiedType&, unsigned long);
-  
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  ArrayType(const CvQualifiedType&, unsigned long);
+  ArrayType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~ArrayType() {}
   
 private:
   /**

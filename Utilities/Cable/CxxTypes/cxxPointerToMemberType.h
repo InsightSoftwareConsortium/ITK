@@ -13,12 +13,17 @@ namespace _cxx_
 class PointerToMemberType: public PointerType
 {
 public:
+  typedef PointerToMemberType Self;
+  
   virtual RepresentationType GetRepresentationType() const;
 
-  PointerToMemberType(const CvQualifiedType&, const ClassType*);
-  
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  PointerToMemberType(const CvQualifiedType&, const ClassType*);  
+  PointerToMemberType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~PointerToMemberType() {}
   
 private:
   /**

@@ -13,12 +13,17 @@ namespace _cxx_
 class ReferenceType: public Type
 {
 public:
-  virtual RepresentationType GetRepresentationType() const;
+  typedef ReferenceType Self;
   
-  ReferenceType(const CvQualifiedType&);
+  virtual RepresentationType GetRepresentationType() const;
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  ReferenceType(const CvQualifiedType&);
+  ReferenceType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~ReferenceType() {}
   
 private:
   /**

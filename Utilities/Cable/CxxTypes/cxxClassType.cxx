@@ -16,17 +16,6 @@ ClassType
 
 
 /**
- * Constructor for ClassType just takes the name of the class.  This name
- * may include template parameters of an instantiation.
- */
-ClassType
-::ClassType(const String& in_name):
-  m_Name(in_name)
-{
-}
-
-
-/**
  * Get an insertion iterator to add public superclasses to this class.
  */
 ClassTypeListInserter
@@ -57,5 +46,17 @@ ClassType
 {
   return false;
 }
+
+
+/**
+ * Constructor for ClassType just takes the name of the class.  This name
+ * may include template parameters of an instantiation.
+ */
+ClassType
+::ClassType(const String& in_name):
+  m_Name(in_name)
+{
+}
+
 
 } // namespace _cxx_

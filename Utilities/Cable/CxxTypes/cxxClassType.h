@@ -27,15 +27,20 @@ typedef std::back_insert_iterator<ClassTypeList>  ClassTypeListInserter;
 class ClassType: public Type
 {
 public:
+  typedef ClassType Self;
+  
   virtual RepresentationType GetRepresentationType() const;
 
-  ClassType(const String&);
-  
   ClassTypeListInserter GetParentInserter();
   void AddParent(const ClassType*);
   
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  ClassType(const String&);
+  ClassType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~ClassType() {}
   
 private:  
   /**

@@ -13,6 +13,8 @@ namespace _cxx_
 class FundamentalType: public Type
 {
 public:
+  typedef FundamentalType Self;
+  
   /**
    * Enumerate the fundamental types.
    */
@@ -22,10 +24,13 @@ public:
   
   virtual RepresentationType GetRepresentationType() const;
 
-  FundamentalType(Id);
-  
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  FundamentalType(Id);
+  FundamentalType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~FundamentalType() {}
   
 private:
   /**

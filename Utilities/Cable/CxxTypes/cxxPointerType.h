@@ -15,10 +15,13 @@ class PointerType: public Type
 public:
   virtual RepresentationType GetRepresentationType() const;
   
-  PointerType(const CvQualifiedType&);
-  
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+  
+  PointerType(const CvQualifiedType&);
+  PointerType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~PointerType() {}
   
 private:
   /**

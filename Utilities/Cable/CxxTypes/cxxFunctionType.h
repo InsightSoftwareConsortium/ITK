@@ -14,10 +14,17 @@ namespace _cxx_
 class FunctionType: public Type
 {
 public:
+  typedef FunctionType Self;
+  
   virtual RepresentationType GetRepresentationType() const;
 
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool, bool) const;
+
+  FunctionType() {}
+  FunctionType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~FunctionType() {}
   
 private:
   /**
