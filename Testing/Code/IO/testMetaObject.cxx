@@ -38,7 +38,7 @@ int testMetaObject(int , char *[])
   tObj.Position(0, 1);
   tObj.Position(1, 2);
   tObj.Position(2, 3);
-  float orient[9];
+  double orient[9];
   int i;
   for(i=0; i<9; i++)
     {
