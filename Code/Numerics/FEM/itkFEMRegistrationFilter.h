@@ -123,7 +123,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ImageType::ImageDimension);
 
-  typedef Image< float, ImageDimension >            FloatImageType;
+  typedef Image< float, itkGetStaticConstMacro(ImageDimension) >            FloatImageType;
   typedef LinearSystemWrapperItpack                 LinearSystemSolverType;
   typedef SolverCrankNicolson                       SolverType;
   enum Sign { positive = 1, negative = -1 };
@@ -133,8 +133,8 @@ public:
   typedef MaterialLinearElasticity                  MaterialType;
   typedef ImageToImageMetric<ImageType,TargetImageType>   MetricBaseType;
   typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
-  typedef itk::Vector<float,ImageDimension>         VectorType;
-  typedef itk::Image<VectorType,ImageDimension>     FieldType;
+  typedef itk::Vector<float,itkGetStaticConstMacro(ImageDimension)>         VectorType;
+  typedef itk::Image<VectorType,itkGetStaticConstMacro(ImageDimension)>     FieldType;
   typedef itk::WarpImageFilter<ImageType,ImageType, FieldType> WarperType;
   typedef itk::ImageRegionIteratorWithIndex<ImageType>         ImageIterator; 
   typedef itk::ImageRegionIteratorWithIndex<FieldType>         FieldIterator; 

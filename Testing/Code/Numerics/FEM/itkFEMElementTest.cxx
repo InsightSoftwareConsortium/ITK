@@ -208,7 +208,7 @@ int itkFEMElementTest(int ac, char** av)
 
 #if DEBUG_FEM_TESTS
 
-void PrintK(Solver& S, int s, char comment)
+void PrintK(Solver& S, int s, char )
 // Print K - the global stiffness matrix
 {
   LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
@@ -229,7 +229,7 @@ void PrintK(Solver& S, int s, char comment)
   std::cout << "];" << std::endl;
 }  
 
-void PrintF(Solver& S, int s, char comment)
+void PrintF(Solver& S, int s, char )
 // Print F - the global load vector
 {
   LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();

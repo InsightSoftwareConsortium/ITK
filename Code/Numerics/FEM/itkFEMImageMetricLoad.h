@@ -127,11 +127,11 @@ public:
   typedef   typename  TargetType::PixelType    TarPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
-  typedef   CovariantVector< PixelType, ImageDimension >  CovariantVectorType;
-  typedef   Image< CovariantVectorType, ImageDimension >  CovariantVectorImageType;
-  typedef   Image< RefPixelType, ImageDimension >       RefImageType;
-  typedef   Image< TarPixelType, ImageDimension >       TarImageType;
-  typedef   Image< PixelType, ImageDimension >            ImageType;
+  typedef   CovariantVector< PixelType, itkGetStaticConstMacro(ImageDimension) >  CovariantVectorType;
+  typedef   Image< CovariantVectorType, itkGetStaticConstMacro(ImageDimension) >  CovariantVectorImageType;
+  typedef   Image< RefPixelType, itkGetStaticConstMacro(ImageDimension) >       RefImageType;
+  typedef   Image< TarPixelType, itkGetStaticConstMacro(ImageDimension) >       TarImageType;
+  typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >            ImageType;
   typedef   vnl_vector<Float>                             VectorType;
 
 // Necessary typedefs for dealing with images END
@@ -140,8 +140,8 @@ public:
 // Set up the metrics
 //------------------------------------------------------------
   typedef double                   CoordinateRepresentationType;
-  typedef Transform< CoordinateRepresentationType,ImageDimension, ImageDimension > TransformBaseType;
-  typedef TranslationTransform<CoordinateRepresentationType,  ImageDimension >  DefaultTransformType;
+  typedef Transform< CoordinateRepresentationType,itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) > TransformBaseType;
+  typedef TranslationTransform<CoordinateRepresentationType,  itkGetStaticConstMacro(ImageDimension) >  DefaultTransformType;
 
  /**  Type of supported metrics. */
   typedef   ImageToImageMetric<TargetType,ReferenceType > MetricBaseType;

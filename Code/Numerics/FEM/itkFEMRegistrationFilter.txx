@@ -430,8 +430,7 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   fieldImage = fieldCaster->GetOutput();
 
   // Set up the output filename
-  char* outfile = new char[strlen(m_DisplacementsFileName+10)];
-  sprintf(outfile, "%s%c.raw", m_DisplacementsFileName, 'x'+index);
+  std::string outfile=m_DisplacementsFileName+static_cast<char>('x'+index)+std::string(".raw");
   std::cout << "Writing displacements to " << outfile;
 
   // Write the single-index field to a file
@@ -444,7 +443,7 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(fieldImage);
   writer->SetImageIO(io);
-  writer->SetFileName(outfile);
+  writer->SetFileName(outfile.c_str());
   writer->Write();
 
   std::cout << "...done" << std::endl;
@@ -648,7 +647,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;
   Node::ArrayType::iterator node=nodes->begin();
-  bool CornerFound=false; bool EdgeFound=false;
+  bool EdgeFound=false;
   bool EdgeBool[ImageDimension];
   while(   node!=nodes->end() && EdgeCounter < ImageDimension ) 
   {
@@ -708,7 +707,6 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
         }
       }
       }//end elt loop
-      CornerFound=true;
   }
     node++;
   }//
@@ -956,7 +954,7 @@ void FEMRegistrationFilter<TReference,TTarget>::WriteWarpedImage(const char* fna
 {
 
   // for image output
-  FILE *fbin; 
+  std::ofstream fbin; 
   std::string exte=".raw";
   std::string fnum;
   m_FileCount++;
@@ -969,17 +967,15 @@ void FEMRegistrationFilter<TReference,TTarget>::WriteWarpedImage(const char* fna
 
   ImageIterator wimIter( m_WarpedImage,m_Wregion );
 
-  fbin=fopen(fullfname.c_str(),"wb");
+  fbin.open(fullfname.c_str(),std::ios::out | std::ios::binary);
   ImageDataType t=0;
   // for arbitrary dimensionality
   wimIter.GoToBegin();  
   for( ; !wimIter.IsAtEnd(); ++wimIter )
   {
     t=(ImageDataType) wimIter.Get();
-    fwrite(&t,sizeof(t),1,fbin); 
+    fbin.write(reinterpret_cast<const char*>(&t),sizeof(ImageDataType));
   }
-  fclose(fbin);     
-
   
 }
 
