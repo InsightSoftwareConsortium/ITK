@@ -56,6 +56,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PasteImageFilter, ImageToImageFilter);
 
+  /** Typedefs from Superclass */
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+
   /** Typedef to describe the output and input image region types. */
   typedef typename TInputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
