@@ -22,10 +22,20 @@
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkRGBPixel.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageFileWriter.h"
+#include "itkFilterWatcher.h"
 
 
 int itkVectorResampleImageFilterTest( int argc, char * argv[] )
 {
+
+  if( argc < 2 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " outputImage" << std::endl;
+    return 1;
+    }
 
   const     unsigned int   Dimension = 2;
   typedef   unsigned char  PixelComponentType;
@@ -37,6 +47,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
                             ImageType, ImageType >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
 
   typedef itk::VectorLinearInterpolateImageFunction< 
                        ImageType, double >  InterpolatorType;
@@ -130,6 +141,21 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     }
 
+  // Write an image for regression testing
+  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput (filter->GetOutput());
+  writer->SetFileName( argv[1] );
+  try
+    {
+  writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown by writer" << std::endl;
+    std::cerr << excp << std::endl;
+    }
+  
   return EXIT_SUCCESS;
 
 }

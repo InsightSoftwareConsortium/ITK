@@ -167,7 +167,6 @@ ADD_TEST(itkTwoOutputExampleImageFilterTest ${BASIC_FILTERS_TESTS} itkTwoOutputE
 ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
 ADD_TEST(itkVectorNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorNeighborhoodOperatorImageFilterTest)
-ADD_TEST(itkVectorResampleImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorResampleImageFilterTest)
 ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
 ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
 ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS} itkXorImageFilterTest)
@@ -392,6 +391,11 @@ ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2b ${BASIC_FILTERS_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png
             5 1)
 
+ADD_TEST(itkVectorResampleImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
+  itkVectorResampleImageFilterTest
+            ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 
 ENDIF(ITK_DATA_ROOT)
 
