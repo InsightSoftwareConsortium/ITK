@@ -1,7 +1,7 @@
 # This is the root ITK CMakeLists file.
 
 PROJECT(ITK)
-INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
+INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
 
 IF(NOT WIN32)
   OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
