@@ -19,6 +19,8 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
+#include "metaObject.h"
+#include "metaImage.h"
 
 namespace itk
 {
@@ -47,16 +49,10 @@ public:
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
   
-  /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelType() const;
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
-  /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const;
+  MetaImage * GetMetaImagePointer(void);
   
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -78,12 +74,12 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
+  
+  MetaImage m_MetaImage;
+
   MetaImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
-  bool GetSeparatorCharacter(std::ifstream & ifs) const;
-
   std::ifstream   m_Ifstream;
 
   std::ofstream   m_Ofstream;
