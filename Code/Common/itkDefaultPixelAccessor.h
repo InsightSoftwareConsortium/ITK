@@ -50,7 +50,7 @@ namespace itk
  */
 
 template <class TType>
-class ITKCommon_EXPORT DefaultPixelAccessor  
+class ITK_EXPORT DefaultPixelAccessor  
 {
 public:
 
