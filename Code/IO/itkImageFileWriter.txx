@@ -156,8 +156,8 @@ ImageFileWriter<TInputImage>
     // Write the whole image
     ImageIORegion ioRegion(TInputImage::ImageDimension);
     RegionType region = input->GetLargestPossibleRegion();
-    const double *spacing = input->GetSpacing();
-    const double *origin = input->GetOrigin();
+//    const double *spacing = input->GetSpacing();
+//    const double *origin = input->GetOrigin();
 
     for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
       {

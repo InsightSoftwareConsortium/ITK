@@ -30,9 +30,9 @@ namespace itk
 ImageIOBase::ImageIOBase() :
   m_PixelType(UNKNOWN),
   m_ComponentType(UNKNOWN),
-  m_NumberOfDimensions(0),
   m_ByteOrder(OrderNotApplicable),
-  m_FileType(TypeNotApplicable)
+  m_FileType(TypeNotApplicable),
+  m_NumberOfDimensions(0)
 {
   Reset(false);
 }
