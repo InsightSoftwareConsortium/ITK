@@ -13,7 +13,6 @@
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
   <xsl:param name="TestDocDir">.</xsl:param>
 
-  <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
   <xsl:include href="Insight.xsl"/>
   <xsl:output method="html"/>
 
@@ -25,6 +24,19 @@
     </xsl:call-template>
 
     <h3>Changed files as of  <xsl:value-of select="StartDateTime"/></h3>
+    <h5>
+      <a>
+        <xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/></xsl:attribute>
+        CVS Repository Access
+      </a>
+    </h5>
+    <h5>
+      <a>
+        <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/></xsl:attribute>
+        Doxygen Access
+      </a>
+    </h5>
+
     <xsl:call-template name="JavaScriptHeader"/>
     <a href="javascript:history.go(0)" onMouseOver="window.parent.status='Expand all';return true;" onClick="explode()">Expand all</a>
     <a href="javascript:history.go(0)" onMouseOver="window.parent.status='Collapse all';return true;" onClick="contract()">Collapse all</a>

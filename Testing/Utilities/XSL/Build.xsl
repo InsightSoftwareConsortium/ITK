@@ -66,6 +66,18 @@
       <b><xsl:value-of select="SourceFile"/></b>
       Line: 
       <b><xsl:value-of select="SourceLineNumber"/></b>
+      <a>
+        <xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="SourceFile"/></xsl:attribute>
+        CVS Access
+      </a>
+      <xsl:if test="SourceFileTail != ''">
+        <a>
+          <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/><xsl:value-of select="SourceFileTail"/>-source.html</xsl:attribute>
+        Doxygen
+        </a>
+      </xsl:if>
+    </h5>
+        
     </xsl:when>
   </xsl:choose>
   <pre><xsl:value-of select="PreContext" disable-output-escaping="yes"/><b><xsl:value-of select="Text" disable-output-escaping="yes"/></b>
