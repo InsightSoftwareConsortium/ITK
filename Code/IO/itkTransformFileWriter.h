@@ -18,7 +18,7 @@
 #define __itkTransformFileWriter_h
 
 #include "itkLightProcessObject.h"
-#include "MetaTransform.h"
+#include "metaTransform.h"
 #include "itkTransformBase.h"
 
 namespace itk
