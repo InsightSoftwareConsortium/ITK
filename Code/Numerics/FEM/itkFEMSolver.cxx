@@ -330,15 +330,15 @@ void Solver::AssembleK() {
 
   /**
    * Now we can assemble the master stiffness matrix
-   * from element stiffness matrices
+   * from element stiffness matrices. We use LinearSystemWrapper
+   * object, to store the K matrix.
    */
 
   /**
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  K=MatrixType(NGFN+NMFC,NGFN+NMFC);
-//  K.fill(0.0);
+  m_ls->InitA(NGFN+NMFC);
 
   /**
    * Step over all elements
@@ -371,7 +371,7 @@ void Solver::AssembleK() {
          */
         if ( Ke(j,k)!=Float(0.0) )
         {
-          K( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN )+=Ke(j,k);
+          m_ls->A( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN )+=Ke(j,k);
         }
 
       }
@@ -401,8 +401,8 @@ void Solver::AssembleK() {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
       }
 
-      K(gfn, NGFN+(*c)->Index)=q->value;
-      K(NGFN+(*c)->Index, gfn)=q->value;  // this is a symetric matrix...
+      m_ls->A(gfn, NGFN+(*c)->Index)=q->value;
+      m_ls->A(NGFN+(*c)->Index, gfn)=q->value;  // this is a symetric matrix...
 
     }
   }
@@ -420,9 +420,8 @@ void Solver::AssembleF(int dim) {
   /** if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
   
-  /** Initialize the master forces vector */
-  F.resize(NGFN+NMFC);  // ... we include the DOF applied by MFC
-  F.fill(0.0);
+  /** Initialize the master force vector */
+  m_ls->InitB();
 
   /**
    * Convert the external loads to the nodal loads and
@@ -458,10 +457,12 @@ void Solver::AssembleF(int dim) {
         }
 
         /**
-         * If using the extra dim parameter, we can apply the force to different isotropic dimension
-         * we assume that the force vector in side the load is long enough to store all dimensions
+         * If using the extra dim parameter, we can apply the force to different isotropic dimension.
+         *
+         * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
+         * number of dimensions.
          */
-        F(l1->node->uDOF(dof)->GFN)+=l1->F[dof+l1->node->N()*dim];
+        m_ls->B(l1->node->uDOF(dof)->GFN)+=l1->F[dof+l1->node->N()*dim];
       }
 
       // that's all there is to DOF loads, go to next load in an array
@@ -498,7 +499,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            F(el0->uDOF(j)->GFN)+=Fe(j+dim*Ne);
+            m_ls->B(el0->uDOF(j)->GFN)+=Fe(j+dim*Ne);
           }
         }
       
@@ -521,7 +522,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            F((*e)->uDOF(j)->GFN)+=Fe(j+dim*Ne);
+            m_ls->B((*e)->uDOF(j)->GFN)+=Fe(j+dim*Ne);
 
           }
 
@@ -538,7 +539,7 @@ void Solver::AssembleF(int dim) {
      */
     if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) ) {
 
-      F(NGFN+l1->Index)=l1->rhs[dim];
+      m_ls->B(NGFN+l1->Index)=l1->rhs[dim];
 
       // skip to next load in an array
       continue;
@@ -571,23 +572,9 @@ void Solver::DecomposeK()
 /**
  * Solve for the displacement vector u
  */  
-void Solver::Solve() {
-
-  /*
-   * Solve the sparse system of linear equation and store the result in vector u.
-   * Here we use the iterative least squares solver.
-   */
-  vnl_sparse_matrix_linear_system<double> ls(K,F);
-  vnl_lsqr lsq(ls);
-  u.resize(NGFN+NMFC); u.fill(0.0);
-
-  /*
-   * Set max number of iterations to 3*size of the K matrix.
-   * FIXME: There should be a better way to determine the number of iterations needed.
-   */
-  lsq.set_max_iterations(3*(NGFN+NMFC));
-  lsq.minimize(u);
-
+void Solver::Solve()
+{
+  m_ls->Solve();
 }
 
 
@@ -599,15 +586,12 @@ void Solver::Solve() {
  */  
 void Solver::UpdateDisplacements() {
 
-  /** Check for errors */
-  if((int)u.size()!=NGFN+NMFC) return;
-
   /**
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
   for(int i=0;i<NGFN;i++)
-    GFN2Disp[i]->value=u(i);
+    GFN2Disp[i]->value=m_ls->x(i);
 
 }
 

@@ -22,9 +22,8 @@
 #include "itkFEMMaterialBase.h"
 #include "itkFEMLoadBase.h"
 
-#include "vnl/vnl_sparse_matrix.h"
-#include "vnl/vnl_vector.h"
-#include "vnl/algo/vnl_svd.h"
+#include "itkFEMLinearSystemWrapper.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
 
 namespace itk {
 namespace fem {
@@ -79,23 +78,6 @@ public:
    */
   typedef std::vector<Element::Displacement*> GFN2DispMapType;
   GFN2DispMapType GFN2Disp;
-
-  /**
-   * Definition of matrix class that is used within Solver.
-   * \note This should be sparse matrix, since the matrices in solver are very large.
-   */
-  typedef vnl_sparse_matrix<Float> MatrixType;
-
-  /**
-   * Definition of vector class that is used within Solver.
-   */
-  typedef vnl_vector<Float> VectorType;
-
-  /**
-   * Definition of class that is used to solve linear system of equations.
-   */
-  typedef vnl_svd<Float> EQSType;
-   
 
   /**
    * Reads the whole system (nodes, materials and elements) from input stream
@@ -161,19 +143,15 @@ protected:
    */
   int NMFC;
 
-private:
-
-  /**
-   * Read any object from stream. This function is only called by the Read
-   * member function inthe Solver class.
-   */
-  FEMLightObject::Pointer ReadAnyObjectFromStream(std::istream& f);
+  /** Pointer to LinearSystemWrapper object. */
+  LinearSystemWrapper* m_ls;
 
 public:
   /**
-   * Default constructor
+   * Default constructor sets Solver to use VNL linear system .
+   * \sa Solver::SetLinearSystemWrapper
    */
-  Solver() {}
+  Solver() : m_ls(&m_lsVNL) {}
 
   /**
    * Default destructor. We need to destroy the equation solver object
@@ -182,19 +160,33 @@ public:
   ~Solver() {}
 
   /**
-   * Assembled master stiffnes matrix (NDOF+size_of_MFC= size_of_K), includes the MFC
+   * Sets the LinearSystemWrapper object that will be used when solving
+   * the master equation. If this function is not called, a default VNL linear
+   * system representation will be used (class LinearSystemWrapperVNL).
+   *
+   * \param ls Pointer to an object of class which is derived from
+   *           LinearSystemWrapper.
+   *
+   * \note Once the LinearSystemWrapper object is changed, it is used until
+   *       the member function SetLinearSystemWrapper is called again. Since
+   *       LinearSystemWrapper object was created outside the Solver class, it
+   *       should also be destroyed outside. Solver class will not destroy it
+   *       when the Solver object is destroyed.
    */
-  MatrixType K;
+  void SetLinearSystemWrapper(LinearSystemWrapper* ls) { m_ls=ls; }
+
+private:
 
   /**
-   * Assembled master load vector (NDOF+size_of_MFC= size_of_F)
+   * Read any object from stream. This function is only called by the Read
+   * member function inthe Solver class.
    */
-  VectorType F;
-  
+  FEMLightObject::Pointer ReadAnyObjectFromStream(std::istream& f);
+
   /**
-   * Solution of master equation (after the solve is called) (size_of_F = size_of_u)
+   * LinearSystemWrapperVNL object that is used by default in Solver class.
    */
-  VectorType u;
+  LinearSystemWrapperVNL m_lsVNL;
 
 };
 

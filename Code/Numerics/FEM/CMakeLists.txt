@@ -28,6 +28,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadPoint.cxx  
 
   itkFEMSolver.cxx
+  itkFEMLinearSystemWrapperVNL.cxx
 
   itkFEMLightObject.cxx
   itkFEMException.cxx
@@ -74,6 +75,9 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadPoint.h
  
   itkFEMSolver.h
+
+  itkFEMLinearSystemWrapper.h
+  itkFEMLinearSystemWrapperVNL.h
   
   itkFEM.h
   itkFEMLightObject.h
