@@ -19,15 +19,13 @@
 //
 //  This example illustrates how to read a DICOM series into a volume
 //  and then save this volume into another DICOM series using the 
-//  exact same name.
-//  It makes use of the GDCM library
+//  exact same header information. It makes use of the GDCM library
 //
 //  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageSeriesReader.h"
-#include "itkImageFileWriter.h"
 #include "itkImageSeriesWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
@@ -42,7 +40,7 @@ int main( int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0] << 
-      " DicomDirectory  outputFile OutputDicomDirectory" << std::endl;
+      " DicomDirectory  OutputDicomDirectory" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -97,13 +95,12 @@ int main( int argc, char* argv[] )
 
     return EXIT_FAILURE;
     }
-
 // Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
 //
-//  Now we can prepare process for writing the dataset.
+//  Now we can prepare the process for writing the dataset.
 //
 //  Software Guide : EndLatex 
 
@@ -121,7 +118,19 @@ int main( int argc, char* argv[] )
 
   it->SetOutputDirectory( outputDirectory );
   swriter->SetFileNames( it->GetOutputFileNames() );
+// Software Guide : EndCodeSnippet
 
+  
+//  Software Guide : BeginLatex
+//
+//  The next line is extremely important for this process to work correctly.
+//  The line is taking the MetaDataDictionary from the input reader and passing
+//  it to the output writer. The reason why this step is so important is that
+//  the MetaDataDictionary contains all the entries of the input DICOM header.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   swriter->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
 
   // Try to write the serie:
