@@ -65,11 +65,11 @@ MeshSpatialObject< TMesh >
       {
       
       typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
-      MeshType::CellsContainer::ConstIterator it = cells->Begin();
+      typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
       while(it!=cells->End())
         {
-        typename MeshType::CoordRepType position[::itk::GetMeshDimension<TMesh>::PointDimension];
-        for(unsigned int i=0;i<::itk::GetMeshDimension<TMesh>::PointDimension;i++)
+        typename MeshType::CoordRepType position[itkGetStaticConstMacro(Dimension)];
+        for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
           {
           position[i] = p[i];
           }
