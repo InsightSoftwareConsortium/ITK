@@ -114,16 +114,22 @@ int itkHistogramImageToImageMetricTest(int , char*[] )
     metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
     // Set up transform parameters.
-    ParametersType parameters(transform->GetNumberOfParameters());
+    const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    ParametersType parameters( numberOfParameters );
+
+    for (unsigned int k = 0; k < numberOfParameters; k++)
+      {
       parameters[k] = 0.0f;
+      }
 
     // Set scales for derivative calculation.
-    ScalesType scales(transform->GetNumberOfParameters());
+    ScalesType scales( numberOfParameters );
 
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    for (unsigned int k = 0; k < numberOfParameters; k++)
+      {
       scales[k] = 1;
+      }
 
     const double STEP_LENGTH = 0.001;
     metric->SetDerivativeStepLength(STEP_LENGTH);
