@@ -34,7 +34,14 @@ ReflectiveImageRegionIterator<TImage>
 ::ReflectiveImageRegionIterator(TImage *ptr, const RegionType& region) :
   ImageIteratorWithIndex<TImage>(ptr, region)
 {
-  this->GoToBegin();
+  for(unsigned int i = 0;i < TImage::ImageDimension; i++) 
+    {
+    m_Reflecting[i] = false;
+    m_Done[i] = false;
+    }
+  m_Fastest = 0;
+  m_BeginRegionIndex = region.GetIndex();
+  m_EndRegionIndex = m_BeginRegionIndex + region.GetSize();
 }
 
 template<class TImage>
@@ -72,14 +79,14 @@ ReflectiveImageRegionIterator<TImage>
   // Don't increment the Fastest dimension here
   if (dim != m_Fastest)
     {
-    if (m_PositionIndex[dim] < m_EndIndex[dim])
+    if (m_PositionIndex[dim] < m_EndRegionIndex[dim])
       {
       m_PositionIndex[dim]++;
       }
-    if (m_PositionIndex[dim] == m_EndIndex[dim])
+    if (m_PositionIndex[dim] == m_EndRegionIndex[dim])
       {
       m_Done[dim] = true;
-      m_PositionIndex[dim] = m_BeginIndex[dim];
+      m_PositionIndex[dim] = m_BeginRegionIndex[dim];
       this->IncrementLoop(dim + 1);
       }
     }
@@ -110,16 +117,16 @@ ReflectiveImageRegionIterator<TImage>
     }
 
   // Finished forward?
-  if (m_PositionIndex[m_Fastest] == m_EndIndex[m_Fastest])
+  if (m_PositionIndex[m_Fastest] == m_EndRegionIndex[m_Fastest])
     {
     m_Reflecting[m_Fastest] = true;
     m_PositionIndex[m_Fastest]--;
     }
   // Finished backward?
-  else if (m_PositionIndex[m_Fastest] < m_BeginIndex[m_Fastest])
+  else if (m_PositionIndex[m_Fastest] < m_BeginRegionIndex[m_Fastest])
     {
     m_Reflecting[m_Fastest] = false;
-    m_PositionIndex[m_Fastest] = m_BeginIndex[m_Fastest];
+    m_PositionIndex[m_Fastest] = m_BeginRegionIndex[m_Fastest];
     m_Done[m_Fastest] = true;
     this->IncrementLoop(0);
     }
@@ -139,7 +146,7 @@ ReflectiveImageRegionIterator<TImage>
     if (m_Fastest < TImage::ImageDimension)
       {
       m_Reflecting[m_Fastest] = false;
-      m_PositionIndex[m_Fastest] = m_BeginIndex[m_Fastest];
+      m_PositionIndex[m_Fastest] = m_BeginRegionIndex[m_Fastest];
       for(i = 0; i < TImage::ImageDimension; i++) 
         {
         m_Done[i] = false;

@@ -105,6 +105,8 @@ public:
 private:
   bool m_Reflecting[TImage::ImageDimension];
   bool m_Done[TImage::ImageDimension];
+  IndexType m_BeginRegionIndex;
+  IndexType m_EndRegionIndex;
   unsigned int m_Fastest;
 
   void IncrementLoop (unsigned int dim);
