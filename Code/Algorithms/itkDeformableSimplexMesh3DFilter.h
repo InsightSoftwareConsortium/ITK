@@ -178,6 +178,9 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     itkSetObjectMacro(Data, GeometryMapType );
     itkGetObjectMacro(Data, GeometryMapType );
 
+    /** current iteration number */
+    itkGetMacro(Step, int);
+
 
   protected:
     DeformableSimplexMesh3DFilter();

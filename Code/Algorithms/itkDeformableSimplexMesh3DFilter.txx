@@ -88,16 +88,15 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
   while ( m_Step < m_Iterations )
     {
+    const float progress = static_cast<float>( m_Step ) / 
+                           static_cast<float>( m_Iterations );
+
+    this->UpdateProgress( progress );
 
     this->ComputeGeometry();
 
     if ( m_Step % 10 == 0 && m_Step > 0 )
       {
-      const float progress = static_cast<float>( m_Step ) / 
-                             static_cast<float>( m_Iterations );
-
-      this->UpdateProgress( progress );
-
       this->UpdateReferenceMetrics();
       }
 
