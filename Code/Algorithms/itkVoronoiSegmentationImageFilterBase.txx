@@ -943,10 +943,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   int save;
   float curr;
   IndexType idx;
-  if (dy == 0)
-    {
-    dy = 1;
-    }
   if (adx > ady)
     {
     if(x1>x2)
@@ -955,6 +951,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       y1=y2;
       }
     curr=(float)y1;
+    if (dx == 0)
+      {
+      dx = 1;
+      }
     float offset=(float)dy/dx;
     for(int i=x1;i<=x2;i++)
       {
@@ -973,6 +973,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       save=y1; y1=y2; y2=save;
       }
     curr=(float)x1;
+    if (dy == 0)
+      {
+      dy = 1;
+      }
     float offset=(float)dx/dy;
     for(int i=y1;i<=y2;i++)
       {
@@ -1057,10 +1061,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   int save; 
   float curr; 
   IndexType idx; 
-  if (dx == 0)
-    {
-    dx = 1;
-    }
   if (adx > ady)
     { 
     if(x1>x2)
@@ -1069,6 +1069,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       save=y1; y1=y2; y2=save; 
       } 
     curr=(float)y1; 
+    if (dx == 0)
+      {
+      dx = 1;
+      }
     float offset=(float)dy/dx; 
     for(int i=x1;i<=x2;i++)
       { 
@@ -1087,6 +1091,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       save=y1; y1=y2; y2=save; 
       } 
     curr=(float)x1; 
+    if (dy == 0)
+      {
+      dy = 1;
+      }
     float offset=(float)dx/dy; 
     for(int i=y1;i<=y2;i++)
       { 
