@@ -27,14 +27,20 @@ namespace itk
  * \class ConnectedComponentImageFilter
  * \brief Label the objects in a binary image
  *
- * ConnectedComponentImageFilter labels the objects in a binary
- * image.  Each distinct object is assigned a unique label. The filter
- * makes three passes through the image.  The first pass initialized
- * the output.  The second pass labels each foreground pixel such that
- * all the pixels associated with an object either have the same label
- * or have had their labels entered into a equivalency table.  The
- * third pass through the image flattens the equivalency table such
- * that all pixels for an object have the same label.
+ * ConnectedComponentImageFilter labels the objects in a binary image.
+ * Each distinct object is assigned a unique label. The filter makes
+ * three passes through the image.  The first pass initialized the
+ * output.  The second pass labels each foreground pixel such that all
+ * the pixels associated with an object either have the same label or
+ * have had their labels entered into a equivalency table.  The third
+ * pass through the image flattens the equivalency table such that all
+ * pixels for an object have the same label.
+ *
+ * The final object labels are in no particular order (and some object
+ * labels may not be used on the final objects).  You can reorder the
+ * labels such that object labels are consecutive and sorted based on
+ * object size by passing the output of this filter to a
+ * RelabelComponentImageFilter. 
  *
  * \sa ImageToImageFilter
  */
@@ -92,9 +98,18 @@ public:
    */
   itkNewMacro(Self);
 
+  /**
+   * Set/Get whether the connected components are defined strictly by
+   * face connectivity or by face+edge+vertex connectivity.  Default is
+   * FullyConnectedOff.  For objects that are 1 pixel wide, use
+   * FullyConnectedOn.
+   */
+  itkSetMacro(FullyConnected, bool);
+  itkGetConstMacro(FullyConnected, bool);
+  itkBooleanMacro(FullyConnected);
 
 protected:
-  ConnectedComponentImageFilter() {}
+  ConnectedComponentImageFilter() : m_FullyConnected(false) {}
   virtual ~ConnectedComponentImageFilter() {}
   ConnectedComponentImageFilter(const Self&) {}
 
@@ -116,6 +131,8 @@ protected:
   
 private:
 
+  bool m_FullyConnected;
+  
 };
   
 } // end namespace itk

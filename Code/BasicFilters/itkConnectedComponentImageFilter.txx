@@ -92,16 +92,33 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
 
   // only activate the indices that are "previous" to the current
   // pixel and face connected (exclude the center pixel from the
-  // neighborhood) 
+  // neighborhood)
+  //
   unsigned int d;
   typename NeighborhoodIteratorType::OffsetType offset;
 
-  offset.Fill(0);
-  for (d=0; d < InputImageType::ImageDimension; ++d)
+  if (!m_FullyConnected)
     {
-    offset[d] = -1;
-    nit.ActivateOffset(offset);
-    offset[d] = 0;
+    // only activate the "previous" neighbors that are face connected
+    // to the current pixel. do not include the center pixel
+    offset.Fill(0);
+    for (d=0; d < InputImageType::ImageDimension; ++d)
+      {
+      offset[d] = -1;
+      nit.ActivateOffset(offset);
+      offset[d] = 0;
+      }
+    }
+  else
+    {
+    // activate all "previous" neighbors that are face+edge+vertex
+    // connected to the current pixel. do not include the center pixel
+    unsigned int centerIndex = nit.GetCenterNeighborhoodIndex();
+    for (d=0; d < centerIndex; d++)
+      {
+      offset = nit.GetOffset(d);
+      nit.ActivateOffset(offset);
+      }
     }
 
   // along with a neighborhood iterator on the input, use a standard
