@@ -155,7 +155,9 @@ Image<TPixel, VImageDimension>
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "PixelContainer: " << m_Buffer << std::endl;
+  os << indent << "PixelContainer: " << std::endl;
+  m_Buffer->Print(os, indent.GetNextIndent());
+
 // m_Origin and m_Spacing are printed in the Superclass
 }
 
