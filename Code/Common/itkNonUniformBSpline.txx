@@ -79,7 +79,7 @@ NonUniformBSpline< TDimension >
         os << indent << indent << *kiter << std::endl;
         }
   os << indent << "Control Points : " << std::endl;
-  for (ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
+  for (typename ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
         cpiter != m_ControlPoints.end();
         cpiter++)
        {
@@ -237,7 +237,7 @@ NonUniformBSpline< TDimension >
 ::SetControlPoints( ControlPointListType& ctrlpts )
 {
  m_ControlPoints.clear();
- for (ControlPointListType::iterator iter = ctrlpts.begin();
+ for (typename ControlPointListType::iterator iter = ctrlpts.begin();
         iter != ctrlpts.end();
         iter++)
      {
@@ -265,7 +265,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   // Form data point matrix
   //
   int rr = 0;
-  for (PointListType::iterator iter = m_Points.begin();
+  for (typename PointListType::iterator iter = m_Points.begin();
         iter != m_Points.end();
         iter++)
       {
@@ -362,7 +362,7 @@ NonUniformBSpline< TDimension >
   vnl_vector<double> result(TDimension);
   result.fill(0);
 
-  for (ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
+  for (typename ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
         cpiter != m_ControlPoints.end();
         cpiter++)
     {
