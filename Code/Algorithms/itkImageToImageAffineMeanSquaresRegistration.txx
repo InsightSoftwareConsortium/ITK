@@ -137,6 +137,9 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
     m_Parameters[ k++ ] = 0;
   }
 
+  std::cout << "Parameters = ";
+  std::cout << m_Parameters << std::endl;
+
   m_Mapper->SetTransformation(m_Transformation);
   m_Metric->SetMapper(m_Mapper);
   m_Optimizer->SetCostFunction( m_Metric );
@@ -172,6 +175,14 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   vnlOptimizer.set_check_derivatives( 3 );
 */
 
+  ParametersType  parametersScale;
+  parametersScale.Fill( 1.0 );
+  m_Optimizer->SetMinimize();
+  m_Optimizer->SetScale( parametersScale );
+  m_Optimizer->SetGradientMagnitudeTolerance( 1e-6 );
+  m_Optimizer->SetMaximumStepLength( 30.0 );
+  m_Optimizer->SetMinimumStepLength( 1e-6 );
+  m_Optimizer->SetMaximumNumberOfIterations( 900 );
   m_Optimizer->SetInitialPosition( m_Parameters );
   m_Optimizer->StartOptimization();
 
