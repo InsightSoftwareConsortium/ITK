@@ -117,6 +117,7 @@ CopyInfo(const MetaObject * _object)
   Comment(_object->Comment());
   ObjectTypeName(_object->ObjectTypeName());
   ObjectSubTypeName(_object->ObjectSubTypeName());
+  CenterOfRotation(_object->CenterOfRotation());
   Offset(_object->Offset());
   Rotation(_object->Rotation());
   ElementSpacing(_object->ElementSpacing());
@@ -270,6 +271,14 @@ PrintInfo(void) const
     std::cout << std::endl;
     }
 
+  std::cout << "CenterOfRotation = ";
+  std::cout << std::endl;
+  for(i=0; i<m_NDims; i++)
+    {
+    std::cout << m_CenterOfRotation[i] << " ";
+    }
+  std::cout << std::endl;
+
   std::cout << "ElementSpacing = ";
   for(i=0; i<m_NDims; i++)
     {
@@ -378,6 +387,34 @@ Position(int _i, float _value)
   m_Offset[_i] = _value;
   }
 
+const float * MetaObject::
+Origin(void) const
+  {
+  return m_Offset;
+  }
+
+float MetaObject::
+Origin(int _i) const
+  {
+  return m_Offset[_i];
+  }
+
+void MetaObject::
+Origin(const float * _position)
+  {
+  int i;
+  for(i=0; i<m_NDims; i++)
+    {
+    m_Offset[i] = _position[i];
+    }
+  }
+
+void MetaObject::
+Origin(int _i, float _value)
+  {
+  m_Offset[_i] = _value;
+  }
+
 //
 //
 const float * MetaObject::
@@ -437,6 +474,38 @@ Orientation(int _i, int _j, float _value)
   m_Rotation[_i*m_NDims+_j] = _value;
   }
 
+//
+//
+const float * MetaObject::
+CenterOfRotation(void) const
+  {
+  return m_CenterOfRotation;
+  }
+
+float MetaObject::
+CenterOfRotation(int _i) const
+  {
+  return m_CenterOfRotation[_i];
+  }
+
+void MetaObject::
+CenterOfRotation(const float * _position)
+  {
+  int i;
+  for(i=0; i<m_NDims; i++)
+    {
+    m_CenterOfRotation[i] = _position[i];
+    }
+  }
+
+void MetaObject::
+CenterOfRotation(int _i, float _value)
+  {
+  m_CenterOfRotation[_i] = _value;
+  }
+
+//
+//
 const char * MetaObject::
 AnatomicalOrientationAcronym(void) const
   {
@@ -515,7 +584,8 @@ AnatomicalOrientation(int _dim, char _ao)
   m_AnatomicalOrientation[_dim] = MET_ORIENTATION_UNKNOWN;
   }
 
-
+//
+//
 const float * MetaObject::
 ElementSpacing(void) const
   {
@@ -642,6 +712,7 @@ Clear(void)
 
   memset(m_Offset, 0, 10*sizeof(float));
   memset(m_Rotation, 0, 100*sizeof(float));
+  memset(m_CenterOfRotation, 0, 10*sizeof(float));
   memset(m_Color, 0, 4*sizeof(float));
 
   m_ID = -1;
@@ -774,6 +845,11 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Origin", MET_FLOAT_ARRAY, false,
+                     nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Offset", MET_FLOAT_ARRAY, false,
                      nDimsRecordNumber);
   m_Fields.push_back(mF);
@@ -786,6 +862,11 @@ M_SetupReadFields(void)
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Rotation", MET_FLOAT_MATRIX, false,
                     nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, false,
+                     nDimsRecordNumber);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -959,6 +1040,22 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
+  for(i=0; i<m_NDims; i++)
+    {
+    if(m_CenterOfRotation[i] != 0)
+      {
+      valSet = true;
+      break;
+      }
+    }
+  if(valSet)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, m_NDims,
+                       m_CenterOfRotation);
+    m_Fields.push_back(mF);
+    }
+
   if(m_AnatomicalOrientation[0] != MET_ORIENTATION_UNKNOWN)
     {
     const char * str = AnatomicalOrientationAcronym();
@@ -1105,6 +1202,14 @@ M_Read(void)
       }
     }
   mF = MET_GetFieldRecord("Offset", &m_Fields);
+  if(mF && mF->defined)
+    {
+    for(i=0; i<mF->length; i++)
+      {
+      m_Offset[i] = mF->value[i];
+      }
+    }
+  mF = MET_GetFieldRecord("Origin", &m_Fields);
   if(mF && mF->defined)
     {
     for(i=0; i<mF->length; i++)

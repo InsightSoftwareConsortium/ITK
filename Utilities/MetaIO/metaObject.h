@@ -35,8 +35,8 @@ class MetaObject
       int   m_NDims;                // "NDims = "            required
 
       float m_Offset[10];         // "Offset = "         0,0,0
-
-      float m_Rotation[100];     // "Rotation = "      1,0,0, 0,1,0, 0,0,1
+      float m_Rotation[100];      // "Rotation = "      1,0,0, 0,1,0, 0,0,1
+      float m_CenterOfRotation[10];     // CenterOfRotation
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
@@ -134,6 +134,10 @@ class MetaObject
       float Position(int _i) const;
       void  Position(const float * _position);
       void  Position(int _i, float _value);
+      const float * Origin(void) const;
+      float Origin(int _i) const;
+      void  Origin(const float * _position);
+      void  Origin(int _i, float _value);
 
       //    Rotation(...)
       //       Optional Field
@@ -146,6 +150,14 @@ class MetaObject
       float Orientation(int _i, int _j) const;
       void  Orientation(const float * _orientation);
       void  Orientation(int _i, int _j, float _value);
+
+      //
+      //
+      //
+      const float * CenterOfRotation(void) const;
+      float CenterOfRotation(int _i) const;
+      void  CenterOfRotation(const float * _position);
+      void  CenterOfRotation(int _i, float _value);
 
       const char * AnatomicalOrientationAcronym(void) const;
       const MET_OrientationEnumType * AnatomicalOrientation(void) const;
