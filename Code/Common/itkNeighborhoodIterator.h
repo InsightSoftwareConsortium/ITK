@@ -150,6 +150,7 @@ public:
   NeighborhoodIterator() : m_OutputBuffer(0)
   {
     memset(m_OutputWrapOffsetModifier, 0, sizeof(long) * Dimension);
+    m_EndPointer = 0;
   }
 
   /**
