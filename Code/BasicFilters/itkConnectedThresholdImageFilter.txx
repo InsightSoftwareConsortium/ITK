@@ -95,7 +95,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
-  IteratorType it = IteratorType ( outputImage, function, m_Seed );
+  IteratorType it ( outputImage, function, m_Seed );
 
   while( !it.IsAtEnd())
     {
