@@ -56,6 +56,7 @@ VoronoiSegmentationImageFilter(){
   m_LastStepSeeds = 0;
   m_NumberOfSeeds = 200;
   m_MeanPercentError = 0.10;
+  m_MeanDeviation = 0.8;
   m_VarPercentError = 1.5;
   m_UseBackgroundInAPrior = 1;
 }
@@ -618,7 +619,7 @@ TakeAPrior(BinaryObjectImage* aprior)
   float b_Mean = addb/numb;
   float b_Var = sqrt((addbb - (addb*addb)/numb)/(numb-1));
   if(m_UseBackgroundInAPrior)
-    m_MeanTolerance = fabs(m_Mean-b_Mean)*0.8;
+    m_MeanTolerance = fabs(m_Mean-b_Mean)*m_MeanDeviation;
   else 
     m_MeanTolerance = m_Mean*m_MeanPercentError;
   m_VarTolerance = m_Var*m_VarPercentError;

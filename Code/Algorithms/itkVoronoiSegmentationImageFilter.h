@@ -206,6 +206,10 @@ public:
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetMacro(UseBackgroundInAPrior, bool);
 
+
+  itkSetMacro(MeanDeviation, double);
+  itkGetMacro(MeanDeviation, double);
+
   void SetMeanPercentError(double x);
   void SetVarPercentError(double x);
 
@@ -266,6 +270,7 @@ private:
   double m_VarTolerance;
   double m_MeanPercentError;
   double m_VarPercentError;
+  double m_MeanDeviation;
   SizeType m_Size;
   int m_NumberOfSeeds;
   int m_MinRegion;
