@@ -22,10 +22,16 @@ namespace itk
 {
 
 /** \class ShrinkImage
- * \brief Reduce ths size of an image by an integer factor.
+ * \brief Reduce the size of an image by an integer factor.
  *
  * ShrinkImage reduces the size of an image by an integer factor. The
- * algorithm implemented is a simple subsample.
+ * algorithm implemented is a simple subsample. Since this filter produces
+ * an image which is a different resolution and with different pixel spacing
+ * than its input image, it needs to override several of the methods defined
+ * in ProcessObject in order to properly manage the pipeline execution model.
+ * In particular, this filter overrides
+ * ProcessObject::GenerateInputRequestedRegion() and
+ * ProcessObject::UpdateOutputInformation().
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ShrinkImage:
@@ -60,14 +66,36 @@ public:
   /** 
    * Set the shrink factor. The default value is 1.
    */
-  itkSetMacro(ShrinkFactor,unsigned int);
+  itkSetClampMacro(ShrinkFactor,unsigned int, 1,
+                   NumericTraits<unsigned int>::max());
   
   /** 
    * Get the shrink factor.
    */
   itkGetMacro(ShrinkFactor,unsigned int);
                  
-protected:
+  /**
+   * ShrinkImage produces an image which is a different resolution and
+   * with a different pixel spacing than its input image.  As such,
+   * ShrinkImage needs to provide an implementation for
+   * UpdateOutputInformation() in order to inform the pipeline execution model.
+   * The original documentation of this method is below.
+   *
+   * \sa ProcessObject::UpdateOutputInformaton()
+   */
+  virtual void UpdateOutputInformation();
+
+  /**
+   * ShrinkImage needs a larger input requested region than the output
+   * requested region.  As such, ShrinkImage needs to provide an implementation
+   * for GenerateInputRequestedRegion() in order to inform the pipeline
+   * execution model.  
+   *
+   * \sa ProcessObject::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+
+ protected:
   ShrinkImage();
   ~ShrinkImage() {};
   ShrinkImage(const Self&) {}
