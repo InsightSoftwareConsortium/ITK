@@ -412,6 +412,53 @@ IF(ITK_BINARY_DIR)
 ENDIF(ITK_BINARY_DIR)
 
 
+IF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
+  SET(JAVACLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
+  FOREACH(cfgtype ${CMAKE_CONFIGURATION_TYPES})
+    SET(JAVACLASSPATH "${JAVACLASSPATH}\\;${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${cfgtype}/InsightToolkit.jar")
+  ENDFOREACH(cfgtype)
+
+  FOREACH( javatestfile 
+     DicomSeries
+     )
+
+  ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/IO/${javatestfile}.class)
+
+  ADD_CUSTOM_COMMAND(
+    OUTPUT  ${ITK_BINARY_DIR}/Examples/IO/${javatestfile}.class
+    DEPENDS ${ITK_SOURCE_DIR}/Examples/IO/${javatestfile}.java
+    COMMAND ${JAVA_COMPILE}
+    ARGS -classpath "${JAVACLASSPATH}" -d "${ITK_BINARY_DIR}/Examples/IO"
+    ${ITK_SOURCE_DIR}/Examples/IO/${javatestfile}.java
+    COMMENT "Java Class")
+
+  ENDFOREACH( javatestfile )
+
+  IF(WIN32)
+    SET(TMPJAVACLASSPATH ${ITK_BINARY_DIR}/Examples/IO/)
+    FOREACH(javadirectory ${JAVACLASSPATH})
+      # Set path separator for Windows
+      SET(TMPJAVACLASSPATH "${TMPJAVACLASSPATH}\\;${javadirectory}")
+    ENDFOREACH(javadirectory)
+    SET(JAVACLASSPATH ${TMPJAVACLASSPATH})
+  ELSE(WIN32)
+    SET(TMPJAVACLASSPATH ${ITK_BINARY_DIR}/Examples/IO/)
+    FOREACH(javadirectory ${JAVACLASSPATH})
+      # Set path separator for UNIX
+      SET(TMPJAVACLASSPATH "${TMPJAVACLASSPATH}:${javadirectory}")
+    ENDFOREACH(javadirectory)
+    SET(JAVACLASSPATH ${TMPJAVACLASSPATH})
+  ENDIF(WIN32)
+ 
+  ADD_TEST(DicomSliceReadJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
+           DicomSliceRead
+           ${ITK_SOURCE_DIR}/Testing/Data/Input/DicomSeries/Image0076.dcm
+           ${ITK_TEST_OUTPUT_DIR}/DicomSliceReadJavaTest.png  
+           1 )  
+
+ENDIF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
+
+
 
 
 
