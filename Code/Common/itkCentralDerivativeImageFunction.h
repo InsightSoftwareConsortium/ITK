@@ -78,10 +78,18 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index, unsigned int dim = 0 );
   virtual double Evaluate( const IndexType& index )
   {
     return ( this->Evaluate( index, 0 ) );
+  }
+  virtual double Evaluate( const IndexType& index, unsigned int dim = 0 );
+
+  /**
+   * Evaluate the function at a non-integer position
+   */
+  virtual double Evaluate( double coord[] )
+  {
+    return ( this->Evaluate( coord, 0 ) );
   }
 
   /**
@@ -97,13 +105,6 @@ public:
       return ( this->Evaluate( index, dim ) );
     };
 
-  /**
-   * Evaluate the function at a non-integer position
-   */
-  virtual double Evaluate( double coord[] )
-  {
-    return ( this->Evaluate( coord, 0 ) );
-  }
 
   /**
    * Get the derivative from last evaluation
