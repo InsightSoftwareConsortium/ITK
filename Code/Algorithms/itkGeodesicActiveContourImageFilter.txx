@@ -262,7 +262,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
         inUpwind->SetSpeed( -1.0 * deriv );
 
-        updateValue += deriv * inUpwind->EvaluateAtIndex( index, j );
+        updateValue += deriv * 
+          inUpwind->EvaluateNthDerivativeAtIndex( index, j );
         }
 
       updateValue *= timeStepSize; 
@@ -429,7 +430,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
           inUpwind->SetSpeed( -1.0 * deriv );
           
-          updateValue += deriv * inUpwind->EvaluateAtIndex( node.GetIndex(), j );
+          updateValue += deriv * 
+            inUpwind->EvaluateNthDerivativeAtIndex( node.GetIndex(), j );
 
           }
 
