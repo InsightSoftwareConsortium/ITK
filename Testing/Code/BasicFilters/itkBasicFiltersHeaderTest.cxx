@@ -33,6 +33,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineCenteredResampleImageFilterBase.txx"
 #include "itkBSplineDecompositionImageFilter.txx"
 #include "itkBSplineDownsampleImageFilter.txx"
+#include "itkBSplineInterpolateImageFunction.txx"
 #include "itkBSplineL2ResampleImageFilterBase.txx"
 #include "itkBSplineResampleImageFilterBase.txx"
 #include "itkBSplineUpsampleImageFilter.txx"

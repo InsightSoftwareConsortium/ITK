@@ -31,7 +31,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAzimuthElevationToCartesianTransform.txx"
 #include "itkBSplineDeformableTransform.txx"
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkBSplineInterpolateImageFunction.txx"
 #include "itkBSplineInterpolationWeightFunction.txx"
 #include "itkBSplineKernelFunction.h"
 #include "itkBackwardDifferenceOperator.txx"
