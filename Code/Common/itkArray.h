@@ -89,6 +89,7 @@ public:
   ~Array() {};
  
   /** Copy Operator : To avoid returning the reference we override this function*/
+  Array<TValueType> & operator= (const Array<TValueType> & rsh) const{}
   Array<TValueType> operator= (Array<TValueType> const rhs);
 
   /** Copy Constructor : */ 
