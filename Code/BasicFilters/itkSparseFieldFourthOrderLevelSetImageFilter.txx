@@ -84,7 +84,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
-::SetLevelSetFunction (LevelSetFunctionType *lsf)
+::SetLevelSetFunction( LevelSetFunctionType *lsf )
 {
   m_LevelSetFunction = lsf;
   Superclass::SetDifferenceFunction(lsf);
@@ -94,7 +94,7 @@ template<class TInputImage, class TOutputImage>
 typename SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 ::ValueType
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
-::ComputeCurvatureFromSparseImageNeighborhood (SparseImageIteratorType &it) const
+::ComputeCurvatureFromSparseImageNeighborhood( SparseImageIteratorType &it) const
 {
   unsigned int j, k;
   unsigned int counter;
@@ -151,8 +151,8 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
-::ComputeCurvatureTarget (const OutputImageType *distanceImage,
-                          SparseImageType *sparseImage) const
+::ComputeCurvatureTarget( const OutputImageType *distanceImage,
+                          SparseImageType *sparseImage ) const
 {
   typedef ImageRegionConstIterator <OutputImageType> DistanceImageIteratorType;
   
@@ -200,7 +200,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 bool
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
-::ActiveLayerCheckBand () const
+::ActiveLayerCheckBand() const
 {
   typename LayerType::Iterator layerIt;
   typename SparseImageType::Pointer

@@ -110,6 +110,10 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(SparseFieldFourthOrderLevelSetImageFilter,
+               SparseFieldLevelSetImageFilter);
+  
   /** Standard image dimension macro. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
@@ -148,37 +152,37 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   typedef LevelSetFunctionWithRefitTerm <OutputImageType,
                                          SparseImageType> LevelSetFunctionType; 
   
-  itkGetMacro (MaxRefitIteration,int);
-  itkSetMacro (MaxRefitIteration,int);
-  itkGetMacro (MaxNormalIteration,int);
-  itkSetMacro (MaxNormalIteration,int);
-  itkGetMacro (CurvatureBandWidth,ValueType);
-  itkSetMacro (CurvatureBandWidth,ValueType);
-  itkGetMacro (RMSChangeNormalProcessTrigger, ValueType);
-  itkSetMacro (RMSChangeNormalProcessTrigger, ValueType);
-  itkGetMacro (NormalProcessType, int);
-  itkSetMacro (NormalProcessType, int);
-  itkGetMacro (NormalProcessConductance, ValueType);
-  itkSetMacro (NormalProcessConductance, ValueType);
-  itkSetMacro (NormalProcessUnsharpFlag, bool);
-  itkGetMacro (NormalProcessUnsharpFlag, bool);
-  itkSetMacro (NormalProcessUnsharpWeight, ValueType);
-  itkGetMacro (NormalProcessUnsharpWeight, ValueType);
+  itkGetMacro(MaxRefitIteration,int);
+  itkSetMacro(MaxRefitIteration,int);
+  itkGetMacro(MaxNormalIteration,int);
+  itkSetMacro(MaxNormalIteration,int);
+  itkGetMacro(CurvatureBandWidth,ValueType);
+  itkSetMacro(CurvatureBandWidth,ValueType);
+  itkGetMacro(RMSChangeNormalProcessTrigger, ValueType);
+  itkSetMacro(RMSChangeNormalProcessTrigger, ValueType);
+  itkGetMacro(NormalProcessType, int);
+  itkSetMacro(NormalProcessType, int);
+  itkGetMacro(NormalProcessConductance, ValueType);
+  itkSetMacro(NormalProcessConductance, ValueType);
+  itkSetMacro(NormalProcessUnsharpFlag, bool);
+  itkGetMacro(NormalProcessUnsharpFlag, bool);
+  itkSetMacro(NormalProcessUnsharpWeight, ValueType);
+  itkGetMacro(NormalProcessUnsharpWeight, ValueType);
 
   /** Set the level set function. Must LevelSetFunctionWithRefitTerm or a
       subclass. */
-  void SetLevelSetFunction (LevelSetFunctionType *lsf);
+  void SetLevelSetFunction( LevelSetFunctionType *lsf );
 
   /** Compute the number of layers that must be used in
       SparseFieldLevelSetImageFilter to accomodate the desired normal
       processing band. */
-  unsigned int GetMinimumNumberOfLayers () const
+  unsigned int GetMinimumNumberOfLayers() const
   {
     return (int)ceil(m_CurvatureBandWidth+
                      itkGetStaticConstMacro(ImageDimension));
   }
 
-  void SetNumberOfLayers (unsigned int n)
+  void SetNumberOfLayers( unsigned int n )
   {
     unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n );
     if (nm != this->GetNumberOfLayers())
@@ -196,7 +200,7 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
     ValueType rmschange = this->GetRMSChange();
 
     // debugging line -- will remove later
-    std::cout<<"rmschange = "<<rmschange<<" ("<<(this->GetElapsedIterations())<<")\n";
+    //std::cout<<"rmschange = "<<rmschange<<" ("<<(this->GetElapsedIterations())<<")\n";
     
     if ( ( this->GetElapsedIterations()==0 ) ||
          ( m_RefitIteration == m_MaxRefitIteration ) ||
@@ -211,7 +215,8 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
         }
 
       m_RefitIteration = 0;
-      std::cout<<"calling ProcessNormals\n";
+      // debugging line 
+      //std::cout<<"calling ProcessNormals\n";
       ProcessNormals();
       }
     
@@ -219,21 +224,21 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   }
 
 protected:
-  SparseFieldFourthOrderLevelSetImageFilter ();
-  ~SparseFieldFourthOrderLevelSetImageFilter () {};
+  SparseFieldFourthOrderLevelSetImageFilter();
+  ~SparseFieldFourthOrderLevelSetImageFilter() {};
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */
   ValueType ComputeCurvatureFromSparseImageNeighborhood
-  (SparseImageIteratorType &neighborhood) const;
+  ( SparseImageIteratorType &neighborhood ) const;
 
   /** This method computes curvature from the processed normal vectors over
    *  the region specified by the CurvatureBandWidth parameter. The
    *  curvatures are stored in the sparse image. */
-  void ComputeCurvatureTarget (const OutputImageType *distanceImage,
-                               SparseImageType *sparseImage) const;
+  void ComputeCurvatureTarget( const OutputImageType *distanceImage,
+                               SparseImageType *sparseImage ) const;
 
   /** The method for processing the normal vectors. */
   void ProcessNormals();
@@ -296,6 +301,10 @@ private:
   /** Constants used in the computations. */
   static const unsigned long m_NumVertex;
   static const ValueType m_DimConst;
+
+  SparseFieldFourthOrderLevelSetImageFilter(const Self&);
+  //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk
