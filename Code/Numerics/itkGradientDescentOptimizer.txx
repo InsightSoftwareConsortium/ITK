@@ -63,6 +63,23 @@ GradientDescentOptimizer<TCostFunction>
 
 
 
+template <class TCostFunction>
+void
+GradientDescentOptimizer<TCostFunction>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Learning rate: " << m_LearningRate << std::endl;
+  os << indent << "No. iterations: " << m_NumberOfIterations;
+  os << std::endl;
+  os << indent << "Maximize: " << m_Maximize << std::endl;
+  os << indent << "Current iteration: " << m_CurrentIteration;
+  os << std::endl;
+
+}
+
+
 /**
  * Start the optimization
  */

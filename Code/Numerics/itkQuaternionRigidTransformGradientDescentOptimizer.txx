@@ -58,6 +58,15 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 }
 
 
+template <class TCostFunction>
+void
+QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+}
+
+
 /**
  * Advance one Step following the gradient direction
  */

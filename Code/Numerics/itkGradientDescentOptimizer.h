@@ -165,6 +165,8 @@ public:
 protected:
   GradientDescentOptimizer();
   virtual ~GradientDescentOptimizer() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
   // made protected so subclass can access
   DerivativeType                m_Gradient; 

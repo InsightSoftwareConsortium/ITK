@@ -211,10 +211,13 @@ MultiResolutionRegistration<TRegistrationMethod>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Target pyramid: " << m_TargetPyramid << std::endl;
-  os << indent << "Reference pyramid: " << m_ReferencePyramid << std::endl;
+  os << indent << "Internal registration method: ";
+  os << m_InternalRegistrationMethod << std::endl;
+  os << indent << "Target pyramid: " << m_TargetPyramid;
+  os << std::endl;
+  os << indent << "Reference pyramid: " << m_ReferencePyramid;
+  os << std::endl;
 
 }
 

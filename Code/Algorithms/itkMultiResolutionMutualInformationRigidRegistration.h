@@ -148,6 +148,10 @@ public:
   /** Method for creation through the object factory. */
    itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MultiResolutionMutualInformationRigidRegistration, 
+    MultiResolutionRegistration);
+
   /**  Type of the reference. */
    typedef TReference  ReferenceType;
 

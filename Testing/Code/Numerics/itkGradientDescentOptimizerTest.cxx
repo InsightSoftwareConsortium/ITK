@@ -205,6 +205,15 @@ int main()
       pass = false;
     }
 
+  // Exercise various member functions.
+  std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
+  std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
+  std::cout << std::endl;
+  std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
+  std::cout << std::endl;
+
+  itkOptimizer->Print( std::cout );
+
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;

@@ -210,6 +210,18 @@ int main()
 
   registrationMethod->GetOptimizer()->AddObserver( itk::IterationEvent(),
                                                    iterationCommand ); 
+
+  // Exercise various member functions.
+  std::cout << "Default learning rate: ";
+  std::cout << registrationMethod->GetLearningRate() << std::endl;
+  std::cout << "Default no. of iterations: ";
+  std::cout << registrationMethod->GetNumberOfIterations() << std::endl;
+
+  registrationMethod->Print( std::cout );
+  registrationMethod->GetOptimizer()->Print( std::cout );
+  registrationMethod->GetMetric()->GetMapper()->
+   GetTransform()->Print( std::cout );
+
   
   // do the registration
   // reduce learning rate as we go

@@ -95,6 +95,18 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference,  TTar
 {
 }
 
+
+template <class TReference, class TTarget>
+void
+ImageToImageAffineMutualInformationGradientDescentRegistration<TReference,  TTarget>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Learning rate: " << m_LearningRate << std::endl;
+  os << indent << "No. iterations: " << m_NumberOfIterations << std::endl;
+}
+
+
 /**
  * Starts the Registration Process
  */

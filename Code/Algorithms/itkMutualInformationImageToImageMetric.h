@@ -246,15 +246,6 @@ private:
     SpatialSample(){};
     ~SpatialSample(){};
 
-    SpatialSample& operator= ( const SpatialSample& rhs )
-      {
-        if( this == &rhs ) return *this;
-        TargetPointValue = rhs.TargetPointValue;
-        TargetValue = rhs.TargetValue;
-        ReferenceValue = rhs.ReferenceValue;
-        return *this;
-      }
-
     TargetPointType                  TargetPointValue;
     double                           TargetValue;
     double                           ReferenceValue;

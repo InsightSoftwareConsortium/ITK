@@ -118,7 +118,7 @@ public:
   const VnlQuaternionType & GetRotation(void) const
     { return m_Rotation; }
 
-  /** Get the rotation MAtrix from an QuaternionRigidTransform.
+  /** Get the rotation Matrix from an QuaternionRigidTransform.
    *
    * This method returns the value of the rotation of the
    * QuaternionRigidTransform.   **/

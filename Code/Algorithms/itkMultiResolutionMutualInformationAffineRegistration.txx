@@ -116,6 +116,22 @@ MultiResolutionMutualInformationAffineRegistration<TReference,TTarget>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+  unsigned int j;
+  os << indent << "Learning rates: [";
+  for( j = 0; j < this->GetNumberOfLevels() - 1; j++ )
+    {
+    os << m_LearningRates[j] << ", ";
+    }
+  os << m_LearningRates[j] << "]" << std::endl;
+
+  os << indent << "No. iterations: [";
+  for( j = 0; j < this->GetNumberOfLevels() - 1; j++ )
+    {
+    os << m_NumberOfIterations[j] << ", ";
+    }
+  os << m_NumberOfIterations[j] << "]" << std::endl;
+ 
 }
 
 

@@ -249,6 +249,8 @@ public:
 protected:
   ImageToImageAffineMutualInformationGradientDescentRegistration();
   virtual ~ImageToImageAffineMutualInformationGradientDescentRegistration();
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
 
 private:
   ImageToImageAffineMutualInformationGradientDescentRegistration(const Self&); //purposely not implemented

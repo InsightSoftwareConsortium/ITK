@@ -64,13 +64,12 @@ void
 QuaternionRigidTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent ) const
 {
-
   Superclass::PrintSelf(os,indent);
-  os << m_Offset   << std::endl;
-  os << m_Rotation << std::endl;
-  os << m_DirectMatrix   << std::endl;
-
+  os << indent << "Offset: " << m_Offset   << std::endl;
+  os << indent << "Rotation: " << m_Rotation << std::endl;
+  os << indent << "DirectMatrix: " << m_DirectMatrix   << std::endl;
 }
+
 
 // Set rotation
 template<class TScalarType>

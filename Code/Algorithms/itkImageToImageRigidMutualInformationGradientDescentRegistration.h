@@ -253,6 +253,7 @@ public:
 protected:
   ImageToImageRigidMutualInformationGradientDescentRegistration();
   virtual ~ImageToImageRigidMutualInformationGradientDescentRegistration();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   ImageToImageRigidMutualInformationGradientDescentRegistration(const Self&); //purposely not implemented

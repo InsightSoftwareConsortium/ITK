@@ -218,6 +218,15 @@ int main()
                                                    iterationCommand );
 
 
+  // Exercise various member functions.
+  std::cout << "Default learning rate: ";
+  std::cout << registrationMethod->GetLearningRate() << std::endl;
+  std::cout << "Default no. of iterations: ";
+  std::cout << registrationMethod->GetNumberOfIterations() << std::endl;
+ 
+  registrationMethod->Print( std::cout );
+
+
   // do the registration
   // reduce learning rate as we go
   unsigned int iter[3]  = {300,300,350};
