@@ -555,10 +555,10 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     }
   }  
  
-//  std::cout << " min cur solution val " << mins2 << std::endl;
-//  std::cout << " max cur solution val " << maxs2 << std::endl;
-//  std::cout << " min tot solution val " << mins << std::endl;
-//  std::cout << " max tot solution val " << maxs << std::endl;
+  std::cout << " min cur solution val " << mins2 << std::endl;
+  std::cout << " max cur solution val " << maxs2 << std::endl;
+  std::cout << " min tot solution val " << mins << std::endl;
+  std::cout << " max tot solution val " << maxs << std::endl;
 
 }
 
