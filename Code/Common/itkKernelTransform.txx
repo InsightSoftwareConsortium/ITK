@@ -418,8 +418,6 @@ void
 KernelTransform<TScalarType, NDimensions>::
 SetParameters( const ParametersType & parameters )
 {
-  Superclass::SetParameters( parameters );
-
   typename PointsContainer::Pointer landmarks = PointsContainer::New();
   const unsigned int numberOfLandmarks =  parameters.Size() / NDimensions; 
   landmarks->Reserve( numberOfLandmarks );
