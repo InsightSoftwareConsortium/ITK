@@ -29,6 +29,7 @@
 
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkConceptChecking.h"
+#include "itkCovariantVector.h"
 
 namespace itk
 {

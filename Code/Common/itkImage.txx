@@ -21,7 +21,6 @@
 #define _itkImage_txx
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itkAffineTransform.h"
 
 namespace itk
 {

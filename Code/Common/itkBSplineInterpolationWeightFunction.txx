@@ -19,6 +19,7 @@
 
 #include "itkBSplineInterpolationWeightFunction.h"
 #include "itkImage.h"
+#include "itkMatrix.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 // anonymous namespace

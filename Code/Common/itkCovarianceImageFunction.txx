@@ -17,7 +17,7 @@
 #ifndef _itkCovarianceImageFunction_txx
 #define _itkCovarianceImageFunction_txx
 #include "itkCovarianceImageFunction.h"
-
+#include "itkMatrix.h"
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 

@@ -26,6 +26,8 @@
 
 #include "itkVector.h"
 
+#include "itkMatrix.h"
+
 namespace itk
 {
 

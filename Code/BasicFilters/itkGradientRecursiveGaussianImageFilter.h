@@ -20,6 +20,7 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
+#include "itkCovariantVector.h"
 #include "itkPixelTraits.h"
 #include "itkCommand.h"
 

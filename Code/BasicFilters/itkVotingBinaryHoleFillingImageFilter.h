@@ -18,6 +18,7 @@
 #define __itkVotingBinaryHoleFillingImageFilter_h
 
 #include "itkVotingBinaryImageFilter.h"
+#include "itkArray.h"
 
 namespace itk
 {

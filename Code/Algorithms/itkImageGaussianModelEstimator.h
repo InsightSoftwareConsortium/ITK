@@ -22,6 +22,7 @@
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 

@@ -20,6 +20,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
+#include "itkMatrix.h"
 
 namespace itk
 {
