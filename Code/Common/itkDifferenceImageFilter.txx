@@ -139,11 +139,14 @@ DifferenceImageFilter<TInputImage, TOutputImage>
       unsigned int neighborhoodSize = test.Size();
       for (unsigned int i=0; i < neighborhoodSize; ++i)
         {
-        OutputPixelType difference = t - test.GetPixel(i);
-        if(NumericTraits<OutputPixelType>::IsNegative(difference))
+        // Use the RealType for the difference to make sure we get the
+        // sign.
+        RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
+        if(NumericTraits<RealType>::IsNegative(difference))
           {
           difference = -difference;
           }
+        OutputPixelType d = static_cast<OutputPixelType>(difference);
         if(difference < minimumDifference)
           {
           minimumDifference = difference;
