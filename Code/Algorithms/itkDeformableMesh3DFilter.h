@@ -155,7 +155,7 @@ public:
 
 protected:
   DeformableMesh3DFilter();
-  ~DeformableMesh3DFilter() {}
+  ~DeformableMesh3DFilter();
   DeformableMesh3DFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;

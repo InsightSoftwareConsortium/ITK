@@ -33,9 +33,20 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   m_Step = 0;
   m_PotentialOn = 0;
+  K = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
+}
+
+template <typename TInputMesh, typename TOutputMesh>
+DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+::~DeformableMesh3DFilter()
+{
+  if (K)
+    {
+    delete [] K;
+    }
 }
 
 
@@ -459,7 +470,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++celldata;
   }
 
-  output->DebugOn();
 }
 
 /* Generate Data */

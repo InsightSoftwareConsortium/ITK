@@ -44,6 +44,7 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_CurrentFrameIndex = 0;
   m_CurrentFrame = 0;
   m_CurrentRow = 0;
+  m_LastRow = 0;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
   m_LastFrame = 0;
@@ -84,6 +85,14 @@ BinaryMask3DMeshSource<TOutputMesh>
       free(m_LastFrame[i]);
       }
     free (m_LastFrame);
+    }
+  if (m_LastRow)
+    {
+    for (i = 0; i < m_LastRowNum; i++)
+      {
+      free(m_LastRow[i]);
+      }
+    free (m_LastRow);
     }
 }
 
@@ -1169,6 +1178,7 @@ BinaryMask3DMeshSource<TOutputMesh>
       if ( m_LastRowNum > 0 ) {
         for ( i=0; i<m_LastRowNum; i++ ) free (m_LastRow[i]);
         free (m_LastRow);
+        m_LastRow = NULL;
       }
       m_LastRowNum = 0;
     }
