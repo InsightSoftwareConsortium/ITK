@@ -275,7 +275,7 @@ FilterImageRecursiveGaussian<TInputImage,TOutputImage, TComputation>
     }
 
 
-  const float * pixelSize = inputImage->GetSpacing();
+  const double * pixelSize = inputImage->GetSpacing();
   m_Spacing   = pixelSize[ this->m_Direction ];
   
   SetUp();
