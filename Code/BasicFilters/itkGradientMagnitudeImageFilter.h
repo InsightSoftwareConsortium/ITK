@@ -42,34 +42,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkGradientMagnitudeImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkImage.h"
 
 namespace itk
 {
-
-template<class TInnerProduct, class TIterator>
-struct ITK_EXPORT GradientMagnitudeStrategy
-{
-  typedef typename TIterator::ImageType ImageType;
-  typedef typename ImageType::PixelType PixelType;
-  typedef typename ImageType::ScalarValueType ScalarValueType;
-  enum {ImageDimension = ImageType::ImageDimension };
-  
-  GradientMagnitudeStrategy() {}
-  void operator()(ImageType *, ImageType *) const;
-};
-
 /**
  * \class GradientMagnitudeImageFilter
  * \brief Computes the gradient magnitude of an image region at each pixel.
+ *
+ * \todo Add GenerateInputRequestedRegion method to buffer the image chunk
+ * appropriately if possible.
+ * 
+ * \todo Rewrite for multithreading
  *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  */
-
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GradientMagnitudeImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
@@ -86,9 +76,7 @@ public:
    * of the two images is assumed to be the same.
    */
   typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
   enum { ImageDimension = TOutputImage::ImageDimension };
   
   /**
