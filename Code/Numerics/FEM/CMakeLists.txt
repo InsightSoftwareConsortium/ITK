@@ -111,6 +111,8 @@ SOURCE_FILES(FEM_SRCS
  
   itkFEMSolver.h
 
+  itkFEMSolution.h
+
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
   

@@ -19,6 +19,7 @@
 
 #include "itkFEMElementBase.h"
 #include "itkFEMNodeBase.h"
+#include "itkFEMSolution.h"
 #include "itkFEMPArray.h"
 
 namespace itk {
@@ -62,6 +63,20 @@ public:
             Element::ArrayType::ConstPointer el_) :
       m_node(node_), m_el(el_) {}
   };
+
+  /**
+   * Sets the pointer to solution vector. This function is automatically
+   * called by the Solver class on every load object.
+   *
+   * Some types of external Loads may need access to previous values of
+   * solution vector. If a derived class needs that, it should implement
+   * this function, and store the passed pointer accordingly. If the result
+   * vector is not required, the functionn should be left unimplemented,
+   * so that only the dummy implementation in base class is called.
+   *
+   * \param ptr Pointer to the object of Solution class.
+   */
+  virtual void SetSolution(Solution::Pointer ptr) {}
 
 };
 
