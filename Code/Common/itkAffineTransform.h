@@ -17,13 +17,10 @@
 #ifndef __itkAffineTransform_h
 #define __itkAffineTransform_h
 
-#include "itkPoint.h"
-#include "itkVector.h"
-#include "itkCovariantVector.h"
 #include "itkMatrix.h"
+#include "itkTransformation.h"
 #include "itkExceptionObject.h"
 
-#include "vnl/vnl_vector_fixed.h"
 
 
 namespace itk
@@ -96,7 +93,7 @@ namespace itk
 template <
     class TScalarType,          // Data type for scalars (float or double)
     unsigned int NDimensions >  // Number of dimensions
-class AffineTransform
+class AffineTransform : public Transformation< TScalarType, NDimensions >
 {
 public:
 
