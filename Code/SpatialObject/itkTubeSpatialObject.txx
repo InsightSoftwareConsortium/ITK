@@ -207,35 +207,35 @@ TubeSpatialObject< TDimension, PipelineDimension >
 ::CalcTangent( void ) 
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
-
-  if( m_Points->size() == 0 )
+ 
+  if( m_Points.size() == 0 )
   {
     return false; 
   }    
   
   PointType x1, x3; 
-  vnl_vector< double > t(2);
+  VectorType t;
   double l; 
-  t.fill(0.0);
+  t.Fill(0.0);
  
-  if( m_Points->size() == 1 ) 
+  if( m_Points.size() == 1 ) 
   { 
-    ( * m_Points->begin() )->SetTangent(t); 
+    ( *(m_Points.begin()) ).SetTangent(t); 
     return true; 
   } 
      
   PointListType::iterator it1,it2,it3; 
-  it1 = m_Points->begin(); 
-  it2 = m_Points->begin();
+  it1 = m_Points.begin(); 
+  it2 = m_Points.begin();
   it2++;
-  it3 = m_Points->begin();
+  it3 = m_Points.begin();
   it3++;
   it3++; 
    
-  while(it3 !=m_Points->end())
+  while(it3 !=m_Points.end())
   {
-    x1 = (*it1)->GetPosition();
-    x3 = (*it3)->GetPosition();
+    x1 = (*it1).GetPosition();
+    x3 = (*it3).GetPosition();
     l=0;
     for(int i=0; i<TDimension; i++)
     {
@@ -248,25 +248,25 @@ TubeSpatialObject< TDimension, PipelineDimension >
     {
       t[i] /= l;
     }
-
-    (*it2)->SetTangent(t);
+ 
+    (*it2).SetTangent(t);
     it1++;
     it2++;
     it3++;
   }
-
-  it1 = m_Points->begin();
+ 
+  it1 = m_Points.begin();
   it2 = it1;
   it2++;
-  t = *(*it2)->GetTangent();
-  (*it1)->SetTangent(t);
-  it1 = m_Points->end();
+  t = (*it2).GetTangent();
+  (*it1).SetTangent(t);
+  it1 = m_Points.end();
   it1--;
   it2 = it1;
   it2--;
-  t = *(*it2)->GetTangent();
-  (*it1)->SetTangent(t);
-
+  t = (*it2).GetTangent();
+  (*it1).SetTangent(t);
+ 
   return true; 
 } 
 
@@ -277,59 +277,59 @@ TubeSpatialObject< TDimension, PipelineDimension >
 ::CalcNormal( void ) 
 { 
   itkDebugMacro( "Computing the normal vectors of the tube" );
-
-  if( m_Points->size() == 0 )
+ 
+  if( m_Points.size() == 0 )
   {
     return false; 
   }
-
-  vnl_vector< double > t(2);
-  vnl_vector< double > n1(2);
-  vnl_vector< double > n2(2); 
+ 
+  VectorType t;
+  VectorType n1;
+  VectorType n2; 
     
   PointListType::iterator it1,it2; 
-  it1 = m_Points->begin(); 
-
-  while(it1 != m_Points->end())
+  it1 = m_Points.begin(); 
+ 
+  while(it1 != m_Points.end())
   {
-    t = *(*it1)->GetTangent(); 
-
+    t = (*it1).GetTangent(); 
+ 
     if (TDimension == 2)
     { 
-      t = *(*it1)->GetTangent(); 
-      n1(0) = -t(1);
-      n1(1) = t(0);
-      (*it1)->SetV1(n1); 
+      t = (*it1).GetTangent(); 
+      n1[0] = -t[1];
+      n1[1] = t[0];
+      (*it1).SetV1(n1); 
     }
-
+ 
     it1++;
   }
-
-  it1 = m_Points->begin();
+ 
+  it1 = m_Points.begin();
   it2 = it1;
   it2++;
-  n1 = *(*it2)->GetV1();
-  (*it1)->SetV1(n1);
+  n1 = (*it2).GetV1();
+  (*it1).SetV1(n1);
    
   if (TDimension == 3)
   {
-    n2 = *(*it2)->GetV2();
-    (*it1)->SetV2(n2);
+    n2 = (*it2).GetV2();
+    (*it1).SetV2(n2);
   }
    
-  it1 = m_Points->end();
+  it1 = m_Points.end();
   it1--;
   it2 = it1;
   it2--;
-  n1 = *(*it2)->GetV1();
-  (*it1)->SetV1(n1);
+  n1 = (*it2).GetV1();
+  (*it1).SetV1(n1);
    
   if (TDimension == 3)
   {
-    n2 = *(*it2)->GetV2();
-    (*it1)->SetV2(n2);  
+    n2 = (*it2).GetV2();
+    (*it1).SetV2(n2);  
   }
-
+ 
   return true; 
 } 
 
