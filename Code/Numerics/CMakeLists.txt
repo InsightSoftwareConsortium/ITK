@@ -1,1 +1,1 @@
-SUBDIRS(vxl)
+SUBDIRS(vxl Statistics)
