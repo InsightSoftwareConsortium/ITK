@@ -16,7 +16,7 @@ ${TCL_LIBRARY}
 
 ADD_DEFINITIONS(-DCxxTypes_EXPORTS)
 
-ADD_LIBRARY(WrapTclFacility SHARED CxxTypes_SRCS
+SOURCE_FILES(WrapTclFacility_SRCS
 wrapArgument
 wrapCalls
 wrapConstructor
@@ -33,6 +33,12 @@ wrapUtils
 wrapWrapperBase
 wrapWrapperFacility
 )
+
+IF (WIN32)
+  SOURCE_FILES(WrapTclFacility_SRCS wrapWin32OutputWindow)
+ENDIF (WIN32)
+
+ADD_LIBRARY(WrapTclFacility SHARED CxxTypes_SRCS WrapTclFacility_SRCS)  
 
 IF (NOT CABLE_NO_INSTALL)
   INSTALL_FILES(/share/Cable/include/WrapTclFacility ^wrap.*\\.h$)

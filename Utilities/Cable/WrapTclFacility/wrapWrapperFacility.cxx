@@ -815,7 +815,13 @@ void WrapperFacility::ClassInitialize()
 } // namespace _wrap_
 
 #ifdef _wrap_DEBUG_SUPPORT
-#include <iostream>
+
+#ifdef _WIN32
+#  include "wrapWin32OutputWindow.h"
+#else
+#  include <iostream>
+#endif
+
 namespace _wrap_
 {
 
@@ -833,7 +839,11 @@ bool WrapperFacility::DebugIsOn() const
  */
 void WrapperFacility::OutputDebugText(const char* text) const
 {
+#ifdef _WIN32
+  Win32OutputWindow::GetInstance()->DisplayText(text);
+#else
   std::cout << text;
+#endif
 }
 
 } // namespace _wrap_
