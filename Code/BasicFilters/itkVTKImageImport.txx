@@ -287,8 +287,8 @@ VTKImageImport<TOutputImage>
       itkErrorMacro(<<"Import and Buffer sizes do not match: "
                     << importSize << " v. " << bufferSize);
       }
-    std::memcpy(bufferPointer, importPointer,
-                dataSize*sizeof(OutputPixelType));
+    memcpy(bufferPointer, importPointer,
+	   dataSize*sizeof(OutputPixelType));
     }
 }
 
