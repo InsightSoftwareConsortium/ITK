@@ -165,6 +165,10 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //Test the printself function to increase coverage
   applyPCAShapeEstimator->Print(std::cout);
 
+  //Exercise TypeMacro in superclass
+  typedef ImagePCAShapeModelEstimatorType::Superclass GenericEstimatorType;
+  std::cout << applyPCAShapeEstimator->GenericEstimatorType::GetNameOfClass() << std::endl;
+
   //Print out the number of training images and the number of principal 
   //components
   std::cout << "The number of training images are: " <<
