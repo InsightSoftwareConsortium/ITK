@@ -14,10 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <iostream>#if defined(_MSC_VER)
+#if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
+#include <iostream>
 #include "vnl/vnl_math.h"
 
 #include "itkCompositeValleyFunction.h"
