@@ -1725,48 +1725,64 @@ ReadStream(int ndims, std::ifstream * stream)
   if(!strcmp("Local", m_ElementDataFileName) || 
      !strcmp("LOCAL", m_ElementDataFileName) ||
      !strcmp("local", m_ElementDataFileName))
-  {
+    {
     M_ReadElements(m_ReadStream, m_ElementData, m_Quantity);
-  }
-  else if(!strcmp("LIST", m_ElementDataFileName))
-  {
+    }
+  else if(!strncmp("LIST", m_ElementDataFileName,4))
+    {
+    int fileImageDim = 0;
+    char junk[255];
+    sscanf( m_ElementDataFileName,"%s %d",junk, &fileImageDim);
+    if ( (fileImageDim == 0) || (fileImageDim > m_NDims) )
+      {
+      // if optional file dimension size is not give or is larger than
+      // overall dimension then default to a size of m_NDims - 1.
+      fileImageDim = m_NDims-1;
+      }
     char s[255];
     std::ifstream* readStreamTemp = new std::ifstream;
-    for(i=0; i<m_DimSize[m_NDims-1] && !m_ReadStream->eof(); i++)
-    {
+    int elementSize;
+    MET_SizeOfType(m_ElementType, &elementSize);
+    elementSize *= m_ElementNumberOfChannels;
+    int totalFiles = 1;
+    for (i = m_NDims; i > fileImageDim; i--)
+      {
+      totalFiles *= m_DimSize[i-1];
+      }
+    for(i=0; i< totalFiles && !m_ReadStream->eof(); i++)
+      {
       m_ReadStream->getline(s, 255);
       if(!m_ReadStream->eof())
-      {
+        {
         j = strlen(s)-1;
         while(j>0 && (isspace(s[j]) || !isprint(s[j])))
-        {
+          {
           s[j--] = '\0';
-        }
+          }
         if(usePath)
-        {
+          {
           sprintf(fName, "%s%s", pathName, s);
-        }
+          }
         else
-        {
+          {
           strcpy(fName, s);
-        }
+          }
 
         readStreamTemp->open(fName, std::ios::binary | std::ios::in);
         if(!readStreamTemp->is_open())
-        {
+          {
           std::cout << "MetaImage: Read: cannot open slice" << std::endl;
           continue;
-        }
-
+          }
         M_ReadElements(readStreamTemp,
-                       &(((char *)m_ElementData)[m_SubQuantity[m_NDims-1]*i]),
-                       m_SubQuantity[m_NDims-1]);
-
+                       &(((char *)m_ElementData)[i*m_SubQuantity[fileImageDim]*
+                                                 elementSize]),
+                       m_SubQuantity[fileImageDim]);
         readStreamTemp->close();
+        }
       }
+      delete readStreamTemp;
     }
-    delete readStreamTemp;
-  }
   else if(strstr(m_ElementDataFileName, "%"))
   {
     int nWrds;
