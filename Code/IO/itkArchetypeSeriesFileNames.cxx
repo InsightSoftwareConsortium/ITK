@@ -148,7 +148,8 @@ ArchetypeSeriesFileNames
   // numbers in m_FileName. We walk the regular expression groups
   // from right to left since numbers at the end of filenames are more
   // likely to be image numbers.
-  for (int i = (int)numGroupLength.size()-1 ; i >= 0; i--)
+  int i;
+  for (i = (int)numGroupLength.size()-1 ; i >= 0; i--)
     {
     std::string regExpFileName = fileName;
 
@@ -159,7 +160,7 @@ ArchetypeSeriesFileNames
   // Use a RegularExpressionSeriesFileNames to find the files to return
   std::vector<std::string> names;
 
-  for (int i = 0; i < regExpFileNameVector.size(); i++)
+  for (i = 0; i < regExpFileNameVector.size(); i++)
     {
     itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory( fileNamePath.c_str() );
