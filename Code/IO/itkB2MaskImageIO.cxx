@@ -19,10 +19,8 @@
 #include "itkByteSwapper.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
-
+#include <stdio.h>
 #include <zlib.h>
-
-#include <cstdio>
 
 static const unsigned char DEF_WHITE_MASK=255;
 namespace itk
@@ -384,7 +382,7 @@ static const char mask_header_format[] =
     // to do -- add more header crap
     //Write the image Information before writing data
     char buf[16384];
-    std::sprintf(buf,mask_header_format,
+    sprintf(buf,mask_header_format,
             patient_id.c_str(),
             "",                 // scan_id
             "",                 // file_name

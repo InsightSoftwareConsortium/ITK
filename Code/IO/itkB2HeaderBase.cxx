@@ -1,7 +1,7 @@
 #include "itkExceptionObject.h"
 #include "itkB2HeaderBase.h"
 #include "itkB2HeaderFactory.h"
-#include <cstdlib>
+
 //#include "itkMacro.h"
 
 namespace itk {
@@ -196,7 +196,7 @@ namespace itk {
         std::string TempStringValue=this->getString(KeyID);
         if(TempStringValue.length() != 0)
         {
-            return std::atof(TempStringValue.c_str());
+            return atof(TempStringValue.c_str());
         }
         return 0.0F;
     }
@@ -206,7 +206,7 @@ namespace itk {
         std::string TempStringValue=this->getString(KeyID);
         if(TempStringValue.length() != 0)
         {
-            return std::atoi(TempStringValue.c_str());
+            return atoi(TempStringValue.c_str());
         }
         return 0;
     }
