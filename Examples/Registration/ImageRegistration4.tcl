@@ -64,11 +64,13 @@ $optimizer  SetMaximumStepLength  4.00
 $optimizer  SetMinimumStepLength  0.005
 $optimizer  SetNumberOfIterations  200
 
+set command [itkTclCommand_New]
+$command SetInterpreter [GetInterp]
+$command SetCommandString {
+set currentParameter [$transform GetParameters]
+puts "M: [$optimizer GetValue]  P: [$currentParameter GetElement 0 ] [$currentParameter GetElement 1 ] "}
 
-$optimizer AddObserver [itk::IterationEvent] [itk::createTclCommand {
-  set currentParameters [$transform GetParameters]
-  puts "X= [$currentParameters () 0]   Y=[$currentParameters () 1]"
-}]
+$optimizer AddObserver [itkIterationEvent] [$command GetPointer]
 
 
 # Here the registration is done
